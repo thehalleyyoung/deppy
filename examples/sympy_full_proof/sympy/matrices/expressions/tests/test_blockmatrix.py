@@ -44,60 +44,84 @@ b1 = BlockMatrix([[G, H]])
 b2 = BlockMatrix([[G], [H]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bc_matmul(), test_bc_matmul produces the expected output) over Any ║
+# ║ Path(test_bc_matmul(), bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bc_matmul : Any → {Any | bc_matmul(H * b1 * b2 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bc_matmul(H * b1 * b2 * G) == BlockMatrix...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bc_matmul : Any → {Any | result satisfies: bc_ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08f44a4044b86095  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a14da30d33fcd3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matmul","kind":"function","src_hash":"54335a686d37d348","in":{"base":"Any"},"out":{"base":"Any","pred":"bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]])"},"spec":{"lhs":"test_bc_matmul()","rhs":"test_bc_matmul produces the expected output","over":{"base":"Any"},"name":"test_bc_matmul_correct"},"guarantee":"test_bc_matmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matmul_correct","statement":"Path(test_bc_matmul(x), test_bc_matmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f44a4044b86095"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matmul","kind":"function","src_hash":"54335a686d37d348","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]])"},"spec":{"lhs":"test_bc_matmul()","rhs":"bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]])","over":{"base":"Any"},"name":"test_bc_matmul_correct"},"guarantee":"bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matmul_correct","statement":"Path(test_bc_matmul(x), bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a14da30d33fcd3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bc_matmul(H * b1 * b2 * G) == BlockMatrix([[(H * G * G + H * H * H) * G]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bc_matmul():
     assert bc_matmul(H*b1*b2*G) == BlockMatrix([[(H*G*G + H*H*H)*G]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bc_matadd(), test_bc_matadd produces the expected output) over Any ║
+# ║ Path(test_bc_matadd(), bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == BlockMatrix([[G + H, H + H]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bc_matadd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bc_matadd(BlockMatrix([[G, H]]) + BlockMa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bc_matadd : Any → {Any | result satisfies: bc_ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b25eb622fd655642  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e55bd21f7d7f5ea0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matadd","kind":"function","src_hash":"7b6774c50ac5f7ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bc_matadd()","rhs":"test_bc_matadd produces the expected output","over":{"base":"Any"},"name":"test_bc_matadd_correct"},"guarantee":"test_bc_matadd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matadd_correct","statement":"Path(test_bc_matadd(x), test_bc_matadd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25eb622fd655642"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matadd","kind":"function","src_hash":"7b6774c50ac5f7ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == BlockMatrix([[G + H, H + H]])"},"spec":{"lhs":"test_bc_matadd()","rhs":"bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == BlockMatrix([[G + H, H + H]])","over":{"base":"Any"},"name":"test_bc_matadd_correct"},"guarantee":"bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == BlockMatrix([[G + H, H + H]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_matadd_correct","statement":"Path(test_bc_matadd(x), bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == BlockMatrix([[G + H, H + H]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e55bd21f7d7f5ea0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == BlockMatrix([[G + H, H + H]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bc_matadd():
     assert bc_matadd(BlockMatrix([[G, H]]) + BlockMatrix([[H, H]])) == \
             BlockMatrix([[G+H, H+H]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bc_transpose(), test_bc_transpose produces the expected output) over Any ║
+# ║ Path(test_bc_transpose(), bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == BlockMatrix([[A.T, C.T], [B.T, D.T]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bc_transpose : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bc_transpose(Transpose(BlockMatrix([[A, B...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bc_transpose : Any → {Any | result satisfies: bc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbf0546a20cb5f37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 446e2a80e2d5d0c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_transpose","kind":"function","src_hash":"2f234e98658e3ceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bc_transpose()","rhs":"test_bc_transpose produces the expected output","over":{"base":"Any"},"name":"test_bc_transpose_correct"},"guarantee":"test_bc_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_transpose_correct","statement":"Path(test_bc_transpose(x), test_bc_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbf0546a20cb5f37"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_transpose","kind":"function","src_hash":"2f234e98658e3ceb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == BlockMatrix([[A.T, C.T], [B.T, D.T]])"},"spec":{"lhs":"test_bc_transpose()","rhs":"bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == BlockMatrix([[A.T, C.T], [B.T, D.T]])","over":{"base":"Any"},"name":"test_bc_transpose_correct"},"guarantee":"bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == BlockMatrix([[A.T, C.T], [B.T, D.T]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_transpose_correct","statement":"Path(test_bc_transpose(x), bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == BlockMatrix([[A.T, C.T], [B.T, D.T]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"446e2a80e2d5d0c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == BlockMatrix([[A.T, C.T], [B.T, D.T]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bc_transpose():
     assert bc_transpose(Transpose(BlockMatrix([[A, B], [C, D]]))) == \
             BlockMatrix([[A.T, C.T], [B.T, D.T]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bc_dist_diag(), test_bc_dist_diag produces the expected output) over Any ║
+# ║ Path(test_bc_dist_diag(), bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bc_dist_diag : Any → {Any | bc_dist(X + X).equal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bc_dist(X + X).equals(BlockDiagMatrix(2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bc_dist_diag : Any → {Any | result satisfies: bc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44b8266c61c8bca5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a72be988c1f7791d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_dist_diag","kind":"function","src_hash":"7e0cb148bbf1cc7c","in":{"base":"Any"},"out":{"base":"Any","pred":"bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))"},"spec":{"lhs":"test_bc_dist_diag()","rhs":"test_bc_dist_diag produces the expected output","over":{"base":"Any"},"name":"test_bc_dist_diag_correct"},"guarantee":"test_bc_dist_diag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_dist_diag_correct","statement":"Path(test_bc_dist_diag(x), test_bc_dist_diag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44b8266c61c8bca5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_dist_diag","kind":"function","src_hash":"7e0cb148bbf1cc7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))"},"spec":{"lhs":"test_bc_dist_diag()","rhs":"bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))","over":{"base":"Any"},"name":"test_bc_dist_diag_correct"},"guarantee":"bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_bc_dist_diag_correct","statement":"Path(test_bc_dist_diag(x), bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a72be988c1f7791d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bc_dist(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bc_dist_diag():
     A = MatrixSymbol('A', n, n)
     B = MatrixSymbol('B', m, m)
@@ -107,16 +131,22 @@ def test_bc_dist_diag():
     assert bc_dist(X+X).equals(BlockDiagMatrix(2*A, 2*B, 2*C))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_plus_ident(), test_block_plus_ident produces the expected output) over Any ║
+# ║ Path(test_block_plus_ident(), bc_block_plus_ident(X + Identity(m + n) + Z) == BlockDiagMatrix(Identity(n), Identity(m)) + X + Z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_plus_ident : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bc_block_plus_ident(X + Identity(m + n) +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_plus_ident : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0467abdc004f36b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 401b2a8ba51b2162  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_plus_ident","kind":"function","src_hash":"c7f916d8b93fb2c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_block_plus_ident()","rhs":"test_block_plus_ident produces the expected output","over":{"base":"Any"},"name":"test_block_plus_ident_correct"},"guarantee":"test_block_plus_ident produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_plus_ident_correct","statement":"Path(test_block_plus_ident(x), test_block_plus_ident produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0467abdc004f36b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_plus_ident","kind":"function","src_hash":"c7f916d8b93fb2c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bc_block_plus_ident(X + Identity(m + n) + Z) == BlockDiagMatrix(Identity(n), Identity(m)) + X + Z"},"spec":{"lhs":"test_block_plus_ident()","rhs":"bc_block_plus_ident(X + Identity(m + n) + Z) == BlockDiagMatrix(Identity(n), Identity(m)) + X + Z","over":{"base":"Any"},"name":"test_block_plus_ident_correct"},"guarantee":"bc_block_plus_ident(X + Identity(m + n) + Z) == BlockDiagMatrix(Identity(n), Identity(m)) + X + Z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_plus_ident_correct","statement":"Path(test_block_plus_ident(x), bc_block_plus_ident(X + Identity(m + n) + Z) == BlockDiagMatrix(Identity(n), Identity(m)) + X + Z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"401b2a8ba51b2162","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bc_block_plus_ident(X + Identity(m + n) + Z) == BlockDiagMatrix(Identity(n), Identity(m)) + X + Z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_block_plus_ident():
     A = MatrixSymbol('A', n, n)
     B = MatrixSymbol('B', n, m)
@@ -128,16 +158,24 @@ def test_block_plus_ident():
             BlockDiagMatrix(Identity(n), Identity(m)) + X + Z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix(), test_BlockMatrix produces the expected output) over Any ║
+# ║ Path(test_BlockMatrix(), X.__class__(*X.args) == X and block_collapse(A + 2 * E) == A + 2 * E and block_collapse(E.T * A * F) == E.T * A * F and X.shape == (l + n, k + m) and X.blockshape == (2, 2) and transpose(X) == BlockMatrix(Matrix([[A.T, C.T], [B.T, D.T]])) and transpose(X).shape == X.shape[::-1] and (X * M).is_MatMul and X._blockmul(M).is_MatMul and (X * M).shape == (n + l, p) and (X + N).is_MatAdd and X._blockadd(N).is_MatAdd and (X + N).shape == X.shape and (X * Y).shape == (l + n, 1) and block_collapse(X * Y).blocks[0, 0] == A * E + B * F and block_collapse(X * Y).blocks[1, 0] == C * E + D * F and block_collapse(transpose(X * Y)) == transpose(block_collapse(X * Y)) and block_collapse(Tuple(X * Y, 2 * X)) == (block_collapse(X * Y), block_collapse(2 * X)) and block_collapse(Ab + Z) == A + Z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix : Any → {Any | X.__class__(*X.args) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.__class__(*X.args) == X                      ║
+# ║   ensures:  block_collapse(A + 2 * E) == A + 2 * E         ║
+# ║   ensures:  block_collapse(E.T * A * F) == E.T * A * F     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix : Any → {Any | result satisfies: X._...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9385c1319978d1b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb41d0ba58e6c7b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix","kind":"function","src_hash":"7db76423b8594709","in":{"base":"Any"},"out":{"base":"Any","pred":"X.__class__(*X.args) == X and block_collapse(A + 2 * E) == A + 2 * E and block_collapse(E.T * A * F) == E.T * A * F and X.shape == (l + n, k + m) and X.blockshape == (2, 2) and transpose(X) == BlockMatrix(Matrix([[A.T, C.T], [B.T, D.T]])) and transpose(X).shape == X.shape[::-1] and (X * M).is_MatMul and X._blockmul(M).is_MatMul and (X * M).shape == (n + l, p) and (X + N).is_MatAdd and X._blockadd(N).is_MatAdd and (X + N).shape == X.shape and (X * Y).shape == (l + n, 1) and block_collapse(X * Y).blocks[0, 0] == A * E + B * F and block_collapse(X * Y).blocks[1, 0] == C * E + D * F and block_collapse(transpose(X * Y)) == transpose(block_collapse(X * Y)) and block_collapse(Ab + Z) == A + Z"},"spec":{"lhs":"test_BlockMatrix()","rhs":"test_BlockMatrix produces the expected output","over":{"base":"Any"},"name":"test_BlockMatrix_correct"},"guarantee":"test_BlockMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_correct","statement":"Path(test_BlockMatrix(x), test_BlockMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9385c1319978d1b7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix","kind":"function","src_hash":"7db76423b8594709","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.__class__(*X.args) == X and block_collapse(A + 2 * E) == A + 2 * E and block_collapse(E.T * A * F) == E.T * A * F and X.shape == (l + n, k + m) and X.blockshape == (2, 2) and transpose(X) == BlockMatrix(Matrix([[A.T, C.T], [B.T, D.T]])) and transpose(X).shape == X.shape[::-1] and (X * M).is_MatMul and X._blockmul(M).is_MatMul and (X * M).shape == (n + l, p) and (X + N).is_MatAdd and X._blockadd(N).is_MatAdd and (X + N).shape == X.shape and (X * Y).shape == (l + n, 1) and block_collapse(X * Y).blocks[0, 0] == A * E + B * F and block_collapse(X * Y).blocks[1, 0] == C * E + D * F and block_collapse(transpose(X * Y)) == transpose(block_collapse(X * Y)) and block_collapse(Tuple(X * Y, 2 * X)) == (block_collapse(X * Y), block_collapse(2 * X)) and block_collapse(Ab + Z) == A + Z"},"spec":{"lhs":"test_BlockMatrix()","rhs":"X.__class__(*X.args) == X and block_collapse(A + 2 * E) == A + 2 * E and block_collapse(E.T * A * F) == E.T * A * F and X.shape == (l + n, k + m) and X.blockshape == (2, 2) and transpose(X) == BlockMatrix(Matrix([[A.T, C.T], [B.T, D.T]])) and transpose(X).shape == X.shape[::-1] and (X * M).is_MatMul and X._blockmul(M).is_MatMul and (X * M).shape == (n + l, p) and (X + N).is_MatAdd and X._blockadd(N).is_MatAdd and (X + N).shape == X.shape and (X * Y).shape == (l + n, 1) and block_collapse(X * Y).blocks[0, 0] == A * E + B * F and block_collapse(X * Y).blocks[1, 0] == C * E + D * F and block_collapse(transpose(X * Y)) == transpose(block_collapse(X * Y)) and block_collapse(Tuple(X * Y, 2 * X)) == (block_collapse(X * Y), block_collapse(2 * X)) and block_collapse(Ab + Z) == A + Z","over":{"base":"Any"},"name":"test_BlockMatrix_correct"},"guarantee":"X.__class__(*X.args) == X; block_collapse(A + 2 * E) == A + 2 * E; block_collapse(E.T * A * F) == E.T * A * F","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_correct","statement":"Path(test_BlockMatrix(x), X.__class__(*X.args) == X; block_collapse(A + 2 * E) == A + 2 * E; block_collapse(E.T * A * F) == E.T * A * F)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb41d0ba58e6c7b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.__class__(*X.args) == X","block_collapse(A + 2 * E) == A + 2 * E","block_collapse(E.T * A * F) == E.T * A * F","X.shape == (l + n, k + m)","X.blockshape == (2, 2)","transpose(X) == BlockMatrix(Matrix([[A.T, C.T], [B.T, D.T]]))","transpose(X).shape == X.shape[::-1]","(X * M).is_MatMul","X._blockmul(M).is_MatMul","(X * M).shape == (n + l, p)","(X + N).is_MatAdd","X._blockadd(N).is_MatAdd","(X + N).shape == X.shape","(X * Y).shape == (l + n, 1)","block_collapse(X * Y).blocks[0, 0] == A * E + B * F","block_collapse(X * Y).blocks[1, 0] == C * E + D * F","block_collapse(transpose(X * Y)) == transpose(block_collapse(X * Y))","block_collapse(Tuple(X * Y, 2 * X)) == (block_collapse(X * Y), block_collapse(2 * X))","block_collapse(Ab + Z) == A + Z"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix():
     A = MatrixSymbol('A', n, m)
     B = MatrixSymbol('B', n, k)
@@ -188,16 +226,22 @@ def test_BlockMatrix():
     assert block_collapse(Ab + Z) == A + Z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_collapse_explicit_matrices(), test_block_collapse_explicit_matrices produces the expected output) over Any ║
+# ║ Path(test_block_collapse_explicit_matrices(), block_collapse(BlockMatrix([[A]])) == A) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  block_collapse(BlockMatrix([[A]])) == A        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_block_collapse_explicit_matrices : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | badcfe1ecb6ebdf3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2233822a309012e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_explicit_matrices","kind":"function","src_hash":"2514a63e0a9aaab5","in":{"base":"Any"},"out":{"base":"Any","pred":"block_collapse(BlockMatrix([[A]])) == A and block_collapse(BlockMatrix([[A]])) == A"},"spec":{"lhs":"test_block_collapse_explicit_matrices()","rhs":"test_block_collapse_explicit_matrices produces the expected output","over":{"base":"Any"},"name":"test_block_collapse_explicit_matrices_correct"},"guarantee":"test_block_collapse_explicit_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_explicit_matrices_correct","statement":"Path(test_block_collapse_explicit_matrices(x), test_block_collapse_explicit_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"badcfe1ecb6ebdf3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_explicit_matrices","kind":"function","src_hash":"2514a63e0a9aaab5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: block_collapse(BlockMatrix([[A]])) == A"},"spec":{"lhs":"test_block_collapse_explicit_matrices()","rhs":"block_collapse(BlockMatrix([[A]])) == A","over":{"base":"Any"},"name":"test_block_collapse_explicit_matrices_correct"},"guarantee":"block_collapse(BlockMatrix([[A]])) == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_explicit_matrices_correct","statement":"Path(test_block_collapse_explicit_matrices(x), block_collapse(BlockMatrix([[A]])) == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2233822a309012e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["block_collapse(BlockMatrix([[A]])) == A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_block_collapse_explicit_matrices():
     A = Matrix([[1, 2], [3, 4]])
     assert block_collapse(BlockMatrix([[A]])) == A
@@ -206,16 +250,23 @@ def test_block_collapse_explicit_matrices():
     assert block_collapse(BlockMatrix([[A]])) == A
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17624(), test_issue_17624 produces the expected output) over Any ║
+# ║ Path(test_issue_17624(), block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]]) and block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17624 : Any → {Any | block_collapse(b * b)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  block_collapse(b * b) == BlockMatrix([[a ...   ║
+# ║   ensures:  block_collapse(b * b * b) == BlockMatrix(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17624 : Any → {Any | result satisfies: blo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e93d9ca046fb524e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3537645c56741184  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_17624","kind":"function","src_hash":"1f3af1adf80d2983","in":{"base":"Any"},"out":{"base":"Any","pred":"block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]]) and block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]])"},"spec":{"lhs":"test_issue_17624()","rhs":"test_issue_17624 produces the expected output","over":{"base":"Any"},"name":"test_issue_17624_correct"},"guarantee":"test_issue_17624 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_17624_correct","statement":"Path(test_issue_17624(x), test_issue_17624 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e93d9ca046fb524e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_17624","kind":"function","src_hash":"1f3af1adf80d2983","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]]) and block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]])"},"spec":{"lhs":"test_issue_17624()","rhs":"block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]]) and block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]])","over":{"base":"Any"},"name":"test_issue_17624_correct"},"guarantee":"block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]]); block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_17624_correct","statement":"Path(test_issue_17624(x), block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]]); block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3537645c56741184","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["block_collapse(b * b) == BlockMatrix([[a ** 2, z], [z, z]])","block_collapse(b * b * b) == BlockMatrix([[a ** 3, z], [z, z]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17624():
     a = MatrixSymbol("a", 2, 2)
     z = ZeroMatrix(2, 2)
@@ -224,31 +275,44 @@ def test_issue_17624():
     assert block_collapse(b * b * b) == BlockMatrix([[a**3, z], [z, z]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18618(), test_issue_18618 produces the expected output) over Any ║
+# ║ Path(test_issue_18618(), A == Matrix(BlockDiagMatrix(A))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18618 : Any → {Any | A == Matrix(BlockDiag...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == Matrix(BlockDiagMatrix(A))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18618 : Any → {Any | result satisfies: A =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e504817410906c3d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 128af0d8b9ed4bc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_18618","kind":"function","src_hash":"675a59a2f3a47fd3","in":{"base":"Any"},"out":{"base":"Any","pred":"A == Matrix(BlockDiagMatrix(A))"},"spec":{"lhs":"test_issue_18618()","rhs":"test_issue_18618 produces the expected output","over":{"base":"Any"},"name":"test_issue_18618_correct"},"guarantee":"test_issue_18618 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_18618_correct","statement":"Path(test_issue_18618(x), test_issue_18618 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e504817410906c3d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_18618","kind":"function","src_hash":"675a59a2f3a47fd3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == Matrix(BlockDiagMatrix(A))"},"spec":{"lhs":"test_issue_18618()","rhs":"A == Matrix(BlockDiagMatrix(A))","over":{"base":"Any"},"name":"test_issue_18618_correct"},"guarantee":"A == Matrix(BlockDiagMatrix(A))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_18618_correct","statement":"Path(test_issue_18618(x), A == Matrix(BlockDiagMatrix(A)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"128af0d8b9ed4bc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == Matrix(BlockDiagMatrix(A))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18618():
     A = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     assert A == Matrix(BlockDiagMatrix(A))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_trace(), test_BlockMatrix_trace produces the expected output) over Any ║
+# ║ Path(test_BlockMatrix_trace(), trace(X) == trace(A) + trace(D) and trace(BlockMatrix([ZeroMatrix(n, n)])) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix_trace : Any → {Any | trace(X) == tra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(X) == trace(A) + trace(D)                ║
+# ║   ensures:  trace(BlockMatrix([ZeroMatrix(n, n)])) == 0    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix_trace : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba6de28fd171a4b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1733b0e1297d89a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_trace","kind":"function","src_hash":"d896268f6221b945","in":{"base":"Any"},"out":{"base":"Any","pred":"trace(X) == trace(A) + trace(D) and trace(BlockMatrix([ZeroMatrix(n, n)])) == 0"},"spec":{"lhs":"test_BlockMatrix_trace()","rhs":"test_BlockMatrix_trace produces the expected output","over":{"base":"Any"},"name":"test_BlockMatrix_trace_correct"},"guarantee":"test_BlockMatrix_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_trace_correct","statement":"Path(test_BlockMatrix_trace(x), test_BlockMatrix_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba6de28fd171a4b4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_trace","kind":"function","src_hash":"d896268f6221b945","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trace(X) == trace(A) + trace(D) and trace(BlockMatrix([ZeroMatrix(n, n)])) == 0"},"spec":{"lhs":"test_BlockMatrix_trace()","rhs":"trace(X) == trace(A) + trace(D) and trace(BlockMatrix([ZeroMatrix(n, n)])) == 0","over":{"base":"Any"},"name":"test_BlockMatrix_trace_correct"},"guarantee":"trace(X) == trace(A) + trace(D); trace(BlockMatrix([ZeroMatrix(n, n)])) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_trace_correct","statement":"Path(test_BlockMatrix_trace(x), trace(X) == trace(A) + trace(D); trace(BlockMatrix([ZeroMatrix(n, n)])) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1733b0e1297d89a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(X) == trace(A) + trace(D)","trace(BlockMatrix([ZeroMatrix(n, n)])) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix_trace():
     A, B, C, D = [MatrixSymbol(s, 3, 3) for s in 'ABCD']
     X = BlockMatrix([[A, B], [C, D]])
@@ -256,7 +320,12 @@ def test_BlockMatrix_trace():
     assert trace(BlockMatrix([ZeroMatrix(n, n)])) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_Determinant(), test_BlockMatrix_Determinant produces the expected output) over {Any | isinstance(det(X), Expr)} ║
+# ║ Path(test_BlockMatrix_Determinant(), isinstance(det(X), Expr) and det(BlockMatrix([A])) == det(A) and det(BlockMatrix([ZeroMatrix(n, n)])) == 0) over {Any | isinstance(det(X), Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(det(X), Expr)                       ║
+# ║   ensures:  det(BlockMatrix([A])) == det(A)                ║
+# ║   ensures:  det(BlockMatrix([ZeroMatrix(n, n)])) == 0      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_BlockMatrix_Determinant : {Any | isinstance(det(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -268,9 +337,12 @@ def test_BlockMatrix_trace():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0000335e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_Determinant","kind":"function","src_hash":"d60db46d8655fc0d","in":{"base":"Any","pred":"isinstance(det(X), Expr)"},"out":{"base":"Any","pred":"isinstance(det(X), Expr) and det(BlockMatrix([A])) == det(A) and det(BlockMatrix([ZeroMatrix(n, n)])) == 0 and det(X) == det(A) * det(X.schur('A'))"},"spec":{"lhs":"test_BlockMatrix_Determinant()","rhs":"test_BlockMatrix_Determinant produces the expected output","over":{"base":"Any","pred":"isinstance(det(X), Expr)"},"name":"test_BlockMatrix_Determinant_correct"},"guarantee":"test_BlockMatrix_Determinant produces the expected output","fibers":[{"name":"Expr","pred":"isinstance(det(X), Expr)","path":{"lhs":"test_BlockMatrix_Determinant(x)","rhs":"test_BlockMatrix_Determinant produces the expected output","over":{"base":"Expr","pred":"isinstance(det(X), Expr)"},"name":"test_BlockMatrix_Determinant_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_Determinant_Expr_correct","statement":"test_BlockMatrix_Determinant satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0000335e277e58c2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_Determinant","kind":"function","src_hash":"d60db46d8655fc0d","in":{"base":"Any","pred":"isinstance(det(X), Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(det(X), Expr) and det(BlockMatrix([A])) == det(A) and det(BlockMatrix([ZeroMatrix(n, n)])) == 0"},"spec":{"lhs":"test_BlockMatrix_Determinant()","rhs":"isinstance(det(X), Expr) and det(BlockMatrix([A])) == det(A) and det(BlockMatrix([ZeroMatrix(n, n)])) == 0","over":{"base":"Any","pred":"isinstance(det(X), Expr)"},"name":"test_BlockMatrix_Determinant_correct"},"guarantee":"isinstance(det(X), Expr); det(BlockMatrix([A])) == det(A); det(BlockMatrix([ZeroMatrix(n, n)])) == 0","fibers":[{"name":"Expr","pred":"isinstance(det(X), Expr)","path":{"lhs":"test_BlockMatrix_Determinant(x)","rhs":"isinstance(det(X), Expr); det(BlockMatrix([A])) == det(A); det(BlockMatrix([ZeroMatrix(n, n)])) == 0","over":{"base":"Expr","pred":"isinstance(det(X), Expr)"},"name":"test_BlockMatrix_Determinant_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_Determinant_Expr_correct","statement":"test_BlockMatrix_Determinant satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0000335e277e58c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(det(X), Expr)","det(BlockMatrix([A])) == det(A)","det(BlockMatrix([ZeroMatrix(n, n)])) == 0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_BlockMatrix_Determinant():
     A, B, C, D = [MatrixSymbol(s, 3, 3) for s in 'ABCD']
     X = BlockMatrix([[A, B], [C, D]])
@@ -284,7 +356,12 @@ def test_BlockMatrix_Determinant():
     assert det(BlockMatrix([ZeroMatrix(n, n)])) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_squareBlockMatrix(), test_squareBlockMatrix produces the expected output) over {Any | isinstance(X.inverse(), Inverse)} ║
+# ║ Path(test_squareBlockMatrix(), X.is_square and block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]]) and (X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd and (X * MatrixSymbol('Q', n + m, n + m)).is_MatMul and block_collapse(Y.I) == A.I and isinstance(X.inverse(), Inverse) and not X.is_Identity and not Z.is_Identity) over {Any | isinstance(X.inverse(), Inverse)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.is_square                                    ║
+# ║   ensures:  block_collapse(Q) == BlockMatrix([[A + Id...   ║
+# ║   ensures:  (X + MatrixSymbol('Q', n + m, n + m)).is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_squareBlockMatrix : {Any | isinstance(X.inverse(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -296,9 +373,12 @@ def test_BlockMatrix_Determinant():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bc1affa4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_squareBlockMatrix","kind":"function","src_hash":"64a8b6fe8fdd081f","in":{"base":"Any","pred":"isinstance(X.inverse(), Inverse)"},"out":{"base":"Any","pred":"X.is_square and block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]]) and (X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd and (X * MatrixSymbol('Q', n + m, n + m)).is_MatMul and block_collapse(Y.I) == A.I and isinstance(X.inverse(), Inverse) and not X.is_Identity and not Z.is_Identity"},"spec":{"lhs":"test_squareBlockMatrix()","rhs":"test_squareBlockMatrix produces the expected output","over":{"base":"Any","pred":"isinstance(X.inverse(), Inverse)"},"name":"test_squareBlockMatrix_correct"},"guarantee":"test_squareBlockMatrix produces the expected output","fibers":[{"name":"Inverse","pred":"isinstance(X.inverse(), Inverse)","path":{"lhs":"test_squareBlockMatrix(x)","rhs":"test_squareBlockMatrix produces the expected output","over":{"base":"Inverse","pred":"isinstance(X.inverse(), Inverse)"},"name":"test_squareBlockMatrix_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_squareBlockMatrix_Inverse_correct","statement":"test_squareBlockMatrix satisfies spec on Inverse inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bc1affa4780ea411"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_squareBlockMatrix","kind":"function","src_hash":"64a8b6fe8fdd081f","in":{"base":"Any","pred":"isinstance(X.inverse(), Inverse)"},"out":{"base":"Any","pred":"result satisfies: X.is_square and block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]]) and (X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd and (X * MatrixSymbol('Q', n + m, n + m)).is_MatMul and block_collapse(Y.I) == A.I and isinstance(X.inverse(), Inverse) and not X.is_Identity and not Z.is_Identity"},"spec":{"lhs":"test_squareBlockMatrix()","rhs":"X.is_square and block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]]) and (X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd and (X * MatrixSymbol('Q', n + m, n + m)).is_MatMul and block_collapse(Y.I) == A.I and isinstance(X.inverse(), Inverse) and not X.is_Identity and not Z.is_Identity","over":{"base":"Any","pred":"isinstance(X.inverse(), Inverse)"},"name":"test_squareBlockMatrix_correct"},"guarantee":"X.is_square; block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]]); (X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd","fibers":[{"name":"Inverse","pred":"isinstance(X.inverse(), Inverse)","path":{"lhs":"test_squareBlockMatrix(x)","rhs":"X.is_square; block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]]); (X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd","over":{"base":"Inverse","pred":"isinstance(X.inverse(), Inverse)"},"name":"test_squareBlockMatrix_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_squareBlockMatrix_Inverse_correct","statement":"test_squareBlockMatrix satisfies spec on Inverse inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bc1affa4780ea411","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.is_square","block_collapse(Q) == BlockMatrix([[A + Identity(n), B], [C, D + Identity(m)]])","(X + MatrixSymbol('Q', n + m, n + m)).is_MatAdd","(X * MatrixSymbol('Q', n + m, n + m)).is_MatMul","block_collapse(Y.I) == A.I","isinstance(X.inverse(), Inverse)","not X.is_Identity","not Z.is_Identity"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_squareBlockMatrix():
     A = MatrixSymbol('A', n, n)
     B = MatrixSymbol('B', n, m)
@@ -327,7 +407,12 @@ def test_squareBlockMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_2x2_inverse_symbolic(), test_BlockMatrix_2x2_inverse_symbolic produces the expected output) over {Any | isinstance(block_collapse(X.I), Inverse)} ║
+# ║ Path(test_BlockMatrix_2x2_inverse_symbolic(), X.is_square and X.shape == (k, k) and isinstance(block_collapse(X.I), Inverse) and block_collapse(X.inverse()) == BlockMatrix([[A.I + A.I * B * X.schur('A').I * C * A.I, -A.I * B * X.schur('A').I], [-X.schur('A').I * C * A.I, X.schur('A').I]]) and block_collapse(X.inverse()) == BlockMatrix([[-X.schur('B').I * D * B.I, X.schur('B').I], [B.I + B.I * A * X.schur('B').I * D * B.I, -B.I * A * X.schur('B').I]]) and block_collapse(X.inverse()) == BlockMatrix([[-C.I * D * X.schur('C').I, C.I + C.I * D * X.schur('C').I * A * C.I], [X.schur('C').I, -X.schur('C').I * A * C.I]]) and block_collapse(X.inverse()) == BlockMatrix([[X.schur('D').I, -X.schur('D').I * B * D.I], [-D.I * C * X.schur('D').I, D.I + D.I * C * X.schur('D').I * B * D.I]])) over {Any | isinstance(block_collapse(X.I), Inverse)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.is_square and X.shape == (k, k)              ║
+# ║   ensures:  isinstance(block_collapse(X.I), Inverse)       ║
+# ║   ensures:  block_collapse(X.inverse()) == BlockMatri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_BlockMatrix_2x2_inverse_symbolic : {Any | isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -339,9 +424,12 @@ def test_squareBlockMatrix():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2c02f018...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_symbolic","kind":"function","src_hash":"3c1885f7b23b385e","in":{"base":"Any","pred":"isinstance(block_collapse(X.I), Inverse)"},"out":{"base":"Any","pred":"X.is_square and X.shape == (k, k) and isinstance(block_collapse(X.I), Inverse)"},"spec":{"lhs":"test_BlockMatrix_2x2_inverse_symbolic()","rhs":"test_BlockMatrix_2x2_inverse_symbolic produces the expected output","over":{"base":"Any","pred":"isinstance(block_collapse(X.I), Inverse)"},"name":"test_BlockMatrix_2x2_inverse_symbolic_correct"},"guarantee":"test_BlockMatrix_2x2_inverse_symbolic produces the expected output","fibers":[{"name":"Inverse","pred":"isinstance(block_collapse(X.I), Inverse)","path":{"lhs":"test_BlockMatrix_2x2_inverse_symbolic(x)","rhs":"test_BlockMatrix_2x2_inverse_symbolic produces the expected output","over":{"base":"Inverse","pred":"isinstance(block_collapse(X.I), Inverse)"},"name":"test_BlockMatrix_2x2_inverse_symbolic_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_symbolic_Inverse_correct","statement":"test_BlockMatrix_2x2_inverse_symbolic satisfies spec on Inverse inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2c02f01862b6ec1e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_symbolic","kind":"function","src_hash":"3c1885f7b23b385e","in":{"base":"Any","pred":"isinstance(block_collapse(X.I), Inverse)"},"out":{"base":"Any","pred":"result satisfies: X.is_square and X.shape == (k, k) and isinstance(block_collapse(X.I), Inverse) and block_collapse(X.inverse()) == BlockMatrix([[A.I + A.I * B * X.schur('A').I * C * A.I, -A.I * B * X.schur('A').I], [-X.schur('A').I * C * A.I, X.schur('A').I]]) and block_collapse(X.inverse()) == BlockMatrix([[-X.schur('B').I * D * B.I, X.schur('B').I], [B.I + B.I * A * X.schur('B').I * D * B.I, -B.I * A * X.schur('B').I]]) and block_collapse(X.inverse()) == BlockMatrix([[-C.I * D * X.schur('C').I, C.I + C.I * D * X.schur('C').I * A * C.I], [X.schur('C').I, -X.schur('C').I * A * C.I]]) and block_collapse(X.inverse()) == BlockMatrix([[X.schur('D').I, -X.schur('D').I * B * D.I], [-D.I * C * X.schur('D').I, D.I + D.I * C * X.schur('D').I * B * D.I]])"},"spec":{"lhs":"test_BlockMatrix_2x2_inverse_symbolic()","rhs":"X.is_square and X.shape == (k, k) and isinstance(block_collapse(X.I), Inverse) and block_collapse(X.inverse()) == BlockMatrix([[A.I + A.I * B * X.schur('A').I * C * A.I, -A.I * B * X.schur('A').I], [-X.schur('A').I * C * A.I, X.schur('A').I]]) and block_collapse(X.inverse()) == BlockMatrix([[-X.schur('B').I * D * B.I, X.schur('B').I], [B.I + B.I * A * X.schur('B').I * D * B.I, -B.I * A * X.schur('B').I]]) and block_collapse(X.inverse()) == BlockMatrix([[-C.I * D * X.schur('C').I, C.I + C.I * D * X.schur('C').I * A * C.I], [X.schur('C').I, -X.schur('C').I * A * C.I]]) and block_collapse(X.inverse()) == BlockMatrix([[X.schur('D').I, -X.schur('D').I * B * D.I], [-D.I * C * X.schur('D').I, D.I + D.I * C * X.schur('D').I * B * D.I]])","over":{"base":"Any","pred":"isinstance(block_collapse(X.I), Inverse)"},"name":"test_BlockMatrix_2x2_inverse_symbolic_correct"},"guarantee":"X.is_square and X.shape == (k, k); isinstance(block_collapse(X.I), Inverse); block_collapse(X.inverse()) == BlockMatrix([[A.I + A.I * B * X.schur('A').I * C * A.I, -A.I * B * X.schur('A').I], [-X.schur('A').I * C * A.I, X.schur('A').I]])","fibers":[{"name":"Inverse","pred":"isinstance(block_collapse(X.I), Inverse)","path":{"lhs":"test_BlockMatrix_2x2_inverse_symbolic(x)","rhs":"X.is_square and X.shape == (k, k); isinstance(block_collapse(X.I), Inverse); block_collapse(X.inverse()) == BlockMatrix([[A.I + A.I * B * X.schur('A').I * C * A.I, -A.I * B * X.schur('A').I], [-X.schur('A').I * C * A.I, X.schur('A').I]])","over":{"base":"Inverse","pred":"isinstance(block_collapse(X.I), Inverse)"},"name":"test_BlockMatrix_2x2_inverse_symbolic_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_symbolic_Inverse_correct","statement":"test_BlockMatrix_2x2_inverse_symbolic satisfies spec on Inverse inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2c02f01862b6ec1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.is_square and X.shape == (k, k)","isinstance(block_collapse(X.I), Inverse)","block_collapse(X.inverse()) == BlockMatrix([[A.I + A.I * B * X.schur('A').I * C * A.I, -A.I * B * X.schur('A').I], [-X.schur('A').I * C * A.I, X.schur('A').I]])","block_collapse(X.inverse()) == BlockMatrix([[-X.schur('B').I * D * B.I, X.schur('B').I], [B.I + B.I * A * X.schur('B').I * D * B.I, -B.I * A * X.schur('B').I]])","block_collapse(X.inverse()) == BlockMatrix([[-C.I * D * X.schur('C').I, C.I + C.I * D * X.schur('C').I * A * C.I], [X.schur('C').I, -X.schur('C').I * A * C.I]])","block_collapse(X.inverse()) == BlockMatrix([[X.schur('D').I, -X.schur('D').I * B * D.I], [-D.I * C * X.schur('D').I, D.I + D.I * C * X.schur('D').I * B * D.I]])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_BlockMatrix_2x2_inverse_symbolic():
     A = MatrixSymbol('A', n, m)
     B = MatrixSymbol('B', n, k - m)
@@ -397,16 +485,24 @@ def test_BlockMatrix_2x2_inverse_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_2x2_inverse_numeric(), test 2x2 block matrix inversion numerically for all 4 formulas) over Any ║
+# ║ Path(test_BlockMatrix_2x2_inverse_numeric(), D1.rank() == D2.rank() == D3.rank() == 1 and (D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2 and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix_2x2_inverse_numeric : Any → {Any | D...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D1.rank() == D2.rank() == D3.rank() == 1       ║
+# ║   ensures:  (D1 + D2).rank() == (D2 + D3).rank() == (...   ║
+# ║   ensures:  block_collapse(K.inv()).as_explicit() == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix_2x2_inverse_numeric : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8260918dfa4f59f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b333baa165a8b814  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_numeric","kind":"function","src_hash":"c4613ac7694c6296","in":{"base":"Any"},"out":{"base":"Any","pred":"D1.rank() == D2.rank() == D3.rank() == 1 and (D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2 and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv() and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv() and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv() and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv()"},"spec":{"lhs":"test_BlockMatrix_2x2_inverse_numeric()","rhs":"test 2x2 block matrix inversion numerically for all 4 formulas","over":{"base":"Any"},"name":"test_BlockMatrix_2x2_inverse_numeric_correct"},"guarantee":"test 2x2 block matrix inversion numerically for all 4 formulas","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_numeric_correct","statement":"Path(test_BlockMatrix_2x2_inverse_numeric(x), test 2x2 block matrix inversion numerically for all 4 formulas)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8260918dfa4f59f8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_numeric","kind":"function","src_hash":"c4613ac7694c6296","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D1.rank() == D2.rank() == D3.rank() == 1 and (D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2 and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv()"},"spec":{"lhs":"test_BlockMatrix_2x2_inverse_numeric()","rhs":"D1.rank() == D2.rank() == D3.rank() == 1 and (D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2 and block_collapse(K.inv()).as_explicit() == K.as_explicit().inv()","over":{"base":"Any"},"name":"test_BlockMatrix_2x2_inverse_numeric_correct"},"guarantee":"D1.rank() == D2.rank() == D3.rank() == 1; (D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2; block_collapse(K.inv()).as_explicit() == K.as_explicit().inv()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_2x2_inverse_numeric_correct","statement":"Path(test_BlockMatrix_2x2_inverse_numeric(x), D1.rank() == D2.rank() == D3.rank() == 1; (D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2; block_collapse(K.inv()).as_explicit() == K.as_explicit().inv())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b333baa165a8b814","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D1.rank() == D2.rank() == D3.rank() == 1","(D1 + D2).rank() == (D2 + D3).rank() == (D3 + D1).rank() == 2","block_collapse(K.inv()).as_explicit() == K.as_explicit().inv()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix_2x2_inverse_numeric():
     """Test 2x2 block matrix inversion numerically for all 4 formulas"""
     M = Matrix([[1, 2], [3, 4]])
@@ -433,7 +529,10 @@ def test_BlockMatrix_2x2_inverse_numeric():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_3x3_symbolic(), test_BlockMatrix_3x3_symbolic produces the expected output) over {Any | isinstance(collapse, BlockMatrix)} ║
+# ║ Path(test_BlockMatrix_3x3_symbolic(), isinstance(collapse, BlockMatrix)) over {Any | isinstance(collapse, BlockMatrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(collapse, BlockMatrix)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_BlockMatrix_3x3_symbolic : {Any | isinstance(col...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -445,9 +544,12 @@ def test_BlockMatrix_2x2_inverse_numeric():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 885a78f6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_3x3_symbolic","kind":"function","src_hash":"70a8ee5db99ad7da","in":{"base":"Any","pred":"isinstance(collapse, BlockMatrix)"},"out":{"base":"Any","pred":"isinstance(collapse, BlockMatrix)"},"spec":{"lhs":"test_BlockMatrix_3x3_symbolic()","rhs":"test_BlockMatrix_3x3_symbolic produces the expected output","over":{"base":"Any","pred":"isinstance(collapse, BlockMatrix)"},"name":"test_BlockMatrix_3x3_symbolic_correct"},"guarantee":"test_BlockMatrix_3x3_symbolic produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(collapse, BlockMatrix)","path":{"lhs":"test_BlockMatrix_3x3_symbolic(x)","rhs":"test_BlockMatrix_3x3_symbolic produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(collapse, BlockMatrix)"},"name":"test_BlockMatrix_3x3_symbolic_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_3x3_symbolic_BlockMatrix_correct","statement":"test_BlockMatrix_3x3_symbolic satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"885a78f69839765e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_3x3_symbolic","kind":"function","src_hash":"70a8ee5db99ad7da","in":{"base":"Any","pred":"isinstance(collapse, BlockMatrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(collapse, BlockMatrix)"},"spec":{"lhs":"test_BlockMatrix_3x3_symbolic()","rhs":"isinstance(collapse, BlockMatrix)","over":{"base":"Any","pred":"isinstance(collapse, BlockMatrix)"},"name":"test_BlockMatrix_3x3_symbolic_correct"},"guarantee":"isinstance(collapse, BlockMatrix)","fibers":[{"name":"BlockMatrix","pred":"isinstance(collapse, BlockMatrix)","path":{"lhs":"test_BlockMatrix_3x3_symbolic(x)","rhs":"isinstance(collapse, BlockMatrix)","over":{"base":"BlockMatrix","pred":"isinstance(collapse, BlockMatrix)"},"name":"test_BlockMatrix_3x3_symbolic_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockMatrix_3x3_symbolic_BlockMatrix_correct","statement":"test_BlockMatrix_3x3_symbolic satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"885a78f69839765e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(collapse, BlockMatrix)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_BlockMatrix_3x3_symbolic():
     # Only test one of these, instead of all permutations, because it's slow
     rowblocksizes = (n, m, k)
@@ -461,7 +563,12 @@ def test_BlockMatrix_3x3_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockDiagMatrix(), test_BlockDiagMatrix produces the expected output) over {Any | isinstance(block_collapse(X.I * X), Identity)} ║
+# ║ Path(test_BlockDiagMatrix(), X.blocks[1, 1] == B and X.shape == (n + m + l, n + m + l) and all((X.blocks[i, j].is_ZeroMatrix if i != j else X.blocks[i, j] in [A, B, C] for i in range(3) for j in range(3))) and X.__class__(*X.args) == X and X.get_diag_blocks() == (A, B, C) and isinstance(block_collapse(X.I * X), Identity) and bc_matmul(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C)) and block_collapse(X * Y) == BlockDiagMatrix(A * A, 2 * B * B, 3 * C * C) and block_collapse(X + Y) == BlockDiagMatrix(2 * A, 3 * B, 4 * C) and (X * (2 * M)).is_MatMul and (X + 2 * M).is_MatAdd and X._blockmul(M).is_MatMul and X._blockadd(M).is_MatAdd) over {Any | isinstance(block_collapse(X.I * X), Identity)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.blocks[1, 1] == B                            ║
+# ║   ensures:  X.shape == (n + m + l, n + m + l)              ║
+# ║   ensures:  all((X.blocks[i, j].is_ZeroMatrix if i !=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_BlockDiagMatrix : {Any | isinstance(block_collap...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -473,9 +580,12 @@ def test_BlockMatrix_3x3_symbolic():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 37648a57...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix","kind":"function","src_hash":"5df78d5337efded7","in":{"base":"Any","pred":"isinstance(block_collapse(X.I * X), Identity)"},"out":{"base":"Any","pred":"X.blocks[1, 1] == B and X.shape == (n + m + l, n + m + l) and X.__class__(*X.args) == X and X.get_diag_blocks() == (A, B, C) and isinstance(block_collapse(X.I * X), Identity) and bc_matmul(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C)) and block_collapse(X * Y) == BlockDiagMatrix(A * A, 2 * B * B, 3 * C * C) and block_collapse(X + Y) == BlockDiagMatrix(2 * A, 3 * B, 4 * C) and (X * (2 * M)).is_MatMul and (X + 2 * M).is_MatAdd and X._blockmul(M).is_MatMul and X._blockadd(M).is_MatAdd"},"spec":{"lhs":"test_BlockDiagMatrix()","rhs":"test_BlockDiagMatrix produces the expected output","over":{"base":"Any","pred":"isinstance(block_collapse(X.I * X), Identity)"},"name":"test_BlockDiagMatrix_correct"},"guarantee":"test_BlockDiagMatrix produces the expected output","fibers":[{"name":"Identity","pred":"isinstance(block_collapse(X.I * X), Identity)","path":{"lhs":"test_BlockDiagMatrix(x)","rhs":"test_BlockDiagMatrix produces the expected output","over":{"base":"Identity","pred":"isinstance(block_collapse(X.I * X), Identity)"},"name":"test_BlockDiagMatrix_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_Identity_correct","statement":"test_BlockDiagMatrix satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"37648a5746f6f160"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix","kind":"function","src_hash":"5df78d5337efded7","in":{"base":"Any","pred":"isinstance(block_collapse(X.I * X), Identity)"},"out":{"base":"Any","pred":"result satisfies: X.blocks[1, 1] == B and X.shape == (n + m + l, n + m + l) and all((X.blocks[i, j].is_ZeroMatrix if i != j else X.blocks[i, j] in [A, B, C] for i in range(3) for j in range(3))) and X.__class__(*X.args) == X and X.get_diag_blocks() == (A, B, C) and isinstance(block_collapse(X.I * X), Identity) and bc_matmul(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C)) and block_collapse(X * Y) == BlockDiagMatrix(A * A, 2 * B * B, 3 * C * C) and block_collapse(X + Y) == BlockDiagMatrix(2 * A, 3 * B, 4 * C) and (X * (2 * M)).is_MatMul and (X + 2 * M).is_MatAdd and X._blockmul(M).is_MatMul and X._blockadd(M).is_MatAdd"},"spec":{"lhs":"test_BlockDiagMatrix()","rhs":"X.blocks[1, 1] == B and X.shape == (n + m + l, n + m + l) and all((X.blocks[i, j].is_ZeroMatrix if i != j else X.blocks[i, j] in [A, B, C] for i in range(3) for j in range(3))) and X.__class__(*X.args) == X and X.get_diag_blocks() == (A, B, C) and isinstance(block_collapse(X.I * X), Identity) and bc_matmul(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X * X) == BlockDiagMatrix(A * A, B * B, C * C) and block_collapse(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C)) and block_collapse(X * Y) == BlockDiagMatrix(A * A, 2 * B * B, 3 * C * C) and block_collapse(X + Y) == BlockDiagMatrix(2 * A, 3 * B, 4 * C) and (X * (2 * M)).is_MatMul and (X + 2 * M).is_MatAdd and X._blockmul(M).is_MatMul and X._blockadd(M).is_MatAdd","over":{"base":"Any","pred":"isinstance(block_collapse(X.I * X), Identity)"},"name":"test_BlockDiagMatrix_correct"},"guarantee":"X.blocks[1, 1] == B; X.shape == (n + m + l, n + m + l); all((X.blocks[i, j].is_ZeroMatrix if i != j else X.blocks[i, j] in [A, B, C] for i in range(3) for j in range(3)))","fibers":[{"name":"Identity","pred":"isinstance(block_collapse(X.I * X), Identity)","path":{"lhs":"test_BlockDiagMatrix(x)","rhs":"X.blocks[1, 1] == B; X.shape == (n + m + l, n + m + l); all((X.blocks[i, j].is_ZeroMatrix if i != j else X.blocks[i, j] in [A, B, C] for i in range(3) for j in range(3)))","over":{"base":"Identity","pred":"isinstance(block_collapse(X.I * X), Identity)"},"name":"test_BlockDiagMatrix_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_Identity_correct","statement":"test_BlockDiagMatrix satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"37648a5746f6f160","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.blocks[1, 1] == B","X.shape == (n + m + l, n + m + l)","all((X.blocks[i, j].is_ZeroMatrix if i != j else X.blocks[i, j] in [A, B, C] for i in range(3) for j in range(3)))","X.__class__(*X.args) == X","X.get_diag_blocks() == (A, B, C)","isinstance(block_collapse(X.I * X), Identity)","bc_matmul(X * X) == BlockDiagMatrix(A * A, B * B, C * C)","block_collapse(X * X) == BlockDiagMatrix(A * A, B * B, C * C)","block_collapse(X + X).equals(BlockDiagMatrix(2 * A, 2 * B, 2 * C))","block_collapse(X * Y) == BlockDiagMatrix(A * A, 2 * B * B, 3 * C * C)","block_collapse(X + Y) == BlockDiagMatrix(2 * A, 3 * B, 4 * C)","(X * (2 * M)).is_MatMul","(X + 2 * M).is_MatAdd","X._blockmul(M).is_MatMul","X._blockadd(M).is_MatAdd"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":true}}
 def test_BlockDiagMatrix():
     A = MatrixSymbol('A', n, n)
     B = MatrixSymbol('B', m, m)
@@ -509,16 +619,24 @@ def test_BlockDiagMatrix():
     assert (X._blockadd(M)).is_MatAdd
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockDiagMatrix_nonsquare(), test_BlockDiagMatrix_nonsquare produces the expected output) over Any ║
+# ║ Path(test_BlockDiagMatrix_nonsquare(), X.shape == (n + k, m + l) and X.rowblocksizes == [n, k] and X.colblocksizes == [m, l] and block_collapse(X + Y) == BlockDiagMatrix(A + C, B + D) and block_collapse(X * Y.T) == BlockDiagMatrix(A * C.T, B * D.T)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockDiagMatrix_nonsquare : Any → {Any | X.shape...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.shape == (n + k, m + l)                      ║
+# ║   ensures:  X.rowblocksizes == [n, k]                      ║
+# ║   ensures:  X.colblocksizes == [m, l]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockDiagMatrix_nonsquare : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9811effb178d056b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 482100415467343e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_nonsquare","kind":"function","src_hash":"02bf84fb6220001e","in":{"base":"Any"},"out":{"base":"Any","pred":"X.shape == (n + k, m + l) and X.shape == (n + k, m + l) and X.rowblocksizes == [n, k] and X.colblocksizes == [m, l] and block_collapse(X + Y) == BlockDiagMatrix(A + C, B + D) and block_collapse(X * Y.T) == BlockDiagMatrix(A * C.T, B * D.T)"},"spec":{"lhs":"test_BlockDiagMatrix_nonsquare()","rhs":"test_BlockDiagMatrix_nonsquare produces the expected output","over":{"base":"Any"},"name":"test_BlockDiagMatrix_nonsquare_correct"},"guarantee":"test_BlockDiagMatrix_nonsquare produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_nonsquare_correct","statement":"Path(test_BlockDiagMatrix_nonsquare(x), test_BlockDiagMatrix_nonsquare produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9811effb178d056b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_nonsquare","kind":"function","src_hash":"02bf84fb6220001e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.shape == (n + k, m + l) and X.rowblocksizes == [n, k] and X.colblocksizes == [m, l] and block_collapse(X + Y) == BlockDiagMatrix(A + C, B + D) and block_collapse(X * Y.T) == BlockDiagMatrix(A * C.T, B * D.T)"},"spec":{"lhs":"test_BlockDiagMatrix_nonsquare()","rhs":"X.shape == (n + k, m + l) and X.rowblocksizes == [n, k] and X.colblocksizes == [m, l] and block_collapse(X + Y) == BlockDiagMatrix(A + C, B + D) and block_collapse(X * Y.T) == BlockDiagMatrix(A * C.T, B * D.T)","over":{"base":"Any"},"name":"test_BlockDiagMatrix_nonsquare_correct"},"guarantee":"X.shape == (n + k, m + l); X.rowblocksizes == [n, k]; X.colblocksizes == [m, l]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_nonsquare_correct","statement":"Path(test_BlockDiagMatrix_nonsquare(x), X.shape == (n + k, m + l); X.rowblocksizes == [n, k]; X.colblocksizes == [m, l])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"482100415467343e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.shape == (n + k, m + l)","X.rowblocksizes == [n, k]","X.colblocksizes == [m, l]","block_collapse(X + Y) == BlockDiagMatrix(A + C, B + D)","block_collapse(X * Y.T) == BlockDiagMatrix(A * C.T, B * D.T)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_BlockDiagMatrix_nonsquare():
     A = MatrixSymbol('A', n, m)
     B = MatrixSymbol('B', k, l)
@@ -535,16 +653,24 @@ def test_BlockDiagMatrix_nonsquare():
     raises(NonInvertibleMatrixError, lambda: BlockDiagMatrix(A, C.T).inverse())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockDiagMatrix_determinant(), test_BlockDiagMatrix_determinant produces the expected output) over Any ║
+# ║ Path(test_BlockDiagMatrix_determinant(), det(BlockDiagMatrix()) == 1 and det(BlockDiagMatrix(A)) == det(A) and det(BlockDiagMatrix(A, B)) == det(A) * det(B) and det(BlockDiagMatrix(C, D)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockDiagMatrix_determinant : Any → {Any | det(B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  det(BlockDiagMatrix()) == 1                    ║
+# ║   ensures:  det(BlockDiagMatrix(A)) == det(A)              ║
+# ║   ensures:  det(BlockDiagMatrix(A, B)) == det(A) * de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockDiagMatrix_determinant : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 564574f6929db6c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25f443169a562ed8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_determinant","kind":"function","src_hash":"c3764f52bad35bf1","in":{"base":"Any"},"out":{"base":"Any","pred":"det(BlockDiagMatrix()) == 1 and det(BlockDiagMatrix(A)) == det(A) and det(BlockDiagMatrix(A, B)) == det(A) * det(B) and det(BlockDiagMatrix(C, D)) == 0"},"spec":{"lhs":"test_BlockDiagMatrix_determinant()","rhs":"test_BlockDiagMatrix_determinant produces the expected output","over":{"base":"Any"},"name":"test_BlockDiagMatrix_determinant_correct"},"guarantee":"test_BlockDiagMatrix_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_determinant_correct","statement":"Path(test_BlockDiagMatrix_determinant(x), test_BlockDiagMatrix_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"564574f6929db6c0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_determinant","kind":"function","src_hash":"c3764f52bad35bf1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: det(BlockDiagMatrix()) == 1 and det(BlockDiagMatrix(A)) == det(A) and det(BlockDiagMatrix(A, B)) == det(A) * det(B) and det(BlockDiagMatrix(C, D)) == 0"},"spec":{"lhs":"test_BlockDiagMatrix_determinant()","rhs":"det(BlockDiagMatrix()) == 1 and det(BlockDiagMatrix(A)) == det(A) and det(BlockDiagMatrix(A, B)) == det(A) * det(B) and det(BlockDiagMatrix(C, D)) == 0","over":{"base":"Any"},"name":"test_BlockDiagMatrix_determinant_correct"},"guarantee":"det(BlockDiagMatrix()) == 1; det(BlockDiagMatrix(A)) == det(A); det(BlockDiagMatrix(A, B)) == det(A) * det(B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_determinant_correct","statement":"Path(test_BlockDiagMatrix_determinant(x), det(BlockDiagMatrix()) == 1; det(BlockDiagMatrix(A)) == det(A); det(BlockDiagMatrix(A, B)) == det(A) * det(B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25f443169a562ed8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["det(BlockDiagMatrix()) == 1","det(BlockDiagMatrix(A)) == det(A)","det(BlockDiagMatrix(A, B)) == det(A) * det(B)","det(BlockDiagMatrix(C, D)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_BlockDiagMatrix_determinant():
     A = MatrixSymbol('A', n, n)
     B = MatrixSymbol('B', m, m)
@@ -558,7 +684,12 @@ def test_BlockDiagMatrix_determinant():
     assert det(BlockDiagMatrix(C, D)) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockDiagMatrix_trace(), test_BlockDiagMatrix_trace produces the expected output) over {Any | isinstance(trace(BlockDiagMatrix(C, D)), Trace)} ║
+# ║ Path(test_BlockDiagMatrix_trace(), trace(BlockDiagMatrix()) == 0 and trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0 and trace(BlockDiagMatrix(A)) == trace(A) and trace(BlockDiagMatrix(A, B)) == trace(A) + trace(B) and isinstance(trace(BlockDiagMatrix(C, D)), Trace)) over {Any | isinstance(trace(BlockDiagMatrix(C, D)), Trace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(BlockDiagMatrix()) == 0                  ║
+# ║   ensures:  trace(BlockDiagMatrix(ZeroMatrix(n, n))) ...   ║
+# ║   ensures:  trace(BlockDiagMatrix(A)) == trace(A)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_BlockDiagMatrix_trace : {Any | isinstance(trace(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -570,9 +701,12 @@ def test_BlockDiagMatrix_determinant():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 92b101ed...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_trace","kind":"function","src_hash":"f38a23faadfae22d","in":{"base":"Any","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"out":{"base":"Any","pred":"trace(BlockDiagMatrix()) == 0 and trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0 and trace(BlockDiagMatrix(A)) == trace(A) and trace(BlockDiagMatrix(A, B)) == trace(A) + trace(B) and isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"spec":{"lhs":"test_BlockDiagMatrix_trace()","rhs":"test_BlockDiagMatrix_trace produces the expected output","over":{"base":"Any","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"name":"test_BlockDiagMatrix_trace_correct"},"guarantee":"test_BlockDiagMatrix_trace produces the expected output","fibers":[{"name":"D","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)","path":{"lhs":"test_BlockDiagMatrix_trace(x)","rhs":"test_BlockDiagMatrix_trace produces the expected output","over":{"base":"D","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"name":"test_BlockDiagMatrix_trace_D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_trace_D_correct","statement":"test_BlockDiagMatrix_trace satisfies spec on D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92b101ed1a5bbd69"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_trace","kind":"function","src_hash":"f38a23faadfae22d","in":{"base":"Any","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"out":{"base":"Any","pred":"result satisfies: trace(BlockDiagMatrix()) == 0 and trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0 and trace(BlockDiagMatrix(A)) == trace(A) and trace(BlockDiagMatrix(A, B)) == trace(A) + trace(B) and isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"spec":{"lhs":"test_BlockDiagMatrix_trace()","rhs":"trace(BlockDiagMatrix()) == 0 and trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0 and trace(BlockDiagMatrix(A)) == trace(A) and trace(BlockDiagMatrix(A, B)) == trace(A) + trace(B) and isinstance(trace(BlockDiagMatrix(C, D)), Trace)","over":{"base":"Any","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"name":"test_BlockDiagMatrix_trace_correct"},"guarantee":"trace(BlockDiagMatrix()) == 0; trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0; trace(BlockDiagMatrix(A)) == trace(A)","fibers":[{"name":"D","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)","path":{"lhs":"test_BlockDiagMatrix_trace(x)","rhs":"trace(BlockDiagMatrix()) == 0; trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0; trace(BlockDiagMatrix(A)) == trace(A)","over":{"base":"D","pred":"isinstance(trace(BlockDiagMatrix(C, D)), Trace)"},"name":"test_BlockDiagMatrix_trace_D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_trace_D_correct","statement":"test_BlockDiagMatrix_trace satisfies spec on D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92b101ed1a5bbd69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(BlockDiagMatrix()) == 0","trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0","trace(BlockDiagMatrix(A)) == trace(A)","trace(BlockDiagMatrix(A, B)) == trace(A) + trace(B)","isinstance(trace(BlockDiagMatrix(C, D)), Trace)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_BlockDiagMatrix_trace():
     assert trace(BlockDiagMatrix()) == 0
     assert trace(BlockDiagMatrix(ZeroMatrix(n, n))) == 0
@@ -587,16 +721,24 @@ def test_BlockDiagMatrix_trace():
     assert isinstance(trace(BlockDiagMatrix(C, D)), Trace)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockDiagMatrix_transpose(), test_BlockDiagMatrix_transpose produces the expected output) over Any ║
+# ║ Path(test_BlockDiagMatrix_transpose(), transpose(BlockDiagMatrix()) == BlockDiagMatrix() and transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T) and transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockDiagMatrix_transpose : Any → {Any | transpo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  transpose(BlockDiagMatrix()) == BlockDiag...   ║
+# ║   ensures:  transpose(BlockDiagMatrix(A)) == BlockDia...   ║
+# ║   ensures:  transpose(BlockDiagMatrix(A, B)) == Block...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockDiagMatrix_transpose : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee2339d7293866f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20f6099a412c5c43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_transpose","kind":"function","src_hash":"fd8a1451763d7c5d","in":{"base":"Any"},"out":{"base":"Any","pred":"transpose(BlockDiagMatrix()) == BlockDiagMatrix() and transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T) and transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)"},"spec":{"lhs":"test_BlockDiagMatrix_transpose()","rhs":"test_BlockDiagMatrix_transpose produces the expected output","over":{"base":"Any"},"name":"test_BlockDiagMatrix_transpose_correct"},"guarantee":"test_BlockDiagMatrix_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_transpose_correct","statement":"Path(test_BlockDiagMatrix_transpose(x), test_BlockDiagMatrix_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2339d7293866f3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_transpose","kind":"function","src_hash":"fd8a1451763d7c5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: transpose(BlockDiagMatrix()) == BlockDiagMatrix() and transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T) and transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)"},"spec":{"lhs":"test_BlockDiagMatrix_transpose()","rhs":"transpose(BlockDiagMatrix()) == BlockDiagMatrix() and transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T) and transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)","over":{"base":"Any"},"name":"test_BlockDiagMatrix_transpose_correct"},"guarantee":"transpose(BlockDiagMatrix()) == BlockDiagMatrix(); transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T); transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_BlockDiagMatrix_transpose_correct","statement":"Path(test_BlockDiagMatrix_transpose(x), transpose(BlockDiagMatrix()) == BlockDiagMatrix(); transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T); transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f6099a412c5c43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["transpose(BlockDiagMatrix()) == BlockDiagMatrix()","transpose(BlockDiagMatrix(A)) == BlockDiagMatrix(A.T)","transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_BlockDiagMatrix_transpose():
     A = MatrixSymbol('A', n, m)
     B = MatrixSymbol('B', k, l)
@@ -605,32 +747,46 @@ def test_BlockDiagMatrix_transpose():
     assert transpose(BlockDiagMatrix(A, B)) == BlockDiagMatrix(A.T, B.T)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2460(), test_issue_2460 produces the expected output) over Any ║
+# ║ Path(test_issue_2460(), block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2460 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  block_collapse(bdm1 + bdm2) == BlockDiagM...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2460 : Any → {Any | result satisfies: bloc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0f4f9a3af8051b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36d5414625607a8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_2460","kind":"function","src_hash":"631adee7b488f948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_2460()","rhs":"test_issue_2460 produces the expected output","over":{"base":"Any"},"name":"test_issue_2460_correct"},"guarantee":"test_issue_2460 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_2460_correct","statement":"Path(test_issue_2460(x), test_issue_2460 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0f4f9a3af8051b5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_2460","kind":"function","src_hash":"631adee7b488f948","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l]))"},"spec":{"lhs":"test_issue_2460()","rhs":"block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l]))","over":{"base":"Any"},"name":"test_issue_2460_correct"},"guarantee":"block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_2460_correct","statement":"Path(test_issue_2460(x), block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36d5414625607a8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_2460():
     bdm1 = BlockDiagMatrix(Matrix([i]), Matrix([j]))
     bdm2 = BlockDiagMatrix(Matrix([k]), Matrix([l]))
     assert block_collapse(bdm1 + bdm2) == BlockDiagMatrix(Matrix([i + k]), Matrix([j + l]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_blockcut(), test_blockcut produces the expected output) over Any ║
+# ║ Path(test_blockcut(), B == BlockMatrix([[A[:n / 2, :m / 2], A[:n / 2, m / 2:]], [A[n / 2:, :m / 2], A[n / 2:, m / 2:]]]) and M == ImmutableMatrix(B) and ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_blockcut : Any → {Any | M == ImmutableMatrix(B) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B == BlockMatrix([[A[:n / 2, :m / 2], A[:...   ║
+# ║   ensures:  M == ImmutableMatrix(B)                        ║
+# ║   ensures:  ImmutableMatrix(B.blocks[0, 1]) == Immuta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_blockcut : Any → {Any | result satisfies: B == B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ba12aebb35890d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c823c13876d45605  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_blockcut","kind":"function","src_hash":"65231e676c51c270","in":{"base":"Any"},"out":{"base":"Any","pred":"M == ImmutableMatrix(B) and ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])"},"spec":{"lhs":"test_blockcut()","rhs":"test_blockcut produces the expected output","over":{"base":"Any"},"name":"test_blockcut_correct"},"guarantee":"test_blockcut produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_blockcut_correct","statement":"Path(test_blockcut(x), test_blockcut produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ba12aebb35890d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_blockcut","kind":"function","src_hash":"65231e676c51c270","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B == BlockMatrix([[A[:n / 2, :m / 2], A[:n / 2, m / 2:]], [A[n / 2:, :m / 2], A[n / 2:, m / 2:]]]) and M == ImmutableMatrix(B) and ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])"},"spec":{"lhs":"test_blockcut()","rhs":"B == BlockMatrix([[A[:n / 2, :m / 2], A[:n / 2, m / 2:]], [A[n / 2:, :m / 2], A[n / 2:, m / 2:]]]) and M == ImmutableMatrix(B) and ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])","over":{"base":"Any"},"name":"test_blockcut_correct"},"guarantee":"B == BlockMatrix([[A[:n / 2, :m / 2], A[:n / 2, m / 2:]], [A[n / 2:, :m / 2], A[n / 2:, m / 2:]]]); M == ImmutableMatrix(B); ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_blockcut_correct","statement":"Path(test_blockcut(x), B == BlockMatrix([[A[:n / 2, :m / 2], A[:n / 2, m / 2:]], [A[n / 2:, :m / 2], A[n / 2:, m / 2:]]]); M == ImmutableMatrix(B); ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c823c13876d45605","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B == BlockMatrix([[A[:n / 2, :m / 2], A[:n / 2, m / 2:]], [A[n / 2:, :m / 2], A[n / 2:, m / 2:]]])","M == ImmutableMatrix(B)","ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_blockcut():
     A = MatrixSymbol('A', n, m)
     B = blockcut(A, (n/2, n/2), (m/2, m/2))
@@ -645,16 +801,24 @@ def test_blockcut():
     assert ImmutableMatrix(B.blocks[0, 1]) == ImmutableMatrix([[2, 3]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reblock_2x2(), test_reblock_2x2 produces the expected output) over Any ║
+# ║ Path(test_reblock_2x2(), B.blocks.shape == (3, 3) and BB.blocks.shape == (2, 2) and B.shape == BB.shape and B.as_explicit() == BB.as_explicit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reblock_2x2 : Any → {Any | B.blocks.shape == (3,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.blocks.shape == (3, 3)                       ║
+# ║   ensures:  BB.blocks.shape == (2, 2)                      ║
+# ║   ensures:  B.shape == BB.shape                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reblock_2x2 : Any → {Any | result satisfies: B.b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2d875bad3450c8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e159e83804a10949  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_reblock_2x2","kind":"function","src_hash":"ee1f60426a7e9fa9","in":{"base":"Any"},"out":{"base":"Any","pred":"B.blocks.shape == (3, 3) and BB.blocks.shape == (2, 2) and B.shape == BB.shape and B.as_explicit() == BB.as_explicit()"},"spec":{"lhs":"test_reblock_2x2()","rhs":"test_reblock_2x2 produces the expected output","over":{"base":"Any"},"name":"test_reblock_2x2_correct"},"guarantee":"test_reblock_2x2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_reblock_2x2_correct","statement":"Path(test_reblock_2x2(x), test_reblock_2x2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2d875bad3450c8b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_reblock_2x2","kind":"function","src_hash":"ee1f60426a7e9fa9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.blocks.shape == (3, 3) and BB.blocks.shape == (2, 2) and B.shape == BB.shape and B.as_explicit() == BB.as_explicit()"},"spec":{"lhs":"test_reblock_2x2()","rhs":"B.blocks.shape == (3, 3) and BB.blocks.shape == (2, 2) and B.shape == BB.shape and B.as_explicit() == BB.as_explicit()","over":{"base":"Any"},"name":"test_reblock_2x2_correct"},"guarantee":"B.blocks.shape == (3, 3); BB.blocks.shape == (2, 2); B.shape == BB.shape","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_reblock_2x2_correct","statement":"Path(test_reblock_2x2(x), B.blocks.shape == (3, 3); BB.blocks.shape == (2, 2); B.shape == BB.shape)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e159e83804a10949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.blocks.shape == (3, 3)","BB.blocks.shape == (2, 2)","B.shape == BB.shape","B.as_explicit() == BB.as_explicit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reblock_2x2():
     B = BlockMatrix([[MatrixSymbol('A_%d%d'%(i,j), 2, 2)
                             for j in range(3)]
@@ -668,16 +832,22 @@ def test_reblock_2x2():
     assert B.as_explicit() == BB.as_explicit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deblock(), test_deblock produces the expected output) over Any ║
+# ║ Path(test_deblock(), deblock(reblock_2x2(B)) == B) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deblock : Any → {Any | deblock(reblock_2x2(B)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  deblock(reblock_2x2(B)) == B                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deblock : Any → {Any | result satisfies: deblock...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 302e0a40723d8290  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64087e9bae530186  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_deblock","kind":"function","src_hash":"844f5235fd40cc48","in":{"base":"Any"},"out":{"base":"Any","pred":"deblock(reblock_2x2(B)) == B"},"spec":{"lhs":"test_deblock()","rhs":"test_deblock produces the expected output","over":{"base":"Any"},"name":"test_deblock_correct"},"guarantee":"test_deblock produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_deblock_correct","statement":"Path(test_deblock(x), test_deblock produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"302e0a40723d8290"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_deblock","kind":"function","src_hash":"844f5235fd40cc48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: deblock(reblock_2x2(B)) == B"},"spec":{"lhs":"test_deblock()","rhs":"deblock(reblock_2x2(B)) == B","over":{"base":"Any"},"name":"test_deblock_correct"},"guarantee":"deblock(reblock_2x2(B)) == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_deblock_correct","statement":"Path(test_deblock(x), deblock(reblock_2x2(B)) == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64087e9bae530186","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["deblock(reblock_2x2(B)) == B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deblock():
     B = BlockMatrix([[MatrixSymbol('A_%d%d'%(i,j), n, n)
                     for j in range(4)]
@@ -686,16 +856,24 @@ def test_deblock():
     assert deblock(reblock_2x2(B)) == B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_collapse_type(), test_block_collapse_type produces the expected output) over Any ║
+# ║ Path(test_block_collapse_type(), bm1.T.__class__ == BlockDiagMatrix and block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix and block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix and block_collapse(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_transpose(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_inverse(Inverse(bm1)).__class__ == BlockDiagMatrix) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_collapse_type : Any → {Any | bm1.T.__class...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bm1.T.__class__ == BlockDiagMatrix             ║
+# ║   ensures:  block_collapse(bm1 - bm2).__class__ == Bl...   ║
+# ║   ensures:  block_collapse(Inverse(bm1)).__class__ ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_collapse_type : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 583a65222d2d479b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9185d8fb7a278772  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_type","kind":"function","src_hash":"029ace047edf97ba","in":{"base":"Any"},"out":{"base":"Any","pred":"bm1.T.__class__ == BlockDiagMatrix and block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix and block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix and block_collapse(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_transpose(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_inverse(Inverse(bm1)).__class__ == BlockDiagMatrix"},"spec":{"lhs":"test_block_collapse_type()","rhs":"test_block_collapse_type produces the expected output","over":{"base":"Any"},"name":"test_block_collapse_type_correct"},"guarantee":"test_block_collapse_type produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_type_correct","statement":"Path(test_block_collapse_type(x), test_block_collapse_type produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583a65222d2d479b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_type","kind":"function","src_hash":"029ace047edf97ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bm1.T.__class__ == BlockDiagMatrix and block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix and block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix and block_collapse(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_transpose(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_inverse(Inverse(bm1)).__class__ == BlockDiagMatrix"},"spec":{"lhs":"test_block_collapse_type()","rhs":"bm1.T.__class__ == BlockDiagMatrix and block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix and block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix and block_collapse(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_transpose(Transpose(bm1)).__class__ == BlockDiagMatrix and bc_inverse(Inverse(bm1)).__class__ == BlockDiagMatrix","over":{"base":"Any"},"name":"test_block_collapse_type_correct"},"guarantee":"bm1.T.__class__ == BlockDiagMatrix; block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix; block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_collapse_type_correct","statement":"Path(test_block_collapse_type(x), bm1.T.__class__ == BlockDiagMatrix; block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix; block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9185d8fb7a278772","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bm1.T.__class__ == BlockDiagMatrix","block_collapse(bm1 - bm2).__class__ == BlockDiagMatrix","block_collapse(Inverse(bm1)).__class__ == BlockDiagMatrix","block_collapse(Transpose(bm1)).__class__ == BlockDiagMatrix","bc_transpose(Transpose(bm1)).__class__ == BlockDiagMatrix","bc_inverse(Inverse(bm1)).__class__ == BlockDiagMatrix"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_block_collapse_type():
     bm1 = BlockDiagMatrix(ImmutableMatrix([1]), ImmutableMatrix([2]))
     bm2 = BlockDiagMatrix(ImmutableMatrix([3]), ImmutableMatrix([4]))
@@ -708,16 +886,22 @@ def test_block_collapse_type():
     assert bc_inverse(Inverse(bm1)).__class__ == BlockDiagMatrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_block_matrix(), test_invalid_block_matrix produces the expected output) over Any ║
+# ║ Path(test_invalid_block_matrix(), <unspecified:test_invalid_block_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_block_matrix : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57b3cd8a2d11f449  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_invalid_block_matrix","kind":"function","src_hash":"c6ed7506aac404fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_block_matrix()","rhs":"test_invalid_block_matrix produces the expected output","over":{"base":"Any"},"name":"test_invalid_block_matrix_correct"},"guarantee":"test_invalid_block_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_invalid_block_matrix_correct","statement":"Path(test_invalid_block_matrix(x), test_invalid_block_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57b3cd8a2d11f449"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_invalid_block_matrix","kind":"function","src_hash":"c6ed7506aac404fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_block_matrix()","rhs":"<unspecified:test_invalid_block_matrix>","over":{"base":"Any"},"name":"test_invalid_block_matrix_correct"},"guarantee":"test_invalid_block_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_invalid_block_matrix_correct","statement":"Path(test_invalid_block_matrix(x), test_invalid_block_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57b3cd8a2d11f449","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_invalid_block_matrix():
     raises(ValueError, lambda: BlockMatrix([
         [Identity(2), Identity(5)],
@@ -735,16 +919,24 @@ def test_invalid_block_matrix():
     ]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_lu_decomposition(), test_block_lu_decomposition produces the expected output) over Any ║
+# ║ Path(test_block_lu_decomposition(), block_collapse(L * D * U) == X and block_collapse(U * D * L) == X and block_collapse(L * U) == X) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_lu_decomposition : Any → {Any | block_coll...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  block_collapse(L * D * U) == X                 ║
+# ║   ensures:  block_collapse(U * D * L) == X                 ║
+# ║   ensures:  block_collapse(L * U) == X                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_lu_decomposition : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f5869da850e4dba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b0e1977c24e91c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_lu_decomposition","kind":"function","src_hash":"2f93e7d2dcd6d561","in":{"base":"Any"},"out":{"base":"Any","pred":"block_collapse(L * D * U) == X and block_collapse(U * D * L) == X and block_collapse(L * U) == X"},"spec":{"lhs":"test_block_lu_decomposition()","rhs":"test_block_lu_decomposition produces the expected output","over":{"base":"Any"},"name":"test_block_lu_decomposition_correct"},"guarantee":"test_block_lu_decomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_lu_decomposition_correct","statement":"Path(test_block_lu_decomposition(x), test_block_lu_decomposition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f5869da850e4dba"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_lu_decomposition","kind":"function","src_hash":"2f93e7d2dcd6d561","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: block_collapse(L * D * U) == X and block_collapse(U * D * L) == X and block_collapse(L * U) == X"},"spec":{"lhs":"test_block_lu_decomposition()","rhs":"block_collapse(L * D * U) == X and block_collapse(U * D * L) == X and block_collapse(L * U) == X","over":{"base":"Any"},"name":"test_block_lu_decomposition_correct"},"guarantee":"block_collapse(L * D * U) == X; block_collapse(U * D * L) == X; block_collapse(L * U) == X","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_lu_decomposition_correct","statement":"Path(test_block_lu_decomposition(x), block_collapse(L * D * U) == X; block_collapse(U * D * L) == X; block_collapse(L * U) == X)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b0e1977c24e91c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["block_collapse(L * D * U) == X","block_collapse(U * D * L) == X","block_collapse(L * U) == X"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_block_lu_decomposition():
     A = MatrixSymbol('A', n, n)
     B = MatrixSymbol('B', n, m)
@@ -765,16 +957,22 @@ def test_block_lu_decomposition():
     assert block_collapse(L*U) == X
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21866(), test_issue_21866 produces the expected output) over Any ║
+# ║ Path(test_issue_21866(), Ainv == AinvT) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21866 : Any → {Any | Ainv == AinvT}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ainv == AinvT                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21866 : Any → {Any | result satisfies: Ain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 658c1ca476cb8050  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cd5a3bbf5108b93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_21866","kind":"function","src_hash":"d98ee698cd397604","in":{"base":"Any"},"out":{"base":"Any","pred":"Ainv == AinvT"},"spec":{"lhs":"test_issue_21866()","rhs":"test_issue_21866 produces the expected output","over":{"base":"Any"},"name":"test_issue_21866_correct"},"guarantee":"test_issue_21866 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_21866_correct","statement":"Path(test_issue_21866(x), test_issue_21866 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"658c1ca476cb8050"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_21866","kind":"function","src_hash":"d98ee698cd397604","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Ainv == AinvT"},"spec":{"lhs":"test_issue_21866()","rhs":"Ainv == AinvT","over":{"base":"Any"},"name":"test_issue_21866_correct"},"guarantee":"Ainv == AinvT","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_issue_21866_correct","statement":"Path(test_issue_21866(x), Ainv == AinvT)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cd5a3bbf5108b93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ainv == AinvT"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21866():
     n  = 10
     I  = Identity(n)
@@ -792,16 +990,24 @@ def test_issue_21866():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_adjoint_and_special_matrices(), test_adjoint_and_special_matrices produces the expected output) over Any ║
+# ║ Path(test_adjoint_and_special_matrices(), X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]]) and re(X) == X and X2.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [-S.ImaginaryUnit * OneMatrix(2, 3), D]]) and im(X2) == BlockMatrix([[ZeroMatrix(3, 3), OneMatrix(3, 2)], [ZeroMatrix(2, 3), ZeroMatrix(2, 2)]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_adjoint_and_special_matrices : Any → {Any | X.ad...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.adjoint() == BlockMatrix([[A, ZeroMatri...   ║
+# ║   ensures:  re(X) == X                                     ║
+# ║   ensures:  X2.adjoint() == BlockMatrix([[A, ZeroMatr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_adjoint_and_special_matrices : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d0f3795e1165030  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9b2c2f7d48b0157  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_adjoint_and_special_matrices","kind":"function","src_hash":"8d6e55f089632f17","in":{"base":"Any"},"out":{"base":"Any","pred":"X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]]) and re(X) == X"},"spec":{"lhs":"test_adjoint_and_special_matrices()","rhs":"test_adjoint_and_special_matrices produces the expected output","over":{"base":"Any"},"name":"test_adjoint_and_special_matrices_correct"},"guarantee":"test_adjoint_and_special_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_adjoint_and_special_matrices_correct","statement":"Path(test_adjoint_and_special_matrices(x), test_adjoint_and_special_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d0f3795e1165030"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_adjoint_and_special_matrices","kind":"function","src_hash":"8d6e55f089632f17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]]) and re(X) == X and X2.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [-S.ImaginaryUnit * OneMatrix(2, 3), D]]) and im(X2) == BlockMatrix([[ZeroMatrix(3, 3), OneMatrix(3, 2)], [ZeroMatrix(2, 3), ZeroMatrix(2, 2)]])"},"spec":{"lhs":"test_adjoint_and_special_matrices()","rhs":"X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]]) and re(X) == X and X2.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [-S.ImaginaryUnit * OneMatrix(2, 3), D]]) and im(X2) == BlockMatrix([[ZeroMatrix(3, 3), OneMatrix(3, 2)], [ZeroMatrix(2, 3), ZeroMatrix(2, 2)]])","over":{"base":"Any"},"name":"test_adjoint_and_special_matrices_correct"},"guarantee":"X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]]); re(X) == X; X2.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [-S.ImaginaryUnit * OneMatrix(2, 3), D]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_adjoint_and_special_matrices_correct","statement":"Path(test_adjoint_and_special_matrices(x), X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]]); re(X) == X; X2.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [-S.ImaginaryUnit * OneMatrix(2, 3), D]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9b2c2f7d48b0157","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [OneMatrix(2, 3), D]])","re(X) == X","X2.adjoint() == BlockMatrix([[A, ZeroMatrix(3, 2)], [-S.ImaginaryUnit * OneMatrix(2, 3), D]])","im(X2) == BlockMatrix([[ZeroMatrix(3, 3), OneMatrix(3, 2)], [ZeroMatrix(2, 3), ZeroMatrix(2, 2)]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_adjoint_and_special_matrices():
     A = Identity(3)
     B = OneMatrix(3, 2)
@@ -816,16 +1022,22 @@ def test_adjoint_and_special_matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_matrix_derivative(), test_block_matrix_derivative produces the expected output) over Any ║
+# ║ Path(test_block_matrix_derivative(), Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_matrix_derivative : Any → {Any | Matrix(bc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(bc.diff(x)) - A.diff(x) == zeros(3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_matrix_derivative : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e13a910dc9ac7d60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d6a935615161dc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_matrix_derivative","kind":"function","src_hash":"271b815773b87416","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3)"},"spec":{"lhs":"test_block_matrix_derivative()","rhs":"test_block_matrix_derivative produces the expected output","over":{"base":"Any"},"name":"test_block_matrix_derivative_correct"},"guarantee":"test_block_matrix_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_matrix_derivative_correct","statement":"Path(test_block_matrix_derivative(x), test_block_matrix_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e13a910dc9ac7d60"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_matrix_derivative","kind":"function","src_hash":"271b815773b87416","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3)"},"spec":{"lhs":"test_block_matrix_derivative()","rhs":"Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3)","over":{"base":"Any"},"name":"test_block_matrix_derivative_correct"},"guarantee":"Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_block_matrix_derivative_correct","statement":"Path(test_block_matrix_derivative(x), Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d6a935615161dc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(bc.diff(x)) - A.diff(x) == zeros(3, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_block_matrix_derivative():
     x = symbols('x')
     A = Matrix(3, 3, [Function(f'a{i}')(x) for i in range(9)])
@@ -834,16 +1046,24 @@ def test_block_matrix_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transpose_inverse_commute(), test_transpose_inverse_commute produces the expected output) over Any ║
+# ║ Path(test_transpose_inverse_commute(), block_collapse(A.transpose().inverse()) == A and block_collapse(A.inverse().transpose()) == A and block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2) and block_collapse(MatPow(A, -2).transpose()) == MatPow(A, -2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transpose_inverse_commute : Any → {Any | block_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  block_collapse(A.transpose().inverse()) == A   ║
+# ║   ensures:  block_collapse(A.inverse().transpose()) == A   ║
+# ║   ensures:  block_collapse(MatPow(A.transpose(), -2))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transpose_inverse_commute : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87029f2eacb0bc55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c92b22e3ed10c9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_transpose_inverse_commute","kind":"function","src_hash":"01acbb135ad57858","in":{"base":"Any"},"out":{"base":"Any","pred":"block_collapse(A.transpose().inverse()) == A and block_collapse(A.inverse().transpose()) == A and block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2) and block_collapse(MatPow(A, -2).transpose()) == MatPow(A, -2)"},"spec":{"lhs":"test_transpose_inverse_commute()","rhs":"test_transpose_inverse_commute produces the expected output","over":{"base":"Any"},"name":"test_transpose_inverse_commute_correct"},"guarantee":"test_transpose_inverse_commute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_transpose_inverse_commute_correct","statement":"Path(test_transpose_inverse_commute(x), test_transpose_inverse_commute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87029f2eacb0bc55"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_blockmatrix.test_transpose_inverse_commute","kind":"function","src_hash":"01acbb135ad57858","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: block_collapse(A.transpose().inverse()) == A and block_collapse(A.inverse().transpose()) == A and block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2) and block_collapse(MatPow(A, -2).transpose()) == MatPow(A, -2)"},"spec":{"lhs":"test_transpose_inverse_commute()","rhs":"block_collapse(A.transpose().inverse()) == A and block_collapse(A.inverse().transpose()) == A and block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2) and block_collapse(MatPow(A, -2).transpose()) == MatPow(A, -2)","over":{"base":"Any"},"name":"test_transpose_inverse_commute_correct"},"guarantee":"block_collapse(A.transpose().inverse()) == A; block_collapse(A.inverse().transpose()) == A; block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_blockmatrix.test_transpose_inverse_commute_correct","statement":"Path(test_transpose_inverse_commute(x), block_collapse(A.transpose().inverse()) == A; block_collapse(A.inverse().transpose()) == A; block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c92b22e3ed10c9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["block_collapse(A.transpose().inverse()) == A","block_collapse(A.inverse().transpose()) == A","block_collapse(MatPow(A.transpose(), -2)) == MatPow(A, -2)","block_collapse(MatPow(A, -2).transpose()) == MatPow(A, -2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_transpose_inverse_commute():
     n = Symbol('n')
     I = Identity(n)

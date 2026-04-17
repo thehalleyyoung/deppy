@@ -18,16 +18,22 @@
 """Geometry Errors."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GeometryError(), correctly constructs a GeometryError instance) over Any ║
+# ║ Path(GeometryError(), isinstance(self, ValueError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeometryError : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ValueError)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeometryError : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45760af5701571a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.exceptions.GeometryError","kind":"class","src_hash":"1328056248cd9f59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeometryError()","rhs":"correctly constructs a GeometryError instance","over":{"base":"Any"},"name":"GeometryError_correct"},"guarantee":"correctly constructs a GeometryError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45760af5701571a5"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.exceptions.GeometryError","kind":"class","src_hash":"1328056248cd9f59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ValueError)"},"spec":{"lhs":"GeometryError()","rhs":"isinstance(self, ValueError)","over":{"base":"Any"},"name":"GeometryError_correct"},"guarantee":"isinstance(self, ValueError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45760af5701571a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ValueError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function GeometryError not found in source"]}}
 class GeometryError(ValueError):
     """An exception raised by classes in the geometry module."""
     pass

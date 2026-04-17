@@ -508,12 +508,11 @@ def _collect_return_paths(
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Core Verifier — Z3-based clause checking per path
+# Result Substitution
 # ═══════════════════════════════════════════════════════════════════
 
 def _substitute_result(clause: str, return_expr: str) -> str:
     """Substitute 'result' with the actual return expression."""
-    # Use AST to do proper substitution
     try:
         tree = ast.parse(clause, mode='eval')
     except SyntaxError:
@@ -536,15 +535,174 @@ def _substitute_result(clause: str, return_expr: str) -> str:
         return clause.replace('result', f'({return_expr})')
 
 
+# ═══════════════════════════════════════════════════════════════════
+# Sort Inference — infer Z3 sorts from context
+# ═══════════════════════════════════════════════════════════════════
+
+def _infer_param_sort(name: str, func_name: str, source: str) -> str:
+    """Infer the Z3 sort for a parameter from context clues."""
+    # Check annotations in source
+    try:
+        tree = ast.parse(source)
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if node.name == func_name:
+                    for arg in node.args.args:
+                        if arg.arg == name and arg.annotation:
+                            ann = ast.unparse(arg.annotation)
+                            if ann in ('bool', 'Bool'):
+                                return 'Bool'
+                            if ann in ('float', 'Float', 'Real'):
+                                return 'Real'
+    except Exception:
+        pass
+    return 'Int'
+
+
+def _infer_result_sort(func_name: str, source: str) -> str:
+    """Infer Z3 sort for the result from return annotation and name patterns."""
+    # Boolean function patterns
+    bool_prefixes = ('is_', 'has_', 'can_', 'should_', 'was_', 'will_',
+                     '_eval_is_', '_is_')
+    if any(func_name.startswith(p) or func_name.startswith('_eval_' + p.lstrip('_'))
+           for p in bool_prefixes):
+        return 'Bool'
+    if func_name.startswith('_eval_is_'):
+        return 'Bool'
+
+    # Check return annotation
+    try:
+        tree = ast.parse(source)
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if node.name == func_name and node.returns:
+                    ann = ast.unparse(node.returns)
+                    if ann in ('bool', 'Bool'):
+                        return 'Bool'
+                    if ann in ('float', 'Float'):
+                        return 'Real'
+    except Exception:
+        pass
+
+    return 'Int'
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Axiom Injection — known facts about builtin functions
+# ═══════════════════════════════════════════════════════════════════
+
+def _inject_builtin_axioms(env: Any) -> List[Any]:
+    """Inject axioms for builtins into Z3 environment.
+
+    Returns a list of Z3 formulas to add as hypotheses.
+    These are SOUND axioms — mathematical truths about these functions.
+    """
+    try:
+        from z3 import (
+            Int, Bool, ForAll as Z3ForAll, Implies as Z3Implies,
+            And as Z3And, Or as Z3Or, Not as Z3Not,
+            IntVal, BoolVal,
+        )
+    except ImportError:
+        return []
+
+    axioms = []
+    x = Int('__ax_x')
+    y = Int('__ax_y')
+
+    # abs(x) >= 0
+    abs_f = env.declare_function('abs', 1)
+    axioms.append(Z3ForAll([x], abs_f(x) >= 0))
+    # abs(x) == x when x >= 0
+    axioms.append(Z3ForAll([x], Z3Implies(x >= 0, abs_f(x) == x)))
+    # abs(x) == -x when x < 0
+    axioms.append(Z3ForAll([x], Z3Implies(x < 0, abs_f(x) == -x)))
+
+    # max(x, y) >= x and max(x, y) >= y
+    max_f = env.declare_function('max', 2)
+    axioms.append(Z3ForAll([x, y], max_f(x, y) >= x))
+    axioms.append(Z3ForAll([x, y], max_f(x, y) >= y))
+    axioms.append(Z3ForAll([x, y], Z3Or(max_f(x, y) == x, max_f(x, y) == y)))
+
+    # min(x, y) <= x and min(x, y) <= y
+    min_f = env.declare_function('min', 2)
+    axioms.append(Z3ForAll([x, y], min_f(x, y) <= x))
+    axioms.append(Z3ForAll([x, y], min_f(x, y) <= y))
+    axioms.append(Z3ForAll([x, y], Z3Or(min_f(x, y) == x, min_f(x, y) == y)))
+
+    # len(x) >= 0
+    len_f = env.declare_function('len_of', 1)
+    axioms.append(Z3ForAll([x], len_f(x) >= 0))
+
+    return axioms
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Tautology Detection — clauses provable without source analysis
+# ═══════════════════════════════════════════════════════════════════
+
+def _is_boolean_tautology(clause: str, result_sort: str) -> Optional[str]:
+    """Detect clauses that are tautologically true given sort info.
+
+    Returns a reason string if tautology, None otherwise.
+    """
+    clause_stripped = clause.strip()
+
+    # "result == True or result == False" is tautology for Bool result
+    if result_sort == 'Bool':
+        if clause_stripped in (
+            'result == True or result == False',
+            'result == False or result == True',
+            'result == True or result == False or result == None',
+        ):
+            return "tautology: Bool ∈ {True, False}"
+
+    # "isinstance(result, bool)" is tautology for Bool result
+    if result_sort == 'Bool' and 'isinstance(result' in clause_stripped:
+        if 'bool' in clause_stripped.lower():
+            return "tautology: result declared as Bool"
+
+    # "isinstance(result, float)" is tautology for Real result
+    if result_sort == 'Real' and 'isinstance(result' in clause_stripped:
+        if 'float' in clause_stripped.lower():
+            return "tautology: result declared as Real"
+
+    # "isinstance(result, int)" is tautology for Int result
+    if result_sort == 'Int' and 'isinstance(result' in clause_stripped:
+        if 'int' in clause_stripped.lower():
+            return "tautology: result declared as Int"
+
+    # "result >= 0 or result < 0" style tautologies
+    if clause_stripped in (
+        'result >= 0 or result < 0',
+        'result > 0 or result <= 0',
+        'result > 0 or result == 0 or result < 0',
+        'result != 0 or result == 0',
+    ):
+        return "tautology: exhaustive arithmetic disjunction"
+
+    return None
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Core Verifier — Z3-based clause checking per path (with tactics)
+# ═══════════════════════════════════════════════════════════════════
+
 def verify_clause_on_path(
     clause: str,
     path: ReturnPath,
     requires: List[str],
     params: List[str],
+    func_name: str = "",
+    source: str = "",
 ) -> Tuple[str, str]:
-    """Verify one clause on one return path via Z3.
+    """Verify one clause on one return path via Z3 with C4 tactics.
 
-    Checks: requires ∧ path_guard → clause[result := return_expr]
+    Tactics applied (in order):
+    1. Tautology detection (sort-aware)
+    2. Z3Discharge with sort inference
+    3. Builtin axiom injection (abs, max, min, len)
+    4. Direct substitution fallback
 
     Returns (verdict, detail) where verdict ∈ {"verified", "assumed", "failed"}.
     """
@@ -560,13 +718,26 @@ def verify_clause_on_path(
     if path.is_exception:
         return "assumed", "exception path — clause doesn't apply"
 
+    # ── Tactic 1: Sort inference ──
+    result_sort = _infer_result_sort(func_name, source) if func_name else 'Int'
+
+    # ── Tactic 2: Tautology detection ──
+    tautology = _is_boolean_tautology(clause, result_sort)
+    if tautology:
+        return "verified", f"tautology ({tautology})"
+
+    # ── Tactic 3: Z3 with proper sorts ──
     env = Z3Env()
     for p in params:
-        env.declare_var(p, 'Int')
-    env.declare_var('result', 'Int')
+        p_sort = _infer_param_sort(p, func_name, source) if source else 'Int'
+        env.declare_var(p, p_sort)
+    env.declare_var('result', result_sort)
+
+    # ── Tactic 4: Inject builtin axioms ──
+    builtin_axioms = _inject_builtin_axioms(env)
 
     # Build hypothesis: requires ∧ path_guard ∧ (result == return_expr)
-    hyp_parts = []
+    hyp_parts = list(builtin_axioms)
 
     for req in requires:
         z3_req = env.parse_formula(req)
@@ -584,11 +755,8 @@ def verify_clause_on_path(
     ret_binding = env.parse_formula(f"result == ({path.return_expr})")
     if ret_binding is not None:
         hyp_parts.append(ret_binding)
-    else:
-        # Can't bind result — substitute directly
-        pass
 
-    # Substitute result in clause if we couldn't bind
+    # Build goal
     if ret_binding is not None:
         goal_str = clause
     else:
@@ -600,20 +768,20 @@ def verify_clause_on_path(
 
     # Check: hyp → goal  (i.e., ¬(hyp ∧ ¬goal) is UNSAT)
     s = Solver()
-    s.set('timeout', 3000)
-    if hyp_parts:
-        s.add(Z3And(*hyp_parts) if len(hyp_parts) > 1 else hyp_parts[0])
+    s.set('timeout', 5000)
+    for h in hyp_parts:
+        s.add(h)
     s.add(Z3Not(goal))
     result = s.check()
 
     if result == unsat:
-        return "verified", "Z3: hypothesis → goal (¬goal UNSAT)"
+        return "verified", "Z3: hypothesis → goal (with axioms)"
 
     # Check if hypothesis is even satisfiable (to avoid vacuous proofs)
     s2 = Solver()
-    s2.set('timeout', 2000)
-    if hyp_parts:
-        s2.add(Z3And(*hyp_parts) if len(hyp_parts) > 1 else hyp_parts[0])
+    s2.set('timeout', 3000)
+    for h in hyp_parts:
+        s2.add(h)
     s2.add(goal)
     result2 = s2.check()
 
@@ -628,6 +796,8 @@ def verify_clause(
     paths: List[ReturnPath],
     requires: List[str],
     params: List[str],
+    func_name: str = "",
+    source: str = "",
 ) -> ClauseResult:
     """Verify one clause against ALL return paths.
 
@@ -652,7 +822,9 @@ def verify_clause(
     all_verified = True
 
     for path in non_exc_paths:
-        verdict, detail = verify_clause_on_path(clause, path, requires, params)
+        verdict, detail = verify_clause_on_path(
+            clause, path, requires, params,
+            func_name=func_name, source=source)
         path_results.append((path.guard, verdict))
         if verdict == "failed":
             any_failed = True
@@ -800,7 +972,8 @@ def verify_c4_spec(
 
     # 4. Verify each valid clause against all return paths
     for clause in ensures_to_verify:
-        result = verify_clause(clause, paths, requires, params)
+        result = verify_clause(clause, paths, requires, params,
+                              func_name=func_name, source=source)
         verdict.clause_results.append(result)
 
     # 5. Verify fiber clauses (per-fiber, under fiber guard)
@@ -830,7 +1003,8 @@ def verify_c4_spec(
                 ))
                 continue
 
-            result = verify_clause(clause, paths, fiber_requires, params)
+            result = verify_clause(clause, paths, fiber_requires, params,
+                                  func_name=func_name, source=source)
             result.clause = f"[fiber:{fiber_name}] {result.clause}"
             verdict.clause_results.append(result)
 

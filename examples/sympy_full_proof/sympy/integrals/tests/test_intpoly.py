@@ -36,16 +36,24 @@ from sympy.testing.pytest import slow
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decompose(), test_decompose produces the expected output) over Any ║
+# ║ Path(test_decompose(), decompose(x) == {1: x} and decompose(x ** 2) == {2: x ** 2} and decompose(x * y) == {2: x * y} and decompose(x + y) == {1: x + y} and decompose(x ** 2 + y) == {1: y, 2: x ** 2} and decompose(8 * x ** 2 + 4 * y + 7) == {0: 7, 1: 4 * y, 2: 8 * x ** 2} and decompose(x ** 2 + 3 * y * x) == {2: x ** 2 + 3 * x * y} and decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3) == {0: 3, 1: 4 * x + y, 2: 9 * x ** 2, 3: x ** 3 + x * y ** 2} and decompose(x, True) == {x} and decompose(x ** 2, True) == {x ** 2} and decompose(x * y, True) == {x * y} and decompose(x + y, True) == {x, y} and decompose(x ** 2 + y, True) == {y, x ** 2} and decompose(8 * x ** 2 + 4 * y + 7, True) == {7, 4 * y, 8 * x ** 2} and decompose(x ** 2 + 3 * y * x, True) == {x ** 2, 3 * x * y} and decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3, True) == {3, y, 4 * x, 9 * x ** 2, x * y ** 2, x ** 3}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decompose : Any → {Any | decompose(x) == {1: x} ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decompose(x) == {1: x}                         ║
+# ║   ensures:  decompose(x ** 2) == {2: x ** 2}               ║
+# ║   ensures:  decompose(x * y) == {2: x * y}                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decompose : Any → {Any | result satisfies: decom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6991d8688402a97f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d4ab50c0b0882c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_decompose","kind":"function","src_hash":"5acc3b90252adabf","in":{"base":"Any"},"out":{"base":"Any","pred":"decompose(x) == {1: x} and decompose(x ** 2) == {2: x ** 2} and decompose(x * y) == {2: x * y} and decompose(x + y) == {1: x + y} and decompose(x ** 2 + y) == {1: y, 2: x ** 2} and decompose(8 * x ** 2 + 4 * y + 7) == {0: 7, 1: 4 * y, 2: 8 * x ** 2} and decompose(x ** 2 + 3 * y * x) == {2: x ** 2 + 3 * x * y} and decompose(x, True) == {x} and decompose(x ** 2, True) == {x ** 2} and decompose(x * y, True) == {x * y} and decompose(x + y, True) == {x, y} and decompose(x ** 2 + y, True) == {y, x ** 2} and decompose(8 * x ** 2 + 4 * y + 7, True) == {7, 4 * y, 8 * x ** 2} and decompose(x ** 2 + 3 * y * x, True) == {x ** 2, 3 * x * y}"},"spec":{"lhs":"test_decompose()","rhs":"test_decompose produces the expected output","over":{"base":"Any"},"name":"test_decompose_correct"},"guarantee":"test_decompose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_decompose_correct","statement":"Path(test_decompose(x), test_decompose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6991d8688402a97f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_decompose","kind":"function","src_hash":"5acc3b90252adabf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decompose(x) == {1: x} and decompose(x ** 2) == {2: x ** 2} and decompose(x * y) == {2: x * y} and decompose(x + y) == {1: x + y} and decompose(x ** 2 + y) == {1: y, 2: x ** 2} and decompose(8 * x ** 2 + 4 * y + 7) == {0: 7, 1: 4 * y, 2: 8 * x ** 2} and decompose(x ** 2 + 3 * y * x) == {2: x ** 2 + 3 * x * y} and decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3) == {0: 3, 1: 4 * x + y, 2: 9 * x ** 2, 3: x ** 3 + x * y ** 2} and decompose(x, True) == {x} and decompose(x ** 2, True) == {x ** 2} and decompose(x * y, True) == {x * y} and decompose(x + y, True) == {x, y} and decompose(x ** 2 + y, True) == {y, x ** 2} and decompose(8 * x ** 2 + 4 * y + 7, True) == {7, 4 * y, 8 * x ** 2} and decompose(x ** 2 + 3 * y * x, True) == {x ** 2, 3 * x * y} and decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3, True) == {3, y, 4 * x, 9 * x ** 2, x * y ** 2, x ** 3}"},"spec":{"lhs":"test_decompose()","rhs":"decompose(x) == {1: x} and decompose(x ** 2) == {2: x ** 2} and decompose(x * y) == {2: x * y} and decompose(x + y) == {1: x + y} and decompose(x ** 2 + y) == {1: y, 2: x ** 2} and decompose(8 * x ** 2 + 4 * y + 7) == {0: 7, 1: 4 * y, 2: 8 * x ** 2} and decompose(x ** 2 + 3 * y * x) == {2: x ** 2 + 3 * x * y} and decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3) == {0: 3, 1: 4 * x + y, 2: 9 * x ** 2, 3: x ** 3 + x * y ** 2} and decompose(x, True) == {x} and decompose(x ** 2, True) == {x ** 2} and decompose(x * y, True) == {x * y} and decompose(x + y, True) == {x, y} and decompose(x ** 2 + y, True) == {y, x ** 2} and decompose(8 * x ** 2 + 4 * y + 7, True) == {7, 4 * y, 8 * x ** 2} and decompose(x ** 2 + 3 * y * x, True) == {x ** 2, 3 * x * y} and decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3, True) == {3, y, 4 * x, 9 * x ** 2, x * y ** 2, x ** 3}","over":{"base":"Any"},"name":"test_decompose_correct"},"guarantee":"decompose(x) == {1: x}; decompose(x ** 2) == {2: x ** 2}; decompose(x * y) == {2: x * y}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_decompose_correct","statement":"Path(test_decompose(x), decompose(x) == {1: x}; decompose(x ** 2) == {2: x ** 2}; decompose(x * y) == {2: x * y})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d4ab50c0b0882c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decompose(x) == {1: x}","decompose(x ** 2) == {2: x ** 2}","decompose(x * y) == {2: x * y}","decompose(x + y) == {1: x + y}","decompose(x ** 2 + y) == {1: y, 2: x ** 2}","decompose(8 * x ** 2 + 4 * y + 7) == {0: 7, 1: 4 * y, 2: 8 * x ** 2}","decompose(x ** 2 + 3 * y * x) == {2: x ** 2 + 3 * x * y}","decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3) == {0: 3, 1: 4 * x + y, 2: 9 * x ** 2, 3: x ** 3 + x * y ** 2}","decompose(x, True) == {x}","decompose(x ** 2, True) == {x ** 2}","decompose(x * y, True) == {x * y}","decompose(x + y, True) == {x, y}","decompose(x ** 2 + y, True) == {y, x ** 2}","decompose(8 * x ** 2 + 4 * y + 7, True) == {7, 4 * y, 8 * x ** 2}","decompose(x ** 2 + 3 * y * x, True) == {x ** 2, 3 * x * y}","decompose(9 * x ** 2 + y + 4 * x + x ** 3 + y ** 2 * x + 3, True) == {3, y, 4 * x, 9 * x ** 2, x * y ** 2, x ** 3}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_decompose():
     assert decompose(x) == {1: x}
     assert decompose(x**2) == {2: x**2}
@@ -69,16 +77,24 @@ def test_decompose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_best_origin(), test_best_origin produces the expected output) over Any ║
+# ║ Path(test_best_origin(), best_origin((2, 1), 3, l1, expr1) == (0, 3) and best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0) and best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5) and best_origin((1, 1), 2, l4, x ** 7 * y ** 3) == (0, 2) and best_origin((1, 1), 2, l4, x ** 3 * y ** 7) == (2, 0) and best_origin((1, 1), 2, l5, x ** 2 * y ** 9) == (0, 2) and best_origin((1, 1), 2, l6, x ** 9 * y ** 2) == (2, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_best_origin : Any → {Any | best_origin((2, 1), 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  best_origin((2, 1), 3, l1, expr1) == (0, 3)    ║
+# ║   ensures:  best_origin((2, 0), 3, l2, x ** 7) == (1....   ║
+# ║   ensures:  best_origin((0, 2), 3, l3, x ** 7) == (0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_best_origin : Any → {Any | result satisfies: bes...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd16bc3e1b7a2209  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7a5cdb45b30db35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_best_origin","kind":"function","src_hash":"927045fef9fbc040","in":{"base":"Any"},"out":{"base":"Any","pred":"best_origin((2, 1), 3, l1, expr1) == (0, 3) and best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0) and best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5) and best_origin((1, 1), 2, l4, x ** 7 * y ** 3) == (0, 2) and best_origin((1, 1), 2, l4, x ** 3 * y ** 7) == (2, 0) and best_origin((1, 1), 2, l5, x ** 2 * y ** 9) == (0, 2) and best_origin((1, 1), 2, l6, x ** 9 * y ** 2) == (2, 0)"},"spec":{"lhs":"test_best_origin()","rhs":"test_best_origin produces the expected output","over":{"base":"Any"},"name":"test_best_origin_correct"},"guarantee":"test_best_origin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_best_origin_correct","statement":"Path(test_best_origin(x), test_best_origin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd16bc3e1b7a2209"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_best_origin","kind":"function","src_hash":"927045fef9fbc040","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: best_origin((2, 1), 3, l1, expr1) == (0, 3) and best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0) and best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5) and best_origin((1, 1), 2, l4, x ** 7 * y ** 3) == (0, 2) and best_origin((1, 1), 2, l4, x ** 3 * y ** 7) == (2, 0) and best_origin((1, 1), 2, l5, x ** 2 * y ** 9) == (0, 2) and best_origin((1, 1), 2, l6, x ** 9 * y ** 2) == (2, 0)"},"spec":{"lhs":"test_best_origin()","rhs":"best_origin((2, 1), 3, l1, expr1) == (0, 3) and best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0) and best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5) and best_origin((1, 1), 2, l4, x ** 7 * y ** 3) == (0, 2) and best_origin((1, 1), 2, l4, x ** 3 * y ** 7) == (2, 0) and best_origin((1, 1), 2, l5, x ** 2 * y ** 9) == (0, 2) and best_origin((1, 1), 2, l6, x ** 9 * y ** 2) == (2, 0)","over":{"base":"Any"},"name":"test_best_origin_correct"},"guarantee":"best_origin((2, 1), 3, l1, expr1) == (0, 3); best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0); best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_best_origin_correct","statement":"Path(test_best_origin(x), best_origin((2, 1), 3, l1, expr1) == (0, 3); best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0); best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7a5cdb45b30db35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["best_origin((2, 1), 3, l1, expr1) == (0, 3)","best_origin((2, 0), 3, l2, x ** 7) == (1.5, 0)","best_origin((0, 2), 3, l3, x ** 7) == (0, 1.5)","best_origin((1, 1), 2, l4, x ** 7 * y ** 3) == (0, 2)","best_origin((1, 1), 2, l4, x ** 3 * y ** 7) == (2, 0)","best_origin((1, 1), 2, l5, x ** 2 * y ** 9) == (0, 2)","best_origin((1, 1), 2, l6, x ** 9 * y ** 2) == (2, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_best_origin():
     expr1 = y ** 2 * x ** 5 + y ** 5 * x ** 7 + 7 * x + x ** 12 + y ** 7 * x
 
@@ -102,16 +118,24 @@ def test_best_origin():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polytope_integrate(), test_polytope_integrate produces the expected output) over Any ║
+# ║ Path(test_polytope_integrate(), polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4 and polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), x * y) == Rational(1, 4) and polytope_integrate(Polygon(Point(0, 3), Point(5, 3), Point(1, 1)), 6 * x ** 2 - 40 * y) == Rational(-935, 3) and polytope_integrate(Polygon(Point(0, 0), Point(0, sqrt(3)), Point(sqrt(3), sqrt(3)), Point(sqrt(3), 0)), 1) == 3 and polytope_integrate(hexagon, 1) == S(3 * sqrt(3)) / 2 and polytope_integrate([((-1, 0), 0), ((1, 2), 4), ((0, -1), 0)], 1) == 4 and polytope_integrate([((-1, 0), 0), ((0, 1), 1), ((1, 0), 1), ((0, -1), 0)], x * y) == Rational(1, 4) and polytope_integrate([((0, 1), 3), ((1, -2), -1), ((-2, -1), -3)], 6 * x ** 2 - 40 * y) == Rational(-935, 3) and polytope_integrate([((-1, 0), 0), ((0, sqrt(3)), 3), ((sqrt(3), 0), 3), ((0, -1), 0)], 1) == 3 and polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(1, 1), Point(0, 0), Point(1, -1)), 1) == 3 and polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(0, 0), Point(1, 1), Point(1, -1), Point(0, 0)), 1) == 2 and polytope_integrate([((-1, 0), 1), ((0, 1), 1), ((1, -1), 0), ((1, 1), 0), ((0, -1), 1)], 1) == 3 and polytope_integrate([((-1, 0), 1), ((1, 1), 0), ((-1, 1), 0), ((1, 0), 1), ((-1, -1), 0), ((1, -1), 0)], 1) == 2 and polytope_integrate(fig1, x ** 2 + x * y + y ** 2) == S(2031627344735367) / (8 * 10 ** 12) and polytope_integrate(fig2, x ** 2 + x * y + y ** 2) == S(517091313866043) / (16 * 10 ** 11) and polytope_integrate(fig3, x ** 2 + x * y + y ** 2) == S(147449361647041) / (8 * 10 ** 12) and polytope_integrate(fig4, x ** 2 + x * y + y ** 2) == S(180742845225803) / 10 ** 12 and result_dict[expr1] == Rational(615780107, 594) and result_dict[expr2] == Rational(13062161, 27) and result_dict[expr3] == Rational(1946257153, 924) and polytope_integrate(tri, polys, max_degree=9) == {x ** 7 * y + 2 * x ** 2 * y ** 6: Rational(489262, 9)} and polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), max_degree=4) == {0: 0, 1: 1, x: S.Half, x ** 2 * y ** 2: S.One / 9, x ** 4: S.One / 5, y ** 4: S.One / 5, y: S.Half, x * y ** 2: S.One / 6, y ** 2: S.One / 3, x ** 3: S.One / 4, x ** 2 * y: S.One / 6, x ** 3 * y: S.One / 8, x * y: S.One / 4, y ** 3: S.One / 4, x ** 2: S.One / 3, x * y ** 3: S.One / 8} and polytope_integrate(cube1, 1) == S(162) and polytope_integrate(cube2, x ** 2 + y ** 2 + x * y + z ** 2) == Rational(15625, 4) and polytope_integrate(cube3, x ** 2 + y ** 2 + x * y + z ** 2) == S(33835) / 12 and polytope_integrate(cube4, x ** 2 + y ** 2 + x * y + z ** 2) == S(37) / 960 and polytope_integrate(octahedron, 1) == sqrt(2) / 3 and Abs(polytope_integrate(great_stellated_dodecahedron, 1) - 0.163118960624632) < 1e-12 and Abs(polytope_integrate(octahedron_five_compound, expr)) - 0.353553 < 1e-06 and Abs(polytope_integrate(cube_five_compound, expr) - 1.25) < 1e-12 and Abs(polytope_integrate(echidnahedron, 1) - 51.4057647468726) < 1e-12 and Abs(polytope_integrate(echidnahedron, expr) - 253.569603474519) < 1e-12 and polytope_integrate(cube2, [x ** 2, y * z], max_degree=2) == {y * z: 3125 / S(4), x ** 2: 3125 / S(3)} and polytope_integrate(cube2, max_degree=2) == {1: 125, x: 625 / S(2), x * z: 3125 / S(4), y: 625 / S(2), y * z: 3125 / S(4), z ** 2: 3125 / S(3), y ** 2: 3125 / S(3), z: 625 / S(2), x * y: 3125 / S(4), x ** 2: 3125 / S(3)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polytope_integrate : Any → {Any | polytope_integ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polytope_integrate(Polygon(Point(0, 0), P...   ║
+# ║   ensures:  polytope_integrate(Polygon(Point(0, 0), P...   ║
+# ║   ensures:  polytope_integrate(Polygon(Point(0, 3), P...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polytope_integrate : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d72562587055878  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 6.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdf0aa666c6cd301  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_polytope_integrate","kind":"function","src_hash":"57cba54eec34c413","in":{"base":"Any"},"out":{"base":"Any","pred":"polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4 and polytope_integrate(hexagon, 1) == S(3 * sqrt(3)) / 2 and polytope_integrate([((-1, 0), 0), ((1, 2), 4), ((0, -1), 0)], 1) == 4 and polytope_integrate(hexagon, 1) == S(3 * sqrt(3)) / 2 and result_dict[expr1] == Rational(615780107, 594) and result_dict[expr2] == Rational(13062161, 27) and result_dict[expr3] == Rational(1946257153, 924) and polytope_integrate(cube1, 1) == S(162) and polytope_integrate(cube3, x ** 2 + y ** 2 + x * y + z ** 2) == S(33835) / 12 and polytope_integrate(cube4, x ** 2 + y ** 2 + x * y + z ** 2) == S(37) / 960 and polytope_integrate(octahedron, 1) == sqrt(2) / 3 and Abs(polytope_integrate(octahedron_five_compound, expr)) - 0.353553 < 1e-06 and Abs(polytope_integrate(cube_five_compound, expr) - 1.25) < 1e-12 and Abs(polytope_integrate(echidnahedron, 1) - 51.4057647468726) < 1e-12 and Abs(polytope_integrate(echidnahedron, expr) - 253.569603474519) < 1e-12"},"spec":{"lhs":"test_polytope_integrate()","rhs":"test_polytope_integrate produces the expected output","over":{"base":"Any"},"name":"test_polytope_integrate_correct"},"guarantee":"test_polytope_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_polytope_integrate_correct","statement":"Path(test_polytope_integrate(x), test_polytope_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d72562587055878"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_polytope_integrate","kind":"function","src_hash":"57cba54eec34c413","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4 and polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), x * y) == Rational(1, 4) and polytope_integrate(Polygon(Point(0, 3), Point(5, 3), Point(1, 1)), 6 * x ** 2 - 40 * y) == Rational(-935, 3) and polytope_integrate(Polygon(Point(0, 0), Point(0, sqrt(3)), Point(sqrt(3), sqrt(3)), Point(sqrt(3), 0)), 1) == 3 and polytope_integrate(hexagon, 1) == S(3 * sqrt(3)) / 2 and polytope_integrate([((-1, 0), 0), ((1, 2), 4), ((0, -1), 0)], 1) == 4 and polytope_integrate([((-1, 0), 0), ((0, 1), 1), ((1, 0), 1), ((0, -1), 0)], x * y) == Rational(1, 4) and polytope_integrate([((0, 1), 3), ((1, -2), -1), ((-2, -1), -3)], 6 * x ** 2 - 40 * y) == Rational(-935, 3) and polytope_integrate([((-1, 0), 0), ((0, sqrt(3)), 3), ((sqrt(3), 0), 3), ((0, -1), 0)], 1) == 3 and polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(1, 1), Point(0, 0), Point(1, -1)), 1) == 3 and polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(0, 0), Point(1, 1), Point(1, -1), Point(0, 0)), 1) == 2 and polytope_integrate([((-1, 0), 1), ((0, 1), 1), ((1, -1), 0), ((1, 1), 0), ((0, -1), 1)], 1) == 3 and polytope_integrate([((-1, 0), 1), ((1, 1), 0), ((-1, 1), 0), ((1, 0), 1), ((-1, -1), 0), ((1, -1), 0)], 1) == 2 and polytope_integrate(fig1, x ** 2 + x * y + y ** 2) == S(2031627344735367) / (8 * 10 ** 12) and polytope_integrate(fig2, x ** 2 + x * y + y ** 2) == S(517091313866043) / (16 * 10 ** 11) and polytope_integrate(fig3, x ** 2 + x * y + y ** 2) == S(147449361647041) / (8 * 10 ** 12) and polytope_integrate(fig4, x ** 2 + x * y + y ** 2) == S(180742845225803) / 10 ** 12 and result_dict[expr1] == Rational(615780107, 594) and result_dict[expr2] == Rational(13062161, 27) and result_dict[expr3] == Rational(1946257153, 924) and polytope_integrate(tri, polys, max_degree=9) == {x ** 7 * y + 2 * x ** 2 * y ** 6: Rational(489262, 9)} and polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), max_degree=4) == {0: 0, 1: 1, x: S.Half, x ** 2 * y ** 2: S.One / 9, x ** 4: S.One / 5, y ** 4: S.One / 5, y: S.Half, x * y ** 2: S.One / 6, y ** 2: S.One / 3, x ** 3: S.One / 4, x ** 2 * y: S.One / 6, x ** 3 * y: S.One / 8, x * y: S.One / 4, y ** 3: S.One / 4, x ** 2: S.One / 3, x * y ** 3: S.One / 8} and polytope_integrate(cube1, 1) == S(162) and polytope_integrate(cube2, x ** 2 + y ** 2 + x * y + z ** 2) == Rational(15625, 4) and polytope_integrate(cube3, x ** 2 + y ** 2 + x * y + z ** 2) == S(33835) / 12 and polytope_integrate(cube4, x ** 2 + y ** 2 + x * y + z ** 2) == S(37) / 960 and polytope_integrate(octahedron, 1) == sqrt(2) / 3 and Abs(polytope_integrate(great_stellated_dodecahedron, 1) - 0.163118960624632) < 1e-12 and Abs(polytope_integrate(octahedron_five_compound, expr)) - 0.353553 < 1e-06 and Abs(polytope_integrate(cube_five_compound, expr) - 1.25) < 1e-12 and Abs(polytope_integrate(echidnahedron, 1) - 51.4057647468726) < 1e-12 and Abs(polytope_integrate(echidnahedron, expr) - 253.569603474519) < 1e-12 and polytope_integrate(cube2, [x ** 2, y * z], max_degree=2) == {y * z: 3125 / S(4), x ** 2: 3125 / S(3)} and polytope_integrate(cube2, max_degree=2) == {1: 125, x: 625 / S(2), x * z: 3125 / S(4), y: 625 / S(2), y * z: 3125 / S(4), z ** 2: 3125 / S(3), y ** 2: 3125 / S(3), z: 625 / S(2), x * y: 3125 / S(4), x ** 2: 3125 / S(3)}"},"spec":{"lhs":"test_polytope_integrate()","rhs":"polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4 and polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), x * y) == Rational(1, 4) and polytope_integrate(Polygon(Point(0, 3), Point(5, 3), Point(1, 1)), 6 * x ** 2 - 40 * y) == Rational(-935, 3) and polytope_integrate(Polygon(Point(0, 0), Point(0, sqrt(3)), Point(sqrt(3), sqrt(3)), Point(sqrt(3), 0)), 1) == 3 and polytope_integrate(hexagon, 1) == S(3 * sqrt(3)) / 2 and polytope_integrate([((-1, 0), 0), ((1, 2), 4), ((0, -1), 0)], 1) == 4 and polytope_integrate([((-1, 0), 0), ((0, 1), 1), ((1, 0), 1), ((0, -1), 0)], x * y) == Rational(1, 4) and polytope_integrate([((0, 1), 3), ((1, -2), -1), ((-2, -1), -3)], 6 * x ** 2 - 40 * y) == Rational(-935, 3) and polytope_integrate([((-1, 0), 0), ((0, sqrt(3)), 3), ((sqrt(3), 0), 3), ((0, -1), 0)], 1) == 3 and polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(1, 1), Point(0, 0), Point(1, -1)), 1) == 3 and polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(0, 0), Point(1, 1), Point(1, -1), Point(0, 0)), 1) == 2 and polytope_integrate([((-1, 0), 1), ((0, 1), 1), ((1, -1), 0), ((1, 1), 0), ((0, -1), 1)], 1) == 3 and polytope_integrate([((-1, 0), 1), ((1, 1), 0), ((-1, 1), 0), ((1, 0), 1), ((-1, -1), 0), ((1, -1), 0)], 1) == 2 and polytope_integrate(fig1, x ** 2 + x * y + y ** 2) == S(2031627344735367) / (8 * 10 ** 12) and polytope_integrate(fig2, x ** 2 + x * y + y ** 2) == S(517091313866043) / (16 * 10 ** 11) and polytope_integrate(fig3, x ** 2 + x * y + y ** 2) == S(147449361647041) / (8 * 10 ** 12) and polytope_integrate(fig4, x ** 2 + x * y + y ** 2) == S(180742845225803) / 10 ** 12 and result_dict[expr1] == Rational(615780107, 594) and result_dict[expr2] == Rational(13062161, 27) and result_dict[expr3] == Rational(1946257153, 924) and polytope_integrate(tri, polys, max_degree=9) == {x ** 7 * y + 2 * x ** 2 * y ** 6: Rational(489262, 9)} and polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), max_degree=4) == {0: 0, 1: 1, x: S.Half, x ** 2 * y ** 2: S.One / 9, x ** 4: S.One / 5, y ** 4: S.One / 5, y: S.Half, x * y ** 2: S.One / 6, y ** 2: S.One / 3, x ** 3: S.One / 4, x ** 2 * y: S.One / 6, x ** 3 * y: S.One / 8, x * y: S.One / 4, y ** 3: S.One / 4, x ** 2: S.One / 3, x * y ** 3: S.One / 8} and polytope_integrate(cube1, 1) == S(162) and polytope_integrate(cube2, x ** 2 + y ** 2 + x * y + z ** 2) == Rational(15625, 4) and polytope_integrate(cube3, x ** 2 + y ** 2 + x * y + z ** 2) == S(33835) / 12 and polytope_integrate(cube4, x ** 2 + y ** 2 + x * y + z ** 2) == S(37) / 960 and polytope_integrate(octahedron, 1) == sqrt(2) / 3 and Abs(polytope_integrate(great_stellated_dodecahedron, 1) - 0.163118960624632) < 1e-12 and Abs(polytope_integrate(octahedron_five_compound, expr)) - 0.353553 < 1e-06 and Abs(polytope_integrate(cube_five_compound, expr) - 1.25) < 1e-12 and Abs(polytope_integrate(echidnahedron, 1) - 51.4057647468726) < 1e-12 and Abs(polytope_integrate(echidnahedron, expr) - 253.569603474519) < 1e-12 and polytope_integrate(cube2, [x ** 2, y * z], max_degree=2) == {y * z: 3125 / S(4), x ** 2: 3125 / S(3)} and polytope_integrate(cube2, max_degree=2) == {1: 125, x: 625 / S(2), x * z: 3125 / S(4), y: 625 / S(2), y * z: 3125 / S(4), z ** 2: 3125 / S(3), y ** 2: 3125 / S(3), z: 625 / S(2), x * y: 3125 / S(4), x ** 2: 3125 / S(3)}","over":{"base":"Any"},"name":"test_polytope_integrate_correct"},"guarantee":"polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4; polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), x * y) == Rational(1, 4); polytope_integrate(Polygon(Point(0, 3), Point(5, 3), Point(1, 1)), 6 * x ** 2 - 40 * y) == Rational(-935, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_polytope_integrate_correct","statement":"Path(test_polytope_integrate(x), polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4; polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), x * y) == Rational(1, 4); polytope_integrate(Polygon(Point(0, 3), Point(5, 3), Point(1, 1)), 6 * x ** 2 - 40 * y) == Rational(-935, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdf0aa666c6cd301","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polytope_integrate(Polygon(Point(0, 0), Point(0, 2), Point(4, 0)), 1) == 4","polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), x * y) == Rational(1, 4)","polytope_integrate(Polygon(Point(0, 3), Point(5, 3), Point(1, 1)), 6 * x ** 2 - 40 * y) == Rational(-935, 3)","polytope_integrate(Polygon(Point(0, 0), Point(0, sqrt(3)), Point(sqrt(3), sqrt(3)), Point(sqrt(3), 0)), 1) == 3","polytope_integrate(hexagon, 1) == S(3 * sqrt(3)) / 2","polytope_integrate([((-1, 0), 0), ((1, 2), 4), ((0, -1), 0)], 1) == 4","polytope_integrate([((-1, 0), 0), ((0, 1), 1), ((1, 0), 1), ((0, -1), 0)], x * y) == Rational(1, 4)","polytope_integrate([((0, 1), 3), ((1, -2), -1), ((-2, -1), -3)], 6 * x ** 2 - 40 * y) == Rational(-935, 3)","polytope_integrate([((-1, 0), 0), ((0, sqrt(3)), 3), ((sqrt(3), 0), 3), ((0, -1), 0)], 1) == 3","polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(1, 1), Point(0, 0), Point(1, -1)), 1) == 3","polytope_integrate(Polygon(Point(-1, -1), Point(-1, 1), Point(0, 0), Point(1, 1), Point(1, -1), Point(0, 0)), 1) == 2","polytope_integrate([((-1, 0), 1), ((0, 1), 1), ((1, -1), 0), ((1, 1), 0), ((0, -1), 1)], 1) == 3","polytope_integrate([((-1, 0), 1), ((1, 1), 0), ((-1, 1), 0), ((1, 0), 1), ((-1, -1), 0), ((1, -1), 0)], 1) == 2","polytope_integrate(fig1, x ** 2 + x * y + y ** 2) == S(2031627344735367) / (8 * 10 ** 12)","polytope_integrate(fig2, x ** 2 + x * y + y ** 2) == S(517091313866043) / (16 * 10 ** 11)","polytope_integrate(fig3, x ** 2 + x * y + y ** 2) == S(147449361647041) / (8 * 10 ** 12)","polytope_integrate(fig4, x ** 2 + x * y + y ** 2) == S(180742845225803) / 10 ** 12","result_dict[expr1] == Rational(615780107, 594)","result_dict[expr2] == Rational(13062161, 27)","result_dict[expr3] == Rational(1946257153, 924)","polytope_integrate(tri, polys, max_degree=9) == {x ** 7 * y + 2 * x ** 2 * y ** 6: Rational(489262, 9)}","polytope_integrate(Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0)), max_degree=4) == {0: 0, 1: 1, x: S.Half, x ** 2 * y ** 2: S.One / 9, x ** 4: S.One / 5, y ** 4: S.One / 5, y: S.Half, x * y ** 2: S.One / 6, y ** 2: S.One / 3, x ** 3: S.One / 4, x ** 2 * y: S.One / 6, x ** 3 * y: S.One / 8, x * y: S.One / 4, y ** 3: S.One / 4, x ** 2: S.One / 3, x * y ** 3: S.One / 8}","polytope_integrate(cube1, 1) == S(162)","polytope_integrate(cube2, x ** 2 + y ** 2 + x * y + z ** 2) == Rational(15625, 4)","polytope_integrate(cube3, x ** 2 + y ** 2 + x * y + z ** 2) == S(33835) / 12","polytope_integrate(cube4, x ** 2 + y ** 2 + x * y + z ** 2) == S(37) / 960","polytope_integrate(octahedron, 1) == sqrt(2) / 3","Abs(polytope_integrate(great_stellated_dodecahedron, 1) - 0.163118960624632) < 1e-12","Abs(polytope_integrate(octahedron_five_compound, expr)) - 0.353553 < 1e-06","Abs(polytope_integrate(cube_five_compound, expr) - 1.25) < 1e-12","Abs(polytope_integrate(echidnahedron, 1) - 51.4057647468726) < 1e-12","Abs(polytope_integrate(echidnahedron, expr) - 253.569603474519) < 1e-12","polytope_integrate(cube2, [x ** 2, y * z], max_degree=2) == {y * z: 3125 / S(4), x ** 2: 3125 / S(3)}","polytope_integrate(cube2, max_degree=2) == {1: 125, x: 625 / S(2), x * z: 3125 / S(4), y: 625 / S(2), y * z: 3125 / S(4), z ** 2: 3125 / S(3), y ** 2: 3125 / S(3), z: 625 / S(2), x * y: 3125 / S(4), x ** 2: 3125 / S(3)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.4,"verdict_class":"assumed","binding":true}}
 def test_polytope_integrate():
     #  Convex 2-Polytopes
     #  Vertex representation
@@ -558,16 +582,24 @@ def test_polytope_integrate():
          z: 625 / S(2), x * y: 3125 / S(4), x ** 2: 3125 / S(3)}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_sort(), test_point_sort produces the expected output) over Any ║
+# ║ Path(test_point_sort(), point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)] and polytope_integrate(fig6, x * y) == Rational(-1, 8) and polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_sort : Any → {Any | polytope_integrate(fig...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  point_sort([Point(0, 0), Point(1, 0), Poi...   ║
+# ║   ensures:  polytope_integrate(fig6, x * y) == Ration...   ║
+# ║   ensures:  polytope_integrate(fig6, x * y, clockwise...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_sort : Any → {Any | result satisfies: poin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b794689abb0a48f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5de871b0604b1c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_point_sort","kind":"function","src_hash":"ab6b82917c1661ff","in":{"base":"Any"},"out":{"base":"Any","pred":"polytope_integrate(fig6, x * y) == Rational(-1, 8) and polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8)"},"spec":{"lhs":"test_point_sort()","rhs":"test_point_sort produces the expected output","over":{"base":"Any"},"name":"test_point_sort_correct"},"guarantee":"test_point_sort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_point_sort_correct","statement":"Path(test_point_sort(x), test_point_sort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b794689abb0a48f1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_point_sort","kind":"function","src_hash":"ab6b82917c1661ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)] and polytope_integrate(fig6, x * y) == Rational(-1, 8) and polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8)"},"spec":{"lhs":"test_point_sort()","rhs":"point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)] and polytope_integrate(fig6, x * y) == Rational(-1, 8) and polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8)","over":{"base":"Any"},"name":"test_point_sort_correct"},"guarantee":"point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)]; polytope_integrate(fig6, x * y) == Rational(-1, 8); polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_point_sort_correct","statement":"Path(test_point_sort(x), point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)]; polytope_integrate(fig6, x * y) == Rational(-1, 8); polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5de871b0604b1c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)]","polytope_integrate(fig6, x * y) == Rational(-1, 8)","polytope_integrate(fig6, x * y, clockwise=True) == Rational(1, 8)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_point_sort():
     assert point_sort([Point(0, 0), Point(1, 0), Point(1, 1)]) == \
         [Point2D(1, 1), Point2D(1, 0), Point2D(0, 0)]
@@ -578,16 +610,23 @@ def test_point_sort():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polytopes_intersecting_sides(), test_polytopes_intersecting_sides produces the expected output) over Any ║
+# ║ Path(test_polytopes_intersecting_sides(), polytope_integrate(fig5, x ** 2 + x * y + y ** 2) == S(1633405224899363) / (24 * 10 ** 12) and polytope_integrate(fig6, x ** 2 + x * y + y ** 2) == S(88161333955921) / (3 * 10 ** 12)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polytopes_intersecting_sides : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polytope_integrate(fig5, x ** 2 + x * y +...   ║
+# ║   ensures:  polytope_integrate(fig6, x ** 2 + x * y +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polytopes_intersecting_sides : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f65dc4634f22c55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f19f62e3de2484d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_polytopes_intersecting_sides","kind":"function","src_hash":"8dcfd8887332bdc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_polytopes_intersecting_sides()","rhs":"test_polytopes_intersecting_sides produces the expected output","over":{"base":"Any"},"name":"test_polytopes_intersecting_sides_correct"},"guarantee":"test_polytopes_intersecting_sides produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_polytopes_intersecting_sides_correct","statement":"Path(test_polytopes_intersecting_sides(x), test_polytopes_intersecting_sides produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f65dc4634f22c55"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_polytopes_intersecting_sides","kind":"function","src_hash":"8dcfd8887332bdc9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polytope_integrate(fig5, x ** 2 + x * y + y ** 2) == S(1633405224899363) / (24 * 10 ** 12) and polytope_integrate(fig6, x ** 2 + x * y + y ** 2) == S(88161333955921) / (3 * 10 ** 12)"},"spec":{"lhs":"test_polytopes_intersecting_sides()","rhs":"polytope_integrate(fig5, x ** 2 + x * y + y ** 2) == S(1633405224899363) / (24 * 10 ** 12) and polytope_integrate(fig6, x ** 2 + x * y + y ** 2) == S(88161333955921) / (3 * 10 ** 12)","over":{"base":"Any"},"name":"test_polytopes_intersecting_sides_correct"},"guarantee":"polytope_integrate(fig5, x ** 2 + x * y + y ** 2) == S(1633405224899363) / (24 * 10 ** 12); polytope_integrate(fig6, x ** 2 + x * y + y ** 2) == S(88161333955921) / (3 * 10 ** 12)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_polytopes_intersecting_sides_correct","statement":"Path(test_polytopes_intersecting_sides(x), polytope_integrate(fig5, x ** 2 + x * y + y ** 2) == S(1633405224899363) / (24 * 10 ** 12); polytope_integrate(fig6, x ** 2 + x * y + y ** 2) == S(88161333955921) / (3 * 10 ** 12))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f19f62e3de2484d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polytope_integrate(fig5, x ** 2 + x * y + y ** 2) == S(1633405224899363) / (24 * 10 ** 12)","polytope_integrate(fig6, x ** 2 + x * y + y ** 2) == S(88161333955921) / (3 * 10 ** 12)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polytopes_intersecting_sides():
     fig5 = Polygon(Point(-4.165, -0.832), Point(-3.668, 1.568),
                    Point(-3.266, 1.279), Point(-1.090, -2.080),
@@ -604,16 +643,24 @@ def test_polytopes_intersecting_sides():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_degree(), test_max_degree produces the expected output) over Any ║
+# ║ Path(test_max_degree(), polytope_integrate(polygon, polys, max_degree=3) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)} and polytope_integrate(polygon, polys, max_degree=2) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4)} and polytope_integrate(polygon, polys, max_degree=1) == {1: 1, x: S.Half, y: S.Half}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_degree : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polytope_integrate(polygon, polys, max_de...   ║
+# ║   ensures:  polytope_integrate(polygon, polys, max_de...   ║
+# ║   ensures:  polytope_integrate(polygon, polys, max_de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_degree : Any → {Any | result satisfies: poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16fe1ca0410cccd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2680cc5ba1f82df3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_max_degree","kind":"function","src_hash":"e0ca77c0f996c1c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_max_degree()","rhs":"test_max_degree produces the expected output","over":{"base":"Any"},"name":"test_max_degree_correct"},"guarantee":"test_max_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_max_degree_correct","statement":"Path(test_max_degree(x), test_max_degree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16fe1ca0410cccd9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_max_degree","kind":"function","src_hash":"e0ca77c0f996c1c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polytope_integrate(polygon, polys, max_degree=3) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)} and polytope_integrate(polygon, polys, max_degree=2) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4)} and polytope_integrate(polygon, polys, max_degree=1) == {1: 1, x: S.Half, y: S.Half}"},"spec":{"lhs":"test_max_degree()","rhs":"polytope_integrate(polygon, polys, max_degree=3) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)} and polytope_integrate(polygon, polys, max_degree=2) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4)} and polytope_integrate(polygon, polys, max_degree=1) == {1: 1, x: S.Half, y: S.Half}","over":{"base":"Any"},"name":"test_max_degree_correct"},"guarantee":"polytope_integrate(polygon, polys, max_degree=3) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)}; polytope_integrate(polygon, polys, max_degree=2) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4)}; polytope_integrate(polygon, polys, max_degree=1) == {1: 1, x: S.Half, y: S.Half}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_max_degree_correct","statement":"Path(test_max_degree(x), polytope_integrate(polygon, polys, max_degree=3) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)}; polytope_integrate(polygon, polys, max_degree=2) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4)}; polytope_integrate(polygon, polys, max_degree=1) == {1: 1, x: S.Half, y: S.Half})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2680cc5ba1f82df3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polytope_integrate(polygon, polys, max_degree=3) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)}","polytope_integrate(polygon, polys, max_degree=2) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4)}","polytope_integrate(polygon, polys, max_degree=1) == {1: 1, x: S.Half, y: S.Half}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_max_degree():
     polygon = Polygon((0, 0), (0, 1), (1, 1), (1, 0))
     polys = [1, x, y, x*y, x**2*y, x*y**2]
@@ -626,16 +673,23 @@ def test_max_degree():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_main_integrate3d(), test_main_integrate3d produces the expected output) over Any ║
+# ║ Path(test_main_integrate3d(), main_integrate3d(1, faces, vertices, hp_params) == -125 and main_integrate3d(1, faces, vertices, hp_params, max_degree=1) == {1: -125, y: Rational(-625, 2), z: Rational(-625, 2), x: Rational(-625, 2)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_main_integrate3d : Any → {Any | main_integrate3d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  main_integrate3d(1, faces, vertices, hp_p...   ║
+# ║   ensures:  main_integrate3d(1, faces, vertices, hp_p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_main_integrate3d : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c0541cf7739af29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d19a0324ac532f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_main_integrate3d","kind":"function","src_hash":"05730bcdb017513c","in":{"base":"Any"},"out":{"base":"Any","pred":"main_integrate3d(1, faces, vertices, hp_params) == -125"},"spec":{"lhs":"test_main_integrate3d()","rhs":"test_main_integrate3d produces the expected output","over":{"base":"Any"},"name":"test_main_integrate3d_correct"},"guarantee":"test_main_integrate3d produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_main_integrate3d_correct","statement":"Path(test_main_integrate3d(x), test_main_integrate3d produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c0541cf7739af29"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_main_integrate3d","kind":"function","src_hash":"05730bcdb017513c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: main_integrate3d(1, faces, vertices, hp_params) == -125 and main_integrate3d(1, faces, vertices, hp_params, max_degree=1) == {1: -125, y: Rational(-625, 2), z: Rational(-625, 2), x: Rational(-625, 2)}"},"spec":{"lhs":"test_main_integrate3d()","rhs":"main_integrate3d(1, faces, vertices, hp_params) == -125 and main_integrate3d(1, faces, vertices, hp_params, max_degree=1) == {1: -125, y: Rational(-625, 2), z: Rational(-625, 2), x: Rational(-625, 2)}","over":{"base":"Any"},"name":"test_main_integrate3d_correct"},"guarantee":"main_integrate3d(1, faces, vertices, hp_params) == -125; main_integrate3d(1, faces, vertices, hp_params, max_degree=1) == {1: -125, y: Rational(-625, 2), z: Rational(-625, 2), x: Rational(-625, 2)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_main_integrate3d_correct","statement":"Path(test_main_integrate3d(x), main_integrate3d(1, faces, vertices, hp_params) == -125; main_integrate3d(1, faces, vertices, hp_params, max_degree=1) == {1: -125, y: Rational(-625, 2), z: Rational(-625, 2), x: Rational(-625, 2)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d19a0324ac532f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["main_integrate3d(1, faces, vertices, hp_params) == -125","main_integrate3d(1, faces, vertices, hp_params, max_degree=1) == {1: -125, y: Rational(-625, 2), z: Rational(-625, 2), x: Rational(-625, 2)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_main_integrate3d():
     cube = [[(0, 0, 0), (0, 0, 5), (0, 5, 0), (0, 5, 5), (5, 0, 0),\
              (5, 0, 5), (5, 5, 0), (5, 5, 5)],\
@@ -650,16 +704,23 @@ def test_main_integrate3d():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_main_integrate(), test_main_integrate produces the expected output) over Any ║
+# ║ Path(test_main_integrate(), main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6) and main_integrate(x ** 2 + y ** 2, facets, hp_params, max_degree=1) == {0: 0, 1: 5, y: Rational(35, 3), x: 10}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_main_integrate : Any → {Any | main_integrate(x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  main_integrate(x ** 2 + y ** 2, facets, h...   ║
+# ║   ensures:  main_integrate(x ** 2 + y ** 2, facets, h...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_main_integrate : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6ed96cad8e052b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81210c4a5d0795bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_main_integrate","kind":"function","src_hash":"02986c70c3c0eae4","in":{"base":"Any"},"out":{"base":"Any","pred":"main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6)"},"spec":{"lhs":"test_main_integrate()","rhs":"test_main_integrate produces the expected output","over":{"base":"Any"},"name":"test_main_integrate_correct"},"guarantee":"test_main_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_main_integrate_correct","statement":"Path(test_main_integrate(x), test_main_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6ed96cad8e052b0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_main_integrate","kind":"function","src_hash":"02986c70c3c0eae4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6) and main_integrate(x ** 2 + y ** 2, facets, hp_params, max_degree=1) == {0: 0, 1: 5, y: Rational(35, 3), x: 10}"},"spec":{"lhs":"test_main_integrate()","rhs":"main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6) and main_integrate(x ** 2 + y ** 2, facets, hp_params, max_degree=1) == {0: 0, 1: 5, y: Rational(35, 3), x: 10}","over":{"base":"Any"},"name":"test_main_integrate_correct"},"guarantee":"main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6); main_integrate(x ** 2 + y ** 2, facets, hp_params, max_degree=1) == {0: 0, 1: 5, y: Rational(35, 3), x: 10}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_main_integrate_correct","statement":"Path(test_main_integrate(x), main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6); main_integrate(x ** 2 + y ** 2, facets, hp_params, max_degree=1) == {0: 0, 1: 5, y: Rational(35, 3), x: 10})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81210c4a5d0795bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["main_integrate(x ** 2 + y ** 2, facets, hp_params) == Rational(325, 6)","main_integrate(x ** 2 + y ** 2, facets, hp_params, max_degree=1) == {0: 0, 1: 5, y: Rational(35, 3), x: 10}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_main_integrate():
     triangle = Polygon((0, 3), (5, 3), (1, 1))
     facets = triangle.sides
@@ -670,16 +731,22 @@ def test_main_integrate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polygon_integrate(), test_polygon_integrate produces the expected output) over Any ║
+# ║ Path(test_polygon_integrate(), polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polygon_integrate : Any → {Any | polygon_integra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polygon_integrate(facet, [(0, 1, 0), 5], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polygon_integrate : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c069ed789bac44c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | def8c0151434027c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_polygon_integrate","kind":"function","src_hash":"bbdbbd7acbc8e7b1","in":{"base":"Any"},"out":{"base":"Any","pred":"polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25"},"spec":{"lhs":"test_polygon_integrate()","rhs":"test_polygon_integrate produces the expected output","over":{"base":"Any"},"name":"test_polygon_integrate_correct"},"guarantee":"test_polygon_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_polygon_integrate_correct","statement":"Path(test_polygon_integrate(x), test_polygon_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c069ed789bac44c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_polygon_integrate","kind":"function","src_hash":"bbdbbd7acbc8e7b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25"},"spec":{"lhs":"test_polygon_integrate()","rhs":"polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25","over":{"base":"Any"},"name":"test_polygon_integrate_correct"},"guarantee":"polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_polygon_integrate_correct","statement":"Path(test_polygon_integrate(x), polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"def8c0151434027c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polygon_integrate(facet, [(0, 1, 0), 5], 0, facets, vertices, 1, 0) == -25"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polygon_integrate():
     cube = [[(0, 0, 0), (0, 0, 5), (0, 5, 0), (0, 5, 5), (5, 0, 0),\
              (5, 0, 5), (5, 5, 0), (5, 5, 5)],\
@@ -692,32 +759,45 @@ def test_polygon_integrate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_distance_to_side(), test_distance_to_side produces the expected output) over Any ║
+# ║ Path(test_distance_to_side(), distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_distance_to_side : Any → {Any | distance_to_side...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  distance_to_side(point, [(0, 0, 1), (0, 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_distance_to_side : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5e304209c678443  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27c5ca3ce49a9765  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_distance_to_side","kind":"function","src_hash":"65004799be2bd84c","in":{"base":"Any"},"out":{"base":"Any","pred":"distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2"},"spec":{"lhs":"test_distance_to_side()","rhs":"test_distance_to_side produces the expected output","over":{"base":"Any"},"name":"test_distance_to_side_correct"},"guarantee":"test_distance_to_side produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_distance_to_side_correct","statement":"Path(test_distance_to_side(x), test_distance_to_side produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5e304209c678443"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_distance_to_side","kind":"function","src_hash":"65004799be2bd84c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2"},"spec":{"lhs":"test_distance_to_side()","rhs":"distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2","over":{"base":"Any"},"name":"test_distance_to_side_correct"},"guarantee":"distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_distance_to_side_correct","statement":"Path(test_distance_to_side(x), distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27c5ca3ce49a9765","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_distance_to_side():
     point = (0, 0, 0)
     assert distance_to_side(point, [(0, 0, 1), (0, 1, 0)], (1, 0, 0)) == -sqrt(2)/2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lineseg_integrate(), test_lineseg_integrate produces the expected output) over Any ║
+# ║ Path(test_lineseg_integrate(), lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5 and lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lineseg_integrate : Any → {Any | lineseg_integra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lineseg_integrate(polygon, 0, line_seg, 1...   ║
+# ║   ensures:  lineseg_integrate(polygon, 0, line_seg, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lineseg_integrate : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e063032c9dcae70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98c31ee5b18ac6d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_lineseg_integrate","kind":"function","src_hash":"d7d2e0af239e667e","in":{"base":"Any"},"out":{"base":"Any","pred":"lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5 and lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0"},"spec":{"lhs":"test_lineseg_integrate()","rhs":"test_lineseg_integrate produces the expected output","over":{"base":"Any"},"name":"test_lineseg_integrate_correct"},"guarantee":"test_lineseg_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_lineseg_integrate_correct","statement":"Path(test_lineseg_integrate(x), test_lineseg_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e063032c9dcae70"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_lineseg_integrate","kind":"function","src_hash":"d7d2e0af239e667e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5 and lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0"},"spec":{"lhs":"test_lineseg_integrate()","rhs":"lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5 and lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0","over":{"base":"Any"},"name":"test_lineseg_integrate_correct"},"guarantee":"lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5; lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_lineseg_integrate_correct","statement":"Path(test_lineseg_integrate(x), lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5; lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98c31ee5b18ac6d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lineseg_integrate(polygon, 0, line_seg, 1, 0) == 5","lineseg_integrate(polygon, 0, line_seg, 0, 0) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lineseg_integrate():
     polygon = [(0, 5, 0), (5, 5, 0), (5, 5, 5), (0, 5, 5)]
     line_seg = [(0, 5, 0), (5, 5, 0)]
@@ -726,16 +806,23 @@ def test_lineseg_integrate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integration_reduction(), test_integration_reduction produces the expected output) over Any ║
+# ║ Path(test_integration_reduction(), integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5 and integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integration_reduction : Any → {Any | integration...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integration_reduction(facets, 0, a, b, 1,...   ║
+# ║   ensures:  integration_reduction(facets, 0, a, b, 0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integration_reduction : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 903886d01a63793c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 972c8d928e11662a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_integration_reduction","kind":"function","src_hash":"edc6f8ad4fedcfea","in":{"base":"Any"},"out":{"base":"Any","pred":"integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5 and integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0"},"spec":{"lhs":"test_integration_reduction()","rhs":"test_integration_reduction produces the expected output","over":{"base":"Any"},"name":"test_integration_reduction_correct"},"guarantee":"test_integration_reduction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_integration_reduction_correct","statement":"Path(test_integration_reduction(x), test_integration_reduction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"903886d01a63793c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_integration_reduction","kind":"function","src_hash":"edc6f8ad4fedcfea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5 and integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0"},"spec":{"lhs":"test_integration_reduction()","rhs":"integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5 and integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0","over":{"base":"Any"},"name":"test_integration_reduction_correct"},"guarantee":"integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5; integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_integration_reduction_correct","statement":"Path(test_integration_reduction(x), integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5; integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"972c8d928e11662a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integration_reduction(facets, 0, a, b, 1, (x, y), 0) == 5","integration_reduction(facets, 0, a, b, 0, (x, y), 0) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_integration_reduction():
     triangle = Polygon(Point(0, 3), Point(5, 3), Point(1, 1))
     facets = triangle.sides
@@ -745,16 +832,23 @@ def test_integration_reduction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integration_reduction_dynamic(), test_integration_reduction_dynamic produces the expected output) over Any ║
+# ║ Path(test_integration_reduction_dynamic(), integration_reduction_dynamic(facets, 0, a, b, x, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == Rational(25, 2) and integration_reduction_dynamic(facets, 0, a, b, 0, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integration_reduction_dynamic : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integration_reduction_dynamic(facets, 0, ...   ║
+# ║   ensures:  integration_reduction_dynamic(facets, 0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integration_reduction_dynamic : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 257799ab5c51297c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b308c5427d16d65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_integration_reduction_dynamic","kind":"function","src_hash":"a434b2997532f1a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_integration_reduction_dynamic()","rhs":"test_integration_reduction_dynamic produces the expected output","over":{"base":"Any"},"name":"test_integration_reduction_dynamic_correct"},"guarantee":"test_integration_reduction_dynamic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_integration_reduction_dynamic_correct","statement":"Path(test_integration_reduction_dynamic(x), test_integration_reduction_dynamic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"257799ab5c51297c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_integration_reduction_dynamic","kind":"function","src_hash":"a434b2997532f1a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integration_reduction_dynamic(facets, 0, a, b, x, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == Rational(25, 2) and integration_reduction_dynamic(facets, 0, a, b, 0, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == 0"},"spec":{"lhs":"test_integration_reduction_dynamic()","rhs":"integration_reduction_dynamic(facets, 0, a, b, x, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == Rational(25, 2) and integration_reduction_dynamic(facets, 0, a, b, 0, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == 0","over":{"base":"Any"},"name":"test_integration_reduction_dynamic_correct"},"guarantee":"integration_reduction_dynamic(facets, 0, a, b, x, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == Rational(25, 2); integration_reduction_dynamic(facets, 0, a, b, 0, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_integration_reduction_dynamic_correct","statement":"Path(test_integration_reduction_dynamic(x), integration_reduction_dynamic(facets, 0, a, b, x, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == Rational(25, 2); integration_reduction_dynamic(facets, 0, a, b, 0, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b308c5427d16d65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integration_reduction_dynamic(facets, 0, a, b, x, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == Rational(25, 2)","integration_reduction_dynamic(facets, 0, a, b, 0, 1, (x, y), 1, 0, 1, x0, monomial_values, 3) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_integration_reduction_dynamic():
     triangle = Polygon(Point(0, 3), Point(5, 3), Point(1, 1))
     facets = triangle.sides
@@ -770,16 +864,24 @@ def test_integration_reduction_dynamic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_vertex(), test_is_vertex produces the expected output) over Any ║
+# ║ Path(test_is_vertex(), is_vertex(2) is False and is_vertex((2, 3)) is True and is_vertex(Point(2, 3)) is True and is_vertex((2, 3, 4)) is True and is_vertex((2, 3, 4, 5)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_vertex : Any → {Any | is_vertex(2) is False a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_vertex(2) is False                          ║
+# ║   ensures:  is_vertex((2, 3)) is True                      ║
+# ║   ensures:  is_vertex(Point(2, 3)) is True                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_vertex : Any → {Any | result satisfies: is_ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26d0f725c50844d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ece96844f1cea29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_is_vertex","kind":"function","src_hash":"60b7c6cf02c07188","in":{"base":"Any"},"out":{"base":"Any","pred":"is_vertex(2) is False and is_vertex((2, 3)) is True and is_vertex(Point(2, 3)) is True and is_vertex((2, 3, 4)) is True and is_vertex((2, 3, 4, 5)) is False"},"spec":{"lhs":"test_is_vertex()","rhs":"test_is_vertex produces the expected output","over":{"base":"Any"},"name":"test_is_vertex_correct"},"guarantee":"test_is_vertex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_is_vertex_correct","statement":"Path(test_is_vertex(x), test_is_vertex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26d0f725c50844d9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_is_vertex","kind":"function","src_hash":"60b7c6cf02c07188","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_vertex(2) is False and is_vertex((2, 3)) is True and is_vertex(Point(2, 3)) is True and is_vertex((2, 3, 4)) is True and is_vertex((2, 3, 4, 5)) is False"},"spec":{"lhs":"test_is_vertex()","rhs":"is_vertex(2) is False and is_vertex((2, 3)) is True and is_vertex(Point(2, 3)) is True and is_vertex((2, 3, 4)) is True and is_vertex((2, 3, 4, 5)) is False","over":{"base":"Any"},"name":"test_is_vertex_correct"},"guarantee":"is_vertex(2) is False; is_vertex((2, 3)) is True; is_vertex(Point(2, 3)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_is_vertex_correct","statement":"Path(test_is_vertex(x), is_vertex(2) is False; is_vertex((2, 3)) is True; is_vertex(Point(2, 3)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ece96844f1cea29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_vertex(2) is False","is_vertex((2, 3)) is True","is_vertex(Point(2, 3)) is True","is_vertex((2, 3, 4)) is True","is_vertex((2, 3, 4, 5)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_vertex():
     assert is_vertex(2) is False
     assert is_vertex((2, 3)) is True
@@ -789,16 +891,23 @@ def test_is_vertex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19234(), test_issue_19234 produces the expected output) over Any ║
+# ║ Path(test_issue_19234(), polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)} and polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y + 3: Rational(19, 6), x * y ** 2 + x: Rational(2, 3)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19234 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polytope_integrate(polygon, polys) == {1:...   ║
+# ║   ensures:  polytope_integrate(polygon, polys) == {1:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19234 : Any → {Any | result satisfies: pol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48f0842c6d9960ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd88785ccd02815a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_issue_19234","kind":"function","src_hash":"aad3f6196b2cf3e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_19234()","rhs":"test_issue_19234 produces the expected output","over":{"base":"Any"},"name":"test_issue_19234_correct"},"guarantee":"test_issue_19234 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_issue_19234_correct","statement":"Path(test_issue_19234(x), test_issue_19234 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48f0842c6d9960ef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_intpoly.test_issue_19234","kind":"function","src_hash":"aad3f6196b2cf3e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)} and polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y + 3: Rational(19, 6), x * y ** 2 + x: Rational(2, 3)}"},"spec":{"lhs":"test_issue_19234()","rhs":"polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)} and polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y + 3: Rational(19, 6), x * y ** 2 + x: Rational(2, 3)}","over":{"base":"Any"},"name":"test_issue_19234_correct"},"guarantee":"polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)}; polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y + 3: Rational(19, 6), x * y ** 2 + x: Rational(2, 3)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_intpoly.test_issue_19234_correct","statement":"Path(test_issue_19234(x), polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)}; polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y + 3: Rational(19, 6), x * y ** 2 + x: Rational(2, 3)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd88785ccd02815a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y: Rational(1, 6), x * y ** 2: Rational(1, 6)}","polytope_integrate(polygon, polys) == {1: 1, x: S.Half, y: S.Half, x * y: Rational(1, 4), x ** 2 * y + 3: Rational(19, 6), x * y ** 2 + x: Rational(2, 3)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_19234():
     polygon = Polygon(Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 0))
     polys =  [ 1, x, y, x*y, x**2*y, x*y**2]

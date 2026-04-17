@@ -21,16 +21,25 @@
 from sympy.polys.monomials import monomial_mul, monomial_div
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_fglm(F, ), id) over Any                        ║
+# ║ Path(matrix_fglm(F, ring, O_to), id) over {Any | hasattr(ring, 'domain') and hasattr(ring, 'ngens') and hasattr(ring, 'clone') and hasattr(ring, 'zero_monom') and hasattr(ring, 'term_new') and hasattr(ring, 'from_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix_fglm : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'ngens')                         ║
+# ║   requires: hasattr(ring, 'clone')                         ║
+# ║   returns:  sorted(G, key=lambda g: O_to(g.LM), rever...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix_fglm : {Any | hasattr(ring, 'domain') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5a4f6f59b621ffdd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools.matrix_fglm","kind":"function","src_hash":"cf1649ddabe6eb64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_fglm(F, )","rhs":"converts the reduced groebner basis ``f`` of a zero-dimensional ideal w.r.t","over":{"base":"Any"},"name":"matrix_fglm_correct","kind":"composition"},"guarantee":"converts the reduced groebner basis ``f`` of a zero-dimensional ideal w.r.t","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"O_to","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a4f6f59b621ffdd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools.matrix_fglm","kind":"function","src_hash":"cf1649ddabe6eb64","in":{"base":"Any","pred":"hasattr(ring, 'domain') and hasattr(ring, 'ngens') and hasattr(ring, 'clone') and hasattr(ring, 'zero_monom') and hasattr(ring, 'term_new') and hasattr(ring, 'from_dict')"},"out":{"base":"Any"},"spec":{"lhs":"matrix_fglm(F, ring, O_to)","rhs":"sorted(G, key=lambda g: O_to(g.LM), reverse=True)","over":{"base":"Any","pred":"hasattr(ring, 'domain') and hasattr(ring, 'ngens') and hasattr(ring, 'clone') and hasattr(ring, 'zero_monom') and hasattr(ring, 'term_new') and hasattr(ring, 'from_dict')"},"name":"matrix_fglm_correct","kind":"composition"},"guarantee":"returns sorted(G, key=lambda g: O_to(g.LM), reverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"O_to","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a4f6f59b621ffdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'domain')","hasattr(ring, 'ngens')","hasattr(ring, 'clone')","hasattr(ring, 'zero_monom')","hasattr(ring, 'term_new')","hasattr(ring, 'from_dict')"],"returns_expr":"sorted(G, key=lambda g: O_to(g.LM), reverse=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def matrix_fglm(F, ring, O_to):
     """
     Converts the reduced Groebner basis ``F`` of a zero-dimensional
@@ -96,31 +105,45 @@ def matrix_fglm(F, ring, O_to):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_incr_k(m, ), internal helper behaves correctly) over Any ║
+# ║ Path(_incr_k(m, k), tuple(list(m[:k]) + [m[k] + 1] + list(m[k + 1:]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(list(m[:k]) + [m[k] + 1] + list(m[k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _incr_k : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89ada4211bf01c2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._incr_k","kind":"function","src_hash":"930f24571426392a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_incr_k(m, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_incr_k_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89ada4211bf01c2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._incr_k","kind":"function","src_hash":"930f24571426392a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_incr_k(m, k)","rhs":"tuple(list(m[:k]) + [m[k] + 1] + list(m[k + 1:]))","over":{"base":"Any"},"name":"_incr_k_correct"},"guarantee":"returns tuple(list(m[:k]) + [m[k] + 1] + list(m[k + 1:]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89ada4211bf01c2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(list(m[:k]) + [m[k] + 1] + list(m[k + 1:]))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _incr_k(m, k):
     return tuple(list(m[:k]) + [m[k] + 1] + list(m[k + 1:]))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_identity_matrix(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_identity_matrix(n, domain), <unspecified:_identity_matrix>) over {Any | hasattr(domain, 'one') and hasattr(domain, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _identity_matrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'one')                         ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _identity_matrix : {Any | hasattr(domain, 'one') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 865b32d8b10413ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._identity_matrix","kind":"function","src_hash":"f4ac2a9afa15f35d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_identity_matrix(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_identity_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._identity_matrix_correct","statement":"Path(_identity_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"865b32d8b10413ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._identity_matrix","kind":"function","src_hash":"f4ac2a9afa15f35d","in":{"base":"Any","pred":"hasattr(domain, 'one') and hasattr(domain, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_identity_matrix(n, domain)","rhs":"<unspecified:_identity_matrix>","over":{"base":"Any","pred":"hasattr(domain, 'one') and hasattr(domain, 'zero')"},"name":"_identity_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._identity_matrix_correct","statement":"Path(_identity_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"865b32d8b10413ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'one')","hasattr(domain, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.one","domain.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _identity_matrix(n, domain):
     M = [[domain.zero]*n for _ in range(n)]
 
@@ -131,31 +154,44 @@ def _identity_matrix(n, domain):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matrix_mul(M, ), internal helper behaves correctly) over Any ║
+# ║ Path(_matrix_mul(M, v), [sum((row[i] * v[i] for i in range(len(v)))) for row in M]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sum((row[i] * v[i] for i in range(len(v)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matrix_mul : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a481d995e4a4b2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._matrix_mul","kind":"function","src_hash":"e8924f6d33248591","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matrix_mul(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matrix_mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a481d995e4a4b2e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._matrix_mul","kind":"function","src_hash":"e8924f6d33248591","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matrix_mul(M, v)","rhs":"[sum((row[i] * v[i] for i in range(len(v)))) for row in M]","over":{"base":"Any"},"name":"_matrix_mul_correct"},"guarantee":"returns [sum((row[i] * v[i] for i in range(len(v)))) for row in M]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a481d995e4a4b2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sum((row[i] * v[i] for i in range(len(v)))) for row in M]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _matrix_mul(M, v):
     return [sum(row[i] * v[i] for i in range(len(v))) for row in M]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_update(s, ), update ``p`` such that for the updated `p'` `p' v = e_{s}`) over Any ║
+# ║ Path(_update(s, _lambda, P), P) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _update : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == P                                    ║
+# ║   returns:  P                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _update : Any → {Any | result satisfies: result == (P)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97f540c97a5aeed1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9b96246640b28bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._update","kind":"function","src_hash":"c33a5919846c7846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_update(s, )","rhs":"update ``p`` such that for the updated `p'` `p' v = e_{s}`","over":{"base":"Any"},"name":"_update_correct"},"guarantee":"update ``p`` such that for the updated `p'` `p' v = e_{s}`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._update_correct","statement":"Path(_update(x), update ``p`` such that for the updated `p'` `p' v = e_{s}`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97f540c97a5aeed1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._update","kind":"function","src_hash":"c33a5919846c7846","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (P)"},"spec":{"lhs":"_update(s, _lambda, P)","rhs":"P","over":{"base":"Any"},"name":"_update_correct"},"guarantee":"returns P; result == P","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._update_correct","statement":"Path(_update(x), returns P; result == P)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9b96246640b28bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == P"],"returns_expr":"P","pure":false,"effects":{"effect_type":"mutates_args","writes":["P[*]"]},"state_contract":{"modifies":["P[*]"],"old_bindings":{"old_P_star":"P[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _update(s, _lambda, P):
     """
     Update ``P`` such that for the updated `P'` `P' v = e_{s}`.
@@ -173,16 +209,25 @@ def _update(s, _lambda, P):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_representing_matrices(bas), compute the matrices corresponding to the linear maps `m \mapsto x_i m` for all variables `x_i`) over Any ║
+# ║ Path(_representing_matrices(basis, G, ring), <unspecified:_representing_matrices>) over {Any | hasattr(ring, 'domain') and hasattr(ring, 'ngens') and hasattr(basis, 'index') and hasattr(ring, 'term_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _representing_matrices : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'ngens')                         ║
+# ║   requires: hasattr(basis, 'index')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _representing_matrices : {Any | hasattr(ring, 'domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9557629e5ddaf5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._representing_matrices","kind":"function","src_hash":"22c024e8160b21df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_representing_matrices(bas)","rhs":"compute the matrices corresponding to the linear maps `m \\mapsto x_i m` for all variables `x_i`","over":{"base":"Any"},"name":"_representing_matrices_correct"},"guarantee":"compute the matrices corresponding to the linear maps `m \\mapsto x_i m` for all variables `x_i`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._representing_matrices_correct","statement":"Path(_representing_matrices(x), compute the matrices corresponding to the linear maps `m \\mapsto x_i m` for all variables `x_i`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9557629e5ddaf5f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._representing_matrices","kind":"function","src_hash":"22c024e8160b21df","in":{"base":"Any","pred":"hasattr(ring, 'domain') and hasattr(ring, 'ngens') and hasattr(basis, 'index') and hasattr(ring, 'term_new')"},"out":{"base":"Any"},"spec":{"lhs":"_representing_matrices(basis, G, ring)","rhs":"<unspecified:_representing_matrices>","over":{"base":"Any","pred":"hasattr(ring, 'domain') and hasattr(ring, 'ngens') and hasattr(basis, 'index') and hasattr(ring, 'term_new')"},"name":"_representing_matrices_correct"},"guarantee":"compute the matrices corresponding to the linear maps `m \\mapsto x_i m` for all variables `x_i`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._representing_matrices_correct","statement":"Path(_representing_matrices(x), compute the matrices corresponding to the linear maps `m \\mapsto x_i m` for all variables `x_i`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9557629e5ddaf5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'domain')","hasattr(ring, 'ngens')","hasattr(basis, 'index')","hasattr(ring, 'term_new')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["basis.index","ring.domain","ring.ngens","ring.term_new"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _representing_matrices(basis, G, ring):
     r"""
     Compute the matrices corresponding to the linear maps `m \mapsto
@@ -210,16 +255,25 @@ def _representing_matrices(basis, G, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_basis(G, ), computes a list of monomials which are not divisible by the leading monomials wrt to ``o`` of ``g``) over Any ║
+# ║ Path(_basis(G, ring), sorted(basis, key=order)) over {Any | hasattr(ring, 'order') and hasattr(ring, 'zero_monom') and hasattr(ring, 'ngens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _basis : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'order')                         ║
+# ║   requires: hasattr(ring, 'zero_monom')                    ║
+# ║   requires: hasattr(ring, 'ngens')                         ║
+# ║   returns:  sorted(basis, key=order)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _basis : {Any | hasattr(ring, 'order') and hasattr(ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d270a7f99293c6d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 041e4f8971ada540  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._basis","kind":"function","src_hash":"4cf14aa42586e470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_basis(G, )","rhs":"computes a list of monomials which are not divisible by the leading monomials wrt to ``o`` of ``g``","over":{"base":"Any"},"name":"_basis_correct"},"guarantee":"computes a list of monomials which are not divisible by the leading monomials wrt to ``o`` of ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._basis_correct","statement":"Path(_basis(x), computes a list of monomials which are not divisible by the leading monomials wrt to ``o`` of ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d270a7f99293c6d9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fglmtools._basis","kind":"function","src_hash":"4cf14aa42586e470","in":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'zero_monom') and hasattr(ring, 'ngens')"},"out":{"base":"Any"},"spec":{"lhs":"_basis(G, ring)","rhs":"sorted(basis, key=order)","over":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'zero_monom') and hasattr(ring, 'ngens')"},"name":"_basis_correct"},"guarantee":"returns sorted(basis, key=order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fglmtools._basis_correct","statement":"Path(_basis(x), returns sorted(basis, key=order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041e4f8971ada540","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'order')","hasattr(ring, 'zero_monom')","hasattr(ring, 'ngens')"],"returns_expr":"sorted(basis, key=order)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _basis(G, ring):
     r"""
     Computes a list of monomials which are not divisible by the leading

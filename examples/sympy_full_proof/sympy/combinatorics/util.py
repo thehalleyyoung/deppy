@@ -29,16 +29,22 @@ _af_new = Permutation._af_new
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_base_ordering(bas), order `\{0, 1, \dots, n-1\}` so that base points come first and in order) over Any ║
+# ║ Path(_base_ordering(base, degree), <unspecified:_base_ordering>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _base_ordering : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbf3dac0c085411c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._base_ordering","kind":"function","src_hash":"59ca93f25aed6424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_base_ordering(bas)","rhs":"order `\\{0, 1, \\dots, n-1\\}` so that base points come first and in order","over":{"base":"Any"},"name":"_base_ordering_correct"},"guarantee":"order `\\{0, 1, \\dots, n-1\\}` so that base points come first and in order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._base_ordering_correct","statement":"Path(_base_ordering(x), order `\\{0, 1, \\dots, n-1\\}` so that base points come first and in order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbf3dac0c085411c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._base_ordering","kind":"function","src_hash":"59ca93f25aed6424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_base_ordering(base, degree)","rhs":"<unspecified:_base_ordering>","over":{"base":"Any"},"name":"_base_ordering_correct"},"guarantee":"order `\\{0, 1, \\dots, n-1\\}` so that base points come first and in order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._base_ordering_correct","statement":"Path(_base_ordering(x), order `\\{0, 1, \\dots, n-1\\}` so that base points come first and in order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbf3dac0c085411c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _base_ordering(base, degree):
     r"""
     Order `\{0, 1, \dots, n-1\}` so that base points come first and in order.
@@ -96,16 +102,24 @@ def _base_ordering(base, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_cycles_alt_sym(per), checks for cycles of prime length p with n/2 < p < n-2) over Any ║
+# ║ Path(_check_cycles_alt_sym(perm), <unspecified:_check_cycles_alt_sym>) over {Any | hasattr(perm, 'size') and hasattr(perm, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_cycles_alt_sym : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(perm, 'size')                          ║
+# ║   requires: hasattr(perm, 'array_form')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_cycles_alt_sym : {Any | hasattr(perm, 'size') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12c91f27511d27da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._check_cycles_alt_sym","kind":"function","src_hash":"032a3e4eac368e10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_cycles_alt_sym(per)","rhs":"checks for cycles of prime length p with n/2 < p < n-2","over":{"base":"Any"},"name":"_check_cycles_alt_sym_correct"},"guarantee":"checks for cycles of prime length p with n/2 < p < n-2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._check_cycles_alt_sym_correct","statement":"Path(_check_cycles_alt_sym(x), checks for cycles of prime length p with n/2 < p < n-2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c91f27511d27da"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._check_cycles_alt_sym","kind":"function","src_hash":"032a3e4eac368e10","in":{"base":"Any","pred":"hasattr(perm, 'size') and hasattr(perm, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"_check_cycles_alt_sym(perm)","rhs":"<unspecified:_check_cycles_alt_sym>","over":{"base":"Any","pred":"hasattr(perm, 'size') and hasattr(perm, 'array_form')"},"name":"_check_cycles_alt_sym_correct"},"guarantee":"checks for cycles of prime length p with n/2 < p < n-2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._check_cycles_alt_sym_correct","statement":"Path(_check_cycles_alt_sym(x), checks for cycles of prime length p with n/2 < p < n-2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c91f27511d27da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(perm, 'size')","hasattr(perm, 'array_form')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_cycles_alt_sym(perm):
     """
     Checks for cycles of prime length p with n/2 < p < n-2.
@@ -155,16 +169,22 @@ def _check_cycles_alt_sym(perm):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_distribute_gens_by_base(bas), distribute the group elements ``gens`` by membership in basic stabilizers) over Any ║
+# ║ Path(_distribute_gens_by_base(base, gens), <unspecified:_distribute_gens_by_base>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _distribute_gens_by_base : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12d5c01009e42232  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._distribute_gens_by_base","kind":"function","src_hash":"4d30e058dd78ce19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_distribute_gens_by_base(bas)","rhs":"distribute the group elements ``gens`` by membership in basic stabilizers","over":{"base":"Any"},"name":"_distribute_gens_by_base_correct"},"guarantee":"distribute the group elements ``gens`` by membership in basic stabilizers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._distribute_gens_by_base_correct","statement":"Path(_distribute_gens_by_base(x), distribute the group elements ``gens`` by membership in basic stabilizers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12d5c01009e42232"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._distribute_gens_by_base","kind":"function","src_hash":"4d30e058dd78ce19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_distribute_gens_by_base(base, gens)","rhs":"<unspecified:_distribute_gens_by_base>","over":{"base":"Any"},"name":"_distribute_gens_by_base_correct"},"guarantee":"distribute the group elements ``gens`` by membership in basic stabilizers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._distribute_gens_by_base_correct","statement":"Path(_distribute_gens_by_base(x), distribute the group elements ``gens`` by membership in basic stabilizers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12d5c01009e42232","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _distribute_gens_by_base(base, gens):
     r"""
     Distribute the group elements ``gens`` by membership in basic stabilizers.
@@ -231,16 +251,22 @@ def _distribute_gens_by_base(base, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_precomputed_bsgs(bas), calculate bsgs-related structures from those present) over Any ║
+# ║ Path(_handle_precomputed_bsgs(base, strong_gens, transversals), (transversals, basic_orbits, strong_gens_distr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (transversals, basic_orbits, strong_gens_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _handle_precomputed_bsgs : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4627fe8046ac5b59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e05ca43974c331f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._handle_precomputed_bsgs","kind":"function","src_hash":"88e70f887376f254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_precomputed_bsgs(bas)","rhs":"calculate bsgs-related structures from those present","over":{"base":"Any"},"name":"_handle_precomputed_bsgs_correct"},"guarantee":"calculate bsgs-related structures from those present","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._handle_precomputed_bsgs_correct","statement":"Path(_handle_precomputed_bsgs(x), calculate bsgs-related structures from those present)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4627fe8046ac5b59"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._handle_precomputed_bsgs","kind":"function","src_hash":"88e70f887376f254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_precomputed_bsgs(base, strong_gens, transversals)","rhs":"(transversals, basic_orbits, strong_gens_distr)","over":{"base":"Any"},"name":"_handle_precomputed_bsgs_correct"},"guarantee":"returns (transversals, basic_orbits, strong_gens_distr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._handle_precomputed_bsgs_correct","statement":"Path(_handle_precomputed_bsgs(x), returns (transversals, basic_orbits, strong_gens_distr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e05ca43974c331f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(transversals, basic_orbits, strong_gens_distr)","pure":false,"effects":{"effect_type":"mutates_args","writes":["basic_orbits[*]"]},"state_contract":{"modifies":["basic_orbits[*]"],"old_bindings":{"old_basic_orbits_star":"basic_orbits[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _handle_precomputed_bsgs(base, strong_gens, transversals=None,
                              basic_orbits=None, strong_gens_distr=None):
     """
@@ -307,16 +333,22 @@ def _handle_precomputed_bsgs(base, strong_gens, transversals=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orbits_transversals_from_bsgs(bas), compute basic orbits and transversals from a base and strong generating set) over Any ║
+# ║ Path(_orbits_transversals_from_bsgs(base, strong_gens_distr, transversals_only), <unspecified:_orbits_transversals_from_bsgs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orbits_transversals_from_bsgs : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31d648316eb7effa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._orbits_transversals_from_bsgs","kind":"function","src_hash":"52292be42ab3fc20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbits_transversals_from_bsgs(bas)","rhs":"compute basic orbits and transversals from a base and strong generating set","over":{"base":"Any"},"name":"_orbits_transversals_from_bsgs_correct"},"guarantee":"compute basic orbits and transversals from a base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._orbits_transversals_from_bsgs_correct","statement":"Path(_orbits_transversals_from_bsgs(x), compute basic orbits and transversals from a base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31d648316eb7effa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._orbits_transversals_from_bsgs","kind":"function","src_hash":"52292be42ab3fc20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbits_transversals_from_bsgs(base, strong_gens_distr, transversals_only)","rhs":"<unspecified:_orbits_transversals_from_bsgs>","over":{"base":"Any"},"name":"_orbits_transversals_from_bsgs_correct"},"guarantee":"compute basic orbits and transversals from a base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._orbits_transversals_from_bsgs_correct","statement":"Path(_orbits_transversals_from_bsgs(x), compute basic orbits and transversals from a base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31d648316eb7effa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _orbits_transversals_from_bsgs(base, strong_gens_distr,
                                    transversals_only=False, slp=False):
     """
@@ -382,16 +414,25 @@ def _orbits_transversals_from_bsgs(base, strong_gens_distr,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_gens(bas), remove redundant generators from a strong generating set) over Any ║
+# ║ Path(_remove_gens(base, strong_gens, basic_orbits), len(basic_orbits) == old_len_basic_orbits + 1 and len(strong_gens_distr) == old_len_strong_gens_distr + 1) over {Any | hasattr(strong_gens_distr, 'append') and hasattr(basic_orbits, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _remove_gens : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(strong_gens_distr, 'append')           ║
+# ║   requires: hasattr(basic_orbits, 'append')                ║
+# ║   ensures:  len(basic_orbits) == old_len_basic_orbits...   ║
+# ║   ensures:  len(strong_gens_distr) == old_len_strong_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _remove_gens : {Any | hasattr(strong_gens_distr, 'app...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cf885f58b6779ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6225140ea688655  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._remove_gens","kind":"function","src_hash":"db8902d3dd3a8430","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_gens(bas)","rhs":"remove redundant generators from a strong generating set","over":{"base":"Any"},"name":"_remove_gens_correct"},"guarantee":"remove redundant generators from a strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._remove_gens_correct","statement":"Path(_remove_gens(x), remove redundant generators from a strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cf885f58b6779ed"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._remove_gens","kind":"function","src_hash":"db8902d3dd3a8430","in":{"base":"Any","pred":"hasattr(strong_gens_distr, 'append') and hasattr(basic_orbits, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(basic_orbits) == old_len_basic_orbits + 1 and len(strong_gens_distr) == old_len_strong_gens_distr + 1"},"spec":{"lhs":"_remove_gens(base, strong_gens, basic_orbits)","rhs":"len(basic_orbits) == old_len_basic_orbits + 1 and len(strong_gens_distr) == old_len_strong_gens_distr + 1","over":{"base":"Any","pred":"hasattr(strong_gens_distr, 'append') and hasattr(basic_orbits, 'append')"},"name":"_remove_gens_correct"},"guarantee":"len(basic_orbits) == old_len_basic_orbits + 1; len(strong_gens_distr) == old_len_strong_gens_distr + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._remove_gens_correct","statement":"Path(_remove_gens(x), len(basic_orbits) == old_len_basic_orbits + 1; len(strong_gens_distr) == old_len_strong_gens_distr + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6225140ea688655","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(strong_gens_distr, 'append')","hasattr(basic_orbits, 'append')"],"ensures":["len(basic_orbits) == old_len_basic_orbits + 1","len(strong_gens_distr) == old_len_strong_gens_distr + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["basic_orbits.append","strong_gens_distr.append"],"calls_mutating":["basic_orbits.append","gens_copy.remove","res.remove","strong_gens_distr.append","temp_gens.remove"]},"state_contract":{"modifies":["basic_orbits.*","gens_copy.*","res.*","strong_gens_distr.*","temp_gens.*"],"old_bindings":{"old_len_basic_orbits":"len(basic_orbits)","old_len_strong_gens_distr":"len(strong_gens_distr)"},"post_ensures":["len(basic_orbits) == old_len_basic_orbits + 1","len(strong_gens_distr) == old_len_strong_gens_distr + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _remove_gens(base, strong_gens, basic_orbits=None, strong_gens_distr=None):
     """
     Remove redundant generators from a strong generating set.
@@ -464,16 +505,23 @@ def _remove_gens(base, strong_gens, basic_orbits=None, strong_gens_distr=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_strip(g, ), attempt to decompose a permutation using a (possibly partial) bsgs structure) over Any ║
+# ║ Path(_strip(g, base, orbits), <unspecified:_strip>) over {Any | hasattr(g, '_array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _strip : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, '_array_form')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _strip : {Any | hasattr(g, '_array_form')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35d36ea06441c522  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._strip","kind":"function","src_hash":"19855345e801c397","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strip(g, )","rhs":"attempt to decompose a permutation using a (possibly partial) bsgs structure","over":{"base":"Any"},"name":"_strip_correct"},"guarantee":"attempt to decompose a permutation using a (possibly partial) bsgs structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._strip_correct","statement":"Path(_strip(x), attempt to decompose a permutation using a (possibly partial) bsgs structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35d36ea06441c522"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._strip","kind":"function","src_hash":"19855345e801c397","in":{"base":"Any","pred":"hasattr(g, '_array_form')"},"out":{"base":"Any"},"spec":{"lhs":"_strip(g, base, orbits)","rhs":"<unspecified:_strip>","over":{"base":"Any","pred":"hasattr(g, '_array_form')"},"name":"_strip_correct"},"guarantee":"attempt to decompose a permutation using a (possibly partial) bsgs structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._strip_correct","statement":"Path(_strip(x), attempt to decompose a permutation using a (possibly partial) bsgs structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35d36ea06441c522","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, '_array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g._array_form"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _strip(g, base, orbits, transversals):
     """
     Attempt to decompose a permutation using a (possibly partial) BSGS
@@ -552,16 +600,22 @@ def _strip(g, base, orbits, transversals):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_strip_af(h, ), optimized _strip, with h, transversals and result in array form if the stripped elements is the identity, it returns false, base_len + 1) over Any ║
+# ║ Path(_strip_af(h, base, orbits), <unspecified:_strip_af>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _strip_af : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2c5642e9bd526b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._strip_af","kind":"function","src_hash":"1b62814dffb468be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strip_af(h, )","rhs":"optimized _strip, with h, transversals and result in array form if the stripped elements is the identity, it returns false, base_len + 1","over":{"base":"Any"},"name":"_strip_af_correct"},"guarantee":"optimized _strip, with h, transversals and result in array form if the stripped elements is the identity, it returns false, base_len + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._strip_af_correct","statement":"Path(_strip_af(x), optimized _strip, with h, transversals and result in array form if the stripped elements is the identity, it returns false, base_len + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c5642e9bd526b2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._strip_af","kind":"function","src_hash":"1b62814dffb468be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strip_af(h, base, orbits)","rhs":"<unspecified:_strip_af>","over":{"base":"Any"},"name":"_strip_af_correct"},"guarantee":"optimized _strip, with h, transversals and result in array form if the stripped elements is the identity, it returns false, base_len + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._strip_af_correct","statement":"Path(_strip_af(x), optimized _strip, with h, transversals and result in array form if the stripped elements is the identity, it returns false, base_len + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c5642e9bd526b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _strip_af(h, base, orbits, transversals, j, slp=[], slps={}):
     """
     optimized _strip, with h, transversals and result in array form
@@ -596,16 +650,25 @@ def _strip_af(h, base, orbits, transversals, j, slp=[], slps={}):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_strong_gens_from_distr(str), retrieve strong generating set from generators of basic stabilizers) over Any ║
+# ║ Path(_strong_gens_from_distr(strong_gens_distr), result == (strong_gens_distr[0][:] if len(strong_gens_distr) == 1 else result) and result == strong_gens_distr[0][:] or result == result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _strong_gens_from_distr : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (strong_gens_distr[0][:] if len...   ║
+# ║   ensures:  result == strong_gens_distr[0][:] or resu...   ║
+# ║   fiber[case_0]: len(strong_gens_distr) == 1 => stron...   ║
+# ║   fiber[case_1]: not (len(strong_gens_distr) == 1) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _strong_gens_from_distr : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ceaca597cffd9f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df81cc218edd04d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._strong_gens_from_distr","kind":"function","src_hash":"16eb5e1d175a1766","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strong_gens_from_distr(str)","rhs":"retrieve strong generating set from generators of basic stabilizers","over":{"base":"Any"},"name":"_strong_gens_from_distr_correct"},"guarantee":"retrieve strong generating set from generators of basic stabilizers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._strong_gens_from_distr_correct","statement":"Path(_strong_gens_from_distr(x), retrieve strong generating set from generators of basic stabilizers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ceaca597cffd9f9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.util._strong_gens_from_distr","kind":"function","src_hash":"16eb5e1d175a1766","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (strong_gens_distr[0][:] if len(strong_gens_distr) == 1 else result) and result == strong_gens_distr[0][:] or result == result"},"spec":{"lhs":"_strong_gens_from_distr(strong_gens_distr)","rhs":"result == (strong_gens_distr[0][:] if len(strong_gens_distr) == 1 else result) and result == strong_gens_distr[0][:] or result == result","over":{"base":"Any"},"name":"_strong_gens_from_distr_correct"},"guarantee":"result == (strong_gens_distr[0][:] if len(strong_gens_distr) == 1 else result); result == strong_gens_distr[0][:] or result == result; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.util._strong_gens_from_distr_correct","statement":"Path(_strong_gens_from_distr(x), result == (strong_gens_distr[0][:] if len(strong_gens_distr) == 1 else result); result == strong_gens_distr[0][:] or result == result; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df81cc218edd04d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (strong_gens_distr[0][:] if len(strong_gens_distr) == 1 else result)","result == strong_gens_distr[0][:] or result == result"],"fibers":[{"name":"case_0","guard":"len(strong_gens_distr) == 1","ensures":["result == strong_gens_distr[0][:]"],"decidability":"z3","returns_expr":"strong_gens_distr[0][:]"},{"name":"case_1","guard":"not (len(strong_gens_distr) == 1)","ensures":["result == result"],"decidability":"z3","returns_expr":"result"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _strong_gens_from_distr(strong_gens_distr):
     """
     Retrieve strong generating set from generators of basic stabilizers.

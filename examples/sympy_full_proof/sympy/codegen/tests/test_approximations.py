@@ -23,16 +23,22 @@ from sympy.codegen.approximations import SumApprox, SeriesApprox
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SumApprox_trivial(), test_SumApprox_trivial produces the expected output) over Any ║
+# ║ Path(test_SumApprox_trivial(), apx1 - 1 == 0) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SumApprox_trivial : Any → {Any | apx1 - 1 == 0}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apx1 - 1 == 0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SumApprox_trivial : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 025456e60c69dc74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de01e78461c649cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_approximations.test_SumApprox_trivial","kind":"function","src_hash":"e6bda03672f1ec64","in":{"base":"Any"},"out":{"base":"Any","pred":"apx1 - 1 == 0"},"spec":{"lhs":"test_SumApprox_trivial()","rhs":"test_SumApprox_trivial produces the expected output","over":{"base":"Any"},"name":"test_SumApprox_trivial_correct"},"guarantee":"test_SumApprox_trivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_approximations.test_SumApprox_trivial_correct","statement":"Path(test_SumApprox_trivial(x), test_SumApprox_trivial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"025456e60c69dc74"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_approximations.test_SumApprox_trivial","kind":"function","src_hash":"e6bda03672f1ec64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apx1 - 1 == 0"},"spec":{"lhs":"test_SumApprox_trivial()","rhs":"apx1 - 1 == 0","over":{"base":"Any"},"name":"test_SumApprox_trivial_correct"},"guarantee":"apx1 - 1 == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_approximations.test_SumApprox_trivial_correct","statement":"Path(test_SumApprox_trivial(x), apx1 - 1 == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de01e78461c649cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apx1 - 1 == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SumApprox_trivial():
     x = symbols('x')
     expr1 = 1 + x
@@ -42,16 +48,24 @@ def test_SumApprox_trivial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SumApprox_monotone_terms(), test_SumApprox_monotone_terms produces the expected output) over Any ║
+# ║ Path(test_SumApprox_monotone_terms(), (optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0 and (optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0 and (optimize(expr1, [sum_approx_m11]) / exp(z) - (y ** 2 + 1 + x ** 2)).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SumApprox_monotone_terms : Any → {Any | (optimiz...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (optimize(expr1, [sum_approx_m2]) / exp(z...   ║
+# ║   ensures:  (optimize(expr1, [sum_approx_m5]) / exp(z...   ║
+# ║   ensures:  (optimize(expr1, [sum_approx_m11]) / exp(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SumApprox_monotone_terms : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a06dc383da042b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1be8f2a5c8850ac5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_approximations.test_SumApprox_monotone_terms","kind":"function","src_hash":"f47fe78857af009d","in":{"base":"Any"},"out":{"base":"Any","pred":"(optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0 and (optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0"},"spec":{"lhs":"test_SumApprox_monotone_terms()","rhs":"test_SumApprox_monotone_terms produces the expected output","over":{"base":"Any"},"name":"test_SumApprox_monotone_terms_correct"},"guarantee":"test_SumApprox_monotone_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_approximations.test_SumApprox_monotone_terms_correct","statement":"Path(test_SumApprox_monotone_terms(x), test_SumApprox_monotone_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a06dc383da042b2"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_approximations.test_SumApprox_monotone_terms","kind":"function","src_hash":"f47fe78857af009d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0 and (optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0 and (optimize(expr1, [sum_approx_m11]) / exp(z) - (y ** 2 + 1 + x ** 2)).simplify() == 0"},"spec":{"lhs":"test_SumApprox_monotone_terms()","rhs":"(optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0 and (optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0 and (optimize(expr1, [sum_approx_m11]) / exp(z) - (y ** 2 + 1 + x ** 2)).simplify() == 0","over":{"base":"Any"},"name":"test_SumApprox_monotone_terms_correct"},"guarantee":"(optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0; (optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0; (optimize(expr1, [sum_approx_m11]) / exp(z) - (y ** 2 + 1 + x ** 2)).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_approximations.test_SumApprox_monotone_terms_correct","statement":"Path(test_SumApprox_monotone_terms(x), (optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0; (optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0; (optimize(expr1, [sum_approx_m11]) / exp(z) - (y ** 2 + 1 + x ** 2)).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1be8f2a5c8850ac5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(optimize(expr1, [sum_approx_m2]) / exp(z) - y ** 2).simplify() == 0","(optimize(expr1, [sum_approx_m5]) / exp(z) - (y ** 2 + 1)).simplify() == 0","(optimize(expr1, [sum_approx_m11]) / exp(z) - (y ** 2 + 1 + x ** 2)).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_SumApprox_monotone_terms():
     x, y, z = symbols('x y z')
     expr1 = exp(z)*(x**2 + y**2 + 1)
@@ -65,16 +79,22 @@ def test_SumApprox_monotone_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SeriesApprox_trivial(), test_SeriesApprox_trivial produces the expected output) over Any ║
+# ║ Path(test_SeriesApprox_trivial(), <unspecified:test_SeriesApprox_trivial>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_SeriesApprox_trivial : Any → {Any | (res_50 / fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcc85b964f5e8b6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_approximations.test_SeriesApprox_trivial","kind":"function","src_hash":"2ffff3fe1043d9c9","in":{"base":"Any"},"out":{"base":"Any","pred":"(res_50 / factor - ref_50).simplify() == 0 and (res_10 / factor - ref_10).simplify() == 0 and (res_05 / factor - ref_05).simplify() == 0 and optimize(expr1, [max_ord3]) == expr1"},"spec":{"lhs":"test_SeriesApprox_trivial()","rhs":"test_SeriesApprox_trivial produces the expected output","over":{"base":"Any"},"name":"test_SeriesApprox_trivial_correct"},"guarantee":"test_SeriesApprox_trivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_approximations.test_SeriesApprox_trivial_correct","statement":"Path(test_SeriesApprox_trivial(x), test_SeriesApprox_trivial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc85b964f5e8b6e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_approximations.test_SeriesApprox_trivial","kind":"function","src_hash":"2ffff3fe1043d9c9","in":{"base":"Any"},"out":{"base":"Any","pred":"(res_50 / factor - ref_50).simplify() == 0 and (res_10 / factor - ref_10).simplify() == 0 and (res_05 / factor - ref_05).simplify() == 0 and optimize(expr1, [max_ord3]) == expr1"},"spec":{"lhs":"test_SeriesApprox_trivial()","rhs":"<unspecified:test_SeriesApprox_trivial>","over":{"base":"Any"},"name":"test_SeriesApprox_trivial_correct"},"guarantee":"test_SeriesApprox_trivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_approximations.test_SeriesApprox_trivial_correct","statement":"Path(test_SeriesApprox_trivial(x), test_SeriesApprox_trivial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc85b964f5e8b6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_SeriesApprox_trivial():
     x, z = symbols('x z')
     for factor in [1, exp(z)]:

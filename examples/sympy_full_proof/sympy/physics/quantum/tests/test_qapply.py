@@ -47,43 +47,64 @@ A = Operator('A')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Foo(), correctly constructs a Foo instance) over Any  ║
+# ║ Path(Foo(), isinstance(self, Operator)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Foo : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Foo : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0a5e85519c97208           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.Foo","kind":"class","src_hash":"738c27ea40a6a0b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Foo()","rhs":"correctly constructs a Foo instance","over":{"base":"Any"},"name":"Foo_correct"},"guarantee":"correctly constructs a Foo instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0a5e85519c97208"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.Foo","kind":"class","src_hash":"738c27ea40a6a0b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"Foo()","rhs":"isinstance(self, Operator)","over":{"base":"Any"},"name":"Foo_correct"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0a5e85519c97208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Foo not found in source"]}}
 class Foo(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), ket) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKet : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ket                                  ║
+# ║   returns:  ket                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKet : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0808bd2b6c5497e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.Foo._apply_operator_JzKet","kind":"method","src_hash":"04103469b7bae8c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0808bd2b6c5497e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.Foo._apply_operator_JzKet","kind":"method","src_hash":"04103469b7bae8c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ket)"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"ket","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"returns ket; result == ket","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0808bd2b6c5497e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ket"],"returns_expr":"ket","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         return ket
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic(), test_basic produces the expected output) over Any ║
+# ║ Path(test_basic(), qapply(Jz * po) == hbar * po and qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2) and qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo and qapply(Jz * (po + mo)) == hbar * po - hbar * mo and qapply(Jz * po + Jz * mo) == hbar * po - hbar * mo and qapply(Jminus * Jminus * po) == 2 * hbar ** 2 * mo and qapply(Jplus ** 2 * mo) == 2 * hbar ** 2 * po and qapply(Jplus ** 2 * Jminus ** 2 * po) == 4 * hbar ** 4 * po) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic : Any → {Any | qapply(Jz * po) == hbar * p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(Jz * po) == hbar * po                   ║
+# ║   ensures:  qapply(Jx * z) == hbar * po / sqrt(2) + h...   ║
+# ║   ensures:  qapply((Jplus + Jminus) * z / sqrt(2)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic : Any → {Any | result satisfies: qapply(Jz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5062c1a1f9e9b653  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dd7d1203018c4f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_basic","kind":"function","src_hash":"124435801899e4ba","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(Jz * po) == hbar * po and qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2) and qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo and qapply(Jz * (po + mo)) == hbar * po - hbar * mo and qapply(Jz * po + Jz * mo) == hbar * po - hbar * mo and qapply(Jminus * Jminus * po) == 2 * hbar ** 2 * mo and qapply(Jplus ** 2 * mo) == 2 * hbar ** 2 * po and qapply(Jplus ** 2 * Jminus ** 2 * po) == 4 * hbar ** 4 * po"},"spec":{"lhs":"test_basic()","rhs":"test_basic produces the expected output","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"test_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_basic_correct","statement":"Path(test_basic(x), test_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5062c1a1f9e9b653"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_basic","kind":"function","src_hash":"124435801899e4ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(Jz * po) == hbar * po and qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2) and qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo and qapply(Jz * (po + mo)) == hbar * po - hbar * mo and qapply(Jz * po + Jz * mo) == hbar * po - hbar * mo and qapply(Jminus * Jminus * po) == 2 * hbar ** 2 * mo and qapply(Jplus ** 2 * mo) == 2 * hbar ** 2 * po and qapply(Jplus ** 2 * Jminus ** 2 * po) == 4 * hbar ** 4 * po"},"spec":{"lhs":"test_basic()","rhs":"qapply(Jz * po) == hbar * po and qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2) and qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo and qapply(Jz * (po + mo)) == hbar * po - hbar * mo and qapply(Jz * po + Jz * mo) == hbar * po - hbar * mo and qapply(Jminus * Jminus * po) == 2 * hbar ** 2 * mo and qapply(Jplus ** 2 * mo) == 2 * hbar ** 2 * po and qapply(Jplus ** 2 * Jminus ** 2 * po) == 4 * hbar ** 4 * po","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"qapply(Jz * po) == hbar * po; qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2); qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_basic_correct","statement":"Path(test_basic(x), qapply(Jz * po) == hbar * po; qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2); qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dd7d1203018c4f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(Jz * po) == hbar * po","qapply(Jx * z) == hbar * po / sqrt(2) + hbar * mo / sqrt(2)","qapply((Jplus + Jminus) * z / sqrt(2)) == hbar * po + hbar * mo","qapply(Jz * (po + mo)) == hbar * po - hbar * mo","qapply(Jz * po + Jz * mo) == hbar * po - hbar * mo","qapply(Jminus * Jminus * po) == 2 * hbar ** 2 * mo","qapply(Jplus ** 2 * mo) == 2 * hbar ** 2 * po","qapply(Jplus ** 2 * Jminus ** 2 * po) == 4 * hbar ** 4 * po"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_basic():
     assert qapply(Jz*po) == hbar*po
     assert qapply(Jx*z) == hbar*po/sqrt(2) + hbar*mo/sqrt(2)
@@ -96,16 +117,24 @@ def test_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_extra(), test_extra produces the expected output) over Any ║
+# ║ Path(test_extra(), qapply(Jz * po * extra) == hbar * po * extra and qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra and qapply((Jplus + Jminus) * z / sqrt(2) * extra) == hbar * po * extra + hbar * mo * extra and qapply(Jz * (po + mo) * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jz * po * extra + Jz * mo * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jminus * Jminus * po * extra) == 2 * hbar ** 2 * mo * extra and qapply(Jplus ** 2 * mo * extra) == 2 * hbar ** 2 * po * extra and qapply(Jplus ** 2 * Jminus ** 2 * po * extra) == 4 * hbar ** 4 * po * extra) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_extra : Any → {Any | qapply(Jz * po * extra) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(Jz * po * extra) == hbar * po * extra   ║
+# ║   ensures:  qapply(Jx * z * extra) == (hbar * po / sq...   ║
+# ║   ensures:  qapply((Jplus + Jminus) * z / sqrt(2) * e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_extra : Any → {Any | result satisfies: qapply(Jz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 019bf6f644cb87cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98df01f152daf470  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_extra","kind":"function","src_hash":"a7b4dc540dc919d1","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(Jz * po * extra) == hbar * po * extra and qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra and qapply(Jz * (po + mo) * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jminus * Jminus * po * extra) == 2 * hbar ** 2 * mo * extra and qapply(Jplus ** 2 * mo * extra) == 2 * hbar ** 2 * po * extra and qapply(Jplus ** 2 * Jminus ** 2 * po * extra) == 4 * hbar ** 4 * po * extra"},"spec":{"lhs":"test_extra()","rhs":"test_extra produces the expected output","over":{"base":"Any"},"name":"test_extra_correct"},"guarantee":"test_extra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_extra_correct","statement":"Path(test_extra(x), test_extra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"019bf6f644cb87cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_extra","kind":"function","src_hash":"a7b4dc540dc919d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(Jz * po * extra) == hbar * po * extra and qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra and qapply((Jplus + Jminus) * z / sqrt(2) * extra) == hbar * po * extra + hbar * mo * extra and qapply(Jz * (po + mo) * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jz * po * extra + Jz * mo * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jminus * Jminus * po * extra) == 2 * hbar ** 2 * mo * extra and qapply(Jplus ** 2 * mo * extra) == 2 * hbar ** 2 * po * extra and qapply(Jplus ** 2 * Jminus ** 2 * po * extra) == 4 * hbar ** 4 * po * extra"},"spec":{"lhs":"test_extra()","rhs":"qapply(Jz * po * extra) == hbar * po * extra and qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra and qapply((Jplus + Jminus) * z / sqrt(2) * extra) == hbar * po * extra + hbar * mo * extra and qapply(Jz * (po + mo) * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jz * po * extra + Jz * mo * extra) == hbar * po * extra - hbar * mo * extra and qapply(Jminus * Jminus * po * extra) == 2 * hbar ** 2 * mo * extra and qapply(Jplus ** 2 * mo * extra) == 2 * hbar ** 2 * po * extra and qapply(Jplus ** 2 * Jminus ** 2 * po * extra) == 4 * hbar ** 4 * po * extra","over":{"base":"Any"},"name":"test_extra_correct"},"guarantee":"qapply(Jz * po * extra) == hbar * po * extra; qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra; qapply((Jplus + Jminus) * z / sqrt(2) * extra) == hbar * po * extra + hbar * mo * extra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_extra_correct","statement":"Path(test_extra(x), qapply(Jz * po * extra) == hbar * po * extra; qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra; qapply((Jplus + Jminus) * z / sqrt(2) * extra) == hbar * po * extra + hbar * mo * extra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98df01f152daf470","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(Jz * po * extra) == hbar * po * extra","qapply(Jx * z * extra) == (hbar * po / sqrt(2) + hbar * mo / sqrt(2)) * extra","qapply((Jplus + Jminus) * z / sqrt(2) * extra) == hbar * po * extra + hbar * mo * extra","qapply(Jz * (po + mo) * extra) == hbar * po * extra - hbar * mo * extra","qapply(Jz * po * extra + Jz * mo * extra) == hbar * po * extra - hbar * mo * extra","qapply(Jminus * Jminus * po * extra) == 2 * hbar ** 2 * mo * extra","qapply(Jplus ** 2 * mo * extra) == 2 * hbar ** 2 * po * extra","qapply(Jplus ** 2 * Jminus ** 2 * po * extra) == 4 * hbar ** 4 * po * extra"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_extra():
     extra = z.dual*A*z
     assert qapply(Jz*po*extra) == hbar*po*extra
@@ -120,48 +149,70 @@ def test_extra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_innerproduct(), test_innerproduct produces the expected output) over Any ║
+# ║ Path(test_innerproduct(), qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po) and qapply(po.dual * Jz * po) == hbar) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_innerproduct : Any → {Any | qapply(po.dual * Jz ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(po.dual * Jz * po, ip_doit=False) ...   ║
+# ║   ensures:  qapply(po.dual * Jz * po) == hbar              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_innerproduct : Any → {Any | result satisfies: qa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e69cf5871529e98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c70474d3eb0fe77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_innerproduct","kind":"function","src_hash":"ba1d38d9d1a8546e","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po) and qapply(po.dual * Jz * po) == hbar"},"spec":{"lhs":"test_innerproduct()","rhs":"test_innerproduct produces the expected output","over":{"base":"Any"},"name":"test_innerproduct_correct"},"guarantee":"test_innerproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_innerproduct_correct","statement":"Path(test_innerproduct(x), test_innerproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e69cf5871529e98"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_innerproduct","kind":"function","src_hash":"ba1d38d9d1a8546e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po) and qapply(po.dual * Jz * po) == hbar"},"spec":{"lhs":"test_innerproduct()","rhs":"qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po) and qapply(po.dual * Jz * po) == hbar","over":{"base":"Any"},"name":"test_innerproduct_correct"},"guarantee":"qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po); qapply(po.dual * Jz * po) == hbar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_innerproduct_correct","statement":"Path(test_innerproduct(x), qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po); qapply(po.dual * Jz * po) == hbar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c70474d3eb0fe77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(po.dual * Jz * po, ip_doit=False) == hbar * (po.dual * po)","qapply(po.dual * Jz * po) == hbar"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_innerproduct():
     assert qapply(po.dual*Jz*po, ip_doit=False) == hbar*(po.dual*po)
     assert qapply(po.dual*Jz*po) == hbar
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zero(), test_zero produces the expected output) over Any ║
+# ║ Path(test_zero(), qapply(0) == 0 and qapply(Integer(0)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zero : Any → {Any | qapply(0) == 0 and qapply(In...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(0) == 0                                 ║
+# ║   ensures:  qapply(Integer(0)) == 0                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zero : Any → {Any | result satisfies: qapply(0) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6c032e99a4872b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3601d4007b0ee1f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_zero","kind":"function","src_hash":"740d66e4f36562a5","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(0) == 0 and qapply(Integer(0)) == 0"},"spec":{"lhs":"test_zero()","rhs":"test_zero produces the expected output","over":{"base":"Any"},"name":"test_zero_correct"},"guarantee":"test_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_zero_correct","statement":"Path(test_zero(x), test_zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6c032e99a4872b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_zero","kind":"function","src_hash":"740d66e4f36562a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(0) == 0 and qapply(Integer(0)) == 0"},"spec":{"lhs":"test_zero()","rhs":"qapply(0) == 0 and qapply(Integer(0)) == 0","over":{"base":"Any"},"name":"test_zero_correct"},"guarantee":"qapply(0) == 0; qapply(Integer(0)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_zero_correct","statement":"Path(test_zero(x), qapply(0) == 0; qapply(Integer(0)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3601d4007b0ee1f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(0) == 0","qapply(Integer(0)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_zero():
     assert qapply(0) == 0
     assert qapply(Integer(0)) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutator(), test_commutator produces the expected output) over Any ║
+# ║ Path(test_commutator(), qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po and qapply(Commutator(J2, Jz) * Jz * po) == 0 and qapply(Commutator(Jz, Foo('F')) * po) == 0 and qapply(Commutator(Foo('F'), Jz) * po) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutator : Any → {Any | qapply(Commutator(Jx, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(Commutator(Jx, Jy) * Jz * po) == I...   ║
+# ║   ensures:  qapply(Commutator(J2, Jz) * Jz * po) == 0      ║
+# ║   ensures:  qapply(Commutator(Jz, Foo('F')) * po) == 0     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutator : Any → {Any | result satisfies: qapp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cef9c27e89c097c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75958a6969152da0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_commutator","kind":"function","src_hash":"a65f4e6acf1ceedc","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po and qapply(Commutator(J2, Jz) * Jz * po) == 0 and qapply(Commutator(Jz, Foo('F')) * po) == 0 and qapply(Commutator(Foo('F'), Jz) * po) == 0"},"spec":{"lhs":"test_commutator()","rhs":"test_commutator produces the expected output","over":{"base":"Any"},"name":"test_commutator_correct"},"guarantee":"test_commutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_commutator_correct","statement":"Path(test_commutator(x), test_commutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cef9c27e89c097c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_commutator","kind":"function","src_hash":"a65f4e6acf1ceedc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po and qapply(Commutator(J2, Jz) * Jz * po) == 0 and qapply(Commutator(Jz, Foo('F')) * po) == 0 and qapply(Commutator(Foo('F'), Jz) * po) == 0"},"spec":{"lhs":"test_commutator()","rhs":"qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po and qapply(Commutator(J2, Jz) * Jz * po) == 0 and qapply(Commutator(Jz, Foo('F')) * po) == 0 and qapply(Commutator(Foo('F'), Jz) * po) == 0","over":{"base":"Any"},"name":"test_commutator_correct"},"guarantee":"qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po; qapply(Commutator(J2, Jz) * Jz * po) == 0; qapply(Commutator(Jz, Foo('F')) * po) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_commutator_correct","statement":"Path(test_commutator(x), qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po; qapply(Commutator(J2, Jz) * Jz * po) == 0; qapply(Commutator(Jz, Foo('F')) * po) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75958a6969152da0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(Commutator(Jx, Jy) * Jz * po) == I * hbar ** 3 * po","qapply(Commutator(J2, Jz) * Jz * po) == 0","qapply(Commutator(Jz, Foo('F')) * po) == 0","qapply(Commutator(Foo('F'), Jz) * po) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutator():
     assert qapply(Commutator(Jx, Jy)*Jz*po) == I*hbar**3*po
     assert qapply(Commutator(J2, Jz)*Jz*po) == 0
@@ -170,32 +221,47 @@ def test_commutator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_anticommutator(), test_anticommutator produces the expected output) over Any ║
+# ║ Path(test_anticommutator(), qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po and qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_anticommutator : Any → {Any | qapply(AntiCommuta...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(AntiCommutator(Jz, Foo('F')) * po)...   ║
+# ║   ensures:  qapply(AntiCommutator(Foo('F'), Jz) * po)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_anticommutator : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64834bd818bd6421  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3f8a43a6650a1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_anticommutator","kind":"function","src_hash":"cf9d35d5d25070f6","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po and qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po"},"spec":{"lhs":"test_anticommutator()","rhs":"test_anticommutator produces the expected output","over":{"base":"Any"},"name":"test_anticommutator_correct"},"guarantee":"test_anticommutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_anticommutator_correct","statement":"Path(test_anticommutator(x), test_anticommutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64834bd818bd6421"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_anticommutator","kind":"function","src_hash":"cf9d35d5d25070f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po and qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po"},"spec":{"lhs":"test_anticommutator()","rhs":"qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po and qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po","over":{"base":"Any"},"name":"test_anticommutator_correct"},"guarantee":"qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po; qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_anticommutator_correct","statement":"Path(test_anticommutator(x), qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po; qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3f8a43a6650a1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(AntiCommutator(Jz, Foo('F')) * po) == 2 * hbar * po","qapply(AntiCommutator(Foo('F'), Jz) * po) == 2 * hbar * po"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_anticommutator():
     assert qapply(AntiCommutator(Jz, Foo('F'))*po) == 2*hbar*po
     assert qapply(AntiCommutator(Foo('F'), Jz)*po) == 2*hbar*po
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_outerproduct(), test_outerproduct produces the expected output) over Any ║
+# ║ Path(test_outerproduct(), qapply(e) == -hbar ** 2 * mo and qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo and qapply(e).doit() == -hbar ** 2 * mo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_outerproduct : Any → {Any | qapply(e) == -hbar *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(e) == -hbar ** 2 * mo                   ║
+# ║   ensures:  qapply(e, ip_doit=False) == -hbar ** 2 * ...   ║
+# ║   ensures:  qapply(e).doit() == -hbar ** 2 * mo            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_outerproduct : Any → {Any | result satisfies: qa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf996b3072564749  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9d0ab8d5b9b3645  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_outerproduct","kind":"function","src_hash":"10bc368a5a2f19a2","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(e) == -hbar ** 2 * mo and qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo and qapply(e).doit() == -hbar ** 2 * mo"},"spec":{"lhs":"test_outerproduct()","rhs":"test_outerproduct produces the expected output","over":{"base":"Any"},"name":"test_outerproduct_correct"},"guarantee":"test_outerproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_outerproduct_correct","statement":"Path(test_outerproduct(x), test_outerproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf996b3072564749"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_outerproduct","kind":"function","src_hash":"10bc368a5a2f19a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(e) == -hbar ** 2 * mo and qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo and qapply(e).doit() == -hbar ** 2 * mo"},"spec":{"lhs":"test_outerproduct()","rhs":"qapply(e) == -hbar ** 2 * mo and qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo and qapply(e).doit() == -hbar ** 2 * mo","over":{"base":"Any"},"name":"test_outerproduct_correct"},"guarantee":"qapply(e) == -hbar ** 2 * mo; qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo; qapply(e).doit() == -hbar ** 2 * mo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_outerproduct_correct","statement":"Path(test_outerproduct(x), qapply(e) == -hbar ** 2 * mo; qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo; qapply(e).doit() == -hbar ** 2 * mo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d0ab8d5b9b3645","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(e) == -hbar ** 2 * mo","qapply(e, ip_doit=False) == -hbar ** 2 * (po.dual * po) * mo","qapply(e).doit() == -hbar ** 2 * mo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_outerproduct():
     e = Jz*(mo*po.dual)*Jz*po
     assert qapply(e) == -hbar**2*mo
@@ -204,16 +270,24 @@ def test_outerproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorproduct(), test_tensorproduct produces the expected output) over Any ║
+# ║ Path(test_tensorproduct(), qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2 and qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3 and qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2 and qapply(bra2 * ket1).doit() == S.One and qapply(TensorProduct(a, b * b) * ket1) == sqrt(2) * ket2 and qapply(Dagger(TensorProduct(a, b * b) * ket1), dagger=True) == sqrt(2) * Dagger(ket2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorproduct : Any → {Any | qapply(TensorProduc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(TensorProduct(a, b ** 2) * ket1) =...   ║
+# ║   ensures:  qapply(TensorProduct(a, Dagger(b) * b) * ...   ║
+# ║   ensures:  qapply(bra1 * TensorProduct(a, b * b), da...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorproduct : Any → {Any | result satisfies: q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c470b3af679beb86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72db0ca2ac5188dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_tensorproduct","kind":"function","src_hash":"4168c3353c17fbda","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2 and qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3 and qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2 and qapply(bra2 * ket1).doit() == S.One and qapply(TensorProduct(a, b * b) * ket1) == sqrt(2) * ket2"},"spec":{"lhs":"test_tensorproduct()","rhs":"test_tensorproduct produces the expected output","over":{"base":"Any"},"name":"test_tensorproduct_correct"},"guarantee":"test_tensorproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_tensorproduct_correct","statement":"Path(test_tensorproduct(x), test_tensorproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c470b3af679beb86"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_tensorproduct","kind":"function","src_hash":"4168c3353c17fbda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2 and qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3 and qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2 and qapply(bra2 * ket1).doit() == S.One and qapply(TensorProduct(a, b * b) * ket1) == sqrt(2) * ket2 and qapply(Dagger(TensorProduct(a, b * b) * ket1), dagger=True) == sqrt(2) * Dagger(ket2)"},"spec":{"lhs":"test_tensorproduct()","rhs":"qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2 and qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3 and qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2 and qapply(bra2 * ket1).doit() == S.One and qapply(TensorProduct(a, b * b) * ket1) == sqrt(2) * ket2 and qapply(Dagger(TensorProduct(a, b * b) * ket1), dagger=True) == sqrt(2) * Dagger(ket2)","over":{"base":"Any"},"name":"test_tensorproduct_correct"},"guarantee":"qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2; qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3; qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_tensorproduct_correct","statement":"Path(test_tensorproduct(x), qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2; qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3; qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72db0ca2ac5188dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(TensorProduct(a, b ** 2) * ket1) == sqrt(2) * ket2","qapply(TensorProduct(a, Dagger(b) * b) * ket1) == 2 * ket3","qapply(bra1 * TensorProduct(a, b * b), dagger=True) == sqrt(2) * bra2","qapply(bra2 * ket1).doit() == S.One","qapply(TensorProduct(a, b * b) * ket1) == sqrt(2) * ket2","qapply(Dagger(TensorProduct(a, b * b) * ket1), dagger=True) == sqrt(2) * Dagger(ket2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_tensorproduct():
     a = BosonOp("a")
     b = BosonOp("b")
@@ -233,16 +307,22 @@ def test_tensorproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dagger(), test_dagger produces the expected output) over Any ║
+# ║ Path(test_dagger(), qapply(lhs, dagger=True) == rhs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dagger : Any → {Any | qapply(lhs, dagger=True) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(lhs, dagger=True) == rhs                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dagger : Any → {Any | result satisfies: qapply(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e13752a81486d24  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 320b3dad20d27e0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_dagger","kind":"function","src_hash":"4ec4c0d937cc4fab","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(lhs, dagger=True) == rhs"},"spec":{"lhs":"test_dagger()","rhs":"test_dagger produces the expected output","over":{"base":"Any"},"name":"test_dagger_correct"},"guarantee":"test_dagger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_dagger_correct","statement":"Path(test_dagger(x), test_dagger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e13752a81486d24"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_dagger","kind":"function","src_hash":"4ec4c0d937cc4fab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(lhs, dagger=True) == rhs"},"spec":{"lhs":"test_dagger()","rhs":"qapply(lhs, dagger=True) == rhs","over":{"base":"Any"},"name":"test_dagger_correct"},"guarantee":"qapply(lhs, dagger=True) == rhs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_dagger_correct","statement":"Path(test_dagger(x), qapply(lhs, dagger=True) == rhs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320b3dad20d27e0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(lhs, dagger=True) == rhs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dagger():
     lhs = Dagger(Qubit(0))*Dagger(H(0))
     rhs = Dagger(Qubit(1))/sqrt(2) + Dagger(Qubit(0))/sqrt(2)
@@ -250,16 +330,23 @@ def test_dagger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6073(), test_issue_6073 produces the expected output) over Any ║
+# ║ Path(test_issue_6073(), qapply(A) == A and qapply(A.dual * B) == A.dual * B) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6073 : Any → {Any | qapply(A) == A and qap...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(A) == A                                 ║
+# ║   ensures:  qapply(A.dual * B) == A.dual * B               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6073 : Any → {Any | result satisfies: qapp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eaf93a666953054  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d7411ba306718da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_issue_6073","kind":"function","src_hash":"417b76190a69b3dd","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(A) == A and qapply(A.dual * B) == A.dual * B"},"spec":{"lhs":"test_issue_6073()","rhs":"test_issue_6073 produces the expected output","over":{"base":"Any"},"name":"test_issue_6073_correct"},"guarantee":"test_issue_6073 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_issue_6073_correct","statement":"Path(test_issue_6073(x), test_issue_6073 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eaf93a666953054"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_issue_6073","kind":"function","src_hash":"417b76190a69b3dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(A) == A and qapply(A.dual * B) == A.dual * B"},"spec":{"lhs":"test_issue_6073()","rhs":"qapply(A) == A and qapply(A.dual * B) == A.dual * B","over":{"base":"Any"},"name":"test_issue_6073_correct"},"guarantee":"qapply(A) == A; qapply(A.dual * B) == A.dual * B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_issue_6073_correct","statement":"Path(test_issue_6073(x), qapply(A) == A; qapply(A.dual * B) == A.dual * B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d7411ba306718da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(A) == A","qapply(A.dual * B) == A.dual * B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6073():
     x, y = symbols('x y', commutative=False)
     A = Ket(x, y)
@@ -269,32 +356,44 @@ def test_issue_6073():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_density(), test_density produces the expected output) over Any ║
+# ║ Path(test_density(), qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_density : Any → {Any | qapply(d) == Density([-hb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(d) == Density([-hbar * mo, 0.5], [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_density : Any → {Any | result satisfies: qapply(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c11630fa8ed66ef7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 237d7ae9d6d59005  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_density","kind":"function","src_hash":"a3750695c51e889f","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5])"},"spec":{"lhs":"test_density()","rhs":"test_density produces the expected output","over":{"base":"Any"},"name":"test_density_correct"},"guarantee":"test_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_density_correct","statement":"Path(test_density(x), test_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c11630fa8ed66ef7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_density","kind":"function","src_hash":"a3750695c51e889f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5])"},"spec":{"lhs":"test_density()","rhs":"qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5])","over":{"base":"Any"},"name":"test_density_correct"},"guarantee":"qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_density_correct","statement":"Path(test_density(x), qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"237d7ae9d6d59005","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(d) == Density([-hbar * mo, 0.5], [hbar * po, 0.5])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_density():
     d = Density([Jz*mo, 0.5], [Jz*po, 0.5])
     assert qapply(d) == Density([-hbar*mo, 0.5], [hbar*po, 0.5])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue3044(), test_issue3044 produces the expected output) over Any ║
+# ║ Path(test_issue3044(), qapply(expr1) == result) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue3044 : Any → {Any | qapply(expr1) == result}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(expr1) == result                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue3044 : Any → {Any | result satisfies: qappl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc6491bfc645383f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfab4bbe54d67b2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_issue3044","kind":"function","src_hash":"52870e5de0dc583f","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(expr1) == result"},"spec":{"lhs":"test_issue3044()","rhs":"test_issue3044 produces the expected output","over":{"base":"Any"},"name":"test_issue3044_correct"},"guarantee":"test_issue3044 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_issue3044_correct","statement":"Path(test_issue3044(x), test_issue3044 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc6491bfc645383f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_issue3044","kind":"function","src_hash":"52870e5de0dc583f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(expr1) == result"},"spec":{"lhs":"test_issue3044()","rhs":"qapply(expr1) == result","over":{"base":"Any"},"name":"test_issue3044_correct"},"guarantee":"qapply(expr1) == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_issue3044_correct","statement":"Path(test_issue3044(x), qapply(expr1) == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfab4bbe54d67b2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(expr1) == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue3044():
     expr1 = TensorProduct(Jz*JzKet(S(2),S.NegativeOne)/sqrt(2), Jz*JzKet(S.Half,S.Half))
     result = Mul(S.NegativeOne, Rational(1, 4), 2**S.Half, hbar**2)
@@ -304,16 +403,24 @@ def test_issue3044():
 
 # Issue 24158: Tests whether qapply incorrectly evaluates some ket*op as op*ket
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue24158_ket_times_op(), test_issue24158_ket_times_op produces the expected output) over Any ║
+# ║ Path(test_issue24158_ket_times_op(), qapply(P) == P and qapply(P1) == QubitBra(0) * XGate(0) and qapply(P1, dagger=True) == QubitBra(1) and P2 == QubitBra(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue24158_ket_times_op : Any → {Any | qapply(P)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(P) == P                                 ║
+# ║   ensures:  qapply(P1) == QubitBra(0) * XGate(0)           ║
+# ║   ensures:  qapply(P1, dagger=True) == QubitBra(1)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue24158_ket_times_op : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62138183097e83cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e18737dade83c614  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_issue24158_ket_times_op","kind":"function","src_hash":"7389fb1b65afeee8","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(P) == P and qapply(P) == P and qapply(P1) == QubitBra(0) * XGate(0) and qapply(P1, dagger=True) == QubitBra(1) and P2 == QubitBra(1) and qapply(QubitBra(1) * IdentityOperator()) == QubitBra(1) and qapply(IdentityGate(0) * (Qubit(0) + Qubit(1))) == Qubit(0) + Qubit(1)"},"spec":{"lhs":"test_issue24158_ket_times_op()","rhs":"test_issue24158_ket_times_op produces the expected output","over":{"base":"Any"},"name":"test_issue24158_ket_times_op_correct"},"guarantee":"test_issue24158_ket_times_op produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_issue24158_ket_times_op_correct","statement":"Path(test_issue24158_ket_times_op(x), test_issue24158_ket_times_op produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62138183097e83cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qapply.test_issue24158_ket_times_op","kind":"function","src_hash":"7389fb1b65afeee8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(P) == P and qapply(P1) == QubitBra(0) * XGate(0) and qapply(P1, dagger=True) == QubitBra(1) and P2 == QubitBra(1)"},"spec":{"lhs":"test_issue24158_ket_times_op()","rhs":"qapply(P) == P and qapply(P1) == QubitBra(0) * XGate(0) and qapply(P1, dagger=True) == QubitBra(1) and P2 == QubitBra(1)","over":{"base":"Any"},"name":"test_issue24158_ket_times_op_correct"},"guarantee":"qapply(P) == P; qapply(P1) == QubitBra(0) * XGate(0); qapply(P1, dagger=True) == QubitBra(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qapply.test_issue24158_ket_times_op_correct","statement":"Path(test_issue24158_ket_times_op(x), qapply(P) == P; qapply(P1) == QubitBra(0) * XGate(0); qapply(P1, dagger=True) == QubitBra(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e18737dade83c614","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(P) == P","qapply(P1) == QubitBra(0) * XGate(0)","qapply(P1, dagger=True) == QubitBra(1)","P2 == QubitBra(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue24158_ket_times_op():
     P = BosonFockKet(0) * BosonOp("a") # undefined term
     # Does lhs._apply_operator_BosonOp(rhs) still evaluate ket*op as op*ket?

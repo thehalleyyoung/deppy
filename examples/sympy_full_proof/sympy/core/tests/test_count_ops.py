@@ -34,16 +34,25 @@ x, y, z = symbols('x,y,z')
 a, b, c = symbols('a,b,c')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_count_ops_non_visual(), test_count_ops_non_visual produces the expected output) over Any ║
+# ║ Path(test_count_ops_non_visual(), count_ops(val, visual=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_count_ops_non_visual : Any → {Any | count(x) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  count(x) == 0                                  ║
+# ║   ensures:  count(x) is not S.Zero                         ║
+# ║   ensures:  count(x + y) == 1                              ║
+# ║   returns:  count_ops(val, visual=False)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_count_ops_non_visual : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a52857e3285d9a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b152cec21cb3f37a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_count_ops_non_visual","kind":"function","src_hash":"e0664e2a49b954a1","in":{"base":"Any"},"out":{"base":"Any","pred":"count(x) == 0 and count(x) is not S.Zero and count(x + y) == 1 and count(x + y) is not S.One and count(x + y * x + 2 * y) == 4 and count({x + y: x}) == 1 and count({x + y: S(2) + x}) is not S.One and count(x < y) == 1 and count(Or(x, y)) == 1 and count(And(x, y)) == 1 and count(Not(x)) == 1 and count(Nor(x, y)) == 2 and count(Nand(x, y)) == 2 and count(Xor(x, y)) == 1 and count(Implies(x, y)) == 1 and count(Equivalent(x, y)) == 1 and count(ITE(x, y, z)) == 1 and count(ITE(True, x, y)) == 0"},"spec":{"lhs":"test_count_ops_non_visual()","rhs":"test_count_ops_non_visual produces the expected output","over":{"base":"Any"},"name":"test_count_ops_non_visual_correct"},"guarantee":"test_count_ops_non_visual produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_count_ops_non_visual_correct","statement":"Path(test_count_ops_non_visual(x), test_count_ops_non_visual produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a52857e3285d9a1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_count_ops_non_visual","kind":"function","src_hash":"e0664e2a49b954a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (count_ops(val, visual=False))"},"spec":{"lhs":"test_count_ops_non_visual()","rhs":"count_ops(val, visual=False)","over":{"base":"Any"},"name":"test_count_ops_non_visual_correct"},"guarantee":"returns count_ops(val, visual=False); count(x) == 0; count(x) is not S.Zero; count(x + y) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_count_ops_non_visual_correct","statement":"Path(test_count_ops_non_visual(x), returns count_ops(val, visual=False); count(x) == 0; count(x) is not S.Zero; count(x + y) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b152cec21cb3f37a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["count(x) == 0","count(x) is not S.Zero","count(x + y) == 1","count(x + y) is not S.One","count(x + y * x + 2 * y) == 4","count({x + y: x}) == 1","count({x + y: S(2) + x}) is not S.One","count(x < y) == 1","count(Or(x, y)) == 1","count(And(x, y)) == 1","count(Not(x)) == 1","count(Nor(x, y)) == 2","count(Nand(x, y)) == 2","count(Xor(x, y)) == 1","count(Implies(x, y)) == 1","count(Equivalent(x, y)) == 1","count(ITE(x, y, z)) == 1","count(ITE(True, x, y)) == 0"],"returns_expr":"count_ops(val, visual=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_count_ops_non_visual():
     def count(val):
         return count_ops(val, visual=False)
@@ -68,16 +77,25 @@ def test_count_ops_non_visual():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_count_ops_visual(), test_count_ops_visual produces the expected output) over Any ║
+# ║ Path(test_count_ops_visual(), count_ops(val, visual=True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_count_ops_visual : Any → {Any | count(7) is S.Ze...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  count(7) is S.Zero                             ║
+# ║   ensures:  count(S(7)) is S.Zero                          ║
+# ║   ensures:  count(-1) == NEG                               ║
+# ║   returns:  count_ops(val, visual=True)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_count_ops_visual : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6fa7686b498253b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69fafbfcbb584dac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_count_ops_visual","kind":"function","src_hash":"a276952354f309f7","in":{"base":"Any"},"out":{"base":"Any","pred":"count(7) is S.Zero and count(S(7)) is S.Zero and count(-1) == NEG and count(-2) == NEG and count(S(2) / 3) == DIV and count(Rational(2, 3)) == DIV and count(pi / 3) == DIV and count(-pi / 3) == DIV + NEG and count(I - 1) == SUB and count(1 - I) == SUB and count(1 - 2 * I) == SUB + MUL and count(x) is S.Zero and count(-x) == NEG and count(-2 * x / 3) == NEG + DIV + MUL and count(Rational(-2, 3) * x) == NEG + DIV + MUL and count(1 / x) == DIV and count(1 / (x * y)) == DIV + MUL and count(-1 / x) == NEG + DIV and count(-2 / x) == NEG + DIV and count(x / y) == DIV and count(-x / y) == NEG + DIV and count(x ** 2) == POW and count(-x ** 2) == POW + NEG and count(-2 * x ** 2) == POW + MUL + NEG and count(x + pi / 3) == ADD + DIV and count(x + S.One / 3) == ADD + DIV and count(x + Rational(1, 3)) == ADD + DIV and count(x + y) == ADD and count(x - y) == SUB and count(y - x) == SUB and count(-1 / (x - y)) == DIV + NEG + SUB and count(-1 / (y - x)) == DIV + NEG + SUB and count(1 + x ** y) == ADD + POW and count(1 + x + y) == 2 * ADD and count(1 + x + y + z) == 3 * ADD and count(1 + x ** y + 2 * x * y + y ** 2) == 3 * ADD + 2 * POW + 2 * MUL and count(2 * z + y + x + 1) == 3 * ADD + MUL and count(2 * z + y ** 17 + x + 1) == 3 * ADD + MUL + POW and count(2 * z + y ** 17 + x + sin(x)) == 3 * ADD + POW + MUL + SIN and count(2 * z + y ** 17 + x + sin(x ** 2)) == 3 * ADD + MUL + 2 * POW + SIN and count(Derivative(x, x)) == D and count(Integral(x, x) + 2 * x / (1 + x)) == G + DIV + MUL + 2 * ADD and count(Sum(x, (x, 1, x + 1)) + 2 * x / (1 + x)) == M + DIV + MUL + 3 * ADD and count(Basic()) is S.Zero and count({x + 1: sin(x)}) == ADD + SIN and count([x + 1, sin(x) + y, None]) == ADD + SIN + ADD and count({x + 1: sin(x), y: cos(x) + 1}) == SIN + COS + 2 * ADD and count({}) is S.Zero and count([x + 1, sin(x) * y, None]) == SIN + ADD + MUL and count([]) is S.Zero and count(Basic()) == 0 and count(Basic(Basic(), Basic(x, x + y))) == ADD + 2 * BASIC and count(Basic(x, x + y)) == ADD + BASIC and count(Or(x, y)) == OR and count(And(x, y)) == AND and count(Or(x, Or(y, And(z, a)))) == AND + OR and count(Nor(x, y)) == NOT + OR and count(Nand(x, y)) == NOT + AND and count(Xor(x, y)) == XOR and count(Implies(x, y)) == IMPLIES and count(Equivalent(x, y)) == EQUIVALENT and count(ITE(x, y, z)) == _ITE and count([Or(x, y), And(x, y), Basic(x + y)]) == ADD + AND + BASIC + OR and count(Basic(Tuple(x))) == BASIC + TUPLE and count(Eq(x + y, S(2))) == ADD + EQ"},"spec":{"lhs":"test_count_ops_visual()","rhs":"test_count_ops_visual produces the expected output","over":{"base":"Any"},"name":"test_count_ops_visual_correct"},"guarantee":"test_count_ops_visual produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_count_ops_visual_correct","statement":"Path(test_count_ops_visual(x), test_count_ops_visual produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6fa7686b498253b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_count_ops_visual","kind":"function","src_hash":"a276952354f309f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (count_ops(val, visual=True))"},"spec":{"lhs":"test_count_ops_visual()","rhs":"count_ops(val, visual=True)","over":{"base":"Any"},"name":"test_count_ops_visual_correct"},"guarantee":"returns count_ops(val, visual=True); count(7) is S.Zero; count(S(7)) is S.Zero; count(-1) == NEG","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_count_ops_visual_correct","statement":"Path(test_count_ops_visual(x), returns count_ops(val, visual=True); count(7) is S.Zero; count(S(7)) is S.Zero; count(-1) == NEG)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69fafbfcbb584dac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["count(7) is S.Zero","count(S(7)) is S.Zero","count(-1) == NEG","count(-2) == NEG","count(S(2) / 3) == DIV","count(Rational(2, 3)) == DIV","count(pi / 3) == DIV","count(-pi / 3) == DIV + NEG","count(I - 1) == SUB","count(1 - I) == SUB","count(1 - 2 * I) == SUB + MUL","count(x) is S.Zero","count(-x) == NEG","count(-2 * x / 3) == NEG + DIV + MUL","count(Rational(-2, 3) * x) == NEG + DIV + MUL","count(1 / x) == DIV","count(1 / (x * y)) == DIV + MUL","count(-1 / x) == NEG + DIV","count(-2 / x) == NEG + DIV","count(x / y) == DIV","count(-x / y) == NEG + DIV","count(x ** 2) == POW","count(-x ** 2) == POW + NEG","count(-2 * x ** 2) == POW + MUL + NEG","count(x + pi / 3) == ADD + DIV","count(x + S.One / 3) == ADD + DIV","count(x + Rational(1, 3)) == ADD + DIV","count(x + y) == ADD","count(x - y) == SUB","count(y - x) == SUB","count(-1 / (x - y)) == DIV + NEG + SUB","count(-1 / (y - x)) == DIV + NEG + SUB","count(1 + x ** y) == ADD + POW","count(1 + x + y) == 2 * ADD","count(1 + x + y + z) == 3 * ADD","count(1 + x ** y + 2 * x * y + y ** 2) == 3 * ADD + 2 * POW + 2 * MUL","count(2 * z + y + x + 1) == 3 * ADD + MUL","count(2 * z + y ** 17 + x + 1) == 3 * ADD + MUL + POW","count(2 * z + y ** 17 + x + sin(x)) == 3 * ADD + POW + MUL + SIN","count(2 * z + y ** 17 + x + sin(x ** 2)) == 3 * ADD + MUL + 2 * POW + SIN","count(2 * z + y ** 17 + x + sin(x ** 2) + exp(cos(x))) == 4 * ADD + MUL + 2 * POW + EXP + COS + SIN","count(Derivative(x, x)) == D","count(Integral(x, x) + 2 * x / (1 + x)) == G + DIV + MUL + 2 * ADD","count(Sum(x, (x, 1, x + 1)) + 2 * x / (1 + x)) == M + DIV + MUL + 3 * ADD","count(Basic()) is S.Zero","count({x + 1: sin(x)}) == ADD + SIN","count([x + 1, sin(x) + y, None]) == ADD + SIN + ADD","count({x + 1: sin(x), y: cos(x) + 1}) == SIN + COS + 2 * ADD","count({}) is S.Zero","count([x + 1, sin(x) * y, None]) == SIN + ADD + MUL","count([]) is S.Zero","count(Basic()) == 0","count(Basic(Basic(), Basic(x, x + y))) == ADD + 2 * BASIC","count(Basic(x, x + y)) == ADD + BASIC","[count(Rel(x, y, op)) for op in '< <= > >= == <> !='.split()] == [LT, LE, GT, GE, EQ, NE, NE]","count(Or(x, y)) == OR","count(And(x, y)) == AND","count(Or(x, Or(y, And(z, a)))) == AND + OR","count(Nor(x, y)) == NOT + OR","count(Nand(x, y)) == NOT + AND","count(Xor(x, y)) == XOR","count(Implies(x, y)) == IMPLIES","count(Equivalent(x, y)) == EQUIVALENT","count(ITE(x, y, z)) == _ITE","count([Or(x, y), And(x, y), Basic(x + y)]) == ADD + AND + BASIC + OR","count(Basic(Tuple(x))) == BASIC + TUPLE","count(Eq(x + y, S(2))) == ADD + EQ"],"returns_expr":"count_ops(val, visual=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_count_ops_visual():
     ADD, MUL, POW, SIN, COS, EXP, AND, D, G, M = symbols(
         'Add Mul Pow sin cos exp And Derivative Integral Sum'.upper())
@@ -171,16 +189,25 @@ def test_count_ops_visual():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9324(), test_issue_9324 produces the expected output) over Any ║
+# ║ Path(test_issue_9324(), count_ops(val, visual=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9324 : Any → {Any | count(M[0, 0]) == 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  count(M[0, 0]) == 0                            ║
+# ║   ensures:  count(2 * M[0, 0] + M[5, 7]) == 2              ║
+# ║   ensures:  count(P + Q) == 1                              ║
+# ║   returns:  count_ops(val, visual=False)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9324 : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8022a0cb1762a148  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a4884a59c067fc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_issue_9324","kind":"function","src_hash":"380be78eb0c0af45","in":{"base":"Any"},"out":{"base":"Any","pred":"count(M[0, 0]) == 0 and count(2 * M[0, 0] + M[5, 7]) == 2 and count(P + Q) == 1 and count(M[0, 1]) == 2"},"spec":{"lhs":"test_issue_9324()","rhs":"test_issue_9324 produces the expected output","over":{"base":"Any"},"name":"test_issue_9324_correct"},"guarantee":"test_issue_9324 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_issue_9324_correct","statement":"Path(test_issue_9324(x), test_issue_9324 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8022a0cb1762a148"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_issue_9324","kind":"function","src_hash":"380be78eb0c0af45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (count_ops(val, visual=False))"},"spec":{"lhs":"test_issue_9324()","rhs":"count_ops(val, visual=False)","over":{"base":"Any"},"name":"test_issue_9324_correct"},"guarantee":"returns count_ops(val, visual=False); count(M[0, 0]) == 0; count(2 * M[0, 0] + M[5, 7]) == 2; count(P + Q) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_issue_9324_correct","statement":"Path(test_issue_9324(x), returns count_ops(val, visual=False); count(M[0, 0]) == 0; count(2 * M[0, 0] + M[5, 7]) == 2; count(P + Q) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a4884a59c067fc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["count(M[0, 0]) == 0","count(2 * M[0, 0] + M[5, 7]) == 2","count(P + Q) == 1","count(M[0, 1]) == 2"],"returns_expr":"count_ops(val, visual=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_9324():
     def count(val):
         return count_ops(val, visual=False)
@@ -198,16 +225,23 @@ def test_issue_9324():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21532(), test_issue_21532 produces the expected output) over Any ║
+# ║ Path(test_issue_21532(), f(x).count_ops(visual=True) == FUNC_F and g(x).count_ops(visual=True) == FUNC_G) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21532 : Any → {Any | f(x).count_ops(visual...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(x).count_ops(visual=True) == FUNC_F          ║
+# ║   ensures:  g(x).count_ops(visual=True) == FUNC_G          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21532 : Any → {Any | result satisfies: f(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83977b6ebf4c31a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae7c24cb8948cdfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_issue_21532","kind":"function","src_hash":"2c81c9e9c9a994db","in":{"base":"Any"},"out":{"base":"Any","pred":"f(x).count_ops(visual=True) == FUNC_F and g(x).count_ops(visual=True) == FUNC_G"},"spec":{"lhs":"test_issue_21532()","rhs":"test_issue_21532 produces the expected output","over":{"base":"Any"},"name":"test_issue_21532_correct"},"guarantee":"test_issue_21532 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_issue_21532_correct","statement":"Path(test_issue_21532(x), test_issue_21532 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83977b6ebf4c31a5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_count_ops.test_issue_21532","kind":"function","src_hash":"2c81c9e9c9a994db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(x).count_ops(visual=True) == FUNC_F and g(x).count_ops(visual=True) == FUNC_G"},"spec":{"lhs":"test_issue_21532()","rhs":"f(x).count_ops(visual=True) == FUNC_F and g(x).count_ops(visual=True) == FUNC_G","over":{"base":"Any"},"name":"test_issue_21532_correct"},"guarantee":"f(x).count_ops(visual=True) == FUNC_F; g(x).count_ops(visual=True) == FUNC_G","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_count_ops.test_issue_21532_correct","statement":"Path(test_issue_21532(x), f(x).count_ops(visual=True) == FUNC_F; g(x).count_ops(visual=True) == FUNC_G)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae7c24cb8948cdfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(x).count_ops(visual=True) == FUNC_F","g(x).count_ops(visual=True) == FUNC_G"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21532():
     f = Function('f')
     g = Function('g')

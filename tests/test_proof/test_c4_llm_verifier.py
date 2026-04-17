@@ -14,6 +14,9 @@ from cctt.proof_theory.c4_llm_verifier import (
     ReturnPath,
     C4SpecVerdict,
     build_c4_spec_prompt,
+    _infer_result_sort,
+    _is_boolean_tautology,
+    _inject_builtin_axioms,
     C4_SPEC_SYSTEM_PROMPT,
 )
 
@@ -240,12 +243,12 @@ class TestClauseVerification:
         assert verdict == "failed"
 
     def test_assumed_uninterpreted(self):
-        """Uninterpreted functions may be undecidable."""
+        """With axioms, abs(x) == max(x, -x) is now provable."""
         path = ReturnPath(guard="True", return_expr="abs(x)")
         verdict, _ = verify_clause_on_path(
             "result == max(x, -x)", path, [], ["x"])
-        # abs and max are uninterpreted — Z3 can't prove or disprove
-        assert verdict == "assumed"
+        # axiom injection makes this provable: abs definition + max semantics
+        assert verdict == "verified"
 
     def test_guarded_path(self):
         """Under guard x >= 0, result == x is verified for return x."""
@@ -520,3 +523,93 @@ class TestPromptGeneration:
     def test_build_prompt_no_docstring(self):
         prompt = build_c4_spec_prompt("def f(x): return x", "f", ["x"])
         assert "def f(x)" in prompt
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Tactics: Sort Inference, Axiom Injection, Tautology Detection
+# ═══════════════════════════════════════════════════════════════════
+
+class TestSortInference:
+    """Test that sorts are inferred from function names and annotations."""
+
+    def test_is_predicate_returns_bool(self):
+        assert _infer_result_sort("is_positive", "") == "Bool"
+        assert _infer_result_sort("_eval_is_integer", "") == "Bool"
+        assert _infer_result_sort("has_key", "") == "Bool"
+
+    def test_regular_function_returns_int(self):
+        assert _infer_result_sort("compute", "") == "Int"
+        assert _infer_result_sort("add", "") == "Int"
+
+    def test_annotation_overrides(self):
+        src = "def f(x) -> bool:\n    return True"
+        assert _infer_result_sort("f", src) == "Bool"
+
+    def test_float_annotation(self):
+        src = "def f(x) -> float:\n    return 1.0"
+        assert _infer_result_sort("f", src) == "Real"
+
+
+class TestTautologyDetection:
+    """Test that boolean tautologies are detected."""
+
+    def test_bool_exhaustion(self):
+        r = _is_boolean_tautology("result == True or result == False", "Bool")
+        assert r is not None
+        assert "tautology" in r
+
+    def test_not_tautology_for_int(self):
+        r = _is_boolean_tautology("result == True or result == False", "Int")
+        assert r is None
+
+    def test_isinstance_bool(self):
+        r = _is_boolean_tautology("isinstance(result, bool)", "Bool")
+        assert r is not None
+
+
+class TestAxiomInjection:
+    """Test that builtin axioms enable verification."""
+
+    def test_abs_nonneg_verified(self):
+        """With abs axiom, result >= 0 for abs(x) should be verified."""
+        path = ReturnPath(guard="True", return_expr="abs(x)")
+        verdict, _ = verify_clause_on_path(
+            "result >= 0", path, [], ["x"],
+            func_name="my_abs", source="def my_abs(x): return abs(x)")
+        assert verdict == "verified"
+
+    def test_max_ge_both(self):
+        """With max axioms, max(x,y) >= x should be verified."""
+        path = ReturnPath(guard="True", return_expr="max(x, y)")
+        verdict, _ = verify_clause_on_path(
+            "result >= x", path, [], ["x", "y"],
+            func_name="my_max",
+            source="def my_max(x, y): return max(x, y)")
+        assert verdict == "verified"
+
+    def test_len_nonneg(self):
+        """With len axiom, len(x) >= 0 should be verified."""
+        path = ReturnPath(guard="True", return_expr="len(x)")
+        verdict, _ = verify_clause_on_path(
+            "result >= 0", path, [], ["x"],
+            func_name="my_len", source="def my_len(x): return len(x)")
+        assert verdict == "verified"
+
+
+class TestBoolPredicateVerification:
+    """Test that is_* functions get Bool sort and verify accordingly."""
+
+    def test_is_predicate_bool_tautology_verified(self):
+        """_eval_is_integer with result == True or result == False
+        should be verified via tautology."""
+        source = "def _eval_is_integer(self):\n    return True"
+        spec = {"ensures": ["result == True or result == False"]}
+        verdict = verify_c4_spec(source, "_eval_is_integer", [], spec)
+        assert verdict.n_verified >= 1
+        assert verdict.n_failed == 0
+
+    def test_is_positive_bool(self):
+        source = "def is_positive(x):\n    return x > 0"
+        spec = {"ensures": ["result == True or result == False"]}
+        verdict = verify_c4_spec(source, "is_positive", ["x"], spec)
+        assert verdict.n_verified >= 1

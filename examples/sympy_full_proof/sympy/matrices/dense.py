@@ -38,16 +38,23 @@ __doctest_requires__ = {('symarray',): ['numpy']}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_iszero(x), returns true if x is zero) over Any       ║
+# ║ Path(_iszero(x), x.is_zero) over {Any | hasattr(x, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _iszero : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   returns:  x.is_zero                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _iszero : {Any | hasattr(x, 'is_zero')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d38bdd2397c0664           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense._iszero","kind":"function","src_hash":"900b209237974af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iszero(x)","rhs":"returns true if x is zero","over":{"base":"Any"},"name":"_iszero_correct"},"guarantee":"returns true if x is zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d38bdd2397c0664"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense._iszero","kind":"function","src_hash":"900b209237974af4","in":{"base":"Any","pred":"hasattr(x, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"_iszero(x)","rhs":"x.is_zero","over":{"base":"Any","pred":"hasattr(x, 'is_zero')"},"name":"_iszero_correct"},"guarantee":"returns x.is_zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d38bdd2397c0664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_zero')"],"returns_expr":"x.is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _iszero(x):
     """Returns True if x is zero."""
     return x.is_zero
@@ -56,14 +63,20 @@ def _iszero(x):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DenseMatrix(*args), correctly constructs a DenseMatrix instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DenseMatrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RepMatrix)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DenseMatrix : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7daa0ab28fff905  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix","kind":"class","src_hash":"1585e0826e59d657","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DenseMatrix(*args)","rhs":"correctly constructs a DenseMatrix instance","over":{"base":"Any"},"name":"DenseMatrix_class_invariant"},"guarantee":"correctly constructs a DenseMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7daa0ab28fff905"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix","kind":"class","src_hash":"1585e0826e59d657","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RepMatrix)"},"spec":{"lhs":"DenseMatrix(*args)","rhs":"correctly constructs a DenseMatrix instance","over":{"base":"Any"},"name":"DenseMatrix_class_invariant"},"guarantee":"isinstance(self, RepMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7daa0ab28fff905","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RepMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function DenseMatrix not found in source"]}}
 class DenseMatrix(RepMatrix):
     """Matrix implementation based on DomainMatrix as the internal representation"""
 
@@ -80,16 +93,22 @@ class DenseMatrix(RepMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mat(), returns the _mat attribute) over Any          ║
+# ║ Path(_mat(), self.flat()) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.flat()                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mat : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f646c5ba657d73e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix._mat","kind":"property","src_hash":"9ba10c3d9d698c96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mat()","rhs":"returns the _mat attribute","over":{"base":"Any"},"name":"_mat_correct"},"guarantee":"returns the _mat attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f646c5ba657d73e2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix._mat","kind":"property","src_hash":"9ba10c3d9d698c96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mat()","rhs":"self.flat()","over":{"base":"Any"},"name":"_mat_correct"},"guarantee":"returns self.flat()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f646c5ba657d73e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.flat()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.flat"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mat(self):
         sympy_deprecation_warning(
             """
@@ -103,16 +122,22 @@ class DenseMatrix(RepMatrix):
         return self.flat()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(**k), id) over Any                      ║
+# ║ Path(_eval_inverse(**kwargs), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.inv(method=kwargs.get('method', 'GE'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 954942329537cffd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix._eval_inverse","kind":"method","src_hash":"45d31b060e02561d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"get","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"954942329537cffd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix._eval_inverse","kind":"method","src_hash":"45d31b060e02561d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse(**kwargs)","rhs":"self.inv(method=kwargs.get('method', 'GE'), iszerofunc=kwargs.get('iszerofunc', _iszero), try_block_diag=kwargs.get('try_block_diag', False))","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"returns self.inv(method=kwargs.get('method', 'GE'), iszerofunc=kwargs.get('iszerofunc', _iszero), try_block_diag=kwargs.get('try_block_diag', False))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"get","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"954942329537cffd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.inv(method=kwargs.get('method', 'GE'), iszerofunc=kwargs.get('iszerofunc', _iszero), try_block_diag=kwargs.get('try_block_diag', False))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.inv"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self, **kwargs):
         return self.inv(method=kwargs.get('method', 'GE'),
                         iszerofunc=kwargs.get('iszerofunc', _iszero),
@@ -121,14 +146,20 @@ class DenseMatrix(RepMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(as_immutable(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._fromrep(self._rep.copy())                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ as_immutable : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 56771b0dcd5db0e1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.as_immutable","kind":"method","src_hash":"259f253a98b8a296","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"returns an immutable version of this matrix","over":{"base":"Any"},"name":"as_immutable_correct","kind":"composition"},"guarantee":"returns an immutable version of this matrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_fromrep","by":"library_axiom"},{"fn":"copy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56771b0dcd5db0e1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.as_immutable","kind":"method","src_hash":"259f253a98b8a296","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"cls._fromrep(self._rep.copy())","over":{"base":"Any"},"name":"as_immutable_correct","kind":"composition"},"guarantee":"returns cls._fromrep(self._rep.copy())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_fromrep","by":"library_axiom"},{"fn":"copy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56771b0dcd5db0e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._fromrep(self._rep.copy())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_immutable(self):
         """Returns an Immutable version of this Matrix
         """
@@ -136,16 +167,22 @@ class DenseMatrix(RepMatrix):
         return cls._fromrep(self._rep.copy())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mutable(), returns a mutable version of this matrix) over Any ║
+# ║ Path(as_mutable(), Matrix(self)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(self)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mutable : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec42e62294c17c82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.as_mutable","kind":"method","src_hash":"4132ae58238b76eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"returns a mutable version of this matrix","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns a mutable version of this matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec42e62294c17c82"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.as_mutable","kind":"method","src_hash":"4132ae58238b76eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"Matrix(self)","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns Matrix(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec42e62294c17c82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_mutable(self):
         """Returns a mutable version of this matrix
 
@@ -164,58 +201,82 @@ class DenseMatrix(RepMatrix):
         return Matrix(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cholesky(her), cholesky produces the expected output) over Any ║
+# ║ Path(cholesky(hermitian), _cholesky(self, hermitian=hermitian)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _cholesky(self, hermitian=hermitian)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cholesky : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32b96ed49d90a593           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.cholesky","kind":"method","src_hash":"e00a762796c012b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cholesky(her)","rhs":"cholesky produces the expected output","over":{"base":"Any"},"name":"cholesky_correct"},"guarantee":"cholesky produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32b96ed49d90a593"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.cholesky","kind":"method","src_hash":"e00a762796c012b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cholesky(hermitian)","rhs":"_cholesky(self, hermitian=hermitian)","over":{"base":"Any"},"name":"cholesky_correct"},"guarantee":"returns _cholesky(self, hermitian=hermitian)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32b96ed49d90a593","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_cholesky(self, hermitian=hermitian)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cholesky(self, hermitian=True):
         return _cholesky(self, hermitian=hermitian)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LDLdecomposition(her), LDLdecomposition produces the expected output) over Any ║
+# ║ Path(LDLdecomposition(hermitian), _LDLdecomposition(self, hermitian=hermitian)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _LDLdecomposition(self, hermitian=hermitian)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ LDLdecomposition : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5954c3f3b716d7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.LDLdecomposition","kind":"method","src_hash":"039b93b8f471d0e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LDLdecomposition(her)","rhs":"LDLdecomposition produces the expected output","over":{"base":"Any"},"name":"LDLdecomposition_correct"},"guarantee":"LDLdecomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5954c3f3b716d7b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.LDLdecomposition","kind":"method","src_hash":"039b93b8f471d0e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LDLdecomposition(hermitian)","rhs":"_LDLdecomposition(self, hermitian=hermitian)","over":{"base":"Any"},"name":"LDLdecomposition_correct"},"guarantee":"returns _LDLdecomposition(self, hermitian=hermitian)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5954c3f3b716d7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_LDLdecomposition(self, hermitian=hermitian)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LDLdecomposition(self, hermitian=True):
         return _LDLdecomposition(self, hermitian=hermitian)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower_triangular_solve(rhs), lower_triangular_solve produces the expected output) over Any ║
+# ║ Path(lower_triangular_solve(rhs), _lower_triangular_solve(self, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _lower_triangular_solve(self, rhs)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower_triangular_solve : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 172724fe9347128f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.lower_triangular_solve","kind":"method","src_hash":"ee071c2ba8e91668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_triangular_solve(rhs)","rhs":"lower_triangular_solve produces the expected output","over":{"base":"Any"},"name":"lower_triangular_solve_correct"},"guarantee":"lower_triangular_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"172724fe9347128f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.lower_triangular_solve","kind":"method","src_hash":"ee071c2ba8e91668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_triangular_solve(rhs)","rhs":"_lower_triangular_solve(self, rhs)","over":{"base":"Any"},"name":"lower_triangular_solve_correct"},"guarantee":"returns _lower_triangular_solve(self, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"172724fe9347128f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_lower_triangular_solve(self, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower_triangular_solve(self, rhs):
         return _lower_triangular_solve(self, rhs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upper_triangular_solve(rhs), upper_triangular_solve produces the expected output) over Any ║
+# ║ Path(upper_triangular_solve(rhs), _upper_triangular_solve(self, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _upper_triangular_solve(self, rhs)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upper_triangular_solve : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d8cc1b2c020bf25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.upper_triangular_solve","kind":"method","src_hash":"c0c1622ee37622ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper_triangular_solve(rhs)","rhs":"upper_triangular_solve produces the expected output","over":{"base":"Any"},"name":"upper_triangular_solve_correct"},"guarantee":"upper_triangular_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d8cc1b2c020bf25"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.DenseMatrix.upper_triangular_solve","kind":"method","src_hash":"c0c1622ee37622ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper_triangular_solve(rhs)","rhs":"_upper_triangular_solve(self, rhs)","over":{"base":"Any"},"name":"upper_triangular_solve_correct"},"guarantee":"returns _upper_triangular_solve(self, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d8cc1b2c020bf25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_upper_triangular_solve(self, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def upper_triangular_solve(self, rhs):
         return _upper_triangular_solve(self, rhs)
 
@@ -226,9 +287,18 @@ class DenseMatrix(RepMatrix):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_force_mutable(x), return a matrix as a matrix, otherwise return x) over {Any | isinstance(x, Basic)} ║
+# ║ Path(_force_mutable(x), result == (x.as_mutable() if getattr(x, 'is_Matrix', False) else x if isinstance(x, Basic) else Matrix(x)) and result == x.as_mutable() or result == x or result == Matrix(x)) over {Any | isinstance(x, Basic) and hasattr(x, 'as_mutable') and hasattr(x, '__array__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _force_mutable : {Any | isinstance(x, Basic)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'as_mutable')                       ║
+# ║   requires: hasattr(x, '__array__')                        ║
+# ║   ensures:  result == (x.as_mutable() if getattr(x, '...   ║
+# ║   ensures:  result == x.as_mutable() or result == x o...   ║
+# ║   fiber[case_0]: getattr(x, 'is_Matrix', False) => x....   ║
+# ║   fiber[Basic]: isinstance(x, Basic) => x                  ║
+# ║   fiber[case_2]: hasattr(x, '__array__') => Matrix(x)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _force_mutable : {Any | isinstance(x, Basic) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(x, Basic)} → library_axiom            ║
@@ -238,9 +308,12 @@ class DenseMatrix(RepMatrix):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3e71402f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense._force_mutable","kind":"function","src_hash":"8fc94459d491b174","in":{"base":"Any","pred":"isinstance(x, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"_force_mutable(x)","rhs":"return a matrix as a matrix, otherwise return x","over":{"base":"Any","pred":"isinstance(x, Basic)"},"name":"_force_mutable_correct"},"guarantee":"return a matrix as a matrix, otherwise return x","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"_force_mutable(x)","rhs":"return a matrix as a matrix, otherwise return x","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"_force_mutable_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense._force_mutable_Basic_correct","statement":"_force_mutable satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3e71402fbdc5c29e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense._force_mutable","kind":"function","src_hash":"8fc94459d491b174","in":{"base":"Any","pred":"isinstance(x, Basic) and hasattr(x, 'as_mutable') and hasattr(x, '__array__')"},"out":{"base":"Any","pred":"result satisfies: result == (x.as_mutable() if getattr(x, 'is_Matrix', False) else x if isinstance(x, Basic) else Matrix(x)) and result == x.as_mutable() or result == x or result == Matrix(x)"},"spec":{"lhs":"_force_mutable(x)","rhs":"result == (x.as_mutable() if getattr(x, 'is_Matrix', False) else x if isinstance(x, Basic) else Matrix(x)) and result == x.as_mutable() or result == x or result == Matrix(x)","over":{"base":"Any","pred":"isinstance(x, Basic) and hasattr(x, 'as_mutable') and hasattr(x, '__array__')"},"name":"_force_mutable_correct"},"guarantee":"result == (x.as_mutable() if getattr(x, 'is_Matrix', False) else x if isinstance(x, Basic) else Matrix(x)); result == x.as_mutable() or result == x or result == Matrix(x); 3-fiber decomposition","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"_force_mutable(x)","rhs":"result == (x.as_mutable() if getattr(x, 'is_Matrix', False) else x if isinstance(x, Basic) else Matrix(x)); result == x.as_mutable() or result == x or result == Matrix(x); 3-fiber decomposition","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"_force_mutable_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense._force_mutable_Basic_correct","statement":"_force_mutable satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3e71402fbdc5c29e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'as_mutable')","hasattr(x, '__array__')"],"ensures":["result == (x.as_mutable() if getattr(x, 'is_Matrix', False) else x if isinstance(x, Basic) else Matrix(x))","result == x.as_mutable() or result == x or result == Matrix(x)"],"fibers":[{"name":"case_0","guard":"getattr(x, 'is_Matrix', False)","ensures":["result == x.as_mutable()"],"decidability":"library","returns_expr":"x.as_mutable()"},{"name":"Basic","guard":"isinstance(x, Basic)","ensures":["result == x"],"decidability":"structural","returns_expr":"x"},{"name":"case_2","guard":"hasattr(x, '__array__')","ensures":["result == Matrix(x)"],"decidability":"structural","returns_expr":"Matrix(x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.__array__","x.as_mutable"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, Basic)', 'len(a.shape) == 0'}, fibers={'Basic'})"]}}
 def _force_mutable(x):
     """Return a matrix as a Matrix, otherwise return x."""
     if getattr(x, 'is_Matrix', False):
@@ -258,27 +331,40 @@ def _force_mutable(x):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MutableDenseMatrix(*args), correctly constructs a MutableDenseMatrix instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MutableDenseMatrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DenseMatrix)                  ║
+# ║   ensures:  isinstance(self, MutableRepMatrix)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MutableDenseMatrix : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76fc431a69deb0a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.MutableDenseMatrix","kind":"class","src_hash":"ecef3d8c65e5c624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MutableDenseMatrix(*args)","rhs":"correctly constructs a MutableDenseMatrix instance","over":{"base":"Any"},"name":"MutableDenseMatrix_class_invariant"},"guarantee":"correctly constructs a MutableDenseMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76fc431a69deb0a1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.MutableDenseMatrix","kind":"class","src_hash":"ecef3d8c65e5c624","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DenseMatrix) and isinstance(self, MutableRepMatrix)"},"spec":{"lhs":"MutableDenseMatrix(*args)","rhs":"correctly constructs a MutableDenseMatrix instance","over":{"base":"Any"},"name":"MutableDenseMatrix_class_invariant"},"guarantee":"isinstance(self, DenseMatrix); isinstance(self, MutableRepMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76fc431a69deb0a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DenseMatrix)","isinstance(self, MutableRepMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MutableDenseMatrix not found in source"]}}
 class MutableDenseMatrix(DenseMatrix, MutableRepMatrix):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(**k), applies simplify to the elements of a matrix in place) over Any ║
+# ║ Path(simplify(**kwargs), <unspecified:simplify>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 205a41edd0965a33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.MutableDenseMatrix.simplify","kind":"method","src_hash":"9245974b5a9f6490","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(**k)","rhs":"applies simplify to the elements of a matrix in place","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"applies simplify to the elements of a matrix in place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.MutableDenseMatrix.simplify_correct","statement":"Path(simplify(x), applies simplify to the elements of a matrix in place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"205a41edd0965a33"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.MutableDenseMatrix.simplify","kind":"method","src_hash":"9245974b5a9f6490","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(**kwargs)","rhs":"<unspecified:simplify>","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"applies simplify to the elements of a matrix in place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.MutableDenseMatrix.simplify_correct","statement":"Path(simplify(x), applies simplify to the elements of a matrix in place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"205a41edd0965a33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.todok"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simplify(self, **kwargs):
         """Applies simplify to the elements of a matrix in place.
 
@@ -303,16 +389,22 @@ MutableMatrix = Matrix = MutableDenseMatrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(list2numpy(l, ), converts python list of sympy expressions to a numpy array) over Any ║
+# ║ Path(list2numpy(l, dtype), <unspecified:list2numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ list2numpy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8baa0e328877...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.list2numpy","kind":"function","src_hash":"2ef1a3493db70afe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"list2numpy(l, )","rhs":"converts python list of sympy expressions to a numpy array","over":{"base":"Any"},"name":"list2numpy_correct"},"guarantee":"converts python list of sympy expressions to a numpy array","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.list2numpy_correct","statement":"Path(list2numpy(x), converts python list of sympy expressions to a numpy array)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"8baa0e3288779a43"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.list2numpy","kind":"function","src_hash":"2ef1a3493db70afe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"list2numpy(l, dtype)","rhs":"<unspecified:list2numpy>","over":{"base":"Any"},"name":"list2numpy_correct"},"guarantee":"converts python list of sympy expressions to a numpy array","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.list2numpy_correct","statement":"Path(list2numpy(x), converts python list of sympy expressions to a numpy array)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"8baa0e3288779a43","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def list2numpy(l, dtype=object):  # pragma: no cover
     """Converts Python list of SymPy expressions to a NumPy array.
 
@@ -329,16 +421,25 @@ def list2numpy(l, dtype=object):  # pragma: no cover
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix2numpy(m, ), converts sympy's matrix to a numpy array) over Any ║
+# ║ Path(matrix2numpy(m, dtype), <unspecified:matrix2numpy>) over {Any | hasattr(m, 'shape') and hasattr(m, 'rows') and hasattr(m, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix2numpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'shape')                            ║
+# ║   requires: hasattr(m, 'rows')                             ║
+# ║   requires: hasattr(m, 'cols')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix2numpy : {Any | hasattr(m, 'shape') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8a92c47ea200...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.matrix2numpy","kind":"function","src_hash":"e503dd2f4bd9c771","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix2numpy(m, )","rhs":"converts sympy's matrix to a numpy array","over":{"base":"Any"},"name":"matrix2numpy_correct"},"guarantee":"converts sympy's matrix to a numpy array","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.matrix2numpy_correct","statement":"Path(matrix2numpy(x), converts sympy's matrix to a numpy array)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"8a92c47ea200c5af"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.matrix2numpy","kind":"function","src_hash":"e503dd2f4bd9c771","in":{"base":"Any","pred":"hasattr(m, 'shape') and hasattr(m, 'rows') and hasattr(m, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"matrix2numpy(m, dtype)","rhs":"<unspecified:matrix2numpy>","over":{"base":"Any","pred":"hasattr(m, 'shape') and hasattr(m, 'rows') and hasattr(m, 'cols')"},"name":"matrix2numpy_correct"},"guarantee":"converts sympy's matrix to a numpy array","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.matrix2numpy_correct","statement":"Path(matrix2numpy(x), converts sympy's matrix to a numpy array)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"8a92c47ea200c5af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'shape')","hasattr(m, 'rows')","hasattr(m, 'cols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.cols","m.rows","m.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def matrix2numpy(m, dtype=object):  # pragma: no cover
     """Converts SymPy's matrix to a NumPy array.
 
@@ -362,9 +463,14 @@ def matrix2numpy(m, dtype=object):  # pragma: no cover
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_givens(i, ), returns a a givens rotation matrix, a a rotation in the plane spanned by two coordinates axes) over {Any | isinstance(dim, int)} ║
+# ║ Path(rot_givens(i, j, theta), <unspecified:rot_givens>) over {Any | isinstance(dim, int) and not (not isinstance(dim, int) or dim < 2) and not (i == j)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rot_givens : {Any | isinstance(dim, int)} → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not isinstance(dim, int) or dim < 2)      ║
+# ║   requires: not (i == j)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rot_givens : {Any | isinstance(dim, int) and not (not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   int: {isinstance(dim, int)} → library_axiom              ║
@@ -374,9 +480,12 @@ def matrix2numpy(m, dtype=object):  # pragma: no cover
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7a4ec00a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_givens","kind":"function","src_hash":"7ad102cb23cae549","in":{"base":"Any","pred":"isinstance(dim, int)"},"out":{"base":"Any"},"spec":{"lhs":"rot_givens(i, )","rhs":"returns a a givens rotation matrix, a a rotation in the plane spanned by two coordinates axes","over":{"base":"Any","pred":"isinstance(dim, int)"},"name":"rot_givens_correct"},"guarantee":"returns a a givens rotation matrix, a a rotation in the plane spanned by two coordinates axes","fibers":[{"name":"int","pred":"isinstance(dim, int)","path":{"lhs":"rot_givens(x)","rhs":"returns a a givens rotation matrix, a a rotation in the plane spanned by two coordinates axes","over":{"base":"int","pred":"isinstance(dim, int)"},"name":"rot_givens_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.rot_givens_int_correct","statement":"rot_givens satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a4ec00a03d06e6d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_givens","kind":"function","src_hash":"7ad102cb23cae549","in":{"base":"Any","pred":"isinstance(dim, int) and not (not isinstance(dim, int) or dim < 2) and not (i == j)"},"out":{"base":"Any"},"spec":{"lhs":"rot_givens(i, j, theta)","rhs":"<unspecified:rot_givens>","over":{"base":"Any","pred":"isinstance(dim, int) and not (not isinstance(dim, int) or dim < 2) and not (i == j)"},"name":"rot_givens_correct"},"guarantee":"returns a a givens rotation matrix, a a rotation in the plane spanned by two coordinates axes","fibers":[{"name":"int","pred":"isinstance(dim, int)","path":{"lhs":"rot_givens(x)","rhs":"returns a a givens rotation matrix, a a rotation in the plane spanned by two coordinates axes","over":{"base":"int","pred":"isinstance(dim, int)"},"name":"rot_givens_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.rot_givens_int_correct","statement":"rot_givens satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a4ec00a03d06e6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not isinstance(dim, int) or dim < 2)","not (i == j)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(dim, int) or dim < 2', 'not isinstance(ij, int) or ij < 0 or ij > dim - 1', 'i == j'}, fibers={'int'})"]}}
 def rot_givens(i, j, theta, dim=3):
     r"""Returns a a Givens rotation matrix, a a rotation in the
     plane spanned by two coordinates axes.
@@ -497,16 +606,22 @@ def rot_givens(i, j, theta, dim=3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_axis3(the), returns a rotation matrix for a rotation of theta (in radians) about the 3-axis) over Any ║
+# ║ Path(rot_axis3(theta), rot_givens(0, 1, theta, dim=3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rot_givens(0, 1, theta, dim=3)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_axis3 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56873ec2bda63df3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_axis3","kind":"function","src_hash":"ba26096d076dae1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_axis3(the)","rhs":"returns a rotation matrix for a rotation of theta (in radians) about the 3-axis","over":{"base":"Any"},"name":"rot_axis3_correct"},"guarantee":"returns a rotation matrix for a rotation of theta (in radians) about the 3-axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56873ec2bda63df3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_axis3","kind":"function","src_hash":"ba26096d076dae1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_axis3(theta)","rhs":"rot_givens(0, 1, theta, dim=3)","over":{"base":"Any"},"name":"rot_axis3_correct"},"guarantee":"returns rot_givens(0, 1, theta, dim=3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56873ec2bda63df3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rot_givens(0, 1, theta, dim=3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rot_axis3(theta):
     r"""Returns a rotation matrix for a rotation of theta (in radians)
     about the 3-axis.
@@ -563,16 +678,22 @@ def rot_axis3(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_axis2(the), returns a rotation matrix for a rotation of theta (in radians) about the 2-axis) over Any ║
+# ║ Path(rot_axis2(theta), rot_givens(2, 0, theta, dim=3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rot_givens(2, 0, theta, dim=3)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_axis2 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5defbdbf8f18f05d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_axis2","kind":"function","src_hash":"b1a335fea4d5489a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_axis2(the)","rhs":"returns a rotation matrix for a rotation of theta (in radians) about the 2-axis","over":{"base":"Any"},"name":"rot_axis2_correct"},"guarantee":"returns a rotation matrix for a rotation of theta (in radians) about the 2-axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5defbdbf8f18f05d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_axis2","kind":"function","src_hash":"b1a335fea4d5489a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_axis2(theta)","rhs":"rot_givens(2, 0, theta, dim=3)","over":{"base":"Any"},"name":"rot_axis2_correct"},"guarantee":"returns rot_givens(2, 0, theta, dim=3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5defbdbf8f18f05d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rot_givens(2, 0, theta, dim=3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rot_axis2(theta):
     r"""Returns a rotation matrix for a rotation of theta (in radians)
     about the 2-axis.
@@ -629,16 +750,22 @@ def rot_axis2(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_axis1(the), returns a rotation matrix for a rotation of theta (in radians) about the 1-axis) over Any ║
+# ║ Path(rot_axis1(theta), rot_givens(1, 2, theta, dim=3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rot_givens(1, 2, theta, dim=3)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_axis1 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9a0ca9068350cf7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_axis1","kind":"function","src_hash":"f91eb6ae5b1fa600","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_axis1(the)","rhs":"returns a rotation matrix for a rotation of theta (in radians) about the 1-axis","over":{"base":"Any"},"name":"rot_axis1_correct"},"guarantee":"returns a rotation matrix for a rotation of theta (in radians) about the 1-axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9a0ca9068350cf7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_axis1","kind":"function","src_hash":"f91eb6ae5b1fa600","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_axis1(theta)","rhs":"rot_givens(1, 2, theta, dim=3)","over":{"base":"Any"},"name":"rot_axis1_correct"},"guarantee":"returns rot_givens(1, 2, theta, dim=3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9a0ca9068350cf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rot_givens(1, 2, theta, dim=3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rot_axis1(theta):
     r"""Returns a rotation matrix for a rotation of theta (in radians)
     about the 1-axis.
@@ -695,16 +822,22 @@ def rot_axis1(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_ccw_axis3(the), returns a rotation matrix for a rotation of theta (in radians) about the 3-axis) over Any ║
+# ║ Path(rot_ccw_axis3(theta), rot_givens(1, 0, theta, dim=3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rot_givens(1, 0, theta, dim=3)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_ccw_axis3 : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16e3bff130d3a6a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_ccw_axis3","kind":"function","src_hash":"9efee54801fe1e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_ccw_axis3(the)","rhs":"returns a rotation matrix for a rotation of theta (in radians) about the 3-axis","over":{"base":"Any"},"name":"rot_ccw_axis3_correct"},"guarantee":"returns a rotation matrix for a rotation of theta (in radians) about the 3-axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16e3bff130d3a6a1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_ccw_axis3","kind":"function","src_hash":"9efee54801fe1e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_ccw_axis3(theta)","rhs":"rot_givens(1, 0, theta, dim=3)","over":{"base":"Any"},"name":"rot_ccw_axis3_correct"},"guarantee":"returns rot_givens(1, 0, theta, dim=3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16e3bff130d3a6a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rot_givens(1, 0, theta, dim=3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rot_ccw_axis3(theta):
     r"""Returns a rotation matrix for a rotation of theta (in radians)
     about the 3-axis.
@@ -761,16 +894,22 @@ def rot_ccw_axis3(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_ccw_axis2(the), returns a rotation matrix for a rotation of theta (in radians) about the 2-axis) over Any ║
+# ║ Path(rot_ccw_axis2(theta), rot_givens(0, 2, theta, dim=3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rot_givens(0, 2, theta, dim=3)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_ccw_axis2 : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa8fd417fe8e233d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_ccw_axis2","kind":"function","src_hash":"762519ffbb07d08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_ccw_axis2(the)","rhs":"returns a rotation matrix for a rotation of theta (in radians) about the 2-axis","over":{"base":"Any"},"name":"rot_ccw_axis2_correct"},"guarantee":"returns a rotation matrix for a rotation of theta (in radians) about the 2-axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa8fd417fe8e233d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_ccw_axis2","kind":"function","src_hash":"762519ffbb07d08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_ccw_axis2(theta)","rhs":"rot_givens(0, 2, theta, dim=3)","over":{"base":"Any"},"name":"rot_ccw_axis2_correct"},"guarantee":"returns rot_givens(0, 2, theta, dim=3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa8fd417fe8e233d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rot_givens(0, 2, theta, dim=3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rot_ccw_axis2(theta):
     r"""Returns a rotation matrix for a rotation of theta (in radians)
     about the 2-axis.
@@ -827,16 +966,22 @@ def rot_ccw_axis2(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_ccw_axis1(the), returns a rotation matrix for a rotation of theta (in radians) about the 1-axis) over Any ║
+# ║ Path(rot_ccw_axis1(theta), rot_givens(2, 1, theta, dim=3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rot_givens(2, 1, theta, dim=3)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_ccw_axis1 : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1bfab8d55b0d224           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_ccw_axis1","kind":"function","src_hash":"f759d4305dba44b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_ccw_axis1(the)","rhs":"returns a rotation matrix for a rotation of theta (in radians) about the 1-axis","over":{"base":"Any"},"name":"rot_ccw_axis1_correct"},"guarantee":"returns a rotation matrix for a rotation of theta (in radians) about the 1-axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1bfab8d55b0d224"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.rot_ccw_axis1","kind":"function","src_hash":"f759d4305dba44b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_ccw_axis1(theta)","rhs":"rot_givens(2, 1, theta, dim=3)","over":{"base":"Any"},"name":"rot_ccw_axis1_correct"},"guarantee":"returns rot_givens(2, 1, theta, dim=3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1bfab8d55b0d224","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rot_givens(2, 1, theta, dim=3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rot_ccw_axis1(theta):
     r"""Returns a rotation matrix for a rotation of theta (in radians)
     about the 1-axis.
@@ -894,16 +1039,22 @@ def rot_ccw_axis1(theta):
 
 @doctest_depends_on(modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symarray(pre), create a numpy ndarray of symbols (as an object array)) over Any ║
+# ║ Path(symarray(prefix, shape, **kwargs), <unspecified:symarray>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symarray : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 2e25c6b0056d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.symarray","kind":"function","src_hash":"81452c814262e112","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symarray(pre)","rhs":"create a numpy ndarray of symbols (as an object array)","over":{"base":"Any"},"name":"symarray_correct"},"guarantee":"create a numpy ndarray of symbols (as an object array)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.symarray_correct","statement":"Path(symarray(x), create a numpy ndarray of symbols (as an object array))"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"2e25c6b0056dec2b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.symarray","kind":"function","src_hash":"81452c814262e112","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symarray(prefix, shape, **kwargs)","rhs":"<unspecified:symarray>","over":{"base":"Any"},"name":"symarray_correct"},"guarantee":"create a numpy ndarray of symbols (as an object array)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.symarray_correct","statement":"Path(symarray(x), create a numpy ndarray of symbols (as an object array))"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"2e25c6b0056dec2b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['prefix', 'shape'], spec=['prefix', 'shape', '**kwargs']"]}}
 def symarray(prefix, shape, **kwargs):  # pragma: no cover
     r"""Create a numpy ndarray of symbols (as an object array).
 
@@ -981,16 +1132,22 @@ def symarray(prefix, shape, **kwargs):  # pragma: no cover
 ###############
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(casoratian(seq), given linear difference operator l of order 'k' and homogeneous equation ly = 0 we want to compute kernel of l, which is a set of 'k' sequences: a(n), b(n), ) over Any ║
+# ║ Path(casoratian(seqs, n, zero), Matrix(k, k, f).det()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(k, k, f).det()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ casoratian : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4895f8e45100f0d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b05235350a73209a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.casoratian","kind":"function","src_hash":"f71827dd3f595a70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"casoratian(seq)","rhs":"given linear difference operator l of order 'k' and homogeneous equation ly = 0 we want to compute kernel of l, which is a set of 'k' sequences: a(n), b(n), ","over":{"base":"Any"},"name":"casoratian_correct"},"guarantee":"given linear difference operator l of order 'k' and homogeneous equation ly = 0 we want to compute kernel of l, which is a set of 'k' sequences: a(n), b(n), ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.casoratian_correct","statement":"Path(casoratian(x), given linear difference operator l of order 'k' and homogeneous equation ly = 0 we want to compute kernel of l, which is a set of 'k' sequences: a(n), b(n), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4895f8e45100f0d1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.casoratian","kind":"function","src_hash":"f71827dd3f595a70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"casoratian(seqs, n, zero)","rhs":"Matrix(k, k, f).det()","over":{"base":"Any"},"name":"casoratian_correct"},"guarantee":"returns Matrix(k, k, f).det()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.casoratian_correct","statement":"Path(casoratian(x), returns Matrix(k, k, f).det())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b05235350a73209a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(k, k, f).det()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def casoratian(seqs, n, zero=True):
     """Given linear difference operator L of order 'k' and homogeneous
        equation Ly = 0 we want to compute kernel of L, which is a set
@@ -1035,16 +1192,22 @@ def casoratian(seqs, n, zero=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eye(*ar), create square identity matrix n x n) over Any ║
+# ║ Path(eye(*args, **kwargs), Matrix.eye(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.eye(*args, **kwargs)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eye : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16ad721de8878dee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.eye","kind":"function","src_hash":"89c31e7d698b47fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(*ar)","rhs":"create square identity matrix n x n","over":{"base":"Any"},"name":"eye_correct"},"guarantee":"create square identity matrix n x n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16ad721de8878dee"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.eye","kind":"function","src_hash":"89c31e7d698b47fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(*args, **kwargs)","rhs":"Matrix.eye(*args, **kwargs)","over":{"base":"Any"},"name":"eye_correct"},"guarantee":"returns Matrix.eye(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16ad721de8878dee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.eye(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def eye(*args, **kwargs):
     """Create square identity matrix n x n
 
@@ -1060,16 +1223,22 @@ def eye(*args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diag(*va), returns a matrix with the provided values placed on the diagonal) over Any ║
+# ║ Path(diag(*values, strict, unpack), Matrix.diag(*values, strict=strict, unpack=unpack, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.diag(*values, strict=strict, unpac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diag : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 712d9305a79bccf3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.diag","kind":"function","src_hash":"e9f58c0e79c59821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag(*va)","rhs":"returns a matrix with the provided values placed on the diagonal","over":{"base":"Any"},"name":"diag_correct"},"guarantee":"returns a matrix with the provided values placed on the diagonal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"712d9305a79bccf3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.diag","kind":"function","src_hash":"e9f58c0e79c59821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag(*values, strict, unpack)","rhs":"Matrix.diag(*values, strict=strict, unpack=unpack, **kwargs)","over":{"base":"Any"},"name":"diag_correct"},"guarantee":"returns Matrix.diag(*values, strict=strict, unpack=unpack, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"712d9305a79bccf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.diag(*values, strict=strict, unpack=unpack, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*values', 'strict', 'unpack', '**kwargs']"]}}
 def diag(*values, strict=True, unpack=False, **kwargs):
     """Returns a matrix with the provided values placed on the
     diagonal. If non-square matrices are included, they will
@@ -1108,16 +1277,22 @@ def diag(*values, strict=True, unpack=False, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GramSchmidt(vli), apply the gram-schmidt process to a set of vectors) over Any ║
+# ║ Path(GramSchmidt(vlist, orthonormal), MutableDenseMatrix.orthogonalize(*vlist, normalize=orthonormal, rankcheck=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MutableDenseMatrix.orthogonalize(*vlist, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GramSchmidt : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc63dddf517c78b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc846212c01e11f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.GramSchmidt","kind":"function","src_hash":"928a7d13ee74c94f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GramSchmidt(vli)","rhs":"apply the gram-schmidt process to a set of vectors","over":{"base":"Any"},"name":"GramSchmidt_correct"},"guarantee":"apply the gram-schmidt process to a set of vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.GramSchmidt_correct","statement":"Path(GramSchmidt(x), apply the gram-schmidt process to a set of vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc63dddf517c78b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.GramSchmidt","kind":"function","src_hash":"928a7d13ee74c94f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GramSchmidt(vlist, orthonormal)","rhs":"MutableDenseMatrix.orthogonalize(*vlist, normalize=orthonormal, rankcheck=True)","over":{"base":"Any"},"name":"GramSchmidt_correct"},"guarantee":"returns MutableDenseMatrix.orthogonalize(*vlist, normalize=orthonormal, rankcheck=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.GramSchmidt_correct","statement":"Path(GramSchmidt(x), returns MutableDenseMatrix.orthogonalize(*vlist, normalize=orthonormal, rankcheck=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc846212c01e11f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MutableDenseMatrix.orthogonalize(*vlist, normalize=orthonormal, rankcheck=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def GramSchmidt(vlist, orthonormal=False):
     """Apply the Gram-Schmidt process to a set of vectors.
 
@@ -1160,9 +1335,15 @@ def GramSchmidt(vlist, orthonormal=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hessian(f, ), compute hessian matrix for a function f wrt parameters in varlist which may be given as a sequence or a row/column vector) over {Any | isinstance(varlist, MatrixBase)} ║
+# ║ Path(hessian(f, varlist, constraints), <unspecified:hessian>) over {Any | isinstance(varlist, MatrixBase) and getattr(f, 'diff') and hasattr(varlist, 'shape') and hasattr(varlist, 'cols') and hasattr(varlist, 'T') and hasattr(varlist, 'tolist') and hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hessian : {Any | isinstance(varlist, MatrixBase)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: getattr(f, 'diff')                             ║
+# ║   requires: hasattr(varlist, 'shape')                      ║
+# ║   requires: hasattr(varlist, 'cols')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hessian : {Any | isinstance(varlist, MatrixBase) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   MatrixBase: {isinstance(varlist, MatrixBase)} → lib...   ║
@@ -1172,9 +1353,12 @@ def GramSchmidt(vlist, orthonormal=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fae2eae9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.hessian","kind":"function","src_hash":"845588e3b00d7bc3","in":{"base":"Any","pred":"isinstance(varlist, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"hessian(f, )","rhs":"compute hessian matrix for a function f wrt parameters in varlist which may be given as a sequence or a row/column vector","over":{"base":"Any","pred":"isinstance(varlist, MatrixBase)"},"name":"hessian_correct"},"guarantee":"compute hessian matrix for a function f wrt parameters in varlist which may be given as a sequence or a row/column vector","fibers":[{"name":"MatrixBase","pred":"isinstance(varlist, MatrixBase)","path":{"lhs":"hessian(x)","rhs":"compute hessian matrix for a function f wrt parameters in varlist which may be given as a sequence or a row/column vector","over":{"base":"MatrixBase","pred":"isinstance(varlist, MatrixBase)"},"name":"hessian_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.hessian_MatrixBase_correct","statement":"hessian satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fae2eae9de640445"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.hessian","kind":"function","src_hash":"845588e3b00d7bc3","in":{"base":"Any","pred":"isinstance(varlist, MatrixBase) and getattr(f, 'diff') and hasattr(varlist, 'shape') and hasattr(varlist, 'cols') and hasattr(varlist, 'T') and hasattr(varlist, 'tolist') and hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"hessian(f, varlist, constraints)","rhs":"<unspecified:hessian>","over":{"base":"Any","pred":"isinstance(varlist, MatrixBase) and getattr(f, 'diff') and hasattr(varlist, 'shape') and hasattr(varlist, 'cols') and hasattr(varlist, 'T') and hasattr(varlist, 'tolist') and hasattr(f, 'diff')"},"name":"hessian_correct"},"guarantee":"compute hessian matrix for a function f wrt parameters in varlist which may be given as a sequence or a row/column vector","fibers":[{"name":"MatrixBase","pred":"isinstance(varlist, MatrixBase)","path":{"lhs":"hessian(x)","rhs":"compute hessian matrix for a function f wrt parameters in varlist which may be given as a sequence or a row/column vector","over":{"base":"MatrixBase","pred":"isinstance(varlist, MatrixBase)"},"name":"hessian_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.hessian_MatrixBase_correct","statement":"hessian satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fae2eae9de640445","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["getattr(f, 'diff')","hasattr(varlist, 'shape')","hasattr(varlist, 'cols')","hasattr(varlist, 'T')","hasattr(varlist, 'tolist')","hasattr(f, 'diff')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.diff","varlist.T","varlist.cols","varlist.shape","varlist.tolist"],"raises":["ShapeError","ValueError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(varlist, MatrixBase)', 'varlist.cols == 1'}, fibers={'MatrixBase'})"]}}
 def hessian(f, varlist, constraints=()):
     """Compute Hessian matrix for a function f wrt parameters in varlist
     which may be given as a sequence or a row/column vector. A list of
@@ -1253,16 +1437,22 @@ def hessian(f, varlist, constraints=()):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jordan_cell(eig), create a jordan block:) over Any    ║
+# ║ Path(jordan_cell(eigenval, n), Matrix.jordan_block(size=n, eigenvalue=eigenval)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.jordan_block(size=n, eigenvalue=ei...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jordan_cell : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da7187f24c164ad1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.jordan_cell","kind":"function","src_hash":"bda1996fe696ead5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_cell(eig)","rhs":"create a jordan block:","over":{"base":"Any"},"name":"jordan_cell_correct"},"guarantee":"create a jordan block:","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da7187f24c164ad1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.jordan_cell","kind":"function","src_hash":"bda1996fe696ead5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_cell(eigenval, n)","rhs":"Matrix.jordan_block(size=n, eigenvalue=eigenval)","over":{"base":"Any"},"name":"jordan_cell_correct"},"guarantee":"returns Matrix.jordan_block(size=n, eigenvalue=eigenval)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da7187f24c164ad1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.jordan_block(size=n, eigenvalue=eigenval)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def jordan_cell(eigenval, n):
     """
     Create a Jordan block:
@@ -1284,16 +1474,23 @@ def jordan_cell(eigenval, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_multiply_elementwise(A, ), return the hadamard product (elementwise product) of a and b) over Any ║
+# ║ Path(matrix_multiply_elementwise(A, B), A.multiply_elementwise(B)) over {Any | hasattr(A, 'multiply_elementwise')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix_multiply_elementwise : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'multiply_elementwise')             ║
+# ║   returns:  A.multiply_elementwise(B)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix_multiply_elementwise : {Any | hasattr(A, 'mult...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cc744e145ba9e08           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.matrix_multiply_elementwise","kind":"function","src_hash":"165e1433a33626a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_multiply_elementwise(A, )","rhs":"return the hadamard product (elementwise product) of a and b","over":{"base":"Any"},"name":"matrix_multiply_elementwise_correct"},"guarantee":"return the hadamard product (elementwise product) of a and b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cc744e145ba9e08"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.matrix_multiply_elementwise","kind":"function","src_hash":"165e1433a33626a3","in":{"base":"Any","pred":"hasattr(A, 'multiply_elementwise')"},"out":{"base":"Any"},"spec":{"lhs":"matrix_multiply_elementwise(A, B)","rhs":"A.multiply_elementwise(B)","over":{"base":"Any","pred":"hasattr(A, 'multiply_elementwise')"},"name":"matrix_multiply_elementwise_correct"},"guarantee":"returns A.multiply_elementwise(B)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cc744e145ba9e08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'multiply_elementwise')"],"returns_expr":"A.multiply_elementwise(B)","pure":false,"effects":{"effect_type":"reads_state","reads":["A.multiply_elementwise"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def matrix_multiply_elementwise(A, B):
     """Return the Hadamard product (elementwise product) of A and B
 
@@ -1314,16 +1511,22 @@ def matrix_multiply_elementwise(A, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ones(*ar), returns a matrix of ones with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned) over Any ║
+# ║ Path(ones(*args, **kwargs), Matrix.ones(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.ones(*args, **kwargs)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ones : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 451e5400d8d1448a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 682bf103642fd96d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.ones","kind":"function","src_hash":"145519434b7179e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ones(*ar)","rhs":"returns a matrix of ones with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned","over":{"base":"Any"},"name":"ones_correct"},"guarantee":"returns a matrix of ones with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.ones_correct","statement":"Path(ones(x), returns a matrix of ones with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"451e5400d8d1448a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.ones","kind":"function","src_hash":"145519434b7179e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ones(*args, **kwargs)","rhs":"Matrix.ones(*args, **kwargs)","over":{"base":"Any"},"name":"ones_correct"},"guarantee":"returns Matrix.ones(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.ones_correct","statement":"Path(ones(x), returns Matrix.ones(*args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"682bf103642fd96d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.ones(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def ones(*args, **kwargs):
     """Returns a matrix of ones with ``rows`` rows and ``cols`` columns;
     if ``cols`` is omitted a square matrix will be returned.
@@ -1343,16 +1546,23 @@ def ones(*args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(randMatrix(r, ), create random matrix with dimensions ``r`` x ``c``) over Any ║
+# ║ Path(randMatrix(r, c, min), <unspecified:randMatrix>) over {Any | not (symmetric and r != c)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ randMatrix : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (symmetric and r != c)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ randMatrix : {Any | not (symmetric and r != c)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d61df98fbb752a54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.randMatrix","kind":"function","src_hash":"a9b3b5c602d2f42b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randMatrix(r, )","rhs":"create random matrix with dimensions ``r`` x ``c``","over":{"base":"Any"},"name":"randMatrix_correct"},"guarantee":"create random matrix with dimensions ``r`` x ``c``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.randMatrix_correct","statement":"Path(randMatrix(x), create random matrix with dimensions ``r`` x ``c``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d61df98fbb752a54"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.randMatrix","kind":"function","src_hash":"a9b3b5c602d2f42b","in":{"base":"Any","pred":"not (symmetric and r != c)"},"out":{"base":"Any"},"spec":{"lhs":"randMatrix(r, c, min)","rhs":"<unspecified:randMatrix>","over":{"base":"Any","pred":"not (symmetric and r != c)"},"name":"randMatrix_correct"},"guarantee":"create random matrix with dimensions ``r`` x ``c``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.randMatrix_correct","statement":"Path(randMatrix(x), create random matrix with dimensions ``r`` x ``c``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d61df98fbb752a54","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (symmetric and r != c)"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["prng.randint","prng.sample"],"raises":["ValueError"],"nondeterministic_sources":["prng.randint","prng.sample"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def randMatrix(r, c=None, min=0, max=99, seed=None, symmetric=False,
                percent=100, prng=None):
     """Create random matrix with dimensions ``r`` x ``c``. If ``c`` is omitted
@@ -1430,16 +1640,22 @@ def randMatrix(r, c=None, min=0, max=99, seed=None, symmetric=False,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wronskian(fun), compute wronskian for [] of functions) over Any ║
+# ║ Path(wronskian(functions, var, method), <unspecified:wronskian>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wronskian : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeaba2418e07ec0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.wronskian","kind":"function","src_hash":"5a9b46a7584831ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wronskian(fun)","rhs":"compute wronskian for [] of functions","over":{"base":"Any"},"name":"wronskian_correct"},"guarantee":"compute wronskian for [] of functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.wronskian_correct","statement":"Path(wronskian(x), compute wronskian for [] of functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeaba2418e07ec0b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.wronskian","kind":"function","src_hash":"5a9b46a7584831ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wronskian(functions, var, method)","rhs":"<unspecified:wronskian>","over":{"base":"Any"},"name":"wronskian_correct"},"guarantee":"compute wronskian for [] of functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.wronskian_correct","statement":"Path(wronskian(x), compute wronskian for [] of functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeaba2418e07ec0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def wronskian(functions, var, method='bareiss'):
     """
     Compute Wronskian for [] of functions
@@ -1472,16 +1688,22 @@ def wronskian(functions, var, method='bareiss'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(*ar), returns a matrix of zeros with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned) over Any ║
+# ║ Path(zeros(*args, **kwargs), Matrix.zeros(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.zeros(*args, **kwargs)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c49db5e3d40621da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43587a9f10b293da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.zeros","kind":"function","src_hash":"82674af25ed4a2a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(*ar)","rhs":"returns a matrix of zeros with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns a matrix of zeros with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.zeros_correct","statement":"Path(zeros(x), returns a matrix of zeros with ``rows`` rows and ``cols`` columns; if ``cols`` is omitted a square matrix will be returned)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c49db5e3d40621da"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.dense.zeros","kind":"function","src_hash":"82674af25ed4a2a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(*args, **kwargs)","rhs":"Matrix.zeros(*args, **kwargs)","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns Matrix.zeros(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.dense.zeros_correct","statement":"Path(zeros(x), returns Matrix.zeros(*args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43587a9f10b293da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.zeros(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def zeros(*args, **kwargs):
     """Returns a matrix of zeros with ``rows`` rows and ``cols`` columns;
     if ``cols`` is omitted a square matrix will be returned.

@@ -26,9 +26,15 @@ from sympy.matrices import Matrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_scalar(e), helper method used in tr) over {Any | isinstance(e, Expr)} ║
+# ║ Path(_is_scalar(e), <unspecified:_is_scalar>) over {Any | isinstance(e, Expr) and hasattr(e, 'is_Integer') and hasattr(e, 'is_Float') and hasattr(e, 'is_Rational') and hasattr(e, 'is_Number') and hasattr(e, 'is_Symbol') and hasattr(e, 'is_commutative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_scalar : {Any | isinstance(e, Expr)} → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'is_Integer')                       ║
+# ║   requires: hasattr(e, 'is_Float')                         ║
+# ║   requires: hasattr(e, 'is_Rational')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_scalar : {Any | isinstance(e, Expr) and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(e, Expr)} → library_axiom              ║
@@ -38,9 +44,12 @@ from sympy.matrices import Matrix
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3c8fbeff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace._is_scalar","kind":"function","src_hash":"182612118a50fca3","in":{"base":"Any","pred":"isinstance(e, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_is_scalar(e)","rhs":"helper method used in tr","over":{"base":"Any","pred":"isinstance(e, Expr)"},"name":"_is_scalar_correct"},"guarantee":"helper method used in tr","fibers":[{"name":"Expr","pred":"isinstance(e, Expr)","path":{"lhs":"_is_scalar(x)","rhs":"helper method used in tr","over":{"base":"Expr","pred":"isinstance(e, Expr)"},"name":"_is_scalar_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace._is_scalar_Expr_correct","statement":"_is_scalar satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c8fbeff69d9972f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace._is_scalar","kind":"function","src_hash":"182612118a50fca3","in":{"base":"Any","pred":"isinstance(e, Expr) and hasattr(e, 'is_Integer') and hasattr(e, 'is_Float') and hasattr(e, 'is_Rational') and hasattr(e, 'is_Number') and hasattr(e, 'is_Symbol') and hasattr(e, 'is_commutative')"},"out":{"base":"Any"},"spec":{"lhs":"_is_scalar(e)","rhs":"<unspecified:_is_scalar>","over":{"base":"Any","pred":"isinstance(e, Expr) and hasattr(e, 'is_Integer') and hasattr(e, 'is_Float') and hasattr(e, 'is_Rational') and hasattr(e, 'is_Number') and hasattr(e, 'is_Symbol') and hasattr(e, 'is_commutative')"},"name":"_is_scalar_correct"},"guarantee":"helper method used in tr","fibers":[{"name":"Expr","pred":"isinstance(e, Expr)","path":{"lhs":"_is_scalar(x)","rhs":"helper method used in tr","over":{"base":"Expr","pred":"isinstance(e, Expr)"},"name":"_is_scalar_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace._is_scalar_Expr_correct","statement":"_is_scalar satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c8fbeff69d9972f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'is_Integer')","hasattr(e, 'is_Float')","hasattr(e, 'is_Rational')","hasattr(e, 'is_Number')","hasattr(e, 'is_Symbol')","hasattr(e, 'is_commutative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.is_Float","e.is_Integer","e.is_Number","e.is_Rational","e.is_Symbol","e.is_commutative"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, Expr)'}, fibers={'Expr'})"]}}
 def _is_scalar(e):
     """ Helper method used in Tr"""
 
@@ -57,16 +66,22 @@ def _is_scalar(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cycle_permute(l), cyclic permutations based on canonical ordering) over Any ║
+# ║ Path(_cycle_permute(l), <unspecified:_cycle_permute>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _cycle_permute : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa891fedb6885f93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace._cycle_permute","kind":"function","src_hash":"c75ceb5c19adf6c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cycle_permute(l)","rhs":"cyclic permutations based on canonical ordering","over":{"base":"Any"},"name":"_cycle_permute_correct"},"guarantee":"cyclic permutations based on canonical ordering","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace._cycle_permute_correct","statement":"Path(_cycle_permute(x), cyclic permutations based on canonical ordering)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa891fedb6885f93"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace._cycle_permute","kind":"function","src_hash":"c75ceb5c19adf6c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cycle_permute(l)","rhs":"<unspecified:_cycle_permute>","over":{"base":"Any"},"name":"_cycle_permute_correct"},"guarantee":"cyclic permutations based on canonical ordering","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace._cycle_permute_correct","statement":"Path(_cycle_permute(x), cyclic permutations based on canonical ordering)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa891fedb6885f93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _cycle_permute(l):
     """ Cyclic permutations based on canonical ordering
 
@@ -108,16 +123,22 @@ def _cycle_permute(l):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rearrange_args(l), this just moves the last arg to first position to enable expansion of args a,b,a ==> a**2,b) over Any ║
+# ║ Path(_rearrange_args(l), <unspecified:_rearrange_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rearrange_args : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53a26a65d7afcb22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace._rearrange_args","kind":"function","src_hash":"c93681204e3f4bf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rearrange_args(l)","rhs":"this just moves the last arg to first position to enable expansion of args a,b,a ==> a**2,b","over":{"base":"Any"},"name":"_rearrange_args_correct"},"guarantee":"this just moves the last arg to first position to enable expansion of args a,b,a ==> a**2,b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace._rearrange_args_correct","statement":"Path(_rearrange_args(x), this just moves the last arg to first position to enable expansion of args a,b,a ==> a**2,b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53a26a65d7afcb22"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace._rearrange_args","kind":"function","src_hash":"c93681204e3f4bf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rearrange_args(l)","rhs":"<unspecified:_rearrange_args>","over":{"base":"Any"},"name":"_rearrange_args_correct"},"guarantee":"this just moves the last arg to first position to enable expansion of args a,b,a ==> a**2,b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace._rearrange_args_correct","statement":"Path(_rearrange_args(x), this just moves the last arg to first position to enable expansion of args a,b,a ==> a**2,b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53a26a65d7afcb22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rearrange_args(l):
     """ this just moves the last arg to first position
      to enable expansion of args
@@ -134,14 +155,20 @@ def _rearrange_args(l):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Tr instance) preserved by Tr(*args) over {Any | isinstance(expr, Matrix) and isinstance(self.args[0], Mul) and isinstance(args[1], (list, Tuple, tuple))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Tr : {Any | isinstance(expr, Matrix) and isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71e936a72d74cf63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr","kind":"class","src_hash":"7118033d95cbc6e9","in":{"base":"Any","pred":"isinstance(expr, Matrix) and isinstance(self.args[0], Mul) and isinstance(args[1], (list, Tuple, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"Tr(*args)","rhs":"correctly constructs a Tr instance","over":{"base":"Any","pred":"isinstance(expr, Matrix) and isinstance(self.args[0], Mul) and isinstance(args[1], (list, Tuple, tuple))"},"name":"Tr_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Tr instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_number","pred":"self.is_number","kind":"class"}],"methods_preserving":["kind","doit","is_number","permute","_hashable_content"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e936a72d74cf63"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr","kind":"class","src_hash":"7118033d95cbc6e9","in":{"base":"Any","pred":"isinstance(expr, Matrix) and isinstance(self.args[0], Mul) and isinstance(args[1], (list, Tuple, tuple))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Tr(*args)","rhs":"correctly constructs a Tr instance","over":{"base":"Any","pred":"isinstance(expr, Matrix) and isinstance(self.args[0], Mul) and isinstance(args[1], (list, Tuple, tuple))"},"name":"Tr_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_number","pred":"self.is_number","kind":"class"}],"methods_preserving":["kind","doit","is_number","permute","_hashable_content"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e936a72d74cf63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Tr not found in source"]}}
 class Tr(Expr):
     """ Generic Trace operation than can trace over:
 
@@ -174,16 +201,22 @@ class Tr(Expr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct a trace object) over Any      ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10a62f545d4c9ae2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.__new__","kind":"method","src_hash":"fcf6159eb45580e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct a trace object","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a trace object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10a62f545d4c9ae2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.__new__","kind":"method","src_hash":"fcf6159eb45580e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a trace object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10a62f545d4c9ae2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         """ Construct a Trace object.
 
@@ -239,32 +272,44 @@ class Tr(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), expr_kind.element_kind) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expr_kind.element_kind                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7e1b7d3e928a8f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.kind","kind":"property","src_hash":"13951236ee6ff180","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7e1b7d3e928a8f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.kind","kind":"property","src_hash":"13951236ee6ff180","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"expr_kind.element_kind","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns expr_kind.element_kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7e1b7d3e928a8f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expr_kind.element_kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         expr = self.args[0]
         expr_kind = expr.kind
         return expr_kind.element_kind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), perform the trace operation) over Any      ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a852df116a2ff20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.doit","kind":"method","src_hash":"871a6ceec91004ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"perform the trace operation","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"perform the trace operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace.Tr.doit_correct","statement":"Path(doit(x), perform the trace operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a852df116a2ff20"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.doit","kind":"method","src_hash":"871a6ceec91004ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"perform the trace operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace.Tr.doit_correct","statement":"Path(doit(x), perform the trace operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a852df116a2ff20","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """ Perform the trace operation.
 
@@ -285,16 +330,22 @@ class Tr(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_number(), returns the is_number attribute) over Any ║
+# ║ Path(is_number(), True) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_number : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1f665b913b726fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.is_number","kind":"property","src_hash":"3e650a6ef1cce3fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_number()","rhs":"returns the is_number attribute","over":{"base":"Any"},"name":"is_number_correct"},"guarantee":"returns the is_number attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1f665b913b726fe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.is_number","kind":"property","src_hash":"3e650a6ef1cce3fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_number()","rhs":"True","over":{"base":"Any"},"name":"is_number_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1f665b913b726fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_number(self):
         # TODO : improve this implementation
         return True
@@ -304,14 +355,20 @@ class Tr(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(permute(pos), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Tr(Mul(*args))                                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ permute : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2ee22c6239eb1963   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.permute","kind":"method","src_hash":"3ced782c2832173e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permute(pos)","rhs":"permute the arguments cyclically","over":{"base":"Any"},"name":"permute_correct","kind":"composition"},"guarantee":"permute the arguments cyclically","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Tr","by":"library_axiom"},{"fn":"Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ee22c6239eb1963"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr.permute","kind":"method","src_hash":"3ced782c2832173e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permute(pos)","rhs":"Tr(Mul(*args))","over":{"base":"Any"},"name":"permute_correct","kind":"composition"},"guarantee":"returns Tr(Mul(*args))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Tr","by":"library_axiom"},{"fn":"Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ee22c6239eb1963","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Tr(Mul(*args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def permute(self, pos):
         """ Permute the arguments cyclically.
 
@@ -343,16 +400,22 @@ class Tr(Expr):
         return Tr(Mul(*(args)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), tuple(args) + (self.args[1],)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(args) + (self.args[1],)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2580ba74ec04d538  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dedf08c082f0153f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr._hashable_content","kind":"method","src_hash":"d3cb8cace04b6ed5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace.Tr._hashable_content_correct","statement":"Path(_hashable_content(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2580ba74ec04d538"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.trace.Tr._hashable_content","kind":"method","src_hash":"d3cb8cace04b6ed5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"tuple(args) + (self.args[1],)","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns tuple(args) + (self.args[1],)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.trace.Tr._hashable_content_correct","statement":"Path(_hashable_content(x), returns tuple(args) + (self.args[1],))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dedf08c082f0153f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(args) + (self.args[1],)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         if isinstance(self.args[0], Mul):
             args = _cycle_permute(_rearrange_args(self.args[0].args))

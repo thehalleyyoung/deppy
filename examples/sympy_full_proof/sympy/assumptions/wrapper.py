@@ -66,16 +66,22 @@ from sympy.core.sympify import _sympify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_eval_method(fac), make_eval_method produces the expected output) over Any ║
+# ║ Path(make_eval_method(fact), <unspecified:make_eval_method>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_eval_method : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a5a3378d040f65c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.make_eval_method","kind":"function","src_hash":"6e407f1e64394b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_eval_method(fac)","rhs":"make_eval_method produces the expected output","over":{"base":"Any"},"name":"make_eval_method_correct"},"guarantee":"make_eval_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.make_eval_method_correct","statement":"Path(make_eval_method(x), make_eval_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a5a3378d040f65c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.make_eval_method","kind":"function","src_hash":"6e407f1e64394b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_eval_method(fact)","rhs":"<unspecified:make_eval_method>","over":{"base":"Any"},"name":"make_eval_method_correct"},"guarantee":"make_eval_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.make_eval_method_correct","statement":"Path(make_eval_method(x), make_eval_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a5a3378d040f65c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_eval_method(fact):
     def getit(self):
         pred = getattr(Q, fact)
@@ -88,14 +94,20 @@ def make_eval_method(fact):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AssumptionsWrapper(*args), correctly constructs a AssumptionsWrapper instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AssumptionsWrapper : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AssumptionsWrapper : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9d98967ba992310  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.AssumptionsWrapper","kind":"class","src_hash":"1d3682e6c4e808ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AssumptionsWrapper(*args)","rhs":"correctly constructs a AssumptionsWrapper instance","over":{"base":"Any"},"name":"AssumptionsWrapper_class_invariant"},"guarantee":"correctly constructs a AssumptionsWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9d98967ba992310"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.AssumptionsWrapper","kind":"class","src_hash":"1d3682e6c4e808ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"AssumptionsWrapper(*args)","rhs":"correctly constructs a AssumptionsWrapper instance","over":{"base":"Any"},"name":"AssumptionsWrapper_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9d98967ba992310","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function AssumptionsWrapper not found in source"]}}
 class AssumptionsWrapper(Basic):
     """
     Wrapper over ``Basic`` instances to call predicate query by
@@ -143,16 +155,22 @@ class AssumptionsWrapper(Basic):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, assumptions), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b886f6fed8d4b4db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.AssumptionsWrapper.__new__","kind":"method","src_hash":"cf625266afec0da1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b886f6fed8d4b4db"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.AssumptionsWrapper.__new__","kind":"method","src_hash":"cf625266afec0da1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, assumptions)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b886f6fed8d4b4db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, assumptions=None):
         if assumptions is None:
             return expr
@@ -197,16 +215,23 @@ class AssumptionsWrapper(Basic):
 # one shot functions which are faster than AssumptionsWrapper
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_infinite(obj), is_infinite produces the expected output) over Any ║
+# ║ Path(is_infinite(obj, assumptions), <unspecified:is_infinite>) over {Any | hasattr(obj, 'is_infinite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_infinite : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, 'is_infinite')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_infinite : {Any | hasattr(obj, 'is_infinite')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b33ef83a6a806c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.is_infinite","kind":"function","src_hash":"de0bdbd6e559b74b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_infinite(obj)","rhs":"is_infinite produces the expected output","over":{"base":"Any"},"name":"is_infinite_correct"},"guarantee":"is_infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.is_infinite_correct","statement":"Path(is_infinite(x), is_infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b33ef83a6a806c7"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.is_infinite","kind":"function","src_hash":"de0bdbd6e559b74b","in":{"base":"Any","pred":"hasattr(obj, 'is_infinite')"},"out":{"base":"Any"},"spec":{"lhs":"is_infinite(obj, assumptions)","rhs":"<unspecified:is_infinite>","over":{"base":"Any","pred":"hasattr(obj, 'is_infinite')"},"name":"is_infinite_correct"},"guarantee":"is_infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.is_infinite_correct","statement":"Path(is_infinite(x), is_infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b33ef83a6a806c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, 'is_infinite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["obj.is_infinite"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def is_infinite(obj, assumptions=None):
     if assumptions is None:
         return obj.is_infinite
@@ -214,16 +239,23 @@ def is_infinite(obj, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_extended_real(obj), is_extended_real produces the expected output) over Any ║
+# ║ Path(is_extended_real(obj, assumptions), <unspecified:is_extended_real>) over {Any | hasattr(obj, 'is_extended_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_extended_real : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, 'is_extended_real')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_extended_real : {Any | hasattr(obj, 'is_extended_r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 090694a47b29a046  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.is_extended_real","kind":"function","src_hash":"8ba1e2c95bc86091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_extended_real(obj)","rhs":"is_extended_real produces the expected output","over":{"base":"Any"},"name":"is_extended_real_correct"},"guarantee":"is_extended_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.is_extended_real_correct","statement":"Path(is_extended_real(x), is_extended_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090694a47b29a046"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.is_extended_real","kind":"function","src_hash":"8ba1e2c95bc86091","in":{"base":"Any","pred":"hasattr(obj, 'is_extended_real')"},"out":{"base":"Any"},"spec":{"lhs":"is_extended_real(obj, assumptions)","rhs":"<unspecified:is_extended_real>","over":{"base":"Any","pred":"hasattr(obj, 'is_extended_real')"},"name":"is_extended_real_correct"},"guarantee":"is_extended_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.is_extended_real_correct","statement":"Path(is_extended_real(x), is_extended_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090694a47b29a046","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, 'is_extended_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["obj.is_extended_real"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def is_extended_real(obj, assumptions=None):
     if assumptions is None:
         return obj.is_extended_real
@@ -231,16 +263,23 @@ def is_extended_real(obj, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_extended_nonnegative(obj), is_extended_nonnegative produces the expected output) over Any ║
+# ║ Path(is_extended_nonnegative(obj, assumptions), <unspecified:is_extended_nonnegative>) over {Any | hasattr(obj, 'is_extended_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_extended_nonnegative : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, 'is_extended_nonnegative')        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_extended_nonnegative : {Any | hasattr(obj, 'is_ext...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cf9dd349573e5cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.is_extended_nonnegative","kind":"function","src_hash":"965c3396bc404ac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_extended_nonnegative(obj)","rhs":"is_extended_nonnegative produces the expected output","over":{"base":"Any"},"name":"is_extended_nonnegative_correct"},"guarantee":"is_extended_nonnegative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.is_extended_nonnegative_correct","statement":"Path(is_extended_nonnegative(x), is_extended_nonnegative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cf9dd349573e5cf"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.wrapper.is_extended_nonnegative","kind":"function","src_hash":"965c3396bc404ac6","in":{"base":"Any","pred":"hasattr(obj, 'is_extended_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"is_extended_nonnegative(obj, assumptions)","rhs":"<unspecified:is_extended_nonnegative>","over":{"base":"Any","pred":"hasattr(obj, 'is_extended_nonnegative')"},"name":"is_extended_nonnegative_correct"},"guarantee":"is_extended_nonnegative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.wrapper.is_extended_nonnegative_correct","statement":"Path(is_extended_nonnegative(x), is_extended_nonnegative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cf9dd349573e5cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, 'is_extended_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["obj.is_extended_nonnegative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def is_extended_nonnegative(obj, assumptions=None):
     if assumptions is None:
         return obj.is_extended_nonnegative

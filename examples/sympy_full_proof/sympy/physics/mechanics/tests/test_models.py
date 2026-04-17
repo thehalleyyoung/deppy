@@ -22,16 +22,24 @@ from sympy.physics.mechanics import (dynamicsymbols)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multi_mass_spring_damper_inputs(), test_multi_mass_spring_damper_inputs produces the expected output) over Any ║
+# ║ Path(test_multi_mass_spring_damper_inputs(), simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0]) and simplify(forcing1 - kane1.forcing) == Matrix([0]) and simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0]) and simplify(forcing2 - kane2.forcing) == Matrix([0]) and simplify(massmatrix3 - kane3.mass_matrix) == Matrix([0]) and simplify(forcing3 - kane3.forcing) == Matrix([0]) and simplify(massmatrix4 - kane4.mass_matrix) == Matrix([0]) and simplify(forcing4 - kane4.forcing) == Matrix([0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multi_mass_spring_damper_inputs : Any → {Any | s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(massmatrix1 - kane1.mass_matrix)...   ║
+# ║   ensures:  simplify(forcing1 - kane1.forcing) == Mat...   ║
+# ║   ensures:  simplify(massmatrix2 - kane2.mass_matrix)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multi_mass_spring_damper_inputs : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ca278583a94097  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eafb05fef867a8cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_inputs","kind":"function","src_hash":"918b825e34a03b86","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0]) and simplify(forcing1 - kane1.forcing) == Matrix([0]) and simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0]) and simplify(forcing2 - kane2.forcing) == Matrix([0]) and simplify(massmatrix3 - kane3.mass_matrix) == Matrix([0]) and simplify(forcing3 - kane3.forcing) == Matrix([0]) and simplify(massmatrix4 - kane4.mass_matrix) == Matrix([0]) and simplify(forcing4 - kane4.forcing) == Matrix([0])"},"spec":{"lhs":"test_multi_mass_spring_damper_inputs()","rhs":"test_multi_mass_spring_damper_inputs produces the expected output","over":{"base":"Any"},"name":"test_multi_mass_spring_damper_inputs_correct"},"guarantee":"test_multi_mass_spring_damper_inputs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_inputs_correct","statement":"Path(test_multi_mass_spring_damper_inputs(x), test_multi_mass_spring_damper_inputs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ca278583a94097"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_inputs","kind":"function","src_hash":"918b825e34a03b86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0]) and simplify(forcing1 - kane1.forcing) == Matrix([0]) and simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0]) and simplify(forcing2 - kane2.forcing) == Matrix([0]) and simplify(massmatrix3 - kane3.mass_matrix) == Matrix([0]) and simplify(forcing3 - kane3.forcing) == Matrix([0]) and simplify(massmatrix4 - kane4.mass_matrix) == Matrix([0]) and simplify(forcing4 - kane4.forcing) == Matrix([0])"},"spec":{"lhs":"test_multi_mass_spring_damper_inputs()","rhs":"simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0]) and simplify(forcing1 - kane1.forcing) == Matrix([0]) and simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0]) and simplify(forcing2 - kane2.forcing) == Matrix([0]) and simplify(massmatrix3 - kane3.mass_matrix) == Matrix([0]) and simplify(forcing3 - kane3.forcing) == Matrix([0]) and simplify(massmatrix4 - kane4.mass_matrix) == Matrix([0]) and simplify(forcing4 - kane4.forcing) == Matrix([0])","over":{"base":"Any"},"name":"test_multi_mass_spring_damper_inputs_correct"},"guarantee":"simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0]); simplify(forcing1 - kane1.forcing) == Matrix([0]); simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_inputs_correct","statement":"Path(test_multi_mass_spring_damper_inputs(x), simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0]); simplify(forcing1 - kane1.forcing) == Matrix([0]); simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eafb05fef867a8cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(massmatrix1 - kane1.mass_matrix) == Matrix([0])","simplify(forcing1 - kane1.forcing) == Matrix([0])","simplify(massmatrix2 - kane2.mass_matrix) == Matrix([0])","simplify(forcing2 - kane2.forcing) == Matrix([0])","simplify(massmatrix3 - kane3.mass_matrix) == Matrix([0])","simplify(forcing3 - kane3.forcing) == Matrix([0])","simplify(massmatrix4 - kane4.mass_matrix) == Matrix([0])","simplify(forcing4 - kane4.forcing) == Matrix([0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_multi_mass_spring_damper_inputs():
 
     c0, k0, m0 = symbols("c0 k0 m0")
@@ -64,16 +72,23 @@ def test_multi_mass_spring_damper_inputs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multi_mass_spring_damper_higher_order(), test_multi_mass_spring_damper_higher_order produces the expected output) over Any ║
+# ║ Path(test_multi_mass_spring_damper_higher_order(), simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(massmatrix1 - kane1.mass_matrix)...   ║
+# ║   ensures:  simplify(forcing1 - kane1.forcing) == Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_multi_mass_spring_damper_higher_order : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bf8b83d4f182bd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55e2a9d9114c4cff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_higher_order","kind":"function","src_hash":"b513a2efbc570f97","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])"},"spec":{"lhs":"test_multi_mass_spring_damper_higher_order()","rhs":"test_multi_mass_spring_damper_higher_order produces the expected output","over":{"base":"Any"},"name":"test_multi_mass_spring_damper_higher_order_correct"},"guarantee":"test_multi_mass_spring_damper_higher_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_higher_order_correct","statement":"Path(test_multi_mass_spring_damper_higher_order(x), test_multi_mass_spring_damper_higher_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bf8b83d4f182bd8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_higher_order","kind":"function","src_hash":"b513a2efbc570f97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])"},"spec":{"lhs":"test_multi_mass_spring_damper_higher_order()","rhs":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])","over":{"base":"Any"},"name":"test_multi_mass_spring_damper_higher_order_correct"},"guarantee":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(3); simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_multi_mass_spring_damper_higher_order_correct","statement":"Path(test_multi_mass_spring_damper_higher_order(x), simplify(massmatrix1 - kane1.mass_matrix) == zeros(3); simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55e2a9d9114c4cff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(massmatrix1 - kane1.mass_matrix) == zeros(3)","simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_multi_mass_spring_damper_higher_order():
     c0, k0, m0 = symbols("c0 k0 m0")
     c1, k1, m1 = symbols("c1 k1 m1")
@@ -94,16 +109,24 @@ def test_multi_mass_spring_damper_higher_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_n_link_pendulum_on_cart_inputs(), test_n_link_pendulum_on_cart_inputs produces the expected output) over Any ║
+# ║ Path(test_n_link_pendulum_on_cart_inputs(), simplify(massmatrix1 - kane1.mass_matrix) == zeros(2) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0]) and simplify(massmatrix2 - kane2.mass_matrix) == zeros(2) and simplify(forcing2 - kane2.forcing) == Matrix([0, 0]) and simplify(massmatrix3 - kane3.mass_matrix) == zeros(2) and simplify(forcing3 - kane3.forcing) == Matrix([0, 0]) and simplify(massmatrix4 - kane4.mass_matrix) == zeros(2) and simplify(forcing4 - kane4.forcing) == Matrix([0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_n_link_pendulum_on_cart_inputs : Any → {Any | si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(massmatrix1 - kane1.mass_matrix)...   ║
+# ║   ensures:  simplify(forcing1 - kane1.forcing) == Mat...   ║
+# ║   ensures:  simplify(massmatrix2 - kane2.mass_matrix)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_n_link_pendulum_on_cart_inputs : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eccda1873f6804e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdbfe261069065bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_inputs","kind":"function","src_hash":"235c133296786fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(2) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0]) and simplify(massmatrix2 - kane2.mass_matrix) == zeros(2) and simplify(forcing2 - kane2.forcing) == Matrix([0, 0]) and simplify(massmatrix3 - kane3.mass_matrix) == zeros(2) and simplify(forcing3 - kane3.forcing) == Matrix([0, 0]) and simplify(massmatrix4 - kane4.mass_matrix) == zeros(2) and simplify(forcing4 - kane4.forcing) == Matrix([0, 0])"},"spec":{"lhs":"test_n_link_pendulum_on_cart_inputs()","rhs":"test_n_link_pendulum_on_cart_inputs produces the expected output","over":{"base":"Any"},"name":"test_n_link_pendulum_on_cart_inputs_correct"},"guarantee":"test_n_link_pendulum_on_cart_inputs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_inputs_correct","statement":"Path(test_n_link_pendulum_on_cart_inputs(x), test_n_link_pendulum_on_cart_inputs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eccda1873f6804e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_inputs","kind":"function","src_hash":"235c133296786fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(massmatrix1 - kane1.mass_matrix) == zeros(2) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0]) and simplify(massmatrix2 - kane2.mass_matrix) == zeros(2) and simplify(forcing2 - kane2.forcing) == Matrix([0, 0]) and simplify(massmatrix3 - kane3.mass_matrix) == zeros(2) and simplify(forcing3 - kane3.forcing) == Matrix([0, 0]) and simplify(massmatrix4 - kane4.mass_matrix) == zeros(2) and simplify(forcing4 - kane4.forcing) == Matrix([0, 0])"},"spec":{"lhs":"test_n_link_pendulum_on_cart_inputs()","rhs":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(2) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0]) and simplify(massmatrix2 - kane2.mass_matrix) == zeros(2) and simplify(forcing2 - kane2.forcing) == Matrix([0, 0]) and simplify(massmatrix3 - kane3.mass_matrix) == zeros(2) and simplify(forcing3 - kane3.forcing) == Matrix([0, 0]) and simplify(massmatrix4 - kane4.mass_matrix) == zeros(2) and simplify(forcing4 - kane4.forcing) == Matrix([0, 0])","over":{"base":"Any"},"name":"test_n_link_pendulum_on_cart_inputs_correct"},"guarantee":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(2); simplify(forcing1 - kane1.forcing) == Matrix([0, 0]); simplify(massmatrix2 - kane2.mass_matrix) == zeros(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_inputs_correct","statement":"Path(test_n_link_pendulum_on_cart_inputs(x), simplify(massmatrix1 - kane1.mass_matrix) == zeros(2); simplify(forcing1 - kane1.forcing) == Matrix([0, 0]); simplify(massmatrix2 - kane2.mass_matrix) == zeros(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdbfe261069065bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(massmatrix1 - kane1.mass_matrix) == zeros(2)","simplify(forcing1 - kane1.forcing) == Matrix([0, 0])","simplify(massmatrix2 - kane2.mass_matrix) == zeros(2)","simplify(forcing2 - kane2.forcing) == Matrix([0, 0])","simplify(massmatrix3 - kane3.mass_matrix) == zeros(2)","simplify(forcing3 - kane3.forcing) == Matrix([0, 0])","simplify(massmatrix4 - kane4.mass_matrix) == zeros(2)","simplify(forcing4 - kane4.forcing) == Matrix([0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_n_link_pendulum_on_cart_inputs():
     l0, m0 = symbols("l0 m0")
     m1 = symbols("m1")
@@ -141,16 +164,23 @@ def test_n_link_pendulum_on_cart_inputs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_n_link_pendulum_on_cart_higher_order(), test_n_link_pendulum_on_cart_higher_order produces the expected output) over Any ║
+# ║ Path(test_n_link_pendulum_on_cart_higher_order(), simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(massmatrix1 - kane1.mass_matrix)...   ║
+# ║   ensures:  simplify(forcing1 - kane1.forcing) == Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_n_link_pendulum_on_cart_higher_order : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 978aa68e652ccada  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 031f666fde24eba4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_higher_order","kind":"function","src_hash":"6383ff972e14dda3","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])"},"spec":{"lhs":"test_n_link_pendulum_on_cart_higher_order()","rhs":"test_n_link_pendulum_on_cart_higher_order produces the expected output","over":{"base":"Any"},"name":"test_n_link_pendulum_on_cart_higher_order_correct"},"guarantee":"test_n_link_pendulum_on_cart_higher_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_higher_order_correct","statement":"Path(test_n_link_pendulum_on_cart_higher_order(x), test_n_link_pendulum_on_cart_higher_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978aa68e652ccada"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_higher_order","kind":"function","src_hash":"6383ff972e14dda3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])"},"spec":{"lhs":"test_n_link_pendulum_on_cart_higher_order()","rhs":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(3) and simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])","over":{"base":"Any"},"name":"test_n_link_pendulum_on_cart_higher_order_correct"},"guarantee":"simplify(massmatrix1 - kane1.mass_matrix) == zeros(3); simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_models.test_n_link_pendulum_on_cart_higher_order_correct","statement":"Path(test_n_link_pendulum_on_cart_higher_order(x), simplify(massmatrix1 - kane1.mass_matrix) == zeros(3); simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"031f666fde24eba4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(massmatrix1 - kane1.mass_matrix) == zeros(3)","simplify(forcing1 - kane1.forcing) == Matrix([0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_n_link_pendulum_on_cart_higher_order():
     l0, m0 = symbols("l0 m0")
     l1, m1 = symbols("l1 m1")

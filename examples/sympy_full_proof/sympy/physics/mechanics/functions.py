@@ -53,16 +53,22 @@ mlatex = vlatex
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mechanics_printing(**k), initializes time derivative printing for all sympy objects in mechanics module) over Any ║
+# ║ Path(mechanics_printing(**kwargs), <unspecified:mechanics_printing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mechanics_printing : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e2fd827ca656016  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.mechanics_printing","kind":"function","src_hash":"e89308c5496191d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mechanics_printing(**k)","rhs":"initializes time derivative printing for all sympy objects in mechanics module","over":{"base":"Any"},"name":"mechanics_printing_correct"},"guarantee":"initializes time derivative printing for all sympy objects in mechanics module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.mechanics_printing_correct","statement":"Path(mechanics_printing(x), initializes time derivative printing for all sympy objects in mechanics module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e2fd827ca656016"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.mechanics_printing","kind":"function","src_hash":"e89308c5496191d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mechanics_printing(**kwargs)","rhs":"<unspecified:mechanics_printing>","over":{"base":"Any"},"name":"mechanics_printing_correct"},"guarantee":"initializes time derivative printing for all sympy objects in mechanics module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.mechanics_printing_correct","statement":"Path(mechanics_printing(x), initializes time derivative printing for all sympy objects in mechanics module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e2fd827ca656016","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['**kwargs']"]}}
 def mechanics_printing(**kwargs):
     """
     Initializes time derivative printing for all SymPy objects in
@@ -75,16 +81,22 @@ mechanics_printing.__doc__ = init_vprinting.__doc__
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia(fra), inertia produces the expected output) over Any ║
+# ║ Path(inertia(frame, ixx, iyy), _inertia(frame, ixx, iyy, izz, ixy, iyz, izx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _inertia(frame, ixx, iyy, izz, ixy, iyz, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inertia : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c387ecfa130c48f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3277045783fc557e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.inertia","kind":"function","src_hash":"9a3b2d8b48718eac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia(fra)","rhs":"inertia produces the expected output","over":{"base":"Any"},"name":"inertia_correct"},"guarantee":"inertia produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.inertia_correct","statement":"Path(inertia(x), inertia produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c387ecfa130c48f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.inertia","kind":"function","src_hash":"9a3b2d8b48718eac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia(frame, ixx, iyy)","rhs":"_inertia(frame, ixx, iyy, izz, ixy, iyz, izx)","over":{"base":"Any"},"name":"inertia_correct"},"guarantee":"returns _inertia(frame, ixx, iyy, izz, ixy, iyz, izx)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.inertia_correct","statement":"Path(inertia(x), returns _inertia(frame, ixx, iyy, izz, ixy, iyz, izx))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3277045783fc557e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_inertia(frame, ixx, iyy, izz, ixy, iyz, izx)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def inertia(frame, ixx, iyy, izz, ixy=0, iyz=0, izx=0):
     sympy_deprecation_warning(
         """
@@ -98,16 +110,22 @@ def inertia(frame, ixx, iyy, izz, ixy=0, iyz=0, izx=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia_of_point_mass(mas), inertia_of_point_mass produces the expected output) over Any ║
+# ║ Path(inertia_of_point_mass(mass, pos_vec, frame), _inertia_of_point_mass(mass, pos_vec, frame)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _inertia_of_point_mass(mass, pos_vec, frame)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inertia_of_point_mass : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b9126749c43fa4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b23535376dd1d88a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.inertia_of_point_mass","kind":"function","src_hash":"d596929332c762bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia_of_point_mass(mas)","rhs":"inertia_of_point_mass produces the expected output","over":{"base":"Any"},"name":"inertia_of_point_mass_correct"},"guarantee":"inertia_of_point_mass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.inertia_of_point_mass_correct","statement":"Path(inertia_of_point_mass(x), inertia_of_point_mass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9126749c43fa4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.inertia_of_point_mass","kind":"function","src_hash":"d596929332c762bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia_of_point_mass(mass, pos_vec, frame)","rhs":"_inertia_of_point_mass(mass, pos_vec, frame)","over":{"base":"Any"},"name":"inertia_of_point_mass_correct"},"guarantee":"returns _inertia_of_point_mass(mass, pos_vec, frame)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.inertia_of_point_mass_correct","statement":"Path(inertia_of_point_mass(x), returns _inertia_of_point_mass(mass, pos_vec, frame))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b23535376dd1d88a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_inertia_of_point_mass(mass, pos_vec, frame)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def inertia_of_point_mass(mass, pos_vec, frame):
     sympy_deprecation_warning(
         """
@@ -121,7 +139,11 @@ def inertia_of_point_mass(mass, pos_vec, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_momentum(fra), linear momentum of the system) over {Any | isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))} ║
+# ║ Path(linear_momentum(frame, *body), <unspecified:linear_momentum>) over {Any | isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_momentum : {Any | isinstance(frame, ReferenceF...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -134,9 +156,12 @@ def inertia_of_point_mass(mass, pos_vec, frame):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a52f0d17...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.linear_momentum","kind":"function","src_hash":"16ad468cdff47211","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(fra)","rhs":"linear momentum of the system","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))"},"name":"linear_momentum_correct"},"guarantee":"linear momentum of the system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"linear_momentum(x)","rhs":"linear momentum of the system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"linear_momentum_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.linear_momentum_ReferenceFrame_correct","statement":"linear_momentum satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"linear_momentum(x)","rhs":"linear momentum of the system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"linear_momentum_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.linear_momentum_(RigidBody_correct","statement":"linear_momentum satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a52f0d174ac08aec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.linear_momentum","kind":"function","src_hash":"16ad468cdff47211","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(frame, *body)","rhs":"<unspecified:linear_momentum>","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)"},"name":"linear_momentum_correct"},"guarantee":"linear momentum of the system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"linear_momentum(x)","rhs":"linear momentum of the system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"linear_momentum_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.linear_momentum_ReferenceFrame_correct","statement":"linear_momentum satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"linear_momentum(x)","rhs":"linear momentum of the system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"linear_momentum_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.linear_momentum_(RigidBody_correct","statement":"linear_momentum satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a52f0d174ac08aec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(frame, ReferenceFrame)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['frame'], spec=['frame', '*body']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, (RigidBody, Particle))', 'not isinstance(frame, ReferenceFrame)'}, fibers={'(RigidBody', 'ReferenceFrame'})"]}}
 def linear_momentum(frame, *body):
     """Linear momentum of the system.
 
@@ -191,7 +216,12 @@ def linear_momentum(frame, *body):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angular_momentum(poi), angular momentum of a system) over {Any | isinstance(frame, ReferenceFrame) and isinstance(point, Point) and isinstance(e, (RigidBody, Particle))} ║
+# ║ Path(angular_momentum(point, frame, *body), <unspecified:angular_momentum>) over {Any | isinstance(frame, ReferenceFrame) and isinstance(point, Point) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame) and isinstance(point, Point)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   requires: isinstance(point, Point)                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angular_momentum : {Any | isinstance(frame, Reference...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -205,9 +235,12 @@ def linear_momentum(frame, *body):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 9.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9c865fc7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.angular_momentum","kind":"function","src_hash":"e6ba46a523bd2e9c","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(point, Point) and isinstance(e, (RigidBody, Particle))"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(poi)","rhs":"angular momentum of a system","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(point, Point) and isinstance(e, (RigidBody, Particle))"},"name":"angular_momentum_correct"},"guarantee":"angular momentum of a system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"angular_momentum(x)","rhs":"angular momentum of a system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"angular_momentum_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.angular_momentum_ReferenceFrame_correct","statement":"angular_momentum satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(point, Point)","path":{"lhs":"angular_momentum(x)","rhs":"angular momentum of a system","over":{"base":"Point","pred":"isinstance(point, Point)"},"name":"angular_momentum_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.angular_momentum_Point_correct","statement":"angular_momentum satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"angular_momentum(x)","rhs":"angular momentum of a system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"angular_momentum_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.angular_momentum_(RigidBody_correct","statement":"angular_momentum satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c865fc7968a54c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.angular_momentum","kind":"function","src_hash":"e6ba46a523bd2e9c","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(point, Point) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame) and isinstance(point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(point, frame, *body)","rhs":"<unspecified:angular_momentum>","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(point, Point) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame) and isinstance(point, Point)"},"name":"angular_momentum_correct"},"guarantee":"angular momentum of a system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"angular_momentum(x)","rhs":"angular momentum of a system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"angular_momentum_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.angular_momentum_ReferenceFrame_correct","statement":"angular_momentum satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(point, Point)","path":{"lhs":"angular_momentum(x)","rhs":"angular momentum of a system","over":{"base":"Point","pred":"isinstance(point, Point)"},"name":"angular_momentum_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.angular_momentum_Point_correct","statement":"angular_momentum satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"angular_momentum(x)","rhs":"angular momentum of a system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"angular_momentum_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.angular_momentum_(RigidBody_correct","statement":"angular_momentum satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c865fc7968a54c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(frame, ReferenceFrame)","isinstance(point, Point)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":9.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['point', 'frame'], spec=['point', 'frame', '*body']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, (RigidBody, Particle))', 'not isinstance(frame, ReferenceFrame)', 'not isinstance(point, Point)'}, fibers={'(RigidBody', 'Point', 'ReferenceFrame'})"]}}
 def angular_momentum(point, frame, *body):
     """Angular momentum of a system.
 
@@ -270,7 +303,11 @@ def angular_momentum(point, frame, *body):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kinetic_energy(fra), kinetic energy of a multibody system) over {Any | isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))} ║
+# ║ Path(kinetic_energy(frame, *body), <unspecified:kinetic_energy>) over {Any | isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kinetic_energy : {Any | isinstance(frame, ReferenceFr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -283,9 +320,12 @@ def angular_momentum(point, frame, *body):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 3.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 445cd121...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.kinetic_energy","kind":"function","src_hash":"446b1b238e837127","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(fra)","rhs":"kinetic energy of a multibody system","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))"},"name":"kinetic_energy_correct"},"guarantee":"kinetic energy of a multibody system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"kinetic_energy(x)","rhs":"kinetic energy of a multibody system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"kinetic_energy_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.kinetic_energy_ReferenceFrame_correct","statement":"kinetic_energy satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"kinetic_energy(x)","rhs":"kinetic energy of a multibody system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"kinetic_energy_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.kinetic_energy_(RigidBody_correct","statement":"kinetic_energy satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"445cd1216fb62336"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.kinetic_energy","kind":"function","src_hash":"446b1b238e837127","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(frame, *body)","rhs":"<unspecified:kinetic_energy>","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)"},"name":"kinetic_energy_correct"},"guarantee":"kinetic energy of a multibody system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"kinetic_energy(x)","rhs":"kinetic energy of a multibody system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"kinetic_energy_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.kinetic_energy_ReferenceFrame_correct","statement":"kinetic_energy satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"kinetic_energy(x)","rhs":"kinetic energy of a multibody system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"kinetic_energy_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.kinetic_energy_(RigidBody_correct","statement":"kinetic_energy satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"445cd1216fb62336","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(frame, ReferenceFrame)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['frame'], spec=['frame', '*body']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, (RigidBody, Particle))', 'not isinstance(frame, ReferenceFrame)'}, fibers={'(RigidBody', 'ReferenceFrame'})"]}}
 def kinetic_energy(frame, *body):
     """Kinetic energy of a multibody system.
 
@@ -346,7 +386,10 @@ def kinetic_energy(frame, *body):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(potential_energy(*bo), potential energy of a multibody system) over {Any | isinstance(e, (RigidBody, Particle))} ║
+# ║ Path(potential_energy(*body), <unspecified:potential_energy>) over {Any | isinstance(e, (RigidBody, Particle))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ potential_energy : {Any | isinstance(e, (RigidBody, P...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -358,9 +401,12 @@ def kinetic_energy(frame, *body):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ba67ef60...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.potential_energy","kind":"function","src_hash":"ce6925fd3d7007ec","in":{"base":"Any","pred":"isinstance(e, (RigidBody, Particle))"},"out":{"base":"Any"},"spec":{"lhs":"potential_energy(*bo)","rhs":"potential energy of a multibody system","over":{"base":"Any","pred":"isinstance(e, (RigidBody, Particle))"},"name":"potential_energy_correct"},"guarantee":"potential energy of a multibody system","fibers":[{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"potential_energy(x)","rhs":"potential energy of a multibody system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"potential_energy_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.potential_energy_(RigidBody_correct","statement":"potential_energy satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ba67ef60896aa7ba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.potential_energy","kind":"function","src_hash":"ce6925fd3d7007ec","in":{"base":"Any","pred":"isinstance(e, (RigidBody, Particle))"},"out":{"base":"Any"},"spec":{"lhs":"potential_energy(*body)","rhs":"<unspecified:potential_energy>","over":{"base":"Any","pred":"isinstance(e, (RigidBody, Particle))"},"name":"potential_energy_correct"},"guarantee":"potential energy of a multibody system","fibers":[{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"potential_energy(x)","rhs":"potential energy of a multibody system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"potential_energy_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.potential_energy_(RigidBody_correct","statement":"potential_energy satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ba67ef60896aa7ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*body']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, (RigidBody, Particle))'}, fibers={'(RigidBody'})"]}}
 def potential_energy(*body):
     """Potential energy of a multibody system.
 
@@ -417,16 +463,22 @@ def potential_energy(*body):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gravity(acc), gravity produces the expected output) over Any ║
+# ║ Path(gravity(acceleration, *bodies), _gravity(acceleration, *bodies)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _gravity(acceleration, *bodies)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gravity : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d54a74e5f3327f19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b73bd8957e168a00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.gravity","kind":"function","src_hash":"32cf27de8d5580ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gravity(acc)","rhs":"gravity produces the expected output","over":{"base":"Any"},"name":"gravity_correct"},"guarantee":"gravity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.gravity_correct","statement":"Path(gravity(x), gravity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d54a74e5f3327f19"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.gravity","kind":"function","src_hash":"32cf27de8d5580ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gravity(acceleration, *bodies)","rhs":"_gravity(acceleration, *bodies)","over":{"base":"Any"},"name":"gravity_correct"},"guarantee":"returns _gravity(acceleration, *bodies)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.gravity_correct","statement":"Path(gravity(x), returns _gravity(acceleration, *bodies))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b73bd8957e168a00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_gravity(acceleration, *bodies)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['acceleration'], spec=['acceleration', '*bodies']"]}}
 def gravity(acceleration, *bodies):
     from sympy.physics.mechanics.loads import gravity as _gravity
     sympy_deprecation_warning(
@@ -441,16 +493,23 @@ def gravity(acceleration, *bodies):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center_of_mass(poi), returns the position vector from the given point to the center of mass of the given bodies(particles or rigidbodies)) over Any ║
+# ║ Path(center_of_mass(point, *bodies), vec / total_mass) over {Any | bodies} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ center_of_mass : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: bodies                                         ║
+# ║   returns:  vec / total_mass                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ center_of_mass : {Any | bodies} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72f3655749d5d498  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff5d866368ec8324  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.center_of_mass","kind":"function","src_hash":"fe9f3f1748f0c628","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center_of_mass(poi)","rhs":"returns the position vector from the given point to the center of mass of the given bodies(particles or rigidbodies)","over":{"base":"Any"},"name":"center_of_mass_correct"},"guarantee":"returns the position vector from the given point to the center of mass of the given bodies(particles or rigidbodies)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.center_of_mass_correct","statement":"Path(center_of_mass(x), returns the position vector from the given point to the center of mass of the given bodies(particles or rigidbodies))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72f3655749d5d498"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.center_of_mass","kind":"function","src_hash":"fe9f3f1748f0c628","in":{"base":"Any","pred":"bodies"},"out":{"base":"Any"},"spec":{"lhs":"center_of_mass(point, *bodies)","rhs":"vec / total_mass","over":{"base":"Any","pred":"bodies"},"name":"center_of_mass_correct"},"guarantee":"returns vec / total_mass","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.center_of_mass_correct","statement":"Path(center_of_mass(x), returns vec / total_mass)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff5d866368ec8324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["bodies"],"returns_expr":"vec / total_mass","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['point'], spec=['point', '*bodies']"]}}
 def center_of_mass(point, *bodies):
     """
     Returns the position vector from the given point to the center of mass
@@ -501,7 +560,11 @@ def center_of_mass(point, *bodies):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Lagrangian(fra), lagrangian of a multibody system) over {Any | isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))} ║
+# ║ Path(Lagrangian(frame, *body), kinetic_energy(frame, *body) - potential_energy(*body)) over {Any | isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   returns:  kinetic_energy(frame, *body) - potential_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Lagrangian : {Any | isinstance(frame, ReferenceFrame)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -514,9 +577,12 @@ def center_of_mass(point, *bodies):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 3.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fec48f50...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.Lagrangian","kind":"function","src_hash":"632029f3bca231d2","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))"},"out":{"base":"Any"},"spec":{"lhs":"Lagrangian(fra)","rhs":"lagrangian of a multibody system","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle))"},"name":"Lagrangian_correct"},"guarantee":"lagrangian of a multibody system","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"Lagrangian(x)","rhs":"lagrangian of a multibody system","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"Lagrangian_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.Lagrangian_ReferenceFrame_correct","statement":"Lagrangian satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"Lagrangian(x)","rhs":"lagrangian of a multibody system","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"Lagrangian_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.Lagrangian_(RigidBody_correct","statement":"Lagrangian satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fec48f50b964eeb0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.Lagrangian","kind":"function","src_hash":"632029f3bca231d2","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"Lagrangian(frame, *body)","rhs":"kinetic_energy(frame, *body) - potential_energy(*body)","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(e, (RigidBody, Particle)) and isinstance(frame, ReferenceFrame)"},"name":"Lagrangian_correct"},"guarantee":"returns kinetic_energy(frame, *body) - potential_energy(*body)","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"Lagrangian(x)","rhs":"returns kinetic_energy(frame, *body) - potential_energy(*body)","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"Lagrangian_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.Lagrangian_ReferenceFrame_correct","statement":"Lagrangian satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))","path":{"lhs":"Lagrangian(x)","rhs":"returns kinetic_energy(frame, *body) - potential_energy(*body)","over":{"base":"(RigidBody","pred":"isinstance(e, (RigidBody, Particle))"},"name":"Lagrangian_(RigidBody_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.Lagrangian_(RigidBody_correct","statement":"Lagrangian satisfies spec on (RigidBody inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fec48f50b964eeb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(frame, ReferenceFrame)"],"returns_expr":"kinetic_energy(frame, *body) - potential_energy(*body)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['frame'], spec=['frame', '*body']","Poor branch-fiber coverage: 0% (branches={'not isinstance(e, (RigidBody, Particle))', 'not isinstance(frame, ReferenceFrame)'}, fibers={'(RigidBody', 'ReferenceFrame'})"]}}
 def Lagrangian(frame, *body):
     """Lagrangian of a multibody system.
 
@@ -578,7 +644,12 @@ def Lagrangian(frame, *body):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_dynamicsymbols(exp), find all dynamicsymbols in expression) over {Any | isinstance(expression, Vector)} ║
+# ║ Path(find_dynamicsymbols(expression, exclude, reference_frame), {i for i in expression.atoms(AppliedUndef, Derivative) if i.free_symbols == t_set} - exclude_set) over {Any | isinstance(expression, Vector) and hasattr(expression, 'to_matrix') and hasattr(expression, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expression, 'to_matrix')               ║
+# ║   requires: hasattr(expression, 'atoms')                   ║
+# ║   returns:  {i for i in expression.atoms(AppliedUndef...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_dynamicsymbols : {Any | isinstance(expression, V...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -590,9 +661,12 @@ def Lagrangian(frame, *body):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 267e9b35...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.find_dynamicsymbols","kind":"function","src_hash":"e09708731c6a3012","in":{"base":"Any","pred":"isinstance(expression, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"find_dynamicsymbols(exp)","rhs":"find all dynamicsymbols in expression","over":{"base":"Any","pred":"isinstance(expression, Vector)"},"name":"find_dynamicsymbols_correct"},"guarantee":"find all dynamicsymbols in expression","fibers":[{"name":"Vector","pred":"isinstance(expression, Vector)","path":{"lhs":"find_dynamicsymbols(x)","rhs":"find all dynamicsymbols in expression","over":{"base":"Vector","pred":"isinstance(expression, Vector)"},"name":"find_dynamicsymbols_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.find_dynamicsymbols_Vector_correct","statement":"find_dynamicsymbols satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"267e9b350c19faf1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.find_dynamicsymbols","kind":"function","src_hash":"e09708731c6a3012","in":{"base":"Any","pred":"isinstance(expression, Vector) and hasattr(expression, 'to_matrix') and hasattr(expression, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"find_dynamicsymbols(expression, exclude, reference_frame)","rhs":"{i for i in expression.atoms(AppliedUndef, Derivative) if i.free_symbols == t_set} - exclude_set","over":{"base":"Any","pred":"isinstance(expression, Vector) and hasattr(expression, 'to_matrix') and hasattr(expression, 'atoms')"},"name":"find_dynamicsymbols_correct"},"guarantee":"returns {i for i in expression.atoms(AppliedUndef, Derivative) if i.free_symbols == t_set} - exclude_set","fibers":[{"name":"Vector","pred":"isinstance(expression, Vector)","path":{"lhs":"find_dynamicsymbols(x)","rhs":"returns {i for i in expression.atoms(AppliedUndef, Derivative) if i.free_symbols == t_set} - exclude_set","over":{"base":"Vector","pred":"isinstance(expression, Vector)"},"name":"find_dynamicsymbols_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.find_dynamicsymbols_Vector_correct","statement":"find_dynamicsymbols satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"267e9b350c19faf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expression, 'to_matrix')","hasattr(expression, 'atoms')"],"returns_expr":"{i for i in expression.atoms(AppliedUndef, Derivative) if i.free_symbols == t_set} - exclude_set","pure":false,"effects":{"effect_type":"reads_state","reads":["expression.atoms","expression.to_matrix"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expression, Vector)', 'reference_frame is None'}, fibers={'Vector'})"]}}
 def find_dynamicsymbols(expression, exclude=None, reference_frame=None):
     """Find all dynamicsymbols in expression.
 
@@ -654,7 +728,14 @@ def find_dynamicsymbols(expression, exclude=None, reference_frame=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(msubs(exp), a custom subs for use on expressions derived in physics.mechanics) over {Any | isinstance(expr, (Matrix, Vector, Dyadic))} ║
+# ║ Path(msubs(expr, *sub_dicts, smart), <unspecified:msubs>) over {Any | isinstance(expr, (Matrix, Vector, Dyadic)) and hasattr(expr, 'applyfunc') and hasattr(expr, 'msubs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'applyfunc')                     ║
+# ║   requires: hasattr(expr, 'msubs')                         ║
+# ║   fiber[case_0]: smart                                     ║
+# ║   fiber[case_1]: hasattr(expr, 'msubs') => expr.msubs...   ║
+# ║   fiber[case_2]: not (smart) and not (hasattr(expr, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ msubs : {Any | isinstance(expr, (Matrix, Vector, Dyad...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -666,9 +747,12 @@ def find_dynamicsymbols(expression, exclude=None, reference_frame=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 743dc0bb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.msubs","kind":"function","src_hash":"d86e7b6f27c6793e","in":{"base":"Any","pred":"isinstance(expr, (Matrix, Vector, Dyadic))"},"out":{"base":"Any"},"spec":{"lhs":"msubs(exp)","rhs":"a custom subs for use on expressions derived in physics.mechanics","over":{"base":"Any","pred":"isinstance(expr, (Matrix, Vector, Dyadic))"},"name":"msubs_correct"},"guarantee":"a custom subs for use on expressions derived in physics.mechanics","fibers":[{"name":"(Matrix","pred":"isinstance(expr, (Matrix, Vector, Dyadic))","path":{"lhs":"msubs(x)","rhs":"a custom subs for use on expressions derived in physics.mechanics","over":{"base":"(Matrix","pred":"isinstance(expr, (Matrix, Vector, Dyadic))"},"name":"msubs_(Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.msubs_(Matrix_correct","statement":"msubs satisfies spec on (Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"743dc0bb02e99e86"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions.msubs","kind":"function","src_hash":"d86e7b6f27c6793e","in":{"base":"Any","pred":"isinstance(expr, (Matrix, Vector, Dyadic)) and hasattr(expr, 'applyfunc') and hasattr(expr, 'msubs')"},"out":{"base":"Any"},"spec":{"lhs":"msubs(expr, *sub_dicts, smart)","rhs":"<unspecified:msubs>","over":{"base":"Any","pred":"isinstance(expr, (Matrix, Vector, Dyadic)) and hasattr(expr, 'applyfunc') and hasattr(expr, 'msubs')"},"name":"msubs_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(Matrix","pred":"isinstance(expr, (Matrix, Vector, Dyadic))","path":{"lhs":"msubs(x)","rhs":"3-fiber decomposition","over":{"base":"(Matrix","pred":"isinstance(expr, (Matrix, Vector, Dyadic))"},"name":"msubs_(Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions.msubs_(Matrix_correct","statement":"msubs satisfies spec on (Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"743dc0bb02e99e86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'applyfunc')","hasattr(expr, 'msubs')"],"fibers":[{"name":"case_0","guard":"smart","ensures":[],"decidability":"library"},{"name":"case_1","guard":"hasattr(expr, 'msubs')","ensures":["result == expr.msubs(sub_dict)"],"decidability":"structural","returns_expr":"expr.msubs(sub_dict)"},{"name":"case_2","guard":"not (smart) and not (hasattr(expr, 'msubs'))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.applyfunc","expr.msubs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*sub_dicts', 'smart', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(expr, (Matrix, Vector, Dyadic))'}, fibers={'(Matrix'})"]}}
 def msubs(expr, *sub_dicts, smart=False, **kwargs):
     """A custom subs for use on expressions derived in physics.mechanics.
 
@@ -723,16 +807,24 @@ def msubs(expr, *sub_dicts, smart=False, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_crawl(exp), crawl the expression tree, and apply func to every node) over Any ║
+# ║ Path(_crawl(expr, func, *args), # HINT: _crawl may be idempotent: _crawl(_crawl(x)) == _crawl(x)) over {Any | hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _crawl : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  # HINT: _crawl may be idempotent: _crawl(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _crawl : {Any | hasattr(expr, 'func') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57a6153a3cfbdc02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 858bd2d2f5f96509  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._crawl","kind":"function","src_hash":"0cddec966cb3aa71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_crawl(exp)","rhs":"crawl the expression tree, and apply func to every node","over":{"base":"Any"},"name":"_crawl_correct"},"guarantee":"crawl the expression tree, and apply func to every node","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._crawl_correct","statement":"Path(_crawl(x), crawl the expression tree, and apply func to every node)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57a6153a3cfbdc02"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._crawl","kind":"function","src_hash":"0cddec966cb3aa71","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _crawl may be idempotent: _crawl(_crawl(x)) == _crawl(x)"},"spec":{"lhs":"_crawl(expr, func, *args)","rhs":"# HINT: _crawl may be idempotent: _crawl(_crawl(x)) == _crawl(x)","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"_crawl_correct"},"guarantee":"# HINT: _crawl may be idempotent: _crawl(_crawl(x)) == _crawl(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._crawl_correct","statement":"Path(_crawl(x), # HINT: _crawl may be idempotent: _crawl(_crawl(x)) == _crawl(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"858bd2d2f5f96509","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'func')","hasattr(expr, 'args')"],"ensures":["# HINT: _crawl may be idempotent: _crawl(_crawl(x)) == _crawl(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'func'], spec=['expr', 'func', '*args', '**kwargs']"]}}
 def _crawl(expr, func, *args, **kwargs):
     """Crawl the expression tree, and apply func to every node."""
     val = func(expr, *args, **kwargs)
@@ -743,16 +835,27 @@ def _crawl(expr, func, *args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sub_func(exp), perform direct matching substitution, ignoring derivatives) over Any ║
+# ║ Path(_sub_func(expr, sub_dict), result == (sub_dict[expr] if expr in sub_dict else expr) and result == sub_dict[expr] or result == expr) over {Any | hasattr(expr, 'is_Derivative') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sub_func : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Derivative')                 ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (sub_dict[expr] if expr in sub_...   ║
+# ║   ensures:  result == sub_dict[expr] or result == expr     ║
+# ║   fiber[case_0]: expr in sub_dict => sub_dict[expr]        ║
+# ║   fiber[case_1]: not expr.args or expr.is_Derivative ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sub_func : {Any | hasattr(expr, 'is_Derivative') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f734d3695f2002c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69683baa5b01851f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._sub_func","kind":"function","src_hash":"305501fa96a389bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sub_func(exp)","rhs":"perform direct matching substitution, ignoring derivatives","over":{"base":"Any"},"name":"_sub_func_correct"},"guarantee":"perform direct matching substitution, ignoring derivatives","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._sub_func_correct","statement":"Path(_sub_func(x), perform direct matching substitution, ignoring derivatives)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f734d3695f2002c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._sub_func","kind":"function","src_hash":"305501fa96a389bd","in":{"base":"Any","pred":"hasattr(expr, 'is_Derivative') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (sub_dict[expr] if expr in sub_dict else expr) and result == sub_dict[expr] or result == expr"},"spec":{"lhs":"_sub_func(expr, sub_dict)","rhs":"result == (sub_dict[expr] if expr in sub_dict else expr) and result == sub_dict[expr] or result == expr","over":{"base":"Any","pred":"hasattr(expr, 'is_Derivative') and hasattr(expr, 'args')"},"name":"_sub_func_correct"},"guarantee":"result == (sub_dict[expr] if expr in sub_dict else expr); result == sub_dict[expr] or result == expr; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._sub_func_correct","statement":"Path(_sub_func(x), result == (sub_dict[expr] if expr in sub_dict else expr); result == sub_dict[expr] or result == expr; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69683baa5b01851f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Derivative')","hasattr(expr, 'args')"],"ensures":["result == (sub_dict[expr] if expr in sub_dict else expr)","result == sub_dict[expr] or result == expr"],"fibers":[{"name":"case_0","guard":"expr in sub_dict","ensures":["result == sub_dict[expr]"],"decidability":"library","returns_expr":"sub_dict[expr]"},{"name":"case_1","guard":"not expr.args or expr.is_Derivative","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Derivative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sub_func(expr, sub_dict):
     """Perform direct matching substitution, ignoring derivatives."""
     if expr in sub_dict:
@@ -762,9 +865,17 @@ def _sub_func(expr, sub_dict):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tan_repl_func(exp), replace tan with sin/cos) over {Any | isinstance(expr, tan)} ║
+# ║ Path(_tan_repl_func(expr), result == (sin(*expr.args) / cos(*expr.args) if isinstance(expr, tan) else expr) and result == sin(*expr.args) / cos(*expr.args) or result == expr) over {Any | isinstance(expr, tan) and hasattr(expr, 'is_Derivative') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _tan_repl_func : {Any | isinstance(expr, tan)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Derivative')                 ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (sin(*expr.args) / cos(*expr.ar...   ║
+# ║   ensures:  result == sin(*expr.args) / cos(*expr.arg...   ║
+# ║   fiber[tan]: isinstance(expr, tan) => sin(*expr.args...   ║
+# ║   fiber[case_1]: not expr.args or expr.is_Derivative ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _tan_repl_func : {Any | isinstance(expr, tan) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tan: {isinstance(expr, tan)} → library_axiom             ║
@@ -774,9 +885,12 @@ def _sub_func(expr, sub_dict):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d61881e8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._tan_repl_func","kind":"function","src_hash":"0c36c5ed2212b698","in":{"base":"Any","pred":"isinstance(expr, tan)"},"out":{"base":"Any"},"spec":{"lhs":"_tan_repl_func(exp)","rhs":"replace tan with sin/cos","over":{"base":"Any","pred":"isinstance(expr, tan)"},"name":"_tan_repl_func_correct"},"guarantee":"replace tan with sin/cos","fibers":[{"name":"tan","pred":"isinstance(expr, tan)","path":{"lhs":"_tan_repl_func(x)","rhs":"replace tan with sin/cos","over":{"base":"tan","pred":"isinstance(expr, tan)"},"name":"_tan_repl_func_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._tan_repl_func_tan_correct","statement":"_tan_repl_func satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d61881e8889fbe92"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._tan_repl_func","kind":"function","src_hash":"0c36c5ed2212b698","in":{"base":"Any","pred":"isinstance(expr, tan) and hasattr(expr, 'is_Derivative') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (sin(*expr.args) / cos(*expr.args) if isinstance(expr, tan) else expr) and result == sin(*expr.args) / cos(*expr.args) or result == expr"},"spec":{"lhs":"_tan_repl_func(expr)","rhs":"result == (sin(*expr.args) / cos(*expr.args) if isinstance(expr, tan) else expr) and result == sin(*expr.args) / cos(*expr.args) or result == expr","over":{"base":"Any","pred":"isinstance(expr, tan) and hasattr(expr, 'is_Derivative') and hasattr(expr, 'args')"},"name":"_tan_repl_func_correct"},"guarantee":"result == (sin(*expr.args) / cos(*expr.args) if isinstance(expr, tan) else expr); result == sin(*expr.args) / cos(*expr.args) or result == expr; 2-fiber decomposition","fibers":[{"name":"tan","pred":"isinstance(expr, tan)","path":{"lhs":"_tan_repl_func(x)","rhs":"result == (sin(*expr.args) / cos(*expr.args) if isinstance(expr, tan) else expr); result == sin(*expr.args) / cos(*expr.args) or result == expr; 2-fiber decomposition","over":{"base":"tan","pred":"isinstance(expr, tan)"},"name":"_tan_repl_func_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._tan_repl_func_tan_correct","statement":"_tan_repl_func satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d61881e8889fbe92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Derivative')","hasattr(expr, 'args')"],"ensures":["result == (sin(*expr.args) / cos(*expr.args) if isinstance(expr, tan) else expr)","result == sin(*expr.args) / cos(*expr.args) or result == expr"],"fibers":[{"name":"tan","guard":"isinstance(expr, tan)","ensures":["result == sin(*expr.args) / cos(*expr.args)"],"decidability":"structural","returns_expr":"sin(*expr.args) / cos(*expr.args)"},{"name":"case_1","guard":"not expr.args or expr.is_Derivative","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Derivative"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, tan)'}, fibers={'tan'})"]}}
 def _tan_repl_func(expr):
     """Replace tan with sin/cos."""
     if isinstance(expr, tan):
@@ -786,16 +900,24 @@ def _tan_repl_func(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_smart_subs(exp), performs subs, checking for conditions that may result in `nan` or `oo`, and attempts to simplify them out) over Any ║
+# ║ Path(_smart_subs(expr, sub_dict), <unspecified:_smart_subs>) over {Any | hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _smart_subs : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _smart_subs : {Any | hasattr(expr, 'func') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 552d99ca9fd53302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._smart_subs","kind":"function","src_hash":"dd9af20397e4de10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_smart_subs(exp)","rhs":"performs subs, checking for conditions that may result in `nan` or `oo`, and attempts to simplify them out","over":{"base":"Any"},"name":"_smart_subs_correct"},"guarantee":"performs subs, checking for conditions that may result in `nan` or `oo`, and attempts to simplify them out","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._smart_subs_correct","statement":"Path(_smart_subs(x), performs subs, checking for conditions that may result in `nan` or `oo`, and attempts to simplify them out)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"552d99ca9fd53302"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._smart_subs","kind":"function","src_hash":"dd9af20397e4de10","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_smart_subs(expr, sub_dict)","rhs":"<unspecified:_smart_subs>","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"_smart_subs_correct"},"guarantee":"performs subs, checking for conditions that may result in `nan` or `oo`, and attempts to simplify them out","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._smart_subs_correct","statement":"Path(_smart_subs(x), performs subs, checking for conditions that may result in `nan` or `oo`, and attempts to simplify them out)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"552d99ca9fd53302","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'func')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _smart_subs(expr, sub_dict):
     """Performs subs, checking for conditions that may result in `nan` or
     `oo`, and attempts to simplify them out.
@@ -836,9 +958,13 @@ def _smart_subs(expr, sub_dict):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fraction_decomp(exp), return num, den such that expr = num/den) over {Any | isinstance(expr, Mul)} ║
+# ║ Path(_fraction_decomp(expr), <unspecified:_fraction_decomp>) over {Any | isinstance(expr, Mul) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fraction_decomp : {Any | isinstance(expr, Mul)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fraction_decomp : {Any | isinstance(expr, Mul) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Mul: {isinstance(expr, Mul)} → library_axiom             ║
@@ -848,9 +974,12 @@ def _smart_subs(expr, sub_dict):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b1a751de...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._fraction_decomp","kind":"function","src_hash":"8b996cfd608a896d","in":{"base":"Any","pred":"isinstance(expr, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"_fraction_decomp(exp)","rhs":"return num, den such that expr = num/den","over":{"base":"Any","pred":"isinstance(expr, Mul)"},"name":"_fraction_decomp_correct"},"guarantee":"return num, den such that expr = num/den","fibers":[{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"_fraction_decomp(x)","rhs":"return num, den such that expr = num/den","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"_fraction_decomp_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._fraction_decomp_Mul_correct","statement":"_fraction_decomp satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b1a751de01202c55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._fraction_decomp","kind":"function","src_hash":"8b996cfd608a896d","in":{"base":"Any","pred":"isinstance(expr, Mul) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_fraction_decomp(expr)","rhs":"<unspecified:_fraction_decomp>","over":{"base":"Any","pred":"isinstance(expr, Mul) and hasattr(expr, 'args')"},"name":"_fraction_decomp_correct"},"guarantee":"return num, den such that expr = num/den","fibers":[{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"_fraction_decomp(x)","rhs":"return num, den such that expr = num/den","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"_fraction_decomp_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._fraction_decomp_Mul_correct","statement":"_fraction_decomp satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b1a751de01202c55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Mul)', 'a.is_Pow and a.args[1] < 0'}, fibers={'Mul'})"]}}
 def _fraction_decomp(expr):
     """Return num, den such that expr = num/den."""
     if not isinstance(expr, Mul):
@@ -870,7 +999,10 @@ def _fraction_decomp(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_list_parser(fl,), parses the provided forcelist composed of items of the form (obj, force). returns a tuple containing: vel_list: the velocity (ang_vel for frames, vel for points) in the provided reference frame. f_lis) over {Any | isinstance(obj, ReferenceFrame) and isinstance(obj, Point)} ║
+# ║ Path(_f_list_parser(fl, ref_frame), (vel_list, f_list)) over {Any | isinstance(obj, ReferenceFrame) and isinstance(obj, Point)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (vel_list, f_list)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_list_parser : {Any | isinstance(obj, ReferenceFram...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -883,9 +1015,12 @@ def _fraction_decomp(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c879e695...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._f_list_parser","kind":"function","src_hash":"69dc35f77d018de2","in":{"base":"Any","pred":"isinstance(obj, ReferenceFrame) and isinstance(obj, Point)"},"out":{"base":"Any"},"spec":{"lhs":"_f_list_parser(fl,)","rhs":"parses the provided forcelist composed of items of the form (obj, force). returns a tuple containing: vel_list: the velocity (ang_vel for frames, vel for points) in the provided reference frame. f_lis","over":{"base":"Any","pred":"isinstance(obj, ReferenceFrame) and isinstance(obj, Point)"},"name":"_f_list_parser_correct"},"guarantee":"parses the provided forcelist composed of items of the form (obj, force). returns a tuple containing: vel_list: the velocity (ang_vel for frames, vel for points) in the provided reference frame. f_lis","fibers":[{"name":"ReferenceFrame","pred":"isinstance(obj, ReferenceFrame)","path":{"lhs":"_f_list_parser(x)","rhs":"parses the provided forcelist composed of items of the form (obj, force). returns a tuple containing: vel_list: the velocity (ang_vel for frames, vel for points) in the provided reference frame. f_lis","over":{"base":"ReferenceFrame","pred":"isinstance(obj, ReferenceFrame)"},"name":"_f_list_parser_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._f_list_parser_ReferenceFrame_correct","statement":"_f_list_parser satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(obj, Point)","path":{"lhs":"_f_list_parser(x)","rhs":"parses the provided forcelist composed of items of the form (obj, force). returns a tuple containing: vel_list: the velocity (ang_vel for frames, vel for points) in the provided reference frame. f_lis","over":{"base":"Point","pred":"isinstance(obj, Point)"},"name":"_f_list_parser_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._f_list_parser_Point_correct","statement":"_f_list_parser satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c879e695c70bc19d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._f_list_parser","kind":"function","src_hash":"69dc35f77d018de2","in":{"base":"Any","pred":"isinstance(obj, ReferenceFrame) and isinstance(obj, Point)"},"out":{"base":"Any"},"spec":{"lhs":"_f_list_parser(fl, ref_frame)","rhs":"(vel_list, f_list)","over":{"base":"Any","pred":"isinstance(obj, ReferenceFrame) and isinstance(obj, Point)"},"name":"_f_list_parser_correct"},"guarantee":"returns (vel_list, f_list)","fibers":[{"name":"ReferenceFrame","pred":"isinstance(obj, ReferenceFrame)","path":{"lhs":"_f_list_parser(x)","rhs":"returns (vel_list, f_list)","over":{"base":"ReferenceFrame","pred":"isinstance(obj, ReferenceFrame)"},"name":"_f_list_parser_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._f_list_parser_ReferenceFrame_correct","statement":"_f_list_parser satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(obj, Point)","path":{"lhs":"_f_list_parser(x)","rhs":"returns (vel_list, f_list)","over":{"base":"Point","pred":"isinstance(obj, Point)"},"name":"_f_list_parser_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._f_list_parser_Point_correct","statement":"_f_list_parser satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c879e695c70bc19d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(vel_list, f_list)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(obj, ReferenceFrame)', 'isinstance(obj, Point)'}, fibers={'Point', 'ReferenceFrame'})"]}}
 def _f_list_parser(fl, ref_frame):
     """Parses the provided forcelist composed of items
     of the form (obj, force).
@@ -917,7 +1052,10 @@ def _f_list_parser(fl, ref_frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_validate_coordinates(coo), validate the generalized coordinates and generalized speeds) over {Any | isinstance(coordinate, (AppliedUndef, Derivative))} ║
+# ║ Path(_validate_coordinates(coordinates, speeds, check_duplicates), len(msgs) == old_len_msgs + 1) over {Any | isinstance(coordinate, (AppliedUndef, Derivative))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(msgs) == old_len_msgs + 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _validate_coordinates : {Any | isinstance(coordinate,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -929,9 +1067,12 @@ def _f_list_parser(fl, ref_frame):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b6377840...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._validate_coordinates","kind":"function","src_hash":"5149cb56338e5b17","in":{"base":"Any","pred":"isinstance(coordinate, (AppliedUndef, Derivative))"},"out":{"base":"Any"},"spec":{"lhs":"_validate_coordinates(coo)","rhs":"validate the generalized coordinates and generalized speeds","over":{"base":"Any","pred":"isinstance(coordinate, (AppliedUndef, Derivative))"},"name":"_validate_coordinates_correct"},"guarantee":"validate the generalized coordinates and generalized speeds","fibers":[{"name":"(AppliedUndef","pred":"isinstance(coordinate, (AppliedUndef, Derivative))","path":{"lhs":"_validate_coordinates(x)","rhs":"validate the generalized coordinates and generalized speeds","over":{"base":"(AppliedUndef","pred":"isinstance(coordinate, (AppliedUndef, Derivative))"},"name":"_validate_coordinates_(AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._validate_coordinates_(AppliedUndef_correct","statement":"_validate_coordinates satisfies spec on (AppliedUndef inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b637784011f66cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._validate_coordinates","kind":"function","src_hash":"5149cb56338e5b17","in":{"base":"Any","pred":"isinstance(coordinate, (AppliedUndef, Derivative))"},"out":{"base":"Any","pred":"result satisfies: len(msgs) == old_len_msgs + 1"},"spec":{"lhs":"_validate_coordinates(coordinates, speeds, check_duplicates)","rhs":"len(msgs) == old_len_msgs + 1","over":{"base":"Any","pred":"isinstance(coordinate, (AppliedUndef, Derivative))"},"name":"_validate_coordinates_correct"},"guarantee":"len(msgs) == old_len_msgs + 1","fibers":[{"name":"(AppliedUndef","pred":"isinstance(coordinate, (AppliedUndef, Derivative))","path":{"lhs":"_validate_coordinates(x)","rhs":"len(msgs) == old_len_msgs + 1","over":{"base":"(AppliedUndef","pred":"isinstance(coordinate, (AppliedUndef, Derivative))"},"name":"_validate_coordinates_(AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._validate_coordinates_(AppliedUndef_correct","statement":"_validate_coordinates satisfies spec on (AppliedUndef inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b637784011f66cc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(msgs) == old_len_msgs + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["msgs.append","seen.add"],"raises":["ValueError"]},"state_contract":{"modifies":["msgs.*","seen.*"],"old_bindings":{"old_len_msgs":"len(msgs)"},"post_ensures":["len(msgs) == old_len_msgs + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'speeds is None', 'u_auxiliary is None', 'not (isinstance(coordinate, (AppliedUndef, Derivative)) and coordinate.free_symbols == t_set)', 'coordinates is None', 'not (isinstance(speed, (AppliedUndef, Derivative)) and speed.free_symbols == t_set)', 'not (isinstance(aux, (AppliedUndef, Derivative)) and aux.free_symbols == t_set)'}, fibers={'(AppliedUndef'})"]}}
 def _validate_coordinates(coordinates=None, speeds=None, check_duplicates=True,
                           is_dynamicsymbols=True, u_auxiliary=None):
     """Validate the generalized coordinates and generalized speeds.
@@ -1016,16 +1157,22 @@ def _validate_coordinates(coordinates=None, speeds=None, check_duplicates=True,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_linear_solver(lin), helper function to retrieve a specified linear solver) over Any ║
+# ║ Path(_parse_linear_solver(linear_solver), <unspecified:_parse_linear_solver>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parse_linear_solver : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e689b9d64ab2f994  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._parse_linear_solver","kind":"function","src_hash":"8a655a40ebe6a433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_linear_solver(lin)","rhs":"helper function to retrieve a specified linear solver","over":{"base":"Any"},"name":"_parse_linear_solver_correct"},"guarantee":"helper function to retrieve a specified linear solver","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._parse_linear_solver_correct","statement":"Path(_parse_linear_solver(x), helper function to retrieve a specified linear solver)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e689b9d64ab2f994"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.functions._parse_linear_solver","kind":"function","src_hash":"8a655a40ebe6a433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_linear_solver(linear_solver)","rhs":"<unspecified:_parse_linear_solver>","over":{"base":"Any"},"name":"_parse_linear_solver_correct"},"guarantee":"helper function to retrieve a specified linear solver","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.functions._parse_linear_solver_correct","statement":"Path(_parse_linear_solver(x), helper function to retrieve a specified linear solver)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e689b9d64ab2f994","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _parse_linear_solver(linear_solver):
     """Helper function to retrieve a specified linear solver."""
     if callable(linear_solver):

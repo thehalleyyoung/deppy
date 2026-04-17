@@ -39,16 +39,22 @@ header = '''\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_antlr_version(), check_antlr_version produces the expected output) over Any ║
+# ║ Path(check_antlr_version(), <unspecified:check_antlr_version>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_antlr_version : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bff264e1031ad3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._build_latex_antlr.check_antlr_version","kind":"function","src_hash":"62298586b85af60a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_antlr_version()","rhs":"check_antlr_version produces the expected output","over":{"base":"Any"},"name":"check_antlr_version_correct"},"guarantee":"check_antlr_version produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex._build_latex_antlr.check_antlr_version_correct","statement":"Path(check_antlr_version(x), check_antlr_version produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bff264e1031ad3a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._build_latex_antlr.check_antlr_version","kind":"function","src_hash":"62298586b85af60a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_antlr_version()","rhs":"<unspecified:check_antlr_version>","over":{"base":"Any"},"name":"check_antlr_version_correct"},"guarantee":"check_antlr_version produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex._build_latex_antlr.check_antlr_version_correct","statement":"Path(check_antlr_version(x), check_antlr_version produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bff264e1031ad3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_antlr_version():
     debug("Checking antlr4 version...")
 
@@ -64,16 +70,22 @@ def check_antlr_version():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(build_parser(out), build_parser produces the expected output) over Any ║
+# ║ Path(build_parser(output_dir), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ build_parser : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27a08bc352b50335  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 989037bd36d9dde9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._build_latex_antlr.build_parser","kind":"function","src_hash":"187e9e2a8df89228","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_parser(out)","rhs":"build_parser produces the expected output","over":{"base":"Any"},"name":"build_parser_correct"},"guarantee":"build_parser produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex._build_latex_antlr.build_parser_correct","statement":"Path(build_parser(x), build_parser produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27a08bc352b50335"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._build_latex_antlr.build_parser","kind":"function","src_hash":"187e9e2a8df89228","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_parser(output_dir)","rhs":"True","over":{"base":"Any"},"name":"build_parser_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex._build_latex_antlr.build_parser_correct","statement":"Path(build_parser(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"989037bd36d9dde9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"io","calls_mutating":["fp.write","out_file.write","out_file.writelines"],"io_operations":["fp.write","open","out_file.write","out_file.writelines"]},"state_contract":{"modifies":["fp.*","out_file.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def build_parser(output_dir=dir_latex_antlr):
     check_antlr_version()
 

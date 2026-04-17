@@ -43,32 +43,45 @@ mat2 = Matrix([[2*I, 3], [4*I, 2]])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sparse_matrices(), test_sparse_matrices produces the expected output) over Any ║
+# ║ Path(test_sparse_matrices(), unchanged(TensorProduct, spm, spm)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sparse_matrices : Any → {Any | unchanged(TensorP...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(TensorProduct, spm, spm)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sparse_matrices : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dbe791f99b7a224  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc92fad198f34fad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_sparse_matrices","kind":"function","src_hash":"a5193d05ff47816a","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(TensorProduct, spm, spm)"},"spec":{"lhs":"test_sparse_matrices()","rhs":"test_sparse_matrices produces the expected output","over":{"base":"Any"},"name":"test_sparse_matrices_correct"},"guarantee":"test_sparse_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_sparse_matrices_correct","statement":"Path(test_sparse_matrices(x), test_sparse_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dbe791f99b7a224"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_sparse_matrices","kind":"function","src_hash":"a5193d05ff47816a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(TensorProduct, spm, spm)"},"spec":{"lhs":"test_sparse_matrices()","rhs":"unchanged(TensorProduct, spm, spm)","over":{"base":"Any"},"name":"test_sparse_matrices_correct"},"guarantee":"unchanged(TensorProduct, spm, spm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_sparse_matrices_correct","statement":"Path(test_sparse_matrices(x), unchanged(TensorProduct, spm, spm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc92fad198f34fad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(TensorProduct, spm, spm)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sparse_matrices():
     spm = SparseMatrix.diag(1, 0)
     assert unchanged(TensorProduct, spm, spm)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_dagger(), test_tensor_product_dagger produces the expected output) over Any ║
+# ║ Path(test_tensor_product_dagger(), Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B)) and Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product_dagger : Any → {Any | Dagger(Tens...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(TensorProduct(I * A, B)) == -I * T...   ║
+# ║   ensures:  Dagger(TensorProduct(mat1, mat2)) == Tens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product_dagger : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17af20f9787bcabf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 583074ec55366aed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_dagger","kind":"function","src_hash":"ab7e36992f3ffe92","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B)) and Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2))"},"spec":{"lhs":"test_tensor_product_dagger()","rhs":"test_tensor_product_dagger produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_dagger_correct"},"guarantee":"test_tensor_product_dagger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_dagger_correct","statement":"Path(test_tensor_product_dagger(x), test_tensor_product_dagger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17af20f9787bcabf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_dagger","kind":"function","src_hash":"ab7e36992f3ffe92","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B)) and Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2))"},"spec":{"lhs":"test_tensor_product_dagger()","rhs":"Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B)) and Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2))","over":{"base":"Any"},"name":"test_tensor_product_dagger_correct"},"guarantee":"Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B)); Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_dagger_correct","statement":"Path(test_tensor_product_dagger(x), Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B)); Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583074ec55366aed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(TensorProduct(I * A, B)) == -I * TensorProduct(Dagger(A), Dagger(B))","Dagger(TensorProduct(mat1, mat2)) == TensorProduct(Dagger(mat1), Dagger(mat2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_dagger():
     assert Dagger(TensorProduct(I*A, B)) == \
         -I*TensorProduct(Dagger(A), Dagger(B))
@@ -77,7 +90,12 @@ def test_tensor_product_dagger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_abstract(), test_tensor_product_abstract produces the expected output) over {Any | isinstance(TP(A, B), TP)} ║
+# ║ Path(test_tensor_product_abstract(), TP(x * A, 2 * B) == x * 2 * TP(A, B) and TP(A, B) != TP(B, A) and TP(A, B).is_commutative is False and isinstance(TP(A, B), TP) and TP(A, B).subs(A, C) == TP(C, B)) over {Any | isinstance(TP(A, B), TP)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TP(x * A, 2 * B) == x * 2 * TP(A, B)           ║
+# ║   ensures:  TP(A, B) != TP(B, A)                           ║
+# ║   ensures:  TP(A, B).is_commutative is False               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensor_product_abstract : {Any | isinstance(TP(A...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -89,9 +107,12 @@ def test_tensor_product_dagger():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 52775a27...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_abstract","kind":"function","src_hash":"96c163f3392c124f","in":{"base":"Any","pred":"isinstance(TP(A, B), TP)"},"out":{"base":"Any","pred":"TP(x * A, 2 * B) == x * 2 * TP(A, B) and TP(A, B) != TP(B, A) and TP(A, B).is_commutative is False and isinstance(TP(A, B), TP) and TP(A, B).subs(A, C) == TP(C, B)"},"spec":{"lhs":"test_tensor_product_abstract()","rhs":"test_tensor_product_abstract produces the expected output","over":{"base":"Any","pred":"isinstance(TP(A, B), TP)"},"name":"test_tensor_product_abstract_correct"},"guarantee":"test_tensor_product_abstract produces the expected output","fibers":[{"name":"B","pred":"isinstance(TP(A, B), TP)","path":{"lhs":"test_tensor_product_abstract(x)","rhs":"test_tensor_product_abstract produces the expected output","over":{"base":"B","pred":"isinstance(TP(A, B), TP)"},"name":"test_tensor_product_abstract_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_abstract_B_correct","statement":"test_tensor_product_abstract satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"52775a27abf7fa27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_abstract","kind":"function","src_hash":"96c163f3392c124f","in":{"base":"Any","pred":"isinstance(TP(A, B), TP)"},"out":{"base":"Any","pred":"result satisfies: TP(x * A, 2 * B) == x * 2 * TP(A, B) and TP(A, B) != TP(B, A) and TP(A, B).is_commutative is False and isinstance(TP(A, B), TP) and TP(A, B).subs(A, C) == TP(C, B)"},"spec":{"lhs":"test_tensor_product_abstract()","rhs":"TP(x * A, 2 * B) == x * 2 * TP(A, B) and TP(A, B) != TP(B, A) and TP(A, B).is_commutative is False and isinstance(TP(A, B), TP) and TP(A, B).subs(A, C) == TP(C, B)","over":{"base":"Any","pred":"isinstance(TP(A, B), TP)"},"name":"test_tensor_product_abstract_correct"},"guarantee":"TP(x * A, 2 * B) == x * 2 * TP(A, B); TP(A, B) != TP(B, A); TP(A, B).is_commutative is False","fibers":[{"name":"B","pred":"isinstance(TP(A, B), TP)","path":{"lhs":"test_tensor_product_abstract(x)","rhs":"TP(x * A, 2 * B) == x * 2 * TP(A, B); TP(A, B) != TP(B, A); TP(A, B).is_commutative is False","over":{"base":"B","pred":"isinstance(TP(A, B), TP)"},"name":"test_tensor_product_abstract_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_abstract_B_correct","statement":"test_tensor_product_abstract satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"52775a27abf7fa27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TP(x * A, 2 * B) == x * 2 * TP(A, B)","TP(A, B) != TP(B, A)","TP(A, B).is_commutative is False","isinstance(TP(A, B), TP)","TP(A, B).subs(A, C) == TP(C, B)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_tensor_product_abstract():
 
     assert TP(x*A, 2*B) == x*2*TP(A, B)
@@ -102,16 +123,24 @@ def test_tensor_product_abstract():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_expand(), test_tensor_product_expand produces the expected output) over Any ║
+# ║ Path(test_tensor_product_expand(), TP(A + B, B + C).expand(tensorproduct=True) == TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C) and TP(A - B, B - A).expand(tensorproduct=True) == TP(A, B) - TP(A, A) - TP(B, B) + TP(B, A) and TP(2 * A + B, A + B).expand(tensorproduct=True) == 2 * TP(A, A) + 2 * TP(A, B) + TP(B, A) + TP(B, B) and TP(2 * A * B + A, A + B).expand(tensorproduct=True) == 2 * TP(A * B, A) + 2 * TP(A * B, B) + TP(A, A) + TP(A, B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product_expand : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TP(A + B, B + C).expand(tensorproduct=Tru...   ║
+# ║   ensures:  TP(A - B, B - A).expand(tensorproduct=Tru...   ║
+# ║   ensures:  TP(2 * A + B, A + B).expand(tensorproduct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product_expand : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afe72b4508b9f674  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66e8f5a3bbfff78b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_expand","kind":"function","src_hash":"99a2dc41df2630dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensor_product_expand()","rhs":"test_tensor_product_expand produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_expand_correct"},"guarantee":"test_tensor_product_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_expand_correct","statement":"Path(test_tensor_product_expand(x), test_tensor_product_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe72b4508b9f674"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_expand","kind":"function","src_hash":"99a2dc41df2630dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TP(A + B, B + C).expand(tensorproduct=True) == TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C) and TP(A - B, B - A).expand(tensorproduct=True) == TP(A, B) - TP(A, A) - TP(B, B) + TP(B, A) and TP(2 * A + B, A + B).expand(tensorproduct=True) == 2 * TP(A, A) + 2 * TP(A, B) + TP(B, A) + TP(B, B) and TP(2 * A * B + A, A + B).expand(tensorproduct=True) == 2 * TP(A * B, A) + 2 * TP(A * B, B) + TP(A, A) + TP(A, B)"},"spec":{"lhs":"test_tensor_product_expand()","rhs":"TP(A + B, B + C).expand(tensorproduct=True) == TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C) and TP(A - B, B - A).expand(tensorproduct=True) == TP(A, B) - TP(A, A) - TP(B, B) + TP(B, A) and TP(2 * A + B, A + B).expand(tensorproduct=True) == 2 * TP(A, A) + 2 * TP(A, B) + TP(B, A) + TP(B, B) and TP(2 * A * B + A, A + B).expand(tensorproduct=True) == 2 * TP(A * B, A) + 2 * TP(A * B, B) + TP(A, A) + TP(A, B)","over":{"base":"Any"},"name":"test_tensor_product_expand_correct"},"guarantee":"TP(A + B, B + C).expand(tensorproduct=True) == TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C); TP(A - B, B - A).expand(tensorproduct=True) == TP(A, B) - TP(A, A) - TP(B, B) + TP(B, A); TP(2 * A + B, A + B).expand(tensorproduct=True) == 2 * TP(A, A) + 2 * TP(A, B) + TP(B, A) + TP(B, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_expand_correct","statement":"Path(test_tensor_product_expand(x), TP(A + B, B + C).expand(tensorproduct=True) == TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C); TP(A - B, B - A).expand(tensorproduct=True) == TP(A, B) - TP(A, A) - TP(B, B) + TP(B, A); TP(2 * A + B, A + B).expand(tensorproduct=True) == 2 * TP(A, A) + 2 * TP(A, B) + TP(B, A) + TP(B, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66e8f5a3bbfff78b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TP(A + B, B + C).expand(tensorproduct=True) == TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C)","TP(A - B, B - A).expand(tensorproduct=True) == TP(A, B) - TP(A, A) - TP(B, B) + TP(B, A)","TP(2 * A + B, A + B).expand(tensorproduct=True) == 2 * TP(A, A) + 2 * TP(A, B) + TP(B, A) + TP(B, B)","TP(2 * A * B + A, A + B).expand(tensorproduct=True) == 2 * TP(A * B, A) + 2 * TP(A * B, B) + TP(A, A) + TP(A, B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_expand():
     assert TP(A + B, B + C).expand(tensorproduct=True) == \
         TP(A, B) + TP(A, C) + TP(B, B) + TP(B, C)
@@ -125,16 +154,23 @@ def test_tensor_product_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_commutator(), test_tensor_product_commutator produces the expected output) over Any ║
+# ║ Path(test_tensor_product_commutator(), TP(Comm(A, B), C).doit().expand(tensorproduct=True) == TP(A * B, C) - TP(B * A, C) and Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product_commutator : Any → {Any | Comm(TP...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TP(Comm(A, B), C).doit().expand(tensorpro...   ║
+# ║   ensures:  Comm(TP(A, B), TP(B, C)).doit() == TP(A, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product_commutator : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f5a27530b658723  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d023c2e9e60e66ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_commutator","kind":"function","src_hash":"bab1d1be1d4bfb72","in":{"base":"Any"},"out":{"base":"Any","pred":"Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B)"},"spec":{"lhs":"test_tensor_product_commutator()","rhs":"test_tensor_product_commutator produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_commutator_correct"},"guarantee":"test_tensor_product_commutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_commutator_correct","statement":"Path(test_tensor_product_commutator(x), test_tensor_product_commutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f5a27530b658723"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_commutator","kind":"function","src_hash":"bab1d1be1d4bfb72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TP(Comm(A, B), C).doit().expand(tensorproduct=True) == TP(A * B, C) - TP(B * A, C) and Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B)"},"spec":{"lhs":"test_tensor_product_commutator()","rhs":"TP(Comm(A, B), C).doit().expand(tensorproduct=True) == TP(A * B, C) - TP(B * A, C) and Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B)","over":{"base":"Any"},"name":"test_tensor_product_commutator_correct"},"guarantee":"TP(Comm(A, B), C).doit().expand(tensorproduct=True) == TP(A * B, C) - TP(B * A, C); Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_commutator_correct","statement":"Path(test_tensor_product_commutator(x), TP(Comm(A, B), C).doit().expand(tensorproduct=True) == TP(A * B, C) - TP(B * A, C); Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d023c2e9e60e66ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TP(Comm(A, B), C).doit().expand(tensorproduct=True) == TP(A * B, C) - TP(B * A, C)","Comm(TP(A, B), TP(B, C)).doit() == TP(A, B) * TP(B, C) - TP(B, C) * TP(A, B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_commutator():
     assert TP(Comm(A, B), C).doit().expand(tensorproduct=True) == \
         TP(A*B, C) - TP(B*A, C)
@@ -143,16 +179,22 @@ def test_tensor_product_commutator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_simp(), test_tensor_product_simp produces the expected output) over Any ║
+# ║ Path(test_tensor_product_simp(), <unspecified:test_tensor_product_simp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensor_product_simp : Any → {Any | tensor_produc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a88d7a3f15800ae8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_simp","kind":"function","src_hash":"eebb59e2fd2c0fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"tensor_product_simp(TP(A, B) * TP(B, C)) == TP(A * B, B * C) and TP(A, B) ** y == TP(A ** y, B ** y) and tensor_product_simp(TP(A, B) ** y) == TP(A ** y, B ** y) and tensor_product_simp(x * TP(A, B) ** 2) == x * TP(A ** 2, B ** 2) and tensor_product_simp(TP(A, B) - TP(C, D) ** y) == TP(A, B) - TP(C ** y, D ** y)"},"spec":{"lhs":"test_tensor_product_simp()","rhs":"test_tensor_product_simp produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_simp_correct"},"guarantee":"test_tensor_product_simp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_simp_correct","statement":"Path(test_tensor_product_simp(x), test_tensor_product_simp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a88d7a3f15800ae8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_simp","kind":"function","src_hash":"eebb59e2fd2c0fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"tensor_product_simp(TP(A, B) * TP(B, C)) == TP(A * B, B * C) and TP(A, B) ** y == TP(A ** y, B ** y) and tensor_product_simp(TP(A, B) ** y) == TP(A ** y, B ** y) and tensor_product_simp(x * TP(A, B) ** 2) == x * TP(A ** 2, B ** 2) and tensor_product_simp(TP(A, B) - TP(C, D) ** y) == TP(A, B) - TP(C ** y, D ** y)"},"spec":{"lhs":"test_tensor_product_simp()","rhs":"<unspecified:test_tensor_product_simp>","over":{"base":"Any"},"name":"test_tensor_product_simp_correct"},"guarantee":"test_tensor_product_simp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_tensor_product_simp_correct","statement":"Path(test_tensor_product_simp(x), test_tensor_product_simp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a88d7a3f15800ae8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_simp():
     with warns_deprecated_sympy():
         assert tensor_product_simp(TP(A, B)*TP(B, C)) == TP(A*B, B*C)
@@ -165,16 +207,22 @@ def test_tensor_product_simp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5923(), test_issue_5923 produces the expected output) over Any ║
+# ║ Path(test_issue_5923(), TensorProduct(1, Qubit('1') * Qubit('1').dual) == TensorProduct(1, OuterProduct(Qubit(1), QubitBra(1)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5923 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorProduct(1, Qubit('1') * Qubit('1')....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5923 : Any → {Any | result satisfies: Tens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ad5f69dc26a80cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 259955c10414449e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_issue_5923","kind":"function","src_hash":"035d62150f488462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_5923()","rhs":"test_issue_5923 produces the expected output","over":{"base":"Any"},"name":"test_issue_5923_correct"},"guarantee":"test_issue_5923 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_issue_5923_correct","statement":"Path(test_issue_5923(x), test_issue_5923 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad5f69dc26a80cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_issue_5923","kind":"function","src_hash":"035d62150f488462","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorProduct(1, Qubit('1') * Qubit('1').dual) == TensorProduct(1, OuterProduct(Qubit(1), QubitBra(1)))"},"spec":{"lhs":"test_issue_5923()","rhs":"TensorProduct(1, Qubit('1') * Qubit('1').dual) == TensorProduct(1, OuterProduct(Qubit(1), QubitBra(1)))","over":{"base":"Any"},"name":"test_issue_5923_correct"},"guarantee":"TensorProduct(1, Qubit('1') * Qubit('1').dual) == TensorProduct(1, OuterProduct(Qubit(1), QubitBra(1)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_issue_5923_correct","statement":"Path(test_issue_5923(x), TensorProduct(1, Qubit('1') * Qubit('1').dual) == TensorProduct(1, OuterProduct(Qubit(1), QubitBra(1))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"259955c10414449e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorProduct(1, Qubit('1') * Qubit('1').dual) == TensorProduct(1, OuterProduct(Qubit(1), QubitBra(1)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5923():
     # most of the issue regarding sympification of args has been handled
     # and is tested internally by the use of args_cnc through the quantum
@@ -184,16 +232,24 @@ def test_issue_5923():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_trace(), test_eval_trace produces the expected output) over Any ║
+# ║ Path(test_eval_trace(), tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) and tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C) and tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C)) and t.doit() == 0.5 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 0.5 * Tr(C * Dagger(C)) * Tr(D * Dagger(D)) and t.doit() == 0.5 * Tr(A * Dagger(A)) * B * Dagger(B) + 0.5 * Tr(C * Dagger(C)) * D * Dagger(D) and t.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 1.0 * Tr(A * Dagger(C)) * Tr(B * Dagger(D)) + 1.0 * Tr(C * Dagger(A)) * Tr(D * Dagger(B)) + 1.0 * Tr(C * Dagger(C)) * Tr(D * Dagger(D)) and t.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) + 1.0 * A * Dagger(C) * Tr(B * Dagger(D)) + 1.0 * C * Dagger(A) * Tr(D * Dagger(B)) + 1.0 * C * Dagger(C) * Tr(D * Dagger(D))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_trace : Any → {Any | tr.doit() == 1.0 * Tr(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr...   ║
+# ║   ensures:  tr.doit() == 1.0 * A * Dagger(A) * Tr(B *...   ║
+# ║   ensures:  tr.doit() == 1.0 * Tr(A * Dagger(A)) * B ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_trace : Any → {Any | result satisfies: tr.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd812e85527363d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9ed6d2b635230e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_eval_trace","kind":"function","src_hash":"bfdd5abee6743a38","in":{"base":"Any"},"out":{"base":"Any","pred":"tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) and tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C) and tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C))"},"spec":{"lhs":"test_eval_trace()","rhs":"test_eval_trace produces the expected output","over":{"base":"Any"},"name":"test_eval_trace_correct"},"guarantee":"test_eval_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_eval_trace_correct","statement":"Path(test_eval_trace(x), test_eval_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd812e85527363d1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_eval_trace","kind":"function","src_hash":"bfdd5abee6743a38","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) and tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C) and tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C)) and t.doit() == 0.5 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 0.5 * Tr(C * Dagger(C)) * Tr(D * Dagger(D)) and t.doit() == 0.5 * Tr(A * Dagger(A)) * B * Dagger(B) + 0.5 * Tr(C * Dagger(C)) * D * Dagger(D) and t.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 1.0 * Tr(A * Dagger(C)) * Tr(B * Dagger(D)) + 1.0 * Tr(C * Dagger(A)) * Tr(D * Dagger(B)) + 1.0 * Tr(C * Dagger(C)) * Tr(D * Dagger(D)) and t.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) + 1.0 * A * Dagger(C) * Tr(B * Dagger(D)) + 1.0 * C * Dagger(A) * Tr(D * Dagger(B)) + 1.0 * C * Dagger(C) * Tr(D * Dagger(D))"},"spec":{"lhs":"test_eval_trace()","rhs":"tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) and tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C) and tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C)) and t.doit() == 0.5 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 0.5 * Tr(C * Dagger(C)) * Tr(D * Dagger(D)) and t.doit() == 0.5 * Tr(A * Dagger(A)) * B * Dagger(B) + 0.5 * Tr(C * Dagger(C)) * D * Dagger(D) and t.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 1.0 * Tr(A * Dagger(C)) * Tr(B * Dagger(D)) + 1.0 * Tr(C * Dagger(A)) * Tr(D * Dagger(B)) + 1.0 * Tr(C * Dagger(C)) * Tr(D * Dagger(D)) and t.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) + 1.0 * A * Dagger(C) * Tr(B * Dagger(D)) + 1.0 * C * Dagger(A) * Tr(D * Dagger(B)) + 1.0 * C * Dagger(C) * Tr(D * Dagger(D))","over":{"base":"Any"},"name":"test_eval_trace_correct"},"guarantee":"tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)); tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C); tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_eval_trace_correct","statement":"Path(test_eval_trace(x), tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)); tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C); tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9ed6d2b635230e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tr.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B))","tr.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) * C * Dagger(C)","tr.doit() == 1.0 * Tr(A * Dagger(A)) * B * Dagger(B) * Tr(C * Dagger(C))","t.doit() == 0.5 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 0.5 * Tr(C * Dagger(C)) * Tr(D * Dagger(D))","t.doit() == 0.5 * Tr(A * Dagger(A)) * B * Dagger(B) + 0.5 * Tr(C * Dagger(C)) * D * Dagger(D)","t.doit() == 1.0 * Tr(A * Dagger(A)) * Tr(B * Dagger(B)) + 1.0 * Tr(A * Dagger(C)) * Tr(B * Dagger(D)) + 1.0 * Tr(C * Dagger(A)) * Tr(D * Dagger(B)) + 1.0 * Tr(C * Dagger(C)) * Tr(D * Dagger(D))","t.doit() == 1.0 * A * Dagger(A) * Tr(B * Dagger(B)) + 1.0 * A * Dagger(C) * Tr(B * Dagger(D)) + 1.0 * C * Dagger(A) * Tr(D * Dagger(B)) + 1.0 * C * Dagger(C) * Tr(D * Dagger(D))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_eval_trace():
     # This test includes tests with dependencies between TensorProducts
     #and density operators. Since, the test is more to test the behavior of
@@ -243,16 +299,24 @@ def test_eval_trace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pr24993(), test_pr24993 produces the expected output) over Any ║
+# ║ Path(test_pr24993(), TensorProduct(Xi, Xi) == TensorProduct(X, X) and TensorProduct(Xi, Xi) == matrix_tensor_product(X, X) and TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pr24993 : Any → {Any | TensorProduct(Xi, Xi) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorProduct(Xi, Xi) == TensorProduct(X, X)   ║
+# ║   ensures:  TensorProduct(Xi, Xi) == matrix_tensor_pr...   ║
+# ║   ensures:  TensorProduct(Xi, Xi) == matrix_kronecker...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pr24993 : Any → {Any | result satisfies: TensorP...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c82bafa418446e4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e5100c09f274fcd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_pr24993","kind":"function","src_hash":"915dab3c9e9a6665","in":{"base":"Any"},"out":{"base":"Any","pred":"TensorProduct(Xi, Xi) == TensorProduct(X, X) and TensorProduct(Xi, Xi) == matrix_tensor_product(X, X) and TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X)"},"spec":{"lhs":"test_pr24993()","rhs":"test_pr24993 produces the expected output","over":{"base":"Any"},"name":"test_pr24993_correct"},"guarantee":"test_pr24993 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_pr24993_correct","statement":"Path(test_pr24993(x), test_pr24993 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c82bafa418446e4b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_tensorproduct.test_pr24993","kind":"function","src_hash":"915dab3c9e9a6665","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorProduct(Xi, Xi) == TensorProduct(X, X) and TensorProduct(Xi, Xi) == matrix_tensor_product(X, X) and TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X)"},"spec":{"lhs":"test_pr24993()","rhs":"TensorProduct(Xi, Xi) == TensorProduct(X, X) and TensorProduct(Xi, Xi) == matrix_tensor_product(X, X) and TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X)","over":{"base":"Any"},"name":"test_pr24993_correct"},"guarantee":"TensorProduct(Xi, Xi) == TensorProduct(X, X); TensorProduct(Xi, Xi) == matrix_tensor_product(X, X); TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_tensorproduct.test_pr24993_correct","statement":"Path(test_pr24993(x), TensorProduct(Xi, Xi) == TensorProduct(X, X); TensorProduct(Xi, Xi) == matrix_tensor_product(X, X); TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e5100c09f274fcd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorProduct(Xi, Xi) == TensorProduct(X, X)","TensorProduct(Xi, Xi) == matrix_tensor_product(X, X)","TensorProduct(Xi, Xi) == matrix_kronecker_product(X, X)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pr24993():
     from sympy.matrices.expressions.kronecker import matrix_kronecker_product
     from sympy.physics.quantum.matrixutils    import matrix_tensor_product

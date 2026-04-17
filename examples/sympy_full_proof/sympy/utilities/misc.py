@@ -28,16 +28,22 @@ from textwrap import fill, dedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Undecidable(), correctly constructs a Undecidable instance) over Any ║
+# ║ Path(Undecidable(), isinstance(self, ValueError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Undecidable : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ValueError)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Undecidable : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3711e1615b3ba37d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.Undecidable","kind":"class","src_hash":"9c2bea7b0ddcc718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Undecidable()","rhs":"correctly constructs a Undecidable instance","over":{"base":"Any"},"name":"Undecidable_correct"},"guarantee":"correctly constructs a Undecidable instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3711e1615b3ba37d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.Undecidable","kind":"class","src_hash":"9c2bea7b0ddcc718","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ValueError)"},"spec":{"lhs":"Undecidable()","rhs":"isinstance(self, ValueError)","over":{"base":"Any"},"name":"Undecidable_correct"},"guarantee":"isinstance(self, ValueError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3711e1615b3ba37d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ValueError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Undecidable not found in source"]}}
 class Undecidable(ValueError):
     # an error to be raised when a decision cannot be made definitively
     # where a definitive answer is needed
@@ -45,16 +51,22 @@ class Undecidable(ValueError):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(filldedent(s, ), strips leading and trailing empty lines from a copy of ``s``, then dedents, fills and returns it) over Any ║
+# ║ Path(filldedent(s, w, **kwargs), '\n' + fill(dedent(str(s)).strip('\n'), width=w, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n' + fill(dedent(str(s)).strip('\n'), w...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ filldedent : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1264561d21deecb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.filldedent","kind":"function","src_hash":"bf5b98511bbbe6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"filldedent(s, )","rhs":"strips leading and trailing empty lines from a copy of ``s``, then dedents, fills and returns it","over":{"base":"Any"},"name":"filldedent_correct"},"guarantee":"strips leading and trailing empty lines from a copy of ``s``, then dedents, fills and returns it","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1264561d21deecb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.filldedent","kind":"function","src_hash":"bf5b98511bbbe6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"filldedent(s, w, **kwargs)","rhs":"'\\n' + fill(dedent(str(s)).strip('\\n'), width=w, **kwargs)","over":{"base":"Any"},"name":"filldedent_correct"},"guarantee":"returns '\\n' + fill(dedent(str(s)).strip('\\n'), width=w, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1264561d21deecb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n' + fill(dedent(str(s)).strip('\\n'), width=w, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['s', 'w'], spec=['s', 'w', '**kwargs']"]}}
 def filldedent(s, w=70, **kwargs):
     """
     Strips leading and trailing empty lines from a copy of ``s``, then dedents,
@@ -75,9 +87,13 @@ def filldedent(s, w=70, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strlines(s, ), return a cut-and-pastable string that, when printed, is equivalent to the input) over {Any | isinstance(s, str)} ║
+# ║ Path(strlines(s, c, short), len(out) == old_len_out + 1) over {Any | isinstance(s, str) and isinstance(s, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ strlines : {Any | isinstance(s, str)} → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   ensures:  len(out) == old_len_out + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ strlines : {Any | isinstance(s, str) and isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(s, str)} → library_axiom                ║
@@ -87,9 +103,12 @@ def filldedent(s, w=70, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6435c643...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.strlines","kind":"function","src_hash":"9627ee457941e843","in":{"base":"Any","pred":"isinstance(s, str)"},"out":{"base":"Any"},"spec":{"lhs":"strlines(s, )","rhs":"return a cut-and-pastable string that, when printed, is equivalent to the input","over":{"base":"Any","pred":"isinstance(s, str)"},"name":"strlines_correct"},"guarantee":"return a cut-and-pastable string that, when printed, is equivalent to the input","fibers":[{"name":"str","pred":"isinstance(s, str)","path":{"lhs":"strlines(x)","rhs":"return a cut-and-pastable string that, when printed, is equivalent to the input","over":{"base":"str","pred":"isinstance(s, str)"},"name":"strlines_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.strlines_str_correct","statement":"strlines satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6435c643b5e00444"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.strlines","kind":"function","src_hash":"9627ee457941e843","in":{"base":"Any","pred":"isinstance(s, str) and isinstance(s, str)"},"out":{"base":"Any","pred":"result satisfies: len(out) == old_len_out + 1"},"spec":{"lhs":"strlines(s, c, short)","rhs":"len(out) == old_len_out + 1","over":{"base":"Any","pred":"isinstance(s, str) and isinstance(s, str)"},"name":"strlines_correct"},"guarantee":"len(out) == old_len_out + 1","fibers":[{"name":"str","pred":"isinstance(s, str)","path":{"lhs":"strlines(x)","rhs":"len(out) == old_len_out + 1","over":{"base":"str","pred":"isinstance(s, str)"},"name":"strlines_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.strlines_str_correct","statement":"strlines satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6435c643b5e00444","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(s, str)"],"ensures":["len(out) == old_len_out + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["out.append"],"raises":["ValueError"]},"state_contract":{"modifies":["out.*"],"old_bindings":{"old_len_out":"len(out)"},"post_ensures":["len(out) == old_len_out + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(s, str)', 'short and len(out) == 1'}, fibers={'str'})"]}}
 def strlines(s, c=64, short=False):
     """Return a cut-and-pastable string that, when printed, is
     equivalent to the input.  The lines will be surrounded by
@@ -143,16 +162,24 @@ def strlines(s, c=64, short=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rawlines(s), return a cut-and-pastable string that, when printed, is equivalent to the input) over Any ║
+# ║ Path(rawlines(s), <unspecified:rawlines>) over {Any | hasattr(s, 'split') and hasattr(s, 'endswith')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rawlines : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'split')                            ║
+# ║   requires: hasattr(s, 'endswith')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rawlines : {Any | hasattr(s, 'split') and hasattr(s, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2bafe64abda02a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.rawlines","kind":"function","src_hash":"ebaf20a72b1193e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rawlines(s)","rhs":"return a cut-and-pastable string that, when printed, is equivalent to the input","over":{"base":"Any"},"name":"rawlines_correct"},"guarantee":"return a cut-and-pastable string that, when printed, is equivalent to the input","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.rawlines_correct","statement":"Path(rawlines(x), return a cut-and-pastable string that, when printed, is equivalent to the input)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2bafe64abda02a5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.rawlines","kind":"function","src_hash":"ebaf20a72b1193e2","in":{"base":"Any","pred":"hasattr(s, 'split') and hasattr(s, 'endswith')"},"out":{"base":"Any"},"spec":{"lhs":"rawlines(s)","rhs":"<unspecified:rawlines>","over":{"base":"Any","pred":"hasattr(s, 'split') and hasattr(s, 'endswith')"},"name":"rawlines_correct"},"guarantee":"return a cut-and-pastable string that, when printed, is equivalent to the input","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.rawlines_correct","statement":"Path(rawlines(x), return a cut-and-pastable string that, when printed, is equivalent to the input)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2bafe64abda02a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'split')","hasattr(s, 'endswith')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rawlines(s):
     """Return a cut-and-pastable string that, when printed, is equivalent
     to the input. Use this when there is more than one line in the
@@ -245,16 +272,23 @@ _debug_tmp: list[str] = []
 _debug_iter = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(debug_decorator(fun), if sympy_debug is true, it will print a nice execution tree with arguments and results of all decorated functions, else do nothing) over Any ║
+# ║ Path(debug_decorator(func), len(_debug_tmp) == old_len__debug_tmp + 1 and len(f) == old_len_f + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ debug_decorator : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(_debug_tmp) == old_len__debug_tmp + 1      ║
+# ║   ensures:  len(f) == old_len_f + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ debug_decorator : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa047ae44eb41b1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd18978b95e5218e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.debug_decorator","kind":"function","src_hash":"a02774859008a988","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug_decorator(fun)","rhs":"if sympy_debug is true, it will print a nice execution tree with arguments and results of all decorated functions, else do nothing","over":{"base":"Any"},"name":"debug_decorator_correct"},"guarantee":"if sympy_debug is true, it will print a nice execution tree with arguments and results of all decorated functions, else do nothing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.debug_decorator_correct","statement":"Path(debug_decorator(x), if sympy_debug is true, it will print a nice execution tree with arguments and results of all decorated functions, else do nothing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa047ae44eb41b1c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.debug_decorator","kind":"function","src_hash":"a02774859008a988","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(_debug_tmp) == old_len__debug_tmp + 1 and len(f) == old_len_f + 1"},"spec":{"lhs":"debug_decorator(func)","rhs":"len(_debug_tmp) == old_len__debug_tmp + 1 and len(f) == old_len_f + 1","over":{"base":"Any"},"name":"debug_decorator_correct"},"guarantee":"len(_debug_tmp) == old_len__debug_tmp + 1; len(f) == old_len_f + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.debug_decorator_correct","statement":"Path(debug_decorator(x), len(_debug_tmp) == old_len__debug_tmp + 1; len(f) == old_len_f + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd18978b95e5218e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(_debug_tmp) == old_len__debug_tmp + 1","len(f) == old_len_f + 1"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["_debug_tmp.append","f.append"],"globals_read":["_debug_iter","_debug_tmp"],"globals_written":["_debug_iter","_debug_tmp"],"io_operations":["print"]},"state_contract":{"modifies":["_debug_tmp.*","f.*"],"old_bindings":{"old_len__debug_tmp":"len(_debug_tmp)","old_len_f":"len(f)"},"post_ensures":["len(_debug_tmp) == old_len__debug_tmp + 1","len(f) == old_len_f + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def debug_decorator(func):
     """If SYMPY_DEBUG is True, it will print a nice execution tree with
     arguments and results of all decorated functions, else do nothing.
@@ -317,16 +351,22 @@ def debug_decorator(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(debug(*ar), print ``*args`` if sympy_debug is true, else do nothing) over Any ║
+# ║ Path(debug(*args), <unspecified:debug>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ debug : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77a0cb43f0c597bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.debug","kind":"function","src_hash":"0fa300aa1e569468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug(*ar)","rhs":"print ``*args`` if sympy_debug is true, else do nothing","over":{"base":"Any"},"name":"debug_correct"},"guarantee":"print ``*args`` if sympy_debug is true, else do nothing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.debug_correct","statement":"Path(debug(x), print ``*args`` if sympy_debug is true, else do nothing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77a0cb43f0c597bc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.debug","kind":"function","src_hash":"0fa300aa1e569468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug(*args)","rhs":"<unspecified:debug>","over":{"base":"Any"},"name":"debug_correct"},"guarantee":"print ``*args`` if sympy_debug is true, else do nothing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.debug_correct","statement":"Path(debug(x), print ``*args`` if sympy_debug is true, else do nothing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77a0cb43f0c597bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def debug(*args):
     """
     Print ``*args`` if SYMPY_DEBUG is True, else do nothing.
@@ -337,16 +377,22 @@ def debug(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(debugf(str), print ``string%args`` if sympy_debug is true, else do nothing) over Any ║
+# ║ Path(debugf(string, args), <unspecified:debugf>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ debugf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52178047221b5c93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.debugf","kind":"function","src_hash":"e0f0607e233d7246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debugf(str)","rhs":"print ``string%args`` if sympy_debug is true, else do nothing","over":{"base":"Any"},"name":"debugf_correct"},"guarantee":"print ``string%args`` if sympy_debug is true, else do nothing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.debugf_correct","statement":"Path(debugf(x), print ``string%args`` if sympy_debug is true, else do nothing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52178047221b5c93"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.debugf","kind":"function","src_hash":"e0f0607e233d7246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debugf(string, args)","rhs":"<unspecified:debugf>","over":{"base":"Any"},"name":"debugf_correct"},"guarantee":"print ``string%args`` if sympy_debug is true, else do nothing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.debugf_correct","statement":"Path(debugf(x), print ``string%args`` if sympy_debug is true, else do nothing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52178047221b5c93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def debugf(string, args):
     """
     Print ``string%args`` if SYMPY_DEBUG is True, else do nothing. This is
@@ -358,16 +404,23 @@ def debugf(string, args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_executable(exe), try to find 'executable' in the directories listed in 'path' (a string listing directories separated by 'os.pathsep'; defaults to os.environ['path'])) over Any ║
+# ║ Path(find_executable(executable, path), <unspecified:find_executable>) over {Any | hasattr(path, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_executable : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(path, 'split')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_executable : {Any | hasattr(path, 'split')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 679c5f46e9673a78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.find_executable","kind":"function","src_hash":"8943e51123fcd6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_executable(exe)","rhs":"try to find 'executable' in the directories listed in 'path' (a string listing directories separated by 'os.pathsep'; defaults to os.environ['path'])","over":{"base":"Any"},"name":"find_executable_correct"},"guarantee":"try to find 'executable' in the directories listed in 'path' (a string listing directories separated by 'os.pathsep'; defaults to os.environ['path'])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.find_executable_correct","statement":"Path(find_executable(x), try to find 'executable' in the directories listed in 'path' (a string listing directories separated by 'os.pathsep'; defaults to os.environ['path']))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"679c5f46e9673a78"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.find_executable","kind":"function","src_hash":"8943e51123fcd6bc","in":{"base":"Any","pred":"hasattr(path, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"find_executable(executable, path)","rhs":"<unspecified:find_executable>","over":{"base":"Any","pred":"hasattr(path, 'split')"},"name":"find_executable_correct"},"guarantee":"try to find 'executable' in the directories listed in 'path' (a string listing directories separated by 'os.pathsep'; defaults to os.environ['path'])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.find_executable_correct","statement":"Path(find_executable(x), try to find 'executable' in the directories listed in 'path' (a string listing directories separated by 'os.pathsep'; defaults to os.environ['path']))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"679c5f46e9673a78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(path, 'split')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["path.split"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def find_executable(executable, path=None):
     """Try to find 'executable' in the directories listed in 'path' (a
     string listing directories separated by 'os.pathsep'; defaults to
@@ -412,16 +465,22 @@ def find_executable(executable, path=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func_name(x, ), return function name of `x` (if defined) else the `type(x)`. if short is true and there is a shorter alias for the result, return the alias) over Any ║
+# ║ Path(func_name(x, short), <unspecified:func_name>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func_name : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8753d4be6edf7ac6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.func_name","kind":"function","src_hash":"af05eb79c88db83f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func_name(x, )","rhs":"return function name of `x` (if defined) else the `type(x)`. if short is true and there is a shorter alias for the result, return the alias","over":{"base":"Any"},"name":"func_name_correct"},"guarantee":"return function name of `x` (if defined) else the `type(x)`. if short is true and there is a shorter alias for the result, return the alias","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.func_name_correct","statement":"Path(func_name(x), return function name of `x` (if defined) else the `type(x)`. if short is true and there is a shorter alias for the result, return the alias)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8753d4be6edf7ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.func_name","kind":"function","src_hash":"af05eb79c88db83f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func_name(x, short)","rhs":"<unspecified:func_name>","over":{"base":"Any"},"name":"func_name_correct"},"guarantee":"return function name of `x` (if defined) else the `type(x)`. if short is true and there is a shorter alias for the result, return the alias","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.func_name_correct","statement":"Path(func_name(x), return function name of `x` (if defined) else the `type(x)`. if short is true and there is a shorter alias for the result, return the alias)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8753d4be6edf7ac6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def func_name(x, short=False):
     """Return function name of `x` (if defined) else the `type(x)`.
     If short is True and there is a shorter alias for the result,
@@ -462,16 +521,23 @@ def func_name(x, short=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_replace(rep), return a function that can make the replacements, given in ``reps``, on a string) over Any ║
+# ║ Path(_replace(reps), <unspecified:_replace>) over {Any | hasattr(reps, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _replace : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(reps, 'items')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _replace : {Any | hasattr(reps, 'items')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8306694fdb4a7de4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc._replace","kind":"function","src_hash":"cc843322c231eea1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_replace(rep)","rhs":"return a function that can make the replacements, given in ``reps``, on a string","over":{"base":"Any"},"name":"_replace_correct"},"guarantee":"return a function that can make the replacements, given in ``reps``, on a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc._replace_correct","statement":"Path(_replace(x), return a function that can make the replacements, given in ``reps``, on a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8306694fdb4a7de4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc._replace","kind":"function","src_hash":"cc843322c231eea1","in":{"base":"Any","pred":"hasattr(reps, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_replace(reps)","rhs":"<unspecified:_replace>","over":{"base":"Any","pred":"hasattr(reps, 'items')"},"name":"_replace_correct"},"guarantee":"return a function that can make the replacements, given in ``reps``, on a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc._replace_correct","statement":"Path(_replace(x), return a function that can make the replacements, given in ``reps``, on a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8306694fdb4a7de4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(reps, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["reps.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _replace(reps):
     """Return a function that can make the replacements, given in
     ``reps``, on a string. The replacements should be given as mapping.
@@ -496,9 +562,13 @@ def _replace(reps):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(replace(str), return ``string`` with all keys in ``reps`` replaced with their corresponding values, longer strings first, irrespective of the order they are given) over {Any | isinstance(kv, dict)} ║
+# ║ Path(replace(string, *reps), <unspecified:replace>) over {Any | isinstance(kv, dict) and hasattr(string, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ replace : {Any | isinstance(kv, dict)} → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(string, 'replace')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ replace : {Any | isinstance(kv, dict) and hasattr(str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(kv, dict)} → library_axiom             ║
@@ -508,9 +578,12 @@ def _replace(reps):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0ae6528b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.replace","kind":"function","src_hash":"30a6cd0757c1c0dd","in":{"base":"Any","pred":"isinstance(kv, dict)"},"out":{"base":"Any"},"spec":{"lhs":"replace(str)","rhs":"return ``string`` with all keys in ``reps`` replaced with their corresponding values, longer strings first, irrespective of the order they are given","over":{"base":"Any","pred":"isinstance(kv, dict)"},"name":"replace_correct"},"guarantee":"return ``string`` with all keys in ``reps`` replaced with their corresponding values, longer strings first, irrespective of the order they are given","fibers":[{"name":"dict","pred":"isinstance(kv, dict)","path":{"lhs":"replace(x)","rhs":"return ``string`` with all keys in ``reps`` replaced with their corresponding values, longer strings first, irrespective of the order they are given","over":{"base":"dict","pred":"isinstance(kv, dict)"},"name":"replace_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.replace_dict_correct","statement":"replace satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0ae6528ba6fc01f3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.replace","kind":"function","src_hash":"30a6cd0757c1c0dd","in":{"base":"Any","pred":"isinstance(kv, dict) and hasattr(string, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"replace(string, *reps)","rhs":"<unspecified:replace>","over":{"base":"Any","pred":"isinstance(kv, dict) and hasattr(string, 'replace')"},"name":"replace_correct"},"guarantee":"return ``string`` with all keys in ``reps`` replaced with their corresponding values, longer strings first, irrespective of the order they are given","fibers":[{"name":"dict","pred":"isinstance(kv, dict)","path":{"lhs":"replace(x)","rhs":"return ``string`` with all keys in ``reps`` replaced with their corresponding values, longer strings first, irrespective of the order they are given","over":{"base":"dict","pred":"isinstance(kv, dict)"},"name":"replace_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.replace_dict_correct","statement":"replace satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0ae6528ba6fc01f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(string, 'replace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["string.replace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['string'], spec=['string', '*reps']","Poor branch-fiber coverage: 0% (branches={'len(reps) == 1', 'isinstance(kv, dict)'}, fibers={'dict'})"]}}
 def replace(string, *reps):
     """Return ``string`` with all keys in ``reps`` replaced with
     their corresponding values, longer strings first, irrespective
@@ -554,9 +627,15 @@ def replace(string, *reps):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translate(s, ), return ``s`` where characters have been replaced or deleted) over {Any | isinstance(a, dict)} ║
+# ║ Path(translate(s, a, b), len(a) == old_len_a - 1) over {Any | isinstance(a, dict) and hasattr(s, 'translate') and hasattr(a, 'keys') and hasattr(a, 'pop') and len(a) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ translate : {Any | isinstance(a, dict)} → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'translate')                        ║
+# ║   requires: hasattr(a, 'keys')                             ║
+# ║   requires: hasattr(a, 'pop')                              ║
+# ║   ensures:  len(a) == old_len_a - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ translate : {Any | isinstance(a, dict) and hasattr(s,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(a, dict)} → library_axiom              ║
@@ -566,9 +645,12 @@ def replace(string, *reps):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c20cfa17...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.translate","kind":"function","src_hash":"741801f8219f81f7","in":{"base":"Any","pred":"isinstance(a, dict)"},"out":{"base":"Any"},"spec":{"lhs":"translate(s, )","rhs":"return ``s`` where characters have been replaced or deleted","over":{"base":"Any","pred":"isinstance(a, dict)"},"name":"translate_correct"},"guarantee":"return ``s`` where characters have been replaced or deleted","fibers":[{"name":"dict","pred":"isinstance(a, dict)","path":{"lhs":"translate(x)","rhs":"return ``s`` where characters have been replaced or deleted","over":{"base":"dict","pred":"isinstance(a, dict)"},"name":"translate_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.translate_dict_correct","statement":"translate satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c20cfa177d89cf02"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.translate","kind":"function","src_hash":"741801f8219f81f7","in":{"base":"Any","pred":"isinstance(a, dict) and hasattr(s, 'translate') and hasattr(a, 'keys') and hasattr(a, 'pop') and len(a) > 0"},"out":{"base":"Any","pred":"result satisfies: len(a) == old_len_a - 1"},"spec":{"lhs":"translate(s, a, b)","rhs":"len(a) == old_len_a - 1","over":{"base":"Any","pred":"isinstance(a, dict) and hasattr(s, 'translate') and hasattr(a, 'keys') and hasattr(a, 'pop') and len(a) > 0"},"name":"translate_correct"},"guarantee":"len(a) == old_len_a - 1","fibers":[{"name":"dict","pred":"isinstance(a, dict)","path":{"lhs":"translate(x)","rhs":"len(a) == old_len_a - 1","over":{"base":"dict","pred":"isinstance(a, dict)"},"name":"translate_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.translate_dict_correct","statement":"translate satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c20cfa177d89cf02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'translate')","hasattr(a, 'keys')","hasattr(a, 'pop')","len(a) > 0"],"ensures":["len(a) == old_len_a - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["a.keys","a.pop","s.translate"],"calls_mutating":["a.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["a.*"],"old_bindings":{"old_len_a":"len(a)"},"pre_requires":["len(a) > 0"],"post_ensures":["len(a) == old_len_a - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(a) != len(b)', 'isinstance(a, dict)', 'len(k) == 1 and len(a[k]) == 1', 'a is None', 'b is None'}, fibers={'dict'})"]}}
 def translate(s, a, b=None, c=None):
     """Return ``s`` where characters have been replaced or deleted.
 
@@ -643,16 +725,22 @@ def translate(s, a, b=None, c=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ordinal(num), return ordinal number string of num, e.g) over Any ║
+# ║ Path(ordinal(num), str(n) + suffix) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(n) + suffix                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ordinal : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21f41ddb0a25d095  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60cda1c6deaecd69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.ordinal","kind":"function","src_hash":"436e3371235a6ce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordinal(num)","rhs":"return ordinal number string of num, e.g","over":{"base":"Any"},"name":"ordinal_correct"},"guarantee":"return ordinal number string of num, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.ordinal_correct","statement":"Path(ordinal(x), return ordinal number string of num, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21f41ddb0a25d095"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.ordinal","kind":"function","src_hash":"436e3371235a6ce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordinal(num)","rhs":"str(n) + suffix","over":{"base":"Any"},"name":"ordinal_correct"},"guarantee":"returns str(n) + suffix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.ordinal_correct","statement":"Path(ordinal(x), returns str(n) + suffix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60cda1c6deaecd69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(n) + suffix","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ordinal(num):
     """Return ordinal number string of num, e.g. 1 becomes 1st.
     """
@@ -673,7 +761,11 @@ def ordinal(num):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_int(n, ), convert the argument to a builtin integer) over {Any | isinstance(n, bool)} ║
+# ║ Path(as_int(n, strict), <unspecified:as_int>) over {Any | isinstance(n, bool)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: strict                                    ║
+# ║   fiber[case_1]: not (strict) => result                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_int : {Any | isinstance(n, bool)} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -685,9 +777,12 @@ def ordinal(num):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8997c96c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.as_int","kind":"function","src_hash":"8a23f583cccbf837","in":{"base":"Any","pred":"isinstance(n, bool)"},"out":{"base":"Any"},"spec":{"lhs":"as_int(n, )","rhs":"convert the argument to a builtin integer","over":{"base":"Any","pred":"isinstance(n, bool)"},"name":"as_int_correct"},"guarantee":"convert the argument to a builtin integer","fibers":[{"name":"bool","pred":"isinstance(n, bool)","path":{"lhs":"as_int(x)","rhs":"convert the argument to a builtin integer","over":{"base":"bool","pred":"isinstance(n, bool)"},"name":"as_int_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.as_int_bool_correct","statement":"as_int satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8997c96c9be7b2ac"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.misc.as_int","kind":"function","src_hash":"8a23f583cccbf837","in":{"base":"Any","pred":"isinstance(n, bool)"},"out":{"base":"Any"},"spec":{"lhs":"as_int(n, strict)","rhs":"<unspecified:as_int>","over":{"base":"Any","pred":"isinstance(n, bool)"},"name":"as_int_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"bool","pred":"isinstance(n, bool)","path":{"lhs":"as_int(x)","rhs":"2-fiber decomposition","over":{"base":"bool","pred":"isinstance(n, bool)"},"name":"as_int_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.misc.as_int_bool_correct","statement":"as_int satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8997c96c9be7b2ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"strict","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (strict)","ensures":["result == result"],"decidability":"library","returns_expr":"result"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(n, bool)'}, fibers={'bool'})"]}}
 def as_int(n, strict=True):
     """
     Convert the argument to a builtin integer.

@@ -40,16 +40,22 @@ from sympy.testing.pytest import XFAIL
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_module_imports_are_direct(), test_module_imports_are_direct produces the expected output) over Any ║
+# ║ Path(test_module_imports_are_direct(), output == '') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_module_imports_are_direct : Any → {Any | output ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  output == ''                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_module_imports_are_direct : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5674b1e2994fad0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61e5296c0da8f196  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_module_imports.test_module_imports_are_direct","kind":"function","src_hash":"687ef7b9bf24cc4c","in":{"base":"Any"},"out":{"base":"Any","pred":"output == ''"},"spec":{"lhs":"test_module_imports_are_direct()","rhs":"test_module_imports_are_direct produces the expected output","over":{"base":"Any"},"name":"test_module_imports_are_direct_correct"},"guarantee":"test_module_imports_are_direct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_module_imports.test_module_imports_are_direct_correct","statement":"Path(test_module_imports_are_direct(x), test_module_imports_are_direct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5674b1e2994fad0"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_module_imports.test_module_imports_are_direct","kind":"function","src_hash":"687ef7b9bf24cc4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: output == ''"},"spec":{"lhs":"test_module_imports_are_direct()","rhs":"output == ''","over":{"base":"Any"},"name":"test_module_imports_are_direct_correct"},"guarantee":"output == ''","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_module_imports.test_module_imports_are_direct_correct","statement":"Path(test_module_imports_are_direct(x), output == '')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61e5296c0da8f196","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["output == ''"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_module_imports_are_direct():
     my_filename = abspath(inspect.getfile(inspect.currentframe()))
     my_dirname = dirname(my_filename)

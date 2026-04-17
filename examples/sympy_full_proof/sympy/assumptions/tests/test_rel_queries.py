@@ -27,16 +27,24 @@ from sympy.testing.pytest import raises, XFAIL
 x, y, z = symbols("x y z", real=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lra_satask(), test_lra_satask produces the expected output) over Any ║
+# ║ Path(test_lra_satask(), lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False and lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True and lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True and lra_satask(~Q.eq(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, x)) is False and lra_satask(Q.eq(x, x)) is True and lra_satask(Q.gt(x, 0), Q.gt(x, 1)) is True and lra_satask(Q.gt(x, 0), True) is None and raises(ValueError, lambda: lra_satask(Q.gt(x, 0), False))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lra_satask : Any → {Any | lra_satask(Q.eq(x, 1),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False   ║
+# ║   ensures:  lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True    ║
+# ║   ensures:  lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lra_satask : Any → {Any | result satisfies: lra_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca82b121b534f913  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 858a34e497c7696d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_lra_satask","kind":"function","src_hash":"8be701b9cf967c81","in":{"base":"Any"},"out":{"base":"Any","pred":"lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False and lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True and lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True and lra_satask(~Q.eq(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, x)) is False and lra_satask(Q.eq(x, x)) is True and lra_satask(Q.gt(x, 0), Q.gt(x, 1)) is True and lra_satask(Q.gt(x, 0), True) is None and raises(ValueError, lambda: lra_satask(Q.gt(x, 0), False))"},"spec":{"lhs":"test_lra_satask()","rhs":"test_lra_satask produces the expected output","over":{"base":"Any"},"name":"test_lra_satask_correct"},"guarantee":"test_lra_satask produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_lra_satask_correct","statement":"Path(test_lra_satask(x), test_lra_satask produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca82b121b534f913"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_lra_satask","kind":"function","src_hash":"8be701b9cf967c81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False and lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True and lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True and lra_satask(~Q.eq(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, x)) is False and lra_satask(Q.eq(x, x)) is True and lra_satask(Q.gt(x, 0), Q.gt(x, 1)) is True and lra_satask(Q.gt(x, 0), True) is None and raises(ValueError, lambda: lra_satask(Q.gt(x, 0), False))"},"spec":{"lhs":"test_lra_satask()","rhs":"lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False and lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True and lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True and lra_satask(~Q.eq(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, 0), Q.eq(x, 0)) is False and lra_satask(Q.ne(x, x)) is False and lra_satask(Q.eq(x, x)) is True and lra_satask(Q.gt(x, 0), Q.gt(x, 1)) is True and lra_satask(Q.gt(x, 0), True) is None and raises(ValueError, lambda: lra_satask(Q.gt(x, 0), False))","over":{"base":"Any"},"name":"test_lra_satask_correct"},"guarantee":"lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False; lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True; lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_lra_satask_correct","statement":"Path(test_lra_satask(x), lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False; lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True; lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"858a34e497c7696d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lra_satask(Q.eq(x, 1), ~Q.ne(x, 0)) is False","lra_satask(Q.eq(x, 0), ~Q.ne(x, 0)) is True","lra_satask(~Q.ne(x, 0), Q.eq(x, 0)) is True","lra_satask(~Q.eq(x, 0), Q.eq(x, 0)) is False","lra_satask(Q.ne(x, 0), Q.eq(x, 0)) is False","lra_satask(Q.ne(x, x)) is False","lra_satask(Q.eq(x, x)) is True","lra_satask(Q.gt(x, 0), Q.gt(x, 1)) is True","lra_satask(Q.gt(x, 0), True) is None","raises(ValueError, lambda: lra_satask(Q.gt(x, 0), False))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lra_satask():
     im = Symbol('im', imaginary=True)
 
@@ -66,16 +74,24 @@ def test_lra_satask():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_old_assumptions(), test_old_assumptions produces the expected output) over Any ║
+# ║ Path(test_old_assumptions(), lra_satask(Q.le(w, 0)) is False and lra_satask(Q.gt(w, 0)) is True and lra_satask(Q.lt(w, 0)) is True and lra_satask(Q.ge(w, 0)) is False and lra_satask(Q.eq(w, 0)) is True and lra_satask(Q.ne(w, 0)) is False and lra_satask(Q.ne(w, 0)) is True and lra_satask(Q.eq(w, 1)) is None and lra_satask(Q.le(w, 0)) is True and lra_satask(Q.gt(w, 0)) is False and lra_satask(Q.ge(w, 0)) is True and lra_satask(Q.lt(w, 0)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_old_assumptions : Any → {Any | lra_satask(Q.le(w...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lra_satask(Q.le(w, 0)) is False                ║
+# ║   ensures:  lra_satask(Q.gt(w, 0)) is True                 ║
+# ║   ensures:  lra_satask(Q.lt(w, 0)) is True                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_old_assumptions : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7702f9af0344282  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d3aa45bf82644f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_old_assumptions","kind":"function","src_hash":"8f45d3d6092f0c1d","in":{"base":"Any"},"out":{"base":"Any","pred":"lra_satask(Q.le(w, 0)) is False and lra_satask(Q.gt(w, 0)) is True and lra_satask(Q.lt(w, 0)) is True and lra_satask(Q.ge(w, 0)) is False and lra_satask(Q.eq(w, 0)) is True and lra_satask(Q.ne(w, 0)) is False and lra_satask(Q.ne(w, 0)) is True and lra_satask(Q.eq(w, 1)) is None and lra_satask(Q.le(w, 0)) is True and lra_satask(Q.gt(w, 0)) is False and lra_satask(Q.ge(w, 0)) is True and lra_satask(Q.lt(w, 0)) is False"},"spec":{"lhs":"test_old_assumptions()","rhs":"test_old_assumptions produces the expected output","over":{"base":"Any"},"name":"test_old_assumptions_correct"},"guarantee":"test_old_assumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_old_assumptions_correct","statement":"Path(test_old_assumptions(x), test_old_assumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7702f9af0344282"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_old_assumptions","kind":"function","src_hash":"8f45d3d6092f0c1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lra_satask(Q.le(w, 0)) is False and lra_satask(Q.gt(w, 0)) is True and lra_satask(Q.lt(w, 0)) is True and lra_satask(Q.ge(w, 0)) is False and lra_satask(Q.eq(w, 0)) is True and lra_satask(Q.ne(w, 0)) is False and lra_satask(Q.ne(w, 0)) is True and lra_satask(Q.eq(w, 1)) is None and lra_satask(Q.le(w, 0)) is True and lra_satask(Q.gt(w, 0)) is False and lra_satask(Q.ge(w, 0)) is True and lra_satask(Q.lt(w, 0)) is False"},"spec":{"lhs":"test_old_assumptions()","rhs":"lra_satask(Q.le(w, 0)) is False and lra_satask(Q.gt(w, 0)) is True and lra_satask(Q.lt(w, 0)) is True and lra_satask(Q.ge(w, 0)) is False and lra_satask(Q.eq(w, 0)) is True and lra_satask(Q.ne(w, 0)) is False and lra_satask(Q.ne(w, 0)) is True and lra_satask(Q.eq(w, 1)) is None and lra_satask(Q.le(w, 0)) is True and lra_satask(Q.gt(w, 0)) is False and lra_satask(Q.ge(w, 0)) is True and lra_satask(Q.lt(w, 0)) is False","over":{"base":"Any"},"name":"test_old_assumptions_correct"},"guarantee":"lra_satask(Q.le(w, 0)) is False; lra_satask(Q.gt(w, 0)) is True; lra_satask(Q.lt(w, 0)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_old_assumptions_correct","statement":"Path(test_old_assumptions(x), lra_satask(Q.le(w, 0)) is False; lra_satask(Q.gt(w, 0)) is True; lra_satask(Q.lt(w, 0)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d3aa45bf82644f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lra_satask(Q.le(w, 0)) is False","lra_satask(Q.gt(w, 0)) is True","lra_satask(Q.lt(w, 0)) is True","lra_satask(Q.ge(w, 0)) is False","lra_satask(Q.eq(w, 0)) is True","lra_satask(Q.ne(w, 0)) is False","lra_satask(Q.ne(w, 0)) is True","lra_satask(Q.eq(w, 1)) is None","lra_satask(Q.le(w, 0)) is True","lra_satask(Q.gt(w, 0)) is False","lra_satask(Q.ge(w, 0)) is True","lra_satask(Q.lt(w, 0)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_old_assumptions():
     # test unhandled old assumptions
     w = symbols("w")
@@ -117,16 +133,24 @@ def test_old_assumptions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rel_queries(), test_rel_queries produces the expected output) over Any ║
+# ║ Path(test_rel_queries(), ask(Q.lt(x, 2) & Q.gt(x, 3)) is False and ask(Q.positive(x - z), (x > y) & (y > z)) is True and ask(x + y > 2, (x < 0) & (y < 0)) is False and ask(x > z, (x > y) & (y > z)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rel_queries : Any → {Any | ask(Q.lt(x, 2) & Q.gt...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(Q.lt(x, 2) & Q.gt(x, 3)) is False          ║
+# ║   ensures:  ask(Q.positive(x - z), (x > y) & (y > z))...   ║
+# ║   ensures:  ask(x + y > 2, (x < 0) & (y < 0)) is False     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rel_queries : Any → {Any | result satisfies: ask...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 721aee70cbc37567  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 253586f524b86e74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_rel_queries","kind":"function","src_hash":"8c0dd90b3e0fdb77","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(Q.lt(x, 2) & Q.gt(x, 3)) is False and ask(Q.positive(x - z), (x > y) & (y > z)) is True and ask(x + y > 2, (x < 0) & (y < 0)) is False and ask(x > z, (x > y) & (y > z)) is True"},"spec":{"lhs":"test_rel_queries()","rhs":"test_rel_queries produces the expected output","over":{"base":"Any"},"name":"test_rel_queries_correct"},"guarantee":"test_rel_queries produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_rel_queries_correct","statement":"Path(test_rel_queries(x), test_rel_queries produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"721aee70cbc37567"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_rel_queries","kind":"function","src_hash":"8c0dd90b3e0fdb77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(Q.lt(x, 2) & Q.gt(x, 3)) is False and ask(Q.positive(x - z), (x > y) & (y > z)) is True and ask(x + y > 2, (x < 0) & (y < 0)) is False and ask(x > z, (x > y) & (y > z)) is True"},"spec":{"lhs":"test_rel_queries()","rhs":"ask(Q.lt(x, 2) & Q.gt(x, 3)) is False and ask(Q.positive(x - z), (x > y) & (y > z)) is True and ask(x + y > 2, (x < 0) & (y < 0)) is False and ask(x > z, (x > y) & (y > z)) is True","over":{"base":"Any"},"name":"test_rel_queries_correct"},"guarantee":"ask(Q.lt(x, 2) & Q.gt(x, 3)) is False; ask(Q.positive(x - z), (x > y) & (y > z)) is True; ask(x + y > 2, (x < 0) & (y < 0)) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_rel_queries_correct","statement":"Path(test_rel_queries(x), ask(Q.lt(x, 2) & Q.gt(x, 3)) is False; ask(Q.positive(x - z), (x > y) & (y > z)) is True; ask(x + y > 2, (x < 0) & (y < 0)) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"253586f524b86e74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(Q.lt(x, 2) & Q.gt(x, 3)) is False","ask(Q.positive(x - z), (x > y) & (y > z)) is True","ask(x + y > 2, (x < 0) & (y < 0)) is False","ask(x > z, (x > y) & (y > z)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rel_queries():
     assert ask(Q.lt(x, 2) & Q.gt(x, 3)) is False
     assert ask(Q.positive(x - z), (x > y) & (y > z)) is True
@@ -135,32 +159,46 @@ def test_rel_queries():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unhandled_queries(), test_unhandled_queries produces the expected output) over Any ║
+# ║ Path(test_unhandled_queries(), ask(Q.lt(X, 2) & Q.gt(X, 3)) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unhandled_queries : Any → {Any | ask(Q.lt(X, 2) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(Q.lt(X, 2) & Q.gt(X, 3)) is None           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unhandled_queries : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 454d187236767158  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43d4521b6e9c2414  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_unhandled_queries","kind":"function","src_hash":"1020a7818e8c8155","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(Q.lt(X, 2) & Q.gt(X, 3)) is None"},"spec":{"lhs":"test_unhandled_queries()","rhs":"test_unhandled_queries produces the expected output","over":{"base":"Any"},"name":"test_unhandled_queries_correct"},"guarantee":"test_unhandled_queries produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_unhandled_queries_correct","statement":"Path(test_unhandled_queries(x), test_unhandled_queries produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"454d187236767158"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_unhandled_queries","kind":"function","src_hash":"1020a7818e8c8155","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(Q.lt(X, 2) & Q.gt(X, 3)) is None"},"spec":{"lhs":"test_unhandled_queries()","rhs":"ask(Q.lt(X, 2) & Q.gt(X, 3)) is None","over":{"base":"Any"},"name":"test_unhandled_queries_correct"},"guarantee":"ask(Q.lt(X, 2) & Q.gt(X, 3)) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_unhandled_queries_correct","statement":"Path(test_unhandled_queries(x), ask(Q.lt(X, 2) & Q.gt(X, 3)) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43d4521b6e9c2414","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(Q.lt(X, 2) & Q.gt(X, 3)) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unhandled_queries():
     X = MatrixSymbol("X", 2, 2)
     assert ask(Q.lt(X, 2) & Q.gt(X, 3)) is None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_all_pred(), test_all_pred produces the expected output) over Any ║
+# ║ Path(test_all_pred(), lra_satask(Q.extended_positive(x), x > 2) is True and lra_satask(Q.positive_infinite(x)) is False and lra_satask(Q.negative_infinite(x)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_all_pred : Any → {Any | lra_satask(Q.extended_po...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lra_satask(Q.extended_positive(x), x > 2)...   ║
+# ║   ensures:  lra_satask(Q.positive_infinite(x)) is False    ║
+# ║   ensures:  lra_satask(Q.negative_infinite(x)) is False    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_all_pred : Any → {Any | result satisfies: lra_sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a78b5d0ae6060738  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce58c7066ddc44af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_all_pred","kind":"function","src_hash":"ddd0fd1192469ddd","in":{"base":"Any"},"out":{"base":"Any","pred":"lra_satask(Q.extended_positive(x), x > 2) is True and lra_satask(Q.positive_infinite(x)) is False and lra_satask(Q.negative_infinite(x)) is False"},"spec":{"lhs":"test_all_pred()","rhs":"test_all_pred produces the expected output","over":{"base":"Any"},"name":"test_all_pred_correct"},"guarantee":"test_all_pred produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_all_pred_correct","statement":"Path(test_all_pred(x), test_all_pred produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a78b5d0ae6060738"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_all_pred","kind":"function","src_hash":"ddd0fd1192469ddd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lra_satask(Q.extended_positive(x), x > 2) is True and lra_satask(Q.positive_infinite(x)) is False and lra_satask(Q.negative_infinite(x)) is False"},"spec":{"lhs":"test_all_pred()","rhs":"lra_satask(Q.extended_positive(x), x > 2) is True and lra_satask(Q.positive_infinite(x)) is False and lra_satask(Q.negative_infinite(x)) is False","over":{"base":"Any"},"name":"test_all_pred_correct"},"guarantee":"lra_satask(Q.extended_positive(x), x > 2) is True; lra_satask(Q.positive_infinite(x)) is False; lra_satask(Q.negative_infinite(x)) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_all_pred_correct","statement":"Path(test_all_pred(x), lra_satask(Q.extended_positive(x), x > 2) is True; lra_satask(Q.positive_infinite(x)) is False; lra_satask(Q.negative_infinite(x)) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce58c7066ddc44af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lra_satask(Q.extended_positive(x), x > 2) is True","lra_satask(Q.positive_infinite(x)) is False","lra_satask(Q.negative_infinite(x)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_all_pred():
     # test usable pred
     assert lra_satask(Q.extended_positive(x), (x > 2)) is True
@@ -176,16 +214,24 @@ def test_all_pred():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_number_line_properties(), test_number_line_properties produces the expected output) over Any ║
+# ║ Path(test_number_line_properties(), ask(a <= c, (a <= b) & (b <= c)) is True and ask(a < c, (a <= b) & (b < c)) is True and ask(a < c, (a < b) & (b <= c)) is True and ask(a + c <= b + c, a <= b) is True and ask(a - c <= b - c, a <= b) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_number_line_properties : Any → {Any | ask(a <= c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(a <= c, (a <= b) & (b <= c)) is True       ║
+# ║   ensures:  ask(a < c, (a <= b) & (b < c)) is True         ║
+# ║   ensures:  ask(a < c, (a < b) & (b <= c)) is True         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_number_line_properties : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9851f743711ab557  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 764892652725414d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_number_line_properties","kind":"function","src_hash":"455a9fedf1e975d8","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(a <= c, (a <= b) & (b <= c)) is True and ask(a < c, (a <= b) & (b < c)) is True and ask(a < c, (a < b) & (b <= c)) is True and ask(a + c <= b + c, a <= b) is True and ask(a - c <= b - c, a <= b) is True"},"spec":{"lhs":"test_number_line_properties()","rhs":"test_number_line_properties produces the expected output","over":{"base":"Any"},"name":"test_number_line_properties_correct"},"guarantee":"test_number_line_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_number_line_properties_correct","statement":"Path(test_number_line_properties(x), test_number_line_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9851f743711ab557"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_number_line_properties","kind":"function","src_hash":"455a9fedf1e975d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(a <= c, (a <= b) & (b <= c)) is True and ask(a < c, (a <= b) & (b < c)) is True and ask(a < c, (a < b) & (b <= c)) is True and ask(a + c <= b + c, a <= b) is True and ask(a - c <= b - c, a <= b) is True"},"spec":{"lhs":"test_number_line_properties()","rhs":"ask(a <= c, (a <= b) & (b <= c)) is True and ask(a < c, (a <= b) & (b < c)) is True and ask(a < c, (a < b) & (b <= c)) is True and ask(a + c <= b + c, a <= b) is True and ask(a - c <= b - c, a <= b) is True","over":{"base":"Any"},"name":"test_number_line_properties_correct"},"guarantee":"ask(a <= c, (a <= b) & (b <= c)) is True; ask(a < c, (a <= b) & (b < c)) is True; ask(a < c, (a < b) & (b <= c)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_number_line_properties_correct","statement":"Path(test_number_line_properties(x), ask(a <= c, (a <= b) & (b <= c)) is True; ask(a < c, (a <= b) & (b < c)) is True; ask(a < c, (a < b) & (b <= c)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"764892652725414d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(a <= c, (a <= b) & (b <= c)) is True","ask(a < c, (a <= b) & (b < c)) is True","ask(a < c, (a < b) & (b <= c)) is True","ask(a + c <= b + c, a <= b) is True","ask(a - c <= b - c, a <= b) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_number_line_properties():
     # From:
     # https://en.wikipedia.org/wiki/Inequality_(mathematics)#Properties_on_the_number_line
@@ -208,16 +254,24 @@ def test_number_line_properties():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_failing_number_line_properties(), test_failing_number_line_properties produces the expected output) over Any ║
+# ║ Path(test_failing_number_line_properties(), ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(a / c >= b / c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(-a >= -b, a <= b) is True and ask(1 / a >= 1 / b, (a <= b) & Q.positive(x) & Q.positive(b)) is True and ask(1 / a >= 1 / b, (a <= b) & Q.negative(x) & Q.negative(b)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_failing_number_line_properties : Any → {Any | as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(a * c <= b * c, (a <= b) & (c > 0) & ...   ║
+# ║   ensures:  ask(a / c <= b / c, (a <= b) & (c > 0) & ...   ║
+# ║   ensures:  ask(a * c >= b * c, (a <= b) & (c < 0) & ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_failing_number_line_properties : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2d7710977eb2e65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b43c64080adfd677  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_failing_number_line_properties","kind":"function","src_hash":"9479cf7739a440fb","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(a / c >= b / c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(-a >= -b, a <= b) is True and ask(1 / a >= 1 / b, (a <= b) & Q.positive(x) & Q.positive(b)) is True and ask(1 / a >= 1 / b, (a <= b) & Q.negative(x) & Q.negative(b)) is True"},"spec":{"lhs":"test_failing_number_line_properties()","rhs":"test_failing_number_line_properties produces the expected output","over":{"base":"Any"},"name":"test_failing_number_line_properties_correct"},"guarantee":"test_failing_number_line_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_failing_number_line_properties_correct","statement":"Path(test_failing_number_line_properties(x), test_failing_number_line_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d7710977eb2e65"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_failing_number_line_properties","kind":"function","src_hash":"9479cf7739a440fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(a / c >= b / c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(-a >= -b, a <= b) is True and ask(1 / a >= 1 / b, (a <= b) & Q.positive(x) & Q.positive(b)) is True and ask(1 / a >= 1 / b, (a <= b) & Q.negative(x) & Q.negative(b)) is True"},"spec":{"lhs":"test_failing_number_line_properties()","rhs":"ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True and ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(a / c >= b / c, (a <= b) & (c < 0) & ~Q.zero(c)) is True and ask(-a >= -b, a <= b) is True and ask(1 / a >= 1 / b, (a <= b) & Q.positive(x) & Q.positive(b)) is True and ask(1 / a >= 1 / b, (a <= b) & Q.negative(x) & Q.negative(b)) is True","over":{"base":"Any"},"name":"test_failing_number_line_properties_correct"},"guarantee":"ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True; ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True; ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_failing_number_line_properties_correct","statement":"Path(test_failing_number_line_properties(x), ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True; ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True; ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43c64080adfd677","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(a * c <= b * c, (a <= b) & (c > 0) & ~Q.zero(c)) is True","ask(a / c <= b / c, (a <= b) & (c > 0) & ~Q.zero(c)) is True","ask(a * c >= b * c, (a <= b) & (c < 0) & ~Q.zero(c)) is True","ask(a / c >= b / c, (a <= b) & (c < 0) & ~Q.zero(c)) is True","ask(-a >= -b, a <= b) is True","ask(1 / a >= 1 / b, (a <= b) & Q.positive(x) & Q.positive(b)) is True","ask(1 / a >= 1 / b, (a <= b) & Q.negative(x) & Q.negative(b)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_failing_number_line_properties():
     # From:
     # https://en.wikipedia.org/wiki/Inequality_(mathematics)#Properties_on_the_number_line
@@ -244,16 +298,24 @@ def test_failing_number_line_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equality(), test_equality produces the expected output) over Any ║
+# ║ Path(test_equality(), ask(Q.eq(x, x)) is True and ask(Q.eq(y, x), Q.eq(x, y)) is True and ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True and ask(Q.eq(x, z), Q.eq(x, y) & Q.eq(y, z)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equality : Any → {Any | ask(Q.eq(x, x)) is True ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(Q.eq(x, x)) is True                        ║
+# ║   ensures:  ask(Q.eq(y, x), Q.eq(x, y)) is True            ║
+# ║   ensures:  ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equality : Any → {Any | result satisfies: ask(Q....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f81b96a6a365c675  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d80940823ad9ad8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_equality","kind":"function","src_hash":"00898134209a659d","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(Q.eq(x, x)) is True and ask(Q.eq(y, x), Q.eq(x, y)) is True and ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True and ask(Q.eq(x, z), Q.eq(x, y) & Q.eq(y, z)) is True"},"spec":{"lhs":"test_equality()","rhs":"test_equality produces the expected output","over":{"base":"Any"},"name":"test_equality_correct"},"guarantee":"test_equality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_equality_correct","statement":"Path(test_equality(x), test_equality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f81b96a6a365c675"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_equality","kind":"function","src_hash":"00898134209a659d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(Q.eq(x, x)) is True and ask(Q.eq(y, x), Q.eq(x, y)) is True and ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True and ask(Q.eq(x, z), Q.eq(x, y) & Q.eq(y, z)) is True"},"spec":{"lhs":"test_equality()","rhs":"ask(Q.eq(x, x)) is True and ask(Q.eq(y, x), Q.eq(x, y)) is True and ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True and ask(Q.eq(x, z), Q.eq(x, y) & Q.eq(y, z)) is True","over":{"base":"Any"},"name":"test_equality_correct"},"guarantee":"ask(Q.eq(x, x)) is True; ask(Q.eq(y, x), Q.eq(x, y)) is True; ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_equality_correct","statement":"Path(test_equality(x), ask(Q.eq(x, x)) is True; ask(Q.eq(y, x), Q.eq(x, y)) is True; ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d80940823ad9ad8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(Q.eq(x, x)) is True","ask(Q.eq(y, x), Q.eq(x, y)) is True","ask(Q.eq(y, x), ~Q.eq(z, z) | Q.eq(x, y)) is True","ask(Q.eq(x, z), Q.eq(x, y) & Q.eq(y, z)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_equality():
     # test symmetry and reflexivity
     assert ask(Q.eq(x, x)) is True
@@ -266,16 +328,24 @@ def test_equality():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equality_failing(), test_equality_failing produces the expected output) over Any ║
+# ║ Path(test_equality_failing(), ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True and ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True and ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equality_failing : Any → {Any | ask(Q.prime(x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) ...   ║
+# ║   ensures:  ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is...   ║
+# ║   ensures:  ask(Q.imaginary(x), Q.eq(x, y) & Q.imagin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equality_failing : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e04f4cc02ed548  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f7719d55c00bf81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_equality_failing","kind":"function","src_hash":"4f9e1370dd4e1039","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True and ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True and ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True"},"spec":{"lhs":"test_equality_failing()","rhs":"test_equality_failing produces the expected output","over":{"base":"Any"},"name":"test_equality_failing_correct"},"guarantee":"test_equality_failing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_equality_failing_correct","statement":"Path(test_equality_failing(x), test_equality_failing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e04f4cc02ed548"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_rel_queries.test_equality_failing","kind":"function","src_hash":"4f9e1370dd4e1039","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True and ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True and ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True"},"spec":{"lhs":"test_equality_failing()","rhs":"ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True and ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True and ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True","over":{"base":"Any"},"name":"test_equality_failing_correct"},"guarantee":"ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True; ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True; ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_rel_queries.test_equality_failing_correct","statement":"Path(test_equality_failing(x), ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True; ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True; ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f7719d55c00bf81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(Q.prime(x), Q.eq(x, y) & Q.prime(y)) is True","ask(Q.real(x), Q.eq(x, y) & Q.real(y)) is True","ask(Q.imaginary(x), Q.eq(x, y) & Q.imaginary(y)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_equality_failing():
     # Note that implementing the substitution property of equality
     # most likely requires a redesign of the new assumptions.

@@ -22,16 +22,22 @@ from sympy.utilities.iterables import variations, rotate_left
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetric(n), generates the symmetric group of order n, sn) over Any ║
+# ║ Path(symmetric(n), <unspecified:symmetric>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symmetric : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4158cfe655c6c0b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.symmetric","kind":"function","src_hash":"61946e3ece52a72d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric(n)","rhs":"generates the symmetric group of order n, sn","over":{"base":"Any"},"name":"symmetric_correct"},"guarantee":"generates the symmetric group of order n, sn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.symmetric_correct","statement":"Path(symmetric(x), generates the symmetric group of order n, sn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4158cfe655c6c0b9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.symmetric","kind":"function","src_hash":"61946e3ece52a72d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric(n)","rhs":"<unspecified:symmetric>","over":{"base":"Any"},"name":"symmetric_correct"},"guarantee":"generates the symmetric group of order n, sn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.symmetric_correct","statement":"Path(symmetric(x), generates the symmetric group of order n, sn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4158cfe655c6c0b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def symmetric(n):
     """
     Generates the symmetric group of order n, Sn.
@@ -47,16 +53,22 @@ def symmetric(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclic(n), generates the cyclic group of order n, cn) over Any ║
+# ║ Path(cyclic(n), <unspecified:cyclic>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cyclic : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1e14b60697b50b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.cyclic","kind":"function","src_hash":"296d8bf7a22bfb0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic(n)","rhs":"generates the cyclic group of order n, cn","over":{"base":"Any"},"name":"cyclic_correct"},"guarantee":"generates the cyclic group of order n, cn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.cyclic_correct","statement":"Path(cyclic(x), generates the cyclic group of order n, cn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1e14b60697b50b1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.cyclic","kind":"function","src_hash":"296d8bf7a22bfb0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic(n)","rhs":"<unspecified:cyclic>","over":{"base":"Any"},"name":"cyclic_correct"},"guarantee":"generates the cyclic group of order n, cn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.cyclic_correct","statement":"Path(cyclic(x), generates the cyclic group of order n, cn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1e14b60697b50b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cyclic(n):
     """
     Generates the cyclic group of order n, Cn.
@@ -81,16 +93,22 @@ def cyclic(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(alternating(n), generates the alternating group of order n, an) over Any ║
+# ║ Path(alternating(n), <unspecified:alternating>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ alternating : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2197826d6115407c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.alternating","kind":"function","src_hash":"cfd950bb556f2ff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alternating(n)","rhs":"generates the alternating group of order n, an","over":{"base":"Any"},"name":"alternating_correct"},"guarantee":"generates the alternating group of order n, an","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.alternating_correct","statement":"Path(alternating(x), generates the alternating group of order n, an)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2197826d6115407c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.alternating","kind":"function","src_hash":"cfd950bb556f2ff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alternating(n)","rhs":"<unspecified:alternating>","over":{"base":"Any"},"name":"alternating_correct"},"guarantee":"generates the alternating group of order n, an","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.alternating_correct","statement":"Path(alternating(x), generates the alternating group of order n, an)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2197826d6115407c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def alternating(n):
     """
     Generates the alternating group of order n, An.
@@ -109,16 +127,22 @@ def alternating(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dihedral(n), generates the dihedral group of order 2n, dn) over Any ║
+# ║ Path(dihedral(n), <unspecified:dihedral>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dihedral : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77bc272087e801b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.dihedral","kind":"function","src_hash":"0ac731e506e46059","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dihedral(n)","rhs":"generates the dihedral group of order 2n, dn","over":{"base":"Any"},"name":"dihedral_correct"},"guarantee":"generates the dihedral group of order 2n, dn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.dihedral_correct","statement":"Path(dihedral(x), generates the dihedral group of order 2n, dn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77bc272087e801b4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.dihedral","kind":"function","src_hash":"0ac731e506e46059","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dihedral(n)","rhs":"<unspecified:dihedral>","over":{"base":"Any"},"name":"dihedral_correct"},"guarantee":"generates the dihedral group of order 2n, dn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.dihedral_correct","statement":"Path(dihedral(x), generates the dihedral group of order 2n, dn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77bc272087e801b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dihedral(n):
     """
     Generates the dihedral group of order 2n, Dn.
@@ -156,16 +180,22 @@ def dihedral(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rubik_cube_generators(), return the permutations of the 3x3 rubik's cube, see https://www.gap-system.org/doc/examples/rubik.html) over Any ║
+# ║ Path(rubik_cube_generators(), [Permutation([[i - 1 for i in xi] for xi in x], size=48) for x in a]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Permutation([[i - 1 for i in xi] for xi ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rubik_cube_generators : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ada6a1cd4a14e63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b529d4a5cead4809  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.rubik_cube_generators","kind":"function","src_hash":"326148a1a53e519b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rubik_cube_generators()","rhs":"return the permutations of the 3x3 rubik's cube, see https://www.gap-system.org/doc/examples/rubik.html","over":{"base":"Any"},"name":"rubik_cube_generators_correct"},"guarantee":"return the permutations of the 3x3 rubik's cube, see https://www.gap-system.org/doc/examples/rubik.html","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.rubik_cube_generators_correct","statement":"Path(rubik_cube_generators(x), return the permutations of the 3x3 rubik's cube, see https://www.gap-system.org/doc/examples/rubik.html)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ada6a1cd4a14e63"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.rubik_cube_generators","kind":"function","src_hash":"326148a1a53e519b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rubik_cube_generators()","rhs":"[Permutation([[i - 1 for i in xi] for xi in x], size=48) for x in a]","over":{"base":"Any"},"name":"rubik_cube_generators_correct"},"guarantee":"returns [Permutation([[i - 1 for i in xi] for xi in x], size=48) for x in a]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.rubik_cube_generators_correct","statement":"Path(rubik_cube_generators(x), returns [Permutation([[i - 1 for i in xi] for xi in x], size=48) for x in a])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b529d4a5cead4809","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Permutation([[i - 1 for i in xi] for xi in x], size=48) for x in a]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rubik_cube_generators():
     """Return the permutations of the 3x3 Rubik's cube, see
     https://www.gap-system.org/Doc/Examples/rubik.html
@@ -188,16 +218,25 @@ def rubik_cube_generators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rubik(n), return permutations for an nxn rubik's cube) over Any ║
+# ║ Path(rubik(n), perm(1) == I and len(f) == old_len_f + 1 and len(g) == old_len_g + 1 and len(rv) == old_len_rv + 1) over {Any | not (n < 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rubik : Any → {Any | perm(1) == I and perm(1) == I an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 2)                                    ║
+# ║   ensures:  perm(1) == I                                   ║
+# ║   ensures:  len(f) == old_len_f + 1                        ║
+# ║   ensures:  len(g) == old_len_g + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rubik : {Any | not (n < 2)} → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 523b1f75e3f0b5db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 292eba85faf4173a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.rubik","kind":"function","src_hash":"076c2ad57c56ef58","in":{"base":"Any"},"out":{"base":"Any","pred":"perm(1) == I and perm(1) == I and perm(1) == I"},"spec":{"lhs":"rubik(n)","rhs":"return permutations for an nxn rubik's cube","over":{"base":"Any"},"name":"rubik_correct"},"guarantee":"return permutations for an nxn rubik's cube","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.rubik_correct","statement":"Path(rubik(x), return permutations for an nxn rubik's cube)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"523b1f75e3f0b5db"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.generators.rubik","kind":"function","src_hash":"076c2ad57c56ef58","in":{"base":"Any","pred":"not (n < 2)"},"out":{"base":"Any","pred":"result satisfies: perm(1) == I and len(f) == old_len_f + 1 and len(g) == old_len_g + 1 and len(rv) == old_len_rv + 1"},"spec":{"lhs":"rubik(n)","rhs":"perm(1) == I and len(f) == old_len_f + 1 and len(g) == old_len_g + 1 and len(rv) == old_len_rv + 1","over":{"base":"Any","pred":"not (n < 2)"},"name":"rubik_correct"},"guarantee":"perm(1) == I; len(f) == old_len_f + 1; len(g) == old_len_g + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.generators.rubik_correct","statement":"Path(rubik(x), perm(1) == I; len(f) == old_len_f + 1; len(g) == old_len_g + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"292eba85faf4173a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 2)"],"ensures":["perm(1) == I","len(f) == old_len_f + 1","len(g) == old_len_g + 1","len(rv) == old_len_rv + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["f.append","g.append","p.extend","rv.append"],"raises":["ValueError"]},"state_contract":{"modifies":["f.*","g.*","p.*","rv.*"],"old_bindings":{"old_len_f":"len(f)","old_len_g":"len(g)","old_len_p":"len(p)","old_len_rv":"len(rv)"},"post_ensures":["len(f) == old_len_f + 1","len(g) == old_len_g + 1","len(rv) == old_len_rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def rubik(n):
     """Return permutations for an nxn Rubik's cube.
 

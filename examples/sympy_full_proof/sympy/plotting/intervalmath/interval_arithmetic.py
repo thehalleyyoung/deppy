@@ -59,14 +59,19 @@ from .interval_membership import intervalMembership
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a interval instance) preserved by interval(*args) over {Any | isinstance(other, (int, float)) and isinstance(other, interval) and isinstance(other, (float, int))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ interval : {Any | isinstance(other, (int, float)) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0b60b25ce207f9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval","kind":"class","src_hash":"e812ebb41dbc99bf","in":{"base":"Any","pred":"isinstance(other, (int, float)) and isinstance(other, interval) and isinstance(other, (float, int))"},"out":{"base":"Any"},"spec":{"lhs":"interval(*args)","rhs":"correctly constructs a interval instance","over":{"base":"Any","pred":"isinstance(other, (int, float)) and isinstance(other, interval) and isinstance(other, (float, int))"},"name":"interval_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a interval instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'is_valid') and hasattr(self, 'end') and hasattr(self, 'start') and hasattr(self, 'end') and hasattr(self, 'start') and hasattr(self, 'end') and hasattr(self, 'start') and hasattr(self, 'end')","kind":"class","induction":"structural on is_valid, end, start, end"}],"methods_preserving":["__init__","mid","width","__repr__","__str__","__lt__","__gt__","__eq__","__ne__","__le__","__ge__","__add__","__sub__","__rsub__","__neg__","__mul__","__contains__","__rtruediv__","__truediv__","__pow__","__rpow__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0b60b25ce207f9e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval","kind":"class","src_hash":"e812ebb41dbc99bf","in":{"base":"Any","pred":"isinstance(other, (int, float)) and isinstance(other, interval) and isinstance(other, (float, int))"},"out":{"base":"Any"},"spec":{"lhs":"interval(*args)","rhs":"correctly constructs a interval instance","over":{"base":"Any","pred":"isinstance(other, (int, float)) and isinstance(other, interval) and isinstance(other, (float, int))"},"name":"interval_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'is_valid') and hasattr(self, 'end') and hasattr(self, 'start') and hasattr(self, 'end') and hasattr(self, 'start') and hasattr(self, 'end') and hasattr(self, 'start') and hasattr(self, 'end')","kind":"class","induction":"structural on is_valid, end, start, end"}],"methods_preserving":["__init__","mid","width","__repr__","__str__","__lt__","__gt__","__eq__","__ne__","__le__","__ge__","__add__","__sub__","__rsub__","__neg__","__mul__","__contains__","__rtruediv__","__truediv__","__pow__","__rpow__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0b60b25ce207f9e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'is_valid')","hasattr(self, 'start')","hasattr(self, 'end')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function interval not found in source"]}}
 class interval:
     """ Represents an interval containing floating points as start and
     end of the interval
@@ -86,16 +91,22 @@ class interval:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, is_valid, **kwargs), self.is_valid == is_valid) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.is_valid == is_valid                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.is_val...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7304db9433620459           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__init__","kind":"method","src_hash":"621a26cc9dbbcea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7304db9433620459"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__init__","kind":"method","src_hash":"621a26cc9dbbcea9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.is_valid == is_valid"},"spec":{"lhs":"__init__(*args, is_valid, **kwargs)","rhs":"self.is_valid == is_valid","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.is_valid == is_valid","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7304db9433620459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.is_valid == is_valid"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self.end","self.is_valid","self.start"],"raises":["ValueError"]},"state_contract":{"modifies":["self.end","self.is_valid","self.start"],"old_bindings":{"old_self_end":"self.end","old_self_is_valid":"self.is_valid","old_self_start":"self.start"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, is_valid=True, **kwargs):
         self.is_valid = is_valid
         if len(args) == 1:
@@ -118,73 +129,108 @@ class interval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mid(), returns the mid attribute) over Any            ║
+# ║ Path(mid(), (self.start + self.end) / 2.0) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.start + self.end) / 2.0                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mid : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5f0e24d91ac78a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.mid","kind":"property","src_hash":"9aae858ddb111214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mid()","rhs":"returns the mid attribute","over":{"base":"Any"},"name":"mid_correct"},"guarantee":"returns the mid attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5f0e24d91ac78a7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.mid","kind":"property","src_hash":"9aae858ddb111214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mid()","rhs":"(self.start + self.end) / 2.0","over":{"base":"Any"},"name":"mid_correct"},"guarantee":"returns (self.start + self.end) / 2.0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5f0e24d91ac78a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.start + self.end) / 2.0","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mid(self):
         return (self.start + self.end) / 2.0
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(width(), returns the width attribute) over Any        ║
+# ║ Path(width(), self.end - self.start) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.end - self.start                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ width : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c380dc451d387b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.width","kind":"property","src_hash":"712d00293c34a9b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"returns the width attribute","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns the width attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c380dc451d387b3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.width","kind":"property","src_hash":"712d00293c34a9b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"self.end - self.start","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns self.end - self.start","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c380dc451d387b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.end - self.start","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def width(self):
         return self.end - self.start
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'interval(%f, %f)' % (self.start, self.end)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'interval(%f, %f)' % (self.start, self.end)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d8356ba1e38ab73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__repr__","kind":"method","src_hash":"298af621dcfcf32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d8356ba1e38ab73"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__repr__","kind":"method","src_hash":"298af621dcfcf32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'interval(%f, %f)' % (self.start, self.end)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'interval(%f, %f)' % (self.start, self.end)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d8356ba1e38ab73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'interval(%f, %f)' % (self.start, self.end)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "interval(%f, %f)" % (self.start, self.end)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '[%f, %f]' % (self.start, self.end)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '[%f, %f]' % (self.start, self.end)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c320f9c0826ddbbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__str__","kind":"method","src_hash":"c2c58584448036dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c320f9c0826ddbbb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__str__","kind":"method","src_hash":"c2c58584448036dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'[%f, %f]' % (self.start, self.end)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '[%f, %f]' % (self.start, self.end)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c320f9c0826ddbbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'[%f, %f]' % (self.start, self.end)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "[%f, %f]" % (self.start, self.end)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over {Any | hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   fiber[case_0]: isinstance(other, (int, float))           ║
+# ║   fiber[interval]: isinstance(other, interval) => int...   ║
+# ║   fiber[interval]: not (isinstance(other, (int, float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'start') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62e57194f59ca8f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__lt__","kind":"method","src_hash":"4de817295d324534","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62e57194f59ca8f5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__lt__","kind":"method","src_hash":"4de817295d324534","in":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')"},"name":"__lt___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62e57194f59ca8f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'start')","hasattr(other, 'end')","hasattr(other, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == intervalMembership(None, valid)"],"decidability":"structural","returns_expr":"intervalMembership(None, valid)"},{"name":"interval","guard":"not (isinstance(other, (int, float))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.is_valid","other.start","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         if isinstance(other, (int, float)):
             if self.end < other:
@@ -205,16 +251,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(other), <unspecified:__gt__>) over {Any | hasattr(other, '__lt__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '__lt__')                       ║
+# ║   fiber[case_0]: isinstance(other, (int, float))           ║
+# ║   fiber[interval]: isinstance(other, interval) => oth...   ║
+# ║   fiber[interval]: not (isinstance(other, (int, float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | hasattr(other, '__lt__')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43f18e48ed55abad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__gt__","kind":"method","src_hash":"d328306e22492114","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f18e48ed55abad"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__gt__","kind":"method","src_hash":"d328306e22492114","in":{"base":"Any","pred":"hasattr(other, '__lt__')"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"<unspecified:__gt__>","over":{"base":"Any","pred":"hasattr(other, '__lt__')"},"name":"__gt___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f18e48ed55abad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '__lt__')"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == other.__lt__(self)"],"decidability":"structural","returns_expr":"other.__lt__(self)"},{"name":"interval","guard":"not (isinstance(other, (int, float))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__lt__","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         if isinstance(other, (int, float)):
             if self.start > other:
@@ -229,16 +284,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'is_valid') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83fddaeb64b95a7d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__eq__","kind":"method","src_hash":"655ee63303ae1611","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83fddaeb64b95a7d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__eq__","kind":"method","src_hash":"655ee63303ae1611","in":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83fddaeb64b95a7d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_valid')","hasattr(other, 'start')","hasattr(other, 'end')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.is_valid","other.start","self.__lt__","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, (int, float)):
             if self.start == other and self.end == other:
@@ -260,16 +324,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), <unspecified:__ne__>) over {Any | hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ne__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ne__ : {Any | hasattr(other, 'is_valid') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f6698172ff1e9f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__ne__","kind":"method","src_hash":"83ea1e50c345e957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f6698172ff1e9f0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__ne__","kind":"method","src_hash":"83ea1e50c345e957","in":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"<unspecified:__ne__>","over":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f6698172ff1e9f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_valid')","hasattr(other, 'start')","hasattr(other, 'end')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.is_valid","other.start","self.__lt__","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         if isinstance(other, (int, float)):
             if self.start == other and self.end == other:
@@ -290,16 +363,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), <unspecified:__le__>) over {Any | hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'start') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8fccaa463164e1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__le__","kind":"method","src_hash":"9854c7fc4f3d3abd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8fccaa463164e1c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__le__","kind":"method","src_hash":"9854c7fc4f3d3abd","in":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"<unspecified:__le__>","over":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8fccaa463164e1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'start')","hasattr(other, 'end')","hasattr(other, 'is_valid')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.is_valid","other.start","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         if isinstance(other, (int, float)):
             if self.end <= other:
@@ -320,16 +402,24 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(other), <unspecified:__ge__>) over {Any | hasattr(other, '__le__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '__le__')                       ║
+# ║   fiber[case_0]: isinstance(other, (int, float))           ║
+# ║   fiber[interval]: isinstance(other, interval) => oth...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | hasattr(other, '__le__')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5159c1d8e7e3cd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__ge__","kind":"method","src_hash":"be448c9d9a363a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5159c1d8e7e3cd8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__ge__","kind":"method","src_hash":"be448c9d9a363a5c","in":{"base":"Any","pred":"hasattr(other, '__le__')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"<unspecified:__ge__>","over":{"base":"Any","pred":"hasattr(other, '__le__')"},"name":"__ge___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5159c1d8e7e3cd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '__le__')"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == other.__le__(self)"],"decidability":"structural","returns_expr":"other.__le__(self)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__le__","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         if isinstance(other, (int, float)):
             if self.start >= other:
@@ -342,16 +432,27 @@ class interval:
             return other.__le__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   fiber[case_0]: isinstance(other, (int, float))           ║
+# ║   fiber[interval]: isinstance(other, interval) => int...   ║
+# ║   fiber[interval]: not (isinstance(other, (int, float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'start') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51c53bf9cbf73ced           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__add__","kind":"method","src_hash":"fa7e71f536a0a84a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51c53bf9cbf73ced"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__add__","kind":"method","src_hash":"fa7e71f536a0a84a","in":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end') and hasattr(other, 'is_valid')"},"name":"__add___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51c53bf9cbf73ced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'start')","hasattr(other, 'end')","hasattr(other, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == interval(start, end, is_valid=valid)"],"decidability":"structural","returns_expr":"interval(start, end, is_valid=valid)"},{"name":"interval","guard":"not (isinstance(other, (int, float))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.is_valid","other.start","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, (int, float)):
             if self.is_valid:
@@ -372,16 +473,29 @@ class interval:
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else interval(start, end, is_valid=valid) if isinstance(other, interval) else NotImplemented) and result == interval(start, end, is_valid=self.is_valid) or result == interval(start, end, is_valid=valid) or result == NotImplemented) over {Any | hasattr(other, 'end') and hasattr(other, 'start') and hasattr(other, 'is_valid')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   ensures:  result == (interval(start, end, is_valid=...   ║
+# ║   ensures:  result == interval(start, end, is_valid=s...   ║
+# ║   fiber[case_0]: isinstance(other, (int, float)) => i...   ║
+# ║   fiber[interval]: isinstance(other, interval) => int...   ║
+# ║   fiber[interval]: not (isinstance(other, (int, float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'end') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1cd2c8bdd6709ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__sub__","kind":"method","src_hash":"994f84e054a15b51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1cd2c8bdd6709ea"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__sub__","kind":"method","src_hash":"994f84e054a15b51","in":{"base":"Any","pred":"hasattr(other, 'end') and hasattr(other, 'start') and hasattr(other, 'is_valid')"},"out":{"base":"Any","pred":"result satisfies: result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else interval(start, end, is_valid=valid) if isinstance(other, interval) else NotImplemented) and result == interval(start, end, is_valid=self.is_valid) or result == interval(start, end, is_valid=valid) or result == NotImplemented"},"spec":{"lhs":"__sub__(other)","rhs":"result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else interval(start, end, is_valid=valid) if isinstance(other, interval) else NotImplemented) and result == interval(start, end, is_valid=self.is_valid) or result == interval(start, end, is_valid=valid) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'end') and hasattr(other, 'start') and hasattr(other, 'is_valid')"},"name":"__sub___correct"},"guarantee":"result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else interval(start, end, is_valid=valid) if isinstance(other, interval) else NotImplemented); result == interval(start, end, is_valid=self.is_valid) or result == interval(start, end, is_valid=valid) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1cd2c8bdd6709ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'end')","hasattr(other, 'start')","hasattr(other, 'is_valid')"],"ensures":["result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else interval(start, end, is_valid=valid) if isinstance(other, interval) else NotImplemented)","result == interval(start, end, is_valid=self.is_valid) or result == interval(start, end, is_valid=valid) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":["result == interval(start, end, is_valid=self.is_valid)"],"decidability":"structural","returns_expr":"interval(start, end, is_valid=self.is_valid)"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == interval(start, end, is_valid=valid)"],"decidability":"structural","returns_expr":"interval(start, end, is_valid=valid)"},{"name":"interval","guard":"not (isinstance(other, (int, float))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.is_valid","other.start","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         if isinstance(other, (int, float)):
             start = self.start - other
@@ -397,16 +511,27 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else other.__sub__(self) if isinstance(other, interval) else NotImplemented) and result == interval(start, end, is_valid=self.is_valid) or result == other.__sub__(self) or result == NotImplemented) over {Any | hasattr(other, '__sub__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '__sub__')                      ║
+# ║   ensures:  result == (interval(start, end, is_valid=...   ║
+# ║   ensures:  result == interval(start, end, is_valid=s...   ║
+# ║   fiber[case_0]: isinstance(other, (int, float)) => i...   ║
+# ║   fiber[interval]: isinstance(other, interval) => oth...   ║
+# ║   fiber[interval]: not (isinstance(other, (int, float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : {Any | hasattr(other, '__sub__')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bae646f08c238b45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__rsub__","kind":"method","src_hash":"48f49c20b5637118","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bae646f08c238b45"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__rsub__","kind":"method","src_hash":"48f49c20b5637118","in":{"base":"Any","pred":"hasattr(other, '__sub__')"},"out":{"base":"Any","pred":"result satisfies: result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else other.__sub__(self) if isinstance(other, interval) else NotImplemented) and result == interval(start, end, is_valid=self.is_valid) or result == other.__sub__(self) or result == NotImplemented"},"spec":{"lhs":"__rsub__(other)","rhs":"result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else other.__sub__(self) if isinstance(other, interval) else NotImplemented) and result == interval(start, end, is_valid=self.is_valid) or result == other.__sub__(self) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, '__sub__')"},"name":"__rsub___correct"},"guarantee":"result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else other.__sub__(self) if isinstance(other, interval) else NotImplemented); result == interval(start, end, is_valid=self.is_valid) or result == other.__sub__(self) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bae646f08c238b45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '__sub__')"],"ensures":["result == (interval(start, end, is_valid=self.is_valid) if isinstance(other, (int, float)) else other.__sub__(self) if isinstance(other, interval) else NotImplemented)","result == interval(start, end, is_valid=self.is_valid) or result == other.__sub__(self) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":["result == interval(start, end, is_valid=self.is_valid)"],"decidability":"structural","returns_expr":"interval(start, end, is_valid=self.is_valid)"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == other.__sub__(self)"],"decidability":"structural","returns_expr":"other.__sub__(self)"},{"name":"interval","guard":"not (isinstance(other, (int, float))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__sub__","self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         if isinstance(other, (int, float)):
             start = other - self.end
@@ -418,16 +543,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), result == (interval(-self.end, -self.start) if self.is_valid else interval(-self.end, -self.start, is_valid=self.is_valid)) and result == interval(-self.end, -self.start) or result == interval(-self.end, -self.start, is_valid=self.is_valid)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (interval(-self.end, -self.star...   ║
+# ║   ensures:  result == interval(-self.end, -self.start...   ║
+# ║   fiber[case_0]: self.is_valid => interval(-self.end,...   ║
+# ║   fiber[case_1]: not (self.is_valid) => interval(-sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : Any → {Any | result satisfies: result == (i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f45bc2511b554b00           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__neg__","kind":"method","src_hash":"ed52fc541eaf90ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f45bc2511b554b00"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__neg__","kind":"method","src_hash":"ed52fc541eaf90ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (interval(-self.end, -self.start) if self.is_valid else interval(-self.end, -self.start, is_valid=self.is_valid)) and result == interval(-self.end, -self.start) or result == interval(-self.end, -self.start, is_valid=self.is_valid)"},"spec":{"lhs":"__neg__()","rhs":"result == (interval(-self.end, -self.start) if self.is_valid else interval(-self.end, -self.start, is_valid=self.is_valid)) and result == interval(-self.end, -self.start) or result == interval(-self.end, -self.start, is_valid=self.is_valid)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"result == (interval(-self.end, -self.start) if self.is_valid else interval(-self.end, -self.start, is_valid=self.is_valid)); result == interval(-self.end, -self.start) or result == interval(-self.end, -self.start, is_valid=self.is_valid); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f45bc2511b554b00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (interval(-self.end, -self.start) if self.is_valid else interval(-self.end, -self.start, is_valid=self.is_valid))","result == interval(-self.end, -self.start) or result == interval(-self.end, -self.start, is_valid=self.is_valid)"],"fibers":[{"name":"case_0","guard":"self.is_valid","ensures":["result == interval(-self.end, -self.start)"],"decidability":"library","returns_expr":"interval(-self.end, -self.start)"},{"name":"case_1","guard":"not (self.is_valid)","ensures":["result == interval(-self.end, -self.start, is_valid=self.is_valid)"],"decidability":"library","returns_expr":"interval(-self.end, -self.start, is_valid=self.is_valid)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         if self.is_valid:
             return interval(-self.end, -self.start)
@@ -435,16 +569,27 @@ class interval:
             return interval(-self.end, -self.start, is_valid=self.is_valid)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   fiber[interval]: isinstance(other, interval)             ║
+# ║   fiber[case_1]: isinstance(other, (int, float)) => i...   ║
+# ║   fiber[interval]: not (isinstance(other, interval)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'is_valid') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1eef43f66490bc06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__mul__","kind":"method","src_hash":"813c8f38cf63fd68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1eef43f66490bc06"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__mul__","kind":"method","src_hash":"813c8f38cf63fd68","in":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'start') and hasattr(other, 'end')"},"name":"__mul___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1eef43f66490bc06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_valid')","hasattr(other, 'start')","hasattr(other, 'end')"],"fibers":[{"name":"interval","guard":"isinstance(other, interval)","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"isinstance(other, (int, float))","ensures":["result == interval(self.start * other, self.end * other, is_valid=self.is_valid)"],"decidability":"structural","returns_expr":"interval(self.start * other, self.end * other, is_valid=self.is_valid)"},{"name":"interval","guard":"not (isinstance(other, interval)) and not (isinstance(other, (int, float)))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if isinstance(other, interval):
             if self.is_valid is False or other.is_valid is False:
@@ -468,16 +613,27 @@ class interval:
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), result == (self.start <= other and self.end >= other if isinstance(other, (int, float)) else self.start <= other.start and other.end <= self.end) and result == self.start <= other and self.end >= other or result == self.start <= other.start and other.end <= self.end) over {Any | hasattr(other, 'start') and hasattr(other, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   ensures:  result == (self.start <= other and self.e...   ║
+# ║   ensures:  result == self.start <= other and self.en...   ║
+# ║   fiber[case_0]: isinstance(other, (int, float)) => s...   ║
+# ║   fiber[case_1]: not (isinstance(other, (int, float))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(other, 'start') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95d85d9e0a1e734a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__contains__","kind":"method","src_hash":"95391356eb44102b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95d85d9e0a1e734a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__contains__","kind":"method","src_hash":"95391356eb44102b","in":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end')"},"out":{"base":"Any","pred":"result satisfies: result == (self.start <= other and self.end >= other if isinstance(other, (int, float)) else self.start <= other.start and other.end <= self.end) and result == self.start <= other and self.end >= other or result == self.start <= other.start and other.end <= self.end"},"spec":{"lhs":"__contains__(other)","rhs":"result == (self.start <= other and self.end >= other if isinstance(other, (int, float)) else self.start <= other.start and other.end <= self.end) and result == self.start <= other and self.end >= other or result == self.start <= other.start and other.end <= self.end","over":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end')"},"name":"__contains___correct"},"guarantee":"result == (self.start <= other and self.end >= other if isinstance(other, (int, float)) else self.start <= other.start and other.end <= self.end); result == self.start <= other and self.end >= other or result == self.start <= other.start and other.end <= self.end; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95d85d9e0a1e734a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'start')","hasattr(other, 'end')"],"ensures":["result == (self.start <= other and self.end >= other if isinstance(other, (int, float)) else self.start <= other.start and other.end <= self.end)","result == self.start <= other and self.end >= other or result == self.start <= other.start and other.end <= self.end"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":["result == self.start <= other and self.end >= other"],"decidability":"structural","returns_expr":"self.start <= other and self.end >= other"},{"name":"case_1","guard":"not (isinstance(other, (int, float)))","ensures":["result == self.start <= other.start and other.end <= self.end"],"decidability":"structural","returns_expr":"self.start <= other.start and other.end <= self.end"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.start","self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         if isinstance(other, (int, float)):
             return self.start <= other and self.end >= other
@@ -485,16 +641,27 @@ class interval:
             return self.start <= other.start and other.end <= self.end
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), result == (other.__truediv__(self) if isinstance(other, (int, float)) else other.__truediv__(self) if isinstance(other, interval) else NotImplemented) and result == other.__truediv__(self) or result == NotImplemented) over {Any | hasattr(other, '__truediv__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '__truediv__')                  ║
+# ║   ensures:  result == (other.__truediv__(self) if isi...   ║
+# ║   ensures:  result == other.__truediv__(self) or resu...   ║
+# ║   fiber[case_0]: isinstance(other, (int, float)) => o...   ║
+# ║   fiber[interval]: isinstance(other, interval) => oth...   ║
+# ║   fiber[interval]: not (isinstance(other, (int, float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | hasattr(other, '__truediv__')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 075a370872186c5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__rtruediv__","kind":"method","src_hash":"0e30398f4d9c0d97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075a370872186c5d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__rtruediv__","kind":"method","src_hash":"0e30398f4d9c0d97","in":{"base":"Any","pred":"hasattr(other, '__truediv__')"},"out":{"base":"Any","pred":"result satisfies: result == (other.__truediv__(self) if isinstance(other, (int, float)) else other.__truediv__(self) if isinstance(other, interval) else NotImplemented) and result == other.__truediv__(self) or result == NotImplemented"},"spec":{"lhs":"__rtruediv__(other)","rhs":"result == (other.__truediv__(self) if isinstance(other, (int, float)) else other.__truediv__(self) if isinstance(other, interval) else NotImplemented) and result == other.__truediv__(self) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, '__truediv__')"},"name":"__rtruediv___correct"},"guarantee":"result == (other.__truediv__(self) if isinstance(other, (int, float)) else other.__truediv__(self) if isinstance(other, interval) else NotImplemented); result == other.__truediv__(self) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075a370872186c5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '__truediv__')"],"ensures":["result == (other.__truediv__(self) if isinstance(other, (int, float)) else other.__truediv__(self) if isinstance(other, interval) else NotImplemented)","result == other.__truediv__(self) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float))","ensures":["result == other.__truediv__(self)"],"decidability":"structural","returns_expr":"other.__truediv__(self)"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == other.__truediv__(self)"],"decidability":"structural","returns_expr":"other.__truediv__(self)"},{"name":"interval","guard":"not (isinstance(other, (int, float))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__truediv__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         if isinstance(other, (int, float)):
             other = interval(other)
@@ -505,16 +672,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'is_valid') and hasattr(other, 'end') and hasattr(other, 'start')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_valid')                     ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'is_valid') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fadc376c8def05e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__truediv__","kind":"method","src_hash":"f764805965ca7a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fadc376c8def05e8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__truediv__","kind":"method","src_hash":"f764805965ca7a69","in":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'end') and hasattr(other, 'start')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'is_valid') and hasattr(other, 'end') and hasattr(other, 'start')"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fadc376c8def05e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_valid')","hasattr(other, 'end')","hasattr(other, 'start')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         # Both None and False are handled
         if not self.is_valid:
@@ -557,16 +733,22 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), <unspecified:__pow__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2506cc83f14aa5b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__pow__","kind":"method","src_hash":"bb2fa14ffdd74839","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2506cc83f14aa5b8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__pow__","kind":"method","src_hash":"bb2fa14ffdd74839","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2506cc83f14aa5b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__pow__","self.is_valid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):
         # Implements only power to an integer.
         from .lib_interval import exp, log
@@ -586,16 +768,25 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rpow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rpow__(other), <unspecified:__rpow__>) over {Any | hasattr(other, '__pow__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rpow__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '__pow__')                      ║
+# ║   fiber[case_0]: isinstance(other, (float, int))           ║
+# ║   fiber[interval]: isinstance(other, interval) => oth...   ║
+# ║   fiber[interval]: not (isinstance(other, (float, int...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rpow__ : {Any | hasattr(other, '__pow__')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96909aa67e9091c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__rpow__","kind":"method","src_hash":"70ba24a8268d91bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rpow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96909aa67e9091c7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__rpow__","kind":"method","src_hash":"70ba24a8268d91bc","in":{"base":"Any","pred":"hasattr(other, '__pow__')"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(other)","rhs":"<unspecified:__rpow__>","over":{"base":"Any","pred":"hasattr(other, '__pow__')"},"name":"__rpow___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96909aa67e9091c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '__pow__')"],"fibers":[{"name":"case_0","guard":"isinstance(other, (float, int))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(other, interval)","ensures":["result == other.__pow__(self)"],"decidability":"structural","returns_expr":"other.__pow__(self)"},{"name":"interval","guard":"not (isinstance(other, (float, int))) and not (isinstance(other, interval))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__pow__","self.end","self.is_valid","self.start","self.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rpow__(self, other):
         if isinstance(other, (float, int)):
             if not self.is_valid:
@@ -622,31 +813,48 @@ class interval:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.is_valid, self.start, self.end))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.is_valid, self.start, self.end))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e94c9bcd2df165fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__hash__","kind":"method","src_hash":"67176bebd203aae8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e94c9bcd2df165fb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic.interval.__hash__","kind":"method","src_hash":"67176bebd203aae8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.is_valid, self.start, self.end))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.is_valid, self.start, self.end))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e94c9bcd2df165fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.is_valid, self.start, self.end))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.is_valid","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.is_valid, self.start, self.end))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_float(int), evaluates an interval raised to a floating point) over Any ║
+# ║ Path(_pow_float(inter, power), <unspecified:_pow_float>) over {Any | hasattr(inter, 'start') and hasattr(inter, 'end') and hasattr(inter, 'is_valid')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pow_float : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(inter, 'start')                        ║
+# ║   requires: hasattr(inter, 'end')                          ║
+# ║   requires: hasattr(inter, 'is_valid')                     ║
+# ║   fiber[zero_or_none]: num % 2 == 0 => ret                 ║
+# ║   fiber[zero_or_none]: denom % 2 == 0                      ║
+# ║   fiber[zero_or_none]: not (num % 2 == 0) and not (de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pow_float : {Any | hasattr(inter, 'start') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 413abb6e7b548336  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc730bbdcb35278e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic._pow_float","kind":"function","src_hash":"4f19c23c48f16c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pow_float(int)","rhs":"evaluates an interval raised to a floating point","over":{"base":"Any"},"name":"_pow_float_correct"},"guarantee":"evaluates an interval raised to a floating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.interval_arithmetic._pow_float_correct","statement":"Path(_pow_float(x), evaluates an interval raised to a floating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"413abb6e7b548336"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic._pow_float","kind":"function","src_hash":"4f19c23c48f16c18","in":{"base":"Any","pred":"hasattr(inter, 'start') and hasattr(inter, 'end') and hasattr(inter, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"_pow_float(inter, power)","rhs":"<unspecified:_pow_float>","over":{"base":"Any","pred":"hasattr(inter, 'start') and hasattr(inter, 'end') and hasattr(inter, 'is_valid')"},"name":"_pow_float_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.interval_arithmetic._pow_float_correct","statement":"Path(_pow_float(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc730bbdcb35278e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(inter, 'start')","hasattr(inter, 'end')","hasattr(inter, 'is_valid')"],"fibers":[{"name":"zero_or_none","guard":"num % 2 == 0","ensures":["result == ret"],"decidability":"z3","returns_expr":"ret"},{"name":"zero_or_none","guard":"denom % 2 == 0","ensures":[],"decidability":"z3"},{"name":"zero_or_none","guard":"not (num % 2 == 0) and not (denom % 2 == 0)","ensures":["result == interval(start, end, is_valid=inter.is_valid)"],"decidability":"z3","returns_expr":"interval(start, end, is_valid=inter.is_valid)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["inter.end","inter.is_valid","inter.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _pow_float(inter, power):
     """Evaluates an interval raised to a floating point."""
     power_rational = nsimplify(power)
@@ -681,16 +889,28 @@ def _pow_float(inter, power):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_int(int), evaluates an interval raised to an integer power) over Any ║
+# ║ Path(_pow_int(inter, power), result == (interval(inter.start ** power, inter.end ** power) if power & 1 else interval(start, end) if inter.start < 0 and inter.end > 0 else interval(inter.start ** power, inter.end ** power)) and result == interval(inter.start ** power, inter.end ** power) or result == interval(start, end)) over {Any | hasattr(inter, 'start') and hasattr(inter, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pow_int : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(inter, 'start')                        ║
+# ║   requires: hasattr(inter, 'end')                          ║
+# ║   ensures:  result == (interval(inter.start ** power,...   ║
+# ║   ensures:  result == interval(inter.start ** power, ...   ║
+# ║   fiber[case_0]: power & 1 => interval(inter.start **...   ║
+# ║   fiber[positive]: inter.start < 0 and inter.end > 0 ...   ║
+# ║   fiber[positive]: not (power & 1) and not (inter.sta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pow_int : {Any | hasattr(inter, 'start') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a453d5f68e310d6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eac03f04ab27ffb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic._pow_int","kind":"function","src_hash":"6380c9e979412ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pow_int(int)","rhs":"evaluates an interval raised to an integer power","over":{"base":"Any"},"name":"_pow_int_correct"},"guarantee":"evaluates an interval raised to an integer power","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.interval_arithmetic._pow_int_correct","statement":"Path(_pow_int(x), evaluates an interval raised to an integer power)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a453d5f68e310d6a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_arithmetic._pow_int","kind":"function","src_hash":"6380c9e979412ea9","in":{"base":"Any","pred":"hasattr(inter, 'start') and hasattr(inter, 'end')"},"out":{"base":"Any","pred":"result satisfies: result == (interval(inter.start ** power, inter.end ** power) if power & 1 else interval(start, end) if inter.start < 0 and inter.end > 0 else interval(inter.start ** power, inter.end ** power)) and result == interval(inter.start ** power, inter.end ** power) or result == interval(start, end)"},"spec":{"lhs":"_pow_int(inter, power)","rhs":"result == (interval(inter.start ** power, inter.end ** power) if power & 1 else interval(start, end) if inter.start < 0 and inter.end > 0 else interval(inter.start ** power, inter.end ** power)) and result == interval(inter.start ** power, inter.end ** power) or result == interval(start, end)","over":{"base":"Any","pred":"hasattr(inter, 'start') and hasattr(inter, 'end')"},"name":"_pow_int_correct"},"guarantee":"result == (interval(inter.start ** power, inter.end ** power) if power & 1 else interval(start, end) if inter.start < 0 and inter.end > 0 else interval(inter.start ** power, inter.end ** power)); result == interval(inter.start ** power, inter.end ** power) or result == interval(start, end); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.interval_arithmetic._pow_int_correct","statement":"Path(_pow_int(x), result == (interval(inter.start ** power, inter.end ** power) if power & 1 else interval(start, end) if inter.start < 0 and inter.end > 0 else interval(inter.start ** power, inter.end ** power)); result == interval(inter.start ** power, inter.end ** power) or result == interval(start, end); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac03f04ab27ffb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(inter, 'start')","hasattr(inter, 'end')"],"ensures":["result == (interval(inter.start ** power, inter.end ** power) if power & 1 else interval(start, end) if inter.start < 0 and inter.end > 0 else interval(inter.start ** power, inter.end ** power))","result == interval(inter.start ** power, inter.end ** power) or result == interval(start, end)"],"fibers":[{"name":"case_0","guard":"power & 1","ensures":["result == interval(inter.start ** power, inter.end ** power)"],"decidability":"library","returns_expr":"interval(inter.start ** power, inter.end ** power)"},{"name":"positive","guard":"inter.start < 0 and inter.end > 0","ensures":["result == interval(start, end)"],"decidability":"z3","returns_expr":"interval(start, end)"},{"name":"positive","guard":"not (power & 1) and not (inter.start < 0 and inter.end > 0)","ensures":["result == interval(inter.start ** power, inter.end ** power)"],"decidability":"z3","returns_expr":"interval(inter.start ** power, inter.end ** power)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["inter.end","inter.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pow_int(inter, power):
     """Evaluates an interval raised to an integer power"""
     power = int(power)

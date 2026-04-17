@@ -34,7 +34,10 @@ from .utilities import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_reasonable_pivot(col), find the lowest index of an item in ``col`` that is suitable for a pivot) over {Any | isinstance(x, (Float, Integer)) and isinstance(x, Float)} ║
+# ║ Path(_find_reasonable_pivot(col, iszerofunc, simpfunc), <unspecified:_find_reasonable_pivot>) over {Any | isinstance(x, (Float, Integer)) and isinstance(x, Float)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_reasonable_pivot : {Any | isinstance(x, (Float,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -47,9 +50,12 @@ from .utilities import (
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3eebca4f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._find_reasonable_pivot","kind":"function","src_hash":"03572df726c8e034","in":{"base":"Any","pred":"isinstance(x, (Float, Integer)) and isinstance(x, Float)"},"out":{"base":"Any"},"spec":{"lhs":"_find_reasonable_pivot(col)","rhs":"find the lowest index of an item in ``col`` that is suitable for a pivot","over":{"base":"Any","pred":"isinstance(x, (Float, Integer)) and isinstance(x, Float)"},"name":"_find_reasonable_pivot_correct"},"guarantee":"find the lowest index of an item in ``col`` that is suitable for a pivot","fibers":[{"name":"(Float","pred":"isinstance(x, (Float, Integer))","path":{"lhs":"_find_reasonable_pivot(x)","rhs":"find the lowest index of an item in ``col`` that is suitable for a pivot","over":{"base":"(Float","pred":"isinstance(x, (Float, Integer))"},"name":"_find_reasonable_pivot_(Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._find_reasonable_pivot_(Float_correct","statement":"_find_reasonable_pivot satisfies spec on (Float inputs"},"trust":"LIBRARY"},{"name":"Float","pred":"isinstance(x, Float)","path":{"lhs":"_find_reasonable_pivot(x)","rhs":"find the lowest index of an item in ``col`` that is suitable for a pivot","over":{"base":"Float","pred":"isinstance(x, Float)"},"name":"_find_reasonable_pivot_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._find_reasonable_pivot_Float_correct","statement":"_find_reasonable_pivot satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3eebca4f7b86fa82"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._find_reasonable_pivot","kind":"function","src_hash":"03572df726c8e034","in":{"base":"Any","pred":"isinstance(x, (Float, Integer)) and isinstance(x, Float)"},"out":{"base":"Any"},"spec":{"lhs":"_find_reasonable_pivot(col, iszerofunc, simpfunc)","rhs":"<unspecified:_find_reasonable_pivot>","over":{"base":"Any","pred":"isinstance(x, (Float, Integer)) and isinstance(x, Float)"},"name":"_find_reasonable_pivot_correct"},"guarantee":"find the lowest index of an item in ``col`` that is suitable for a pivot","fibers":[{"name":"(Float","pred":"isinstance(x, (Float, Integer))","path":{"lhs":"_find_reasonable_pivot(x)","rhs":"find the lowest index of an item in ``col`` that is suitable for a pivot","over":{"base":"(Float","pred":"isinstance(x, (Float, Integer))"},"name":"_find_reasonable_pivot_(Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._find_reasonable_pivot_(Float_correct","statement":"_find_reasonable_pivot satisfies spec on (Float inputs"},"trust":"LIBRARY"},{"name":"Float","pred":"isinstance(x, Float)","path":{"lhs":"_find_reasonable_pivot(x)","rhs":"find the lowest index of an item in ``col`` that is suitable for a pivot","over":{"base":"Float","pred":"isinstance(x, Float)"},"name":"_find_reasonable_pivot_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._find_reasonable_pivot_Float_correct","statement":"_find_reasonable_pivot satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3eebca4f7b86fa82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'is_zero == False', 'max_value != 0', 'all((isinstance(x, (Float, Integer)) for x in col)) and any((isinstance(x, Float) for x in col))'}, fibers={'(Float', 'Float'})"]}}
 def _find_reasonable_pivot(col, iszerofunc=_iszero, simpfunc=_simplify):
     """ Find the lowest index of an item in ``col`` that is
     suitable for a pivot.  If ``col`` consists only of
@@ -155,16 +161,22 @@ def _find_reasonable_pivot(col, iszerofunc=_iszero, simpfunc=_simplify):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_reasonable_pivot_naive(col), helper that computes the pivot value and location from a sequence of contiguous matrix column elements) over Any ║
+# ║ Path(_find_reasonable_pivot_naive(col, iszerofunc, simpfunc), <unspecified:_find_reasonable_pivot_naive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_reasonable_pivot_naive : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c92e67977968ac9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._find_reasonable_pivot_naive","kind":"function","src_hash":"0028377947a1e46a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_reasonable_pivot_naive(col)","rhs":"helper that computes the pivot value and location from a sequence of contiguous matrix column elements","over":{"base":"Any"},"name":"_find_reasonable_pivot_naive_correct"},"guarantee":"helper that computes the pivot value and location from a sequence of contiguous matrix column elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._find_reasonable_pivot_naive_correct","statement":"Path(_find_reasonable_pivot_naive(x), helper that computes the pivot value and location from a sequence of contiguous matrix column elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c92e67977968ac9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._find_reasonable_pivot_naive","kind":"function","src_hash":"0028377947a1e46a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_reasonable_pivot_naive(col, iszerofunc, simpfunc)","rhs":"<unspecified:_find_reasonable_pivot_naive>","over":{"base":"Any"},"name":"_find_reasonable_pivot_naive_correct"},"guarantee":"helper that computes the pivot value and location from a sequence of contiguous matrix column elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._find_reasonable_pivot_naive_correct","statement":"Path(_find_reasonable_pivot_naive(x), helper that computes the pivot value and location from a sequence of contiguous matrix column elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c92e67977968ac9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _find_reasonable_pivot_naive(col, iszerofunc=_iszero, simpfunc=None):
     """
     Helper that computes the pivot value and location from a
@@ -248,16 +260,25 @@ def _find_reasonable_pivot_naive(col, iszerofunc=_iszero, simpfunc=None):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_berkowitz_toeplitz_matrix(M), return (a,t) where t the toeplitz matrix used in the berkowitz algorithm corresponding to ``m`` and a is the first principal submatrix) over Any ║
+# ║ Path(_berkowitz_toeplitz_matrix(M), <unspecified:_berkowitz_toeplitz_matrix>) over {Any | hasattr(M, '_new') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'one') and hasattr(M, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _berkowitz_toeplitz_matrix : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, '_new')                             ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _berkowitz_toeplitz_matrix : {Any | hasattr(M, '_new'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 821d32cd63886d9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._berkowitz_toeplitz_matrix","kind":"function","src_hash":"74e2bbab25c9d8f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_berkowitz_toeplitz_matrix(M)","rhs":"return (a,t) where t the toeplitz matrix used in the berkowitz algorithm corresponding to ``m`` and a is the first principal submatrix","over":{"base":"Any"},"name":"_berkowitz_toeplitz_matrix_correct"},"guarantee":"return (a,t) where t the toeplitz matrix used in the berkowitz algorithm corresponding to ``m`` and a is the first principal submatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._berkowitz_toeplitz_matrix_correct","statement":"Path(_berkowitz_toeplitz_matrix(x), return (a,t) where t the toeplitz matrix used in the berkowitz algorithm corresponding to ``m`` and a is the first principal submatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"821d32cd63886d9a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._berkowitz_toeplitz_matrix","kind":"function","src_hash":"74e2bbab25c9d8f9","in":{"base":"Any","pred":"hasattr(M, '_new') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'one') and hasattr(M, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_berkowitz_toeplitz_matrix(M)","rhs":"<unspecified:_berkowitz_toeplitz_matrix>","over":{"base":"Any","pred":"hasattr(M, '_new') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'one') and hasattr(M, 'zero')"},"name":"_berkowitz_toeplitz_matrix_correct"},"guarantee":"return (a,t) where t the toeplitz matrix used in the berkowitz algorithm corresponding to ``m`` and a is the first principal submatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._berkowitz_toeplitz_matrix_correct","statement":"Path(_berkowitz_toeplitz_matrix(x), return (a,t) where t the toeplitz matrix used in the berkowitz algorithm corresponding to ``m`` and a is the first principal submatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"821d32cd63886d9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, '_new')","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'one')","hasattr(M, 'zero')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _berkowitz_toeplitz_matrix(M):
     """Return (A,T) where T the Toeplitz matrix used in the Berkowitz algorithm
     corresponding to ``M`` and A is the first principal submatrix.
@@ -306,16 +327,28 @@ def _berkowitz_toeplitz_matrix(M):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_berkowitz_vector(M), run the berkowitz algorithm and return a vector whose entries are the coefficients of the characteristic polynomial of ``m``) over Any ║
+# ║ Path(_berkowitz_vector(M), result == (M._new(1, 1, [M.one]) if M.rows == 0 and M.cols == 0 else M._new(2, 1, [M.one, -M[0, 0]])) and result == M._new(1, 1, [M.one]) or result == M._new(2, 1, [M.one, -M[0, 0]])) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, '_new') and hasattr(M, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _berkowitz_vector : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, '_new')                             ║
+# ║   ensures:  result == (M._new(1, 1, [M.one]) if M.row...   ║
+# ║   ensures:  result == M._new(1, 1, [M.one]) or result...   ║
+# ║   fiber[zero_or_none]: M.rows == 0 and M.cols == 0 =>...   ║
+# ║   fiber[case_1]: M.rows == 1 and M.cols == 1 => M._ne...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _berkowitz_vector : {Any | hasattr(M, 'rows') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6d5f97e9af4c504  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71333be9f7673287  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._berkowitz_vector","kind":"function","src_hash":"a63b59f373c88e1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_berkowitz_vector(M)","rhs":"run the berkowitz algorithm and return a vector whose entries are the coefficients of the characteristic polynomial of ``m``","over":{"base":"Any"},"name":"_berkowitz_vector_correct"},"guarantee":"run the berkowitz algorithm and return a vector whose entries are the coefficients of the characteristic polynomial of ``m``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._berkowitz_vector_correct","statement":"Path(_berkowitz_vector(x), run the berkowitz algorithm and return a vector whose entries are the coefficients of the characteristic polynomial of ``m``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6d5f97e9af4c504"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._berkowitz_vector","kind":"function","src_hash":"a63b59f373c88e1e","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, '_new') and hasattr(M, 'one')"},"out":{"base":"Any","pred":"result satisfies: result == (M._new(1, 1, [M.one]) if M.rows == 0 and M.cols == 0 else M._new(2, 1, [M.one, -M[0, 0]])) and result == M._new(1, 1, [M.one]) or result == M._new(2, 1, [M.one, -M[0, 0]])"},"spec":{"lhs":"_berkowitz_vector(M)","rhs":"result == (M._new(1, 1, [M.one]) if M.rows == 0 and M.cols == 0 else M._new(2, 1, [M.one, -M[0, 0]])) and result == M._new(1, 1, [M.one]) or result == M._new(2, 1, [M.one, -M[0, 0]])","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, '_new') and hasattr(M, 'one')"},"name":"_berkowitz_vector_correct"},"guarantee":"result == (M._new(1, 1, [M.one]) if M.rows == 0 and M.cols == 0 else M._new(2, 1, [M.one, -M[0, 0]])); result == M._new(1, 1, [M.one]) or result == M._new(2, 1, [M.one, -M[0, 0]]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._berkowitz_vector_correct","statement":"Path(_berkowitz_vector(x), result == (M._new(1, 1, [M.one]) if M.rows == 0 and M.cols == 0 else M._new(2, 1, [M.one, -M[0, 0]])); result == M._new(1, 1, [M.one]) or result == M._new(2, 1, [M.one, -M[0, 0]]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71333be9f7673287","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, '_new')","hasattr(M, 'one')"],"ensures":["result == (M._new(1, 1, [M.one]) if M.rows == 0 and M.cols == 0 else M._new(2, 1, [M.one, -M[0, 0]]))","result == M._new(1, 1, [M.one]) or result == M._new(2, 1, [M.one, -M[0, 0]])"],"fibers":[{"name":"zero_or_none","guard":"M.rows == 0 and M.cols == 0","ensures":["result == M._new(1, 1, [M.one])"],"decidability":"z3","returns_expr":"M._new(1, 1, [M.one])"},{"name":"case_1","guard":"M.rows == 1 and M.cols == 1","ensures":["result == M._new(2, 1, [M.one, -M[0, 0]])"],"decidability":"z3","returns_expr":"M._new(2, 1, [M.one, -M[0, 0]])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.cols","M.one","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _berkowitz_vector(M):
     """ Run the Berkowitz algorithm and return a vector whose entries
         are the coefficients of the characteristic polynomial of ``M``.
@@ -363,16 +396,23 @@ def _berkowitz_vector(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adjugate(M, ), returns the adjugate, or classical adjoint, of a matrix) over Any ║
+# ║ Path(_adjugate(M, method), M.cofactor_matrix(method=method).transpose()) over {Any | hasattr(M, 'cofactor_matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _adjugate : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'cofactor_matrix')                  ║
+# ║   returns:  M.cofactor_matrix(method=method).transpose()   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _adjugate : {Any | hasattr(M, 'cofactor_matrix')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4dfa75d0c3a1c49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._adjugate","kind":"function","src_hash":"ee77d4ce23763351","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adjugate(M, )","rhs":"returns the adjugate, or classical adjoint, of a matrix","over":{"base":"Any"},"name":"_adjugate_correct"},"guarantee":"returns the adjugate, or classical adjoint, of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4dfa75d0c3a1c49"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._adjugate","kind":"function","src_hash":"ee77d4ce23763351","in":{"base":"Any","pred":"hasattr(M, 'cofactor_matrix')"},"out":{"base":"Any"},"spec":{"lhs":"_adjugate(M, method)","rhs":"M.cofactor_matrix(method=method).transpose()","over":{"base":"Any","pred":"hasattr(M, 'cofactor_matrix')"},"name":"_adjugate_correct"},"guarantee":"returns M.cofactor_matrix(method=method).transpose()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4dfa75d0c3a1c49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'cofactor_matrix')"],"returns_expr":"M.cofactor_matrix(method=method).transpose()","pure":false,"effects":{"effect_type":"reads_state","reads":["M.cofactor_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _adjugate(M, method="berkowitz"):
     """Returns the adjugate, or classical adjoint, of
     a matrix.  That is, the transpose of the matrix of cofactors.
@@ -408,16 +448,25 @@ def _adjugate(M, method="berkowitz"):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_charpoly(M, ), computes characteristic polynomial det(x*i - m) where i is the identity matrix) over Any ║
+# ║ Path(_charpoly(M, x, simplify), <unspecified:_charpoly>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'to_DM')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _charpoly : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'to_DM')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _charpoly : {Any | M.is_square and hasattr(M, 'is_squ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45da175a34219409  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._charpoly","kind":"function","src_hash":"cbfd2b888a80599c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_charpoly(M, )","rhs":"computes characteristic polynomial det(x*i - m) where i is the identity matrix","over":{"base":"Any"},"name":"_charpoly_correct"},"guarantee":"computes characteristic polynomial det(x*i - m) where i is the identity matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._charpoly_correct","statement":"Path(_charpoly(x), computes characteristic polynomial det(x*i - m) where i is the identity matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45da175a34219409"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._charpoly","kind":"function","src_hash":"cbfd2b888a80599c","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'to_DM')"},"out":{"base":"Any"},"spec":{"lhs":"_charpoly(M, x, simplify)","rhs":"<unspecified:_charpoly>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'to_DM')"},"name":"_charpoly_correct"},"guarantee":"computes characteristic polynomial det(x*i - m) where i is the identity matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._charpoly_correct","statement":"Path(_charpoly(x), computes characteristic polynomial det(x*i - m) where i is the identity matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45da175a34219409","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'to_DM')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.to_DM"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _charpoly(M, x='lambda', simplify=_simplify):
     """Computes characteristic polynomial det(x*I - M) where I is
     the identity matrix.
@@ -528,16 +577,25 @@ def _charpoly(M, x='lambda', simplify=_simplify):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cofactor(M, ), calculate the cofactor of an element) over Any ║
+# ║ Path(_cofactor(M, i, j), S.NegativeOne ** ((i + j) % 2) * M.minor(i, j, method)) over {Any | not (not M.is_square or M.rows < 1) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'minor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cofactor : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not M.is_square or M.rows < 1)            ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  S.NegativeOne ** ((i + j) % 2) * M.minor(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cofactor : {Any | not (not M.is_square or M.rows < 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 031de650325edab8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86b74ad0042fd01a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._cofactor","kind":"function","src_hash":"0160c452f9cb9033","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cofactor(M, )","rhs":"calculate the cofactor of an element","over":{"base":"Any"},"name":"_cofactor_correct"},"guarantee":"calculate the cofactor of an element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._cofactor_correct","statement":"Path(_cofactor(x), calculate the cofactor of an element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"031de650325edab8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._cofactor","kind":"function","src_hash":"0160c452f9cb9033","in":{"base":"Any","pred":"not (not M.is_square or M.rows < 1) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'minor')"},"out":{"base":"Any"},"spec":{"lhs":"_cofactor(M, i, j)","rhs":"S.NegativeOne ** ((i + j) % 2) * M.minor(i, j, method)","over":{"base":"Any","pred":"not (not M.is_square or M.rows < 1) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'minor')"},"name":"_cofactor_correct"},"guarantee":"returns S.NegativeOne ** ((i + j) % 2) * M.minor(i, j, method)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._cofactor_correct","statement":"Path(_cofactor(x), returns S.NegativeOne ** ((i + j) % 2) * M.minor(i, j, method))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86b74ad0042fd01a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not M.is_square or M.rows < 1)","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'minor')"],"returns_expr":"S.NegativeOne ** ((i + j) % 2) * M.minor(i, j, method)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.minor","M.rows"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _cofactor(M, i, j, method="berkowitz"):
     """Calculate the cofactor of an element.
 
@@ -571,16 +629,25 @@ def _cofactor(M, i, j, method="berkowitz"):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cofactor_matrix(M, ), return a matrix containing the cofactor of each element) over Any ║
+# ║ Path(_cofactor_matrix(M, method), M._new(M.rows, M.cols, lambda i, j: M.cofactor(i, j, method))) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'cofactor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cofactor_matrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, '_new')                             ║
+# ║   returns:  M._new(M.rows, M.cols, lambda i, j: M.cof...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cofactor_matrix : {Any | M.is_square and hasattr(M, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 103387e97ce64e76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b87f88861bbb85f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._cofactor_matrix","kind":"function","src_hash":"9f95e2de284b0977","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cofactor_matrix(M, )","rhs":"return a matrix containing the cofactor of each element","over":{"base":"Any"},"name":"_cofactor_matrix_correct"},"guarantee":"return a matrix containing the cofactor of each element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._cofactor_matrix_correct","statement":"Path(_cofactor_matrix(x), return a matrix containing the cofactor of each element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"103387e97ce64e76"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._cofactor_matrix","kind":"function","src_hash":"9f95e2de284b0977","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'cofactor')"},"out":{"base":"Any"},"spec":{"lhs":"_cofactor_matrix(M, method)","rhs":"M._new(M.rows, M.cols, lambda i, j: M.cofactor(i, j, method))","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'cofactor')"},"name":"_cofactor_matrix_correct"},"guarantee":"returns M._new(M.rows, M.cols, lambda i, j: M.cofactor(i, j, method))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._cofactor_matrix_correct","statement":"Path(_cofactor_matrix(x), returns M._new(M.rows, M.cols, lambda i, j: M.cofactor(i, j, method)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b87f88861bbb85f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, '_new')","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'cofactor')"],"returns_expr":"M._new(M.rows, M.cols, lambda i, j: M.cofactor(i, j, method))","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.cofactor","M.cols","M.is_square","M.rows"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _cofactor_matrix(M, method="berkowitz"):
     """Return a matrix containing the cofactor of each element.
 
@@ -616,16 +683,24 @@ def _cofactor_matrix(M, method="berkowitz"):
             lambda i, j: M.cofactor(i, j, method))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_per(M), returns the permanent of a matrix) over Any  ║
+# ║ Path(_per(M), perm.simplify()) over {Any | hasattr(M, 'shape') and hasattr(M, 'T')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _per : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'T')                                ║
+# ║   returns:  perm.simplify()                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _per : {Any | hasattr(M, 'shape') and hasattr(M, 'T')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b3ce6077c4f1ac0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88f9718b95e69fec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._per","kind":"function","src_hash":"4e1dad10058c2d92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_per(M)","rhs":"returns the permanent of a matrix","over":{"base":"Any"},"name":"_per_correct"},"guarantee":"returns the permanent of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._per_correct","statement":"Path(_per(x), returns the permanent of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3ce6077c4f1ac0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._per","kind":"function","src_hash":"4e1dad10058c2d92","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'T')"},"out":{"base":"Any"},"spec":{"lhs":"_per(M)","rhs":"perm.simplify()","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'T')"},"name":"_per_correct"},"guarantee":"returns perm.simplify()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._per_correct","statement":"Path(_per(x), returns perm.simplify())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f9718b95e69fec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')","hasattr(M, 'T')"],"returns_expr":"perm.simplify()","pure":false,"effects":{"effect_type":"reads_state","reads":["M.T","M.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _per(M):
     """Returns the permanent of a matrix. Unlike determinant,
     permanent is defined for both square and non-square matrices.
@@ -685,14 +760,20 @@ def _per(M):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_det_DOM(M), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K.to_sympy(DOM.det())                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _det_DOM : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5f3320f08fc39183   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_DOM","kind":"function","src_hash":"19eaffc434bb6133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_DOM(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_det_DOM_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_sympy","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f3320f08fc39183"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_DOM","kind":"function","src_hash":"19eaffc434bb6133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_DOM(M)","rhs":"K.to_sympy(DOM.det())","over":{"base":"Any"},"name":"_det_DOM_correct","kind":"composition"},"guarantee":"returns K.to_sympy(DOM.det())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_sympy","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f3320f08fc39183","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K.to_sympy(DOM.det())","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _det_DOM(M):
     DOM = DomainMatrix.from_Matrix(M, field=True, extension=True)
     K = DOM.domain
@@ -700,9 +781,15 @@ def _det_DOM(M):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_det(M, ), computes the determinant of a matrix if ``m`` is a concrete matrix object otherwise return an expressions ``determinant(m)`` if ``m`` is a ``matrixsymbol`` or other expression) over {Any | isinstance(iszerofunc, FunctionType)} ║
+# ║ Path(_det(M, method, iszerofunc), len(dets) == old_len_dets + 1) over {Any | isinstance(iszerofunc, FunctionType) and not (method not in ('bareiss', 'berkowitz', 'lu', 'domain-ge', 'bird', 'laplace')) and hasattr(M, 'rows') and hasattr(method, 'lower') and hasattr(M, 'cols') and hasattr(M, 'strongly_connected_components') and hasattr(M, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _det : {Any | isinstance(iszerofunc, FunctionType)} →...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (method not in ('bareiss', 'berkowitz...   ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(method, 'lower')                       ║
+# ║   ensures:  len(dets) == old_len_dets + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _det : {Any | isinstance(iszerofunc, FunctionType) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   FunctionType: {isinstance(iszerofunc, FunctionType)...   ║
@@ -712,9 +799,12 @@ def _det_DOM(M):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 907b966b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det","kind":"function","src_hash":"dc7cf29067977661","in":{"base":"Any","pred":"isinstance(iszerofunc, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_det(M, )","rhs":"computes the determinant of a matrix if ``m`` is a concrete matrix object otherwise return an expressions ``determinant(m)`` if ``m`` is a ``matrixsymbol`` or other expression","over":{"base":"Any","pred":"isinstance(iszerofunc, FunctionType)"},"name":"_det_correct"},"guarantee":"computes the determinant of a matrix if ``m`` is a concrete matrix object otherwise return an expressions ``determinant(m)`` if ``m`` is a ``matrixsymbol`` or other expression","fibers":[{"name":"FunctionType","pred":"isinstance(iszerofunc, FunctionType)","path":{"lhs":"_det(x)","rhs":"computes the determinant of a matrix if ``m`` is a concrete matrix object otherwise return an expressions ``determinant(m)`` if ``m`` is a ``matrixsymbol`` or other expression","over":{"base":"FunctionType","pred":"isinstance(iszerofunc, FunctionType)"},"name":"_det_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_FunctionType_correct","statement":"_det satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"907b966b4dabdf54"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det","kind":"function","src_hash":"dc7cf29067977661","in":{"base":"Any","pred":"isinstance(iszerofunc, FunctionType) and not (method not in ('bareiss', 'berkowitz', 'lu', 'domain-ge', 'bird', 'laplace')) and hasattr(M, 'rows') and hasattr(method, 'lower') and hasattr(M, 'cols') and hasattr(M, 'strongly_connected_components') and hasattr(M, 'one')"},"out":{"base":"Any","pred":"result satisfies: len(dets) == old_len_dets + 1"},"spec":{"lhs":"_det(M, method, iszerofunc)","rhs":"len(dets) == old_len_dets + 1","over":{"base":"Any","pred":"isinstance(iszerofunc, FunctionType) and not (method not in ('bareiss', 'berkowitz', 'lu', 'domain-ge', 'bird', 'laplace')) and hasattr(M, 'rows') and hasattr(method, 'lower') and hasattr(M, 'cols') and hasattr(M, 'strongly_connected_components') and hasattr(M, 'one')"},"name":"_det_correct"},"guarantee":"len(dets) == old_len_dets + 1","fibers":[{"name":"FunctionType","pred":"isinstance(iszerofunc, FunctionType)","path":{"lhs":"_det(x)","rhs":"len(dets) == old_len_dets + 1","over":{"base":"FunctionType","pred":"isinstance(iszerofunc, FunctionType)"},"name":"_det_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_FunctionType_correct","statement":"_det satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"907b966b4dabdf54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (method not in ('bareiss', 'berkowitz', 'lu', 'domain-ge', 'bird', 'laplace'))","hasattr(M, 'rows')","hasattr(method, 'lower')","hasattr(M, 'cols')","hasattr(M, 'strongly_connected_components')","hasattr(M, 'one')"],"ensures":["len(dets) == old_len_dets + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.cols","M.one","M.rows","M.strongly_connected_components","method.lower"],"calls_mutating":["dets.append"],"raises":["ValueError"]},"state_contract":{"modifies":["dets.*"],"old_bindings":{"old_len_dets":"len(dets)"},"post_ensures":["len(dets) == old_len_dets + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'iszerofunc is None', \"method == 'laplace'\", \"method == 'bareiss'\", \"method == 'det_lu'\", 'n == M.cols', 'n == 1', \"method == 'domain-ge'\", \"method == 'bird'\", 'n == 2', 'n == 0', 'not isinstance(iszerofunc, FunctionType)', \"method == 'lu'\", \"method == 'berkowitz'\", \"method == 'bareis'\", 'n == 3'}, fibers={'FunctionType'})"]}}
 def _det(M, method="bareiss", iszerofunc=None):
     """Computes the determinant of a matrix if ``M`` is a concrete matrix object
     otherwise return an expressions ``Determinant(M)`` if ``M`` is a
@@ -863,16 +953,25 @@ def _det(M, method="bareiss", iszerofunc=None):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_det_bareiss(M, ), compute matrix determinant using bareiss' fraction-free algorithm which is an extension of the well known gaussian elimination method) over Any ║
+# ║ Path(_det_bareiss(M, iszerofunc), <unspecified:_det_bareiss>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one') and hasattr(M, '_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _det_bareiss : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _det_bareiss : {Any | M.is_square and hasattr(M, 'is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8c0a0ff9bd4b4fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_bareiss","kind":"function","src_hash":"6853fc5f52da9c6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_bareiss(M, )","rhs":"compute matrix determinant using bareiss' fraction-free algorithm which is an extension of the well known gaussian elimination method","over":{"base":"Any"},"name":"_det_bareiss_correct"},"guarantee":"compute matrix determinant using bareiss' fraction-free algorithm which is an extension of the well known gaussian elimination method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_bareiss_correct","statement":"Path(_det_bareiss(x), compute matrix determinant using bareiss' fraction-free algorithm which is an extension of the well known gaussian elimination method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c0a0ff9bd4b4fd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_bareiss","kind":"function","src_hash":"6853fc5f52da9c6f","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one') and hasattr(M, '_new')"},"out":{"base":"Any"},"spec":{"lhs":"_det_bareiss(M, iszerofunc)","rhs":"<unspecified:_det_bareiss>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one') and hasattr(M, '_new')"},"name":"_det_bareiss_correct"},"guarantee":"compute matrix determinant using bareiss' fraction-free algorithm which is an extension of the well known gaussian elimination method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_bareiss_correct","statement":"Path(_det_bareiss(x), compute matrix determinant using bareiss' fraction-free algorithm which is an extension of the well known gaussian elimination method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c0a0ff9bd4b4fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'one')","hasattr(M, '_new')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_square","M.one","M.rows"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _det_bareiss(M, iszerofunc=_is_zero_after_expand_mul):
     """Compute matrix determinant using Bareiss' fraction-free
     algorithm which is an extension of the well known Gaussian
@@ -940,16 +1039,25 @@ def _det_bareiss(M, iszerofunc=_is_zero_after_expand_mul):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_det_berkowitz(M), use the berkowitz algorithm to compute the determinant) over Any ║
+# ║ Path(_det_berkowitz(M), <unspecified:_det_berkowitz>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _det_berkowitz : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _det_berkowitz : {Any | M.is_square and hasattr(M, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21015c62a9b05248  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_berkowitz","kind":"function","src_hash":"ecd62aad7d79036e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_berkowitz(M)","rhs":"use the berkowitz algorithm to compute the determinant","over":{"base":"Any"},"name":"_det_berkowitz_correct"},"guarantee":"use the berkowitz algorithm to compute the determinant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_berkowitz_correct","statement":"Path(_det_berkowitz(x), use the berkowitz algorithm to compute the determinant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21015c62a9b05248"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_berkowitz","kind":"function","src_hash":"ecd62aad7d79036e","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"_det_berkowitz(M)","rhs":"<unspecified:_det_berkowitz>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one')"},"name":"_det_berkowitz_correct"},"guarantee":"use the berkowitz algorithm to compute the determinant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_berkowitz_correct","statement":"Path(_det_berkowitz(x), use the berkowitz algorithm to compute the determinant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21015c62a9b05248","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.one","M.rows"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _det_berkowitz(M):
     """ Use the Berkowitz algorithm to compute the determinant."""
 
@@ -968,16 +1076,25 @@ def _det_berkowitz(M):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_det_LU(M, ), computes the determinant of a matrix from its lu decomposition. this function uses the lu decomposition computed by ludecomposition_simple()) over Any ║
+# ║ Path(_det_LU(M, iszerofunc, simpfunc), <unspecified:_det_LU>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one') and hasattr(M, 'LUdecomposition_Simple') and hasattr(M, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _det_LU : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _det_LU : {Any | M.is_square and hasattr(M, 'is_squar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50da631e5a808b81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_LU","kind":"function","src_hash":"58f0bc649803b885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_LU(M, )","rhs":"computes the determinant of a matrix from its lu decomposition. this function uses the lu decomposition computed by ludecomposition_simple()","over":{"base":"Any"},"name":"_det_LU_correct"},"guarantee":"computes the determinant of a matrix from its lu decomposition. this function uses the lu decomposition computed by ludecomposition_simple()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_LU_correct","statement":"Path(_det_LU(x), computes the determinant of a matrix from its lu decomposition. this function uses the lu decomposition computed by ludecomposition_simple())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50da631e5a808b81"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_LU","kind":"function","src_hash":"58f0bc649803b885","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one') and hasattr(M, 'LUdecomposition_Simple') and hasattr(M, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_det_LU(M, iszerofunc, simpfunc)","rhs":"<unspecified:_det_LU>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'one') and hasattr(M, 'LUdecomposition_Simple') and hasattr(M, 'zero')"},"name":"_det_LU_correct"},"guarantee":"computes the determinant of a matrix from its lu decomposition. this function uses the lu decomposition computed by ludecomposition_simple()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_LU_correct","statement":"Path(_det_LU(x), computes the determinant of a matrix from its lu decomposition. this function uses the lu decomposition computed by ludecomposition_simple())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50da631e5a808b81","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'one')","hasattr(M, 'LUdecomposition_Simple')","hasattr(M, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.LUdecomposition_Simple","M.is_square","M.one","M.rows","M.zero"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _det_LU(M, iszerofunc=_iszero, simpfunc=None):
     """ Computes the determinant of a matrix from its LU decomposition.
     This function uses the LU decomposition computed by
@@ -1043,16 +1160,28 @@ def _det_LU(M, iszerofunc=_iszero, simpfunc=None):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__det_laplace(M), compute the determinant of a matrix using laplace expansion) over Any ║
+# ║ Path(__det_laplace(M), result == (M[0] if n == 1 else M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] if n == 2 else sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))) and result == M[0] or result == M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] or result == sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))) over {Any | hasattr(M, 'shape') and hasattr(M, 'minor_submatrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __det_laplace : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'minor_submatrix')                  ║
+# ║   ensures:  result == (M[0] if n == 1 else M[0, 0] * ...   ║
+# ║   ensures:  result == M[0] or result == M[0, 0] * M[1...   ║
+# ║   fiber[case_0]: n == 1 => M[0]                            ║
+# ║   fiber[case_1]: n == 2 => M[0, 0] * M[1, 1] - M[0, 1...   ║
+# ║   fiber[case_2]: not (n == 1) and not (n == 2) => sum...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __det_laplace : {Any | hasattr(M, 'shape') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0cc718be8de03631           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant.__det_laplace","kind":"function","src_hash":"50f3432d7d13c569","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__det_laplace(M)","rhs":"compute the determinant of a matrix using laplace expansion","over":{"base":"Any"},"name":"__det_laplace_correct"},"guarantee":"compute the determinant of a matrix using laplace expansion","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cc718be8de03631"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant.__det_laplace","kind":"function","src_hash":"50f3432d7d13c569","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'minor_submatrix')"},"out":{"base":"Any","pred":"result satisfies: result == (M[0] if n == 1 else M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] if n == 2 else sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))) and result == M[0] or result == M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] or result == sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))"},"spec":{"lhs":"__det_laplace(M)","rhs":"result == (M[0] if n == 1 else M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] if n == 2 else sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))) and result == M[0] or result == M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] or result == sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'minor_submatrix')"},"name":"__det_laplace_correct"},"guarantee":"result == (M[0] if n == 1 else M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] if n == 2 else sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))); result == M[0] or result == M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] or result == sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n))); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cc718be8de03631","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')","hasattr(M, 'minor_submatrix')"],"ensures":["result == (M[0] if n == 1 else M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] if n == 2 else sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n))))","result == M[0] or result == M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0] or result == sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))"],"fibers":[{"name":"case_0","guard":"n == 1","ensures":["result == M[0]"],"decidability":"z3","returns_expr":"M[0]"},{"name":"case_1","guard":"n == 2","ensures":["result == M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0]"],"decidability":"z3","returns_expr":"M[0, 0] * M[1, 1] - M[0, 1] * M[1, 0]"},{"name":"case_2","guard":"not (n == 1) and not (n == 2)","ensures":["result == sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))"],"decidability":"z3","returns_expr":"sum(((-1) ** i * M[0, i] * __det_laplace(M.minor_submatrix(0, i)) for i in range(n)))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.minor_submatrix","M.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def __det_laplace(M):
     """Compute the determinant of a matrix using Laplace expansion.
 
@@ -1073,16 +1202,25 @@ def __det_laplace(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_det_laplace(M), compute the determinant of a matrix using laplace expansion) over Any ║
+# ║ Path(_det_laplace(M), <unspecified:_det_laplace>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'one') and hasattr(M, 'shape') and hasattr(M, 'as_immutable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _det_laplace : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _det_laplace : {Any | M.is_square and hasattr(M, 'is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3802d4af5706502  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_laplace","kind":"function","src_hash":"e26f7d77e6ae8e34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_laplace(M)","rhs":"compute the determinant of a matrix using laplace expansion","over":{"base":"Any"},"name":"_det_laplace_correct"},"guarantee":"compute the determinant of a matrix using laplace expansion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_laplace_correct","statement":"Path(_det_laplace(x), compute the determinant of a matrix using laplace expansion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3802d4af5706502"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_laplace","kind":"function","src_hash":"e26f7d77e6ae8e34","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'one') and hasattr(M, 'shape') and hasattr(M, 'as_immutable')"},"out":{"base":"Any"},"spec":{"lhs":"_det_laplace(M)","rhs":"<unspecified:_det_laplace>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'one') and hasattr(M, 'shape') and hasattr(M, 'as_immutable')"},"name":"_det_laplace_correct"},"guarantee":"compute the determinant of a matrix using laplace expansion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_laplace_correct","statement":"Path(_det_laplace(x), compute the determinant of a matrix using laplace expansion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3802d4af5706502","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'one')","hasattr(M, 'shape')","hasattr(M, 'as_immutable')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.as_immutable","M.is_square","M.one","M.shape"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _det_laplace(M):
     """Compute the determinant of a matrix using Laplace expansion.
 
@@ -1102,16 +1240,25 @@ def _det_laplace(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_det_bird(M), compute the determinant of a matrix using bird's algorithm) over Any ║
+# ║ Path(_det_bird(M), <unspecified:_det_bird>) over {Any | hasattr(M, 'shape') and hasattr(M, 'one') and hasattr(M, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _det_bird : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'one')                              ║
+# ║   requires: hasattr(M, '_rep')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _det_bird : {Any | hasattr(M, 'shape') and hasattr(M,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0839c1a36d954f84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_bird","kind":"function","src_hash":"bbd9e8a27aa20033","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_det_bird(M)","rhs":"compute the determinant of a matrix using bird's algorithm","over":{"base":"Any"},"name":"_det_bird_correct"},"guarantee":"compute the determinant of a matrix using bird's algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_bird_correct","statement":"Path(_det_bird(x), compute the determinant of a matrix using bird's algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0839c1a36d954f84"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._det_bird","kind":"function","src_hash":"bbd9e8a27aa20033","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'one') and hasattr(M, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_det_bird(M)","rhs":"<unspecified:_det_bird>","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'one') and hasattr(M, '_rep')"},"name":"_det_bird_correct"},"guarantee":"compute the determinant of a matrix using bird's algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._det_bird_correct","statement":"Path(_det_bird(x), compute the determinant of a matrix using bird's algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0839c1a36d954f84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'shape')","hasattr(M, 'one')","hasattr(M, '_rep')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _det_bird(M):
     r"""Compute the determinant of a matrix using Bird's algorithm.
 
@@ -1158,16 +1305,25 @@ def _det_bird(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minor(M, ), return the (i,j) minor of ``m``) over Any ║
+# ║ Path(_minor(M, i, j), M.minor_submatrix(i, j).det(method=method)) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'minor_submatrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minor : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'minor_submatrix')                  ║
+# ║   returns:  M.minor_submatrix(i, j).det(method=method)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minor : {Any | M.is_square and hasattr(M, 'is_square...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11e1d170c81ad054  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88dd335afa46b6e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._minor","kind":"function","src_hash":"1c7c647073edb9b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minor(M, )","rhs":"return the (i,j) minor of ``m``","over":{"base":"Any"},"name":"_minor_correct"},"guarantee":"return the (i,j) minor of ``m``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._minor_correct","statement":"Path(_minor(x), return the (i,j) minor of ``m``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11e1d170c81ad054"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._minor","kind":"function","src_hash":"1c7c647073edb9b5","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'minor_submatrix')"},"out":{"base":"Any"},"spec":{"lhs":"_minor(M, i, j)","rhs":"M.minor_submatrix(i, j).det(method=method)","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'minor_submatrix')"},"name":"_minor_correct"},"guarantee":"returns M.minor_submatrix(i, j).det(method=method)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._minor_correct","statement":"Path(_minor(x), returns M.minor_submatrix(i, j).det(method=method))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88dd335afa46b6e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'minor_submatrix')"],"returns_expr":"M.minor_submatrix(i, j).det(method=method)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.minor_submatrix"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _minor(M, i, j, method="berkowitz"):
     """Return the (i,j) minor of ``M``.  That is,
     return the determinant of the matrix obtained by deleting
@@ -1206,16 +1362,25 @@ def _minor(M, i, j, method="berkowitz"):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minor_submatrix(M, ), return the submatrix obtained by removing the `i`th row and `j`th column from ``m`` (works with pythonic negative indices)) over Any ║
+# ║ Path(_minor_submatrix(M, i, j), M.extract(rows, cols)) over {Any | not (not 0 <= i < M.rows or not 0 <= j < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'extract')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minor_submatrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not 0 <= i < M.rows or not 0 <= j < ...   ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   returns:  M.extract(rows, cols)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minor_submatrix : {Any | not (not 0 <= i < M.rows or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9558240468b9f6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43afa83b48691e7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._minor_submatrix","kind":"function","src_hash":"b711c8f7da4a27d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minor_submatrix(M, )","rhs":"return the submatrix obtained by removing the `i`th row and `j`th column from ``m`` (works with pythonic negative indices)","over":{"base":"Any"},"name":"_minor_submatrix_correct"},"guarantee":"return the submatrix obtained by removing the `i`th row and `j`th column from ``m`` (works with pythonic negative indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._minor_submatrix_correct","statement":"Path(_minor_submatrix(x), return the submatrix obtained by removing the `i`th row and `j`th column from ``m`` (works with pythonic negative indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9558240468b9f6d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.determinant._minor_submatrix","kind":"function","src_hash":"b711c8f7da4a27d9","in":{"base":"Any","pred":"not (not 0 <= i < M.rows or not 0 <= j < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'extract')"},"out":{"base":"Any"},"spec":{"lhs":"_minor_submatrix(M, i, j)","rhs":"M.extract(rows, cols)","over":{"base":"Any","pred":"not (not 0 <= i < M.rows or not 0 <= j < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'extract')"},"name":"_minor_submatrix_correct"},"guarantee":"returns M.extract(rows, cols)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.determinant._minor_submatrix_correct","statement":"Path(_minor_submatrix(x), returns M.extract(rows, cols))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43afa83b48691e7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not 0 <= i < M.rows or not 0 <= j < M.cols)","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'extract')"],"returns_expr":"M.extract(rows, cols)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.cols","M.extract","M.rows"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _minor_submatrix(M, i, j):
     """Return the submatrix obtained by removing the `i`th row
     and `j`th column from ``M`` (works with Pythonic negative indices).

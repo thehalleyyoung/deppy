@@ -36,46 +36,65 @@ from mpmath.libmp import (MPZ_ONE, fzero, fone, finf, fninf, fnan,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RealElement(*args), correctly constructs a RealElement instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RealElement : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _mpf)                         ║
+# ║   ensures:  isinstance(self, DomainElement)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RealElement : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7965f090a2d5208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.RealElement","kind":"class","src_hash":"74319f2061ae1dca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RealElement(*args)","rhs":"correctly constructs a RealElement instance","over":{"base":"Any"},"name":"RealElement_class_invariant"},"guarantee":"correctly constructs a RealElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7965f090a2d5208"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.RealElement","kind":"class","src_hash":"74319f2061ae1dca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _mpf) and isinstance(self, DomainElement)"},"spec":{"lhs":"RealElement(*args)","rhs":"correctly constructs a RealElement instance","over":{"base":"Any"},"name":"RealElement_class_invariant"},"guarantee":"isinstance(self, _mpf); isinstance(self, DomainElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7965f090a2d5208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _mpf)","isinstance(self, DomainElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function RealElement not found in source"]}}
 class RealElement(_mpf, DomainElement):
     """An element of a real domain. """
 
     __slots__ = ('__mpf__',)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_mpf(val), internal helper behaves correctly) over Any ║
+# ║ Path(_set_mpf(val), <unspecified:_set_mpf>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_mpf : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 475d864a47f0d672  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.RealElement._set_mpf","kind":"method","src_hash":"2938755c2f7da48a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_mpf(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_mpf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.RealElement._set_mpf_correct","statement":"Path(_set_mpf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"475d864a47f0d672"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.RealElement._set_mpf","kind":"method","src_hash":"2938755c2f7da48a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_mpf(val)","rhs":"<unspecified:_set_mpf>","over":{"base":"Any"},"name":"_set_mpf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.RealElement._set_mpf_correct","statement":"Path(_set_mpf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"475d864a47f0d672","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.__mpf__"]},"state_contract":{"modifies":["self.__mpf__"],"old_bindings":{"old_self___mpf__":"self.__mpf__"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_mpf(self, val):
         self.__mpf__ = val
 
     _mpf_ = property(lambda self: self.__mpf__, _set_mpf)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), parent produces the expected output) over Any ║
+# ║ Path(parent(), self.context._parent) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.context._parent                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1c128d4c5fb6c2b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.RealElement.parent","kind":"method","src_hash":"c4bec591eb95ae00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"parent produces the expected output","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1c128d4c5fb6c2b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.RealElement.parent","kind":"method","src_hash":"c4bec591eb95ae00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"self.context._parent","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns self.context._parent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1c128d4c5fb6c2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.context._parent","pure":false,"effects":{"effect_type":"reads_state","reads":["self.context"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         return self.context._parent
 
@@ -83,46 +102,65 @@ class RealElement(_mpf, DomainElement):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ComplexElement(*args), correctly constructs a ComplexElement instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ComplexElement : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _mpc)                         ║
+# ║   ensures:  isinstance(self, DomainElement)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ComplexElement : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0010cdadd59f4607  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.ComplexElement","kind":"class","src_hash":"523ed979e851e77a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ComplexElement(*args)","rhs":"correctly constructs a ComplexElement instance","over":{"base":"Any"},"name":"ComplexElement_class_invariant"},"guarantee":"correctly constructs a ComplexElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0010cdadd59f4607"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.ComplexElement","kind":"class","src_hash":"523ed979e851e77a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _mpc) and isinstance(self, DomainElement)"},"spec":{"lhs":"ComplexElement(*args)","rhs":"correctly constructs a ComplexElement instance","over":{"base":"Any"},"name":"ComplexElement_class_invariant"},"guarantee":"isinstance(self, _mpc); isinstance(self, DomainElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0010cdadd59f4607","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _mpc)","isinstance(self, DomainElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ComplexElement not found in source"]}}
 class ComplexElement(_mpc, DomainElement):
     """An element of a complex domain. """
 
     __slots__ = ('__mpc__',)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_mpc(val), internal helper behaves correctly) over Any ║
+# ║ Path(_set_mpc(val), <unspecified:_set_mpc>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_mpc : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7676542c1762bba8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.ComplexElement._set_mpc","kind":"method","src_hash":"358676bebafaa719","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_mpc(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_mpc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.ComplexElement._set_mpc_correct","statement":"Path(_set_mpc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7676542c1762bba8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.ComplexElement._set_mpc","kind":"method","src_hash":"358676bebafaa719","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_mpc(val)","rhs":"<unspecified:_set_mpc>","over":{"base":"Any"},"name":"_set_mpc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.ComplexElement._set_mpc_correct","statement":"Path(_set_mpc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7676542c1762bba8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.__mpc__"]},"state_contract":{"modifies":["self.__mpc__"],"old_bindings":{"old_self___mpc__":"self.__mpc__"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_mpc(self, val):
         self.__mpc__ = val
 
     _mpc_ = property(lambda self: self.__mpc__, _set_mpc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), parent produces the expected output) over Any ║
+# ║ Path(parent(), self.context._parent) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.context._parent                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04b800e6f9f75d26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.ComplexElement.parent","kind":"method","src_hash":"c4bec591eb95ae00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"parent produces the expected output","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04b800e6f9f75d26"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.ComplexElement.parent","kind":"method","src_hash":"c4bec591eb95ae00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"self.context._parent","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns self.context._parent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04b800e6f9f75d26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.context._parent","pure":false,"effects":{"effect_type":"reads_state","reads":["self.context"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         return self.context._parent
 
@@ -132,27 +170,42 @@ new = object.__new__
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MPContext(*args), correctly constructs a MPContext instance) over {Any | isinstance(tol, int_types) and isinstance(tol, float) and isinstance(tol, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PythonMPContext)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MPContext : {Any | isinstance(tol, int_types) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6877c8977fad1a21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext","kind":"class","src_hash":"d4d7fef91fb63c3b","in":{"base":"Any","pred":"isinstance(tol, int_types) and isinstance(tol, float) and isinstance(tol, str)"},"out":{"base":"Any"},"spec":{"lhs":"MPContext(*args)","rhs":"correctly constructs a MPContext instance","over":{"base":"Any","pred":"isinstance(tol, int_types) and isinstance(tol, float) and isinstance(tol, str)"},"name":"MPContext_class_invariant"},"guarantee":"correctly constructs a MPContext instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6877c8977fad1a21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext","kind":"class","src_hash":"d4d7fef91fb63c3b","in":{"base":"Any","pred":"isinstance(tol, int_types) and isinstance(tol, float) and isinstance(tol, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PythonMPContext)"},"spec":{"lhs":"MPContext(*args)","rhs":"correctly constructs a MPContext instance","over":{"base":"Any","pred":"isinstance(tol, int_types) and isinstance(tol, float) and isinstance(tol, str)"},"name":"MPContext_class_invariant"},"guarantee":"isinstance(self, PythonMPContext)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6877c8977fad1a21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PythonMPContext)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MPContext not found in source"]}}
 class MPContext(PythonMPContext):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ctx), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ctx, prec, dps), <unspecified:__init__>) over {Any | hasattr(ctx, '_prec_rounding') and hasattr(ctx, 'mpf') and hasattr(ctx, 'mpc') and hasattr(ctx, 'constant') and hasattr(ctx, 'types') and hasattr(ctx, 'trap_complex') and hasattr(ctx, 'pretty') and hasattr(ctx, 'tolerance') and hasattr(ctx, 'zero') and hasattr(ctx, 'one') and hasattr(ctx, 'j') and hasattr(ctx, 'inf') and hasattr(ctx, 'ninf') and hasattr(ctx, 'nan') and hasattr(ctx, 'tol') and hasattr(ctx, 'make_mpf') and hasattr(ctx, 'max_denom') and hasattr(ctx, 'make_mpc') and hasattr(ctx, '_set_prec') and hasattr(ctx, '_set_dps') and hasattr(ctx, '_make_tol') and hasattr(ctx, '_convert_tol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, '_prec_rounding')                 ║
+# ║   requires: hasattr(ctx, 'mpf')                            ║
+# ║   requires: hasattr(ctx, 'mpc')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(ctx, '_prec_rounding') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d401621dc1d5142           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.__init__","kind":"method","src_hash":"65656c6f41822ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ctx)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d401621dc1d5142"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.__init__","kind":"method","src_hash":"65656c6f41822ed2","in":{"base":"Any","pred":"hasattr(ctx, '_prec_rounding') and hasattr(ctx, 'mpf') and hasattr(ctx, 'mpc') and hasattr(ctx, 'constant') and hasattr(ctx, 'types') and hasattr(ctx, 'trap_complex') and hasattr(ctx, 'pretty') and hasattr(ctx, 'tolerance') and hasattr(ctx, 'zero') and hasattr(ctx, 'one') and hasattr(ctx, 'j') and hasattr(ctx, 'inf') and hasattr(ctx, 'ninf') and hasattr(ctx, 'nan') and hasattr(ctx, 'tol') and hasattr(ctx, 'make_mpf') and hasattr(ctx, 'max_denom') and hasattr(ctx, 'make_mpc') and hasattr(ctx, '_set_prec') and hasattr(ctx, '_set_dps') and hasattr(ctx, '_make_tol') and hasattr(ctx, '_convert_tol')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ctx, prec, dps)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(ctx, '_prec_rounding') and hasattr(ctx, 'mpf') and hasattr(ctx, 'mpc') and hasattr(ctx, 'constant') and hasattr(ctx, 'types') and hasattr(ctx, 'trap_complex') and hasattr(ctx, 'pretty') and hasattr(ctx, 'tolerance') and hasattr(ctx, 'zero') and hasattr(ctx, 'one') and hasattr(ctx, 'j') and hasattr(ctx, 'inf') and hasattr(ctx, 'ninf') and hasattr(ctx, 'nan') and hasattr(ctx, 'tol') and hasattr(ctx, 'make_mpf') and hasattr(ctx, 'max_denom') and hasattr(ctx, 'make_mpc') and hasattr(ctx, '_set_prec') and hasattr(ctx, '_set_dps') and hasattr(ctx, '_make_tol') and hasattr(ctx, '_convert_tol')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d401621dc1d5142","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, '_prec_rounding')","hasattr(ctx, 'mpf')","hasattr(ctx, 'mpc')","hasattr(ctx, 'constant')","hasattr(ctx, 'types')","hasattr(ctx, 'trap_complex')","hasattr(ctx, 'pretty')","hasattr(ctx, 'tolerance')","hasattr(ctx, 'zero')","hasattr(ctx, 'one')","hasattr(ctx, 'j')","hasattr(ctx, 'inf')","hasattr(ctx, 'ninf')","hasattr(ctx, 'nan')","hasattr(ctx, 'tol')","hasattr(ctx, 'make_mpf')","hasattr(ctx, 'max_denom')","hasattr(ctx, 'make_mpc')","hasattr(ctx, '_set_prec')","hasattr(ctx, '_set_dps')","hasattr(ctx, '_make_tol')","hasattr(ctx, '_convert_tol')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["ctx._convert_tol","ctx._make_tol","ctx._prec_rounding","ctx._set_dps","ctx._set_prec","ctx.constant","ctx.make_mpc","ctx.make_mpf","ctx.mpc","ctx.mpf","ctx.tol","ctx.tolerance"],"writes":["ctx._prec_rounding","ctx.constant","ctx.inf","ctx.j","ctx.max_denom","ctx.mpc","ctx.mpf","ctx.nan","ctx.ninf","ctx.one","ctx.pretty","ctx.tol","ctx.tolerance","ctx.trap_complex","ctx.types","ctx.zero"]},"state_contract":{"modifies":["ctx._prec_rounding","ctx.constant","ctx.inf","ctx.j","ctx.max_denom","ctx.mpc","ctx.mpf","ctx.nan","ctx.ninf","ctx.one","ctx.pretty","ctx.tol","ctx.tolerance","ctx.trap_complex","ctx.types","ctx.zero"],"old_bindings":{"old_ctx__prec_rounding":"ctx._prec_rounding","old_ctx_constant":"ctx.constant","old_ctx_inf":"ctx.inf","old_ctx_j":"ctx.j","old_ctx_max_denom":"ctx.max_denom","old_ctx_mpc":"ctx.mpc","old_ctx_mpf":"ctx.mpf","old_ctx_nan":"ctx.nan","old_ctx_ninf":"ctx.ninf","old_ctx_one":"ctx.one","old_ctx_pretty":"ctx.pretty","old_ctx_tol":"ctx.tol","old_ctx_tolerance":"ctx.tolerance","old_ctx_trap_complex":"ctx.trap_complex","old_ctx_types":"ctx.types","old_ctx_zero":"ctx.zero"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(ctx, prec=53, dps=None, tol=None, real=False):
         ctx._prec_rounding = [prec, round_nearest]
 
@@ -201,46 +254,69 @@ class MPContext(PythonMPContext):
         ctx.nan = ctx.make_mpf(fnan)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_tol(ctx), internal helper behaves correctly) over Any ║
+# ║ Path(_make_tol(ctx), mpf_mul(hundred, eps)) over {Any | hasattr(ctx, 'prec')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _make_tol : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, 'prec')                           ║
+# ║   returns:  mpf_mul(hundred, eps)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _make_tol : {Any | hasattr(ctx, 'prec')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0db809cdb3aa38d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7176c67347d04f61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._make_tol","kind":"method","src_hash":"f8678dbb5b14ab73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_tol(ctx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_make_tol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext._make_tol_correct","statement":"Path(_make_tol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0db809cdb3aa38d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._make_tol","kind":"method","src_hash":"f8678dbb5b14ab73","in":{"base":"Any","pred":"hasattr(ctx, 'prec')"},"out":{"base":"Any"},"spec":{"lhs":"_make_tol(ctx)","rhs":"mpf_mul(hundred, eps)","over":{"base":"Any","pred":"hasattr(ctx, 'prec')"},"name":"_make_tol_correct"},"guarantee":"returns mpf_mul(hundred, eps)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext._make_tol_correct","statement":"Path(_make_tol(x), returns mpf_mul(hundred, eps))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7176c67347d04f61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, 'prec')"],"returns_expr":"mpf_mul(hundred, eps)","pure":false,"effects":{"effect_type":"reads_state","reads":["ctx.prec"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _make_tol(ctx):
         hundred = (0, 25, 2, 5)
         eps = (0, MPZ_ONE, 1-ctx.prec, 1)
         return mpf_mul(hundred, eps)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_tol(ctx), make_tol produces the expected output) over Any ║
+# ║ Path(make_tol(ctx), ctx.make_mpf(ctx._make_tol())) over {Any | hasattr(ctx, 'make_mpf') and hasattr(ctx, '_make_tol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_tol : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, 'make_mpf')                       ║
+# ║   requires: hasattr(ctx, '_make_tol')                      ║
+# ║   returns:  ctx.make_mpf(ctx._make_tol())                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_tol : {Any | hasattr(ctx, 'make_mpf') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb668883595d0baf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.make_tol","kind":"method","src_hash":"d61077108b8f2891","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_tol(ctx)","rhs":"make_tol produces the expected output","over":{"base":"Any"},"name":"make_tol_correct"},"guarantee":"make_tol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb668883595d0baf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.make_tol","kind":"method","src_hash":"d61077108b8f2891","in":{"base":"Any","pred":"hasattr(ctx, 'make_mpf') and hasattr(ctx, '_make_tol')"},"out":{"base":"Any"},"spec":{"lhs":"make_tol(ctx)","rhs":"ctx.make_mpf(ctx._make_tol())","over":{"base":"Any","pred":"hasattr(ctx, 'make_mpf') and hasattr(ctx, '_make_tol')"},"name":"make_tol_correct"},"guarantee":"returns ctx.make_mpf(ctx._make_tol())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb668883595d0baf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, 'make_mpf')","hasattr(ctx, '_make_tol')"],"returns_expr":"ctx.make_mpf(ctx._make_tol())","pure":false,"effects":{"effect_type":"reads_state","reads":["ctx._make_tol","ctx.make_mpf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_tol(ctx):
         return ctx.make_mpf(ctx._make_tol())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_tol(ctx), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_tol(ctx, tol), <unspecified:_convert_tol>) over {Any | hasattr(ctx, '_prec_rounding') and hasattr(tol, '_mpf_')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _convert_tol : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, '_prec_rounding')                 ║
+# ║   requires: hasattr(tol, '_mpf_')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _convert_tol : {Any | hasattr(ctx, '_prec_rounding') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1c42573852e1bcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._convert_tol","kind":"method","src_hash":"0304f03904175ef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_tol(ctx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_tol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext._convert_tol_correct","statement":"Path(_convert_tol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1c42573852e1bcc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._convert_tol","kind":"method","src_hash":"0304f03904175ef6","in":{"base":"Any","pred":"hasattr(ctx, '_prec_rounding') and hasattr(tol, '_mpf_')"},"out":{"base":"Any"},"spec":{"lhs":"_convert_tol(ctx, tol)","rhs":"<unspecified:_convert_tol>","over":{"base":"Any","pred":"hasattr(ctx, '_prec_rounding') and hasattr(tol, '_mpf_')"},"name":"_convert_tol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext._convert_tol_correct","statement":"Path(_convert_tol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1c42573852e1bcc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, '_prec_rounding')","hasattr(tol, '_mpf_')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ctx._prec_rounding","tol._mpf_"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_tol(ctx, tol):
         if isinstance(tol, int_types):
             return from_int(tol)
@@ -254,60 +330,88 @@ class MPContext(PythonMPContext):
         raise ValueError("expected a real number, got %s" % tol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_fallback(ctx), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_fallback(ctx, x, strings), <unspecified:_convert_fallback>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_fallback : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2ee9ed181991494  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._convert_fallback","kind":"method","src_hash":"2a8c8e40b8091746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_fallback(ctx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_fallback_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext._convert_fallback_correct","statement":"Path(_convert_fallback(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2ee9ed181991494"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._convert_fallback","kind":"method","src_hash":"2a8c8e40b8091746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_fallback(ctx, x, strings)","rhs":"<unspecified:_convert_fallback>","over":{"base":"Any"},"name":"_convert_fallback_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext._convert_fallback_correct","statement":"Path(_convert_fallback(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2ee9ed181991494","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_fallback(ctx, x, strings):
         raise TypeError("cannot create mpf from " + repr(x))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_repr_digits(ctx), returns the _repr_digits attribute) over Any ║
+# ║ Path(_repr_digits(ctx), repr_dps(ctx._prec)) over {Any | hasattr(ctx, '_prec')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _repr_digits : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, '_prec')                          ║
+# ║   returns:  repr_dps(ctx._prec)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _repr_digits : {Any | hasattr(ctx, '_prec')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac1aeeb642fd01c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._repr_digits","kind":"property","src_hash":"270fde96dbb9ff6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_repr_digits(ctx)","rhs":"returns the _repr_digits attribute","over":{"base":"Any"},"name":"_repr_digits_correct"},"guarantee":"returns the _repr_digits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac1aeeb642fd01c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._repr_digits","kind":"property","src_hash":"270fde96dbb9ff6e","in":{"base":"Any","pred":"hasattr(ctx, '_prec')"},"out":{"base":"Any"},"spec":{"lhs":"_repr_digits(ctx)","rhs":"repr_dps(ctx._prec)","over":{"base":"Any","pred":"hasattr(ctx, '_prec')"},"name":"_repr_digits_correct"},"guarantee":"returns repr_dps(ctx._prec)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac1aeeb642fd01c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, '_prec')"],"returns_expr":"repr_dps(ctx._prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["ctx._prec"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _repr_digits(ctx):
         return repr_dps(ctx._prec)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_str_digits(ctx), returns the _str_digits attribute) over Any ║
+# ║ Path(_str_digits(ctx), ctx._dps) over {Any | hasattr(ctx, '_dps')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _str_digits : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, '_dps')                           ║
+# ║   returns:  ctx._dps                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _str_digits : {Any | hasattr(ctx, '_dps')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a01ed244ac507b29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._str_digits","kind":"property","src_hash":"17ead3e0227d3d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_str_digits(ctx)","rhs":"returns the _str_digits attribute","over":{"base":"Any"},"name":"_str_digits_correct"},"guarantee":"returns the _str_digits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01ed244ac507b29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext._str_digits","kind":"property","src_hash":"17ead3e0227d3d2d","in":{"base":"Any","pred":"hasattr(ctx, '_dps')"},"out":{"base":"Any"},"spec":{"lhs":"_str_digits(ctx)","rhs":"ctx._dps","over":{"base":"Any","pred":"hasattr(ctx, '_dps')"},"name":"_str_digits_correct"},"guarantee":"returns ctx._dps","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01ed244ac507b29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, '_dps')"],"returns_expr":"ctx._dps","pure":false,"effects":{"effect_type":"reads_state","reads":["ctx._dps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _str_digits(ctx):
         return ctx._dps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_rational(ctx), to_rational produces the expected output) over Any ║
+# ║ Path(to_rational(ctx, s, limit), # HINT: to_rational may be idempotent: to_rational(to_rational(x)) == to_rational(x)) over {Any | hasattr(s, '_mpf_') and hasattr(ctx, 'max_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_rational : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, '_mpf_')                            ║
+# ║   requires: hasattr(ctx, 'max_denom')                      ║
+# ║   ensures:  # HINT: to_rational may be idempotent: to...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_rational : {Any | hasattr(s, '_mpf_') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e782f1677aaf4e16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c284efd649ff38fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.to_rational","kind":"method","src_hash":"eccc82dbf9735e5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_rational(ctx)","rhs":"to_rational produces the expected output","over":{"base":"Any"},"name":"to_rational_correct"},"guarantee":"to_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext.to_rational_correct","statement":"Path(to_rational(x), to_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e782f1677aaf4e16"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.to_rational","kind":"method","src_hash":"eccc82dbf9735e5b","in":{"base":"Any","pred":"hasattr(s, '_mpf_') and hasattr(ctx, 'max_denom')"},"out":{"base":"Any","pred":"result satisfies: # HINT: to_rational may be idempotent: to_rational(to_rational(x)) == to_rational(x)"},"spec":{"lhs":"to_rational(ctx, s, limit)","rhs":"# HINT: to_rational may be idempotent: to_rational(to_rational(x)) == to_rational(x)","over":{"base":"Any","pred":"hasattr(s, '_mpf_') and hasattr(ctx, 'max_denom')"},"name":"to_rational_correct"},"guarantee":"# HINT: to_rational may be idempotent: to_rational(to_rational(x)) == to_rational(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext.to_rational_correct","statement":"Path(to_rational(x), # HINT: to_rational may be idempotent: to_rational(to_rational(x)) == to_rational(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c284efd649ff38fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, '_mpf_')","hasattr(ctx, 'max_denom')"],"ensures":["# HINT: to_rational may be idempotent: to_rational(to_rational(x)) == to_rational(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ctx.max_denom","s._mpf_"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_rational(ctx, s, limit=True):
         p, q = to_rational(s._mpf_)
 
@@ -344,16 +448,25 @@ class MPContext(PythonMPContext):
             return bound1.numerator, bound1.denominator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(almosteq(ctx), almosteq produces the expected output) over Any ║
+# ║ Path(almosteq(ctx, s, t), <unspecified:almosteq>) over {Any | hasattr(ctx, 'convert') and hasattr(ctx, 'tolerance') and hasattr(ctx, 'make_tol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ almosteq : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, 'convert')                        ║
+# ║   requires: hasattr(ctx, 'tolerance')                      ║
+# ║   requires: hasattr(ctx, 'make_tol')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ almosteq : {Any | hasattr(ctx, 'convert') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3da3262b74a5d202  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.almosteq","kind":"method","src_hash":"99db9c24d72d92ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"almosteq(ctx)","rhs":"almosteq produces the expected output","over":{"base":"Any"},"name":"almosteq_correct"},"guarantee":"almosteq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext.almosteq_correct","statement":"Path(almosteq(x), almosteq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da3262b74a5d202"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.mpelements.MPContext.almosteq","kind":"method","src_hash":"99db9c24d72d92ca","in":{"base":"Any","pred":"hasattr(ctx, 'convert') and hasattr(ctx, 'tolerance') and hasattr(ctx, 'make_tol')"},"out":{"base":"Any"},"spec":{"lhs":"almosteq(ctx, s, t)","rhs":"<unspecified:almosteq>","over":{"base":"Any","pred":"hasattr(ctx, 'convert') and hasattr(ctx, 'tolerance') and hasattr(ctx, 'make_tol')"},"name":"almosteq_correct"},"guarantee":"almosteq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.mpelements.MPContext.almosteq_correct","statement":"Path(almosteq(x), almosteq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da3262b74a5d202","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, 'convert')","hasattr(ctx, 'tolerance')","hasattr(ctx, 'make_tol')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ctx.convert","ctx.make_tol","ctx.tolerance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def almosteq(ctx, s, t, rel_eps=None, abs_eps=None):
         t = ctx.convert(t)
         if abs_eps is None and rel_eps is None:

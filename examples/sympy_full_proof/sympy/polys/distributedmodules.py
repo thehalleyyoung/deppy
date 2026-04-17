@@ -59,16 +59,22 @@ from sympy.core.sympify import sympify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_monomial_mul(M, ), multiply tuple ``x`` representing a monomial of `k[x]` into the tuple ``m`` representing a monomial of `f`) over Any ║
+# ║ Path(sdm_monomial_mul(M, X), (M[0],) + monomial_mul(X, M[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (M[0],) + monomial_mul(X, M[1:])               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_monomial_mul : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ece5f2de845867ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_mul","kind":"function","src_hash":"7d6f86c6e131315d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_mul(M, )","rhs":"multiply tuple ``x`` representing a monomial of `k[x]` into the tuple ``m`` representing a monomial of `f`","over":{"base":"Any"},"name":"sdm_monomial_mul_correct"},"guarantee":"multiply tuple ``x`` representing a monomial of `k[x]` into the tuple ``m`` representing a monomial of `f`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ece5f2de845867ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_mul","kind":"function","src_hash":"7d6f86c6e131315d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_mul(M, X)","rhs":"(M[0],) + monomial_mul(X, M[1:])","over":{"base":"Any"},"name":"sdm_monomial_mul_correct"},"guarantee":"returns (M[0],) + monomial_mul(X, M[1:])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ece5f2de845867ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(M[0],) + monomial_mul(X, M[1:])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def sdm_monomial_mul(M, X):
     """
     Multiply tuple ``X`` representing a monomial of `K[X]` into the tuple
@@ -87,16 +93,22 @@ def sdm_monomial_mul(M, X):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_monomial_deg(M), return the total degree of ``m``) over Any ║
+# ║ Path(sdm_monomial_deg(M), monomial_deg(M[1:])) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  monomial_deg(M[1:])                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_monomial_deg : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e3922032843186e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_deg","kind":"function","src_hash":"8d5b1c5772e6c29c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_deg(M)","rhs":"return the total degree of ``m``","over":{"base":"Any"},"name":"sdm_monomial_deg_correct"},"guarantee":"return the total degree of ``m``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e3922032843186e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_deg","kind":"function","src_hash":"8d5b1c5772e6c29c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_deg(M)","rhs":"monomial_deg(M[1:])","over":{"base":"Any"},"name":"sdm_monomial_deg_correct"},"guarantee":"returns monomial_deg(M[1:])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e3922032843186e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"monomial_deg(M[1:])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_monomial_deg(M):
     """
     Return the total degree of ``M``.
@@ -114,16 +126,22 @@ def sdm_monomial_deg(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_monomial_lcm(A, ), return the "least common multiple" of ``a`` and ``b``) over Any ║
+# ║ Path(sdm_monomial_lcm(A, B), (A[0],) + monomial_lcm(A[1:], B[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (A[0],) + monomial_lcm(A[1:], B[1:])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_monomial_lcm : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4eb6e9232fa78d31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_lcm","kind":"function","src_hash":"e072a9d10b6749dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_lcm(A, )","rhs":"return the \"least common multiple\" of ``a`` and ``b``","over":{"base":"Any"},"name":"sdm_monomial_lcm_correct"},"guarantee":"return the \"least common multiple\" of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4eb6e9232fa78d31"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_lcm","kind":"function","src_hash":"e072a9d10b6749dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_lcm(A, B)","rhs":"(A[0],) + monomial_lcm(A[1:], B[1:])","over":{"base":"Any"},"name":"sdm_monomial_lcm_correct"},"guarantee":"returns (A[0],) + monomial_lcm(A[1:], B[1:])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4eb6e9232fa78d31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(A[0],) + monomial_lcm(A[1:], B[1:])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def sdm_monomial_lcm(A, B):
     r"""
     Return the "least common multiple" of ``A`` and ``B``.
@@ -145,16 +163,22 @@ def sdm_monomial_lcm(A, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_monomial_divides(A, ), does there exist a (polynomial) monomial x such that xa = b?) over Any ║
+# ║ Path(sdm_monomial_divides(A, B), A[0] == B[0] and all((a <= b for a, b in zip(A[1:], B[1:])))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  A[0] == B[0] and all((a <= b for a, b in ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_monomial_divides : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfa66b6ef3485ef1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_divides","kind":"function","src_hash":"1a94c8e35ae5d954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_divides(A, )","rhs":"does there exist a (polynomial) monomial x such that xa = b?","over":{"base":"Any"},"name":"sdm_monomial_divides_correct"},"guarantee":"does there exist a (polynomial) monomial x such that xa = b?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfa66b6ef3485ef1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_monomial_divides","kind":"function","src_hash":"1a94c8e35ae5d954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_monomial_divides(A, B)","rhs":"A[0] == B[0] and all((a <= b for a, b in zip(A[1:], B[1:])))","over":{"base":"Any"},"name":"sdm_monomial_divides_correct"},"guarantee":"returns A[0] == B[0] and all((a <= b for a, b in zip(A[1:], B[1:])))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfa66b6ef3485ef1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"A[0] == B[0] and all((a <= b for a, b in zip(A[1:], B[1:])))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def sdm_monomial_divides(A, B):
     """
     Does there exist a (polynomial) monomial X such that XA = B?
@@ -210,16 +234,26 @@ def sdm_monomial_divides(A, B):
 # The actual distributed modules code.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_LC(f, ), returns the leading coefficient of ``f``) over Any ║
+# ║ Path(sdm_LC(f, K), result == (K.zero if not f else f[0][1]) and result == K.zero or result == f[0][1]) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sdm_LC : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  result == (K.zero if not f else f[0][1])       ║
+# ║   ensures:  result == K.zero or result == f[0][1]          ║
+# ║   fiber[case_0]: not f => K.zero                           ║
+# ║   fiber[case_1]: not (not f) => f[0][1]                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sdm_LC : {Any | hasattr(K, 'zero')} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aabbe1ba010fdfb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23f47dcc5b8c234c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_LC","kind":"function","src_hash":"84f3695afb77d837","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_LC(f, )","rhs":"returns the leading coefficient of ``f``","over":{"base":"Any"},"name":"sdm_LC_correct"},"guarantee":"returns the leading coefficient of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_LC_correct","statement":"Path(sdm_LC(x), returns the leading coefficient of ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aabbe1ba010fdfb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_LC","kind":"function","src_hash":"84f3695afb77d837","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: result == (K.zero if not f else f[0][1]) and result == K.zero or result == f[0][1]"},"spec":{"lhs":"sdm_LC(f, K)","rhs":"result == (K.zero if not f else f[0][1]) and result == K.zero or result == f[0][1]","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"sdm_LC_correct"},"guarantee":"result == (K.zero if not f else f[0][1]); result == K.zero or result == f[0][1]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_LC_correct","statement":"Path(sdm_LC(x), result == (K.zero if not f else f[0][1]); result == K.zero or result == f[0][1]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f47dcc5b8c234c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"ensures":["result == (K.zero if not f else f[0][1])","result == K.zero or result == f[0][1]"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == K.zero"],"decidability":"library","returns_expr":"K.zero"},{"name":"case_1","guard":"not (not f)","ensures":["result == f[0][1]"],"decidability":"library","returns_expr":"f[0][1]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def sdm_LC(f, K):
     """Returns the leading coefficient of ``f``. """
     if not f:
@@ -229,32 +263,45 @@ def sdm_LC(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_to_dict(f), make a dictionary from a distributed polynomial) over Any ║
+# ║ Path(sdm_to_dict(f), dict(f)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(f)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_to_dict : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e58378b93c3674a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_to_dict","kind":"function","src_hash":"18be3dbc9073afa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_to_dict(f)","rhs":"make a dictionary from a distributed polynomial","over":{"base":"Any"},"name":"sdm_to_dict_correct"},"guarantee":"make a dictionary from a distributed polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e58378b93c3674a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_to_dict","kind":"function","src_hash":"18be3dbc9073afa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_to_dict(f)","rhs":"dict(f)","over":{"base":"Any"},"name":"sdm_to_dict_correct"},"guarantee":"returns dict(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e58378b93c3674a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(f)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_to_dict(f):
     """Make a dictionary from a distributed polynomial. """
     return dict(f)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_from_dict(d, ), create an sdm from a dictionary) over Any ║
+# ║ Path(sdm_from_dict(d, O), sdm_strip(sdm_sort(list(d.items()), O))) over {Any | hasattr(d, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sdm_from_dict : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'items')                            ║
+# ║   returns:  sdm_strip(sdm_sort(list(d.items()), O))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sdm_from_dict : {Any | hasattr(d, 'items')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4fbf446e3c9149e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_from_dict","kind":"function","src_hash":"51d1028b137b73f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_from_dict(d, )","rhs":"create an sdm from a dictionary","over":{"base":"Any"},"name":"sdm_from_dict_correct"},"guarantee":"create an sdm from a dictionary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4fbf446e3c9149e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_from_dict","kind":"function","src_hash":"51d1028b137b73f8","in":{"base":"Any","pred":"hasattr(d, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"sdm_from_dict(d, O)","rhs":"sdm_strip(sdm_sort(list(d.items()), O))","over":{"base":"Any","pred":"hasattr(d, 'items')"},"name":"sdm_from_dict_correct"},"guarantee":"returns sdm_strip(sdm_sort(list(d.items()), O))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4fbf446e3c9149e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'items')"],"returns_expr":"sdm_strip(sdm_sort(list(d.items()), O))","pure":false,"effects":{"effect_type":"reads_state","reads":["d.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_from_dict(d, O):
     """
     Create an sdm from a dictionary.
@@ -274,48 +321,66 @@ def sdm_from_dict(d, O):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_sort(f, ), sort terms in ``f`` using the given monomial order ``o``) over Any ║
+# ║ Path(sdm_sort(f, O), sorted(f, key=lambda term: O(term[0]), reverse=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sorted(f, key=lambda term: O(term[0]), re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_sort : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ac46358b92a9d08           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_sort","kind":"function","src_hash":"540ab691aa9147df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_sort(f, )","rhs":"sort terms in ``f`` using the given monomial order ``o``","over":{"base":"Any"},"name":"sdm_sort_correct"},"guarantee":"sort terms in ``f`` using the given monomial order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ac46358b92a9d08"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_sort","kind":"function","src_hash":"540ab691aa9147df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_sort(f, O)","rhs":"sorted(f, key=lambda term: O(term[0]), reverse=True)","over":{"base":"Any"},"name":"sdm_sort_correct"},"guarantee":"returns sorted(f, key=lambda term: O(term[0]), reverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ac46358b92a9d08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sorted(f, key=lambda term: O(term[0]), reverse=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_sort(f, O):
     """Sort terms in ``f`` using the given monomial order ``O``. """
     return sorted(f, key=lambda term: O(term[0]), reverse=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_strip(f), remove terms with zero coefficients from ``f`` in ``k[x]``) over Any ║
+# ║ Path(sdm_strip(f), [(monom, coeff) for monom, coeff in f if coeff]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(monom, coeff) for monom, coeff in f if ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_strip : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a355bba757208f7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_strip","kind":"function","src_hash":"a32d810ccd9ab93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_strip(f)","rhs":"remove terms with zero coefficients from ``f`` in ``k[x]``","over":{"base":"Any"},"name":"sdm_strip_correct"},"guarantee":"remove terms with zero coefficients from ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a355bba757208f7b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_strip","kind":"function","src_hash":"a32d810ccd9ab93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_strip(f)","rhs":"[(monom, coeff) for monom, coeff in f if coeff]","over":{"base":"Any"},"name":"sdm_strip_correct"},"guarantee":"returns [(monom, coeff) for monom, coeff in f if coeff]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a355bba757208f7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(monom, coeff) for monom, coeff in f if coeff]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_strip(f):
     """Remove terms with zero coefficients from ``f`` in ``K[X]``. """
     return [ (monom, coeff) for monom, coeff in f if coeff ]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_add(f, ), add two module elements ``f``, ``g``) over Any ║
+# ║ Path(sdm_add(f, g, O), sdm_from_dict(h, O)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sdm_from_dict(h, O)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_add : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01ec3d876a70e5cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e18e99cdfcbf23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_add","kind":"function","src_hash":"a82196d5f4997fee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_add(f, )","rhs":"add two module elements ``f``, ``g``","over":{"base":"Any"},"name":"sdm_add_correct"},"guarantee":"add two module elements ``f``, ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_add_correct","statement":"Path(sdm_add(x), add two module elements ``f``, ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01ec3d876a70e5cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_add","kind":"function","src_hash":"a82196d5f4997fee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_add(f, g, O)","rhs":"sdm_from_dict(h, O)","over":{"base":"Any"},"name":"sdm_add_correct"},"guarantee":"returns sdm_from_dict(h, O)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_add_correct","statement":"Path(sdm_add(x), returns sdm_from_dict(h, O))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e18e99cdfcbf23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sdm_from_dict(h, O)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sdm_add(f, g, O, K):
     """
     Add two module elements ``f``, ``g``.
@@ -367,16 +432,22 @@ def sdm_add(f, g, O, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_LM(f), returns the leading monomial of ``f``) over Any ║
+# ║ Path(sdm_LM(f), f[0][0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f[0][0]                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_LM : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb3317cdc83d2fea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_LM","kind":"function","src_hash":"9b74bdf76ca44986","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_LM(f)","rhs":"returns the leading monomial of ``f``","over":{"base":"Any"},"name":"sdm_LM_correct"},"guarantee":"returns the leading monomial of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb3317cdc83d2fea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_LM","kind":"function","src_hash":"9b74bdf76ca44986","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_LM(f)","rhs":"f[0][0]","over":{"base":"Any"},"name":"sdm_LM_correct"},"guarantee":"returns f[0][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb3317cdc83d2fea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f[0][0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_LM(f):
     r"""
     Returns the leading monomial of ``f``.
@@ -396,16 +467,22 @@ def sdm_LM(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_LT(f), returns the leading term of ``f``) over Any ║
+# ║ Path(sdm_LT(f), f[0]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f[0]                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_LT : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a76d75a33738befc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_LT","kind":"function","src_hash":"5e6a101b08c75dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_LT(f)","rhs":"returns the leading term of ``f``","over":{"base":"Any"},"name":"sdm_LT_correct"},"guarantee":"returns the leading term of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a76d75a33738befc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_LT","kind":"function","src_hash":"5e6a101b08c75dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_LT(f)","rhs":"f[0]","over":{"base":"Any"},"name":"sdm_LT_correct"},"guarantee":"returns f[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a76d75a33738befc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_LT(f):
     r"""
     Returns the leading term of ``f``.
@@ -425,16 +502,27 @@ def sdm_LT(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_mul_term(f, ), multiply a distributed module element ``f`` by a (polynomial) term ``term``) over Any ║
+# ║ Path(sdm_mul_term(f, term, O), result == ([] if not f or not c else [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] if K.is_one(c) else [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]) and result == [] or result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] or result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]) over {Any | hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sdm_mul_term : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ensures:  result == ([] if not f or not c else [(sd...   ║
+# ║   ensures:  result == [] or result == [(sdm_monomial_...   ║
+# ║   fiber[case_0]: not f or not c => []                      ║
+# ║   fiber[case_1]: K.is_one(c) => [(sdm_monomial_mul(f_...   ║
+# ║   fiber[case_2]: not (not f or not c) and not (K.is_o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sdm_mul_term : {Any | hasattr(K, 'is_one')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a8f152ab7f8374f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 963521c70e008db4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_mul_term","kind":"function","src_hash":"6fd97fd86a88befb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_mul_term(f, )","rhs":"multiply a distributed module element ``f`` by a (polynomial) term ``term``","over":{"base":"Any"},"name":"sdm_mul_term_correct"},"guarantee":"multiply a distributed module element ``f`` by a (polynomial) term ``term``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_mul_term_correct","statement":"Path(sdm_mul_term(x), multiply a distributed module element ``f`` by a (polynomial) term ``term``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a8f152ab7f8374f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_mul_term","kind":"function","src_hash":"6fd97fd86a88befb","in":{"base":"Any","pred":"hasattr(K, 'is_one')"},"out":{"base":"Any","pred":"result satisfies: result == ([] if not f or not c else [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] if K.is_one(c) else [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]) and result == [] or result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] or result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]"},"spec":{"lhs":"sdm_mul_term(f, term, O)","rhs":"result == ([] if not f or not c else [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] if K.is_one(c) else [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]) and result == [] or result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] or result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]","over":{"base":"Any","pred":"hasattr(K, 'is_one')"},"name":"sdm_mul_term_correct"},"guarantee":"result == ([] if not f or not c else [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] if K.is_one(c) else [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]); result == [] or result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] or result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_mul_term_correct","statement":"Path(sdm_mul_term(x), result == ([] if not f or not c else [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] if K.is_one(c) else [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]); result == [] or result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] or result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"963521c70e008db4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_one')"],"ensures":["result == ([] if not f or not c else [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] if K.is_one(c) else [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f])","result == [] or result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f] or result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]"],"fibers":[{"name":"case_0","guard":"not f or not c","ensures":["result == []"],"decidability":"library","returns_expr":"[]"},{"name":"case_1","guard":"K.is_one(c)","ensures":["result == [(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f]"],"decidability":"library","returns_expr":"[(sdm_monomial_mul(f_M, X), f_c) for f_M, f_c in f]"},{"name":"case_2","guard":"not (not f or not c) and not (K.is_one(c))","ensures":["result == [(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]"],"decidability":"library","returns_expr":"[(sdm_monomial_mul(f_M, X), f_c * c) for f_M, f_c in f]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sdm_mul_term(f, term, O, K):
     """
     Multiply a distributed module element ``f`` by a (polynomial) term ``term``.
@@ -480,32 +568,44 @@ def sdm_mul_term(f, term, O, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_zero(), return the zero module element) over Any  ║
+# ║ Path(sdm_zero(), []) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_zero : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12423dc6166968da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_zero","kind":"function","src_hash":"9be74a9251bf72c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_zero()","rhs":"return the zero module element","over":{"base":"Any"},"name":"sdm_zero_correct"},"guarantee":"return the zero module element","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12423dc6166968da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_zero","kind":"function","src_hash":"9be74a9251bf72c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_zero()","rhs":"[]","over":{"base":"Any"},"name":"sdm_zero_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12423dc6166968da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_zero():
     """Return the zero module element."""
     return []
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_deg(f), degree of ``f``) over Any                 ║
+# ║ Path(sdm_deg(f), max((sdm_monomial_deg(M[0]) for M in f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  max((sdm_monomial_deg(M[0]) for M in f))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_deg : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a49afe0d5ba75342           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_deg","kind":"function","src_hash":"e3b83c602b30bbe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_deg(f)","rhs":"degree of ``f``","over":{"base":"Any"},"name":"sdm_deg_correct"},"guarantee":"degree of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a49afe0d5ba75342"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_deg","kind":"function","src_hash":"e3b83c602b30bbe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_deg(f)","rhs":"max((sdm_monomial_deg(M[0]) for M in f))","over":{"base":"Any"},"name":"sdm_deg_correct"},"guarantee":"returns max((sdm_monomial_deg(M[0]) for M in f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a49afe0d5ba75342","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"max((sdm_monomial_deg(M[0]) for M in f))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_deg(f):
     """
     Degree of ``f``.
@@ -526,16 +626,23 @@ def sdm_deg(f):
 # Conversion
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_from_vector(vec), create an sdm from an iterable of expressions) over Any ║
+# ║ Path(sdm_from_vector(vec, O, K), sdm_from_dict(dic, O)) over {Any | hasattr(K, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sdm_from_vector : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'convert')                          ║
+# ║   returns:  sdm_from_dict(dic, O)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sdm_from_vector : {Any | hasattr(K, 'convert')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b86b41650c560204  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd8f97afb98a6b30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_from_vector","kind":"function","src_hash":"d3a75e56cdf1a75f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_from_vector(vec)","rhs":"create an sdm from an iterable of expressions","over":{"base":"Any"},"name":"sdm_from_vector_correct"},"guarantee":"create an sdm from an iterable of expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_from_vector_correct","statement":"Path(sdm_from_vector(x), create an sdm from an iterable of expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b86b41650c560204"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_from_vector","kind":"function","src_hash":"d3a75e56cdf1a75f","in":{"base":"Any","pred":"hasattr(K, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"sdm_from_vector(vec, O, K)","rhs":"sdm_from_dict(dic, O)","over":{"base":"Any","pred":"hasattr(K, 'convert')"},"name":"sdm_from_vector_correct"},"guarantee":"returns sdm_from_dict(dic, O)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_from_vector_correct","statement":"Path(sdm_from_vector(x), returns sdm_from_dict(dic, O))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd8f97afb98a6b30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'convert')"],"returns_expr":"sdm_from_dict(dic, O)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.convert"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['vec', 'O', 'K'], spec=['vec', 'O', 'K', '**opts']"]}}
 def sdm_from_vector(vec, O, K, **opts):
     """
     Create an sdm from an iterable of expressions.
@@ -562,16 +669,22 @@ def sdm_from_vector(vec, O, K, **opts):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_to_vector(f, ), convert sdm ``f`` into a list of polynomial expressions) over Any ║
+# ║ Path(sdm_to_vector(f, gens, K), <unspecified:sdm_to_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_to_vector : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e523d478fa533dd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_to_vector","kind":"function","src_hash":"cc8103a4a155b2c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_to_vector(f, )","rhs":"convert sdm ``f`` into a list of polynomial expressions","over":{"base":"Any"},"name":"sdm_to_vector_correct"},"guarantee":"convert sdm ``f`` into a list of polynomial expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_to_vector_correct","statement":"Path(sdm_to_vector(x), convert sdm ``f`` into a list of polynomial expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e523d478fa533dd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_to_vector","kind":"function","src_hash":"cc8103a4a155b2c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_to_vector(f, gens, K)","rhs":"<unspecified:sdm_to_vector>","over":{"base":"Any"},"name":"sdm_to_vector_correct"},"guarantee":"convert sdm ``f`` into a list of polynomial expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_to_vector_correct","statement":"Path(sdm_to_vector(x), convert sdm ``f`` into a list of polynomial expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e523d478fa533dd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sdm_to_vector(f, gens, K, n=None):
     """
     Convert sdm ``f`` into a list of polynomial expressions.
@@ -607,16 +720,24 @@ def sdm_to_vector(f, gens, K, n=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_spoly(f, ), compute the generalized s-polynomial of ``f`` and ``g``) over Any ║
+# ║ Path(sdm_spoly(f, g, O), <unspecified:sdm_spoly>) over {Any | hasattr(K, 'quo') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sdm_spoly : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'quo')                              ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sdm_spoly : {Any | hasattr(K, 'quo') and hasattr(K, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71242f8170e2a7bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_spoly","kind":"function","src_hash":"2c864d046f86bf6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_spoly(f, )","rhs":"compute the generalized s-polynomial of ``f`` and ``g``","over":{"base":"Any"},"name":"sdm_spoly_correct"},"guarantee":"compute the generalized s-polynomial of ``f`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_spoly_correct","statement":"Path(sdm_spoly(x), compute the generalized s-polynomial of ``f`` and ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71242f8170e2a7bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_spoly","kind":"function","src_hash":"2c864d046f86bf6f","in":{"base":"Any","pred":"hasattr(K, 'quo') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"sdm_spoly(f, g, O)","rhs":"<unspecified:sdm_spoly>","over":{"base":"Any","pred":"hasattr(K, 'quo') and hasattr(K, 'one')"},"name":"sdm_spoly_correct"},"guarantee":"compute the generalized s-polynomial of ``f`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_spoly_correct","statement":"Path(sdm_spoly(x), compute the generalized s-polynomial of ``f`` and ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71242f8170e2a7bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'quo')","hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.quo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def sdm_spoly(f, g, O, K, phantom=None):
     """
     Compute the generalized s-polynomial of ``f`` and ``g``.
@@ -670,16 +791,22 @@ def sdm_spoly(f, g, O, K, phantom=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_ecart(f), compute the ecart of ``f``) over Any    ║
+# ║ Path(sdm_ecart(f), sdm_deg(f) - sdm_monomial_deg(sdm_LM(f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sdm_deg(f) - sdm_monomial_deg(sdm_LM(f))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_ecart : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09c1f6793135ee1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_ecart","kind":"function","src_hash":"4a64eb60c37ef4f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_ecart(f)","rhs":"compute the ecart of ``f``","over":{"base":"Any"},"name":"sdm_ecart_correct"},"guarantee":"compute the ecart of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09c1f6793135ee1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_ecart","kind":"function","src_hash":"4a64eb60c37ef4f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_ecart(f)","rhs":"sdm_deg(f) - sdm_monomial_deg(sdm_LM(f))","over":{"base":"Any"},"name":"sdm_ecart_correct"},"guarantee":"returns sdm_deg(f) - sdm_monomial_deg(sdm_LM(f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09c1f6793135ee1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sdm_deg(f) - sdm_monomial_deg(sdm_LM(f))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sdm_ecart(f):
     """
     Compute the ecart of ``f``.
@@ -702,16 +829,22 @@ def sdm_ecart(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_nf_mora(f, ), compute a weak normal form of ``f`` with respect to ``g`` and order ``o``) over Any ║
+# ║ Path(sdm_nf_mora(f, G, O), <unspecified:sdm_nf_mora>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_nf_mora : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2522a325f4c6b01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_nf_mora","kind":"function","src_hash":"5c45325ba010a284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_nf_mora(f, )","rhs":"compute a weak normal form of ``f`` with respect to ``g`` and order ``o``","over":{"base":"Any"},"name":"sdm_nf_mora_correct"},"guarantee":"compute a weak normal form of ``f`` with respect to ``g`` and order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_nf_mora_correct","statement":"Path(sdm_nf_mora(x), compute a weak normal form of ``f`` with respect to ``g`` and order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2522a325f4c6b01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_nf_mora","kind":"function","src_hash":"5c45325ba010a284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_nf_mora(f, G, O)","rhs":"<unspecified:sdm_nf_mora>","over":{"base":"Any"},"name":"sdm_nf_mora_correct"},"guarantee":"compute a weak normal form of ``f`` with respect to ``g`` and order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_nf_mora_correct","statement":"Path(sdm_nf_mora(x), compute a weak normal form of ``f`` with respect to ``g`` and order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2522a325f4c6b01","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def sdm_nf_mora(f, G, O, K, phantom=None):
     r"""
     Compute a weak normal form of ``f`` with respect to ``G`` and order ``O``.
@@ -769,16 +902,22 @@ def sdm_nf_mora(f, G, O, K, phantom=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_nf_buchberger(f, ), compute a weak normal form of ``f`` with respect to ``g`` and order ``o``) over Any ║
+# ║ Path(sdm_nf_buchberger(f, G, O), <unspecified:sdm_nf_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_nf_buchberger : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52781e297f8eef54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_nf_buchberger","kind":"function","src_hash":"5583b939a4a3f150","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_nf_buchberger(f, )","rhs":"compute a weak normal form of ``f`` with respect to ``g`` and order ``o``","over":{"base":"Any"},"name":"sdm_nf_buchberger_correct"},"guarantee":"compute a weak normal form of ``f`` with respect to ``g`` and order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_nf_buchberger_correct","statement":"Path(sdm_nf_buchberger(x), compute a weak normal form of ``f`` with respect to ``g`` and order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52781e297f8eef54"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_nf_buchberger","kind":"function","src_hash":"5583b939a4a3f150","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_nf_buchberger(f, G, O)","rhs":"<unspecified:sdm_nf_buchberger>","over":{"base":"Any"},"name":"sdm_nf_buchberger_correct"},"guarantee":"compute a weak normal form of ``f`` with respect to ``g`` and order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_nf_buchberger_correct","statement":"Path(sdm_nf_buchberger(x), compute a weak normal form of ``f`` with respect to ``g`` and order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52781e297f8eef54","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def sdm_nf_buchberger(f, G, O, K, phantom=None):
     r"""
     Compute a weak normal form of ``f`` with respect to ``G`` and order ``O``.
@@ -820,16 +959,22 @@ def sdm_nf_buchberger(f, G, O, K, phantom=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_nf_buchberger_reduced(f, ), compute a reduced normal form of ``f`` with respect to ``g`` and order ``o``) over Any ║
+# ║ Path(sdm_nf_buchberger_reduced(f, G, O), <unspecified:sdm_nf_buchberger_reduced>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_nf_buchberger_reduced : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07993c03d58ef463  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_nf_buchberger_reduced","kind":"function","src_hash":"980a6619673a1c71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_nf_buchberger_reduced(f, )","rhs":"compute a reduced normal form of ``f`` with respect to ``g`` and order ``o``","over":{"base":"Any"},"name":"sdm_nf_buchberger_reduced_correct"},"guarantee":"compute a reduced normal form of ``f`` with respect to ``g`` and order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_nf_buchberger_reduced_correct","statement":"Path(sdm_nf_buchberger_reduced(x), compute a reduced normal form of ``f`` with respect to ``g`` and order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07993c03d58ef463"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_nf_buchberger_reduced","kind":"function","src_hash":"980a6619673a1c71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_nf_buchberger_reduced(f, G, O)","rhs":"<unspecified:sdm_nf_buchberger_reduced>","over":{"base":"Any"},"name":"sdm_nf_buchberger_reduced_correct"},"guarantee":"compute a reduced normal form of ``f`` with respect to ``g`` and order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_nf_buchberger_reduced_correct","statement":"Path(sdm_nf_buchberger_reduced(x), compute a reduced normal form of ``f`` with respect to ``g`` and order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07993c03d58ef463","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sdm_nf_buchberger_reduced(f, G, O, K):
     r"""
     Compute a reduced normal form of ``f`` with respect to ``G`` and order ``O``.
@@ -857,16 +1002,22 @@ def sdm_nf_buchberger_reduced(f, G, O, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sdm_groebner(G, ), compute a minimal standard basis of ``g`` with respect to order ``o``) over Any ║
+# ║ Path(sdm_groebner(G, NF, O), <unspecified:sdm_groebner>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sdm_groebner : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f76b5e3de963b107  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_groebner","kind":"function","src_hash":"a5d6040b34a45647","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_groebner(G, )","rhs":"compute a minimal standard basis of ``g`` with respect to order ``o``","over":{"base":"Any"},"name":"sdm_groebner_correct"},"guarantee":"compute a minimal standard basis of ``g`` with respect to order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_groebner_correct","statement":"Path(sdm_groebner(x), compute a minimal standard basis of ``g`` with respect to order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f76b5e3de963b107"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.distributedmodules.sdm_groebner","kind":"function","src_hash":"a5d6040b34a45647","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sdm_groebner(G, NF, O)","rhs":"<unspecified:sdm_groebner>","over":{"base":"Any"},"name":"sdm_groebner_correct"},"guarantee":"compute a minimal standard basis of ``g`` with respect to order ``o``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.distributedmodules.sdm_groebner_correct","statement":"Path(sdm_groebner(x), compute a minimal standard basis of ``g`` with respect to order ``o``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f76b5e3de963b107","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def sdm_groebner(G, NF, O, K, extended=False):
     """
     Compute a minimal standard basis of ``G`` with respect to order ``O``.

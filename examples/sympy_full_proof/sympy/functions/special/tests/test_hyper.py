@@ -36,16 +36,22 @@ from sympy.core.random import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TupleParametersBase(), test_TupleParametersBase produces the expected output) over Any ║
+# ║ Path(test_TupleParametersBase(), p.diff(z) == p * 2 * z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TupleParametersBase : Any → {Any | p.diff(z) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.diff(z) == p * 2 * z                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TupleParametersBase : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f02a99a077a5daf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8efe2cadd3784299  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_TupleParametersBase","kind":"function","src_hash":"66ea7c35a88c42a6","in":{"base":"Any"},"out":{"base":"Any","pred":"p.diff(z) == p * 2 * z"},"spec":{"lhs":"test_TupleParametersBase()","rhs":"test_TupleParametersBase produces the expected output","over":{"base":"Any"},"name":"test_TupleParametersBase_correct"},"guarantee":"test_TupleParametersBase produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_TupleParametersBase_correct","statement":"Path(test_TupleParametersBase(x), test_TupleParametersBase produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f02a99a077a5daf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_TupleParametersBase","kind":"function","src_hash":"66ea7c35a88c42a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.diff(z) == p * 2 * z"},"spec":{"lhs":"test_TupleParametersBase()","rhs":"p.diff(z) == p * 2 * z","over":{"base":"Any"},"name":"test_TupleParametersBase_correct"},"guarantee":"p.diff(z) == p * 2 * z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_TupleParametersBase_correct","statement":"Path(test_TupleParametersBase(x), p.diff(z) == p * 2 * z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8efe2cadd3784299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.diff(z) == p * 2 * z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TupleParametersBase():
     # test that our implementation of the chain rule works
     p = hyper((), (), z**2)
@@ -53,16 +59,24 @@ def test_TupleParametersBase():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyper(), test_hyper produces the expected output) over Any ║
+# ║ Path(test_hyper(), hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z) and hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z) and u.ap == Tuple(1, 2, 2) and u.bq == Tuple(1, 1, 2, 3) and h.ap == Tuple(1, 2) and h.bq == Tuple(3, 4, 5) and h.argument == z and h.is_commutative is True and tn(hyper(Tuple(), Tuple(), z), exp(z), z) and tn(z * hyper((1, 1), Tuple(2), -z), log(1 + z), z) and td(h, z) and hyper((a1, a2), (b1, b2, b3), z).diff(z) == a1 * a2 / (b1 * b2 * b3) * hyper((a1 + 1, a2 + 1), (b1 + 1, b2 + 1, b3 + 1), z) and hyper([z], [], z).diff(z) == Derivative(hyper([z], [], z), z) and hyper([polar_lift(z)], [polar_lift(k)], polar_lift(x)) == hyper([z], [k], polar_lift(x)) and hyper((1, 2), (1,), z, evaluate=False).func is hyper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyper : Any → {Any | hyper((2, 1), (1,), z) == h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyper((2, 1), (1,), z) == hyper(Tuple(1, ...   ║
+# ║   ensures:  hyper((2, 1, 2), (1, 2, 1, 3), z) == hype...   ║
+# ║   ensures:  u.ap == Tuple(1, 2, 2)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyper : Any → {Any | result satisfies: hyper((2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9075a7c00d5f6cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7df400d22fc2b861  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyper","kind":"function","src_hash":"305fc6ed894f05dc","in":{"base":"Any"},"out":{"base":"Any","pred":"hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z) and hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z) and u.ap == Tuple(1, 2, 2) and u.bq == Tuple(1, 1, 2, 3) and h.ap == Tuple(1, 2) and h.bq == Tuple(3, 4, 5) and h.argument == z and h.is_commutative is True and h.ap == Tuple(1, 2) and h.bq == Tuple(3, 4, 5) and h.argument == z and h.is_commutative is True and tn(hyper(Tuple(), Tuple(), z), exp(z), z) and tn(z * hyper((1, 1), Tuple(2), -z), log(1 + z), z) and td(h, z) and hyper([z], [], z).diff(z) == Derivative(hyper([z], [], z), z) and hyper((1, 2), (1,), z, evaluate=False).func is hyper"},"spec":{"lhs":"test_hyper()","rhs":"test_hyper produces the expected output","over":{"base":"Any"},"name":"test_hyper_correct"},"guarantee":"test_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyper_correct","statement":"Path(test_hyper(x), test_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9075a7c00d5f6cb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyper","kind":"function","src_hash":"305fc6ed894f05dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z) and hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z) and u.ap == Tuple(1, 2, 2) and u.bq == Tuple(1, 1, 2, 3) and h.ap == Tuple(1, 2) and h.bq == Tuple(3, 4, 5) and h.argument == z and h.is_commutative is True and tn(hyper(Tuple(), Tuple(), z), exp(z), z) and tn(z * hyper((1, 1), Tuple(2), -z), log(1 + z), z) and td(h, z) and hyper((a1, a2), (b1, b2, b3), z).diff(z) == a1 * a2 / (b1 * b2 * b3) * hyper((a1 + 1, a2 + 1), (b1 + 1, b2 + 1, b3 + 1), z) and hyper([z], [], z).diff(z) == Derivative(hyper([z], [], z), z) and hyper([polar_lift(z)], [polar_lift(k)], polar_lift(x)) == hyper([z], [k], polar_lift(x)) and hyper((1, 2), (1,), z, evaluate=False).func is hyper"},"spec":{"lhs":"test_hyper()","rhs":"hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z) and hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z) and u.ap == Tuple(1, 2, 2) and u.bq == Tuple(1, 1, 2, 3) and h.ap == Tuple(1, 2) and h.bq == Tuple(3, 4, 5) and h.argument == z and h.is_commutative is True and tn(hyper(Tuple(), Tuple(), z), exp(z), z) and tn(z * hyper((1, 1), Tuple(2), -z), log(1 + z), z) and td(h, z) and hyper((a1, a2), (b1, b2, b3), z).diff(z) == a1 * a2 / (b1 * b2 * b3) * hyper((a1 + 1, a2 + 1), (b1 + 1, b2 + 1, b3 + 1), z) and hyper([z], [], z).diff(z) == Derivative(hyper([z], [], z), z) and hyper([polar_lift(z)], [polar_lift(k)], polar_lift(x)) == hyper([z], [k], polar_lift(x)) and hyper((1, 2), (1,), z, evaluate=False).func is hyper","over":{"base":"Any"},"name":"test_hyper_correct"},"guarantee":"hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z); hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z); u.ap == Tuple(1, 2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyper_correct","statement":"Path(test_hyper(x), hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z); hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z); u.ap == Tuple(1, 2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7df400d22fc2b861","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyper((2, 1), (1,), z) == hyper(Tuple(1, 2), Tuple(1), z)","hyper((2, 1, 2), (1, 2, 1, 3), z) == hyper((2,), (1, 3), z)","u.ap == Tuple(1, 2, 2)","u.bq == Tuple(1, 1, 2, 3)","h.ap == Tuple(1, 2)","h.bq == Tuple(3, 4, 5)","h.argument == z","h.is_commutative is True","tn(hyper(Tuple(), Tuple(), z), exp(z), z)","tn(z * hyper((1, 1), Tuple(2), -z), log(1 + z), z)","td(h, z)","hyper((a1, a2), (b1, b2, b3), z).diff(z) == a1 * a2 / (b1 * b2 * b3) * hyper((a1 + 1, a2 + 1), (b1 + 1, b2 + 1, b3 + 1), z)","hyper([z], [], z).diff(z) == Derivative(hyper([z], [], z), z)","hyper([polar_lift(z)], [polar_lift(k)], polar_lift(x)) == hyper([z], [k], polar_lift(x))","hyper((1, 2), (1,), z, evaluate=False).func is hyper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_hyper():
     raises(TypeError, lambda: hyper(1, 2, z))
 
@@ -110,16 +124,24 @@ def test_hyper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expand_func(), test_expand_func produces the expected output) over Any ║
+# ║ Path(test_expand_func(), expand_func(hyper([a, b], [c], 1)) == gamma(c) * gamma(-a - b + c) / (gamma(-a + c) * gamma(-b + c)) and abs(expand_func(hyper([a1, b1], [c1], 1)).n() - hyper([a1, b1], [c1], 1).n()) < 1e-10 and expand_func(hyper([], [], z)) == exp(z) and expand_func(hyper([1, 2, 3], [], z)) == hyper([1, 2, 3], [], z) and expand_func(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and expand_func(meijerg([[1, 1], []], [[], []], z)) == meijerg([[1, 1], []], [[], []], z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expand_func : Any → {Any | expand_func(hyper([],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand_func(hyper([a, b], [c], 1)) == gam...   ║
+# ║   ensures:  abs(expand_func(hyper([a1, b1], [c1], 1))...   ║
+# ║   ensures:  expand_func(hyper([], [], z)) == exp(z)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expand_func : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab442cd2e8af7762  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 800e2eac06ed9a3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_expand_func","kind":"function","src_hash":"7498e241b890e541","in":{"base":"Any"},"out":{"base":"Any","pred":"expand_func(hyper([], [], z)) == exp(z) and expand_func(hyper([1, 2, 3], [], z)) == hyper([1, 2, 3], [], z) and expand_func(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1)"},"spec":{"lhs":"test_expand_func()","rhs":"test_expand_func produces the expected output","over":{"base":"Any"},"name":"test_expand_func_correct"},"guarantee":"test_expand_func produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_expand_func_correct","statement":"Path(test_expand_func(x), test_expand_func produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab442cd2e8af7762"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_expand_func","kind":"function","src_hash":"7498e241b890e541","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand_func(hyper([a, b], [c], 1)) == gamma(c) * gamma(-a - b + c) / (gamma(-a + c) * gamma(-b + c)) and abs(expand_func(hyper([a1, b1], [c1], 1)).n() - hyper([a1, b1], [c1], 1).n()) < 1e-10 and expand_func(hyper([], [], z)) == exp(z) and expand_func(hyper([1, 2, 3], [], z)) == hyper([1, 2, 3], [], z) and expand_func(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and expand_func(meijerg([[1, 1], []], [[], []], z)) == meijerg([[1, 1], []], [[], []], z)"},"spec":{"lhs":"test_expand_func()","rhs":"expand_func(hyper([a, b], [c], 1)) == gamma(c) * gamma(-a - b + c) / (gamma(-a + c) * gamma(-b + c)) and abs(expand_func(hyper([a1, b1], [c1], 1)).n() - hyper([a1, b1], [c1], 1).n()) < 1e-10 and expand_func(hyper([], [], z)) == exp(z) and expand_func(hyper([1, 2, 3], [], z)) == hyper([1, 2, 3], [], z) and expand_func(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and expand_func(meijerg([[1, 1], []], [[], []], z)) == meijerg([[1, 1], []], [[], []], z)","over":{"base":"Any"},"name":"test_expand_func_correct"},"guarantee":"expand_func(hyper([a, b], [c], 1)) == gamma(c) * gamma(-a - b + c) / (gamma(-a + c) * gamma(-b + c)); abs(expand_func(hyper([a1, b1], [c1], 1)).n() - hyper([a1, b1], [c1], 1).n()) < 1e-10; expand_func(hyper([], [], z)) == exp(z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_expand_func_correct","statement":"Path(test_expand_func(x), expand_func(hyper([a, b], [c], 1)) == gamma(c) * gamma(-a - b + c) / (gamma(-a + c) * gamma(-b + c)); abs(expand_func(hyper([a1, b1], [c1], 1)).n() - hyper([a1, b1], [c1], 1).n()) < 1e-10; expand_func(hyper([], [], z)) == exp(z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"800e2eac06ed9a3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand_func(hyper([a, b], [c], 1)) == gamma(c) * gamma(-a - b + c) / (gamma(-a + c) * gamma(-b + c))","abs(expand_func(hyper([a1, b1], [c1], 1)).n() - hyper([a1, b1], [c1], 1).n()) < 1e-10","expand_func(hyper([], [], z)) == exp(z)","expand_func(hyper([1, 2, 3], [], z)) == hyper([1, 2, 3], [], z)","expand_func(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1)","expand_func(meijerg([[1, 1], []], [[], []], z)) == meijerg([[1, 1], []], [[], []], z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_expand_func():
     # evaluation at 1 of Gauss' hypergeometric function:
     from sympy.abc import a, b, c
@@ -139,16 +161,24 @@ def test_expand_func():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(replace_dummy(exp), replace_dummy produces the expected output) over Any ║
+# ║ Path(replace_dummy(expr, sym), len(dum) == 1) over {Any | hasattr(expr, 'atoms') and hasattr(expr, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ replace_dummy : Any → {Any | len(dum) == 1}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   ensures:  len(dum) == 1                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ replace_dummy : {Any | hasattr(expr, 'atoms') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10bc4aaa58460935  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 354f006948621311  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.replace_dummy","kind":"function","src_hash":"5e796b087b82de2f","in":{"base":"Any"},"out":{"base":"Any","pred":"len(dum) == 1"},"spec":{"lhs":"replace_dummy(exp)","rhs":"replace_dummy produces the expected output","over":{"base":"Any"},"name":"replace_dummy_correct"},"guarantee":"replace_dummy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.replace_dummy_correct","statement":"Path(replace_dummy(x), replace_dummy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10bc4aaa58460935"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.replace_dummy","kind":"function","src_hash":"5e796b087b82de2f","in":{"base":"Any","pred":"hasattr(expr, 'atoms') and hasattr(expr, 'xreplace')"},"out":{"base":"Any","pred":"result satisfies: len(dum) == 1"},"spec":{"lhs":"replace_dummy(expr, sym)","rhs":"len(dum) == 1","over":{"base":"Any","pred":"hasattr(expr, 'atoms') and hasattr(expr, 'xreplace')"},"name":"replace_dummy_correct"},"guarantee":"len(dum) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.replace_dummy_correct","statement":"Path(replace_dummy(x), len(dum) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"354f006948621311","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')","hasattr(expr, 'xreplace')"],"ensures":["len(dum) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def replace_dummy(expr, sym):
     from sympy.core.symbol import Dummy
     dum = expr.atoms(Dummy)
@@ -159,16 +189,23 @@ def replace_dummy(expr, sym):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyper_rewrite_sum(), test_hyper_rewrite_sum produces the expected output) over Any ║
+# ║ Path(test_hyper_rewrite_sum(), replace_dummy(hyper((1, 2), (1, 3), x).rewrite(Sum), _k) == Sum(x ** _k / factorial(_k) * RisingFactorial(2, _k) / RisingFactorial(3, _k), (_k, 0, oo)) and hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyper_rewrite_sum : Any → {Any | hyper((1, 2, 3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  replace_dummy(hyper((1, 2), (1, 3), x).re...   ║
+# ║   ensures:  hyper((1, 2, 3), (-1, 3), z).rewrite(Sum)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyper_rewrite_sum : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0de02a9dd2fadb9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16f3fafa1e4f3a1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyper_rewrite_sum","kind":"function","src_hash":"91dd2e28d528b477","in":{"base":"Any"},"out":{"base":"Any","pred":"hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z)"},"spec":{"lhs":"test_hyper_rewrite_sum()","rhs":"test_hyper_rewrite_sum produces the expected output","over":{"base":"Any"},"name":"test_hyper_rewrite_sum_correct"},"guarantee":"test_hyper_rewrite_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyper_rewrite_sum_correct","statement":"Path(test_hyper_rewrite_sum(x), test_hyper_rewrite_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0de02a9dd2fadb9c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyper_rewrite_sum","kind":"function","src_hash":"91dd2e28d528b477","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: replace_dummy(hyper((1, 2), (1, 3), x).rewrite(Sum), _k) == Sum(x ** _k / factorial(_k) * RisingFactorial(2, _k) / RisingFactorial(3, _k), (_k, 0, oo)) and hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z)"},"spec":{"lhs":"test_hyper_rewrite_sum()","rhs":"replace_dummy(hyper((1, 2), (1, 3), x).rewrite(Sum), _k) == Sum(x ** _k / factorial(_k) * RisingFactorial(2, _k) / RisingFactorial(3, _k), (_k, 0, oo)) and hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z)","over":{"base":"Any"},"name":"test_hyper_rewrite_sum_correct"},"guarantee":"replace_dummy(hyper((1, 2), (1, 3), x).rewrite(Sum), _k) == Sum(x ** _k / factorial(_k) * RisingFactorial(2, _k) / RisingFactorial(3, _k), (_k, 0, oo)); hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyper_rewrite_sum_correct","statement":"Path(test_hyper_rewrite_sum(x), replace_dummy(hyper((1, 2), (1, 3), x).rewrite(Sum), _k) == Sum(x ** _k / factorial(_k) * RisingFactorial(2, _k) / RisingFactorial(3, _k), (_k, 0, oo)); hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16f3fafa1e4f3a1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["replace_dummy(hyper((1, 2), (1, 3), x).rewrite(Sum), _k) == Sum(x ** _k / factorial(_k) * RisingFactorial(2, _k) / RisingFactorial(3, _k), (_k, 0, oo))","hyper((1, 2, 3), (-1, 3), z).rewrite(Sum) == hyper((1, 2, 3), (-1, 3), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hyper_rewrite_sum():
     from sympy.concrete.summations import Sum
     from sympy.core.symbol import Dummy
@@ -183,16 +220,24 @@ def test_hyper_rewrite_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_radius_of_convergence(), test_radius_of_convergence produces the expected output) over Any ║
+# ║ Path(test_radius_of_convergence(), hyper((1, 2), [3], z).radius_of_convergence == 1 and hyper((1, 2), [3, 4], z).radius_of_convergence is oo and hyper((1, 2, 3), [4], z).radius_of_convergence == 0 and hyper((0, 1, 2), [4], z).radius_of_convergence is oo and hyper((-1, 1, 2), [-4], z).radius_of_convergence == 0 and hyper((-1, -2, 2), [-1], z).radius_of_convergence is oo and hyper((-1, 2), [-1, -2], z).radius_of_convergence == 0 and hyper([-1, 1, 3], [-2, 2], z).radius_of_convergence == 1 and hyper([-1, 1], [-2, 2], z).radius_of_convergence is oo and hyper([-1, 1, 3], [-2], z).radius_of_convergence == 0 and hyper((-1, 2, 3, 4), [], z).radius_of_convergence is oo and hyper([1, 1], [3], 1).convergence_statement == True and hyper([1, 1], [2], 1).convergence_statement == False and hyper([1, 1], [2], -1).convergence_statement == True and hyper([1, 1], [1], -1).convergence_statement == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_radius_of_convergence : Any → {Any | hyper((1, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyper((1, 2), [3], z).radius_of_convergen...   ║
+# ║   ensures:  hyper((1, 2), [3, 4], z).radius_of_conver...   ║
+# ║   ensures:  hyper((1, 2, 3), [4], z).radius_of_conver...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_radius_of_convergence : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be1746f906312611  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c14e73e69f9988ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_radius_of_convergence","kind":"function","src_hash":"8fca1521941a630d","in":{"base":"Any"},"out":{"base":"Any","pred":"hyper((1, 2), [3], z).radius_of_convergence == 1 and hyper((1, 2), [3, 4], z).radius_of_convergence is oo and hyper((1, 2, 3), [4], z).radius_of_convergence == 0 and hyper((0, 1, 2), [4], z).radius_of_convergence is oo and hyper((-1, 1, 2), [-4], z).radius_of_convergence == 0 and hyper((-1, -2, 2), [-1], z).radius_of_convergence is oo and hyper((-1, 2), [-1, -2], z).radius_of_convergence == 0 and hyper([-1, 1, 3], [-2, 2], z).radius_of_convergence == 1 and hyper([-1, 1], [-2, 2], z).radius_of_convergence is oo and hyper([-1, 1, 3], [-2], z).radius_of_convergence == 0 and hyper((-1, 2, 3, 4), [], z).radius_of_convergence is oo and hyper([1, 1], [3], 1).convergence_statement == True and hyper([1, 1], [2], 1).convergence_statement == False and hyper([1, 1], [2], -1).convergence_statement == True and hyper([1, 1], [1], -1).convergence_statement == False"},"spec":{"lhs":"test_radius_of_convergence()","rhs":"test_radius_of_convergence produces the expected output","over":{"base":"Any"},"name":"test_radius_of_convergence_correct"},"guarantee":"test_radius_of_convergence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_radius_of_convergence_correct","statement":"Path(test_radius_of_convergence(x), test_radius_of_convergence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1746f906312611"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_radius_of_convergence","kind":"function","src_hash":"8fca1521941a630d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyper((1, 2), [3], z).radius_of_convergence == 1 and hyper((1, 2), [3, 4], z).radius_of_convergence is oo and hyper((1, 2, 3), [4], z).radius_of_convergence == 0 and hyper((0, 1, 2), [4], z).radius_of_convergence is oo and hyper((-1, 1, 2), [-4], z).radius_of_convergence == 0 and hyper((-1, -2, 2), [-1], z).radius_of_convergence is oo and hyper((-1, 2), [-1, -2], z).radius_of_convergence == 0 and hyper([-1, 1, 3], [-2, 2], z).radius_of_convergence == 1 and hyper([-1, 1], [-2, 2], z).radius_of_convergence is oo and hyper([-1, 1, 3], [-2], z).radius_of_convergence == 0 and hyper((-1, 2, 3, 4), [], z).radius_of_convergence is oo and hyper([1, 1], [3], 1).convergence_statement == True and hyper([1, 1], [2], 1).convergence_statement == False and hyper([1, 1], [2], -1).convergence_statement == True and hyper([1, 1], [1], -1).convergence_statement == False"},"spec":{"lhs":"test_radius_of_convergence()","rhs":"hyper((1, 2), [3], z).radius_of_convergence == 1 and hyper((1, 2), [3, 4], z).radius_of_convergence is oo and hyper((1, 2, 3), [4], z).radius_of_convergence == 0 and hyper((0, 1, 2), [4], z).radius_of_convergence is oo and hyper((-1, 1, 2), [-4], z).radius_of_convergence == 0 and hyper((-1, -2, 2), [-1], z).radius_of_convergence is oo and hyper((-1, 2), [-1, -2], z).radius_of_convergence == 0 and hyper([-1, 1, 3], [-2, 2], z).radius_of_convergence == 1 and hyper([-1, 1], [-2, 2], z).radius_of_convergence is oo and hyper([-1, 1, 3], [-2], z).radius_of_convergence == 0 and hyper((-1, 2, 3, 4), [], z).radius_of_convergence is oo and hyper([1, 1], [3], 1).convergence_statement == True and hyper([1, 1], [2], 1).convergence_statement == False and hyper([1, 1], [2], -1).convergence_statement == True and hyper([1, 1], [1], -1).convergence_statement == False","over":{"base":"Any"},"name":"test_radius_of_convergence_correct"},"guarantee":"hyper((1, 2), [3], z).radius_of_convergence == 1; hyper((1, 2), [3, 4], z).radius_of_convergence is oo; hyper((1, 2, 3), [4], z).radius_of_convergence == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_radius_of_convergence_correct","statement":"Path(test_radius_of_convergence(x), hyper((1, 2), [3], z).radius_of_convergence == 1; hyper((1, 2), [3, 4], z).radius_of_convergence is oo; hyper((1, 2, 3), [4], z).radius_of_convergence == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c14e73e69f9988ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyper((1, 2), [3], z).radius_of_convergence == 1","hyper((1, 2), [3, 4], z).radius_of_convergence is oo","hyper((1, 2, 3), [4], z).radius_of_convergence == 0","hyper((0, 1, 2), [4], z).radius_of_convergence is oo","hyper((-1, 1, 2), [-4], z).radius_of_convergence == 0","hyper((-1, -2, 2), [-1], z).radius_of_convergence is oo","hyper((-1, 2), [-1, -2], z).radius_of_convergence == 0","hyper([-1, 1, 3], [-2, 2], z).radius_of_convergence == 1","hyper([-1, 1], [-2, 2], z).radius_of_convergence is oo","hyper([-1, 1, 3], [-2], z).radius_of_convergence == 0","hyper((-1, 2, 3, 4), [], z).radius_of_convergence is oo","hyper([1, 1], [3], 1).convergence_statement == True","hyper([1, 1], [2], 1).convergence_statement == False","hyper([1, 1], [2], -1).convergence_statement == True","hyper([1, 1], [1], -1).convergence_statement == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_radius_of_convergence():
     assert hyper((1, 2), [3], z).radius_of_convergence == 1
     assert hyper((1, 2), [3, 4], z).radius_of_convergence is oo
@@ -213,16 +258,24 @@ def test_radius_of_convergence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijer(), test_meijer produces the expected output) over Any ║
+# ║ Path(test_meijer(), meijerg(((1, 2), (3,)), ((4,), (5,)), z) == meijerg(Tuple(1, 2), Tuple(3), Tuple(4), Tuple(5), z) and g.an == Tuple(1, 2) and g.ap == Tuple(1, 2, 3, 4, 5) and g.aother == Tuple(3, 4, 5) and g.bm == Tuple(6, 7, 8, 9) and g.bq == Tuple(6, 7, 8, 9, 10, 11, 12, 13, 14) and g.bother == Tuple(10, 11, 12, 13, 14) and g.argument == z and g.nu == 75 and g.delta == -1 and g.is_commutative is True and g.is_number is False and meijerg([[], []], [[S.Half], [0]], 1).is_number is True and meijerg([1, 2], [3], [4], [5], z).delta == S.Half and tn(meijerg(Tuple(), Tuple(), Tuple(0), Tuple(), -z), exp(z), z) and tn(sqrt(pi) * meijerg(Tuple(), Tuple(), Tuple(0), Tuple(S.Half), z ** 2 / 4), cos(z), z) and tn(meijerg(Tuple(1, 1), Tuple(), Tuple(1), Tuple(0), z), log(1 + z), z) and td(g, z) and meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z).diff(z) == (meijerg((a1 - 1, a2), (b1, b2), (c1, c2), (d1, d2), z) + (a1 - 1) * meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z)) / z and meijerg([z, z], [], [], [], z).diff(z) == Derivative(meijerg([z, z], [], [], [], z), z) and meijerg([pl(a1)], [pl(a2)], [pl(b1)], [pl(b2)], pl(z)) == meijerg([a1], [a2], [b1], [b2], pl(z)) and meijerg([a], [b], [c], [d], z).integrand(s) == z ** s * gamma(c - s) * gamma(-a + s + 1) / (gamma(b - s) * gamma(-d + s + 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijer : Any → {Any | g.an == Tuple(1, 2) and g....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  meijerg(((1, 2), (3,)), ((4,), (5,)), z) ...   ║
+# ║   ensures:  g.an == Tuple(1, 2)                            ║
+# ║   ensures:  g.ap == Tuple(1, 2, 3, 4, 5)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijer : Any → {Any | result satisfies: meijerg(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd8aad149f51182f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 727cfdd4ac40712f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijer","kind":"function","src_hash":"ea9a20b72ae5b755","in":{"base":"Any"},"out":{"base":"Any","pred":"g.an == Tuple(1, 2) and g.ap == Tuple(1, 2, 3, 4, 5) and g.aother == Tuple(3, 4, 5) and g.bm == Tuple(6, 7, 8, 9) and g.bq == Tuple(6, 7, 8, 9, 10, 11, 12, 13, 14) and g.bother == Tuple(10, 11, 12, 13, 14) and g.argument == z and g.nu == 75 and g.delta == -1 and g.is_commutative is True and g.is_number is False and meijerg([[], []], [[S.Half], [0]], 1).is_number is True and meijerg([1, 2], [3], [4], [5], z).delta == S.Half and tn(meijerg(Tuple(), Tuple(), Tuple(0), Tuple(), -z), exp(z), z) and tn(meijerg(Tuple(1, 1), Tuple(), Tuple(1), Tuple(0), z), log(1 + z), z) and td(g, z) and td(g, z) and td(g, z)"},"spec":{"lhs":"test_meijer()","rhs":"test_meijer produces the expected output","over":{"base":"Any"},"name":"test_meijer_correct"},"guarantee":"test_meijer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijer_correct","statement":"Path(test_meijer(x), test_meijer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd8aad149f51182f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijer","kind":"function","src_hash":"ea9a20b72ae5b755","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: meijerg(((1, 2), (3,)), ((4,), (5,)), z) == meijerg(Tuple(1, 2), Tuple(3), Tuple(4), Tuple(5), z) and g.an == Tuple(1, 2) and g.ap == Tuple(1, 2, 3, 4, 5) and g.aother == Tuple(3, 4, 5) and g.bm == Tuple(6, 7, 8, 9) and g.bq == Tuple(6, 7, 8, 9, 10, 11, 12, 13, 14) and g.bother == Tuple(10, 11, 12, 13, 14) and g.argument == z and g.nu == 75 and g.delta == -1 and g.is_commutative is True and g.is_number is False and meijerg([[], []], [[S.Half], [0]], 1).is_number is True and meijerg([1, 2], [3], [4], [5], z).delta == S.Half and tn(meijerg(Tuple(), Tuple(), Tuple(0), Tuple(), -z), exp(z), z) and tn(sqrt(pi) * meijerg(Tuple(), Tuple(), Tuple(0), Tuple(S.Half), z ** 2 / 4), cos(z), z) and tn(meijerg(Tuple(1, 1), Tuple(), Tuple(1), Tuple(0), z), log(1 + z), z) and td(g, z) and meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z).diff(z) == (meijerg((a1 - 1, a2), (b1, b2), (c1, c2), (d1, d2), z) + (a1 - 1) * meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z)) / z and meijerg([z, z], [], [], [], z).diff(z) == Derivative(meijerg([z, z], [], [], [], z), z) and meijerg([pl(a1)], [pl(a2)], [pl(b1)], [pl(b2)], pl(z)) == meijerg([a1], [a2], [b1], [b2], pl(z)) and meijerg([a], [b], [c], [d], z).integrand(s) == z ** s * gamma(c - s) * gamma(-a + s + 1) / (gamma(b - s) * gamma(-d + s + 1))"},"spec":{"lhs":"test_meijer()","rhs":"meijerg(((1, 2), (3,)), ((4,), (5,)), z) == meijerg(Tuple(1, 2), Tuple(3), Tuple(4), Tuple(5), z) and g.an == Tuple(1, 2) and g.ap == Tuple(1, 2, 3, 4, 5) and g.aother == Tuple(3, 4, 5) and g.bm == Tuple(6, 7, 8, 9) and g.bq == Tuple(6, 7, 8, 9, 10, 11, 12, 13, 14) and g.bother == Tuple(10, 11, 12, 13, 14) and g.argument == z and g.nu == 75 and g.delta == -1 and g.is_commutative is True and g.is_number is False and meijerg([[], []], [[S.Half], [0]], 1).is_number is True and meijerg([1, 2], [3], [4], [5], z).delta == S.Half and tn(meijerg(Tuple(), Tuple(), Tuple(0), Tuple(), -z), exp(z), z) and tn(sqrt(pi) * meijerg(Tuple(), Tuple(), Tuple(0), Tuple(S.Half), z ** 2 / 4), cos(z), z) and tn(meijerg(Tuple(1, 1), Tuple(), Tuple(1), Tuple(0), z), log(1 + z), z) and td(g, z) and meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z).diff(z) == (meijerg((a1 - 1, a2), (b1, b2), (c1, c2), (d1, d2), z) + (a1 - 1) * meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z)) / z and meijerg([z, z], [], [], [], z).diff(z) == Derivative(meijerg([z, z], [], [], [], z), z) and meijerg([pl(a1)], [pl(a2)], [pl(b1)], [pl(b2)], pl(z)) == meijerg([a1], [a2], [b1], [b2], pl(z)) and meijerg([a], [b], [c], [d], z).integrand(s) == z ** s * gamma(c - s) * gamma(-a + s + 1) / (gamma(b - s) * gamma(-d + s + 1))","over":{"base":"Any"},"name":"test_meijer_correct"},"guarantee":"meijerg(((1, 2), (3,)), ((4,), (5,)), z) == meijerg(Tuple(1, 2), Tuple(3), Tuple(4), Tuple(5), z); g.an == Tuple(1, 2); g.ap == Tuple(1, 2, 3, 4, 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijer_correct","statement":"Path(test_meijer(x), meijerg(((1, 2), (3,)), ((4,), (5,)), z) == meijerg(Tuple(1, 2), Tuple(3), Tuple(4), Tuple(5), z); g.an == Tuple(1, 2); g.ap == Tuple(1, 2, 3, 4, 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727cfdd4ac40712f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["meijerg(((1, 2), (3,)), ((4,), (5,)), z) == meijerg(Tuple(1, 2), Tuple(3), Tuple(4), Tuple(5), z)","g.an == Tuple(1, 2)","g.ap == Tuple(1, 2, 3, 4, 5)","g.aother == Tuple(3, 4, 5)","g.bm == Tuple(6, 7, 8, 9)","g.bq == Tuple(6, 7, 8, 9, 10, 11, 12, 13, 14)","g.bother == Tuple(10, 11, 12, 13, 14)","g.argument == z","g.nu == 75","g.delta == -1","g.is_commutative is True","g.is_number is False","meijerg([[], []], [[S.Half], [0]], 1).is_number is True","meijerg([1, 2], [3], [4], [5], z).delta == S.Half","tn(meijerg(Tuple(), Tuple(), Tuple(0), Tuple(), -z), exp(z), z)","tn(sqrt(pi) * meijerg(Tuple(), Tuple(), Tuple(0), Tuple(S.Half), z ** 2 / 4), cos(z), z)","tn(meijerg(Tuple(1, 1), Tuple(), Tuple(1), Tuple(0), z), log(1 + z), z)","td(g, z)","meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z).diff(z) == (meijerg((a1 - 1, a2), (b1, b2), (c1, c2), (d1, d2), z) + (a1 - 1) * meijerg((a1, a2), (b1, b2), (c1, c2), (d1, d2), z)) / z","meijerg([z, z], [], [], [], z).diff(z) == Derivative(meijerg([z, z], [], [], [], z), z)","meijerg([pl(a1)], [pl(a2)], [pl(b1)], [pl(b2)], pl(z)) == meijerg([a1], [a2], [b1], [b2], pl(z))","meijerg([a], [b], [c], [d], z).integrand(s) == z ** s * gamma(c - s) * gamma(-a + s + 1) / (gamma(b - s) * gamma(-d + s + 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_meijer():
     raises(TypeError, lambda: meijerg(1, z))
     raises(TypeError, lambda: meijerg(((1,), (2,)), (3,), (4,), z))
@@ -291,16 +344,24 @@ def test_meijer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_derivative(), test_meijerg_derivative produces the expected output) over Any ║
+# ║ Path(test_meijerg_derivative(), meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == log(z) * meijerg([], [1, 1], [0, 0, x], [], z) + 2 * meijerg([], [1, 1, 1], [0, 0, x, 0], [], z) and td(meijerg([x], [], [], [], y), x) and td(meijerg([x ** 2], [], [], [], y), x) and td(meijerg([], [x], [], [], y), x) and td(meijerg([], [], [x], [], y), x) and td(meijerg([], [], [], [x], y), x) and td(meijerg([x], [a], [a + 1], [], y), x) and td(meijerg([x], [a + 1], [a], [], y), x) and td(meijerg([x, a], [], [], [a + 1], y), x) and td(meijerg([x, a + 1], [], [], [a], y), x) and td(meijerg([a + 2], [b], [b - 3, x], [a], y), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_derivative : Any → {Any | td(meijerg([x]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  meijerg([], [1, 1], [0, 0, x], [], z).dif...   ║
+# ║   ensures:  td(meijerg([x], [], [], [], y), x)             ║
+# ║   ensures:  td(meijerg([x ** 2], [], [], [], y), x)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_derivative : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3252990b01e14495  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d1bb515cca9fbb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijerg_derivative","kind":"function","src_hash":"5a7e89065b6d658a","in":{"base":"Any"},"out":{"base":"Any","pred":"td(meijerg([x], [], [], [], y), x) and td(meijerg([x ** 2], [], [], [], y), x) and td(meijerg([], [x], [], [], y), x) and td(meijerg([], [], [x], [], y), x) and td(meijerg([], [], [], [x], y), x) and td(meijerg([x], [a], [a + 1], [], y), x) and td(meijerg([x], [a + 1], [a], [], y), x) and td(meijerg([x, a], [], [], [a + 1], y), x) and td(meijerg([x, a + 1], [], [], [a], y), x) and td(meijerg([a + 2], [b], [b - 3, x], [a], y), x)"},"spec":{"lhs":"test_meijerg_derivative()","rhs":"test_meijerg_derivative produces the expected output","over":{"base":"Any"},"name":"test_meijerg_derivative_correct"},"guarantee":"test_meijerg_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijerg_derivative_correct","statement":"Path(test_meijerg_derivative(x), test_meijerg_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3252990b01e14495"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijerg_derivative","kind":"function","src_hash":"5a7e89065b6d658a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == log(z) * meijerg([], [1, 1], [0, 0, x], [], z) + 2 * meijerg([], [1, 1, 1], [0, 0, x, 0], [], z) and td(meijerg([x], [], [], [], y), x) and td(meijerg([x ** 2], [], [], [], y), x) and td(meijerg([], [x], [], [], y), x) and td(meijerg([], [], [x], [], y), x) and td(meijerg([], [], [], [x], y), x) and td(meijerg([x], [a], [a + 1], [], y), x) and td(meijerg([x], [a + 1], [a], [], y), x) and td(meijerg([x, a], [], [], [a + 1], y), x) and td(meijerg([x, a + 1], [], [], [a], y), x) and td(meijerg([a + 2], [b], [b - 3, x], [a], y), x)"},"spec":{"lhs":"test_meijerg_derivative()","rhs":"meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == log(z) * meijerg([], [1, 1], [0, 0, x], [], z) + 2 * meijerg([], [1, 1, 1], [0, 0, x, 0], [], z) and td(meijerg([x], [], [], [], y), x) and td(meijerg([x ** 2], [], [], [], y), x) and td(meijerg([], [x], [], [], y), x) and td(meijerg([], [], [x], [], y), x) and td(meijerg([], [], [], [x], y), x) and td(meijerg([x], [a], [a + 1], [], y), x) and td(meijerg([x], [a + 1], [a], [], y), x) and td(meijerg([x, a], [], [], [a + 1], y), x) and td(meijerg([x, a + 1], [], [], [a], y), x) and td(meijerg([a + 2], [b], [b - 3, x], [a], y), x)","over":{"base":"Any"},"name":"test_meijerg_derivative_correct"},"guarantee":"meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == log(z) * meijerg([], [1, 1], [0, 0, x], [], z) + 2 * meijerg([], [1, 1, 1], [0, 0, x, 0], [], z); td(meijerg([x], [], [], [], y), x); td(meijerg([x ** 2], [], [], [], y), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijerg_derivative_correct","statement":"Path(test_meijerg_derivative(x), meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == log(z) * meijerg([], [1, 1], [0, 0, x], [], z) + 2 * meijerg([], [1, 1, 1], [0, 0, x, 0], [], z); td(meijerg([x], [], [], [], y), x); td(meijerg([x ** 2], [], [], [], y), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d1bb515cca9fbb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == log(z) * meijerg([], [1, 1], [0, 0, x], [], z) + 2 * meijerg([], [1, 1, 1], [0, 0, x, 0], [], z)","td(meijerg([x], [], [], [], y), x)","td(meijerg([x ** 2], [], [], [], y), x)","td(meijerg([], [x], [], [], y), x)","td(meijerg([], [], [x], [], y), x)","td(meijerg([], [], [], [x], y), x)","td(meijerg([x], [a], [a + 1], [], y), x)","td(meijerg([x], [a + 1], [a], [], y), x)","td(meijerg([x, a], [], [], [a + 1], y), x)","td(meijerg([x, a + 1], [], [], [a], y), x)","td(meijerg([a + 2], [b], [b - 3, x], [a], y), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_meijerg_derivative():
     assert meijerg([], [1, 1], [0, 0, x], [], z).diff(x) == \
         log(z)*meijerg([], [1, 1], [0, 0, x], [], z) \
@@ -322,16 +383,24 @@ def test_meijerg_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_period(), test_meijerg_period produces the expected output) over Any ║
+# ║ Path(test_meijerg_period(), meijerg([], [1], [0], [], x).get_period() == 2 * pi and meijerg([1], [], [], [0], x).get_period() == 2 * pi and meijerg([], [], [0], [], x).get_period() == 2 * pi and meijerg([], [], [0], [S.Half], x).get_period() == 2 * pi and meijerg([], [], [S.Half], [0], x).get_period() == 4 * pi and meijerg([1, 1], [], [1], [0], x).get_period() is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_period : Any → {Any | meijerg([], [1], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  meijerg([], [1], [0], [], x).get_period()...   ║
+# ║   ensures:  meijerg([1], [], [], [0], x).get_period()...   ║
+# ║   ensures:  meijerg([], [], [0], [], x).get_period() ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_period : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18c0eae8ac1a5c21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 833ea980afbee520  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijerg_period","kind":"function","src_hash":"315f94f46e7be92b","in":{"base":"Any"},"out":{"base":"Any","pred":"meijerg([], [1], [0], [], x).get_period() == 2 * pi and meijerg([1], [], [], [0], x).get_period() == 2 * pi and meijerg([], [], [0], [], x).get_period() == 2 * pi and meijerg([], [], [0], [S.Half], x).get_period() == 2 * pi and meijerg([], [], [S.Half], [0], x).get_period() == 4 * pi and meijerg([1, 1], [], [1], [0], x).get_period() is oo"},"spec":{"lhs":"test_meijerg_period()","rhs":"test_meijerg_period produces the expected output","over":{"base":"Any"},"name":"test_meijerg_period_correct"},"guarantee":"test_meijerg_period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijerg_period_correct","statement":"Path(test_meijerg_period(x), test_meijerg_period produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18c0eae8ac1a5c21"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijerg_period","kind":"function","src_hash":"315f94f46e7be92b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: meijerg([], [1], [0], [], x).get_period() == 2 * pi and meijerg([1], [], [], [0], x).get_period() == 2 * pi and meijerg([], [], [0], [], x).get_period() == 2 * pi and meijerg([], [], [0], [S.Half], x).get_period() == 2 * pi and meijerg([], [], [S.Half], [0], x).get_period() == 4 * pi and meijerg([1, 1], [], [1], [0], x).get_period() is oo"},"spec":{"lhs":"test_meijerg_period()","rhs":"meijerg([], [1], [0], [], x).get_period() == 2 * pi and meijerg([1], [], [], [0], x).get_period() == 2 * pi and meijerg([], [], [0], [], x).get_period() == 2 * pi and meijerg([], [], [0], [S.Half], x).get_period() == 2 * pi and meijerg([], [], [S.Half], [0], x).get_period() == 4 * pi and meijerg([1, 1], [], [1], [0], x).get_period() is oo","over":{"base":"Any"},"name":"test_meijerg_period_correct"},"guarantee":"meijerg([], [1], [0], [], x).get_period() == 2 * pi; meijerg([1], [], [], [0], x).get_period() == 2 * pi; meijerg([], [], [0], [], x).get_period() == 2 * pi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijerg_period_correct","statement":"Path(test_meijerg_period(x), meijerg([], [1], [0], [], x).get_period() == 2 * pi; meijerg([1], [], [], [0], x).get_period() == 2 * pi; meijerg([], [], [0], [], x).get_period() == 2 * pi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833ea980afbee520","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["meijerg([], [1], [0], [], x).get_period() == 2 * pi","meijerg([1], [], [], [0], x).get_period() == 2 * pi","meijerg([], [], [0], [], x).get_period() == 2 * pi","meijerg([], [], [0], [S.Half], x).get_period() == 2 * pi","meijerg([], [], [S.Half], [0], x).get_period() == 4 * pi","meijerg([1, 1], [], [1], [0], x).get_period() is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_meijerg_period():
     assert meijerg([], [1], [0], [], x).get_period() == 2*pi
     assert meijerg([1], [], [], [0], x).get_period() == 2*pi
@@ -344,16 +413,24 @@ def test_meijerg_period():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyper_unpolarify(), test_hyper_unpolarify produces the expected output) over Any ║
+# ║ Path(test_hyper_unpolarify(), hyper([], [], a).argument == b and hyper([0], [], a).argument == a and hyper([0], [0], a).argument == b and hyper([0, 1], [0], a).argument == a and hyper([0, 1], [0], exp_polar(2 * pi * I)).argument == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyper_unpolarify : Any → {Any | hyper([], [], a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyper([], [], a).argument == b                 ║
+# ║   ensures:  hyper([0], [], a).argument == a                ║
+# ║   ensures:  hyper([0], [0], a).argument == b               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyper_unpolarify : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91756ef26789a189  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21cafcf3584d9bd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyper_unpolarify","kind":"function","src_hash":"4b8cccdb30474bb2","in":{"base":"Any"},"out":{"base":"Any","pred":"hyper([], [], a).argument == b and hyper([0], [], a).argument == a and hyper([0], [0], a).argument == b and hyper([0, 1], [0], a).argument == a and hyper([0, 1], [0], exp_polar(2 * pi * I)).argument == 1"},"spec":{"lhs":"test_hyper_unpolarify()","rhs":"test_hyper_unpolarify produces the expected output","over":{"base":"Any"},"name":"test_hyper_unpolarify_correct"},"guarantee":"test_hyper_unpolarify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyper_unpolarify_correct","statement":"Path(test_hyper_unpolarify(x), test_hyper_unpolarify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91756ef26789a189"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyper_unpolarify","kind":"function","src_hash":"4b8cccdb30474bb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyper([], [], a).argument == b and hyper([0], [], a).argument == a and hyper([0], [0], a).argument == b and hyper([0, 1], [0], a).argument == a and hyper([0, 1], [0], exp_polar(2 * pi * I)).argument == 1"},"spec":{"lhs":"test_hyper_unpolarify()","rhs":"hyper([], [], a).argument == b and hyper([0], [], a).argument == a and hyper([0], [0], a).argument == b and hyper([0, 1], [0], a).argument == a and hyper([0, 1], [0], exp_polar(2 * pi * I)).argument == 1","over":{"base":"Any"},"name":"test_hyper_unpolarify_correct"},"guarantee":"hyper([], [], a).argument == b; hyper([0], [], a).argument == a; hyper([0], [0], a).argument == b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyper_unpolarify_correct","statement":"Path(test_hyper_unpolarify(x), hyper([], [], a).argument == b; hyper([0], [], a).argument == a; hyper([0], [0], a).argument == b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21cafcf3584d9bd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyper([], [], a).argument == b","hyper([0], [], a).argument == a","hyper([0], [0], a).argument == b","hyper([0, 1], [0], a).argument == a","hyper([0, 1], [0], exp_polar(2 * pi * I)).argument == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hyper_unpolarify():
     from sympy.functions.elementary.exponential import exp_polar
     a = exp_polar(2*pi*I)*x
@@ -367,16 +444,24 @@ def test_hyper_unpolarify():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperrep(), test_hyperrep produces the expected output) over Any ║
+# ║ Path(test_hyperrep(), myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True)) and myrep(exp_polar(I * pi) * z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (b, True)) and myrep(exp_polar(2 * I * pi) * z).rewrite('nonrep') == Piecewise((c, abs(z) > 1), (a, True)) and myrep(exp_polar(3 * I * pi) * z).rewrite('nonrep') == Piecewise((d, abs(z) > 1), (b, True)) and myrep(exp_polar(4 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * c, abs(z) > 1), (a, True)) and myrep(exp_polar(5 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * d, abs(z) > 1), (b, True)) and myrep(z).rewrite('nonrepsmall') == a and myrep(exp_polar(I * pi) * z).rewrite('nonrepsmall') == b and t(HyperRep_atanh(z), hyper([S.Half, 1], [Rational(3, 2)], z), z) and t(HyperRep_power1(a, z), hyper([-a], [], z), z) and t(HyperRep_power2(a, z), hyper([a, a - S.Half], [2 * a], z), z) and t(HyperRep_log1(z), -z * hyper([1, 1], [2], z), z) and t(HyperRep_asin1(z), hyper([S.Half, S.Half], [Rational(3, 2)], z), z) and t(HyperRep_asin2(z), hyper([1, 1], [Rational(3, 2)], z), z) and t(HyperRep_sqrts1(a, z), hyper([-a, S.Half - a], [S.Half], z), z) and t(HyperRep_sqrts2(a, z), -2 * z / (2 * a + 1) * hyper([-a - S.Half, -a], [S.Half], z).diff(z), z) and t(HyperRep_log2(z), -z / 4 * hyper([Rational(3, 2), 1, 1], [2, 2], z), z) and t(HyperRep_cosasin(a, z), hyper([-a, a], [S.Half], z), z) and t(HyperRep_sinasin(a, z), 2 * a * z * hyper([1 - a, 1 + a], [Rational(3, 2)], z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperrep : Any → {Any | myrep(z).rewrite('nonrep...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  myrep(z).rewrite('nonrep') == Piecewise((...   ║
+# ║   ensures:  myrep(exp_polar(I * pi) * z).rewrite('non...   ║
+# ║   ensures:  myrep(exp_polar(2 * I * pi) * z).rewrite(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperrep : Any → {Any | result satisfies: myrep(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 517d62cc6a8c28c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e60dc0163b422c06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyperrep","kind":"function","src_hash":"541c1614e38bf69f","in":{"base":"Any"},"out":{"base":"Any","pred":"myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True)) and myrep(z).rewrite('nonrepsmall') == a and myrep(exp_polar(I * pi) * z).rewrite('nonrepsmall') == b and t(HyperRep_atanh(z), hyper([S.Half, 1], [Rational(3, 2)], z), z) and t(HyperRep_power1(a, z), hyper([-a], [], z), z) and t(HyperRep_power2(a, z), hyper([a, a - S.Half], [2 * a], z), z) and t(HyperRep_log1(z), -z * hyper([1, 1], [2], z), z) and t(HyperRep_asin1(z), hyper([S.Half, S.Half], [Rational(3, 2)], z), z) and t(HyperRep_asin2(z), hyper([1, 1], [Rational(3, 2)], z), z) and t(HyperRep_sqrts1(a, z), hyper([-a, S.Half - a], [S.Half], z), z) and t(HyperRep_log2(z), -z / 4 * hyper([Rational(3, 2), 1, 1], [2, 2], z), z) and t(HyperRep_cosasin(a, z), hyper([-a, a], [S.Half], z), z)"},"spec":{"lhs":"test_hyperrep()","rhs":"test_hyperrep produces the expected output","over":{"base":"Any"},"name":"test_hyperrep_correct"},"guarantee":"test_hyperrep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyperrep_correct","statement":"Path(test_hyperrep(x), test_hyperrep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517d62cc6a8c28c5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_hyperrep","kind":"function","src_hash":"541c1614e38bf69f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True)) and myrep(exp_polar(I * pi) * z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (b, True)) and myrep(exp_polar(2 * I * pi) * z).rewrite('nonrep') == Piecewise((c, abs(z) > 1), (a, True)) and myrep(exp_polar(3 * I * pi) * z).rewrite('nonrep') == Piecewise((d, abs(z) > 1), (b, True)) and myrep(exp_polar(4 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * c, abs(z) > 1), (a, True)) and myrep(exp_polar(5 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * d, abs(z) > 1), (b, True)) and myrep(z).rewrite('nonrepsmall') == a and myrep(exp_polar(I * pi) * z).rewrite('nonrepsmall') == b and t(HyperRep_atanh(z), hyper([S.Half, 1], [Rational(3, 2)], z), z) and t(HyperRep_power1(a, z), hyper([-a], [], z), z) and t(HyperRep_power2(a, z), hyper([a, a - S.Half], [2 * a], z), z) and t(HyperRep_log1(z), -z * hyper([1, 1], [2], z), z) and t(HyperRep_asin1(z), hyper([S.Half, S.Half], [Rational(3, 2)], z), z) and t(HyperRep_asin2(z), hyper([1, 1], [Rational(3, 2)], z), z) and t(HyperRep_sqrts1(a, z), hyper([-a, S.Half - a], [S.Half], z), z) and t(HyperRep_sqrts2(a, z), -2 * z / (2 * a + 1) * hyper([-a - S.Half, -a], [S.Half], z).diff(z), z) and t(HyperRep_log2(z), -z / 4 * hyper([Rational(3, 2), 1, 1], [2, 2], z), z) and t(HyperRep_cosasin(a, z), hyper([-a, a], [S.Half], z), z) and t(HyperRep_sinasin(a, z), 2 * a * z * hyper([1 - a, 1 + a], [Rational(3, 2)], z), z)"},"spec":{"lhs":"test_hyperrep()","rhs":"myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True)) and myrep(exp_polar(I * pi) * z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (b, True)) and myrep(exp_polar(2 * I * pi) * z).rewrite('nonrep') == Piecewise((c, abs(z) > 1), (a, True)) and myrep(exp_polar(3 * I * pi) * z).rewrite('nonrep') == Piecewise((d, abs(z) > 1), (b, True)) and myrep(exp_polar(4 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * c, abs(z) > 1), (a, True)) and myrep(exp_polar(5 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * d, abs(z) > 1), (b, True)) and myrep(z).rewrite('nonrepsmall') == a and myrep(exp_polar(I * pi) * z).rewrite('nonrepsmall') == b and t(HyperRep_atanh(z), hyper([S.Half, 1], [Rational(3, 2)], z), z) and t(HyperRep_power1(a, z), hyper([-a], [], z), z) and t(HyperRep_power2(a, z), hyper([a, a - S.Half], [2 * a], z), z) and t(HyperRep_log1(z), -z * hyper([1, 1], [2], z), z) and t(HyperRep_asin1(z), hyper([S.Half, S.Half], [Rational(3, 2)], z), z) and t(HyperRep_asin2(z), hyper([1, 1], [Rational(3, 2)], z), z) and t(HyperRep_sqrts1(a, z), hyper([-a, S.Half - a], [S.Half], z), z) and t(HyperRep_sqrts2(a, z), -2 * z / (2 * a + 1) * hyper([-a - S.Half, -a], [S.Half], z).diff(z), z) and t(HyperRep_log2(z), -z / 4 * hyper([Rational(3, 2), 1, 1], [2, 2], z), z) and t(HyperRep_cosasin(a, z), hyper([-a, a], [S.Half], z), z) and t(HyperRep_sinasin(a, z), 2 * a * z * hyper([1 - a, 1 + a], [Rational(3, 2)], z), z)","over":{"base":"Any"},"name":"test_hyperrep_correct"},"guarantee":"myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True)); myrep(exp_polar(I * pi) * z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (b, True)); myrep(exp_polar(2 * I * pi) * z).rewrite('nonrep') == Piecewise((c, abs(z) > 1), (a, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_hyperrep_correct","statement":"Path(test_hyperrep(x), myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True)); myrep(exp_polar(I * pi) * z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (b, True)); myrep(exp_polar(2 * I * pi) * z).rewrite('nonrep') == Piecewise((c, abs(z) > 1), (a, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e60dc0163b422c06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["myrep(z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (a, True))","myrep(exp_polar(I * pi) * z).rewrite('nonrep') == Piecewise((0, abs(z) > 1), (b, True))","myrep(exp_polar(2 * I * pi) * z).rewrite('nonrep') == Piecewise((c, abs(z) > 1), (a, True))","myrep(exp_polar(3 * I * pi) * z).rewrite('nonrep') == Piecewise((d, abs(z) > 1), (b, True))","myrep(exp_polar(4 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * c, abs(z) > 1), (a, True))","myrep(exp_polar(5 * I * pi) * z).rewrite('nonrep') == Piecewise((2 * d, abs(z) > 1), (b, True))","myrep(z).rewrite('nonrepsmall') == a","myrep(exp_polar(I * pi) * z).rewrite('nonrepsmall') == b","t(HyperRep_atanh(z), hyper([S.Half, 1], [Rational(3, 2)], z), z)","t(HyperRep_power1(a, z), hyper([-a], [], z), z)","t(HyperRep_power2(a, z), hyper([a, a - S.Half], [2 * a], z), z)","t(HyperRep_log1(z), -z * hyper([1, 1], [2], z), z)","t(HyperRep_asin1(z), hyper([S.Half, S.Half], [Rational(3, 2)], z), z)","t(HyperRep_asin2(z), hyper([1, 1], [Rational(3, 2)], z), z)","t(HyperRep_sqrts1(a, z), hyper([-a, S.Half - a], [S.Half], z), z)","t(HyperRep_sqrts2(a, z), -2 * z / (2 * a + 1) * hyper([-a - S.Half, -a], [S.Half], z).diff(z), z)","t(HyperRep_log2(z), -z / 4 * hyper([Rational(3, 2), 1, 1], [2, 2], z), z)","t(HyperRep_cosasin(a, z), hyper([-a, a], [S.Half], z), z)","t(HyperRep_sinasin(a, z), 2 * a * z * hyper([1 - a, 1 + a], [Rational(3, 2)], z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def test_hyperrep():
     from sympy.functions.special.hyper import (HyperRep, HyperRep_atanh,
         HyperRep_power1, HyperRep_power2, HyperRep_log1, HyperRep_asin1,
@@ -468,16 +553,22 @@ def test_hyperrep():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_eval(), test_meijerg_eval produces the expected output) over Any ║
+# ║ Path(test_meijerg_eval(), (expr - pi / exp(1)).n(chop=True) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_eval : Any → {Any | (expr - pi / exp(1))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (expr - pi / exp(1)).n(chop=True) == 0         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_eval : Any → {Any | result satisfies: (e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07f7eebea1212ed3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e461cc18b5d7be07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijerg_eval","kind":"function","src_hash":"5e6c38abce889adf","in":{"base":"Any"},"out":{"base":"Any","pred":"(expr - pi / exp(1)).n(chop=True) == 0 and abs((expr1 - expr2).n(subs={x: x_, k: k_})) < 1e-10 and abs((expr1 - expr2).n(subs={x: x_, k: -k_})) < 1e-10 and abs((expr1 - expr2).n(subs={x: x_, k: k_ + eps, l: k_ - eps})) < 1e-10 and abs((expr1 - expr2).n(subs={x: x_, k: -k_ + eps, l: -k_ - eps})) < 1e-10"},"spec":{"lhs":"test_meijerg_eval()","rhs":"test_meijerg_eval produces the expected output","over":{"base":"Any"},"name":"test_meijerg_eval_correct"},"guarantee":"test_meijerg_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijerg_eval_correct","statement":"Path(test_meijerg_eval(x), test_meijerg_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07f7eebea1212ed3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_meijerg_eval","kind":"function","src_hash":"5e6c38abce889adf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (expr - pi / exp(1)).n(chop=True) == 0"},"spec":{"lhs":"test_meijerg_eval()","rhs":"(expr - pi / exp(1)).n(chop=True) == 0","over":{"base":"Any"},"name":"test_meijerg_eval_correct"},"guarantee":"(expr - pi / exp(1)).n(chop=True) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_meijerg_eval_correct","statement":"Path(test_meijerg_eval(x), (expr - pi / exp(1)).n(chop=True) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e461cc18b5d7be07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(expr - pi / exp(1)).n(chop=True) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_meijerg_eval():
     from sympy.functions.elementary.exponential import exp_polar
     from sympy.functions.special.bessel import besseli
@@ -510,16 +601,23 @@ def test_meijerg_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limits(), test_limits produces the expected output) over Any ║
+# ║ Path(test_limits(), hyper((1,), (Rational(4, 3), Rational(5, 3)), k ** 2).series(k) == 1 + 9 * k ** 2 / 20 + 81 * k ** 4 / 1120 + O(k ** 6) and limit(1 / hyper((1,), (1,), x), x, 0) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limits : Any → {Any | limit(1 / hyper((1,), (1,)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyper((1,), (Rational(4, 3), Rational(5, ...   ║
+# ║   ensures:  limit(1 / hyper((1,), (1,), x), x, 0) == 1     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limits : Any → {Any | result satisfies: hyper((1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 207d61f5144b4602  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 330ddc802a8c9c9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_limits","kind":"function","src_hash":"3d38be757018e86c","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(1 / hyper((1,), (1,), x), x, 0) == 1"},"spec":{"lhs":"test_limits()","rhs":"test_limits produces the expected output","over":{"base":"Any"},"name":"test_limits_correct"},"guarantee":"test_limits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_limits_correct","statement":"Path(test_limits(x), test_limits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207d61f5144b4602"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_limits","kind":"function","src_hash":"3d38be757018e86c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyper((1,), (Rational(4, 3), Rational(5, 3)), k ** 2).series(k) == 1 + 9 * k ** 2 / 20 + 81 * k ** 4 / 1120 + O(k ** 6) and limit(1 / hyper((1,), (1,), x), x, 0) == 1"},"spec":{"lhs":"test_limits()","rhs":"hyper((1,), (Rational(4, 3), Rational(5, 3)), k ** 2).series(k) == 1 + 9 * k ** 2 / 20 + 81 * k ** 4 / 1120 + O(k ** 6) and limit(1 / hyper((1,), (1,), x), x, 0) == 1","over":{"base":"Any"},"name":"test_limits_correct"},"guarantee":"hyper((1,), (Rational(4, 3), Rational(5, 3)), k ** 2).series(k) == 1 + 9 * k ** 2 / 20 + 81 * k ** 4 / 1120 + O(k ** 6); limit(1 / hyper((1,), (1,), x), x, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_limits_correct","statement":"Path(test_limits(x), hyper((1,), (Rational(4, 3), Rational(5, 3)), k ** 2).series(k) == 1 + 9 * k ** 2 / 20 + 81 * k ** 4 / 1120 + O(k ** 6); limit(1 / hyper((1,), (1,), x), x, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"330ddc802a8c9c9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyper((1,), (Rational(4, 3), Rational(5, 3)), k ** 2).series(k) == 1 + 9 * k ** 2 / 20 + 81 * k ** 4 / 1120 + O(k ** 6)","limit(1 / hyper((1,), (1,), x), x, 0) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_limits():
     k, x = symbols('k, x')
     assert hyper((1,), (Rational(4, 3), Rational(5, 3)), k**2).series(k) == \
@@ -530,16 +628,24 @@ def test_limits():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_appellf1(), test_appellf1 produces the expected output) over Any ║
+# ║ Path(test_appellf1(), appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y) and appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y) and appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One and f.func is appellf1 and f.doit() is S.One) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_appellf1 : Any → {Any | appellf1(a, b2, b1, c, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  appellf1(a, b2, b1, c, y, x) == appellf1(...   ║
+# ║   ensures:  appellf1(a, b1, b1, c, y, x) == appellf1(...   ║
+# ║   ensures:  appellf1(a, b1, b2, c, S.Zero, S.Zero) is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_appellf1 : Any → {Any | result satisfies: appell...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 893222a837266dbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 185dcf96d4b10342  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_appellf1","kind":"function","src_hash":"7d0b5ce505e14db7","in":{"base":"Any"},"out":{"base":"Any","pred":"appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y) and appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y) and appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One and f.func is appellf1 and f.doit() is S.One"},"spec":{"lhs":"test_appellf1()","rhs":"test_appellf1 produces the expected output","over":{"base":"Any"},"name":"test_appellf1_correct"},"guarantee":"test_appellf1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_appellf1_correct","statement":"Path(test_appellf1(x), test_appellf1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893222a837266dbc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_appellf1","kind":"function","src_hash":"7d0b5ce505e14db7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y) and appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y) and appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One and f.func is appellf1 and f.doit() is S.One"},"spec":{"lhs":"test_appellf1()","rhs":"appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y) and appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y) and appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One and f.func is appellf1 and f.doit() is S.One","over":{"base":"Any"},"name":"test_appellf1_correct"},"guarantee":"appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y); appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y); appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_appellf1_correct","statement":"Path(test_appellf1(x), appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y); appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y); appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"185dcf96d4b10342","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y)","appellf1(a, b1, b1, c, y, x) == appellf1(a, b1, b1, c, x, y)","appellf1(a, b1, b2, c, S.Zero, S.Zero) is S.One","f.func is appellf1","f.doit() is S.One"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_appellf1():
     a, b1, b2, c, x, y = symbols('a b1 b2 c x y')
     assert appellf1(a, b2, b1, c, y, x) == appellf1(a, b1, b2, c, x, y)
@@ -552,16 +658,24 @@ def test_appellf1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_appellf1(), test_derivative_appellf1 produces the expected output) over Any ║
+# ║ Path(test_derivative_appellf1(), diff(appellf1(a, b1, b2, c, x, y), x) == a * b1 * appellf1(a + 1, b2, b1 + 1, c + 1, y, x) / c and diff(appellf1(a, b1, b2, c, x, y), y) == a * b2 * appellf1(a + 1, b1, b2 + 1, c + 1, x, y) / c and diff(appellf1(a, b1, b2, c, x, y), z) == 0 and diff(appellf1(a, b1, b2, c, x, y), a) == Derivative(appellf1(a, b1, b2, c, x, y), a)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_appellf1 : Any → {Any | diff(appellf1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  diff(appellf1(a, b1, b2, c, x, y), x) == ...   ║
+# ║   ensures:  diff(appellf1(a, b1, b2, c, x, y), y) == ...   ║
+# ║   ensures:  diff(appellf1(a, b1, b2, c, x, y), z) == 0     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_appellf1 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ededa5381fa0263  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bdab96371bebf37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_derivative_appellf1","kind":"function","src_hash":"559c3f9f48cca0f6","in":{"base":"Any"},"out":{"base":"Any","pred":"diff(appellf1(a, b1, b2, c, x, y), z) == 0"},"spec":{"lhs":"test_derivative_appellf1()","rhs":"test_derivative_appellf1 produces the expected output","over":{"base":"Any"},"name":"test_derivative_appellf1_correct"},"guarantee":"test_derivative_appellf1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_derivative_appellf1_correct","statement":"Path(test_derivative_appellf1(x), test_derivative_appellf1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ededa5381fa0263"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_derivative_appellf1","kind":"function","src_hash":"559c3f9f48cca0f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: diff(appellf1(a, b1, b2, c, x, y), x) == a * b1 * appellf1(a + 1, b2, b1 + 1, c + 1, y, x) / c and diff(appellf1(a, b1, b2, c, x, y), y) == a * b2 * appellf1(a + 1, b1, b2 + 1, c + 1, x, y) / c and diff(appellf1(a, b1, b2, c, x, y), z) == 0 and diff(appellf1(a, b1, b2, c, x, y), a) == Derivative(appellf1(a, b1, b2, c, x, y), a)"},"spec":{"lhs":"test_derivative_appellf1()","rhs":"diff(appellf1(a, b1, b2, c, x, y), x) == a * b1 * appellf1(a + 1, b2, b1 + 1, c + 1, y, x) / c and diff(appellf1(a, b1, b2, c, x, y), y) == a * b2 * appellf1(a + 1, b1, b2 + 1, c + 1, x, y) / c and diff(appellf1(a, b1, b2, c, x, y), z) == 0 and diff(appellf1(a, b1, b2, c, x, y), a) == Derivative(appellf1(a, b1, b2, c, x, y), a)","over":{"base":"Any"},"name":"test_derivative_appellf1_correct"},"guarantee":"diff(appellf1(a, b1, b2, c, x, y), x) == a * b1 * appellf1(a + 1, b2, b1 + 1, c + 1, y, x) / c; diff(appellf1(a, b1, b2, c, x, y), y) == a * b2 * appellf1(a + 1, b1, b2 + 1, c + 1, x, y) / c; diff(appellf1(a, b1, b2, c, x, y), z) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_derivative_appellf1_correct","statement":"Path(test_derivative_appellf1(x), diff(appellf1(a, b1, b2, c, x, y), x) == a * b1 * appellf1(a + 1, b2, b1 + 1, c + 1, y, x) / c; diff(appellf1(a, b1, b2, c, x, y), y) == a * b2 * appellf1(a + 1, b1, b2 + 1, c + 1, x, y) / c; diff(appellf1(a, b1, b2, c, x, y), z) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bdab96371bebf37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["diff(appellf1(a, b1, b2, c, x, y), x) == a * b1 * appellf1(a + 1, b2, b1 + 1, c + 1, y, x) / c","diff(appellf1(a, b1, b2, c, x, y), y) == a * b2 * appellf1(a + 1, b1, b2 + 1, c + 1, x, y) / c","diff(appellf1(a, b1, b2, c, x, y), z) == 0","diff(appellf1(a, b1, b2, c, x, y), a) == Derivative(appellf1(a, b1, b2, c, x, y), a)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_derivative_appellf1():
     from sympy.core.function import diff
     a, b1, b2, c, x, y, z = symbols('a b1 b2 c x y z')
@@ -572,16 +686,24 @@ def test_derivative_appellf1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_nseries(), test_eval_nseries produces the expected output) over Any ║
+# ║ Path(test_eval_nseries(), hyper((1, 2), (1, 2, 3), x ** 2)._eval_nseries(x, 7, None) == 1 + x ** 2 / 3 + x ** 4 / 24 + x ** 6 / 360 + O(x ** 7) and exp(x)._eval_nseries(x, 7, None) == hyper((a1, b1), (a1, b1), x)._eval_nseries(x, 7, None) and hyper((a1, a2), (b1, b2), x)._eval_nseries(z, 7, None) == hyper((a1, a2), (b1, b2), x) + O(z ** 7) and hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1)).nseries(x) == 1 - x + x ** 2 / 4 - 3 * x ** 3 / 4 - 15 * x ** 4 / 64 - 93 * x ** 5 / 64 + O(x ** 6) and (pi / 2 * hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1))).nseries(x) == pi / 2 - pi * x / 2 + pi * x ** 2 / 8 - 3 * pi * x ** 3 / 8 - 15 * pi * x ** 4 / 128 - 93 * pi * x ** 5 / 128 + O(x ** 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_nseries : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyper((1, 2), (1, 2, 3), x ** 2)._eval_ns...   ║
+# ║   ensures:  exp(x)._eval_nseries(x, 7, None) == hyper...   ║
+# ║   ensures:  hyper((a1, a2), (b1, b2), x)._eval_nserie...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_nseries : Any → {Any | result satisfies: hy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb919e36e87ca7ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1046820d5db66864  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_eval_nseries","kind":"function","src_hash":"ccf77d1105950d8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_eval_nseries()","rhs":"test_eval_nseries produces the expected output","over":{"base":"Any"},"name":"test_eval_nseries_correct"},"guarantee":"test_eval_nseries produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_eval_nseries_correct","statement":"Path(test_eval_nseries(x), test_eval_nseries produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb919e36e87ca7ca"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_hyper.test_eval_nseries","kind":"function","src_hash":"ccf77d1105950d8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyper((1, 2), (1, 2, 3), x ** 2)._eval_nseries(x, 7, None) == 1 + x ** 2 / 3 + x ** 4 / 24 + x ** 6 / 360 + O(x ** 7) and exp(x)._eval_nseries(x, 7, None) == hyper((a1, b1), (a1, b1), x)._eval_nseries(x, 7, None) and hyper((a1, a2), (b1, b2), x)._eval_nseries(z, 7, None) == hyper((a1, a2), (b1, b2), x) + O(z ** 7) and hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1)).nseries(x) == 1 - x + x ** 2 / 4 - 3 * x ** 3 / 4 - 15 * x ** 4 / 64 - 93 * x ** 5 / 64 + O(x ** 6) and (pi / 2 * hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1))).nseries(x) == pi / 2 - pi * x / 2 + pi * x ** 2 / 8 - 3 * pi * x ** 3 / 8 - 15 * pi * x ** 4 / 128 - 93 * pi * x ** 5 / 128 + O(x ** 6)"},"spec":{"lhs":"test_eval_nseries()","rhs":"hyper((1, 2), (1, 2, 3), x ** 2)._eval_nseries(x, 7, None) == 1 + x ** 2 / 3 + x ** 4 / 24 + x ** 6 / 360 + O(x ** 7) and exp(x)._eval_nseries(x, 7, None) == hyper((a1, b1), (a1, b1), x)._eval_nseries(x, 7, None) and hyper((a1, a2), (b1, b2), x)._eval_nseries(z, 7, None) == hyper((a1, a2), (b1, b2), x) + O(z ** 7) and hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1)).nseries(x) == 1 - x + x ** 2 / 4 - 3 * x ** 3 / 4 - 15 * x ** 4 / 64 - 93 * x ** 5 / 64 + O(x ** 6) and (pi / 2 * hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1))).nseries(x) == pi / 2 - pi * x / 2 + pi * x ** 2 / 8 - 3 * pi * x ** 3 / 8 - 15 * pi * x ** 4 / 128 - 93 * pi * x ** 5 / 128 + O(x ** 6)","over":{"base":"Any"},"name":"test_eval_nseries_correct"},"guarantee":"hyper((1, 2), (1, 2, 3), x ** 2)._eval_nseries(x, 7, None) == 1 + x ** 2 / 3 + x ** 4 / 24 + x ** 6 / 360 + O(x ** 7); exp(x)._eval_nseries(x, 7, None) == hyper((a1, b1), (a1, b1), x)._eval_nseries(x, 7, None); hyper((a1, a2), (b1, b2), x)._eval_nseries(z, 7, None) == hyper((a1, a2), (b1, b2), x) + O(z ** 7)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_hyper.test_eval_nseries_correct","statement":"Path(test_eval_nseries(x), hyper((1, 2), (1, 2, 3), x ** 2)._eval_nseries(x, 7, None) == 1 + x ** 2 / 3 + x ** 4 / 24 + x ** 6 / 360 + O(x ** 7); exp(x)._eval_nseries(x, 7, None) == hyper((a1, b1), (a1, b1), x)._eval_nseries(x, 7, None); hyper((a1, a2), (b1, b2), x)._eval_nseries(z, 7, None) == hyper((a1, a2), (b1, b2), x) + O(z ** 7))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1046820d5db66864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyper((1, 2), (1, 2, 3), x ** 2)._eval_nseries(x, 7, None) == 1 + x ** 2 / 3 + x ** 4 / 24 + x ** 6 / 360 + O(x ** 7)","exp(x)._eval_nseries(x, 7, None) == hyper((a1, b1), (a1, b1), x)._eval_nseries(x, 7, None)","hyper((a1, a2), (b1, b2), x)._eval_nseries(z, 7, None) == hyper((a1, a2), (b1, b2), x) + O(z ** 7)","hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1)).nseries(x) == 1 - x + x ** 2 / 4 - 3 * x ** 3 / 4 - 15 * x ** 4 / 64 - 93 * x ** 5 / 64 + O(x ** 6)","(pi / 2 * hyper((-S(1) / 2, S(1) / 2), (1,), 4 * x / (x + 1))).nseries(x) == pi / 2 - pi * x / 2 + pi * x ** 2 / 8 - 3 * pi * x ** 3 / 8 - 15 * pi * x ** 4 / 128 - 93 * pi * x ** 5 / 128 + O(x ** 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_eval_nseries():
     a1, b1, a2, b2 = symbols('a1 b1 a2 b2')
     assert hyper((1,2), (1,2,3), x**2)._eval_nseries(x, 7, None) == \

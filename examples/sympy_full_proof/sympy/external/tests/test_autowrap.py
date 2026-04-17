@@ -49,16 +49,22 @@ k = Idx('k', d)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_module(mod), return true if module exists, otherwise run skip()) over Any ║
+# ║ Path(has_module(module), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_module : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7918de5564694e69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee5b5dc0f64cedb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.has_module","kind":"function","src_hash":"7911d356864bad41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_module(mod)","rhs":"return true if module exists, otherwise run skip()","over":{"base":"Any"},"name":"has_module_correct"},"guarantee":"return true if module exists, otherwise run skip()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.has_module_correct","statement":"Path(has_module(x), return true if module exists, otherwise run skip())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7918de5564694e69"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.has_module","kind":"function","src_hash":"7911d356864bad41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_module(module)","rhs":"True","over":{"base":"Any"},"name":"has_module_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.has_module_correct","statement":"Path(has_module(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee5b5dc0f64cedb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def has_module(module):
     """
     Return True if module exists, otherwise run skip().
@@ -81,16 +87,23 @@ def has_module(module):
 #
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_autowrap_twice(lan), runtest_autowrap_twice produces the expected output) over Any ║
+# ║ Path(runtest_autowrap_twice(language, backend), f(1, -2, 1) == -1.0 and g(1, -2, 1) == 1.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ runtest_autowrap_twice : Any → {Any | f(1, -2, 1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1, -2, 1) == -1.0                            ║
+# ║   ensures:  g(1, -2, 1) == 1.0                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ runtest_autowrap_twice : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4664266e302c0da6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d800409afdab15a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_twice","kind":"function","src_hash":"51dcad0344fc41fb","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1, -2, 1) == -1.0 and g(1, -2, 1) == 1.0"},"spec":{"lhs":"runtest_autowrap_twice(lan)","rhs":"runtest_autowrap_twice produces the expected output","over":{"base":"Any"},"name":"runtest_autowrap_twice_correct"},"guarantee":"runtest_autowrap_twice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_twice_correct","statement":"Path(runtest_autowrap_twice(x), runtest_autowrap_twice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4664266e302c0da6"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_twice","kind":"function","src_hash":"51dcad0344fc41fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1, -2, 1) == -1.0 and g(1, -2, 1) == 1.0"},"spec":{"lhs":"runtest_autowrap_twice(language, backend)","rhs":"f(1, -2, 1) == -1.0 and g(1, -2, 1) == 1.0","over":{"base":"Any"},"name":"runtest_autowrap_twice_correct"},"guarantee":"f(1, -2, 1) == -1.0; g(1, -2, 1) == 1.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_twice_correct","statement":"Path(runtest_autowrap_twice(x), f(1, -2, 1) == -1.0; g(1, -2, 1) == 1.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d800409afdab15a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1, -2, 1) == -1.0","g(1, -2, 1) == 1.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def runtest_autowrap_twice(language, backend):
     f = autowrap((((a + b)/c)**5).expand(), language, backend)
     g = autowrap((((a + b)/c)**4).expand(), language, backend)
@@ -101,16 +114,22 @@ def runtest_autowrap_twice(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_autowrap_trace(lan), runtest_autowrap_trace produces the expected output) over Any ║
+# ║ Path(runtest_autowrap_trace(language, backend), trace(numpy.eye(100)) == 100) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ runtest_autowrap_trace : Any → {Any | trace(numpy.eye...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(numpy.eye(100)) == 100                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ runtest_autowrap_trace : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e24367fa4ceb7e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f78d943ada32278  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_trace","kind":"function","src_hash":"d3f76402b3124463","in":{"base":"Any"},"out":{"base":"Any","pred":"trace(numpy.eye(100)) == 100"},"spec":{"lhs":"runtest_autowrap_trace(lan)","rhs":"runtest_autowrap_trace produces the expected output","over":{"base":"Any"},"name":"runtest_autowrap_trace_correct"},"guarantee":"runtest_autowrap_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_trace_correct","statement":"Path(runtest_autowrap_trace(x), runtest_autowrap_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e24367fa4ceb7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_trace","kind":"function","src_hash":"d3f76402b3124463","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trace(numpy.eye(100)) == 100"},"spec":{"lhs":"runtest_autowrap_trace(language, backend)","rhs":"trace(numpy.eye(100)) == 100","over":{"base":"Any"},"name":"runtest_autowrap_trace_correct"},"guarantee":"trace(numpy.eye(100)) == 100","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_trace_correct","statement":"Path(runtest_autowrap_trace(x), trace(numpy.eye(100)) == 100)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f78d943ada32278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(numpy.eye(100)) == 100"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def runtest_autowrap_trace(language, backend):
     has_module('numpy')
     trace = autowrap(A[i, i], language, backend)
@@ -118,16 +137,22 @@ def runtest_autowrap_trace(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_autowrap_matrix_vector(lan), runtest_autowrap_matrix_vector produces the expected output) over Any ║
+# ║ Path(runtest_autowrap_matrix_vector(language, backend), numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ runtest_autowrap_matrix_vector : Any → {Any | numpy.s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ runtest_autowrap_matrix_vector : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 134c04ecd3c100dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85d91f5b5f728c2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_vector","kind":"function","src_hash":"f08e9b15eba5ae97","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13"},"spec":{"lhs":"runtest_autowrap_matrix_vector(lan)","rhs":"runtest_autowrap_matrix_vector produces the expected output","over":{"base":"Any"},"name":"runtest_autowrap_matrix_vector_correct"},"guarantee":"runtest_autowrap_matrix_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_vector_correct","statement":"Path(runtest_autowrap_matrix_vector(x), runtest_autowrap_matrix_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"134c04ecd3c100dd"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_vector","kind":"function","src_hash":"f08e9b15eba5ae97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13"},"spec":{"lhs":"runtest_autowrap_matrix_vector(language, backend)","rhs":"numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13","over":{"base":"Any"},"name":"runtest_autowrap_matrix_vector_correct"},"guarantee":"numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_vector_correct","statement":"Path(runtest_autowrap_matrix_vector(x), numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85d91f5b5f728c2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.sum(numpy.abs(y - mv(M, x))) < 1e-13"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def runtest_autowrap_matrix_vector(language, backend):
     has_module('numpy')
     x, y = symbols('x y', cls=IndexedBase)
@@ -142,16 +167,22 @@ def runtest_autowrap_matrix_vector(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_autowrap_matrix_matrix(lan), runtest_autowrap_matrix_matrix produces the expected output) over Any ║
+# ║ Path(runtest_autowrap_matrix_matrix(language, backend), numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ runtest_autowrap_matrix_matrix : Any → {Any | numpy.s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.sum(numpy.abs(M3 - matmat(M1, M2)))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ runtest_autowrap_matrix_matrix : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79854afd20f170c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92235c842930ba36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_matrix","kind":"function","src_hash":"4bfb4c9b1648245c","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13"},"spec":{"lhs":"runtest_autowrap_matrix_matrix(lan)","rhs":"runtest_autowrap_matrix_matrix produces the expected output","over":{"base":"Any"},"name":"runtest_autowrap_matrix_matrix_correct"},"guarantee":"runtest_autowrap_matrix_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_matrix_correct","statement":"Path(runtest_autowrap_matrix_matrix(x), runtest_autowrap_matrix_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79854afd20f170c1"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_matrix","kind":"function","src_hash":"4bfb4c9b1648245c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13"},"spec":{"lhs":"runtest_autowrap_matrix_matrix(language, backend)","rhs":"numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13","over":{"base":"Any"},"name":"runtest_autowrap_matrix_matrix_correct"},"guarantee":"numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_autowrap_matrix_matrix_correct","statement":"Path(runtest_autowrap_matrix_matrix(x), numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92235c842930ba36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.sum(numpy.abs(M3 - matmat(M1, M2))) < 1e-13"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def runtest_autowrap_matrix_matrix(language, backend):
     has_module('numpy')
     expr = Eq(C[i, j], A[i, k]*B[k, j])
@@ -165,16 +196,22 @@ def runtest_autowrap_matrix_matrix(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_ufuncify(lan), runtest_ufuncify produces the expected output) over Any ║
+# ║ Path(runtest_ufuncify(language, backend), <unspecified:runtest_ufuncify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ runtest_ufuncify : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 348a366fb13e8ec0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_ufuncify","kind":"function","src_hash":"8b11f5e895a176c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runtest_ufuncify(lan)","rhs":"runtest_ufuncify produces the expected output","over":{"base":"Any"},"name":"runtest_ufuncify_correct"},"guarantee":"runtest_ufuncify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_ufuncify_correct","statement":"Path(runtest_ufuncify(x), runtest_ufuncify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"348a366fb13e8ec0"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_ufuncify","kind":"function","src_hash":"8b11f5e895a176c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runtest_ufuncify(language, backend)","rhs":"<unspecified:runtest_ufuncify>","over":{"base":"Any"},"name":"runtest_ufuncify_correct"},"guarantee":"runtest_ufuncify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_ufuncify_correct","statement":"Path(runtest_ufuncify(x), runtest_ufuncify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"348a366fb13e8ec0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def runtest_ufuncify(language, backend):
     has_module('numpy')
     a, b, c = symbols('a b c')
@@ -189,16 +226,22 @@ def runtest_ufuncify(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_issue_10274(lan), runtest_issue_10274 produces the expected output) over Any ║
+# ║ Path(runtest_issue_10274(language, backend), f(1, 1, 1) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ runtest_issue_10274 : Any → {Any | f(1, 1, 1) == 1 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1, 1, 1) == 1                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ runtest_issue_10274 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f5661bc1f7d76af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d95cbf7744511fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_issue_10274","kind":"function","src_hash":"c6dd1fd263a64155","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1, 1, 1) == 1 and 'Code generated with SymPy ' + sympy.__version__ in lines[1]"},"spec":{"lhs":"runtest_issue_10274(lan)","rhs":"runtest_issue_10274 produces the expected output","over":{"base":"Any"},"name":"runtest_issue_10274_correct"},"guarantee":"runtest_issue_10274 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_issue_10274_correct","statement":"Path(runtest_issue_10274(x), runtest_issue_10274 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f5661bc1f7d76af"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_issue_10274","kind":"function","src_hash":"c6dd1fd263a64155","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1, 1, 1) == 1"},"spec":{"lhs":"runtest_issue_10274(language, backend)","rhs":"f(1, 1, 1) == 1","over":{"base":"Any"},"name":"runtest_issue_10274_correct"},"guarantee":"f(1, 1, 1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_issue_10274_correct","statement":"Path(runtest_issue_10274(x), f(1, 1, 1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d95cbf7744511fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1, 1, 1) == 1"],"pure":false,"effects":{"effect_type":"io","io_operations":["open"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def runtest_issue_10274(language, backend):
     expr = (a - b + c)**(13)
     tmp = tempfile.mkdtemp()
@@ -242,16 +285,22 @@ def runtest_issue_10274(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runtest_issue_15337(lan), runtest_issue_15337 produces the expected output) over Any ║
+# ║ Path(runtest_issue_15337(language, backend), <unspecified:runtest_issue_15337>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ runtest_issue_15337 : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bec422b4e9d8c7f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_issue_15337","kind":"function","src_hash":"b9779d178ca8c549","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runtest_issue_15337(lan)","rhs":"runtest_issue_15337 produces the expected output","over":{"base":"Any"},"name":"runtest_issue_15337_correct"},"guarantee":"runtest_issue_15337 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_issue_15337_correct","statement":"Path(runtest_issue_15337(x), runtest_issue_15337 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec422b4e9d8c7f0"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.runtest_issue_15337","kind":"function","src_hash":"b9779d178ca8c549","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runtest_issue_15337(language, backend)","rhs":"<unspecified:runtest_issue_15337>","over":{"base":"Any"},"name":"runtest_issue_15337_correct"},"guarantee":"runtest_issue_15337 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.runtest_issue_15337_correct","statement":"Path(runtest_issue_15337(x), runtest_issue_15337 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec422b4e9d8c7f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def runtest_issue_15337(language, backend):
     has_module('numpy')
     # NOTE : autowrap was originally designed to only accept an iterable for
@@ -274,16 +323,23 @@ def runtest_issue_15337(language, backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15230(), test_issue_15230 produces the expected output) over Any ║
+# ║ Path(test_issue_15230(), abs(f(3.5, 2.7) - exp_res) < 1e-14 and f(3, 2) == expr.xreplace({x: 3, y: 2})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15230 : Any → {Any | abs(f(3.5, 2.7) - exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(3.5, 2.7) - exp_res) < 1e-14             ║
+# ║   ensures:  f(3, 2) == expr.xreplace({x: 3, y: 2})         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15230 : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 721ffd92d02947ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5400e87a426307be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_15230","kind":"function","src_hash":"c9cc4a1fb91fb938","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(3.5, 2.7) - exp_res) < 1e-14 and f(3, 2) == expr.xreplace({x: 3, y: 2})"},"spec":{"lhs":"test_issue_15230()","rhs":"test_issue_15230 produces the expected output","over":{"base":"Any"},"name":"test_issue_15230_correct"},"guarantee":"test_issue_15230 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_15230_correct","statement":"Path(test_issue_15230(x), test_issue_15230 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"721ffd92d02947ff"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_15230","kind":"function","src_hash":"c9cc4a1fb91fb938","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(3.5, 2.7) - exp_res) < 1e-14 and f(3, 2) == expr.xreplace({x: 3, y: 2})"},"spec":{"lhs":"test_issue_15230()","rhs":"abs(f(3.5, 2.7) - exp_res) < 1e-14 and f(3, 2) == expr.xreplace({x: 3, y: 2})","over":{"base":"Any"},"name":"test_issue_15230_correct"},"guarantee":"abs(f(3.5, 2.7) - exp_res) < 1e-14; f(3, 2) == expr.xreplace({x: 3, y: 2})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_15230_correct","statement":"Path(test_issue_15230(x), abs(f(3.5, 2.7) - exp_res) < 1e-14; f(3, 2) == expr.xreplace({x: 3, y: 2}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5400e87a426307be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(3.5, 2.7) - exp_res) < 1e-14","f(3, 2) == expr.xreplace({x: 3, y: 2})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_15230():
     has_module('f2py')
 
@@ -306,96 +362,132 @@ def test_issue_15230():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wrap_twice_f95_f2py(), test_wrap_twice_f95_f2py produces the expected output) over Any ║
+# ║ Path(test_wrap_twice_f95_f2py(), <unspecified:test_wrap_twice_f95_f2py>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_wrap_twice_f95_f2py : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2211c3332ffdc26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_wrap_twice_f95_f2py","kind":"function","src_hash":"224a9bca5530f32a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_wrap_twice_f95_f2py()","rhs":"test_wrap_twice_f95_f2py produces the expected output","over":{"base":"Any"},"name":"test_wrap_twice_f95_f2py_correct"},"guarantee":"test_wrap_twice_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_wrap_twice_f95_f2py_correct","statement":"Path(test_wrap_twice_f95_f2py(x), test_wrap_twice_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2211c3332ffdc26"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_wrap_twice_f95_f2py","kind":"function","src_hash":"224a9bca5530f32a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_wrap_twice_f95_f2py()","rhs":"<unspecified:test_wrap_twice_f95_f2py>","over":{"base":"Any"},"name":"test_wrap_twice_f95_f2py_correct"},"guarantee":"test_wrap_twice_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_wrap_twice_f95_f2py_correct","statement":"Path(test_wrap_twice_f95_f2py(x), test_wrap_twice_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2211c3332ffdc26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_wrap_twice_f95_f2py():
     has_module('f2py')
     runtest_autowrap_twice('f95', 'f2py')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_trace_f95_f2py(), test_autowrap_trace_f95_f2py produces the expected output) over Any ║
+# ║ Path(test_autowrap_trace_f95_f2py(), <unspecified:test_autowrap_trace_f95_f2py>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_trace_f95_f2py : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 414b630bacbe3b22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_trace_f95_f2py","kind":"function","src_hash":"577910112e5958ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_trace_f95_f2py()","rhs":"test_autowrap_trace_f95_f2py produces the expected output","over":{"base":"Any"},"name":"test_autowrap_trace_f95_f2py_correct"},"guarantee":"test_autowrap_trace_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_trace_f95_f2py_correct","statement":"Path(test_autowrap_trace_f95_f2py(x), test_autowrap_trace_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"414b630bacbe3b22"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_trace_f95_f2py","kind":"function","src_hash":"577910112e5958ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_trace_f95_f2py()","rhs":"<unspecified:test_autowrap_trace_f95_f2py>","over":{"base":"Any"},"name":"test_autowrap_trace_f95_f2py_correct"},"guarantee":"test_autowrap_trace_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_trace_f95_f2py_correct","statement":"Path(test_autowrap_trace_f95_f2py(x), test_autowrap_trace_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"414b630bacbe3b22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_autowrap_trace_f95_f2py():
     has_module('f2py')
     runtest_autowrap_trace('f95', 'f2py')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_matrix_vector_f95_f2py(), test_autowrap_matrix_vector_f95_f2py produces the expected output) over Any ║
+# ║ Path(test_autowrap_matrix_vector_f95_f2py(), <unspecified:test_autowrap_matrix_vector_f95_f2py>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_matrix_vector_f95_f2py : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0ebc9fb97653d4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_f95_f2py","kind":"function","src_hash":"ba30687d8ff5f480","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_vector_f95_f2py()","rhs":"test_autowrap_matrix_vector_f95_f2py produces the expected output","over":{"base":"Any"},"name":"test_autowrap_matrix_vector_f95_f2py_correct"},"guarantee":"test_autowrap_matrix_vector_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_f95_f2py_correct","statement":"Path(test_autowrap_matrix_vector_f95_f2py(x), test_autowrap_matrix_vector_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0ebc9fb97653d4d"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_f95_f2py","kind":"function","src_hash":"ba30687d8ff5f480","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_vector_f95_f2py()","rhs":"<unspecified:test_autowrap_matrix_vector_f95_f2py>","over":{"base":"Any"},"name":"test_autowrap_matrix_vector_f95_f2py_correct"},"guarantee":"test_autowrap_matrix_vector_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_f95_f2py_correct","statement":"Path(test_autowrap_matrix_vector_f95_f2py(x), test_autowrap_matrix_vector_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0ebc9fb97653d4d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_autowrap_matrix_vector_f95_f2py():
     has_module('f2py')
     runtest_autowrap_matrix_vector('f95', 'f2py')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_matrix_matrix_f95_f2py(), test_autowrap_matrix_matrix_f95_f2py produces the expected output) over Any ║
+# ║ Path(test_autowrap_matrix_matrix_f95_f2py(), <unspecified:test_autowrap_matrix_matrix_f95_f2py>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_matrix_matrix_f95_f2py : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d8173ce19115360  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_f95_f2py","kind":"function","src_hash":"455ae947a0537206","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_matrix_f95_f2py()","rhs":"test_autowrap_matrix_matrix_f95_f2py produces the expected output","over":{"base":"Any"},"name":"test_autowrap_matrix_matrix_f95_f2py_correct"},"guarantee":"test_autowrap_matrix_matrix_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_f95_f2py_correct","statement":"Path(test_autowrap_matrix_matrix_f95_f2py(x), test_autowrap_matrix_matrix_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d8173ce19115360"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_f95_f2py","kind":"function","src_hash":"455ae947a0537206","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_matrix_f95_f2py()","rhs":"<unspecified:test_autowrap_matrix_matrix_f95_f2py>","over":{"base":"Any"},"name":"test_autowrap_matrix_matrix_f95_f2py_correct"},"guarantee":"test_autowrap_matrix_matrix_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_f95_f2py_correct","statement":"Path(test_autowrap_matrix_matrix_f95_f2py(x), test_autowrap_matrix_matrix_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d8173ce19115360","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_autowrap_matrix_matrix_f95_f2py():
     has_module('f2py')
     runtest_autowrap_matrix_matrix('f95', 'f2py')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ufuncify_f95_f2py(), test_ufuncify_f95_f2py produces the expected output) over Any ║
+# ║ Path(test_ufuncify_f95_f2py(), <unspecified:test_ufuncify_f95_f2py>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ufuncify_f95_f2py : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7308f9a9ab71335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_ufuncify_f95_f2py","kind":"function","src_hash":"e45e422972e7e3fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ufuncify_f95_f2py()","rhs":"test_ufuncify_f95_f2py produces the expected output","over":{"base":"Any"},"name":"test_ufuncify_f95_f2py_correct"},"guarantee":"test_ufuncify_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_ufuncify_f95_f2py_correct","statement":"Path(test_ufuncify_f95_f2py(x), test_ufuncify_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7308f9a9ab71335"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_ufuncify_f95_f2py","kind":"function","src_hash":"e45e422972e7e3fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ufuncify_f95_f2py()","rhs":"<unspecified:test_ufuncify_f95_f2py>","over":{"base":"Any"},"name":"test_ufuncify_f95_f2py_correct"},"guarantee":"test_ufuncify_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_ufuncify_f95_f2py_correct","statement":"Path(test_ufuncify_f95_f2py(x), test_ufuncify_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7308f9a9ab71335","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ufuncify_f95_f2py():
     has_module('f2py')
     runtest_ufuncify('f95', 'f2py')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15337_f95_f2py(), test_issue_15337_f95_f2py produces the expected output) over Any ║
+# ║ Path(test_issue_15337_f95_f2py(), <unspecified:test_issue_15337_f95_f2py>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_15337_f95_f2py : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 417d1e0206828cee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_15337_f95_f2py","kind":"function","src_hash":"5226704915f784c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15337_f95_f2py()","rhs":"test_issue_15337_f95_f2py produces the expected output","over":{"base":"Any"},"name":"test_issue_15337_f95_f2py_correct"},"guarantee":"test_issue_15337_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_15337_f95_f2py_correct","statement":"Path(test_issue_15337_f95_f2py(x), test_issue_15337_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"417d1e0206828cee"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_15337_f95_f2py","kind":"function","src_hash":"5226704915f784c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15337_f95_f2py()","rhs":"<unspecified:test_issue_15337_f95_f2py>","over":{"base":"Any"},"name":"test_issue_15337_f95_f2py_correct"},"guarantee":"test_issue_15337_f95_f2py produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_15337_f95_f2py_correct","statement":"Path(test_issue_15337_f95_f2py(x), test_issue_15337_f95_f2py produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"417d1e0206828cee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_15337_f95_f2py():
     has_module('f2py')
     runtest_issue_15337('f95', 'f2py')
@@ -404,128 +496,178 @@ def test_issue_15337_f95_f2py():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wrap_twice_c_cython(), test_wrap_twice_c_cython produces the expected output) over Any ║
+# ║ Path(test_wrap_twice_c_cython(), <unspecified:test_wrap_twice_c_cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_wrap_twice_c_cython : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5806ff7f17c8494b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_wrap_twice_c_cython","kind":"function","src_hash":"17d4290361e12e58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_wrap_twice_c_cython()","rhs":"test_wrap_twice_c_cython produces the expected output","over":{"base":"Any"},"name":"test_wrap_twice_c_cython_correct"},"guarantee":"test_wrap_twice_c_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_wrap_twice_c_cython_correct","statement":"Path(test_wrap_twice_c_cython(x), test_wrap_twice_c_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5806ff7f17c8494b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_wrap_twice_c_cython","kind":"function","src_hash":"17d4290361e12e58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_wrap_twice_c_cython()","rhs":"<unspecified:test_wrap_twice_c_cython>","over":{"base":"Any"},"name":"test_wrap_twice_c_cython_correct"},"guarantee":"test_wrap_twice_c_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_wrap_twice_c_cython_correct","statement":"Path(test_wrap_twice_c_cython(x), test_wrap_twice_c_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5806ff7f17c8494b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_wrap_twice_c_cython():
     has_module('Cython')
     runtest_autowrap_twice('C', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_trace_C_Cython(), test_autowrap_trace_C_Cython produces the expected output) over Any ║
+# ║ Path(test_autowrap_trace_C_Cython(), <unspecified:test_autowrap_trace_C_Cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_trace_C_Cython : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8339c1b92c2351b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_trace_C_Cython","kind":"function","src_hash":"1e1337d14ad4fded","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_trace_C_Cython()","rhs":"test_autowrap_trace_C_Cython produces the expected output","over":{"base":"Any"},"name":"test_autowrap_trace_C_Cython_correct"},"guarantee":"test_autowrap_trace_C_Cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_trace_C_Cython_correct","statement":"Path(test_autowrap_trace_C_Cython(x), test_autowrap_trace_C_Cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8339c1b92c2351b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_trace_C_Cython","kind":"function","src_hash":"1e1337d14ad4fded","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_trace_C_Cython()","rhs":"<unspecified:test_autowrap_trace_C_Cython>","over":{"base":"Any"},"name":"test_autowrap_trace_C_Cython_correct"},"guarantee":"test_autowrap_trace_C_Cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_trace_C_Cython_correct","statement":"Path(test_autowrap_trace_C_Cython(x), test_autowrap_trace_C_Cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8339c1b92c2351b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_autowrap_trace_C_Cython():
     has_module('Cython')
     runtest_autowrap_trace('C99', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_matrix_vector_C_cython(), test_autowrap_matrix_vector_C_cython produces the expected output) over Any ║
+# ║ Path(test_autowrap_matrix_vector_C_cython(), <unspecified:test_autowrap_matrix_vector_C_cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_matrix_vector_C_cython : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dbbf69cdeba9284  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_C_cython","kind":"function","src_hash":"4262f73ee19e9e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_vector_C_cython()","rhs":"test_autowrap_matrix_vector_C_cython produces the expected output","over":{"base":"Any"},"name":"test_autowrap_matrix_vector_C_cython_correct"},"guarantee":"test_autowrap_matrix_vector_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_C_cython_correct","statement":"Path(test_autowrap_matrix_vector_C_cython(x), test_autowrap_matrix_vector_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dbbf69cdeba9284"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_C_cython","kind":"function","src_hash":"4262f73ee19e9e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_vector_C_cython()","rhs":"<unspecified:test_autowrap_matrix_vector_C_cython>","over":{"base":"Any"},"name":"test_autowrap_matrix_vector_C_cython_correct"},"guarantee":"test_autowrap_matrix_vector_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_vector_C_cython_correct","statement":"Path(test_autowrap_matrix_vector_C_cython(x), test_autowrap_matrix_vector_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dbbf69cdeba9284","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_autowrap_matrix_vector_C_cython():
     has_module('Cython')
     runtest_autowrap_matrix_vector('C99', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_matrix_matrix_C_cython(), test_autowrap_matrix_matrix_C_cython produces the expected output) over Any ║
+# ║ Path(test_autowrap_matrix_matrix_C_cython(), <unspecified:test_autowrap_matrix_matrix_C_cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_matrix_matrix_C_cython : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25c0bb3cd9a056cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_C_cython","kind":"function","src_hash":"f7c9cb35105dbd94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_matrix_C_cython()","rhs":"test_autowrap_matrix_matrix_C_cython produces the expected output","over":{"base":"Any"},"name":"test_autowrap_matrix_matrix_C_cython_correct"},"guarantee":"test_autowrap_matrix_matrix_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_C_cython_correct","statement":"Path(test_autowrap_matrix_matrix_C_cython(x), test_autowrap_matrix_matrix_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25c0bb3cd9a056cb"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_C_cython","kind":"function","src_hash":"f7c9cb35105dbd94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autowrap_matrix_matrix_C_cython()","rhs":"<unspecified:test_autowrap_matrix_matrix_C_cython>","over":{"base":"Any"},"name":"test_autowrap_matrix_matrix_C_cython_correct"},"guarantee":"test_autowrap_matrix_matrix_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_matrix_matrix_C_cython_correct","statement":"Path(test_autowrap_matrix_matrix_C_cython(x), test_autowrap_matrix_matrix_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25c0bb3cd9a056cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_autowrap_matrix_matrix_C_cython():
     has_module('Cython')
     runtest_autowrap_matrix_matrix('C99', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ufuncify_C_Cython(), test_ufuncify_C_Cython produces the expected output) over Any ║
+# ║ Path(test_ufuncify_C_Cython(), <unspecified:test_ufuncify_C_Cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ufuncify_C_Cython : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8a360394ac93554  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_ufuncify_C_Cython","kind":"function","src_hash":"fe2154d581a33169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ufuncify_C_Cython()","rhs":"test_ufuncify_C_Cython produces the expected output","over":{"base":"Any"},"name":"test_ufuncify_C_Cython_correct"},"guarantee":"test_ufuncify_C_Cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_ufuncify_C_Cython_correct","statement":"Path(test_ufuncify_C_Cython(x), test_ufuncify_C_Cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a360394ac93554"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_ufuncify_C_Cython","kind":"function","src_hash":"fe2154d581a33169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ufuncify_C_Cython()","rhs":"<unspecified:test_ufuncify_C_Cython>","over":{"base":"Any"},"name":"test_ufuncify_C_Cython_correct"},"guarantee":"test_ufuncify_C_Cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_ufuncify_C_Cython_correct","statement":"Path(test_ufuncify_C_Cython(x), test_ufuncify_C_Cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a360394ac93554","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ufuncify_C_Cython():
     has_module('Cython')
     runtest_ufuncify('C99', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10274_C_cython(), test_issue_10274_C_cython produces the expected output) over Any ║
+# ║ Path(test_issue_10274_C_cython(), <unspecified:test_issue_10274_C_cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_10274_C_cython : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94068dd53fb5bfe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_10274_C_cython","kind":"function","src_hash":"5f7b26a38efa1fdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_10274_C_cython()","rhs":"test_issue_10274_C_cython produces the expected output","over":{"base":"Any"},"name":"test_issue_10274_C_cython_correct"},"guarantee":"test_issue_10274_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_10274_C_cython_correct","statement":"Path(test_issue_10274_C_cython(x), test_issue_10274_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94068dd53fb5bfe3"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_10274_C_cython","kind":"function","src_hash":"5f7b26a38efa1fdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_10274_C_cython()","rhs":"<unspecified:test_issue_10274_C_cython>","over":{"base":"Any"},"name":"test_issue_10274_C_cython_correct"},"guarantee":"test_issue_10274_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_10274_C_cython_correct","statement":"Path(test_issue_10274_C_cython(x), test_issue_10274_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94068dd53fb5bfe3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_10274_C_cython():
     has_module('Cython')
     runtest_issue_10274('C89', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15337_C_cython(), test_issue_15337_C_cython produces the expected output) over Any ║
+# ║ Path(test_issue_15337_C_cython(), <unspecified:test_issue_15337_C_cython>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_15337_C_cython : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1519e3ea41a6c306  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_15337_C_cython","kind":"function","src_hash":"54eed120c0da86b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15337_C_cython()","rhs":"test_issue_15337_C_cython produces the expected output","over":{"base":"Any"},"name":"test_issue_15337_C_cython_correct"},"guarantee":"test_issue_15337_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_15337_C_cython_correct","statement":"Path(test_issue_15337_C_cython(x), test_issue_15337_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1519e3ea41a6c306"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_issue_15337_C_cython","kind":"function","src_hash":"54eed120c0da86b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15337_C_cython()","rhs":"<unspecified:test_issue_15337_C_cython>","over":{"base":"Any"},"name":"test_issue_15337_C_cython_correct"},"guarantee":"test_issue_15337_C_cython produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_issue_15337_C_cython_correct","statement":"Path(test_issue_15337_C_cython(x), test_issue_15337_C_cython produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1519e3ea41a6c306","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_15337_C_cython():
     has_module('Cython')
     runtest_issue_15337('C89', 'cython')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_custom_printer(), test_autowrap_custom_printer produces the expected output) over Any ║
+# ║ Path(test_autowrap_custom_printer(), 'S_PI') over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_autowrap_custom_printer : Any → {Any | func(4.2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  func(4.2) == 3.14 * 4.2                        ║
+# ║   ensures:  len(gen) == old_len_gen + 1                    ║
+# ║   returns:  'S_PI'                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_autowrap_custom_printer : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f6046c695f6502  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a223d6a2560ac77c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_custom_printer","kind":"function","src_hash":"a20d860f62b1dc97","in":{"base":"Any"},"out":{"base":"Any","pred":"func(4.2) == 3.14 * 4.2 and ''.join(lines[7:]) == expected"},"spec":{"lhs":"test_autowrap_custom_printer()","rhs":"test_autowrap_custom_printer produces the expected output","over":{"base":"Any"},"name":"test_autowrap_custom_printer_correct"},"guarantee":"test_autowrap_custom_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_custom_printer_correct","statement":"Path(test_autowrap_custom_printer(x), test_autowrap_custom_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f6046c695f6502"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_autowrap_custom_printer","kind":"function","src_hash":"a20d860f62b1dc97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('S_PI')"},"spec":{"lhs":"test_autowrap_custom_printer()","rhs":"'S_PI'","over":{"base":"Any"},"name":"test_autowrap_custom_printer_correct"},"guarantee":"returns 'S_PI'; func(4.2) == 3.14 * 4.2; len(gen) == old_len_gen + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_autowrap_custom_printer_correct","statement":"Path(test_autowrap_custom_printer(x), returns 'S_PI'; func(4.2) == 3.14 * 4.2; len(gen) == old_len_gen + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a223d6a2560ac77c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["func(4.2) == 3.14 * 4.2","len(gen) == old_len_gen + 1"],"returns_expr":"'S_PI'","pure":false,"effects":{"effect_type":"io","calls_mutating":["gen.preprocessor_statements.append"],"io_operations":["open"]},"state_contract":{"modifies":["gen.*"],"old_bindings":{"old_len_gen":"len(gen)"},"post_ensures":["len(gen) == old_len_gen + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_autowrap_custom_printer():
     has_module('Cython')
 
@@ -577,16 +719,22 @@ def test_autowrap_custom_printer():
 # Numpy
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ufuncify_numpy(), test_ufuncify_numpy produces the expected output) over Any ║
+# ║ Path(test_ufuncify_numpy(), <unspecified:test_ufuncify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ufuncify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 297a791c6e8e0302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_ufuncify_numpy","kind":"function","src_hash":"c4792c8bf3f33c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ufuncify_numpy()","rhs":"test_ufuncify_numpy produces the expected output","over":{"base":"Any"},"name":"test_ufuncify_numpy_correct"},"guarantee":"test_ufuncify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_ufuncify_numpy_correct","statement":"Path(test_ufuncify_numpy(x), test_ufuncify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"297a791c6e8e0302"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_autowrap.test_ufuncify_numpy","kind":"function","src_hash":"c4792c8bf3f33c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ufuncify_numpy()","rhs":"<unspecified:test_ufuncify_numpy>","over":{"base":"Any"},"name":"test_ufuncify_numpy_correct"},"guarantee":"test_ufuncify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_autowrap.test_ufuncify_numpy_correct","statement":"Path(test_ufuncify_numpy(x), test_ufuncify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"297a791c6e8e0302","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ufuncify_numpy():
     # This test doesn't use Cython, but if Cython works, then there is a valid
     # C compiler, which is needed.

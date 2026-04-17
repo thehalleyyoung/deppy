@@ -30,16 +30,22 @@ n, r, Z = symbols('n r Z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(feq(a, ), feq produces the expected output) over Any  ║
+# ║ Path(feq(a, b, max_relative_error), <unspecified:feq>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ feq : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b76ff256629a3a59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.feq","kind":"function","src_hash":"10bc4ffd11928a39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"feq(a, )","rhs":"feq produces the expected output","over":{"base":"Any"},"name":"feq_correct"},"guarantee":"feq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.feq_correct","statement":"Path(feq(x), feq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b76ff256629a3a59"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.feq","kind":"function","src_hash":"10bc4ffd11928a39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"feq(a, b, max_relative_error)","rhs":"<unspecified:feq>","over":{"base":"Any"},"name":"feq_correct"},"guarantee":"feq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.feq_correct","statement":"Path(feq(x), feq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b76ff256629a3a59","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def feq(a, b, max_relative_error=1e-12, max_absolute_error=1e-12):
     a = float(a)
     b = float(b)
@@ -55,16 +61,22 @@ def feq(a, b, max_relative_error=1e-12, max_absolute_error=1e-12):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wavefunction(), test_wavefunction produces the expected output) over Any ║
+# ║ Path(test_wavefunction(), <unspecified:test_wavefunction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_wavefunction : Any → {Any | simplify(R_nl(n, l, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bb746a5f9918b85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_wavefunction","kind":"function","src_hash":"6247bafe5171a1ae","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(R_nl(n, l, r, Z) - R[n, l]) == 0"},"spec":{"lhs":"test_wavefunction()","rhs":"test_wavefunction produces the expected output","over":{"base":"Any"},"name":"test_wavefunction_correct"},"guarantee":"test_wavefunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_wavefunction_correct","statement":"Path(test_wavefunction(x), test_wavefunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bb746a5f9918b85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_wavefunction","kind":"function","src_hash":"6247bafe5171a1ae","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(R_nl(n, l, r, Z) - R[n, l]) == 0"},"spec":{"lhs":"test_wavefunction()","rhs":"<unspecified:test_wavefunction>","over":{"base":"Any"},"name":"test_wavefunction_correct"},"guarantee":"test_wavefunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_wavefunction_correct","statement":"Path(test_wavefunction(x), test_wavefunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bb746a5f9918b85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_wavefunction():
     a = 1/Z
     R = {
@@ -89,16 +101,22 @@ def test_wavefunction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_norm(), test_norm produces the expected output) over Any ║
+# ║ Path(test_norm(), <unspecified:test_norm>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_norm : Any → {Any | integrate(R_nl(n, l, r) ** 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13129e1590c15216  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_norm","kind":"function","src_hash":"d4a2404901bc373b","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(R_nl(n, l, r) ** 2 * r ** 2, (r, 0, oo)) == 1"},"spec":{"lhs":"test_norm()","rhs":"test_norm produces the expected output","over":{"base":"Any"},"name":"test_norm_correct"},"guarantee":"test_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_norm_correct","statement":"Path(test_norm(x), test_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13129e1590c15216"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_norm","kind":"function","src_hash":"d4a2404901bc373b","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(R_nl(n, l, r) ** 2 * r ** 2, (r, 0, oo)) == 1"},"spec":{"lhs":"test_norm()","rhs":"<unspecified:test_norm>","over":{"base":"Any"},"name":"test_norm_correct"},"guarantee":"test_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_norm_correct","statement":"Path(test_norm(x), test_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13129e1590c15216","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_norm():
     # Maximum "n" which is tested:
     n_max = 2  # it works, but is slow, for n_max > 2
@@ -107,16 +125,24 @@ def test_norm():
             assert integrate(R_nl(n, l, r)**2 * r**2, (r, 0, oo)) == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_psi_nlm(), test_psi_nlm produces the expected output) over Any ║
+# ║ Path(test_psi_nlm(), Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi) and Psi_nlm(2, 1, -1, r, phi, theta) == S.Half * exp(-r / 2) * r * (sin(theta) * exp(-I * phi) / (4 * sqrt(pi))) and Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sqrt(2) * sin(theta) * exp(I * phi) * cos(theta) / (4 * sqrt(pi)) * S(2) / 81 * sqrt(2 * 2 ** 3) * exp(-2 * r / 3) * (r * 2) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_psi_nlm : Any → {Any | Psi_nlm(1, 0, 0, r, phi, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r...   ║
+# ║   ensures:  Psi_nlm(2, 1, -1, r, phi, theta) == S.Hal...   ║
+# ║   ensures:  Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_psi_nlm : Any → {Any | result satisfies: Psi_nlm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b4dea25484fb18b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99f2b29b5916edf7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_psi_nlm","kind":"function","src_hash":"659a42985c2147b0","in":{"base":"Any"},"out":{"base":"Any","pred":"Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi)"},"spec":{"lhs":"test_psi_nlm()","rhs":"test_psi_nlm produces the expected output","over":{"base":"Any"},"name":"test_psi_nlm_correct"},"guarantee":"test_psi_nlm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_psi_nlm_correct","statement":"Path(test_psi_nlm(x), test_psi_nlm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b4dea25484fb18b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_psi_nlm","kind":"function","src_hash":"659a42985c2147b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi) and Psi_nlm(2, 1, -1, r, phi, theta) == S.Half * exp(-r / 2) * r * (sin(theta) * exp(-I * phi) / (4 * sqrt(pi))) and Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sqrt(2) * sin(theta) * exp(I * phi) * cos(theta) / (4 * sqrt(pi)) * S(2) / 81 * sqrt(2 * 2 ** 3) * exp(-2 * r / 3) * (r * 2) ** 2"},"spec":{"lhs":"test_psi_nlm()","rhs":"Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi) and Psi_nlm(2, 1, -1, r, phi, theta) == S.Half * exp(-r / 2) * r * (sin(theta) * exp(-I * phi) / (4 * sqrt(pi))) and Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sqrt(2) * sin(theta) * exp(I * phi) * cos(theta) / (4 * sqrt(pi)) * S(2) / 81 * sqrt(2 * 2 ** 3) * exp(-2 * r / 3) * (r * 2) ** 2","over":{"base":"Any"},"name":"test_psi_nlm_correct"},"guarantee":"Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi); Psi_nlm(2, 1, -1, r, phi, theta) == S.Half * exp(-r / 2) * r * (sin(theta) * exp(-I * phi) / (4 * sqrt(pi))); Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sqrt(2) * sin(theta) * exp(I * phi) * cos(theta) / (4 * sqrt(pi)) * S(2) / 81 * sqrt(2 * 2 ** 3) * exp(-2 * r / 3) * (r * 2) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_psi_nlm_correct","statement":"Path(test_psi_nlm(x), Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi); Psi_nlm(2, 1, -1, r, phi, theta) == S.Half * exp(-r / 2) * r * (sin(theta) * exp(-I * phi) / (4 * sqrt(pi))); Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sqrt(2) * sin(theta) * exp(I * phi) * cos(theta) / (4 * sqrt(pi)) * S(2) / 81 * sqrt(2 * 2 ** 3) * exp(-2 * r / 3) * (r * 2) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99f2b29b5916edf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Psi_nlm(1, 0, 0, r, phi, theta) == exp(-r) / sqrt(pi)","Psi_nlm(2, 1, -1, r, phi, theta) == S.Half * exp(-r / 2) * r * (sin(theta) * exp(-I * phi) / (4 * sqrt(pi)))","Psi_nlm(3, 2, 1, r, phi, theta, 2) == -sqrt(2) * sin(theta) * exp(I * phi) * cos(theta) / (4 * sqrt(pi)) * S(2) / 81 * sqrt(2 * 2 ** 3) * exp(-2 * r / 3) * (r * 2) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_psi_nlm():
     r=S('r')
     phi=S('phi')
@@ -129,16 +155,24 @@ def test_psi_nlm():
         * sqrt(2 * 2 ** 3) * exp(-2 * r / (3)) * (r * 2) ** 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hydrogen_energies(), test_hydrogen_energies produces the expected output) over Any ║
+# ║ Path(test_hydrogen_energies(), E_nl(n, Z) == -Z ** 2 / (2 * n ** 2) and E_nl(n) == -1 / (2 * n ** 2) and E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2) and E_nl(2, 47) == -S(47) ** 2 / (2 * 2 ** 2) and E_nl(1) == -S.One / (2 * 1 ** 2) and E_nl(2) == -S.One / (2 * 2 ** 2) and E_nl(3) == -S.One / (2 * 3 ** 2) and E_nl(4) == -S.One / (2 * 4 ** 2) and E_nl(100) == -S.One / (2 * 100 ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hydrogen_energies : Any → {Any | E_nl(n, Z) == -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E_nl(n, Z) == -Z ** 2 / (2 * n ** 2)           ║
+# ║   ensures:  E_nl(n) == -1 / (2 * n ** 2)                   ║
+# ║   ensures:  E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hydrogen_energies : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e595bc5a0cdbcb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4d9ea6b7e5bc49f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies","kind":"function","src_hash":"208621a84e58aeba","in":{"base":"Any"},"out":{"base":"Any","pred":"E_nl(n, Z) == -Z ** 2 / (2 * n ** 2) and E_nl(n) == -1 / (2 * n ** 2) and E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2) and E_nl(2, 47) == -S(47) ** 2 / (2 * 2 ** 2) and E_nl(1) == -S.One / (2 * 1 ** 2) and E_nl(2) == -S.One / (2 * 2 ** 2) and E_nl(3) == -S.One / (2 * 3 ** 2) and E_nl(4) == -S.One / (2 * 4 ** 2) and E_nl(100) == -S.One / (2 * 100 ** 2)"},"spec":{"lhs":"test_hydrogen_energies()","rhs":"test_hydrogen_energies produces the expected output","over":{"base":"Any"},"name":"test_hydrogen_energies_correct"},"guarantee":"test_hydrogen_energies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies_correct","statement":"Path(test_hydrogen_energies(x), test_hydrogen_energies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e595bc5a0cdbcb6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies","kind":"function","src_hash":"208621a84e58aeba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E_nl(n, Z) == -Z ** 2 / (2 * n ** 2) and E_nl(n) == -1 / (2 * n ** 2) and E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2) and E_nl(2, 47) == -S(47) ** 2 / (2 * 2 ** 2) and E_nl(1) == -S.One / (2 * 1 ** 2) and E_nl(2) == -S.One / (2 * 2 ** 2) and E_nl(3) == -S.One / (2 * 3 ** 2) and E_nl(4) == -S.One / (2 * 4 ** 2) and E_nl(100) == -S.One / (2 * 100 ** 2)"},"spec":{"lhs":"test_hydrogen_energies()","rhs":"E_nl(n, Z) == -Z ** 2 / (2 * n ** 2) and E_nl(n) == -1 / (2 * n ** 2) and E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2) and E_nl(2, 47) == -S(47) ** 2 / (2 * 2 ** 2) and E_nl(1) == -S.One / (2 * 1 ** 2) and E_nl(2) == -S.One / (2 * 2 ** 2) and E_nl(3) == -S.One / (2 * 3 ** 2) and E_nl(4) == -S.One / (2 * 4 ** 2) and E_nl(100) == -S.One / (2 * 100 ** 2)","over":{"base":"Any"},"name":"test_hydrogen_energies_correct"},"guarantee":"E_nl(n, Z) == -Z ** 2 / (2 * n ** 2); E_nl(n) == -1 / (2 * n ** 2); E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies_correct","statement":"Path(test_hydrogen_energies(x), E_nl(n, Z) == -Z ** 2 / (2 * n ** 2); E_nl(n) == -1 / (2 * n ** 2); E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4d9ea6b7e5bc49f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E_nl(n, Z) == -Z ** 2 / (2 * n ** 2)","E_nl(n) == -1 / (2 * n ** 2)","E_nl(1, 47) == -S(47) ** 2 / (2 * 1 ** 2)","E_nl(2, 47) == -S(47) ** 2 / (2 * 2 ** 2)","E_nl(1) == -S.One / (2 * 1 ** 2)","E_nl(2) == -S.One / (2 * 2 ** 2)","E_nl(3) == -S.One / (2 * 3 ** 2)","E_nl(4) == -S.One / (2 * 4 ** 2)","E_nl(100) == -S.One / (2 * 100 ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hydrogen_energies():
     assert E_nl(n, Z) == -Z**2/(2*n**2)
     assert E_nl(n) == -1/(2*n**2)
@@ -156,16 +190,24 @@ def test_hydrogen_energies():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hydrogen_energies_relat(), test_hydrogen_energies_relat produces the expected output) over Any ║
+# ║ Path(test_hydrogen_energies_relat(), E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1 and simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8 * sqrt(3) + 16) / sqrt(16 * sqrt(3) + 32) - 4)) == 0 and simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((54 * sqrt(2) + 81) / sqrt(108 * sqrt(2) + 162) - 9)) == 0 and simplify(E_nl_dirac(2, 0, Z=1, c=137) - ((352275361 + 10285412 * sqrt(1173)) / sqrt(704550722 + 20570824 * sqrt(1173)) - 18769)) == 0 and simplify(E_nl_dirac(2, 0, Z=82, c=137) - ((352275361 + 2571353 * sqrt(12045)) / sqrt(704550722 + 5142706 * sqrt(12045)) - 18769)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hydrogen_energies_relat : Any → {Any | E_nl_dira...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2)...   ║
+# ║   ensures:  simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8...   ║
+# ║   ensures:  simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hydrogen_energies_relat : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2e27e975962eef1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3169adad35fff550  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies_relat","kind":"function","src_hash":"157302c296b77a0e","in":{"base":"Any"},"out":{"base":"Any","pred":"E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1 and feq(E_nl_dirac(n, l), E_nl(n), 1e-05, 1e-05) and feq(E_nl_dirac(n, l, Z=Z), E_nl(n, Z), 0.0001, 0.0001) and feq(E_nl_dirac(n, l, Z=Z), E_nl(n, Z), 0.001, 0.001) and feq(E_nl_dirac(n, l, False), E_nl(n), 1e-05, 1e-05) and feq(E_nl_dirac(n, l, False, Z), E_nl(n, Z), 0.0001, 0.0001) and feq(E_nl_dirac(n, l, False, Z), E_nl(n, Z), 0.001, 0.001)"},"spec":{"lhs":"test_hydrogen_energies_relat()","rhs":"test_hydrogen_energies_relat produces the expected output","over":{"base":"Any"},"name":"test_hydrogen_energies_relat_correct"},"guarantee":"test_hydrogen_energies_relat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies_relat_correct","statement":"Path(test_hydrogen_energies_relat(x), test_hydrogen_energies_relat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2e27e975962eef1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies_relat","kind":"function","src_hash":"157302c296b77a0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1 and simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8 * sqrt(3) + 16) / sqrt(16 * sqrt(3) + 32) - 4)) == 0 and simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((54 * sqrt(2) + 81) / sqrt(108 * sqrt(2) + 162) - 9)) == 0 and simplify(E_nl_dirac(2, 0, Z=1, c=137) - ((352275361 + 10285412 * sqrt(1173)) / sqrt(704550722 + 20570824 * sqrt(1173)) - 18769)) == 0 and simplify(E_nl_dirac(2, 0, Z=82, c=137) - ((352275361 + 2571353 * sqrt(12045)) / sqrt(704550722 + 5142706 * sqrt(12045)) - 18769)) == 0"},"spec":{"lhs":"test_hydrogen_energies_relat()","rhs":"E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1 and simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8 * sqrt(3) + 16) / sqrt(16 * sqrt(3) + 32) - 4)) == 0 and simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((54 * sqrt(2) + 81) / sqrt(108 * sqrt(2) + 162) - 9)) == 0 and simplify(E_nl_dirac(2, 0, Z=1, c=137) - ((352275361 + 10285412 * sqrt(1173)) / sqrt(704550722 + 20570824 * sqrt(1173)) - 18769)) == 0 and simplify(E_nl_dirac(2, 0, Z=82, c=137) - ((352275361 + 2571353 * sqrt(12045)) / sqrt(704550722 + 5142706 * sqrt(12045)) - 18769)) == 0","over":{"base":"Any"},"name":"test_hydrogen_energies_relat_correct"},"guarantee":"E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1; simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8 * sqrt(3) + 16) / sqrt(16 * sqrt(3) + 32) - 4)) == 0; simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((54 * sqrt(2) + 81) / sqrt(108 * sqrt(2) + 162) - 9)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_hydrogen.test_hydrogen_energies_relat_correct","statement":"Path(test_hydrogen_energies_relat(x), E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1; simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8 * sqrt(3) + 16) / sqrt(16 * sqrt(3) + 32) - 4)) == 0; simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((54 * sqrt(2) + 81) / sqrt(108 * sqrt(2) + 162) - 9)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3169adad35fff550","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E_nl_dirac(2, 0, Z=1, c=1) == 1 / sqrt(2) - 1","simplify(E_nl_dirac(2, 0, Z=1, c=2) - ((8 * sqrt(3) + 16) / sqrt(16 * sqrt(3) + 32) - 4)) == 0","simplify(E_nl_dirac(2, 0, Z=1, c=3) - ((54 * sqrt(2) + 81) / sqrt(108 * sqrt(2) + 162) - 9)) == 0","simplify(E_nl_dirac(2, 0, Z=1, c=137) - ((352275361 + 10285412 * sqrt(1173)) / sqrt(704550722 + 20570824 * sqrt(1173)) - 18769)) == 0","simplify(E_nl_dirac(2, 0, Z=82, c=137) - ((352275361 + 2571353 * sqrt(12045)) / sqrt(704550722 + 5142706 * sqrt(12045)) - 18769)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_hydrogen_energies_relat():
     # First test exact formulas for small "c" so that we get nice expressions:
     assert E_nl_dirac(2, 0, Z=1, c=1) == 1/sqrt(2) - 1

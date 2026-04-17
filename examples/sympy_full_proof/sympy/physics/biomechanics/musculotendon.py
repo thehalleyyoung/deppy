@@ -60,16 +60,22 @@ __all__ = [
 
 @unique
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MusculotendonFormulation(), correctly constructs a MusculotendonFormulation instance) over Any ║
+# ║ Path(MusculotendonFormulation(), isinstance(self, IntEnum)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MusculotendonFormulation : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntEnum)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MusculotendonFormulation : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85ee76bafdd1d8c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonFormulation","kind":"class","src_hash":"d5e6efbce0ca41f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MusculotendonFormulation()","rhs":"correctly constructs a MusculotendonFormulation instance","over":{"base":"Any"},"name":"MusculotendonFormulation_correct"},"guarantee":"correctly constructs a MusculotendonFormulation instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85ee76bafdd1d8c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonFormulation","kind":"class","src_hash":"d5e6efbce0ca41f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntEnum)"},"spec":{"lhs":"MusculotendonFormulation()","rhs":"isinstance(self, IntEnum)","over":{"base":"Any"},"name":"MusculotendonFormulation_correct"},"guarantee":"isinstance(self, IntEnum)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85ee76bafdd1d8c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntEnum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function MusculotendonFormulation not found in source"]}}
 class MusculotendonFormulation(IntEnum):
     """Enumeration of types of musculotendon dynamics formulations.
 
@@ -108,16 +114,22 @@ class MusculotendonFormulation(IntEnum):
     TENDON_FORCE_IMPLICIT = 4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.value)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.value)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21b2666eeec7db92           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonFormulation.__str__","kind":"method","src_hash":"8a83414773a4d2f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21b2666eeec7db92"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonFormulation.__str__","kind":"method","src_hash":"8a83414773a4d2f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.value)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21b2666eeec7db92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.value)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """Returns a string representation of the enumeration value.
 
@@ -141,14 +153,21 @@ _DEFAULT_MUSCULOTENDON_FORMULATION = MusculotendonFormulation.RIGID_TENDON
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MusculotendonBase(*args), correctly constructs a MusculotendonBase instance) over {Any | isinstance(activation_dynamics, ActivationBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ForceActuator)                ║
+# ║   ensures:  isinstance(self, _NamedMixin)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MusculotendonBase : {Any | isinstance(activation_dyna...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a3ea9b8e6e5b1cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase","kind":"class","src_hash":"18b92da41a8dfc98","in":{"base":"Any","pred":"isinstance(activation_dynamics, ActivationBase)"},"out":{"base":"Any"},"spec":{"lhs":"MusculotendonBase(*args)","rhs":"correctly constructs a MusculotendonBase instance","over":{"base":"Any","pred":"isinstance(activation_dynamics, ActivationBase)"},"name":"MusculotendonBase_class_invariant"},"guarantee":"correctly constructs a MusculotendonBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a3ea9b8e6e5b1cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase","kind":"class","src_hash":"18b92da41a8dfc98","in":{"base":"Any","pred":"isinstance(activation_dynamics, ActivationBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ForceActuator) and isinstance(self, _NamedMixin)"},"spec":{"lhs":"MusculotendonBase(*args)","rhs":"correctly constructs a MusculotendonBase instance","over":{"base":"Any","pred":"isinstance(activation_dynamics, ActivationBase)"},"name":"MusculotendonBase_class_invariant"},"guarantee":"isinstance(self, ForceActuator); isinstance(self, _NamedMixin); preserves 12 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a3ea9b8e6e5b1cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ForceActuator)","isinstance(self, _NamedMixin)"],"invariants":["hasattr(self, 'name')","hasattr(self, '_activation_dynamics')","hasattr(self, '_child_objects')","hasattr(self, '_with_defaults')","hasattr(self, '_musculotendon_dynamics')","hasattr(self, '_force')","hasattr(self, '_l_T_slack')","hasattr(self, '_F_M_max')","hasattr(self, '_l_M_opt')","hasattr(self, '_v_M_max')","hasattr(self, '_alpha_opt')","hasattr(self, '_beta')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MusculotendonBase not found in source"]}}
 class MusculotendonBase(ForceActuator, _NamedMixin):
     r"""Abstract base class for all musculotendon classes to inherit from.
 
@@ -232,16 +251,24 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, pathway, activation_dynamics), self.name == name and self._activation_dynamics == activation_dynamics and self._musculotendon_dynamics == musculotendon_dynamics and self._l_T_slack == tendon_slack_length) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.name == name                              ║
+# ║   ensures:  self._activation_dynamics == activation_d...   ║
+# ║   ensures:  self._musculotendon_dynamics == musculote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.name =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0abd154f8addf93a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.__init__","kind":"method","src_hash":"fe847ba039928fd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0abd154f8addf93a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.__init__","kind":"method","src_hash":"fe847ba039928fd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.name == name and self._activation_dynamics == activation_dynamics and self._musculotendon_dynamics == musculotendon_dynamics and self._l_T_slack == tendon_slack_length"},"spec":{"lhs":"__init__(name, pathway, activation_dynamics)","rhs":"self.name == name and self._activation_dynamics == activation_dynamics and self._musculotendon_dynamics == musculotendon_dynamics and self._l_T_slack == tendon_slack_length","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.name == name; self._activation_dynamics == activation_dynamics; self._musculotendon_dynamics == musculotendon_dynamics","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0abd154f8addf93a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.name == name","self._activation_dynamics == activation_dynamics","self._musculotendon_dynamics == musculotendon_dynamics","self._l_T_slack == tendon_slack_length"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._F_T","self._activation_dynamics","self._fiber_length_explicit_musculotendon_dynamics","self._fiber_length_implicit_musculotendon_dynamics","self._rigid_tendon_musculotendon_dynamics","self._tendon_force_explicit_musculotendon_dynamics","self._tendon_force_implicit_musculotendon_dynamics","self.name"],"writes":["self._F_M_max","self._activation_dynamics","self._alpha_opt","self._beta","self._child_objects","self._force","self._l_M_opt","self._l_T_slack","self._musculotendon_dynamics","self._v_M_max","self._with_defaults","self.name"],"raises":["TypeError"]},"state_contract":{"modifies":["self._F_M_max","self._activation_dynamics","self._alpha_opt","self._beta","self._child_objects","self._force","self._l_M_opt","self._l_T_slack","self._musculotendon_dynamics","self._v_M_max","self._with_defaults","self.name"],"old_bindings":{"old_self__F_M_max":"self._F_M_max","old_self__activation_dynamics":"self._activation_dynamics","old_self__alpha_opt":"self._alpha_opt","old_self__beta":"self._beta","old_self__child_objects":"self._child_objects","old_self__force":"self._force","old_self__l_M_opt":"self._l_M_opt","old_self__l_T_slack":"self._l_T_slack","old_self__musculotendon_dynamics":"self._musculotendon_dynamics","old_self__v_M_max":"self._v_M_max","old_self__with_defaults":"self._with_defaults","old_self_name":"self.name"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(
         self,
         name,
@@ -332,16 +359,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(with_defaults(cls), recommended constructor that will use the published constants) over Any ║
+# ║ Path(with_defaults(cls, name, pathway), cls(name, pathway)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(name, pathway)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ with_defaults : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fda292dbd141eb9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 863cfdbce85824e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.with_defaults","kind":"classmethod","src_hash":"36ebdedc2b37a53e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls)","rhs":"recommended constructor that will use the published constants","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"recommended constructor that will use the published constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.with_defaults_correct","statement":"Path(with_defaults(x), recommended constructor that will use the published constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fda292dbd141eb9f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.with_defaults","kind":"classmethod","src_hash":"36ebdedc2b37a53e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls, name, pathway)","rhs":"cls(name, pathway)","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"returns cls(name, pathway)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.with_defaults_correct","statement":"Path(with_defaults(x), returns cls(name, pathway))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"863cfdbce85824e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(name, pathway)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def with_defaults(
         cls,
         name,
@@ -455,16 +488,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(curves(cls), return a ``characteristiccurvecollection`` of the curves related to the specific model) over Any ║
+# ║ Path(curves(cls), <unspecified:curves>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ curves : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2a47ccbc1c1b4f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.curves","kind":"method","src_hash":"9877617ac0f988a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"curves(cls)","rhs":"return a ``characteristiccurvecollection`` of the curves related to the specific model","over":{"base":"Any"},"name":"curves_correct"},"guarantee":"return a ``characteristiccurvecollection`` of the curves related to the specific model","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a47ccbc1c1b4f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.curves","kind":"method","src_hash":"9877617ac0f988a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"curves(cls)","rhs":"<unspecified:curves>","over":{"base":"Any"},"name":"curves_correct"},"guarantee":"return a ``characteristiccurvecollection`` of the curves related to the specific model","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a47ccbc1c1b4f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def curves(cls):
         """Return a ``CharacteristicCurveCollection`` of the curves related to
         the specific model."""
@@ -472,16 +511,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tendon_slack_length(), returns the tendon_slack_length attribute) over Any ║
+# ║ Path(tendon_slack_length(), self._l_T_slack) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._l_T_slack                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tendon_slack_length : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b8160482d1f083c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.tendon_slack_length","kind":"property","src_hash":"e4a156675f70fbaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tendon_slack_length()","rhs":"returns the tendon_slack_length attribute","over":{"base":"Any"},"name":"tendon_slack_length_correct"},"guarantee":"returns the tendon_slack_length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b8160482d1f083c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.tendon_slack_length","kind":"property","src_hash":"e4a156675f70fbaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tendon_slack_length()","rhs":"self._l_T_slack","over":{"base":"Any"},"name":"tendon_slack_length_correct"},"guarantee":"returns self._l_T_slack","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b8160482d1f083c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._l_T_slack","pure":false,"effects":{"effect_type":"reads_state","reads":["self._l_T_slack"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tendon_slack_length(self):
         r"""Symbol or value corresponding to the tendon slack length constant.
 
@@ -501,16 +546,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(l_T_slack(), returns the l_T_slack attribute) over Any ║
+# ║ Path(l_T_slack(), self._l_T_slack) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._l_T_slack                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ l_T_slack : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10eab4af939ce156           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.l_T_slack","kind":"property","src_hash":"7fabb21ee1e2cd11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l_T_slack()","rhs":"returns the l_T_slack attribute","over":{"base":"Any"},"name":"l_T_slack_correct"},"guarantee":"returns the l_T_slack attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10eab4af939ce156"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.l_T_slack","kind":"property","src_hash":"7fabb21ee1e2cd11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l_T_slack()","rhs":"self._l_T_slack","over":{"base":"Any"},"name":"l_T_slack_correct"},"guarantee":"returns self._l_T_slack","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10eab4af939ce156","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._l_T_slack","pure":false,"effects":{"effect_type":"reads_state","reads":["self._l_T_slack"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def l_T_slack(self):
         r"""Symbol or value corresponding to the tendon slack length constant.
 
@@ -531,16 +582,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(peak_isometric_force(), returns the peak_isometric_force attribute) over Any ║
+# ║ Path(peak_isometric_force(), self._F_M_max) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._F_M_max                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ peak_isometric_force : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebd541581cf93447           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.peak_isometric_force","kind":"property","src_hash":"29ef40c58a51d973","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"peak_isometric_force()","rhs":"returns the peak_isometric_force attribute","over":{"base":"Any"},"name":"peak_isometric_force_correct"},"guarantee":"returns the peak_isometric_force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebd541581cf93447"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.peak_isometric_force","kind":"property","src_hash":"29ef40c58a51d973","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"peak_isometric_force()","rhs":"self._F_M_max","over":{"base":"Any"},"name":"peak_isometric_force_correct"},"guarantee":"returns self._F_M_max","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebd541581cf93447","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._F_M_max","pure":false,"effects":{"effect_type":"reads_state","reads":["self._F_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def peak_isometric_force(self):
         r"""Symbol or value corresponding to the peak isometric force constant.
 
@@ -560,16 +617,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(F_M_max(), returns the F_M_max attribute) over Any    ║
+# ║ Path(F_M_max(), self._F_M_max) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._F_M_max                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ F_M_max : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e28f846fabcafc0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.F_M_max","kind":"property","src_hash":"ec4cc3df03f38006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F_M_max()","rhs":"returns the F_M_max attribute","over":{"base":"Any"},"name":"F_M_max_correct"},"guarantee":"returns the F_M_max attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e28f846fabcafc0e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.F_M_max","kind":"property","src_hash":"ec4cc3df03f38006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F_M_max()","rhs":"self._F_M_max","over":{"base":"Any"},"name":"F_M_max_correct"},"guarantee":"returns self._F_M_max","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e28f846fabcafc0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._F_M_max","pure":false,"effects":{"effect_type":"reads_state","reads":["self._F_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def F_M_max(self):
         r"""Symbol or value corresponding to the peak isometric force constant.
 
@@ -590,16 +653,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(optimal_fiber_length(), returns the optimal_fiber_length attribute) over Any ║
+# ║ Path(optimal_fiber_length(), self._l_M_opt) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._l_M_opt                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ optimal_fiber_length : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9361bfdfaa51fa18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.optimal_fiber_length","kind":"property","src_hash":"8969dfe6b41cca8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"optimal_fiber_length()","rhs":"returns the optimal_fiber_length attribute","over":{"base":"Any"},"name":"optimal_fiber_length_correct"},"guarantee":"returns the optimal_fiber_length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9361bfdfaa51fa18"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.optimal_fiber_length","kind":"property","src_hash":"8969dfe6b41cca8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"optimal_fiber_length()","rhs":"self._l_M_opt","over":{"base":"Any"},"name":"optimal_fiber_length_correct"},"guarantee":"returns self._l_M_opt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9361bfdfaa51fa18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._l_M_opt","pure":false,"effects":{"effect_type":"reads_state","reads":["self._l_M_opt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def optimal_fiber_length(self):
         r"""Symbol or value corresponding to the optimal fiber length constant.
 
@@ -618,16 +687,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(l_M_opt(), returns the l_M_opt attribute) over Any    ║
+# ║ Path(l_M_opt(), self._l_M_opt) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._l_M_opt                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ l_M_opt : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd774340a2e3fc1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.l_M_opt","kind":"property","src_hash":"da7d686d01e089ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l_M_opt()","rhs":"returns the l_M_opt attribute","over":{"base":"Any"},"name":"l_M_opt_correct"},"guarantee":"returns the l_M_opt attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd774340a2e3fc1b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.l_M_opt","kind":"property","src_hash":"da7d686d01e089ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l_M_opt()","rhs":"self._l_M_opt","over":{"base":"Any"},"name":"l_M_opt_correct"},"guarantee":"returns self._l_M_opt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd774340a2e3fc1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._l_M_opt","pure":false,"effects":{"effect_type":"reads_state","reads":["self._l_M_opt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def l_M_opt(self):
         r"""Symbol or value corresponding to the optimal fiber length constant.
 
@@ -647,16 +722,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maximal_fiber_velocity(), returns the maximal_fiber_velocity attribute) over Any ║
+# ║ Path(maximal_fiber_velocity(), self._v_M_max) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._v_M_max                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maximal_fiber_velocity : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 221dec4cb93202d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.maximal_fiber_velocity","kind":"property","src_hash":"90dd347804834337","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maximal_fiber_velocity()","rhs":"returns the maximal_fiber_velocity attribute","over":{"base":"Any"},"name":"maximal_fiber_velocity_correct"},"guarantee":"returns the maximal_fiber_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"221dec4cb93202d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.maximal_fiber_velocity","kind":"property","src_hash":"90dd347804834337","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maximal_fiber_velocity()","rhs":"self._v_M_max","over":{"base":"Any"},"name":"maximal_fiber_velocity_correct"},"guarantee":"returns self._v_M_max","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"221dec4cb93202d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._v_M_max","pure":false,"effects":{"effect_type":"reads_state","reads":["self._v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maximal_fiber_velocity(self):
         r"""Symbol or value corresponding to the maximal fiber velocity constant.
 
@@ -675,16 +756,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v_M_max(), returns the v_M_max attribute) over Any    ║
+# ║ Path(v_M_max(), self._v_M_max) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._v_M_max                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ v_M_max : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d65172b56173df6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.v_M_max","kind":"property","src_hash":"c2a2a8be2eae70f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v_M_max()","rhs":"returns the v_M_max attribute","over":{"base":"Any"},"name":"v_M_max_correct"},"guarantee":"returns the v_M_max attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d65172b56173df6e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.v_M_max","kind":"property","src_hash":"c2a2a8be2eae70f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v_M_max()","rhs":"self._v_M_max","over":{"base":"Any"},"name":"v_M_max_correct"},"guarantee":"returns self._v_M_max","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d65172b56173df6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._v_M_max","pure":false,"effects":{"effect_type":"reads_state","reads":["self._v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v_M_max(self):
         r"""Symbol or value corresponding to the maximal fiber velocity constant.
 
@@ -704,16 +791,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(optimal_pennation_angle(), returns the optimal_pennation_angle attribute) over Any ║
+# ║ Path(optimal_pennation_angle(), self._alpha_opt) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._alpha_opt                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ optimal_pennation_angle : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8207ca4c844bdcee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.optimal_pennation_angle","kind":"property","src_hash":"9bed70829b43e578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"optimal_pennation_angle()","rhs":"returns the optimal_pennation_angle attribute","over":{"base":"Any"},"name":"optimal_pennation_angle_correct"},"guarantee":"returns the optimal_pennation_angle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8207ca4c844bdcee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.optimal_pennation_angle","kind":"property","src_hash":"9bed70829b43e578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"optimal_pennation_angle()","rhs":"self._alpha_opt","over":{"base":"Any"},"name":"optimal_pennation_angle_correct"},"guarantee":"returns self._alpha_opt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8207ca4c844bdcee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._alpha_opt","pure":false,"effects":{"effect_type":"reads_state","reads":["self._alpha_opt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def optimal_pennation_angle(self):
         """Symbol or value corresponding to the optimal pennation angle
         constant.
@@ -731,16 +824,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(alpha_opt(), returns the alpha_opt attribute) over Any ║
+# ║ Path(alpha_opt(), self._alpha_opt) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._alpha_opt                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ alpha_opt : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5db9b71e4b400cfd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.alpha_opt","kind":"property","src_hash":"4f1e298af787de0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alpha_opt()","rhs":"returns the alpha_opt attribute","over":{"base":"Any"},"name":"alpha_opt_correct"},"guarantee":"returns the alpha_opt attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5db9b71e4b400cfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.alpha_opt","kind":"property","src_hash":"4f1e298af787de0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alpha_opt()","rhs":"self._alpha_opt","over":{"base":"Any"},"name":"alpha_opt_correct"},"guarantee":"returns self._alpha_opt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5db9b71e4b400cfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._alpha_opt","pure":false,"effects":{"effect_type":"reads_state","reads":["self._alpha_opt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def alpha_opt(self):
         """Symbol or value corresponding to the optimal pennation angle
         constant.
@@ -759,16 +858,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fiber_damping_coefficient(), returns the fiber_damping_coefficient attribute) over Any ║
+# ║ Path(fiber_damping_coefficient(), self._beta) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._beta                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fiber_damping_coefficient : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8869551188d260ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.fiber_damping_coefficient","kind":"property","src_hash":"14ad781b0c259111","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fiber_damping_coefficient()","rhs":"returns the fiber_damping_coefficient attribute","over":{"base":"Any"},"name":"fiber_damping_coefficient_correct"},"guarantee":"returns the fiber_damping_coefficient attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8869551188d260ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.fiber_damping_coefficient","kind":"property","src_hash":"14ad781b0c259111","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fiber_damping_coefficient()","rhs":"self._beta","over":{"base":"Any"},"name":"fiber_damping_coefficient_correct"},"guarantee":"returns self._beta","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8869551188d260ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._beta","pure":false,"effects":{"effect_type":"reads_state","reads":["self._beta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fiber_damping_coefficient(self):
         """Symbol or value corresponding to the fiber damping coefficient
         constant.
@@ -786,16 +891,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(beta(), returns the beta attribute) over Any          ║
+# ║ Path(beta(), self._beta) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._beta                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ beta : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 669275dd6d6ec187           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.beta","kind":"property","src_hash":"97942a443891277d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta()","rhs":"returns the beta attribute","over":{"base":"Any"},"name":"beta_correct"},"guarantee":"returns the beta attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"669275dd6d6ec187"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.beta","kind":"property","src_hash":"97942a443891277d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta()","rhs":"self._beta","over":{"base":"Any"},"name":"beta_correct"},"guarantee":"returns self._beta","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"669275dd6d6ec187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._beta","pure":false,"effects":{"effect_type":"reads_state","reads":["self._beta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def beta(self):
         """Symbol or value corresponding to the fiber damping coefficient
         constant.
@@ -814,16 +925,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(activation_dynamics(), returns the activation_dynamics attribute) over Any ║
+# ║ Path(activation_dynamics(), self._activation_dynamics) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._activation_dynamics                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ activation_dynamics : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a40466ca71efd82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.activation_dynamics","kind":"property","src_hash":"60c0b4be2251a0d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation_dynamics()","rhs":"returns the activation_dynamics attribute","over":{"base":"Any"},"name":"activation_dynamics_correct"},"guarantee":"returns the activation_dynamics attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a40466ca71efd82"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.activation_dynamics","kind":"property","src_hash":"60c0b4be2251a0d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation_dynamics()","rhs":"self._activation_dynamics","over":{"base":"Any"},"name":"activation_dynamics_correct"},"guarantee":"returns self._activation_dynamics","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a40466ca71efd82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._activation_dynamics","pure":false,"effects":{"effect_type":"reads_state","reads":["self._activation_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def activation_dynamics(self):
         """Activation dynamics model governing this musculotendon's activation.
 
@@ -839,16 +956,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(excitation(), returns the excitation attribute) over Any ║
+# ║ Path(excitation(), self._activation_dynamics._e) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._activation_dynamics._e                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ excitation : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2123f727f262bc43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.excitation","kind":"property","src_hash":"94c53bddc2b2a5cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"excitation()","rhs":"returns the excitation attribute","over":{"base":"Any"},"name":"excitation_correct"},"guarantee":"returns the excitation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2123f727f262bc43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.excitation","kind":"property","src_hash":"94c53bddc2b2a5cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"excitation()","rhs":"self._activation_dynamics._e","over":{"base":"Any"},"name":"excitation_correct"},"guarantee":"returns self._activation_dynamics._e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2123f727f262bc43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._activation_dynamics._e","pure":false,"effects":{"effect_type":"reads_state","reads":["self._activation_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def excitation(self):
         """Dynamic symbol representing excitation.
 
@@ -862,16 +985,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(e(), returns the e attribute) over Any                ║
+# ║ Path(e(), self._activation_dynamics._e) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._activation_dynamics._e                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ e : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54d1473557d71e7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.e","kind":"property","src_hash":"f000e5f0a1692136","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"e()","rhs":"returns the e attribute","over":{"base":"Any"},"name":"e_correct"},"guarantee":"returns the e attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54d1473557d71e7f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.e","kind":"property","src_hash":"f000e5f0a1692136","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"e()","rhs":"self._activation_dynamics._e","over":{"base":"Any"},"name":"e_correct"},"guarantee":"returns self._activation_dynamics._e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54d1473557d71e7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._activation_dynamics._e","pure":false,"effects":{"effect_type":"reads_state","reads":["self._activation_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def e(self):
         """Dynamic symbol representing excitation.
 
@@ -885,16 +1014,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(activation(), returns the activation attribute) over Any ║
+# ║ Path(activation(), self._activation_dynamics._a) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._activation_dynamics._a                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ activation : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7fb448b48d13d5a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.activation","kind":"property","src_hash":"f5036f088cc8ec32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation()","rhs":"returns the activation attribute","over":{"base":"Any"},"name":"activation_correct"},"guarantee":"returns the activation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fb448b48d13d5a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.activation","kind":"property","src_hash":"f5036f088cc8ec32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation()","rhs":"self._activation_dynamics._a","over":{"base":"Any"},"name":"activation_correct"},"guarantee":"returns self._activation_dynamics._a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fb448b48d13d5a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._activation_dynamics._a","pure":false,"effects":{"effect_type":"reads_state","reads":["self._activation_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def activation(self):
         """Dynamic symbol representing activation.
 
@@ -908,16 +1043,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), returns the a attribute) over Any                ║
+# ║ Path(a(), self._activation_dynamics._a) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._activation_dynamics._a                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f30b73bd32bec39d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.a","kind":"property","src_hash":"4d2d173a86c417e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"returns the a attribute","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f30b73bd32bec39d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.a","kind":"property","src_hash":"4d2d173a86c417e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"self._activation_dynamics._a","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns self._activation_dynamics._a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f30b73bd32bec39d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._activation_dynamics._a","pure":false,"effects":{"effect_type":"reads_state","reads":["self._activation_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         """Dynamic symbol representing activation.
 
@@ -931,16 +1072,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(musculotendon_dynamics(), returns the musculotendon_dynamics attribute) over Any ║
+# ║ Path(musculotendon_dynamics(), self._musculotendon_dynamics) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._musculotendon_dynamics                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ musculotendon_dynamics : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71130f338dc51bab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.musculotendon_dynamics","kind":"property","src_hash":"eee2843100c17bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"musculotendon_dynamics()","rhs":"returns the musculotendon_dynamics attribute","over":{"base":"Any"},"name":"musculotendon_dynamics_correct"},"guarantee":"returns the musculotendon_dynamics attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71130f338dc51bab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.musculotendon_dynamics","kind":"property","src_hash":"eee2843100c17bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"musculotendon_dynamics()","rhs":"self._musculotendon_dynamics","over":{"base":"Any"},"name":"musculotendon_dynamics_correct"},"guarantee":"returns self._musculotendon_dynamics","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71130f338dc51bab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._musculotendon_dynamics","pure":false,"effects":{"effect_type":"reads_state","reads":["self._musculotendon_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def musculotendon_dynamics(self):
         """The choice of rigid or type of elastic tendon musculotendon dynamics.
 
@@ -972,16 +1119,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         return self._musculotendon_dynamics
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rigid_tendon_musculotendon_dynamics(), rigid tendon musculotendon) over Any ║
+# ║ Path(_rigid_tendon_musculotendon_dynamics(), <unspecified:_rigid_tendon_musculotendon_dynamics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rigid_tendon_musculotendon_dynamics : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fef01beaa4245266  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._rigid_tendon_musculotendon_dynamics","kind":"method","src_hash":"304ca2afbe49ece3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rigid_tendon_musculotendon_dynamics()","rhs":"rigid tendon musculotendon","over":{"base":"Any"},"name":"_rigid_tendon_musculotendon_dynamics_correct"},"guarantee":"rigid tendon musculotendon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._rigid_tendon_musculotendon_dynamics_correct","statement":"Path(_rigid_tendon_musculotendon_dynamics(x), rigid tendon musculotendon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fef01beaa4245266"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._rigid_tendon_musculotendon_dynamics","kind":"method","src_hash":"304ca2afbe49ece3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rigid_tendon_musculotendon_dynamics()","rhs":"<unspecified:_rigid_tendon_musculotendon_dynamics>","over":{"base":"Any"},"name":"_rigid_tendon_musculotendon_dynamics_correct"},"guarantee":"rigid tendon musculotendon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._rigid_tendon_musculotendon_dynamics_correct","statement":"Path(_rigid_tendon_musculotendon_dynamics(x), rigid tendon musculotendon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fef01beaa4245266","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._F_M","self._F_M_max","self._F_M_tilde","self._alpha_opt","self._beta","self._cos_alpha","self._fl_M_act","self._fl_M_pas","self._fv_M","self._l_M","self._l_MT","self._l_M_opt","self._l_M_tilde","self._l_T","self._l_T_slack","self._l_T_tilde","self._v_M","self._v_MT","self._v_M_max","self._v_M_tilde","self._with_defaults","self.a","self.curves","self.name","self.pathway"],"writes":["self._F_M","self._F_M_tilde","self._F_T","self._F_T_tilde","self._cos_alpha","self._curve_constants","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fv_M","self._input_vars","self._l_M","self._l_MT","self._l_M_tilde","self._l_T","self._l_T_tilde","self._state_eqns","self._state_vars","self._v_M","self._v_MT","self._v_M_tilde"]},"state_contract":{"modifies":["self._F_M","self._F_M_tilde","self._F_T","self._F_T_tilde","self._cos_alpha","self._curve_constants","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fv_M","self._input_vars","self._l_M","self._l_MT","self._l_M_tilde","self._l_T","self._l_T_tilde","self._state_eqns","self._state_vars","self._v_M","self._v_MT","self._v_M_tilde"],"old_bindings":{"old_self__F_M":"self._F_M","old_self__F_M_tilde":"self._F_M_tilde","old_self__F_T":"self._F_T","old_self__F_T_tilde":"self._F_T_tilde","old_self__cos_alpha":"self._cos_alpha","old_self__curve_constants":"self._curve_constants","old_self__fl_M_act":"self._fl_M_act","old_self__fl_M_pas":"self._fl_M_pas","old_self__fl_T":"self._fl_T","old_self__fv_M":"self._fv_M","old_self__input_vars":"self._input_vars","old_self__l_M":"self._l_M","old_self__l_MT":"self._l_MT","old_self__l_M_tilde":"self._l_M_tilde","old_self__l_T":"self._l_T","old_self__l_T_tilde":"self._l_T_tilde","old_self__state_eqns":"self._state_eqns","old_self__state_vars":"self._state_vars","old_self__v_M":"self._v_M","old_self__v_MT":"self._v_MT","old_self__v_M_tilde":"self._v_M_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rigid_tendon_musculotendon_dynamics(self):
         """Rigid tendon musculotendon."""
         self._l_MT = self.pathway.length
@@ -1024,16 +1177,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         ) if not self._with_defaults else zeros(0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fiber_length_explicit_musculotendon_dynamics(), elastic tendon musculotendon using `l_m_tilde` as a state) over Any ║
+# ║ Path(_fiber_length_explicit_musculotendon_dynamics(), <unspecified:_fiber_length_explicit_musculotendon_dynamics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fiber_length_explicit_musculotendon_dynamics : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2568daf56c47cd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._fiber_length_explicit_musculotendon_dynamics","kind":"method","src_hash":"a527ba3826b2cd80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_length_explicit_musculotendon_dynamics()","rhs":"elastic tendon musculotendon using `l_m_tilde` as a state","over":{"base":"Any"},"name":"_fiber_length_explicit_musculotendon_dynamics_correct"},"guarantee":"elastic tendon musculotendon using `l_m_tilde` as a state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._fiber_length_explicit_musculotendon_dynamics_correct","statement":"Path(_fiber_length_explicit_musculotendon_dynamics(x), elastic tendon musculotendon using `l_m_tilde` as a state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2568daf56c47cd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._fiber_length_explicit_musculotendon_dynamics","kind":"method","src_hash":"a527ba3826b2cd80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_length_explicit_musculotendon_dynamics()","rhs":"<unspecified:_fiber_length_explicit_musculotendon_dynamics>","over":{"base":"Any"},"name":"_fiber_length_explicit_musculotendon_dynamics_correct"},"guarantee":"elastic tendon musculotendon using `l_m_tilde` as a state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._fiber_length_explicit_musculotendon_dynamics_correct","statement":"Path(_fiber_length_explicit_musculotendon_dynamics(x), elastic tendon musculotendon using `l_m_tilde` as a state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2568daf56c47cd7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._F_M","self._F_M_max","self._F_M_tilde","self._F_T","self._F_T_tilde","self._alpha_opt","self._cos_alpha","self._dl_M_tilde_dt","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fv_M","self._l_M","self._l_MT","self._l_M_opt","self._l_M_tilde","self._l_T","self._l_T_slack","self._l_T_tilde","self._v_M_max","self._v_M_tilde","self._with_defaults","self.a","self.curves","self.name","self.pathway"],"writes":["self._F_M","self._F_M_tilde","self._F_T","self._F_T_tilde","self._cos_alpha","self._curve_constants","self._dl_M_tilde_dt","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fv_M","self._input_vars","self._l_M","self._l_MT","self._l_M_tilde","self._l_T","self._l_T_tilde","self._state_eqns","self._state_vars","self._v_MT","self._v_M_tilde"]},"state_contract":{"modifies":["self._F_M","self._F_M_tilde","self._F_T","self._F_T_tilde","self._cos_alpha","self._curve_constants","self._dl_M_tilde_dt","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fv_M","self._input_vars","self._l_M","self._l_MT","self._l_M_tilde","self._l_T","self._l_T_tilde","self._state_eqns","self._state_vars","self._v_MT","self._v_M_tilde"],"old_bindings":{"old_self__F_M":"self._F_M","old_self__F_M_tilde":"self._F_M_tilde","old_self__F_T":"self._F_T","old_self__F_T_tilde":"self._F_T_tilde","old_self__cos_alpha":"self._cos_alpha","old_self__curve_constants":"self._curve_constants","old_self__dl_M_tilde_dt":"self._dl_M_tilde_dt","old_self__fl_M_act":"self._fl_M_act","old_self__fl_M_pas":"self._fl_M_pas","old_self__fl_T":"self._fl_T","old_self__fv_M":"self._fv_M","old_self__input_vars":"self._input_vars","old_self__l_M":"self._l_M","old_self__l_MT":"self._l_MT","old_self__l_M_tilde":"self._l_M_tilde","old_self__l_T":"self._l_T","old_self__l_T_tilde":"self._l_T_tilde","old_self__state_eqns":"self._state_eqns","old_self__state_vars":"self._state_vars","old_self__v_MT":"self._v_MT","old_self__v_M_tilde":"self._v_M_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fiber_length_explicit_musculotendon_dynamics(self):
         """Elastic tendon musculotendon using `l_M_tilde` as a state."""
         self._l_M_tilde = dynamicsymbols(f'l_M_tilde_{self.name}')
@@ -1077,16 +1236,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         ) if not self._with_defaults else zeros(0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tendon_force_explicit_musculotendon_dynamics(), elastic tendon musculotendon using `f_t_tilde` as a state) over Any ║
+# ║ Path(_tendon_force_explicit_musculotendon_dynamics(), <unspecified:_tendon_force_explicit_musculotendon_dynamics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tendon_force_explicit_musculotendon_dynamics : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dab3c1058b9907d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._tendon_force_explicit_musculotendon_dynamics","kind":"method","src_hash":"de5829373f132308","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_explicit_musculotendon_dynamics()","rhs":"elastic tendon musculotendon using `f_t_tilde` as a state","over":{"base":"Any"},"name":"_tendon_force_explicit_musculotendon_dynamics_correct"},"guarantee":"elastic tendon musculotendon using `f_t_tilde` as a state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._tendon_force_explicit_musculotendon_dynamics_correct","statement":"Path(_tendon_force_explicit_musculotendon_dynamics(x), elastic tendon musculotendon using `f_t_tilde` as a state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dab3c1058b9907d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._tendon_force_explicit_musculotendon_dynamics","kind":"method","src_hash":"de5829373f132308","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_explicit_musculotendon_dynamics()","rhs":"<unspecified:_tendon_force_explicit_musculotendon_dynamics>","over":{"base":"Any"},"name":"_tendon_force_explicit_musculotendon_dynamics_correct"},"guarantee":"elastic tendon musculotendon using `f_t_tilde` as a state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._tendon_force_explicit_musculotendon_dynamics_correct","statement":"Path(_tendon_force_explicit_musculotendon_dynamics(x), elastic tendon musculotendon using `f_t_tilde` as a state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dab3c1058b9907d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._F_M","self._F_M_max","self._F_M_tilde","self._F_T","self._F_T_tilde","self._alpha_opt","self._cos_alpha","self._dF_T_tilde_dt","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fl_T_inv","self._fv_M","self._fv_M_inv","self._l_M","self._l_MT","self._l_M_opt","self._l_M_tilde","self._l_T","self._l_T_slack","self._l_T_tilde","self._v_M","self._v_MT","self._v_M_max","self._v_M_tilde","self._v_T","self._v_T_tilde","self._with_defaults","self.a","self.curves","self.name","self.pathway"],"writes":["self._F_M","self._F_M_tilde","self._F_T","self._F_T_tilde","self._cos_alpha","self._curve_constants","self._dF_T_tilde_dt","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fl_T_inv","self._fv_M","self._fv_M_inv","self._input_vars","self._l_M","self._l_MT","self._l_M_tilde","self._l_T","self._l_T_tilde","self._state_eqns","self._state_vars","self._v_M","self._v_MT","self._v_M_tilde","self._v_T","self._v_T_tilde"]},"state_contract":{"modifies":["self._F_M","self._F_M_tilde","self._F_T","self._F_T_tilde","self._cos_alpha","self._curve_constants","self._dF_T_tilde_dt","self._fl_M_act","self._fl_M_pas","self._fl_T","self._fl_T_inv","self._fv_M","self._fv_M_inv","self._input_vars","self._l_M","self._l_MT","self._l_M_tilde","self._l_T","self._l_T_tilde","self._state_eqns","self._state_vars","self._v_M","self._v_MT","self._v_M_tilde","self._v_T","self._v_T_tilde"],"old_bindings":{"old_self__F_M":"self._F_M","old_self__F_M_tilde":"self._F_M_tilde","old_self__F_T":"self._F_T","old_self__F_T_tilde":"self._F_T_tilde","old_self__cos_alpha":"self._cos_alpha","old_self__curve_constants":"self._curve_constants","old_self__dF_T_tilde_dt":"self._dF_T_tilde_dt","old_self__fl_M_act":"self._fl_M_act","old_self__fl_M_pas":"self._fl_M_pas","old_self__fl_T":"self._fl_T","old_self__fl_T_inv":"self._fl_T_inv","old_self__fv_M":"self._fv_M","old_self__fv_M_inv":"self._fv_M_inv","old_self__input_vars":"self._input_vars","old_self__l_M":"self._l_M","old_self__l_MT":"self._l_MT","old_self__l_M_tilde":"self._l_M_tilde","old_self__l_T":"self._l_T","old_self__l_T_tilde":"self._l_T_tilde","old_self__state_eqns":"self._state_eqns","old_self__state_vars":"self._state_vars","old_self__v_M":"self._v_M","old_self__v_MT":"self._v_MT","old_self__v_M_tilde":"self._v_M_tilde","old_self__v_T":"self._v_T","old_self__v_T_tilde":"self._v_T_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tendon_force_explicit_musculotendon_dynamics(self):
         """Elastic tendon musculotendon using `F_T_tilde` as a state."""
         self._F_T_tilde = dynamicsymbols(f'F_T_tilde_{self.name}')
@@ -1141,45 +1306,63 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         ) if not self._with_defaults else zeros(0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fiber_length_implicit_musculotendon_dynamics(), internal helper behaves correctly) over Any ║
+# ║ Path(_fiber_length_implicit_musculotendon_dynamics(), <unspecified:_fiber_length_implicit_musculotendon_dynamics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fiber_length_implicit_musculotendon_dynamics : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80167bdbb41928fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._fiber_length_implicit_musculotendon_dynamics","kind":"method","src_hash":"0f7f5521bb407e4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_length_implicit_musculotendon_dynamics()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fiber_length_implicit_musculotendon_dynamics_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80167bdbb41928fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._fiber_length_implicit_musculotendon_dynamics","kind":"method","src_hash":"0f7f5521bb407e4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_length_implicit_musculotendon_dynamics()","rhs":"<unspecified:_fiber_length_implicit_musculotendon_dynamics>","over":{"base":"Any"},"name":"_fiber_length_implicit_musculotendon_dynamics_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80167bdbb41928fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fiber_length_implicit_musculotendon_dynamics(self):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tendon_force_implicit_musculotendon_dynamics(), internal helper behaves correctly) over Any ║
+# ║ Path(_tendon_force_implicit_musculotendon_dynamics(), <unspecified:_tendon_force_implicit_musculotendon_dynamics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tendon_force_implicit_musculotendon_dynamics : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aafa4189bcecae39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._tendon_force_implicit_musculotendon_dynamics","kind":"method","src_hash":"c27e73fc34286f67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_implicit_musculotendon_dynamics()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_tendon_force_implicit_musculotendon_dynamics_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aafa4189bcecae39"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase._tendon_force_implicit_musculotendon_dynamics","kind":"method","src_hash":"c27e73fc34286f67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_implicit_musculotendon_dynamics()","rhs":"<unspecified:_tendon_force_implicit_musculotendon_dynamics>","over":{"base":"Any"},"name":"_tendon_force_implicit_musculotendon_dynamics_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aafa4189bcecae39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tendon_force_implicit_musculotendon_dynamics(self):
         raise NotImplementedError
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_vars(), returns the state_vars attribute) over Any ║
+# ║ Path(state_vars(), Matrix.vstack(*state_vars)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*state_vars)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 859b364abb95e5ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.state_vars","kind":"property","src_hash":"b7985411826e9bfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"returns the state_vars attribute","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns the state_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"859b364abb95e5ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.state_vars","kind":"property","src_hash":"b7985411826e9bfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"Matrix.vstack(*state_vars)","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns Matrix.vstack(*state_vars)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"859b364abb95e5ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*state_vars)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_vars(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -1197,16 +1380,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), Matrix.vstack(*state_vars)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*state_vars)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6dc1b56a1c2ee4e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.x","kind":"property","src_hash":"a3981d7d36ba41bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dc1b56a1c2ee4e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.x","kind":"property","src_hash":"a3981d7d36ba41bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"Matrix.vstack(*state_vars)","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns Matrix.vstack(*state_vars)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dc1b56a1c2ee4e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*state_vars)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -1224,16 +1413,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(input_vars(), returns the input_vars attribute) over Any ║
+# ║ Path(input_vars(), Matrix.vstack(*input_vars)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*input_vars)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ input_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42be6b71a9db3197           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.input_vars","kind":"property","src_hash":"8c5617d6f604d77a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"returns the input_vars attribute","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns the input_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42be6b71a9db3197"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.input_vars","kind":"property","src_hash":"8c5617d6f604d77a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"Matrix.vstack(*input_vars)","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns Matrix.vstack(*input_vars)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42be6b71a9db3197","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*input_vars)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def input_vars(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -1251,16 +1446,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(r(), returns the r attribute) over Any                ║
+# ║ Path(r(), Matrix.vstack(*input_vars)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*input_vars)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ r : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a15eeb700d8806e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.r","kind":"property","src_hash":"72110c3c2992a99e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"returns the r attribute","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns the r attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a15eeb700d8806e2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.r","kind":"property","src_hash":"72110c3c2992a99e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"Matrix.vstack(*input_vars)","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns Matrix.vstack(*input_vars)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a15eeb700d8806e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*input_vars)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def r(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -1278,16 +1479,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constants(), returns the constants attribute) over Any ║
+# ║ Path(constants(), Matrix.vstack(*constants)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*constants)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constants : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ccafc2c2da7a0773           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.constants","kind":"property","src_hash":"d9fbcf8b3500367e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"returns the constants attribute","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns the constants attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccafc2c2da7a0773"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.constants","kind":"property","src_hash":"d9fbcf8b3500367e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"Matrix.vstack(*constants)","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns Matrix.vstack(*constants)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccafc2c2da7a0773","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*constants)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def constants(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -1328,16 +1535,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p(), returns the p attribute) over Any                ║
+# ║ Path(p(), Matrix.vstack(*constants)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*constants)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87a4ae9c51d3dbc8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.p","kind":"property","src_hash":"6cade1913306bd98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"returns the p attribute","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87a4ae9c51d3dbc8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.p","kind":"property","src_hash":"6cade1913306bd98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"Matrix.vstack(*constants)","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns Matrix.vstack(*constants)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87a4ae9c51d3dbc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*constants)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -1378,16 +1591,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(M(), returns the M attribute) over Any                ║
+# ║ Path(M(), diag(*M)) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  diag(*M)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ M : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 915ecbe4c8cb189b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.M","kind":"property","src_hash":"721f0e97c5c4b3aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"returns the M attribute","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns the M attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"915ecbe4c8cb189b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.M","kind":"property","src_hash":"721f0e97c5c4b3aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"diag(*M)","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns diag(*M)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"915ecbe4c8cb189b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"diag(*M)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def M(self):
         """Ordered square matrix of coefficients on the LHS of ``M x' = F``.
 
@@ -1411,16 +1630,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(F(), returns the F attribute) over Any                ║
+# ║ Path(F(), Matrix.vstack(*F)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.vstack(*F)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ F : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85205efd79b22280           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.F","kind":"property","src_hash":"a45a9c42ac66da31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"returns the F attribute","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85205efd79b22280"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.F","kind":"property","src_hash":"a45a9c42ac66da31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"Matrix.vstack(*F)","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns Matrix.vstack(*F)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85205efd79b22280","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.vstack(*F)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def F(self):
         """Ordered column matrix of equations on the RHS of ``M x' = F``.
 
@@ -1443,16 +1668,25 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         return Matrix.vstack(*F)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), ordered column matrix of equations for the solution of ``m x' = f``) over Any ║
+# ║ Path(rhs(), result == (Matrix.vstack(*child_rhs) if self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON else Matrix.vstack(rhs, *child_rhs)) and result == Matrix.vstack(*child_rhs) or result == Matrix.vstack(rhs, *child_rhs)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rhs : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Matrix.vstack(*child_rhs) if s...   ║
+# ║   ensures:  result == Matrix.vstack(*child_rhs) or re...   ║
+# ║   fiber[case_0]: self.musculotendon_dynamics is Muscu...   ║
+# ║   fiber[case_1]: self.musculotendon_dynamics in is_ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rhs : Any → {Any | result satisfies: result == (Matri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd0251c7b462dada  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f29341058a0d91c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.rhs","kind":"method","src_hash":"ecf8db4965b4dd50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"ordered column matrix of equations for the solution of ``m x' = f``","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"ordered column matrix of equations for the solution of ``m x' = f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.rhs_correct","statement":"Path(rhs(x), ordered column matrix of equations for the solution of ``m x' = f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd0251c7b462dada"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.rhs","kind":"method","src_hash":"ecf8db4965b4dd50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix.vstack(*child_rhs) if self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON else Matrix.vstack(rhs, *child_rhs)) and result == Matrix.vstack(*child_rhs) or result == Matrix.vstack(rhs, *child_rhs)"},"spec":{"lhs":"rhs()","rhs":"result == (Matrix.vstack(*child_rhs) if self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON else Matrix.vstack(rhs, *child_rhs)) and result == Matrix.vstack(*child_rhs) or result == Matrix.vstack(rhs, *child_rhs)","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"result == (Matrix.vstack(*child_rhs) if self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON else Matrix.vstack(rhs, *child_rhs)); result == Matrix.vstack(*child_rhs) or result == Matrix.vstack(rhs, *child_rhs); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.rhs_correct","statement":"Path(rhs(x), result == (Matrix.vstack(*child_rhs) if self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON else Matrix.vstack(rhs, *child_rhs)); result == Matrix.vstack(*child_rhs) or result == Matrix.vstack(rhs, *child_rhs); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f29341058a0d91c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Matrix.vstack(*child_rhs) if self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON else Matrix.vstack(rhs, *child_rhs))","result == Matrix.vstack(*child_rhs) or result == Matrix.vstack(rhs, *child_rhs)"],"fibers":[{"name":"case_0","guard":"self.musculotendon_dynamics is MusculotendonFormulation.RIGID_TENDON","ensures":["result == Matrix.vstack(*child_rhs)"],"decidability":"library","returns_expr":"Matrix.vstack(*child_rhs)"},{"name":"case_1","guard":"self.musculotendon_dynamics in is_explicit","ensures":["result == Matrix.vstack(rhs, *child_rhs)"],"decidability":"library","returns_expr":"Matrix.vstack(rhs, *child_rhs)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.M","self._child_objects","self._state_eqns","self.musculotendon_dynamics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         """Ordered column matrix of equations for the solution of ``M x' = F``.
 
@@ -1483,16 +1717,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         return self.M.solve(self.F)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d0ae9ca2da20b90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.__repr__","kind":"method","src_hash":"63c94cc747d9af04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d0ae9ca2da20b90"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.__repr__","kind":"method","src_hash":"63c94cc747d9af04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d0ae9ca2da20b90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self._F_M_max","self.__class__","self._alpha_opt","self._beta","self._l_M_opt","self._l_T_slack","self._v_M_max","self.activation_dynamics","self.musculotendon_dynamics","self.name","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Returns a string representation to reinstantiate the model."""
         return (
@@ -1509,16 +1749,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.force)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.force)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 198730133b7ad97d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.__str__","kind":"method","src_hash":"e0ab5064ce598ec3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"198730133b7ad97d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonBase.__str__","kind":"method","src_hash":"e0ab5064ce598ec3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.force)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.force)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"198730133b7ad97d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.force)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """Returns a string representation of the expression for musculotendon
         force."""
@@ -1526,16 +1772,22 @@ class MusculotendonBase(ForceActuator, _NamedMixin):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MusculotendonDeGroote2016(), correctly constructs a MusculotendonDeGroote2016 instance) over Any ║
+# ║ Path(MusculotendonDeGroote2016(), isinstance(self, MusculotendonBase)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MusculotendonDeGroote2016 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MusculotendonBase)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MusculotendonDeGroote2016 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a02c7acd9f0f6fd4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonDeGroote2016","kind":"class","src_hash":"5bf4ab4369bd47bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MusculotendonDeGroote2016()","rhs":"correctly constructs a MusculotendonDeGroote2016 instance","over":{"base":"Any"},"name":"MusculotendonDeGroote2016_correct"},"guarantee":"correctly constructs a MusculotendonDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a02c7acd9f0f6fd4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.musculotendon.MusculotendonDeGroote2016","kind":"class","src_hash":"5bf4ab4369bd47bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MusculotendonBase)"},"spec":{"lhs":"MusculotendonDeGroote2016()","rhs":"isinstance(self, MusculotendonBase)","over":{"base":"Any"},"name":"MusculotendonDeGroote2016_correct"},"guarantee":"isinstance(self, MusculotendonBase)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a02c7acd9f0f6fd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MusculotendonBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function MusculotendonDeGroote2016 not found in source"]}}
 class MusculotendonDeGroote2016(MusculotendonBase):
     r"""Musculotendon model using the curves of De Groote et al., 2016 [1]_.
 

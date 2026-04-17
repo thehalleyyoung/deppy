@@ -27,31 +27,46 @@ _T = TypeVar('_T')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(x), identity produces the expected output) over _T ║
+# ║ Path(identity(x), x) over {_T | isinstance(x, _T)}         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ identity : _T → _T                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, _T)                              ║
+# ║   ensures:  result == x                                    ║
+# ║   returns:  x                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ identity : {_T | isinstance(x, _T)} → {_T | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 641263cfe1345ff2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.identity","kind":"function","src_hash":"53f0ad9cecebee72","in":{"base":"_T"},"out":{"base":"_T"},"spec":{"lhs":"identity(x)","rhs":"identity produces the expected output","over":{"base":"_T"},"name":"identity_correct"},"guarantee":"identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"641263cfe1345ff2"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.identity","kind":"function","src_hash":"53f0ad9cecebee72","in":{"base":"_T","pred":"isinstance(x, _T)"},"out":{"base":"_T","pred":"result satisfies: result == (x)"},"spec":{"lhs":"identity(x)","rhs":"x","over":{"base":"_T","pred":"isinstance(x, _T)"},"name":"identity_correct"},"guarantee":"returns x; result == x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"641263cfe1345ff2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, _T)"],"ensures":["result == x"],"returns_expr":"x","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def identity(x: _T) -> _T:
     return x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exhaust(rul), apply a rule repeatedly until it has no effect) over Callable[[_T], _T] ║
+# ║ Path(exhaust(rule), isinstance(result, Callable[[_T], _T])) over {Callable[[_T], _T] | isinstance(rule, Callable[[_T], _T])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exhaust : Callable[[_T], _T] → Callable[[_T], _T]          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(rule, Callable[[_T], _T])           ║
+# ║   ensures:  isinstance(result, Callable[[_T], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exhaust : {Callable[[_T], _T] | isinstance(rule, Call...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36ccdf3c69d7715e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47803496ab5a2261  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.exhaust","kind":"function","src_hash":"1311e4d460f910d7","in":{"base":"Callable[[_T], _T]"},"out":{"base":"Callable[[_T], _T]"},"spec":{"lhs":"exhaust(rul)","rhs":"apply a rule repeatedly until it has no effect","over":{"base":"Callable[[_T], _T]"},"name":"exhaust_correct"},"guarantee":"apply a rule repeatedly until it has no effect","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.exhaust_correct","statement":"Path(exhaust(x), apply a rule repeatedly until it has no effect)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36ccdf3c69d7715e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.exhaust","kind":"function","src_hash":"1311e4d460f910d7","in":{"base":"Callable[[_T], _T]","pred":"isinstance(rule, Callable[[_T], _T])"},"out":{"base":"Callable[[_T], _T]","pred":"result satisfies: isinstance(result, Callable[[_T], _T])"},"spec":{"lhs":"exhaust(rule)","rhs":"isinstance(result, Callable[[_T], _T])","over":{"base":"Callable[[_T], _T]","pred":"isinstance(rule, Callable[[_T], _T])"},"name":"exhaust_correct"},"guarantee":"isinstance(result, Callable[[_T], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.exhaust_correct","statement":"Path(exhaust(x), isinstance(result, Callable[[_T], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47803496ab5a2261","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(rule, Callable[[_T], _T])"],"ensures":["isinstance(result, Callable[[_T], _T])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def exhaust(rule: Callable[[_T], _T]) -> Callable[[_T], _T]:
     """ Apply a rule repeatedly until it has no effect """
     def exhaustive_rl(expr: _T) -> _T:
@@ -63,16 +78,23 @@ def exhaust(rule: Callable[[_T], _T]) -> Callable[[_T], _T]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(memoize(rul), memoized version of a rule) over Callable[[_S], _T] ║
+# ║ Path(memoize(rule), isinstance(result, Callable[[_S], _T])) over {Callable[[_S], _T] | isinstance(rule, Callable[[_S], _T])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ memoize : Callable[[_S], _T] → Callable[[_S], _T]          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(rule, Callable[[_S], _T])           ║
+# ║   ensures:  isinstance(result, Callable[[_S], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ memoize : {Callable[[_S], _T] | isinstance(rule, Call...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8470e01f134cc860  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e5d69007643cc8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.memoize","kind":"function","src_hash":"1a2851a22c486d5b","in":{"base":"Callable[[_S], _T]"},"out":{"base":"Callable[[_S], _T]"},"spec":{"lhs":"memoize(rul)","rhs":"memoized version of a rule","over":{"base":"Callable[[_S], _T]"},"name":"memoize_correct"},"guarantee":"memoized version of a rule","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.memoize_correct","statement":"Path(memoize(x), memoized version of a rule)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8470e01f134cc860"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.memoize","kind":"function","src_hash":"1a2851a22c486d5b","in":{"base":"Callable[[_S], _T]","pred":"isinstance(rule, Callable[[_S], _T])"},"out":{"base":"Callable[[_S], _T]","pred":"result satisfies: isinstance(result, Callable[[_S], _T])"},"spec":{"lhs":"memoize(rule)","rhs":"isinstance(result, Callable[[_S], _T])","over":{"base":"Callable[[_S], _T]","pred":"isinstance(rule, Callable[[_S], _T])"},"name":"memoize_correct"},"guarantee":"isinstance(result, Callable[[_S], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.memoize_correct","statement":"Path(memoize(x), isinstance(result, Callable[[_S], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e5d69007643cc8d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(rule, Callable[[_S], _T])"],"ensures":["isinstance(result, Callable[[_S], _T])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def memoize(rule: Callable[[_S], _T]) -> Callable[[_S], _T]:
     """Memoized version of a rule
 
@@ -95,16 +117,24 @@ def memoize(rule: Callable[[_S], _T]) -> Callable[[_S], _T]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(condition(con), only apply rule if condition is true) over Callable[[_T], bool] ║
+# ║ Path(condition(cond, rule), isinstance(result, Callable[[_T], _T])) over {Callable[[_T], bool] | isinstance(cond, Callable[[_T], bool]) and isinstance(rule, Callable[[_T], _T])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ condition : Callable[[_T], bool] → Callable[[_T], _T]      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(cond, Callable[[_T], bool])         ║
+# ║   requires: isinstance(rule, Callable[[_T], _T])           ║
+# ║   ensures:  isinstance(result, Callable[[_T], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ condition : {Callable[[_T], bool] | isinstance(cond, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13760fc2e5a6ba82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00e2debe37b12d10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.condition","kind":"function","src_hash":"323c6f2578079d68","in":{"base":"Callable[[_T], bool]"},"out":{"base":"Callable[[_T], _T]"},"spec":{"lhs":"condition(con)","rhs":"only apply rule if condition is true","over":{"base":"Callable[[_T], bool]"},"name":"condition_correct"},"guarantee":"only apply rule if condition is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.condition_correct","statement":"Path(condition(x), only apply rule if condition is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13760fc2e5a6ba82"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.condition","kind":"function","src_hash":"323c6f2578079d68","in":{"base":"Callable[[_T], bool]","pred":"isinstance(cond, Callable[[_T], bool]) and isinstance(rule, Callable[[_T], _T])"},"out":{"base":"Callable[[_T], _T]","pred":"result satisfies: isinstance(result, Callable[[_T], _T])"},"spec":{"lhs":"condition(cond, rule)","rhs":"isinstance(result, Callable[[_T], _T])","over":{"base":"Callable[[_T], bool]","pred":"isinstance(cond, Callable[[_T], bool]) and isinstance(rule, Callable[[_T], _T])"},"name":"condition_correct"},"guarantee":"isinstance(result, Callable[[_T], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.condition_correct","statement":"Path(condition(x), isinstance(result, Callable[[_T], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00e2debe37b12d10","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(cond, Callable[[_T], bool])","isinstance(rule, Callable[[_T], _T])"],"ensures":["isinstance(result, Callable[[_T], _T])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def condition(
     cond: Callable[[_T], bool], rule: Callable[[_T], _T]
 ) -> Callable[[_T], _T]:
@@ -117,16 +147,22 @@ def condition(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(chain(*ru), compose a sequence of rules so that they apply to the expr sequentially) over Any ║
+# ║ Path(chain(*rules), isinstance(result, Callable[[_T], _T])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chain : Any → Callable[[_T], _T]                           ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Callable[[_T], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chain : Any → {Callable[[_T], _T] | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddc403b10e0b18cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94c048106501bbf7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.chain","kind":"function","src_hash":"ab6875057d89b6a8","in":{"base":"Any"},"out":{"base":"Callable[[_T], _T]"},"spec":{"lhs":"chain(*ru)","rhs":"compose a sequence of rules so that they apply to the expr sequentially","over":{"base":"Any"},"name":"chain_correct"},"guarantee":"compose a sequence of rules so that they apply to the expr sequentially","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.chain_correct","statement":"Path(chain(x), compose a sequence of rules so that they apply to the expr sequentially)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddc403b10e0b18cd"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.chain","kind":"function","src_hash":"ab6875057d89b6a8","in":{"base":"Any"},"out":{"base":"Callable[[_T], _T]","pred":"result satisfies: isinstance(result, Callable[[_T], _T])"},"spec":{"lhs":"chain(*rules)","rhs":"isinstance(result, Callable[[_T], _T])","over":{"base":"Any"},"name":"chain_correct"},"guarantee":"isinstance(result, Callable[[_T], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.chain_correct","statement":"Path(chain(x), isinstance(result, Callable[[_T], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94c048106501bbf7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Callable[[_T], _T])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*rules']"]}}
 def chain(*rules: Callable[[_T], _T]) -> Callable[[_T], _T]:
     """
     Compose a sequence of rules so that they apply to the expr sequentially
@@ -139,16 +175,23 @@ def chain(*rules: Callable[[_T], _T]) -> Callable[[_T], _T]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(debug(rul), print out before and after expressions each time rule is used) over Any ║
+# ║ Path(debug(rule, file), <unspecified:debug>) over {Any | hasattr(file, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ debug : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(file, 'write')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ debug : {Any | hasattr(file, 'write')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 643ff5f3744f90c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.debug","kind":"function","src_hash":"98d213b6608550c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug(rul)","rhs":"print out before and after expressions each time rule is used","over":{"base":"Any"},"name":"debug_correct"},"guarantee":"print out before and after expressions each time rule is used","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.debug_correct","statement":"Path(debug(x), print out before and after expressions each time rule is used)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"643ff5f3744f90c1"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.debug","kind":"function","src_hash":"98d213b6608550c4","in":{"base":"Any","pred":"hasattr(file, 'write')"},"out":{"base":"Any"},"spec":{"lhs":"debug(rule, file)","rhs":"<unspecified:debug>","over":{"base":"Any","pred":"hasattr(file, 'write')"},"name":"debug_correct"},"guarantee":"print out before and after expressions each time rule is used","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.debug_correct","statement":"Path(debug(x), print out before and after expressions each time rule is used)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"643ff5f3744f90c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(file, 'write')"],"pure":false,"effects":{"effect_type":"io","reads":["file.write","rule.__name__"],"calls_mutating":["file.write"],"io_operations":["file.write"]},"state_contract":{"modifies":["file.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def debug(rule, file=None):
     """ Print out before and after expressions each time rule is used """
     if file is None:
@@ -165,16 +208,23 @@ def debug(rule, file=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(null_safe(rul), return original expr if rule returns none) over Callable[[_T], _T | None] ║
+# ║ Path(null_safe(rule), isinstance(result, Callable[[_T], _T])) over {Callable[[_T], _T | None] | isinstance(rule, Callable[[_T], _T | None])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ null_safe : Callable[[_T], _T | None] → Callable[[_T]...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(rule, Callable[[_T], _T | None])    ║
+# ║   ensures:  isinstance(result, Callable[[_T], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ null_safe : {Callable[[_T], _T | None] | isinstance(r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77ab640cb9ca1efa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 083d799aefbe6b69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.null_safe","kind":"function","src_hash":"fa93a1dd99269800","in":{"base":"Callable[[_T], _T | None]"},"out":{"base":"Callable[[_T], _T]"},"spec":{"lhs":"null_safe(rul)","rhs":"return original expr if rule returns none","over":{"base":"Callable[[_T], _T | None]"},"name":"null_safe_correct"},"guarantee":"return original expr if rule returns none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.null_safe_correct","statement":"Path(null_safe(x), return original expr if rule returns none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77ab640cb9ca1efa"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.null_safe","kind":"function","src_hash":"fa93a1dd99269800","in":{"base":"Callable[[_T], _T | None]","pred":"isinstance(rule, Callable[[_T], _T | None])"},"out":{"base":"Callable[[_T], _T]","pred":"result satisfies: isinstance(result, Callable[[_T], _T])"},"spec":{"lhs":"null_safe(rule)","rhs":"isinstance(result, Callable[[_T], _T])","over":{"base":"Callable[[_T], _T | None]","pred":"isinstance(rule, Callable[[_T], _T | None])"},"name":"null_safe_correct"},"guarantee":"isinstance(result, Callable[[_T], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.null_safe_correct","statement":"Path(null_safe(x), isinstance(result, Callable[[_T], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"083d799aefbe6b69","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(rule, Callable[[_T], _T | None])"],"ensures":["isinstance(result, Callable[[_T], _T])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def null_safe(rule: Callable[[_T], _T | None]) -> Callable[[_T], _T]:
     """ Return original expr if rule returns None """
     def null_safe_rl(expr: _T) -> _T:
@@ -186,16 +236,23 @@ def null_safe(rule: Callable[[_T], _T | None]) -> Callable[[_T], _T]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tryit(rul), return original expr if rule raises exception) over Callable[[_T], _T] ║
+# ║ Path(tryit(rule, exception), isinstance(result, Callable[[_T], _T])) over {Callable[[_T], _T] | isinstance(rule, Callable[[_T], _T])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tryit : Callable[[_T], _T] → Callable[[_T], _T]            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(rule, Callable[[_T], _T])           ║
+# ║   ensures:  isinstance(result, Callable[[_T], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tryit : {Callable[[_T], _T] | isinstance(rule, Callab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb69559674351f03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41e60af1f2876524  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.tryit","kind":"function","src_hash":"37de76f96966cf7c","in":{"base":"Callable[[_T], _T]"},"out":{"base":"Callable[[_T], _T]"},"spec":{"lhs":"tryit(rul)","rhs":"return original expr if rule raises exception","over":{"base":"Callable[[_T], _T]"},"name":"tryit_correct"},"guarantee":"return original expr if rule raises exception","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.tryit_correct","statement":"Path(tryit(x), return original expr if rule raises exception)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb69559674351f03"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.tryit","kind":"function","src_hash":"37de76f96966cf7c","in":{"base":"Callable[[_T], _T]","pred":"isinstance(rule, Callable[[_T], _T])"},"out":{"base":"Callable[[_T], _T]","pred":"result satisfies: isinstance(result, Callable[[_T], _T])"},"spec":{"lhs":"tryit(rule, exception)","rhs":"isinstance(result, Callable[[_T], _T])","over":{"base":"Callable[[_T], _T]","pred":"isinstance(rule, Callable[[_T], _T])"},"name":"tryit_correct"},"guarantee":"isinstance(result, Callable[[_T], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.tryit_correct","statement":"Path(tryit(x), isinstance(result, Callable[[_T], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41e60af1f2876524","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(rule, Callable[[_T], _T])"],"ensures":["isinstance(result, Callable[[_T], _T])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def tryit(rule: Callable[[_T], _T], exception) -> Callable[[_T], _T]:
     """ Return original expr if rule raises exception """
     def try_rl(expr: _T) -> _T:
@@ -207,16 +264,22 @@ def tryit(rule: Callable[[_T], _T], exception) -> Callable[[_T], _T]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(do_one(*ru), try each of the rules until one works) over Any ║
+# ║ Path(do_one(*rules), isinstance(result, Callable[[_T], _T])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ do_one : Any → Callable[[_T], _T]                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Callable[[_T], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ do_one : Any → {Callable[[_T], _T] | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a911bf1e527819fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 905d9a26bf067de6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.do_one","kind":"function","src_hash":"d333b866b5e0f631","in":{"base":"Any"},"out":{"base":"Callable[[_T], _T]"},"spec":{"lhs":"do_one(*ru)","rhs":"try each of the rules until one works","over":{"base":"Any"},"name":"do_one_correct"},"guarantee":"try each of the rules until one works","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.do_one_correct","statement":"Path(do_one(x), try each of the rules until one works)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a911bf1e527819fb"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.do_one","kind":"function","src_hash":"d333b866b5e0f631","in":{"base":"Any"},"out":{"base":"Callable[[_T], _T]","pred":"result satisfies: isinstance(result, Callable[[_T], _T])"},"spec":{"lhs":"do_one(*rules)","rhs":"isinstance(result, Callable[[_T], _T])","over":{"base":"Any"},"name":"do_one_correct"},"guarantee":"isinstance(result, Callable[[_T], _T])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.do_one_correct","statement":"Path(do_one(x), isinstance(result, Callable[[_T], _T]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"905d9a26bf067de6","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Callable[[_T], _T])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*rules']"]}}
 def do_one(*rules: Callable[[_T], _T]) -> Callable[[_T], _T]:
     """ Try each of the rules until one works. Then stop. """
     def do_one_rl(expr: _T) -> _T:
@@ -229,16 +292,25 @@ def do_one(*rules: Callable[[_T], _T]) -> Callable[[_T], _T]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(switch(key), select a rule based on the result of key called on the function) over Callable[[_S], _T] ║
+# ║ Path(switch(key, ruledict), isinstance(result, Callable[[_S], _S])) over {Callable[[_S], _T] | isinstance(key, Callable[[_S], _T]) and isinstance(ruledict, Mapping[_T, Callable[[_S], _S]]) and hasattr(ruledict, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ switch : Callable[[_S], _T] → Callable[[_S], _S]           ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(key, Callable[[_S], _T])            ║
+# ║   requires: isinstance(ruledict, Mapping[_T, Callable...   ║
+# ║   requires: hasattr(ruledict, 'get')                       ║
+# ║   ensures:  isinstance(result, Callable[[_S], _S])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ switch : {Callable[[_S], _T] | isinstance(key, Callab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5286199eb7ff2c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4c19a131efab14e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.switch","kind":"function","src_hash":"548f4d15cf488850","in":{"base":"Callable[[_S], _T]"},"out":{"base":"Callable[[_S], _S]"},"spec":{"lhs":"switch(key)","rhs":"select a rule based on the result of key called on the function","over":{"base":"Callable[[_S], _T]"},"name":"switch_correct"},"guarantee":"select a rule based on the result of key called on the function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.switch_correct","statement":"Path(switch(x), select a rule based on the result of key called on the function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5286199eb7ff2c2"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.switch","kind":"function","src_hash":"548f4d15cf488850","in":{"base":"Callable[[_S], _T]","pred":"isinstance(key, Callable[[_S], _T]) and isinstance(ruledict, Mapping[_T, Callable[[_S], _S]]) and hasattr(ruledict, 'get')"},"out":{"base":"Callable[[_S], _S]","pred":"result satisfies: isinstance(result, Callable[[_S], _S])"},"spec":{"lhs":"switch(key, ruledict)","rhs":"isinstance(result, Callable[[_S], _S])","over":{"base":"Callable[[_S], _T]","pred":"isinstance(key, Callable[[_S], _T]) and isinstance(ruledict, Mapping[_T, Callable[[_S], _S]]) and hasattr(ruledict, 'get')"},"name":"switch_correct"},"guarantee":"isinstance(result, Callable[[_S], _S])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.core.switch_correct","statement":"Path(switch(x), isinstance(result, Callable[[_S], _S]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4c19a131efab14e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(key, Callable[[_S], _T])","isinstance(ruledict, Mapping[_T, Callable[[_S], _S]])","hasattr(ruledict, 'get')"],"ensures":["isinstance(result, Callable[[_S], _S])"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ruledict.get"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def switch(
     key: Callable[[_S], _T],
     ruledict: Mapping[_T, Callable[[_S], _S]]
@@ -253,31 +325,44 @@ def switch(
 # XXX Untyped default argument for minimize function
 # where python requires SupportsRichComparison type
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_identity(x), internal helper behaves correctly) over Any ║
+# ║ Path(_identity(x), x) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _identity : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == x                                    ║
+# ║   returns:  x                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _identity : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e653d923d947c86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core._identity","kind":"function","src_hash":"3db1fcc012d887b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_identity(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e653d923d947c86"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core._identity","kind":"function","src_hash":"3db1fcc012d887b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x)"},"spec":{"lhs":"_identity(x)","rhs":"x","over":{"base":"Any"},"name":"_identity_correct"},"guarantee":"returns x; result == x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e653d923d947c86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == x"],"returns_expr":"x","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _identity(x):
     return x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minimize(*ru), id) over Any                           ║
+# ║ Path(minimize(*rules, objective), id) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ minimize : Any → Callable[[_S], _T]                        ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Callable[[_S], _T])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ minimize : Any → {Callable[[_S], _T] | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6c7ceedabe2f41e2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.core.minimize","kind":"function","src_hash":"4e41fbab2cd2a5af","in":{"base":"Any"},"out":{"base":"Callable[[_S], _T]"},"spec":{"lhs":"minimize(*ru)","rhs":"select result of rules that minimizes objective","over":{"base":"Any"},"name":"minimize_correct","kind":"composition"},"guarantee":"select result of rules that minimizes objective","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"min","by":"library_axiom"},{"fn":"rule","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c7ceedabe2f41e2"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.core.minimize","kind":"function","src_hash":"4e41fbab2cd2a5af","in":{"base":"Any"},"out":{"base":"Callable[[_S], _T]","pred":"result satisfies: isinstance(result, Callable[[_S], _T])"},"spec":{"lhs":"minimize(*rules, objective)","rhs":"isinstance(result, Callable[[_S], _T])","over":{"base":"Any"},"name":"minimize_correct","kind":"composition"},"guarantee":"isinstance(result, Callable[[_S], _T])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"min","by":"library_axiom"},{"fn":"rule","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c7ceedabe2f41e2","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Callable[[_S], _T])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*rules', 'objective']"]}}
 def minimize(
     *rules: Callable[[_S], _T],
     objective=_identity

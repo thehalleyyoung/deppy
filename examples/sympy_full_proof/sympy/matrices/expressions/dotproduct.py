@@ -23,14 +23,20 @@ from sympy.matrices.expressions.transpose import transpose
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DotProduct(*args), correctly constructs a DotProduct instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DotProduct : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DotProduct : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd7f2384375cd325  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.dotproduct.DotProduct","kind":"class","src_hash":"1793809eb61c3065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DotProduct(*args)","rhs":"correctly constructs a DotProduct instance","over":{"base":"Any"},"name":"DotProduct_class_invariant"},"guarantee":"correctly constructs a DotProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd7f2384375cd325"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.dotproduct.DotProduct","kind":"class","src_hash":"1793809eb61c3065","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"DotProduct(*args)","rhs":"correctly constructs a DotProduct instance","over":{"base":"Any"},"name":"DotProduct_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd7f2384375cd325","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function DotProduct not found in source"]}}
 class DotProduct(Expr):
     """
     Dot product of vector matrices
@@ -52,16 +58,25 @@ class DotProduct(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg1, arg2), Basic.__new__(cls, arg1, arg2)) over {Any | arg1.is_Matrix and arg2.is_Matrix and 1 in arg1.shape and 1 in arg2.shape and hasattr(arg1, 'is_Matrix') and hasattr(arg2, 'is_Matrix') and hasattr(arg1, 'shape') and hasattr(arg2, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: arg1.is_Matrix                                 ║
+# ║   requires: arg2.is_Matrix                                 ║
+# ║   requires: 1 in arg1.shape                                ║
+# ║   returns:  Basic.__new__(cls, arg1, arg2)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | arg1.is_Matrix and arg2.is_Matrix an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e892699d5122f01e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.dotproduct.DotProduct.__new__","kind":"method","src_hash":"ca2163c239d990df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e892699d5122f01e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.dotproduct.DotProduct.__new__","kind":"method","src_hash":"ca2163c239d990df","in":{"base":"Any","pred":"arg1.is_Matrix and arg2.is_Matrix and 1 in arg1.shape and 1 in arg2.shape and hasattr(arg1, 'is_Matrix') and hasattr(arg2, 'is_Matrix') and hasattr(arg1, 'shape') and hasattr(arg2, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg1, arg2)","rhs":"Basic.__new__(cls, arg1, arg2)","over":{"base":"Any","pred":"arg1.is_Matrix and arg2.is_Matrix and 1 in arg1.shape and 1 in arg2.shape and hasattr(arg1, 'is_Matrix') and hasattr(arg2, 'is_Matrix') and hasattr(arg1, 'shape') and hasattr(arg2, 'shape')"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, arg1, arg2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e892699d5122f01e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["arg1.is_Matrix","arg2.is_Matrix","1 in arg1.shape","1 in arg2.shape","hasattr(arg1, 'is_Matrix')","hasattr(arg2, 'is_Matrix')","hasattr(arg1, 'shape')","hasattr(arg2, 'shape')"],"returns_expr":"Basic.__new__(cls, arg1, arg2)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg1.is_Matrix","arg1.shape","arg2.is_Matrix","arg2.shape"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg1, arg2):
         arg1, arg2 = _sympify((arg1, arg2))
 
@@ -80,16 +95,22 @@ class DotProduct(Expr):
         return Basic.__new__(cls, arg1, arg2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(exp), doit produces the expected output) over Any ║
+# ║ Path(doit(expand, **hints), mul[0]) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  mul[0]                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0343a2a4b1328078  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52274bfd7f2b9705  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.dotproduct.DotProduct.doit","kind":"method","src_hash":"f9151d8d78c3207e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(exp)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.dotproduct.DotProduct.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0343a2a4b1328078"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.dotproduct.DotProduct.doit","kind":"method","src_hash":"f9151d8d78c3207e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(expand, **hints)","rhs":"mul[0]","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns mul[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.dotproduct.DotProduct.doit_correct","statement":"Path(doit(x), returns mul[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52274bfd7f2b9705","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"mul[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, expand=False, **hints):
         if self.args[0].shape == self.args[1].shape:
             if self.args[0].shape[0] == 1:

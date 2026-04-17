@@ -28,160 +28,220 @@ ValueError/TypeError would not be raised anywhere.
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMError(), correctly constructs a DMError instance) over Any ║
+# ║ Path(DMError(), isinstance(self, Exception)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMError : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMError : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac98c5cb04a4570c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMError","kind":"class","src_hash":"1903997fa7120936","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMError()","rhs":"correctly constructs a DMError instance","over":{"base":"Any"},"name":"DMError_correct"},"guarantee":"correctly constructs a DMError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac98c5cb04a4570c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMError","kind":"class","src_hash":"1903997fa7120936","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"DMError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"DMError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac98c5cb04a4570c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMError not found in source"]}}
 class DMError(Exception):
     """Base class for errors raised by DomainMatrix"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMBadInputError(), correctly constructs a DMBadInputError instance) over Any ║
+# ║ Path(DMBadInputError(), isinstance(self, DMError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMBadInputError : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMBadInputError : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63df9ff75ba494b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMBadInputError","kind":"class","src_hash":"97826f1058f24852","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMBadInputError()","rhs":"correctly constructs a DMBadInputError instance","over":{"base":"Any"},"name":"DMBadInputError_correct"},"guarantee":"correctly constructs a DMBadInputError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63df9ff75ba494b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMBadInputError","kind":"class","src_hash":"97826f1058f24852","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMBadInputError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMBadInputError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63df9ff75ba494b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMBadInputError not found in source"]}}
 class DMBadInputError(DMError):
     """list of lists is inconsistent with shape"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMDomainError(), correctly constructs a DMDomainError instance) over Any ║
+# ║ Path(DMDomainError(), isinstance(self, DMError)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMDomainError : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMDomainError : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7bacbd1f6bf00a29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMDomainError","kind":"class","src_hash":"ade9606846a9b9ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMDomainError()","rhs":"correctly constructs a DMDomainError instance","over":{"base":"Any"},"name":"DMDomainError_correct"},"guarantee":"correctly constructs a DMDomainError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7bacbd1f6bf00a29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMDomainError","kind":"class","src_hash":"ade9606846a9b9ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMDomainError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMDomainError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7bacbd1f6bf00a29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMDomainError not found in source"]}}
 class DMDomainError(DMError):
     """domains do not match"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMNotAField(), correctly constructs a DMNotAField instance) over Any ║
+# ║ Path(DMNotAField(), isinstance(self, DMDomainError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMNotAField : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMDomainError)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMNotAField : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f722292d7bea47cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMNotAField","kind":"class","src_hash":"3a8b17fc76a6645b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMNotAField()","rhs":"correctly constructs a DMNotAField instance","over":{"base":"Any"},"name":"DMNotAField_correct"},"guarantee":"correctly constructs a DMNotAField instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f722292d7bea47cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMNotAField","kind":"class","src_hash":"3a8b17fc76a6645b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMDomainError)"},"spec":{"lhs":"DMNotAField()","rhs":"isinstance(self, DMDomainError)","over":{"base":"Any"},"name":"DMNotAField_correct"},"guarantee":"isinstance(self, DMDomainError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f722292d7bea47cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMDomainError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMNotAField not found in source"]}}
 class DMNotAField(DMDomainError):
     """domain is not a field"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMFormatError(), correctly constructs a DMFormatError instance) over Any ║
+# ║ Path(DMFormatError(), isinstance(self, DMError)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMFormatError : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMFormatError : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fba5272f89dd822f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMFormatError","kind":"class","src_hash":"afc8af0169034a64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMFormatError()","rhs":"correctly constructs a DMFormatError instance","over":{"base":"Any"},"name":"DMFormatError_correct"},"guarantee":"correctly constructs a DMFormatError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fba5272f89dd822f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMFormatError","kind":"class","src_hash":"afc8af0169034a64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMFormatError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMFormatError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fba5272f89dd822f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMFormatError not found in source"]}}
 class DMFormatError(DMError):
     """mixed dense/sparse not supported"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMNonInvertibleMatrixError(), correctly constructs a DMNonInvertibleMatrixError instance) over Any ║
+# ║ Path(DMNonInvertibleMatrixError(), isinstance(self, DMError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMNonInvertibleMatrixError : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMNonInvertibleMatrixError : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d418ea23eab32c30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMNonInvertibleMatrixError","kind":"class","src_hash":"cd903b6de484ebb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMNonInvertibleMatrixError()","rhs":"correctly constructs a DMNonInvertibleMatrixError instance","over":{"base":"Any"},"name":"DMNonInvertibleMatrixError_correct"},"guarantee":"correctly constructs a DMNonInvertibleMatrixError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d418ea23eab32c30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMNonInvertibleMatrixError","kind":"class","src_hash":"cd903b6de484ebb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMNonInvertibleMatrixError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMNonInvertibleMatrixError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d418ea23eab32c30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMNonInvertibleMatrixError not found in source"]}}
 class DMNonInvertibleMatrixError(DMError):
     """The matrix in not invertible"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMRankError(), correctly constructs a DMRankError instance) over Any ║
+# ║ Path(DMRankError(), isinstance(self, DMError)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMRankError : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMRankError : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7d0b34580629eb0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMRankError","kind":"class","src_hash":"1e14f2383d078a9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMRankError()","rhs":"correctly constructs a DMRankError instance","over":{"base":"Any"},"name":"DMRankError_correct"},"guarantee":"correctly constructs a DMRankError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7d0b34580629eb0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMRankError","kind":"class","src_hash":"1e14f2383d078a9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMRankError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMRankError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7d0b34580629eb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMRankError not found in source"]}}
 class DMRankError(DMError):
     """matrix does not have expected rank"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMShapeError(), correctly constructs a DMShapeError instance) over Any ║
+# ║ Path(DMShapeError(), isinstance(self, DMError)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMShapeError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMShapeError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a4ad3659e092107           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMShapeError","kind":"class","src_hash":"ae6e75bc6d004d19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMShapeError()","rhs":"correctly constructs a DMShapeError instance","over":{"base":"Any"},"name":"DMShapeError_correct"},"guarantee":"correctly constructs a DMShapeError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a4ad3659e092107"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMShapeError","kind":"class","src_hash":"ae6e75bc6d004d19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMShapeError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMShapeError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a4ad3659e092107","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMShapeError not found in source"]}}
 class DMShapeError(DMError):
     """shapes are inconsistent"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMNonSquareMatrixError(), correctly constructs a DMNonSquareMatrixError instance) over Any ║
+# ║ Path(DMNonSquareMatrixError(), isinstance(self, DMShapeError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMNonSquareMatrixError : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMShapeError)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMNonSquareMatrixError : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54b076c43609b310           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMNonSquareMatrixError","kind":"class","src_hash":"515be3c9f6a7d4b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMNonSquareMatrixError()","rhs":"correctly constructs a DMNonSquareMatrixError instance","over":{"base":"Any"},"name":"DMNonSquareMatrixError_correct"},"guarantee":"correctly constructs a DMNonSquareMatrixError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54b076c43609b310"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMNonSquareMatrixError","kind":"class","src_hash":"515be3c9f6a7d4b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMShapeError)"},"spec":{"lhs":"DMNonSquareMatrixError()","rhs":"isinstance(self, DMShapeError)","over":{"base":"Any"},"name":"DMNonSquareMatrixError_correct"},"guarantee":"isinstance(self, DMShapeError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54b076c43609b310","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMShapeError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMNonSquareMatrixError not found in source"]}}
 class DMNonSquareMatrixError(DMShapeError):
     """The matrix is not square"""
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMValueError(), correctly constructs a DMValueError instance) over Any ║
+# ║ Path(DMValueError(), isinstance(self, DMError)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMValueError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DMError)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMValueError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c92be1c9ae90741           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMValueError","kind":"class","src_hash":"db62bdc97b673224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMValueError()","rhs":"correctly constructs a DMValueError instance","over":{"base":"Any"},"name":"DMValueError_correct"},"guarantee":"correctly constructs a DMValueError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c92be1c9ae90741"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.exceptions.DMValueError","kind":"class","src_hash":"db62bdc97b673224","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DMError)"},"spec":{"lhs":"DMValueError()","rhs":"isinstance(self, DMError)","over":{"base":"Any"},"name":"DMValueError_correct"},"guarantee":"isinstance(self, DMError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c92be1c9ae90741","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DMError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DMValueError not found in source"]}}
 class DMValueError(DMError):
     """The value passed is invalid"""
     pass

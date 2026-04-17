@@ -23,7 +23,10 @@ from sympy.strategies.branch import yieldify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(treeapply(tre), apply functions onto recursive containers (tree)) over {Any | isinstance(tree, typ)} ║
+# ║ Path(treeapply(tree, join, leaf), <unspecified:treeapply>) over {Any | isinstance(tree, typ)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ treeapply : {Any | isinstance(tree, typ)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -35,9 +38,12 @@ from sympy.strategies.branch import yieldify
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 90dfb3b7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.treeapply","kind":"function","src_hash":"bbcaebc445d0e31e","in":{"base":"Any","pred":"isinstance(tree, typ)"},"out":{"base":"Any"},"spec":{"lhs":"treeapply(tre)","rhs":"apply functions onto recursive containers (tree)","over":{"base":"Any","pred":"isinstance(tree, typ)"},"name":"treeapply_correct"},"guarantee":"apply functions onto recursive containers (tree)","fibers":[{"name":"typ","pred":"isinstance(tree, typ)","path":{"lhs":"treeapply(x)","rhs":"apply functions onto recursive containers (tree)","over":{"base":"typ","pred":"isinstance(tree, typ)"},"name":"treeapply_typ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tree.treeapply_typ_correct","statement":"treeapply satisfies spec on typ inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"90dfb3b7f33a0ebf"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.treeapply","kind":"function","src_hash":"bbcaebc445d0e31e","in":{"base":"Any","pred":"isinstance(tree, typ)"},"out":{"base":"Any"},"spec":{"lhs":"treeapply(tree, join, leaf)","rhs":"<unspecified:treeapply>","over":{"base":"Any","pred":"isinstance(tree, typ)"},"name":"treeapply_correct"},"guarantee":"apply functions onto recursive containers (tree)","fibers":[{"name":"typ","pred":"isinstance(tree, typ)","path":{"lhs":"treeapply(x)","rhs":"apply functions onto recursive containers (tree)","over":{"base":"typ","pred":"isinstance(tree, typ)"},"name":"treeapply_typ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tree.treeapply_typ_correct","statement":"treeapply satisfies spec on typ inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"90dfb3b7f33a0ebf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(tree, typ)'}, fibers={'typ'})"]}}
 def treeapply(tree, join, leaf=identity):
     """ Apply functions onto recursive containers (tree).
 
@@ -74,16 +80,22 @@ def treeapply(tree, join, leaf=identity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(greedy(tre), execute a strategic tree) over Any       ║
+# ║ Path(greedy(tree, objective, **kwargs), treeapply(tree, {list: optimize, tuple: chain}, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  treeapply(tree, {list: optimize, tuple: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ greedy : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa5c4f238dbf209  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f38d4075adbdfe86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.greedy","kind":"function","src_hash":"e833a142d8672b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"greedy(tre)","rhs":"execute a strategic tree","over":{"base":"Any"},"name":"greedy_correct"},"guarantee":"execute a strategic tree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tree.greedy_correct","statement":"Path(greedy(x), execute a strategic tree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa5c4f238dbf209"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.greedy","kind":"function","src_hash":"e833a142d8672b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"greedy(tree, objective, **kwargs)","rhs":"treeapply(tree, {list: optimize, tuple: chain}, **kwargs)","over":{"base":"Any"},"name":"greedy_correct"},"guarantee":"returns treeapply(tree, {list: optimize, tuple: chain}, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tree.greedy_correct","statement":"Path(greedy(x), returns treeapply(tree, {list: optimize, tuple: chain}, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f38d4075adbdfe86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"treeapply(tree, {list: optimize, tuple: chain}, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['tree', 'objective'], spec=['tree', 'objective', '**kwargs']"]}}
 def greedy(tree, objective=identity, **kwargs):
     """ Execute a strategic tree.  Select alternatives greedily
 
@@ -155,16 +167,22 @@ def greedy(tree, objective=identity, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(allresults(tre), execute a strategic tree) over Any   ║
+# ║ Path(allresults(tree, leaf), treeapply(tree, {list: branch.multiplex, tuple: branch.chain}, leaf=leaf)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  treeapply(tree, {list: branch.multiplex, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ allresults : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a60afd0dff55a291  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af5e45c066b6b99e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.allresults","kind":"function","src_hash":"b98d329f82964458","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allresults(tre)","rhs":"execute a strategic tree","over":{"base":"Any"},"name":"allresults_correct"},"guarantee":"execute a strategic tree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tree.allresults_correct","statement":"Path(allresults(x), execute a strategic tree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a60afd0dff55a291"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.allresults","kind":"function","src_hash":"b98d329f82964458","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allresults(tree, leaf)","rhs":"treeapply(tree, {list: branch.multiplex, tuple: branch.chain}, leaf=leaf)","over":{"base":"Any"},"name":"allresults_correct"},"guarantee":"returns treeapply(tree, {list: branch.multiplex, tuple: branch.chain}, leaf=leaf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tree.allresults_correct","statement":"Path(allresults(x), returns treeapply(tree, {list: branch.multiplex, tuple: branch.chain}, leaf=leaf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af5e45c066b6b99e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"treeapply(tree, {list: branch.multiplex, tuple: branch.chain}, leaf=leaf)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def allresults(tree, leaf=yieldify):
     """ Execute a strategic tree.  Return all possibilities.
 
@@ -190,16 +208,22 @@ def allresults(tree, leaf=yieldify):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(brute(tre), id) over Any                              ║
+# ║ Path(brute(tree, objective, **kwargs), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambda expr: min(tuple(allresults(tree, *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ brute : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f10cebd7ac9854a3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.brute","kind":"function","src_hash":"9f139f651e9a15bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"brute(tre)","rhs":"brute produces the expected output","over":{"base":"Any"},"name":"brute_correct","kind":"composition"},"guarantee":"brute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"min","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"allresults","by":"library_axiom"},{"fn":"kwargs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f10cebd7ac9854a3"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tree.brute","kind":"function","src_hash":"9f139f651e9a15bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"brute(tree, objective, **kwargs)","rhs":"lambda expr: min(tuple(allresults(tree, **kwargs)(expr)), key=objective)","over":{"base":"Any"},"name":"brute_correct","kind":"composition"},"guarantee":"returns lambda expr: min(tuple(allresults(tree, **kwargs)(expr)), key=objective)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"min","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"allresults","by":"library_axiom"},{"fn":"kwargs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f10cebd7ac9854a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambda expr: min(tuple(allresults(tree, **kwargs)(expr)), key=objective)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['tree', 'objective'], spec=['tree', 'objective', '**kwargs']"]}}
 def brute(tree, objective=identity, **kwargs):
     return lambda expr: min(tuple(allresults(tree, **kwargs)(expr)),
                             key=objective)

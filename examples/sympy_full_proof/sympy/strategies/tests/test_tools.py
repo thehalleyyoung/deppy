@@ -22,16 +22,22 @@ from sympy.core.singleton import S
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), subs(mapping)(expr) == result) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | subs(mapping)(expr) == result}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  subs(mapping)(expr) == result                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: subs(mappi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7698644177851a6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f847ff8d9c63889  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tools.test_subs","kind":"function","src_hash":"403114558e6f405f","in":{"base":"Any"},"out":{"base":"Any","pred":"subs(mapping)(expr) == result"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tools.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7698644177851a6f"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tools.test_subs","kind":"function","src_hash":"403114558e6f405f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: subs(mapping)(expr) == result"},"spec":{"lhs":"test_subs()","rhs":"subs(mapping)(expr) == result","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"subs(mapping)(expr) == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tools.test_subs_correct","statement":"Path(test_subs(x), subs(mapping)(expr) == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f847ff8d9c63889","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["subs(mapping)(expr) == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs():
     from sympy.core.symbol import symbols
     a, b, c, d, e, f = symbols('a,b,c,d,e,f')
@@ -42,31 +48,44 @@ def test_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_empty(), test_subs_empty produces the expected output) over Any ║
+# ║ Path(test_subs_empty(), subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_empty : Any → {Any | subs({})(Basic(S(1), S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  subs({})(Basic(S(1), S(2))) == Basic(S(1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_empty : Any → {Any | result satisfies: subs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0afd011c840b6cd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29323e1c31da7462  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tools.test_subs_empty","kind":"function","src_hash":"47c61e4742abdb48","in":{"base":"Any"},"out":{"base":"Any","pred":"subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))"},"spec":{"lhs":"test_subs_empty()","rhs":"test_subs_empty produces the expected output","over":{"base":"Any"},"name":"test_subs_empty_correct"},"guarantee":"test_subs_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tools.test_subs_empty_correct","statement":"Path(test_subs_empty(x), test_subs_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0afd011c840b6cd8"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tools.test_subs_empty","kind":"function","src_hash":"47c61e4742abdb48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))"},"spec":{"lhs":"test_subs_empty()","rhs":"subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))","over":{"base":"Any"},"name":"test_subs_empty_correct"},"guarantee":"subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tools.test_subs_empty_correct","statement":"Path(test_subs_empty(x), subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29323e1c31da7462","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs_empty():
     assert subs({})(Basic(S(1), S(2))) == Basic(S(1), S(2))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_typed(), test_typed produces the expected output) over Any ║
+# ║ Path(test_typed(), remove_something(A(S(0), S(1))) == A(S(1)) and remove_something(B(S(0), S(1))) == B(S(0))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_typed : Any → {Any | remove_something(A(S(0), S(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  remove_something(A(S(0), S(1))) == A(S(1))     ║
+# ║   ensures:  remove_something(B(S(0), S(1))) == B(S(0))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_typed : Any → {Any | result satisfies: remove_so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a8a7f5c4c9b7d49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc8779e815afdb13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tools.test_typed","kind":"function","src_hash":"2caef036b44bb46e","in":{"base":"Any"},"out":{"base":"Any","pred":"remove_something(A(S(0), S(1))) == A(S(1)) and remove_something(B(S(0), S(1))) == B(S(0))"},"spec":{"lhs":"test_typed()","rhs":"test_typed produces the expected output","over":{"base":"Any"},"name":"test_typed_correct"},"guarantee":"test_typed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tools.test_typed_correct","statement":"Path(test_typed(x), test_typed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8a7f5c4c9b7d49"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tools.test_typed","kind":"function","src_hash":"2caef036b44bb46e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: remove_something(A(S(0), S(1))) == A(S(1)) and remove_something(B(S(0), S(1))) == B(S(0))"},"spec":{"lhs":"test_typed()","rhs":"remove_something(A(S(0), S(1))) == A(S(1)) and remove_something(B(S(0), S(1))) == B(S(0))","over":{"base":"Any"},"name":"test_typed_correct"},"guarantee":"remove_something(A(S(0), S(1))) == A(S(1)); remove_something(B(S(0), S(1))) == B(S(0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tools.test_typed_correct","statement":"Path(test_typed(x), remove_something(A(S(0), S(1))) == A(S(1)); remove_something(B(S(0), S(1))) == B(S(0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc8779e815afdb13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["remove_something(A(S(0), S(1))) == A(S(1))","remove_something(B(S(0), S(1))) == B(S(0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_typed():
     class A(Basic):
         pass

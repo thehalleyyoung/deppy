@@ -31,14 +31,20 @@ from sympy.sets.sets import FiniteSet
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AccumulationBounds(*args), correctly constructs a AccumulationBounds instance) over {Any | isinstance(other, Expr) and isinstance(other, FiniteSet) and isinstance(other, AccumBounds)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AccumulationBounds : {Any | isinstance(other, Expr) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73235978704fa2c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds","kind":"class","src_hash":"1d49f9e8c851f91f","in":{"base":"Any","pred":"isinstance(other, Expr) and isinstance(other, FiniteSet) and isinstance(other, AccumBounds)"},"out":{"base":"Any"},"spec":{"lhs":"AccumulationBounds(*args)","rhs":"correctly constructs a AccumulationBounds instance","over":{"base":"Any","pred":"isinstance(other, Expr) and isinstance(other, FiniteSet) and isinstance(other, AccumBounds)"},"name":"AccumulationBounds_class_invariant"},"guarantee":"correctly constructs a AccumulationBounds instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73235978704fa2c7"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds","kind":"class","src_hash":"1d49f9e8c851f91f","in":{"base":"Any","pred":"isinstance(other, Expr) and isinstance(other, FiniteSet) and isinstance(other, AccumBounds)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"AccumulationBounds(*args)","rhs":"correctly constructs a AccumulationBounds instance","over":{"base":"Any","pred":"isinstance(other, Expr) and isinstance(other, FiniteSet) and isinstance(other, AccumBounds)"},"name":"AccumulationBounds_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73235978704fa2c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function AccumulationBounds not found in source"]}}
 class AccumulationBounds(Expr):
     r"""An accumulation bounds.
 
@@ -213,16 +219,25 @@ class AccumulationBounds(Expr):
     is_number = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, min, max), isinstance(result, Expr)) over {Any | not (not min.is_extended_real or not max.is_extended_real) and hasattr(max, 'is_number') and hasattr(min, 'is_number') and hasattr(min, 'is_extended_real') and hasattr(max, 'is_extended_real') and hasattr(max, 'is_comparable') and hasattr(min, 'is_comparable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Expr                                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: not (not min.is_extended_real or not max....   ║
+# ║   requires: hasattr(max, 'is_number')                      ║
+# ║   requires: hasattr(min, 'is_number')                      ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (not min.is_extended_real or not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3156b2b106fd4fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__new__","kind":"method","src_hash":"0cf5d806eff36f85","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3156b2b106fd4fa"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__new__","kind":"method","src_hash":"0cf5d806eff36f85","in":{"base":"Any","pred":"not (not min.is_extended_real or not max.is_extended_real) and hasattr(max, 'is_number') and hasattr(min, 'is_number') and hasattr(min, 'is_extended_real') and hasattr(max, 'is_extended_real') and hasattr(max, 'is_comparable') and hasattr(min, 'is_comparable')"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"__new__(cls, min, max)","rhs":"isinstance(result, Expr)","over":{"base":"Any","pred":"not (not min.is_extended_real or not max.is_extended_real) and hasattr(max, 'is_number') and hasattr(min, 'is_number') and hasattr(min, 'is_extended_real') and hasattr(max, 'is_extended_real') and hasattr(max, 'is_comparable') and hasattr(min, 'is_comparable')"},"name":"__new___correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3156b2b106fd4fa","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["not (not min.is_extended_real or not max.is_extended_real)","hasattr(max, 'is_number')","hasattr(min, 'is_number')","hasattr(min, 'is_extended_real')","hasattr(max, 'is_extended_real')","hasattr(max, 'is_comparable')","hasattr(min, 'is_comparable')"],"ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["max.is_comparable","max.is_extended_real","max.is_number","min.is_comparable","min.is_extended_real","min.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, min, max) -> Expr: # type: ignore
 
         min = _sympify(min)
@@ -250,32 +265,44 @@ class AccumulationBounds(Expr):
     _op_priority = 11.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f4634ad23744f19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cc5508e581884aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds._eval_is_real","kind":"method","src_hash":"3d941dfeff18c1ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds.AccumulationBounds._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f4634ad23744f19"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds._eval_is_real","kind":"method","src_hash":"3d941dfeff18c1ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds.AccumulationBounds._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cc5508e581884aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         if self.min.is_real and self.max.is_real:
             return True
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(min(), returns the min attribute) over Any            ║
+# ║ Path(min(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ min : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d34acab7ed3488c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.min","kind":"property","src_hash":"4f10d8d175630b60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min()","rhs":"returns the min attribute","over":{"base":"Any"},"name":"min_correct"},"guarantee":"returns the min attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d34acab7ed3488c"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.min","kind":"property","src_hash":"4f10d8d175630b60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min()","rhs":"self.args[0]","over":{"base":"Any"},"name":"min_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d34acab7ed3488c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def min(self):
         """
         Returns the minimum possible value attained by AccumulationBounds
@@ -293,16 +320,22 @@ class AccumulationBounds(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max(), returns the max attribute) over Any            ║
+# ║ Path(max(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebdb8b164f4b1c53           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.max","kind":"property","src_hash":"1104b26a92ef94d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"returns the max attribute","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns the max attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebdb8b164f4b1c53"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.max","kind":"property","src_hash":"1104b26a92ef94d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"self.args[1]","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebdb8b164f4b1c53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max(self):
         """
         Returns the maximum possible value attained by AccumulationBounds
@@ -320,16 +353,22 @@ class AccumulationBounds(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(delta(), returns the delta attribute) over Any        ║
+# ║ Path(delta(), self.max - self.min) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.max - self.min                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ delta : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df9fb2084ade2def           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.delta","kind":"property","src_hash":"a3f597442418fb0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delta()","rhs":"returns the delta attribute","over":{"base":"Any"},"name":"delta_correct"},"guarantee":"returns the delta attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df9fb2084ade2def"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.delta","kind":"property","src_hash":"a3f597442418fb0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delta()","rhs":"self.max - self.min","over":{"base":"Any"},"name":"delta_correct"},"guarantee":"returns self.max - self.min","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df9fb2084ade2def","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.max - self.min","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def delta(self):
         """
         Returns the difference of maximum possible value attained by
@@ -348,16 +387,22 @@ class AccumulationBounds(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mid(), returns the mid attribute) over Any            ║
+# ║ Path(mid(), (self.min + self.max) / 2) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.min + self.max) / 2                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mid : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 129d8bc2a86a31c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.mid","kind":"property","src_hash":"802948a408c77bed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mid()","rhs":"returns the mid attribute","over":{"base":"Any"},"name":"mid_correct"},"guarantee":"returns the mid attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"129d8bc2a86a31c3"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.mid","kind":"property","src_hash":"802948a408c77bed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mid()","rhs":"(self.min + self.max) / 2","over":{"base":"Any"},"name":"mid_correct"},"guarantee":"returns (self.min + self.max) / 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"129d8bc2a86a31c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.min + self.max) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mid(self):
         """
         Returns the mean of maximum possible value attained by
@@ -376,31 +421,46 @@ class AccumulationBounds(Expr):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_power(other), self.__pow__(other)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__pow__(other)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_power : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96d29d7bd4830ad2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds._eval_power","kind":"method","src_hash":"621710695d409fb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d29d7bd4830ad2"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds._eval_power","kind":"method","src_hash":"621710695d409fb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(other)","rhs":"self.__pow__(other)","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"returns self.__pow__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d29d7bd4830ad2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__pow__(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__pow__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(self, other):
         return self.__pow__(other)
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'is_extended_real') and hasattr(other, 'min') and hasattr(other, 'max')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_real')             ║
+# ║   requires: hasattr(other, 'min')                          ║
+# ║   requires: hasattr(other, 'max')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'is_extended_real') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a365c874937eb965           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__add__","kind":"method","src_hash":"72a262ee1258a0f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a365c874937eb965"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__add__","kind":"method","src_hash":"72a262ee1258a0f5","in":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'min') and hasattr(other, 'max')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'min') and hasattr(other, 'max')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a365c874937eb965","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_real')","hasattr(other, 'min')","hasattr(other, 'max')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_real","other.max","other.min","self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
@@ -425,31 +485,46 @@ class AccumulationBounds(Expr):
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), AccumBounds(-self.max, -self.min)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AccumBounds(-self.max, -self.min)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb7f99e69f1a19ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__neg__","kind":"method","src_hash":"4a9591f2f00b94db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb7f99e69f1a19ce"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__neg__","kind":"method","src_hash":"4a9591f2f00b94db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"AccumBounds(-self.max, -self.min)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns AccumBounds(-self.max, -self.min)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb7f99e69f1a19ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AccumBounds(-self.max, -self.min)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return AccumBounds(-self.max, -self.min)
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over {Any | hasattr(other, 'is_extended_real') and hasattr(other, 'max') and hasattr(other, 'min')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_real')             ║
+# ║   requires: hasattr(other, 'max')                          ║
+# ║   requires: hasattr(other, 'min')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'is_extended_real') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5e915f53637f58e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__sub__","kind":"method","src_hash":"2aa23e7ea9c3acf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5e915f53637f58e"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__sub__","kind":"method","src_hash":"2aa23e7ea9c3acf7","in":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'max') and hasattr(other, 'min')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'max') and hasattr(other, 'min')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5e915f53637f58e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_real')","hasattr(other, 'max')","hasattr(other, 'min')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_real","other.max","other.min","self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
@@ -475,31 +550,46 @@ class AccumulationBounds(Expr):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), self.__neg__() + other) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__neg__() + other                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ca8835a539e6610           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__rsub__","kind":"method","src_hash":"02574e813cb2e6a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ca8835a539e6610"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__rsub__","kind":"method","src_hash":"02574e813cb2e6a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"self.__neg__() + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns self.__neg__() + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ca8835a539e6610","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__neg__() + other","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__neg__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return self.__neg__() + other
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'is_extended_real') and hasattr(other, 'is_zero') and hasattr(other, 'is_extended_positive') and hasattr(other, 'args') and hasattr(other, 'is_extended_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_real')             ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   requires: hasattr(other, 'is_extended_positive')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'is_extended_real') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72071fa78c90ed2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__mul__","kind":"method","src_hash":"965e1047d881cc0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72071fa78c90ed2a"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__mul__","kind":"method","src_hash":"965e1047d881cc0f","in":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_zero') and hasattr(other, 'is_extended_positive') and hasattr(other, 'args') and hasattr(other, 'is_extended_negative')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_zero') and hasattr(other, 'is_extended_positive') and hasattr(other, 'args') and hasattr(other, 'is_extended_negative')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72071fa78c90ed2a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_real')","hasattr(other, 'is_zero')","hasattr(other, 'is_extended_positive')","hasattr(other, 'args')","hasattr(other, 'is_extended_negative')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if self.args == (-oo, oo):
             return self
@@ -546,16 +636,25 @@ class AccumulationBounds(Expr):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'is_extended_real') and hasattr(other, 'is_extended_positive') and hasattr(other, 'min') and hasattr(other, 'max') and hasattr(other, 'is_extended_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_real')             ║
+# ║   requires: hasattr(other, 'is_extended_positive')         ║
+# ║   requires: hasattr(other, 'min')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'is_extended_real...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc3353b31b8169ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__truediv__","kind":"method","src_hash":"251ac7b43aa75ff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc3353b31b8169ea"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__truediv__","kind":"method","src_hash":"251ac7b43aa75ff8","in":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_extended_positive') and hasattr(other, 'min') and hasattr(other, 'max') and hasattr(other, 'is_extended_negative')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_extended_positive') and hasattr(other, 'min') and hasattr(other, 'max') and hasattr(other, 'is_extended_negative')"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc3353b31b8169ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_real')","hasattr(other, 'is_extended_positive')","hasattr(other, 'min')","hasattr(other, 'max')","hasattr(other, 'is_extended_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_negative","other.is_extended_positive","other.is_extended_real","other.max","other.min","self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
@@ -617,16 +716,28 @@ class AccumulationBounds(Expr):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), result == (Mul(other, 1 / self, evaluate=False) if isinstance(other, Expr) else NotImplemented) and result == Mul(other, 1 / self, evaluate=False) or result == NotImplemented) over {Any | hasattr(other, 'is_extended_real') and hasattr(other, 'is_zero') and hasattr(other, 'is_extended_positive') and hasattr(other, 'is_extended_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_extended_real')             ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   requires: hasattr(other, 'is_extended_positive')         ║
+# ║   ensures:  result == (Mul(other, 1 / self, evaluate=...   ║
+# ║   ensures:  result == Mul(other, 1 / self, evaluate=F...   ║
+# ║   fiber[Expr]: isinstance(other, Expr) => Mul(other, ...   ║
+# ║   fiber[Expr]: not (isinstance(other, Expr)) => NotIm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | hasattr(other, 'is_extended_rea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a58194e7b4cbcd0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__rtruediv__","kind":"method","src_hash":"797cd30f2c2c546f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a58194e7b4cbcd0e"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__rtruediv__","kind":"method","src_hash":"797cd30f2c2c546f","in":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_zero') and hasattr(other, 'is_extended_positive') and hasattr(other, 'is_extended_negative')"},"out":{"base":"Any","pred":"result satisfies: result == (Mul(other, 1 / self, evaluate=False) if isinstance(other, Expr) else NotImplemented) and result == Mul(other, 1 / self, evaluate=False) or result == NotImplemented"},"spec":{"lhs":"__rtruediv__(other)","rhs":"result == (Mul(other, 1 / self, evaluate=False) if isinstance(other, Expr) else NotImplemented) and result == Mul(other, 1 / self, evaluate=False) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_zero') and hasattr(other, 'is_extended_positive') and hasattr(other, 'is_extended_negative')"},"name":"__rtruediv___correct"},"guarantee":"result == (Mul(other, 1 / self, evaluate=False) if isinstance(other, Expr) else NotImplemented); result == Mul(other, 1 / self, evaluate=False) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a58194e7b4cbcd0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_extended_real')","hasattr(other, 'is_zero')","hasattr(other, 'is_extended_positive')","hasattr(other, 'is_extended_negative')"],"ensures":["result == (Mul(other, 1 / self, evaluate=False) if isinstance(other, Expr) else NotImplemented)","result == Mul(other, 1 / self, evaluate=False) or result == NotImplemented"],"fibers":[{"name":"Expr","guard":"isinstance(other, Expr)","ensures":["result == Mul(other, 1 / self, evaluate=False)"],"decidability":"structural","returns_expr":"Mul(other, 1 / self, evaluate=False)"},{"name":"Expr","guard":"not (isinstance(other, Expr))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_negative","other.is_extended_positive","other.is_extended_real","other.is_zero","self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         if isinstance(other, Expr):
             if other.is_extended_real:
@@ -653,16 +764,25 @@ class AccumulationBounds(Expr):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), <unspecified:__pow__>) over {Any | hasattr(other, 'is_zero') and hasattr(other, 'is_Integer') and hasattr(other, 'is_integer') and hasattr(other, 'is_nonnegative') and hasattr(other, 'is_extended_negative') and hasattr(other, 'is_number') and hasattr(other, 'is_rational') and hasattr(other, 'as_numer_denom') and hasattr(other, 'is_extended_nonnegative') and hasattr(other, 'min') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   requires: hasattr(other, 'is_Integer')                   ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | hasattr(other, 'is_zero') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf28dd5048e0a4fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__pow__","kind":"method","src_hash":"8605e3c24c0a8d85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf28dd5048e0a4fe"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__pow__","kind":"method","src_hash":"8605e3c24c0a8d85","in":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'is_Integer') and hasattr(other, 'is_integer') and hasattr(other, 'is_nonnegative') and hasattr(other, 'is_extended_negative') and hasattr(other, 'is_number') and hasattr(other, 'is_rational') and hasattr(other, 'as_numer_denom') and hasattr(other, 'is_extended_nonnegative') and hasattr(other, 'min') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'is_Integer') and hasattr(other, 'is_integer') and hasattr(other, 'is_nonnegative') and hasattr(other, 'is_extended_negative') and hasattr(other, 'is_number') and hasattr(other, 'is_rational') and hasattr(other, 'as_numer_denom') and hasattr(other, 'is_extended_nonnegative') and hasattr(other, 'min') and hasattr(other, 'args')"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf28dd5048e0a4fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_zero')","hasattr(other, 'is_Integer')","hasattr(other, 'is_integer')","hasattr(other, 'is_nonnegative')","hasattr(other, 'is_extended_negative')","hasattr(other, 'is_number')","hasattr(other, 'is_rational')","hasattr(other, 'as_numer_denom')","hasattr(other, 'is_extended_nonnegative')","hasattr(other, 'min')","hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.as_numer_denom","other.is_Integer","other.is_extended_negative","other.is_extended_nonnegative","other.is_integer","other.is_nonnegative","other.is_number","other.is_rational","other.is_zero","other.min","self.args","self.func","self.max","self.min"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):
         if isinstance(other, Expr):
             if other is S.Infinity:
@@ -759,16 +879,25 @@ class AccumulationBounds(Expr):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rpow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rpow__(other), <unspecified:__rpow__>) over {Any | hasattr(other, 'is_real') and hasattr(other, 'is_extended_nonnegative') and hasattr(other, 'is_extended_positive') and hasattr(other, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rpow__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_extended_nonnegative')      ║
+# ║   requires: hasattr(other, 'is_extended_positive')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rpow__ : {Any | hasattr(other, 'is_real') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 248774651f1c5446           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__rpow__","kind":"method","src_hash":"30c6e8e2e248cfa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rpow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"248774651f1c5446"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__rpow__","kind":"method","src_hash":"30c6e8e2e248cfa8","in":{"base":"Any","pred":"hasattr(other, 'is_real') and hasattr(other, 'is_extended_nonnegative') and hasattr(other, 'is_extended_positive') and hasattr(other, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(other)","rhs":"<unspecified:__rpow__>","over":{"base":"Any","pred":"hasattr(other, 'is_real') and hasattr(other, 'is_extended_nonnegative') and hasattr(other, 'is_extended_positive') and hasattr(other, 'is_zero')"},"name":"__rpow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"248774651f1c5446","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_real')","hasattr(other, 'is_extended_nonnegative')","hasattr(other, 'is_extended_positive')","hasattr(other, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_nonnegative","other.is_extended_positive","other.is_real","other.is_zero","self.args","self.func","self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rpow__(self, other):
         if other.is_real and other.is_extended_nonnegative and (
                 self.max - self.min).is_extended_positive:
@@ -788,16 +917,26 @@ class AccumulationBounds(Expr):
         return Pow(other, self, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__abs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__abs__(), result == (self.__neg__() if self.max.is_extended_negative else AccumBounds(S.Zero, Max(abs(self.min), self.max)) if self.min.is_extended_negative else self) and result == self.__neg__() or result == AccumBounds(S.Zero, Max(abs(self.min), self.max)) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __abs__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__neg__() if self.max.is_...   ║
+# ║   ensures:  result == self.__neg__() or result == Acc...   ║
+# ║   fiber[case_0]: self.max.is_extended_negative => sel...   ║
+# ║   fiber[case_1]: self.min.is_extended_negative => Acc...   ║
+# ║   fiber[case_2]: not (self.max.is_extended_negative) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __abs__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49fb86ec0d976829           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__abs__","kind":"method","src_hash":"38e1cf2ca5e10cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__abs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__abs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49fb86ec0d976829"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__abs__","kind":"method","src_hash":"38e1cf2ca5e10cdf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__neg__() if self.max.is_extended_negative else AccumBounds(S.Zero, Max(abs(self.min), self.max)) if self.min.is_extended_negative else self) and result == self.__neg__() or result == AccumBounds(S.Zero, Max(abs(self.min), self.max)) or result == self"},"spec":{"lhs":"__abs__()","rhs":"result == (self.__neg__() if self.max.is_extended_negative else AccumBounds(S.Zero, Max(abs(self.min), self.max)) if self.min.is_extended_negative else self) and result == self.__neg__() or result == AccumBounds(S.Zero, Max(abs(self.min), self.max)) or result == self","over":{"base":"Any"},"name":"__abs___correct"},"guarantee":"result == (self.__neg__() if self.max.is_extended_negative else AccumBounds(S.Zero, Max(abs(self.min), self.max)) if self.min.is_extended_negative else self); result == self.__neg__() or result == AccumBounds(S.Zero, Max(abs(self.min), self.max)) or result == self; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49fb86ec0d976829","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__neg__() if self.max.is_extended_negative else AccumBounds(S.Zero, Max(abs(self.min), self.max)) if self.min.is_extended_negative else self)","result == self.__neg__() or result == AccumBounds(S.Zero, Max(abs(self.min), self.max)) or result == self"],"fibers":[{"name":"case_0","guard":"self.max.is_extended_negative","ensures":["result == self.__neg__()"],"decidability":"library","returns_expr":"self.__neg__()"},{"name":"case_1","guard":"self.min.is_extended_negative","ensures":["result == AccumBounds(S.Zero, Max(abs(self.min), self.max))"],"decidability":"library","returns_expr":"AccumBounds(S.Zero, Max(abs(self.min), self.max))"},{"name":"case_2","guard":"not (self.max.is_extended_negative) and not (self.min.is_extended_negative)","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__neg__","self.max","self.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __abs__(self):
         if self.max.is_extended_negative:
             return self.__neg__()
@@ -808,16 +947,23 @@ class AccumulationBounds(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), <unspecified:__contains__>) over {Any | not (rv not in (True, False))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (rv not in (True, False))                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | not (rv not in (True, False))} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e053f2df0d72e51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__contains__","kind":"method","src_hash":"cfb1c99d400244eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e053f2df0d72e51"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.__contains__","kind":"method","src_hash":"cfb1c99d400244eb","in":{"base":"Any","pred":"not (rv not in (True, False))"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"<unspecified:__contains__>","over":{"base":"Any","pred":"not (rv not in (True, False))"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e053f2df0d72e51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (rv not in (True, False))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.min"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         """
         Returns ``True`` if other is contained in self, where other
@@ -853,16 +999,25 @@ class AccumulationBounds(Expr):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(oth), returns the intersection of 'self' and 'other'. here other can be an instance of :py:class:`~.finiteset` or accumulationbounds) over Any ║
+# ║ Path(intersection(other), <unspecified:intersection>) over {Any | isinstance(other, (AccumBounds, FiniteSet)) and hasattr(other, 'min') and hasattr(other, 'max')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, (AccumBounds, FiniteSet))    ║
+# ║   requires: hasattr(other, 'min')                          ║
+# ║   requires: hasattr(other, 'max')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | isinstance(other, (AccumBounds,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8f877acc12cdd0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.intersection","kind":"method","src_hash":"23455d71f4a744be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(oth)","rhs":"returns the intersection of 'self' and 'other'. here other can be an instance of :py:class:`~.finiteset` or accumulationbounds","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns the intersection of 'self' and 'other'. here other can be an instance of :py:class:`~.finiteset` or accumulationbounds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds.AccumulationBounds.intersection_correct","statement":"Path(intersection(x), returns the intersection of 'self' and 'other'. here other can be an instance of :py:class:`~.finiteset` or accumulationbounds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8f877acc12cdd0d"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.intersection","kind":"method","src_hash":"23455d71f4a744be","in":{"base":"Any","pred":"isinstance(other, (AccumBounds, FiniteSet)) and hasattr(other, 'min') and hasattr(other, 'max')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(other)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"isinstance(other, (AccumBounds, FiniteSet)) and hasattr(other, 'min') and hasattr(other, 'max')"},"name":"intersection_correct"},"guarantee":"returns the intersection of 'self' and 'other'. here other can be an instance of :py:class:`~.finiteset` or accumulationbounds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds.AccumulationBounds.intersection_correct","statement":"Path(intersection(x), returns the intersection of 'self' and 'other'. here other can be an instance of :py:class:`~.finiteset` or accumulationbounds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8f877acc12cdd0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, (AccumBounds, FiniteSet))","hasattr(other, 'min')","hasattr(other, 'max')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.max","other.min","self.max","self.min"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, other):
         """
         Returns the intersection of 'self' and 'other'.
@@ -922,16 +1077,25 @@ class AccumulationBounds(Expr):
                 return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(union(oth), id) over Any                              ║
+# ║ Path(union(other), id) over {Any | isinstance(other, AccumBounds) and hasattr(other, 'min') and hasattr(other, 'max')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ union : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, AccumBounds)                 ║
+# ║   requires: hasattr(other, 'min')                          ║
+# ║   requires: hasattr(other, 'max')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ union : {Any | isinstance(other, AccumBounds) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ab75d1972f7b34d8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.union","kind":"method","src_hash":"f87c9234dd57849b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(oth)","rhs":"union produces the expected output","over":{"base":"Any"},"name":"union_correct","kind":"composition"},"guarantee":"union produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"AccumBounds","by":"library_axiom"},{"fn":"Max","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab75d1972f7b34d8"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds.AccumulationBounds.union","kind":"method","src_hash":"f87c9234dd57849b","in":{"base":"Any","pred":"isinstance(other, AccumBounds) and hasattr(other, 'min') and hasattr(other, 'max')"},"out":{"base":"Any"},"spec":{"lhs":"union(other)","rhs":"<unspecified:union>","over":{"base":"Any","pred":"isinstance(other, AccumBounds) and hasattr(other, 'min') and hasattr(other, 'max')"},"name":"union_correct","kind":"composition"},"guarantee":"union produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"AccumBounds","by":"library_axiom"},{"fn":"Max","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab75d1972f7b34d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, AccumBounds)","hasattr(other, 'min')","hasattr(other, 'max')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.max","other.min","self.max","self.min"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def union(self, other):
         # TODO : Devise a better method for Union of AccumBounds
         # this method is not actually correct and
@@ -949,16 +1113,25 @@ class AccumulationBounds(Expr):
 
 @dispatch(AccumulationBounds, AccumulationBounds) # type: ignore # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_le(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_le(lhs, rhs), <unspecified:_eval_is_le>) over {Any | hasattr(lhs, 'max') and hasattr(rhs, 'min') and hasattr(lhs, 'min') and hasattr(rhs, 'max')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_le : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lhs, 'max')                            ║
+# ║   requires: hasattr(rhs, 'min')                            ║
+# ║   requires: hasattr(lhs, 'min')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_le : {Any | hasattr(lhs, 'max') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 787e4a8f0f7e6c39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_le","kind":"function","src_hash":"291279e4780441d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_le(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_le_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_le_correct","statement":"Path(_eval_is_le(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"787e4a8f0f7e6c39"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_le","kind":"function","src_hash":"291279e4780441d1","in":{"base":"Any","pred":"hasattr(lhs, 'max') and hasattr(rhs, 'min') and hasattr(lhs, 'min') and hasattr(rhs, 'max')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_le(lhs, rhs)","rhs":"<unspecified:_eval_is_le>","over":{"base":"Any","pred":"hasattr(lhs, 'max') and hasattr(rhs, 'min') and hasattr(lhs, 'min') and hasattr(rhs, 'max')"},"name":"_eval_is_le_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_le_correct","statement":"Path(_eval_is_le(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"787e4a8f0f7e6c39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lhs, 'max')","hasattr(rhs, 'min')","hasattr(lhs, 'min')","hasattr(rhs, 'max')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.max","lhs.min","rhs.max","rhs.min"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_le(lhs, rhs): # noqa:F811
     if is_le(lhs.max, rhs.min):
         return True
@@ -968,16 +1141,25 @@ def _eval_is_le(lhs, rhs): # noqa:F811
 
 @dispatch(AccumulationBounds, Basic) # type: ignore # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_le(lhs), returns ``true `` if range of values attained by ``lhs`` accumulationbounds object is greater than the range of values attained by ``rhs``, where ``rhs`` may be any value of type accumulationbounds ob) over Any ║
+# ║ Path(_eval_is_le(lhs, rhs), <unspecified:_eval_is_le>) over {Any | rhs.is_extended_real and hasattr(rhs, 'is_extended_real') and hasattr(rhs, 'is_comparable') and hasattr(lhs, 'max') and hasattr(lhs, 'min')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_le : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: rhs.is_extended_real                           ║
+# ║   requires: hasattr(rhs, 'is_extended_real')               ║
+# ║   requires: hasattr(rhs, 'is_comparable')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_le : {Any | rhs.is_extended_real and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41f609a07f175567  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_le","kind":"function","src_hash":"dda593f5bcf74798","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_le(lhs)","rhs":"returns ``true `` if range of values attained by ``lhs`` accumulationbounds object is greater than the range of values attained by ``rhs``, where ``rhs`` may be any value of type accumulationbounds ob","over":{"base":"Any"},"name":"_eval_is_le_correct"},"guarantee":"returns ``true `` if range of values attained by ``lhs`` accumulationbounds object is greater than the range of values attained by ``rhs``, where ``rhs`` may be any value of type accumulationbounds ob","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_le_correct","statement":"Path(_eval_is_le(x), returns ``true `` if range of values attained by ``lhs`` accumulationbounds object is greater than the range of values attained by ``rhs``, where ``rhs`` may be any value of type accumulationbounds ob)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f609a07f175567"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_le","kind":"function","src_hash":"dda593f5bcf74798","in":{"base":"Any","pred":"rhs.is_extended_real and hasattr(rhs, 'is_extended_real') and hasattr(rhs, 'is_comparable') and hasattr(lhs, 'max') and hasattr(lhs, 'min')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_le(lhs, rhs)","rhs":"<unspecified:_eval_is_le>","over":{"base":"Any","pred":"rhs.is_extended_real and hasattr(rhs, 'is_extended_real') and hasattr(rhs, 'is_comparable') and hasattr(lhs, 'max') and hasattr(lhs, 'min')"},"name":"_eval_is_le_correct"},"guarantee":"returns ``true `` if range of values attained by ``lhs`` accumulationbounds object is greater than the range of values attained by ``rhs``, where ``rhs`` may be any value of type accumulationbounds ob","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_le_correct","statement":"Path(_eval_is_le(x), returns ``true `` if range of values attained by ``lhs`` accumulationbounds object is greater than the range of values attained by ``rhs``, where ``rhs`` may be any value of type accumulationbounds ob)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f609a07f175567","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["rhs.is_extended_real","hasattr(rhs, 'is_extended_real')","hasattr(rhs, 'is_comparable')","hasattr(lhs, 'max')","hasattr(lhs, 'min')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.max","lhs.min","rhs.is_comparable","rhs.is_extended_real"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_le(lhs, rhs): # noqa: F811
 
     """
@@ -1012,16 +1194,25 @@ def _eval_is_le(lhs, rhs): # noqa: F811
 
 @dispatch(AccumulationBounds, AccumulationBounds)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | hasattr(lhs, 'min') and hasattr(rhs, 'max') and hasattr(lhs, 'max') and hasattr(rhs, 'min')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lhs, 'min')                            ║
+# ║   requires: hasattr(rhs, 'max')                            ║
+# ║   requires: hasattr(lhs, 'max')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | hasattr(lhs, 'min') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c566ebd9af0cafe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"0b460103b59b6c9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c566ebd9af0cafe8"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"0b460103b59b6c9a","in":{"base":"Any","pred":"hasattr(lhs, 'min') and hasattr(rhs, 'max') and hasattr(lhs, 'max') and hasattr(rhs, 'min')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"hasattr(lhs, 'min') and hasattr(rhs, 'max') and hasattr(lhs, 'max') and hasattr(rhs, 'min')"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c566ebd9af0cafe8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lhs, 'min')","hasattr(rhs, 'max')","hasattr(lhs, 'max')","hasattr(rhs, 'min')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.max","lhs.min","rhs.max","rhs.min"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa:F811
     if is_ge(lhs.min, rhs.max):
         return True
@@ -1031,16 +1222,25 @@ def _eval_is_ge(lhs, rhs): # noqa:F811
 
 @dispatch(AccumulationBounds, Expr)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), returns ``true`` if range of values attained by ``lhs`` accumulationbounds object is less that the range of values attained by ``rhs``, where other may be any value of type accumulationbounds object o) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | rhs.is_extended_real and hasattr(rhs, 'is_extended_real') and hasattr(rhs, 'is_comparable') and hasattr(lhs, 'min') and hasattr(lhs, 'max')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: rhs.is_extended_real                           ║
+# ║   requires: hasattr(rhs, 'is_extended_real')               ║
+# ║   requires: hasattr(rhs, 'is_comparable')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | rhs.is_extended_real and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 109f52ad7acf4419  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"caa8b269bcbb8629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"returns ``true`` if range of values attained by ``lhs`` accumulationbounds object is less that the range of values attained by ``rhs``, where other may be any value of type accumulationbounds object o","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"returns ``true`` if range of values attained by ``lhs`` accumulationbounds object is less that the range of values attained by ``rhs``, where other may be any value of type accumulationbounds object o","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), returns ``true`` if range of values attained by ``lhs`` accumulationbounds object is less that the range of values attained by ``rhs``, where other may be any value of type accumulationbounds object o)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109f52ad7acf4419"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"caa8b269bcbb8629","in":{"base":"Any","pred":"rhs.is_extended_real and hasattr(rhs, 'is_extended_real') and hasattr(rhs, 'is_comparable') and hasattr(lhs, 'min') and hasattr(lhs, 'max')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"rhs.is_extended_real and hasattr(rhs, 'is_extended_real') and hasattr(rhs, 'is_comparable') and hasattr(lhs, 'min') and hasattr(lhs, 'max')"},"name":"_eval_is_ge_correct"},"guarantee":"returns ``true`` if range of values attained by ``lhs`` accumulationbounds object is less that the range of values attained by ``rhs``, where other may be any value of type accumulationbounds object o","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), returns ``true`` if range of values attained by ``lhs`` accumulationbounds object is less that the range of values attained by ``rhs``, where other may be any value of type accumulationbounds object o)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109f52ad7acf4419","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["rhs.is_extended_real","hasattr(rhs, 'is_extended_real')","hasattr(rhs, 'is_comparable')","hasattr(lhs, 'min')","hasattr(lhs, 'max')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.max","lhs.min","rhs.is_comparable","rhs.is_extended_real"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa: F811
     """
     Returns ``True`` if range of values attained by ``lhs`` AccumulationBounds
@@ -1074,16 +1274,25 @@ def _eval_is_ge(lhs, rhs): # noqa: F811
 
 @dispatch(Expr, AccumulationBounds)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | lhs.is_extended_real and hasattr(lhs, 'is_extended_real') and hasattr(lhs, 'is_comparable') and hasattr(rhs, 'max') and hasattr(rhs, 'min')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: lhs.is_extended_real                           ║
+# ║   requires: hasattr(lhs, 'is_extended_real')               ║
+# ║   requires: hasattr(lhs, 'is_comparable')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | lhs.is_extended_real and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69a735be98d19e13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"a924957eb66f3e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a735be98d19e13"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"a924957eb66f3e41","in":{"base":"Any","pred":"lhs.is_extended_real and hasattr(lhs, 'is_extended_real') and hasattr(lhs, 'is_comparable') and hasattr(rhs, 'max') and hasattr(rhs, 'min')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"lhs.is_extended_real and hasattr(lhs, 'is_extended_real') and hasattr(lhs, 'is_comparable') and hasattr(rhs, 'max') and hasattr(rhs, 'min')"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a735be98d19e13","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["lhs.is_extended_real","hasattr(lhs, 'is_extended_real')","hasattr(lhs, 'is_comparable')","hasattr(rhs, 'max')","hasattr(rhs, 'min')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.is_comparable","lhs.is_extended_real","rhs.max","rhs.min"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa:F811
     if not lhs.is_extended_real:
         raise TypeError(
@@ -1098,16 +1307,25 @@ def _eval_is_ge(lhs, rhs): # noqa:F811
 
 @dispatch(AccumulationBounds, AccumulationBounds)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | hasattr(lhs, 'min') and hasattr(rhs, 'max') and hasattr(lhs, 'max') and hasattr(rhs, 'min')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lhs, 'min')                            ║
+# ║   requires: hasattr(rhs, 'max')                            ║
+# ║   requires: hasattr(lhs, 'max')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | hasattr(lhs, 'min') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c566ebd9af0cafe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"0b460103b59b6c9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c566ebd9af0cafe8"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.accumulationbounds._eval_is_ge","kind":"function","src_hash":"0b460103b59b6c9a","in":{"base":"Any","pred":"hasattr(lhs, 'min') and hasattr(rhs, 'max') and hasattr(lhs, 'max') and hasattr(rhs, 'min')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"hasattr(lhs, 'min') and hasattr(rhs, 'max') and hasattr(lhs, 'max') and hasattr(rhs, 'min')"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.accumulationbounds._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c566ebd9af0cafe8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lhs, 'min')","hasattr(rhs, 'max')","hasattr(lhs, 'max')","hasattr(rhs, 'min')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.max","lhs.min","rhs.max","rhs.min"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa:F811
     if is_ge(lhs.min, rhs.max):
         return True

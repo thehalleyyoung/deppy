@@ -41,16 +41,24 @@ from sympy.polys.domains.realfield import RR
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DifferentialOperator(), test_DifferentialOperator produces the expected output) over Any ║
+# ║ Path(test_DifferentialOperator(), Dx == R.derivative_operator and Dx == DifferentialOperator([R.base.zero, R.base.one], R) and x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R) and x ** 2 + 1 + Dx + x * Dx ** 5 == DifferentialOperator([x ** 2 + 1, 1, 0, 0, 0, x], R) and (x * Dx + x ** 2 + 1 - Dx * (x ** 3 + x)) ** 3 == -48 * x ** 6 + -57 * x ** 7 * Dx + -15 * x ** 8 * Dx ** 2 + -x ** 9 * Dx ** 3 and p == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DifferentialOperator : Any → {Any | Dx == R.deri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dx == R.derivative_operator                    ║
+# ║   ensures:  Dx == DifferentialOperator([R.base.zero, ...   ║
+# ║   ensures:  x * Dx + x ** 2 * Dx ** 2 == Differential...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DifferentialOperator : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16c924f459d4e133  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc1127eaa2d754ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperator","kind":"function","src_hash":"7e7d82381cacd955","in":{"base":"Any"},"out":{"base":"Any","pred":"Dx == R.derivative_operator and Dx == DifferentialOperator([R.base.zero, R.base.one], R) and x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R) and p == q"},"spec":{"lhs":"test_DifferentialOperator()","rhs":"test_DifferentialOperator produces the expected output","over":{"base":"Any"},"name":"test_DifferentialOperator_correct"},"guarantee":"test_DifferentialOperator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperator_correct","statement":"Path(test_DifferentialOperator(x), test_DifferentialOperator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16c924f459d4e133"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperator","kind":"function","src_hash":"7e7d82381cacd955","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dx == R.derivative_operator and Dx == DifferentialOperator([R.base.zero, R.base.one], R) and x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R) and x ** 2 + 1 + Dx + x * Dx ** 5 == DifferentialOperator([x ** 2 + 1, 1, 0, 0, 0, x], R) and (x * Dx + x ** 2 + 1 - Dx * (x ** 3 + x)) ** 3 == -48 * x ** 6 + -57 * x ** 7 * Dx + -15 * x ** 8 * Dx ** 2 + -x ** 9 * Dx ** 3 and p == q"},"spec":{"lhs":"test_DifferentialOperator()","rhs":"Dx == R.derivative_operator and Dx == DifferentialOperator([R.base.zero, R.base.one], R) and x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R) and x ** 2 + 1 + Dx + x * Dx ** 5 == DifferentialOperator([x ** 2 + 1, 1, 0, 0, 0, x], R) and (x * Dx + x ** 2 + 1 - Dx * (x ** 3 + x)) ** 3 == -48 * x ** 6 + -57 * x ** 7 * Dx + -15 * x ** 8 * Dx ** 2 + -x ** 9 * Dx ** 3 and p == q","over":{"base":"Any"},"name":"test_DifferentialOperator_correct"},"guarantee":"Dx == R.derivative_operator; Dx == DifferentialOperator([R.base.zero, R.base.one], R); x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperator_correct","statement":"Path(test_DifferentialOperator(x), Dx == R.derivative_operator; Dx == DifferentialOperator([R.base.zero, R.base.one], R); x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc1127eaa2d754ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dx == R.derivative_operator","Dx == DifferentialOperator([R.base.zero, R.base.one], R)","x * Dx + x ** 2 * Dx ** 2 == DifferentialOperator([0, x, x ** 2], R)","x ** 2 + 1 + Dx + x * Dx ** 5 == DifferentialOperator([x ** 2 + 1, 1, 0, 0, 0, x], R)","(x * Dx + x ** 2 + 1 - Dx * (x ** 3 + x)) ** 3 == -48 * x ** 6 + -57 * x ** 7 * Dx + -15 * x ** 8 * Dx ** 2 + -x ** 9 * Dx ** 3","p == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DifferentialOperator():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -69,16 +77,24 @@ def test_DifferentialOperator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_HolonomicFunction_addition(), test_HolonomicFunction_addition produces the expected output) over Any ║
+# ║ Path(test_HolonomicFunction_addition(), p == q and p + q == r and r == s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_HolonomicFunction_addition : Any → {Any | p == q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  p + q == r                                     ║
+# ║   ensures:  r == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_HolonomicFunction_addition : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 135d4e33f698503e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11278fab7f6346ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_addition","kind":"function","src_hash":"b88204d2b1b21a54","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p + q == r and p + q == r and p + q == r and r == s"},"spec":{"lhs":"test_HolonomicFunction_addition()","rhs":"test_HolonomicFunction_addition produces the expected output","over":{"base":"Any"},"name":"test_HolonomicFunction_addition_correct"},"guarantee":"test_HolonomicFunction_addition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_addition_correct","statement":"Path(test_HolonomicFunction_addition(x), test_HolonomicFunction_addition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"135d4e33f698503e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_addition","kind":"function","src_hash":"b88204d2b1b21a54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q and p + q == r and r == s"},"spec":{"lhs":"test_HolonomicFunction_addition()","rhs":"p == q and p + q == r and r == s","over":{"base":"Any"},"name":"test_HolonomicFunction_addition_correct"},"guarantee":"p == q; p + q == r; r == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_addition_correct","statement":"Path(test_HolonomicFunction_addition(x), p == q; p + q == r; r == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11278fab7f6346ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q","p + q == r","r == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_HolonomicFunction_addition():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -114,16 +130,22 @@ def test_HolonomicFunction_addition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_HolonomicFunction_multiplication(), test_HolonomicFunction_multiplication produces the expected output) over Any ║
+# ║ Path(test_HolonomicFunction_multiplication(), p * q == r) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p * q == r                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_HolonomicFunction_multiplication : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edc609795316f78e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa9cf19304a13c47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_multiplication","kind":"function","src_hash":"fab65f13dc53bcdb","in":{"base":"Any"},"out":{"base":"Any","pred":"p * q == r and p * q == r and p * q == r and p * q == r"},"spec":{"lhs":"test_HolonomicFunction_multiplication()","rhs":"test_HolonomicFunction_multiplication produces the expected output","over":{"base":"Any"},"name":"test_HolonomicFunction_multiplication_correct"},"guarantee":"test_HolonomicFunction_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_multiplication_correct","statement":"Path(test_HolonomicFunction_multiplication(x), test_HolonomicFunction_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edc609795316f78e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_multiplication","kind":"function","src_hash":"fab65f13dc53bcdb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p * q == r"},"spec":{"lhs":"test_HolonomicFunction_multiplication()","rhs":"p * q == r","over":{"base":"Any"},"name":"test_HolonomicFunction_multiplication_correct"},"guarantee":"p * q == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_multiplication_correct","statement":"Path(test_HolonomicFunction_multiplication(x), p * q == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa9cf19304a13c47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p * q == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_HolonomicFunction_multiplication():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -151,16 +173,22 @@ def test_HolonomicFunction_multiplication():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_HolonomicFunction_power(), test_HolonomicFunction_power produces the expected output) over Any ║
+# ║ Path(test_HolonomicFunction_power(), <unspecified:test_HolonomicFunction_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_HolonomicFunction_power : Any → {Any | a == p ** n}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c5b87bf0dd8050d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_power","kind":"function","src_hash":"75e1eb8401a6ea9a","in":{"base":"Any"},"out":{"base":"Any","pred":"a == p ** n"},"spec":{"lhs":"test_HolonomicFunction_power()","rhs":"test_HolonomicFunction_power produces the expected output","over":{"base":"Any"},"name":"test_HolonomicFunction_power_correct"},"guarantee":"test_HolonomicFunction_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_power_correct","statement":"Path(test_HolonomicFunction_power(x), test_HolonomicFunction_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c5b87bf0dd8050d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_power","kind":"function","src_hash":"75e1eb8401a6ea9a","in":{"base":"Any"},"out":{"base":"Any","pred":"a == p ** n"},"spec":{"lhs":"test_HolonomicFunction_power()","rhs":"<unspecified:test_HolonomicFunction_power>","over":{"base":"Any"},"name":"test_HolonomicFunction_power_correct"},"guarantee":"test_HolonomicFunction_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_power_correct","statement":"Path(test_HolonomicFunction_power(x), test_HolonomicFunction_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c5b87bf0dd8050d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_HolonomicFunction_power():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -172,16 +200,23 @@ def test_HolonomicFunction_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_addition_initial_condition(), test_addition_initial_condition produces the expected output) over Any ║
+# ║ Path(test_addition_initial_condition(), p + q == r and r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_addition_initial_condition : Any → {Any | p + q ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p + q == r                                     ║
+# ║   ensures:  r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_addition_initial_condition : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dc41e3ae640addf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5ef10149ccbec70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_addition_initial_condition","kind":"function","src_hash":"53f5bd302b82ce88","in":{"base":"Any"},"out":{"base":"Any","pred":"p + q == r and p + q == r and p + q == r and p + q == r and p + q == r and r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)"},"spec":{"lhs":"test_addition_initial_condition()","rhs":"test_addition_initial_condition produces the expected output","over":{"base":"Any"},"name":"test_addition_initial_condition_correct"},"guarantee":"test_addition_initial_condition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_addition_initial_condition_correct","statement":"Path(test_addition_initial_condition(x), test_addition_initial_condition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dc41e3ae640addf"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_addition_initial_condition","kind":"function","src_hash":"53f5bd302b82ce88","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p + q == r and r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)"},"spec":{"lhs":"test_addition_initial_condition()","rhs":"p + q == r and r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)","over":{"base":"Any"},"name":"test_addition_initial_condition_correct"},"guarantee":"p + q == r; r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_addition_initial_condition_correct","statement":"Path(test_addition_initial_condition(x), p + q == r; r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ef10149ccbec70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p + q == r","r == I * sqrt(x) * sqrt(-x + 1) + sqrt(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_addition_initial_condition():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -218,16 +253,23 @@ def test_addition_initial_condition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiplication_initial_condition(), test_multiplication_initial_condition produces the expected output) over Any ║
+# ║ Path(test_multiplication_initial_condition(), p * q == r and r == I * x * sqrt(-x + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p * q == r                                     ║
+# ║   ensures:  r == I * x * sqrt(-x + 1)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_multiplication_initial_condition : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb55df74939f26f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0b891e03d04a588  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_multiplication_initial_condition","kind":"function","src_hash":"4ab55d5793af15aa","in":{"base":"Any"},"out":{"base":"Any","pred":"p * q == r and p * q == r and p * q == r and p * q == r and p * q == r and p * q == r and r == I * x * sqrt(-x + 1)"},"spec":{"lhs":"test_multiplication_initial_condition()","rhs":"test_multiplication_initial_condition produces the expected output","over":{"base":"Any"},"name":"test_multiplication_initial_condition_correct"},"guarantee":"test_multiplication_initial_condition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_multiplication_initial_condition_correct","statement":"Path(test_multiplication_initial_condition(x), test_multiplication_initial_condition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb55df74939f26f9"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_multiplication_initial_condition","kind":"function","src_hash":"4ab55d5793af15aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p * q == r and r == I * x * sqrt(-x + 1)"},"spec":{"lhs":"test_multiplication_initial_condition()","rhs":"p * q == r and r == I * x * sqrt(-x + 1)","over":{"base":"Any"},"name":"test_multiplication_initial_condition_correct"},"guarantee":"p * q == r; r == I * x * sqrt(-x + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_multiplication_initial_condition_correct","statement":"Path(test_multiplication_initial_condition(x), p * q == r; r == I * x * sqrt(-x + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b891e03d04a588","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p * q == r","r == I * x * sqrt(-x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_multiplication_initial_condition():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -267,16 +309,22 @@ def test_multiplication_initial_condition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_HolonomicFunction_composition(), test_HolonomicFunction_composition produces the expected output) over Any ║
+# ║ Path(test_HolonomicFunction_composition(), p == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_HolonomicFunction_composition : Any → {Any | p =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == r                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_HolonomicFunction_composition : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 760487804b7fe92d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79b09dc83496828e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_composition","kind":"function","src_hash":"c590b19c3a2f626c","in":{"base":"Any"},"out":{"base":"Any","pred":"p == r and p == r and p == r and p == r and p == r"},"spec":{"lhs":"test_HolonomicFunction_composition()","rhs":"test_HolonomicFunction_composition produces the expected output","over":{"base":"Any"},"name":"test_HolonomicFunction_composition_correct"},"guarantee":"test_HolonomicFunction_composition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_composition_correct","statement":"Path(test_HolonomicFunction_composition(x), test_HolonomicFunction_composition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760487804b7fe92d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_composition","kind":"function","src_hash":"c590b19c3a2f626c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == r"},"spec":{"lhs":"test_HolonomicFunction_composition()","rhs":"p == r","over":{"base":"Any"},"name":"test_HolonomicFunction_composition_correct"},"guarantee":"p == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_HolonomicFunction_composition_correct","statement":"Path(test_HolonomicFunction_composition(x), p == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79b09dc83496828e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_HolonomicFunction_composition():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -304,16 +352,24 @@ def test_HolonomicFunction_composition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_from_hyper(), test_from_hyper produces the expected output) over Any ║
+# ║ Path(test_from_hyper(), r == q and sstr(p.y0) == y0 and q.annihilator == p.annihilator) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_from_hyper : Any → {Any | r == q and sstr(p.y0) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == q                                         ║
+# ║   ensures:  sstr(p.y0) == y0                               ║
+# ║   ensures:  q.annihilator == p.annihilator                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_from_hyper : Any → {Any | result satisfies: r ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2e7d1d3be5f53b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a88c7c7c247724d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_from_hyper","kind":"function","src_hash":"ee96f5acad61aa5d","in":{"base":"Any"},"out":{"base":"Any","pred":"r == q and sstr(p.y0) == y0 and q.annihilator == p.annihilator"},"spec":{"lhs":"test_from_hyper()","rhs":"test_from_hyper produces the expected output","over":{"base":"Any"},"name":"test_from_hyper_correct"},"guarantee":"test_from_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_from_hyper_correct","statement":"Path(test_from_hyper(x), test_from_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2e7d1d3be5f53b3"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_from_hyper","kind":"function","src_hash":"ee96f5acad61aa5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == q and sstr(p.y0) == y0 and q.annihilator == p.annihilator"},"spec":{"lhs":"test_from_hyper()","rhs":"r == q and sstr(p.y0) == y0 and q.annihilator == p.annihilator","over":{"base":"Any"},"name":"test_from_hyper_correct"},"guarantee":"r == q; sstr(p.y0) == y0; q.annihilator == p.annihilator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_from_hyper_correct","statement":"Path(test_from_hyper(x), r == q; sstr(p.y0) == y0; q.annihilator == p.annihilator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a88c7c7c247724d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == q","sstr(p.y0) == y0","q.annihilator == p.annihilator"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_from_hyper():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -330,16 +386,22 @@ def test_from_hyper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_from_meijerg(), test_from_meijerg produces the expected output) over Any ║
+# ║ Path(test_from_meijerg(), p == q) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_from_meijerg : Any → {Any | p == q and p == q an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_from_meijerg : Any → {Any | result satisfies: p ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19b2fa5163e73304  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3dd3a2af85b1d4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_from_meijerg","kind":"function","src_hash":"1ba097dbf206a40c","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p == q and p == q and p == q"},"spec":{"lhs":"test_from_meijerg()","rhs":"test_from_meijerg produces the expected output","over":{"base":"Any"},"name":"test_from_meijerg_correct"},"guarantee":"test_from_meijerg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_from_meijerg_correct","statement":"Path(test_from_meijerg(x), test_from_meijerg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b2fa5163e73304"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_from_meijerg","kind":"function","src_hash":"1ba097dbf206a40c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q"},"spec":{"lhs":"test_from_meijerg()","rhs":"p == q","over":{"base":"Any"},"name":"test_from_meijerg_correct"},"guarantee":"p == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_from_meijerg_correct","statement":"Path(test_from_meijerg(x), p == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3dd3a2af85b1d4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_from_meijerg():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -359,16 +421,22 @@ def test_from_meijerg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_Sequence(), test_to_Sequence produces the expected output) over Any ║
+# ║ Path(test_to_Sequence(), p == q) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_Sequence : Any → {Any | p == q and p == q and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_Sequence : Any → {Any | result satisfies: p =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 961b468dc0685e20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6637e9e8f02bfea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_Sequence","kind":"function","src_hash":"2e8111ad244072f5","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p == q and p == q and p == q"},"spec":{"lhs":"test_to_Sequence()","rhs":"test_to_Sequence produces the expected output","over":{"base":"Any"},"name":"test_to_Sequence_correct"},"guarantee":"test_to_Sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_Sequence_correct","statement":"Path(test_to_Sequence(x), test_to_Sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"961b468dc0685e20"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_Sequence","kind":"function","src_hash":"2e8111ad244072f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q"},"spec":{"lhs":"test_to_Sequence()","rhs":"p == q","over":{"base":"Any"},"name":"test_to_Sequence_correct"},"guarantee":"p == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_Sequence_correct","statement":"Path(test_to_Sequence(x), p == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6637e9e8f02bfea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_to_Sequence():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -389,16 +457,23 @@ def test_to_Sequence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_Sequence_Initial_Coniditons(), test_to_Sequence_Initial_Coniditons produces the expected output) over Any ║
+# ║ Path(test_to_Sequence_Initial_Coniditons(), p == q and p.to_sequence() == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_Sequence_Initial_Coniditons : Any → {Any | p ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  p.to_sequence() == q                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_Sequence_Initial_Coniditons : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3096410c3b26b15b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e619c10a344a5d65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_Sequence_Initial_Coniditons","kind":"function","src_hash":"c6c75de344bc7097","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p == q and p == q and p == q and p.to_sequence() == q and p.to_sequence() == q and p == q"},"spec":{"lhs":"test_to_Sequence_Initial_Coniditons()","rhs":"test_to_Sequence_Initial_Coniditons produces the expected output","over":{"base":"Any"},"name":"test_to_Sequence_Initial_Coniditons_correct"},"guarantee":"test_to_Sequence_Initial_Coniditons produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_Sequence_Initial_Coniditons_correct","statement":"Path(test_to_Sequence_Initial_Coniditons(x), test_to_Sequence_Initial_Coniditons produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3096410c3b26b15b"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_Sequence_Initial_Coniditons","kind":"function","src_hash":"c6c75de344bc7097","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q and p.to_sequence() == q"},"spec":{"lhs":"test_to_Sequence_Initial_Coniditons()","rhs":"p == q and p.to_sequence() == q","over":{"base":"Any"},"name":"test_to_Sequence_Initial_Coniditons_correct"},"guarantee":"p == q; p.to_sequence() == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_Sequence_Initial_Coniditons_correct","statement":"Path(test_to_Sequence_Initial_Coniditons(x), p == q; p.to_sequence() == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e619c10a344a5d65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q","p.to_sequence() == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_to_Sequence_Initial_Coniditons():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -428,16 +503,24 @@ def test_to_Sequence_Initial_Coniditons():
     assert p == q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series(), test_series produces the expected output) over Any ║
+# ║ Path(test_series(), p == q and r == s and p.subs(C_3, -2 / (3 * sqrt(pi))) == q and expr_to_holonomic(sqrt(x ** 3 + x)).series(n=10) == sqrt(x ** 3 + x).series(n=10) and expr_to_holonomic((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() == ((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() and expr_to_holonomic(sqrt(x ** 2 - x)).series() == sqrt(x ** 2 - x).series() and expr_to_holonomic(cos(x) ** 2 / x ** 2, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x) ** 2 / x ** 2).series(n=10) and expr_to_holonomic(cos(x) ** 2 / x ** 2, x0=1).series(n=10).together() == (cos(x) ** 2 / x ** 2).series(n=10, x0=1).together() and expr_to_holonomic(cos(x - 1) ** 2 / (x - 1) ** 2, x0=1, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x - 1) ** 2 / (x - 1) ** 2).series(x0=1, n=10)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_series : Any → {Any | p == q and r == s and r ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  r == s                                         ║
+# ║   ensures:  p.subs(C_3, -2 / (3 * sqrt(pi))) == q          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_series : Any → {Any | result satisfies: p == q a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03e7a717080b301f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebc7d0d99f52e20a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_series","kind":"function","src_hash":"dd4bd7d11d46b45e","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and r == s and r == s and p == q and p == q and p.subs(C_3, -2 / (3 * sqrt(pi))) == q and expr_to_holonomic(sqrt(x ** 2 - x)).series() == sqrt(x ** 2 - x).series()"},"spec":{"lhs":"test_series()","rhs":"test_series produces the expected output","over":{"base":"Any"},"name":"test_series_correct"},"guarantee":"test_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_series_correct","statement":"Path(test_series(x), test_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e7a717080b301f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_series","kind":"function","src_hash":"dd4bd7d11d46b45e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q and r == s and p.subs(C_3, -2 / (3 * sqrt(pi))) == q and expr_to_holonomic(sqrt(x ** 3 + x)).series(n=10) == sqrt(x ** 3 + x).series(n=10) and expr_to_holonomic((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() == ((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() and expr_to_holonomic(sqrt(x ** 2 - x)).series() == sqrt(x ** 2 - x).series() and expr_to_holonomic(cos(x) ** 2 / x ** 2, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x) ** 2 / x ** 2).series(n=10) and expr_to_holonomic(cos(x) ** 2 / x ** 2, x0=1).series(n=10).together() == (cos(x) ** 2 / x ** 2).series(n=10, x0=1).together() and expr_to_holonomic(cos(x - 1) ** 2 / (x - 1) ** 2, x0=1, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x - 1) ** 2 / (x - 1) ** 2).series(x0=1, n=10)"},"spec":{"lhs":"test_series()","rhs":"p == q and r == s and p.subs(C_3, -2 / (3 * sqrt(pi))) == q and expr_to_holonomic(sqrt(x ** 3 + x)).series(n=10) == sqrt(x ** 3 + x).series(n=10) and expr_to_holonomic((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() == ((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() and expr_to_holonomic(sqrt(x ** 2 - x)).series() == sqrt(x ** 2 - x).series() and expr_to_holonomic(cos(x) ** 2 / x ** 2, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x) ** 2 / x ** 2).series(n=10) and expr_to_holonomic(cos(x) ** 2 / x ** 2, x0=1).series(n=10).together() == (cos(x) ** 2 / x ** 2).series(n=10, x0=1).together() and expr_to_holonomic(cos(x - 1) ** 2 / (x - 1) ** 2, x0=1, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x - 1) ** 2 / (x - 1) ** 2).series(x0=1, n=10)","over":{"base":"Any"},"name":"test_series_correct"},"guarantee":"p == q; r == s; p.subs(C_3, -2 / (3 * sqrt(pi))) == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_series_correct","statement":"Path(test_series(x), p == q; r == s; p.subs(C_3, -2 / (3 * sqrt(pi))) == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc7d0d99f52e20a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q","r == s","p.subs(C_3, -2 / (3 * sqrt(pi))) == q","expr_to_holonomic(sqrt(x ** 3 + x)).series(n=10) == sqrt(x ** 3 + x).series(n=10)","expr_to_holonomic((2 * x - 3 * x ** 2) ** Rational(1, 3)).series() == ((2 * x - 3 * x ** 2) ** Rational(1, 3)).series()","expr_to_holonomic(sqrt(x ** 2 - x)).series() == sqrt(x ** 2 - x).series()","expr_to_holonomic(cos(x) ** 2 / x ** 2, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x) ** 2 / x ** 2).series(n=10)","expr_to_holonomic(cos(x) ** 2 / x ** 2, x0=1).series(n=10).together() == (cos(x) ** 2 / x ** 2).series(n=10, x0=1).together()","expr_to_holonomic(cos(x - 1) ** 2 / (x - 1) ** 2, x0=1, y0={-2: [1, 0, -1]}).series(n=10) == (cos(x - 1) ** 2 / (x - 1) ** 2).series(x0=1, n=10)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_series():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -475,16 +558,23 @@ def test_series():
         == (cos(x-1)**2/(x-1)**2).series(x0=1, n=10)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_euler(), test_evalf_euler produces the expected output) over Any ║
+# ║ Path(test_evalf_euler(), sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p[-1]) == s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_euler : Any → {Any | sstr(p.evalf(r, metho...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(p.evalf(r, method='Euler')[-1]) == s      ║
+# ║   ensures:  sstr(p[-1]) == s                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_euler : Any → {Any | result satisfies: sst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4824be7a8cd1508  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84bbb404a984ac13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_evalf_euler","kind":"function","src_hash":"fa67513d4f4424e2","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p[-1]) == s"},"spec":{"lhs":"test_evalf_euler()","rhs":"test_evalf_euler produces the expected output","over":{"base":"Any"},"name":"test_evalf_euler_correct"},"guarantee":"test_evalf_euler produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_evalf_euler_correct","statement":"Path(test_evalf_euler(x), test_evalf_euler produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4824be7a8cd1508"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_evalf_euler","kind":"function","src_hash":"fa67513d4f4424e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p[-1]) == s"},"spec":{"lhs":"test_evalf_euler()","rhs":"sstr(p.evalf(r, method='Euler')[-1]) == s and sstr(p[-1]) == s","over":{"base":"Any"},"name":"test_evalf_euler_correct"},"guarantee":"sstr(p.evalf(r, method='Euler')[-1]) == s; sstr(p[-1]) == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_evalf_euler_correct","statement":"Path(test_evalf_euler(x), sstr(p.evalf(r, method='Euler')[-1]) == s; sstr(p[-1]) == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84bbb404a984ac13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(p.evalf(r, method='Euler')[-1]) == s","sstr(p[-1]) == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_evalf_euler():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -563,16 +653,24 @@ def test_evalf_euler():
     assert sstr(p[-1]) == s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_rk4(), test_evalf_rk4 produces the expected output) over Any ║
+# ║ Path(test_evalf_rk4(), sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1].n(7)) == s and sstr(p[-1]) == s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_rk4 : Any → {Any | sstr(p.evalf(r)[-1]) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(p.evalf(r)[-1]) == s                      ║
+# ║   ensures:  sstr(p.evalf(r)[-1].n(7)) == s                 ║
+# ║   ensures:  sstr(p[-1]) == s                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_rk4 : Any → {Any | result satisfies: sstr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fcb2a79acf720ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe0c95983487d102  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_evalf_rk4","kind":"function","src_hash":"f5a76395d70851a2","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1].n(7)) == s and sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1]) == s and sstr(p[-1]) == s"},"spec":{"lhs":"test_evalf_rk4()","rhs":"test_evalf_rk4 produces the expected output","over":{"base":"Any"},"name":"test_evalf_rk4_correct"},"guarantee":"test_evalf_rk4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_evalf_rk4_correct","statement":"Path(test_evalf_rk4(x), test_evalf_rk4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fcb2a79acf720ca"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_evalf_rk4","kind":"function","src_hash":"f5a76395d70851a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1].n(7)) == s and sstr(p[-1]) == s"},"spec":{"lhs":"test_evalf_rk4()","rhs":"sstr(p.evalf(r)[-1]) == s and sstr(p.evalf(r)[-1].n(7)) == s and sstr(p[-1]) == s","over":{"base":"Any"},"name":"test_evalf_rk4_correct"},"guarantee":"sstr(p.evalf(r)[-1]) == s; sstr(p.evalf(r)[-1].n(7)) == s; sstr(p[-1]) == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_evalf_rk4_correct","statement":"Path(test_evalf_rk4(x), sstr(p.evalf(r)[-1]) == s; sstr(p.evalf(r)[-1].n(7)) == s; sstr(p[-1]) == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe0c95983487d102","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(p.evalf(r)[-1]) == s","sstr(p.evalf(r)[-1].n(7)) == s","sstr(p[-1]) == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_evalf_rk4():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -652,16 +750,24 @@ def test_evalf_rk4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expr_to_holonomic(), test_expr_to_holonomic produces the expected output) over Any ║
+# ║ Path(test_expr_to_holonomic(), p == q and (x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10) and (expr_to_holonomic(sqrt(x) + sqrt(2 * x)).to_expr() - (sqrt(x) + sqrt(2 * x))).simplify() == 0 and expr_to_holonomic(3 * x + 2 * sqrt(x)).to_expr() == 3 * x + 2 * sqrt(x) and p.to_expr() == sqrt(a) * sqrt(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expr_to_holonomic : Any → {Any | p == q and p ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  (x * exp(x) + cos(x) + 1).series(n=10) ==...   ║
+# ║   ensures:  (expr_to_holonomic(sqrt(x) + sqrt(2 * x))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expr_to_holonomic : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6a088483c3d8460  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cefa6711f247085a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_expr_to_holonomic","kind":"function","src_hash":"99eb348726d265bd","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p == q and p == q and p == q and (x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10) and p == q and p == q and p == q and p == q and p == q and p == q and p == q and p == q and p == q and p == q and p == q and expr_to_holonomic(3 * x + 2 * sqrt(x)).to_expr() == 3 * x + 2 * sqrt(x) and p == q and p == q and p.to_expr() == sqrt(a) * sqrt(x)"},"spec":{"lhs":"test_expr_to_holonomic()","rhs":"test_expr_to_holonomic produces the expected output","over":{"base":"Any"},"name":"test_expr_to_holonomic_correct"},"guarantee":"test_expr_to_holonomic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_expr_to_holonomic_correct","statement":"Path(test_expr_to_holonomic(x), test_expr_to_holonomic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6a088483c3d8460"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_expr_to_holonomic","kind":"function","src_hash":"99eb348726d265bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q and (x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10) and (expr_to_holonomic(sqrt(x) + sqrt(2 * x)).to_expr() - (sqrt(x) + sqrt(2 * x))).simplify() == 0 and expr_to_holonomic(3 * x + 2 * sqrt(x)).to_expr() == 3 * x + 2 * sqrt(x) and p.to_expr() == sqrt(a) * sqrt(x)"},"spec":{"lhs":"test_expr_to_holonomic()","rhs":"p == q and (x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10) and (expr_to_holonomic(sqrt(x) + sqrt(2 * x)).to_expr() - (sqrt(x) + sqrt(2 * x))).simplify() == 0 and expr_to_holonomic(3 * x + 2 * sqrt(x)).to_expr() == 3 * x + 2 * sqrt(x) and p.to_expr() == sqrt(a) * sqrt(x)","over":{"base":"Any"},"name":"test_expr_to_holonomic_correct"},"guarantee":"p == q; (x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10); (expr_to_holonomic(sqrt(x) + sqrt(2 * x)).to_expr() - (sqrt(x) + sqrt(2 * x))).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_expr_to_holonomic_correct","statement":"Path(test_expr_to_holonomic(x), p == q; (x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10); (expr_to_holonomic(sqrt(x) + sqrt(2 * x)).to_expr() - (sqrt(x) + sqrt(2 * x))).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cefa6711f247085a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q","(x * exp(x) + cos(x) + 1).series(n=10) == p.series(n=10)","(expr_to_holonomic(sqrt(x) + sqrt(2 * x)).to_expr() - (sqrt(x) + sqrt(2 * x))).simplify() == 0","expr_to_holonomic(3 * x + 2 * sqrt(x)).to_expr() == 3 * x + 2 * sqrt(x)","p.to_expr() == sqrt(a) * sqrt(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def test_expr_to_holonomic():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -735,16 +841,23 @@ def test_expr_to_holonomic():
     assert p.to_expr() == sqrt(a)*sqrt(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_hyper(), test_to_hyper produces the expected output) over Any ║
+# ║ Path(test_to_hyper(), p == q and p.rewrite(erfc) == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_hyper : Any → {Any | p == q and p == q and p ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  p.rewrite(erfc) == q                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_hyper : Any → {Any | result satisfies: p == q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed084b97e21d4d1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e55e130383cffa50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_hyper","kind":"function","src_hash":"023ef9887096d2eb","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p == q and p == q and p == q and p.rewrite(erfc) == q and p == q and p == q"},"spec":{"lhs":"test_to_hyper()","rhs":"test_to_hyper produces the expected output","over":{"base":"Any"},"name":"test_to_hyper_correct"},"guarantee":"test_to_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_hyper_correct","statement":"Path(test_to_hyper(x), test_to_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed084b97e21d4d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_hyper","kind":"function","src_hash":"023ef9887096d2eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q and p.rewrite(erfc) == q"},"spec":{"lhs":"test_to_hyper()","rhs":"p == q and p.rewrite(erfc) == q","over":{"base":"Any"},"name":"test_to_hyper_correct"},"guarantee":"p == q; p.rewrite(erfc) == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_hyper_correct","statement":"Path(test_to_hyper(x), p == q; p.rewrite(erfc) == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e55e130383cffa50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q","p.rewrite(erfc) == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_to_hyper():
     x = symbols('x')
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -772,16 +885,24 @@ def test_to_hyper():
     assert p == q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_expr(), test_to_expr produces the expected output) over Any ║
+# ║ Path(test_to_expr(), p == q and p == sqrt(x) and expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x) and p == sqrt(1 + x ** 2) and p == (2 * x ** 2 + 1) ** Rational(2, 3) and p == sqrt(x) * sqrt(-x + 2) and (p.to_expr().subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and p.to_expr() == s and expr_to_holonomic(x ** 5).to_expr() == x ** 5 and expr_to_holonomic(2 * x ** 3 - 3 * x ** 2).to_expr().expand() == 2 * x ** 3 - 3 * x ** 2 and p == 2.4 * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_expr : Any → {Any | p == q and p == q and p =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  p == sqrt(x)                                   ║
+# ║   ensures:  expr_to_holonomic(sqrt(x)).to_expr() == s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_expr : Any → {Any | result satisfies: p == q ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a54659eee3bf39d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e2851cf056df20d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_expr","kind":"function","src_hash":"4e6cf7e16e612c1e","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q and p == q and p == q and p == q and p == q and p == q and p == q and p == q and p == sqrt(x) and expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x) and p == sqrt(1 + x ** 2) and p == (2 * x ** 2 + 1) ** Rational(2, 3) and p == sqrt(x) * sqrt(-x + 2) and p == q and (p.to_expr().subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and p.to_expr() == s and expr_to_holonomic(x ** 5).to_expr() == x ** 5 and p == q and p == q and p == 2.4 * x"},"spec":{"lhs":"test_to_expr()","rhs":"test_to_expr produces the expected output","over":{"base":"Any"},"name":"test_to_expr_correct"},"guarantee":"test_to_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_expr_correct","statement":"Path(test_to_expr(x), test_to_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a54659eee3bf39d2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_expr","kind":"function","src_hash":"4e6cf7e16e612c1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q and p == sqrt(x) and expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x) and p == sqrt(1 + x ** 2) and p == (2 * x ** 2 + 1) ** Rational(2, 3) and p == sqrt(x) * sqrt(-x + 2) and (p.to_expr().subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and p.to_expr() == s and expr_to_holonomic(x ** 5).to_expr() == x ** 5 and expr_to_holonomic(2 * x ** 3 - 3 * x ** 2).to_expr().expand() == 2 * x ** 3 - 3 * x ** 2 and p == 2.4 * x"},"spec":{"lhs":"test_to_expr()","rhs":"p == q and p == sqrt(x) and expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x) and p == sqrt(1 + x ** 2) and p == (2 * x ** 2 + 1) ** Rational(2, 3) and p == sqrt(x) * sqrt(-x + 2) and (p.to_expr().subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and p.to_expr() == s and expr_to_holonomic(x ** 5).to_expr() == x ** 5 and expr_to_holonomic(2 * x ** 3 - 3 * x ** 2).to_expr().expand() == 2 * x ** 3 - 3 * x ** 2 and p == 2.4 * x","over":{"base":"Any"},"name":"test_to_expr_correct"},"guarantee":"p == q; p == sqrt(x); expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_expr_correct","statement":"Path(test_to_expr(x), p == q; p == sqrt(x); expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e2851cf056df20d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q","p == sqrt(x)","expr_to_holonomic(sqrt(x)).to_expr() == sqrt(x)","p == sqrt(1 + x ** 2)","p == (2 * x ** 2 + 1) ** Rational(2, 3)","p == sqrt(x) * sqrt(-x + 2)","(p.to_expr().subs({C_0: 1, D_0: 0}) - s).simplify() == 0","p.to_expr() == s","expr_to_holonomic(x ** 5).to_expr() == x ** 5","expr_to_holonomic(2 * x ** 3 - 3 * x ** 2).to_expr().expand() == 2 * x ** 3 - 3 * x ** 2","p == 2.4 * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_to_expr():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -845,16 +966,24 @@ def test_to_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integrate(), test_integrate produces the expected output) over Any ║
+# ║ Path(test_integrate(), sstr(p) == q and p == q and p.integrate(x).to_expr() == Si(x) and p.integrate((x, 0, 2)) == Si(2) and p.integrate(x).to_expr() == q.integrate((x, 0, x)) and p.integrate((x, 0, 1)) == q.integrate((x, 0, 1)) and expr_to_holonomic(1 / x, x0=1).integrate(x).to_expr() == log(x) and (p - q).simplify() == 0 and p == r and (r * q).integrate(x).to_expr() == -Si(2 * x) - cos(x) ** 2 / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integrate : Any → {Any | sstr(p) == q and p == q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(p) == q                                   ║
+# ║   ensures:  p == q                                         ║
+# ║   ensures:  p.integrate(x).to_expr() == Si(x)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integrate : Any → {Any | result satisfies: sstr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd4aeac43defaef7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4265c4746ce3ede6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_integrate","kind":"function","src_hash":"6b61bbdc3a779eef","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(p) == q and p == q and p == q and sstr(p) == q and sstr(p) == q and p.integrate(x).to_expr() == Si(x) and p.integrate((x, 0, 2)) == Si(2) and p.integrate(x).to_expr() == q.integrate((x, 0, x)) and p.integrate((x, 0, 1)) == q.integrate((x, 0, 1)) and expr_to_holonomic(1 / x, x0=1).integrate(x).to_expr() == log(x) and p == q and p == q and p == q and (p - q).simplify() == 0 and p == r and (r * q).integrate(x).to_expr() == -Si(2 * x) - cos(x) ** 2 / x"},"spec":{"lhs":"test_integrate()","rhs":"test_integrate produces the expected output","over":{"base":"Any"},"name":"test_integrate_correct"},"guarantee":"test_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_integrate_correct","statement":"Path(test_integrate(x), test_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd4aeac43defaef7"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_integrate","kind":"function","src_hash":"6b61bbdc3a779eef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(p) == q and p == q and p.integrate(x).to_expr() == Si(x) and p.integrate((x, 0, 2)) == Si(2) and p.integrate(x).to_expr() == q.integrate((x, 0, x)) and p.integrate((x, 0, 1)) == q.integrate((x, 0, 1)) and expr_to_holonomic(1 / x, x0=1).integrate(x).to_expr() == log(x) and (p - q).simplify() == 0 and p == r and (r * q).integrate(x).to_expr() == -Si(2 * x) - cos(x) ** 2 / x"},"spec":{"lhs":"test_integrate()","rhs":"sstr(p) == q and p == q and p.integrate(x).to_expr() == Si(x) and p.integrate((x, 0, 2)) == Si(2) and p.integrate(x).to_expr() == q.integrate((x, 0, x)) and p.integrate((x, 0, 1)) == q.integrate((x, 0, 1)) and expr_to_holonomic(1 / x, x0=1).integrate(x).to_expr() == log(x) and (p - q).simplify() == 0 and p == r and (r * q).integrate(x).to_expr() == -Si(2 * x) - cos(x) ** 2 / x","over":{"base":"Any"},"name":"test_integrate_correct"},"guarantee":"sstr(p) == q; p == q; p.integrate(x).to_expr() == Si(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_integrate_correct","statement":"Path(test_integrate(x), sstr(p) == q; p == q; p.integrate(x).to_expr() == Si(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4265c4746ce3ede6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(p) == q","p == q","p.integrate(x).to_expr() == Si(x)","p.integrate((x, 0, 2)) == Si(2)","p.integrate(x).to_expr() == q.integrate((x, 0, x))","p.integrate((x, 0, 1)) == q.integrate((x, 0, 1))","expr_to_holonomic(1 / x, x0=1).integrate(x).to_expr() == log(x)","(p - q).simplify() == 0","p == r","(r * q).integrate(x).to_expr() == -Si(2 * x) - cos(x) ** 2 / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_integrate():
     x = symbols('x')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -901,16 +1030,24 @@ def test_integrate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff(), test_diff produces the expected output) over Any ║
+# ║ Path(test_diff(), p.diff().to_expr() == p.to_expr().diff().simplify() and p.diff(x, 2).to_expr() == p.to_expr() and p.diff().to_expr() == sin(x) / x and p.diff(y) == 0 and p.diff(x).to_expr() == q.diff() and p.diff(x, 2).to_expr().subs(C_0, Rational(-1, 3)).cancel() == q.diff(x, 2).cancel() and p.diff(x, 3).series().subs({C_3: Rational(-1, 3), C_0: 0}) == q.diff(x, 3).series()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff : Any → {Any | p.diff().to_expr() == p.to_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.diff().to_expr() == p.to_expr().diff()....   ║
+# ║   ensures:  p.diff(x, 2).to_expr() == p.to_expr()          ║
+# ║   ensures:  p.diff().to_expr() == sin(x) / x               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff : Any → {Any | result satisfies: p.diff().t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54cca9f291167883  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3f94bfb55a70980  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_diff","kind":"function","src_hash":"37b82ca296376a3b","in":{"base":"Any"},"out":{"base":"Any","pred":"p.diff().to_expr() == p.to_expr().diff().simplify() and p.diff(x, 2).to_expr() == p.to_expr() and p.diff().to_expr() == sin(x) / x and p.diff(y) == 0 and p.diff(x).to_expr() == q.diff()"},"spec":{"lhs":"test_diff()","rhs":"test_diff produces the expected output","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"test_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_diff_correct","statement":"Path(test_diff(x), test_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54cca9f291167883"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_diff","kind":"function","src_hash":"37b82ca296376a3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.diff().to_expr() == p.to_expr().diff().simplify() and p.diff(x, 2).to_expr() == p.to_expr() and p.diff().to_expr() == sin(x) / x and p.diff(y) == 0 and p.diff(x).to_expr() == q.diff() and p.diff(x, 2).to_expr().subs(C_0, Rational(-1, 3)).cancel() == q.diff(x, 2).cancel() and p.diff(x, 3).series().subs({C_3: Rational(-1, 3), C_0: 0}) == q.diff(x, 3).series()"},"spec":{"lhs":"test_diff()","rhs":"p.diff().to_expr() == p.to_expr().diff().simplify() and p.diff(x, 2).to_expr() == p.to_expr() and p.diff().to_expr() == sin(x) / x and p.diff(y) == 0 and p.diff(x).to_expr() == q.diff() and p.diff(x, 2).to_expr().subs(C_0, Rational(-1, 3)).cancel() == q.diff(x, 2).cancel() and p.diff(x, 3).series().subs({C_3: Rational(-1, 3), C_0: 0}) == q.diff(x, 3).series()","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"p.diff().to_expr() == p.to_expr().diff().simplify(); p.diff(x, 2).to_expr() == p.to_expr(); p.diff().to_expr() == sin(x) / x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_diff_correct","statement":"Path(test_diff(x), p.diff().to_expr() == p.to_expr().diff().simplify(); p.diff(x, 2).to_expr() == p.to_expr(); p.diff().to_expr() == sin(x) / x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f94bfb55a70980","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.diff().to_expr() == p.to_expr().diff().simplify()","p.diff(x, 2).to_expr() == p.to_expr()","p.diff().to_expr() == sin(x) / x","p.diff(y) == 0","p.diff(x).to_expr() == q.diff()","p.diff(x, 2).to_expr().subs(C_0, Rational(-1, 3)).cancel() == q.diff(x, 2).cancel()","p.diff(x, 3).series().subs({C_3: Rational(-1, 3), C_0: 0}) == q.diff(x, 3).series()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_diff():
     x, y = symbols('x, y')
     R, Dx = DifferentialOperators(ZZ.old_poly_ring(x), 'Dx')
@@ -929,16 +1066,24 @@ def test_diff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_extended_domain_in_expr_to_holonomic(), test_extended_domain_in_expr_to_holonomic produces the expected output) over Any ║
+# ║ Path(test_extended_domain_in_expr_to_holonomic(), p.to_expr() == 1.2 * cos(3.1 * x) and sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)' and p == q and p.to_expr() == 1.1329138213 * x and sstr(p.integrate((x, 1, 2))) == sstr((1.1329138213 * x).integrate((x, 1, 2))) and p.to_expr() == sin(x * y * z) and p.integrate(x).to_expr() == (-cos(x * y * z) + 1) / (y * z) and p.to_expr() == a * x and p.integrate(x).to_expr() == a * x ** 2 / 2 and p - x - 1.2 * cos(1.0 * x) == 0 and p - 1.2 * x * cos(1.0 * x) == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.to_expr() == 1.2 * cos(3.1 * x)              ║
+# ║   ensures:  sstr(p.integrate(x).to_expr()) == '0.3870...   ║
+# ║   ensures:  p == q                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_extended_domain_in_expr_to_holonomic : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8916518df327f889  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 547ab848e5f45a29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_extended_domain_in_expr_to_holonomic","kind":"function","src_hash":"cd2627f0e7984e5f","in":{"base":"Any"},"out":{"base":"Any","pred":"p.to_expr() == 1.2 * cos(3.1 * x) and sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)' and p == q and p.to_expr() == 1.1329138213 * x and sstr(p.integrate((x, 1, 2))) == sstr((1.1329138213 * x).integrate((x, 1, 2))) and p.to_expr() == sin(x * y * z) and p.integrate(x).to_expr() == (-cos(x * y * z) + 1) / (y * z) and p == q and p.to_expr() == a * x and p.integrate(x).to_expr() == a * x ** 2 / 2 and p - x - 1.2 * cos(1.0 * x) == 0 and p - 1.2 * x * cos(1.0 * x) == 0"},"spec":{"lhs":"test_extended_domain_in_expr_to_holonomic()","rhs":"test_extended_domain_in_expr_to_holonomic produces the expected output","over":{"base":"Any"},"name":"test_extended_domain_in_expr_to_holonomic_correct"},"guarantee":"test_extended_domain_in_expr_to_holonomic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_extended_domain_in_expr_to_holonomic_correct","statement":"Path(test_extended_domain_in_expr_to_holonomic(x), test_extended_domain_in_expr_to_holonomic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8916518df327f889"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_extended_domain_in_expr_to_holonomic","kind":"function","src_hash":"cd2627f0e7984e5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.to_expr() == 1.2 * cos(3.1 * x) and sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)' and p == q and p.to_expr() == 1.1329138213 * x and sstr(p.integrate((x, 1, 2))) == sstr((1.1329138213 * x).integrate((x, 1, 2))) and p.to_expr() == sin(x * y * z) and p.integrate(x).to_expr() == (-cos(x * y * z) + 1) / (y * z) and p.to_expr() == a * x and p.integrate(x).to_expr() == a * x ** 2 / 2 and p - x - 1.2 * cos(1.0 * x) == 0 and p - 1.2 * x * cos(1.0 * x) == 0"},"spec":{"lhs":"test_extended_domain_in_expr_to_holonomic()","rhs":"p.to_expr() == 1.2 * cos(3.1 * x) and sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)' and p == q and p.to_expr() == 1.1329138213 * x and sstr(p.integrate((x, 1, 2))) == sstr((1.1329138213 * x).integrate((x, 1, 2))) and p.to_expr() == sin(x * y * z) and p.integrate(x).to_expr() == (-cos(x * y * z) + 1) / (y * z) and p.to_expr() == a * x and p.integrate(x).to_expr() == a * x ** 2 / 2 and p - x - 1.2 * cos(1.0 * x) == 0 and p - 1.2 * x * cos(1.0 * x) == 0","over":{"base":"Any"},"name":"test_extended_domain_in_expr_to_holonomic_correct"},"guarantee":"p.to_expr() == 1.2 * cos(3.1 * x); sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)'; p == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_extended_domain_in_expr_to_holonomic_correct","statement":"Path(test_extended_domain_in_expr_to_holonomic(x), p.to_expr() == 1.2 * cos(3.1 * x); sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)'; p == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"547ab848e5f45a29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.to_expr() == 1.2 * cos(3.1 * x)","sstr(p.integrate(x).to_expr()) == '0.387096774193548*sin(3.1*x)'","p == q","p.to_expr() == 1.1329138213 * x","sstr(p.integrate((x, 1, 2))) == sstr((1.1329138213 * x).integrate((x, 1, 2)))","p.to_expr() == sin(x * y * z)","p.integrate(x).to_expr() == (-cos(x * y * z) + 1) / (y * z)","p.to_expr() == a * x","p.integrate(x).to_expr() == a * x ** 2 / 2","p - x - 1.2 * cos(1.0 * x) == 0","p - 1.2 * x * cos(1.0 * x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_extended_domain_in_expr_to_holonomic():
     x = symbols('x')
     p = expr_to_holonomic(1.2*cos(3.1*x))
@@ -971,16 +1116,24 @@ def test_extended_domain_in_expr_to_holonomic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_meijerg(), test_to_meijerg produces the expected output) over Any ║
+# ║ Path(test_to_meijerg(), hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x) and hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x) and hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x) and hyperexpand(expr_to_holonomic(log(x)).to_meijerg()).simplify() == log(x) and expr_to_holonomic(4 * x ** 2 / 3 + 7).to_meijerg() == 4 * x ** 2 / 3 + 7 and hyperexpand(expr_to_holonomic(besselj(2, x), lenics=3).to_meijerg()) == besselj(2, x) and from_hyper(p).to_meijerg() == hyperexpand(p) and (hyperexpand(from_hyper(p).to_meijerg()) - hyperexpand(p)).expand() == 0 and (hyperexpand(p.to_meijerg()).subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and (hyperexpand(p.to_meijerg()) - s).simplify() == 0 and (p.to_expr() - (D_0 * sin(x) + C_0 * cos(x) + C_1 * sin(x)) / sqrt(x)).simplify() == 0 and (p.to_expr() - besselj(S.Half, x) - besselj(Rational(-1, 2), x)).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_meijerg : Any → {Any | hyperexpand(expr_to_ho...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(expr_to_holonomic(sin(x)).to_...   ║
+# ║   ensures:  hyperexpand(expr_to_holonomic(cos(x)).to_...   ║
+# ║   ensures:  hyperexpand(expr_to_holonomic(exp(x)).to_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_meijerg : Any → {Any | result satisfies: hype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be40a1c9790df8fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ba28d614d1f302a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_meijerg","kind":"function","src_hash":"5eda70041e3c2eef","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x) and hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x) and hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x) and hyperexpand(expr_to_holonomic(log(x)).to_meijerg()).simplify() == log(x) and expr_to_holonomic(4 * x ** 2 / 3 + 7).to_meijerg() == 4 * x ** 2 / 3 + 7 and from_hyper(p).to_meijerg() == hyperexpand(p) and (hyperexpand(from_hyper(p).to_meijerg()) - hyperexpand(p)).expand() == 0 and (hyperexpand(p.to_meijerg()).subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and (hyperexpand(p.to_meijerg()) - s).simplify() == 0"},"spec":{"lhs":"test_to_meijerg()","rhs":"test_to_meijerg produces the expected output","over":{"base":"Any"},"name":"test_to_meijerg_correct"},"guarantee":"test_to_meijerg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_meijerg_correct","statement":"Path(test_to_meijerg(x), test_to_meijerg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be40a1c9790df8fa"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_to_meijerg","kind":"function","src_hash":"5eda70041e3c2eef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x) and hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x) and hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x) and hyperexpand(expr_to_holonomic(log(x)).to_meijerg()).simplify() == log(x) and expr_to_holonomic(4 * x ** 2 / 3 + 7).to_meijerg() == 4 * x ** 2 / 3 + 7 and hyperexpand(expr_to_holonomic(besselj(2, x), lenics=3).to_meijerg()) == besselj(2, x) and from_hyper(p).to_meijerg() == hyperexpand(p) and (hyperexpand(from_hyper(p).to_meijerg()) - hyperexpand(p)).expand() == 0 and (hyperexpand(p.to_meijerg()).subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and (hyperexpand(p.to_meijerg()) - s).simplify() == 0 and (p.to_expr() - (D_0 * sin(x) + C_0 * cos(x) + C_1 * sin(x)) / sqrt(x)).simplify() == 0 and (p.to_expr() - besselj(S.Half, x) - besselj(Rational(-1, 2), x)).simplify() == 0"},"spec":{"lhs":"test_to_meijerg()","rhs":"hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x) and hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x) and hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x) and hyperexpand(expr_to_holonomic(log(x)).to_meijerg()).simplify() == log(x) and expr_to_holonomic(4 * x ** 2 / 3 + 7).to_meijerg() == 4 * x ** 2 / 3 + 7 and hyperexpand(expr_to_holonomic(besselj(2, x), lenics=3).to_meijerg()) == besselj(2, x) and from_hyper(p).to_meijerg() == hyperexpand(p) and (hyperexpand(from_hyper(p).to_meijerg()) - hyperexpand(p)).expand() == 0 and (hyperexpand(p.to_meijerg()).subs({C_0: 1, D_0: 0}) - s).simplify() == 0 and (hyperexpand(p.to_meijerg()) - s).simplify() == 0 and (p.to_expr() - (D_0 * sin(x) + C_0 * cos(x) + C_1 * sin(x)) / sqrt(x)).simplify() == 0 and (p.to_expr() - besselj(S.Half, x) - besselj(Rational(-1, 2), x)).simplify() == 0","over":{"base":"Any"},"name":"test_to_meijerg_correct"},"guarantee":"hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x); hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x); hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_to_meijerg_correct","statement":"Path(test_to_meijerg(x), hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x); hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x); hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba28d614d1f302a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x)","hyperexpand(expr_to_holonomic(cos(x)).to_meijerg()) == cos(x)","hyperexpand(expr_to_holonomic(exp(x)).to_meijerg()) == exp(x)","hyperexpand(expr_to_holonomic(log(x)).to_meijerg()).simplify() == log(x)","expr_to_holonomic(4 * x ** 2 / 3 + 7).to_meijerg() == 4 * x ** 2 / 3 + 7","hyperexpand(expr_to_holonomic(besselj(2, x), lenics=3).to_meijerg()) == besselj(2, x)","from_hyper(p).to_meijerg() == hyperexpand(p)","(hyperexpand(from_hyper(p).to_meijerg()) - hyperexpand(p)).expand() == 0","(hyperexpand(p.to_meijerg()).subs({C_0: 1, D_0: 0}) - s).simplify() == 0","(hyperexpand(p.to_meijerg()) - s).simplify() == 0","(p.to_expr() - (D_0 * sin(x) + C_0 * cos(x) + C_1 * sin(x)) / sqrt(x)).simplify() == 0","(p.to_expr() - besselj(S.Half, x) - besselj(Rational(-1, 2), x)).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_to_meijerg():
     x = symbols('x')
     assert hyperexpand(expr_to_holonomic(sin(x)).to_meijerg()) == sin(x)
@@ -1008,16 +1161,22 @@ def test_to_meijerg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gaussian(), test_gaussian produces the expected output) over Any ║
+# ║ Path(test_gaussian(), h1 == h2) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gaussian : Any → {Any | h1 == h2}                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h1 == h2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gaussian : Any → {Any | result satisfies: h1 == h2}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a6bea3bb9b20125  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cb288cf036552a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_gaussian","kind":"function","src_hash":"300d8516b3c2ba94","in":{"base":"Any"},"out":{"base":"Any","pred":"h1 == h2"},"spec":{"lhs":"test_gaussian()","rhs":"test_gaussian produces the expected output","over":{"base":"Any"},"name":"test_gaussian_correct"},"guarantee":"test_gaussian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_gaussian_correct","statement":"Path(test_gaussian(x), test_gaussian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a6bea3bb9b20125"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_gaussian","kind":"function","src_hash":"300d8516b3c2ba94","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h1 == h2"},"spec":{"lhs":"test_gaussian()","rhs":"h1 == h2","over":{"base":"Any"},"name":"test_gaussian_correct"},"guarantee":"h1 == h2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_gaussian_correct","statement":"Path(test_gaussian(x), h1 == h2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb288cf036552a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h1 == h2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gaussian():
     mu, x = symbols("mu x")
     sd = symbols("sd", positive=True)
@@ -1032,16 +1191,22 @@ def test_gaussian():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_beta(), test_beta produces the expected output) over Any ║
+# ║ Path(test_beta(), h1 == h2) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_beta : Any → {Any | h1 == h2}                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h1 == h2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_beta : Any → {Any | result satisfies: h1 == h2}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8410de6d44b3a6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0552391eb20862e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_beta","kind":"function","src_hash":"1651117ea86e232a","in":{"base":"Any"},"out":{"base":"Any","pred":"h1 == h2"},"spec":{"lhs":"test_beta()","rhs":"test_beta produces the expected output","over":{"base":"Any"},"name":"test_beta_correct"},"guarantee":"test_beta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_beta_correct","statement":"Path(test_beta(x), test_beta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8410de6d44b3a6c"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_beta","kind":"function","src_hash":"1651117ea86e232a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h1 == h2"},"spec":{"lhs":"test_beta()","rhs":"h1 == h2","over":{"base":"Any"},"name":"test_beta_correct"},"guarantee":"h1 == h2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_beta_correct","statement":"Path(test_beta(x), h1 == h2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0552391eb20862e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h1 == h2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_beta():
     a, b, x = symbols("a b x", positive=True)
     e = x**(a - 1)*(-x + 1)**(b - 1)/beta(a, b)
@@ -1055,16 +1220,22 @@ def test_beta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gamma(), test_gamma produces the expected output) over Any ║
+# ║ Path(test_gamma(), h1 == h2) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gamma : Any → {Any | h1 == h2}                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h1 == h2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gamma : Any → {Any | result satisfies: h1 == h2}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea3304ced91b196  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3b0efb82bc9386a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_gamma","kind":"function","src_hash":"b259ce986de353b6","in":{"base":"Any"},"out":{"base":"Any","pred":"h1 == h2"},"spec":{"lhs":"test_gamma()","rhs":"test_gamma produces the expected output","over":{"base":"Any"},"name":"test_gamma_correct"},"guarantee":"test_gamma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_gamma_correct","statement":"Path(test_gamma(x), test_gamma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea3304ced91b196"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_gamma","kind":"function","src_hash":"b259ce986de353b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h1 == h2"},"spec":{"lhs":"test_gamma()","rhs":"h1 == h2","over":{"base":"Any"},"name":"test_gamma_correct"},"guarantee":"h1 == h2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_gamma_correct","statement":"Path(test_gamma(x), h1 == h2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3b0efb82bc9386a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h1 == h2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gamma():
     a, b, x = symbols("a b x", positive=True)
     e = b**(-a)*x**(a - 1)*exp(-x/b)/gamma(a)
@@ -1078,16 +1249,22 @@ def test_gamma():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbolic_power(), test_symbolic_power produces the expected output) over Any ║
+# ║ Path(test_symbolic_power(), h1 == h2) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbolic_power : Any → {Any | h1 == h2}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h1 == h2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbolic_power : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34d538bc514e68b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | beb120f45e91fe1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_symbolic_power","kind":"function","src_hash":"fc7cb71651a23ff7","in":{"base":"Any"},"out":{"base":"Any","pred":"h1 == h2"},"spec":{"lhs":"test_symbolic_power()","rhs":"test_symbolic_power produces the expected output","over":{"base":"Any"},"name":"test_symbolic_power_correct"},"guarantee":"test_symbolic_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_symbolic_power_correct","statement":"Path(test_symbolic_power(x), test_symbolic_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34d538bc514e68b5"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_symbolic_power","kind":"function","src_hash":"fc7cb71651a23ff7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h1 == h2"},"spec":{"lhs":"test_symbolic_power()","rhs":"h1 == h2","over":{"base":"Any"},"name":"test_symbolic_power_correct"},"guarantee":"h1 == h2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_symbolic_power_correct","statement":"Path(test_symbolic_power(x), h1 == h2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beb120f45e91fe1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h1 == h2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbolic_power():
     x, n = symbols("x n")
     Q = QQ[n].get_field()
@@ -1099,16 +1276,22 @@ def test_symbolic_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negative_power(), test_negative_power produces the expected output) over Any ║
+# ║ Path(test_negative_power(), h1 == h2) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_negative_power : Any → {Any | h1 == h2}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h1 == h2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_negative_power : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 619f8240b604d2b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe9a45bee184e8ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_negative_power","kind":"function","src_hash":"aa346e8796e67830","in":{"base":"Any"},"out":{"base":"Any","pred":"h1 == h2"},"spec":{"lhs":"test_negative_power()","rhs":"test_negative_power produces the expected output","over":{"base":"Any"},"name":"test_negative_power_correct"},"guarantee":"test_negative_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_negative_power_correct","statement":"Path(test_negative_power(x), test_negative_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619f8240b604d2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_negative_power","kind":"function","src_hash":"aa346e8796e67830","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h1 == h2"},"spec":{"lhs":"test_negative_power()","rhs":"h1 == h2","over":{"base":"Any"},"name":"test_negative_power_correct"},"guarantee":"h1 == h2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_negative_power_correct","statement":"Path(test_negative_power(x), h1 == h2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe9a45bee184e8ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h1 == h2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_negative_power():
     x = symbols("x")
     _, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -1119,16 +1302,22 @@ def test_negative_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expr_in_power(), test_expr_in_power produces the expected output) over Any ║
+# ║ Path(test_expr_in_power(), h1 == h2) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expr_in_power : Any → {Any | h1 == h2}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h1 == h2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expr_in_power : Any → {Any | result satisfies: h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc094ca0b10cfa66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 459ea1271b0d438c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_expr_in_power","kind":"function","src_hash":"e3ed834dbe23f697","in":{"base":"Any"},"out":{"base":"Any","pred":"h1 == h2"},"spec":{"lhs":"test_expr_in_power()","rhs":"test_expr_in_power produces the expected output","over":{"base":"Any"},"name":"test_expr_in_power_correct"},"guarantee":"test_expr_in_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_expr_in_power_correct","statement":"Path(test_expr_in_power(x), test_expr_in_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc094ca0b10cfa66"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_expr_in_power","kind":"function","src_hash":"e3ed834dbe23f697","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h1 == h2"},"spec":{"lhs":"test_expr_in_power()","rhs":"h1 == h2","over":{"base":"Any"},"name":"test_expr_in_power_correct"},"guarantee":"h1 == h2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_expr_in_power_correct","statement":"Path(test_expr_in_power(x), h1 == h2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"459ea1271b0d438c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h1 == h2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expr_in_power():
     x, n = symbols("x n")
     Q = QQ[n].get_field()
@@ -1140,16 +1329,23 @@ def test_expr_in_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DifferentialOperatorEqPoly(), test_DifferentialOperatorEqPoly produces the expected output) over Any ║
+# ║ Path(test_DifferentialOperatorEqPoly(), not do == do2 and not do2 == p2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DifferentialOperatorEqPoly : Any → {Any | not do...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not do == do2                                  ║
+# ║   ensures:  not do2 == p2                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DifferentialOperatorEqPoly : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c814de4b38e18d4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95f4ba70290d52b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorEqPoly","kind":"function","src_hash":"5a81c68cc3307b2b","in":{"base":"Any"},"out":{"base":"Any","pred":"not do == do2 and not do2 == p2"},"spec":{"lhs":"test_DifferentialOperatorEqPoly()","rhs":"test_DifferentialOperatorEqPoly produces the expected output","over":{"base":"Any"},"name":"test_DifferentialOperatorEqPoly_correct"},"guarantee":"test_DifferentialOperatorEqPoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorEqPoly_correct","statement":"Path(test_DifferentialOperatorEqPoly(x), test_DifferentialOperatorEqPoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c814de4b38e18d4f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorEqPoly","kind":"function","src_hash":"5a81c68cc3307b2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not do == do2 and not do2 == p2"},"spec":{"lhs":"test_DifferentialOperatorEqPoly()","rhs":"not do == do2 and not do2 == p2","over":{"base":"Any"},"name":"test_DifferentialOperatorEqPoly_correct"},"guarantee":"not do == do2; not do2 == p2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorEqPoly_correct","statement":"Path(test_DifferentialOperatorEqPoly(x), not do == do2; not do2 == p2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95f4ba70290d52b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not do == do2","not do2 == p2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DifferentialOperatorEqPoly():
     x = symbols('x', integer=True)
     R, Dx = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')
@@ -1167,16 +1363,22 @@ def test_DifferentialOperatorEqPoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DifferentialOperatorPow(), test_DifferentialOperatorPow produces the expected output) over Any ║
+# ║ Path(test_DifferentialOperatorPow(), <unspecified:test_DifferentialOperatorPow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DifferentialOperatorPow : Any → {Any | a == do *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbd966f80fafec55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorPow","kind":"function","src_hash":"d40fb250918511e2","in":{"base":"Any"},"out":{"base":"Any","pred":"a == do ** n"},"spec":{"lhs":"test_DifferentialOperatorPow()","rhs":"test_DifferentialOperatorPow produces the expected output","over":{"base":"Any"},"name":"test_DifferentialOperatorPow_correct"},"guarantee":"test_DifferentialOperatorPow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorPow_correct","statement":"Path(test_DifferentialOperatorPow(x), test_DifferentialOperatorPow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd966f80fafec55"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorPow","kind":"function","src_hash":"d40fb250918511e2","in":{"base":"Any"},"out":{"base":"Any","pred":"a == do ** n"},"spec":{"lhs":"test_DifferentialOperatorPow()","rhs":"<unspecified:test_DifferentialOperatorPow>","over":{"base":"Any"},"name":"test_DifferentialOperatorPow_correct"},"guarantee":"test_DifferentialOperatorPow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_holonomic.test_DifferentialOperatorPow_correct","statement":"Path(test_DifferentialOperatorPow(x), test_DifferentialOperatorPow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd966f80fafec55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DifferentialOperatorPow():
     x = symbols('x', integer=True)
     R, _ = DifferentialOperators(QQ.old_poly_ring(x), 'Dx')

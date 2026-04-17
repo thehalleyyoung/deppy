@@ -18,71 +18,102 @@
 """ Common Exceptions for `holonomic` module. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BaseHolonomicError(), correctly constructs a BaseHolonomicError instance) over Any ║
+# ║ Path(BaseHolonomicError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BaseHolonomicError : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BaseHolonomicError : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8c0c6666d08edf3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.BaseHolonomicError","kind":"class","src_hash":"047c119fbd6c9580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BaseHolonomicError()","rhs":"correctly constructs a BaseHolonomicError instance","over":{"base":"Any"},"name":"BaseHolonomicError_correct"},"guarantee":"correctly constructs a BaseHolonomicError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8c0c6666d08edf3"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.BaseHolonomicError","kind":"class","src_hash":"047c119fbd6c9580","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"BaseHolonomicError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"BaseHolonomicError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8c0c6666d08edf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function BaseHolonomicError not found in source"]}}
 class BaseHolonomicError(Exception):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(*ar), new produces the expected output) over Any  ║
+# ║ Path(new(*args), <unspecified:new>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d217bd493488188           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.BaseHolonomicError.new","kind":"method","src_hash":"826838430bea1ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(*ar)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d217bd493488188"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.BaseHolonomicError.new","kind":"method","src_hash":"826838430bea1ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(*args)","rhs":"<unspecified:new>","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d217bd493488188","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, *args):
         raise NotImplementedError("abstract base class")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a NotPowerSeriesError instance) preserved by NotPowerSeriesError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NotPowerSeriesError : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseHolonomicError)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NotPowerSeriesError : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 736a9dd02aa9b07d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotPowerSeriesError","kind":"class","src_hash":"573f0d1a11ba2c04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotPowerSeriesError(*args)","rhs":"correctly constructs a NotPowerSeriesError instance","over":{"base":"Any"},"name":"NotPowerSeriesError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a NotPowerSeriesError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'holonomic') and hasattr(self, 'x0')","kind":"class","induction":"structural on holonomic, x0"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"736a9dd02aa9b07d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotPowerSeriesError","kind":"class","src_hash":"573f0d1a11ba2c04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseHolonomicError)"},"spec":{"lhs":"NotPowerSeriesError(*args)","rhs":"correctly constructs a NotPowerSeriesError instance","over":{"base":"Any"},"name":"NotPowerSeriesError_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseHolonomicError); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'holonomic') and hasattr(self, 'x0')","kind":"class","induction":"structural on holonomic, x0"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"736a9dd02aa9b07d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseHolonomicError)"],"invariants":["hasattr(self, 'holonomic')","hasattr(self, 'x0')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NotPowerSeriesError not found in source"]}}
 class NotPowerSeriesError(BaseHolonomicError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(hol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(holonomic, x0), self.holonomic == holonomic and self.x0 == x0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.holonomic == holonomic                    ║
+# ║   ensures:  self.x0 == x0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.holono...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 011766afcaacb622           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotPowerSeriesError.__init__","kind":"method","src_hash":"8f3b3107026f22f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(hol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"011766afcaacb622"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotPowerSeriesError.__init__","kind":"method","src_hash":"8f3b3107026f22f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.holonomic == holonomic and self.x0 == x0"},"spec":{"lhs":"__init__(holonomic, x0)","rhs":"self.holonomic == holonomic and self.x0 == x0","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.holonomic == holonomic; self.x0 == x0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"011766afcaacb622","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.holonomic == holonomic","self.x0 == x0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, holonomic, x0):
         self.holonomic = holonomic
         self.x0 = x0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e44d26da64573ca2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotPowerSeriesError.__str__","kind":"method","src_hash":"5fcfc335fd995a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e44d26da64573ca2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotPowerSeriesError.__str__","kind":"method","src_hash":"5fcfc335fd995a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e44d26da64573ca2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.holonomic","self.x0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         s = 'A Power Series does not exists for '
         s += str(self.holonomic)
@@ -92,83 +123,120 @@ class NotPowerSeriesError(BaseHolonomicError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a NotHolonomicError instance) preserved by NotHolonomicError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NotHolonomicError : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseHolonomicError)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NotHolonomicError : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7344e67bc034b169  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHolonomicError","kind":"class","src_hash":"9fc40976c7393dcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotHolonomicError(*args)","rhs":"correctly constructs a NotHolonomicError instance","over":{"base":"Any"},"name":"NotHolonomicError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a NotHolonomicError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'm')","kind":"class","induction":"structural on m"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7344e67bc034b169"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHolonomicError","kind":"class","src_hash":"9fc40976c7393dcd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseHolonomicError)"},"spec":{"lhs":"NotHolonomicError(*args)","rhs":"correctly constructs a NotHolonomicError instance","over":{"base":"Any"},"name":"NotHolonomicError_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseHolonomicError); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'm')","kind":"class","induction":"structural on m"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7344e67bc034b169","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseHolonomicError)"],"invariants":["hasattr(self, 'm')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NotHolonomicError not found in source"]}}
 class NotHolonomicError(BaseHolonomicError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(m), initializes the instance correctly) over Any ║
+# ║ Path(__init__(m), self.m == m) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.m == m                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.m == m}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61865a735143ce2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHolonomicError.__init__","kind":"method","src_hash":"53e4477a12de55f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(m)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61865a735143ce2f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHolonomicError.__init__","kind":"method","src_hash":"53e4477a12de55f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.m == m"},"spec":{"lhs":"__init__(m)","rhs":"self.m == m","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.m == m","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61865a735143ce2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.m == m"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, m):
         self.m = m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.m) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.m                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82769e4dea63c965           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHolonomicError.__str__","kind":"method","src_hash":"a0a08d41a3b0e288","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82769e4dea63c965"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHolonomicError.__str__","kind":"method","src_hash":"a0a08d41a3b0e288","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.m","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.m","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82769e4dea63c965","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.m","pure":false,"effects":{"effect_type":"reads_state","reads":["self.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SingularityError instance) preserved by SingularityError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SingularityError : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseHolonomicError)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SingularityError : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa76a5fd62dcd4d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.SingularityError","kind":"class","src_hash":"8f2b402c1138a2d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingularityError(*args)","rhs":"correctly constructs a SingularityError instance","over":{"base":"Any"},"name":"SingularityError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SingularityError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'holonomic') and hasattr(self, 'x0')","kind":"class","induction":"structural on holonomic, x0"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa76a5fd62dcd4d6"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.SingularityError","kind":"class","src_hash":"8f2b402c1138a2d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseHolonomicError)"},"spec":{"lhs":"SingularityError(*args)","rhs":"correctly constructs a SingularityError instance","over":{"base":"Any"},"name":"SingularityError_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseHolonomicError); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'holonomic') and hasattr(self, 'x0')","kind":"class","induction":"structural on holonomic, x0"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa76a5fd62dcd4d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseHolonomicError)"],"invariants":["hasattr(self, 'holonomic')","hasattr(self, 'x0')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingularityError not found in source"]}}
 class SingularityError(BaseHolonomicError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(hol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(holonomic, x0), self.holonomic == holonomic and self.x0 == x0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.holonomic == holonomic                    ║
+# ║   ensures:  self.x0 == x0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.holono...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cce1a5cd79122a5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.SingularityError.__init__","kind":"method","src_hash":"8f3b3107026f22f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(hol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cce1a5cd79122a5e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.SingularityError.__init__","kind":"method","src_hash":"8f3b3107026f22f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.holonomic == holonomic and self.x0 == x0"},"spec":{"lhs":"__init__(holonomic, x0)","rhs":"self.holonomic == holonomic and self.x0 == x0","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.holonomic == holonomic; self.x0 == x0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cce1a5cd79122a5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.holonomic == holonomic","self.x0 == x0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, holonomic, x0):
         self.holonomic = holonomic
         self.x0 = x0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11f1d2131144a4d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.SingularityError.__str__","kind":"method","src_hash":"4a2f1fe447ae11ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f1d2131144a4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.SingularityError.__str__","kind":"method","src_hash":"4a2f1fe447ae11ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f1d2131144a4d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.holonomic","self.x0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         s = str(self.holonomic)
         s += ' has a singularity at %s.' %self.x0
@@ -177,42 +245,61 @@ class SingularityError(BaseHolonomicError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a NotHyperSeriesError instance) preserved by NotHyperSeriesError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NotHyperSeriesError : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseHolonomicError)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NotHyperSeriesError : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbc8efbaf80c223a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHyperSeriesError","kind":"class","src_hash":"2219c02279d962f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotHyperSeriesError(*args)","rhs":"correctly constructs a NotHyperSeriesError instance","over":{"base":"Any"},"name":"NotHyperSeriesError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a NotHyperSeriesError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'holonomic') and hasattr(self, 'x0')","kind":"class","induction":"structural on holonomic, x0"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbc8efbaf80c223a"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHyperSeriesError","kind":"class","src_hash":"2219c02279d962f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseHolonomicError)"},"spec":{"lhs":"NotHyperSeriesError(*args)","rhs":"correctly constructs a NotHyperSeriesError instance","over":{"base":"Any"},"name":"NotHyperSeriesError_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseHolonomicError); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'holonomic') and hasattr(self, 'x0')","kind":"class","induction":"structural on holonomic, x0"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbc8efbaf80c223a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseHolonomicError)"],"invariants":["hasattr(self, 'holonomic')","hasattr(self, 'x0')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NotHyperSeriesError not found in source"]}}
 class NotHyperSeriesError(BaseHolonomicError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(hol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(holonomic, x0), self.holonomic == holonomic and self.x0 == x0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.holonomic == holonomic                    ║
+# ║   ensures:  self.x0 == x0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.holono...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78c5334a55835d0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHyperSeriesError.__init__","kind":"method","src_hash":"8f3b3107026f22f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(hol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78c5334a55835d0d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHyperSeriesError.__init__","kind":"method","src_hash":"8f3b3107026f22f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.holonomic == holonomic and self.x0 == x0"},"spec":{"lhs":"__init__(holonomic, x0)","rhs":"self.holonomic == holonomic and self.x0 == x0","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.holonomic == holonomic; self.x0 == x0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78c5334a55835d0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.holonomic == holonomic","self.x0 == x0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, holonomic, x0):
         self.holonomic = holonomic
         self.x0 = x0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f175cf6cea44746c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHyperSeriesError.__str__","kind":"method","src_hash":"035852ab29dfbd37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f175cf6cea44746c"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomicerrors.NotHyperSeriesError.__str__","kind":"method","src_hash":"035852ab29dfbd37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f175cf6cea44746c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.holonomic","self.x0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         s = 'Power series expansion of '
         s += str(self.holonomic)

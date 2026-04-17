@@ -29,32 +29,46 @@ from sympy.core.mul import Mul, mul
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(join(), correctly constructs a join instance) over Any ║
+# ║ Path(join(), isinstance(self, LatticeOp)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ join : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LatticeOp)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ join : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a83129171a014b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.join","kind":"class","src_hash":"2920e42f2c71caa2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"join()","rhs":"correctly constructs a join instance","over":{"base":"Any"},"name":"join_correct"},"guarantee":"correctly constructs a join instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a83129171a014b2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.join","kind":"class","src_hash":"2920e42f2c71caa2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LatticeOp)"},"spec":{"lhs":"join()","rhs":"isinstance(self, LatticeOp)","over":{"base":"Any"},"name":"join_correct"},"guarantee":"isinstance(self, LatticeOp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a83129171a014b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LatticeOp)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function join not found in source"]}}
 class join(LatticeOp):
     zero = Integer(0)
     identity = Integer(1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lattice_simple(), test_lattice_simple produces the expected output) over Any ║
+# ║ Path(test_lattice_simple(), join(join(2, 3), 4) == join(2, join(3, 4)) and join(2, 3) == join(3, 2) and join(0, 2) == 0 and join(1, 2) == 2 and join(2, 2) == 2 and join(join(2, 3), 4) == join(2, 3, 4) and join() == 1 and join(4) == 4 and join(1, 4, 2, 3, 1, 3, 2) == join(2, 3, 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lattice_simple : Any → {Any | join(join(2, 3), 4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  join(join(2, 3), 4) == join(2, join(3, 4))     ║
+# ║   ensures:  join(2, 3) == join(3, 2)                       ║
+# ║   ensures:  join(0, 2) == 0                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lattice_simple : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 661fd9f9753458b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f8eb9560e991044  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_simple","kind":"function","src_hash":"2b573da8af2b451d","in":{"base":"Any"},"out":{"base":"Any","pred":"join(join(2, 3), 4) == join(2, join(3, 4)) and join(2, 3) == join(3, 2) and join(0, 2) == 0 and join(1, 2) == 2 and join(2, 2) == 2 and join(join(2, 3), 4) == join(2, 3, 4) and join() == 1 and join(4) == 4 and join(1, 4, 2, 3, 1, 3, 2) == join(2, 3, 4)"},"spec":{"lhs":"test_lattice_simple()","rhs":"test_lattice_simple produces the expected output","over":{"base":"Any"},"name":"test_lattice_simple_correct"},"guarantee":"test_lattice_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_simple_correct","statement":"Path(test_lattice_simple(x), test_lattice_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661fd9f9753458b6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_simple","kind":"function","src_hash":"2b573da8af2b451d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: join(join(2, 3), 4) == join(2, join(3, 4)) and join(2, 3) == join(3, 2) and join(0, 2) == 0 and join(1, 2) == 2 and join(2, 2) == 2 and join(join(2, 3), 4) == join(2, 3, 4) and join() == 1 and join(4) == 4 and join(1, 4, 2, 3, 1, 3, 2) == join(2, 3, 4)"},"spec":{"lhs":"test_lattice_simple()","rhs":"join(join(2, 3), 4) == join(2, join(3, 4)) and join(2, 3) == join(3, 2) and join(0, 2) == 0 and join(1, 2) == 2 and join(2, 2) == 2 and join(join(2, 3), 4) == join(2, 3, 4) and join() == 1 and join(4) == 4 and join(1, 4, 2, 3, 1, 3, 2) == join(2, 3, 4)","over":{"base":"Any"},"name":"test_lattice_simple_correct"},"guarantee":"join(join(2, 3), 4) == join(2, join(3, 4)); join(2, 3) == join(3, 2); join(0, 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_simple_correct","statement":"Path(test_lattice_simple(x), join(join(2, 3), 4) == join(2, join(3, 4)); join(2, 3) == join(3, 2); join(0, 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8eb9560e991044","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["join(join(2, 3), 4) == join(2, join(3, 4))","join(2, 3) == join(3, 2)","join(0, 2) == 0","join(1, 2) == 2","join(2, 2) == 2","join(join(2, 3), 4) == join(2, 3, 4)","join() == 1","join(4) == 4","join(1, 4, 2, 3, 1, 3, 2) == join(2, 3, 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lattice_simple():
     assert join(join(2, 3), 4) == join(2, join(3, 4))
     assert join(2, 3) == join(3, 2)
@@ -69,47 +83,67 @@ def test_lattice_simple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lattice_shortcircuit(), test_lattice_shortcircuit produces the expected output) over Any ║
+# ║ Path(test_lattice_shortcircuit(), join(0, object) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lattice_shortcircuit : Any → {Any | join(0, obje...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  join(0, object) == 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lattice_shortcircuit : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1cdceed74245e73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25ce00cc2ffa9bb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_shortcircuit","kind":"function","src_hash":"9c732ab4a22b7b36","in":{"base":"Any"},"out":{"base":"Any","pred":"join(0, object) == 0"},"spec":{"lhs":"test_lattice_shortcircuit()","rhs":"test_lattice_shortcircuit produces the expected output","over":{"base":"Any"},"name":"test_lattice_shortcircuit_correct"},"guarantee":"test_lattice_shortcircuit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_shortcircuit_correct","statement":"Path(test_lattice_shortcircuit(x), test_lattice_shortcircuit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1cdceed74245e73"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_shortcircuit","kind":"function","src_hash":"9c732ab4a22b7b36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: join(0, object) == 0"},"spec":{"lhs":"test_lattice_shortcircuit()","rhs":"join(0, object) == 0","over":{"base":"Any"},"name":"test_lattice_shortcircuit_correct"},"guarantee":"join(0, object) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_shortcircuit_correct","statement":"Path(test_lattice_shortcircuit(x), join(0, object) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25ce00cc2ffa9bb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["join(0, object) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_lattice_shortcircuit():
     raises(SympifyError, lambda: join(object))
     assert join(0, object) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lattice_print(), test_lattice_print produces the expected output) over Any ║
+# ║ Path(test_lattice_print(), str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lattice_print : Any → {Any | str(join(5, 4, 3, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lattice_print : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8490c7596b477f2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33a12a8020882a4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_print","kind":"function","src_hash":"f2c283b426f17d63","in":{"base":"Any"},"out":{"base":"Any","pred":"str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'"},"spec":{"lhs":"test_lattice_print()","rhs":"test_lattice_print produces the expected output","over":{"base":"Any"},"name":"test_lattice_print_correct"},"guarantee":"test_lattice_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_print_correct","statement":"Path(test_lattice_print(x), test_lattice_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8490c7596b477f2f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_print","kind":"function","src_hash":"f2c283b426f17d63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'"},"spec":{"lhs":"test_lattice_print()","rhs":"str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'","over":{"base":"Any"},"name":"test_lattice_print_correct"},"guarantee":"str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_print_correct","statement":"Path(test_lattice_print(x), str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33a12a8020882a4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_lattice_print():
     assert str(join(5, 4, 3, 2)) == 'join(2, 3, 4, 5)'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lattice_make_args(), test_lattice_make_args produces the expected output) over Any ║
+# ║ Path(test_lattice_make_args(), join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)} and join.make_args(0) == {0} and list(join.make_args(0))[0] is S.Zero and Add.make_args(0)[0] is S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lattice_make_args : Any → {Any | join.make_args(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  join.make_args(join(2, 3, 4)) == {S(2), S...   ║
+# ║   ensures:  join.make_args(0) == {0}                       ║
+# ║   ensures:  list(join.make_args(0))[0] is S.Zero           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lattice_make_args : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d6b51d5fba6b1e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daff45b6e81c7c6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_make_args","kind":"function","src_hash":"bd5bc2d41e799fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)} and join.make_args(0) == {0} and list(join.make_args(0))[0] is S.Zero and Add.make_args(0)[0] is S.Zero"},"spec":{"lhs":"test_lattice_make_args()","rhs":"test_lattice_make_args produces the expected output","over":{"base":"Any"},"name":"test_lattice_make_args_correct"},"guarantee":"test_lattice_make_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_make_args_correct","statement":"Path(test_lattice_make_args(x), test_lattice_make_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d6b51d5fba6b1e3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_lattice_make_args","kind":"function","src_hash":"bd5bc2d41e799fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)} and join.make_args(0) == {0} and list(join.make_args(0))[0] is S.Zero and Add.make_args(0)[0] is S.Zero"},"spec":{"lhs":"test_lattice_make_args()","rhs":"join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)} and join.make_args(0) == {0} and list(join.make_args(0))[0] is S.Zero and Add.make_args(0)[0] is S.Zero","over":{"base":"Any"},"name":"test_lattice_make_args_correct"},"guarantee":"join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)}; join.make_args(0) == {0}; list(join.make_args(0))[0] is S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_lattice_make_args_correct","statement":"Path(test_lattice_make_args(x), join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)}; join.make_args(0) == {0}; list(join.make_args(0))[0] is S.Zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daff45b6e81c7c6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)}","join.make_args(0) == {0}","list(join.make_args(0))[0] is S.Zero","Add.make_args(0)[0] is S.Zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lattice_make_args():
     assert join.make_args(join(2, 3, 4)) == {S(2), S(3), S(4)}
     assert join.make_args(0) == {0}
@@ -118,16 +152,24 @@ def test_lattice_make_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14025(), test_issue_14025 produces the expected output) over Any ║
+# ║ Path(test_issue_14025(), Mul(a, b, c).has(c * b) == False and Mul(a, b, c).has(b * c) == True and Mul(a, b, c, d).has(b * c * d) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14025 : Any → {Any | Mul(a, b, c).has(c * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Mul(a, b, c).has(c * b) == False               ║
+# ║   ensures:  Mul(a, b, c).has(b * c) == True                ║
+# ║   ensures:  Mul(a, b, c, d).has(b * c * d) == True         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14025 : Any → {Any | result satisfies: Mul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 795d47a57b76199e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a461669165dc082  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_issue_14025","kind":"function","src_hash":"63cabed118f33e01","in":{"base":"Any"},"out":{"base":"Any","pred":"Mul(a, b, c).has(c * b) == False and Mul(a, b, c).has(b * c) == True and Mul(a, b, c, d).has(b * c * d) == True"},"spec":{"lhs":"test_issue_14025()","rhs":"test_issue_14025 produces the expected output","over":{"base":"Any"},"name":"test_issue_14025_correct"},"guarantee":"test_issue_14025 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_issue_14025_correct","statement":"Path(test_issue_14025(x), test_issue_14025 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795d47a57b76199e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_issue_14025","kind":"function","src_hash":"63cabed118f33e01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Mul(a, b, c).has(c * b) == False and Mul(a, b, c).has(b * c) == True and Mul(a, b, c, d).has(b * c * d) == True"},"spec":{"lhs":"test_issue_14025()","rhs":"Mul(a, b, c).has(c * b) == False and Mul(a, b, c).has(b * c) == True and Mul(a, b, c, d).has(b * c * d) == True","over":{"base":"Any"},"name":"test_issue_14025_correct"},"guarantee":"Mul(a, b, c).has(c * b) == False; Mul(a, b, c).has(b * c) == True; Mul(a, b, c, d).has(b * c * d) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_issue_14025_correct","statement":"Path(test_issue_14025(x), Mul(a, b, c).has(c * b) == False; Mul(a, b, c).has(b * c) == True; Mul(a, b, c, d).has(b * c * d) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a461669165dc082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Mul(a, b, c).has(c * b) == False","Mul(a, b, c).has(b * c) == True","Mul(a, b, c, d).has(b * c * d) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14025():
     a, b, c, d = symbols('a,b,c,d', commutative=False)
     assert Mul(a, b, c).has(c*b) == False
@@ -136,16 +178,24 @@ def test_issue_14025():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AssocOp_flatten(), test_AssocOp_flatten produces the expected output) over Any ║
+# ║ Path(test_AssocOp_flatten(), MyAssoc(a, MyAssoc(b, c)).args == MyAssoc(MyAssoc(a, b), c).args == MyAssoc(MyAssoc(a, b, c)).args == MyAssoc(a, b, c).args == (a, b, c) and v.args == (u, d) and MyAssoc(a, v).args == (a, b, c, d)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AssocOp_flatten : Any → {Any | v.args == (u, d) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MyAssoc(a, MyAssoc(b, c)).args == MyAssoc...   ║
+# ║   ensures:  v.args == (u, d)                               ║
+# ║   ensures:  MyAssoc(a, v).args == (a, b, c, d)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AssocOp_flatten : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b6edce62d5457eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac5fcf7b444023f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_AssocOp_flatten","kind":"function","src_hash":"c63a75e4981704ad","in":{"base":"Any"},"out":{"base":"Any","pred":"v.args == (u, d) and MyAssoc(a, v).args == (a, b, c, d)"},"spec":{"lhs":"test_AssocOp_flatten()","rhs":"test_AssocOp_flatten produces the expected output","over":{"base":"Any"},"name":"test_AssocOp_flatten_correct"},"guarantee":"test_AssocOp_flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_AssocOp_flatten_correct","statement":"Path(test_AssocOp_flatten(x), test_AssocOp_flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b6edce62d5457eb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_AssocOp_flatten","kind":"function","src_hash":"c63a75e4981704ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MyAssoc(a, MyAssoc(b, c)).args == MyAssoc(MyAssoc(a, b), c).args == MyAssoc(MyAssoc(a, b, c)).args == MyAssoc(a, b, c).args == (a, b, c) and v.args == (u, d) and MyAssoc(a, v).args == (a, b, c, d)"},"spec":{"lhs":"test_AssocOp_flatten()","rhs":"MyAssoc(a, MyAssoc(b, c)).args == MyAssoc(MyAssoc(a, b), c).args == MyAssoc(MyAssoc(a, b, c)).args == MyAssoc(a, b, c).args == (a, b, c) and v.args == (u, d) and MyAssoc(a, v).args == (a, b, c, d)","over":{"base":"Any"},"name":"test_AssocOp_flatten_correct"},"guarantee":"MyAssoc(a, MyAssoc(b, c)).args == MyAssoc(MyAssoc(a, b), c).args == MyAssoc(MyAssoc(a, b, c)).args == MyAssoc(a, b, c).args == (a, b, c); v.args == (u, d); MyAssoc(a, v).args == (a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_AssocOp_flatten_correct","statement":"Path(test_AssocOp_flatten(x), MyAssoc(a, MyAssoc(b, c)).args == MyAssoc(MyAssoc(a, b), c).args == MyAssoc(MyAssoc(a, b, c)).args == MyAssoc(a, b, c).args == (a, b, c); v.args == (u, d); MyAssoc(a, v).args == (a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac5fcf7b444023f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MyAssoc(a, MyAssoc(b, c)).args == MyAssoc(MyAssoc(a, b), c).args == MyAssoc(MyAssoc(a, b, c)).args == MyAssoc(a, b, c).args == (a, b, c)","v.args == (u, d)","MyAssoc(a, v).args == (a, b, c, d)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_AssocOp_flatten():
     a, b, c, d = symbols('a,b,c,d')
 
@@ -165,16 +215,24 @@ def test_AssocOp_flatten():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_dispatcher(), test_add_dispatcher produces the expected output) over Any ║
+# ║ Path(test_add_dispatcher(), add(1, 2) == Add(1, 2) and add(a, a) == Add(a, a) and add(a, b, a) == NewAdd(2 * a, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_dispatcher : Any → {Any | add(1, 2) == Add(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  add(1, 2) == Add(1, 2)                         ║
+# ║   ensures:  add(a, a) == Add(a, a)                         ║
+# ║   ensures:  add(a, b, a) == NewAdd(2 * a, b)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_dispatcher : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59c1ee20959e93a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f5ec1d7c1bad3b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_add_dispatcher","kind":"function","src_hash":"af8cac8cea937bc6","in":{"base":"Any"},"out":{"base":"Any","pred":"add(1, 2) == Add(1, 2) and add(a, a) == Add(a, a) and add(a, b, a) == NewAdd(2 * a, b)"},"spec":{"lhs":"test_add_dispatcher()","rhs":"test_add_dispatcher produces the expected output","over":{"base":"Any"},"name":"test_add_dispatcher_correct"},"guarantee":"test_add_dispatcher produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_add_dispatcher_correct","statement":"Path(test_add_dispatcher(x), test_add_dispatcher produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59c1ee20959e93a7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_add_dispatcher","kind":"function","src_hash":"af8cac8cea937bc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: add(1, 2) == Add(1, 2) and add(a, a) == Add(a, a) and add(a, b, a) == NewAdd(2 * a, b)"},"spec":{"lhs":"test_add_dispatcher()","rhs":"add(1, 2) == Add(1, 2) and add(a, a) == Add(a, a) and add(a, b, a) == NewAdd(2 * a, b)","over":{"base":"Any"},"name":"test_add_dispatcher_correct"},"guarantee":"add(1, 2) == Add(1, 2); add(a, a) == Add(a, a); add(a, b, a) == NewAdd(2 * a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_add_dispatcher_correct","statement":"Path(test_add_dispatcher(x), add(1, 2) == Add(1, 2); add(a, a) == Add(a, a); add(a, b, a) == NewAdd(2 * a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f5ec1d7c1bad3b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["add(1, 2) == Add(1, 2)","add(a, a) == Add(a, a)","add(a, b, a) == NewAdd(2 * a, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_add_dispatcher():
 
     class NewBase(Expr):
@@ -196,16 +254,24 @@ def test_add_dispatcher():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_dispatcher(), test_mul_dispatcher produces the expected output) over Any ║
+# ║ Path(test_mul_dispatcher(), mul(1, 2) == Mul(1, 2) and mul(a, a) == Mul(a, a) and mul(a, b, a) == NewMul(a ** 2, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_dispatcher : Any → {Any | mul(1, 2) == Mul(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mul(1, 2) == Mul(1, 2)                         ║
+# ║   ensures:  mul(a, a) == Mul(a, a)                         ║
+# ║   ensures:  mul(a, b, a) == NewMul(a ** 2, b)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_dispatcher : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f5ac2437ae99320  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0a65df6e9ea5436  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_mul_dispatcher","kind":"function","src_hash":"bbf4fa29142d9f0e","in":{"base":"Any"},"out":{"base":"Any","pred":"mul(1, 2) == Mul(1, 2) and mul(a, a) == Mul(a, a) and mul(a, b, a) == NewMul(a ** 2, b)"},"spec":{"lhs":"test_mul_dispatcher()","rhs":"test_mul_dispatcher produces the expected output","over":{"base":"Any"},"name":"test_mul_dispatcher_correct"},"guarantee":"test_mul_dispatcher produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_mul_dispatcher_correct","statement":"Path(test_mul_dispatcher(x), test_mul_dispatcher produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f5ac2437ae99320"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_operations.test_mul_dispatcher","kind":"function","src_hash":"bbf4fa29142d9f0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mul(1, 2) == Mul(1, 2) and mul(a, a) == Mul(a, a) and mul(a, b, a) == NewMul(a ** 2, b)"},"spec":{"lhs":"test_mul_dispatcher()","rhs":"mul(1, 2) == Mul(1, 2) and mul(a, a) == Mul(a, a) and mul(a, b, a) == NewMul(a ** 2, b)","over":{"base":"Any"},"name":"test_mul_dispatcher_correct"},"guarantee":"mul(1, 2) == Mul(1, 2); mul(a, a) == Mul(a, a); mul(a, b, a) == NewMul(a ** 2, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_operations.test_mul_dispatcher_correct","statement":"Path(test_mul_dispatcher(x), mul(1, 2) == Mul(1, 2); mul(a, a) == Mul(a, a); mul(a, b, a) == NewMul(a ** 2, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0a65df6e9ea5436","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mul(1, 2) == Mul(1, 2)","mul(a, a) == Mul(a, a)","mul(a, b, a) == NewMul(a ** 2, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mul_dispatcher():
 
     class NewBase(Expr):

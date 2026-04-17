@@ -30,16 +30,22 @@ __doctest_requires__ = {
 _show = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unset_show(), disable show()) over Any                ║
+# ║ Path(unset_show(), <unspecified:unset_show>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unset_show : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d8f55fbecc94fdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.unset_show","kind":"function","src_hash":"505fb916f86d3ec9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unset_show()","rhs":"disable show()","over":{"base":"Any"},"name":"unset_show_correct"},"guarantee":"disable show()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.unset_show_correct","statement":"Path(unset_show(x), disable show())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8f55fbecc94fdd"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.unset_show","kind":"function","src_hash":"505fb916f86d3ec9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unset_show()","rhs":"<unspecified:unset_show>","over":{"base":"Any"},"name":"unset_show_correct"},"guarantee":"disable show()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.unset_show_correct","statement":"Path(unset_show(x), disable show())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8f55fbecc94fdd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["_show"],"globals_written":["_show"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def unset_show():
     """
     Disable show(). For use in the tests.
@@ -49,16 +55,22 @@ def unset_show():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_deprecation_msg_m_a_r_f(att), internal helper behaves correctly) over Any ║
+# ║ Path(_deprecation_msg_m_a_r_f(attr), <unspecified:_deprecation_msg_m_a_r_f>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _deprecation_msg_m_a_r_f : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 496b39e03413447d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend._deprecation_msg_m_a_r_f","kind":"function","src_hash":"6fae8ae33b1c4ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecation_msg_m_a_r_f(att)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_deprecation_msg_m_a_r_f_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend._deprecation_msg_m_a_r_f_correct","statement":"Path(_deprecation_msg_m_a_r_f(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496b39e03413447d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend._deprecation_msg_m_a_r_f","kind":"function","src_hash":"6fae8ae33b1c4ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecation_msg_m_a_r_f(attr)","rhs":"<unspecified:_deprecation_msg_m_a_r_f>","over":{"base":"Any"},"name":"_deprecation_msg_m_a_r_f_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend._deprecation_msg_m_a_r_f_correct","statement":"Path(_deprecation_msg_m_a_r_f(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496b39e03413447d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _deprecation_msg_m_a_r_f(attr):
     sympy_deprecation_warning(
         f"The `{attr}` property is deprecated. The `{attr}` keyword "
@@ -71,7 +83,10 @@ def _deprecation_msg_m_a_r_f(attr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_generic_data_series(**k), internal helper behaves correctly) over {Any | isinstance(dictionaries, dict)} ║
+# ║ Path(_create_generic_data_series(**kwargs), <unspecified:_create_generic_data_series>) over {Any | isinstance(dictionaries, dict)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_generic_data_series : {Any | isinstance(dicti...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -83,9 +98,12 @@ def _deprecation_msg_m_a_r_f(attr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d9c31a52...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend._create_generic_data_series","kind":"function","src_hash":"73d3d3259e458056","in":{"base":"Any","pred":"isinstance(dictionaries, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_create_generic_data_series(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(dictionaries, dict)"},"name":"_create_generic_data_series_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"dict","pred":"isinstance(dictionaries, dict)","path":{"lhs":"_create_generic_data_series(x)","rhs":"internal helper behaves correctly","over":{"base":"dict","pred":"isinstance(dictionaries, dict)"},"name":"_create_generic_data_series_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend._create_generic_data_series_dict_correct","statement":"_create_generic_data_series satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d9c31a522bab0c4b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend._create_generic_data_series","kind":"function","src_hash":"73d3d3259e458056","in":{"base":"Any","pred":"isinstance(dictionaries, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_create_generic_data_series(**kwargs)","rhs":"<unspecified:_create_generic_data_series>","over":{"base":"Any","pred":"isinstance(dictionaries, dict)"},"name":"_create_generic_data_series_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"dict","pred":"isinstance(dictionaries, dict)","path":{"lhs":"_create_generic_data_series(x)","rhs":"internal helper behaves correctly","over":{"base":"dict","pred":"isinstance(dictionaries, dict)"},"name":"_create_generic_data_series_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend._create_generic_data_series_dict_correct","statement":"_create_generic_data_series satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d9c31a522bab0c4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(dictionaries, dict)', 'dictionaries is None'}, fibers={'dict'})"]}}
 def _create_generic_data_series(**kwargs):
     keywords = ["annotations", "markers", "fill", "rectangles"]
     series = []
@@ -104,14 +122,19 @@ def _create_generic_data_series(**kwargs):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Plot instance) preserved by Plot(*args) over {Any | isinstance(arg, BaseSeries) and isinstance(arg, Plot)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Plot : {Any | isinstance(arg, BaseSeries) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e69831b0295d14d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot","kind":"class","src_hash":"446b06ce480a1b35","in":{"base":"Any","pred":"isinstance(arg, BaseSeries) and isinstance(arg, Plot)"},"out":{"base":"Any"},"spec":{"lhs":"Plot(*args)","rhs":"correctly constructs a Plot instance","over":{"base":"Any","pred":"isinstance(arg, BaseSeries) and isinstance(arg, Plot)"},"name":"Plot_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Plot instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'title') and hasattr(self, 'xlabel') and hasattr(self, 'ylabel') and hasattr(self, 'zlabel') and hasattr(self, 'aspect_ratio') and hasattr(self, 'axis_center') and hasattr(self, 'axis') and hasattr(self, 'xscale')","kind":"class","induction":"structural on title, xlabel, ylabel, zlabel"}],"methods_preserving":["__init__","_backend","backend","__str__","__getitem__","__setitem__","__delitem__","append","extend","show","save","close","markers","markers","annotations","annotations","rectangles","rectangles","fill","fill"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e69831b0295d14d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot","kind":"class","src_hash":"446b06ce480a1b35","in":{"base":"Any","pred":"isinstance(arg, BaseSeries) and isinstance(arg, Plot)"},"out":{"base":"Any"},"spec":{"lhs":"Plot(*args)","rhs":"correctly constructs a Plot instance","over":{"base":"Any","pred":"isinstance(arg, BaseSeries) and isinstance(arg, Plot)"},"name":"Plot_class_invariant","kind":"invariant"},"guarantee":"preserves 20 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'title') and hasattr(self, 'xlabel') and hasattr(self, 'ylabel') and hasattr(self, 'zlabel') and hasattr(self, 'aspect_ratio') and hasattr(self, 'axis_center') and hasattr(self, 'axis') and hasattr(self, 'xscale')","kind":"class","induction":"structural on title, xlabel, ylabel, zlabel"}],"methods_preserving":["__init__","_backend","backend","__str__","__getitem__","__setitem__","__delitem__","append","extend","show","save","close","markers","markers","annotations","annotations","rectangles","rectangles","fill","fill"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e69831b0295d14d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'title')","hasattr(self, 'xlabel')","hasattr(self, 'ylabel')","hasattr(self, 'zlabel')","hasattr(self, 'aspect_ratio')","hasattr(self, 'axis_center')","hasattr(self, 'axis')","hasattr(self, 'xscale')","hasattr(self, 'yscale')","hasattr(self, 'legend')","hasattr(self, 'autoscale')","hasattr(self, 'margin')","hasattr(self, '_annotations')","hasattr(self, '_markers')","hasattr(self, '_rectangles')","hasattr(self, '_fill')","hasattr(self, '_series')","hasattr(self, 'xlim')","hasattr(self, 'ylim')","hasattr(self, 'size')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Plot not found in source"]}}
 class Plot:
     """Base class for all backends. A backend represents the plotting library,
     which implements the necessary functionalities in order to use SymPy
@@ -270,16 +293,24 @@ class Plot:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, title, xlabel), self.title == title and self.xlabel == xlabel and self.ylabel == ylabel and self.zlabel == zlabel) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.title == title                            ║
+# ║   ensures:  self.xlabel == xlabel                          ║
+# ║   ensures:  self.ylabel == ylabel                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.title ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1e736329115d143           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__init__","kind":"method","src_hash":"04361191c948d4ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1e736329115d143"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__init__","kind":"method","src_hash":"04361191c948d4ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.title == title and self.xlabel == xlabel and self.ylabel == ylabel and self.zlabel == zlabel"},"spec":{"lhs":"__init__(*args, title, xlabel)","rhs":"self.title == title and self.xlabel == xlabel and self.ylabel == ylabel and self.zlabel == zlabel","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.title == title; self.xlabel == xlabel; self.ylabel == ylabel","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1e736329115d143","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.title == title","self.xlabel == xlabel","self.ylabel == ylabel","self.zlabel == zlabel"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series"],"writes":["self._annotations","self._fill","self._markers","self._rectangles","self._series","self.aspect_ratio","self.autoscale","self.axis","self.axis_center","self.legend","self.margin","self.size","self.title","self.xlabel","self.xlim","self.xscale","self.ylabel","self.ylim","self.yscale","self.zlabel"],"calls_mutating":["self._series.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self._annotations","self._fill","self._markers","self._rectangles","self._series","self.aspect_ratio","self.autoscale","self.axis","self.axis_center","self.legend","self.margin","self.size","self.title","self.xlabel","self.xlim","self.xscale","self.ylabel","self.ylim","self.yscale","self.zlabel"],"old_bindings":{"old_self__annotations":"self._annotations","old_self__fill":"self._fill","old_self__markers":"self._markers","old_self__rectangles":"self._rectangles","old_self__series":"self._series","old_self_aspect_ratio":"self.aspect_ratio","old_self_autoscale":"self.autoscale","old_self_axis":"self.axis","old_self_axis_center":"self.axis_center","old_self_legend":"self.legend","old_self_margin":"self.margin","old_self_size":"self.size","old_self_title":"self.title","old_self_xlabel":"self.xlabel","old_self_xlim":"self.xlim","old_self_xscale":"self.xscale","old_self_ylabel":"self.ylabel","old_self_ylim":"self.ylim","old_self_yscale":"self.yscale","old_self_zlabel":"self.zlabel","old_len_self":"len(self)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args,
         title=None, xlabel=None, ylabel=None, zlabel=None, aspect_ratio='auto',
         xlim=None, ylim=None, axis_center='auto', axis=True,
@@ -340,104 +371,147 @@ class Plot:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_backend(), returns the _backend attribute) over Any  ║
+# ║ Path(_backend(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _backend : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _backend : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a658fdcc96d7f536           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot._backend","kind":"property","src_hash":"673a9a1dd22bae82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_backend()","rhs":"returns the _backend attribute","over":{"base":"Any"},"name":"_backend_correct"},"guarantee":"returns the _backend attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a658fdcc96d7f536"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot._backend","kind":"property","src_hash":"673a9a1dd22bae82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_backend()","rhs":"self","over":{"base":"Any"},"name":"_backend_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a658fdcc96d7f536","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _backend(self):
         return self
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(backend(), returns the backend attribute) over Any    ║
+# ║ Path(backend(), type(self)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ backend : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cbb966483a647eed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.backend","kind":"property","src_hash":"c69d81a669df64bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"backend()","rhs":"returns the backend attribute","over":{"base":"Any"},"name":"backend_correct"},"guarantee":"returns the backend attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbb966483a647eed"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.backend","kind":"property","src_hash":"c69d81a669df64bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"backend()","rhs":"type(self)","over":{"base":"Any"},"name":"backend_correct"},"guarantee":"returns type(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbb966483a647eed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def backend(self):
         return type(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'Plot object containing:\n' + '\n'.join(series_strs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Plot object containing:\n' + '\n'.join(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b941cc04c84b5d2b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__str__","kind":"method","src_hash":"80bd795361873cab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b941cc04c84b5d2b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__str__","kind":"method","src_hash":"80bd795361873cab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'Plot object containing:\\n' + '\\n'.join(series_strs)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'Plot object containing:\\n' + '\\n'.join(series_strs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b941cc04c84b5d2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Plot object containing:\\n' + '\\n'.join(series_strs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._series"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         series_strs = [('[%d]: ' % i) + str(s)
                        for i, s in enumerate(self._series)]
         return 'Plot object containing:\n' + '\n'.join(series_strs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), self._series[index]) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._series[index]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3229709521dbedee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__getitem__","kind":"method","src_hash":"8b829a7b7a92ecae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3229709521dbedee"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__getitem__","kind":"method","src_hash":"8b829a7b7a92ecae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"self._series[index]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._series[index]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3229709521dbedee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._series[index]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._series"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         return self._series[index]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(ind), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(index, *args), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c5673ec511df76f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__setitem__","kind":"method","src_hash":"32b86d09d6aa5a2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(ind)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c5673ec511df76f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__setitem__","kind":"method","src_hash":"32b86d09d6aa5a2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(index, *args)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c5673ec511df76f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._series"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, index, *args):
         if len(args) == 1 and isinstance(args[0], BaseSeries):
             self._series[index] = args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__delitem__(ind), internal helper behaves correctly) over Any ║
+# ║ Path(__delitem__(index), <unspecified:__delitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __delitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 996b94eb71732bbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__delitem__","kind":"method","src_hash":"fca6200036841e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__delitem__(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__delitem___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"996b94eb71732bbb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.__delitem__","kind":"method","src_hash":"fca6200036841e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__delitem__(index)","rhs":"<unspecified:__delitem__>","over":{"base":"Any"},"name":"__delitem___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"996b94eb71732bbb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._series"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __delitem__(self, index):
         del self._series[index]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(append(arg), adds an element from a plot's series to an existing plot) over Any ║
+# ║ Path(append(arg), len(self) == old_len_self + 1) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ append : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ append : Any → {Any | result satisfies: len(self) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 983f0f29b5c12814  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b841ecbb7be0801e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.append","kind":"method","src_hash":"9c9177bdc73e3cea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"append(arg)","rhs":"adds an element from a plot's series to an existing plot","over":{"base":"Any"},"name":"append_correct"},"guarantee":"adds an element from a plot's series to an existing plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.append_correct","statement":"Path(append(x), adds an element from a plot's series to an existing plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"983f0f29b5c12814"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.append","kind":"method","src_hash":"9c9177bdc73e3cea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"append(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"append_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.append_correct","statement":"Path(append(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b841ecbb7be0801e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series"],"calls_mutating":["self._series.append"],"raises":["TypeError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def append(self, arg):
         """Adds an element from a plot's series to an existing plot.
 
@@ -476,16 +550,23 @@ class Plot:
             raise TypeError('Must specify element of plot to append.')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extend(arg), adds all series from another plot) over Any ║
+# ║ Path(extend(arg), <unspecified:extend>) over {Any | hasattr(arg, '_series')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ extend : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, '_series')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ extend : {Any | hasattr(arg, '_series')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3195c9ccdf56cc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.extend","kind":"method","src_hash":"a51483c35d2e7f2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extend(arg)","rhs":"adds all series from another plot","over":{"base":"Any"},"name":"extend_correct"},"guarantee":"adds all series from another plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.extend_correct","statement":"Path(extend(x), adds all series from another plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3195c9ccdf56cc1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.extend","kind":"method","src_hash":"a51483c35d2e7f2e","in":{"base":"Any","pred":"hasattr(arg, '_series')"},"out":{"base":"Any"},"spec":{"lhs":"extend(arg)","rhs":"<unspecified:extend>","over":{"base":"Any","pred":"hasattr(arg, '_series')"},"name":"extend_correct"},"guarantee":"adds all series from another plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.extend_correct","statement":"Path(extend(x), adds all series from another plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3195c9ccdf56cc1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, '_series')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["arg._series","self._series"],"calls_mutating":["self._series.extend"],"raises":["TypeError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extend(self, arg):
         """Adds all series from another plot.
 
@@ -521,44 +602,62 @@ class Plot:
             raise TypeError('Expecting Plot or sequence of BaseSeries')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(show(), show produces the expected output) over Any   ║
+# ║ Path(show(), <unspecified:show>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ show : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 787bf7dc0c325a88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.show","kind":"method","src_hash":"e05543e84962904f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"show produces the expected output","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787bf7dc0c325a88"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.show","kind":"method","src_hash":"e05543e84962904f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"<unspecified:show>","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787bf7dc0c325a88","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def show(self):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(save(pat), save produces the expected output) over Any ║
+# ║ Path(save(path), <unspecified:save>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ save : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89d4c8b5d579d300           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.save","kind":"method","src_hash":"bd35ca263e739200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save(pat)","rhs":"save produces the expected output","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89d4c8b5d579d300"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.save","kind":"method","src_hash":"bd35ca263e739200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save(path)","rhs":"<unspecified:save>","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89d4c8b5d579d300","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def save(self, path):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(close(), close produces the expected output) over Any ║
+# ║ Path(close(), <unspecified:close>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ close : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d446a880d6318d15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.close","kind":"method","src_hash":"89b85e9340bd3f34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"close produces the expected output","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d446a880d6318d15"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.close","kind":"method","src_hash":"89b85e9340bd3f34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"<unspecified:close>","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d446a880d6318d15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def close(self):
         raise NotImplementedError
 
@@ -566,16 +665,22 @@ class Plot:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(markers(), returns the markers attribute) over Any    ║
+# ║ Path(markers(), self._markers) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._markers                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ markers : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f7511babdf0f94c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.markers","kind":"property","src_hash":"a5d885564dc947bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"markers()","rhs":"returns the markers attribute","over":{"base":"Any"},"name":"markers_correct"},"guarantee":"returns the markers attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f7511babdf0f94c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.markers","kind":"property","src_hash":"a5d885564dc947bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"markers()","rhs":"self._markers","over":{"base":"Any"},"name":"markers_correct"},"guarantee":"returns self._markers","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f7511babdf0f94c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._markers","pure":false,"effects":{"effect_type":"reads_state","reads":["self._markers"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def markers(self):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("markers")
@@ -583,16 +688,22 @@ class Plot:
 
     @markers.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(markers(v), expected_markers) over Any                ║
+# ║ Path(markers(v), <unspecified:markers>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ markers : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea36598b52bf538a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.markers","kind":"method","src_hash":"3ea2da08f9e556ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"markers(v)","rhs":"expected_markers","over":{"base":"Any"},"name":"markers_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.markers_correct","statement":"Path(markers(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea36598b52bf538a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.markers","kind":"method","src_hash":"3ea2da08f9e556ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"markers(v)","rhs":"<unspecified:markers>","over":{"base":"Any"},"name":"markers_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.markers_correct","statement":"Path(markers(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea36598b52bf538a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series"],"writes":["self._markers"],"calls_mutating":["self._series.extend"]},"state_contract":{"modifies":["self.*","self._markers"],"old_bindings":{"old_self__markers":"self._markers","old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def markers(self, v):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("markers")
@@ -601,16 +712,22 @@ class Plot:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(annotations(), returns the annotations attribute) over Any ║
+# ║ Path(annotations(), self._annotations) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._annotations                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ annotations : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63bc1c287f9adcaf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.annotations","kind":"property","src_hash":"69a00fdb6139db1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"annotations()","rhs":"returns the annotations attribute","over":{"base":"Any"},"name":"annotations_correct"},"guarantee":"returns the annotations attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63bc1c287f9adcaf"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.annotations","kind":"property","src_hash":"69a00fdb6139db1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"annotations()","rhs":"self._annotations","over":{"base":"Any"},"name":"annotations_correct"},"guarantee":"returns self._annotations","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63bc1c287f9adcaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._annotations","pure":false,"effects":{"effect_type":"reads_state","reads":["self._annotations"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def annotations(self):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("annotations")
@@ -618,16 +735,22 @@ class Plot:
 
     @annotations.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(annotations(v), expected_annotations) over Any        ║
+# ║ Path(annotations(v), <unspecified:annotations>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ annotations : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0d7083a0cf4bfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.annotations","kind":"method","src_hash":"5299bee7f4b15a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"annotations(v)","rhs":"expected_annotations","over":{"base":"Any"},"name":"annotations_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.annotations_correct","statement":"Path(annotations(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0d7083a0cf4bfb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.annotations","kind":"method","src_hash":"5299bee7f4b15a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"annotations(v)","rhs":"<unspecified:annotations>","over":{"base":"Any"},"name":"annotations_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.annotations_correct","statement":"Path(annotations(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0d7083a0cf4bfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series"],"writes":["self._annotations"],"calls_mutating":["self._series.extend"]},"state_contract":{"modifies":["self.*","self._annotations"],"old_bindings":{"old_self__annotations":"self._annotations","old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def annotations(self, v):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("annotations")
@@ -636,16 +759,22 @@ class Plot:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rectangles(), returns the rectangles attribute) over Any ║
+# ║ Path(rectangles(), self._rectangles) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rectangles                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rectangles : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ecac61c128540454           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.rectangles","kind":"property","src_hash":"dc0476af502c3724","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rectangles()","rhs":"returns the rectangles attribute","over":{"base":"Any"},"name":"rectangles_correct"},"guarantee":"returns the rectangles attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ecac61c128540454"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.rectangles","kind":"property","src_hash":"dc0476af502c3724","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rectangles()","rhs":"self._rectangles","over":{"base":"Any"},"name":"rectangles_correct"},"guarantee":"returns self._rectangles","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ecac61c128540454","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rectangles","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rectangles"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rectangles(self):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("rectangles")
@@ -653,16 +782,22 @@ class Plot:
 
     @rectangles.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rectangles(v), expected_rectangles) over Any          ║
+# ║ Path(rectangles(v), <unspecified:rectangles>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rectangles : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af1bbbef557ddbad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.rectangles","kind":"method","src_hash":"ada29c308318d686","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rectangles(v)","rhs":"expected_rectangles","over":{"base":"Any"},"name":"rectangles_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.rectangles_correct","statement":"Path(rectangles(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af1bbbef557ddbad"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.rectangles","kind":"method","src_hash":"ada29c308318d686","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rectangles(v)","rhs":"<unspecified:rectangles>","over":{"base":"Any"},"name":"rectangles_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.rectangles_correct","statement":"Path(rectangles(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af1bbbef557ddbad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series"],"writes":["self._rectangles"],"calls_mutating":["self._series.extend"]},"state_contract":{"modifies":["self.*","self._rectangles"],"old_bindings":{"old_self__rectangles":"self._rectangles","old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rectangles(self, v):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("rectangles")
@@ -671,16 +806,22 @@ class Plot:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fill(), returns the fill attribute) over Any          ║
+# ║ Path(fill(), self._fill) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fill : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b428a2f6542c998           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.fill","kind":"property","src_hash":"9b7323e002ebcd1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fill()","rhs":"returns the fill attribute","over":{"base":"Any"},"name":"fill_correct"},"guarantee":"returns the fill attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b428a2f6542c998"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.fill","kind":"property","src_hash":"9b7323e002ebcd1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fill()","rhs":"self._fill","over":{"base":"Any"},"name":"fill_correct"},"guarantee":"returns self._fill","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b428a2f6542c998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fill(self):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("fill")
@@ -688,16 +829,22 @@ class Plot:
 
     @fill.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fill(v), expected_fill) over Any                      ║
+# ║ Path(fill(v), <unspecified:fill>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fill : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbfb718acf328d42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.fill","kind":"method","src_hash":"a7513c4878f0f9c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fill(v)","rhs":"expected_fill","over":{"base":"Any"},"name":"fill_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.fill_correct","statement":"Path(fill(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbfb718acf328d42"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.base_backend.Plot.fill","kind":"method","src_hash":"a7513c4878f0f9c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fill(v)","rhs":"<unspecified:fill>","over":{"base":"Any"},"name":"fill_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.base_backend.Plot.fill_correct","statement":"Path(fill(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbfb718acf328d42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series"],"writes":["self._fill"],"calls_mutating":["self._series.extend"]},"state_contract":{"modifies":["self.*","self._fill"],"old_bindings":{"old_self__fill":"self._fill","old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fill(self, v):
         """.. deprecated:: 1.13"""
         _deprecation_msg_m_a_r_f("fill")

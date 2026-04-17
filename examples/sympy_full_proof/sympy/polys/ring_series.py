@@ -76,16 +76,25 @@ import math
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_invert_monoms(p1), compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``) over Any ║
+# ║ Path(_invert_monoms(p1), <unspecified:_invert_monoms>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'degree') and hasattr(p1, 'listcoeffs') and hasattr(p1, 'listmonoms') and hasattr(p1, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _invert_monoms : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'degree')                          ║
+# ║   requires: hasattr(p1, 'listcoeffs')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _invert_monoms : {Any | hasattr(p1, 'ring') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef054ad295a1fd41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._invert_monoms","kind":"function","src_hash":"e33dc3601afe678c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_invert_monoms(p1)","rhs":"compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``","over":{"base":"Any"},"name":"_invert_monoms_correct"},"guarantee":"compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._invert_monoms_correct","statement":"Path(_invert_monoms(x), compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef054ad295a1fd41"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._invert_monoms","kind":"function","src_hash":"e33dc3601afe678c","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'degree') and hasattr(p1, 'listcoeffs') and hasattr(p1, 'listmonoms') and hasattr(p1, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_invert_monoms(p1)","rhs":"<unspecified:_invert_monoms>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'degree') and hasattr(p1, 'listcoeffs') and hasattr(p1, 'listmonoms') and hasattr(p1, 'items')"},"name":"_invert_monoms_correct"},"guarantee":"compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._invert_monoms_correct","statement":"Path(_invert_monoms(x), compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef054ad295a1fd41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p1, 'degree')","hasattr(p1, 'listcoeffs')","hasattr(p1, 'listmonoms')","hasattr(p1, 'items')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _invert_monoms(p1):
     """
     Compute ``x**n * p1(1/x)`` for a univariate polynomial ``p1`` in ``x``.
@@ -118,16 +127,22 @@ def _invert_monoms(p1):
     return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_giant_steps(tar), return a list of precision steps for the newton's method) over Any ║
+# ║ Path(_giant_steps(target), <unspecified:_giant_steps>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _giant_steps : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e5bb9f85678f79c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._giant_steps","kind":"function","src_hash":"02bb6c11d6780c44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_giant_steps(tar)","rhs":"return a list of precision steps for the newton's method","over":{"base":"Any"},"name":"_giant_steps_correct"},"guarantee":"return a list of precision steps for the newton's method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._giant_steps_correct","statement":"Path(_giant_steps(x), return a list of precision steps for the newton's method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e5bb9f85678f79c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._giant_steps","kind":"function","src_hash":"02bb6c11d6780c44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_giant_steps(target)","rhs":"<unspecified:_giant_steps>","over":{"base":"Any"},"name":"_giant_steps_correct"},"guarantee":"return a list of precision steps for the newton's method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._giant_steps_correct","statement":"Path(_giant_steps(x), return a list of precision steps for the newton's method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e5bb9f85678f79c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _giant_steps(target):
     """Return a list of precision steps for the Newton's method"""
     # We use ceil here because giant_steps cannot handle flint.fmpq
@@ -137,16 +152,23 @@ def _giant_steps(target):
     return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_trunc(p1,), truncate the series in the ``x`` variable with precision ``prec``, that is, modulo ``o(x**prec)``) over Any ║
+# ║ Path(rs_trunc(p1, x, prec), R(p)) over {Any | hasattr(p1, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_trunc : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   returns:  R(p)                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_trunc : {Any | hasattr(p1, 'ring')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1020cd1d90c0896  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54667f4064ca749d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_trunc","kind":"function","src_hash":"393f894688e1240b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_trunc(p1,)","rhs":"truncate the series in the ``x`` variable with precision ``prec``, that is, modulo ``o(x**prec)``","over":{"base":"Any"},"name":"rs_trunc_correct"},"guarantee":"truncate the series in the ``x`` variable with precision ``prec``, that is, modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_trunc_correct","statement":"Path(rs_trunc(x), truncate the series in the ``x`` variable with precision ``prec``, that is, modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1020cd1d90c0896"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_trunc","kind":"function","src_hash":"393f894688e1240b","in":{"base":"Any","pred":"hasattr(p1, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_trunc(p1, x, prec)","rhs":"R(p)","over":{"base":"Any","pred":"hasattr(p1, 'ring')"},"name":"rs_trunc_correct"},"guarantee":"returns R(p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_trunc_correct","statement":"Path(rs_trunc(x), returns R(p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54667f4064ca749d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')"],"returns_expr":"R(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_trunc(p1, x, prec):
     """
     Truncate the series in the ``x`` variable with precision ``prec``,
@@ -175,16 +197,24 @@ def rs_trunc(p1, x, prec):
     return R(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_is_puiseux(p, ), test if ``p`` is puiseux series in ``x``) over Any ║
+# ║ Path(rs_is_puiseux(p, x), <unspecified:rs_is_puiseux>) over {Any | hasattr(p, 'itermonoms') and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_is_puiseux : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'itermonoms')                       ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_is_puiseux : {Any | hasattr(p, 'itermonoms') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 840a4344a7bde4d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_is_puiseux","kind":"function","src_hash":"a806fefdc56b652d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_is_puiseux(p, )","rhs":"test if ``p`` is puiseux series in ``x``","over":{"base":"Any"},"name":"rs_is_puiseux_correct"},"guarantee":"test if ``p`` is puiseux series in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_is_puiseux_correct","statement":"Path(rs_is_puiseux(x), test if ``p`` is puiseux series in ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"840a4344a7bde4d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_is_puiseux","kind":"function","src_hash":"a806fefdc56b652d","in":{"base":"Any","pred":"hasattr(p, 'itermonoms') and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_is_puiseux(p, x)","rhs":"<unspecified:rs_is_puiseux>","over":{"base":"Any","pred":"hasattr(p, 'itermonoms') and hasattr(p, 'ring')"},"name":"rs_is_puiseux_correct"},"guarantee":"test if ``p`` is puiseux series in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_is_puiseux_correct","statement":"Path(rs_is_puiseux(x), test if ``p`` is puiseux series in ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"840a4344a7bde4d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'itermonoms')","hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.itermonoms","p.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_is_puiseux(p, x):
     """
     Test if ``p`` is Puiseux series in ``x``.
@@ -211,7 +241,11 @@ def rs_is_puiseux(p, x):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_puiseux(f, ), return the puiseux series for `f(p, x, prec)`) over {Any | isinstance(power, Rational) and isinstance(r, tuple)} ║
+# ║ Path(rs_puiseux(f, p, x), <unspecified:rs_puiseux>) over {Any | isinstance(power, Rational) and isinstance(r, tuple) and hasattr(p, 'ring')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rs_puiseux : {Any | isinstance(power, Rational) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -224,9 +258,12 @@ def rs_is_puiseux(p, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 63d9275e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_puiseux","kind":"function","src_hash":"8ed8a0f4b09644a5","in":{"base":"Any","pred":"isinstance(power, Rational) and isinstance(r, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"rs_puiseux(f, )","rhs":"return the puiseux series for `f(p, x, prec)`","over":{"base":"Any","pred":"isinstance(power, Rational) and isinstance(r, tuple)"},"name":"rs_puiseux_correct"},"guarantee":"return the puiseux series for `f(p, x, prec)`","fibers":[{"name":"Rational","pred":"isinstance(power, Rational)","path":{"lhs":"rs_puiseux(x)","rhs":"return the puiseux series for `f(p, x, prec)`","over":{"base":"Rational","pred":"isinstance(power, Rational)"},"name":"rs_puiseux_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_puiseux_Rational_correct","statement":"rs_puiseux satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(r, tuple)","path":{"lhs":"rs_puiseux(x)","rhs":"return the puiseux series for `f(p, x, prec)`","over":{"base":"tuple","pred":"isinstance(r, tuple)"},"name":"rs_puiseux_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_puiseux_tuple_correct","statement":"rs_puiseux satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"63d9275ef082a38e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_puiseux","kind":"function","src_hash":"8ed8a0f4b09644a5","in":{"base":"Any","pred":"isinstance(power, Rational) and isinstance(r, tuple) and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_puiseux(f, p, x)","rhs":"<unspecified:rs_puiseux>","over":{"base":"Any","pred":"isinstance(power, Rational) and isinstance(r, tuple) and hasattr(p, 'ring')"},"name":"rs_puiseux_correct"},"guarantee":"return the puiseux series for `f(p, x, prec)`","fibers":[{"name":"Rational","pred":"isinstance(power, Rational)","path":{"lhs":"rs_puiseux(x)","rhs":"return the puiseux series for `f(p, x, prec)`","over":{"base":"Rational","pred":"isinstance(power, Rational)"},"name":"rs_puiseux_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_puiseux_Rational_correct","statement":"rs_puiseux satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(r, tuple)","path":{"lhs":"rs_puiseux(x)","rhs":"return the puiseux series for `f(p, x, prec)`","over":{"base":"tuple","pred":"isinstance(r, tuple)"},"name":"rs_puiseux_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_puiseux_tuple_correct","statement":"rs_puiseux satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"63d9275ef082a38e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, tuple)', 'isinstance(power, Rational)', 'n != 1', 'power != int(power)'}, fibers={'Rational', 'tuple'})"]}}
 def rs_puiseux(f, p, x, prec):
     """
     Return the puiseux series for `f(p, x, prec)`.
@@ -267,9 +304,13 @@ def rs_puiseux(f, p, x, prec):
     return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_puiseux2(f, ), return the puiseux series for `f(p, q, x, prec)`) over {Any | isinstance(power, Rational)} ║
+# ║ Path(rs_puiseux2(f, p, q), <unspecified:rs_puiseux2>) over {Any | isinstance(power, Rational) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_puiseux2 : {Any | isinstance(power, Rational)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_puiseux2 : {Any | isinstance(power, Rational) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Rational: {isinstance(power, Rational)} → library_a...   ║
@@ -279,9 +320,12 @@ def rs_puiseux(f, p, x, prec):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef043287...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_puiseux2","kind":"function","src_hash":"1dd4ed0a78aa56ec","in":{"base":"Any","pred":"isinstance(power, Rational)"},"out":{"base":"Any"},"spec":{"lhs":"rs_puiseux2(f, )","rhs":"return the puiseux series for `f(p, q, x, prec)`","over":{"base":"Any","pred":"isinstance(power, Rational)"},"name":"rs_puiseux2_correct"},"guarantee":"return the puiseux series for `f(p, q, x, prec)`","fibers":[{"name":"Rational","pred":"isinstance(power, Rational)","path":{"lhs":"rs_puiseux2(x)","rhs":"return the puiseux series for `f(p, q, x, prec)`","over":{"base":"Rational","pred":"isinstance(power, Rational)"},"name":"rs_puiseux2_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_puiseux2_Rational_correct","statement":"rs_puiseux2 satisfies spec on Rational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef0432872cb5f4a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_puiseux2","kind":"function","src_hash":"1dd4ed0a78aa56ec","in":{"base":"Any","pred":"isinstance(power, Rational) and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_puiseux2(f, p, q)","rhs":"<unspecified:rs_puiseux2>","over":{"base":"Any","pred":"isinstance(power, Rational) and hasattr(p, 'ring')"},"name":"rs_puiseux2_correct"},"guarantee":"return the puiseux series for `f(p, q, x, prec)`","fibers":[{"name":"Rational","pred":"isinstance(power, Rational)","path":{"lhs":"rs_puiseux2(x)","rhs":"return the puiseux series for `f(p, q, x, prec)`","over":{"base":"Rational","pred":"isinstance(power, Rational)"},"name":"rs_puiseux2_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_puiseux2_Rational_correct","statement":"rs_puiseux2 satisfies spec on Rational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef0432872cb5f4a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(power, Rational)', 'n != 1', 'power != int(power)'}, fibers={'Rational'})"]}}
 def rs_puiseux2(f, p, q, x, prec):
     """
     Return the puiseux series for `f(p, q, x, prec)`.
@@ -308,7 +352,14 @@ def rs_puiseux2(f, p, q, x, prec):
     return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_mul(p1,), return the product of the given two series, modulo ``o(x**prec)``) over {Any | isinstance(p2, (PolyElement, PuiseuxPoly))} ║
+# ║ Path(rs_mul(p1, p2, x), R(p)) over {Any | isinstance(p2, (PolyElement, PuiseuxPoly)) and not (R.__class__ != p2.ring.__class__ or R != p2.ring) and isinstance(p2, (PolyElement, PuiseuxPoly)) and hasattr(p1, 'ring') and hasattr(p2, 'ring') and hasattr(p2, 'terms') and hasattr(p1, 'iterterms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (R.__class__ != p2.ring.__class__ or ...   ║
+# ║   requires: isinstance(p2, (PolyElement, PuiseuxPoly))     ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   ensures:  len(items2) == old_len_items2                  ║
+# ║   returns:  R(p)                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rs_mul : {Any | isinstance(p2, (PolyElement, PuiseuxP...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -320,9 +371,12 @@ def rs_puiseux2(f, p, q, x, prec):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b3b2e82a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_mul","kind":"function","src_hash":"ee7d4b70559e18ab","in":{"base":"Any","pred":"isinstance(p2, (PolyElement, PuiseuxPoly))"},"out":{"base":"Any"},"spec":{"lhs":"rs_mul(p1,)","rhs":"return the product of the given two series, modulo ``o(x**prec)``","over":{"base":"Any","pred":"isinstance(p2, (PolyElement, PuiseuxPoly))"},"name":"rs_mul_correct"},"guarantee":"return the product of the given two series, modulo ``o(x**prec)``","fibers":[{"name":"(PolyElement","pred":"isinstance(p2, (PolyElement, PuiseuxPoly))","path":{"lhs":"rs_mul(x)","rhs":"return the product of the given two series, modulo ``o(x**prec)``","over":{"base":"(PolyElement","pred":"isinstance(p2, (PolyElement, PuiseuxPoly))"},"name":"rs_mul_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_mul_(PolyElement_correct","statement":"rs_mul satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3b2e82aa5142b4b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_mul","kind":"function","src_hash":"ee7d4b70559e18ab","in":{"base":"Any","pred":"isinstance(p2, (PolyElement, PuiseuxPoly)) and not (R.__class__ != p2.ring.__class__ or R != p2.ring) and isinstance(p2, (PolyElement, PuiseuxPoly)) and hasattr(p1, 'ring') and hasattr(p2, 'ring') and hasattr(p2, 'terms') and hasattr(p1, 'iterterms')"},"out":{"base":"Any","pred":"result satisfies: result == (R(p))"},"spec":{"lhs":"rs_mul(p1, p2, x)","rhs":"R(p)","over":{"base":"Any","pred":"isinstance(p2, (PolyElement, PuiseuxPoly)) and not (R.__class__ != p2.ring.__class__ or R != p2.ring) and isinstance(p2, (PolyElement, PuiseuxPoly)) and hasattr(p1, 'ring') and hasattr(p2, 'ring') and hasattr(p2, 'terms') and hasattr(p1, 'iterterms')"},"name":"rs_mul_correct"},"guarantee":"returns R(p); len(items2) == old_len_items2","fibers":[{"name":"(PolyElement","pred":"isinstance(p2, (PolyElement, PuiseuxPoly))","path":{"lhs":"rs_mul(x)","rhs":"returns R(p); len(items2) == old_len_items2","over":{"base":"(PolyElement","pred":"isinstance(p2, (PolyElement, PuiseuxPoly))"},"name":"rs_mul_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_mul_(PolyElement_correct","statement":"rs_mul satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3b2e82aa5142b4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (R.__class__ != p2.ring.__class__ or R != p2.ring)","isinstance(p2, (PolyElement, PuiseuxPoly))","hasattr(p1, 'ring')","hasattr(p2, 'ring')","hasattr(p2, 'terms')","hasattr(p1, 'iterterms')"],"ensures":["len(items2) == old_len_items2"],"returns_expr":"R(p)","pure":false,"effects":{"effect_type":"io","reads":["*.__class__","p1.iterterms","p1.ring","p2.ring","p2.terms"],"calls_mutating":["items2.sort"],"raises":["ValueError"],"io_operations":["get"]},"state_contract":{"modifies":["items2.*"],"old_bindings":{"old_len_items2":"len(items2)"},"post_ensures":["len(items2) == old_len_items2"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'R == p2.ring', 'not isinstance(p2, (PolyElement, PuiseuxPoly))', 'exp < prec', 'R.__class__ != p2.ring.__class__ or R != p2.ring', 'exp1[iv] + exp2[iv] < prec', 'R.ngens == 1'}, fibers={'(PolyElement'})"]}}
 def rs_mul(p1, p2, x, prec):
     """
     Return the product of the given two series, modulo ``O(x**prec)``.
@@ -374,16 +428,26 @@ def rs_mul(p1, p2, x, prec):
     return R(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_square(p1,), square the series modulo ``o(x**prec)``) over Any ║
+# ║ Path(rs_square(p1, x, prec), R(p)) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'terms') and hasattr(p1, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_square : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'terms')                           ║
+# ║   requires: hasattr(p1, 'iterterms')                       ║
+# ║   ensures:  len(items) == old_len_items                    ║
+# ║   returns:  R(p)                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_square : {Any | hasattr(p1, 'ring') and hasattr(p1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 334bd1405744c624  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b919bd32ec5c0801  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_square","kind":"function","src_hash":"784a6c993fb92c4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_square(p1,)","rhs":"square the series modulo ``o(x**prec)``","over":{"base":"Any"},"name":"rs_square_correct"},"guarantee":"square the series modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_square_correct","statement":"Path(rs_square(x), square the series modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"334bd1405744c624"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_square","kind":"function","src_hash":"784a6c993fb92c4b","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'terms') and hasattr(p1, 'iterterms')"},"out":{"base":"Any","pred":"result satisfies: result == (R(p))"},"spec":{"lhs":"rs_square(p1, x, prec)","rhs":"R(p)","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'terms') and hasattr(p1, 'iterterms')"},"name":"rs_square_correct"},"guarantee":"returns R(p); len(items) == old_len_items","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_square_correct","statement":"Path(rs_square(x), returns R(p); len(items) == old_len_items)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b919bd32ec5c0801","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')","hasattr(p1, 'terms')","hasattr(p1, 'iterterms')"],"ensures":["len(items) == old_len_items"],"returns_expr":"R(p)","pure":false,"effects":{"effect_type":"io","reads":["p1.iterterms","p1.ring","p1.terms"],"calls_mutating":["items.sort"],"io_operations":["get"]},"state_contract":{"modifies":["items.*"],"old_bindings":{"old_len_items":"len(items)"},"post_ensures":["len(items) == old_len_items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_square(p1, x, prec):
     """
     Square the series modulo ``O(x**prec)``
@@ -424,9 +488,15 @@ def rs_square(p1, x, prec):
     return R(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_pow(p1,), return ``p1**n`` modulo ``o(x**prec)``) over {Any | isinstance(n, Rational)} ║
+# ║ Path(rs_pow(p1, n, x), # HINT: rs_pow may be idempotent: rs_pow(rs_pow(x)) == rs_pow(x)) over {Any | isinstance(n, Rational) and hasattr(p1, 'ring') and hasattr(n, 'p') and hasattr(n, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_pow : {Any | isinstance(n, Rational)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(n, 'p')                                ║
+# ║   requires: hasattr(n, 'q')                                ║
+# ║   ensures:  # HINT: rs_pow may be idempotent: rs_pow(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_pow : {Any | isinstance(n, Rational) and hasattr(p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Rational: {isinstance(n, Rational)} → library_axiom      ║
@@ -436,9 +506,12 @@ def rs_square(p1, x, prec):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0f942ec2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_pow","kind":"function","src_hash":"de5dd5f82cdb3b4d","in":{"base":"Any","pred":"isinstance(n, Rational)"},"out":{"base":"Any"},"spec":{"lhs":"rs_pow(p1,)","rhs":"return ``p1**n`` modulo ``o(x**prec)``","over":{"base":"Any","pred":"isinstance(n, Rational)"},"name":"rs_pow_correct"},"guarantee":"return ``p1**n`` modulo ``o(x**prec)``","fibers":[{"name":"Rational","pred":"isinstance(n, Rational)","path":{"lhs":"rs_pow(x)","rhs":"return ``p1**n`` modulo ``o(x**prec)``","over":{"base":"Rational","pred":"isinstance(n, Rational)"},"name":"rs_pow_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_pow_Rational_correct","statement":"rs_pow satisfies spec on Rational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0f942ec2b00e264b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_pow","kind":"function","src_hash":"de5dd5f82cdb3b4d","in":{"base":"Any","pred":"isinstance(n, Rational) and hasattr(p1, 'ring') and hasattr(n, 'p') and hasattr(n, 'q')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_pow may be idempotent: rs_pow(rs_pow(x)) == rs_pow(x)"},"spec":{"lhs":"rs_pow(p1, n, x)","rhs":"# HINT: rs_pow may be idempotent: rs_pow(rs_pow(x)) == rs_pow(x)","over":{"base":"Any","pred":"isinstance(n, Rational) and hasattr(p1, 'ring') and hasattr(n, 'p') and hasattr(n, 'q')"},"name":"rs_pow_correct"},"guarantee":"# HINT: rs_pow may be idempotent: rs_pow(rs_pow(x)) == rs_pow(x)","fibers":[{"name":"Rational","pred":"isinstance(n, Rational)","path":{"lhs":"rs_pow(x)","rhs":"# HINT: rs_pow may be idempotent: rs_pow(rs_pow(x)) == rs_pow(x)","over":{"base":"Rational","pred":"isinstance(n, Rational)"},"name":"rs_pow_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_pow_Rational_correct","statement":"rs_pow satisfies spec on Rational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0f942ec2b00e264b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')","hasattr(n, 'p')","hasattr(n, 'q')"],"ensures":["# HINT: rs_pow may be idempotent: rs_pow(rs_pow(x)) == rs_pow(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.p","n.q","p1.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'nq != 1', 'n == 1', 'isinstance(n, Rational)', 'n < 0', 'n == 2', 'n == 0', 'n == 3', 'np != 1'}, fibers={'Rational'})"]}}
 def rs_pow(p1, n, x, prec):
     """
     Return ``p1**n`` modulo ``O(x**prec)``
@@ -494,16 +567,24 @@ def rs_pow(p1, n, x, prec):
     return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_subs(p, ), substitution with truncation according to the mapping in ``rules``) over Any ║
+# ║ Path(rs_subs(p, rules, x), <unspecified:rs_subs>) over {Any | hasattr(p, 'ring') and hasattr(p, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_subs : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'keys')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_subs : {Any | hasattr(p, 'ring') and hasattr(p, 'k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdc68fec2d0b578a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_subs","kind":"function","src_hash":"eb7be0382f0aad98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_subs(p, )","rhs":"substitution with truncation according to the mapping in ``rules``","over":{"base":"Any"},"name":"rs_subs_correct"},"guarantee":"substitution with truncation according to the mapping in ``rules``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_subs_correct","statement":"Path(rs_subs(x), substitution with truncation according to the mapping in ``rules``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdc68fec2d0b578a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_subs","kind":"function","src_hash":"eb7be0382f0aad98","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"rs_subs(p, rules, x)","rhs":"<unspecified:rs_subs>","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'keys')"},"name":"rs_subs_correct"},"guarantee":"substitution with truncation according to the mapping in ``rules``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_subs_correct","statement":"Path(rs_subs(x), substitution with truncation according to the mapping in ``rules``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdc68fec2d0b578a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')","hasattr(p, 'keys')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.keys","p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def rs_subs(p, rules, x, prec):
     """
     Substitution with truncation according to the mapping in ``rules``.
@@ -573,16 +654,23 @@ def rs_subs(p, rules, x, prec):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_has_constant_term(p, ), id) over Any                 ║
+# ║ Path(_has_constant_term(p, x), id) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _has_constant_term : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   returns:  any((monomial_min(expv, miv) == zm for ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _has_constant_term : {Any | hasattr(p, 'ring')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7d2e1bb6a9ff023f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._has_constant_term","kind":"function","src_hash":"690dc789da66778f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_constant_term(p, )","rhs":"check if ``p`` has a constant term in ``x``","over":{"base":"Any"},"name":"_has_constant_term_correct","kind":"composition"},"guarantee":"check if ``p`` has a constant term in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"monomial_min","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2e1bb6a9ff023f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._has_constant_term","kind":"function","src_hash":"690dc789da66778f","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_has_constant_term(p, x)","rhs":"any((monomial_min(expv, miv) == zm for expv in p))","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_has_constant_term_correct","kind":"composition"},"guarantee":"returns any((monomial_min(expv, miv) == zm for expv in p))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"monomial_min","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2e1bb6a9ff023f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')"],"returns_expr":"any((monomial_min(expv, miv) == zm for expv in p))","pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _has_constant_term(p, x):
     """
     Check if ``p`` has a constant term in ``x``
@@ -607,16 +695,23 @@ def _has_constant_term(p, x):
     return any(monomial_min(expv, miv) == zm for expv in p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_constant_term(p, ), return constant term in p with respect to x) over Any ║
+# ║ Path(_get_constant_term(p, x), <unspecified:_get_constant_term>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_constant_term : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_constant_term : {Any | hasattr(p, 'ring')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c681480ff1616660  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._get_constant_term","kind":"function","src_hash":"20b3c1804fa49e5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_constant_term(p, )","rhs":"return constant term in p with respect to x","over":{"base":"Any"},"name":"_get_constant_term_correct"},"guarantee":"return constant term in p with respect to x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._get_constant_term_correct","statement":"Path(_get_constant_term(x), return constant term in p with respect to x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c681480ff1616660"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._get_constant_term","kind":"function","src_hash":"20b3c1804fa49e5f","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_get_constant_term(p, x)","rhs":"<unspecified:_get_constant_term>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_get_constant_term_correct"},"guarantee":"return constant term in p with respect to x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._get_constant_term_correct","statement":"Path(_get_constant_term(x), return constant term in p with respect to x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c681480ff1616660","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_constant_term(p, x):
     """Return constant term in p with respect to x
 
@@ -637,16 +732,24 @@ def _get_constant_term(p, x):
     return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_series_var(p, ), internal helper behaves correctly) over Any ║
+# ║ Path(_check_series_var(p, x, name), (index, m)) over {Any | not (m < 0) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_series_var : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m < 0)                                    ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   returns:  (index, m)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_series_var : {Any | not (m < 0) and hasattr(p,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0959ac23e4d1a48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 692aeea16369374b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._check_series_var","kind":"function","src_hash":"189279f66e2b94e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_series_var(p, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_series_var_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._check_series_var_correct","statement":"Path(_check_series_var(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0959ac23e4d1a48"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._check_series_var","kind":"function","src_hash":"189279f66e2b94e6","in":{"base":"Any","pred":"not (m < 0) and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_check_series_var(p, x, name)","rhs":"(index, m)","over":{"base":"Any","pred":"not (m < 0) and hasattr(p, 'ring')"},"name":"_check_series_var_correct"},"guarantee":"returns (index, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._check_series_var_correct","statement":"Path(_check_series_var(x), returns (index, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692aeea16369374b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m < 0)","hasattr(p, 'ring')"],"returns_expr":"(index, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_series_var(p, x, name):
     index = p.ring.gens.index(x)
     m = min(p, key=lambda k: k[index])[index]
@@ -656,16 +759,23 @@ def _check_series_var(p, x, name):
     return index, m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_series_inversion1(p, ), univariate series inversion ``1/p`` modulo ``o(x**prec)``) over Any ║
+# ║ Path(_series_inversion1(p, x, prec), <unspecified:_series_inversion1>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _series_inversion1 : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _series_inversion1 : {Any | hasattr(p, 'ring')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad23032385f68e25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._series_inversion1","kind":"function","src_hash":"02f41adfac1a8565","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_series_inversion1(p, )","rhs":"univariate series inversion ``1/p`` modulo ``o(x**prec)``","over":{"base":"Any"},"name":"_series_inversion1_correct"},"guarantee":"univariate series inversion ``1/p`` modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._series_inversion1_correct","statement":"Path(_series_inversion1(x), univariate series inversion ``1/p`` modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad23032385f68e25"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._series_inversion1","kind":"function","src_hash":"02f41adfac1a8565","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_series_inversion1(p, x, prec)","rhs":"<unspecified:_series_inversion1>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_series_inversion1_correct"},"guarantee":"univariate series inversion ``1/p`` modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._series_inversion1_correct","statement":"Path(_series_inversion1(x), univariate series inversion ``1/p`` modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad23032385f68e25","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _series_inversion1(p, x, prec):
     """
     Univariate series inversion ``1/p`` modulo ``O(x**prec)``.
@@ -715,16 +825,24 @@ def _series_inversion1(p, x, prec):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_series_inversion(p, ), multivariate series inversion ``1/p`` modulo ``o(x**prec)``) over Any ║
+# ║ Path(rs_series_inversion(p, x, prec), <unspecified:rs_series_inversion>) over {Any | not (p == R.zero) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_series_inversion : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (p == R.zero)                              ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_series_inversion : {Any | not (p == R.zero) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2bb891206ef9bd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series_inversion","kind":"function","src_hash":"943c2cb670c259e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_series_inversion(p, )","rhs":"multivariate series inversion ``1/p`` modulo ``o(x**prec)``","over":{"base":"Any"},"name":"rs_series_inversion_correct"},"guarantee":"multivariate series inversion ``1/p`` modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_inversion_correct","statement":"Path(rs_series_inversion(x), multivariate series inversion ``1/p`` modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2bb891206ef9bd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series_inversion","kind":"function","src_hash":"943c2cb670c259e0","in":{"base":"Any","pred":"not (p == R.zero) and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_series_inversion(p, x, prec)","rhs":"<unspecified:rs_series_inversion>","over":{"base":"Any","pred":"not (p == R.zero) and hasattr(p, 'ring')"},"name":"rs_series_inversion_correct"},"guarantee":"multivariate series inversion ``1/p`` modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_inversion_correct","statement":"Path(rs_series_inversion(x), multivariate series inversion ``1/p`` modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2bb891206ef9bd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (p == R.zero)","hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["NotImplementedError","ZeroDivisionError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_series_inversion(p, x, prec):
     """
     Multivariate series inversion ``1/p`` modulo ``O(x**prec)``.
@@ -764,16 +882,23 @@ def rs_series_inversion(p, x, prec):
     return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_coefficient_t(p, ), coefficient of `x_i**j` in p, where ``t`` = (i, j)) over Any ║
+# ║ Path(_coefficient_t(p, t), <unspecified:_coefficient_t>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _coefficient_t : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _coefficient_t : {Any | hasattr(p, 'ring')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6f2cf0e8744a9b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._coefficient_t","kind":"function","src_hash":"a77cf24365d33db0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_coefficient_t(p, )","rhs":"coefficient of `x_i**j` in p, where ``t`` = (i, j)","over":{"base":"Any"},"name":"_coefficient_t_correct"},"guarantee":"coefficient of `x_i**j` in p, where ``t`` = (i, j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._coefficient_t_correct","statement":"Path(_coefficient_t(x), coefficient of `x_i**j` in p, where ``t`` = (i, j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6f2cf0e8744a9b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._coefficient_t","kind":"function","src_hash":"a77cf24365d33db0","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_coefficient_t(p, t)","rhs":"<unspecified:_coefficient_t>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_coefficient_t_correct"},"guarantee":"coefficient of `x_i**j` in p, where ``t`` = (i, j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._coefficient_t_correct","statement":"Path(_coefficient_t(x), coefficient of `x_i**j` in p, where ``t`` = (i, j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6f2cf0e8744a9b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _coefficient_t(p, t):
     r"""Coefficient of `x_i**j` in p, where ``t`` = (i, j)"""
     i, j = t
@@ -788,16 +913,24 @@ def _coefficient_t(p, t):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_series_reversion(p, ), reversion of a series) over Any ║
+# ║ Path(rs_series_reversion(p, x, n), zm in a and len(a) == 1) over {Any | not (rs_is_puiseux(p, x)) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_series_reversion : Any → {Any | zm in a and len(a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (rs_is_puiseux(p, x))                      ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ensures:  zm in a and len(a) == 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_series_reversion : {Any | not (rs_is_puiseux(p, x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b7482d0f46c9871  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7e9fa6b91b3dc52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series_reversion","kind":"function","src_hash":"45863aff336509bf","in":{"base":"Any"},"out":{"base":"Any","pred":"zm in a and len(a) == 1"},"spec":{"lhs":"rs_series_reversion(p, )","rhs":"reversion of a series","over":{"base":"Any"},"name":"rs_series_reversion_correct"},"guarantee":"reversion of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_reversion_correct","statement":"Path(rs_series_reversion(x), reversion of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7482d0f46c9871"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series_reversion","kind":"function","src_hash":"45863aff336509bf","in":{"base":"Any","pred":"not (rs_is_puiseux(p, x)) and hasattr(p, 'ring')"},"out":{"base":"Any","pred":"result satisfies: zm in a and len(a) == 1"},"spec":{"lhs":"rs_series_reversion(p, x, n)","rhs":"zm in a and len(a) == 1","over":{"base":"Any","pred":"not (rs_is_puiseux(p, x)) and hasattr(p, 'ring')"},"name":"rs_series_reversion_correct"},"guarantee":"zm in a and len(a) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_reversion_correct","statement":"Path(rs_series_reversion(x), zm in a and len(a) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7e9fa6b91b3dc52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (rs_is_puiseux(p, x))","hasattr(p, 'ring')"],"ensures":["zm in a and len(a) == 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_series_reversion(p, x, n, y):
     r"""
     Reversion of a series.
@@ -871,16 +1004,23 @@ def rs_series_reversion(p, x, n, y):
     return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_series_from_list(p, ), return a series `sum c[n]*p**n` modulo `o(x**prec)`) over Any ║
+# ║ Path(rs_series_from_list(p, c, x), <unspecified:rs_series_from_list>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_series_from_list : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_series_from_list : {Any | hasattr(p, 'ring')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6854a5183a36ac38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series_from_list","kind":"function","src_hash":"a8a61de1e9586034","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_series_from_list(p, )","rhs":"return a series `sum c[n]*p**n` modulo `o(x**prec)`","over":{"base":"Any"},"name":"rs_series_from_list_correct"},"guarantee":"return a series `sum c[n]*p**n` modulo `o(x**prec)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_from_list_correct","statement":"Path(rs_series_from_list(x), return a series `sum c[n]*p**n` modulo `o(x**prec)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6854a5183a36ac38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series_from_list","kind":"function","src_hash":"a8a61de1e9586034","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_series_from_list(p, c, x)","rhs":"<unspecified:rs_series_from_list>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"rs_series_from_list_correct"},"guarantee":"return a series `sum c[n]*p**n` modulo `o(x**prec)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_from_list_correct","statement":"Path(rs_series_from_list(x), return a series `sum c[n]*p**n` modulo `o(x**prec)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6854a5183a36ac38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def rs_series_from_list(p, c, x, prec, concur=1):
     """
     Return a series `sum c[n]*p**n` modulo `O(x**prec)`.
@@ -967,16 +1107,23 @@ def rs_series_from_list(p, c, x, prec, concur=1):
     return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_diff(p, ), return partial derivative of ``p`` with respect to ``x``) over Any ║
+# ║ Path(rs_diff(p, x), R(p1)) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_diff : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   returns:  R(p1)                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_diff : {Any | hasattr(p, 'ring')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b0b42d5d21f4595  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f908f438df089f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_diff","kind":"function","src_hash":"3d1497c96c4d6f35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_diff(p, )","rhs":"return partial derivative of ``p`` with respect to ``x``","over":{"base":"Any"},"name":"rs_diff_correct"},"guarantee":"return partial derivative of ``p`` with respect to ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_diff_correct","statement":"Path(rs_diff(x), return partial derivative of ``p`` with respect to ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b0b42d5d21f4595"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_diff","kind":"function","src_hash":"3d1497c96c4d6f35","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_diff(p, x)","rhs":"R(p1)","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"rs_diff_correct"},"guarantee":"returns R(p1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_diff_correct","statement":"Path(rs_diff(x), returns R(p1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f908f438df089f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')"],"returns_expr":"R(p1)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_diff(p, x):
     """
     Return partial derivative of ``p`` with respect to ``x``.
@@ -1010,16 +1157,23 @@ def rs_diff(p, x):
     return R(p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_integrate(p, ), integrate ``p`` with respect to ``x``) over Any ║
+# ║ Path(rs_integrate(p, x), R(p1)) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_integrate : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   returns:  R(p1)                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_integrate : {Any | hasattr(p, 'ring')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e70997b5a04fdb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f742ddcba4b8bd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_integrate","kind":"function","src_hash":"b029e8c3e00189bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_integrate(p, )","rhs":"integrate ``p`` with respect to ``x``","over":{"base":"Any"},"name":"rs_integrate_correct"},"guarantee":"integrate ``p`` with respect to ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_integrate_correct","statement":"Path(rs_integrate(x), integrate ``p`` with respect to ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e70997b5a04fdb5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_integrate","kind":"function","src_hash":"b029e8c3e00189bc","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_integrate(p, x)","rhs":"R(p1)","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"rs_integrate_correct"},"guarantee":"returns R(p1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_integrate_correct","statement":"Path(rs_integrate(x), returns R(p1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f742ddcba4b8bd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')"],"returns_expr":"R(p1)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_integrate(p, x):
     """
     Integrate ``p`` with respect to ``x``.
@@ -1053,9 +1207,13 @@ def rs_integrate(p, x):
     return R(p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_fun(p, ), function of a multivariate series computed by substitution) over {Any | isinstance(f, str)} ║
+# ║ Path(rs_fun(p, f, *args), <unspecified:rs_fun>) over {Any | isinstance(f, str) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_fun : {Any | isinstance(f, str)} → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_fun : {Any | isinstance(f, str) and hasattr(p, 'ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(f, str)} → library_axiom                ║
@@ -1065,9 +1223,12 @@ def rs_integrate(p, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d601e4f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_fun","kind":"function","src_hash":"bf2ed5aac59be291","in":{"base":"Any","pred":"isinstance(f, str)"},"out":{"base":"Any"},"spec":{"lhs":"rs_fun(p, )","rhs":"function of a multivariate series computed by substitution","over":{"base":"Any","pred":"isinstance(f, str)"},"name":"rs_fun_correct"},"guarantee":"function of a multivariate series computed by substitution","fibers":[{"name":"str","pred":"isinstance(f, str)","path":{"lhs":"rs_fun(x)","rhs":"function of a multivariate series computed by substitution","over":{"base":"str","pred":"isinstance(f, str)"},"name":"rs_fun_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_fun_str_correct","statement":"rs_fun satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d601e4f779d2f69c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_fun","kind":"function","src_hash":"bf2ed5aac59be291","in":{"base":"Any","pred":"isinstance(f, str) and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_fun(p, f, *args)","rhs":"<unspecified:rs_fun>","over":{"base":"Any","pred":"isinstance(f, str) and hasattr(p, 'ring')"},"name":"rs_fun_correct"},"guarantee":"function of a multivariate series computed by substitution","fibers":[{"name":"str","pred":"isinstance(f, str)","path":{"lhs":"rs_fun(x)","rhs":"function of a multivariate series computed by substitution","over":{"base":"str","pred":"isinstance(f, str)"},"name":"rs_fun_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_fun_str_correct","statement":"rs_fun satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d601e4f779d2f69c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['p', 'f'], spec=['p', 'f', '*args']","Poor branch-fiber coverage: 0% (branches={'isinstance(f, str)'}, fibers={'str'})"]}}
 def rs_fun(p, f, *args):
     r"""
     Function of a multivariate series computed by substitution.
@@ -1125,16 +1286,24 @@ def rs_fun(p, f, *args):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_xin(p, ), return `p*x_i**n`) over Any             ║
+# ║ Path(mul_xin(p, i, n), R(q)) over {Any | hasattr(p, 'ring') and hasattr(p, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_xin : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'terms')                            ║
+# ║   returns:  R(q)                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_xin : {Any | hasattr(p, 'ring') and hasattr(p, 't...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ab6c6c20baa0e51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 808e546aa00c82a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.mul_xin","kind":"function","src_hash":"3261dec07317ab3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_xin(p, )","rhs":"return `p*x_i**n`","over":{"base":"Any"},"name":"mul_xin_correct"},"guarantee":"return `p*x_i**n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.mul_xin_correct","statement":"Path(mul_xin(x), return `p*x_i**n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ab6c6c20baa0e51"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.mul_xin","kind":"function","src_hash":"3261dec07317ab3c","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'terms')"},"out":{"base":"Any"},"spec":{"lhs":"mul_xin(p, i, n)","rhs":"R(q)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'terms')"},"name":"mul_xin_correct"},"guarantee":"returns R(q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.mul_xin_correct","statement":"Path(mul_xin(x), returns R(q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"808e546aa00c82a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'terms')"],"returns_expr":"R(q)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.terms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mul_xin(p, i, n):
     r"""
     Return `p*x_i**n`.
@@ -1150,16 +1319,24 @@ def mul_xin(p, i, n):
     return R(q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow_xin(p, ), >>> from sympy.polys.domains import qq >>> from sympy.polys.puiseux import puiseux_ring >>> from sympy.polys.ring_series import pow_xin >>> r, x, y = puiseux_ring('x, y', qq) >>> p = x**qq(2,5) + x + ) over Any ║
+# ║ Path(pow_xin(p, i, n), R(q)) over {Any | hasattr(p, 'ring') and hasattr(p, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pow_xin : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'terms')                            ║
+# ║   returns:  R(q)                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pow_xin : {Any | hasattr(p, 'ring') and hasattr(p, 't...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca995e35f90aa375  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49e7ab2e7422aded  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.pow_xin","kind":"function","src_hash":"bad2f7fdacdc694e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow_xin(p, )","rhs":">>> from sympy.polys.domains import qq >>> from sympy.polys.puiseux import puiseux_ring >>> from sympy.polys.ring_series import pow_xin >>> r, x, y = puiseux_ring('x, y', qq) >>> p = x**qq(2,5) + x + ","over":{"base":"Any"},"name":"pow_xin_correct"},"guarantee":">>> from sympy.polys.domains import qq >>> from sympy.polys.puiseux import puiseux_ring >>> from sympy.polys.ring_series import pow_xin >>> r, x, y = puiseux_ring('x, y', qq) >>> p = x**qq(2,5) + x + ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.pow_xin_correct","statement":"Path(pow_xin(x), >>> from sympy.polys.domains import qq >>> from sympy.polys.puiseux import puiseux_ring >>> from sympy.polys.ring_series import pow_xin >>> r, x, y = puiseux_ring('x, y', qq) >>> p = x**qq(2,5) + x + )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca995e35f90aa375"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.pow_xin","kind":"function","src_hash":"bad2f7fdacdc694e","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'terms')"},"out":{"base":"Any"},"spec":{"lhs":"pow_xin(p, i, n)","rhs":"R(q)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'terms')"},"name":"pow_xin_correct"},"guarantee":"returns R(q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.pow_xin_correct","statement":"Path(pow_xin(x), returns R(q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49e7ab2e7422aded","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'terms')"],"returns_expr":"R(q)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.terms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pow_xin(p, i, n):
     """
     >>> from sympy.polys.domains import QQ
@@ -1180,16 +1357,24 @@ def pow_xin(p, i, n):
     return R(q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nth_root1(p, ), univariate series expansion of the nth root of ``p``) over Any ║
+# ║ Path(_nth_root1(p, n, x), p[zm] == 1) over {Any | not (zm not in p) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _nth_root1 : Any → {Any | p[zm] == 1}                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (zm not in p)                              ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ensures:  p[zm] == 1                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _nth_root1 : {Any | not (zm not in p) and hasattr(p, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f93ee6a897ec953  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2264bb0357447674  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._nth_root1","kind":"function","src_hash":"cfddbb06271689c3","in":{"base":"Any"},"out":{"base":"Any","pred":"p[zm] == 1"},"spec":{"lhs":"_nth_root1(p, )","rhs":"univariate series expansion of the nth root of ``p``","over":{"base":"Any"},"name":"_nth_root1_correct"},"guarantee":"univariate series expansion of the nth root of ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._nth_root1_correct","statement":"Path(_nth_root1(x), univariate series expansion of the nth root of ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f93ee6a897ec953"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._nth_root1","kind":"function","src_hash":"cfddbb06271689c3","in":{"base":"Any","pred":"not (zm not in p) and hasattr(p, 'ring')"},"out":{"base":"Any","pred":"result satisfies: p[zm] == 1"},"spec":{"lhs":"_nth_root1(p, n, x)","rhs":"p[zm] == 1","over":{"base":"Any","pred":"not (zm not in p) and hasattr(p, 'ring')"},"name":"_nth_root1_correct"},"guarantee":"p[zm] == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._nth_root1_correct","statement":"Path(_nth_root1(x), p[zm] == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2264bb0357447674","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (zm not in p)","hasattr(p, 'ring')"],"ensures":["p[zm] == 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _nth_root1(p, n, x, prec):
     """
     Univariate series expansion of the nth root of ``p``.
@@ -1226,9 +1411,13 @@ def _nth_root1(p, n, x, prec):
         return _series_inversion1(p1, x, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_nth_root(p, ), multivariate series expansion of the nth root of ``p``) over {Any | isinstance(c, PolyElement)} ║
+# ║ Path(rs_nth_root(p, n, x), # HINT: rs_nth_root may be idempotent: rs_nth_root(rs_nth_root(x)) == rs_nth_root(x)) over {Any | isinstance(c, PolyElement) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_nth_root : {Any | isinstance(c, PolyElement)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ensures:  # HINT: rs_nth_root may be idempotent: rs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_nth_root : {Any | isinstance(c, PolyElement) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   PolyElement: {isinstance(c, PolyElement)} → library...   ║
@@ -1238,9 +1427,12 @@ def _nth_root1(p, n, x, prec):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8af1e4b1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_nth_root","kind":"function","src_hash":"363d75585392a090","in":{"base":"Any","pred":"isinstance(c, PolyElement)"},"out":{"base":"Any"},"spec":{"lhs":"rs_nth_root(p, )","rhs":"multivariate series expansion of the nth root of ``p``","over":{"base":"Any","pred":"isinstance(c, PolyElement)"},"name":"rs_nth_root_correct"},"guarantee":"multivariate series expansion of the nth root of ``p``","fibers":[{"name":"PolyElement","pred":"isinstance(c, PolyElement)","path":{"lhs":"rs_nth_root(x)","rhs":"multivariate series expansion of the nth root of ``p``","over":{"base":"PolyElement","pred":"isinstance(c, PolyElement)"},"name":"rs_nth_root_PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_nth_root_PolyElement_correct","statement":"rs_nth_root satisfies spec on PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8af1e4b1a2c9e9bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_nth_root","kind":"function","src_hash":"363d75585392a090","in":{"base":"Any","pred":"isinstance(c, PolyElement) and hasattr(p, 'ring')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_nth_root may be idempotent: rs_nth_root(rs_nth_root(x)) == rs_nth_root(x)"},"spec":{"lhs":"rs_nth_root(p, n, x)","rhs":"# HINT: rs_nth_root may be idempotent: rs_nth_root(rs_nth_root(x)) == rs_nth_root(x)","over":{"base":"Any","pred":"isinstance(c, PolyElement) and hasattr(p, 'ring')"},"name":"rs_nth_root_correct"},"guarantee":"# HINT: rs_nth_root may be idempotent: rs_nth_root(rs_nth_root(x)) == rs_nth_root(x)","fibers":[{"name":"PolyElement","pred":"isinstance(c, PolyElement)","path":{"lhs":"rs_nth_root(x)","rhs":"# HINT: rs_nth_root may be idempotent: rs_nth_root(rs_nth_root(x)) == rs_nth_root(x)","over":{"base":"PolyElement","pred":"isinstance(c, PolyElement)"},"name":"rs_nth_root_PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_nth_root_PolyElement_correct","statement":"rs_nth_root satisfies spec on PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8af1e4b1a2c9e9bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')"],"ensures":["# HINT: rs_nth_root may be idempotent: rs_nth_root(rs_nth_root(x)) == rs_nth_root(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["DomainError","ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'n == 1', 'isinstance(c, PolyElement)', 'n == 0', 'p == 0'}, fibers={'PolyElement'})"]}}
 def rs_nth_root(p, n, x, prec):
     """
     Multivariate series expansion of the nth root of ``p``.
@@ -1315,16 +1507,25 @@ def rs_nth_root(p, n, x, prec):
     return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_log(p, ), the logarithm of ``p`` modulo ``o(x**prec)``) over Any ║
+# ║ Path(rs_log(p, x, prec), <unspecified:rs_log>) over {Any | hasattr(p, 'ring') and hasattr(p, 'diff') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_log : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'diff')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_log : {Any | hasattr(p, 'ring') and hasattr(p, 'di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b47751601332b8a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_log","kind":"function","src_hash":"a0c53cb8cd513e2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_log(p, )","rhs":"the logarithm of ``p`` modulo ``o(x**prec)``","over":{"base":"Any"},"name":"rs_log_correct"},"guarantee":"the logarithm of ``p`` modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_log_correct","statement":"Path(rs_log(x), the logarithm of ``p`` modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47751601332b8a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_log","kind":"function","src_hash":"a0c53cb8cd513e2c","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'diff') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_log(p, x, prec)","rhs":"<unspecified:rs_log>","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'diff') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_log_correct"},"guarantee":"the logarithm of ``p`` modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_log_correct","statement":"Path(rs_log(x), the logarithm of ``p`` modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47751601332b8a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')","hasattr(p, 'diff')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.diff","p.ring","p.set_ring","x.set_ring"],"raises":["NotImplementedError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_log(p, x, prec):
     """
     The Logarithm of ``p`` modulo ``O(x**prec)``.
@@ -1373,16 +1574,24 @@ def rs_log(p, x, prec):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_LambertW(p, ), calculate the series expansion of the principal branch of the lambert w function) over Any ║
+# ║ Path(rs_LambertW(p, x, prec), <unspecified:rs_LambertW>) over {Any | not (_has_constant_term(p, x)) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_LambertW : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (_has_constant_term(p, x))                 ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_LambertW : {Any | not (_has_constant_term(p, x)) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a4f142a0d9939f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_LambertW","kind":"function","src_hash":"a691c1ca2917c4f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_LambertW(p, )","rhs":"calculate the series expansion of the principal branch of the lambert w function","over":{"base":"Any"},"name":"rs_LambertW_correct"},"guarantee":"calculate the series expansion of the principal branch of the lambert w function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_LambertW_correct","statement":"Path(rs_LambertW(x), calculate the series expansion of the principal branch of the lambert w function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a4f142a0d9939f2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_LambertW","kind":"function","src_hash":"a691c1ca2917c4f1","in":{"base":"Any","pred":"not (_has_constant_term(p, x)) and hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_LambertW(p, x, prec)","rhs":"<unspecified:rs_LambertW>","over":{"base":"Any","pred":"not (_has_constant_term(p, x)) and hasattr(p, 'ring')"},"name":"rs_LambertW_correct"},"guarantee":"calculate the series expansion of the principal branch of the lambert w function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_LambertW_correct","statement":"Path(rs_LambertW(x), calculate the series expansion of the principal branch of the lambert w function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a4f142a0d9939f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (_has_constant_term(p, x))","hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_LambertW(p, x, prec):
     """
     Calculate the series expansion of the principal branch of the Lambert W
@@ -1423,16 +1632,23 @@ def rs_LambertW(p, x, prec):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_exp1(p, ), helper function for `rs\_exp`) over Any   ║
+# ║ Path(_exp1(p, x, prec), <unspecified:_exp1>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _exp1 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _exp1 : {Any | hasattr(p, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c03af34a1681252  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._exp1","kind":"function","src_hash":"9a3199b0bc795ca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_exp1(p, )","rhs":"helper function for `rs\\_exp`","over":{"base":"Any"},"name":"_exp1_correct"},"guarantee":"helper function for `rs\\_exp`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._exp1_correct","statement":"Path(_exp1(x), helper function for `rs\\_exp`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c03af34a1681252"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._exp1","kind":"function","src_hash":"9a3199b0bc795ca5","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_exp1(p, x, prec)","rhs":"<unspecified:_exp1>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_exp1_correct"},"guarantee":"helper function for `rs\\_exp`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._exp1_correct","statement":"Path(_exp1(x), helper function for `rs\\_exp`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c03af34a1681252","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _exp1(p, x, prec):
     r"""Helper function for `rs\_exp`. """
     R = p.ring
@@ -1444,16 +1660,25 @@ def _exp1(p, x, prec):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_exp(p, ), exponentiation of a series modulo ``o(x**prec)``) over Any ║
+# ║ Path(rs_exp(p, x, prec), # HINT: rs_exp may be idempotent: rs_exp(rs_exp(x)) == rs_exp(x)) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_exp : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ensures:  # HINT: rs_exp may be idempotent: rs_exp(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_exp : {Any | hasattr(p, 'ring') and hasattr(p, 'se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2541c4c1174dc032  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28d49b12ee474da4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_exp","kind":"function","src_hash":"4a62800fbdbaffc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_exp(p, )","rhs":"exponentiation of a series modulo ``o(x**prec)``","over":{"base":"Any"},"name":"rs_exp_correct"},"guarantee":"exponentiation of a series modulo ``o(x**prec)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_exp_correct","statement":"Path(rs_exp(x), exponentiation of a series modulo ``o(x**prec)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2541c4c1174dc032"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_exp","kind":"function","src_hash":"4a62800fbdbaffc5","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_exp may be idempotent: rs_exp(rs_exp(x)) == rs_exp(x)"},"spec":{"lhs":"rs_exp(p, x, prec)","rhs":"# HINT: rs_exp may be idempotent: rs_exp(rs_exp(x)) == rs_exp(x)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_exp_correct"},"guarantee":"# HINT: rs_exp may be idempotent: rs_exp(rs_exp(x)) == rs_exp(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_exp_correct","statement":"Path(rs_exp(x), # HINT: rs_exp may be idempotent: rs_exp(rs_exp(x)) == rs_exp(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28d49b12ee474da4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"ensures":["# HINT: rs_exp may be idempotent: rs_exp(rs_exp(x)) == rs_exp(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_exp(p, x, prec):
     """
     Exponentiation of a series modulo ``O(x**prec)``
@@ -1503,16 +1728,23 @@ def rs_exp(p, x, prec):
     return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_atan(p, ), expansion using formula) over Any         ║
+# ║ Path(_atan(p, iv, prec), <unspecified:_atan>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _atan : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _atan : {Any | hasattr(p, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09c4fda130c77763  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._atan","kind":"function","src_hash":"c0386950f19e5a2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_atan(p, )","rhs":"expansion using formula","over":{"base":"Any"},"name":"_atan_correct"},"guarantee":"expansion using formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._atan_correct","statement":"Path(_atan(x), expansion using formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09c4fda130c77763"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._atan","kind":"function","src_hash":"c0386950f19e5a2c","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_atan(p, iv, prec)","rhs":"<unspecified:_atan>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_atan_correct"},"guarantee":"expansion using formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._atan_correct","statement":"Path(_atan(x), expansion using formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09c4fda130c77763","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _atan(p, iv, prec):
     """
     Expansion using formula.
@@ -1530,16 +1762,25 @@ def _atan(p, iv, prec):
     return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_atan(p, ), the arctangent of a series) over Any    ║
+# ║ Path(rs_atan(p, x, prec), <unspecified:rs_atan>) over {Any | hasattr(p, 'ring') and hasattr(p, 'diff') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_atan : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'diff')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_atan : {Any | hasattr(p, 'ring') and hasattr(p, 'd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c755c2930b7282a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_atan","kind":"function","src_hash":"cf3dbbb5eb2cfd28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_atan(p, )","rhs":"the arctangent of a series","over":{"base":"Any"},"name":"rs_atan_correct"},"guarantee":"the arctangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_atan_correct","statement":"Path(rs_atan(x), the arctangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c755c2930b7282a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_atan","kind":"function","src_hash":"cf3dbbb5eb2cfd28","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'diff') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_atan(p, x, prec)","rhs":"<unspecified:rs_atan>","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'diff') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_atan_correct"},"guarantee":"the arctangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_atan_correct","statement":"Path(rs_atan(x), the arctangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c755c2930b7282a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')","hasattr(p, 'diff')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.diff","p.ring","p.set_ring","x.set_ring"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_atan(p, x, prec):
     """
     The arctangent of a series
@@ -1587,16 +1828,24 @@ def rs_atan(p, x, prec):
     return rs_integrate(p1, x) + const
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_asin(p, ), arcsine of a series) over Any           ║
+# ║ Path(rs_asin(p, x, prec), len(c) == old_len_c + 1) over {Any | not (_has_constant_term(p, x)) and hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_asin : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (_has_constant_term(p, x))                 ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ensures:  len(c) == old_len_c + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_asin : {Any | not (_has_constant_term(p, x)) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff81651511daab97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2022e766cde35e95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_asin","kind":"function","src_hash":"324ea9d1f21b2aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_asin(p, )","rhs":"arcsine of a series","over":{"base":"Any"},"name":"rs_asin_correct"},"guarantee":"arcsine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_asin_correct","statement":"Path(rs_asin(x), arcsine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff81651511daab97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_asin","kind":"function","src_hash":"324ea9d1f21b2aef","in":{"base":"Any","pred":"not (_has_constant_term(p, x)) and hasattr(p, 'ring')"},"out":{"base":"Any","pred":"result satisfies: len(c) == old_len_c + 1"},"spec":{"lhs":"rs_asin(p, x, prec)","rhs":"len(c) == old_len_c + 1","over":{"base":"Any","pred":"not (_has_constant_term(p, x)) and hasattr(p, 'ring')"},"name":"rs_asin_correct"},"guarantee":"len(c) == old_len_c + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_asin_correct","statement":"Path(rs_asin(x), len(c) == old_len_c + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2022e766cde35e95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (_has_constant_term(p, x))","hasattr(p, 'ring')"],"ensures":["len(c) == old_len_c + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"calls_mutating":["c.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["c.*"],"old_bindings":{"old_len_c":"len(c)"},"post_ensures":["len(c) == old_len_c + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_asin(p, x, prec):
     """
     Arcsine of a series
@@ -1643,16 +1892,23 @@ def rs_asin(p, x, prec):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tan1(p, ), helper function of :func:`rs_tan`) over Any ║
+# ║ Path(_tan1(p, x, prec), <unspecified:_tan1>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _tan1 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _tan1 : {Any | hasattr(p, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 016f54a6c3238eef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._tan1","kind":"function","src_hash":"4fb408c3125ebba9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tan1(p, )","rhs":"helper function of :func:`rs_tan`","over":{"base":"Any"},"name":"_tan1_correct"},"guarantee":"helper function of :func:`rs_tan`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._tan1_correct","statement":"Path(_tan1(x), helper function of :func:`rs_tan`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"016f54a6c3238eef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._tan1","kind":"function","src_hash":"4fb408c3125ebba9","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_tan1(p, x, prec)","rhs":"<unspecified:_tan1>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_tan1_correct"},"guarantee":"helper function of :func:`rs_tan`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._tan1_correct","statement":"Path(_tan1(x), helper function of :func:`rs_tan`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"016f54a6c3238eef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _tan1(p, x, prec):
     r"""
     Helper function of :func:`rs_tan`.
@@ -1675,16 +1931,25 @@ def _tan1(p, x, prec):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_tan(p, ), tangent of a series) over Any            ║
+# ║ Path(rs_tan(p, x, prec), # HINT: rs_tan may be idempotent: rs_tan(rs_tan(x)) == rs_tan(x)) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_tan : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ensures:  # HINT: rs_tan may be idempotent: rs_tan(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_tan : {Any | hasattr(p, 'ring') and hasattr(p, 'se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1f3c70474aa85c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bf000dfd4ef410a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_tan","kind":"function","src_hash":"476fab816dab69ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_tan(p, )","rhs":"tangent of a series","over":{"base":"Any"},"name":"rs_tan_correct"},"guarantee":"tangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_tan_correct","statement":"Path(rs_tan(x), tangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f3c70474aa85c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_tan","kind":"function","src_hash":"476fab816dab69ae","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_tan may be idempotent: rs_tan(rs_tan(x)) == rs_tan(x)"},"spec":{"lhs":"rs_tan(p, x, prec)","rhs":"# HINT: rs_tan may be idempotent: rs_tan(rs_tan(x)) == rs_tan(x)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_tan_correct"},"guarantee":"# HINT: rs_tan may be idempotent: rs_tan(rs_tan(x)) == rs_tan(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_tan_correct","statement":"Path(rs_tan(x), # HINT: rs_tan may be idempotent: rs_tan(rs_tan(x)) == rs_tan(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bf000dfd4ef410a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"ensures":["# HINT: rs_tan may be idempotent: rs_tan(rs_tan(x)) == rs_tan(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.set_ring","x.set_ring"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_tan(p, x, prec):
     """
     Tangent of a series.
@@ -1737,16 +2002,22 @@ def rs_tan(p, x, prec):
         return rs_fun(p, rs_tan, x, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_cot(p, ), cotangent of a series) over Any          ║
+# ║ Path(rs_cot(p, x, prec), <unspecified:rs_cot>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rs_cot : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1b3a86bddc93e3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cot","kind":"function","src_hash":"6a9fa047248a4f4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_cot(p, )","rhs":"cotangent of a series","over":{"base":"Any"},"name":"rs_cot_correct"},"guarantee":"cotangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cot_correct","statement":"Path(rs_cot(x), cotangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1b3a86bddc93e3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cot","kind":"function","src_hash":"6a9fa047248a4f4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_cot(p, x, prec)","rhs":"<unspecified:rs_cot>","over":{"base":"Any"},"name":"rs_cot_correct"},"guarantee":"cotangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cot_correct","statement":"Path(rs_cot(x), cotangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1b3a86bddc93e3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_cot(p, x, prec):
     """
     Cotangent of a series
@@ -1784,16 +2055,25 @@ def rs_cot(p, x, prec):
     return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_sin(p, ), sine of a series) over Any               ║
+# ║ Path(rs_sin(p, x, prec), <unspecified:rs_sin>) over {Any | hasattr(x, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_sin : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_sin : {Any | hasattr(x, 'ring') and hasattr(p, 'se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09a459b9be2d35f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_sin","kind":"function","src_hash":"d56909278833f962","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_sin(p, )","rhs":"sine of a series","over":{"base":"Any"},"name":"rs_sin_correct"},"guarantee":"sine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_sin_correct","statement":"Path(rs_sin(x), sine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09a459b9be2d35f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_sin","kind":"function","src_hash":"d56909278833f962","in":{"base":"Any","pred":"hasattr(x, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_sin(p, x, prec)","rhs":"<unspecified:rs_sin>","over":{"base":"Any","pred":"hasattr(x, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_sin_correct"},"guarantee":"sine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_sin_correct","statement":"Path(rs_sin(x), sine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09a459b9be2d35f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def rs_sin(p, x, prec):
     """
     Sine of a series
@@ -1857,16 +2137,25 @@ def rs_sin(p, x, prec):
     return rs_series_from_list(p, c, x, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_cos(p, ), cosine of a series) over Any             ║
+# ║ Path(rs_cos(p, x, prec), <unspecified:rs_cos>) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_cos : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_cos : {Any | hasattr(p, 'ring') and hasattr(p, 'se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a0f3305a5c7cbd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cos","kind":"function","src_hash":"ffe0bc7ca1e75246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_cos(p, )","rhs":"cosine of a series","over":{"base":"Any"},"name":"rs_cos_correct"},"guarantee":"cosine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cos_correct","statement":"Path(rs_cos(x), cosine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a0f3305a5c7cbd0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cos","kind":"function","src_hash":"ffe0bc7ca1e75246","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_cos(p, x, prec)","rhs":"<unspecified:rs_cos>","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_cos_correct"},"guarantee":"cosine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cos_correct","statement":"Path(rs_cos(x), cosine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a0f3305a5c7cbd0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def rs_cos(p, x, prec):
     """
     Cosine of a series
@@ -1927,16 +2216,25 @@ def rs_cos(p, x, prec):
     return rs_series_from_list(p, c, x, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_cos_sin(p, ), cosine and sine of a series) over Any ║
+# ║ Path(rs_cos_sin(p, x, prec), # HINT: rs_cos_sin may be idempotent: rs_cos_sin(rs_cos_sin(x)) == rs_cos_sin(x)) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_cos_sin : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ensures:  # HINT: rs_cos_sin may be idempotent: rs_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_cos_sin : {Any | hasattr(p, 'ring') and hasattr(p,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fca14c4b98a5c49f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf6ae1f9b83d1f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cos_sin","kind":"function","src_hash":"f66da9f81775252e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_cos_sin(p, )","rhs":"cosine and sine of a series","over":{"base":"Any"},"name":"rs_cos_sin_correct"},"guarantee":"cosine and sine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cos_sin_correct","statement":"Path(rs_cos_sin(x), cosine and sine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fca14c4b98a5c49f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cos_sin","kind":"function","src_hash":"f66da9f81775252e","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_cos_sin may be idempotent: rs_cos_sin(rs_cos_sin(x)) == rs_cos_sin(x)"},"spec":{"lhs":"rs_cos_sin(p, x, prec)","rhs":"# HINT: rs_cos_sin may be idempotent: rs_cos_sin(rs_cos_sin(x)) == rs_cos_sin(x)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_cos_sin_correct"},"guarantee":"# HINT: rs_cos_sin may be idempotent: rs_cos_sin(rs_cos_sin(x)) == rs_cos_sin(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cos_sin_correct","statement":"Path(rs_cos_sin(x), # HINT: rs_cos_sin may be idempotent: rs_cos_sin(rs_cos_sin(x)) == rs_cos_sin(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf6ae1f9b83d1f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"ensures":["# HINT: rs_cos_sin may be idempotent: rs_cos_sin(rs_cos_sin(x)) == rs_cos_sin(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def rs_cos_sin(p, x, prec):
     """
     Cosine and sine of a series
@@ -1999,16 +2297,23 @@ def rs_cos_sin(p, x, prec):
     return (rs_series_from_list(p, c, x, prec), rs_series_from_list(p, s, x, prec))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_atanh(p, ), expansion using formula) over Any        ║
+# ║ Path(_atanh(p, x, prec), <unspecified:_atanh>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _atanh : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _atanh : {Any | hasattr(p, 'ring')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e470991ddc6af47c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._atanh","kind":"function","src_hash":"55ea0e5a6a81a818","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_atanh(p, )","rhs":"expansion using formula","over":{"base":"Any"},"name":"_atanh_correct"},"guarantee":"expansion using formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._atanh_correct","statement":"Path(_atanh(x), expansion using formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e470991ddc6af47c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._atanh","kind":"function","src_hash":"55ea0e5a6a81a818","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_atanh(p, x, prec)","rhs":"<unspecified:_atanh>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_atanh_correct"},"guarantee":"expansion using formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._atanh_correct","statement":"Path(_atanh(x), expansion using formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e470991ddc6af47c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _atanh(p, x, prec):
     """
     Expansion using formula
@@ -2026,16 +2331,23 @@ def _atanh(p, x, prec):
     return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_atanh(p, ), hyperbolic arctangent of a series) over Any ║
+# ║ Path(rs_atanh(p, x, prec), <unspecified:rs_atanh>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_atanh : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_atanh : {Any | hasattr(p, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aae639483515b874  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_atanh","kind":"function","src_hash":"561b9589591673ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_atanh(p, )","rhs":"hyperbolic arctangent of a series","over":{"base":"Any"},"name":"rs_atanh_correct"},"guarantee":"hyperbolic arctangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_atanh_correct","statement":"Path(rs_atanh(x), hyperbolic arctangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aae639483515b874"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_atanh","kind":"function","src_hash":"561b9589591673ed","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_atanh(p, x, prec)","rhs":"<unspecified:rs_atanh>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"rs_atanh_correct"},"guarantee":"hyperbolic arctangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_atanh_correct","statement":"Path(rs_atanh(x), hyperbolic arctangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aae639483515b874","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["DomainError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_atanh(p, x, prec):
     """
     Hyperbolic arctangent of a series
@@ -2080,16 +2392,23 @@ def rs_atanh(p, x, prec):
     return rs_integrate(p1, x) + const
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_asinh(p, ), hyperbolic arcsine of a series) over Any ║
+# ║ Path(rs_asinh(p, x, prec), <unspecified:rs_asinh>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_asinh : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_asinh : {Any | hasattr(p, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 013b7245fa55c3dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_asinh","kind":"function","src_hash":"eeba413607e35461","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_asinh(p, )","rhs":"hyperbolic arcsine of a series","over":{"base":"Any"},"name":"rs_asinh_correct"},"guarantee":"hyperbolic arcsine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_asinh_correct","statement":"Path(rs_asinh(x), hyperbolic arcsine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"013b7245fa55c3dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_asinh","kind":"function","src_hash":"eeba413607e35461","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_asinh(p, x, prec)","rhs":"<unspecified:rs_asinh>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"rs_asinh_correct"},"guarantee":"hyperbolic arcsine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_asinh_correct","statement":"Path(rs_asinh(x), hyperbolic arcsine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"013b7245fa55c3dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"],"raises":["DomainError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_asinh(p, x, prec):
     """
     Hyperbolic arcsine of a series
@@ -2135,16 +2454,25 @@ def rs_asinh(p, x, prec):
     return rs_integrate(p1, x) + const
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_sinh(p, ), hyperbolic sine of a series) over Any   ║
+# ║ Path(rs_sinh(p, x, prec), <unspecified:rs_sinh>) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_sinh : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_sinh : {Any | hasattr(p, 'ring') and hasattr(p, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61c62b89e8615b64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_sinh","kind":"function","src_hash":"17666774039f61ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_sinh(p, )","rhs":"hyperbolic sine of a series","over":{"base":"Any"},"name":"rs_sinh_correct"},"guarantee":"hyperbolic sine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_sinh_correct","statement":"Path(rs_sinh(x), hyperbolic sine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61c62b89e8615b64"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_sinh","kind":"function","src_hash":"17666774039f61ff","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_sinh(p, x, prec)","rhs":"<unspecified:rs_sinh>","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_sinh_correct"},"guarantee":"hyperbolic sine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_sinh_correct","statement":"Path(rs_sinh(x), hyperbolic sine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61c62b89e8615b64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.set_ring","x.set_ring"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_sinh(p, x, prec):
     """
     Hyperbolic sine of a series
@@ -2192,16 +2520,25 @@ def rs_sinh(p, x, prec):
     return (t - t1)/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_cosh(p, ), hyperbolic cosine of a series) over Any ║
+# ║ Path(rs_cosh(p, x, prec), <unspecified:rs_cosh>) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_cosh : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_cosh : {Any | hasattr(p, 'ring') and hasattr(p, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b26fe4019c779dd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cosh","kind":"function","src_hash":"9debd8907dfa717c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_cosh(p, )","rhs":"hyperbolic cosine of a series","over":{"base":"Any"},"name":"rs_cosh_correct"},"guarantee":"hyperbolic cosine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cosh_correct","statement":"Path(rs_cosh(x), hyperbolic cosine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b26fe4019c779dd8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cosh","kind":"function","src_hash":"9debd8907dfa717c","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"rs_cosh(p, x, prec)","rhs":"<unspecified:rs_cosh>","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_cosh_correct"},"guarantee":"hyperbolic cosine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cosh_correct","statement":"Path(rs_cosh(x), hyperbolic cosine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b26fe4019c779dd8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.set_ring","x.set_ring"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_cosh(p, x, prec):
     """
     Hyperbolic cosine of a series
@@ -2249,16 +2586,25 @@ def rs_cosh(p, x, prec):
     return (t + t1)/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_cosh_sinh(p, ), hyperbolic cosine and sine of a series) over Any ║
+# ║ Path(rs_cosh_sinh(p, x, prec), # HINT: rs_cosh_sinh may be idempotent: rs_cosh_sinh(rs_cosh_sinh(x)) == rs_cosh_sinh(x)) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_cosh_sinh : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ensures:  # HINT: rs_cosh_sinh may be idempotent: r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_cosh_sinh : {Any | hasattr(p, 'ring') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64b4f7e057a87539  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58622ba9748f12c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cosh_sinh","kind":"function","src_hash":"46ff65056d0f8c07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_cosh_sinh(p, )","rhs":"hyperbolic cosine and sine of a series","over":{"base":"Any"},"name":"rs_cosh_sinh_correct"},"guarantee":"hyperbolic cosine and sine of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cosh_sinh_correct","statement":"Path(rs_cosh_sinh(x), hyperbolic cosine and sine of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64b4f7e057a87539"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_cosh_sinh","kind":"function","src_hash":"46ff65056d0f8c07","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_cosh_sinh may be idempotent: rs_cosh_sinh(rs_cosh_sinh(x)) == rs_cosh_sinh(x)"},"spec":{"lhs":"rs_cosh_sinh(p, x, prec)","rhs":"# HINT: rs_cosh_sinh may be idempotent: rs_cosh_sinh(rs_cosh_sinh(x)) == rs_cosh_sinh(x)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_cosh_sinh_correct"},"guarantee":"# HINT: rs_cosh_sinh may be idempotent: rs_cosh_sinh(rs_cosh_sinh(x)) == rs_cosh_sinh(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_cosh_sinh_correct","statement":"Path(rs_cosh_sinh(x), # HINT: rs_cosh_sinh may be idempotent: rs_cosh_sinh(rs_cosh_sinh(x)) == rs_cosh_sinh(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58622ba9748f12c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"ensures":["# HINT: rs_cosh_sinh may be idempotent: rs_cosh_sinh(rs_cosh_sinh(x)) == rs_cosh_sinh(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.set_ring","x.set_ring"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_cosh_sinh(p, x, prec):
     """
     Hyperbolic cosine and sine of a series
@@ -2310,16 +2656,23 @@ def rs_cosh_sinh(p, x, prec):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tanh(p, ), helper function of :func:`rs_tanh`) over Any ║
+# ║ Path(_tanh(p, x, prec), <unspecified:_tanh>) over {Any | hasattr(p, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _tanh : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _tanh : {Any | hasattr(p, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c25b0b4db7f6660e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._tanh","kind":"function","src_hash":"7dae3a6b87974fec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tanh(p, )","rhs":"helper function of :func:`rs_tanh`","over":{"base":"Any"},"name":"_tanh_correct"},"guarantee":"helper function of :func:`rs_tanh`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._tanh_correct","statement":"Path(_tanh(x), helper function of :func:`rs_tanh`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c25b0b4db7f6660e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._tanh","kind":"function","src_hash":"7dae3a6b87974fec","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_tanh(p, x, prec)","rhs":"<unspecified:_tanh>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_tanh_correct"},"guarantee":"helper function of :func:`rs_tanh`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._tanh_correct","statement":"Path(_tanh(x), helper function of :func:`rs_tanh`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c25b0b4db7f6660e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _tanh(p, x, prec):
     r"""
     Helper function of :func:`rs_tanh`
@@ -2342,16 +2695,25 @@ def _tanh(p, x, prec):
     return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_tanh(p, ), hyperbolic tangent of a series) over Any ║
+# ║ Path(rs_tanh(p, x, prec), # HINT: rs_tanh may be idempotent: rs_tanh(rs_tanh(x)) == rs_tanh(x)) over {Any | hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_tanh : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'set_ring')                         ║
+# ║   requires: hasattr(x, 'set_ring')                         ║
+# ║   ensures:  # HINT: rs_tanh may be idempotent: rs_tan...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_tanh : {Any | hasattr(p, 'ring') and hasattr(p, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a126849975aedd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47197f9cf5b0f549  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_tanh","kind":"function","src_hash":"563f2d43b9b5595f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_tanh(p, )","rhs":"hyperbolic tangent of a series","over":{"base":"Any"},"name":"rs_tanh_correct"},"guarantee":"hyperbolic tangent of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_tanh_correct","statement":"Path(rs_tanh(x), hyperbolic tangent of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a126849975aedd8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_tanh","kind":"function","src_hash":"563f2d43b9b5595f","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rs_tanh may be idempotent: rs_tanh(rs_tanh(x)) == rs_tanh(x)"},"spec":{"lhs":"rs_tanh(p, x, prec)","rhs":"# HINT: rs_tanh may be idempotent: rs_tanh(rs_tanh(x)) == rs_tanh(x)","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'set_ring') and hasattr(x, 'set_ring')"},"name":"rs_tanh_correct"},"guarantee":"# HINT: rs_tanh may be idempotent: rs_tanh(rs_tanh(x)) == rs_tanh(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_tanh_correct","statement":"Path(rs_tanh(x), # HINT: rs_tanh may be idempotent: rs_tanh(rs_tanh(x)) == rs_tanh(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47197f9cf5b0f549","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'set_ring')","hasattr(x, 'set_ring')"],"ensures":["# HINT: rs_tanh may be idempotent: rs_tanh(rs_tanh(x)) == rs_tanh(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","p.set_ring","x.set_ring"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_tanh(p, x, prec):
     """
     Hyperbolic tangent of a series
@@ -2400,16 +2762,23 @@ def rs_tanh(p, x, prec):
         return rs_fun(p, _tanh, x, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_newton(p, ), compute the truncated newton sum of the polynomial ``p``) over Any ║
+# ║ Path(rs_newton(p, x, prec), <unspecified:rs_newton>) over {Any | hasattr(p, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_newton : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_newton : {Any | hasattr(p, 'degree')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af6dd327f68a6562  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_newton","kind":"function","src_hash":"5f6537382de622f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_newton(p, )","rhs":"compute the truncated newton sum of the polynomial ``p``","over":{"base":"Any"},"name":"rs_newton_correct"},"guarantee":"compute the truncated newton sum of the polynomial ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_newton_correct","statement":"Path(rs_newton(x), compute the truncated newton sum of the polynomial ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6dd327f68a6562"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_newton","kind":"function","src_hash":"5f6537382de622f6","in":{"base":"Any","pred":"hasattr(p, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"rs_newton(p, x, prec)","rhs":"<unspecified:rs_newton>","over":{"base":"Any","pred":"hasattr(p, 'degree')"},"name":"rs_newton_correct"},"guarantee":"compute the truncated newton sum of the polynomial ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_newton_correct","statement":"Path(rs_newton(x), compute the truncated newton sum of the polynomial ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6dd327f68a6562","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'degree')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_newton(p, x, prec):
     """
     Compute the truncated Newton sum of the polynomial ``p``
@@ -2433,16 +2802,25 @@ def rs_newton(p, x, prec):
     return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_hadamard_exp(p1,), return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``, where ``x`` is the first variable) over Any ║
+# ║ Path(rs_hadamard_exp(p1, inverse), <unspecified:rs_hadamard_exp>) over {Any | not (R.domain != QQ) and hasattr(p1, 'ring') and hasattr(p1, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_hadamard_exp : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (R.domain != QQ)                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'items')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_hadamard_exp : {Any | not (R.domain != QQ) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b20c836ec867f94f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_hadamard_exp","kind":"function","src_hash":"be9e741be4fd649a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_hadamard_exp(p1,)","rhs":"return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``, where ``x`` is the first variable","over":{"base":"Any"},"name":"rs_hadamard_exp_correct"},"guarantee":"return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``, where ``x`` is the first variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_hadamard_exp_correct","statement":"Path(rs_hadamard_exp(x), return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``, where ``x`` is the first variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b20c836ec867f94f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_hadamard_exp","kind":"function","src_hash":"be9e741be4fd649a","in":{"base":"Any","pred":"not (R.domain != QQ) and hasattr(p1, 'ring') and hasattr(p1, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"rs_hadamard_exp(p1, inverse)","rhs":"<unspecified:rs_hadamard_exp>","over":{"base":"Any","pred":"not (R.domain != QQ) and hasattr(p1, 'ring') and hasattr(p1, 'items')"},"name":"rs_hadamard_exp_correct"},"guarantee":"return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``, where ``x`` is the first variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_hadamard_exp_correct","statement":"Path(rs_hadamard_exp(x), return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``, where ``x`` is the first variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b20c836ec867f94f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (R.domain != QQ)","hasattr(p1, 'ring')","hasattr(p1, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.items","p1.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_hadamard_exp(p1, inverse=False):
     """
     Return ``sum f_i/i!*x**i`` from ``sum f_i*x**i``,
@@ -2474,16 +2852,25 @@ def rs_hadamard_exp(p1, inverse=False):
     return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_compose_add(p1,), compute the composed sum ``prod(p2(x - beta) for beta root of p1)``) over Any ║
+# ║ Path(rs_compose_add(p1, p2), <unspecified:rs_compose_add>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'degree') and hasattr(p2, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rs_compose_add : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'degree')                          ║
+# ║   requires: hasattr(p2, 'degree')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rs_compose_add : {Any | hasattr(p1, 'ring') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 920cd1576662506a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_compose_add","kind":"function","src_hash":"c2a9d0c045947f03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_compose_add(p1,)","rhs":"compute the composed sum ``prod(p2(x - beta) for beta root of p1)``","over":{"base":"Any"},"name":"rs_compose_add_correct"},"guarantee":"compute the composed sum ``prod(p2(x - beta) for beta root of p1)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_compose_add_correct","statement":"Path(rs_compose_add(x), compute the composed sum ``prod(p2(x - beta) for beta root of p1)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920cd1576662506a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_compose_add","kind":"function","src_hash":"c2a9d0c045947f03","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'degree') and hasattr(p2, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"rs_compose_add(p1, p2)","rhs":"<unspecified:rs_compose_add>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'degree') and hasattr(p2, 'degree')"},"name":"rs_compose_add_correct"},"guarantee":"compute the composed sum ``prod(p2(x - beta) for beta root of p1)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_compose_add_correct","statement":"Path(rs_compose_add(x), compute the composed sum ``prod(p2(x - beta) for beta root of p1)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920cd1576662506a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p1, 'degree')","hasattr(p2, 'degree')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.degree","p1.ring","p2.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rs_compose_add(p1, p2):
     """
     compute the composed sum ``prod(p2(x - beta) for beta root of p1)``
@@ -2548,16 +2935,22 @@ _convert_func = {
         }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_min_pow(exp), find the minimum power of `a` in the series expansion of expr) over Any ║
+# ║ Path(rs_min_pow(expr, series_rs, a), min(series, key=lambda t: t[i])[i]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  min(series, key=lambda t: t[i])[i]             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rs_min_pow : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37df1703cf1bb3fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c23bafe1cb84fb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_min_pow","kind":"function","src_hash":"4654ede36b67602c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_min_pow(exp)","rhs":"find the minimum power of `a` in the series expansion of expr","over":{"base":"Any"},"name":"rs_min_pow_correct"},"guarantee":"find the minimum power of `a` in the series expansion of expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_min_pow_correct","statement":"Path(rs_min_pow(x), find the minimum power of `a` in the series expansion of expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37df1703cf1bb3fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_min_pow","kind":"function","src_hash":"4654ede36b67602c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_min_pow(expr, series_rs, a)","rhs":"min(series, key=lambda t: t[i])[i]","over":{"base":"Any"},"name":"rs_min_pow_correct"},"guarantee":"returns min(series, key=lambda t: t[i])[i]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_min_pow_correct","statement":"Path(rs_min_pow(x), returns min(series, key=lambda t: t[i])[i])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c23bafe1cb84fb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"min(series, key=lambda t: t[i])[i]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rs_min_pow(expr, series_rs, a):
     """Find the minimum power of `a` in the series expansion of expr"""
     series = 0
@@ -2572,9 +2965,15 @@ def rs_min_pow(expr, series_rs, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rs_series(exp), internal helper behaves correctly) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(_rs_series(expr, series_rs, a), # HINT: _rs_series may be idempotent: _rs_series(_rs_series(x)) == _rs_series(x)) over {Any | isinstance(expr, Expr) and hasattr(expr, 'args') and hasattr(series_rs, 'ring') and hasattr(expr, 'is_Function') and hasattr(expr, 'has') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'func') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'is_constant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rs_series : {Any | isinstance(expr, Expr)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(series_rs, 'ring')                     ║
+# ║   requires: hasattr(expr, 'is_Function')                   ║
+# ║   ensures:  # HINT: _rs_series may be idempotent: _rs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rs_series : {Any | isinstance(expr, Expr) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -2584,9 +2983,12 @@ def rs_min_pow(expr, series_rs, a):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7d4e89f3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._rs_series","kind":"function","src_hash":"a8f33aaaac317a75","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_rs_series(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"_rs_series_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_rs_series(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"_rs_series_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._rs_series_Expr_correct","statement":"_rs_series satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d4e89f3d9fc092c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series._rs_series","kind":"function","src_hash":"a8f33aaaac317a75","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'args') and hasattr(series_rs, 'ring') and hasattr(expr, 'is_Function') and hasattr(expr, 'has') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'func') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'is_constant')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rs_series may be idempotent: _rs_series(_rs_series(x)) == _rs_series(x)"},"spec":{"lhs":"_rs_series(expr, series_rs, a)","rhs":"# HINT: _rs_series may be idempotent: _rs_series(_rs_series(x)) == _rs_series(x)","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'args') and hasattr(series_rs, 'ring') and hasattr(expr, 'is_Function') and hasattr(expr, 'has') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'func') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'is_constant')"},"name":"_rs_series_correct"},"guarantee":"# HINT: _rs_series may be idempotent: _rs_series(_rs_series(x)) == _rs_series(x)","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_rs_series(x)","rhs":"# HINT: _rs_series may be idempotent: _rs_series(_rs_series(x)) == _rs_series(x)","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"_rs_series_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series._rs_series_Expr_correct","statement":"_rs_series satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d4e89f3d9fc092c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(series_rs, 'ring')","hasattr(expr, 'is_Function')","hasattr(expr, 'has')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Pow')","hasattr(expr, 'func')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'is_constant')"],"ensures":["# HINT: _rs_series may be idempotent: _rs_series(_rs_series(x)) == _rs_series(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.exp","expr.func","expr.has","expr.is_Add","expr.is_Function","expr.is_Mul","expr.is_Pow","expr.is_constant","series_rs.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(args) > 1', 'isinstance(expr, Expr) and expr.is_constant()'}, fibers={'Expr'})"]}}
 def _rs_series(expr, series_rs, a, prec):
     # TODO Use _parallel_dict_from_expr instead of sring as sring is
     # inefficient. For details, read the todo in sring.
@@ -2673,16 +3075,22 @@ def _rs_series(expr, series_rs, a, prec):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rs_series(exp), return the series expansion of an expression about 0) over Any ║
+# ║ Path(rs_series(expr, a, prec), <unspecified:rs_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rs_series : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79f2bdb941839345  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series","kind":"function","src_hash":"9d707c46bed96071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_series(exp)","rhs":"return the series expansion of an expression about 0","over":{"base":"Any"},"name":"rs_series_correct"},"guarantee":"return the series expansion of an expression about 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_correct","statement":"Path(rs_series(x), return the series expansion of an expression about 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79f2bdb941839345"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.ring_series.rs_series","kind":"function","src_hash":"9d707c46bed96071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rs_series(expr, a, prec)","rhs":"<unspecified:rs_series>","over":{"base":"Any"},"name":"rs_series_correct"},"guarantee":"return the series expansion of an expression about 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.ring_series.rs_series_correct","statement":"Path(rs_series(x), return the series expansion of an expression about 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79f2bdb941839345","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rs_series(expr, a, prec):
     """Return the series expansion of an expression about 0.
 

@@ -32,30 +32,44 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printmethod(), test_printmethod produces the expected output) over Any ║
+# ║ Path(test_printmethod(), glsl_code(Abs(x)) == 'abs(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printmethod : Any → {Any | glsl_code(Abs(x)) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(Abs(x)) == 'abs(x)'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printmethod : Any → {Any | result satisfies: gls...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7221678caa83266  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fa8103b881eecd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_printmethod","kind":"function","src_hash":"2fa99455cd8c43ec","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(Abs(x)) == 'abs(x)'"},"spec":{"lhs":"test_printmethod()","rhs":"test_printmethod produces the expected output","over":{"base":"Any"},"name":"test_printmethod_correct"},"guarantee":"test_printmethod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_printmethod_correct","statement":"Path(test_printmethod(x), test_printmethod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7221678caa83266"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_printmethod","kind":"function","src_hash":"2fa99455cd8c43ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(Abs(x)) == 'abs(x)'"},"spec":{"lhs":"test_printmethod()","rhs":"glsl_code(Abs(x)) == 'abs(x)'","over":{"base":"Any"},"name":"test_printmethod_correct"},"guarantee":"glsl_code(Abs(x)) == 'abs(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_printmethod_correct","statement":"Path(test_printmethod(x), glsl_code(Abs(x)) == 'abs(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fa8103b881eecd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(Abs(x)) == 'abs(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_printmethod():
     assert glsl_code(Abs(x)) == "abs(x)"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_without_operators(), test_print_without_operators produces the expected output) over Any ║
+# ║ Path(test_print_without_operators(), glsl_code(x * y, use_operators=False) == 'mul(x, y)' and glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)' and glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))' and glsl_code(x * (y + z ** y ** 0.5), use_operators=False) == 'mul(x, add(y, pow(z, sqrt(y))))' and glsl_code(-x - y, use_operators=False, zero='zero()') == 'sub(zero(), add(x, y))' and glsl_code(-x - y, use_operators=False) == 'sub(0.0, add(x, y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_without_operators : Any → {Any | glsl_code...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(x * y, use_operators=False) == ...   ║
+# ║   ensures:  glsl_code(x ** y + z, use_operators=False...   ║
+# ║   ensures:  glsl_code(x * (y + z), use_operators=Fals...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_without_operators : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf46465816596b99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f57603426455365  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_print_without_operators","kind":"function","src_hash":"914d54e1237eb016","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(x * y, use_operators=False) == 'mul(x, y)' and glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)' and glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))' and glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))' and glsl_code(-x - y, use_operators=False) == 'sub(0.0, add(x, y))'"},"spec":{"lhs":"test_print_without_operators()","rhs":"test_print_without_operators produces the expected output","over":{"base":"Any"},"name":"test_print_without_operators_correct"},"guarantee":"test_print_without_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_print_without_operators_correct","statement":"Path(test_print_without_operators(x), test_print_without_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf46465816596b99"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_print_without_operators","kind":"function","src_hash":"914d54e1237eb016","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(x * y, use_operators=False) == 'mul(x, y)' and glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)' and glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))' and glsl_code(x * (y + z ** y ** 0.5), use_operators=False) == 'mul(x, add(y, pow(z, sqrt(y))))' and glsl_code(-x - y, use_operators=False, zero='zero()') == 'sub(zero(), add(x, y))' and glsl_code(-x - y, use_operators=False) == 'sub(0.0, add(x, y))'"},"spec":{"lhs":"test_print_without_operators()","rhs":"glsl_code(x * y, use_operators=False) == 'mul(x, y)' and glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)' and glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))' and glsl_code(x * (y + z ** y ** 0.5), use_operators=False) == 'mul(x, add(y, pow(z, sqrt(y))))' and glsl_code(-x - y, use_operators=False, zero='zero()') == 'sub(zero(), add(x, y))' and glsl_code(-x - y, use_operators=False) == 'sub(0.0, add(x, y))'","over":{"base":"Any"},"name":"test_print_without_operators_correct"},"guarantee":"glsl_code(x * y, use_operators=False) == 'mul(x, y)'; glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)'; glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_print_without_operators_correct","statement":"Path(test_print_without_operators(x), glsl_code(x * y, use_operators=False) == 'mul(x, y)'; glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)'; glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f57603426455365","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(x * y, use_operators=False) == 'mul(x, y)'","glsl_code(x ** y + z, use_operators=False) == 'add(pow(x, y), z)'","glsl_code(x * (y + z), use_operators=False) == 'mul(x, add(y, z))'","glsl_code(x * (y + z ** y ** 0.5), use_operators=False) == 'mul(x, add(y, pow(z, sqrt(y))))'","glsl_code(-x - y, use_operators=False, zero='zero()') == 'sub(zero(), add(x, y))'","glsl_code(-x - y, use_operators=False) == 'sub(0.0, add(x, y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_print_without_operators():
     assert glsl_code(x*y,use_operators = False) == 'mul(x, y)'
     assert glsl_code(x**y+z,use_operators = False) == 'add(pow(x, y), z)'
@@ -66,16 +80,23 @@ def test_print_without_operators():
     assert glsl_code(-x-y, use_operators=False) == 'sub(0.0, add(x, y))'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_sqrt(), test_glsl_code_sqrt produces the expected output) over Any ║
+# ║ Path(test_glsl_code_sqrt(), glsl_code(sqrt(x)) == 'sqrt(x)' and glsl_code(x ** 0.5) == 'sqrt(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_sqrt : Any → {Any | glsl_code(sqrt(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(sqrt(x)) == 'sqrt(x)'                ║
+# ║   ensures:  glsl_code(x ** 0.5) == 'sqrt(x)'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_sqrt : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f186c17c5884c116  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 161298ecf701ed9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_sqrt","kind":"function","src_hash":"93367df7f12c18fe","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(sqrt(x)) == 'sqrt(x)' and glsl_code(x ** 0.5) == 'sqrt(x)' and glsl_code(sqrt(x)) == 'sqrt(x)'"},"spec":{"lhs":"test_glsl_code_sqrt()","rhs":"test_glsl_code_sqrt produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_sqrt_correct"},"guarantee":"test_glsl_code_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_sqrt_correct","statement":"Path(test_glsl_code_sqrt(x), test_glsl_code_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f186c17c5884c116"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_sqrt","kind":"function","src_hash":"93367df7f12c18fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(sqrt(x)) == 'sqrt(x)' and glsl_code(x ** 0.5) == 'sqrt(x)'"},"spec":{"lhs":"test_glsl_code_sqrt()","rhs":"glsl_code(sqrt(x)) == 'sqrt(x)' and glsl_code(x ** 0.5) == 'sqrt(x)'","over":{"base":"Any"},"name":"test_glsl_code_sqrt_correct"},"guarantee":"glsl_code(sqrt(x)) == 'sqrt(x)'; glsl_code(x ** 0.5) == 'sqrt(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_sqrt_correct","statement":"Path(test_glsl_code_sqrt(x), glsl_code(sqrt(x)) == 'sqrt(x)'; glsl_code(x ** 0.5) == 'sqrt(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"161298ecf701ed9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(sqrt(x)) == 'sqrt(x)'","glsl_code(x ** 0.5) == 'sqrt(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_sqrt():
     assert glsl_code(sqrt(x)) == "sqrt(x)"
     assert glsl_code(x**0.5) == "sqrt(x)"
@@ -83,16 +104,24 @@ def test_glsl_code_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Pow(), test_glsl_code_Pow produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Pow(), glsl_code(x ** 3) == 'pow(x, 3.0)' and glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))' and glsl_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'pow(3.5*2*x, -x + pow(y, x))/(pow(x, 2.0) + y)' and glsl_code(x ** (-1.0)) == '1.0/x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Pow : Any → {Any | glsl_code(x ** 3) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(x ** 3) == 'pow(x, 3.0)'             ║
+# ║   ensures:  glsl_code(x ** y ** 3) == 'pow(x, pow(y, ...   ║
+# ║   ensures:  glsl_code(1 / (g(x) * 3.5) ** (x - y ** x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Pow : Any → {Any | result satisfies: g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b200c95c1ccafac7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98103b5d2bf56f16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Pow","kind":"function","src_hash":"a04142a48b74a1d7","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(x ** 3) == 'pow(x, 3.0)' and glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))' and glsl_code(x ** (-1.0)) == '1.0/x'"},"spec":{"lhs":"test_glsl_code_Pow()","rhs":"test_glsl_code_Pow produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Pow_correct"},"guarantee":"test_glsl_code_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Pow_correct","statement":"Path(test_glsl_code_Pow(x), test_glsl_code_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b200c95c1ccafac7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Pow","kind":"function","src_hash":"a04142a48b74a1d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(x ** 3) == 'pow(x, 3.0)' and glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))' and glsl_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'pow(3.5*2*x, -x + pow(y, x))/(pow(x, 2.0) + y)' and glsl_code(x ** (-1.0)) == '1.0/x'"},"spec":{"lhs":"test_glsl_code_Pow()","rhs":"glsl_code(x ** 3) == 'pow(x, 3.0)' and glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))' and glsl_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'pow(3.5*2*x, -x + pow(y, x))/(pow(x, 2.0) + y)' and glsl_code(x ** (-1.0)) == '1.0/x'","over":{"base":"Any"},"name":"test_glsl_code_Pow_correct"},"guarantee":"glsl_code(x ** 3) == 'pow(x, 3.0)'; glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))'; glsl_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'pow(3.5*2*x, -x + pow(y, x))/(pow(x, 2.0) + y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Pow_correct","statement":"Path(test_glsl_code_Pow(x), glsl_code(x ** 3) == 'pow(x, 3.0)'; glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))'; glsl_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'pow(3.5*2*x, -x + pow(y, x))/(pow(x, 2.0) + y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98103b5d2bf56f16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(x ** 3) == 'pow(x, 3.0)'","glsl_code(x ** y ** 3) == 'pow(x, pow(y, 3.0))'","glsl_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'pow(3.5*2*x, -x + pow(y, x))/(pow(x, 2.0) + y)'","glsl_code(x ** (-1.0)) == '1.0/x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Pow():
     g = implemented_function('g', Lambda(x, 2*x))
     assert glsl_code(x**3) == "pow(x, 3.0)"
@@ -103,16 +132,24 @@ def test_glsl_code_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Relational(), test_glsl_code_Relational produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Relational(), glsl_code(Eq(x, y)) == 'x == y' and glsl_code(Ne(x, y)) == 'x != y' and glsl_code(Le(x, y)) == 'x <= y' and glsl_code(Lt(x, y)) == 'x < y' and glsl_code(Gt(x, y)) == 'x > y' and glsl_code(Ge(x, y)) == 'x >= y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Relational : Any → {Any | glsl_code(Eq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(Eq(x, y)) == 'x == y'                ║
+# ║   ensures:  glsl_code(Ne(x, y)) == 'x != y'                ║
+# ║   ensures:  glsl_code(Le(x, y)) == 'x <= y'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Relational : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc08385bc27f279  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82761574c2cb59ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Relational","kind":"function","src_hash":"1338de70683213e2","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(Eq(x, y)) == 'x == y' and glsl_code(Ne(x, y)) == 'x != y' and glsl_code(Le(x, y)) == 'x <= y' and glsl_code(Lt(x, y)) == 'x < y' and glsl_code(Gt(x, y)) == 'x > y' and glsl_code(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_glsl_code_Relational()","rhs":"test_glsl_code_Relational produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Relational_correct"},"guarantee":"test_glsl_code_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Relational_correct","statement":"Path(test_glsl_code_Relational(x), test_glsl_code_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc08385bc27f279"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Relational","kind":"function","src_hash":"1338de70683213e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(Eq(x, y)) == 'x == y' and glsl_code(Ne(x, y)) == 'x != y' and glsl_code(Le(x, y)) == 'x <= y' and glsl_code(Lt(x, y)) == 'x < y' and glsl_code(Gt(x, y)) == 'x > y' and glsl_code(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_glsl_code_Relational()","rhs":"glsl_code(Eq(x, y)) == 'x == y' and glsl_code(Ne(x, y)) == 'x != y' and glsl_code(Le(x, y)) == 'x <= y' and glsl_code(Lt(x, y)) == 'x < y' and glsl_code(Gt(x, y)) == 'x > y' and glsl_code(Ge(x, y)) == 'x >= y'","over":{"base":"Any"},"name":"test_glsl_code_Relational_correct"},"guarantee":"glsl_code(Eq(x, y)) == 'x == y'; glsl_code(Ne(x, y)) == 'x != y'; glsl_code(Le(x, y)) == 'x <= y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Relational_correct","statement":"Path(test_glsl_code_Relational(x), glsl_code(Eq(x, y)) == 'x == y'; glsl_code(Ne(x, y)) == 'x != y'; glsl_code(Le(x, y)) == 'x <= y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82761574c2cb59ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(Eq(x, y)) == 'x == y'","glsl_code(Ne(x, y)) == 'x != y'","glsl_code(Le(x, y)) == 'x <= y'","glsl_code(Lt(x, y)) == 'x < y'","glsl_code(Gt(x, y)) == 'x > y'","glsl_code(Ge(x, y)) == 'x >= y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Relational():
     assert glsl_code(Eq(x, y)) == "x == y"
     assert glsl_code(Ne(x, y)) == "x != y"
@@ -123,16 +160,23 @@ def test_glsl_code_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_constants_mathh(), test_glsl_code_constants_mathh produces the expected output) over Any ║
+# ║ Path(test_glsl_code_constants_mathh(), glsl_code(exp(1)) == 'float E = 2.71828183;\nE' and glsl_code(pi) == 'float pi = 3.14159265;\npi') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_constants_mathh : Any → {Any | glsl_co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(exp(1)) == 'float E = 2.7182818...   ║
+# ║   ensures:  glsl_code(pi) == 'float pi = 3.14159265;\...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_constants_mathh : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 640c624f84cac40d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46ef800d430393e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_constants_mathh","kind":"function","src_hash":"ca98ad9d0dad546a","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(exp(1)) == 'float E = 2.71828183;\\nE' and glsl_code(pi) == 'float pi = 3.14159265;\\npi'"},"spec":{"lhs":"test_glsl_code_constants_mathh()","rhs":"test_glsl_code_constants_mathh produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_constants_mathh_correct"},"guarantee":"test_glsl_code_constants_mathh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_constants_mathh_correct","statement":"Path(test_glsl_code_constants_mathh(x), test_glsl_code_constants_mathh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"640c624f84cac40d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_constants_mathh","kind":"function","src_hash":"ca98ad9d0dad546a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(exp(1)) == 'float E = 2.71828183;\\nE' and glsl_code(pi) == 'float pi = 3.14159265;\\npi'"},"spec":{"lhs":"test_glsl_code_constants_mathh()","rhs":"glsl_code(exp(1)) == 'float E = 2.71828183;\\nE' and glsl_code(pi) == 'float pi = 3.14159265;\\npi'","over":{"base":"Any"},"name":"test_glsl_code_constants_mathh_correct"},"guarantee":"glsl_code(exp(1)) == 'float E = 2.71828183;\\nE'; glsl_code(pi) == 'float pi = 3.14159265;\\npi'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_constants_mathh_correct","statement":"Path(test_glsl_code_constants_mathh(x), glsl_code(exp(1)) == 'float E = 2.71828183;\\nE'; glsl_code(pi) == 'float pi = 3.14159265;\\npi')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46ef800d430393e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(exp(1)) == 'float E = 2.71828183;\\nE'","glsl_code(pi) == 'float pi = 3.14159265;\\npi'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_constants_mathh():
     assert glsl_code(exp(1)) == "float E = 2.71828183;\nE"
     assert glsl_code(pi) == "float pi = 3.14159265;\npi"
@@ -141,16 +185,24 @@ def test_glsl_code_constants_mathh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_constants_other(), test_glsl_code_constants_other produces the expected output) over Any ║
+# ║ Path(test_glsl_code_constants_other(), glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\n2*GoldenRatio' and glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\n2*Catalan' and glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\n2*EulerGamma') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_constants_other : Any → {Any | glsl_co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(2 * GoldenRatio) == 'float Gold...   ║
+# ║   ensures:  glsl_code(2 * Catalan) == 'float Catalan ...   ║
+# ║   ensures:  glsl_code(2 * EulerGamma) == 'float Euler...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_constants_other : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a40549a5d023c0bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40d20ce3883d7da7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_constants_other","kind":"function","src_hash":"9415a230865b3bd7","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\\n2*GoldenRatio' and glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\\n2*Catalan' and glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\\n2*EulerGamma'"},"spec":{"lhs":"test_glsl_code_constants_other()","rhs":"test_glsl_code_constants_other produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_constants_other_correct"},"guarantee":"test_glsl_code_constants_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_constants_other_correct","statement":"Path(test_glsl_code_constants_other(x), test_glsl_code_constants_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a40549a5d023c0bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_constants_other","kind":"function","src_hash":"9415a230865b3bd7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\\n2*GoldenRatio' and glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\\n2*Catalan' and glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\\n2*EulerGamma'"},"spec":{"lhs":"test_glsl_code_constants_other()","rhs":"glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\\n2*GoldenRatio' and glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\\n2*Catalan' and glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\\n2*EulerGamma'","over":{"base":"Any"},"name":"test_glsl_code_constants_other_correct"},"guarantee":"glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\\n2*GoldenRatio'; glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\\n2*Catalan'; glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\\n2*EulerGamma'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_constants_other_correct","statement":"Path(test_glsl_code_constants_other(x), glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\\n2*GoldenRatio'; glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\\n2*Catalan'; glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\\n2*EulerGamma')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40d20ce3883d7da7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(2 * GoldenRatio) == 'float GoldenRatio = 1.61803399;\\n2*GoldenRatio'","glsl_code(2 * Catalan) == 'float Catalan = 0.915965594;\\n2*Catalan'","glsl_code(2 * EulerGamma) == 'float EulerGamma = 0.577215665;\\n2*EulerGamma'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_constants_other():
     assert glsl_code(2*GoldenRatio) == "float GoldenRatio = 1.61803399;\n2*GoldenRatio"
     assert glsl_code(2*Catalan) == "float Catalan = 0.915965594;\n2*Catalan"
@@ -158,16 +210,24 @@ def test_glsl_code_constants_other():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Rational(), test_glsl_code_Rational produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Rational(), glsl_code(Rational(3, 7)) == '3.0/7.0' and glsl_code(Rational(18, 9)) == '2' and glsl_code(Rational(3, -7)) == '-3.0/7.0' and glsl_code(Rational(-3, -7)) == '3.0/7.0') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Rational : Any → {Any | glsl_code(Rati...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(Rational(3, 7)) == '3.0/7.0'         ║
+# ║   ensures:  glsl_code(Rational(18, 9)) == '2'              ║
+# ║   ensures:  glsl_code(Rational(3, -7)) == '-3.0/7.0'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Rational : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf381ffe3243e03e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c8fee9cb39cf881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Rational","kind":"function","src_hash":"c7e9d9c9f50ab5b0","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(Rational(3, 7)) == '3.0/7.0' and glsl_code(Rational(18, 9)) == '2' and glsl_code(Rational(3, -7)) == '-3.0/7.0' and glsl_code(Rational(-3, -7)) == '3.0/7.0'"},"spec":{"lhs":"test_glsl_code_Rational()","rhs":"test_glsl_code_Rational produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Rational_correct"},"guarantee":"test_glsl_code_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Rational_correct","statement":"Path(test_glsl_code_Rational(x), test_glsl_code_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf381ffe3243e03e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Rational","kind":"function","src_hash":"c7e9d9c9f50ab5b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(Rational(3, 7)) == '3.0/7.0' and glsl_code(Rational(18, 9)) == '2' and glsl_code(Rational(3, -7)) == '-3.0/7.0' and glsl_code(Rational(-3, -7)) == '3.0/7.0'"},"spec":{"lhs":"test_glsl_code_Rational()","rhs":"glsl_code(Rational(3, 7)) == '3.0/7.0' and glsl_code(Rational(18, 9)) == '2' and glsl_code(Rational(3, -7)) == '-3.0/7.0' and glsl_code(Rational(-3, -7)) == '3.0/7.0'","over":{"base":"Any"},"name":"test_glsl_code_Rational_correct"},"guarantee":"glsl_code(Rational(3, 7)) == '3.0/7.0'; glsl_code(Rational(18, 9)) == '2'; glsl_code(Rational(3, -7)) == '-3.0/7.0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Rational_correct","statement":"Path(test_glsl_code_Rational(x), glsl_code(Rational(3, 7)) == '3.0/7.0'; glsl_code(Rational(18, 9)) == '2'; glsl_code(Rational(3, -7)) == '-3.0/7.0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c8fee9cb39cf881","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(Rational(3, 7)) == '3.0/7.0'","glsl_code(Rational(18, 9)) == '2'","glsl_code(Rational(3, -7)) == '-3.0/7.0'","glsl_code(Rational(-3, -7)) == '3.0/7.0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Rational():
     assert glsl_code(Rational(3, 7)) == "3.0/7.0"
     assert glsl_code(Rational(18, 9)) == "2"
@@ -176,47 +236,68 @@ def test_glsl_code_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Integer(), test_glsl_code_Integer produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Integer(), glsl_code(Integer(67)) == '67' and glsl_code(Integer(-1)) == '-1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Integer : Any → {Any | glsl_code(Integ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(Integer(67)) == '67'                 ║
+# ║   ensures:  glsl_code(Integer(-1)) == '-1'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Integer : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e16425e9f1706a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2f6e4b90d9ecf1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Integer","kind":"function","src_hash":"6433da3af349d2fe","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(Integer(67)) == '67' and glsl_code(Integer(-1)) == '-1'"},"spec":{"lhs":"test_glsl_code_Integer()","rhs":"test_glsl_code_Integer produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Integer_correct"},"guarantee":"test_glsl_code_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Integer_correct","statement":"Path(test_glsl_code_Integer(x), test_glsl_code_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e16425e9f1706a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Integer","kind":"function","src_hash":"6433da3af349d2fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(Integer(67)) == '67' and glsl_code(Integer(-1)) == '-1'"},"spec":{"lhs":"test_glsl_code_Integer()","rhs":"glsl_code(Integer(67)) == '67' and glsl_code(Integer(-1)) == '-1'","over":{"base":"Any"},"name":"test_glsl_code_Integer_correct"},"guarantee":"glsl_code(Integer(67)) == '67'; glsl_code(Integer(-1)) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Integer_correct","statement":"Path(test_glsl_code_Integer(x), glsl_code(Integer(67)) == '67'; glsl_code(Integer(-1)) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2f6e4b90d9ecf1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(Integer(67)) == '67'","glsl_code(Integer(-1)) == '-1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Integer():
     assert glsl_code(Integer(67)) == "67"
     assert glsl_code(Integer(-1)) == "-1"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_functions(), test_glsl_code_functions produces the expected output) over Any ║
+# ║ Path(test_glsl_code_functions(), glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_functions : Any → {Any | glsl_code(sin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(sin(x) ** cos(x)) == 'pow(sin(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_functions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c014db4975ab091  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3bafa361c550587  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_functions","kind":"function","src_hash":"a2e4dd980a7a6f90","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))'"},"spec":{"lhs":"test_glsl_code_functions()","rhs":"test_glsl_code_functions produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_functions_correct"},"guarantee":"test_glsl_code_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_functions_correct","statement":"Path(test_glsl_code_functions(x), test_glsl_code_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c014db4975ab091"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_functions","kind":"function","src_hash":"a2e4dd980a7a6f90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))'"},"spec":{"lhs":"test_glsl_code_functions()","rhs":"glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))'","over":{"base":"Any"},"name":"test_glsl_code_functions_correct"},"guarantee":"glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_functions_correct","statement":"Path(test_glsl_code_functions(x), glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3bafa361c550587","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(sin(x) ** cos(x)) == 'pow(sin(x), cos(x))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_functions():
     assert glsl_code(sin(x) ** cos(x)) == "pow(sin(x), cos(x))"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_inline_function(), test_glsl_code_inline_function produces the expected output) over Any ║
+# ║ Path(test_glsl_code_inline_function(), glsl_code(g(x)) == '2*x' and glsl_code(g(x)) == 'float Catalan = 0.915965594;\n2*x/Catalan' and glsl_code(g(A[i]), assign_to=A[i]) == 'for (int i=0; i<n; i++){\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_inline_function : Any → {Any | glsl_co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(g(x)) == '2*x'                       ║
+# ║   ensures:  glsl_code(g(x)) == 'float Catalan = 0.915...   ║
+# ║   ensures:  glsl_code(g(A[i]), assign_to=A[i]) == 'fo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_inline_function : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6a6d03e5abfb8e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fac48713b3b7bfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_inline_function","kind":"function","src_hash":"2929f5abd42d1829","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(g(x)) == '2*x' and glsl_code(g(x)) == 'float Catalan = 0.915965594;\\n2*x/Catalan'"},"spec":{"lhs":"test_glsl_code_inline_function()","rhs":"test_glsl_code_inline_function produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_inline_function_correct"},"guarantee":"test_glsl_code_inline_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_inline_function_correct","statement":"Path(test_glsl_code_inline_function(x), test_glsl_code_inline_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6a6d03e5abfb8e5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_inline_function","kind":"function","src_hash":"2929f5abd42d1829","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(g(x)) == '2*x' and glsl_code(g(x)) == 'float Catalan = 0.915965594;\\n2*x/Catalan' and glsl_code(g(A[i]), assign_to=A[i]) == 'for (int i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'"},"spec":{"lhs":"test_glsl_code_inline_function()","rhs":"glsl_code(g(x)) == '2*x' and glsl_code(g(x)) == 'float Catalan = 0.915965594;\\n2*x/Catalan' and glsl_code(g(A[i]), assign_to=A[i]) == 'for (int i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'","over":{"base":"Any"},"name":"test_glsl_code_inline_function_correct"},"guarantee":"glsl_code(g(x)) == '2*x'; glsl_code(g(x)) == 'float Catalan = 0.915965594;\\n2*x/Catalan'; glsl_code(g(A[i]), assign_to=A[i]) == 'for (int i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_inline_function_correct","statement":"Path(test_glsl_code_inline_function(x), glsl_code(g(x)) == '2*x'; glsl_code(g(x)) == 'float Catalan = 0.915965594;\\n2*x/Catalan'; glsl_code(g(A[i]), assign_to=A[i]) == 'for (int i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fac48713b3b7bfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(g(x)) == '2*x'","glsl_code(g(x)) == 'float Catalan = 0.915965594;\\n2*x/Catalan'","glsl_code(g(A[i]), assign_to=A[i]) == 'for (int i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_inline_function():
     x = symbols('x')
     g = implemented_function('g', Lambda(x, 2*x))
@@ -234,32 +315,47 @@ def test_glsl_code_inline_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_exceptions(), test_glsl_code_exceptions produces the expected output) over Any ║
+# ║ Path(test_glsl_code_exceptions(), glsl_code(ceiling(x)) == 'ceil(x)' and glsl_code(Abs(x)) == 'abs(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_exceptions : Any → {Any | glsl_code(ce...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(ceiling(x)) == 'ceil(x)'             ║
+# ║   ensures:  glsl_code(Abs(x)) == 'abs(x)'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_exceptions : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69d2672a16b8091e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e396ff50e071acf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_exceptions","kind":"function","src_hash":"4ca6a3f3f4b42c0f","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(ceiling(x)) == 'ceil(x)' and glsl_code(Abs(x)) == 'abs(x)'"},"spec":{"lhs":"test_glsl_code_exceptions()","rhs":"test_glsl_code_exceptions produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_exceptions_correct"},"guarantee":"test_glsl_code_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_exceptions_correct","statement":"Path(test_glsl_code_exceptions(x), test_glsl_code_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69d2672a16b8091e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_exceptions","kind":"function","src_hash":"4ca6a3f3f4b42c0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(ceiling(x)) == 'ceil(x)' and glsl_code(Abs(x)) == 'abs(x)'"},"spec":{"lhs":"test_glsl_code_exceptions()","rhs":"glsl_code(ceiling(x)) == 'ceil(x)' and glsl_code(Abs(x)) == 'abs(x)'","over":{"base":"Any"},"name":"test_glsl_code_exceptions_correct"},"guarantee":"glsl_code(ceiling(x)) == 'ceil(x)'; glsl_code(Abs(x)) == 'abs(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_exceptions_correct","statement":"Path(test_glsl_code_exceptions(x), glsl_code(ceiling(x)) == 'ceil(x)'; glsl_code(Abs(x)) == 'abs(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e396ff50e071acf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(ceiling(x)) == 'ceil(x)'","glsl_code(Abs(x)) == 'abs(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_exceptions():
     assert glsl_code(ceiling(x)) == "ceil(x)"
     assert glsl_code(Abs(x)) == "abs(x)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_boolean(), test_glsl_code_boolean produces the expected output) over Any ║
+# ║ Path(test_glsl_code_boolean(), glsl_code(x & y) == 'x && y' and glsl_code(x | y) == 'x || y' and glsl_code(~x) == '!x' and glsl_code(x & y & z) == 'x && y && z' and glsl_code(x | y | z) == 'x || y || z' and glsl_code(x & y | z) == 'z || x && y' and glsl_code((x | y) & z) == 'z && (x || y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_boolean : Any → {Any | glsl_code(x & y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(x & y) == 'x && y'                   ║
+# ║   ensures:  glsl_code(x | y) == 'x || y'                   ║
+# ║   ensures:  glsl_code(~x) == '!x'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_boolean : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1b2ded3e2ad86fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e00da57214308a15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_boolean","kind":"function","src_hash":"5815e438db70f799","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(x & y) == 'x && y' and glsl_code(x | y) == 'x || y' and glsl_code(~x) == '!x' and glsl_code(x & y & z) == 'x && y && z' and glsl_code(x | y | z) == 'x || y || z' and glsl_code(x & y | z) == 'z || x && y' and glsl_code((x | y) & z) == 'z && (x || y)'"},"spec":{"lhs":"test_glsl_code_boolean()","rhs":"test_glsl_code_boolean produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_boolean_correct"},"guarantee":"test_glsl_code_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_boolean_correct","statement":"Path(test_glsl_code_boolean(x), test_glsl_code_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1b2ded3e2ad86fc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_boolean","kind":"function","src_hash":"5815e438db70f799","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(x & y) == 'x && y' and glsl_code(x | y) == 'x || y' and glsl_code(~x) == '!x' and glsl_code(x & y & z) == 'x && y && z' and glsl_code(x | y | z) == 'x || y || z' and glsl_code(x & y | z) == 'z || x && y' and glsl_code((x | y) & z) == 'z && (x || y)'"},"spec":{"lhs":"test_glsl_code_boolean()","rhs":"glsl_code(x & y) == 'x && y' and glsl_code(x | y) == 'x || y' and glsl_code(~x) == '!x' and glsl_code(x & y & z) == 'x && y && z' and glsl_code(x | y | z) == 'x || y || z' and glsl_code(x & y | z) == 'z || x && y' and glsl_code((x | y) & z) == 'z && (x || y)'","over":{"base":"Any"},"name":"test_glsl_code_boolean_correct"},"guarantee":"glsl_code(x & y) == 'x && y'; glsl_code(x | y) == 'x || y'; glsl_code(~x) == '!x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_boolean_correct","statement":"Path(test_glsl_code_boolean(x), glsl_code(x & y) == 'x && y'; glsl_code(x | y) == 'x || y'; glsl_code(~x) == '!x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e00da57214308a15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(x & y) == 'x && y'","glsl_code(x | y) == 'x || y'","glsl_code(~x) == '!x'","glsl_code(x & y & z) == 'x && y && z'","glsl_code(x | y | z) == 'x || y || z'","glsl_code(x & y | z) == 'z || x && y'","glsl_code((x | y) & z) == 'z && (x || y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_boolean():
     assert glsl_code(x & y) == "x && y"
     assert glsl_code(x | y) == "x || y"
@@ -271,16 +367,23 @@ def test_glsl_code_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Piecewise(), test_glsl_code_Piecewise produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Piecewise(), p == s and glsl_code(expr, assign_to='c') == 'if (x < 1) {\n   c = x;\n}\nelse {\n   c = pow(x, 2.0);\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Piecewise : Any → {Any | p == s}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == s                                         ║
+# ║   ensures:  glsl_code(expr, assign_to='c') == 'if (x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Piecewise : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da380f08af43c598  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb38d0a81e5a5205  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise","kind":"function","src_hash":"5cb606f35567f0d1","in":{"base":"Any"},"out":{"base":"Any","pred":"p == s"},"spec":{"lhs":"test_glsl_code_Piecewise()","rhs":"test_glsl_code_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Piecewise_correct"},"guarantee":"test_glsl_code_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise_correct","statement":"Path(test_glsl_code_Piecewise(x), test_glsl_code_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da380f08af43c598"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise","kind":"function","src_hash":"5cb606f35567f0d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == s and glsl_code(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = pow(x, 2.0);\\n}'"},"spec":{"lhs":"test_glsl_code_Piecewise()","rhs":"p == s and glsl_code(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = pow(x, 2.0);\\n}'","over":{"base":"Any"},"name":"test_glsl_code_Piecewise_correct"},"guarantee":"p == s; glsl_code(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = pow(x, 2.0);\\n}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise_correct","statement":"Path(test_glsl_code_Piecewise(x), p == s; glsl_code(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = pow(x, 2.0);\\n}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb38d0a81e5a5205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == s","glsl_code(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = pow(x, 2.0);\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Piecewise():
     expr = Piecewise((x, x < 1), (x**2, True))
     p = glsl_code(expr)
@@ -307,16 +410,22 @@ def test_glsl_code_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Piecewise_deep(), test_glsl_code_Piecewise_deep produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Piecewise_deep(), p == s) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Piecewise_deep : Any → {Any | p == s}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Piecewise_deep : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e103b5599ed64165  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3972545a7ce5a1c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise_deep","kind":"function","src_hash":"a90e0f58e9e039c6","in":{"base":"Any"},"out":{"base":"Any","pred":"p == s"},"spec":{"lhs":"test_glsl_code_Piecewise_deep()","rhs":"test_glsl_code_Piecewise_deep produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Piecewise_deep_correct"},"guarantee":"test_glsl_code_Piecewise_deep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise_deep_correct","statement":"Path(test_glsl_code_Piecewise_deep(x), test_glsl_code_Piecewise_deep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e103b5599ed64165"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise_deep","kind":"function","src_hash":"a90e0f58e9e039c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == s"},"spec":{"lhs":"test_glsl_code_Piecewise_deep()","rhs":"p == s","over":{"base":"Any"},"name":"test_glsl_code_Piecewise_deep_correct"},"guarantee":"p == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Piecewise_deep_correct","statement":"Path(test_glsl_code_Piecewise_deep(x), p == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3972545a7ce5a1c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Piecewise_deep():
     p = glsl_code(2*Piecewise((x, x < 1), (x**2, True)))
     s = \
@@ -332,31 +441,45 @@ def test_glsl_code_Piecewise_deep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_settings(), test_glsl_code_settings produces the expected output) over Any ║
+# ║ Path(test_glsl_code_settings(), <unspecified:test_glsl_code_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_glsl_code_settings : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f96eb0e05c65d6e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_settings","kind":"function","src_hash":"6d1a59ead4419542","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_glsl_code_settings()","rhs":"test_glsl_code_settings produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_settings_correct"},"guarantee":"test_glsl_code_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_settings_correct","statement":"Path(test_glsl_code_settings(x), test_glsl_code_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96eb0e05c65d6e1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_settings","kind":"function","src_hash":"6d1a59ead4419542","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_glsl_code_settings()","rhs":"<unspecified:test_glsl_code_settings>","over":{"base":"Any"},"name":"test_glsl_code_settings_correct"},"guarantee":"test_glsl_code_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_settings_correct","statement":"Path(test_glsl_code_settings(x), test_glsl_code_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96eb0e05c65d6e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_settings():
     raises(TypeError, lambda: glsl_code(sin(x), method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_Indexed(), test_glsl_code_Indexed produces the expected output) over Any ║
+# ║ Path(test_glsl_code_Indexed(), p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_Indexed : Any → {Any | p._print_Indexe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._print_Indexed(x) == 'x[j]'                  ║
+# ║   ensures:  p._print_Indexed(A) == 'A[%s]' % (m * i + j)   ║
+# ║   ensures:  p._print_Indexed(B) == 'B[%s]' % (i * o *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_Indexed : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34224d7610280764  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ab9a899edff41f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Indexed","kind":"function","src_hash":"c67ab475b962cf48","in":{"base":"Any"},"out":{"base":"Any","pred":"p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()"},"spec":{"lhs":"test_glsl_code_Indexed()","rhs":"test_glsl_code_Indexed produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_Indexed_correct"},"guarantee":"test_glsl_code_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Indexed_correct","statement":"Path(test_glsl_code_Indexed(x), test_glsl_code_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34224d7610280764"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_Indexed","kind":"function","src_hash":"c67ab475b962cf48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()"},"spec":{"lhs":"test_glsl_code_Indexed()","rhs":"p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()","over":{"base":"Any"},"name":"test_glsl_code_Indexed_correct"},"guarantee":"p._print_Indexed(x) == 'x[j]'; p._print_Indexed(A) == 'A[%s]' % (m * i + j); p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_Indexed_correct","statement":"Path(test_glsl_code_Indexed(x), p._print_Indexed(x) == 'x[j]'; p._print_Indexed(A) == 'A[%s]' % (m * i + j); p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab9a899edff41f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._print_Indexed(x) == 'x[j]'","p._print_Indexed(A) == 'A[%s]' % (m * i + j)","p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k)","p._not_c == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_Indexed():
     n, m, o = symbols('n m o', integer=True)
     i, j, k = Idx('i', n), Idx('j', m), Idx('k', o)
@@ -373,16 +496,24 @@ def test_glsl_code_Indexed():
     assert p._not_c == set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_list_tuple_Tuple(), test_glsl_code_list_tuple_Tuple produces the expected output) over Any ║
+# ║ Path(test_glsl_code_list_tuple_Tuple(), glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)' and glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)' and glsl_code([1, 2, 3]) == glsl_code((1, 2, 3)) and glsl_code([1, 2, 3]) == glsl_code(Tuple(1, 2, 3)) and glsl_code([m[0], m[1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_list_tuple_Tuple : Any → {Any | glsl_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3,...   ║
+# ║   ensures:  glsl_code([1, 2, 3], glsl_types=False) ==...   ║
+# ║   ensures:  glsl_code([1, 2, 3]) == glsl_code((1, 2, 3))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_list_tuple_Tuple : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63e2aafd4b515675  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8680a68c42ff85d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_list_tuple_Tuple","kind":"function","src_hash":"96f006e9c59fdc2f","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)' and glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)' and glsl_code([1, 2, 3]) == glsl_code((1, 2, 3)) and glsl_code([1, 2, 3]) == glsl_code(Tuple(1, 2, 3)) and glsl_code([m[0], m[1]])"},"spec":{"lhs":"test_glsl_code_list_tuple_Tuple()","rhs":"test_glsl_code_list_tuple_Tuple produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_list_tuple_Tuple_correct"},"guarantee":"test_glsl_code_list_tuple_Tuple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_list_tuple_Tuple_correct","statement":"Path(test_glsl_code_list_tuple_Tuple(x), test_glsl_code_list_tuple_Tuple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63e2aafd4b515675"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_list_tuple_Tuple","kind":"function","src_hash":"96f006e9c59fdc2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)' and glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)' and glsl_code([1, 2, 3]) == glsl_code((1, 2, 3)) and glsl_code([1, 2, 3]) == glsl_code(Tuple(1, 2, 3)) and glsl_code([m[0], m[1]])"},"spec":{"lhs":"test_glsl_code_list_tuple_Tuple()","rhs":"glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)' and glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)' and glsl_code([1, 2, 3]) == glsl_code((1, 2, 3)) and glsl_code([1, 2, 3]) == glsl_code(Tuple(1, 2, 3)) and glsl_code([m[0], m[1]])","over":{"base":"Any"},"name":"test_glsl_code_list_tuple_Tuple_correct"},"guarantee":"glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)'; glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)'; glsl_code([1, 2, 3]) == glsl_code((1, 2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_list_tuple_Tuple_correct","statement":"Path(test_glsl_code_list_tuple_Tuple(x), glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)'; glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)'; glsl_code([1, 2, 3]) == glsl_code((1, 2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8680a68c42ff85d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code([1, 2, 3, 4]) == 'vec4(1, 2, 3, 4)'","glsl_code([1, 2, 3], glsl_types=False) == 'float[3](1, 2, 3)'","glsl_code([1, 2, 3]) == glsl_code((1, 2, 3))","glsl_code([1, 2, 3]) == glsl_code(Tuple(1, 2, 3))","glsl_code([m[0], m[1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_list_tuple_Tuple():
     assert glsl_code([1,2,3,4]) == 'vec4(1, 2, 3, 4)'
     assert glsl_code([1,2,3],glsl_types=False) == 'float[3](1, 2, 3)'
@@ -393,16 +524,22 @@ def test_glsl_code_list_tuple_Tuple():
     assert glsl_code([m[0],m[1]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_loops_matrix_vector(), test_glsl_code_loops_matrix_vector produces the expected output) over Any ║
+# ║ Path(test_glsl_code_loops_matrix_vector(), c == s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_loops_matrix_vector : Any → {Any | c =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_loops_matrix_vector : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 249976f33ab69740  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8970ccebb5980f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_matrix_vector","kind":"function","src_hash":"e266fc1e36d769f2","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_glsl_code_loops_matrix_vector()","rhs":"test_glsl_code_loops_matrix_vector produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_loops_matrix_vector_correct"},"guarantee":"test_glsl_code_loops_matrix_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_matrix_vector_correct","statement":"Path(test_glsl_code_loops_matrix_vector(x), test_glsl_code_loops_matrix_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"249976f33ab69740"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_matrix_vector","kind":"function","src_hash":"e266fc1e36d769f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_glsl_code_loops_matrix_vector()","rhs":"c == s","over":{"base":"Any"},"name":"test_glsl_code_loops_matrix_vector_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_matrix_vector_correct","statement":"Path(test_glsl_code_loops_matrix_vector(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8970ccebb5980f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_loops_matrix_vector():
     n, m = symbols('n m', integer=True)
     A = IndexedBase('A')
@@ -427,16 +564,22 @@ def test_glsl_code_loops_matrix_vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_loops(), test_dummy_loops produces the expected output) over Any ║
+# ║ Path(test_dummy_loops(), code == expected) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_loops : Any → {Any | code == expected}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_loops : Any → {Any | result satisfies: cod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0b959ad3d66b264  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7496521b4c583010  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_dummy_loops","kind":"function","src_hash":"5509e51ee26735c9","in":{"base":"Any"},"out":{"base":"Any","pred":"code == expected"},"spec":{"lhs":"test_dummy_loops()","rhs":"test_dummy_loops produces the expected output","over":{"base":"Any"},"name":"test_dummy_loops_correct"},"guarantee":"test_dummy_loops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_dummy_loops_correct","statement":"Path(test_dummy_loops(x), test_dummy_loops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0b959ad3d66b264"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_dummy_loops","kind":"function","src_hash":"5509e51ee26735c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code == expected"},"spec":{"lhs":"test_dummy_loops()","rhs":"code == expected","over":{"base":"Any"},"name":"test_dummy_loops_correct"},"guarantee":"code == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_dummy_loops_correct","statement":"Path(test_dummy_loops(x), code == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7496521b4c583010","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dummy_loops():
     i, m = symbols('i m', integer=True, cls=Dummy)
     x = IndexedBase('x')
@@ -453,16 +596,22 @@ def test_dummy_loops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_loops_add(), test_glsl_code_loops_add produces the expected output) over Any ║
+# ║ Path(test_glsl_code_loops_add(), c == s) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_loops_add : Any → {Any | c == s}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_loops_add : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1944336a4df12dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6751d3f084a4360  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_add","kind":"function","src_hash":"5ee32b36fd3c9d42","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_glsl_code_loops_add()","rhs":"test_glsl_code_loops_add produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_loops_add_correct"},"guarantee":"test_glsl_code_loops_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_add_correct","statement":"Path(test_glsl_code_loops_add(x), test_glsl_code_loops_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1944336a4df12dc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_add","kind":"function","src_hash":"5ee32b36fd3c9d42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_glsl_code_loops_add()","rhs":"c == s","over":{"base":"Any"},"name":"test_glsl_code_loops_add_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_add_correct","statement":"Path(test_glsl_code_loops_add(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6751d3f084a4360","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_loops_add():
     n, m = symbols('n m', integer=True)
     A = IndexedBase('A')
@@ -487,16 +636,22 @@ def test_glsl_code_loops_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_loops_multiple_contractions(), test_glsl_code_loops_multiple_contractions produces the expected output) over Any ║
+# ║ Path(test_glsl_code_loops_multiple_contractions(), c == s) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_glsl_code_loops_multiple_contractions : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd8fcfc3e34df2af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4f8298af11ffbf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_contractions","kind":"function","src_hash":"b6f8ceaaa4b3df3c","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_glsl_code_loops_multiple_contractions()","rhs":"test_glsl_code_loops_multiple_contractions produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_loops_multiple_contractions_correct"},"guarantee":"test_glsl_code_loops_multiple_contractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_contractions_correct","statement":"Path(test_glsl_code_loops_multiple_contractions(x), test_glsl_code_loops_multiple_contractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd8fcfc3e34df2af"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_contractions","kind":"function","src_hash":"b6f8ceaaa4b3df3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_glsl_code_loops_multiple_contractions()","rhs":"c == s","over":{"base":"Any"},"name":"test_glsl_code_loops_multiple_contractions_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_contractions_correct","statement":"Path(test_glsl_code_loops_multiple_contractions(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4f8298af11ffbf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_loops_multiple_contractions():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -526,16 +681,22 @@ def test_glsl_code_loops_multiple_contractions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_loops_addfactor(), test_glsl_code_loops_addfactor produces the expected output) over Any ║
+# ║ Path(test_glsl_code_loops_addfactor(), c == s) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_loops_addfactor : Any → {Any | c == s}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_loops_addfactor : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07263d10e7dd4e06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f74a8391e34ed50a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_addfactor","kind":"function","src_hash":"12d37bf62502a459","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_glsl_code_loops_addfactor()","rhs":"test_glsl_code_loops_addfactor produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_loops_addfactor_correct"},"guarantee":"test_glsl_code_loops_addfactor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_addfactor_correct","statement":"Path(test_glsl_code_loops_addfactor(x), test_glsl_code_loops_addfactor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07263d10e7dd4e06"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_addfactor","kind":"function","src_hash":"12d37bf62502a459","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_glsl_code_loops_addfactor()","rhs":"c == s","over":{"base":"Any"},"name":"test_glsl_code_loops_addfactor_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_addfactor_correct","statement":"Path(test_glsl_code_loops_addfactor(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74a8391e34ed50a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_loops_addfactor():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -566,16 +727,22 @@ def test_glsl_code_loops_addfactor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glsl_code_loops_multiple_terms(), test_glsl_code_loops_multiple_terms produces the expected output) over Any ║
+# ║ Path(test_glsl_code_loops_multiple_terms(), c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glsl_code_loops_multiple_terms : Any → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s0 + s1 + s2 + s3[:-1] or c == s0 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glsl_code_loops_multiple_terms : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74a45540b3f22428  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd5340255a08bc45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_terms","kind":"function","src_hash":"44304869b2c17a11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_glsl_code_loops_multiple_terms()","rhs":"test_glsl_code_loops_multiple_terms produces the expected output","over":{"base":"Any"},"name":"test_glsl_code_loops_multiple_terms_correct"},"guarantee":"test_glsl_code_loops_multiple_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_terms_correct","statement":"Path(test_glsl_code_loops_multiple_terms(x), test_glsl_code_loops_multiple_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74a45540b3f22428"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_terms","kind":"function","src_hash":"44304869b2c17a11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])"},"spec":{"lhs":"test_glsl_code_loops_multiple_terms()","rhs":"c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])","over":{"base":"Any"},"name":"test_glsl_code_loops_multiple_terms_correct"},"guarantee":"c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_glsl_code_loops_multiple_terms_correct","statement":"Path(test_glsl_code_loops_multiple_terms(x), c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd5340255a08bc45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_glsl_code_loops_multiple_terms():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -625,16 +792,24 @@ def test_glsl_code_loops_multiple_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_printing(), test_Matrix_printing produces the expected output) over Any ║
+# ║ Path(test_Matrix_printing(), glsl_code(mat, assign_to=A) == 'A[0][0] = x*y;\nif (y > 0) {\n   A[1][0] = x + 2;\n}\nelse {\n   A[1][0] = y;\n}\nA[2][0] = sin(z);' and glsl_code(Matrix([A[0], A[1]])) and glsl_code(expr) == '((x > 0) ? (\n   2*A[2][0]\n)\n: (\n   A[2][0]\n)) + sin(A[1][0]) + A[0][0]' and glsl_code(m, M) == 'M[0][0] = sin(q[1]);\nM[0][1] = 0;\nM[0][2] = cos(q[2]);\nM[1][0] = q[1] + q[2];\nM[1][1] = q[3];\nM[1][2] = 5;\nM[2][0] = 2*q[4]/q[1];\nM[2][1] = sqrt(q[0]) + 4;\nM[2][2] = 0;') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_printing : Any → {Any | glsl_code(Matrix(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(mat, assign_to=A) == 'A[0][0] =...   ║
+# ║   ensures:  glsl_code(Matrix([A[0], A[1]]))                ║
+# ║   ensures:  glsl_code(expr) == '((x > 0) ? (\n   2*A[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_printing : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58417f67fa4f335f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62ec3bdede08089  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrix_printing","kind":"function","src_hash":"5b560382e7308a27","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(Matrix([A[0], A[1]]))"},"spec":{"lhs":"test_Matrix_printing()","rhs":"test_Matrix_printing produces the expected output","over":{"base":"Any"},"name":"test_Matrix_printing_correct"},"guarantee":"test_Matrix_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrix_printing_correct","statement":"Path(test_Matrix_printing(x), test_Matrix_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58417f67fa4f335f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrix_printing","kind":"function","src_hash":"5b560382e7308a27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(mat, assign_to=A) == 'A[0][0] = x*y;\\nif (y > 0) {\\n   A[1][0] = x + 2;\\n}\\nelse {\\n   A[1][0] = y;\\n}\\nA[2][0] = sin(z);' and glsl_code(Matrix([A[0], A[1]])) and glsl_code(expr) == '((x > 0) ? (\\n   2*A[2][0]\\n)\\n: (\\n   A[2][0]\\n)) + sin(A[1][0]) + A[0][0]' and glsl_code(m, M) == 'M[0][0] = sin(q[1]);\\nM[0][1] = 0;\\nM[0][2] = cos(q[2]);\\nM[1][0] = q[1] + q[2];\\nM[1][1] = q[3];\\nM[1][2] = 5;\\nM[2][0] = 2*q[4]/q[1];\\nM[2][1] = sqrt(q[0]) + 4;\\nM[2][2] = 0;'"},"spec":{"lhs":"test_Matrix_printing()","rhs":"glsl_code(mat, assign_to=A) == 'A[0][0] = x*y;\\nif (y > 0) {\\n   A[1][0] = x + 2;\\n}\\nelse {\\n   A[1][0] = y;\\n}\\nA[2][0] = sin(z);' and glsl_code(Matrix([A[0], A[1]])) and glsl_code(expr) == '((x > 0) ? (\\n   2*A[2][0]\\n)\\n: (\\n   A[2][0]\\n)) + sin(A[1][0]) + A[0][0]' and glsl_code(m, M) == 'M[0][0] = sin(q[1]);\\nM[0][1] = 0;\\nM[0][2] = cos(q[2]);\\nM[1][0] = q[1] + q[2];\\nM[1][1] = q[3];\\nM[1][2] = 5;\\nM[2][0] = 2*q[4]/q[1];\\nM[2][1] = sqrt(q[0]) + 4;\\nM[2][2] = 0;'","over":{"base":"Any"},"name":"test_Matrix_printing_correct"},"guarantee":"glsl_code(mat, assign_to=A) == 'A[0][0] = x*y;\\nif (y > 0) {\\n   A[1][0] = x + 2;\\n}\\nelse {\\n   A[1][0] = y;\\n}\\nA[2][0] = sin(z);'; glsl_code(Matrix([A[0], A[1]])); glsl_code(expr) == '((x > 0) ? (\\n   2*A[2][0]\\n)\\n: (\\n   A[2][0]\\n)) + sin(A[1][0]) + A[0][0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrix_printing_correct","statement":"Path(test_Matrix_printing(x), glsl_code(mat, assign_to=A) == 'A[0][0] = x*y;\\nif (y > 0) {\\n   A[1][0] = x + 2;\\n}\\nelse {\\n   A[1][0] = y;\\n}\\nA[2][0] = sin(z);'; glsl_code(Matrix([A[0], A[1]])); glsl_code(expr) == '((x > 0) ? (\\n   2*A[2][0]\\n)\\n: (\\n   A[2][0]\\n)) + sin(A[1][0]) + A[0][0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62ec3bdede08089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(mat, assign_to=A) == 'A[0][0] = x*y;\\nif (y > 0) {\\n   A[1][0] = x + 2;\\n}\\nelse {\\n   A[1][0] = y;\\n}\\nA[2][0] = sin(z);'","glsl_code(Matrix([A[0], A[1]]))","glsl_code(expr) == '((x > 0) ? (\\n   2*A[2][0]\\n)\\n: (\\n   A[2][0]\\n)) + sin(A[1][0]) + A[0][0]'","glsl_code(m, M) == 'M[0][0] = sin(q[1]);\\nM[0][1] = 0;\\nM[0][2] = cos(q[2]);\\nM[1][0] = q[1] + q[2];\\nM[1][1] = q[3];\\nM[1][2] = 5;\\nM[2][0] = 2*q[4]/q[1];\\nM[2][1] = sqrt(q[0]) + 4;\\nM[2][2] = 0;'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Matrix_printing():
     # Test returning a Matrix
 
@@ -679,16 +854,23 @@ M[2][2] = 0;'''
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices_1x7(), test_Matrices_1x7 produces the expected output) over Any ║
+# ║ Path(test_Matrices_1x7(), gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)' and gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices_1x7 : Any → {Any | gl(A) == 'float[7](1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)'       ║
+# ║   ensures:  gl(A.transpose()) == 'float[7](1, 2, 3, 4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices_1x7 : Any → {Any | result satisfies: gl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7c85dd7b65f5287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77fbf51e9880d45f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrices_1x7","kind":"function","src_hash":"eb1acac7bd0939b2","in":{"base":"Any"},"out":{"base":"Any","pred":"gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)' and gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)'"},"spec":{"lhs":"test_Matrices_1x7()","rhs":"test_Matrices_1x7 produces the expected output","over":{"base":"Any"},"name":"test_Matrices_1x7_correct"},"guarantee":"test_Matrices_1x7 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrices_1x7_correct","statement":"Path(test_Matrices_1x7(x), test_Matrices_1x7 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c85dd7b65f5287"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrices_1x7","kind":"function","src_hash":"eb1acac7bd0939b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)' and gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)'"},"spec":{"lhs":"test_Matrices_1x7()","rhs":"gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)' and gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)'","over":{"base":"Any"},"name":"test_Matrices_1x7_correct"},"guarantee":"gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)'; gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrices_1x7_correct","statement":"Path(test_Matrices_1x7(x), gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)'; gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77fbf51e9880d45f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(A) == 'float[7](1, 2, 3, 4, 5, 6, 7)'","gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrices_1x7():
     gl = glsl_code
     A = Matrix([1,2,3,4,5,6,7])
@@ -696,48 +878,66 @@ def test_Matrices_1x7():
     assert gl(A.transpose()) == 'float[7](1, 2, 3, 4, 5, 6, 7)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices_1x7_array_type_int(), test_Matrices_1x7_array_type_int produces the expected output) over Any ║
+# ║ Path(test_Matrices_1x7_array_type_int(), gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices_1x7_array_type_int : Any → {Any | gl(A,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(A, array_type='int') == 'int[7](1, 2, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices_1x7_array_type_int : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d161cd37f393277f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 982fe4ae11629a7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrices_1x7_array_type_int","kind":"function","src_hash":"c38eeec8dbced2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)'"},"spec":{"lhs":"test_Matrices_1x7_array_type_int()","rhs":"test_Matrices_1x7_array_type_int produces the expected output","over":{"base":"Any"},"name":"test_Matrices_1x7_array_type_int_correct"},"guarantee":"test_Matrices_1x7_array_type_int produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrices_1x7_array_type_int_correct","statement":"Path(test_Matrices_1x7_array_type_int(x), test_Matrices_1x7_array_type_int produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d161cd37f393277f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrices_1x7_array_type_int","kind":"function","src_hash":"c38eeec8dbced2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)'"},"spec":{"lhs":"test_Matrices_1x7_array_type_int()","rhs":"gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)'","over":{"base":"Any"},"name":"test_Matrices_1x7_array_type_int_correct"},"guarantee":"gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrices_1x7_array_type_int_correct","statement":"Path(test_Matrices_1x7_array_type_int(x), gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"982fe4ae11629a7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrices_1x7_array_type_int():
     gl = glsl_code
     A = Matrix([1,2,3,4,5,6,7])
     assert gl(A, array_type='int') == 'int[7](1, 2, 3, 4, 5, 6, 7)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_array_type_custom(), test_Tuple_array_type_custom produces the expected output) over Any ║
+# ║ Path(test_Tuple_array_type_custom(), gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_array_type_custom : Any → {Any | gl(A, arr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(A, array_type='AbcType', glsl_types=Fa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_array_type_custom : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71ccf61f7cd6cb8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcbd7b73c44a741d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Tuple_array_type_custom","kind":"function","src_hash":"a01627704e8d64f5","in":{"base":"Any"},"out":{"base":"Any","pred":"gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)'"},"spec":{"lhs":"test_Tuple_array_type_custom()","rhs":"test_Tuple_array_type_custom produces the expected output","over":{"base":"Any"},"name":"test_Tuple_array_type_custom_correct"},"guarantee":"test_Tuple_array_type_custom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Tuple_array_type_custom_correct","statement":"Path(test_Tuple_array_type_custom(x), test_Tuple_array_type_custom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ccf61f7cd6cb8f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Tuple_array_type_custom","kind":"function","src_hash":"a01627704e8d64f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)'"},"spec":{"lhs":"test_Tuple_array_type_custom()","rhs":"gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)'","over":{"base":"Any"},"name":"test_Tuple_array_type_custom_correct"},"guarantee":"gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Tuple_array_type_custom_correct","statement":"Path(test_Tuple_array_type_custom(x), gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcbd7b73c44a741d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Tuple_array_type_custom():
     gl = glsl_code
     A = symbols('a b c')
     assert gl(A, array_type='AbcType', glsl_types=False) == 'AbcType[3](a, b, c)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices_1x7_spread_assign_to_symbols(), test_Matrices_1x7_spread_assign_to_symbols produces the expected output) over Any ║
+# ║ Path(test_Matrices_1x7_spread_assign_to_symbols(), gl(A, assign_to=assign_to) == textwrap.dedent('        x.a = 1;\n        x.b = 2;\n        x.c = 3;\n        x.d = 4;\n        x.e = 5;\n        x.f = 6;\n        x.g = 7;')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices_1x7_spread_assign_to_symbols : Any → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(A, assign_to=assign_to) == textwrap.de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices_1x7_spread_assign_to_symbols : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c976fcffa134225d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3d114ac361741ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrices_1x7_spread_assign_to_symbols","kind":"function","src_hash":"69413df5500e9d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrices_1x7_spread_assign_to_symbols()","rhs":"test_Matrices_1x7_spread_assign_to_symbols produces the expected output","over":{"base":"Any"},"name":"test_Matrices_1x7_spread_assign_to_symbols_correct"},"guarantee":"test_Matrices_1x7_spread_assign_to_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrices_1x7_spread_assign_to_symbols_correct","statement":"Path(test_Matrices_1x7_spread_assign_to_symbols(x), test_Matrices_1x7_spread_assign_to_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c976fcffa134225d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_Matrices_1x7_spread_assign_to_symbols","kind":"function","src_hash":"69413df5500e9d0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(A, assign_to=assign_to) == textwrap.dedent('        x.a = 1;\\n        x.b = 2;\\n        x.c = 3;\\n        x.d = 4;\\n        x.e = 5;\\n        x.f = 6;\\n        x.g = 7;')"},"spec":{"lhs":"test_Matrices_1x7_spread_assign_to_symbols()","rhs":"gl(A, assign_to=assign_to) == textwrap.dedent('        x.a = 1;\\n        x.b = 2;\\n        x.c = 3;\\n        x.d = 4;\\n        x.e = 5;\\n        x.f = 6;\\n        x.g = 7;')","over":{"base":"Any"},"name":"test_Matrices_1x7_spread_assign_to_symbols_correct"},"guarantee":"gl(A, assign_to=assign_to) == textwrap.dedent('        x.a = 1;\\n        x.b = 2;\\n        x.c = 3;\\n        x.d = 4;\\n        x.e = 5;\\n        x.f = 6;\\n        x.g = 7;')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_Matrices_1x7_spread_assign_to_symbols_correct","statement":"Path(test_Matrices_1x7_spread_assign_to_symbols(x), gl(A, assign_to=assign_to) == textwrap.dedent('        x.a = 1;\\n        x.b = 2;\\n        x.c = 3;\\n        x.d = 4;\\n        x.e = 5;\\n        x.f = 6;\\n        x.g = 7;'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d114ac361741ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(A, assign_to=assign_to) == textwrap.dedent('        x.a = 1;\\n        x.b = 2;\\n        x.c = 3;\\n        x.d = 4;\\n        x.e = 5;\\n        x.f = 6;\\n        x.g = 7;')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrices_1x7_spread_assign_to_symbols():
     gl = glsl_code
     A = Matrix([1,2,3,4,5,6,7])
@@ -753,16 +953,22 @@ def test_Matrices_1x7_spread_assign_to_symbols():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_spread_assign_to_nested_symbols(), test_spread_assign_to_nested_symbols produces the expected output) over Any ║
+# ║ Path(test_spread_assign_to_nested_symbols(), gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\n        b = 2;\n        c = 3;\n        x = 1;\n        y = 2;\n        z = 3;')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_spread_assign_to_nested_symbols : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(expr, assign_to=assign_to) == textwrap...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_spread_assign_to_nested_symbols : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b3d148f518d44b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88343fedc185ef9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_spread_assign_to_nested_symbols","kind":"function","src_hash":"39fab9fd6489719a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_spread_assign_to_nested_symbols()","rhs":"test_spread_assign_to_nested_symbols produces the expected output","over":{"base":"Any"},"name":"test_spread_assign_to_nested_symbols_correct"},"guarantee":"test_spread_assign_to_nested_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_spread_assign_to_nested_symbols_correct","statement":"Path(test_spread_assign_to_nested_symbols(x), test_spread_assign_to_nested_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b3d148f518d44b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_spread_assign_to_nested_symbols","kind":"function","src_hash":"39fab9fd6489719a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')"},"spec":{"lhs":"test_spread_assign_to_nested_symbols()","rhs":"gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')","over":{"base":"Any"},"name":"test_spread_assign_to_nested_symbols_correct"},"guarantee":"gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_spread_assign_to_nested_symbols_correct","statement":"Path(test_spread_assign_to_nested_symbols(x), gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88343fedc185ef9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_spread_assign_to_nested_symbols():
     gl = glsl_code
     expr = ((1,2,3), (1,2,3))
@@ -777,16 +983,22 @@ def test_spread_assign_to_nested_symbols():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_spread_assign_to_deeply_nested_symbols(), test_spread_assign_to_deeply_nested_symbols produces the expected output) over Any ║
+# ║ Path(test_spread_assign_to_deeply_nested_symbols(), gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\n        b = 2;\n        c = 3;\n        x = 1;\n        y = 2;\n        z = 3;')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_spread_assign_to_deeply_nested_symbols : Any → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(expr, assign_to=assign_to) == textwrap...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_spread_assign_to_deeply_nested_symbols : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7cccbcd6ecb77e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d53decc318988c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_spread_assign_to_deeply_nested_symbols","kind":"function","src_hash":"2b61d26c505bade7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_spread_assign_to_deeply_nested_symbols()","rhs":"test_spread_assign_to_deeply_nested_symbols produces the expected output","over":{"base":"Any"},"name":"test_spread_assign_to_deeply_nested_symbols_correct"},"guarantee":"test_spread_assign_to_deeply_nested_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_spread_assign_to_deeply_nested_symbols_correct","statement":"Path(test_spread_assign_to_deeply_nested_symbols(x), test_spread_assign_to_deeply_nested_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7cccbcd6ecb77e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_spread_assign_to_deeply_nested_symbols","kind":"function","src_hash":"2b61d26c505bade7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')"},"spec":{"lhs":"test_spread_assign_to_deeply_nested_symbols()","rhs":"gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')","over":{"base":"Any"},"name":"test_spread_assign_to_deeply_nested_symbols_correct"},"guarantee":"gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_spread_assign_to_deeply_nested_symbols_correct","statement":"Path(test_spread_assign_to_deeply_nested_symbols(x), gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d53decc318988c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(expr, assign_to=assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        x = 1;\\n        y = 2;\\n        z = 3;')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_spread_assign_to_deeply_nested_symbols():
     gl = glsl_code
     a, b, c, x, y, z = symbols('a b c x y z')
@@ -802,16 +1014,22 @@ def test_spread_assign_to_deeply_nested_symbols():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_of_tuples_spread_assign_to_symbols(), test_matrix_of_tuples_spread_assign_to_symbols produces the expected output) over Any ║
+# ║ Path(test_matrix_of_tuples_spread_assign_to_symbols(), gl(expr, assign_to) == textwrap.dedent('        a = 1;\n        b = 2;\n        c = 3;\n        d = 4;\n        e = 5;\n        f = 6;\n        g = 7;\n        h = 8;')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(expr, assign_to) == textwrap.dedent(' ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_of_tuples_spread_assign_to_symbols : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6850f4b573fdf7e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 716d2447a279c70e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_matrix_of_tuples_spread_assign_to_symbols","kind":"function","src_hash":"ac4e79210d315695","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrix_of_tuples_spread_assign_to_symbols()","rhs":"test_matrix_of_tuples_spread_assign_to_symbols produces the expected output","over":{"base":"Any"},"name":"test_matrix_of_tuples_spread_assign_to_symbols_correct"},"guarantee":"test_matrix_of_tuples_spread_assign_to_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_matrix_of_tuples_spread_assign_to_symbols_correct","statement":"Path(test_matrix_of_tuples_spread_assign_to_symbols(x), test_matrix_of_tuples_spread_assign_to_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6850f4b573fdf7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_matrix_of_tuples_spread_assign_to_symbols","kind":"function","src_hash":"ac4e79210d315695","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(expr, assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        d = 4;\\n        e = 5;\\n        f = 6;\\n        g = 7;\\n        h = 8;')"},"spec":{"lhs":"test_matrix_of_tuples_spread_assign_to_symbols()","rhs":"gl(expr, assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        d = 4;\\n        e = 5;\\n        f = 6;\\n        g = 7;\\n        h = 8;')","over":{"base":"Any"},"name":"test_matrix_of_tuples_spread_assign_to_symbols_correct"},"guarantee":"gl(expr, assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        d = 4;\\n        e = 5;\\n        f = 6;\\n        g = 7;\\n        h = 8;')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_matrix_of_tuples_spread_assign_to_symbols_correct","statement":"Path(test_matrix_of_tuples_spread_assign_to_symbols(x), gl(expr, assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        d = 4;\\n        e = 5;\\n        f = 6;\\n        g = 7;\\n        h = 8;'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"716d2447a279c70e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(expr, assign_to) == textwrap.dedent('        a = 1;\\n        b = 2;\\n        c = 3;\\n        d = 4;\\n        e = 5;\\n        f = 6;\\n        g = 7;\\n        h = 8;')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix_of_tuples_spread_assign_to_symbols():
     gl = glsl_code
     with warns_deprecated_sympy():
@@ -829,32 +1047,44 @@ def test_matrix_of_tuples_spread_assign_to_symbols():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cannot_assign_to_cause_mismatched_length(), test_cannot_assign_to_cause_mismatched_length produces the expected output) over Any ║
+# ║ Path(test_cannot_assign_to_cause_mismatched_length(), <unspecified:test_cannot_assign_to_cause_mismatched_length>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cannot_assign_to_cause_mismatched_length : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ddd177fb9786718  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_cannot_assign_to_cause_mismatched_length","kind":"function","src_hash":"40cc47bc317a964e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cannot_assign_to_cause_mismatched_length()","rhs":"test_cannot_assign_to_cause_mismatched_length produces the expected output","over":{"base":"Any"},"name":"test_cannot_assign_to_cause_mismatched_length_correct"},"guarantee":"test_cannot_assign_to_cause_mismatched_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_cannot_assign_to_cause_mismatched_length_correct","statement":"Path(test_cannot_assign_to_cause_mismatched_length(x), test_cannot_assign_to_cause_mismatched_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ddd177fb9786718"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_cannot_assign_to_cause_mismatched_length","kind":"function","src_hash":"40cc47bc317a964e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cannot_assign_to_cause_mismatched_length()","rhs":"<unspecified:test_cannot_assign_to_cause_mismatched_length>","over":{"base":"Any"},"name":"test_cannot_assign_to_cause_mismatched_length_correct"},"guarantee":"test_cannot_assign_to_cause_mismatched_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_cannot_assign_to_cause_mismatched_length_correct","statement":"Path(test_cannot_assign_to_cause_mismatched_length(x), test_cannot_assign_to_cause_mismatched_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ddd177fb9786718","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_cannot_assign_to_cause_mismatched_length():
     expr = (1, 2)
     assign_to = symbols('x y z')
     raises(ValueError, lambda: glsl_code(expr, assign_to))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_4x4_assign(), test_matrix_4x4_assign produces the expected output) over Any ║
+# ║ Path(test_matrix_4x4_assign(), gl(expr, assign_to=assign_to) == textwrap.dedent('        X[0][0] = A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0] + A[0][3]*B[3][0] + C[0][0];\n        X[0][1] = A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1] + A[0][3]*B[3][1] + C[0][1];\n        X[0][2] = A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2] + A[0][3]*B[3][2] + C[0][2];\n        X[0][3] = A[0][0]*B[0][3] + A[0][1]*B[1][3] + A[0][2]*B[2][3] + A[0][3]*B[3][3] + C[0][3];\n        X[1][0] = A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0] + A[1][3]*B[3][0] + C[1][0];\n        X[1][1] = A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1] + A[1][3]*B[3][1] + C[1][1];\n        X[1][2] = A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2] + A[1][3]*B[3][2] + C[1][2];\n        X[1][3] = A[1][0]*B[0][3] + A[1][1]*B[1][3] + A[1][2]*B[2][3] + A[1][3]*B[3][3] + C[1][3];\n        X[2][0] = A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0] + A[2][3]*B[3][0] + C[2][0];\n        X[2][1] = A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1] + A[2][3]*B[3][1] + C[2][1];\n        X[2][2] = A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2] + A[2][3]*B[3][2] + C[2][2];\n        X[2][3] = A[2][0]*B[0][3] + A[2][1]*B[1][3] + A[2][2]*B[2][3] + A[2][3]*B[3][3] + C[2][3];\n        X[3][0] = A[3][0]*B[0][0] + A[3][1]*B[1][0] + A[3][2]*B[2][0] + A[3][3]*B[3][0] + C[3][0];\n        X[3][1] = A[3][0]*B[0][1] + A[3][1]*B[1][1] + A[3][2]*B[2][1] + A[3][3]*B[3][1] + C[3][1];\n        X[3][2] = A[3][0]*B[0][2] + A[3][1]*B[1][2] + A[3][2]*B[2][2] + A[3][3]*B[3][2] + C[3][2];\n        X[3][3] = A[3][0]*B[0][3] + A[3][1]*B[1][3] + A[3][2]*B[2][3] + A[3][3]*B[3][3] + C[3][3];')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_4x4_assign : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gl(expr, assign_to=assign_to) == textwrap...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_4x4_assign : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e9693db0a2995b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 344eee65736bb066  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_matrix_4x4_assign","kind":"function","src_hash":"0c746ae281191464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrix_4x4_assign()","rhs":"test_matrix_4x4_assign produces the expected output","over":{"base":"Any"},"name":"test_matrix_4x4_assign_correct"},"guarantee":"test_matrix_4x4_assign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_matrix_4x4_assign_correct","statement":"Path(test_matrix_4x4_assign(x), test_matrix_4x4_assign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e9693db0a2995b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_matrix_4x4_assign","kind":"function","src_hash":"0c746ae281191464","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gl(expr, assign_to=assign_to) == textwrap.dedent('        X[0][0] = A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0] + A[0][3]*B[3][0] + C[0][0];\\n        X[0][1] = A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1] + A[0][3]*B[3][1] + C[0][1];\\n        X[0][2] = A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2] + A[0][3]*B[3][2] + C[0][2];\\n        X[0][3] = A[0][0]*B[0][3] + A[0][1]*B[1][3] + A[0][2]*B[2][3] + A[0][3]*B[3][3] + C[0][3];\\n        X[1][0] = A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0] + A[1][3]*B[3][0] + C[1][0];\\n        X[1][1] = A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1] + A[1][3]*B[3][1] + C[1][1];\\n        X[1][2] = A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2] + A[1][3]*B[3][2] + C[1][2];\\n        X[1][3] = A[1][0]*B[0][3] + A[1][1]*B[1][3] + A[1][2]*B[2][3] + A[1][3]*B[3][3] + C[1][3];\\n        X[2][0] = A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0] + A[2][3]*B[3][0] + C[2][0];\\n        X[2][1] = A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1] + A[2][3]*B[3][1] + C[2][1];\\n        X[2][2] = A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2] + A[2][3]*B[3][2] + C[2][2];\\n        X[2][3] = A[2][0]*B[0][3] + A[2][1]*B[1][3] + A[2][2]*B[2][3] + A[2][3]*B[3][3] + C[2][3];\\n        X[3][0] = A[3][0]*B[0][0] + A[3][1]*B[1][0] + A[3][2]*B[2][0] + A[3][3]*B[3][0] + C[3][0];\\n        X[3][1] = A[3][0]*B[0][1] + A[3][1]*B[1][1] + A[3][2]*B[2][1] + A[3][3]*B[3][1] + C[3][1];\\n        X[3][2] = A[3][0]*B[0][2] + A[3][1]*B[1][2] + A[3][2]*B[2][2] + A[3][3]*B[3][2] + C[3][2];\\n        X[3][3] = A[3][0]*B[0][3] + A[3][1]*B[1][3] + A[3][2]*B[2][3] + A[3][3]*B[3][3] + C[3][3];')"},"spec":{"lhs":"test_matrix_4x4_assign()","rhs":"gl(expr, assign_to=assign_to) == textwrap.dedent('        X[0][0] = A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0] + A[0][3]*B[3][0] + C[0][0];\\n        X[0][1] = A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1] + A[0][3]*B[3][1] + C[0][1];\\n        X[0][2] = A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2] + A[0][3]*B[3][2] + C[0][2];\\n        X[0][3] = A[0][0]*B[0][3] + A[0][1]*B[1][3] + A[0][2]*B[2][3] + A[0][3]*B[3][3] + C[0][3];\\n        X[1][0] = A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0] + A[1][3]*B[3][0] + C[1][0];\\n        X[1][1] = A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1] + A[1][3]*B[3][1] + C[1][1];\\n        X[1][2] = A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2] + A[1][3]*B[3][2] + C[1][2];\\n        X[1][3] = A[1][0]*B[0][3] + A[1][1]*B[1][3] + A[1][2]*B[2][3] + A[1][3]*B[3][3] + C[1][3];\\n        X[2][0] = A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0] + A[2][3]*B[3][0] + C[2][0];\\n        X[2][1] = A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1] + A[2][3]*B[3][1] + C[2][1];\\n        X[2][2] = A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2] + A[2][3]*B[3][2] + C[2][2];\\n        X[2][3] = A[2][0]*B[0][3] + A[2][1]*B[1][3] + A[2][2]*B[2][3] + A[2][3]*B[3][3] + C[2][3];\\n        X[3][0] = A[3][0]*B[0][0] + A[3][1]*B[1][0] + A[3][2]*B[2][0] + A[3][3]*B[3][0] + C[3][0];\\n        X[3][1] = A[3][0]*B[0][1] + A[3][1]*B[1][1] + A[3][2]*B[2][1] + A[3][3]*B[3][1] + C[3][1];\\n        X[3][2] = A[3][0]*B[0][2] + A[3][1]*B[1][2] + A[3][2]*B[2][2] + A[3][3]*B[3][2] + C[3][2];\\n        X[3][3] = A[3][0]*B[0][3] + A[3][1]*B[1][3] + A[3][2]*B[2][3] + A[3][3]*B[3][3] + C[3][3];')","over":{"base":"Any"},"name":"test_matrix_4x4_assign_correct"},"guarantee":"gl(expr, assign_to=assign_to) == textwrap.dedent('        X[0][0] = A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0] + A[0][3]*B[3][0] + C[0][0];\\n        X[0][1] = A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1] + A[0][3]*B[3][1] + C[0][1];\\n        X[0][2] = A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2] + A[0][3]*B[3][2] + C[0][2];\\n        X[0][3] = A[0][0]*B[0][3] + A[0][1]*B[1][3] + A[0][2]*B[2][3] + A[0][3]*B[3][3] + C[0][3];\\n        X[1][0] = A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0] + A[1][3]*B[3][0] + C[1][0];\\n        X[1][1] = A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1] + A[1][3]*B[3][1] + C[1][1];\\n        X[1][2] = A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2] + A[1][3]*B[3][2] + C[1][2];\\n        X[1][3] = A[1][0]*B[0][3] + A[1][1]*B[1][3] + A[1][2]*B[2][3] + A[1][3]*B[3][3] + C[1][3];\\n        X[2][0] = A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0] + A[2][3]*B[3][0] + C[2][0];\\n        X[2][1] = A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1] + A[2][3]*B[3][1] + C[2][1];\\n        X[2][2] = A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2] + A[2][3]*B[3][2] + C[2][2];\\n        X[2][3] = A[2][0]*B[0][3] + A[2][1]*B[1][3] + A[2][2]*B[2][3] + A[2][3]*B[3][3] + C[2][3];\\n        X[3][0] = A[3][0]*B[0][0] + A[3][1]*B[1][0] + A[3][2]*B[2][0] + A[3][3]*B[3][0] + C[3][0];\\n        X[3][1] = A[3][0]*B[0][1] + A[3][1]*B[1][1] + A[3][2]*B[2][1] + A[3][3]*B[3][1] + C[3][1];\\n        X[3][2] = A[3][0]*B[0][2] + A[3][1]*B[1][2] + A[3][2]*B[2][2] + A[3][3]*B[3][2] + C[3][2];\\n        X[3][3] = A[3][0]*B[0][3] + A[3][1]*B[1][3] + A[3][2]*B[2][3] + A[3][3]*B[3][3] + C[3][3];')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_matrix_4x4_assign_correct","statement":"Path(test_matrix_4x4_assign(x), gl(expr, assign_to=assign_to) == textwrap.dedent('        X[0][0] = A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0] + A[0][3]*B[3][0] + C[0][0];\\n        X[0][1] = A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1] + A[0][3]*B[3][1] + C[0][1];\\n        X[0][2] = A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2] + A[0][3]*B[3][2] + C[0][2];\\n        X[0][3] = A[0][0]*B[0][3] + A[0][1]*B[1][3] + A[0][2]*B[2][3] + A[0][3]*B[3][3] + C[0][3];\\n        X[1][0] = A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0] + A[1][3]*B[3][0] + C[1][0];\\n        X[1][1] = A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1] + A[1][3]*B[3][1] + C[1][1];\\n        X[1][2] = A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2] + A[1][3]*B[3][2] + C[1][2];\\n        X[1][3] = A[1][0]*B[0][3] + A[1][1]*B[1][3] + A[1][2]*B[2][3] + A[1][3]*B[3][3] + C[1][3];\\n        X[2][0] = A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0] + A[2][3]*B[3][0] + C[2][0];\\n        X[2][1] = A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1] + A[2][3]*B[3][1] + C[2][1];\\n        X[2][2] = A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2] + A[2][3]*B[3][2] + C[2][2];\\n        X[2][3] = A[2][0]*B[0][3] + A[2][1]*B[1][3] + A[2][2]*B[2][3] + A[2][3]*B[3][3] + C[2][3];\\n        X[3][0] = A[3][0]*B[0][0] + A[3][1]*B[1][0] + A[3][2]*B[2][0] + A[3][3]*B[3][0] + C[3][0];\\n        X[3][1] = A[3][0]*B[0][1] + A[3][1]*B[1][1] + A[3][2]*B[2][1] + A[3][3]*B[3][1] + C[3][1];\\n        X[3][2] = A[3][0]*B[0][2] + A[3][1]*B[1][2] + A[3][2]*B[2][2] + A[3][3]*B[3][2] + C[3][2];\\n        X[3][3] = A[3][0]*B[0][3] + A[3][1]*B[1][3] + A[3][2]*B[2][3] + A[3][3]*B[3][3] + C[3][3];'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"344eee65736bb066","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gl(expr, assign_to=assign_to) == textwrap.dedent('        X[0][0] = A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0] + A[0][3]*B[3][0] + C[0][0];\\n        X[0][1] = A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1] + A[0][3]*B[3][1] + C[0][1];\\n        X[0][2] = A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2] + A[0][3]*B[3][2] + C[0][2];\\n        X[0][3] = A[0][0]*B[0][3] + A[0][1]*B[1][3] + A[0][2]*B[2][3] + A[0][3]*B[3][3] + C[0][3];\\n        X[1][0] = A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0] + A[1][3]*B[3][0] + C[1][0];\\n        X[1][1] = A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1] + A[1][3]*B[3][1] + C[1][1];\\n        X[1][2] = A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2] + A[1][3]*B[3][2] + C[1][2];\\n        X[1][3] = A[1][0]*B[0][3] + A[1][1]*B[1][3] + A[1][2]*B[2][3] + A[1][3]*B[3][3] + C[1][3];\\n        X[2][0] = A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0] + A[2][3]*B[3][0] + C[2][0];\\n        X[2][1] = A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1] + A[2][3]*B[3][1] + C[2][1];\\n        X[2][2] = A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2] + A[2][3]*B[3][2] + C[2][2];\\n        X[2][3] = A[2][0]*B[0][3] + A[2][1]*B[1][3] + A[2][2]*B[2][3] + A[2][3]*B[3][3] + C[2][3];\\n        X[3][0] = A[3][0]*B[0][0] + A[3][1]*B[1][0] + A[3][2]*B[2][0] + A[3][3]*B[3][0] + C[3][0];\\n        X[3][1] = A[3][0]*B[0][1] + A[3][1]*B[1][1] + A[3][2]*B[2][1] + A[3][3]*B[3][1] + C[3][1];\\n        X[3][2] = A[3][0]*B[0][2] + A[3][1]*B[1][2] + A[3][2]*B[2][2] + A[3][3]*B[3][2] + C[3][2];\\n        X[3][3] = A[3][0]*B[0][3] + A[3][1]*B[1][3] + A[3][2]*B[2][3] + A[3][3]*B[3][3] + C[3][3];')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix_4x4_assign():
     gl = glsl_code
     expr = MatrixSymbol('A',4,4) * MatrixSymbol('B',4,4) + MatrixSymbol('C',4,4)
@@ -879,16 +1109,22 @@ def test_matrix_4x4_assign():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1xN_vecs(), test_1xN_vecs produces the expected output) over Any ║
+# ║ Path(test_1xN_vecs(), <unspecified:test_1xN_vecs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_1xN_vecs : Any → {Any | gl(A.transpose()) == gl(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9e7db6441d99c7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_1xN_vecs","kind":"function","src_hash":"207e02e03690cfa6","in":{"base":"Any"},"out":{"base":"Any","pred":"gl(A.transpose()) == gl(A) and gl(A, mat_transpose=True) == gl(A) and gl(A) == 'vec%s(%s)' % (i, ', '.join((str(s) for s in range(i)))) and gl(A) == 'float[%s](%s)' % (i, ', '.join((str(s) for s in range(i))))"},"spec":{"lhs":"test_1xN_vecs()","rhs":"test_1xN_vecs produces the expected output","over":{"base":"Any"},"name":"test_1xN_vecs_correct"},"guarantee":"test_1xN_vecs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_1xN_vecs_correct","statement":"Path(test_1xN_vecs(x), test_1xN_vecs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9e7db6441d99c7c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_1xN_vecs","kind":"function","src_hash":"207e02e03690cfa6","in":{"base":"Any"},"out":{"base":"Any","pred":"gl(A.transpose()) == gl(A) and gl(A, mat_transpose=True) == gl(A) and gl(A) == 'vec%s(%s)' % (i, ', '.join((str(s) for s in range(i)))) and gl(A) == 'float[%s](%s)' % (i, ', '.join((str(s) for s in range(i))))"},"spec":{"lhs":"test_1xN_vecs()","rhs":"<unspecified:test_1xN_vecs>","over":{"base":"Any"},"name":"test_1xN_vecs_correct"},"guarantee":"test_1xN_vecs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_1xN_vecs_correct","statement":"Path(test_1xN_vecs(x), test_1xN_vecs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9e7db6441d99c7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_1xN_vecs():
     gl = glsl_code
     for i in range(1,10):
@@ -902,16 +1138,22 @@ def test_1xN_vecs():
                 assert gl(A) == 'float[%s](%s)' % (i,', '.join(str(s) for s in range(i)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MxN_mats(), test_MxN_mats produces the expected output) over Any ║
+# ║ Path(test_MxN_mats(), <unspecified:test_MxN_mats>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MxN_mats : Any → {Any | gl == '0' and gl.startsw...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eab9134beae9e972  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_MxN_mats","kind":"function","src_hash":"7e5f68ba87208720","in":{"base":"Any"},"out":{"base":"Any","pred":"gl == '0' and gl.startswith('mat%s' % j) and glTransposed.startswith('mat%s' % i) and gl.startswith('vec') and gl.startswith('vec') and gl.startswith('float[%s](' % j * i) and glTransposed.startswith('float[%s](' % j * i) and gl.startswith('float[%s](' % i * j) and glTransposed.startswith('float[%s](' % i * j) and gl.startswith('float[%s](' % (i * j)) and glTransposed.startswith('float[%s](' % (i * j)) and glNested.startswith('float[%s][%s]' % (i, j)) and glNestedTransposed.startswith('float[%s][%s]' % (j, i))"},"spec":{"lhs":"test_MxN_mats()","rhs":"test_MxN_mats produces the expected output","over":{"base":"Any"},"name":"test_MxN_mats_correct"},"guarantee":"test_MxN_mats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_MxN_mats_correct","statement":"Path(test_MxN_mats(x), test_MxN_mats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eab9134beae9e972"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_MxN_mats","kind":"function","src_hash":"7e5f68ba87208720","in":{"base":"Any"},"out":{"base":"Any","pred":"gl == '0' and gl.startswith('mat%s' % j) and glTransposed.startswith('mat%s' % i) and gl.startswith('vec') and gl.startswith('vec') and gl.startswith('float[%s](' % j * i) and glTransposed.startswith('float[%s](' % j * i) and gl.startswith('float[%s](' % i * j) and glTransposed.startswith('float[%s](' % i * j) and gl.startswith('float[%s](' % (i * j)) and glTransposed.startswith('float[%s](' % (i * j)) and glNested.startswith('float[%s][%s]' % (i, j)) and glNestedTransposed.startswith('float[%s][%s]' % (j, i))"},"spec":{"lhs":"test_MxN_mats()","rhs":"<unspecified:test_MxN_mats>","over":{"base":"Any"},"name":"test_MxN_mats_correct"},"guarantee":"test_MxN_mats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_MxN_mats_correct","statement":"Path(test_MxN_mats(x), test_MxN_mats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eab9134beae9e972","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["gen.close","gen.write"],"io_operations":["gen.close","gen.write","open"]},"state_contract":{"modifies":["gen.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_MxN_mats():
     generatedAssertions='def test_misc_mats():\n'
     for i in range(1,6):
@@ -960,16 +1202,24 @@ def test_MxN_mats():
 # these assertions were generated from the previous function
 # glsl has complicated rules and this makes it easier to look over all the cases
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_misc_mats(), test_misc_mats produces the expected output) over Any ║
+# ║ Path(test_misc_mats(), glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_misc_mats : Any → {Any | glsl_code(mat) == gl an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  glsl_code(mat) == gl                           ║
+# ║   ensures:  glsl_code(mat, mat_transpose=True) == glT...   ║
+# ║   ensures:  glsl_code(mat, mat_nested=True) == glNested    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_misc_mats : Any → {Any | result satisfies: glsl_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 117e71c3ebcc9bad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a28629ec2dfcd1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_misc_mats","kind":"function","src_hash":"53e7240fb7bb7fed","in":{"base":"Any"},"out":{"base":"Any","pred":"glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed and glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed"},"spec":{"lhs":"test_misc_mats()","rhs":"test_misc_mats produces the expected output","over":{"base":"Any"},"name":"test_misc_mats_correct"},"guarantee":"test_misc_mats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_misc_mats_correct","statement":"Path(test_misc_mats(x), test_misc_mats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"117e71c3ebcc9bad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_glsl.test_misc_mats","kind":"function","src_hash":"53e7240fb7bb7fed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed"},"spec":{"lhs":"test_misc_mats()","rhs":"glsl_code(mat) == gl and glsl_code(mat, mat_transpose=True) == glTransposed and glsl_code(mat, mat_nested=True) == glNested and glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed","over":{"base":"Any"},"name":"test_misc_mats_correct"},"guarantee":"glsl_code(mat) == gl; glsl_code(mat, mat_transpose=True) == glTransposed; glsl_code(mat, mat_nested=True) == glNested","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_glsl.test_misc_mats_correct","statement":"Path(test_misc_mats(x), glsl_code(mat) == gl; glsl_code(mat, mat_transpose=True) == glTransposed; glsl_code(mat, mat_nested=True) == glNested)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a28629ec2dfcd1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["glsl_code(mat) == gl","glsl_code(mat, mat_transpose=True) == glTransposed","glsl_code(mat, mat_nested=True) == glNested","glsl_code(mat, mat_nested=True, mat_transpose=True) == glNestedTransposed"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":true}}
 def test_misc_mats():
 
     mat = Matrix([[0]])

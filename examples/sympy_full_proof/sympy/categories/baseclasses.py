@@ -22,16 +22,22 @@ from sympy.utilities.iterables import iterable
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Class(), correctly constructs a Class instance) over Any ║
+# ║ Path(Class(), isinstance(self, Set)) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Class : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Class : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d7d500ddb863626           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Class","kind":"class","src_hash":"e5e64c54d1269a7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Class()","rhs":"correctly constructs a Class instance","over":{"base":"Any"},"name":"Class_correct"},"guarantee":"correctly constructs a Class instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d7d500ddb863626"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Class","kind":"class","src_hash":"e5e64c54d1269a7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"Class()","rhs":"isinstance(self, Set)","over":{"base":"Any"},"name":"Class_correct"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d7d500ddb863626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Class not found in source"]}}
 class Class(Set):
     r"""
     The base class for any kind of class in the set-theoretic sense.
@@ -52,16 +58,22 @@ class Class(Set):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Object(), correctly constructs a Object instance) over Any ║
+# ║ Path(Object(), isinstance(self, Symbol)) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Object : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Symbol)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Object : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e808741a31695902           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Object","kind":"class","src_hash":"a65add727cc69d32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Object()","rhs":"correctly constructs a Object instance","over":{"base":"Any"},"name":"Object_correct"},"guarantee":"correctly constructs a Object instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e808741a31695902"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Object","kind":"class","src_hash":"a65add727cc69d32","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Symbol)"},"spec":{"lhs":"Object()","rhs":"isinstance(self, Symbol)","over":{"base":"Any"},"name":"Object_correct"},"guarantee":"isinstance(self, Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e808741a31695902","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Symbol)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Object not found in source"]}}
 class Object(Symbol):
     """
     The base class for any kind of object in an abstract category.
@@ -78,14 +90,20 @@ class Object(Symbol):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Morphism(*args), correctly constructs a Morphism instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Morphism : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Morphism : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a412b611ca14fd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism","kind":"class","src_hash":"00f3a2a23418c3d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Morphism(*args)","rhs":"correctly constructs a Morphism instance","over":{"base":"Any"},"name":"Morphism_class_invariant"},"guarantee":"correctly constructs a Morphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a412b611ca14fd1"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism","kind":"class","src_hash":"00f3a2a23418c3d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Morphism(*args)","rhs":"correctly constructs a Morphism instance","over":{"base":"Any"},"name":"Morphism_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a412b611ca14fd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Morphism not found in source"]}}
 class Morphism(Basic):
     """
     The base class for any morphism in an abstract category.
@@ -111,32 +129,44 @@ class Morphism(Basic):
     IdentityMorphism, NamedMorphism, CompositeMorphism
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, domain, codomain), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38bd80515f7eb1ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.__new__","kind":"method","src_hash":"966247ac57eb2ece","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38bd80515f7eb1ca"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.__new__","kind":"method","src_hash":"966247ac57eb2ece","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, domain, codomain)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38bd80515f7eb1ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, domain, codomain):
         raise(NotImplementedError(
             "Cannot instantiate Morphism.  Use derived classes instead."))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain(), returns the domain attribute) over Any      ║
+# ║ Path(domain(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9021af557f302366           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.domain","kind":"property","src_hash":"45b99375cf1399b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"returns the domain attribute","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns the domain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9021af557f302366"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.domain","kind":"property","src_hash":"45b99375cf1399b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"self.args[0]","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9021af557f302366","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain(self):
         """
         Returns the domain of the morphism.
@@ -156,16 +186,22 @@ class Morphism(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(codomain(), returns the codomain attribute) over Any  ║
+# ║ Path(codomain(), self.args[1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ codomain : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3470f4ea462977f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.codomain","kind":"property","src_hash":"0aaa1cd6116a8cd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"codomain()","rhs":"returns the codomain attribute","over":{"base":"Any"},"name":"codomain_correct"},"guarantee":"returns the codomain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3470f4ea462977f9"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.codomain","kind":"property","src_hash":"0aaa1cd6116a8cd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"codomain()","rhs":"self.args[1]","over":{"base":"Any"},"name":"codomain_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3470f4ea462977f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def codomain(self):
         """
         Returns the codomain of the morphism.
@@ -184,16 +220,22 @@ class Morphism(Basic):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compose(oth), composes self with the supplied morphism) over Any ║
+# ║ Path(compose(other), CompositeMorphism(other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CompositeMorphism(other, self)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compose : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be2271abfb52ddc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.compose","kind":"method","src_hash":"b406b15a5a8d9af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(oth)","rhs":"composes self with the supplied morphism","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"composes self with the supplied morphism","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be2271abfb52ddc4"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.compose","kind":"method","src_hash":"b406b15a5a8d9af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(other)","rhs":"CompositeMorphism(other, self)","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"returns CompositeMorphism(other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be2271abfb52ddc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CompositeMorphism(other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compose(self, other):
         r"""
         Composes self with the supplied morphism.
@@ -222,16 +264,22 @@ class Morphism(Basic):
         return CompositeMorphism(other, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self.compose(other)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.compose(other)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a90c01a932b5d050           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.__mul__","kind":"method","src_hash":"a9a983f6560f7f35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a90c01a932b5d050"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Morphism.__mul__","kind":"method","src_hash":"a9a983f6560f7f35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self.compose(other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self.compose(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a90c01a932b5d050","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.compose(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.compose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         r"""
         Composes self with the supplied morphism.
@@ -251,14 +299,20 @@ class Morphism(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IdentityMorphism(*args), correctly constructs a IdentityMorphism instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IdentityMorphism : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Morphism)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IdentityMorphism : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 478eb67c3ee212dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.IdentityMorphism","kind":"class","src_hash":"a85c94af945e7174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IdentityMorphism(*args)","rhs":"correctly constructs a IdentityMorphism instance","over":{"base":"Any"},"name":"IdentityMorphism_class_invariant"},"guarantee":"correctly constructs a IdentityMorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"478eb67c3ee212dc"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.IdentityMorphism","kind":"class","src_hash":"a85c94af945e7174","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Morphism)"},"spec":{"lhs":"IdentityMorphism(*args)","rhs":"correctly constructs a IdentityMorphism instance","over":{"base":"Any"},"name":"IdentityMorphism_class_invariant"},"guarantee":"isinstance(self, Morphism)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"478eb67c3ee212dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Morphism)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function IdentityMorphism not found in source"]}}
 class IdentityMorphism(Morphism):
     """
     Represents an identity morphism.
@@ -289,31 +343,43 @@ class IdentityMorphism(Morphism):
     Morphism
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, domain), Basic.__new__(cls, domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, domain)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 274b0c802fdb9801           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.IdentityMorphism.__new__","kind":"method","src_hash":"73148779319ea5a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"274b0c802fdb9801"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.IdentityMorphism.__new__","kind":"method","src_hash":"73148779319ea5a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, domain)","rhs":"Basic.__new__(cls, domain)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"274b0c802fdb9801","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, domain):
         return Basic.__new__(cls, domain)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(codomain(), returns the codomain attribute) over Any  ║
+# ║ Path(codomain(), self.domain) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ codomain : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 335d44c8b0f62520           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.IdentityMorphism.codomain","kind":"property","src_hash":"dae41f984c26ca3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"codomain()","rhs":"returns the codomain attribute","over":{"base":"Any"},"name":"codomain_correct"},"guarantee":"returns the codomain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"335d44c8b0f62520"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.IdentityMorphism.codomain","kind":"property","src_hash":"dae41f984c26ca3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"codomain()","rhs":"self.domain","over":{"base":"Any"},"name":"codomain_correct"},"guarantee":"returns self.domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"335d44c8b0f62520","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def codomain(self):
         return self.domain
 
@@ -321,14 +387,20 @@ class IdentityMorphism(Morphism):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NamedMorphism(*args), correctly constructs a NamedMorphism instance) over {Any | isinstance(name, Str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NamedMorphism : {Any | isinstance(name, Str)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Morphism)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NamedMorphism : {Any | isinstance(name, Str)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b1a6d85faea54e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.NamedMorphism","kind":"class","src_hash":"4b414db29e29d5d6","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any"},"spec":{"lhs":"NamedMorphism(*args)","rhs":"correctly constructs a NamedMorphism instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"NamedMorphism_class_invariant"},"guarantee":"correctly constructs a NamedMorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b1a6d85faea54e3"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.NamedMorphism","kind":"class","src_hash":"4b414db29e29d5d6","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Morphism)"},"spec":{"lhs":"NamedMorphism(*args)","rhs":"correctly constructs a NamedMorphism instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"NamedMorphism_class_invariant"},"guarantee":"isinstance(self, Morphism)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b1a6d85faea54e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Morphism)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NamedMorphism not found in source"]}}
 class NamedMorphism(Morphism):
     """
     Represents a morphism which has a name.
@@ -358,16 +430,23 @@ class NamedMorphism(Morphism):
     Morphism
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, domain, codomain), Basic.__new__(cls, domain, codomain, name)) over {Any | name} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: name                                           ║
+# ║   returns:  Basic.__new__(cls, domain, codomain, name)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | name} → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94ba580b36832fd5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.NamedMorphism.__new__","kind":"method","src_hash":"2a87a6c9e7183082","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94ba580b36832fd5"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.NamedMorphism.__new__","kind":"method","src_hash":"2a87a6c9e7183082","in":{"base":"Any","pred":"name"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, domain, codomain)","rhs":"Basic.__new__(cls, domain, codomain, name)","over":{"base":"Any","pred":"name"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, domain, codomain, name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94ba580b36832fd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["name"],"returns_expr":"Basic.__new__(cls, domain, codomain, name)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, domain, codomain, name):
         if not name:
             raise ValueError("Empty morphism names not allowed.")
@@ -379,16 +458,22 @@ class NamedMorphism(Morphism):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[2].name) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2].name                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d78cc3485feaae62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.NamedMorphism.name","kind":"property","src_hash":"7e1709669770ebb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d78cc3485feaae62"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.NamedMorphism.name","kind":"property","src_hash":"7e1709669770ebb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[2].name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[2].name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d78cc3485feaae62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2].name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         """
         Returns the name of the morphism.
@@ -410,14 +495,20 @@ class NamedMorphism(Morphism):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CompositeMorphism(*args), correctly constructs a CompositeMorphism instance) over {Any | isinstance(morphism, CompositeMorphism) and isinstance(morphism, IdentityMorphism) and isinstance(components[0], Morphism)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Morphism)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CompositeMorphism : {Any | isinstance(morphism, Compo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db6541f9c65cc489  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism","kind":"class","src_hash":"370feb30e46a24e6","in":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(morphism, IdentityMorphism) and isinstance(components[0], Morphism)"},"out":{"base":"Any"},"spec":{"lhs":"CompositeMorphism(*args)","rhs":"correctly constructs a CompositeMorphism instance","over":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(morphism, IdentityMorphism) and isinstance(components[0], Morphism)"},"name":"CompositeMorphism_class_invariant"},"guarantee":"correctly constructs a CompositeMorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db6541f9c65cc489"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism","kind":"class","src_hash":"370feb30e46a24e6","in":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(morphism, IdentityMorphism) and isinstance(components[0], Morphism)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Morphism)"},"spec":{"lhs":"CompositeMorphism(*args)","rhs":"correctly constructs a CompositeMorphism instance","over":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(morphism, IdentityMorphism) and isinstance(components[0], Morphism)"},"name":"CompositeMorphism_class_invariant"},"guarantee":"isinstance(self, Morphism)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db6541f9c65cc489","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Morphism)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function CompositeMorphism not found in source"]}}
 class CompositeMorphism(Morphism):
     r"""
     Represents a morphism which is a composition of other morphisms.
@@ -452,16 +543,27 @@ class CompositeMorphism(Morphism):
     """
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_morphism(t, ), intelligently adds ``morphism`` to tuple ``t``) over Any ║
+# ║ Path(_add_morphism(t, morphism), result == (t + morphism.components if isinstance(morphism, CompositeMorphism) else t if isinstance(morphism, IdentityMorphism) else t + Tuple(morphism)) and result == t + morphism.components or result == t or result == t + Tuple(morphism)) over {Any | hasattr(morphism, 'components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add_morphism : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphism, 'components')                ║
+# ║   ensures:  result == (t + morphism.components if isi...   ║
+# ║   ensures:  result == t + morphism.components or resu...   ║
+# ║   fiber[CompositeMorphism]: isinstance(morphism, Comp...   ║
+# ║   fiber[IdentityMorphism]: isinstance(morphism, Ident...   ║
+# ║   fiber[CompositeMorphism]: not (isinstance(morphism,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add_morphism : {Any | hasattr(morphism, 'components'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fbff052885371d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed6a832b5d59d409  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism._add_morphism","kind":"staticmethod","src_hash":"58e5c2282b6d2ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_morphism(t, )","rhs":"intelligently adds ``morphism`` to tuple ``t``","over":{"base":"Any"},"name":"_add_morphism_correct"},"guarantee":"intelligently adds ``morphism`` to tuple ``t``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.CompositeMorphism._add_morphism_correct","statement":"Path(_add_morphism(x), intelligently adds ``morphism`` to tuple ``t``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fbff052885371d4"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism._add_morphism","kind":"staticmethod","src_hash":"58e5c2282b6d2ad0","in":{"base":"Any","pred":"hasattr(morphism, 'components')"},"out":{"base":"Any","pred":"result satisfies: result == (t + morphism.components if isinstance(morphism, CompositeMorphism) else t if isinstance(morphism, IdentityMorphism) else t + Tuple(morphism)) and result == t + morphism.components or result == t or result == t + Tuple(morphism)"},"spec":{"lhs":"_add_morphism(t, morphism)","rhs":"result == (t + morphism.components if isinstance(morphism, CompositeMorphism) else t if isinstance(morphism, IdentityMorphism) else t + Tuple(morphism)) and result == t + morphism.components or result == t or result == t + Tuple(morphism)","over":{"base":"Any","pred":"hasattr(morphism, 'components')"},"name":"_add_morphism_correct"},"guarantee":"result == (t + morphism.components if isinstance(morphism, CompositeMorphism) else t if isinstance(morphism, IdentityMorphism) else t + Tuple(morphism)); result == t + morphism.components or result == t or result == t + Tuple(morphism); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.CompositeMorphism._add_morphism_correct","statement":"Path(_add_morphism(x), result == (t + morphism.components if isinstance(morphism, CompositeMorphism) else t if isinstance(morphism, IdentityMorphism) else t + Tuple(morphism)); result == t + morphism.components or result == t or result == t + Tuple(morphism); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed6a832b5d59d409","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphism, 'components')"],"ensures":["result == (t + morphism.components if isinstance(morphism, CompositeMorphism) else t if isinstance(morphism, IdentityMorphism) else t + Tuple(morphism))","result == t + morphism.components or result == t or result == t + Tuple(morphism)"],"fibers":[{"name":"CompositeMorphism","guard":"isinstance(morphism, CompositeMorphism)","ensures":["result == t + morphism.components"],"decidability":"structural","returns_expr":"t + morphism.components"},{"name":"IdentityMorphism","guard":"isinstance(morphism, IdentityMorphism)","ensures":["result == t"],"decidability":"structural","returns_expr":"t"},{"name":"CompositeMorphism","guard":"not (isinstance(morphism, CompositeMorphism)) and not (isinstance(morphism, IdentityMorphism))","ensures":["result == t + Tuple(morphism)"],"decidability":"structural","returns_expr":"t + Tuple(morphism)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_morphism(t, morphism):
         """
         Intelligently adds ``morphism`` to tuple ``t``.
@@ -486,16 +588,22 @@ class CompositeMorphism(Morphism):
             return t + Tuple(morphism)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *components), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b6a0287201a62cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.__new__","kind":"method","src_hash":"78c73d4d97240b3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b6a0287201a62cf"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.__new__","kind":"method","src_hash":"78c73d4d97240b3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *components)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b6a0287201a62cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *components):
         if components and not isinstance(components[0], Morphism):
             # Maybe the user has explicitly supplied a list of
@@ -533,16 +641,22 @@ class CompositeMorphism(Morphism):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(components(), returns the components attribute) over Any ║
+# ║ Path(components(), self.args[0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ components : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d063a77ec7bf3d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.components","kind":"property","src_hash":"b2d6a2636f52ffa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"components()","rhs":"returns the components attribute","over":{"base":"Any"},"name":"components_correct"},"guarantee":"returns the components attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d063a77ec7bf3d1"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.components","kind":"property","src_hash":"b2d6a2636f52ffa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"components()","rhs":"self.args[0]","over":{"base":"Any"},"name":"components_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d063a77ec7bf3d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def components(self):
         """
         Returns the components of this composite morphism.
@@ -565,16 +679,22 @@ class CompositeMorphism(Morphism):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain(), returns the domain attribute) over Any      ║
+# ║ Path(domain(), self.components[0].domain) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.components[0].domain                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2b0966c175ab1ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.domain","kind":"property","src_hash":"9cdda48fc7be0321","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"returns the domain attribute","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns the domain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b0966c175ab1ff"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.domain","kind":"property","src_hash":"9cdda48fc7be0321","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"self.components[0].domain","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns self.components[0].domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b0966c175ab1ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.components[0].domain","pure":false,"effects":{"effect_type":"reads_state","reads":["self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain(self):
         """
         Returns the domain of this composite morphism.
@@ -599,16 +719,22 @@ class CompositeMorphism(Morphism):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(codomain(), returns the codomain attribute) over Any  ║
+# ║ Path(codomain(), self.components[-1].codomain) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.components[-1].codomain                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ codomain : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a878ecca903219fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.codomain","kind":"property","src_hash":"594f4fb1695c6eee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"codomain()","rhs":"returns the codomain attribute","over":{"base":"Any"},"name":"codomain_correct"},"guarantee":"returns the codomain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a878ecca903219fb"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.codomain","kind":"property","src_hash":"594f4fb1695c6eee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"codomain()","rhs":"self.components[-1].codomain","over":{"base":"Any"},"name":"codomain_correct"},"guarantee":"returns self.components[-1].codomain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a878ecca903219fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.components[-1].codomain","pure":false,"effects":{"effect_type":"reads_state","reads":["self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def codomain(self):
         """
         Returns the codomain of this composite morphism.
@@ -632,16 +758,22 @@ class CompositeMorphism(Morphism):
         return self.components[-1].codomain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(new), forgets the composite structure of this morphism) over Any ║
+# ║ Path(flatten(new_name), NamedMorphism(self.domain, self.codomain, new_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NamedMorphism(self.domain, self.codomain,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatten : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68a14bbf525c29a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.flatten","kind":"method","src_hash":"f6896435e75f36ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(new)","rhs":"forgets the composite structure of this morphism","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"forgets the composite structure of this morphism","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68a14bbf525c29a1"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.CompositeMorphism.flatten","kind":"method","src_hash":"f6896435e75f36ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(new_name)","rhs":"NamedMorphism(self.domain, self.codomain, new_name)","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"returns NamedMorphism(self.domain, self.codomain, new_name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68a14bbf525c29a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NamedMorphism(self.domain, self.codomain, new_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten(self, new_name):
         """
         Forgets the composite structure of this morphism.
@@ -674,14 +806,20 @@ class CompositeMorphism(Morphism):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Category(*args), correctly constructs a Category instance) over {Any | isinstance(name, Str) and isinstance(objects, Class)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Category : {Any | isinstance(name, Str) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ab723db84927e68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category","kind":"class","src_hash":"b4b85006cff07a83","in":{"base":"Any","pred":"isinstance(name, Str) and isinstance(objects, Class)"},"out":{"base":"Any"},"spec":{"lhs":"Category(*args)","rhs":"correctly constructs a Category instance","over":{"base":"Any","pred":"isinstance(name, Str) and isinstance(objects, Class)"},"name":"Category_class_invariant"},"guarantee":"correctly constructs a Category instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab723db84927e68"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category","kind":"class","src_hash":"b4b85006cff07a83","in":{"base":"Any","pred":"isinstance(name, Str) and isinstance(objects, Class)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Category(*args)","rhs":"correctly constructs a Category instance","over":{"base":"Any","pred":"isinstance(name, Str) and isinstance(objects, Class)"},"name":"Category_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab723db84927e68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Category not found in source"]}}
 class Category(Basic):
     r"""
     An (abstract) category.
@@ -738,16 +876,23 @@ class Category(Basic):
     Diagram
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, objects), <unspecified:__new__>) over {Any | name} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: name                                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | name} → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d01c898d76270ee7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.__new__","kind":"method","src_hash":"a354125b6a4e0442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d01c898d76270ee7"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.__new__","kind":"method","src_hash":"a354125b6a4e0442","in":{"base":"Any","pred":"name"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, objects)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"name"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d01c898d76270ee7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["name"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, objects=EmptySet, commutative_diagrams=EmptySet):
         if not name:
             raise ValueError("A Category cannot have an empty name.")
@@ -764,16 +909,22 @@ class Category(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0].name) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].name                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b6f74c9a9f994b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.name","kind":"property","src_hash":"b0dc76f241eaca23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b6f74c9a9f994b9"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.name","kind":"property","src_hash":"b0dc76f241eaca23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0].name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0].name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b6f74c9a9f994b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         """
         Returns the name of this category.
@@ -791,16 +942,22 @@ class Category(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(objects(), returns the objects attribute) over Any    ║
+# ║ Path(objects(), self.args[1]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ objects : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e3c8dedcfac5a0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.objects","kind":"property","src_hash":"d4df808fa0f91c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"objects()","rhs":"returns the objects attribute","over":{"base":"Any"},"name":"objects_correct"},"guarantee":"returns the objects attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e3c8dedcfac5a0d"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.objects","kind":"property","src_hash":"d4df808fa0f91c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"objects()","rhs":"self.args[1]","over":{"base":"Any"},"name":"objects_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e3c8dedcfac5a0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def objects(self):
         """
         Returns the class of objects of this category.
@@ -821,16 +978,22 @@ class Category(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(commutative_diagrams(), returns the commutative_diagrams attribute) over Any ║
+# ║ Path(commutative_diagrams(), self.args[2]) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ commutative_diagrams : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adc47224635de0b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.commutative_diagrams","kind":"property","src_hash":"98f8b21db860d6b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.finiteset` of diagrams which are known to"},"spec":{"lhs":"commutative_diagrams()","rhs":"returns the commutative_diagrams attribute","over":{"base":"Any"},"name":"commutative_diagrams_correct"},"guarantee":"returns the commutative_diagrams attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adc47224635de0b9"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.commutative_diagrams","kind":"property","src_hash":"98f8b21db860d6b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.finiteset` of diagrams which are known to"},"spec":{"lhs":"commutative_diagrams()","rhs":"self.args[2]","over":{"base":"Any"},"name":"commutative_diagrams_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adc47224635de0b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def commutative_diagrams(self):
         """
         Returns the :class:`~.FiniteSet` of diagrams which are known to
@@ -855,31 +1018,43 @@ class Category(Basic):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hom(A, ), hom produces the expected output) over Any  ║
+# ║ Path(hom(A, B), <unspecified:hom>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hom : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14fc9fd050f2caaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.hom","kind":"method","src_hash":"ae0ca69caf71f557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hom(A, )","rhs":"hom produces the expected output","over":{"base":"Any"},"name":"hom_correct"},"guarantee":"hom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Category.hom_correct","statement":"Path(hom(x), hom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14fc9fd050f2caaf"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.hom","kind":"method","src_hash":"ae0ca69caf71f557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hom(A, B)","rhs":"<unspecified:hom>","over":{"base":"Any"},"name":"hom_correct"},"guarantee":"hom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Category.hom_correct","statement":"Path(hom(x), hom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14fc9fd050f2caaf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def hom(self, A, B):
         raise NotImplementedError(
             "hom-sets are not implemented in Category.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(all_morphisms(), all_morphisms produces the expected output) over Any ║
+# ║ Path(all_morphisms(), <unspecified:all_morphisms>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ all_morphisms : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bdc65a03cfced93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.all_morphisms","kind":"method","src_hash":"af4959566edc9cbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"all_morphisms()","rhs":"all_morphisms produces the expected output","over":{"base":"Any"},"name":"all_morphisms_correct"},"guarantee":"all_morphisms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Category.all_morphisms_correct","statement":"Path(all_morphisms(x), all_morphisms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bdc65a03cfced93"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Category.all_morphisms","kind":"method","src_hash":"af4959566edc9cbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"all_morphisms()","rhs":"<unspecified:all_morphisms>","over":{"base":"Any"},"name":"all_morphisms_correct"},"guarantee":"all_morphisms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Category.all_morphisms_correct","statement":"Path(all_morphisms(x), all_morphisms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bdc65a03cfced93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def all_morphisms(self):
         raise NotImplementedError(
             "Obtaining the class of morphisms is not implemented in Category.")
@@ -888,14 +1063,20 @@ class Category(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Diagram(*args), correctly constructs a Diagram instance) over {Any | isinstance(morphism, IdentityMorphism) and isinstance(premises_arg, list) and isinstance(morphism, CompositeMorphism)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Diagram : {Any | isinstance(morphism, IdentityMorphis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b020ca66009ba4bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram","kind":"class","src_hash":"4a3633f5984b59cf","in":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(premises_arg, list) and isinstance(morphism, CompositeMorphism)"},"out":{"base":"Any"},"spec":{"lhs":"Diagram(*args)","rhs":"correctly constructs a Diagram instance","over":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(premises_arg, list) and isinstance(morphism, CompositeMorphism)"},"name":"Diagram_class_invariant"},"guarantee":"correctly constructs a Diagram instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b020ca66009ba4bd"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram","kind":"class","src_hash":"4a3633f5984b59cf","in":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(premises_arg, list) and isinstance(morphism, CompositeMorphism)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Diagram(*args)","rhs":"correctly constructs a Diagram instance","over":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(premises_arg, list) and isinstance(morphism, CompositeMorphism)"},"name":"Diagram_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b020ca66009ba4bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Diagram not found in source"]}}
 class Diagram(Basic):
     r"""
     Represents a diagram in a certain category.
@@ -959,16 +1140,25 @@ class Diagram(Basic):
     """
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_dict_union(dic), if ``key`` is in ``dictionary``, set the new value of ``key`` to be the union between the old value and ``value``. otherwise, set the value of ``key`` to ``value) over Any ║
+# ║ Path(_set_dict_union(dictionary, key, value), result == (True if key in dictionary else False) and result == True or result == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _set_dict_union : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if key in dictionary else...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: key in dictionary => True                 ║
+# ║   fiber[case_1]: not (key in dictionary) => False          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _set_dict_union : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef42153268e4e712  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f568fec8f147459  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram._set_dict_union","kind":"staticmethod","src_hash":"add9ebc94f160536","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_dict_union(dic)","rhs":"if ``key`` is in ``dictionary``, set the new value of ``key`` to be the union between the old value and ``value``. otherwise, set the value of ``key`` to ``value","over":{"base":"Any"},"name":"_set_dict_union_correct"},"guarantee":"if ``key`` is in ``dictionary``, set the new value of ``key`` to be the union between the old value and ``value``. otherwise, set the value of ``key`` to ``value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram._set_dict_union_correct","statement":"Path(_set_dict_union(x), if ``key`` is in ``dictionary``, set the new value of ``key`` to be the union between the old value and ``value``. otherwise, set the value of ``key`` to ``value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef42153268e4e712"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram._set_dict_union","kind":"staticmethod","src_hash":"add9ebc94f160536","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if key in dictionary else False) and result == True or result == False"},"spec":{"lhs":"_set_dict_union(dictionary, key, value)","rhs":"result == (True if key in dictionary else False) and result == True or result == False","over":{"base":"Any"},"name":"_set_dict_union_correct"},"guarantee":"result == (True if key in dictionary else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram._set_dict_union_correct","statement":"Path(_set_dict_union(x), result == (True if key in dictionary else False); result == True or result == False; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f568fec8f147459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if key in dictionary else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"key in dictionary","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"not (key in dictionary)","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"mutates_args","writes":["dictionary[*]"]},"state_contract":{"modifies":["dictionary[*]"],"old_bindings":{"old_dictionary_star":"dictionary[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_dict_union(dictionary, key, value):
         """
         If ``key`` is in ``dictionary``, set the new value of ``key``
@@ -987,16 +1177,25 @@ class Diagram(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_morphism_closure(mor), adds a morphism and its attributes to the supplied dictionary ``morphisms``) over Any ║
+# ║ Path(_add_morphism_closure(morphisms, morphism, props), <unspecified:_add_morphism_closure>) over {Any | hasattr(morphism, 'components') and hasattr(morphism, 'domain') and hasattr(morphism, 'codomain') and hasattr(morphisms, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add_morphism_closure : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(morphism, 'components')                ║
+# ║   requires: hasattr(morphism, 'domain')                    ║
+# ║   requires: hasattr(morphism, 'codomain')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add_morphism_closure : {Any | hasattr(morphism, 'com...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 314987c33a42fe94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram._add_morphism_closure","kind":"staticmethod","src_hash":"3cf8f3ed464778aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_morphism_closure(mor)","rhs":"adds a morphism and its attributes to the supplied dictionary ``morphisms``","over":{"base":"Any"},"name":"_add_morphism_closure_correct"},"guarantee":"adds a morphism and its attributes to the supplied dictionary ``morphisms``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram._add_morphism_closure_correct","statement":"Path(_add_morphism_closure(x), adds a morphism and its attributes to the supplied dictionary ``morphisms``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"314987c33a42fe94"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram._add_morphism_closure","kind":"staticmethod","src_hash":"3cf8f3ed464778aa","in":{"base":"Any","pred":"hasattr(morphism, 'components') and hasattr(morphism, 'domain') and hasattr(morphism, 'codomain') and hasattr(morphisms, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_add_morphism_closure(morphisms, morphism, props)","rhs":"<unspecified:_add_morphism_closure>","over":{"base":"Any","pred":"hasattr(morphism, 'components') and hasattr(morphism, 'domain') and hasattr(morphism, 'codomain') and hasattr(morphisms, 'items')"},"name":"_add_morphism_closure_correct"},"guarantee":"adds a morphism and its attributes to the supplied dictionary ``morphisms``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram._add_morphism_closure_correct","statement":"Path(_add_morphism_closure(x), adds a morphism and its attributes to the supplied dictionary ``morphisms``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"314987c33a42fe94","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(morphism, 'components')","hasattr(morphism, 'domain')","hasattr(morphism, 'codomain')","hasattr(morphisms, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.codomain","morphism.components","morphism.domain","morphisms.items"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_morphism_closure(morphisms, morphism, props, add_identities=True,
                               recurse_composites=True):
         """
@@ -1046,16 +1245,22 @@ class Diagram(Basic):
                                                   add_identities)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct a new instance of diagram) over Any ║
+# ║ Path(__new__(cls, *args), Basic.__new__(cls, Dict(premises), Dict(conclusions), objects)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, Dict(premises), Dict(c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab795b4f74f95984           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.__new__","kind":"method","src_hash":"4194e69d3574774b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct a new instance of diagram","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a new instance of diagram","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab795b4f74f95984"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.__new__","kind":"method","src_hash":"4194e69d3574774b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Basic.__new__(cls, Dict(premises), Dict(conclusions), objects)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, Dict(premises), Dict(conclusions), objects)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab795b4f74f95984","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, Dict(premises), Dict(conclusions), objects)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         """
         Construct a new instance of Diagram.
@@ -1161,16 +1366,22 @@ class Diagram(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(premises(), returns the premises attribute) over Any  ║
+# ║ Path(premises(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ premises : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e97007119b74eeb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.premises","kind":"property","src_hash":"c427dfc01fe20e99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"premises()","rhs":"returns the premises attribute","over":{"base":"Any"},"name":"premises_correct"},"guarantee":"returns the premises attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e97007119b74eeb"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.premises","kind":"property","src_hash":"c427dfc01fe20e99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"premises()","rhs":"self.args[0]","over":{"base":"Any"},"name":"premises_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e97007119b74eeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def premises(self):
         """
         Returns the premises of this diagram.
@@ -1195,16 +1406,22 @@ class Diagram(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conclusions(), returns the conclusions attribute) over Any ║
+# ║ Path(conclusions(), self.args[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conclusions : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dceef0ea897b0bd5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.conclusions","kind":"property","src_hash":"bc49d206a4133d2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conclusions()","rhs":"returns the conclusions attribute","over":{"base":"Any"},"name":"conclusions_correct"},"guarantee":"returns the conclusions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dceef0ea897b0bd5"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.conclusions","kind":"property","src_hash":"bc49d206a4133d2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conclusions()","rhs":"self.args[1]","over":{"base":"Any"},"name":"conclusions_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dceef0ea897b0bd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conclusions(self):
         """
         Returns the conclusions of this diagram.
@@ -1234,16 +1451,22 @@ class Diagram(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(objects(), returns the objects attribute) over Any    ║
+# ║ Path(objects(), self.args[2]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ objects : Any → {Any | result satisfies: class:`~.fin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ed191e2aa563341           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.objects","kind":"property","src_hash":"0ed8eb2b7e9f1e08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.finiteset` of objects that appear in this"},"spec":{"lhs":"objects()","rhs":"returns the objects attribute","over":{"base":"Any"},"name":"objects_correct"},"guarantee":"returns the objects attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ed191e2aa563341"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.objects","kind":"property","src_hash":"0ed8eb2b7e9f1e08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.finiteset` of objects that appear in this"},"spec":{"lhs":"objects()","rhs":"self.args[2]","over":{"base":"Any"},"name":"objects_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ed191e2aa563341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def objects(self):
         """
         Returns the :class:`~.FiniteSet` of objects that appear in this
@@ -1266,16 +1489,22 @@ class Diagram(Basic):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hom(A, ), returns a 2-tuple of sets of morphisms between objects ``a`` and ``b``: one set of morphisms listed as premises, and the other set of morphisms listed as conclusions) over Any ║
+# ║ Path(hom(A, B), (premises, conclusions)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (premises, conclusions)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hom : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6bdaff7038a49fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9f3ec447338d1ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.hom","kind":"method","src_hash":"e89d2baff68d3b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hom(A, )","rhs":"returns a 2-tuple of sets of morphisms between objects ``a`` and ``b``: one set of morphisms listed as premises, and the other set of morphisms listed as conclusions","over":{"base":"Any"},"name":"hom_correct"},"guarantee":"returns a 2-tuple of sets of morphisms between objects ``a`` and ``b``: one set of morphisms listed as premises, and the other set of morphisms listed as conclusions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram.hom_correct","statement":"Path(hom(x), returns a 2-tuple of sets of morphisms between objects ``a`` and ``b``: one set of morphisms listed as premises, and the other set of morphisms listed as conclusions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6bdaff7038a49fa"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.hom","kind":"method","src_hash":"e89d2baff68d3b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hom(A, B)","rhs":"(premises, conclusions)","over":{"base":"Any"},"name":"hom_correct"},"guarantee":"returns (premises, conclusions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram.hom_correct","statement":"Path(hom(x), returns (premises, conclusions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9f3ec447338d1ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(premises, conclusions)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.conclusions","self.premises"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def hom(self, A, B):
         """
         Returns a 2-tuple of sets of morphisms between objects ``A`` and
@@ -1313,16 +1542,24 @@ class Diagram(Basic):
         return (premises, conclusions)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_subdiagram(dia), checks whether ``diagram`` is a subdiagram of ``self``. diagram `d'` is a subdiagram of `d` if all premises (conclusions) of `d'` are contained in the premises (conclusions) of `d`) over Any ║
+# ║ Path(is_subdiagram(diagram), <unspecified:is_subdiagram>) over {Any | hasattr(diagram, 'premises') and hasattr(diagram, 'conclusions')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_subdiagram : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diagram, 'premises')                   ║
+# ║   requires: hasattr(diagram, 'conclusions')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_subdiagram : {Any | hasattr(diagram, 'premises') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c057acdc6553e2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.is_subdiagram","kind":"method","src_hash":"4bc7d0cfd351512e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subdiagram(dia)","rhs":"checks whether ``diagram`` is a subdiagram of ``self``. diagram `d'` is a subdiagram of `d` if all premises (conclusions) of `d'` are contained in the premises (conclusions) of `d`","over":{"base":"Any"},"name":"is_subdiagram_correct"},"guarantee":"checks whether ``diagram`` is a subdiagram of ``self``. diagram `d'` is a subdiagram of `d` if all premises (conclusions) of `d'` are contained in the premises (conclusions) of `d`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram.is_subdiagram_correct","statement":"Path(is_subdiagram(x), checks whether ``diagram`` is a subdiagram of ``self``. diagram `d'` is a subdiagram of `d` if all premises (conclusions) of `d'` are contained in the premises (conclusions) of `d`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c057acdc6553e2e"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.is_subdiagram","kind":"method","src_hash":"4bc7d0cfd351512e","in":{"base":"Any","pred":"hasattr(diagram, 'premises') and hasattr(diagram, 'conclusions')"},"out":{"base":"Any"},"spec":{"lhs":"is_subdiagram(diagram)","rhs":"<unspecified:is_subdiagram>","over":{"base":"Any","pred":"hasattr(diagram, 'premises') and hasattr(diagram, 'conclusions')"},"name":"is_subdiagram_correct"},"guarantee":"checks whether ``diagram`` is a subdiagram of ``self``. diagram `d'` is a subdiagram of `d` if all premises (conclusions) of `d'` are contained in the premises (conclusions) of `d`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram.is_subdiagram_correct","statement":"Path(is_subdiagram(x), checks whether ``diagram`` is a subdiagram of ``self``. diagram `d'` is a subdiagram of `d` if all premises (conclusions) of `d'` are contained in the premises (conclusions) of `d`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c057acdc6553e2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diagram, 'premises')","hasattr(diagram, 'conclusions')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["diagram.conclusions","diagram.premises","self.conclusions","self.premises"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_subdiagram(self, diagram):
         """
         Checks whether ``diagram`` is a subdiagram of ``self``.
@@ -1362,16 +1599,25 @@ class Diagram(Basic):
         return conclusions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subdiagram_from_objects(obj), if ``objects`` is a subset of the objects of ``self``, returns a diagram which has as premises all those premises of ``self`` which have a domains and codomains in ``objects``, likewise for conclusion) over Any ║
+# ║ Path(subdiagram_from_objects(objects), Diagram(new_premises, new_conclusions)) over {Any | objects.is_subset(self.objects) and hasattr(objects, 'is_subset') and hasattr(objects, 'contains')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subdiagram_from_objects : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: objects.is_subset(self.objects)                ║
+# ║   requires: hasattr(objects, 'is_subset')                  ║
+# ║   requires: hasattr(objects, 'contains')                   ║
+# ║   returns:  Diagram(new_premises, new_conclusions)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subdiagram_from_objects : {Any | objects.is_subset(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe9185a1edb1f147  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f1f97612b8c019  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.subdiagram_from_objects","kind":"method","src_hash":"1788e88cdfb5982d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subdiagram_from_objects(obj)","rhs":"if ``objects`` is a subset of the objects of ``self``, returns a diagram which has as premises all those premises of ``self`` which have a domains and codomains in ``objects``, likewise for conclusion","over":{"base":"Any"},"name":"subdiagram_from_objects_correct"},"guarantee":"if ``objects`` is a subset of the objects of ``self``, returns a diagram which has as premises all those premises of ``self`` which have a domains and codomains in ``objects``, likewise for conclusion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram.subdiagram_from_objects_correct","statement":"Path(subdiagram_from_objects(x), if ``objects`` is a subset of the objects of ``self``, returns a diagram which has as premises all those premises of ``self`` which have a domains and codomains in ``objects``, likewise for conclusion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe9185a1edb1f147"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.baseclasses.Diagram.subdiagram_from_objects","kind":"method","src_hash":"1788e88cdfb5982d","in":{"base":"Any","pred":"objects.is_subset(self.objects) and hasattr(objects, 'is_subset') and hasattr(objects, 'contains')"},"out":{"base":"Any"},"spec":{"lhs":"subdiagram_from_objects(objects)","rhs":"Diagram(new_premises, new_conclusions)","over":{"base":"Any","pred":"objects.is_subset(self.objects) and hasattr(objects, 'is_subset') and hasattr(objects, 'contains')"},"name":"subdiagram_from_objects_correct"},"guarantee":"returns Diagram(new_premises, new_conclusions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.baseclasses.Diagram.subdiagram_from_objects_correct","statement":"Path(subdiagram_from_objects(x), returns Diagram(new_premises, new_conclusions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f1f97612b8c019","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["objects.is_subset(self.objects)","hasattr(objects, 'is_subset')","hasattr(objects, 'contains')"],"returns_expr":"Diagram(new_premises, new_conclusions)","pure":false,"effects":{"effect_type":"reads_state","reads":["objects.contains","objects.is_subset","self.conclusions","self.objects","self.premises"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subdiagram_from_objects(self, objects):
         """
         If ``objects`` is a subset of the objects of ``self``, returns

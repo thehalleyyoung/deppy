@@ -92,16 +92,22 @@ from sympy.utilities.misc import filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnboundedLPError(), correctly constructs a UnboundedLPError instance) over Any ║
+# ║ Path(UnboundedLPError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnboundedLPError : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnboundedLPError : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e991e6bb4c4032fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.UnboundedLPError","kind":"class","src_hash":"0cb7c0a8193c8c62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnboundedLPError()","rhs":"correctly constructs a UnboundedLPError instance","over":{"base":"Any"},"name":"UnboundedLPError_correct"},"guarantee":"correctly constructs a UnboundedLPError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e991e6bb4c4032fa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.UnboundedLPError","kind":"class","src_hash":"0cb7c0a8193c8c62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"UnboundedLPError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"UnboundedLPError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e991e6bb4c4032fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function UnboundedLPError not found in source"]}}
 class UnboundedLPError(Exception):
     """
     A linear programming problem is said to be unbounded if its objective
@@ -122,16 +128,22 @@ class UnboundedLPError(Exception):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(InfeasibleLPError(), correctly constructs a InfeasibleLPError instance) over Any ║
+# ║ Path(InfeasibleLPError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InfeasibleLPError : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InfeasibleLPError : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c82264fb8f9bab87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.InfeasibleLPError","kind":"class","src_hash":"87bfd349cf02542b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InfeasibleLPError()","rhs":"correctly constructs a InfeasibleLPError instance","over":{"base":"Any"},"name":"InfeasibleLPError_correct"},"guarantee":"correctly constructs a InfeasibleLPError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c82264fb8f9bab87"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.InfeasibleLPError","kind":"class","src_hash":"87bfd349cf02542b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"InfeasibleLPError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"InfeasibleLPError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c82264fb8f9bab87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function InfeasibleLPError not found in source"]}}
 class InfeasibleLPError(Exception):
     """
     A linear programming problem is considered infeasible if its
@@ -154,16 +166,23 @@ class InfeasibleLPError(Exception):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pivot(M, ), the pivot element `m[i, j]` is inverted and the rest of the matrix modified and returned as a new matrix; original is left unmodified) over Any ║
+# ║ Path(_pivot(M, i, j), <unspecified:_pivot>) over {Any | not (Mij == 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pivot : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (Mij == 0)                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pivot : {Any | not (Mij == 0)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e55872887550434  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._pivot","kind":"function","src_hash":"eb05704fc5066655","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pivot(M, )","rhs":"the pivot element `m[i, j]` is inverted and the rest of the matrix modified and returned as a new matrix; original is left unmodified","over":{"base":"Any"},"name":"_pivot_correct"},"guarantee":"the pivot element `m[i, j]` is inverted and the rest of the matrix modified and returned as a new matrix; original is left unmodified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._pivot_correct","statement":"Path(_pivot(x), the pivot element `m[i, j]` is inverted and the rest of the matrix modified and returned as a new matrix; original is left unmodified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e55872887550434"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._pivot","kind":"function","src_hash":"eb05704fc5066655","in":{"base":"Any","pred":"not (Mij == 0)"},"out":{"base":"Any"},"spec":{"lhs":"_pivot(M, i, j)","rhs":"<unspecified:_pivot>","over":{"base":"Any","pred":"not (Mij == 0)"},"name":"_pivot_correct"},"guarantee":"the pivot element `m[i, j]` is inverted and the rest of the matrix modified and returned as a new matrix; original is left unmodified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._pivot_correct","statement":"Path(_pivot(x), the pivot element `m[i, j]` is inverted and the rest of the matrix modified and returned as a new matrix; original is left unmodified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e55872887550434","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (Mij == 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pivot(M, i, j):
     """
     The pivot element `M[i, j]` is inverted and the rest of the matrix
@@ -198,16 +217,22 @@ def _pivot(M, i, j):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_choose_pivot_row(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(_choose_pivot_row(A, B, candidate_rows), min(candidate_rows, key=lambda i: (B[i] / A[i, pivot_col], Y[i]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  min(candidate_rows, key=lambda i: (B[i] /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _choose_pivot_row : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 165d64ed6fc2c0c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._choose_pivot_row","kind":"function","src_hash":"b8f2393fa1531f25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_choose_pivot_row(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_choose_pivot_row_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"165d64ed6fc2c0c9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._choose_pivot_row","kind":"function","src_hash":"b8f2393fa1531f25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_choose_pivot_row(A, B, candidate_rows)","rhs":"min(candidate_rows, key=lambda i: (B[i] / A[i, pivot_col], Y[i]))","over":{"base":"Any"},"name":"_choose_pivot_row_correct"},"guarantee":"returns min(candidate_rows, key=lambda i: (B[i] / A[i, pivot_col], Y[i]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"165d64ed6fc2c0c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"min(candidate_rows, key=lambda i: (B[i] / A[i, pivot_col], Y[i]))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _choose_pivot_row(A, B, candidate_rows, pivot_col, Y):
     # Choose row with smallest ratio
     # If there are ties, pick using Bland's rule
@@ -215,16 +240,25 @@ def _choose_pivot_row(A, B, candidate_rows, pivot_col, Y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplex(A, ), return ``(o, x, y)`` obtained from the two-phase simplex method using bland's rule: ``o`` is the minimum value of primal, ``cx - d``, under constraints ``ax <= b`` (with ``x >= 0``) and the maximum of) over Any ║
+# ║ Path(_simplex(A, B, C), len(piv_rows) == old_len_piv_rows + 1) over {Any | hasattr(C, 'T') and hasattr(B, 'T') and hasattr(B, 'rows') and hasattr(A, 'T') and hasattr(A, 'cols') and hasattr(A, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _simplex : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(C, 'T')                                ║
+# ║   requires: hasattr(B, 'T')                                ║
+# ║   requires: hasattr(B, 'rows')                             ║
+# ║   ensures:  len(piv_rows) == old_len_piv_rows + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _simplex : {Any | hasattr(C, 'T') and hasattr(B, 'T')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72d9410f2d99ad36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4429a631e07d5e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._simplex","kind":"function","src_hash":"421da9ae4b164e01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplex(A, )","rhs":"return ``(o, x, y)`` obtained from the two-phase simplex method using bland's rule: ``o`` is the minimum value of primal, ``cx - d``, under constraints ``ax <= b`` (with ``x >= 0``) and the maximum of","over":{"base":"Any"},"name":"_simplex_correct"},"guarantee":"return ``(o, x, y)`` obtained from the two-phase simplex method using bland's rule: ``o`` is the minimum value of primal, ``cx - d``, under constraints ``ax <= b`` (with ``x >= 0``) and the maximum of","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._simplex_correct","statement":"Path(_simplex(x), return ``(o, x, y)`` obtained from the two-phase simplex method using bland's rule: ``o`` is the minimum value of primal, ``cx - d``, under constraints ``ax <= b`` (with ``x >= 0``) and the maximum of)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72d9410f2d99ad36"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._simplex","kind":"function","src_hash":"421da9ae4b164e01","in":{"base":"Any","pred":"hasattr(C, 'T') and hasattr(B, 'T') and hasattr(B, 'rows') and hasattr(A, 'T') and hasattr(A, 'cols') and hasattr(A, 'rows')"},"out":{"base":"Any","pred":"result satisfies: len(piv_rows) == old_len_piv_rows + 1"},"spec":{"lhs":"_simplex(A, B, C)","rhs":"len(piv_rows) == old_len_piv_rows + 1","over":{"base":"Any","pred":"hasattr(C, 'T') and hasattr(B, 'T') and hasattr(B, 'rows') and hasattr(A, 'T') and hasattr(A, 'cols') and hasattr(A, 'rows')"},"name":"_simplex_correct"},"guarantee":"len(piv_rows) == old_len_piv_rows + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._simplex_correct","statement":"Path(_simplex(x), len(piv_rows) == old_len_piv_rows + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4429a631e07d5e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(C, 'T')","hasattr(B, 'T')","hasattr(B, 'rows')","hasattr(A, 'T')","hasattr(A, 'cols')","hasattr(A, 'rows')"],"ensures":["len(piv_rows) == old_len_piv_rows + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.T","A.cols","A.rows","B.T","B.rows","C.T"],"calls_mutating":["piv_rows.append"],"raises":["InfeasibleLPError","TypeError","UnboundedLPError","ValueError"]},"state_contract":{"modifies":["piv_rows.*"],"old_bindings":{"old_len_piv_rows":"len(piv_rows)"},"post_ensures":["len(piv_rows) == old_len_piv_rows + 1"],"exceptional_post":{"InfeasibleLPError":["isinstance(raised, InfeasibleLPError)"],"TypeError":["isinstance(raised, TypeError)"],"UnboundedLPError":["isinstance(raised, UnboundedLPError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def _simplex(A, B, C, D=None, dual=False):
     """Return ``(o, x, y)`` obtained from the two-phase simplex method
     using Bland's rule: ``o`` is the minimum value of primal,
@@ -474,16 +508,22 @@ def _simplex(A, B, C, D=None, dual=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_abcd(M, ), return parts of m as matrices or lists) over Any ║
+# ║ Path(_abcd(M, list), <unspecified:_abcd>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _abcd : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec43f5d27f6bd364  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._abcd","kind":"function","src_hash":"93496c2f7e4995ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_abcd(M, )","rhs":"return parts of m as matrices or lists","over":{"base":"Any"},"name":"_abcd_correct"},"guarantee":"return parts of m as matrices or lists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._abcd_correct","statement":"Path(_abcd(x), return parts of m as matrices or lists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec43f5d27f6bd364"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._abcd","kind":"function","src_hash":"93496c2f7e4995ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_abcd(M, list)","rhs":"<unspecified:_abcd>","over":{"base":"Any"},"name":"_abcd_correct"},"guarantee":"return parts of m as matrices or lists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._abcd_correct","statement":"Path(_abcd(x), return parts of m as matrices or lists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec43f5d27f6bd364","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _abcd(M, list=False):
     """return parts of M as matrices or lists
 
@@ -531,16 +571,22 @@ def _abcd(M, list=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_m(a, ), return matrix([[a, b], [c, d]]) from matrices in matrix or list form) over Any ║
+# ║ Path(_m(a, b, c), Matrix([[a, b], [c, d]])) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[a, b], [c, d]])                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _m : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fec509d7be54ffca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80a70fc7511cf20b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._m","kind":"function","src_hash":"08097e00b85616b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_m(a, )","rhs":"return matrix([[a, b], [c, d]]) from matrices in matrix or list form","over":{"base":"Any"},"name":"_m_correct"},"guarantee":"return matrix([[a, b], [c, d]]) from matrices in matrix or list form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._m_correct","statement":"Path(_m(x), return matrix([[a, b], [c, d]]) from matrices in matrix or list form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fec509d7be54ffca"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._m","kind":"function","src_hash":"08097e00b85616b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_m(a, b, c)","rhs":"Matrix([[a, b], [c, d]])","over":{"base":"Any"},"name":"_m_correct"},"guarantee":"returns Matrix([[a, b], [c, d]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._m_correct","statement":"Path(_m(x), returns Matrix([[a, b], [c, d]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80a70fc7511cf20b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[a, b], [c, d]])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _m(a, b, c, d=None):
     """return Matrix([[a, b], [c, d]]) from matrices
     in Matrix or list form.
@@ -566,16 +612,23 @@ def _m(a, b, c, d=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primal_dual(M, ), return primal and dual function and constraints assuming that ``m = matrix([[a, b], [c, d]])`` and the function ``c*x - d`` is being minimized with ``ax >= b`` for nonnegative values of ``x``) over Any ║
+# ║ Path(_primal_dual(M, factor), len(rv) == old_len_rv + 1) over {Any | hasattr(M, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _primal_dual : Any → {Any | len(f.lhs.args) == 2}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _primal_dual : {Any | hasattr(M, 'shape')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1500e314e210a8c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e482b59fe812bfd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._primal_dual","kind":"function","src_hash":"230c436d476cacae","in":{"base":"Any"},"out":{"base":"Any","pred":"len(f.lhs.args) == 2"},"spec":{"lhs":"_primal_dual(M, )","rhs":"return primal and dual function and constraints assuming that ``m = matrix([[a, b], [c, d]])`` and the function ``c*x - d`` is being minimized with ``ax >= b`` for nonnegative values of ``x``","over":{"base":"Any"},"name":"_primal_dual_correct"},"guarantee":"return primal and dual function and constraints assuming that ``m = matrix([[a, b], [c, d]])`` and the function ``c*x - d`` is being minimized with ``ax >= b`` for nonnegative values of ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._primal_dual_correct","statement":"Path(_primal_dual(x), return primal and dual function and constraints assuming that ``m = matrix([[a, b], [c, d]])`` and the function ``c*x - d`` is being minimized with ``ax >= b`` for nonnegative values of ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1500e314e210a8c1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._primal_dual","kind":"function","src_hash":"230c436d476cacae","in":{"base":"Any","pred":"hasattr(M, 'shape')"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv + 1"},"spec":{"lhs":"_primal_dual(M, factor)","rhs":"len(rv) == old_len_rv + 1","over":{"base":"Any","pred":"hasattr(M, 'shape')"},"name":"_primal_dual_correct"},"guarantee":"len(rv) == old_len_rv + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._primal_dual_correct","statement":"Path(_primal_dual(x), len(rv) == old_len_rv + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e482b59fe812bfd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')"],"ensures":["len(rv) == old_len_rv + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.shape"],"calls_mutating":["rv.append"],"raises":["ValueError"]},"state_contract":{"modifies":["rv.*"],"old_bindings":{"old_len_rv":"len(rv)"},"post_ensures":["len(rv) == old_len_rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _primal_dual(M, factor=True):
     """return primal and dual function and constraints
     assuming that ``M = Matrix([[A, b], [c, d]])`` and the
@@ -691,9 +744,15 @@ def _primal_dual(M, factor=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rel_as_nonpos(con), return `(np, d, aux)` where `np` is a list of nonpositive expressions that represent the given constraints (possibly rewritten in terms of auxilliary variables) expressible with nonnegative symbols, a) over {Any | isinstance(i, (Le, Ge))} ║
+# ║ Path(_rel_as_nonpos(constr, syms), len(aux) == old_len_aux + 1 and len(freei) == old_len_freei - 1 and len(np) == old_len_np + 1 and len(unbound) == old_len_unbound + 1) over {Any | isinstance(i, (Le, Ge)) and len(freei) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rel_as_nonpos : {Any | isinstance(i, (Le, Ge))} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(freei) > 0                                 ║
+# ║   ensures:  len(aux) == old_len_aux + 1                    ║
+# ║   ensures:  len(freei) == old_len_freei - 1                ║
+# ║   ensures:  len(np) == old_len_np + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rel_as_nonpos : {Any | isinstance(i, (Le, Ge)) and l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   (Le: {isinstance(i, (Le, Ge))} → library_axiom           ║
@@ -703,9 +762,12 @@ def _primal_dual(M, factor=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 02f4a684...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._rel_as_nonpos","kind":"function","src_hash":"21ec158edd81df44","in":{"base":"Any","pred":"isinstance(i, (Le, Ge))"},"out":{"base":"Any"},"spec":{"lhs":"_rel_as_nonpos(con)","rhs":"return `(np, d, aux)` where `np` is a list of nonpositive expressions that represent the given constraints (possibly rewritten in terms of auxilliary variables) expressible with nonnegative symbols, a","over":{"base":"Any","pred":"isinstance(i, (Le, Ge))"},"name":"_rel_as_nonpos_correct"},"guarantee":"return `(np, d, aux)` where `np` is a list of nonpositive expressions that represent the given constraints (possibly rewritten in terms of auxilliary variables) expressible with nonnegative symbols, a","fibers":[{"name":"(Le","pred":"isinstance(i, (Le, Ge))","path":{"lhs":"_rel_as_nonpos(x)","rhs":"return `(np, d, aux)` where `np` is a list of nonpositive expressions that represent the given constraints (possibly rewritten in terms of auxilliary variables) expressible with nonnegative symbols, a","over":{"base":"(Le","pred":"isinstance(i, (Le, Ge))"},"name":"_rel_as_nonpos_(Le_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._rel_as_nonpos_(Le_correct","statement":"_rel_as_nonpos satisfies spec on (Le inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02f4a68402c6c8e5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._rel_as_nonpos","kind":"function","src_hash":"21ec158edd81df44","in":{"base":"Any","pred":"isinstance(i, (Le, Ge)) and len(freei) > 0"},"out":{"base":"Any","pred":"result satisfies: len(aux) == old_len_aux + 1 and len(freei) == old_len_freei - 1 and len(np) == old_len_np + 1 and len(unbound) == old_len_unbound + 1"},"spec":{"lhs":"_rel_as_nonpos(constr, syms)","rhs":"len(aux) == old_len_aux + 1 and len(freei) == old_len_freei - 1 and len(np) == old_len_np + 1 and len(unbound) == old_len_unbound + 1","over":{"base":"Any","pred":"isinstance(i, (Le, Ge)) and len(freei) > 0"},"name":"_rel_as_nonpos_correct"},"guarantee":"len(aux) == old_len_aux + 1; len(freei) == old_len_freei - 1; len(np) == old_len_np + 1","fibers":[{"name":"(Le","pred":"isinstance(i, (Le, Ge))","path":{"lhs":"_rel_as_nonpos(x)","rhs":"len(aux) == old_len_aux + 1; len(freei) == old_len_freei - 1; len(np) == old_len_np + 1","over":{"base":"(Le","pred":"isinstance(i, (Le, Ge))"},"name":"_rel_as_nonpos_(Le_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._rel_as_nonpos_(Le_correct","statement":"_rel_as_nonpos satisfies spec on (Le inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02f4a68402c6c8e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(freei) > 0"],"ensures":["len(aux) == old_len_aux + 1","len(freei) == old_len_freei - 1","len(np) == old_len_np + 1","len(unbound) == old_len_unbound + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["aux.append","freei.pop","np.append","unbound.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["aux.*","freei.*","np.*","unbound.*"],"old_bindings":{"old_len_aux":"len(aux)","old_len_freei":"len(freei)","old_len_np":"len(np)","old_len_unbound":"len(unbound)"},"pre_requires":["len(freei) > 0"],"post_ensures":["len(aux) == old_len_aux + 1","len(freei) == old_len_freei - 1","len(np) == old_len_np + 1","len(unbound) == old_len_unbound + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(i, (Le, Ge))', 'i == False', 'i == True', 'len(freei) > 1'}, fibers={'(Le'})"]}}
 def _rel_as_nonpos(constr, syms):
     """return `(np, d, aux)` where `np` is a list of nonpositive
     expressions that represent the given constraints (possibly
@@ -821,9 +883,13 @@ def _rel_as_nonpos(constr, syms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lp_matrices(obj), return a, b, c, d, r, x+x, x for maximizing objective = cx - d with constraints ax <= b, introducing introducing auxilliary variables, x, as necessary to make replacements of symbols as given in r, {x) over {Any | isinstance(np[i], Eq)} ║
+# ║ Path(_lp_matrices(objective, constraints), (A, B, C, D, r, xx, aux)) over {Any | isinstance(np[i], Eq)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _lp_matrices : {Any | isinstance(np[i], Eq)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(np) == old_len_np + 1                      ║
+# ║   returns:  (A, B, C, D, r, xx, aux)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _lp_matrices : {Any | isinstance(np[i], Eq)} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Eq: {isinstance(np[i], Eq)} → library_axiom              ║
@@ -833,9 +899,12 @@ def _rel_as_nonpos(constr, syms):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 60ca4e59...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._lp_matrices","kind":"function","src_hash":"6feaae36f8066929","in":{"base":"Any","pred":"isinstance(np[i], Eq)"},"out":{"base":"Any"},"spec":{"lhs":"_lp_matrices(obj)","rhs":"return a, b, c, d, r, x+x, x for maximizing objective = cx - d with constraints ax <= b, introducing introducing auxilliary variables, x, as necessary to make replacements of symbols as given in r, {x","over":{"base":"Any","pred":"isinstance(np[i], Eq)"},"name":"_lp_matrices_correct"},"guarantee":"return a, b, c, d, r, x+x, x for maximizing objective = cx - d with constraints ax <= b, introducing introducing auxilliary variables, x, as necessary to make replacements of symbols as given in r, {x","fibers":[{"name":"Eq","pred":"isinstance(np[i], Eq)","path":{"lhs":"_lp_matrices(x)","rhs":"return a, b, c, d, r, x+x, x for maximizing objective = cx - d with constraints ax <= b, introducing introducing auxilliary variables, x, as necessary to make replacements of symbols as given in r, {x","over":{"base":"Eq","pred":"isinstance(np[i], Eq)"},"name":"_lp_matrices_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._lp_matrices_Eq_correct","statement":"_lp_matrices satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"60ca4e592c612a8e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._lp_matrices","kind":"function","src_hash":"6feaae36f8066929","in":{"base":"Any","pred":"isinstance(np[i], Eq)"},"out":{"base":"Any","pred":"result satisfies: result == ((A, B, C, D, r, xx, aux))"},"spec":{"lhs":"_lp_matrices(objective, constraints)","rhs":"(A, B, C, D, r, xx, aux)","over":{"base":"Any","pred":"isinstance(np[i], Eq)"},"name":"_lp_matrices_correct"},"guarantee":"returns (A, B, C, D, r, xx, aux); len(np) == old_len_np + 1","fibers":[{"name":"Eq","pred":"isinstance(np[i], Eq)","path":{"lhs":"_lp_matrices(x)","rhs":"returns (A, B, C, D, r, xx, aux); len(np) == old_len_np + 1","over":{"base":"Eq","pred":"isinstance(np[i], Eq)"},"name":"_lp_matrices_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._lp_matrices_Eq_correct","statement":"_lp_matrices satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"60ca4e592c612a8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(np) == old_len_np + 1"],"returns_expr":"(A, B, C, D, r, xx, aux)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["np.append"],"raises":["InfeasibleLPError"]},"state_contract":{"modifies":["np.*"],"old_bindings":{"old_len_np":"len(np)"},"post_ensures":["len(np) == old_len_np + 1"],"exceptional_post":{"InfeasibleLPError":["isinstance(raised, InfeasibleLPError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'_ is None', 'isinstance(np[i], Eq)'}, fibers={'Eq'})"]}}
 def _lp_matrices(objective, constraints):
     """return A, B, C, D, r, x+X, X for maximizing
     objective = Cx - D with constraints Ax <= B, introducing
@@ -880,16 +949,22 @@ def _lp_matrices(objective, constraints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lp(min), return the optimization (min or max) of ``f`` with the given constraints) over Any ║
+# ║ Path(_lp(min_max, f, constr), (o, p)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (o, p)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _lp : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 763a51d5570d1ed6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7be910d94fcdc669  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._lp","kind":"function","src_hash":"e2c89fc94ff43557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lp(min)","rhs":"return the optimization (min or max) of ``f`` with the given constraints","over":{"base":"Any"},"name":"_lp_correct"},"guarantee":"return the optimization (min or max) of ``f`` with the given constraints","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._lp_correct","statement":"Path(_lp(x), return the optimization (min or max) of ``f`` with the given constraints)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"763a51d5570d1ed6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._lp","kind":"function","src_hash":"e2c89fc94ff43557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lp(min_max, f, constr)","rhs":"(o, p)","over":{"base":"Any"},"name":"_lp_correct"},"guarantee":"returns (o, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._lp_correct","statement":"Path(_lp(x), returns (o, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7be910d94fcdc669","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(o, p)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["p.update"],"raises":["ValueError"]},"state_contract":{"modifies":["p.*"],"old_bindings":{"old_len_p":"len(p)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _lp(min_max, f, constr):
     """Return the optimization (min or max) of ``f`` with the given
     constraints. All variables are unbounded unless constrained.
@@ -960,16 +1035,22 @@ def _lp(min_max, f, constr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lpmin(f, ), return minimum of linear equation ``f`` under linear constraints expressed using ge, le or eq) over Any ║
+# ║ Path(lpmin(f, constr), _lp(min, f, constr)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _lp(min, f, constr)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lpmin : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d848a39e8c1a9acf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.lpmin","kind":"function","src_hash":"588e1b098d43a161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lpmin(f, )","rhs":"return minimum of linear equation ``f`` under linear constraints expressed using ge, le or eq","over":{"base":"Any"},"name":"lpmin_correct"},"guarantee":"return minimum of linear equation ``f`` under linear constraints expressed using ge, le or eq","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d848a39e8c1a9acf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.lpmin","kind":"function","src_hash":"588e1b098d43a161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lpmin(f, constr)","rhs":"_lp(min, f, constr)","over":{"base":"Any"},"name":"lpmin_correct"},"guarantee":"returns _lp(min, f, constr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d848a39e8c1a9acf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_lp(min, f, constr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def lpmin(f, constr):
     """return minimum of linear equation ``f`` under
     linear constraints expressed using Ge, Le or Eq.
@@ -1009,16 +1090,22 @@ def lpmin(f, constr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lpmax(f, ), return maximum of linear equation ``f`` under linear constraints expressed using ge, le or eq) over Any ║
+# ║ Path(lpmax(f, constr), _lp(max, f, constr)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _lp(max, f, constr)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lpmax : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76219a70ccbb133a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.lpmax","kind":"function","src_hash":"6b1beb9506a6d8eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lpmax(f, )","rhs":"return maximum of linear equation ``f`` under linear constraints expressed using ge, le or eq","over":{"base":"Any"},"name":"lpmax_correct"},"guarantee":"return maximum of linear equation ``f`` under linear constraints expressed using ge, le or eq","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76219a70ccbb133a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.lpmax","kind":"function","src_hash":"6b1beb9506a6d8eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lpmax(f, constr)","rhs":"_lp(max, f, constr)","over":{"base":"Any"},"name":"lpmax_correct"},"guarantee":"returns _lp(max, f, constr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76219a70ccbb133a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_lp(max, f, constr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def lpmax(f, constr):
     """return maximum of linear equation ``f`` under
     linear constraints expressed using Ge, Le or Eq.
@@ -1056,16 +1143,22 @@ def lpmax(f, constr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_bounds(bou), internal helper behaves correctly) over Any ║
+# ║ Path(_handle_bounds(bounds), <unspecified:_handle_bounds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _handle_bounds : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4a9815577bc9fb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._handle_bounds","kind":"function","src_hash":"edcbaa061d8e51eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_bounds(bou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_handle_bounds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._handle_bounds_correct","statement":"Path(_handle_bounds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4a9815577bc9fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex._handle_bounds","kind":"function","src_hash":"edcbaa061d8e51eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_bounds(bounds)","rhs":"<unspecified:_handle_bounds>","over":{"base":"Any"},"name":"_handle_bounds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex._handle_bounds_correct","statement":"Path(_handle_bounds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4a9815577bc9fb5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _handle_bounds(bounds):
     # introduce auxiliary variables as needed for univariate
     # inequalities
@@ -1120,16 +1213,25 @@ def _handle_bounds(bounds):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linprog(c, ), return the minimization of ``c*x`` with the given constraints ``a*x <= b`` and ``a_eq*x = b_eq``) over Any ║
+# ║ Path(linprog(c, A, b), (o, p[:-aux])) over {Any | not (C.rows != 1) and not (A.cols != C.cols) and hasattr(A, 'cols') and hasattr(A, 'col_join') and hasattr(b, 'col_join') and hasattr(A, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ linprog : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (C.rows != 1)                              ║
+# ║   requires: not (A.cols != C.cols)                         ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   returns:  (o, p[:-aux])                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ linprog : {Any | not (C.rows != 1) and not (A.cols !=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ef06b4a634ebedf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3ea96d00ac89c58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.linprog","kind":"function","src_hash":"70fdef26b78b7655","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linprog(c, )","rhs":"return the minimization of ``c*x`` with the given constraints ``a*x <= b`` and ``a_eq*x = b_eq``","over":{"base":"Any"},"name":"linprog_correct"},"guarantee":"return the minimization of ``c*x`` with the given constraints ``a*x <= b`` and ``a_eq*x = b_eq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex.linprog_correct","statement":"Path(linprog(x), return the minimization of ``c*x`` with the given constraints ``a*x <= b`` and ``a_eq*x = b_eq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ef06b4a634ebedf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.linprog","kind":"function","src_hash":"70fdef26b78b7655","in":{"base":"Any","pred":"not (C.rows != 1) and not (A.cols != C.cols) and hasattr(A, 'cols') and hasattr(A, 'col_join') and hasattr(b, 'col_join') and hasattr(A, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"linprog(c, A, b)","rhs":"(o, p[:-aux])","over":{"base":"Any","pred":"not (C.rows != 1) and not (A.cols != C.cols) and hasattr(A, 'cols') and hasattr(A, 'col_join') and hasattr(b, 'col_join') and hasattr(A, 'rows')"},"name":"linprog_correct"},"guarantee":"returns (o, p[:-aux])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex.linprog_correct","statement":"Path(linprog(x), returns (o, p[:-aux]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3ea96d00ac89c58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (C.rows != 1)","not (A.cols != C.cols)","hasattr(A, 'cols')","hasattr(A, 'col_join')","hasattr(b, 'col_join')","hasattr(A, 'rows')"],"returns_expr":"(o, p[:-aux])","pure":false,"effects":{"effect_type":"mutates_args","reads":["A.col_join","A.cols","A.rows","b.col_join","bounds.values"],"writes":["bounds[*]"],"calls_mutating":["db.popitem"],"raises":["ValueError"]},"state_contract":{"modifies":["bounds[*]","db.*"],"old_bindings":{"old_bounds_star":"bounds[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
     """Return the minimization of ``c*x`` with the given
     constraints ``A*x <= b`` and ``A_eq*x = b_eq``. Unless bounds
@@ -1239,16 +1341,26 @@ def linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
     return o, p[:-aux]  # don't include aux values
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(show_linprog(c, ), show_linprog produces the expected output) over Any ║
+# ║ Path(show_linprog(c, A, b), (f, c)) over {Any | not (C.rows != 1) and hasattr(A, 'cols') and hasattr(c, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ show_linprog : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (C.rows != 1)                              ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   requires: hasattr(c, 'append')                           ║
+# ║   ensures:  len(c) == old_len_c + 1                        ║
+# ║   returns:  (f, c)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ show_linprog : {Any | not (C.rows != 1) and hasattr(A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a4a43e3cb437a3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dab50ccf086ca63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.show_linprog","kind":"function","src_hash":"d84aaa2ca5d70802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show_linprog(c, )","rhs":"show_linprog produces the expected output","over":{"base":"Any"},"name":"show_linprog_correct"},"guarantee":"show_linprog produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex.show_linprog_correct","statement":"Path(show_linprog(x), show_linprog produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a4a43e3cb437a3c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.simplex.show_linprog","kind":"function","src_hash":"d84aaa2ca5d70802","in":{"base":"Any","pred":"not (C.rows != 1) and hasattr(A, 'cols') and hasattr(c, 'append')"},"out":{"base":"Any","pred":"result satisfies: result == ((f, c))"},"spec":{"lhs":"show_linprog(c, A, b)","rhs":"(f, c)","over":{"base":"Any","pred":"not (C.rows != 1) and hasattr(A, 'cols') and hasattr(c, 'append')"},"name":"show_linprog_correct"},"guarantee":"returns (f, c); len(c) == old_len_c + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.simplex.show_linprog_correct","statement":"Path(show_linprog(x), returns (f, c); len(c) == old_len_c + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dab50ccf086ca63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (C.rows != 1)","hasattr(A, 'cols')","hasattr(c, 'append')"],"ensures":["len(c) == old_len_c + 1"],"returns_expr":"(f, c)","pure":false,"effects":{"effect_type":"mutates_args","reads":["A.cols","bounds.values","c.append"],"writes":["bounds[*]"],"calls_mutating":["c.append","db.popitem"],"raises":["ValueError"]},"state_contract":{"modifies":["bounds[*]","c.*","db.*"],"old_bindings":{"old_bounds_star":"bounds[*]","old_len_c":"len(c)"},"post_ensures":["len(c) == old_len_c + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def show_linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
     from sympy import symbols
     ## the objective

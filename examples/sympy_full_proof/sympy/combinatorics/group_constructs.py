@@ -23,16 +23,22 @@ _af_new = Permutation._af_new
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DirectProduct(*gr), returns the direct product of several groups as a permutation group) over Any ║
+# ║ Path(DirectProduct(*groups), PermutationGroup(perm_gens, dups=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(perm_gens, dups=False)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DirectProduct : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae36c0535a4f7611  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea3a091a2da2f298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_constructs.DirectProduct","kind":"function","src_hash":"ea6ae8ee4332ed1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DirectProduct(*gr)","rhs":"returns the direct product of several groups as a permutation group","over":{"base":"Any"},"name":"DirectProduct_correct"},"guarantee":"returns the direct product of several groups as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_constructs.DirectProduct_correct","statement":"Path(DirectProduct(x), returns the direct product of several groups as a permutation group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae36c0535a4f7611"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_constructs.DirectProduct","kind":"function","src_hash":"ea6ae8ee4332ed1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DirectProduct(*groups)","rhs":"PermutationGroup(perm_gens, dups=False)","over":{"base":"Any"},"name":"DirectProduct_correct"},"guarantee":"returns PermutationGroup(perm_gens, dups=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_constructs.DirectProduct_correct","statement":"Path(DirectProduct(x), returns PermutationGroup(perm_gens, dups=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea3a091a2da2f298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(perm_gens, dups=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*groups']"]}}
 def DirectProduct(*groups):
     """
     Returns the direct product of several groups as a permutation group.

@@ -35,16 +35,24 @@ from sympy.testing.pytest import XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbol(), test_symbol produces the expected output) over Any ║
+# ║ Path(test_symbol(), e.match(x) == {} and e.matches(x) == {} and e.match(a) == {a: x} and e.match(c) == {c: 5} and e.match(e) == {} and e.match(e + 1) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbol : Any → {Any | e.match(x) == {} and e.mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(x) == {}                               ║
+# ║   ensures:  e.matches(x) == {}                             ║
+# ║   ensures:  e.match(a) == {a: x}                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbol : Any → {Any | result satisfies: e.match(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c1350e845c0eebf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d1d7541d380ba54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_symbol","kind":"function","src_hash":"18bc2369ece1318c","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(x) == {} and e.matches(x) == {} and e.match(a) == {a: x} and e.match(c) == {c: 5} and e.match(e) == {} and e.match(e + 1) is None"},"spec":{"lhs":"test_symbol()","rhs":"test_symbol produces the expected output","over":{"base":"Any"},"name":"test_symbol_correct"},"guarantee":"test_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_symbol_correct","statement":"Path(test_symbol(x), test_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c1350e845c0eebf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_symbol","kind":"function","src_hash":"18bc2369ece1318c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(x) == {} and e.matches(x) == {} and e.match(a) == {a: x} and e.match(c) == {c: 5} and e.match(e) == {} and e.match(e + 1) is None"},"spec":{"lhs":"test_symbol()","rhs":"e.match(x) == {} and e.matches(x) == {} and e.match(a) == {a: x} and e.match(c) == {c: 5} and e.match(e) == {} and e.match(e + 1) is None","over":{"base":"Any"},"name":"test_symbol_correct"},"guarantee":"e.match(x) == {}; e.matches(x) == {}; e.match(a) == {a: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_symbol_correct","statement":"Path(test_symbol(x), e.match(x) == {}; e.matches(x) == {}; e.match(a) == {a: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d1d7541d380ba54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(x) == {}","e.matches(x) == {}","e.match(a) == {a: x}","e.match(c) == {c: 5}","e.match(e) == {}","e.match(e + 1) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbol():
     x = Symbol('x')
     a, b, c, p, q = map(Wild, 'abcpq')
@@ -61,16 +69,24 @@ def test_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add(), test_add produces the expected output) over Any ║
+# ║ Path(test_add(), e.match(p + b) == {p: a} and e.match(p + a) == {p: b} and e.match(p + b) == {p: 1} and e.match(a + p + c) == {p: b} and e.match(b + p + c) == {p: a} and e.match(a + p + x + c) == {p: b} and e.match(b + p + c + x) == {p: a} and e.match(b) is None and e.match(b + p) == {p: a + c + x} and e.match(a + p + c) == {p: b + x} and e.match(b + p + c) == {p: a + x} and e.match(4 * x + p) == {p: 5} and e.match(3 * x + p) == {p: x + 5} and e.match(p * x + 5) == {p: 4}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add : Any → {Any | e.match(p + b) == {p: a} and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(p + b) == {p: a}                       ║
+# ║   ensures:  e.match(p + a) == {p: b}                       ║
+# ║   ensures:  e.match(p + b) == {p: 1}                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add : Any → {Any | result satisfies: e.match(p +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 969d3508aa12a71f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d40ac23e575a9cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_add","kind":"function","src_hash":"55c84fa1d99b0e3d","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(p + b) == {p: a} and e.match(p + a) == {p: b} and e.match(p + b) == {p: 1} and e.match(a + p + c) == {p: b} and e.match(b + p + c) == {p: a} and e.match(a + p + x + c) == {p: b} and e.match(b + p + c + x) == {p: a} and e.match(b) is None and e.match(b + p) == {p: a + c + x} and e.match(a + p + c) == {p: b + x} and e.match(b + p + c) == {p: a + x} and e.match(4 * x + p) == {p: 5} and e.match(3 * x + p) == {p: x + 5} and e.match(p * x + 5) == {p: 4}"},"spec":{"lhs":"test_add()","rhs":"test_add produces the expected output","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"test_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_add_correct","statement":"Path(test_add(x), test_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"969d3508aa12a71f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_add","kind":"function","src_hash":"55c84fa1d99b0e3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(p + b) == {p: a} and e.match(p + a) == {p: b} and e.match(p + b) == {p: 1} and e.match(a + p + c) == {p: b} and e.match(b + p + c) == {p: a} and e.match(a + p + x + c) == {p: b} and e.match(b + p + c + x) == {p: a} and e.match(b) is None and e.match(b + p) == {p: a + c + x} and e.match(a + p + c) == {p: b + x} and e.match(b + p + c) == {p: a + x} and e.match(4 * x + p) == {p: 5} and e.match(3 * x + p) == {p: x + 5} and e.match(p * x + 5) == {p: 4}"},"spec":{"lhs":"test_add()","rhs":"e.match(p + b) == {p: a} and e.match(p + a) == {p: b} and e.match(p + b) == {p: 1} and e.match(a + p + c) == {p: b} and e.match(b + p + c) == {p: a} and e.match(a + p + x + c) == {p: b} and e.match(b + p + c + x) == {p: a} and e.match(b) is None and e.match(b + p) == {p: a + c + x} and e.match(a + p + c) == {p: b + x} and e.match(b + p + c) == {p: a + x} and e.match(4 * x + p) == {p: 5} and e.match(3 * x + p) == {p: x + 5} and e.match(p * x + 5) == {p: 4}","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"e.match(p + b) == {p: a}; e.match(p + a) == {p: b}; e.match(p + b) == {p: 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_add_correct","statement":"Path(test_add(x), e.match(p + b) == {p: a}; e.match(p + a) == {p: b}; e.match(p + b) == {p: 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d40ac23e575a9cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(p + b) == {p: a}","e.match(p + a) == {p: b}","e.match(p + b) == {p: 1}","e.match(a + p + c) == {p: b}","e.match(b + p + c) == {p: a}","e.match(a + p + x + c) == {p: b}","e.match(b + p + c + x) == {p: a}","e.match(b) is None","e.match(b + p) == {p: a + c + x}","e.match(a + p + c) == {p: b + x}","e.match(b + p + c) == {p: a + x}","e.match(4 * x + p) == {p: 5}","e.match(3 * x + p) == {p: x + 5}","e.match(p * x + 5) == {p: 4}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_add():
     x, y, a, b, c = map(Symbol, 'xyabc')
     p, q, r = map(Wild, 'pqr')
@@ -101,16 +117,24 @@ def test_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_power(), test_power produces the expected output) over Any ║
+# ║ Path(test_power(), e.match(p ** q) == {p: x + y, q: a} and e.match(p ** p) is None and e.match(p ** p) == {p: x + y} and e.match(p ** q) == {p: x + y, q: x + y} and e.match(p * q ** r) == {p: 4, q: x, r: 2} and e.match(x ** p) == {p: 0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_power : Any → {Any | e.match(p ** q) == {p: x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(p ** q) == {p: x + y, q: a}            ║
+# ║   ensures:  e.match(p ** p) is None                        ║
+# ║   ensures:  e.match(p ** p) == {p: x + y}                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_power : Any → {Any | result satisfies: e.match(p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 886e4ec74969c52b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8557ba3bf835e5a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_power","kind":"function","src_hash":"72440b02a5027e08","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(p ** q) == {p: x + y, q: a} and e.match(p ** p) is None and e.match(p ** p) == {p: x + y} and e.match(p ** q) == {p: x + y, q: x + y} and e.match(p * q ** r) == {p: 4, q: x, r: 2} and e.match(x ** p) == {p: 0}"},"spec":{"lhs":"test_power()","rhs":"test_power produces the expected output","over":{"base":"Any"},"name":"test_power_correct"},"guarantee":"test_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_power_correct","statement":"Path(test_power(x), test_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"886e4ec74969c52b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_power","kind":"function","src_hash":"72440b02a5027e08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(p ** q) == {p: x + y, q: a} and e.match(p ** p) is None and e.match(p ** p) == {p: x + y} and e.match(p ** q) == {p: x + y, q: x + y} and e.match(p * q ** r) == {p: 4, q: x, r: 2} and e.match(x ** p) == {p: 0}"},"spec":{"lhs":"test_power()","rhs":"e.match(p ** q) == {p: x + y, q: a} and e.match(p ** p) is None and e.match(p ** p) == {p: x + y} and e.match(p ** q) == {p: x + y, q: x + y} and e.match(p * q ** r) == {p: 4, q: x, r: 2} and e.match(x ** p) == {p: 0}","over":{"base":"Any"},"name":"test_power_correct"},"guarantee":"e.match(p ** q) == {p: x + y, q: a}; e.match(p ** p) is None; e.match(p ** p) == {p: x + y}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_power_correct","statement":"Path(test_power(x), e.match(p ** q) == {p: x + y, q: a}; e.match(p ** p) is None; e.match(p ** p) == {p: x + y})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8557ba3bf835e5a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(p ** q) == {p: x + y, q: a}","e.match(p ** p) is None","e.match(p ** p) == {p: x + y}","e.match(p ** q) == {p: x + y, q: x + y}","e.match(p * q ** r) == {p: 4, q: x, r: 2}","e.match(x ** p) == {p: 0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_power():
     x, y, a, b, c = map(Symbol, 'xyabc')
     p, q, r = map(Wild, 'pqr')
@@ -131,16 +155,24 @@ def test_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_exclude(), test_match_exclude produces the expected output) over Any ║
+# ║ Path(test_match_exclude(), e.match(2 * p) == {p: 3} and e.match(3 / (p * x + q)) == {p: 4, q: 5} and e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5} and e.match(p / (q * x + r)) == {p: 2, q: 1, r: 1} and e.match(p / (q * x + r)) == {p: 1, q: 1, r: 1} and e.match(p * x + q) == {p: 4, q: 5} and e.match(p * x + q * y + r) == {p: 4, q: 5, r: 6} and e.match(p * x) == {p: 3} and e.match(a * x) == {a: 3} and e.match(p * x) == {p: 3 * x} and e.match(a * x) is None and e.match(p * x ** 2 + p * x + 2 * p) == {p: 3 / x} and e.match(a * x ** 2 + a * x + 2 * a) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_exclude : Any → {Any | e.match(2 * p) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(2 * p) == {p: 3}                       ║
+# ║   ensures:  e.match(3 / (p * x + q)) == {p: 4, q: 5}       ║
+# ║   ensures:  e.match(p / (q * x + r)) == {p: 3, q: 4, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_exclude : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23f0b5cda37d15bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f51aafc102765462  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_exclude","kind":"function","src_hash":"e703c3c6dcf745b6","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(2 * p) == {p: 3} and e.match(3 / (p * x + q)) == {p: 4, q: 5} and e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5} and e.match(p / (q * x + r)) == {p: 2, q: 1, r: 1} and e.match(p / (q * x + r)) == {p: 1, q: 1, r: 1} and e.match(p * x + q) == {p: 4, q: 5} and e.match(p * x + q * y + r) == {p: 4, q: 5, r: 6} and e.match(p * x) == {p: 3} and e.match(a * x) == {a: 3} and e.match(p * x) == {p: 3 * x} and e.match(a * x) is None and e.match(p * x ** 2 + p * x + 2 * p) == {p: 3 / x} and e.match(a * x ** 2 + a * x + 2 * a) is None"},"spec":{"lhs":"test_match_exclude()","rhs":"test_match_exclude produces the expected output","over":{"base":"Any"},"name":"test_match_exclude_correct"},"guarantee":"test_match_exclude produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_exclude_correct","statement":"Path(test_match_exclude(x), test_match_exclude produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f0b5cda37d15bf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_exclude","kind":"function","src_hash":"e703c3c6dcf745b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(2 * p) == {p: 3} and e.match(3 / (p * x + q)) == {p: 4, q: 5} and e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5} and e.match(p / (q * x + r)) == {p: 2, q: 1, r: 1} and e.match(p / (q * x + r)) == {p: 1, q: 1, r: 1} and e.match(p * x + q) == {p: 4, q: 5} and e.match(p * x + q * y + r) == {p: 4, q: 5, r: 6} and e.match(p * x) == {p: 3} and e.match(a * x) == {a: 3} and e.match(p * x) == {p: 3 * x} and e.match(a * x) is None and e.match(p * x ** 2 + p * x + 2 * p) == {p: 3 / x} and e.match(a * x ** 2 + a * x + 2 * a) is None"},"spec":{"lhs":"test_match_exclude()","rhs":"e.match(2 * p) == {p: 3} and e.match(3 / (p * x + q)) == {p: 4, q: 5} and e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5} and e.match(p / (q * x + r)) == {p: 2, q: 1, r: 1} and e.match(p / (q * x + r)) == {p: 1, q: 1, r: 1} and e.match(p * x + q) == {p: 4, q: 5} and e.match(p * x + q * y + r) == {p: 4, q: 5, r: 6} and e.match(p * x) == {p: 3} and e.match(a * x) == {a: 3} and e.match(p * x) == {p: 3 * x} and e.match(a * x) is None and e.match(p * x ** 2 + p * x + 2 * p) == {p: 3 / x} and e.match(a * x ** 2 + a * x + 2 * a) is None","over":{"base":"Any"},"name":"test_match_exclude_correct"},"guarantee":"e.match(2 * p) == {p: 3}; e.match(3 / (p * x + q)) == {p: 4, q: 5}; e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_exclude_correct","statement":"Path(test_match_exclude(x), e.match(2 * p) == {p: 3}; e.match(3 / (p * x + q)) == {p: 4, q: 5}; e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f51aafc102765462","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(2 * p) == {p: 3}","e.match(3 / (p * x + q)) == {p: 4, q: 5}","e.match(p / (q * x + r)) == {p: 3, q: 4, r: 5}","e.match(p / (q * x + r)) == {p: 2, q: 1, r: 1}","e.match(p / (q * x + r)) == {p: 1, q: 1, r: 1}","e.match(p * x + q) == {p: 4, q: 5}","e.match(p * x + q * y + r) == {p: 4, q: 5, r: 6}","e.match(p * x) == {p: 3}","e.match(a * x) == {a: 3}","e.match(p * x) == {p: 3 * x}","e.match(a * x) is None","e.match(p * x ** 2 + p * x + 2 * p) == {p: 3 / x}","e.match(a * x ** 2 + a * x + 2 * a) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_match_exclude():
     x = Symbol('x')
     y = Symbol('y')
@@ -185,16 +217,24 @@ def test_match_exclude():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul(), test_mul produces the expected output) over Any ║
+# ║ Path(test_mul(), e.match(p * x) == {p: 4} and e.match(p * y) is None and e.match(e + p * y) == {p: 0} and e.match(p * x) == {p: a * b * c} and e.match(c * p * x) == {p: a * b} and e.match((p + b) * (p + c)) == {p: a} and e.match(p * x) == {p: 1} and e.match(x ** p * exp(x * q)) == {p: 0, q: 1} and e.match(I * p) == {p: x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul : Any → {Any | e.match(p * x) == {p: 4} and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(p * x) == {p: 4}                       ║
+# ║   ensures:  e.match(p * y) is None                         ║
+# ║   ensures:  e.match(e + p * y) == {p: 0}                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul : Any → {Any | result satisfies: e.match(p *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 762134a218672220  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe72f339a69c72a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul","kind":"function","src_hash":"f8f1ff674691af14","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(p * x) == {p: 4} and e.match(p * y) is None and e.match(e + p * y) == {p: 0} and e.match(p * x) == {p: a * b * c} and e.match(c * p * x) == {p: a * b} and e.match((p + b) * (p + c)) == {p: a} and e.match(p * x) == {p: 1} and e.match(x ** p * exp(x * q)) == {p: 0, q: 1} and e.match(I * p) == {p: x}"},"spec":{"lhs":"test_mul()","rhs":"test_mul produces the expected output","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"test_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_correct","statement":"Path(test_mul(x), test_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"762134a218672220"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul","kind":"function","src_hash":"f8f1ff674691af14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(p * x) == {p: 4} and e.match(p * y) is None and e.match(e + p * y) == {p: 0} and e.match(p * x) == {p: a * b * c} and e.match(c * p * x) == {p: a * b} and e.match((p + b) * (p + c)) == {p: a} and e.match(p * x) == {p: 1} and e.match(x ** p * exp(x * q)) == {p: 0, q: 1} and e.match(I * p) == {p: x}"},"spec":{"lhs":"test_mul()","rhs":"e.match(p * x) == {p: 4} and e.match(p * y) is None and e.match(e + p * y) == {p: 0} and e.match(p * x) == {p: a * b * c} and e.match(c * p * x) == {p: a * b} and e.match((p + b) * (p + c)) == {p: a} and e.match(p * x) == {p: 1} and e.match(x ** p * exp(x * q)) == {p: 0, q: 1} and e.match(I * p) == {p: x}","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"e.match(p * x) == {p: 4}; e.match(p * y) is None; e.match(e + p * y) == {p: 0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_correct","statement":"Path(test_mul(x), e.match(p * x) == {p: 4}; e.match(p * y) is None; e.match(e + p * y) == {p: 0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe72f339a69c72a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(p * x) == {p: 4}","e.match(p * y) is None","e.match(e + p * y) == {p: 0}","e.match(p * x) == {p: a * b * c}","e.match(c * p * x) == {p: a * b}","e.match((p + b) * (p + c)) == {p: a}","e.match(p * x) == {p: 1}","e.match(x ** p * exp(x * q)) == {p: 0, q: 1}","e.match(I * p) == {p: x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_mul():
     x, y, a, b, c = map(Symbol, 'xyabc')
     p, q = map(Wild, 'pq')
@@ -222,16 +262,24 @@ def test_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_noncommutative(), test_mul_noncommutative produces the expected output) over Any ║
+# ║ Path(test_mul_noncommutative(), (u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1}) and (u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x}) and (u * v).matches(A) is None and (u * v).matches(A * B) is None and (u * v).matches(x * A) is None and (u * v).matches(x * y * A) is None and (u * v).matches(x * A * B) is None and (u * v).matches(x * y * A * B) is None and (v * w).matches(x) is None and (v * w).matches(x * y) is None and (v * w).matches(A) == {w: A, v: 1} and (v * w).matches(A * B) == {w: A * B, v: 1} and (v * w).matches(x * A) == {w: A, v: x} and (v * w).matches(x * y * A) == {w: A, v: x * y} and (v * w).matches(x * A * B) == {w: A * B, v: x} and (v * w).matches(x * y * A * B) == {w: A * B, v: x * y} and (v * w).matches(-x) is None and (v * w).matches(-x * y) is None and (v * w).matches(-A) == {w: A, v: -1} and (v * w).matches(-A * B) == {w: A * B, v: -1} and (v * w).matches(-x * A) == {w: A, v: -x} and (v * w).matches(-x * y * A) == {w: A, v: -x * y} and (v * w).matches(-x * A * B) == {w: A * B, v: -x} and (v * w).matches(-x * y * A * B) == {w: A * B, v: -x * y} and (w * z).matches(x) is None and (w * z).matches(x * y) is None and (w * z).matches(A) is None and (w * z).matches(A * B) == {w: A, z: B} and (w * z).matches(B * A) == {w: B, z: A} and (w * z).matches(A * B * C) in [{w: A, z: B * C}, {w: A * B, z: C}] and (w * z).matches(x * A) is None and (w * z).matches(x * y * A) is None and (w * z).matches(x * A * B) is None and (w * z).matches(x * y * A * B) is None and (w * A).matches(A) is None and (A * w * B).matches(A * B) is None and (u * w * z).matches(x) is None and (u * w * z).matches(x * y) is None and (u * w * z).matches(A) is None and (u * w * z).matches(A * B) == {u: 1, w: A, z: B} and (u * w * z).matches(B * A) == {u: 1, w: B, z: A} and (u * w * z).matches(x * A) is None and (u * w * z).matches(x * y * A) is None and (u * w * z).matches(x * A * B) == {u: x, w: A, z: B} and (u * w * z).matches(x * B * A) == {u: x, w: B, z: A} and (u * w * z).matches(x * y * A * B) == {u: x * y, w: A, z: B} and (u * w * z).matches(x * y * B * A) == {u: x * y, w: B, z: A} and (u * A).matches(x * A) == {u: x} and (u * A).matches(x * A * B) is None and (u * B).matches(x * A) is None and (u * A * B).matches(x * A * B) == {u: x} and (u * A * B).matches(x * B * A) is None and (u * A * B).matches(x * A) is None and (u * w * A).matches(x * A * B) is None and (u * w * B).matches(x * A * B) == {u: x, w: A} and (u * v * A * B).matches(x * A * B) in [{u: x, v: 1}, {v: x, u: 1}] and (u * v * A * B).matches(x * B * A) is None and (u * v * A * B).matches(u * v * A * C) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_noncommutative : Any → {Any | (u * v).matche...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (u * v).matches(x) in ({v: x, u: 1}, {u: ...   ║
+# ║   ensures:  (u * v).matches(x * y) in ({v: y, u: x}, ...   ║
+# ║   ensures:  (u * v).matches(A) is None                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_noncommutative : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5136d2eac7a72cad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01ff88748a5ad6bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul_noncommutative","kind":"function","src_hash":"2d69a03d9d7c3213","in":{"base":"Any"},"out":{"base":"Any","pred":"(u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1}) and (u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x}) and (u * v).matches(A) is None and (u * v).matches(A * B) is None and (u * v).matches(x * A) is None and (u * v).matches(x * y * A) is None and (u * v).matches(x * A * B) is None and (u * v).matches(x * y * A * B) is None and (v * w).matches(x) is None and (v * w).matches(x * y) is None and (v * w).matches(A) == {w: A, v: 1} and (v * w).matches(A * B) == {w: A * B, v: 1} and (v * w).matches(x * A) == {w: A, v: x} and (v * w).matches(x * y * A) == {w: A, v: x * y} and (v * w).matches(x * A * B) == {w: A * B, v: x} and (v * w).matches(x * y * A * B) == {w: A * B, v: x * y} and (v * w).matches(-x) is None and (v * w).matches(-x * y) is None and (v * w).matches(-A) == {w: A, v: -1} and (v * w).matches(-A * B) == {w: A * B, v: -1} and (v * w).matches(-x * A) == {w: A, v: -x} and (v * w).matches(-x * y * A) == {w: A, v: -x * y} and (v * w).matches(-x * A * B) == {w: A * B, v: -x} and (v * w).matches(-x * y * A * B) == {w: A * B, v: -x * y} and (w * z).matches(x) is None and (w * z).matches(x * y) is None and (w * z).matches(A) is None and (w * z).matches(A * B) == {w: A, z: B} and (w * z).matches(B * A) == {w: B, z: A} and (w * z).matches(A * B * C) in [{w: A, z: B * C}, {w: A * B, z: C}] and (w * z).matches(x * A) is None and (w * z).matches(x * y * A) is None and (w * z).matches(x * A * B) is None and (w * z).matches(x * y * A * B) is None and (w * A).matches(A) is None and (A * w * B).matches(A * B) is None and (u * w * z).matches(x) is None and (u * w * z).matches(x * y) is None and (u * w * z).matches(A) is None and (u * w * z).matches(A * B) == {u: 1, w: A, z: B} and (u * w * z).matches(B * A) == {u: 1, w: B, z: A} and (u * w * z).matches(x * A) is None and (u * w * z).matches(x * y * A) is None and (u * w * z).matches(x * A * B) == {u: x, w: A, z: B} and (u * w * z).matches(x * B * A) == {u: x, w: B, z: A} and (u * w * z).matches(x * y * A * B) == {u: x * y, w: A, z: B} and (u * w * z).matches(x * y * B * A) == {u: x * y, w: B, z: A} and (u * A).matches(x * A) == {u: x} and (u * A).matches(x * A * B) is None and (u * B).matches(x * A) is None and (u * A * B).matches(x * A * B) == {u: x} and (u * A * B).matches(x * B * A) is None and (u * A * B).matches(x * A) is None and (u * w * A).matches(x * A * B) is None and (u * w * B).matches(x * A * B) == {u: x, w: A} and (u * v * A * B).matches(x * A * B) in [{u: x, v: 1}, {v: x, u: 1}] and (u * v * A * B).matches(x * B * A) is None and (u * v * A * B).matches(u * v * A * C) is None"},"spec":{"lhs":"test_mul_noncommutative()","rhs":"test_mul_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_mul_noncommutative_correct"},"guarantee":"test_mul_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_noncommutative_correct","statement":"Path(test_mul_noncommutative(x), test_mul_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5136d2eac7a72cad"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul_noncommutative","kind":"function","src_hash":"2d69a03d9d7c3213","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1}) and (u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x}) and (u * v).matches(A) is None and (u * v).matches(A * B) is None and (u * v).matches(x * A) is None and (u * v).matches(x * y * A) is None and (u * v).matches(x * A * B) is None and (u * v).matches(x * y * A * B) is None and (v * w).matches(x) is None and (v * w).matches(x * y) is None and (v * w).matches(A) == {w: A, v: 1} and (v * w).matches(A * B) == {w: A * B, v: 1} and (v * w).matches(x * A) == {w: A, v: x} and (v * w).matches(x * y * A) == {w: A, v: x * y} and (v * w).matches(x * A * B) == {w: A * B, v: x} and (v * w).matches(x * y * A * B) == {w: A * B, v: x * y} and (v * w).matches(-x) is None and (v * w).matches(-x * y) is None and (v * w).matches(-A) == {w: A, v: -1} and (v * w).matches(-A * B) == {w: A * B, v: -1} and (v * w).matches(-x * A) == {w: A, v: -x} and (v * w).matches(-x * y * A) == {w: A, v: -x * y} and (v * w).matches(-x * A * B) == {w: A * B, v: -x} and (v * w).matches(-x * y * A * B) == {w: A * B, v: -x * y} and (w * z).matches(x) is None and (w * z).matches(x * y) is None and (w * z).matches(A) is None and (w * z).matches(A * B) == {w: A, z: B} and (w * z).matches(B * A) == {w: B, z: A} and (w * z).matches(A * B * C) in [{w: A, z: B * C}, {w: A * B, z: C}] and (w * z).matches(x * A) is None and (w * z).matches(x * y * A) is None and (w * z).matches(x * A * B) is None and (w * z).matches(x * y * A * B) is None and (w * A).matches(A) is None and (A * w * B).matches(A * B) is None and (u * w * z).matches(x) is None and (u * w * z).matches(x * y) is None and (u * w * z).matches(A) is None and (u * w * z).matches(A * B) == {u: 1, w: A, z: B} and (u * w * z).matches(B * A) == {u: 1, w: B, z: A} and (u * w * z).matches(x * A) is None and (u * w * z).matches(x * y * A) is None and (u * w * z).matches(x * A * B) == {u: x, w: A, z: B} and (u * w * z).matches(x * B * A) == {u: x, w: B, z: A} and (u * w * z).matches(x * y * A * B) == {u: x * y, w: A, z: B} and (u * w * z).matches(x * y * B * A) == {u: x * y, w: B, z: A} and (u * A).matches(x * A) == {u: x} and (u * A).matches(x * A * B) is None and (u * B).matches(x * A) is None and (u * A * B).matches(x * A * B) == {u: x} and (u * A * B).matches(x * B * A) is None and (u * A * B).matches(x * A) is None and (u * w * A).matches(x * A * B) is None and (u * w * B).matches(x * A * B) == {u: x, w: A} and (u * v * A * B).matches(x * A * B) in [{u: x, v: 1}, {v: x, u: 1}] and (u * v * A * B).matches(x * B * A) is None and (u * v * A * B).matches(u * v * A * C) is None"},"spec":{"lhs":"test_mul_noncommutative()","rhs":"(u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1}) and (u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x}) and (u * v).matches(A) is None and (u * v).matches(A * B) is None and (u * v).matches(x * A) is None and (u * v).matches(x * y * A) is None and (u * v).matches(x * A * B) is None and (u * v).matches(x * y * A * B) is None and (v * w).matches(x) is None and (v * w).matches(x * y) is None and (v * w).matches(A) == {w: A, v: 1} and (v * w).matches(A * B) == {w: A * B, v: 1} and (v * w).matches(x * A) == {w: A, v: x} and (v * w).matches(x * y * A) == {w: A, v: x * y} and (v * w).matches(x * A * B) == {w: A * B, v: x} and (v * w).matches(x * y * A * B) == {w: A * B, v: x * y} and (v * w).matches(-x) is None and (v * w).matches(-x * y) is None and (v * w).matches(-A) == {w: A, v: -1} and (v * w).matches(-A * B) == {w: A * B, v: -1} and (v * w).matches(-x * A) == {w: A, v: -x} and (v * w).matches(-x * y * A) == {w: A, v: -x * y} and (v * w).matches(-x * A * B) == {w: A * B, v: -x} and (v * w).matches(-x * y * A * B) == {w: A * B, v: -x * y} and (w * z).matches(x) is None and (w * z).matches(x * y) is None and (w * z).matches(A) is None and (w * z).matches(A * B) == {w: A, z: B} and (w * z).matches(B * A) == {w: B, z: A} and (w * z).matches(A * B * C) in [{w: A, z: B * C}, {w: A * B, z: C}] and (w * z).matches(x * A) is None and (w * z).matches(x * y * A) is None and (w * z).matches(x * A * B) is None and (w * z).matches(x * y * A * B) is None and (w * A).matches(A) is None and (A * w * B).matches(A * B) is None and (u * w * z).matches(x) is None and (u * w * z).matches(x * y) is None and (u * w * z).matches(A) is None and (u * w * z).matches(A * B) == {u: 1, w: A, z: B} and (u * w * z).matches(B * A) == {u: 1, w: B, z: A} and (u * w * z).matches(x * A) is None and (u * w * z).matches(x * y * A) is None and (u * w * z).matches(x * A * B) == {u: x, w: A, z: B} and (u * w * z).matches(x * B * A) == {u: x, w: B, z: A} and (u * w * z).matches(x * y * A * B) == {u: x * y, w: A, z: B} and (u * w * z).matches(x * y * B * A) == {u: x * y, w: B, z: A} and (u * A).matches(x * A) == {u: x} and (u * A).matches(x * A * B) is None and (u * B).matches(x * A) is None and (u * A * B).matches(x * A * B) == {u: x} and (u * A * B).matches(x * B * A) is None and (u * A * B).matches(x * A) is None and (u * w * A).matches(x * A * B) is None and (u * w * B).matches(x * A * B) == {u: x, w: A} and (u * v * A * B).matches(x * A * B) in [{u: x, v: 1}, {v: x, u: 1}] and (u * v * A * B).matches(x * B * A) is None and (u * v * A * B).matches(u * v * A * C) is None","over":{"base":"Any"},"name":"test_mul_noncommutative_correct"},"guarantee":"(u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1}); (u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x}); (u * v).matches(A) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_noncommutative_correct","statement":"Path(test_mul_noncommutative(x), (u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1}); (u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x}); (u * v).matches(A) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01ff88748a5ad6bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(u * v).matches(x) in ({v: x, u: 1}, {u: x, v: 1})","(u * v).matches(x * y) in ({v: y, u: x}, {u: y, v: x})","(u * v).matches(A) is None","(u * v).matches(A * B) is None","(u * v).matches(x * A) is None","(u * v).matches(x * y * A) is None","(u * v).matches(x * A * B) is None","(u * v).matches(x * y * A * B) is None","(v * w).matches(x) is None","(v * w).matches(x * y) is None","(v * w).matches(A) == {w: A, v: 1}","(v * w).matches(A * B) == {w: A * B, v: 1}","(v * w).matches(x * A) == {w: A, v: x}","(v * w).matches(x * y * A) == {w: A, v: x * y}","(v * w).matches(x * A * B) == {w: A * B, v: x}","(v * w).matches(x * y * A * B) == {w: A * B, v: x * y}","(v * w).matches(-x) is None","(v * w).matches(-x * y) is None","(v * w).matches(-A) == {w: A, v: -1}","(v * w).matches(-A * B) == {w: A * B, v: -1}","(v * w).matches(-x * A) == {w: A, v: -x}","(v * w).matches(-x * y * A) == {w: A, v: -x * y}","(v * w).matches(-x * A * B) == {w: A * B, v: -x}","(v * w).matches(-x * y * A * B) == {w: A * B, v: -x * y}","(w * z).matches(x) is None","(w * z).matches(x * y) is None","(w * z).matches(A) is None","(w * z).matches(A * B) == {w: A, z: B}","(w * z).matches(B * A) == {w: B, z: A}","(w * z).matches(A * B * C) in [{w: A, z: B * C}, {w: A * B, z: C}]","(w * z).matches(x * A) is None","(w * z).matches(x * y * A) is None","(w * z).matches(x * A * B) is None","(w * z).matches(x * y * A * B) is None","(w * A).matches(A) is None","(A * w * B).matches(A * B) is None","(u * w * z).matches(x) is None","(u * w * z).matches(x * y) is None","(u * w * z).matches(A) is None","(u * w * z).matches(A * B) == {u: 1, w: A, z: B}","(u * w * z).matches(B * A) == {u: 1, w: B, z: A}","(u * w * z).matches(x * A) is None","(u * w * z).matches(x * y * A) is None","(u * w * z).matches(x * A * B) == {u: x, w: A, z: B}","(u * w * z).matches(x * B * A) == {u: x, w: B, z: A}","(u * w * z).matches(x * y * A * B) == {u: x * y, w: A, z: B}","(u * w * z).matches(x * y * B * A) == {u: x * y, w: B, z: A}","(u * A).matches(x * A) == {u: x}","(u * A).matches(x * A * B) is None","(u * B).matches(x * A) is None","(u * A * B).matches(x * A * B) == {u: x}","(u * A * B).matches(x * B * A) is None","(u * A * B).matches(x * A) is None","(u * w * A).matches(x * A * B) is None","(u * w * B).matches(x * A * B) == {u: x, w: A}","(u * v * A * B).matches(x * A * B) in [{u: x, v: 1}, {v: x, u: 1}]","(u * v * A * B).matches(x * B * A) is None","(u * v * A * B).matches(u * v * A * C) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_mul_noncommutative():
     x, y = symbols('x y')
     A, B, C = symbols('A B C', commutative=False)
@@ -307,16 +355,24 @@ def test_mul_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_noncommutative_mismatch(), test_mul_noncommutative_mismatch produces the expected output) over Any ║
+# ║ Path(test_mul_noncommutative_mismatch(), (w * B * w).matches(A * B * A) == {w: A} and (w * B * w).matches(A * C * B * A * C) == {w: A * C} and (w * B * w).matches(A * C * B * A * B) is None and (w * B * w).matches(A * B * C) is None and (w * w * C).matches(A * B * C) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_noncommutative_mismatch : Any → {Any | (w * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (w * B * w).matches(A * B * A) == {w: A}       ║
+# ║   ensures:  (w * B * w).matches(A * C * B * A * C) ==...   ║
+# ║   ensures:  (w * B * w).matches(A * C * B * A * B) is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_noncommutative_mismatch : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 833da3dc1d93e5d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eafdfb07b158057  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul_noncommutative_mismatch","kind":"function","src_hash":"1bd877fad27db8aa","in":{"base":"Any"},"out":{"base":"Any","pred":"(w * B * w).matches(A * B * A) == {w: A} and (w * B * w).matches(A * C * B * A * C) == {w: A * C} and (w * B * w).matches(A * C * B * A * B) is None and (w * B * w).matches(A * B * C) is None and (w * w * C).matches(A * B * C) is None"},"spec":{"lhs":"test_mul_noncommutative_mismatch()","rhs":"test_mul_noncommutative_mismatch produces the expected output","over":{"base":"Any"},"name":"test_mul_noncommutative_mismatch_correct"},"guarantee":"test_mul_noncommutative_mismatch produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_noncommutative_mismatch_correct","statement":"Path(test_mul_noncommutative_mismatch(x), test_mul_noncommutative_mismatch produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833da3dc1d93e5d9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul_noncommutative_mismatch","kind":"function","src_hash":"1bd877fad27db8aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (w * B * w).matches(A * B * A) == {w: A} and (w * B * w).matches(A * C * B * A * C) == {w: A * C} and (w * B * w).matches(A * C * B * A * B) is None and (w * B * w).matches(A * B * C) is None and (w * w * C).matches(A * B * C) is None"},"spec":{"lhs":"test_mul_noncommutative_mismatch()","rhs":"(w * B * w).matches(A * B * A) == {w: A} and (w * B * w).matches(A * C * B * A * C) == {w: A * C} and (w * B * w).matches(A * C * B * A * B) is None and (w * B * w).matches(A * B * C) is None and (w * w * C).matches(A * B * C) is None","over":{"base":"Any"},"name":"test_mul_noncommutative_mismatch_correct"},"guarantee":"(w * B * w).matches(A * B * A) == {w: A}; (w * B * w).matches(A * C * B * A * C) == {w: A * C}; (w * B * w).matches(A * C * B * A * B) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_noncommutative_mismatch_correct","statement":"Path(test_mul_noncommutative_mismatch(x), (w * B * w).matches(A * B * A) == {w: A}; (w * B * w).matches(A * C * B * A * C) == {w: A * C}; (w * B * w).matches(A * C * B * A * B) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eafdfb07b158057","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(w * B * w).matches(A * B * A) == {w: A}","(w * B * w).matches(A * C * B * A * C) == {w: A * C}","(w * B * w).matches(A * C * B * A * B) is None","(w * B * w).matches(A * B * C) is None","(w * w * C).matches(A * B * C) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mul_noncommutative_mismatch():
     A, B, C = symbols('A B C', commutative=False)
     w = symbols('w', cls=Wild, commutative=False)
@@ -329,16 +385,24 @@ def test_mul_noncommutative_mismatch():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_noncommutative_pow(), test_mul_noncommutative_pow produces the expected output) over Any ║
+# ║ Path(test_mul_noncommutative_pow(), (A * B * w).matches(A * B ** 2) == {w: B} and (A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3} and (A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3} and (A * B * w ** (-1)).matches(A * B * C ** (-1)) == {w: C} and (A * (B * w) ** (-1) * C).matches(A * (B * C) ** (-1) * C) == {w: C} and (w ** 2 * B * C).matches(A ** 2 * B * C) == {w: A} and (w ** 2 * B * w ** 3).matches(A ** 2 * B * A ** 3) == {w: A} and (w ** 2 * B * w ** 4).matches(A ** 2 * B * A ** 2) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_noncommutative_pow : Any → {Any | (A * B * w...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (A * B * w).matches(A * B ** 2) == {w: B}      ║
+# ║   ensures:  (A * B ** 2 * w * B ** 3).matches(A * B *...   ║
+# ║   ensures:  (A * B * w * C).matches(A * B ** 4 * C) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_noncommutative_pow : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f1ad6619b5fba8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 408e16c830e764d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul_noncommutative_pow","kind":"function","src_hash":"61567c25b498ddc6","in":{"base":"Any"},"out":{"base":"Any","pred":"(A * B * w).matches(A * B ** 2) == {w: B} and (A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3} and (A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3} and (A * B * w ** (-1)).matches(A * B * C ** (-1)) == {w: C} and (A * (B * w) ** (-1) * C).matches(A * (B * C) ** (-1) * C) == {w: C} and (w ** 2 * B * C).matches(A ** 2 * B * C) == {w: A} and (w ** 2 * B * w ** 3).matches(A ** 2 * B * A ** 3) == {w: A} and (w ** 2 * B * w ** 4).matches(A ** 2 * B * A ** 2) is None"},"spec":{"lhs":"test_mul_noncommutative_pow()","rhs":"test_mul_noncommutative_pow produces the expected output","over":{"base":"Any"},"name":"test_mul_noncommutative_pow_correct"},"guarantee":"test_mul_noncommutative_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_noncommutative_pow_correct","statement":"Path(test_mul_noncommutative_pow(x), test_mul_noncommutative_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f1ad6619b5fba8c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_mul_noncommutative_pow","kind":"function","src_hash":"61567c25b498ddc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (A * B * w).matches(A * B ** 2) == {w: B} and (A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3} and (A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3} and (A * B * w ** (-1)).matches(A * B * C ** (-1)) == {w: C} and (A * (B * w) ** (-1) * C).matches(A * (B * C) ** (-1) * C) == {w: C} and (w ** 2 * B * C).matches(A ** 2 * B * C) == {w: A} and (w ** 2 * B * w ** 3).matches(A ** 2 * B * A ** 3) == {w: A} and (w ** 2 * B * w ** 4).matches(A ** 2 * B * A ** 2) is None"},"spec":{"lhs":"test_mul_noncommutative_pow()","rhs":"(A * B * w).matches(A * B ** 2) == {w: B} and (A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3} and (A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3} and (A * B * w ** (-1)).matches(A * B * C ** (-1)) == {w: C} and (A * (B * w) ** (-1) * C).matches(A * (B * C) ** (-1) * C) == {w: C} and (w ** 2 * B * C).matches(A ** 2 * B * C) == {w: A} and (w ** 2 * B * w ** 3).matches(A ** 2 * B * A ** 3) == {w: A} and (w ** 2 * B * w ** 4).matches(A ** 2 * B * A ** 2) is None","over":{"base":"Any"},"name":"test_mul_noncommutative_pow_correct"},"guarantee":"(A * B * w).matches(A * B ** 2) == {w: B}; (A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3}; (A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_mul_noncommutative_pow_correct","statement":"Path(test_mul_noncommutative_pow(x), (A * B * w).matches(A * B ** 2) == {w: B}; (A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3}; (A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408e16c830e764d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(A * B * w).matches(A * B ** 2) == {w: B}","(A * B ** 2 * w * B ** 3).matches(A * B ** 8) == {w: B ** 3}","(A * B * w * C).matches(A * B ** 4 * C) == {w: B ** 3}","(A * B * w ** (-1)).matches(A * B * C ** (-1)) == {w: C}","(A * (B * w) ** (-1) * C).matches(A * (B * C) ** (-1) * C) == {w: C}","(w ** 2 * B * C).matches(A ** 2 * B * C) == {w: A}","(w ** 2 * B * w ** 3).matches(A ** 2 * B * A ** 3) == {w: A}","(w ** 2 * B * w ** 4).matches(A ** 2 * B * A ** 2) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_mul_noncommutative_pow():
     A, B, C = symbols('A B C', commutative=False)
     w = symbols('w', cls=Wild, commutative=False)
@@ -355,16 +419,24 @@ def test_mul_noncommutative_pow():
     assert ((w**2)*B*(w**4)).matches((A**2)*B*(A**2)) is None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complex(), test_complex produces the expected output) over Any ║
+# ║ Path(test_complex(), (1 + I).match(x + I) == {x: 1} and (a + I).match(x + I) == {x: a} and (2 * I).match(x * I) == {x: 2} and (a * I).match(x * I) == {x: a} and (a * I).match(x * y) == {x: I, y: a} and (2 * I).match(x * y) == {x: 2, y: I} and (a + b * I).match(x + y * I) == {x: a, y: b}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complex : Any → {Any | (1 + I).match(x + I) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 + I).match(x + I) == {x: 1}                 ║
+# ║   ensures:  (a + I).match(x + I) == {x: a}                 ║
+# ║   ensures:  (2 * I).match(x * I) == {x: 2}                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complex : Any → {Any | result satisfies: (1 + I)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c71d67640998f81f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8266adb521bb45a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_complex","kind":"function","src_hash":"0b094d7e07621c29","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 + I).match(x + I) == {x: 1} and (a + I).match(x + I) == {x: a} and (2 * I).match(x * I) == {x: 2} and (a * I).match(x * I) == {x: a} and (a * I).match(x * y) == {x: I, y: a} and (2 * I).match(x * y) == {x: 2, y: I} and (a + b * I).match(x + y * I) == {x: a, y: b}"},"spec":{"lhs":"test_complex()","rhs":"test_complex produces the expected output","over":{"base":"Any"},"name":"test_complex_correct"},"guarantee":"test_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_complex_correct","statement":"Path(test_complex(x), test_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71d67640998f81f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_complex","kind":"function","src_hash":"0b094d7e07621c29","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 + I).match(x + I) == {x: 1} and (a + I).match(x + I) == {x: a} and (2 * I).match(x * I) == {x: 2} and (a * I).match(x * I) == {x: a} and (a * I).match(x * y) == {x: I, y: a} and (2 * I).match(x * y) == {x: 2, y: I} and (a + b * I).match(x + y * I) == {x: a, y: b}"},"spec":{"lhs":"test_complex()","rhs":"(1 + I).match(x + I) == {x: 1} and (a + I).match(x + I) == {x: a} and (2 * I).match(x * I) == {x: 2} and (a * I).match(x * I) == {x: a} and (a * I).match(x * y) == {x: I, y: a} and (2 * I).match(x * y) == {x: 2, y: I} and (a + b * I).match(x + y * I) == {x: a, y: b}","over":{"base":"Any"},"name":"test_complex_correct"},"guarantee":"(1 + I).match(x + I) == {x: 1}; (a + I).match(x + I) == {x: a}; (2 * I).match(x * I) == {x: 2}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_complex_correct","statement":"Path(test_complex(x), (1 + I).match(x + I) == {x: 1}; (a + I).match(x + I) == {x: a}; (2 * I).match(x * I) == {x: 2})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8266adb521bb45a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 + I).match(x + I) == {x: 1}","(a + I).match(x + I) == {x: a}","(2 * I).match(x * I) == {x: 2}","(a * I).match(x * I) == {x: a}","(a * I).match(x * y) == {x: I, y: a}","(2 * I).match(x * y) == {x: 2, y: I}","(a + b * I).match(x + y * I) == {x: a, y: b}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_complex():
     a, b, c = map(Symbol, 'abc')
     x, y = map(Wild, 'xy')
@@ -379,16 +451,24 @@ def test_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_functions(), test_functions produces the expected output) over Any ║
+# ║ Path(test_functions(), f.match(p * cos(q * x)) == {p: 1, q: 5} and f.match(p * g) == {p: 1, g: cos(5 * x)} and notf.match(g) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_functions : Any → {Any | f.match(p * cos(q * x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.match(p * cos(q * x)) == {p: 1, q: 5}        ║
+# ║   ensures:  f.match(p * g) == {p: 1, g: cos(5 * x)}        ║
+# ║   ensures:  notf.match(g) is None                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_functions : Any → {Any | result satisfies: f.mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac551dede93ed33c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9117580c7676520f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_functions","kind":"function","src_hash":"03e18891b7911e2e","in":{"base":"Any"},"out":{"base":"Any","pred":"f.match(p * cos(q * x)) == {p: 1, q: 5} and f.match(p * g) == {p: 1, g: cos(5 * x)} and notf.match(g) is None"},"spec":{"lhs":"test_functions()","rhs":"test_functions produces the expected output","over":{"base":"Any"},"name":"test_functions_correct"},"guarantee":"test_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_functions_correct","statement":"Path(test_functions(x), test_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac551dede93ed33c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_functions","kind":"function","src_hash":"03e18891b7911e2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.match(p * cos(q * x)) == {p: 1, q: 5} and f.match(p * g) == {p: 1, g: cos(5 * x)} and notf.match(g) is None"},"spec":{"lhs":"test_functions()","rhs":"f.match(p * cos(q * x)) == {p: 1, q: 5} and f.match(p * g) == {p: 1, g: cos(5 * x)} and notf.match(g) is None","over":{"base":"Any"},"name":"test_functions_correct"},"guarantee":"f.match(p * cos(q * x)) == {p: 1, q: 5}; f.match(p * g) == {p: 1, g: cos(5 * x)}; notf.match(g) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_functions_correct","statement":"Path(test_functions(x), f.match(p * cos(q * x)) == {p: 1, q: 5}; f.match(p * g) == {p: 1, g: cos(5 * x)}; notf.match(g) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9117580c7676520f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.match(p * cos(q * x)) == {p: 1, q: 5}","f.match(p * g) == {p: 1, g: cos(5 * x)}","notf.match(g) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_functions():
     from sympy.core.function import WildFunction
     x = Symbol('x')
@@ -405,16 +485,22 @@ def test_functions():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_functions_X1(), test_functions_X1 produces the expected output) over Any ║
+# ║ Path(test_functions_X1(), f.match(p * g(q * x)) == {p: 1, g: cos, q: 5}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_functions_X1 : Any → {Any | f.match(p * g(q * x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.match(p * g(q * x)) == {p: 1, g: cos, q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_functions_X1 : Any → {Any | result satisfies: f....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a273131d3651ced0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fed5e792a98f5655  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_functions_X1","kind":"function","src_hash":"3652a2c2b02dc24e","in":{"base":"Any"},"out":{"base":"Any","pred":"f.match(p * g(q * x)) == {p: 1, g: cos, q: 5}"},"spec":{"lhs":"test_functions_X1()","rhs":"test_functions_X1 produces the expected output","over":{"base":"Any"},"name":"test_functions_X1_correct"},"guarantee":"test_functions_X1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_functions_X1_correct","statement":"Path(test_functions_X1(x), test_functions_X1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a273131d3651ced0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_functions_X1","kind":"function","src_hash":"3652a2c2b02dc24e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.match(p * g(q * x)) == {p: 1, g: cos, q: 5}"},"spec":{"lhs":"test_functions_X1()","rhs":"f.match(p * g(q * x)) == {p: 1, g: cos, q: 5}","over":{"base":"Any"},"name":"test_functions_X1_correct"},"guarantee":"f.match(p * g(q * x)) == {p: 1, g: cos, q: 5}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_functions_X1_correct","statement":"Path(test_functions_X1(x), f.match(p * g(q * x)) == {p: 1, g: cos, q: 5})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fed5e792a98f5655","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.match(p * g(q * x)) == {p: 1, g: cos, q: 5}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_functions_X1():
     from sympy.core.function import WildFunction
     x = Symbol('x')
@@ -427,16 +513,24 @@ def test_functions_X1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interface(), test_interface produces the expected output) over Any ║
+# ║ Path(test_interface(), (x + 1).match(p + 1) == {p: x} and (x * 3).match(p * 3) == {p: x} and (x ** 3).match(p ** 3) == {p: x} and (x * cos(y)).match(p * cos(q)) == {p: x, q: y} and (x * y).match(p * q) in [{p: x, q: y}, {p: y, q: x}] and (x + y).match(p + q) in [{p: x, q: y}, {p: y, q: x}] and (x * y + 1).match(p * q) in [{p: 1, q: 1 + x * y}, {p: 1 + x * y, q: 1}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interface : Any → {Any | (x + 1).match(p + 1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x + 1).match(p + 1) == {p: x}                 ║
+# ║   ensures:  (x * 3).match(p * 3) == {p: x}                 ║
+# ║   ensures:  (x ** 3).match(p ** 3) == {p: x}               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interface : Any → {Any | result satisfies: (x + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecb5bd1472b4aa30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d73773cf9f3cc809  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_interface","kind":"function","src_hash":"ecdb28b44c21b6ed","in":{"base":"Any"},"out":{"base":"Any","pred":"(x + 1).match(p + 1) == {p: x} and (x * 3).match(p * 3) == {p: x} and (x ** 3).match(p ** 3) == {p: x} and (x * cos(y)).match(p * cos(q)) == {p: x, q: y} and (x * y).match(p * q) in [{p: x, q: y}, {p: y, q: x}] and (x + y).match(p + q) in [{p: x, q: y}, {p: y, q: x}] and (x * y + 1).match(p * q) in [{p: 1, q: 1 + x * y}, {p: 1 + x * y, q: 1}]"},"spec":{"lhs":"test_interface()","rhs":"test_interface produces the expected output","over":{"base":"Any"},"name":"test_interface_correct"},"guarantee":"test_interface produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_interface_correct","statement":"Path(test_interface(x), test_interface produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb5bd1472b4aa30"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_interface","kind":"function","src_hash":"ecdb28b44c21b6ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x + 1).match(p + 1) == {p: x} and (x * 3).match(p * 3) == {p: x} and (x ** 3).match(p ** 3) == {p: x} and (x * cos(y)).match(p * cos(q)) == {p: x, q: y} and (x * y).match(p * q) in [{p: x, q: y}, {p: y, q: x}] and (x + y).match(p + q) in [{p: x, q: y}, {p: y, q: x}] and (x * y + 1).match(p * q) in [{p: 1, q: 1 + x * y}, {p: 1 + x * y, q: 1}]"},"spec":{"lhs":"test_interface()","rhs":"(x + 1).match(p + 1) == {p: x} and (x * 3).match(p * 3) == {p: x} and (x ** 3).match(p ** 3) == {p: x} and (x * cos(y)).match(p * cos(q)) == {p: x, q: y} and (x * y).match(p * q) in [{p: x, q: y}, {p: y, q: x}] and (x + y).match(p + q) in [{p: x, q: y}, {p: y, q: x}] and (x * y + 1).match(p * q) in [{p: 1, q: 1 + x * y}, {p: 1 + x * y, q: 1}]","over":{"base":"Any"},"name":"test_interface_correct"},"guarantee":"(x + 1).match(p + 1) == {p: x}; (x * 3).match(p * 3) == {p: x}; (x ** 3).match(p ** 3) == {p: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_interface_correct","statement":"Path(test_interface(x), (x + 1).match(p + 1) == {p: x}; (x * 3).match(p * 3) == {p: x}; (x ** 3).match(p ** 3) == {p: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d73773cf9f3cc809","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x + 1).match(p + 1) == {p: x}","(x * 3).match(p * 3) == {p: x}","(x ** 3).match(p ** 3) == {p: x}","(x * cos(y)).match(p * cos(q)) == {p: x, q: y}","(x * y).match(p * q) in [{p: x, q: y}, {p: y, q: x}]","(x + y).match(p + q) in [{p: x, q: y}, {p: y, q: x}]","(x * y + 1).match(p * q) in [{p: 1, q: 1 + x * y}, {p: 1 + x * y, q: 1}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_interface():
     x, y = map(Symbol, 'xy')
     p, q = map(Wild, 'pq')
@@ -452,16 +546,24 @@ def test_interface():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative1(), test_derivative1 produces the expected output) over Any ║
+# ║ Path(test_derivative1(), fd.match(p) == {p: fd} and (fd + 1).match(p + 1) == {p: fd} and fd.match(fd) == {} and (3 * fd).match(p * fd) is not None and (3 * fd - 1).match(p * fd + q) == {p: 3, q: -1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative1 : Any → {Any | fd.match(p) == {p: fd...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fd.match(p) == {p: fd}                         ║
+# ║   ensures:  (fd + 1).match(p + 1) == {p: fd}               ║
+# ║   ensures:  fd.match(fd) == {}                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative1 : Any → {Any | result satisfies: fd....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0d2cb44027795c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 526140029b19a64c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_derivative1","kind":"function","src_hash":"8564128e547d2598","in":{"base":"Any"},"out":{"base":"Any","pred":"fd.match(p) == {p: fd} and (fd + 1).match(p + 1) == {p: fd} and fd.match(fd) == {} and (3 * fd).match(p * fd) is not None and (3 * fd - 1).match(p * fd + q) == {p: 3, q: -1}"},"spec":{"lhs":"test_derivative1()","rhs":"test_derivative1 produces the expected output","over":{"base":"Any"},"name":"test_derivative1_correct"},"guarantee":"test_derivative1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_derivative1_correct","statement":"Path(test_derivative1(x), test_derivative1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0d2cb44027795c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_derivative1","kind":"function","src_hash":"8564128e547d2598","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fd.match(p) == {p: fd} and (fd + 1).match(p + 1) == {p: fd} and fd.match(fd) == {} and (3 * fd).match(p * fd) is not None and (3 * fd - 1).match(p * fd + q) == {p: 3, q: -1}"},"spec":{"lhs":"test_derivative1()","rhs":"fd.match(p) == {p: fd} and (fd + 1).match(p + 1) == {p: fd} and fd.match(fd) == {} and (3 * fd).match(p * fd) is not None and (3 * fd - 1).match(p * fd + q) == {p: 3, q: -1}","over":{"base":"Any"},"name":"test_derivative1_correct"},"guarantee":"fd.match(p) == {p: fd}; (fd + 1).match(p + 1) == {p: fd}; fd.match(fd) == {}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_derivative1_correct","statement":"Path(test_derivative1(x), fd.match(p) == {p: fd}; (fd + 1).match(p + 1) == {p: fd}; fd.match(fd) == {})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"526140029b19a64c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fd.match(p) == {p: fd}","(fd + 1).match(p + 1) == {p: fd}","fd.match(fd) == {}","(3 * fd).match(p * fd) is not None","(3 * fd - 1).match(p * fd + q) == {p: 3, q: -1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_derivative1():
     x, y = map(Symbol, 'xy')
     p, q = map(Wild, 'pq')
@@ -477,16 +579,22 @@ def test_derivative1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_bug1(), test_derivative_bug1 produces the expected output) over Any ║
+# ║ Path(test_derivative_bug1(), d2 is None) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_bug1 : Any → {Any | d2 is None}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d2 is None                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_bug1 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c48e6bbe34dd8e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edd3aba15dcffd83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_derivative_bug1","kind":"function","src_hash":"5b7c22c0fbf7365c","in":{"base":"Any"},"out":{"base":"Any","pred":"d2 is None"},"spec":{"lhs":"test_derivative_bug1()","rhs":"test_derivative_bug1 produces the expected output","over":{"base":"Any"},"name":"test_derivative_bug1_correct"},"guarantee":"test_derivative_bug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_derivative_bug1_correct","statement":"Path(test_derivative_bug1(x), test_derivative_bug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c48e6bbe34dd8e0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_derivative_bug1","kind":"function","src_hash":"5b7c22c0fbf7365c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d2 is None"},"spec":{"lhs":"test_derivative_bug1()","rhs":"d2 is None","over":{"base":"Any"},"name":"test_derivative_bug1_correct"},"guarantee":"d2 is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_derivative_bug1_correct","statement":"Path(test_derivative_bug1(x), d2 is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edd3aba15dcffd83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d2 is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_derivative_bug1():
     f = Function("f")
     x = Symbol("x")
@@ -500,16 +608,24 @@ def test_derivative_bug1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative2(), test_derivative2 produces the expected output) over Any ║
+# ║ Path(test_derivative2(), e.match(Derivative(f(x), x)) == {} and e.match(Derivative(f(x), x, x)) is None and e.match(Derivative(f(x), x)) is None and e.match(Derivative(f(x), x, x)) == {} and e.match(a * Derivative(f(x), x) + b) == {a: 1, b: x ** 2} and e.match(a * Derivative(f(x), x, x) + b) is None and e.match(a * Derivative(f(x), x) + b) is None and e.match(a * Derivative(f(x), x, x) + b) == {a: 1, b: x ** 2}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative2 : Any → {Any | e.match(Derivative(f(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(Derivative(f(x), x)) == {}             ║
+# ║   ensures:  e.match(Derivative(f(x), x, x)) is None        ║
+# ║   ensures:  e.match(Derivative(f(x), x)) is None           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative2 : Any → {Any | result satisfies: e.m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d2526fd9e09588  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61fcbdc54d7ce364  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_derivative2","kind":"function","src_hash":"2729e7ed5e07194b","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(Derivative(f(x), x)) == {} and e.match(Derivative(f(x), x, x)) is None and e.match(Derivative(f(x), x)) is None and e.match(Derivative(f(x), x, x)) == {} and e.match(a * Derivative(f(x), x) + b) == {a: 1, b: x ** 2} and e.match(a * Derivative(f(x), x, x) + b) is None and e.match(a * Derivative(f(x), x) + b) is None and e.match(a * Derivative(f(x), x, x) + b) == {a: 1, b: x ** 2}"},"spec":{"lhs":"test_derivative2()","rhs":"test_derivative2 produces the expected output","over":{"base":"Any"},"name":"test_derivative2_correct"},"guarantee":"test_derivative2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_derivative2_correct","statement":"Path(test_derivative2(x), test_derivative2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d2526fd9e09588"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_derivative2","kind":"function","src_hash":"2729e7ed5e07194b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(Derivative(f(x), x)) == {} and e.match(Derivative(f(x), x, x)) is None and e.match(Derivative(f(x), x)) is None and e.match(Derivative(f(x), x, x)) == {} and e.match(a * Derivative(f(x), x) + b) == {a: 1, b: x ** 2} and e.match(a * Derivative(f(x), x, x) + b) is None and e.match(a * Derivative(f(x), x) + b) is None and e.match(a * Derivative(f(x), x, x) + b) == {a: 1, b: x ** 2}"},"spec":{"lhs":"test_derivative2()","rhs":"e.match(Derivative(f(x), x)) == {} and e.match(Derivative(f(x), x, x)) is None and e.match(Derivative(f(x), x)) is None and e.match(Derivative(f(x), x, x)) == {} and e.match(a * Derivative(f(x), x) + b) == {a: 1, b: x ** 2} and e.match(a * Derivative(f(x), x, x) + b) is None and e.match(a * Derivative(f(x), x) + b) is None and e.match(a * Derivative(f(x), x, x) + b) == {a: 1, b: x ** 2}","over":{"base":"Any"},"name":"test_derivative2_correct"},"guarantee":"e.match(Derivative(f(x), x)) == {}; e.match(Derivative(f(x), x, x)) is None; e.match(Derivative(f(x), x)) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_derivative2_correct","statement":"Path(test_derivative2(x), e.match(Derivative(f(x), x)) == {}; e.match(Derivative(f(x), x, x)) is None; e.match(Derivative(f(x), x)) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61fcbdc54d7ce364","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(Derivative(f(x), x)) == {}","e.match(Derivative(f(x), x, x)) is None","e.match(Derivative(f(x), x)) is None","e.match(Derivative(f(x), x, x)) == {}","e.match(a * Derivative(f(x), x) + b) == {a: 1, b: x ** 2}","e.match(a * Derivative(f(x), x, x) + b) is None","e.match(a * Derivative(f(x), x) + b) is None","e.match(a * Derivative(f(x), x, x) + b) == {a: 1, b: x ** 2}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_derivative2():
     f = Function("f")
     x = Symbol("x")
@@ -530,16 +646,22 @@ def test_derivative2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_deriv_bug1(), test_match_deriv_bug1 produces the expected output) over Any ║
+# ║ Path(test_match_deriv_bug1(), e.match((p * t2).expand()) == {p: Rational(-1, 2)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_deriv_bug1 : Any → {Any | e.match((p * t2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match((p * t2).expand()) == {p: Rationa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_deriv_bug1 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 940896ac7ed3ffa4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35a7bb7c9017208e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_deriv_bug1","kind":"function","src_hash":"9080f99959e12dc9","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match((p * t2).expand()) == {p: Rational(-1, 2)}"},"spec":{"lhs":"test_match_deriv_bug1()","rhs":"test_match_deriv_bug1 produces the expected output","over":{"base":"Any"},"name":"test_match_deriv_bug1_correct"},"guarantee":"test_match_deriv_bug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_deriv_bug1_correct","statement":"Path(test_match_deriv_bug1(x), test_match_deriv_bug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"940896ac7ed3ffa4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_deriv_bug1","kind":"function","src_hash":"9080f99959e12dc9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match((p * t2).expand()) == {p: Rational(-1, 2)}"},"spec":{"lhs":"test_match_deriv_bug1()","rhs":"e.match((p * t2).expand()) == {p: Rational(-1, 2)}","over":{"base":"Any"},"name":"test_match_deriv_bug1_correct"},"guarantee":"e.match((p * t2).expand()) == {p: Rational(-1, 2)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_deriv_bug1_correct","statement":"Path(test_match_deriv_bug1(x), e.match((p * t2).expand()) == {p: Rational(-1, 2)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a7bb7c9017208e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match((p * t2).expand()) == {p: Rational(-1, 2)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_match_deriv_bug1():
     n = Function('n')
     l = Function('l')
@@ -556,16 +678,22 @@ def test_match_deriv_bug1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_bug2(), test_match_bug2 produces the expected output) over Any ║
+# ║ Path(test_match_bug2(), (p + q + r).subs(res) == x + y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_bug2 : Any → {Any | (p + q + r).subs(res) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (p + q + r).subs(res) == x + y                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_bug2 : Any → {Any | result satisfies: (p +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 540a2fe9c0b915d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6fcd885f5cd1fae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug2","kind":"function","src_hash":"db84f92f796d39dd","in":{"base":"Any"},"out":{"base":"Any","pred":"(p + q + r).subs(res) == x + y"},"spec":{"lhs":"test_match_bug2()","rhs":"test_match_bug2 produces the expected output","over":{"base":"Any"},"name":"test_match_bug2_correct"},"guarantee":"test_match_bug2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug2_correct","statement":"Path(test_match_bug2(x), test_match_bug2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"540a2fe9c0b915d7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug2","kind":"function","src_hash":"db84f92f796d39dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (p + q + r).subs(res) == x + y"},"spec":{"lhs":"test_match_bug2()","rhs":"(p + q + r).subs(res) == x + y","over":{"base":"Any"},"name":"test_match_bug2_correct"},"guarantee":"(p + q + r).subs(res) == x + y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug2_correct","statement":"Path(test_match_bug2(x), (p + q + r).subs(res) == x + y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6fcd885f5cd1fae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(p + q + r).subs(res) == x + y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_match_bug2():
     x, y = map(Symbol, 'xy')
     p, q, r = map(Wild, 'pqr')
@@ -574,16 +702,22 @@ def test_match_bug2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_bug3(), test_match_bug3 produces the expected output) over Any ║
+# ║ Path(test_match_bug3(), (b * x * exp(a * x)).match(x * exp(p * x)) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_bug3 : Any → {Any | (b * x * exp(a * x)).m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (b * x * exp(a * x)).match(x * exp(p * x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_bug3 : Any → {Any | result satisfies: (b *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af6fb727c40e9d11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34e71d87492836bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug3","kind":"function","src_hash":"7c3166d17b52b607","in":{"base":"Any"},"out":{"base":"Any","pred":"(b * x * exp(a * x)).match(x * exp(p * x)) is None"},"spec":{"lhs":"test_match_bug3()","rhs":"test_match_bug3 produces the expected output","over":{"base":"Any"},"name":"test_match_bug3_correct"},"guarantee":"test_match_bug3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug3_correct","statement":"Path(test_match_bug3(x), test_match_bug3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6fb727c40e9d11"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug3","kind":"function","src_hash":"7c3166d17b52b607","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (b * x * exp(a * x)).match(x * exp(p * x)) is None"},"spec":{"lhs":"test_match_bug3()","rhs":"(b * x * exp(a * x)).match(x * exp(p * x)) is None","over":{"base":"Any"},"name":"test_match_bug3_correct"},"guarantee":"(b * x * exp(a * x)).match(x * exp(p * x)) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug3_correct","statement":"Path(test_match_bug3(x), (b * x * exp(a * x)).match(x * exp(p * x)) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e71d87492836bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(b * x * exp(a * x)).match(x * exp(p * x)) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_match_bug3():
     x, a, b = map(Symbol, 'xab')
     p = Wild('p')
@@ -591,16 +725,22 @@ def test_match_bug3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_bug4(), test_match_bug4 produces the expected output) over Any ║
+# ║ Path(test_match_bug4(), e.match(-p * x) == {p: -1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_bug4 : Any → {Any | e.match(-p * x) == {p:...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(-p * x) == {p: -1}                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_bug4 : Any → {Any | result satisfies: e.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d10bfce035ebf86f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d5394e0556817bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug4","kind":"function","src_hash":"e01256ceffad204b","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(-p * x) == {p: -1}"},"spec":{"lhs":"test_match_bug4()","rhs":"test_match_bug4 produces the expected output","over":{"base":"Any"},"name":"test_match_bug4_correct"},"guarantee":"test_match_bug4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug4_correct","statement":"Path(test_match_bug4(x), test_match_bug4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d10bfce035ebf86f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug4","kind":"function","src_hash":"e01256ceffad204b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(-p * x) == {p: -1}"},"spec":{"lhs":"test_match_bug4()","rhs":"e.match(-p * x) == {p: -1}","over":{"base":"Any"},"name":"test_match_bug4_correct"},"guarantee":"e.match(-p * x) == {p: -1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug4_correct","statement":"Path(test_match_bug4(x), e.match(-p * x) == {p: -1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d5394e0556817bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(-p * x) == {p: -1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_match_bug4():
     x = Symbol('x')
     p = Wild('p')
@@ -609,16 +749,22 @@ def test_match_bug4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_bug5(), test_match_bug5 produces the expected output) over Any ║
+# ║ Path(test_match_bug5(), e.match(-p * x) == {p: 1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_bug5 : Any → {Any | e.match(-p * x) == {p:...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(-p * x) == {p: 1}                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_bug5 : Any → {Any | result satisfies: e.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77b1a04185264137  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe64f907a46fb61c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug5","kind":"function","src_hash":"286baa0d1220258d","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(-p * x) == {p: 1}"},"spec":{"lhs":"test_match_bug5()","rhs":"test_match_bug5 produces the expected output","over":{"base":"Any"},"name":"test_match_bug5_correct"},"guarantee":"test_match_bug5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug5_correct","statement":"Path(test_match_bug5(x), test_match_bug5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77b1a04185264137"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug5","kind":"function","src_hash":"286baa0d1220258d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(-p * x) == {p: 1}"},"spec":{"lhs":"test_match_bug5()","rhs":"e.match(-p * x) == {p: 1}","over":{"base":"Any"},"name":"test_match_bug5_correct"},"guarantee":"e.match(-p * x) == {p: 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug5_correct","statement":"Path(test_match_bug5(x), e.match(-p * x) == {p: 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe64f907a46fb61c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(-p * x) == {p: 1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_match_bug5():
     x = Symbol('x')
     p = Wild('p')
@@ -627,16 +773,22 @@ def test_match_bug5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_bug6(), test_match_bug6 produces the expected output) over Any ║
+# ║ Path(test_match_bug6(), e.match(3 * p * x) == {p: Rational(1) / 3}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_bug6 : Any → {Any | e.match(3 * p * x) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.match(3 * p * x) == {p: Rational(1) / 3}     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_bug6 : Any → {Any | result satisfies: e.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 655ae6a0df9639aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0531df04736dddba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug6","kind":"function","src_hash":"bf4a99a9befa9e7c","in":{"base":"Any"},"out":{"base":"Any","pred":"e.match(3 * p * x) == {p: Rational(1) / 3}"},"spec":{"lhs":"test_match_bug6()","rhs":"test_match_bug6 produces the expected output","over":{"base":"Any"},"name":"test_match_bug6_correct"},"guarantee":"test_match_bug6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug6_correct","statement":"Path(test_match_bug6(x), test_match_bug6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"655ae6a0df9639aa"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bug6","kind":"function","src_hash":"bf4a99a9befa9e7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.match(3 * p * x) == {p: Rational(1) / 3}"},"spec":{"lhs":"test_match_bug6()","rhs":"e.match(3 * p * x) == {p: Rational(1) / 3}","over":{"base":"Any"},"name":"test_match_bug6_correct"},"guarantee":"e.match(3 * p * x) == {p: Rational(1) / 3}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bug6_correct","statement":"Path(test_match_bug6(x), e.match(3 * p * x) == {p: Rational(1) / 3})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0531df04736dddba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.match(3 * p * x) == {p: Rational(1) / 3}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_match_bug6():
     x = Symbol('x')
     p = Wild('p')
@@ -645,16 +797,24 @@ def test_match_bug6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_polynomial(), test_match_polynomial produces the expected output) over Any ║
+# ║ Path(test_match_polynomial(), eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1} and (eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1} and (x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_polynomial : Any → {Any | eq.match(pattern...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.match(pattern) == {a: 4, b: 3, c: 2, d...   ║
+# ║   ensures:  (eq - 3 * x ** 2).match(pattern) == {a: 4...   ║
+# ║   ensures:  (x + sqrt(2) + 3).match(a + b * x + c * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_polynomial : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5e7242374177a15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7773d0b08971e2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_polynomial","kind":"function","src_hash":"44f3373f7a60447b","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1} and (eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1} and (x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0}"},"spec":{"lhs":"test_match_polynomial()","rhs":"test_match_polynomial produces the expected output","over":{"base":"Any"},"name":"test_match_polynomial_correct"},"guarantee":"test_match_polynomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_polynomial_correct","statement":"Path(test_match_polynomial(x), test_match_polynomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5e7242374177a15"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_polynomial","kind":"function","src_hash":"44f3373f7a60447b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1} and (eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1} and (x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0}"},"spec":{"lhs":"test_match_polynomial()","rhs":"eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1} and (eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1} and (x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0}","over":{"base":"Any"},"name":"test_match_polynomial_correct"},"guarantee":"eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1}; (eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1}; (x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_polynomial_correct","statement":"Path(test_match_polynomial(x), eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1}; (eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1}; (x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7773d0b08971e2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.match(pattern) == {a: 4, b: 3, c: 2, d: 1}","(eq - 3 * x ** 2).match(pattern) == {a: 4, b: 0, c: 2, d: 1}","(x + sqrt(2) + 3).match(a + b * x + c * x ** 2) == {b: 1, a: sqrt(2) + 3, c: 0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_match_polynomial():
     x = Symbol('x')
     a = Wild('a', exclude=[x])
@@ -671,16 +831,24 @@ def test_match_polynomial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exclude(), test_exclude produces the expected output) over Any ║
+# ║ Path(test_exclude(), sin(x).match(r) is None and cos(y).match(r) is None and e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a} and e.match(x + p) is None and e.match(p + 1) is None and e.match(x + 1 + p) == {p: 0} and e.match(r) is None and e.match(cos(y) + r) is None and e.match(r + p * sin(q)) == {r: cos(x), p: 5, q: y}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exclude : Any → {Any | sin(x).match(r) is None a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sin(x).match(r) is None                        ║
+# ║   ensures:  cos(y).match(r) is None                        ║
+# ║   ensures:  e.match(p * x ** 2 + q * x + r) == {p: 3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exclude : Any → {Any | result satisfies: sin(x)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc56ea0a9dc3ade  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ab730e824f9a26b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_exclude","kind":"function","src_hash":"a0c9b4b4d5766de0","in":{"base":"Any"},"out":{"base":"Any","pred":"sin(x).match(r) is None and cos(y).match(r) is None and e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a} and e.match(x + p) is None and e.match(p + 1) is None and e.match(x + 1 + p) == {p: 0} and e.match(r) is None and e.match(cos(y) + r) is None and e.match(r + p * sin(q)) == {r: cos(x), p: 5, q: y}"},"spec":{"lhs":"test_exclude()","rhs":"test_exclude produces the expected output","over":{"base":"Any"},"name":"test_exclude_correct"},"guarantee":"test_exclude produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_exclude_correct","statement":"Path(test_exclude(x), test_exclude produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc56ea0a9dc3ade"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_exclude","kind":"function","src_hash":"a0c9b4b4d5766de0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sin(x).match(r) is None and cos(y).match(r) is None and e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a} and e.match(x + p) is None and e.match(p + 1) is None and e.match(x + 1 + p) == {p: 0} and e.match(r) is None and e.match(cos(y) + r) is None and e.match(r + p * sin(q)) == {r: cos(x), p: 5, q: y}"},"spec":{"lhs":"test_exclude()","rhs":"sin(x).match(r) is None and cos(y).match(r) is None and e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a} and e.match(x + p) is None and e.match(p + 1) is None and e.match(x + 1 + p) == {p: 0} and e.match(r) is None and e.match(cos(y) + r) is None and e.match(r + p * sin(q)) == {r: cos(x), p: 5, q: y}","over":{"base":"Any"},"name":"test_exclude_correct"},"guarantee":"sin(x).match(r) is None; cos(y).match(r) is None; e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_exclude_correct","statement":"Path(test_exclude(x), sin(x).match(r) is None; cos(y).match(r) is None; e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ab730e824f9a26b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sin(x).match(r) is None","cos(y).match(r) is None","e.match(p * x ** 2 + q * x + r) == {p: 3, q: y, r: a}","e.match(x + p) is None","e.match(p + 1) is None","e.match(x + 1 + p) == {p: 0}","e.match(r) is None","e.match(cos(y) + r) is None","e.match(r + p * sin(q)) == {r: cos(x), p: 5, q: y}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_exclude():
     x, y, a = map(Symbol, 'xya')
     p = Wild('p', exclude=[1, x])
@@ -705,16 +873,22 @@ def test_exclude():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_floats(), test_floats produces the expected output) over Any ║
+# ║ Path(test_floats(), r == {a: 1, b: Float(0.12345)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_floats : Any → {Any | r == {a: 1, b: Float(0.123...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == {a: 1, b: Float(0.12345)}                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_floats : Any → {Any | result satisfies: r == {a:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea21492eb327506a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1441c37eab006914  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_floats","kind":"function","src_hash":"7e469d9c1f1fd8dd","in":{"base":"Any"},"out":{"base":"Any","pred":"r == {a: 1, b: Float(0.12345)}"},"spec":{"lhs":"test_floats()","rhs":"test_floats produces the expected output","over":{"base":"Any"},"name":"test_floats_correct"},"guarantee":"test_floats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_floats_correct","statement":"Path(test_floats(x), test_floats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea21492eb327506a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_floats","kind":"function","src_hash":"7e469d9c1f1fd8dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == {a: 1, b: Float(0.12345)}"},"spec":{"lhs":"test_floats()","rhs":"r == {a: 1, b: Float(0.12345)}","over":{"base":"Any"},"name":"test_floats_correct"},"guarantee":"r == {a: 1, b: Float(0.12345)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_floats_correct","statement":"Path(test_floats(x), r == {a: 1, b: Float(0.12345)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1441c37eab006914","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == {a: 1, b: Float(0.12345)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_floats():
     a, b = map(Wild, 'ab')
 
@@ -724,16 +898,22 @@ def test_floats():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative_bug1(), test_Derivative_bug1 produces the expected output) over Any ║
+# ║ Path(test_Derivative_bug1(), eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Derivative_bug1 : Any → {Any | eq.match(a * Deri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.match(a * Derivative(f(x), x) + b) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Derivative_bug1 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fb55594a23d6944  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0ee6a1d77bbe0c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_Derivative_bug1","kind":"function","src_hash":"04cf0c0c24b948e4","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0}"},"spec":{"lhs":"test_Derivative_bug1()","rhs":"test_Derivative_bug1 produces the expected output","over":{"base":"Any"},"name":"test_Derivative_bug1_correct"},"guarantee":"test_Derivative_bug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_Derivative_bug1_correct","statement":"Path(test_Derivative_bug1(x), test_Derivative_bug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fb55594a23d6944"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_Derivative_bug1","kind":"function","src_hash":"04cf0c0c24b948e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0}"},"spec":{"lhs":"test_Derivative_bug1()","rhs":"eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0}","over":{"base":"Any"},"name":"test_Derivative_bug1_correct"},"guarantee":"eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_Derivative_bug1_correct","statement":"Path(test_Derivative_bug1(x), eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0ee6a1d77bbe0c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.match(a * Derivative(f(x), x) + b) == {a: 1, b: 0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Derivative_bug1():
     f = Function("f")
     x = abc.x
@@ -744,16 +924,24 @@ def test_Derivative_bug1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_wild_wild(), test_match_wild_wild produces the expected output) over Any ║
+# ║ Path(test_match_wild_wild(), p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}] and p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}] and p.match(q + r) == {q: 0, r: p} and p.match(q * r) == {q: 1, r: p} and p.match(q + r) is None and p.match(q * r) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_wild_wild : Any → {Any | p.match(q + r) in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.match(q + r) in [{q: p, r: 0}, {q: 0, r...   ║
+# ║   ensures:  p.match(q * r) in [{q: p, r: 1}, {q: 1, r...   ║
+# ║   ensures:  p.match(q + r) == {q: 0, r: p}                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_wild_wild : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77cdf1b252554d12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 543113d920a56367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_wild_wild","kind":"function","src_hash":"0ad45e7760a70cd4","in":{"base":"Any"},"out":{"base":"Any","pred":"p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}] and p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}] and p.match(q + r) == {q: 0, r: p} and p.match(q * r) == {q: 1, r: p} and p.match(q + r) is None and p.match(q * r) is None"},"spec":{"lhs":"test_match_wild_wild()","rhs":"test_match_wild_wild produces the expected output","over":{"base":"Any"},"name":"test_match_wild_wild_correct"},"guarantee":"test_match_wild_wild produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_wild_wild_correct","statement":"Path(test_match_wild_wild(x), test_match_wild_wild produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77cdf1b252554d12"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_wild_wild","kind":"function","src_hash":"0ad45e7760a70cd4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}] and p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}] and p.match(q + r) == {q: 0, r: p} and p.match(q * r) == {q: 1, r: p} and p.match(q + r) is None and p.match(q * r) is None"},"spec":{"lhs":"test_match_wild_wild()","rhs":"p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}] and p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}] and p.match(q + r) == {q: 0, r: p} and p.match(q * r) == {q: 1, r: p} and p.match(q + r) is None and p.match(q * r) is None","over":{"base":"Any"},"name":"test_match_wild_wild_correct"},"guarantee":"p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}]; p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}]; p.match(q + r) == {q: 0, r: p}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_wild_wild_correct","statement":"Path(test_match_wild_wild(x), p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}]; p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}]; p.match(q + r) == {q: 0, r: p})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"543113d920a56367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.match(q + r) in [{q: p, r: 0}, {q: 0, r: p}]","p.match(q * r) in [{q: p, r: 1}, {q: 1, r: p}]","p.match(q + r) == {q: 0, r: p}","p.match(q * r) == {q: 1, r: p}","p.match(q + r) is None","p.match(q * r) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_match_wild_wild():
     p = Wild('p')
     q = Wild('q')
@@ -778,16 +966,24 @@ def test_match_wild_wild():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__combine_inverse(), test__combine_inverse produces the expected output) over Any ║
+# ║ Path(test__combine_inverse(), Mul._combine_inverse(x * I * y, x * I) == y and Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x and Mul._combine_inverse(x * I * y, y * I) == x and Mul._combine_inverse(oo * I * y, y * I) is oo and Mul._combine_inverse(oo * I * y, oo * I) == y and Mul._combine_inverse(oo * y, -oo) == -y and Mul._combine_inverse(-oo * y, oo) == -y and Mul._combine_inverse(1 - exp(x / y), exp(x / y) - 1) == -1 and Add._combine_inverse(oo, oo) is S.Zero and Add._combine_inverse(oo * I, oo * I) is S.Zero and Add._combine_inverse(x * oo, x * oo) is S.Zero and Add._combine_inverse(-x * oo, -x * oo) is S.Zero and Add._combine_inverse((x - oo) * (x + oo), -oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__combine_inverse : Any → {Any | Mul._combine_inv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Mul._combine_inverse(x * I * y, x * I) == y    ║
+# ║   ensures:  Mul._combine_inverse(x * x ** (1 + y), x ...   ║
+# ║   ensures:  Mul._combine_inverse(x * I * y, y * I) == x    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__combine_inverse : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b62355e22c295bba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad59c3b19102b2e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test__combine_inverse","kind":"function","src_hash":"94e4d9d4e703b74e","in":{"base":"Any"},"out":{"base":"Any","pred":"Mul._combine_inverse(x * I * y, x * I) == y and Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x and Mul._combine_inverse(x * I * y, y * I) == x and Mul._combine_inverse(oo * I * y, y * I) is oo and Mul._combine_inverse(oo * I * y, oo * I) == y and Mul._combine_inverse(oo * I * y, oo * I) == y and Mul._combine_inverse(oo * y, -oo) == -y and Mul._combine_inverse(-oo * y, oo) == -y and Mul._combine_inverse(1 - exp(x / y), exp(x / y) - 1) == -1 and Add._combine_inverse(oo, oo) is S.Zero and Add._combine_inverse(oo * I, oo * I) is S.Zero and Add._combine_inverse(x * oo, x * oo) is S.Zero and Add._combine_inverse(-x * oo, -x * oo) is S.Zero and Add._combine_inverse((x - oo) * (x + oo), -oo)"},"spec":{"lhs":"test__combine_inverse()","rhs":"test__combine_inverse produces the expected output","over":{"base":"Any"},"name":"test__combine_inverse_correct"},"guarantee":"test__combine_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test__combine_inverse_correct","statement":"Path(test__combine_inverse(x), test__combine_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b62355e22c295bba"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test__combine_inverse","kind":"function","src_hash":"94e4d9d4e703b74e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Mul._combine_inverse(x * I * y, x * I) == y and Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x and Mul._combine_inverse(x * I * y, y * I) == x and Mul._combine_inverse(oo * I * y, y * I) is oo and Mul._combine_inverse(oo * I * y, oo * I) == y and Mul._combine_inverse(oo * y, -oo) == -y and Mul._combine_inverse(-oo * y, oo) == -y and Mul._combine_inverse(1 - exp(x / y), exp(x / y) - 1) == -1 and Add._combine_inverse(oo, oo) is S.Zero and Add._combine_inverse(oo * I, oo * I) is S.Zero and Add._combine_inverse(x * oo, x * oo) is S.Zero and Add._combine_inverse(-x * oo, -x * oo) is S.Zero and Add._combine_inverse((x - oo) * (x + oo), -oo)"},"spec":{"lhs":"test__combine_inverse()","rhs":"Mul._combine_inverse(x * I * y, x * I) == y and Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x and Mul._combine_inverse(x * I * y, y * I) == x and Mul._combine_inverse(oo * I * y, y * I) is oo and Mul._combine_inverse(oo * I * y, oo * I) == y and Mul._combine_inverse(oo * y, -oo) == -y and Mul._combine_inverse(-oo * y, oo) == -y and Mul._combine_inverse(1 - exp(x / y), exp(x / y) - 1) == -1 and Add._combine_inverse(oo, oo) is S.Zero and Add._combine_inverse(oo * I, oo * I) is S.Zero and Add._combine_inverse(x * oo, x * oo) is S.Zero and Add._combine_inverse(-x * oo, -x * oo) is S.Zero and Add._combine_inverse((x - oo) * (x + oo), -oo)","over":{"base":"Any"},"name":"test__combine_inverse_correct"},"guarantee":"Mul._combine_inverse(x * I * y, x * I) == y; Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x; Mul._combine_inverse(x * I * y, y * I) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test__combine_inverse_correct","statement":"Path(test__combine_inverse(x), Mul._combine_inverse(x * I * y, x * I) == y; Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x; Mul._combine_inverse(x * I * y, y * I) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad59c3b19102b2e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Mul._combine_inverse(x * I * y, x * I) == y","Mul._combine_inverse(x * x ** (1 + y), x ** (1 + y)) == x","Mul._combine_inverse(x * I * y, y * I) == x","Mul._combine_inverse(oo * I * y, y * I) is oo","Mul._combine_inverse(oo * I * y, oo * I) == y","Mul._combine_inverse(oo * y, -oo) == -y","Mul._combine_inverse(-oo * y, oo) == -y","Mul._combine_inverse(1 - exp(x / y), exp(x / y) - 1) == -1","Add._combine_inverse(oo, oo) is S.Zero","Add._combine_inverse(oo * I, oo * I) is S.Zero","Add._combine_inverse(x * oo, x * oo) is S.Zero","Add._combine_inverse(-x * oo, -x * oo) is S.Zero","Add._combine_inverse((x - oo) * (x + oo), -oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test__combine_inverse():
     x, y = symbols("x y")
     assert Mul._combine_inverse(x*I*y, x*I) == y
@@ -807,16 +1003,24 @@ def test__combine_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3773(), test_issue_3773 produces the expected output) over Any ║
+# ║ Path(test_issue_3773(), eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7, B: 0} and eq.match(matcher) == {c: z, l: 1, N: 2, A: 7} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3773 : Any → {Any | eq.match(matcher) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.match(matcher) == {c: z, l: 1, N: 2, A...   ║
+# ║   ensures:  (-eq).match(matcher) == {c: -z, l: 1, N: ...   ║
+# ║   ensures:  (x * eq).match(matcher) == {c: x * z, l: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3773 : Any → {Any | result satisfies: eq.m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e27e9af85dc15bd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb8f6f2c4cb553fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3773","kind":"function","src_hash":"03145d04f041a2c8","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7, B: 0} and eq.match(matcher) == {c: z, l: 1, N: 2, A: 7} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7}"},"spec":{"lhs":"test_issue_3773()","rhs":"test_issue_3773 produces the expected output","over":{"base":"Any"},"name":"test_issue_3773_correct"},"guarantee":"test_issue_3773 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3773_correct","statement":"Path(test_issue_3773(x), test_issue_3773 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e27e9af85dc15bd5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3773","kind":"function","src_hash":"03145d04f041a2c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7, B: 0} and eq.match(matcher) == {c: z, l: 1, N: 2, A: 7} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7}"},"spec":{"lhs":"test_issue_3773()","rhs":"eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7, B: 0} and eq.match(matcher) == {c: z, l: 1, N: 2, A: 7} and (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7} and (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7} and (-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7}","over":{"base":"Any"},"name":"test_issue_3773_correct"},"guarantee":"eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0}; (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0}; (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3773_correct","statement":"Path(test_issue_3773(x), eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0}; (-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0}; (x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb8f6f2c4cb553fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.match(matcher) == {c: z, l: 1, N: 2, A: 7, B: 0}","(-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7, B: 0}","(x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7, B: 0}","(-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7, B: 0}","eq.match(matcher) == {c: z, l: 1, N: 2, A: 7}","(-eq).match(matcher) == {c: -z, l: 1, N: 2, A: 7}","(x * eq).match(matcher) == {c: x * z, l: 1, N: 2, A: 7}","(-7 * x * eq).match(matcher) == {c: -7 * x * z, l: 1, N: 2, A: 7}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_3773():
     x = symbols('x')
     z, phi, r = symbols('z phi r')
@@ -840,16 +1044,24 @@ def test_issue_3773():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3883(), test_issue_3883 produces the expected output) over Any ║
+# ║ Path(test_issue_3883(), f.match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: -(-mu + x) ** 2 / 2, c: log(2 * pi) / 2} and f.expand().collect(gamma).match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: (-(x - mu) ** 2 / 2).expand(), c: (log(2 * pi) / 2).expand()} and f.expand().match(g1 * log(gamma) + g2 * gamma + g3) == {g3: log(2) / 2 + log(pi) / 2, g1: Rational(-1, 2), g2: -mu ** 2 / 2 + mu * x - x ** 2 / 2}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3883 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.match(a * log(gamma) + b * gamma + c) =...   ║
+# ║   ensures:  f.expand().collect(gamma).match(a * log(g...   ║
+# ║   ensures:  f.expand().match(g1 * log(gamma) + g2 * g...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3883 : Any → {Any | result satisfies: f.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98d69618dc89dd59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 763ba49389062c1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3883","kind":"function","src_hash":"b9e3cfef982d48db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3883()","rhs":"test_issue_3883 produces the expected output","over":{"base":"Any"},"name":"test_issue_3883_correct"},"guarantee":"test_issue_3883 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3883_correct","statement":"Path(test_issue_3883(x), test_issue_3883 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98d69618dc89dd59"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3883","kind":"function","src_hash":"b9e3cfef982d48db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: -(-mu + x) ** 2 / 2, c: log(2 * pi) / 2} and f.expand().collect(gamma).match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: (-(x - mu) ** 2 / 2).expand(), c: (log(2 * pi) / 2).expand()} and f.expand().match(g1 * log(gamma) + g2 * gamma + g3) == {g3: log(2) / 2 + log(pi) / 2, g1: Rational(-1, 2), g2: -mu ** 2 / 2 + mu * x - x ** 2 / 2}"},"spec":{"lhs":"test_issue_3883()","rhs":"f.match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: -(-mu + x) ** 2 / 2, c: log(2 * pi) / 2} and f.expand().collect(gamma).match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: (-(x - mu) ** 2 / 2).expand(), c: (log(2 * pi) / 2).expand()} and f.expand().match(g1 * log(gamma) + g2 * gamma + g3) == {g3: log(2) / 2 + log(pi) / 2, g1: Rational(-1, 2), g2: -mu ** 2 / 2 + mu * x - x ** 2 / 2}","over":{"base":"Any"},"name":"test_issue_3883_correct"},"guarantee":"f.match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: -(-mu + x) ** 2 / 2, c: log(2 * pi) / 2}; f.expand().collect(gamma).match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: (-(x - mu) ** 2 / 2).expand(), c: (log(2 * pi) / 2).expand()}; f.expand().match(g1 * log(gamma) + g2 * gamma + g3) == {g3: log(2) / 2 + log(pi) / 2, g1: Rational(-1, 2), g2: -mu ** 2 / 2 + mu * x - x ** 2 / 2}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3883_correct","statement":"Path(test_issue_3883(x), f.match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: -(-mu + x) ** 2 / 2, c: log(2 * pi) / 2}; f.expand().collect(gamma).match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: (-(x - mu) ** 2 / 2).expand(), c: (log(2 * pi) / 2).expand()}; f.expand().match(g1 * log(gamma) + g2 * gamma + g3) == {g3: log(2) / 2 + log(pi) / 2, g1: Rational(-1, 2), g2: -mu ** 2 / 2 + mu * x - x ** 2 / 2})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"763ba49389062c1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: -(-mu + x) ** 2 / 2, c: log(2 * pi) / 2}","f.expand().collect(gamma).match(a * log(gamma) + b * gamma + c) == {a: Rational(-1, 2), b: (-(x - mu) ** 2 / 2).expand(), c: (log(2 * pi) / 2).expand()}","f.expand().match(g1 * log(gamma) + g2 * gamma + g3) == {g3: log(2) / 2 + log(pi) / 2, g1: Rational(-1, 2), g2: -mu ** 2 / 2 + mu * x - x ** 2 / 2}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_3883():
     from sympy.abc import gamma, mu, x
     f = (-gamma * (x - mu)**2 - log(gamma) + log(2*pi))/2
@@ -867,16 +1079,23 @@ def test_issue_3883():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4418(), test_issue_4418 produces the expected output) over Any ║
+# ║ Path(test_issue_4418(), eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0} and eq.match(a * g(x).diff(x) * f(x).diff(x) + b * g(x) * f(x).diff(x, x) + c) == {a: 1, b: 1, c: 0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4418 : Any → {Any | eq.match(g(x).diff(x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.match(g(x).diff(x) * f(x).diff(x) + g(...   ║
+# ║   ensures:  eq.match(a * g(x).diff(x) * f(x).diff(x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4418 : Any → {Any | result satisfies: eq.m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c9c8a942bedfc17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75d93c93feb4f745  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4418","kind":"function","src_hash":"411e460f55d69bf0","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0}"},"spec":{"lhs":"test_issue_4418()","rhs":"test_issue_4418 produces the expected output","over":{"base":"Any"},"name":"test_issue_4418_correct"},"guarantee":"test_issue_4418 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4418_correct","statement":"Path(test_issue_4418(x), test_issue_4418 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c9c8a942bedfc17"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4418","kind":"function","src_hash":"411e460f55d69bf0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0} and eq.match(a * g(x).diff(x) * f(x).diff(x) + b * g(x) * f(x).diff(x, x) + c) == {a: 1, b: 1, c: 0}"},"spec":{"lhs":"test_issue_4418()","rhs":"eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0} and eq.match(a * g(x).diff(x) * f(x).diff(x) + b * g(x) * f(x).diff(x, x) + c) == {a: 1, b: 1, c: 0}","over":{"base":"Any"},"name":"test_issue_4418_correct"},"guarantee":"eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0}; eq.match(a * g(x).diff(x) * f(x).diff(x) + b * g(x) * f(x).diff(x, x) + c) == {a: 1, b: 1, c: 0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4418_correct","statement":"Path(test_issue_4418(x), eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0}; eq.match(a * g(x).diff(x) * f(x).diff(x) + b * g(x) * f(x).diff(x, x) + c) == {a: 1, b: 1, c: 0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75d93c93feb4f745","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.match(g(x).diff(x) * f(x).diff(x) + g(x) * f(x).diff(x, x) + c) == {c: 0}","eq.match(a * g(x).diff(x) * f(x).diff(x) + b * g(x) * f(x).diff(x, x) + c) == {a: 1, b: 1, c: 0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4418():
     x = Symbol('x')
     a, b, c = symbols('a b c', cls=Wild, exclude=(x,))
@@ -891,16 +1110,24 @@ def test_issue_4418():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4700(), test_issue_4700 produces the expected output) over Any ║
+# ║ Path(test_issue_4700(), eq1.match(p) == {a: 0, b: sin(x)} and eq2.match(p) == {a: 1, b: sin(x)} and eq3.match(p) == {a: 1, b: x + sin(x)} and eq4.match(p) == {a: 0, b: x + sin(x)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4700 : Any → {Any | eq1.match(p) == {a: 0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq1.match(p) == {a: 0, b: sin(x)}              ║
+# ║   ensures:  eq2.match(p) == {a: 1, b: sin(x)}              ║
+# ║   ensures:  eq3.match(p) == {a: 1, b: x + sin(x)}          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4700 : Any → {Any | result satisfies: eq1....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da9340c031b200dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 236ca98adf872d15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4700","kind":"function","src_hash":"84eee9303a332642","in":{"base":"Any"},"out":{"base":"Any","pred":"eq1.match(p) == {a: 0, b: sin(x)} and eq2.match(p) == {a: 1, b: sin(x)} and eq3.match(p) == {a: 1, b: x + sin(x)} and eq4.match(p) == {a: 0, b: x + sin(x)}"},"spec":{"lhs":"test_issue_4700()","rhs":"test_issue_4700 produces the expected output","over":{"base":"Any"},"name":"test_issue_4700_correct"},"guarantee":"test_issue_4700 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4700_correct","statement":"Path(test_issue_4700(x), test_issue_4700 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da9340c031b200dc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4700","kind":"function","src_hash":"84eee9303a332642","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq1.match(p) == {a: 0, b: sin(x)} and eq2.match(p) == {a: 1, b: sin(x)} and eq3.match(p) == {a: 1, b: x + sin(x)} and eq4.match(p) == {a: 0, b: x + sin(x)}"},"spec":{"lhs":"test_issue_4700()","rhs":"eq1.match(p) == {a: 0, b: sin(x)} and eq2.match(p) == {a: 1, b: sin(x)} and eq3.match(p) == {a: 1, b: x + sin(x)} and eq4.match(p) == {a: 0, b: x + sin(x)}","over":{"base":"Any"},"name":"test_issue_4700_correct"},"guarantee":"eq1.match(p) == {a: 0, b: sin(x)}; eq2.match(p) == {a: 1, b: sin(x)}; eq3.match(p) == {a: 1, b: x + sin(x)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4700_correct","statement":"Path(test_issue_4700(x), eq1.match(p) == {a: 0, b: sin(x)}; eq2.match(p) == {a: 1, b: sin(x)}; eq3.match(p) == {a: 1, b: x + sin(x)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"236ca98adf872d15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq1.match(p) == {a: 0, b: sin(x)}","eq2.match(p) == {a: 1, b: sin(x)}","eq3.match(p) == {a: 1, b: x + sin(x)}","eq4.match(p) == {a: 0, b: x + sin(x)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4700():
     f = Function('f')
     x = Symbol('x')
@@ -919,16 +1146,24 @@ def test_issue_4700():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5168(), test_issue_5168 produces the expected output) over Any ║
+# ║ Path(test_issue_5168(), x.match(a) == {a: x} and x.match(a * f(x) ** c) == {a: x, c: 0} and x.match(a * b) == {a: 1, b: x} and x.match(a * b * f(x) ** c) == {a: 1, b: x, c: 0} and (-x).match(a) == {a: -x} and (-x).match(a * f(x) ** c) == {a: -x, c: 0} and (-x).match(a * b) == {a: -1, b: x} and (-x).match(a * b * f(x) ** c) == {a: -1, b: x, c: 0} and (2 * x).match(a) == {a: 2 * x} and (2 * x).match(a * f(x) ** c) == {a: 2 * x, c: 0} and (2 * x).match(a * b) == {a: 2, b: x} and (2 * x).match(a * b * f(x) ** c) == {a: 2, b: x, c: 0} and (-2 * x).match(a) == {a: -2 * x} and (-2 * x).match(a * f(x) ** c) == {a: -2 * x, c: 0} and (-2 * x).match(a * b) == {a: -2, b: x} and (-2 * x).match(a * b * f(x) ** c) == {a: -2, b: x, c: 0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5168 : Any → {Any | x.match(a) == {a: x} a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.match(a) == {a: x}                           ║
+# ║   ensures:  x.match(a * f(x) ** c) == {a: x, c: 0}         ║
+# ║   ensures:  x.match(a * b) == {a: 1, b: x}                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5168 : Any → {Any | result satisfies: x.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a61aee26a315565a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2933ca1606729187  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_5168","kind":"function","src_hash":"6717882a1693d561","in":{"base":"Any"},"out":{"base":"Any","pred":"x.match(a) == {a: x} and x.match(a * f(x) ** c) == {a: x, c: 0} and x.match(a * b) == {a: 1, b: x} and x.match(a * b * f(x) ** c) == {a: 1, b: x, c: 0} and (-x).match(a) == {a: -x} and (-x).match(a * f(x) ** c) == {a: -x, c: 0} and (-x).match(a * b) == {a: -1, b: x} and (-x).match(a * b * f(x) ** c) == {a: -1, b: x, c: 0} and (2 * x).match(a) == {a: 2 * x} and (2 * x).match(a * f(x) ** c) == {a: 2 * x, c: 0} and (2 * x).match(a * b) == {a: 2, b: x} and (2 * x).match(a * b * f(x) ** c) == {a: 2, b: x, c: 0} and (-2 * x).match(a) == {a: -2 * x} and (-2 * x).match(a * f(x) ** c) == {a: -2 * x, c: 0} and (-2 * x).match(a * b) == {a: -2, b: x} and (-2 * x).match(a * b * f(x) ** c) == {a: -2, b: x, c: 0}"},"spec":{"lhs":"test_issue_5168()","rhs":"test_issue_5168 produces the expected output","over":{"base":"Any"},"name":"test_issue_5168_correct"},"guarantee":"test_issue_5168 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_5168_correct","statement":"Path(test_issue_5168(x), test_issue_5168 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a61aee26a315565a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_5168","kind":"function","src_hash":"6717882a1693d561","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.match(a) == {a: x} and x.match(a * f(x) ** c) == {a: x, c: 0} and x.match(a * b) == {a: 1, b: x} and x.match(a * b * f(x) ** c) == {a: 1, b: x, c: 0} and (-x).match(a) == {a: -x} and (-x).match(a * f(x) ** c) == {a: -x, c: 0} and (-x).match(a * b) == {a: -1, b: x} and (-x).match(a * b * f(x) ** c) == {a: -1, b: x, c: 0} and (2 * x).match(a) == {a: 2 * x} and (2 * x).match(a * f(x) ** c) == {a: 2 * x, c: 0} and (2 * x).match(a * b) == {a: 2, b: x} and (2 * x).match(a * b * f(x) ** c) == {a: 2, b: x, c: 0} and (-2 * x).match(a) == {a: -2 * x} and (-2 * x).match(a * f(x) ** c) == {a: -2 * x, c: 0} and (-2 * x).match(a * b) == {a: -2, b: x} and (-2 * x).match(a * b * f(x) ** c) == {a: -2, b: x, c: 0}"},"spec":{"lhs":"test_issue_5168()","rhs":"x.match(a) == {a: x} and x.match(a * f(x) ** c) == {a: x, c: 0} and x.match(a * b) == {a: 1, b: x} and x.match(a * b * f(x) ** c) == {a: 1, b: x, c: 0} and (-x).match(a) == {a: -x} and (-x).match(a * f(x) ** c) == {a: -x, c: 0} and (-x).match(a * b) == {a: -1, b: x} and (-x).match(a * b * f(x) ** c) == {a: -1, b: x, c: 0} and (2 * x).match(a) == {a: 2 * x} and (2 * x).match(a * f(x) ** c) == {a: 2 * x, c: 0} and (2 * x).match(a * b) == {a: 2, b: x} and (2 * x).match(a * b * f(x) ** c) == {a: 2, b: x, c: 0} and (-2 * x).match(a) == {a: -2 * x} and (-2 * x).match(a * f(x) ** c) == {a: -2 * x, c: 0} and (-2 * x).match(a * b) == {a: -2, b: x} and (-2 * x).match(a * b * f(x) ** c) == {a: -2, b: x, c: 0}","over":{"base":"Any"},"name":"test_issue_5168_correct"},"guarantee":"x.match(a) == {a: x}; x.match(a * f(x) ** c) == {a: x, c: 0}; x.match(a * b) == {a: 1, b: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_5168_correct","statement":"Path(test_issue_5168(x), x.match(a) == {a: x}; x.match(a * f(x) ** c) == {a: x, c: 0}; x.match(a * b) == {a: 1, b: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2933ca1606729187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.match(a) == {a: x}","x.match(a * f(x) ** c) == {a: x, c: 0}","x.match(a * b) == {a: 1, b: x}","x.match(a * b * f(x) ** c) == {a: 1, b: x, c: 0}","(-x).match(a) == {a: -x}","(-x).match(a * f(x) ** c) == {a: -x, c: 0}","(-x).match(a * b) == {a: -1, b: x}","(-x).match(a * b * f(x) ** c) == {a: -1, b: x, c: 0}","(2 * x).match(a) == {a: 2 * x}","(2 * x).match(a * f(x) ** c) == {a: 2 * x, c: 0}","(2 * x).match(a * b) == {a: 2, b: x}","(2 * x).match(a * b * f(x) ** c) == {a: 2, b: x, c: 0}","(-2 * x).match(a) == {a: -2 * x}","(-2 * x).match(a * f(x) ** c) == {a: -2 * x, c: 0}","(-2 * x).match(a * b) == {a: -2, b: x}","(-2 * x).match(a * b * f(x) ** c) == {a: -2, b: x, c: 0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_5168():
     a, b, c = symbols('a b c', cls=Wild)
     x = Symbol('x')
@@ -956,16 +1191,24 @@ def test_issue_5168():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4559(), test_issue_4559 produces the expected output) over Any ║
+# ║ Path(test_issue_4559(), (3 / x).match(w / y) == {w: 3, y: x} and (3 * x).match(w * y) == {w: 3, y: x} and (x / 3).match(y / w) == {w: 3, y: x} and (3 * x).match(y / w) == {w: S.One / 3, y: x} and (3 * x).match(y / w) == {w: Rational(1, 3), y: x} and (x / 3).match(w / y) == {w: S.One / 3, y: 1 / x} and (3 * x).match(w / y) == {w: 3, y: 1 / x} and (3 / x).match(w * y) == {w: 3, y: 1 / x} and (x ** r).match(y ** 2) == {y: x ** (r / 2)} and (x ** e).match(y ** 2) == {y: sqrt(x ** e)} and e.match(a) == {a: e} and e.match(1 / a) is None and e.match(a ** 0.3) is None and e.match(1 / a) == {a: 1 / e} and e.match(1 / a ** 2) == {a: 1 / sqrt(e)} and (-e).match(sqrt(a)) is None and (-e).match(a ** 2) == {a: I * sqrt(pi)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4559 : Any → {Any | (3 / x).match(w / y) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (3 / x).match(w / y) == {w: 3, y: x}           ║
+# ║   ensures:  (3 * x).match(w * y) == {w: 3, y: x}           ║
+# ║   ensures:  (x / 3).match(y / w) == {w: 3, y: x}           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4559 : Any → {Any | result satisfies: (3 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 943f347d5c7fa3df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b3e472b500696d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4559","kind":"function","src_hash":"9e251c5f15ebfcc6","in":{"base":"Any"},"out":{"base":"Any","pred":"(3 / x).match(w / y) == {w: 3, y: x} and (3 * x).match(w * y) == {w: 3, y: x} and (x / 3).match(y / w) == {w: 3, y: x} and (3 * x).match(y / w) == {w: S.One / 3, y: x} and (3 * x).match(y / w) == {w: Rational(1, 3), y: x} and (x / 3).match(w / y) == {w: S.One / 3, y: 1 / x} and (3 * x).match(w / y) == {w: 3, y: 1 / x} and (3 / x).match(w * y) == {w: 3, y: 1 / x} and (x ** r).match(y ** 2) == {y: x ** (r / 2)} and (x ** e).match(y ** 2) == {y: sqrt(x ** e)} and e.match(a) == {a: e} and e.match(1 / a) is None and e.match(a ** 0.3) is None and e.match(1 / a) == {a: 1 / e} and e.match(1 / a ** 2) == {a: 1 / sqrt(e)} and e.match(1 / a) == {a: 1 / e} and e.match(1 / a ** 2) == {a: 1 / sqrt(e)} and (-e).match(sqrt(a)) is None and (-e).match(a ** 2) == {a: I * sqrt(pi)}"},"spec":{"lhs":"test_issue_4559()","rhs":"test_issue_4559 produces the expected output","over":{"base":"Any"},"name":"test_issue_4559_correct"},"guarantee":"test_issue_4559 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4559_correct","statement":"Path(test_issue_4559(x), test_issue_4559 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943f347d5c7fa3df"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4559","kind":"function","src_hash":"9e251c5f15ebfcc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (3 / x).match(w / y) == {w: 3, y: x} and (3 * x).match(w * y) == {w: 3, y: x} and (x / 3).match(y / w) == {w: 3, y: x} and (3 * x).match(y / w) == {w: S.One / 3, y: x} and (3 * x).match(y / w) == {w: Rational(1, 3), y: x} and (x / 3).match(w / y) == {w: S.One / 3, y: 1 / x} and (3 * x).match(w / y) == {w: 3, y: 1 / x} and (3 / x).match(w * y) == {w: 3, y: 1 / x} and (x ** r).match(y ** 2) == {y: x ** (r / 2)} and (x ** e).match(y ** 2) == {y: sqrt(x ** e)} and e.match(a) == {a: e} and e.match(1 / a) is None and e.match(a ** 0.3) is None and e.match(1 / a) == {a: 1 / e} and e.match(1 / a ** 2) == {a: 1 / sqrt(e)} and (-e).match(sqrt(a)) is None and (-e).match(a ** 2) == {a: I * sqrt(pi)}"},"spec":{"lhs":"test_issue_4559()","rhs":"(3 / x).match(w / y) == {w: 3, y: x} and (3 * x).match(w * y) == {w: 3, y: x} and (x / 3).match(y / w) == {w: 3, y: x} and (3 * x).match(y / w) == {w: S.One / 3, y: x} and (3 * x).match(y / w) == {w: Rational(1, 3), y: x} and (x / 3).match(w / y) == {w: S.One / 3, y: 1 / x} and (3 * x).match(w / y) == {w: 3, y: 1 / x} and (3 / x).match(w * y) == {w: 3, y: 1 / x} and (x ** r).match(y ** 2) == {y: x ** (r / 2)} and (x ** e).match(y ** 2) == {y: sqrt(x ** e)} and e.match(a) == {a: e} and e.match(1 / a) is None and e.match(a ** 0.3) is None and e.match(1 / a) == {a: 1 / e} and e.match(1 / a ** 2) == {a: 1 / sqrt(e)} and (-e).match(sqrt(a)) is None and (-e).match(a ** 2) == {a: I * sqrt(pi)}","over":{"base":"Any"},"name":"test_issue_4559_correct"},"guarantee":"(3 / x).match(w / y) == {w: 3, y: x}; (3 * x).match(w * y) == {w: 3, y: x}; (x / 3).match(y / w) == {w: 3, y: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4559_correct","statement":"Path(test_issue_4559(x), (3 / x).match(w / y) == {w: 3, y: x}; (3 * x).match(w * y) == {w: 3, y: x}; (x / 3).match(y / w) == {w: 3, y: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b3e472b500696d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(3 / x).match(w / y) == {w: 3, y: x}","(3 * x).match(w * y) == {w: 3, y: x}","(x / 3).match(y / w) == {w: 3, y: x}","(3 * x).match(y / w) == {w: S.One / 3, y: x}","(3 * x).match(y / w) == {w: Rational(1, 3), y: x}","(x / 3).match(w / y) == {w: S.One / 3, y: 1 / x}","(3 * x).match(w / y) == {w: 3, y: 1 / x}","(3 / x).match(w * y) == {w: 3, y: 1 / x}","(x ** r).match(y ** 2) == {y: x ** (r / 2)}","(x ** e).match(y ** 2) == {y: sqrt(x ** e)}","e.match(a) == {a: e}","e.match(1 / a) is None","e.match(a ** 0.3) is None","e.match(1 / a) == {a: 1 / e}","e.match(1 / a ** 2) == {a: 1 / sqrt(e)}","(-e).match(sqrt(a)) is None","(-e).match(a ** 2) == {a: I * sqrt(pi)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_4559():
     x = Symbol('x')
     e = Symbol('e')
@@ -1021,16 +1264,22 @@ def test_issue_4559():
 # minus sign) in front of a wild.
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4883(), test_issue_4883 produces the expected output) over Any ║
+# ║ Path(test_issue_4883(), <unspecified:test_issue_4883>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_4883 : Any → {Any | eq.match(pat) == {a: 2}}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fd545f262273995  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4883","kind":"function","src_hash":"fa22f657b4d96e64","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.match(pat) == {a: 2}"},"spec":{"lhs":"test_issue_4883()","rhs":"test_issue_4883 produces the expected output","over":{"base":"Any"},"name":"test_issue_4883_correct"},"guarantee":"test_issue_4883 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4883_correct","statement":"Path(test_issue_4883(x), test_issue_4883 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd545f262273995"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4883","kind":"function","src_hash":"fa22f657b4d96e64","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.match(pat) == {a: 2}"},"spec":{"lhs":"test_issue_4883()","rhs":"<unspecified:test_issue_4883>","over":{"base":"Any"},"name":"test_issue_4883_correct"},"guarantee":"test_issue_4883 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4883_correct","statement":"Path(test_issue_4883(x), test_issue_4883 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd545f262273995","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4883():
     a = Wild('a')
     x = Symbol('x')
@@ -1043,16 +1292,22 @@ def test_issue_4883():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4319(), test_issue_4319 produces the expected output) over Any ║
+# ║ Path(test_issue_4319(), <unspecified:test_issue_4319>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_4319 : Any → {Any | set(p.match(pat).value...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4a53a1d5457aee1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4319","kind":"function","src_hash":"8240137ca09fc007","in":{"base":"Any"},"out":{"base":"Any","pred":"set(p.match(pat).values()) == ans"},"spec":{"lhs":"test_issue_4319()","rhs":"test_issue_4319 produces the expected output","over":{"base":"Any"},"name":"test_issue_4319_correct"},"guarantee":"test_issue_4319 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4319_correct","statement":"Path(test_issue_4319(x), test_issue_4319 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4a53a1d5457aee1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_4319","kind":"function","src_hash":"8240137ca09fc007","in":{"base":"Any"},"out":{"base":"Any","pred":"set(p.match(pat).values()) == ans"},"spec":{"lhs":"test_issue_4319()","rhs":"<unspecified:test_issue_4319>","over":{"base":"Any"},"name":"test_issue_4319_correct"},"guarantee":"test_issue_4319 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_4319_correct","statement":"Path(test_issue_4319(x), test_issue_4319 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4a53a1d5457aee1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_4319():
     x, y = symbols('x y')
 
@@ -1072,16 +1327,23 @@ def test_issue_4319():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3778(), test_issue_3778 produces the expected output) over Any ║
+# ║ Path(test_issue_3778(), (sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x} and (2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3778 : Any → {Any | (sin(x) ** 2).match(si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (sin(x) ** 2).match(sin(p) * sin(q) * c) ...   ║
+# ║   ensures:  (2 * sin(x)).match(sin(p) + sin(q) + c) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3778 : Any → {Any | result satisfies: (sin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 556aa4db99f83ec3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b15af9d1212ca5ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3778","kind":"function","src_hash":"44774902e8f600c4","in":{"base":"Any"},"out":{"base":"Any","pred":"(sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x} and (2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x}"},"spec":{"lhs":"test_issue_3778()","rhs":"test_issue_3778 produces the expected output","over":{"base":"Any"},"name":"test_issue_3778_correct"},"guarantee":"test_issue_3778 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3778_correct","statement":"Path(test_issue_3778(x), test_issue_3778 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"556aa4db99f83ec3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3778","kind":"function","src_hash":"44774902e8f600c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x} and (2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x}"},"spec":{"lhs":"test_issue_3778()","rhs":"(sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x} and (2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x}","over":{"base":"Any"},"name":"test_issue_3778_correct"},"guarantee":"(sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x}; (2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3778_correct","statement":"Path(test_issue_3778(x), (sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x}; (2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15af9d1212ca5ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(sin(x) ** 2).match(sin(p) * sin(q) * c) == {q: x, c: 1, p: x}","(2 * sin(x)).match(sin(p) + sin(q) + c) == {q: x, c: 0, p: x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3778():
     p, c, q = symbols('p c q', cls=Wild)
     x = Symbol('x')
@@ -1091,16 +1353,22 @@ def test_issue_3778():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6103(), test_issue_6103 produces the expected output) over Any ║
+# ║ Path(test_issue_6103(), (-I * x * oo).match(I * a * oo) == {a: -x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6103 : Any → {Any | (-I * x * oo).match(I ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (-I * x * oo).match(I * a * oo) == {a: -x}     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6103 : Any → {Any | result satisfies: (-I ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c66c2aea1a46e200  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f39fddeb4c59828  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_6103","kind":"function","src_hash":"0fb55ede884058a7","in":{"base":"Any"},"out":{"base":"Any","pred":"(-I * x * oo).match(I * a * oo) == {a: -x}"},"spec":{"lhs":"test_issue_6103()","rhs":"test_issue_6103 produces the expected output","over":{"base":"Any"},"name":"test_issue_6103_correct"},"guarantee":"test_issue_6103 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_6103_correct","statement":"Path(test_issue_6103(x), test_issue_6103 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c66c2aea1a46e200"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_6103","kind":"function","src_hash":"0fb55ede884058a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (-I * x * oo).match(I * a * oo) == {a: -x}"},"spec":{"lhs":"test_issue_6103()","rhs":"(-I * x * oo).match(I * a * oo) == {a: -x}","over":{"base":"Any"},"name":"test_issue_6103_correct"},"guarantee":"(-I * x * oo).match(I * a * oo) == {a: -x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_6103_correct","statement":"Path(test_issue_6103(x), (-I * x * oo).match(I * a * oo) == {a: -x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f39fddeb4c59828","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(-I * x * oo).match(I * a * oo) == {a: -x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6103():
     x = Symbol('x')
     a = Wild('a')
@@ -1108,16 +1376,24 @@ def test_issue_6103():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3539(), test_issue_3539 produces the expected output) over Any ║
+# ║ Path(test_issue_3539(), (x - 2).match(a - x) is None and (6 / x).match(a * x) is None and (6 / x ** 2).match(a / x) == {a: 6 / x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3539 : Any → {Any | (x - 2).match(a - x) i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x - 2).match(a - x) is None                   ║
+# ║   ensures:  (6 / x).match(a * x) is None                   ║
+# ║   ensures:  (6 / x ** 2).match(a / x) == {a: 6 / x}        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3539 : Any → {Any | result satisfies: (x -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41056aea7c82a40f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d2b534a16d770d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3539","kind":"function","src_hash":"74eed0e1fa8335ba","in":{"base":"Any"},"out":{"base":"Any","pred":"(x - 2).match(a - x) is None and (6 / x).match(a * x) is None and (6 / x ** 2).match(a / x) == {a: 6 / x}"},"spec":{"lhs":"test_issue_3539()","rhs":"test_issue_3539 produces the expected output","over":{"base":"Any"},"name":"test_issue_3539_correct"},"guarantee":"test_issue_3539 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3539_correct","statement":"Path(test_issue_3539(x), test_issue_3539 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41056aea7c82a40f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_3539","kind":"function","src_hash":"74eed0e1fa8335ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x - 2).match(a - x) is None and (6 / x).match(a * x) is None and (6 / x ** 2).match(a / x) == {a: 6 / x}"},"spec":{"lhs":"test_issue_3539()","rhs":"(x - 2).match(a - x) is None and (6 / x).match(a * x) is None and (6 / x ** 2).match(a / x) == {a: 6 / x}","over":{"base":"Any"},"name":"test_issue_3539_correct"},"guarantee":"(x - 2).match(a - x) is None; (6 / x).match(a * x) is None; (6 / x ** 2).match(a / x) == {a: 6 / x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_3539_correct","statement":"Path(test_issue_3539(x), (x - 2).match(a - x) is None; (6 / x).match(a * x) is None; (6 / x ** 2).match(a / x) == {a: 6 / x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2b534a16d770d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x - 2).match(a - x) is None","(6 / x).match(a * x) is None","(6 / x ** 2).match(a / x) == {a: 6 / x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3539():
     a = Wild('a')
     x = Symbol('x')
@@ -1126,16 +1402,24 @@ def test_issue_3539():
     assert (6/x**2).match(a/x) == {a: 6/x}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gh_issue_2711(), test_gh_issue_2711 produces the expected output) over Any ║
+# ║ Path(test_gh_issue_2711(), f.find(a) == {(S.Zero,), ((), ()), ((S.Zero,), ()), x, S.Zero, (), meijerg(((), ()), ((S.Zero,), ()), x)} and f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero} and f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gh_issue_2711 : Any → {Any | f.find(a + b) == {m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.find(a) == {(S.Zero,), ((), ()), ((S.Ze...   ║
+# ║   ensures:  f.find(a + b) == {meijerg(((), ()), ((S.Z...   ║
+# ║   ensures:  f.find(a ** 2) == {meijerg(((), ()), ((S....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gh_issue_2711 : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17d0c8f139a1547f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fdbc27a8d2baef0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_gh_issue_2711","kind":"function","src_hash":"b4dece21cf2734e1","in":{"base":"Any"},"out":{"base":"Any","pred":"f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero} and f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x}"},"spec":{"lhs":"test_gh_issue_2711()","rhs":"test_gh_issue_2711 produces the expected output","over":{"base":"Any"},"name":"test_gh_issue_2711_correct"},"guarantee":"test_gh_issue_2711 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_gh_issue_2711_correct","statement":"Path(test_gh_issue_2711(x), test_gh_issue_2711 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17d0c8f139a1547f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_gh_issue_2711","kind":"function","src_hash":"b4dece21cf2734e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.find(a) == {(S.Zero,), ((), ()), ((S.Zero,), ()), x, S.Zero, (), meijerg(((), ()), ((S.Zero,), ()), x)} and f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero} and f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x}"},"spec":{"lhs":"test_gh_issue_2711()","rhs":"f.find(a) == {(S.Zero,), ((), ()), ((S.Zero,), ()), x, S.Zero, (), meijerg(((), ()), ((S.Zero,), ()), x)} and f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero} and f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x}","over":{"base":"Any"},"name":"test_gh_issue_2711_correct"},"guarantee":"f.find(a) == {(S.Zero,), ((), ()), ((S.Zero,), ()), x, S.Zero, (), meijerg(((), ()), ((S.Zero,), ()), x)}; f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero}; f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_gh_issue_2711_correct","statement":"Path(test_gh_issue_2711(x), f.find(a) == {(S.Zero,), ((), ()), ((S.Zero,), ()), x, S.Zero, (), meijerg(((), ()), ((S.Zero,), ()), x)}; f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero}; f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fdbc27a8d2baef0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.find(a) == {(S.Zero,), ((), ()), ((S.Zero,), ()), x, S.Zero, (), meijerg(((), ()), ((S.Zero,), ()), x)}","f.find(a + b) == {meijerg(((), ()), ((S.Zero,), ()), x), x, S.Zero}","f.find(a ** 2) == {meijerg(((), ()), ((S.Zero,), ()), x), x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gh_issue_2711():
     x = Symbol('x')
     f = meijerg(((), ()), ((0,), ()), x)
@@ -1150,16 +1434,22 @@ def test_gh_issue_2711():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17354(), test_issue_17354 produces the expected output) over Any ║
+# ║ Path(test_issue_17354(), ((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17354 : Any → {Any | ((0 <= x).reversed | ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ((0 <= x).reversed | (y <= x)).match((1 /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17354 : Any → {Any | result satisfies: ((0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fad296b457f7c7f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbedf4cedc3e8a03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_17354","kind":"function","src_hash":"ef5349640165087d","in":{"base":"Any"},"out":{"base":"Any","pred":"((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None"},"spec":{"lhs":"test_issue_17354()","rhs":"test_issue_17354 produces the expected output","over":{"base":"Any"},"name":"test_issue_17354_correct"},"guarantee":"test_issue_17354 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_17354_correct","statement":"Path(test_issue_17354(x), test_issue_17354 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fad296b457f7c7f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_17354","kind":"function","src_hash":"ef5349640165087d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None"},"spec":{"lhs":"test_issue_17354()","rhs":"((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None","over":{"base":"Any"},"name":"test_issue_17354_correct"},"guarantee":"((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_17354_correct","statement":"Path(test_issue_17354(x), ((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbedf4cedc3e8a03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["((0 <= x).reversed | (y <= x)).match((1 / a <= b) | (a <= b)) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17354():
     from sympy.core.symbol import (Wild, symbols)
     x, y = symbols("x y", real=True)
@@ -1168,16 +1458,23 @@ def test_issue_17354():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_issue_17397(), test_match_issue_17397 produces the expected output) over Any ║
+# ║ Path(test_match_issue_17397(), r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2} and r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_issue_17397 : Any → {Any | r == {a3: (x - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 ...   ║
+# ║   ensures:  r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_issue_17397 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e52a90d1b70a35c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f5cd2294e52a687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_issue_17397","kind":"function","src_hash":"84e3a7f77893e190","in":{"base":"Any"},"out":{"base":"Any","pred":"r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2} and r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4}"},"spec":{"lhs":"test_match_issue_17397()","rhs":"test_match_issue_17397 produces the expected output","over":{"base":"Any"},"name":"test_match_issue_17397_correct"},"guarantee":"test_match_issue_17397 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_issue_17397_correct","statement":"Path(test_match_issue_17397(x), test_match_issue_17397 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e52a90d1b70a35c4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_issue_17397","kind":"function","src_hash":"84e3a7f77893e190","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2} and r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4}"},"spec":{"lhs":"test_match_issue_17397()","rhs":"r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2} and r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4}","over":{"base":"Any"},"name":"test_match_issue_17397_correct"},"guarantee":"r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2}; r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_issue_17397_correct","statement":"Path(test_match_issue_17397(x), r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2}; r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f5cd2294e52a687","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == {a3: (x - 2) ** 2, c3: (x - 2) ** 2 - 4, b3: x - 2}","r == {a3: x - 4 + 4 / x, b3: 1 - 2 / x, c3: x - 4}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_match_issue_17397():
     f = Function("f")
     x = Symbol("x")
@@ -1197,16 +1494,24 @@ def test_match_issue_17397():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_issue_21942(), test_match_issue_21942 produces the expected output) over Any ║
+# ║ Path(test_match_issue_21942(), pattern.matches(eq) == m and (-pattern).matches(-eq) == m and pattern.matches(signsimp(eq)) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_issue_21942 : Any → {Any | pattern.matches...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pattern.matches(eq) == m                       ║
+# ║   ensures:  (-pattern).matches(-eq) == m                   ║
+# ║   ensures:  pattern.matches(signsimp(eq)) is None          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_issue_21942 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bc2f0b24d415a0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b786e238cfd7bf3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_issue_21942","kind":"function","src_hash":"7d3d3d04cd3cce99","in":{"base":"Any"},"out":{"base":"Any","pred":"pattern.matches(eq) == m and (-pattern).matches(-eq) == m and pattern.matches(signsimp(eq)) is None"},"spec":{"lhs":"test_match_issue_21942()","rhs":"test_match_issue_21942 produces the expected output","over":{"base":"Any"},"name":"test_match_issue_21942_correct"},"guarantee":"test_match_issue_21942 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_issue_21942_correct","statement":"Path(test_match_issue_21942(x), test_match_issue_21942 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bc2f0b24d415a0f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_issue_21942","kind":"function","src_hash":"7d3d3d04cd3cce99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pattern.matches(eq) == m and (-pattern).matches(-eq) == m and pattern.matches(signsimp(eq)) is None"},"spec":{"lhs":"test_match_issue_21942()","rhs":"pattern.matches(eq) == m and (-pattern).matches(-eq) == m and pattern.matches(signsimp(eq)) is None","over":{"base":"Any"},"name":"test_match_issue_21942_correct"},"guarantee":"pattern.matches(eq) == m; (-pattern).matches(-eq) == m; pattern.matches(signsimp(eq)) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_issue_21942_correct","statement":"Path(test_match_issue_21942(x), pattern.matches(eq) == m; (-pattern).matches(-eq) == m; pattern.matches(signsimp(eq)) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b786e238cfd7bf3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pattern.matches(eq) == m","(-pattern).matches(-eq) == m","pattern.matches(signsimp(eq)) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_match_issue_21942():
     a, r, w = symbols('a, r, w', nonnegative=True)
     p = symbols('p', positive=True)
@@ -1220,16 +1525,24 @@ def test_match_issue_21942():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_terms(), test_match_terms produces the expected output) over Any ║
+# ║ Path(test_match_terms(), (5 * y - x).match(5 * X - Y) == {X: y, Y: x} and (x + (y - 1) * z).match(x + X * z) == {X: y - 1} and (x - log(x / y) * (1 - exp(x / y))).match(x - log(X / y) * (1 - exp(x / y))) == {X: x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_terms : Any → {Any | (5 * y - x).match(5 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (5 * y - x).match(5 * X - Y) == {X: y, Y: x}   ║
+# ║   ensures:  (x + (y - 1) * z).match(x + X * z) == {X:...   ║
+# ║   ensures:  (x - log(x / y) * (1 - exp(x / y))).match...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_terms : Any → {Any | result satisfies: (5 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7f04ad57adaf45b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d8511f39528c43f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_terms","kind":"function","src_hash":"b1566334bf96e9e8","in":{"base":"Any"},"out":{"base":"Any","pred":"(5 * y - x).match(5 * X - Y) == {X: y, Y: x} and (x + (y - 1) * z).match(x + X * z) == {X: y - 1}"},"spec":{"lhs":"test_match_terms()","rhs":"test_match_terms produces the expected output","over":{"base":"Any"},"name":"test_match_terms_correct"},"guarantee":"test_match_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_terms_correct","statement":"Path(test_match_terms(x), test_match_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7f04ad57adaf45b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_terms","kind":"function","src_hash":"b1566334bf96e9e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (5 * y - x).match(5 * X - Y) == {X: y, Y: x} and (x + (y - 1) * z).match(x + X * z) == {X: y - 1} and (x - log(x / y) * (1 - exp(x / y))).match(x - log(X / y) * (1 - exp(x / y))) == {X: x}"},"spec":{"lhs":"test_match_terms()","rhs":"(5 * y - x).match(5 * X - Y) == {X: y, Y: x} and (x + (y - 1) * z).match(x + X * z) == {X: y - 1} and (x - log(x / y) * (1 - exp(x / y))).match(x - log(X / y) * (1 - exp(x / y))) == {X: x}","over":{"base":"Any"},"name":"test_match_terms_correct"},"guarantee":"(5 * y - x).match(5 * X - Y) == {X: y, Y: x}; (x + (y - 1) * z).match(x + X * z) == {X: y - 1}; (x - log(x / y) * (1 - exp(x / y))).match(x - log(X / y) * (1 - exp(x / y))) == {X: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_terms_correct","statement":"Path(test_match_terms(x), (5 * y - x).match(5 * X - Y) == {X: y, Y: x}; (x + (y - 1) * z).match(x + X * z) == {X: y - 1}; (x - log(x / y) * (1 - exp(x / y))).match(x - log(X / y) * (1 - exp(x / y))) == {X: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d8511f39528c43f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(5 * y - x).match(5 * X - Y) == {X: y, Y: x}","(x + (y - 1) * z).match(x + X * z) == {X: y - 1}","(x - log(x / y) * (1 - exp(x / y))).match(x - log(X / y) * (1 - exp(x / y))) == {X: x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_match_terms():
     X, Y = map(Wild, "XY")
     x, y, z = symbols('x y z')
@@ -1241,16 +1554,24 @@ def test_match_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_bound(), test_match_bound produces the expected output) over Any ║
+# ║ Path(test_match_bound(), Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x} and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_bound : Any → {Any | Sum(x, (x, 1, 2)).mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))...   ║
+# ║   ensures:  Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))...   ║
+# ║   ensures:  Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_bound : Any → {Any | result satisfies: Sum...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ee9f1367797614d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ead103fabcfa7039  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bound","kind":"function","src_hash":"413068ec4c60e584","in":{"base":"Any"},"out":{"base":"Any","pred":"Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x} and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x}"},"spec":{"lhs":"test_match_bound()","rhs":"test_match_bound produces the expected output","over":{"base":"Any"},"name":"test_match_bound_correct"},"guarantee":"test_match_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bound_correct","statement":"Path(test_match_bound(x), test_match_bound produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ee9f1367797614d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_match_bound","kind":"function","src_hash":"413068ec4c60e584","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x} and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x}"},"spec":{"lhs":"test_match_bound()","rhs":"Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x} and Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x}","over":{"base":"Any"},"name":"test_match_bound_correct"},"guarantee":"Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None; Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x}; Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_match_bound_correct","statement":"Path(test_match_bound(x), Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None; Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x}; Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ead103fabcfa7039","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Sum(x, (x, 1, 2)).match(Sum(y, (y, 1, W))) is None","Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, W))) == {W: 2, V: x}","Sum(x, (x, 1, 2)).match(Sum(V, (V, 1, 2))) == {V: x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_match_bound():
     V, W = map(Wild, "VW")
     x, y = symbols('x y')
@@ -1260,16 +1581,22 @@ def test_match_bound():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22462(), test_issue_22462 produces the expected output) over Any ║
+# ║ Path(test_issue_22462(), pattern.matches(eq) == {n: 2, Q: -5}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22462 : Any → {Any | pattern.matches(eq) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pattern.matches(eq) == {n: 2, Q: -5}           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22462 : Any → {Any | result satisfies: pat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cd90eae8e4761f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac34c521d8d80fa4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_22462","kind":"function","src_hash":"7b5ac2a945df6877","in":{"base":"Any"},"out":{"base":"Any","pred":"pattern.matches(eq) == {n: 2, Q: -5}"},"spec":{"lhs":"test_issue_22462()","rhs":"test_issue_22462 produces the expected output","over":{"base":"Any"},"name":"test_issue_22462_correct"},"guarantee":"test_issue_22462 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_22462_correct","statement":"Path(test_issue_22462(x), test_issue_22462 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cd90eae8e4761f6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_match.test_issue_22462","kind":"function","src_hash":"7b5ac2a945df6877","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pattern.matches(eq) == {n: 2, Q: -5}"},"spec":{"lhs":"test_issue_22462()","rhs":"pattern.matches(eq) == {n: 2, Q: -5}","over":{"base":"Any"},"name":"test_issue_22462_correct"},"guarantee":"pattern.matches(eq) == {n: 2, Q: -5}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_match.test_issue_22462_correct","statement":"Path(test_issue_22462(x), pattern.matches(eq) == {n: 2, Q: -5})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac34c521d8d80fa4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pattern.matches(eq) == {n: 2, Q: -5}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22462():
     x, f = symbols('x'), Function('f')
     n, Q = symbols('n Q', cls=Wild)

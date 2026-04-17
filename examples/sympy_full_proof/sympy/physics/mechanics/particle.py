@@ -27,14 +27,20 @@ __all__ = ['Particle']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Particle(*args), correctly constructs a Particle instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Particle : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BodyBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Particle : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85e22ddb6df9ebd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle","kind":"class","src_hash":"3bd540eec0070f59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Particle(*args)","rhs":"correctly constructs a Particle instance","over":{"base":"Any"},"name":"Particle_class_invariant"},"guarantee":"correctly constructs a Particle instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85e22ddb6df9ebd6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle","kind":"class","src_hash":"3bd540eec0070f59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BodyBase)"},"spec":{"lhs":"Particle(*args)","rhs":"correctly constructs a Particle instance","over":{"base":"Any"},"name":"Particle_class_invariant"},"guarantee":"isinstance(self, BodyBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85e22ddb6df9ebd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BodyBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Particle not found in source"]}}
 class Particle(BodyBase):
     """A particle.
 
@@ -75,30 +81,42 @@ class Particle(BodyBase):
     point = BodyBase.masscenter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, point, mass), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7556c010fa0aadc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.__init__","kind":"method","src_hash":"82faa14a005f1340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7556c010fa0aadc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.__init__","kind":"method","src_hash":"82faa14a005f1340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, point, mass)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7556c010fa0aadc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, point=None, mass=None):
         super().__init__(name, point, mass)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_momentum(fra), linear momentum of the particle) over Any ║
+# ║ Path(linear_momentum(frame), self.mass * self.point.vel(frame)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.mass * self.point.vel(frame)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_momentum : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3390068dc79be187           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.linear_momentum","kind":"method","src_hash":"8421f46491df3c28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(fra)","rhs":"linear momentum of the particle","over":{"base":"Any"},"name":"linear_momentum_correct"},"guarantee":"linear momentum of the particle","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3390068dc79be187"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.linear_momentum","kind":"method","src_hash":"8421f46491df3c28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(frame)","rhs":"self.mass * self.point.vel(frame)","over":{"base":"Any"},"name":"linear_momentum_correct"},"guarantee":"returns self.mass * self.point.vel(frame)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3390068dc79be187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.mass * self.point.vel(frame)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mass","self.point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linear_momentum(self, frame):
         """Linear momentum of the particle.
 
@@ -139,16 +157,22 @@ class Particle(BodyBase):
         return self.mass * self.point.vel(frame)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angular_momentum(poi), id) over Any                   ║
+# ║ Path(angular_momentum(point, frame), id) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cross(self.point.pos_from(point), self.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angular_momentum : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 419cd44a8807a8c7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.angular_momentum","kind":"method","src_hash":"e1e94979f33b55d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(poi)","rhs":"angular momentum of the particle about the point","over":{"base":"Any"},"name":"angular_momentum_correct","kind":"composition"},"guarantee":"angular momentum of the particle about the point","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cross","by":"library_axiom"},{"fn":"pos_from","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419cd44a8807a8c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.angular_momentum","kind":"method","src_hash":"e1e94979f33b55d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(point, frame)","rhs":"cross(self.point.pos_from(point), self.mass * self.point.vel(frame))","over":{"base":"Any"},"name":"angular_momentum_correct","kind":"composition"},"guarantee":"returns cross(self.point.pos_from(point), self.mass * self.point.vel(frame))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cross","by":"library_axiom"},{"fn":"pos_from","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419cd44a8807a8c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cross(self.point.pos_from(point), self.mass * self.point.vel(frame))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mass","self.point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angular_momentum(self, point, frame):
         """Angular momentum of the particle about the point.
 
@@ -195,16 +219,22 @@ class Particle(BodyBase):
                      self.mass * self.point.vel(frame))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kinetic_energy(fra), id) over Any                     ║
+# ║ Path(kinetic_energy(frame), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Half * self.mass * dot(self.point.vel(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kinetic_energy : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e28731c2a9117967   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.kinetic_energy","kind":"method","src_hash":"119d6c1d78a0f06e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(fra)","rhs":"kinetic energy of the particle","over":{"base":"Any"},"name":"kinetic_energy_correct","kind":"composition"},"guarantee":"kinetic energy of the particle","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dot","by":"library_axiom"},{"fn":"vel","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e28731c2a9117967"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.kinetic_energy","kind":"method","src_hash":"119d6c1d78a0f06e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(frame)","rhs":"S.Half * self.mass * dot(self.point.vel(frame), self.point.vel(frame))","over":{"base":"Any"},"name":"kinetic_energy_correct","kind":"composition"},"guarantee":"returns S.Half * self.mass * dot(self.point.vel(frame), self.point.vel(frame))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dot","by":"library_axiom"},{"fn":"vel","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e28731c2a9117967","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Half * self.mass * dot(self.point.vel(frame), self.point.vel(frame))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mass","self.point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kinetic_energy(self, frame):
         """Kinetic energy of the particle.
 
@@ -245,16 +275,22 @@ class Particle(BodyBase):
                                         self.point.vel(frame))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_potential_energy(sca), set_potential_energy produces the expected output) over Any ║
+# ║ Path(set_potential_energy(scalar), <unspecified:set_potential_energy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_potential_energy : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8c9fa782f4f63c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.set_potential_energy","kind":"method","src_hash":"857251996b05a533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_potential_energy(sca)","rhs":"set_potential_energy produces the expected output","over":{"base":"Any"},"name":"set_potential_energy_correct"},"guarantee":"set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.particle.Particle.set_potential_energy_correct","statement":"Path(set_potential_energy(x), set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c9fa782f4f63c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.set_potential_energy","kind":"method","src_hash":"857251996b05a533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_potential_energy(scalar)","rhs":"<unspecified:set_potential_energy>","over":{"base":"Any"},"name":"set_potential_energy_correct"},"guarantee":"set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.particle.Particle.set_potential_energy_correct","statement":"Path(set_potential_energy(x), set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c9fa782f4f63c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_potential_energy(self, scalar):
         sympy_deprecation_warning(
             """
@@ -269,16 +305,22 @@ method is deprecated. Instead use
         self.potential_energy = scalar
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel_axis(poi), id) over Any                      ║
+# ║ Path(parallel_axis(point, frame), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  inertia_of_point_mass(self.mass, self.poi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parallel_axis : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c297f8de94b389b0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.parallel_axis","kind":"method","src_hash":"7611101c5152fc9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_axis(poi)","rhs":"returns an inertia dyadic of the particle with respect to another point and frame","over":{"base":"Any"},"name":"parallel_axis_correct","kind":"composition"},"guarantee":"returns an inertia dyadic of the particle with respect to another point and frame","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inertia_of_point_mass","by":"library_axiom"},{"fn":"pos_from","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c297f8de94b389b0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.particle.Particle.parallel_axis","kind":"method","src_hash":"7611101c5152fc9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_axis(point, frame)","rhs":"inertia_of_point_mass(self.mass, self.point.pos_from(point), frame)","over":{"base":"Any"},"name":"parallel_axis_correct","kind":"composition"},"guarantee":"returns inertia_of_point_mass(self.mass, self.point.pos_from(point), frame)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inertia_of_point_mass","by":"library_axiom"},{"fn":"pos_from","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c297f8de94b389b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"inertia_of_point_mass(self.mass, self.point.pos_from(point), frame)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mass","self.point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parallel_axis(self, point, frame):
         """Returns an inertia dyadic of the particle with respect to another
         point and frame.

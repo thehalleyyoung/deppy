@@ -38,16 +38,22 @@ from mpmath import mp, workprec
 from mpmath.libmp.libmpf import prec_to_dps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intlike(n), intlike produces the expected output) over Any ║
+# ║ Path(intlike(n), <unspecified:intlike>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intlike : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d5658c89dc9a394  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.intlike","kind":"function","src_hash":"84e0814ead3a6150","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intlike(n)","rhs":"intlike produces the expected output","over":{"base":"Any"},"name":"intlike_correct"},"guarantee":"intlike produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.intlike_correct","statement":"Path(intlike(x), intlike produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d5658c89dc9a394"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.intlike","kind":"function","src_hash":"84e0814ead3a6150","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intlike(n)","rhs":"<unspecified:intlike>","over":{"base":"Any"},"name":"intlike_correct"},"guarantee":"intlike produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.intlike_correct","statement":"Path(intlike(x), intlike produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d5658c89dc9a394","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def intlike(n):
     try:
         as_int(n, strict=False)
@@ -62,14 +68,20 @@ def intlike(n):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(gamma(*args), correctly constructs a gamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gamma : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gamma : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89789f4f4bebd3d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma","kind":"class","src_hash":"a7a430987bcf6b1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma(*args)","rhs":"correctly constructs a gamma instance","over":{"base":"Any"},"name":"gamma_class_invariant"},"guarantee":"correctly constructs a gamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89789f4f4bebd3d6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma","kind":"class","src_hash":"a7a430987bcf6b1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"gamma(*args)","rhs":"correctly constructs a gamma instance","over":{"base":"Any"},"name":"gamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89789f4f4bebd3d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function gamma not found in source"]}}
 class gamma(DefinedFunction):
     r"""
     The gamma function
@@ -151,16 +163,23 @@ class gamma(DefinedFunction):
     _singularities = (S.ComplexInfinity,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => self.func(self.args...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | aa7545a0a1593074   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma.fdiff","kind":"method","src_hash":"d185e4f431ccf7f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa7545a0a1593074"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma.fdiff","kind":"method","src_hash":"d185e4f431ccf7f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa7545a0a1593074","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == self.func(self.args[0]) * polygamma(0, self.args[0])"],"decidability":"z3","returns_expr":"self.func(self.args[0]) * polygamma(0, self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return self.func(self.args[0])*polygamma(0, self.args[0])
@@ -169,16 +188,25 @@ class gamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_Rational') and hasattr(arg, 'q') and hasattr(arg, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_positive')                    ║
+# ║   requires: hasattr(arg, 'is_Rational')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08982c81a4086d89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma.eval","kind":"classmethod","src_hash":"a32a2e7481f1619e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08982c81a4086d89"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma.eval","kind":"classmethod","src_hash":"a32a2e7481f1619e","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_Rational') and hasattr(arg, 'q') and hasattr(arg, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_Rational') and hasattr(arg, 'q') and hasattr(arg, 'p')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08982c81a4086d89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_positive')","hasattr(arg, 'is_Rational')","hasattr(arg, 'q')","hasattr(arg, 'p')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Number","arg.is_Rational","arg.is_positive","arg.p","arg.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -212,16 +240,22 @@ class gamma(DefinedFunction):
                         return 2**n*sqrt(pi) / coeff
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f0362ac9dd066afe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_expand_func","kind":"method","src_hash":"ad08a90410fcfdb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"_eval_expand_func","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0362ac9dd066afe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_expand_func","kind":"method","src_hash":"ad08a90410fcfdb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"_eval_expand_func","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0362ac9dd066afe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         arg = self.args[0]
         if arg.is_Rational:
@@ -243,30 +277,42 @@ class gamma(DefinedFunction):
         return self.func(*self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87b3441e9613c4c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87b3441e9613c4c0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87b3441e9613c4c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), <unspecified:_eval_is_real>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d612c0fe7f463136  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_is_real","kind":"method","src_hash":"56a4435f62e67a04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d612c0fe7f463136"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_is_real","kind":"method","src_hash":"56a4435f62e67a04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"<unspecified:_eval_is_real>","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d612c0fe7f463136","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         x = self.args[0]
         if x.is_nonpositive and x.is_integer:
@@ -277,16 +323,25 @@ class gamma(DefinedFunction):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), result == (True if x.is_positive else floor(x).is_even) and result == True or result == floor(x).is_even) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_positive : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if x.is_positive else flo...   ║
+# ║   ensures:  result == True or result == floor(x).is_even   ║
+# ║   fiber[case_0]: x.is_positive => True                     ║
+# ║   fiber[case_1]: x.is_noninteger => floor(x).is_even       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_positive : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76ec34c2f606dcaa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2a8994717edb568  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_is_positive","kind":"method","src_hash":"eba3a22c2e0df2f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76ec34c2f606dcaa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_is_positive","kind":"method","src_hash":"eba3a22c2e0df2f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if x.is_positive else floor(x).is_even) and result == True or result == floor(x).is_even"},"spec":{"lhs":"_eval_is_positive()","rhs":"result == (True if x.is_positive else floor(x).is_even) and result == True or result == floor(x).is_even","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"result == (True if x.is_positive else floor(x).is_even); result == True or result == floor(x).is_even; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), result == (True if x.is_positive else floor(x).is_even); result == True or result == floor(x).is_even; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2a8994717edb568","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if x.is_positive else floor(x).is_even)","result == True or result == floor(x).is_even"],"fibers":[{"name":"case_0","guard":"x.is_positive","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"x.is_noninteger","ensures":["result == floor(x).is_even"],"decidability":"library","returns_expr":"floor(x).is_even"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         x = self.args[0]
         if x.is_positive:
@@ -295,44 +350,62 @@ class gamma(DefinedFunction):
             return floor(x).is_even
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tractable(z, limitvar, **kwargs), exp(loggamma(z))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(loggamma(z))                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tractable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 601cb83a52320912           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_rewrite_as_tractable","kind":"method","src_hash":"b182492b7da241c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"601cb83a52320912"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_rewrite_as_tractable","kind":"method","src_hash":"b182492b7da241c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(z, limitvar, **kwargs)","rhs":"exp(loggamma(z))","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"returns exp(loggamma(z))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"601cb83a52320912","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(loggamma(z))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, z, limitvar=None, **kwargs):
         return exp(loggamma(z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_factorial(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_factorial(z, **kwargs), factorial(z - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(z - 1)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_factorial : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d82af8e4d728c43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_rewrite_as_factorial","kind":"method","src_hash":"27f0107029133fbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d82af8e4d728c43"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_rewrite_as_factorial","kind":"method","src_hash":"27f0107029133fbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(z, **kwargs)","rhs":"factorial(z - 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"returns factorial(z - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d82af8e4d728c43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(z - 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_factorial(self, z, **kwargs):
         return factorial(z - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8b4e7ec4d6957712   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_nseries","kind":"method","src_hash":"ed018b918e3b33dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b4e7ec4d6957712"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_nseries","kind":"method","src_hash":"ed018b918e3b33dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b4e7ec4d6957712","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         x0 = self.args[0].limit(x, 0)
         if not (x0.is_Integer and x0 <= 0):
@@ -341,16 +414,25 @@ class gamma(DefinedFunction):
         return (self.func(t + 1)/rf(self.args[0], -x0 + 1))._eval_nseries(x, n, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (res / (arg + n).as_leading_term(x) if x0.is_integer and x0.is_nonpositive else self.func(x0)) and result == res / (arg + n).as_leading_term(x) or result == self.func(x0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (res / (arg + n).as_leading_ter...   ║
+# ║   ensures:  result == res / (arg + n).as_leading_term...   ║
+# ║   fiber[case_0]: x0.is_integer and x0.is_nonpositive ...   ║
+# ║   fiber[case_1]: not x0.is_infinite => self.func(x0)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95a8a8bd3a93fb4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ecc5a928b420a5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_as_leading_term","kind":"method","src_hash":"84f7ef11a9e68a21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95a8a8bd3a93fb4c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.gamma._eval_as_leading_term","kind":"method","src_hash":"84f7ef11a9e68a21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (res / (arg + n).as_leading_term(x) if x0.is_integer and x0.is_nonpositive else self.func(x0)) and result == res / (arg + n).as_leading_term(x) or result == self.func(x0)"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (res / (arg + n).as_leading_term(x) if x0.is_integer and x0.is_nonpositive else self.func(x0)) and result == res / (arg + n).as_leading_term(x) or result == self.func(x0)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (res / (arg + n).as_leading_term(x) if x0.is_integer and x0.is_nonpositive else self.func(x0)); result == res / (arg + n).as_leading_term(x) or result == self.func(x0); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.gamma._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (res / (arg + n).as_leading_term(x) if x0.is_integer and x0.is_nonpositive else self.func(x0)); result == res / (arg + n).as_leading_term(x) or result == self.func(x0); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ecc5a928b420a5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (res / (arg + n).as_leading_term(x) if x0.is_integer and x0.is_nonpositive else self.func(x0))","result == res / (arg + n).as_leading_term(x) or result == self.func(x0)"],"fibers":[{"name":"case_0","guard":"x0.is_integer and x0.is_nonpositive","ensures":["result == res / (arg + n).as_leading_term(x)"],"decidability":"library","returns_expr":"res / (arg + n).as_leading_term(x)"},{"name":"case_1","guard":"not x0.is_infinite","ensures":["result == self.func(x0)"],"decidability":"library","returns_expr":"self.func(x0)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0)
@@ -371,14 +453,20 @@ class gamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(lowergamma(*args), correctly constructs a lowergamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lowergamma : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lowergamma : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 779b7f1e4307f6e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma","kind":"class","src_hash":"a1be5b139f1a1914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lowergamma(*args)","rhs":"correctly constructs a lowergamma instance","over":{"base":"Any"},"name":"lowergamma_class_invariant"},"guarantee":"correctly constructs a lowergamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"779b7f1e4307f6e9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma","kind":"class","src_hash":"a1be5b139f1a1914","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"lowergamma(*args)","rhs":"correctly constructs a lowergamma instance","over":{"base":"Any"},"name":"lowergamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"779b7f1e4307f6e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function lowergamma not found in source"]}}
 class lowergamma(DefinedFunction):
     r"""
     The lower incomplete gamma function.
@@ -436,16 +524,24 @@ class lowergamma(DefinedFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 2 => exp(-unpolarify(z))...   ║
+# ║   fiber[case_1]: argindex == 1 => gamma(a) * digamma(...   ║
+# ║   fiber[case_2]: not (argindex == 2) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1feaf598cd61ba0b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma.fdiff","kind":"method","src_hash":"8538d0ca53ba7c66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"unpolarify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1feaf598cd61ba0b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma.fdiff","kind":"method","src_hash":"8538d0ca53ba7c66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"unpolarify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1feaf598cd61ba0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 2","ensures":["result == exp(-unpolarify(z)) * z ** (a - 1)"],"decidability":"z3","returns_expr":"exp(-unpolarify(z)) * z ** (a - 1)"},{"name":"case_1","guard":"argindex == 1","ensures":["result == gamma(a) * digamma(a) - log(z) * uppergamma(a, z) - meijerg([], [1, 1], [0, 0, a], [], z)"],"decidability":"z3","returns_expr":"gamma(a) * digamma(a) - log(z) * uppergamma(a, z) - meijerg([], [1, 1], [0, 0, a], [], z)"},{"name":"case_2","guard":"not (argindex == 2) and not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         from sympy.functions.special.hyper import meijerg
         if argindex == 2:
@@ -461,16 +557,25 @@ class lowergamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, a, x), <unspecified:eval>) over {Any | hasattr(a, 'is_Number') and hasattr(x, 'is_zero') and hasattr(x, 'extract_branch_factor') and hasattr(a, 'is_integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_nonpositive') and hasattr(a, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(x, 'extract_branch_factor')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(a, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 437bc3471106b621  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma.eval","kind":"classmethod","src_hash":"96d305f05894a1e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"437bc3471106b621"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma.eval","kind":"classmethod","src_hash":"96d305f05894a1e9","in":{"base":"Any","pred":"hasattr(a, 'is_Number') and hasattr(x, 'is_zero') and hasattr(x, 'extract_branch_factor') and hasattr(a, 'is_integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_nonpositive') and hasattr(a, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(a, 'is_Number') and hasattr(x, 'is_zero') and hasattr(x, 'extract_branch_factor') and hasattr(a, 'is_integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_nonpositive') and hasattr(a, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"437bc3471106b621","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_Number')","hasattr(x, 'is_zero')","hasattr(x, 'extract_branch_factor')","hasattr(a, 'is_integer')","hasattr(a, 'is_positive')","hasattr(a, 'is_nonpositive')","hasattr(a, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.is_Number","a.is_integer","a.is_nonpositive","a.is_positive","x.extract_branch_factor","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, x):
         # For lack of a better place, we use this one to extract branching
         # information. The following can be
@@ -521,16 +626,25 @@ class lowergamma(DefinedFunction):
             return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), result == (Expr._from_mpmath(res, prec) if all((x.is_number for x in self.args)) else self) and result == Expr._from_mpmath(res, prec) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_evalf : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Expr._from_mpmath(res, prec) i...   ║
+# ║   ensures:  result == Expr._from_mpmath(res, prec) or...   ║
+# ║   fiber[case_0]: all((x.is_number for x in self.args)...   ║
+# ║   fiber[case_1]: not (all((x.is_number for x in self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_evalf : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaf5809ff29da966  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b84c535478227fce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_evalf","kind":"method","src_hash":"8f4413c941af6e61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaf5809ff29da966"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_evalf","kind":"method","src_hash":"8f4413c941af6e61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Expr._from_mpmath(res, prec) if all((x.is_number for x in self.args)) else self) and result == Expr._from_mpmath(res, prec) or result == self"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"result == (Expr._from_mpmath(res, prec) if all((x.is_number for x in self.args)) else self) and result == Expr._from_mpmath(res, prec) or result == self","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"result == (Expr._from_mpmath(res, prec) if all((x.is_number for x in self.args)) else self); result == Expr._from_mpmath(res, prec) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_evalf_correct","statement":"Path(_eval_evalf(x), result == (Expr._from_mpmath(res, prec) if all((x.is_number for x in self.args)) else self); result == Expr._from_mpmath(res, prec) or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b84c535478227fce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Expr._from_mpmath(res, prec) if all((x.is_number for x in self.args)) else self)","result == Expr._from_mpmath(res, prec) or result == self"],"fibers":[{"name":"case_0","guard":"all((x.is_number for x in self.args))","ensures":["result == Expr._from_mpmath(res, prec)"],"decidability":"library","returns_expr":"Expr._from_mpmath(res, prec)"},{"name":"case_1","guard":"not (all((x.is_number for x in self.args)))","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if all(x.is_number for x in self.args):
             a = self.args[0]._to_mpmath(prec)
@@ -544,30 +658,42 @@ class lowergamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate(), x.con...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 59992e1dfc532e2e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_conjugate","kind":"method","src_hash":"f3e89a960b9e96b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59992e1dfc532e2e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_conjugate","kind":"method","src_hash":"f3e89a960b9e96b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate(), x.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(self.args[0].conjugate(), x.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59992e1dfc532e2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate(), x.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         x = self.args[1]
         if x not in (S.Zero, S.NegativeInfinity):
             return self.func(self.args[0].conjugate(), x.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_meromorphic(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_meromorphic(x, a), <unspecified:_eval_is_meromorphic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_meromorphic : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e81c42498e86af40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_is_meromorphic","kind":"method","src_hash":"87b5d09f32f1bbd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_is_meromorphic_correct","statement":"Path(_eval_is_meromorphic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e81c42498e86af40"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_is_meromorphic","kind":"method","src_hash":"87b5d09f32f1bbd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, a)","rhs":"<unspecified:_eval_is_meromorphic>","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_is_meromorphic_correct","statement":"Path(_eval_is_meromorphic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e81c42498e86af40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_meromorphic(self, x, a):
         # By https://en.wikipedia.org/wiki/Incomplete_gamma_function#Holomorphic_extension,
         #    lowergamma(s, z) = z**s*gamma(s)*gammastar(s, z),
@@ -586,16 +712,22 @@ class lowergamma(DefinedFunction):
         return fuzzy_and([s0.is_finite, z0.is_finite, fuzzy_not(z0.is_zero)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_aseries(n, args0, x), <unspecified:_eval_aseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a70d45a5726ccf84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_aseries","kind":"method","src_hash":"5d7835209385f439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_aseries_correct","statement":"Path(_eval_aseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a70d45a5726ccf84"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_aseries","kind":"method","src_hash":"5d7835209385f439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_aseries_correct","statement":"Path(_eval_aseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a70d45a5726ccf84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.series.order import O
         s, z = self.args
@@ -607,30 +739,44 @@ class lowergamma(DefinedFunction):
         return super()._eval_aseries(n, args0, x, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_uppergamma(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_uppergamma(s, x, **kwargs), gamma(s) - uppergamma(s, x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gamma(s) - uppergamma(s, x)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_uppergamma : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ac9abe93522077f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_rewrite_as_uppergamma","kind":"method","src_hash":"bdfffd02e56c3888","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_uppergamma(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_uppergamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ac9abe93522077f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_rewrite_as_uppergamma","kind":"method","src_hash":"bdfffd02e56c3888","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_uppergamma(s, x, **kwargs)","rhs":"gamma(s) - uppergamma(s, x)","over":{"base":"Any"},"name":"_eval_rewrite_as_uppergamma_correct"},"guarantee":"returns gamma(s) - uppergamma(s, x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ac9abe93522077f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gamma(s) - uppergamma(s, x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_uppergamma(self, s, x, **kwargs):
         return gamma(s) - uppergamma(s, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_expint(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_expint(s, x, **kwargs), <unspecified:_eval_rewrite_as_expint>) over {Any | hasattr(s, 'is_integer') and hasattr(s, 'is_nonpositive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_expint : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'is_integer')                       ║
+# ║   requires: hasattr(s, 'is_nonpositive')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_expint : {Any | hasattr(s, 'is_integ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebed5d8c459189f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_rewrite_as_expint","kind":"method","src_hash":"796699a90398695d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_expint(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_expint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_rewrite_as_expint_correct","statement":"Path(_eval_rewrite_as_expint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebed5d8c459189f5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_rewrite_as_expint","kind":"method","src_hash":"796699a90398695d","in":{"base":"Any","pred":"hasattr(s, 'is_integer') and hasattr(s, 'is_nonpositive')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_expint(s, x, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_expint>","over":{"base":"Any","pred":"hasattr(s, 'is_integer') and hasattr(s, 'is_nonpositive')"},"name":"_eval_rewrite_as_expint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_rewrite_as_expint_correct","statement":"Path(_eval_rewrite_as_expint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebed5d8c459189f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'is_integer')","hasattr(s, 'is_nonpositive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.is_integer","s.is_nonpositive","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_expint(self, s, x, **kwargs):
         from sympy.functions.special.error_functions import expint
         if s.is_integer and s.is_nonpositive:
@@ -638,16 +784,22 @@ class lowergamma(DefinedFunction):
         return self.rewrite(uppergamma).rewrite(expint)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa553f0d582a7a85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 086ed47bbc34d41d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_is_zero","kind":"method","src_hash":"56b055824f4f02f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa553f0d582a7a85"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.lowergamma._eval_is_zero","kind":"method","src_hash":"56b055824f4f02f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.lowergamma._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"086ed47bbc34d41d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         x = self.args[1]
         if x.is_zero:
@@ -657,14 +809,20 @@ class lowergamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(uppergamma(*args), correctly constructs a uppergamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ uppergamma : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ uppergamma : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37ff43f5138da8e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma","kind":"class","src_hash":"d0426db6e7f64054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uppergamma(*args)","rhs":"correctly constructs a uppergamma instance","over":{"base":"Any"},"name":"uppergamma_class_invariant"},"guarantee":"correctly constructs a uppergamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ff43f5138da8e5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma","kind":"class","src_hash":"d0426db6e7f64054","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"uppergamma(*args)","rhs":"correctly constructs a uppergamma instance","over":{"base":"Any"},"name":"uppergamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ff43f5138da8e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function uppergamma not found in source"]}}
 class uppergamma(DefinedFunction):
     r"""
     The upper incomplete gamma function.
@@ -732,16 +890,24 @@ class uppergamma(DefinedFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 2 => -exp(-unpolarify(z)...   ║
+# ║   fiber[case_1]: argindex == 1 => uppergamma(a, z) * ...   ║
+# ║   fiber[case_2]: not (argindex == 2) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 587070cb60140ddb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma.fdiff","kind":"method","src_hash":"00b35b76aad1b0ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"unpolarify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"587070cb60140ddb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma.fdiff","kind":"method","src_hash":"00b35b76aad1b0ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"unpolarify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"587070cb60140ddb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 2","ensures":["result == -exp(-unpolarify(z)) * z ** (a - 1)"],"decidability":"z3","returns_expr":"-exp(-unpolarify(z)) * z ** (a - 1)"},{"name":"case_1","guard":"argindex == 1","ensures":["result == uppergamma(a, z) * log(z) + meijerg([], [1, 1], [0, 0, a], [], z)"],"decidability":"z3","returns_expr":"uppergamma(a, z) * log(z) + meijerg([], [1, 1], [0, 0, a], [], z)"},{"name":"case_2","guard":"not (argindex == 2) and not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         from sympy.functions.special.hyper import meijerg
         if argindex == 2:
@@ -754,16 +920,22 @@ class uppergamma(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 583be20ffd270547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_evalf","kind":"method","src_hash":"b01a0b18154c53f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.uppergamma._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583be20ffd270547"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_evalf","kind":"method","src_hash":"b01a0b18154c53f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.uppergamma._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583be20ffd270547","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if all(x.is_number for x in self.args):
             a = self.args[0]._to_mpmath(prec)
@@ -775,16 +947,25 @@ class uppergamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, a, z), <unspecified:eval>) over {Any | hasattr(z, 'is_Number') and hasattr(a, 'is_Number') and hasattr(z, 'extract_branch_factor') and hasattr(a, 'is_integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_zero') and hasattr(z, 'is_positive') and hasattr(z, 'is_zero') and hasattr(a, 'is_nonpositive') and hasattr(a, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_Number')                        ║
+# ║   requires: hasattr(a, 'is_Number')                        ║
+# ║   requires: hasattr(z, 'extract_branch_factor')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_Number') and hasattr(a, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5f6ecfcb47d48ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma.eval","kind":"classmethod","src_hash":"fa14d0809888d92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.uppergamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5f6ecfcb47d48ef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma.eval","kind":"classmethod","src_hash":"fa14d0809888d92b","in":{"base":"Any","pred":"hasattr(z, 'is_Number') and hasattr(a, 'is_Number') and hasattr(z, 'extract_branch_factor') and hasattr(a, 'is_integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_zero') and hasattr(z, 'is_positive') and hasattr(z, 'is_zero') and hasattr(a, 'is_nonpositive') and hasattr(a, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_Number') and hasattr(a, 'is_Number') and hasattr(z, 'extract_branch_factor') and hasattr(a, 'is_integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_zero') and hasattr(z, 'is_positive') and hasattr(z, 'is_zero') and hasattr(a, 'is_nonpositive') and hasattr(a, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.uppergamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5f6ecfcb47d48ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_Number')","hasattr(a, 'is_Number')","hasattr(z, 'extract_branch_factor')","hasattr(a, 'is_integer')","hasattr(a, 'is_positive')","hasattr(a, 'is_zero')","hasattr(z, 'is_positive')","hasattr(z, 'is_zero')","hasattr(a, 'is_nonpositive')","hasattr(a, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.is_Number","a.is_integer","a.is_nonpositive","a.is_positive","a.is_zero","z.extract_branch_factor","z.is_Number","z.is_positive","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, z):
         from sympy.functions.special.error_functions import expint
         if z.is_Number:
@@ -844,72 +1025,102 @@ class uppergamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate(), z.con...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9a67d7ed84f449d0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_conjugate","kind":"method","src_hash":"f741c5cdf56d9364","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a67d7ed84f449d0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_conjugate","kind":"method","src_hash":"f741c5cdf56d9364","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate(), z.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(self.args[0].conjugate(), z.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a67d7ed84f449d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate(), z.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z = self.args[1]
         if z not in (S.Zero, S.NegativeInfinity):
             return self.func(self.args[0].conjugate(), z.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_meromorphic(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_meromorphic(x, a), lowergamma._eval_is_meromorphic(self, x, a)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lowergamma._eval_is_meromorphic(self, x, a)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_meromorphic : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eebb49a4044bc528           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_is_meromorphic","kind":"method","src_hash":"6ac0acb21d4158bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eebb49a4044bc528"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_is_meromorphic","kind":"method","src_hash":"6ac0acb21d4158bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, a)","rhs":"lowergamma._eval_is_meromorphic(self, x, a)","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"returns lowergamma._eval_is_meromorphic(self, x, a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eebb49a4044bc528","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lowergamma._eval_is_meromorphic(self, x, a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_meromorphic(self, x, a):
         return lowergamma._eval_is_meromorphic(self, x, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_lowergamma(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_lowergamma(s, x, **kwargs), gamma(s) - lowergamma(s, x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gamma(s) - lowergamma(s, x)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_lowergamma : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919dfbb80566310b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_lowergamma","kind":"method","src_hash":"1407c32cdc503130","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_lowergamma(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_lowergamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919dfbb80566310b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_lowergamma","kind":"method","src_hash":"1407c32cdc503130","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_lowergamma(s, x, **kwargs)","rhs":"gamma(s) - lowergamma(s, x)","over":{"base":"Any"},"name":"_eval_rewrite_as_lowergamma_correct"},"guarantee":"returns gamma(s) - lowergamma(s, x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919dfbb80566310b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gamma(s) - lowergamma(s, x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_lowergamma(self, s, x, **kwargs):
         return gamma(s) - lowergamma(s, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tractable(s, x, **kwargs), exp(loggamma(s)) - lowergamma(s, x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(loggamma(s)) - lowergamma(s, x)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tractable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0def9159d0b308c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_tractable","kind":"method","src_hash":"5bdd5e3e4a3f9a86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0def9159d0b308c8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_tractable","kind":"method","src_hash":"5bdd5e3e4a3f9a86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(s, x, **kwargs)","rhs":"exp(loggamma(s)) - lowergamma(s, x)","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"returns exp(loggamma(s)) - lowergamma(s, x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0def9159d0b308c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(loggamma(s)) - lowergamma(s, x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, s, x, **kwargs):
         return exp(loggamma(s)) - lowergamma(s, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_expint(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_expint(s, x, **kwargs), expint(1 - s, x) * x ** s) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expint(1 - s, x) * x ** s                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_expint : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f08258ed2bb3493b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 140673d8d3fb21d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_expint","kind":"method","src_hash":"a5a7288736cbdf87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_expint(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_expint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_expint_correct","statement":"Path(_eval_rewrite_as_expint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f08258ed2bb3493b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_expint","kind":"method","src_hash":"a5a7288736cbdf87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_expint(s, x, **kwargs)","rhs":"expint(1 - s, x) * x ** s","over":{"base":"Any"},"name":"_eval_rewrite_as_expint_correct"},"guarantee":"returns expint(1 - s, x) * x ** s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.uppergamma._eval_rewrite_as_expint_correct","statement":"Path(_eval_rewrite_as_expint(x), returns expint(1 - s, x) * x ** s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"140673d8d3fb21d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expint(1 - s, x) * x ** s","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_expint(self, s, x, **kwargs):
         from sympy.functions.special.error_functions import expint
         return expint(1 - s, x)*x**s
@@ -922,14 +1133,20 @@ class uppergamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(polygamma(*args), correctly constructs a polygamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ polygamma : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ polygamma : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edb3c9f38d69b60e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma","kind":"class","src_hash":"692b1b51fe68421a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polygamma(*args)","rhs":"correctly constructs a polygamma instance","over":{"base":"Any"},"name":"polygamma_class_invariant"},"guarantee":"correctly constructs a polygamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb3c9f38d69b60e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma","kind":"class","src_hash":"692b1b51fe68421a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"polygamma(*args)","rhs":"correctly constructs a polygamma instance","over":{"base":"Any"},"name":"polygamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb3c9f38d69b60e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function polygamma not found in source"]}}
 class polygamma(DefinedFunction):
     r"""
     The function ``polygamma(n, z)`` returns ``log(gamma(z)).diff(n + 1)``.
@@ -1039,16 +1256,27 @@ class polygamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, z), <unspecified:eval>) over {Any | hasattr(n, 'is_zero') and hasattr(z, 'is_Integer') and hasattr(z, 'is_nonpositive') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(z, 'is_Rational') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'is_Integer')                       ║
+# ║   requires: hasattr(z, 'is_nonpositive')                   ║
+# ║   fiber[case_0]: n is S.NaN or z is S.NaN => S.NaN         ║
+# ║   fiber[case_1]: z is oo => oo if n.is_zero else S.Zero    ║
+# ║   fiber[case_2]: z.is_Integer and z.is_nonpositive =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_zero') and hasattr(z, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49506b94ec2ca447  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3165f59ac9c0f06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma.eval","kind":"classmethod","src_hash":"9c3bdc420e271cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49506b94ec2ca447"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma.eval","kind":"classmethod","src_hash":"9c3bdc420e271cdf","in":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(z, 'is_Integer') and hasattr(z, 'is_nonpositive') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(z, 'is_Rational') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(z, 'is_Integer') and hasattr(z, 'is_nonpositive') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(z, 'is_Rational') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'as_numer_denom')"},"name":"eval_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma.eval_correct","statement":"Path(eval(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3165f59ac9c0f06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_zero')","hasattr(z, 'is_Integer')","hasattr(z, 'is_nonpositive')","hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')","hasattr(z, 'is_Rational')","hasattr(z, 'extract_multiplicatively')","hasattr(z, 'as_numer_denom')"],"fibers":[{"name":"case_0","guard":"n is S.NaN or z is S.NaN","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_1","guard":"z is oo","ensures":["result == oo if n.is_zero else S.Zero"],"decidability":"library","returns_expr":"oo if n.is_zero else S.Zero"},{"name":"case_2","guard":"z.is_Integer and z.is_nonpositive","ensures":["result == S.ComplexInfinity"],"decidability":"library","returns_expr":"S.ComplexInfinity"},{"name":"case_3","guard":"n is S.NegativeOne","ensures":["result == loggamma(z) - log(2 * pi) / 2"],"decidability":"library","returns_expr":"loggamma(z) - log(2 * pi) / 2"},{"name":"case_4","guard":"n.is_zero","ensures":[],"decidability":"library"},{"name":"case_5","guard":"n.is_integer and n.is_nonnegative","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_nonnegative","n.is_zero","z.as_numer_denom","z.extract_multiplicatively","z.is_Integer","z.is_Rational","z.is_nonpositive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, z):
         if n is S.NaN or z is S.NaN:
             return S.NaN
@@ -1079,16 +1307,22 @@ class polygamma(DefinedFunction):
                 return S.NegativeOne**(n+1) * factorial(n) * (2**(n+1)-1) * zeta(n+1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a94981396c977a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dbde61109d1e239  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_real","kind":"method","src_hash":"eb1a41b0a682ad83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a94981396c977a0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_real","kind":"method","src_hash":"eb1a41b0a682ad83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dbde61109d1e239","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         if self.args[0].is_positive and self.args[1].is_positive:
             return True
@@ -1096,30 +1330,42 @@ class polygamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_is_complex(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and([z.is_complex, fuzzy_not(is_neg...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ceaa2be9fcd51b81   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_complex","kind":"method","src_hash":"e77fa22155246eea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_and","by":"library_axiom"},{"fn":"fuzzy_not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceaa2be9fcd51b81"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_complex","kind":"method","src_hash":"e77fa22155246eea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"fuzzy_and([z.is_complex, fuzzy_not(is_negative_integer)])","over":{"base":"Any"},"name":"_eval_is_complex_correct","kind":"composition"},"guarantee":"returns fuzzy_and([z.is_complex, fuzzy_not(is_negative_integer)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_and","by":"library_axiom"},{"fn":"fuzzy_not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceaa2be9fcd51b81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and([z.is_complex, fuzzy_not(is_negative_integer)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         z = self.args[1]
         is_negative_integer = fuzzy_and([z.is_negative, z.is_integer])
         return fuzzy_and([z.is_complex, fuzzy_not(is_negative_integer)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), <unspecified:_eval_is_positive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7a1353cd2f618fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_positive","kind":"method","src_hash":"ffb8a549e7576b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7a1353cd2f618fb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_positive","kind":"method","src_hash":"ffb8a549e7576b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"<unspecified:_eval_is_positive>","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7a1353cd2f618fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         n, z = self.args
         if n.is_positive:
@@ -1129,16 +1375,22 @@ class polygamma(DefinedFunction):
                 return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), <unspecified:_eval_is_negative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd7bf13048e7f894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_negative","kind":"method","src_hash":"f5ba2a3009b2d9cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd7bf13048e7f894"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_is_negative","kind":"method","src_hash":"f5ba2a3009b2d9cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"<unspecified:_eval_is_negative>","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd7bf13048e7f894","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         n, z = self.args
         if n.is_positive:
@@ -1148,16 +1400,22 @@ class polygamma(DefinedFunction):
                 return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ee592f95bc86044f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_expand_func","kind":"method","src_hash":"3480c23b96dfea6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee592f95bc86044f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_expand_func","kind":"method","src_hash":"3480c23b96dfea6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee592f95bc86044f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         n, z = self.args
 
@@ -1212,31 +1470,47 @@ class polygamma(DefinedFunction):
         return polygamma(n, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(n, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_zeta(n, z, **kwargs), id) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_zeta : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_positive')                      ║
+# ║   returns:  S.NegativeOne ** (n + 1) * factorial(n) *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_zeta : {Any | hasattr(n, 'is_integer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 65307689f9b8fb80   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_rewrite_as_zeta","kind":"method","src_hash":"1411c7ed1da8b5a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65307689f9b8fb80"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_rewrite_as_zeta","kind":"method","src_hash":"1411c7ed1da8b5a5","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(n, z, **kwargs)","rhs":"S.NegativeOne ** (n + 1) * factorial(n) * zeta(n + 1, z)","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_positive')"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"returns S.NegativeOne ** (n + 1) * factorial(n) * zeta(n + 1, z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65307689f9b8fb80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_positive')"],"returns_expr":"S.NegativeOne ** (n + 1) * factorial(n) * zeta(n + 1, z)","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, n, z, **kwargs):
         if n.is_integer and n.is_positive:
             return S.NegativeOne**(n + 1)*factorial(n)*zeta(n + 1, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_harmonic(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_harmonic(n, z, **kwargs), <unspecified:_eval_rewrite_as_harmonic>) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_harmonic : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_harmonic : {Any | hasattr(n, 'is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6206adac3eb246e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_rewrite_as_harmonic","kind":"method","src_hash":"eb5955ea0e9b19d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_harmonic(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_harmonic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_rewrite_as_harmonic_correct","statement":"Path(_eval_rewrite_as_harmonic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6206adac3eb246e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_rewrite_as_harmonic","kind":"method","src_hash":"eb5955ea0e9b19d4","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_harmonic(n, z, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_harmonic>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_zero')"},"name":"_eval_rewrite_as_harmonic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_rewrite_as_harmonic_correct","statement":"Path(_eval_rewrite_as_harmonic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6206adac3eb246e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_harmonic(self, n, z, **kwargs):
         if n.is_integer:
             if n.is_zero:
@@ -1245,16 +1519,25 @@ class polygamma(DefinedFunction):
                 return S.NegativeOne**(n+1) * factorial(n) * (zeta(n+1) - harmonic(z-1, n+1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (o.getn() * logx if n == 0 and o.contains(1 / x) else self.func(n, z)) and result == o.getn() * logx or result == self.func(n, z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (o.getn() * logx if n == 0 and ...   ║
+# ║   ensures:  result == o.getn() * logx or result == se...   ║
+# ║   fiber[zero_or_none]: n == 0 and o.contains(1 / x) =...   ║
+# ║   fiber[zero_or_none]: not (n == 0 and o.contains(1 /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8df4afba75166be0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a95ec30838f51a64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_as_leading_term","kind":"method","src_hash":"205a6898f0510f8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8df4afba75166be0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_as_leading_term","kind":"method","src_hash":"205a6898f0510f8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (o.getn() * logx if n == 0 and o.contains(1 / x) else self.func(n, z)) and result == o.getn() * logx or result == self.func(n, z)"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (o.getn() * logx if n == 0 and o.contains(1 / x) else self.func(n, z)) and result == o.getn() * logx or result == self.func(n, z)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (o.getn() * logx if n == 0 and o.contains(1 / x) else self.func(n, z)); result == o.getn() * logx or result == self.func(n, z); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (o.getn() * logx if n == 0 and o.contains(1 / x) else self.func(n, z)); result == o.getn() * logx or result == self.func(n, z); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a95ec30838f51a64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (o.getn() * logx if n == 0 and o.contains(1 / x) else self.func(n, z))","result == o.getn() * logx or result == self.func(n, z)"],"fibers":[{"name":"zero_or_none","guard":"n == 0 and o.contains(1 / x)","ensures":["result == o.getn() * logx"],"decidability":"z3","returns_expr":"o.getn() * logx"},{"name":"zero_or_none","guard":"not (n == 0 and o.contains(1 / x))","ensures":["result == self.func(n, z)"],"decidability":"z3","returns_expr":"self.func(n, z)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.series.order import Order
         n, z = [a.as_leading_term(x) for a in self.args]
@@ -1266,16 +1549,23 @@ class polygamma(DefinedFunction):
             return self.func(n, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 2 => polygamma(n + 1, z)      ║
+# ║   fiber[case_1]: not (argindex == 2)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec55c4995308e269  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db8aa2a1955455f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma.fdiff","kind":"method","src_hash":"06f1e740580c42be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec55c4995308e269"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma.fdiff","kind":"method","src_hash":"06f1e740580c42be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db8aa2a1955455f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 2","ensures":["result == polygamma(n + 1, z)"],"decidability":"z3","returns_expr":"polygamma(n + 1, z)"},{"name":"case_1","guard":"not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 2:
             n, z = self.args[:2]
@@ -1284,16 +1574,22 @@ class polygamma(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 70a600a0354a9496   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_aseries","kind":"method","src_hash":"06398b2e2a52fd85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_aseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a600a0354a9496"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_aseries","kind":"method","src_hash":"06398b2e2a52fd85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_aseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a600a0354a9496","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.series.order import Order
         if args0[1] != oo or not \
@@ -1336,16 +1632,22 @@ class polygamma(DefinedFunction):
             return (-1 * (-1/z)**N * r)._eval_nseries(x, n, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bfd324717f3af0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_evalf","kind":"method","src_hash":"94aee28442cd0f6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bfd324717f3af0a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.polygamma._eval_evalf","kind":"method","src_hash":"94aee28442cd0f6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.polygamma._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bfd324717f3af0a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not all(i.is_number for i in self.args):
             return
@@ -1366,14 +1668,20 @@ class polygamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(loggamma(*args), correctly constructs a loggamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ loggamma : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ loggamma : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3678e11144df61b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma","kind":"class","src_hash":"5e645c68f7eb0a4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loggamma(*args)","rhs":"correctly constructs a loggamma instance","over":{"base":"Any"},"name":"loggamma_class_invariant"},"guarantee":"correctly constructs a loggamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3678e11144df61b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma","kind":"class","src_hash":"5e645c68f7eb0a4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"loggamma(*args)","rhs":"correctly constructs a loggamma instance","over":{"base":"Any"},"name":"loggamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3678e11144df61b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function loggamma not found in source"]}}
 class loggamma(DefinedFunction):
     r"""
     The ``loggamma`` function implements the logarithm of the
@@ -1486,16 +1794,25 @@ class loggamma(DefinedFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, z), <unspecified:eval>) over {Any | hasattr(z, 'is_integer') and hasattr(z, 'is_nonpositive') and hasattr(z, 'is_rational') and hasattr(z, 'is_positive') and hasattr(z, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_integer')                       ║
+# ║   requires: hasattr(z, 'is_nonpositive')                   ║
+# ║   requires: hasattr(z, 'is_rational')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_integer') and hasattr(z,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ce0eb5942236608  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma.eval","kind":"classmethod","src_hash":"5b2b7c17e564b386","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce0eb5942236608"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma.eval","kind":"classmethod","src_hash":"5b2b7c17e564b386","in":{"base":"Any","pred":"hasattr(z, 'is_integer') and hasattr(z, 'is_nonpositive') and hasattr(z, 'is_rational') and hasattr(z, 'is_positive') and hasattr(z, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_integer') and hasattr(z, 'is_nonpositive') and hasattr(z, 'is_rational') and hasattr(z, 'is_positive') and hasattr(z, 'as_numer_denom')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce0eb5942236608","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_integer')","hasattr(z, 'is_nonpositive')","hasattr(z, 'is_rational')","hasattr(z, 'is_positive')","hasattr(z, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["z.as_numer_denom","z.is_integer","z.is_nonpositive","z.is_positive","z.is_rational"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, z):
         if z.is_integer:
             if z.is_nonpositive:
@@ -1516,16 +1833,22 @@ class loggamma(DefinedFunction):
             return S.NaN
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5bb92f83ea422a73   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_expand_func","kind":"method","src_hash":"3f327eea9355344b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"loggamma","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb92f83ea422a73"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_expand_func","kind":"method","src_hash":"3f327eea9355344b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"loggamma","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb92f83ea422a73","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         from sympy.concrete.summations import Sum
         z = self.args[0]
@@ -1548,16 +1871,22 @@ class loggamma(DefinedFunction):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bec65d8013cc5244  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_nseries","kind":"method","src_hash":"cbbb7c0fd43b7431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec65d8013cc5244"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_nseries","kind":"method","src_hash":"cbbb7c0fd43b7431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec65d8013cc5244","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_intractable","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx=None, cdir=0):
         x0 = self.args[0].limit(x, 0)
         if x0.is_zero:
@@ -1566,16 +1895,22 @@ class loggamma(DefinedFunction):
         return super()._eval_nseries(x, n, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f7cb4fa5505adb58   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_aseries","kind":"method","src_hash":"6d8e3375c397e223","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_aseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7cb4fa5505adb58"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_aseries","kind":"method","src_hash":"6d8e3375c397e223","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_aseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7cb4fa5505adb58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.series.order import Order
         if args0[0] != oo:
@@ -1592,30 +1927,45 @@ class loggamma(DefinedFunction):
         return (r + Add(*l))._eval_nseries(x, n, logx) + o
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_intractable(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_intractable(z, **kwargs), log(gamma(z))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  log(gamma(z))                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_intractable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9b6fd0c56b93a59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_rewrite_as_intractable","kind":"method","src_hash":"006867f9b0169557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_intractable(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_intractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9b6fd0c56b93a59"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_rewrite_as_intractable","kind":"method","src_hash":"006867f9b0169557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_intractable(z, **kwargs)","rhs":"log(gamma(z))","over":{"base":"Any"},"name":"_eval_rewrite_as_intractable_correct"},"guarantee":"returns log(gamma(z))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9b6fd0c56b93a59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"log(gamma(z))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_intractable(self, z, **kwargs):
         return log(gamma(z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), result == (True if z.is_positive else False) and result == True or result == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_real : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if z.is_positive else False)   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: z.is_positive => True                     ║
+# ║   fiber[case_1]: z.is_nonpositive => False                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_real : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 597117af5f9c3458  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f9bd10243c36dc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_is_real","kind":"method","src_hash":"17519ee65fd98929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"597117af5f9c3458"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_is_real","kind":"method","src_hash":"17519ee65fd98929","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if z.is_positive else False) and result == True or result == False"},"spec":{"lhs":"_eval_is_real()","rhs":"result == (True if z.is_positive else False) and result == True or result == False","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"result == (True if z.is_positive else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), result == (True if z.is_positive else False); result == True or result == False; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f9bd10243c36dc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if z.is_positive else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"z.is_positive","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"z.is_nonpositive","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         z = self.args[0]
         if z.is_positive:
@@ -1626,30 +1976,43 @@ class loggamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(z.conjugate())                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4ba0dba99f21b7ba   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_conjugate","kind":"method","src_hash":"ec81078743324783","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba0dba99f21b7ba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma._eval_conjugate","kind":"method","src_hash":"ec81078743324783","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(z.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(z.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba0dba99f21b7ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(z.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z = self.args[0]
         if z not in (S.Zero, S.NegativeInfinity):
             return self.func(z.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => polygamma(0, self.a...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eaf9b3e8478db1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f488eefe6b2bd20a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma.fdiff","kind":"method","src_hash":"a134e5fe9d307d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eaf9b3e8478db1e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.loggamma.fdiff","kind":"method","src_hash":"a134e5fe9d307d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.loggamma.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f488eefe6b2bd20a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == polygamma(0, self.args[0])"],"decidability":"z3","returns_expr":"polygamma(0, self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return polygamma(0, self.args[0])
@@ -1660,14 +2023,20 @@ class loggamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(digamma(*args), correctly constructs a digamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ digamma : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ digamma : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25478e0582357a36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma","kind":"class","src_hash":"eb0339a6529cfd3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"digamma(*args)","rhs":"correctly constructs a digamma instance","over":{"base":"Any"},"name":"digamma_class_invariant"},"guarantee":"correctly constructs a digamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25478e0582357a36"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma","kind":"class","src_hash":"eb0339a6529cfd3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"digamma(*args)","rhs":"correctly constructs a digamma instance","over":{"base":"Any"},"name":"digamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25478e0582357a36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function digamma not found in source"]}}
 class digamma(DefinedFunction):
     r"""
     The ``digamma`` function is the first derivative of the ``loggamma``
@@ -1717,92 +2086,128 @@ class digamma(DefinedFunction):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).evalf(n=nprec)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 65f7a2de38a52b01   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_evalf","kind":"method","src_hash":"08b6840848005c09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65f7a2de38a52b01"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_evalf","kind":"method","src_hash":"08b6840848005c09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"polygamma(0, z).evalf(n=nprec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns polygamma(0, z).evalf(n=nprec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65f7a2de38a52b01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).evalf(n=nprec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         z = self.args[0]
         nprec = prec_to_dps(prec)
         return polygamma(0, z).evalf(n=nprec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).fdiff()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f15a3d75c108d2be   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma.fdiff","kind":"method","src_hash":"eea828a2a6423064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"fdiff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f15a3d75c108d2be"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma.fdiff","kind":"method","src_hash":"eea828a2a6423064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"polygamma(0, z).fdiff()","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"returns polygamma(0, z).fdiff()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"fdiff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f15a3d75c108d2be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).fdiff()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         z = self.args[0]
         return polygamma(0, z).fdiff()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), polygamma(0, z).is_real) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).is_real                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8b9448a2f87a5d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d815a7bc9b8b57dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_is_real","kind":"method","src_hash":"5e2c7f76417d7c56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8b9448a2f87a5d6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_is_real","kind":"method","src_hash":"5e2c7f76417d7c56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"polygamma(0, z).is_real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns polygamma(0, z).is_real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns polygamma(0, z).is_real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d815a7bc9b8b57dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).is_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         z = self.args[0]
         return polygamma(0, z).is_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), polygamma(0, z).is_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).is_positive                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2268790729994ca5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c612485703e2e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_is_positive","kind":"method","src_hash":"420f9820ec1316d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2268790729994ca5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_is_positive","kind":"method","src_hash":"420f9820ec1316d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"polygamma(0, z).is_positive","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns polygamma(0, z).is_positive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns polygamma(0, z).is_positive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c612485703e2e9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).is_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         z = self.args[0]
         return polygamma(0, z).is_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), polygamma(0, z).is_negative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).is_negative                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b63474620357449  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4f411d7946d02c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_is_negative","kind":"method","src_hash":"92e3fe8d8028f48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b63474620357449"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_is_negative","kind":"method","src_hash":"92e3fe8d8028f48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"polygamma(0, z).is_negative","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns polygamma(0, z).is_negative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), returns polygamma(0, z).is_negative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4f411d7946d02c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).is_negative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         z = self.args[0]
         return polygamma(0, z).is_negative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_aseries(n, args0, x), as_polygamma._eval_aseries(n, args0, x, logx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  as_polygamma._eval_aseries(n, args0, x, l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c8d65496250373  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dcebf06f76e4094  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_aseries","kind":"method","src_hash":"59afffa78a286b25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_aseries_correct","statement":"Path(_eval_aseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c8d65496250373"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_aseries","kind":"method","src_hash":"59afffa78a286b25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"as_polygamma._eval_aseries(n, args0, x, logx)","over":{"base":"Any"},"name":"_eval_aseries_correct"},"guarantee":"returns as_polygamma._eval_aseries(n, args0, x, logx)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.digamma._eval_aseries_correct","statement":"Path(_eval_aseries(x), returns as_polygamma._eval_aseries(n, args0, x, logx))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dcebf06f76e4094","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"as_polygamma._eval_aseries(n, args0, x, logx)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         as_polygamma = self.rewrite(polygamma)
         args0 = [S.Zero,] + args0
@@ -1810,73 +2215,103 @@ class digamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, z), polygamma(0, z)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 967335907bd200e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma.eval","kind":"classmethod","src_hash":"091e074be4807e91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"967335907bd200e9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma.eval","kind":"classmethod","src_hash":"091e074be4807e91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, z)","rhs":"polygamma(0, z)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns polygamma(0, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"967335907bd200e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, z):
         return polygamma(0, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).expand(func=True)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 893ea7954ec7ec9c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_expand_func","kind":"method","src_hash":"f318478acbaec50f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893ea7954ec7ec9c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_expand_func","kind":"method","src_hash":"f318478acbaec50f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"polygamma(0, z).expand(func=True)","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns polygamma(0, z).expand(func=True)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893ea7954ec7ec9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).expand(func=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         z = self.args[0]
         return polygamma(0, z).expand(func=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_harmonic(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_harmonic(z, **kwargs), harmonic(z - 1) - S.EulerGamma) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  harmonic(z - 1) - S.EulerGamma                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_harmonic : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0a24ae2177c20b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_rewrite_as_harmonic","kind":"method","src_hash":"99ddefefc9cbc950","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_harmonic(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_harmonic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0a24ae2177c20b6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_rewrite_as_harmonic","kind":"method","src_hash":"99ddefefc9cbc950","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_harmonic(z, **kwargs)","rhs":"harmonic(z - 1) - S.EulerGamma","over":{"base":"Any"},"name":"_eval_rewrite_as_harmonic_correct"},"guarantee":"returns harmonic(z - 1) - S.EulerGamma","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0a24ae2177c20b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"harmonic(z - 1) - S.EulerGamma","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_harmonic(self, z, **kwargs):
         return harmonic(z - 1) - S.EulerGamma
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polygamma(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polygamma(z, **kwargs), polygamma(0, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polygamma : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a263abf2fb7ea93e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_rewrite_as_polygamma","kind":"method","src_hash":"55aa278f7aa4ba43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polygamma(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polygamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a263abf2fb7ea93e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_rewrite_as_polygamma","kind":"method","src_hash":"55aa278f7aa4ba43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polygamma(z, **kwargs)","rhs":"polygamma(0, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_polygamma_correct"},"guarantee":"returns polygamma(0, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a263abf2fb7ea93e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polygamma(self, z, **kwargs):
         return polygamma(0, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(0, z).as_leading_term(x)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9599ae4dfade6ec5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_as_leading_term","kind":"method","src_hash":"f33594edfe74c658","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9599ae4dfade6ec5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.digamma._eval_as_leading_term","kind":"method","src_hash":"f33594edfe74c658","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"polygamma(0, z).as_leading_term(x)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"returns polygamma(0, z).as_leading_term(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9599ae4dfade6ec5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(0, z).as_leading_term(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         z = self.args[0]
         return polygamma(0, z).as_leading_term(x)
@@ -1886,14 +2321,20 @@ class digamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(trigamma(*args), correctly constructs a trigamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ trigamma : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ trigamma : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60fc3a9a7e6a27c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma","kind":"class","src_hash":"05759584f60bd739","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trigamma(*args)","rhs":"correctly constructs a trigamma instance","over":{"base":"Any"},"name":"trigamma_class_invariant"},"guarantee":"correctly constructs a trigamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60fc3a9a7e6a27c9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma","kind":"class","src_hash":"05759584f60bd739","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"trigamma(*args)","rhs":"correctly constructs a trigamma instance","over":{"base":"Any"},"name":"trigamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60fc3a9a7e6a27c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function trigamma not found in source"]}}
 class trigamma(DefinedFunction):
     r"""
     The ``trigamma`` function is the second derivative of the ``loggamma``
@@ -1943,92 +2384,128 @@ class trigamma(DefinedFunction):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).evalf(n=nprec)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ac5aa19d188f62c4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_evalf","kind":"method","src_hash":"3d80aed8edba9670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac5aa19d188f62c4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_evalf","kind":"method","src_hash":"3d80aed8edba9670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"polygamma(1, z).evalf(n=nprec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns polygamma(1, z).evalf(n=nprec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac5aa19d188f62c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).evalf(n=nprec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         z = self.args[0]
         nprec = prec_to_dps(prec)
         return polygamma(1, z).evalf(n=nprec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).fdiff()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | edb7b2d13d1370ed   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma.fdiff","kind":"method","src_hash":"961128200add5ba7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"fdiff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb7b2d13d1370ed"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma.fdiff","kind":"method","src_hash":"961128200add5ba7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"polygamma(1, z).fdiff()","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"returns polygamma(1, z).fdiff()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"fdiff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb7b2d13d1370ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).fdiff()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         z = self.args[0]
         return polygamma(1, z).fdiff()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), polygamma(1, z).is_real) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).is_real                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c48534d35e818a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c2000b095508735  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_is_real","kind":"method","src_hash":"5da523eff7ae4890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c48534d35e818a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_is_real","kind":"method","src_hash":"5da523eff7ae4890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"polygamma(1, z).is_real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns polygamma(1, z).is_real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns polygamma(1, z).is_real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c2000b095508735","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).is_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         z = self.args[0]
         return polygamma(1, z).is_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), polygamma(1, z).is_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).is_positive                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a995d16eb3a3e6ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e11880b605d12796  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_is_positive","kind":"method","src_hash":"abbba525f161e9e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a995d16eb3a3e6ed"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_is_positive","kind":"method","src_hash":"abbba525f161e9e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"polygamma(1, z).is_positive","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns polygamma(1, z).is_positive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns polygamma(1, z).is_positive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e11880b605d12796","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).is_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         z = self.args[0]
         return polygamma(1, z).is_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), polygamma(1, z).is_negative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).is_negative                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f2c630da8a8f31c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9557e36b9ad8ba49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_is_negative","kind":"method","src_hash":"a0ae6cd392b891bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f2c630da8a8f31c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_is_negative","kind":"method","src_hash":"a0ae6cd392b891bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"polygamma(1, z).is_negative","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns polygamma(1, z).is_negative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), returns polygamma(1, z).is_negative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9557e36b9ad8ba49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).is_negative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         z = self.args[0]
         return polygamma(1, z).is_negative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_aseries(n, args0, x), as_polygamma._eval_aseries(n, args0, x, logx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  as_polygamma._eval_aseries(n, args0, x, l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa7d669662f42437  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c31193cb912cac2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_aseries","kind":"method","src_hash":"0fd0a00ff6d8e9da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_aseries_correct","statement":"Path(_eval_aseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa7d669662f42437"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_aseries","kind":"method","src_hash":"0fd0a00ff6d8e9da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"as_polygamma._eval_aseries(n, args0, x, logx)","over":{"base":"Any"},"name":"_eval_aseries_correct"},"guarantee":"returns as_polygamma._eval_aseries(n, args0, x, logx)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.trigamma._eval_aseries_correct","statement":"Path(_eval_aseries(x), returns as_polygamma._eval_aseries(n, args0, x, logx))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c31193cb912cac2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"as_polygamma._eval_aseries(n, args0, x, logx)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         as_polygamma = self.rewrite(polygamma)
         args0 = [S.One,] + args0
@@ -2036,87 +2513,123 @@ class trigamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, z), polygamma(1, z)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9687ae445b11958f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma.eval","kind":"classmethod","src_hash":"904dda8ea251b82d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9687ae445b11958f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma.eval","kind":"classmethod","src_hash":"904dda8ea251b82d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, z)","rhs":"polygamma(1, z)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns polygamma(1, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9687ae445b11958f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, z):
         return polygamma(1, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).expand(func=True)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bb5aa6350cbb9cfb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_expand_func","kind":"method","src_hash":"6f4ab492dd73a031","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb5aa6350cbb9cfb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_expand_func","kind":"method","src_hash":"6f4ab492dd73a031","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"polygamma(1, z).expand(func=True)","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns polygamma(1, z).expand(func=True)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb5aa6350cbb9cfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).expand(func=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         z = self.args[0]
         return polygamma(1, z).expand(func=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_zeta(z, **kwargs), zeta(2, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeta(2, z)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | efd577bcc07234e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_rewrite_as_zeta","kind":"method","src_hash":"23896867357cdaa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efd577bcc07234e7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_rewrite_as_zeta","kind":"method","src_hash":"23896867357cdaa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(z, **kwargs)","rhs":"zeta(2, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct"},"guarantee":"returns zeta(2, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efd577bcc07234e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeta(2, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, z, **kwargs):
         return zeta(2, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polygamma(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polygamma(z, **kwargs), polygamma(1, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polygamma : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 312871b562e19074           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_rewrite_as_polygamma","kind":"method","src_hash":"fb84ba6d5ee1d846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polygamma(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polygamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"312871b562e19074"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_rewrite_as_polygamma","kind":"method","src_hash":"fb84ba6d5ee1d846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polygamma(z, **kwargs)","rhs":"polygamma(1, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_polygamma_correct"},"guarantee":"returns polygamma(1, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"312871b562e19074","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polygamma(self, z, **kwargs):
         return polygamma(1, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_harmonic(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_harmonic(z, **kwargs), -harmonic(z - 1, 2) + pi ** 2 / 6) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -harmonic(z - 1, 2) + pi ** 2 / 6              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_harmonic : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90e12de05b44e2d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_rewrite_as_harmonic","kind":"method","src_hash":"2671f4c1ddebc219","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_harmonic(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_harmonic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90e12de05b44e2d8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_rewrite_as_harmonic","kind":"method","src_hash":"2671f4c1ddebc219","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_harmonic(z, **kwargs)","rhs":"-harmonic(z - 1, 2) + pi ** 2 / 6","over":{"base":"Any"},"name":"_eval_rewrite_as_harmonic_correct"},"guarantee":"returns -harmonic(z - 1, 2) + pi ** 2 / 6","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90e12de05b44e2d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-harmonic(z - 1, 2) + pi ** 2 / 6","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_harmonic(self, z, **kwargs):
         return -harmonic(z - 1, 2) + pi**2 / 6
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polygamma(1, z).as_leading_term(x)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | afd7e7b3d8bf424f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_as_leading_term","kind":"method","src_hash":"fceeeb1cbf41f267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd7e7b3d8bf424f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.trigamma._eval_as_leading_term","kind":"method","src_hash":"fceeeb1cbf41f267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"polygamma(1, z).as_leading_term(x)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"returns polygamma(1, z).as_leading_term(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polygamma","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd7e7b3d8bf424f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polygamma(1, z).as_leading_term(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         z = self.args[0]
         return polygamma(1, z).as_leading_term(x)
@@ -2130,14 +2643,20 @@ class trigamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(multigamma(*args), correctly constructs a multigamma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multigamma : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multigamma : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5bbb2f638396a29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma","kind":"class","src_hash":"44ccacd044b69711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multigamma(*args)","rhs":"correctly constructs a multigamma instance","over":{"base":"Any"},"name":"multigamma_class_invariant"},"guarantee":"correctly constructs a multigamma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5bbb2f638396a29"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma","kind":"class","src_hash":"44ccacd044b69711","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"multigamma(*args)","rhs":"correctly constructs a multigamma instance","over":{"base":"Any"},"name":"multigamma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5bbb2f638396a29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function multigamma not found in source"]}}
 class multigamma(DefinedFunction):
     r"""
     The multivariate gamma function is a generalization of the gamma function
@@ -2198,16 +2717,23 @@ class multigamma(DefinedFunction):
     unbranched = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 2 => self.func(x, p) * S...   ║
+# ║   fiber[case_1]: not (argindex == 2)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bd3b65642d9e8276   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma.fdiff","kind":"method","src_hash":"dfbe5cf22c8da539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd3b65642d9e8276"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma.fdiff","kind":"method","src_hash":"dfbe5cf22c8da539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd3b65642d9e8276","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 2","ensures":["result == self.func(x, p) * Sum(polygamma(0, x + (1 - k) / 2), (k, 1, p))"],"decidability":"z3","returns_expr":"self.func(x, p) * Sum(polygamma(0, x + (1 - k) / 2), (k, 1, p))"},{"name":"case_1","guard":"not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         from sympy.concrete.summations import Sum
         if argindex == 2:
@@ -2219,16 +2745,25 @@ class multigamma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, x, p), id) over {Any | not (p.is_positive is False or p.is_integer is False) and hasattr(p, 'is_positive') and hasattr(p, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (p.is_positive is False or p.is_integ...   ║
+# ║   requires: hasattr(p, 'is_positive')                      ║
+# ║   requires: hasattr(p, 'is_integer')                       ║
+# ║   returns:  (pi ** (p * (p - 1) / 4) * Product(gamma(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (p.is_positive is False or p.is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1791c9165a8e41d5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma.eval","kind":"classmethod","src_hash":"328e10a16275e79e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Product","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1791c9165a8e41d5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma.eval","kind":"classmethod","src_hash":"328e10a16275e79e","in":{"base":"Any","pred":"not (p.is_positive is False or p.is_integer is False) and hasattr(p, 'is_positive') and hasattr(p, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, x, p)","rhs":"(pi ** (p * (p - 1) / 4) * Product(gamma(x + (1 - k) / 2), (k, 1, p))).doit()","over":{"base":"Any","pred":"not (p.is_positive is False or p.is_integer is False) and hasattr(p, 'is_positive') and hasattr(p, 'is_integer')"},"name":"eval_correct","kind":"composition"},"guarantee":"returns (pi ** (p * (p - 1) / 4) * Product(gamma(x + (1 - k) / 2), (k, 1, p))).doit()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Product","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1791c9165a8e41d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (p.is_positive is False or p.is_integer is False)","hasattr(p, 'is_positive')","hasattr(p, 'is_integer')"],"returns_expr":"(pi ** (p * (p - 1) / 4) * Product(gamma(x + (1 - k) / 2), (k, 1, p))).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["p.is_integer","p.is_positive"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, x, p):
         from sympy.concrete.products import Product
         if p.is_positive is False or p.is_integer is False:
@@ -2240,29 +2775,41 @@ class multigamma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(x.conjugate(), p)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 550e41cb5bf5e0fe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma._eval_conjugate","kind":"method","src_hash":"bf9cab93e87ac066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"550e41cb5bf5e0fe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma._eval_conjugate","kind":"method","src_hash":"bf9cab93e87ac066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(x.conjugate(), p)","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(x.conjugate(), p)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"550e41cb5bf5e0fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(x.conjugate(), p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         x, p = self.args
         return self.func(x.conjugate(), p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), <unspecified:_eval_is_real>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ebbf4a8ad210c51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma._eval_is_real","kind":"method","src_hash":"579838cd23b0aabe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.multigamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ebbf4a8ad210c51"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.gamma_functions.multigamma._eval_is_real","kind":"method","src_hash":"579838cd23b0aabe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"<unspecified:_eval_is_real>","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.gamma_functions.multigamma._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ebbf4a8ad210c51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         x, p = self.args
         y = 2*x

@@ -29,16 +29,22 @@ from sympy.testing.pytest import raises
 a, b, c, x, y = symbols('a b c x y')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pde_separate_add(), test_pde_separate_add produces the expected output) over Any ║
+# ║ Path(test_pde_separate_add(), res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pde_separate_add : Any → {Any | res == [D(X(x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  res == [D(X(x), x) * exp(-X(x)), D(T(t), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pde_separate_add : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa61216c38331b29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a87825e702c76c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_separate_add","kind":"function","src_hash":"d9b1be664c0f27b5","in":{"base":"Any"},"out":{"base":"Any","pred":"res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))]"},"spec":{"lhs":"test_pde_separate_add()","rhs":"test_pde_separate_add produces the expected output","over":{"base":"Any"},"name":"test_pde_separate_add_correct"},"guarantee":"test_pde_separate_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_separate_add_correct","statement":"Path(test_pde_separate_add(x), test_pde_separate_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa61216c38331b29"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_separate_add","kind":"function","src_hash":"d9b1be664c0f27b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))]"},"spec":{"lhs":"test_pde_separate_add()","rhs":"res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))]","over":{"base":"Any"},"name":"test_pde_separate_add_correct"},"guarantee":"res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_separate_add_correct","statement":"Path(test_pde_separate_add(x), res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a87825e702c76c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["res == [D(X(x), x) * exp(-X(x)), D(T(t), t) * exp(T(t))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pde_separate_add():
     x, y, z, t = symbols("x,y,z,t")
     F, T, X, Y, Z, u = map(Function, 'FTXYZu')
@@ -49,16 +55,22 @@ def test_pde_separate_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pde_separate(), test_pde_separate produces the expected output) over Any ║
+# ║ Path(test_pde_separate(), <unspecified:test_pde_separate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pde_separate : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e93c01265874804  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_separate","kind":"function","src_hash":"cecad5c202bacfed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pde_separate()","rhs":"test_pde_separate produces the expected output","over":{"base":"Any"},"name":"test_pde_separate_correct"},"guarantee":"test_pde_separate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_separate_correct","statement":"Path(test_pde_separate(x), test_pde_separate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e93c01265874804"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_separate","kind":"function","src_hash":"cecad5c202bacfed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pde_separate()","rhs":"<unspecified:test_pde_separate>","over":{"base":"Any"},"name":"test_pde_separate_correct"},"guarantee":"test_pde_separate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_separate_correct","statement":"Path(test_pde_separate(x), test_pde_separate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e93c01265874804","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pde_separate():
     x, y, z, t = symbols("x,y,z,t")
     F, T, X, Y, Z, u = map(Function, 'FTXYZu')
@@ -68,16 +80,24 @@ def test_pde_separate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pde_separate_mul(), test_pde_separate_mul produces the expected output) over Any ║
+# ║ Path(test_pde_separate_mul(), pde_separate_mul(eq, F(x, y, z), [Y(y), u(x, z)]) == [D(Y(y), y) / Y(y), -D(u(x, z), x) / u(x, z) - D(u(x, z), z) / u(x, z)] and pde_separate_mul(eq, F(x, y, z), [X(x), Y(y), Z(z)]) == [D(X(x), x) / X(x), -D(Z(z), z) / Z(z) - D(Y(y), y) / Y(y)] and res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))] and res == [D(Z(z), z, z) / Z(z), -D(u(theta, r), r, r) / u(theta, r) - D(u(theta, r), r) / (r * u(theta, r)) - D(u(theta, r), theta, theta) / (r ** 2 * u(theta, r))] and res == [D(T(theta), theta, theta) / T(theta), -r * D(R(r), r) / R(r) - r ** 2 * D(R(r), r, r) / R(r) - c * r ** 2] and res == [r * D(R(r), r) / R(r) + r ** 2 * D(R(r), r, r) / R(r) + c * r ** 2, -D(T(theta), theta, theta) / T(theta)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pde_separate_mul : Any → {Any | res == [D(X(x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pde_separate_mul(eq, F(x, y, z), [Y(y), u...   ║
+# ║   ensures:  pde_separate_mul(eq, F(x, y, z), [X(x), Y...   ║
+# ║   ensures:  res == [D(X(x), x, x) / X(x), D(T(t), t, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pde_separate_mul : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55fc8546df5a89ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e6870336456c3df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_separate_mul","kind":"function","src_hash":"e9de04c60dad88e6","in":{"base":"Any"},"out":{"base":"Any","pred":"res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))]"},"spec":{"lhs":"test_pde_separate_mul()","rhs":"test_pde_separate_mul produces the expected output","over":{"base":"Any"},"name":"test_pde_separate_mul_correct"},"guarantee":"test_pde_separate_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_separate_mul_correct","statement":"Path(test_pde_separate_mul(x), test_pde_separate_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55fc8546df5a89ee"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_separate_mul","kind":"function","src_hash":"e9de04c60dad88e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pde_separate_mul(eq, F(x, y, z), [Y(y), u(x, z)]) == [D(Y(y), y) / Y(y), -D(u(x, z), x) / u(x, z) - D(u(x, z), z) / u(x, z)] and pde_separate_mul(eq, F(x, y, z), [X(x), Y(y), Z(z)]) == [D(X(x), x) / X(x), -D(Z(z), z) / Z(z) - D(Y(y), y) / Y(y)] and res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))] and res == [D(Z(z), z, z) / Z(z), -D(u(theta, r), r, r) / u(theta, r) - D(u(theta, r), r) / (r * u(theta, r)) - D(u(theta, r), theta, theta) / (r ** 2 * u(theta, r))] and res == [D(T(theta), theta, theta) / T(theta), -r * D(R(r), r) / R(r) - r ** 2 * D(R(r), r, r) / R(r) - c * r ** 2] and res == [r * D(R(r), r) / R(r) + r ** 2 * D(R(r), r, r) / R(r) + c * r ** 2, -D(T(theta), theta, theta) / T(theta)]"},"spec":{"lhs":"test_pde_separate_mul()","rhs":"pde_separate_mul(eq, F(x, y, z), [Y(y), u(x, z)]) == [D(Y(y), y) / Y(y), -D(u(x, z), x) / u(x, z) - D(u(x, z), z) / u(x, z)] and pde_separate_mul(eq, F(x, y, z), [X(x), Y(y), Z(z)]) == [D(X(x), x) / X(x), -D(Z(z), z) / Z(z) - D(Y(y), y) / Y(y)] and res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))] and res == [D(Z(z), z, z) / Z(z), -D(u(theta, r), r, r) / u(theta, r) - D(u(theta, r), r) / (r * u(theta, r)) - D(u(theta, r), theta, theta) / (r ** 2 * u(theta, r))] and res == [D(T(theta), theta, theta) / T(theta), -r * D(R(r), r) / R(r) - r ** 2 * D(R(r), r, r) / R(r) - c * r ** 2] and res == [r * D(R(r), r) / R(r) + r ** 2 * D(R(r), r, r) / R(r) + c * r ** 2, -D(T(theta), theta, theta) / T(theta)]","over":{"base":"Any"},"name":"test_pde_separate_mul_correct"},"guarantee":"pde_separate_mul(eq, F(x, y, z), [Y(y), u(x, z)]) == [D(Y(y), y) / Y(y), -D(u(x, z), x) / u(x, z) - D(u(x, z), z) / u(x, z)]; pde_separate_mul(eq, F(x, y, z), [X(x), Y(y), Z(z)]) == [D(X(x), x) / X(x), -D(Z(z), z) / Z(z) - D(Y(y), y) / Y(y)]; res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_separate_mul_correct","statement":"Path(test_pde_separate_mul(x), pde_separate_mul(eq, F(x, y, z), [Y(y), u(x, z)]) == [D(Y(y), y) / Y(y), -D(u(x, z), x) / u(x, z) - D(u(x, z), z) / u(x, z)]; pde_separate_mul(eq, F(x, y, z), [X(x), Y(y), Z(z)]) == [D(X(x), x) / X(x), -D(Z(z), z) / Z(z) - D(Y(y), y) / Y(y)]; res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e6870336456c3df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pde_separate_mul(eq, F(x, y, z), [Y(y), u(x, z)]) == [D(Y(y), y) / Y(y), -D(u(x, z), x) / u(x, z) - D(u(x, z), z) / u(x, z)]","pde_separate_mul(eq, F(x, y, z), [X(x), Y(y), Z(z)]) == [D(X(x), x) / X(x), -D(Z(z), z) / Z(z) - D(Y(y), y) / Y(y)]","res == [D(X(x), x, x) / X(x), D(T(t), t, t) / (c ** 2 * T(t))]","res == [D(Z(z), z, z) / Z(z), -D(u(theta, r), r, r) / u(theta, r) - D(u(theta, r), r) / (r * u(theta, r)) - D(u(theta, r), theta, theta) / (r ** 2 * u(theta, r))]","res == [D(T(theta), theta, theta) / T(theta), -r * D(R(r), r) / R(r) - r ** 2 * D(R(r), r, r) / R(r) - c * r ** 2]","res == [r * D(R(r), r) / R(r) + r ** 2 * D(R(r), r, r) / R(r) + c * r ** 2, -D(T(theta), theta, theta) / T(theta)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_pde_separate_mul():
     x, y, z, t = symbols("x,y,z,t")
     c = Symbol("C", real=True)
@@ -129,16 +149,22 @@ def test_pde_separate_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11726(), test_issue_11726 produces the expected output) over Any ║
+# ║ Path(test_issue_11726(), res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11726 : Any → {Any | res == [D(T(x), x, x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  res == [D(T(x), x, x) / T(x), D(X(t), t, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11726 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f16b40b7493f732f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 989685600ddb87cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_issue_11726","kind":"function","src_hash":"b7cd3d7d0f18bbed","in":{"base":"Any"},"out":{"base":"Any","pred":"res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)]"},"spec":{"lhs":"test_issue_11726()","rhs":"test_issue_11726 produces the expected output","over":{"base":"Any"},"name":"test_issue_11726_correct"},"guarantee":"test_issue_11726 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_issue_11726_correct","statement":"Path(test_issue_11726(x), test_issue_11726 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f16b40b7493f732f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_issue_11726","kind":"function","src_hash":"b7cd3d7d0f18bbed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)]"},"spec":{"lhs":"test_issue_11726()","rhs":"res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)]","over":{"base":"Any"},"name":"test_issue_11726_correct"},"guarantee":"res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_issue_11726_correct","statement":"Path(test_issue_11726(x), res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"989685600ddb87cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["res == [D(T(x), x, x) / T(x), D(X(t), t, t) / X(t)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_11726():
     x, t = symbols("x t")
     f  = symbols("f", cls=Function)
@@ -151,16 +177,22 @@ def test_issue_11726():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pde_classify(), test_pde_classify produces the expected output) over Any ║
+# ║ Path(test_pde_classify(), <unspecified:test_pde_classify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pde_classify : Any → {Any | classify_pde(eq) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c97609d633f8a978  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_classify","kind":"function","src_hash":"74f2f67ca475f3ac","in":{"base":"Any"},"out":{"base":"Any","pred":"classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and classify_pde(eq) == ('1st_linear_variable_coeff',)"},"spec":{"lhs":"test_pde_classify()","rhs":"test_pde_classify produces the expected output","over":{"base":"Any"},"name":"test_pde_classify_correct"},"guarantee":"test_pde_classify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_classify_correct","statement":"Path(test_pde_classify(x), test_pde_classify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97609d633f8a978"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_classify","kind":"function","src_hash":"74f2f67ca475f3ac","in":{"base":"Any"},"out":{"base":"Any","pred":"classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and classify_pde(eq) == ('1st_linear_variable_coeff',)"},"spec":{"lhs":"test_pde_classify()","rhs":"<unspecified:test_pde_classify>","over":{"base":"Any"},"name":"test_pde_classify_correct"},"guarantee":"test_pde_classify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_classify_correct","statement":"Path(test_pde_classify(x), test_pde_classify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97609d633f8a978","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pde_classify():
     # When more number of hints are added, add tests for classifying here.
     f = Function('f')
@@ -177,16 +209,22 @@ def test_pde_classify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_checkpdesol(), test_checkpdesol produces the expected output) over Any ║
+# ║ Path(test_checkpdesol(), checkpdesol(eq4, [pdsolve(eq5), pdsolve(eq6)]) == [(False, (x - 2) * F(3 * x - y) * exp(-x / S(5) - 3 * y / S(5))), (False, (x - 1) * F(3 * x - y) * exp(-x / S(10) - 3 * y / S(10)))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_checkpdesol : Any → {Any | checkpdesol(eq, pdsol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checkpdesol(eq4, [pdsolve(eq5), pdsolve(e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_checkpdesol : Any → {Any | result satisfies: che...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a7aa8a03ed0d3f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1e021c8cf9a1a80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_checkpdesol","kind":"function","src_hash":"2266325c75c4965e","in":{"base":"Any"},"out":{"base":"Any","pred":"checkpdesol(eq, pdsolve(eq))[0] and checkpdesol(eq, pdsolve(eq))[0]"},"spec":{"lhs":"test_checkpdesol()","rhs":"test_checkpdesol produces the expected output","over":{"base":"Any"},"name":"test_checkpdesol_correct"},"guarantee":"test_checkpdesol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_checkpdesol_correct","statement":"Path(test_checkpdesol(x), test_checkpdesol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7aa8a03ed0d3f4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_checkpdesol","kind":"function","src_hash":"2266325c75c4965e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checkpdesol(eq4, [pdsolve(eq5), pdsolve(eq6)]) == [(False, (x - 2) * F(3 * x - y) * exp(-x / S(5) - 3 * y / S(5))), (False, (x - 1) * F(3 * x - y) * exp(-x / S(10) - 3 * y / S(10)))]"},"spec":{"lhs":"test_checkpdesol()","rhs":"checkpdesol(eq4, [pdsolve(eq5), pdsolve(eq6)]) == [(False, (x - 2) * F(3 * x - y) * exp(-x / S(5) - 3 * y / S(5))), (False, (x - 1) * F(3 * x - y) * exp(-x / S(10) - 3 * y / S(10)))]","over":{"base":"Any"},"name":"test_checkpdesol_correct"},"guarantee":"checkpdesol(eq4, [pdsolve(eq5), pdsolve(eq6)]) == [(False, (x - 2) * F(3 * x - y) * exp(-x / S(5) - 3 * y / S(5))), (False, (x - 1) * F(3 * x - y) * exp(-x / S(10) - 3 * y / S(10)))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_checkpdesol_correct","statement":"Path(test_checkpdesol(x), checkpdesol(eq4, [pdsolve(eq5), pdsolve(eq6)]) == [(False, (x - 2) * F(3 * x - y) * exp(-x / S(5) - 3 * y / S(5))), (False, (x - 1) * F(3 * x - y) * exp(-x / S(10) - 3 * y / S(10)))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e021c8cf9a1a80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checkpdesol(eq4, [pdsolve(eq5), pdsolve(eq6)]) == [(False, (x - 2) * F(3 * x - y) * exp(-x / S(5) - 3 * y / S(5))), (False, (x - 1) * F(3 * x - y) * exp(-x / S(10) - 3 * y / S(10)))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_checkpdesol():
     f, F = map(Function, ['f', 'F'])
     eq1 = a*f(x,y) + b*f(x,y).diff(x) + c*f(x,y).diff(y)
@@ -209,16 +247,24 @@ def test_checkpdesol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solvefun(), test_solvefun produces the expected output) over Any ║
+# ║ Path(test_solvefun(), pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solvefun : Any → {Any | pdsolve(eq1) == Eq(f(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pdsolve(eq1) == Eq(f(x, y), F(x - y) * ex...   ║
+# ║   ensures:  pdsolve(eq1, solvefun=G) == Eq(f(x, y), G...   ║
+# ║   ensures:  pdsolve(eq1, solvefun=H) == Eq(f(x, y), H...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solvefun : Any → {Any | result satisfies: pdsolv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f96d264ae08a6e83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b352af4c3fc850f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_solvefun","kind":"function","src_hash":"384b7b7ec23ddbef","in":{"base":"Any"},"out":{"base":"Any","pred":"pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2))"},"spec":{"lhs":"test_solvefun()","rhs":"test_solvefun produces the expected output","over":{"base":"Any"},"name":"test_solvefun_correct"},"guarantee":"test_solvefun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_solvefun_correct","statement":"Path(test_solvefun(x), test_solvefun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96d264ae08a6e83"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_solvefun","kind":"function","src_hash":"384b7b7ec23ddbef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2))"},"spec":{"lhs":"test_solvefun()","rhs":"pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2)) and pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2))","over":{"base":"Any"},"name":"test_solvefun_correct"},"guarantee":"pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2)); pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2)); pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_solvefun_correct","statement":"Path(test_solvefun(x), pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2)); pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2)); pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b352af4c3fc850f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pdsolve(eq1) == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2))","pdsolve(eq1, solvefun=G) == Eq(f(x, y), G(x - y) * exp(-x / 2 - y / 2))","pdsolve(eq1, solvefun=H) == Eq(f(x, y), H(x - y) * exp(-x / 2 - y / 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_solvefun():
     f, F, G, H = map(Function, ['f', 'F', 'G', 'H'])
     eq1 = f(x,y) + f(x,y).diff(x) + f(x,y).diff(y)
@@ -228,16 +274,24 @@ def test_solvefun():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pde_1st_linear_constant_coeff_homogeneous(), test_pde_1st_linear_constant_coeff_homogeneous produces the expected output) over Any ║
+# ║ Path(test_pde_1st_linear_constant_coeff_homogeneous(), classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and sol == Eq(u, F(x - y) * exp(-x - y)) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(2 * x - 3 * y) * exp(-S(12) * x / 13 - S(8) * y / 13)) and sol == Eq(u, F(7 * x - 6 * y) * exp(-6 * x / S(85) - 7 * y / S(85)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  classify_pde(eq) == ('1st_linear_constant...   ║
+# ║   ensures:  sol == Eq(u, F(x - y) * exp(-x - y))           ║
+# ║   ensures:  checkpdesol(eq, sol)[0]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pde_1st_linear_constant_coeff_homogeneous : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11d502a74a706814  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 133d10b9b098aeb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff_homogeneous","kind":"function","src_hash":"760849244b01d666","in":{"base":"Any"},"out":{"base":"Any","pred":"classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and sol == Eq(u, F(x - y) * exp(-x - y)) and checkpdesol(eq, sol)[0] and classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and sol == Eq(u, F(2 * x - 3 * y) * exp(-S(12) * x / 13 - S(8) * y / 13)) and checkpdesol(eq, sol)[0] and classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and sol == Eq(u, F(7 * x - 6 * y) * exp(-6 * x / S(85) - 7 * y / S(85))) and checkpdesol(eq, sol)[0] and checkpdesol(eq, sol)[0]"},"spec":{"lhs":"test_pde_1st_linear_constant_coeff_homogeneous()","rhs":"test_pde_1st_linear_constant_coeff_homogeneous produces the expected output","over":{"base":"Any"},"name":"test_pde_1st_linear_constant_coeff_homogeneous_correct"},"guarantee":"test_pde_1st_linear_constant_coeff_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff_homogeneous_correct","statement":"Path(test_pde_1st_linear_constant_coeff_homogeneous(x), test_pde_1st_linear_constant_coeff_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11d502a74a706814"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff_homogeneous","kind":"function","src_hash":"760849244b01d666","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and sol == Eq(u, F(x - y) * exp(-x - y)) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(2 * x - 3 * y) * exp(-S(12) * x / 13 - S(8) * y / 13)) and sol == Eq(u, F(7 * x - 6 * y) * exp(-6 * x / S(85) - 7 * y / S(85)))"},"spec":{"lhs":"test_pde_1st_linear_constant_coeff_homogeneous()","rhs":"classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',) and sol == Eq(u, F(x - y) * exp(-x - y)) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(2 * x - 3 * y) * exp(-S(12) * x / 13 - S(8) * y / 13)) and sol == Eq(u, F(7 * x - 6 * y) * exp(-6 * x / S(85) - 7 * y / S(85)))","over":{"base":"Any"},"name":"test_pde_1st_linear_constant_coeff_homogeneous_correct"},"guarantee":"classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',); sol == Eq(u, F(x - y) * exp(-x - y)); checkpdesol(eq, sol)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff_homogeneous_correct","statement":"Path(test_pde_1st_linear_constant_coeff_homogeneous(x), classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',); sol == Eq(u, F(x - y) * exp(-x - y)); checkpdesol(eq, sol)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"133d10b9b098aeb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["classify_pde(eq) == ('1st_linear_constant_coeff_homogeneous',)","sol == Eq(u, F(x - y) * exp(-x - y))","checkpdesol(eq, sol)[0]","sol == Eq(u, F(2 * x - 3 * y) * exp(-S(12) * x / 13 - S(8) * y / 13))","sol == Eq(u, F(7 * x - 6 * y) * exp(-6 * x / S(85) - 7 * y / S(85)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pde_1st_linear_constant_coeff_homogeneous():
     f, F = map(Function, ['f', 'F'])
     u = f(x, y)
@@ -265,16 +319,24 @@ def test_pde_1st_linear_constant_coeff_homogeneous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pde_1st_linear_constant_coeff(), test_pde_1st_linear_constant_coeff produces the expected output) over Any ║
+# ║ Path(test_pde_1st_linear_constant_coeff(), sol == Eq(f(x, y), (F(4 * x + 2 * y) * exp(x / 2) + exp(x + 4 * y) / 15) * exp(-y)) and classify_pde(eq) == ('1st_linear_constant_coeff', '1st_linear_constant_coeff_Integral') and checkpdesol(eq, sol)[0] and sol == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2) + exp(x + y) / 3) and sol == Eq(f(x, y), F(3 * x + y) * exp(x / 5 - 3 * y / 5) - 2 * sin(x) / 5 - cos(x) / 5) and sol.expand() == Eq(f(x, y), x + y + (x - y) ** 2 / 4 - (x + y) ** 2 / 4 + F(x - y) * exp(-x / 2 - y / 2) - 2).expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pde_1st_linear_constant_coeff : Any → {Any | che...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == Eq(f(x, y), (F(4 * x + 2 * y) * ex...   ║
+# ║   ensures:  classify_pde(eq) == ('1st_linear_constant...   ║
+# ║   ensures:  checkpdesol(eq, sol)[0]                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pde_1st_linear_constant_coeff : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d81fee9f6805702a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3167a3ace8851adc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff","kind":"function","src_hash":"8cd6dc479a5539b5","in":{"base":"Any"},"out":{"base":"Any","pred":"checkpdesol(eq, sol)[0] and sol == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2) + exp(x + y) / 3) and checkpdesol(eq, sol)[0] and checkpdesol(eq, sol)[0] and checkpdesol(eq, sol)[0]"},"spec":{"lhs":"test_pde_1st_linear_constant_coeff()","rhs":"test_pde_1st_linear_constant_coeff produces the expected output","over":{"base":"Any"},"name":"test_pde_1st_linear_constant_coeff_correct"},"guarantee":"test_pde_1st_linear_constant_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff_correct","statement":"Path(test_pde_1st_linear_constant_coeff(x), test_pde_1st_linear_constant_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d81fee9f6805702a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff","kind":"function","src_hash":"8cd6dc479a5539b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == Eq(f(x, y), (F(4 * x + 2 * y) * exp(x / 2) + exp(x + 4 * y) / 15) * exp(-y)) and classify_pde(eq) == ('1st_linear_constant_coeff', '1st_linear_constant_coeff_Integral') and checkpdesol(eq, sol)[0] and sol == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2) + exp(x + y) / 3) and sol == Eq(f(x, y), F(3 * x + y) * exp(x / 5 - 3 * y / 5) - 2 * sin(x) / 5 - cos(x) / 5) and sol.expand() == Eq(f(x, y), x + y + (x - y) ** 2 / 4 - (x + y) ** 2 / 4 + F(x - y) * exp(-x / 2 - y / 2) - 2).expand()"},"spec":{"lhs":"test_pde_1st_linear_constant_coeff()","rhs":"sol == Eq(f(x, y), (F(4 * x + 2 * y) * exp(x / 2) + exp(x + 4 * y) / 15) * exp(-y)) and classify_pde(eq) == ('1st_linear_constant_coeff', '1st_linear_constant_coeff_Integral') and checkpdesol(eq, sol)[0] and sol == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2) + exp(x + y) / 3) and sol == Eq(f(x, y), F(3 * x + y) * exp(x / 5 - 3 * y / 5) - 2 * sin(x) / 5 - cos(x) / 5) and sol.expand() == Eq(f(x, y), x + y + (x - y) ** 2 / 4 - (x + y) ** 2 / 4 + F(x - y) * exp(-x / 2 - y / 2) - 2).expand()","over":{"base":"Any"},"name":"test_pde_1st_linear_constant_coeff_correct"},"guarantee":"sol == Eq(f(x, y), (F(4 * x + 2 * y) * exp(x / 2) + exp(x + 4 * y) / 15) * exp(-y)); classify_pde(eq) == ('1st_linear_constant_coeff', '1st_linear_constant_coeff_Integral'); checkpdesol(eq, sol)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pde_1st_linear_constant_coeff_correct","statement":"Path(test_pde_1st_linear_constant_coeff(x), sol == Eq(f(x, y), (F(4 * x + 2 * y) * exp(x / 2) + exp(x + 4 * y) / 15) * exp(-y)); classify_pde(eq) == ('1st_linear_constant_coeff', '1st_linear_constant_coeff_Integral'); checkpdesol(eq, sol)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3167a3ace8851adc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == Eq(f(x, y), (F(4 * x + 2 * y) * exp(x / 2) + exp(x + 4 * y) / 15) * exp(-y))","classify_pde(eq) == ('1st_linear_constant_coeff', '1st_linear_constant_coeff_Integral')","checkpdesol(eq, sol)[0]","sol == Eq(f(x, y), F(x - y) * exp(-x / 2 - y / 2) + exp(x + y) / 3)","sol == Eq(f(x, y), F(3 * x + y) * exp(x / 5 - 3 * y / 5) - 2 * sin(x) / 5 - cos(x) / 5)","sol.expand() == Eq(f(x, y), x + y + (x - y) ** 2 / 4 - (x + y) ** 2 / 4 + F(x - y) * exp(-x / 2 - y / 2) - 2).expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_pde_1st_linear_constant_coeff():
     f, F = map(Function, ['f', 'F'])
     u = f(x,y)
@@ -314,16 +376,24 @@ def test_pde_1st_linear_constant_coeff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pdsolve_all(), test_pdsolve_all produces the expected output) over Any ║
+# ║ Path(test_pdsolve_all(), sorted(sol.keys()) == keys and sol['order'] == 1 and sol['default'] == '1st_linear_constant_coeff' and sol['1st_linear_constant_coeff'].expand() == Eq(f(x, y), -x ** 2 * y + x ** 2 + 2 * x * y - 4 * x - 2 * y + F(x - y) * exp(-x / 2 - y / 2) + 6).expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pdsolve_all : Any → {Any | sorted(sol.keys()) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted(sol.keys()) == keys                     ║
+# ║   ensures:  sol['order'] == 1                              ║
+# ║   ensures:  sol['default'] == '1st_linear_constant_co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pdsolve_all : Any → {Any | result satisfies: sor...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ab988adf64d9d60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3285cc2f0bbca12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pdsolve_all","kind":"function","src_hash":"09339af4f00dd463","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted(sol.keys()) == keys and sol['order'] == 1 and sol['default'] == '1st_linear_constant_coeff'"},"spec":{"lhs":"test_pdsolve_all()","rhs":"test_pdsolve_all produces the expected output","over":{"base":"Any"},"name":"test_pdsolve_all_correct"},"guarantee":"test_pdsolve_all produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pdsolve_all_correct","statement":"Path(test_pdsolve_all(x), test_pdsolve_all produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ab988adf64d9d60"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pdsolve_all","kind":"function","src_hash":"09339af4f00dd463","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sorted(sol.keys()) == keys and sol['order'] == 1 and sol['default'] == '1st_linear_constant_coeff' and sol['1st_linear_constant_coeff'].expand() == Eq(f(x, y), -x ** 2 * y + x ** 2 + 2 * x * y - 4 * x - 2 * y + F(x - y) * exp(-x / 2 - y / 2) + 6).expand()"},"spec":{"lhs":"test_pdsolve_all()","rhs":"sorted(sol.keys()) == keys and sol['order'] == 1 and sol['default'] == '1st_linear_constant_coeff' and sol['1st_linear_constant_coeff'].expand() == Eq(f(x, y), -x ** 2 * y + x ** 2 + 2 * x * y - 4 * x - 2 * y + F(x - y) * exp(-x / 2 - y / 2) + 6).expand()","over":{"base":"Any"},"name":"test_pdsolve_all_correct"},"guarantee":"sorted(sol.keys()) == keys; sol['order'] == 1; sol['default'] == '1st_linear_constant_coeff'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pdsolve_all_correct","statement":"Path(test_pdsolve_all(x), sorted(sol.keys()) == keys; sol['order'] == 1; sol['default'] == '1st_linear_constant_coeff')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3285cc2f0bbca12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted(sol.keys()) == keys","sol['order'] == 1","sol['default'] == '1st_linear_constant_coeff'","sol['1st_linear_constant_coeff'].expand() == Eq(f(x, y), -x ** 2 * y + x ** 2 + 2 * x * y - 4 * x - 2 * y + F(x - y) * exp(-x / 2 - y / 2) + 6).expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pdsolve_all():
     f, F = map(Function, ['f', 'F'])
     u = f(x,y)
@@ -339,16 +409,24 @@ def test_pdsolve_all():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pdsolve_variable_coeff(), test_pdsolve_variable_coeff produces the expected output) over Any ║
+# ║ Path(test_pdsolve_variable_coeff(), sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2)) and sol == Eq(u, F(-2 * x + y ** 2) * exp(-x ** 3 / 3)) and sol == Eq(u, y * exp(-2 * x) / 2 + F(y)) and sol == Eq(u, F(x) * exp(-y * (y - 2) * exp(-2 * x) / 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pdsolve_variable_coeff : Any → {Any | sol == Eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1)   ║
+# ║   ensures:  checkpdesol(eq, sol)[0]                        ║
+# ║   ensures:  sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pdsolve_variable_coeff : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2144a11023961239  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b533e8053e3cced  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pdsolve_variable_coeff","kind":"function","src_hash":"dc3241911f8a958e","in":{"base":"Any"},"out":{"base":"Any","pred":"sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2)) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(-2 * x + y ** 2) * exp(-x ** 3 / 3)) and checkpdesol(eq, sol)[0] and sol == Eq(u, y * exp(-2 * x) / 2 + F(y)) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(x) * exp(-y * (y - 2) * exp(-2 * x) / 2))"},"spec":{"lhs":"test_pdsolve_variable_coeff()","rhs":"test_pdsolve_variable_coeff produces the expected output","over":{"base":"Any"},"name":"test_pdsolve_variable_coeff_correct"},"guarantee":"test_pdsolve_variable_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pdsolve_variable_coeff_correct","statement":"Path(test_pdsolve_variable_coeff(x), test_pdsolve_variable_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2144a11023961239"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_pde.test_pdsolve_variable_coeff","kind":"function","src_hash":"dc3241911f8a958e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2)) and sol == Eq(u, F(-2 * x + y ** 2) * exp(-x ** 3 / 3)) and sol == Eq(u, y * exp(-2 * x) / 2 + F(y)) and sol == Eq(u, F(x) * exp(-y * (y - 2) * exp(-2 * x) / 2))"},"spec":{"lhs":"test_pdsolve_variable_coeff()","rhs":"sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1) and checkpdesol(eq, sol)[0] and sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2)) and sol == Eq(u, F(-2 * x + y ** 2) * exp(-x ** 3 / 3)) and sol == Eq(u, y * exp(-2 * x) / 2 + F(y)) and sol == Eq(u, F(x) * exp(-y * (y - 2) * exp(-2 * x) / 2))","over":{"base":"Any"},"name":"test_pdsolve_variable_coeff_correct"},"guarantee":"sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1); checkpdesol(eq, sol)[0]; sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_pde.test_pdsolve_variable_coeff_correct","statement":"Path(test_pdsolve_variable_coeff(x), sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1); checkpdesol(eq, sol)[0]; sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b533e8053e3cced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == Eq(u, F(x * y) * exp(y ** 2 / 2) + 1)","checkpdesol(eq, sol)[0]","sol == Eq(u, F(y * exp(-x)) * exp(-x ** 2 / 2))","sol == Eq(u, F(-2 * x + y ** 2) * exp(-x ** 3 / 3))","sol == Eq(u, y * exp(-2 * x) / 2 + F(y))","sol == Eq(u, F(x) * exp(-y * (y - 2) * exp(-2 * x) / 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pdsolve_variable_coeff():
     f, F = map(Function, ['f', 'F'])
     u = f(x, y)

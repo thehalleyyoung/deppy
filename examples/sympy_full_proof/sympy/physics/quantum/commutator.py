@@ -41,14 +41,20 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Commutator(*args), correctly constructs a Commutator instance) over {Any | isinstance(A, Add) and isinstance(A, Operator) and isinstance(comm, Commutator)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Commutator : {Any | isinstance(A, Add) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfada31f36f7b79f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator","kind":"class","src_hash":"c6a01a1298a11b55","in":{"base":"Any","pred":"isinstance(A, Add) and isinstance(A, Operator) and isinstance(comm, Commutator)"},"out":{"base":"Any"},"spec":{"lhs":"Commutator(*args)","rhs":"correctly constructs a Commutator instance","over":{"base":"Any","pred":"isinstance(A, Add) and isinstance(A, Operator) and isinstance(comm, Commutator)"},"name":"Commutator_class_invariant"},"guarantee":"correctly constructs a Commutator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfada31f36f7b79f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator","kind":"class","src_hash":"c6a01a1298a11b55","in":{"base":"Any","pred":"isinstance(A, Add) and isinstance(A, Operator) and isinstance(comm, Commutator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Commutator(*args)","rhs":"correctly constructs a Commutator instance","over":{"base":"Any","pred":"isinstance(A, Add) and isinstance(A, Operator) and isinstance(comm, Commutator)"},"name":"Commutator_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfada31f36f7b79f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Commutator not found in source"]}}
 class Commutator(Expr):
     """The standard commutator, in an unevaluated state.
 
@@ -127,31 +133,43 @@ class Commutator(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self._kind_dispatcher(*arg_kinds)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kind_dispatcher(*arg_kinds)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31ea025eb07f6f3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.kind","kind":"property","src_hash":"8c360aafe7331ad7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31ea025eb07f6f3a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.kind","kind":"property","src_hash":"8c360aafe7331ad7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self._kind_dispatcher(*arg_kinds)","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self._kind_dispatcher(*arg_kinds)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31ea025eb07f6f3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kind_dispatcher(*arg_kinds)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kind_dispatcher","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         arg_kinds = (a.kind for a in self.args)
         return self._kind_dispatcher(*arg_kinds)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, A, B), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff34e499fce0023a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.__new__","kind":"method","src_hash":"7e268d09786e5809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff34e499fce0023a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.__new__","kind":"method","src_hash":"7e268d09786e5809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, A, B)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff34e499fce0023a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, A, B):
         r = cls.eval(A, B)
         if r is not None:
@@ -161,16 +179,25 @@ class Commutator(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, a, b), <unspecified:eval>) over {Any | hasattr(a, 'is_commutative') and hasattr(b, 'is_commutative') and hasattr(a, 'args_cnc') and hasattr(b, 'args_cnc') and hasattr(a, 'compare')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_commutative')                   ║
+# ║   requires: hasattr(b, 'is_commutative')                   ║
+# ║   requires: hasattr(a, 'args_cnc')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(a, 'is_commutative') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 873246ae231f3e33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.eval","kind":"classmethod","src_hash":"c14ade05bc632eb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"873246ae231f3e33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.eval","kind":"classmethod","src_hash":"c14ade05bc632eb4","in":{"base":"Any","pred":"hasattr(a, 'is_commutative') and hasattr(b, 'is_commutative') and hasattr(a, 'args_cnc') and hasattr(b, 'args_cnc') and hasattr(a, 'compare')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, b)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(a, 'is_commutative') and hasattr(b, 'is_commutative') and hasattr(a, 'args_cnc') and hasattr(b, 'args_cnc') and hasattr(a, 'compare')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"873246ae231f3e33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_commutative')","hasattr(b, 'is_commutative')","hasattr(a, 'args_cnc')","hasattr(b, 'args_cnc')","hasattr(a, 'compare')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args_cnc","a.compare","a.is_commutative","b.args_cnc","b.is_commutative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, b):
         if not (a and b):
             return S.Zero
@@ -192,16 +219,24 @@ class Commutator(Expr):
             return S.NegativeOne*cls(b, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_pow(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(_expand_pow(A, B, sign), <unspecified:_expand_pow>) over {Any | hasattr(A, 'exp') and hasattr(A, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _expand_pow : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'exp')                              ║
+# ║   requires: hasattr(A, 'base')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _expand_pow : {Any | hasattr(A, 'exp') and hasattr(A,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bec35e8ea1fc206a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._expand_pow","kind":"method","src_hash":"bc6fe67695083462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_pow(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._expand_pow_correct","statement":"Path(_expand_pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec35e8ea1fc206a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._expand_pow","kind":"method","src_hash":"bc6fe67695083462","in":{"base":"Any","pred":"hasattr(A, 'exp') and hasattr(A, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_expand_pow(A, B, sign)","rhs":"<unspecified:_expand_pow>","over":{"base":"Any","pred":"hasattr(A, 'exp') and hasattr(A, 'base')"},"name":"_expand_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._expand_pow_correct","statement":"Path(_expand_pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec35e8ea1fc206a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'exp')","hasattr(A, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.base","A.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand_pow(self, A, B, sign):
         exp = A.exp
         if not exp.is_integer or not exp.is_constant() or abs(exp) <= 1:
@@ -219,16 +254,25 @@ class Commutator(Expr):
         return sign*result.expand()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_commutator(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_commutator(**hints), result == (Add(*sargs) if isinstance(A, Add) else Add(*sargs) if isinstance(B, Add) else Add(first, second) if isinstance(A, Mul) else Add(first, second) if isinstance(B, Mul) else self._expand_pow(A, B, 1) if isinstance(A, Pow) else self._expand_pow(B, A, -1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_expand_commutator : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Add(*sargs) if isinstance(A, A...   ║
+# ║   fiber[Add]: isinstance(A, Add) => Add(*sargs)            ║
+# ║   fiber[Add]: isinstance(B, Add) => Add(*sargs)            ║
+# ║   fiber[Mul]: isinstance(A, Mul) => Add(first, second)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_expand_commutator : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 851e41c884a83116  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 998395345a8d722c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._eval_expand_commutator","kind":"method","src_hash":"17f9125354e5bdd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_commutator(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_commutator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._eval_expand_commutator_correct","statement":"Path(_eval_expand_commutator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"851e41c884a83116"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._eval_expand_commutator","kind":"method","src_hash":"17f9125354e5bdd8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*sargs) if isinstance(A, Add) else Add(*sargs) if isinstance(B, Add) else Add(first, second) if isinstance(A, Mul) else Add(first, second) if isinstance(B, Mul) else self._expand_pow(A, B, 1) if isinstance(A, Pow) else self._expand_pow(B, A, -1))"},"spec":{"lhs":"_eval_expand_commutator(**hints)","rhs":"result == (Add(*sargs) if isinstance(A, Add) else Add(*sargs) if isinstance(B, Add) else Add(first, second) if isinstance(A, Mul) else Add(first, second) if isinstance(B, Mul) else self._expand_pow(A, B, 1) if isinstance(A, Pow) else self._expand_pow(B, A, -1))","over":{"base":"Any"},"name":"_eval_expand_commutator_correct"},"guarantee":"result == (Add(*sargs) if isinstance(A, Add) else Add(*sargs) if isinstance(B, Add) else Add(first, second) if isinstance(A, Mul) else Add(first, second) if isinstance(B, Mul) else self._expand_pow(A, B, 1) if isinstance(A, Pow) else self._expand_pow(B, A, -1)); 6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._eval_expand_commutator_correct","statement":"Path(_eval_expand_commutator(x), result == (Add(*sargs) if isinstance(A, Add) else Add(*sargs) if isinstance(B, Add) else Add(first, second) if isinstance(A, Mul) else Add(first, second) if isinstance(B, Mul) else self._expand_pow(A, B, 1) if isinstance(A, Pow) else self._expand_pow(B, A, -1)); 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"998395345a8d722c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Add(*sargs) if isinstance(A, Add) else Add(*sargs) if isinstance(B, Add) else Add(first, second) if isinstance(A, Mul) else Add(first, second) if isinstance(B, Mul) else self._expand_pow(A, B, 1) if isinstance(A, Pow) else self._expand_pow(B, A, -1))"],"fibers":[{"name":"Add","guard":"isinstance(A, Add)","ensures":["result == Add(*sargs)"],"decidability":"structural","returns_expr":"Add(*sargs)"},{"name":"Add","guard":"isinstance(B, Add)","ensures":["result == Add(*sargs)"],"decidability":"structural","returns_expr":"Add(*sargs)"},{"name":"Mul","guard":"isinstance(A, Mul)","ensures":["result == Add(first, second)"],"decidability":"structural","returns_expr":"Add(first, second)"},{"name":"Mul","guard":"isinstance(B, Mul)","ensures":["result == Add(first, second)"],"decidability":"structural","returns_expr":"Add(first, second)"},{"name":"Pow","guard":"isinstance(A, Pow)","ensures":["result == self._expand_pow(A, B, 1)"],"decidability":"structural","returns_expr":"self._expand_pow(A, B, 1)"},{"name":"Pow","guard":"isinstance(B, Pow)","ensures":["result == self._expand_pow(B, A, -1)"],"decidability":"structural","returns_expr":"self._expand_pow(B, A, -1)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_commutator(self, **hints):
         A = self.args[0]
         B = self.args[1]
@@ -290,16 +334,22 @@ class Commutator(Expr):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), evaluate commutator) over Any              ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b59735628981092e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.doit","kind":"method","src_hash":"7467939cfd801daa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"evaluate commutator","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"evaluate commutator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator.doit_correct","statement":"Path(doit(x), evaluate commutator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b59735628981092e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator.doit","kind":"method","src_hash":"7467939cfd801daa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"evaluate commutator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator.doit_correct","statement":"Path(doit(x), evaluate commutator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b59735628981092e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """ Evaluate commutator """
         # Keep the import of Operator here to avoid problems with
@@ -320,30 +370,43 @@ class Commutator(Expr):
         return (A*B - B*A).doit(**hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), Commutator(Dagger(self.args[1]), Dagger(self.args[0]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Commutator(Dagger(self.args[1]), Dagger(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 255c9bc904d2a4ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._eval_adjoint","kind":"method","src_hash":"cf67275a41e11310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"255c9bc904d2a4ad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._eval_adjoint","kind":"method","src_hash":"cf67275a41e11310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"Commutator(Dagger(self.args[1]), Dagger(self.args[0]))","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns Commutator(Dagger(self.args[1]), Dagger(self.args[0]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"255c9bc904d2a4ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Commutator(Dagger(self.args[1]), Dagger(self.args[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return Commutator(Dagger(self.args[1]), Dagger(self.args[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer, *args), '%s(%s,%s)' % (self.__class__.__name__, printer._print(self.args[0]), printer._print(self.args[1]))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '%s(%s,%s)' % (self.__class__.__name__, p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_print')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9eb474378725f181  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec526276b0f0f0db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._sympyrepr","kind":"method","src_hash":"a72e01e3a18cf06c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._sympyrepr_correct","statement":"Path(_sympyrepr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb474378725f181"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._sympyrepr","kind":"method","src_hash":"a72e01e3a18cf06c","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'%s(%s,%s)' % (self.__class__.__name__, printer._print(self.args[0]), printer._print(self.args[1]))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympyrepr_correct"},"guarantee":"returns '%s(%s,%s)' % (self.__class__.__name__, printer._print(self.args[0]), printer._print(self.args[1]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._sympyrepr_correct","statement":"Path(_sympyrepr(x), returns '%s(%s,%s)' % (self.__class__.__name__, printer._print(self.args[0]), printer._print(self.args[1])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec526276b0f0f0db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'%s(%s,%s)' % (self.__class__.__name__, printer._print(self.args[0]), printer._print(self.args[1]))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","printer._print","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         return "%s(%s,%s)" % (
             self.__class__.__name__, printer._print(
@@ -351,31 +414,45 @@ class Commutator(Expr):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), '[%s,%s]' % (printer._print(self.args[0]), printer._print(self.args[1]))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '[%s,%s]' % (printer._print(self.args[0])...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a73c04e92fbf92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bf36a50d7c4716f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._sympystr","kind":"method","src_hash":"abe19e83928d8723","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a73c04e92fbf92"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._sympystr","kind":"method","src_hash":"abe19e83928d8723","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'[%s,%s]' % (printer._print(self.args[0]), printer._print(self.args[1]))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns '[%s,%s]' % (printer._print(self.args[0]), printer._print(self.args[1]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._sympystr_correct","statement":"Path(_sympystr(x), returns '[%s,%s]' % (printer._print(self.args[0]), printer._print(self.args[1])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bf36a50d7c4716f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'[%s,%s]' % (printer._print(self.args[0]), printer._print(self.args[1]))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         return "[%s,%s]" % (
             printer._print(self.args[0]), printer._print(self.args[1]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 062f5f9368a29535  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._pretty","kind":"method","src_hash":"47fa688e916bdbfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062f5f9368a29535"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._pretty","kind":"method","src_hash":"47fa688e916bdbfa","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062f5f9368a29535","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         pform = printer._print(self.args[0], *args)
         pform = prettyForm(*pform.right(prettyForm(',')))
@@ -384,16 +461,23 @@ class Commutator(Expr):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\left[%s,%s\\right]' % tuple([printer._print(arg, *args) for arg in self.args])) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\left[%s,%s\\right]' % tuple([printer._...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cde930f59bcaa47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fca14e2ca779c5ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._latex","kind":"method","src_hash":"4e40fd44ee6c00c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cde930f59bcaa47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.Commutator._latex","kind":"method","src_hash":"4e40fd44ee6c00c7","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg, *args) for arg in self.args])","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg, *args) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.commutator.Commutator._latex_correct","statement":"Path(_latex(x), returns '\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg, *args) for arg in self.args]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fca14e2ca779c5ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg, *args) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         return "\\left[%s,%s\\right]" % tuple([
             printer._print(arg, *args) for arg in self.args])
@@ -401,16 +485,22 @@ class Commutator(Expr):
 
 @Commutator._kind_dispatcher.register(_OperatorKind, _OperatorKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_op_kind(e1,), find the kind of an anticommutator of two operatorkinds) over Any ║
+# ║ Path(find_op_kind(e1, e2), <unspecified:find_op_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_op_kind : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d35af261b0b9dcc9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.find_op_kind","kind":"function","src_hash":"f6525c2c9ef15c23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_op_kind(e1,)","rhs":"find the kind of an anticommutator of two operatorkinds","over":{"base":"Any"},"name":"find_op_kind_correct"},"guarantee":"find the kind of an anticommutator of two operatorkinds","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d35af261b0b9dcc9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.commutator.find_op_kind","kind":"function","src_hash":"f6525c2c9ef15c23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_op_kind(e1, e2)","rhs":"<unspecified:find_op_kind>","over":{"base":"Any"},"name":"find_op_kind_correct"},"guarantee":"find the kind of an anticommutator of two operatorkinds","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d35af261b0b9dcc9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def find_op_kind(e1, e2):
     """Find the kind of an anticommutator of two OperatorKinds."""
     return OperatorKind

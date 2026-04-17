@@ -33,16 +33,22 @@ from sympy.solvers.solveset import linsolve
 from sympy.abc import x, y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17247_expression_blowup_29(), test_issue_17247_expression_blowup_29 produces the expected output) over Any ║
+# ║ Path(test_issue_17247_expression_blowup_29(), <unspecified:test_issue_17247_expression_blowup_29>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_17247_expression_blowup_29 : Any → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4241ce3e595b95be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_29","kind":"function","src_hash":"94f4d47417576842","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17247_expression_blowup_29()","rhs":"test_issue_17247_expression_blowup_29 produces the expected output","over":{"base":"Any"},"name":"test_issue_17247_expression_blowup_29_correct"},"guarantee":"test_issue_17247_expression_blowup_29 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_29_correct","statement":"Path(test_issue_17247_expression_blowup_29(x), test_issue_17247_expression_blowup_29 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4241ce3e595b95be"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_29","kind":"function","src_hash":"94f4d47417576842","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17247_expression_blowup_29()","rhs":"<unspecified:test_issue_17247_expression_blowup_29>","over":{"base":"Any"},"name":"test_issue_17247_expression_blowup_29_correct"},"guarantee":"test_issue_17247_expression_blowup_29 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_29_correct","statement":"Path(test_issue_17247_expression_blowup_29(x), test_issue_17247_expression_blowup_29 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4241ce3e595b95be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17247_expression_blowup_29():
     M = Matrix(S('''[
         [             -3/4,       45/32 - 37*I/16,                   0,                     0],
@@ -57,16 +63,22 @@ def test_issue_17247_expression_blowup_29():
             [                                                          -11328/952745 + 87616*I/952745]]''')), Matrix(0, 1, []))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17247_expression_blowup_30(), test_issue_17247_expression_blowup_30 produces the expected output) over Any ║
+# ║ Path(test_issue_17247_expression_blowup_30(), <unspecified:test_issue_17247_expression_blowup_30>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_17247_expression_blowup_30 : Any → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 578c32e06392d5c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_30","kind":"function","src_hash":"82567f26f878320e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17247_expression_blowup_30()","rhs":"test_issue_17247_expression_blowup_30 produces the expected output","over":{"base":"Any"},"name":"test_issue_17247_expression_blowup_30_correct"},"guarantee":"test_issue_17247_expression_blowup_30 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_30_correct","statement":"Path(test_issue_17247_expression_blowup_30(x), test_issue_17247_expression_blowup_30 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578c32e06392d5c0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_30","kind":"function","src_hash":"82567f26f878320e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17247_expression_blowup_30()","rhs":"<unspecified:test_issue_17247_expression_blowup_30>","over":{"base":"Any"},"name":"test_issue_17247_expression_blowup_30_correct"},"guarantee":"test_issue_17247_expression_blowup_30 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_30_correct","statement":"Path(test_issue_17247_expression_blowup_30(x), test_issue_17247_expression_blowup_30 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578c32e06392d5c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17247_expression_blowup_30():
     M = Matrix(S('''[
         [             -3/4,       45/32 - 37*I/16,                   0,                     0],
@@ -96,16 +108,22 @@ def test_issue_17247_expression_blowup_30():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LUsolve_iszerofunc(), test_LUsolve_iszerofunc produces the expected output) over Any ║
+# ║ Path(test_LUsolve_iszerofunc(), x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LUsolve_iszerofunc : Any → {Any | x_exp - M.LUso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x_exp - M.LUsolve(b, iszerofunc=is_zero_f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LUsolve_iszerofunc : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e091281c076b1c00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c56b66dd608a1a69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LUsolve_iszerofunc","kind":"function","src_hash":"ebec91899316e5f2","in":{"base":"Any"},"out":{"base":"Any","pred":"x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0])"},"spec":{"lhs":"test_LUsolve_iszerofunc()","rhs":"test_LUsolve_iszerofunc produces the expected output","over":{"base":"Any"},"name":"test_LUsolve_iszerofunc_correct"},"guarantee":"test_LUsolve_iszerofunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LUsolve_iszerofunc_correct","statement":"Path(test_LUsolve_iszerofunc(x), test_LUsolve_iszerofunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e091281c076b1c00"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LUsolve_iszerofunc","kind":"function","src_hash":"ebec91899316e5f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0])"},"spec":{"lhs":"test_LUsolve_iszerofunc()","rhs":"x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0])","over":{"base":"Any"},"name":"test_LUsolve_iszerofunc_correct"},"guarantee":"x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LUsolve_iszerofunc_correct","statement":"Path(test_LUsolve_iszerofunc(x), x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c56b66dd608a1a69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x_exp - M.LUsolve(b, iszerofunc=is_zero_func) == Matrix([0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_LUsolve_iszerofunc():
     # taken from https://github.com/sympy/sympy/issues/24679
 
@@ -119,16 +137,22 @@ def test_LUsolve_iszerofunc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17247_expression_blowup_32(), test_issue_17247_expression_blowup_32 produces the expected output) over Any ║
+# ║ Path(test_issue_17247_expression_blowup_32(), <unspecified:test_issue_17247_expression_blowup_32>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_17247_expression_blowup_32 : Any → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f643690afb68a58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_32","kind":"function","src_hash":"3098d33a671cb78d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17247_expression_blowup_32()","rhs":"test_issue_17247_expression_blowup_32 produces the expected output","over":{"base":"Any"},"name":"test_issue_17247_expression_blowup_32_correct"},"guarantee":"test_issue_17247_expression_blowup_32 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_32_correct","statement":"Path(test_issue_17247_expression_blowup_32(x), test_issue_17247_expression_blowup_32 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f643690afb68a58"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_32","kind":"function","src_hash":"3098d33a671cb78d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17247_expression_blowup_32()","rhs":"<unspecified:test_issue_17247_expression_blowup_32>","over":{"base":"Any"},"name":"test_issue_17247_expression_blowup_32_correct"},"guarantee":"test_issue_17247_expression_blowup_32 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_issue_17247_expression_blowup_32_correct","statement":"Path(test_issue_17247_expression_blowup_32(x), test_issue_17247_expression_blowup_32 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f643690afb68a58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17247_expression_blowup_32():
     M = Matrix([
         [x + 1, 1 - x,     0,     0],
@@ -143,16 +167,23 @@ def test_issue_17247_expression_blowup_32():
             [    1/(x + 1)]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LUsolve(), test_LUsolve produces the expected output) over Any ║
+# ║ Path(test_LUsolve(), soln == x and A.LUsolve(b) == Matrix([1, 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LUsolve : Any → {Any | soln == x and soln == x a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  soln == x                                      ║
+# ║   ensures:  A.LUsolve(b) == Matrix([1, 1])                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LUsolve : Any → {Any | result satisfies: soln ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 387997c318c493a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42a408460fea7467  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LUsolve","kind":"function","src_hash":"836435a4ceeea1d3","in":{"base":"Any"},"out":{"base":"Any","pred":"soln == x and soln == x and A.LUsolve(b) == Matrix([1, 1]) and soln == x"},"spec":{"lhs":"test_LUsolve()","rhs":"test_LUsolve produces the expected output","over":{"base":"Any"},"name":"test_LUsolve_correct"},"guarantee":"test_LUsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LUsolve_correct","statement":"Path(test_LUsolve(x), test_LUsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"387997c318c493a4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LUsolve","kind":"function","src_hash":"836435a4ceeea1d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: soln == x and A.LUsolve(b) == Matrix([1, 1])"},"spec":{"lhs":"test_LUsolve()","rhs":"soln == x and A.LUsolve(b) == Matrix([1, 1])","over":{"base":"Any"},"name":"test_LUsolve_correct"},"guarantee":"soln == x; A.LUsolve(b) == Matrix([1, 1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LUsolve_correct","statement":"Path(test_LUsolve(x), soln == x; A.LUsolve(b) == Matrix([1, 1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42a408460fea7467","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["soln == x","A.LUsolve(b) == Matrix([1, 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_LUsolve():
     A = Matrix([[2, 3, 5],
                 [3, 6, 2],
@@ -194,16 +225,23 @@ def test_LUsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LUsolve_noncommutative(), test_LUsolve_noncommutative produces the expected output) over Any ║
+# ║ Path(test_LUsolve_noncommutative(), check[0, 0].expand() == b0 and check[1, 0] == a2 * a0 ** (-1) * (-a1 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1) + b0) + a3 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LUsolve_noncommutative : Any → {Any | check[0, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  check[0, 0].expand() == b0                     ║
+# ║   ensures:  check[1, 0] == a2 * a0 ** (-1) * (-a1 * (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LUsolve_noncommutative : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc6e4c0769f90a2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 139bd078267e890b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LUsolve_noncommutative","kind":"function","src_hash":"d6163173fe236abb","in":{"base":"Any"},"out":{"base":"Any","pred":"check[0, 0].expand() == b0"},"spec":{"lhs":"test_LUsolve_noncommutative()","rhs":"test_LUsolve_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_LUsolve_noncommutative_correct"},"guarantee":"test_LUsolve_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LUsolve_noncommutative_correct","statement":"Path(test_LUsolve_noncommutative(x), test_LUsolve_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc6e4c0769f90a2d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LUsolve_noncommutative","kind":"function","src_hash":"d6163173fe236abb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: check[0, 0].expand() == b0 and check[1, 0] == a2 * a0 ** (-1) * (-a1 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1) + b0) + a3 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1)"},"spec":{"lhs":"test_LUsolve_noncommutative()","rhs":"check[0, 0].expand() == b0 and check[1, 0] == a2 * a0 ** (-1) * (-a1 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1) + b0) + a3 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1)","over":{"base":"Any"},"name":"test_LUsolve_noncommutative_correct"},"guarantee":"check[0, 0].expand() == b0; check[1, 0] == a2 * a0 ** (-1) * (-a1 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1) + b0) + a3 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LUsolve_noncommutative_correct","statement":"Path(test_LUsolve_noncommutative(x), check[0, 0].expand() == b0; check[1, 0] == a2 * a0 ** (-1) * (-a1 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1) + b0) + a3 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"139bd078267e890b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["check[0, 0].expand() == b0","check[1, 0] == a2 * a0 ** (-1) * (-a1 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1) + b0) + a3 * (-a2 * a0 ** (-1) * a1 + a3) ** (-1) * (-a2 * a0 ** (-1) * b0 + b1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_LUsolve_noncommutative():
     a0, a1, a2, a3 = symbols("a:4", commutative=False)
     b0, b1 = symbols("b:2", commutative=False)
@@ -219,16 +257,22 @@ def test_LUsolve_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QRsolve(), test_QRsolve produces the expected output) over Any ║
+# ║ Path(test_QRsolve(), soln == x) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QRsolve : Any → {Any | soln == x and soln == x a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  soln == x                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QRsolve : Any → {Any | result satisfies: soln == x}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e12f40e4fef14d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e0b33124c0d2936  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_QRsolve","kind":"function","src_hash":"30c67a50ff1d4215","in":{"base":"Any"},"out":{"base":"Any","pred":"soln == x and soln == x and soln == x and soln == x"},"spec":{"lhs":"test_QRsolve()","rhs":"test_QRsolve produces the expected output","over":{"base":"Any"},"name":"test_QRsolve_correct"},"guarantee":"test_QRsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_QRsolve_correct","statement":"Path(test_QRsolve(x), test_QRsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e12f40e4fef14d0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_QRsolve","kind":"function","src_hash":"30c67a50ff1d4215","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: soln == x"},"spec":{"lhs":"test_QRsolve()","rhs":"soln == x","over":{"base":"Any"},"name":"test_QRsolve_correct"},"guarantee":"soln == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_QRsolve_correct","statement":"Path(test_QRsolve(x), soln == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e0b33124c0d2936","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["soln == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_QRsolve():
     A = Matrix([[2, 3, 5],
                 [3, 6, 2],
@@ -255,30 +299,44 @@ def test_QRsolve():
     assert soln == x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_errors(), test_errors produces the expected output) over Any ║
+# ║ Path(test_errors(), <unspecified:test_errors>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_errors : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4813109fa7a9a443  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_errors","kind":"function","src_hash":"a5e1da97d91daa24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_errors()","rhs":"test_errors produces the expected output","over":{"base":"Any"},"name":"test_errors_correct"},"guarantee":"test_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_errors_correct","statement":"Path(test_errors(x), test_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4813109fa7a9a443"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_errors","kind":"function","src_hash":"a5e1da97d91daa24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_errors()","rhs":"<unspecified:test_errors>","over":{"base":"Any"},"name":"test_errors_correct"},"guarantee":"test_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_errors_correct","statement":"Path(test_errors(x), test_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4813109fa7a9a443","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_errors():
     raises(ShapeError, lambda: Matrix([1]).LUsolve(Matrix([[1, 2], [3, 4]])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cholesky_solve(), test_cholesky_solve produces the expected output) over Any ║
+# ║ Path(test_cholesky_solve(), soln == x and expand_mul(soln) == x and simplify(A * x) == b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cholesky_solve : Any → {Any | soln == x and soln...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  soln == x                                      ║
+# ║   ensures:  expand_mul(soln) == x                          ║
+# ║   ensures:  simplify(A * x) == b                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cholesky_solve : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0bcda838d2e2470  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b7a796c55ee36eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_cholesky_solve","kind":"function","src_hash":"67d994090e8e8441","in":{"base":"Any"},"out":{"base":"Any","pred":"soln == x and soln == x and soln == x and expand_mul(soln) == x and expand_mul(soln) == x and simplify(A * x) == b"},"spec":{"lhs":"test_cholesky_solve()","rhs":"test_cholesky_solve produces the expected output","over":{"base":"Any"},"name":"test_cholesky_solve_correct"},"guarantee":"test_cholesky_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_cholesky_solve_correct","statement":"Path(test_cholesky_solve(x), test_cholesky_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0bcda838d2e2470"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_cholesky_solve","kind":"function","src_hash":"67d994090e8e8441","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: soln == x and expand_mul(soln) == x and simplify(A * x) == b"},"spec":{"lhs":"test_cholesky_solve()","rhs":"soln == x and expand_mul(soln) == x and simplify(A * x) == b","over":{"base":"Any"},"name":"test_cholesky_solve_correct"},"guarantee":"soln == x; expand_mul(soln) == x; simplify(A * x) == b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_cholesky_solve_correct","statement":"Path(test_cholesky_solve(x), soln == x; expand_mul(soln) == x; simplify(A * x) == b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b7a796c55ee36eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["soln == x","expand_mul(soln) == x","simplify(A * x) == b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_cholesky_solve():
     A = Matrix([[2, 3, 5],
                 [3, 6, 2],
@@ -317,16 +375,23 @@ def test_cholesky_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LDLsolve(), test_LDLsolve produces the expected output) over Any ║
+# ║ Path(test_LDLsolve(), soln == x and expand_mul(soln) == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LDLsolve : Any → {Any | soln == x and soln == x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  soln == x                                      ║
+# ║   ensures:  expand_mul(soln) == x                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LDLsolve : Any → {Any | result satisfies: soln =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad01aba0e3b6db7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79628b57020e4b75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LDLsolve","kind":"function","src_hash":"56a8cdd86be3e12c","in":{"base":"Any"},"out":{"base":"Any","pred":"soln == x and soln == x and expand_mul(soln) == x and expand_mul(soln) == x and expand_mul(soln) == x"},"spec":{"lhs":"test_LDLsolve()","rhs":"test_LDLsolve produces the expected output","over":{"base":"Any"},"name":"test_LDLsolve_correct"},"guarantee":"test_LDLsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LDLsolve_correct","statement":"Path(test_LDLsolve(x), test_LDLsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad01aba0e3b6db7d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_LDLsolve","kind":"function","src_hash":"56a8cdd86be3e12c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: soln == x and expand_mul(soln) == x"},"spec":{"lhs":"test_LDLsolve()","rhs":"soln == x and expand_mul(soln) == x","over":{"base":"Any"},"name":"test_LDLsolve_correct"},"guarantee":"soln == x; expand_mul(soln) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_LDLsolve_correct","statement":"Path(test_LDLsolve(x), soln == x; expand_mul(soln) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79628b57020e4b75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["soln == x","expand_mul(soln) == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_LDLsolve():
     A = Matrix([[2, 3, 5],
                 [3, 6, 2],
@@ -369,16 +434,23 @@ def test_LDLsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lower_triangular_solve(), test_lower_triangular_solve produces the expected output) over Any ║
+# ║ Path(test_lower_triangular_solve(), A.lower_triangular_solve(B) == B and A.lower_triangular_solve(C) == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lower_triangular_solve : Any → {Any | A.lower_tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.lower_triangular_solve(B) == B               ║
+# ║   ensures:  A.lower_triangular_solve(C) == C               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lower_triangular_solve : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccb55d3d5d53338a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a06256249e2f39da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_lower_triangular_solve","kind":"function","src_hash":"b3e1d9236468cedc","in":{"base":"Any"},"out":{"base":"Any","pred":"A.lower_triangular_solve(B) == B and A.lower_triangular_solve(C) == C"},"spec":{"lhs":"test_lower_triangular_solve()","rhs":"test_lower_triangular_solve produces the expected output","over":{"base":"Any"},"name":"test_lower_triangular_solve_correct"},"guarantee":"test_lower_triangular_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_lower_triangular_solve_correct","statement":"Path(test_lower_triangular_solve(x), test_lower_triangular_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccb55d3d5d53338a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_lower_triangular_solve","kind":"function","src_hash":"b3e1d9236468cedc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.lower_triangular_solve(B) == B and A.lower_triangular_solve(C) == C"},"spec":{"lhs":"test_lower_triangular_solve()","rhs":"A.lower_triangular_solve(B) == B and A.lower_triangular_solve(C) == C","over":{"base":"Any"},"name":"test_lower_triangular_solve_correct"},"guarantee":"A.lower_triangular_solve(B) == B; A.lower_triangular_solve(C) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_lower_triangular_solve_correct","statement":"Path(test_lower_triangular_solve(x), A.lower_triangular_solve(B) == B; A.lower_triangular_solve(C) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a06256249e2f39da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.lower_triangular_solve(B) == B","A.lower_triangular_solve(C) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lower_triangular_solve():
 
     raises(NonSquareMatrixError,
@@ -398,16 +470,23 @@ def test_lower_triangular_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upper_triangular_solve(), test_upper_triangular_solve produces the expected output) over Any ║
+# ║ Path(test_upper_triangular_solve(), A.upper_triangular_solve(B) == B and A.upper_triangular_solve(C) == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upper_triangular_solve : Any → {Any | A.upper_tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.upper_triangular_solve(B) == B               ║
+# ║   ensures:  A.upper_triangular_solve(C) == C               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upper_triangular_solve : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 856ea52a165b1e1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3f2b5eaacbdb7bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_upper_triangular_solve","kind":"function","src_hash":"24acb4009a7f086a","in":{"base":"Any"},"out":{"base":"Any","pred":"A.upper_triangular_solve(B) == B and A.upper_triangular_solve(C) == C"},"spec":{"lhs":"test_upper_triangular_solve()","rhs":"test_upper_triangular_solve produces the expected output","over":{"base":"Any"},"name":"test_upper_triangular_solve_correct"},"guarantee":"test_upper_triangular_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_upper_triangular_solve_correct","statement":"Path(test_upper_triangular_solve(x), test_upper_triangular_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"856ea52a165b1e1b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_upper_triangular_solve","kind":"function","src_hash":"24acb4009a7f086a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.upper_triangular_solve(B) == B and A.upper_triangular_solve(C) == C"},"spec":{"lhs":"test_upper_triangular_solve()","rhs":"A.upper_triangular_solve(B) == B and A.upper_triangular_solve(C) == C","over":{"base":"Any"},"name":"test_upper_triangular_solve_correct"},"guarantee":"A.upper_triangular_solve(B) == B; A.upper_triangular_solve(C) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_upper_triangular_solve_correct","statement":"Path(test_upper_triangular_solve(x), A.upper_triangular_solve(B) == B; A.upper_triangular_solve(C) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f2b5eaacbdb7bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.upper_triangular_solve(B) == B","A.upper_triangular_solve(C) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_upper_triangular_solve():
 
     raises(NonSquareMatrixError,
@@ -427,16 +506,22 @@ def test_upper_triangular_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diagonal_solve(), test_diagonal_solve produces the expected output) over Any ║
+# ║ Path(test_diagonal_solve(), A.diagonal_solve(B) == B / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diagonal_solve : Any → {Any | A.diagonal_solve(B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.diagonal_solve(B) == B / 2                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diagonal_solve : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f863ecd2fd59d18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d201ac843440fb82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_diagonal_solve","kind":"function","src_hash":"d5e0ee9d58cc4b12","in":{"base":"Any"},"out":{"base":"Any","pred":"A.diagonal_solve(B) == B / 2"},"spec":{"lhs":"test_diagonal_solve()","rhs":"test_diagonal_solve produces the expected output","over":{"base":"Any"},"name":"test_diagonal_solve_correct"},"guarantee":"test_diagonal_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_diagonal_solve_correct","statement":"Path(test_diagonal_solve(x), test_diagonal_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f863ecd2fd59d18"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_diagonal_solve","kind":"function","src_hash":"d5e0ee9d58cc4b12","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.diagonal_solve(B) == B / 2"},"spec":{"lhs":"test_diagonal_solve()","rhs":"A.diagonal_solve(B) == B / 2","over":{"base":"Any"},"name":"test_diagonal_solve_correct"},"guarantee":"A.diagonal_solve(B) == B / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_diagonal_solve_correct","statement":"Path(test_diagonal_solve(x), A.diagonal_solve(B) == B / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d201ac843440fb82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.diagonal_solve(B) == B / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_diagonal_solve():
     raises(TypeError, lambda: Matrix([1, 1]).diagonal_solve(Matrix([1])))
     A = Matrix([[1, 0], [0, 1]])*2
@@ -447,16 +532,24 @@ def test_diagonal_solve():
     raises(TypeError, lambda: A.diagonal_solve(B))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pinv_solve(), test_pinv_solve produces the expected output) over Any ║
+# ║ Path(test_pinv_solve(), A.pinv_solve(B) == A.cholesky_solve(B) and A.pinv_solve(B) == A.LDLsolve(B) and A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')]) and A * A.pinv() * B == B and A.pinv_solve(B) == Matrix([[-33, -37, -41], [69, 75, 81]]) / 26 and solution == Matrix([[w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 1], [w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 3], [-w['w0_0'] / 3 - w['w1_0'] / 3 + w['w2_0'] / 3 + 4]]) and A.pinv_solve(B) == Matrix([3, 1]) and A * A.pinv() * B != B) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pinv_solve : Any → {Any | A.pinv_solve(B) == A.c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.pinv_solve(B) == A.cholesky_solve(B)         ║
+# ║   ensures:  A.pinv_solve(B) == A.LDLsolve(B)               ║
+# ║   ensures:  A.pinv_solve(B) == Matrix([sympify('-43/2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pinv_solve : Any → {Any | result satisfies: A.pi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a46e1bdb364334e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d0fa97977cc693a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_pinv_solve","kind":"function","src_hash":"7f882952eb153314","in":{"base":"Any"},"out":{"base":"Any","pred":"A.pinv_solve(B) == A.cholesky_solve(B) and A.pinv_solve(B) == A.LDLsolve(B) and A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')]) and A * A.pinv() * B == B and A.pinv_solve(B) == A.cholesky_solve(B) and A.pinv_solve(B) == A.LDLsolve(B) and A.pinv_solve(B) == Matrix([[-33, -37, -41], [69, 75, 81]]) / 26 and A * A.pinv() * B == B and A * A.pinv() * B == B and A.pinv_solve(B) == Matrix([3, 1]) and A * A.pinv() * B != B"},"spec":{"lhs":"test_pinv_solve()","rhs":"test_pinv_solve produces the expected output","over":{"base":"Any"},"name":"test_pinv_solve_correct"},"guarantee":"test_pinv_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_pinv_solve_correct","statement":"Path(test_pinv_solve(x), test_pinv_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a46e1bdb364334e8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_pinv_solve","kind":"function","src_hash":"7f882952eb153314","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.pinv_solve(B) == A.cholesky_solve(B) and A.pinv_solve(B) == A.LDLsolve(B) and A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')]) and A * A.pinv() * B == B and A.pinv_solve(B) == Matrix([[-33, -37, -41], [69, 75, 81]]) / 26 and solution == Matrix([[w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 1], [w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 3], [-w['w0_0'] / 3 - w['w1_0'] / 3 + w['w2_0'] / 3 + 4]]) and A.pinv_solve(B) == Matrix([3, 1]) and A * A.pinv() * B != B"},"spec":{"lhs":"test_pinv_solve()","rhs":"A.pinv_solve(B) == A.cholesky_solve(B) and A.pinv_solve(B) == A.LDLsolve(B) and A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')]) and A * A.pinv() * B == B and A.pinv_solve(B) == Matrix([[-33, -37, -41], [69, 75, 81]]) / 26 and solution == Matrix([[w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 1], [w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 3], [-w['w0_0'] / 3 - w['w1_0'] / 3 + w['w2_0'] / 3 + 4]]) and A.pinv_solve(B) == Matrix([3, 1]) and A * A.pinv() * B != B","over":{"base":"Any"},"name":"test_pinv_solve_correct"},"guarantee":"A.pinv_solve(B) == A.cholesky_solve(B); A.pinv_solve(B) == A.LDLsolve(B); A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_pinv_solve_correct","statement":"Path(test_pinv_solve(x), A.pinv_solve(B) == A.cholesky_solve(B); A.pinv_solve(B) == A.LDLsolve(B); A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d0fa97977cc693a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.pinv_solve(B) == A.cholesky_solve(B)","A.pinv_solve(B) == A.LDLsolve(B)","A.pinv_solve(B) == Matrix([sympify('-43/26'), sympify('71/26')])","A * A.pinv() * B == B","A.pinv_solve(B) == Matrix([[-33, -37, -41], [69, 75, 81]]) / 26","solution == Matrix([[w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 1], [w['w0_0'] / 3 + w['w1_0'] / 3 - w['w2_0'] / 3 + 3], [-w['w0_0'] / 3 - w['w1_0'] / 3 + w['w2_0'] / 3 + 4]])","A.pinv_solve(B) == Matrix([3, 1])","A * A.pinv() * B != B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pinv_solve():
     # Fully determined system (unique result, identical to other solvers).
     A = Matrix([[1, 5], [7, 9]])
@@ -491,16 +584,24 @@ def test_pinv_solve():
     assert A * A.pinv() * B != B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pinv_rank_deficient(), test_pinv_rank_deficient produces the expected output) over Any ║
+# ║ Path(test_pinv_rank_deficient(), w1.name == 'w1_0' and solution == Matrix([3, w1]) and A * A.pinv() * B == B and A * A.pinv() * B != B) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pinv_rank_deficient : Any → {Any | w1.name == 'w...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w1.name == 'w1_0'                              ║
+# ║   ensures:  solution == Matrix([3, w1])                    ║
+# ║   ensures:  A * A.pinv() * B == B                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pinv_rank_deficient : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eae01e92507e997  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 319ff77671b4929f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_pinv_rank_deficient","kind":"function","src_hash":"31af541845a222b8","in":{"base":"Any"},"out":{"base":"Any","pred":"w1.name == 'w1_0' and solution == Matrix([3, w1]) and A * A.pinv() * B == B and w1.name == 'w1_0' and solution == Matrix([3, w1]) and A * A.pinv() * B != B and simplify(AAp * A) == A and simplify(ApA * A_pinv) == A_pinv and AAp.H == AAp and ApA.H == ApA and simplify(AAp * A) == A and simplify(ApA * A_pinv) == A_pinv and AAp.H == AAp and ApA.H == ApA"},"spec":{"lhs":"test_pinv_rank_deficient()","rhs":"test_pinv_rank_deficient produces the expected output","over":{"base":"Any"},"name":"test_pinv_rank_deficient_correct"},"guarantee":"test_pinv_rank_deficient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_pinv_rank_deficient_correct","statement":"Path(test_pinv_rank_deficient(x), test_pinv_rank_deficient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eae01e92507e997"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_pinv_rank_deficient","kind":"function","src_hash":"31af541845a222b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w1.name == 'w1_0' and solution == Matrix([3, w1]) and A * A.pinv() * B == B and A * A.pinv() * B != B"},"spec":{"lhs":"test_pinv_rank_deficient()","rhs":"w1.name == 'w1_0' and solution == Matrix([3, w1]) and A * A.pinv() * B == B and A * A.pinv() * B != B","over":{"base":"Any"},"name":"test_pinv_rank_deficient_correct"},"guarantee":"w1.name == 'w1_0'; solution == Matrix([3, w1]); A * A.pinv() * B == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_pinv_rank_deficient_correct","statement":"Path(test_pinv_rank_deficient(x), w1.name == 'w1_0'; solution == Matrix([3, w1]); A * A.pinv() * B == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"319ff77671b4929f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w1.name == 'w1_0'","solution == Matrix([3, w1])","A * A.pinv() * B == B","A * A.pinv() * B != B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pinv_rank_deficient():
     # Test the four properties of the pseudoinverse for various matrices.
     As = [Matrix([[1, 1, 1], [2, 2, 2]]),
@@ -543,16 +644,24 @@ def test_pinv_rank_deficient():
     assert A * A.pinv() * B != B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gauss_jordan_solve(), test_gauss_jordan_solve produces the expected output) over Any ║
+# ║ Path(test_gauss_jordan_solve(), sol == Matrix([[-1], [2], [0]]) and params == Matrix(0, 1, []) and sol == B and params == Matrix(0, 4, []) and sol == Matrix([[w['tau0'] - 1], [-2 * w['tau0'] + 2], [w['tau0']]]) and params == Matrix([[w['tau0']]]) and freevar == [2] and sol == Matrix([[w['tau0'] - 1, w['tau1'] - Rational(4, 3)], [-2 * w['tau0'] + 2, -2 * w['tau1'] + Rational(8, 3)], [w['tau0'], w['tau1']]]) and params == Matrix([[w['tau0'], w['tau1']]]) and sol == Matrix([[-2 * w['tau0'] - 3 * w['tau1']], [w['tau0']], [w['tau1']]]) and params == Matrix([[w['tau0']], [w['tau1']]]) and sol == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and sol == Matrix([[Rational(-1, 2)], [0], [Rational(1, 6)]]) and sol == Matrix([[Rational(-1, 2), Rational(-2, 2)], [0, 0], [Rational(1, 6), Rational(2, 6)]]) and params == Matrix(0, 2, []) and sol == Matrix([[-3 * w['tau0'] + 5], [-1], [w['tau0']]]) and sol == Matrix([[2 * w['tau0'] - 1], [-3 * w['tau0'] + 1], [0], [w['tau0']]]) and sol == Matrix([[w['tau0'] + 2 * w['tau1'] + S.Half], [-2 * w['tau0'] - 3 * w['tau1'] - Rational(1, 4)], [w['tau0']], [w['tau1']]]) and params == Matrix(3, 1, [x0, x1, x2]) and sol == Matrix(5, 1, [x0, 0, x1, _x0, x2]) and sol == ImmutableMatrix([1, 2]) and params == ImmutableMatrix(0, 1, []) and sol.__class__ == ImmutableDenseMatrix and params.__class__ == ImmutableDenseMatrix and sol == Matrix([[1], [w['tau0']], [w['tau1']], [1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gauss_jordan_solve : Any → {Any | sol == Matrix(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == Matrix([[-1], [2], [0]])                ║
+# ║   ensures:  params == Matrix(0, 1, [])                     ║
+# ║   ensures:  sol == B                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gauss_jordan_solve : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c78907e7a98f60f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea254b7a0b4583b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_gauss_jordan_solve","kind":"function","src_hash":"ad1a433bb1cffaf7","in":{"base":"Any"},"out":{"base":"Any","pred":"sol == Matrix([[-1], [2], [0]]) and params == Matrix(0, 1, []) and sol == B and params == Matrix(0, 4, []) and sol == Matrix([[w['tau0'] - 1], [-2 * w['tau0'] + 2], [w['tau0']]]) and params == Matrix([[w['tau0']]]) and freevar == [2] and params == Matrix([[w['tau0'], w['tau1']]]) and freevar == [2] and sol == Matrix([[-2 * w['tau0'] - 3 * w['tau1']], [w['tau0']], [w['tau1']]]) and params == Matrix([[w['tau0']], [w['tau1']]]) and sol == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and sol == Matrix([[Rational(-1, 2)], [0], [Rational(1, 6)]]) and params == Matrix(0, 1, []) and params == Matrix(0, 2, []) and sol == Matrix([[-3 * w['tau0'] + 5], [-1], [w['tau0']]]) and params == Matrix([[w['tau0']]]) and sol == Matrix([[2 * w['tau0'] - 1], [-3 * w['tau0'] + 1], [0], [w['tau0']]]) and params == Matrix([[w['tau0']]]) and params == Matrix([[w['tau0']], [w['tau1']]]) and params == Matrix(3, 1, [x0, x1, x2]) and sol == Matrix(5, 1, [x0, 0, x1, _x0, x2]) and sol == ImmutableMatrix([1, 2]) and params == ImmutableMatrix(0, 1, []) and sol.__class__ == ImmutableDenseMatrix and params.__class__ == ImmutableDenseMatrix and sol == Matrix([[1], [w['tau0']], [w['tau1']], [1]]) and params == Matrix([[w['tau0']], [w['tau1']]])"},"spec":{"lhs":"test_gauss_jordan_solve()","rhs":"test_gauss_jordan_solve produces the expected output","over":{"base":"Any"},"name":"test_gauss_jordan_solve_correct"},"guarantee":"test_gauss_jordan_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_gauss_jordan_solve_correct","statement":"Path(test_gauss_jordan_solve(x), test_gauss_jordan_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c78907e7a98f60f1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_gauss_jordan_solve","kind":"function","src_hash":"ad1a433bb1cffaf7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == Matrix([[-1], [2], [0]]) and params == Matrix(0, 1, []) and sol == B and params == Matrix(0, 4, []) and sol == Matrix([[w['tau0'] - 1], [-2 * w['tau0'] + 2], [w['tau0']]]) and params == Matrix([[w['tau0']]]) and freevar == [2] and sol == Matrix([[w['tau0'] - 1, w['tau1'] - Rational(4, 3)], [-2 * w['tau0'] + 2, -2 * w['tau1'] + Rational(8, 3)], [w['tau0'], w['tau1']]]) and params == Matrix([[w['tau0'], w['tau1']]]) and sol == Matrix([[-2 * w['tau0'] - 3 * w['tau1']], [w['tau0']], [w['tau1']]]) and params == Matrix([[w['tau0']], [w['tau1']]]) and sol == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and sol == Matrix([[Rational(-1, 2)], [0], [Rational(1, 6)]]) and sol == Matrix([[Rational(-1, 2), Rational(-2, 2)], [0, 0], [Rational(1, 6), Rational(2, 6)]]) and params == Matrix(0, 2, []) and sol == Matrix([[-3 * w['tau0'] + 5], [-1], [w['tau0']]]) and sol == Matrix([[2 * w['tau0'] - 1], [-3 * w['tau0'] + 1], [0], [w['tau0']]]) and sol == Matrix([[w['tau0'] + 2 * w['tau1'] + S.Half], [-2 * w['tau0'] - 3 * w['tau1'] - Rational(1, 4)], [w['tau0']], [w['tau1']]]) and params == Matrix(3, 1, [x0, x1, x2]) and sol == Matrix(5, 1, [x0, 0, x1, _x0, x2]) and sol == ImmutableMatrix([1, 2]) and params == ImmutableMatrix(0, 1, []) and sol.__class__ == ImmutableDenseMatrix and params.__class__ == ImmutableDenseMatrix and sol == Matrix([[1], [w['tau0']], [w['tau1']], [1]])"},"spec":{"lhs":"test_gauss_jordan_solve()","rhs":"sol == Matrix([[-1], [2], [0]]) and params == Matrix(0, 1, []) and sol == B and params == Matrix(0, 4, []) and sol == Matrix([[w['tau0'] - 1], [-2 * w['tau0'] + 2], [w['tau0']]]) and params == Matrix([[w['tau0']]]) and freevar == [2] and sol == Matrix([[w['tau0'] - 1, w['tau1'] - Rational(4, 3)], [-2 * w['tau0'] + 2, -2 * w['tau1'] + Rational(8, 3)], [w['tau0'], w['tau1']]]) and params == Matrix([[w['tau0'], w['tau1']]]) and sol == Matrix([[-2 * w['tau0'] - 3 * w['tau1']], [w['tau0']], [w['tau1']]]) and params == Matrix([[w['tau0']], [w['tau1']]]) and sol == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]]) and sol == Matrix([[Rational(-1, 2)], [0], [Rational(1, 6)]]) and sol == Matrix([[Rational(-1, 2), Rational(-2, 2)], [0, 0], [Rational(1, 6), Rational(2, 6)]]) and params == Matrix(0, 2, []) and sol == Matrix([[-3 * w['tau0'] + 5], [-1], [w['tau0']]]) and sol == Matrix([[2 * w['tau0'] - 1], [-3 * w['tau0'] + 1], [0], [w['tau0']]]) and sol == Matrix([[w['tau0'] + 2 * w['tau1'] + S.Half], [-2 * w['tau0'] - 3 * w['tau1'] - Rational(1, 4)], [w['tau0']], [w['tau1']]]) and params == Matrix(3, 1, [x0, x1, x2]) and sol == Matrix(5, 1, [x0, 0, x1, _x0, x2]) and sol == ImmutableMatrix([1, 2]) and params == ImmutableMatrix(0, 1, []) and sol.__class__ == ImmutableDenseMatrix and params.__class__ == ImmutableDenseMatrix and sol == Matrix([[1], [w['tau0']], [w['tau1']], [1]])","over":{"base":"Any"},"name":"test_gauss_jordan_solve_correct"},"guarantee":"sol == Matrix([[-1], [2], [0]]); params == Matrix(0, 1, []); sol == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_gauss_jordan_solve_correct","statement":"Path(test_gauss_jordan_solve(x), sol == Matrix([[-1], [2], [0]]); params == Matrix(0, 1, []); sol == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea254b7a0b4583b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == Matrix([[-1], [2], [0]])","params == Matrix(0, 1, [])","sol == B","params == Matrix(0, 4, [])","sol == Matrix([[w['tau0'] - 1], [-2 * w['tau0'] + 2], [w['tau0']]])","params == Matrix([[w['tau0']]])","freevar == [2]","sol == Matrix([[w['tau0'] - 1, w['tau1'] - Rational(4, 3)], [-2 * w['tau0'] + 2, -2 * w['tau1'] + Rational(8, 3)], [w['tau0'], w['tau1']]])","params == Matrix([[w['tau0'], w['tau1']]])","sol == Matrix([[-2 * w['tau0'] - 3 * w['tau1']], [w['tau0']], [w['tau1']]])","params == Matrix([[w['tau0']], [w['tau1']]])","sol == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]])","params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']]])","sol == Matrix([[Rational(-1, 2)], [0], [Rational(1, 6)]])","sol == Matrix([[Rational(-1, 2), Rational(-2, 2)], [0, 0], [Rational(1, 6), Rational(2, 6)]])","params == Matrix(0, 2, [])","sol == Matrix([[-3 * w['tau0'] + 5], [-1], [w['tau0']]])","sol == Matrix([[2 * w['tau0'] - 1], [-3 * w['tau0'] + 1], [0], [w['tau0']]])","sol == Matrix([[w['tau0'] + 2 * w['tau1'] + S.Half], [-2 * w['tau0'] - 3 * w['tau1'] - Rational(1, 4)], [w['tau0']], [w['tau1']]])","params == Matrix(3, 1, [x0, x1, x2])","sol == Matrix(5, 1, [x0, 0, x1, _x0, x2])","sol == ImmutableMatrix([1, 2])","params == ImmutableMatrix(0, 1, [])","sol.__class__ == ImmutableDenseMatrix","params.__class__ == ImmutableDenseMatrix","sol == Matrix([[1], [w['tau0']], [w['tau1']], [1]])"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"assumed","binding":true}}
 def test_gauss_jordan_solve():
 
     # Square, full rank, unique solution
@@ -722,16 +831,24 @@ def test_gauss_jordan_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linsolve_underdetermined_AND_gauss_jordan_solve(), test_linsolve_underdetermined_AND_gauss_jordan_solve produces the expected output) over Any ║
+# ║ Path(test_linsolve_underdetermined_AND_gauss_jordan_solve(), params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [w['tau5']]]) and sol == Matrix([[1 - 1 * w['tau2']], [w['tau2']], [1 - 1 * w['tau0'] + w['tau1']], [w['tau0']], [w['tau3'] + w['tau4']], [-1 * w['tau3'] - 1 * w['tau4'] - 1 * w['tau1']], [1 - 1 * w['tau2']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [1 - 1 * w['tau5']], [w['tau5']], [1]]) and sol_1 == Matrix([[-f - j - tau0 + tau2 + tau4 + 1], [j - tau1 - tau2 - tau4], [tau0], [tau1], [f - tau2 - tau3 - tau4], [tau2], [tau3], [tau4]]) and sol_2 == Matrix([[0], [0], [0]])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  params == Matrix([[w['tau0']], [w['tau1']...   ║
+# ║   ensures:  sol == Matrix([[1 - 1 * w['tau2']], [w['t...   ║
+# ║   ensures:  sol_1 == Matrix([[-f - j - tau0 + tau2 + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linsolve_underdetermined_AND_gauss_jordan_solve ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b7dff01369633e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87c831b7537d7093  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_linsolve_underdetermined_AND_gauss_jordan_solve","kind":"function","src_hash":"e565e3a210fd3197","in":{"base":"Any"},"out":{"base":"Any","pred":"sol_2 == Matrix([[0], [0], [0]])"},"spec":{"lhs":"test_linsolve_underdetermined_AND_gauss_jordan_solve()","rhs":"test_linsolve_underdetermined_AND_gauss_jordan_solve produces the expected output","over":{"base":"Any"},"name":"test_linsolve_underdetermined_AND_gauss_jordan_solve_correct"},"guarantee":"test_linsolve_underdetermined_AND_gauss_jordan_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_linsolve_underdetermined_AND_gauss_jordan_solve_correct","statement":"Path(test_linsolve_underdetermined_AND_gauss_jordan_solve(x), test_linsolve_underdetermined_AND_gauss_jordan_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b7dff01369633e8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_linsolve_underdetermined_AND_gauss_jordan_solve","kind":"function","src_hash":"e565e3a210fd3197","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [w['tau5']]]) and sol == Matrix([[1 - 1 * w['tau2']], [w['tau2']], [1 - 1 * w['tau0'] + w['tau1']], [w['tau0']], [w['tau3'] + w['tau4']], [-1 * w['tau3'] - 1 * w['tau4'] - 1 * w['tau1']], [1 - 1 * w['tau2']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [1 - 1 * w['tau5']], [w['tau5']], [1]]) and sol_1 == Matrix([[-f - j - tau0 + tau2 + tau4 + 1], [j - tau1 - tau2 - tau4], [tau0], [tau1], [f - tau2 - tau3 - tau4], [tau2], [tau3], [tau4]]) and sol_2 == Matrix([[0], [0], [0]])"},"spec":{"lhs":"test_linsolve_underdetermined_AND_gauss_jordan_solve()","rhs":"params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [w['tau5']]]) and sol == Matrix([[1 - 1 * w['tau2']], [w['tau2']], [1 - 1 * w['tau0'] + w['tau1']], [w['tau0']], [w['tau3'] + w['tau4']], [-1 * w['tau3'] - 1 * w['tau4'] - 1 * w['tau1']], [1 - 1 * w['tau2']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [1 - 1 * w['tau5']], [w['tau5']], [1]]) and sol_1 == Matrix([[-f - j - tau0 + tau2 + tau4 + 1], [j - tau1 - tau2 - tau4], [tau0], [tau1], [f - tau2 - tau3 - tau4], [tau2], [tau3], [tau4]]) and sol_2 == Matrix([[0], [0], [0]])","over":{"base":"Any"},"name":"test_linsolve_underdetermined_AND_gauss_jordan_solve_correct"},"guarantee":"params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [w['tau5']]]); sol == Matrix([[1 - 1 * w['tau2']], [w['tau2']], [1 - 1 * w['tau0'] + w['tau1']], [w['tau0']], [w['tau3'] + w['tau4']], [-1 * w['tau3'] - 1 * w['tau4'] - 1 * w['tau1']], [1 - 1 * w['tau2']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [1 - 1 * w['tau5']], [w['tau5']], [1]]); sol_1 == Matrix([[-f - j - tau0 + tau2 + tau4 + 1], [j - tau1 - tau2 - tau4], [tau0], [tau1], [f - tau2 - tau3 - tau4], [tau2], [tau3], [tau4]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_linsolve_underdetermined_AND_gauss_jordan_solve_correct","statement":"Path(test_linsolve_underdetermined_AND_gauss_jordan_solve(x), params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [w['tau5']]]); sol == Matrix([[1 - 1 * w['tau2']], [w['tau2']], [1 - 1 * w['tau0'] + w['tau1']], [w['tau0']], [w['tau3'] + w['tau4']], [-1 * w['tau3'] - 1 * w['tau4'] - 1 * w['tau1']], [1 - 1 * w['tau2']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [1 - 1 * w['tau5']], [w['tau5']], [1]]); sol_1 == Matrix([[-f - j - tau0 + tau2 + tau4 + 1], [j - tau1 - tau2 - tau4], [tau0], [tau1], [f - tau2 - tau3 - tau4], [tau2], [tau3], [tau4]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87c831b7537d7093","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["params == Matrix([[w['tau0']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [w['tau5']]])","sol == Matrix([[1 - 1 * w['tau2']], [w['tau2']], [1 - 1 * w['tau0'] + w['tau1']], [w['tau0']], [w['tau3'] + w['tau4']], [-1 * w['tau3'] - 1 * w['tau4'] - 1 * w['tau1']], [1 - 1 * w['tau2']], [w['tau1']], [w['tau2']], [w['tau3']], [w['tau4']], [1 - 1 * w['tau5']], [w['tau5']], [1]])","sol_1 == Matrix([[-f - j - tau0 + tau2 + tau4 + 1], [j - tau1 - tau2 - tau4], [tau0], [tau1], [f - tau2 - tau3 - tau4], [tau2], [tau3], [tau4]])","sol_2 == Matrix([[0], [0], [0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_linsolve_underdetermined_AND_gauss_jordan_solve():
     #Test placement of free variables as per issue 19815
     A = Matrix([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -798,16 +915,25 @@ def test_linsolve_underdetermined_AND_gauss_jordan_solve():
     (Matrix(2, 2, symbols("a:4")), Matrix(2, 1, symbols("b:2"))),
 ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cramer_solve(det), test_cramer_solve produces the expected output) over Any ║
+# ║ Path(test_cramer_solve(det_method, M, rhs), simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)) == Matrix.zeros(M.rows, rhs.cols)) over {Any | hasattr(M, 'rows') and hasattr(rhs, 'cols') and hasattr(M, 'cramer_solve') and hasattr(M, 'LUsolve')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cramer_solve : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(rhs, 'cols')                           ║
+# ║   requires: hasattr(M, 'cramer_solve')                     ║
+# ║   ensures:  simplify(M.cramer_solve(rhs, det_method=d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cramer_solve : {Any | hasattr(M, 'rows') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2df153eaf062eadb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f225ce3fc5c82b01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_cramer_solve","kind":"function","src_hash":"49c6ca542cdd0a43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cramer_solve(det)","rhs":"test_cramer_solve produces the expected output","over":{"base":"Any"},"name":"test_cramer_solve_correct"},"guarantee":"test_cramer_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_cramer_solve_correct","statement":"Path(test_cramer_solve(x), test_cramer_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2df153eaf062eadb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_cramer_solve","kind":"function","src_hash":"49c6ca542cdd0a43","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(rhs, 'cols') and hasattr(M, 'cramer_solve') and hasattr(M, 'LUsolve')"},"out":{"base":"Any","pred":"result satisfies: simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)) == Matrix.zeros(M.rows, rhs.cols)"},"spec":{"lhs":"test_cramer_solve(det_method, M, rhs)","rhs":"simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)) == Matrix.zeros(M.rows, rhs.cols)","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(rhs, 'cols') and hasattr(M, 'cramer_solve') and hasattr(M, 'LUsolve')"},"name":"test_cramer_solve_correct"},"guarantee":"simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)) == Matrix.zeros(M.rows, rhs.cols)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_cramer_solve_correct","statement":"Path(test_cramer_solve(x), simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)) == Matrix.zeros(M.rows, rhs.cols))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f225ce3fc5c82b01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rows')","hasattr(rhs, 'cols')","hasattr(M, 'cramer_solve')","hasattr(M, 'LUsolve')"],"ensures":["simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)) == Matrix.zeros(M.rows, rhs.cols)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.LUsolve","M.cramer_solve","M.rows","rhs.cols"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cramer_solve(det_method, M, rhs):
     assert simplify(M.cramer_solve(rhs, det_method=det_method) - M.LUsolve(rhs)
                     ) == Matrix.zeros(M.rows, rhs.cols)
@@ -816,16 +942,22 @@ def test_cramer_solve(det_method, M, rhs):
 @pytest.mark.parametrize("det_method, error", [
     ("bird", DMShapeError), (_det_laplace, NonSquareMatrixError)])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cramer_solve_errors(det), test_cramer_solve_errors produces the expected output) over Any ║
+# ║ Path(test_cramer_solve_errors(det_method, error), <unspecified:test_cramer_solve_errors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cramer_solve_errors : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8582852c9eaef10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_cramer_solve_errors","kind":"function","src_hash":"827d1996c3b61310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cramer_solve_errors(det)","rhs":"test_cramer_solve_errors produces the expected output","over":{"base":"Any"},"name":"test_cramer_solve_errors_correct"},"guarantee":"test_cramer_solve_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_cramer_solve_errors_correct","statement":"Path(test_cramer_solve_errors(x), test_cramer_solve_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8582852c9eaef10"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_cramer_solve_errors","kind":"function","src_hash":"827d1996c3b61310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cramer_solve_errors(det_method, error)","rhs":"<unspecified:test_cramer_solve_errors>","over":{"base":"Any"},"name":"test_cramer_solve_errors_correct"},"guarantee":"test_cramer_solve_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_cramer_solve_errors_correct","statement":"Path(test_cramer_solve_errors(x), test_cramer_solve_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8582852c9eaef10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cramer_solve_errors(det_method, error):
     # Non-square matrix
     A = Matrix([[0, -1, 2], [5, 10, 7]])
@@ -834,16 +966,22 @@ def test_cramer_solve_errors(det_method, error):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve(), test_solve produces the expected output) over Any ║
+# ║ Path(test_solve(), <unspecified:test_solve>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_solve : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a195de9f9d981ff7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_solve","kind":"function","src_hash":"8c1079bcb52c012b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve()","rhs":"test_solve produces the expected output","over":{"base":"Any"},"name":"test_solve_correct"},"guarantee":"test_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_solve_correct","statement":"Path(test_solve(x), test_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a195de9f9d981ff7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_solvers.test_solve","kind":"function","src_hash":"8c1079bcb52c012b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve()","rhs":"<unspecified:test_solve>","over":{"base":"Any"},"name":"test_solve_correct"},"guarantee":"test_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_solvers.test_solve_correct","statement":"Path(test_solve(x), test_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a195de9f9d981ff7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve():
     A = Matrix([[1,2], [2,4]])
     b = Matrix([[3], [4]])

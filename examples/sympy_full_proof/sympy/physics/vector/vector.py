@@ -31,14 +31,21 @@ __all__ = ['Vector']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Vector instance) preserved by Vector(*args) over {Any | isinstance(inlist, dict) and isinstance(other, Dyadic) and isinstance(v[0][j], Add)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printable)                    ║
+# ║   ensures:  isinstance(self, EvalfMixin)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Vector : {Any | isinstance(inlist, dict) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e3d4fd5390c30b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector","kind":"class","src_hash":"154394e125d33de5","in":{"base":"Any","pred":"isinstance(inlist, dict) and isinstance(other, Dyadic) and isinstance(v[0][j], Add)"},"out":{"base":"Any"},"spec":{"lhs":"Vector(*args)","rhs":"correctly constructs a Vector instance","over":{"base":"Any","pred":"isinstance(inlist, dict) and isinstance(other, Dyadic) and isinstance(v[0][j], Add)"},"name":"Vector_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Vector instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'args')","kind":"class","induction":"structural on args"}],"methods_preserving":["__init__","func","__hash__","__add__","dot","__truediv__","__eq__","__mul__","__neg__","outer","_latex","_pretty","__rsub__","_sympystr","__sub__","cross","separate","__and__","__xor__","__or__","diff","express","to_matrix","doit","dt","simplify","subs","magnitude","normalize","applyfunc","angle_between","free_symbols","free_dynamicsymbols","_eval_evalf","xreplace"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e3d4fd5390c30b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector","kind":"class","src_hash":"154394e125d33de5","in":{"base":"Any","pred":"isinstance(inlist, dict) and isinstance(other, Dyadic) and isinstance(v[0][j], Add)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printable) and isinstance(self, EvalfMixin)"},"spec":{"lhs":"Vector(*args)","rhs":"correctly constructs a Vector instance","over":{"base":"Any","pred":"isinstance(inlist, dict) and isinstance(other, Dyadic) and isinstance(v[0][j], Add)"},"name":"Vector_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printable); isinstance(self, EvalfMixin); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'args')","kind":"class","induction":"structural on args"}],"methods_preserving":["__init__","func","__hash__","__add__","dot","__truediv__","__eq__","__mul__","__neg__","outer","_latex","_pretty","__rsub__","_sympystr","__sub__","cross","separate","__and__","__xor__","__or__","diff","express","to_matrix","doit","dt","simplify","subs","magnitude","normalize","applyfunc","angle_between","free_symbols","free_dynamicsymbols","_eval_evalf","xreplace"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e3d4fd5390c30b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printable)","isinstance(self, EvalfMixin)"],"invariants":["hasattr(self, 'args')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Vector not found in source"]}}
 class Vector(Printable, EvalfMixin):
     """The class used to define vectors.
 
@@ -57,16 +64,22 @@ class Vector(Printable, EvalfMixin):
     is_number = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(inl), initializes the instance correctly) over Any ║
+# ║ Path(__init__(inlist), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4491e134b922efb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__init__","kind":"method","src_hash":"4abd8dab7dfc6da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(inl)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4491e134b922efb9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__init__","kind":"method","src_hash":"4abd8dab7dfc6da9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(inlist)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4491e134b922efb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args"],"writes":["self.args"],"calls_mutating":["self.args.append"]},"state_contract":{"modifies":["self.*","self.args"],"old_bindings":{"old_self_args":"self.args","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, inlist):
         """This is the constructor for the Vector class. You should not be
         calling this, it should only be used by other functions. You should be
@@ -98,45 +111,64 @@ class Vector(Printable, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func(), returns the func attribute) over Any          ║
+# ║ Path(func(), <unspecified:func>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b05f5bcc260b422           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.func","kind":"property","src_hash":"76f4294048e09191","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"returns the func attribute","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b05f5bcc260b422"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.func","kind":"property","src_hash":"76f4294048e09191","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"<unspecified:func>","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b05f5bcc260b422","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def func(self):
         """Returns the class Vector. """
         return Vector
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(tuple(self.args))) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(tuple(self.args))                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6fd6e53294d9e69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__hash__","kind":"method","src_hash":"942d08358324e526","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6fd6e53294d9e69"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__hash__","kind":"method","src_hash":"942d08358324e526","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(tuple(self.args))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(tuple(self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6fd6e53294d9e69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(tuple(self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(tuple(self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c1d9b27153d192e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__add__","kind":"method","src_hash":"57b9cc9809092c83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c1d9b27153d192e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__add__","kind":"method","src_hash":"57b9cc9809092c83","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c1d9b27153d192e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """The add operator for Vector. """
         if other == 0:
@@ -145,16 +177,23 @@ class Vector(Printable, EvalfMixin):
         return Vector(self.args + other.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(oth), dot product of two vectors) over Any        ║
+# ║ Path(dot(other), <unspecified:dot>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dot : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dot : {Any | hasattr(other, 'args')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d07328856c1332  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.dot","kind":"method","src_hash":"3f77d12e02fe9e84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(oth)","rhs":"dot product of two vectors","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"dot product of two vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.dot_correct","statement":"Path(dot(x), dot product of two vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d07328856c1332"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.dot","kind":"method","src_hash":"3f77d12e02fe9e84","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"dot(other)","rhs":"<unspecified:dot>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"dot_correct"},"guarantee":"dot product of two vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.dot_correct","statement":"Path(dot(x), dot product of two vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d07328856c1332","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dot(self, other):
         """Dot product of two vectors.
 
@@ -201,31 +240,44 @@ class Vector(Printable, EvalfMixin):
             return out
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), this uses mul and inputs self and 1 divided by other) over Any ║
+# ║ Path(__truediv__(other), self.__mul__(S.One / other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__mul__(S.One / other)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9b171b8fe5449de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__truediv__","kind":"method","src_hash":"249502ac0cc796ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"this uses mul and inputs self and 1 divided by other","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"this uses mul and inputs self and 1 divided by other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9b171b8fe5449de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__truediv__","kind":"method","src_hash":"249502ac0cc796ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self.__mul__(S.One / other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self.__mul__(S.One / other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9b171b8fe5449de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__mul__(S.One / other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         """This uses mul and inputs self and 1 divided by other. """
         return self.__mul__(S.One / other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 468ff846755ac58c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__eq__","kind":"method","src_hash":"147dcc188cd18dc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"468ff846755ac58c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__eq__","kind":"method","src_hash":"147dcc188cd18dc3","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"468ff846755ac58c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Tests for equality.
 
@@ -256,16 +308,22 @@ class Vector(Printable, EvalfMixin):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), Vector(newlist)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector(newlist)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c21dfd246a68c560           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__mul__","kind":"method","src_hash":"0bd7d14cebac22d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c21dfd246a68c560"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__mul__","kind":"method","src_hash":"0bd7d14cebac22d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"Vector(newlist)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns Vector(newlist)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c21dfd246a68c560","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector(newlist)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """Multiplies the Vector by a sympifyable expression.
 
@@ -295,30 +353,43 @@ class Vector(Printable, EvalfMixin):
         return Vector(newlist)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self * -1) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * -1                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e92d6a0c6276ea4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__neg__","kind":"method","src_hash":"15b85c3227f685df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e92d6a0c6276ea4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__neg__","kind":"method","src_hash":"15b85c3227f685df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self * -1","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self * -1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e92d6a0c6276ea4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * -1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self * -1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(outer(oth), outer product between two vectors) over Any ║
+# ║ Path(outer(other), <unspecified:outer>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ outer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ outer : {Any | hasattr(other, 'args')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4744f514c38ee5d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.outer","kind":"method","src_hash":"0c7a22a6261d6f5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"outer(oth)","rhs":"outer product between two vectors","over":{"base":"Any"},"name":"outer_correct"},"guarantee":"outer product between two vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.outer_correct","statement":"Path(outer(x), outer product between two vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4744f514c38ee5d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.outer","kind":"method","src_hash":"0c7a22a6261d6f5a","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"outer(other)","rhs":"<unspecified:outer>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"outer_correct"},"guarantee":"outer product between two vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.outer_correct","statement":"Path(outer(x), outer product between two vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4744f514c38ee5d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def outer(self, other):
         """Outer product between two Vectors.
 
@@ -360,16 +431,23 @@ class Vector(Printable, EvalfMixin):
         return ol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), latex printing method) over Any          ║
+# ║ Path(_latex(printer), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98ebca86e2671f78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._latex","kind":"method","src_hash":"501a0e5e07d2e275","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"latex printing method","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"latex printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._latex_correct","statement":"Path(_latex(x), latex printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ebca86e2671f78"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._latex","kind":"method","src_hash":"501a0e5e07d2e275","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"latex printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._latex_correct","statement":"Path(_latex(x), latex printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ebca86e2671f78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         """Latex Printing method. """
 
@@ -405,16 +483,24 @@ class Vector(Printable, EvalfMixin):
         return outstr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), pretty printing method) over Any        ║
+# ║ Path(_pretty(printer), <unspecified:_pretty>) over {Any | hasattr(printer, '_print') and hasattr(printer, '_print_seq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   requires: hasattr(printer, '_print_seq')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41159e3f385fb4f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._pretty","kind":"method","src_hash":"57bc013b53b86894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"pretty printing method","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"pretty printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._pretty_correct","statement":"Path(_pretty(x), pretty printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41159e3f385fb4f7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._pretty","kind":"method","src_hash":"57bc013b53b86894","in":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_print_seq')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_print_seq')"},"name":"_pretty_correct"},"guarantee":"pretty printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._pretty_correct","statement":"Path(_pretty(x), pretty printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41159e3f385fb4f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')","hasattr(printer, '_print_seq')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer):
         """Pretty Printing method. """
         from sympy.printing.pretty.stringpict import prettyForm
@@ -447,30 +533,45 @@ class Vector(Printable, EvalfMixin):
         return pretty_result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -1 * self + other) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -1 * self + other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d7bd68567fe8103e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__rsub__","kind":"method","src_hash":"3e6b6bc8488e2b97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7bd68567fe8103e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__rsub__","kind":"method","src_hash":"3e6b6bc8488e2b97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-1 * self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -1 * self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7bd68567fe8103e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-1 * self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-1 * self) + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), printing method) over Any             ║
+# ║ Path(_sympystr(printer, order), <unspecified:_sympystr>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   fiber[case_0]: not order or len(self.args) == 1          ║
+# ║   fiber[zero_or_none]: len(self.args) == 0 => printer...   ║
+# ║   fiber[zero_or_none]: not (not order or len(self.arg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5b5ad6d3e126ed2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb21567e9da79794  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._sympystr","kind":"method","src_hash":"b045587283e84441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"printing method","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._sympystr_correct","statement":"Path(_sympystr(x), printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b5ad6d3e126ed2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._sympystr","kind":"method","src_hash":"b045587283e84441","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, order)","rhs":"<unspecified:_sympystr>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._sympystr_correct","statement":"Path(_sympystr(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb21567e9da79794","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"fibers":[{"name":"case_0","guard":"not order or len(self.args) == 1","ensures":[],"decidability":"z3"},{"name":"zero_or_none","guard":"len(self.args) == 0","ensures":["result == printer._print(0)"],"decidability":"z3","returns_expr":"printer._print(0)"},{"name":"zero_or_none","guard":"not (not order or len(self.args) == 1) and not (len(self.args) == 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, order=True):
         """Printing method. """
         if not order or len(self.args) == 1:
@@ -512,31 +613,44 @@ class Vector(Printable, EvalfMixin):
         return outstr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), the subtraction operator) over Any      ║
+# ║ Path(__sub__(other), self.__add__(other * -1)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(other * -1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68bd11976fa5baf4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__sub__","kind":"method","src_hash":"a1503e77aa83d2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"the subtraction operator","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"the subtraction operator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68bd11976fa5baf4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__sub__","kind":"method","src_hash":"a1503e77aa83d2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(other * -1)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(other * -1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68bd11976fa5baf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(other * -1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """The subtraction operator. """
         return self.__add__(other * -1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(oth), the cross product operator for two vectors) over Any ║
+# ║ Path(cross(other), <unspecified:cross>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cross : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cross : {Any | hasattr(other, 'args')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e7fef7d3293ea25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.cross","kind":"method","src_hash":"4939d38fa0975772","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(oth)","rhs":"the cross product operator for two vectors","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"the cross product operator for two vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.cross_correct","statement":"Path(cross(x), the cross product operator for two vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e7fef7d3293ea25"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.cross","kind":"method","src_hash":"4939d38fa0975772","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"cross(other)","rhs":"<unspecified:cross>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"cross_correct"},"guarantee":"the cross product operator for two vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.cross_correct","statement":"Path(cross(x), the cross product operator for two vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e7fef7d3293ea25","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.cross","self.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cross(self, other):
         """The cross product operator for two Vectors.
 
@@ -607,16 +721,22 @@ class Vector(Printable, EvalfMixin):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(separate(), the constituents of this vector in different reference frames, as per its definition) over Any ║
+# ║ Path(separate(), <unspecified:separate>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ separate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa72001a8ae24a16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.separate","kind":"method","src_hash":"943610476a1302a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"separate()","rhs":"the constituents of this vector in different reference frames, as per its definition","over":{"base":"Any"},"name":"separate_correct"},"guarantee":"the constituents of this vector in different reference frames, as per its definition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.separate_correct","statement":"Path(separate(x), the constituents of this vector in different reference frames, as per its definition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa72001a8ae24a16"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.separate","kind":"method","src_hash":"943610476a1302a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"separate()","rhs":"<unspecified:separate>","over":{"base":"Any"},"name":"separate_correct"},"guarantee":"the constituents of this vector in different reference frames, as per its definition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.separate_correct","statement":"Path(separate(x), the constituents of this vector in different reference frames, as per its definition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa72001a8ae24a16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def separate(self):
         """
         The constituents of this vector in different reference frames,
@@ -643,62 +763,87 @@ class Vector(Printable, EvalfMixin):
         return components
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__and__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__and__(other), self.dot(other)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dot(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __and__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0f5d5a437a01735           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__and__","kind":"method","src_hash":"0e493dad63d6c013","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0f5d5a437a01735"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__and__","kind":"method","src_hash":"0e493dad63d6c013","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(other)","rhs":"self.dot(other)","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"returns self.dot(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0f5d5a437a01735","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dot(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __and__(self, other):
         return self.dot(other)
     __and__.__doc__ = dot.__doc__
     __rand__ = __and__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__xor__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__xor__(other), self.cross(other)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.cross(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __xor__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b3fb60478b507c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__xor__","kind":"method","src_hash":"1a1fe5896bc8ad0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b3fb60478b507c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__xor__","kind":"method","src_hash":"1a1fe5896bc8ad0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(other)","rhs":"self.cross(other)","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"returns self.cross(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b3fb60478b507c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.cross(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cross"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __xor__(self, other):
         return self.cross(other)
     __xor__.__doc__ = cross.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__or__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__or__(other), self.outer(other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.outer(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __or__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 597c73a3994cd20c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__or__","kind":"method","src_hash":"0530786e802e8c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"597c73a3994cd20c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.__or__","kind":"method","src_hash":"0530786e802e8c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(other)","rhs":"self.outer(other)","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"returns self.outer(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"597c73a3994cd20c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.outer(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.outer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __or__(self, other):
         return self.outer(other)
     __or__.__doc__ = outer.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(var), returns the partial derivative of the vector with respect to a variable in the provided reference frame) over Any ║
+# ║ Path(diff(var, frame, var_in_dcm), Vector(inlist)) over {Any | hasattr(frame, 'dcm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diff : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(frame, 'dcm')                          ║
+# ║   returns:  Vector(inlist)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diff : {Any | hasattr(frame, 'dcm')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6e6bdc2ea3c219f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 155f37d69bed53ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.diff","kind":"method","src_hash":"5fca85b6ec45f8fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(var)","rhs":"returns the partial derivative of the vector with respect to a variable in the provided reference frame","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"returns the partial derivative of the vector with respect to a variable in the provided reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.diff_correct","statement":"Path(diff(x), returns the partial derivative of the vector with respect to a variable in the provided reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6e6bdc2ea3c219f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.diff","kind":"method","src_hash":"5fca85b6ec45f8fb","in":{"base":"Any","pred":"hasattr(frame, 'dcm')"},"out":{"base":"Any"},"spec":{"lhs":"diff(var, frame, var_in_dcm)","rhs":"Vector(inlist)","over":{"base":"Any","pred":"hasattr(frame, 'dcm')"},"name":"diff_correct"},"guarantee":"returns Vector(inlist)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.diff_correct","statement":"Path(diff(x), returns Vector(inlist))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"155f37d69bed53ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(frame, 'dcm')"],"returns_expr":"Vector(inlist)","pure":false,"effects":{"effect_type":"reads_state","reads":["frame.dcm","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, var, frame, var_in_dcm=True):
         """Returns the partial derivative of the vector with respect to a
         variable in the provided reference frame.
@@ -766,16 +911,22 @@ class Vector(Printable, EvalfMixin):
         return Vector(inlist)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(express(oth), returns a vector equivalent to this one, expressed in otherframe. uses the global express method) over Any ║
+# ║ Path(express(otherframe, variables), express(self, otherframe, variables=variables)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  express(self, otherframe, variables=varia...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ express : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 377e455f54d86b51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5772c60451f5f83a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.express","kind":"method","src_hash":"f238305353a8f2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"express(oth)","rhs":"returns a vector equivalent to this one, expressed in otherframe. uses the global express method","over":{"base":"Any"},"name":"express_correct"},"guarantee":"returns a vector equivalent to this one, expressed in otherframe. uses the global express method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.express_correct","statement":"Path(express(x), returns a vector equivalent to this one, expressed in otherframe. uses the global express method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"377e455f54d86b51"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.express","kind":"method","src_hash":"f238305353a8f2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"express(otherframe, variables)","rhs":"express(self, otherframe, variables=variables)","over":{"base":"Any"},"name":"express_correct"},"guarantee":"returns express(self, otherframe, variables=variables)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.express_correct","statement":"Path(express(x), returns express(self, otherframe, variables=variables))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5772c60451f5f83a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"express(self, otherframe, variables=variables)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def express(self, otherframe, variables=False):
         """
         Returns a Vector equivalent to this one, expressed in otherframe.
@@ -808,16 +959,22 @@ class Vector(Printable, EvalfMixin):
         return express(self, otherframe, variables=variables)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_matrix(ref), id) over Any                          ║
+# ║ Path(to_matrix(reference_frame), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self.dot(unit_vec) for unit_vec i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_matrix : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4fcbbcb54be7e03e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.to_matrix","kind":"method","src_hash":"865f8f2029a47abe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_matrix(ref)","rhs":"returns the matrix form of the vector with respect to the given frame","over":{"base":"Any"},"name":"to_matrix_correct","kind":"composition"},"guarantee":"returns the matrix form of the vector with respect to the given frame","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fcbbcb54be7e03e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.to_matrix","kind":"method","src_hash":"865f8f2029a47abe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_matrix(reference_frame)","rhs":"Matrix([self.dot(unit_vec) for unit_vec in reference_frame]).reshape(3, 1)","over":{"base":"Any"},"name":"to_matrix_correct","kind":"composition"},"guarantee":"returns Matrix([self.dot(unit_vec) for unit_vec in reference_frame]).reshape(3, 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fcbbcb54be7e03e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self.dot(unit_vec) for unit_vec in reference_frame]).reshape(3, 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_matrix(self, reference_frame):
         """Returns the matrix form of the vector with respect to the given
         frame.
@@ -859,16 +1016,22 @@ class Vector(Printable, EvalfMixin):
                        reference_frame]).reshape(3, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), calls .doit() on each term in the vector) over Any ║
+# ║ Path(doit(**hints), Vector(d)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector(d)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35a5bf7fc62e1795  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e5acaa93fadd36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.doit","kind":"method","src_hash":"6f4e4d8732574d60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"calls .doit() on each term in the vector","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"calls .doit() on each term in the vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.doit_correct","statement":"Path(doit(x), calls .doit() on each term in the vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a5bf7fc62e1795"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.doit","kind":"method","src_hash":"6f4e4d8732574d60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"Vector(d)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns Vector(d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.doit_correct","statement":"Path(doit(x), returns Vector(d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e5acaa93fadd36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """Calls .doit() on each term in the Vector"""
         d = {}
@@ -877,16 +1040,22 @@ class Vector(Printable, EvalfMixin):
         return Vector(d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dt(oth), returns a vector which is the time derivative of the self vector, taken in frame otherframe) over Any ║
+# ║ Path(dt(otherframe), time_derivative(self, otherframe)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  time_derivative(self, otherframe)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dt : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd42632a81c4f114  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ebeeba38fe35167  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.dt","kind":"method","src_hash":"fc322201685f6d03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dt(oth)","rhs":"returns a vector which is the time derivative of the self vector, taken in frame otherframe","over":{"base":"Any"},"name":"dt_correct"},"guarantee":"returns a vector which is the time derivative of the self vector, taken in frame otherframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.dt_correct","statement":"Path(dt(x), returns a vector which is the time derivative of the self vector, taken in frame otherframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd42632a81c4f114"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.dt","kind":"method","src_hash":"fc322201685f6d03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dt(otherframe)","rhs":"time_derivative(self, otherframe)","over":{"base":"Any"},"name":"dt_correct"},"guarantee":"returns time_derivative(self, otherframe)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.dt_correct","statement":"Path(dt(x), returns time_derivative(self, otherframe))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ebeeba38fe35167","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"time_derivative(self, otherframe)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dt(self, otherframe):
         """
         Returns a Vector which is the time derivative of
@@ -905,16 +1074,22 @@ class Vector(Printable, EvalfMixin):
         return time_derivative(self, otherframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(), returns a simplified vector) over Any     ║
+# ║ Path(simplify(), Vector(d)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector(d)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca75b111d2446bf6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c8e18f581c8f3e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.simplify","kind":"method","src_hash":"77b133abb2cb2e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify()","rhs":"returns a simplified vector","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"returns a simplified vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.simplify_correct","statement":"Path(simplify(x), returns a simplified vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca75b111d2446bf6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.simplify","kind":"method","src_hash":"77b133abb2cb2e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify()","rhs":"Vector(d)","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"returns Vector(d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.simplify_correct","statement":"Path(simplify(x), returns Vector(d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c8e18f581c8f3e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simplify(self):
         """Returns a simplified Vector."""
         d = {}
@@ -923,16 +1098,22 @@ class Vector(Printable, EvalfMixin):
         return Vector(d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(*ar), substitution on the vector) over Any       ║
+# ║ Path(subs(*args, **kwargs), Vector(d)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector(d)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 961a2d7d79021fb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffbba05a11e7b1c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.subs","kind":"method","src_hash":"82ecd25c9a3581bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(*ar)","rhs":"substitution on the vector","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"substitution on the vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.subs_correct","statement":"Path(subs(x), substitution on the vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"961a2d7d79021fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.subs","kind":"method","src_hash":"82ecd25c9a3581bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(*args, **kwargs)","rhs":"Vector(d)","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"returns Vector(d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.subs_correct","statement":"Path(subs(x), returns Vector(d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffbba05a11e7b1c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subs(self, *args, **kwargs):
         """Substitution on the Vector.
 
@@ -955,16 +1136,22 @@ class Vector(Printable, EvalfMixin):
         return Vector(d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(magnitude(), returns the magnitude (euclidean norm) of self) over Any ║
+# ║ Path(magnitude(), sqrt(self.dot(self))) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(self.dot(self))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ magnitude : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a23b3d504e3d3b6a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.magnitude","kind":"method","src_hash":"7691d8400f7731d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"magnitude()","rhs":"returns the magnitude (euclidean norm) of self","over":{"base":"Any"},"name":"magnitude_correct"},"guarantee":"returns the magnitude (euclidean norm) of self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a23b3d504e3d3b6a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.magnitude","kind":"method","src_hash":"7691d8400f7731d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"magnitude()","rhs":"sqrt(self.dot(self))","over":{"base":"Any"},"name":"magnitude_correct"},"guarantee":"returns sqrt(self.dot(self))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a23b3d504e3d3b6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(self.dot(self))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def magnitude(self):
         """Returns the magnitude (Euclidean norm) of self.
 
@@ -980,31 +1167,44 @@ class Vector(Printable, EvalfMixin):
         return sqrt(self.dot(self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalize(), returns a vector of magnitude 1, codirectional with self) over Any ║
+# ║ Path(normalize(), Vector(self.args + []) / self.magnitude()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector(self.args + []) / self.magnitude()      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c6aea4a0005c0e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.normalize","kind":"method","src_hash":"55841cf02f857f8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"returns a vector of magnitude 1, codirectional with self","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns a vector of magnitude 1, codirectional with self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c6aea4a0005c0e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.normalize","kind":"method","src_hash":"55841cf02f857f8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"Vector(self.args + []) / self.magnitude()","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns Vector(self.args + []) / self.magnitude()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c6aea4a0005c0e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector(self.args + []) / self.magnitude()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.magnitude"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalize(self):
         """Returns a Vector of magnitude 1, codirectional with self."""
         return Vector(self.args + []) / self.magnitude()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applyfunc(f), apply a function to each component of a vector) over Any ║
+# ║ Path(applyfunc(f), Vector(d)) over {Any | callable(f)}     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ applyfunc : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: callable(f)                                    ║
+# ║   returns:  Vector(d)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ applyfunc : {Any | callable(f)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b7b359b804ec66e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74839f7dcc10a429  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.applyfunc","kind":"method","src_hash":"7bc667ce8e06e7e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"apply a function to each component of a vector","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"apply a function to each component of a vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.applyfunc_correct","statement":"Path(applyfunc(x), apply a function to each component of a vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b7b359b804ec66e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.applyfunc","kind":"method","src_hash":"7bc667ce8e06e7e1","in":{"base":"Any","pred":"callable(f)"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"Vector(d)","over":{"base":"Any","pred":"callable(f)"},"name":"applyfunc_correct"},"guarantee":"returns Vector(d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.applyfunc_correct","statement":"Path(applyfunc(x), returns Vector(d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74839f7dcc10a429","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["callable(f)"],"returns_expr":"Vector(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, f):
         """Apply a function to each component of a vector."""
         if not callable(f):
@@ -1016,16 +1216,23 @@ class Vector(Printable, EvalfMixin):
         return Vector(d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle_between(vec), returns the smallest angle between vector 'vec' and self) over Any ║
+# ║ Path(angle_between(vec), <unspecified:angle_between>) over {Any | hasattr(vec, 'normalize')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ angle_between : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(vec, 'normalize')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ angle_between : {Any | hasattr(vec, 'normalize')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab6b9dae1d01a35a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.angle_between","kind":"method","src_hash":"51452309ad0809b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle_between(vec)","rhs":"returns the smallest angle between vector 'vec' and self","over":{"base":"Any"},"name":"angle_between_correct"},"guarantee":"returns the smallest angle between vector 'vec' and self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.angle_between_correct","statement":"Path(angle_between(x), returns the smallest angle between vector 'vec' and self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab6b9dae1d01a35a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.angle_between","kind":"method","src_hash":"51452309ad0809b0","in":{"base":"Any","pred":"hasattr(vec, 'normalize')"},"out":{"base":"Any"},"spec":{"lhs":"angle_between(vec)","rhs":"<unspecified:angle_between>","over":{"base":"Any","pred":"hasattr(vec, 'normalize')"},"name":"angle_between_correct"},"guarantee":"returns the smallest angle between vector 'vec' and self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.angle_between_correct","statement":"Path(angle_between(x), returns the smallest angle between vector 'vec' and self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab6b9dae1d01a35a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(vec, 'normalize')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.normalize","vec.normalize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle_between(self, vec):
         """
         Returns the smallest angle between Vector 'vec' and self.
@@ -1065,16 +1272,22 @@ class Vector(Printable, EvalfMixin):
         return angle
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(ref), returns the free symbols in the measure numbers of the vector expressed in the given reference frame) over Any ║
+# ║ Path(free_symbols(reference_frame), self.to_matrix(reference_frame).free_symbols) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.to_matrix(reference_frame).free_symbols   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1578d4fab9a78eb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.free_symbols","kind":"method","src_hash":"87c928eebaa00732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols(ref)","rhs":"returns the free symbols in the measure numbers of the vector expressed in the given reference frame","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free symbols in the measure numbers of the vector expressed in the given reference frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1578d4fab9a78eb6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.free_symbols","kind":"method","src_hash":"87c928eebaa00732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols(reference_frame)","rhs":"self.to_matrix(reference_frame).free_symbols","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns self.to_matrix(reference_frame).free_symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1578d4fab9a78eb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.to_matrix(reference_frame).free_symbols","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self, reference_frame):
         """Returns the free symbols in the measure numbers of the vector
         expressed in the given reference frame.
@@ -1096,16 +1309,22 @@ class Vector(Printable, EvalfMixin):
         return self.to_matrix(reference_frame).free_symbols
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_dynamicsymbols(ref), returns the free dynamic symbols (functions of time ``t``) in the measure numbers of the vector expressed in the given reference frame) over Any ║
+# ║ Path(free_dynamicsymbols(reference_frame), find_dynamicsymbols(self, reference_frame=reference_frame)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  find_dynamicsymbols(self, reference_frame...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_dynamicsymbols : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d21af400545a49a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84d886bdc5958317  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.free_dynamicsymbols","kind":"method","src_hash":"22b7d02b457b1e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_dynamicsymbols(ref)","rhs":"returns the free dynamic symbols (functions of time ``t``) in the measure numbers of the vector expressed in the given reference frame","over":{"base":"Any"},"name":"free_dynamicsymbols_correct"},"guarantee":"returns the free dynamic symbols (functions of time ``t``) in the measure numbers of the vector expressed in the given reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.free_dynamicsymbols_correct","statement":"Path(free_dynamicsymbols(x), returns the free dynamic symbols (functions of time ``t``) in the measure numbers of the vector expressed in the given reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d21af400545a49a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.free_dynamicsymbols","kind":"method","src_hash":"22b7d02b457b1e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_dynamicsymbols(reference_frame)","rhs":"find_dynamicsymbols(self, reference_frame=reference_frame)","over":{"base":"Any"},"name":"free_dynamicsymbols_correct"},"guarantee":"returns find_dynamicsymbols(self, reference_frame=reference_frame)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.free_dynamicsymbols_correct","statement":"Path(free_dynamicsymbols(x), returns find_dynamicsymbols(self, reference_frame=reference_frame))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d886bdc5958317","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"find_dynamicsymbols(self, reference_frame=reference_frame)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_dynamicsymbols(self, reference_frame):
         """Returns the free dynamic symbols (functions of time ``t``) in the
         measure numbers of the vector expressed in the given reference frame.
@@ -1130,16 +1349,22 @@ class Vector(Printable, EvalfMixin):
         return find_dynamicsymbols(self, reference_frame=reference_frame)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e09bcaf20040813  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._eval_evalf","kind":"method","src_hash":"d868eabc021767e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e09bcaf20040813"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector._eval_evalf","kind":"method","src_hash":"d868eabc021767e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e09bcaf20040813","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not self.args:
             return self
@@ -1150,16 +1375,22 @@ class Vector(Printable, EvalfMixin):
         return Vector(new_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xreplace(rul), replace occurrences of objects within the measure numbers of the vector) over Any ║
+# ║ Path(xreplace(rule), Vector(new_args)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector(new_args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xreplace : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 199eb5a2a00fc37b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bfd7aceb28a7138  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.xreplace","kind":"method","src_hash":"3cc996cea7c8ac60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xreplace(rul)","rhs":"replace occurrences of objects within the measure numbers of the vector","over":{"base":"Any"},"name":"xreplace_correct"},"guarantee":"replace occurrences of objects within the measure numbers of the vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.xreplace_correct","statement":"Path(xreplace(x), replace occurrences of objects within the measure numbers of the vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199eb5a2a00fc37b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.Vector.xreplace","kind":"method","src_hash":"3cc996cea7c8ac60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xreplace(rule)","rhs":"Vector(new_args)","over":{"base":"Any"},"name":"xreplace_correct"},"guarantee":"returns Vector(new_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector.Vector.xreplace_correct","statement":"Path(xreplace(x), returns Vector(new_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bfd7aceb28a7138","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector(new_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xreplace(self, rule):
         """Replace occurrences of objects within the measure numbers of the
         vector.
@@ -1208,27 +1439,39 @@ class Vector(Printable, EvalfMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorTypeError(*args), correctly constructs a VectorTypeError instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VectorTypeError : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TypeError)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VectorTypeError : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9fa43e8748ac38f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.VectorTypeError","kind":"class","src_hash":"a16e41d37c4e681d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VectorTypeError(*args)","rhs":"correctly constructs a VectorTypeError instance","over":{"base":"Any"},"name":"VectorTypeError_class_invariant"},"guarantee":"correctly constructs a VectorTypeError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9fa43e8748ac38f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.VectorTypeError","kind":"class","src_hash":"a16e41d37c4e681d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TypeError)"},"spec":{"lhs":"VectorTypeError(*args)","rhs":"correctly constructs a VectorTypeError instance","over":{"base":"Any"},"name":"VectorTypeError_class_invariant"},"guarantee":"isinstance(self, TypeError)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9fa43e8748ac38f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TypeError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorTypeError not found in source"]}}
 class VectorTypeError(TypeError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(oth), initializes the instance correctly) over Any ║
+# ║ Path(__init__(other, want), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3aee95fe0a1b8de1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.VectorTypeError.__init__","kind":"method","src_hash":"8572298046935ba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(oth)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aee95fe0a1b8de1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector.VectorTypeError.__init__","kind":"method","src_hash":"8572298046935ba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(other, want)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aee95fe0a1b8de1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, other, want):
         msg = filldedent("Expected an instance of %s, but received object "
                          "'%s' of %s." % (type(want), other, type(other)))
@@ -1236,9 +1479,14 @@ class VectorTypeError(TypeError):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_vector(oth), internal helper behaves correctly) over {Any | isinstance(other, Vector)} ║
+# ║ Path(_check_vector(other), other) over {Any | isinstance(other, Vector) and isinstance(other, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_vector : {Any | isinstance(other, Vector)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Vector)                      ║
+# ║   ensures:  result == other                                ║
+# ║   returns:  other                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_vector : {Any | isinstance(other, Vector) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Vector: {isinstance(other, Vector)} → library_axiom      ║
@@ -1248,9 +1496,12 @@ class VectorTypeError(TypeError):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b18815af...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector._check_vector","kind":"function","src_hash":"a0c26237ed50fbec","in":{"base":"Any","pred":"isinstance(other, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"_check_vector(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(other, Vector)"},"name":"_check_vector_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Vector","pred":"isinstance(other, Vector)","path":{"lhs":"_check_vector(x)","rhs":"internal helper behaves correctly","over":{"base":"Vector","pred":"isinstance(other, Vector)"},"name":"_check_vector_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector._check_vector_Vector_correct","statement":"_check_vector satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b18815afa1492a76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.vector._check_vector","kind":"function","src_hash":"a0c26237ed50fbec","in":{"base":"Any","pred":"isinstance(other, Vector) and isinstance(other, Vector)"},"out":{"base":"Any","pred":"result satisfies: result == (other)"},"spec":{"lhs":"_check_vector(other)","rhs":"other","over":{"base":"Any","pred":"isinstance(other, Vector) and isinstance(other, Vector)"},"name":"_check_vector_correct"},"guarantee":"returns other; result == other","fibers":[{"name":"Vector","pred":"isinstance(other, Vector)","path":{"lhs":"_check_vector(x)","rhs":"returns other; result == other","over":{"base":"Vector","pred":"isinstance(other, Vector)"},"name":"_check_vector_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.vector._check_vector_Vector_correct","statement":"_check_vector satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b18815afa1492a76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Vector)"],"ensures":["result == other"],"returns_expr":"other","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(other, Vector)'}, fibers={'Vector'})"]}}
 def _check_vector(other):
     if not isinstance(other, Vector):
         raise TypeError('A Vector must be supplied')

@@ -22,14 +22,20 @@ from __future__ import annotations
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Registry(*args), correctly constructs a Registry instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Registry : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da8d072b3c0bb192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.core.Registry","kind":"class","src_hash":"b7ccb2bbc92b880e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Registry(*args)","rhs":"correctly constructs a Registry instance","over":{"base":"Any"},"name":"Registry_class_invariant"},"guarantee":"correctly constructs a Registry instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da8d072b3c0bb192"}
+# @cctt_verify {"v":2,"sym":"sympy.core.core.Registry","kind":"class","src_hash":"b7ccb2bbc92b880e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Registry(*args)","rhs":"correctly constructs a Registry instance","over":{"base":"Any"},"name":"Registry_class_invariant"},"guarantee":"correctly constructs a Registry instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da8d072b3c0bb192","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Registry not found in source"]}}
 class Registry:
     """
     Base class for registry objects.
@@ -43,29 +49,41 @@ class Registry:
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setattr__(nam), internal helper behaves correctly) over Any ║
+# ║ Path(__setattr__(name, obj), <unspecified:__setattr__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setattr__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f80f70ee0944d033           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.core.Registry.__setattr__","kind":"method","src_hash":"e7cc1e4f31583a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setattr__(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__setattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f80f70ee0944d033"}
+# @cctt_verify {"v":2,"sym":"sympy.core.core.Registry.__setattr__","kind":"method","src_hash":"e7cc1e4f31583a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setattr__(name, obj)","rhs":"<unspecified:__setattr__>","over":{"base":"Any"},"name":"__setattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f80f70ee0944d033","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setattr__(self, name, obj):
         setattr(self.__class__, name, obj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__delattr__(nam), internal helper behaves correctly) over Any ║
+# ║ Path(__delattr__(name), <unspecified:__delattr__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __delattr__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea90c803e04214cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.core.Registry.__delattr__","kind":"method","src_hash":"9b6de1a0b54165db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__delattr__(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__delattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea90c803e04214cd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.core.Registry.__delattr__","kind":"method","src_hash":"9b6de1a0b54165db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__delattr__(name)","rhs":"<unspecified:__delattr__>","over":{"base":"Any"},"name":"__delattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea90c803e04214cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __delattr__(self, name):
         delattr(self.__class__, name)

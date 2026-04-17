@@ -26,44 +26,63 @@ __all__ = ['LoadBase', 'Force', 'Torque']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LoadBase(*args), correctly constructs a LoadBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LoadBase : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ║   ensures:  isinstance(self, namedtuple('LoadBase', [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LoadBase : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd7e675ae5ec9592  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.LoadBase","kind":"class","src_hash":"e748fda91d8f04fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LoadBase(*args)","rhs":"correctly constructs a LoadBase instance","over":{"base":"Any"},"name":"LoadBase_class_invariant"},"guarantee":"correctly constructs a LoadBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd7e675ae5ec9592"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.LoadBase","kind":"class","src_hash":"e748fda91d8f04fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC) and isinstance(self, namedtuple('LoadBase', ['location', 'vector']))"},"spec":{"lhs":"LoadBase(*args)","rhs":"correctly constructs a LoadBase instance","over":{"base":"Any"},"name":"LoadBase_class_invariant"},"guarantee":"isinstance(self, ABC); isinstance(self, namedtuple('LoadBase', ['location', 'vector']))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd7e675ae5ec9592","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)","isinstance(self, namedtuple('LoadBase', ['location', 'vector']))"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LoadBase not found in source"]}}
 class LoadBase(ABC, namedtuple('LoadBase', ['location', 'vector'])):
     """Abstract base class for the various loading types."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ebbdc28afda61c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.LoadBase.__add__","kind":"method","src_hash":"608f70db93891a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ebbdc28afda61c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.LoadBase.__add__","kind":"method","src_hash":"608f70db93891a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ebbdc28afda61c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.__class__","self.__class__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         raise TypeError(f"unsupported operand type(s) for +: "
                         f"'{self.__class__.__name__}' and "
                         f"'{other.__class__.__name__}'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c94693d2a37c8809           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.LoadBase.__mul__","kind":"method","src_hash":"7b1a6784aca697ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c94693d2a37c8809"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.LoadBase.__mul__","kind":"method","src_hash":"7b1a6784aca697ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c94693d2a37c8809","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.__class__","self.__class__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         raise TypeError(f"unsupported operand type(s) for *: "
                         f"'{self.__class__.__name__}' and "
@@ -76,14 +95,20 @@ class LoadBase(ABC, namedtuple('LoadBase', ['location', 'vector'])):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Force(*args), correctly constructs a Force instance) over {Any | isinstance(point, BodyBase) and isinstance(point, Point) and isinstance(force, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LoadBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Force : {Any | isinstance(point, BodyBase) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2bf4c588e7c26f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force","kind":"class","src_hash":"776275551e7a3346","in":{"base":"Any","pred":"isinstance(point, BodyBase) and isinstance(point, Point) and isinstance(force, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"Force(*args)","rhs":"correctly constructs a Force instance","over":{"base":"Any","pred":"isinstance(point, BodyBase) and isinstance(point, Point) and isinstance(force, Vector)"},"name":"Force_class_invariant"},"guarantee":"correctly constructs a Force instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2bf4c588e7c26f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force","kind":"class","src_hash":"776275551e7a3346","in":{"base":"Any","pred":"isinstance(point, BodyBase) and isinstance(point, Point) and isinstance(force, Vector)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LoadBase)"},"spec":{"lhs":"Force(*args)","rhs":"correctly constructs a Force instance","over":{"base":"Any","pred":"isinstance(point, BodyBase) and isinstance(point, Point) and isinstance(force, Vector)"},"name":"Force_class_invariant"},"guarantee":"isinstance(self, LoadBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2bf4c588e7c26f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LoadBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Force not found in source"]}}
 class Force(LoadBase):
     """Force acting upon a point.
 
@@ -117,16 +142,25 @@ class Force(LoadBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, point, force), super().__new__(cls, point, force)) over {Any | isinstance(point, Point) and isinstance(force, Vector) and hasattr(point, 'masscenter')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(point, Point)                       ║
+# ║   requires: isinstance(force, Vector)                      ║
+# ║   requires: hasattr(point, 'masscenter')                   ║
+# ║   returns:  super().__new__(cls, point, force)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(point, Point) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48cd65fa5856bf41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.__new__","kind":"method","src_hash":"ffb450d871788765","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48cd65fa5856bf41"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.__new__","kind":"method","src_hash":"ffb450d871788765","in":{"base":"Any","pred":"isinstance(point, Point) and isinstance(force, Vector) and hasattr(point, 'masscenter')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, point, force)","rhs":"super().__new__(cls, point, force)","over":{"base":"Any","pred":"isinstance(point, Point) and isinstance(force, Vector) and hasattr(point, 'masscenter')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, point, force)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48cd65fa5856bf41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(point, Point)","isinstance(force, Vector)","hasattr(point, 'masscenter')"],"returns_expr":"super().__new__(cls, point, force)","pure":false,"effects":{"effect_type":"reads_state","reads":["point.masscenter"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, point, force):
         if isinstance(point, BodyBase):
             point = point.masscenter
@@ -137,47 +171,65 @@ class Force(LoadBase):
         return super().__new__(cls, point, force)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}(point={self.point}, force={self.force})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}(point={self.p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 486d7a6d7f86b305           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.__repr__","kind":"method","src_hash":"23c9ed267b673b17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"486d7a6d7f86b305"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.__repr__","kind":"method","src_hash":"23c9ed267b673b17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}(point={self.point}, force={self.force})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}(point={self.point}, force={self.force})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"486d7a6d7f86b305","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}(point={self.point}, force={self.force})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.force","self.point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (f'{self.__class__.__name__}(point={self.point}, '
                 f'force={self.force})')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(), returns the point attribute) over Any        ║
+# ║ Path(point(), self.location) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.location                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40a1e5b1a538ad0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.point","kind":"property","src_hash":"9a27f679a7bc29e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"returns the point attribute","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns the point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40a1e5b1a538ad0d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.point","kind":"property","src_hash":"9a27f679a7bc29e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"self.location","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns self.location","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40a1e5b1a538ad0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.location","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self):
         return self.location
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(), returns the force attribute) over Any        ║
+# ║ Path(force(), self.vector) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.vector                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7671d5cf569d91b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.force","kind":"property","src_hash":"57f67ee31e9d3550","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"returns the force attribute","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns the force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7671d5cf569d91b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Force.force","kind":"property","src_hash":"57f67ee31e9d3550","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"self.vector","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns self.vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7671d5cf569d91b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.vector","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self):
         return self.vector
 
@@ -185,14 +237,20 @@ class Force(LoadBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Torque(*args), correctly constructs a Torque instance) over {Any | isinstance(frame, BodyBase) and isinstance(frame, ReferenceFrame) and isinstance(torque, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LoadBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Torque : {Any | isinstance(frame, BodyBase) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c72d64d670c6953f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque","kind":"class","src_hash":"a1c74b8fb645861c","in":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(frame, ReferenceFrame) and isinstance(torque, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"Torque(*args)","rhs":"correctly constructs a Torque instance","over":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(frame, ReferenceFrame) and isinstance(torque, Vector)"},"name":"Torque_class_invariant"},"guarantee":"correctly constructs a Torque instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72d64d670c6953f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque","kind":"class","src_hash":"a1c74b8fb645861c","in":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(frame, ReferenceFrame) and isinstance(torque, Vector)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LoadBase)"},"spec":{"lhs":"Torque(*args)","rhs":"correctly constructs a Torque instance","over":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(frame, ReferenceFrame) and isinstance(torque, Vector)"},"name":"Torque_class_invariant"},"guarantee":"isinstance(self, LoadBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72d64d670c6953f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LoadBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Torque not found in source"]}}
 class Torque(LoadBase):
     """Torque acting upon a frame.
 
@@ -225,16 +283,25 @@ class Torque(LoadBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, frame, torque), super().__new__(cls, frame, torque)) over {Any | isinstance(frame, ReferenceFrame) and isinstance(torque, Vector) and hasattr(frame, 'frame')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   requires: isinstance(torque, Vector)                     ║
+# ║   requires: hasattr(frame, 'frame')                        ║
+# ║   returns:  super().__new__(cls, frame, torque)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(frame, ReferenceFrame) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8091bf584106736f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.__new__","kind":"method","src_hash":"adbaa4ab2ce74c09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8091bf584106736f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.__new__","kind":"method","src_hash":"adbaa4ab2ce74c09","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(torque, Vector) and hasattr(frame, 'frame')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, frame, torque)","rhs":"super().__new__(cls, frame, torque)","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(torque, Vector) and hasattr(frame, 'frame')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, frame, torque)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8091bf584106736f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(frame, ReferenceFrame)","isinstance(torque, Vector)","hasattr(frame, 'frame')"],"returns_expr":"super().__new__(cls, frame, torque)","pure":false,"effects":{"effect_type":"reads_state","reads":["frame.frame"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, frame, torque):
         if isinstance(frame, BodyBase):
             frame = frame.frame
@@ -245,55 +312,76 @@ class Torque(LoadBase):
         return super().__new__(cls, frame, torque)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}(frame={self.frame}, torque={self.torque})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}(frame={self.f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20b5dd2f2638510b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.__repr__","kind":"method","src_hash":"1884f67c66da6cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20b5dd2f2638510b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.__repr__","kind":"method","src_hash":"1884f67c66da6cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}(frame={self.frame}, torque={self.torque})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}(frame={self.frame}, torque={self.torque})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20b5dd2f2638510b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}(frame={self.frame}, torque={self.torque})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.frame","self.torque"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (f'{self.__class__.__name__}(frame={self.frame}, '
                 f'torque={self.torque})')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frame(), returns the frame attribute) over Any        ║
+# ║ Path(frame(), self.location) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.location                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ frame : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 900b09ddfed53609           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.frame","kind":"property","src_hash":"520f6072329dca67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame()","rhs":"returns the frame attribute","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"returns the frame attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"900b09ddfed53609"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.frame","kind":"property","src_hash":"520f6072329dca67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame()","rhs":"self.location","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"returns self.location","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"900b09ddfed53609","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.location","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frame(self):
         return self.location
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(torque(), returns the torque attribute) over Any      ║
+# ║ Path(torque(), self.vector) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.vector                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ torque : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93d01849db374abc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.torque","kind":"property","src_hash":"7e835edd19d63439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torque()","rhs":"returns the torque attribute","over":{"base":"Any"},"name":"torque_correct"},"guarantee":"returns the torque attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93d01849db374abc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.Torque.torque","kind":"property","src_hash":"7e835edd19d63439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torque()","rhs":"self.vector","over":{"base":"Any"},"name":"torque_correct"},"guarantee":"returns self.vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93d01849db374abc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.vector","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def torque(self):
         return self.vector
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gravity(acc), returns a list of gravity forces given the acceleration due to gravity and any number of particles or rigidbodies) over {Any | isinstance(body, BodyBase)} ║
+# ║ Path(gravity(acceleration, *bodies), len(gravity_force) == old_len_gravity_force + 1) over {Any | isinstance(body, BodyBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gravity : {Any | isinstance(body, BodyBase)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(gravity_force) == old_len_gravity_for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gravity : {Any | isinstance(body, BodyBase)} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   BodyBase: {isinstance(body, BodyBase)} → library_axiom   ║
@@ -303,9 +391,12 @@ class Torque(LoadBase):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c3a4b62e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.gravity","kind":"function","src_hash":"66c10fbbdd481099","in":{"base":"Any","pred":"isinstance(body, BodyBase)"},"out":{"base":"Any"},"spec":{"lhs":"gravity(acc)","rhs":"returns a list of gravity forces given the acceleration due to gravity and any number of particles or rigidbodies","over":{"base":"Any","pred":"isinstance(body, BodyBase)"},"name":"gravity_correct"},"guarantee":"returns a list of gravity forces given the acceleration due to gravity and any number of particles or rigidbodies","fibers":[{"name":"BodyBase","pred":"isinstance(body, BodyBase)","path":{"lhs":"gravity(x)","rhs":"returns a list of gravity forces given the acceleration due to gravity and any number of particles or rigidbodies","over":{"base":"BodyBase","pred":"isinstance(body, BodyBase)"},"name":"gravity_BodyBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads.gravity_BodyBase_correct","statement":"gravity satisfies spec on BodyBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3a4b62e5e9cdd1a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads.gravity","kind":"function","src_hash":"66c10fbbdd481099","in":{"base":"Any","pred":"isinstance(body, BodyBase)"},"out":{"base":"Any","pred":"result satisfies: len(gravity_force) == old_len_gravity_force + 1"},"spec":{"lhs":"gravity(acceleration, *bodies)","rhs":"len(gravity_force) == old_len_gravity_force + 1","over":{"base":"Any","pred":"isinstance(body, BodyBase)"},"name":"gravity_correct"},"guarantee":"len(gravity_force) == old_len_gravity_force + 1","fibers":[{"name":"BodyBase","pred":"isinstance(body, BodyBase)","path":{"lhs":"gravity(x)","rhs":"len(gravity_force) == old_len_gravity_force + 1","over":{"base":"BodyBase","pred":"isinstance(body, BodyBase)"},"name":"gravity_BodyBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads.gravity_BodyBase_correct","statement":"gravity satisfies spec on BodyBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3a4b62e5e9cdd1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(gravity_force) == old_len_gravity_force + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["gravity_force.append"],"raises":["TypeError"]},"state_contract":{"modifies":["gravity_force.*"],"old_bindings":{"old_len_gravity_force":"len(gravity_force)"},"post_ensures":["len(gravity_force) == old_len_gravity_force + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['acceleration'], spec=['acceleration', '*bodies']","Poor branch-fiber coverage: 0% (branches={'not isinstance(body, BodyBase)'}, fibers={'BodyBase'})"]}}
 def gravity(acceleration, *bodies):
     """
     Returns a list of gravity forces given the acceleration
@@ -336,7 +427,11 @@ def gravity(acceleration, *bodies):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_load(loa), helper function to parse loads and convert tuples to load objects) over {Any | isinstance(load, LoadBase) and isinstance(load, tuple) and isinstance(load[0], Point)} ║
+# ║ Path(_parse_load(load), <unspecified:_parse_load>) over {Any | isinstance(load, LoadBase) and isinstance(load, tuple) and isinstance(load[0], Point)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[LoadBase]: isinstance(load, LoadBase) => load      ║
+# ║   fiber[tuple]: isinstance(load, tuple)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parse_load : {Any | isinstance(load, LoadBase) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -351,9 +446,12 @@ def gravity(acceleration, *bodies):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 61840937...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads._parse_load","kind":"function","src_hash":"7837e69e7aba335b","in":{"base":"Any","pred":"isinstance(load, LoadBase) and isinstance(load, tuple) and isinstance(load[0], Point)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_load(loa)","rhs":"helper function to parse loads and convert tuples to load objects","over":{"base":"Any","pred":"isinstance(load, LoadBase) and isinstance(load, tuple) and isinstance(load[0], Point)"},"name":"_parse_load_correct"},"guarantee":"helper function to parse loads and convert tuples to load objects","fibers":[{"name":"LoadBase","pred":"isinstance(load, LoadBase)","path":{"lhs":"_parse_load(x)","rhs":"helper function to parse loads and convert tuples to load objects","over":{"base":"LoadBase","pred":"isinstance(load, LoadBase)"},"name":"_parse_load_LoadBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_LoadBase_correct","statement":"_parse_load satisfies spec on LoadBase inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(load, tuple)","path":{"lhs":"_parse_load(x)","rhs":"helper function to parse loads and convert tuples to load objects","over":{"base":"tuple","pred":"isinstance(load, tuple)"},"name":"_parse_load_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_tuple_correct","statement":"_parse_load satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(load[0], Point)","path":{"lhs":"_parse_load(x)","rhs":"helper function to parse loads and convert tuples to load objects","over":{"base":"Point","pred":"isinstance(load[0], Point)"},"name":"_parse_load_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_Point_correct","statement":"_parse_load satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"ReferenceFrame","pred":"isinstance(load[0], ReferenceFrame)","path":{"lhs":"_parse_load(x)","rhs":"helper function to parse loads and convert tuples to load objects","over":{"base":"ReferenceFrame","pred":"isinstance(load[0], ReferenceFrame)"},"name":"_parse_load_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_ReferenceFrame_correct","statement":"_parse_load satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"618409373b46ec2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.loads._parse_load","kind":"function","src_hash":"7837e69e7aba335b","in":{"base":"Any","pred":"isinstance(load, LoadBase) and isinstance(load, tuple) and isinstance(load[0], Point)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_load(load)","rhs":"<unspecified:_parse_load>","over":{"base":"Any","pred":"isinstance(load, LoadBase) and isinstance(load, tuple) and isinstance(load[0], Point)"},"name":"_parse_load_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"LoadBase","pred":"isinstance(load, LoadBase)","path":{"lhs":"_parse_load(x)","rhs":"2-fiber decomposition","over":{"base":"LoadBase","pred":"isinstance(load, LoadBase)"},"name":"_parse_load_LoadBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_LoadBase_correct","statement":"_parse_load satisfies spec on LoadBase inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(load, tuple)","path":{"lhs":"_parse_load(x)","rhs":"2-fiber decomposition","over":{"base":"tuple","pred":"isinstance(load, tuple)"},"name":"_parse_load_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_tuple_correct","statement":"_parse_load satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(load[0], Point)","path":{"lhs":"_parse_load(x)","rhs":"2-fiber decomposition","over":{"base":"Point","pred":"isinstance(load[0], Point)"},"name":"_parse_load_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_Point_correct","statement":"_parse_load satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"ReferenceFrame","pred":"isinstance(load[0], ReferenceFrame)","path":{"lhs":"_parse_load(x)","rhs":"2-fiber decomposition","over":{"base":"ReferenceFrame","pred":"isinstance(load[0], ReferenceFrame)"},"name":"_parse_load_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.loads._parse_load_ReferenceFrame_correct","statement":"_parse_load satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"618409373b46ec2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"LoadBase","guard":"isinstance(load, LoadBase)","ensures":["result == load"],"decidability":"structural","returns_expr":"load"},{"name":"tuple","guard":"isinstance(load, tuple)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(load, LoadBase)', 'isinstance(load[0], ReferenceFrame)', 'isinstance(load[0], Point)', 'len(load) != 2', 'isinstance(load, tuple)'}, fibers={'ReferenceFrame', 'Point', 'tuple', 'LoadBase'})"]}}
 def _parse_load(load):
     """Helper function to parse loads and convert tuples to load objects."""
     if isinstance(load, LoadBase):

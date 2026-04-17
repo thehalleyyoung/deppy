@@ -28,16 +28,24 @@ v3 = R.x**2*R.i + R.y**2*R.j + R.z**2*R.k  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Gradient(), test_Gradient produces the expected output) over Any ║
+# ║ Path(test_Gradient(), Gradient(s1) == Gradient(R.x * R.y * R.z) and Gradient(s2) == Gradient(R.x + 3 * R.y ** 2) and Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k and Gradient(s2).doit() == R.i + 6 * R.y * R.j) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Gradient : Any → {Any | Gradient(s1) == Gradient...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Gradient(s1) == Gradient(R.x * R.y * R.z)      ║
+# ║   ensures:  Gradient(s2) == Gradient(R.x + 3 * R.y ** 2)   ║
+# ║   ensures:  Gradient(s1).doit() == R.y * R.z * R.i + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Gradient : Any → {Any | result satisfies: Gradie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f155ecc97cf35e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 133f19e3311fe323  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Gradient","kind":"function","src_hash":"5b57c893511d9ca2","in":{"base":"Any"},"out":{"base":"Any","pred":"Gradient(s1) == Gradient(R.x * R.y * R.z) and Gradient(s2) == Gradient(R.x + 3 * R.y ** 2) and Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k and Gradient(s2).doit() == R.i + 6 * R.y * R.j"},"spec":{"lhs":"test_Gradient()","rhs":"test_Gradient produces the expected output","over":{"base":"Any"},"name":"test_Gradient_correct"},"guarantee":"test_Gradient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Gradient_correct","statement":"Path(test_Gradient(x), test_Gradient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f155ecc97cf35e1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Gradient","kind":"function","src_hash":"5b57c893511d9ca2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Gradient(s1) == Gradient(R.x * R.y * R.z) and Gradient(s2) == Gradient(R.x + 3 * R.y ** 2) and Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k and Gradient(s2).doit() == R.i + 6 * R.y * R.j"},"spec":{"lhs":"test_Gradient()","rhs":"Gradient(s1) == Gradient(R.x * R.y * R.z) and Gradient(s2) == Gradient(R.x + 3 * R.y ** 2) and Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k and Gradient(s2).doit() == R.i + 6 * R.y * R.j","over":{"base":"Any"},"name":"test_Gradient_correct"},"guarantee":"Gradient(s1) == Gradient(R.x * R.y * R.z); Gradient(s2) == Gradient(R.x + 3 * R.y ** 2); Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Gradient_correct","statement":"Path(test_Gradient(x), Gradient(s1) == Gradient(R.x * R.y * R.z); Gradient(s2) == Gradient(R.x + 3 * R.y ** 2); Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"133f19e3311fe323","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Gradient(s1) == Gradient(R.x * R.y * R.z)","Gradient(s2) == Gradient(R.x + 3 * R.y ** 2)","Gradient(s1).doit() == R.y * R.z * R.i + R.x * R.z * R.j + R.x * R.y * R.k","Gradient(s2).doit() == R.i + 6 * R.y * R.j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Gradient():
     assert Gradient(s1) == Gradient(R.x*R.y*R.z)
     assert Gradient(s2) == Gradient(R.x + 3*R.y**2)
@@ -46,16 +54,24 @@ def test_Gradient():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Divergence(), test_Divergence produces the expected output) over Any ║
+# ║ Path(test_Divergence(), Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j) and Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k) and Divergence(v1).doit() == 1 and Divergence(v2).doit() == 3 and Divergence(Rc.i).doit() == 1 / Rc.r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Divergence : Any → {Any | Divergence(v1) == Dive...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Divergence(v1) == Divergence(R.x * R.i + ...   ║
+# ║   ensures:  Divergence(v2) == Divergence(R.x * R.i + ...   ║
+# ║   ensures:  Divergence(v1).doit() == 1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Divergence : Any → {Any | result satisfies: Dive...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb92ef2454eb698a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89e4202094e2924e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Divergence","kind":"function","src_hash":"9f9c9c247ff0bb8b","in":{"base":"Any"},"out":{"base":"Any","pred":"Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j) and Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k) and Divergence(v1).doit() == 1 and Divergence(v2).doit() == 3 and Divergence(Rc.i).doit() == 1 / Rc.r"},"spec":{"lhs":"test_Divergence()","rhs":"test_Divergence produces the expected output","over":{"base":"Any"},"name":"test_Divergence_correct"},"guarantee":"test_Divergence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Divergence_correct","statement":"Path(test_Divergence(x), test_Divergence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb92ef2454eb698a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Divergence","kind":"function","src_hash":"9f9c9c247ff0bb8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j) and Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k) and Divergence(v1).doit() == 1 and Divergence(v2).doit() == 3 and Divergence(Rc.i).doit() == 1 / Rc.r"},"spec":{"lhs":"test_Divergence()","rhs":"Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j) and Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k) and Divergence(v1).doit() == 1 and Divergence(v2).doit() == 3 and Divergence(Rc.i).doit() == 1 / Rc.r","over":{"base":"Any"},"name":"test_Divergence_correct"},"guarantee":"Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j); Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k); Divergence(v1).doit() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Divergence_correct","statement":"Path(test_Divergence(x), Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j); Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k); Divergence(v1).doit() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89e4202094e2924e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Divergence(v1) == Divergence(R.x * R.i + R.z * R.z * R.j)","Divergence(v2) == Divergence(R.x * R.i + R.y * R.j + R.z * R.k)","Divergence(v1).doit() == 1","Divergence(v2).doit() == 3","Divergence(Rc.i).doit() == 1 / Rc.r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Divergence():
     assert Divergence(v1) == Divergence(R.x*R.i + R.z*R.z*R.j)
     assert Divergence(v2) == Divergence(R.x*R.i + R.y*R.j + R.z*R.k)
@@ -67,16 +83,24 @@ def test_Divergence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Curl(), test_Curl produces the expected output) over Any ║
+# ║ Path(test_Curl(), Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j) and Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k) and Curl(v1).doit() == -2 * R.z * R.i and Curl(v2).doit() == VectorZero()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Curl : Any → {Any | Curl(v1) == Curl(R.x * R.i +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Curl(v1) == Curl(R.x * R.i + R.z * R.z * ...   ║
+# ║   ensures:  Curl(v2) == Curl(R.x * R.i + R.y * R.j + ...   ║
+# ║   ensures:  Curl(v1).doit() == -2 * R.z * R.i              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Curl : Any → {Any | result satisfies: Curl(v1) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e92650484ce0242  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b42cc3db2b8a38fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Curl","kind":"function","src_hash":"3097d7127c4db3c1","in":{"base":"Any"},"out":{"base":"Any","pred":"Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j) and Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k) and Curl(v1).doit() == -2 * R.z * R.i and Curl(v2).doit() == VectorZero()"},"spec":{"lhs":"test_Curl()","rhs":"test_Curl produces the expected output","over":{"base":"Any"},"name":"test_Curl_correct"},"guarantee":"test_Curl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Curl_correct","statement":"Path(test_Curl(x), test_Curl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e92650484ce0242"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Curl","kind":"function","src_hash":"3097d7127c4db3c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j) and Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k) and Curl(v1).doit() == -2 * R.z * R.i and Curl(v2).doit() == VectorZero()"},"spec":{"lhs":"test_Curl()","rhs":"Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j) and Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k) and Curl(v1).doit() == -2 * R.z * R.i and Curl(v2).doit() == VectorZero()","over":{"base":"Any"},"name":"test_Curl_correct"},"guarantee":"Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j); Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k); Curl(v1).doit() == -2 * R.z * R.i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Curl_correct","statement":"Path(test_Curl(x), Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j); Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k); Curl(v1).doit() == -2 * R.z * R.i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b42cc3db2b8a38fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Curl(v1) == Curl(R.x * R.i + R.z * R.z * R.j)","Curl(v2) == Curl(R.x * R.i + R.y * R.j + R.z * R.k)","Curl(v1).doit() == -2 * R.z * R.i","Curl(v2).doit() == VectorZero()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Curl():
     assert Curl(v1) == Curl(R.x*R.i + R.z*R.z*R.j)
     assert Curl(v2) == Curl(R.x*R.i + R.y*R.j + R.z*R.k)
@@ -85,16 +109,24 @@ def test_Curl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Laplacian(), test_Laplacian produces the expected output) over Any ║
+# ║ Path(test_Laplacian(), Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2) and Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k) and Laplacian(s3).doit() == 6 and Laplacian(v3).doit() == 2 * R.i + 2 * R.j + 2 * R.k and srepr(Laplacian(s3)) == 'Laplacian(Add(Pow(R.x, Integer(2)), Pow(R.y, Integer(2)), Pow(R.z, Integer(2))))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Laplacian : Any → {Any | Laplacian(s3) == Laplac...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Laplacian(s3) == Laplacian(R.x ** 2 + R.y...   ║
+# ║   ensures:  Laplacian(v3) == Laplacian(R.x ** 2 * R.i...   ║
+# ║   ensures:  Laplacian(s3).doit() == 6                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Laplacian : Any → {Any | result satisfies: Lapla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbcebfa049353332  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d96b53cf3f7cfb34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Laplacian","kind":"function","src_hash":"52d335dcc4983eb0","in":{"base":"Any"},"out":{"base":"Any","pred":"Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2) and Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k) and Laplacian(s3).doit() == 6 and Laplacian(v3).doit() == 2 * R.i + 2 * R.j + 2 * R.k"},"spec":{"lhs":"test_Laplacian()","rhs":"test_Laplacian produces the expected output","over":{"base":"Any"},"name":"test_Laplacian_correct"},"guarantee":"test_Laplacian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Laplacian_correct","statement":"Path(test_Laplacian(x), test_Laplacian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbcebfa049353332"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_operators.test_Laplacian","kind":"function","src_hash":"52d335dcc4983eb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2) and Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k) and Laplacian(s3).doit() == 6 and Laplacian(v3).doit() == 2 * R.i + 2 * R.j + 2 * R.k and srepr(Laplacian(s3)) == 'Laplacian(Add(Pow(R.x, Integer(2)), Pow(R.y, Integer(2)), Pow(R.z, Integer(2))))'"},"spec":{"lhs":"test_Laplacian()","rhs":"Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2) and Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k) and Laplacian(s3).doit() == 6 and Laplacian(v3).doit() == 2 * R.i + 2 * R.j + 2 * R.k and srepr(Laplacian(s3)) == 'Laplacian(Add(Pow(R.x, Integer(2)), Pow(R.y, Integer(2)), Pow(R.z, Integer(2))))'","over":{"base":"Any"},"name":"test_Laplacian_correct"},"guarantee":"Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2); Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k); Laplacian(s3).doit() == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_operators.test_Laplacian_correct","statement":"Path(test_Laplacian(x), Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2); Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k); Laplacian(s3).doit() == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96b53cf3f7cfb34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Laplacian(s3) == Laplacian(R.x ** 2 + R.y ** 2 + R.z ** 2)","Laplacian(v3) == Laplacian(R.x ** 2 * R.i + R.y ** 2 * R.j + R.z ** 2 * R.k)","Laplacian(s3).doit() == 6","Laplacian(v3).doit() == 2 * R.i + 2 * R.j + 2 * R.k","srepr(Laplacian(s3)) == 'Laplacian(Add(Pow(R.x, Integer(2)), Pow(R.y, Integer(2)), Pow(R.z, Integer(2))))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Laplacian():
     assert Laplacian(s3) == Laplacian(R.x**2 + R.y**2 + R.z**2)
     assert Laplacian(v3) == Laplacian(R.x**2*R.i + R.y**2*R.j + R.z**2*R.k)

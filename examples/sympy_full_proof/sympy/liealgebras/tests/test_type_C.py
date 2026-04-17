@@ -19,16 +19,24 @@ from sympy.liealgebras.cartan_type import CartanType
 from sympy.matrices import Matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_type_C(), test_type_C produces the expected output) over Any ║
+# ║ Path(test_type_C(), c.cartan_matrix() == m and c.dimension() == 4 and c.simple_root(4) == [0, 0, 0, 2] and c.roots() == 32 and c.basis() == 36 and c.lie_algebra() == 'sp(8)' and t.dimension() == 3 and c.dynkin_diagram() == diag and c.positive_roots() == {1: [1, -1, 0, 0], 2: [1, 1, 0, 0], 3: [1, 0, -1, 0], 4: [1, 0, 1, 0], 5: [1, 0, 0, -1], 6: [1, 0, 0, 1], 7: [0, 1, -1, 0], 8: [0, 1, 1, 0], 9: [0, 1, 0, -1], 10: [0, 1, 0, 1], 11: [0, 0, 1, -1], 12: [0, 0, 1, 1], 13: [2, 0, 0, 0], 14: [0, 2, 0, 0], 15: [0, 0, 2, 0], 16: [0, 0, 0, 2]}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_type_C : Any → {Any | c.cartan_matrix() == m and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.cartan_matrix() == m                         ║
+# ║   ensures:  c.dimension() == 4                             ║
+# ║   ensures:  c.simple_root(4) == [0, 0, 0, 2]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_type_C : Any → {Any | result satisfies: c.cartan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fb8599389794cae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e71ab37dd8fc4e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_type_C.test_type_C","kind":"function","src_hash":"d173429899a24b1d","in":{"base":"Any"},"out":{"base":"Any","pred":"c.cartan_matrix() == m and c.dimension() == 4 and c.simple_root(4) == [0, 0, 0, 2] and c.roots() == 32 and c.basis() == 36 and c.lie_algebra() == 'sp(8)' and t.dimension() == 3 and c.dynkin_diagram() == diag"},"spec":{"lhs":"test_type_C()","rhs":"test_type_C produces the expected output","over":{"base":"Any"},"name":"test_type_C_correct"},"guarantee":"test_type_C produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_type_C.test_type_C_correct","statement":"Path(test_type_C(x), test_type_C produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fb8599389794cae"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_type_C.test_type_C","kind":"function","src_hash":"d173429899a24b1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.cartan_matrix() == m and c.dimension() == 4 and c.simple_root(4) == [0, 0, 0, 2] and c.roots() == 32 and c.basis() == 36 and c.lie_algebra() == 'sp(8)' and t.dimension() == 3 and c.dynkin_diagram() == diag and c.positive_roots() == {1: [1, -1, 0, 0], 2: [1, 1, 0, 0], 3: [1, 0, -1, 0], 4: [1, 0, 1, 0], 5: [1, 0, 0, -1], 6: [1, 0, 0, 1], 7: [0, 1, -1, 0], 8: [0, 1, 1, 0], 9: [0, 1, 0, -1], 10: [0, 1, 0, 1], 11: [0, 0, 1, -1], 12: [0, 0, 1, 1], 13: [2, 0, 0, 0], 14: [0, 2, 0, 0], 15: [0, 0, 2, 0], 16: [0, 0, 0, 2]}"},"spec":{"lhs":"test_type_C()","rhs":"c.cartan_matrix() == m and c.dimension() == 4 and c.simple_root(4) == [0, 0, 0, 2] and c.roots() == 32 and c.basis() == 36 and c.lie_algebra() == 'sp(8)' and t.dimension() == 3 and c.dynkin_diagram() == diag and c.positive_roots() == {1: [1, -1, 0, 0], 2: [1, 1, 0, 0], 3: [1, 0, -1, 0], 4: [1, 0, 1, 0], 5: [1, 0, 0, -1], 6: [1, 0, 0, 1], 7: [0, 1, -1, 0], 8: [0, 1, 1, 0], 9: [0, 1, 0, -1], 10: [0, 1, 0, 1], 11: [0, 0, 1, -1], 12: [0, 0, 1, 1], 13: [2, 0, 0, 0], 14: [0, 2, 0, 0], 15: [0, 0, 2, 0], 16: [0, 0, 0, 2]}","over":{"base":"Any"},"name":"test_type_C_correct"},"guarantee":"c.cartan_matrix() == m; c.dimension() == 4; c.simple_root(4) == [0, 0, 0, 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_type_C.test_type_C_correct","statement":"Path(test_type_C(x), c.cartan_matrix() == m; c.dimension() == 4; c.simple_root(4) == [0, 0, 0, 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e71ab37dd8fc4e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.cartan_matrix() == m","c.dimension() == 4","c.simple_root(4) == [0, 0, 0, 2]","c.roots() == 32","c.basis() == 36","c.lie_algebra() == 'sp(8)'","t.dimension() == 3","c.dynkin_diagram() == diag","c.positive_roots() == {1: [1, -1, 0, 0], 2: [1, 1, 0, 0], 3: [1, 0, -1, 0], 4: [1, 0, 1, 0], 5: [1, 0, 0, -1], 6: [1, 0, 0, 1], 7: [0, 1, -1, 0], 8: [0, 1, 1, 0], 9: [0, 1, 0, -1], 10: [0, 1, 0, 1], 11: [0, 0, 1, -1], 12: [0, 0, 1, 1], 13: [2, 0, 0, 0], 14: [0, 2, 0, 0], 15: [0, 0, 2, 0], 16: [0, 0, 0, 2]}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_type_C():
     c = CartanType("C4")
     m = Matrix(4, 4, [2, -1, 0, 0, -1, 2, -1, 0, 0, -1, 2, -1, 0, 0, -2, 2])

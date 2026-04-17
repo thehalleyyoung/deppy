@@ -35,14 +35,20 @@ import re
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Option(*args), correctly constructs a Option instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Option : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a46787f77bdb483f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option","kind":"class","src_hash":"37b437e6da243d3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Option(*args)","rhs":"correctly constructs a Option instance","over":{"base":"Any"},"name":"Option_class_invariant"},"guarantee":"correctly constructs a Option instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a46787f77bdb483f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option","kind":"class","src_hash":"37b437e6da243d3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Option(*args)","rhs":"correctly constructs a Option instance","over":{"base":"Any"},"name":"Option_class_invariant"},"guarantee":"correctly constructs a Option instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a46787f77bdb483f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Option not found in source"]}}
 class Option:
     """Base class for all kinds of options. """
 
@@ -58,61 +64,85 @@ class Option:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), None) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66caa7f6b6ffdfb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option.default","kind":"classmethod","src_hash":"124a33b75328e805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66caa7f6b6ffdfb7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option.default","kind":"classmethod","src_hash":"124a33b75328e805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"None","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66caa7f6b6ffdfb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return None
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, option), None) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1242881b705a1fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option.preprocess","kind":"classmethod","src_hash":"a7277d4b1b9a6f7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1242881b705a1fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option.preprocess","kind":"classmethod","src_hash":"a7277d4b1b9a6f7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, option)","rhs":"None","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1242881b705a1fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, option):
         return None
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ postprocess : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef623b7519f3ebdb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option.postprocess","kind":"classmethod","src_hash":"a5c1563c4611c5c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef623b7519f3ebdb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Option.postprocess","kind":"classmethod","src_hash":"a5c1563c4611c5c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef623b7519f3ebdb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Flag(), correctly constructs a Flag instance) over Any ║
+# ║ Path(Flag(), isinstance(self, Option)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Flag : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Flag : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4319dd7321908757           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Flag","kind":"class","src_hash":"739927c6546768aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Flag()","rhs":"correctly constructs a Flag instance","over":{"base":"Any"},"name":"Flag_correct"},"guarantee":"correctly constructs a Flag instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4319dd7321908757"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Flag","kind":"class","src_hash":"739927c6546768aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Flag()","rhs":"isinstance(self, Option)","over":{"base":"Any"},"name":"Flag_correct"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4319dd7321908757","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Flag not found in source"]}}
 class Flag(Option):
     """Base class for all kinds of flags. """
 
@@ -122,29 +152,42 @@ class Flag(Option):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BooleanOption(*args), correctly constructs a BooleanOption instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BooleanOption : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BooleanOption : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7d4087b9c751255  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.BooleanOption","kind":"class","src_hash":"45eb09c2183082fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BooleanOption(*args)","rhs":"correctly constructs a BooleanOption instance","over":{"base":"Any"},"name":"BooleanOption_class_invariant"},"guarantee":"correctly constructs a BooleanOption instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7d4087b9c751255"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.BooleanOption","kind":"class","src_hash":"45eb09c2183082fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"BooleanOption(*args)","rhs":"correctly constructs a BooleanOption instance","over":{"base":"Any"},"name":"BooleanOption_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7d4087b9c751255","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function BooleanOption not found in source"]}}
 class BooleanOption(Option):
     """An option that must have a boolean value or equivalent assigned. """
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, value), <unspecified:preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: value in [True, False] => bool(value)     ║
+# ║   fiber[case_1]: not (value in [True, False])              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c35884bcb4e5e9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 792ab3a0d5799b84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.BooleanOption.preprocess","kind":"classmethod","src_hash":"156c4673d91dc385","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.BooleanOption.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c35884bcb4e5e9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.BooleanOption.preprocess","kind":"classmethod","src_hash":"156c4673d91dc385","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, value)","rhs":"<unspecified:preprocess>","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.BooleanOption.preprocess_correct","statement":"Path(preprocess(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"792ab3a0d5799b84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"value in [True, False]","ensures":["result == bool(value)"],"decidability":"library","returns_expr":"bool(value)"},{"name":"case_1","guard":"not (value in [True, False])","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.option"],"raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, value):
         if value in [True, False]:
             return bool(value)
@@ -155,28 +198,40 @@ class BooleanOption(Option):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(OptionType(*args), correctly constructs a OptionType instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OptionType : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OptionType : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f98d03cfe9147d6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.OptionType","kind":"class","src_hash":"612292da2b661b40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OptionType(*args)","rhs":"correctly constructs a OptionType instance","over":{"base":"Any"},"name":"OptionType_class_invariant"},"guarantee":"correctly constructs a OptionType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f98d03cfe9147d6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.OptionType","kind":"class","src_hash":"612292da2b661b40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, type)"},"spec":{"lhs":"OptionType(*args)","rhs":"correctly constructs a OptionType instance","over":{"base":"Any"},"name":"OptionType_class_invariant"},"guarantee":"isinstance(self, type)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f98d03cfe9147d6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function OptionType not found in source"]}}
 class OptionType(type):
     """Base type for all options that does registers options. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cls), initializes the instance correctly) over Any ║
+# ║ Path(__init__(cls, *args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0b185f41238fbb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.OptionType.__init__","kind":"method","src_hash":"b6324f0dcdcd0a2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0b185f41238fbb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.OptionType.__init__","kind":"method","src_hash":"b6324f0dcdcd0a2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls, *args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0b185f41238fbb6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.default","cls.option"],"catches":["KeyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(cls, *args, **kwargs):
         @property
         def getter(self):
@@ -193,14 +248,20 @@ class OptionType(type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Options(*args), correctly constructs a Options instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Options : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, dict)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Options : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10fa946dee6b2230  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options","kind":"class","src_hash":"671e7232ae4c0b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Options(*args)","rhs":"correctly constructs a Options instance","over":{"base":"Any"},"name":"Options_class_invariant"},"guarantee":"correctly constructs a Options instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10fa946dee6b2230"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options","kind":"class","src_hash":"671e7232ae4c0b58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, dict)"},"spec":{"lhs":"Options(*args)","rhs":"correctly constructs a Options instance","over":{"base":"Any"},"name":"Options_class_invariant"},"guarantee":"isinstance(self, dict)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10fa946dee6b2230","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, dict)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Options not found in source"]}}
 class Options(dict):
     """
     Options manager for polynomial manipulation module.
@@ -256,16 +317,25 @@ class Options(dict):
     domain: sympy.polys.domains.Domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(gens, args, flags), len(args) == old_len_args - 1) over {Any | not (gens and args.get('gens', ())) and hasattr(args, 'pop') and hasattr(args, 'get') and hasattr(args, 'items') and len(args) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (gens and args.get('gens', ()))            ║
+# ║   requires: hasattr(args, 'pop')                           ║
+# ║   requires: hasattr(args, 'get')                           ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (gens and args.get('gens', ()))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2365fcc2fcff0e79           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.__init__","kind":"method","src_hash":"e8df5e3df9bd5af1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2365fcc2fcff0e79"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.__init__","kind":"method","src_hash":"e8df5e3df9bd5af1","in":{"base":"Any","pred":"not (gens and args.get('gens', ())) and hasattr(args, 'pop') and hasattr(args, 'get') and hasattr(args, 'items') and len(args) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args - 1"},"spec":{"lhs":"__init__(gens, args, flags)","rhs":"len(args) == old_len_args - 1","over":{"base":"Any","pred":"not (gens and args.get('gens', ())) and hasattr(args, 'pop') and hasattr(args, 'get') and hasattr(args, 'items') and len(args) > 0"},"name":"__init___correct"},"guarantee":"len(args) == old_len_args - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2365fcc2fcff0e79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (gens and args.get('gens', ()))","hasattr(args, 'pop')","hasattr(args, 'get')","hasattr(args, 'items')","len(args) > 0"],"ensures":["len(args) == old_len_args - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.get","args.items","args.pop","self.__options__","self.__order__","self.get","self.keys"],"writes":["args[*]","self[*]"],"calls_mutating":["args.pop"],"raises":["OptionError"],"catches":["KeyError"]},"state_contract":{"modifies":["args.*","args[*]","self[*]"],"old_bindings":{"old_args_star":"args[*]","old_self_star":"self[*]","old_len_args":"len(args)"},"pre_requires":["len(args) > 0"],"post_ensures":["len(args) == old_len_args - 1"],"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, gens, args, flags=None, strict=False):
         dict.__init__(self)
 
@@ -324,16 +394,22 @@ class Options(dict):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_init_dependencies_order(cls), resolve the order of options' processing) over Any ║
+# ║ Path(_init_dependencies_order(cls), len(vertices) == old_len_vertices + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _init_dependencies_order : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(vertices) == old_len_vertices + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _init_dependencies_order : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4e76938f1e2780c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1500c453f292e886  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options._init_dependencies_order","kind":"classmethod","src_hash":"5c4ad781bd1bec0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_init_dependencies_order(cls)","rhs":"resolve the order of options' processing","over":{"base":"Any"},"name":"_init_dependencies_order_correct"},"guarantee":"resolve the order of options' processing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Options._init_dependencies_order_correct","statement":"Path(_init_dependencies_order(x), resolve the order of options' processing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4e76938f1e2780c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options._init_dependencies_order","kind":"classmethod","src_hash":"5c4ad781bd1bec0c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(vertices) == old_len_vertices + 1"},"spec":{"lhs":"_init_dependencies_order(cls)","rhs":"len(vertices) == old_len_vertices + 1","over":{"base":"Any"},"name":"_init_dependencies_order_correct"},"guarantee":"len(vertices) == old_len_vertices + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Options._init_dependencies_order_correct","statement":"Path(_init_dependencies_order(x), len(vertices) == old_len_vertices + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1500c453f292e886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(vertices) == old_len_vertices + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.__options__","cls.__order__"],"writes":["cls.__order__"],"calls_mutating":["edges.update","vertices.append"],"raises":["RuntimeError"],"catches":["ValueError"]},"state_contract":{"modifies":["cls.__order__","edges.*","vertices.*"],"old_bindings":{"old_cls___order__":"cls.__order__","old_len_edges":"len(edges)","old_len_vertices":"len(vertices)"},"post_ensures":["len(vertices) == old_len_vertices + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _init_dependencies_order(cls):
         """Resolve the order of options' processing. """
         if cls.__order__ is None:
@@ -353,16 +429,23 @@ class Options(dict):
                     "cycle detected in sympy.polys options framework")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clone(upd), clone ``self`` and update specified options) over Any ║
+# ║ Path(clone(updates), <unspecified:clone>) over {Any | hasattr(updates, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ clone : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(updates, 'items')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ clone : {Any | hasattr(updates, 'items')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48d91f3b191133d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.clone","kind":"method","src_hash":"97b1ec5d7d462af0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(upd)","rhs":"clone ``self`` and update specified options","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"clone ``self`` and update specified options","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Options.clone_correct","statement":"Path(clone(x), clone ``self`` and update specified options)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48d91f3b191133d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.clone","kind":"method","src_hash":"97b1ec5d7d462af0","in":{"base":"Any","pred":"hasattr(updates, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"clone(updates)","rhs":"<unspecified:clone>","over":{"base":"Any","pred":"hasattr(updates, 'items')"},"name":"clone_correct"},"guarantee":"clone ``self`` and update specified options","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Options.clone_correct","statement":"Path(clone(x), clone ``self`` and update specified options)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48d91f3b191133d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(updates, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.items","updates.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clone(self, updates={}):
         """Clone ``self`` and update specified options. """
         obj = dict.__new__(self.__class__)
@@ -376,16 +459,22 @@ class Options(dict):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setattr__(att), internal helper behaves correctly) over Any ║
+# ║ Path(__setattr__(attr, value), <unspecified:__setattr__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setattr__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63eb110dd7d34f82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.__setattr__","kind":"method","src_hash":"f7b29926acf0260d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setattr__(att)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__setattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63eb110dd7d34f82"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.__setattr__","kind":"method","src_hash":"f7b29926acf0260d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setattr__(attr, value)","rhs":"<unspecified:__setattr__>","over":{"base":"Any"},"name":"__setattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63eb110dd7d34f82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.__options__"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setattr__(self, attr, value):
         if attr in self.__options__:
             self[attr] = value
@@ -394,16 +483,22 @@ class Options(dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), <unspecified:args>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35e43c30eba2acdd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.args","kind":"property","src_hash":"6ea492099fe573af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35e43c30eba2acdd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.args","kind":"property","src_hash":"6ea492099fe573af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"<unspecified:args>","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35e43c30eba2acdd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__options__","self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         args = {}
 
@@ -418,16 +513,22 @@ class Options(dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(options(), returns the options attribute) over Any    ║
+# ║ Path(options(), <unspecified:options>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ options : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7886f6f197b8394           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.options","kind":"property","src_hash":"32925d0c0483db9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"options()","rhs":"returns the options attribute","over":{"base":"Any"},"name":"options_correct"},"guarantee":"returns the options attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7886f6f197b8394"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.options","kind":"property","src_hash":"32925d0c0483db9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"options()","rhs":"<unspecified:options>","over":{"base":"Any"},"name":"options_correct"},"guarantee":"returns the options attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7886f6f197b8394","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__options__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def options(self):
         options = {}
 
@@ -439,16 +540,22 @@ class Options(dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flags(), returns the flags attribute) over Any        ║
+# ║ Path(flags(), <unspecified:flags>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flags : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ad4acc1bc5af390           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.flags","kind":"property","src_hash":"43de2f040df4711e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flags()","rhs":"returns the flags attribute","over":{"base":"Any"},"name":"flags_correct"},"guarantee":"returns the flags attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ad4acc1bc5af390"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Options.flags","kind":"property","src_hash":"43de2f040df4711e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flags()","rhs":"<unspecified:flags>","over":{"base":"Any"},"name":"flags_correct"},"guarantee":"returns the flags attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ad4acc1bc5af390","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__options__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flags(self):
         flags = {}
 
@@ -462,14 +569,20 @@ class Options(dict):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Expand(*args), correctly constructs a Expand instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Expand : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Expand : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d54a34b9f5e46ad8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Expand","kind":"class","src_hash":"e5ac4d19b10d9b91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Expand(*args)","rhs":"correctly constructs a Expand instance","over":{"base":"Any"},"name":"Expand_class_invariant"},"guarantee":"correctly constructs a Expand instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d54a34b9f5e46ad8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Expand","kind":"class","src_hash":"e5ac4d19b10d9b91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Expand(*args)","rhs":"correctly constructs a Expand instance","over":{"base":"Any"},"name":"Expand_class_invariant"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d54a34b9f5e46ad8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Expand not found in source"]}}
 class Expand(BooleanOption, metaclass=OptionType):
     """``expand`` option to polynomial manipulation functions. """
 
@@ -480,16 +593,22 @@ class Expand(BooleanOption, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), True) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0af143886e303310           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Expand.default","kind":"classmethod","src_hash":"9df5d6bdb1f1facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0af143886e303310"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Expand.default","kind":"classmethod","src_hash":"9df5d6bdb1f1facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"True","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0af143886e303310","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return True
 
@@ -497,14 +616,20 @@ class Expand(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Gens(*args), correctly constructs a Gens instance) over {Any | isinstance(gens, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Gens : {Any | isinstance(gens, Basic)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Gens : {Any | isinstance(gens, Basic)} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8fc5f5ce3011df7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gens","kind":"class","src_hash":"1dca55d744723854","in":{"base":"Any","pred":"isinstance(gens, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"Gens(*args)","rhs":"correctly constructs a Gens instance","over":{"base":"Any","pred":"isinstance(gens, Basic)"},"name":"Gens_class_invariant"},"guarantee":"correctly constructs a Gens instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8fc5f5ce3011df7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gens","kind":"class","src_hash":"1dca55d744723854","in":{"base":"Any","pred":"isinstance(gens, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Gens(*args)","rhs":"correctly constructs a Gens instance","over":{"base":"Any","pred":"isinstance(gens, Basic)"},"name":"Gens_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8fc5f5ce3011df7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Gens not found in source"]}}
 class Gens(Option, metaclass=OptionType):
     """``gens`` option to polynomial manipulation functions. """
 
@@ -515,31 +640,43 @@ class Gens(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), ()) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ()                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb7b26867989284a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gens.default","kind":"classmethod","src_hash":"de6ec4e58e797f89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb7b26867989284a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gens.default","kind":"classmethod","src_hash":"de6ec4e58e797f89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"()","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns ()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb7b26867989284a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return ()
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, gens), tuple(gens)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(gens)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c05abcdf2c7a32d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 785cdcfe12b5f34d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gens.preprocess","kind":"classmethod","src_hash":"9024579acee8f7f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Gens.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c05abcdf2c7a32d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gens.preprocess","kind":"classmethod","src_hash":"9024579acee8f7f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, gens)","rhs":"tuple(gens)","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"returns tuple(gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Gens.preprocess_correct","statement":"Path(preprocess(x), returns tuple(gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"785cdcfe12b5f34d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(gens)","pure":false,"effects":{"effect_type":"reads_state","raises":["GeneratorsError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, gens):
         if isinstance(gens, Basic):
             gens = (gens,)
@@ -559,14 +696,20 @@ class Gens(Option, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Wrt(*args), correctly constructs a Wrt instance) over {Any | isinstance(wrt, Basic) and isinstance(wrt, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Wrt : {Any | isinstance(wrt, Basic) and isinstance(wr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b596ffa0a82bac71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Wrt","kind":"class","src_hash":"c44f7810f217bee1","in":{"base":"Any","pred":"isinstance(wrt, Basic) and isinstance(wrt, str)"},"out":{"base":"Any"},"spec":{"lhs":"Wrt(*args)","rhs":"correctly constructs a Wrt instance","over":{"base":"Any","pred":"isinstance(wrt, Basic) and isinstance(wrt, str)"},"name":"Wrt_class_invariant"},"guarantee":"correctly constructs a Wrt instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b596ffa0a82bac71"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Wrt","kind":"class","src_hash":"c44f7810f217bee1","in":{"base":"Any","pred":"isinstance(wrt, Basic) and isinstance(wrt, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Wrt(*args)","rhs":"correctly constructs a Wrt instance","over":{"base":"Any","pred":"isinstance(wrt, Basic) and isinstance(wrt, str)"},"name":"Wrt_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b596ffa0a82bac71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Wrt not found in source"]}}
 class Wrt(Option, metaclass=OptionType):
     """``wrt`` option to polynomial manipulation functions. """
 
@@ -579,16 +722,26 @@ class Wrt(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, wrt), <unspecified:preprocess>) over {Any | hasattr(wrt, 'strip') and hasattr(wrt, 'endswith')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preprocess : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(wrt, 'strip')                          ║
+# ║   requires: hasattr(wrt, 'endswith')                       ║
+# ║   fiber[Basic]: isinstance(wrt, Basic) => [str(wrt)]       ║
+# ║   fiber[str]: isinstance(wrt, str) => list(cls._re_sp...   ║
+# ║   fiber[case_2]: hasattr(wrt, '__getitem__') => list(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preprocess : {Any | hasattr(wrt, 'strip') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7b878a9afaa9bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77d6dd2a0575caf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Wrt.preprocess","kind":"classmethod","src_hash":"7a8be95b1af6c594","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Wrt.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7b878a9afaa9bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Wrt.preprocess","kind":"classmethod","src_hash":"7a8be95b1af6c594","in":{"base":"Any","pred":"hasattr(wrt, 'strip') and hasattr(wrt, 'endswith')"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, wrt)","rhs":"<unspecified:preprocess>","over":{"base":"Any","pred":"hasattr(wrt, 'strip') and hasattr(wrt, 'endswith')"},"name":"preprocess_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Wrt.preprocess_correct","statement":"Path(preprocess(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77d6dd2a0575caf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(wrt, 'strip')","hasattr(wrt, 'endswith')"],"fibers":[{"name":"Basic","guard":"isinstance(wrt, Basic)","ensures":["result == [str(wrt)]"],"decidability":"structural","returns_expr":"[str(wrt)]"},{"name":"str","guard":"isinstance(wrt, str)","ensures":["result == list(cls._re_split.split(wrt))"],"decidability":"structural","returns_expr":"list(cls._re_split.split(wrt))"},{"name":"case_2","guard":"hasattr(wrt, '__getitem__')","ensures":["result == list(map(str, wrt))"],"decidability":"structural","returns_expr":"list(map(str, wrt))"},{"name":"Basic","guard":"not (isinstance(wrt, Basic)) and not (isinstance(wrt, str)) and not (hasattr(wrt, '__getitem__'))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._re_split","wrt.endswith","wrt.strip"],"raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, wrt):
         if isinstance(wrt, Basic):
             return [str(wrt)]
@@ -608,14 +761,20 @@ class Wrt(Option, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Sort(*args), correctly constructs a Sort instance) over {Any | isinstance(sort, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Sort : {Any | isinstance(sort, str)} → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Sort : {Any | isinstance(sort, str)} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 988e5c328c89c391  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Sort","kind":"class","src_hash":"66406c14141820fd","in":{"base":"Any","pred":"isinstance(sort, str)"},"out":{"base":"Any"},"spec":{"lhs":"Sort(*args)","rhs":"correctly constructs a Sort instance","over":{"base":"Any","pred":"isinstance(sort, str)"},"name":"Sort_class_invariant"},"guarantee":"correctly constructs a Sort instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"988e5c328c89c391"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Sort","kind":"class","src_hash":"66406c14141820fd","in":{"base":"Any","pred":"isinstance(sort, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Sort(*args)","rhs":"correctly constructs a Sort instance","over":{"base":"Any","pred":"isinstance(sort, str)"},"name":"Sort_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"988e5c328c89c391","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Sort not found in source"]}}
 class Sort(Option, metaclass=OptionType):
     """``sort`` option to polynomial manipulation functions. """
 
@@ -626,31 +785,46 @@ class Sort(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), []) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d854884cdbc388af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Sort.default","kind":"classmethod","src_hash":"9ca4fe80af7d9e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d854884cdbc388af"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Sort.default","kind":"classmethod","src_hash":"9ca4fe80af7d9e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"[]","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d854884cdbc388af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return []
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), id) over Any                         ║
+# ║ Path(preprocess(cls, sort), id) over {Any | hasattr(sort, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preprocess : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sort, 'split')                         ║
+# ║   fiber[str]: isinstance(sort, str) => [gen.strip() f...   ║
+# ║   fiber[case_1]: hasattr(sort, '__getitem__') => list...   ║
+# ║   fiber[str]: not (isinstance(sort, str)) and not (ha...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preprocess : {Any | hasattr(sort, 'split')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 06f5dfee179fd8be   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Sort.preprocess","kind":"classmethod","src_hash":"95a44e85679fe3ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct","kind":"composition"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"strip","by":"library_axiom"},{"fn":"split","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06f5dfee179fd8be"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Sort.preprocess","kind":"classmethod","src_hash":"95a44e85679fe3ac","in":{"base":"Any","pred":"hasattr(sort, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, sort)","rhs":"<unspecified:preprocess>","over":{"base":"Any","pred":"hasattr(sort, 'split')"},"name":"preprocess_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"strip","by":"library_axiom"},{"fn":"split","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06f5dfee179fd8be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sort, 'split')"],"fibers":[{"name":"str","guard":"isinstance(sort, str)","ensures":["result == [gen.strip() for gen in sort.split('>')]"],"decidability":"structural","returns_expr":"[gen.strip() for gen in sort.split('>')]"},{"name":"case_1","guard":"hasattr(sort, '__getitem__')","ensures":["result == list(map(str, sort))"],"decidability":"structural","returns_expr":"list(map(str, sort))"},{"name":"str","guard":"not (isinstance(sort, str)) and not (hasattr(sort, '__getitem__'))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["sort.split"],"raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, sort):
         if isinstance(sort, str):
             return [ gen.strip() for gen in sort.split('>') ]
@@ -663,14 +837,20 @@ class Sort(Option, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Order(*args), correctly constructs a Order instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Order : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Order : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e46c847ea06c7cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Order","kind":"class","src_hash":"042ca523923f647f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Order(*args)","rhs":"correctly constructs a Order instance","over":{"base":"Any"},"name":"Order_class_invariant"},"guarantee":"correctly constructs a Order instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e46c847ea06c7cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Order","kind":"class","src_hash":"042ca523923f647f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Order(*args)","rhs":"correctly constructs a Order instance","over":{"base":"Any"},"name":"Order_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e46c847ea06c7cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Order not found in source"]}}
 class Order(Option, metaclass=OptionType):
     """``order`` option to polynomial manipulation functions. """
 
@@ -681,46 +861,64 @@ class Order(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), sympy.polys.orderings.lex) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympy.polys.orderings.lex                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4920da73328a9886           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Order.default","kind":"classmethod","src_hash":"d6dc4eff030984ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4920da73328a9886"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Order.default","kind":"classmethod","src_hash":"d6dc4eff030984ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"sympy.polys.orderings.lex","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns sympy.polys.orderings.lex","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4920da73328a9886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympy.polys.orderings.lex","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return sympy.polys.orderings.lex
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, order), sympy.polys.orderings.monomial_key(order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympy.polys.orderings.monomial_key(order)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb1f7527c09058e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Order.preprocess","kind":"classmethod","src_hash":"fb7df6902b0c418a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb1f7527c09058e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Order.preprocess","kind":"classmethod","src_hash":"fb7df6902b0c418a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, order)","rhs":"sympy.polys.orderings.monomial_key(order)","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"returns sympy.polys.orderings.monomial_key(order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb1f7527c09058e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympy.polys.orderings.monomial_key(order)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, order):
         return sympy.polys.orderings.monomial_key(order)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Field(), correctly constructs a Field instance) over Any ║
+# ║ Path(Field(), isinstance(self, BooleanOption)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Field : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Field : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2f0fad351a25ac26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Field","kind":"class","src_hash":"280e8565e40ad221","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Field()","rhs":"correctly constructs a Field instance","over":{"base":"Any"},"name":"Field_correct"},"guarantee":"correctly constructs a Field instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f0fad351a25ac26"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Field","kind":"class","src_hash":"280e8565e40ad221","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Field()","rhs":"isinstance(self, BooleanOption)","over":{"base":"Any"},"name":"Field_correct"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f0fad351a25ac26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Field not found in source"]}}
 class Field(BooleanOption, metaclass=OptionType):
     """``field`` option to polynomial manipulation functions. """
 
@@ -731,16 +929,22 @@ class Field(BooleanOption, metaclass=OptionType):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Greedy(), correctly constructs a Greedy instance) over Any ║
+# ║ Path(Greedy(), isinstance(self, BooleanOption)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Greedy : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Greedy : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aab9b7ddb17a156c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Greedy","kind":"class","src_hash":"0d6fe4b6e7353264","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Greedy()","rhs":"correctly constructs a Greedy instance","over":{"base":"Any"},"name":"Greedy_correct"},"guarantee":"correctly constructs a Greedy instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aab9b7ddb17a156c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Greedy","kind":"class","src_hash":"0d6fe4b6e7353264","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Greedy()","rhs":"isinstance(self, BooleanOption)","over":{"base":"Any"},"name":"Greedy_correct"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aab9b7ddb17a156c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Greedy not found in source"]}}
 class Greedy(BooleanOption, metaclass=OptionType):
     """``greedy`` option to polynomial manipulation functions. """
 
@@ -753,14 +957,20 @@ class Greedy(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Composite(*args), correctly constructs a Composite instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Composite : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Composite : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 868bbad5bf9c9a54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Composite","kind":"class","src_hash":"70645c73e51fcb5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Composite(*args)","rhs":"correctly constructs a Composite instance","over":{"base":"Any"},"name":"Composite_class_invariant"},"guarantee":"correctly constructs a Composite instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"868bbad5bf9c9a54"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Composite","kind":"class","src_hash":"70645c73e51fcb5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Composite(*args)","rhs":"correctly constructs a Composite instance","over":{"base":"Any"},"name":"Composite_class_invariant"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"868bbad5bf9c9a54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Composite not found in source"]}}
 class Composite(BooleanOption, metaclass=OptionType):
     """``composite`` option to polynomial manipulation functions. """
 
@@ -768,16 +978,22 @@ class Composite(BooleanOption, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), None) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfdb85da627ba1bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Composite.default","kind":"classmethod","src_hash":"124a33b75328e805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfdb85da627ba1bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Composite.default","kind":"classmethod","src_hash":"124a33b75328e805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"None","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfdb85da627ba1bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return None
 
@@ -788,14 +1004,20 @@ class Composite(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Domain(*args), correctly constructs a Domain instance) over {Any | isinstance(domain, sympy.polys.domains.Domain) and isinstance(domain, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Domain : {Any | isinstance(domain, sympy.polys.domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94924184f24d7df8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Domain","kind":"class","src_hash":"d3fbfb5d4a73421b","in":{"base":"Any","pred":"isinstance(domain, sympy.polys.domains.Domain) and isinstance(domain, str)"},"out":{"base":"Any"},"spec":{"lhs":"Domain(*args)","rhs":"correctly constructs a Domain instance","over":{"base":"Any","pred":"isinstance(domain, sympy.polys.domains.Domain) and isinstance(domain, str)"},"name":"Domain_class_invariant"},"guarantee":"correctly constructs a Domain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94924184f24d7df8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Domain","kind":"class","src_hash":"d3fbfb5d4a73421b","in":{"base":"Any","pred":"isinstance(domain, sympy.polys.domains.Domain) and isinstance(domain, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Domain(*args)","rhs":"correctly constructs a Domain instance","over":{"base":"Any","pred":"isinstance(domain, sympy.polys.domains.Domain) and isinstance(domain, str)"},"name":"Domain_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94924184f24d7df8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Domain not found in source"]}}
 class Domain(Option, metaclass=OptionType):
     """``domain`` option to polynomial manipulation functions. """
 
@@ -815,16 +1037,25 @@ class Domain(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, domain), <unspecified:preprocess>) over {Any | hasattr(domain, 'to_domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preprocess : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'to_domain')                   ║
+# ║   fiber[case_0]: isinstance(domain, sympy.polys.domai...   ║
+# ║   fiber[case_1]: hasattr(domain, 'to_domain') => doma...   ║
+# ║   fiber[str]: isinstance(domain, str)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preprocess : {Any | hasattr(domain, 'to_domain')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55f648e97f6e581d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb88fb52b0aa3b46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Domain.preprocess","kind":"classmethod","src_hash":"bc1b85c08553ba73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Domain.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55f648e97f6e581d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Domain.preprocess","kind":"classmethod","src_hash":"bc1b85c08553ba73","in":{"base":"Any","pred":"hasattr(domain, 'to_domain')"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, domain)","rhs":"<unspecified:preprocess>","over":{"base":"Any","pred":"hasattr(domain, 'to_domain')"},"name":"preprocess_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Domain.preprocess_correct","statement":"Path(preprocess(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb88fb52b0aa3b46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'to_domain')"],"fibers":[{"name":"case_0","guard":"isinstance(domain, sympy.polys.domains.Domain)","ensures":["result == domain"],"decidability":"structural","returns_expr":"domain"},{"name":"case_1","guard":"hasattr(domain, 'to_domain')","ensures":["result == domain.to_domain()"],"decidability":"structural","returns_expr":"domain.to_domain()"},{"name":"str","guard":"isinstance(domain, str)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._re_algebraic","cls._re_complexfield","cls._re_finitefield","cls._re_fraction","cls._re_polynomial","cls._re_realfield","domain.to_domain"],"raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, domain):
         if isinstance(domain, sympy.polys.domains.Domain):
             return domain
@@ -913,16 +1144,23 @@ class Domain(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over {Any | not ('gens' in options and 'domain' in options and options['domain'].is_Composite and set(options['domain'].symbols) & set(options['gens']))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ postprocess : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not ('gens' in options and 'domain' in op...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ postprocess : {Any | not ('gens' in options and 'doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12c99cb199f41dc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Domain.postprocess","kind":"classmethod","src_hash":"51a4e3ef47502323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Domain.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c99cb199f41dc4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Domain.postprocess","kind":"classmethod","src_hash":"51a4e3ef47502323","in":{"base":"Any","pred":"not ('gens' in options and 'domain' in options and options['domain'].is_Composite and set(options['domain'].symbols) & set(options['gens']))"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any","pred":"not ('gens' in options and 'domain' in options and options['domain'].is_Composite and set(options['domain'].symbols) & set(options['gens']))"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Domain.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c99cb199f41dc4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not ('gens' in options and 'domain' in options and options['domain'].is_Composite and set(options['domain'].symbols) & set(options['gens']))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["GeneratorsError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         if 'gens' in options and 'domain' in options and options['domain'].is_Composite and \
                 (set(options['domain'].symbols) & set(options['gens'])):
@@ -936,14 +1174,20 @@ class Domain(Option, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Split(*args), correctly constructs a Split instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Split : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Split : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaaaced00760ba46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Split","kind":"class","src_hash":"8f4b37f52eb6cd81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Split(*args)","rhs":"correctly constructs a Split instance","over":{"base":"Any"},"name":"Split_class_invariant"},"guarantee":"correctly constructs a Split instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaaaced00760ba46"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Split","kind":"class","src_hash":"8f4b37f52eb6cd81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Split(*args)","rhs":"correctly constructs a Split instance","over":{"base":"Any"},"name":"Split_class_invariant"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaaaced00760ba46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Split not found in source"]}}
 class Split(BooleanOption, metaclass=OptionType):
     """``split`` option to polynomial manipulation functions. """
 
@@ -955,16 +1199,23 @@ class Split(BooleanOption, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over {Any | not ('split' in options)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ postprocess : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not ('split' in options)                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ postprocess : {Any | not ('split' in options)} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c01bf2f88a01afa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Split.postprocess","kind":"classmethod","src_hash":"60f66e4c119330c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Split.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c01bf2f88a01afa3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Split.postprocess","kind":"classmethod","src_hash":"60f66e4c119330c4","in":{"base":"Any","pred":"not ('split' in options)"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any","pred":"not ('split' in options)"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Split.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c01bf2f88a01afa3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not ('split' in options)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         if 'split' in options:
             raise NotImplementedError("'split' option is not implemented yet")
@@ -973,14 +1224,20 @@ class Split(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Gaussian(*args), correctly constructs a Gaussian instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Gaussian : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Gaussian : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9636d0ea3a9efd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gaussian","kind":"class","src_hash":"1fd728602b217930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Gaussian(*args)","rhs":"correctly constructs a Gaussian instance","over":{"base":"Any"},"name":"Gaussian_class_invariant"},"guarantee":"correctly constructs a Gaussian instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9636d0ea3a9efd3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gaussian","kind":"class","src_hash":"1fd728602b217930","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Gaussian(*args)","rhs":"correctly constructs a Gaussian instance","over":{"base":"Any"},"name":"Gaussian_class_invariant"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9636d0ea3a9efd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Gaussian not found in source"]}}
 class Gaussian(BooleanOption, metaclass=OptionType):
     """``gaussian`` option to polynomial manipulation functions. """
 
@@ -992,16 +1249,22 @@ class Gaussian(BooleanOption, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ postprocess : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6662861c1131b562  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gaussian.postprocess","kind":"classmethod","src_hash":"e28800a507b17e21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Gaussian.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6662861c1131b562"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gaussian.postprocess","kind":"classmethod","src_hash":"e28800a507b17e21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Gaussian.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6662861c1131b562","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["options[*]"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         if 'gaussian' in options and options['gaussian'] is True:
             options['domain'] = sympy.polys.domains.QQ_I
@@ -1011,14 +1274,20 @@ class Gaussian(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Extension(*args), correctly constructs a Extension instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Extension : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Extension : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8ffaea9607cc034  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Extension","kind":"class","src_hash":"af07091fa4a7969f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Extension(*args)","rhs":"correctly constructs a Extension instance","over":{"base":"Any"},"name":"Extension_class_invariant"},"guarantee":"correctly constructs a Extension instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8ffaea9607cc034"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Extension","kind":"class","src_hash":"af07091fa4a7969f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Extension(*args)","rhs":"correctly constructs a Extension instance","over":{"base":"Any"},"name":"Extension_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8ffaea9607cc034","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Extension not found in source"]}}
 class Extension(Option, metaclass=OptionType):
     """``extension`` option to polynomial manipulation functions. """
 
@@ -1030,16 +1299,24 @@ class Extension(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, extension), <unspecified:preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: extension == 1 => bool(extension)         ║
+# ║   fiber[zero_or_none]: extension == 0                      ║
+# ║   fiber[zero_or_none]: not (extension == 1) and not (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f97e3dcefa269a5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b04662643d96161a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Extension.preprocess","kind":"classmethod","src_hash":"607e2e4bb91edb32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Extension.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f97e3dcefa269a5a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Extension.preprocess","kind":"classmethod","src_hash":"607e2e4bb91edb32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, extension)","rhs":"<unspecified:preprocess>","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Extension.preprocess_correct","statement":"Path(preprocess(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b04662643d96161a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"extension == 1","ensures":["result == bool(extension)"],"decidability":"z3","returns_expr":"bool(extension)"},{"name":"zero_or_none","guard":"extension == 0","ensures":[],"decidability":"z3"},{"name":"zero_or_none","guard":"not (extension == 1) and not (extension == 0)","ensures":["result == extension"],"decidability":"z3","returns_expr":"extension"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, extension):
         if extension == 1:
             return bool(extension)
@@ -1058,16 +1335,22 @@ class Extension(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ postprocess : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8399e12f4db74e48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Extension.postprocess","kind":"classmethod","src_hash":"a3a1ec36e5f44877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Extension.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8399e12f4db74e48"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Extension.postprocess","kind":"classmethod","src_hash":"a3a1ec36e5f44877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Extension.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8399e12f4db74e48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["options[*]"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         if 'extension' in options and options['extension'] is not True:
             options['domain'] = sympy.polys.domains.QQ.algebraic_field(
@@ -1077,14 +1360,20 @@ class Extension(Option, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Modulus(*args), correctly constructs a Modulus instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Modulus : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Option)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Modulus : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f2cf7a3fe69d1b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Modulus","kind":"class","src_hash":"f224608b3b957edf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Modulus(*args)","rhs":"correctly constructs a Modulus instance","over":{"base":"Any"},"name":"Modulus_class_invariant"},"guarantee":"correctly constructs a Modulus instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f2cf7a3fe69d1b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Modulus","kind":"class","src_hash":"f224608b3b957edf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Option)"},"spec":{"lhs":"Modulus(*args)","rhs":"correctly constructs a Modulus instance","over":{"base":"Any"},"name":"Modulus_class_invariant"},"guarantee":"isinstance(self, Option)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f2cf7a3fe69d1b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Option)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Modulus not found in source"]}}
 class Modulus(Option, metaclass=OptionType):
     """``modulus`` option to polynomial manipulation functions. """
 
@@ -1095,16 +1384,24 @@ class Modulus(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, modulus), <unspecified:preprocess>) over {Any | hasattr(modulus, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preprocess : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(modulus, 'is_Integer')                 ║
+# ║   fiber[positive]: modulus.is_Integer and modulus > 0...   ║
+# ║   fiber[positive]: not (modulus.is_Integer and modulu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preprocess : {Any | hasattr(modulus, 'is_Integer')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 893a7e48c263f2dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c599502a5e19d903  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Modulus.preprocess","kind":"classmethod","src_hash":"fdc56aea7bce4d93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Modulus.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893a7e48c263f2dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Modulus.preprocess","kind":"classmethod","src_hash":"fdc56aea7bce4d93","in":{"base":"Any","pred":"hasattr(modulus, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, modulus)","rhs":"<unspecified:preprocess>","over":{"base":"Any","pred":"hasattr(modulus, 'is_Integer')"},"name":"preprocess_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Modulus.preprocess_correct","statement":"Path(preprocess(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c599502a5e19d903","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(modulus, 'is_Integer')"],"fibers":[{"name":"positive","guard":"modulus.is_Integer and modulus > 0","ensures":["result == int(modulus)"],"decidability":"z3","returns_expr":"int(modulus)"},{"name":"positive","guard":"not (modulus.is_Integer and modulus > 0)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["modulus.is_Integer"],"raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, modulus):
         modulus = sympify(modulus)
 
@@ -1116,16 +1413,23 @@ class Modulus(Option, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over {Any | hasattr(options, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ postprocess : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(options, 'get')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ postprocess : {Any | hasattr(options, 'get')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65213c81f72ab6b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Modulus.postprocess","kind":"classmethod","src_hash":"0d003bd8a55f190d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Modulus.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65213c81f72ab6b3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Modulus.postprocess","kind":"classmethod","src_hash":"0d003bd8a55f190d","in":{"base":"Any","pred":"hasattr(options, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any","pred":"hasattr(options, 'get')"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Modulus.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65213c81f72ab6b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(options, 'get')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["options.get"],"writes":["options[*]"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         if 'modulus' in options:
             modulus = options['modulus']
@@ -1134,16 +1438,22 @@ class Modulus(Option, metaclass=OptionType):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Symmetric(), correctly constructs a Symmetric instance) over Any ║
+# ║ Path(Symmetric(), isinstance(self, BooleanOption)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Symmetric : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Symmetric : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0164e560d39b0367           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symmetric","kind":"class","src_hash":"3c0c245dedba1ece","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Symmetric()","rhs":"correctly constructs a Symmetric instance","over":{"base":"Any"},"name":"Symmetric_correct"},"guarantee":"correctly constructs a Symmetric instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0164e560d39b0367"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symmetric","kind":"class","src_hash":"3c0c245dedba1ece","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Symmetric()","rhs":"isinstance(self, BooleanOption)","over":{"base":"Any"},"name":"Symmetric_correct"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0164e560d39b0367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Symmetric not found in source"]}}
 class Symmetric(BooleanOption, metaclass=OptionType):
     """``symmetric`` option to polynomial manipulation functions. """
 
@@ -1156,14 +1466,20 @@ class Symmetric(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Strict(*args), correctly constructs a Strict instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Strict : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Strict : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d524d365b8ef325  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Strict","kind":"class","src_hash":"71dab42db13d3c7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Strict(*args)","rhs":"correctly constructs a Strict instance","over":{"base":"Any"},"name":"Strict_class_invariant"},"guarantee":"correctly constructs a Strict instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d524d365b8ef325"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Strict","kind":"class","src_hash":"71dab42db13d3c7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption)"},"spec":{"lhs":"Strict(*args)","rhs":"correctly constructs a Strict instance","over":{"base":"Any"},"name":"Strict_class_invariant"},"guarantee":"isinstance(self, BooleanOption)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d524d365b8ef325","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Strict not found in source"]}}
 class Strict(BooleanOption, metaclass=OptionType):
     """``strict`` option to polynomial manipulation functions. """
 
@@ -1171,16 +1487,22 @@ class Strict(BooleanOption, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), True) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9f3673f009ebe1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Strict.default","kind":"classmethod","src_hash":"9df5d6bdb1f1facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9f3673f009ebe1d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Strict.default","kind":"classmethod","src_hash":"9df5d6bdb1f1facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"True","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9f3673f009ebe1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return True
 
@@ -1188,14 +1510,21 @@ class Strict(BooleanOption, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Auto(*args), correctly constructs a Auto instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Auto : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Auto : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 412fb0c5161ecc99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Auto","kind":"class","src_hash":"410c4ac4f62b0250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Auto(*args)","rhs":"correctly constructs a Auto instance","over":{"base":"Any"},"name":"Auto_class_invariant"},"guarantee":"correctly constructs a Auto instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"412fb0c5161ecc99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Auto","kind":"class","src_hash":"410c4ac4f62b0250","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"Auto(*args)","rhs":"correctly constructs a Auto instance","over":{"base":"Any"},"name":"Auto_class_invariant"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"412fb0c5161ecc99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Auto not found in source"]}}
 class Auto(BooleanOption, Flag, metaclass=OptionType):
     """``auto`` flag to polynomial manipulation functions. """
 
@@ -1205,31 +1534,43 @@ class Auto(BooleanOption, Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), True) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83fd897d6c899549           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Auto.default","kind":"classmethod","src_hash":"9df5d6bdb1f1facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83fd897d6c899549"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Auto.default","kind":"classmethod","src_hash":"9df5d6bdb1f1facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"True","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83fd897d6c899549","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return True
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess(cls), postprocess produces the expected output) over Any ║
+# ║ Path(postprocess(cls, options), <unspecified:postprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ postprocess : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c58a9ba029e68291  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Auto.postprocess","kind":"classmethod","src_hash":"ac524ddc25afdaa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls)","rhs":"postprocess produces the expected output","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Auto.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c58a9ba029e68291"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Auto.postprocess","kind":"classmethod","src_hash":"ac524ddc25afdaa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess(cls, options)","rhs":"<unspecified:postprocess>","over":{"base":"Any"},"name":"postprocess_correct"},"guarantee":"postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Auto.postprocess_correct","statement":"Path(postprocess(x), postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c58a9ba029e68291","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["options[*]"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def postprocess(cls, options):
         if ('domain' in options or 'field' in options) and 'auto' not in options:
             options['auto'] = False
@@ -1238,14 +1579,21 @@ class Auto(BooleanOption, Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Frac(*args), correctly constructs a Frac instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Frac : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Frac : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff8910cf3ea11d01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Frac","kind":"class","src_hash":"4742028e596b7997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Frac(*args)","rhs":"correctly constructs a Frac instance","over":{"base":"Any"},"name":"Frac_class_invariant"},"guarantee":"correctly constructs a Frac instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8910cf3ea11d01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Frac","kind":"class","src_hash":"4742028e596b7997","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"Frac(*args)","rhs":"correctly constructs a Frac instance","over":{"base":"Any"},"name":"Frac_class_invariant"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8910cf3ea11d01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Frac not found in source"]}}
 class Frac(BooleanOption, Flag, metaclass=OptionType):
     """``auto`` option to polynomial manipulation functions. """
 
@@ -1253,16 +1601,22 @@ class Frac(BooleanOption, Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), False) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3dfaa923f470d39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Frac.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3dfaa923f470d39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Frac.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"False","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3dfaa923f470d39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return False
 
@@ -1270,14 +1624,21 @@ class Frac(BooleanOption, Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Formal(*args), correctly constructs a Formal instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Formal : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Formal : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e30127d6a4711f5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Formal","kind":"class","src_hash":"251183b4de16ddfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Formal(*args)","rhs":"correctly constructs a Formal instance","over":{"base":"Any"},"name":"Formal_class_invariant"},"guarantee":"correctly constructs a Formal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e30127d6a4711f5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Formal","kind":"class","src_hash":"251183b4de16ddfa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"Formal(*args)","rhs":"correctly constructs a Formal instance","over":{"base":"Any"},"name":"Formal_class_invariant"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e30127d6a4711f5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Formal not found in source"]}}
 class Formal(BooleanOption, Flag, metaclass=OptionType):
     """``formal`` flag to polynomial manipulation functions. """
 
@@ -1285,31 +1646,44 @@ class Formal(BooleanOption, Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), False) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c2c5a32902802c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Formal.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c2c5a32902802c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Formal.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"False","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c2c5a32902802c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Polys(), correctly constructs a Polys instance) over Any ║
+# ║ Path(Polys(), isinstance(self, BooleanOption) and isinstance(self, Flag)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Polys : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Polys : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b354d9c18b093ed3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Polys","kind":"class","src_hash":"ebd6c069ac667fd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Polys()","rhs":"correctly constructs a Polys instance","over":{"base":"Any"},"name":"Polys_correct"},"guarantee":"correctly constructs a Polys instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b354d9c18b093ed3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Polys","kind":"class","src_hash":"ebd6c069ac667fd7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"Polys()","rhs":"isinstance(self, BooleanOption) and isinstance(self, Flag)","over":{"base":"Any"},"name":"Polys_correct"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b354d9c18b093ed3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Polys not found in source"]}}
 class Polys(BooleanOption, Flag, metaclass=OptionType):
     """``polys`` flag to polynomial manipulation functions. """
 
@@ -1319,14 +1693,21 @@ class Polys(BooleanOption, Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Include(*args), correctly constructs a Include instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Include : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Include : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebb2eaca0c9447f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Include","kind":"class","src_hash":"f75c1a79ceba0929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Include(*args)","rhs":"correctly constructs a Include instance","over":{"base":"Any"},"name":"Include_class_invariant"},"guarantee":"correctly constructs a Include instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebb2eaca0c9447f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Include","kind":"class","src_hash":"f75c1a79ceba0929","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"Include(*args)","rhs":"correctly constructs a Include instance","over":{"base":"Any"},"name":"Include_class_invariant"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebb2eaca0c9447f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Include not found in source"]}}
 class Include(BooleanOption, Flag, metaclass=OptionType):
     """``include`` flag to polynomial manipulation functions. """
 
@@ -1334,16 +1715,22 @@ class Include(BooleanOption, Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), False) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6031b02d7f40f8b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Include.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6031b02d7f40f8b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Include.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"False","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6031b02d7f40f8b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return False
 
@@ -1351,14 +1738,21 @@ class Include(BooleanOption, Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(All(*args), correctly constructs a All instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ All : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ All : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 400aab052de59353  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.All","kind":"class","src_hash":"7850102bdcfa95bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"All(*args)","rhs":"correctly constructs a All instance","over":{"base":"Any"},"name":"All_class_invariant"},"guarantee":"correctly constructs a All instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"400aab052de59353"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.All","kind":"class","src_hash":"7850102bdcfa95bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"All(*args)","rhs":"correctly constructs a All instance","over":{"base":"Any"},"name":"All_class_invariant"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"400aab052de59353","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function All not found in source"]}}
 class All(BooleanOption, Flag, metaclass=OptionType):
     """``all`` flag to polynomial manipulation functions. """
 
@@ -1366,16 +1760,22 @@ class All(BooleanOption, Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), False) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc3b6d58c70ac15c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.All.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc3b6d58c70ac15c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.All.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"False","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc3b6d58c70ac15c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return False
 
@@ -1383,14 +1783,20 @@ class All(BooleanOption, Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Gen(*args), correctly constructs a Gen instance) over {Any | isinstance(gen, (Basic, int))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Gen : {Any | isinstance(gen, (Basic, int))} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Gen : {Any | isinstance(gen, (Basic, int))} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbca97dbedba64b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gen","kind":"class","src_hash":"f8d315efcbf8518a","in":{"base":"Any","pred":"isinstance(gen, (Basic, int))"},"out":{"base":"Any"},"spec":{"lhs":"Gen(*args)","rhs":"correctly constructs a Gen instance","over":{"base":"Any","pred":"isinstance(gen, (Basic, int))"},"name":"Gen_class_invariant"},"guarantee":"correctly constructs a Gen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbca97dbedba64b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gen","kind":"class","src_hash":"f8d315efcbf8518a","in":{"base":"Any","pred":"isinstance(gen, (Basic, int))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Flag)"},"spec":{"lhs":"Gen(*args)","rhs":"correctly constructs a Gen instance","over":{"base":"Any","pred":"isinstance(gen, (Basic, int))"},"name":"Gen_class_invariant"},"guarantee":"isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbca97dbedba64b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Gen not found in source"]}}
 class Gen(Flag, metaclass=OptionType):
     """``gen`` flag to polynomial manipulation functions. """
 
@@ -1398,31 +1804,44 @@ class Gen(Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), 0) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe20866d4f331b84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gen.default","kind":"classmethod","src_hash":"a84e565268073d2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe20866d4f331b84"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gen.default","kind":"classmethod","src_hash":"a84e565268073d2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"0","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe20866d4f331b84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return 0
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, gen), <unspecified:preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(gen, (Basic, int)) => gen      ║
+# ║   fiber[case_1]: not (isinstance(gen, (Basic, int)))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cafd645641fe2b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d618885a89555a83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gen.preprocess","kind":"classmethod","src_hash":"dd7040f7f6aaa2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Gen.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cafd645641fe2b8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Gen.preprocess","kind":"classmethod","src_hash":"dd7040f7f6aaa2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, gen)","rhs":"<unspecified:preprocess>","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Gen.preprocess_correct","statement":"Path(preprocess(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d618885a89555a83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(gen, (Basic, int))","ensures":["result == gen"],"decidability":"structural","returns_expr":"gen"},{"name":"case_1","guard":"not (isinstance(gen, (Basic, int)))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, gen):
         if isinstance(gen, (Basic, int)):
             return gen
@@ -1433,14 +1852,21 @@ class Gen(Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Series(*args), correctly constructs a Series instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Series : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanOption)                ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Series : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9f3977badc49898  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Series","kind":"class","src_hash":"6da65f8c85f25f82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Series(*args)","rhs":"correctly constructs a Series instance","over":{"base":"Any"},"name":"Series_class_invariant"},"guarantee":"correctly constructs a Series instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9f3977badc49898"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Series","kind":"class","src_hash":"6da65f8c85f25f82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanOption) and isinstance(self, Flag)"},"spec":{"lhs":"Series(*args)","rhs":"correctly constructs a Series instance","over":{"base":"Any"},"name":"Series_class_invariant"},"guarantee":"isinstance(self, BooleanOption); isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9f3977badc49898","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanOption)","isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Series not found in source"]}}
 class Series(BooleanOption, Flag, metaclass=OptionType):
     """``series`` flag to polynomial manipulation functions. """
 
@@ -1448,16 +1874,22 @@ class Series(BooleanOption, Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), False) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d684a09046d48e24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Series.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d684a09046d48e24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Series.default","kind":"classmethod","src_hash":"277b2d16a2920c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"False","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d684a09046d48e24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return False
 
@@ -1465,14 +1897,20 @@ class Series(BooleanOption, Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Symbols(*args), correctly constructs a Symbols instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Symbols : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Symbols : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b76689289ddd4be7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symbols","kind":"class","src_hash":"c8511eb74f6d0689","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Symbols(*args)","rhs":"correctly constructs a Symbols instance","over":{"base":"Any"},"name":"Symbols_class_invariant"},"guarantee":"correctly constructs a Symbols instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b76689289ddd4be7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symbols","kind":"class","src_hash":"c8511eb74f6d0689","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Flag)"},"spec":{"lhs":"Symbols(*args)","rhs":"correctly constructs a Symbols instance","over":{"base":"Any"},"name":"Symbols_class_invariant"},"guarantee":"isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b76689289ddd4be7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Symbols not found in source"]}}
 class Symbols(Flag, metaclass=OptionType):
     """``symbols`` flag to polynomial manipulation functions. """
 
@@ -1480,31 +1918,44 @@ class Symbols(Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default(cls), default produces the expected output) over Any ║
+# ║ Path(default(cls), numbered_symbols('s', start=1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  numbered_symbols('s', start=1)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4de5443d8810c4b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symbols.default","kind":"classmethod","src_hash":"6571774995580f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"default produces the expected output","over":{"base":"Any"},"name":"default_correct"},"guarantee":"default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4de5443d8810c4b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symbols.default","kind":"classmethod","src_hash":"6571774995580f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default(cls)","rhs":"numbered_symbols('s', start=1)","over":{"base":"Any"},"name":"default_correct"},"guarantee":"returns numbered_symbols('s', start=1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4de5443d8810c4b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"numbered_symbols('s', start=1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default(cls):
         return numbered_symbols('s', start=1)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, symbols), <unspecified:preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: hasattr(symbols, '__iter__') => iter...   ║
+# ║   fiber[case_1]: not (hasattr(symbols, '__iter__'))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8efe576cda6ba91d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5e65f47fa4b3767  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symbols.preprocess","kind":"classmethod","src_hash":"3b3b5313f54c9f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Symbols.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8efe576cda6ba91d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Symbols.preprocess","kind":"classmethod","src_hash":"3b3b5313f54c9f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, symbols)","rhs":"<unspecified:preprocess>","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Symbols.preprocess_correct","statement":"Path(preprocess(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5e65f47fa4b3767","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"hasattr(symbols, '__iter__')","ensures":["result == iter(symbols)"],"decidability":"structural","returns_expr":"iter(symbols)"},{"name":"case_1","guard":"not (hasattr(symbols, '__iter__'))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, symbols):
         if hasattr(symbols, '__iter__'):
             return iter(symbols)
@@ -1515,14 +1966,20 @@ class Symbols(Flag, metaclass=OptionType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Method(*args), correctly constructs a Method instance) over {Any | isinstance(method, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Method : {Any | isinstance(method, str)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Flag)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Method : {Any | isinstance(method, str)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64f99400d6d2c910  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Method","kind":"class","src_hash":"a554888b60d4dcab","in":{"base":"Any","pred":"isinstance(method, str)"},"out":{"base":"Any"},"spec":{"lhs":"Method(*args)","rhs":"correctly constructs a Method instance","over":{"base":"Any","pred":"isinstance(method, str)"},"name":"Method_class_invariant"},"guarantee":"correctly constructs a Method instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f99400d6d2c910"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Method","kind":"class","src_hash":"a554888b60d4dcab","in":{"base":"Any","pred":"isinstance(method, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Flag)"},"spec":{"lhs":"Method(*args)","rhs":"correctly constructs a Method instance","over":{"base":"Any","pred":"isinstance(method, str)"},"name":"Method_class_invariant"},"guarantee":"isinstance(self, Flag)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f99400d6d2c910","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Flag)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Method not found in source"]}}
 class Method(Flag, metaclass=OptionType):
     """``method`` flag to polynomial manipulation functions. """
 
@@ -1530,16 +1987,24 @@ class Method(Flag, metaclass=OptionType):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess(cls), preprocess produces the expected output) over Any ║
+# ║ Path(preprocess(cls, method), <unspecified:preprocess>) over {Any | hasattr(method, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preprocess : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(method, 'lower')                       ║
+# ║   fiber[str]: isinstance(method, str) => method.lower()    ║
+# ║   fiber[str]: not (isinstance(method, str))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preprocess : {Any | hasattr(method, 'lower')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9937a15635962224  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e465b4268e7e099e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Method.preprocess","kind":"classmethod","src_hash":"9fea9db7ee10842e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls)","rhs":"preprocess produces the expected output","over":{"base":"Any"},"name":"preprocess_correct"},"guarantee":"preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Method.preprocess_correct","statement":"Path(preprocess(x), preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9937a15635962224"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.Method.preprocess","kind":"classmethod","src_hash":"9fea9db7ee10842e","in":{"base":"Any","pred":"hasattr(method, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"preprocess(cls, method)","rhs":"<unspecified:preprocess>","over":{"base":"Any","pred":"hasattr(method, 'lower')"},"name":"preprocess_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.Method.preprocess_correct","statement":"Path(preprocess(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e465b4268e7e099e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(method, 'lower')"],"fibers":[{"name":"str","guard":"isinstance(method, str)","ensures":["result == method.lower()"],"decidability":"structural","returns_expr":"method.lower()"},{"name":"str","guard":"not (isinstance(method, str))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["method.lower"],"raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preprocess(cls, method):
         if isinstance(method, str):
             return method.lower()
@@ -1548,16 +2013,22 @@ class Method(Flag, metaclass=OptionType):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(build_options(gen), construct options from keyword arguments or ) over Any ║
+# ║ Path(build_options(gens, args), <unspecified:build_options>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ build_options : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a49a6ff22fc68d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.build_options","kind":"function","src_hash":"847f390f5afa4e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_options(gen)","rhs":"construct options from keyword arguments or ","over":{"base":"Any"},"name":"build_options_correct"},"guarantee":"construct options from keyword arguments or ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.build_options_correct","statement":"Path(build_options(x), construct options from keyword arguments or )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a49a6ff22fc68d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.build_options","kind":"function","src_hash":"847f390f5afa4e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_options(gens, args)","rhs":"<unspecified:build_options>","over":{"base":"Any"},"name":"build_options_correct"},"guarantee":"construct options from keyword arguments or ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.build_options_correct","statement":"Path(build_options(x), construct options from keyword arguments or )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a49a6ff22fc68d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def build_options(gens, args=None):
     """Construct options from keyword arguments or ... options. """
     if args is None:
@@ -1570,16 +2041,23 @@ def build_options(gens, args=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(allowed_flags(arg), allow specified flags to be used in the given context) over Any ║
+# ║ Path(allowed_flags(args, flags), <unspecified:allowed_flags>) over {Any | hasattr(args, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ allowed_flags : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(args, 'keys')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ allowed_flags : {Any | hasattr(args, 'keys')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f8a2803373b32fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.allowed_flags","kind":"function","src_hash":"7bef82ac4be60db4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allowed_flags(arg)","rhs":"allow specified flags to be used in the given context","over":{"base":"Any"},"name":"allowed_flags_correct"},"guarantee":"allow specified flags to be used in the given context","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.allowed_flags_correct","statement":"Path(allowed_flags(x), allow specified flags to be used in the given context)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f8a2803373b32fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.allowed_flags","kind":"function","src_hash":"7bef82ac4be60db4","in":{"base":"Any","pred":"hasattr(args, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"allowed_flags(args, flags)","rhs":"<unspecified:allowed_flags>","over":{"base":"Any","pred":"hasattr(args, 'keys')"},"name":"allowed_flags_correct"},"guarantee":"allow specified flags to be used in the given context","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.allowed_flags_correct","statement":"Path(allowed_flags(x), allow specified flags to be used in the given context)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f8a2803373b32fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(args, 'keys')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["args.keys"],"raises":["FlagError","OptionError"],"catches":["KeyError"]},"state_contract":{"exceptional_post":{"FlagError":["isinstance(raised, FlagError)"],"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def allowed_flags(args, flags):
     """
     Allow specified flags to be used in the given context.
@@ -1612,16 +2090,23 @@ def allowed_flags(args, flags):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_defaults(opt), update options with default values) over Any ║
+# ║ Path(set_defaults(options, **defaults), options) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_defaults : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == options                              ║
+# ║   returns:  options                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_defaults : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 523ba5736f381ba5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38b9b72485b40dd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.set_defaults","kind":"function","src_hash":"1efcec65fb7d1bf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_defaults(opt)","rhs":"update options with default values","over":{"base":"Any"},"name":"set_defaults_correct"},"guarantee":"update options with default values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.set_defaults_correct","statement":"Path(set_defaults(x), update options with default values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"523ba5736f381ba5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyoptions.set_defaults","kind":"function","src_hash":"1efcec65fb7d1bf1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (options)"},"spec":{"lhs":"set_defaults(options, **defaults)","rhs":"options","over":{"base":"Any"},"name":"set_defaults_correct"},"guarantee":"returns options; result == options","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyoptions.set_defaults_correct","statement":"Path(set_defaults(x), returns options; result == options)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b9b72485b40dd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == options"],"returns_expr":"options","pure":false,"effects":{"effect_type":"mutates_args","writes":["options[*]"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['options'], spec=['options', '**defaults']"]}}
 def set_defaults(options, **defaults):
     """Update options with default values. """
     if 'defaults' not in options:

@@ -44,41 +44,60 @@ if TYPE_CHECKING:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SympifyError instance) preserved by SympifyError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SympifyError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ValueError)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SympifyError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c54ba779bb6e204a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.SympifyError","kind":"class","src_hash":"1d8ca4e6b1bbc1f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SympifyError(*args)","rhs":"correctly constructs a SympifyError instance","over":{"base":"Any"},"name":"SympifyError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SympifyError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, 'base_exc')","kind":"class","induction":"structural on expr, base_exc"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c54ba779bb6e204a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.SympifyError","kind":"class","src_hash":"1d8ca4e6b1bbc1f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ValueError)"},"spec":{"lhs":"SympifyError(*args)","rhs":"correctly constructs a SympifyError instance","over":{"base":"Any"},"name":"SympifyError_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ValueError); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, 'base_exc')","kind":"class","induction":"structural on expr, base_exc"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c54ba779bb6e204a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ValueError)"],"invariants":["hasattr(self, 'expr')","hasattr(self, 'base_exc')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SympifyError not found in source"]}}
 class SympifyError(ValueError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, base_exc), self.expr == expr and self.base_exc == base_exc) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.expr == expr                              ║
+# ║   ensures:  self.base_exc == base_exc                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.expr =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b07b1d94a3bd5ed4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.SympifyError.__init__","kind":"method","src_hash":"0e7bd4ed43217f48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b07b1d94a3bd5ed4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.SympifyError.__init__","kind":"method","src_hash":"0e7bd4ed43217f48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.expr == expr and self.base_exc == base_exc"},"spec":{"lhs":"__init__(expr, base_exc)","rhs":"self.expr == expr and self.base_exc == base_exc","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.expr == expr; self.base_exc == base_exc","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b07b1d94a3bd5ed4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.expr == expr","self.base_exc == base_exc"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, base_exc=None):
         self.expr = expr
         self.base_exc = base_exc
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49b4b27a4b0768f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.SympifyError.__str__","kind":"method","src_hash":"ff4a3eb431ef06c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49b4b27a4b0768f7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.SympifyError.__str__","kind":"method","src_hash":"ff4a3eb431ef06c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49b4b27a4b0768f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.base_exc","self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.base_exc is None:
             return "SympifyError: %r" % (self.expr,)
@@ -97,16 +116,22 @@ _sympy_converter: dict[type[Any], Callable[[Any], Basic]] = {}
 _external_converter = converter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CantSympify(), correctly constructs a CantSympify instance) over Any ║
+# ║ Path(CantSympify(), <unspecified:CantSympify>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CantSympify : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f60b7ee323ac5e36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.CantSympify","kind":"class","src_hash":"5e0256f82166115d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CantSympify()","rhs":"correctly constructs a CantSympify instance","over":{"base":"Any"},"name":"CantSympify_correct"},"guarantee":"correctly constructs a CantSympify instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f60b7ee323ac5e36"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.CantSympify","kind":"class","src_hash":"5e0256f82166115d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CantSympify()","rhs":"<unspecified:CantSympify>","over":{"base":"Any"},"name":"CantSympify_correct"},"guarantee":"correctly constructs a CantSympify instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f60b7ee323ac5e36","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CantSympify not found in source"]}}
 class CantSympify:
     """
     Mix in this trait to a class to disallow sympification of its instances.
@@ -137,16 +162,22 @@ class CantSympify:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_numpy_instance(a), checks if an object is an instance of a type from the numpy module) over Any ║
+# ║ Path(_is_numpy_instance(a), any((type_.__module__ == 'numpy' for type_ in type(a).__mro__))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  any((type_.__module__ == 'numpy' for type...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_numpy_instance : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37cf1296377628b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd569ed6e64da146  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify._is_numpy_instance","kind":"function","src_hash":"ef8e1b0e859ada7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_numpy_instance(a)","rhs":"checks if an object is an instance of a type from the numpy module","over":{"base":"Any"},"name":"_is_numpy_instance_correct"},"guarantee":"checks if an object is an instance of a type from the numpy module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify._is_numpy_instance_correct","statement":"Path(_is_numpy_instance(x), checks if an object is an instance of a type from the numpy module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37cf1296377628b2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify._is_numpy_instance","kind":"function","src_hash":"ef8e1b0e859ada7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_numpy_instance(a)","rhs":"any((type_.__module__ == 'numpy' for type_ in type(a).__mro__))","over":{"base":"Any"},"name":"_is_numpy_instance_correct"},"guarantee":"returns any((type_.__module__ == 'numpy' for type_ in type(a).__mro__))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify._is_numpy_instance_correct","statement":"Path(_is_numpy_instance(x), returns any((type_.__module__ == 'numpy' for type_ in type(a).__mro__)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd569ed6e64da146","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"any((type_.__module__ == 'numpy' for type_ in type(a).__mro__))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__mro__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_numpy_instance(a):
     """
     Checks if an object is an instance of a type from the numpy module.
@@ -158,7 +189,12 @@ def _is_numpy_instance(a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_numpy_types(a, ), converts a numpy datatype input to an appropriate sympy type) over {Any | isinstance(a, np.floating)} ║
+# ║ Path(_convert_numpy_types(a, **sympify_args), <unspecified:_convert_numpy_types>) over {Any | isinstance(a, np.floating) and hasattr(a, 'item') and hasattr(a, 'as_integer_ratio')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'item')                             ║
+# ║   requires: hasattr(a, 'as_integer_ratio')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_numpy_types : {Any | isinstance(a, np.floati...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -170,9 +206,12 @@ def _is_numpy_instance(a):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c665a6e9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify._convert_numpy_types","kind":"function","src_hash":"2491f0f38b7d6fc9","in":{"base":"Any","pred":"isinstance(a, np.floating)"},"out":{"base":"Any"},"spec":{"lhs":"_convert_numpy_types(a, )","rhs":"converts a numpy datatype input to an appropriate sympy type","over":{"base":"Any","pred":"isinstance(a, np.floating)"},"name":"_convert_numpy_types_correct"},"guarantee":"converts a numpy datatype input to an appropriate sympy type","fibers":[{"name":"np_floating","pred":"isinstance(a, np.floating)","path":{"lhs":"_convert_numpy_types(x)","rhs":"converts a numpy datatype input to an appropriate sympy type","over":{"base":"np.floating","pred":"isinstance(a, np.floating)"},"name":"_convert_numpy_types_np.floating_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify._convert_numpy_types_np.floating_correct","statement":"_convert_numpy_types satisfies spec on np.floating inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c665a6e9062f3dfb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify._convert_numpy_types","kind":"function","src_hash":"2491f0f38b7d6fc9","in":{"base":"Any","pred":"isinstance(a, np.floating) and hasattr(a, 'item') and hasattr(a, 'as_integer_ratio')"},"out":{"base":"Any"},"spec":{"lhs":"_convert_numpy_types(a, **sympify_args)","rhs":"<unspecified:_convert_numpy_types>","over":{"base":"Any","pred":"isinstance(a, np.floating) and hasattr(a, 'item') and hasattr(a, 'as_integer_ratio')"},"name":"_convert_numpy_types_correct"},"guarantee":"converts a numpy datatype input to an appropriate sympy type","fibers":[{"name":"np_floating","pred":"isinstance(a, np.floating)","path":{"lhs":"_convert_numpy_types(x)","rhs":"converts a numpy datatype input to an appropriate sympy type","over":{"base":"np.floating","pred":"isinstance(a, np.floating)"},"name":"_convert_numpy_types_np.floating_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify._convert_numpy_types_np.floating_correct","statement":"_convert_numpy_types satisfies spec on np.floating inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c665a6e9062f3dfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'item')","hasattr(a, 'as_integer_ratio')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.as_integer_ratio","a.item"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['a'], spec=['a', '**sympify_args']","Poor branch-fiber coverage: 0% (branches={'not isinstance(a, np.floating)'}, fibers={'np_floating'})"]}}
 def _convert_numpy_types(a, **sympify_args):
     """
     Converts a numpy datatype input to an appropriate SymPy type.
@@ -200,72 +239,113 @@ def _convert_numpy_types(a, **sympify_args):
 
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify(a, ), sympify produces the expected output) over int ║
+# ║ Path(sympify(a, strict), isinstance(result, Integer)) over {int | isinstance(a, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympify : int → Integer                                    ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(a, int)                             ║
+# ║   ensures:  isinstance(result, Integer)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympify : {int | isinstance(a, int)} → {Integer | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7896eda221f81622           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"4e1eadf57beb0314","in":{"base":"int"},"out":{"base":"Integer"},"spec":{"lhs":"sympify(a, )","rhs":"sympify produces the expected output","over":{"base":"int"},"name":"sympify_correct"},"guarantee":"sympify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7896eda221f81622"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"4e1eadf57beb0314","in":{"base":"int","pred":"isinstance(a, int)"},"out":{"base":"Integer","pred":"result satisfies: isinstance(result, Integer)"},"spec":{"lhs":"sympify(a, strict)","rhs":"isinstance(result, Integer)","over":{"base":"int","pred":"isinstance(a, int)"},"name":"sympify_correct"},"guarantee":"isinstance(result, Integer)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7896eda221f81622","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(a, int)"],"ensures":["isinstance(result, Integer)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['a'], spec=['a', 'strict']"]}}
 def sympify(a: int, *, strict: bool = False) -> Integer: ... # type: ignore
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify(a, ), sympify produces the expected output) over float ║
+# ║ Path(sympify(a, strict), isinstance(result, Float)) over {float | isinstance(a, float)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympify : float → Float                                    ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(a, float)                           ║
+# ║   ensures:  isinstance(result, Float)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympify : {float | isinstance(a, float)} → {Float | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82d193902ec0fb63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"b1e17b3825da5fb6","in":{"base":"float"},"out":{"base":"Float"},"spec":{"lhs":"sympify(a, )","rhs":"sympify produces the expected output","over":{"base":"float"},"name":"sympify_correct"},"guarantee":"sympify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82d193902ec0fb63"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"b1e17b3825da5fb6","in":{"base":"float","pred":"isinstance(a, float)"},"out":{"base":"Float","pred":"result satisfies: isinstance(result, Float)"},"spec":{"lhs":"sympify(a, strict)","rhs":"isinstance(result, Float)","over":{"base":"float","pred":"isinstance(a, float)"},"name":"sympify_correct"},"guarantee":"isinstance(result, Float)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82d193902ec0fb63","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(a, float)"],"ensures":["isinstance(result, Float)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['a'], spec=['a', 'strict']"]}}
 def sympify(a: float, *, strict: bool = False) -> Float: ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify(a, ), sympify produces the expected output) over Expr | complex ║
+# ║ Path(sympify(a, strict), isinstance(result, Expr)) over {Expr | complex | isinstance(a, Expr | complex)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympify : Expr | complex → Expr                            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(a, Expr | complex)                  ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympify : {Expr | complex | isinstance(a, Expr | comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 463ef4c3cc84c868           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"789a518782c743d2","in":{"base":"Expr | complex"},"out":{"base":"Expr"},"spec":{"lhs":"sympify(a, )","rhs":"sympify produces the expected output","over":{"base":"Expr | complex"},"name":"sympify_correct"},"guarantee":"sympify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"463ef4c3cc84c868"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"789a518782c743d2","in":{"base":"Expr | complex","pred":"isinstance(a, Expr | complex)"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"sympify(a, strict)","rhs":"isinstance(result, Expr)","over":{"base":"Expr | complex","pred":"isinstance(a, Expr | complex)"},"name":"sympify_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"463ef4c3cc84c868","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(a, Expr | complex)"],"ensures":["isinstance(result, Expr)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['a'], spec=['a', 'strict']"]}}
 def sympify(a: Expr | complex, *, strict: bool = False) -> Expr: ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify(a, ), sympify produces the expected output) over Tbasic ║
+# ║ Path(sympify(a, strict), isinstance(result, Tbasic)) over {Tbasic | isinstance(a, Tbasic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympify : Tbasic → Tbasic                                  ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(a, Tbasic)                          ║
+# ║   ensures:  isinstance(result, Tbasic)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympify : {Tbasic | isinstance(a, Tbasic)} → {Tbasic ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e3e4d0368ba67d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"1ceb851de88b06d6","in":{"base":"Tbasic"},"out":{"base":"Tbasic"},"spec":{"lhs":"sympify(a, )","rhs":"sympify produces the expected output","over":{"base":"Tbasic"},"name":"sympify_correct"},"guarantee":"sympify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e3e4d0368ba67d5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"1ceb851de88b06d6","in":{"base":"Tbasic","pred":"isinstance(a, Tbasic)"},"out":{"base":"Tbasic","pred":"result satisfies: isinstance(result, Tbasic)"},"spec":{"lhs":"sympify(a, strict)","rhs":"isinstance(result, Tbasic)","over":{"base":"Tbasic","pred":"isinstance(a, Tbasic)"},"name":"sympify_correct"},"guarantee":"isinstance(result, Tbasic)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e3e4d0368ba67d5","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(a, Tbasic)"],"ensures":["isinstance(result, Tbasic)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['a'], spec=['a', 'strict']"]}}
 def sympify(a: Tbasic, *, strict: bool = False) -> Tbasic: ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify(a, ), sympify produces the expected output) over Any ║
+# ║ Path(sympify(a, strict), isinstance(result, Basic)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympify : Any → Basic                                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Basic)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympify : Any → {Basic | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9de6647adc5ef008           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"e9781018d7b50151","in":{"base":"Any"},"out":{"base":"Basic"},"spec":{"lhs":"sympify(a, )","rhs":"sympify produces the expected output","over":{"base":"Any"},"name":"sympify_correct"},"guarantee":"sympify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9de6647adc5ef008"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"e9781018d7b50151","in":{"base":"Any"},"out":{"base":"Basic","pred":"result satisfies: isinstance(result, Basic)"},"spec":{"lhs":"sympify(a, strict)","rhs":"isinstance(result, Basic)","over":{"base":"Any"},"name":"sympify_correct"},"guarantee":"isinstance(result, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9de6647adc5ef008","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Basic)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['a'], spec=['a', 'strict']"]}}
 def sympify(a: Any, *, strict: bool = False) -> Basic: ...
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify(a, ), converts an arbitrary expression to a type that can be used inside sympy) over {Any | isinstance(a, CantSympify) and isinstance(a, str) and isinstance(a, np.ndarray)} ║
+# ║ Path(sympify(a, locals, convert_xor), <unspecified:sympify>) over {Any | isinstance(a, CantSympify) and isinstance(a, str) and isinstance(a, np.ndarray) and not (isinstance(a, CantSympify)) and hasattr(a, '_sympy_') and hasattr(a, 'replace') and hasattr(a, 'flat') and hasattr(a, 'shape') and hasattr(a, 'ndim') and hasattr(a, 'item')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(a, CantSympify))               ║
+# ║   requires: hasattr(a, '_sympy_')                          ║
+# ║   requires: hasattr(a, 'replace')                          ║
+# ║   fiber[case_0]: is_sympy is True => a                     ║
+# ║   fiber[case_1]: is_sympy is not None                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympify : {Any | isinstance(a, CantSympify) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -280,9 +360,12 @@ def sympify(a: Any, *, strict: bool = False) -> Basic: ...
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 5.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e9e7e9bf...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"e3936b82d17d41c2","in":{"base":"Any","pred":"isinstance(a, CantSympify) and isinstance(a, str) and isinstance(a, np.ndarray)"},"out":{"base":"Any","pred":"not isinstance(a, np.number)"},"spec":{"lhs":"sympify(a, )","rhs":"converts an arbitrary expression to a type that can be used inside sympy","over":{"base":"Any","pred":"isinstance(a, CantSympify) and isinstance(a, str) and isinstance(a, np.ndarray)"},"name":"sympify_correct"},"guarantee":"converts an arbitrary expression to a type that can be used inside sympy","fibers":[{"name":"CantSympify","pred":"isinstance(a, CantSympify)","path":{"lhs":"sympify(x)","rhs":"converts an arbitrary expression to a type that can be used inside sympy","over":{"base":"CantSympify","pred":"isinstance(a, CantSympify)"},"name":"sympify_CantSympify_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_CantSympify_correct","statement":"sympify satisfies spec on CantSympify inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(a, str)","path":{"lhs":"sympify(x)","rhs":"converts an arbitrary expression to a type that can be used inside sympy","over":{"base":"str","pred":"isinstance(a, str)"},"name":"sympify_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_str_correct","statement":"sympify satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"np_ndarray","pred":"isinstance(a, np.ndarray)","path":{"lhs":"sympify(x)","rhs":"converts an arbitrary expression to a type that can be used inside sympy","over":{"base":"np.ndarray","pred":"isinstance(a, np.ndarray)"},"name":"sympify_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_np.ndarray_correct","statement":"sympify satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"},{"name":"np_number","pred":"isinstance(a, np.number)","path":{"lhs":"sympify(x)","rhs":"converts an arbitrary expression to a type that can be used inside sympy","over":{"base":"np.number","pred":"isinstance(a, np.number)"},"name":"sympify_np.number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_np.number_correct","statement":"sympify satisfies spec on np.number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e9e7e9bf8718852f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.sympify","kind":"function","src_hash":"e3936b82d17d41c2","in":{"base":"Any","pred":"isinstance(a, CantSympify) and isinstance(a, str) and isinstance(a, np.ndarray) and not (isinstance(a, CantSympify)) and hasattr(a, '_sympy_') and hasattr(a, 'replace') and hasattr(a, 'flat') and hasattr(a, 'shape') and hasattr(a, 'ndim') and hasattr(a, 'item')"},"out":{"base":"Any","pred":"not isinstance(a, np.number)"},"spec":{"lhs":"sympify(a, locals, convert_xor)","rhs":"<unspecified:sympify>","over":{"base":"Any","pred":"isinstance(a, CantSympify) and isinstance(a, str) and isinstance(a, np.ndarray) and not (isinstance(a, CantSympify)) and hasattr(a, '_sympy_') and hasattr(a, 'replace') and hasattr(a, 'flat') and hasattr(a, 'shape') and hasattr(a, 'ndim') and hasattr(a, 'item')"},"name":"sympify_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"CantSympify","pred":"isinstance(a, CantSympify)","path":{"lhs":"sympify(x)","rhs":"2-fiber decomposition","over":{"base":"CantSympify","pred":"isinstance(a, CantSympify)"},"name":"sympify_CantSympify_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_CantSympify_correct","statement":"sympify satisfies spec on CantSympify inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(a, str)","path":{"lhs":"sympify(x)","rhs":"2-fiber decomposition","over":{"base":"str","pred":"isinstance(a, str)"},"name":"sympify_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_str_correct","statement":"sympify satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"np_ndarray","pred":"isinstance(a, np.ndarray)","path":{"lhs":"sympify(x)","rhs":"2-fiber decomposition","over":{"base":"np.ndarray","pred":"isinstance(a, np.ndarray)"},"name":"sympify_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_np.ndarray_correct","statement":"sympify satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"},{"name":"np_number","pred":"isinstance(a, np.number)","path":{"lhs":"sympify(x)","rhs":"2-fiber decomposition","over":{"base":"np.number","pred":"isinstance(a, np.number)"},"name":"sympify_np.number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.sympify_np.number_correct","statement":"sympify satisfies spec on np.number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e9e7e9bf8718852f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(a, CantSympify))","hasattr(a, '_sympy_')","hasattr(a, 'replace')","hasattr(a, 'flat')","hasattr(a, 'shape')","hasattr(a, 'ndim')","hasattr(a, 'item')"],"fibers":[{"name":"case_0","guard":"is_sympy is True","ensures":["result == a"],"decidability":"library","returns_expr":"a"},{"name":"case_1","guard":"is_sympy is not None","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a._sympy_","a.flat","a.item","a.ndim","a.replace","a.shape"],"raises":["SympifyError"],"catches":["SympifyError","TypeError"]},"state_contract":{"exceptional_post":{"SympifyError":["isinstance(raised, SympifyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'a.ndim == 0', 'evaluate is None', 'not isinstance(a, str)', 'conv is None', 'isinstance(a, np.ndarray)', 'isinstance(a, CantSympify)'}, fibers={'CantSympify', 'np_ndarray', 'np_number', 'str'})"]}}
 def sympify(a, locals=None, convert_xor=True, strict=False, rational=False,
         evaluate=None):
     """
@@ -674,16 +757,22 @@ def sympify(a, locals=None, convert_xor=True, strict=False, rational=False,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympify(a), short version of :func:`~.sympify` for internal usage for ``__add__`` and ``__eq__`` methods where it is ok to allow some things (like python integers and floats) in the expression) over Any ║
+# ║ Path(_sympify(a), sympify(a, strict=True)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(a, strict=True)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d1f500e8d3eb03b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify._sympify","kind":"function","src_hash":"33fc09841022690d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympify(a)","rhs":"short version of :func:`~.sympify` for internal usage for ``__add__`` and ``__eq__`` methods where it is ok to allow some things (like python integers and floats) in the expression","over":{"base":"Any"},"name":"_sympify_correct"},"guarantee":"short version of :func:`~.sympify` for internal usage for ``__add__`` and ``__eq__`` methods where it is ok to allow some things (like python integers and floats) in the expression","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d1f500e8d3eb03b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify._sympify","kind":"function","src_hash":"33fc09841022690d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympify(a)","rhs":"sympify(a, strict=True)","over":{"base":"Any"},"name":"_sympify_correct"},"guarantee":"returns sympify(a, strict=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d1f500e8d3eb03b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(a, strict=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _sympify(a):
     """
     Short version of :func:`~.sympify` for internal usage for ``__add__`` and
@@ -714,9 +803,15 @@ def _sympify(a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kernS(s), use a hack to try keep autosimplification from distributing a a number into an add; this modification does not prevent the 2-arg mul from becoming an add, however) over {Any | isinstance(expr, (list, tuple, set))} ║
+# ║ Path(kernS(s), <unspecified:kernS>) over {Any | isinstance(expr, (list, tuple, set)) and hasattr(s, 'replace') and hasattr(s, 'count') and hasattr(s, 'split') and hasattr(s, 'find')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kernS : {Any | isinstance(expr, (list, tuple, set))} ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'replace')                          ║
+# ║   requires: hasattr(s, 'count')                            ║
+# ║   requires: hasattr(s, 'split')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kernS : {Any | isinstance(expr, (list, tuple, set)) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   (list: {isinstance(expr, (list, tuple, set))} → lib...   ║
@@ -726,9 +821,12 @@ def _sympify(a):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 75cf57a3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.sympify.kernS","kind":"function","src_hash":"9e7c4d01759159f2","in":{"base":"Any","pred":"isinstance(expr, (list, tuple, set))"},"out":{"base":"Any","pred":"target.endswith('(')"},"spec":{"lhs":"kernS(s)","rhs":"use a hack to try keep autosimplification from distributing a a number into an add; this modification does not prevent the 2-arg mul from becoming an add, however","over":{"base":"Any","pred":"isinstance(expr, (list, tuple, set))"},"name":"kernS_correct"},"guarantee":"use a hack to try keep autosimplification from distributing a a number into an add; this modification does not prevent the 2-arg mul from becoming an add, however","fibers":[{"name":"(list","pred":"isinstance(expr, (list, tuple, set))","path":{"lhs":"kernS(x)","rhs":"use a hack to try keep autosimplification from distributing a a number into an add; this modification does not prevent the 2-arg mul from becoming an add, however","over":{"base":"(list","pred":"isinstance(expr, (list, tuple, set))"},"name":"kernS_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.kernS_(list_correct","statement":"kernS satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"75cf57a355f14209"}
+# @cctt_verify {"v":2,"sym":"sympy.core.sympify.kernS","kind":"function","src_hash":"9e7c4d01759159f2","in":{"base":"Any","pred":"isinstance(expr, (list, tuple, set)) and hasattr(s, 'replace') and hasattr(s, 'count') and hasattr(s, 'split') and hasattr(s, 'find')"},"out":{"base":"Any","pred":"target.endswith('(')"},"spec":{"lhs":"kernS(s)","rhs":"<unspecified:kernS>","over":{"base":"Any","pred":"isinstance(expr, (list, tuple, set)) and hasattr(s, 'replace') and hasattr(s, 'count') and hasattr(s, 'split') and hasattr(s, 'find')"},"name":"kernS_correct"},"guarantee":"use a hack to try keep autosimplification from distributing a a number into an add; this modification does not prevent the 2-arg mul from becoming an add, however","fibers":[{"name":"(list","pred":"isinstance(expr, (list, tuple, set))","path":{"lhs":"kernS(x)","rhs":"use a hack to try keep autosimplification from distributing a a number into an add; this modification does not prevent the 2-arg mul from becoming an add, however","over":{"base":"(list","pred":"isinstance(expr, (list, tuple, set))"},"name":"kernS_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.sympify.kernS_(list_correct","statement":"kernS satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"75cf57a355f14209","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'replace')","hasattr(s, 'count')","hasattr(s, 'split')","hasattr(s, 'find')"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["s.count","s.find","s.replace","s.split"],"raises":["SympifyError"],"catches":["TypeError"],"nondeterministic_sources":["choice"]},"state_contract":{"exceptional_post":{"SympifyError":["isinstance(raised, SympifyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, (list, tuple, set))', \"s[j] == ')'\", \"s.count('(') != s.count(')')\", 'nest == 0', 'j == -1', \"s[j] == '('\"}, fibers={'(list'})"]}}
 def kernS(s):
     """Use a hack to try keep autosimplification from distributing a
     a number into an Add; this modification does not

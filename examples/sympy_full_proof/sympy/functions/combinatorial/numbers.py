@@ -60,16 +60,22 @@ from mpmath.libmp import ifib as _ifib
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_product(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_product(a, b), prod(range(a, b + 1))) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prod(range(a, b + 1))                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _product : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3c1ca7332c82815           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._product","kind":"function","src_hash":"58e1d8d463b61414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_product(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3c1ca7332c82815"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._product","kind":"function","src_hash":"58e1d8d463b61414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_product(a, b)","rhs":"prod(range(a, b + 1))","over":{"base":"Any"},"name":"_product_correct"},"guarantee":"returns prod(range(a, b + 1))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3c1ca7332c82815","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prod(range(a, b + 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _product(a, b):
     return prod(range(a, b + 1))
 
@@ -87,14 +93,20 @@ _sym = Symbol('x')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(carmichael(*args), correctly constructs a carmichael instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ carmichael : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ carmichael : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1009be426d256e81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael","kind":"class","src_hash":"ebad95c343f842cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"carmichael(*args)","rhs":"correctly constructs a carmichael instance","over":{"base":"Any"},"name":"carmichael_class_invariant"},"guarantee":"correctly constructs a carmichael instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1009be426d256e81"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael","kind":"class","src_hash":"ebad95c343f842cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"carmichael(*args)","rhs":"correctly constructs a carmichael instance","over":{"base":"Any"},"name":"carmichael_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1009be426d256e81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function carmichael not found in source"]}}
 class carmichael(DefinedFunction):
     r"""
     Carmichael Numbers:
@@ -148,16 +160,22 @@ class carmichael(DefinedFunction):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_perfect_square(n), is_perfect_square produces the expected output) over Any ║
+# ║ Path(is_perfect_square(n), <unspecified:is_perfect_square>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_perfect_square : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 943fe04527bda487  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.is_perfect_square","kind":"staticmethod","src_hash":"10863ced9b7d6de2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perfect_square(n)","rhs":"is_perfect_square produces the expected output","over":{"base":"Any"},"name":"is_perfect_square_correct"},"guarantee":"is_perfect_square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.is_perfect_square_correct","statement":"Path(is_perfect_square(x), is_perfect_square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943fe04527bda487"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.is_perfect_square","kind":"staticmethod","src_hash":"10863ced9b7d6de2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perfect_square(n)","rhs":"<unspecified:is_perfect_square>","over":{"base":"Any"},"name":"is_perfect_square_correct"},"guarantee":"is_perfect_square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.is_perfect_square_correct","statement":"Path(is_perfect_square(x), is_perfect_square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943fe04527bda487","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_perfect_square(n):
         sympy_deprecation_warning(
         """
@@ -171,16 +189,22 @@ so use that directly instead.
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divides(p, ), divides produces the expected output) over Any ║
+# ║ Path(divides(p, n), n % p == 0) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  n % p == 0                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divides : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fe3883cc00399ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6accf1d886a1128f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.divides","kind":"staticmethod","src_hash":"ce33831c20b80f2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divides(p, )","rhs":"divides produces the expected output","over":{"base":"Any"},"name":"divides_correct"},"guarantee":"divides produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.divides_correct","statement":"Path(divides(x), divides produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fe3883cc00399ec"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.divides","kind":"staticmethod","src_hash":"ce33831c20b80f2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divides(p, n)","rhs":"n % p == 0","over":{"base":"Any"},"name":"divides_correct"},"guarantee":"returns n % p == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.divides_correct","statement":"Path(divides(x), returns n % p == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6accf1d886a1128f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"n % p == 0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def divides(p, n):
         sympy_deprecation_warning(
         """
@@ -193,16 +217,22 @@ so use that directly instead.
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_prime(n), is_prime produces the expected output) over Any ║
+# ║ Path(is_prime(n), <unspecified:is_prime>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_prime : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2f5c28d4673ee02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.is_prime","kind":"staticmethod","src_hash":"c533cebb9d640aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prime(n)","rhs":"is_prime produces the expected output","over":{"base":"Any"},"name":"is_prime_correct"},"guarantee":"is_prime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.is_prime_correct","statement":"Path(is_prime(x), is_prime produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2f5c28d4673ee02"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.is_prime","kind":"staticmethod","src_hash":"c533cebb9d640aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prime(n)","rhs":"<unspecified:is_prime>","over":{"base":"Any"},"name":"is_prime_correct"},"guarantee":"is_prime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.is_prime_correct","statement":"Path(is_prime(x), is_prime produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2f5c28d4673ee02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_prime(n):
         sympy_deprecation_warning(
         """
@@ -216,16 +246,22 @@ directly instead.
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_carmichael(n), is_carmichael produces the expected output) over Any ║
+# ║ Path(is_carmichael(n), <unspecified:is_carmichael>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_carmichael : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c322b48132212aef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.is_carmichael","kind":"staticmethod","src_hash":"26a04a53e5ea4051","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_carmichael(n)","rhs":"is_carmichael produces the expected output","over":{"base":"Any"},"name":"is_carmichael_correct"},"guarantee":"is_carmichael produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.is_carmichael_correct","statement":"Path(is_carmichael(x), is_carmichael produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c322b48132212aef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.is_carmichael","kind":"staticmethod","src_hash":"26a04a53e5ea4051","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_carmichael(n)","rhs":"<unspecified:is_carmichael>","over":{"base":"Any"},"name":"is_carmichael_correct"},"guarantee":"is_carmichael produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.is_carmichael_correct","statement":"Path(is_carmichael(x), is_carmichael produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c322b48132212aef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_carmichael(n):
         sympy_deprecation_warning(
         """
@@ -239,16 +275,22 @@ directly instead.
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_carmichael_numbers_in_range(x, ), find_carmichael_numbers_in_range produces the expected output) over Any ║
+# ║ Path(find_carmichael_numbers_in_range(x, y), <unspecified:find_carmichael_numbers_in_range>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_carmichael_numbers_in_range : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e30436bd49e8fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.find_carmichael_numbers_in_range","kind":"staticmethod","src_hash":"5aa7c3738417b03d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_carmichael_numbers_in_range(x, )","rhs":"find_carmichael_numbers_in_range produces the expected output","over":{"base":"Any"},"name":"find_carmichael_numbers_in_range_correct"},"guarantee":"find_carmichael_numbers_in_range produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.find_carmichael_numbers_in_range_correct","statement":"Path(find_carmichael_numbers_in_range(x), find_carmichael_numbers_in_range produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e30436bd49e8fe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.find_carmichael_numbers_in_range","kind":"staticmethod","src_hash":"5aa7c3738417b03d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_carmichael_numbers_in_range(x, y)","rhs":"<unspecified:find_carmichael_numbers_in_range>","over":{"base":"Any"},"name":"find_carmichael_numbers_in_range_correct"},"guarantee":"find_carmichael_numbers_in_range produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.find_carmichael_numbers_in_range_correct","statement":"Path(find_carmichael_numbers_in_range(x), find_carmichael_numbers_in_range produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e30436bd49e8fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_carmichael_numbers_in_range(x, y):
         sympy_deprecation_warning(
         """
@@ -262,16 +304,22 @@ directly instead.
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_first_n_carmichaels(n), find_first_n_carmichaels produces the expected output) over Any ║
+# ║ Path(find_first_n_carmichaels(n), <unspecified:find_first_n_carmichaels>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_first_n_carmichaels : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c356e39ccfa0b028  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.find_first_n_carmichaels","kind":"staticmethod","src_hash":"79e23410a2b109d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_first_n_carmichaels(n)","rhs":"find_first_n_carmichaels produces the expected output","over":{"base":"Any"},"name":"find_first_n_carmichaels_correct"},"guarantee":"find_first_n_carmichaels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.find_first_n_carmichaels_correct","statement":"Path(find_first_n_carmichaels(x), find_first_n_carmichaels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c356e39ccfa0b028"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.carmichael.find_first_n_carmichaels","kind":"staticmethod","src_hash":"79e23410a2b109d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_first_n_carmichaels(n)","rhs":"<unspecified:find_first_n_carmichaels>","over":{"base":"Any"},"name":"find_first_n_carmichaels_correct"},"guarantee":"find_first_n_carmichaels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.carmichael.find_first_n_carmichaels_correct","statement":"Path(find_first_n_carmichaels(x), find_first_n_carmichaels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c356e39ccfa0b028","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_first_n_carmichaels(n):
         sympy_deprecation_warning(
         """
@@ -294,14 +342,20 @@ directly instead.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(fibonacci(*args), correctly constructs a fibonacci instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fibonacci : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fibonacci : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ce653355c95c7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci","kind":"class","src_hash":"aa19cf6427ac64c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fibonacci(*args)","rhs":"correctly constructs a fibonacci instance","over":{"base":"Any"},"name":"fibonacci_class_invariant"},"guarantee":"correctly constructs a fibonacci instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ce653355c95c7c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci","kind":"class","src_hash":"aa19cf6427ac64c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"fibonacci(*args)","rhs":"correctly constructs a fibonacci instance","over":{"base":"Any"},"name":"fibonacci_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ce653355c95c7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function fibonacci not found in source"]}}
 class fibonacci(DefinedFunction):
     r"""
     Fibonacci numbers / Fibonacci polynomials
@@ -346,47 +400,66 @@ class fibonacci(DefinedFunction):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fib(n), internal helper behaves correctly) over Any  ║
+# ║ Path(_fib(n), _ifib(n)) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _ifib(n)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fib : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d761ebc06e6621f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._fib","kind":"staticmethod","src_hash":"e78ef710b370aa76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fib(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fib_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d761ebc06e6621f1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._fib","kind":"staticmethod","src_hash":"e78ef710b370aa76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fib(n)","rhs":"_ifib(n)","over":{"base":"Any"},"name":"_fib_correct"},"guarantee":"returns _ifib(n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d761ebc06e6621f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_ifib(n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fib(n):
         return _ifib(n)
 
     @staticmethod
     @recurrence_memo([None, S.One, _sym])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fibpoly(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_fibpoly(n, prev), (prev[-2] + _sym * prev[-1]).expand()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (prev[-2] + _sym * prev[-1]).expand()          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fibpoly : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3bf066444e388d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._fibpoly","kind":"staticmethod","src_hash":"24ab6c94af9fa9f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fibpoly(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fibpoly_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3bf066444e388d3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._fibpoly","kind":"staticmethod","src_hash":"24ab6c94af9fa9f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fibpoly(n, prev)","rhs":"(prev[-2] + _sym * prev[-1]).expand()","over":{"base":"Any"},"name":"_fibpoly_correct"},"guarantee":"returns (prev[-2] + _sym * prev[-1]).expand()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3bf066444e388d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(prev[-2] + _sym * prev[-1]).expand()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fibpoly(n, prev):
         return (prev[-2] + _sym*prev[-1]).expand()
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, sym), <unspecified:eval>) over {Any | hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Integer')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e105f08033223885  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci.eval","kind":"classmethod","src_hash":"da4f23c4d5c7baf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.fibonacci.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e105f08033223885"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci.eval","kind":"classmethod","src_hash":"da4f23c4d5c7baf3","in":{"base":"Any","pred":"hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, sym)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.fibonacci.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e105f08033223885","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._fib","cls._fibpoly","n.is_Integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, sym=None):
         if n is S.Infinity:
             return S.Infinity
@@ -405,46 +478,64 @@ class fibonacci(DefinedFunction):
                 return cls._fibpoly(n).subs(_sym, sym)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(n, ), id) over Any         ║
+# ║ Path(_eval_rewrite_as_tractable(n, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (S.GoldenRatio ** n - cos(S.Pi * n) / S.G...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tractable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1c2aa79a8af12b9c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._eval_rewrite_as_tractable","kind":"method","src_hash":"4155c043dfc2e8da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c2aa79a8af12b9c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._eval_rewrite_as_tractable","kind":"method","src_hash":"4155c043dfc2e8da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(n, **kwargs)","rhs":"(S.GoldenRatio ** n - cos(S.Pi * n) / S.GoldenRatio ** n) / sqrt(5)","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"returns (S.GoldenRatio ** n - cos(S.Pi * n) / S.GoldenRatio ** n) / sqrt(5)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c2aa79a8af12b9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(S.GoldenRatio ** n - cos(S.Pi * n) / S.GoldenRatio ** n) / sqrt(5)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, n, **kwargs):
         from sympy.functions import sqrt, cos
         return (S.GoldenRatio**n - cos(S.Pi*n)/S.GoldenRatio**n)/sqrt(5)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(n, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_sqrt(n, **kwargs), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** (-n) * sqrt(5) * ((1 + sqrt(5)) ** n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f22e658b81a18c61   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._eval_rewrite_as_sqrt","kind":"method","src_hash":"59b90f3f681a1fc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22e658b81a18c61"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._eval_rewrite_as_sqrt","kind":"method","src_hash":"59b90f3f681a1fc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(n, **kwargs)","rhs":"2 ** (-n) * sqrt(5) * ((1 + sqrt(5)) ** n - (-sqrt(5) + 1) ** n) / 5","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct","kind":"composition"},"guarantee":"returns 2 ** (-n) * sqrt(5) * ((1 + sqrt(5)) ** n - (-sqrt(5) + 1) ** n) / 5","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22e658b81a18c61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** (-n) * sqrt(5) * ((1 + sqrt(5)) ** n - (-sqrt(5) + 1) ** n) / 5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, n, **kwargs):
         from sympy.functions.elementary.miscellaneous import sqrt
         return 2**(-n)*sqrt(5)*((1 + sqrt(5))**n - (-sqrt(5) + 1)**n) / 5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_GoldenRatio(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_GoldenRatio(n, **kwargs), (S.GoldenRatio ** n - 1 / (-S.GoldenRatio) ** n) / (2 * S.GoldenRatio - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (S.GoldenRatio ** n - 1 / (-S.GoldenRatio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_GoldenRatio : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb044b204353e78b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._eval_rewrite_as_GoldenRatio","kind":"method","src_hash":"cc6823e02b871ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_GoldenRatio(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_GoldenRatio_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb044b204353e78b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.fibonacci._eval_rewrite_as_GoldenRatio","kind":"method","src_hash":"cc6823e02b871ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_GoldenRatio(n, **kwargs)","rhs":"(S.GoldenRatio ** n - 1 / (-S.GoldenRatio) ** n) / (2 * S.GoldenRatio - 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_GoldenRatio_correct"},"guarantee":"returns (S.GoldenRatio ** n - 1 / (-S.GoldenRatio) ** n) / (2 * S.GoldenRatio - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb044b204353e78b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(S.GoldenRatio ** n - 1 / (-S.GoldenRatio) ** n) / (2 * S.GoldenRatio - 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_GoldenRatio(self,n, **kwargs):
         return (S.GoldenRatio**n - 1/(-S.GoldenRatio)**n)/(2*S.GoldenRatio-1)
 
@@ -459,14 +550,20 @@ class fibonacci(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(lucas(*args), correctly constructs a lucas instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lucas : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lucas : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a32d8b2c33a11cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.lucas","kind":"class","src_hash":"64457e469299f1bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lucas(*args)","rhs":"correctly constructs a lucas instance","over":{"base":"Any"},"name":"lucas_class_invariant"},"guarantee":"correctly constructs a lucas instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a32d8b2c33a11cc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.lucas","kind":"class","src_hash":"64457e469299f1bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"lucas(*args)","rhs":"correctly constructs a lucas instance","over":{"base":"Any"},"name":"lucas_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a32d8b2c33a11cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function lucas not found in source"]}}
 class lucas(DefinedFunction):
     """
     Lucas numbers
@@ -501,16 +598,23 @@ class lucas(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Integer')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab462540069ec4ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.lucas.eval","kind":"classmethod","src_hash":"5dc88376ad40954d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.lucas.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab462540069ec4ff"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.lucas.eval","kind":"classmethod","src_hash":"5dc88376ad40954d","in":{"base":"Any","pred":"hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.lucas.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab462540069ec4ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n is S.Infinity:
             return S.Infinity
@@ -519,16 +623,22 @@ class lucas(DefinedFunction):
             return fibonacci(n + 1) + fibonacci(n - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(n, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_sqrt(n, **kwargs), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** (-n) * ((1 + sqrt(5)) ** n + (-sqrt(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eee937f066e7d3f3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.lucas._eval_rewrite_as_sqrt","kind":"method","src_hash":"49b131c6299c3952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eee937f066e7d3f3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.lucas._eval_rewrite_as_sqrt","kind":"method","src_hash":"49b131c6299c3952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(n, **kwargs)","rhs":"2 ** (-n) * ((1 + sqrt(5)) ** n + (-sqrt(5) + 1) ** n)","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct","kind":"composition"},"guarantee":"returns 2 ** (-n) * ((1 + sqrt(5)) ** n + (-sqrt(5) + 1) ** n)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eee937f066e7d3f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** (-n) * ((1 + sqrt(5)) ** n + (-sqrt(5) + 1) ** n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, n, **kwargs):
         from sympy.functions.elementary.miscellaneous import sqrt
         return 2**(-n)*((1 + sqrt(5))**n + (-sqrt(5) + 1)**n)
@@ -544,14 +654,20 @@ class lucas(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(tribonacci(*args), correctly constructs a tribonacci instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tribonacci : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tribonacci : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fde438040c6d8a7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci","kind":"class","src_hash":"96d22a26ab5f7c04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tribonacci(*args)","rhs":"correctly constructs a tribonacci instance","over":{"base":"Any"},"name":"tribonacci_class_invariant"},"guarantee":"correctly constructs a tribonacci instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fde438040c6d8a7a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci","kind":"class","src_hash":"96d22a26ab5f7c04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"tribonacci(*args)","rhs":"correctly constructs a tribonacci instance","over":{"base":"Any"},"name":"tribonacci_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fde438040c6d8a7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function tribonacci not found in source"]}}
 class tribonacci(DefinedFunction):
     r"""
     Tribonacci numbers / Tribonacci polynomials
@@ -594,47 +710,66 @@ class tribonacci(DefinedFunction):
     @staticmethod
     @recurrence_memo([S.Zero, S.One, S.One])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trib(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_trib(n, prev), prev[-3] + prev[-2] + prev[-1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prev[-3] + prev[-2] + prev[-1]                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trib : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ac8a6a7396b7fb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._trib","kind":"staticmethod","src_hash":"518ca6f57e31f113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trib(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_trib_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ac8a6a7396b7fb7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._trib","kind":"staticmethod","src_hash":"518ca6f57e31f113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trib(n, prev)","rhs":"prev[-3] + prev[-2] + prev[-1]","over":{"base":"Any"},"name":"_trib_correct"},"guarantee":"returns prev[-3] + prev[-2] + prev[-1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ac8a6a7396b7fb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prev[-3] + prev[-2] + prev[-1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _trib(n, prev):
         return (prev[-3] + prev[-2] + prev[-1])
 
     @staticmethod
     @recurrence_memo([S.Zero, S.One, _sym**2])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tribpoly(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_tribpoly(n, prev), (prev[-3] + _sym * prev[-2] + _sym ** 2 * prev[-1]).expand()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (prev[-3] + _sym * prev[-2] + _sym ** 2 *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tribpoly : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38ad8d57ec36ae2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._tribpoly","kind":"staticmethod","src_hash":"db7b9428c9acc9a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tribpoly(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_tribpoly_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38ad8d57ec36ae2d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._tribpoly","kind":"staticmethod","src_hash":"db7b9428c9acc9a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tribpoly(n, prev)","rhs":"(prev[-3] + _sym * prev[-2] + _sym ** 2 * prev[-1]).expand()","over":{"base":"Any"},"name":"_tribpoly_correct"},"guarantee":"returns (prev[-3] + _sym * prev[-2] + _sym ** 2 * prev[-1]).expand()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38ad8d57ec36ae2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(prev[-3] + _sym * prev[-2] + _sym ** 2 * prev[-1]).expand()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tribpoly(n, prev):
         return (prev[-3] + _sym*prev[-2] + _sym**2*prev[-1]).expand()
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, sym), <unspecified:eval>) over {Any | hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Integer')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed25a02edd8498dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci.eval","kind":"classmethod","src_hash":"8e67906fa6258247","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.tribonacci.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed25a02edd8498dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci.eval","kind":"classmethod","src_hash":"8e67906fa6258247","in":{"base":"Any","pred":"hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, sym)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.tribonacci.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed25a02edd8498dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._trib","cls._tribpoly","n.is_Integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, sym=None):
         if n is S.Infinity:
             return S.Infinity
@@ -650,16 +785,22 @@ class tribonacci(DefinedFunction):
                 return cls._tribpoly(n).subs(_sym, sym)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(n, **kwargs), <unspecified:_eval_rewrite_as_sqrt>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cce9f459e600a696  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_sqrt","kind":"method","src_hash":"a5abe4a3ec28de43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce9f459e600a696"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_sqrt","kind":"method","src_hash":"a5abe4a3ec28de43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(n, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_sqrt>","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce9f459e600a696","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, n, **kwargs):
         from sympy.functions.elementary.miscellaneous import cbrt, sqrt
         w = (-1 + S.ImaginaryUnit * sqrt(3)) / 2
@@ -672,16 +813,22 @@ class tribonacci(DefinedFunction):
         return Tn
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TribonacciConstant(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_TribonacciConstant(n, **kwargs), floor(Tn + S.Half)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  floor(Tn + S.Half)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TribonacciConstant : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d441ba3bdf0ea2e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce50387dc43a1eb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_TribonacciConstant","kind":"method","src_hash":"b2d2fba35ff6f98c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TribonacciConstant(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TribonacciConstant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_TribonacciConstant_correct","statement":"Path(_eval_rewrite_as_TribonacciConstant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d441ba3bdf0ea2e6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_TribonacciConstant","kind":"method","src_hash":"b2d2fba35ff6f98c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TribonacciConstant(n, **kwargs)","rhs":"floor(Tn + S.Half)","over":{"base":"Any"},"name":"_eval_rewrite_as_TribonacciConstant_correct"},"guarantee":"returns floor(Tn + S.Half)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.tribonacci._eval_rewrite_as_TribonacciConstant_correct","statement":"Path(_eval_rewrite_as_TribonacciConstant(x), returns floor(Tn + S.Half))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce50387dc43a1eb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"floor(Tn + S.Half)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TribonacciConstant(self, n, **kwargs):
         from sympy.functions.elementary.integers import floor
         from sympy.functions.elementary.miscellaneous import cbrt, sqrt
@@ -700,14 +847,20 @@ class tribonacci(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(bernoulli(*args), correctly constructs a bernoulli instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bernoulli : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bernoulli : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3e79153e131200c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli","kind":"class","src_hash":"ebb0257e08e62802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bernoulli(*args)","rhs":"correctly constructs a bernoulli instance","over":{"base":"Any"},"name":"bernoulli_class_invariant"},"guarantee":"correctly constructs a bernoulli instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3e79153e131200c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli","kind":"class","src_hash":"ebb0257e08e62802","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"bernoulli(*args)","rhs":"correctly constructs a bernoulli instance","over":{"base":"Any"},"name":"bernoulli_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3e79153e131200c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function bernoulli not found in source"]}}
 class bernoulli(DefinedFunction):
     r"""
     Bernoulli numbers / Bernoulli polynomials / Bernoulli function
@@ -814,16 +967,22 @@ class bernoulli(DefinedFunction):
     # Calculates B_n for positive even n
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calc_bernoulli(n), internal helper behaves correctly) over Any ║
+# ║ Path(_calc_bernoulli(n), s / binomial(n + 3, n)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  s / binomial(n + 3, n)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calc_bernoulli : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ed78add03f3c1bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed888d725f3d99b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli._calc_bernoulli","kind":"staticmethod","src_hash":"291237993ff4f570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calc_bernoulli(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calc_bernoulli_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bernoulli._calc_bernoulli_correct","statement":"Path(_calc_bernoulli(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ed78add03f3c1bf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli._calc_bernoulli","kind":"staticmethod","src_hash":"291237993ff4f570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calc_bernoulli(n)","rhs":"s / binomial(n + 3, n)","over":{"base":"Any"},"name":"_calc_bernoulli_correct"},"guarantee":"returns s / binomial(n + 3, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bernoulli._calc_bernoulli_correct","statement":"Path(_calc_bernoulli(x), returns s / binomial(n + 3, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed888d725f3d99b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"s / binomial(n + 3, n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calc_bernoulli(n):
         s = 0
         a = int(binomial(n + 3, n - 6))
@@ -845,16 +1004,27 @@ class bernoulli(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(x, 'is_Integer') and hasattr(x, 'is_nonpositive') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   fiber[case_0]: x is S.One => cls(n)                      ║
+# ║   fiber[case_1]: n.is_zero => S.One                        ║
+# ║   fiber[case_2]: n.is_integer is False or n.is_nonneg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_zero') and hasattr(n, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2875438184aba29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50438be87547f319  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli.eval","kind":"classmethod","src_hash":"4b435099548d9119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bernoulli.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2875438184aba29"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli.eval","kind":"classmethod","src_hash":"4b435099548d9119","in":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(x, 'is_Integer') and hasattr(x, 'is_nonpositive') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(x, 'is_Integer') and hasattr(x, 'is_nonpositive') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd')"},"name":"eval_correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bernoulli.eval_correct","statement":"Path(eval(x), 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50438be87547f319","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_zero')","hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')","hasattr(x, 'is_Integer')","hasattr(x, 'is_nonpositive')","hasattr(n, 'is_Number')","hasattr(n, 'is_odd')"],"fibers":[{"name":"case_0","guard":"x is S.One","ensures":["result == cls(n)"],"decidability":"library","returns_expr":"cls(n)"},{"name":"case_1","guard":"n.is_zero","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_2","guard":"n.is_integer is False or n.is_nonnegative is False","ensures":[],"decidability":"library"},{"name":"zero_or_none","guard":"x is None","ensures":[],"decidability":"structural"},{"name":"case_4","guard":"n.is_Number","ensures":["result == bernoulli_poly(n, x)"],"decidability":"library","returns_expr":"bernoulli_poly(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._cache","cls._calc_bernoulli","cls._highest","n.is_Number","n.is_integer","n.is_nonnegative","n.is_odd","n.is_zero","x.is_Integer","x.is_nonpositive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x=None):
         if x is S.One:
             return cls(n)
@@ -893,31 +1063,43 @@ class bernoulli(DefinedFunction):
             return bernoulli_poly(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(n, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_zeta(n, x, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((1, Eq(n, 0)), (-n * zeta(1 - n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 88f998913752a2b1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli._eval_rewrite_as_zeta","kind":"method","src_hash":"d85d44f701d4155a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f998913752a2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli._eval_rewrite_as_zeta","kind":"method","src_hash":"d85d44f701d4155a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(n, x, **kwargs)","rhs":"Piecewise((1, Eq(n, 0)), (-n * zeta(1 - n, x), True))","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"returns Piecewise((1, Eq(n, 0)), (-n * zeta(1 - n, x), True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f998913752a2b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((1, Eq(n, 0)), (-n * zeta(1 - n, x), True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, n, x=1, **kwargs):
         from sympy.functions.special.zeta_functions import zeta
         return Piecewise((1, Eq(n, 0)), (-n * zeta(1-n, x), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), Expr._from_mpmath(res, prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr._from_mpmath(res, prec)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ad4a050ee2e4ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 192bba316f46f4a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli._eval_evalf","kind":"method","src_hash":"da683ac93a160de1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bernoulli._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ad4a050ee2e4ea"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bernoulli._eval_evalf","kind":"method","src_hash":"da683ac93a160de1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Expr._from_mpmath(res, prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Expr._from_mpmath(res, prec)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bernoulli._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Expr._from_mpmath(res, prec))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"192bba316f46f4a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr._from_mpmath(res, prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not all(x.is_number for x in self.args):
             return
@@ -945,14 +1127,20 @@ class bernoulli(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(bell(*args), correctly constructs a bell instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bell : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bell : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b52084fed2673187  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell","kind":"class","src_hash":"10f322c1eb9fa889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bell(*args)","rhs":"correctly constructs a bell instance","over":{"base":"Any"},"name":"bell_class_invariant"},"guarantee":"correctly constructs a bell instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52084fed2673187"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell","kind":"class","src_hash":"10f322c1eb9fa889","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"bell(*args)","rhs":"correctly constructs a bell instance","over":{"base":"Any"},"name":"bell_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52084fed2673187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function bell not found in source"]}}
 class bell(DefinedFunction):
     r"""
     Bell numbers / Bell polynomials
@@ -1021,16 +1209,22 @@ class bell(DefinedFunction):
     @staticmethod
     @recurrence_memo([1, 1])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bell(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_bell(n, prev), <unspecified:_bell>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _bell : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dede809ba073636b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._bell","kind":"staticmethod","src_hash":"60390992066fab4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bell(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_bell_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._bell_correct","statement":"Path(_bell(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dede809ba073636b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._bell","kind":"staticmethod","src_hash":"60390992066fab4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bell(n, prev)","rhs":"<unspecified:_bell>","over":{"base":"Any"},"name":"_bell_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._bell_correct","statement":"Path(_bell(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dede809ba073636b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _bell(n, prev):
         s = 1
         a = 1
@@ -1042,16 +1236,22 @@ class bell(DefinedFunction):
     @staticmethod
     @recurrence_memo([S.One, _sym])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bell_poly(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_bell_poly(n, prev), expand_mul(_sym * s)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expand_mul(_sym * s)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _bell_poly : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48dfee68417308f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88700154f210a442  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._bell_poly","kind":"staticmethod","src_hash":"f657e9da43387998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bell_poly(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_bell_poly_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._bell_poly_correct","statement":"Path(_bell_poly(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48dfee68417308f4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._bell_poly","kind":"staticmethod","src_hash":"f657e9da43387998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bell_poly(n, prev)","rhs":"expand_mul(_sym * s)","over":{"base":"Any"},"name":"_bell_poly_correct"},"guarantee":"returns expand_mul(_sym * s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._bell_poly_correct","statement":"Path(_bell_poly(x), returns expand_mul(_sym * s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88700154f210a442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expand_mul(_sym * s)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _bell_poly(n, prev):
         s = 1
         a = 1
@@ -1062,16 +1262,25 @@ class bell(DefinedFunction):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bell_incomplete_poly(n, ), the second kind of bell polynomials (incomplete bell polynomials)) over Any ║
+# ║ Path(_bell_incomplete_poly(n, k, symbols), result == (S.One if n == 0 and k == 0 else S.Zero) and result == S.One or result == S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _bell_incomplete_poly : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.One if n == 0 and k == 0 els...   ║
+# ║   ensures:  result == S.One or result == S.Zero            ║
+# ║   fiber[zero_or_none]: n == 0 and k == 0 => S.One          ║
+# ║   fiber[zero_or_none]: n == 0 or k == 0 => S.Zero          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _bell_incomplete_poly : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e8cab0a21a2ed59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 494d431b92974572  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._bell_incomplete_poly","kind":"staticmethod","src_hash":"f7c097009298978e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bell_incomplete_poly(n, )","rhs":"the second kind of bell polynomials (incomplete bell polynomials)","over":{"base":"Any"},"name":"_bell_incomplete_poly_correct"},"guarantee":"the second kind of bell polynomials (incomplete bell polynomials)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._bell_incomplete_poly_correct","statement":"Path(_bell_incomplete_poly(x), the second kind of bell polynomials (incomplete bell polynomials))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e8cab0a21a2ed59"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._bell_incomplete_poly","kind":"staticmethod","src_hash":"f7c097009298978e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if n == 0 and k == 0 else S.Zero) and result == S.One or result == S.Zero"},"spec":{"lhs":"_bell_incomplete_poly(n, k, symbols)","rhs":"result == (S.One if n == 0 and k == 0 else S.Zero) and result == S.One or result == S.Zero","over":{"base":"Any"},"name":"_bell_incomplete_poly_correct"},"guarantee":"result == (S.One if n == 0 and k == 0 else S.Zero); result == S.One or result == S.Zero; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._bell_incomplete_poly_correct","statement":"Path(_bell_incomplete_poly(x), result == (S.One if n == 0 and k == 0 else S.Zero); result == S.One or result == S.Zero; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"494d431b92974572","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.One if n == 0 and k == 0 else S.Zero)","result == S.One or result == S.Zero"],"fibers":[{"name":"zero_or_none","guard":"n == 0 and k == 0","ensures":["result == S.One"],"decidability":"z3","returns_expr":"S.One"},{"name":"zero_or_none","guard":"n == 0 or k == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _bell_incomplete_poly(n, k, symbols):
         r"""
         The second kind of Bell polynomials (incomplete Bell polynomials).
@@ -1102,16 +1311,25 @@ class bell(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, k_sym), <unspecified:eval>) over {Any | not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_negative or n.is_integer is False)   ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_negative or n.is_integer is F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bce6792b7e2e9c44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell.eval","kind":"classmethod","src_hash":"e8f19bd91aa7c684","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce6792b7e2e9c44"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell.eval","kind":"classmethod","src_hash":"e8f19bd91aa7c684","in":{"base":"Any","pred":"not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, k_sym)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce6792b7e2e9c44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_negative or n.is_integer is False)","hasattr(n, 'is_negative')","hasattr(n, 'is_Integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._bell","cls._bell_incomplete_poly","cls._bell_poly","n.is_Integer","n.is_integer","n.is_negative","n.is_nonnegative"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, k_sym=None, symbols=None):
         if n is S.Infinity:
             if k_sym is None:
@@ -1132,16 +1350,23 @@ class bell(DefinedFunction):
                 return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Sum(n, k_sym, symbols), <unspecified:_eval_rewrite_as_Sum>) over {Any | hasattr(n, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Sum : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Sum : {Any | hasattr(n, 'is_nonnegat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59126cf984a741d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._eval_rewrite_as_Sum","kind":"method","src_hash":"46bb16397268e030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59126cf984a741d4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.bell._eval_rewrite_as_Sum","kind":"method","src_hash":"46bb16397268e030","in":{"base":"Any","pred":"hasattr(n, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, k_sym, symbols)","rhs":"<unspecified:_eval_rewrite_as_Sum>","over":{"base":"Any","pred":"hasattr(n, 'is_nonnegative')"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.bell._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59126cf984a741d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, k_sym=None, symbols=None, **kwargs):
         from sympy.concrete.summations import Sum
         if (k_sym is not None) or (symbols is not None):
@@ -1164,14 +1389,20 @@ class bell(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(harmonic(*args), correctly constructs a harmonic instance) over {Any | isinstance(pg, harmonic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ harmonic : {Any | isinstance(pg, harmonic)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ harmonic : {Any | isinstance(pg, harmonic)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53d75c8f8221852e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic","kind":"class","src_hash":"fa457f555c2872a2","in":{"base":"Any","pred":"isinstance(pg, harmonic)"},"out":{"base":"Any"},"spec":{"lhs":"harmonic(*args)","rhs":"correctly constructs a harmonic instance","over":{"base":"Any","pred":"isinstance(pg, harmonic)"},"name":"harmonic_class_invariant"},"guarantee":"correctly constructs a harmonic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53d75c8f8221852e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic","kind":"class","src_hash":"fa457f555c2872a2","in":{"base":"Any","pred":"isinstance(pg, harmonic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"harmonic(*args)","rhs":"correctly constructs a harmonic instance","over":{"base":"Any","pred":"isinstance(pg, harmonic)"},"name":"harmonic_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53d75c8f8221852e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function harmonic not found in source"]}}
 class harmonic(DefinedFunction):
     r"""
     Harmonic numbers
@@ -1309,16 +1540,25 @@ class harmonic(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, m), <unspecified:eval>) over {Any | hasattr(n, 'is_zero') and hasattr(m, 'is_zero') and hasattr(m, 'is_negative') and hasattr(m, 'is_Integer') and hasattr(m, 'is_nonpositive') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_negative') and hasattr(m, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_zero') and hasattr(m, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce9e75524247d0ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic.eval","kind":"classmethod","src_hash":"443949a81e8c0333","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce9e75524247d0ca"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic.eval","kind":"classmethod","src_hash":"443949a81e8c0333","in":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(m, 'is_zero') and hasattr(m, 'is_negative') and hasattr(m, 'is_Integer') and hasattr(m, 'is_nonpositive') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_negative') and hasattr(m, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, m)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(m, 'is_zero') and hasattr(m, 'is_negative') and hasattr(m, 'is_Integer') and hasattr(m, 'is_nonpositive') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_negative') and hasattr(m, 'is_integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce9e75524247d0ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_zero')","hasattr(m, 'is_zero')","hasattr(m, 'is_negative')","hasattr(m, 'is_Integer')","hasattr(m, 'is_nonpositive')","hasattr(n, 'is_Integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_negative')","hasattr(m, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.harmonic_cache","m.is_Integer","m.is_integer","m.is_negative","m.is_nonpositive","m.is_zero","n.is_Integer","n.is_negative","n.is_nonnegative","n.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, m=None):
         from sympy.functions.special.zeta_functions import zeta
         if m is S.One:
@@ -1352,16 +1592,24 @@ class harmonic(DefinedFunction):
                 return Add(*(k**(-m) for k in range(1, int(n) + 1)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polygamma(n, ), id) over Any         ║
+# ║ Path(_eval_rewrite_as_polygamma(n, m, **kwargs), id) over {Any | hasattr(m, 'is_integer') and hasattr(m, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_polygamma : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'is_integer')                       ║
+# ║   requires: hasattr(m, 'is_positive')                      ║
+# ║   returns:  Piecewise((polygamma(0, n + 1) + S.EulerG...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_polygamma : {Any | hasattr(m, 'is_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a0e28138e7c9df22   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_polygamma","kind":"method","src_hash":"a17e809d8429681e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polygamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polygamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e28138e7c9df22"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_polygamma","kind":"method","src_hash":"a17e809d8429681e","in":{"base":"Any","pred":"hasattr(m, 'is_integer') and hasattr(m, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polygamma(n, m, **kwargs)","rhs":"Piecewise((polygamma(0, n + 1) + S.EulerGamma, Eq(m, 1)), (S.NegativeOne ** m * (polygamma(m - 1, 1) - polygamma(m - 1, n + 1)) / gamma(m), True))","over":{"base":"Any","pred":"hasattr(m, 'is_integer') and hasattr(m, 'is_positive')"},"name":"_eval_rewrite_as_polygamma_correct","kind":"composition"},"guarantee":"returns Piecewise((polygamma(0, n + 1) + S.EulerGamma, Eq(m, 1)), (S.NegativeOne ** m * (polygamma(m - 1, 1) - polygamma(m - 1, n + 1)) / gamma(m), True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e28138e7c9df22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'is_integer')","hasattr(m, 'is_positive')"],"returns_expr":"Piecewise((polygamma(0, n + 1) + S.EulerGamma, Eq(m, 1)), (S.NegativeOne ** m * (polygamma(m - 1, 1) - polygamma(m - 1, n + 1)) / gamma(m), True))","pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_integer","m.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polygamma(self, n, m=S.One, **kwargs):
         from sympy.functions.special.gamma_functions import gamma, polygamma
         if m.is_integer and m.is_positive:
@@ -1370,46 +1618,64 @@ class harmonic(DefinedFunction):
                     gamma(m), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_digamma(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_digamma(n, m, **kwargs), self.rewrite(polygamma)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(polygamma)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_digamma : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a59ba0e7df3b23c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bebcc5b533771819  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_digamma","kind":"method","src_hash":"e717b9917c119804","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_digamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_digamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_digamma_correct","statement":"Path(_eval_rewrite_as_digamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a59ba0e7df3b23c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_digamma","kind":"method","src_hash":"e717b9917c119804","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_digamma(n, m, **kwargs)","rhs":"self.rewrite(polygamma)","over":{"base":"Any"},"name":"_eval_rewrite_as_digamma_correct"},"guarantee":"returns self.rewrite(polygamma)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_digamma_correct","statement":"Path(_eval_rewrite_as_digamma(x), returns self.rewrite(polygamma))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bebcc5b533771819","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(polygamma)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_digamma(self, n, m=1, **kwargs):
         from sympy.functions.special.gamma_functions import polygamma
         return self.rewrite(polygamma)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_trigamma(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_trigamma(n, m, **kwargs), self.rewrite(polygamma)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(polygamma)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_trigamma : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5707616122904fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e408225e63ff207b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_trigamma","kind":"method","src_hash":"d39c1b3b00009fbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_trigamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_trigamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_trigamma_correct","statement":"Path(_eval_rewrite_as_trigamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5707616122904fd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_trigamma","kind":"method","src_hash":"d39c1b3b00009fbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_trigamma(n, m, **kwargs)","rhs":"self.rewrite(polygamma)","over":{"base":"Any"},"name":"_eval_rewrite_as_trigamma_correct"},"guarantee":"returns self.rewrite(polygamma)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_trigamma_correct","statement":"Path(_eval_rewrite_as_trigamma(x), returns self.rewrite(polygamma))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e408225e63ff207b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(polygamma)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_trigamma(self, n, m=1, **kwargs):
         from sympy.functions.special.gamma_functions import polygamma
         return self.rewrite(polygamma)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Sum(n, m, **kwargs), Sum(k ** (-m), (k, 1, n))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(k ** (-m), (k, 1, n))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60a9f69fced69bef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc7356ca7691349b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_Sum","kind":"method","src_hash":"c0dd6a3348485e64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60a9f69fced69bef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_Sum","kind":"method","src_hash":"c0dd6a3348485e64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, m, **kwargs)","rhs":"Sum(k ** (-m), (k, 1, n))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"returns Sum(k ** (-m), (k, 1, n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), returns Sum(k ** (-m), (k, 1, n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc7356ca7691349b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(k ** (-m), (k, 1, n))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, m=None, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k", integer=True)
@@ -1418,16 +1684,22 @@ class harmonic(DefinedFunction):
         return Sum(k**(-m), (k, 1, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(n, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_zeta(n, m, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((digamma(n + 1) + S.EulerGamma,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 84ab941a09b83ca7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_zeta","kind":"method","src_hash":"ee7196a6c6c44dab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84ab941a09b83ca7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_zeta","kind":"method","src_hash":"ee7196a6c6c44dab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(n, m, **kwargs)","rhs":"Piecewise((digamma(n + 1) + S.EulerGamma, Eq(m, 1)), (zeta(m) - zeta(m, n + 1), True))","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"returns Piecewise((digamma(n + 1) + S.EulerGamma, Eq(m, 1)), (zeta(m) - zeta(m, n + 1), True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84ab941a09b83ca7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((digamma(n + 1) + S.EulerGamma, Eq(m, 1)), (zeta(m) - zeta(m, n + 1), True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, n, m=S.One, **kwargs):
         from sympy.functions.special.zeta_functions import zeta
         from sympy.functions.special.gamma_functions import digamma
@@ -1435,16 +1707,22 @@ class harmonic(DefinedFunction):
                          (zeta(m) - zeta(m, n+1), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_func(**hints), <unspecified:_eval_expand_func>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5c65cb7c40dd9ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_expand_func","kind":"method","src_hash":"07e825f9908125c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5c65cb7c40dd9ee"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_expand_func","kind":"method","src_hash":"07e825f9908125c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5c65cb7c40dd9ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         from sympy.concrete.summations import Sum
         n = self.args[0]
@@ -1482,16 +1760,22 @@ class harmonic(DefinedFunction):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tractable(n, m, limitvar), <unspecified:_eval_rewrite_as_tractable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tractable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ad15d54d6d7e278  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_tractable","kind":"method","src_hash":"0c1e1e37462549f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_tractable_correct","statement":"Path(_eval_rewrite_as_tractable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ad15d54d6d7e278"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_tractable","kind":"method","src_hash":"0c1e1e37462549f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(n, m, limitvar)","rhs":"<unspecified:_eval_rewrite_as_tractable>","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_rewrite_as_tractable_correct","statement":"Path(_eval_rewrite_as_tractable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ad15d54d6d7e278","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, n, m=1, limitvar=None, **kwargs):
         from sympy.functions.special.zeta_functions import zeta
         from sympy.functions.special.gamma_functions import polygamma
@@ -1503,16 +1787,22 @@ class harmonic(DefinedFunction):
             return (zeta(m) - zeta(m, n+1)).rewrite("tractable", deep=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd72045c7f997d0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_evalf","kind":"method","src_hash":"21fb15f201050aaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd72045c7f997d0e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic._eval_evalf","kind":"method","src_hash":"21fb15f201050aaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd72045c7f997d0e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not all(x.is_number for x in self.args):
             return
@@ -1528,16 +1818,22 @@ class harmonic(DefinedFunction):
         return Expr._from_mpmath(res, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), m * zeta(m + 1, n + 1)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  m * zeta(m + 1, n + 1)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caf44b678f6c4fdc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d79a81e791b6692  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic.fdiff","kind":"method","src_hash":"e2b1a0030f237ca3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf44b678f6c4fdc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.harmonic.fdiff","kind":"method","src_hash":"e2b1a0030f237ca3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"m * zeta(m + 1, n + 1)","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns m * zeta(m + 1, n + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.harmonic.fdiff_correct","statement":"Path(fdiff(x), returns m * zeta(m + 1, n + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d79a81e791b6692","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"m * zeta(m + 1, n + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         from sympy.functions.special.zeta_functions import zeta
         if len(self.args) == 2:
@@ -1560,14 +1856,20 @@ class harmonic(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(euler(*args), correctly constructs a euler instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ euler : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ euler : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 881a03e67978425d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler","kind":"class","src_hash":"dee57da74ea793f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euler(*args)","rhs":"correctly constructs a euler instance","over":{"base":"Any"},"name":"euler_class_invariant"},"guarantee":"correctly constructs a euler instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"881a03e67978425d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler","kind":"class","src_hash":"dee57da74ea793f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"euler(*args)","rhs":"correctly constructs a euler instance","over":{"base":"Any"},"name":"euler_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"881a03e67978425d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function euler not found in source"]}}
 class euler(DefinedFunction):
     r"""
     Euler numbers / Euler polynomials / Euler function
@@ -1652,16 +1954,27 @@ class euler(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd') and hasattr(n, 'is_positive') and hasattr(n, '_to_mpmath')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   fiber[case_0]: n.is_zero => S.One                        ║
+# ║   fiber[case_1]: n is S.NegativeOne => digamma((x + 1...   ║
+# ║   fiber[case_2]: n.is_integer is False or n.is_nonneg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_zero') and hasattr(n, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dbe00106ff3e1d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3a00b1e0c2d10cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler.eval","kind":"classmethod","src_hash":"bd974ce2dcf5df29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.euler.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dbe00106ff3e1d9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler.eval","kind":"classmethod","src_hash":"bd974ce2dcf5df29","in":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd') and hasattr(n, 'is_positive') and hasattr(n, '_to_mpmath')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd') and hasattr(n, 'is_positive') and hasattr(n, '_to_mpmath')"},"name":"eval_correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.euler.eval_correct","statement":"Path(eval(x), 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a00b1e0c2d10cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_zero')","hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_Number')","hasattr(n, 'is_odd')","hasattr(n, 'is_positive')","hasattr(n, '_to_mpmath')"],"fibers":[{"name":"case_0","guard":"n.is_zero","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_1","guard":"n is S.NegativeOne","ensures":["result == digamma((x + 1) / 2) - digamma(x / 2)"],"decidability":"library","returns_expr":"digamma((x + 1) / 2) - digamma(x / 2)"},{"name":"case_2","guard":"n.is_integer is False or n.is_nonnegative is False","ensures":[],"decidability":"library"},{"name":"zero_or_none","guard":"x is None","ensures":[],"decidability":"structural"},{"name":"case_4","guard":"n.is_Number","ensures":["result == euler_poly(n, x)"],"decidability":"library","returns_expr":"euler_poly(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n._to_mpmath","n.is_Number","n.is_integer","n.is_nonnegative","n.is_odd","n.is_positive","n.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x=None):
         if n.is_zero:
             return S.One
@@ -1696,16 +2009,23 @@ class euler(DefinedFunction):
             return euler_poly(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), <unspecified:_eval_rewrite_as_Sum>) over {Any | hasattr(n, 'is_even')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Sum : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_even')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Sum : {Any | hasattr(n, 'is_even')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4be7e9bd73898b96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler._eval_rewrite_as_Sum","kind":"method","src_hash":"e95387232feb9245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.euler._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4be7e9bd73898b96"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler._eval_rewrite_as_Sum","kind":"method","src_hash":"e95387232feb9245","in":{"base":"Any","pred":"hasattr(n, 'is_even')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_Sum>","over":{"base":"Any","pred":"hasattr(n, 'is_even')"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.euler._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4be7e9bd73898b96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_even')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_even"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x=None, **kwargs):
         from sympy.concrete.summations import Sum
         if x is None and n.is_even:
@@ -1721,16 +2041,22 @@ class euler(DefinedFunction):
             return Sum(binomial(n, k)*euler(k)/2**k*(x - S.Half)**(n - k), (k, 0, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_genocchi(n, ), id) over Any          ║
+# ║ Path(_eval_rewrite_as_genocchi(n, x, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_genocchi : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9c9b088a7cbedb29   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler._eval_rewrite_as_genocchi","kind":"method","src_hash":"73e19c8cc1d48a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_genocchi(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_genocchi_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c9b088a7cbedb29"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler._eval_rewrite_as_genocchi","kind":"method","src_hash":"73e19c8cc1d48a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_genocchi(n, x, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_genocchi>","over":{"base":"Any"},"name":"_eval_rewrite_as_genocchi_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c9b088a7cbedb29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_genocchi(self, n, x=None, **kwargs):
         if x is None:
             return Piecewise((S.Pi/2, Eq(n, -1)),
@@ -1740,16 +2066,22 @@ class euler(DefinedFunction):
                          (-genocchi(n+1, x) / (n+1), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), Expr._from_mpmath(res, prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr._from_mpmath(res, prec)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67d997cb0486cebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 094e065619f19fa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler._eval_evalf","kind":"method","src_hash":"541c16762ec68bbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.euler._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67d997cb0486cebe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.euler._eval_evalf","kind":"method","src_hash":"541c16762ec68bbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Expr._from_mpmath(res, prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Expr._from_mpmath(res, prec)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.euler._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Expr._from_mpmath(res, prec))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"094e065619f19fa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr._from_mpmath(res, prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not all(i.is_number for i in self.args):
             return
@@ -1782,14 +2114,20 @@ class euler(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(catalan(*args), correctly constructs a catalan instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ catalan : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ catalan : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f149d3b978301b8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan","kind":"class","src_hash":"3949cc00759d0576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"catalan(*args)","rhs":"correctly constructs a catalan instance","over":{"base":"Any"},"name":"catalan_class_invariant"},"guarantee":"correctly constructs a catalan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f149d3b978301b8e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan","kind":"class","src_hash":"3949cc00759d0576","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"catalan(*args)","rhs":"correctly constructs a catalan instance","over":{"base":"Any"},"name":"catalan_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f149d3b978301b8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function catalan not found in source"]}}
 class catalan(DefinedFunction):
     r"""
     Catalan numbers
@@ -1872,16 +2210,25 @@ class catalan(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, n), id) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_noninteger')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_integer') and hasattr(n,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dadc2c6660af227d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan.eval","kind":"classmethod","src_hash":"c7f6bdd301ec34c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dadc2c6660af227d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan.eval","kind":"classmethod","src_hash":"c7f6bdd301ec34c1","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_noninteger')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_noninteger')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dadc2c6660af227d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_negative')","hasattr(n, 'is_Integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_noninteger')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","n.is_integer","n.is_negative","n.is_noninteger","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         from sympy.functions.special.gamma_functions import gamma
         if (n.is_Integer and n.is_nonnegative) or \
@@ -1895,16 +2242,22 @@ class catalan(DefinedFunction):
                 return Rational(-1, 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  catalan(n) * (polygamma(0, n + S.Half) - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4a255dcf716a6dab   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan.fdiff","kind":"method","src_hash":"9d40b478f9d30310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"catalan","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a255dcf716a6dab"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan.fdiff","kind":"method","src_hash":"9d40b478f9d30310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"catalan(n) * (polygamma(0, n + S.Half) - polygamma(0, n + 2) + log(4))","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"returns catalan(n) * (polygamma(0, n + S.Half) - polygamma(0, n + 2) + log(4))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"catalan","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a255dcf716a6dab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"catalan(n) * (polygamma(0, n + S.Half) - polygamma(0, n + 2) + log(4))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         from sympy.functions.elementary.exponential import log
         from sympy.functions.special.gamma_functions import polygamma
@@ -1912,75 +2265,107 @@ class catalan(DefinedFunction):
         return catalan(n)*(polygamma(0, n + S.Half) - polygamma(0, n + 2) + log(4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_binomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_binomial(n, **kwargs), binomial(2 * n, n) / (n + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  binomial(2 * n, n) / (n + 1)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_binomial : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62f6e8643d3d63d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_binomial","kind":"method","src_hash":"1a0458316b1d0a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_binomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_binomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62f6e8643d3d63d6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_binomial","kind":"method","src_hash":"1a0458316b1d0a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_binomial(n, **kwargs)","rhs":"binomial(2 * n, n) / (n + 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_binomial_correct"},"guarantee":"returns binomial(2 * n, n) / (n + 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62f6e8643d3d63d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"binomial(2 * n, n) / (n + 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_binomial(self, n, **kwargs):
         return binomial(2*n, n)/(n + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_factorial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_factorial(n, **kwargs), factorial(2 * n) / (factorial(n + 1) * factorial(n))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(2 * n) / (factorial(n + 1) * fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_factorial : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2fae5415c3c624c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_factorial","kind":"method","src_hash":"8f08e3cec26f0677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fae5415c3c624c4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_factorial","kind":"method","src_hash":"8f08e3cec26f0677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(n, **kwargs)","rhs":"factorial(2 * n) / (factorial(n + 1) * factorial(n))","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"returns factorial(2 * n) / (factorial(n + 1) * factorial(n))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fae5415c3c624c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(2 * n) / (factorial(n + 1) * factorial(n))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_factorial(self, n, **kwargs):
         return factorial(2*n) / (factorial(n+1) * factorial(n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(n, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_gamma(n, piecewise, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  4 ** n * gamma(n + S.Half) / (gamma(S.Hal...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7d121e84e65dab32   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_gamma","kind":"method","src_hash":"d0bc6bd017a4d971","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d121e84e65dab32"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_gamma","kind":"method","src_hash":"d0bc6bd017a4d971","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, piecewise, **kwargs)","rhs":"4 ** n * gamma(n + S.Half) / (gamma(S.Half) * gamma(n + 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"returns 4 ** n * gamma(n + S.Half) / (gamma(S.Half) * gamma(n + 2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d121e84e65dab32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"4 ** n * gamma(n + S.Half) / (gamma(S.Half) * gamma(n + 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, n, piecewise=True, **kwargs):
         from sympy.functions.special.gamma_functions import gamma
         # The gamma function allows to generalize Catalan numbers to complex n
         return 4**n*gamma(n + S.Half)/(gamma(S.Half)*gamma(n + 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hyper(n, **kwargs), hyper([1 - n, -n], [2], 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hyper([1 - n, -n], [2], 1)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 054995c6a0c42123  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dab49fcd93133da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_hyper","kind":"method","src_hash":"d9df27712267fe7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_hyper_correct","statement":"Path(_eval_rewrite_as_hyper(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"054995c6a0c42123"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_hyper","kind":"method","src_hash":"d9df27712267fe7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(n, **kwargs)","rhs":"hyper([1 - n, -n], [2], 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct"},"guarantee":"returns hyper([1 - n, -n], [2], 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_hyper_correct","statement":"Path(_eval_rewrite_as_hyper(x), returns hyper([1 - n, -n], [2], 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dab49fcd93133da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hyper([1 - n, -n], [2], 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, n, **kwargs):
         from sympy.functions.special.hyper import hyper
         return hyper([1 - n, -n], [2], 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Product(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Product(n, **kwargs), <unspecified:_eval_rewrite_as_Product>) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Product : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Product : {Any | hasattr(n, 'is_inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58c63aaa803aa5f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_Product","kind":"method","src_hash":"639de77d02b124c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Product(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_Product_correct","statement":"Path(_eval_rewrite_as_Product(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c63aaa803aa5f1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_Product","kind":"method","src_hash":"639de77d02b124c8","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Product(n, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_Product>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"name":"_eval_rewrite_as_Product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_rewrite_as_Product_correct","statement":"Path(_eval_rewrite_as_Product(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c63aaa803aa5f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Product(self, n, **kwargs):
         from sympy.concrete.products import Product
         if not (n.is_integer and n.is_nonnegative):
@@ -1989,61 +2374,85 @@ class catalan(DefinedFunction):
         return Product((n + k) / k, (k, 2, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60fa1a3bbd4cafd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8384193aa38707b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_is_integer","kind":"method","src_hash":"a255f6638d80db07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60fa1a3bbd4cafd5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_is_integer","kind":"method","src_hash":"a255f6638d80db07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8384193aa38707b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         if self.args[0].is_integer and self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), True) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5457c0d9e1a837dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f6f40790b18c38c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_is_positive","kind":"method","src_hash":"f017385b32fec87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5457c0d9e1a837dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_is_positive","kind":"method","src_hash":"f017385b32fec87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f6f40790b18c38c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         if self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_composite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_composite(), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_composite : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c1dfdd5cf5e5861  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e19ee33440bc531  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_is_composite","kind":"method","src_hash":"8640f23aa6d5e9f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_composite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_composite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_is_composite_correct","statement":"Path(_eval_is_composite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c1dfdd5cf5e5861"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_is_composite","kind":"method","src_hash":"8640f23aa6d5e9f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_composite()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_composite_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.catalan._eval_is_composite_correct","statement":"Path(_eval_is_composite(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e19ee33440bc531","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_composite(self):
         if self.args[0].is_integer and (self.args[0] - 3).is_positive:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(gamma)._eval_evalf(prec)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d7f8a8b133f440cf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_evalf","kind":"method","src_hash":"4753106618491bb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7f8a8b133f440cf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.catalan._eval_evalf","kind":"method","src_hash":"4753106618491bb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.rewrite(gamma)._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.rewrite(gamma)._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7f8a8b133f440cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(gamma)._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         from sympy.functions.special.gamma_functions import gamma
         if self.args[0].is_number:
@@ -2060,14 +2469,20 @@ class catalan(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(genocchi(*args), correctly constructs a genocchi instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ genocchi : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ genocchi : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fe918b6142f6288  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi","kind":"class","src_hash":"a82a2c0ccccd849d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"genocchi(*args)","rhs":"correctly constructs a genocchi instance","over":{"base":"Any"},"name":"genocchi_class_invariant"},"guarantee":"correctly constructs a genocchi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fe918b6142f6288"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi","kind":"class","src_hash":"a82a2c0ccccd849d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"genocchi(*args)","rhs":"correctly constructs a genocchi instance","over":{"base":"Any"},"name":"genocchi_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fe918b6142f6288","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function genocchi not found in source"]}}
 class genocchi(DefinedFunction):
     r"""
     Genocchi numbers / Genocchi polynomials / Genocchi function
@@ -2121,16 +2536,27 @@ class genocchi(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   fiber[case_0]: x is S.One => cls(n)                      ║
+# ║   fiber[case_1]: n.is_integer is False or n.is_nonneg...   ║
+# ║   fiber[zero_or_none]: x is None                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_integer') and hasattr(n,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da211bc35e2d76a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5ee29447e662692  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi.eval","kind":"classmethod","src_hash":"15ff5c0534b61871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da211bc35e2d76a1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi.eval","kind":"classmethod","src_hash":"15ff5c0534b61871","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_Number') and hasattr(n, 'is_odd')"},"name":"eval_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi.eval_correct","statement":"Path(eval(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5ee29447e662692","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_Number')","hasattr(n, 'is_odd')"],"fibers":[{"name":"case_0","guard":"x is S.One","ensures":["result == cls(n)"],"decidability":"library","returns_expr":"cls(n)"},{"name":"case_1","guard":"n.is_integer is False or n.is_nonnegative is False","ensures":[],"decidability":"library"},{"name":"zero_or_none","guard":"x is None","ensures":[],"decidability":"structural"},{"name":"case_3","guard":"n.is_Number","ensures":["result == genocchi_poly(n, x)"],"decidability":"library","returns_expr":"genocchi_poly(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Number","n.is_integer","n.is_nonnegative","n.is_odd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x=None):
         if x is S.One:
             return cls(n)
@@ -2147,47 +2573,67 @@ class genocchi(DefinedFunction):
             return genocchi_poly(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bernoulli(n, ), id) over Any         ║
+# ║ Path(_eval_rewrite_as_bernoulli(n, x, **kwargs), id) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_bernoulli : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_bernoulli : {Any | hasattr(n, 'is_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 84954bdc8d2c4283   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_rewrite_as_bernoulli","kind":"method","src_hash":"21ff510e9fd45cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bernoulli(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bernoulli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"bernoulli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84954bdc8d2c4283"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_rewrite_as_bernoulli","kind":"method","src_hash":"21ff510e9fd45cb6","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bernoulli(n, x, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_bernoulli>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"name":"_eval_rewrite_as_bernoulli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"bernoulli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84954bdc8d2c4283","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bernoulli(self, n, x=1, **kwargs):
         if x == 1 and n.is_integer and n.is_nonnegative:
             return 2 * (1-S(2)**n) * bernoulli(n)
         return 2 * (bernoulli(n, x) - 2**n * bernoulli(n, (x+1) / 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_dirichlet_eta(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_dirichlet_eta(n, x, **kwargs), -2 * n * dirichlet_eta(1 - n, x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -2 * n * dirichlet_eta(1 - n, x)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_dirichlet_eta : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3da275f7b33eaeeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92db1b1ec3891083  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_rewrite_as_dirichlet_eta","kind":"method","src_hash":"ee3535a0321668b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_dirichlet_eta(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_dirichlet_eta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_rewrite_as_dirichlet_eta_correct","statement":"Path(_eval_rewrite_as_dirichlet_eta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da275f7b33eaeeb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_rewrite_as_dirichlet_eta","kind":"method","src_hash":"ee3535a0321668b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_dirichlet_eta(n, x, **kwargs)","rhs":"-2 * n * dirichlet_eta(1 - n, x)","over":{"base":"Any"},"name":"_eval_rewrite_as_dirichlet_eta_correct"},"guarantee":"returns -2 * n * dirichlet_eta(1 - n, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_rewrite_as_dirichlet_eta_correct","statement":"Path(_eval_rewrite_as_dirichlet_eta(x), returns -2 * n * dirichlet_eta(1 - n, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92db1b1ec3891083","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-2 * n * dirichlet_eta(1 - n, x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_dirichlet_eta(self, n, x=1, **kwargs):
         from sympy.functions.special.zeta_functions import dirichlet_eta
         return -2*n * dirichlet_eta(1-n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be3e279992fdf812  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09170e31220dc4f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_integer","kind":"method","src_hash":"4debb73698104720","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be3e279992fdf812"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_integer","kind":"method","src_hash":"4debb73698104720","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09170e31220dc4f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         if len(self.args) > 1 and self.args[1] != 1:
             return
@@ -2196,16 +2642,22 @@ class genocchi(DefinedFunction):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), <unspecified:_eval_is_negative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d63b92734ee5b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_negative","kind":"method","src_hash":"5617816c5f9be1cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d63b92734ee5b5c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_negative","kind":"method","src_hash":"5617816c5f9be1cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"<unspecified:_eval_is_negative>","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d63b92734ee5b5c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         if len(self.args) > 1 and self.args[1] != 1:
             return
@@ -2216,16 +2668,22 @@ class genocchi(DefinedFunction):
             return (n/2).is_odd
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), <unspecified:_eval_is_positive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72a594c5ce55d572  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_positive","kind":"method","src_hash":"df8aee2e37416f9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a594c5ce55d572"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_positive","kind":"method","src_hash":"df8aee2e37416f9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"<unspecified:_eval_is_positive>","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a594c5ce55d572","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         if len(self.args) > 1 and self.args[1] != 1:
             return
@@ -2236,16 +2694,22 @@ class genocchi(DefinedFunction):
             return (n/2).is_even
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_even(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_even(), <unspecified:_eval_is_even>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_even : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1aba7131cf6aaf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_even","kind":"method","src_hash":"acc29c29f5206653","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_even_correct","statement":"Path(_eval_is_even(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1aba7131cf6aaf9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_even","kind":"method","src_hash":"acc29c29f5206653","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"<unspecified:_eval_is_even>","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_even_correct","statement":"Path(_eval_is_even(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1aba7131cf6aaf9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_even(self):
         if len(self.args) > 1 and self.args[1] != 1:
             return
@@ -2256,16 +2720,22 @@ class genocchi(DefinedFunction):
             return (n-1).is_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_odd(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_odd(), <unspecified:_eval_is_odd>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_odd : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de9e43b0009bc3a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_odd","kind":"method","src_hash":"65a466caf1227d97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_odd()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_odd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_odd_correct","statement":"Path(_eval_is_odd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9e43b0009bc3a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_odd","kind":"method","src_hash":"65a466caf1227d97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_odd()","rhs":"<unspecified:_eval_is_odd>","over":{"base":"Any"},"name":"_eval_is_odd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_odd_correct","statement":"Path(_eval_is_odd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9e43b0009bc3a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_odd(self):
         if len(self.args) > 1 and self.args[1] != 1:
             return
@@ -2276,16 +2746,22 @@ class genocchi(DefinedFunction):
             return fuzzy_not((n-1).is_positive)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_prime(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_prime(), (n - 8).is_zero) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (n - 8).is_zero                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_prime : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d38ccadfcf41a5cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41497371f0406d94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_prime","kind":"method","src_hash":"7d5087f2be04d48b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_prime()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_prime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_prime_correct","statement":"Path(_eval_is_prime(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d38ccadfcf41a5cd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_is_prime","kind":"method","src_hash":"7d5087f2be04d48b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_prime()","rhs":"(n - 8).is_zero","over":{"base":"Any"},"name":"_eval_is_prime_correct"},"guarantee":"returns (n - 8).is_zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.genocchi._eval_is_prime_correct","statement":"Path(_eval_is_prime(x), returns (n - 8).is_zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41497371f0406d94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(n - 8).is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_prime(self):
         if len(self.args) > 1 and self.args[1] != 1:
             return
@@ -2296,16 +2772,22 @@ class genocchi(DefinedFunction):
         return (n-8).is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(bernoulli)._eval_evalf(prec)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 69871cb579967115   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_evalf","kind":"method","src_hash":"04caf398a7e99b40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69871cb579967115"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.genocchi._eval_evalf","kind":"method","src_hash":"04caf398a7e99b40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.rewrite(bernoulli)._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.rewrite(bernoulli)._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69871cb579967115","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(bernoulli)._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if all(i.is_number for i in self.args):
             return self.rewrite(bernoulli)._eval_evalf(prec)
@@ -2321,14 +2803,20 @@ class genocchi(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(andre(*args), correctly constructs a andre instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ andre : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ andre : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b1011df30b512a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre","kind":"class","src_hash":"baf5ea2cc904398f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"andre(*args)","rhs":"correctly constructs a andre instance","over":{"base":"Any"},"name":"andre_class_invariant"},"guarantee":"correctly constructs a andre instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b1011df30b512a9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre","kind":"class","src_hash":"baf5ea2cc904398f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"andre(*args)","rhs":"correctly constructs a andre instance","over":{"base":"Any"},"name":"andre_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b1011df30b512a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function andre not found in source"]}}
 class andre(DefinedFunction):
     r"""
     Andre numbers / Andre function
@@ -2389,16 +2877,28 @@ class andre(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), result == (S.NaN if n is S.NaN else S.Infinity) and result == S.NaN or result == S.Infinity) over {Any | hasattr(n, 'is_zero') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_even') and hasattr(n, 'is_odd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   ensures:  result == (S.NaN if n is S.NaN else S.Inf...   ║
+# ║   ensures:  result == S.NaN or result == S.Infinity        ║
+# ║   fiber[case_0]: n is S.NaN => S.NaN                       ║
+# ║   fiber[case_1]: n is S.Infinity => S.Infinity             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_zero') and hasattr(n, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a5afbd0bbf62726  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c109cd39f64cd57c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre.eval","kind":"classmethod","src_hash":"1721a13b4e2bf5e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a5afbd0bbf62726"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre.eval","kind":"classmethod","src_hash":"1721a13b4e2bf5e7","in":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_even') and hasattr(n, 'is_odd')"},"out":{"base":"Any","pred":"result satisfies: result == (S.NaN if n is S.NaN else S.Infinity) and result == S.NaN or result == S.Infinity"},"spec":{"lhs":"eval(cls, n)","rhs":"result == (S.NaN if n is S.NaN else S.Infinity) and result == S.NaN or result == S.Infinity","over":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(n, 'is_Integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_even') and hasattr(n, 'is_odd')"},"name":"eval_correct"},"guarantee":"result == (S.NaN if n is S.NaN else S.Infinity); result == S.NaN or result == S.Infinity; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre.eval_correct","statement":"Path(eval(x), result == (S.NaN if n is S.NaN else S.Infinity); result == S.NaN or result == S.Infinity; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c109cd39f64cd57c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_zero')","hasattr(n, 'is_Integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_even')","hasattr(n, 'is_odd')"],"ensures":["result == (S.NaN if n is S.NaN else S.Infinity)","result == S.NaN or result == S.Infinity"],"fibers":[{"name":"case_0","guard":"n is S.NaN","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_1","guard":"n is S.Infinity","ensures":["result == S.Infinity"],"decidability":"library","returns_expr":"S.Infinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","n.is_even","n.is_nonnegative","n.is_odd","n.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n is S.NaN:
             return S.NaN
@@ -2419,16 +2919,22 @@ class andre(DefinedFunction):
                 return I**m * Rational(1-2**m, 4**m) * zeta(-n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_zeta(s, **kwargs), 2 * gamma(s + 1) / (2 * pi) ** (s + 1) * (zeta(s + 1, S.One / 4) - cos(pi * s) * zeta(s + 1, S(3) / 4))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * gamma(s + 1) / (2 * pi) ** (s + 1) * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 128d135142576eb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d50e262faa094054  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_rewrite_as_zeta","kind":"method","src_hash":"ced0475946c8d1dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_rewrite_as_zeta_correct","statement":"Path(_eval_rewrite_as_zeta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"128d135142576eb1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_rewrite_as_zeta","kind":"method","src_hash":"ced0475946c8d1dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(s, **kwargs)","rhs":"2 * gamma(s + 1) / (2 * pi) ** (s + 1) * (zeta(s + 1, S.One / 4) - cos(pi * s) * zeta(s + 1, S(3) / 4))","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct"},"guarantee":"returns 2 * gamma(s + 1) / (2 * pi) ** (s + 1) * (zeta(s + 1, S.One / 4) - cos(pi * s) * zeta(s + 1, S(3) / 4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_rewrite_as_zeta_correct","statement":"Path(_eval_rewrite_as_zeta(x), returns 2 * gamma(s + 1) / (2 * pi) ** (s + 1) * (zeta(s + 1, S.One / 4) - cos(pi * s) * zeta(s + 1, S(3) / 4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d50e262faa094054","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * gamma(s + 1) / (2 * pi) ** (s + 1) * (zeta(s + 1, S.One / 4) - cos(pi * s) * zeta(s + 1, S(3) / 4))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, s, **kwargs):
         from sympy.functions.elementary.trigonometric import cos
         from sympy.functions.special.gamma_functions import gamma
@@ -2437,62 +2943,86 @@ class andre(DefinedFunction):
                 (zeta(s+1, S.One/4) - cos(pi*s) * zeta(s+1, S(3)/4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polylog(s, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_polylog(s, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-I) ** (s + 1) * polylog(-s, I) + I ** (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polylog : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1d4518f66daae721   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_rewrite_as_polylog","kind":"method","src_hash":"c921c72c6fa97a6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polylog(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polylog_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polylog","by":"library_axiom"},{"fn":"polylog","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d4518f66daae721"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_rewrite_as_polylog","kind":"method","src_hash":"c921c72c6fa97a6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polylog(s, **kwargs)","rhs":"(-I) ** (s + 1) * polylog(-s, I) + I ** (s + 1) * polylog(-s, -I)","over":{"base":"Any"},"name":"_eval_rewrite_as_polylog_correct","kind":"composition"},"guarantee":"returns (-I) ** (s + 1) * polylog(-s, I) + I ** (s + 1) * polylog(-s, -I)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polylog","by":"library_axiom"},{"fn":"polylog","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d4518f66daae721","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-I) ** (s + 1) * polylog(-s, I) + I ** (s + 1) * polylog(-s, -I)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polylog(self, s, **kwargs):
         from sympy.functions.special.zeta_functions import polylog
         return (-I)**(s+1) * polylog(-s, I) + I**(s+1) * polylog(-s, -I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be61381911d8820  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7757d0a6894546e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_is_integer","kind":"method","src_hash":"c004e5899a16720d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be61381911d8820"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_is_integer","kind":"method","src_hash":"c004e5899a16720d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7757d0a6894546e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         n = self.args[0]
         if n.is_integer and n.is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), True) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b16a93cdf58e735e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad129b29f51faaee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_is_positive","kind":"method","src_hash":"f017385b32fec87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b16a93cdf58e735e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_is_positive","kind":"method","src_hash":"f017385b32fec87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad129b29f51faaee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         if self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), Expr._from_mpmath(res, prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr._from_mpmath(res, prec)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d53e9333aae148c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82a458aea01a6a27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_evalf","kind":"method","src_hash":"d5e2fbc0ff167e43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d53e9333aae148c7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.andre._eval_evalf","kind":"method","src_hash":"d5e2fbc0ff167e43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Expr._from_mpmath(res, prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Expr._from_mpmath(res, prec)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.andre._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Expr._from_mpmath(res, prec))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82a458aea01a6a27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr._from_mpmath(res, prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not self.args[0].is_number:
             return
@@ -2512,14 +3042,20 @@ class andre(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(partition(*args), correctly constructs a partition instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ partition : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ partition : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 556040cb7eac79a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition","kind":"class","src_hash":"526ef5a31896aa98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition(*args)","rhs":"correctly constructs a partition instance","over":{"base":"Any"},"name":"partition_class_invariant"},"guarantee":"correctly constructs a partition instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"556040cb7eac79a9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition","kind":"class","src_hash":"526ef5a31896aa98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"partition(*args)","rhs":"correctly constructs a partition instance","over":{"base":"Any"},"name":"partition_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"556040cb7eac79a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function partition not found in source"]}}
 class partition(DefinedFunction):
     r"""
     Partition numbers
@@ -2557,16 +3093,25 @@ class partition(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_integer is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af0df09225c74ace  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition.eval","kind":"classmethod","src_hash":"4b880e674c966b29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.partition.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af0df09225c74ace"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition.eval","kind":"classmethod","src_hash":"4b880e674c966b29","in":{"base":"Any","pred":"not (n.is_integer is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_negative') and hasattr(n, 'is_Integer') and hasattr(n, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.partition.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af0df09225c74ace","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_negative')","hasattr(n, 'is_Integer')","hasattr(n, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","n.is_integer","n.is_negative","n.is_zero"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -2578,31 +3123,43 @@ class partition(DefinedFunction):
             return S(_partition(as_int(n)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), True) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0b600df734162db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d68a034a051f568f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition._eval_is_positive","kind":"method","src_hash":"8768013068cc7b65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.partition._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b600df734162db"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition._eval_is_positive","kind":"method","src_hash":"8768013068cc7b65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.partition._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d68a034a051f568f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         if self.args[0].is_nonnegative is True:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Mod(q), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Mod(q), S.Zero) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_Mod : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2246e877fe18ea9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f274d90aae087ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition._eval_Mod","kind":"method","src_hash":"4ef3060395f79e48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Mod(q)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.partition._eval_Mod_correct","statement":"Path(_eval_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2246e877fe18ea9f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.partition._eval_Mod","kind":"method","src_hash":"4ef3060395f79e48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Mod(q)","rhs":"S.Zero","over":{"base":"Any"},"name":"_eval_Mod_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.partition._eval_Mod_correct","statement":"Path(_eval_Mod(x), returns S.Zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f274d90aae087ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Mod(self, q):
         # Ramanujan's congruences
         n = self.args[0]
@@ -2614,14 +3171,20 @@ class partition(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(divisor_sigma(*args), correctly constructs a divisor_sigma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ divisor_sigma : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ divisor_sigma : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0df47bcf6e9c5936  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.divisor_sigma","kind":"class","src_hash":"f78269d972d65100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisor_sigma(*args)","rhs":"correctly constructs a divisor_sigma instance","over":{"base":"Any"},"name":"divisor_sigma_class_invariant"},"guarantee":"correctly constructs a divisor_sigma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0df47bcf6e9c5936"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.divisor_sigma","kind":"class","src_hash":"f78269d972d65100","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"divisor_sigma(*args)","rhs":"correctly constructs a divisor_sigma instance","over":{"base":"Any"},"name":"divisor_sigma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0df47bcf6e9c5936","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function divisor_sigma not found in source"]}}
 class divisor_sigma(DefinedFunction):
     r"""
     Calculate the divisor function `\sigma_k(n)` for positive integer n
@@ -2668,16 +3231,25 @@ class divisor_sigma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, k), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and not (k.is_integer is False) and not (k.is_nonnegative is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_nonnegative') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: not (k.is_integer is False)                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00484ce5eead1801  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.divisor_sigma.eval","kind":"classmethod","src_hash":"48d0c3895ef7a12b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.divisor_sigma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00484ce5eead1801"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.divisor_sigma.eval","kind":"classmethod","src_hash":"48d0c3895ef7a12b","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and not (k.is_integer is False) and not (k.is_nonnegative is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_nonnegative') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and not (k.is_integer is False) and not (k.is_nonnegative is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_nonnegative') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.divisor_sigma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00484ce5eead1801","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","not (k.is_integer is False)","not (k.is_nonnegative is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(k, 'is_integer')","hasattr(k, 'is_nonnegative')","hasattr(n, 'is_prime')","hasattr(n, 'is_Integer')","hasattr(k, 'is_zero')","hasattr(k, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_Integer","k.is_integer","k.is_nonnegative","k.is_zero","n.is_Integer","n.is_integer","n.is_positive","n.is_prime"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, k=S.One):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -2703,14 +3275,20 @@ class divisor_sigma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(udivisor_sigma(*args), correctly constructs a udivisor_sigma instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ udivisor_sigma : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ udivisor_sigma : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 373999f1d67db2dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.udivisor_sigma","kind":"class","src_hash":"6f515994b51da61b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisor_sigma(*args)","rhs":"correctly constructs a udivisor_sigma instance","over":{"base":"Any"},"name":"udivisor_sigma_class_invariant"},"guarantee":"correctly constructs a udivisor_sigma instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"373999f1d67db2dd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.udivisor_sigma","kind":"class","src_hash":"6f515994b51da61b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"udivisor_sigma(*args)","rhs":"correctly constructs a udivisor_sigma instance","over":{"base":"Any"},"name":"udivisor_sigma_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"373999f1d67db2dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function udivisor_sigma not found in source"]}}
 class udivisor_sigma(DefinedFunction):
     r"""
     Calculate the unitary divisor function `\sigma_k^*(n)` for positive integer n
@@ -2769,16 +3347,25 @@ class udivisor_sigma(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, k), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and not (k.is_integer is False) and not (k.is_nonnegative is False) and hasattr(n, 'is_Integer') and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_nonnegative') and hasattr(n, 'is_prime')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: not (k.is_integer is False)                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c11a795db4be39d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.udivisor_sigma.eval","kind":"classmethod","src_hash":"9b1d61b6302c69a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.udivisor_sigma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c11a795db4be39d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.udivisor_sigma.eval","kind":"classmethod","src_hash":"9b1d61b6302c69a2","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and not (k.is_integer is False) and not (k.is_nonnegative is False) and hasattr(n, 'is_Integer') and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_nonnegative') and hasattr(n, 'is_prime')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and not (k.is_integer is False) and not (k.is_nonnegative is False) and hasattr(n, 'is_Integer') and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_nonnegative') and hasattr(n, 'is_prime')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.udivisor_sigma.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c11a795db4be39d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","not (k.is_integer is False)","not (k.is_nonnegative is False)","hasattr(n, 'is_Integer')","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(k, 'is_integer')","hasattr(k, 'is_nonnegative')","hasattr(n, 'is_prime')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer","k.is_nonnegative","n.is_Integer","n.is_integer","n.is_positive","n.is_prime"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, k=S.One):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -2797,14 +3384,20 @@ class udivisor_sigma(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(legendre_symbol(*args), correctly constructs a legendre_symbol instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ legendre_symbol : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ legendre_symbol : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85d02f6d8debed66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.legendre_symbol","kind":"class","src_hash":"1ef7d39d63d785f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"legendre_symbol(*args)","rhs":"correctly constructs a legendre_symbol instance","over":{"base":"Any"},"name":"legendre_symbol_class_invariant"},"guarantee":"correctly constructs a legendre_symbol instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85d02f6d8debed66"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.legendre_symbol","kind":"class","src_hash":"1ef7d39d63d785f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"legendre_symbol(*args)","rhs":"correctly constructs a legendre_symbol instance","over":{"base":"Any"},"name":"legendre_symbol_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85d02f6d8debed66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function legendre_symbol not found in source"]}}
 class legendre_symbol(DefinedFunction):
     r"""
     Returns the Legendre symbol `(a / p)`.
@@ -2839,16 +3432,25 @@ class legendre_symbol(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, a, p), <unspecified:eval>) over {Any | not (a.is_integer is False) and not (p.is_integer is False) and not (p.is_prime is False or p.is_odd is False) and hasattr(a, 'is_integer') and hasattr(p, 'is_integer') and hasattr(p, 'is_prime') and hasattr(p, 'is_odd') and hasattr(a, 'is_Integer') and hasattr(p, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (a.is_integer is False)                    ║
+# ║   requires: not (p.is_integer is False)                    ║
+# ║   requires: not (p.is_prime is False or p.is_odd is F...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (a.is_integer is False) and not (p....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92c23802bb6ae558  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.legendre_symbol.eval","kind":"classmethod","src_hash":"7daab6e924f6424d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.legendre_symbol.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92c23802bb6ae558"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.legendre_symbol.eval","kind":"classmethod","src_hash":"7daab6e924f6424d","in":{"base":"Any","pred":"not (a.is_integer is False) and not (p.is_integer is False) and not (p.is_prime is False or p.is_odd is False) and hasattr(a, 'is_integer') and hasattr(p, 'is_integer') and hasattr(p, 'is_prime') and hasattr(p, 'is_odd') and hasattr(a, 'is_Integer') and hasattr(p, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, p)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (a.is_integer is False) and not (p.is_integer is False) and not (p.is_prime is False or p.is_odd is False) and hasattr(a, 'is_integer') and hasattr(p, 'is_integer') and hasattr(p, 'is_prime') and hasattr(p, 'is_odd') and hasattr(a, 'is_Integer') and hasattr(p, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.legendre_symbol.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92c23802bb6ae558","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (a.is_integer is False)","not (p.is_integer is False)","not (p.is_prime is False or p.is_odd is False)","hasattr(a, 'is_integer')","hasattr(p, 'is_integer')","hasattr(p, 'is_prime')","hasattr(p, 'is_odd')","hasattr(a, 'is_Integer')","hasattr(p, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.is_integer","p.is_Integer","p.is_integer","p.is_odd","p.is_prime"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, p):
         if a.is_integer is False:
             raise TypeError("a should be an integer")
@@ -2867,14 +3469,20 @@ class legendre_symbol(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(jacobi_symbol(*args), correctly constructs a jacobi_symbol instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ jacobi_symbol : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ jacobi_symbol : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22c196855cdb3b59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.jacobi_symbol","kind":"class","src_hash":"f8a9ba25976ec1ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_symbol(*args)","rhs":"correctly constructs a jacobi_symbol instance","over":{"base":"Any"},"name":"jacobi_symbol_class_invariant"},"guarantee":"correctly constructs a jacobi_symbol instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c196855cdb3b59"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.jacobi_symbol","kind":"class","src_hash":"f8a9ba25976ec1ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"jacobi_symbol(*args)","rhs":"correctly constructs a jacobi_symbol instance","over":{"base":"Any"},"name":"jacobi_symbol_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c196855cdb3b59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function jacobi_symbol not found in source"]}}
 class jacobi_symbol(DefinedFunction):
     r"""
     Returns the Jacobi symbol `(m / n)`.
@@ -2932,16 +3540,25 @@ class jacobi_symbol(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, m, n), <unspecified:eval>) over {Any | not (m.is_integer is False) and not (n.is_integer is False) and not (n.is_positive is False or n.is_odd is False) and hasattr(m, 'is_integer') and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_odd') and hasattr(m, 'is_Integer') and hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m.is_integer is False)                    ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False or n.is_odd i...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (m.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37447b652e4694c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.jacobi_symbol.eval","kind":"classmethod","src_hash":"45a804e65caba20d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.jacobi_symbol.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37447b652e4694c3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.jacobi_symbol.eval","kind":"classmethod","src_hash":"45a804e65caba20d","in":{"base":"Any","pred":"not (m.is_integer is False) and not (n.is_integer is False) and not (n.is_positive is False or n.is_odd is False) and hasattr(m, 'is_integer') and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_odd') and hasattr(m, 'is_Integer') and hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, m, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (m.is_integer is False) and not (n.is_integer is False) and not (n.is_positive is False or n.is_odd is False) and hasattr(m, 'is_integer') and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_odd') and hasattr(m, 'is_Integer') and hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.jacobi_symbol.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37447b652e4694c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m.is_integer is False)","not (n.is_integer is False)","not (n.is_positive is False or n.is_odd is False)","hasattr(m, 'is_integer')","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(n, 'is_odd')","hasattr(m, 'is_Integer')","hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_Integer","m.is_integer","n.is_Integer","n.is_integer","n.is_odd","n.is_positive"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, m, n):
         if m.is_integer is False:
             raise TypeError("m should be an integer")
@@ -2960,14 +3577,20 @@ class jacobi_symbol(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(kronecker_symbol(*args), correctly constructs a kronecker_symbol instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kronecker_symbol : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kronecker_symbol : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c473fb3cb5d40be2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.kronecker_symbol","kind":"class","src_hash":"c67c923ffe38ae79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_symbol(*args)","rhs":"correctly constructs a kronecker_symbol instance","over":{"base":"Any"},"name":"kronecker_symbol_class_invariant"},"guarantee":"correctly constructs a kronecker_symbol instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c473fb3cb5d40be2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.kronecker_symbol","kind":"class","src_hash":"c67c923ffe38ae79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"kronecker_symbol(*args)","rhs":"correctly constructs a kronecker_symbol instance","over":{"base":"Any"},"name":"kronecker_symbol_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c473fb3cb5d40be2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function kronecker_symbol not found in source"]}}
 class kronecker_symbol(DefinedFunction):
     r"""
     Returns the Kronecker symbol `(a / n)`.
@@ -2997,16 +3620,25 @@ class kronecker_symbol(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, a, n), <unspecified:eval>) over {Any | not (a.is_integer is False) and not (n.is_integer is False) and hasattr(a, 'is_integer') and hasattr(n, 'is_integer') and hasattr(a, 'is_Integer') and hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (a.is_integer is False)                    ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: hasattr(a, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (a.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bd71a5889fbaa52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.kronecker_symbol.eval","kind":"classmethod","src_hash":"6a1caf58ee6c1d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.kronecker_symbol.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bd71a5889fbaa52"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.kronecker_symbol.eval","kind":"classmethod","src_hash":"6a1caf58ee6c1d1f","in":{"base":"Any","pred":"not (a.is_integer is False) and not (n.is_integer is False) and hasattr(a, 'is_integer') and hasattr(n, 'is_integer') and hasattr(a, 'is_Integer') and hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (a.is_integer is False) and not (n.is_integer is False) and hasattr(a, 'is_integer') and hasattr(n, 'is_integer') and hasattr(a, 'is_Integer') and hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.kronecker_symbol.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bd71a5889fbaa52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (a.is_integer is False)","not (n.is_integer is False)","hasattr(a, 'is_integer')","hasattr(n, 'is_integer')","hasattr(a, 'is_Integer')","hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.is_integer","n.is_Integer","n.is_integer"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, n):
         if a.is_integer is False:
             raise TypeError("a should be an integer")
@@ -3021,14 +3653,20 @@ class kronecker_symbol(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(mobius(*args), correctly constructs a mobius instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mobius : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mobius : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38b70c87f502426e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.mobius","kind":"class","src_hash":"f3250dbd558a0389","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobius(*args)","rhs":"correctly constructs a mobius instance","over":{"base":"Any"},"name":"mobius_class_invariant"},"guarantee":"correctly constructs a mobius instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b70c87f502426e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.mobius","kind":"class","src_hash":"f3250dbd558a0389","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"mobius(*args)","rhs":"correctly constructs a mobius instance","over":{"base":"Any"},"name":"mobius_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b70c87f502426e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function mobius not found in source"]}}
 class mobius(DefinedFunction):
     """
     Mobius function maps natural number to {-1, 0, 1}
@@ -3079,16 +3717,25 @@ class mobius(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cac25f0aa0ee5e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.mobius.eval","kind":"classmethod","src_hash":"f1fe140ac365794f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.mobius.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cac25f0aa0ee5e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.mobius.eval","kind":"classmethod","src_hash":"f1fe140ac365794f","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.mobius.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cac25f0aa0ee5e9c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(n, 'is_prime')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_positive","n.is_prime"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -3123,14 +3770,20 @@ class mobius(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(primenu(*args), correctly constructs a primenu instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primenu : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primenu : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b771c3ee7c247103  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primenu","kind":"class","src_hash":"afef7f0af6f97d84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primenu(*args)","rhs":"correctly constructs a primenu instance","over":{"base":"Any"},"name":"primenu_class_invariant"},"guarantee":"correctly constructs a primenu instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b771c3ee7c247103"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primenu","kind":"class","src_hash":"afef7f0af6f97d84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"primenu(*args)","rhs":"correctly constructs a primenu instance","over":{"base":"Any"},"name":"primenu_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b771c3ee7c247103","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function primenu not found in source"]}}
 class primenu(DefinedFunction):
     r"""
     Calculate the number of distinct prime factors for a positive integer n.
@@ -3171,16 +3824,25 @@ class primenu(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f838fc6b6726e3bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primenu.eval","kind":"classmethod","src_hash":"e3ba2c336e49c1c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.primenu.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f838fc6b6726e3bd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primenu.eval","kind":"classmethod","src_hash":"e3ba2c336e49c1c9","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.primenu.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f838fc6b6726e3bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(n, 'is_prime')","hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","n.is_integer","n.is_positive","n.is_prime"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -3197,14 +3859,20 @@ class primenu(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(primeomega(*args), correctly constructs a primeomega instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primeomega : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primeomega : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 485e2acaef95f790  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primeomega","kind":"class","src_hash":"46e2e9672b252626","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primeomega(*args)","rhs":"correctly constructs a primeomega instance","over":{"base":"Any"},"name":"primeomega_class_invariant"},"guarantee":"correctly constructs a primeomega instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"485e2acaef95f790"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primeomega","kind":"class","src_hash":"46e2e9672b252626","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"primeomega(*args)","rhs":"correctly constructs a primeomega instance","over":{"base":"Any"},"name":"primeomega_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"485e2acaef95f790","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function primeomega not found in source"]}}
 class primeomega(DefinedFunction):
     r"""
     Calculate the number of prime factors counting multiplicities for a
@@ -3246,16 +3914,25 @@ class primeomega(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d149369d96021844  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primeomega.eval","kind":"classmethod","src_hash":"d4231d80a1bf9f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.primeomega.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d149369d96021844"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primeomega.eval","kind":"classmethod","src_hash":"d4231d80a1bf9f5b","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.primeomega.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d149369d96021844","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(n, 'is_prime')","hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","n.is_integer","n.is_positive","n.is_prime"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -3272,14 +3949,20 @@ class primeomega(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(totient(*args), correctly constructs a totient instance) over {Any | isinstance(n, Dict)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ totient : {Any | isinstance(n, Dict)} → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ totient : {Any | isinstance(n, Dict)} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df3f7ecae4e16b01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.totient","kind":"class","src_hash":"5eb836a5820130ed","in":{"base":"Any","pred":"isinstance(n, Dict)"},"out":{"base":"Any"},"spec":{"lhs":"totient(*args)","rhs":"correctly constructs a totient instance","over":{"base":"Any","pred":"isinstance(n, Dict)"},"name":"totient_class_invariant"},"guarantee":"correctly constructs a totient instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df3f7ecae4e16b01"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.totient","kind":"class","src_hash":"5eb836a5820130ed","in":{"base":"Any","pred":"isinstance(n, Dict)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"totient(*args)","rhs":"correctly constructs a totient instance","over":{"base":"Any","pred":"isinstance(n, Dict)"},"name":"totient_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df3f7ecae4e16b01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function totient not found in source"]}}
 class totient(DefinedFunction):
     r"""
     Calculate the Euler totient function phi(n)
@@ -3316,16 +3999,25 @@ class totient(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(n, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ae149de499d6d37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.totient.eval","kind":"classmethod","src_hash":"4c1ea3966c5fc5db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.totient.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ae149de499d6d37"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.totient.eval","kind":"classmethod","src_hash":"4c1ea3966c5fc5db","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(n, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(n, 'items')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.totient.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ae149de499d6d37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(n, 'is_prime')","hasattr(n, 'is_Integer')","hasattr(n, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","n.is_integer","n.is_positive","n.is_prime","n.items"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -3344,14 +4036,20 @@ class totient(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(reduced_totient(*args), correctly constructs a reduced_totient instance) over {Any | isinstance(n, Dict)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduced_totient : {Any | isinstance(n, Dict)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduced_totient : {Any | isinstance(n, Dict)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4b3218c1883763e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.reduced_totient","kind":"class","src_hash":"8752c0e250b5ba09","in":{"base":"Any","pred":"isinstance(n, Dict)"},"out":{"base":"Any"},"spec":{"lhs":"reduced_totient(*args)","rhs":"correctly constructs a reduced_totient instance","over":{"base":"Any","pred":"isinstance(n, Dict)"},"name":"reduced_totient_class_invariant"},"guarantee":"correctly constructs a reduced_totient instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4b3218c1883763e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.reduced_totient","kind":"class","src_hash":"8752c0e250b5ba09","in":{"base":"Any","pred":"isinstance(n, Dict)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"reduced_totient(*args)","rhs":"correctly constructs a reduced_totient instance","over":{"base":"Any","pred":"isinstance(n, Dict)"},"name":"reduced_totient_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4b3218c1883763e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function reduced_totient not found in source"]}}
 class reduced_totient(DefinedFunction):
     r"""
     Calculate the Carmichael reduced totient function lambda(n)
@@ -3388,16 +4086,25 @@ class reduced_totient(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(n, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: not (n.is_positive is False)                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and not (n....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e198c819ac074915  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.reduced_totient.eval","kind":"classmethod","src_hash":"82b23d8d5bc42b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.reduced_totient.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e198c819ac074915"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.reduced_totient.eval","kind":"classmethod","src_hash":"82b23d8d5bc42b22","in":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(n, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and not (n.is_positive is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_positive') and hasattr(n, 'is_prime') and hasattr(n, 'is_Integer') and hasattr(n, 'items')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.reduced_totient.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e198c819ac074915","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","not (n.is_positive is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_positive')","hasattr(n, 'is_prime')","hasattr(n, 'is_Integer')","hasattr(n, 'items')"],"pure":false,"effects":{"effect_type":"io","reads":["n.is_Integer","n.is_integer","n.is_positive","n.is_prime","n.items"],"raises":["TypeError","ValueError"],"io_operations":["remove"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n.is_integer is False:
             raise TypeError("n should be an integer")
@@ -3424,14 +4131,20 @@ class reduced_totient(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(primepi(*args), correctly constructs a primepi instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primepi : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primepi : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6398babe7528d5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primepi","kind":"class","src_hash":"1a8e77f3b9335f31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primepi(*args)","rhs":"correctly constructs a primepi instance","over":{"base":"Any"},"name":"primepi_class_invariant"},"guarantee":"correctly constructs a primepi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6398babe7528d5a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primepi","kind":"class","src_hash":"1a8e77f3b9335f31","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"primepi(*args)","rhs":"correctly constructs a primepi instance","over":{"base":"Any"},"name":"primepi_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6398babe7528d5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function primepi not found in source"]}}
 class primepi(DefinedFunction):
     r""" Represents the prime counting function pi(n) = the number
     of prime numbers less than or equal to n.
@@ -3473,16 +4186,24 @@ class primepi(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), <unspecified:eval>) over {Any | not (n.is_real is False) and hasattr(n, 'is_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_real is False)                       ║
+# ║   requires: hasattr(n, 'is_real')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_real is False) and hasattr(n,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 479965168de11ec3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primepi.eval","kind":"classmethod","src_hash":"e64a55e80099596e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.primepi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"479965168de11ec3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.primepi.eval","kind":"classmethod","src_hash":"e64a55e80099596e","in":{"base":"Any","pred":"not (n.is_real is False) and hasattr(n, 'is_real')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_real is False) and hasattr(n, 'is_real')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.primepi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"479965168de11ec3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_real is False)","hasattr(n, 'is_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_real"],"raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         if n is S.Infinity:
             return S.Infinity
@@ -3507,16 +4228,22 @@ class primepi(DefinedFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_MultisetHistogram(), correctly constructs a _MultisetHistogram instance) over Any ║
+# ║ Path(_MultisetHistogram(), isinstance(self, tuple)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _MultisetHistogram : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, tuple)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _MultisetHistogram : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1584058dd14f251           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._MultisetHistogram","kind":"class","src_hash":"3f9f472c6da731c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_MultisetHistogram()","rhs":"correctly constructs a _MultisetHistogram instance","over":{"base":"Any"},"name":"_MultisetHistogram_correct"},"guarantee":"correctly constructs a _MultisetHistogram instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1584058dd14f251"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._MultisetHistogram","kind":"class","src_hash":"3f9f472c6da731c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, tuple)"},"spec":{"lhs":"_MultisetHistogram()","rhs":"isinstance(self, tuple)","over":{"base":"Any"},"name":"_MultisetHistogram_correct"},"guarantee":"isinstance(self, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1584058dd14f251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, tuple)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function _MultisetHistogram not found in source"]}}
 class _MultisetHistogram(tuple):
     __slots__ = ()
 
@@ -3527,7 +4254,14 @@ _M = slice(None, _ITEMS)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_multiset_histogram(n), return tuple used in permutation and combination counting) over {Any | isinstance(n, dict) and isinstance(v, int)} ║
+# ║ Path(_multiset_histogram(n), result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d)) and result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d)) over {Any | isinstance(n, dict) and isinstance(v, int) and hasattr(n, 'values')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'values')                           ║
+# ║   ensures:  result == (_MultisetHistogram([n[k] for k...   ║
+# ║   ensures:  result == _MultisetHistogram([n[k] for k ...   ║
+# ║   fiber[dict]: isinstance(n, dict) => _MultisetHistog...   ║
+# ║   fiber[dict]: not (isinstance(n, dict)) => _multiset...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _multiset_histogram : {Any | isinstance(n, dict) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3540,9 +4274,12 @@ _M = slice(None, _ITEMS)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4e7c0e29...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._multiset_histogram","kind":"function","src_hash":"679539a829dca86f","in":{"base":"Any","pred":"isinstance(n, dict) and isinstance(v, int)"},"out":{"base":"Any"},"spec":{"lhs":"_multiset_histogram(n)","rhs":"return tuple used in permutation and combination counting","over":{"base":"Any","pred":"isinstance(n, dict) and isinstance(v, int)"},"name":"_multiset_histogram_correct"},"guarantee":"return tuple used in permutation and combination counting","fibers":[{"name":"dict","pred":"isinstance(n, dict)","path":{"lhs":"_multiset_histogram(x)","rhs":"return tuple used in permutation and combination counting","over":{"base":"dict","pred":"isinstance(n, dict)"},"name":"_multiset_histogram_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._multiset_histogram_dict_correct","statement":"_multiset_histogram satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(v, int)","path":{"lhs":"_multiset_histogram(x)","rhs":"return tuple used in permutation and combination counting","over":{"base":"int","pred":"isinstance(v, int)"},"name":"_multiset_histogram_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._multiset_histogram_int_correct","statement":"_multiset_histogram satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4e7c0e291639d796"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._multiset_histogram","kind":"function","src_hash":"679539a829dca86f","in":{"base":"Any","pred":"isinstance(n, dict) and isinstance(v, int) and hasattr(n, 'values')"},"out":{"base":"Any","pred":"result satisfies: result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d)) and result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d)"},"spec":{"lhs":"_multiset_histogram(n)","rhs":"result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d)) and result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d)","over":{"base":"Any","pred":"isinstance(n, dict) and isinstance(v, int) and hasattr(n, 'values')"},"name":"_multiset_histogram_correct"},"guarantee":"result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d)); result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d); 2-fiber decomposition","fibers":[{"name":"dict","pred":"isinstance(n, dict)","path":{"lhs":"_multiset_histogram(x)","rhs":"result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d)); result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d); 2-fiber decomposition","over":{"base":"dict","pred":"isinstance(n, dict)"},"name":"_multiset_histogram_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._multiset_histogram_dict_correct","statement":"_multiset_histogram satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(v, int)","path":{"lhs":"_multiset_histogram(x)","rhs":"result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d)); result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d); 2-fiber decomposition","over":{"base":"int","pred":"isinstance(v, int)"},"name":"_multiset_histogram_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._multiset_histogram_int_correct","statement":"_multiset_histogram satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4e7c0e291639d796","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'values')"],"ensures":["result == (_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) if isinstance(n, dict) else _multiset_histogram(d))","result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot]) or result == _multiset_histogram(d)"],"fibers":[{"name":"dict","guard":"isinstance(n, dict)","ensures":["result == _MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot])"],"decidability":"structural","returns_expr":"_MultisetHistogram([n[k] for k in n if n[k] > 0] + [items, tot])"},{"name":"dict","guard":"not (isinstance(n, dict))","ensures":["result == _multiset_histogram(d)"],"decidability":"structural","returns_expr":"_multiset_histogram(d)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.values"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not all((isinstance(v, int) and v >= 0 for v in n.values()))', 'isinstance(n, dict)', 'lens == lenn'}, fibers={'int', 'dict'})"]}}
 def _multiset_histogram(n):
     """Return tuple used in permutation and combination counting. Input
     is a dictionary giving items with counts as values or a sequence of
@@ -3573,16 +4310,22 @@ def _multiset_histogram(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nP(n, ), id) over Any                                 ║
+# ║ Path(nP(n, k, replacement), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nP : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c2fd33e351db9cba   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nP","kind":"function","src_hash":"d06488a80006731b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nP(n, )","rhs":"return the number of permutations of ``n`` items taken ``k`` at a time","over":{"base":"Any"},"name":"nP_correct","kind":"composition"},"guarantee":"return the number of permutations of ``n`` items taken ``k`` at a time","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integer","by":"library_axiom"},{"fn":"_nP","by":"library_axiom"},{"fn":"_multiset_histogram","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2fd33e351db9cba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nP","kind":"function","src_hash":"d06488a80006731b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nP(n, k, replacement)","rhs":"<unspecified:nP>","over":{"base":"Any"},"name":"nP_correct","kind":"composition"},"guarantee":"return the number of permutations of ``n`` items taken ``k`` at a time","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integer","by":"library_axiom"},{"fn":"_nP","by":"library_axiom"},{"fn":"_multiset_histogram","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2fd33e351db9cba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def nP(n, k=None, replacement=False):
     """Return the number of permutations of ``n`` items taken ``k`` at a time.
 
@@ -3651,7 +4394,10 @@ def nP(n, k=None, replacement=False):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nP(n, ), internal helper behaves correctly) over {Any | isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)} ║
+# ║ Path(_nP(n, k, replacement), # HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)) over {Any | isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _nP may be idempotent: _nP(_nP(x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nP : {Any | isinstance(n, SYMPY_INTS) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3664,9 +4410,12 @@ def nP(n, k=None, replacement=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b1eef5e4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._nP","kind":"function","src_hash":"73283e8f48bc2d21","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"out":{"base":"Any"},"spec":{"lhs":"_nP(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"name":"_nP_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"_nP(x)","rhs":"internal helper behaves correctly","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"_nP_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._nP_SYMPY_INTS_correct","statement":"_nP satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)","path":{"lhs":"_nP(x)","rhs":"internal helper behaves correctly","over":{"base":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)"},"name":"_nP__MultisetHistogram_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._nP__MultisetHistogram_correct","statement":"_nP satisfies spec on _MultisetHistogram inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b1eef5e4cbe769c2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._nP","kind":"function","src_hash":"73283e8f48bc2d21","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"out":{"base":"Any","pred":"result satisfies: # HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)"},"spec":{"lhs":"_nP(n, k, replacement)","rhs":"# HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"name":"_nP_correct"},"guarantee":"# HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"_nP(x)","rhs":"# HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"_nP_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._nP_SYMPY_INTS_correct","statement":"_nP satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)","path":{"lhs":"_nP(x)","rhs":"# HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)","over":{"base":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)"},"name":"_nP__MultisetHistogram_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._nP__MultisetHistogram_correct","statement":"_nP satisfies spec on _MultisetHistogram inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b1eef5e4cbe769c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _nP may be idempotent: _nP(_nP(x)) == _nP(x)"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["n[*]"]},"state_contract":{"modifies":["n[*]"],"old_bindings":{"old_n_star":"n[*]"}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'k is None', 'k == 0', 'n[i] == 1', 'k == n', 'isinstance(n, _MultisetHistogram)', 'k > n', 'k == n[_N]', 'isinstance(n, SYMPY_INTS)', 'k == 1', 'k > n[_N]'}, fibers={'_MultisetHistogram', 'SYMPY_INTS'})"]}}
 def _nP(n, k=None, replacement=False):
 
     if k == 0:
@@ -3721,16 +4470,24 @@ def _nP(n, k=None, replacement=False):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_AOP_product(n), for n = (m1, m2, .., mk) return the coefficients of the polynomial, prod(sum(x**i for i in range(nj + 1)) for nj in n); i.e) over Any ║
+# ║ Path(_AOP_product(n), len(n) == old_len_n - 1) over {Any | hasattr(n, 'pop') and len(n) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _AOP_product : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'pop')                              ║
+# ║   requires: len(n) > 0                                     ║
+# ║   ensures:  len(n) == old_len_n - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _AOP_product : {Any | hasattr(n, 'pop') and len(n) > ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b91dd09633d887c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f032f4fb033dd9c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._AOP_product","kind":"function","src_hash":"3621fb5b1aff3653","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_AOP_product(n)","rhs":"for n = (m1, m2, .., mk) return the coefficients of the polynomial, prod(sum(x**i for i in range(nj + 1)) for nj in n); i.e","over":{"base":"Any"},"name":"_AOP_product_correct"},"guarantee":"for n = (m1, m2, .., mk) return the coefficients of the polynomial, prod(sum(x**i for i in range(nj + 1)) for nj in n); i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._AOP_product_correct","statement":"Path(_AOP_product(x), for n = (m1, m2, .., mk) return the coefficients of the polynomial, prod(sum(x**i for i in range(nj + 1)) for nj in n); i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b91dd09633d887c3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._AOP_product","kind":"function","src_hash":"3621fb5b1aff3653","in":{"base":"Any","pred":"hasattr(n, 'pop') and len(n) > 0"},"out":{"base":"Any","pred":"result satisfies: len(n) == old_len_n - 1"},"spec":{"lhs":"_AOP_product(n)","rhs":"len(n) == old_len_n - 1","over":{"base":"Any","pred":"hasattr(n, 'pop') and len(n) > 0"},"name":"_AOP_product_correct"},"guarantee":"len(n) == old_len_n - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._AOP_product_correct","statement":"Path(_AOP_product(x), len(n) == old_len_n - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f032f4fb033dd9c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'pop')","len(n) > 0"],"ensures":["len(n) == old_len_n - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["n.pop"],"calls_mutating":["n.pop","rv.extend"]},"state_contract":{"modifies":["n.*","rv.*"],"old_bindings":{"old_len_n":"len(n)","old_len_rv":"len(rv)"},"pre_requires":["len(n) > 0"],"post_ensures":["len(n) == old_len_n - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _AOP_product(n):
     """for n = (m1, m2, .., mk) return the coefficients of the polynomial,
     prod(sum(x**i for i in range(nj + 1)) for nj in n); i.e. the coefficients
@@ -3783,7 +4540,10 @@ def _AOP_product(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nC(n, ), return the number of combinations of ``n`` items taken ``k`` at a time) over {Any | isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)} ║
+# ║ Path(nC(n, k, replacement), # HINT: nC may be idempotent: nC(nC(x)) == nC(x)) over {Any | isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: nC may be idempotent: nC(nC(x)) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nC : {Any | isinstance(n, SYMPY_INTS) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3796,9 +4556,12 @@ def _AOP_product(n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fa438435...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nC","kind":"function","src_hash":"922cc41ee616b764","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"out":{"base":"Any"},"spec":{"lhs":"nC(n, )","rhs":"return the number of combinations of ``n`` items taken ``k`` at a time","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"name":"nC_correct"},"guarantee":"return the number of combinations of ``n`` items taken ``k`` at a time","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"nC(x)","rhs":"return the number of combinations of ``n`` items taken ``k`` at a time","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"nC_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nC_SYMPY_INTS_correct","statement":"nC satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)","path":{"lhs":"nC(x)","rhs":"return the number of combinations of ``n`` items taken ``k`` at a time","over":{"base":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)"},"name":"nC__MultisetHistogram_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nC__MultisetHistogram_correct","statement":"nC satisfies spec on _MultisetHistogram inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fa43843559cab0dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nC","kind":"function","src_hash":"922cc41ee616b764","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"out":{"base":"Any","pred":"result satisfies: # HINT: nC may be idempotent: nC(nC(x)) == nC(x)"},"spec":{"lhs":"nC(n, k, replacement)","rhs":"# HINT: nC may be idempotent: nC(nC(x)) == nC(x)","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"name":"nC_correct"},"guarantee":"# HINT: nC may be idempotent: nC(nC(x)) == nC(x)","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"nC(x)","rhs":"# HINT: nC may be idempotent: nC(nC(x)) == nC(x)","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"nC_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nC_SYMPY_INTS_correct","statement":"nC satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)","path":{"lhs":"nC(x)","rhs":"# HINT: nC may be idempotent: nC(nC(x)) == nC(x)","over":{"base":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)"},"name":"nC__MultisetHistogram_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nC__MultisetHistogram_correct","statement":"nC satisfies spec on _MultisetHistogram inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fa43843559cab0dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: nC may be idempotent: nC(nC(x)) == nC(x)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'k is None', 'isinstance(n, _MultisetHistogram)', 'isinstance(n, SYMPY_INTS)', 'k < 0'}, fibers={'_MultisetHistogram', 'SYMPY_INTS'})"]}}
 def nC(n, k=None, replacement=False):
     """Return the number of combinations of ``n`` items taken ``k`` at a time.
 
@@ -3894,16 +4657,22 @@ def nC(n, k=None, replacement=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_stirling1(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_stirling1(n, k), <unspecified:_eval_stirling1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_stirling1 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef8430b321fc1c5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._eval_stirling1","kind":"function","src_hash":"4bd660f1bb484a83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_stirling1(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_stirling1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._eval_stirling1_correct","statement":"Path(_eval_stirling1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef8430b321fc1c5e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._eval_stirling1","kind":"function","src_hash":"4bd660f1bb484a83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_stirling1(n, k)","rhs":"<unspecified:_eval_stirling1>","over":{"base":"Any"},"name":"_eval_stirling1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._eval_stirling1_correct","statement":"Path(_eval_stirling1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef8430b321fc1c5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_stirling1(n, k):
     if n == k == 0:
         return S.One
@@ -3925,16 +4694,22 @@ def _eval_stirling1(n, k):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_stirling1(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_stirling1(n, k), Integer(row[k])) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integer(row[k])                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _stirling1 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bff91aa8bd2a3532  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a54cc7cefda813e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._stirling1","kind":"function","src_hash":"379bbf206af0af5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_stirling1(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_stirling1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._stirling1_correct","statement":"Path(_stirling1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bff91aa8bd2a3532"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._stirling1","kind":"function","src_hash":"379bbf206af0af5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_stirling1(n, k)","rhs":"Integer(row[k])","over":{"base":"Any"},"name":"_stirling1_correct"},"guarantee":"returns Integer(row[k])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._stirling1_correct","statement":"Path(_stirling1(x), returns Integer(row[k]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a54cc7cefda813e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integer(row[k])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _stirling1(n, k):
     row = [0, 1]+[0]*(k-1) # for n = 1
     for i in range(2, n+1):
@@ -3944,16 +4719,22 @@ def _stirling1(n, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_stirling2(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_stirling2(n, k), <unspecified:_eval_stirling2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_stirling2 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf335b46a58ee7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._eval_stirling2","kind":"function","src_hash":"e2ca739f9f8d5b86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_stirling2(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_stirling2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._eval_stirling2_correct","statement":"Path(_eval_stirling2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf335b46a58ee7d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._eval_stirling2","kind":"function","src_hash":"e2ca739f9f8d5b86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_stirling2(n, k)","rhs":"<unspecified:_eval_stirling2>","over":{"base":"Any"},"name":"_eval_stirling2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._eval_stirling2_correct","statement":"Path(_eval_stirling2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf335b46a58ee7d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_stirling2(n, k):
     if n == k == 0:
         return S.One
@@ -3975,16 +4756,22 @@ def _eval_stirling2(n, k):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_stirling2(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_stirling2(n, k), Integer(row[k])) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integer(row[k])                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _stirling2 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cba113c28c7c11a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b5de2be2587fb58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._stirling2","kind":"function","src_hash":"fb48530d5fd98b06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_stirling2(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_stirling2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._stirling2_correct","statement":"Path(_stirling2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cba113c28c7c11a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._stirling2","kind":"function","src_hash":"fb48530d5fd98b06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_stirling2(n, k)","rhs":"Integer(row[k])","over":{"base":"Any"},"name":"_stirling2_correct"},"guarantee":"returns Integer(row[k])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._stirling2_correct","statement":"Path(_stirling2(x), returns Integer(row[k]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b5de2be2587fb58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integer(row[k])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _stirling2(n, k):
     row = [0, 1]+[0]*(k-1) # for n = 1
     for i in range(2, n+1):
@@ -3994,16 +4781,23 @@ def _stirling2(n, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stirling(n, ), return stirling number $s(n, k)$ of the first or second (default) kind) over Any ║
+# ║ Path(stirling(n, k, d), <unspecified:stirling>) over {Any | not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ stirling : Any → {Any | result satisfies: $s^{d}(n, k...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ stirling : {Any | not (n < 0)} → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 600bad172e57ad1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.stirling","kind":"function","src_hash":"178011a7403c31d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: $s^{d}(n, k) = s(n - d + 1, k - d + 1)$ with $n \\ge k \\ge d$."},"spec":{"lhs":"stirling(n, )","rhs":"return stirling number $s(n, k)$ of the first or second (default) kind","over":{"base":"Any"},"name":"stirling_correct"},"guarantee":"return stirling number $s(n, k)$ of the first or second (default) kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.stirling_correct","statement":"Path(stirling(x), return stirling number $s(n, k)$ of the first or second (default) kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600bad172e57ad1b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.stirling","kind":"function","src_hash":"178011a7403c31d7","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any","pred":"result satisfies: $s^{d}(n, k) = s(n - d + 1, k - d + 1)$ with $n \\ge k \\ge d$."},"spec":{"lhs":"stirling(n, k, d)","rhs":"<unspecified:stirling>","over":{"base":"Any","pred":"not (n < 0)"},"name":"stirling_correct"},"guarantee":"return stirling number $s(n, k)$ of the first or second (default) kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.stirling_correct","statement":"Path(stirling(x), return stirling number $s(n, k)$ of the first or second (default) kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600bad172e57ad1b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def stirling(n, k, d=None, kind=2, signed=False):
     r"""Return Stirling number $S(n, k)$ of the first or second (default) kind.
 
@@ -4114,16 +4908,22 @@ def stirling(n, k, d=None, kind=2, signed=False):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nT(n, ), return the partitions of ``n`` items into ``k`` parts) over Any ║
+# ║ Path(_nT(n, k), <unspecified:_nT>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nT : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 228e13bacd71fabb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._nT","kind":"function","src_hash":"c11bf3edafd059f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nT(n, )","rhs":"return the partitions of ``n`` items into ``k`` parts","over":{"base":"Any"},"name":"_nT_correct"},"guarantee":"return the partitions of ``n`` items into ``k`` parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._nT_correct","statement":"Path(_nT(x), return the partitions of ``n`` items into ``k`` parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"228e13bacd71fabb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers._nT","kind":"function","src_hash":"c11bf3edafd059f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nT(n, k)","rhs":"<unspecified:_nT>","over":{"base":"Any"},"name":"_nT_correct"},"guarantee":"return the partitions of ``n`` items into ``k`` parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers._nT_correct","statement":"Path(_nT(x), return the partitions of ``n`` items into ``k`` parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"228e13bacd71fabb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _nT(n, k):
     """Return the partitions of ``n`` items into ``k`` parts. This
     is used by ``nT`` for the case when ``n`` is an integer."""
@@ -4168,7 +4968,10 @@ def _nT(n, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nT(n, ), return the number of ``k``-sized partitions of ``n`` items) over {Any | isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)} ║
+# ║ Path(nT(n, k), # HINT: nT may be idempotent: nT(nT(x)) == nT(x)) over {Any | isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: nT may be idempotent: nT(nT(x)) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nT : {Any | isinstance(n, SYMPY_INTS) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4181,9 +4984,12 @@ def _nT(n, k):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c36f308d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nT","kind":"function","src_hash":"f0d15a4b962bcfde","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"out":{"base":"Any"},"spec":{"lhs":"nT(n, )","rhs":"return the number of ``k``-sized partitions of ``n`` items","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"name":"nT_correct"},"guarantee":"return the number of ``k``-sized partitions of ``n`` items","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"nT(x)","rhs":"return the number of ``k``-sized partitions of ``n`` items","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"nT_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nT_SYMPY_INTS_correct","statement":"nT satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)","path":{"lhs":"nT(x)","rhs":"return the number of ``k``-sized partitions of ``n`` items","over":{"base":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)"},"name":"nT__MultisetHistogram_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nT__MultisetHistogram_correct","statement":"nT satisfies spec on _MultisetHistogram inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c36f308dce3fce8d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nT","kind":"function","src_hash":"f0d15a4b962bcfde","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"out":{"base":"Any","pred":"result satisfies: # HINT: nT may be idempotent: nT(nT(x)) == nT(x)"},"spec":{"lhs":"nT(n, k)","rhs":"# HINT: nT may be idempotent: nT(nT(x)) == nT(x)","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and isinstance(n, _MultisetHistogram)"},"name":"nT_correct"},"guarantee":"# HINT: nT may be idempotent: nT(nT(x)) == nT(x)","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"nT(x)","rhs":"# HINT: nT may be idempotent: nT(nT(x)) == nT(x)","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"nT_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nT_SYMPY_INTS_correct","statement":"nT satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)","path":{"lhs":"nT(x)","rhs":"# HINT: nT may be idempotent: nT(nT(x)) == nT(x)","over":{"base":"_MultisetHistogram","pred":"isinstance(n, _MultisetHistogram)"},"name":"nT__MultisetHistogram_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nT__MultisetHistogram_correct","statement":"nT satisfies spec on _MultisetHistogram inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c36f308dce3fce8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: nT may be idempotent: nT(nT(x)) == nT(x)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'k is None', 'k is None and N == 1', 'N == n[_ITEMS]', 'u <= 1', 'u == len(n)', 'isinstance(n, SYMPY_INTS)', 'not isinstance(n, _MultisetHistogram)', 'k == 2 or (N == 2 and k is None)', 'isinstance(k, SYMPY_INTS)'}, fibers={'_MultisetHistogram', 'SYMPY_INTS'})"]}}
 def nT(n, k=None):
     """Return the number of ``k``-sized partitions of ``n`` items.
 
@@ -4316,14 +5122,20 @@ def nT(n, k=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(motzkin(*args), correctly constructs a motzkin instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ motzkin : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ motzkin : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f8faa050e84299e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin","kind":"class","src_hash":"e56c2036bd57c0ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"motzkin(*args)","rhs":"correctly constructs a motzkin instance","over":{"base":"Any"},"name":"motzkin_class_invariant"},"guarantee":"correctly constructs a motzkin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8faa050e84299e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin","kind":"class","src_hash":"e56c2036bd57c0ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"motzkin(*args)","rhs":"correctly constructs a motzkin instance","over":{"base":"Any"},"name":"motzkin_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8faa050e84299e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function motzkin not found in source"]}}
 class motzkin(DefinedFunction):
     """
     The nth Motzkin number is the number
@@ -4363,16 +5175,23 @@ class motzkin(DefinedFunction):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_motzkin(n), is_motzkin produces the expected output) over Any ║
+# ║ Path(is_motzkin(n), <unspecified:is_motzkin>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[positive]: n > 0                                   ║
+# ║   fiber[positive]: not (n > 0) => False                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_motzkin : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2724216027c8af8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f10585cf0927079  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.is_motzkin","kind":"staticmethod","src_hash":"7d79f69866a56ef0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_motzkin(n)","rhs":"is_motzkin produces the expected output","over":{"base":"Any"},"name":"is_motzkin_correct"},"guarantee":"is_motzkin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.motzkin.is_motzkin_correct","statement":"Path(is_motzkin(x), is_motzkin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2724216027c8af8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.is_motzkin","kind":"staticmethod","src_hash":"7d79f69866a56ef0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_motzkin(n)","rhs":"<unspecified:is_motzkin>","over":{"base":"Any"},"name":"is_motzkin_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.motzkin.is_motzkin_correct","statement":"Path(is_motzkin(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f10585cf0927079","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"positive","guard":"n > 0","ensures":[],"decidability":"z3"},{"name":"positive","guard":"not (n > 0)","ensures":["result == False"],"decidability":"z3","returns_expr":"False"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_motzkin(n):
         try:
             n = as_int(n)
@@ -4401,16 +5220,24 @@ class motzkin(DefinedFunction):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_motzkin_numbers_in_range(x, ), find_motzkin_numbers_in_range produces the expected output) over Any ║
+# ║ Path(find_motzkin_numbers_in_range(x, y), len(motzkins) == old_len_motzkins + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_motzkin_numbers_in_range : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(motzkins) == old_len_motzkins + 1          ║
+# ║   fiber[case_0]: 0 <= x <= y => motzkins                   ║
+# ║   fiber[case_1]: not (0 <= x <= y)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_motzkin_numbers_in_range : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc16f31bbef116e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91d4db350db09adf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.find_motzkin_numbers_in_range","kind":"staticmethod","src_hash":"1e729e00ed37b414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_motzkin_numbers_in_range(x, )","rhs":"find_motzkin_numbers_in_range produces the expected output","over":{"base":"Any"},"name":"find_motzkin_numbers_in_range_correct"},"guarantee":"find_motzkin_numbers_in_range produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.motzkin.find_motzkin_numbers_in_range_correct","statement":"Path(find_motzkin_numbers_in_range(x), find_motzkin_numbers_in_range produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc16f31bbef116e8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.find_motzkin_numbers_in_range","kind":"staticmethod","src_hash":"1e729e00ed37b414","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(motzkins) == old_len_motzkins + 1"},"spec":{"lhs":"find_motzkin_numbers_in_range(x, y)","rhs":"len(motzkins) == old_len_motzkins + 1","over":{"base":"Any"},"name":"find_motzkin_numbers_in_range_correct"},"guarantee":"len(motzkins) == old_len_motzkins + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.motzkin.find_motzkin_numbers_in_range_correct","statement":"Path(find_motzkin_numbers_in_range(x), len(motzkins) == old_len_motzkins + 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91d4db350db09adf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(motzkins) == old_len_motzkins + 1"],"fibers":[{"name":"case_0","guard":"0 <= x <= y","ensures":["result == motzkins"],"decidability":"z3","returns_expr":"motzkins"},{"name":"case_1","guard":"not (0 <= x <= y)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["motzkins.append"],"raises":["ValueError"]},"state_contract":{"modifies":["motzkins.*"],"old_bindings":{"old_len_motzkins":"len(motzkins)"},"post_ensures":["len(motzkins) == old_len_motzkins + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_motzkin_numbers_in_range(x, y):
         if 0 <= x <= y:
             motzkins = []
@@ -4434,16 +5261,23 @@ class motzkin(DefinedFunction):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_first_n_motzkins(n), find_first_n_motzkins produces the expected output) over Any ║
+# ║ Path(find_first_n_motzkins(n), len(motzkins) == old_len_motzkins + 1) over {Any | not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_first_n_motzkins : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ensures:  len(motzkins) == old_len_motzkins + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_first_n_motzkins : {Any | not (n < 0)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f33e8cf07fc3e734  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac17d11d87fa443b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.find_first_n_motzkins","kind":"staticmethod","src_hash":"e11adf89a38cc4e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_first_n_motzkins(n)","rhs":"find_first_n_motzkins produces the expected output","over":{"base":"Any"},"name":"find_first_n_motzkins_correct"},"guarantee":"find_first_n_motzkins produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.motzkin.find_first_n_motzkins_correct","statement":"Path(find_first_n_motzkins(x), find_first_n_motzkins produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f33e8cf07fc3e734"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.find_first_n_motzkins","kind":"staticmethod","src_hash":"e11adf89a38cc4e5","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any","pred":"result satisfies: len(motzkins) == old_len_motzkins + 1"},"spec":{"lhs":"find_first_n_motzkins(n)","rhs":"len(motzkins) == old_len_motzkins + 1","over":{"base":"Any","pred":"not (n < 0)"},"name":"find_first_n_motzkins_correct"},"guarantee":"len(motzkins) == old_len_motzkins + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.motzkin.find_first_n_motzkins_correct","statement":"Path(find_first_n_motzkins(x), len(motzkins) == old_len_motzkins + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac17d11d87fa443b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 0)"],"ensures":["len(motzkins) == old_len_motzkins + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["motzkins.append"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"modifies":["motzkins.*"],"old_bindings":{"old_len_motzkins":"len(motzkins)"},"post_ensures":["len(motzkins) == old_len_motzkins + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_first_n_motzkins(n):
         try:
             n = as_int(n)
@@ -4469,31 +5303,44 @@ class motzkin(DefinedFunction):
     @staticmethod
     @recurrence_memo([S.One, S.One])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_motzkin(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_motzkin(n, prev), ((2 * n + 1) * prev[-1] + (3 * n - 3) * prev[-2]) // (n + 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((2 * n + 1) * prev[-1] + (3 * n - 3) * p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _motzkin : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a578bb9a603e7b89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin._motzkin","kind":"staticmethod","src_hash":"d854350d9e6b24c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_motzkin(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_motzkin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a578bb9a603e7b89"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin._motzkin","kind":"staticmethod","src_hash":"d854350d9e6b24c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_motzkin(n, prev)","rhs":"((2 * n + 1) * prev[-1] + (3 * n - 3) * prev[-2]) // (n + 2)","over":{"base":"Any"},"name":"_motzkin_correct"},"guarantee":"returns ((2 * n + 1) * prev[-1] + (3 * n - 3) * prev[-2]) // (n + 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a578bb9a603e7b89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((2 * n + 1) * prev[-1] + (3 * n - 3) * prev[-2]) // (n + 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _motzkin(n, prev):
         return ((2*n + 1)*prev[-1] + (3*n - 3)*prev[-2]) // (n + 2)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, n), id) over {Any | not (n < 0)}            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 0)                                    ║
+# ║   returns:  Integer(cls._motzkin(n - 1))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n < 0)} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4701e52fcd690e22   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.eval","kind":"classmethod","src_hash":"1e0578dcd7836499","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integer","by":"library_axiom"},{"fn":"_motzkin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4701e52fcd690e22"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.motzkin.eval","kind":"classmethod","src_hash":"1e0578dcd7836499","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n)","rhs":"Integer(cls._motzkin(n - 1))","over":{"base":"Any","pred":"not (n < 0)"},"name":"eval_correct","kind":"composition"},"guarantee":"returns Integer(cls._motzkin(n - 1))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integer","by":"library_axiom"},{"fn":"_motzkin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4701e52fcd690e22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 0)"],"returns_expr":"Integer(cls._motzkin(n - 1))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._motzkin"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         try:
             n = as_int(n)
@@ -4505,7 +5352,13 @@ class motzkin(DefinedFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nD(i, ), return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset) over {Any | isinstance(i, SYMPY_INTS) and isinstance(m, dict) and isinstance(m, str)} ║
+# ║ Path(nD(i, brute, n), <unspecified:nD>) over {Any | isinstance(i, SYMPY_INTS) and isinstance(m, dict) and isinstance(m, str) and not ((i, n, m).count(None) != 2) and hasattr(i, 'items') and hasattr(i, 'values') and hasattr(m, 'items')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not ((i, n, m).count(None) != 2)               ║
+# ║   requires: hasattr(i, 'items')                            ║
+# ║   requires: hasattr(i, 'values')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nD : {Any | isinstance(i, SYMPY_INTS) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4519,9 +5372,12 @@ class motzkin(DefinedFunction):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 96d14b28...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nD","kind":"function","src_hash":"e0e1acfc885dbb52","in":{"base":"Any","pred":"isinstance(i, SYMPY_INTS) and isinstance(m, dict) and isinstance(m, str)"},"out":{"base":"Any","pred":"result satisfies: ``n`` unique items, ``i``"},"spec":{"lhs":"nD(i, )","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"Any","pred":"isinstance(i, SYMPY_INTS) and isinstance(m, dict) and isinstance(m, str)"},"name":"nD_correct"},"guarantee":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(i, SYMPY_INTS)","path":{"lhs":"nD(x)","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"SYMPY_INTS","pred":"isinstance(i, SYMPY_INTS)"},"name":"nD_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nD_SYMPY_INTS_correct","statement":"nD satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"nD(x)","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"nD_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nD_dict_correct","statement":"nD satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(m, str)","path":{"lhs":"nD(x)","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"str","pred":"isinstance(m, str)"},"name":"nD_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nD_str_correct","statement":"nD satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96d14b28c39f59f6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.numbers.nD","kind":"function","src_hash":"e0e1acfc885dbb52","in":{"base":"Any","pred":"isinstance(i, SYMPY_INTS) and isinstance(m, dict) and isinstance(m, str) and not ((i, n, m).count(None) != 2) and hasattr(i, 'items') and hasattr(i, 'values') and hasattr(m, 'items')"},"out":{"base":"Any","pred":"result satisfies: ``n`` unique items, ``i``"},"spec":{"lhs":"nD(i, brute, n)","rhs":"<unspecified:nD>","over":{"base":"Any","pred":"isinstance(i, SYMPY_INTS) and isinstance(m, dict) and isinstance(m, str) and not ((i, n, m).count(None) != 2) and hasattr(i, 'items') and hasattr(i, 'values') and hasattr(m, 'items')"},"name":"nD_correct"},"guarantee":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(i, SYMPY_INTS)","path":{"lhs":"nD(x)","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"SYMPY_INTS","pred":"isinstance(i, SYMPY_INTS)"},"name":"nD_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nD_SYMPY_INTS_correct","statement":"nD satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"nD(x)","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"nD_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nD_dict_correct","statement":"nD satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(m, str)","path":{"lhs":"nD(x)","rhs":"return the number of derangements for: ``n`` unique items, ``i`` items (as a sequence or multiset), or multiplicities, ``m`` given as a sequence or multiset","over":{"base":"str","pred":"isinstance(m, str)"},"name":"nD_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.numbers.nD_str_correct","statement":"nD satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96d14b28c39f59f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not ((i, n, m).count(None) != 2)","hasattr(i, 'items')","hasattr(i, 'values')","hasattr(m, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.items","i.values"],"calls_mutating":["s.extend"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["s.*"],"old_bindings":{"old_len_s":"len(s)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['i', 'brute'], spec=['i', 'brute', 'n', 'm']","Poor branch-fiber coverage: 0% (branches={'isinstance(i, SYMPY_INTS)', 'big == 1', 'big * 2 == N', 'nkey == 2 and nval == 1', 'nkey - 1 == big', 'x < 0', 's is None', 'big * 2 > N', 'isinstance(m, dict)', 'iterable(m) or isinstance(m, str)', '(i, n, m).count(None) != 2', 'N < 9 and brute is None or brute', 'not isinstance(x, SYMPY_INTS)'}, fibers={'dict', 'str', 'SYMPY_INTS'})"]}}
 def nD(i=None, brute=None, *, n=None, m=None):
     """return the number of derangements for: ``n`` unique items, ``i``
     items (as a sequence or multiset), or multiplicities, ``m`` given

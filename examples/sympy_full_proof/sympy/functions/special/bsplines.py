@@ -25,9 +25,13 @@ from functools import lru_cache
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ivl(con), return the interval corresponding to the condition) over {Any | isinstance(cond, And)} ║
+# ║ Path(_ivl(cond, x), (a.lts, b.gts)) over {Any | isinstance(cond, And) and hasattr(cond, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ivl : {Any | isinstance(cond, And)} → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(cond, 'args')                          ║
+# ║   returns:  (a.lts, b.gts)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ivl : {Any | isinstance(cond, And) and hasattr(cond,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   And: {isinstance(cond, And)} → library_axiom             ║
@@ -37,9 +41,12 @@ from functools import lru_cache
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ed9de8d8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines._ivl","kind":"function","src_hash":"31318115628e6468","in":{"base":"Any","pred":"isinstance(cond, And)"},"out":{"base":"Any"},"spec":{"lhs":"_ivl(con)","rhs":"return the interval corresponding to the condition","over":{"base":"Any","pred":"isinstance(cond, And)"},"name":"_ivl_correct"},"guarantee":"return the interval corresponding to the condition","fibers":[{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_ivl(x)","rhs":"return the interval corresponding to the condition","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_ivl_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines._ivl_And_correct","statement":"_ivl satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed9de8d80993bb82"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines._ivl","kind":"function","src_hash":"31318115628e6468","in":{"base":"Any","pred":"isinstance(cond, And) and hasattr(cond, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_ivl(cond, x)","rhs":"(a.lts, b.gts)","over":{"base":"Any","pred":"isinstance(cond, And) and hasattr(cond, 'args')"},"name":"_ivl_correct"},"guarantee":"returns (a.lts, b.gts)","fibers":[{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_ivl(x)","rhs":"returns (a.lts, b.gts)","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_ivl_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines._ivl_And_correct","statement":"_ivl satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed9de8d80993bb82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(cond, 'args')"],"returns_expr":"(a.lts, b.gts)","pure":false,"effects":{"effect_type":"reads_state","reads":["cond.args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(cond, And) and len(cond.args) == 2', 'a.lts == x'}, fibers={'And'})"]}}
 def _ivl(cond, x):
     """return the interval corresponding to the condition
 
@@ -56,16 +63,22 @@ def _ivl(cond, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_splines(c, ), construct c*b1 + d*b2) over Any    ║
+# ║ Path(_add_splines(c, b1, d), rv.expand()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv.expand()                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_splines : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c67796c8a19e049  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fa6fcf9facc99e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines._add_splines","kind":"function","src_hash":"9301c27fa78924b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_splines(c, )","rhs":"construct c*b1 + d*b2","over":{"base":"Any"},"name":"_add_splines_correct"},"guarantee":"construct c*b1 + d*b2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines._add_splines_correct","statement":"Path(_add_splines(x), construct c*b1 + d*b2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c67796c8a19e049"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines._add_splines","kind":"function","src_hash":"9301c27fa78924b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_splines(c, b1, d)","rhs":"rv.expand()","over":{"base":"Any"},"name":"_add_splines_correct"},"guarantee":"returns rv.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines._add_splines_correct","statement":"Path(_add_splines(x), returns rv.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fa6fcf9facc99e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv.expand()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _add_splines(c, b1, d, b2, x):
     """Construct c*b1 + d*b2."""
 
@@ -127,16 +140,22 @@ def _add_splines(c, b1, d, b2, x):
 
 @lru_cache(maxsize=128)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bspline_basis(d, ), the $n$-th b-spline at $x$ of degree $d$ with knots) over Any ║
+# ║ Path(bspline_basis(d, knots, n), result.xreplace({x: xvar})) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  result.xreplace({x: xvar})                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bspline_basis : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c1027d458c7dc4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d280ed87eb2ce3f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines.bspline_basis","kind":"function","src_hash":"a28105f9d3bbcc8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bspline_basis(d, )","rhs":"the $n$-th b-spline at $x$ of degree $d$ with knots","over":{"base":"Any"},"name":"bspline_basis_correct"},"guarantee":"the $n$-th b-spline at $x$ of degree $d$ with knots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines.bspline_basis_correct","statement":"Path(bspline_basis(x), the $n$-th b-spline at $x$ of degree $d$ with knots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c1027d458c7dc4a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines.bspline_basis","kind":"function","src_hash":"a28105f9d3bbcc8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bspline_basis(d, knots, n)","rhs":"result.xreplace({x: xvar})","over":{"base":"Any"},"name":"bspline_basis_correct"},"guarantee":"returns result.xreplace({x: xvar})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines.bspline_basis_correct","statement":"Path(bspline_basis(x), returns result.xreplace({x: xvar}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d280ed87eb2ce3f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"result.xreplace({x: xvar})","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def bspline_basis(d, knots, n, x):
     """
     The $n$-th B-spline at $x$ of degree $d$ with knots.
@@ -257,16 +276,22 @@ def bspline_basis(d, knots, n, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bspline_basis_set(d, ), id) over Any                  ║
+# ║ Path(bspline_basis_set(d, knots, x), id) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [bspline_basis(d, tuple(knots), i, x) for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bspline_basis_set : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 07e77d3d8cee0c1a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines.bspline_basis_set","kind":"function","src_hash":"77cfd3cf0bd78974","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bspline_basis_set(d, )","rhs":"return the ``len(knots)-d-1`` b-splines at *x* of degree *d* with *knots*","over":{"base":"Any"},"name":"bspline_basis_set_correct","kind":"composition"},"guarantee":"return the ``len(knots)-d-1`` b-splines at *x* of degree *d* with *knots*","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bspline_basis","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07e77d3d8cee0c1a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines.bspline_basis_set","kind":"function","src_hash":"77cfd3cf0bd78974","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bspline_basis_set(d, knots, x)","rhs":"[bspline_basis(d, tuple(knots), i, x) for i in range(n_splines)]","over":{"base":"Any"},"name":"bspline_basis_set_correct","kind":"composition"},"guarantee":"returns [bspline_basis(d, tuple(knots), i, x) for i in range(n_splines)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bspline_basis","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07e77d3d8cee0c1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[bspline_basis(d, tuple(knots), i, x) for i in range(n_splines)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bspline_basis_set(d, knots, x):
     """
     Return the ``len(knots)-d-1`` B-splines at *x* of degree *d*
@@ -320,16 +345,26 @@ def bspline_basis_set(d, knots, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interpolating_spline(d, ), return spline of degree *d*, passing through the given *x* and *y* values) over Any ║
+# ║ Path(interpolating_spline(d, x, X), Piecewise(*spline)) over {Any | d.is_Integer and d.is_positive and not (len(X) != len(Y)) and hasattr(d, 'is_odd') and hasattr(d, 'is_Integer') and hasattr(d, 'is_positive') and hasattr(d, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ interpolating_spline : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: d.is_Integer and d.is_positive                 ║
+# ║   requires: not (len(X) != len(Y))                         ║
+# ║   requires: hasattr(d, 'is_odd')                           ║
+# ║   ensures:  len(spline) == old_len_spline + 1              ║
+# ║   returns:  Piecewise(*spline)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ interpolating_spline : {Any | d.is_Integer and d.is_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b93e1bf9d0748df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8a0e0bfdf7c62a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines.interpolating_spline","kind":"function","src_hash":"c18718469fea43f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interpolating_spline(d, )","rhs":"return spline of degree *d*, passing through the given *x* and *y* values","over":{"base":"Any"},"name":"interpolating_spline_correct"},"guarantee":"return spline of degree *d*, passing through the given *x* and *y* values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines.interpolating_spline_correct","statement":"Path(interpolating_spline(x), return spline of degree *d*, passing through the given *x* and *y* values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b93e1bf9d0748df"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bsplines.interpolating_spline","kind":"function","src_hash":"c18718469fea43f9","in":{"base":"Any","pred":"d.is_Integer and d.is_positive and not (len(X) != len(Y)) and hasattr(d, 'is_odd') and hasattr(d, 'is_Integer') and hasattr(d, 'is_positive') and hasattr(d, 'get')"},"out":{"base":"Any","pred":"result satisfies: result == (Piecewise(*spline))"},"spec":{"lhs":"interpolating_spline(d, x, X)","rhs":"Piecewise(*spline)","over":{"base":"Any","pred":"d.is_Integer and d.is_positive and not (len(X) != len(Y)) and hasattr(d, 'is_odd') and hasattr(d, 'is_Integer') and hasattr(d, 'is_positive') and hasattr(d, 'get')"},"name":"interpolating_spline_correct"},"guarantee":"returns Piecewise(*spline); len(spline) == old_len_spline + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bsplines.interpolating_spline_correct","statement":"Path(interpolating_spline(x), returns Piecewise(*spline); len(spline) == old_len_spline + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8a0e0bfdf7c62a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["d.is_Integer and d.is_positive","not (len(X) != len(Y))","hasattr(d, 'is_odd')","hasattr(d, 'is_Integer')","hasattr(d, 'is_positive')","hasattr(d, 'get')"],"ensures":["len(spline) == old_len_spline + 1"],"returns_expr":"Piecewise(*spline)","pure":false,"effects":{"effect_type":"reads_state","reads":["d.get","d.is_Integer","d.is_odd","d.is_positive"],"calls_mutating":["spline.append"],"raises":["ValueError"]},"state_contract":{"modifies":["spline.*"],"old_bindings":{"old_len_spline":"len(spline)"},"post_ensures":["len(spline) == old_len_spline + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def interpolating_spline(d, x, X, Y):
     """
     Return spline of degree *d*, passing through the given *X*

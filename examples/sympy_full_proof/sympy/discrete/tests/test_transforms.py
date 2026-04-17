@@ -23,16 +23,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fft_ifft(), test_fft_ifft produces the expected output) over Any ║
+# ║ Path(test_fft_ifft(), all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)]))) and fft(ls) == fls and ifft(fls) == ls + [S.Zero] * 2 and ifft(ls) == ifls and fft(ifls) == ls + [S.Zero]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fft_ifft : Any → {Any | all((tf(ls) == ls for tf...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((tf(ls) == ls for tf in (fft, ifft) f...   ║
+# ║   ensures:  fft(ls) == fls                                 ║
+# ║   ensures:  ifft(fls) == ls + [S.Zero] * 2                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fft_ifft : Any → {Any | result satisfies: all((t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e31606adf5596a3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03994b7d9f56e0cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_fft_ifft","kind":"function","src_hash":"e60cc7ba675b4307","in":{"base":"Any"},"out":{"base":"Any","pred":"all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)]))) and fft(ls) == fls and ifft(fls) == ls + [S.Zero] * 2 and ifft(ls) == ifls and fft(ifls) == ls + [S.Zero]"},"spec":{"lhs":"test_fft_ifft()","rhs":"test_fft_ifft produces the expected output","over":{"base":"Any"},"name":"test_fft_ifft_correct"},"guarantee":"test_fft_ifft produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_fft_ifft_correct","statement":"Path(test_fft_ifft(x), test_fft_ifft produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e31606adf5596a3a"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_fft_ifft","kind":"function","src_hash":"e60cc7ba675b4307","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)]))) and fft(ls) == fls and ifft(fls) == ls + [S.Zero] * 2 and ifft(ls) == ifls and fft(ifls) == ls + [S.Zero]"},"spec":{"lhs":"test_fft_ifft()","rhs":"all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)]))) and fft(ls) == fls and ifft(fls) == ls + [S.Zero] * 2 and ifft(ls) == ifls and fft(ifls) == ls + [S.Zero]","over":{"base":"Any"},"name":"test_fft_ifft_correct"},"guarantee":"all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)]))); fft(ls) == fls; ifft(fls) == ls + [S.Zero] * 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_fft_ifft_correct","statement":"Path(test_fft_ifft(x), all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)]))); fft(ls) == fls; ifft(fls) == ls + [S.Zero] * 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03994b7d9f56e0cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((tf(ls) == ls for tf in (fft, ifft) for ls in ([], [Rational(5, 3)])))","fft(ls) == fls","ifft(fls) == ls + [S.Zero] * 2","ifft(ls) == ifls","fft(ifls) == ls + [S.Zero]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_fft_ifft():
     assert all(tf(ls) == ls for tf in (fft, ifft)
                             for ls in ([], [Rational(5, 3)]))
@@ -58,16 +66,24 @@ def test_fft_ifft():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ntt_intt(), test_ntt_intt produces the expected output) over Any ║
+# ║ Path(test_ntt_intt(), all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5]))) and ntt(ls, p) == nls and intt(nls, p) == ls + [0] * 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ntt_intt : Any → {Any | all((tf(ls, p) == ls for...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((tf(ls, p) == ls for tf in (ntt, intt...   ║
+# ║   ensures:  ntt(ls, p) == nls                              ║
+# ║   ensures:  intt(nls, p) == ls + [0] * 2                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ntt_intt : Any → {Any | result satisfies: all((t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9bf9084846fbaa0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff6750f526ad7d5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_ntt_intt","kind":"function","src_hash":"d7753aabcfe329c1","in":{"base":"Any"},"out":{"base":"Any","pred":"all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5]))) and ntt(ls, p) == nls and intt(nls, p) == ls + [0] * 2"},"spec":{"lhs":"test_ntt_intt()","rhs":"test_ntt_intt produces the expected output","over":{"base":"Any"},"name":"test_ntt_intt_correct"},"guarantee":"test_ntt_intt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_ntt_intt_correct","statement":"Path(test_ntt_intt(x), test_ntt_intt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9bf9084846fbaa0"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_ntt_intt","kind":"function","src_hash":"d7753aabcfe329c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5]))) and ntt(ls, p) == nls and intt(nls, p) == ls + [0] * 2"},"spec":{"lhs":"test_ntt_intt()","rhs":"all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5]))) and ntt(ls, p) == nls and intt(nls, p) == ls + [0] * 2","over":{"base":"Any"},"name":"test_ntt_intt_correct"},"guarantee":"all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5]))); ntt(ls, p) == nls; intt(nls, p) == ls + [0] * 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_ntt_intt_correct","statement":"Path(test_ntt_intt(x), all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5]))); ntt(ls, p) == nls; intt(nls, p) == ls + [0] * 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff6750f526ad7d5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((tf(ls, p) == ls for tf in (ntt, intt) for ls in ([], [5])))","ntt(ls, p) == nls","intt(nls, p) == ls + [0] * 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_ntt_intt():
     # prime moduli of the form (m*2**k + 1), sequence length
     # should be a divisor of 2**k
@@ -98,16 +114,24 @@ def test_ntt_intt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fwht_ifwht(), test_fwht_ifwht produces the expected output) over Any ║
+# ║ Path(test_fwht_ifwht(), all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)]))) and fwht(ls) == fls and ifwht(fls) == ls + [S.Zero] * 2 and ifwht(ls) == ifls and fwht(ifls) == ls + [S.Zero] * 3 and fwht(ifls) == ls and ifwht(fls) == ls + [S.Zero] * 3 and fwht(ls) == [x * 8 for x in ifwht(ls)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fwht_ifwht : Any → {Any | all((tf(ls) == ls for ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((tf(ls) == ls for tf in (fwht, ifwht)...   ║
+# ║   ensures:  fwht(ls) == fls                                ║
+# ║   ensures:  ifwht(fls) == ls + [S.Zero] * 2                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fwht_ifwht : Any → {Any | result satisfies: all(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25b152918630d711  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fba91baa1c7685b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_fwht_ifwht","kind":"function","src_hash":"e2b55d042978089c","in":{"base":"Any"},"out":{"base":"Any","pred":"all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)]))) and fwht(ls) == fls and ifwht(fls) == ls + [S.Zero] * 2 and ifwht(ls) == ifls and fwht(ifls) == ls + [S.Zero] * 3 and ifwht(ls) == ifls and fwht(ifls) == ls and fwht(ls) == fls and ifwht(fls) == ls + [S.Zero] * 3 and fwht(ls) == [x * 8 for x in ifwht(ls)]"},"spec":{"lhs":"test_fwht_ifwht()","rhs":"test_fwht_ifwht produces the expected output","over":{"base":"Any"},"name":"test_fwht_ifwht_correct"},"guarantee":"test_fwht_ifwht produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_fwht_ifwht_correct","statement":"Path(test_fwht_ifwht(x), test_fwht_ifwht produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25b152918630d711"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_fwht_ifwht","kind":"function","src_hash":"e2b55d042978089c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)]))) and fwht(ls) == fls and ifwht(fls) == ls + [S.Zero] * 2 and ifwht(ls) == ifls and fwht(ifls) == ls + [S.Zero] * 3 and fwht(ifls) == ls and ifwht(fls) == ls + [S.Zero] * 3 and fwht(ls) == [x * 8 for x in ifwht(ls)]"},"spec":{"lhs":"test_fwht_ifwht()","rhs":"all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)]))) and fwht(ls) == fls and ifwht(fls) == ls + [S.Zero] * 2 and ifwht(ls) == ifls and fwht(ifls) == ls + [S.Zero] * 3 and fwht(ifls) == ls and ifwht(fls) == ls + [S.Zero] * 3 and fwht(ls) == [x * 8 for x in ifwht(ls)]","over":{"base":"Any"},"name":"test_fwht_ifwht_correct"},"guarantee":"all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)]))); fwht(ls) == fls; ifwht(fls) == ls + [S.Zero] * 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_fwht_ifwht_correct","statement":"Path(test_fwht_ifwht(x), all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)]))); fwht(ls) == fls; ifwht(fls) == ls + [S.Zero] * 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fba91baa1c7685b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((tf(ls) == ls for tf in (fwht, ifwht) for ls in ([], [Rational(7, 4)])))","fwht(ls) == fls","ifwht(fls) == ls + [S.Zero] * 2","ifwht(ls) == ifls","fwht(ifls) == ls + [S.Zero] * 3","fwht(ifls) == ls","ifwht(fls) == ls + [S.Zero] * 3","fwht(ls) == [x * 8 for x in ifwht(ls)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_fwht_ifwht():
     assert all(tf(ls) == ls for tf in (fwht, ifwht) \
                         for ls in ([], [Rational(7, 4)]))
@@ -157,16 +181,24 @@ def test_fwht_ifwht():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mobius_transform(), test_mobius_transform produces the expected output) over Any ║
+# ║ Path(test_mobius_transform(), all((tf(ls, subset=subset) == ls for ls in ([], [Rational(7, 4)]) for subset in (True, False) for tf in (mobius_transform, inverse_mobius_transform))) and mobius_transform([x, y]) == [x, x + y] and inverse_mobius_transform([x, x + y]) == [x, y] and mobius_transform([x, y], subset=False) == [x + y, y] and inverse_mobius_transform([x + y, y], subset=False) == [x, y] and mobius_transform([w, x, y, z]) == [w, w + x, w + y, w + x + y + z] and inverse_mobius_transform([w, w + x, w + y, w + x + y + z]) == [w, x, y, z] and mobius_transform([w, x, y, z], subset=False) == [w + x + y + z, x + z, y + z, z] and inverse_mobius_transform([w + x + y + z, x + z, y + z, z], subset=False) == [w, x, y, z] and mobius_transform(ls) == mls and inverse_mobius_transform(mls) == ls + [S.Zero] * 3 and mobius_transform(ls, subset=False) == mls and inverse_mobius_transform(mls, subset=False) == ls + [S.Zero] * 3 and inverse_mobius_transform(mls) == ls and inverse_mobius_transform(mls, subset=False) == ls) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mobius_transform : Any → {Any | mobius_transform...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((tf(ls, subset=subset) == ls for ls i...   ║
+# ║   ensures:  mobius_transform([x, y]) == [x, x + y]         ║
+# ║   ensures:  inverse_mobius_transform([x, x + y]) == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mobius_transform : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee28bcf7fc10e61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 896ef7cd01f85160  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_mobius_transform","kind":"function","src_hash":"b0d2d1df188bd90a","in":{"base":"Any"},"out":{"base":"Any","pred":"mobius_transform([x, y]) == [x, x + y] and inverse_mobius_transform([x, x + y]) == [x, y] and mobius_transform([x, y], subset=False) == [x + y, y] and inverse_mobius_transform([x + y, y], subset=False) == [x, y] and mobius_transform([w, x, y, z]) == [w, w + x, w + y, w + x + y + z] and inverse_mobius_transform([w, w + x, w + y, w + x + y + z]) == [w, x, y, z] and mobius_transform(ls) == mls and inverse_mobius_transform(mls) == ls + [S.Zero] * 3 and mobius_transform(ls, subset=False) == mls and inverse_mobius_transform(mls, subset=False) == ls + [S.Zero] * 3 and mobius_transform(ls) == mls and inverse_mobius_transform(mls) == ls and mobius_transform(ls, subset=False) == mls and inverse_mobius_transform(mls, subset=False) == ls"},"spec":{"lhs":"test_mobius_transform()","rhs":"test_mobius_transform produces the expected output","over":{"base":"Any"},"name":"test_mobius_transform_correct"},"guarantee":"test_mobius_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_mobius_transform_correct","statement":"Path(test_mobius_transform(x), test_mobius_transform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee28bcf7fc10e61"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.tests.test_transforms.test_mobius_transform","kind":"function","src_hash":"b0d2d1df188bd90a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((tf(ls, subset=subset) == ls for ls in ([], [Rational(7, 4)]) for subset in (True, False) for tf in (mobius_transform, inverse_mobius_transform))) and mobius_transform([x, y]) == [x, x + y] and inverse_mobius_transform([x, x + y]) == [x, y] and mobius_transform([x, y], subset=False) == [x + y, y] and inverse_mobius_transform([x + y, y], subset=False) == [x, y] and mobius_transform([w, x, y, z]) == [w, w + x, w + y, w + x + y + z] and inverse_mobius_transform([w, w + x, w + y, w + x + y + z]) == [w, x, y, z] and mobius_transform([w, x, y, z], subset=False) == [w + x + y + z, x + z, y + z, z] and inverse_mobius_transform([w + x + y + z, x + z, y + z, z], subset=False) == [w, x, y, z] and mobius_transform(ls) == mls and inverse_mobius_transform(mls) == ls + [S.Zero] * 3 and mobius_transform(ls, subset=False) == mls and inverse_mobius_transform(mls, subset=False) == ls + [S.Zero] * 3 and inverse_mobius_transform(mls) == ls and inverse_mobius_transform(mls, subset=False) == ls"},"spec":{"lhs":"test_mobius_transform()","rhs":"all((tf(ls, subset=subset) == ls for ls in ([], [Rational(7, 4)]) for subset in (True, False) for tf in (mobius_transform, inverse_mobius_transform))) and mobius_transform([x, y]) == [x, x + y] and inverse_mobius_transform([x, x + y]) == [x, y] and mobius_transform([x, y], subset=False) == [x + y, y] and inverse_mobius_transform([x + y, y], subset=False) == [x, y] and mobius_transform([w, x, y, z]) == [w, w + x, w + y, w + x + y + z] and inverse_mobius_transform([w, w + x, w + y, w + x + y + z]) == [w, x, y, z] and mobius_transform([w, x, y, z], subset=False) == [w + x + y + z, x + z, y + z, z] and inverse_mobius_transform([w + x + y + z, x + z, y + z, z], subset=False) == [w, x, y, z] and mobius_transform(ls) == mls and inverse_mobius_transform(mls) == ls + [S.Zero] * 3 and mobius_transform(ls, subset=False) == mls and inverse_mobius_transform(mls, subset=False) == ls + [S.Zero] * 3 and inverse_mobius_transform(mls) == ls and inverse_mobius_transform(mls, subset=False) == ls","over":{"base":"Any"},"name":"test_mobius_transform_correct"},"guarantee":"all((tf(ls, subset=subset) == ls for ls in ([], [Rational(7, 4)]) for subset in (True, False) for tf in (mobius_transform, inverse_mobius_transform))); mobius_transform([x, y]) == [x, x + y]; inverse_mobius_transform([x, x + y]) == [x, y]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.tests.test_transforms.test_mobius_transform_correct","statement":"Path(test_mobius_transform(x), all((tf(ls, subset=subset) == ls for ls in ([], [Rational(7, 4)]) for subset in (True, False) for tf in (mobius_transform, inverse_mobius_transform))); mobius_transform([x, y]) == [x, x + y]; inverse_mobius_transform([x, x + y]) == [x, y])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"896ef7cd01f85160","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((tf(ls, subset=subset) == ls for ls in ([], [Rational(7, 4)]) for subset in (True, False) for tf in (mobius_transform, inverse_mobius_transform)))","mobius_transform([x, y]) == [x, x + y]","inverse_mobius_transform([x, x + y]) == [x, y]","mobius_transform([x, y], subset=False) == [x + y, y]","inverse_mobius_transform([x + y, y], subset=False) == [x, y]","mobius_transform([w, x, y, z]) == [w, w + x, w + y, w + x + y + z]","inverse_mobius_transform([w, w + x, w + y, w + x + y + z]) == [w, x, y, z]","mobius_transform([w, x, y, z], subset=False) == [w + x + y + z, x + z, y + z, z]","inverse_mobius_transform([w + x + y + z, x + z, y + z, z], subset=False) == [w, x, y, z]","mobius_transform(ls) == mls","inverse_mobius_transform(mls) == ls + [S.Zero] * 3","mobius_transform(ls, subset=False) == mls","inverse_mobius_transform(mls, subset=False) == ls + [S.Zero] * 3","inverse_mobius_transform(mls) == ls","inverse_mobius_transform(mls, subset=False) == ls"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_mobius_transform():
     assert all(tf(ls, subset=subset) == ls
                 for ls in ([], [Rational(7, 4)]) for subset in (True, False)

@@ -27,14 +27,20 @@ from sympy.utilities.iterables import iterable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MonomialOrder(*args), correctly constructs a MonomialOrder instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MonomialOrder : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 392dff16106e24f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder","kind":"class","src_hash":"6dcfdbabc79a4622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MonomialOrder(*args)","rhs":"correctly constructs a MonomialOrder instance","over":{"base":"Any"},"name":"MonomialOrder_class_invariant"},"guarantee":"correctly constructs a MonomialOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"392dff16106e24f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder","kind":"class","src_hash":"6dcfdbabc79a4622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MonomialOrder(*args)","rhs":"correctly constructs a MonomialOrder instance","over":{"base":"Any"},"name":"MonomialOrder_class_invariant"},"guarantee":"correctly constructs a MonomialOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"392dff16106e24f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MonomialOrder not found in source"]}}
 class MonomialOrder:
     """Base class for monomial orderings. """
 
@@ -43,100 +49,142 @@ class MonomialOrder:
     is_default = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), self.__class__.__name__ + '()') over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__.__name__ + '()'                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 734d7f39a908dae0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__repr__","kind":"method","src_hash":"4dd311848f90652b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"734d7f39a908dae0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__repr__","kind":"method","src_hash":"4dd311848f90652b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"self.__class__.__name__ + '()'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns self.__class__.__name__ + '()'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"734d7f39a908dae0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__.__name__ + '()'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return self.__class__.__name__ + "()"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.alias) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.alias                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5cedf4b2a44b0750           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__str__","kind":"method","src_hash":"9e4b85b43a5f8b72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cedf4b2a44b0750"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__str__","kind":"method","src_hash":"9e4b85b43a5f8b72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.alias","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.alias","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cedf4b2a44b0750","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.alias","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alias"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.alias
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(mon), correctly applies the callable) over Any ║
+# ║ Path(__call__(monomial), <unspecified:__call__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46a7de9f3a6a4050           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__call__","kind":"method","src_hash":"7bd0372346ed8541","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(mon)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46a7de9f3a6a4050"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__call__","kind":"method","src_hash":"7bd0372346ed8541","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(monomial)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46a7de9f3a6a4050","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, monomial):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self.__class__ == other.__class__) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__ == other.__class__              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e115d0a27c66477           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__eq__","kind":"method","src_hash":"67bd6d0d08c3480a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e115d0a27c66477"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__eq__","kind":"method","src_hash":"67bd6d0d08c3480a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self.__class__ == other.__class__","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"returns self.__class__ == other.__class__","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e115d0a27c66477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__ == other.__class__","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return self.__class__ == other.__class__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(self.__class__)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(self.__class__)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89511005e9a6882b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__hash__","kind":"method","src_hash":"ed1e482ecc652ecd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89511005e9a6882b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__hash__","kind":"method","src_hash":"ed1e482ecc652ecd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(self.__class__)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(self.__class__)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89511005e9a6882b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(self.__class__)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(self.__class__)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60292f01fc6f5745           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__ne__","kind":"method","src_hash":"48f42aaaef579218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60292f01fc6f5745"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.MonomialOrder.__ne__","kind":"method","src_hash":"48f42aaaef579218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60292f01fc6f5745","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not (self == other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LexOrder(), correctly constructs a LexOrder instance) over Any ║
+# ║ Path(LexOrder(), isinstance(self, MonomialOrder)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LexOrder : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MonomialOrder)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LexOrder : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06f27df68ad6eaf2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.LexOrder","kind":"class","src_hash":"e0659e5ec721ef32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LexOrder()","rhs":"correctly constructs a LexOrder instance","over":{"base":"Any"},"name":"LexOrder_correct"},"guarantee":"correctly constructs a LexOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f27df68ad6eaf2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.LexOrder","kind":"class","src_hash":"e0659e5ec721ef32","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MonomialOrder)"},"spec":{"lhs":"LexOrder()","rhs":"isinstance(self, MonomialOrder)","over":{"base":"Any"},"name":"LexOrder_correct"},"guarantee":"isinstance(self, MonomialOrder)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f27df68ad6eaf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MonomialOrder)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function LexOrder not found in source"]}}
 class LexOrder(MonomialOrder):
     """Lexicographic order of monomials. """
 
@@ -145,30 +193,43 @@ class LexOrder(MonomialOrder):
     is_default = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(mon), correctly applies the callable) over Any ║
+# ║ Path(__call__(monomial), monomial) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == monomial                             ║
+# ║   returns:  monomial                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cabd780ab328c710           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.LexOrder.__call__","kind":"method","src_hash":"bfcd7a92ac9c5db9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(mon)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cabd780ab328c710"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.LexOrder.__call__","kind":"method","src_hash":"bfcd7a92ac9c5db9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (monomial)"},"spec":{"lhs":"__call__(monomial)","rhs":"monomial","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns monomial; result == monomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cabd780ab328c710","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == monomial"],"returns_expr":"monomial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, monomial):
         return monomial
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GradedLexOrder(), correctly constructs a GradedLexOrder instance) over Any ║
+# ║ Path(GradedLexOrder(), isinstance(self, MonomialOrder)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GradedLexOrder : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MonomialOrder)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GradedLexOrder : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9bc7bd5da8f1a5f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.GradedLexOrder","kind":"class","src_hash":"92c4115497343bea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GradedLexOrder()","rhs":"correctly constructs a GradedLexOrder instance","over":{"base":"Any"},"name":"GradedLexOrder_correct"},"guarantee":"correctly constructs a GradedLexOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bc7bd5da8f1a5f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.GradedLexOrder","kind":"class","src_hash":"92c4115497343bea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MonomialOrder)"},"spec":{"lhs":"GradedLexOrder()","rhs":"isinstance(self, MonomialOrder)","over":{"base":"Any"},"name":"GradedLexOrder_correct"},"guarantee":"isinstance(self, MonomialOrder)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bc7bd5da8f1a5f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MonomialOrder)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function GradedLexOrder not found in source"]}}
 class GradedLexOrder(MonomialOrder):
     """Graded lexicographic order of monomials. """
 
@@ -176,30 +237,42 @@ class GradedLexOrder(MonomialOrder):
     is_global = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(mon), correctly applies the callable) over Any ║
+# ║ Path(__call__(monomial), (sum(monomial), monomial)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sum(monomial), monomial)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4309304385b525b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.GradedLexOrder.__call__","kind":"method","src_hash":"a16a905760ba7189","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(mon)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4309304385b525b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.GradedLexOrder.__call__","kind":"method","src_hash":"a16a905760ba7189","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(monomial)","rhs":"(sum(monomial), monomial)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns (sum(monomial), monomial)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4309304385b525b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sum(monomial), monomial)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, monomial):
         return (sum(monomial), monomial)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ReversedGradedLexOrder(), correctly constructs a ReversedGradedLexOrder instance) over Any ║
+# ║ Path(ReversedGradedLexOrder(), isinstance(self, MonomialOrder)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ReversedGradedLexOrder : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MonomialOrder)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ReversedGradedLexOrder : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 909c5f7d36ef505a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ReversedGradedLexOrder","kind":"class","src_hash":"3669e282fb2032d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ReversedGradedLexOrder()","rhs":"correctly constructs a ReversedGradedLexOrder instance","over":{"base":"Any"},"name":"ReversedGradedLexOrder_correct"},"guarantee":"correctly constructs a ReversedGradedLexOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"909c5f7d36ef505a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ReversedGradedLexOrder","kind":"class","src_hash":"3669e282fb2032d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MonomialOrder)"},"spec":{"lhs":"ReversedGradedLexOrder()","rhs":"isinstance(self, MonomialOrder)","over":{"base":"Any"},"name":"ReversedGradedLexOrder_correct"},"guarantee":"isinstance(self, MonomialOrder)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"909c5f7d36ef505a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MonomialOrder)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ReversedGradedLexOrder not found in source"]}}
 class ReversedGradedLexOrder(MonomialOrder):
     """Reversed graded lexicographic order of monomials. """
 
@@ -207,30 +280,42 @@ class ReversedGradedLexOrder(MonomialOrder):
     is_global = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(mon), correctly applies the callable) over Any ║
+# ║ Path(__call__(monomial), (sum(monomial), tuple(reversed([-m for m in monomial])))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sum(monomial), tuple(reversed([-m for m ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09c6f0a5bc2fe5ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ReversedGradedLexOrder.__call__","kind":"method","src_hash":"6e62290c5b6bab4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(mon)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09c6f0a5bc2fe5ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ReversedGradedLexOrder.__call__","kind":"method","src_hash":"6e62290c5b6bab4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(monomial)","rhs":"(sum(monomial), tuple(reversed([-m for m in monomial])))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns (sum(monomial), tuple(reversed([-m for m in monomial])))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09c6f0a5bc2fe5ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sum(monomial), tuple(reversed([-m for m in monomial])))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, monomial):
         return (sum(monomial), tuple(reversed([-m for m in monomial])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ProductOrder instance) preserved by ProductOrder(*args) over {Any | isinstance(other, ProductOrder)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MonomialOrder)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ProductOrder : {Any | isinstance(other, ProductOrder)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66d843bbff4ce50b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder","kind":"class","src_hash":"7b50a65d690d79e2","in":{"base":"Any","pred":"isinstance(other, ProductOrder)"},"out":{"base":"Any"},"spec":{"lhs":"ProductOrder(*args)","rhs":"correctly constructs a ProductOrder instance","over":{"base":"Any","pred":"isinstance(other, ProductOrder)"},"name":"ProductOrder_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ProductOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_global","pred":"self.is_global","kind":"class"},{"name":"representation","pred":"hasattr(self, 'args')","kind":"class","induction":"structural on args"}],"methods_preserving":["__init__","__call__","__repr__","__str__","__eq__","__hash__","is_global"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d843bbff4ce50b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder","kind":"class","src_hash":"7b50a65d690d79e2","in":{"base":"Any","pred":"isinstance(other, ProductOrder)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MonomialOrder)"},"spec":{"lhs":"ProductOrder(*args)","rhs":"correctly constructs a ProductOrder instance","over":{"base":"Any","pred":"isinstance(other, ProductOrder)"},"name":"ProductOrder_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MonomialOrder); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_global","pred":"self.is_global","kind":"class"},{"name":"representation","pred":"hasattr(self, 'args')","kind":"class","induction":"structural on args"}],"methods_preserving":["__init__","__call__","__repr__","__str__","__eq__","__hash__","is_global"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d843bbff4ce50b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MonomialOrder)"],"invariants":["hasattr(self, 'args')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ProductOrder not found in source"]}}
 class ProductOrder(MonomialOrder):
     """
     A product order built from other monomial orders.
@@ -276,105 +361,148 @@ class ProductOrder(MonomialOrder):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), <unspecified:__init__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 936bc2e0f8bdf6a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__init__","kind":"method","src_hash":"00fe60e8f5dd600f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"936bc2e0f8bdf6a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__init__","kind":"method","src_hash":"00fe60e8f5dd600f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"936bc2e0f8bdf6a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         self.args = args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(mon), correctly applies the callable) over Any ║
+# ║ Path(__call__(monomial), tuple((O(lamda(monomial)) for O, lamda in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((O(lamda(monomial)) for O, lamda in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c77c65de9a4b094b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__call__","kind":"method","src_hash":"21f60d6dec0e4c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(mon)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c77c65de9a4b094b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__call__","kind":"method","src_hash":"21f60d6dec0e4c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(monomial)","rhs":"tuple((O(lamda(monomial)) for O, lamda in self.args))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns tuple((O(lamda(monomial)) for O, lamda in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c77c65de9a4b094b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((O(lamda(monomial)) for O, lamda in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, monomial):
         return tuple(O(lamda(monomial)) for (O, lamda) in self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), self.__class__.__name__ + '(' + ', '.join(contents) + ')') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__.__name__ + '(' + ', '.join...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3952975fb42d276           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__repr__","kind":"method","src_hash":"e9c9c42bcbd7c47f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3952975fb42d276"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__repr__","kind":"method","src_hash":"e9c9c42bcbd7c47f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"self.__class__.__name__ + '(' + ', '.join(contents) + ')'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns self.__class__.__name__ + '(' + ', '.join(contents) + ')'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3952975fb42d276","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__.__name__ + '(' + ', '.join(contents) + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         contents = [repr(x[0]) for x in self.args]
         return self.__class__.__name__ + '(' + ", ".join(contents) + ')'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.__class__.__name__ + '(' + ', '.join(contents) + ')') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__.__name__ + '(' + ', '.join...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b2d583d6189c9ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__str__","kind":"method","src_hash":"dbdde49830bace84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b2d583d6189c9ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__str__","kind":"method","src_hash":"dbdde49830bace84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.__class__.__name__ + '(' + ', '.join(contents) + ')'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.__class__.__name__ + '(' + ', '.join(contents) + ')'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b2d583d6189c9ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__.__name__ + '(' + ', '.join(contents) + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         contents = [str(x[0]) for x in self.args]
         return self.__class__.__name__ + '(' + ", ".join(contents) + ')'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0ccb469e7470336           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__eq__","kind":"method","src_hash":"f7bbdc8c0665a5cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0ccb469e7470336"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__eq__","kind":"method","src_hash":"f7bbdc8c0665a5cd","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0ccb469e7470336","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, ProductOrder):
             return False
         return self.args == other.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__, self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__, self.args))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b467ea4c6570a5fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__hash__","kind":"method","src_hash":"3f1f6ebb7e892c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b467ea4c6570a5fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.__hash__","kind":"method","src_hash":"3f1f6ebb7e892c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__, self.args))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__, self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b467ea4c6570a5fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__, self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__, self.args))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_global(), returns the is_global attribute) over Any ║
+# ║ Path(is_global(), <unspecified:is_global>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_global : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea853e0879376b89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.is_global","kind":"property","src_hash":"892a7e749026c965","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_global()","rhs":"returns the is_global attribute","over":{"base":"Any"},"name":"is_global_correct"},"guarantee":"returns the is_global attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea853e0879376b89"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.ProductOrder.is_global","kind":"property","src_hash":"892a7e749026c965","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_global()","rhs":"<unspecified:is_global>","over":{"base":"Any"},"name":"is_global_correct"},"guarantee":"returns the is_global attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea853e0879376b89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_global(self):
         if all(o.is_global is True for o, _ in self.args):
             return True
@@ -385,14 +513,20 @@ class ProductOrder(MonomialOrder):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a InverseOrder instance) preserved by InverseOrder(*args) over {Any | isinstance(other, InverseOrder)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MonomialOrder)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ InverseOrder : {Any | isinstance(other, InverseOrder)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0766e6dad588201  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder","kind":"class","src_hash":"7a0c0ba4bbefafba","in":{"base":"Any","pred":"isinstance(other, InverseOrder)"},"out":{"base":"Any"},"spec":{"lhs":"InverseOrder(*args)","rhs":"correctly constructs a InverseOrder instance","over":{"base":"Any","pred":"isinstance(other, InverseOrder)"},"name":"InverseOrder_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a InverseOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_global","pred":"self.is_global","kind":"class"},{"name":"representation","pred":"hasattr(self, 'O')","kind":"class","induction":"structural on O"}],"methods_preserving":["__init__","__str__","__call__","is_global","__eq__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0766e6dad588201"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder","kind":"class","src_hash":"7a0c0ba4bbefafba","in":{"base":"Any","pred":"isinstance(other, InverseOrder)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MonomialOrder)"},"spec":{"lhs":"InverseOrder(*args)","rhs":"correctly constructs a InverseOrder instance","over":{"base":"Any","pred":"isinstance(other, InverseOrder)"},"name":"InverseOrder_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MonomialOrder); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_global","pred":"self.is_global","kind":"class"},{"name":"representation","pred":"hasattr(self, 'O')","kind":"class","induction":"structural on O"}],"methods_preserving":["__init__","__str__","__call__","is_global","__eq__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0766e6dad588201","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MonomialOrder)"],"invariants":["hasattr(self, 'O')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseOrder not found in source"]}}
 class InverseOrder(MonomialOrder):
     """
     The "inverse" of another monomial order.
@@ -413,44 +547,62 @@ class InverseOrder(MonomialOrder):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(O), initializes the instance correctly) over Any ║
+# ║ Path(__init__(O), self.O == O) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.O == O                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.O == O}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e36b12240a862bc7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__init__","kind":"method","src_hash":"693b20cd2f2dea36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(O)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e36b12240a862bc7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__init__","kind":"method","src_hash":"693b20cd2f2dea36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.O == O"},"spec":{"lhs":"__init__(O)","rhs":"self.O == O","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.O == O","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e36b12240a862bc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.O == O"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, O):
         self.O = O
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'i' + str(self.O)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'i' + str(self.O)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 093dc5333df3b544           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__str__","kind":"method","src_hash":"60cacd4b244814d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"093dc5333df3b544"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__str__","kind":"method","src_hash":"60cacd4b244814d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'i' + str(self.O)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'i' + str(self.O)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"093dc5333df3b544","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'i' + str(self.O)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.O"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "i" + str(self.O)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(mon), correctly applies the callable) over Any ║
+# ║ Path(__call__(monomial), <unspecified:__call__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ca22078036331a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__call__","kind":"method","src_hash":"d2625bd83f4cc869","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(mon)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ca22078036331a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__call__","kind":"method","src_hash":"d2625bd83f4cc869","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(monomial)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ca22078036331a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.O"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, monomial):
         def inv(l):
             if iterable(l):
@@ -460,16 +612,22 @@ class InverseOrder(MonomialOrder):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_global(), returns the is_global attribute) over Any ║
+# ║ Path(is_global(), <unspecified:is_global>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_global : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da7187967cbf9722           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.is_global","kind":"property","src_hash":"7059b876e0b8e97e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_global()","rhs":"returns the is_global attribute","over":{"base":"Any"},"name":"is_global_correct"},"guarantee":"returns the is_global attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da7187967cbf9722"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.is_global","kind":"property","src_hash":"7059b876e0b8e97e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_global()","rhs":"<unspecified:is_global>","over":{"base":"Any"},"name":"is_global_correct"},"guarantee":"returns the is_global attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da7187967cbf9722","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.O"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_global(self):
         if self.O.is_global is True:
             return False
@@ -478,30 +636,43 @@ class InverseOrder(MonomialOrder):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, InverseOrder) and other.O == self.O) over {Any | hasattr(other, 'O')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'O')                            ║
+# ║   returns:  isinstance(other, InverseOrder) and other...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'O')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 655835215916d626           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__eq__","kind":"method","src_hash":"b080c78b3bf86c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"655835215916d626"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__eq__","kind":"method","src_hash":"b080c78b3bf86c1f","in":{"base":"Any","pred":"hasattr(other, 'O')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, InverseOrder) and other.O == self.O","over":{"base":"Any","pred":"hasattr(other, 'O')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, InverseOrder) and other.O == self.O","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"655835215916d626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'O')"],"returns_expr":"isinstance(other, InverseOrder) and other.O == self.O","pure":false,"effects":{"effect_type":"reads_state","reads":["other.O","self.O"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return isinstance(other, InverseOrder) and other.O == self.O
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__, self.O))) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__, self.O))                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2258667a53b588b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__hash__","kind":"method","src_hash":"91a0ee3a4fd6da25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2258667a53b588b8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.InverseOrder.__hash__","kind":"method","src_hash":"91a0ee3a4fd6da25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__, self.O))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__, self.O))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2258667a53b588b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__, self.O))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.O","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__, self.O))
 
@@ -522,7 +693,10 @@ _monomial_key = {
 }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_key(ord), return a function defining admissible order on monomials) over {Any | isinstance(order, Symbol) and isinstance(order, str)} ║
+# ║ Path(monomial_key(order, gens), <unspecified:monomial_key>) over {Any | isinstance(order, Symbol) and isinstance(order, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_key : {Any | isinstance(order, Symbol) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -535,9 +709,12 @@ _monomial_key = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3b6bbd42...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.monomial_key","kind":"function","src_hash":"877cb572b11c3503","in":{"base":"Any","pred":"isinstance(order, Symbol) and isinstance(order, str)"},"out":{"base":"Any"},"spec":{"lhs":"monomial_key(ord)","rhs":"return a function defining admissible order on monomials","over":{"base":"Any","pred":"isinstance(order, Symbol) and isinstance(order, str)"},"name":"monomial_key_correct"},"guarantee":"return a function defining admissible order on monomials","fibers":[{"name":"Symbol","pred":"isinstance(order, Symbol)","path":{"lhs":"monomial_key(x)","rhs":"return a function defining admissible order on monomials","over":{"base":"Symbol","pred":"isinstance(order, Symbol)"},"name":"monomial_key_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orderings.monomial_key_Symbol_correct","statement":"monomial_key satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(order, str)","path":{"lhs":"monomial_key(x)","rhs":"return a function defining admissible order on monomials","over":{"base":"str","pred":"isinstance(order, str)"},"name":"monomial_key_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orderings.monomial_key_str_correct","statement":"monomial_key satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b6bbd424e9ec915"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.monomial_key","kind":"function","src_hash":"877cb572b11c3503","in":{"base":"Any","pred":"isinstance(order, Symbol) and isinstance(order, str)"},"out":{"base":"Any"},"spec":{"lhs":"monomial_key(order, gens)","rhs":"<unspecified:monomial_key>","over":{"base":"Any","pred":"isinstance(order, Symbol) and isinstance(order, str)"},"name":"monomial_key_correct"},"guarantee":"return a function defining admissible order on monomials","fibers":[{"name":"Symbol","pred":"isinstance(order, Symbol)","path":{"lhs":"monomial_key(x)","rhs":"return a function defining admissible order on monomials","over":{"base":"Symbol","pred":"isinstance(order, Symbol)"},"name":"monomial_key_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orderings.monomial_key_Symbol_correct","statement":"monomial_key satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(order, str)","path":{"lhs":"monomial_key(x)","rhs":"return a function defining admissible order on monomials","over":{"base":"str","pred":"isinstance(order, str)"},"name":"monomial_key_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orderings.monomial_key_str_correct","statement":"monomial_key satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b6bbd424e9ec915","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["KeyError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(order, str)', 'isinstance(order, Symbol)', 'order is None'}, fibers={'str', 'Symbol'})"]}}
 def monomial_key(order=None, gens=None):
     """
     Return a function defining admissible order on monomials.
@@ -584,72 +761,102 @@ def monomial_key(order=None, gens=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _ItemGetter instance) preserved by _ItemGetter(*args) over {Any | isinstance(other, _ItemGetter)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _ItemGetter : {Any | isinstance(other, _ItemGetter)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebc29fdae89450c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter","kind":"class","src_hash":"67ce2fa1ece70311","in":{"base":"Any","pred":"isinstance(other, _ItemGetter)"},"out":{"base":"Any"},"spec":{"lhs":"_ItemGetter(*args)","rhs":"correctly constructs a _ItemGetter instance","over":{"base":"Any","pred":"isinstance(other, _ItemGetter)"},"name":"_ItemGetter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _ItemGetter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'seq')","kind":"class","induction":"structural on seq"}],"methods_preserving":["__init__","__call__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc29fdae89450c6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter","kind":"class","src_hash":"67ce2fa1ece70311","in":{"base":"Any","pred":"isinstance(other, _ItemGetter)"},"out":{"base":"Any"},"spec":{"lhs":"_ItemGetter(*args)","rhs":"correctly constructs a _ItemGetter instance","over":{"base":"Any","pred":"isinstance(other, _ItemGetter)"},"name":"_ItemGetter_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'seq')","kind":"class","induction":"structural on seq"}],"methods_preserving":["__init__","__call__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc29fdae89450c6","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'seq')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _ItemGetter not found in source"]}}
 class _ItemGetter:
     """Helper class to return a subsequence of values."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(seq), initializes the instance correctly) over Any ║
+# ║ Path(__init__(seq), <unspecified:__init__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 321f49a518c4ef8f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter.__init__","kind":"method","src_hash":"890fa8f9bf2e1fa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(seq)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"321f49a518c4ef8f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter.__init__","kind":"method","src_hash":"890fa8f9bf2e1fa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(seq)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"321f49a518c4ef8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, seq):
         self.seq = tuple(seq)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(m), correctly applies the callable) over Any ║
+# ║ Path(__call__(m), tuple((m[idx] for idx in self.seq))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((m[idx] for idx in self.seq))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6c9d7476e119d78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter.__call__","kind":"method","src_hash":"3d7894c3750c6516","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(m)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c9d7476e119d78"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter.__call__","kind":"method","src_hash":"3d7894c3750c6516","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(m)","rhs":"tuple((m[idx] for idx in self.seq))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns tuple((m[idx] for idx in self.seq))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c9d7476e119d78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((m[idx] for idx in self.seq))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, m):
         return tuple(m[idx] for idx in self.seq)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'seq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'seq')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'seq')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45c9343c5057194b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter.__eq__","kind":"method","src_hash":"a531227bc9a14d12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45c9343c5057194b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings._ItemGetter.__eq__","kind":"method","src_hash":"a531227bc9a14d12","in":{"base":"Any","pred":"hasattr(other, 'seq')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'seq')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45c9343c5057194b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'seq')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.seq","self.seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, _ItemGetter):
             return False
         return self.seq == other.seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(build_product_order(arg), build a monomial order on ``gens``) over Any ║
+# ║ Path(build_product_order(arg, gens), <unspecified:build_product_order>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ build_product_order : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76347c19dfb93237  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.build_product_order","kind":"function","src_hash":"450ea58e0b0eceef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_product_order(arg)","rhs":"build a monomial order on ``gens``","over":{"base":"Any"},"name":"build_product_order_correct"},"guarantee":"build a monomial order on ``gens``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orderings.build_product_order_correct","statement":"Path(build_product_order(x), build a monomial order on ``gens``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76347c19dfb93237"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orderings.build_product_order","kind":"function","src_hash":"450ea58e0b0eceef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_product_order(arg, gens)","rhs":"<unspecified:build_product_order>","over":{"base":"Any"},"name":"build_product_order_correct"},"guarantee":"build a monomial order on ``gens``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orderings.build_product_order_correct","statement":"Path(build_product_order(x), build a monomial order on ``gens``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76347c19dfb93237","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def build_product_order(arg, gens):
     """
     Build a monomial order on ``gens``.

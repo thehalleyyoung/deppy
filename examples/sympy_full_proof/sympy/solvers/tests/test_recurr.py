@@ -35,16 +35,24 @@ C0, C1, C2 = symbols('C0,C1,C2')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_poly(), test_rsolve_poly produces the expected output) over Any ║
+# ║ Path(test_rsolve_poly(), rsolve_poly([-1, -1, 1], 0, n) == 0 and rsolve_poly([-1, -1, 1], 1, n) == -1 and rsolve_poly([-1, n + 1], n, n) == 1 and rsolve_poly([-1, 1], n, n) == C0 + (n ** 2 - n) / 2 and rsolve_poly([-n - 1, n], 1, n) == C0 * n - 1 and rsolve_poly([-4 * n - 2, 1], 4 * n + 1, n) == -1 and rsolve_poly([-1, 1], n ** 5 + n ** 3, n) == C0 - n ** 3 / 2 - n ** 5 / 2 + n ** 2 / 6 + n ** 6 / 6 + 2 * n ** 4 / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsolve_poly : Any → {Any | rsolve_poly([-1, -1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve_poly([-1, -1, 1], 0, n) == 0            ║
+# ║   ensures:  rsolve_poly([-1, -1, 1], 1, n) == -1           ║
+# ║   ensures:  rsolve_poly([-1, n + 1], n, n) == 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsolve_poly : Any → {Any | result satisfies: rso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6fca265e325f309  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9990956817fa634d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_poly","kind":"function","src_hash":"3e7ebaa99ed042fd","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve_poly([-1, -1, 1], 0, n) == 0 and rsolve_poly([-1, -1, 1], 1, n) == -1 and rsolve_poly([-1, n + 1], n, n) == 1 and rsolve_poly([-1, 1], n, n) == C0 + (n ** 2 - n) / 2 and rsolve_poly([-n - 1, n], 1, n) == C0 * n - 1 and rsolve_poly([-4 * n - 2, 1], 4 * n + 1, n) == -1"},"spec":{"lhs":"test_rsolve_poly()","rhs":"test_rsolve_poly produces the expected output","over":{"base":"Any"},"name":"test_rsolve_poly_correct"},"guarantee":"test_rsolve_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_poly_correct","statement":"Path(test_rsolve_poly(x), test_rsolve_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6fca265e325f309"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_poly","kind":"function","src_hash":"3e7ebaa99ed042fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve_poly([-1, -1, 1], 0, n) == 0 and rsolve_poly([-1, -1, 1], 1, n) == -1 and rsolve_poly([-1, n + 1], n, n) == 1 and rsolve_poly([-1, 1], n, n) == C0 + (n ** 2 - n) / 2 and rsolve_poly([-n - 1, n], 1, n) == C0 * n - 1 and rsolve_poly([-4 * n - 2, 1], 4 * n + 1, n) == -1 and rsolve_poly([-1, 1], n ** 5 + n ** 3, n) == C0 - n ** 3 / 2 - n ** 5 / 2 + n ** 2 / 6 + n ** 6 / 6 + 2 * n ** 4 / 3"},"spec":{"lhs":"test_rsolve_poly()","rhs":"rsolve_poly([-1, -1, 1], 0, n) == 0 and rsolve_poly([-1, -1, 1], 1, n) == -1 and rsolve_poly([-1, n + 1], n, n) == 1 and rsolve_poly([-1, 1], n, n) == C0 + (n ** 2 - n) / 2 and rsolve_poly([-n - 1, n], 1, n) == C0 * n - 1 and rsolve_poly([-4 * n - 2, 1], 4 * n + 1, n) == -1 and rsolve_poly([-1, 1], n ** 5 + n ** 3, n) == C0 - n ** 3 / 2 - n ** 5 / 2 + n ** 2 / 6 + n ** 6 / 6 + 2 * n ** 4 / 3","over":{"base":"Any"},"name":"test_rsolve_poly_correct"},"guarantee":"rsolve_poly([-1, -1, 1], 0, n) == 0; rsolve_poly([-1, -1, 1], 1, n) == -1; rsolve_poly([-1, n + 1], n, n) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_poly_correct","statement":"Path(test_rsolve_poly(x), rsolve_poly([-1, -1, 1], 0, n) == 0; rsolve_poly([-1, -1, 1], 1, n) == -1; rsolve_poly([-1, n + 1], n, n) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9990956817fa634d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve_poly([-1, -1, 1], 0, n) == 0","rsolve_poly([-1, -1, 1], 1, n) == -1","rsolve_poly([-1, n + 1], n, n) == 1","rsolve_poly([-1, 1], n, n) == C0 + (n ** 2 - n) / 2","rsolve_poly([-n - 1, n], 1, n) == C0 * n - 1","rsolve_poly([-4 * n - 2, 1], 4 * n + 1, n) == -1","rsolve_poly([-1, 1], n ** 5 + n ** 3, n) == C0 - n ** 3 / 2 - n ** 5 / 2 + n ** 2 / 6 + n ** 6 / 6 + 2 * n ** 4 / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_rsolve_poly():
     assert rsolve_poly([-1, -1, 1], 0, n) == 0
     assert rsolve_poly([-1, -1, 1], 1, n) == -1
@@ -59,16 +67,22 @@ def test_rsolve_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_ratio(), test_rsolve_ratio produces the expected output) over Any ║
+# ║ Path(test_rsolve_ratio(), solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsolve_ratio : Any → {Any | solution == C0 * (2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solution == C0 * (2 * n - 3) / (n ** 2 - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsolve_ratio : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9561719895117a15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f91cde2abc629831  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_ratio","kind":"function","src_hash":"48763a4eee793e4d","in":{"base":"Any"},"out":{"base":"Any","pred":"solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2"},"spec":{"lhs":"test_rsolve_ratio()","rhs":"test_rsolve_ratio produces the expected output","over":{"base":"Any"},"name":"test_rsolve_ratio_correct"},"guarantee":"test_rsolve_ratio produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_ratio_correct","statement":"Path(test_rsolve_ratio(x), test_rsolve_ratio produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9561719895117a15"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_ratio","kind":"function","src_hash":"48763a4eee793e4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2"},"spec":{"lhs":"test_rsolve_ratio()","rhs":"solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2","over":{"base":"Any"},"name":"test_rsolve_ratio_correct"},"guarantee":"solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_ratio_correct","statement":"Path(test_rsolve_ratio(x), solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f91cde2abc629831","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solution == C0 * (2 * n - 3) / (n ** 2 - 1) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsolve_ratio():
     solution = rsolve_ratio([-2*n**3 + n**2 + 2*n - 1, 2*n**3 + n**2 - 6*n,
         -2*n**3 - 11*n**2 - 18*n - 9, 2*n**3 + 13*n**2 + 22*n + 8], 0, n)
@@ -76,16 +90,24 @@ def test_rsolve_ratio():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_hyper(), test_rsolve_hyper produces the expected output) over Any ║
+# ║ Path(test_rsolve_hyper(), rsolve_hyper([-1, -1, 1], 0, n) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n] and rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(2), n) + C1 * rf(-sqrt(2), n), C1 * rf(sqrt(2), n) + C0 * rf(-sqrt(2), n)] and rsolve_hyper([n ** 2 - k, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(k), n) + C1 * rf(-sqrt(k), n), C1 * rf(sqrt(k), n) + C0 * rf(-sqrt(k), n)] and rsolve_hyper([2 * n * (n + 1), -n ** 2 - 3 * n + 2, n - 1], 0, n) == C1 * factorial(n) + C0 * 2 ** n and rsolve_hyper([n + 2, -(2 * n + 3) * (17 * n ** 2 + 51 * n + 39), n + 1], 0, n) == 0 and rsolve_hyper([-n - 1, -1, 1], 0, n) == 0 and rsolve_hyper([-1, 1], n, n).expand() == C0 + n ** 2 / 2 - n / 2 and rsolve_hyper([-1, 1], 1 + n, n).expand() == C0 + n ** 2 / 2 + n / 2 and rsolve_hyper([-1, 1], 3 * (n + n ** 2), n).expand() == C0 + n ** 3 - n and rsolve_hyper([-a, 1], 0, n).expand() == C0 * a ** n and rsolve_hyper([-a, 0, 1], 0, n).expand() == (-1) ** n * C1 * a ** (n / 2) + C0 * a ** (n / 2) and rsolve_hyper([1, 1, 1], 0, n).expand() == C0 * (Rational(-1, 2) - sqrt(3) * I / 2) ** n + C1 * (Rational(-1, 2) + sqrt(3) * I / 2) ** n and rsolve_hyper([1, -2 * n / a - 2 / a, 1], 0, n) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsolve_hyper : Any → {Any | rsolve_hyper([-n - 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve_hyper([-1, -1, 1], 0, n) in [C0 * ...   ║
+# ║   ensures:  rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1],...   ║
+# ║   ensures:  rsolve_hyper([n ** 2 - k, -2 * n - 1, 1],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsolve_hyper : Any → {Any | result satisfies: rs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ffd9cfc340c98c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac09570c9d33386c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_hyper","kind":"function","src_hash":"df3104dc55dfd973","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve_hyper([-n - 1, -1, 1], 0, n) == 0 and rsolve_hyper([-1, 1], n, n).expand() == C0 + n ** 2 / 2 - n / 2 and rsolve_hyper([-1, 1], 1 + n, n).expand() == C0 + n ** 2 / 2 + n / 2 and rsolve_hyper([-1, 1], 3 * (n + n ** 2), n).expand() == C0 + n ** 3 - n and rsolve_hyper([-a, 1], 0, n).expand() == C0 * a ** n and rsolve_hyper([1, -2 * n / a - 2 / a, 1], 0, n) == 0"},"spec":{"lhs":"test_rsolve_hyper()","rhs":"test_rsolve_hyper produces the expected output","over":{"base":"Any"},"name":"test_rsolve_hyper_correct"},"guarantee":"test_rsolve_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_hyper_correct","statement":"Path(test_rsolve_hyper(x), test_rsolve_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ffd9cfc340c98c1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_hyper","kind":"function","src_hash":"df3104dc55dfd973","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve_hyper([-1, -1, 1], 0, n) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n] and rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(2), n) + C1 * rf(-sqrt(2), n), C1 * rf(sqrt(2), n) + C0 * rf(-sqrt(2), n)] and rsolve_hyper([n ** 2 - k, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(k), n) + C1 * rf(-sqrt(k), n), C1 * rf(sqrt(k), n) + C0 * rf(-sqrt(k), n)] and rsolve_hyper([2 * n * (n + 1), -n ** 2 - 3 * n + 2, n - 1], 0, n) == C1 * factorial(n) + C0 * 2 ** n and rsolve_hyper([n + 2, -(2 * n + 3) * (17 * n ** 2 + 51 * n + 39), n + 1], 0, n) == 0 and rsolve_hyper([-n - 1, -1, 1], 0, n) == 0 and rsolve_hyper([-1, 1], n, n).expand() == C0 + n ** 2 / 2 - n / 2 and rsolve_hyper([-1, 1], 1 + n, n).expand() == C0 + n ** 2 / 2 + n / 2 and rsolve_hyper([-1, 1], 3 * (n + n ** 2), n).expand() == C0 + n ** 3 - n and rsolve_hyper([-a, 1], 0, n).expand() == C0 * a ** n and rsolve_hyper([-a, 0, 1], 0, n).expand() == (-1) ** n * C1 * a ** (n / 2) + C0 * a ** (n / 2) and rsolve_hyper([1, 1, 1], 0, n).expand() == C0 * (Rational(-1, 2) - sqrt(3) * I / 2) ** n + C1 * (Rational(-1, 2) + sqrt(3) * I / 2) ** n and rsolve_hyper([1, -2 * n / a - 2 / a, 1], 0, n) == 0"},"spec":{"lhs":"test_rsolve_hyper()","rhs":"rsolve_hyper([-1, -1, 1], 0, n) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n] and rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(2), n) + C1 * rf(-sqrt(2), n), C1 * rf(sqrt(2), n) + C0 * rf(-sqrt(2), n)] and rsolve_hyper([n ** 2 - k, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(k), n) + C1 * rf(-sqrt(k), n), C1 * rf(sqrt(k), n) + C0 * rf(-sqrt(k), n)] and rsolve_hyper([2 * n * (n + 1), -n ** 2 - 3 * n + 2, n - 1], 0, n) == C1 * factorial(n) + C0 * 2 ** n and rsolve_hyper([n + 2, -(2 * n + 3) * (17 * n ** 2 + 51 * n + 39), n + 1], 0, n) == 0 and rsolve_hyper([-n - 1, -1, 1], 0, n) == 0 and rsolve_hyper([-1, 1], n, n).expand() == C0 + n ** 2 / 2 - n / 2 and rsolve_hyper([-1, 1], 1 + n, n).expand() == C0 + n ** 2 / 2 + n / 2 and rsolve_hyper([-1, 1], 3 * (n + n ** 2), n).expand() == C0 + n ** 3 - n and rsolve_hyper([-a, 1], 0, n).expand() == C0 * a ** n and rsolve_hyper([-a, 0, 1], 0, n).expand() == (-1) ** n * C1 * a ** (n / 2) + C0 * a ** (n / 2) and rsolve_hyper([1, 1, 1], 0, n).expand() == C0 * (Rational(-1, 2) - sqrt(3) * I / 2) ** n + C1 * (Rational(-1, 2) + sqrt(3) * I / 2) ** n and rsolve_hyper([1, -2 * n / a - 2 / a, 1], 0, n) == 0","over":{"base":"Any"},"name":"test_rsolve_hyper_correct"},"guarantee":"rsolve_hyper([-1, -1, 1], 0, n) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n]; rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(2), n) + C1 * rf(-sqrt(2), n), C1 * rf(sqrt(2), n) + C0 * rf(-sqrt(2), n)]; rsolve_hyper([n ** 2 - k, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(k), n) + C1 * rf(-sqrt(k), n), C1 * rf(sqrt(k), n) + C0 * rf(-sqrt(k), n)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_hyper_correct","statement":"Path(test_rsolve_hyper(x), rsolve_hyper([-1, -1, 1], 0, n) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n]; rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(2), n) + C1 * rf(-sqrt(2), n), C1 * rf(sqrt(2), n) + C0 * rf(-sqrt(2), n)]; rsolve_hyper([n ** 2 - k, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(k), n) + C1 * rf(-sqrt(k), n), C1 * rf(sqrt(k), n) + C0 * rf(-sqrt(k), n)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac09570c9d33386c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve_hyper([-1, -1, 1], 0, n) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n]","rsolve_hyper([n ** 2 - 2, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(2), n) + C1 * rf(-sqrt(2), n), C1 * rf(sqrt(2), n) + C0 * rf(-sqrt(2), n)]","rsolve_hyper([n ** 2 - k, -2 * n - 1, 1], 0, n) in [C0 * rf(sqrt(k), n) + C1 * rf(-sqrt(k), n), C1 * rf(sqrt(k), n) + C0 * rf(-sqrt(k), n)]","rsolve_hyper([2 * n * (n + 1), -n ** 2 - 3 * n + 2, n - 1], 0, n) == C1 * factorial(n) + C0 * 2 ** n","rsolve_hyper([n + 2, -(2 * n + 3) * (17 * n ** 2 + 51 * n + 39), n + 1], 0, n) == 0","rsolve_hyper([-n - 1, -1, 1], 0, n) == 0","rsolve_hyper([-1, 1], n, n).expand() == C0 + n ** 2 / 2 - n / 2","rsolve_hyper([-1, 1], 1 + n, n).expand() == C0 + n ** 2 / 2 + n / 2","rsolve_hyper([-1, 1], 3 * (n + n ** 2), n).expand() == C0 + n ** 3 - n","rsolve_hyper([-a, 1], 0, n).expand() == C0 * a ** n","rsolve_hyper([-a, 0, 1], 0, n).expand() == (-1) ** n * C1 * a ** (n / 2) + C0 * a ** (n / 2)","rsolve_hyper([1, 1, 1], 0, n).expand() == C0 * (Rational(-1, 2) - sqrt(3) * I / 2) ** n + C1 * (Rational(-1, 2) + sqrt(3) * I / 2) ** n","rsolve_hyper([1, -2 * n / a - 2 / a, 1], 0, n) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_rsolve_hyper():
     assert rsolve_hyper([-1, -1, 1], 0, n) in [
         C0*(S.Half - S.Half*sqrt(5))**n + C1*(S.Half + S.Half*sqrt(5))**n,
@@ -128,16 +150,22 @@ def test_rsolve_hyper():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_ratio_missed(), test_rsolve_ratio_missed produces the expected output) over Any ║
+# ║ Path(test_rsolve_ratio_missed(), rsolve_ratio([-n, n + 2], n, n) is not None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsolve_ratio_missed : Any → {Any | rsolve_ratio(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve_ratio([-n, n + 2], n, n) is not None    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsolve_ratio_missed : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b95fa6d4150217d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34bb7c67c43ab7ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_ratio_missed","kind":"function","src_hash":"afdd679da6e1a761","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve_ratio([-n, n + 2], n, n) is not None"},"spec":{"lhs":"test_rsolve_ratio_missed()","rhs":"test_rsolve_ratio_missed produces the expected output","over":{"base":"Any"},"name":"test_rsolve_ratio_missed_correct"},"guarantee":"test_rsolve_ratio_missed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_ratio_missed_correct","statement":"Path(test_rsolve_ratio_missed(x), test_rsolve_ratio_missed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b95fa6d4150217d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_ratio_missed","kind":"function","src_hash":"afdd679da6e1a761","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve_ratio([-n, n + 2], n, n) is not None"},"spec":{"lhs":"test_rsolve_ratio_missed()","rhs":"rsolve_ratio([-n, n + 2], n, n) is not None","over":{"base":"Any"},"name":"test_rsolve_ratio_missed_correct"},"guarantee":"rsolve_ratio([-n, n + 2], n, n) is not None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_ratio_missed_correct","statement":"Path(test_rsolve_ratio_missed(x), rsolve_ratio([-n, n + 2], n, n) is not None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34bb7c67c43ab7ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve_ratio([-n, n + 2], n, n) is not None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rsolve_ratio_missed():
     # this arises during computation
     # assert rsolve_hyper([-1, 1], 3*(n + n**2), n).expand() == C0 + n**3 - n
@@ -145,32 +173,45 @@ def test_rsolve_ratio_missed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(recurrence_term(c, ), compute rhs of recurrence in f(n) with coefficients in c) over Any ║
+# ║ Path(recurrence_term(c, f), sum((c[i] * f.subs(n, n + i) for i in range(len(c))))) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ recurrence_term : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   returns:  sum((c[i] * f.subs(n, n + i) for i in ran...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ recurrence_term : {Any | hasattr(f, 'subs')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f7939c2270ec4d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.recurrence_term","kind":"function","src_hash":"551ca1c3eb5e8379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recurrence_term(c, )","rhs":"compute rhs of recurrence in f(n) with coefficients in c","over":{"base":"Any"},"name":"recurrence_term_correct"},"guarantee":"compute rhs of recurrence in f(n) with coefficients in c","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f7939c2270ec4d3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.recurrence_term","kind":"function","src_hash":"551ca1c3eb5e8379","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"recurrence_term(c, f)","rhs":"sum((c[i] * f.subs(n, n + i) for i in range(len(c))))","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"recurrence_term_correct"},"guarantee":"returns sum((c[i] * f.subs(n, n + i) for i in range(len(c))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f7939c2270ec4d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'subs')"],"returns_expr":"sum((c[i] * f.subs(n, n + i) for i in range(len(c))))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def recurrence_term(c, f):
     """Compute RHS of recurrence in f(n) with coefficients in c."""
     return sum(c[i]*f.subs(n, n + i) for i in range(len(c)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_bulk(), some bulk-generated tests) over Any ║
+# ║ Path(test_rsolve_bulk(), <unspecified:test_rsolve_bulk>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rsolve_bulk : Any → {Any | rsolve_poly(c, q, n) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6e592c33b71b89c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_bulk","kind":"function","src_hash":"4720f97008a17621","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve_poly(c, q, n) == p and rsolve_hyper(c, q, n).subs(zip(symbols('C:3'), [0, 0, 0])).expand() == p"},"spec":{"lhs":"test_rsolve_bulk()","rhs":"some bulk-generated tests","over":{"base":"Any"},"name":"test_rsolve_bulk_correct"},"guarantee":"some bulk-generated tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_bulk_correct","statement":"Path(test_rsolve_bulk(x), some bulk-generated tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e592c33b71b89c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_bulk","kind":"function","src_hash":"4720f97008a17621","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve_poly(c, q, n) == p and rsolve_hyper(c, q, n).subs(zip(symbols('C:3'), [0, 0, 0])).expand() == p"},"spec":{"lhs":"test_rsolve_bulk()","rhs":"<unspecified:test_rsolve_bulk>","over":{"base":"Any"},"name":"test_rsolve_bulk_correct"},"guarantee":"some bulk-generated tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_bulk_correct","statement":"Path(test_rsolve_bulk(x), some bulk-generated tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e592c33b71b89c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rsolve_bulk():
     """Some bulk-generated tests."""
     funcs = [ n, n + 1, n**2, n**3, n**4, n + n**2, 27*n + 52*n**2 - 3*
@@ -189,16 +230,22 @@ def test_rsolve_bulk():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_0_sol_homogeneous(), test_rsolve_0_sol_homogeneous produces the expected output) over Any ║
+# ║ Path(test_rsolve_0_sol_homogeneous(), rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsolve_0_sol_homogeneous : Any → {Any | rsolve_h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve_hyper([n ** 2 - n + 12, 1], n * (n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsolve_0_sol_homogeneous : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1b062f4f50bc02e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29226c7034ec0c1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_0_sol_homogeneous","kind":"function","src_hash":"894df4e426357827","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n"},"spec":{"lhs":"test_rsolve_0_sol_homogeneous()","rhs":"test_rsolve_0_sol_homogeneous produces the expected output","over":{"base":"Any"},"name":"test_rsolve_0_sol_homogeneous_correct"},"guarantee":"test_rsolve_0_sol_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_0_sol_homogeneous_correct","statement":"Path(test_rsolve_0_sol_homogeneous(x), test_rsolve_0_sol_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1b062f4f50bc02e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_0_sol_homogeneous","kind":"function","src_hash":"894df4e426357827","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n"},"spec":{"lhs":"test_rsolve_0_sol_homogeneous()","rhs":"rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n","over":{"base":"Any"},"name":"test_rsolve_0_sol_homogeneous_correct"},"guarantee":"rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_0_sol_homogeneous_correct","statement":"Path(test_rsolve_0_sol_homogeneous(x), rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29226c7034ec0c1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve_hyper([n ** 2 - n + 12, 1], n * (n ** 2 - n + 12) + n + 1, n) == n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsolve_0_sol_homogeneous():
     # fixed by cherry-pick from
     # https://github.com/diofant/diofant/commit/e1d2e52125199eb3df59f12e8944f8a5f24b00a5
@@ -206,16 +253,24 @@ def test_rsolve_0_sol_homogeneous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve(), test_rsolve produces the expected output) over Any ║
+# ║ Path(test_rsolve(), rsolve(f, y(n)) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n] and rsolve(f, y(n), [0, 5]) == h and rsolve(f, y(n), {0: 0, 1: 5}) == h and rsolve(f, y(n), {y(0): 0, y(1): 5}) == h and rsolve(y(n) - y(n - 1) - y(n - 2), y(n), [0, 5]) == h and rsolve(Eq(y(n), y(n - 1) + y(n - 2)), y(n), [0, 5]) == h and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n)) == g and rsolve(f, y(n), []) == g and rsolve(f, y(n), {}) == g and rsolve(f, y(n), [0, 3]) == h and rsolve(f, y(n), {0: 0, 1: 3}) == h and rsolve(f, y(n), {y(0): 0, y(1): 3}) == h and rsolve(f, y(n), {y(0): 0}) == 2 * n and rsolve(f, y(n), {y(0): 1}) == 2 * n + 1 and rsolve(f, y(n), {y(0): 0, y(1): 1}) is None and rsolve(f, y(n), {y(0): 0}) == -3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 1}) == 3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 2}) == 3 * 3 ** n / 2 + S.Half and rsolve(f, y(n)) == C0 / factorial(n) and rsolve(f, y(n)) is None and rsolve(f, y(n), {y(1): 1}) == 2 ** (n - 1) * n and rsolve(f, y(n), {y(1): 2}) == 2 ** (n - 1) * n * 2 and rsolve(f, y(n), {y(1): 3}) == 2 ** (n - 1) * n * 3 and rsolve(f, y(n), {y(3): 6, y(4): 24}) == n * (n - 1) * (n - 2) and rsolve(f, y(n), {y(3): 6, y(4): -24}) == -n * (n - 1) * (n - 2) * (-1) ** n and rsolve(Eq(y(n + 1), a * y(n)), y(n), {y(1): a}).simplify() == a ** n and rsolve(y(n) - a * y(n - 2), y(n), {y(1): sqrt(a) * (a + b), y(2): a * (a - b)}).simplify() == a ** (n / 2 + 1) - b * (-sqrt(a)) ** n and factor(expand(yn, func=True)) == sol and str(sol) == 'C0*((-sqrt(1 - a**2) - 1)/a)**n + C1*((sqrt(1 - a**2) - 1)/a)**n' and rsolve((k + 1) * y(k), y(k)) is None and rsolve((k + 1) * y(k) + (k + 3) * y(k + 1) + (k + 5) * y(k + 2), y(k)) is None and rsolve(y(n) + y(n + 1) + 2 ** n + 3 ** n, y(n)) == (-1) ** n * C0 - 2 ** n / 3 - 3 ** n / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsolve : Any → {Any | rsolve(f, y(n), [0, 5]) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(f, y(n)) in [C0 * (S.Half - S.Half...   ║
+# ║   ensures:  rsolve(f, y(n), [0, 5]) == h                   ║
+# ║   ensures:  rsolve(f, y(n), {0: 0, 1: 5}) == h             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsolve : Any → {Any | result satisfies: rsolve(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4799a4a2e183830  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0b944b11232da8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve","kind":"function","src_hash":"c082315eb2b588fe","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve(f, y(n), [0, 5]) == h and rsolve(f, y(n), {0: 0, 1: 5}) == h and rsolve(f, y(n), {y(0): 0, y(1): 5}) == h and rsolve(y(n) - y(n - 1) - y(n - 2), y(n), [0, 5]) == h and rsolve(Eq(y(n), y(n - 1) + y(n - 2)), y(n), [0, 5]) == h and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n)) == g and rsolve(f, y(n), []) == g and rsolve(f, y(n), {}) == g and rsolve(f, y(n), [0, 3]) == h and rsolve(f, y(n), {0: 0, 1: 3}) == h and rsolve(f, y(n), {y(0): 0, y(1): 3}) == h and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n), {y(0): 0}) == 2 * n and rsolve(f, y(n), {y(0): 1}) == 2 * n + 1 and rsolve(f, y(n), {y(0): 0, y(1): 1}) is None and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n), {y(0): 0}) == -3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 1}) == 3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 2}) == 3 * 3 ** n / 2 + S.Half and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n)) == C0 / factorial(n) and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n)) is None and rsolve(f, y(n), {y(1): 1}) == 2 ** (n - 1) * n and rsolve(f, y(n), {y(1): 2}) == 2 ** (n - 1) * n * 2 and rsolve(f, y(n), {y(1): 3}) == 2 ** (n - 1) * n * 3 and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n), {y(3): 6, y(4): 24}) == n * (n - 1) * (n - 2) and rsolve(f, y(n), {y(3): 6, y(4): -24}) == -n * (n - 1) * (n - 2) * (-1) ** n and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(Eq(y(n + 1), a * y(n)), y(n), {y(1): a}).simplify() == a ** n and factor(expand(yn, func=True)) == sol and str(sol) == 'C0*((-sqrt(1 - a**2) - 1)/a)**n + C1*((sqrt(1 - a**2) - 1)/a)**n' and rsolve((k + 1) * y(k), y(k)) is None and rsolve((k + 1) * y(k) + (k + 3) * y(k + 1) + (k + 5) * y(k + 2), y(k)) is None"},"spec":{"lhs":"test_rsolve()","rhs":"test_rsolve produces the expected output","over":{"base":"Any"},"name":"test_rsolve_correct"},"guarantee":"test_rsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_correct","statement":"Path(test_rsolve(x), test_rsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4799a4a2e183830"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve","kind":"function","src_hash":"c082315eb2b588fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(f, y(n)) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n] and rsolve(f, y(n), [0, 5]) == h and rsolve(f, y(n), {0: 0, 1: 5}) == h and rsolve(f, y(n), {y(0): 0, y(1): 5}) == h and rsolve(y(n) - y(n - 1) - y(n - 2), y(n), [0, 5]) == h and rsolve(Eq(y(n), y(n - 1) + y(n - 2)), y(n), [0, 5]) == h and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n)) == g and rsolve(f, y(n), []) == g and rsolve(f, y(n), {}) == g and rsolve(f, y(n), [0, 3]) == h and rsolve(f, y(n), {0: 0, 1: 3}) == h and rsolve(f, y(n), {y(0): 0, y(1): 3}) == h and rsolve(f, y(n), {y(0): 0}) == 2 * n and rsolve(f, y(n), {y(0): 1}) == 2 * n + 1 and rsolve(f, y(n), {y(0): 0, y(1): 1}) is None and rsolve(f, y(n), {y(0): 0}) == -3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 1}) == 3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 2}) == 3 * 3 ** n / 2 + S.Half and rsolve(f, y(n)) == C0 / factorial(n) and rsolve(f, y(n)) is None and rsolve(f, y(n), {y(1): 1}) == 2 ** (n - 1) * n and rsolve(f, y(n), {y(1): 2}) == 2 ** (n - 1) * n * 2 and rsolve(f, y(n), {y(1): 3}) == 2 ** (n - 1) * n * 3 and rsolve(f, y(n), {y(3): 6, y(4): 24}) == n * (n - 1) * (n - 2) and rsolve(f, y(n), {y(3): 6, y(4): -24}) == -n * (n - 1) * (n - 2) * (-1) ** n and rsolve(Eq(y(n + 1), a * y(n)), y(n), {y(1): a}).simplify() == a ** n and rsolve(y(n) - a * y(n - 2), y(n), {y(1): sqrt(a) * (a + b), y(2): a * (a - b)}).simplify() == a ** (n / 2 + 1) - b * (-sqrt(a)) ** n and factor(expand(yn, func=True)) == sol and str(sol) == 'C0*((-sqrt(1 - a**2) - 1)/a)**n + C1*((sqrt(1 - a**2) - 1)/a)**n' and rsolve((k + 1) * y(k), y(k)) is None and rsolve((k + 1) * y(k) + (k + 3) * y(k + 1) + (k + 5) * y(k + 2), y(k)) is None and rsolve(y(n) + y(n + 1) + 2 ** n + 3 ** n, y(n)) == (-1) ** n * C0 - 2 ** n / 3 - 3 ** n / 4"},"spec":{"lhs":"test_rsolve()","rhs":"rsolve(f, y(n)) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n] and rsolve(f, y(n), [0, 5]) == h and rsolve(f, y(n), {0: 0, 1: 5}) == h and rsolve(f, y(n), {y(0): 0, y(1): 5}) == h and rsolve(y(n) - y(n - 1) - y(n - 2), y(n), [0, 5]) == h and rsolve(Eq(y(n), y(n - 1) + y(n - 2)), y(n), [0, 5]) == h and f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0 and rsolve(f, y(n)) == g and rsolve(f, y(n), []) == g and rsolve(f, y(n), {}) == g and rsolve(f, y(n), [0, 3]) == h and rsolve(f, y(n), {0: 0, 1: 3}) == h and rsolve(f, y(n), {y(0): 0, y(1): 3}) == h and rsolve(f, y(n), {y(0): 0}) == 2 * n and rsolve(f, y(n), {y(0): 1}) == 2 * n + 1 and rsolve(f, y(n), {y(0): 0, y(1): 1}) is None and rsolve(f, y(n), {y(0): 0}) == -3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 1}) == 3 ** n / 2 + S.Half and rsolve(f, y(n), {y(0): 2}) == 3 * 3 ** n / 2 + S.Half and rsolve(f, y(n)) == C0 / factorial(n) and rsolve(f, y(n)) is None and rsolve(f, y(n), {y(1): 1}) == 2 ** (n - 1) * n and rsolve(f, y(n), {y(1): 2}) == 2 ** (n - 1) * n * 2 and rsolve(f, y(n), {y(1): 3}) == 2 ** (n - 1) * n * 3 and rsolve(f, y(n), {y(3): 6, y(4): 24}) == n * (n - 1) * (n - 2) and rsolve(f, y(n), {y(3): 6, y(4): -24}) == -n * (n - 1) * (n - 2) * (-1) ** n and rsolve(Eq(y(n + 1), a * y(n)), y(n), {y(1): a}).simplify() == a ** n and rsolve(y(n) - a * y(n - 2), y(n), {y(1): sqrt(a) * (a + b), y(2): a * (a - b)}).simplify() == a ** (n / 2 + 1) - b * (-sqrt(a)) ** n and factor(expand(yn, func=True)) == sol and str(sol) == 'C0*((-sqrt(1 - a**2) - 1)/a)**n + C1*((sqrt(1 - a**2) - 1)/a)**n' and rsolve((k + 1) * y(k), y(k)) is None and rsolve((k + 1) * y(k) + (k + 3) * y(k + 1) + (k + 5) * y(k + 2), y(k)) is None and rsolve(y(n) + y(n + 1) + 2 ** n + 3 ** n, y(n)) == (-1) ** n * C0 - 2 ** n / 3 - 3 ** n / 4","over":{"base":"Any"},"name":"test_rsolve_correct"},"guarantee":"rsolve(f, y(n)) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n]; rsolve(f, y(n), [0, 5]) == h; rsolve(f, y(n), {0: 0, 1: 5}) == h","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_correct","statement":"Path(test_rsolve(x), rsolve(f, y(n)) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n]; rsolve(f, y(n), [0, 5]) == h; rsolve(f, y(n), {0: 0, 1: 5}) == h)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0b944b11232da8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(f, y(n)) in [C0 * (S.Half - S.Half * sqrt(5)) ** n + C1 * (S.Half + S.Half * sqrt(5)) ** n, C1 * (S.Half - S.Half * sqrt(5)) ** n + C0 * (S.Half + S.Half * sqrt(5)) ** n]","rsolve(f, y(n), [0, 5]) == h","rsolve(f, y(n), {0: 0, 1: 5}) == h","rsolve(f, y(n), {y(0): 0, y(1): 5}) == h","rsolve(y(n) - y(n - 1) - y(n - 2), y(n), [0, 5]) == h","rsolve(Eq(y(n), y(n - 1) + y(n - 2)), y(n), [0, 5]) == h","f.subs(y, Lambda(k, rsolve(f, y(n)).subs(n, k))).simplify() == 0","rsolve(f, y(n)) == g","rsolve(f, y(n), []) == g","rsolve(f, y(n), {}) == g","rsolve(f, y(n), [0, 3]) == h","rsolve(f, y(n), {0: 0, 1: 3}) == h","rsolve(f, y(n), {y(0): 0, y(1): 3}) == h","rsolve(f, y(n), {y(0): 0}) == 2 * n","rsolve(f, y(n), {y(0): 1}) == 2 * n + 1","rsolve(f, y(n), {y(0): 0, y(1): 1}) is None","rsolve(f, y(n), {y(0): 0}) == -3 ** n / 2 + S.Half","rsolve(f, y(n), {y(0): 1}) == 3 ** n / 2 + S.Half","rsolve(f, y(n), {y(0): 2}) == 3 * 3 ** n / 2 + S.Half","rsolve(f, y(n)) == C0 / factorial(n)","rsolve(f, y(n)) is None","rsolve(f, y(n), {y(1): 1}) == 2 ** (n - 1) * n","rsolve(f, y(n), {y(1): 2}) == 2 ** (n - 1) * n * 2","rsolve(f, y(n), {y(1): 3}) == 2 ** (n - 1) * n * 3","rsolve(f, y(n), {y(3): 6, y(4): 24}) == n * (n - 1) * (n - 2)","rsolve(f, y(n), {y(3): 6, y(4): -24}) == -n * (n - 1) * (n - 2) * (-1) ** n","rsolve(Eq(y(n + 1), a * y(n)), y(n), {y(1): a}).simplify() == a ** n","rsolve(y(n) - a * y(n - 2), y(n), {y(1): sqrt(a) * (a + b), y(2): a * (a - b)}).simplify() == a ** (n / 2 + 1) - b * (-sqrt(a)) ** n","factor(expand(yn, func=True)) == sol","str(sol) == 'C0*((-sqrt(1 - a**2) - 1)/a)**n + C1*((sqrt(1 - a**2) - 1)/a)**n'","rsolve((k + 1) * y(k), y(k)) is None","rsolve((k + 1) * y(k) + (k + 3) * y(k + 1) + (k + 5) * y(k + 2), y(k)) is None","rsolve(y(n) + y(n + 1) + 2 ** n + 3 ** n, y(n)) == (-1) ** n * C0 - 2 ** n / 3 - 3 ** n / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":true}}
 def test_rsolve():
     f = y(n + 2) - y(n + 1) - y(n)
     h = sqrt(5)*(S.Half + S.Half*sqrt(5))**n \
@@ -310,16 +365,22 @@ def test_rsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsolve_raises(), test_rsolve_raises produces the expected output) over Any ║
+# ║ Path(test_rsolve_raises(), <unspecified:test_rsolve_raises>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rsolve_raises : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9f4a35e1e5608c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_raises","kind":"function","src_hash":"bbf1d2b5a0a5a2d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rsolve_raises()","rhs":"test_rsolve_raises produces the expected output","over":{"base":"Any"},"name":"test_rsolve_raises_correct"},"guarantee":"test_rsolve_raises produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_raises_correct","statement":"Path(test_rsolve_raises(x), test_rsolve_raises produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9f4a35e1e5608c3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_rsolve_raises","kind":"function","src_hash":"bbf1d2b5a0a5a2d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rsolve_raises()","rhs":"<unspecified:test_rsolve_raises>","over":{"base":"Any"},"name":"test_rsolve_raises_correct"},"guarantee":"test_rsolve_raises produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_rsolve_raises_correct","statement":"Path(test_rsolve_raises(x), test_rsolve_raises produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9f4a35e1e5608c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_rsolve_raises():
     x = Function('x')
     raises(ValueError, lambda: rsolve(y(n) - y(k + 1), y(n)))
@@ -331,16 +392,23 @@ def test_rsolve_raises():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6844(), test_issue_6844 produces the expected output) over Any ║
+# ║ Path(test_issue_6844(), rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0 and rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6844 : Any → {Any | rsolve(f, y(n)) == 2 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n...   ║
+# ║   ensures:  rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6844 : Any → {Any | result satisfies: rsol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8e083965b509c6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35273700290828cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_6844","kind":"function","src_hash":"63c708bd7f1b12f5","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0 and rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n"},"spec":{"lhs":"test_issue_6844()","rhs":"test_issue_6844 produces the expected output","over":{"base":"Any"},"name":"test_issue_6844_correct"},"guarantee":"test_issue_6844 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_6844_correct","statement":"Path(test_issue_6844(x), test_issue_6844 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8e083965b509c6a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_6844","kind":"function","src_hash":"63c708bd7f1b12f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0 and rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n"},"spec":{"lhs":"test_issue_6844()","rhs":"rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0 and rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n","over":{"base":"Any"},"name":"test_issue_6844_correct"},"guarantee":"rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0; rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_6844_correct","statement":"Path(test_issue_6844(x), rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0; rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35273700290828cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(f, y(n)) == 2 ** (-n + 1) * C1 * n + 2 ** (-n) * C0","rsolve(f, y(n), {y(0): 0, y(1): 1}) == 2 ** (1 - n) * n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6844():
     f = y(n + 2) - y(n + 1) + y(n)/4
     assert rsolve(f, y(n)) == 2**(-n + 1)*C1*n + 2**(-n)*C0
@@ -348,16 +416,22 @@ def test_issue_6844():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18751(), test_issue_18751 produces the expected output) over Any ║
+# ║ Path(test_issue_18751(), rsolve(f, y(n)) == C0 * (r * (cos(theta) - I * Abs(sin(theta)))) ** n + C1 * (r * (cos(theta) + I * Abs(sin(theta)))) ** n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18751 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(f, y(n)) == C0 * (r * (cos(theta) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18751 : Any → {Any | result satisfies: rso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91920f7532217711  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ca65b31c71fb7c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_18751","kind":"function","src_hash":"3153aab171379f8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_18751()","rhs":"test_issue_18751 produces the expected output","over":{"base":"Any"},"name":"test_issue_18751_correct"},"guarantee":"test_issue_18751 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_18751_correct","statement":"Path(test_issue_18751(x), test_issue_18751 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91920f7532217711"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_18751","kind":"function","src_hash":"3153aab171379f8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(f, y(n)) == C0 * (r * (cos(theta) - I * Abs(sin(theta)))) ** n + C1 * (r * (cos(theta) + I * Abs(sin(theta)))) ** n"},"spec":{"lhs":"test_issue_18751()","rhs":"rsolve(f, y(n)) == C0 * (r * (cos(theta) - I * Abs(sin(theta)))) ** n + C1 * (r * (cos(theta) + I * Abs(sin(theta)))) ** n","over":{"base":"Any"},"name":"test_issue_18751_correct"},"guarantee":"rsolve(f, y(n)) == C0 * (r * (cos(theta) - I * Abs(sin(theta)))) ** n + C1 * (r * (cos(theta) + I * Abs(sin(theta)))) ** n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_18751_correct","statement":"Path(test_issue_18751(x), rsolve(f, y(n)) == C0 * (r * (cos(theta) - I * Abs(sin(theta)))) ** n + C1 * (r * (cos(theta) + I * Abs(sin(theta)))) ** n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ca65b31c71fb7c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(f, y(n)) == C0 * (r * (cos(theta) - I * Abs(sin(theta)))) ** n + C1 * (r * (cos(theta) + I * Abs(sin(theta)))) ** n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_18751():
     r = Symbol('r', positive=True)
     theta = Symbol('theta', real=True)
@@ -367,16 +441,24 @@ def test_issue_18751():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constant_naming(), test_constant_naming produces the expected output) over Any ║
+# ║ Path(test_constant_naming(), rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y(n), y(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n + 1) + y(n), y(n)).expand() == (-1) ** n * C0 - (-1) ** n * C1 * n - (-1) ** n * C2 * n ** 2 and rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2) - 4 * y(n - 1), y(n), [1, 3, 8]) == 3 * 2 ** n - n - 2 and rsolve(y(n + 3) - 3 * y(n + 1) + 2 * y(n), y(n), {y(1): 0, y(2): 8, y(3): -2}) == (-2) ** n + 2 * n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constant_naming : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y...   ║
+# ║   ensures:  rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n ...   ║
+# ║   ensures:  rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constant_naming : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 216d29441d8b932e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 863543cb6906a560  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_constant_naming","kind":"function","src_hash":"86227dd5e3cf64d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_constant_naming()","rhs":"test_constant_naming produces the expected output","over":{"base":"Any"},"name":"test_constant_naming_correct"},"guarantee":"test_constant_naming produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_constant_naming_correct","statement":"Path(test_constant_naming(x), test_constant_naming produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"216d29441d8b932e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_constant_naming","kind":"function","src_hash":"86227dd5e3cf64d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y(n), y(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n + 1) + y(n), y(n)).expand() == (-1) ** n * C0 - (-1) ** n * C1 * n - (-1) ** n * C2 * n ** 2 and rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2) - 4 * y(n - 1), y(n), [1, 3, 8]) == 3 * 2 ** n - n - 2 and rsolve(y(n + 3) - 3 * y(n + 1) + 2 * y(n), y(n), {y(1): 0, y(2): 8, y(3): -2}) == (-2) ** n + 2 * n"},"spec":{"lhs":"test_constant_naming()","rhs":"rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y(n), y(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n + 1) + y(n), y(n)).expand() == (-1) ** n * C0 - (-1) ** n * C1 * n - (-1) ** n * C2 * n ** 2 and rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2) - 4 * y(n - 1), y(n), [1, 3, 8]) == 3 * 2 ** n - n - 2 and rsolve(y(n + 3) - 3 * y(n + 1) + 2 * y(n), y(n), {y(1): 0, y(2): 8, y(3): -2}) == (-2) ** n + 2 * n","over":{"base":"Any"},"name":"test_constant_naming_correct"},"guarantee":"rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y(n), y(n)) == (-1) ** n * C1 + C0 + C2 * n; rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n + 1) + y(n), y(n)).expand() == (-1) ** n * C0 - (-1) ** n * C1 * n - (-1) ** n * C2 * n ** 2; rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2) - 4 * y(n - 1), y(n), [1, 3, 8]) == 3 * 2 ** n - n - 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_constant_naming_correct","statement":"Path(test_constant_naming(x), rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y(n), y(n)) == (-1) ** n * C1 + C0 + C2 * n; rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n + 1) + y(n), y(n)).expand() == (-1) ** n * C0 - (-1) ** n * C1 * n - (-1) ** n * C2 * n ** 2; rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2) - 4 * y(n - 1), y(n), [1, 3, 8]) == 3 * 2 ** n - n - 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"863543cb6906a560","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(y(n + 3) - y(n + 2) - y(n + 1) + y(n), y(n)) == (-1) ** n * C1 + C0 + C2 * n","rsolve(y(n + 3) + 3 * y(n + 2) + 3 * y(n + 1) + y(n), y(n)).expand() == (-1) ** n * C0 - (-1) ** n * C1 * n - (-1) ** n * C2 * n ** 2","rsolve(y(n) - 2 * y(n - 3) + 5 * y(n - 2) - 4 * y(n - 1), y(n), [1, 3, 8]) == 3 * 2 ** n - n - 2","rsolve(y(n + 3) - 3 * y(n + 1) + 2 * y(n), y(n), {y(1): 0, y(2): 8, y(3): -2}) == (-2) ** n + 2 * n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_constant_naming():
     #issue 8697
     assert rsolve(y(n+3) - y(n+2) - y(n+1) + y(n), y(n)) == (-1)**n*C1 + C0 + C2*n
@@ -389,32 +471,45 @@ def test_constant_naming():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15751(), test_issue_15751 produces the expected output) over Any ║
+# ║ Path(test_issue_15751(), rsolve(f, y(n)) is not None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15751 : Any → {Any | rsolve(f, y(n)) is no...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(f, y(n)) is not None                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15751 : Any → {Any | result satisfies: rso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49bf4e6ce5076948  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f62d56924a05547e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_15751","kind":"function","src_hash":"51b07cd4c2566dbc","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve(f, y(n)) is not None"},"spec":{"lhs":"test_issue_15751()","rhs":"test_issue_15751 produces the expected output","over":{"base":"Any"},"name":"test_issue_15751_correct"},"guarantee":"test_issue_15751 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_15751_correct","statement":"Path(test_issue_15751(x), test_issue_15751 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49bf4e6ce5076948"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_15751","kind":"function","src_hash":"51b07cd4c2566dbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(f, y(n)) is not None"},"spec":{"lhs":"test_issue_15751()","rhs":"rsolve(f, y(n)) is not None","over":{"base":"Any"},"name":"test_issue_15751_correct"},"guarantee":"rsolve(f, y(n)) is not None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_15751_correct","statement":"Path(test_issue_15751(x), rsolve(f, y(n)) is not None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f62d56924a05547e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(f, y(n)) is not None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_15751():
     f = y(n) + 21*y(n + 1) - 273*y(n + 2) - 1092*y(n + 3) + 1820*y(n + 4) + 1092*y(n + 5) - 273*y(n + 6) - 21*y(n + 7) + y(n + 8)
     assert rsolve(f, y(n)) is not None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17990(), test_issue_17990 produces the expected output) over Any ║
+# ║ Path(test_issue_17990(), sol == expected and abs(e + 0.130434782608696) < 1e-13) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17990 : Any → {Any | sol == expected and a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == expected                                ║
+# ║   ensures:  abs(e + 0.130434782608696) < 1e-13             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17990 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f4b6e089bb35305  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bedc6b54ef4978a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_17990","kind":"function","src_hash":"345fd1986be33726","in":{"base":"Any"},"out":{"base":"Any","pred":"sol == expected and abs(e + 0.130434782608696) < 1e-13"},"spec":{"lhs":"test_issue_17990()","rhs":"test_issue_17990 produces the expected output","over":{"base":"Any"},"name":"test_issue_17990_correct"},"guarantee":"test_issue_17990 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_17990_correct","statement":"Path(test_issue_17990(x), test_issue_17990 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4b6e089bb35305"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_17990","kind":"function","src_hash":"345fd1986be33726","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == expected and abs(e + 0.130434782608696) < 1e-13"},"spec":{"lhs":"test_issue_17990()","rhs":"sol == expected and abs(e + 0.130434782608696) < 1e-13","over":{"base":"Any"},"name":"test_issue_17990_correct"},"guarantee":"sol == expected; abs(e + 0.130434782608696) < 1e-13","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_17990_correct","statement":"Path(test_issue_17990(x), sol == expected; abs(e + 0.130434782608696) < 1e-13)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bedc6b54ef4978a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == expected","abs(e + 0.130434782608696) < 1e-13"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_17990():
     f = -10*y(n) + 4*y(n + 1) + 6*y(n + 2) + 46*y(n + 3)
     sol = rsolve(f, y(n))
@@ -432,16 +527,24 @@ def test_issue_17990():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8697(), test_issue_8697 produces the expected output) over Any ║
+# ║ Path(test_issue_8697(), rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1) ** (n + 1) * C1 * n + (-1) ** (n + 1) * C2 * n ** 2 and rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2) - 4 * a(n - 1), a(n), {a(0): 1, a(1): 3, a(2): 8}) == 3 * 2 ** n - n - 2 and rsolve(a(n) - 2 * a(n - 1) - n, a(n), {a(0): 1}) == 3 * 2 ** n - n - 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8697 : Any → {Any | rsolve(eq, a(n)) == (-...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(eq, a(n)) == (-1) ** n * C1 + C0 +...   ║
+# ║   ensures:  rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1...   ║
+# ║   ensures:  rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8697 : Any → {Any | result satisfies: rsol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 603b9fa33e461243  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88879f7c1195da12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_8697","kind":"function","src_hash":"c3f32bf2a1c68d2d","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(a(n) - 2 * a(n - 1) - n, a(n), {a(0): 1}) == 3 * 2 ** n - n - 2"},"spec":{"lhs":"test_issue_8697()","rhs":"test_issue_8697 produces the expected output","over":{"base":"Any"},"name":"test_issue_8697_correct"},"guarantee":"test_issue_8697 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_8697_correct","statement":"Path(test_issue_8697(x), test_issue_8697 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"603b9fa33e461243"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_8697","kind":"function","src_hash":"c3f32bf2a1c68d2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1) ** (n + 1) * C1 * n + (-1) ** (n + 1) * C2 * n ** 2 and rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2) - 4 * a(n - 1), a(n), {a(0): 1, a(1): 3, a(2): 8}) == 3 * 2 ** n - n - 2 and rsolve(a(n) - 2 * a(n - 1) - n, a(n), {a(0): 1}) == 3 * 2 ** n - n - 2"},"spec":{"lhs":"test_issue_8697()","rhs":"rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n and rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1) ** (n + 1) * C1 * n + (-1) ** (n + 1) * C2 * n ** 2 and rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2) - 4 * a(n - 1), a(n), {a(0): 1, a(1): 3, a(2): 8}) == 3 * 2 ** n - n - 2 and rsolve(a(n) - 2 * a(n - 1) - n, a(n), {a(0): 1}) == 3 * 2 ** n - n - 2","over":{"base":"Any"},"name":"test_issue_8697_correct"},"guarantee":"rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n; rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1) ** (n + 1) * C1 * n + (-1) ** (n + 1) * C2 * n ** 2; rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2) - 4 * a(n - 1), a(n), {a(0): 1, a(1): 3, a(2): 8}) == 3 * 2 ** n - n - 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_8697_correct","statement":"Path(test_issue_8697(x), rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n; rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1) ** (n + 1) * C1 * n + (-1) ** (n + 1) * C2 * n ** 2; rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2) - 4 * a(n - 1), a(n), {a(0): 1, a(1): 3, a(2): 8}) == 3 * 2 ** n - n - 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88879f7c1195da12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(eq, a(n)) == (-1) ** n * C1 + C0 + C2 * n","rsolve(eq2, a(n)) == (-1) ** n * C0 + (-1) ** (n + 1) * C1 * n + (-1) ** (n + 1) * C2 * n ** 2","rsolve(a(n) - 2 * a(n - 3) + 5 * a(n - 2) - 4 * a(n - 1), a(n), {a(0): 1, a(1): 3, a(2): 8}) == 3 * 2 ** n - n - 2","rsolve(a(n) - 2 * a(n - 1) - n, a(n), {a(0): 1}) == 3 * 2 ** n - n - 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_8697():
     a = Function('a')
     eq = a(n + 3) - a(n + 2) - a(n + 1) + a(n)
@@ -458,16 +561,24 @@ def test_issue_8697():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diofantissue_294(), test_diofantissue_294 produces the expected output) over Any ║
+# ║ Path(test_diofantissue_294(), rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2) and rsolve(f, y(n), {y(0): -1, y(1): 1}) == -(-1) ** n / 2 + 2 * 2 ** n - n - Rational(5, 2) and rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diofantissue_294 : Any → {Any | rsolve(f, y(n)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** ...   ║
+# ║   ensures:  rsolve(f, y(n), {y(0): -1, y(1): 1}) == -...   ║
+# ║   ensures:  rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diofantissue_294 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 831e01247bd32100  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e83b867b1678dae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_diofantissue_294","kind":"function","src_hash":"08f928a29e352bf3","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2) and rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n"},"spec":{"lhs":"test_diofantissue_294()","rhs":"test_diofantissue_294 produces the expected output","over":{"base":"Any"},"name":"test_diofantissue_294_correct"},"guarantee":"test_diofantissue_294 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_diofantissue_294_correct","statement":"Path(test_diofantissue_294(x), test_diofantissue_294 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"831e01247bd32100"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_diofantissue_294","kind":"function","src_hash":"08f928a29e352bf3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2) and rsolve(f, y(n), {y(0): -1, y(1): 1}) == -(-1) ** n / 2 + 2 * 2 ** n - n - Rational(5, 2) and rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n"},"spec":{"lhs":"test_diofantissue_294()","rhs":"rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2) and rsolve(f, y(n), {y(0): -1, y(1): 1}) == -(-1) ** n / 2 + 2 * 2 ** n - n - Rational(5, 2) and rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n","over":{"base":"Any"},"name":"test_diofantissue_294_correct"},"guarantee":"rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2); rsolve(f, y(n), {y(0): -1, y(1): 1}) == -(-1) ** n / 2 + 2 * 2 ** n - n - Rational(5, 2); rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_diofantissue_294_correct","statement":"Path(test_diofantissue_294(x), rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2); rsolve(f, y(n), {y(0): -1, y(1): 1}) == -(-1) ** n / 2 + 2 * 2 ** n - n - Rational(5, 2); rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e83b867b1678dae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(f, y(n)) == (-1) ** n * C0 + 2 ** n * C1 - n - Rational(5, 2)","rsolve(f, y(n), {y(0): -1, y(1): 1}) == -(-1) ** n / 2 + 2 * 2 ** n - n - Rational(5, 2)","rsolve(-2 * y(n) + y(n + 1) + n - 1, y(n)) == 2 ** n * C0 + n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_diofantissue_294():
     f = y(n) - y(n - 1) - 2*y(n - 2) - 2*n
     assert rsolve(f, y(n)) == (-1)**n*C0 + 2**n*C1 - n - Rational(5, 2)
@@ -479,16 +590,24 @@ def test_diofantissue_294():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15553(), test_issue_15553 produces the expected output) over Any ║
+# ║ Path(test_issue_15553(), rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2 and rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n)) == 2 ** n * C0 - n ** 2 - 2 * n - 4 and rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n), {f(1): 0}) == 7 * 2 ** n / 2 - n ** 2 - 2 * n - 4 and rsolve(Eq(f(n), 2 * f(n - 1) + 3 * n ** 2), f(n)) == 2 ** n * C0 - 3 * n ** 2 - 12 * n - 18 and rsolve(Eq(f(n), 2 * f(n - 1) + n ** 2), f(n)) == 2 ** n * C0 - n ** 2 - 4 * n - 6 and rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n), {f(0): 1}) == 3 * 2 ** n - n - 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15553 : Any → {Any | rsolve(Eq(f(n), 2 * f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) ...   ║
+# ║   ensures:  rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1...   ║
+# ║   ensures:  rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15553 : Any → {Any | result satisfies: rso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd087dd4abe7b550  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1da0b55298f94299  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_15553","kind":"function","src_hash":"106037330cfa20b4","in":{"base":"Any"},"out":{"base":"Any","pred":"rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2 and rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n), {f(0): 1}) == 3 * 2 ** n - n - 2"},"spec":{"lhs":"test_issue_15553()","rhs":"test_issue_15553 produces the expected output","over":{"base":"Any"},"name":"test_issue_15553_correct"},"guarantee":"test_issue_15553 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_15553_correct","statement":"Path(test_issue_15553(x), test_issue_15553 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd087dd4abe7b550"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_recurr.test_issue_15553","kind":"function","src_hash":"106037330cfa20b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2 and rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n)) == 2 ** n * C0 - n ** 2 - 2 * n - 4 and rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n), {f(1): 0}) == 7 * 2 ** n / 2 - n ** 2 - 2 * n - 4 and rsolve(Eq(f(n), 2 * f(n - 1) + 3 * n ** 2), f(n)) == 2 ** n * C0 - 3 * n ** 2 - 12 * n - 18 and rsolve(Eq(f(n), 2 * f(n - 1) + n ** 2), f(n)) == 2 ** n * C0 - n ** 2 - 4 * n - 6 and rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n), {f(0): 1}) == 3 * 2 ** n - n - 2"},"spec":{"lhs":"test_issue_15553()","rhs":"rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2 and rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n)) == 2 ** n * C0 - n ** 2 - 2 * n - 4 and rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n), {f(1): 0}) == 7 * 2 ** n / 2 - n ** 2 - 2 * n - 4 and rsolve(Eq(f(n), 2 * f(n - 1) + 3 * n ** 2), f(n)) == 2 ** n * C0 - 3 * n ** 2 - 12 * n - 18 and rsolve(Eq(f(n), 2 * f(n - 1) + n ** 2), f(n)) == 2 ** n * C0 - n ** 2 - 4 * n - 6 and rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n), {f(0): 1}) == 3 * 2 ** n - n - 2","over":{"base":"Any"},"name":"test_issue_15553_correct"},"guarantee":"rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2; rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n)) == 2 ** n * C0 - n ** 2 - 2 * n - 4; rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n), {f(1): 0}) == 7 * 2 ** n / 2 - n ** 2 - 2 * n - 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_recurr.test_issue_15553_correct","statement":"Path(test_issue_15553(x), rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2; rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n)) == 2 ** n * C0 - n ** 2 - 2 * n - 4; rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n), {f(1): 0}) == 7 * 2 ** n / 2 - n ** 2 - 2 * n - 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1da0b55298f94299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n)) == 2 ** n * C0 - n - 2","rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n)) == 2 ** n * C0 - n ** 2 - 2 * n - 4","rsolve(Eq(f(n + 1), 2 * f(n) + n ** 2 + 1), f(n), {f(1): 0}) == 7 * 2 ** n / 2 - n ** 2 - 2 * n - 4","rsolve(Eq(f(n), 2 * f(n - 1) + 3 * n ** 2), f(n)) == 2 ** n * C0 - 3 * n ** 2 - 12 * n - 18","rsolve(Eq(f(n), 2 * f(n - 1) + n ** 2), f(n)) == 2 ** n * C0 - n ** 2 - 4 * n - 6","rsolve(Eq(f(n), 2 * f(n - 1) + n), f(n), {f(0): 1}) == 3 * 2 ** n - n - 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_15553():
     f = Function("f")
     assert rsolve(Eq(f(n), 2*f(n - 1) + n), f(n)) == 2**n*C0 - n - 2

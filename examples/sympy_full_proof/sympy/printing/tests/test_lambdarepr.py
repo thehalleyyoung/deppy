@@ -36,16 +36,24 @@ j, c, d = symbols("j,c,d")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic(), test_basic produces the expected output) over Any ║
+# ║ Path(test_basic(), lambdarepr(x * y) == 'x*y' and lambdarepr(x + y) in ['y + x', 'x + y'] and lambdarepr(x ** y) == 'x**y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic : Any → {Any | lambdarepr(x * y) == 'x*y' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdarepr(x * y) == 'x*y'                     ║
+# ║   ensures:  lambdarepr(x + y) in ['y + x', 'x + y']        ║
+# ║   ensures:  lambdarepr(x ** y) == 'x**y'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic : Any → {Any | result satisfies: lambdarep...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d9257de11cb488b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eba9e3d43415c7ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_basic","kind":"function","src_hash":"bc529130c356fb61","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdarepr(x * y) == 'x*y' and lambdarepr(x + y) in ['y + x', 'x + y'] and lambdarepr(x ** y) == 'x**y'"},"spec":{"lhs":"test_basic()","rhs":"test_basic produces the expected output","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"test_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_basic_correct","statement":"Path(test_basic(x), test_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d9257de11cb488b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_basic","kind":"function","src_hash":"bc529130c356fb61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdarepr(x * y) == 'x*y' and lambdarepr(x + y) in ['y + x', 'x + y'] and lambdarepr(x ** y) == 'x**y'"},"spec":{"lhs":"test_basic()","rhs":"lambdarepr(x * y) == 'x*y' and lambdarepr(x + y) in ['y + x', 'x + y'] and lambdarepr(x ** y) == 'x**y'","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"lambdarepr(x * y) == 'x*y'; lambdarepr(x + y) in ['y + x', 'x + y']; lambdarepr(x ** y) == 'x**y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_basic_correct","statement":"Path(test_basic(x), lambdarepr(x * y) == 'x*y'; lambdarepr(x + y) in ['y + x', 'x + y']; lambdarepr(x ** y) == 'x**y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eba9e3d43415c7ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdarepr(x * y) == 'x*y'","lambdarepr(x + y) in ['y + x', 'x + y']","lambdarepr(x ** y) == 'x**y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic():
     assert lambdarepr(x*y) == "x*y"
     assert lambdarepr(x + y) in ["y + x", "x + y"]
@@ -53,16 +61,23 @@ def test_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix(), test_matrix produces the expected output) over Any ║
+# ║ Path(test_matrix(), lambdarepr(e) != str(e) and lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix : Any → {Any | lambdarepr(e) != str(e) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdarepr(e) != str(e)                        ║
+# ║   ensures:  lambdarepr(Matrix([e])) == 'ImmutableDens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix : Any → {Any | result satisfies: lambdare...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b06b5f861e9cab9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5e1e5d01317536e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_matrix","kind":"function","src_hash":"2f1b8b3bb9e81cf1","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdarepr(e) != str(e) and lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])'"},"spec":{"lhs":"test_matrix()","rhs":"test_matrix produces the expected output","over":{"base":"Any"},"name":"test_matrix_correct"},"guarantee":"test_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_matrix_correct","statement":"Path(test_matrix(x), test_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b06b5f861e9cab9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_matrix","kind":"function","src_hash":"2f1b8b3bb9e81cf1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdarepr(e) != str(e) and lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])'"},"spec":{"lhs":"test_matrix()","rhs":"lambdarepr(e) != str(e) and lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])'","over":{"base":"Any"},"name":"test_matrix_correct"},"guarantee":"lambdarepr(e) != str(e); lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_matrix_correct","statement":"Path(test_matrix(x), lambdarepr(e) != str(e); lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e1e5d01317536e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdarepr(e) != str(e)","lambdarepr(Matrix([e])) == 'ImmutableDenseMatrix([[x % 2]])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix():
     # Test printing a Matrix that has an element that is printed differently
     # with the LambdaPrinter than with the StrPrinter.
@@ -72,16 +87,24 @@ def test_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise(), test_piecewise produces the expected output) over Any ║
+# ║ Path(test_piecewise(), l == '((x) if (x < 0) else None)' and l == '((1) if (x < 1) else (2) if (x < 2) else (0))' and l == '((1) if (x < 1) else (2) if (x < 2) else None)' and l == '((x) if (x < 1) else (x**2) if (((x <= 4)) and ((x > 3))) else (0))' and l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else (0))' and l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else None)' and l == '((1) if (x >= 1) else (2) if (x >= 2) else (3) if (x >= 3) else (4) if (x >= 4) else (5) if (x >= 5) else (6))' and l == '((1) if (x <= 1) else (2) if (x <= 2) else (3) if (x <= 3) else (4) if (x <= 4) else (5) if (x <= 5) else (6))' and l == '((1) if (x > 1) else (2) if (x > 2) else (3) if (x > 3) else (4) if (x > 4) else (5) if (x > 5) else (6))' and l == '((1) if (x < 1) else (2) if (x < 2) else (3) if (x < 3) else (4) if (x < 4) else (5) if (x < 5) else (6))' and l == '((((1) if (x > 0) else (2))) if (y > 0) else (3))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise : Any → {Any | l == '((x) if (x < 0) e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l == '((x) if (x < 0) else None)'              ║
+# ║   ensures:  l == '((1) if (x < 1) else (2) if (x < 2)...   ║
+# ║   ensures:  l == '((1) if (x < 1) else (2) if (x < 2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise : Any → {Any | result satisfies: l == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f060e184593f68c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf57d33a4ba2178c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_piecewise","kind":"function","src_hash":"1e723074640ce69f","in":{"base":"Any"},"out":{"base":"Any","pred":"l == '((x) if (x < 0) else None)' and l == '((1) if (x < 1) else (2) if (x < 2) else (0))' and l == '((1) if (x < 1) else (2) if (x < 2) else None)' and l == '((x) if (x < 1) else (x**2) if (((x <= 4)) and ((x > 3))) else (0))' and l == '((((1) if (x > 0) else (2))) if (y > 0) else (3))'"},"spec":{"lhs":"test_piecewise()","rhs":"test_piecewise produces the expected output","over":{"base":"Any"},"name":"test_piecewise_correct"},"guarantee":"test_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_piecewise_correct","statement":"Path(test_piecewise(x), test_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f060e184593f68c1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_piecewise","kind":"function","src_hash":"1e723074640ce69f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l == '((x) if (x < 0) else None)' and l == '((1) if (x < 1) else (2) if (x < 2) else (0))' and l == '((1) if (x < 1) else (2) if (x < 2) else None)' and l == '((x) if (x < 1) else (x**2) if (((x <= 4)) and ((x > 3))) else (0))' and l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else (0))' and l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else None)' and l == '((1) if (x >= 1) else (2) if (x >= 2) else (3) if (x >= 3) else (4) if (x >= 4) else (5) if (x >= 5) else (6))' and l == '((1) if (x <= 1) else (2) if (x <= 2) else (3) if (x <= 3) else (4) if (x <= 4) else (5) if (x <= 5) else (6))' and l == '((1) if (x > 1) else (2) if (x > 2) else (3) if (x > 3) else (4) if (x > 4) else (5) if (x > 5) else (6))' and l == '((1) if (x < 1) else (2) if (x < 2) else (3) if (x < 3) else (4) if (x < 4) else (5) if (x < 5) else (6))' and l == '((((1) if (x > 0) else (2))) if (y > 0) else (3))'"},"spec":{"lhs":"test_piecewise()","rhs":"l == '((x) if (x < 0) else None)' and l == '((1) if (x < 1) else (2) if (x < 2) else (0))' and l == '((1) if (x < 1) else (2) if (x < 2) else None)' and l == '((x) if (x < 1) else (x**2) if (((x <= 4)) and ((x > 3))) else (0))' and l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else (0))' and l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else None)' and l == '((1) if (x >= 1) else (2) if (x >= 2) else (3) if (x >= 3) else (4) if (x >= 4) else (5) if (x >= 5) else (6))' and l == '((1) if (x <= 1) else (2) if (x <= 2) else (3) if (x <= 3) else (4) if (x <= 4) else (5) if (x <= 5) else (6))' and l == '((1) if (x > 1) else (2) if (x > 2) else (3) if (x > 3) else (4) if (x > 4) else (5) if (x > 5) else (6))' and l == '((1) if (x < 1) else (2) if (x < 2) else (3) if (x < 3) else (4) if (x < 4) else (5) if (x < 5) else (6))' and l == '((((1) if (x > 0) else (2))) if (y > 0) else (3))'","over":{"base":"Any"},"name":"test_piecewise_correct"},"guarantee":"l == '((x) if (x < 0) else None)'; l == '((1) if (x < 1) else (2) if (x < 2) else (0))'; l == '((1) if (x < 1) else (2) if (x < 2) else None)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_piecewise_correct","statement":"Path(test_piecewise(x), l == '((x) if (x < 0) else None)'; l == '((1) if (x < 1) else (2) if (x < 2) else (0))'; l == '((1) if (x < 1) else (2) if (x < 2) else None)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf57d33a4ba2178c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l == '((x) if (x < 0) else None)'","l == '((1) if (x < 1) else (2) if (x < 2) else (0))'","l == '((1) if (x < 1) else (2) if (x < 2) else None)'","l == '((x) if (x < 1) else (x**2) if (((x <= 4)) and ((x > 3))) else (0))'","l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else (0))'","l == '((x**2) if (x < 0) else (x) if (x < 1) else (2 - x) if (x >= 1) else None)'","l == '((1) if (x >= 1) else (2) if (x >= 2) else (3) if (x >= 3) else (4) if (x >= 4) else (5) if (x >= 5) else (6))'","l == '((1) if (x <= 1) else (2) if (x <= 2) else (3) if (x <= 3) else (4) if (x <= 4) else (5) if (x <= 5) else (6))'","l == '((1) if (x > 1) else (2) if (x > 2) else (3) if (x > 3) else (4) if (x > 4) else (5) if (x > 5) else (6))'","l == '((1) if (x < 1) else (2) if (x < 2) else (3) if (x < 3) else (4) if (x < 4) else (5) if (x < 5) else (6))'","l == '((((1) if (x > 0) else (2))) if (y > 0) else (3))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_piecewise():
     # In each case, test eval() the lambdarepr() to make sure there are a
     # correct number of parentheses. It will give a SyntaxError if there aren't.
@@ -205,16 +228,23 @@ def test_piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sum__1(), test_sum__1 produces the expected output) over Any ║
+# ║ Path(test_sum__1(), l == '(builtins.sum(x**i for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sum__1 : Any → {Any | l == '(builtins.sum(x**i f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l == '(builtins.sum(x**i for i in range(a...   ║
+# ║   ensures:  f(*v) == s.subs(zip(args, v)).doit()           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sum__1 : Any → {Any | result satisfies: l == '(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeb1621ef5282ee7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a980b8a1994970dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_sum__1","kind":"function","src_hash":"af299bc2fff92c96","in":{"base":"Any"},"out":{"base":"Any","pred":"l == '(builtins.sum(x**i for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()"},"spec":{"lhs":"test_sum__1()","rhs":"test_sum__1 produces the expected output","over":{"base":"Any"},"name":"test_sum__1_correct"},"guarantee":"test_sum__1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_sum__1_correct","statement":"Path(test_sum__1(x), test_sum__1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeb1621ef5282ee7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_sum__1","kind":"function","src_hash":"af299bc2fff92c96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l == '(builtins.sum(x**i for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()"},"spec":{"lhs":"test_sum__1()","rhs":"l == '(builtins.sum(x**i for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()","over":{"base":"Any"},"name":"test_sum__1_correct"},"guarantee":"l == '(builtins.sum(x**i for i in range(a, b+1)))'; f(*v) == s.subs(zip(args, v)).doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_sum__1_correct","statement":"Path(test_sum__1(x), l == '(builtins.sum(x**i for i in range(a, b+1)))'; f(*v) == s.subs(zip(args, v)).doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a980b8a1994970dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l == '(builtins.sum(x**i for i in range(a, b+1)))'","f(*v) == s.subs(zip(args, v)).doit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sum__1():
     # In each case, test eval() the lambdarepr() to make sure that
     # it evaluates to the same results as the symbolic expression
@@ -228,16 +258,23 @@ def test_sum__1():
     assert f(*v) == s.subs(zip(args, v)).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sum__2(), test_sum__2 produces the expected output) over Any ║
+# ║ Path(test_sum__2(), l == '(builtins.sum(i*x for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sum__2 : Any → {Any | l == '(builtins.sum(i*x fo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l == '(builtins.sum(i*x for i in range(a,...   ║
+# ║   ensures:  f(*v) == s.subs(zip(args, v)).doit()           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sum__2 : Any → {Any | result satisfies: l == '(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac55fed43d553a76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecefd12b000083d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_sum__2","kind":"function","src_hash":"581c776344fa2c93","in":{"base":"Any"},"out":{"base":"Any","pred":"l == '(builtins.sum(i*x for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()"},"spec":{"lhs":"test_sum__2()","rhs":"test_sum__2 produces the expected output","over":{"base":"Any"},"name":"test_sum__2_correct"},"guarantee":"test_sum__2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_sum__2_correct","statement":"Path(test_sum__2(x), test_sum__2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac55fed43d553a76"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_sum__2","kind":"function","src_hash":"581c776344fa2c93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l == '(builtins.sum(i*x for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()"},"spec":{"lhs":"test_sum__2()","rhs":"l == '(builtins.sum(i*x for i in range(a, b+1)))' and f(*v) == s.subs(zip(args, v)).doit()","over":{"base":"Any"},"name":"test_sum__2_correct"},"guarantee":"l == '(builtins.sum(i*x for i in range(a, b+1)))'; f(*v) == s.subs(zip(args, v)).doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_sum__2_correct","statement":"Path(test_sum__2(x), l == '(builtins.sum(i*x for i in range(a, b+1)))'; f(*v) == s.subs(zip(args, v)).doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecefd12b000083d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l == '(builtins.sum(i*x for i in range(a, b+1)))'","f(*v) == s.subs(zip(args, v)).doit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sum__2():
     s = Sum(i * x, (i, a, b))
     l = lambdarepr(s)
@@ -250,16 +287,23 @@ def test_sum__2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_sums(), test_multiple_sums produces the expected output) over Any ║
+# ║ Path(test_multiple_sums(), l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))' and f_res == f_ref) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_sums : Any → {Any | l == '(builtins.sum...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l == '(builtins.sum(i*x + j for j in rang...   ║
+# ║   ensures:  f_res == f_ref                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_sums : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 176fffe1032338b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edf6480a55088848  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_multiple_sums","kind":"function","src_hash":"295bab950c50fcd2","in":{"base":"Any"},"out":{"base":"Any","pred":"l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))' and f_res == f_ref"},"spec":{"lhs":"test_multiple_sums()","rhs":"test_multiple_sums produces the expected output","over":{"base":"Any"},"name":"test_multiple_sums_correct"},"guarantee":"test_multiple_sums produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_multiple_sums_correct","statement":"Path(test_multiple_sums(x), test_multiple_sums produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"176fffe1032338b1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_multiple_sums","kind":"function","src_hash":"295bab950c50fcd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))' and f_res == f_ref"},"spec":{"lhs":"test_multiple_sums()","rhs":"l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))' and f_res == f_ref","over":{"base":"Any"},"name":"test_multiple_sums_correct"},"guarantee":"l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))'; f_res == f_ref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_multiple_sums_correct","statement":"Path(test_multiple_sums(x), l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))'; f_res == f_ref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edf6480a55088848","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l == '(builtins.sum(i*x + j for j in range(c, d+1) for i in range(a, b+1)))'","f_res == f_ref"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiple_sums():
     s = Sum(i * x + j, (i, a, b), (j, c, d))
 
@@ -275,16 +319,23 @@ def test_multiple_sums():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt(), test_sqrt produces the expected output) over Any ║
+# ║ Path(test_sqrt(), prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)' and prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt : Any → {Any | prntr._print_Pow(sqrt(x), ra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  prntr._print_Pow(sqrt(x), rational=False)...   ║
+# ║   ensures:  prntr._print_Pow(sqrt(x), rational=True) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt : Any → {Any | result satisfies: prntr._pri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0defb00460448a88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d9c8eb51a3aedc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_sqrt","kind":"function","src_hash":"bf7a2ad82f79a976","in":{"base":"Any"},"out":{"base":"Any","pred":"prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)' and prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)'"},"spec":{"lhs":"test_sqrt()","rhs":"test_sqrt produces the expected output","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"test_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_sqrt_correct","statement":"Path(test_sqrt(x), test_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0defb00460448a88"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_sqrt","kind":"function","src_hash":"bf7a2ad82f79a976","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)' and prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)'"},"spec":{"lhs":"test_sqrt()","rhs":"prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)' and prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)'","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)'; prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_sqrt_correct","statement":"Path(test_sqrt(x), prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)'; prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d9c8eb51a3aedc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)'","prntr._print_Pow(sqrt(x), rational=True) == 'x**(1/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sqrt():
     prntr = LambdaPrinter({'standard' : 'python3'})
     assert prntr._print_Pow(sqrt(x), rational=False) == 'sqrt(x)'
@@ -292,31 +343,44 @@ def test_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_settings(), test_settings produces the expected output) over Any ║
+# ║ Path(test_settings(), <unspecified:test_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_settings : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a33128b147682581  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_settings","kind":"function","src_hash":"b26a32bd69706e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"test_settings produces the expected output","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a33128b147682581"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_settings","kind":"function","src_hash":"b26a32bd69706e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"<unspecified:test_settings>","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a33128b147682581","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_settings():
     raises(TypeError, lambda: lambdarepr(sin(x), method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numexpr(), test_numexpr produces the expected output) over Any ║
+# ║ Path(test_numexpr(), NumExprPrinter().doprint(expr) == "numexpr.evaluate('where((x > 0), True, False)', truediv=True)" and NumExprPrinter().doprint(func_def) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numexpr : Any → {Any | NumExprPrinter().doprint(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NumExprPrinter().doprint(expr) == "numexp...   ║
+# ║   ensures:  NumExprPrinter().doprint(func_def) == exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numexpr : Any → {Any | result satisfies: NumExpr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 171bfcdfa4b507fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03632dcb32a66778  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_numexpr","kind":"function","src_hash":"d2f8ba671a3ff1dd","in":{"base":"Any"},"out":{"base":"Any","pred":"NumExprPrinter().doprint(func_def) == expected"},"spec":{"lhs":"test_numexpr()","rhs":"test_numexpr produces the expected output","over":{"base":"Any"},"name":"test_numexpr_correct"},"guarantee":"test_numexpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_numexpr_correct","statement":"Path(test_numexpr(x), test_numexpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"171bfcdfa4b507fa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_numexpr","kind":"function","src_hash":"d2f8ba671a3ff1dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NumExprPrinter().doprint(expr) == \"numexpr.evaluate('where((x > 0), True, False)', truediv=True)\" and NumExprPrinter().doprint(func_def) == expected"},"spec":{"lhs":"test_numexpr()","rhs":"NumExprPrinter().doprint(expr) == \"numexpr.evaluate('where((x > 0), True, False)', truediv=True)\" and NumExprPrinter().doprint(func_def) == expected","over":{"base":"Any"},"name":"test_numexpr_correct"},"guarantee":"NumExprPrinter().doprint(expr) == \"numexpr.evaluate('where((x > 0), True, False)', truediv=True)\"; NumExprPrinter().doprint(func_def) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_numexpr_correct","statement":"Path(test_numexpr(x), NumExprPrinter().doprint(expr) == \"numexpr.evaluate('where((x > 0), True, False)', truediv=True)\"; NumExprPrinter().doprint(func_def) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03632dcb32a66778","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NumExprPrinter().doprint(expr) == \"numexpr.evaluate('where((x > 0), True, False)', truediv=True)\"","NumExprPrinter().doprint(func_def) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numexpr():
     # test ITE rewrite as Piecewise
     from sympy.logic.boolalg import ITE
@@ -335,97 +399,141 @@ def test_numexpr():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomPrintedObject(*args), correctly constructs a CustomPrintedObject instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomPrintedObject : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomPrintedObject : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7c87b36de1e7414  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject","kind":"class","src_hash":"098bd446a37ccc4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomPrintedObject(*args)","rhs":"correctly constructs a CustomPrintedObject instance","over":{"base":"Any"},"name":"CustomPrintedObject_class_invariant"},"guarantee":"correctly constructs a CustomPrintedObject instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7c87b36de1e7414"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject","kind":"class","src_hash":"098bd446a37ccc4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"CustomPrintedObject(*args)","rhs":"correctly constructs a CustomPrintedObject instance","over":{"base":"Any"},"name":"CustomPrintedObject_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7c87b36de1e7414","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomPrintedObject not found in source"]}}
 class CustomPrintedObject(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lambdacode(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_lambdacode(printer), 'lambda') over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'lambda'                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _lambdacode : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14d60261a2d5e8f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._lambdacode","kind":"method","src_hash":"171b93df281551fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lambdacode(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_lambdacode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14d60261a2d5e8f2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._lambdacode","kind":"method","src_hash":"171b93df281551fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lambdacode(printer)","rhs":"'lambda'","over":{"base":"Any"},"name":"_lambdacode_correct"},"guarantee":"returns 'lambda'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14d60261a2d5e8f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'lambda'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _lambdacode(self, printer):
         return 'lambda'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tensorflowcode(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_tensorflowcode(printer), 'tensorflow') over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'tensorflow'                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tensorflowcode : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70204339fae612fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._tensorflowcode","kind":"method","src_hash":"10c6982269d1e3d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tensorflowcode(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_tensorflowcode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70204339fae612fa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._tensorflowcode","kind":"method","src_hash":"10c6982269d1e3d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tensorflowcode(printer)","rhs":"'tensorflow'","over":{"base":"Any"},"name":"_tensorflowcode_correct"},"guarantee":"returns 'tensorflow'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70204339fae612fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'tensorflow'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tensorflowcode(self, printer):
         return 'tensorflow'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numpycode(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_numpycode(printer), 'numpy') over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'numpy'                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _numpycode : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adcd32456576196e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._numpycode","kind":"method","src_hash":"7877d15908e09feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpycode(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_numpycode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adcd32456576196e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._numpycode","kind":"method","src_hash":"7877d15908e09feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpycode(printer)","rhs":"'numpy'","over":{"base":"Any"},"name":"_numpycode_correct"},"guarantee":"returns 'numpy'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adcd32456576196e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'numpy'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _numpycode(self, printer):
         return 'numpy'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numexprcode(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_numexprcode(printer), 'numexpr') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'numexpr'                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _numexprcode : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a63fa1d5ff89034           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._numexprcode","kind":"method","src_hash":"e2dc62542c2fd487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numexprcode(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_numexprcode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a63fa1d5ff89034"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._numexprcode","kind":"method","src_hash":"e2dc62542c2fd487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numexprcode(printer)","rhs":"'numexpr'","over":{"base":"Any"},"name":"_numexprcode_correct"},"guarantee":"returns 'numexpr'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a63fa1d5ff89034","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'numexpr'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _numexprcode(self, printer):
         return 'numexpr'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mpmathcode(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_mpmathcode(printer), 'mpmath') over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'mpmath'                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mpmathcode : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00c45cf6f5b22ce3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._mpmathcode","kind":"method","src_hash":"80d079e8d2a4dd4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mpmathcode(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mpmathcode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00c45cf6f5b22ce3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.CustomPrintedObject._mpmathcode","kind":"method","src_hash":"80d079e8d2a4dd4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mpmathcode(printer)","rhs":"'mpmath'","over":{"base":"Any"},"name":"_mpmathcode_correct"},"guarantee":"returns 'mpmath'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00c45cf6f5b22ce3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'mpmath'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mpmathcode(self, printer):
         return 'mpmath'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printmethod(), test_printmethod produces the expected output) over Any ║
+# ║ Path(test_printmethod(), LambdaPrinter().doprint(obj) == 'lambda' and TensorflowPrinter().doprint(obj) == 'tensorflow' and NumExprPrinter().doprint(obj) == "numexpr.evaluate('numexpr', truediv=True)" and NumExprPrinter().doprint(Piecewise((y, x >= 0), (z, x < 0))) == "numexpr.evaluate('where((x >= 0), y, z)', truediv=True)") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printmethod : Any → {Any | LambdaPrinter().dopri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LambdaPrinter().doprint(obj) == 'lambda'       ║
+# ║   ensures:  TensorflowPrinter().doprint(obj) == 'tens...   ║
+# ║   ensures:  NumExprPrinter().doprint(obj) == "numexpr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printmethod : Any → {Any | result satisfies: Lam...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6456a7c1fa50faa0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12957914acf403cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_printmethod","kind":"function","src_hash":"a6885f2579a1427c","in":{"base":"Any"},"out":{"base":"Any","pred":"LambdaPrinter().doprint(obj) == 'lambda' and TensorflowPrinter().doprint(obj) == 'tensorflow' and NumExprPrinter().doprint(obj) == \"numexpr.evaluate('numexpr', truediv=True)\""},"spec":{"lhs":"test_printmethod()","rhs":"test_printmethod produces the expected output","over":{"base":"Any"},"name":"test_printmethod_correct"},"guarantee":"test_printmethod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_printmethod_correct","statement":"Path(test_printmethod(x), test_printmethod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6456a7c1fa50faa0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_lambdarepr.test_printmethod","kind":"function","src_hash":"a6885f2579a1427c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LambdaPrinter().doprint(obj) == 'lambda' and TensorflowPrinter().doprint(obj) == 'tensorflow' and NumExprPrinter().doprint(obj) == \"numexpr.evaluate('numexpr', truediv=True)\" and NumExprPrinter().doprint(Piecewise((y, x >= 0), (z, x < 0))) == \"numexpr.evaluate('where((x >= 0), y, z)', truediv=True)\""},"spec":{"lhs":"test_printmethod()","rhs":"LambdaPrinter().doprint(obj) == 'lambda' and TensorflowPrinter().doprint(obj) == 'tensorflow' and NumExprPrinter().doprint(obj) == \"numexpr.evaluate('numexpr', truediv=True)\" and NumExprPrinter().doprint(Piecewise((y, x >= 0), (z, x < 0))) == \"numexpr.evaluate('where((x >= 0), y, z)', truediv=True)\"","over":{"base":"Any"},"name":"test_printmethod_correct"},"guarantee":"LambdaPrinter().doprint(obj) == 'lambda'; TensorflowPrinter().doprint(obj) == 'tensorflow'; NumExprPrinter().doprint(obj) == \"numexpr.evaluate('numexpr', truediv=True)\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_lambdarepr.test_printmethod_correct","statement":"Path(test_printmethod(x), LambdaPrinter().doprint(obj) == 'lambda'; TensorflowPrinter().doprint(obj) == 'tensorflow'; NumExprPrinter().doprint(obj) == \"numexpr.evaluate('numexpr', truediv=True)\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12957914acf403cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LambdaPrinter().doprint(obj) == 'lambda'","TensorflowPrinter().doprint(obj) == 'tensorflow'","NumExprPrinter().doprint(obj) == \"numexpr.evaluate('numexpr', truediv=True)\"","NumExprPrinter().doprint(Piecewise((y, x >= 0), (z, x < 0))) == \"numexpr.evaluate('where((x >= 0), y, z)', truediv=True)\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printmethod():
     # In each case, printmethod is called to test
     # its working

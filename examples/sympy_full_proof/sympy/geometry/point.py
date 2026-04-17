@@ -59,14 +59,20 @@ from mpmath.libmp.libmpf import prec_to_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Point instance) preserved by Point(*args) over {Any | isinstance(coords, Point) and isinstance(other, GeometryEntity) and isinstance(a, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometryEntity)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Point : {Any | isinstance(coords, Point) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 185590844924c525  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point","kind":"class","src_hash":"83b465fdc6bceed8","in":{"base":"Any","pred":"isinstance(coords, Point) and isinstance(other, GeometryEntity) and isinstance(a, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any","pred":"isinstance(coords, Point) and isinstance(other, GeometryEntity) and isinstance(a, Expr)"},"name":"Point_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Point instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_nonzero","pred":"self.is_nonzero","kind":"class"},{"name":"is_zero","pred":"self.is_zero","kind":"class"}],"methods_preserving":["__abs__","__add__","__contains__","__truediv__","__eq__","__getitem__","__hash__","__iter__","__len__","__mul__","__rmul__","__neg__","__sub__","ambient_dimension","distance","dot","equals","_eval_evalf","intersection","is_collinear","is_concyclic","is_nonzero","is_scalar_multiple","is_zero","length","midpoint","origin","orthogonal_direction","taxicab_distance","canberra_distance","unit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"185590844924c525"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point","kind":"class","src_hash":"83b465fdc6bceed8","in":{"base":"Any","pred":"isinstance(coords, Point) and isinstance(other, GeometryEntity) and isinstance(a, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometryEntity)"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any","pred":"isinstance(coords, Point) and isinstance(other, GeometryEntity) and isinstance(a, Expr)"},"name":"Point_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, GeometryEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_nonzero","pred":"self.is_nonzero","kind":"class"},{"name":"is_zero","pred":"self.is_zero","kind":"class"}],"methods_preserving":["__abs__","__add__","__contains__","__truediv__","__eq__","__getitem__","__hash__","__iter__","__len__","__mul__","__rmul__","__neg__","__sub__","ambient_dimension","distance","dot","equals","_eval_evalf","intersection","is_collinear","is_concyclic","is_nonzero","is_scalar_multiple","is_zero","length","midpoint","origin","orthogonal_direction","taxicab_distance","canberra_distance","unit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"185590844924c525","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometryEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point not found in source"]}}
 class Point(GeometryEntity):
     """A point in a n-dimensional Euclidean space.
 
@@ -135,16 +141,23 @@ class Point(GeometryEntity):
     is_Point = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over {Any | is_sequence(coords)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: is_sequence(coords)                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | is_sequence(coords)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c863f827543d8b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__new__","kind":"method","src_hash":"e4dd8d3dabe19ed5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c863f827543d8b9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__new__","kind":"method","src_hash":"e4dd8d3dabe19ed5","in":{"base":"Any","pred":"is_sequence(coords)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"is_sequence(coords)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c863f827543d8b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["is_sequence(coords)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
         on_morph = kwargs.get('on_morph', 'ignore')
@@ -218,32 +231,44 @@ class Point(GeometryEntity):
         return GeometryEntity.__new__(cls, *coords)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__abs__(), returns the distance between this point and the origin) over Any ║
+# ║ Path(__abs__(), Point.distance(origin, self)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.distance(origin, self)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __abs__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abf2ac40e6425973           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__abs__","kind":"method","src_hash":"5b7e4b2b2797952c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__abs__()","rhs":"returns the distance between this point and the origin","over":{"base":"Any"},"name":"__abs___correct"},"guarantee":"returns the distance between this point and the origin","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf2ac40e6425973"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__abs__","kind":"method","src_hash":"5b7e4b2b2797952c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__abs__()","rhs":"Point.distance(origin, self)","over":{"base":"Any"},"name":"__abs___correct"},"guarantee":"returns Point.distance(origin, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf2ac40e6425973","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.distance(origin, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __abs__(self):
         """Returns the distance between this point and the origin."""
         origin = Point([0]*len(self))
         return Point.distance(origin, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), Point(coords, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(coords, evaluate=False)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62a7e287f27a6405           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__add__","kind":"method","src_hash":"f0e6c4fdb78a5f76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62a7e287f27a6405"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__add__","kind":"method","src_hash":"f0e6c4fdb78a5f76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"Point(coords, evaluate=False)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns Point(coords, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62a7e287f27a6405","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(coords, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","raises":["GeometryError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """Add other to self by incrementing self's coordinates by
         those of other.
@@ -284,30 +309,42 @@ class Point(GeometryEntity):
         return Point(coords, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), item in self.args) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  item in self.args                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3939d6a75c7008c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__contains__","kind":"method","src_hash":"23dd01719bd1f578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3939d6a75c7008c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__contains__","kind":"method","src_hash":"23dd01719bd1f578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"item in self.args","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns item in self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3939d6a75c7008c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"item in self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         return item in self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(div), divide point's coordinates by a factor) over Any ║
+# ║ Path(__truediv__(divisor), Point(coords, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(coords, evaluate=False)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cad5f0bdb8926125           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__truediv__","kind":"method","src_hash":"8914ef7a7184d1d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(div)","rhs":"divide point's coordinates by a factor","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"divide point's coordinates by a factor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cad5f0bdb8926125"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__truediv__","kind":"method","src_hash":"8914ef7a7184d1d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(divisor)","rhs":"Point(coords, evaluate=False)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns Point(coords, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cad5f0bdb8926125","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(coords, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, divisor):
         """Divide point's coordinates by a factor."""
         divisor = sympify(divisor)
@@ -315,88 +352,125 @@ class Point(GeometryEntity):
         return Point(coords, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f24bf9d249e2eba1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__eq__","kind":"method","src_hash":"3717b3c4b0d042c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f24bf9d249e2eba1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__eq__","kind":"method","src_hash":"3717b3c4b0d042c1","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f24bf9d249e2eba1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, Point) or len(self.args) != len(other.args):
             return False
         return self.args == other.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), self.args[key]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[key]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41d4922fc60ed8e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__getitem__","kind":"method","src_hash":"da36ac488ebc14d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41d4922fc60ed8e7"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__getitem__","kind":"method","src_hash":"da36ac488ebc14d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"self.args[key]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.args[key]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41d4922fc60ed8e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[key]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         return self.args[key]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(self.args)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13cce17d012dd9e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__hash__","kind":"method","src_hash":"71b24010fc04668d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13cce17d012dd9e4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__hash__","kind":"method","src_hash":"71b24010fc04668d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(self.args)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13cce17d012dd9e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self.args.__iter__()) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args.__iter__()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ad6f62c1b71b657           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__iter__","kind":"method","src_hash":"65bae268cc1e489a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ad6f62c1b71b657"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__iter__","kind":"method","src_hash":"65bae268cc1e489a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"self.args.__iter__()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self.args.__iter__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ad6f62c1b71b657","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args.__iter__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return self.args.__iter__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.args)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db8f9997b40e4795           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__len__","kind":"method","src_hash":"cb67a3b6f91a42fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db8f9997b40e4795"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__len__","kind":"method","src_hash":"cb67a3b6f91a42fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.args)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db8f9997b40e4795","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(fac), returns the product) over Any           ║
+# ║ Path(__mul__(factor), Point(coords, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(coords, evaluate=False)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffbcd5d3ce301233           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__mul__","kind":"method","src_hash":"ceae359091a75d04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(fac)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffbcd5d3ce301233"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__mul__","kind":"method","src_hash":"ceae359091a75d04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(factor)","rhs":"Point(coords, evaluate=False)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns Point(coords, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffbcd5d3ce301233","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(coords, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, factor):
         """Multiply point's coordinates by a factor.
 
@@ -429,47 +503,65 @@ class Point(GeometryEntity):
         return Point(coords, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(fac), multiply a factor by point's coordinates) over Any ║
+# ║ Path(__rmul__(factor), self.__mul__(factor)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__mul__(factor)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8abac087c09a4c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__rmul__","kind":"method","src_hash":"0c29339e75f3ae38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(fac)","rhs":"multiply a factor by point's coordinates","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"multiply a factor by point's coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8abac087c09a4c7"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__rmul__","kind":"method","src_hash":"0c29339e75f3ae38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(factor)","rhs":"self.__mul__(factor)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns self.__mul__(factor)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8abac087c09a4c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__mul__(factor)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, factor):
         """Multiply a factor by point's coordinates."""
         return self.__mul__(factor)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), Point(coords, evaluate=False)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(coords, evaluate=False)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 042e4439eed90fc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__neg__","kind":"method","src_hash":"c0a909b5fdb0cdae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"042e4439eed90fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__neg__","kind":"method","src_hash":"c0a909b5fdb0cdae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"Point(coords, evaluate=False)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns Point(coords, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"042e4439eed90fc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(coords, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         """Negate the point."""
         coords = [-x for x in self.args]
         return Point(coords, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), subtract two points, or subtract a factor from this point's coordinates) over Any ║
+# ║ Path(__sub__(other), self + [-x for x in other]) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + [-x for x in other]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc17094e4aa947f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__sub__","kind":"method","src_hash":"7ae4ad29650215aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"subtract two points, or subtract a factor from this point's coordinates","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"subtract two points, or subtract a factor from this point's coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc17094e4aa947f7"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.__sub__","kind":"method","src_hash":"7ae4ad29650215aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + [-x for x in other]","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + [-x for x in other]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc17094e4aa947f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + [-x for x in other]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """Subtract two points, or subtract a factor from this point's
         coordinates."""
@@ -477,16 +569,22 @@ class Point(GeometryEntity):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_normalize_dimension(cls), ensure that points have the same dimension. by default `on_morph='warn'` is passed to the `point` constructor) over Any ║
+# ║ Path(_normalize_dimension(cls, *points, **kwargs), <unspecified:_normalize_dimension>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _normalize_dimension : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25a96e1849950c3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point._normalize_dimension","kind":"classmethod","src_hash":"bbf03c9e1dabd27b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_normalize_dimension(cls)","rhs":"ensure that points have the same dimension. by default `on_morph='warn'` is passed to the `point` constructor","over":{"base":"Any"},"name":"_normalize_dimension_correct"},"guarantee":"ensure that points have the same dimension. by default `on_morph='warn'` is passed to the `point` constructor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point._normalize_dimension_correct","statement":"Path(_normalize_dimension(x), ensure that points have the same dimension. by default `on_morph='warn'` is passed to the `point` constructor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25a96e1849950c3e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point._normalize_dimension","kind":"classmethod","src_hash":"bbf03c9e1dabd27b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_normalize_dimension(cls, *points, **kwargs)","rhs":"<unspecified:_normalize_dimension>","over":{"base":"Any"},"name":"_normalize_dimension_correct"},"guarantee":"ensure that points have the same dimension. by default `on_morph='warn'` is passed to the `point` constructor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point._normalize_dimension_correct","statement":"Path(_normalize_dimension(x), ensure that points have the same dimension. by default `on_morph='warn'` is passed to the `point` constructor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25a96e1849950c3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _normalize_dimension(cls, *points, **kwargs):
         """Ensure that points have the same dimension.
         By default `on_morph='warn'` is passed to the
@@ -506,16 +604,22 @@ class Point(GeometryEntity):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(affine_rank(*ar), the affine rank of a set of points is the dimension of the smallest affine space containing all the points. for example, if the points lie on a line (and are not all the same) their affine rank is 1) over Any ║
+# ║ Path(affine_rank(*args), <unspecified:affine_rank>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ affine_rank : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f33e2c7c3c0d472  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.affine_rank","kind":"staticmethod","src_hash":"db32338e7299fa33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"affine_rank(*ar)","rhs":"the affine rank of a set of points is the dimension of the smallest affine space containing all the points. for example, if the points lie on a line (and are not all the same) their affine rank is 1","over":{"base":"Any"},"name":"affine_rank_correct"},"guarantee":"the affine rank of a set of points is the dimension of the smallest affine space containing all the points. for example, if the points lie on a line (and are not all the same) their affine rank is 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.affine_rank_correct","statement":"Path(affine_rank(x), the affine rank of a set of points is the dimension of the smallest affine space containing all the points. for example, if the points lie on a line (and are not all the same) their affine rank is 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f33e2c7c3c0d472"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.affine_rank","kind":"staticmethod","src_hash":"db32338e7299fa33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"affine_rank(*args)","rhs":"<unspecified:affine_rank>","over":{"base":"Any"},"name":"affine_rank_correct"},"guarantee":"the affine rank of a set of points is the dimension of the smallest affine space containing all the points. for example, if the points lie on a line (and are not all the same) their affine rank is 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.affine_rank_correct","statement":"Path(affine_rank(x), the affine rank of a set of points is the dimension of the smallest affine space containing all the points. for example, if the points lie on a line (and are not all the same) their affine rank is 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f33e2c7c3c0d472","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def affine_rank(*args):
         """The affine rank of a set of points is the dimension
         of the smallest affine space containing all the points.
@@ -539,32 +643,44 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), getattr(self, '_ambient_dimension', len(self))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(self, '_ambient_dimension', len(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2cd192f53ce339d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.ambient_dimension","kind":"property","src_hash":"7e0368185c618e9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2cd192f53ce339d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.ambient_dimension","kind":"property","src_hash":"7e0368185c618e9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"getattr(self, '_ambient_dimension', len(self))","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns getattr(self, '_ambient_dimension', len(self))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2cd192f53ce339d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(self, '_ambient_dimension', len(self))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         """Number of components this point has."""
         return getattr(self, '_ambient_dimension', len(self))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(are_coplanar(cls), return true if there exists a plane in which all the points lie) over Any ║
+# ║ Path(are_coplanar(cls, *points), <unspecified:are_coplanar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ are_coplanar : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96136b802119514e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.are_coplanar","kind":"classmethod","src_hash":"d0e878821e43f6ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_coplanar(cls)","rhs":"return true if there exists a plane in which all the points lie","over":{"base":"Any"},"name":"are_coplanar_correct"},"guarantee":"return true if there exists a plane in which all the points lie","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.are_coplanar_correct","statement":"Path(are_coplanar(x), return true if there exists a plane in which all the points lie)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96136b802119514e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.are_coplanar","kind":"classmethod","src_hash":"d0e878821e43f6ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_coplanar(cls, *points)","rhs":"<unspecified:are_coplanar>","over":{"base":"Any"},"name":"are_coplanar_correct"},"guarantee":"return true if there exists a plane in which all the points lie","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.are_coplanar_correct","statement":"Path(are_coplanar(x), return true if there exists a plane in which all the points lie)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96136b802119514e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._normalize_dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def are_coplanar(cls, *points):
         """Return True if there exists a plane in which all the points
         lie.  A trivial True value is returned if `len(points) < 3` or
@@ -611,16 +727,23 @@ class Point(GeometryEntity):
         return Point.affine_rank(*points) <= 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(oth), id) over Any                           ║
+# ║ Path(distance(other), id) over {Any | not (distance is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distance : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (distance is None)                         ║
+# ║   ensures:  # HINT: distance may be idempotent: dista...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distance : {Any | not (distance is None)} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5bb58a2b780d310d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.distance","kind":"method","src_hash":"962122575dd9c087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(oth)","rhs":"the euclidean distance between self and another geometricentity","over":{"base":"Any"},"name":"distance_correct","kind":"composition"},"guarantee":"the euclidean distance between self and another geometricentity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb58a2b780d310d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.distance","kind":"method","src_hash":"962122575dd9c087","in":{"base":"Any","pred":"not (distance is None)"},"out":{"base":"Any","pred":"result satisfies: # HINT: distance may be idempotent: distance(distance(x)) == distance(x)"},"spec":{"lhs":"distance(other)","rhs":"# HINT: distance may be idempotent: distance(distance(x)) == distance(x)","over":{"base":"Any","pred":"not (distance is None)"},"name":"distance_correct","kind":"composition"},"guarantee":"# HINT: distance may be idempotent: distance(distance(x)) == distance(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb58a2b780d310d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (distance is None)"],"ensures":["# HINT: distance may be idempotent: distance(distance(x)) == distance(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension"],"raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, other):
         """The Euclidean distance between self and another GeometricEntity.
 
@@ -676,14 +799,20 @@ class Point(GeometryEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dot(p), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*(a * b for a, b in zip(self, p)))         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dot : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b5db429a3d93a4f9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.dot","kind":"method","src_hash":"725dfd3ea3f034a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(p)","rhs":"return dot product of self with another point","over":{"base":"Any"},"name":"dot_correct","kind":"composition"},"guarantee":"return dot product of self with another point","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5db429a3d93a4f9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.dot","kind":"method","src_hash":"725dfd3ea3f034a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(p)","rhs":"Add(*(a * b for a, b in zip(self, p)))","over":{"base":"Any"},"name":"dot_correct","kind":"composition"},"guarantee":"returns Add(*(a * b for a, b in zip(self, p)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5db429a3d93a4f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*(a * b for a, b in zip(self, p)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dot(self, p):
         """Return dot product of self with another Point."""
         if not is_sequence(p):
@@ -691,16 +820,22 @@ class Point(GeometryEntity):
         return Add(*(a*b for a, b in zip(self, p)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), returns whether the coordinates of self and other agree) over Any ║
+# ║ Path(equals(other), <unspecified:equals>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equals : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af27db4a0e7e8d23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.equals","kind":"method","src_hash":"53247cd4dcadf16d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"returns whether the coordinates of self and other agree","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"returns whether the coordinates of self and other agree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.equals_correct","statement":"Path(equals(x), returns whether the coordinates of self and other agree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af27db4a0e7e8d23"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.equals","kind":"method","src_hash":"53247cd4dcadf16d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"<unspecified:equals>","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"returns whether the coordinates of self and other agree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.equals_correct","statement":"Path(equals(x), returns whether the coordinates of self and other agree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af27db4a0e7e8d23","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """Returns whether the coordinates of self and other agree."""
         # a point is equal to another point if all its components are equal
@@ -709,16 +844,22 @@ class Point(GeometryEntity):
         return all(a.equals(b) for a, b in zip(self, other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), evaluate the coordinates of the point) over Any ║
+# ║ Path(_eval_evalf(prec, **options), Point(*coords, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(*coords, evaluate=False)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1029e71009053e53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2004dd6b11d20d2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point._eval_evalf","kind":"method","src_hash":"781159e9b8d68bbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"evaluate the coordinates of the point","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"evaluate the coordinates of the point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point._eval_evalf_correct","statement":"Path(_eval_evalf(x), evaluate the coordinates of the point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1029e71009053e53"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point._eval_evalf","kind":"method","src_hash":"781159e9b8d68bbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec, **options)","rhs":"Point(*coords, evaluate=False)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Point(*coords, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Point(*coords, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2004dd6b11d20d2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(*coords, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec=15, **options):
         """Evaluate the coordinates of the point.
 
@@ -752,16 +893,23 @@ class Point(GeometryEntity):
         return Point(*coords, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(oth), the intersection between this point and another geometryentity) over Any ║
+# ║ Path(intersection(other), <unspecified:intersection>) over {Any | hasattr(other, 'intersection')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'intersection')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(other, 'intersection')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa5ad52ce804db61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.intersection","kind":"method","src_hash":"ec78e0d778597f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(oth)","rhs":"the intersection between this point and another geometryentity","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection between this point and another geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.intersection_correct","statement":"Path(intersection(x), the intersection between this point and another geometryentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5ad52ce804db61"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.intersection","kind":"method","src_hash":"ec78e0d778597f81","in":{"base":"Any","pred":"hasattr(other, 'intersection')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(other)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(other, 'intersection')"},"name":"intersection_correct"},"guarantee":"the intersection between this point and another geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.intersection_correct","statement":"Path(intersection(x), the intersection between this point and another geometryentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5ad52ce804db61","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'intersection')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.intersection"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, other):
         """The intersection between this point and another GeometryEntity.
 
@@ -804,16 +952,22 @@ class Point(GeometryEntity):
         return other.intersection(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_collinear(*ar), returns `true` if there exists a line that contains `self` and `points`) over Any ║
+# ║ Path(is_collinear(*args), Point.affine_rank(*points) <= 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.affine_rank(*points) <= 1                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_collinear : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cd2a3c5844f7476  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f5e65d6a41b3a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_collinear","kind":"method","src_hash":"5b4b505f1033993c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_collinear(*ar)","rhs":"returns `true` if there exists a line that contains `self` and `points`","over":{"base":"Any"},"name":"is_collinear_correct"},"guarantee":"returns `true` if there exists a line that contains `self` and `points`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.is_collinear_correct","statement":"Path(is_collinear(x), returns `true` if there exists a line that contains `self` and `points`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cd2a3c5844f7476"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_collinear","kind":"method","src_hash":"5b4b505f1033993c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_collinear(*args)","rhs":"Point.affine_rank(*points) <= 1","over":{"base":"Any"},"name":"is_collinear_correct"},"guarantee":"returns Point.affine_rank(*points) <= 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.is_collinear_correct","statement":"Path(is_collinear(x), returns Point.affine_rank(*points) <= 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f5e65d6a41b3a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.affine_rank(*points) <= 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_collinear(self, *args):
         """Returns `True` if there exists a line
         that contains `self` and `points`.  Returns `False` otherwise.
@@ -853,16 +1007,22 @@ class Point(GeometryEntity):
         return Point.affine_rank(*points) <= 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_concyclic(*ar), do `self` and the given sequence of points lie in a circle?) over Any ║
+# ║ Path(is_concyclic(*args), <unspecified:is_concyclic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_concyclic : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0816c77b029db200  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_concyclic","kind":"method","src_hash":"29a9cf7c6f31e9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_concyclic(*ar)","rhs":"do `self` and the given sequence of points lie in a circle?","over":{"base":"Any"},"name":"is_concyclic_correct"},"guarantee":"do `self` and the given sequence of points lie in a circle?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.is_concyclic_correct","statement":"Path(is_concyclic(x), do `self` and the given sequence of points lie in a circle?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0816c77b029db200"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_concyclic","kind":"method","src_hash":"29a9cf7c6f31e9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_concyclic(*args)","rhs":"<unspecified:is_concyclic>","over":{"base":"Any"},"name":"is_concyclic_correct"},"guarantee":"do `self` and the given sequence of points lie in a circle?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.is_concyclic_correct","statement":"Path(is_concyclic(x), do `self` and the given sequence of points lie in a circle?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0816c77b029db200","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_concyclic(self, *args):
         """Do `self` and the given sequence of points lie in a circle?
 
@@ -921,16 +1081,22 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonzero(), returns the is_nonzero attribute) over Any ║
+# ║ Path(is_nonzero(), <unspecified:is_nonzero>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonzero : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6a67aa682f858dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_nonzero","kind":"property","src_hash":"ea0b841ab2de70d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonzero()","rhs":"returns the is_nonzero attribute","over":{"base":"Any"},"name":"is_nonzero_correct"},"guarantee":"returns the is_nonzero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6a67aa682f858dd"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_nonzero","kind":"property","src_hash":"ea0b841ab2de70d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonzero()","rhs":"<unspecified:is_nonzero>","over":{"base":"Any"},"name":"is_nonzero_correct"},"guarantee":"returns the is_nonzero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6a67aa682f858dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonzero(self):
         """True if any coordinate is nonzero, False if every coordinate is zero,
         and None if it cannot be determined."""
@@ -940,16 +1106,22 @@ class Point(GeometryEntity):
         return not is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_scalar_multiple(p), returns whether each coordinate of `self` is a scalar multiple of the corresponding coordinate in point p) over Any ║
+# ║ Path(is_scalar_multiple(p), m.rank() < 2) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  m.rank() < 2                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_scalar_multiple : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24565c28394a1236  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37c4fbdccce623da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_scalar_multiple","kind":"method","src_hash":"3c08c09e0d3d6064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_scalar_multiple(p)","rhs":"returns whether each coordinate of `self` is a scalar multiple of the corresponding coordinate in point p","over":{"base":"Any"},"name":"is_scalar_multiple_correct"},"guarantee":"returns whether each coordinate of `self` is a scalar multiple of the corresponding coordinate in point p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.is_scalar_multiple_correct","statement":"Path(is_scalar_multiple(x), returns whether each coordinate of `self` is a scalar multiple of the corresponding coordinate in point p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24565c28394a1236"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_scalar_multiple","kind":"method","src_hash":"3c08c09e0d3d6064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_scalar_multiple(p)","rhs":"m.rank() < 2","over":{"base":"Any"},"name":"is_scalar_multiple_correct"},"guarantee":"returns m.rank() < 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point.is_scalar_multiple_correct","statement":"Path(is_scalar_multiple(x), returns m.rank() < 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37c4fbdccce623da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"m.rank() < 2","pure":false,"effects":{"effect_type":"reads_state","raises":["Undecidable"]},"state_contract":{"exceptional_post":{"Undecidable":["isinstance(raised, Undecidable)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_scalar_multiple(self, p):
         """Returns whether each coordinate of `self` is a scalar
         multiple of the corresponding coordinate in point p.
@@ -971,16 +1143,22 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), returns the is_zero attribute) over Any    ║
+# ║ Path(is_zero(), <unspecified:is_zero>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c15a246931f28a71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_zero","kind":"property","src_hash":"4c3204c729fd8aff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"returns the is_zero attribute","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns the is_zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c15a246931f28a71"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.is_zero","kind":"property","src_hash":"4c3204c729fd8aff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"<unspecified:is_zero>","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns the is_zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c15a246931f28a71","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """True if every coordinate is zero, False if any coordinate is not zero,
         and None if it cannot be determined."""
@@ -993,16 +1171,22 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), S.Zero) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 782e7c7bade36026           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.length","kind":"property","src_hash":"c52a93259cd0147f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"782e7c7bade36026"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.length","kind":"property","src_hash":"c52a93259cd0147f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"S.Zero","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"782e7c7bade36026","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """
         Treating a Point as a Line, this returns 0 for the length of a Point.
@@ -1020,14 +1204,20 @@ class Point(GeometryEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(midpoint(p), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point([simplify((a + b) * S.Half) for a, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ midpoint : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6bb351770c0fd10c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.midpoint","kind":"method","src_hash":"ef7534e614a0a599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"midpoint(p)","rhs":"the midpoint between self and point p","over":{"base":"Any"},"name":"midpoint_correct","kind":"composition"},"guarantee":"the midpoint between self and point p","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"simplify","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bb351770c0fd10c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.midpoint","kind":"method","src_hash":"ef7534e614a0a599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"midpoint(p)","rhs":"Point([simplify((a + b) * S.Half) for a, b in zip(s, p)])","over":{"base":"Any"},"name":"midpoint_correct","kind":"composition"},"guarantee":"returns Point([simplify((a + b) * S.Half) for a, b in zip(s, p)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"simplify","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bb351770c0fd10c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point([simplify((a + b) * S.Half) for a, b in zip(s, p)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def midpoint(self, p):
         """The midpoint between self and point p.
 
@@ -1060,16 +1250,22 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(origin(), returns the origin attribute) over Any      ║
+# ║ Path(origin(), Point([0] * len(self), evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point([0] * len(self), evaluate=False)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ origin : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb40318f511774f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.origin","kind":"property","src_hash":"79efa8189571f762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"origin()","rhs":"returns the origin attribute","over":{"base":"Any"},"name":"origin_correct"},"guarantee":"returns the origin attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb40318f511774f2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.origin","kind":"property","src_hash":"79efa8189571f762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"origin()","rhs":"Point([0] * len(self), evaluate=False)","over":{"base":"Any"},"name":"origin_correct"},"guarantee":"returns Point([0] * len(self), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb40318f511774f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point([0] * len(self), evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def origin(self):
         """A point of all zeros of the same ambient dimension
         as the current point"""
@@ -1077,16 +1273,22 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthogonal_direction(), returns the orthogonal_direction attribute) over Any ║
+# ║ Path(orthogonal_direction(), <unspecified:orthogonal_direction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orthogonal_direction : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e12cc9fe86bf555           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.orthogonal_direction","kind":"property","src_hash":"f72f8c0cce463d22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal_direction()","rhs":"returns the orthogonal_direction attribute","over":{"base":"Any"},"name":"orthogonal_direction_correct"},"guarantee":"returns the orthogonal_direction attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e12cc9fe86bf555"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.orthogonal_direction","kind":"property","src_hash":"f72f8c0cce463d22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal_direction()","rhs":"<unspecified:orthogonal_direction>","over":{"base":"Any"},"name":"orthogonal_direction_correct"},"guarantee":"returns the orthogonal_direction attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e12cc9fe86bf555","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orthogonal_direction(self):
         """Returns a non-zero point that is orthogonal to the
         line containing `self` and the origin.
@@ -1114,16 +1316,25 @@ class Point(GeometryEntity):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(project(a, ), id) over Any                            ║
+# ║ Path(project(a, b), id) over {Any | not (b.is_zero) and hasattr(b, 'is_zero') and hasattr(a, 'dot') and hasattr(b, 'dot')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ project : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (b.is_zero)                                ║
+# ║   requires: hasattr(b, 'is_zero')                          ║
+# ║   requires: hasattr(a, 'dot')                              ║
+# ║   returns:  b * (a.dot(b) / b.dot(b))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ project : {Any | not (b.is_zero) and hasattr(b, 'is_z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 212cdbe4580e9614   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.project","kind":"staticmethod","src_hash":"6c44bd290fa4ddbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"project(a, )","rhs":"project the point `a` onto the line between the origin and point `b` along the normal direction","over":{"base":"Any"},"name":"project_correct","kind":"composition"},"guarantee":"project the point `a` onto the line between the origin and point `b` along the normal direction","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dot","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"212cdbe4580e9614"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.project","kind":"staticmethod","src_hash":"6c44bd290fa4ddbf","in":{"base":"Any","pred":"not (b.is_zero) and hasattr(b, 'is_zero') and hasattr(a, 'dot') and hasattr(b, 'dot')"},"out":{"base":"Any"},"spec":{"lhs":"project(a, b)","rhs":"b * (a.dot(b) / b.dot(b))","over":{"base":"Any","pred":"not (b.is_zero) and hasattr(b, 'is_zero') and hasattr(a, 'dot') and hasattr(b, 'dot')"},"name":"project_correct","kind":"composition"},"guarantee":"returns b * (a.dot(b) / b.dot(b))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dot","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"212cdbe4580e9614","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (b.is_zero)","hasattr(b, 'is_zero')","hasattr(a, 'dot')","hasattr(b, 'dot')"],"returns_expr":"b * (a.dot(b) / b.dot(b))","pure":false,"effects":{"effect_type":"reads_state","reads":["a.dot","b.dot","b.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def project(a, b):
         """Project the point `a` onto the line between the origin
         and point `b` along the normal direction.
@@ -1165,14 +1376,20 @@ class Point(GeometryEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(taxicab_distance(p), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*(abs(a - b) for a, b in zip(s, p)))       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ taxicab_distance : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 71ab7cf842d4b4dd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.taxicab_distance","kind":"method","src_hash":"a8a1b79453105679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taxicab_distance(p)","rhs":"the taxicab distance from self to point p","over":{"base":"Any"},"name":"taxicab_distance_correct","kind":"composition"},"guarantee":"the taxicab distance from self to point p","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ab7cf842d4b4dd"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.taxicab_distance","kind":"method","src_hash":"a8a1b79453105679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taxicab_distance(p)","rhs":"Add(*(abs(a - b) for a, b in zip(s, p)))","over":{"base":"Any"},"name":"taxicab_distance_correct","kind":"composition"},"guarantee":"returns Add(*(abs(a - b) for a, b in zip(s, p)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ab7cf842d4b4dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*(abs(a - b) for a, b in zip(s, p)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taxicab_distance(self, p):
         """The Taxicab Distance from self to point p.
 
@@ -1207,16 +1424,24 @@ class Point(GeometryEntity):
         return Add(*(abs(a - b) for a, b in zip(s, p)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canberra_distance(p), id) over Any                    ║
+# ║ Path(canberra_distance(p), id) over {Any | not (self.is_zero and p.is_zero) and hasattr(p, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canberra_distance : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.is_zero and p.is_zero)               ║
+# ║   requires: hasattr(p, 'is_zero')                          ║
+# ║   returns:  Add(*(abs(a - b) / (abs(a) + abs(b)) for ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canberra_distance : {Any | not (self.is_zero and p.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 69ce84475fba1807   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.canberra_distance","kind":"method","src_hash":"1a54b7df9bc37bc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canberra_distance(p)","rhs":"the canberra distance from self to point p","over":{"base":"Any"},"name":"canberra_distance_correct","kind":"composition"},"guarantee":"the canberra distance from self to point p","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ce84475fba1807"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.canberra_distance","kind":"method","src_hash":"1a54b7df9bc37bc4","in":{"base":"Any","pred":"not (self.is_zero and p.is_zero) and hasattr(p, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"canberra_distance(p)","rhs":"Add(*(abs(a - b) / (abs(a) + abs(b)) for a, b in zip(s, p)))","over":{"base":"Any","pred":"not (self.is_zero and p.is_zero) and hasattr(p, 'is_zero')"},"name":"canberra_distance_correct","kind":"composition"},"guarantee":"returns Add(*(abs(a - b) / (abs(a) + abs(b)) for a, b in zip(s, p)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ce84475fba1807","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.is_zero and p.is_zero)","hasattr(p, 'is_zero')"],"returns_expr":"Add(*(abs(a - b) / (abs(a) + abs(b)) for a, b in zip(s, p)))","pure":false,"effects":{"effect_type":"reads_state","reads":["p.is_zero","self.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def canberra_distance(self, p):
         """The Canberra Distance from self to point p.
 
@@ -1265,16 +1490,22 @@ class Point(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unit(), returns the unit attribute) over Any          ║
+# ║ Path(unit(), self / abs(self)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self / abs(self)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 847dfce6f2d7aa3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.unit","kind":"property","src_hash":"fcc5ff7ecaee7a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit()","rhs":"returns the unit attribute","over":{"base":"Any"},"name":"unit_correct"},"guarantee":"returns the unit attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"847dfce6f2d7aa3e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point.unit","kind":"property","src_hash":"fcc5ff7ecaee7a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit()","rhs":"self / abs(self)","over":{"base":"Any"},"name":"unit_correct"},"guarantee":"returns self / abs(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"847dfce6f2d7aa3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self / abs(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unit(self):
         """Return the Point that is in the same direction as `self`
         and a distance of 1 from the origin"""
@@ -1284,14 +1515,20 @@ class Point(GeometryEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Point2D(*args), correctly constructs a Point2D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Point2D : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Point)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Point2D : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79a4734ae39a35f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D","kind":"class","src_hash":"4a3241dcee602097","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Point2D(*args)","rhs":"correctly constructs a Point2D instance","over":{"base":"Any"},"name":"Point2D_class_invariant"},"guarantee":"correctly constructs a Point2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79a4734ae39a35f8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D","kind":"class","src_hash":"4a3241dcee602097","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Point)"},"spec":{"lhs":"Point2D(*args)","rhs":"correctly constructs a Point2D instance","over":{"base":"Any"},"name":"Point2D_class_invariant"},"guarantee":"isinstance(self, Point)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79a4734ae39a35f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Point)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point2D not found in source"]}}
 class Point2D(Point):
     """A point in a 2-dimensional Euclidean space.
 
@@ -1346,16 +1583,22 @@ class Point2D(Point):
     _ambient_dimension = 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, _nocheck), GeometryEntity.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GeometryEntity.__new__(cls, *args)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebcfd177b561b57c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.__new__","kind":"method","src_hash":"bf21cd0c98090d49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebcfd177b561b57c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.__new__","kind":"method","src_hash":"bf21cd0c98090d49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, _nocheck)","rhs":"GeometryEntity.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebcfd177b561b57c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GeometryEntity.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, _nocheck=False, **kwargs):
         if not _nocheck:
             kwargs['dim'] = 2
@@ -1363,31 +1606,43 @@ class Point2D(Point):
         return GeometryEntity.__new__(cls, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), item == self) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  item == self                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ead41fd84d45d83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.__contains__","kind":"method","src_hash":"e4469d296e72117f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ead41fd84d45d83"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.__contains__","kind":"method","src_hash":"e4469d296e72117f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"item == self","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns item == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ead41fd84d45d83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"item == self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         return item == self
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bounds(), returns the bounds attribute) over Any      ║
+# ║ Path(bounds(), (self.x, self.y, self.x, self.y)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.x, self.y, self.x, self.y)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bounds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0442eb51132348a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.bounds","kind":"property","src_hash":"b2c927cb977d99d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"returns the bounds attribute","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns the bounds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0442eb51132348a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.bounds","kind":"property","src_hash":"b2c927cb977d99d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"(self.x, self.y, self.x, self.y)","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns (self.x, self.y, self.x, self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0442eb51132348a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.x, self.y, self.x, self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bounds(self):
         """Return a tuple (xmin, ymin, xmax, ymax) representing the bounding
         rectangle for the geometric figure.
@@ -1397,16 +1652,22 @@ class Point2D(Point):
         return (self.x, self.y, self.x, self.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(ang), rotate ``angle`` radians counterclockwise about point ``pt``) over Any ║
+# ║ Path(rotate(angle, pt), <unspecified:rotate>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00b925b7ad3d232f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.rotate","kind":"method","src_hash":"5ae154c5d4685a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(ang)","rhs":"rotate ``angle`` radians counterclockwise about point ``pt``","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"rotate ``angle`` radians counterclockwise about point ``pt``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point2D.rotate_correct","statement":"Path(rotate(x), rotate ``angle`` radians counterclockwise about point ``pt``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00b925b7ad3d232f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.rotate","kind":"method","src_hash":"5ae154c5d4685a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(angle, pt)","rhs":"<unspecified:rotate>","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"rotate ``angle`` radians counterclockwise about point ``pt``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point2D.rotate_correct","statement":"Path(rotate(x), rotate ``angle`` radians counterclockwise about point ``pt``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00b925b7ad3d232f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate(self, angle, pt=None):
         """Rotate ``angle`` radians counterclockwise about Point ``pt``.
 
@@ -1440,16 +1701,23 @@ class Point2D(Point):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, pt), id) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c5e57414d0b51a4a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.scale","kind":"method","src_hash":"b2639c2c106270b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"scale the coordinates of the point by multiplying by ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) -- and then adding ``pt`` back again (i.e","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"scale the coordinates of the point by multiplying by ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) -- and then adding ``pt`` back again (i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e57414d0b51a4a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.scale","kind":"method","src_hash":"b2639c2c106270b5","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"scale the coordinates of the point by multiplying by ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) -- and then adding ``pt`` back again (i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e57414d0b51a4a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.translate","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, pt=None):
         """Scale the coordinates of the Point by multiplying by
         ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) --
@@ -1478,16 +1746,25 @@ class Point2D(Point):
         return Point(self.x*x, self.y*y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transform(mat), id) over Any                          ║
+# ║ Path(transform(matrix), id) over {Any | matrix.is_Matrix and matrix.shape == (3, 3) and hasattr(matrix, 'is_Matrix') and hasattr(matrix, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transform : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: matrix.is_Matrix and matrix.shape == (3, 3)    ║
+# ║   requires: hasattr(matrix, 'is_Matrix')                   ║
+# ║   requires: hasattr(matrix, 'shape')                       ║
+# ║   returns:  Point(*(Matrix(1, 3, [x, y, 1]) * matrix)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transform : {Any | matrix.is_Matrix and matrix.shape ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4663f700bb2945a7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.transform","kind":"method","src_hash":"cf141f3fc5266943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transform(mat)","rhs":"return the point after applying the transformation described by the 3x3 matrix, ``matrix``","over":{"base":"Any"},"name":"transform_correct","kind":"composition"},"guarantee":"return the point after applying the transformation described by the 3x3 matrix, ``matrix``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4663f700bb2945a7"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.transform","kind":"method","src_hash":"cf141f3fc5266943","in":{"base":"Any","pred":"matrix.is_Matrix and matrix.shape == (3, 3) and hasattr(matrix, 'is_Matrix') and hasattr(matrix, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"transform(matrix)","rhs":"Point(*(Matrix(1, 3, [x, y, 1]) * matrix).tolist()[0][:2])","over":{"base":"Any","pred":"matrix.is_Matrix and matrix.shape == (3, 3) and hasattr(matrix, 'is_Matrix') and hasattr(matrix, 'shape')"},"name":"transform_correct","kind":"composition"},"guarantee":"returns Point(*(Matrix(1, 3, [x, y, 1]) * matrix).tolist()[0][:2])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4663f700bb2945a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["matrix.is_Matrix and matrix.shape == (3, 3)","hasattr(matrix, 'is_Matrix')","hasattr(matrix, 'shape')"],"returns_expr":"Point(*(Matrix(1, 3, [x, y, 1]) * matrix).tolist()[0][:2])","pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.is_Matrix","matrix.shape","self.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transform(self, matrix):
         """Return the point after applying the transformation described
         by the 3x3 Matrix, ``matrix``.
@@ -1504,16 +1781,22 @@ class Point2D(Point):
         return Point(*(Matrix(1, 3, [x, y, 1])*matrix).tolist()[0][:2])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translate(x, ), shift the point by adding x and y to the coordinates of the point) over Any ║
+# ║ Path(translate(x, y), Point(self.x + x, self.y + y)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(self.x + x, self.y + y)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64ba54bbbbe2e30f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.translate","kind":"method","src_hash":"2e3964cdda5bd90c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, )","rhs":"shift the point by adding x and y to the coordinates of the point","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"shift the point by adding x and y to the coordinates of the point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64ba54bbbbe2e30f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.translate","kind":"method","src_hash":"2e3964cdda5bd90c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, y)","rhs":"Point(self.x + x, self.y + y)","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"returns Point(self.x + x, self.y + y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64ba54bbbbe2e30f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(self.x + x, self.y + y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def translate(self, x=0, y=0):
         """Shift the Point by adding x and y to the coordinates of the Point.
 
@@ -1539,16 +1822,22 @@ class Point2D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coordinates(), returns the coordinates attribute) over Any ║
+# ║ Path(coordinates(), self.args) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coordinates : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6079b5d12f96d9dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.coordinates","kind":"property","src_hash":"8a6f72edbdaf02a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coordinates()","rhs":"returns the coordinates attribute","over":{"base":"Any"},"name":"coordinates_correct"},"guarantee":"returns the coordinates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6079b5d12f96d9dc"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.coordinates","kind":"property","src_hash":"8a6f72edbdaf02a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coordinates()","rhs":"self.args","over":{"base":"Any"},"name":"coordinates_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6079b5d12f96d9dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coordinates(self):
         """
         Returns the two coordinates of the Point.
@@ -1565,16 +1854,22 @@ class Point2D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), self.args[0]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86ad233bb9eb866f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.x","kind":"property","src_hash":"e82479f89cc0df44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86ad233bb9eb866f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.x","kind":"property","src_hash":"e82479f89cc0df44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"self.args[0]","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86ad233bb9eb866f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """
         Returns the X coordinate of the Point.
@@ -1591,16 +1886,22 @@ class Point2D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(y(), returns the y attribute) over Any                ║
+# ║ Path(y(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ y : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8056be7a58e13dfb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.y","kind":"property","src_hash":"3deb4b166c13dda0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"returns the y attribute","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns the y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8056be7a58e13dfb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point2D.y","kind":"property","src_hash":"3deb4b166c13dda0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"self.args[1]","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8056be7a58e13dfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def y(self):
         """
         Returns the Y coordinate of the Point.
@@ -1618,14 +1919,20 @@ class Point2D(Point):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Point3D(*args), correctly constructs a Point3D instance) over {Any | isinstance(other, Point3D) and isinstance(other, GeometryEntity)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Point)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Point3D : {Any | isinstance(other, Point3D) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dae42e1237082f22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D","kind":"class","src_hash":"c40654dc75728552","in":{"base":"Any","pred":"isinstance(other, Point3D) and isinstance(other, GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"Point3D(*args)","rhs":"correctly constructs a Point3D instance","over":{"base":"Any","pred":"isinstance(other, Point3D) and isinstance(other, GeometryEntity)"},"name":"Point3D_class_invariant"},"guarantee":"correctly constructs a Point3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae42e1237082f22"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D","kind":"class","src_hash":"c40654dc75728552","in":{"base":"Any","pred":"isinstance(other, Point3D) and isinstance(other, GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Point)"},"spec":{"lhs":"Point3D(*args)","rhs":"correctly constructs a Point3D instance","over":{"base":"Any","pred":"isinstance(other, Point3D) and isinstance(other, GeometryEntity)"},"name":"Point3D_class_invariant"},"guarantee":"isinstance(self, Point)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae42e1237082f22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Point)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point3D not found in source"]}}
 class Point3D(Point):
     """A point in a 3-dimensional Euclidean space.
 
@@ -1675,16 +1982,22 @@ class Point3D(Point):
     _ambient_dimension = 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, _nocheck), GeometryEntity.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GeometryEntity.__new__(cls, *args)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28a96642ac6a69a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.__new__","kind":"method","src_hash":"2829d666a8b999e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a96642ac6a69a8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.__new__","kind":"method","src_hash":"2829d666a8b999e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, _nocheck)","rhs":"GeometryEntity.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a96642ac6a69a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GeometryEntity.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, _nocheck=False, **kwargs):
         if not _nocheck:
             kwargs['dim'] = 3
@@ -1692,31 +2005,43 @@ class Point3D(Point):
         return GeometryEntity.__new__(cls, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), item == self) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  item == self                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce6bca3c99c2aa3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.__contains__","kind":"method","src_hash":"e4469d296e72117f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce6bca3c99c2aa3e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.__contains__","kind":"method","src_hash":"e4469d296e72117f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"item == self","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns item == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce6bca3c99c2aa3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"item == self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         return item == self
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(are_collinear(*po), is a sequence of points collinear?) over Any ║
+# ║ Path(are_collinear(*points), Point.is_collinear(*points)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.is_collinear(*points)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ are_collinear : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfc35717dc1cf8e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.are_collinear","kind":"staticmethod","src_hash":"8715eed061b1b295","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_collinear(*po)","rhs":"is a sequence of points collinear?","over":{"base":"Any"},"name":"are_collinear_correct"},"guarantee":"is a sequence of points collinear?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfc35717dc1cf8e3"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.are_collinear","kind":"staticmethod","src_hash":"8715eed061b1b295","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_collinear(*points)","rhs":"Point.is_collinear(*points)","over":{"base":"Any"},"name":"are_collinear_correct"},"guarantee":"returns Point.is_collinear(*points)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfc35717dc1cf8e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.is_collinear(*points)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def are_collinear(*points):
         """Is a sequence of points collinear?
 
@@ -1753,16 +2078,25 @@ class Point3D(Point):
         return Point.is_collinear(*points)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(direction_cosine(poi), gives the direction cosine between 2 points) over Any ║
+# ║ Path(direction_cosine(point), [(point.x - self.x) / b, (point.y - self.y) / b, (point.z - self.z) / b]) over {Any | hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ direction_cosine : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'x')                            ║
+# ║   requires: hasattr(point, 'y')                            ║
+# ║   requires: hasattr(point, 'z')                            ║
+# ║   returns:  [(point.x - self.x) / b, (point.y - self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ direction_cosine : {Any | hasattr(point, 'x') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f93b3235be8ea27d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e40f91032960ef7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.direction_cosine","kind":"method","src_hash":"f30dd0aee87c3efb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction_cosine(poi)","rhs":"gives the direction cosine between 2 points","over":{"base":"Any"},"name":"direction_cosine_correct"},"guarantee":"gives the direction cosine between 2 points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point3D.direction_cosine_correct","statement":"Path(direction_cosine(x), gives the direction cosine between 2 points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f93b3235be8ea27d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.direction_cosine","kind":"method","src_hash":"f30dd0aee87c3efb","in":{"base":"Any","pred":"hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"direction_cosine(point)","rhs":"[(point.x - self.x) / b, (point.y - self.y) / b, (point.z - self.z) / b]","over":{"base":"Any","pred":"hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'z')"},"name":"direction_cosine_correct"},"guarantee":"returns [(point.x - self.x) / b, (point.y - self.y) / b, (point.z - self.z) / b]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point3D.direction_cosine_correct","statement":"Path(direction_cosine(x), returns [(point.x - self.x) / b, (point.y - self.y) / b, (point.z - self.z) / b])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e40f91032960ef7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'x')","hasattr(point, 'y')","hasattr(point, 'z')"],"returns_expr":"[(point.x - self.x) / b, (point.y - self.y) / b, (point.z - self.z) / b]","pure":false,"effects":{"effect_type":"reads_state","reads":["point.x","point.y","point.z","self.direction_ratio","self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def direction_cosine(self, point):
         """
         Gives the direction cosine between 2 points
@@ -1791,16 +2125,25 @@ class Point3D(Point):
                 (point.z - self.z) / b]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(direction_ratio(poi), gives the direction ratio between 2 points) over Any ║
+# ║ Path(direction_ratio(point), [point.x - self.x, point.y - self.y, point.z - self.z]) over {Any | hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ direction_ratio : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'x')                            ║
+# ║   requires: hasattr(point, 'y')                            ║
+# ║   requires: hasattr(point, 'z')                            ║
+# ║   returns:  [point.x - self.x, point.y - self.y, poin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ direction_ratio : {Any | hasattr(point, 'x') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58b8adf2b4f6c248           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.direction_ratio","kind":"method","src_hash":"490b3f28bee319ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction_ratio(poi)","rhs":"gives the direction ratio between 2 points","over":{"base":"Any"},"name":"direction_ratio_correct"},"guarantee":"gives the direction ratio between 2 points","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58b8adf2b4f6c248"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.direction_ratio","kind":"method","src_hash":"490b3f28bee319ea","in":{"base":"Any","pred":"hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"direction_ratio(point)","rhs":"[point.x - self.x, point.y - self.y, point.z - self.z]","over":{"base":"Any","pred":"hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'z')"},"name":"direction_ratio_correct"},"guarantee":"returns [point.x - self.x, point.y - self.y, point.z - self.z]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58b8adf2b4f6c248","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'x')","hasattr(point, 'y')","hasattr(point, 'z')"],"returns_expr":"[point.x - self.x, point.y - self.y, point.z - self.z]","pure":false,"effects":{"effect_type":"reads_state","reads":["point.x","point.y","point.z","self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def direction_ratio(self, point):
         """
         Gives the direction ratio between 2 points
@@ -1826,16 +2169,23 @@ class Point3D(Point):
         return [(point.x - self.x),(point.y - self.y),(point.z - self.z)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(oth), the intersection between this point and another geometryentity) over Any ║
+# ║ Path(intersection(other), <unspecified:intersection>) over {Any | hasattr(other, 'intersection')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'intersection')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(other, 'intersection')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44e6d292e75d357e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.intersection","kind":"method","src_hash":"2f0c18a88b2756ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(oth)","rhs":"the intersection between this point and another geometryentity","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection between this point and another geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point3D.intersection_correct","statement":"Path(intersection(x), the intersection between this point and another geometryentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44e6d292e75d357e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.intersection","kind":"method","src_hash":"2f0c18a88b2756ba","in":{"base":"Any","pred":"hasattr(other, 'intersection')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(other)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(other, 'intersection')"},"name":"intersection_correct"},"guarantee":"the intersection between this point and another geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.point.Point3D.intersection_correct","statement":"Path(intersection(x), the intersection between this point and another geometryentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44e6d292e75d357e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'intersection')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.intersection"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, other):
         """The intersection between this point and another GeometryEntity.
 
@@ -1875,16 +2225,23 @@ class Point3D(Point):
         return other.intersection(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, z), id) over {Any | hasattr(pt, 'args')}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a7461a97fe7af3ed   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.scale","kind":"method","src_hash":"330f6ac520fd7679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"scale the coordinates of the point by multiplying by ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) -- and then adding ``pt`` back again (i.e","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"scale the coordinates of the point by multiplying by ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) -- and then adding ``pt`` back again (i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7461a97fe7af3ed"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.scale","kind":"method","src_hash":"330f6ac520fd7679","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, z)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"scale the coordinates of the point by multiplying by ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) -- and then adding ``pt`` back again (i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7461a97fe7af3ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.translate","self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, z=1, pt=None):
         """Scale the coordinates of the Point by multiplying by
         ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) --
@@ -1913,16 +2270,25 @@ class Point3D(Point):
         return Point3D(self.x*x, self.y*y, self.z*z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transform(mat), id) over Any                          ║
+# ║ Path(transform(matrix), id) over {Any | matrix.is_Matrix and matrix.shape == (4, 4) and hasattr(matrix, 'is_Matrix') and hasattr(matrix, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transform : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: matrix.is_Matrix and matrix.shape == (4, 4)    ║
+# ║   requires: hasattr(matrix, 'is_Matrix')                   ║
+# ║   requires: hasattr(matrix, 'shape')                       ║
+# ║   returns:  Point3D(*(Matrix(1, 4, [x, y, z, 1]) * m)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transform : {Any | matrix.is_Matrix and matrix.shape ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b945999d506af3bf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.transform","kind":"method","src_hash":"0912c8705ba3685e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transform(mat)","rhs":"return the point after applying the transformation described by the 4x4 matrix, ``matrix``","over":{"base":"Any"},"name":"transform_correct","kind":"composition"},"guarantee":"return the point after applying the transformation described by the 4x4 matrix, ``matrix``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point3D","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b945999d506af3bf"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.transform","kind":"method","src_hash":"0912c8705ba3685e","in":{"base":"Any","pred":"matrix.is_Matrix and matrix.shape == (4, 4) and hasattr(matrix, 'is_Matrix') and hasattr(matrix, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"transform(matrix)","rhs":"Point3D(*(Matrix(1, 4, [x, y, z, 1]) * m).tolist()[0][:3])","over":{"base":"Any","pred":"matrix.is_Matrix and matrix.shape == (4, 4) and hasattr(matrix, 'is_Matrix') and hasattr(matrix, 'shape')"},"name":"transform_correct","kind":"composition"},"guarantee":"returns Point3D(*(Matrix(1, 4, [x, y, z, 1]) * m).tolist()[0][:3])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point3D","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b945999d506af3bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["matrix.is_Matrix and matrix.shape == (4, 4)","hasattr(matrix, 'is_Matrix')","hasattr(matrix, 'shape')"],"returns_expr":"Point3D(*(Matrix(1, 4, [x, y, z, 1]) * m).tolist()[0][:3])","pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.is_Matrix","matrix.shape","self.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transform(self, matrix):
         """Return the point after applying the transformation described
         by the 4x4 Matrix, ``matrix``.
@@ -1939,16 +2305,22 @@ class Point3D(Point):
         return Point3D(*(Matrix(1, 4, [x, y, z, 1])*m).tolist()[0][:3])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translate(x, ), shift the point by adding x and y to the coordinates of the point) over Any ║
+# ║ Path(translate(x, y, z), Point3D(self.x + x, self.y + y, self.z + z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point3D(self.x + x, self.y + y, self.z + z)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14cd2b9c07118170           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.translate","kind":"method","src_hash":"0eb285f06df4cf96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, )","rhs":"shift the point by adding x and y to the coordinates of the point","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"shift the point by adding x and y to the coordinates of the point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14cd2b9c07118170"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.translate","kind":"method","src_hash":"0eb285f06df4cf96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, y, z)","rhs":"Point3D(self.x + x, self.y + y, self.z + z)","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"returns Point3D(self.x + x, self.y + y, self.z + z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14cd2b9c07118170","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point3D(self.x + x, self.y + y, self.z + z)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def translate(self, x=0, y=0, z=0):
         """Shift the Point by adding x and y to the coordinates of the Point.
 
@@ -1974,16 +2346,22 @@ class Point3D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coordinates(), returns the coordinates attribute) over Any ║
+# ║ Path(coordinates(), self.args) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coordinates : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4017602a6c665d4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.coordinates","kind":"property","src_hash":"e9ffd87c15b98a93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coordinates()","rhs":"returns the coordinates attribute","over":{"base":"Any"},"name":"coordinates_correct"},"guarantee":"returns the coordinates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4017602a6c665d4c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.coordinates","kind":"property","src_hash":"e9ffd87c15b98a93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coordinates()","rhs":"self.args","over":{"base":"Any"},"name":"coordinates_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4017602a6c665d4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coordinates(self):
         """
         Returns the three coordinates of the Point.
@@ -2000,16 +2378,22 @@ class Point3D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), self.args[0]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 042cb50e7692c16a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.x","kind":"property","src_hash":"ed57c948c95308b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"042cb50e7692c16a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.x","kind":"property","src_hash":"ed57c948c95308b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"self.args[0]","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"042cb50e7692c16a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """
         Returns the X coordinate of the Point.
@@ -2026,16 +2410,22 @@ class Point3D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(y(), returns the y attribute) over Any                ║
+# ║ Path(y(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ y : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 900c932a6e94dea4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.y","kind":"property","src_hash":"ffc25b0795da2669","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"returns the y attribute","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns the y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"900c932a6e94dea4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.y","kind":"property","src_hash":"ffc25b0795da2669","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"self.args[1]","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"900c932a6e94dea4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def y(self):
         """
         Returns the Y coordinate of the Point.
@@ -2052,16 +2442,22 @@ class Point3D(Point):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z(), returns the z attribute) over Any                ║
+# ║ Path(z(), self.args[2]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ z : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dab40d6704098298           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.z","kind":"property","src_hash":"2bb986d0eb10feeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"returns the z attribute","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns the z attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dab40d6704098298"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.point.Point3D.z","kind":"property","src_hash":"2bb986d0eb10feeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"self.args[2]","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dab40d6704098298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def z(self):
         """
         Returns the Z coordinate of the Point.

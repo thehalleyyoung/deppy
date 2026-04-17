@@ -19,16 +19,22 @@ from sympy.ntheory.partitions_ import npartitions, _partition_rec, _partition
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__partition_rec(), test__partition_rec produces the expected output) over Any ║
+# ║ Path(test__partition_rec(), <unspecified:test__partition_rec>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test__partition_rec : Any → {Any | _partition_rec(n) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba7ef411964fdadd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_partitions.test__partition_rec","kind":"function","src_hash":"d281961cb6a4c4b5","in":{"base":"Any"},"out":{"base":"Any","pred":"_partition_rec(n) == val"},"spec":{"lhs":"test__partition_rec()","rhs":"test__partition_rec produces the expected output","over":{"base":"Any"},"name":"test__partition_rec_correct"},"guarantee":"test__partition_rec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_partitions.test__partition_rec_correct","statement":"Path(test__partition_rec(x), test__partition_rec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7ef411964fdadd"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_partitions.test__partition_rec","kind":"function","src_hash":"d281961cb6a4c4b5","in":{"base":"Any"},"out":{"base":"Any","pred":"_partition_rec(n) == val"},"spec":{"lhs":"test__partition_rec()","rhs":"<unspecified:test__partition_rec>","over":{"base":"Any"},"name":"test__partition_rec_correct"},"guarantee":"test__partition_rec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_partitions.test__partition_rec_correct","statement":"Path(test__partition_rec(x), test__partition_rec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7ef411964fdadd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__partition_rec():
     A000041 = [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101, 135,
                176, 231, 297, 385, 490, 627, 792, 1002, 1255, 1575]
@@ -37,16 +43,24 @@ def test__partition_rec():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__partition(), test__partition produces the expected output) over Any ║
+# ║ Path(test__partition(), [_partition(k) for k in range(13)] == [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77] and _partition(100) == 190569292 and _partition(200) == 3972999029388 and _partition(1000) == 24061467864032622473692149727991 and _partition(1001) == 25032297938763929621013218349796 and _partition(2000) == 4720819175619413888601432406799959512200344166 and _partition(10000) % 10 ** 10 == 6916435144 and _partition(100000) % 10 ** 10 == 9421098519 and _partition(10000000) % 10 ** 10 == 7677288980) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__partition : Any → {Any | _partition(100) == 190...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [_partition(k) for k in range(13)] == [1,...   ║
+# ║   ensures:  _partition(100) == 190569292                   ║
+# ║   ensures:  _partition(200) == 3972999029388               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__partition : Any → {Any | result satisfies: [_pa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d22d55a8f5eecaba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc78ad25e3ab4c66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_partitions.test__partition","kind":"function","src_hash":"69370c5420d32f50","in":{"base":"Any"},"out":{"base":"Any","pred":"_partition(100) == 190569292 and _partition(200) == 3972999029388 and _partition(1000) == 24061467864032622473692149727991 and _partition(1001) == 25032297938763929621013218349796 and _partition(2000) == 4720819175619413888601432406799959512200344166 and _partition(10000) % 10 ** 10 == 6916435144 and _partition(100000) % 10 ** 10 == 9421098519 and _partition(10000000) % 10 ** 10 == 7677288980"},"spec":{"lhs":"test__partition()","rhs":"test__partition produces the expected output","over":{"base":"Any"},"name":"test__partition_correct"},"guarantee":"test__partition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_partitions.test__partition_correct","statement":"Path(test__partition(x), test__partition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d22d55a8f5eecaba"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_partitions.test__partition","kind":"function","src_hash":"69370c5420d32f50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [_partition(k) for k in range(13)] == [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77] and _partition(100) == 190569292 and _partition(200) == 3972999029388 and _partition(1000) == 24061467864032622473692149727991 and _partition(1001) == 25032297938763929621013218349796 and _partition(2000) == 4720819175619413888601432406799959512200344166 and _partition(10000) % 10 ** 10 == 6916435144 and _partition(100000) % 10 ** 10 == 9421098519 and _partition(10000000) % 10 ** 10 == 7677288980"},"spec":{"lhs":"test__partition()","rhs":"[_partition(k) for k in range(13)] == [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77] and _partition(100) == 190569292 and _partition(200) == 3972999029388 and _partition(1000) == 24061467864032622473692149727991 and _partition(1001) == 25032297938763929621013218349796 and _partition(2000) == 4720819175619413888601432406799959512200344166 and _partition(10000) % 10 ** 10 == 6916435144 and _partition(100000) % 10 ** 10 == 9421098519 and _partition(10000000) % 10 ** 10 == 7677288980","over":{"base":"Any"},"name":"test__partition_correct"},"guarantee":"[_partition(k) for k in range(13)] == [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77]; _partition(100) == 190569292; _partition(200) == 3972999029388","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_partitions.test__partition_correct","statement":"Path(test__partition(x), [_partition(k) for k in range(13)] == [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77]; _partition(100) == 190569292; _partition(200) == 3972999029388)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc78ad25e3ab4c66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[_partition(k) for k in range(13)] == [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77]","_partition(100) == 190569292","_partition(200) == 3972999029388","_partition(1000) == 24061467864032622473692149727991","_partition(1001) == 25032297938763929621013218349796","_partition(2000) == 4720819175619413888601432406799959512200344166","_partition(10000) % 10 ** 10 == 6916435144","_partition(100000) % 10 ** 10 == 9421098519","_partition(10000000) % 10 ** 10 == 7677288980"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__partition():
     assert [_partition(k) for k in range(13)] == \
         [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77]
@@ -61,16 +75,22 @@ def test__partition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_ntheory_symbolic_functions(), test_deprecated_ntheory_symbolic_functions produces the expected output) over Any ║
+# ║ Path(test_deprecated_ntheory_symbolic_functions(), <unspecified:test_deprecated_ntheory_symbolic_functions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_ntheory_symbolic_functions : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ac47f3165867386  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_partitions.test_deprecated_ntheory_symbolic_functions","kind":"function","src_hash":"c84d9c5ea32b3579","in":{"base":"Any"},"out":{"base":"Any","pred":"npartitions(0) == 1"},"spec":{"lhs":"test_deprecated_ntheory_symbolic_functions()","rhs":"test_deprecated_ntheory_symbolic_functions produces the expected output","over":{"base":"Any"},"name":"test_deprecated_ntheory_symbolic_functions_correct"},"guarantee":"test_deprecated_ntheory_symbolic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_partitions.test_deprecated_ntheory_symbolic_functions_correct","statement":"Path(test_deprecated_ntheory_symbolic_functions(x), test_deprecated_ntheory_symbolic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ac47f3165867386"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_partitions.test_deprecated_ntheory_symbolic_functions","kind":"function","src_hash":"c84d9c5ea32b3579","in":{"base":"Any"},"out":{"base":"Any","pred":"npartitions(0) == 1"},"spec":{"lhs":"test_deprecated_ntheory_symbolic_functions()","rhs":"<unspecified:test_deprecated_ntheory_symbolic_functions>","over":{"base":"Any"},"name":"test_deprecated_ntheory_symbolic_functions_correct"},"guarantee":"test_deprecated_ntheory_symbolic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_partitions.test_deprecated_ntheory_symbolic_functions_correct","statement":"Path(test_deprecated_ntheory_symbolic_functions(x), test_deprecated_ntheory_symbolic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ac47f3165867386","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_ntheory_symbolic_functions():
     from sympy.testing.pytest import warns_deprecated_sympy
 

@@ -25,16 +25,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing(), test_printing produces the expected output) over Any ║
+# ║ Path(test_printing(), str(homomorphism(R.free_module(1), R.free_module(1), [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1' and str(homomorphism(R.free_module(2), R.free_module(2), [0, 0])) == 'Matrix([                       \n[0, 0], : QQ[x]**2 -> QQ[x]**2\n[0, 0]])                       ' and str(homomorphism(R.free_module(1), R.free_module(1) / [[x]], [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1/<[x]>' and str(R.free_module(0).identity_hom()) == 'Matrix(0, 0, []) : QQ[x]**0 -> QQ[x]**0') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printing : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(homomorphism(R.free_module(1), R.free...   ║
+# ║   ensures:  str(homomorphism(R.free_module(2), R.free...   ║
+# ║   ensures:  str(homomorphism(R.free_module(1), R.free...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printing : Any → {Any | result satisfies: str(ho...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a4b6b94d357d0f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c64cc5c117e25374  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_printing","kind":"function","src_hash":"834429a177b70ff5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing()","rhs":"test_printing produces the expected output","over":{"base":"Any"},"name":"test_printing_correct"},"guarantee":"test_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_printing_correct","statement":"Path(test_printing(x), test_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a4b6b94d357d0f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_printing","kind":"function","src_hash":"834429a177b70ff5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(homomorphism(R.free_module(1), R.free_module(1), [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1' and str(homomorphism(R.free_module(2), R.free_module(2), [0, 0])) == 'Matrix([                       \\n[0, 0], : QQ[x]**2 -> QQ[x]**2\\n[0, 0]])                       ' and str(homomorphism(R.free_module(1), R.free_module(1) / [[x]], [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1/<[x]>' and str(R.free_module(0).identity_hom()) == 'Matrix(0, 0, []) : QQ[x]**0 -> QQ[x]**0'"},"spec":{"lhs":"test_printing()","rhs":"str(homomorphism(R.free_module(1), R.free_module(1), [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1' and str(homomorphism(R.free_module(2), R.free_module(2), [0, 0])) == 'Matrix([                       \\n[0, 0], : QQ[x]**2 -> QQ[x]**2\\n[0, 0]])                       ' and str(homomorphism(R.free_module(1), R.free_module(1) / [[x]], [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1/<[x]>' and str(R.free_module(0).identity_hom()) == 'Matrix(0, 0, []) : QQ[x]**0 -> QQ[x]**0'","over":{"base":"Any"},"name":"test_printing_correct"},"guarantee":"str(homomorphism(R.free_module(1), R.free_module(1), [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1'; str(homomorphism(R.free_module(2), R.free_module(2), [0, 0])) == 'Matrix([                       \\n[0, 0], : QQ[x]**2 -> QQ[x]**2\\n[0, 0]])                       '; str(homomorphism(R.free_module(1), R.free_module(1) / [[x]], [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1/<[x]>'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_printing_correct","statement":"Path(test_printing(x), str(homomorphism(R.free_module(1), R.free_module(1), [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1'; str(homomorphism(R.free_module(2), R.free_module(2), [0, 0])) == 'Matrix([                       \\n[0, 0], : QQ[x]**2 -> QQ[x]**2\\n[0, 0]])                       '; str(homomorphism(R.free_module(1), R.free_module(1) / [[x]], [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1/<[x]>')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c64cc5c117e25374","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(homomorphism(R.free_module(1), R.free_module(1), [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1'","str(homomorphism(R.free_module(2), R.free_module(2), [0, 0])) == 'Matrix([                       \\n[0, 0], : QQ[x]**2 -> QQ[x]**2\\n[0, 0]])                       '","str(homomorphism(R.free_module(1), R.free_module(1) / [[x]], [0])) == 'Matrix([[0]]) : QQ[x]**1 -> QQ[x]**1/<[x]>'","str(R.free_module(0).identity_hom()) == 'Matrix(0, 0, []) : QQ[x]**0 -> QQ[x]**0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printing():
     R = QQ.old_poly_ring(x)
 
@@ -47,16 +55,24 @@ def test_printing():
     assert str(R.free_module(0).identity_hom()) == 'Matrix(0, 0, []) : QQ[x]**0 -> QQ[x]**0'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operations(), test_operations produces the expected output) over Any ║
+# ║ Path(test_operations(), f == f and f != g and f != i and (f != F.identity_hom()) is False and 2 * f == f * 2 == homomorphism(F, F, [[2, 0], [0, 2]]) and f / 2 == homomorphism(F, F, [[S.Half, 0], [0, S.Half]]) and f + g == homomorphism(F, F, [[1, 0], [1, x + 1]]) and f - g == homomorphism(F, F, [[1, 0], [-1, 1 - x]]) and f * g == g == g * f and h * g == homomorphism(F, F, [0, [1, 0]]) and g * h == homomorphism(F, F, [0, 0]) and i * f == i and f([1, 2]) == [1, 2] and g([1, 2]) == [2, 2 * x] and i.restrict_domain(F.submodule([x, x]))([x, x]) == i([x, x]) and h1([1, 0]) == h([1, 0]) and h1.restrict_domain(h1.domain.submodule([x, 0]))([x, 0]) == h([x, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operations : Any → {Any | f == f and f != g and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == f                                         ║
+# ║   ensures:  f != g                                         ║
+# ║   ensures:  f != i                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operations : Any → {Any | result satisfies: f ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6fca8611adadc59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c421f838215ac1ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_operations","kind":"function","src_hash":"cba36dbcd5cb4e6b","in":{"base":"Any"},"out":{"base":"Any","pred":"f == f and f != g and f != i and (f != F.identity_hom()) is False and 2 * f == f * 2 == homomorphism(F, F, [[2, 0], [0, 2]]) and f / 2 == homomorphism(F, F, [[S.Half, 0], [0, S.Half]]) and f + g == homomorphism(F, F, [[1, 0], [1, x + 1]]) and f - g == homomorphism(F, F, [[1, 0], [-1, 1 - x]]) and f * g == g == g * f and h * g == homomorphism(F, F, [0, [1, 0]]) and g * h == homomorphism(F, F, [0, 0]) and i * f == i and f([1, 2]) == [1, 2] and g([1, 2]) == [2, 2 * x] and i.restrict_domain(F.submodule([x, x]))([x, x]) == i([x, x]) and h1([1, 0]) == h([1, 0]) and h1.restrict_domain(h1.domain.submodule([x, 0]))([x, 0]) == h([x, 0])"},"spec":{"lhs":"test_operations()","rhs":"test_operations produces the expected output","over":{"base":"Any"},"name":"test_operations_correct"},"guarantee":"test_operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_operations_correct","statement":"Path(test_operations(x), test_operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6fca8611adadc59"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_operations","kind":"function","src_hash":"cba36dbcd5cb4e6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f == f and f != g and f != i and (f != F.identity_hom()) is False and 2 * f == f * 2 == homomorphism(F, F, [[2, 0], [0, 2]]) and f / 2 == homomorphism(F, F, [[S.Half, 0], [0, S.Half]]) and f + g == homomorphism(F, F, [[1, 0], [1, x + 1]]) and f - g == homomorphism(F, F, [[1, 0], [-1, 1 - x]]) and f * g == g == g * f and h * g == homomorphism(F, F, [0, [1, 0]]) and g * h == homomorphism(F, F, [0, 0]) and i * f == i and f([1, 2]) == [1, 2] and g([1, 2]) == [2, 2 * x] and i.restrict_domain(F.submodule([x, x]))([x, x]) == i([x, x]) and h1([1, 0]) == h([1, 0]) and h1.restrict_domain(h1.domain.submodule([x, 0]))([x, 0]) == h([x, 0])"},"spec":{"lhs":"test_operations()","rhs":"f == f and f != g and f != i and (f != F.identity_hom()) is False and 2 * f == f * 2 == homomorphism(F, F, [[2, 0], [0, 2]]) and f / 2 == homomorphism(F, F, [[S.Half, 0], [0, S.Half]]) and f + g == homomorphism(F, F, [[1, 0], [1, x + 1]]) and f - g == homomorphism(F, F, [[1, 0], [-1, 1 - x]]) and f * g == g == g * f and h * g == homomorphism(F, F, [0, [1, 0]]) and g * h == homomorphism(F, F, [0, 0]) and i * f == i and f([1, 2]) == [1, 2] and g([1, 2]) == [2, 2 * x] and i.restrict_domain(F.submodule([x, x]))([x, x]) == i([x, x]) and h1([1, 0]) == h([1, 0]) and h1.restrict_domain(h1.domain.submodule([x, 0]))([x, 0]) == h([x, 0])","over":{"base":"Any"},"name":"test_operations_correct"},"guarantee":"f == f; f != g; f != i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_operations_correct","statement":"Path(test_operations(x), f == f; f != g; f != i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c421f838215ac1ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == f","f != g","f != i","(f != F.identity_hom()) is False","2 * f == f * 2 == homomorphism(F, F, [[2, 0], [0, 2]])","f / 2 == homomorphism(F, F, [[S.Half, 0], [0, S.Half]])","f + g == homomorphism(F, F, [[1, 0], [1, x + 1]])","f - g == homomorphism(F, F, [[1, 0], [-1, 1 - x]])","f * g == g == g * f","h * g == homomorphism(F, F, [0, [1, 0]])","g * h == homomorphism(F, F, [0, 0])","i * f == i","f([1, 2]) == [1, 2]","g([1, 2]) == [2, 2 * x]","i.restrict_domain(F.submodule([x, x]))([x, x]) == i([x, x])","h1([1, 0]) == h([1, 0])","h1.restrict_domain(h1.domain.submodule([x, 0]))([x, 0]) == h([x, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_operations():
     F = QQ.old_poly_ring(x).free_module(2)
     G = QQ.old_poly_ring(x).free_module(3)
@@ -93,16 +109,24 @@ def test_operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_creation(), test_creation produces the expected output) over Any ║
+# ║ Path(test_creation(), h.quotient_domain(SM) == h2 and h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix) and SM.inclusion_hom() == homomorphism(SM, F, im) and SQ.inclusion_hom() == homomorphism(SQ, Q, im) and Q.quotient_hom() == homomorphism(F, Q, im) and SQ.quotient_hom() == homomorphism(SQ.base, SQ, im)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_creation : Any → {Any | h.quotient_domain(SM) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h.quotient_domain(SM) == h2                    ║
+# ║   ensures:  h2.restrict_domain(SQ) == homomorphism(SQ...   ║
+# ║   ensures:  SM.inclusion_hom() == homomorphism(SM, F,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_creation : Any → {Any | result satisfies: h.quot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0df30ca6e545b11d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7285818d5d8cbca2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_creation","kind":"function","src_hash":"6ccb65236f7b55eb","in":{"base":"Any"},"out":{"base":"Any","pred":"h.quotient_domain(SM) == h2 and h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix) and SM.inclusion_hom() == homomorphism(SM, F, im) and SQ.inclusion_hom() == homomorphism(SQ, Q, im) and Q.quotient_hom() == homomorphism(F, Q, im) and SQ.quotient_hom() == homomorphism(SQ.base, SQ, im) and M.identity_hom() == homomorphism(M, M, im)"},"spec":{"lhs":"test_creation()","rhs":"test_creation produces the expected output","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"test_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_creation_correct","statement":"Path(test_creation(x), test_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0df30ca6e545b11d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_creation","kind":"function","src_hash":"6ccb65236f7b55eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h.quotient_domain(SM) == h2 and h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix) and SM.inclusion_hom() == homomorphism(SM, F, im) and SQ.inclusion_hom() == homomorphism(SQ, Q, im) and Q.quotient_hom() == homomorphism(F, Q, im) and SQ.quotient_hom() == homomorphism(SQ.base, SQ, im)"},"spec":{"lhs":"test_creation()","rhs":"h.quotient_domain(SM) == h2 and h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix) and SM.inclusion_hom() == homomorphism(SM, F, im) and SQ.inclusion_hom() == homomorphism(SQ, Q, im) and Q.quotient_hom() == homomorphism(F, Q, im) and SQ.quotient_hom() == homomorphism(SQ.base, SQ, im)","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"h.quotient_domain(SM) == h2; h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix); SM.inclusion_hom() == homomorphism(SM, F, im)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_creation_correct","statement":"Path(test_creation(x), h.quotient_domain(SM) == h2; h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix); SM.inclusion_hom() == homomorphism(SM, F, im))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7285818d5d8cbca2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h.quotient_domain(SM) == h2","h2.restrict_domain(SQ) == homomorphism(SQ, G, matrix)","SM.inclusion_hom() == homomorphism(SM, F, im)","SQ.inclusion_hom() == homomorphism(SQ, Q, im)","Q.quotient_hom() == homomorphism(F, Q, im)","SQ.quotient_hom() == homomorphism(SQ.base, SQ, im)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_creation():
     F = QQ.old_poly_ring(x).free_module(3)
     G = QQ.old_poly_ring(x).free_module(2)
@@ -145,16 +169,24 @@ def test_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_properties(), test_properties produces the expected output) over Any ║
+# ║ Path(test_properties(), h.kernel() == F.submodule([-y, x]) and h.image() == F.submodule([x, 0], [y, 0]) and not h.is_injective() and not h.is_surjective() and h.restrict_codomain(h.image()).is_surjective() and h.restrict_domain(F.submodule([1, 0])).is_injective() and h.quotient_domain(h.kernel()).restrict_codomain(h.image()).is_isomorphism() and h.is_isomorphism()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_properties : Any → {Any | h.kernel() == F.submod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h.kernel() == F.submodule([-y, x])             ║
+# ║   ensures:  h.image() == F.submodule([x, 0], [y, 0])       ║
+# ║   ensures:  not h.is_injective()                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_properties : Any → {Any | result satisfies: h.ke...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56f5acf603210ec1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8164ae5ebaa4690  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_properties","kind":"function","src_hash":"487ce6acf8d5d25d","in":{"base":"Any"},"out":{"base":"Any","pred":"h.kernel() == F.submodule([-y, x]) and h.image() == F.submodule([x, 0], [y, 0]) and not h.is_injective() and not h.is_surjective() and h.restrict_codomain(h.image()).is_surjective() and h.restrict_domain(F.submodule([1, 0])).is_injective() and h.quotient_domain(h.kernel()).restrict_codomain(h.image()).is_isomorphism() and h.is_isomorphism()"},"spec":{"lhs":"test_properties()","rhs":"test_properties produces the expected output","over":{"base":"Any"},"name":"test_properties_correct"},"guarantee":"test_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_properties_correct","statement":"Path(test_properties(x), test_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f5acf603210ec1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_homomorphisms.test_properties","kind":"function","src_hash":"487ce6acf8d5d25d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h.kernel() == F.submodule([-y, x]) and h.image() == F.submodule([x, 0], [y, 0]) and not h.is_injective() and not h.is_surjective() and h.restrict_codomain(h.image()).is_surjective() and h.restrict_domain(F.submodule([1, 0])).is_injective() and h.quotient_domain(h.kernel()).restrict_codomain(h.image()).is_isomorphism() and h.is_isomorphism()"},"spec":{"lhs":"test_properties()","rhs":"h.kernel() == F.submodule([-y, x]) and h.image() == F.submodule([x, 0], [y, 0]) and not h.is_injective() and not h.is_surjective() and h.restrict_codomain(h.image()).is_surjective() and h.restrict_domain(F.submodule([1, 0])).is_injective() and h.quotient_domain(h.kernel()).restrict_codomain(h.image()).is_isomorphism() and h.is_isomorphism()","over":{"base":"Any"},"name":"test_properties_correct"},"guarantee":"h.kernel() == F.submodule([-y, x]); h.image() == F.submodule([x, 0], [y, 0]); not h.is_injective()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_homomorphisms.test_properties_correct","statement":"Path(test_properties(x), h.kernel() == F.submodule([-y, x]); h.image() == F.submodule([x, 0], [y, 0]); not h.is_injective())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8164ae5ebaa4690","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h.kernel() == F.submodule([-y, x])","h.image() == F.submodule([x, 0], [y, 0])","not h.is_injective()","not h.is_surjective()","h.restrict_codomain(h.image()).is_surjective()","h.restrict_domain(F.submodule([1, 0])).is_injective()","h.quotient_domain(h.kernel()).restrict_codomain(h.image()).is_isomorphism()","h.is_isomorphism()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_properties():
     R = QQ.old_poly_ring(x, y)
     F = R.free_module(2)

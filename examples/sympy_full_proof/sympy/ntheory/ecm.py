@@ -34,14 +34,19 @@ from .primetest import isprime
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Point instance) preserved by Point(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c945587f48201bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point","kind":"class","src_hash":"5f81abaaa68e9232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any"},"name":"Point_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Point instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'x_cord') and hasattr(self, 'z_cord') and hasattr(self, 'a_24') and hasattr(self, 'mod')","kind":"class","induction":"structural on x_cord, z_cord, a_24, mod"}],"methods_preserving":["__init__","__eq__","add","double","mont_ladder"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c945587f48201bb"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point","kind":"class","src_hash":"5f81abaaa68e9232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any"},"name":"Point_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'x_cord') and hasattr(self, 'z_cord') and hasattr(self, 'a_24') and hasattr(self, 'mod')","kind":"class","induction":"structural on x_cord, z_cord, a_24, mod"}],"methods_preserving":["__init__","__eq__","add","double","mont_ladder"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c945587f48201bb","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'x_cord')","hasattr(self, 'z_cord')","hasattr(self, 'a_24')","hasattr(self, 'mod')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point not found in source"]}}
 class Point:
     """Montgomery form of Points in an elliptic curve.
     In this form, the addition and doubling of points
@@ -66,16 +71,24 @@ class Point:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(x_c), initializes the instance correctly) over Any ║
+# ║ Path(__init__(x_cord, z_cord, a_24), self.x_cord == x_cord and self.z_cord == z_cord and self.a_24 == a_24 and self.mod == mod) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.x_cord == x_cord                          ║
+# ║   ensures:  self.z_cord == z_cord                          ║
+# ║   ensures:  self.a_24 == a_24                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.x_cord...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a31245ccea6e6a8d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.__init__","kind":"method","src_hash":"b04675b352870734","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(x_c)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a31245ccea6e6a8d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.__init__","kind":"method","src_hash":"b04675b352870734","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.x_cord == x_cord and self.z_cord == z_cord and self.a_24 == a_24 and self.mod == mod"},"spec":{"lhs":"__init__(x_cord, z_cord, a_24)","rhs":"self.x_cord == x_cord and self.z_cord == z_cord and self.a_24 == a_24 and self.mod == mod","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.x_cord == x_cord; self.z_cord == z_cord; self.a_24 == a_24","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a31245ccea6e6a8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.x_cord == x_cord","self.z_cord == z_cord","self.a_24 == a_24","self.mod == mod"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, x_cord, z_cord, a_24, mod):
         """
         Initial parameters for the Point class.
@@ -94,16 +107,25 @@ class Point:
         self.mod = mod
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'a_24') and hasattr(other, 'mod') and hasattr(other, 'z_cord') and hasattr(other, 'x_cord')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'a_24')                         ║
+# ║   requires: hasattr(other, 'mod')                          ║
+# ║   requires: hasattr(other, 'z_cord')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'a_24') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e2d1a4caacceb7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.__eq__","kind":"method","src_hash":"36d2dfffd0b67066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e2d1a4caacceb7b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.__eq__","kind":"method","src_hash":"36d2dfffd0b67066","in":{"base":"Any","pred":"hasattr(other, 'a_24') and hasattr(other, 'mod') and hasattr(other, 'z_cord') and hasattr(other, 'x_cord')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'a_24') and hasattr(other, 'mod') and hasattr(other, 'z_cord') and hasattr(other, 'x_cord')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e2d1a4caacceb7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'a_24')","hasattr(other, 'mod')","hasattr(other, 'z_cord')","hasattr(other, 'x_cord')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.a_24","other.mod","other.x_cord","other.z_cord","self.a_24","self.mod","self.x_cord","self.z_cord"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Two points are equal if X/Z of both points are equal
         """
@@ -113,16 +135,25 @@ class Point:
             other.x_cord * self.z_cord % self.mod
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(Q, ), add two points self and q where diff = self - q) over Any ║
+# ║ Path(add(Q, diff), Point(x_cord, z_cord, self.a_24, self.mod)) over {Any | hasattr(Q, 'x_cord') and hasattr(Q, 'z_cord') and hasattr(diff, 'z_cord') and hasattr(diff, 'x_cord')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(Q, 'x_cord')                           ║
+# ║   requires: hasattr(Q, 'z_cord')                           ║
+# ║   requires: hasattr(diff, 'z_cord')                        ║
+# ║   returns:  Point(x_cord, z_cord, self.a_24, self.mod)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : {Any | hasattr(Q, 'x_cord') and hasattr(Q, 'z_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79a9d40e4fa9966a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f2a81edc6eedc71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.add","kind":"method","src_hash":"fe7fe216855cc3d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(Q, )","rhs":"add two points self and q where diff = self - q","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add two points self and q where diff = self - q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.Point.add_correct","statement":"Path(add(x), add two points self and q where diff = self - q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79a9d40e4fa9966a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.add","kind":"method","src_hash":"fe7fe216855cc3d1","in":{"base":"Any","pred":"hasattr(Q, 'x_cord') and hasattr(Q, 'z_cord') and hasattr(diff, 'z_cord') and hasattr(diff, 'x_cord')"},"out":{"base":"Any"},"spec":{"lhs":"add(Q, diff)","rhs":"Point(x_cord, z_cord, self.a_24, self.mod)","over":{"base":"Any","pred":"hasattr(Q, 'x_cord') and hasattr(Q, 'z_cord') and hasattr(diff, 'z_cord') and hasattr(diff, 'x_cord')"},"name":"add_correct"},"guarantee":"returns Point(x_cord, z_cord, self.a_24, self.mod)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.Point.add_correct","statement":"Path(add(x), returns Point(x_cord, z_cord, self.a_24, self.mod))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f2a81edc6eedc71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(Q, 'x_cord')","hasattr(Q, 'z_cord')","hasattr(diff, 'z_cord')","hasattr(diff, 'x_cord')"],"returns_expr":"Point(x_cord, z_cord, self.a_24, self.mod)","pure":false,"effects":{"effect_type":"reads_state","reads":["Q.x_cord","Q.z_cord","diff.x_cord","diff.z_cord","self.a_24","self.mod","self.x_cord","self.z_cord"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, Q, diff):
         """
         Add two points self and Q where diff = self - Q. Moreover the assumption
@@ -161,16 +192,22 @@ class Point:
         return Point(x_cord, z_cord, self.a_24, self.mod)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(double(), doubles a point in an elliptic curve in montgomery form. this algorithm requires 5 multiplications) over Any ║
+# ║ Path(double(), Point(x_cord, z_cord, self.a_24, self.mod)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(x_cord, z_cord, self.a_24, self.mod)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ double : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86fba188e697704e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37cceedae715c4d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.double","kind":"method","src_hash":"b0367a0b0b3dfe3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"double()","rhs":"doubles a point in an elliptic curve in montgomery form. this algorithm requires 5 multiplications","over":{"base":"Any"},"name":"double_correct"},"guarantee":"doubles a point in an elliptic curve in montgomery form. this algorithm requires 5 multiplications","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.Point.double_correct","statement":"Path(double(x), doubles a point in an elliptic curve in montgomery form. this algorithm requires 5 multiplications)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86fba188e697704e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.double","kind":"method","src_hash":"b0367a0b0b3dfe3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"double()","rhs":"Point(x_cord, z_cord, self.a_24, self.mod)","over":{"base":"Any"},"name":"double_correct"},"guarantee":"returns Point(x_cord, z_cord, self.a_24, self.mod)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.Point.double_correct","statement":"Path(double(x), returns Point(x_cord, z_cord, self.a_24, self.mod))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37cceedae715c4d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(x_cord, z_cord, self.a_24, self.mod)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a_24","self.mod","self.x_cord","self.z_cord"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def double(self):
         """
         Doubles a point in an elliptic curve in Montgomery form.
@@ -195,16 +232,22 @@ class Point:
         return Point(x_cord, z_cord, self.a_24, self.mod)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mont_ladder(k), scalar multiplication of a point in montgomery form using montgomery ladder algorithm. a total of 11 multiplications are required in each step of this algorithm) over Any ║
+# ║ Path(mont_ladder(k), <unspecified:mont_ladder>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mont_ladder : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bc40c674da4cb01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.mont_ladder","kind":"method","src_hash":"c90a736b8615cec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mont_ladder(k)","rhs":"scalar multiplication of a point in montgomery form using montgomery ladder algorithm. a total of 11 multiplications are required in each step of this algorithm","over":{"base":"Any"},"name":"mont_ladder_correct"},"guarantee":"scalar multiplication of a point in montgomery form using montgomery ladder algorithm. a total of 11 multiplications are required in each step of this algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.Point.mont_ladder_correct","statement":"Path(mont_ladder(x), scalar multiplication of a point in montgomery form using montgomery ladder algorithm. a total of 11 multiplications are required in each step of this algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bc40c674da4cb01"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.Point.mont_ladder","kind":"method","src_hash":"c90a736b8615cec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mont_ladder(k)","rhs":"<unspecified:mont_ladder>","over":{"base":"Any"},"name":"mont_ladder_correct"},"guarantee":"scalar multiplication of a point in montgomery form using montgomery ladder algorithm. a total of 11 multiplications are required in each step of this algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.Point.mont_ladder_correct","statement":"Path(mont_ladder(x), scalar multiplication of a point in montgomery form using montgomery ladder algorithm. a total of 11 multiplications are required in each step of this algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bc40c674da4cb01","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mont_ladder(self, k):
         """
         Scalar multiplication of a point in Montgomery form
@@ -241,16 +284,22 @@ class Point:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ecm_one_factor(n, ), returns one factor of n using lenstra's 2 stage elliptic curve factorization with suyama's parameterization) over Any ║
+# ║ Path(_ecm_one_factor(n, B1, B2), len(deltas_list) == old_len_deltas_list + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ecm_one_factor : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(deltas_list) == old_len_deltas_list + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ecm_one_factor : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b6d91c1eeacd095  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 892e2b8350293304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm._ecm_one_factor","kind":"function","src_hash":"8f2a313620d26a4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ecm_one_factor(n, )","rhs":"returns one factor of n using lenstra's 2 stage elliptic curve factorization with suyama's parameterization","over":{"base":"Any"},"name":"_ecm_one_factor_correct"},"guarantee":"returns one factor of n using lenstra's 2 stage elliptic curve factorization with suyama's parameterization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm._ecm_one_factor_correct","statement":"Path(_ecm_one_factor(x), returns one factor of n using lenstra's 2 stage elliptic curve factorization with suyama's parameterization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b6d91c1eeacd095"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm._ecm_one_factor","kind":"function","src_hash":"8f2a313620d26a4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(deltas_list) == old_len_deltas_list + 1"},"spec":{"lhs":"_ecm_one_factor(n, B1, B2)","rhs":"len(deltas_list) == old_len_deltas_list + 1","over":{"base":"Any"},"name":"_ecm_one_factor_correct"},"guarantee":"len(deltas_list) == old_len_deltas_list + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm._ecm_one_factor_correct","statement":"Path(_ecm_one_factor(x), len(deltas_list) == old_len_deltas_list + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"892e2b8350293304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(deltas_list) == old_len_deltas_list + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["Q2.add","R.add","deltas_list.append","sieve.extend"],"catches":["ZeroDivisionError"],"nondeterministic_sources":["randint"]},"state_contract":{"modifies":["Q2.*","R.*","deltas_list.*","sieve.*"],"old_bindings":{"old_len_deltas_list":"len(deltas_list)","old_len_sieve":"len(sieve)"},"post_ensures":["len(deltas_list) == old_len_deltas_list + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _ecm_one_factor(n, B1=10000, B2=100000, max_curve=200, seed=None):
     """Returns one factor of n using
     Lenstra's 2 Stage Elliptic curve Factorization
@@ -387,16 +436,25 @@ def _ecm_one_factor(n, B1=10000, B2=100000, max_curve=200, seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ecm(n, ), performs factorization using lenstra's elliptic curve method) over Any ║
+# ║ Path(ecm(n, B1, B2), len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1) over {Any | not (B1 % 2 != 0 or B2 % 2 != 0) and len(queue) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ecm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (B1 % 2 != 0 or B2 % 2 != 0)               ║
+# ║   requires: len(queue) > 0                                 ║
+# ║   ensures:  len(queue) == old_len_queue + 1                ║
+# ║   ensures:  len(queue) == old_len_queue - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ecm : {Any | not (B1 % 2 != 0 or B2 % 2 != 0) and len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45e071337946bdfa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a40e6d2e812bc28d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.ecm","kind":"function","src_hash":"999328b0331136fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ecm(n, )","rhs":"performs factorization using lenstra's elliptic curve method","over":{"base":"Any"},"name":"ecm_correct"},"guarantee":"performs factorization using lenstra's elliptic curve method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.ecm_correct","statement":"Path(ecm(x), performs factorization using lenstra's elliptic curve method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45e071337946bdfa"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.ecm.ecm","kind":"function","src_hash":"999328b0331136fc","in":{"base":"Any","pred":"not (B1 % 2 != 0 or B2 % 2 != 0) and len(queue) > 0"},"out":{"base":"Any","pred":"result satisfies: len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1"},"spec":{"lhs":"ecm(n, B1, B2)","rhs":"len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1","over":{"base":"Any","pred":"not (B1 % 2 != 0 or B2 % 2 != 0) and len(queue) > 0"},"name":"ecm_correct"},"guarantee":"len(queue) == old_len_queue + 1; len(queue) == old_len_queue - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.ecm.ecm_correct","statement":"Path(ecm(x), len(queue) == old_len_queue + 1; len(queue) == old_len_queue - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a40e6d2e812bc28d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (B1 % 2 != 0 or B2 % 2 != 0)","len(queue) > 0"],"ensures":["len(queue) == old_len_queue + 1","len(queue) == old_len_queue - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["factors.add","queue.append","queue.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["factors.*","queue.*"],"old_bindings":{"old_len_queue":"len(queue)"},"pre_requires":["len(queue) > 0"],"post_ensures":["len(queue) == old_len_queue + 1","len(queue) == old_len_queue - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def ecm(n, B1=10000, B2=100000, max_curve=200, seed=1234):
     """Performs factorization using Lenstra's Elliptic curve method.
 

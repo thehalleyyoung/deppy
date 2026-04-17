@@ -29,16 +29,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dft_creation(), test_dft_creation produces the expected output) over Any ║
+# ║ Path(test_dft_creation(), DFT(2) and DFT(0) and DFT(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dft_creation : Any → {Any | DFT(2) and DFT(0) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DFT(2)                                         ║
+# ║   ensures:  DFT(0)                                         ║
+# ║   ensures:  DFT(n)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dft_creation : Any → {Any | result satisfies: DF...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3097bbc8678fa206  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4f0064f55984cbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_fourier.test_dft_creation","kind":"function","src_hash":"c7cdcaabff6c6f0f","in":{"base":"Any"},"out":{"base":"Any","pred":"DFT(2) and DFT(0) and DFT(n)"},"spec":{"lhs":"test_dft_creation()","rhs":"test_dft_creation produces the expected output","over":{"base":"Any"},"name":"test_dft_creation_correct"},"guarantee":"test_dft_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_fourier.test_dft_creation_correct","statement":"Path(test_dft_creation(x), test_dft_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3097bbc8678fa206"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_fourier.test_dft_creation","kind":"function","src_hash":"c7cdcaabff6c6f0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DFT(2) and DFT(0) and DFT(n)"},"spec":{"lhs":"test_dft_creation()","rhs":"DFT(2) and DFT(0) and DFT(n)","over":{"base":"Any"},"name":"test_dft_creation_correct"},"guarantee":"DFT(2); DFT(0); DFT(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_fourier.test_dft_creation_correct","statement":"Path(test_dft_creation(x), DFT(2); DFT(0); DFT(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4f0064f55984cbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DFT(2)","DFT(0)","DFT(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dft_creation():
     assert DFT(2)
     assert DFT(0)
@@ -55,16 +63,24 @@ def test_dft_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dft(), test_dft produces the expected output) over Any ║
+# ║ Path(test_dft(), DFT(4).shape == (4, 4) and ask(Q.unitary(DFT(4))) and Abs(simplify(det(Matrix(DFT(4))))) == 1 and DFT(n) * IDFT(n) == Identity(n) and DFT(n)[i, j] == exp(-2 * S.Pi * I / n) ** (i * j) / sqrt(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dft : Any → {Any | DFT(4).shape == (4, 4) and as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DFT(4).shape == (4, 4)                         ║
+# ║   ensures:  ask(Q.unitary(DFT(4)))                         ║
+# ║   ensures:  Abs(simplify(det(Matrix(DFT(4))))) == 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dft : Any → {Any | result satisfies: DFT(4).shap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2573b9267317ee2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa312af681d02365  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_fourier.test_dft","kind":"function","src_hash":"e07369bcf88edaa4","in":{"base":"Any"},"out":{"base":"Any","pred":"DFT(4).shape == (4, 4) and ask(Q.unitary(DFT(4))) and Abs(simplify(det(Matrix(DFT(4))))) == 1 and DFT(n) * IDFT(n) == Identity(n) and DFT(n)[i, j] == exp(-2 * S.Pi * I / n) ** (i * j) / sqrt(n)"},"spec":{"lhs":"test_dft()","rhs":"test_dft produces the expected output","over":{"base":"Any"},"name":"test_dft_correct"},"guarantee":"test_dft produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_fourier.test_dft_correct","statement":"Path(test_dft(x), test_dft produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2573b9267317ee2c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_fourier.test_dft","kind":"function","src_hash":"e07369bcf88edaa4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DFT(4).shape == (4, 4) and ask(Q.unitary(DFT(4))) and Abs(simplify(det(Matrix(DFT(4))))) == 1 and DFT(n) * IDFT(n) == Identity(n) and DFT(n)[i, j] == exp(-2 * S.Pi * I / n) ** (i * j) / sqrt(n)"},"spec":{"lhs":"test_dft()","rhs":"DFT(4).shape == (4, 4) and ask(Q.unitary(DFT(4))) and Abs(simplify(det(Matrix(DFT(4))))) == 1 and DFT(n) * IDFT(n) == Identity(n) and DFT(n)[i, j] == exp(-2 * S.Pi * I / n) ** (i * j) / sqrt(n)","over":{"base":"Any"},"name":"test_dft_correct"},"guarantee":"DFT(4).shape == (4, 4); ask(Q.unitary(DFT(4))); Abs(simplify(det(Matrix(DFT(4))))) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_fourier.test_dft_correct","statement":"Path(test_dft(x), DFT(4).shape == (4, 4); ask(Q.unitary(DFT(4))); Abs(simplify(det(Matrix(DFT(4))))) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa312af681d02365","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DFT(4).shape == (4, 4)","ask(Q.unitary(DFT(4)))","Abs(simplify(det(Matrix(DFT(4))))) == 1","DFT(n) * IDFT(n) == Identity(n)","DFT(n)[i, j] == exp(-2 * S.Pi * I / n) ** (i * j) / sqrt(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dft():
     n, i, j = symbols('n i j')
     assert DFT(4).shape == (4, 4)
@@ -75,16 +91,24 @@ def test_dft():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dft2(), test_dft2 produces the expected output) over Any ║
+# ║ Path(test_dft2(), DFT(1).as_explicit() == Matrix([[1]]) and DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]]) and DFT(4).as_explicit() == Matrix([[S.Half, S.Half, S.Half, S.Half], [S.Half, -I / 2, Rational(-1, 2), I / 2], [S.Half, Rational(-1, 2), S.Half, Rational(-1, 2)], [S.Half, I / 2, Rational(-1, 2), -I / 2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dft2 : Any → {Any | DFT(1).as_explicit() == Matr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DFT(1).as_explicit() == Matrix([[1]])          ║
+# ║   ensures:  DFT(2).as_explicit() == 1 / sqrt(2) * Mat...   ║
+# ║   ensures:  DFT(4).as_explicit() == Matrix([[S.Half, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dft2 : Any → {Any | result satisfies: DFT(1).as_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f56236e332c10b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f523f318496478  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_fourier.test_dft2","kind":"function","src_hash":"43e491612e1f76c8","in":{"base":"Any"},"out":{"base":"Any","pred":"DFT(1).as_explicit() == Matrix([[1]]) and DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]])"},"spec":{"lhs":"test_dft2()","rhs":"test_dft2 produces the expected output","over":{"base":"Any"},"name":"test_dft2_correct"},"guarantee":"test_dft2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_fourier.test_dft2_correct","statement":"Path(test_dft2(x), test_dft2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f56236e332c10b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_fourier.test_dft2","kind":"function","src_hash":"43e491612e1f76c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DFT(1).as_explicit() == Matrix([[1]]) and DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]]) and DFT(4).as_explicit() == Matrix([[S.Half, S.Half, S.Half, S.Half], [S.Half, -I / 2, Rational(-1, 2), I / 2], [S.Half, Rational(-1, 2), S.Half, Rational(-1, 2)], [S.Half, I / 2, Rational(-1, 2), -I / 2]])"},"spec":{"lhs":"test_dft2()","rhs":"DFT(1).as_explicit() == Matrix([[1]]) and DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]]) and DFT(4).as_explicit() == Matrix([[S.Half, S.Half, S.Half, S.Half], [S.Half, -I / 2, Rational(-1, 2), I / 2], [S.Half, Rational(-1, 2), S.Half, Rational(-1, 2)], [S.Half, I / 2, Rational(-1, 2), -I / 2]])","over":{"base":"Any"},"name":"test_dft2_correct"},"guarantee":"DFT(1).as_explicit() == Matrix([[1]]); DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]]); DFT(4).as_explicit() == Matrix([[S.Half, S.Half, S.Half, S.Half], [S.Half, -I / 2, Rational(-1, 2), I / 2], [S.Half, Rational(-1, 2), S.Half, Rational(-1, 2)], [S.Half, I / 2, Rational(-1, 2), -I / 2]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_fourier.test_dft2_correct","statement":"Path(test_dft2(x), DFT(1).as_explicit() == Matrix([[1]]); DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]]); DFT(4).as_explicit() == Matrix([[S.Half, S.Half, S.Half, S.Half], [S.Half, -I / 2, Rational(-1, 2), I / 2], [S.Half, Rational(-1, 2), S.Half, Rational(-1, 2)], [S.Half, I / 2, Rational(-1, 2), -I / 2]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f523f318496478","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DFT(1).as_explicit() == Matrix([[1]])","DFT(2).as_explicit() == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]])","DFT(4).as_explicit() == Matrix([[S.Half, S.Half, S.Half, S.Half], [S.Half, -I / 2, Rational(-1, 2), I / 2], [S.Half, Rational(-1, 2), S.Half, Rational(-1, 2)], [S.Half, I / 2, Rational(-1, 2), -I / 2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dft2():
     assert DFT(1).as_explicit() == Matrix([[1]])
     assert DFT(2).as_explicit() == 1/sqrt(2)*Matrix([[1,1],[1,-1]])

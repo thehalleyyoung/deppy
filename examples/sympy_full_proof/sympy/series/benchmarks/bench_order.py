@@ -24,15 +24,21 @@ l = [x**i for i in range(1000)]
 l.append(O(x**1001))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_order_1x(), timeit_order_1x produces the expected output) over Any ║
+# ║ Path(timeit_order_1x(), <unspecified:timeit_order_1x>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_order_1x : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47241758b8a67bdc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.benchmarks.bench_order.timeit_order_1x","kind":"function","src_hash":"d763c9a35213de2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_order_1x()","rhs":"timeit_order_1x produces the expected output","over":{"base":"Any"},"name":"timeit_order_1x_correct"},"guarantee":"timeit_order_1x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.benchmarks.bench_order.timeit_order_1x_correct","statement":"Path(timeit_order_1x(x), timeit_order_1x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47241758b8a67bdc"}
+# @cctt_verify {"v":2,"sym":"sympy.series.benchmarks.bench_order.timeit_order_1x","kind":"function","src_hash":"d763c9a35213de2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_order_1x()","rhs":"<unspecified:timeit_order_1x>","over":{"base":"Any"},"name":"timeit_order_1x_correct"},"guarantee":"timeit_order_1x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.benchmarks.bench_order.timeit_order_1x_correct","statement":"Path(timeit_order_1x(x), timeit_order_1x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47241758b8a67bdc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_order_1x():
     Add(*l)

@@ -30,31 +30,43 @@ from .integrals import integrate
 # need to use a function instead of lamda since hash of lambda changes on
 # each call to _pat_sincos
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_integer_instance(n), internal helper behaves correctly) over {Any | isinstance(n, Integer)} ║
+# ║ Path(_integer_instance(n), isinstance(n, Integer)) over {Any | isinstance(n, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  isinstance(n, Integer)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _integer_instance : {Any | isinstance(n, Integer)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1b0bbd9f4f5f1b4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._integer_instance","kind":"function","src_hash":"6fe28e65ab4e6c7d","in":{"base":"Any","pred":"isinstance(n, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"_integer_instance(n)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(n, Integer)"},"name":"_integer_instance_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1b0bbd9f4f5f1b4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._integer_instance","kind":"function","src_hash":"6fe28e65ab4e6c7d","in":{"base":"Any","pred":"isinstance(n, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"_integer_instance(n)","rhs":"isinstance(n, Integer)","over":{"base":"Any","pred":"isinstance(n, Integer)"},"name":"_integer_instance_correct"},"guarantee":"returns isinstance(n, Integer)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1b0bbd9f4f5f1b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"isinstance(n, Integer)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _integer_instance(n):
     return isinstance(n, Integer)
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pat_sincos(x), internal helper behaves correctly) over Any ║
+# ║ Path(_pat_sincos(x), (pat, a, n, m)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pat, a, n, m)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pat_sincos : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2d62c0fe37f77c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 242535cfeacdbff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._pat_sincos","kind":"function","src_hash":"ee2f0f2110f362c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pat_sincos(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pat_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry._pat_sincos_correct","statement":"Path(_pat_sincos(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2d62c0fe37f77c7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._pat_sincos","kind":"function","src_hash":"ee2f0f2110f362c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pat_sincos(x)","rhs":"(pat, a, n, m)","over":{"base":"Any"},"name":"_pat_sincos_correct"},"guarantee":"returns (pat, a, n, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry._pat_sincos_correct","statement":"Path(_pat_sincos(x), returns (pat, a, n, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"242535cfeacdbff8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pat, a, n, m)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pat_sincos(x):
     a = Wild('a', exclude=[x])
     n, m = [Wild(s, exclude=[x], properties=[_integer_instance])
@@ -66,16 +78,24 @@ _u = Dummy('u')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trigintegrate(f, ), integrate f = mul(trig) over x) over Any ║
+# ║ Path(trigintegrate(f, x, conds), # HINT: trigintegrate may be idempotent: trigintegrate(trigintegrate(x)) == trigintegrate(x)) over {Any | hasattr(f, 'rewrite') and hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ trigintegrate : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rewrite')                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ensures:  # HINT: trigintegrate may be idempotent: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ trigintegrate : {Any | hasattr(f, 'rewrite') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7624d55f625255d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2f5201520a50834  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry.trigintegrate","kind":"function","src_hash":"484142f3500a387e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trigintegrate(f, )","rhs":"integrate f = mul(trig) over x","over":{"base":"Any"},"name":"trigintegrate_correct"},"guarantee":"integrate f = mul(trig) over x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry.trigintegrate_correct","statement":"Path(trigintegrate(x), integrate f = mul(trig) over x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7624d55f625255d8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry.trigintegrate","kind":"function","src_hash":"484142f3500a387e","in":{"base":"Any","pred":"hasattr(f, 'rewrite') and hasattr(f, 'match')"},"out":{"base":"Any","pred":"result satisfies: # HINT: trigintegrate may be idempotent: trigintegrate(trigintegrate(x)) == trigintegrate(x)"},"spec":{"lhs":"trigintegrate(f, x, conds)","rhs":"# HINT: trigintegrate may be idempotent: trigintegrate(trigintegrate(x)) == trigintegrate(x)","over":{"base":"Any","pred":"hasattr(f, 'rewrite') and hasattr(f, 'match')"},"name":"trigintegrate_correct"},"guarantee":"# HINT: trigintegrate may be idempotent: trigintegrate(trigintegrate(x)) == trigintegrate(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry.trigintegrate_correct","statement":"Path(trigintegrate(x), # HINT: trigintegrate may be idempotent: trigintegrate(trigintegrate(x)) == trigintegrate(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2f5201520a50834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rewrite')","hasattr(f, 'match')"],"ensures":["# HINT: trigintegrate may be idempotent: trigintegrate(trigintegrate(x)) == trigintegrate(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match","f.rewrite"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def trigintegrate(f, x, conds='piecewise'):
     """
     Integrate f = Mul(trig) over x.
@@ -299,16 +319,22 @@ def trigintegrate(f, x, conds='piecewise'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sin_pow_integrate(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_sin_pow_integrate(n, x), # HINT: _sin_pow_integrate may be idempotent: _sin_pow_integrate(_sin_pow_integrate(x)) == _sin_pow_integrate(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sin_pow_integrate : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _sin_pow_integrate may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sin_pow_integrate : Any → {Any | result satisfies: #...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1addc8fb1a84666  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5304a99dd02b459  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._sin_pow_integrate","kind":"function","src_hash":"e7ac9156e45e89fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sin_pow_integrate(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sin_pow_integrate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry._sin_pow_integrate_correct","statement":"Path(_sin_pow_integrate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1addc8fb1a84666"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._sin_pow_integrate","kind":"function","src_hash":"e7ac9156e45e89fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _sin_pow_integrate may be idempotent: _sin_pow_integrate(_sin_pow_integrate(x)) == _sin_pow_integrate(x)"},"spec":{"lhs":"_sin_pow_integrate(n, x)","rhs":"# HINT: _sin_pow_integrate may be idempotent: _sin_pow_integrate(_sin_pow_integrate(x)) == _sin_pow_integrate(x)","over":{"base":"Any"},"name":"_sin_pow_integrate_correct"},"guarantee":"# HINT: _sin_pow_integrate may be idempotent: _sin_pow_integrate(_sin_pow_integrate(x)) == _sin_pow_integrate(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry._sin_pow_integrate_correct","statement":"Path(_sin_pow_integrate(x), # HINT: _sin_pow_integrate may be idempotent: _sin_pow_integrate(_sin_pow_integrate(x)) == _sin_pow_integrate(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5304a99dd02b459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _sin_pow_integrate may be idempotent: _sin_pow_integrate(_sin_pow_integrate(x)) == _sin_pow_integrate(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _sin_pow_integrate(n, x):
     if n > 0:
         if n == 1:
@@ -355,16 +381,22 @@ def _sin_pow_integrate(n, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cos_pow_integrate(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_cos_pow_integrate(n, x), # HINT: _cos_pow_integrate may be idempotent: _cos_pow_integrate(_cos_pow_integrate(x)) == _cos_pow_integrate(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cos_pow_integrate : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _cos_pow_integrate may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cos_pow_integrate : Any → {Any | result satisfies: #...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bdff8cb917d9e5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d2c25af5da3ab14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._cos_pow_integrate","kind":"function","src_hash":"46fb6dcb4ccf0d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cos_pow_integrate(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_cos_pow_integrate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry._cos_pow_integrate_correct","statement":"Path(_cos_pow_integrate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bdff8cb917d9e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.trigonometry._cos_pow_integrate","kind":"function","src_hash":"46fb6dcb4ccf0d4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _cos_pow_integrate may be idempotent: _cos_pow_integrate(_cos_pow_integrate(x)) == _cos_pow_integrate(x)"},"spec":{"lhs":"_cos_pow_integrate(n, x)","rhs":"# HINT: _cos_pow_integrate may be idempotent: _cos_pow_integrate(_cos_pow_integrate(x)) == _cos_pow_integrate(x)","over":{"base":"Any"},"name":"_cos_pow_integrate_correct"},"guarantee":"# HINT: _cos_pow_integrate may be idempotent: _cos_pow_integrate(_cos_pow_integrate(x)) == _cos_pow_integrate(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.trigonometry._cos_pow_integrate_correct","statement":"Path(_cos_pow_integrate(x), # HINT: _cos_pow_integrate may be idempotent: _cos_pow_integrate(_cos_pow_integrate(x)) == _cos_pow_integrate(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d2c25af5da3ab14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _cos_pow_integrate may be idempotent: _cos_pow_integrate(_cos_pow_integrate(x)) == _cos_pow_integrate(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _cos_pow_integrate(n, x):
     if n > 0:
         if n == 1:

@@ -33,16 +33,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dimension_definition(), test_Dimension_definition produces the expected output) over Any ║
+# ║ Path(test_Dimension_definition(), dimsys_SI.get_dimensional_dependencies(length) == {length: 1} and length.name == Symbol('length') and length.symbol == Symbol('L') and dimsys_SI.get_dimensional_dependencies(halflength) == {length: S.Half}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dimension_definition : Any → {Any | dimsys_SI.ge...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys_SI.get_dimensional_dependencies(le...   ║
+# ║   ensures:  length.name == Symbol('length')                ║
+# ║   ensures:  length.symbol == Symbol('L')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dimension_definition : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bf3d8d6d4836a1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac2a788ee634bcba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_definition","kind":"function","src_hash":"8bb5e941a073683b","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys_SI.get_dimensional_dependencies(length) == {length: 1} and length.name == Symbol('length') and length.symbol == Symbol('L') and dimsys_SI.get_dimensional_dependencies(halflength) == {length: S.Half}"},"spec":{"lhs":"test_Dimension_definition()","rhs":"test_Dimension_definition produces the expected output","over":{"base":"Any"},"name":"test_Dimension_definition_correct"},"guarantee":"test_Dimension_definition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_definition_correct","statement":"Path(test_Dimension_definition(x), test_Dimension_definition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bf3d8d6d4836a1b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_definition","kind":"function","src_hash":"8bb5e941a073683b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys_SI.get_dimensional_dependencies(length) == {length: 1} and length.name == Symbol('length') and length.symbol == Symbol('L') and dimsys_SI.get_dimensional_dependencies(halflength) == {length: S.Half}"},"spec":{"lhs":"test_Dimension_definition()","rhs":"dimsys_SI.get_dimensional_dependencies(length) == {length: 1} and length.name == Symbol('length') and length.symbol == Symbol('L') and dimsys_SI.get_dimensional_dependencies(halflength) == {length: S.Half}","over":{"base":"Any"},"name":"test_Dimension_definition_correct"},"guarantee":"dimsys_SI.get_dimensional_dependencies(length) == {length: 1}; length.name == Symbol('length'); length.symbol == Symbol('L')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_definition_correct","statement":"Path(test_Dimension_definition(x), dimsys_SI.get_dimensional_dependencies(length) == {length: 1}; length.name == Symbol('length'); length.symbol == Symbol('L'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac2a788ee634bcba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys_SI.get_dimensional_dependencies(length) == {length: 1}","length.name == Symbol('length')","length.symbol == Symbol('L')","dimsys_SI.get_dimensional_dependencies(halflength) == {length: S.Half}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Dimension_definition():
     assert dimsys_SI.get_dimensional_dependencies(length) == {length: 1}
     assert length.name == Symbol("length")
@@ -53,16 +61,22 @@ def test_Dimension_definition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dimension_error_definition(), test_Dimension_error_definition produces the expected output) over Any ║
+# ║ Path(test_Dimension_error_definition(), <unspecified:test_Dimension_error_definition>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Dimension_error_definition : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33c243190d5568b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_error_definition","kind":"function","src_hash":"cf4aa97d8ef6ba47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Dimension_error_definition()","rhs":"test_Dimension_error_definition produces the expected output","over":{"base":"Any"},"name":"test_Dimension_error_definition_correct"},"guarantee":"test_Dimension_error_definition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_error_definition_correct","statement":"Path(test_Dimension_error_definition(x), test_Dimension_error_definition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33c243190d5568b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_error_definition","kind":"function","src_hash":"cf4aa97d8ef6ba47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Dimension_error_definition()","rhs":"<unspecified:test_Dimension_error_definition>","over":{"base":"Any"},"name":"test_Dimension_error_definition_correct"},"guarantee":"test_Dimension_error_definition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_error_definition_correct","statement":"Path(test_Dimension_error_definition(x), test_Dimension_error_definition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33c243190d5568b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Dimension_error_definition():
     # tuple with more or less than two entries
     raises(TypeError, lambda: Dimension(("length", 1, 2)))
@@ -79,32 +93,47 @@ def test_Dimension_error_definition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str(), test_str produces the expected output) over Any ║
+# ║ Path(test_str(), str(Dimension('length')) == 'Dimension(length)' and str(Dimension('length', 'L')) == 'Dimension(length, L)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str : Any → {Any | str(Dimension('length')) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Dimension('length')) == 'Dimension(le...   ║
+# ║   ensures:  str(Dimension('length', 'L')) == 'Dimensi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str : Any → {Any | result satisfies: str(Dimensi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3516549a49477923  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd7315c0fd7a392c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_str","kind":"function","src_hash":"cce16e2b3225f04e","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Dimension('length')) == 'Dimension(length)' and str(Dimension('length', 'L')) == 'Dimension(length, L)'"},"spec":{"lhs":"test_str()","rhs":"test_str produces the expected output","over":{"base":"Any"},"name":"test_str_correct"},"guarantee":"test_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_str_correct","statement":"Path(test_str(x), test_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3516549a49477923"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_str","kind":"function","src_hash":"cce16e2b3225f04e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Dimension('length')) == 'Dimension(length)' and str(Dimension('length', 'L')) == 'Dimension(length, L)'"},"spec":{"lhs":"test_str()","rhs":"str(Dimension('length')) == 'Dimension(length)' and str(Dimension('length', 'L')) == 'Dimension(length, L)'","over":{"base":"Any"},"name":"test_str_correct"},"guarantee":"str(Dimension('length')) == 'Dimension(length)'; str(Dimension('length', 'L')) == 'Dimension(length, L)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_str_correct","statement":"Path(test_str(x), str(Dimension('length')) == 'Dimension(length)'; str(Dimension('length', 'L')) == 'Dimension(length, L)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd7315c0fd7a392c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Dimension('length')) == 'Dimension(length)'","str(Dimension('length', 'L')) == 'Dimension(length, L)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_str():
     assert str(Dimension("length")) == "Dimension(length)"
     assert str(Dimension("length", "L")) == "Dimension(length, L)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dimension_properties(), test_Dimension_properties produces the expected output) over Any ║
+# ║ Path(test_Dimension_properties(), dimsys_SI.is_dimensionless(length) is False and dimsys_SI.is_dimensionless(length / length) is True and dimsys_SI.is_dimensionless(Dimension('undefined')) is False and length.has_integer_powers(dimsys_SI) is True and (length ** (-1)).has_integer_powers(dimsys_SI) is True and (length ** 1.5).has_integer_powers(dimsys_SI) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dimension_properties : Any → {Any | dimsys_SI.is...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys_SI.is_dimensionless(length) is False    ║
+# ║   ensures:  dimsys_SI.is_dimensionless(length / lengt...   ║
+# ║   ensures:  dimsys_SI.is_dimensionless(Dimension('und...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dimension_properties : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e485b1da83da1ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12aba17c43275ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_properties","kind":"function","src_hash":"cba85f94048c947e","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys_SI.is_dimensionless(length) is False and dimsys_SI.is_dimensionless(length / length) is True and dimsys_SI.is_dimensionless(Dimension('undefined')) is False and length.has_integer_powers(dimsys_SI) is True and (length ** (-1)).has_integer_powers(dimsys_SI) is True and (length ** 1.5).has_integer_powers(dimsys_SI) is False"},"spec":{"lhs":"test_Dimension_properties()","rhs":"test_Dimension_properties produces the expected output","over":{"base":"Any"},"name":"test_Dimension_properties_correct"},"guarantee":"test_Dimension_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_properties_correct","statement":"Path(test_Dimension_properties(x), test_Dimension_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e485b1da83da1ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_properties","kind":"function","src_hash":"cba85f94048c947e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys_SI.is_dimensionless(length) is False and dimsys_SI.is_dimensionless(length / length) is True and dimsys_SI.is_dimensionless(Dimension('undefined')) is False and length.has_integer_powers(dimsys_SI) is True and (length ** (-1)).has_integer_powers(dimsys_SI) is True and (length ** 1.5).has_integer_powers(dimsys_SI) is False"},"spec":{"lhs":"test_Dimension_properties()","rhs":"dimsys_SI.is_dimensionless(length) is False and dimsys_SI.is_dimensionless(length / length) is True and dimsys_SI.is_dimensionless(Dimension('undefined')) is False and length.has_integer_powers(dimsys_SI) is True and (length ** (-1)).has_integer_powers(dimsys_SI) is True and (length ** 1.5).has_integer_powers(dimsys_SI) is False","over":{"base":"Any"},"name":"test_Dimension_properties_correct"},"guarantee":"dimsys_SI.is_dimensionless(length) is False; dimsys_SI.is_dimensionless(length / length) is True; dimsys_SI.is_dimensionless(Dimension('undefined')) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_properties_correct","statement":"Path(test_Dimension_properties(x), dimsys_SI.is_dimensionless(length) is False; dimsys_SI.is_dimensionless(length / length) is True; dimsys_SI.is_dimensionless(Dimension('undefined')) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12aba17c43275ac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys_SI.is_dimensionless(length) is False","dimsys_SI.is_dimensionless(length / length) is True","dimsys_SI.is_dimensionless(Dimension('undefined')) is False","length.has_integer_powers(dimsys_SI) is True","(length ** (-1)).has_integer_powers(dimsys_SI) is True","(length ** 1.5).has_integer_powers(dimsys_SI) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Dimension_properties():
     assert dimsys_SI.is_dimensionless(length) is False
     assert dimsys_SI.is_dimensionless(length/length) is True
@@ -116,16 +145,24 @@ def test_Dimension_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dimension_add_sub(), test_Dimension_add_sub produces the expected output) over Any ║
+# ║ Path(test_Dimension_add_sub(), length + length == length and length - length == length and -length == length and e == x + length and e.is_Add and (set(e.args) == {length, x}) and e == 1 + length == 1 - length and e.is_Add and (set(e.args) == {length, 1}) and dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force) == {length: 1, mass: 1, time: -2} and dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force - pressure * length ** 2) == {length: 1, mass: 1, time: -2}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dimension_add_sub : Any → {Any | length + length...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  length + length == length                      ║
+# ║   ensures:  length - length == length                      ║
+# ║   ensures:  -length == length                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dimension_add_sub : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abc24bc99f7760de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93b75cdfd7aa4cec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_add_sub","kind":"function","src_hash":"201fd823a47d0c54","in":{"base":"Any"},"out":{"base":"Any","pred":"length + length == length and length - length == length and -length == length and e == x + length and e.is_Add and (set(e.args) == {length, x}) and e == 1 + length == 1 - length and e.is_Add and (set(e.args) == {length, 1})"},"spec":{"lhs":"test_Dimension_add_sub()","rhs":"test_Dimension_add_sub produces the expected output","over":{"base":"Any"},"name":"test_Dimension_add_sub_correct"},"guarantee":"test_Dimension_add_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_add_sub_correct","statement":"Path(test_Dimension_add_sub(x), test_Dimension_add_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abc24bc99f7760de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_add_sub","kind":"function","src_hash":"201fd823a47d0c54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: length + length == length and length - length == length and -length == length and e == x + length and e.is_Add and (set(e.args) == {length, x}) and e == 1 + length == 1 - length and e.is_Add and (set(e.args) == {length, 1}) and dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force) == {length: 1, mass: 1, time: -2} and dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force - pressure * length ** 2) == {length: 1, mass: 1, time: -2}"},"spec":{"lhs":"test_Dimension_add_sub()","rhs":"length + length == length and length - length == length and -length == length and e == x + length and e.is_Add and (set(e.args) == {length, x}) and e == 1 + length == 1 - length and e.is_Add and (set(e.args) == {length, 1}) and dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force) == {length: 1, mass: 1, time: -2} and dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force - pressure * length ** 2) == {length: 1, mass: 1, time: -2}","over":{"base":"Any"},"name":"test_Dimension_add_sub_correct"},"guarantee":"length + length == length; length - length == length; -length == length","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_add_sub_correct","statement":"Path(test_Dimension_add_sub(x), length + length == length; length - length == length; -length == length)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93b75cdfd7aa4cec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["length + length == length","length - length == length","-length == length","e == x + length and e.is_Add and (set(e.args) == {length, x})","e == 1 + length == 1 - length and e.is_Add and (set(e.args) == {length, 1})","dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force) == {length: 1, mass: 1, time: -2}","dimsys_SI.get_dimensional_dependencies(mass * length / time ** 2 + force - pressure * length ** 2) == {length: 1, mass: 1, time: -2}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Dimension_add_sub():
     assert length + length == length
     assert length - length == length
@@ -153,16 +190,24 @@ def test_Dimension_add_sub():
     raises(TypeError, lambda: dimsys_SI.get_dimensional_dependencies(mass * length / time**2 + pressure))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dimension_mul_div_exp(), test_Dimension_mul_div_exp produces the expected output) over Any ║
+# ║ Path(test_Dimension_mul_div_exp(), 2 * length == length * 2 == length / 2 == length and 2 / length == 1 / length and m == length * x and m.is_Mul and (set(m.args) == {x, length}) and d == x * length ** (-1) and d.is_Mul and (set(d.args) == {x, 1 / length}) and d == length * x ** (-1) and d.is_Mul and (set(d.args) == {1 / x, length}) and length * length == length ** 2 and dimsys_SI.get_dimensional_dependencies(length * length) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length ** 2) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length * time) == {length: 1, time: 1} and dimsys_SI.get_dimensional_dependencies(velo) == {length: 1, time: -1} and dimsys_SI.get_dimensional_dependencies(velo ** 2) == {length: 2, time: -2} and dimsys_SI.get_dimensional_dependencies(length / length) == {} and dimsys_SI.get_dimensional_dependencies(velo / length * time) == {} and dimsys_SI.get_dimensional_dependencies(length ** (-1)) == {length: -1} and dimsys_SI.get_dimensional_dependencies(velo ** (-1.5)) == {length: -1.5, time: 1.5} and dimsys_SI.get_dimensional_dependencies(length_a) == {length: Symbol('a')} and dimsys_SI.get_dimensional_dependencies(length ** pi) == {length: pi} and dimsys_SI.get_dimensional_dependencies(length ** (length / length)) == {length: Dimension(1)} and length != 1 and length / length != 1 and dimsys_SI.get_dimensional_dependencies(length_0) == {} and dimsys_SI.equivalent_dims(c_dim, length)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dimension_mul_div_exp : Any → {Any | 2 * length ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  2 * length == length * 2 == length / 2 ==...   ║
+# ║   ensures:  2 / length == 1 / length                       ║
+# ║   ensures:  m == length * x and m.is_Mul and (set(m.a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dimension_mul_div_exp : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3291540dc678cd84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87c47efd5ff85523  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_mul_div_exp","kind":"function","src_hash":"783ae7af68f0a6de","in":{"base":"Any"},"out":{"base":"Any","pred":"2 * length == length * 2 == length / 2 == length and 2 / length == 1 / length and m == length * x and m.is_Mul and (set(m.args) == {x, length}) and d == x * length ** (-1) and d.is_Mul and (set(d.args) == {x, 1 / length}) and d == length * x ** (-1) and d.is_Mul and (set(d.args) == {1 / x, length}) and length * length == length ** 2 and dimsys_SI.get_dimensional_dependencies(length * length) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length ** 2) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length * time) == {length: 1, time: 1} and dimsys_SI.get_dimensional_dependencies(velo) == {length: 1, time: -1} and dimsys_SI.get_dimensional_dependencies(velo ** 2) == {length: 2, time: -2} and dimsys_SI.get_dimensional_dependencies(length / length) == {} and dimsys_SI.get_dimensional_dependencies(velo / length * time) == {} and dimsys_SI.get_dimensional_dependencies(length ** (-1)) == {length: -1} and dimsys_SI.get_dimensional_dependencies(length_a) == {length: Symbol('a')} and dimsys_SI.get_dimensional_dependencies(length ** pi) == {length: pi} and length != 1 and length / length != 1 and dimsys_SI.get_dimensional_dependencies(length_0) == {} and dimsys_SI.equivalent_dims(c_dim, length)"},"spec":{"lhs":"test_Dimension_mul_div_exp()","rhs":"test_Dimension_mul_div_exp produces the expected output","over":{"base":"Any"},"name":"test_Dimension_mul_div_exp_correct"},"guarantee":"test_Dimension_mul_div_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_mul_div_exp_correct","statement":"Path(test_Dimension_mul_div_exp(x), test_Dimension_mul_div_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3291540dc678cd84"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_mul_div_exp","kind":"function","src_hash":"783ae7af68f0a6de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 2 * length == length * 2 == length / 2 == length and 2 / length == 1 / length and m == length * x and m.is_Mul and (set(m.args) == {x, length}) and d == x * length ** (-1) and d.is_Mul and (set(d.args) == {x, 1 / length}) and d == length * x ** (-1) and d.is_Mul and (set(d.args) == {1 / x, length}) and length * length == length ** 2 and dimsys_SI.get_dimensional_dependencies(length * length) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length ** 2) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length * time) == {length: 1, time: 1} and dimsys_SI.get_dimensional_dependencies(velo) == {length: 1, time: -1} and dimsys_SI.get_dimensional_dependencies(velo ** 2) == {length: 2, time: -2} and dimsys_SI.get_dimensional_dependencies(length / length) == {} and dimsys_SI.get_dimensional_dependencies(velo / length * time) == {} and dimsys_SI.get_dimensional_dependencies(length ** (-1)) == {length: -1} and dimsys_SI.get_dimensional_dependencies(velo ** (-1.5)) == {length: -1.5, time: 1.5} and dimsys_SI.get_dimensional_dependencies(length_a) == {length: Symbol('a')} and dimsys_SI.get_dimensional_dependencies(length ** pi) == {length: pi} and dimsys_SI.get_dimensional_dependencies(length ** (length / length)) == {length: Dimension(1)} and length != 1 and length / length != 1 and dimsys_SI.get_dimensional_dependencies(length_0) == {} and dimsys_SI.equivalent_dims(c_dim, length)"},"spec":{"lhs":"test_Dimension_mul_div_exp()","rhs":"2 * length == length * 2 == length / 2 == length and 2 / length == 1 / length and m == length * x and m.is_Mul and (set(m.args) == {x, length}) and d == x * length ** (-1) and d.is_Mul and (set(d.args) == {x, 1 / length}) and d == length * x ** (-1) and d.is_Mul and (set(d.args) == {1 / x, length}) and length * length == length ** 2 and dimsys_SI.get_dimensional_dependencies(length * length) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length ** 2) == {length: 2} and dimsys_SI.get_dimensional_dependencies(length * time) == {length: 1, time: 1} and dimsys_SI.get_dimensional_dependencies(velo) == {length: 1, time: -1} and dimsys_SI.get_dimensional_dependencies(velo ** 2) == {length: 2, time: -2} and dimsys_SI.get_dimensional_dependencies(length / length) == {} and dimsys_SI.get_dimensional_dependencies(velo / length * time) == {} and dimsys_SI.get_dimensional_dependencies(length ** (-1)) == {length: -1} and dimsys_SI.get_dimensional_dependencies(velo ** (-1.5)) == {length: -1.5, time: 1.5} and dimsys_SI.get_dimensional_dependencies(length_a) == {length: Symbol('a')} and dimsys_SI.get_dimensional_dependencies(length ** pi) == {length: pi} and dimsys_SI.get_dimensional_dependencies(length ** (length / length)) == {length: Dimension(1)} and length != 1 and length / length != 1 and dimsys_SI.get_dimensional_dependencies(length_0) == {} and dimsys_SI.equivalent_dims(c_dim, length)","over":{"base":"Any"},"name":"test_Dimension_mul_div_exp_correct"},"guarantee":"2 * length == length * 2 == length / 2 == length; 2 / length == 1 / length; m == length * x and m.is_Mul and (set(m.args) == {x, length})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_mul_div_exp_correct","statement":"Path(test_Dimension_mul_div_exp(x), 2 * length == length * 2 == length / 2 == length; 2 / length == 1 / length; m == length * x and m.is_Mul and (set(m.args) == {x, length}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87c47efd5ff85523","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["2 * length == length * 2 == length / 2 == length","2 / length == 1 / length","m == length * x and m.is_Mul and (set(m.args) == {x, length})","d == x * length ** (-1) and d.is_Mul and (set(d.args) == {x, 1 / length})","d == length * x ** (-1) and d.is_Mul and (set(d.args) == {1 / x, length})","length * length == length ** 2","dimsys_SI.get_dimensional_dependencies(length * length) == {length: 2}","dimsys_SI.get_dimensional_dependencies(length ** 2) == {length: 2}","dimsys_SI.get_dimensional_dependencies(length * time) == {length: 1, time: 1}","dimsys_SI.get_dimensional_dependencies(velo) == {length: 1, time: -1}","dimsys_SI.get_dimensional_dependencies(velo ** 2) == {length: 2, time: -2}","dimsys_SI.get_dimensional_dependencies(length / length) == {}","dimsys_SI.get_dimensional_dependencies(velo / length * time) == {}","dimsys_SI.get_dimensional_dependencies(length ** (-1)) == {length: -1}","dimsys_SI.get_dimensional_dependencies(velo ** (-1.5)) == {length: -1.5, time: 1.5}","dimsys_SI.get_dimensional_dependencies(length_a) == {length: Symbol('a')}","dimsys_SI.get_dimensional_dependencies(length ** pi) == {length: pi}","dimsys_SI.get_dimensional_dependencies(length ** (length / length)) == {length: Dimension(1)}","length != 1","length / length != 1","dimsys_SI.get_dimensional_dependencies(length_0) == {}","dimsys_SI.equivalent_dims(c_dim, length)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_Dimension_mul_div_exp():
     assert 2*length == length*2 == length/2 == length
     assert 2/length == 1/length
@@ -211,16 +256,24 @@ def test_Dimension_mul_div_exp():
     assert dimsys_SI.equivalent_dims(c_dim, length)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dimension_functions(), test_Dimension_functions produces the expected output) over Any ║
+# ║ Path(test_Dimension_functions(), dimsys_SI.get_dimensional_dependencies(pi) == {} and dimsys_SI.get_dimensional_dependencies(cos(1)) == {} and dimsys_SI.get_dimensional_dependencies(cos(angle)) == {} and dimsys_SI.get_dimensional_dependencies(atan2(length, length)) == {} and dimsys_SI.get_dimensional_dependencies(log(length / length, length / length)) == {} and dimsys_SI.get_dimensional_dependencies(Abs(length)) == {length: 1} and dimsys_SI.get_dimensional_dependencies(Abs(length / length)) == {} and dimsys_SI.get_dimensional_dependencies(sqrt(-1)) == {}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dimension_functions : Any → {Any | dimsys_SI.get...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys_SI.get_dimensional_dependencies(pi...   ║
+# ║   ensures:  dimsys_SI.get_dimensional_dependencies(co...   ║
+# ║   ensures:  dimsys_SI.get_dimensional_dependencies(co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dimension_functions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c086e079c2e3dea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f80eedbb2cde1fd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_functions","kind":"function","src_hash":"643deb8bd59d5016","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys_SI.get_dimensional_dependencies(pi) == {} and dimsys_SI.get_dimensional_dependencies(cos(1)) == {} and dimsys_SI.get_dimensional_dependencies(cos(angle)) == {} and dimsys_SI.get_dimensional_dependencies(atan2(length, length)) == {} and dimsys_SI.get_dimensional_dependencies(Abs(length)) == {length: 1} and dimsys_SI.get_dimensional_dependencies(Abs(length / length)) == {} and dimsys_SI.get_dimensional_dependencies(sqrt(-1)) == {}"},"spec":{"lhs":"test_Dimension_functions()","rhs":"test_Dimension_functions produces the expected output","over":{"base":"Any"},"name":"test_Dimension_functions_correct"},"guarantee":"test_Dimension_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_functions_correct","statement":"Path(test_Dimension_functions(x), test_Dimension_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c086e079c2e3dea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensions.test_Dimension_functions","kind":"function","src_hash":"643deb8bd59d5016","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys_SI.get_dimensional_dependencies(pi) == {} and dimsys_SI.get_dimensional_dependencies(cos(1)) == {} and dimsys_SI.get_dimensional_dependencies(cos(angle)) == {} and dimsys_SI.get_dimensional_dependencies(atan2(length, length)) == {} and dimsys_SI.get_dimensional_dependencies(log(length / length, length / length)) == {} and dimsys_SI.get_dimensional_dependencies(Abs(length)) == {length: 1} and dimsys_SI.get_dimensional_dependencies(Abs(length / length)) == {} and dimsys_SI.get_dimensional_dependencies(sqrt(-1)) == {}"},"spec":{"lhs":"test_Dimension_functions()","rhs":"dimsys_SI.get_dimensional_dependencies(pi) == {} and dimsys_SI.get_dimensional_dependencies(cos(1)) == {} and dimsys_SI.get_dimensional_dependencies(cos(angle)) == {} and dimsys_SI.get_dimensional_dependencies(atan2(length, length)) == {} and dimsys_SI.get_dimensional_dependencies(log(length / length, length / length)) == {} and dimsys_SI.get_dimensional_dependencies(Abs(length)) == {length: 1} and dimsys_SI.get_dimensional_dependencies(Abs(length / length)) == {} and dimsys_SI.get_dimensional_dependencies(sqrt(-1)) == {}","over":{"base":"Any"},"name":"test_Dimension_functions_correct"},"guarantee":"dimsys_SI.get_dimensional_dependencies(pi) == {}; dimsys_SI.get_dimensional_dependencies(cos(1)) == {}; dimsys_SI.get_dimensional_dependencies(cos(angle)) == {}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensions.test_Dimension_functions_correct","statement":"Path(test_Dimension_functions(x), dimsys_SI.get_dimensional_dependencies(pi) == {}; dimsys_SI.get_dimensional_dependencies(cos(1)) == {}; dimsys_SI.get_dimensional_dependencies(cos(angle)) == {})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f80eedbb2cde1fd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys_SI.get_dimensional_dependencies(pi) == {}","dimsys_SI.get_dimensional_dependencies(cos(1)) == {}","dimsys_SI.get_dimensional_dependencies(cos(angle)) == {}","dimsys_SI.get_dimensional_dependencies(atan2(length, length)) == {}","dimsys_SI.get_dimensional_dependencies(log(length / length, length / length)) == {}","dimsys_SI.get_dimensional_dependencies(Abs(length)) == {length: 1}","dimsys_SI.get_dimensional_dependencies(Abs(length / length)) == {}","dimsys_SI.get_dimensional_dependencies(sqrt(-1)) == {}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Dimension_functions():
     raises(TypeError, lambda: dimsys_SI.get_dimensional_dependencies(cos(length)))
     raises(TypeError, lambda: dimsys_SI.get_dimensional_dependencies(acos(angle)))

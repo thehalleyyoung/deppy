@@ -33,14 +33,21 @@ torch = import_module('torch')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a TorchPrinter instance) preserved by TorchPrinter(*args) over {Any | isinstance(var, tuple) and isinstance(arg, MatrixExpr) and isinstance(order, Integer)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ArrayPrinter)                 ║
+# ║   ensures:  isinstance(self, AbstractPythonCodePrinter)    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TorchPrinter : {Any | isinstance(var, tuple) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0d2f339e03f5ca3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter","kind":"class","src_hash":"cc8cfb4af1ffd22a","in":{"base":"Any","pred":"isinstance(var, tuple) and isinstance(arg, MatrixExpr) and isinstance(order, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"TorchPrinter(*args)","rhs":"correctly constructs a TorchPrinter instance","over":{"base":"Any","pred":"isinstance(var, tuple) and isinstance(arg, MatrixExpr) and isinstance(order, Integer)"},"name":"TorchPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a TorchPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'requires_grad') and hasattr(self, 'dtype') and hasattr(self, 'torch_version')","kind":"class","induction":"structural on requires_grad, dtype, torch_version"}],"methods_preserving":["__init__","_print_Function","_print_Inverse","_print_Transpose","_print_PermuteDims","_print_Derivative","_print_Piecewise","_print_Pow","_print_MatMul","_print_MatPow","_print_MatrixBase","_print_isnan","_print_isinf","_print_Identity","_print_ZeroMatrix","_print_OneMatrix","_print_conjugate","_print_ImaginaryUnit","_print_Heaviside","_print_gamma","_print_polygamma"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0d2f339e03f5ca3"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter","kind":"class","src_hash":"cc8cfb4af1ffd22a","in":{"base":"Any","pred":"isinstance(var, tuple) and isinstance(arg, MatrixExpr) and isinstance(order, Integer)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ArrayPrinter) and isinstance(self, AbstractPythonCodePrinter)"},"spec":{"lhs":"TorchPrinter(*args)","rhs":"correctly constructs a TorchPrinter instance","over":{"base":"Any","pred":"isinstance(var, tuple) and isinstance(arg, MatrixExpr) and isinstance(order, Integer)"},"name":"TorchPrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ArrayPrinter); isinstance(self, AbstractPythonCodePrinter); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'requires_grad') and hasattr(self, 'dtype') and hasattr(self, 'torch_version')","kind":"class","induction":"structural on requires_grad, dtype, torch_version"}],"methods_preserving":["__init__","_print_Function","_print_Inverse","_print_Transpose","_print_PermuteDims","_print_Derivative","_print_Piecewise","_print_Pow","_print_MatMul","_print_MatPow","_print_MatrixBase","_print_isnan","_print_isinf","_print_Identity","_print_ZeroMatrix","_print_OneMatrix","_print_conjugate","_print_ImaginaryUnit","_print_Heaviside","_print_gamma","_print_polygamma"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0d2f339e03f5ca3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ArrayPrinter)","isinstance(self, AbstractPythonCodePrinter)"],"invariants":["hasattr(self, 'requires_grad')","hasattr(self, 'dtype')","hasattr(self, 'torch_version')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TorchPrinter not found in source"]}}
 class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
 
     printmethod = "_torchcode"
@@ -109,16 +116,22 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce409845ccb133b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter.__init__","kind":"method","src_hash":"fa677a21e97d1309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce409845ccb133b2"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter.__init__","kind":"method","src_hash":"fa677a21e97d1309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce409845ccb133b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings=None):
         super().__init__(settings)
 
@@ -130,16 +143,23 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         self.torch_version = version
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(exp), id) over Any                    ║
+# ║ Path(_print_Function(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(expr, 'args')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4687d18039fcc811   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Function","kind":"method","src_hash":"35ef1b76a7ac3239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Basic","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4687d18039fcc811"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Function","kind":"method","src_hash":"35ef1b76a7ac3239","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(expr)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Basic","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4687d18039fcc811","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._expand_fold_binary_op","self._module_format","self._print","self.mapping"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, expr):
 
         op = self.mapping.get(type(expr), None)
@@ -167,31 +187,48 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
     _print_Determinant = _print_Function
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Inverse(exp), id) over Any                     ║
+# ║ Path(_print_Inverse(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Inverse : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  '{}({})'.format(self._module_format('torc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Inverse : {Any | hasattr(expr, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5dba3245e9f930b0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Inverse","kind":"method","src_hash":"b3015bcfe4d2f1b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Inverse(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Inverse_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_module_format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dba3245e9f930b0"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Inverse","kind":"method","src_hash":"b3015bcfe4d2f1b1","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Inverse(expr)","rhs":"'{}({})'.format(self._module_format('torch.linalg.inv'), self._print(expr.args[0]))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Inverse_correct","kind":"composition"},"guarantee":"returns '{}({})'.format(self._module_format('torch.linalg.inv'), self._print(expr.args[0]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_module_format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dba3245e9f930b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'{}({})'.format(self._module_format('torch.linalg.inv'), self._print(expr.args[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Inverse(self, expr):
         return '{}({})'.format(self._module_format("torch.linalg.inv"),
                                self._print(expr.args[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Transpose(exp), id) over Any                   ║
+# ║ Path(_print_Transpose(expr), id) over {Any | hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Transpose : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ensures:  result == ('{}({}).t()'.format('torch.tra...   ║
+# ║   ensures:  result == '{}({}).t()'.format('torch.tran...   ║
+# ║   fiber[case_0]: expr.arg.is_Matrix and expr.arg.shap...   ║
+# ║   fiber[case_1]: not (expr.arg.is_Matrix and expr.arg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Transpose : {Any | hasattr(expr, 'arg')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 52979d8ddc7ddb2b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Transpose","kind":"method","src_hash":"1f72b14885b53f6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Transpose(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Transpose_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"t","by":"library_axiom"},{"fn":"format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52979d8ddc7ddb2b"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Transpose","kind":"method","src_hash":"1f72b14885b53f6b","in":{"base":"Any","pred":"hasattr(expr, 'arg')"},"out":{"base":"Any","pred":"result satisfies: result == ('{}({}).t()'.format('torch.transpose', self._print(expr.arg)) if expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1] else '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])) and result == '{}({}).t()'.format('torch.transpose', self._print(expr.arg)) or result == '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])"},"spec":{"lhs":"_print_Transpose(expr)","rhs":"result == ('{}({}).t()'.format('torch.transpose', self._print(expr.arg)) if expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1] else '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])) and result == '{}({}).t()'.format('torch.transpose', self._print(expr.arg)) or result == '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])","over":{"base":"Any","pred":"hasattr(expr, 'arg')"},"name":"_print_Transpose_correct","kind":"composition"},"guarantee":"result == ('{}({}).t()'.format('torch.transpose', self._print(expr.arg)) if expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1] else '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])); result == '{}({}).t()'.format('torch.transpose', self._print(expr.arg)) or result == '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"t","by":"library_axiom"},{"fn":"format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52979d8ddc7ddb2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'arg')"],"ensures":["result == ('{}({}).t()'.format('torch.transpose', self._print(expr.arg)) if expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1] else '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1]))","result == '{}({}).t()'.format('torch.transpose', self._print(expr.arg)) or result == '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])"],"fibers":[{"name":"case_0","guard":"expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1]","ensures":["result == '{}({}).t()'.format('torch.transpose', self._print(expr.arg))"],"decidability":"z3","returns_expr":"'{}({}).t()'.format('torch.transpose', self._print(expr.arg))"},{"name":"case_1","guard":"not (expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1])","ensures":["result == '{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])"],"decidability":"z3","returns_expr":"'{}.permute({})'.format(self._print(expr.arg), ', '.join([str(i) for i in range(len(expr.arg.shape))])[::-1])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Transpose(self, expr):
         if expr.arg.is_Matrix and expr.arg.shape[0] == expr.arg.shape[1]:
             # For square matrices, we can use the .t() method
@@ -205,16 +242,24 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
             )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_PermuteDims(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_PermuteDims(expr), '%s.permute(%s)' % (self._print(expr.expr), ', '.join((str(i) for i in expr.permutation.array_form)))) over {Any | hasattr(expr, 'expr') and hasattr(expr, 'permutation')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_PermuteDims : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'permutation')                   ║
+# ║   returns:  '%s.permute(%s)' % (self._print(expr.expr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_PermuteDims : {Any | hasattr(expr, 'expr') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb6bc51ebbec9afb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7536f8776567cc7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_PermuteDims","kind":"method","src_hash":"f258f7b67ec1a2f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PermuteDims(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_PermuteDims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_PermuteDims_correct","statement":"Path(_print_PermuteDims(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb6bc51ebbec9afb"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_PermuteDims","kind":"method","src_hash":"f258f7b67ec1a2f3","in":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'permutation')"},"out":{"base":"Any"},"spec":{"lhs":"_print_PermuteDims(expr)","rhs":"'%s.permute(%s)' % (self._print(expr.expr), ', '.join((str(i) for i in expr.permutation.array_form)))","over":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'permutation')"},"name":"_print_PermuteDims_correct"},"guarantee":"returns '%s.permute(%s)' % (self._print(expr.expr), ', '.join((str(i) for i in expr.permutation.array_form)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_PermuteDims_correct","statement":"Path(_print_PermuteDims(x), returns '%s.permute(%s)' % (self._print(expr.expr), ', '.join((str(i) for i in expr.permutation.array_form))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7536f8776567cc7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expr')","hasattr(expr, 'permutation')"],"returns_expr":"'%s.permute(%s)' % (self._print(expr.expr), ', '.join((str(i) for i in expr.permutation.array_form)))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.permutation","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_PermuteDims(self, expr):
         return "%s.permute(%s)" % (
             self._print(expr.expr),
@@ -222,16 +267,24 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Derivative(expr), <unspecified:_print_Derivative>) over {Any | hasattr(expr, 'variables') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(expr, 'variables')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff2311087bfb8e07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Derivative","kind":"method","src_hash":"7aa073d78aa07135","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff2311087bfb8e07"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Derivative","kind":"method","src_hash":"7aa073d78aa07135","in":{"base":"Any","pred":"hasattr(expr, 'variables') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(expr)","rhs":"<unspecified:_print_Derivative>","over":{"base":"Any","pred":"hasattr(expr, 'variables') and hasattr(expr, 'expr')"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff2311087bfb8e07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'variables')","hasattr(expr, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.variables","self._print"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, expr):
         # this version handles multi-variable and mixed partial derivatives. The tensorflow version does not.
         variables = expr.variables
@@ -272,16 +325,23 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         return self._print(expr_arg)  # Empty variables case
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), <unspecified:_print_Piecewise>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec657c1a051f279b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Piecewise","kind":"method","src_hash":"edbede12eba27d6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec657c1a051f279b"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Piecewise","kind":"method","src_hash":"edbede12eba27d6b","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"<unspecified:_print_Piecewise>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec657c1a051f279b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         from sympy import Piecewise
         e, cond = expr.args[0].args
@@ -299,16 +359,24 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
             self._print(Piecewise(*expr.args[1:])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pow(expr), <unspecified:_print_Pow>) over {Any | hasattr(expr, 'args') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'args') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8598649116d5f6b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Pow","kind":"method","src_hash":"5730cc33194473ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8598649116d5f6b3"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Pow","kind":"method","src_hash":"5730cc33194473ff","in":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(expr)","rhs":"<unspecified:_print_Pow>","over":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'exp')"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8598649116d5f6b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.exp","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         # XXX May raise error for
         # int**float or int**complex or float**complex
@@ -321,16 +389,26 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
             self._print(base), self._print(exp))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatMul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatMul(expr), result == ('%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) if args else self._expand_fold_binary_op('torch.matmul', mat_args)) and result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) or result == self._expand_fold_binary_op('torch.matmul', mat_args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == ('%s*%s' % (self.parenthesize(M...   ║
+# ║   ensures:  result == '%s*%s' % (self.parenthesize(Mu...   ║
+# ║   fiber[case_0]: args => '%s*%s' % (self.parenthesize...   ║
+# ║   fiber[case_1]: not (args) => self._expand_fold_bina...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatMul : {Any | hasattr(expr, 'args')} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4f3c72af9c82b5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc0dd2aa0dcf8f2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_MatMul","kind":"method","src_hash":"caeca7974528acca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4f3c72af9c82b5b"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_MatMul","kind":"method","src_hash":"caeca7974528acca","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == ('%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) if args else self._expand_fold_binary_op('torch.matmul', mat_args)) and result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) or result == self._expand_fold_binary_op('torch.matmul', mat_args)"},"spec":{"lhs":"_print_MatMul(expr)","rhs":"result == ('%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) if args else self._expand_fold_binary_op('torch.matmul', mat_args)) and result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) or result == self._expand_fold_binary_op('torch.matmul', mat_args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatMul_correct"},"guarantee":"result == ('%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) if args else self._expand_fold_binary_op('torch.matmul', mat_args)); result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) or result == self._expand_fold_binary_op('torch.matmul', mat_args); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), result == ('%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) if args else self._expand_fold_binary_op('torch.matmul', mat_args)); result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) or result == self._expand_fold_binary_op('torch.matmul', mat_args); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc0dd2aa0dcf8f2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["result == ('%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) if args else self._expand_fold_binary_op('torch.matmul', mat_args))","result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args)) or result == self._expand_fold_binary_op('torch.matmul', mat_args)"],"fibers":[{"name":"case_0","guard":"args","ensures":["result == '%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args))"],"decidability":"library","returns_expr":"'%s*%s' % (self.parenthesize(Mul.fromiter(args), PRECEDENCE['Mul']), self._expand_fold_binary_op('torch.matmul', mat_args))"},{"name":"case_1","guard":"not (args)","ensures":["result == self._expand_fold_binary_op('torch.matmul', mat_args)"],"decidability":"library","returns_expr":"self._expand_fold_binary_op('torch.matmul', mat_args)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._expand_fold_binary_op","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatMul(self, expr):
         # Separate matrix and scalar arguments
         mat_args = [arg for arg in expr.args if isinstance(arg, MatrixExpr)]
@@ -345,30 +423,45 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
             return self._expand_fold_binary_op("torch.matmul", mat_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr), self._expand_fold_binary_op('torch.mm', [expr.base] * expr.exp)) over {Any | hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   returns:  self._expand_fold_binary_op('torch.mm', [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'exp') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c67267dcfe3f6049           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_MatPow","kind":"method","src_hash":"5656b2d5b8016f74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c67267dcfe3f6049"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_MatPow","kind":"method","src_hash":"5656b2d5b8016f74","in":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr)","rhs":"self._expand_fold_binary_op('torch.mm', [expr.base] * expr.exp)","over":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"_print_MatPow_correct"},"guarantee":"returns self._expand_fold_binary_op('torch.mm', [expr.base] * expr.exp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c67267dcfe3f6049","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')","hasattr(expr, 'base')"],"returns_expr":"self._expand_fold_binary_op('torch.mm', [expr.base] * expr.exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._expand_fold_binary_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr):
         return self._expand_fold_binary_op("torch.mm", [expr.base]*expr.exp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixBase(expr), '{}({})'.format(self._module_format('torch.tensor'), ', '.join(params))) over {Any | hasattr(expr, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixBase : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'tolist')                        ║
+# ║   returns:  '{}({})'.format(self._module_format('torc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixBase : {Any | hasattr(expr, 'tolist')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5ca658f9e73a347  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68bde6addbf0c04e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_MatrixBase","kind":"method","src_hash":"d457fd645e8e5ac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5ca658f9e73a347"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_MatrixBase","kind":"method","src_hash":"d457fd645e8e5ac6","in":{"base":"Any","pred":"hasattr(expr, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(expr)","rhs":"'{}({})'.format(self._module_format('torch.tensor'), ', '.join(params))","over":{"base":"Any","pred":"hasattr(expr, 'tolist')"},"name":"_print_MatrixBase_correct"},"guarantee":"returns '{}({})'.format(self._module_format('torch.tensor'), ', '.join(params))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), returns '{}({})'.format(self._module_format('torch.tensor'), ', '.join(params)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bde6addbf0c04e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'tolist')"],"returns_expr":"'{}({})'.format(self._module_format('torch.tensor'), ', '.join(params))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, expr):
         data = "[" + ", ".join(["[" + ", ".join([self._print(j) for j in i]) + "]" for i in expr.tolist()]) + "]"
         params = [str(data)]
@@ -382,44 +475,68 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_isnan(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_isnan(expr), f'torch.isnan({self._print(expr.args[0])})') over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_isnan : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  f'torch.isnan({self._print(expr.args[0])})'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_isnan : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21706c3abe4baf3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_isnan","kind":"method","src_hash":"c555da17806b91fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_isnan(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_isnan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21706c3abe4baf3b"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_isnan","kind":"method","src_hash":"c555da17806b91fd","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_isnan(expr)","rhs":"f'torch.isnan({self._print(expr.args[0])})'","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_isnan_correct"},"guarantee":"returns f'torch.isnan({self._print(expr.args[0])})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21706c3abe4baf3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"f'torch.isnan({self._print(expr.args[0])})'","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_isnan(self, expr):
         return f'torch.isnan({self._print(expr.args[0])})'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_isinf(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_isinf(expr), f'torch.isinf({self._print(expr.args[0])})') over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_isinf : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  f'torch.isinf({self._print(expr.args[0])})'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_isinf : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 399d853e8a284efe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_isinf","kind":"method","src_hash":"e39ab28350c50bd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_isinf(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_isinf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"399d853e8a284efe"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_isinf","kind":"method","src_hash":"e39ab28350c50bd6","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_isinf(expr)","rhs":"f'torch.isinf({self._print(expr.args[0])})'","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_isinf_correct"},"guarantee":"returns f'torch.isinf({self._print(expr.args[0])})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"399d853e8a284efe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"f'torch.isinf({self._print(expr.args[0])})'","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_isinf(self, expr):
         return f'torch.isinf({self._print(expr.args[0])})'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Identity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Identity(expr), result == ('{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) if all((dim.is_Integer for dim in expr.shape)) else '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))) and result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) or result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Identity : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ensures:  result == ('{}({})'.format(self._module_f...   ║
+# ║   ensures:  result == '{}({})'.format(self._module_fo...   ║
+# ║   fiber[case_0]: all((dim.is_Integer for dim in expr....   ║
+# ║   fiber[case_1]: not (all((dim.is_Integer for dim in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Identity : {Any | hasattr(expr, 'shape')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a743aafa3e26943  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 599c68dbd8f92e57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Identity","kind":"method","src_hash":"33a9ee2594894d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Identity_correct","statement":"Path(_print_Identity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a743aafa3e26943"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Identity","kind":"method","src_hash":"33a9ee2594894d4a","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any","pred":"result satisfies: result == ('{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) if all((dim.is_Integer for dim in expr.shape)) else '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))) and result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) or result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))"},"spec":{"lhs":"_print_Identity(expr)","rhs":"result == ('{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) if all((dim.is_Integer for dim in expr.shape)) else '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))) and result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) or result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"_print_Identity_correct"},"guarantee":"result == ('{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) if all((dim.is_Integer for dim in expr.shape)) else '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))); result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) or result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1])); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Identity_correct","statement":"Path(_print_Identity(x), result == ('{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) if all((dim.is_Integer for dim in expr.shape)) else '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))); result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) or result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1])); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"599c68dbd8f92e57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"ensures":["result == ('{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) if all((dim.is_Integer for dim in expr.shape)) else '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1])))","result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0])) or result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))"],"fibers":[{"name":"case_0","guard":"all((dim.is_Integer for dim in expr.shape))","ensures":["result == '{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]))"],"decidability":"library","returns_expr":"'{}({})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]))"},{"name":"case_1","guard":"not (all((dim.is_Integer for dim in expr.shape)))","ensures":["result == '{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))"],"decidability":"library","returns_expr":"'{}({}, {})'.format(self._module_format('torch.eye'), self._print(expr.shape[0]), self._print(expr.shape[1]))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Identity(self, expr):
         if all(dim.is_Integer for dim in expr.shape):
             return "{}({})".format(
@@ -435,16 +552,23 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
             )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ZeroMatrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ZeroMatrix(expr), '{}({})'.format(self._module_format('torch.zeros'), self._print(expr.shape))) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ZeroMatrix : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   returns:  '{}({})'.format(self._module_format('torc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ZeroMatrix : {Any | hasattr(expr, 'shape')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ced14cd71f788453  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd66671197bffd34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_ZeroMatrix","kind":"method","src_hash":"9eaecb5e41e1c915","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ZeroMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ZeroMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_ZeroMatrix_correct","statement":"Path(_print_ZeroMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced14cd71f788453"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_ZeroMatrix","kind":"method","src_hash":"9eaecb5e41e1c915","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ZeroMatrix(expr)","rhs":"'{}({})'.format(self._module_format('torch.zeros'), self._print(expr.shape))","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"_print_ZeroMatrix_correct"},"guarantee":"returns '{}({})'.format(self._module_format('torch.zeros'), self._print(expr.shape))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_ZeroMatrix_correct","statement":"Path(_print_ZeroMatrix(x), returns '{}({})'.format(self._module_format('torch.zeros'), self._print(expr.shape)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd66671197bffd34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"returns_expr":"'{}({})'.format(self._module_format('torch.zeros'), self._print(expr.shape))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ZeroMatrix(self, expr):
         return "{}({})".format(
             self._module_format("torch.zeros"),
@@ -452,16 +576,23 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_OneMatrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_OneMatrix(expr), '{}({})'.format(self._module_format('torch.ones'), self._print(expr.shape))) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_OneMatrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   returns:  '{}({})'.format(self._module_format('torc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_OneMatrix : {Any | hasattr(expr, 'shape')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90ba274ea14d8c96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17efee202198234a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_OneMatrix","kind":"method","src_hash":"403dd39f9d3e1aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_OneMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_OneMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_OneMatrix_correct","statement":"Path(_print_OneMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ba274ea14d8c96"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_OneMatrix","kind":"method","src_hash":"403dd39f9d3e1aa7","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_print_OneMatrix(expr)","rhs":"'{}({})'.format(self._module_format('torch.ones'), self._print(expr.shape))","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"_print_OneMatrix_correct"},"guarantee":"returns '{}({})'.format(self._module_format('torch.ones'), self._print(expr.shape))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_OneMatrix_correct","statement":"Path(_print_OneMatrix(x), returns '{}({})'.format(self._module_format('torch.ones'), self._print(expr.shape)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17efee202198234a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"returns_expr":"'{}({})'.format(self._module_format('torch.ones'), self._print(expr.shape))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_OneMatrix(self, expr):
         return "{}({})".format(
             self._module_format("torch.ones"),
@@ -469,44 +600,64 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_conjugate(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_conjugate(expr), f"{self._module_format('torch.conj')}({self._print(expr.args[0])})") over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_conjugate : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  f"{self._module_format('torch.conj')}({se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_conjugate : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7df716e3f7bc4346           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_conjugate","kind":"method","src_hash":"0c5b69525ffa1a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_conjugate(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7df716e3f7bc4346"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_conjugate","kind":"method","src_hash":"0c5b69525ffa1a7a","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_conjugate(expr)","rhs":"f\"{self._module_format('torch.conj')}({self._print(expr.args[0])})\"","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_conjugate_correct"},"guarantee":"returns f\"{self._module_format('torch.conj')}({self._print(expr.args[0])})\"","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7df716e3f7bc4346","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"f\"{self._module_format('torch.conj')}({self._print(expr.args[0])})\"","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_conjugate(self, expr):
         return f"{self._module_format('torch.conj')}({self._print(expr.args[0])})"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImaginaryUnit(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImaginaryUnit(expr), '1j') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '1j'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_ImaginaryUnit : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd94f0cf8777a21b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_ImaginaryUnit","kind":"method","src_hash":"085509cca96c5970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd94f0cf8777a21b"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_ImaginaryUnit","kind":"method","src_hash":"085509cca96c5970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(expr)","rhs":"'1j'","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"returns '1j'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd94f0cf8777a21b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'1j'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImaginaryUnit(self, expr):
         return "1j"  # uses the Python built-in 1j notation for the imaginary unit
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Heaviside(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Heaviside(expr), f"{self._module_format('torch.heaviside')}({args[0]}, {args[1]})") over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Heaviside : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  f"{self._module_format('torch.heaviside')...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Heaviside : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 018e49e5e8f0cc72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4efad57c949eb1a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Heaviside","kind":"method","src_hash":"f0331b89f6dd14a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Heaviside(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Heaviside_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Heaviside_correct","statement":"Path(_print_Heaviside(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"018e49e5e8f0cc72"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_Heaviside","kind":"method","src_hash":"f0331b89f6dd14a3","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Heaviside(expr)","rhs":"f\"{self._module_format('torch.heaviside')}({args[0]}, {args[1]})\"","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Heaviside_correct"},"guarantee":"returns f\"{self._module_format('torch.heaviside')}({args[0]}, {args[1]})\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.TorchPrinter._print_Heaviside_correct","statement":"Path(_print_Heaviside(x), returns f\"{self._module_format('torch.heaviside')}({args[0]}, {args[1]})\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4efad57c949eb1a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"f\"{self._module_format('torch.heaviside')}({args[0]}, {args[1]})\"","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Heaviside(self, expr):
         args = [self._print(expr.args[0]), "0.5"]
         if len(expr.args) > 1:
@@ -514,30 +665,45 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         return f"{self._module_format('torch.heaviside')}({args[0]}, {args[1]})"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_gamma(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_gamma(expr), f"{self._module_format('torch.special.gamma')}({self._print(expr.args[0])})") over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_gamma : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  f"{self._module_format('torch.special.gam...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_gamma : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d353dce93e17a4e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_gamma","kind":"method","src_hash":"fe1516652e5c2047","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_gamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_gamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d353dce93e17a4e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_gamma","kind":"method","src_hash":"fe1516652e5c2047","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_gamma(expr)","rhs":"f\"{self._module_format('torch.special.gamma')}({self._print(expr.args[0])})\"","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_gamma_correct"},"guarantee":"returns f\"{self._module_format('torch.special.gamma')}({self._print(expr.args[0])})\"","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d353dce93e17a4e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"f\"{self._module_format('torch.special.gamma')}({self._print(expr.args[0])})\"","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._module_format","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_gamma(self, expr):
         return f"{self._module_format('torch.special.gamma')}({self._print(expr.args[0])})"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_polygamma(exp), id) over Any                   ║
+# ║ Path(_print_polygamma(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_polygamma : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   fiber[case_0]: expr.args[0] == S.Zero => f"{self._m...   ║
+# ║   fiber[case_1]: not (expr.args[0] == S.Zero)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_polygamma : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4b43c44613544ca5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_polygamma","kind":"method","src_hash":"56bb8fdd2c5296cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_polygamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_polygamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_module_format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b43c44613544ca5"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.TorchPrinter._print_polygamma","kind":"method","src_hash":"56bb8fdd2c5296cc","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_polygamma(expr)","rhs":"<unspecified:_print_polygamma>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_polygamma_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_module_format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b43c44613544ca5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"fibers":[{"name":"case_0","guard":"expr.args[0] == S.Zero","ensures":["result == f\"{self._module_format('torch.special.digamma')}({self._print(expr.args[1])})\""],"decidability":"z3","returns_expr":"f\"{self._module_format('torch.special.digamma')}({self._print(expr.args[1])})\""},{"name":"case_1","guard":"not (expr.args[0] == S.Zero)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._module_format","self._print"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_polygamma(self, expr):
         if expr.args[0] == S.Zero:
             return f"{self._module_format('torch.special.digamma')}({self._print(expr.args[1])})"
@@ -552,16 +718,22 @@ class TorchPrinter(ArrayPrinter, AbstractPythonCodePrinter):
     _zeros = "zeros"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(torch_code(exp), torch_code produces the expected output) over Any ║
+# ║ Path(torch_code(expr, requires_grad, dtype), printer.doprint(expr, **settings)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  printer.doprint(expr, **settings)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ torch_code : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dea299d6d24bccc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 300502070b049964  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printingtorch.torch_code","kind":"function","src_hash":"e145c00c28ac872b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torch_code(exp)","rhs":"torch_code produces the expected output","over":{"base":"Any"},"name":"torch_code_correct"},"guarantee":"torch_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.torch_code_correct","statement":"Path(torch_code(x), torch_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dea299d6d24bccc"}
+# @cctt_verify {"v":2,"sym":"sympy.printingtorch.torch_code","kind":"function","src_hash":"e145c00c28ac872b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torch_code(expr, requires_grad, dtype)","rhs":"printer.doprint(expr, **settings)","over":{"base":"Any"},"name":"torch_code_correct"},"guarantee":"returns printer.doprint(expr, **settings)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printingtorch.torch_code_correct","statement":"Path(torch_code(x), returns printer.doprint(expr, **settings))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"300502070b049964","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"printer.doprint(expr, **settings)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'requires_grad', 'dtype'], spec=['expr', 'requires_grad', 'dtype', '**settings']"]}}
 def torch_code(expr, requires_grad=False, dtype="torch.float64", **settings):
     printer = TorchPrinter(settings={'requires_grad': requires_grad, 'dtype': dtype})
     return printer.doprint(expr, **settings)

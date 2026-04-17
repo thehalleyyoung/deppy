@@ -28,16 +28,22 @@ from sympy.external import import_module
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_solve_issue_24862(), test_matrix_solve_issue_24862 produces the expected output) over Any ║
+# ║ Path(test_matrix_solve_issue_24862(), <unspecified:test_matrix_solve_issue_24862>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_solve_issue_24862 : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 247c711aeecb7a4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_issue_24862","kind":"function","src_hash":"e65d9de2fe68c5f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrix_solve_issue_24862()","rhs":"test_matrix_solve_issue_24862 produces the expected output","over":{"base":"Any"},"name":"test_matrix_solve_issue_24862_correct"},"guarantee":"test_matrix_solve_issue_24862 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_issue_24862_correct","statement":"Path(test_matrix_solve_issue_24862(x), test_matrix_solve_issue_24862 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247c711aeecb7a4d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_issue_24862","kind":"function","src_hash":"e65d9de2fe68c5f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrix_solve_issue_24862()","rhs":"<unspecified:test_matrix_solve_issue_24862>","over":{"base":"Any"},"name":"test_matrix_solve_issue_24862_correct"},"guarantee":"test_matrix_solve_issue_24862 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_issue_24862_correct","statement":"Path(test_matrix_solve_issue_24862(x), test_matrix_solve_issue_24862 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247c711aeecb7a4d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix_solve_issue_24862():
     A = Matrix(3, 3, symbols('a:9'))
     b = Matrix(3, 1, symbols('b:3'))
@@ -45,16 +51,23 @@ def test_matrix_solve_issue_24862():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_solve_derivative_exact(), test_matrix_solve_derivative_exact produces the expected output) over Any ║
+# ║ Path(test_matrix_solve_derivative_exact(), simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1) and MatrixSolve(A, b).diff(q) == dxdq_ms) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_solve_derivative_exact : Any → {Any | sim...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(x_lu.diff(q) - dxdq_lu) == zeros...   ║
+# ║   ensures:  MatrixSolve(A, b).diff(q) == dxdq_ms           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_solve_derivative_exact : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f803696f5aa649d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c46521befffd1b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_exact","kind":"function","src_hash":"e3a3d61a8230dd4c","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1) and MatrixSolve(A, b).diff(q) == dxdq_ms"},"spec":{"lhs":"test_matrix_solve_derivative_exact()","rhs":"test_matrix_solve_derivative_exact produces the expected output","over":{"base":"Any"},"name":"test_matrix_solve_derivative_exact_correct"},"guarantee":"test_matrix_solve_derivative_exact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_exact_correct","statement":"Path(test_matrix_solve_derivative_exact(x), test_matrix_solve_derivative_exact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f803696f5aa649d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_exact","kind":"function","src_hash":"e3a3d61a8230dd4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1) and MatrixSolve(A, b).diff(q) == dxdq_ms"},"spec":{"lhs":"test_matrix_solve_derivative_exact()","rhs":"simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1) and MatrixSolve(A, b).diff(q) == dxdq_ms","over":{"base":"Any"},"name":"test_matrix_solve_derivative_exact_correct"},"guarantee":"simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1); MatrixSolve(A, b).diff(q) == dxdq_ms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_exact_correct","statement":"Path(test_matrix_solve_derivative_exact(x), simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1); MatrixSolve(A, b).diff(q) == dxdq_ms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c46521befffd1b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(x_lu.diff(q) - dxdq_lu) == zeros(2, 1)","MatrixSolve(A, b).diff(q) == dxdq_ms"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matrix_solve_derivative_exact():
     q = symbols('q')
     a11, a12, a21, a22, b1, b2 = (
@@ -70,16 +83,22 @@ def test_matrix_solve_derivative_exact():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_solve_derivative_numpy(), test_matrix_solve_derivative_numpy produces the expected output) over Any ║
+# ║ Path(test_matrix_solve_derivative_numpy(), <unspecified:test_matrix_solve_derivative_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_solve_derivative_numpy : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5310eb5a367be85e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_numpy","kind":"function","src_hash":"bfe6e34ca6d4c911","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrix_solve_derivative_numpy()","rhs":"test_matrix_solve_derivative_numpy produces the expected output","over":{"base":"Any"},"name":"test_matrix_solve_derivative_numpy_correct"},"guarantee":"test_matrix_solve_derivative_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_numpy_correct","statement":"Path(test_matrix_solve_derivative_numpy(x), test_matrix_solve_derivative_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5310eb5a367be85e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_numpy","kind":"function","src_hash":"bfe6e34ca6d4c911","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrix_solve_derivative_numpy()","rhs":"<unspecified:test_matrix_solve_derivative_numpy>","over":{"base":"Any"},"name":"test_matrix_solve_derivative_numpy_correct"},"guarantee":"test_matrix_solve_derivative_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_matrix_nodes.test_matrix_solve_derivative_numpy_correct","statement":"Path(test_matrix_solve_derivative_numpy(x), test_matrix_solve_derivative_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5310eb5a367be85e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_matrix_solve_derivative_numpy():
     np = import_module('numpy')
     if not np:

@@ -48,16 +48,22 @@ w, x, y, z = symbols('w,x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_iterables(), test_deprecated_iterables produces the expected output) over Any ║
+# ║ Path(test_deprecated_iterables(), <unspecified:test_deprecated_iterables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_iterables : Any → {Any | list(ordered...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 972557adb1486c72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_deprecated_iterables","kind":"function","src_hash":"a530772e5f72608c","in":{"base":"Any"},"out":{"base":"Any","pred":"list(ordered([y, x])) == [x, y] and sorted([y, x], key=default_sort_key) == [x, y]"},"spec":{"lhs":"test_deprecated_iterables()","rhs":"test_deprecated_iterables produces the expected output","over":{"base":"Any"},"name":"test_deprecated_iterables_correct"},"guarantee":"test_deprecated_iterables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_deprecated_iterables_correct","statement":"Path(test_deprecated_iterables(x), test_deprecated_iterables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"972557adb1486c72"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_deprecated_iterables","kind":"function","src_hash":"a530772e5f72608c","in":{"base":"Any"},"out":{"base":"Any","pred":"list(ordered([y, x])) == [x, y] and sorted([y, x], key=default_sort_key) == [x, y]"},"spec":{"lhs":"test_deprecated_iterables()","rhs":"<unspecified:test_deprecated_iterables>","over":{"base":"Any"},"name":"test_deprecated_iterables_correct"},"guarantee":"test_deprecated_iterables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_deprecated_iterables_correct","statement":"Path(test_deprecated_iterables(x), test_deprecated_iterables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"972557adb1486c72","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_iterables():
     from sympy.utilities.iterables import default_sort_key, ordered
     with warns_deprecated_sympy():
@@ -67,16 +73,24 @@ def test_deprecated_iterables():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_palindromic(), test_is_palindromic produces the expected output) over Any ║
+# ║ Path(test_is_palindromic(), is_palindromic('') and is_palindromic('x') and is_palindromic('xx') and is_palindromic('xyx') and not is_palindromic('xy') and not is_palindromic('xyzx') and is_palindromic('xxyzzyx', 1) and not is_palindromic('xxyzzyx', 2) and is_palindromic('xxyzzyx', 2, -1) and is_palindromic('xxyzzyx', 2, 6) and is_palindromic('xxyzyx', 1) and not is_palindromic('xxyzyx', 2) and is_palindromic('xxyzyx', 2, 2 + 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_palindromic : Any → {Any | is_palindromic('')...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_palindromic('')                             ║
+# ║   ensures:  is_palindromic('x')                            ║
+# ║   ensures:  is_palindromic('xx')                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_palindromic : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95ada92d0dd58f86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b6f16a0d11ea4b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_is_palindromic","kind":"function","src_hash":"b5d928fa6c6ffa25","in":{"base":"Any"},"out":{"base":"Any","pred":"is_palindromic('') and is_palindromic('x') and is_palindromic('xx') and is_palindromic('xyx') and not is_palindromic('xy') and not is_palindromic('xyzx') and is_palindromic('xxyzzyx', 1) and not is_palindromic('xxyzzyx', 2) and is_palindromic('xxyzzyx', 2, -1) and is_palindromic('xxyzzyx', 2, 6) and is_palindromic('xxyzyx', 1) and not is_palindromic('xxyzyx', 2) and is_palindromic('xxyzyx', 2, 2 + 3)"},"spec":{"lhs":"test_is_palindromic()","rhs":"test_is_palindromic produces the expected output","over":{"base":"Any"},"name":"test_is_palindromic_correct"},"guarantee":"test_is_palindromic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_is_palindromic_correct","statement":"Path(test_is_palindromic(x), test_is_palindromic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ada92d0dd58f86"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_is_palindromic","kind":"function","src_hash":"b5d928fa6c6ffa25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_palindromic('') and is_palindromic('x') and is_palindromic('xx') and is_palindromic('xyx') and not is_palindromic('xy') and not is_palindromic('xyzx') and is_palindromic('xxyzzyx', 1) and not is_palindromic('xxyzzyx', 2) and is_palindromic('xxyzzyx', 2, -1) and is_palindromic('xxyzzyx', 2, 6) and is_palindromic('xxyzyx', 1) and not is_palindromic('xxyzyx', 2) and is_palindromic('xxyzyx', 2, 2 + 3)"},"spec":{"lhs":"test_is_palindromic()","rhs":"is_palindromic('') and is_palindromic('x') and is_palindromic('xx') and is_palindromic('xyx') and not is_palindromic('xy') and not is_palindromic('xyzx') and is_palindromic('xxyzzyx', 1) and not is_palindromic('xxyzzyx', 2) and is_palindromic('xxyzzyx', 2, -1) and is_palindromic('xxyzzyx', 2, 6) and is_palindromic('xxyzyx', 1) and not is_palindromic('xxyzyx', 2) and is_palindromic('xxyzyx', 2, 2 + 3)","over":{"base":"Any"},"name":"test_is_palindromic_correct"},"guarantee":"is_palindromic(''); is_palindromic('x'); is_palindromic('xx')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_is_palindromic_correct","statement":"Path(test_is_palindromic(x), is_palindromic(''); is_palindromic('x'); is_palindromic('xx'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b6f16a0d11ea4b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_palindromic('')","is_palindromic('x')","is_palindromic('xx')","is_palindromic('xyx')","not is_palindromic('xy')","not is_palindromic('xyzx')","is_palindromic('xxyzzyx', 1)","not is_palindromic('xxyzzyx', 2)","is_palindromic('xxyzzyx', 2, -1)","is_palindromic('xxyzzyx', 2, 6)","is_palindromic('xxyzyx', 1)","not is_palindromic('xxyzyx', 2)","is_palindromic('xxyzyx', 2, 2 + 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_palindromic():
     assert is_palindromic('')
     assert is_palindromic('x')
@@ -94,16 +108,24 @@ def test_is_palindromic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_flatten(), test_flatten produces the expected output) over Any ║
+# ║ Path(test_flatten(), flatten((1, (1,))) == [1, 1] and flatten((x, (x,))) == [x, x] and flatten(ls, levels=0) == ls and flatten(ls, levels=1) == [(-2, -1), (1, 2), (0, 0)] and flatten(ls, levels=2) == [-2, -1, 1, 2, 0, 0] and flatten(ls, levels=3) == [-2, -1, 1, 2, 0, 0] and flatten([MyOp(x, y), z]) == [MyOp(x, y), z] and flatten([MyOp(x, y), z], cls=MyOp) == [x, y, z] and flatten({1, 11, 2}) == list({1, 11, 2})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_flatten : Any → {Any | flatten((1, (1,))) == [1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  flatten((1, (1,))) == [1, 1]                   ║
+# ║   ensures:  flatten((x, (x,))) == [x, x]                   ║
+# ║   ensures:  flatten(ls, levels=0) == ls                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_flatten : Any → {Any | result satisfies: flatten...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59e13c5274d5aeb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e566d15de4de55ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_flatten","kind":"function","src_hash":"bd55bc2d1bc8bae8","in":{"base":"Any"},"out":{"base":"Any","pred":"flatten((1, (1,))) == [1, 1] and flatten((x, (x,))) == [x, x] and flatten(ls, levels=0) == ls and flatten(ls, levels=1) == [(-2, -1), (1, 2), (0, 0)] and flatten(ls, levels=2) == [-2, -1, 1, 2, 0, 0] and flatten(ls, levels=3) == [-2, -1, 1, 2, 0, 0] and flatten([MyOp(x, y), z]) == [MyOp(x, y), z] and flatten([MyOp(x, y), z], cls=MyOp) == [x, y, z] and flatten({1, 11, 2}) == list({1, 11, 2})"},"spec":{"lhs":"test_flatten()","rhs":"test_flatten produces the expected output","over":{"base":"Any"},"name":"test_flatten_correct"},"guarantee":"test_flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_flatten_correct","statement":"Path(test_flatten(x), test_flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59e13c5274d5aeb5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_flatten","kind":"function","src_hash":"bd55bc2d1bc8bae8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: flatten((1, (1,))) == [1, 1] and flatten((x, (x,))) == [x, x] and flatten(ls, levels=0) == ls and flatten(ls, levels=1) == [(-2, -1), (1, 2), (0, 0)] and flatten(ls, levels=2) == [-2, -1, 1, 2, 0, 0] and flatten(ls, levels=3) == [-2, -1, 1, 2, 0, 0] and flatten([MyOp(x, y), z]) == [MyOp(x, y), z] and flatten([MyOp(x, y), z], cls=MyOp) == [x, y, z] and flatten({1, 11, 2}) == list({1, 11, 2})"},"spec":{"lhs":"test_flatten()","rhs":"flatten((1, (1,))) == [1, 1] and flatten((x, (x,))) == [x, x] and flatten(ls, levels=0) == ls and flatten(ls, levels=1) == [(-2, -1), (1, 2), (0, 0)] and flatten(ls, levels=2) == [-2, -1, 1, 2, 0, 0] and flatten(ls, levels=3) == [-2, -1, 1, 2, 0, 0] and flatten([MyOp(x, y), z]) == [MyOp(x, y), z] and flatten([MyOp(x, y), z], cls=MyOp) == [x, y, z] and flatten({1, 11, 2}) == list({1, 11, 2})","over":{"base":"Any"},"name":"test_flatten_correct"},"guarantee":"flatten((1, (1,))) == [1, 1]; flatten((x, (x,))) == [x, x]; flatten(ls, levels=0) == ls","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_flatten_correct","statement":"Path(test_flatten(x), flatten((1, (1,))) == [1, 1]; flatten((x, (x,))) == [x, x]; flatten(ls, levels=0) == ls)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e566d15de4de55ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["flatten((1, (1,))) == [1, 1]","flatten((x, (x,))) == [x, x]","flatten(ls, levels=0) == ls","flatten(ls, levels=1) == [(-2, -1), (1, 2), (0, 0)]","flatten(ls, levels=2) == [-2, -1, 1, 2, 0, 0]","flatten(ls, levels=3) == [-2, -1, 1, 2, 0, 0]","flatten([MyOp(x, y), z]) == [MyOp(x, y), z]","flatten([MyOp(x, y), z], cls=MyOp) == [x, y, z]","flatten({1, 11, 2}) == list({1, 11, 2})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_flatten():
     assert flatten((1, (1,))) == [1, 1]
     assert flatten((x, (x,))) == [x, x]
@@ -127,7 +149,12 @@ def test_flatten():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_iproduct(), test_iproduct produces the expected output) over {Any | isinstance(n1, Integer)} ║
+# ║ Path(test_iproduct(), list(iproduct()) == [()] and list(iproduct([])) == [] and list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)] and sorted(iproduct([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)] and sorted(iproduct([0, 1], [0, 1], [0, 1])) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)] and iterable(iproduct(S.Integers)) is True and iterable(iproduct(S.Integers, S.Integers)) is True and (3,) in iproduct(S.Integers) and (4, 5) in iproduct(S.Integers, S.Integers) and (1, 2, 3) in iproduct(S.Integers, S.Integers, S.Integers)) over {Any | isinstance(n1, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(iproduct()) == [()]                       ║
+# ║   ensures:  list(iproduct([])) == []                       ║
+# ║   ensures:  list(iproduct([1, 2, 3])) == [(1,), (2,),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_iproduct : {Any | isinstance(n1, Integer)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -139,9 +166,12 @@ def test_flatten():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a3d95264...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_iproduct","kind":"function","src_hash":"437a0c8b5a4e818c","in":{"base":"Any","pred":"isinstance(n1, Integer)"},"out":{"base":"Any","pred":"list(iproduct()) == [()] and list(iproduct([])) == [] and list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)] and iterable(iproduct(S.Integers)) is True and iterable(iproduct(S.Integers, S.Integers)) is True and (3,) in iproduct(S.Integers) and (4, 5) in iproduct(S.Integers, S.Integers) and (1, 2, 3) in iproduct(S.Integers, S.Integers, S.Integers) and isinstance(n1, Integer) and isinstance(n2, Integer) and isinstance(n3, Integer) and t in iproduct(S.Integers, S.Integers, S.Integers)"},"spec":{"lhs":"test_iproduct()","rhs":"test_iproduct produces the expected output","over":{"base":"Any","pred":"isinstance(n1, Integer)"},"name":"test_iproduct_correct"},"guarantee":"test_iproduct produces the expected output","fibers":[{"name":"Integer","pred":"isinstance(n1, Integer)","path":{"lhs":"test_iproduct(x)","rhs":"test_iproduct produces the expected output","over":{"base":"Integer","pred":"isinstance(n1, Integer)"},"name":"test_iproduct_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_iproduct_Integer_correct","statement":"test_iproduct satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a3d95264ecec7a9c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_iproduct","kind":"function","src_hash":"437a0c8b5a4e818c","in":{"base":"Any","pred":"isinstance(n1, Integer)"},"out":{"base":"Any","pred":"result satisfies: list(iproduct()) == [()] and list(iproduct([])) == [] and list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)] and sorted(iproduct([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)] and sorted(iproduct([0, 1], [0, 1], [0, 1])) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)] and iterable(iproduct(S.Integers)) is True and iterable(iproduct(S.Integers, S.Integers)) is True and (3,) in iproduct(S.Integers) and (4, 5) in iproduct(S.Integers, S.Integers) and (1, 2, 3) in iproduct(S.Integers, S.Integers, S.Integers)"},"spec":{"lhs":"test_iproduct()","rhs":"list(iproduct()) == [()] and list(iproduct([])) == [] and list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)] and sorted(iproduct([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)] and sorted(iproduct([0, 1], [0, 1], [0, 1])) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)] and iterable(iproduct(S.Integers)) is True and iterable(iproduct(S.Integers, S.Integers)) is True and (3,) in iproduct(S.Integers) and (4, 5) in iproduct(S.Integers, S.Integers) and (1, 2, 3) in iproduct(S.Integers, S.Integers, S.Integers)","over":{"base":"Any","pred":"isinstance(n1, Integer)"},"name":"test_iproduct_correct"},"guarantee":"list(iproduct()) == [()]; list(iproduct([])) == []; list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)]","fibers":[{"name":"Integer","pred":"isinstance(n1, Integer)","path":{"lhs":"test_iproduct(x)","rhs":"list(iproduct()) == [()]; list(iproduct([])) == []; list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)]","over":{"base":"Integer","pred":"isinstance(n1, Integer)"},"name":"test_iproduct_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_iproduct_Integer_correct","statement":"test_iproduct satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a3d95264ecec7a9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(iproduct()) == [()]","list(iproduct([])) == []","list(iproduct([1, 2, 3])) == [(1,), (2,), (3,)]","sorted(iproduct([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]","sorted(iproduct([0, 1], [0, 1], [0, 1])) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]","iterable(iproduct(S.Integers)) is True","iterable(iproduct(S.Integers, S.Integers)) is True","(3,) in iproduct(S.Integers)","(4, 5) in iproduct(S.Integers, S.Integers)","(1, 2, 3) in iproduct(S.Integers, S.Integers, S.Integers)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":true}}
 def test_iproduct():
     assert list(iproduct()) == [()]
     assert list(iproduct([])) == []
@@ -165,16 +195,24 @@ def test_iproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_group(), test_group produces the expected output) over Any ║
+# ║ Path(test_group(), group([]) == [] and group([], multiple=False) == [] and group([1]) == [[1]] and group([1], multiple=False) == [(1, 1)] and group([1, 1]) == [[1, 1]] and group([1, 1], multiple=False) == [(1, 2)] and group([1, 1, 1]) == [[1, 1, 1]] and group([1, 1, 1], multiple=False) == [(1, 3)] and group([1, 2, 1]) == [[1], [2], [1]] and group([1, 2, 1], multiple=False) == [(1, 1), (2, 1), (1, 1)] and group([1, 1, 2, 2, 2, 1, 3, 3]) == [[1, 1], [2, 2, 2], [1], [3, 3]] and group([1, 1, 2, 2, 2, 1, 3, 3], multiple=False) == [(1, 2), (2, 3), (1, 1), (3, 2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_group : Any → {Any | group([]) == [] and group([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  group([]) == []                                ║
+# ║   ensures:  group([], multiple=False) == []                ║
+# ║   ensures:  group([1]) == [[1]]                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_group : Any → {Any | result satisfies: group([])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 152f50d2c1bfdcc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa60b3e68b30167c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_group","kind":"function","src_hash":"20867c36ddfbcdb0","in":{"base":"Any"},"out":{"base":"Any","pred":"group([]) == [] and group([], multiple=False) == [] and group([1]) == [[1]] and group([1], multiple=False) == [(1, 1)] and group([1, 1]) == [[1, 1]] and group([1, 1], multiple=False) == [(1, 2)] and group([1, 1, 1]) == [[1, 1, 1]] and group([1, 1, 1], multiple=False) == [(1, 3)] and group([1, 2, 1]) == [[1], [2], [1]] and group([1, 2, 1], multiple=False) == [(1, 1), (2, 1), (1, 1)] and group([1, 1, 2, 2, 2, 1, 3, 3]) == [[1, 1], [2, 2, 2], [1], [3, 3]]"},"spec":{"lhs":"test_group()","rhs":"test_group produces the expected output","over":{"base":"Any"},"name":"test_group_correct"},"guarantee":"test_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_group_correct","statement":"Path(test_group(x), test_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"152f50d2c1bfdcc3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_group","kind":"function","src_hash":"20867c36ddfbcdb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: group([]) == [] and group([], multiple=False) == [] and group([1]) == [[1]] and group([1], multiple=False) == [(1, 1)] and group([1, 1]) == [[1, 1]] and group([1, 1], multiple=False) == [(1, 2)] and group([1, 1, 1]) == [[1, 1, 1]] and group([1, 1, 1], multiple=False) == [(1, 3)] and group([1, 2, 1]) == [[1], [2], [1]] and group([1, 2, 1], multiple=False) == [(1, 1), (2, 1), (1, 1)] and group([1, 1, 2, 2, 2, 1, 3, 3]) == [[1, 1], [2, 2, 2], [1], [3, 3]] and group([1, 1, 2, 2, 2, 1, 3, 3], multiple=False) == [(1, 2), (2, 3), (1, 1), (3, 2)]"},"spec":{"lhs":"test_group()","rhs":"group([]) == [] and group([], multiple=False) == [] and group([1]) == [[1]] and group([1], multiple=False) == [(1, 1)] and group([1, 1]) == [[1, 1]] and group([1, 1], multiple=False) == [(1, 2)] and group([1, 1, 1]) == [[1, 1, 1]] and group([1, 1, 1], multiple=False) == [(1, 3)] and group([1, 2, 1]) == [[1], [2], [1]] and group([1, 2, 1], multiple=False) == [(1, 1), (2, 1), (1, 1)] and group([1, 1, 2, 2, 2, 1, 3, 3]) == [[1, 1], [2, 2, 2], [1], [3, 3]] and group([1, 1, 2, 2, 2, 1, 3, 3], multiple=False) == [(1, 2), (2, 3), (1, 1), (3, 2)]","over":{"base":"Any"},"name":"test_group_correct"},"guarantee":"group([]) == []; group([], multiple=False) == []; group([1]) == [[1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_group_correct","statement":"Path(test_group(x), group([]) == []; group([], multiple=False) == []; group([1]) == [[1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa60b3e68b30167c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["group([]) == []","group([], multiple=False) == []","group([1]) == [[1]]","group([1], multiple=False) == [(1, 1)]","group([1, 1]) == [[1, 1]]","group([1, 1], multiple=False) == [(1, 2)]","group([1, 1, 1]) == [[1, 1, 1]]","group([1, 1, 1], multiple=False) == [(1, 3)]","group([1, 2, 1]) == [[1], [2], [1]]","group([1, 2, 1], multiple=False) == [(1, 1), (2, 1), (1, 1)]","group([1, 1, 2, 2, 2, 1, 3, 3]) == [[1, 1], [2, 2, 2], [1], [3, 3]]","group([1, 1, 2, 2, 2, 1, 3, 3], multiple=False) == [(1, 2), (2, 3), (1, 1), (3, 2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_group():
     assert group([]) == []
     assert group([], multiple=False) == []
@@ -197,16 +235,24 @@ def test_group():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subsets(), test_subsets produces the expected output) over Any ║
+# ║ Path(test_subsets(), list(subsets([1, 2, 3], 0)) == [()] and list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)] and list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)] and list(subsets([1, 2, 3], 3)) == [(1, 2, 3)] and list(subsets(l, 0, repetition=True)) == [()] and list(subsets(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and list(subsets(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)] and list(subsets(l, 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 0, 2), (0, 0, 3), (0, 1, 1), (0, 1, 2), (0, 1, 3), (0, 2, 2), (0, 2, 3), (0, 3, 3), (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 2, 2), (1, 2, 3), (1, 3, 3), (2, 2, 2), (2, 2, 3), (2, 3, 3), (3, 3, 3)] and len(list(subsets(l, 4, repetition=True))) == 35 and list(subsets(l[:2], 3, repetition=False)) == [] and list(subsets(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 1), (1, 1, 1)] and list(subsets([1, 2], repetition=True)) == [(), (1,), (2,), (1, 1), (1, 2), (2, 2)] and list(subsets([1, 2], repetition=False)) == [(), (1,), (2,), (1, 2)] and list(subsets([1, 2, 3], 2, repetition=True)) == [(1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subsets : Any → {Any | list(subsets([1, 2, 3], 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(subsets([1, 2, 3], 0)) == [()]            ║
+# ║   ensures:  list(subsets([1, 2, 3], 1)) == [(1,), (2,...   ║
+# ║   ensures:  list(subsets([1, 2, 3], 2)) == [(1, 2), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subsets : Any → {Any | result satisfies: list(su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dd131b1752dc442  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d870c5ae246001d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_subsets","kind":"function","src_hash":"cc4bd20bc4e45000","in":{"base":"Any"},"out":{"base":"Any","pred":"list(subsets([1, 2, 3], 0)) == [()] and list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)] and list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)] and list(subsets([1, 2, 3], 3)) == [(1, 2, 3)] and list(subsets(l, 0, repetition=True)) == [()] and list(subsets(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and len(list(subsets(l, 4, repetition=True))) == 35 and list(subsets(l[:2], 3, repetition=False)) == [] and list(subsets([1, 2], repetition=False)) == [(), (1,), (2,), (1, 2)] and list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)]"},"spec":{"lhs":"test_subsets()","rhs":"test_subsets produces the expected output","over":{"base":"Any"},"name":"test_subsets_correct"},"guarantee":"test_subsets produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_subsets_correct","statement":"Path(test_subsets(x), test_subsets produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dd131b1752dc442"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_subsets","kind":"function","src_hash":"cc4bd20bc4e45000","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(subsets([1, 2, 3], 0)) == [()] and list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)] and list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)] and list(subsets([1, 2, 3], 3)) == [(1, 2, 3)] and list(subsets(l, 0, repetition=True)) == [()] and list(subsets(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and list(subsets(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)] and list(subsets(l, 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 0, 2), (0, 0, 3), (0, 1, 1), (0, 1, 2), (0, 1, 3), (0, 2, 2), (0, 2, 3), (0, 3, 3), (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 2, 2), (1, 2, 3), (1, 3, 3), (2, 2, 2), (2, 2, 3), (2, 3, 3), (3, 3, 3)] and len(list(subsets(l, 4, repetition=True))) == 35 and list(subsets(l[:2], 3, repetition=False)) == [] and list(subsets(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 1), (1, 1, 1)] and list(subsets([1, 2], repetition=True)) == [(), (1,), (2,), (1, 1), (1, 2), (2, 2)] and list(subsets([1, 2], repetition=False)) == [(), (1,), (2,), (1, 2)] and list(subsets([1, 2, 3], 2, repetition=True)) == [(1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)]"},"spec":{"lhs":"test_subsets()","rhs":"list(subsets([1, 2, 3], 0)) == [()] and list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)] and list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)] and list(subsets([1, 2, 3], 3)) == [(1, 2, 3)] and list(subsets(l, 0, repetition=True)) == [()] and list(subsets(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and list(subsets(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)] and list(subsets(l, 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 0, 2), (0, 0, 3), (0, 1, 1), (0, 1, 2), (0, 1, 3), (0, 2, 2), (0, 2, 3), (0, 3, 3), (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 2, 2), (1, 2, 3), (1, 3, 3), (2, 2, 2), (2, 2, 3), (2, 3, 3), (3, 3, 3)] and len(list(subsets(l, 4, repetition=True))) == 35 and list(subsets(l[:2], 3, repetition=False)) == [] and list(subsets(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 1), (1, 1, 1)] and list(subsets([1, 2], repetition=True)) == [(), (1,), (2,), (1, 1), (1, 2), (2, 2)] and list(subsets([1, 2], repetition=False)) == [(), (1,), (2,), (1, 2)] and list(subsets([1, 2, 3], 2, repetition=True)) == [(1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)]","over":{"base":"Any"},"name":"test_subsets_correct"},"guarantee":"list(subsets([1, 2, 3], 0)) == [()]; list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)]; list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_subsets_correct","statement":"Path(test_subsets(x), list(subsets([1, 2, 3], 0)) == [()]; list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)]; list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d870c5ae246001d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(subsets([1, 2, 3], 0)) == [()]","list(subsets([1, 2, 3], 1)) == [(1,), (2,), (3,)]","list(subsets([1, 2, 3], 2)) == [(1, 2), (1, 3), (2, 3)]","list(subsets([1, 2, 3], 3)) == [(1, 2, 3)]","list(subsets(l, 0, repetition=True)) == [()]","list(subsets(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)]","list(subsets(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)]","list(subsets(l, 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 0, 2), (0, 0, 3), (0, 1, 1), (0, 1, 2), (0, 1, 3), (0, 2, 2), (0, 2, 3), (0, 3, 3), (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 2, 2), (1, 2, 3), (1, 3, 3), (2, 2, 2), (2, 2, 3), (2, 3, 3), (3, 3, 3)]","len(list(subsets(l, 4, repetition=True))) == 35","list(subsets(l[:2], 3, repetition=False)) == []","list(subsets(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 1), (1, 1, 1)]","list(subsets([1, 2], repetition=True)) == [(), (1,), (2,), (1, 1), (1, 2), (2, 2)]","list(subsets([1, 2], repetition=False)) == [(), (1,), (2,), (1, 2)]","list(subsets([1, 2, 3], 2, repetition=True)) == [(1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_subsets():
     # combinations
     assert list(subsets([1, 2, 3], 0)) == [()]
@@ -248,16 +294,24 @@ def test_subsets():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_variations(), test_variations produces the expected output) over Any ║
+# ║ Path(test_variations(), list(variations(l, 0, repetition=False)) == [()] and list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 2, repetition=False)) == [(0, 1), (0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2)] and list(variations(l, 3, repetition=False)) == [(0, 1, 2), (0, 1, 3), (0, 2, 1), (0, 2, 3), (0, 3, 1), (0, 3, 2), (1, 0, 2), (1, 0, 3), (1, 2, 0), (1, 2, 3), (1, 3, 0), (1, 3, 2), (2, 0, 1), (2, 0, 3), (2, 1, 0), (2, 1, 3), (2, 3, 0), (2, 3, 1), (3, 0, 1), (3, 0, 2), (3, 1, 0), (3, 1, 2), (3, 2, 0), (3, 2, 1)] and list(variations(l, 0, repetition=True)) == [()] and list(variations(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)] and len(list(variations(l, 3, repetition=True))) == 64 and len(list(variations(l, 4, repetition=True))) == 256 and list(variations(l[:2], 3, repetition=False)) == [] and list(variations(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_variations : Any → {Any | list(variations(l, 0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(variations(l, 0, repetition=False)) ...   ║
+# ║   ensures:  list(variations(l, 1, repetition=False)) ...   ║
+# ║   ensures:  list(variations(l, 2, repetition=False)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_variations : Any → {Any | result satisfies: list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f84716dbb90094c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fcefac222a5a8ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_variations","kind":"function","src_hash":"3b59d544bae06dca","in":{"base":"Any"},"out":{"base":"Any","pred":"list(variations(l, 0, repetition=False)) == [()] and list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 0, repetition=True)) == [()] and list(variations(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and len(list(variations(l, 3, repetition=True))) == 64 and len(list(variations(l, 4, repetition=True))) == 256 and list(variations(l[:2], 3, repetition=False)) == []"},"spec":{"lhs":"test_variations()","rhs":"test_variations produces the expected output","over":{"base":"Any"},"name":"test_variations_correct"},"guarantee":"test_variations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_variations_correct","statement":"Path(test_variations(x), test_variations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f84716dbb90094c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_variations","kind":"function","src_hash":"3b59d544bae06dca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(variations(l, 0, repetition=False)) == [()] and list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 2, repetition=False)) == [(0, 1), (0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2)] and list(variations(l, 3, repetition=False)) == [(0, 1, 2), (0, 1, 3), (0, 2, 1), (0, 2, 3), (0, 3, 1), (0, 3, 2), (1, 0, 2), (1, 0, 3), (1, 2, 0), (1, 2, 3), (1, 3, 0), (1, 3, 2), (2, 0, 1), (2, 0, 3), (2, 1, 0), (2, 1, 3), (2, 3, 0), (2, 3, 1), (3, 0, 1), (3, 0, 2), (3, 1, 0), (3, 1, 2), (3, 2, 0), (3, 2, 1)] and list(variations(l, 0, repetition=True)) == [()] and list(variations(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)] and len(list(variations(l, 3, repetition=True))) == 64 and len(list(variations(l, 4, repetition=True))) == 256 and list(variations(l[:2], 3, repetition=False)) == [] and list(variations(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]"},"spec":{"lhs":"test_variations()","rhs":"list(variations(l, 0, repetition=False)) == [()] and list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 2, repetition=False)) == [(0, 1), (0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2)] and list(variations(l, 3, repetition=False)) == [(0, 1, 2), (0, 1, 3), (0, 2, 1), (0, 2, 3), (0, 3, 1), (0, 3, 2), (1, 0, 2), (1, 0, 3), (1, 2, 0), (1, 2, 3), (1, 3, 0), (1, 3, 2), (2, 0, 1), (2, 0, 3), (2, 1, 0), (2, 1, 3), (2, 3, 0), (2, 3, 1), (3, 0, 1), (3, 0, 2), (3, 1, 0), (3, 1, 2), (3, 2, 0), (3, 2, 1)] and list(variations(l, 0, repetition=True)) == [()] and list(variations(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)] and list(variations(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)] and len(list(variations(l, 3, repetition=True))) == 64 and len(list(variations(l, 4, repetition=True))) == 256 and list(variations(l[:2], 3, repetition=False)) == [] and list(variations(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]","over":{"base":"Any"},"name":"test_variations_correct"},"guarantee":"list(variations(l, 0, repetition=False)) == [()]; list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)]; list(variations(l, 2, repetition=False)) == [(0, 1), (0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_variations_correct","statement":"Path(test_variations(x), list(variations(l, 0, repetition=False)) == [()]; list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)]; list(variations(l, 2, repetition=False)) == [(0, 1), (0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fcefac222a5a8ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(variations(l, 0, repetition=False)) == [()]","list(variations(l, 1, repetition=False)) == [(0,), (1,), (2,), (3,)]","list(variations(l, 2, repetition=False)) == [(0, 1), (0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2)]","list(variations(l, 3, repetition=False)) == [(0, 1, 2), (0, 1, 3), (0, 2, 1), (0, 2, 3), (0, 3, 1), (0, 3, 2), (1, 0, 2), (1, 0, 3), (1, 2, 0), (1, 2, 3), (1, 3, 0), (1, 3, 2), (2, 0, 1), (2, 0, 3), (2, 1, 0), (2, 1, 3), (2, 3, 0), (2, 3, 1), (3, 0, 1), (3, 0, 2), (3, 1, 0), (3, 1, 2), (3, 2, 0), (3, 2, 1)]","list(variations(l, 0, repetition=True)) == [()]","list(variations(l, 1, repetition=True)) == [(0,), (1,), (2,), (3,)]","list(variations(l, 2, repetition=True)) == [(0, 0), (0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]","len(list(variations(l, 3, repetition=True))) == 64","len(list(variations(l, 4, repetition=True))) == 256","list(variations(l[:2], 3, repetition=False)) == []","list(variations(l[:2], 3, repetition=True)) == [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_variations():
     # permutations
     l = list(range(4))
@@ -283,16 +337,24 @@ def test_variations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cartes(), test_cartes produces the expected output) over Any ║
+# ║ Path(test_cartes(), list(cartes([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)] and list(cartes()) == [()] and list(cartes('a')) == [('a',)] and list(cartes('a', repeat=2)) == [('a', 'a')] and list(cartes(list(range(2)))) == [(0,), (1,)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cartes : Any → {Any | list(cartes()) == [()] and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(cartes([1, 2], [3, 4, 5])) == [(1, 3...   ║
+# ║   ensures:  list(cartes()) == [()]                         ║
+# ║   ensures:  list(cartes('a')) == [('a',)]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cartes : Any → {Any | result satisfies: list(car...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3accabb344a5716  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a5e3b44a3d40b78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_cartes","kind":"function","src_hash":"79203ad61f9ae820","in":{"base":"Any"},"out":{"base":"Any","pred":"list(cartes()) == [()] and list(cartes('a')) == [('a',)] and list(cartes('a', repeat=2)) == [('a', 'a')] and list(cartes(list(range(2)))) == [(0,), (1,)]"},"spec":{"lhs":"test_cartes()","rhs":"test_cartes produces the expected output","over":{"base":"Any"},"name":"test_cartes_correct"},"guarantee":"test_cartes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_cartes_correct","statement":"Path(test_cartes(x), test_cartes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3accabb344a5716"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_cartes","kind":"function","src_hash":"79203ad61f9ae820","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(cartes([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)] and list(cartes()) == [()] and list(cartes('a')) == [('a',)] and list(cartes('a', repeat=2)) == [('a', 'a')] and list(cartes(list(range(2)))) == [(0,), (1,)]"},"spec":{"lhs":"test_cartes()","rhs":"list(cartes([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)] and list(cartes()) == [()] and list(cartes('a')) == [('a',)] and list(cartes('a', repeat=2)) == [('a', 'a')] and list(cartes(list(range(2)))) == [(0,), (1,)]","over":{"base":"Any"},"name":"test_cartes_correct"},"guarantee":"list(cartes([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]; list(cartes()) == [()]; list(cartes('a')) == [('a',)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_cartes_correct","statement":"Path(test_cartes(x), list(cartes([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]; list(cartes()) == [()]; list(cartes('a')) == [('a',)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a5e3b44a3d40b78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(cartes([1, 2], [3, 4, 5])) == [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]","list(cartes()) == [()]","list(cartes('a')) == [('a',)]","list(cartes('a', repeat=2)) == [('a', 'a')]","list(cartes(list(range(2)))) == [(0,), (1,)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cartes():
     assert list(cartes([1, 2], [3, 4, 5])) == \
         [(1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]
@@ -303,16 +365,22 @@ def test_cartes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_filter_symbols(), test_filter_symbols produces the expected output) over Any ║
+# ║ Path(test_filter_symbols(), take(filtered, 3) == list(symbols('x1 x4 x5'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_filter_symbols : Any → {Any | take(filtered, 3) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  take(filtered, 3) == list(symbols('x1 x4 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_filter_symbols : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63e34cd65e80e0da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1d3c4fbb5969d5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_filter_symbols","kind":"function","src_hash":"009e26692e3f3f99","in":{"base":"Any"},"out":{"base":"Any","pred":"take(filtered, 3) == list(symbols('x1 x4 x5'))"},"spec":{"lhs":"test_filter_symbols()","rhs":"test_filter_symbols produces the expected output","over":{"base":"Any"},"name":"test_filter_symbols_correct"},"guarantee":"test_filter_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_filter_symbols_correct","statement":"Path(test_filter_symbols(x), test_filter_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63e34cd65e80e0da"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_filter_symbols","kind":"function","src_hash":"009e26692e3f3f99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: take(filtered, 3) == list(symbols('x1 x4 x5'))"},"spec":{"lhs":"test_filter_symbols()","rhs":"take(filtered, 3) == list(symbols('x1 x4 x5'))","over":{"base":"Any"},"name":"test_filter_symbols_correct"},"guarantee":"take(filtered, 3) == list(symbols('x1 x4 x5'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_filter_symbols_correct","statement":"Path(test_filter_symbols(x), take(filtered, 3) == list(symbols('x1 x4 x5')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1d3c4fbb5969d5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["take(filtered, 3) == list(symbols('x1 x4 x5'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_filter_symbols():
     s = numbered_symbols()
     filtered = filter_symbols(s, symbols("x0 x2 x3"))
@@ -320,7 +388,11 @@ def test_filter_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numbered_symbols(), test_numbered_symbols produces the expected output) over {Any | isinstance(next(s), Dummy)} ║
+# ║ Path(test_numbered_symbols(), isinstance(next(s), Dummy) and next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')) over {Any | isinstance(next(s), Dummy)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(next(s), Dummy)                     ║
+# ║   ensures:  next(numbered_symbols('C', start=1, exclu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numbered_symbols : {Any | isinstance(next(s), Du...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -332,9 +404,12 @@ def test_filter_symbols():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b5a798ea...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_numbered_symbols","kind":"function","src_hash":"289a89f0aec30707","in":{"base":"Any","pred":"isinstance(next(s), Dummy)"},"out":{"base":"Any","pred":"isinstance(next(s), Dummy) and next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')"},"spec":{"lhs":"test_numbered_symbols()","rhs":"test_numbered_symbols produces the expected output","over":{"base":"Any","pred":"isinstance(next(s), Dummy)"},"name":"test_numbered_symbols_correct"},"guarantee":"test_numbered_symbols produces the expected output","fibers":[{"name":"Dummy","pred":"isinstance(next(s), Dummy)","path":{"lhs":"test_numbered_symbols(x)","rhs":"test_numbered_symbols produces the expected output","over":{"base":"Dummy","pred":"isinstance(next(s), Dummy)"},"name":"test_numbered_symbols_Dummy_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_numbered_symbols_Dummy_correct","statement":"test_numbered_symbols satisfies spec on Dummy inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5a798eaa0413ea2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_numbered_symbols","kind":"function","src_hash":"289a89f0aec30707","in":{"base":"Any","pred":"isinstance(next(s), Dummy)"},"out":{"base":"Any","pred":"result satisfies: isinstance(next(s), Dummy) and next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')"},"spec":{"lhs":"test_numbered_symbols()","rhs":"isinstance(next(s), Dummy) and next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')","over":{"base":"Any","pred":"isinstance(next(s), Dummy)"},"name":"test_numbered_symbols_correct"},"guarantee":"isinstance(next(s), Dummy); next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')","fibers":[{"name":"Dummy","pred":"isinstance(next(s), Dummy)","path":{"lhs":"test_numbered_symbols(x)","rhs":"isinstance(next(s), Dummy); next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')","over":{"base":"Dummy","pred":"isinstance(next(s), Dummy)"},"name":"test_numbered_symbols_Dummy_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_numbered_symbols_Dummy_correct","statement":"test_numbered_symbols satisfies spec on Dummy inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5a798eaa0413ea2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(next(s), Dummy)","next(numbered_symbols('C', start=1, exclude=[symbols('C1')])) == symbols('C2')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_numbered_symbols():
     s = numbered_symbols(cls=Dummy)
     assert isinstance(next(s), Dummy)
@@ -343,16 +418,24 @@ def test_numbered_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sift(), test_sift produces the expected output) over Any ║
+# ║ Path(test_sift(), sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]} and sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]} and sift([S.One], lambda _: _.has(x)) == {False: [1]} and sift([0, 1, 2, 3], lambda x: x % 2, binary=True) == ([1, 3], [0, 2]) and sift([0, 1, 2, 3], lambda x: x % 3 == 1, binary=True) == ([1], [0, 2, 3])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sift : Any → {Any | sift(list(range(5)), lambda ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sift(list(range(5)), lambda _: _ % 2) == ...   ║
+# ║   ensures:  sift([x, y], lambda _: _.has(x)) == {Fals...   ║
+# ║   ensures:  sift([S.One], lambda _: _.has(x)) == {Fal...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sift : Any → {Any | result satisfies: sift(list(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 842f21c8994ba4b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 436ee2fefb37d7e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_sift","kind":"function","src_hash":"5716837d71bef90c","in":{"base":"Any"},"out":{"base":"Any","pred":"sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]} and sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]} and sift([S.One], lambda _: _.has(x)) == {False: [1]} and sift([0, 1, 2, 3], lambda x: x % 2, binary=True) == ([1, 3], [0, 2]) and sift([0, 1, 2, 3], lambda x: x % 3 == 1, binary=True) == ([1], [0, 2, 3])"},"spec":{"lhs":"test_sift()","rhs":"test_sift produces the expected output","over":{"base":"Any"},"name":"test_sift_correct"},"guarantee":"test_sift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_sift_correct","statement":"Path(test_sift(x), test_sift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842f21c8994ba4b2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_sift","kind":"function","src_hash":"5716837d71bef90c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]} and sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]} and sift([S.One], lambda _: _.has(x)) == {False: [1]} and sift([0, 1, 2, 3], lambda x: x % 2, binary=True) == ([1, 3], [0, 2]) and sift([0, 1, 2, 3], lambda x: x % 3 == 1, binary=True) == ([1], [0, 2, 3])"},"spec":{"lhs":"test_sift()","rhs":"sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]} and sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]} and sift([S.One], lambda _: _.has(x)) == {False: [1]} and sift([0, 1, 2, 3], lambda x: x % 2, binary=True) == ([1, 3], [0, 2]) and sift([0, 1, 2, 3], lambda x: x % 3 == 1, binary=True) == ([1], [0, 2, 3])","over":{"base":"Any"},"name":"test_sift_correct"},"guarantee":"sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]}; sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]}; sift([S.One], lambda _: _.has(x)) == {False: [1]}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_sift_correct","statement":"Path(test_sift(x), sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]}; sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]}; sift([S.One], lambda _: _.has(x)) == {False: [1]})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"436ee2fefb37d7e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]}","sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]}","sift([S.One], lambda _: _.has(x)) == {False: [1]}","sift([0, 1, 2, 3], lambda x: x % 2, binary=True) == ([1, 3], [0, 2])","sift([0, 1, 2, 3], lambda x: x % 3 == 1, binary=True) == ([1], [0, 2, 3])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sift():
     assert sift(list(range(5)), lambda _: _ % 2) == {1: [1, 3], 0: [0, 2, 4]}
     assert sift([x, y], lambda _: _.has(x)) == {False: [y], True: [x]}
@@ -366,16 +449,24 @@ def test_sift():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_take(), test_take produces the expected output) over Any ║
+# ║ Path(test_take(), take(X, 5) == list(symbols('x0:5')) and take(X, 5) == list(symbols('x5:10')) and take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_take : Any → {Any | take(X, 5) == list(symbols('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  take(X, 5) == list(symbols('x0:5'))            ║
+# ║   ensures:  take(X, 5) == list(symbols('x5:10'))           ║
+# ║   ensures:  take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_take : Any → {Any | result satisfies: take(X, 5)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3a69659e3d2e836  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c5738b1fb918020  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_take","kind":"function","src_hash":"4a56c2b88d113803","in":{"base":"Any"},"out":{"base":"Any","pred":"take(X, 5) == list(symbols('x0:5')) and take(X, 5) == list(symbols('x5:10')) and take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]"},"spec":{"lhs":"test_take()","rhs":"test_take produces the expected output","over":{"base":"Any"},"name":"test_take_correct"},"guarantee":"test_take produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_take_correct","statement":"Path(test_take(x), test_take produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3a69659e3d2e836"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_take","kind":"function","src_hash":"4a56c2b88d113803","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: take(X, 5) == list(symbols('x0:5')) and take(X, 5) == list(symbols('x5:10')) and take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]"},"spec":{"lhs":"test_take()","rhs":"take(X, 5) == list(symbols('x0:5')) and take(X, 5) == list(symbols('x5:10')) and take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]","over":{"base":"Any"},"name":"test_take_correct"},"guarantee":"take(X, 5) == list(symbols('x0:5')); take(X, 5) == list(symbols('x5:10')); take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_take_correct","statement":"Path(test_take(x), take(X, 5) == list(symbols('x0:5')); take(X, 5) == list(symbols('x5:10')); take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c5738b1fb918020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["take(X, 5) == list(symbols('x0:5'))","take(X, 5) == list(symbols('x5:10'))","take([1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_take():
     X = numbered_symbols()
 
@@ -386,16 +477,24 @@ def test_take():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dict_merge(), test_dict_merge produces the expected output) over Any ║
+# ║ Path(test_dict_merge(), dict_merge({}, {1: x, y: z}) == {1: x, y: z} and dict_merge({1: x, y: z}, {}) == {1: x, y: z} and dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {2: z}) == {1: x, 2: z, y: z} and dict_merge({1: y, 2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {1: y, 2: z}) == {1: y, 2: z, y: z}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dict_merge : Any → {Any | dict_merge({}, {1: x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dict_merge({}, {1: x, y: z}) == {1: x, y: z}   ║
+# ║   ensures:  dict_merge({1: x, y: z}, {}) == {1: x, y: z}   ║
+# ║   ensures:  dict_merge({2: z}, {1: x, y: z}) == {1: x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dict_merge : Any → {Any | result satisfies: dict...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 546f9ec218301ec5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25a3922f149052d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_dict_merge","kind":"function","src_hash":"cef12692c170ad45","in":{"base":"Any"},"out":{"base":"Any","pred":"dict_merge({}, {1: x, y: z}) == {1: x, y: z} and dict_merge({1: x, y: z}, {}) == {1: x, y: z} and dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {2: z}) == {1: x, 2: z, y: z} and dict_merge({1: y, 2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {1: y, 2: z}) == {1: y, 2: z, y: z}"},"spec":{"lhs":"test_dict_merge()","rhs":"test_dict_merge produces the expected output","over":{"base":"Any"},"name":"test_dict_merge_correct"},"guarantee":"test_dict_merge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_dict_merge_correct","statement":"Path(test_dict_merge(x), test_dict_merge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"546f9ec218301ec5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_dict_merge","kind":"function","src_hash":"cef12692c170ad45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dict_merge({}, {1: x, y: z}) == {1: x, y: z} and dict_merge({1: x, y: z}, {}) == {1: x, y: z} and dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {2: z}) == {1: x, 2: z, y: z} and dict_merge({1: y, 2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {1: y, 2: z}) == {1: y, 2: z, y: z}"},"spec":{"lhs":"test_dict_merge()","rhs":"dict_merge({}, {1: x, y: z}) == {1: x, y: z} and dict_merge({1: x, y: z}, {}) == {1: x, y: z} and dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {2: z}) == {1: x, 2: z, y: z} and dict_merge({1: y, 2: z}, {1: x, y: z}) == {1: x, 2: z, y: z} and dict_merge({1: x, y: z}, {1: y, 2: z}) == {1: y, 2: z, y: z}","over":{"base":"Any"},"name":"test_dict_merge_correct"},"guarantee":"dict_merge({}, {1: x, y: z}) == {1: x, y: z}; dict_merge({1: x, y: z}, {}) == {1: x, y: z}; dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_dict_merge_correct","statement":"Path(test_dict_merge(x), dict_merge({}, {1: x, y: z}) == {1: x, y: z}; dict_merge({1: x, y: z}, {}) == {1: x, y: z}; dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25a3922f149052d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dict_merge({}, {1: x, y: z}) == {1: x, y: z}","dict_merge({1: x, y: z}, {}) == {1: x, y: z}","dict_merge({2: z}, {1: x, y: z}) == {1: x, 2: z, y: z}","dict_merge({1: x, y: z}, {2: z}) == {1: x, 2: z, y: z}","dict_merge({1: y, 2: z}, {1: x, y: z}) == {1: x, 2: z, y: z}","dict_merge({1: x, y: z}, {1: y, 2: z}) == {1: y, 2: z, y: z}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dict_merge():
     assert dict_merge({}, {1: x, y: z}) == {1: x, y: z}
     assert dict_merge({1: x, y: z}, {}) == {1: x, y: z}
@@ -408,16 +507,24 @@ def test_dict_merge():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prefixes(), test_prefixes produces the expected output) over Any ║
+# ║ Path(test_prefixes(), list(prefixes([])) == [] and list(prefixes([1])) == [[1]] and list(prefixes([1, 2])) == [[1], [1, 2]] and list(prefixes([1, 2, 3, 4, 5])) == [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prefixes : Any → {Any | list(prefixes([])) == []...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(prefixes([])) == []                       ║
+# ║   ensures:  list(prefixes([1])) == [[1]]                   ║
+# ║   ensures:  list(prefixes([1, 2])) == [[1], [1, 2]]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prefixes : Any → {Any | result satisfies: list(p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9588ff899ccfad8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11470e1639a430fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_prefixes","kind":"function","src_hash":"4ff41a06fd5da5c2","in":{"base":"Any"},"out":{"base":"Any","pred":"list(prefixes([])) == [] and list(prefixes([1])) == [[1]] and list(prefixes([1, 2])) == [[1], [1, 2]]"},"spec":{"lhs":"test_prefixes()","rhs":"test_prefixes produces the expected output","over":{"base":"Any"},"name":"test_prefixes_correct"},"guarantee":"test_prefixes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_prefixes_correct","statement":"Path(test_prefixes(x), test_prefixes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9588ff899ccfad8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_prefixes","kind":"function","src_hash":"4ff41a06fd5da5c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(prefixes([])) == [] and list(prefixes([1])) == [[1]] and list(prefixes([1, 2])) == [[1], [1, 2]] and list(prefixes([1, 2, 3, 4, 5])) == [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]"},"spec":{"lhs":"test_prefixes()","rhs":"list(prefixes([])) == [] and list(prefixes([1])) == [[1]] and list(prefixes([1, 2])) == [[1], [1, 2]] and list(prefixes([1, 2, 3, 4, 5])) == [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]","over":{"base":"Any"},"name":"test_prefixes_correct"},"guarantee":"list(prefixes([])) == []; list(prefixes([1])) == [[1]]; list(prefixes([1, 2])) == [[1], [1, 2]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_prefixes_correct","statement":"Path(test_prefixes(x), list(prefixes([])) == []; list(prefixes([1])) == [[1]]; list(prefixes([1, 2])) == [[1], [1, 2]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11470e1639a430fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(prefixes([])) == []","list(prefixes([1])) == [[1]]","list(prefixes([1, 2])) == [[1], [1, 2]]","list(prefixes([1, 2, 3, 4, 5])) == [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prefixes():
     assert list(prefixes([])) == []
     assert list(prefixes([1])) == [[1]]
@@ -428,16 +535,24 @@ def test_prefixes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_postfixes(), test_postfixes produces the expected output) over Any ║
+# ║ Path(test_postfixes(), list(postfixes([])) == [] and list(postfixes([1])) == [[1]] and list(postfixes([1, 2])) == [[2], [1, 2]] and list(postfixes([1, 2, 3, 4, 5])) == [[5], [4, 5], [3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_postfixes : Any → {Any | list(postfixes([])) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(postfixes([])) == []                      ║
+# ║   ensures:  list(postfixes([1])) == [[1]]                  ║
+# ║   ensures:  list(postfixes([1, 2])) == [[2], [1, 2]]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_postfixes : Any → {Any | result satisfies: list(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe14d265447bfc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8196b4c5d4cf1c1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_postfixes","kind":"function","src_hash":"464f92f3425514c8","in":{"base":"Any"},"out":{"base":"Any","pred":"list(postfixes([])) == [] and list(postfixes([1])) == [[1]] and list(postfixes([1, 2])) == [[2], [1, 2]]"},"spec":{"lhs":"test_postfixes()","rhs":"test_postfixes produces the expected output","over":{"base":"Any"},"name":"test_postfixes_correct"},"guarantee":"test_postfixes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_postfixes_correct","statement":"Path(test_postfixes(x), test_postfixes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe14d265447bfc5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_postfixes","kind":"function","src_hash":"464f92f3425514c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(postfixes([])) == [] and list(postfixes([1])) == [[1]] and list(postfixes([1, 2])) == [[2], [1, 2]] and list(postfixes([1, 2, 3, 4, 5])) == [[5], [4, 5], [3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]"},"spec":{"lhs":"test_postfixes()","rhs":"list(postfixes([])) == [] and list(postfixes([1])) == [[1]] and list(postfixes([1, 2])) == [[2], [1, 2]] and list(postfixes([1, 2, 3, 4, 5])) == [[5], [4, 5], [3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]","over":{"base":"Any"},"name":"test_postfixes_correct"},"guarantee":"list(postfixes([])) == []; list(postfixes([1])) == [[1]]; list(postfixes([1, 2])) == [[2], [1, 2]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_postfixes_correct","statement":"Path(test_postfixes(x), list(postfixes([])) == []; list(postfixes([1])) == [[1]]; list(postfixes([1, 2])) == [[2], [1, 2]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8196b4c5d4cf1c1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(postfixes([])) == []","list(postfixes([1])) == [[1]]","list(postfixes([1, 2])) == [[2], [1, 2]]","list(postfixes([1, 2, 3, 4, 5])) == [[5], [4, 5], [3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_postfixes():
     assert list(postfixes([])) == []
     assert list(postfixes([1])) == [[1]]
@@ -448,16 +563,23 @@ def test_postfixes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_topological_sort(), test_topological_sort produces the expected output) over Any ║
+# ║ Path(test_topological_sort(), topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10] and topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_topological_sort : Any → {Any | topological_sort...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  topological_sort((V, E)) == [3, 5, 7, 8, ...   ║
+# ║   ensures:  topological_sort((V, E), key=lambda v: -v...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_topological_sort : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb66a6d1b7e3b81c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a27b8cd434f53afd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_topological_sort","kind":"function","src_hash":"c7abef3c76f9d68a","in":{"base":"Any"},"out":{"base":"Any","pred":"topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10] and topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2]"},"spec":{"lhs":"test_topological_sort()","rhs":"test_topological_sort produces the expected output","over":{"base":"Any"},"name":"test_topological_sort_correct"},"guarantee":"test_topological_sort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_topological_sort_correct","statement":"Path(test_topological_sort(x), test_topological_sort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb66a6d1b7e3b81c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_topological_sort","kind":"function","src_hash":"c7abef3c76f9d68a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10] and topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2]"},"spec":{"lhs":"test_topological_sort()","rhs":"topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10] and topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2]","over":{"base":"Any"},"name":"test_topological_sort_correct"},"guarantee":"topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10]; topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_topological_sort_correct","statement":"Path(test_topological_sort(x), topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10]; topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a27b8cd434f53afd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["topological_sort((V, E)) == [3, 5, 7, 8, 11, 2, 9, 10]","topological_sort((V, E), key=lambda v: -v) == [7, 5, 11, 3, 10, 8, 9, 2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_topological_sort():
     V = [2, 3, 5, 7, 8, 9, 10, 11]
     E = [(7, 11), (7, 8), (5, 11),
@@ -472,16 +594,24 @@ def test_topological_sort():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_strongly_connected_components(), test_strongly_connected_components produces the expected output) over Any ║
+# ║ Path(test_strongly_connected_components(), strongly_connected_components(([], [])) == [] and strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and strongly_connected_components((V, E)) == [[1, 2, 3]] and strongly_connected_components((V, E)) == [[4], [2, 3], [1]] and strongly_connected_components((V, E)) == [[1, 2], [3, 4]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_strongly_connected_components : Any → {Any | str...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  strongly_connected_components(([], [])) =...   ║
+# ║   ensures:  strongly_connected_components(([1, 2, 3],...   ║
+# ║   ensures:  strongly_connected_components((V, E)) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_strongly_connected_components : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fba90c58a87524b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3bf11c753791d54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_strongly_connected_components","kind":"function","src_hash":"bf2741185db33e05","in":{"base":"Any"},"out":{"base":"Any","pred":"strongly_connected_components(([], [])) == [] and strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and strongly_connected_components((V, E)) == [[1, 2, 3]] and strongly_connected_components((V, E)) == [[4], [2, 3], [1]] and strongly_connected_components((V, E)) == [[1, 2], [3, 4]]"},"spec":{"lhs":"test_strongly_connected_components()","rhs":"test_strongly_connected_components produces the expected output","over":{"base":"Any"},"name":"test_strongly_connected_components_correct"},"guarantee":"test_strongly_connected_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_strongly_connected_components_correct","statement":"Path(test_strongly_connected_components(x), test_strongly_connected_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fba90c58a87524b8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_strongly_connected_components","kind":"function","src_hash":"bf2741185db33e05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: strongly_connected_components(([], [])) == [] and strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and strongly_connected_components((V, E)) == [[1, 2, 3]] and strongly_connected_components((V, E)) == [[4], [2, 3], [1]] and strongly_connected_components((V, E)) == [[1, 2], [3, 4]]"},"spec":{"lhs":"test_strongly_connected_components()","rhs":"strongly_connected_components(([], [])) == [] and strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and strongly_connected_components((V, E)) == [[1, 2, 3]] and strongly_connected_components((V, E)) == [[4], [2, 3], [1]] and strongly_connected_components((V, E)) == [[1, 2], [3, 4]]","over":{"base":"Any"},"name":"test_strongly_connected_components_correct"},"guarantee":"strongly_connected_components(([], [])) == []; strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]]; strongly_connected_components((V, E)) == [[1, 2, 3]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_strongly_connected_components_correct","statement":"Path(test_strongly_connected_components(x), strongly_connected_components(([], [])) == []; strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]]; strongly_connected_components((V, E)) == [[1, 2, 3]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3bf11c753791d54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["strongly_connected_components(([], [])) == []","strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]]","strongly_connected_components((V, E)) == [[1, 2, 3]]","strongly_connected_components((V, E)) == [[4], [2, 3], [1]]","strongly_connected_components((V, E)) == [[1, 2], [3, 4]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_strongly_connected_components():
     assert strongly_connected_components(([], [])) == []
     assert strongly_connected_components(([1, 2, 3], [])) == [[1], [2], [3]]
@@ -500,16 +630,24 @@ def test_strongly_connected_components():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_connected_components(), test_connected_components produces the expected output) over Any ║
+# ║ Path(test_connected_components(), connected_components(([], [])) == [] and connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and connected_components((V, E)) == [[1, 2, 3]] and connected_components((V, E)) == [[1, 2, 3, 4]] and connected_components((V, E)) == [[1, 2], [3, 4]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_connected_components : Any → {Any | connected_co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  connected_components(([], [])) == []           ║
+# ║   ensures:  connected_components(([1, 2, 3], [])) == ...   ║
+# ║   ensures:  connected_components((V, E)) == [[1, 2, 3]]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_connected_components : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e4e60268bb4ec8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e9a985bf6d6158a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_connected_components","kind":"function","src_hash":"f2df3cc8ed8e789a","in":{"base":"Any"},"out":{"base":"Any","pred":"connected_components(([], [])) == [] and connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and connected_components((V, E)) == [[1, 2, 3]] and connected_components((V, E)) == [[1, 2, 3, 4]] and connected_components((V, E)) == [[1, 2], [3, 4]]"},"spec":{"lhs":"test_connected_components()","rhs":"test_connected_components produces the expected output","over":{"base":"Any"},"name":"test_connected_components_correct"},"guarantee":"test_connected_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_connected_components_correct","statement":"Path(test_connected_components(x), test_connected_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e4e60268bb4ec8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_connected_components","kind":"function","src_hash":"f2df3cc8ed8e789a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: connected_components(([], [])) == [] and connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and connected_components((V, E)) == [[1, 2, 3]] and connected_components((V, E)) == [[1, 2, 3, 4]] and connected_components((V, E)) == [[1, 2], [3, 4]]"},"spec":{"lhs":"test_connected_components()","rhs":"connected_components(([], [])) == [] and connected_components(([1, 2, 3], [])) == [[1], [2], [3]] and connected_components((V, E)) == [[1, 2, 3]] and connected_components((V, E)) == [[1, 2, 3, 4]] and connected_components((V, E)) == [[1, 2], [3, 4]]","over":{"base":"Any"},"name":"test_connected_components_correct"},"guarantee":"connected_components(([], [])) == []; connected_components(([1, 2, 3], [])) == [[1], [2], [3]]; connected_components((V, E)) == [[1, 2, 3]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_connected_components_correct","statement":"Path(test_connected_components(x), connected_components(([], [])) == []; connected_components(([1, 2, 3], [])) == [[1], [2], [3]]; connected_components((V, E)) == [[1, 2, 3]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e9a985bf6d6158a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["connected_components(([], [])) == []","connected_components(([1, 2, 3], [])) == [[1], [2], [3]]","connected_components((V, E)) == [[1, 2, 3]]","connected_components((V, E)) == [[1, 2, 3, 4]]","connected_components((V, E)) == [[1, 2], [3, 4]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_connected_components():
     assert connected_components(([], [])) == []
     assert connected_components(([1, 2, 3], [])) == [[1], [2], [3]]
@@ -528,16 +666,24 @@ def test_connected_components():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rotate(), test_rotate produces the expected output) over Any ║
+# ║ Path(test_rotate(), rotate_left(A, 2) == [2, 3, 4, 0, 1] and rotate_right(A, 1) == [4, 0, 1, 2, 3] and B == [] and A == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rotate : Any → {Any | rotate_left(A, 2) == [2, 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rotate_left(A, 2) == [2, 3, 4, 0, 1]           ║
+# ║   ensures:  rotate_right(A, 1) == [4, 0, 1, 2, 3]          ║
+# ║   ensures:  B == []                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rotate : Any → {Any | result satisfies: rotate_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d11b6cb396448571  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a9ee71454fea298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_rotate","kind":"function","src_hash":"a269fa5a9f53731d","in":{"base":"Any"},"out":{"base":"Any","pred":"rotate_left(A, 2) == [2, 3, 4, 0, 1] and rotate_right(A, 1) == [4, 0, 1, 2, 3] and B == [] and A == [] and B == [] and A == []"},"spec":{"lhs":"test_rotate()","rhs":"test_rotate produces the expected output","over":{"base":"Any"},"name":"test_rotate_correct"},"guarantee":"test_rotate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_rotate_correct","statement":"Path(test_rotate(x), test_rotate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d11b6cb396448571"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_rotate","kind":"function","src_hash":"a269fa5a9f53731d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rotate_left(A, 2) == [2, 3, 4, 0, 1] and rotate_right(A, 1) == [4, 0, 1, 2, 3] and B == [] and A == []"},"spec":{"lhs":"test_rotate()","rhs":"rotate_left(A, 2) == [2, 3, 4, 0, 1] and rotate_right(A, 1) == [4, 0, 1, 2, 3] and B == [] and A == []","over":{"base":"Any"},"name":"test_rotate_correct"},"guarantee":"rotate_left(A, 2) == [2, 3, 4, 0, 1]; rotate_right(A, 1) == [4, 0, 1, 2, 3]; B == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_rotate_correct","statement":"Path(test_rotate(x), rotate_left(A, 2) == [2, 3, 4, 0, 1]; rotate_right(A, 1) == [4, 0, 1, 2, 3]; B == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a9ee71454fea298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rotate_left(A, 2) == [2, 3, 4, 0, 1]","rotate_right(A, 1) == [4, 0, 1, 2, 3]","B == []","A == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rotate():
     A = [0, 1, 2, 3, 4]
 
@@ -555,16 +701,24 @@ def test_rotate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiset_partitions(), test_multiset_partitions produces the expected output) over Any ║
+# ║ Path(test_multiset_partitions(), list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]] and len(list(multiset_partitions(A, 4))) == 10 and len(list(multiset_partitions(A, 3))) == 25 and list(multiset_partitions([1, 1, 1, 2, 2], 2)) == [[[1, 1, 1, 2], [2]], [[1, 1, 1], [2, 2]], [[1, 1, 2, 2], [1]], [[1, 1, 2], [1, 2]], [[1, 1], [1, 2, 2]]] and list(multiset_partitions([1, 1, 2, 2], 2)) == [[[1, 1, 2], [2]], [[1, 1], [2, 2]], [[1, 2, 2], [1]], [[1, 2], [1, 2]]] and list(multiset_partitions([1, 2, 3, 4], 2)) == [[[1, 2, 3], [4]], [[1, 2, 4], [3]], [[1, 2], [3, 4]], [[1, 3, 4], [2]], [[1, 3], [2, 4]], [[1, 4], [2, 3]], [[1], [2, 3, 4]]] and list(multiset_partitions([1, 2, 2], 2)) == [[[1, 2], [2]], [[1], [2, 2]]] and list(multiset_partitions(3)) == [[[0, 1, 2]], [[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]], [[0], [1], [2]]] and list(multiset_partitions(3, 2)) == [[[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]]] and list(multiset_partitions([1] * 3, 2)) == [[[1], [1, 1]]] and list(multiset_partitions([1] * 3)) == [[[1, 1, 1]], [[1], [1, 1]], [[1], [1], [1]]] and list(multiset_partitions(a)) == list(multiset_partitions(sorted(a))) and list(multiset_partitions(a, 5)) == [] and list(multiset_partitions(a, 1)) == [[[1, 2, 3]]] and list(multiset_partitions(a + [4], 5)) == [] and list(multiset_partitions(a + [4], 1)) == [[[1, 2, 3, 4]]] and list(multiset_partitions(2, 5)) == [] and list(multiset_partitions(2, 1)) == [[[0, 1]]] and list(multiset_partitions('a')) == [[['a']]] and list(multiset_partitions('a', 2)) == [] and list(multiset_partitions('ab')) == [[['a', 'b']], [['a'], ['b']]] and list(multiset_partitions('ab', 1)) == [[['a', 'b']]] and list(multiset_partitions('aaa', 1)) == [['aaa']] and list(multiset_partitions([1, 1], 1)) == [[[1, 1]]] and [tuple((''.join(part) for part in p)) for p in multiset_partitions('sympy')] == ans and [factoring_visitor(p, [2, 3]) for p in multiset_partitions_taocp([3, 1])] == factorings) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiset_partitions : Any → {Any | list(multiset...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(multiset_partitions(A, 5)) == [[[0],...   ║
+# ║   ensures:  len(list(multiset_partitions(A, 4))) == 10     ║
+# ║   ensures:  len(list(multiset_partitions(A, 3))) == 25     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiset_partitions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 864ae15db51c36d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9980244b53d23bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_multiset_partitions","kind":"function","src_hash":"aa2a2c3246fb3ecc","in":{"base":"Any"},"out":{"base":"Any","pred":"list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]] and len(list(multiset_partitions(A, 4))) == 10 and len(list(multiset_partitions(A, 3))) == 25 and list(multiset_partitions([1, 2, 2], 2)) == [[[1, 2], [2]], [[1], [2, 2]]] and list(multiset_partitions([1] * 3, 2)) == [[[1], [1, 1]]] and list(multiset_partitions(a)) == list(multiset_partitions(sorted(a))) and list(multiset_partitions(a, 5)) == [] and list(multiset_partitions(a, 1)) == [[[1, 2, 3]]] and list(multiset_partitions(a + [4], 5)) == [] and list(multiset_partitions(a + [4], 1)) == [[[1, 2, 3, 4]]] and list(multiset_partitions(2, 5)) == [] and list(multiset_partitions(2, 1)) == [[[0, 1]]] and list(multiset_partitions('a')) == [[['a']]] and list(multiset_partitions('a', 2)) == [] and list(multiset_partitions('ab')) == [[['a', 'b']], [['a'], ['b']]] and list(multiset_partitions('ab', 1)) == [[['a', 'b']]] and list(multiset_partitions('aaa', 1)) == [['aaa']] and list(multiset_partitions([1, 1], 1)) == [[[1, 1]]]"},"spec":{"lhs":"test_multiset_partitions()","rhs":"test_multiset_partitions produces the expected output","over":{"base":"Any"},"name":"test_multiset_partitions_correct"},"guarantee":"test_multiset_partitions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_multiset_partitions_correct","statement":"Path(test_multiset_partitions(x), test_multiset_partitions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"864ae15db51c36d6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_multiset_partitions","kind":"function","src_hash":"aa2a2c3246fb3ecc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]] and len(list(multiset_partitions(A, 4))) == 10 and len(list(multiset_partitions(A, 3))) == 25 and list(multiset_partitions([1, 1, 1, 2, 2], 2)) == [[[1, 1, 1, 2], [2]], [[1, 1, 1], [2, 2]], [[1, 1, 2, 2], [1]], [[1, 1, 2], [1, 2]], [[1, 1], [1, 2, 2]]] and list(multiset_partitions([1, 1, 2, 2], 2)) == [[[1, 1, 2], [2]], [[1, 1], [2, 2]], [[1, 2, 2], [1]], [[1, 2], [1, 2]]] and list(multiset_partitions([1, 2, 3, 4], 2)) == [[[1, 2, 3], [4]], [[1, 2, 4], [3]], [[1, 2], [3, 4]], [[1, 3, 4], [2]], [[1, 3], [2, 4]], [[1, 4], [2, 3]], [[1], [2, 3, 4]]] and list(multiset_partitions([1, 2, 2], 2)) == [[[1, 2], [2]], [[1], [2, 2]]] and list(multiset_partitions(3)) == [[[0, 1, 2]], [[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]], [[0], [1], [2]]] and list(multiset_partitions(3, 2)) == [[[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]]] and list(multiset_partitions([1] * 3, 2)) == [[[1], [1, 1]]] and list(multiset_partitions([1] * 3)) == [[[1, 1, 1]], [[1], [1, 1]], [[1], [1], [1]]] and list(multiset_partitions(a)) == list(multiset_partitions(sorted(a))) and list(multiset_partitions(a, 5)) == [] and list(multiset_partitions(a, 1)) == [[[1, 2, 3]]] and list(multiset_partitions(a + [4], 5)) == [] and list(multiset_partitions(a + [4], 1)) == [[[1, 2, 3, 4]]] and list(multiset_partitions(2, 5)) == [] and list(multiset_partitions(2, 1)) == [[[0, 1]]] and list(multiset_partitions('a')) == [[['a']]] and list(multiset_partitions('a', 2)) == [] and list(multiset_partitions('ab')) == [[['a', 'b']], [['a'], ['b']]] and list(multiset_partitions('ab', 1)) == [[['a', 'b']]] and list(multiset_partitions('aaa', 1)) == [['aaa']] and list(multiset_partitions([1, 1], 1)) == [[[1, 1]]] and [tuple((''.join(part) for part in p)) for p in multiset_partitions('sympy')] == ans and [factoring_visitor(p, [2, 3]) for p in multiset_partitions_taocp([3, 1])] == factorings"},"spec":{"lhs":"test_multiset_partitions()","rhs":"list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]] and len(list(multiset_partitions(A, 4))) == 10 and len(list(multiset_partitions(A, 3))) == 25 and list(multiset_partitions([1, 1, 1, 2, 2], 2)) == [[[1, 1, 1, 2], [2]], [[1, 1, 1], [2, 2]], [[1, 1, 2, 2], [1]], [[1, 1, 2], [1, 2]], [[1, 1], [1, 2, 2]]] and list(multiset_partitions([1, 1, 2, 2], 2)) == [[[1, 1, 2], [2]], [[1, 1], [2, 2]], [[1, 2, 2], [1]], [[1, 2], [1, 2]]] and list(multiset_partitions([1, 2, 3, 4], 2)) == [[[1, 2, 3], [4]], [[1, 2, 4], [3]], [[1, 2], [3, 4]], [[1, 3, 4], [2]], [[1, 3], [2, 4]], [[1, 4], [2, 3]], [[1], [2, 3, 4]]] and list(multiset_partitions([1, 2, 2], 2)) == [[[1, 2], [2]], [[1], [2, 2]]] and list(multiset_partitions(3)) == [[[0, 1, 2]], [[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]], [[0], [1], [2]]] and list(multiset_partitions(3, 2)) == [[[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]]] and list(multiset_partitions([1] * 3, 2)) == [[[1], [1, 1]]] and list(multiset_partitions([1] * 3)) == [[[1, 1, 1]], [[1], [1, 1]], [[1], [1], [1]]] and list(multiset_partitions(a)) == list(multiset_partitions(sorted(a))) and list(multiset_partitions(a, 5)) == [] and list(multiset_partitions(a, 1)) == [[[1, 2, 3]]] and list(multiset_partitions(a + [4], 5)) == [] and list(multiset_partitions(a + [4], 1)) == [[[1, 2, 3, 4]]] and list(multiset_partitions(2, 5)) == [] and list(multiset_partitions(2, 1)) == [[[0, 1]]] and list(multiset_partitions('a')) == [[['a']]] and list(multiset_partitions('a', 2)) == [] and list(multiset_partitions('ab')) == [[['a', 'b']], [['a'], ['b']]] and list(multiset_partitions('ab', 1)) == [[['a', 'b']]] and list(multiset_partitions('aaa', 1)) == [['aaa']] and list(multiset_partitions([1, 1], 1)) == [[[1, 1]]] and [tuple((''.join(part) for part in p)) for p in multiset_partitions('sympy')] == ans and [factoring_visitor(p, [2, 3]) for p in multiset_partitions_taocp([3, 1])] == factorings","over":{"base":"Any"},"name":"test_multiset_partitions_correct"},"guarantee":"list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]]; len(list(multiset_partitions(A, 4))) == 10; len(list(multiset_partitions(A, 3))) == 25","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_multiset_partitions_correct","statement":"Path(test_multiset_partitions(x), list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]]; len(list(multiset_partitions(A, 4))) == 10; len(list(multiset_partitions(A, 3))) == 25)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9980244b53d23bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(multiset_partitions(A, 5)) == [[[0], [1], [2], [3], [4]]]","len(list(multiset_partitions(A, 4))) == 10","len(list(multiset_partitions(A, 3))) == 25","list(multiset_partitions([1, 1, 1, 2, 2], 2)) == [[[1, 1, 1, 2], [2]], [[1, 1, 1], [2, 2]], [[1, 1, 2, 2], [1]], [[1, 1, 2], [1, 2]], [[1, 1], [1, 2, 2]]]","list(multiset_partitions([1, 1, 2, 2], 2)) == [[[1, 1, 2], [2]], [[1, 1], [2, 2]], [[1, 2, 2], [1]], [[1, 2], [1, 2]]]","list(multiset_partitions([1, 2, 3, 4], 2)) == [[[1, 2, 3], [4]], [[1, 2, 4], [3]], [[1, 2], [3, 4]], [[1, 3, 4], [2]], [[1, 3], [2, 4]], [[1, 4], [2, 3]], [[1], [2, 3, 4]]]","list(multiset_partitions([1, 2, 2], 2)) == [[[1, 2], [2]], [[1], [2, 2]]]","list(multiset_partitions(3)) == [[[0, 1, 2]], [[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]], [[0], [1], [2]]]","list(multiset_partitions(3, 2)) == [[[0, 1], [2]], [[0, 2], [1]], [[0], [1, 2]]]","list(multiset_partitions([1] * 3, 2)) == [[[1], [1, 1]]]","list(multiset_partitions([1] * 3)) == [[[1, 1, 1]], [[1], [1, 1]], [[1], [1], [1]]]","list(multiset_partitions(a)) == list(multiset_partitions(sorted(a)))","list(multiset_partitions(a, 5)) == []","list(multiset_partitions(a, 1)) == [[[1, 2, 3]]]","list(multiset_partitions(a + [4], 5)) == []","list(multiset_partitions(a + [4], 1)) == [[[1, 2, 3, 4]]]","list(multiset_partitions(2, 5)) == []","list(multiset_partitions(2, 1)) == [[[0, 1]]]","list(multiset_partitions('a')) == [[['a']]]","list(multiset_partitions('a', 2)) == []","list(multiset_partitions('ab')) == [[['a', 'b']], [['a'], ['b']]]","list(multiset_partitions('ab', 1)) == [[['a', 'b']]]","list(multiset_partitions('aaa', 1)) == [['aaa']]","list(multiset_partitions([1, 1], 1)) == [[[1, 1]]]","[tuple((''.join(part) for part in p)) for p in multiset_partitions('sympy')] == ans","[factoring_visitor(p, [2, 3]) for p in multiset_partitions_taocp([3, 1])] == factorings"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def test_multiset_partitions():
     A = [0, 1, 2, 3, 4]
 
@@ -632,16 +786,24 @@ def test_multiset_partitions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiset_combinations(), test_multiset_combinations produces the expected output) over Any ║
+# ║ Path(test_multiset_combinations(), [''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans and [''.join(i) for i in list(multiset_combinations(M, 3))] == ans and [''.join(i) for i in multiset_combinations(M, 30)] == [] and list(multiset_combinations([[1], [2, 3]], 2)) == [[[1], [2, 3]]] and len(list(multiset_combinations('a', 3))) == 0 and len(list(multiset_combinations('a', 0))) == 1 and list(multiset_combinations('abc', 1)) == [['a'], ['b'], ['c']]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiset_combinations : Any → {Any | [''.join(i)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [''.join(i) for i in list(multiset_combin...   ║
+# ║   ensures:  [''.join(i) for i in list(multiset_combin...   ║
+# ║   ensures:  [''.join(i) for i in multiset_combination...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiset_combinations : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2d9b72f5fc68dba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c932e3cbf838110e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_multiset_combinations","kind":"function","src_hash":"abdf52e8d5879e74","in":{"base":"Any"},"out":{"base":"Any","pred":"[''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans and [''.join(i) for i in list(multiset_combinations(M, 3))] == ans and [''.join(i) for i in multiset_combinations(M, 30)] == [] and list(multiset_combinations([[1], [2, 3]], 2)) == [[[1], [2, 3]]] and len(list(multiset_combinations('a', 3))) == 0 and len(list(multiset_combinations('a', 0))) == 1 and list(multiset_combinations('abc', 1)) == [['a'], ['b'], ['c']]"},"spec":{"lhs":"test_multiset_combinations()","rhs":"test_multiset_combinations produces the expected output","over":{"base":"Any"},"name":"test_multiset_combinations_correct"},"guarantee":"test_multiset_combinations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_multiset_combinations_correct","statement":"Path(test_multiset_combinations(x), test_multiset_combinations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d9b72f5fc68dba"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_multiset_combinations","kind":"function","src_hash":"abdf52e8d5879e74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans and [''.join(i) for i in list(multiset_combinations(M, 3))] == ans and [''.join(i) for i in multiset_combinations(M, 30)] == [] and list(multiset_combinations([[1], [2, 3]], 2)) == [[[1], [2, 3]]] and len(list(multiset_combinations('a', 3))) == 0 and len(list(multiset_combinations('a', 0))) == 1 and list(multiset_combinations('abc', 1)) == [['a'], ['b'], ['c']]"},"spec":{"lhs":"test_multiset_combinations()","rhs":"[''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans and [''.join(i) for i in list(multiset_combinations(M, 3))] == ans and [''.join(i) for i in multiset_combinations(M, 30)] == [] and list(multiset_combinations([[1], [2, 3]], 2)) == [[[1], [2, 3]]] and len(list(multiset_combinations('a', 3))) == 0 and len(list(multiset_combinations('a', 0))) == 1 and list(multiset_combinations('abc', 1)) == [['a'], ['b'], ['c']]","over":{"base":"Any"},"name":"test_multiset_combinations_correct"},"guarantee":"[''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans; [''.join(i) for i in list(multiset_combinations(M, 3))] == ans; [''.join(i) for i in multiset_combinations(M, 30)] == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_multiset_combinations_correct","statement":"Path(test_multiset_combinations(x), [''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans; [''.join(i) for i in list(multiset_combinations(M, 3))] == ans; [''.join(i) for i in multiset_combinations(M, 30)] == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c932e3cbf838110e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[''.join(i) for i in list(multiset_combinations('mississippi', 3))] == ans","[''.join(i) for i in list(multiset_combinations(M, 3))] == ans","[''.join(i) for i in multiset_combinations(M, 30)] == []","list(multiset_combinations([[1], [2, 3]], 2)) == [[[1], [2, 3]]]","len(list(multiset_combinations('a', 3))) == 0","len(list(multiset_combinations('a', 0))) == 1","list(multiset_combinations('abc', 1)) == [['a'], ['b'], ['c']]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_multiset_combinations():
     ans = ['iii', 'iim', 'iip', 'iis', 'imp', 'ims', 'ipp', 'ips',
            'iss', 'mpp', 'mps', 'mss', 'pps', 'pss', 'sss']
@@ -659,16 +821,24 @@ def test_multiset_combinations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiset_permutations(), test_multiset_permutations produces the expected output) over Any ║
+# ║ Path(test_multiset_permutations(), [''.join(i) for i in multiset_permutations('baby')] == ans and [''.join(i) for i in multiset_permutations(multiset('baby'))] == ans and list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]] and list(multiset_permutations([0, 2, 1], 2)) == [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] and len(list(multiset_permutations('a', 0))) == 1 and len(list(multiset_permutations('a', 3))) == 0 and list(multiset_permutations(nul, 0)) == [[]] and list(multiset_permutations(nul, 1)) == [] and list(multiset_permutations(nul, -1)) == [] and capture(lambda: test()) == dedent('        1\n        [0]\n        [1]\n        2\n        [0, 0]\n        [0, 1]\n        [1, 0]\n        [1, 1]\n        3\n        [0, 0, 0]\n        [0, 0, 1]\n        [0, 1, 0]\n        [0, 1, 1]\n        [1, 0, 0]\n        [1, 0, 1]\n        [1, 1, 0]\n        4\n        [0, 0, 0, 1]\n        [0, 0, 1, 0]\n        [0, 0, 1, 1]\n        [0, 1, 0, 0]\n        [0, 1, 0, 1]\n        [0, 1, 1, 0]\n        [1, 0, 0, 0]\n        [1, 0, 0, 1]\n        [1, 0, 1, 0]\n        [1, 1, 0, 0]\n        5\n        [0, 0, 0, 1, 1]\n        [0, 0, 1, 0, 1]\n        [0, 0, 1, 1, 0]\n        [0, 1, 0, 0, 1]\n        [0, 1, 0, 1, 0]\n        [0, 1, 1, 0, 0]\n        [1, 0, 0, 0, 1]\n        [1, 0, 0, 1, 0]\n        [1, 0, 1, 0, 0]\n        [1, 1, 0, 0, 0]\n        6\n')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiset_permutations : Any → {Any | [''.join(i)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [''.join(i) for i in multiset_permutation...   ║
+# ║   ensures:  [''.join(i) for i in multiset_permutation...   ║
+# ║   ensures:  list(multiset_permutations([0, 0, 0], 2))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiset_permutations : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b3c9ee579088ce7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d0aa999efb91bdc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_multiset_permutations","kind":"function","src_hash":"0a2859cb625f4222","in":{"base":"Any"},"out":{"base":"Any","pred":"[''.join(i) for i in multiset_permutations('baby')] == ans and [''.join(i) for i in multiset_permutations(multiset('baby'))] == ans and list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]] and len(list(multiset_permutations('a', 0))) == 1 and len(list(multiset_permutations('a', 3))) == 0 and list(multiset_permutations(nul, 0)) == [[]] and list(multiset_permutations(nul, 1)) == [] and list(multiset_permutations(nul, -1)) == [] and list(multiset_permutations(nul)) == [[]]"},"spec":{"lhs":"test_multiset_permutations()","rhs":"test_multiset_permutations produces the expected output","over":{"base":"Any"},"name":"test_multiset_permutations_correct"},"guarantee":"test_multiset_permutations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_multiset_permutations_correct","statement":"Path(test_multiset_permutations(x), test_multiset_permutations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b3c9ee579088ce7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_multiset_permutations","kind":"function","src_hash":"0a2859cb625f4222","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [''.join(i) for i in multiset_permutations('baby')] == ans and [''.join(i) for i in multiset_permutations(multiset('baby'))] == ans and list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]] and list(multiset_permutations([0, 2, 1], 2)) == [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] and len(list(multiset_permutations('a', 0))) == 1 and len(list(multiset_permutations('a', 3))) == 0 and list(multiset_permutations(nul, 0)) == [[]] and list(multiset_permutations(nul, 1)) == [] and list(multiset_permutations(nul, -1)) == [] and capture(lambda: test()) == dedent('        1\\n        [0]\\n        [1]\\n        2\\n        [0, 0]\\n        [0, 1]\\n        [1, 0]\\n        [1, 1]\\n        3\\n        [0, 0, 0]\\n        [0, 0, 1]\\n        [0, 1, 0]\\n        [0, 1, 1]\\n        [1, 0, 0]\\n        [1, 0, 1]\\n        [1, 1, 0]\\n        4\\n        [0, 0, 0, 1]\\n        [0, 0, 1, 0]\\n        [0, 0, 1, 1]\\n        [0, 1, 0, 0]\\n        [0, 1, 0, 1]\\n        [0, 1, 1, 0]\\n        [1, 0, 0, 0]\\n        [1, 0, 0, 1]\\n        [1, 0, 1, 0]\\n        [1, 1, 0, 0]\\n        5\\n        [0, 0, 0, 1, 1]\\n        [0, 0, 1, 0, 1]\\n        [0, 0, 1, 1, 0]\\n        [0, 1, 0, 0, 1]\\n        [0, 1, 0, 1, 0]\\n        [0, 1, 1, 0, 0]\\n        [1, 0, 0, 0, 1]\\n        [1, 0, 0, 1, 0]\\n        [1, 0, 1, 0, 0]\\n        [1, 1, 0, 0, 0]\\n        6\\n')"},"spec":{"lhs":"test_multiset_permutations()","rhs":"[''.join(i) for i in multiset_permutations('baby')] == ans and [''.join(i) for i in multiset_permutations(multiset('baby'))] == ans and list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]] and list(multiset_permutations([0, 2, 1], 2)) == [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] and len(list(multiset_permutations('a', 0))) == 1 and len(list(multiset_permutations('a', 3))) == 0 and list(multiset_permutations(nul, 0)) == [[]] and list(multiset_permutations(nul, 1)) == [] and list(multiset_permutations(nul, -1)) == [] and capture(lambda: test()) == dedent('        1\\n        [0]\\n        [1]\\n        2\\n        [0, 0]\\n        [0, 1]\\n        [1, 0]\\n        [1, 1]\\n        3\\n        [0, 0, 0]\\n        [0, 0, 1]\\n        [0, 1, 0]\\n        [0, 1, 1]\\n        [1, 0, 0]\\n        [1, 0, 1]\\n        [1, 1, 0]\\n        4\\n        [0, 0, 0, 1]\\n        [0, 0, 1, 0]\\n        [0, 0, 1, 1]\\n        [0, 1, 0, 0]\\n        [0, 1, 0, 1]\\n        [0, 1, 1, 0]\\n        [1, 0, 0, 0]\\n        [1, 0, 0, 1]\\n        [1, 0, 1, 0]\\n        [1, 1, 0, 0]\\n        5\\n        [0, 0, 0, 1, 1]\\n        [0, 0, 1, 0, 1]\\n        [0, 0, 1, 1, 0]\\n        [0, 1, 0, 0, 1]\\n        [0, 1, 0, 1, 0]\\n        [0, 1, 1, 0, 0]\\n        [1, 0, 0, 0, 1]\\n        [1, 0, 0, 1, 0]\\n        [1, 0, 1, 0, 0]\\n        [1, 1, 0, 0, 0]\\n        6\\n')","over":{"base":"Any"},"name":"test_multiset_permutations_correct"},"guarantee":"[''.join(i) for i in multiset_permutations('baby')] == ans; [''.join(i) for i in multiset_permutations(multiset('baby'))] == ans; list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_multiset_permutations_correct","statement":"Path(test_multiset_permutations(x), [''.join(i) for i in multiset_permutations('baby')] == ans; [''.join(i) for i in multiset_permutations(multiset('baby'))] == ans; list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d0aa999efb91bdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[''.join(i) for i in multiset_permutations('baby')] == ans","[''.join(i) for i in multiset_permutations(multiset('baby'))] == ans","list(multiset_permutations([0, 0, 0], 2)) == [[0, 0]]","list(multiset_permutations([0, 2, 1], 2)) == [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]]","len(list(multiset_permutations('a', 0))) == 1","len(list(multiset_permutations('a', 3))) == 0","list(multiset_permutations(nul, 0)) == [[]]","list(multiset_permutations(nul, 1)) == []","list(multiset_permutations(nul, -1)) == []","capture(lambda: test()) == dedent('        1\\n        [0]\\n        [1]\\n        2\\n        [0, 0]\\n        [0, 1]\\n        [1, 0]\\n        [1, 1]\\n        3\\n        [0, 0, 0]\\n        [0, 0, 1]\\n        [0, 1, 0]\\n        [0, 1, 1]\\n        [1, 0, 0]\\n        [1, 0, 1]\\n        [1, 1, 0]\\n        4\\n        [0, 0, 0, 1]\\n        [0, 0, 1, 0]\\n        [0, 0, 1, 1]\\n        [0, 1, 0, 0]\\n        [0, 1, 0, 1]\\n        [0, 1, 1, 0]\\n        [1, 0, 0, 0]\\n        [1, 0, 0, 1]\\n        [1, 0, 1, 0]\\n        [1, 1, 0, 0]\\n        5\\n        [0, 0, 0, 1, 1]\\n        [0, 0, 1, 0, 1]\\n        [0, 0, 1, 1, 0]\\n        [0, 1, 0, 0, 1]\\n        [0, 1, 0, 1, 0]\\n        [0, 1, 1, 0, 0]\\n        [1, 0, 0, 0, 1]\\n        [1, 0, 0, 1, 0]\\n        [1, 0, 1, 0, 0]\\n        [1, 1, 0, 0, 0]\\n        6\\n')"],"pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_multiset_permutations():
     ans = ['abby', 'abyb', 'aybb', 'baby', 'bayb', 'bbay', 'bbya', 'byab',
            'byba', 'yabb', 'ybab', 'ybba']
@@ -735,16 +905,24 @@ def test_multiset_permutations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_partitions(), test_partitions produces the expected output) over Any ║
+# ║ Path(test_partitions(), list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(6, k=3)) == [{3: 2}, {1: 1, 2: 1, 3: 1}, {1: 3, 3: 1}, {2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(8, k=4, m=3)) == [{4: 2}, {1: 1, 3: 1, 4: 1}, {2: 2, 4: 1}, {2: 1, 3: 2}] == [i for i in partitions(8, k=4, m=3) if all((k <= 4 for k in i)) and sum(i.values()) <= 3] and list(partitions(S(3), m=2)) == [{3: 1}, {1: 1, 2: 1}] and list(partitions(4, k=3)) == [{1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] == [i for i in partitions(4) if all((k <= 3 for k in i))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_partitions : Any → {Any | list(partitions(6, k=2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(partitions(6, k=2)) == [{2: 3}, {1: ...   ║
+# ║   ensures:  list(partitions(6, k=3)) == [{3: 2}, {1: ...   ║
+# ║   ensures:  list(partitions(8, k=4, m=3)) == [{4: 2},...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_partitions : Any → {Any | result satisfies: list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73de670d94f2e213  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e9834c5c079c6cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_partitions","kind":"function","src_hash":"a1f44cf26e31ad38","in":{"base":"Any"},"out":{"base":"Any","pred":"list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(S(3), m=2)) == [{3: 1}, {1: 1, 2: 1}] and list(partitions(0, size=i)) == ans[i] and list(partitions(1, 0, size=i)) == ans[i] and list(partitions(6, 2, 2, size=i)) == ans[i] and list(partitions(6, 2, None, size=i)) != ans[i] and list(partitions(6, None, 2, size=i)) != ans[i] and list(partitions(6, 2, 0, size=i)) == ans[i] and i == RGS_enum(n) and q == RGS_unrank(i, n)"},"spec":{"lhs":"test_partitions()","rhs":"test_partitions produces the expected output","over":{"base":"Any"},"name":"test_partitions_correct"},"guarantee":"test_partitions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_partitions_correct","statement":"Path(test_partitions(x), test_partitions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73de670d94f2e213"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_partitions","kind":"function","src_hash":"a1f44cf26e31ad38","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(6, k=3)) == [{3: 2}, {1: 1, 2: 1, 3: 1}, {1: 3, 3: 1}, {2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(8, k=4, m=3)) == [{4: 2}, {1: 1, 3: 1, 4: 1}, {2: 2, 4: 1}, {2: 1, 3: 2}] == [i for i in partitions(8, k=4, m=3) if all((k <= 4 for k in i)) and sum(i.values()) <= 3] and list(partitions(S(3), m=2)) == [{3: 1}, {1: 1, 2: 1}] and list(partitions(4, k=3)) == [{1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] == [i for i in partitions(4) if all((k <= 3 for k in i))]"},"spec":{"lhs":"test_partitions()","rhs":"list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(6, k=3)) == [{3: 2}, {1: 1, 2: 1, 3: 1}, {1: 3, 3: 1}, {2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}] and list(partitions(8, k=4, m=3)) == [{4: 2}, {1: 1, 3: 1, 4: 1}, {2: 2, 4: 1}, {2: 1, 3: 2}] == [i for i in partitions(8, k=4, m=3) if all((k <= 4 for k in i)) and sum(i.values()) <= 3] and list(partitions(S(3), m=2)) == [{3: 1}, {1: 1, 2: 1}] and list(partitions(4, k=3)) == [{1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] == [i for i in partitions(4) if all((k <= 3 for k in i))]","over":{"base":"Any"},"name":"test_partitions_correct"},"guarantee":"list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]; list(partitions(6, k=3)) == [{3: 2}, {1: 1, 2: 1, 3: 1}, {1: 3, 3: 1}, {2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]; list(partitions(8, k=4, m=3)) == [{4: 2}, {1: 1, 3: 1, 4: 1}, {2: 2, 4: 1}, {2: 1, 3: 2}] == [i for i in partitions(8, k=4, m=3) if all((k <= 4 for k in i)) and sum(i.values()) <= 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_partitions_correct","statement":"Path(test_partitions(x), list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]; list(partitions(6, k=3)) == [{3: 2}, {1: 1, 2: 1, 3: 1}, {1: 3, 3: 1}, {2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]; list(partitions(8, k=4, m=3)) == [{4: 2}, {1: 1, 3: 1, 4: 1}, {2: 2, 4: 1}, {2: 1, 3: 2}] == [i for i in partitions(8, k=4, m=3) if all((k <= 4 for k in i)) and sum(i.values()) <= 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e9834c5c079c6cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(partitions(6, k=2)) == [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]","list(partitions(6, k=3)) == [{3: 2}, {1: 1, 2: 1, 3: 1}, {1: 3, 3: 1}, {2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]","list(partitions(8, k=4, m=3)) == [{4: 2}, {1: 1, 3: 1, 4: 1}, {2: 2, 4: 1}, {2: 1, 3: 2}] == [i for i in partitions(8, k=4, m=3) if all((k <= 4 for k in i)) and sum(i.values()) <= 3]","list(partitions(S(3), m=2)) == [{3: 1}, {1: 1, 2: 1}]","list(partitions(4, k=3)) == [{1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] == [i for i in partitions(4) if all((k <= 3 for k in i))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_partitions():
     ans = [[{}], [(0, {})]]
     for i in range(2):
@@ -789,16 +967,23 @@ def test_partitions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binary_partitions(), test_binary_partitions produces the expected output) over Any ║
+# ║ Path(test_binary_partitions(), [i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1], [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1], [4, 2, 1, 1, 1, 1], [4, 1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1, 1], [2, 2, 1, 1, 1, 1, 1, 1], [2, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] and len([j[:] for j in binary_partitions(16)]) == 36) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binary_partitions : Any → {Any | len([j[:] for j...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [i[:] for i in binary_partitions(10)] == ...   ║
+# ║   ensures:  len([j[:] for j in binary_partitions(16)]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binary_partitions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a93025967524590  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c245431cfecca23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_binary_partitions","kind":"function","src_hash":"6972ad1a66a9d478","in":{"base":"Any"},"out":{"base":"Any","pred":"len([j[:] for j in binary_partitions(16)]) == 36"},"spec":{"lhs":"test_binary_partitions()","rhs":"test_binary_partitions produces the expected output","over":{"base":"Any"},"name":"test_binary_partitions_correct"},"guarantee":"test_binary_partitions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_binary_partitions_correct","statement":"Path(test_binary_partitions(x), test_binary_partitions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a93025967524590"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_binary_partitions","kind":"function","src_hash":"6972ad1a66a9d478","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1], [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1], [4, 2, 1, 1, 1, 1], [4, 1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1, 1], [2, 2, 1, 1, 1, 1, 1, 1], [2, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] and len([j[:] for j in binary_partitions(16)]) == 36"},"spec":{"lhs":"test_binary_partitions()","rhs":"[i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1], [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1], [4, 2, 1, 1, 1, 1], [4, 1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1, 1], [2, 2, 1, 1, 1, 1, 1, 1], [2, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] and len([j[:] for j in binary_partitions(16)]) == 36","over":{"base":"Any"},"name":"test_binary_partitions_correct"},"guarantee":"[i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1], [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1], [4, 2, 1, 1, 1, 1], [4, 1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1, 1], [2, 2, 1, 1, 1, 1, 1, 1], [2, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]; len([j[:] for j in binary_partitions(16)]) == 36","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_binary_partitions_correct","statement":"Path(test_binary_partitions(x), [i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1], [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1], [4, 2, 1, 1, 1, 1], [4, 1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1, 1], [2, 2, 1, 1, 1, 1, 1, 1], [2, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]; len([j[:] for j in binary_partitions(16)]) == 36)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c245431cfecca23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1], [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1], [4, 2, 1, 1, 1, 1], [4, 1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1, 1], [2, 2, 1, 1, 1, 1, 1, 1], [2, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]","len([j[:] for j in binary_partitions(16)]) == 36"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_binary_partitions():
     assert [i[:] for i in binary_partitions(10)] == [[8, 2], [8, 1, 1],
         [4, 4, 2], [4, 4, 1, 1], [4, 2, 2, 2], [4, 2, 2, 1, 1],
@@ -810,16 +995,23 @@ def test_binary_partitions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bell_perm(), test_bell_perm produces the expected output) over Any ║
+# ║ Path(test_bell_perm(), [len(set(generate_bell(i))) for i in range(1, 7)] == [factorial(i) for i in range(1, 7)] and list(generate_bell(3)) == [(0, 1, 2), (0, 2, 1), (2, 0, 1), (2, 1, 0), (1, 2, 0), (1, 0, 2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bell_perm : Any → {Any | bi == tuple(p.array_form)}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [len(set(generate_bell(i))) for i in rang...   ║
+# ║   ensures:  list(generate_bell(3)) == [(0, 1, 2), (0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bell_perm : Any → {Any | result satisfies: [len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e6361025aad4f6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 263389c74b921e09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_bell_perm","kind":"function","src_hash":"1b1af2068bb1e015","in":{"base":"Any"},"out":{"base":"Any","pred":"bi == tuple(p.array_form)"},"spec":{"lhs":"test_bell_perm()","rhs":"test_bell_perm produces the expected output","over":{"base":"Any"},"name":"test_bell_perm_correct"},"guarantee":"test_bell_perm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_bell_perm_correct","statement":"Path(test_bell_perm(x), test_bell_perm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e6361025aad4f6f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_bell_perm","kind":"function","src_hash":"1b1af2068bb1e015","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [len(set(generate_bell(i))) for i in range(1, 7)] == [factorial(i) for i in range(1, 7)] and list(generate_bell(3)) == [(0, 1, 2), (0, 2, 1), (2, 0, 1), (2, 1, 0), (1, 2, 0), (1, 0, 2)]"},"spec":{"lhs":"test_bell_perm()","rhs":"[len(set(generate_bell(i))) for i in range(1, 7)] == [factorial(i) for i in range(1, 7)] and list(generate_bell(3)) == [(0, 1, 2), (0, 2, 1), (2, 0, 1), (2, 1, 0), (1, 2, 0), (1, 0, 2)]","over":{"base":"Any"},"name":"test_bell_perm_correct"},"guarantee":"[len(set(generate_bell(i))) for i in range(1, 7)] == [factorial(i) for i in range(1, 7)]; list(generate_bell(3)) == [(0, 1, 2), (0, 2, 1), (2, 0, 1), (2, 1, 0), (1, 2, 0), (1, 0, 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_bell_perm_correct","statement":"Path(test_bell_perm(x), [len(set(generate_bell(i))) for i in range(1, 7)] == [factorial(i) for i in range(1, 7)]; list(generate_bell(3)) == [(0, 1, 2), (0, 2, 1), (2, 0, 1), (2, 1, 0), (1, 2, 0), (1, 0, 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263389c74b921e09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[len(set(generate_bell(i))) for i in range(1, 7)] == [factorial(i) for i in range(1, 7)]","list(generate_bell(3)) == [(0, 1, 2), (0, 2, 1), (2, 0, 1), (2, 1, 0), (1, 2, 0), (1, 0, 2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bell_perm():
     assert [len(set(generate_bell(i))) for i in range(1, 7)] == [
         factorial(i) for i in range(1, 7)]
@@ -838,16 +1030,22 @@ def test_bell_perm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_involutions(), test_involutions produces the expected output) over Any ║
+# ║ Path(test_involutions(), <unspecified:test_involutions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_involutions : Any → {Any | len(i) == N and len({...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb98a26d3f805779  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_involutions","kind":"function","src_hash":"e9e82ce018ca0c73","in":{"base":"Any"},"out":{"base":"Any","pred":"len(i) == N and len({Permutation(j) ** 2 for j in i}) == 1"},"spec":{"lhs":"test_involutions()","rhs":"test_involutions produces the expected output","over":{"base":"Any"},"name":"test_involutions_correct"},"guarantee":"test_involutions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_involutions_correct","statement":"Path(test_involutions(x), test_involutions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb98a26d3f805779"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_involutions","kind":"function","src_hash":"e9e82ce018ca0c73","in":{"base":"Any"},"out":{"base":"Any","pred":"len(i) == N and len({Permutation(j) ** 2 for j in i}) == 1"},"spec":{"lhs":"test_involutions()","rhs":"<unspecified:test_involutions>","over":{"base":"Any"},"name":"test_involutions_correct"},"guarantee":"test_involutions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_involutions_correct","statement":"Path(test_involutions(x), test_involutions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb98a26d3f805779","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_involutions():
     lengths = [1, 2, 4, 10, 26, 76]
     for n, N in enumerate(lengths):
@@ -857,16 +1055,24 @@ def test_involutions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derangements(), test_derangements produces the expected output) over Any ║
+# ║ Path(test_derangements(), len(list(generate_derangements(list(range(6))))) == 265 and ''.join((''.join(i) for i in generate_derangements('abcde'))) == 'badecbaecdbcaedbcdeabceadbdaecbdeacbdecabeacdbedacbedcacabedcadebcaebdcdaebcdbeacdeabcdebaceabdcebadcedabcedbadabecdaebcdaecbdcaebdcbeadceabdcebadeabcdeacbdebacdebcaeabcdeadbceadcbecabdecbadecdabecdbaedabcedacbedbacedbca' and list(generate_derangements([0, 1, 2, 3])) == [[1, 0, 3, 2], [1, 2, 3, 0], [1, 3, 0, 2], [2, 0, 3, 1], [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 2, 0, 1], [3, 2, 1, 0]] and list(generate_derangements([0, 1, 2, 2])) == [[2, 2, 0, 1], [2, 2, 1, 0]] and list(generate_derangements('ba')) == [list('ab')] and list(D('abb')) == [] and [''.join(i) for i in D('ab')] == ['ba'] and [''.join(i) for i in D('abc')] == ['bca', 'cab'] and [''.join(i) for i in D('aabb')] == ['bbaa'] and [''.join(i) for i in D('aabbcccc')] == ['ccccaabb', 'ccccabab', 'ccccabba', 'ccccbaab', 'ccccbaba', 'ccccbbaa'] and [''.join(i) for i in D('aabbccc')] == ['cccabba', 'cccabab', 'cccaabb', 'ccacbba', 'ccacbab', 'ccacabb', 'cbccbaa', 'cbccaba', 'cbccaab', 'bcccbaa', 'bcccaba', 'bcccaab'] and [''.join(i) for i in D('books')] == ['kbsoo', 'ksboo', 'sbkoo', 'skboo', 'oksbo', 'oskbo', 'okbso', 'obkso', 'oskob', 'oksob', 'osbok', 'obsok'] and list(generate_derangements([[3], [2], [2], [1]])) == [[[2], [1], [3], [2]], [[2], [3], [1], [2]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derangements : Any → {Any | len(list(generate_de...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(list(generate_derangements(list(range...   ║
+# ║   ensures:  ''.join((''.join(i) for i in generate_der...   ║
+# ║   ensures:  list(generate_derangements([0, 1, 2, 3]))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derangements : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc2543f4ab86846e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85df3c274cb329b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_derangements","kind":"function","src_hash":"9a1382a92b08be2b","in":{"base":"Any"},"out":{"base":"Any","pred":"len(list(generate_derangements(list(range(6))))) == 265 and list(generate_derangements([0, 1, 2, 2])) == [[2, 2, 0, 1], [2, 2, 1, 0]] and list(generate_derangements('ba')) == [list('ab')] and list(D('abb')) == [] and [''.join(i) for i in D('ab')] == ['ba'] and [''.join(i) for i in D('abc')] == ['bca', 'cab'] and [''.join(i) for i in D('aabb')] == ['bbaa']"},"spec":{"lhs":"test_derangements()","rhs":"test_derangements produces the expected output","over":{"base":"Any"},"name":"test_derangements_correct"},"guarantee":"test_derangements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_derangements_correct","statement":"Path(test_derangements(x), test_derangements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2543f4ab86846e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_derangements","kind":"function","src_hash":"9a1382a92b08be2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(list(generate_derangements(list(range(6))))) == 265 and ''.join((''.join(i) for i in generate_derangements('abcde'))) == 'badecbaecdbcaedbcdeabceadbdaecbdeacbdecabeacdbedacbedcacabedcadebcaebdcdaebcdbeacdeabcdebaceabdcebadcedabcedbadabecdaebcdaecbdcaebdcbeadceabdcebadeabcdeacbdebacdebcaeabcdeadbceadcbecabdecbadecdabecdbaedabcedacbedbacedbca' and list(generate_derangements([0, 1, 2, 3])) == [[1, 0, 3, 2], [1, 2, 3, 0], [1, 3, 0, 2], [2, 0, 3, 1], [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 2, 0, 1], [3, 2, 1, 0]] and list(generate_derangements([0, 1, 2, 2])) == [[2, 2, 0, 1], [2, 2, 1, 0]] and list(generate_derangements('ba')) == [list('ab')] and list(D('abb')) == [] and [''.join(i) for i in D('ab')] == ['ba'] and [''.join(i) for i in D('abc')] == ['bca', 'cab'] and [''.join(i) for i in D('aabb')] == ['bbaa'] and [''.join(i) for i in D('aabbcccc')] == ['ccccaabb', 'ccccabab', 'ccccabba', 'ccccbaab', 'ccccbaba', 'ccccbbaa'] and [''.join(i) for i in D('aabbccc')] == ['cccabba', 'cccabab', 'cccaabb', 'ccacbba', 'ccacbab', 'ccacabb', 'cbccbaa', 'cbccaba', 'cbccaab', 'bcccbaa', 'bcccaba', 'bcccaab'] and [''.join(i) for i in D('books')] == ['kbsoo', 'ksboo', 'sbkoo', 'skboo', 'oksbo', 'oskbo', 'okbso', 'obkso', 'oskob', 'oksob', 'osbok', 'obsok'] and list(generate_derangements([[3], [2], [2], [1]])) == [[[2], [1], [3], [2]], [[2], [3], [1], [2]]]"},"spec":{"lhs":"test_derangements()","rhs":"len(list(generate_derangements(list(range(6))))) == 265 and ''.join((''.join(i) for i in generate_derangements('abcde'))) == 'badecbaecdbcaedbcdeabceadbdaecbdeacbdecabeacdbedacbedcacabedcadebcaebdcdaebcdbeacdeabcdebaceabdcebadcedabcedbadabecdaebcdaecbdcaebdcbeadceabdcebadeabcdeacbdebacdebcaeabcdeadbceadcbecabdecbadecdabecdbaedabcedacbedbacedbca' and list(generate_derangements([0, 1, 2, 3])) == [[1, 0, 3, 2], [1, 2, 3, 0], [1, 3, 0, 2], [2, 0, 3, 1], [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 2, 0, 1], [3, 2, 1, 0]] and list(generate_derangements([0, 1, 2, 2])) == [[2, 2, 0, 1], [2, 2, 1, 0]] and list(generate_derangements('ba')) == [list('ab')] and list(D('abb')) == [] and [''.join(i) for i in D('ab')] == ['ba'] and [''.join(i) for i in D('abc')] == ['bca', 'cab'] and [''.join(i) for i in D('aabb')] == ['bbaa'] and [''.join(i) for i in D('aabbcccc')] == ['ccccaabb', 'ccccabab', 'ccccabba', 'ccccbaab', 'ccccbaba', 'ccccbbaa'] and [''.join(i) for i in D('aabbccc')] == ['cccabba', 'cccabab', 'cccaabb', 'ccacbba', 'ccacbab', 'ccacabb', 'cbccbaa', 'cbccaba', 'cbccaab', 'bcccbaa', 'bcccaba', 'bcccaab'] and [''.join(i) for i in D('books')] == ['kbsoo', 'ksboo', 'sbkoo', 'skboo', 'oksbo', 'oskbo', 'okbso', 'obkso', 'oskob', 'oksob', 'osbok', 'obsok'] and list(generate_derangements([[3], [2], [2], [1]])) == [[[2], [1], [3], [2]], [[2], [3], [1], [2]]]","over":{"base":"Any"},"name":"test_derangements_correct"},"guarantee":"len(list(generate_derangements(list(range(6))))) == 265; ''.join((''.join(i) for i in generate_derangements('abcde'))) == 'badecbaecdbcaedbcdeabceadbdaecbdeacbdecabeacdbedacbedcacabedcadebcaebdcdaebcdbeacdeabcdebaceabdcebadcedabcedbadabecdaebcdaecbdcaebdcbeadceabdcebadeabcdeacbdebacdebcaeabcdeadbceadcbecabdecbadecdabecdbaedabcedacbedbacedbca'; list(generate_derangements([0, 1, 2, 3])) == [[1, 0, 3, 2], [1, 2, 3, 0], [1, 3, 0, 2], [2, 0, 3, 1], [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 2, 0, 1], [3, 2, 1, 0]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_derangements_correct","statement":"Path(test_derangements(x), len(list(generate_derangements(list(range(6))))) == 265; ''.join((''.join(i) for i in generate_derangements('abcde'))) == 'badecbaecdbcaedbcdeabceadbdaecbdeacbdecabeacdbedacbedcacabedcadebcaebdcdaebcdbeacdeabcdebaceabdcebadcedabcedbadabecdaebcdaecbdcaebdcbeadceabdcebadeabcdeacbdebacdebcaeabcdeadbceadcbecabdecbadecdabecdbaedabcedacbedbacedbca'; list(generate_derangements([0, 1, 2, 3])) == [[1, 0, 3, 2], [1, 2, 3, 0], [1, 3, 0, 2], [2, 0, 3, 1], [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 2, 0, 1], [3, 2, 1, 0]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85df3c274cb329b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(list(generate_derangements(list(range(6))))) == 265","''.join((''.join(i) for i in generate_derangements('abcde'))) == 'badecbaecdbcaedbcdeabceadbdaecbdeacbdecabeacdbedacbedcacabedcadebcaebdcdaebcdbeacdeabcdebaceabdcebadcedabcedbadabecdaebcdaecbdcaebdcbeadceabdcebadeabcdeacbdebacdebcaeabcdeadbceadcbecabdecbadecdabecdbaedabcedacbedbacedbca'","list(generate_derangements([0, 1, 2, 3])) == [[1, 0, 3, 2], [1, 2, 3, 0], [1, 3, 0, 2], [2, 0, 3, 1], [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 2, 0, 1], [3, 2, 1, 0]]","list(generate_derangements([0, 1, 2, 2])) == [[2, 2, 0, 1], [2, 2, 1, 0]]","list(generate_derangements('ba')) == [list('ab')]","list(D('abb')) == []","[''.join(i) for i in D('ab')] == ['ba']","[''.join(i) for i in D('abc')] == ['bca', 'cab']","[''.join(i) for i in D('aabb')] == ['bbaa']","[''.join(i) for i in D('aabbcccc')] == ['ccccaabb', 'ccccabab', 'ccccabba', 'ccccbaab', 'ccccbaba', 'ccccbbaa']","[''.join(i) for i in D('aabbccc')] == ['cccabba', 'cccabab', 'cccaabb', 'ccacbba', 'ccacbab', 'ccacabb', 'cbccbaa', 'cbccaba', 'cbccaab', 'bcccbaa', 'bcccaba', 'bcccaab']","[''.join(i) for i in D('books')] == ['kbsoo', 'ksboo', 'sbkoo', 'skboo', 'oksbo', 'oskbo', 'okbso', 'obkso', 'oskob', 'oksob', 'osbok', 'obsok']","list(generate_derangements([[3], [2], [2], [1]])) == [[[2], [1], [3], [2]], [[2], [3], [1], [2]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_derangements():
     assert len(list(generate_derangements(list(range(6))))) == 265
     assert ''.join(''.join(i) for i in generate_derangements('abcde')) == (
@@ -903,14 +1109,21 @@ def test_derangements():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_necklaces(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_necklaces : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(m) == Matrix([[1, 2, 2, 3], [2, 3,...   ║
+# ║   returns:  len(list(necklaces(n, k, f)))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_necklaces : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2c473f5c2f233133   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_necklaces","kind":"function","src_hash":"19d88820276c5a23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_necklaces()","rhs":"test_necklaces produces the expected output","over":{"base":"Any"},"name":"test_necklaces_correct","kind":"composition"},"guarantee":"test_necklaces produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"necklaces","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c473f5c2f233133"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_necklaces","kind":"function","src_hash":"19d88820276c5a23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (len(list(necklaces(n, k, f))))"},"spec":{"lhs":"test_necklaces()","rhs":"len(list(necklaces(n, k, f)))","over":{"base":"Any"},"name":"test_necklaces_correct","kind":"composition"},"guarantee":"returns len(list(necklaces(n, k, f))); Matrix(m) == Matrix([[1, 2, 2, 3], [2, 3, 3, 6], [3, 4, 4, 10], [4, 6, 6, 21], [5, 8, 8, 39], [6, 14, 13, 92], [7, 20, 18, 198]])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"necklaces","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c473f5c2f233133","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(m) == Matrix([[1, 2, 2, 3], [2, 3, 3, 6], [3, 4, 4, 10], [4, 6, 6, 21], [5, 8, 8, 39], [6, 14, 13, 92], [7, 20, 18, 198]])"],"returns_expr":"len(list(necklaces(n, k, f)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_necklaces():
     def count(n, k, f):
         return len(list(necklaces(n, k, f)))
@@ -929,16 +1142,23 @@ def test_necklaces():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bracelets(), test_bracelets produces the expected output) over Any ║
+# ║ Path(test_bracelets(), Matrix(bc) == Matrix([[0, 0], [0, 1], [0, 2], [0, 3], [1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]) and Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [1, 1, 1, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bracelets : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(bc) == Matrix([[0, 0], [0, 1], [0,...   ║
+# ║   ensures:  Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bracelets : Any → {Any | result satisfies: Matri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 373148a8ab120d47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da389c0b4b83e542  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_bracelets","kind":"function","src_hash":"9219010592d1a28f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bracelets()","rhs":"test_bracelets produces the expected output","over":{"base":"Any"},"name":"test_bracelets_correct"},"guarantee":"test_bracelets produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_bracelets_correct","statement":"Path(test_bracelets(x), test_bracelets produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"373148a8ab120d47"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_bracelets","kind":"function","src_hash":"9219010592d1a28f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix(bc) == Matrix([[0, 0], [0, 1], [0, 2], [0, 3], [1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]) and Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [1, 1, 1, 1]])"},"spec":{"lhs":"test_bracelets()","rhs":"Matrix(bc) == Matrix([[0, 0], [0, 1], [0, 2], [0, 3], [1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]) and Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [1, 1, 1, 1]])","over":{"base":"Any"},"name":"test_bracelets_correct"},"guarantee":"Matrix(bc) == Matrix([[0, 0], [0, 1], [0, 2], [0, 3], [1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]); Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [1, 1, 1, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_bracelets_correct","statement":"Path(test_bracelets(x), Matrix(bc) == Matrix([[0, 0], [0, 1], [0, 2], [0, 3], [1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]); Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [1, 1, 1, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da389c0b4b83e542","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(bc) == Matrix([[0, 0], [0, 1], [0, 2], [0, 3], [1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]])","Matrix(bc) == Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [1, 1, 1, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bracelets():
     bc = list(bracelets(2, 4))
     assert Matrix(bc) == Matrix([
@@ -965,16 +1185,23 @@ def test_bracelets():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generate_oriented_forest(), test_generate_oriented_forest produces the expected output) over Any ║
+# ║ Path(test_generate_oriented_forest(), list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4], [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0], [0, 1, 2, 2, 2], [0, 1, 2, 2, 1], [0, 1, 2, 2, 0], [0, 1, 2, 1, 2], [0, 1, 2, 1, 1], [0, 1, 2, 1, 0], [0, 1, 2, 0, 1], [0, 1, 2, 0, 0], [0, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 1, 1, 0, 1], [0, 1, 1, 0, 0], [0, 1, 0, 1, 0], [0, 1, 0, 0, 0], [0, 0, 0, 0, 0]] and len(list(generate_oriented_forest(10))) == 1842) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generate_oriented_forest : Any → {Any | len(list...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(generate_oriented_forest(5)) == [[0,...   ║
+# ║   ensures:  len(list(generate_oriented_forest(10))) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generate_oriented_forest : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 360f5baef7a24c58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3712e4827fed6037  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_generate_oriented_forest","kind":"function","src_hash":"8bc3c5db9ceb1184","in":{"base":"Any"},"out":{"base":"Any","pred":"len(list(generate_oriented_forest(10))) == 1842"},"spec":{"lhs":"test_generate_oriented_forest()","rhs":"test_generate_oriented_forest produces the expected output","over":{"base":"Any"},"name":"test_generate_oriented_forest_correct"},"guarantee":"test_generate_oriented_forest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_generate_oriented_forest_correct","statement":"Path(test_generate_oriented_forest(x), test_generate_oriented_forest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"360f5baef7a24c58"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_generate_oriented_forest","kind":"function","src_hash":"8bc3c5db9ceb1184","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4], [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0], [0, 1, 2, 2, 2], [0, 1, 2, 2, 1], [0, 1, 2, 2, 0], [0, 1, 2, 1, 2], [0, 1, 2, 1, 1], [0, 1, 2, 1, 0], [0, 1, 2, 0, 1], [0, 1, 2, 0, 0], [0, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 1, 1, 0, 1], [0, 1, 1, 0, 0], [0, 1, 0, 1, 0], [0, 1, 0, 0, 0], [0, 0, 0, 0, 0]] and len(list(generate_oriented_forest(10))) == 1842"},"spec":{"lhs":"test_generate_oriented_forest()","rhs":"list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4], [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0], [0, 1, 2, 2, 2], [0, 1, 2, 2, 1], [0, 1, 2, 2, 0], [0, 1, 2, 1, 2], [0, 1, 2, 1, 1], [0, 1, 2, 1, 0], [0, 1, 2, 0, 1], [0, 1, 2, 0, 0], [0, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 1, 1, 0, 1], [0, 1, 1, 0, 0], [0, 1, 0, 1, 0], [0, 1, 0, 0, 0], [0, 0, 0, 0, 0]] and len(list(generate_oriented_forest(10))) == 1842","over":{"base":"Any"},"name":"test_generate_oriented_forest_correct"},"guarantee":"list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4], [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0], [0, 1, 2, 2, 2], [0, 1, 2, 2, 1], [0, 1, 2, 2, 0], [0, 1, 2, 1, 2], [0, 1, 2, 1, 1], [0, 1, 2, 1, 0], [0, 1, 2, 0, 1], [0, 1, 2, 0, 0], [0, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 1, 1, 0, 1], [0, 1, 1, 0, 0], [0, 1, 0, 1, 0], [0, 1, 0, 0, 0], [0, 0, 0, 0, 0]]; len(list(generate_oriented_forest(10))) == 1842","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_generate_oriented_forest_correct","statement":"Path(test_generate_oriented_forest(x), list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4], [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0], [0, 1, 2, 2, 2], [0, 1, 2, 2, 1], [0, 1, 2, 2, 0], [0, 1, 2, 1, 2], [0, 1, 2, 1, 1], [0, 1, 2, 1, 0], [0, 1, 2, 0, 1], [0, 1, 2, 0, 0], [0, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 1, 1, 0, 1], [0, 1, 1, 0, 0], [0, 1, 0, 1, 0], [0, 1, 0, 0, 0], [0, 0, 0, 0, 0]]; len(list(generate_oriented_forest(10))) == 1842)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3712e4827fed6037","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4], [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0], [0, 1, 2, 2, 2], [0, 1, 2, 2, 1], [0, 1, 2, 2, 0], [0, 1, 2, 1, 2], [0, 1, 2, 1, 1], [0, 1, 2, 1, 0], [0, 1, 2, 0, 1], [0, 1, 2, 0, 0], [0, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 1, 1, 0, 1], [0, 1, 1, 0, 0], [0, 1, 0, 1, 0], [0, 1, 0, 0, 0], [0, 0, 0, 0, 0]]","len(list(generate_oriented_forest(10))) == 1842"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_generate_oriented_forest():
     assert list(generate_oriented_forest(5)) == [[0, 1, 2, 3, 4],
         [0, 1, 2, 3, 3], [0, 1, 2, 3, 2], [0, 1, 2, 3, 1], [0, 1, 2, 3, 0],
@@ -986,16 +1213,23 @@ def test_generate_oriented_forest():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unflatten(), test_unflatten produces the expected output) over Any ║
+# ║ Path(test_unflatten(), unflatten(r) == list(zip(r[::2], r[1::2])) and unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unflatten : Any → {Any | unflatten(r) == list(zi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unflatten(r) == list(zip(r[::2], r[1::2]))     ║
+# ║   ensures:  unflatten(r, 5) == [tuple(r[:5]), tuple(r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unflatten : Any → {Any | result satisfies: unfla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3620cd731b457eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f89d984e29356ffd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_unflatten","kind":"function","src_hash":"2976ef87450253c3","in":{"base":"Any"},"out":{"base":"Any","pred":"unflatten(r) == list(zip(r[::2], r[1::2])) and unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])]"},"spec":{"lhs":"test_unflatten()","rhs":"test_unflatten produces the expected output","over":{"base":"Any"},"name":"test_unflatten_correct"},"guarantee":"test_unflatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_unflatten_correct","statement":"Path(test_unflatten(x), test_unflatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3620cd731b457eb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_unflatten","kind":"function","src_hash":"2976ef87450253c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unflatten(r) == list(zip(r[::2], r[1::2])) and unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])]"},"spec":{"lhs":"test_unflatten()","rhs":"unflatten(r) == list(zip(r[::2], r[1::2])) and unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])]","over":{"base":"Any"},"name":"test_unflatten_correct"},"guarantee":"unflatten(r) == list(zip(r[::2], r[1::2])); unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_unflatten_correct","statement":"Path(test_unflatten(x), unflatten(r) == list(zip(r[::2], r[1::2])); unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f89d984e29356ffd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unflatten(r) == list(zip(r[::2], r[1::2]))","unflatten(r, 5) == [tuple(r[:5]), tuple(r[5:])]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unflatten():
     r = list(range(10))
     assert unflatten(r) == list(zip(r[::2], r[1::2]))
@@ -1005,16 +1239,24 @@ def test_unflatten():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_common_prefix_suffix(), test_common_prefix_suffix produces the expected output) over Any ║
+# ║ Path(test_common_prefix_suffix(), common_prefix([], [1]) == [] and common_prefix(list(range(3))) == [0, 1, 2] and common_prefix(list(range(3)), list(range(4))) == [0, 1, 2] and common_prefix([1, 2, 3], [1, 2, 5]) == [1, 2] and common_prefix([1, 2, 3], [1, 3, 5]) == [1] and common_suffix([], [1]) == [] and common_suffix(list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(4))) == [] and common_suffix([1, 2, 3], [9, 2, 3]) == [2, 3] and common_suffix([1, 2, 3], [9, 7, 3]) == [3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_common_prefix_suffix : Any → {Any | common_prefi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  common_prefix([], [1]) == []                   ║
+# ║   ensures:  common_prefix(list(range(3))) == [0, 1, 2]     ║
+# ║   ensures:  common_prefix(list(range(3)), list(range(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_common_prefix_suffix : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b6ac81b805e3638  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f2a0527bd832ff5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_common_prefix_suffix","kind":"function","src_hash":"4db052a8bdad44ec","in":{"base":"Any"},"out":{"base":"Any","pred":"common_prefix([], [1]) == [] and common_prefix(list(range(3))) == [0, 1, 2] and common_prefix(list(range(3)), list(range(4))) == [0, 1, 2] and common_prefix([1, 2, 3], [1, 2, 5]) == [1, 2] and common_prefix([1, 2, 3], [1, 3, 5]) == [1] and common_suffix([], [1]) == [] and common_suffix(list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(4))) == [] and common_suffix([1, 2, 3], [9, 2, 3]) == [2, 3] and common_suffix([1, 2, 3], [9, 7, 3]) == [3]"},"spec":{"lhs":"test_common_prefix_suffix()","rhs":"test_common_prefix_suffix produces the expected output","over":{"base":"Any"},"name":"test_common_prefix_suffix_correct"},"guarantee":"test_common_prefix_suffix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_common_prefix_suffix_correct","statement":"Path(test_common_prefix_suffix(x), test_common_prefix_suffix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b6ac81b805e3638"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_common_prefix_suffix","kind":"function","src_hash":"4db052a8bdad44ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: common_prefix([], [1]) == [] and common_prefix(list(range(3))) == [0, 1, 2] and common_prefix(list(range(3)), list(range(4))) == [0, 1, 2] and common_prefix([1, 2, 3], [1, 2, 5]) == [1, 2] and common_prefix([1, 2, 3], [1, 3, 5]) == [1] and common_suffix([], [1]) == [] and common_suffix(list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(4))) == [] and common_suffix([1, 2, 3], [9, 2, 3]) == [2, 3] and common_suffix([1, 2, 3], [9, 7, 3]) == [3]"},"spec":{"lhs":"test_common_prefix_suffix()","rhs":"common_prefix([], [1]) == [] and common_prefix(list(range(3))) == [0, 1, 2] and common_prefix(list(range(3)), list(range(4))) == [0, 1, 2] and common_prefix([1, 2, 3], [1, 2, 5]) == [1, 2] and common_prefix([1, 2, 3], [1, 3, 5]) == [1] and common_suffix([], [1]) == [] and common_suffix(list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(3))) == [0, 1, 2] and common_suffix(list(range(3)), list(range(4))) == [] and common_suffix([1, 2, 3], [9, 2, 3]) == [2, 3] and common_suffix([1, 2, 3], [9, 7, 3]) == [3]","over":{"base":"Any"},"name":"test_common_prefix_suffix_correct"},"guarantee":"common_prefix([], [1]) == []; common_prefix(list(range(3))) == [0, 1, 2]; common_prefix(list(range(3)), list(range(4))) == [0, 1, 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_common_prefix_suffix_correct","statement":"Path(test_common_prefix_suffix(x), common_prefix([], [1]) == []; common_prefix(list(range(3))) == [0, 1, 2]; common_prefix(list(range(3)), list(range(4))) == [0, 1, 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f2a0527bd832ff5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["common_prefix([], [1]) == []","common_prefix(list(range(3))) == [0, 1, 2]","common_prefix(list(range(3)), list(range(4))) == [0, 1, 2]","common_prefix([1, 2, 3], [1, 2, 5]) == [1, 2]","common_prefix([1, 2, 3], [1, 3, 5]) == [1]","common_suffix([], [1]) == []","common_suffix(list(range(3))) == [0, 1, 2]","common_suffix(list(range(3)), list(range(3))) == [0, 1, 2]","common_suffix(list(range(3)), list(range(4))) == []","common_suffix([1, 2, 3], [9, 2, 3]) == [2, 3]","common_suffix([1, 2, 3], [9, 7, 3]) == [3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_common_prefix_suffix():
     assert common_prefix([], [1]) == []
     assert common_prefix(list(range(3))) == [0, 1, 2]
@@ -1031,16 +1273,24 @@ def test_common_prefix_suffix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_minlex(), test_minlex produces the expected output) over Any ║
+# ║ Path(test_minlex(), minlex([1, 2, 0]) == (0, 1, 2) and minlex((1, 2, 0)) == (0, 1, 2) and minlex((1, 0, 2)) == (0, 2, 1) and minlex((1, 0, 2), directed=False) == (0, 1, 2) and minlex('aba') == 'aab' and minlex(('bb', 'aaa', 'c', 'a'), key=len) == ('c', 'a', 'bb', 'aaa')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_minlex : Any → {Any | minlex([1, 2, 0]) == (0, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  minlex([1, 2, 0]) == (0, 1, 2)                 ║
+# ║   ensures:  minlex((1, 2, 0)) == (0, 1, 2)                 ║
+# ║   ensures:  minlex((1, 0, 2)) == (0, 2, 1)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_minlex : Any → {Any | result satisfies: minlex([...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43ea6e26a35bb1e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d49e7d443dc27576  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_minlex","kind":"function","src_hash":"27e90d5946ca0cef","in":{"base":"Any"},"out":{"base":"Any","pred":"minlex([1, 2, 0]) == (0, 1, 2) and minlex((1, 2, 0)) == (0, 1, 2) and minlex((1, 0, 2)) == (0, 2, 1) and minlex((1, 0, 2), directed=False) == (0, 1, 2) and minlex('aba') == 'aab' and minlex(('bb', 'aaa', 'c', 'a'), key=len) == ('c', 'a', 'bb', 'aaa')"},"spec":{"lhs":"test_minlex()","rhs":"test_minlex produces the expected output","over":{"base":"Any"},"name":"test_minlex_correct"},"guarantee":"test_minlex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_minlex_correct","statement":"Path(test_minlex(x), test_minlex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43ea6e26a35bb1e6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_minlex","kind":"function","src_hash":"27e90d5946ca0cef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: minlex([1, 2, 0]) == (0, 1, 2) and minlex((1, 2, 0)) == (0, 1, 2) and minlex((1, 0, 2)) == (0, 2, 1) and minlex((1, 0, 2), directed=False) == (0, 1, 2) and minlex('aba') == 'aab' and minlex(('bb', 'aaa', 'c', 'a'), key=len) == ('c', 'a', 'bb', 'aaa')"},"spec":{"lhs":"test_minlex()","rhs":"minlex([1, 2, 0]) == (0, 1, 2) and minlex((1, 2, 0)) == (0, 1, 2) and minlex((1, 0, 2)) == (0, 2, 1) and minlex((1, 0, 2), directed=False) == (0, 1, 2) and minlex('aba') == 'aab' and minlex(('bb', 'aaa', 'c', 'a'), key=len) == ('c', 'a', 'bb', 'aaa')","over":{"base":"Any"},"name":"test_minlex_correct"},"guarantee":"minlex([1, 2, 0]) == (0, 1, 2); minlex((1, 2, 0)) == (0, 1, 2); minlex((1, 0, 2)) == (0, 2, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_minlex_correct","statement":"Path(test_minlex(x), minlex([1, 2, 0]) == (0, 1, 2); minlex((1, 2, 0)) == (0, 1, 2); minlex((1, 0, 2)) == (0, 2, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d49e7d443dc27576","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["minlex([1, 2, 0]) == (0, 1, 2)","minlex((1, 2, 0)) == (0, 1, 2)","minlex((1, 0, 2)) == (0, 2, 1)","minlex((1, 0, 2), directed=False) == (0, 1, 2)","minlex('aba') == 'aab'","minlex(('bb', 'aaa', 'c', 'a'), key=len) == ('c', 'a', 'bb', 'aaa')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_minlex():
     assert minlex([1, 2, 0]) == (0, 1, 2)
     assert minlex((1, 2, 0)) == (0, 1, 2)
@@ -1051,16 +1301,24 @@ def test_minlex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ordered(), test_ordered produces the expected output) over Any ║
+# ║ Path(test_ordered(), list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]] and list(ordered((x, y), hash, default=False)) == list(ordered((y, x), hash, default=False)) and list(ordered((x, y))) == [x, y] and list(ordered(seq, keys, default=False, warn=False)) == [[1], [2], [1, 2, 1], [0, 3, 1], [1, 1, 3]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ordered : Any → {Any | list(ordered((x, y), hash...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(ordered((x, y), hash, default=False)...   ║
+# ║   ensures:  list(ordered((x, y), hash, default=False)...   ║
+# ║   ensures:  list(ordered((x, y))) == [x, y]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ordered : Any → {Any | result satisfies: list(or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6407ce1c8e38e3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b35856895478db3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_ordered","kind":"function","src_hash":"253514d99e7c0e23","in":{"base":"Any"},"out":{"base":"Any","pred":"list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]] and list(ordered((x, y))) == [x, y]"},"spec":{"lhs":"test_ordered()","rhs":"test_ordered produces the expected output","over":{"base":"Any"},"name":"test_ordered_correct"},"guarantee":"test_ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_ordered_correct","statement":"Path(test_ordered(x), test_ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6407ce1c8e38e3f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_ordered","kind":"function","src_hash":"253514d99e7c0e23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]] and list(ordered((x, y), hash, default=False)) == list(ordered((y, x), hash, default=False)) and list(ordered((x, y))) == [x, y] and list(ordered(seq, keys, default=False, warn=False)) == [[1], [2], [1, 2, 1], [0, 3, 1], [1, 1, 3]]"},"spec":{"lhs":"test_ordered()","rhs":"list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]] and list(ordered((x, y), hash, default=False)) == list(ordered((y, x), hash, default=False)) and list(ordered((x, y))) == [x, y] and list(ordered(seq, keys, default=False, warn=False)) == [[1], [2], [1, 2, 1], [0, 3, 1], [1, 1, 3]]","over":{"base":"Any"},"name":"test_ordered_correct"},"guarantee":"list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]]; list(ordered((x, y), hash, default=False)) == list(ordered((y, x), hash, default=False)); list(ordered((x, y))) == [x, y]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_ordered_correct","statement":"Path(test_ordered(x), list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]]; list(ordered((x, y), hash, default=False)) == list(ordered((y, x), hash, default=False)); list(ordered((x, y))) == [x, y])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b35856895478db3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]]","list(ordered((x, y), hash, default=False)) == list(ordered((y, x), hash, default=False))","list(ordered((x, y))) == [x, y]","list(ordered(seq, keys, default=False, warn=False)) == [[1], [2], [1, 2, 1], [0, 3, 1], [1, 1, 3]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ordered():
     assert list(ordered((x, y), hash, default=False)) in [[x, y], [y, x]]
     assert list(ordered((x, y), hash, default=False)) == \
@@ -1076,16 +1334,24 @@ def test_ordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_runs(), test_runs produces the expected output) over Any ║
+# ║ Path(test_runs(), runs([]) == [] and runs([1]) == [[1]] and runs([1, 1]) == [[1], [1]] and runs([1, 1, 2]) == [[1], [1, 2]] and runs([1, 2, 1]) == [[1, 2], [1]] and runs([2, 1, 1]) == [[2], [1], [1]] and runs([2, 1, 1], lt) == [[2, 1], [1]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_runs : Any → {Any | runs([]) == [] and runs([1])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  runs([]) == []                                 ║
+# ║   ensures:  runs([1]) == [[1]]                             ║
+# ║   ensures:  runs([1, 1]) == [[1], [1]]                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_runs : Any → {Any | result satisfies: runs([]) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   operator.__module__                                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 4ee126a3ff80...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 80a36c42f288...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_runs","kind":"function","src_hash":"4b46de53894c2fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"runs([]) == [] and runs([1]) == [[1]] and runs([1, 1]) == [[1], [1]] and runs([1, 1, 2]) == [[1], [1, 2]] and runs([1, 2, 1]) == [[1, 2], [1]] and runs([2, 1, 1]) == [[2], [1], [1]] and runs([2, 1, 1], lt) == [[2, 1], [1]]"},"spec":{"lhs":"test_runs()","rhs":"test_runs produces the expected output","over":{"base":"Any"},"name":"test_runs_correct"},"guarantee":"test_runs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_runs_correct","statement":"Path(test_runs(x), test_runs produces the expected output)"},"assumes":[],"trust":["operator.__module__"],"compiled":true,"vhash":"4ee126a3ff8076e3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_runs","kind":"function","src_hash":"4b46de53894c2fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: runs([]) == [] and runs([1]) == [[1]] and runs([1, 1]) == [[1], [1]] and runs([1, 1, 2]) == [[1], [1, 2]] and runs([1, 2, 1]) == [[1, 2], [1]] and runs([2, 1, 1]) == [[2], [1], [1]] and runs([2, 1, 1], lt) == [[2, 1], [1]]"},"spec":{"lhs":"test_runs()","rhs":"runs([]) == [] and runs([1]) == [[1]] and runs([1, 1]) == [[1], [1]] and runs([1, 1, 2]) == [[1], [1, 2]] and runs([1, 2, 1]) == [[1, 2], [1]] and runs([2, 1, 1]) == [[2], [1], [1]] and runs([2, 1, 1], lt) == [[2, 1], [1]]","over":{"base":"Any"},"name":"test_runs_correct"},"guarantee":"runs([]) == []; runs([1]) == [[1]]; runs([1, 1]) == [[1], [1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_runs_correct","statement":"Path(test_runs(x), runs([]) == []; runs([1]) == [[1]]; runs([1, 1]) == [[1], [1]])"},"assumes":[],"trust":["operator.__module__"],"compiled":true,"vhash":"80a36c42f288b7da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["runs([]) == []","runs([1]) == [[1]]","runs([1, 1]) == [[1], [1]]","runs([1, 1, 2]) == [[1], [1, 2]]","runs([1, 2, 1]) == [[1, 2], [1]]","runs([2, 1, 1]) == [[2], [1], [1]]","runs([2, 1, 1], lt) == [[2, 1], [1]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_runs():
     assert runs([]) == []
     assert runs([1]) == [[1]]
@@ -1098,16 +1364,24 @@ def test_runs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reshape(), test_reshape produces the expected output) over Any ║
+# ║ Path(test_reshape(), reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]] and reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, [2])) == [(1, 2, [3, 4]), (5, 6, [7, 8])] and reshape(seq, ((2,), [2])) == [((1, 2), [3, 4]), ((5, 6), [7, 8])] and reshape(seq, (1, [2], 1)) == [(1, [2, 3], 4), (5, [6, 7], 8)] and reshape(tuple(seq), ([[1], 1, (2,)],)) == (([[1], 2, (3, 4)],), ([[5], 6, (7, 8)],)) and reshape(tuple(seq), ([1], 1, (2,))) == (([1], 2, (3, 4)), ([5], 6, (7, 8))) and reshape(list(range(12)), [2, [3], {2}, (1, (3,), 1)]) == [[0, 1, [2, 3, 4], {5, 6}, (7, (8, 9, 10), 11)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reshape : Any → {Any | reshape(seq, [4]) == [[1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6...   ║
+# ║   ensures:  reshape(seq, (4,)) == [(1, 2, 3, 4), (5, ...   ║
+# ║   ensures:  reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reshape : Any → {Any | result satisfies: reshape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11f8e706738a9234  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 981586260774c3d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_reshape","kind":"function","src_hash":"0dc062ef21fda746","in":{"base":"Any"},"out":{"base":"Any","pred":"reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]] and reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, [2])) == [(1, 2, [3, 4]), (5, 6, [7, 8])] and reshape(seq, ((2,), [2])) == [((1, 2), [3, 4]), ((5, 6), [7, 8])] and reshape(seq, (1, [2], 1)) == [(1, [2, 3], 4), (5, [6, 7], 8)] and reshape(tuple(seq), ([1], 1, (2,))) == (([1], 2, (3, 4)), ([5], 6, (7, 8)))"},"spec":{"lhs":"test_reshape()","rhs":"test_reshape produces the expected output","over":{"base":"Any"},"name":"test_reshape_correct"},"guarantee":"test_reshape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_reshape_correct","statement":"Path(test_reshape(x), test_reshape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11f8e706738a9234"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_reshape","kind":"function","src_hash":"0dc062ef21fda746","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]] and reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, [2])) == [(1, 2, [3, 4]), (5, 6, [7, 8])] and reshape(seq, ((2,), [2])) == [((1, 2), [3, 4]), ((5, 6), [7, 8])] and reshape(seq, (1, [2], 1)) == [(1, [2, 3], 4), (5, [6, 7], 8)] and reshape(tuple(seq), ([[1], 1, (2,)],)) == (([[1], 2, (3, 4)],), ([[5], 6, (7, 8)],)) and reshape(tuple(seq), ([1], 1, (2,))) == (([1], 2, (3, 4)), ([5], 6, (7, 8))) and reshape(list(range(12)), [2, [3], {2}, (1, (3,), 1)]) == [[0, 1, [2, 3, 4], {5, 6}, (7, (8, 9, 10), 11)]]"},"spec":{"lhs":"test_reshape()","rhs":"reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]] and reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)] and reshape(seq, (2, [2])) == [(1, 2, [3, 4]), (5, 6, [7, 8])] and reshape(seq, ((2,), [2])) == [((1, 2), [3, 4]), ((5, 6), [7, 8])] and reshape(seq, (1, [2], 1)) == [(1, [2, 3], 4), (5, [6, 7], 8)] and reshape(tuple(seq), ([[1], 1, (2,)],)) == (([[1], 2, (3, 4)],), ([[5], 6, (7, 8)],)) and reshape(tuple(seq), ([1], 1, (2,))) == (([1], 2, (3, 4)), ([5], 6, (7, 8))) and reshape(list(range(12)), [2, [3], {2}, (1, (3,), 1)]) == [[0, 1, [2, 3, 4], {5, 6}, (7, (8, 9, 10), 11)]]","over":{"base":"Any"},"name":"test_reshape_correct"},"guarantee":"reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]]; reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)]; reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_reshape_correct","statement":"Path(test_reshape(x), reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]]; reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)]; reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"981586260774c3d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reshape(seq, [4]) == [[1, 2, 3, 4], [5, 6, 7, 8]]","reshape(seq, (4,)) == [(1, 2, 3, 4), (5, 6, 7, 8)]","reshape(seq, (2, 2)) == [(1, 2, 3, 4), (5, 6, 7, 8)]","reshape(seq, (2, [2])) == [(1, 2, [3, 4]), (5, 6, [7, 8])]","reshape(seq, ((2,), [2])) == [((1, 2), [3, 4]), ((5, 6), [7, 8])]","reshape(seq, (1, [2], 1)) == [(1, [2, 3], 4), (5, [6, 7], 8)]","reshape(tuple(seq), ([[1], 1, (2,)],)) == (([[1], 2, (3, 4)],), ([[5], 6, (7, 8)],))","reshape(tuple(seq), ([1], 1, (2,))) == (([1], 2, (3, 4)), ([5], 6, (7, 8)))","reshape(list(range(12)), [2, [3], {2}, (1, (3,), 1)]) == [[0, 1, [2, 3, 4], {5, 6}, (7, (8, 9, 10), 11)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_reshape():
     seq = list(range(1, 9))
     assert reshape(seq, [4]) == \
@@ -1133,16 +1407,24 @@ def test_reshape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_uniq(), test_uniq produces the expected output) over Any ║
+# ║ Path(test_uniq(), list(uniq((p for p in partitions(4)))) == [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] and list(uniq((x % 2 for x in range(5)))) == [0, 1] and list(uniq('a')) == ['a'] and list(uniq('ababc')) == list('abc') and list(uniq([[1], [2, 1], [1]])) == [[1], [2, 1]] and list(uniq(permutations((i for i in [[1], 2, 2])))) == [([1], 2, 2), (2, [1], 2), (2, 2, [1])] and list(uniq([2, 3, 2, 4, [2], [1], [2], [3], [1]])) == [2, 3, 4, [2], [1], [3]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_uniq : Any → {Any | list(uniq((x % 2 for x in ra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(uniq((p for p in partitions(4)))) ==...   ║
+# ║   ensures:  list(uniq((x % 2 for x in range(5)))) == ...   ║
+# ║   ensures:  list(uniq('a')) == ['a']                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_uniq : Any → {Any | result satisfies: list(uniq(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cb206c5437d532a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 468e345d17c0199d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_uniq","kind":"function","src_hash":"ebcf64fce7af4b6d","in":{"base":"Any"},"out":{"base":"Any","pred":"list(uniq((x % 2 for x in range(5)))) == [0, 1] and list(uniq('a')) == ['a'] and list(uniq('ababc')) == list('abc') and list(uniq([[1], [2, 1], [1]])) == [[1], [2, 1]] and list(uniq([2, 3, 2, 4, [2], [1], [2], [3], [1]])) == [2, 3, 4, [2], [1], [3]]"},"spec":{"lhs":"test_uniq()","rhs":"test_uniq produces the expected output","over":{"base":"Any"},"name":"test_uniq_correct"},"guarantee":"test_uniq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_uniq_correct","statement":"Path(test_uniq(x), test_uniq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cb206c5437d532a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_uniq","kind":"function","src_hash":"ebcf64fce7af4b6d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(uniq((p for p in partitions(4)))) == [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] and list(uniq((x % 2 for x in range(5)))) == [0, 1] and list(uniq('a')) == ['a'] and list(uniq('ababc')) == list('abc') and list(uniq([[1], [2, 1], [1]])) == [[1], [2, 1]] and list(uniq(permutations((i for i in [[1], 2, 2])))) == [([1], 2, 2), (2, [1], 2), (2, 2, [1])] and list(uniq([2, 3, 2, 4, [2], [1], [2], [3], [1]])) == [2, 3, 4, [2], [1], [3]]"},"spec":{"lhs":"test_uniq()","rhs":"list(uniq((p for p in partitions(4)))) == [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}] and list(uniq((x % 2 for x in range(5)))) == [0, 1] and list(uniq('a')) == ['a'] and list(uniq('ababc')) == list('abc') and list(uniq([[1], [2, 1], [1]])) == [[1], [2, 1]] and list(uniq(permutations((i for i in [[1], 2, 2])))) == [([1], 2, 2), (2, [1], 2), (2, 2, [1])] and list(uniq([2, 3, 2, 4, [2], [1], [2], [3], [1]])) == [2, 3, 4, [2], [1], [3]]","over":{"base":"Any"},"name":"test_uniq_correct"},"guarantee":"list(uniq((p for p in partitions(4)))) == [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}]; list(uniq((x % 2 for x in range(5)))) == [0, 1]; list(uniq('a')) == ['a']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_uniq_correct","statement":"Path(test_uniq(x), list(uniq((p for p in partitions(4)))) == [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}]; list(uniq((x % 2 for x in range(5)))) == [0, 1]; list(uniq('a')) == ['a'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"468e345d17c0199d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(uniq((p for p in partitions(4)))) == [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}]","list(uniq((x % 2 for x in range(5)))) == [0, 1]","list(uniq('a')) == ['a']","list(uniq('ababc')) == list('abc')","list(uniq([[1], [2, 1], [1]])) == [[1], [2, 1]]","list(uniq(permutations((i for i in [[1], 2, 2])))) == [([1], 2, 2), (2, [1], 2), (2, 2, [1])]","list(uniq([2, 3, 2, 4, [2], [1], [2], [3], [1]])) == [2, 3, 4, [2], [1], [3]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_uniq():
     assert list(uniq(p for p in partitions(4))) == \
         [{4: 1}, {1: 1, 3: 1}, {2: 2}, {1: 2, 2: 1}, {1: 4}]
@@ -1161,16 +1443,24 @@ def test_uniq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kbins(), test_kbins produces the expected output) over Any ║
+# ║ Path(test_kbins(), len(list(kbins('1123', 2, ordered=1))) == 24 and len(list(kbins('1123', 2, ordered=11))) == 36 and len(list(kbins('1123', 2, ordered=10))) == 10 and len(list(kbins('1123', 2, ordered=0))) == 5 and len(list(kbins('1123', 2, ordered=None))) == 3 and capture(lambda: test1()) == dedent('        ordered = None\n            [[0], [0, 1]]\n            [[0, 0], [1]]\n        ordered = 0\n            [[0, 0], [1]]\n            [[0, 1], [0]]\n        ordered = 1\n            [[0], [0, 1]]\n            [[0], [1, 0]]\n            [[1], [0, 0]]\n        ordered = 10\n            [[0, 0], [1]]\n            [[1], [0, 0]]\n            [[0, 1], [0]]\n            [[0], [0, 1]]\n        ordered = 11\n            [[0], [0, 1]]\n            [[0, 0], [1]]\n            [[0], [1, 0]]\n            [[0, 1], [0]]\n            [[1], [0, 0]]\n            [[1, 0], [0]]\n') and capture(lambda: test2()) == dedent('        ordered = None\n            [[0], [1, 2]]\n            [[0, 1], [2]]\n        ordered = 0\n            [[0, 1], [2]]\n            [[0, 2], [1]]\n            [[0], [1, 2]]\n        ordered = 1\n            [[0], [1, 2]]\n            [[0], [2, 1]]\n            [[1], [0, 2]]\n            [[1], [2, 0]]\n            [[2], [0, 1]]\n            [[2], [1, 0]]\n        ordered = 10\n            [[0, 1], [2]]\n            [[2], [0, 1]]\n            [[0, 2], [1]]\n            [[1], [0, 2]]\n            [[0], [1, 2]]\n            [[1, 2], [0]]\n        ordered = 11\n            [[0], [1, 2]]\n            [[0, 1], [2]]\n            [[0], [2, 1]]\n            [[0, 2], [1]]\n            [[1], [0, 2]]\n            [[1, 0], [2]]\n            [[1], [2, 0]]\n            [[1, 2], [0]]\n            [[2], [0, 1]]\n            [[2, 0], [1]]\n            [[2], [1, 0]]\n            [[2, 1], [0]]\n')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kbins : Any → {Any | len(list(kbins('1123', 2, o...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(list(kbins('1123', 2, ordered=1))) == 24   ║
+# ║   ensures:  len(list(kbins('1123', 2, ordered=11))) =...   ║
+# ║   ensures:  len(list(kbins('1123', 2, ordered=10))) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kbins : Any → {Any | result satisfies: len(list(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de8fc90e095750fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89becb82443caf60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_kbins","kind":"function","src_hash":"30f9df2635c7e89b","in":{"base":"Any"},"out":{"base":"Any","pred":"len(list(kbins('1123', 2, ordered=1))) == 24 and len(list(kbins('1123', 2, ordered=11))) == 36 and len(list(kbins('1123', 2, ordered=10))) == 10 and len(list(kbins('1123', 2, ordered=0))) == 5 and len(list(kbins('1123', 2, ordered=None))) == 3"},"spec":{"lhs":"test_kbins()","rhs":"test_kbins produces the expected output","over":{"base":"Any"},"name":"test_kbins_correct"},"guarantee":"test_kbins produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_kbins_correct","statement":"Path(test_kbins(x), test_kbins produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de8fc90e095750fc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_kbins","kind":"function","src_hash":"30f9df2635c7e89b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(list(kbins('1123', 2, ordered=1))) == 24 and len(list(kbins('1123', 2, ordered=11))) == 36 and len(list(kbins('1123', 2, ordered=10))) == 10 and len(list(kbins('1123', 2, ordered=0))) == 5 and len(list(kbins('1123', 2, ordered=None))) == 3 and capture(lambda: test1()) == dedent('        ordered = None\\n            [[0], [0, 1]]\\n            [[0, 0], [1]]\\n        ordered = 0\\n            [[0, 0], [1]]\\n            [[0, 1], [0]]\\n        ordered = 1\\n            [[0], [0, 1]]\\n            [[0], [1, 0]]\\n            [[1], [0, 0]]\\n        ordered = 10\\n            [[0, 0], [1]]\\n            [[1], [0, 0]]\\n            [[0, 1], [0]]\\n            [[0], [0, 1]]\\n        ordered = 11\\n            [[0], [0, 1]]\\n            [[0, 0], [1]]\\n            [[0], [1, 0]]\\n            [[0, 1], [0]]\\n            [[1], [0, 0]]\\n            [[1, 0], [0]]\\n') and capture(lambda: test2()) == dedent('        ordered = None\\n            [[0], [1, 2]]\\n            [[0, 1], [2]]\\n        ordered = 0\\n            [[0, 1], [2]]\\n            [[0, 2], [1]]\\n            [[0], [1, 2]]\\n        ordered = 1\\n            [[0], [1, 2]]\\n            [[0], [2, 1]]\\n            [[1], [0, 2]]\\n            [[1], [2, 0]]\\n            [[2], [0, 1]]\\n            [[2], [1, 0]]\\n        ordered = 10\\n            [[0, 1], [2]]\\n            [[2], [0, 1]]\\n            [[0, 2], [1]]\\n            [[1], [0, 2]]\\n            [[0], [1, 2]]\\n            [[1, 2], [0]]\\n        ordered = 11\\n            [[0], [1, 2]]\\n            [[0, 1], [2]]\\n            [[0], [2, 1]]\\n            [[0, 2], [1]]\\n            [[1], [0, 2]]\\n            [[1, 0], [2]]\\n            [[1], [2, 0]]\\n            [[1, 2], [0]]\\n            [[2], [0, 1]]\\n            [[2, 0], [1]]\\n            [[2], [1, 0]]\\n            [[2, 1], [0]]\\n')"},"spec":{"lhs":"test_kbins()","rhs":"len(list(kbins('1123', 2, ordered=1))) == 24 and len(list(kbins('1123', 2, ordered=11))) == 36 and len(list(kbins('1123', 2, ordered=10))) == 10 and len(list(kbins('1123', 2, ordered=0))) == 5 and len(list(kbins('1123', 2, ordered=None))) == 3 and capture(lambda: test1()) == dedent('        ordered = None\\n            [[0], [0, 1]]\\n            [[0, 0], [1]]\\n        ordered = 0\\n            [[0, 0], [1]]\\n            [[0, 1], [0]]\\n        ordered = 1\\n            [[0], [0, 1]]\\n            [[0], [1, 0]]\\n            [[1], [0, 0]]\\n        ordered = 10\\n            [[0, 0], [1]]\\n            [[1], [0, 0]]\\n            [[0, 1], [0]]\\n            [[0], [0, 1]]\\n        ordered = 11\\n            [[0], [0, 1]]\\n            [[0, 0], [1]]\\n            [[0], [1, 0]]\\n            [[0, 1], [0]]\\n            [[1], [0, 0]]\\n            [[1, 0], [0]]\\n') and capture(lambda: test2()) == dedent('        ordered = None\\n            [[0], [1, 2]]\\n            [[0, 1], [2]]\\n        ordered = 0\\n            [[0, 1], [2]]\\n            [[0, 2], [1]]\\n            [[0], [1, 2]]\\n        ordered = 1\\n            [[0], [1, 2]]\\n            [[0], [2, 1]]\\n            [[1], [0, 2]]\\n            [[1], [2, 0]]\\n            [[2], [0, 1]]\\n            [[2], [1, 0]]\\n        ordered = 10\\n            [[0, 1], [2]]\\n            [[2], [0, 1]]\\n            [[0, 2], [1]]\\n            [[1], [0, 2]]\\n            [[0], [1, 2]]\\n            [[1, 2], [0]]\\n        ordered = 11\\n            [[0], [1, 2]]\\n            [[0, 1], [2]]\\n            [[0], [2, 1]]\\n            [[0, 2], [1]]\\n            [[1], [0, 2]]\\n            [[1, 0], [2]]\\n            [[1], [2, 0]]\\n            [[1, 2], [0]]\\n            [[2], [0, 1]]\\n            [[2, 0], [1]]\\n            [[2], [1, 0]]\\n            [[2, 1], [0]]\\n')","over":{"base":"Any"},"name":"test_kbins_correct"},"guarantee":"len(list(kbins('1123', 2, ordered=1))) == 24; len(list(kbins('1123', 2, ordered=11))) == 36; len(list(kbins('1123', 2, ordered=10))) == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_kbins_correct","statement":"Path(test_kbins(x), len(list(kbins('1123', 2, ordered=1))) == 24; len(list(kbins('1123', 2, ordered=11))) == 36; len(list(kbins('1123', 2, ordered=10))) == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89becb82443caf60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(list(kbins('1123', 2, ordered=1))) == 24","len(list(kbins('1123', 2, ordered=11))) == 36","len(list(kbins('1123', 2, ordered=10))) == 10","len(list(kbins('1123', 2, ordered=0))) == 5","len(list(kbins('1123', 2, ordered=None))) == 3","capture(lambda: test1()) == dedent('        ordered = None\\n            [[0], [0, 1]]\\n            [[0, 0], [1]]\\n        ordered = 0\\n            [[0, 0], [1]]\\n            [[0, 1], [0]]\\n        ordered = 1\\n            [[0], [0, 1]]\\n            [[0], [1, 0]]\\n            [[1], [0, 0]]\\n        ordered = 10\\n            [[0, 0], [1]]\\n            [[1], [0, 0]]\\n            [[0, 1], [0]]\\n            [[0], [0, 1]]\\n        ordered = 11\\n            [[0], [0, 1]]\\n            [[0, 0], [1]]\\n            [[0], [1, 0]]\\n            [[0, 1], [0]]\\n            [[1], [0, 0]]\\n            [[1, 0], [0]]\\n')","capture(lambda: test2()) == dedent('        ordered = None\\n            [[0], [1, 2]]\\n            [[0, 1], [2]]\\n        ordered = 0\\n            [[0, 1], [2]]\\n            [[0, 2], [1]]\\n            [[0], [1, 2]]\\n        ordered = 1\\n            [[0], [1, 2]]\\n            [[0], [2, 1]]\\n            [[1], [0, 2]]\\n            [[1], [2, 0]]\\n            [[2], [0, 1]]\\n            [[2], [1, 0]]\\n        ordered = 10\\n            [[0, 1], [2]]\\n            [[2], [0, 1]]\\n            [[0, 2], [1]]\\n            [[1], [0, 2]]\\n            [[0], [1, 2]]\\n            [[1, 2], [0]]\\n        ordered = 11\\n            [[0], [1, 2]]\\n            [[0, 1], [2]]\\n            [[0], [2, 1]]\\n            [[0, 2], [1]]\\n            [[1], [0, 2]]\\n            [[1, 0], [2]]\\n            [[1], [2, 0]]\\n            [[1, 2], [0]]\\n            [[2], [0, 1]]\\n            [[2, 0], [1]]\\n            [[2], [1, 0]]\\n            [[2, 1], [0]]\\n')"],"pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_kbins():
     assert len(list(kbins('1123', 2, ordered=1))) == 24
     assert len(list(kbins('1123', 2, ordered=11))) == 36
@@ -1250,16 +1540,24 @@ def test_kbins():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_has_dups(), test_has_dups produces the expected output) over Any ║
+# ║ Path(test_has_dups(), has_dups(set()) is False and has_dups(list(range(3))) is False and has_dups([1, 2, 1]) is True and has_dups([[1], [1]]) is True and has_dups([[1], [2]]) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_has_dups : Any → {Any | has_dups(set()) is False...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  has_dups(set()) is False                       ║
+# ║   ensures:  has_dups(list(range(3))) is False              ║
+# ║   ensures:  has_dups([1, 2, 1]) is True                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_has_dups : Any → {Any | result satisfies: has_du...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15b6716b2d1ccea8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78088adfc0b263b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_has_dups","kind":"function","src_hash":"f228a8776061049e","in":{"base":"Any"},"out":{"base":"Any","pred":"has_dups(set()) is False and has_dups(list(range(3))) is False and has_dups([1, 2, 1]) is True and has_dups([[1], [1]]) is True and has_dups([[1], [2]]) is False"},"spec":{"lhs":"test_has_dups()","rhs":"test_has_dups produces the expected output","over":{"base":"Any"},"name":"test_has_dups_correct"},"guarantee":"test_has_dups produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_has_dups_correct","statement":"Path(test_has_dups(x), test_has_dups produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15b6716b2d1ccea8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_has_dups","kind":"function","src_hash":"f228a8776061049e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: has_dups(set()) is False and has_dups(list(range(3))) is False and has_dups([1, 2, 1]) is True and has_dups([[1], [1]]) is True and has_dups([[1], [2]]) is False"},"spec":{"lhs":"test_has_dups()","rhs":"has_dups(set()) is False and has_dups(list(range(3))) is False and has_dups([1, 2, 1]) is True and has_dups([[1], [1]]) is True and has_dups([[1], [2]]) is False","over":{"base":"Any"},"name":"test_has_dups_correct"},"guarantee":"has_dups(set()) is False; has_dups(list(range(3))) is False; has_dups([1, 2, 1]) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_has_dups_correct","statement":"Path(test_has_dups(x), has_dups(set()) is False; has_dups(list(range(3))) is False; has_dups([1, 2, 1]) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78088adfc0b263b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["has_dups(set()) is False","has_dups(list(range(3))) is False","has_dups([1, 2, 1]) is True","has_dups([[1], [1]]) is True","has_dups([[1], [2]]) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_has_dups():
     assert has_dups(set()) is False
     assert has_dups(list(range(3))) is False
@@ -1269,16 +1567,24 @@ def test_has_dups():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__partition(), test__partition produces the expected output) over Any ║
+# ║ Path(test__partition(), _partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__partition : Any → {Any | _partition('abcde', [1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _partition('abcde', [1, 0, 1, 2, 0]) == [...   ║
+# ║   ensures:  _partition('abcde', [1, 0, 1, 2, 0], 3) =...   ║
+# ║   ensures:  _partition('abcde', *output) == [['b', 'e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__partition : Any → {Any | result satisfies: _par...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92fa798e02cf3470  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d153a2faf048aac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test__partition","kind":"function","src_hash":"10af58ab8a9680a0","in":{"base":"Any"},"out":{"base":"Any","pred":"_partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']]"},"spec":{"lhs":"test__partition()","rhs":"test__partition produces the expected output","over":{"base":"Any"},"name":"test__partition_correct"},"guarantee":"test__partition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test__partition_correct","statement":"Path(test__partition(x), test__partition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92fa798e02cf3470"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test__partition","kind":"function","src_hash":"10af58ab8a9680a0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']]"},"spec":{"lhs":"test__partition()","rhs":"_partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']] and _partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']]","over":{"base":"Any"},"name":"test__partition_correct"},"guarantee":"_partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']]; _partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']]; _partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test__partition_correct","statement":"Path(test__partition(x), _partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']]; _partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']]; _partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d153a2faf048aac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_partition('abcde', [1, 0, 1, 2, 0]) == [['b', 'e'], ['a', 'c'], ['d']]","_partition('abcde', [1, 0, 1, 2, 0], 3) == [['b', 'e'], ['a', 'c'], ['d']]","_partition('abcde', *output) == [['b', 'e'], ['a', 'c'], ['d']]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__partition():
     assert _partition('abcde', [1, 0, 1, 2, 0]) == [
         ['b', 'e'], ['a', 'c'], ['d']]
@@ -1289,16 +1595,23 @@ def test__partition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ordered_partitions(), test_ordered_partitions produces the expected output) over Any ║
+# ║ Path(test_ordered_partitions(), list(f(0, 1)) == [[]] and list(f(1, 0)) == [[]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ordered_partitions : Any → {Any | list(f(0, 1)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(f(0, 1)) == [[]]                          ║
+# ║   ensures:  list(f(1, 0)) == [[]]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ordered_partitions : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10160e1153977399  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d15840a9d8c5371  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_ordered_partitions","kind":"function","src_hash":"becd2c2ae8d6ecaa","in":{"base":"Any"},"out":{"base":"Any","pred":"list(f(0, 1)) == [[]] and list(f(1, 0)) == [[]] and sum((1 for p in f(i, j, 1))) == sum((1 for p in f(i, j, 0))) == nT(i, j)"},"spec":{"lhs":"test_ordered_partitions()","rhs":"test_ordered_partitions produces the expected output","over":{"base":"Any"},"name":"test_ordered_partitions_correct"},"guarantee":"test_ordered_partitions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_ordered_partitions_correct","statement":"Path(test_ordered_partitions(x), test_ordered_partitions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10160e1153977399"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_ordered_partitions","kind":"function","src_hash":"becd2c2ae8d6ecaa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(f(0, 1)) == [[]] and list(f(1, 0)) == [[]]"},"spec":{"lhs":"test_ordered_partitions()","rhs":"list(f(0, 1)) == [[]] and list(f(1, 0)) == [[]]","over":{"base":"Any"},"name":"test_ordered_partitions_correct"},"guarantee":"list(f(0, 1)) == [[]]; list(f(1, 0)) == [[]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_ordered_partitions_correct","statement":"Path(test_ordered_partitions(x), list(f(0, 1)) == [[]]; list(f(1, 0)) == [[]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d15840a9d8c5371","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(f(0, 1)) == [[]]","list(f(1, 0)) == [[]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ordered_partitions():
     from sympy.functions.combinatorial.numbers import nT
     f = ordered_partitions
@@ -1313,16 +1626,24 @@ def test_ordered_partitions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rotations(), test_rotations produces the expected output) over Any ║
+# ║ Path(test_rotations(), list(rotations('ab')) == [['a', 'b'], ['b', 'a']] and list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]] and list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rotations : Any → {Any | list(rotations('ab')) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rotations('ab')) == [['a', 'b'], ['b...   ║
+# ║   ensures:  list(rotations(range(3))) == [[0, 1, 2], ...   ║
+# ║   ensures:  list(rotations(range(3), dir=-1)) == [[0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rotations : Any → {Any | result satisfies: list(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f7a833e80fffca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cd878ed951d1c5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_rotations","kind":"function","src_hash":"2d013090dd995921","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rotations('ab')) == [['a', 'b'], ['b', 'a']] and list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]] and list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]]"},"spec":{"lhs":"test_rotations()","rhs":"test_rotations produces the expected output","over":{"base":"Any"},"name":"test_rotations_correct"},"guarantee":"test_rotations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_rotations_correct","statement":"Path(test_rotations(x), test_rotations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f7a833e80fffca"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_rotations","kind":"function","src_hash":"2d013090dd995921","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rotations('ab')) == [['a', 'b'], ['b', 'a']] and list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]] and list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]]"},"spec":{"lhs":"test_rotations()","rhs":"list(rotations('ab')) == [['a', 'b'], ['b', 'a']] and list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]] and list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]]","over":{"base":"Any"},"name":"test_rotations_correct"},"guarantee":"list(rotations('ab')) == [['a', 'b'], ['b', 'a']]; list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]]; list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_rotations_correct","statement":"Path(test_rotations(x), list(rotations('ab')) == [['a', 'b'], ['b', 'a']]; list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]]; list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cd878ed951d1c5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rotations('ab')) == [['a', 'b'], ['b', 'a']]","list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]]","list(rotations(range(3), dir=-1)) == [[0, 1, 2], [2, 0, 1], [1, 2, 0]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rotations():
     assert list(rotations('ab')) == [['a', 'b'], ['b', 'a']]
     assert list(rotations(range(3))) == [[0, 1, 2], [1, 2, 0], [2, 0, 1]]
@@ -1330,16 +1651,24 @@ def test_rotations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ibin(), test_ibin produces the expected output) over Any ║
+# ║ Path(test_ibin(), ibin(3) == [1, 1] and ibin(3, 3) == [0, 1, 1] and ibin(3, str=True) == '11' and ibin(3, 3, str=True) == '011' and list(ibin(2, 'all')) == [(0, 0), (0, 1), (1, 0), (1, 1)] and list(ibin(2, '', str=True)) == ['00', '01', '10', '11']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ibin : Any → {Any | ibin(3) == [1, 1] and ibin(3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ibin(3) == [1, 1]                              ║
+# ║   ensures:  ibin(3, 3) == [0, 1, 1]                        ║
+# ║   ensures:  ibin(3, str=True) == '11'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ibin : Any → {Any | result satisfies: ibin(3) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dac88c580739698  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ba47f8f572e586  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_ibin","kind":"function","src_hash":"dadb5e5d7a15e94e","in":{"base":"Any"},"out":{"base":"Any","pred":"ibin(3) == [1, 1] and ibin(3, 3) == [0, 1, 1] and ibin(3, str=True) == '11' and ibin(3, 3, str=True) == '011' and list(ibin(2, 'all')) == [(0, 0), (0, 1), (1, 0), (1, 1)] and list(ibin(2, '', str=True)) == ['00', '01', '10', '11']"},"spec":{"lhs":"test_ibin()","rhs":"test_ibin produces the expected output","over":{"base":"Any"},"name":"test_ibin_correct"},"guarantee":"test_ibin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_ibin_correct","statement":"Path(test_ibin(x), test_ibin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dac88c580739698"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_ibin","kind":"function","src_hash":"dadb5e5d7a15e94e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ibin(3) == [1, 1] and ibin(3, 3) == [0, 1, 1] and ibin(3, str=True) == '11' and ibin(3, 3, str=True) == '011' and list(ibin(2, 'all')) == [(0, 0), (0, 1), (1, 0), (1, 1)] and list(ibin(2, '', str=True)) == ['00', '01', '10', '11']"},"spec":{"lhs":"test_ibin()","rhs":"ibin(3) == [1, 1] and ibin(3, 3) == [0, 1, 1] and ibin(3, str=True) == '11' and ibin(3, 3, str=True) == '011' and list(ibin(2, 'all')) == [(0, 0), (0, 1), (1, 0), (1, 1)] and list(ibin(2, '', str=True)) == ['00', '01', '10', '11']","over":{"base":"Any"},"name":"test_ibin_correct"},"guarantee":"ibin(3) == [1, 1]; ibin(3, 3) == [0, 1, 1]; ibin(3, str=True) == '11'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_ibin_correct","statement":"Path(test_ibin(x), ibin(3) == [1, 1]; ibin(3, 3) == [0, 1, 1]; ibin(3, str=True) == '11')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ba47f8f572e586","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ibin(3) == [1, 1]","ibin(3, 3) == [0, 1, 1]","ibin(3, str=True) == '11'","ibin(3, 3, str=True) == '011'","list(ibin(2, 'all')) == [(0, 0), (0, 1), (1, 0), (1, 1)]","list(ibin(2, '', str=True)) == ['00', '01', '10', '11']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ibin():
     assert ibin(3) == [1, 1]
     assert ibin(3, 3) == [0, 1, 1]
@@ -1352,16 +1681,24 @@ def test_ibin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_iterable(), test_iterable produces the expected output) over Any ║
+# ║ Path(test_iterable(), iterable(0) is False and iterable(1) is False and iterable(None) is False and iterable(Test1()) is False and iterable(Test2()) is True and iterable(Test3()) is False and iterable(Test4()) is True and iterable(Test5()) is True and iterable(Test6()) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_iterable : Any → {Any | iterable(0) is False and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  iterable(0) is False                           ║
+# ║   ensures:  iterable(1) is False                           ║
+# ║   ensures:  iterable(None) is False                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_iterable : Any → {Any | result satisfies: iterab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 125c71a22f4e272b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5aec68420f637d09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_iterable","kind":"function","src_hash":"2831928ca9b6704c","in":{"base":"Any"},"out":{"base":"Any","pred":"iterable(0) is False and iterable(1) is False and iterable(None) is False and iterable(Test1()) is False and iterable(Test2()) is True and iterable(Test3()) is False and iterable(Test4()) is True and iterable(Test5()) is True and iterable(Test6()) is False"},"spec":{"lhs":"test_iterable()","rhs":"test_iterable produces the expected output","over":{"base":"Any"},"name":"test_iterable_correct"},"guarantee":"test_iterable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_iterable_correct","statement":"Path(test_iterable(x), test_iterable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"125c71a22f4e272b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_iterable","kind":"function","src_hash":"2831928ca9b6704c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: iterable(0) is False and iterable(1) is False and iterable(None) is False and iterable(Test1()) is False and iterable(Test2()) is True and iterable(Test3()) is False and iterable(Test4()) is True and iterable(Test5()) is True and iterable(Test6()) is False"},"spec":{"lhs":"test_iterable()","rhs":"iterable(0) is False and iterable(1) is False and iterable(None) is False and iterable(Test1()) is False and iterable(Test2()) is True and iterable(Test3()) is False and iterable(Test4()) is True and iterable(Test5()) is True and iterable(Test6()) is False","over":{"base":"Any"},"name":"test_iterable_correct"},"guarantee":"iterable(0) is False; iterable(1) is False; iterable(None) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_iterable_correct","statement":"Path(test_iterable(x), iterable(0) is False; iterable(1) is False; iterable(None) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5aec68420f637d09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["iterable(0) is False","iterable(1) is False","iterable(None) is False","iterable(Test1()) is False","iterable(Test2()) is True","iterable(Test3()) is False","iterable(Test4()) is True","iterable(Test5()) is True","iterable(Test6()) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_iterable():
     assert iterable(0) is False
     assert iterable(1) is False
@@ -1400,16 +1737,24 @@ def test_iterable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sequence_partitions(), test_sequence_partitions produces the expected output) over Any ║
+# ║ Path(test_sequence_partitions(), list(sequence_partitions([1], 1)) == [[[1]]] and list(sequence_partitions([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions([1, 2], 2)) == [[[1], [2]]] and list(sequence_partitions([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions([1, 2, 3], 2)) == [[[1], [2, 3]], [[1, 2], [3]]] and list(sequence_partitions([1, 2, 3], 3)) == [[[1], [2], [3]]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([], 1)) == [] and list(sequence_partitions([1, 2], 0)) == [] and list(sequence_partitions([1, 2], 3)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sequence_partitions : Any → {Any | list(sequence...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(sequence_partitions([1], 1)) == [[[1]]]   ║
+# ║   ensures:  list(sequence_partitions([1, 2], 1)) == [...   ║
+# ║   ensures:  list(sequence_partitions([1, 2], 2)) == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sequence_partitions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a988ec28c462511  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e699a0f7cd43b96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_sequence_partitions","kind":"function","src_hash":"73acfd27b787b2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"list(sequence_partitions([1], 1)) == [[[1]]] and list(sequence_partitions([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions([1, 2], 2)) == [[[1], [2]]] and list(sequence_partitions([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions([1, 2, 3], 2)) == [[[1], [2, 3]], [[1, 2], [3]]] and list(sequence_partitions([1, 2, 3], 3)) == [[[1], [2], [3]]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([], 1)) == [] and list(sequence_partitions([1, 2], 0)) == [] and list(sequence_partitions([1, 2], 3)) == []"},"spec":{"lhs":"test_sequence_partitions()","rhs":"test_sequence_partitions produces the expected output","over":{"base":"Any"},"name":"test_sequence_partitions_correct"},"guarantee":"test_sequence_partitions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_sequence_partitions_correct","statement":"Path(test_sequence_partitions(x), test_sequence_partitions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a988ec28c462511"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_sequence_partitions","kind":"function","src_hash":"73acfd27b787b2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(sequence_partitions([1], 1)) == [[[1]]] and list(sequence_partitions([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions([1, 2], 2)) == [[[1], [2]]] and list(sequence_partitions([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions([1, 2, 3], 2)) == [[[1], [2, 3]], [[1, 2], [3]]] and list(sequence_partitions([1, 2, 3], 3)) == [[[1], [2], [3]]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([], 1)) == [] and list(sequence_partitions([1, 2], 0)) == [] and list(sequence_partitions([1, 2], 3)) == []"},"spec":{"lhs":"test_sequence_partitions()","rhs":"list(sequence_partitions([1], 1)) == [[[1]]] and list(sequence_partitions([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions([1, 2], 2)) == [[[1], [2]]] and list(sequence_partitions([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions([1, 2, 3], 2)) == [[[1], [2, 3]], [[1, 2], [3]]] and list(sequence_partitions([1, 2, 3], 3)) == [[[1], [2], [3]]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([], 1)) == [] and list(sequence_partitions([1, 2], 0)) == [] and list(sequence_partitions([1, 2], 3)) == []","over":{"base":"Any"},"name":"test_sequence_partitions_correct"},"guarantee":"list(sequence_partitions([1], 1)) == [[[1]]]; list(sequence_partitions([1, 2], 1)) == [[[1, 2]]]; list(sequence_partitions([1, 2], 2)) == [[[1], [2]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_sequence_partitions_correct","statement":"Path(test_sequence_partitions(x), list(sequence_partitions([1], 1)) == [[[1]]]; list(sequence_partitions([1, 2], 1)) == [[[1, 2]]]; list(sequence_partitions([1, 2], 2)) == [[[1], [2]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e699a0f7cd43b96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(sequence_partitions([1], 1)) == [[[1]]]","list(sequence_partitions([1, 2], 1)) == [[[1, 2]]]","list(sequence_partitions([1, 2], 2)) == [[[1], [2]]]","list(sequence_partitions([1, 2, 3], 1)) == [[[1, 2, 3]]]","list(sequence_partitions([1, 2, 3], 2)) == [[[1], [2, 3]], [[1, 2], [3]]]","list(sequence_partitions([1, 2, 3], 3)) == [[[1], [2], [3]]]","list(sequence_partitions([], 0)) == []","list(sequence_partitions([], 1)) == []","list(sequence_partitions([1, 2], 0)) == []","list(sequence_partitions([1, 2], 3)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sequence_partitions():
     assert list(sequence_partitions([1], 1)) == [[[1]]]
     assert list(sequence_partitions([1, 2], 1)) == [[[1, 2]]]
@@ -1427,16 +1772,24 @@ def test_sequence_partitions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sequence_partitions_empty(), test_sequence_partitions_empty produces the expected output) over Any ║
+# ║ Path(test_sequence_partitions_empty(), list(sequence_partitions_empty([], 1)) == [[[]]] and list(sequence_partitions_empty([], 2)) == [[[], []]] and list(sequence_partitions_empty([], 3)) == [[[], [], []]] and list(sequence_partitions_empty([1], 1)) == [[[1]]] and list(sequence_partitions_empty([1], 2)) == [[[], [1]], [[1], []]] and list(sequence_partitions_empty([1], 3)) == [[[], [], [1]], [[], [1], []], [[1], [], []]] and list(sequence_partitions_empty([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions_empty([1, 2], 2)) == [[[], [1, 2]], [[1], [2]], [[1, 2], []]] and list(sequence_partitions_empty([1, 2], 3)) == [[[], [], [1, 2]], [[], [1], [2]], [[], [1, 2], []], [[1], [], [2]], [[1], [2], []], [[1, 2], [], []]] and list(sequence_partitions_empty([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions_empty([1, 2, 3], 2)) == [[[], [1, 2, 3]], [[1], [2, 3]], [[1, 2], [3]], [[1, 2, 3], []]] and list(sequence_partitions_empty([1, 2, 3], 3)) == [[[], [], [1, 2, 3]], [[], [1], [2, 3]], [[], [1, 2], [3]], [[], [1, 2, 3], []], [[1], [], [2, 3]], [[1], [2], [3]], [[1], [2, 3], []], [[1, 2], [], [3]], [[1, 2], [3], []], [[1, 2, 3], [], []]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([1], 0)) == [] and list(sequence_partitions([1, 2], 0)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sequence_partitions_empty : Any → {Any | list(se...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(sequence_partitions_empty([], 1)) ==...   ║
+# ║   ensures:  list(sequence_partitions_empty([], 2)) ==...   ║
+# ║   ensures:  list(sequence_partitions_empty([], 3)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sequence_partitions_empty : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ef6851d59486ead  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 487d82889754a71e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_sequence_partitions_empty","kind":"function","src_hash":"68e82816e280c8f9","in":{"base":"Any"},"out":{"base":"Any","pred":"list(sequence_partitions_empty([], 1)) == [[[]]] and list(sequence_partitions_empty([], 2)) == [[[], []]] and list(sequence_partitions_empty([], 3)) == [[[], [], []]] and list(sequence_partitions_empty([1], 1)) == [[[1]]] and list(sequence_partitions_empty([1], 2)) == [[[], [1]], [[1], []]] and list(sequence_partitions_empty([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions_empty([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([1], 0)) == [] and list(sequence_partitions([1, 2], 0)) == []"},"spec":{"lhs":"test_sequence_partitions_empty()","rhs":"test_sequence_partitions_empty produces the expected output","over":{"base":"Any"},"name":"test_sequence_partitions_empty_correct"},"guarantee":"test_sequence_partitions_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_sequence_partitions_empty_correct","statement":"Path(test_sequence_partitions_empty(x), test_sequence_partitions_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ef6851d59486ead"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_sequence_partitions_empty","kind":"function","src_hash":"68e82816e280c8f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(sequence_partitions_empty([], 1)) == [[[]]] and list(sequence_partitions_empty([], 2)) == [[[], []]] and list(sequence_partitions_empty([], 3)) == [[[], [], []]] and list(sequence_partitions_empty([1], 1)) == [[[1]]] and list(sequence_partitions_empty([1], 2)) == [[[], [1]], [[1], []]] and list(sequence_partitions_empty([1], 3)) == [[[], [], [1]], [[], [1], []], [[1], [], []]] and list(sequence_partitions_empty([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions_empty([1, 2], 2)) == [[[], [1, 2]], [[1], [2]], [[1, 2], []]] and list(sequence_partitions_empty([1, 2], 3)) == [[[], [], [1, 2]], [[], [1], [2]], [[], [1, 2], []], [[1], [], [2]], [[1], [2], []], [[1, 2], [], []]] and list(sequence_partitions_empty([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions_empty([1, 2, 3], 2)) == [[[], [1, 2, 3]], [[1], [2, 3]], [[1, 2], [3]], [[1, 2, 3], []]] and list(sequence_partitions_empty([1, 2, 3], 3)) == [[[], [], [1, 2, 3]], [[], [1], [2, 3]], [[], [1, 2], [3]], [[], [1, 2, 3], []], [[1], [], [2, 3]], [[1], [2], [3]], [[1], [2, 3], []], [[1, 2], [], [3]], [[1, 2], [3], []], [[1, 2, 3], [], []]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([1], 0)) == [] and list(sequence_partitions([1, 2], 0)) == []"},"spec":{"lhs":"test_sequence_partitions_empty()","rhs":"list(sequence_partitions_empty([], 1)) == [[[]]] and list(sequence_partitions_empty([], 2)) == [[[], []]] and list(sequence_partitions_empty([], 3)) == [[[], [], []]] and list(sequence_partitions_empty([1], 1)) == [[[1]]] and list(sequence_partitions_empty([1], 2)) == [[[], [1]], [[1], []]] and list(sequence_partitions_empty([1], 3)) == [[[], [], [1]], [[], [1], []], [[1], [], []]] and list(sequence_partitions_empty([1, 2], 1)) == [[[1, 2]]] and list(sequence_partitions_empty([1, 2], 2)) == [[[], [1, 2]], [[1], [2]], [[1, 2], []]] and list(sequence_partitions_empty([1, 2], 3)) == [[[], [], [1, 2]], [[], [1], [2]], [[], [1, 2], []], [[1], [], [2]], [[1], [2], []], [[1, 2], [], []]] and list(sequence_partitions_empty([1, 2, 3], 1)) == [[[1, 2, 3]]] and list(sequence_partitions_empty([1, 2, 3], 2)) == [[[], [1, 2, 3]], [[1], [2, 3]], [[1, 2], [3]], [[1, 2, 3], []]] and list(sequence_partitions_empty([1, 2, 3], 3)) == [[[], [], [1, 2, 3]], [[], [1], [2, 3]], [[], [1, 2], [3]], [[], [1, 2, 3], []], [[1], [], [2, 3]], [[1], [2], [3]], [[1], [2, 3], []], [[1, 2], [], [3]], [[1, 2], [3], []], [[1, 2, 3], [], []]] and list(sequence_partitions([], 0)) == [] and list(sequence_partitions([1], 0)) == [] and list(sequence_partitions([1, 2], 0)) == []","over":{"base":"Any"},"name":"test_sequence_partitions_empty_correct"},"guarantee":"list(sequence_partitions_empty([], 1)) == [[[]]]; list(sequence_partitions_empty([], 2)) == [[[], []]]; list(sequence_partitions_empty([], 3)) == [[[], [], []]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_sequence_partitions_empty_correct","statement":"Path(test_sequence_partitions_empty(x), list(sequence_partitions_empty([], 1)) == [[[]]]; list(sequence_partitions_empty([], 2)) == [[[], []]]; list(sequence_partitions_empty([], 3)) == [[[], [], []]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"487d82889754a71e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(sequence_partitions_empty([], 1)) == [[[]]]","list(sequence_partitions_empty([], 2)) == [[[], []]]","list(sequence_partitions_empty([], 3)) == [[[], [], []]]","list(sequence_partitions_empty([1], 1)) == [[[1]]]","list(sequence_partitions_empty([1], 2)) == [[[], [1]], [[1], []]]","list(sequence_partitions_empty([1], 3)) == [[[], [], [1]], [[], [1], []], [[1], [], []]]","list(sequence_partitions_empty([1, 2], 1)) == [[[1, 2]]]","list(sequence_partitions_empty([1, 2], 2)) == [[[], [1, 2]], [[1], [2]], [[1, 2], []]]","list(sequence_partitions_empty([1, 2], 3)) == [[[], [], [1, 2]], [[], [1], [2]], [[], [1, 2], []], [[1], [], [2]], [[1], [2], []], [[1, 2], [], []]]","list(sequence_partitions_empty([1, 2, 3], 1)) == [[[1, 2, 3]]]","list(sequence_partitions_empty([1, 2, 3], 2)) == [[[], [1, 2, 3]], [[1], [2, 3]], [[1, 2], [3]], [[1, 2, 3], []]]","list(sequence_partitions_empty([1, 2, 3], 3)) == [[[], [], [1, 2, 3]], [[], [1], [2, 3]], [[], [1, 2], [3]], [[], [1, 2, 3], []], [[1], [], [2, 3]], [[1], [2], [3]], [[1], [2, 3], []], [[1, 2], [], [3]], [[1, 2], [3], []], [[1, 2, 3], [], []]]","list(sequence_partitions([], 0)) == []","list(sequence_partitions([1], 0)) == []","list(sequence_partitions([1, 2], 0)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_sequence_partitions_empty():
     assert list(sequence_partitions_empty([], 1)) == [[[]]]
     assert list(sequence_partitions_empty([], 2)) == [[[], []]]
@@ -1470,16 +1823,24 @@ def test_sequence_partitions_empty():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_signed_permutations(), test_signed_permutations produces the expected output) over Any ║
+# ║ Path(test_signed_permutations(), list(signed_permutations((0, 1, 1))) == ans and list(signed_permutations((1, 0, 1))) == ans and list(signed_permutations((1, 1, 0))) == ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_signed_permutations : Any → {Any | list(signed_p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(signed_permutations((0, 1, 1))) == ans    ║
+# ║   ensures:  list(signed_permutations((1, 0, 1))) == ans    ║
+# ║   ensures:  list(signed_permutations((1, 1, 0))) == ans    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_signed_permutations : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3bc8c6b694205ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c42c310296deff5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_signed_permutations","kind":"function","src_hash":"c0838611761f5a69","in":{"base":"Any"},"out":{"base":"Any","pred":"list(signed_permutations((0, 1, 1))) == ans and list(signed_permutations((1, 0, 1))) == ans and list(signed_permutations((1, 1, 0))) == ans"},"spec":{"lhs":"test_signed_permutations()","rhs":"test_signed_permutations produces the expected output","over":{"base":"Any"},"name":"test_signed_permutations_correct"},"guarantee":"test_signed_permutations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_signed_permutations_correct","statement":"Path(test_signed_permutations(x), test_signed_permutations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3bc8c6b694205ee"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_iterables.test_signed_permutations","kind":"function","src_hash":"c0838611761f5a69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(signed_permutations((0, 1, 1))) == ans and list(signed_permutations((1, 0, 1))) == ans and list(signed_permutations((1, 1, 0))) == ans"},"spec":{"lhs":"test_signed_permutations()","rhs":"list(signed_permutations((0, 1, 1))) == ans and list(signed_permutations((1, 0, 1))) == ans and list(signed_permutations((1, 1, 0))) == ans","over":{"base":"Any"},"name":"test_signed_permutations_correct"},"guarantee":"list(signed_permutations((0, 1, 1))) == ans; list(signed_permutations((1, 0, 1))) == ans; list(signed_permutations((1, 1, 0))) == ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_iterables.test_signed_permutations_correct","statement":"Path(test_signed_permutations(x), list(signed_permutations((0, 1, 1))) == ans; list(signed_permutations((1, 0, 1))) == ans; list(signed_permutations((1, 1, 0))) == ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c42c310296deff5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(signed_permutations((0, 1, 1))) == ans","list(signed_permutations((1, 0, 1))) == ans","list(signed_permutations((1, 1, 0))) == ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_signed_permutations():
     ans = [(0, 1, 1), (0, -1, 1), (0, 1, -1), (0, -1, -1),
     (1, 0, 1), (-1, 0, 1), (1, 0, -1), (-1, 0, -1),

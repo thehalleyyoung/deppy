@@ -21,29 +21,42 @@ from sympy.core import Atom, Basic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CartanType_generator(*args), correctly constructs a CartanType_generator instance) over {Any | isinstance(c, list) and isinstance(c, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CartanType_generator : {Any | isinstance(c, list) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b1071ef43bf075f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.CartanType_generator","kind":"class","src_hash":"1c8b5e48b0d794ba","in":{"base":"Any","pred":"isinstance(c, list) and isinstance(c, str)"},"out":{"base":"Any"},"spec":{"lhs":"CartanType_generator(*args)","rhs":"correctly constructs a CartanType_generator instance","over":{"base":"Any","pred":"isinstance(c, list) and isinstance(c, str)"},"name":"CartanType_generator_class_invariant"},"guarantee":"correctly constructs a CartanType_generator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b1071ef43bf075f"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.CartanType_generator","kind":"class","src_hash":"1c8b5e48b0d794ba","in":{"base":"Any","pred":"isinstance(c, list) and isinstance(c, str)"},"out":{"base":"Any"},"spec":{"lhs":"CartanType_generator(*args)","rhs":"correctly constructs a CartanType_generator instance","over":{"base":"Any","pred":"isinstance(c, list) and isinstance(c, str)"},"name":"CartanType_generator_class_invariant"},"guarantee":"correctly constructs a CartanType_generator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b1071ef43bf075f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CartanType_generator not found in source"]}}
 class CartanType_generator():
     """
     Constructor for actually creating things
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), <unspecified:__call__>) over {Any | not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | not (n < 0)} → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35d9f5b0d5a22dd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.CartanType_generator.__call__","kind":"method","src_hash":"c716c24e1173bacb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35d9f5b0d5a22dd8"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.CartanType_generator.__call__","kind":"method","src_hash":"c716c24e1173bacb","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"<unspecified:__call__>","over":{"base":"Any","pred":"not (n < 0)"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35d9f5b0d5a22dd8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         c = args[0]
         if isinstance(c, list):
@@ -91,30 +104,42 @@ CartanType = CartanType_generator()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Standard_Cartan(*args), correctly constructs a Standard_Cartan instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Standard_Cartan : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Atom)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Standard_Cartan : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d6bbb6d5bbeb6ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan","kind":"class","src_hash":"6aa3ec34ebcc8e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Standard_Cartan(*args)","rhs":"correctly constructs a Standard_Cartan instance","over":{"base":"Any"},"name":"Standard_Cartan_class_invariant"},"guarantee":"correctly constructs a Standard_Cartan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d6bbb6d5bbeb6ea"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan","kind":"class","src_hash":"6aa3ec34ebcc8e03","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Atom)"},"spec":{"lhs":"Standard_Cartan(*args)","rhs":"correctly constructs a Standard_Cartan instance","over":{"base":"Any"},"name":"Standard_Cartan_class_invariant"},"guarantee":"isinstance(self, Atom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d6bbb6d5bbeb6ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Atom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Standard_Cartan not found in source"]}}
 class Standard_Cartan(Atom):
     """
     Concrete base class for Cartan types such as A4, etc
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, series, n), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08863ad8915e9095           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan.__new__","kind":"method","src_hash":"a7c7184c79ee2651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08863ad8915e9095"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan.__new__","kind":"method","src_hash":"a7c7184c79ee2651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, series, n)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08863ad8915e9095","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, series, n):
         obj = Basic.__new__(cls)
         obj.n = n
@@ -122,16 +147,22 @@ class Standard_Cartan(Atom):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the rank of the lie algebra) over Any ║
+# ║ Path(rank(), self.n) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11f3024461a2e743           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan.rank","kind":"method","src_hash":"978b04320bbcef23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the rank of the lie algebra","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank of the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f3024461a2e743"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan.rank","kind":"method","src_hash":"978b04320bbcef23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self.n","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self.n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f3024461a2e743","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """
         Returns the rank of the Lie algebra
@@ -139,16 +170,22 @@ class Standard_Cartan(Atom):
         return self.n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(series(), returns the type of the lie algebra) over Any ║
+# ║ Path(series(), self.series) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.series                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ series : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a53fe5c6419e37e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan.series","kind":"method","src_hash":"79cbca97cb39a5f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"series()","rhs":"returns the type of the lie algebra","over":{"base":"Any"},"name":"series_correct"},"guarantee":"returns the type of the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a53fe5c6419e37e1"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_type.Standard_Cartan.series","kind":"method","src_hash":"79cbca97cb39a5f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"series()","rhs":"self.series","over":{"base":"Any"},"name":"series_correct"},"guarantee":"returns self.series","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a53fe5c6419e37e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.series","pure":false,"effects":{"effect_type":"reads_state","reads":["self.series"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def series(self):
         """
         Returns the type of the Lie algebra

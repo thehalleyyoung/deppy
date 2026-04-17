@@ -31,7 +31,12 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convolution(a, ), performs convolution by determining the type of desired convolution using hints) over {Any | isinstance(i, Rational) and isinstance(i, int)} ║
+# ║ Path(convolution(a, b, cycle), len(dens) == old_len_dens + 1) over {Any | isinstance(i, Rational) and isinstance(i, int) and not (c < 0) and not (sum((x is not None for x in (prime, dps, dyadic, subset))) > 1)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (c < 0)                                    ║
+# ║   requires: not (sum((x is not None for x in (prime, ...   ║
+# ║   ensures:  len(dens) == old_len_dens + 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convolution : {Any | isinstance(i, Rational) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -44,9 +49,12 @@ from sympy.utilities.misc import as_int
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6d0cf966...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution","kind":"function","src_hash":"080639c87f5f75ab","in":{"base":"Any","pred":"isinstance(i, Rational) and isinstance(i, int)"},"out":{"base":"Any"},"spec":{"lhs":"convolution(a, )","rhs":"performs convolution by determining the type of desired convolution using hints","over":{"base":"Any","pred":"isinstance(i, Rational) and isinstance(i, int)"},"name":"convolution_correct"},"guarantee":"performs convolution by determining the type of desired convolution using hints","fibers":[{"name":"Rational","pred":"isinstance(i, Rational)","path":{"lhs":"convolution(x)","rhs":"performs convolution by determining the type of desired convolution using hints","over":{"base":"Rational","pred":"isinstance(i, Rational)"},"name":"convolution_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_Rational_correct","statement":"convolution satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(i, int)","path":{"lhs":"convolution(x)","rhs":"performs convolution by determining the type of desired convolution using hints","over":{"base":"int","pred":"isinstance(i, int)"},"name":"convolution_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_int_correct","statement":"convolution satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d0cf9668e68969b"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution","kind":"function","src_hash":"080639c87f5f75ab","in":{"base":"Any","pred":"isinstance(i, Rational) and isinstance(i, int) and not (c < 0) and not (sum((x is not None for x in (prime, dps, dyadic, subset))) > 1)"},"out":{"base":"Any","pred":"result satisfies: len(dens) == old_len_dens + 1"},"spec":{"lhs":"convolution(a, b, cycle)","rhs":"len(dens) == old_len_dens + 1","over":{"base":"Any","pred":"isinstance(i, Rational) and isinstance(i, int) and not (c < 0) and not (sum((x is not None for x in (prime, dps, dyadic, subset))) > 1)"},"name":"convolution_correct"},"guarantee":"len(dens) == old_len_dens + 1","fibers":[{"name":"Rational","pred":"isinstance(i, Rational)","path":{"lhs":"convolution(x)","rhs":"len(dens) == old_len_dens + 1","over":{"base":"Rational","pred":"isinstance(i, Rational)"},"name":"convolution_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_Rational_correct","statement":"convolution satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(i, int)","path":{"lhs":"convolution(x)","rhs":"len(dens) == old_len_dens + 1","over":{"base":"int","pred":"isinstance(i, int)"},"name":"convolution_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_int_correct","statement":"convolution satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d0cf9668e68969b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (c < 0)","not (sum((x is not None for x in (prime, dps, dyadic, subset))) > 1)"],"ensures":["len(dens) == old_len_dens + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["dens.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["dens.*"],"old_bindings":{"old_len_dens":"len(dens)"},"post_ensures":["len(dens) == old_len_dens + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'sum((x is not None for x in (prime, dps, dyadic, subset))) > 1', 'ls is None', 'c < 0', 'den != 1', 'isinstance(i, Rational) and i.q - 1', 'not isinstance(i, int)'}, fibers={'int', 'Rational'})"]}}
 def convolution(a, b, cycle=0, dps=None, prime=None, dyadic=None, subset=None):
     """
     Performs convolution by determining the type of desired
@@ -159,16 +167,23 @@ def convolution(a, b, cycle=0, dps=None, prime=None, dyadic=None, subset=None):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convolution_fft(a, ), performs linear convolution using fast fourier transform) over Any ║
+# ║ Path(convolution_fft(a, b, dps), a) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convolution_fft : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convolution_fft : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df455fa6cc504c5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d53b2fc5747e2bab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_fft","kind":"function","src_hash":"0cfa8a1f47cd1ee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_fft(a, )","rhs":"performs linear convolution using fast fourier transform","over":{"base":"Any"},"name":"convolution_fft_correct"},"guarantee":"performs linear convolution using fast fourier transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_fft_correct","statement":"Path(convolution_fft(x), performs linear convolution using fast fourier transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df455fa6cc504c5a"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_fft","kind":"function","src_hash":"0cfa8a1f47cd1ee4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"convolution_fft(a, b, dps)","rhs":"a","over":{"base":"Any"},"name":"convolution_fft_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_fft_correct","statement":"Path(convolution_fft(x), returns a; result == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d53b2fc5747e2bab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def convolution_fft(a, b, dps=None):
     """
     Performs linear convolution using Fast Fourier Transform.
@@ -226,16 +241,23 @@ def convolution_fft(a, b, dps=None):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convolution_ntt(a, ), performs linear convolution using number theoretic transform) over Any ║
+# ║ Path(convolution_ntt(a, b, prime), a) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convolution_ntt : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convolution_ntt : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8d3d47cd065b3c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf69cf3597a3ebee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_ntt","kind":"function","src_hash":"4c3aa234b0b59935","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_ntt(a, )","rhs":"performs linear convolution using number theoretic transform","over":{"base":"Any"},"name":"convolution_ntt_correct"},"guarantee":"performs linear convolution using number theoretic transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_ntt_correct","statement":"Path(convolution_ntt(x), performs linear convolution using number theoretic transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8d3d47cd065b3c2"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_ntt","kind":"function","src_hash":"4c3aa234b0b59935","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"convolution_ntt(a, b, prime)","rhs":"a","over":{"base":"Any"},"name":"convolution_ntt_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_ntt_correct","statement":"Path(convolution_ntt(x), returns a; result == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf69cf3597a3ebee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def convolution_ntt(a, b, prime):
     """
     Performs linear convolution using Number Theoretic Transform.
@@ -292,16 +314,22 @@ def convolution_ntt(a, b, prime):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convolution_fwht(a, ), performs dyadic (*bitwise-xor*) convolution using fast walsh hadamard transform) over Any ║
+# ║ Path(convolution_fwht(a, b), <unspecified:convolution_fwht>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convolution_fwht : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa88d3e4b1e59e1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_fwht","kind":"function","src_hash":"b94ef034cec732bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_fwht(a, )","rhs":"performs dyadic (*bitwise-xor*) convolution using fast walsh hadamard transform","over":{"base":"Any"},"name":"convolution_fwht_correct"},"guarantee":"performs dyadic (*bitwise-xor*) convolution using fast walsh hadamard transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_fwht_correct","statement":"Path(convolution_fwht(x), performs dyadic (*bitwise-xor*) convolution using fast walsh hadamard transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa88d3e4b1e59e1b"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_fwht","kind":"function","src_hash":"b94ef034cec732bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_fwht(a, b)","rhs":"<unspecified:convolution_fwht>","over":{"base":"Any"},"name":"convolution_fwht_correct"},"guarantee":"performs dyadic (*bitwise-xor*) convolution using fast walsh hadamard transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_fwht_correct","statement":"Path(convolution_fwht(x), performs dyadic (*bitwise-xor*) convolution using fast walsh hadamard transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa88d3e4b1e59e1b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def convolution_fwht(a, b):
     """
     Performs dyadic (*bitwise-XOR*) convolution using Fast Walsh Hadamard
@@ -369,16 +397,23 @@ def convolution_fwht(a, b):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convolution_subset(a, ), performs subset convolution of given sequences) over Any ║
+# ║ Path(convolution_subset(a, b), <unspecified:convolution_subset>) over {Any | not (not iterable(a) or not iterable(b))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convolution_subset : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not iterable(a) or not iterable(b))       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convolution_subset : {Any | not (not iterable(a) or n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be58ea1e966af20a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_subset","kind":"function","src_hash":"ac4397aeb5a55cd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_subset(a, )","rhs":"performs subset convolution of given sequences","over":{"base":"Any"},"name":"convolution_subset_correct"},"guarantee":"performs subset convolution of given sequences","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_subset_correct","statement":"Path(convolution_subset(x), performs subset convolution of given sequences)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be58ea1e966af20a"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_subset","kind":"function","src_hash":"ac4397aeb5a55cd7","in":{"base":"Any","pred":"not (not iterable(a) or not iterable(b))"},"out":{"base":"Any"},"spec":{"lhs":"convolution_subset(a, b)","rhs":"<unspecified:convolution_subset>","over":{"base":"Any","pred":"not (not iterable(a) or not iterable(b))"},"name":"convolution_subset_correct"},"guarantee":"performs subset convolution of given sequences","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_subset_correct","statement":"Path(convolution_subset(x), performs subset convolution of given sequences)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be58ea1e966af20a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not iterable(a) or not iterable(b))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def convolution_subset(a, b):
     """
     Performs Subset Convolution of given sequences.
@@ -457,16 +492,22 @@ def convolution_subset(a, b):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(covering_product(a, ), returns the covering product of given sequences) over Any ║
+# ║ Path(covering_product(a, b), <unspecified:covering_product>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ covering_product : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12a0874ee1cd1443  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.covering_product","kind":"function","src_hash":"ac7e5850b86bf6a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"covering_product(a, )","rhs":"returns the covering product of given sequences","over":{"base":"Any"},"name":"covering_product_correct"},"guarantee":"returns the covering product of given sequences","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.covering_product_correct","statement":"Path(covering_product(x), returns the covering product of given sequences)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12a0874ee1cd1443"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.covering_product","kind":"function","src_hash":"ac7e5850b86bf6a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"covering_product(a, b)","rhs":"<unspecified:covering_product>","over":{"base":"Any"},"name":"covering_product_correct"},"guarantee":"returns the covering product of given sequences","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.covering_product_correct","statement":"Path(covering_product(x), returns the covering product of given sequences)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12a0874ee1cd1443","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def covering_product(a, b):
     """
     Returns the covering product of given sequences.
@@ -538,16 +579,22 @@ def covering_product(a, b):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersecting_product(a, ), returns the intersecting product of given sequences) over Any ║
+# ║ Path(intersecting_product(a, b), <unspecified:intersecting_product>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersecting_product : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3c5a1a0983a8715  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.intersecting_product","kind":"function","src_hash":"759d4e18d827b3c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersecting_product(a, )","rhs":"returns the intersecting product of given sequences","over":{"base":"Any"},"name":"intersecting_product_correct"},"guarantee":"returns the intersecting product of given sequences","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.intersecting_product_correct","statement":"Path(intersecting_product(x), returns the intersecting product of given sequences)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c5a1a0983a8715"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.intersecting_product","kind":"function","src_hash":"759d4e18d827b3c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersecting_product(a, b)","rhs":"<unspecified:intersecting_product>","over":{"base":"Any"},"name":"intersecting_product_correct"},"guarantee":"returns the intersecting product of given sequences","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.intersecting_product_correct","statement":"Path(intersecting_product(x), returns the intersecting product of given sequences)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c5a1a0983a8715","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def intersecting_product(a, b):
     """
     Returns the intersecting product of given sequences.
@@ -619,16 +666,22 @@ def intersecting_product(a, b):
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convolution_int(a, ), return the convolution of two sequences as a list) over Any ║
+# ║ Path(convolution_int(a, b), <unspecified:convolution_int>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convolution_int : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47996f5f4d0bb5ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_int","kind":"function","src_hash":"d5628ea408460cd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_int(a, )","rhs":"return the convolution of two sequences as a list","over":{"base":"Any"},"name":"convolution_int_correct"},"guarantee":"return the convolution of two sequences as a list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_int_correct","statement":"Path(convolution_int(x), return the convolution of two sequences as a list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47996f5f4d0bb5ad"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.convolutions.convolution_int","kind":"function","src_hash":"d5628ea408460cd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convolution_int(a, b)","rhs":"<unspecified:convolution_int>","over":{"base":"Any"},"name":"convolution_int_correct"},"guarantee":"return the convolution of two sequences as a list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.convolutions.convolution_int_correct","statement":"Path(convolution_int(x), return the convolution of two sequences as a list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47996f5f4d0bb5ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def convolution_int(a, b):
     """Return the convolution of two sequences as a list.
 

@@ -49,16 +49,23 @@ B22 = MatrixSymbol('B22',2,2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Assignment(), test_Assignment produces the expected output) over Any ║
+# ║ Path(test_Assignment(), a.func(*a.args) == a and a.op == ':=') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Assignment : Any → {Any | a.func(*a.args) == a a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.func(*a.args) == a                           ║
+# ║   ensures:  a.op == ':='                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Assignment : Any → {Any | result satisfies: a.fu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e4759fdfd2b81f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe043ca51f9dc7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Assignment","kind":"function","src_hash":"4aff5f39cbba53a1","in":{"base":"Any"},"out":{"base":"Any","pred":"a.func(*a.args) == a and a.op == ':='"},"spec":{"lhs":"test_Assignment()","rhs":"test_Assignment produces the expected output","over":{"base":"Any"},"name":"test_Assignment_correct"},"guarantee":"test_Assignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Assignment_correct","statement":"Path(test_Assignment(x), test_Assignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e4759fdfd2b81f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Assignment","kind":"function","src_hash":"4aff5f39cbba53a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.func(*a.args) == a and a.op == ':='"},"spec":{"lhs":"test_Assignment()","rhs":"a.func(*a.args) == a and a.op == ':='","over":{"base":"Any"},"name":"test_Assignment_correct"},"guarantee":"a.func(*a.args) == a; a.op == ':='","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Assignment_correct","statement":"Path(test_Assignment(x), a.func(*a.args) == a; a.op == ':=')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe043ca51f9dc7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.func(*a.args) == a","a.op == ':='"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Assignment():
     # Here we just do things to show they don't error
     Assignment(x, y)
@@ -90,16 +97,22 @@ def test_Assignment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AugAssign(), test_AugAssign produces the expected output) over Any ║
+# ║ Path(test_AugAssign(), <unspecified:test_AugAssign>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AugAssign : Any → {Any | a.func(*a.args) == a ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa2c697342e7a147  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_AugAssign","kind":"function","src_hash":"3b2f3c2150e80ab0","in":{"base":"Any"},"out":{"base":"Any","pred":"a.func(*a.args) == a == b and a.binop == binop and a.op == binop + '='"},"spec":{"lhs":"test_AugAssign()","rhs":"test_AugAssign produces the expected output","over":{"base":"Any"},"name":"test_AugAssign_correct"},"guarantee":"test_AugAssign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_AugAssign_correct","statement":"Path(test_AugAssign(x), test_AugAssign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa2c697342e7a147"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_AugAssign","kind":"function","src_hash":"3b2f3c2150e80ab0","in":{"base":"Any"},"out":{"base":"Any","pred":"a.func(*a.args) == a == b and a.binop == binop and a.op == binop + '='"},"spec":{"lhs":"test_AugAssign()","rhs":"<unspecified:test_AugAssign>","over":{"base":"Any"},"name":"test_AugAssign_correct"},"guarantee":"test_AugAssign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_AugAssign_correct","statement":"Path(test_AugAssign(x), test_AugAssign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa2c697342e7a147","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_AugAssign():
     # Here we just do things to show they don't error
     aug_assign(x, '+', y)
@@ -143,16 +156,22 @@ def test_AugAssign():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Assignment_printing(), test_Assignment_printing produces the expected output) over Any ║
+# ║ Path(test_Assignment_printing(), <unspecified:test_Assignment_printing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Assignment_printing : Any → {Any | repr(a) == '%...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aec2c91e32110f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Assignment_printing","kind":"function","src_hash":"7be6598699475fda","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(a) == '%s(%s, %s)' % (cls.__name__, repr(lhs), repr(rhs))"},"spec":{"lhs":"test_Assignment_printing()","rhs":"test_Assignment_printing produces the expected output","over":{"base":"Any"},"name":"test_Assignment_printing_correct"},"guarantee":"test_Assignment_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Assignment_printing_correct","statement":"Path(test_Assignment_printing(x), test_Assignment_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aec2c91e32110f7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Assignment_printing","kind":"function","src_hash":"7be6598699475fda","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(a) == '%s(%s, %s)' % (cls.__name__, repr(lhs), repr(rhs))"},"spec":{"lhs":"test_Assignment_printing()","rhs":"<unspecified:test_Assignment_printing>","over":{"base":"Any"},"name":"test_Assignment_printing_correct"},"guarantee":"test_Assignment_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Assignment_printing_correct","statement":"Path(test_Assignment_printing(x), test_Assignment_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aec2c91e32110f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Assignment_printing():
     assignment_classes = [
         Assignment,
@@ -176,16 +195,24 @@ def test_Assignment_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CodeBlock(), test_CodeBlock produces the expected output) over Any ║
+# ║ Path(test_CodeBlock(), c.func(*c.args) == c and c.left_hand_sides == Tuple(x, y) and c.right_hand_sides == Tuple(1, x + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CodeBlock : Any → {Any | c.func(*c.args) == c an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.func(*c.args) == c                           ║
+# ║   ensures:  c.left_hand_sides == Tuple(x, y)               ║
+# ║   ensures:  c.right_hand_sides == Tuple(1, x + 1)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CodeBlock : Any → {Any | result satisfies: c.fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 660d8f6c51e8550f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e2233be069ec7f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock","kind":"function","src_hash":"6c4cf28aae467661","in":{"base":"Any"},"out":{"base":"Any","pred":"c.func(*c.args) == c and c.left_hand_sides == Tuple(x, y) and c.right_hand_sides == Tuple(1, x + 1)"},"spec":{"lhs":"test_CodeBlock()","rhs":"test_CodeBlock produces the expected output","over":{"base":"Any"},"name":"test_CodeBlock_correct"},"guarantee":"test_CodeBlock produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_correct","statement":"Path(test_CodeBlock(x), test_CodeBlock produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"660d8f6c51e8550f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock","kind":"function","src_hash":"6c4cf28aae467661","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.func(*c.args) == c and c.left_hand_sides == Tuple(x, y) and c.right_hand_sides == Tuple(1, x + 1)"},"spec":{"lhs":"test_CodeBlock()","rhs":"c.func(*c.args) == c and c.left_hand_sides == Tuple(x, y) and c.right_hand_sides == Tuple(1, x + 1)","over":{"base":"Any"},"name":"test_CodeBlock_correct"},"guarantee":"c.func(*c.args) == c; c.left_hand_sides == Tuple(x, y); c.right_hand_sides == Tuple(1, x + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_correct","statement":"Path(test_CodeBlock(x), c.func(*c.args) == c; c.left_hand_sides == Tuple(x, y); c.right_hand_sides == Tuple(1, x + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e2233be069ec7f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.func(*c.args) == c","c.left_hand_sides == Tuple(x, y)","c.right_hand_sides == Tuple(1, x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CodeBlock():
     c = CodeBlock(Assignment(x, 1), Assignment(y, x + 1))
     assert c.func(*c.args) == c
@@ -194,16 +221,23 @@ def test_CodeBlock():
     assert c.right_hand_sides == Tuple(1, x + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CodeBlock_topological_sort(), test_CodeBlock_topological_sort produces the expected output) over Any ║
+# ║ Path(test_CodeBlock_topological_sort(), c1 == CodeBlock(*ordered_assignments) and c2 == CodeBlock(*free_assignments_ordered)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CodeBlock_topological_sort : Any → {Any | c1 == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c1 == CodeBlock(*ordered_assignments)          ║
+# ║   ensures:  c2 == CodeBlock(*free_assignments_ordered)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CodeBlock_topological_sort : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89f98353e9de90fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69fd47dfd6a398e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_topological_sort","kind":"function","src_hash":"62057aefb8712e6a","in":{"base":"Any"},"out":{"base":"Any","pred":"c1 == CodeBlock(*ordered_assignments) and c2 == CodeBlock(*free_assignments_ordered)"},"spec":{"lhs":"test_CodeBlock_topological_sort()","rhs":"test_CodeBlock_topological_sort produces the expected output","over":{"base":"Any"},"name":"test_CodeBlock_topological_sort_correct"},"guarantee":"test_CodeBlock_topological_sort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_topological_sort_correct","statement":"Path(test_CodeBlock_topological_sort(x), test_CodeBlock_topological_sort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89f98353e9de90fc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_topological_sort","kind":"function","src_hash":"62057aefb8712e6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c1 == CodeBlock(*ordered_assignments) and c2 == CodeBlock(*free_assignments_ordered)"},"spec":{"lhs":"test_CodeBlock_topological_sort()","rhs":"c1 == CodeBlock(*ordered_assignments) and c2 == CodeBlock(*free_assignments_ordered)","over":{"base":"Any"},"name":"test_CodeBlock_topological_sort_correct"},"guarantee":"c1 == CodeBlock(*ordered_assignments); c2 == CodeBlock(*free_assignments_ordered)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_topological_sort_correct","statement":"Path(test_CodeBlock_topological_sort(x), c1 == CodeBlock(*ordered_assignments); c2 == CodeBlock(*free_assignments_ordered))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69fd47dfd6a398e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c1 == CodeBlock(*ordered_assignments)","c2 == CodeBlock(*free_assignments_ordered)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_CodeBlock_topological_sort():
     assignments = [
         Assignment(x, y + z),
@@ -251,16 +285,23 @@ def test_CodeBlock_topological_sort():
     assert c2 == CodeBlock(*free_assignments_ordered)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CodeBlock_free_symbols(), test_CodeBlock_free_symbols produces the expected output) over Any ║
+# ║ Path(test_CodeBlock_free_symbols(), c1.free_symbols == set() and c2.free_symbols == {a, b}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CodeBlock_free_symbols : Any → {Any | c1.free_sy...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c1.free_symbols == set()                       ║
+# ║   ensures:  c2.free_symbols == {a, b}                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CodeBlock_free_symbols : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce522656ccf2de6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f71daa9869496b30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_free_symbols","kind":"function","src_hash":"8e1156cff6759496","in":{"base":"Any"},"out":{"base":"Any","pred":"c1.free_symbols == set() and c2.free_symbols == {a, b}"},"spec":{"lhs":"test_CodeBlock_free_symbols()","rhs":"test_CodeBlock_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_CodeBlock_free_symbols_correct"},"guarantee":"test_CodeBlock_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_free_symbols_correct","statement":"Path(test_CodeBlock_free_symbols(x), test_CodeBlock_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce522656ccf2de6f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_free_symbols","kind":"function","src_hash":"8e1156cff6759496","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c1.free_symbols == set() and c2.free_symbols == {a, b}"},"spec":{"lhs":"test_CodeBlock_free_symbols()","rhs":"c1.free_symbols == set() and c2.free_symbols == {a, b}","over":{"base":"Any"},"name":"test_CodeBlock_free_symbols_correct"},"guarantee":"c1.free_symbols == set(); c2.free_symbols == {a, b}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_free_symbols_correct","statement":"Path(test_CodeBlock_free_symbols(x), c1.free_symbols == set(); c2.free_symbols == {a, b})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f71daa9869496b30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c1.free_symbols == set()","c2.free_symbols == {a, b}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CodeBlock_free_symbols():
     c1 = CodeBlock(
         Assignment(x, y + z),
@@ -279,16 +320,23 @@ def test_CodeBlock_free_symbols():
     assert c2.free_symbols == {a, b}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CodeBlock_cse(), test_CodeBlock_cse produces the expected output) over Any ║
+# ║ Path(test_CodeBlock_cse(), c1.cse() == CodeBlock(Assignment(y, 1), Assignment(x0, sin(y)), Assignment(x, x0), Assignment(z, x0), Assignment(t, x * z)) and c2.cse() == CodeBlock(Assignment(x2, sin(y)), Assignment(x0, x2 + 1), Assignment(x1, 2 * x2), Assignment(z, x * y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CodeBlock_cse : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c1.cse() == CodeBlock(Assignment(y, 1), A...   ║
+# ║   ensures:  c2.cse() == CodeBlock(Assignment(x2, sin(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CodeBlock_cse : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 511f04c582f177e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d20f0f26846f84f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_cse","kind":"function","src_hash":"a1f2b8c4442f2429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_CodeBlock_cse()","rhs":"test_CodeBlock_cse produces the expected output","over":{"base":"Any"},"name":"test_CodeBlock_cse_correct"},"guarantee":"test_CodeBlock_cse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_cse_correct","statement":"Path(test_CodeBlock_cse(x), test_CodeBlock_cse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"511f04c582f177e7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_cse","kind":"function","src_hash":"a1f2b8c4442f2429","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c1.cse() == CodeBlock(Assignment(y, 1), Assignment(x0, sin(y)), Assignment(x, x0), Assignment(z, x0), Assignment(t, x * z)) and c2.cse() == CodeBlock(Assignment(x2, sin(y)), Assignment(x0, x2 + 1), Assignment(x1, 2 * x2), Assignment(z, x * y))"},"spec":{"lhs":"test_CodeBlock_cse()","rhs":"c1.cse() == CodeBlock(Assignment(y, 1), Assignment(x0, sin(y)), Assignment(x, x0), Assignment(z, x0), Assignment(t, x * z)) and c2.cse() == CodeBlock(Assignment(x2, sin(y)), Assignment(x0, x2 + 1), Assignment(x1, 2 * x2), Assignment(z, x * y))","over":{"base":"Any"},"name":"test_CodeBlock_cse_correct"},"guarantee":"c1.cse() == CodeBlock(Assignment(y, 1), Assignment(x0, sin(y)), Assignment(x, x0), Assignment(z, x0), Assignment(t, x * z)); c2.cse() == CodeBlock(Assignment(x2, sin(y)), Assignment(x0, x2 + 1), Assignment(x1, 2 * x2), Assignment(z, x * y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_cse_correct","statement":"Path(test_CodeBlock_cse(x), c1.cse() == CodeBlock(Assignment(y, 1), Assignment(x0, sin(y)), Assignment(x, x0), Assignment(z, x0), Assignment(t, x * z)); c2.cse() == CodeBlock(Assignment(x2, sin(y)), Assignment(x0, x2 + 1), Assignment(x1, 2 * x2), Assignment(z, x * y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d20f0f26846f84f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c1.cse() == CodeBlock(Assignment(y, 1), Assignment(x0, sin(y)), Assignment(x, x0), Assignment(z, x0), Assignment(t, x * z))","c2.cse() == CodeBlock(Assignment(x2, sin(y)), Assignment(x0, x2 + 1), Assignment(x1, 2 * x2), Assignment(z, x * y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CodeBlock_cse():
     c1 = CodeBlock(
         Assignment(y, 1),
@@ -325,16 +373,22 @@ def test_CodeBlock_cse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CodeBlock_cse__issue_14118(), test_CodeBlock_cse__issue_14118 produces the expected output) over Any ║
+# ║ Path(test_CodeBlock_cse__issue_14118(), c.cse() == CodeBlock(Assignment(x0, sin(y)), Assignment(A22, Matrix([[x, x0], [3, 4]])), Assignment(B22, Matrix([[x0, 2 * x0], [x0 ** 2, 7]])))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CodeBlock_cse__issue_14118 : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.cse() == CodeBlock(Assignment(x0, sin(y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CodeBlock_cse__issue_14118 : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de66d28b69967246  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4b8dbb4d961b13e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_cse__issue_14118","kind":"function","src_hash":"dcdf8bca4e8e244f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_CodeBlock_cse__issue_14118()","rhs":"test_CodeBlock_cse__issue_14118 produces the expected output","over":{"base":"Any"},"name":"test_CodeBlock_cse__issue_14118_correct"},"guarantee":"test_CodeBlock_cse__issue_14118 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_cse__issue_14118_correct","statement":"Path(test_CodeBlock_cse__issue_14118(x), test_CodeBlock_cse__issue_14118 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de66d28b69967246"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_CodeBlock_cse__issue_14118","kind":"function","src_hash":"dcdf8bca4e8e244f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.cse() == CodeBlock(Assignment(x0, sin(y)), Assignment(A22, Matrix([[x, x0], [3, 4]])), Assignment(B22, Matrix([[x0, 2 * x0], [x0 ** 2, 7]])))"},"spec":{"lhs":"test_CodeBlock_cse__issue_14118()","rhs":"c.cse() == CodeBlock(Assignment(x0, sin(y)), Assignment(A22, Matrix([[x, x0], [3, 4]])), Assignment(B22, Matrix([[x0, 2 * x0], [x0 ** 2, 7]])))","over":{"base":"Any"},"name":"test_CodeBlock_cse__issue_14118_correct"},"guarantee":"c.cse() == CodeBlock(Assignment(x0, sin(y)), Assignment(A22, Matrix([[x, x0], [3, 4]])), Assignment(B22, Matrix([[x0, 2 * x0], [x0 ** 2, 7]])))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_CodeBlock_cse__issue_14118_correct","statement":"Path(test_CodeBlock_cse__issue_14118(x), c.cse() == CodeBlock(Assignment(x0, sin(y)), Assignment(A22, Matrix([[x, x0], [3, 4]])), Assignment(B22, Matrix([[x0, 2 * x0], [x0 ** 2, 7]]))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4b8dbb4d961b13e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.cse() == CodeBlock(Assignment(x0, sin(y)), Assignment(A22, Matrix([[x, x0], [3, 4]])), Assignment(B22, Matrix([[x0, 2 * x0], [x0 ** 2, 7]])))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CodeBlock_cse__issue_14118():
     # see https://github.com/sympy/sympy/issues/14118
     c = CodeBlock(
@@ -348,16 +402,22 @@ def test_CodeBlock_cse__issue_14118():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_For(), test_For produces the expected output) over Any ║
+# ║ Path(test_For(), f.func(*f.args) == f) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_For : Any → {Any | f.func(*f.args) == f}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.func(*f.args) == f                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_For : Any → {Any | result satisfies: f.func(*f.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8045d5cd33ec33ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ef1594ba7004cef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_For","kind":"function","src_hash":"bc35e884c0a72520","in":{"base":"Any"},"out":{"base":"Any","pred":"f.func(*f.args) == f"},"spec":{"lhs":"test_For()","rhs":"test_For produces the expected output","over":{"base":"Any"},"name":"test_For_correct"},"guarantee":"test_For produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_For_correct","statement":"Path(test_For(x), test_For produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8045d5cd33ec33ca"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_For","kind":"function","src_hash":"bc35e884c0a72520","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.func(*f.args) == f"},"spec":{"lhs":"test_For()","rhs":"f.func(*f.args) == f","over":{"base":"Any"},"name":"test_For_correct"},"guarantee":"f.func(*f.args) == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_For_correct","statement":"Path(test_For(x), f.func(*f.args) == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef1594ba7004cef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.func(*f.args) == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_For():
     f = For(n, Range(0, 3), (Assignment(A[n, 0], x + n), aug_assign(x, '+', y)))
     f = For(n, (1, 2, 3, 4, 5), (Assignment(A[n, 0], x + n),))
@@ -366,16 +426,24 @@ def test_For():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_none(), test_none produces the expected output) over Any ║
+# ║ Path(test_none(), none.is_Atom and none == none and foo != none and none == None and none == NoneToken() and none.func(*none.args) == none) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_none : Any → {Any | none.is_Atom and none == non...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  none.is_Atom                                   ║
+# ║   ensures:  none == none                                   ║
+# ║   ensures:  foo != none                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_none : Any → {Any | result satisfies: none.is_At...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afdc5f5f3d1e8ae9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c4512557fc5fe47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_none","kind":"function","src_hash":"829667092eb56889","in":{"base":"Any"},"out":{"base":"Any","pred":"none.is_Atom and none == none and foo != none and none == None and none == NoneToken() and none.func(*none.args) == none"},"spec":{"lhs":"test_none()","rhs":"test_none produces the expected output","over":{"base":"Any"},"name":"test_none_correct"},"guarantee":"test_none produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_none_correct","statement":"Path(test_none(x), test_none produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afdc5f5f3d1e8ae9"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_none","kind":"function","src_hash":"829667092eb56889","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: none.is_Atom and none == none and foo != none and none == None and none == NoneToken() and none.func(*none.args) == none"},"spec":{"lhs":"test_none()","rhs":"none.is_Atom and none == none and foo != none and none == None and none == NoneToken() and none.func(*none.args) == none","over":{"base":"Any"},"name":"test_none_correct"},"guarantee":"none.is_Atom; none == none; foo != none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_none_correct","statement":"Path(test_none(x), none.is_Atom; none == none; foo != none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c4512557fc5fe47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["none.is_Atom","none == none","foo != none","none == None","none == NoneToken()","none.func(*none.args) == none"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_none():
     assert none.is_Atom
     assert none == none
@@ -389,16 +457,24 @@ def test_none():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_String(), test_String produces the expected output) over Any ║
+# ║ Path(test_String(), st.is_Atom and st == String('foobar') and st.text == 'foobar' and st.func(**st.kwargs()) == st and st.func(*st.args) == st and si != st and si.text == st.text and str(s) == 'foo' and repr(s) == "String('foo')") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_String : Any → {Any | st.is_Atom and st == Strin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  st.is_Atom                                     ║
+# ║   ensures:  st == String('foobar')                         ║
+# ║   ensures:  st.text == 'foobar'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_String : Any → {Any | result satisfies: st.is_At...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07438323b110ec33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 027cf7b1240600fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_String","kind":"function","src_hash":"0e36bc1a4457cb86","in":{"base":"Any"},"out":{"base":"Any","pred":"st.is_Atom and st == String('foobar') and st.text == 'foobar' and st.func(**st.kwargs()) == st and st.func(*st.args) == st and si != st and si.text == st.text and str(s) == 'foo' and repr(s) == \"String('foo')\""},"spec":{"lhs":"test_String()","rhs":"test_String produces the expected output","over":{"base":"Any"},"name":"test_String_correct"},"guarantee":"test_String produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_String_correct","statement":"Path(test_String(x), test_String produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07438323b110ec33"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_String","kind":"function","src_hash":"0e36bc1a4457cb86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: st.is_Atom and st == String('foobar') and st.text == 'foobar' and st.func(**st.kwargs()) == st and st.func(*st.args) == st and si != st and si.text == st.text and str(s) == 'foo' and repr(s) == \"String('foo')\""},"spec":{"lhs":"test_String()","rhs":"st.is_Atom and st == String('foobar') and st.text == 'foobar' and st.func(**st.kwargs()) == st and st.func(*st.args) == st and si != st and si.text == st.text and str(s) == 'foo' and repr(s) == \"String('foo')\"","over":{"base":"Any"},"name":"test_String_correct"},"guarantee":"st.is_Atom; st == String('foobar'); st.text == 'foobar'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_String_correct","statement":"Path(test_String(x), st.is_Atom; st == String('foobar'); st.text == 'foobar')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"027cf7b1240600fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["st.is_Atom","st == String('foobar')","st.text == 'foobar'","st.func(**st.kwargs()) == st","st.func(*st.args) == st","si != st","si.text == st.text","str(s) == 'foo'","repr(s) == \"String('foo')\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_String():
     st = String('foobar')
     assert st.is_Atom
@@ -419,32 +495,46 @@ def test_String():
     assert repr(s) == "String('foo')"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Comment(), test_Comment produces the expected output) over Any ║
+# ║ Path(test_Comment(), c.text == 'foobar' and str(c) == 'foobar') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Comment : Any → {Any | c.text == 'foobar' and st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.text == 'foobar'                             ║
+# ║   ensures:  str(c) == 'foobar'                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Comment : Any → {Any | result satisfies: c.text ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 165d4ca03beddd0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8809ad1ec666f3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Comment","kind":"function","src_hash":"1f81153a6619e52f","in":{"base":"Any"},"out":{"base":"Any","pred":"c.text == 'foobar' and str(c) == 'foobar'"},"spec":{"lhs":"test_Comment()","rhs":"test_Comment produces the expected output","over":{"base":"Any"},"name":"test_Comment_correct"},"guarantee":"test_Comment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Comment_correct","statement":"Path(test_Comment(x), test_Comment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"165d4ca03beddd0f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Comment","kind":"function","src_hash":"1f81153a6619e52f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.text == 'foobar' and str(c) == 'foobar'"},"spec":{"lhs":"test_Comment()","rhs":"c.text == 'foobar' and str(c) == 'foobar'","over":{"base":"Any"},"name":"test_Comment_correct"},"guarantee":"c.text == 'foobar'; str(c) == 'foobar'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Comment_correct","statement":"Path(test_Comment(x), c.text == 'foobar'; str(c) == 'foobar')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8809ad1ec666f3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.text == 'foobar'","str(c) == 'foobar'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Comment():
     c = Comment('foobar')
     assert c.text == 'foobar'
     assert str(c) == 'foobar'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Node(), test_Node produces the expected output) over Any ║
+# ║ Path(test_Node(), n == Node() and n.func(*n.args) == n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Node : Any → {Any | n == Node() and n.func(*n.ar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  n == Node()                                    ║
+# ║   ensures:  n.func(*n.args) == n                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Node : Any → {Any | result satisfies: n == Node(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2edcac8401cd13b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb1926d303182b43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Node","kind":"function","src_hash":"1738215e89419e64","in":{"base":"Any"},"out":{"base":"Any","pred":"n == Node() and n.func(*n.args) == n"},"spec":{"lhs":"test_Node()","rhs":"test_Node produces the expected output","over":{"base":"Any"},"name":"test_Node_correct"},"guarantee":"test_Node produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Node_correct","statement":"Path(test_Node(x), test_Node produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2edcac8401cd13b2"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Node","kind":"function","src_hash":"1738215e89419e64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: n == Node() and n.func(*n.args) == n"},"spec":{"lhs":"test_Node()","rhs":"n == Node() and n.func(*n.args) == n","over":{"base":"Any"},"name":"test_Node_correct"},"guarantee":"n == Node(); n.func(*n.args) == n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Node_correct","statement":"Path(test_Node(x), n == Node(); n.func(*n.args) == n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb1926d303182b43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["n == Node()","n.func(*n.args) == n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Node():
     n = Node()
     assert n == Node()
@@ -452,16 +542,24 @@ def test_Node():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Type(), test_Type produces the expected output) over Any ║
+# ║ Path(test_Type(), len(t.args) == 1 and t.name == String('MyType') and str(t) == 'MyType' and repr(t) == "Type(String('MyType'))" and Type(t) == t and t.func(*t.args) == t and t1 != t2 and t1 == t1 and t2 == t2 and t1 == t1b and t2 != t1b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Type : Any → {Any | len(t.args) == 1 and t.name ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(t.args) == 1                               ║
+# ║   ensures:  t.name == String('MyType')                     ║
+# ║   ensures:  str(t) == 'MyType'                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Type : Any → {Any | result satisfies: len(t.args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ec5eba723257b5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a07aa14471584e3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type","kind":"function","src_hash":"085ded340e4b04ff","in":{"base":"Any"},"out":{"base":"Any","pred":"len(t.args) == 1 and t.name == String('MyType') and str(t) == 'MyType' and repr(t) == \"Type(String('MyType'))\" and Type(t) == t and t.func(*t.args) == t and t1 != t2 and t1 == t1 and t2 == t2 and t1 == t1b and t2 != t1b"},"spec":{"lhs":"test_Type()","rhs":"test_Type produces the expected output","over":{"base":"Any"},"name":"test_Type_correct"},"guarantee":"test_Type produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type_correct","statement":"Path(test_Type(x), test_Type produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ec5eba723257b5b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type","kind":"function","src_hash":"085ded340e4b04ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(t.args) == 1 and t.name == String('MyType') and str(t) == 'MyType' and repr(t) == \"Type(String('MyType'))\" and Type(t) == t and t.func(*t.args) == t and t1 != t2 and t1 == t1 and t2 == t2 and t1 == t1b and t2 != t1b"},"spec":{"lhs":"test_Type()","rhs":"len(t.args) == 1 and t.name == String('MyType') and str(t) == 'MyType' and repr(t) == \"Type(String('MyType'))\" and Type(t) == t and t.func(*t.args) == t and t1 != t2 and t1 == t1 and t2 == t2 and t1 == t1b and t2 != t1b","over":{"base":"Any"},"name":"test_Type_correct"},"guarantee":"len(t.args) == 1; t.name == String('MyType'); str(t) == 'MyType'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type_correct","statement":"Path(test_Type(x), len(t.args) == 1; t.name == String('MyType'); str(t) == 'MyType')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a07aa14471584e3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(t.args) == 1","t.name == String('MyType')","str(t) == 'MyType'","repr(t) == \"Type(String('MyType'))\"","Type(t) == t","t.func(*t.args) == t","t1 != t2","t1 == t1 and t2 == t2","t1 == t1b","t2 != t1b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Type():
     t = Type('MyType')
     assert len(t.args) == 1
@@ -480,16 +578,24 @@ def test_Type():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Type__from_expr(), test_Type__from_expr produces the expected output) over Any ║
+# ║ Path(test_Type__from_expr(), Type.from_expr(i) == integer and Type.from_expr(u) == real and Type.from_expr(n) == integer and Type.from_expr(3) == integer and Type.from_expr(3.0) == real and Type.from_expr(3 + 1j) == complex_) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Type__from_expr : Any → {Any | Type.from_expr(i)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Type.from_expr(i) == integer                   ║
+# ║   ensures:  Type.from_expr(u) == real                      ║
+# ║   ensures:  Type.from_expr(n) == integer                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Type__from_expr : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc5d4d07b6596804  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b432eadc31e01fd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__from_expr","kind":"function","src_hash":"22ce49b6158c8f71","in":{"base":"Any"},"out":{"base":"Any","pred":"Type.from_expr(i) == integer and Type.from_expr(u) == real and Type.from_expr(n) == integer and Type.from_expr(3) == integer and Type.from_expr(3.0) == real and Type.from_expr(3 + 1j) == complex_"},"spec":{"lhs":"test_Type__from_expr()","rhs":"test_Type__from_expr produces the expected output","over":{"base":"Any"},"name":"test_Type__from_expr_correct"},"guarantee":"test_Type__from_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__from_expr_correct","statement":"Path(test_Type__from_expr(x), test_Type__from_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc5d4d07b6596804"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__from_expr","kind":"function","src_hash":"22ce49b6158c8f71","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Type.from_expr(i) == integer and Type.from_expr(u) == real and Type.from_expr(n) == integer and Type.from_expr(3) == integer and Type.from_expr(3.0) == real and Type.from_expr(3 + 1j) == complex_"},"spec":{"lhs":"test_Type__from_expr()","rhs":"Type.from_expr(i) == integer and Type.from_expr(u) == real and Type.from_expr(n) == integer and Type.from_expr(3) == integer and Type.from_expr(3.0) == real and Type.from_expr(3 + 1j) == complex_","over":{"base":"Any"},"name":"test_Type__from_expr_correct"},"guarantee":"Type.from_expr(i) == integer; Type.from_expr(u) == real; Type.from_expr(n) == integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__from_expr_correct","statement":"Path(test_Type__from_expr(x), Type.from_expr(i) == integer; Type.from_expr(u) == real; Type.from_expr(n) == integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b432eadc31e01fd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Type.from_expr(i) == integer","Type.from_expr(u) == real","Type.from_expr(n) == integer","Type.from_expr(3) == integer","Type.from_expr(3.0) == real","Type.from_expr(3 + 1j) == complex_"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Type__from_expr():
     assert Type.from_expr(i) == integer
     u = symbols('u', real=True)
@@ -502,16 +608,24 @@ def test_Type__from_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Type__cast_check__integers(), test_Type__cast_check__integers produces the expected output) over Any ║
+# ║ Path(test_Type__cast_check__integers(), integer.cast_check('3') == 3 and integer.cast_check(Float('3.0000000000000000000')) == 3 and integer.cast_check(Float('3.0000000000000000001')) == 3 and int8.cast_check(127.0) == 127 and int8.cast_check(-128) == -128 and uint8.cast_check(0) == 0 and uint8.cast_check(128) == 128) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Type__cast_check__integers : Any → {Any | intege...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integer.cast_check('3') == 3                   ║
+# ║   ensures:  integer.cast_check(Float('3.0000000000000...   ║
+# ║   ensures:  integer.cast_check(Float('3.0000000000000...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Type__cast_check__integers : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc05b5591efc0ff7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c1adc4249be0949  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__cast_check__integers","kind":"function","src_hash":"f2f0e2986da47baa","in":{"base":"Any"},"out":{"base":"Any","pred":"integer.cast_check('3') == 3 and integer.cast_check(Float('3.0000000000000000000')) == 3 and integer.cast_check(Float('3.0000000000000000001')) == 3 and int8.cast_check(127.0) == 127 and int8.cast_check(-128) == -128 and uint8.cast_check(0) == 0 and uint8.cast_check(128) == 128"},"spec":{"lhs":"test_Type__cast_check__integers()","rhs":"test_Type__cast_check__integers produces the expected output","over":{"base":"Any"},"name":"test_Type__cast_check__integers_correct"},"guarantee":"test_Type__cast_check__integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__cast_check__integers_correct","statement":"Path(test_Type__cast_check__integers(x), test_Type__cast_check__integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc05b5591efc0ff7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__cast_check__integers","kind":"function","src_hash":"f2f0e2986da47baa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integer.cast_check('3') == 3 and integer.cast_check(Float('3.0000000000000000000')) == 3 and integer.cast_check(Float('3.0000000000000000001')) == 3 and int8.cast_check(127.0) == 127 and int8.cast_check(-128) == -128 and uint8.cast_check(0) == 0 and uint8.cast_check(128) == 128"},"spec":{"lhs":"test_Type__cast_check__integers()","rhs":"integer.cast_check('3') == 3 and integer.cast_check(Float('3.0000000000000000000')) == 3 and integer.cast_check(Float('3.0000000000000000001')) == 3 and int8.cast_check(127.0) == 127 and int8.cast_check(-128) == -128 and uint8.cast_check(0) == 0 and uint8.cast_check(128) == 128","over":{"base":"Any"},"name":"test_Type__cast_check__integers_correct"},"guarantee":"integer.cast_check('3') == 3; integer.cast_check(Float('3.0000000000000000000')) == 3; integer.cast_check(Float('3.0000000000000000001')) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__cast_check__integers_correct","statement":"Path(test_Type__cast_check__integers(x), integer.cast_check('3') == 3; integer.cast_check(Float('3.0000000000000000000')) == 3; integer.cast_check(Float('3.0000000000000000001')) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c1adc4249be0949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integer.cast_check('3') == 3","integer.cast_check(Float('3.0000000000000000000')) == 3","integer.cast_check(Float('3.0000000000000000001')) == 3","int8.cast_check(127.0) == 127","int8.cast_check(-128) == -128","uint8.cast_check(0) == 0","uint8.cast_check(128) == 128"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Type__cast_check__integers():
     # Rounding
     raises(ValueError, lambda: integer.cast_check(3.5))
@@ -531,16 +645,24 @@ def test_Type__cast_check__integers():
     raises(ValueError, lambda: uint8.cast_check(-1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Attribute(), test_Attribute produces the expected output) over Any ║
+# ║ Path(test_Attribute(), noexcept == Attribute('noexcept') and alignas16 != alignas32 and alignas16.func(*alignas16.args) == alignas16) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Attribute : Any → {Any | noexcept == Attribute('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  noexcept == Attribute('noexcept')              ║
+# ║   ensures:  alignas16 != alignas32                         ║
+# ║   ensures:  alignas16.func(*alignas16.args) == alignas16   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Attribute : Any → {Any | result satisfies: noexc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 225bdc91ca316105  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f2ef14a566113d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Attribute","kind":"function","src_hash":"fba543dac9239049","in":{"base":"Any"},"out":{"base":"Any","pred":"noexcept == Attribute('noexcept') and alignas16 != alignas32 and alignas16.func(*alignas16.args) == alignas16"},"spec":{"lhs":"test_Attribute()","rhs":"test_Attribute produces the expected output","over":{"base":"Any"},"name":"test_Attribute_correct"},"guarantee":"test_Attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Attribute_correct","statement":"Path(test_Attribute(x), test_Attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"225bdc91ca316105"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Attribute","kind":"function","src_hash":"fba543dac9239049","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: noexcept == Attribute('noexcept') and alignas16 != alignas32 and alignas16.func(*alignas16.args) == alignas16"},"spec":{"lhs":"test_Attribute()","rhs":"noexcept == Attribute('noexcept') and alignas16 != alignas32 and alignas16.func(*alignas16.args) == alignas16","over":{"base":"Any"},"name":"test_Attribute_correct"},"guarantee":"noexcept == Attribute('noexcept'); alignas16 != alignas32; alignas16.func(*alignas16.args) == alignas16","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Attribute_correct","statement":"Path(test_Attribute(x), noexcept == Attribute('noexcept'); alignas16 != alignas32; alignas16.func(*alignas16.args) == alignas16)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f2ef14a566113d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["noexcept == Attribute('noexcept')","alignas16 != alignas32","alignas16.func(*alignas16.args) == alignas16"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Attribute():
     noexcept = Attribute('noexcept')
     assert noexcept == Attribute('noexcept')
@@ -551,16 +673,24 @@ def test_Attribute():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Variable(), test_Variable produces the expected output) over Any ║
+# ║ Path(test_Variable(), v == Variable(v) and v == Variable('x', type=real) and v.symbol == x and v.type == real and value_const not in v.attrs and v.func(*v.args) == v and str(v) == 'Variable(x, type=real)' and w.symbol == y and w.type == f32 and value_const in w.attrs and w.func(*w.args) == w and v_n.type == integer and v_n.func(*v_n.args) == v_n and v_i.type == integer and v_i != v_n and a_i.type == integer and Variable.deduced(Symbol('x', real=True)).type == real and a_i.func(*a_i.args) == a_i and v_n2.func(*v_n2.args) == v_n2 and abs(v_n2.value - 3.5) < 1e-15 and v_n3.type == integer and str(v_n3) == 'Variable(n, type=integer)' and Variable.deduced(z, value=3).type == integer and Variable.deduced(z, value=3.0).type == real and Variable.deduced(z, value=3.0 + 1j).type == complex_) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Variable : Any → {Any | v == Variable(v) and v =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v == Variable(v)                               ║
+# ║   ensures:  v == Variable('x', type=real)                  ║
+# ║   ensures:  v.symbol == x                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Variable : Any → {Any | result satisfies: v == V...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dffa06b1a598ef8e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc518b4768373a14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Variable","kind":"function","src_hash":"5a1967036a9fd935","in":{"base":"Any"},"out":{"base":"Any","pred":"v == Variable(v) and v == Variable('x', type=real) and v.symbol == x and v.type == real and value_const not in v.attrs and v.func(*v.args) == v and str(v) == 'Variable(x, type=real)' and w.symbol == y and w.type == f32 and value_const in w.attrs and w.func(*w.args) == w and v_n.type == integer and v_n.func(*v_n.args) == v_n and v_i.type == integer and v_i != v_n and a_i.type == integer and Variable.deduced(Symbol('x', real=True)).type == real and a_i.func(*a_i.args) == a_i and v_n2.func(*v_n2.args) == v_n2 and abs(v_n2.value - 3.5) < 1e-15 and v_n3.type == integer and str(v_n3) == 'Variable(n, type=integer)' and Variable.deduced(z, value=3).type == integer and Variable.deduced(z, value=3.0).type == real and Variable.deduced(z, value=3.0 + 1j).type == complex_"},"spec":{"lhs":"test_Variable()","rhs":"test_Variable produces the expected output","over":{"base":"Any"},"name":"test_Variable_correct"},"guarantee":"test_Variable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Variable_correct","statement":"Path(test_Variable(x), test_Variable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dffa06b1a598ef8e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Variable","kind":"function","src_hash":"5a1967036a9fd935","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v == Variable(v) and v == Variable('x', type=real) and v.symbol == x and v.type == real and value_const not in v.attrs and v.func(*v.args) == v and str(v) == 'Variable(x, type=real)' and w.symbol == y and w.type == f32 and value_const in w.attrs and w.func(*w.args) == w and v_n.type == integer and v_n.func(*v_n.args) == v_n and v_i.type == integer and v_i != v_n and a_i.type == integer and Variable.deduced(Symbol('x', real=True)).type == real and a_i.func(*a_i.args) == a_i and v_n2.func(*v_n2.args) == v_n2 and abs(v_n2.value - 3.5) < 1e-15 and v_n3.type == integer and str(v_n3) == 'Variable(n, type=integer)' and Variable.deduced(z, value=3).type == integer and Variable.deduced(z, value=3.0).type == real and Variable.deduced(z, value=3.0 + 1j).type == complex_"},"spec":{"lhs":"test_Variable()","rhs":"v == Variable(v) and v == Variable('x', type=real) and v.symbol == x and v.type == real and value_const not in v.attrs and v.func(*v.args) == v and str(v) == 'Variable(x, type=real)' and w.symbol == y and w.type == f32 and value_const in w.attrs and w.func(*w.args) == w and v_n.type == integer and v_n.func(*v_n.args) == v_n and v_i.type == integer and v_i != v_n and a_i.type == integer and Variable.deduced(Symbol('x', real=True)).type == real and a_i.func(*a_i.args) == a_i and v_n2.func(*v_n2.args) == v_n2 and abs(v_n2.value - 3.5) < 1e-15 and v_n3.type == integer and str(v_n3) == 'Variable(n, type=integer)' and Variable.deduced(z, value=3).type == integer and Variable.deduced(z, value=3.0).type == real and Variable.deduced(z, value=3.0 + 1j).type == complex_","over":{"base":"Any"},"name":"test_Variable_correct"},"guarantee":"v == Variable(v); v == Variable('x', type=real); v.symbol == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Variable_correct","statement":"Path(test_Variable(x), v == Variable(v); v == Variable('x', type=real); v.symbol == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc518b4768373a14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v == Variable(v)","v == Variable('x', type=real)","v.symbol == x","v.type == real","value_const not in v.attrs","v.func(*v.args) == v","str(v) == 'Variable(x, type=real)'","w.symbol == y","w.type == f32","value_const in w.attrs","w.func(*w.args) == w","v_n.type == integer","v_n.func(*v_n.args) == v_n","v_i.type == integer","v_i != v_n","a_i.type == integer","Variable.deduced(Symbol('x', real=True)).type == real","a_i.func(*a_i.args) == a_i","v_n2.func(*v_n2.args) == v_n2","abs(v_n2.value - 3.5) < 1e-15","v_n3.type == integer","str(v_n3) == 'Variable(n, type=integer)'","Variable.deduced(z, value=3).type == integer","Variable.deduced(z, value=3.0).type == real","Variable.deduced(z, value=3.0 + 1j).type == complex_"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Variable():
     v = Variable(x, type=real)
     assert v == Variable(v)
@@ -603,16 +733,24 @@ def test_Variable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pointer(), test_Pointer produces the expected output) over Any ║
+# ║ Path(test_Pointer(), p.symbol == x and p.type == untyped and value_const not in p.attrs and pointer_const not in p.attrs and p.func(*p.args) == p and pu.symbol is u and pu.type == real and value_const in pu.attrs and pointer_const in pu.attrs and pu.func(*pu.args) == pu and deref.indices == (i,)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pointer : Any → {Any | p.symbol == x and p.type ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.symbol == x                                  ║
+# ║   ensures:  p.type == untyped                              ║
+# ║   ensures:  value_const not in p.attrs                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pointer : Any → {Any | result satisfies: p.symbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c07c8a3b136f2cd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa70701db6af552e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Pointer","kind":"function","src_hash":"fa4cecd1822aa4cf","in":{"base":"Any"},"out":{"base":"Any","pred":"p.symbol == x and p.type == untyped and value_const not in p.attrs and pointer_const not in p.attrs and p.func(*p.args) == p and pu.symbol is u and pu.type == real and value_const in pu.attrs and pointer_const in pu.attrs and pu.func(*pu.args) == pu and deref.indices == (i,)"},"spec":{"lhs":"test_Pointer()","rhs":"test_Pointer produces the expected output","over":{"base":"Any"},"name":"test_Pointer_correct"},"guarantee":"test_Pointer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Pointer_correct","statement":"Path(test_Pointer(x), test_Pointer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c07c8a3b136f2cd1"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Pointer","kind":"function","src_hash":"fa4cecd1822aa4cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.symbol == x and p.type == untyped and value_const not in p.attrs and pointer_const not in p.attrs and p.func(*p.args) == p and pu.symbol is u and pu.type == real and value_const in pu.attrs and pointer_const in pu.attrs and pu.func(*pu.args) == pu and deref.indices == (i,)"},"spec":{"lhs":"test_Pointer()","rhs":"p.symbol == x and p.type == untyped and value_const not in p.attrs and pointer_const not in p.attrs and p.func(*p.args) == p and pu.symbol is u and pu.type == real and value_const in pu.attrs and pointer_const in pu.attrs and pu.func(*pu.args) == pu and deref.indices == (i,)","over":{"base":"Any"},"name":"test_Pointer_correct"},"guarantee":"p.symbol == x; p.type == untyped; value_const not in p.attrs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Pointer_correct","statement":"Path(test_Pointer(x), p.symbol == x; p.type == untyped; value_const not in p.attrs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa70701db6af552e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.symbol == x","p.type == untyped","value_const not in p.attrs","pointer_const not in p.attrs","p.func(*p.args) == p","pu.symbol is u","pu.type == real","value_const in pu.attrs","pointer_const in pu.attrs","pu.func(*pu.args) == pu","deref.indices == (i,)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Pointer():
     p = Pointer(x)
     assert p.symbol == x
@@ -635,7 +773,12 @@ def test_Pointer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Declaration(), test_Declaration produces the expected output) over {Any | isinstance(decl.variable.value, Float)} ║
+# ║ Path(test_Declaration(), Declaration(vu).variable.type == real and Declaration(vn).variable.type == integer and value_const in vuc.attrs and pointer_const not in vuc.attrs and decl.variable == vuc and isinstance(decl.variable.value, Float) and decl.variable.value == 3.0 and decl.func(*decl.args) == decl and vuc.as_Declaration() == decl and vuc.as_Declaration(value=None, attrs=None) == Declaration(vu) and decl2.variable == vy and decl2.variable.value == Integer(3) and decl3.variable.type == integer and decl3.variable.value == 3.0) over {Any | isinstance(decl.variable.value, Float)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Declaration(vu).variable.type == real          ║
+# ║   ensures:  Declaration(vn).variable.type == integer       ║
+# ║   ensures:  value_const in vuc.attrs                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Declaration : {Any | isinstance(decl.variable.va...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -647,9 +790,12 @@ def test_Pointer():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1452b937...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Declaration","kind":"function","src_hash":"e54c049d948e5f0b","in":{"base":"Any","pred":"isinstance(decl.variable.value, Float)"},"out":{"base":"Any","pred":"Declaration(vu).variable.type == real and Declaration(vn).variable.type == integer and value_const in vuc.attrs and pointer_const not in vuc.attrs and decl.variable == vuc and isinstance(decl.variable.value, Float) and decl.variable.value == 3.0 and decl.func(*decl.args) == decl and vuc.as_Declaration() == decl and vuc.as_Declaration(value=None, attrs=None) == Declaration(vu) and decl2.variable == vy and decl2.variable.value == Integer(3) and decl3.variable.type == integer and decl3.variable.value == 3.0"},"spec":{"lhs":"test_Declaration()","rhs":"test_Declaration produces the expected output","over":{"base":"Any","pred":"isinstance(decl.variable.value, Float)"},"name":"test_Declaration_correct"},"guarantee":"test_Declaration produces the expected output","fibers":[{"name":"Float","pred":"isinstance(decl.variable.value, Float)","path":{"lhs":"test_Declaration(x)","rhs":"test_Declaration produces the expected output","over":{"base":"Float","pred":"isinstance(decl.variable.value, Float)"},"name":"test_Declaration_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Declaration_Float_correct","statement":"test_Declaration satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1452b9375fc3963c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Declaration","kind":"function","src_hash":"e54c049d948e5f0b","in":{"base":"Any","pred":"isinstance(decl.variable.value, Float)"},"out":{"base":"Any","pred":"result satisfies: Declaration(vu).variable.type == real and Declaration(vn).variable.type == integer and value_const in vuc.attrs and pointer_const not in vuc.attrs and decl.variable == vuc and isinstance(decl.variable.value, Float) and decl.variable.value == 3.0 and decl.func(*decl.args) == decl and vuc.as_Declaration() == decl and vuc.as_Declaration(value=None, attrs=None) == Declaration(vu) and decl2.variable == vy and decl2.variable.value == Integer(3) and decl3.variable.type == integer and decl3.variable.value == 3.0"},"spec":{"lhs":"test_Declaration()","rhs":"Declaration(vu).variable.type == real and Declaration(vn).variable.type == integer and value_const in vuc.attrs and pointer_const not in vuc.attrs and decl.variable == vuc and isinstance(decl.variable.value, Float) and decl.variable.value == 3.0 and decl.func(*decl.args) == decl and vuc.as_Declaration() == decl and vuc.as_Declaration(value=None, attrs=None) == Declaration(vu) and decl2.variable == vy and decl2.variable.value == Integer(3) and decl3.variable.type == integer and decl3.variable.value == 3.0","over":{"base":"Any","pred":"isinstance(decl.variable.value, Float)"},"name":"test_Declaration_correct"},"guarantee":"Declaration(vu).variable.type == real; Declaration(vn).variable.type == integer; value_const in vuc.attrs","fibers":[{"name":"Float","pred":"isinstance(decl.variable.value, Float)","path":{"lhs":"test_Declaration(x)","rhs":"Declaration(vu).variable.type == real; Declaration(vn).variable.type == integer; value_const in vuc.attrs","over":{"base":"Float","pred":"isinstance(decl.variable.value, Float)"},"name":"test_Declaration_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Declaration_Float_correct","statement":"test_Declaration satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1452b9375fc3963c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Declaration(vu).variable.type == real","Declaration(vn).variable.type == integer","value_const in vuc.attrs","pointer_const not in vuc.attrs","decl.variable == vuc","isinstance(decl.variable.value, Float)","decl.variable.value == 3.0","decl.func(*decl.args) == decl","vuc.as_Declaration() == decl","vuc.as_Declaration(value=None, attrs=None) == Declaration(vu)","decl2.variable == vy","decl2.variable.value == Integer(3)","decl3.variable.type == integer","decl3.variable.value == 3.0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":true}}
 def test_Declaration():
     u = symbols('u', real=True)
     vu = Variable(u, type=Type.from_expr(u))
@@ -686,16 +832,24 @@ def test_Declaration():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IntBaseType(), test_IntBaseType produces the expected output) over Any ║
+# ║ Path(test_IntBaseType(), intc.name == String('intc') and intc.args == (intc.name,) and str(IntBaseType('a').name) == 'a') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IntBaseType : Any → {Any | intc.name == String('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  intc.name == String('intc')                    ║
+# ║   ensures:  intc.args == (intc.name,)                      ║
+# ║   ensures:  str(IntBaseType('a').name) == 'a'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IntBaseType : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed447204cc19ab66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 906fadb26e256e7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_IntBaseType","kind":"function","src_hash":"58f9b9509edab07e","in":{"base":"Any"},"out":{"base":"Any","pred":"intc.name == String('intc') and intc.args == (intc.name,) and str(IntBaseType('a').name) == 'a'"},"spec":{"lhs":"test_IntBaseType()","rhs":"test_IntBaseType produces the expected output","over":{"base":"Any"},"name":"test_IntBaseType_correct"},"guarantee":"test_IntBaseType produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_IntBaseType_correct","statement":"Path(test_IntBaseType(x), test_IntBaseType produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed447204cc19ab66"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_IntBaseType","kind":"function","src_hash":"58f9b9509edab07e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: intc.name == String('intc') and intc.args == (intc.name,) and str(IntBaseType('a').name) == 'a'"},"spec":{"lhs":"test_IntBaseType()","rhs":"intc.name == String('intc') and intc.args == (intc.name,) and str(IntBaseType('a').name) == 'a'","over":{"base":"Any"},"name":"test_IntBaseType_correct"},"guarantee":"intc.name == String('intc'); intc.args == (intc.name,); str(IntBaseType('a').name) == 'a'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_IntBaseType_correct","statement":"Path(test_IntBaseType(x), intc.name == String('intc'); intc.args == (intc.name,); str(IntBaseType('a').name) == 'a')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"906fadb26e256e7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["intc.name == String('intc')","intc.args == (intc.name,)","str(IntBaseType('a').name) == 'a'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IntBaseType():
     assert intc.name == String('intc')
     assert intc.args == (intc.name,)
@@ -703,7 +857,12 @@ def test_IntBaseType():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FloatType(), test_FloatType produces the expected output) over {Any | isinstance(f64.cast_check(3), (Float, float))} ║
+# ║ Path(test_FloatType(), f16.dig == 3 and f32.dig == 6 and f64.dig == 15 and f80.dig == 18 and f128.dig == 33 and f16.decimal_dig == 5 and f32.decimal_dig == 9 and f64.decimal_dig == 17 and f80.decimal_dig == 21 and f128.decimal_dig == 36 and f16.max_exponent == 16 and f32.max_exponent == 128 and f64.max_exponent == 1024 and f80.max_exponent == 16384 and f128.max_exponent == 16384 and f16.min_exponent == -13 and f32.min_exponent == -125 and f64.min_exponent == -1021 and f80.min_exponent == -16381 and f128.min_exponent == -16381 and abs(f16.eps / Float('0.00097656', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.eps / Float('1.1920929e-07', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.eps / Float('2.2204460492503131e-16', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.eps / Float('1.08420217248550443401e-19', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.eps / Float(' 1.92592994438723585305597794258492732e-34', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and abs(f16.max / Float('65504', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.max / Float('3.40282347e+38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.max / Float('1.79769313486231571e+308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.max / Float('1.18973149535723176502e+4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.max / Float('1.18973149535723176508575932662800702e+4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and abs(f16.tiny / Float('6.1035e-05', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.tiny / Float('1.17549435e-38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.tiny / Float('2.22507385850720138e-308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.tiny / Float('3.36210314311209350626e-4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.tiny / Float('3.3621031431120935062626778173217526e-4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and f64.cast_check(0.5) == Float(0.5, 17) and abs(f64.cast_check(3.7) - 3.7) < 3e-17 and isinstance(f64.cast_check(3), (Float, float)) and f64.cast_nocheck(oo) == float('inf') and f64.cast_nocheck(-oo) == float('-inf') and f64.cast_nocheck(float(oo)) == float('inf') and f64.cast_nocheck(float(-oo)) == float('-inf') and math.isnan(f64.cast_nocheck(nan)) and f32 != f64 and f64 == f64.func(*f64.args)) over {Any | isinstance(f64.cast_check(3), (Float, float))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f16.dig == 3                                   ║
+# ║   ensures:  f32.dig == 6                                   ║
+# ║   ensures:  f64.dig == 15                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FloatType : {Any | isinstance(f64.cast_check(3),...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -715,9 +874,12 @@ def test_IntBaseType():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 49e438f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_FloatType","kind":"function","src_hash":"3b3e7f0c434b9173","in":{"base":"Any","pred":"isinstance(f64.cast_check(3), (Float, float))"},"out":{"base":"Any","pred":"f16.dig == 3 and f32.dig == 6 and f64.dig == 15 and f80.dig == 18 and f128.dig == 33 and f16.decimal_dig == 5 and f32.decimal_dig == 9 and f64.decimal_dig == 17 and f80.decimal_dig == 21 and f128.decimal_dig == 36 and f16.max_exponent == 16 and f32.max_exponent == 128 and f64.max_exponent == 1024 and f80.max_exponent == 16384 and f128.max_exponent == 16384 and f16.min_exponent == -13 and f32.min_exponent == -125 and f64.min_exponent == -1021 and f80.min_exponent == -16381 and f128.min_exponent == -16381 and abs(f16.eps / Float('0.00097656', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f16.max / Float('65504', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f16.tiny / Float('6.1035e-05', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and f64.cast_check(0.5) == Float(0.5, 17) and abs(f64.cast_check(3.7) - 3.7) < 3e-17 and isinstance(f64.cast_check(3), (Float, float)) and f64.cast_nocheck(oo) == float('inf') and f64.cast_nocheck(-oo) == float('-inf') and f64.cast_nocheck(float(oo)) == float('inf') and f64.cast_nocheck(float(-oo)) == float('-inf') and math.isnan(f64.cast_nocheck(nan)) and f32 != f64 and f64 == f64.func(*f64.args)"},"spec":{"lhs":"test_FloatType()","rhs":"test_FloatType produces the expected output","over":{"base":"Any","pred":"isinstance(f64.cast_check(3), (Float, float))"},"name":"test_FloatType_correct"},"guarantee":"test_FloatType produces the expected output","fibers":[{"name":"(Float","pred":"isinstance(f64.cast_check(3), (Float, float))","path":{"lhs":"test_FloatType(x)","rhs":"test_FloatType produces the expected output","over":{"base":"(Float","pred":"isinstance(f64.cast_check(3), (Float, float))"},"name":"test_FloatType_(Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_FloatType_(Float_correct","statement":"test_FloatType satisfies spec on (Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"49e438f797d02f7b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_FloatType","kind":"function","src_hash":"3b3e7f0c434b9173","in":{"base":"Any","pred":"isinstance(f64.cast_check(3), (Float, float))"},"out":{"base":"Any","pred":"result satisfies: f16.dig == 3 and f32.dig == 6 and f64.dig == 15 and f80.dig == 18 and f128.dig == 33 and f16.decimal_dig == 5 and f32.decimal_dig == 9 and f64.decimal_dig == 17 and f80.decimal_dig == 21 and f128.decimal_dig == 36 and f16.max_exponent == 16 and f32.max_exponent == 128 and f64.max_exponent == 1024 and f80.max_exponent == 16384 and f128.max_exponent == 16384 and f16.min_exponent == -13 and f32.min_exponent == -125 and f64.min_exponent == -1021 and f80.min_exponent == -16381 and f128.min_exponent == -16381 and abs(f16.eps / Float('0.00097656', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.eps / Float('1.1920929e-07', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.eps / Float('2.2204460492503131e-16', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.eps / Float('1.08420217248550443401e-19', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.eps / Float(' 1.92592994438723585305597794258492732e-34', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and abs(f16.max / Float('65504', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.max / Float('3.40282347e+38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.max / Float('1.79769313486231571e+308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.max / Float('1.18973149535723176502e+4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.max / Float('1.18973149535723176508575932662800702e+4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and abs(f16.tiny / Float('6.1035e-05', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.tiny / Float('1.17549435e-38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.tiny / Float('2.22507385850720138e-308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.tiny / Float('3.36210314311209350626e-4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.tiny / Float('3.3621031431120935062626778173217526e-4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and f64.cast_check(0.5) == Float(0.5, 17) and abs(f64.cast_check(3.7) - 3.7) < 3e-17 and isinstance(f64.cast_check(3), (Float, float)) and f64.cast_nocheck(oo) == float('inf') and f64.cast_nocheck(-oo) == float('-inf') and f64.cast_nocheck(float(oo)) == float('inf') and f64.cast_nocheck(float(-oo)) == float('-inf') and math.isnan(f64.cast_nocheck(nan)) and f32 != f64 and f64 == f64.func(*f64.args)"},"spec":{"lhs":"test_FloatType()","rhs":"f16.dig == 3 and f32.dig == 6 and f64.dig == 15 and f80.dig == 18 and f128.dig == 33 and f16.decimal_dig == 5 and f32.decimal_dig == 9 and f64.decimal_dig == 17 and f80.decimal_dig == 21 and f128.decimal_dig == 36 and f16.max_exponent == 16 and f32.max_exponent == 128 and f64.max_exponent == 1024 and f80.max_exponent == 16384 and f128.max_exponent == 16384 and f16.min_exponent == -13 and f32.min_exponent == -125 and f64.min_exponent == -1021 and f80.min_exponent == -16381 and f128.min_exponent == -16381 and abs(f16.eps / Float('0.00097656', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.eps / Float('1.1920929e-07', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.eps / Float('2.2204460492503131e-16', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.eps / Float('1.08420217248550443401e-19', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.eps / Float(' 1.92592994438723585305597794258492732e-34', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and abs(f16.max / Float('65504', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.max / Float('3.40282347e+38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.max / Float('1.79769313486231571e+308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.max / Float('1.18973149535723176502e+4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.max / Float('1.18973149535723176508575932662800702e+4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and abs(f16.tiny / Float('6.1035e-05', precision=16) - 1) < 0.1 * 10 ** (-f16.dig) and abs(f32.tiny / Float('1.17549435e-38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig) and abs(f64.tiny / Float('2.22507385850720138e-308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig) and abs(f80.tiny / Float('3.36210314311209350626e-4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig) and abs(f128.tiny / Float('3.3621031431120935062626778173217526e-4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig) and f64.cast_check(0.5) == Float(0.5, 17) and abs(f64.cast_check(3.7) - 3.7) < 3e-17 and isinstance(f64.cast_check(3), (Float, float)) and f64.cast_nocheck(oo) == float('inf') and f64.cast_nocheck(-oo) == float('-inf') and f64.cast_nocheck(float(oo)) == float('inf') and f64.cast_nocheck(float(-oo)) == float('-inf') and math.isnan(f64.cast_nocheck(nan)) and f32 != f64 and f64 == f64.func(*f64.args)","over":{"base":"Any","pred":"isinstance(f64.cast_check(3), (Float, float))"},"name":"test_FloatType_correct"},"guarantee":"f16.dig == 3; f32.dig == 6; f64.dig == 15","fibers":[{"name":"(Float","pred":"isinstance(f64.cast_check(3), (Float, float))","path":{"lhs":"test_FloatType(x)","rhs":"f16.dig == 3; f32.dig == 6; f64.dig == 15","over":{"base":"(Float","pred":"isinstance(f64.cast_check(3), (Float, float))"},"name":"test_FloatType_(Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_FloatType_(Float_correct","statement":"test_FloatType satisfies spec on (Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"49e438f797d02f7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f16.dig == 3","f32.dig == 6","f64.dig == 15","f80.dig == 18","f128.dig == 33","f16.decimal_dig == 5","f32.decimal_dig == 9","f64.decimal_dig == 17","f80.decimal_dig == 21","f128.decimal_dig == 36","f16.max_exponent == 16","f32.max_exponent == 128","f64.max_exponent == 1024","f80.max_exponent == 16384","f128.max_exponent == 16384","f16.min_exponent == -13","f32.min_exponent == -125","f64.min_exponent == -1021","f80.min_exponent == -16381","f128.min_exponent == -16381","abs(f16.eps / Float('0.00097656', precision=16) - 1) < 0.1 * 10 ** (-f16.dig)","abs(f32.eps / Float('1.1920929e-07', precision=32) - 1) < 0.1 * 10 ** (-f32.dig)","abs(f64.eps / Float('2.2204460492503131e-16', precision=64) - 1) < 0.1 * 10 ** (-f64.dig)","abs(f80.eps / Float('1.08420217248550443401e-19', precision=80) - 1) < 0.1 * 10 ** (-f80.dig)","abs(f128.eps / Float(' 1.92592994438723585305597794258492732e-34', precision=128) - 1) < 0.1 * 10 ** (-f128.dig)","abs(f16.max / Float('65504', precision=16) - 1) < 0.1 * 10 ** (-f16.dig)","abs(f32.max / Float('3.40282347e+38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig)","abs(f64.max / Float('1.79769313486231571e+308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig)","abs(f80.max / Float('1.18973149535723176502e+4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig)","abs(f128.max / Float('1.18973149535723176508575932662800702e+4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig)","abs(f16.tiny / Float('6.1035e-05', precision=16) - 1) < 0.1 * 10 ** (-f16.dig)","abs(f32.tiny / Float('1.17549435e-38', precision=32) - 1) < 0.1 * 10 ** (-f32.dig)","abs(f64.tiny / Float('2.22507385850720138e-308', precision=64) - 1) < 0.1 * 10 ** (-f64.dig)","abs(f80.tiny / Float('3.36210314311209350626e-4932', precision=80) - 1) < 0.1 * 10 ** (-f80.dig)","abs(f128.tiny / Float('3.3621031431120935062626778173217526e-4932', precision=128) - 1) < 0.1 * 10 ** (-f128.dig)","f64.cast_check(0.5) == Float(0.5, 17)","abs(f64.cast_check(3.7) - 3.7) < 3e-17","isinstance(f64.cast_check(3), (Float, float))","f64.cast_nocheck(oo) == float('inf')","f64.cast_nocheck(-oo) == float('-inf')","f64.cast_nocheck(float(oo)) == float('inf')","f64.cast_nocheck(float(-oo)) == float('-inf')","math.isnan(f64.cast_nocheck(nan))","f32 != f64","f64 == f64.func(*f64.args)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":true}}
 def test_FloatType():
     assert f16.dig == 3
     assert f32.dig == 6
@@ -777,16 +939,24 @@ def test_FloatType():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Type__cast_check__floating_point(), test_Type__cast_check__floating_point produces the expected output) over Any ║
+# ║ Path(test_Type__cast_check__floating_point(), abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08 and abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11 and abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19 and abs(Float(str(v10), precision=64 + 8) - f64.cast_check(v10)) < v10 * 1e-16 and abs(f32.cast_check(2147483647) - 2147483650) < 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(123.456789049 - f32.cast_check(123.45...   ║
+# ║   ensures:  abs(0.12345678904 - f32.cast_check(0.1234...   ║
+# ║   ensures:  abs(dcm21 - f64.cast_check(dcm21) - 4.99e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Type__cast_check__floating_point : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 021ec9d12e8fa338  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c7058ffc73c6aee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__cast_check__floating_point","kind":"function","src_hash":"c4b24d9f9de2ff25","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08 and abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11 and abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19 and abs(Float(str(v10), precision=64 + 8) - f64.cast_check(v10)) < v10 * 1e-16 and abs(f32.cast_check(2147483647) - 2147483650) < 1"},"spec":{"lhs":"test_Type__cast_check__floating_point()","rhs":"test_Type__cast_check__floating_point produces the expected output","over":{"base":"Any"},"name":"test_Type__cast_check__floating_point_correct"},"guarantee":"test_Type__cast_check__floating_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__cast_check__floating_point_correct","statement":"Path(test_Type__cast_check__floating_point(x), test_Type__cast_check__floating_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"021ec9d12e8fa338"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__cast_check__floating_point","kind":"function","src_hash":"c4b24d9f9de2ff25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08 and abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11 and abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19 and abs(Float(str(v10), precision=64 + 8) - f64.cast_check(v10)) < v10 * 1e-16 and abs(f32.cast_check(2147483647) - 2147483650) < 1"},"spec":{"lhs":"test_Type__cast_check__floating_point()","rhs":"abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08 and abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11 and abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19 and abs(Float(str(v10), precision=64 + 8) - f64.cast_check(v10)) < v10 * 1e-16 and abs(f32.cast_check(2147483647) - 2147483650) < 1","over":{"base":"Any"},"name":"test_Type__cast_check__floating_point_correct"},"guarantee":"abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08; abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11; abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__cast_check__floating_point_correct","statement":"Path(test_Type__cast_check__floating_point(x), abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08; abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11; abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7058ffc73c6aee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(123.456789049 - f32.cast_check(123.456789049) - 4.9e-08) < 1e-08","abs(0.12345678904 - f32.cast_check(0.12345678904) - 4e-11) < 1e-11","abs(dcm21 - f64.cast_check(dcm21) - 4.99e-19) < 1e-19","abs(Float(str(v10), precision=64 + 8) - f64.cast_check(v10)) < v10 * 1e-16","abs(f32.cast_check(2147483647) - 2147483650) < 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Type__cast_check__floating_point():
     raises(ValueError, lambda: f32.cast_check(123.45678949))
     raises(ValueError, lambda: f32.cast_check(12.345678949))
@@ -809,16 +979,23 @@ def test_Type__cast_check__floating_point():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Type__cast_check__complex_floating_point(), test_Type__cast_check__complex_floating_point produces the expected output) over Any ║
+# ║ Path(test_Type__cast_check__complex_floating_point(), abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08 and abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(val9_11 - c64.cast_check(val9_11) - 4...   ║
+# ║   ensures:  abs(dcm21 - c128.cast_check(dcm21) - 4.99...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Type__cast_check__complex_floating_point : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33f3eb5bea6b5eec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f3e90af767db9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__cast_check__complex_floating_point","kind":"function","src_hash":"fa5b7b72c18093e0","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08 and abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19"},"spec":{"lhs":"test_Type__cast_check__complex_floating_point()","rhs":"test_Type__cast_check__complex_floating_point produces the expected output","over":{"base":"Any"},"name":"test_Type__cast_check__complex_floating_point_correct"},"guarantee":"test_Type__cast_check__complex_floating_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__cast_check__complex_floating_point_correct","statement":"Path(test_Type__cast_check__complex_floating_point(x), test_Type__cast_check__complex_floating_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33f3eb5bea6b5eec"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Type__cast_check__complex_floating_point","kind":"function","src_hash":"fa5b7b72c18093e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08 and abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19"},"spec":{"lhs":"test_Type__cast_check__complex_floating_point()","rhs":"abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08 and abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19","over":{"base":"Any"},"name":"test_Type__cast_check__complex_floating_point_correct"},"guarantee":"abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08; abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Type__cast_check__complex_floating_point_correct","statement":"Path(test_Type__cast_check__complex_floating_point(x), abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08; abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f3e90af767db9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(val9_11 - c64.cast_check(val9_11) - 4.9e-08) < 1e-08","abs(dcm21 - c128.cast_check(dcm21) - 4.99e-19) < 1e-19"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Type__cast_check__complex_floating_point():
     val9_11 = 123.456789049 + 0.123456789049j
     raises(ValueError, lambda: c64.cast_check(.12345678949 + .12345678949j))
@@ -831,16 +1008,24 @@ def test_Type__cast_check__complex_floating_point():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_While(), test_While produces the expected output) over Any ║
+# ║ Path(test_While(), whl1.condition.args[0] == x and whl1.condition.args[1] == 2 and whl1.condition == Lt(x, 2, evaluate=False) and whl1.body.args == (xpp,) and whl1.func(*whl1.args) == whl1 and whl1 == whl2 and whl1 != While(x < 3, [xpp])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_While : Any → {Any | whl1.condition.args[0] == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  whl1.condition.args[0] == x                    ║
+# ║   ensures:  whl1.condition.args[1] == 2                    ║
+# ║   ensures:  whl1.condition == Lt(x, 2, evaluate=False)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_While : Any → {Any | result satisfies: whl1.cond...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 676c004e4f0534a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75b3d988266f7780  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_While","kind":"function","src_hash":"7bd7e87f49dc410b","in":{"base":"Any"},"out":{"base":"Any","pred":"whl1.condition.args[0] == x and whl1.condition.args[1] == 2 and whl1.condition == Lt(x, 2, evaluate=False) and whl1.body.args == (xpp,) and whl1.func(*whl1.args) == whl1 and whl1 == whl2 and whl1 != While(x < 3, [xpp])"},"spec":{"lhs":"test_While()","rhs":"test_While produces the expected output","over":{"base":"Any"},"name":"test_While_correct"},"guarantee":"test_While produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_While_correct","statement":"Path(test_While(x), test_While produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"676c004e4f0534a1"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_While","kind":"function","src_hash":"7bd7e87f49dc410b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: whl1.condition.args[0] == x and whl1.condition.args[1] == 2 and whl1.condition == Lt(x, 2, evaluate=False) and whl1.body.args == (xpp,) and whl1.func(*whl1.args) == whl1 and whl1 == whl2 and whl1 != While(x < 3, [xpp])"},"spec":{"lhs":"test_While()","rhs":"whl1.condition.args[0] == x and whl1.condition.args[1] == 2 and whl1.condition == Lt(x, 2, evaluate=False) and whl1.body.args == (xpp,) and whl1.func(*whl1.args) == whl1 and whl1 == whl2 and whl1 != While(x < 3, [xpp])","over":{"base":"Any"},"name":"test_While_correct"},"guarantee":"whl1.condition.args[0] == x; whl1.condition.args[1] == 2; whl1.condition == Lt(x, 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_While_correct","statement":"Path(test_While(x), whl1.condition.args[0] == x; whl1.condition.args[1] == 2; whl1.condition == Lt(x, 2, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b3d988266f7780","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["whl1.condition.args[0] == x","whl1.condition.args[1] == 2","whl1.condition == Lt(x, 2, evaluate=False)","whl1.body.args == (xpp,)","whl1.func(*whl1.args) == whl1","whl1 == whl2","whl1 != While(x < 3, [xpp])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_While():
     xpp = AddAugmentedAssignment(x, 1)
     whl1 = While(x < 2, [xpp])
@@ -857,16 +1042,24 @@ def test_While():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Scope(), test_Scope produces the expected output) over Any ║
+# ║ Path(test_Scope(), scp.body == cblk and scp == Scope(cblk) and scp != Scope([incr, assign]) and scp.func(*scp.args) == scp) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Scope : Any → {Any | scp.body == cblk and scp ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  scp.body == cblk                               ║
+# ║   ensures:  scp == Scope(cblk)                             ║
+# ║   ensures:  scp != Scope([incr, assign])                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Scope : Any → {Any | result satisfies: scp.body ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 482852e13becd3fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7fe0ffd015c9d97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Scope","kind":"function","src_hash":"86ac296a70ea17b2","in":{"base":"Any"},"out":{"base":"Any","pred":"scp.body == cblk and scp == Scope(cblk) and scp != Scope([incr, assign]) and scp.func(*scp.args) == scp"},"spec":{"lhs":"test_Scope()","rhs":"test_Scope produces the expected output","over":{"base":"Any"},"name":"test_Scope_correct"},"guarantee":"test_Scope produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Scope_correct","statement":"Path(test_Scope(x), test_Scope produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"482852e13becd3fb"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Scope","kind":"function","src_hash":"86ac296a70ea17b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: scp.body == cblk and scp == Scope(cblk) and scp != Scope([incr, assign]) and scp.func(*scp.args) == scp"},"spec":{"lhs":"test_Scope()","rhs":"scp.body == cblk and scp == Scope(cblk) and scp != Scope([incr, assign]) and scp.func(*scp.args) == scp","over":{"base":"Any"},"name":"test_Scope_correct"},"guarantee":"scp.body == cblk; scp == Scope(cblk); scp != Scope([incr, assign])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Scope_correct","statement":"Path(test_Scope(x), scp.body == cblk; scp == Scope(cblk); scp != Scope([incr, assign]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7fe0ffd015c9d97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["scp.body == cblk","scp == Scope(cblk)","scp != Scope([incr, assign])","scp.func(*scp.args) == scp"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Scope():
     assign = Assignment(x, y)
     incr = AddAugmentedAssignment(x, 1)
@@ -879,16 +1072,24 @@ def test_Scope():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Print(), test_Print produces the expected output) over Any ║
+# ║ Path(test_Print(), str(ps.format_string) == fmt and ps.print_args == Tuple(n, x) and ps.args == (Tuple(n, x), QuotedString(fmt), none) and ps == Print((n, x), fmt) and ps != Print([x, n], fmt) and ps.func(*ps.args) == ps and ps2 == Print([n, x]) and ps2 != ps and ps2.format_string == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Print : Any → {Any | str(ps.format_string) == fm...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(ps.format_string) == fmt                   ║
+# ║   ensures:  ps.print_args == Tuple(n, x)                   ║
+# ║   ensures:  ps.args == (Tuple(n, x), QuotedString(fmt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Print : Any → {Any | result satisfies: str(ps.fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76fc23ed3efeb88d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4a1b20c0e6371b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Print","kind":"function","src_hash":"141cac46eeff195c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(ps.format_string) == fmt and ps.print_args == Tuple(n, x) and ps.args == (Tuple(n, x), QuotedString(fmt), none) and ps == Print((n, x), fmt) and ps != Print([x, n], fmt) and ps.func(*ps.args) == ps and ps2 == Print([n, x]) and ps2 != ps and ps2.format_string == None"},"spec":{"lhs":"test_Print()","rhs":"test_Print produces the expected output","over":{"base":"Any"},"name":"test_Print_correct"},"guarantee":"test_Print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Print_correct","statement":"Path(test_Print(x), test_Print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76fc23ed3efeb88d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Print","kind":"function","src_hash":"141cac46eeff195c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(ps.format_string) == fmt and ps.print_args == Tuple(n, x) and ps.args == (Tuple(n, x), QuotedString(fmt), none) and ps == Print((n, x), fmt) and ps != Print([x, n], fmt) and ps.func(*ps.args) == ps and ps2 == Print([n, x]) and ps2 != ps and ps2.format_string == None"},"spec":{"lhs":"test_Print()","rhs":"str(ps.format_string) == fmt and ps.print_args == Tuple(n, x) and ps.args == (Tuple(n, x), QuotedString(fmt), none) and ps == Print((n, x), fmt) and ps != Print([x, n], fmt) and ps.func(*ps.args) == ps and ps2 == Print([n, x]) and ps2 != ps and ps2.format_string == None","over":{"base":"Any"},"name":"test_Print_correct"},"guarantee":"str(ps.format_string) == fmt; ps.print_args == Tuple(n, x); ps.args == (Tuple(n, x), QuotedString(fmt), none)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Print_correct","statement":"Path(test_Print(x), str(ps.format_string) == fmt; ps.print_args == Tuple(n, x); ps.args == (Tuple(n, x), QuotedString(fmt), none))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4a1b20c0e6371b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(ps.format_string) == fmt","ps.print_args == Tuple(n, x)","ps.args == (Tuple(n, x), QuotedString(fmt), none)","ps == Print((n, x), fmt)","ps != Print([x, n], fmt)","ps.func(*ps.args) == ps","ps2 == Print([n, x])","ps2 != ps","ps2.format_string == None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Print():
     fmt = "%d %.3f"
     ps = Print([n, x], fmt)
@@ -906,16 +1107,24 @@ def test_Print():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FunctionPrototype_and_FunctionDefinition(), test_FunctionPrototype_and_FunctionDefinition produces the expected output) over Any ║
+# ║ Path(test_FunctionPrototype_and_FunctionDefinition(), fp1.return_type == real and fp1.name == String('power') and fp1.parameters == Tuple(vx, vn) and fp1 == FunctionPrototype(real, 'power', [vx, vn]) and fp1 != FunctionPrototype(real, 'power', [vn, vx]) and fp1.func(*fp1.args) == fp1 and fd1.return_type == real and str(fd1.name) == 'power' and fd1.parameters == Tuple(vx, vn) and fd1.body == CodeBlock(*body) and fd1 == FunctionDefinition(real, 'power', [vx, vn], body) and fd1 != FunctionDefinition(real, 'power', [vx, vn], body[::-1]) and fd1.func(*fd1.args) == fd1 and fp2 == fp1 and fd2 == fd1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fp1.return_type == real                        ║
+# ║   ensures:  fp1.name == String('power')                    ║
+# ║   ensures:  fp1.parameters == Tuple(vx, vn)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FunctionPrototype_and_FunctionDefinition : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1198bbc73b3deda0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74d40b4e0ecf505  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_FunctionPrototype_and_FunctionDefinition","kind":"function","src_hash":"cf59a5952e188cf8","in":{"base":"Any"},"out":{"base":"Any","pred":"fp1.return_type == real and fp1.name == String('power') and fp1.parameters == Tuple(vx, vn) and fp1 == FunctionPrototype(real, 'power', [vx, vn]) and fp1 != FunctionPrototype(real, 'power', [vn, vx]) and fp1.func(*fp1.args) == fp1 and fd1.return_type == real and str(fd1.name) == 'power' and fd1.parameters == Tuple(vx, vn) and fd1.body == CodeBlock(*body) and fd1 == FunctionDefinition(real, 'power', [vx, vn], body) and fd1 != FunctionDefinition(real, 'power', [vx, vn], body[::-1]) and fd1.func(*fd1.args) == fd1 and fp2 == fp1 and fd2 == fd1"},"spec":{"lhs":"test_FunctionPrototype_and_FunctionDefinition()","rhs":"test_FunctionPrototype_and_FunctionDefinition produces the expected output","over":{"base":"Any"},"name":"test_FunctionPrototype_and_FunctionDefinition_correct"},"guarantee":"test_FunctionPrototype_and_FunctionDefinition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_FunctionPrototype_and_FunctionDefinition_correct","statement":"Path(test_FunctionPrototype_and_FunctionDefinition(x), test_FunctionPrototype_and_FunctionDefinition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1198bbc73b3deda0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_FunctionPrototype_and_FunctionDefinition","kind":"function","src_hash":"cf59a5952e188cf8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fp1.return_type == real and fp1.name == String('power') and fp1.parameters == Tuple(vx, vn) and fp1 == FunctionPrototype(real, 'power', [vx, vn]) and fp1 != FunctionPrototype(real, 'power', [vn, vx]) and fp1.func(*fp1.args) == fp1 and fd1.return_type == real and str(fd1.name) == 'power' and fd1.parameters == Tuple(vx, vn) and fd1.body == CodeBlock(*body) and fd1 == FunctionDefinition(real, 'power', [vx, vn], body) and fd1 != FunctionDefinition(real, 'power', [vx, vn], body[::-1]) and fd1.func(*fd1.args) == fd1 and fp2 == fp1 and fd2 == fd1"},"spec":{"lhs":"test_FunctionPrototype_and_FunctionDefinition()","rhs":"fp1.return_type == real and fp1.name == String('power') and fp1.parameters == Tuple(vx, vn) and fp1 == FunctionPrototype(real, 'power', [vx, vn]) and fp1 != FunctionPrototype(real, 'power', [vn, vx]) and fp1.func(*fp1.args) == fp1 and fd1.return_type == real and str(fd1.name) == 'power' and fd1.parameters == Tuple(vx, vn) and fd1.body == CodeBlock(*body) and fd1 == FunctionDefinition(real, 'power', [vx, vn], body) and fd1 != FunctionDefinition(real, 'power', [vx, vn], body[::-1]) and fd1.func(*fd1.args) == fd1 and fp2 == fp1 and fd2 == fd1","over":{"base":"Any"},"name":"test_FunctionPrototype_and_FunctionDefinition_correct"},"guarantee":"fp1.return_type == real; fp1.name == String('power'); fp1.parameters == Tuple(vx, vn)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_FunctionPrototype_and_FunctionDefinition_correct","statement":"Path(test_FunctionPrototype_and_FunctionDefinition(x), fp1.return_type == real; fp1.name == String('power'); fp1.parameters == Tuple(vx, vn))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74d40b4e0ecf505","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fp1.return_type == real","fp1.name == String('power')","fp1.parameters == Tuple(vx, vn)","fp1 == FunctionPrototype(real, 'power', [vx, vn])","fp1 != FunctionPrototype(real, 'power', [vn, vx])","fp1.func(*fp1.args) == fp1","fd1.return_type == real","str(fd1.name) == 'power'","fd1.parameters == Tuple(vx, vn)","fd1.body == CodeBlock(*body)","fd1 == FunctionDefinition(real, 'power', [vx, vn], body)","fd1 != FunctionDefinition(real, 'power', [vx, vn], body[::-1])","fd1.func(*fd1.args) == fd1","fp2 == fp1","fd2 == fd1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FunctionPrototype_and_FunctionDefinition():
     vx = Variable(x, type=real)
     vn = Variable(n, type=integer)
@@ -946,16 +1155,24 @@ def test_FunctionPrototype_and_FunctionDefinition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Return(), test_Return produces the expected output) over Any ║
+# ║ Path(test_Return(), rs.args == (x,) and rs == Return(x) and rs != Return(y) and rs.func(*rs.args) == rs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Return : Any → {Any | rs.args == (x,) and rs == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rs.args == (x,)                                ║
+# ║   ensures:  rs == Return(x)                                ║
+# ║   ensures:  rs != Return(y)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Return : Any → {Any | result satisfies: rs.args ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b60923e24450da1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea33724c86544afc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Return","kind":"function","src_hash":"9266ac66ebd11d60","in":{"base":"Any"},"out":{"base":"Any","pred":"rs.args == (x,) and rs == Return(x) and rs != Return(y) and rs.func(*rs.args) == rs"},"spec":{"lhs":"test_Return()","rhs":"test_Return produces the expected output","over":{"base":"Any"},"name":"test_Return_correct"},"guarantee":"test_Return produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Return_correct","statement":"Path(test_Return(x), test_Return produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b60923e24450da1a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_Return","kind":"function","src_hash":"9266ac66ebd11d60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rs.args == (x,) and rs == Return(x) and rs != Return(y) and rs.func(*rs.args) == rs"},"spec":{"lhs":"test_Return()","rhs":"rs.args == (x,) and rs == Return(x) and rs != Return(y) and rs.func(*rs.args) == rs","over":{"base":"Any"},"name":"test_Return_correct"},"guarantee":"rs.args == (x,); rs == Return(x); rs != Return(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_Return_correct","statement":"Path(test_Return(x), rs.args == (x,); rs == Return(x); rs != Return(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea33724c86544afc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rs.args == (x,)","rs == Return(x)","rs != Return(y)","rs.func(*rs.args) == rs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Return():
     rs = Return(x)
     assert rs.args == (x,)
@@ -965,7 +1182,12 @@ def test_Return():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FunctionCall(), test_FunctionCall produces the expected output) over {Any | isinstance(fc.function_args[1], Integer)} ║
+# ║ Path(test_FunctionCall(), fc.function_args[0] == x and fc.function_args[1] == 3 and len(fc.function_args) == 2 and isinstance(fc.function_args[1], Integer) and fc == FunctionCall('power', (x, 3)) and fc != FunctionCall('power', (3, x)) and fc != FunctionCall('Power', (x, 3)) and fc.func(*fc.args) == fc and len(fc2.function_args) == 3 and fc2.function_args[0] == 2 and fc2.function_args[1] == 3 and fc2.function_args[2] == 4 and str(fc2) in ('FunctionCall(fma, function_args=(2, 3, 4))', 'FunctionCall("fma", function_args=(2, 3, 4))')) over {Any | isinstance(fc.function_args[1], Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fc.function_args[0] == x                       ║
+# ║   ensures:  fc.function_args[1] == 3                       ║
+# ║   ensures:  len(fc.function_args) == 2                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FunctionCall : {Any | isinstance(fc.function_arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -977,9 +1199,12 @@ def test_Return():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4c0ca902...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_FunctionCall","kind":"function","src_hash":"c7befec015db28f1","in":{"base":"Any","pred":"isinstance(fc.function_args[1], Integer)"},"out":{"base":"Any","pred":"fc.function_args[0] == x and fc.function_args[1] == 3 and len(fc.function_args) == 2 and isinstance(fc.function_args[1], Integer) and fc == FunctionCall('power', (x, 3)) and fc != FunctionCall('power', (3, x)) and fc != FunctionCall('Power', (x, 3)) and fc.func(*fc.args) == fc and len(fc2.function_args) == 3 and fc2.function_args[0] == 2 and fc2.function_args[1] == 3 and fc2.function_args[2] == 4"},"spec":{"lhs":"test_FunctionCall()","rhs":"test_FunctionCall produces the expected output","over":{"base":"Any","pred":"isinstance(fc.function_args[1], Integer)"},"name":"test_FunctionCall_correct"},"guarantee":"test_FunctionCall produces the expected output","fibers":[{"name":"Integer","pred":"isinstance(fc.function_args[1], Integer)","path":{"lhs":"test_FunctionCall(x)","rhs":"test_FunctionCall produces the expected output","over":{"base":"Integer","pred":"isinstance(fc.function_args[1], Integer)"},"name":"test_FunctionCall_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_FunctionCall_Integer_correct","statement":"test_FunctionCall satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4c0ca90250e17055"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_FunctionCall","kind":"function","src_hash":"c7befec015db28f1","in":{"base":"Any","pred":"isinstance(fc.function_args[1], Integer)"},"out":{"base":"Any","pred":"result satisfies: fc.function_args[0] == x and fc.function_args[1] == 3 and len(fc.function_args) == 2 and isinstance(fc.function_args[1], Integer) and fc == FunctionCall('power', (x, 3)) and fc != FunctionCall('power', (3, x)) and fc != FunctionCall('Power', (x, 3)) and fc.func(*fc.args) == fc and len(fc2.function_args) == 3 and fc2.function_args[0] == 2 and fc2.function_args[1] == 3 and fc2.function_args[2] == 4 and str(fc2) in ('FunctionCall(fma, function_args=(2, 3, 4))', 'FunctionCall(\"fma\", function_args=(2, 3, 4))')"},"spec":{"lhs":"test_FunctionCall()","rhs":"fc.function_args[0] == x and fc.function_args[1] == 3 and len(fc.function_args) == 2 and isinstance(fc.function_args[1], Integer) and fc == FunctionCall('power', (x, 3)) and fc != FunctionCall('power', (3, x)) and fc != FunctionCall('Power', (x, 3)) and fc.func(*fc.args) == fc and len(fc2.function_args) == 3 and fc2.function_args[0] == 2 and fc2.function_args[1] == 3 and fc2.function_args[2] == 4 and str(fc2) in ('FunctionCall(fma, function_args=(2, 3, 4))', 'FunctionCall(\"fma\", function_args=(2, 3, 4))')","over":{"base":"Any","pred":"isinstance(fc.function_args[1], Integer)"},"name":"test_FunctionCall_correct"},"guarantee":"fc.function_args[0] == x; fc.function_args[1] == 3; len(fc.function_args) == 2","fibers":[{"name":"Integer","pred":"isinstance(fc.function_args[1], Integer)","path":{"lhs":"test_FunctionCall(x)","rhs":"fc.function_args[0] == x; fc.function_args[1] == 3; len(fc.function_args) == 2","over":{"base":"Integer","pred":"isinstance(fc.function_args[1], Integer)"},"name":"test_FunctionCall_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_FunctionCall_Integer_correct","statement":"test_FunctionCall satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4c0ca90250e17055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fc.function_args[0] == x","fc.function_args[1] == 3","len(fc.function_args) == 2","isinstance(fc.function_args[1], Integer)","fc == FunctionCall('power', (x, 3))","fc != FunctionCall('power', (3, x))","fc != FunctionCall('Power', (x, 3))","fc.func(*fc.args) == fc","len(fc2.function_args) == 3","fc2.function_args[0] == 2","fc2.function_args[1] == 3","fc2.function_args[2] == 4","str(fc2) in ('FunctionCall(fma, function_args=(2, 3, 4))', 'FunctionCall(\"fma\", function_args=(2, 3, 4))')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_FunctionCall():
     fc = FunctionCall('power', (x, 3))
     assert fc.function_args[0] == x
@@ -1002,16 +1227,24 @@ def test_FunctionCall():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ast_replace(), test_ast_replace produces the expected output) over Any ║
+# ║ Path(test_ast_replace(), str(tree1.args[0].name) == 'pwer' and str(tree1.args[1].name) == 'pwer' and str(tree2.args[0].name) == 'power' and str(tree2.args[1].name) == 'power') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ast_replace : Any → {Any | str(tree1.args[0].nam...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tree1.args[0].name) == 'pwer'              ║
+# ║   ensures:  str(tree1.args[1].name) == 'pwer'              ║
+# ║   ensures:  str(tree2.args[0].name) == 'power'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ast_replace : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aa756117ceae534  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c13dbd821a92f47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_ast_replace","kind":"function","src_hash":"4f7cf2148d1a88c8","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tree1.args[0].name) == 'pwer' and str(tree1.args[1].name) == 'pwer' and str(tree1.args[0].name) == 'pwer' and str(tree1.args[1].name) == 'pwer' and str(tree2.args[0].name) == 'power' and str(tree2.args[1].name) == 'power' and a == b"},"spec":{"lhs":"test_ast_replace()","rhs":"test_ast_replace produces the expected output","over":{"base":"Any"},"name":"test_ast_replace_correct"},"guarantee":"test_ast_replace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_ast_replace_correct","statement":"Path(test_ast_replace(x), test_ast_replace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aa756117ceae534"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_ast.test_ast_replace","kind":"function","src_hash":"4f7cf2148d1a88c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tree1.args[0].name) == 'pwer' and str(tree1.args[1].name) == 'pwer' and str(tree2.args[0].name) == 'power' and str(tree2.args[1].name) == 'power'"},"spec":{"lhs":"test_ast_replace()","rhs":"str(tree1.args[0].name) == 'pwer' and str(tree1.args[1].name) == 'pwer' and str(tree2.args[0].name) == 'power' and str(tree2.args[1].name) == 'power'","over":{"base":"Any"},"name":"test_ast_replace_correct"},"guarantee":"str(tree1.args[0].name) == 'pwer'; str(tree1.args[1].name) == 'pwer'; str(tree2.args[0].name) == 'power'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_ast.test_ast_replace_correct","statement":"Path(test_ast_replace(x), str(tree1.args[0].name) == 'pwer'; str(tree1.args[1].name) == 'pwer'; str(tree2.args[0].name) == 'power')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c13dbd821a92f47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tree1.args[0].name) == 'pwer'","str(tree1.args[1].name) == 'pwer'","str(tree2.args[0].name) == 'power'","str(tree2.args[1].name) == 'power'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ast_replace():
     x = Variable('x', real)
     y = Variable('y', real)

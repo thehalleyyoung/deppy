@@ -50,31 +50,44 @@ k = PREFIXES["k"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str_repr(), test_str_repr produces the expected output) over Any ║
+# ║ Path(test_str_repr(), str(kg) == 'kilogram') over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str_repr : Any → {Any | str(kg) == 'kilogram'}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(kg) == 'kilogram'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str_repr : Any → {Any | result satisfies: str(kg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 220d057c51cd69b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdb9ee7c47586ef2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_str_repr","kind":"function","src_hash":"6073106b419418e3","in":{"base":"Any"},"out":{"base":"Any","pred":"str(kg) == 'kilogram'"},"spec":{"lhs":"test_str_repr()","rhs":"test_str_repr produces the expected output","over":{"base":"Any"},"name":"test_str_repr_correct"},"guarantee":"test_str_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_str_repr_correct","statement":"Path(test_str_repr(x), test_str_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"220d057c51cd69b0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_str_repr","kind":"function","src_hash":"6073106b419418e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(kg) == 'kilogram'"},"spec":{"lhs":"test_str_repr()","rhs":"str(kg) == 'kilogram'","over":{"base":"Any"},"name":"test_str_repr_correct"},"guarantee":"str(kg) == 'kilogram'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_str_repr_correct","statement":"Path(test_str_repr(x), str(kg) == 'kilogram')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdb9ee7c47586ef2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(kg) == 'kilogram'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_str_repr():
     assert str(kg) == "kilogram"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eq(), test_eq produces the expected output) over Any ║
+# ║ Path(test_eq(), 10 * m == 10 * m and 10 * m != 10 * s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eq : Any → {Any | 10 * m == 10 * m and 10 * m !=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  10 * m == 10 * m                               ║
+# ║   ensures:  10 * m != 10 * s                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eq : Any → {Any | result satisfies: 10 * m == 10...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bfa160b56050094  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0f28d7f9f14980a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_eq","kind":"function","src_hash":"0592417277fd5030","in":{"base":"Any"},"out":{"base":"Any","pred":"10 * m == 10 * m and 10 * m != 10 * s"},"spec":{"lhs":"test_eq()","rhs":"test_eq produces the expected output","over":{"base":"Any"},"name":"test_eq_correct"},"guarantee":"test_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_eq_correct","statement":"Path(test_eq(x), test_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bfa160b56050094"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_eq","kind":"function","src_hash":"0592417277fd5030","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 10 * m == 10 * m and 10 * m != 10 * s"},"spec":{"lhs":"test_eq()","rhs":"10 * m == 10 * m and 10 * m != 10 * s","over":{"base":"Any"},"name":"test_eq_correct"},"guarantee":"10 * m == 10 * m; 10 * m != 10 * s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_eq_correct","statement":"Path(test_eq(x), 10 * m == 10 * m; 10 * m != 10 * s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0f28d7f9f14980a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["10 * m == 10 * m","10 * m != 10 * s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_eq():
     # simple test
     assert 10*m == 10*m
@@ -82,16 +95,24 @@ def test_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_to(), test_convert_to produces the expected output) over Any ║
+# ║ Path(test_convert_to(), q.convert_to(m) == 5000 * m and speed_of_light.convert_to(m / s) == 299792458 * m / s and day.convert_to(s) == 86400 * s and q.convert_to(s) == q and speed_of_light.convert_to(m) == speed_of_light and conv == joule * second) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_to : Any → {Any | q.convert_to(m) == 500...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.convert_to(m) == 5000 * m                    ║
+# ║   ensures:  speed_of_light.convert_to(m / s) == 29979...   ║
+# ║   ensures:  day.convert_to(s) == 86400 * s                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_to : Any → {Any | result satisfies: q.co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33938cd1f0897155  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a9bafed68ba6913  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_convert_to","kind":"function","src_hash":"ef75c5af57376bfc","in":{"base":"Any"},"out":{"base":"Any","pred":"q.convert_to(m) == 5000 * m and speed_of_light.convert_to(m / s) == 299792458 * m / s and day.convert_to(s) == 86400 * s and q.convert_to(s) == q and speed_of_light.convert_to(m) == speed_of_light and conv == joule * second"},"spec":{"lhs":"test_convert_to()","rhs":"test_convert_to produces the expected output","over":{"base":"Any"},"name":"test_convert_to_correct"},"guarantee":"test_convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_convert_to_correct","statement":"Path(test_convert_to(x), test_convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33938cd1f0897155"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_convert_to","kind":"function","src_hash":"ef75c5af57376bfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.convert_to(m) == 5000 * m and speed_of_light.convert_to(m / s) == 299792458 * m / s and day.convert_to(s) == 86400 * s and q.convert_to(s) == q and speed_of_light.convert_to(m) == speed_of_light and conv == joule * second"},"spec":{"lhs":"test_convert_to()","rhs":"q.convert_to(m) == 5000 * m and speed_of_light.convert_to(m / s) == 299792458 * m / s and day.convert_to(s) == 86400 * s and q.convert_to(s) == q and speed_of_light.convert_to(m) == speed_of_light and conv == joule * second","over":{"base":"Any"},"name":"test_convert_to_correct"},"guarantee":"q.convert_to(m) == 5000 * m; speed_of_light.convert_to(m / s) == 299792458 * m / s; day.convert_to(s) == 86400 * s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_convert_to_correct","statement":"Path(test_convert_to(x), q.convert_to(m) == 5000 * m; speed_of_light.convert_to(m / s) == 299792458 * m / s; day.convert_to(s) == 86400 * s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a9bafed68ba6913","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.convert_to(m) == 5000 * m","speed_of_light.convert_to(m / s) == 299792458 * m / s","day.convert_to(s) == 86400 * s","q.convert_to(s) == q","speed_of_light.convert_to(m) == speed_of_light","conv == joule * second"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_convert_to():
     q = Quantity("q1")
     q.set_global_relative_scale_factor(S(5000), meter)
@@ -111,16 +132,24 @@ def test_convert_to():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Quantity_definition(), test_Quantity_definition produces the expected output) over Any ║
+# ║ Path(test_Quantity_definition(), q.scale_factor == 10 and q.dimension == time and q.abbrev == Symbol('sabbr') and u.dimension == length and u.scale_factor == 10 and u.abbrev == Symbol('dam') and km.scale_factor == 1000 and km.func(*km.args) == km and km.func(*km.args).args == km.args and v.dimension == length and v.scale_factor == 5000) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Quantity_definition : Any → {Any | q.scale_facto...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.scale_factor == 10                           ║
+# ║   ensures:  q.dimension == time                            ║
+# ║   ensures:  q.abbrev == Symbol('sabbr')                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Quantity_definition : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 920efabf5a8b6907  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3806d5f587299be9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_Quantity_definition","kind":"function","src_hash":"64eb286e6e7833d0","in":{"base":"Any"},"out":{"base":"Any","pred":"q.scale_factor == 10 and q.dimension == time and q.abbrev == Symbol('sabbr') and u.dimension == length and u.scale_factor == 10 and u.abbrev == Symbol('dam') and km.scale_factor == 1000 and km.func(*km.args) == km and km.func(*km.args).args == km.args and v.dimension == length and v.scale_factor == 5000"},"spec":{"lhs":"test_Quantity_definition()","rhs":"test_Quantity_definition produces the expected output","over":{"base":"Any"},"name":"test_Quantity_definition_correct"},"guarantee":"test_Quantity_definition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_Quantity_definition_correct","statement":"Path(test_Quantity_definition(x), test_Quantity_definition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920efabf5a8b6907"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_Quantity_definition","kind":"function","src_hash":"64eb286e6e7833d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.scale_factor == 10 and q.dimension == time and q.abbrev == Symbol('sabbr') and u.dimension == length and u.scale_factor == 10 and u.abbrev == Symbol('dam') and km.scale_factor == 1000 and km.func(*km.args) == km and km.func(*km.args).args == km.args and v.dimension == length and v.scale_factor == 5000"},"spec":{"lhs":"test_Quantity_definition()","rhs":"q.scale_factor == 10 and q.dimension == time and q.abbrev == Symbol('sabbr') and u.dimension == length and u.scale_factor == 10 and u.abbrev == Symbol('dam') and km.scale_factor == 1000 and km.func(*km.args) == km and km.func(*km.args).args == km.args and v.dimension == length and v.scale_factor == 5000","over":{"base":"Any"},"name":"test_Quantity_definition_correct"},"guarantee":"q.scale_factor == 10; q.dimension == time; q.abbrev == Symbol('sabbr')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_Quantity_definition_correct","statement":"Path(test_Quantity_definition(x), q.scale_factor == 10; q.dimension == time; q.abbrev == Symbol('sabbr'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3806d5f587299be9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.scale_factor == 10","q.dimension == time","q.abbrev == Symbol('sabbr')","u.dimension == length","u.scale_factor == 10","u.abbrev == Symbol('dam')","km.scale_factor == 1000","km.func(*km.args) == km","km.func(*km.args).args == km.args","v.dimension == length","v.scale_factor == 5000"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Quantity_definition():
     q = Quantity("s10", abbrev="sabbr")
     q.set_global_relative_scale_factor(10, second)
@@ -148,7 +177,12 @@ def test_Quantity_definition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_abbrev(), test_abbrev produces the expected output) over {Any | isinstance(u.scale_factor, Number)} ║
+# ║ Path(test_abbrev(), u.name == Symbol('u') and u.abbrev == Symbol('u') and u.abbrev == Symbol('om') and u.scale_factor == 2 and isinstance(u.scale_factor, Number) and u.abbrev == Symbol('ikm') and u.scale_factor == 3000) over {Any | isinstance(u.scale_factor, Number)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  u.name == Symbol('u')                          ║
+# ║   ensures:  u.abbrev == Symbol('u')                        ║
+# ║   ensures:  u.abbrev == Symbol('om')                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_abbrev : {Any | isinstance(u.scale_factor, Numbe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -160,9 +194,12 @@ def test_Quantity_definition():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a43ef13c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_abbrev","kind":"function","src_hash":"596113911b6079f0","in":{"base":"Any","pred":"isinstance(u.scale_factor, Number)"},"out":{"base":"Any","pred":"u.name == Symbol('u') and u.abbrev == Symbol('u') and u.name == Symbol('u') and u.abbrev == Symbol('om') and u.scale_factor == 2 and isinstance(u.scale_factor, Number) and u.abbrev == Symbol('ikm') and u.scale_factor == 3000"},"spec":{"lhs":"test_abbrev()","rhs":"test_abbrev produces the expected output","over":{"base":"Any","pred":"isinstance(u.scale_factor, Number)"},"name":"test_abbrev_correct"},"guarantee":"test_abbrev produces the expected output","fibers":[{"name":"Number","pred":"isinstance(u.scale_factor, Number)","path":{"lhs":"test_abbrev(x)","rhs":"test_abbrev produces the expected output","over":{"base":"Number","pred":"isinstance(u.scale_factor, Number)"},"name":"test_abbrev_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_abbrev_Number_correct","statement":"test_abbrev satisfies spec on Number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a43ef13c86fb3707"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_abbrev","kind":"function","src_hash":"596113911b6079f0","in":{"base":"Any","pred":"isinstance(u.scale_factor, Number)"},"out":{"base":"Any","pred":"result satisfies: u.name == Symbol('u') and u.abbrev == Symbol('u') and u.abbrev == Symbol('om') and u.scale_factor == 2 and isinstance(u.scale_factor, Number) and u.abbrev == Symbol('ikm') and u.scale_factor == 3000"},"spec":{"lhs":"test_abbrev()","rhs":"u.name == Symbol('u') and u.abbrev == Symbol('u') and u.abbrev == Symbol('om') and u.scale_factor == 2 and isinstance(u.scale_factor, Number) and u.abbrev == Symbol('ikm') and u.scale_factor == 3000","over":{"base":"Any","pred":"isinstance(u.scale_factor, Number)"},"name":"test_abbrev_correct"},"guarantee":"u.name == Symbol('u'); u.abbrev == Symbol('u'); u.abbrev == Symbol('om')","fibers":[{"name":"Number","pred":"isinstance(u.scale_factor, Number)","path":{"lhs":"test_abbrev(x)","rhs":"u.name == Symbol('u'); u.abbrev == Symbol('u'); u.abbrev == Symbol('om')","over":{"base":"Number","pred":"isinstance(u.scale_factor, Number)"},"name":"test_abbrev_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_abbrev_Number_correct","statement":"test_abbrev satisfies spec on Number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a43ef13c86fb3707","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["u.name == Symbol('u')","u.abbrev == Symbol('u')","u.abbrev == Symbol('om')","u.scale_factor == 2","isinstance(u.scale_factor, Number)","u.abbrev == Symbol('ikm')","u.scale_factor == 3000"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_abbrev():
     u = Quantity("u")
     u.set_global_relative_scale_factor(S.One, meter)
@@ -186,16 +223,23 @@ def test_abbrev():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print(), test_print produces the expected output) over Any ║
+# ║ Path(test_print(), repr(u) == 'unitname' and str(u) == 'unitname') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print : Any → {Any | repr(u) == 'unitname' and s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(u) == 'unitname'                          ║
+# ║   ensures:  str(u) == 'unitname'                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print : Any → {Any | result satisfies: repr(u) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fe0fbc22e9aa113  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d88b9bc58a3a57b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_print","kind":"function","src_hash":"35eeba8f6fbb2a89","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(u) == 'unitname' and str(u) == 'unitname'"},"spec":{"lhs":"test_print()","rhs":"test_print produces the expected output","over":{"base":"Any"},"name":"test_print_correct"},"guarantee":"test_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_print_correct","statement":"Path(test_print(x), test_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fe0fbc22e9aa113"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_print","kind":"function","src_hash":"35eeba8f6fbb2a89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(u) == 'unitname' and str(u) == 'unitname'"},"spec":{"lhs":"test_print()","rhs":"repr(u) == 'unitname' and str(u) == 'unitname'","over":{"base":"Any"},"name":"test_print_correct"},"guarantee":"repr(u) == 'unitname'; str(u) == 'unitname'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_print_correct","statement":"Path(test_print(x), repr(u) == 'unitname'; str(u) == 'unitname')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d88b9bc58a3a57b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(u) == 'unitname'","str(u) == 'unitname'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print():
     u = Quantity("unitname", abbrev="dam")
     assert repr(u) == "unitname"
@@ -203,16 +247,22 @@ def test_print():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Quantity_eq(), test_Quantity_eq produces the expected output) over Any ║
+# ║ Path(test_Quantity_eq(), u != v) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Quantity_eq : Any → {Any | u != v and u != v and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  u != v                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Quantity_eq : Any → {Any | result satisfies: u !...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fde655a3da3b164  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f422189abbd2879e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_Quantity_eq","kind":"function","src_hash":"d9c1ee511646041d","in":{"base":"Any"},"out":{"base":"Any","pred":"u != v and u != v and u != v"},"spec":{"lhs":"test_Quantity_eq()","rhs":"test_Quantity_eq produces the expected output","over":{"base":"Any"},"name":"test_Quantity_eq_correct"},"guarantee":"test_Quantity_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_Quantity_eq_correct","statement":"Path(test_Quantity_eq(x), test_Quantity_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fde655a3da3b164"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_Quantity_eq","kind":"function","src_hash":"d9c1ee511646041d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: u != v"},"spec":{"lhs":"test_Quantity_eq()","rhs":"u != v","over":{"base":"Any"},"name":"test_Quantity_eq_correct"},"guarantee":"u != v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_Quantity_eq_correct","statement":"Path(test_Quantity_eq(x), u != v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f422189abbd2879e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["u != v"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Quantity_eq():
     u = Quantity("u", abbrev="dam")
     v = Quantity("v1")
@@ -224,7 +274,12 @@ def test_Quantity_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_sub(), test_add_sub produces the expected output) over {Any | isinstance(u + v, Add)} ║
+# ║ Path(test_add_sub(), isinstance(u + v, Add) and u + v.convert_to(u) == (1 + S.Half) * u and isinstance(u - v, Add) and u - v.convert_to(u) == S.Half * u) over {Any | isinstance(u + v, Add)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(u + v, Add)                         ║
+# ║   ensures:  u + v.convert_to(u) == (1 + S.Half) * u        ║
+# ║   ensures:  isinstance(u - v, Add)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_add_sub : {Any | isinstance(u + v, Add)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -236,9 +291,12 @@ def test_Quantity_eq():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 78f9d236...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_add_sub","kind":"function","src_hash":"acaa9ec516eef742","in":{"base":"Any","pred":"isinstance(u + v, Add)"},"out":{"base":"Any","pred":"isinstance(u + v, Add) and u + v.convert_to(u) == (1 + S.Half) * u and isinstance(u - v, Add) and u - v.convert_to(u) == S.Half * u"},"spec":{"lhs":"test_add_sub()","rhs":"test_add_sub produces the expected output","over":{"base":"Any","pred":"isinstance(u + v, Add)"},"name":"test_add_sub_correct"},"guarantee":"test_add_sub produces the expected output","fibers":[{"name":"Add","pred":"isinstance(u + v, Add)","path":{"lhs":"test_add_sub(x)","rhs":"test_add_sub produces the expected output","over":{"base":"Add","pred":"isinstance(u + v, Add)"},"name":"test_add_sub_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_add_sub_Add_correct","statement":"test_add_sub satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78f9d236ba4414dc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_add_sub","kind":"function","src_hash":"acaa9ec516eef742","in":{"base":"Any","pred":"isinstance(u + v, Add)"},"out":{"base":"Any","pred":"result satisfies: isinstance(u + v, Add) and u + v.convert_to(u) == (1 + S.Half) * u and isinstance(u - v, Add) and u - v.convert_to(u) == S.Half * u"},"spec":{"lhs":"test_add_sub()","rhs":"isinstance(u + v, Add) and u + v.convert_to(u) == (1 + S.Half) * u and isinstance(u - v, Add) and u - v.convert_to(u) == S.Half * u","over":{"base":"Any","pred":"isinstance(u + v, Add)"},"name":"test_add_sub_correct"},"guarantee":"isinstance(u + v, Add); u + v.convert_to(u) == (1 + S.Half) * u; isinstance(u - v, Add)","fibers":[{"name":"Add","pred":"isinstance(u + v, Add)","path":{"lhs":"test_add_sub(x)","rhs":"isinstance(u + v, Add); u + v.convert_to(u) == (1 + S.Half) * u; isinstance(u - v, Add)","over":{"base":"Add","pred":"isinstance(u + v, Add)"},"name":"test_add_sub_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_add_sub_Add_correct","statement":"test_add_sub satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78f9d236ba4414dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(u + v, Add)","u + v.convert_to(u) == (1 + S.Half) * u","isinstance(u - v, Add)","u - v.convert_to(u) == S.Half * u"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_add_sub():
     u = Quantity("u")
     v = Quantity("v")
@@ -255,16 +313,24 @@ def test_add_sub():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quantity_abs(), test_quantity_abs produces the expected output) over Any ║
+# ║ Path(test_quantity_abs(), SI.get_dimensional_expr(v_w1) == (length / time).name and SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: 1, time: -1} and meter == sqrt(meter ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quantity_abs : Any → {Any | SI.get_dimensional_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SI.get_dimensional_expr(v_w1) == (length ...   ║
+# ║   ensures:  SI.get_dimension_system().get_dimensional...   ║
+# ║   ensures:  meter == sqrt(meter ** 2)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quantity_abs : Any → {Any | result satisfies: SI...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f354b7f5c812ba5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaaa76c077f41666  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_quantity_abs","kind":"function","src_hash":"23a56f5d44125c29","in":{"base":"Any"},"out":{"base":"Any","pred":"SI.get_dimensional_expr(v_w1) == (length / time).name and meter == sqrt(meter ** 2)"},"spec":{"lhs":"test_quantity_abs()","rhs":"test_quantity_abs produces the expected output","over":{"base":"Any"},"name":"test_quantity_abs_correct"},"guarantee":"test_quantity_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_quantity_abs_correct","statement":"Path(test_quantity_abs(x), test_quantity_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f354b7f5c812ba5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_quantity_abs","kind":"function","src_hash":"23a56f5d44125c29","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SI.get_dimensional_expr(v_w1) == (length / time).name and SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: 1, time: -1} and meter == sqrt(meter ** 2)"},"spec":{"lhs":"test_quantity_abs()","rhs":"SI.get_dimensional_expr(v_w1) == (length / time).name and SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: 1, time: -1} and meter == sqrt(meter ** 2)","over":{"base":"Any"},"name":"test_quantity_abs_correct"},"guarantee":"SI.get_dimensional_expr(v_w1) == (length / time).name; SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: 1, time: -1}; meter == sqrt(meter ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_quantity_abs_correct","statement":"Path(test_quantity_abs(x), SI.get_dimensional_expr(v_w1) == (length / time).name; SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: 1, time: -1}; meter == sqrt(meter ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaaa76c077f41666","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SI.get_dimensional_expr(v_w1) == (length / time).name","SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: 1, time: -1}","meter == sqrt(meter ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_quantity_abs():
     v_w1 = Quantity('v_w1')
     v_w2 = Quantity('v_w2')
@@ -288,16 +354,22 @@ def test_quantity_abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_unit_consistency(), test_check_unit_consistency produces the expected output) over Any ║
+# ║ Path(test_check_unit_consistency(), <unspecified:test_check_unit_consistency>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_check_unit_consistency : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e13feaf3f1aaff1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_check_unit_consistency","kind":"function","src_hash":"a30ae83abad236c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_unit_consistency()","rhs":"test_check_unit_consistency produces the expected output","over":{"base":"Any"},"name":"test_check_unit_consistency_correct"},"guarantee":"test_check_unit_consistency produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_check_unit_consistency_correct","statement":"Path(test_check_unit_consistency(x), test_check_unit_consistency produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e13feaf3f1aaff1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_check_unit_consistency","kind":"function","src_hash":"a30ae83abad236c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_unit_consistency()","rhs":"<unspecified:test_check_unit_consistency>","over":{"base":"Any"},"name":"test_check_unit_consistency_correct"},"guarantee":"test_check_unit_consistency produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_check_unit_consistency_correct","statement":"Path(test_check_unit_consistency(x), test_check_unit_consistency produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e13feaf3f1aaff1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_check_unit_consistency():
     u = Quantity("u")
     v = Quantity("v")
@@ -318,16 +390,24 @@ def test_check_unit_consistency():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_div(), test_mul_div produces the expected output) over Any ║
+# ║ Path(test_mul_div(), 1 / u == u ** (-1) and u / 1 == u and v1 != v2 and v1 == v2.convert_to(v1) and u * 1 == u and ut1 != ut2 and ut1 == ut2.convert_to(ut1) and u * lp1 != 20 and u ** 0 == 1 and u ** 1 == u and u ** 2 != u2 and u ** (-1) != u3 and u ** 2 == u2.convert_to(u) and u ** (-1) == u3.convert_to(u)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_div : Any → {Any | 1 / u == u ** (-1) and u ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1 / u == u ** (-1)                             ║
+# ║   ensures:  u / 1 == u                                     ║
+# ║   ensures:  v1 != v2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_div : Any → {Any | result satisfies: 1 / u =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3663638cc9d7c5b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d74b7a115d4575f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_mul_div","kind":"function","src_hash":"b0c0b9017b4fc17a","in":{"base":"Any"},"out":{"base":"Any","pred":"1 / u == u ** (-1) and u / 1 == u and v1 != v2 and v1 == v2.convert_to(v1) and u * 1 == u and ut1 != ut2 and ut1 == ut2.convert_to(ut1) and u * lp1 != 20 and u ** 0 == 1 and u ** 1 == u and u ** 2 != u2 and u ** (-1) != u3 and u ** 2 == u2.convert_to(u) and u ** (-1) == u3.convert_to(u)"},"spec":{"lhs":"test_mul_div()","rhs":"test_mul_div produces the expected output","over":{"base":"Any"},"name":"test_mul_div_correct"},"guarantee":"test_mul_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_mul_div_correct","statement":"Path(test_mul_div(x), test_mul_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3663638cc9d7c5b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_mul_div","kind":"function","src_hash":"b0c0b9017b4fc17a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1 / u == u ** (-1) and u / 1 == u and v1 != v2 and v1 == v2.convert_to(v1) and u * 1 == u and ut1 != ut2 and ut1 == ut2.convert_to(ut1) and u * lp1 != 20 and u ** 0 == 1 and u ** 1 == u and u ** 2 != u2 and u ** (-1) != u3 and u ** 2 == u2.convert_to(u) and u ** (-1) == u3.convert_to(u)"},"spec":{"lhs":"test_mul_div()","rhs":"1 / u == u ** (-1) and u / 1 == u and v1 != v2 and v1 == v2.convert_to(v1) and u * 1 == u and ut1 != ut2 and ut1 == ut2.convert_to(ut1) and u * lp1 != 20 and u ** 0 == 1 and u ** 1 == u and u ** 2 != u2 and u ** (-1) != u3 and u ** 2 == u2.convert_to(u) and u ** (-1) == u3.convert_to(u)","over":{"base":"Any"},"name":"test_mul_div_correct"},"guarantee":"1 / u == u ** (-1); u / 1 == u; v1 != v2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_mul_div_correct","statement":"Path(test_mul_div(x), 1 / u == u ** (-1); u / 1 == u; v1 != v2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d74b7a115d4575f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1 / u == u ** (-1)","u / 1 == u","v1 != v2","v1 == v2.convert_to(v1)","u * 1 == u","ut1 != ut2","ut1 == ut2.convert_to(ut1)","u * lp1 != 20","u ** 0 == 1","u ** 1 == u","u ** 2 != u2","u ** (-1) != u3","u ** 2 == u2.convert_to(u)","u ** (-1) == u3.convert_to(u)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_mul_div():
     u = Quantity("u")
     v = Quantity("v")
@@ -386,16 +466,24 @@ def test_mul_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_units(), test_units produces the expected output) over Any ║
+# ║ Path(test_units(), convert_to(5 * m / s * day / km, 1) == 432 and convert_to(foot / meter, meter) == Rational(3048, 10000) and str(convert_to(grams / amu, grams).n(2)) == '6.0e+23' and t.simplify() == Rational(49865956897, 5995849160) and sqrt(m ** 2) == m and sqrt(m) ** 2 == m and integrate(t * m / s, (t, 1 * s, 5 * s)) == 12 * m * s and (t * m / s).integrate((t, 1 * s, 5 * s)) == 12 * m * s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_units : Any → {Any | convert_to(5 * m / s * day ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convert_to(5 * m / s * day / km, 1) == 432     ║
+# ║   ensures:  convert_to(foot / meter, meter) == Ration...   ║
+# ║   ensures:  str(convert_to(grams / amu, grams).n(2)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_units : Any → {Any | result satisfies: convert_t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4579dff2f2368eb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d2dbc3d6785f5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_units","kind":"function","src_hash":"4881f85aac9e6d57","in":{"base":"Any"},"out":{"base":"Any","pred":"convert_to(5 * m / s * day / km, 1) == 432 and convert_to(foot / meter, meter) == Rational(3048, 10000) and str(convert_to(grams / amu, grams).n(2)) == '6.0e+23' and t.simplify() == Rational(49865956897, 5995849160) and sqrt(m ** 2) == m and sqrt(m) ** 2 == m and integrate(t * m / s, (t, 1 * s, 5 * s)) == 12 * m * s and (t * m / s).integrate((t, 1 * s, 5 * s)) == 12 * m * s"},"spec":{"lhs":"test_units()","rhs":"test_units produces the expected output","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"test_units produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_units_correct","statement":"Path(test_units(x), test_units produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4579dff2f2368eb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_units","kind":"function","src_hash":"4881f85aac9e6d57","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convert_to(5 * m / s * day / km, 1) == 432 and convert_to(foot / meter, meter) == Rational(3048, 10000) and str(convert_to(grams / amu, grams).n(2)) == '6.0e+23' and t.simplify() == Rational(49865956897, 5995849160) and sqrt(m ** 2) == m and sqrt(m) ** 2 == m and integrate(t * m / s, (t, 1 * s, 5 * s)) == 12 * m * s and (t * m / s).integrate((t, 1 * s, 5 * s)) == 12 * m * s"},"spec":{"lhs":"test_units()","rhs":"convert_to(5 * m / s * day / km, 1) == 432 and convert_to(foot / meter, meter) == Rational(3048, 10000) and str(convert_to(grams / amu, grams).n(2)) == '6.0e+23' and t.simplify() == Rational(49865956897, 5995849160) and sqrt(m ** 2) == m and sqrt(m) ** 2 == m and integrate(t * m / s, (t, 1 * s, 5 * s)) == 12 * m * s and (t * m / s).integrate((t, 1 * s, 5 * s)) == 12 * m * s","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"convert_to(5 * m / s * day / km, 1) == 432; convert_to(foot / meter, meter) == Rational(3048, 10000); str(convert_to(grams / amu, grams).n(2)) == '6.0e+23'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_units_correct","statement":"Path(test_units(x), convert_to(5 * m / s * day / km, 1) == 432; convert_to(foot / meter, meter) == Rational(3048, 10000); str(convert_to(grams / amu, grams).n(2)) == '6.0e+23')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d2dbc3d6785f5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convert_to(5 * m / s * day / km, 1) == 432","convert_to(foot / meter, meter) == Rational(3048, 10000)","str(convert_to(grams / amu, grams).n(2)) == '6.0e+23'","t.simplify() == Rational(49865956897, 5995849160)","sqrt(m ** 2) == m","sqrt(m) ** 2 == m","integrate(t * m / s, (t, 1 * s, 5 * s)) == 12 * m * s","(t * m / s).integrate((t, 1 * s, 5 * s)) == 12 * m * s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_units():
     assert convert_to((5*m/s * day) / km, 1) == 432
     assert convert_to(foot / meter, meter) == Rational(3048, 10000)
@@ -419,61 +507,89 @@ def test_units():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_quart(), test_issue_quart produces the expected output) over Any ║
+# ║ Path(test_issue_quart(), convert_to(4 * quart / inch ** 3, meter) == 231 and convert_to(4 * quart / inch ** 3, millimeter) == 231) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_quart : Any → {Any | convert_to(4 * quart ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convert_to(4 * quart / inch ** 3, meter) ...   ║
+# ║   ensures:  convert_to(4 * quart / inch ** 3, millime...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_quart : Any → {Any | result satisfies: con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23141cb47d05a898  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03074a57ae22fd02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_quart","kind":"function","src_hash":"38c634a4b9c02b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"convert_to(4 * quart / inch ** 3, meter) == 231 and convert_to(4 * quart / inch ** 3, millimeter) == 231"},"spec":{"lhs":"test_issue_quart()","rhs":"test_issue_quart produces the expected output","over":{"base":"Any"},"name":"test_issue_quart_correct"},"guarantee":"test_issue_quart produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_quart_correct","statement":"Path(test_issue_quart(x), test_issue_quart produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23141cb47d05a898"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_quart","kind":"function","src_hash":"38c634a4b9c02b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convert_to(4 * quart / inch ** 3, meter) == 231 and convert_to(4 * quart / inch ** 3, millimeter) == 231"},"spec":{"lhs":"test_issue_quart()","rhs":"convert_to(4 * quart / inch ** 3, meter) == 231 and convert_to(4 * quart / inch ** 3, millimeter) == 231","over":{"base":"Any"},"name":"test_issue_quart_correct"},"guarantee":"convert_to(4 * quart / inch ** 3, meter) == 231; convert_to(4 * quart / inch ** 3, millimeter) == 231","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_quart_correct","statement":"Path(test_issue_quart(x), convert_to(4 * quart / inch ** 3, meter) == 231; convert_to(4 * quart / inch ** 3, millimeter) == 231)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03074a57ae22fd02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convert_to(4 * quart / inch ** 3, meter) == 231","convert_to(4 * quart / inch ** 3, millimeter) == 231"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_quart():
     assert convert_to(4 * quart / inch ** 3, meter) == 231
     assert convert_to(4 * quart / inch ** 3, millimeter) == 231
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_electron_rest_mass(), test_electron_rest_mass produces the expected output) over Any ║
+# ║ Path(test_electron_rest_mass(), convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram and convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_electron_rest_mass : Any → {Any | convert_to(ele...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convert_to(electron_rest_mass, kilogram) ...   ║
+# ║   ensures:  convert_to(electron_rest_mass, grams) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_electron_rest_mass : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a3b4dc13fe0df9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e3d71d6cd4160de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_electron_rest_mass","kind":"function","src_hash":"4eb7c74200ef61d0","in":{"base":"Any"},"out":{"base":"Any","pred":"convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram and convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams"},"spec":{"lhs":"test_electron_rest_mass()","rhs":"test_electron_rest_mass produces the expected output","over":{"base":"Any"},"name":"test_electron_rest_mass_correct"},"guarantee":"test_electron_rest_mass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_electron_rest_mass_correct","statement":"Path(test_electron_rest_mass(x), test_electron_rest_mass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a3b4dc13fe0df9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_electron_rest_mass","kind":"function","src_hash":"4eb7c74200ef61d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram and convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams"},"spec":{"lhs":"test_electron_rest_mass()","rhs":"convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram and convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams","over":{"base":"Any"},"name":"test_electron_rest_mass_correct"},"guarantee":"convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram; convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_electron_rest_mass_correct","statement":"Path(test_electron_rest_mass(x), convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram; convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e3d71d6cd4160de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31 * kilogram","convert_to(electron_rest_mass, grams) == 9.1093837015e-28 * grams"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_electron_rest_mass():
     assert convert_to(electron_rest_mass, kilogram) == 9.1093837015e-31*kilogram
     assert convert_to(electron_rest_mass, grams) == 9.1093837015e-28*grams
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5565(), test_issue_5565 produces the expected output) over Any ║
+# ║ Path(test_issue_5565(), (m < s).is_Relational) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5565 : Any → {Any | (m < s).is_Relational}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (m < s).is_Relational                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5565 : Any → {Any | result satisfies: (m <...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75e9a98e93cdacd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ccea5bb7866b73d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_5565","kind":"function","src_hash":"f97fb154d9dc708f","in":{"base":"Any"},"out":{"base":"Any","pred":"(m < s).is_Relational"},"spec":{"lhs":"test_issue_5565()","rhs":"test_issue_5565 produces the expected output","over":{"base":"Any"},"name":"test_issue_5565_correct"},"guarantee":"test_issue_5565 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_5565_correct","statement":"Path(test_issue_5565(x), test_issue_5565 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75e9a98e93cdacd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_5565","kind":"function","src_hash":"f97fb154d9dc708f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (m < s).is_Relational"},"spec":{"lhs":"test_issue_5565()","rhs":"(m < s).is_Relational","over":{"base":"Any"},"name":"test_issue_5565_correct"},"guarantee":"(m < s).is_Relational","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_5565_correct","statement":"Path(test_issue_5565(x), (m < s).is_Relational)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ccea5bb7866b73d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(m < s).is_Relational"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_5565():
     assert (m < s).is_Relational
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_unit(), test_find_unit produces the expected output) over Any ║
+# ║ Path(test_find_unit(), find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant'] and find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'] and find_unit(charge) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'] and find_unit(inch) == ['m', 'au', 'cm', 'dm', 'ft', 'km', 'ly', 'mi', 'mm', 'nm', 'pm', 'um', 'yd', 'nmi', 'feet', 'foot', 'inch', 'mile', 'yard', 'meter', 'miles', 'yards', 'inches', 'meters', 'micron', 'microns', 'angstrom', 'angstroms', 'decimeter', 'kilometer', 'lightyear', 'nanometer', 'picometer', 'centimeter', 'decimeters', 'kilometers', 'lightyears', 'micrometer', 'millimeter', 'nanometers', 'picometers', 'centimeters', 'micrometers', 'millimeters', 'nautical_mile', 'planck_length', 'nautical_miles', 'astronomical_unit', 'astronomical_units'] and find_unit(inch ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(length ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(inch ** 2) == ['ha', 'hectare', 'planck_area'] and find_unit(inch ** 3) == ['L', 'l', 'cL', 'cl', 'dL', 'dl', 'mL', 'ml', 'liter', 'quart', 'liters', 'quarts', 'deciliter', 'centiliter', 'deciliters', 'milliliter', 'centiliters', 'milliliters', 'planck_volume'] and find_unit('voltage') == ['V', 'v', 'volt', 'volts', 'planck_voltage'] and find_unit(grams) == ['g', 't', 'Da', 'kg', 'me', 'mg', 'ug', 'amu', 'mmu', 'amus', 'gram', 'mmus', 'grams', 'pound', 'tonne', 'dalton', 'pounds', 'kilogram', 'kilograms', 'microgram', 'milligram', 'metric_ton', 'micrograms', 'milligrams', 'planck_mass', 'milli_mass_unit', 'atomic_mass_unit', 'electron_rest_mass', 'atomic_mass_constant']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_find_unit : Any → {Any | find_unit('coulomb') ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_unit('coulomb') == ['coulomb', 'coul...   ║
+# ║   ensures:  find_unit(coulomb) == ['C', 'coulomb', 'c...   ║
+# ║   ensures:  find_unit(charge) == ['C', 'coulomb', 'co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_find_unit : Any → {Any | result satisfies: find_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8a922c2d75a3af9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cecda4ae26fe254b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_find_unit","kind":"function","src_hash":"537773314efe8a48","in":{"base":"Any"},"out":{"base":"Any","pred":"find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant'] and find_unit(inch ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(length ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(inch ** 2) == ['ha', 'hectare', 'planck_area'] and find_unit('voltage') == ['V', 'v', 'volt', 'volts', 'planck_voltage']"},"spec":{"lhs":"test_find_unit()","rhs":"test_find_unit produces the expected output","over":{"base":"Any"},"name":"test_find_unit_correct"},"guarantee":"test_find_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_find_unit_correct","statement":"Path(test_find_unit(x), test_find_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a922c2d75a3af9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_find_unit","kind":"function","src_hash":"537773314efe8a48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant'] and find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'] and find_unit(charge) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'] and find_unit(inch) == ['m', 'au', 'cm', 'dm', 'ft', 'km', 'ly', 'mi', 'mm', 'nm', 'pm', 'um', 'yd', 'nmi', 'feet', 'foot', 'inch', 'mile', 'yard', 'meter', 'miles', 'yards', 'inches', 'meters', 'micron', 'microns', 'angstrom', 'angstroms', 'decimeter', 'kilometer', 'lightyear', 'nanometer', 'picometer', 'centimeter', 'decimeters', 'kilometers', 'lightyears', 'micrometer', 'millimeter', 'nanometers', 'picometers', 'centimeters', 'micrometers', 'millimeters', 'nautical_mile', 'planck_length', 'nautical_miles', 'astronomical_unit', 'astronomical_units'] and find_unit(inch ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(length ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(inch ** 2) == ['ha', 'hectare', 'planck_area'] and find_unit(inch ** 3) == ['L', 'l', 'cL', 'cl', 'dL', 'dl', 'mL', 'ml', 'liter', 'quart', 'liters', 'quarts', 'deciliter', 'centiliter', 'deciliters', 'milliliter', 'centiliters', 'milliliters', 'planck_volume'] and find_unit('voltage') == ['V', 'v', 'volt', 'volts', 'planck_voltage'] and find_unit(grams) == ['g', 't', 'Da', 'kg', 'me', 'mg', 'ug', 'amu', 'mmu', 'amus', 'gram', 'mmus', 'grams', 'pound', 'tonne', 'dalton', 'pounds', 'kilogram', 'kilograms', 'microgram', 'milligram', 'metric_ton', 'micrograms', 'milligrams', 'planck_mass', 'milli_mass_unit', 'atomic_mass_unit', 'electron_rest_mass', 'atomic_mass_constant']"},"spec":{"lhs":"test_find_unit()","rhs":"find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant'] and find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'] and find_unit(charge) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'] and find_unit(inch) == ['m', 'au', 'cm', 'dm', 'ft', 'km', 'ly', 'mi', 'mm', 'nm', 'pm', 'um', 'yd', 'nmi', 'feet', 'foot', 'inch', 'mile', 'yard', 'meter', 'miles', 'yards', 'inches', 'meters', 'micron', 'microns', 'angstrom', 'angstroms', 'decimeter', 'kilometer', 'lightyear', 'nanometer', 'picometer', 'centimeter', 'decimeters', 'kilometers', 'lightyears', 'micrometer', 'millimeter', 'nanometers', 'picometers', 'centimeters', 'micrometers', 'millimeters', 'nautical_mile', 'planck_length', 'nautical_miles', 'astronomical_unit', 'astronomical_units'] and find_unit(inch ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(length ** (-1)) == ['D', 'dioptre', 'optical_power'] and find_unit(inch ** 2) == ['ha', 'hectare', 'planck_area'] and find_unit(inch ** 3) == ['L', 'l', 'cL', 'cl', 'dL', 'dl', 'mL', 'ml', 'liter', 'quart', 'liters', 'quarts', 'deciliter', 'centiliter', 'deciliters', 'milliliter', 'centiliters', 'milliliters', 'planck_volume'] and find_unit('voltage') == ['V', 'v', 'volt', 'volts', 'planck_voltage'] and find_unit(grams) == ['g', 't', 'Da', 'kg', 'me', 'mg', 'ug', 'amu', 'mmu', 'amus', 'gram', 'mmus', 'grams', 'pound', 'tonne', 'dalton', 'pounds', 'kilogram', 'kilograms', 'microgram', 'milligram', 'metric_ton', 'micrograms', 'milligrams', 'planck_mass', 'milli_mass_unit', 'atomic_mass_unit', 'electron_rest_mass', 'atomic_mass_constant']","over":{"base":"Any"},"name":"test_find_unit_correct"},"guarantee":"find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant']; find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge']; find_unit(charge) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_find_unit_correct","statement":"Path(test_find_unit(x), find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant']; find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge']; find_unit(charge) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cecda4ae26fe254b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant']","find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge']","find_unit(charge) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge']","find_unit(inch) == ['m', 'au', 'cm', 'dm', 'ft', 'km', 'ly', 'mi', 'mm', 'nm', 'pm', 'um', 'yd', 'nmi', 'feet', 'foot', 'inch', 'mile', 'yard', 'meter', 'miles', 'yards', 'inches', 'meters', 'micron', 'microns', 'angstrom', 'angstroms', 'decimeter', 'kilometer', 'lightyear', 'nanometer', 'picometer', 'centimeter', 'decimeters', 'kilometers', 'lightyears', 'micrometer', 'millimeter', 'nanometers', 'picometers', 'centimeters', 'micrometers', 'millimeters', 'nautical_mile', 'planck_length', 'nautical_miles', 'astronomical_unit', 'astronomical_units']","find_unit(inch ** (-1)) == ['D', 'dioptre', 'optical_power']","find_unit(length ** (-1)) == ['D', 'dioptre', 'optical_power']","find_unit(inch ** 2) == ['ha', 'hectare', 'planck_area']","find_unit(inch ** 3) == ['L', 'l', 'cL', 'cl', 'dL', 'dl', 'mL', 'ml', 'liter', 'quart', 'liters', 'quarts', 'deciliter', 'centiliter', 'deciliters', 'milliliter', 'centiliters', 'milliliters', 'planck_volume']","find_unit('voltage') == ['V', 'v', 'volt', 'volts', 'planck_voltage']","find_unit(grams) == ['g', 't', 'Da', 'kg', 'me', 'mg', 'ug', 'amu', 'mmu', 'amus', 'gram', 'mmus', 'grams', 'pound', 'tonne', 'dalton', 'pounds', 'kilogram', 'kilograms', 'microgram', 'milligram', 'metric_ton', 'micrograms', 'milligrams', 'planck_mass', 'milli_mass_unit', 'atomic_mass_unit', 'electron_rest_mass', 'atomic_mass_constant']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_find_unit():
     assert find_unit('coulomb') == ['coulomb', 'coulombs', 'coulomb_constant']
     assert find_unit(coulomb) == ['C', 'coulomb', 'coulombs', 'planck_charge', 'elementary_charge']
@@ -502,16 +618,24 @@ def test_find_unit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Quantity_derivative(), test_Quantity_derivative produces the expected output) over Any ║
+# ║ Path(test_Quantity_derivative(), diff(x * meter, x) == meter and diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2 and diff(meter, meter) == 1 and diff(meter ** 2, meter) == 2 * meter) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Quantity_derivative : Any → {Any | diff(x * mete...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  diff(x * meter, x) == meter                    ║
+# ║   ensures:  diff(x ** 3 * meter ** 2, x) == 3 * x ** ...   ║
+# ║   ensures:  diff(meter, meter) == 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Quantity_derivative : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a29db3fdabf02146  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a598cc26d96423a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_Quantity_derivative","kind":"function","src_hash":"2cb190434487d8ec","in":{"base":"Any"},"out":{"base":"Any","pred":"diff(x * meter, x) == meter and diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2 and diff(meter, meter) == 1 and diff(meter ** 2, meter) == 2 * meter"},"spec":{"lhs":"test_Quantity_derivative()","rhs":"test_Quantity_derivative produces the expected output","over":{"base":"Any"},"name":"test_Quantity_derivative_correct"},"guarantee":"test_Quantity_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_Quantity_derivative_correct","statement":"Path(test_Quantity_derivative(x), test_Quantity_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a29db3fdabf02146"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_Quantity_derivative","kind":"function","src_hash":"2cb190434487d8ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: diff(x * meter, x) == meter and diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2 and diff(meter, meter) == 1 and diff(meter ** 2, meter) == 2 * meter"},"spec":{"lhs":"test_Quantity_derivative()","rhs":"diff(x * meter, x) == meter and diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2 and diff(meter, meter) == 1 and diff(meter ** 2, meter) == 2 * meter","over":{"base":"Any"},"name":"test_Quantity_derivative_correct"},"guarantee":"diff(x * meter, x) == meter; diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2; diff(meter, meter) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_Quantity_derivative_correct","statement":"Path(test_Quantity_derivative(x), diff(x * meter, x) == meter; diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2; diff(meter, meter) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a598cc26d96423a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["diff(x * meter, x) == meter","diff(x ** 3 * meter ** 2, x) == 3 * x ** 2 * meter ** 2","diff(meter, meter) == 1","diff(meter ** 2, meter) == 2 * meter"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Quantity_derivative():
     x = symbols("x")
     assert diff(x*meter, x) == meter
@@ -521,16 +645,23 @@ def test_Quantity_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quantity_postprocessing(), test_quantity_postprocessing produces the expected output) over Any ║
+# ║ Path(test_quantity_postprocessing(), q1 + q2 and SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: -1, mass: 2, temperature: 1, time: -5}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quantity_postprocessing : Any → {Any | q1 + q2}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q1 + q2                                        ║
+# ║   ensures:  SI.get_dimension_system().get_dimensional...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quantity_postprocessing : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38430e485d30edb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfa3d81ab56d3533  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_quantity_postprocessing","kind":"function","src_hash":"fc2db5fd7a45ae42","in":{"base":"Any"},"out":{"base":"Any","pred":"q1 + q2"},"spec":{"lhs":"test_quantity_postprocessing()","rhs":"test_quantity_postprocessing produces the expected output","over":{"base":"Any"},"name":"test_quantity_postprocessing_correct"},"guarantee":"test_quantity_postprocessing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_quantity_postprocessing_correct","statement":"Path(test_quantity_postprocessing(x), test_quantity_postprocessing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38430e485d30edb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_quantity_postprocessing","kind":"function","src_hash":"fc2db5fd7a45ae42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q1 + q2 and SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: -1, mass: 2, temperature: 1, time: -5}"},"spec":{"lhs":"test_quantity_postprocessing()","rhs":"q1 + q2 and SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: -1, mass: 2, temperature: 1, time: -5}","over":{"base":"Any"},"name":"test_quantity_postprocessing_correct"},"guarantee":"q1 + q2; SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: -1, mass: 2, temperature: 1, time: -5}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_quantity_postprocessing_correct","statement":"Path(test_quantity_postprocessing(x), q1 + q2; SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: -1, mass: 2, temperature: 1, time: -5})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfa3d81ab56d3533","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q1 + q2","SI.get_dimension_system().get_dimensional_dependencies(Dq) == {length: -1, mass: 2, temperature: 1, time: -5}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quantity_postprocessing():
     q1 = Quantity('q1')
     q2 = Quantity('q2')
@@ -550,16 +681,24 @@ def test_quantity_postprocessing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factor_and_dimension(), test_factor_and_dimension produces the expected output) over Any ║
+# ║ Path(test_factor_and_dimension(), (3000, Dimension(1)) == SI._collect_factor_and_dimension(3000) and (1001, length) == SI._collect_factor_and_dimension(meter + km) and (2, length / time) == SI._collect_factor_and_dimension(meter / second + 36 * km / (10 * hour)) and (x + y / 100, length) == SI._collect_factor_and_dimension(x * m + y * centimeter) and (1, volume / amount_of_substance) == SI._collect_factor_and_dimension(exp(pH)) and (Rational(5, 4), length / time) == SI._collect_factor_and_dimension(expr) and (-(2996 + Rational(1, 4)), Dimension(1)) == SI._collect_factor_and_dimension(expr) and (Rational(3, 2) ** Rational(4, 3), (length / time) ** Rational(4, 3)) == SI._collect_factor_and_dimension(expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factor_and_dimension : Any → {Any | (3000, Dimen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (3000, Dimension(1)) == SI._collect_facto...   ║
+# ║   ensures:  (1001, length) == SI._collect_factor_and_...   ║
+# ║   ensures:  (2, length / time) == SI._collect_factor_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factor_and_dimension : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e16bc65698f77530  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f940364da8919bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_factor_and_dimension","kind":"function","src_hash":"bfeb59397ebb2f8d","in":{"base":"Any"},"out":{"base":"Any","pred":"(3000, Dimension(1)) == SI._collect_factor_and_dimension(3000) and (1001, length) == SI._collect_factor_and_dimension(meter + km) and (1, volume / amount_of_substance) == SI._collect_factor_and_dimension(exp(pH)) and (Rational(5, 4), length / time) == SI._collect_factor_and_dimension(expr)"},"spec":{"lhs":"test_factor_and_dimension()","rhs":"test_factor_and_dimension produces the expected output","over":{"base":"Any"},"name":"test_factor_and_dimension_correct"},"guarantee":"test_factor_and_dimension produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_factor_and_dimension_correct","statement":"Path(test_factor_and_dimension(x), test_factor_and_dimension produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e16bc65698f77530"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_factor_and_dimension","kind":"function","src_hash":"bfeb59397ebb2f8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (3000, Dimension(1)) == SI._collect_factor_and_dimension(3000) and (1001, length) == SI._collect_factor_and_dimension(meter + km) and (2, length / time) == SI._collect_factor_and_dimension(meter / second + 36 * km / (10 * hour)) and (x + y / 100, length) == SI._collect_factor_and_dimension(x * m + y * centimeter) and (1, volume / amount_of_substance) == SI._collect_factor_and_dimension(exp(pH)) and (Rational(5, 4), length / time) == SI._collect_factor_and_dimension(expr) and (-(2996 + Rational(1, 4)), Dimension(1)) == SI._collect_factor_and_dimension(expr) and (Rational(3, 2) ** Rational(4, 3), (length / time) ** Rational(4, 3)) == SI._collect_factor_and_dimension(expr)"},"spec":{"lhs":"test_factor_and_dimension()","rhs":"(3000, Dimension(1)) == SI._collect_factor_and_dimension(3000) and (1001, length) == SI._collect_factor_and_dimension(meter + km) and (2, length / time) == SI._collect_factor_and_dimension(meter / second + 36 * km / (10 * hour)) and (x + y / 100, length) == SI._collect_factor_and_dimension(x * m + y * centimeter) and (1, volume / amount_of_substance) == SI._collect_factor_and_dimension(exp(pH)) and (Rational(5, 4), length / time) == SI._collect_factor_and_dimension(expr) and (-(2996 + Rational(1, 4)), Dimension(1)) == SI._collect_factor_and_dimension(expr) and (Rational(3, 2) ** Rational(4, 3), (length / time) ** Rational(4, 3)) == SI._collect_factor_and_dimension(expr)","over":{"base":"Any"},"name":"test_factor_and_dimension_correct"},"guarantee":"(3000, Dimension(1)) == SI._collect_factor_and_dimension(3000); (1001, length) == SI._collect_factor_and_dimension(meter + km); (2, length / time) == SI._collect_factor_and_dimension(meter / second + 36 * km / (10 * hour))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_factor_and_dimension_correct","statement":"Path(test_factor_and_dimension(x), (3000, Dimension(1)) == SI._collect_factor_and_dimension(3000); (1001, length) == SI._collect_factor_and_dimension(meter + km); (2, length / time) == SI._collect_factor_and_dimension(meter / second + 36 * km / (10 * hour)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f940364da8919bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(3000, Dimension(1)) == SI._collect_factor_and_dimension(3000)","(1001, length) == SI._collect_factor_and_dimension(meter + km)","(2, length / time) == SI._collect_factor_and_dimension(meter / second + 36 * km / (10 * hour))","(x + y / 100, length) == SI._collect_factor_and_dimension(x * m + y * centimeter)","(1, volume / amount_of_substance) == SI._collect_factor_and_dimension(exp(pH))","(Rational(5, 4), length / time) == SI._collect_factor_and_dimension(expr)","(-(2996 + Rational(1, 4)), Dimension(1)) == SI._collect_factor_and_dimension(expr)","(Rational(3, 2) ** Rational(4, 3), (length / time) ** Rational(4, 3)) == SI._collect_factor_and_dimension(expr)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_factor_and_dimension():
     assert (3000, Dimension(1)) == SI._collect_factor_and_dimension(3000)
     assert (1001, length) == SI._collect_factor_and_dimension(meter + km)
@@ -598,16 +737,23 @@ def test_factor_and_dimension():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dimensional_expr_of_derivative(), test_dimensional_expr_of_derivative produces the expected output) over Any ║
+# ║ Path(test_dimensional_expr_of_derivative(), SI.get_dimensional_expr(dl_dt) == SI.get_dimensional_expr(l / t / t1) == Symbol('length') / Symbol('time') ** 2 and SI._collect_factor_and_dimension(dl_dt) == SI._collect_factor_and_dimension(l / t / t1) == (10, length / time ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dimensional_expr_of_derivative : Any → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SI.get_dimensional_expr(dl_dt) == SI.get_...   ║
+# ║   ensures:  SI._collect_factor_and_dimension(dl_dt) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dimensional_expr_of_derivative : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec8f195ee257e24f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a9bfea34fc9263e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_dimensional_expr_of_derivative","kind":"function","src_hash":"63e29a0f3ba69362","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dimensional_expr_of_derivative()","rhs":"test_dimensional_expr_of_derivative produces the expected output","over":{"base":"Any"},"name":"test_dimensional_expr_of_derivative_correct"},"guarantee":"test_dimensional_expr_of_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_dimensional_expr_of_derivative_correct","statement":"Path(test_dimensional_expr_of_derivative(x), test_dimensional_expr_of_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec8f195ee257e24f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_dimensional_expr_of_derivative","kind":"function","src_hash":"63e29a0f3ba69362","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SI.get_dimensional_expr(dl_dt) == SI.get_dimensional_expr(l / t / t1) == Symbol('length') / Symbol('time') ** 2 and SI._collect_factor_and_dimension(dl_dt) == SI._collect_factor_and_dimension(l / t / t1) == (10, length / time ** 2)"},"spec":{"lhs":"test_dimensional_expr_of_derivative()","rhs":"SI.get_dimensional_expr(dl_dt) == SI.get_dimensional_expr(l / t / t1) == Symbol('length') / Symbol('time') ** 2 and SI._collect_factor_and_dimension(dl_dt) == SI._collect_factor_and_dimension(l / t / t1) == (10, length / time ** 2)","over":{"base":"Any"},"name":"test_dimensional_expr_of_derivative_correct"},"guarantee":"SI.get_dimensional_expr(dl_dt) == SI.get_dimensional_expr(l / t / t1) == Symbol('length') / Symbol('time') ** 2; SI._collect_factor_and_dimension(dl_dt) == SI._collect_factor_and_dimension(l / t / t1) == (10, length / time ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_dimensional_expr_of_derivative_correct","statement":"Path(test_dimensional_expr_of_derivative(x), SI.get_dimensional_expr(dl_dt) == SI.get_dimensional_expr(l / t / t1) == Symbol('length') / Symbol('time') ** 2; SI._collect_factor_and_dimension(dl_dt) == SI._collect_factor_and_dimension(l / t / t1) == (10, length / time ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a9bfea34fc9263e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SI.get_dimensional_expr(dl_dt) == SI.get_dimensional_expr(l / t / t1) == Symbol('length') / Symbol('time') ** 2","SI._collect_factor_and_dimension(dl_dt) == SI._collect_factor_and_dimension(l / t / t1) == (10, length / time ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dimensional_expr_of_derivative():
     l = Quantity('l')
     t = Quantity('t')
@@ -629,16 +775,23 @@ def test_dimensional_expr_of_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_dimensional_expr_with_function(), test_get_dimensional_expr_with_function produces the expected output) over Any ║
+# ║ Path(test_get_dimensional_expr_with_function(), SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1)) and SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SI.get_dimensional_expr(sin(v_w1)) == sin...   ║
+# ║   ensures:  SI.get_dimensional_expr(sin(v_w1 / v_w2))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_get_dimensional_expr_with_function : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d8be7ca427c0be4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d977e076e2cbe1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_get_dimensional_expr_with_function","kind":"function","src_hash":"1538c38e0f8ec2a2","in":{"base":"Any"},"out":{"base":"Any","pred":"SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1)) and SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1"},"spec":{"lhs":"test_get_dimensional_expr_with_function()","rhs":"test_get_dimensional_expr_with_function produces the expected output","over":{"base":"Any"},"name":"test_get_dimensional_expr_with_function_correct"},"guarantee":"test_get_dimensional_expr_with_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_get_dimensional_expr_with_function_correct","statement":"Path(test_get_dimensional_expr_with_function(x), test_get_dimensional_expr_with_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8be7ca427c0be4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_get_dimensional_expr_with_function","kind":"function","src_hash":"1538c38e0f8ec2a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1)) and SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1"},"spec":{"lhs":"test_get_dimensional_expr_with_function()","rhs":"SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1)) and SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1","over":{"base":"Any"},"name":"test_get_dimensional_expr_with_function_correct"},"guarantee":"SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1)); SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_get_dimensional_expr_with_function_correct","statement":"Path(test_get_dimensional_expr_with_function(x), SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1)); SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d977e076e2cbe1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SI.get_dimensional_expr(sin(v_w1)) == sin(SI.get_dimensional_expr(v_w1))","SI.get_dimensional_expr(sin(v_w1 / v_w2)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_dimensional_expr_with_function():
     v_w1 = Quantity('v_w1')
     v_w2 = Quantity('v_w2')
@@ -651,16 +804,24 @@ def test_get_dimensional_expr_with_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binary_information(), test_binary_information produces the expected output) over Any ║
+# ║ Path(test_binary_information(), convert_to(kibibyte, byte) == 1024 * byte and convert_to(mebibyte, byte) == 1024 ** 2 * byte and convert_to(gibibyte, byte) == 1024 ** 3 * byte and convert_to(tebibyte, byte) == 1024 ** 4 * byte and convert_to(pebibyte, byte) == 1024 ** 5 * byte and convert_to(exbibyte, byte) == 1024 ** 6 * byte and kibibyte.convert_to(bit) == 8 * 1024 * bit and byte.convert_to(bit) == 8 * bit and convert_to(a, byte) == 10240 * byte * hour and convert_to(a, minute) == 600 * kibibyte * minute and convert_to(a, [byte, minute]) == 614400 * byte * minute) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binary_information : Any → {Any | convert_to(kib...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convert_to(kibibyte, byte) == 1024 * byte      ║
+# ║   ensures:  convert_to(mebibyte, byte) == 1024 ** 2 *...   ║
+# ║   ensures:  convert_to(gibibyte, byte) == 1024 ** 3 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binary_information : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f18f65a145dd651e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9eab71a30b9e9d7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_binary_information","kind":"function","src_hash":"1b7402531d3f658b","in":{"base":"Any"},"out":{"base":"Any","pred":"convert_to(kibibyte, byte) == 1024 * byte and convert_to(mebibyte, byte) == 1024 ** 2 * byte and convert_to(gibibyte, byte) == 1024 ** 3 * byte and convert_to(tebibyte, byte) == 1024 ** 4 * byte and convert_to(pebibyte, byte) == 1024 ** 5 * byte and convert_to(exbibyte, byte) == 1024 ** 6 * byte and kibibyte.convert_to(bit) == 8 * 1024 * bit and byte.convert_to(bit) == 8 * bit and convert_to(a, byte) == 10240 * byte * hour and convert_to(a, minute) == 600 * kibibyte * minute and convert_to(a, [byte, minute]) == 614400 * byte * minute"},"spec":{"lhs":"test_binary_information()","rhs":"test_binary_information produces the expected output","over":{"base":"Any"},"name":"test_binary_information_correct"},"guarantee":"test_binary_information produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_binary_information_correct","statement":"Path(test_binary_information(x), test_binary_information produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f18f65a145dd651e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_binary_information","kind":"function","src_hash":"1b7402531d3f658b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convert_to(kibibyte, byte) == 1024 * byte and convert_to(mebibyte, byte) == 1024 ** 2 * byte and convert_to(gibibyte, byte) == 1024 ** 3 * byte and convert_to(tebibyte, byte) == 1024 ** 4 * byte and convert_to(pebibyte, byte) == 1024 ** 5 * byte and convert_to(exbibyte, byte) == 1024 ** 6 * byte and kibibyte.convert_to(bit) == 8 * 1024 * bit and byte.convert_to(bit) == 8 * bit and convert_to(a, byte) == 10240 * byte * hour and convert_to(a, minute) == 600 * kibibyte * minute and convert_to(a, [byte, minute]) == 614400 * byte * minute"},"spec":{"lhs":"test_binary_information()","rhs":"convert_to(kibibyte, byte) == 1024 * byte and convert_to(mebibyte, byte) == 1024 ** 2 * byte and convert_to(gibibyte, byte) == 1024 ** 3 * byte and convert_to(tebibyte, byte) == 1024 ** 4 * byte and convert_to(pebibyte, byte) == 1024 ** 5 * byte and convert_to(exbibyte, byte) == 1024 ** 6 * byte and kibibyte.convert_to(bit) == 8 * 1024 * bit and byte.convert_to(bit) == 8 * bit and convert_to(a, byte) == 10240 * byte * hour and convert_to(a, minute) == 600 * kibibyte * minute and convert_to(a, [byte, minute]) == 614400 * byte * minute","over":{"base":"Any"},"name":"test_binary_information_correct"},"guarantee":"convert_to(kibibyte, byte) == 1024 * byte; convert_to(mebibyte, byte) == 1024 ** 2 * byte; convert_to(gibibyte, byte) == 1024 ** 3 * byte","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_binary_information_correct","statement":"Path(test_binary_information(x), convert_to(kibibyte, byte) == 1024 * byte; convert_to(mebibyte, byte) == 1024 ** 2 * byte; convert_to(gibibyte, byte) == 1024 ** 3 * byte)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eab71a30b9e9d7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convert_to(kibibyte, byte) == 1024 * byte","convert_to(mebibyte, byte) == 1024 ** 2 * byte","convert_to(gibibyte, byte) == 1024 ** 3 * byte","convert_to(tebibyte, byte) == 1024 ** 4 * byte","convert_to(pebibyte, byte) == 1024 ** 5 * byte","convert_to(exbibyte, byte) == 1024 ** 6 * byte","kibibyte.convert_to(bit) == 8 * 1024 * bit","byte.convert_to(bit) == 8 * bit","convert_to(a, byte) == 10240 * byte * hour","convert_to(a, minute) == 600 * kibibyte * minute","convert_to(a, [byte, minute]) == 614400 * byte * minute"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_binary_information():
     assert convert_to(kibibyte, byte) == 1024*byte
     assert convert_to(mebibyte, byte) == 1024**2*byte
@@ -680,16 +841,22 @@ def test_binary_information():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conversion_with_2_nonstandard_dimensions(), test_conversion_with_2_nonstandard_dimensions produces the expected output) over Any ║
+# ║ Path(test_conversion_with_2_nonstandard_dimensions(), convert_to(kilo_good_grade * milli_charity_points * millimeter, [centi_good_grade, missions, centimeter]) == S.One * 10 ** 5 / (251 * 1000) / 10 * centi_good_grade * missions * centimeter) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convert_to(kilo_good_grade * milli_charit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_conversion_with_2_nonstandard_dimensions : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 872036a1fbd1e600  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be87a75caeb25565  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_conversion_with_2_nonstandard_dimensions","kind":"function","src_hash":"0b3d185ad01fee11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_conversion_with_2_nonstandard_dimensions()","rhs":"test_conversion_with_2_nonstandard_dimensions produces the expected output","over":{"base":"Any"},"name":"test_conversion_with_2_nonstandard_dimensions_correct"},"guarantee":"test_conversion_with_2_nonstandard_dimensions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_conversion_with_2_nonstandard_dimensions_correct","statement":"Path(test_conversion_with_2_nonstandard_dimensions(x), test_conversion_with_2_nonstandard_dimensions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"872036a1fbd1e600"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_conversion_with_2_nonstandard_dimensions","kind":"function","src_hash":"0b3d185ad01fee11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convert_to(kilo_good_grade * milli_charity_points * millimeter, [centi_good_grade, missions, centimeter]) == S.One * 10 ** 5 / (251 * 1000) / 10 * centi_good_grade * missions * centimeter"},"spec":{"lhs":"test_conversion_with_2_nonstandard_dimensions()","rhs":"convert_to(kilo_good_grade * milli_charity_points * millimeter, [centi_good_grade, missions, centimeter]) == S.One * 10 ** 5 / (251 * 1000) / 10 * centi_good_grade * missions * centimeter","over":{"base":"Any"},"name":"test_conversion_with_2_nonstandard_dimensions_correct"},"guarantee":"convert_to(kilo_good_grade * milli_charity_points * millimeter, [centi_good_grade, missions, centimeter]) == S.One * 10 ** 5 / (251 * 1000) / 10 * centi_good_grade * missions * centimeter","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_conversion_with_2_nonstandard_dimensions_correct","statement":"Path(test_conversion_with_2_nonstandard_dimensions(x), convert_to(kilo_good_grade * milli_charity_points * millimeter, [centi_good_grade, missions, centimeter]) == S.One * 10 ** 5 / (251 * 1000) / 10 * centi_good_grade * missions * centimeter)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be87a75caeb25565","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convert_to(kilo_good_grade * milli_charity_points * millimeter, [centi_good_grade, missions, centimeter]) == S.One * 10 ** 5 / (251 * 1000) / 10 * centi_good_grade * missions * centimeter"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_conversion_with_2_nonstandard_dimensions():
     good_grade = Quantity("good_grade")
     kilo_good_grade = Quantity("kilo_good_grade")
@@ -712,16 +879,23 @@ def test_conversion_with_2_nonstandard_dimensions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_subs(), test_eval_subs produces the expected output) over Any ║
+# ║ Path(test_eval_subs(), expr1.subs(units) == meter ** 2 / second ** 2 and expr2.subs(units) == gravitational_constant * kilogram / meter ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_subs : Any → {Any | expr1.subs(units) == me...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr1.subs(units) == meter ** 2 / second ...   ║
+# ║   ensures:  expr2.subs(units) == gravitational_consta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_subs : Any → {Any | result satisfies: expr1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba86323d09afbdf2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90177aeddff988db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_eval_subs","kind":"function","src_hash":"29dd5f8380161c44","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1.subs(units) == meter ** 2 / second ** 2 and expr2.subs(units) == gravitational_constant * kilogram / meter ** 2"},"spec":{"lhs":"test_eval_subs()","rhs":"test_eval_subs produces the expected output","over":{"base":"Any"},"name":"test_eval_subs_correct"},"guarantee":"test_eval_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_eval_subs_correct","statement":"Path(test_eval_subs(x), test_eval_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba86323d09afbdf2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_eval_subs","kind":"function","src_hash":"29dd5f8380161c44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr1.subs(units) == meter ** 2 / second ** 2 and expr2.subs(units) == gravitational_constant * kilogram / meter ** 2"},"spec":{"lhs":"test_eval_subs()","rhs":"expr1.subs(units) == meter ** 2 / second ** 2 and expr2.subs(units) == gravitational_constant * kilogram / meter ** 2","over":{"base":"Any"},"name":"test_eval_subs_correct"},"guarantee":"expr1.subs(units) == meter ** 2 / second ** 2; expr2.subs(units) == gravitational_constant * kilogram / meter ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_eval_subs_correct","statement":"Path(test_eval_subs(x), expr1.subs(units) == meter ** 2 / second ** 2; expr2.subs(units) == gravitational_constant * kilogram / meter ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90177aeddff988db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr1.subs(units) == meter ** 2 / second ** 2","expr2.subs(units) == gravitational_constant * kilogram / meter ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_eval_subs():
     energy, mass, force = symbols('energy mass force')
     expr1 = energy/mass
@@ -733,16 +907,24 @@ def test_eval_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14932(), test_issue_14932 produces the expected output) over Any ║
+# ║ Path(test_issue_14932(), (log(inch) - log(2)).simplify() == log(inch / 2) and (log(inch) - log(foot)).simplify() == -log(12) and (log(inch) - log(p)).simplify() == log(inch / p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14932 : Any → {Any | (log(inch) - log(2))....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (log(inch) - log(2)).simplify() == log(in...   ║
+# ║   ensures:  (log(inch) - log(foot)).simplify() == -lo...   ║
+# ║   ensures:  (log(inch) - log(p)).simplify() == log(in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14932 : Any → {Any | result satisfies: (lo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f849531afe9b6bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b074eb0be6bb9b42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_14932","kind":"function","src_hash":"096a197a076e19c8","in":{"base":"Any"},"out":{"base":"Any","pred":"(log(inch) - log(2)).simplify() == log(inch / 2) and (log(inch) - log(foot)).simplify() == -log(12) and (log(inch) - log(p)).simplify() == log(inch / p)"},"spec":{"lhs":"test_issue_14932()","rhs":"test_issue_14932 produces the expected output","over":{"base":"Any"},"name":"test_issue_14932_correct"},"guarantee":"test_issue_14932 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_14932_correct","statement":"Path(test_issue_14932(x), test_issue_14932 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f849531afe9b6bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_14932","kind":"function","src_hash":"096a197a076e19c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (log(inch) - log(2)).simplify() == log(inch / 2) and (log(inch) - log(foot)).simplify() == -log(12) and (log(inch) - log(p)).simplify() == log(inch / p)"},"spec":{"lhs":"test_issue_14932()","rhs":"(log(inch) - log(2)).simplify() == log(inch / 2) and (log(inch) - log(foot)).simplify() == -log(12) and (log(inch) - log(p)).simplify() == log(inch / p)","over":{"base":"Any"},"name":"test_issue_14932_correct"},"guarantee":"(log(inch) - log(2)).simplify() == log(inch / 2); (log(inch) - log(foot)).simplify() == -log(12); (log(inch) - log(p)).simplify() == log(inch / p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_14932_correct","statement":"Path(test_issue_14932(x), (log(inch) - log(2)).simplify() == log(inch / 2); (log(inch) - log(foot)).simplify() == -log(12); (log(inch) - log(p)).simplify() == log(inch / p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b074eb0be6bb9b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(log(inch) - log(2)).simplify() == log(inch / 2)","(log(inch) - log(foot)).simplify() == -log(12)","(log(inch) - log(p)).simplify() == log(inch / p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14932():
     assert (log(inch) - log(2)).simplify() == log(inch/2)
     assert (log(inch) - log(foot)).simplify() == -log(12)
@@ -751,16 +933,24 @@ def test_issue_14932():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14547(), test_issue_14547 produces the expected output) over Any ║
+# ║ Path(test_issue_14547(), log(foot).is_zero is None and log(foot).is_positive is None and log(foot).is_nonnegative is None and log(foot).is_negative is None and log(foot).is_algebraic is None and log(foot).is_rational is None and Eq(log(foot), log(inch)) is not None and e.is_Add and set(e.args) == {foot, x} and e.is_Add and set(e.args) == {foot, 1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14547 : Any → {Any | log(foot).is_zero is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(foot).is_zero is None                      ║
+# ║   ensures:  log(foot).is_positive is None                  ║
+# ║   ensures:  log(foot).is_nonnegative is None               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14547 : Any → {Any | result satisfies: log...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0c545717f51f17e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b81f253d5dd0a14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_14547","kind":"function","src_hash":"4a2135e021e3f803","in":{"base":"Any"},"out":{"base":"Any","pred":"log(foot).is_zero is None and log(foot).is_positive is None and log(foot).is_nonnegative is None and log(foot).is_negative is None and log(foot).is_algebraic is None and log(foot).is_rational is None and Eq(log(foot), log(inch)) is not None and e.is_Add and set(e.args) == {foot, x} and e.is_Add and set(e.args) == {foot, 1}"},"spec":{"lhs":"test_issue_14547()","rhs":"test_issue_14547 produces the expected output","over":{"base":"Any"},"name":"test_issue_14547_correct"},"guarantee":"test_issue_14547 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_14547_correct","statement":"Path(test_issue_14547(x), test_issue_14547 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0c545717f51f17e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_14547","kind":"function","src_hash":"4a2135e021e3f803","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(foot).is_zero is None and log(foot).is_positive is None and log(foot).is_nonnegative is None and log(foot).is_negative is None and log(foot).is_algebraic is None and log(foot).is_rational is None and Eq(log(foot), log(inch)) is not None and e.is_Add and set(e.args) == {foot, x} and e.is_Add and set(e.args) == {foot, 1}"},"spec":{"lhs":"test_issue_14547()","rhs":"log(foot).is_zero is None and log(foot).is_positive is None and log(foot).is_nonnegative is None and log(foot).is_negative is None and log(foot).is_algebraic is None and log(foot).is_rational is None and Eq(log(foot), log(inch)) is not None and e.is_Add and set(e.args) == {foot, x} and e.is_Add and set(e.args) == {foot, 1}","over":{"base":"Any"},"name":"test_issue_14547_correct"},"guarantee":"log(foot).is_zero is None; log(foot).is_positive is None; log(foot).is_nonnegative is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_14547_correct","statement":"Path(test_issue_14547(x), log(foot).is_zero is None; log(foot).is_positive is None; log(foot).is_nonnegative is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b81f253d5dd0a14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(foot).is_zero is None","log(foot).is_positive is None","log(foot).is_nonnegative is None","log(foot).is_negative is None","log(foot).is_algebraic is None","log(foot).is_rational is None","Eq(log(foot), log(inch)) is not None","e.is_Add and set(e.args) == {foot, x}","e.is_Add and set(e.args) == {foot, 1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_14547():
     # the root issue is that an argument with dimensions should
     # not raise an error when the `arg - 1` calculation is
@@ -784,16 +974,22 @@ def test_issue_14547():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22164(), test_issue_22164 produces the expected output) over Any ║
+# ║ Path(test_issue_22164(), <unspecified:test_issue_22164>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_22164 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41f07f075c588a1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_22164","kind":"function","src_hash":"f99b48c2ff9c6ed3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_22164()","rhs":"test_issue_22164 produces the expected output","over":{"base":"Any"},"name":"test_issue_22164_correct"},"guarantee":"test_issue_22164 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_22164_correct","statement":"Path(test_issue_22164(x), test_issue_22164 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f07f075c588a1c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_22164","kind":"function","src_hash":"f99b48c2ff9c6ed3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_22164()","rhs":"<unspecified:test_issue_22164>","over":{"base":"Any"},"name":"test_issue_22164_correct"},"guarantee":"test_issue_22164 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_22164_correct","statement":"Path(test_issue_22164(x), test_issue_22164 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f07f075c588a1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22164():
     warnings.simplefilter("error")
     dm = Quantity("dm")
@@ -811,16 +1007,24 @@ def test_issue_22164():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22819(), test_issue_22819 produces the expected output) over Any ║
+# ║ Path(test_issue_22819(), tonne.convert_to(gram) == 1000000 * gram and dimsys_SI.get_dimensional_dependencies(area) == {length: 2} and Da.scale_factor == 1.6605390666e-24) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22819 : Any → {Any | tonne.convert_to(gram...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tonne.convert_to(gram) == 1000000 * gram       ║
+# ║   ensures:  dimsys_SI.get_dimensional_dependencies(ar...   ║
+# ║   ensures:  Da.scale_factor == 1.6605390666e-24            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22819 : Any → {Any | result satisfies: ton...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d623eb66fcd33b28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f3a6d91060e7d40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_22819","kind":"function","src_hash":"adf1347fefb94039","in":{"base":"Any"},"out":{"base":"Any","pred":"tonne.convert_to(gram) == 1000000 * gram and dimsys_SI.get_dimensional_dependencies(area) == {length: 2} and Da.scale_factor == 1.6605390666e-24"},"spec":{"lhs":"test_issue_22819()","rhs":"test_issue_22819 produces the expected output","over":{"base":"Any"},"name":"test_issue_22819_correct"},"guarantee":"test_issue_22819 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_22819_correct","statement":"Path(test_issue_22819(x), test_issue_22819 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d623eb66fcd33b28"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_22819","kind":"function","src_hash":"adf1347fefb94039","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tonne.convert_to(gram) == 1000000 * gram and dimsys_SI.get_dimensional_dependencies(area) == {length: 2} and Da.scale_factor == 1.6605390666e-24"},"spec":{"lhs":"test_issue_22819()","rhs":"tonne.convert_to(gram) == 1000000 * gram and dimsys_SI.get_dimensional_dependencies(area) == {length: 2} and Da.scale_factor == 1.6605390666e-24","over":{"base":"Any"},"name":"test_issue_22819_correct"},"guarantee":"tonne.convert_to(gram) == 1000000 * gram; dimsys_SI.get_dimensional_dependencies(area) == {length: 2}; Da.scale_factor == 1.6605390666e-24","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_22819_correct","statement":"Path(test_issue_22819(x), tonne.convert_to(gram) == 1000000 * gram; dimsys_SI.get_dimensional_dependencies(area) == {length: 2}; Da.scale_factor == 1.6605390666e-24)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f3a6d91060e7d40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tonne.convert_to(gram) == 1000000 * gram","dimsys_SI.get_dimensional_dependencies(area) == {length: 2}","Da.scale_factor == 1.6605390666e-24"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22819():
     from sympy.physics.units import tonne, gram, Da
     from sympy.physics.units.systems.si import dimsys_SI
@@ -830,16 +1034,22 @@ def test_issue_22819():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20288(), test_issue_20288 produces the expected output) over Any ║
+# ║ Path(test_issue_20288(), SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20288 : Any → {Any | SI._collect_factor_an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SI._collect_factor_and_dimension(expr) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20288 : Any → {Any | result satisfies: SI....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a167c35020bd821f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07bc2491c2278596  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_20288","kind":"function","src_hash":"e9f91be1899cf91a","in":{"base":"Any"},"out":{"base":"Any","pred":"SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1))"},"spec":{"lhs":"test_issue_20288()","rhs":"test_issue_20288 produces the expected output","over":{"base":"Any"},"name":"test_issue_20288_correct"},"guarantee":"test_issue_20288 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_20288_correct","statement":"Path(test_issue_20288(x), test_issue_20288 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a167c35020bd821f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_20288","kind":"function","src_hash":"e9f91be1899cf91a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1))"},"spec":{"lhs":"test_issue_20288()","rhs":"SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1))","over":{"base":"Any"},"name":"test_issue_20288_correct"},"guarantee":"SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_20288_correct","statement":"Path(test_issue_20288(x), SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07bc2491c2278596","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SI._collect_factor_and_dimension(expr) == (1 + E, Dimension(1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_20288():
     from sympy.core.numbers import E
     from sympy.physics.units import energy
@@ -854,16 +1064,23 @@ def test_issue_20288():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24062(), test_issue_24062 produces the expected output) over Any ║
+# ║ Path(test_issue_24062(), SI.get_dimension_system().is_dimensionless(dim) and SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24062 : Any → {Any | SI.get_dimension_syst...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SI.get_dimension_system().is_dimensionles...   ║
+# ║   ensures:  SI._collect_factor_and_dimension(exp_expr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24062 : Any → {Any | result satisfies: SI....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 510655be6f4fe2f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ec7c43b6fc5c059  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_24062","kind":"function","src_hash":"15d442facad0a6cc","in":{"base":"Any"},"out":{"base":"Any","pred":"SI.get_dimension_system().is_dimensionless(dim) and SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))"},"spec":{"lhs":"test_issue_24062()","rhs":"test_issue_24062 produces the expected output","over":{"base":"Any"},"name":"test_issue_24062_correct"},"guarantee":"test_issue_24062 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_24062_correct","statement":"Path(test_issue_24062(x), test_issue_24062 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"510655be6f4fe2f8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_24062","kind":"function","src_hash":"15d442facad0a6cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SI.get_dimension_system().is_dimensionless(dim) and SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))"},"spec":{"lhs":"test_issue_24062()","rhs":"SI.get_dimension_system().is_dimensionless(dim) and SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))","over":{"base":"Any"},"name":"test_issue_24062_correct"},"guarantee":"SI.get_dimension_system().is_dimensionless(dim); SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_24062_correct","statement":"Path(test_issue_24062(x), SI.get_dimension_system().is_dimensionless(dim); SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ec7c43b6fc5c059","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SI.get_dimension_system().is_dimensionless(dim)","SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_24062():
     from sympy.core.numbers import E
     from sympy.physics.units import impedance, capacitance, time, ohm, farad, second
@@ -885,16 +1102,22 @@ def test_issue_24062():
     assert SI._collect_factor_and_dimension(exp_expr) == (1 + E, Dimension(1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24211(), test_issue_24211 produces the expected output) over Any ║
+# ║ Path(test_issue_24211(), <unspecified:test_issue_24211>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_24211 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6887f0214facb55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_24211","kind":"function","src_hash":"6d5985fc077fa17c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_24211()","rhs":"test_issue_24211 produces the expected output","over":{"base":"Any"},"name":"test_issue_24211_correct"},"guarantee":"test_issue_24211 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_24211_correct","statement":"Path(test_issue_24211(x), test_issue_24211 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6887f0214facb55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_issue_24211","kind":"function","src_hash":"6d5985fc077fa17c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_24211()","rhs":"<unspecified:test_issue_24211>","over":{"base":"Any"},"name":"test_issue_24211_correct"},"guarantee":"test_issue_24211 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_issue_24211_correct","statement":"Path(test_issue_24211(x), test_issue_24211 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6887f0214facb55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_24211():
     from sympy.physics.units import time, velocity, acceleration, second, meter
     V1 = Quantity('V1')
@@ -913,16 +1136,24 @@ def test_issue_24211():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prefixed_property(), test_prefixed_property produces the expected output) over Any ║
+# ║ Path(test_prefixed_property(), not meter.is_prefixed and not joule.is_prefixed and not day.is_prefixed and not second.is_prefixed and not volt.is_prefixed and not ohm.is_prefixed and centimeter.is_prefixed and kilometer.is_prefixed and kilogram.is_prefixed and pebibyte.is_prefixed) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prefixed_property : Any → {Any | not meter.is_pr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not meter.is_prefixed                          ║
+# ║   ensures:  not joule.is_prefixed                          ║
+# ║   ensures:  not day.is_prefixed                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prefixed_property : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adab4b96061abb41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24de2a3828331a34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_prefixed_property","kind":"function","src_hash":"51e8aac256197fcc","in":{"base":"Any"},"out":{"base":"Any","pred":"not meter.is_prefixed and not joule.is_prefixed and not day.is_prefixed and not second.is_prefixed and not volt.is_prefixed and not ohm.is_prefixed and centimeter.is_prefixed and kilometer.is_prefixed and kilogram.is_prefixed and pebibyte.is_prefixed"},"spec":{"lhs":"test_prefixed_property()","rhs":"test_prefixed_property produces the expected output","over":{"base":"Any"},"name":"test_prefixed_property_correct"},"guarantee":"test_prefixed_property produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_prefixed_property_correct","statement":"Path(test_prefixed_property(x), test_prefixed_property produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adab4b96061abb41"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_prefixed_property","kind":"function","src_hash":"51e8aac256197fcc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not meter.is_prefixed and not joule.is_prefixed and not day.is_prefixed and not second.is_prefixed and not volt.is_prefixed and not ohm.is_prefixed and centimeter.is_prefixed and kilometer.is_prefixed and kilogram.is_prefixed and pebibyte.is_prefixed"},"spec":{"lhs":"test_prefixed_property()","rhs":"not meter.is_prefixed and not joule.is_prefixed and not day.is_prefixed and not second.is_prefixed and not volt.is_prefixed and not ohm.is_prefixed and centimeter.is_prefixed and kilometer.is_prefixed and kilogram.is_prefixed and pebibyte.is_prefixed","over":{"base":"Any"},"name":"test_prefixed_property_correct"},"guarantee":"not meter.is_prefixed; not joule.is_prefixed; not day.is_prefixed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_prefixed_property_correct","statement":"Path(test_prefixed_property(x), not meter.is_prefixed; not joule.is_prefixed; not day.is_prefixed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24de2a3828331a34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not meter.is_prefixed","not joule.is_prefixed","not day.is_prefixed","not second.is_prefixed","not volt.is_prefixed","not ohm.is_prefixed","centimeter.is_prefixed","kilometer.is_prefixed","kilogram.is_prefixed","pebibyte.is_prefixed"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prefixed_property():
     assert not meter.is_prefixed
     assert not joule.is_prefixed
@@ -936,7 +1167,11 @@ def test_prefixed_property():
     assert pebibyte.is_prefixed
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_physics_constant(), test_physics_constant produces the expected output) over {Any | isinstance(const, PhysicalConstant) and isinstance(quantity, Quantity)} ║
+# ║ Path(test_physics_constant(), not meter.is_physical_constant and not joule.is_physical_constant) over {Any | isinstance(const, PhysicalConstant) and isinstance(quantity, Quantity)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not meter.is_physical_constant                 ║
+# ║   ensures:  not joule.is_physical_constant                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_physics_constant : {Any | isinstance(const, Phys...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -949,9 +1184,12 @@ def test_prefixed_property():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 44d1de27...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_physics_constant","kind":"function","src_hash":"d1fe1574a2653dcc","in":{"base":"Any","pred":"isinstance(const, PhysicalConstant) and isinstance(quantity, Quantity)"},"out":{"base":"Any","pred":"not meter.is_physical_constant and not joule.is_physical_constant and isinstance(const, PhysicalConstant) and const.is_physical_constant and isinstance(quantity, PhysicalConstant) and quantity.is_physical_constant"},"spec":{"lhs":"test_physics_constant()","rhs":"test_physics_constant produces the expected output","over":{"base":"Any","pred":"isinstance(const, PhysicalConstant) and isinstance(quantity, Quantity)"},"name":"test_physics_constant_correct"},"guarantee":"test_physics_constant produces the expected output","fibers":[{"name":"PhysicalConstant","pred":"isinstance(const, PhysicalConstant)","path":{"lhs":"test_physics_constant(x)","rhs":"test_physics_constant produces the expected output","over":{"base":"PhysicalConstant","pred":"isinstance(const, PhysicalConstant)"},"name":"test_physics_constant_PhysicalConstant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_physics_constant_PhysicalConstant_correct","statement":"test_physics_constant satisfies spec on PhysicalConstant inputs"},"trust":"LIBRARY"},{"name":"Quantity","pred":"isinstance(quantity, Quantity)","path":{"lhs":"test_physics_constant(x)","rhs":"test_physics_constant produces the expected output","over":{"base":"Quantity","pred":"isinstance(quantity, Quantity)"},"name":"test_physics_constant_Quantity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_physics_constant_Quantity_correct","statement":"test_physics_constant satisfies spec on Quantity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"44d1de277347deaa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_quantities.test_physics_constant","kind":"function","src_hash":"d1fe1574a2653dcc","in":{"base":"Any","pred":"isinstance(const, PhysicalConstant) and isinstance(quantity, Quantity)"},"out":{"base":"Any","pred":"result satisfies: not meter.is_physical_constant and not joule.is_physical_constant"},"spec":{"lhs":"test_physics_constant()","rhs":"not meter.is_physical_constant and not joule.is_physical_constant","over":{"base":"Any","pred":"isinstance(const, PhysicalConstant) and isinstance(quantity, Quantity)"},"name":"test_physics_constant_correct"},"guarantee":"not meter.is_physical_constant; not joule.is_physical_constant","fibers":[{"name":"PhysicalConstant","pred":"isinstance(const, PhysicalConstant)","path":{"lhs":"test_physics_constant(x)","rhs":"not meter.is_physical_constant; not joule.is_physical_constant","over":{"base":"PhysicalConstant","pred":"isinstance(const, PhysicalConstant)"},"name":"test_physics_constant_PhysicalConstant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_physics_constant_PhysicalConstant_correct","statement":"test_physics_constant satisfies spec on PhysicalConstant inputs"},"trust":"LIBRARY"},{"name":"Quantity","pred":"isinstance(quantity, Quantity)","path":{"lhs":"test_physics_constant(x)","rhs":"not meter.is_physical_constant; not joule.is_physical_constant","over":{"base":"Quantity","pred":"isinstance(quantity, Quantity)"},"name":"test_physics_constant_Quantity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_quantities.test_physics_constant_Quantity_correct","statement":"test_physics_constant satisfies spec on Quantity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"44d1de277347deaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not meter.is_physical_constant","not joule.is_physical_constant"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(quantity, Quantity)'}, fibers={'Quantity', 'PhysicalConstant'})"]}}
 def test_physics_constant():
     from sympy.physics.units import definitions
 

@@ -28,7 +28,12 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_ring(), test_puiseux_ring produces the expected output) over {Any | isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly)} ║
+# ║ Path(test_puiseux_ring(), isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly) and R == R2 and px == px2 and R == PuiseuxRing('x', QQ) and R == PuiseuxRing([x], QQ) and R != PuiseuxRing('y', QQ) and R != PuiseuxRing('x', ZZ) and R != PuiseuxRing('x, y', QQ) and R != QQ and str(R) == 'PuiseuxRing((x,), QQ)') over {Any | isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(R, PuiseuxRing)                     ║
+# ║   ensures:  isinstance(px, PuiseuxPoly)                    ║
+# ║   ensures:  R == R2                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_puiseux_ring : {Any | isinstance(R, PuiseuxRing)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -41,9 +46,12 @@ from sympy.abc import x, y
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 89e4e7ff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_ring","kind":"function","src_hash":"a345205db9d0e0f1","in":{"base":"Any","pred":"isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly)"},"out":{"base":"Any","pred":"isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly) and R == R2 and px == px2 and R == PuiseuxRing('x', QQ) and R == PuiseuxRing([x], QQ) and R != PuiseuxRing('y', QQ) and R != PuiseuxRing('x', ZZ) and R != PuiseuxRing('x, y', QQ) and R != QQ and str(R) == 'PuiseuxRing((x,), QQ)'"},"spec":{"lhs":"test_puiseux_ring()","rhs":"test_puiseux_ring produces the expected output","over":{"base":"Any","pred":"isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly)"},"name":"test_puiseux_ring_correct"},"guarantee":"test_puiseux_ring produces the expected output","fibers":[{"name":"PuiseuxRing","pred":"isinstance(R, PuiseuxRing)","path":{"lhs":"test_puiseux_ring(x)","rhs":"test_puiseux_ring produces the expected output","over":{"base":"PuiseuxRing","pred":"isinstance(R, PuiseuxRing)"},"name":"test_puiseux_ring_PuiseuxRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_PuiseuxRing_correct","statement":"test_puiseux_ring satisfies spec on PuiseuxRing inputs"},"trust":"LIBRARY"},{"name":"PuiseuxPoly","pred":"isinstance(px, PuiseuxPoly)","path":{"lhs":"test_puiseux_ring(x)","rhs":"test_puiseux_ring produces the expected output","over":{"base":"PuiseuxPoly","pred":"isinstance(px, PuiseuxPoly)"},"name":"test_puiseux_ring_PuiseuxPoly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_PuiseuxPoly_correct","statement":"test_puiseux_ring satisfies spec on PuiseuxPoly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"89e4e7ff3d8165bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_ring","kind":"function","src_hash":"a345205db9d0e0f1","in":{"base":"Any","pred":"isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly)"},"out":{"base":"Any","pred":"result satisfies: isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly) and R == R2 and px == px2 and R == PuiseuxRing('x', QQ) and R == PuiseuxRing([x], QQ) and R != PuiseuxRing('y', QQ) and R != PuiseuxRing('x', ZZ) and R != PuiseuxRing('x, y', QQ) and R != QQ and str(R) == 'PuiseuxRing((x,), QQ)'"},"spec":{"lhs":"test_puiseux_ring()","rhs":"isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly) and R == R2 and px == px2 and R == PuiseuxRing('x', QQ) and R == PuiseuxRing([x], QQ) and R != PuiseuxRing('y', QQ) and R != PuiseuxRing('x', ZZ) and R != PuiseuxRing('x, y', QQ) and R != QQ and str(R) == 'PuiseuxRing((x,), QQ)'","over":{"base":"Any","pred":"isinstance(R, PuiseuxRing) and isinstance(px, PuiseuxPoly)"},"name":"test_puiseux_ring_correct"},"guarantee":"isinstance(R, PuiseuxRing); isinstance(px, PuiseuxPoly); R == R2","fibers":[{"name":"PuiseuxRing","pred":"isinstance(R, PuiseuxRing)","path":{"lhs":"test_puiseux_ring(x)","rhs":"isinstance(R, PuiseuxRing); isinstance(px, PuiseuxPoly); R == R2","over":{"base":"PuiseuxRing","pred":"isinstance(R, PuiseuxRing)"},"name":"test_puiseux_ring_PuiseuxRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_PuiseuxRing_correct","statement":"test_puiseux_ring satisfies spec on PuiseuxRing inputs"},"trust":"LIBRARY"},{"name":"PuiseuxPoly","pred":"isinstance(px, PuiseuxPoly)","path":{"lhs":"test_puiseux_ring(x)","rhs":"isinstance(R, PuiseuxRing); isinstance(px, PuiseuxPoly); R == R2","over":{"base":"PuiseuxPoly","pred":"isinstance(px, PuiseuxPoly)"},"name":"test_puiseux_ring_PuiseuxPoly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_PuiseuxPoly_correct","statement":"test_puiseux_ring satisfies spec on PuiseuxPoly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"89e4e7ff3d8165bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(R, PuiseuxRing)","isinstance(px, PuiseuxPoly)","R == R2","px == px2","R == PuiseuxRing('x', QQ)","R == PuiseuxRing([x], QQ)","R != PuiseuxRing('y', QQ)","R != PuiseuxRing('x', ZZ)","R != PuiseuxRing('x, y', QQ)","R != QQ","str(R) == 'PuiseuxRing((x,), QQ)'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"failed","binding":true}}
 def test_puiseux_ring():
     R, px = puiseux_ring('x', QQ)
     R2, px2 = puiseux_ring([x], QQ)
@@ -61,16 +69,24 @@ def test_puiseux_ring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_ring_attributes(), test_puiseux_ring_attributes produces the expected output) over Any ║
+# ║ Path(test_puiseux_ring_attributes(), R2.domain == QQ and R2.symbols == (x, y) and R2.gens == (px2, py2) and R2.ngens == 2 and R2.poly_ring == R1 and R2.zero == PuiseuxPoly(R1.zero, R2) and R2.one == PuiseuxPoly(R1.one, R2) and R2.zero_monom == R1.zero_monom == (0, 0) and R2.monomial_mul((1, 2), (3, 4)) == (4, 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_ring_attributes : Any → {Any | R2.domain...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R2.domain == QQ                                ║
+# ║   ensures:  R2.symbols == (x, y)                           ║
+# ║   ensures:  R2.gens == (px2, py2)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_ring_attributes : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 656389fce332b841  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c59299c10eab803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_ring_attributes","kind":"function","src_hash":"15aae34364a1c454","in":{"base":"Any"},"out":{"base":"Any","pred":"R2.domain == QQ and R2.symbols == (x, y) and R2.gens == (px2, py2) and R2.ngens == 2 and R2.poly_ring == R1 and R2.zero == PuiseuxPoly(R1.zero, R2) and R2.one == PuiseuxPoly(R1.one, R2) and R2.zero_monom == R1.zero_monom == (0, 0) and R2.monomial_mul((1, 2), (3, 4)) == (4, 6)"},"spec":{"lhs":"test_puiseux_ring_attributes()","rhs":"test_puiseux_ring_attributes produces the expected output","over":{"base":"Any"},"name":"test_puiseux_ring_attributes_correct"},"guarantee":"test_puiseux_ring_attributes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_attributes_correct","statement":"Path(test_puiseux_ring_attributes(x), test_puiseux_ring_attributes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"656389fce332b841"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_ring_attributes","kind":"function","src_hash":"15aae34364a1c454","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R2.domain == QQ and R2.symbols == (x, y) and R2.gens == (px2, py2) and R2.ngens == 2 and R2.poly_ring == R1 and R2.zero == PuiseuxPoly(R1.zero, R2) and R2.one == PuiseuxPoly(R1.one, R2) and R2.zero_monom == R1.zero_monom == (0, 0) and R2.monomial_mul((1, 2), (3, 4)) == (4, 6)"},"spec":{"lhs":"test_puiseux_ring_attributes()","rhs":"R2.domain == QQ and R2.symbols == (x, y) and R2.gens == (px2, py2) and R2.ngens == 2 and R2.poly_ring == R1 and R2.zero == PuiseuxPoly(R1.zero, R2) and R2.one == PuiseuxPoly(R1.one, R2) and R2.zero_monom == R1.zero_monom == (0, 0) and R2.monomial_mul((1, 2), (3, 4)) == (4, 6)","over":{"base":"Any"},"name":"test_puiseux_ring_attributes_correct"},"guarantee":"R2.domain == QQ; R2.symbols == (x, y); R2.gens == (px2, py2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_attributes_correct","statement":"Path(test_puiseux_ring_attributes(x), R2.domain == QQ; R2.symbols == (x, y); R2.gens == (px2, py2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c59299c10eab803","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R2.domain == QQ","R2.symbols == (x, y)","R2.gens == (px2, py2)","R2.ngens == 2","R2.poly_ring == R1","R2.zero == PuiseuxPoly(R1.zero, R2)","R2.one == PuiseuxPoly(R1.one, R2)","R2.zero_monom == R1.zero_monom == (0, 0)","R2.monomial_mul((1, 2), (3, 4)) == (4, 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_puiseux_ring_attributes():
     R1, px1, py1 = ring('x, y', QQ)
     R2, px2, py2 = puiseux_ring('x, y', QQ)
@@ -86,7 +102,12 @@ def test_puiseux_ring_attributes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_ring_methods(), test_puiseux_ring_methods produces the expected output) over {Any | isinstance(R2.ground_new(3), PuiseuxPoly)} ║
+# ║ Path(test_puiseux_ring_methods(), R2({(1, 2): 3}) == 3 * px2 * py2 ** 2 and R2(px1) == px2 and R2(1) == R2.one and R2(QQ(1, 2)) == QQ(1, 2) * R2.one and R2.from_poly(px1) == px2 and R2.from_poly(px1) != py2 and R2.from_dict({(1, 2): QQ(3)}) == 3 * px2 * py2 ** 2 and R2.from_dict({(QQ(1, 2), 2): QQ(3)}) == 3 * px2 ** QQ(1, 2) * py2 ** 2 and R2.from_int(3) == 3 * R2.one and R2.domain_new(3) == QQ(3) and QQ.of_type(R2.domain_new(3)) and R2.ground_new(3) == 3 * R2.one and isinstance(R2.ground_new(3), PuiseuxPoly) and R2.index(px2) == 0 and R2.index(py2) == 1) over {Any | isinstance(R2.ground_new(3), PuiseuxPoly)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R2({(1, 2): 3}) == 3 * px2 * py2 ** 2          ║
+# ║   ensures:  R2(px1) == px2                                 ║
+# ║   ensures:  R2(1) == R2.one                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_puiseux_ring_methods : {Any | isinstance(R2.grou...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -98,9 +119,12 @@ def test_puiseux_ring_attributes():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | eb66b6db...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_ring_methods","kind":"function","src_hash":"a03e01c0a3d50051","in":{"base":"Any","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)"},"out":{"base":"Any","pred":"R2({(1, 2): 3}) == 3 * px2 * py2 ** 2 and R2(px1) == px2 and R2(1) == R2.one and R2(QQ(1, 2)) == QQ(1, 2) * R2.one and R2.from_poly(px1) == px2 and R2.from_poly(px1) != py2 and R2.from_dict({(1, 2): QQ(3)}) == 3 * px2 * py2 ** 2 and R2.from_dict({(QQ(1, 2), 2): QQ(3)}) == 3 * px2 ** QQ(1, 2) * py2 ** 2 and R2.from_int(3) == 3 * R2.one and R2.domain_new(3) == QQ(3) and QQ.of_type(R2.domain_new(3)) and R2.ground_new(3) == 3 * R2.one and isinstance(R2.ground_new(3), PuiseuxPoly) and R2.index(px2) == 0 and R2.index(py2) == 1"},"spec":{"lhs":"test_puiseux_ring_methods()","rhs":"test_puiseux_ring_methods produces the expected output","over":{"base":"Any","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)"},"name":"test_puiseux_ring_methods_correct"},"guarantee":"test_puiseux_ring_methods produces the expected output","fibers":[{"name":"PuiseuxPoly","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)","path":{"lhs":"test_puiseux_ring_methods(x)","rhs":"test_puiseux_ring_methods produces the expected output","over":{"base":"PuiseuxPoly","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)"},"name":"test_puiseux_ring_methods_PuiseuxPoly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_methods_PuiseuxPoly_correct","statement":"test_puiseux_ring_methods satisfies spec on PuiseuxPoly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eb66b6dbb6a33a6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_ring_methods","kind":"function","src_hash":"a03e01c0a3d50051","in":{"base":"Any","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)"},"out":{"base":"Any","pred":"result satisfies: R2({(1, 2): 3}) == 3 * px2 * py2 ** 2 and R2(px1) == px2 and R2(1) == R2.one and R2(QQ(1, 2)) == QQ(1, 2) * R2.one and R2.from_poly(px1) == px2 and R2.from_poly(px1) != py2 and R2.from_dict({(1, 2): QQ(3)}) == 3 * px2 * py2 ** 2 and R2.from_dict({(QQ(1, 2), 2): QQ(3)}) == 3 * px2 ** QQ(1, 2) * py2 ** 2 and R2.from_int(3) == 3 * R2.one and R2.domain_new(3) == QQ(3) and QQ.of_type(R2.domain_new(3)) and R2.ground_new(3) == 3 * R2.one and isinstance(R2.ground_new(3), PuiseuxPoly) and R2.index(px2) == 0 and R2.index(py2) == 1"},"spec":{"lhs":"test_puiseux_ring_methods()","rhs":"R2({(1, 2): 3}) == 3 * px2 * py2 ** 2 and R2(px1) == px2 and R2(1) == R2.one and R2(QQ(1, 2)) == QQ(1, 2) * R2.one and R2.from_poly(px1) == px2 and R2.from_poly(px1) != py2 and R2.from_dict({(1, 2): QQ(3)}) == 3 * px2 * py2 ** 2 and R2.from_dict({(QQ(1, 2), 2): QQ(3)}) == 3 * px2 ** QQ(1, 2) * py2 ** 2 and R2.from_int(3) == 3 * R2.one and R2.domain_new(3) == QQ(3) and QQ.of_type(R2.domain_new(3)) and R2.ground_new(3) == 3 * R2.one and isinstance(R2.ground_new(3), PuiseuxPoly) and R2.index(px2) == 0 and R2.index(py2) == 1","over":{"base":"Any","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)"},"name":"test_puiseux_ring_methods_correct"},"guarantee":"R2({(1, 2): 3}) == 3 * px2 * py2 ** 2; R2(px1) == px2; R2(1) == R2.one","fibers":[{"name":"PuiseuxPoly","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)","path":{"lhs":"test_puiseux_ring_methods(x)","rhs":"R2({(1, 2): 3}) == 3 * px2 * py2 ** 2; R2(px1) == px2; R2(1) == R2.one","over":{"base":"PuiseuxPoly","pred":"isinstance(R2.ground_new(3), PuiseuxPoly)"},"name":"test_puiseux_ring_methods_PuiseuxPoly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_ring_methods_PuiseuxPoly_correct","statement":"test_puiseux_ring_methods satisfies spec on PuiseuxPoly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eb66b6dbb6a33a6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R2({(1, 2): 3}) == 3 * px2 * py2 ** 2","R2(px1) == px2","R2(1) == R2.one","R2(QQ(1, 2)) == QQ(1, 2) * R2.one","R2.from_poly(px1) == px2","R2.from_poly(px1) != py2","R2.from_dict({(1, 2): QQ(3)}) == 3 * px2 * py2 ** 2","R2.from_dict({(QQ(1, 2), 2): QQ(3)}) == 3 * px2 ** QQ(1, 2) * py2 ** 2","R2.from_int(3) == 3 * R2.one","R2.domain_new(3) == QQ(3)","QQ.of_type(R2.domain_new(3))","R2.ground_new(3) == 3 * R2.one","isinstance(R2.ground_new(3), PuiseuxPoly)","R2.index(px2) == 0","R2.index(py2) == 1"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_puiseux_ring_methods():
     R1, px1, py1 = ring('x, y', QQ)
     R2, px2, py2 = puiseux_ring('x, y', QQ)
@@ -122,16 +146,24 @@ def test_puiseux_ring_methods():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly(), test_puiseux_poly produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly(), PuiseuxPoly(px1, R2) == px2 and px2.ring == R2 and px2.as_expr() == px1.as_expr() == x and px1 != px2 and R2.one == px2 ** 0 == 1 and px2 == px1 and px2 != 2.0 and px2 ** QQ(1, 2) != px1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly : Any → {Any | PuiseuxPoly(px1, R2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PuiseuxPoly(px1, R2) == px2                    ║
+# ║   ensures:  px2.ring == R2                                 ║
+# ║   ensures:  px2.as_expr() == px1.as_expr() == x            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly : Any → {Any | result satisfies: Pu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d4d2901948f551e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4e15a3382dfcdde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly","kind":"function","src_hash":"b52e83d8526a3e6e","in":{"base":"Any"},"out":{"base":"Any","pred":"PuiseuxPoly(px1, R2) == px2 and px2.ring == R2 and px2.as_expr() == px1.as_expr() == x and px1 != px2 and R2.one == px2 ** 0 == 1 and px2 == px1 and px2 != 2.0 and px2 ** QQ(1, 2) != px1"},"spec":{"lhs":"test_puiseux_poly()","rhs":"test_puiseux_poly produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_correct"},"guarantee":"test_puiseux_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_correct","statement":"Path(test_puiseux_poly(x), test_puiseux_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d4d2901948f551e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly","kind":"function","src_hash":"b52e83d8526a3e6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PuiseuxPoly(px1, R2) == px2 and px2.ring == R2 and px2.as_expr() == px1.as_expr() == x and px1 != px2 and R2.one == px2 ** 0 == 1 and px2 == px1 and px2 != 2.0 and px2 ** QQ(1, 2) != px1"},"spec":{"lhs":"test_puiseux_poly()","rhs":"PuiseuxPoly(px1, R2) == px2 and px2.ring == R2 and px2.as_expr() == px1.as_expr() == x and px1 != px2 and R2.one == px2 ** 0 == 1 and px2 == px1 and px2 != 2.0 and px2 ** QQ(1, 2) != px1","over":{"base":"Any"},"name":"test_puiseux_poly_correct"},"guarantee":"PuiseuxPoly(px1, R2) == px2; px2.ring == R2; px2.as_expr() == px1.as_expr() == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_correct","statement":"Path(test_puiseux_poly(x), PuiseuxPoly(px1, R2) == px2; px2.ring == R2; px2.as_expr() == px1.as_expr() == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e15a3382dfcdde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PuiseuxPoly(px1, R2) == px2","px2.ring == R2","px2.as_expr() == px1.as_expr() == x","px1 != px2","R2.one == px2 ** 0 == 1","px2 == px1","px2 != 2.0","px2 ** QQ(1, 2) != px1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly():
     R1, px1 = ring('x', QQ)
     R2, px2 = puiseux_ring('x', QQ)
@@ -146,16 +178,24 @@ def test_puiseux_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_normalization(), test_puiseux_poly_normalization produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_normalization(), (x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1}) and (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** QQ(1, 2) == x ** QQ(1, 12) == R({(QQ(1, 12),): 1}) and (x ** QQ(1, 6)) ** 6 == x == R({(1,): 1}) and x ** QQ(1, 6) * x ** QQ(1, 3) == x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and 1 / x * x ** 2 == x == R({(1,): 1}) and 1 / x ** QQ(1, 3) * x ** QQ(1, 3) == 1 == R({(0,): 1})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_normalization : Any → {Any | (x ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2 + 1) / x == x + 1 / x == R({(1,):...   ║
+# ║   ensures:  (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == ...   ║
+# ║   ensures:  (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_normalization : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33b97a47ae785ac1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd6d7991852baa03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_normalization","kind":"function","src_hash":"45adaa946365a9c2","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1}) and (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** QQ(1, 2) == x ** QQ(1, 12) == R({(QQ(1, 12),): 1}) and (x ** QQ(1, 6)) ** 6 == x == R({(1,): 1}) and x ** QQ(1, 6) * x ** QQ(1, 3) == x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and 1 / x * x ** 2 == x == R({(1,): 1}) and 1 / x ** QQ(1, 3) * x ** QQ(1, 3) == 1 == R({(0,): 1})"},"spec":{"lhs":"test_puiseux_poly_normalization()","rhs":"test_puiseux_poly_normalization produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_normalization_correct"},"guarantee":"test_puiseux_poly_normalization produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_normalization_correct","statement":"Path(test_puiseux_poly_normalization(x), test_puiseux_poly_normalization produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33b97a47ae785ac1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_normalization","kind":"function","src_hash":"45adaa946365a9c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1}) and (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** QQ(1, 2) == x ** QQ(1, 12) == R({(QQ(1, 12),): 1}) and (x ** QQ(1, 6)) ** 6 == x == R({(1,): 1}) and x ** QQ(1, 6) * x ** QQ(1, 3) == x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and 1 / x * x ** 2 == x == R({(1,): 1}) and 1 / x ** QQ(1, 3) * x ** QQ(1, 3) == 1 == R({(0,): 1})"},"spec":{"lhs":"test_puiseux_poly_normalization()","rhs":"(x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1}) and (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1}) and (x ** QQ(1, 6)) ** QQ(1, 2) == x ** QQ(1, 12) == R({(QQ(1, 12),): 1}) and (x ** QQ(1, 6)) ** 6 == x == R({(1,): 1}) and x ** QQ(1, 6) * x ** QQ(1, 3) == x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and 1 / x * x ** 2 == x == R({(1,): 1}) and 1 / x ** QQ(1, 3) * x ** QQ(1, 3) == 1 == R({(0,): 1})","over":{"base":"Any"},"name":"test_puiseux_poly_normalization_correct"},"guarantee":"(x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1}); (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1}); (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_normalization_correct","statement":"Path(test_puiseux_poly_normalization(x), (x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1}); (x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1}); (x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd6d7991852baa03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2 + 1) / x == x + 1 / x == R({(1,): 1, (-1,): 1})","(x ** QQ(1, 6)) ** 2 == x ** QQ(1, 3) == R({(QQ(1, 3),): 1})","(x ** QQ(1, 6)) ** (-2) == x ** (-QQ(1, 3)) == R({(-QQ(1, 3),): 1})","(x ** QQ(1, 6)) ** QQ(1, 2) == x ** QQ(1, 12) == R({(QQ(1, 12),): 1})","(x ** QQ(1, 6)) ** 6 == x == R({(1,): 1})","x ** QQ(1, 6) * x ** QQ(1, 3) == x ** QQ(1, 2) == R({(QQ(1, 2),): 1})","1 / x * x ** 2 == x == R({(1,): 1})","1 / x ** QQ(1, 3) * x ** QQ(1, 3) == 1 == R({(0,): 1})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_normalization():
     R, x = puiseux_ring('x', QQ)
     assert (x**2 + 1) / x == x + 1/x == R({(1,): 1, (-1,): 1})
@@ -169,16 +209,24 @@ def test_puiseux_poly_normalization():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_monoms(), test_puiseux_poly_monoms produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_monoms(), x.monoms() == [(1,)] and list(x) == [(1,)] and (x ** 2 + 1).monoms() == [(2,), (0,)] and R({(1,): 1, (-1,): 1}).monoms() == [(1,), (-1,)] and R({(QQ(1, 3),): 1}).monoms() == [(QQ(1, 3),)] and R({(-QQ(1, 3),): 1}).monoms() == [(-QQ(1, 3),)] and p[QQ(1, 6),] == 1 and p.to_dict() == {(QQ(1, 6),): 1} and R(p.to_dict()) == p and PuiseuxPoly.from_dict({(QQ(1, 6),): 1}, R) == p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_monoms : Any → {Any | x.monoms() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.monoms() == [(1,)]                           ║
+# ║   ensures:  list(x) == [(1,)]                              ║
+# ║   ensures:  (x ** 2 + 1).monoms() == [(2,), (0,)]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_monoms : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d560209177b9409  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10fe6c8485d26f44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_monoms","kind":"function","src_hash":"bf3cf9567d355bb6","in":{"base":"Any"},"out":{"base":"Any","pred":"x.monoms() == [(1,)] and list(x) == [(1,)] and (x ** 2 + 1).monoms() == [(2,), (0,)] and R({(1,): 1, (-1,): 1}).monoms() == [(1,), (-1,)] and R({(QQ(1, 3),): 1}).monoms() == [(QQ(1, 3),)] and R({(-QQ(1, 3),): 1}).monoms() == [(-QQ(1, 3),)] and p[QQ(1, 6),] == 1 and p.to_dict() == {(QQ(1, 6),): 1} and R(p.to_dict()) == p and PuiseuxPoly.from_dict({(QQ(1, 6),): 1}, R) == p"},"spec":{"lhs":"test_puiseux_poly_monoms()","rhs":"test_puiseux_poly_monoms produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_monoms_correct"},"guarantee":"test_puiseux_poly_monoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_monoms_correct","statement":"Path(test_puiseux_poly_monoms(x), test_puiseux_poly_monoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d560209177b9409"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_monoms","kind":"function","src_hash":"bf3cf9567d355bb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.monoms() == [(1,)] and list(x) == [(1,)] and (x ** 2 + 1).monoms() == [(2,), (0,)] and R({(1,): 1, (-1,): 1}).monoms() == [(1,), (-1,)] and R({(QQ(1, 3),): 1}).monoms() == [(QQ(1, 3),)] and R({(-QQ(1, 3),): 1}).monoms() == [(-QQ(1, 3),)] and p[QQ(1, 6),] == 1 and p.to_dict() == {(QQ(1, 6),): 1} and R(p.to_dict()) == p and PuiseuxPoly.from_dict({(QQ(1, 6),): 1}, R) == p"},"spec":{"lhs":"test_puiseux_poly_monoms()","rhs":"x.monoms() == [(1,)] and list(x) == [(1,)] and (x ** 2 + 1).monoms() == [(2,), (0,)] and R({(1,): 1, (-1,): 1}).monoms() == [(1,), (-1,)] and R({(QQ(1, 3),): 1}).monoms() == [(QQ(1, 3),)] and R({(-QQ(1, 3),): 1}).monoms() == [(-QQ(1, 3),)] and p[QQ(1, 6),] == 1 and p.to_dict() == {(QQ(1, 6),): 1} and R(p.to_dict()) == p and PuiseuxPoly.from_dict({(QQ(1, 6),): 1}, R) == p","over":{"base":"Any"},"name":"test_puiseux_poly_monoms_correct"},"guarantee":"x.monoms() == [(1,)]; list(x) == [(1,)]; (x ** 2 + 1).monoms() == [(2,), (0,)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_monoms_correct","statement":"Path(test_puiseux_poly_monoms(x), x.monoms() == [(1,)]; list(x) == [(1,)]; (x ** 2 + 1).monoms() == [(2,), (0,)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10fe6c8485d26f44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.monoms() == [(1,)]","list(x) == [(1,)]","(x ** 2 + 1).monoms() == [(2,), (0,)]","R({(1,): 1, (-1,): 1}).monoms() == [(1,), (-1,)]","R({(QQ(1, 3),): 1}).monoms() == [(QQ(1, 3),)]","R({(-QQ(1, 3),): 1}).monoms() == [(-QQ(1, 3),)]","p[QQ(1, 6),] == 1","p.to_dict() == {(QQ(1, 6),): 1}","R(p.to_dict()) == p","PuiseuxPoly.from_dict({(QQ(1, 6),): 1}, R) == p"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_monoms():
     R, x = puiseux_ring('x', QQ)
     assert x.monoms() == [(1,)]
@@ -196,16 +244,24 @@ def test_puiseux_poly_monoms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_repr(), test_puiseux_poly_repr produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_repr(), repr(x) == 'x' and repr(x ** QQ(1, 2)) == 'x**(1/2)' and repr(1 / x) == 'x**(-1)' and repr(2 * x ** 2 + 1) == '1 + 2*x**2' and repr(R.one) == '1' and repr(2 * R.one) == '2') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_repr : Any → {Any | repr(x) == 'x' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(x) == 'x'                                 ║
+# ║   ensures:  repr(x ** QQ(1, 2)) == 'x**(1/2)'              ║
+# ║   ensures:  repr(1 / x) == 'x**(-1)'                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_repr : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45f814da2a9fb086  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f333a5efc76f7309  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_repr","kind":"function","src_hash":"dc0dd52bc44236db","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(x) == 'x' and repr(x ** QQ(1, 2)) == 'x**(1/2)' and repr(1 / x) == 'x**(-1)' and repr(2 * x ** 2 + 1) == '1 + 2*x**2' and repr(R.one) == '1' and repr(2 * R.one) == '2'"},"spec":{"lhs":"test_puiseux_poly_repr()","rhs":"test_puiseux_poly_repr produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_repr_correct"},"guarantee":"test_puiseux_poly_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_repr_correct","statement":"Path(test_puiseux_poly_repr(x), test_puiseux_poly_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45f814da2a9fb086"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_repr","kind":"function","src_hash":"dc0dd52bc44236db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(x) == 'x' and repr(x ** QQ(1, 2)) == 'x**(1/2)' and repr(1 / x) == 'x**(-1)' and repr(2 * x ** 2 + 1) == '1 + 2*x**2' and repr(R.one) == '1' and repr(2 * R.one) == '2'"},"spec":{"lhs":"test_puiseux_poly_repr()","rhs":"repr(x) == 'x' and repr(x ** QQ(1, 2)) == 'x**(1/2)' and repr(1 / x) == 'x**(-1)' and repr(2 * x ** 2 + 1) == '1 + 2*x**2' and repr(R.one) == '1' and repr(2 * R.one) == '2'","over":{"base":"Any"},"name":"test_puiseux_poly_repr_correct"},"guarantee":"repr(x) == 'x'; repr(x ** QQ(1, 2)) == 'x**(1/2)'; repr(1 / x) == 'x**(-1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_repr_correct","statement":"Path(test_puiseux_poly_repr(x), repr(x) == 'x'; repr(x ** QQ(1, 2)) == 'x**(1/2)'; repr(1 / x) == 'x**(-1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f333a5efc76f7309","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(x) == 'x'","repr(x ** QQ(1, 2)) == 'x**(1/2)'","repr(1 / x) == 'x**(-1)'","repr(2 * x ** 2 + 1) == '1 + 2*x**2'","repr(R.one) == '1'","repr(2 * R.one) == '2'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_repr():
     R, x = puiseux_ring('x', QQ)
     assert repr(x) == 'x'
@@ -217,16 +273,24 @@ def test_puiseux_poly_repr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_unify(), test_puiseux_poly_unify produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_unify(), 1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1}) and repr(1 / x + x) == 'x**(-1) + x' and 1 / x + 1 / x == 2 / x == R({(-1,): 2}) and repr(1 / x + 1 / x) == '2*x**(-1)' and x ** QQ(1, 2) + x ** QQ(1, 2) == 2 * x ** QQ(1, 2) == R({(QQ(1, 2),): 2}) and repr(x ** QQ(1, 2) + x ** QQ(1, 2)) == '2*x**(1/2)' and x ** QQ(1, 2) + x ** QQ(1, 3) == R({(QQ(1, 2),): 1, (QQ(1, 3),): 1}) and repr(x ** QQ(1, 2) + x ** QQ(1, 3)) == 'x**(1/3) + x**(1/2)' and x + x ** QQ(1, 2) == R({(1,): 1, (QQ(1, 2),): 1}) and repr(x + x ** QQ(1, 2)) == 'x**(1/2) + x' and 1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3) == R({(-QQ(1, 2),): 1, (-QQ(1, 3),): 1}) and repr(1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3)) == 'x**(-1/2) + x**(-1/3)' and 1 / x + x ** QQ(1, 2) == x ** QQ(1, 2) + 1 / x == R({(-1,): 1, (QQ(1, 2),): 1}) and repr(1 / x + x ** QQ(1, 2)) == 'x**(-1) + x**(1/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_unify : Any → {Any | 1 / x + x == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1 / x + x == x + 1 / x == R({(1,): 1, (-1...   ║
+# ║   ensures:  repr(1 / x + x) == 'x**(-1) + x'               ║
+# ║   ensures:  1 / x + 1 / x == 2 / x == R({(-1,): 2})        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_unify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6f57325ba9a6244  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdf87973a311f56e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_unify","kind":"function","src_hash":"c9f39dcf8e63fc83","in":{"base":"Any"},"out":{"base":"Any","pred":"1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1}) and repr(1 / x + x) == 'x**(-1) + x' and 1 / x + 1 / x == 2 / x == R({(-1,): 2}) and repr(1 / x + 1 / x) == '2*x**(-1)' and x ** QQ(1, 2) + x ** QQ(1, 2) == 2 * x ** QQ(1, 2) == R({(QQ(1, 2),): 2}) and repr(x ** QQ(1, 2) + x ** QQ(1, 2)) == '2*x**(1/2)' and x ** QQ(1, 2) + x ** QQ(1, 3) == R({(QQ(1, 2),): 1, (QQ(1, 3),): 1}) and repr(x ** QQ(1, 2) + x ** QQ(1, 3)) == 'x**(1/3) + x**(1/2)' and x + x ** QQ(1, 2) == R({(1,): 1, (QQ(1, 2),): 1}) and repr(x + x ** QQ(1, 2)) == 'x**(1/2) + x' and 1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3) == R({(-QQ(1, 2),): 1, (-QQ(1, 3),): 1}) and repr(1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3)) == 'x**(-1/2) + x**(-1/3)' and 1 / x + x ** QQ(1, 2) == x ** QQ(1, 2) + 1 / x == R({(-1,): 1, (QQ(1, 2),): 1}) and repr(1 / x + x ** QQ(1, 2)) == 'x**(-1) + x**(1/2)'"},"spec":{"lhs":"test_puiseux_poly_unify()","rhs":"test_puiseux_poly_unify produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_unify_correct"},"guarantee":"test_puiseux_poly_unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_unify_correct","statement":"Path(test_puiseux_poly_unify(x), test_puiseux_poly_unify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6f57325ba9a6244"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_unify","kind":"function","src_hash":"c9f39dcf8e63fc83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1}) and repr(1 / x + x) == 'x**(-1) + x' and 1 / x + 1 / x == 2 / x == R({(-1,): 2}) and repr(1 / x + 1 / x) == '2*x**(-1)' and x ** QQ(1, 2) + x ** QQ(1, 2) == 2 * x ** QQ(1, 2) == R({(QQ(1, 2),): 2}) and repr(x ** QQ(1, 2) + x ** QQ(1, 2)) == '2*x**(1/2)' and x ** QQ(1, 2) + x ** QQ(1, 3) == R({(QQ(1, 2),): 1, (QQ(1, 3),): 1}) and repr(x ** QQ(1, 2) + x ** QQ(1, 3)) == 'x**(1/3) + x**(1/2)' and x + x ** QQ(1, 2) == R({(1,): 1, (QQ(1, 2),): 1}) and repr(x + x ** QQ(1, 2)) == 'x**(1/2) + x' and 1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3) == R({(-QQ(1, 2),): 1, (-QQ(1, 3),): 1}) and repr(1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3)) == 'x**(-1/2) + x**(-1/3)' and 1 / x + x ** QQ(1, 2) == x ** QQ(1, 2) + 1 / x == R({(-1,): 1, (QQ(1, 2),): 1}) and repr(1 / x + x ** QQ(1, 2)) == 'x**(-1) + x**(1/2)'"},"spec":{"lhs":"test_puiseux_poly_unify()","rhs":"1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1}) and repr(1 / x + x) == 'x**(-1) + x' and 1 / x + 1 / x == 2 / x == R({(-1,): 2}) and repr(1 / x + 1 / x) == '2*x**(-1)' and x ** QQ(1, 2) + x ** QQ(1, 2) == 2 * x ** QQ(1, 2) == R({(QQ(1, 2),): 2}) and repr(x ** QQ(1, 2) + x ** QQ(1, 2)) == '2*x**(1/2)' and x ** QQ(1, 2) + x ** QQ(1, 3) == R({(QQ(1, 2),): 1, (QQ(1, 3),): 1}) and repr(x ** QQ(1, 2) + x ** QQ(1, 3)) == 'x**(1/3) + x**(1/2)' and x + x ** QQ(1, 2) == R({(1,): 1, (QQ(1, 2),): 1}) and repr(x + x ** QQ(1, 2)) == 'x**(1/2) + x' and 1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3) == R({(-QQ(1, 2),): 1, (-QQ(1, 3),): 1}) and repr(1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3)) == 'x**(-1/2) + x**(-1/3)' and 1 / x + x ** QQ(1, 2) == x ** QQ(1, 2) + 1 / x == R({(-1,): 1, (QQ(1, 2),): 1}) and repr(1 / x + x ** QQ(1, 2)) == 'x**(-1) + x**(1/2)'","over":{"base":"Any"},"name":"test_puiseux_poly_unify_correct"},"guarantee":"1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1}); repr(1 / x + x) == 'x**(-1) + x'; 1 / x + 1 / x == 2 / x == R({(-1,): 2})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_unify_correct","statement":"Path(test_puiseux_poly_unify(x), 1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1}); repr(1 / x + x) == 'x**(-1) + x'; 1 / x + 1 / x == 2 / x == R({(-1,): 2}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf87973a311f56e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1 / x + x == x + 1 / x == R({(1,): 1, (-1,): 1})","repr(1 / x + x) == 'x**(-1) + x'","1 / x + 1 / x == 2 / x == R({(-1,): 2})","repr(1 / x + 1 / x) == '2*x**(-1)'","x ** QQ(1, 2) + x ** QQ(1, 2) == 2 * x ** QQ(1, 2) == R({(QQ(1, 2),): 2})","repr(x ** QQ(1, 2) + x ** QQ(1, 2)) == '2*x**(1/2)'","x ** QQ(1, 2) + x ** QQ(1, 3) == R({(QQ(1, 2),): 1, (QQ(1, 3),): 1})","repr(x ** QQ(1, 2) + x ** QQ(1, 3)) == 'x**(1/3) + x**(1/2)'","x + x ** QQ(1, 2) == R({(1,): 1, (QQ(1, 2),): 1})","repr(x + x ** QQ(1, 2)) == 'x**(1/2) + x'","1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3) == R({(-QQ(1, 2),): 1, (-QQ(1, 3),): 1})","repr(1 / x ** QQ(1, 2) + 1 / x ** QQ(1, 3)) == 'x**(-1/2) + x**(-1/3)'","1 / x + x ** QQ(1, 2) == x ** QQ(1, 2) + 1 / x == R({(-1,): 1, (QQ(1, 2),): 1})","repr(1 / x + x ** QQ(1, 2)) == 'x**(-1) + x**(1/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_unify():
     R, x = puiseux_ring('x', QQ)
     assert 1/x + x == x + 1/x == R({(1,): 1, (-1,): 1})
@@ -246,16 +310,24 @@ def test_puiseux_poly_unify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_arit(), test_puiseux_poly_arit produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_arit(), +p == p and -p == -1 - x ** 2 and p + p == 2 * p == 2 * x ** 2 + 2 and p + 1 == 1 + p == x ** 2 + 2 and p + QQ(1, 2) == QQ(1, 2) + p == x ** 2 + QQ(3, 2) and p - p == 0 and p - 1 == -1 + p == x ** 2 and p - QQ(1, 2) == -QQ(1, 2) + p == x ** 2 + QQ(1, 2) and 1 - p == -p + 1 == -x ** 2 and QQ(1, 2) - p == -p + QQ(1, 2) == -x ** 2 - QQ(1, 2) and p * p == x ** 4 + 2 * x ** 2 + 1 and p * 1 == 1 * p == p and 2 * p == p * 2 == 2 * x ** 2 + 2 and p * QQ(1, 2) == QQ(1, 2) * p == QQ(1, 2) * x ** 2 + QQ(1, 2) and x ** QQ(1, 2) * x ** QQ(1, 2) == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_arit : Any → {Any | +p == p and -p ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  +p == p                                        ║
+# ║   ensures:  -p == -1 - x ** 2                              ║
+# ║   ensures:  p + p == 2 * p == 2 * x ** 2 + 2               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_arit : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b74cd8b376368469  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22cc682503f5ee7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_arit","kind":"function","src_hash":"d74e643edc69f164","in":{"base":"Any"},"out":{"base":"Any","pred":"+p == p and -p == -1 - x ** 2 and p + p == 2 * p == 2 * x ** 2 + 2 and p + 1 == 1 + p == x ** 2 + 2 and p + QQ(1, 2) == QQ(1, 2) + p == x ** 2 + QQ(3, 2) and p - p == 0 and p - 1 == -1 + p == x ** 2 and p - QQ(1, 2) == -QQ(1, 2) + p == x ** 2 + QQ(1, 2) and 1 - p == -p + 1 == -x ** 2 and QQ(1, 2) - p == -p + QQ(1, 2) == -x ** 2 - QQ(1, 2) and p * p == x ** 4 + 2 * x ** 2 + 1 and p * 1 == 1 * p == p and 2 * p == p * 2 == 2 * x ** 2 + 2 and p * QQ(1, 2) == QQ(1, 2) * p == QQ(1, 2) * x ** 2 + QQ(1, 2) and x ** QQ(1, 2) * x ** QQ(1, 2) == x"},"spec":{"lhs":"test_puiseux_poly_arit()","rhs":"test_puiseux_poly_arit produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_arit_correct"},"guarantee":"test_puiseux_poly_arit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_arit_correct","statement":"Path(test_puiseux_poly_arit(x), test_puiseux_poly_arit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b74cd8b376368469"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_arit","kind":"function","src_hash":"d74e643edc69f164","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: +p == p and -p == -1 - x ** 2 and p + p == 2 * p == 2 * x ** 2 + 2 and p + 1 == 1 + p == x ** 2 + 2 and p + QQ(1, 2) == QQ(1, 2) + p == x ** 2 + QQ(3, 2) and p - p == 0 and p - 1 == -1 + p == x ** 2 and p - QQ(1, 2) == -QQ(1, 2) + p == x ** 2 + QQ(1, 2) and 1 - p == -p + 1 == -x ** 2 and QQ(1, 2) - p == -p + QQ(1, 2) == -x ** 2 - QQ(1, 2) and p * p == x ** 4 + 2 * x ** 2 + 1 and p * 1 == 1 * p == p and 2 * p == p * 2 == 2 * x ** 2 + 2 and p * QQ(1, 2) == QQ(1, 2) * p == QQ(1, 2) * x ** 2 + QQ(1, 2) and x ** QQ(1, 2) * x ** QQ(1, 2) == x"},"spec":{"lhs":"test_puiseux_poly_arit()","rhs":"+p == p and -p == -1 - x ** 2 and p + p == 2 * p == 2 * x ** 2 + 2 and p + 1 == 1 + p == x ** 2 + 2 and p + QQ(1, 2) == QQ(1, 2) + p == x ** 2 + QQ(3, 2) and p - p == 0 and p - 1 == -1 + p == x ** 2 and p - QQ(1, 2) == -QQ(1, 2) + p == x ** 2 + QQ(1, 2) and 1 - p == -p + 1 == -x ** 2 and QQ(1, 2) - p == -p + QQ(1, 2) == -x ** 2 - QQ(1, 2) and p * p == x ** 4 + 2 * x ** 2 + 1 and p * 1 == 1 * p == p and 2 * p == p * 2 == 2 * x ** 2 + 2 and p * QQ(1, 2) == QQ(1, 2) * p == QQ(1, 2) * x ** 2 + QQ(1, 2) and x ** QQ(1, 2) * x ** QQ(1, 2) == x","over":{"base":"Any"},"name":"test_puiseux_poly_arit_correct"},"guarantee":"+p == p; -p == -1 - x ** 2; p + p == 2 * p == 2 * x ** 2 + 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_arit_correct","statement":"Path(test_puiseux_poly_arit(x), +p == p; -p == -1 - x ** 2; p + p == 2 * p == 2 * x ** 2 + 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22cc682503f5ee7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["+p == p","-p == -1 - x ** 2","p + p == 2 * p == 2 * x ** 2 + 2","p + 1 == 1 + p == x ** 2 + 2","p + QQ(1, 2) == QQ(1, 2) + p == x ** 2 + QQ(3, 2)","p - p == 0","p - 1 == -1 + p == x ** 2","p - QQ(1, 2) == -QQ(1, 2) + p == x ** 2 + QQ(1, 2)","1 - p == -p + 1 == -x ** 2","QQ(1, 2) - p == -p + QQ(1, 2) == -x ** 2 - QQ(1, 2)","p * p == x ** 4 + 2 * x ** 2 + 1","p * 1 == 1 * p == p","2 * p == p * 2 == 2 * x ** 2 + 2","p * QQ(1, 2) == QQ(1, 2) * p == QQ(1, 2) * x ** 2 + QQ(1, 2)","x ** QQ(1, 2) * x ** QQ(1, 2) == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_arit():
     R, x = puiseux_ring('x', QQ)
     R2, y = puiseux_ring('y', QQ)
@@ -287,16 +359,24 @@ def test_puiseux_poly_arit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_div(), test_puiseux_poly_div produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_div(), p / 1 == p and p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2 and p / x == x - 1 / x == R({(1,): 1, (-1,): -1}) and 2 / x == 2 * x ** (-1) == R({(-1,): 2}) and QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == 1 / (2 * x) == 1 / x / 2 == R({(-1,): QQ(1, 2)})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_div : Any → {Any | p / 1 == p and p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p / 1 == p                                     ║
+# ║   ensures:  p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2        ║
+# ║   ensures:  p / x == x - 1 / x == R({(1,): 1, (-1,): ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_div : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 837fd8836b794f01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04e57c505bad6cf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_div","kind":"function","src_hash":"041e5239b6930815","in":{"base":"Any"},"out":{"base":"Any","pred":"p / 1 == p and p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2 and p / x == x - 1 / x == R({(1,): 1, (-1,): -1}) and 2 / x == 2 * x ** (-1) == R({(-1,): 2})"},"spec":{"lhs":"test_puiseux_poly_div()","rhs":"test_puiseux_poly_div produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_div_correct"},"guarantee":"test_puiseux_poly_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_div_correct","statement":"Path(test_puiseux_poly_div(x), test_puiseux_poly_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"837fd8836b794f01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_div","kind":"function","src_hash":"041e5239b6930815","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p / 1 == p and p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2 and p / x == x - 1 / x == R({(1,): 1, (-1,): -1}) and 2 / x == 2 * x ** (-1) == R({(-1,): 2}) and QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == 1 / (2 * x) == 1 / x / 2 == R({(-1,): QQ(1, 2)})"},"spec":{"lhs":"test_puiseux_poly_div()","rhs":"p / 1 == p and p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2 and p / x == x - 1 / x == R({(1,): 1, (-1,): -1}) and 2 / x == 2 * x ** (-1) == R({(-1,): 2}) and QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == 1 / (2 * x) == 1 / x / 2 == R({(-1,): QQ(1, 2)})","over":{"base":"Any"},"name":"test_puiseux_poly_div_correct"},"guarantee":"p / 1 == p; p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2; p / x == x - 1 / x == R({(1,): 1, (-1,): -1})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_div_correct","statement":"Path(test_puiseux_poly_div(x), p / 1 == p; p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2; p / x == x - 1 / x == R({(1,): 1, (-1,): -1}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e57c505bad6cf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p / 1 == p","p / QQ(1, 2) == 2 * p == 2 * x ** 2 - 2","p / x == x - 1 / x == R({(1,): 1, (-1,): -1})","2 / x == 2 * x ** (-1) == R({(-1,): 2})","QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == 1 / (2 * x) == 1 / x / 2 == R({(-1,): QQ(1, 2)})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_div():
     R, x = puiseux_ring('x', QQ)
     R2, y = puiseux_ring('y', QQ)
@@ -315,16 +395,24 @@ def test_puiseux_poly_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_pow(), test_puiseux_poly_pow produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_pow(), x ** 0 == 1 == R({(0,): 1}) and x ** 1 == x == R({(1,): 1}) and x ** 2 == x * x == R({(2,): 1}) and x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and x ** (-1) == 1 / x == R({(-1,): 1}) and x ** (-QQ(1, 2)) == 1 / x ** QQ(1, 2) == R({(-QQ(1, 2),): 1}) and (2 * x) ** (-1) == 1 / (2 * x) == QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == R({(-1,): QQ(1, 2)}) and 2 / x ** 2 == 2 * x ** (-2) == R({(-2,): 2}) and 2 / xz ** 2 == 2 * xz ** (-2) == Rz({(-2,): 2})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_pow : Any → {Any | x ** 0 == 1 == R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x ** 0 == 1 == R({(0,): 1})                    ║
+# ║   ensures:  x ** 1 == x == R({(1,): 1})                    ║
+# ║   ensures:  x ** 2 == x * x == R({(2,): 1})                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_pow : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4ce6dd6086433a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da9f6e39a35369ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_pow","kind":"function","src_hash":"cda72dc463f5258c","in":{"base":"Any"},"out":{"base":"Any","pred":"x ** 0 == 1 == R({(0,): 1}) and x ** 1 == x == R({(1,): 1}) and x ** 2 == x * x == R({(2,): 1}) and x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and x ** (-1) == 1 / x == R({(-1,): 1}) and x ** (-QQ(1, 2)) == 1 / x ** QQ(1, 2) == R({(-QQ(1, 2),): 1}) and 2 / x ** 2 == 2 * x ** (-2) == R({(-2,): 2}) and 2 / xz ** 2 == 2 * xz ** (-2) == Rz({(-2,): 2})"},"spec":{"lhs":"test_puiseux_poly_pow()","rhs":"test_puiseux_poly_pow produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_pow_correct"},"guarantee":"test_puiseux_poly_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_pow_correct","statement":"Path(test_puiseux_poly_pow(x), test_puiseux_poly_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ce6dd6086433a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_pow","kind":"function","src_hash":"cda72dc463f5258c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x ** 0 == 1 == R({(0,): 1}) and x ** 1 == x == R({(1,): 1}) and x ** 2 == x * x == R({(2,): 1}) and x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and x ** (-1) == 1 / x == R({(-1,): 1}) and x ** (-QQ(1, 2)) == 1 / x ** QQ(1, 2) == R({(-QQ(1, 2),): 1}) and (2 * x) ** (-1) == 1 / (2 * x) == QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == R({(-1,): QQ(1, 2)}) and 2 / x ** 2 == 2 * x ** (-2) == R({(-2,): 2}) and 2 / xz ** 2 == 2 * xz ** (-2) == Rz({(-2,): 2})"},"spec":{"lhs":"test_puiseux_poly_pow()","rhs":"x ** 0 == 1 == R({(0,): 1}) and x ** 1 == x == R({(1,): 1}) and x ** 2 == x * x == R({(2,): 1}) and x ** QQ(1, 2) == R({(QQ(1, 2),): 1}) and x ** (-1) == 1 / x == R({(-1,): 1}) and x ** (-QQ(1, 2)) == 1 / x ** QQ(1, 2) == R({(-QQ(1, 2),): 1}) and (2 * x) ** (-1) == 1 / (2 * x) == QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == R({(-1,): QQ(1, 2)}) and 2 / x ** 2 == 2 * x ** (-2) == R({(-2,): 2}) and 2 / xz ** 2 == 2 * xz ** (-2) == Rz({(-2,): 2})","over":{"base":"Any"},"name":"test_puiseux_poly_pow_correct"},"guarantee":"x ** 0 == 1 == R({(0,): 1}); x ** 1 == x == R({(1,): 1}); x ** 2 == x * x == R({(2,): 1})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_pow_correct","statement":"Path(test_puiseux_poly_pow(x), x ** 0 == 1 == R({(0,): 1}); x ** 1 == x == R({(1,): 1}); x ** 2 == x * x == R({(2,): 1}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da9f6e39a35369ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x ** 0 == 1 == R({(0,): 1})","x ** 1 == x == R({(1,): 1})","x ** 2 == x * x == R({(2,): 1})","x ** QQ(1, 2) == R({(QQ(1, 2),): 1})","x ** (-1) == 1 / x == R({(-1,): 1})","x ** (-QQ(1, 2)) == 1 / x ** QQ(1, 2) == R({(-QQ(1, 2),): 1})","(2 * x) ** (-1) == 1 / (2 * x) == QQ(1, 2) / x == QQ(1, 2) * x ** (-1) == R({(-1,): QQ(1, 2)})","2 / x ** 2 == 2 * x ** (-2) == R({(-2,): 2})","2 / xz ** 2 == 2 * xz ** (-2) == Rz({(-2,): 2})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_pow():
     R, x = puiseux_ring('x', QQ)
     Rz, xz = puiseux_ring('x', ZZ)
@@ -345,16 +433,24 @@ def test_puiseux_poly_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_puiseux_poly_diff(), test_puiseux_poly_diff produces the expected output) over Any ║
+# ║ Path(test_puiseux_poly_diff(), (x ** 2 + 1).diff(x) == 2 * x and (x ** 2 + 1).diff(y) == 0 and (x ** 2 + y ** 2).diff(x) == 2 * x and (x ** QQ(1, 2) + y ** QQ(1, 2)).diff(x) == QQ(1, 2) * x ** (-QQ(1, 2)) and ((x * y) ** QQ(1, 2)).diff(x) == QQ(1, 2) * y ** QQ(1, 2) * x ** (-QQ(1, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_puiseux_poly_diff : Any → {Any | (x ** 2 + 1).di...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2 + 1).diff(x) == 2 * x                  ║
+# ║   ensures:  (x ** 2 + 1).diff(y) == 0                      ║
+# ║   ensures:  (x ** 2 + y ** 2).diff(x) == 2 * x             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_puiseux_poly_diff : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b2fba460cbf9a1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06034dab24e96d6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_diff","kind":"function","src_hash":"855588c9bd13b7bb","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 2 + 1).diff(x) == 2 * x and (x ** 2 + 1).diff(y) == 0 and (x ** 2 + y ** 2).diff(x) == 2 * x and (x ** QQ(1, 2) + y ** QQ(1, 2)).diff(x) == QQ(1, 2) * x ** (-QQ(1, 2)) and ((x * y) ** QQ(1, 2)).diff(x) == QQ(1, 2) * y ** QQ(1, 2) * x ** (-QQ(1, 2))"},"spec":{"lhs":"test_puiseux_poly_diff()","rhs":"test_puiseux_poly_diff produces the expected output","over":{"base":"Any"},"name":"test_puiseux_poly_diff_correct"},"guarantee":"test_puiseux_poly_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_diff_correct","statement":"Path(test_puiseux_poly_diff(x), test_puiseux_poly_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b2fba460cbf9a1b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_puiseux.test_puiseux_poly_diff","kind":"function","src_hash":"855588c9bd13b7bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2 + 1).diff(x) == 2 * x and (x ** 2 + 1).diff(y) == 0 and (x ** 2 + y ** 2).diff(x) == 2 * x and (x ** QQ(1, 2) + y ** QQ(1, 2)).diff(x) == QQ(1, 2) * x ** (-QQ(1, 2)) and ((x * y) ** QQ(1, 2)).diff(x) == QQ(1, 2) * y ** QQ(1, 2) * x ** (-QQ(1, 2))"},"spec":{"lhs":"test_puiseux_poly_diff()","rhs":"(x ** 2 + 1).diff(x) == 2 * x and (x ** 2 + 1).diff(y) == 0 and (x ** 2 + y ** 2).diff(x) == 2 * x and (x ** QQ(1, 2) + y ** QQ(1, 2)).diff(x) == QQ(1, 2) * x ** (-QQ(1, 2)) and ((x * y) ** QQ(1, 2)).diff(x) == QQ(1, 2) * y ** QQ(1, 2) * x ** (-QQ(1, 2))","over":{"base":"Any"},"name":"test_puiseux_poly_diff_correct"},"guarantee":"(x ** 2 + 1).diff(x) == 2 * x; (x ** 2 + 1).diff(y) == 0; (x ** 2 + y ** 2).diff(x) == 2 * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_puiseux.test_puiseux_poly_diff_correct","statement":"Path(test_puiseux_poly_diff(x), (x ** 2 + 1).diff(x) == 2 * x; (x ** 2 + 1).diff(y) == 0; (x ** 2 + y ** 2).diff(x) == 2 * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06034dab24e96d6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2 + 1).diff(x) == 2 * x","(x ** 2 + 1).diff(y) == 0","(x ** 2 + y ** 2).diff(x) == 2 * x","(x ** QQ(1, 2) + y ** QQ(1, 2)).diff(x) == QQ(1, 2) * x ** (-QQ(1, 2))","((x * y) ** QQ(1, 2)).diff(x) == QQ(1, 2) * y ** QQ(1, 2) * x ** (-QQ(1, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_puiseux_poly_diff():
     R, x, y = puiseux_ring('x, y', QQ)
     assert (x**2 + 1).diff(x) == 2*x

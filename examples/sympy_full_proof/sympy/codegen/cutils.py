@@ -18,16 +18,22 @@
 from sympy.printing.c import C99CodePrinter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(render_as_source_file(con), renders a c source file (with required #include statements)) over Any ║
+# ║ Path(render_as_source_file(content, Printer, settings), includes + '\n\n' + code_str) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  includes + '\n\n' + code_str                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ render_as_source_file : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23155ed2ada13083  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eea58824807cb62d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.cutils.render_as_source_file","kind":"function","src_hash":"e2be65761ca96278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render_as_source_file(con)","rhs":"renders a c source file (with required #include statements)","over":{"base":"Any"},"name":"render_as_source_file_correct"},"guarantee":"renders a c source file (with required #include statements)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.cutils.render_as_source_file_correct","statement":"Path(render_as_source_file(x), renders a c source file (with required #include statements))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23155ed2ada13083"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.cutils.render_as_source_file","kind":"function","src_hash":"e2be65761ca96278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render_as_source_file(content, Printer, settings)","rhs":"includes + '\\n\\n' + code_str","over":{"base":"Any"},"name":"render_as_source_file_correct"},"guarantee":"returns includes + '\\n\\n' + code_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.cutils.render_as_source_file_correct","statement":"Path(render_as_source_file(x), returns includes + '\\n\\n' + code_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eea58824807cb62d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"includes + '\\n\\n' + code_str","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def render_as_source_file(content, Printer=C99CodePrinter, settings=None):
     """ Renders a C source file (with required #include statements) """
     printer = Printer(settings or {})

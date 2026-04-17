@@ -34,16 +34,22 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(serializedATN(), serializedATN produces the expected output) over Any ║
+# ║ Path(serializedATN(), <unspecified:serializedATN>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ serializedATN : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 12.5ms                        ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 131753eaf96a5fbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._antlr.latexlexer.serializedATN","kind":"function","src_hash":"1345a97affef1f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"serializedATN()","rhs":"serializedATN produces the expected output","over":{"base":"Any"},"name":"serializedATN_correct"},"guarantee":"serializedATN produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex._antlr.latexlexer.serializedATN_correct","statement":"Path(serializedATN(x), serializedATN produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"131753eaf96a5fbd"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._antlr.latexlexer.serializedATN","kind":"function","src_hash":"1345a97affef1f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"serializedATN()","rhs":"<unspecified:serializedATN>","over":{"base":"Any"},"name":"serializedATN_correct"},"guarantee":"serializedATN produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex._antlr.latexlexer.serializedATN_correct","statement":"Path(serializedATN(x), serializedATN produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"131753eaf96a5fbd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":12.5,"verdict_class":"assumed","binding":true}}
 def serializedATN():
     return [
         4,0,91,911,6,-1,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,
@@ -376,14 +382,20 @@ def serializedATN():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LaTeXLexer instance) preserved by LaTeXLexer(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LaTeXLexer : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Lexer)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LaTeXLexer : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f76b0c6b0d4194a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._antlr.latexlexer.LaTeXLexer","kind":"class","src_hash":"059736cc56925437","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LaTeXLexer(*args)","rhs":"correctly constructs a LaTeXLexer instance","over":{"base":"Any"},"name":"LaTeXLexer_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LaTeXLexer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_interp') and hasattr(self, '_actions') and hasattr(self, '_predicates')","kind":"class","induction":"structural on _interp, _actions, _predicates"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f76b0c6b0d4194a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._antlr.latexlexer.LaTeXLexer","kind":"class","src_hash":"059736cc56925437","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Lexer)"},"spec":{"lhs":"LaTeXLexer(*args)","rhs":"correctly constructs a LaTeXLexer instance","over":{"base":"Any"},"name":"LaTeXLexer_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Lexer); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_interp') and hasattr(self, '_actions') and hasattr(self, '_predicates')","kind":"class","induction":"structural on _interp, _actions, _predicates"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f76b0c6b0d4194a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Lexer)"],"invariants":["hasattr(self, '_interp')","hasattr(self, '_actions')","hasattr(self, '_predicates')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LaTeXLexer not found in source"]}}
 class LaTeXLexer(Lexer):
 
     atn = ATNDeserializer().deserialize(serializedATN())
@@ -542,16 +554,23 @@ class LaTeXLexer(Lexer):
     grammarFileName = "LaTeX.g4"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(inp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(input, output), <unspecified:__init__>) over {Any | isinstance(output, TextIO)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(output, TextIO)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(output, TextIO)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae3645051ebf0619           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._antlr.latexlexer.LaTeXLexer.__init__","kind":"method","src_hash":"ff9be961bdc868ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(inp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae3645051ebf0619"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex._antlr.latexlexer.LaTeXLexer.__init__","kind":"method","src_hash":"ff9be961bdc868ec","in":{"base":"Any","pred":"isinstance(output, TextIO)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(input, output)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(output, TextIO)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae3645051ebf0619","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(output, TextIO)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, input=None, output:TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.11.1")

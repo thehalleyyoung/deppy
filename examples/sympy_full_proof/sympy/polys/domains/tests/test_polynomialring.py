@@ -26,32 +26,46 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_build_order(), test_build_order produces the expected output) over Any ║
+# ║ Path(test_build_order(), R.order((1, 5)) == ((1,), (-5,))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_build_order : Any → {Any | R.order((1, 5)) == ((...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.order((1, 5)) == ((1,), (-5,))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_build_order : Any → {Any | result satisfies: R.o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bbe64c9d5e8ad10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90fda885d2c46724  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_build_order","kind":"function","src_hash":"af4947655c0ed549","in":{"base":"Any"},"out":{"base":"Any","pred":"R.order((1, 5)) == ((1,), (-5,))"},"spec":{"lhs":"test_build_order()","rhs":"test_build_order produces the expected output","over":{"base":"Any"},"name":"test_build_order_correct"},"guarantee":"test_build_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_build_order_correct","statement":"Path(test_build_order(x), test_build_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bbe64c9d5e8ad10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_build_order","kind":"function","src_hash":"af4947655c0ed549","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.order((1, 5)) == ((1,), (-5,))"},"spec":{"lhs":"test_build_order()","rhs":"R.order((1, 5)) == ((1,), (-5,))","over":{"base":"Any"},"name":"test_build_order_correct"},"guarantee":"R.order((1, 5)) == ((1,), (-5,))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_build_order_correct","statement":"Path(test_build_order(x), R.order((1, 5)) == ((1,), (-5,)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fda885d2c46724","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.order((1, 5)) == ((1,), (-5,))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_build_order():
     R = QQ.old_poly_ring(x, y, order=(("lex", x), ("ilex", y)))
     assert R.order((1, 5)) == ((1,), (-5,))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_globalring(), test_globalring produces the expected output) over Any ║
+# ║ Path(test_globalring(), x in R and 1 / x not in R and 1 / (1 + x) not in R and Y in R and X * (Y ** 2 + 1) == R.convert(x * (y ** 2 + 1)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R.from_FractionField(Qxy.convert(x / y), Qxy) is None and R._sdm_to_vector(R._vector_to_sdm([X, Y], R.order), 2) == [X, Y]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_globalring : Any → {Any | x in R and 1 / x not i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x in R                                         ║
+# ║   ensures:  1 / x not in R                                 ║
+# ║   ensures:  1 / (1 + x) not in R                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_globalring : Any → {Any | result satisfies: x in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 089c2fadc3aaf5df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ce4973974c25b16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_globalring","kind":"function","src_hash":"137d54a5cf26b947","in":{"base":"Any"},"out":{"base":"Any","pred":"x in R and 1 / x not in R and 1 / (1 + x) not in R and Y in R and X * (Y ** 2 + 1) == R.convert(x * (y ** 2 + 1)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R.from_FractionField(Qxy.convert(x / y), Qxy) is None and R._sdm_to_vector(R._vector_to_sdm([X, Y], R.order), 2) == [X, Y]"},"spec":{"lhs":"test_globalring()","rhs":"test_globalring produces the expected output","over":{"base":"Any"},"name":"test_globalring_correct"},"guarantee":"test_globalring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_globalring_correct","statement":"Path(test_globalring(x), test_globalring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"089c2fadc3aaf5df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_globalring","kind":"function","src_hash":"137d54a5cf26b947","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x in R and 1 / x not in R and 1 / (1 + x) not in R and Y in R and X * (Y ** 2 + 1) == R.convert(x * (y ** 2 + 1)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R.from_FractionField(Qxy.convert(x / y), Qxy) is None and R._sdm_to_vector(R._vector_to_sdm([X, Y], R.order), 2) == [X, Y]"},"spec":{"lhs":"test_globalring()","rhs":"x in R and 1 / x not in R and 1 / (1 + x) not in R and Y in R and X * (Y ** 2 + 1) == R.convert(x * (y ** 2 + 1)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R.from_FractionField(Qxy.convert(x / y), Qxy) is None and R._sdm_to_vector(R._vector_to_sdm([X, Y], R.order), 2) == [X, Y]","over":{"base":"Any"},"name":"test_globalring_correct"},"guarantee":"x in R; 1 / x not in R; 1 / (1 + x) not in R","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_globalring_correct","statement":"Path(test_globalring(x), x in R; 1 / x not in R; 1 / (1 + x) not in R)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ce4973974c25b16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x in R","1 / x not in R","1 / (1 + x) not in R","Y in R","X * (Y ** 2 + 1) == R.convert(x * (y ** 2 + 1))","X + 1 == R.convert(x + 1)","X ** 2 / X == X","R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X","R.from_FractionField(Qxy.convert(x), Qxy) == X","R.from_FractionField(Qxy.convert(x / y), Qxy) is None","R._sdm_to_vector(R._vector_to_sdm([X, Y], R.order), 2) == [X, Y]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_globalring():
     Qxy = QQ.old_frac_field(x, y)
     R = QQ.old_poly_ring(x, y)
@@ -77,16 +91,24 @@ def test_globalring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_localring(), test_localring produces the expected output) over Any ║
+# ║ Path(test_localring(), x in R and 1 / x not in R and 1 / (1 + x) in R and Y in R and X * (Y ** 2 + 1) / (1 + X) == R.convert(x * (y ** 2 + 1) / (1 + x)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R._sdm_to_vector(R._vector_to_sdm([X / (X + 1), Y / (1 + X * Y)], R.order), 2) == [X * (1 + X * Y), Y * (1 + X)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_localring : Any → {Any | x in R and 1 / x not in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x in R                                         ║
+# ║   ensures:  1 / x not in R                                 ║
+# ║   ensures:  1 / (1 + x) in R                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_localring : Any → {Any | result satisfies: x in ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 984090f57945a31a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d420c088ea0c199  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_localring","kind":"function","src_hash":"c49db0d92b6a1706","in":{"base":"Any"},"out":{"base":"Any","pred":"x in R and 1 / x not in R and 1 / (1 + x) in R and Y in R and X * (Y ** 2 + 1) / (1 + X) == R.convert(x * (y ** 2 + 1) / (1 + x)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_FractionField(Qxy.convert(x), Qxy) == X"},"spec":{"lhs":"test_localring()","rhs":"test_localring produces the expected output","over":{"base":"Any"},"name":"test_localring_correct"},"guarantee":"test_localring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_localring_correct","statement":"Path(test_localring(x), test_localring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"984090f57945a31a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_localring","kind":"function","src_hash":"c49db0d92b6a1706","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x in R and 1 / x not in R and 1 / (1 + x) in R and Y in R and X * (Y ** 2 + 1) / (1 + X) == R.convert(x * (y ** 2 + 1) / (1 + x)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R._sdm_to_vector(R._vector_to_sdm([X / (X + 1), Y / (1 + X * Y)], R.order), 2) == [X * (1 + X * Y), Y * (1 + X)]"},"spec":{"lhs":"test_localring()","rhs":"x in R and 1 / x not in R and 1 / (1 + x) in R and Y in R and X * (Y ** 2 + 1) / (1 + X) == R.convert(x * (y ** 2 + 1) / (1 + x)) and X + 1 == R.convert(x + 1) and X ** 2 / X == X and R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X and R.from_FractionField(Qxy.convert(x), Qxy) == X and R._sdm_to_vector(R._vector_to_sdm([X / (X + 1), Y / (1 + X * Y)], R.order), 2) == [X * (1 + X * Y), Y * (1 + X)]","over":{"base":"Any"},"name":"test_localring_correct"},"guarantee":"x in R; 1 / x not in R; 1 / (1 + x) in R","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_localring_correct","statement":"Path(test_localring(x), x in R; 1 / x not in R; 1 / (1 + x) in R)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d420c088ea0c199","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x in R","1 / x not in R","1 / (1 + x) in R","Y in R","X * (Y ** 2 + 1) / (1 + X) == R.convert(x * (y ** 2 + 1) / (1 + x))","X + 1 == R.convert(x + 1)","X ** 2 / X == X","R.from_GlobalPolynomialRing(ZZ.old_poly_ring(x, y).convert(x), ZZ.old_poly_ring(x, y)) == X","R.from_FractionField(Qxy.convert(x), Qxy) == X","R._sdm_to_vector(R._vector_to_sdm([X / (X + 1), Y / (1 + X * Y)], R.order), 2) == [X * (1 + X * Y), Y * (1 + X)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_localring():
     Qxy = QQ.old_frac_field(x, y)
     R = QQ.old_poly_ring(x, y, order="ilex")
@@ -115,16 +137,23 @@ def test_localring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conversion(), test_conversion produces the expected output) over Any ║
+# ║ Path(test_conversion(), L.convert(x) == L.convert(G.convert(x), G) and G.convert(x) == G.convert(L.convert(x), L)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conversion : Any → {Any | L.convert(x) == L.conv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L.convert(x) == L.convert(G.convert(x), G)     ║
+# ║   ensures:  G.convert(x) == G.convert(L.convert(x), L)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conversion : Any → {Any | result satisfies: L.co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cfba3c2ce402f2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2fac3e308988c32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_conversion","kind":"function","src_hash":"123a3f523a1320ab","in":{"base":"Any"},"out":{"base":"Any","pred":"L.convert(x) == L.convert(G.convert(x), G) and G.convert(x) == G.convert(L.convert(x), L)"},"spec":{"lhs":"test_conversion()","rhs":"test_conversion produces the expected output","over":{"base":"Any"},"name":"test_conversion_correct"},"guarantee":"test_conversion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_conversion_correct","statement":"Path(test_conversion(x), test_conversion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cfba3c2ce402f2f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_conversion","kind":"function","src_hash":"123a3f523a1320ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L.convert(x) == L.convert(G.convert(x), G) and G.convert(x) == G.convert(L.convert(x), L)"},"spec":{"lhs":"test_conversion()","rhs":"L.convert(x) == L.convert(G.convert(x), G) and G.convert(x) == G.convert(L.convert(x), L)","over":{"base":"Any"},"name":"test_conversion_correct"},"guarantee":"L.convert(x) == L.convert(G.convert(x), G); G.convert(x) == G.convert(L.convert(x), L)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_conversion_correct","statement":"Path(test_conversion(x), L.convert(x) == L.convert(G.convert(x), G); G.convert(x) == G.convert(L.convert(x), L))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2fac3e308988c32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L.convert(x) == L.convert(G.convert(x), G)","G.convert(x) == G.convert(L.convert(x), L)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_conversion():
     L = QQ.old_poly_ring(x, y, order="ilex")
     G = QQ.old_poly_ring(x, y)
@@ -135,16 +164,24 @@ def test_conversion():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_units(), test_units produces the expected output) over Any ║
+# ║ Path(test_units(), R.is_unit(R.convert(1)) and R.is_unit(R.convert(2)) and not R.is_unit(R.convert(x)) and not R.is_unit(R.convert(1 + x)) and R.is_unit(R.convert(1 + x)) and not R.is_unit(R.convert(2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_units : Any → {Any | R.is_unit(R.convert(1)) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.is_unit(R.convert(1))                        ║
+# ║   ensures:  R.is_unit(R.convert(2))                        ║
+# ║   ensures:  not R.is_unit(R.convert(x))                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_units : Any → {Any | result satisfies: R.is_unit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f992f5e6ee9d86c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17fa5ad08feb010b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_units","kind":"function","src_hash":"b75a2dce3b78f0ed","in":{"base":"Any"},"out":{"base":"Any","pred":"R.is_unit(R.convert(1)) and R.is_unit(R.convert(2)) and not R.is_unit(R.convert(x)) and not R.is_unit(R.convert(1 + x)) and R.is_unit(R.convert(1)) and R.is_unit(R.convert(2)) and not R.is_unit(R.convert(x)) and R.is_unit(R.convert(1 + x)) and R.is_unit(R.convert(1)) and not R.is_unit(R.convert(2)) and not R.is_unit(R.convert(x)) and not R.is_unit(R.convert(1 + x))"},"spec":{"lhs":"test_units()","rhs":"test_units produces the expected output","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"test_units produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_units_correct","statement":"Path(test_units(x), test_units produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f992f5e6ee9d86c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_polynomialring.test_units","kind":"function","src_hash":"b75a2dce3b78f0ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.is_unit(R.convert(1)) and R.is_unit(R.convert(2)) and not R.is_unit(R.convert(x)) and not R.is_unit(R.convert(1 + x)) and R.is_unit(R.convert(1 + x)) and not R.is_unit(R.convert(2))"},"spec":{"lhs":"test_units()","rhs":"R.is_unit(R.convert(1)) and R.is_unit(R.convert(2)) and not R.is_unit(R.convert(x)) and not R.is_unit(R.convert(1 + x)) and R.is_unit(R.convert(1 + x)) and not R.is_unit(R.convert(2))","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"R.is_unit(R.convert(1)); R.is_unit(R.convert(2)); not R.is_unit(R.convert(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_polynomialring.test_units_correct","statement":"Path(test_units(x), R.is_unit(R.convert(1)); R.is_unit(R.convert(2)); not R.is_unit(R.convert(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17fa5ad08feb010b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.is_unit(R.convert(1))","R.is_unit(R.convert(2))","not R.is_unit(R.convert(x))","not R.is_unit(R.convert(1 + x))","R.is_unit(R.convert(1 + x))","not R.is_unit(R.convert(2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_units():
     R = QQ.old_poly_ring(x)
     assert R.is_unit(R.convert(1))

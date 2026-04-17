@@ -37,16 +37,23 @@ from sympy.utilities.misc import as_int, filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_digits(n, ), return the number of digits needed to express n in give base) over Any ║
+# ║ Path(num_digits(n, base), <unspecified:num_digits>) over {Any | not (base < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ num_digits : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (base < 0)                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ num_digits : {Any | not (base < 0)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5c37a7a30843af0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.num_digits","kind":"function","src_hash":"92e93a0ea5cf3dbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_digits(n, )","rhs":"return the number of digits needed to express n in give base","over":{"base":"Any"},"name":"num_digits_correct"},"guarantee":"return the number of digits needed to express n in give base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.num_digits_correct","statement":"Path(num_digits(x), return the number of digits needed to express n in give base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c37a7a30843af0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.num_digits","kind":"function","src_hash":"92e93a0ea5cf3dbd","in":{"base":"Any","pred":"not (base < 0)"},"out":{"base":"Any"},"spec":{"lhs":"num_digits(n, base)","rhs":"<unspecified:num_digits>","over":{"base":"Any","pred":"not (base < 0)"},"name":"num_digits_correct"},"guarantee":"return the number of digits needed to express n in give base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.num_digits_correct","statement":"Path(num_digits(x), return the number of digits needed to express n in give base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c37a7a30843af0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (base < 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def num_digits(n, base=10):
     """Return the number of digits needed to express n in give base.
 
@@ -84,16 +91,24 @@ def num_digits(n, base=10):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integer_log(n, ), returns ``(e, bool)`` where e is the largest nonnegative integer such that :math:`|n| \geq |b^e|` and ``bool`` is true if $n = b^e$) over Any ║
+# ║ Path(integer_log(n, b), # HINT: integer_log may be idempotent: integer_log(integer_log(x)) == integer_log(x)) over {Any | not (b <= 1) and hasattr(n, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integer_log : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (b <= 1)                                   ║
+# ║   requires: hasattr(n, 'bit_length')                       ║
+# ║   ensures:  # HINT: integer_log may be idempotent: in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integer_log : {Any | not (b <= 1) and hasattr(n, 'bit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 444ffee2acea227c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b71d31e1003a01f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.integer_log","kind":"function","src_hash":"0c64e59ffd6cef16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_log(n, )","rhs":"returns ``(e, bool)`` where e is the largest nonnegative integer such that :math:`|n| \\geq |b^e|` and ``bool`` is true if $n = b^e$","over":{"base":"Any"},"name":"integer_log_correct"},"guarantee":"returns ``(e, bool)`` where e is the largest nonnegative integer such that :math:`|n| \\geq |b^e|` and ``bool`` is true if $n = b^e$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.integer_log_correct","statement":"Path(integer_log(x), returns ``(e, bool)`` where e is the largest nonnegative integer such that :math:`|n| \\geq |b^e|` and ``bool`` is true if $n = b^e$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"444ffee2acea227c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.integer_log","kind":"function","src_hash":"0c64e59ffd6cef16","in":{"base":"Any","pred":"not (b <= 1) and hasattr(n, 'bit_length')"},"out":{"base":"Any","pred":"result satisfies: # HINT: integer_log may be idempotent: integer_log(integer_log(x)) == integer_log(x)"},"spec":{"lhs":"integer_log(n, b)","rhs":"# HINT: integer_log may be idempotent: integer_log(integer_log(x)) == integer_log(x)","over":{"base":"Any","pred":"not (b <= 1) and hasattr(n, 'bit_length')"},"name":"integer_log_correct"},"guarantee":"# HINT: integer_log may be idempotent: integer_log(integer_log(x)) == integer_log(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.integer_log_correct","statement":"Path(integer_log(x), # HINT: integer_log may be idempotent: integer_log(integer_log(x)) == integer_log(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b71d31e1003a01f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (b <= 1)","hasattr(n, 'bit_length')"],"ensures":["# HINT: integer_log may be idempotent: integer_log(integer_log(x)) == integer_log(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.bit_length"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def integer_log(n, b):
     r"""
     Returns ``(e, bool)`` where e is the largest nonnegative integer
@@ -175,16 +190,22 @@ def integer_log(n, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trailing(n), count the number of trailing zero digits in the binary representation of n, i.e) over Any ║
+# ║ Path(trailing(n), <unspecified:trailing>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trailing : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0428e2b1918bed77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.trailing","kind":"function","src_hash":"b03cb52533edc893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trailing(n)","rhs":"count the number of trailing zero digits in the binary representation of n, i.e","over":{"base":"Any"},"name":"trailing_correct"},"guarantee":"count the number of trailing zero digits in the binary representation of n, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.trailing_correct","statement":"Path(trailing(x), count the number of trailing zero digits in the binary representation of n, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0428e2b1918bed77"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.trailing","kind":"function","src_hash":"b03cb52533edc893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trailing(n)","rhs":"<unspecified:trailing>","over":{"base":"Any"},"name":"trailing_correct"},"guarantee":"count the number of trailing zero digits in the binary representation of n, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.trailing_correct","statement":"Path(trailing(x), count the number of trailing zero digits in the binary representation of n, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0428e2b1918bed77","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def trailing(n):
     """Count the number of trailing zero digits in the binary
     representation of n, i.e. determine the largest power of 2
@@ -211,16 +232,23 @@ def trailing(n):
 
 @lru_cache(1024)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(igcd(*ar), id) over Any                               ║
+# ║ Path(igcd(*args), id) over {Any | not (len(args) < 2)}     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ igcd : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) < 2)                            ║
+# ║   returns:  int(number_gcd(*map(as_int, args)))            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ igcd : {Any | not (len(args) < 2)} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 41f18ebf6b180ee3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.igcd","kind":"function","src_hash":"bfeec599c1b83c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"igcd(*ar)","rhs":"computes nonnegative integer greatest common divisor","over":{"base":"Any"},"name":"igcd_correct","kind":"composition"},"guarantee":"computes nonnegative integer greatest common divisor","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"number_gcd","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f18ebf6b180ee3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.igcd","kind":"function","src_hash":"bfeec599c1b83c5f","in":{"base":"Any","pred":"not (len(args) < 2)"},"out":{"base":"Any"},"spec":{"lhs":"igcd(*args)","rhs":"int(number_gcd(*map(as_int, args)))","over":{"base":"Any","pred":"not (len(args) < 2)"},"name":"igcd_correct","kind":"composition"},"guarantee":"returns int(number_gcd(*map(as_int, args)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"number_gcd","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f18ebf6b180ee3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) < 2)"],"returns_expr":"int(number_gcd(*map(as_int, args)))","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def igcd(*args):
     """Computes nonnegative integer greatest common divisor.
 
@@ -255,16 +283,24 @@ igcd2 = math.gcd
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(igcd_lehmer(a, ), computes greatest common divisor of two integers) over Any ║
+# ║ Path(igcd_lehmer(a, b), a) over {Any | hasattr(a, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ igcd_lehmer : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'bit_length')                       ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ igcd_lehmer : {Any | hasattr(a, 'bit_length')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 203c260ec0a4d00f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f05d2cf8e3d57399  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.igcd_lehmer","kind":"function","src_hash":"befdb4f561bdfd36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"igcd_lehmer(a, )","rhs":"computes greatest common divisor of two integers","over":{"base":"Any"},"name":"igcd_lehmer_correct"},"guarantee":"computes greatest common divisor of two integers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.igcd_lehmer_correct","statement":"Path(igcd_lehmer(x), computes greatest common divisor of two integers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"203c260ec0a4d00f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.igcd_lehmer","kind":"function","src_hash":"befdb4f561bdfd36","in":{"base":"Any","pred":"hasattr(a, 'bit_length')"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"igcd_lehmer(a, b)","rhs":"a","over":{"base":"Any","pred":"hasattr(a, 'bit_length')"},"name":"igcd_lehmer_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.igcd_lehmer_correct","statement":"Path(igcd_lehmer(x), returns a; result == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f05d2cf8e3d57399","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'bit_length')"],"ensures":["result == a"],"returns_expr":"a","pure":false,"effects":{"effect_type":"reads_state","reads":["a.bit_length"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def igcd_lehmer(a, b):
     r"""Computes greatest common divisor of two integers.
 
@@ -412,16 +448,23 @@ def igcd_lehmer(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ilcm(*ar), id) over Any                               ║
+# ║ Path(ilcm(*args), id) over {Any | not (len(args) < 2)}     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ilcm : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) < 2)                            ║
+# ║   returns:  int(number_lcm(*map(as_int, args)))            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ilcm : {Any | not (len(args) < 2)} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | df71537b7b5cae72   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.ilcm","kind":"function","src_hash":"c1fa0f0d3631f48b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ilcm(*ar)","rhs":"computes integer least common multiple","over":{"base":"Any"},"name":"ilcm_correct","kind":"composition"},"guarantee":"computes integer least common multiple","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"number_lcm","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df71537b7b5cae72"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.ilcm","kind":"function","src_hash":"c1fa0f0d3631f48b","in":{"base":"Any","pred":"not (len(args) < 2)"},"out":{"base":"Any"},"spec":{"lhs":"ilcm(*args)","rhs":"int(number_lcm(*map(as_int, args)))","over":{"base":"Any","pred":"not (len(args) < 2)"},"name":"ilcm_correct","kind":"composition"},"guarantee":"returns int(number_lcm(*map(as_int, args)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"number_lcm","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df71537b7b5cae72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) < 2)"],"returns_expr":"int(number_lcm(*map(as_int, args)))","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def ilcm(*args):
     """Computes integer least common multiple.
 
@@ -443,16 +486,22 @@ def ilcm(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(igcdex(a, ), returns x, y, g such that g = x*a + y*b = gcd(a, b)) over Any ║
+# ║ Path(igcdex(a, b), (x, y, g)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x, y, g)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ igcdex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc465613a184d189  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6edd890832fe852a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.igcdex","kind":"function","src_hash":"b8085b9d35f8abd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"igcdex(a, )","rhs":"returns x, y, g such that g = x*a + y*b = gcd(a, b)","over":{"base":"Any"},"name":"igcdex_correct"},"guarantee":"returns x, y, g such that g = x*a + y*b = gcd(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.igcdex_correct","statement":"Path(igcdex(x), returns x, y, g such that g = x*a + y*b = gcd(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc465613a184d189"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.igcdex","kind":"function","src_hash":"b8085b9d35f8abd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"igcdex(a, b)","rhs":"(x, y, g)","over":{"base":"Any"},"name":"igcdex_correct"},"guarantee":"returns (x, y, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.igcdex_correct","statement":"Path(igcdex(x), returns (x, y, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6edd890832fe852a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x, y, g)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def igcdex(a, b):
     """Returns x, y, g such that g = x*a + y*b = gcd(a, b).
 
@@ -477,16 +526,25 @@ def igcdex(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mod_inverse(a, ), return the number $c$ such that, $a \times c = 1 \pmod{m}$ where $c$ has the same sign as $m$) over Any ║
+# ║ Path(mod_inverse(a, m), <unspecified:mod_inverse>) over {Any | not (c is None) and hasattr(a, 'is_number') and hasattr(m, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mod_inverse : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (c is None)                                ║
+# ║   requires: hasattr(a, 'is_number')                        ║
+# ║   requires: hasattr(m, 'is_number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mod_inverse : {Any | not (c is None) and hasattr(a, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45a36cc3770c5bdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.mod_inverse","kind":"function","src_hash":"b3f1c48c7e1725e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mod_inverse(a, )","rhs":"return the number $c$ such that, $a \\times c = 1 \\pmod{m}$ where $c$ has the same sign as $m$","over":{"base":"Any"},"name":"mod_inverse_correct"},"guarantee":"return the number $c$ such that, $a \\times c = 1 \\pmod{m}$ where $c$ has the same sign as $m$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.mod_inverse_correct","statement":"Path(mod_inverse(x), return the number $c$ such that, $a \\times c = 1 \\pmod{m}$ where $c$ has the same sign as $m$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45a36cc3770c5bdd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.mod_inverse","kind":"function","src_hash":"b3f1c48c7e1725e4","in":{"base":"Any","pred":"not (c is None) and hasattr(a, 'is_number') and hasattr(m, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"mod_inverse(a, m)","rhs":"<unspecified:mod_inverse>","over":{"base":"Any","pred":"not (c is None) and hasattr(a, 'is_number') and hasattr(m, 'is_number')"},"name":"mod_inverse_correct"},"guarantee":"return the number $c$ such that, $a \\times c = 1 \\pmod{m}$ where $c$ has the same sign as $m$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.mod_inverse_correct","statement":"Path(mod_inverse(x), return the number $c$ such that, $a \\times c = 1 \\pmod{m}$ where $c$ has the same sign as $m$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45a36cc3770c5bdd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (c is None)","hasattr(a, 'is_number')","hasattr(m, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_number","m.is_number"],"raises":["TypeError","ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def mod_inverse(a, m):
     r"""
     Return the number $c$ such that, $a \times c = 1 \pmod{m}$
@@ -557,16 +615,23 @@ def mod_inverse(a, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(isqrt(n), id) over Any                                ║
+# ║ Path(isqrt(n), id) over {Any | not (n < 0)}                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ isqrt : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 0)                                    ║
+# ║   returns:  int(sqrt(int(n)))                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ isqrt : {Any | not (n < 0)} → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 254d55b698cc881b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.isqrt","kind":"function","src_hash":"189dcbb184121f18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isqrt(n)","rhs":"return the largest integer less than or equal to `\\sqrt{n}`","over":{"base":"Any"},"name":"isqrt_correct","kind":"composition"},"guarantee":"return the largest integer less than or equal to `\\sqrt{n}`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254d55b698cc881b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.isqrt","kind":"function","src_hash":"189dcbb184121f18","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"isqrt(n)","rhs":"int(sqrt(int(n)))","over":{"base":"Any","pred":"not (n < 0)"},"name":"isqrt_correct","kind":"composition"},"guarantee":"returns int(sqrt(int(n)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254d55b698cc881b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 0)"],"returns_expr":"int(sqrt(int(n)))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def isqrt(n):
     r""" Return the largest integer less than or equal to `\sqrt{n}`.
 
@@ -616,16 +681,22 @@ def isqrt(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integer_nthroot(y, ), return a tuple containing x = floor(y**(1/n)) and a boolean indicating whether the result is exact (that is, whether x**n == y)) over Any ║
+# ║ Path(integer_nthroot(y, n), (int(x), b)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (int(x), b)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integer_nthroot : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce287b6f415fae2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9403976d23f03abb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.integer_nthroot","kind":"function","src_hash":"e1f7122a3f76ff6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_nthroot(y, )","rhs":"return a tuple containing x = floor(y**(1/n)) and a boolean indicating whether the result is exact (that is, whether x**n == y)","over":{"base":"Any"},"name":"integer_nthroot_correct"},"guarantee":"return a tuple containing x = floor(y**(1/n)) and a boolean indicating whether the result is exact (that is, whether x**n == y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.integer_nthroot_correct","statement":"Path(integer_nthroot(x), return a tuple containing x = floor(y**(1/n)) and a boolean indicating whether the result is exact (that is, whether x**n == y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce287b6f415fae2c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.intfunc.integer_nthroot","kind":"function","src_hash":"e1f7122a3f76ff6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_nthroot(y, n)","rhs":"(int(x), b)","over":{"base":"Any"},"name":"integer_nthroot_correct"},"guarantee":"returns (int(x), b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.intfunc.integer_nthroot_correct","statement":"Path(integer_nthroot(x), returns (int(x), b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9403976d23f03abb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(int(x), b)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def integer_nthroot(y, n):
     """
     Return a tuple containing x = floor(y**(1/n))

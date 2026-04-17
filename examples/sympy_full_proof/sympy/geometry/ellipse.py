@@ -58,14 +58,20 @@ x, y = [Dummy('ellipse_dummy', real=True) for i in range(2)]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Ellipse(*args), correctly constructs a Ellipse instance) over {Any | isinstance(o, Point) and isinstance(o, Point2D) and isinstance(o, Ellipse)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometrySet)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Ellipse : {Any | isinstance(o, Point) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8523a9e9900d4a8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse","kind":"class","src_hash":"479ba70338c8cc94","in":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Point2D) and isinstance(o, Ellipse)"},"out":{"base":"Any"},"spec":{"lhs":"Ellipse(*args)","rhs":"correctly constructs a Ellipse instance","over":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Point2D) and isinstance(o, Ellipse)"},"name":"Ellipse_class_invariant"},"guarantee":"correctly constructs a Ellipse instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8523a9e9900d4a8e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse","kind":"class","src_hash":"479ba70338c8cc94","in":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Point2D) and isinstance(o, Ellipse)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometrySet)"},"spec":{"lhs":"Ellipse(*args)","rhs":"correctly constructs a Ellipse instance","over":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Point2D) and isinstance(o, Ellipse)"},"name":"Ellipse_class_invariant"},"guarantee":"isinstance(self, GeometrySet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8523a9e9900d4a8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometrySet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ellipse not found in source"]}}
 class Ellipse(GeometrySet):
     """An elliptical GeometryEntity.
 
@@ -133,16 +139,27 @@ class Ellipse(GeometrySet):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(o), correctly tests membership) over Any ║
+# ║ Path(__contains__(o), result == (trigsimp(simplify(res)) is S.Zero if isinstance(o, Point) else self == o) and result == trigsimp(simplify(res)) is S.Zero or result == self == o) over {Any | hasattr(o, 'x') and hasattr(o, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'x')                                ║
+# ║   requires: hasattr(o, 'y')                                ║
+# ║   ensures:  result == (trigsimp(simplify(res)) is S.Z...   ║
+# ║   ensures:  result == trigsimp(simplify(res)) is S.Ze...   ║
+# ║   fiber[Point]: isinstance(o, Point) => trigsimp(simp...   ║
+# ║   fiber[Ellipse]: isinstance(o, Ellipse) => self == o      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(o, 'x') and hasattr(o, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7600a19b78b64d13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__contains__","kind":"method","src_hash":"5fe4e0a7cb6c66dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(o)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7600a19b78b64d13"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__contains__","kind":"method","src_hash":"5fe4e0a7cb6c66dd","in":{"base":"Any","pred":"hasattr(o, 'x') and hasattr(o, 'y')"},"out":{"base":"Any","pred":"result satisfies: result == (trigsimp(simplify(res)) is S.Zero if isinstance(o, Point) else self == o) and result == trigsimp(simplify(res)) is S.Zero or result == self == o"},"spec":{"lhs":"__contains__(o)","rhs":"result == (trigsimp(simplify(res)) is S.Zero if isinstance(o, Point) else self == o) and result == trigsimp(simplify(res)) is S.Zero or result == self == o","over":{"base":"Any","pred":"hasattr(o, 'x') and hasattr(o, 'y')"},"name":"__contains___correct"},"guarantee":"result == (trigsimp(simplify(res)) is S.Zero if isinstance(o, Point) else self == o); result == trigsimp(simplify(res)) is S.Zero or result == self == o; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7600a19b78b64d13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'x')","hasattr(o, 'y')"],"ensures":["result == (trigsimp(simplify(res)) is S.Zero if isinstance(o, Point) else self == o)","result == trigsimp(simplify(res)) is S.Zero or result == self == o"],"fibers":[{"name":"Point","guard":"isinstance(o, Point)","ensures":["result == trigsimp(simplify(res)) is S.Zero"],"decidability":"structural","returns_expr":"trigsimp(simplify(res)) is S.Zero"},{"name":"Ellipse","guard":"isinstance(o, Ellipse)","ensures":["result == self == o"],"decidability":"structural","returns_expr":"self == o"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.x","o.y","self.equation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, o):
         if isinstance(o, Point):
             res = self.equation(x, y).subs({x: o.x, y: o.y})
@@ -152,16 +169,25 @@ class Ellipse(GeometrySet):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(o), correctly determines equality) over Any    ║
+# ║ Path(__eq__(o), isinstance(o, Ellipse) and (self.center == o.center and self.hradius == o.hradius and (self.vradius == o.vradius))) over {Any | hasattr(o, 'center') and hasattr(o, 'hradius') and hasattr(o, 'vradius')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'center')                           ║
+# ║   requires: hasattr(o, 'hradius')                          ║
+# ║   requires: hasattr(o, 'vradius')                          ║
+# ║   returns:  isinstance(o, Ellipse) and (self.center =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(o, 'center') and hasattr(o, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fafde58d5253dec2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__eq__","kind":"method","src_hash":"3eeada373436f8b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(o)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fafde58d5253dec2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__eq__","kind":"method","src_hash":"3eeada373436f8b0","in":{"base":"Any","pred":"hasattr(o, 'center') and hasattr(o, 'hradius') and hasattr(o, 'vradius')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(o)","rhs":"isinstance(o, Ellipse) and (self.center == o.center and self.hradius == o.hradius and (self.vradius == o.vradius))","over":{"base":"Any","pred":"hasattr(o, 'center') and hasattr(o, 'hradius') and hasattr(o, 'vradius')"},"name":"__eq___correct"},"guarantee":"returns isinstance(o, Ellipse) and (self.center == o.center and self.hradius == o.hradius and (self.vradius == o.vradius))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fafde58d5253dec2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'center')","hasattr(o, 'hradius')","hasattr(o, 'vradius')"],"returns_expr":"isinstance(o, Ellipse) and (self.center == o.center and self.hradius == o.hradius and (self.vradius == o.vradius))","pure":false,"effects":{"effect_type":"reads_state","reads":["o.center","o.hradius","o.vradius","self.center","self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, o):
         """Is the other GeometryEntity the same as this ellipse?"""
         return isinstance(o, Ellipse) and (self.center == o.center and
@@ -169,30 +195,45 @@ class Ellipse(GeometrySet):
                                            self.vradius == o.vradius)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), super().__hash__()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__hash__()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7871c81492b6e59e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7871c81492b6e59e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"super().__hash__()","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns super().__hash__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7871c81492b6e59e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__hash__()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return super().__hash__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, center, hradius), <unspecified:__new__>) over {Any | not (len(list(filter(lambda x: x is not None, (hradius, vradius, eccentricity)))) != 2) and hasattr(eccentricity, 'is_negative') and hasattr(hradius, 'is_real') and hasattr(vradius, 'is_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(list(filter(lambda x: x is not N...   ║
+# ║   requires: hasattr(eccentricity, 'is_negative')           ║
+# ║   requires: hasattr(hradius, 'is_real')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(list(filter(lambda x: x is ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cf12d648f9cd019           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__new__","kind":"method","src_hash":"892dcc98630639ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cf12d648f9cd019"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.__new__","kind":"method","src_hash":"892dcc98630639ae","in":{"base":"Any","pred":"not (len(list(filter(lambda x: x is not None, (hradius, vradius, eccentricity)))) != 2) and hasattr(eccentricity, 'is_negative') and hasattr(hradius, 'is_real') and hasattr(vradius, 'is_real')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, center, hradius)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len(list(filter(lambda x: x is not None, (hradius, vradius, eccentricity)))) != 2) and hasattr(eccentricity, 'is_negative') and hasattr(hradius, 'is_real') and hasattr(vradius, 'is_real')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cf12d648f9cd019","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(list(filter(lambda x: x is not None, (hradius, vradius, eccentricity)))) != 2)","hasattr(eccentricity, 'is_negative')","hasattr(hradius, 'is_real')","hasattr(vradius, 'is_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eccentricity.is_negative","hradius.is_real","vradius.is_real"],"raises":["GeometryError","ValueError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(
         cls, center=None, hradius=None, vradius=None, eccentricity=None, **kwargs):
 
@@ -232,16 +273,22 @@ class Ellipse(GeometrySet):
         return GeometryEntity.__new__(cls, center, hradius, vradius, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_svg(sca), returns svg ellipse element for the ellipse) over Any ║
+# ║ Path(_svg(scale_factor, fill_color), '<ellipse fill="{1}" stroke="#555555" stroke-width="{0}" opacity="0.6" cx="{2}" cy="{3}" rx="{4}" ry="{5}"/>'.format(2.0 * scale_factor, fill_color, c.x, c.y, h, v)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<ellipse fill="{1}" stroke="#555555" str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _svg : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a13316575986635  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b76ae2000e5755f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse._svg","kind":"method","src_hash":"30689306a44ba2b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(sca)","rhs":"returns svg ellipse element for the ellipse","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg ellipse element for the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse._svg_correct","statement":"Path(_svg(x), returns svg ellipse element for the ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a13316575986635"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse._svg","kind":"method","src_hash":"30689306a44ba2b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(scale_factor, fill_color)","rhs":"'<ellipse fill=\"{1}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" cx=\"{2}\" cy=\"{3}\" rx=\"{4}\" ry=\"{5}\"/>'.format(2.0 * scale_factor, fill_color, c.x, c.y, h, v)","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns '<ellipse fill=\"{1}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" cx=\"{2}\" cy=\"{3}\" rx=\"{4}\" ry=\"{5}\"/>'.format(2.0 * scale_factor, fill_color, c.x, c.y, h, v)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse._svg_correct","statement":"Path(_svg(x), returns '<ellipse fill=\"{1}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" cx=\"{2}\" cy=\"{3}\" rx=\"{4}\" ry=\"{5}\"/>'.format(2.0 * scale_factor, fill_color, c.x, c.y, h, v))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b76ae2000e5755f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<ellipse fill=\"{1}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" cx=\"{2}\" cy=\"{3}\" rx=\"{4}\" ry=\"{5}\"/>'.format(2.0 * scale_factor, fill_color, c.x, c.y, h, v)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _svg(self, scale_factor=1., fill_color="#66cc99"):
         """Returns SVG ellipse element for the Ellipse.
 
@@ -263,31 +310,43 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), 2) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9083dfb560f7e647           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.ambient_dimension","kind":"property","src_hash":"4ca87947efbfc61d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9083dfb560f7e647"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.ambient_dimension","kind":"property","src_hash":"4ca87947efbfc61d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"2","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9083dfb560f7e647","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         return 2
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apoapsis(), returns the apoapsis attribute) over Any  ║
+# ║ Path(apoapsis(), self.major * (1 + self.eccentricity)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.major * (1 + self.eccentricity)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apoapsis : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e2c4060376f2037           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.apoapsis","kind":"property","src_hash":"bc209dd3b543ddc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apoapsis()","rhs":"returns the apoapsis attribute","over":{"base":"Any"},"name":"apoapsis_correct"},"guarantee":"returns the apoapsis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e2c4060376f2037"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.apoapsis","kind":"property","src_hash":"bc209dd3b543ddc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apoapsis()","rhs":"self.major * (1 + self.eccentricity)","over":{"base":"Any"},"name":"apoapsis_correct"},"guarantee":"returns self.major * (1 + self.eccentricity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e2c4060376f2037","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.major * (1 + self.eccentricity)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eccentricity","self.major"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apoapsis(self):
         """The apoapsis of the ellipse.
 
@@ -316,16 +375,23 @@ class Ellipse(GeometrySet):
         return self.major * (1 + self.eccentricity)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arbitrary_point(par), id) over Any                    ║
+# ║ Path(arbitrary_point(parameter), id) over {Any | not (t.name in (f.name for f in self.free_symbols))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ arbitrary_point : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (t.name in (f.name for f in self.free...   ║
+# ║   returns:  Point(self.center.x + self.hradius * cos(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ arbitrary_point : {Any | not (t.name in (f.name for f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7ae1936cb7f46a30   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.arbitrary_point","kind":"method","src_hash":"02969f186c8afc33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(par)","rhs":"a parameterized point on the ellipse","over":{"base":"Any"},"name":"arbitrary_point_correct","kind":"composition"},"guarantee":"a parameterized point on the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"cos","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ae1936cb7f46a30"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.arbitrary_point","kind":"method","src_hash":"02969f186c8afc33","in":{"base":"Any","pred":"not (t.name in (f.name for f in self.free_symbols))"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(parameter)","rhs":"Point(self.center.x + self.hradius * cos(t), self.center.y + self.vradius * sin(t))","over":{"base":"Any","pred":"not (t.name in (f.name for f in self.free_symbols))"},"name":"arbitrary_point_correct","kind":"composition"},"guarantee":"returns Point(self.center.x + self.hradius * cos(t), self.center.y + self.vradius * sin(t))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"cos","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ae1936cb7f46a30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (t.name in (f.name for f in self.free_symbols))"],"returns_expr":"Point(self.center.x + self.hradius * cos(t), self.center.y + self.vradius * sin(t))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.free_symbols","self.hradius","self.vradius"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arbitrary_point(self, parameter='t'):
         """A parameterized point on the ellipse.
 
@@ -369,16 +435,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(), returns the area attribute) over Any          ║
+# ║ Path(area(), simplify(S.Pi * self.hradius * self.vradius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(S.Pi * self.hradius * self.vradius)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf1708d0008bc12d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.area","kind":"property","src_hash":"22e2f976a4c172f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"returns the area attribute","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns the area attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf1708d0008bc12d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.area","kind":"property","src_hash":"22e2f976a4c172f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"simplify(S.Pi * self.hradius * self.vradius)","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns simplify(S.Pi * self.hradius * self.vradius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf1708d0008bc12d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(S.Pi * self.hradius * self.vradius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self):
         """The area of the ellipse.
 
@@ -401,16 +473,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bounds(), returns the bounds attribute) over Any      ║
+# ║ Path(bounds(), (self.center.x - h, self.center.y - v, self.center.x + h, self.center.y + v)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.center.x - h, self.center.y - v, se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bounds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 775687bc06fb9a15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.bounds","kind":"property","src_hash":"9783ea519bbd912d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"returns the bounds attribute","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns the bounds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"775687bc06fb9a15"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.bounds","kind":"property","src_hash":"9783ea519bbd912d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"(self.center.x - h, self.center.y - v, self.center.x + h, self.center.y + v)","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns (self.center.x - h, self.center.y - v, self.center.x + h, self.center.y + v)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"775687bc06fb9a15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.center.x - h, self.center.y - v, self.center.x + h, self.center.y + v)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bounds(self):
         """Return a tuple (xmin, ymin, xmax, ymax) representing the bounding
         rectangle for the geometric figure.
@@ -422,16 +500,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), returns the center attribute) over Any      ║
+# ║ Path(center(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c8ac3632a7f9de0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.center","kind":"property","src_hash":"6ab079d180801faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"returns the center attribute","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns the center attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c8ac3632a7f9de0"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.center","kind":"property","src_hash":"6ab079d180801faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"self.args[0]","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c8ac3632a7f9de0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         """The center of the ellipse.
 
@@ -459,16 +543,26 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumference(), returns the circumference attribute) over Any ║
+# ║ Path(circumference(), result == (4 * self.major if self.eccentricity == 1 else 2 * pi * self.hradius if self.eccentricity == 0 else 4 * self.major * elliptic_e(self.eccentricity ** 2)) and result == 4 * self.major or result == 2 * pi * self.hradius or result == 4 * self.major * elliptic_e(self.eccentricity ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ circumference : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (4 * self.major if self.eccentr...   ║
+# ║   ensures:  result == 4 * self.major or result == 2 *...   ║
+# ║   fiber[case_0]: self.eccentricity == 1 => 4 * self.m...   ║
+# ║   fiber[zero_or_none]: self.eccentricity == 0 => 2 * ...   ║
+# ║   fiber[zero_or_none]: not (self.eccentricity == 1) a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ circumference : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1634e8d45ce3f07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.circumference","kind":"property","src_hash":"03c6cfb5c95e3cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumference()","rhs":"returns the circumference attribute","over":{"base":"Any"},"name":"circumference_correct"},"guarantee":"returns the circumference attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1634e8d45ce3f07"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.circumference","kind":"property","src_hash":"03c6cfb5c95e3cad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (4 * self.major if self.eccentricity == 1 else 2 * pi * self.hradius if self.eccentricity == 0 else 4 * self.major * elliptic_e(self.eccentricity ** 2)) and result == 4 * self.major or result == 2 * pi * self.hradius or result == 4 * self.major * elliptic_e(self.eccentricity ** 2)"},"spec":{"lhs":"circumference()","rhs":"result == (4 * self.major if self.eccentricity == 1 else 2 * pi * self.hradius if self.eccentricity == 0 else 4 * self.major * elliptic_e(self.eccentricity ** 2)) and result == 4 * self.major or result == 2 * pi * self.hradius or result == 4 * self.major * elliptic_e(self.eccentricity ** 2)","over":{"base":"Any"},"name":"circumference_correct"},"guarantee":"result == (4 * self.major if self.eccentricity == 1 else 2 * pi * self.hradius if self.eccentricity == 0 else 4 * self.major * elliptic_e(self.eccentricity ** 2)); result == 4 * self.major or result == 2 * pi * self.hradius or result == 4 * self.major * elliptic_e(self.eccentricity ** 2); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1634e8d45ce3f07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (4 * self.major if self.eccentricity == 1 else 2 * pi * self.hradius if self.eccentricity == 0 else 4 * self.major * elliptic_e(self.eccentricity ** 2))","result == 4 * self.major or result == 2 * pi * self.hradius or result == 4 * self.major * elliptic_e(self.eccentricity ** 2)"],"fibers":[{"name":"case_0","guard":"self.eccentricity == 1","ensures":["result == 4 * self.major"],"decidability":"z3","returns_expr":"4 * self.major"},{"name":"zero_or_none","guard":"self.eccentricity == 0","ensures":["result == 2 * pi * self.hradius"],"decidability":"z3","returns_expr":"2 * pi * self.hradius"},{"name":"zero_or_none","guard":"not (self.eccentricity == 1) and not (self.eccentricity == 0)","ensures":["result == 4 * self.major * elliptic_e(self.eccentricity ** 2)"],"decidability":"z3","returns_expr":"4 * self.major * elliptic_e(self.eccentricity ** 2)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.eccentricity","self.hradius","self.major"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumference(self):
         """The circumference of the ellipse.
 
@@ -493,16 +587,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eccentricity(), returns the eccentricity attribute) over Any ║
+# ║ Path(eccentricity(), self.focus_distance / self.major) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.focus_distance / self.major               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eccentricity : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2da28a6eac1c8aed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.eccentricity","kind":"property","src_hash":"144ce1d4525ac295","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eccentricity()","rhs":"returns the eccentricity attribute","over":{"base":"Any"},"name":"eccentricity_correct"},"guarantee":"returns the eccentricity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2da28a6eac1c8aed"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.eccentricity","kind":"property","src_hash":"144ce1d4525ac295","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eccentricity()","rhs":"self.focus_distance / self.major","over":{"base":"Any"},"name":"eccentricity_correct"},"guarantee":"returns self.focus_distance / self.major","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2da28a6eac1c8aed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.focus_distance / self.major","pure":false,"effects":{"effect_type":"reads_state","reads":["self.focus_distance","self.major"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eccentricity(self):
         """The eccentricity of the ellipse.
 
@@ -524,16 +624,22 @@ class Ellipse(GeometrySet):
         return self.focus_distance / self.major
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(encloses_point(p), return true if p is enclosed by (is inside of) self) over Any ║
+# ║ Path(encloses_point(p), <unspecified:encloses_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ encloses_point : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0421af9b1fa35a26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.encloses_point","kind":"method","src_hash":"6e4af3c877cc46b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"encloses_point(p)","rhs":"return true if p is enclosed by (is inside of) self","over":{"base":"Any"},"name":"encloses_point_correct"},"guarantee":"return true if p is enclosed by (is inside of) self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.encloses_point_correct","statement":"Path(encloses_point(x), return true if p is enclosed by (is inside of) self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0421af9b1fa35a26"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.encloses_point","kind":"method","src_hash":"6e4af3c877cc46b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"encloses_point(p)","rhs":"<unspecified:encloses_point>","over":{"base":"Any"},"name":"encloses_point_correct"},"guarantee":"return true if p is enclosed by (is inside of) self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.encloses_point_correct","statement":"Path(encloses_point(x), return true if p is enclosed by (is inside of) self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0421af9b1fa35a26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.foci","self.major","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def encloses_point(self, p):
         """
         Return True if p is enclosed by (is inside of) self.
@@ -588,16 +694,25 @@ class Ellipse(GeometrySet):
         return fuzzy_bool(test.is_positive)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(x, ), returns the equation of an ellipse aligned with the x and y axes; when slope is given, the equation returned corresponds to an ellipse with a major axis having that slope) over Any ║
+# ║ Path(equation(x, y, _slope), result == (l / b + L / a - 1 if _slope is not None else t1 + t2 - 1) and result == l / b + L / a - 1 or result == t1 + t2 - 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equation : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (l / b + L / a - 1 if _slope is...   ║
+# ║   ensures:  result == l / b + L / a - 1 or result == ...   ║
+# ║   fiber[case_0]: _slope is not None => l / b + L / a - 1   ║
+# ║   fiber[case_1]: not (_slope is not None) => t1 + t2 - 1   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equation : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b96049741a4d3563  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d9cc7a9c7827c45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.equation","kind":"method","src_hash":"723dd6b1e2cc764b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, )","rhs":"returns the equation of an ellipse aligned with the x and y axes; when slope is given, the equation returned corresponds to an ellipse with a major axis having that slope","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"returns the equation of an ellipse aligned with the x and y axes; when slope is given, the equation returned corresponds to an ellipse with a major axis having that slope","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.equation_correct","statement":"Path(equation(x), returns the equation of an ellipse aligned with the x and y axes; when slope is given, the equation returned corresponds to an ellipse with a major axis having that slope)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b96049741a4d3563"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.equation","kind":"method","src_hash":"723dd6b1e2cc764b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (l / b + L / a - 1 if _slope is not None else t1 + t2 - 1) and result == l / b + L / a - 1 or result == t1 + t2 - 1"},"spec":{"lhs":"equation(x, y, _slope)","rhs":"result == (l / b + L / a - 1 if _slope is not None else t1 + t2 - 1) and result == l / b + L / a - 1 or result == t1 + t2 - 1","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"result == (l / b + L / a - 1 if _slope is not None else t1 + t2 - 1); result == l / b + L / a - 1 or result == t1 + t2 - 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.equation_correct","statement":"Path(equation(x), result == (l / b + L / a - 1 if _slope is not None else t1 + t2 - 1); result == l / b + L / a - 1 or result == t1 + t2 - 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d9cc7a9c7827c45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (l / b + L / a - 1 if _slope is not None else t1 + t2 - 1)","result == l / b + L / a - 1 or result == t1 + t2 - 1"],"fibers":[{"name":"case_0","guard":"_slope is not None","ensures":["result == l / b + L / a - 1"],"decidability":"library","returns_expr":"l / b + L / a - 1"},{"name":"case_1","guard":"not (_slope is not None)","ensures":["result == t1 + t2 - 1"],"decidability":"library","returns_expr":"t1 + t2 - 1"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.hradius","self.major","self.minor","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self, x='x', y='y', _slope=None):
         """
         Returns the equation of an ellipse aligned with the x and y axes;
@@ -675,16 +790,23 @@ class Ellipse(GeometrySet):
             return t1 + t2 - 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evolute(x, ), the equation of evolute of the ellipse) over Any ║
+# ║ Path(evolute(x, y), t1 + t2 - (self.hradius ** 2 - self.vradius ** 2) ** Rational(2, 3)) over {Any | not (len(self.args) != 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evolute : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(self.args) != 3)                      ║
+# ║   returns:  t1 + t2 - (self.hradius ** 2 - self.vradi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evolute : {Any | not (len(self.args) != 3)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1bc153e8682b09e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d62f123f0964a1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.evolute","kind":"method","src_hash":"f11dd81fa6e0a6a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evolute(x, )","rhs":"the equation of evolute of the ellipse","over":{"base":"Any"},"name":"evolute_correct"},"guarantee":"the equation of evolute of the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.evolute_correct","statement":"Path(evolute(x), the equation of evolute of the ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1bc153e8682b09e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.evolute","kind":"method","src_hash":"f11dd81fa6e0a6a1","in":{"base":"Any","pred":"not (len(self.args) != 3)"},"out":{"base":"Any"},"spec":{"lhs":"evolute(x, y)","rhs":"t1 + t2 - (self.hradius ** 2 - self.vradius ** 2) ** Rational(2, 3)","over":{"base":"Any","pred":"not (len(self.args) != 3)"},"name":"evolute_correct"},"guarantee":"returns t1 + t2 - (self.hradius ** 2 - self.vradius ** 2) ** Rational(2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.evolute_correct","statement":"Path(evolute(x), returns t1 + t2 - (self.hradius ** 2 - self.vradius ** 2) ** Rational(2, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d62f123f0964a1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(self.args) != 3)"],"returns_expr":"t1 + t2 - (self.hradius ** 2 - self.vradius ** 2) ** Rational(2, 3)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.center","self.hradius","self.vradius"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def evolute(self, x='x', y='y'):
         """The equation of evolute of the ellipse.
 
@@ -719,16 +841,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(foci(), returns the foci attribute) over Any          ║
+# ║ Path(foci(), <unspecified:foci>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ foci : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13b03b500a1bd7f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.foci","kind":"property","src_hash":"59c0690b682b07b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"foci()","rhs":"returns the foci attribute","over":{"base":"Any"},"name":"foci_correct"},"guarantee":"returns the foci attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13b03b500a1bd7f9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.foci","kind":"property","src_hash":"59c0690b682b07b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"foci()","rhs":"<unspecified:foci>","over":{"base":"Any"},"name":"foci_correct"},"guarantee":"returns the foci attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13b03b500a1bd7f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.hradius","self.major","self.minor","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def foci(self):
         """The foci of the ellipse.
 
@@ -775,16 +903,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(focus_distance(), returns the focus_distance attribute) over Any ║
+# ║ Path(focus_distance(), Point.distance(self.center, self.foci[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.distance(self.center, self.foci[0])      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ focus_distance : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3650e42764906a34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.focus_distance","kind":"property","src_hash":"6561d82704271e79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"focus_distance()","rhs":"returns the focus_distance attribute","over":{"base":"Any"},"name":"focus_distance_correct"},"guarantee":"returns the focus_distance attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3650e42764906a34"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.focus_distance","kind":"property","src_hash":"6561d82704271e79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"focus_distance()","rhs":"Point.distance(self.center, self.foci[0])","over":{"base":"Any"},"name":"focus_distance_correct"},"guarantee":"returns Point.distance(self.center, self.foci[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3650e42764906a34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.distance(self.center, self.foci[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.foci"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def focus_distance(self):
         """The focal distance of the ellipse.
 
@@ -814,16 +948,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hradius(), returns the hradius attribute) over Any    ║
+# ║ Path(hradius(), self.args[1]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hradius : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38cccc49a0fb26a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.hradius","kind":"property","src_hash":"037e7e0674843c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hradius()","rhs":"returns the hradius attribute","over":{"base":"Any"},"name":"hradius_correct"},"guarantee":"returns the hradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38cccc49a0fb26a4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.hradius","kind":"property","src_hash":"037e7e0674843c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hradius()","rhs":"self.args[1]","over":{"base":"Any"},"name":"hradius_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38cccc49a0fb26a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def hradius(self):
         """The horizontal radius of the ellipse.
 
@@ -850,16 +990,27 @@ class Ellipse(GeometrySet):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(o), the intersection of this ellipse and another geometrical entity `o`) over Any ║
+# ║ Path(intersection(o), <unspecified:intersection>) over {Any | hasattr(o, 'intersection') and hasattr(o, 'points') and hasattr(o, 'equation')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'intersection')                     ║
+# ║   requires: hasattr(o, 'points')                           ║
+# ║   requires: hasattr(o, 'equation')                         ║
+# ║   fiber[Point]: isinstance(o, Point)                       ║
+# ║   fiber[case_1]: isinstance(o, (Segment2D, Ray2D)) =>...   ║
+# ║   fiber[Polygon]: isinstance(o, Polygon) => o.interse...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(o, 'intersection') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 022755f87102481f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 389e8f643cce7835  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.intersection","kind":"method","src_hash":"8971d31782ace355","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"the intersection of this ellipse and another geometrical entity `o`","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection of this ellipse and another geometrical entity `o`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.intersection_correct","statement":"Path(intersection(x), the intersection of this ellipse and another geometrical entity `o`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"022755f87102481f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.intersection","kind":"method","src_hash":"8971d31782ace355","in":{"base":"Any","pred":"hasattr(o, 'intersection') and hasattr(o, 'points') and hasattr(o, 'equation')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(o, 'intersection') and hasattr(o, 'points') and hasattr(o, 'equation')"},"name":"intersection_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.intersection_correct","statement":"Path(intersection(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389e8f643cce7835","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'intersection')","hasattr(o, 'points')","hasattr(o, 'equation')"],"fibers":[{"name":"Point","guard":"isinstance(o, Point)","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"isinstance(o, (Segment2D, Ray2D))","ensures":["result == list(ordered([Point(i) for i in result if i in o]))"],"decidability":"structural","returns_expr":"list(ordered([Point(i) for i in result if i in o]))"},{"name":"Polygon","guard":"isinstance(o, Polygon)","ensures":["result == o.intersection(self)"],"decidability":"structural","returns_expr":"o.intersection(self)"},{"name":"case_3","guard":"isinstance(o, (Ellipse, Line2D))","ensures":[],"decidability":"structural"},{"name":"LinearEntity3D","guard":"isinstance(o, LinearEntity3D)","ensures":[],"decidability":"structural"},{"name":"Point","guard":"not (isinstance(o, Point)) and not (isinstance(o, (Segment2D, Ray2D))) and not (isinstance(o, Polygon)) and not (isinstance(o, (Ellipse, Line2D))) and not (isinstance(o, LinearEntity3D))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.equation","o.intersection","o.points","self.equation"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, o):
         """The intersection of this ellipse and another geometrical entity
         `o`.
@@ -943,16 +1094,26 @@ class Ellipse(GeometrySet):
             raise TypeError('Intersection not handled for %s' % func_name(o))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_tangent(o), is `o` tangent to the ellipse?) over Any ║
+# ║ Path(is_tangent(o), <unspecified:is_tangent>) over {Any | hasattr(o, 'sides') and hasattr(o, 'tangent_lines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_tangent : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'sides')                            ║
+# ║   requires: hasattr(o, 'tangent_lines')                    ║
+# ║   fiber[Point2D]: isinstance(o, Point2D) => False          ║
+# ║   fiber[Ellipse]: isinstance(o, Ellipse)                   ║
+# ║   fiber[Line2D]: isinstance(o, Line2D) => hit[0].equa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_tangent : {Any | hasattr(o, 'sides') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 591e8a7dc305952d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee0dcb536e3145ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.is_tangent","kind":"method","src_hash":"ef157fe5f6cd5e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_tangent(o)","rhs":"is `o` tangent to the ellipse?","over":{"base":"Any"},"name":"is_tangent_correct"},"guarantee":"is `o` tangent to the ellipse?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.is_tangent_correct","statement":"Path(is_tangent(x), is `o` tangent to the ellipse?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"591e8a7dc305952d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.is_tangent","kind":"method","src_hash":"ef157fe5f6cd5e5d","in":{"base":"Any","pred":"hasattr(o, 'sides') and hasattr(o, 'tangent_lines')"},"out":{"base":"Any"},"spec":{"lhs":"is_tangent(o)","rhs":"<unspecified:is_tangent>","over":{"base":"Any","pred":"hasattr(o, 'sides') and hasattr(o, 'tangent_lines')"},"name":"is_tangent_correct"},"guarantee":"7-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.is_tangent_correct","statement":"Path(is_tangent(x), 7-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee0dcb536e3145ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'sides')","hasattr(o, 'tangent_lines')"],"fibers":[{"name":"Point2D","guard":"isinstance(o, Point2D)","ensures":["result == False"],"decidability":"structural","returns_expr":"False"},{"name":"Ellipse","guard":"isinstance(o, Ellipse)","ensures":[],"decidability":"structural"},{"name":"Line2D","guard":"isinstance(o, Line2D)","ensures":["result == hit[0].equals(hit[1])"],"decidability":"structural","returns_expr":"hit[0].equals(hit[1])"},{"name":"case_3","guard":"isinstance(o, (Segment2D, Ray2D))","ensures":[],"decidability":"structural"},{"name":"Polygon","guard":"isinstance(o, Polygon)","ensures":["result == all((self.is_tangent(s) for s in o.sides))"],"decidability":"structural","returns_expr":"all((self.is_tangent(s) for s in o.sides))"},{"name":"case_5","guard":"isinstance(o, (LinearEntity3D, Point3D))","ensures":[],"decidability":"structural"},{"name":"Point2D","guard":"not (isinstance(o, Point2D)) and not (isinstance(o, Ellipse)) and not (isinstance(o, Line2D)) and not (isinstance(o, (Segment2D, Ray2D))) and not (isinstance(o, Polygon)) and not (isinstance(o, (LinearEntity3D, Point3D)))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.sides","o.tangent_lines","self.intersection","self.is_tangent","self.tangent_lines"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_tangent(self, o):
         """Is `o` tangent to the ellipse?
 
@@ -1023,16 +1184,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(major(), returns the major attribute) over Any        ║
+# ║ Path(major(), <unspecified:major>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ major : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9023e56249e845dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.major","kind":"property","src_hash":"a74d2e9334cf93a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"major()","rhs":"returns the major attribute","over":{"base":"Any"},"name":"major_correct"},"guarantee":"returns the major attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9023e56249e845dc"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.major","kind":"property","src_hash":"a74d2e9334cf93a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"major()","rhs":"<unspecified:major>","over":{"base":"Any"},"name":"major_correct"},"guarantee":"returns the major attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9023e56249e845dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.hradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def major(self):
         """Longer axis of the ellipse (if it can be determined) else hradius.
 
@@ -1081,16 +1248,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minor(), returns the minor attribute) over Any        ║
+# ║ Path(minor(), <unspecified:minor>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minor : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1b2023d256fada8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.minor","kind":"property","src_hash":"135d600dda9ddb08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minor()","rhs":"returns the minor attribute","over":{"base":"Any"},"name":"minor_correct"},"guarantee":"returns the minor attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1b2023d256fada8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.minor","kind":"property","src_hash":"135d600dda9ddb08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minor()","rhs":"<unspecified:minor>","over":{"base":"Any"},"name":"minor_correct"},"guarantee":"returns the minor attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1b2023d256fada8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minor(self):
         """Shorter axis of the ellipse (if it can be determined) else vradius.
 
@@ -1138,16 +1311,24 @@ class Ellipse(GeometrySet):
         return self.vradius
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal_lines(p, ), normal lines between `p` and the ellipse) over Any ║
+# ║ Path(normal_lines(p, prec), len(rv) == old_len_rv + 1) over {Any | hasattr(p, 'x') and hasattr(p, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ normal_lines : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'x')                                ║
+# ║   requires: hasattr(p, 'y')                                ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ normal_lines : {Any | hasattr(p, 'x') and hasattr(p, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9557580d4051a992  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d8d0d993ddac312  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.normal_lines","kind":"method","src_hash":"8b8a34bed1234f2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_lines(p, )","rhs":"normal lines between `p` and the ellipse","over":{"base":"Any"},"name":"normal_lines_correct"},"guarantee":"normal lines between `p` and the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.normal_lines_correct","statement":"Path(normal_lines(x), normal lines between `p` and the ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9557580d4051a992"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.normal_lines","kind":"method","src_hash":"8b8a34bed1234f2b","in":{"base":"Any","pred":"hasattr(p, 'x') and hasattr(p, 'y')"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv + 1"},"spec":{"lhs":"normal_lines(p, prec)","rhs":"len(rv) == old_len_rv + 1","over":{"base":"Any","pred":"hasattr(p, 'x') and hasattr(p, 'y')"},"name":"normal_lines_correct"},"guarantee":"len(rv) == old_len_rv + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.normal_lines_correct","statement":"Path(normal_lines(x), len(rv) == old_len_rv + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d8d0d993ddac312","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'x')","hasattr(p, 'y')"],"ensures":["len(rv) == old_len_rv + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.x","p.y","self.center","self.equation"],"calls_mutating":["rv.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["rv.*"],"old_bindings":{"old_len_rv":"len(rv)"},"post_ensures":["len(rv) == old_len_rv + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normal_lines(self, p, prec=None):
         """Normal lines between `p` and the ellipse.
 
@@ -1230,16 +1411,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(periapsis(), returns the periapsis attribute) over Any ║
+# ║ Path(periapsis(), self.major * (1 - self.eccentricity)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.major * (1 - self.eccentricity)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ periapsis : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4c698575f3547f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.periapsis","kind":"property","src_hash":"9544fb22a176fb03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"periapsis()","rhs":"returns the periapsis attribute","over":{"base":"Any"},"name":"periapsis_correct"},"guarantee":"returns the periapsis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4c698575f3547f6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.periapsis","kind":"property","src_hash":"9544fb22a176fb03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"periapsis()","rhs":"self.major * (1 - self.eccentricity)","over":{"base":"Any"},"name":"periapsis_correct"},"guarantee":"returns self.major * (1 - self.eccentricity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4c698575f3547f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.major * (1 - self.eccentricity)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eccentricity","self.major"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def periapsis(self):
         """The periapsis of the ellipse.
 
@@ -1269,16 +1456,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(semilatus_rectum(), returns the semilatus_rectum attribute) over Any ║
+# ║ Path(semilatus_rectum(), self.major * (1 - self.eccentricity ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.major * (1 - self.eccentricity ** 2)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ semilatus_rectum : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb3fc88822f9d187           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.semilatus_rectum","kind":"property","src_hash":"688f1d308677979f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"semilatus_rectum()","rhs":"returns the semilatus_rectum attribute","over":{"base":"Any"},"name":"semilatus_rectum_correct"},"guarantee":"returns the semilatus_rectum attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb3fc88822f9d187"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.semilatus_rectum","kind":"property","src_hash":"688f1d308677979f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"semilatus_rectum()","rhs":"self.major * (1 - self.eccentricity ** 2)","over":{"base":"Any"},"name":"semilatus_rectum_correct"},"guarantee":"returns self.major * (1 - self.eccentricity ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb3fc88822f9d187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.major * (1 - self.eccentricity ** 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eccentricity","self.major"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def semilatus_rectum(self):
         """
         Calculates the semi-latus rectum of the Ellipse.
@@ -1317,16 +1510,22 @@ class Ellipse(GeometrySet):
         return self.major * (1 - self.eccentricity ** 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(auxiliary_circle(), returns a circle whose diameter is the major axis of the ellipse) over Any ║
+# ║ Path(auxiliary_circle(), Circle(self.center, Max(self.hradius, self.vradius))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(self.center, Max(self.hradius, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ auxiliary_circle : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0a23a4bf2c62b34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.auxiliary_circle","kind":"method","src_hash":"2c9b16b334d40b47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"auxiliary_circle()","rhs":"returns a circle whose diameter is the major axis of the ellipse","over":{"base":"Any"},"name":"auxiliary_circle_correct"},"guarantee":"returns a circle whose diameter is the major axis of the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0a23a4bf2c62b34"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.auxiliary_circle","kind":"method","src_hash":"2c9b16b334d40b47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"auxiliary_circle()","rhs":"Circle(self.center, Max(self.hradius, self.vradius))","over":{"base":"Any"},"name":"auxiliary_circle_correct"},"guarantee":"returns Circle(self.center, Max(self.hradius, self.vradius))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0a23a4bf2c62b34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(self.center, Max(self.hradius, self.vradius))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def auxiliary_circle(self):
         """Returns a Circle whose diameter is the major axis of the ellipse.
 
@@ -1344,16 +1543,22 @@ class Ellipse(GeometrySet):
         return Circle(self.center, Max(self.hradius, self.vradius))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(director_circle(), returns a circle consisting of all points where two perpendicular tangent lines to the ellipse cross each other) over Any ║
+# ║ Path(director_circle(), Circle(self.center, sqrt(self.hradius ** 2 + self.vradius ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(self.center, sqrt(self.hradius ** ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ director_circle : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aaf20db71430d33b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.director_circle","kind":"method","src_hash":"6fc3e7a1a755e9b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"director_circle()","rhs":"returns a circle consisting of all points where two perpendicular tangent lines to the ellipse cross each other","over":{"base":"Any"},"name":"director_circle_correct"},"guarantee":"returns a circle consisting of all points where two perpendicular tangent lines to the ellipse cross each other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaf20db71430d33b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.director_circle","kind":"method","src_hash":"6fc3e7a1a755e9b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"director_circle()","rhs":"Circle(self.center, sqrt(self.hradius ** 2 + self.vradius ** 2))","over":{"base":"Any"},"name":"director_circle_correct"},"guarantee":"returns Circle(self.center, sqrt(self.hradius ** 2 + self.vradius ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaf20db71430d33b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(self.center, sqrt(self.hradius ** 2 + self.vradius ** 2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def director_circle(self):
         """
         Returns a Circle consisting of all points where two perpendicular
@@ -1385,16 +1590,22 @@ class Ellipse(GeometrySet):
         return Circle(self.center, sqrt(self.hradius**2 + self.vradius**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_interval(par), the plot interval for the default geometric plot of the ellipse) over Any ║
+# ║ Path(plot_interval(parameter), [t, -S.Pi, S.Pi]) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [t, -S.Pi, S.Pi]                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24a9c0b55e5bd963  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b66a53ad4522d0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.plot_interval","kind":"method","src_hash":"617e4861df04140b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(par)","rhs":"the plot interval for the default geometric plot of the ellipse","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"the plot interval for the default geometric plot of the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.plot_interval_correct","statement":"Path(plot_interval(x), the plot interval for the default geometric plot of the ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24a9c0b55e5bd963"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.plot_interval","kind":"method","src_hash":"617e4861df04140b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(parameter)","rhs":"[t, -S.Pi, S.Pi]","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"returns [t, -S.Pi, S.Pi]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.plot_interval_correct","statement":"Path(plot_interval(x), returns [t, -S.Pi, S.Pi])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b66a53ad4522d0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[t, -S.Pi, S.Pi]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_interval(self, parameter='t'):
         """The plot interval for the default geometric plot of the Ellipse.
 
@@ -1423,16 +1634,22 @@ class Ellipse(GeometrySet):
         return [t, -S.Pi, S.Pi]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_point(see), id) over Any                       ║
+# ║ Path(random_point(seed), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(x.subs(cos(t), c), y.subs(sin(t), s))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_point : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | aaa878d4c07ab150   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.random_point","kind":"method","src_hash":"c51f893519741dd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_point(see)","rhs":"a random point on the ellipse","over":{"base":"Any"},"name":"random_point_correct","kind":"composition"},"guarantee":"a random point on the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa878d4c07ab150"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.random_point","kind":"method","src_hash":"c51f893519741dd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_point(seed)","rhs":"Point(x.subs(cos(t), c), y.subs(sin(t), s))","over":{"base":"Any"},"name":"random_point_correct","kind":"composition"},"guarantee":"returns Point(x.subs(cos(t), c), y.subs(sin(t), s))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa878d4c07ab150","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(x.subs(cos(t), c), y.subs(sin(t), s))","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.arbitrary_point"],"nondeterministic_sources":["rng.random"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random_point(self, seed=None):
         """A random point on the ellipse.
 
@@ -1490,16 +1707,24 @@ class Ellipse(GeometrySet):
         return Point(x.subs(cos(t), c), y.subs(sin(t), s))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reflect(lin), override geometryentity.reflect since the radius is not a geometryentity) over Any ║
+# ║ Path(reflect(line), <unspecified:reflect>) over {Any | hasattr(line, 'slope')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reflect : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(line, 'slope')                         ║
+# ║   fiber[case_0]: line.slope in (0, oo) => self.func(c...   ║
+# ║   fiber[case_1]: not (line.slope in (0, oo))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reflect : {Any | hasattr(line, 'slope')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0178fd17327355b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9e7f5490f2adbc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.reflect","kind":"method","src_hash":"41c7740a6ade0a31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(lin)","rhs":"override geometryentity.reflect since the radius is not a geometryentity","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"override geometryentity.reflect since the radius is not a geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.reflect_correct","statement":"Path(reflect(x), override geometryentity.reflect since the radius is not a geometryentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0178fd17327355b6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.reflect","kind":"method","src_hash":"41c7740a6ade0a31","in":{"base":"Any","pred":"hasattr(line, 'slope')"},"out":{"base":"Any"},"spec":{"lhs":"reflect(line)","rhs":"<unspecified:reflect>","over":{"base":"Any","pred":"hasattr(line, 'slope')"},"name":"reflect_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.reflect_correct","statement":"Path(reflect(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9e7f5490f2adbc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(line, 'slope')"],"fibers":[{"name":"case_0","guard":"line.slope in (0, oo)","ensures":["result == self.func(c, -self.hradius, self.vradius)"],"decidability":"library","returns_expr":"self.func(c, -self.hradius, self.vradius)"},{"name":"case_1","guard":"not (line.slope in (0, oo))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["line.slope","self.center","self.equation","self.func","self.hradius","self.vradius"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reflect(self, line):
         """Override GeometryEntity.reflect since the radius
         is not a GeometryEntity.
@@ -1546,16 +1771,22 @@ class Ellipse(GeometrySet):
                 "f(%s, %s) = %s" % (str(x), str(y), str(result))))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(ang), id) over Any                             ║
+# ║ Path(rotate(angle, pt), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4aa2fc9d15c74941   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.rotate","kind":"method","src_hash":"305ca0210fd795ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(ang)","rhs":"rotate ``angle`` radians counterclockwise about point ``pt``","over":{"base":"Any"},"name":"rotate_correct","kind":"composition"},"guarantee":"rotate ``angle`` radians counterclockwise about point ``pt``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"rotate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa2fc9d15c74941"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.rotate","kind":"method","src_hash":"305ca0210fd795ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(angle, pt)","rhs":"<unspecified:rotate>","over":{"base":"Any"},"name":"rotate_correct","kind":"composition"},"guarantee":"rotate ``angle`` radians counterclockwise about point ``pt``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"rotate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa2fc9d15c74941","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.center","self.func","self.hradius","self.vradius"],"calls_mutating":["self.center.rotate"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate(self, angle=0, pt=None):
         """Rotate ``angle`` radians counterclockwise about Point ``pt``.
 
@@ -1581,16 +1812,23 @@ class Ellipse(GeometrySet):
         raise NotImplementedError('Only rotations of pi/2 are currently supported for Ellipse.')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, pt), id) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4db40e4921f68c3d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.scale","kind":"method","src_hash":"f36aaaeccc0e1169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"override geometryentity.scale since it is the major and minor axes which must be scaled and they are not geometryentities","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since it is the major and minor axes which must be scaled and they are not geometryentities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db40e4921f68c3d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.scale","kind":"method","src_hash":"f36aaaeccc0e1169","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since it is the major and minor axes which must be scaled and they are not geometryentities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db40e4921f68c3d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.center","self.func","self.hradius","self.translate","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, pt=None):
         """Override GeometryEntity.scale since it is the major and minor
         axes which must be scaled and they are not GeometryEntities.
@@ -1613,16 +1851,24 @@ class Ellipse(GeometrySet):
         return self.func(c.scale(x, y), hradius=h*x, vradius=v*y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tangent_lines(p), tangent lines between `p` and the ellipse) over Any ║
+# ║ Path(tangent_lines(p), <unspecified:tangent_lines>) over {Any | hasattr(p, 'x') and hasattr(p, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tangent_lines : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'x')                                ║
+# ║   requires: hasattr(p, 'y')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tangent_lines : {Any | hasattr(p, 'x') and hasattr(p,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27c4d3886a67da92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.tangent_lines","kind":"method","src_hash":"0c9922cfae0c41a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tangent_lines(p)","rhs":"tangent lines between `p` and the ellipse","over":{"base":"Any"},"name":"tangent_lines_correct"},"guarantee":"tangent lines between `p` and the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.tangent_lines_correct","statement":"Path(tangent_lines(x), tangent lines between `p` and the ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27c4d3886a67da92"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.tangent_lines","kind":"method","src_hash":"0c9922cfae0c41a0","in":{"base":"Any","pred":"hasattr(p, 'x') and hasattr(p, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"tangent_lines(p)","rhs":"<unspecified:tangent_lines>","over":{"base":"Any","pred":"hasattr(p, 'x') and hasattr(p, 'y')"},"name":"tangent_lines_correct"},"guarantee":"tangent lines between `p` and the ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.tangent_lines_correct","statement":"Path(tangent_lines(x), tangent lines between `p` and the ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27c4d3886a67da92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'x')","hasattr(p, 'y')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.x","p.y","self.center","self.encloses_point","self.equation","self.foci","self.hradius","self.radius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tangent_lines(self, p):
         """Tangent lines between `p` and the ellipse.
 
@@ -1705,16 +1951,22 @@ class Ellipse(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vradius(), returns the vradius attribute) over Any    ║
+# ║ Path(vradius(), self.args[2]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vradius : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36e39b7d239f63c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.vradius","kind":"property","src_hash":"baead196ff91bd96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vradius()","rhs":"returns the vradius attribute","over":{"base":"Any"},"name":"vradius_correct"},"guarantee":"returns the vradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36e39b7d239f63c8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.vradius","kind":"property","src_hash":"baead196ff91bd96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vradius()","rhs":"self.args[2]","over":{"base":"Any"},"name":"vradius_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36e39b7d239f63c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vradius(self):
         """The vertical radius of the ellipse.
 
@@ -1742,16 +1994,22 @@ class Ellipse(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(second_moment_of_area(poi), returns the second moment and product moment area of an ellipse) over Any ║
+# ║ Path(second_moment_of_area(point), <unspecified:second_moment_of_area>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ second_moment_of_area : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7535b6a4d074bb38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.second_moment_of_area","kind":"method","src_hash":"107b5248d30a8b16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment_of_area(poi)","rhs":"returns the second moment and product moment area of an ellipse","over":{"base":"Any"},"name":"second_moment_of_area_correct"},"guarantee":"returns the second moment and product moment area of an ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.second_moment_of_area_correct","statement":"Path(second_moment_of_area(x), returns the second moment and product moment area of an ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7535b6a4d074bb38"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.second_moment_of_area","kind":"method","src_hash":"107b5248d30a8b16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment_of_area(point)","rhs":"<unspecified:second_moment_of_area>","over":{"base":"Any"},"name":"second_moment_of_area_correct"},"guarantee":"returns the second moment and product moment area of an ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.second_moment_of_area_correct","statement":"Path(second_moment_of_area(x), returns the second moment and product moment area of an ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7535b6a4d074bb38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.area","self.center","self.hradius","self.vradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def second_moment_of_area(self, point=None):
         """Returns the second moment and product moment area of an ellipse.
 
@@ -1802,16 +2060,22 @@ class Ellipse(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polar_second_moment_of_area(), returns the polar second moment of area of an ellipse) over Any ║
+# ║ Path(polar_second_moment_of_area(), second_moment[0] + second_moment[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  second_moment[0] + second_moment[1]            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polar_second_moment_of_area : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6012db12394b8b39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ee7e20c6913ff0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.polar_second_moment_of_area","kind":"method","src_hash":"721b3713fa1adfd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polar_second_moment_of_area()","rhs":"returns the polar second moment of area of an ellipse","over":{"base":"Any"},"name":"polar_second_moment_of_area_correct"},"guarantee":"returns the polar second moment of area of an ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.polar_second_moment_of_area_correct","statement":"Path(polar_second_moment_of_area(x), returns the polar second moment of area of an ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6012db12394b8b39"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.polar_second_moment_of_area","kind":"method","src_hash":"721b3713fa1adfd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polar_second_moment_of_area()","rhs":"second_moment[0] + second_moment[1]","over":{"base":"Any"},"name":"polar_second_moment_of_area_correct"},"guarantee":"returns second_moment[0] + second_moment[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.polar_second_moment_of_area_correct","statement":"Path(polar_second_moment_of_area(x), returns second_moment[0] + second_moment[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ee7e20c6913ff0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"second_moment[0] + second_moment[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.second_moment_of_area"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def polar_second_moment_of_area(self):
         """Returns the polar second moment of area of an Ellipse
 
@@ -1847,16 +2111,24 @@ class Ellipse(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(section_modulus(poi), returns a tuple with the section modulus of an ellipse) over Any ║
+# ║ Path(section_modulus(point), (S_x, S_y)) over {Any | hasattr(point, 'y') and hasattr(point, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ section_modulus : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'y')                            ║
+# ║   requires: hasattr(point, 'x')                            ║
+# ║   returns:  (S_x, S_y)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ section_modulus : {Any | hasattr(point, 'y') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 813e9bc31d2040de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc251d78de6e0453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.section_modulus","kind":"method","src_hash":"2d0236180f49d936","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"section_modulus(poi)","rhs":"returns a tuple with the section modulus of an ellipse","over":{"base":"Any"},"name":"section_modulus_correct"},"guarantee":"returns a tuple with the section modulus of an ellipse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.section_modulus_correct","statement":"Path(section_modulus(x), returns a tuple with the section modulus of an ellipse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"813e9bc31d2040de"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Ellipse.section_modulus","kind":"method","src_hash":"2d0236180f49d936","in":{"base":"Any","pred":"hasattr(point, 'y') and hasattr(point, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"section_modulus(point)","rhs":"(S_x, S_y)","over":{"base":"Any","pred":"hasattr(point, 'y') and hasattr(point, 'x')"},"name":"section_modulus_correct"},"guarantee":"returns (S_x, S_y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Ellipse.section_modulus_correct","statement":"Path(section_modulus(x), returns (S_x, S_y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc251d78de6e0453","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'y')","hasattr(point, 'x')"],"returns_expr":"(S_x, S_y)","pure":false,"effects":{"effect_type":"reads_state","reads":["point.x","point.y","self.bounds","self.center","self.second_moment_of_area"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def section_modulus(self, point=None):
         """Returns a tuple with the section modulus of an ellipse
 
@@ -1923,14 +2195,20 @@ class Ellipse(GeometrySet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Circle(*args), correctly constructs a Circle instance) over {Any | isinstance(args[0], (Expr, Eq)) and isinstance(equation, Eq) and isinstance(t, Triangle)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ellipse)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Circle : {Any | isinstance(args[0], (Expr, Eq)) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8073f6c80e305a86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle","kind":"class","src_hash":"00d2d838b2796532","in":{"base":"Any","pred":"isinstance(args[0], (Expr, Eq)) and isinstance(equation, Eq) and isinstance(t, Triangle)"},"out":{"base":"Any"},"spec":{"lhs":"Circle(*args)","rhs":"correctly constructs a Circle instance","over":{"base":"Any","pred":"isinstance(args[0], (Expr, Eq)) and isinstance(equation, Eq) and isinstance(t, Triangle)"},"name":"Circle_class_invariant"},"guarantee":"correctly constructs a Circle instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8073f6c80e305a86"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle","kind":"class","src_hash":"00d2d838b2796532","in":{"base":"Any","pred":"isinstance(args[0], (Expr, Eq)) and isinstance(equation, Eq) and isinstance(t, Triangle)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ellipse)"},"spec":{"lhs":"Circle(*args)","rhs":"correctly constructs a Circle instance","over":{"base":"Any","pred":"isinstance(args[0], (Expr, Eq)) and isinstance(equation, Eq) and isinstance(t, Triangle)"},"name":"Circle_class_invariant"},"guarantee":"isinstance(self, Ellipse)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8073f6c80e305a86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ellipse)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Circle not found in source"]}}
 class Circle(Ellipse):
     r"""A circle in space.
 
@@ -1996,16 +2274,23 @@ class Circle(Ellipse):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(args) == 1 and isinstance(args[0...   ║
+# ║   fiber[case_1]: not (len(args) == 1 and isinstance(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99041bca73e69a3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.__new__","kind":"method","src_hash":"0ed50c59a944502e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99041bca73e69a3a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.__new__","kind":"method","src_hash":"0ed50c59a944502e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99041bca73e69a3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(args) == 1 and isinstance(args[0], (Expr, Eq))","ensures":["result == Circle((center_x, center_y), sqrt(r2), evaluate=evaluate)"],"decidability":"structural","returns_expr":"Circle((center_x, center_y), sqrt(r2), evaluate=evaluate)"},{"name":"case_1","guard":"not (len(args) == 1 and isinstance(args[0], (Expr, Eq)))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["GeometryError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
         if len(args) == 1 and isinstance(args[0], (Expr, Eq)):
@@ -2058,16 +2343,22 @@ class Circle(Ellipse):
             raise GeometryError("Circle.__new__ received unknown arguments")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec, **options), self.func(pt, r, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(pt, r, evaluate=False)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69643f55ee199402  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aa80e7af60b502d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle._eval_evalf","kind":"method","src_hash":"5d08fddafc3a0f37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Circle._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69643f55ee199402"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle._eval_evalf","kind":"method","src_hash":"5d08fddafc3a0f37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec, **options)","rhs":"self.func(pt, r, evaluate=False)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.func(pt, r, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Circle._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns self.func(pt, r, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aa80e7af60b502d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(pt, r, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec=15, **options):
         pt, r = self.args
         dps = prec_to_dps(prec)
@@ -2077,16 +2368,22 @@ class Circle(Ellipse):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumference(), returns the circumference attribute) over Any ║
+# ║ Path(circumference(), 2 * S.Pi * self.radius) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * S.Pi * self.radius                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumference : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e903c8803857bd4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.circumference","kind":"property","src_hash":"5adeb3c12125c2ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumference()","rhs":"returns the circumference attribute","over":{"base":"Any"},"name":"circumference_correct"},"guarantee":"returns the circumference attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e903c8803857bd4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.circumference","kind":"property","src_hash":"5adeb3c12125c2ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumference()","rhs":"2 * S.Pi * self.radius","over":{"base":"Any"},"name":"circumference_correct"},"guarantee":"returns 2 * S.Pi * self.radius","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e903c8803857bd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * S.Pi * self.radius","pure":false,"effects":{"effect_type":"reads_state","reads":["self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumference(self):
         """The circumference of the circle.
 
@@ -2107,16 +2404,22 @@ class Circle(Ellipse):
         return 2 * S.Pi * self.radius
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(x, ), the equation of the circle) over Any   ║
+# ║ Path(equation(x, y), t1 + t2 - self.major ** 2) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  t1 + t2 - self.major ** 2                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equation : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99141ba003a7120b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff38f5704d4ff380  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.equation","kind":"method","src_hash":"7555942c4f9d9ecd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, )","rhs":"the equation of the circle","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"the equation of the circle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Circle.equation_correct","statement":"Path(equation(x), the equation of the circle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99141ba003a7120b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.equation","kind":"method","src_hash":"7555942c4f9d9ecd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, y)","rhs":"t1 + t2 - self.major ** 2","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"returns t1 + t2 - self.major ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Circle.equation_correct","statement":"Path(equation(x), returns t1 + t2 - self.major ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff38f5704d4ff380","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"t1 + t2 - self.major ** 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.major"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self, x='x', y='y'):
         """The equation of the circle.
 
@@ -2149,16 +2452,22 @@ class Circle(Ellipse):
         return t1 + t2 - self.major**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(o), the intersection of this circle with another geometrical entity) over Any ║
+# ║ Path(intersection(o), Ellipse.intersection(self, o)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Ellipse.intersection(self, o)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersection : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54587595c5cf2f76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.intersection","kind":"method","src_hash":"6991312274acc2f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"the intersection of this circle with another geometrical entity","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection of this circle with another geometrical entity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54587595c5cf2f76"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.intersection","kind":"method","src_hash":"6991312274acc2f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"Ellipse.intersection(self, o)","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns Ellipse.intersection(self, o)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54587595c5cf2f76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Ellipse.intersection(self, o)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, o):
         """The intersection of this circle with another geometrical entity.
 
@@ -2193,16 +2502,22 @@ class Circle(Ellipse):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(), returns the radius attribute) over Any      ║
+# ║ Path(radius(), self.args[1]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4faefdeb52cb6c3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.radius","kind":"property","src_hash":"e45ab97f19a4745a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"returns the radius attribute","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns the radius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4faefdeb52cb6c3a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.radius","kind":"property","src_hash":"e45ab97f19a4745a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"self.args[1]","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4faefdeb52cb6c3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self):
         """The radius of the circle.
 
@@ -2228,16 +2543,22 @@ class Circle(Ellipse):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reflect(lin), override geometryentity.reflect since the radius is not a geometryentity) over Any ║
+# ║ Path(reflect(line), self.func(c, -self.radius)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(c, -self.radius)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reflect : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2820576733f5b153  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b6cc1765a80b7d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.reflect","kind":"method","src_hash":"03ad96595ecccf47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(lin)","rhs":"override geometryentity.reflect since the radius is not a geometryentity","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"override geometryentity.reflect since the radius is not a geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Circle.reflect_correct","statement":"Path(reflect(x), override geometryentity.reflect since the radius is not a geometryentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2820576733f5b153"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.reflect","kind":"method","src_hash":"03ad96595ecccf47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(line)","rhs":"self.func(c, -self.radius)","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"returns self.func(c, -self.radius)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.ellipse.Circle.reflect_correct","statement":"Path(reflect(x), returns self.func(c, -self.radius))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6cc1765a80b7d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(c, -self.radius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.func","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reflect(self, line):
         """Override GeometryEntity.reflect since the radius
         is not a GeometryEntity.
@@ -2254,16 +2575,23 @@ class Circle(Ellipse):
         return self.func(c, -self.radius)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, pt), id) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c2e1a2105813bd4f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.scale","kind":"method","src_hash":"a66dfe70daa1cdfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"override geometryentity.scale since the radius is not a geometryentity","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since the radius is not a geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2e1a2105813bd4f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.scale","kind":"method","src_hash":"a66dfe70daa1cdfd","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since the radius is not a geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2e1a2105813bd4f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.center","self.func","self.radius","self.translate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, pt=None):
         """Override GeometryEntity.scale since the radius
         is not a GeometryEntity.
@@ -2290,16 +2618,22 @@ class Circle(Ellipse):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vradius(), returns the vradius attribute) over Any    ║
+# ║ Path(vradius(), abs(self.radius)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  abs(self.radius)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vradius : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c8765102cf94811           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.vradius","kind":"property","src_hash":"df0b5d4343b4c2b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vradius()","rhs":"returns the vradius attribute","over":{"base":"Any"},"name":"vradius_correct"},"guarantee":"returns the vradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c8765102cf94811"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.ellipse.Circle.vradius","kind":"property","src_hash":"df0b5d4343b4c2b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vradius()","rhs":"abs(self.radius)","over":{"base":"Any"},"name":"vradius_correct"},"guarantee":"returns abs(self.radius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c8765102cf94811","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"abs(self.radius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vradius(self):
         """
         This Ellipse property is an alias for the Circle's radius.

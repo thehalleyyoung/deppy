@@ -32,16 +32,23 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hadamard_product(*ma), return the elementwise (aka hadamard) product of matrices) over Any ║
+# ║ Path(hadamard_product(*matrices), <unspecified:hadamard_product>) over {Any | matrices} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hadamard_product : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: matrices                                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hadamard_product : {Any | matrices} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26c6fa9a403572a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.hadamard_product","kind":"function","src_hash":"5590e41b3a6849bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hadamard_product(*ma)","rhs":"return the elementwise (aka hadamard) product of matrices","over":{"base":"Any"},"name":"hadamard_product_correct"},"guarantee":"return the elementwise (aka hadamard) product of matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.hadamard_product_correct","statement":"Path(hadamard_product(x), return the elementwise (aka hadamard) product of matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26c6fa9a403572a3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.hadamard_product","kind":"function","src_hash":"5590e41b3a6849bb","in":{"base":"Any","pred":"matrices"},"out":{"base":"Any"},"spec":{"lhs":"hadamard_product(*matrices)","rhs":"<unspecified:hadamard_product>","over":{"base":"Any","pred":"matrices"},"name":"hadamard_product_correct"},"guarantee":"return the elementwise (aka hadamard) product of matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.hadamard_product_correct","statement":"Path(hadamard_product(x), return the elementwise (aka hadamard) product of matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26c6fa9a403572a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["matrices"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*matrices']"]}}
 def hadamard_product(*matrices):
     """
     Return the elementwise (aka Hadamard) product of matrices.
@@ -69,14 +76,20 @@ def hadamard_product(*matrices):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HadamardProduct(*args), correctly constructs a HadamardProduct instance) over {Any | isinstance(i, MatrixBase) and isinstance(arg, MatrixExpr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ HadamardProduct : {Any | isinstance(i, MatrixBase) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49b3779ab2d4cc63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct","kind":"class","src_hash":"c49da4c5d63f5ad4","in":{"base":"Any","pred":"isinstance(i, MatrixBase) and isinstance(arg, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"HadamardProduct(*args)","rhs":"correctly constructs a HadamardProduct instance","over":{"base":"Any","pred":"isinstance(i, MatrixBase) and isinstance(arg, MatrixExpr)"},"name":"HadamardProduct_class_invariant"},"guarantee":"correctly constructs a HadamardProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49b3779ab2d4cc63"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct","kind":"class","src_hash":"c49da4c5d63f5ad4","in":{"base":"Any","pred":"isinstance(i, MatrixBase) and isinstance(arg, MatrixExpr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"HadamardProduct(*args)","rhs":"correctly constructs a HadamardProduct instance","over":{"base":"Any","pred":"isinstance(i, MatrixBase) and isinstance(arg, MatrixExpr)"},"name":"HadamardProduct_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49b3779ab2d4cc63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function HadamardProduct not found in source"]}}
 class HadamardProduct(MatrixExpr):
     """
     Elementwise product of matrix expressions
@@ -102,16 +115,24 @@ class HadamardProduct(MatrixExpr):
     is_HadamardProduct = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), <unspecified:__new__>) over {Any | not (len(args) == 0) and all((isinstance(arg, MatrixExpr) for arg in args))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(args) == 0)                           ║
+# ║   requires: all((isinstance(arg, MatrixExpr) for arg ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(args) == 0) and all((isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e6f8f5b6daa4ce1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct.__new__","kind":"method","src_hash":"b14031bda1b9e0d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e6f8f5b6daa4ce1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct.__new__","kind":"method","src_hash":"b14031bda1b9e0d4","in":{"base":"Any","pred":"not (len(args) == 0) and all((isinstance(arg, MatrixExpr) for arg in args))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len(args) == 0) and all((isinstance(arg, MatrixExpr) for arg in args))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e6f8f5b6daa4ce1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(args) == 0)","all((isinstance(arg, MatrixExpr) for arg in args))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=False, check=None):
         args = list(map(sympify, args))
         if len(args) == 0:
@@ -137,59 +158,83 @@ class HadamardProduct(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.args[0].shape) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].shape                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95bf5c2b38b88c76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct.shape","kind":"property","src_hash":"a4239be726663feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95bf5c2b38b88c76"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct.shape","kind":"property","src_hash":"a4239be726663feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.args[0].shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.args[0].shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95bf5c2b38b88c76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.args[0].shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), Mul(*[arg._entry(i, j, **kwargs) for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(*[arg._entry(i, j, **kwargs) for arg ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18d87b7ecea42054           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._entry","kind":"method","src_hash":"1270ef14eae3fb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18d87b7ecea42054"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._entry","kind":"method","src_hash":"1270ef14eae3fb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"Mul(*[arg._entry(i, j, **kwargs) for arg in self.args])","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns Mul(*[arg._entry(i, j, **kwargs) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18d87b7ecea42054","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(*[arg._entry(i, j, **kwargs) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         return Mul(*[arg._entry(i, j, **kwargs) for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_transpose(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HadamardProduct(*list(map(transpose, self...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6b014f8faa37ce43   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_transpose","kind":"method","src_hash":"5dc29b3bf8600623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HadamardProduct","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b014f8faa37ce43"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_transpose","kind":"method","src_hash":"5dc29b3bf8600623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"HadamardProduct(*list(map(transpose, self.args)))","over":{"base":"Any"},"name":"_eval_transpose_correct","kind":"composition"},"guarantee":"returns HadamardProduct(*list(map(transpose, self.args)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HadamardProduct","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b014f8faa37ce43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HadamardProduct(*list(map(transpose, self.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         from sympy.matrices.expressions.transpose import transpose
         return HadamardProduct(*list(map(transpose, self.args)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), canonicalize(expr)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  canonicalize(expr)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fed9dca6d4b8af2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38c3e566f94a5757  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct.doit","kind":"method","src_hash":"52f01b8fa828d6d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardProduct.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fed9dca6d4b8af2a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct.doit","kind":"method","src_hash":"52f01b8fa828d6d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"canonicalize(expr)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns canonicalize(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardProduct.doit_correct","statement":"Path(doit(x), returns canonicalize(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38c3e566f94a5757","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"canonicalize(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         expr = self.func(*(i.doit(**hints) for i in self.args))
         # Check for explicit matrices:
@@ -207,16 +252,22 @@ class HadamardProduct(MatrixExpr):
         return canonicalize(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), Add.fromiter(terms)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add.fromiter(terms)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d4ee1155c725c6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b69288bdbb4b874  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative","kind":"method","src_hash":"801811c3755dfee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d4ee1155c725c6a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative","kind":"method","src_hash":"801811c3755dfee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"Add.fromiter(terms)","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns Add.fromiter(terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative_correct","statement":"Path(_eval_derivative(x), returns Add.fromiter(terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b69288bdbb4b874","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add.fromiter(terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         terms = []
         args = list(self.args)
@@ -226,16 +277,22 @@ class HadamardProduct(MatrixExpr):
         return Add.fromiter(terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative_matrix_lines(x), <unspecified:_eval_derivative_matrix_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative_matrix_lines : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a75a902aa0de9ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative_matrix_lines","kind":"method","src_hash":"db1781ece857ef66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a75a902aa0de9ef"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative_matrix_lines","kind":"method","src_hash":"db1781ece857ef66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"<unspecified:_eval_derivative_matrix_lines>","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardProduct._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a75a902aa0de9ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative_matrix_lines(self, x):
         from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal
         from sympy.tensor.array.expressions.array_expressions import ArrayTensorProduct
@@ -281,7 +338,12 @@ class HadamardProduct(MatrixExpr):
 # TODO Implement algorithm for rewriting Hadamard product as diagonal matrix
 # if matmul identy matrix is multiplied.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonicalize(x), canonicalize the hadamard product ``x`` with mathematical properties) over {Any | isinstance(x, HadamardProduct) and isinstance(x, OneMatrix) and isinstance(c, ZeroMatrix)} ║
+# ║ Path(canonicalize(x), <unspecified:canonicalize>) over {Any | isinstance(x, HadamardProduct) and isinstance(x, OneMatrix) and isinstance(c, ZeroMatrix) and hasattr(x, 'args') and hasattr(x, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   requires: hasattr(x, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ canonicalize : {Any | isinstance(x, HadamardProduct) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -295,9 +357,12 @@ class HadamardProduct(MatrixExpr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f0bda780...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.canonicalize","kind":"function","src_hash":"c693bc55d0d49a5a","in":{"base":"Any","pred":"isinstance(x, HadamardProduct) and isinstance(x, OneMatrix) and isinstance(c, ZeroMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"Any","pred":"isinstance(x, HadamardProduct) and isinstance(x, OneMatrix) and isinstance(c, ZeroMatrix)"},"name":"canonicalize_correct"},"guarantee":"canonicalize the hadamard product ``x`` with mathematical properties","fibers":[{"name":"HadamardProduct","pred":"isinstance(x, HadamardProduct)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"HadamardProduct","pred":"isinstance(x, HadamardProduct)"},"name":"canonicalize_HadamardProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.canonicalize_HadamardProduct_correct","statement":"canonicalize satisfies spec on HadamardProduct inputs"},"trust":"LIBRARY"},{"name":"OneMatrix","pred":"isinstance(x, OneMatrix)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"OneMatrix","pred":"isinstance(x, OneMatrix)"},"name":"canonicalize_OneMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.canonicalize_OneMatrix_correct","statement":"canonicalize satisfies spec on OneMatrix inputs"},"trust":"LIBRARY"},{"name":"ZeroMatrix","pred":"isinstance(c, ZeroMatrix)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"ZeroMatrix","pred":"isinstance(c, ZeroMatrix)"},"name":"canonicalize_ZeroMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.canonicalize_ZeroMatrix_correct","statement":"canonicalize satisfies spec on ZeroMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0bda780c31c077d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.canonicalize","kind":"function","src_hash":"c693bc55d0d49a5a","in":{"base":"Any","pred":"isinstance(x, HadamardProduct) and isinstance(x, OneMatrix) and isinstance(c, ZeroMatrix) and hasattr(x, 'args') and hasattr(x, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"canonicalize(x)","rhs":"<unspecified:canonicalize>","over":{"base":"Any","pred":"isinstance(x, HadamardProduct) and isinstance(x, OneMatrix) and isinstance(c, ZeroMatrix) and hasattr(x, 'args') and hasattr(x, 'shape')"},"name":"canonicalize_correct"},"guarantee":"canonicalize the hadamard product ``x`` with mathematical properties","fibers":[{"name":"HadamardProduct","pred":"isinstance(x, HadamardProduct)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"HadamardProduct","pred":"isinstance(x, HadamardProduct)"},"name":"canonicalize_HadamardProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.canonicalize_HadamardProduct_correct","statement":"canonicalize satisfies spec on HadamardProduct inputs"},"trust":"LIBRARY"},{"name":"OneMatrix","pred":"isinstance(x, OneMatrix)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"OneMatrix","pred":"isinstance(x, OneMatrix)"},"name":"canonicalize_OneMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.canonicalize_OneMatrix_correct","statement":"canonicalize satisfies spec on OneMatrix inputs"},"trust":"LIBRARY"},{"name":"ZeroMatrix","pred":"isinstance(c, ZeroMatrix)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize the hadamard product ``x`` with mathematical properties","over":{"base":"ZeroMatrix","pred":"isinstance(c, ZeroMatrix)"},"name":"canonicalize_ZeroMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.canonicalize_ZeroMatrix_correct","statement":"canonicalize satisfies spec on ZeroMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0bda780c31c077d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'args')","hasattr(x, 'shape')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, HadamardProduct)', 'any((isinstance(c, ZeroMatrix) for c in x.args))', 'exp == 1'}, fibers={'OneMatrix', 'HadamardProduct', 'ZeroMatrix'})"]}}
 def canonicalize(x):
     """Canonicalize the Hadamard product ``x`` with mathematical properties.
 
@@ -433,16 +498,25 @@ def canonicalize(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hadamard_power(bas), hadamard_power produces the expected output) over Any ║
+# ║ Path(hadamard_power(base, exp), <unspecified:hadamard_power>) over {Any | not (exp.is_Matrix) and hasattr(exp, 'is_Matrix') and hasattr(base, 'is_Matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hadamard_power : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (exp.is_Matrix)                            ║
+# ║   requires: hasattr(exp, 'is_Matrix')                      ║
+# ║   requires: hasattr(base, 'is_Matrix')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hadamard_power : {Any | not (exp.is_Matrix) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4549d869e410832e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.hadamard_power","kind":"function","src_hash":"d3ce8fcbac85c74e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hadamard_power(bas)","rhs":"hadamard_power produces the expected output","over":{"base":"Any"},"name":"hadamard_power_correct"},"guarantee":"hadamard_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.hadamard_power_correct","statement":"Path(hadamard_power(x), hadamard_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4549d869e410832e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.hadamard_power","kind":"function","src_hash":"d3ce8fcbac85c74e","in":{"base":"Any","pred":"not (exp.is_Matrix) and hasattr(exp, 'is_Matrix') and hasattr(base, 'is_Matrix')"},"out":{"base":"Any"},"spec":{"lhs":"hadamard_power(base, exp)","rhs":"<unspecified:hadamard_power>","over":{"base":"Any","pred":"not (exp.is_Matrix) and hasattr(exp, 'is_Matrix') and hasattr(base, 'is_Matrix')"},"name":"hadamard_power_correct"},"guarantee":"hadamard_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.hadamard_power_correct","statement":"Path(hadamard_power(x), hadamard_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4549d869e410832e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (exp.is_Matrix)","hasattr(exp, 'is_Matrix')","hasattr(base, 'is_Matrix')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["base.is_Matrix","exp.is_Matrix"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def hadamard_power(base, exp):
     base = sympify(base)
     exp = sympify(exp)
@@ -458,14 +532,20 @@ def hadamard_power(base, exp):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HadamardPower(*args), correctly constructs a HadamardPower instance) over {Any | isinstance(base, MatrixExpr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ HadamardPower : {Any | isinstance(base, MatrixExpr)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d97a3e27de613f31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower","kind":"class","src_hash":"f07f8d37e78856b5","in":{"base":"Any","pred":"isinstance(base, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"HadamardPower(*args)","rhs":"correctly constructs a HadamardPower instance","over":{"base":"Any","pred":"isinstance(base, MatrixExpr)"},"name":"HadamardPower_class_invariant"},"guarantee":"correctly constructs a HadamardPower instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d97a3e27de613f31"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower","kind":"class","src_hash":"f07f8d37e78856b5","in":{"base":"Any","pred":"isinstance(base, MatrixExpr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"HadamardPower(*args)","rhs":"correctly constructs a HadamardPower instance","over":{"base":"Any","pred":"isinstance(base, MatrixExpr)"},"name":"HadamardPower_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d97a3e27de613f31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function HadamardPower not found in source"]}}
 class HadamardPower(MatrixExpr):
     r"""
     Elementwise power of matrix expressions
@@ -524,16 +604,24 @@ class HadamardPower(MatrixExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, base, exp), <unspecified:__new__>) over {Any | hasattr(base, 'is_scalar') and hasattr(exp, 'is_scalar')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(base, 'is_scalar')                     ║
+# ║   requires: hasattr(exp, 'is_scalar')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(base, 'is_scalar') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd65375a190e2752           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.__new__","kind":"method","src_hash":"2def7e99882083fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd65375a190e2752"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.__new__","kind":"method","src_hash":"2def7e99882083fb","in":{"base":"Any","pred":"hasattr(base, 'is_scalar') and hasattr(exp, 'is_scalar')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, base, exp)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(base, 'is_scalar') and hasattr(exp, 'is_scalar')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd65375a190e2752","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(base, 'is_scalar')","hasattr(exp, 'is_scalar')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["base.is_scalar","exp.is_scalar"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, base, exp):
         base = sympify(base)
         exp = sympify(exp)
@@ -549,62 +637,86 @@ class HadamardPower(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base(), returns the base attribute) over Any          ║
+# ║ Path(base(), self._args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50e290f7111393a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.base","kind":"property","src_hash":"dad0951f2da11725","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"returns the base attribute","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns the base attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50e290f7111393a5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.base","kind":"property","src_hash":"dad0951f2da11725","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"self._args[0]","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50e290f7111393a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base(self):
         return self._args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp(), returns the exp attribute) over Any            ║
+# ║ Path(exp(), self._args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exp : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b8787a29f46ee49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.exp","kind":"property","src_hash":"c9f577a3b0adc2fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"returns the exp attribute","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns the exp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b8787a29f46ee49"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.exp","kind":"property","src_hash":"c9f577a3b0adc2fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"self._args[1]","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b8787a29f46ee49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exp(self):
         return self._args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), <unspecified:shape>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 918c518b73ed40da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.shape","kind":"property","src_hash":"1c5c4ec975791fc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"918c518b73ed40da"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower.shape","kind":"property","src_hash":"1c5c4ec975791fc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"<unspecified:shape>","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"918c518b73ed40da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         if self.base.is_Matrix:
             return self.base.shape
         return self.exp.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), a ** b) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a ** b                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2adde6b04379a90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 946e1e337b3a1d2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._entry","kind":"method","src_hash":"07039b350e0d005d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardPower._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2adde6b04379a90"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._entry","kind":"method","src_hash":"07039b350e0d005d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"a ** b","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns a ** b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardPower._entry_correct","statement":"Path(_entry(x), returns a ** b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"946e1e337b3a1d2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a ** b","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         base = self.base
         exp = self.exp
@@ -630,29 +742,41 @@ class HadamardPower(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_transpose(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HadamardPower(transpose(self.base), self....   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b28050e32590afe8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._eval_transpose","kind":"method","src_hash":"4b7b0f3663a03dd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HadamardPower","by":"library_axiom"},{"fn":"transpose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b28050e32590afe8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._eval_transpose","kind":"method","src_hash":"4b7b0f3663a03dd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"HadamardPower(transpose(self.base), self.exp)","over":{"base":"Any"},"name":"_eval_transpose_correct","kind":"composition"},"guarantee":"returns HadamardPower(transpose(self.base), self.exp)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HadamardPower","by":"library_axiom"},{"fn":"transpose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b28050e32590afe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HadamardPower(transpose(self.base), self.exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         from sympy.matrices.expressions.transpose import transpose
         return HadamardPower(transpose(self.base), self.exp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), hadamard_product(dexp * logbase + self.exp * dlbase, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hadamard_product(dexp * logbase + self.ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6b7df0f5c574d8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8820d72288fdda6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative","kind":"method","src_hash":"7be967a8a0c31a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b7df0f5c574d8d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative","kind":"method","src_hash":"7be967a8a0c31a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"hadamard_product(dexp * logbase + self.exp * dlbase, self)","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns hadamard_product(dexp * logbase + self.exp * dlbase, self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative_correct","statement":"Path(_eval_derivative(x), returns hadamard_product(dexp * logbase + self.exp * dlbase, self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8820d72288fdda6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hadamard_product(dexp * logbase + self.exp * dlbase, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         dexp = self.exp.diff(x)
         logbase = self.base.applyfunc(log)
@@ -663,16 +787,22 @@ class HadamardPower(MatrixExpr):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative_matrix_lines(x), <unspecified:_eval_derivative_matrix_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative_matrix_lines : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0701836fd0aa6c56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative_matrix_lines","kind":"method","src_hash":"f4263fa8cca0be50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0701836fd0aa6c56"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative_matrix_lines","kind":"method","src_hash":"f4263fa8cca0be50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"<unspecified:_eval_derivative_matrix_lines>","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.hadamard.HadamardPower._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0701836fd0aa6c56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative_matrix_lines(self, x):
         from sympy.tensor.array.expressions.array_expressions import ArrayTensorProduct
         from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal

@@ -25,14 +25,20 @@ from .matexpr import MatrixExpr
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CompanionMatrix(*args), correctly constructs a CompanionMatrix instance) over {Any | isinstance(poly, Poly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CompanionMatrix : {Any | isinstance(poly, Poly)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CompanionMatrix : {Any | isinstance(poly, Poly)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfe0543e29ff5a13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix","kind":"class","src_hash":"2d0ef23873da0f96","in":{"base":"Any","pred":"isinstance(poly, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"CompanionMatrix(*args)","rhs":"correctly constructs a CompanionMatrix instance","over":{"base":"Any","pred":"isinstance(poly, Poly)"},"name":"CompanionMatrix_class_invariant"},"guarantee":"correctly constructs a CompanionMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfe0543e29ff5a13"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix","kind":"class","src_hash":"2d0ef23873da0f96","in":{"base":"Any","pred":"isinstance(poly, Poly)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"CompanionMatrix(*args)","rhs":"correctly constructs a CompanionMatrix instance","over":{"base":"Any","pred":"isinstance(poly, Poly)"},"name":"CompanionMatrix_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfe0543e29ff5a13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CompanionMatrix not found in source"]}}
 class CompanionMatrix(MatrixExpr):
     """A symbolic companion matrix of a polynomial.
 
@@ -49,16 +55,25 @@ class CompanionMatrix(MatrixExpr):
     x, domain='ZZ[c0,c1,c2,c3,c4]'))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, poly), super().__new__(cls, poly)) over {Any | isinstance(poly, Poly) and poly.is_monic and poly.is_univariate and poly.degree() >= 1 and hasattr(poly, 'is_monic') and hasattr(poly, 'is_univariate') and hasattr(poly, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(poly, Poly)                         ║
+# ║   requires: poly.is_monic                                  ║
+# ║   requires: poly.is_univariate                             ║
+# ║   returns:  super().__new__(cls, poly)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(poly, Poly) and poly.is_m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 861a1ceb37b9f76a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix.__new__","kind":"method","src_hash":"8d6878bd9022aded","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"861a1ceb37b9f76a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix.__new__","kind":"method","src_hash":"8d6878bd9022aded","in":{"base":"Any","pred":"isinstance(poly, Poly) and poly.is_monic and poly.is_univariate and poly.degree() >= 1 and hasattr(poly, 'is_monic') and hasattr(poly, 'is_univariate') and hasattr(poly, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, poly)","rhs":"super().__new__(cls, poly)","over":{"base":"Any","pred":"isinstance(poly, Poly) and poly.is_monic and poly.is_univariate and poly.degree() >= 1 and hasattr(poly, 'is_monic') and hasattr(poly, 'is_univariate') and hasattr(poly, 'degree')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, poly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"861a1ceb37b9f76a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(poly, Poly)","poly.is_monic","poly.is_univariate","poly.degree() >= 1","hasattr(poly, 'is_monic')","hasattr(poly, 'is_univariate')","hasattr(poly, 'degree')"],"returns_expr":"super().__new__(cls, poly)","pure":false,"effects":{"effect_type":"reads_state","reads":["poly.degree","poly.is_monic","poly.is_univariate"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, poly):
         poly = _sympify(poly)
         if not isinstance(poly, Poly):
@@ -77,16 +92,22 @@ class CompanionMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (size, size)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (size, size)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ddabeb6485191fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix.shape","kind":"property","src_hash":"8ef8c0ac9da8a5b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ddabeb6485191fe"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix.shape","kind":"property","src_hash":"8ef8c0ac9da8a5b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(size, size)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (size, size)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ddabeb6485191fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(size, size)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         poly = self.args[0]
         size = poly.degree()
@@ -94,16 +115,25 @@ class CompanionMatrix(MatrixExpr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j), result == (-self.args[0].all_coeffs()[-1 - i] if j == self.cols - 1 else S.One) and result == -self.args[0].all_coeffs()[-1 - i] or result == S.One) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _entry : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (-self.args[0].all_coeffs()[-1 ...   ║
+# ║   ensures:  result == -self.args[0].all_coeffs()[-1 -...   ║
+# ║   fiber[case_0]: j == self.cols - 1 => -self.args[0]....   ║
+# ║   fiber[case_1]: i == j + 1 => S.One                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _entry : Any → {Any | result satisfies: result == (-s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55d24cec2cde3e2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 318e7812181180d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix._entry","kind":"method","src_hash":"8b91c4e7d1f55e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.companion.CompanionMatrix._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d24cec2cde3e2b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix._entry","kind":"method","src_hash":"8b91c4e7d1f55e41","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (-self.args[0].all_coeffs()[-1 - i] if j == self.cols - 1 else S.One) and result == -self.args[0].all_coeffs()[-1 - i] or result == S.One"},"spec":{"lhs":"_entry(i, j)","rhs":"result == (-self.args[0].all_coeffs()[-1 - i] if j == self.cols - 1 else S.One) and result == -self.args[0].all_coeffs()[-1 - i] or result == S.One","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"result == (-self.args[0].all_coeffs()[-1 - i] if j == self.cols - 1 else S.One); result == -self.args[0].all_coeffs()[-1 - i] or result == S.One; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.companion.CompanionMatrix._entry_correct","statement":"Path(_entry(x), result == (-self.args[0].all_coeffs()[-1 - i] if j == self.cols - 1 else S.One); result == -self.args[0].all_coeffs()[-1 - i] or result == S.One; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"318e7812181180d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (-self.args[0].all_coeffs()[-1 - i] if j == self.cols - 1 else S.One)","result == -self.args[0].all_coeffs()[-1 - i] or result == S.One"],"fibers":[{"name":"case_0","guard":"j == self.cols - 1","ensures":["result == -self.args[0].all_coeffs()[-1 - i]"],"decidability":"z3","returns_expr":"-self.args[0].all_coeffs()[-1 - i]"},{"name":"case_1","guard":"i == j + 1","ensures":["result == S.One"],"decidability":"z3","returns_expr":"S.One"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.cols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j):
         if j == self.cols - 1:
             return -self.args[0].all_coeffs()[-1 - i]
@@ -113,16 +143,22 @@ class CompanionMatrix(MatrixExpr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), ImmutableDenseMatrix.companion(self.args[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseMatrix.companion(self.args[0])   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34bdca33f3d32efb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5846a8cc010c4f8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix.as_explicit","kind":"method","src_hash":"9a5390895843e611","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.companion.CompanionMatrix.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34bdca33f3d32efb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.companion.CompanionMatrix.as_explicit","kind":"method","src_hash":"9a5390895843e611","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"ImmutableDenseMatrix.companion(self.args[0])","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns ImmutableDenseMatrix.companion(self.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.companion.CompanionMatrix.as_explicit_correct","statement":"Path(as_explicit(x), returns ImmutableDenseMatrix.companion(self.args[0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5846a8cc010c4f8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseMatrix.companion(self.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         from sympy.matrices.immutable import ImmutableDenseMatrix
         return ImmutableDenseMatrix.companion(self.args[0])

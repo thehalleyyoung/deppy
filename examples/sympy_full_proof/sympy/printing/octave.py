@@ -82,14 +82,20 @@ known_fcns_src2 = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a OctaveCodePrinter instance) preserved by OctaveCodePrinter(*args) over {Any | isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ OctaveCodePrinter : {Any | isinstance(code, str) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10838feffd809178  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter","kind":"class","src_hash":"7fbe7f861768c3aa","in":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"out":{"base":"Any","pred":"len(expr.args) <= 2"},"spec":{"lhs":"OctaveCodePrinter(*args)","rhs":"correctly constructs a OctaveCodePrinter instance","over":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"name":"OctaveCodePrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a OctaveCodePrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_Mul","_print_Relational","_print_Pow","_print_MatPow","_print_MatrixSolve","_print_Pi","_print_ImaginaryUnit","_print_Exp1","_print_GoldenRatio","_print_Assignment","_print_Infinity","_print_NegativeInfinity","_print_NaN","_print_list","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_MatrixBase","_print_SparseRepMatrix","_print_MatrixElement","_print_MatrixSlice","_print_Indexed","_print_KroneckerDelta","_print_HadamardProduct","_print_HadamardPower","_print_Identity","_print_lowergamma","_print_uppergamma","_print_sinc","_print_hankel1","_print_hankel2","_print_jn","_print_yn","_print_airyai","_print_airyaiprime","_print_airybi","_print_airybiprime","_print_expint","_one_or_two_reversed_args","_nested_binary_math_func","_print_Piecewise","_print_zeta","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10838feffd809178"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter","kind":"class","src_hash":"7fbe7f861768c3aa","in":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"OctaveCodePrinter(*args)","rhs":"correctly constructs a OctaveCodePrinter instance","over":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"name":"OctaveCodePrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_Mul","_print_Relational","_print_Pow","_print_MatPow","_print_MatrixSolve","_print_Pi","_print_ImaginaryUnit","_print_Exp1","_print_GoldenRatio","_print_Assignment","_print_Infinity","_print_NegativeInfinity","_print_NaN","_print_list","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_MatrixBase","_print_SparseRepMatrix","_print_MatrixElement","_print_MatrixSlice","_print_Indexed","_print_KroneckerDelta","_print_HadamardProduct","_print_HadamardPower","_print_Identity","_print_lowergamma","_print_uppergamma","_print_sinc","_print_hankel1","_print_hankel2","_print_jn","_print_yn","_print_airyai","_print_airyaiprime","_print_airybi","_print_airybiprime","_print_expint","_one_or_two_reversed_args","_nested_binary_math_func","_print_Piecewise","_print_zeta","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10838feffd809178","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function OctaveCodePrinter not found in source"]}}
 class OctaveCodePrinter(CodePrinter):
     """
     A printer to convert expressions to strings of Octave/Matlab code.
@@ -115,16 +121,23 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8c6bf24d1d71418           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter.__init__","kind":"method","src_hash":"3e292b6c315a6485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8c6bf24d1d71418"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter.__init__","kind":"method","src_hash":"3e292b6c315a6485","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8c6bf24d1d71418","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self.known_functions"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self.known_functions"],"old_bindings":{"old_self_known_functions":"self.known_functions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings={}):
         super().__init__(settings)
         self.known_functions = dict(zip(known_fcns_src1, known_fcns_src1))
@@ -134,91 +147,128 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rate_index_position(p), internal helper behaves correctly) over Any ║
+# ║ Path(_rate_index_position(p), p * 5) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p * 5                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rate_index_position : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a4bb788d4fe4f22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a4bb788d4fe4f22"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"p * 5","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"returns p * 5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a4bb788d4fe4f22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p * 5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rate_index_position(self, p):
         return p*5
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_statement(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_get_statement(codestring), '%s;' % codestring) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s;' % codestring                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_statement : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aac443ea957e5e4f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aac443ea957e5e4f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(codestring)","rhs":"'%s;' % codestring","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"returns '%s;' % codestring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aac443ea957e5e4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s;' % codestring","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_statement(self, codestring):
         return "%s;" % codestring
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '% {}'.format(text)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '% {}'.format(text)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa6d87df02f9e133           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._get_comment","kind":"method","src_hash":"5c441601a65af283","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa6d87df02f9e133"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._get_comment","kind":"method","src_hash":"5c441601a65af283","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'% {}'.format(text)","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '% {}'.format(text)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa6d87df02f9e133","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'% {}'.format(text)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "% {}".format(text)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_number_const(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_number_const(name, value), '{} = {};'.format(name, value)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '{} = {};'.format(name, value)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_number_const : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5da1b595fe502a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._declare_number_const","kind":"method","src_hash":"dfe6b0378043a31a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5da1b595fe502a9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._declare_number_const","kind":"method","src_hash":"dfe6b0378043a31a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(name, value)","rhs":"'{} = {};'.format(name, value)","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"returns '{} = {};'.format(name, value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5da1b595fe502a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'{} = {};'.format(name, value)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_number_const(self, name, value):
         return "{} = {};".format(name, value)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), self.indent_code(lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.indent_code(lines)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _format_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c41093064f9c54d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c41093064f9c54d4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lines)","rhs":"self.indent_code(lines)","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns self.indent_code(lines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c41093064f9c54d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.indent_code(lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indent_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return self.indent_code(lines)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_traverse_matrix_indices(mat), id) over Any           ║
+# ║ Path(_traverse_matrix_indices(mat), id) over {Any | hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _traverse_matrix_indices : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   returns:  ((i, j) for j in range(cols) for i in ran...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _traverse_matrix_indices : {Any | hasattr(mat, 'shape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e37209367a422176   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"a58c13e47e05595b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37209367a422176"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"a58c13e47e05595b","in":{"base":"Any","pred":"hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"((i, j) for j in range(cols) for i in range(rows))","over":{"base":"Any","pred":"hasattr(mat, 'shape')"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"returns ((i, j) for j in range(cols) for i in range(rows))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37209367a422176","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'shape')"],"returns_expr":"((i, j) for j in range(cols) for i in range(rows))","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _traverse_matrix_indices(self, mat):
         # Octave uses Fortran order (column-major)
         rows, cols = mat.shape
@@ -226,16 +276,22 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_loop_opening_ending(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_loop_opening_ending(indices), (open_lines, close_lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (open_lines, close_lines)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_loop_opening_ending : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4baca98102df963e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5666b3cf043ee69b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"bbbcf30c76cbcc93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4baca98102df963e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"bbbcf30c76cbcc93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(indices)","rhs":"(open_lines, close_lines)","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"returns (open_lines, close_lines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), returns (open_lines, close_lines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5666b3cf043ee69b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(open_lines, close_lines)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_loop_opening_ending(self, indices):
         open_lines = []
         close_lines = []
@@ -249,16 +305,25 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mul(expr), <unspecified:_print_Mul>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'is_imaginary') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'as_ordered_factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'is_imaginary')                  ║
+# ║   requires: hasattr(expr, 'as_coeff_Mul')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(expr, 'is_number') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8722ec55be619fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Mul","kind":"method","src_hash":"166b1aa220aea433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8722ec55be619fb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Mul","kind":"method","src_hash":"166b1aa220aea433","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'is_imaginary') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'as_ordered_factors')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(expr)","rhs":"<unspecified:_print_Mul>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'is_imaginary') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'as_ordered_factors')"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8722ec55be619fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'is_imaginary')","hasattr(expr, 'as_coeff_Mul')","hasattr(expr, 'as_ordered_factors')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, expr):
         # print complex numbers nicely in Octave
         if (expr.is_number and expr.is_imaginary and
@@ -334,16 +399,25 @@ class OctaveCodePrinter(CodePrinter):
                     divsym + "(%s)" % multjoin(b, b_str))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{} {} {}'.format(lhs_code, op, rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{} {} {}'.format(lhs_code, op, rhs_code)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e06243b872734a47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddb20ff4ad4662ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e06243b872734a47"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{} {} {}'.format(lhs_code, op, rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{} {} {}'.format(lhs_code, op, rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{} {} {}'.format(lhs_code, op, rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddb20ff4ad4662ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{} {} {}'.format(lhs_code, op, rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         lhs_code = self._print(expr.lhs)
         rhs_code = self._print(expr.rhs)
@@ -351,16 +425,25 @@ class OctaveCodePrinter(CodePrinter):
         return "{} {} {}".format(lhs_code, op, rhs_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), id) over Any                         ║
+# ║ Path(_print_Pow(expr), id) over {Any | hasattr(expr, 'is_commutative') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_commutative')                ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'is_commutative') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 666d3e9f3a3d57ad   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Pow","kind":"method","src_hash":"446e799828581c90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666d3e9f3a3d57ad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Pow","kind":"method","src_hash":"446e799828581c90","in":{"base":"Any","pred":"hasattr(expr, 'is_commutative') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(expr)","rhs":"<unspecified:_print_Pow>","over":{"base":"Any","pred":"hasattr(expr, 'is_commutative') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(expr, 'args')"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666d3e9f3a3d57ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_commutative')","hasattr(expr, 'exp')","hasattr(expr, 'base')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.exp","expr.is_commutative","self._print","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         powsymbol = '^' if all(x.is_number for x in expr.args) else '.^'
 
@@ -382,93 +465,133 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr), '%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  '%s^%s' % (self.parenthesize(expr.base, P...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'base') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b9824f70a80366b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 321008992382a553  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatPow","kind":"method","src_hash":"a9e6ae7c6d02b0ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b9824f70a80366b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatPow","kind":"method","src_hash":"a9e6ae7c6d02b0ba","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr)","rhs":"'%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_MatPow_correct"},"guarantee":"returns '%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), returns '%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321008992382a553","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"'%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr):
         PREC = precedence(expr)
         return '%s^%s' % (self.parenthesize(expr.base, PREC),
                           self.parenthesize(expr.exp, PREC))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSolve(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSolve(expr), '%s \\ %s' % (self.parenthesize(expr.matrix, PREC), self.parenthesize(expr.vector, PREC))) over {Any | hasattr(expr, 'matrix') and hasattr(expr, 'vector')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixSolve : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'matrix')                        ║
+# ║   requires: hasattr(expr, 'vector')                        ║
+# ║   returns:  '%s \\ %s' % (self.parenthesize(expr.matr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixSolve : {Any | hasattr(expr, 'matrix') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60e0c2399ac338e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4dd191151b8be9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSolve","kind":"method","src_hash":"a768b983d7b21b98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSolve(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSolve_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSolve_correct","statement":"Path(_print_MatrixSolve(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60e0c2399ac338e9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSolve","kind":"method","src_hash":"a768b983d7b21b98","in":{"base":"Any","pred":"hasattr(expr, 'matrix') and hasattr(expr, 'vector')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSolve(expr)","rhs":"'%s \\\\ %s' % (self.parenthesize(expr.matrix, PREC), self.parenthesize(expr.vector, PREC))","over":{"base":"Any","pred":"hasattr(expr, 'matrix') and hasattr(expr, 'vector')"},"name":"_print_MatrixSolve_correct"},"guarantee":"returns '%s \\\\ %s' % (self.parenthesize(expr.matrix, PREC), self.parenthesize(expr.vector, PREC))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSolve_correct","statement":"Path(_print_MatrixSolve(x), returns '%s \\\\ %s' % (self.parenthesize(expr.matrix, PREC), self.parenthesize(expr.vector, PREC)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4dd191151b8be9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'matrix')","hasattr(expr, 'vector')"],"returns_expr":"'%s \\\\ %s' % (self.parenthesize(expr.matrix, PREC), self.parenthesize(expr.vector, PREC))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.matrix","expr.vector","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSolve(self, expr):
         PREC = precedence(expr)
         return "%s \\ %s" % (self.parenthesize(expr.matrix, PREC),
                              self.parenthesize(expr.vector, PREC))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr), 'pi') over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'pi'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Pi : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d41dcdb8d0cb6b41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Pi","kind":"method","src_hash":"de438c9d4d03add9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d41dcdb8d0cb6b41"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Pi","kind":"method","src_hash":"de438c9d4d03add9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(expr)","rhs":"'pi'","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"returns 'pi'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d41dcdb8d0cb6b41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'pi'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr):
         return 'pi'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImaginaryUnit(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImaginaryUnit(expr), '1i') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '1i'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_ImaginaryUnit : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7fc8ef7fbec8c39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_ImaginaryUnit","kind":"method","src_hash":"cba2f61ada53d3be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7fc8ef7fbec8c39"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_ImaginaryUnit","kind":"method","src_hash":"cba2f61ada53d3be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(expr)","rhs":"'1i'","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"returns '1i'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7fc8ef7fbec8c39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'1i'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImaginaryUnit(self, expr):
         return "1i"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(expr), 'exp(1)') over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'exp(1)'                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c9f289024547cb0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Exp1","kind":"method","src_hash":"7eae7a148a9075f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c9f289024547cb0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Exp1","kind":"method","src_hash":"7eae7a148a9075f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(expr)","rhs":"'exp(1)'","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns 'exp(1)'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c9f289024547cb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'exp(1)'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, expr):
         return "exp(1)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_GoldenRatio(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_GoldenRatio(expr), '(1+sqrt(5))/2') over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '(1+sqrt(5))/2'                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_GoldenRatio : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 732bca75ddf1a70b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_GoldenRatio","kind":"method","src_hash":"81b0c22a7b0124b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_GoldenRatio_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"732bca75ddf1a70b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_GoldenRatio","kind":"method","src_hash":"81b0c22a7b0124b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(expr)","rhs":"'(1+sqrt(5))/2'","over":{"base":"Any"},"name":"_print_GoldenRatio_correct"},"guarantee":"returns '(1+sqrt(5))/2'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"732bca75ddf1a70b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'(1+sqrt(5))/2'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_GoldenRatio(self, expr):
         # FIXME: how to do better, e.g., for octave_code(2*GoldenRatio)?
         #return self._print((1+sqrt(S(5)))/2)
@@ -476,16 +599,24 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Assignment(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Assignment(expr), <unspecified:_print_Assignment>) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Assignment : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Assignment : {Any | hasattr(expr, 'lhs') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 523399a92d9bf765  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Assignment","kind":"method","src_hash":"81694af97c0f0682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"523399a92d9bf765"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Assignment","kind":"method","src_hash":"81694af97c0f0682","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(expr)","rhs":"<unspecified:_print_Assignment>","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"523399a92d9bf765","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Assignment(self, expr):
         from sympy.codegen.ast import Assignment
         from sympy.functions.elementary.piecewise import Piecewise
@@ -516,61 +647,85 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Infinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Infinity(expr), 'inf') over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'inf'                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Infinity : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f217b0acf14cf3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Infinity","kind":"method","src_hash":"026e005261e5fbf2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f217b0acf14cf3c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Infinity","kind":"method","src_hash":"026e005261e5fbf2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(expr)","rhs":"'inf'","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"returns 'inf'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f217b0acf14cf3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'inf'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Infinity(self, expr):
         return 'inf'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeInfinity(expr), '-inf') over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '-inf'                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeInfinity : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcb60e13bdf59060           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"f57fdf659ef2e174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcb60e13bdf59060"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"f57fdf659ef2e174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(expr)","rhs":"'-inf'","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"returns '-inf'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcb60e13bdf59060","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'-inf'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeInfinity(self, expr):
         return '-inf'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NaN(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NaN(expr), 'NaN') over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'NaN'                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NaN : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0729a502476dd76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_NaN","kind":"method","src_hash":"2ad217034598769b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0729a502476dd76"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_NaN","kind":"method","src_hash":"2ad217034598769b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(expr)","rhs":"'NaN'","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"returns 'NaN'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0729a502476dd76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'NaN'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NaN(self, expr):
         return 'NaN'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_list(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_list(expr), '{' + ', '.join((self._print(a) for a in expr)) + '}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '{' + ', '.join((self._print(a) for a in ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_list : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7cf1d67cfa80d9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_list","kind":"method","src_hash":"272bacd3562adac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7cf1d67cfa80d9a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_list","kind":"method","src_hash":"272bacd3562adac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(expr)","rhs":"'{' + ', '.join((self._print(a) for a in expr)) + '}'","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"returns '{' + ', '.join((self._print(a) for a in expr)) + '}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7cf1d67cfa80d9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'{' + ', '.join((self._print(a) for a in expr)) + '}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_list(self, expr):
         return '{' + ', '.join(self._print(a) for a in expr) + '}'
     _print_tuple = _print_list
@@ -579,46 +734,64 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanTrue(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanTrue(expr), 'true') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'true'                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanTrue : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d63ee19f67c15d5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_BooleanTrue","kind":"method","src_hash":"170ccb3e85f14e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d63ee19f67c15d5d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_BooleanTrue","kind":"method","src_hash":"170ccb3e85f14e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(expr)","rhs":"'true'","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"returns 'true'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d63ee19f67c15d5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'true'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanTrue(self, expr):
         return "true"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanFalse(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanFalse(expr), 'false') over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'false'                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanFalse : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | baaeb533b02f2e88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_BooleanFalse","kind":"method","src_hash":"0d8eb671eb3107f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"baaeb533b02f2e88"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_BooleanFalse","kind":"method","src_hash":"0d8eb671eb3107f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(expr)","rhs":"'false'","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"returns 'false'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"baaeb533b02f2e88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'false'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanFalse(self, expr):
         return "false"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_bool(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_bool(expr), str(expr).lower()) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(expr).lower()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_bool : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b400ae6bc81223f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_bool","kind":"method","src_hash":"6ff7eae9d26eb215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b400ae6bc81223f0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_bool","kind":"method","src_hash":"6ff7eae9d26eb215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(expr)","rhs":"str(expr).lower()","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"returns str(expr).lower()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b400ae6bc81223f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(expr).lower()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_bool(self, expr):
         return str(expr).lower()
 
@@ -628,16 +801,29 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(A), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixBase(A), result == ('[]' if (A.rows, A.cols) == (0, 0) else 'zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else self._print(A[0, 0])) and result == '[]' or result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == self._print(A[0, 0])) over {Any | hasattr(A, 'rows') and hasattr(A, 'cols') and hasattr(A, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixBase : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'rows')                             ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   ensures:  result == ('[]' if (A.rows, A.cols) == (0...   ║
+# ║   ensures:  result == '[]' or result == 'zeros(%s, %s...   ║
+# ║   fiber[case_0]: (A.rows, A.cols) == (0, 0) => '[]'        ║
+# ║   fiber[case_1]: S.Zero in A.shape => 'zeros(%s, %s)'...   ║
+# ║   fiber[case_2]: (A.rows, A.cols) == (1, 1) => self._...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixBase : {Any | hasattr(A, 'rows') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94a75940783a12ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06acba901b879ba4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixBase","kind":"method","src_hash":"164fc0d80482bc5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(A)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a75940783a12ef"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixBase","kind":"method","src_hash":"164fc0d80482bc5a","in":{"base":"Any","pred":"hasattr(A, 'rows') and hasattr(A, 'cols') and hasattr(A, 'shape')"},"out":{"base":"Any","pred":"result satisfies: result == ('[]' if (A.rows, A.cols) == (0, 0) else 'zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else self._print(A[0, 0])) and result == '[]' or result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == self._print(A[0, 0])"},"spec":{"lhs":"_print_MatrixBase(A)","rhs":"result == ('[]' if (A.rows, A.cols) == (0, 0) else 'zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else self._print(A[0, 0])) and result == '[]' or result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == self._print(A[0, 0])","over":{"base":"Any","pred":"hasattr(A, 'rows') and hasattr(A, 'cols') and hasattr(A, 'shape')"},"name":"_print_MatrixBase_correct"},"guarantee":"result == ('[]' if (A.rows, A.cols) == (0, 0) else 'zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else self._print(A[0, 0])); result == '[]' or result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == self._print(A[0, 0]); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), result == ('[]' if (A.rows, A.cols) == (0, 0) else 'zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else self._print(A[0, 0])); result == '[]' or result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == self._print(A[0, 0]); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06acba901b879ba4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'rows')","hasattr(A, 'cols')","hasattr(A, 'shape')"],"ensures":["result == ('[]' if (A.rows, A.cols) == (0, 0) else 'zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else self._print(A[0, 0]))","result == '[]' or result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == self._print(A[0, 0])"],"fibers":[{"name":"case_0","guard":"(A.rows, A.cols) == (0, 0)","ensures":["result == '[]'"],"decidability":"z3","returns_expr":"'[]'"},{"name":"case_1","guard":"S.Zero in A.shape","ensures":["result == 'zeros(%s, %s)' % (A.rows, A.cols)"],"decidability":"library","returns_expr":"'zeros(%s, %s)' % (A.rows, A.cols)"},{"name":"case_2","guard":"(A.rows, A.cols) == (1, 1)","ensures":["result == self._print(A[0, 0])"],"decidability":"z3","returns_expr":"self._print(A[0, 0])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.cols","A.rows","A.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, A):
         # Handle zero dimensions:
         if (A.rows, A.cols) == (0, 0):
@@ -652,16 +838,25 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SparseRepMatrix(A), id) over Any               ║
+# ║ Path(_print_SparseRepMatrix(A), id) over {Any | hasattr(A, 'col_list') and hasattr(A, 'rows') and hasattr(A, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SparseRepMatrix : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'col_list')                         ║
+# ║   requires: hasattr(A, 'rows')                             ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   returns:  'sparse(%s, %s, %s, %s, %s)' % (self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SparseRepMatrix : {Any | hasattr(A, 'col_list'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d4a6be755860ff54   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"5fc2df875e55d92a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(A)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sparse","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4a6be755860ff54"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"5fc2df875e55d92a","in":{"base":"Any","pred":"hasattr(A, 'col_list') and hasattr(A, 'rows') and hasattr(A, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(A)","rhs":"'sparse(%s, %s, %s, %s, %s)' % (self._print(I), self._print(J), self._print(AIJ), A.rows, A.cols)","over":{"base":"Any","pred":"hasattr(A, 'col_list') and hasattr(A, 'rows') and hasattr(A, 'cols')"},"name":"_print_SparseRepMatrix_correct","kind":"composition"},"guarantee":"returns 'sparse(%s, %s, %s, %s, %s)' % (self._print(I), self._print(J), self._print(AIJ), A.rows, A.cols)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sparse","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4a6be755860ff54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'col_list')","hasattr(A, 'rows')","hasattr(A, 'cols')"],"returns_expr":"'sparse(%s, %s, %s, %s, %s)' % (self._print(I), self._print(J), self._print(AIJ), A.rows, A.cols)","pure":false,"effects":{"effect_type":"reads_state","reads":["A.col_list","A.cols","A.rows","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SparseRepMatrix(self, A):
         from sympy.matrices import Matrix
         L = A.col_list()
@@ -674,32 +869,50 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixElement(expr), self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '(%s, %s)' % (expr.i + 1, expr.j + 1)) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   returns:  self.parenthesize(expr.parent, PRECEDENCE...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29159dea0696efd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088b2a33a7b9e831  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixElement","kind":"method","src_hash":"7582a37e56ac9812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29159dea0696efd5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixElement","kind":"method","src_hash":"7582a37e56ac9812","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '(%s, %s)' % (expr.i + 1, expr.j + 1)","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"name":"_print_MatrixElement_correct"},"guarantee":"returns self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '(%s, %s)' % (expr.i + 1, expr.j + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), returns self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '(%s, %s)' % (expr.i + 1, expr.j + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088b2a33a7b9e831","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'i')","hasattr(expr, 'j')"],"returns_expr":"self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '(%s, %s)' % (expr.i + 1, expr.j + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         return self.parenthesize(expr.parent, PRECEDENCE["Atom"], strict=True) \
             + '(%s, %s)' % (expr.i + 1, expr.j + 1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSlice(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSlice(expr), <unspecified:_print_MatrixSlice>) over {Any | hasattr(expr, 'colslice') and hasattr(expr, 'rowslice') and hasattr(expr, 'parent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixSlice : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'colslice')                      ║
+# ║   requires: hasattr(expr, 'rowslice')                      ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixSlice : {Any | hasattr(expr, 'colslice')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c0fe7ab79151514  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSlice","kind":"method","src_hash":"6c31c15cd965bb14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSlice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c0fe7ab79151514"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSlice","kind":"method","src_hash":"6c31c15cd965bb14","in":{"base":"Any","pred":"hasattr(expr, 'colslice') and hasattr(expr, 'rowslice') and hasattr(expr, 'parent')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(expr)","rhs":"<unspecified:_print_MatrixSlice>","over":{"base":"Any","pred":"hasattr(expr, 'colslice') and hasattr(expr, 'rowslice') and hasattr(expr, 'parent')"},"name":"_print_MatrixSlice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c0fe7ab79151514","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'colslice')","hasattr(expr, 'rowslice')","hasattr(expr, 'parent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.colslice","expr.parent","expr.rowslice","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSlice(self, expr):
         def strslice(x, lim):
             l = x[0] + 1
@@ -722,63 +935,93 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Indexed(exp), id) over Any                     ║
+# ║ Path(_print_Indexed(expr), id) over {Any | hasattr(expr, 'indices') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Indexed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   returns:  '%s(%s)' % (self._print(expr.base.label),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Indexed : {Any | hasattr(expr, 'indices') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9ed75c8742213780   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Indexed","kind":"method","src_hash":"022c0d15460c3d06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"s","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ed75c8742213780"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Indexed","kind":"method","src_hash":"022c0d15460c3d06","in":{"base":"Any","pred":"hasattr(expr, 'indices') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(expr)","rhs":"'%s(%s)' % (self._print(expr.base.label), ', '.join(inds))","over":{"base":"Any","pred":"hasattr(expr, 'indices') and hasattr(expr, 'base')"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"returns '%s(%s)' % (self._print(expr.base.label), ', '.join(inds))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"s","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ed75c8742213780","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'indices')","hasattr(expr, 'base')"],"returns_expr":"'%s(%s)' % (self._print(expr.base.label), ', '.join(inds))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.indices","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Indexed(self, expr):
         inds = [ self._print(i) for i in expr.indices ]
         return "%s(%s)" % (self._print(expr.base.label), ", ".join(inds))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_KroneckerDelta(exp), id) over Any              ║
+# ║ Path(_print_KroneckerDelta(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_KroneckerDelta : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'double(%s == %s)' % tuple((self.parenthe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_KroneckerDelta : {Any | hasattr(expr, 'args')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0cb34bf3eed2e9b4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_KroneckerDelta","kind":"method","src_hash":"143bfb5d41b7b694","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_KroneckerDelta(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_KroneckerDelta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"double","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cb34bf3eed2e9b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_KroneckerDelta","kind":"method","src_hash":"143bfb5d41b7b694","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_KroneckerDelta(expr)","rhs":"'double(%s == %s)' % tuple((self.parenthesize(x, prec) for x in expr.args))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_KroneckerDelta_correct","kind":"composition"},"guarantee":"returns 'double(%s == %s)' % tuple((self.parenthesize(x, prec) for x in expr.args))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"double","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cb34bf3eed2e9b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'double(%s == %s)' % tuple((self.parenthesize(x, prec) for x in expr.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_KroneckerDelta(self, expr):
         prec = PRECEDENCE["Pow"]
         return "double(%s == %s)" % tuple(self.parenthesize(x, prec)
                                           for x in expr.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardProduct(exp), id) over Any             ║
+# ║ Path(_print_HadamardProduct(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardProduct : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  '.*'.join([self.parenthesize(arg, precede...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardProduct : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a06666b1b59576ff   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_HadamardProduct","kind":"method","src_hash":"2f72591a38e1e743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardProduct_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"},{"fn":"precedence","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a06666b1b59576ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_HadamardProduct","kind":"method","src_hash":"2f72591a38e1e743","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(expr)","rhs":"'.*'.join([self.parenthesize(arg, precedence(expr)) for arg in expr.args])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_HadamardProduct_correct","kind":"composition"},"guarantee":"returns '.*'.join([self.parenthesize(arg, precedence(expr)) for arg in expr.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"},{"fn":"precedence","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a06666b1b59576ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'.*'.join([self.parenthesize(arg, precedence(expr)) for arg in expr.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardProduct(self, expr):
         return '.*'.join([self.parenthesize(arg, precedence(expr))
                           for arg in expr.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardPower(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_HadamardPower(expr), '.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardPower : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  '.**'.join([self.parenthesize(expr.base, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardPower : {Any | hasattr(expr, 'base') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dc5518fda56ff53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cf13881a06aa99d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_HadamardPower","kind":"method","src_hash":"a394585467d771f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardPower(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardPower_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_HadamardPower_correct","statement":"Path(_print_HadamardPower(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dc5518fda56ff53"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_HadamardPower","kind":"method","src_hash":"a394585467d771f4","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardPower(expr)","rhs":"'.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_HadamardPower_correct"},"guarantee":"returns '.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_HadamardPower_correct","statement":"Path(_print_HadamardPower(x), returns '.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cf13881a06aa99d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"'.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardPower(self, expr):
         PREC = precedence(expr)
         return '.**'.join([
@@ -787,16 +1030,23 @@ class OctaveCodePrinter(CodePrinter):
             ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Identity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Identity(expr), 'eye(' + s + ')') over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Identity : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   returns:  'eye(' + s + ')'                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Identity : {Any | hasattr(expr, 'shape')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60908a0f91fd447a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3073ddc625a58e85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Identity","kind":"method","src_hash":"98d3f1566d7a47d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Identity_correct","statement":"Path(_print_Identity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60908a0f91fd447a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Identity","kind":"method","src_hash":"98d3f1566d7a47d9","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(expr)","rhs":"'eye(' + s + ')'","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"_print_Identity_correct"},"guarantee":"returns 'eye(' + s + ')'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Identity_correct","statement":"Path(_print_Identity(x), returns 'eye(' + s + ')')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3073ddc625a58e85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"returns_expr":"'eye(' + s + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Identity(self, expr):
         shape = expr.shape
         if len(shape) == 2 and shape[0] == shape[1]:
@@ -805,16 +1055,23 @@ class OctaveCodePrinter(CodePrinter):
         return "eye(" + s + ")"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_lowergamma(exp), id) over Any                  ║
+# ║ Path(_print_lowergamma(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_lowergamma : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  '(gammainc({1}, {0}).*gamma({0}))'.format...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_lowergamma : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6e0becdc2fd7d6bb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_lowergamma","kind":"method","src_hash":"fef1563905908cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lowergamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_lowergamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gammainc","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e0becdc2fd7d6bb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_lowergamma","kind":"method","src_hash":"fef1563905908cf5","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_lowergamma(expr)","rhs":"'(gammainc({1}, {0}).*gamma({0}))'.format(self._print(expr.args[0]), self._print(expr.args[1]))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_lowergamma_correct","kind":"composition"},"guarantee":"returns '(gammainc({1}, {0}).*gamma({0}))'.format(self._print(expr.args[0]), self._print(expr.args[1]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gammainc","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e0becdc2fd7d6bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'(gammainc({1}, {0}).*gamma({0}))'.format(self._print(expr.args[0]), self._print(expr.args[1]))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_lowergamma(self, expr):
         # Octave implements regularized incomplete gamma function
         return "(gammainc({1}, {0}).*gamma({0}))".format(
@@ -822,64 +1079,94 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_uppergamma(exp), id) over Any                  ║
+# ║ Path(_print_uppergamma(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_uppergamma : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  "(gammainc({1}, {0}, 'upper').*gamma({0})...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_uppergamma : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7bd0ab7a26c6d118   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_uppergamma","kind":"method","src_hash":"0f69c95dada1b8e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_uppergamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_uppergamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gammainc","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bd0ab7a26c6d118"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_uppergamma","kind":"method","src_hash":"0f69c95dada1b8e4","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_uppergamma(expr)","rhs":"\"(gammainc({1}, {0}, 'upper').*gamma({0}))\".format(self._print(expr.args[0]), self._print(expr.args[1]))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_uppergamma_correct","kind":"composition"},"guarantee":"returns \"(gammainc({1}, {0}, 'upper').*gamma({0}))\".format(self._print(expr.args[0]), self._print(expr.args[1]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gammainc","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bd0ab7a26c6d118","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"\"(gammainc({1}, {0}, 'upper').*gamma({0}))\".format(self._print(expr.args[0]), self._print(expr.args[1]))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_uppergamma(self, expr):
         return "(gammainc({1}, {0}, 'upper').*gamma({0}))".format(
             self._print(expr.args[0]), self._print(expr.args[1]))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_sinc(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_sinc(expr), 'sinc(%s)' % self._print(expr.args[0] / S.Pi)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_sinc : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'sinc(%s)' % self._print(expr.args[0] / S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_sinc : {Any | hasattr(expr, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 496bfa8bedc11e20           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_sinc","kind":"method","src_hash":"773c3475e9ea6c83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_sinc(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_sinc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"496bfa8bedc11e20"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_sinc","kind":"method","src_hash":"773c3475e9ea6c83","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_sinc(expr)","rhs":"'sinc(%s)' % self._print(expr.args[0] / S.Pi)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_sinc_correct"},"guarantee":"returns 'sinc(%s)' % self._print(expr.args[0] / S.Pi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"496bfa8bedc11e20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'sinc(%s)' % self._print(expr.args[0] / S.Pi)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_sinc(self, expr):
         #Note: Divide by pi because Octave implements normalized sinc function.
         return "sinc(%s)" % self._print(expr.args[0]/S.Pi)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_hankel1(exp), id) over Any                     ║
+# ║ Path(_print_hankel1(expr), id) over {Any | hasattr(expr, 'order') and hasattr(expr, 'argument')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_hankel1 : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   requires: hasattr(expr, 'argument')                      ║
+# ║   returns:  'besselh(%s, 1, %s)' % (self._print(expr....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_hankel1 : {Any | hasattr(expr, 'order') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | aa4d849672af27a9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_hankel1","kind":"method","src_hash":"1b4697bc5d5bf347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_hankel1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_hankel1_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselh","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa4d849672af27a9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_hankel1","kind":"method","src_hash":"1b4697bc5d5bf347","in":{"base":"Any","pred":"hasattr(expr, 'order') and hasattr(expr, 'argument')"},"out":{"base":"Any"},"spec":{"lhs":"_print_hankel1(expr)","rhs":"'besselh(%s, 1, %s)' % (self._print(expr.order), self._print(expr.argument))","over":{"base":"Any","pred":"hasattr(expr, 'order') and hasattr(expr, 'argument')"},"name":"_print_hankel1_correct","kind":"composition"},"guarantee":"returns 'besselh(%s, 1, %s)' % (self._print(expr.order), self._print(expr.argument))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselh","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa4d849672af27a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'order')","hasattr(expr, 'argument')"],"returns_expr":"'besselh(%s, 1, %s)' % (self._print(expr.order), self._print(expr.argument))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.argument","expr.order","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_hankel1(self, expr):
         return "besselh(%s, 1, %s)" % (self._print(expr.order),
                                        self._print(expr.argument))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_hankel2(exp), id) over Any                     ║
+# ║ Path(_print_hankel2(expr), id) over {Any | hasattr(expr, 'order') and hasattr(expr, 'argument')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_hankel2 : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   requires: hasattr(expr, 'argument')                      ║
+# ║   returns:  'besselh(%s, 2, %s)' % (self._print(expr....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_hankel2 : {Any | hasattr(expr, 'order') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 662a37ee4f700c71   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_hankel2","kind":"method","src_hash":"6025e74af46083d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_hankel2(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_hankel2_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselh","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"662a37ee4f700c71"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_hankel2","kind":"method","src_hash":"6025e74af46083d8","in":{"base":"Any","pred":"hasattr(expr, 'order') and hasattr(expr, 'argument')"},"out":{"base":"Any"},"spec":{"lhs":"_print_hankel2(expr)","rhs":"'besselh(%s, 2, %s)' % (self._print(expr.order), self._print(expr.argument))","over":{"base":"Any","pred":"hasattr(expr, 'order') and hasattr(expr, 'argument')"},"name":"_print_hankel2_correct","kind":"composition"},"guarantee":"returns 'besselh(%s, 2, %s)' % (self._print(expr.order), self._print(expr.argument))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselh","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"662a37ee4f700c71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'order')","hasattr(expr, 'argument')"],"returns_expr":"'besselh(%s, 2, %s)' % (self._print(expr.order), self._print(expr.argument))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.argument","expr.order","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_hankel2(self, expr):
         return "besselh(%s, 2, %s)" % (self._print(expr.order),
                                        self._print(expr.argument))
@@ -887,16 +1174,24 @@ class OctaveCodePrinter(CodePrinter):
 
     # Note: as of 2015, Octave doesn't have spherical Bessel functions
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_jn(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_jn(expr), self._print(expr2)) over {Any | hasattr(expr, 'argument') and hasattr(expr, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_jn : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'argument')                      ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   returns:  self._print(expr2)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_jn : {Any | hasattr(expr, 'argument') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7efea0dbfbc51105  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b48ee931d99cc71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_jn","kind":"method","src_hash":"a99471338c13755f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_jn(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_jn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_jn_correct","statement":"Path(_print_jn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7efea0dbfbc51105"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_jn","kind":"method","src_hash":"a99471338c13755f","in":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"_print_jn(expr)","rhs":"self._print(expr2)","over":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"name":"_print_jn_correct"},"guarantee":"returns self._print(expr2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_jn_correct","statement":"Path(_print_jn(x), returns self._print(expr2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b48ee931d99cc71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'argument')","hasattr(expr, 'order')"],"returns_expr":"self._print(expr2)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.argument","expr.order","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_jn(self, expr):
         from sympy.functions import sqrt, besselj
         x = expr.argument
@@ -905,16 +1200,24 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_yn(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_yn(expr), self._print(expr2)) over {Any | hasattr(expr, 'argument') and hasattr(expr, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_yn : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'argument')                      ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   returns:  self._print(expr2)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_yn : {Any | hasattr(expr, 'argument') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a5f0cc4c6c1a757  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ca6b887ba707b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_yn","kind":"method","src_hash":"bbf6f91cf73fe423","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_yn(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_yn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_yn_correct","statement":"Path(_print_yn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a5f0cc4c6c1a757"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_yn","kind":"method","src_hash":"bbf6f91cf73fe423","in":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"_print_yn(expr)","rhs":"self._print(expr2)","over":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"name":"_print_yn_correct"},"guarantee":"returns self._print(expr2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_yn_correct","statement":"Path(_print_yn(x), returns self._print(expr2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ca6b887ba707b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'argument')","hasattr(expr, 'order')"],"returns_expr":"self._print(expr2)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.argument","expr.order","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_yn(self, expr):
         from sympy.functions import sqrt, bessely
         x = expr.argument
@@ -923,76 +1226,111 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airyai(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airyai(expr), 'airy(0, %s)' % self._print(expr.args[0])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_airyai : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'airy(0, %s)' % self._print(expr.args[0])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_airyai : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1312f4c1605e4a9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airyai","kind":"method","src_hash":"f7fa5f3dab9309f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyai(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airyai_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1312f4c1605e4a9f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airyai","kind":"method","src_hash":"f7fa5f3dab9309f7","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyai(expr)","rhs":"'airy(0, %s)' % self._print(expr.args[0])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_airyai_correct"},"guarantee":"returns 'airy(0, %s)' % self._print(expr.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1312f4c1605e4a9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'airy(0, %s)' % self._print(expr.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airyai(self, expr):
         return "airy(0, %s)" % self._print(expr.args[0])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airyaiprime(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airyaiprime(expr), 'airy(1, %s)' % self._print(expr.args[0])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_airyaiprime : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'airy(1, %s)' % self._print(expr.args[0])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_airyaiprime : {Any | hasattr(expr, 'args')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99a20a037ced2899           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airyaiprime","kind":"method","src_hash":"4475b543a55df0f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyaiprime(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airyaiprime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99a20a037ced2899"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airyaiprime","kind":"method","src_hash":"4475b543a55df0f4","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyaiprime(expr)","rhs":"'airy(1, %s)' % self._print(expr.args[0])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_airyaiprime_correct"},"guarantee":"returns 'airy(1, %s)' % self._print(expr.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99a20a037ced2899","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'airy(1, %s)' % self._print(expr.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airyaiprime(self, expr):
         return "airy(1, %s)" % self._print(expr.args[0])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airybi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airybi(expr), 'airy(2, %s)' % self._print(expr.args[0])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_airybi : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'airy(2, %s)' % self._print(expr.args[0])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_airybi : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70a54edf41a26d5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airybi","kind":"method","src_hash":"e83667f7632d43d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airybi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70a54edf41a26d5d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airybi","kind":"method","src_hash":"e83667f7632d43d2","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybi(expr)","rhs":"'airy(2, %s)' % self._print(expr.args[0])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_airybi_correct"},"guarantee":"returns 'airy(2, %s)' % self._print(expr.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70a54edf41a26d5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'airy(2, %s)' % self._print(expr.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airybi(self, expr):
         return "airy(2, %s)" % self._print(expr.args[0])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airybiprime(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airybiprime(expr), 'airy(3, %s)' % self._print(expr.args[0])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_airybiprime : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'airy(3, %s)' % self._print(expr.args[0])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_airybiprime : {Any | hasattr(expr, 'args')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a255fda215d26e23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airybiprime","kind":"method","src_hash":"e64acc9b07620434","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybiprime(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airybiprime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a255fda215d26e23"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_airybiprime","kind":"method","src_hash":"e64acc9b07620434","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybiprime(expr)","rhs":"'airy(3, %s)' % self._print(expr.args[0])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_airybiprime_correct"},"guarantee":"returns 'airy(3, %s)' % self._print(expr.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a255fda215d26e23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'airy(3, %s)' % self._print(expr.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airybiprime(self, expr):
         return "airy(3, %s)" % self._print(expr.args[0])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_expint(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_expint(expr), <unspecified:_print_expint>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_expint : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_expint : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb640b577eb4a6bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_expint","kind":"method","src_hash":"0c6c54f95a72252d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_expint(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_expint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_expint_correct","statement":"Path(_print_expint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb640b577eb4a6bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_expint","kind":"method","src_hash":"0c6c54f95a72252d","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_expint(expr)","rhs":"<unspecified:_print_expint>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_expint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_expint_correct","statement":"Path(_print_expint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb640b577eb4a6bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self._print_not_supported"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_expint(self, expr):
         mu, x = expr.args
         if mu != 1:
@@ -1001,16 +1339,24 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_one_or_two_reversed_args(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_one_or_two_reversed_args(expr), '{name}({args})'.format(name=self.known_functions[expr.__class__.__name__], args=', '.join([self._print(x) for x in reversed(expr.args)]))) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _one_or_two_reversed_args : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(expr.args) <= 2                            ║
+# ║   returns:  '{name}({args})'.format(name=self.known_f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _one_or_two_reversed_args : {Any | hasattr(expr, 'arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05bd9996c087f669  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49c95df1052124d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._one_or_two_reversed_args","kind":"method","src_hash":"a365e8e220c901f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_one_or_two_reversed_args(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_one_or_two_reversed_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._one_or_two_reversed_args_correct","statement":"Path(_one_or_two_reversed_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05bd9996c087f669"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._one_or_two_reversed_args","kind":"method","src_hash":"a365e8e220c901f0","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == ('{name}({args})'.format(name=self.known_functions[expr.__class__.__name__], args=', '.join([self._print(x) for x in reversed(expr.args)])))"},"spec":{"lhs":"_one_or_two_reversed_args(expr)","rhs":"'{name}({args})'.format(name=self.known_functions[expr.__class__.__name__], args=', '.join([self._print(x) for x in reversed(expr.args)]))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_one_or_two_reversed_args_correct"},"guarantee":"returns '{name}({args})'.format(name=self.known_functions[expr.__class__.__name__], args=', '.join([self._print(x) for x in reversed(expr.args)])); len(expr.args) <= 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._one_or_two_reversed_args_correct","statement":"Path(_one_or_two_reversed_args(x), returns '{name}({args})'.format(name=self.known_functions[expr.__class__.__name__], args=', '.join([self._print(x) for x in reversed(expr.args)])); len(expr.args) <= 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49c95df1052124d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["len(expr.args) <= 2"],"returns_expr":"'{name}({args})'.format(name=self.known_functions[expr.__class__.__name__], args=', '.join([self._print(x) for x in reversed(expr.args)]))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr.args","self._print","self.known_functions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _one_or_two_reversed_args(self, expr):
         assert len(expr.args) <= 2
         return '{name}({args})'.format(
@@ -1023,16 +1369,24 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nested_binary_math_func(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_nested_binary_math_func(expr), '{name}({arg1}, {arg2})'.format(name=self.known_functions[expr.__class__.__name__], arg1=self._print(expr.args[0]), arg2=self._print(expr.func(*expr.args[1:])))) over {Any | hasattr(expr, 'args') and hasattr(expr, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _nested_binary_math_func : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   returns:  '{name}({arg1}, {arg2})'.format(name=self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _nested_binary_math_func : {Any | hasattr(expr, 'args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 122ff82df44bf7ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88e39106abf16398  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._nested_binary_math_func","kind":"method","src_hash":"44ba2c75b3df7fa2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nested_binary_math_func(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_nested_binary_math_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._nested_binary_math_func_correct","statement":"Path(_nested_binary_math_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"122ff82df44bf7ef"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._nested_binary_math_func","kind":"method","src_hash":"44ba2c75b3df7fa2","in":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_nested_binary_math_func(expr)","rhs":"'{name}({arg1}, {arg2})'.format(name=self.known_functions[expr.__class__.__name__], arg1=self._print(expr.args[0]), arg2=self._print(expr.func(*expr.args[1:])))","over":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'func')"},"name":"_nested_binary_math_func_correct"},"guarantee":"returns '{name}({arg1}, {arg2})'.format(name=self.known_functions[expr.__class__.__name__], arg1=self._print(expr.args[0]), arg2=self._print(expr.func(*expr.args[1:])))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._nested_binary_math_func_correct","statement":"Path(_nested_binary_math_func(x), returns '{name}({arg1}, {arg2})'.format(name=self.known_functions[expr.__class__.__name__], arg1=self._print(expr.args[0]), arg2=self._print(expr.func(*expr.args[1:]))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88e39106abf16398","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'func')"],"returns_expr":"'{name}({arg1}, {arg2})'.format(name=self.known_functions[expr.__class__.__name__], arg1=self._print(expr.args[0]), arg2=self._print(expr.func(*expr.args[1:])))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr.args","expr.func","self._print","self.known_functions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _nested_binary_math_func(self, expr):
         return '{name}({arg1}, {arg2})'.format(
             name=self.known_functions[expr.__class__.__name__],
@@ -1044,16 +1398,24 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), len(lines) == old_len_lines + 1) over {Any | not (expr.args[-1].cond != True) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.args[-1].cond != True)               ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(lines) == old_len_lines + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | not (expr.args[-1].cond != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b855cda66ee2806  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 672fc082b776e593  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Piecewise","kind":"method","src_hash":"74648adbf81db4a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b855cda66ee2806"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_Piecewise","kind":"method","src_hash":"74648adbf81db4a5","in":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(lines) == old_len_lines + 1"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"len(lines) == old_len_lines + 1","over":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"len(lines) == old_len_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), len(lines) == old_len_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"672fc082b776e593","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.args[-1].cond != True)","hasattr(expr, 'args')"],"ensures":["len(lines) == old_len_lines + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self._settings"],"calls_mutating":["lines.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lines.*"],"old_bindings":{"old_len_lines":"len(lines)"},"post_ensures":["len(lines) == old_len_lines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         if expr.args[-1].cond != True:
             # We need the last conditional to be a True, otherwise the resulting
@@ -1092,16 +1454,26 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_zeta(exp), id) over Any                        ║
+# ║ Path(_print_zeta(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_zeta : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == ('zeta(%s)' % self._print(expr....   ║
+# ║   ensures:  result == 'zeta(%s)' % self._print(expr.a...   ║
+# ║   fiber[case_0]: len(expr.args) == 1 => 'zeta(%s)' % ...   ║
+# ║   fiber[case_1]: not (len(expr.args) == 1) => self._p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_zeta : {Any | hasattr(expr, 'args')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f53bc307bc94be19   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_zeta","kind":"method","src_hash":"2797d944567f9946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_zeta(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"zeta","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f53bc307bc94be19"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter._print_zeta","kind":"method","src_hash":"2797d944567f9946","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == ('zeta(%s)' % self._print(expr.args[0]) if len(expr.args) == 1 else self._print_not_supported(expr)) and result == 'zeta(%s)' % self._print(expr.args[0]) or result == self._print_not_supported(expr)"},"spec":{"lhs":"_print_zeta(expr)","rhs":"result == ('zeta(%s)' % self._print(expr.args[0]) if len(expr.args) == 1 else self._print_not_supported(expr)) and result == 'zeta(%s)' % self._print(expr.args[0]) or result == self._print_not_supported(expr)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_zeta_correct","kind":"composition"},"guarantee":"result == ('zeta(%s)' % self._print(expr.args[0]) if len(expr.args) == 1 else self._print_not_supported(expr)); result == 'zeta(%s)' % self._print(expr.args[0]) or result == self._print_not_supported(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"zeta","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f53bc307bc94be19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["result == ('zeta(%s)' % self._print(expr.args[0]) if len(expr.args) == 1 else self._print_not_supported(expr))","result == 'zeta(%s)' % self._print(expr.args[0]) or result == self._print_not_supported(expr)"],"fibers":[{"name":"case_0","guard":"len(expr.args) == 1","ensures":["result == 'zeta(%s)' % self._print(expr.args[0])"],"decidability":"z3","returns_expr":"'zeta(%s)' % self._print(expr.args[0])"},{"name":"case_1","guard":"not (len(expr.args) == 1)","ensures":["result == self._print_not_supported(expr)"],"decidability":"z3","returns_expr":"self._print_not_supported(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self._print_not_supported"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_zeta(self, expr):
         if len(expr.args) == 1:
             return "zeta(%s)" % self._print(expr.args[0])
@@ -1111,16 +1483,23 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indent_code(cod), accepts a string of code or a list of code lines) over Any ║
+# ║ Path(indent_code(code), <unspecified:indent_code>) over {Any | hasattr(code, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ indent_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(code, 'splitlines')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ indent_code : {Any | hasattr(code, 'splitlines')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b4a0ffed46c5c5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter.indent_code","kind":"method","src_hash":"10ca2efb96d10216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(cod)","rhs":"accepts a string of code or a list of code lines","over":{"base":"Any"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b4a0ffed46c5c5d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.OctaveCodePrinter.indent_code","kind":"method","src_hash":"10ca2efb96d10216","in":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(code)","rhs":"<unspecified:indent_code>","over":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.OctaveCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b4a0ffed46c5c5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(code, 'splitlines')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indent_code(self, code):
         """Accepts a string of code or a list of code lines"""
 
@@ -1154,16 +1533,22 @@ class OctaveCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(octave_code(exp), converts `expr` to a string of octave (or matlab) code) over Any ║
+# ║ Path(octave_code(expr, assign_to, **settings), OctaveCodePrinter(settings).doprint(expr, assign_to)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  OctaveCodePrinter(settings).doprint(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ octave_code : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36259a6622087481           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.octave_code","kind":"function","src_hash":"f1820704c0dca6e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"octave_code(exp)","rhs":"converts `expr` to a string of octave (or matlab) code","over":{"base":"Any"},"name":"octave_code_correct"},"guarantee":"converts `expr` to a string of octave (or matlab) code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36259a6622087481"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.octave_code","kind":"function","src_hash":"f1820704c0dca6e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"octave_code(expr, assign_to, **settings)","rhs":"OctaveCodePrinter(settings).doprint(expr, assign_to)","over":{"base":"Any"},"name":"octave_code_correct"},"guarantee":"returns OctaveCodePrinter(settings).doprint(expr, assign_to)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36259a6622087481","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"OctaveCodePrinter(settings).doprint(expr, assign_to)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'assign_to'], spec=['expr', 'assign_to', '**settings']"]}}
 def octave_code(expr, assign_to=None, **settings):
     r"""Converts `expr` to a string of Octave (or Matlab) code.
 
@@ -1304,16 +1689,22 @@ def octave_code(expr, assign_to=None, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_octave_code(exp), prints the octave (or matlab) representation of the given expression) over Any ║
+# ║ Path(print_octave_code(expr, **settings), <unspecified:print_octave_code>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_octave_code : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b824d81c4eb2270  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.octave.print_octave_code","kind":"function","src_hash":"2be8a485821bbbe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_octave_code(exp)","rhs":"prints the octave (or matlab) representation of the given expression","over":{"base":"Any"},"name":"print_octave_code_correct"},"guarantee":"prints the octave (or matlab) representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.print_octave_code_correct","statement":"Path(print_octave_code(x), prints the octave (or matlab) representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b824d81c4eb2270"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.octave.print_octave_code","kind":"function","src_hash":"2be8a485821bbbe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_octave_code(expr, **settings)","rhs":"<unspecified:print_octave_code>","over":{"base":"Any"},"name":"print_octave_code_correct"},"guarantee":"prints the octave (or matlab) representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.octave.print_octave_code_correct","statement":"Path(print_octave_code(x), prints the octave (or matlab) representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b824d81c4eb2270","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def print_octave_code(expr, **settings):
     """Prints the Octave (or Matlab) representation of the given expression.
 

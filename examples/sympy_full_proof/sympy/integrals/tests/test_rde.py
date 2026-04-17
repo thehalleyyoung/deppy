@@ -32,16 +32,24 @@ t0, t1, t2, k = symbols('t:3 k')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_at(), test_order_at produces the expected output) over Any ║
+# ║ Path(test_order_at(), order_at(a, p1, t) == 4 and order_at(b, p1, t) == 1 and order_at(c, p1, t) == 1 and order_at(d, p1, t) == 10 and order_at(e, p1, t) == 37 and order_at(a, p2, t) == 0 and order_at(b, p2, t) == 3 and order_at(c, p2, t) == 6 and order_at(e, p2, t) == 100 and order_at(Poly(0, t), Poly(t, t), t) is oo and order_at_oo(Poly(t ** 2 - 1, t), Poly(t + 1), t) == order_at_oo(Poly(t - 1, t), Poly(1, t), t) == -1 and order_at_oo(Poly(0, t), Poly(1, t), t) is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_at : Any → {Any | order_at(a, p1, t) == 4 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  order_at(a, p1, t) == 4                        ║
+# ║   ensures:  order_at(b, p1, t) == 1                        ║
+# ║   ensures:  order_at(c, p1, t) == 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_at : Any → {Any | result satisfies: order_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d80c39ef0ff8f587  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7de861068f97183d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_order_at","kind":"function","src_hash":"681d6140175c4d4c","in":{"base":"Any"},"out":{"base":"Any","pred":"order_at(a, p1, t) == 4 and order_at(b, p1, t) == 1 and order_at(c, p1, t) == 1 and order_at(d, p1, t) == 10 and order_at(e, p1, t) == 37 and order_at(a, p2, t) == 0 and order_at(b, p2, t) == 3 and order_at(c, p2, t) == 6 and order_at(d, p1, t) == 10 and order_at(e, p2, t) == 100 and order_at(Poly(0, t), Poly(t, t), t) is oo and order_at_oo(Poly(0, t), Poly(1, t), t) is oo"},"spec":{"lhs":"test_order_at()","rhs":"test_order_at produces the expected output","over":{"base":"Any"},"name":"test_order_at_correct"},"guarantee":"test_order_at produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_order_at_correct","statement":"Path(test_order_at(x), test_order_at produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d80c39ef0ff8f587"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_order_at","kind":"function","src_hash":"681d6140175c4d4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: order_at(a, p1, t) == 4 and order_at(b, p1, t) == 1 and order_at(c, p1, t) == 1 and order_at(d, p1, t) == 10 and order_at(e, p1, t) == 37 and order_at(a, p2, t) == 0 and order_at(b, p2, t) == 3 and order_at(c, p2, t) == 6 and order_at(e, p2, t) == 100 and order_at(Poly(0, t), Poly(t, t), t) is oo and order_at_oo(Poly(t ** 2 - 1, t), Poly(t + 1), t) == order_at_oo(Poly(t - 1, t), Poly(1, t), t) == -1 and order_at_oo(Poly(0, t), Poly(1, t), t) is oo"},"spec":{"lhs":"test_order_at()","rhs":"order_at(a, p1, t) == 4 and order_at(b, p1, t) == 1 and order_at(c, p1, t) == 1 and order_at(d, p1, t) == 10 and order_at(e, p1, t) == 37 and order_at(a, p2, t) == 0 and order_at(b, p2, t) == 3 and order_at(c, p2, t) == 6 and order_at(e, p2, t) == 100 and order_at(Poly(0, t), Poly(t, t), t) is oo and order_at_oo(Poly(t ** 2 - 1, t), Poly(t + 1), t) == order_at_oo(Poly(t - 1, t), Poly(1, t), t) == -1 and order_at_oo(Poly(0, t), Poly(1, t), t) is oo","over":{"base":"Any"},"name":"test_order_at_correct"},"guarantee":"order_at(a, p1, t) == 4; order_at(b, p1, t) == 1; order_at(c, p1, t) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_order_at_correct","statement":"Path(test_order_at(x), order_at(a, p1, t) == 4; order_at(b, p1, t) == 1; order_at(c, p1, t) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7de861068f97183d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["order_at(a, p1, t) == 4","order_at(b, p1, t) == 1","order_at(c, p1, t) == 1","order_at(d, p1, t) == 10","order_at(e, p1, t) == 37","order_at(a, p2, t) == 0","order_at(b, p2, t) == 3","order_at(c, p2, t) == 6","order_at(e, p2, t) == 100","order_at(Poly(0, t), Poly(t, t), t) is oo","order_at_oo(Poly(t ** 2 - 1, t), Poly(t + 1), t) == order_at_oo(Poly(t - 1, t), Poly(1, t), t) == -1","order_at_oo(Poly(0, t), Poly(1, t), t) is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_order_at():
     a = Poly(t**4, t)
     b = Poly((t**2 + 1)**3*t, t)
@@ -66,16 +74,24 @@ def test_order_at():
     assert order_at_oo(Poly(0, t), Poly(1, t), t) is oo
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_weak_normalizer(), test_weak_normalizer produces the expected output) over Any ║
+# ║ Path(test_weak_normalizer(), r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 + 4 * t ** 2 + 4 * t - 4, t, domain='ZZ[x]'), (Poly((1 + x) * t ** 2 + x * t, t, domain='ZZ[x]'), Poly(t + 1, t, domain='ZZ[x]'))) and weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1]) and r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (Poly(-3 * t ** 2 + 1, t), Poly(t ** 2 - 1, t))) and weak_normalizer(r[1][0], r[1][1], DE, z) == (Poly(1, t), r[1]) and r == (Poly(t, t), (Poly(0, t), Poly(1, t)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_weak_normalizer : Any → {Any | weak_normalizer(r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 +...   ║
+# ║   ensures:  weak_normalizer(r[1][0], r[1][1], DE) == ...   ║
+# ║   ensures:  r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_weak_normalizer : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9995866ea367db58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 476d0ff8a4c5fe0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_weak_normalizer","kind":"function","src_hash":"e80feae3957fdd24","in":{"base":"Any"},"out":{"base":"Any","pred":"weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1]) and weak_normalizer(r[1][0], r[1][1], DE, z) == (Poly(1, t), r[1]) and r == (Poly(t, t), (Poly(0, t), Poly(1, t))) and weak_normalizer(r[1][0], r[1][1], DE, z) == (Poly(1, t), r[1])"},"spec":{"lhs":"test_weak_normalizer()","rhs":"test_weak_normalizer produces the expected output","over":{"base":"Any"},"name":"test_weak_normalizer_correct"},"guarantee":"test_weak_normalizer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_weak_normalizer_correct","statement":"Path(test_weak_normalizer(x), test_weak_normalizer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9995866ea367db58"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_weak_normalizer","kind":"function","src_hash":"e80feae3957fdd24","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 + 4 * t ** 2 + 4 * t - 4, t, domain='ZZ[x]'), (Poly((1 + x) * t ** 2 + x * t, t, domain='ZZ[x]'), Poly(t + 1, t, domain='ZZ[x]'))) and weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1]) and r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (Poly(-3 * t ** 2 + 1, t), Poly(t ** 2 - 1, t))) and weak_normalizer(r[1][0], r[1][1], DE, z) == (Poly(1, t), r[1]) and r == (Poly(t, t), (Poly(0, t), Poly(1, t)))"},"spec":{"lhs":"test_weak_normalizer()","rhs":"r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 + 4 * t ** 2 + 4 * t - 4, t, domain='ZZ[x]'), (Poly((1 + x) * t ** 2 + x * t, t, domain='ZZ[x]'), Poly(t + 1, t, domain='ZZ[x]'))) and weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1]) and r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (Poly(-3 * t ** 2 + 1, t), Poly(t ** 2 - 1, t))) and weak_normalizer(r[1][0], r[1][1], DE, z) == (Poly(1, t), r[1]) and r == (Poly(t, t), (Poly(0, t), Poly(1, t)))","over":{"base":"Any"},"name":"test_weak_normalizer_correct"},"guarantee":"r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 + 4 * t ** 2 + 4 * t - 4, t, domain='ZZ[x]'), (Poly((1 + x) * t ** 2 + x * t, t, domain='ZZ[x]'), Poly(t + 1, t, domain='ZZ[x]'))); weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1]); r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (Poly(-3 * t ** 2 + 1, t), Poly(t ** 2 - 1, t)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_weak_normalizer_correct","statement":"Path(test_weak_normalizer(x), r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 + 4 * t ** 2 + 4 * t - 4, t, domain='ZZ[x]'), (Poly((1 + x) * t ** 2 + x * t, t, domain='ZZ[x]'), Poly(t + 1, t, domain='ZZ[x]'))); weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1]); r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (Poly(-3 * t ** 2 + 1, t), Poly(t ** 2 - 1, t))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"476d0ff8a4c5fe0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == (Poly(t ** 5 - t ** 4 - 4 * t ** 3 + 4 * t ** 2 + 4 * t - 4, t, domain='ZZ[x]'), (Poly((1 + x) * t ** 2 + x * t, t, domain='ZZ[x]'), Poly(t + 1, t, domain='ZZ[x]')))","weak_normalizer(r[1][0], r[1][1], DE) == (Poly(1, t), r[1])","r == (Poly(t ** 4 - 2 * t ** 2 + 1, t), (Poly(-3 * t ** 2 + 1, t), Poly(t ** 2 - 1, t)))","weak_normalizer(r[1][0], r[1][1], DE, z) == (Poly(1, t), r[1])","r == (Poly(t, t), (Poly(0, t), Poly(1, t)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_weak_normalizer():
     a = Poly((1 + x)*t**5 + 4*t**4 + (-1 - 3*x)*t**3 - 4*t**2 + (-2 + 2*x)*t, t)
     d = Poly(t**4 - 3*t**2 + 2, t)
@@ -95,16 +111,22 @@ def test_weak_normalizer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_normal_denom(), test_normal_denom produces the expected output) over Any ║
+# ║ Path(test_normal_denom(), normal_denom(fa, fd, ga, gd, DE) == (Poly(t, t), (Poly(t ** 3 - t ** 2 + t - 1, t), Poly(1, t)), (Poly(1, t), Poly(1, t)), Poly(t, t))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_normal_denom : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  normal_denom(fa, fd, ga, gd, DE) == (Poly...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_normal_denom : Any → {Any | result satisfies: no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78d0149e717cf799  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eae6ddc75942c294  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_normal_denom","kind":"function","src_hash":"0015c378b27c0faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_normal_denom()","rhs":"test_normal_denom produces the expected output","over":{"base":"Any"},"name":"test_normal_denom_correct"},"guarantee":"test_normal_denom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_normal_denom_correct","statement":"Path(test_normal_denom(x), test_normal_denom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78d0149e717cf799"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_normal_denom","kind":"function","src_hash":"0015c378b27c0faf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: normal_denom(fa, fd, ga, gd, DE) == (Poly(t, t), (Poly(t ** 3 - t ** 2 + t - 1, t), Poly(1, t)), (Poly(1, t), Poly(1, t)), Poly(t, t))"},"spec":{"lhs":"test_normal_denom()","rhs":"normal_denom(fa, fd, ga, gd, DE) == (Poly(t, t), (Poly(t ** 3 - t ** 2 + t - 1, t), Poly(1, t)), (Poly(1, t), Poly(1, t)), Poly(t, t))","over":{"base":"Any"},"name":"test_normal_denom_correct"},"guarantee":"normal_denom(fa, fd, ga, gd, DE) == (Poly(t, t), (Poly(t ** 3 - t ** 2 + t - 1, t), Poly(1, t)), (Poly(1, t), Poly(1, t)), Poly(t, t))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_normal_denom_correct","statement":"Path(test_normal_denom(x), normal_denom(fa, fd, ga, gd, DE) == (Poly(t, t), (Poly(t ** 3 - t ** 2 + t - 1, t), Poly(1, t)), (Poly(1, t), Poly(1, t)), Poly(t, t)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eae6ddc75942c294","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["normal_denom(fa, fd, ga, gd, DE) == (Poly(t, t), (Poly(t ** 3 - t ** 2 + t - 1, t), Poly(1, t)), (Poly(1, t), Poly(1, t)), Poly(t, t))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_normal_denom():
     DE = DifferentialExtension(extension={'D': [Poly(1, x)]})
     raises(NonElementaryIntegralException, lambda: normal_denom(Poly(1, x), Poly(1, x),
@@ -118,16 +140,24 @@ def test_normal_denom():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_denom(), test_special_denom produces the expected output) over Any ║
+# ║ Path(test_special_denom(), special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE) == (Poly(1, t), Poly(t ** 2 - 1, t), Poly(t ** 2 - 1, t), Poly(t, t)) and special_denom(Poly(1, t0), Poly(I * k, t0), Poly(1, t0), Poly(t0, t0), Poly(1, t0), DE) == (Poly(1, t0, domain='ZZ'), Poly(I * k, t0, domain='ZZ_I[k,x]'), Poly(t0, t0, domain='ZZ'), Poly(1, t0, domain='ZZ')) and special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE, case='tan') == (Poly(1, t, t0, domain='ZZ'), Poly(t ** 2, t0, t, domain='ZZ[x]'), Poly(t, t, t0, domain='ZZ'), Poly(1, t0, domain='ZZ'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_special_denom : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  special_denom(Poly(1, t), Poly(t ** 2, t)...   ║
+# ║   ensures:  special_denom(Poly(1, t0), Poly(I * k, t0...   ║
+# ║   ensures:  special_denom(Poly(1, t), Poly(t ** 2, t)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_special_denom : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a880e80bca62b804  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b904a13efe8db530  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_special_denom","kind":"function","src_hash":"96616d9095e90967","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_special_denom()","rhs":"test_special_denom produces the expected output","over":{"base":"Any"},"name":"test_special_denom_correct"},"guarantee":"test_special_denom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_special_denom_correct","statement":"Path(test_special_denom(x), test_special_denom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a880e80bca62b804"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_special_denom","kind":"function","src_hash":"96616d9095e90967","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE) == (Poly(1, t), Poly(t ** 2 - 1, t), Poly(t ** 2 - 1, t), Poly(t, t)) and special_denom(Poly(1, t0), Poly(I * k, t0), Poly(1, t0), Poly(t0, t0), Poly(1, t0), DE) == (Poly(1, t0, domain='ZZ'), Poly(I * k, t0, domain='ZZ_I[k,x]'), Poly(t0, t0, domain='ZZ'), Poly(1, t0, domain='ZZ')) and special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE, case='tan') == (Poly(1, t, t0, domain='ZZ'), Poly(t ** 2, t0, t, domain='ZZ[x]'), Poly(t, t, t0, domain='ZZ'), Poly(1, t0, domain='ZZ'))"},"spec":{"lhs":"test_special_denom()","rhs":"special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE) == (Poly(1, t), Poly(t ** 2 - 1, t), Poly(t ** 2 - 1, t), Poly(t, t)) and special_denom(Poly(1, t0), Poly(I * k, t0), Poly(1, t0), Poly(t0, t0), Poly(1, t0), DE) == (Poly(1, t0, domain='ZZ'), Poly(I * k, t0, domain='ZZ_I[k,x]'), Poly(t0, t0, domain='ZZ'), Poly(1, t0, domain='ZZ')) and special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE, case='tan') == (Poly(1, t, t0, domain='ZZ'), Poly(t ** 2, t0, t, domain='ZZ[x]'), Poly(t, t, t0, domain='ZZ'), Poly(1, t0, domain='ZZ'))","over":{"base":"Any"},"name":"test_special_denom_correct"},"guarantee":"special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE) == (Poly(1, t), Poly(t ** 2 - 1, t), Poly(t ** 2 - 1, t), Poly(t, t)); special_denom(Poly(1, t0), Poly(I * k, t0), Poly(1, t0), Poly(t0, t0), Poly(1, t0), DE) == (Poly(1, t0, domain='ZZ'), Poly(I * k, t0, domain='ZZ_I[k,x]'), Poly(t0, t0, domain='ZZ'), Poly(1, t0, domain='ZZ')); special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE, case='tan') == (Poly(1, t, t0, domain='ZZ'), Poly(t ** 2, t0, t, domain='ZZ[x]'), Poly(t, t, t0, domain='ZZ'), Poly(1, t0, domain='ZZ'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_special_denom_correct","statement":"Path(test_special_denom(x), special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE) == (Poly(1, t), Poly(t ** 2 - 1, t), Poly(t ** 2 - 1, t), Poly(t, t)); special_denom(Poly(1, t0), Poly(I * k, t0), Poly(1, t0), Poly(t0, t0), Poly(1, t0), DE) == (Poly(1, t0, domain='ZZ'), Poly(I * k, t0, domain='ZZ_I[k,x]'), Poly(t0, t0, domain='ZZ'), Poly(1, t0, domain='ZZ')); special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE, case='tan') == (Poly(1, t, t0, domain='ZZ'), Poly(t ** 2, t0, t, domain='ZZ[x]'), Poly(t, t, t0, domain='ZZ'), Poly(1, t0, domain='ZZ')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b904a13efe8db530","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE) == (Poly(1, t), Poly(t ** 2 - 1, t), Poly(t ** 2 - 1, t), Poly(t, t))","special_denom(Poly(1, t0), Poly(I * k, t0), Poly(1, t0), Poly(t0, t0), Poly(1, t0), DE) == (Poly(1, t0, domain='ZZ'), Poly(I * k, t0, domain='ZZ_I[k,x]'), Poly(t0, t0, domain='ZZ'), Poly(1, t0, domain='ZZ'))","special_denom(Poly(1, t), Poly(t ** 2, t), Poly(1, t), Poly(t ** 2 - 1, t), Poly(t, t), DE, case='tan') == (Poly(1, t, t0, domain='ZZ'), Poly(t ** 2, t0, t, domain='ZZ[x]'), Poly(t, t, t0, domain='ZZ'), Poly(1, t0, domain='ZZ'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_special_denom():
     # TODO: add more tests here
     DE = DifferentialExtension(extension={'D': [Poly(1, x), Poly(t, t)]})
@@ -158,16 +188,22 @@ def test_special_denom():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bound_degree_fail(), test_bound_degree_fail produces the expected output) over Any ║
+# ║ Path(test_bound_degree_fail(), bound_degree(Poly(t ** 2, t), Poly(-(1 / x ** 2 * t ** 2 + 1 / x), t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / 2 * x * t ** 2 + x * t, t), DE) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bound_degree_fail : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bound_degree(Poly(t ** 2, t), Poly(-(1 / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bound_degree_fail : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55e16455e207bc25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13d8e02c33cf7508  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_bound_degree_fail","kind":"function","src_hash":"bea525906acb3adf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bound_degree_fail()","rhs":"test_bound_degree_fail produces the expected output","over":{"base":"Any"},"name":"test_bound_degree_fail_correct"},"guarantee":"test_bound_degree_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_bound_degree_fail_correct","statement":"Path(test_bound_degree_fail(x), test_bound_degree_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55e16455e207bc25"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_bound_degree_fail","kind":"function","src_hash":"bea525906acb3adf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bound_degree(Poly(t ** 2, t), Poly(-(1 / x ** 2 * t ** 2 + 1 / x), t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / 2 * x * t ** 2 + x * t, t), DE) == 3"},"spec":{"lhs":"test_bound_degree_fail()","rhs":"bound_degree(Poly(t ** 2, t), Poly(-(1 / x ** 2 * t ** 2 + 1 / x), t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / 2 * x * t ** 2 + x * t, t), DE) == 3","over":{"base":"Any"},"name":"test_bound_degree_fail_correct"},"guarantee":"bound_degree(Poly(t ** 2, t), Poly(-(1 / x ** 2 * t ** 2 + 1 / x), t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / 2 * x * t ** 2 + x * t, t), DE) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_bound_degree_fail_correct","statement":"Path(test_bound_degree_fail(x), bound_degree(Poly(t ** 2, t), Poly(-(1 / x ** 2 * t ** 2 + 1 / x), t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / 2 * x * t ** 2 + x * t, t), DE) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13d8e02c33cf7508","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bound_degree(Poly(t ** 2, t), Poly(-(1 / x ** 2 * t ** 2 + 1 / x), t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / 2 * x * t ** 2 + x * t, t), DE) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bound_degree_fail():
     # Primitive
     DE = DifferentialExtension(extension={'D': [Poly(1, x),
@@ -178,16 +214,23 @@ def test_bound_degree_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bound_degree(), test_bound_degree produces the expected output) over Any ║
+# ║ Path(test_bound_degree(), bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0 and bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bound_degree : Any → {Any | bound_degree(Poly(1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bound_degree(Poly(1, x), Poly(-2 * x, x),...   ║
+# ║   ensures:  bound_degree(Poly(t, t), Poly((t - 1) * (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bound_degree : Any → {Any | result satisfies: bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 379aab8c137e99af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59bf9d15920212be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_bound_degree","kind":"function","src_hash":"afd4bbd9697ef588","in":{"base":"Any"},"out":{"base":"Any","pred":"bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0 and bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0"},"spec":{"lhs":"test_bound_degree()","rhs":"test_bound_degree produces the expected output","over":{"base":"Any"},"name":"test_bound_degree_correct"},"guarantee":"test_bound_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_bound_degree_correct","statement":"Path(test_bound_degree(x), test_bound_degree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"379aab8c137e99af"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_bound_degree","kind":"function","src_hash":"afd4bbd9697ef588","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0 and bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0"},"spec":{"lhs":"test_bound_degree()","rhs":"bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0 and bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0","over":{"base":"Any"},"name":"test_bound_degree_correct"},"guarantee":"bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0; bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_bound_degree_correct","statement":"Path(test_bound_degree(x), bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0; bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59bf9d15920212be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bound_degree(Poly(1, x), Poly(-2 * x, x), Poly(1, x), DE) == 0","bound_degree(Poly(t, t), Poly((t - 1) * (t ** 2 + 1), t), Poly(1, t), DE) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bound_degree():
     # Base
     DE = DifferentialExtension(extension={'D': [Poly(1, x)]})
@@ -207,16 +250,24 @@ def test_bound_degree():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_spde(), test_spde produces the expected output) over Any ║
+# ║ Path(test_spde(), spde(Poly(t ** 2 + x * t * 2 + x ** 2, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), 0, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(1, t, domain='ZZ(x)')) and spde(Poly(t ** 2, t), Poly(-t ** 2 / x ** 2 - 1 / x, t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / (2 * x) * t ** 2 + x * t, t), 3, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(t0 * t ** 2 / 2 + x ** 2 * t ** 2 - x ** 2 * t, t, domain='ZZ(x,t0)')) and spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), 4, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), 2, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)) and spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), n, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), -2 + n, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)) and spde(Poly(x ** 2 - x, x), Poly(1, x), Poly(9 * x ** 4 - 10 * x ** 3 + 2 * x ** 2, x), 4, DE) == (Poly(0, x, domain='ZZ'), Poly(0, x), 0, Poly(0, x), Poly(3 * x ** 3 - 2 * x ** 2, x, domain='QQ')) and spde(Poly(x ** 2 - x, x), Poly(x ** 2 - 5 * x + 3, x), Poly(x ** 7 - x ** 6 - 2 * x ** 4 + 3 * x ** 3 - x ** 2, x), 5, DE) == (Poly(1, x, domain='QQ'), Poly(x + 1, x, domain='QQ'), 1, Poly(x ** 4 - x ** 3, x), Poly(x ** 3 - x ** 2, x, domain='QQ'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_spde : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  spde(Poly(t ** 2 + x * t * 2 + x ** 2, t)...   ║
+# ║   ensures:  spde(Poly(t ** 2, t), Poly(-t ** 2 / x **...   ║
+# ║   ensures:  spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_spde : Any → {Any | result satisfies: spde(Poly(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e157b0c6181bb839  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02b63c023e4e072f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_spde","kind":"function","src_hash":"9f6068e754ddb678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_spde()","rhs":"test_spde produces the expected output","over":{"base":"Any"},"name":"test_spde_correct"},"guarantee":"test_spde produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_spde_correct","statement":"Path(test_spde(x), test_spde produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e157b0c6181bb839"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_spde","kind":"function","src_hash":"9f6068e754ddb678","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: spde(Poly(t ** 2 + x * t * 2 + x ** 2, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), 0, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(1, t, domain='ZZ(x)')) and spde(Poly(t ** 2, t), Poly(-t ** 2 / x ** 2 - 1 / x, t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / (2 * x) * t ** 2 + x * t, t), 3, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(t0 * t ** 2 / 2 + x ** 2 * t ** 2 - x ** 2 * t, t, domain='ZZ(x,t0)')) and spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), 4, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), 2, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)) and spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), n, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), -2 + n, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)) and spde(Poly(x ** 2 - x, x), Poly(1, x), Poly(9 * x ** 4 - 10 * x ** 3 + 2 * x ** 2, x), 4, DE) == (Poly(0, x, domain='ZZ'), Poly(0, x), 0, Poly(0, x), Poly(3 * x ** 3 - 2 * x ** 2, x, domain='QQ')) and spde(Poly(x ** 2 - x, x), Poly(x ** 2 - 5 * x + 3, x), Poly(x ** 7 - x ** 6 - 2 * x ** 4 + 3 * x ** 3 - x ** 2, x), 5, DE) == (Poly(1, x, domain='QQ'), Poly(x + 1, x, domain='QQ'), 1, Poly(x ** 4 - x ** 3, x), Poly(x ** 3 - x ** 2, x, domain='QQ'))"},"spec":{"lhs":"test_spde()","rhs":"spde(Poly(t ** 2 + x * t * 2 + x ** 2, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), 0, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(1, t, domain='ZZ(x)')) and spde(Poly(t ** 2, t), Poly(-t ** 2 / x ** 2 - 1 / x, t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / (2 * x) * t ** 2 + x * t, t), 3, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(t0 * t ** 2 / 2 + x ** 2 * t ** 2 - x ** 2 * t, t, domain='ZZ(x,t0)')) and spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), 4, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), 2, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)) and spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), n, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), -2 + n, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)) and spde(Poly(x ** 2 - x, x), Poly(1, x), Poly(9 * x ** 4 - 10 * x ** 3 + 2 * x ** 2, x), 4, DE) == (Poly(0, x, domain='ZZ'), Poly(0, x), 0, Poly(0, x), Poly(3 * x ** 3 - 2 * x ** 2, x, domain='QQ')) and spde(Poly(x ** 2 - x, x), Poly(x ** 2 - 5 * x + 3, x), Poly(x ** 7 - x ** 6 - 2 * x ** 4 + 3 * x ** 3 - x ** 2, x), 5, DE) == (Poly(1, x, domain='QQ'), Poly(x + 1, x, domain='QQ'), 1, Poly(x ** 4 - x ** 3, x), Poly(x ** 3 - x ** 2, x, domain='QQ'))","over":{"base":"Any"},"name":"test_spde_correct"},"guarantee":"spde(Poly(t ** 2 + x * t * 2 + x ** 2, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), 0, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(1, t, domain='ZZ(x)')); spde(Poly(t ** 2, t), Poly(-t ** 2 / x ** 2 - 1 / x, t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / (2 * x) * t ** 2 + x * t, t), 3, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(t0 * t ** 2 / 2 + x ** 2 * t ** 2 - x ** 2 * t, t, domain='ZZ(x,t0)')); spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), 4, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), 2, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_spde_correct","statement":"Path(test_spde(x), spde(Poly(t ** 2 + x * t * 2 + x ** 2, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), 0, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(1, t, domain='ZZ(x)')); spde(Poly(t ** 2, t), Poly(-t ** 2 / x ** 2 - 1 / x, t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / (2 * x) * t ** 2 + x * t, t), 3, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(t0 * t ** 2 / 2 + x ** 2 * t ** 2 - x ** 2 * t, t, domain='ZZ(x,t0)')); spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), 4, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), 2, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02b63c023e4e072f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["spde(Poly(t ** 2 + x * t * 2 + x ** 2, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), Poly(t ** 2 / x ** 2 + (2 / x - 1) * t, t), 0, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(1, t, domain='ZZ(x)'))","spde(Poly(t ** 2, t), Poly(-t ** 2 / x ** 2 - 1 / x, t), Poly((2 * x - 1) * t ** 4 + (t0 + x) / x * t ** 3 - (t0 + 4 * x ** 2) / (2 * x) * t ** 2 + x * t, t), 3, DE) == (Poly(0, t), Poly(0, t), 0, Poly(0, t), Poly(t0 * t ** 2 / 2 + x ** 2 * t ** 2 - x ** 2 * t, t, domain='ZZ(x,t0)'))","spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), 4, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), 2, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x))","spde(Poly(x ** 2 + x + 1, x), Poly(-2 * x - 1, x), Poly(x ** 5 / 2 + 3 * x ** 4 / 4 + x ** 3 - x ** 2 + 1, x), n, DE) == (Poly(0, x, domain='QQ'), Poly(x / 2 - Rational(1, 4), x), -2 + n, Poly(x ** 2 + x + 1, x), Poly(x * Rational(5, 4), x))","spde(Poly(x ** 2 - x, x), Poly(1, x), Poly(9 * x ** 4 - 10 * x ** 3 + 2 * x ** 2, x), 4, DE) == (Poly(0, x, domain='ZZ'), Poly(0, x), 0, Poly(0, x), Poly(3 * x ** 3 - 2 * x ** 2, x, domain='QQ'))","spde(Poly(x ** 2 - x, x), Poly(x ** 2 - 5 * x + 3, x), Poly(x ** 7 - x ** 6 - 2 * x ** 4 + 3 * x ** 3 - x ** 2, x), 5, DE) == (Poly(1, x, domain='QQ'), Poly(x + 1, x, domain='QQ'), 1, Poly(x ** 4 - x ** 3, x), Poly(x ** 3 - x ** 2, x, domain='QQ'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_spde():
     DE = DifferentialExtension(extension={'D': [Poly(1, x), Poly(t**2 + 1, t)]})
     raises(NonElementaryIntegralException, lambda: spde(Poly(t, t), Poly((t - 1)*(t**2 + 1), t), Poly(1, t), 0, DE))
@@ -245,16 +296,24 @@ def test_spde():
         (Poly(1, x, domain='QQ'), Poly(x + 1, x, domain='QQ'), 1, Poly(x**4 - x**3, x), Poly(x**3 - x**2, x, domain='QQ'))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_poly_rde_no_cancel(), test_solve_poly_rde_no_cancel produces the expected output) over Any ║
+# ║ Path(test_solve_poly_rde_no_cancel(), solve_poly_rde(Poly(t ** 2 + 1, t), Poly(t ** 3 + (x + 1) * t ** 2 + t + x + 2, t), oo, DE) == Poly(t + x, t) and solve_poly_rde(Poly(0, x), Poly(x / 2 - Rational(1, 4), x), oo, DE) == Poly(x ** 2 / 4 - x / 4, x) and solve_poly_rde(Poly(2, t), Poly(t ** 2 + 2 * t + 3, t), 1, DE) == Poly(t + 1, t, x) and no_cancel_equal(Poly(1 - t, t), Poly(t ** 3 + t ** 2 - 2 * x * t - 2 * x, t), oo, DE) == (Poly(t ** 2, t), 1, Poly((-2 - 2 * x) * t - 2 * x, t))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_poly_rde_no_cancel : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_poly_rde(Poly(t ** 2 + 1, t), Poly(...   ║
+# ║   ensures:  solve_poly_rde(Poly(0, x), Poly(x / 2 - R...   ║
+# ║   ensures:  solve_poly_rde(Poly(2, t), Poly(t ** 2 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_poly_rde_no_cancel : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69b8489772ed0a09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98791493490ce796  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_solve_poly_rde_no_cancel","kind":"function","src_hash":"b747047be09a9de3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_poly_rde_no_cancel()","rhs":"test_solve_poly_rde_no_cancel produces the expected output","over":{"base":"Any"},"name":"test_solve_poly_rde_no_cancel_correct"},"guarantee":"test_solve_poly_rde_no_cancel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_solve_poly_rde_no_cancel_correct","statement":"Path(test_solve_poly_rde_no_cancel(x), test_solve_poly_rde_no_cancel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69b8489772ed0a09"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_solve_poly_rde_no_cancel","kind":"function","src_hash":"b747047be09a9de3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_poly_rde(Poly(t ** 2 + 1, t), Poly(t ** 3 + (x + 1) * t ** 2 + t + x + 2, t), oo, DE) == Poly(t + x, t) and solve_poly_rde(Poly(0, x), Poly(x / 2 - Rational(1, 4), x), oo, DE) == Poly(x ** 2 / 4 - x / 4, x) and solve_poly_rde(Poly(2, t), Poly(t ** 2 + 2 * t + 3, t), 1, DE) == Poly(t + 1, t, x) and no_cancel_equal(Poly(1 - t, t), Poly(t ** 3 + t ** 2 - 2 * x * t - 2 * x, t), oo, DE) == (Poly(t ** 2, t), 1, Poly((-2 - 2 * x) * t - 2 * x, t))"},"spec":{"lhs":"test_solve_poly_rde_no_cancel()","rhs":"solve_poly_rde(Poly(t ** 2 + 1, t), Poly(t ** 3 + (x + 1) * t ** 2 + t + x + 2, t), oo, DE) == Poly(t + x, t) and solve_poly_rde(Poly(0, x), Poly(x / 2 - Rational(1, 4), x), oo, DE) == Poly(x ** 2 / 4 - x / 4, x) and solve_poly_rde(Poly(2, t), Poly(t ** 2 + 2 * t + 3, t), 1, DE) == Poly(t + 1, t, x) and no_cancel_equal(Poly(1 - t, t), Poly(t ** 3 + t ** 2 - 2 * x * t - 2 * x, t), oo, DE) == (Poly(t ** 2, t), 1, Poly((-2 - 2 * x) * t - 2 * x, t))","over":{"base":"Any"},"name":"test_solve_poly_rde_no_cancel_correct"},"guarantee":"solve_poly_rde(Poly(t ** 2 + 1, t), Poly(t ** 3 + (x + 1) * t ** 2 + t + x + 2, t), oo, DE) == Poly(t + x, t); solve_poly_rde(Poly(0, x), Poly(x / 2 - Rational(1, 4), x), oo, DE) == Poly(x ** 2 / 4 - x / 4, x); solve_poly_rde(Poly(2, t), Poly(t ** 2 + 2 * t + 3, t), 1, DE) == Poly(t + 1, t, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_solve_poly_rde_no_cancel_correct","statement":"Path(test_solve_poly_rde_no_cancel(x), solve_poly_rde(Poly(t ** 2 + 1, t), Poly(t ** 3 + (x + 1) * t ** 2 + t + x + 2, t), oo, DE) == Poly(t + x, t); solve_poly_rde(Poly(0, x), Poly(x / 2 - Rational(1, 4), x), oo, DE) == Poly(x ** 2 / 4 - x / 4, x); solve_poly_rde(Poly(2, t), Poly(t ** 2 + 2 * t + 3, t), 1, DE) == Poly(t + 1, t, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98791493490ce796","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_poly_rde(Poly(t ** 2 + 1, t), Poly(t ** 3 + (x + 1) * t ** 2 + t + x + 2, t), oo, DE) == Poly(t + x, t)","solve_poly_rde(Poly(0, x), Poly(x / 2 - Rational(1, 4), x), oo, DE) == Poly(x ** 2 / 4 - x / 4, x)","solve_poly_rde(Poly(2, t), Poly(t ** 2 + 2 * t + 3, t), 1, DE) == Poly(t + 1, t, x)","no_cancel_equal(Poly(1 - t, t), Poly(t ** 3 + t ** 2 - 2 * x * t - 2 * x, t), oo, DE) == (Poly(t ** 2, t), 1, Poly((-2 - 2 * x) * t - 2 * x, t))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_solve_poly_rde_no_cancel():
     # deg(b) large
     DE = DifferentialExtension(extension={'D': [Poly(1, x), Poly(1 + t**2, t)]})
@@ -275,16 +334,24 @@ def test_solve_poly_rde_no_cancel():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_poly_rde_cancel(), test_solve_poly_rde_cancel produces the expected output) over Any ║
+# ║ Path(test_solve_poly_rde_cancel(), cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t) and cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t) and cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t) and cancel_primitive(Poly(4 * x, t), Poly(4 * x * t ** 2 + 2 * t / x, t), 3, DE) == Poly(t ** 2, t)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_poly_rde_cancel : Any → {Any | cancel_exp(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cancel_exp(Poly(2 * x, t), Poly(2 * x, t)...   ║
+# ║   ensures:  cancel_exp(Poly(2 * x, t), Poly((1 + 2 * ...   ║
+# ║   ensures:  cancel_primitive(Poly(1, t), Poly(t + 1 /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_poly_rde_cancel : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | beb615ceddc8d84c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 193df05d411e217d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_solve_poly_rde_cancel","kind":"function","src_hash":"9353bba765913d9f","in":{"base":"Any"},"out":{"base":"Any","pred":"cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t) and cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t) and cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t)"},"spec":{"lhs":"test_solve_poly_rde_cancel()","rhs":"test_solve_poly_rde_cancel produces the expected output","over":{"base":"Any"},"name":"test_solve_poly_rde_cancel_correct"},"guarantee":"test_solve_poly_rde_cancel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_solve_poly_rde_cancel_correct","statement":"Path(test_solve_poly_rde_cancel(x), test_solve_poly_rde_cancel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beb615ceddc8d84c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_solve_poly_rde_cancel","kind":"function","src_hash":"9353bba765913d9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t) and cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t) and cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t) and cancel_primitive(Poly(4 * x, t), Poly(4 * x * t ** 2 + 2 * t / x, t), 3, DE) == Poly(t ** 2, t)"},"spec":{"lhs":"test_solve_poly_rde_cancel()","rhs":"cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t) and cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t) and cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t) and cancel_primitive(Poly(4 * x, t), Poly(4 * x * t ** 2 + 2 * t / x, t), 3, DE) == Poly(t ** 2, t)","over":{"base":"Any"},"name":"test_solve_poly_rde_cancel_correct"},"guarantee":"cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t); cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t); cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_solve_poly_rde_cancel_correct","statement":"Path(test_solve_poly_rde_cancel(x), cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t); cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t); cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"193df05d411e217d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cancel_exp(Poly(2 * x, t), Poly(2 * x, t), 0, DE) == Poly(1, t)","cancel_exp(Poly(2 * x, t), Poly((1 + 2 * x) * t, t), 1, DE) == Poly(t, t)","cancel_primitive(Poly(1, t), Poly(t + 1 / x, t), 2, DE) == Poly(t, t)","cancel_primitive(Poly(4 * x, t), Poly(4 * x * t ** 2 + 2 * t / x, t), 3, DE) == Poly(t ** 2, t)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_solve_poly_rde_cancel():
     # exp
     DE = DifferentialExtension(extension={'D': [Poly(1, x), Poly(t, t)]})
@@ -310,16 +377,22 @@ def test_solve_poly_rde_cancel():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rischDE(), test_rischDE produces the expected output) over Any ║
+# ║ Path(test_rischDE(), rischDE(Poly(-2 * x, x), Poly(1, x), Poly(1 - 2 * x - 2 * x ** 2, x), Poly(1, x), DE) == (Poly(x + 1, x), Poly(1, x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rischDE : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rischDE(Poly(-2 * x, x), Poly(1, x), Poly...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rischDE : Any → {Any | result satisfies: rischDE...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e7119465261570f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c96c79a24c3b942  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_rischDE","kind":"function","src_hash":"916b592bc0d8edc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rischDE()","rhs":"test_rischDE produces the expected output","over":{"base":"Any"},"name":"test_rischDE_correct"},"guarantee":"test_rischDE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_rischDE_correct","statement":"Path(test_rischDE(x), test_rischDE produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e7119465261570f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_rde.test_rischDE","kind":"function","src_hash":"916b592bc0d8edc9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rischDE(Poly(-2 * x, x), Poly(1, x), Poly(1 - 2 * x - 2 * x ** 2, x), Poly(1, x), DE) == (Poly(x + 1, x), Poly(1, x))"},"spec":{"lhs":"test_rischDE()","rhs":"rischDE(Poly(-2 * x, x), Poly(1, x), Poly(1 - 2 * x - 2 * x ** 2, x), Poly(1, x), DE) == (Poly(x + 1, x), Poly(1, x))","over":{"base":"Any"},"name":"test_rischDE_correct"},"guarantee":"rischDE(Poly(-2 * x, x), Poly(1, x), Poly(1 - 2 * x - 2 * x ** 2, x), Poly(1, x), DE) == (Poly(x + 1, x), Poly(1, x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_rde.test_rischDE_correct","statement":"Path(test_rischDE(x), rischDE(Poly(-2 * x, x), Poly(1, x), Poly(1 - 2 * x - 2 * x ** 2, x), Poly(1, x), DE) == (Poly(x + 1, x), Poly(1, x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c96c79a24c3b942","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rischDE(Poly(-2 * x, x), Poly(1, x), Poly(1 - 2 * x - 2 * x ** 2, x), Poly(1, x), DE) == (Poly(x + 1, x), Poly(1, x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rischDE():
     # TODO: Add more tests for rischDE, including ones from the text
     DE = DifferentialExtension(extension={'D': [Poly(1, x), Poly(t, t)]})

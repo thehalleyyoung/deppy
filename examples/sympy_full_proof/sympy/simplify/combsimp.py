@@ -27,9 +27,13 @@ from sympy.utilities.timeutils import timethis
 
 @timethis('combsimp')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(combsimp(exp), simplify combinatorial expressions) over {Any | isinstance(node, gamma)} ║
+# ║ Path(combsimp(expr), <unspecified:combsimp>) over {Any | isinstance(node, gamma) and hasattr(expr, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ combsimp : {Any | isinstance(node, gamma)} → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ combsimp : {Any | isinstance(node, gamma) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   gamma: {isinstance(node, gamma)} → library_axiom         ║
@@ -39,9 +43,12 @@ from sympy.utilities.timeutils import timethis
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0e14ec0c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.combsimp.combsimp","kind":"function","src_hash":"d78f494da155f8eb","in":{"base":"Any","pred":"isinstance(node, gamma)"},"out":{"base":"Any"},"spec":{"lhs":"combsimp(exp)","rhs":"simplify combinatorial expressions","over":{"base":"Any","pred":"isinstance(node, gamma)"},"name":"combsimp_correct"},"guarantee":"simplify combinatorial expressions","fibers":[{"name":"gamma","pred":"isinstance(node, gamma)","path":{"lhs":"combsimp(x)","rhs":"simplify combinatorial expressions","over":{"base":"gamma","pred":"isinstance(node, gamma)"},"name":"combsimp_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.combsimp.combsimp_gamma_correct","statement":"combsimp satisfies spec on gamma inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0e14ec0c986dd7ad"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.combsimp.combsimp","kind":"function","src_hash":"d78f494da155f8eb","in":{"base":"Any","pred":"isinstance(node, gamma) and hasattr(expr, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"combsimp(expr)","rhs":"<unspecified:combsimp>","over":{"base":"Any","pred":"isinstance(node, gamma) and hasattr(expr, 'rewrite')"},"name":"combsimp_correct"},"guarantee":"simplify combinatorial expressions","fibers":[{"name":"gamma","pred":"isinstance(node, gamma)","path":{"lhs":"combsimp(x)","rhs":"simplify combinatorial expressions","over":{"base":"gamma","pred":"isinstance(node, gamma)"},"name":"combsimp_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.combsimp.combsimp_gamma_correct","statement":"combsimp satisfies spec on gamma inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0e14ec0c986dd7ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'rewrite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'any((isinstance(node, gamma) and (not node.args[0].is_integer) for node in preorder_traversal(expr)))'}, fibers={'gamma'})"]}}
 def combsimp(expr):
     r"""
     Simplify combinatorial expressions.
@@ -91,9 +98,13 @@ def combsimp(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gamma_as_comb(exp), helper function for combsimp) over {Any | isinstance(k, factorial)} ║
+# ║ Path(_gamma_as_comb(expr), <unspecified:_gamma_as_comb>) over {Any | isinstance(k, factorial) and hasattr(expr, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gamma_as_comb : {Any | isinstance(k, factorial)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gamma_as_comb : {Any | isinstance(k, factorial) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   factorial: {isinstance(k, factorial)} → library_axiom    ║
@@ -103,9 +114,12 @@ def combsimp(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 10151e8d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.combsimp._gamma_as_comb","kind":"function","src_hash":"d8b3b65906912730","in":{"base":"Any","pred":"isinstance(k, factorial)"},"out":{"base":"Any"},"spec":{"lhs":"_gamma_as_comb(exp)","rhs":"helper function for combsimp","over":{"base":"Any","pred":"isinstance(k, factorial)"},"name":"_gamma_as_comb_correct"},"guarantee":"helper function for combsimp","fibers":[{"name":"factorial","pred":"isinstance(k, factorial)","path":{"lhs":"_gamma_as_comb(x)","rhs":"helper function for combsimp","over":{"base":"factorial","pred":"isinstance(k, factorial)"},"name":"_gamma_as_comb_factorial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.combsimp._gamma_as_comb_factorial_correct","statement":"_gamma_as_comb satisfies spec on factorial inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"10151e8d56dfdb1d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.combsimp._gamma_as_comb","kind":"function","src_hash":"d8b3b65906912730","in":{"base":"Any","pred":"isinstance(k, factorial) and hasattr(expr, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_gamma_as_comb(expr)","rhs":"<unspecified:_gamma_as_comb>","over":{"base":"Any","pred":"isinstance(k, factorial) and hasattr(expr, 'rewrite')"},"name":"_gamma_as_comb_correct"},"guarantee":"helper function for combsimp","fibers":[{"name":"factorial","pred":"isinstance(k, factorial)","path":{"lhs":"_gamma_as_comb(x)","rhs":"helper function for combsimp","over":{"base":"factorial","pred":"isinstance(k, factorial)"},"name":"_gamma_as_comb_factorial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.combsimp._gamma_as_comb_factorial_correct","statement":"_gamma_as_comb satisfies spec on factorial inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"10151e8d56dfdb1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'rewrite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(k, factorial) and rvd[k].is_Integer'}, fibers={'factorial'})"]}}
 def _gamma_as_comb(expr):
     """
     Helper function for combsimp.

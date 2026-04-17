@@ -30,16 +30,24 @@ from sympy.functions.elementary.miscellaneous import sqrt
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_modgcd_univariate_integers(), test_modgcd_univariate_integers produces the expected output) over Any ║
+# ║ Path(test_modgcd_univariate_integers(), modgcd_univariate(f, g) == (0, 0, 0) and modgcd_univariate(f, g) == (x, 0, 1) and modgcd_univariate(g, f) == (x, 1, 0) and modgcd_univariate(f, g) == (x, 0, -1) and modgcd_univariate(g, f) == (x, -1, 0) and modgcd_univariate(f, g) == (2, x, 1) and modgcd_univariate(f, g) == (2 * x + 2, 1, 3 * x - 3) and modgcd_univariate(f, g) == (h, cff, cfg) and modgcd_univariate(f, f.diff(x))[0] == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_modgcd_univariate_integers : Any → {Any | modgcd...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  modgcd_univariate(f, g) == (0, 0, 0)           ║
+# ║   ensures:  modgcd_univariate(f, g) == (x, 0, 1)           ║
+# ║   ensures:  modgcd_univariate(g, f) == (x, 1, 0)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_modgcd_univariate_integers : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a6fa4d351a9fa21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 776269ff894cb6a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_univariate_integers","kind":"function","src_hash":"6e2766f50255eb52","in":{"base":"Any"},"out":{"base":"Any","pred":"modgcd_univariate(f, g) == (0, 0, 0) and modgcd_univariate(f, g) == (x, 0, 1) and modgcd_univariate(g, f) == (x, 1, 0) and modgcd_univariate(f, g) == (x, 0, -1) and modgcd_univariate(g, f) == (x, -1, 0) and modgcd_univariate(f, g) == (2, x, 1) and modgcd_univariate(f, g) == (2 * x + 2, 1, 3 * x - 3) and modgcd_univariate(f, g) == (h, cff, cfg) and modgcd_univariate(f, g) == (h, cff, cfg) and modgcd_univariate(f, g) == (h, cff, cfg) and modgcd_univariate(f, f.diff(x))[0] == g and modgcd_univariate(f, g) == (h, cff, cfg)"},"spec":{"lhs":"test_modgcd_univariate_integers()","rhs":"test_modgcd_univariate_integers produces the expected output","over":{"base":"Any"},"name":"test_modgcd_univariate_integers_correct"},"guarantee":"test_modgcd_univariate_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_univariate_integers_correct","statement":"Path(test_modgcd_univariate_integers(x), test_modgcd_univariate_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a6fa4d351a9fa21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_univariate_integers","kind":"function","src_hash":"6e2766f50255eb52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: modgcd_univariate(f, g) == (0, 0, 0) and modgcd_univariate(f, g) == (x, 0, 1) and modgcd_univariate(g, f) == (x, 1, 0) and modgcd_univariate(f, g) == (x, 0, -1) and modgcd_univariate(g, f) == (x, -1, 0) and modgcd_univariate(f, g) == (2, x, 1) and modgcd_univariate(f, g) == (2 * x + 2, 1, 3 * x - 3) and modgcd_univariate(f, g) == (h, cff, cfg) and modgcd_univariate(f, f.diff(x))[0] == g"},"spec":{"lhs":"test_modgcd_univariate_integers()","rhs":"modgcd_univariate(f, g) == (0, 0, 0) and modgcd_univariate(f, g) == (x, 0, 1) and modgcd_univariate(g, f) == (x, 1, 0) and modgcd_univariate(f, g) == (x, 0, -1) and modgcd_univariate(g, f) == (x, -1, 0) and modgcd_univariate(f, g) == (2, x, 1) and modgcd_univariate(f, g) == (2 * x + 2, 1, 3 * x - 3) and modgcd_univariate(f, g) == (h, cff, cfg) and modgcd_univariate(f, f.diff(x))[0] == g","over":{"base":"Any"},"name":"test_modgcd_univariate_integers_correct"},"guarantee":"modgcd_univariate(f, g) == (0, 0, 0); modgcd_univariate(f, g) == (x, 0, 1); modgcd_univariate(g, f) == (x, 1, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_univariate_integers_correct","statement":"Path(test_modgcd_univariate_integers(x), modgcd_univariate(f, g) == (0, 0, 0); modgcd_univariate(f, g) == (x, 0, 1); modgcd_univariate(g, f) == (x, 1, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"776269ff894cb6a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["modgcd_univariate(f, g) == (0, 0, 0)","modgcd_univariate(f, g) == (x, 0, 1)","modgcd_univariate(g, f) == (x, 1, 0)","modgcd_univariate(f, g) == (x, 0, -1)","modgcd_univariate(g, f) == (x, -1, 0)","modgcd_univariate(f, g) == (2, x, 1)","modgcd_univariate(f, g) == (2 * x + 2, 1, 3 * x - 3)","modgcd_univariate(f, g) == (h, cff, cfg)","modgcd_univariate(f, f.diff(x))[0] == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_modgcd_univariate_integers():
     R, x = ring("x", ZZ)
 
@@ -117,16 +125,24 @@ def test_modgcd_univariate_integers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_modgcd_bivariate_integers(), test_modgcd_bivariate_integers produces the expected output) over Any ║
+# ║ Path(test_modgcd_bivariate_integers(), modgcd_bivariate(f, g) == (0, 0, 0) and modgcd_bivariate(f, g) == (2, x, 1) and modgcd_bivariate(f, g) == (1, f, g) and modgcd_bivariate(f, g) == (x + y, x + y, x ** 2 - x * y + y ** 2) and modgcd_bivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (2 * x * y + 2 * x + y + 1, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_bivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_bivariate(f, g) == (x - 1, 2 * x + 4 * y, x + 2) and modgcd_bivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_modgcd_bivariate_integers : Any → {Any | modgcd_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  modgcd_bivariate(f, g) == (0, 0, 0)            ║
+# ║   ensures:  modgcd_bivariate(f, g) == (2, x, 1)            ║
+# ║   ensures:  modgcd_bivariate(f, g) == (1, f, g)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_modgcd_bivariate_integers : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e98fbe6b381a4bd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b04a24be011927a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_bivariate_integers","kind":"function","src_hash":"539a9e2e33f94ed4","in":{"base":"Any"},"out":{"base":"Any","pred":"modgcd_bivariate(f, g) == (0, 0, 0) and modgcd_bivariate(f, g) == (2, x, 1) and modgcd_bivariate(f, g) == (1, f, g) and modgcd_bivariate(f, g) == (x + y, x + y, x ** 2 - x * y + y ** 2) and modgcd_bivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (1, f, g) and modgcd_bivariate(f, g) == (2 * x * y + 2 * x + y + 1, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_bivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_bivariate(f, g) == (x - 1, 2 * x + 4 * y, x + 2) and modgcd_bivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2)"},"spec":{"lhs":"test_modgcd_bivariate_integers()","rhs":"test_modgcd_bivariate_integers produces the expected output","over":{"base":"Any"},"name":"test_modgcd_bivariate_integers_correct"},"guarantee":"test_modgcd_bivariate_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_bivariate_integers_correct","statement":"Path(test_modgcd_bivariate_integers(x), test_modgcd_bivariate_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e98fbe6b381a4bd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_bivariate_integers","kind":"function","src_hash":"539a9e2e33f94ed4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: modgcd_bivariate(f, g) == (0, 0, 0) and modgcd_bivariate(f, g) == (2, x, 1) and modgcd_bivariate(f, g) == (1, f, g) and modgcd_bivariate(f, g) == (x + y, x + y, x ** 2 - x * y + y ** 2) and modgcd_bivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (2 * x * y + 2 * x + y + 1, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_bivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_bivariate(f, g) == (x - 1, 2 * x + 4 * y, x + 2) and modgcd_bivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2)"},"spec":{"lhs":"test_modgcd_bivariate_integers()","rhs":"modgcd_bivariate(f, g) == (0, 0, 0) and modgcd_bivariate(f, g) == (2, x, 1) and modgcd_bivariate(f, g) == (1, f, g) and modgcd_bivariate(f, g) == (x + y, x + y, x ** 2 - x * y + y ** 2) and modgcd_bivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (2 * x * y + 2 * x + y + 1, y + 1, y ** 2 - y + 1) and modgcd_bivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_bivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_bivariate(f, g) == (x - 1, 2 * x + 4 * y, x + 2) and modgcd_bivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2)","over":{"base":"Any"},"name":"test_modgcd_bivariate_integers_correct"},"guarantee":"modgcd_bivariate(f, g) == (0, 0, 0); modgcd_bivariate(f, g) == (2, x, 1); modgcd_bivariate(f, g) == (1, f, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_bivariate_integers_correct","statement":"Path(test_modgcd_bivariate_integers(x), modgcd_bivariate(f, g) == (0, 0, 0); modgcd_bivariate(f, g) == (2, x, 1); modgcd_bivariate(f, g) == (1, f, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b04a24be011927a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["modgcd_bivariate(f, g) == (0, 0, 0)","modgcd_bivariate(f, g) == (2, x, 1)","modgcd_bivariate(f, g) == (1, f, g)","modgcd_bivariate(f, g) == (x + y, x + y, x ** 2 - x * y + y ** 2)","modgcd_bivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1)","modgcd_bivariate(f, g) == (2 * x * y + 2 * x + y + 1, y + 1, y ** 2 - y + 1)","modgcd_bivariate(f, g) == (x + 1, 2 * x + 2, 1)","modgcd_bivariate(f, g) == (x + 1, 1, 2 * x + 2)","modgcd_bivariate(f, g) == (x - 1, 2 * x + 4 * y, x + 2)","modgcd_bivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_modgcd_bivariate_integers():
     R, x, y = ring("x,y", ZZ)
 
@@ -168,16 +184,23 @@ def test_modgcd_bivariate_integers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_chinese_remainder(), test_chinese_remainder produces the expected output) over Any ║
+# ║ Path(test_chinese_remainder(), hpq.trunc_ground(p) == hp and hpq.trunc_ground(q) == hq) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_chinese_remainder : Any → {Any | hpq.trunc_groun...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hpq.trunc_ground(p) == hp                      ║
+# ║   ensures:  hpq.trunc_ground(q) == hq                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_chinese_remainder : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 254027c070875027  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b92024503058b894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_chinese_remainder","kind":"function","src_hash":"5dd857c2cf133d66","in":{"base":"Any"},"out":{"base":"Any","pred":"hpq.trunc_ground(p) == hp and hpq.trunc_ground(q) == hq and hpq.trunc_ground(p) == hp and hpq.trunc_ground(q) == hq"},"spec":{"lhs":"test_chinese_remainder()","rhs":"test_chinese_remainder produces the expected output","over":{"base":"Any"},"name":"test_chinese_remainder_correct"},"guarantee":"test_chinese_remainder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_chinese_remainder_correct","statement":"Path(test_chinese_remainder(x), test_chinese_remainder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254027c070875027"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_chinese_remainder","kind":"function","src_hash":"5dd857c2cf133d66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hpq.trunc_ground(p) == hp and hpq.trunc_ground(q) == hq"},"spec":{"lhs":"test_chinese_remainder()","rhs":"hpq.trunc_ground(p) == hp and hpq.trunc_ground(q) == hq","over":{"base":"Any"},"name":"test_chinese_remainder_correct"},"guarantee":"hpq.trunc_ground(p) == hp; hpq.trunc_ground(q) == hq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_chinese_remainder_correct","statement":"Path(test_chinese_remainder(x), hpq.trunc_ground(p) == hp; hpq.trunc_ground(q) == hq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b92024503058b894","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hpq.trunc_ground(p) == hp","hpq.trunc_ground(q) == hq"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_chinese_remainder():
     R, x, y = ring("x, y", ZZ)
     p, q = 3, 5
@@ -203,16 +226,24 @@ def test_chinese_remainder():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_modgcd_multivariate_integers(), test_modgcd_multivariate_integers produces the expected output) over Any ║
+# ║ Path(test_modgcd_multivariate_integers(), modgcd_multivariate(f, g) == (0, 0, 0) and modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_multivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2) and modgcd_multivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_multivariate(f, g) == (1, f, g) and modgcd_multivariate(f, g) == (h, cff, cfg) and modgcd_multivariate(f, g) == (u + 1, u + 1, 2) and modgcd_multivariate(g, f) == (h, cfg, cff) and modgcd_multivariate(f, g) == (x - y * z, 1, 1) and H == h and H * cff == f and (H * cfg == g)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_modgcd_multivariate_integers : Any → {Any | modg...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  modgcd_multivariate(f, g) == (0, 0, 0)         ║
+# ║   ensures:  modgcd_multivariate(f, g) == (x + 1, 2 * ...   ║
+# ║   ensures:  modgcd_multivariate(f, g) == (x + 1, 1, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_modgcd_multivariate_integers : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4710fb4fd68b2e8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62e802074303e7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_multivariate_integers","kind":"function","src_hash":"5bcb08e087b572ac","in":{"base":"Any"},"out":{"base":"Any","pred":"modgcd_multivariate(f, g) == (0, 0, 0) and modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_multivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2) and modgcd_multivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_multivariate(f, g) == (1, f, g) and modgcd_multivariate(f, g) == (h, cff, cfg) and modgcd_multivariate(f, g) == (1, f, g) and modgcd_multivariate(f, g) == (u + 1, u + 1, 2) and modgcd_multivariate(f, g) == (h, cff, cfg) and modgcd_multivariate(g, f) == (h, cfg, cff) and modgcd_multivariate(f, g) == (x - y * z, 1, 1) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g)"},"spec":{"lhs":"test_modgcd_multivariate_integers()","rhs":"test_modgcd_multivariate_integers produces the expected output","over":{"base":"Any"},"name":"test_modgcd_multivariate_integers_correct"},"guarantee":"test_modgcd_multivariate_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_multivariate_integers_correct","statement":"Path(test_modgcd_multivariate_integers(x), test_modgcd_multivariate_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4710fb4fd68b2e8f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_multivariate_integers","kind":"function","src_hash":"5bcb08e087b572ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: modgcd_multivariate(f, g) == (0, 0, 0) and modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_multivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2) and modgcd_multivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_multivariate(f, g) == (1, f, g) and modgcd_multivariate(f, g) == (h, cff, cfg) and modgcd_multivariate(f, g) == (u + 1, u + 1, 2) and modgcd_multivariate(g, f) == (h, cfg, cff) and modgcd_multivariate(f, g) == (x - y * z, 1, 1) and H == h and H * cff == f and (H * cfg == g)"},"spec":{"lhs":"test_modgcd_multivariate_integers()","rhs":"modgcd_multivariate(f, g) == (0, 0, 0) and modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1) and modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2) and modgcd_multivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2) and modgcd_multivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1) and modgcd_multivariate(f, g) == (1, f, g) and modgcd_multivariate(f, g) == (h, cff, cfg) and modgcd_multivariate(f, g) == (u + 1, u + 1, 2) and modgcd_multivariate(g, f) == (h, cfg, cff) and modgcd_multivariate(f, g) == (x - y * z, 1, 1) and H == h and H * cff == f and (H * cfg == g)","over":{"base":"Any"},"name":"test_modgcd_multivariate_integers_correct"},"guarantee":"modgcd_multivariate(f, g) == (0, 0, 0); modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1); modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_multivariate_integers_correct","statement":"Path(test_modgcd_multivariate_integers(x), modgcd_multivariate(f, g) == (0, 0, 0); modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1); modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62e802074303e7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["modgcd_multivariate(f, g) == (0, 0, 0)","modgcd_multivariate(f, g) == (x + 1, 2 * x + 2, 1)","modgcd_multivariate(f, g) == (x + 1, 1, 2 * x + 2)","modgcd_multivariate(f, g) == (x + y, 2 * x - 3, 4 * y - 2)","modgcd_multivariate(f, g) == (x * y + x, y + 1, y ** 2 - y + 1)","modgcd_multivariate(f, g) == (1, f, g)","modgcd_multivariate(f, g) == (h, cff, cfg)","modgcd_multivariate(f, g) == (u + 1, u + 1, 2)","modgcd_multivariate(g, f) == (h, cfg, cff)","modgcd_multivariate(f, g) == (x - y * z, 1, 1)","H == h and H * cff == f and (H * cfg == g)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_modgcd_multivariate_integers():
     R, x, y = ring("x,y", ZZ)
 
@@ -311,16 +342,23 @@ def test_modgcd_multivariate_integers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_ZZ_ANP_poly(), test_to_ZZ_ANP_poly produces the expected output) over Any ║
+# ║ Path(test_to_ZZ_ANP_poly(), _to_ZZ_poly(f, T) == f_ and _to_ANP_poly(f_, R) == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_ZZ_ANP_poly : Any → {Any | _to_ZZ_poly(f, T) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _to_ZZ_poly(f, T) == f_                        ║
+# ║   ensures:  _to_ANP_poly(f_, R) == f                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_ZZ_ANP_poly : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06283025f1303b2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bd0cc54d53c3b6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_to_ZZ_ANP_poly","kind":"function","src_hash":"990a7eead375dd96","in":{"base":"Any"},"out":{"base":"Any","pred":"_to_ZZ_poly(f, T) == f_ and _to_ANP_poly(f_, R) == f and _to_ZZ_poly(f, T) == f_ and _to_ANP_poly(f_, R) == f"},"spec":{"lhs":"test_to_ZZ_ANP_poly()","rhs":"test_to_ZZ_ANP_poly produces the expected output","over":{"base":"Any"},"name":"test_to_ZZ_ANP_poly_correct"},"guarantee":"test_to_ZZ_ANP_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_to_ZZ_ANP_poly_correct","statement":"Path(test_to_ZZ_ANP_poly(x), test_to_ZZ_ANP_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06283025f1303b2a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_to_ZZ_ANP_poly","kind":"function","src_hash":"990a7eead375dd96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _to_ZZ_poly(f, T) == f_ and _to_ANP_poly(f_, R) == f"},"spec":{"lhs":"test_to_ZZ_ANP_poly()","rhs":"_to_ZZ_poly(f, T) == f_ and _to_ANP_poly(f_, R) == f","over":{"base":"Any"},"name":"test_to_ZZ_ANP_poly_correct"},"guarantee":"_to_ZZ_poly(f, T) == f_; _to_ANP_poly(f_, R) == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_to_ZZ_ANP_poly_correct","statement":"Path(test_to_ZZ_ANP_poly(x), _to_ZZ_poly(f, T) == f_; _to_ANP_poly(f_, R) == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bd0cc54d53c3b6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_to_ZZ_poly(f, T) == f_","_to_ANP_poly(f_, R) == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_to_ZZ_ANP_poly():
     A = AlgebraicField(QQ, sqrt(2))
     R, x = ring("x", A)
@@ -344,16 +382,24 @@ def test_to_ZZ_ANP_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_modgcd_algebraic_field(), test_modgcd_algebraic_field produces the expected output) over Any ║
+# ║ Path(test_modgcd_algebraic_field(), func_field_modgcd(f, g) == (one, f, g) and func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6) and func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2))) and func_field_modgcd(f, g) == (g, g, one) and func_field_modgcd(f, g) == (h, 27 * y ** 3 + 1, y + x) and func_field_modgcd(f, g) == (h, x + 1, R(sqrt(2) / sqrt(3))) and func_field_modgcd(f, g) == (A.one, f, g)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_modgcd_algebraic_field : Any → {Any | func_field...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  func_field_modgcd(f, g) == (one, f, g)         ║
+# ║   ensures:  func_field_modgcd(f, g) == (x + 1, R(2), ...   ║
+# ║   ensures:  func_field_modgcd(f, g) == (y, x + sqrt(2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_modgcd_algebraic_field : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3624f0fb284bc397  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38031c18190c5801  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_algebraic_field","kind":"function","src_hash":"17c0162d76b5fc85","in":{"base":"Any"},"out":{"base":"Any","pred":"func_field_modgcd(f, g) == (one, f, g) and func_field_modgcd(f, g) == (one, f, g) and func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6) and func_field_modgcd(f, g) == (one, f, g) and func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2))) and func_field_modgcd(f, g) == (g, g, one) and func_field_modgcd(f, g) == (h, 27 * y ** 3 + 1, y + x) and func_field_modgcd(f, g) == (h, x + 1, R(sqrt(2) / sqrt(3))) and func_field_modgcd(f, g) == (A.one, f, g)"},"spec":{"lhs":"test_modgcd_algebraic_field()","rhs":"test_modgcd_algebraic_field produces the expected output","over":{"base":"Any"},"name":"test_modgcd_algebraic_field_correct"},"guarantee":"test_modgcd_algebraic_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_algebraic_field_correct","statement":"Path(test_modgcd_algebraic_field(x), test_modgcd_algebraic_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3624f0fb284bc397"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_algebraic_field","kind":"function","src_hash":"17c0162d76b5fc85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: func_field_modgcd(f, g) == (one, f, g) and func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6) and func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2))) and func_field_modgcd(f, g) == (g, g, one) and func_field_modgcd(f, g) == (h, 27 * y ** 3 + 1, y + x) and func_field_modgcd(f, g) == (h, x + 1, R(sqrt(2) / sqrt(3))) and func_field_modgcd(f, g) == (A.one, f, g)"},"spec":{"lhs":"test_modgcd_algebraic_field()","rhs":"func_field_modgcd(f, g) == (one, f, g) and func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6) and func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2))) and func_field_modgcd(f, g) == (g, g, one) and func_field_modgcd(f, g) == (h, 27 * y ** 3 + 1, y + x) and func_field_modgcd(f, g) == (h, x + 1, R(sqrt(2) / sqrt(3))) and func_field_modgcd(f, g) == (A.one, f, g)","over":{"base":"Any"},"name":"test_modgcd_algebraic_field_correct"},"guarantee":"func_field_modgcd(f, g) == (one, f, g); func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6); func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_algebraic_field_correct","statement":"Path(test_modgcd_algebraic_field(x), func_field_modgcd(f, g) == (one, f, g); func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6); func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38031c18190c5801","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["func_field_modgcd(f, g) == (one, f, g)","func_field_modgcd(f, g) == (x + 1, R(2), 6 * x - 6)","func_field_modgcd(f, g) == (y, x + sqrt(2) * y, R(sqrt(2)))","func_field_modgcd(f, g) == (g, g, one)","func_field_modgcd(f, g) == (h, 27 * y ** 3 + 1, y + x)","func_field_modgcd(f, g) == (h, x + 1, R(sqrt(2) / sqrt(3)))","func_field_modgcd(f, g) == (A.one, f, g)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_modgcd_algebraic_field():
     A = AlgebraicField(QQ, sqrt(2))
     R, x = ring("x", A)
@@ -399,16 +445,22 @@ def test_modgcd_algebraic_field():
 
 # when func_field_modgcd supports function fields, this test can be changed
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_modgcd_func_field(), test_modgcd_func_field produces the expected output) over Any ║
+# ║ Path(test_modgcd_func_field(), _func_field_modgcd_m(f, g, minpoly) == R.one) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_modgcd_func_field : Any → {Any | _func_field_mod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _func_field_modgcd_m(f, g, minpoly) == R.one   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_modgcd_func_field : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fdd7bf7f8d5670f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84a666bd26e321e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_func_field","kind":"function","src_hash":"7841d5aaaa6a98de","in":{"base":"Any"},"out":{"base":"Any","pred":"_func_field_modgcd_m(f, g, minpoly) == R.one"},"spec":{"lhs":"test_modgcd_func_field()","rhs":"test_modgcd_func_field produces the expected output","over":{"base":"Any"},"name":"test_modgcd_func_field_correct"},"guarantee":"test_modgcd_func_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_func_field_correct","statement":"Path(test_modgcd_func_field(x), test_modgcd_func_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fdd7bf7f8d5670f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_modulargcd.test_modgcd_func_field","kind":"function","src_hash":"7841d5aaaa6a98de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _func_field_modgcd_m(f, g, minpoly) == R.one"},"spec":{"lhs":"test_modgcd_func_field()","rhs":"_func_field_modgcd_m(f, g, minpoly) == R.one","over":{"base":"Any"},"name":"test_modgcd_func_field_correct"},"guarantee":"_func_field_modgcd_m(f, g, minpoly) == R.one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_modulargcd.test_modgcd_func_field_correct","statement":"Path(test_modgcd_func_field(x), _func_field_modgcd_m(f, g, minpoly) == R.one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84a666bd26e321e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_func_field_modgcd_m(f, g, minpoly) == R.one"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_modgcd_func_field():
     D, t = ring("t", ZZ)
     R, x, z = ring("x, z", D)

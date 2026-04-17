@@ -43,14 +43,20 @@ from sympy.utilities.iterables import flatten, is_sequence, iterable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqBase(*args), correctly constructs a SeqBase instance) over {Any | isinstance(index, int) and isinstance(other, SeqBase) and isinstance(index, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeqBase : {Any | isinstance(index, int) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c0a704ce5c1c87c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase","kind":"class","src_hash":"9aefdc89dc882169","in":{"base":"Any","pred":"isinstance(index, int) and isinstance(other, SeqBase) and isinstance(index, slice)"},"out":{"base":"Any"},"spec":{"lhs":"SeqBase(*args)","rhs":"correctly constructs a SeqBase instance","over":{"base":"Any","pred":"isinstance(index, int) and isinstance(other, SeqBase) and isinstance(index, slice)"},"name":"SeqBase_class_invariant"},"guarantee":"correctly constructs a SeqBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c0a704ce5c1c87c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase","kind":"class","src_hash":"9aefdc89dc882169","in":{"base":"Any","pred":"isinstance(index, int) and isinstance(other, SeqBase) and isinstance(index, slice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"SeqBase(*args)","rhs":"correctly constructs a SeqBase instance","over":{"base":"Any","pred":"isinstance(index, int) and isinstance(other, SeqBase) and isinstance(index, slice)"},"name":"SeqBase_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c0a704ce5c1c87c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqBase not found in source"]}}
 class SeqBase(Basic):
     """Base class for sequences"""
 
@@ -59,16 +65,23 @@ class SeqBase(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_start_key(exp), return start (if possible) else s.infinity) over Any ║
+# ║ Path(_start_key(expr), <unspecified:_start_key>) over {Any | hasattr(expr, 'start')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _start_key : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'start')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _start_key : {Any | hasattr(expr, 'start')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cafd223f8989618f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._start_key","kind":"staticmethod","src_hash":"1a77d5ee2f208caf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_start_key(exp)","rhs":"return start (if possible) else s.infinity","over":{"base":"Any"},"name":"_start_key_correct"},"guarantee":"return start (if possible) else s.infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._start_key_correct","statement":"Path(_start_key(x), return start (if possible) else s.infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cafd223f8989618f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._start_key","kind":"staticmethod","src_hash":"1a77d5ee2f208caf","in":{"base":"Any","pred":"hasattr(expr, 'start')"},"out":{"base":"Any"},"spec":{"lhs":"_start_key(expr)","rhs":"<unspecified:_start_key>","over":{"base":"Any","pred":"hasattr(expr, 'start')"},"name":"_start_key_correct"},"guarantee":"return start (if possible) else s.infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._start_key_correct","statement":"Path(_start_key(x), return start (if possible) else s.infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cafd223f8989618f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'start')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.start"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _start_key(expr):
         """Return start (if possible) else S.Infinity.
 
@@ -81,16 +94,23 @@ class SeqBase(Basic):
         return start
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intersect_interval(oth), returns start and stop) over Any ║
+# ║ Path(_intersect_interval(other), (interval.inf, interval.sup)) over {Any | hasattr(other, 'interval')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _intersect_interval : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'interval')                     ║
+# ║   returns:  (interval.inf, interval.sup)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _intersect_interval : {Any | hasattr(other, 'interval...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71e336833d34078f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cfba16a9bf7bf04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._intersect_interval","kind":"method","src_hash":"85d78bd0fa5c7091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect_interval(oth)","rhs":"returns start and stop","over":{"base":"Any"},"name":"_intersect_interval_correct"},"guarantee":"returns start and stop","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._intersect_interval_correct","statement":"Path(_intersect_interval(x), returns start and stop)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e336833d34078f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._intersect_interval","kind":"method","src_hash":"85d78bd0fa5c7091","in":{"base":"Any","pred":"hasattr(other, 'interval')"},"out":{"base":"Any"},"spec":{"lhs":"_intersect_interval(other)","rhs":"(interval.inf, interval.sup)","over":{"base":"Any","pred":"hasattr(other, 'interval')"},"name":"_intersect_interval_correct"},"guarantee":"returns (interval.inf, interval.sup)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._intersect_interval_correct","statement":"Path(_intersect_interval(x), returns (interval.inf, interval.sup))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cfba16a9bf7bf04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'interval')"],"returns_expr":"(interval.inf, interval.sup)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.interval","self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _intersect_interval(self, other):
         """Returns start and stop.
 
@@ -101,112 +121,154 @@ class SeqBase(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gen(), returns the gen attribute) over Any            ║
+# ║ Path(gen(), <unspecified:gen>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gen : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d49b9d530af38a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.gen","kind":"property","src_hash":"9dc1f8c1d71caf64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gen()","rhs":"returns the gen attribute","over":{"base":"Any"},"name":"gen_correct"},"guarantee":"returns the gen attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d49b9d530af38a2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.gen","kind":"property","src_hash":"9dc1f8c1d71caf64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gen()","rhs":"<unspecified:gen>","over":{"base":"Any"},"name":"gen_correct"},"guarantee":"returns the gen attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d49b9d530af38a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gen(self):
         """Returns the generator for the sequence"""
         raise NotImplementedError("(%s).gen" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), <unspecified:interval>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03f86a7fc2a0ed67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.interval","kind":"property","src_hash":"3f1b9af5be59a12c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03f86a7fc2a0ed67"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.interval","kind":"property","src_hash":"3f1b9af5be59a12c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"<unspecified:interval>","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03f86a7fc2a0ed67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         """The interval on which the sequence is defined"""
         raise NotImplementedError("(%s).interval" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), <unspecified:start>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2ac73230e38895d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.start","kind":"property","src_hash":"385ce27cdd77f78c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2ac73230e38895d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.start","kind":"property","src_hash":"385ce27cdd77f78c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"<unspecified:start>","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2ac73230e38895d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         """The starting point of the sequence. This point is included"""
         raise NotImplementedError("(%s).start" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), <unspecified:stop>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4681458714aced0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.stop","kind":"property","src_hash":"0e29821a0a026a1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4681458714aced0b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.stop","kind":"property","src_hash":"0e29821a0a026a1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"<unspecified:stop>","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4681458714aced0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         """The ending point of the sequence. This point is included"""
         raise NotImplementedError("(%s).stop" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), <unspecified:length>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2e363d18ef4417d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.length","kind":"property","src_hash":"08f1bf1964b007b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2e363d18ef4417d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.length","kind":"property","src_hash":"08f1bf1964b007b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2e363d18ef4417d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Length of the sequence"""
         raise NotImplementedError("(%s).length" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), ()) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ()                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d2c17ed49af1dc5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.variables","kind":"property","src_hash":"3d4b22ed6208c2b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2c17ed49af1dc5a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.variables","kind":"property","src_hash":"3d4b22ed6208c2b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"()","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns ()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2c17ed49af1dc5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         """Returns a tuple of variables that are bounded"""
         return ()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {j for i in self.args for j in i.free_symbols.difference(self.variables)}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {j for i in self.args for j in i.free_sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5399f50c2b4a5b22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.free_symbols","kind":"property","src_hash":"c1e712a6996ea63f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5399f50c2b4a5b22"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.free_symbols","kind":"property","src_hash":"c1e712a6996ea63f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{j for i in self.args for j in i.free_symbols.difference(self.variables)}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {j for i in self.args for j in i.free_symbols.difference(self.variables)}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5399f50c2b4a5b22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{j for i in self.args for j in i.free_symbols.difference(self.variables)}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """
         This method returns the symbols in the object, excluding those
@@ -225,16 +287,23 @@ class SeqBase(Basic):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff(pt), returns the coefficient at point pt) over Any ║
+# ║ Path(coeff(pt), self._eval_coeff(pt)) over {Any | not (pt < self.start or pt > self.stop)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coeff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (pt < self.start or pt > self.stop)        ║
+# ║   returns:  self._eval_coeff(pt)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coeff : {Any | not (pt < self.start or pt > self.stop...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 097165f35e4f502c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0173858e1b3177f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.coeff","kind":"method","src_hash":"fe0e68b105537178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff(pt)","rhs":"returns the coefficient at point pt","over":{"base":"Any"},"name":"coeff_correct"},"guarantee":"returns the coefficient at point pt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase.coeff_correct","statement":"Path(coeff(x), returns the coefficient at point pt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097165f35e4f502c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.coeff","kind":"method","src_hash":"fe0e68b105537178","in":{"base":"Any","pred":"not (pt < self.start or pt > self.stop)"},"out":{"base":"Any"},"spec":{"lhs":"coeff(pt)","rhs":"self._eval_coeff(pt)","over":{"base":"Any","pred":"not (pt < self.start or pt > self.stop)"},"name":"coeff_correct"},"guarantee":"returns self._eval_coeff(pt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase.coeff_correct","statement":"Path(coeff(x), returns self._eval_coeff(pt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0173858e1b3177f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (pt < self.start or pt > self.stop)"],"returns_expr":"self._eval_coeff(pt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_coeff","self.interval","self.start","self.stop"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff(self, pt):
         """Returns the coefficient at point pt"""
         if pt < self.start or pt > self.stop:
@@ -242,16 +311,22 @@ class SeqBase(Basic):
         return self._eval_coeff(pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_coeff(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_coeff(pt), <unspecified:_eval_coeff>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_coeff : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce4e8bcfda93a7e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._eval_coeff","kind":"method","src_hash":"e7aa167ff93c137b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._eval_coeff_correct","statement":"Path(_eval_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce4e8bcfda93a7e7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._eval_coeff","kind":"method","src_hash":"e7aa167ff93c137b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"<unspecified:_eval_coeff>","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._eval_coeff_correct","statement":"Path(_eval_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce4e8bcfda93a7e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_coeff(self, pt):
         raise NotImplementedError("The _eval_coeff method should be added to"
                                   "%s to return coefficient so it is available"
@@ -259,16 +334,22 @@ class SeqBase(Basic):
                                   % self.func)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ith_point(i), returns the i'th point of a sequence) over Any ║
+# ║ Path(_ith_point(i), initial + i * step) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  initial + i * step                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ith_point : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff70785c3719c0b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 466f096766f373ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._ith_point","kind":"method","src_hash":"e0ae6105b0125a0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ith_point(i)","rhs":"returns the i'th point of a sequence","over":{"base":"Any"},"name":"_ith_point_correct"},"guarantee":"returns the i'th point of a sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._ith_point_correct","statement":"Path(_ith_point(x), returns the i'th point of a sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff70785c3719c0b2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._ith_point","kind":"method","src_hash":"e0ae6105b0125a0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ith_point(i)","rhs":"initial + i * step","over":{"base":"Any"},"name":"_ith_point_correct"},"guarantee":"returns initial + i * step","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase._ith_point_correct","statement":"Path(_ith_point(x), returns initial + i * step)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"466f096766f373ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"initial + i * step","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start","self.stop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ith_point(self, i):
         """Returns the i'th point of a sequence.
 
@@ -314,16 +395,22 @@ class SeqBase(Basic):
         return initial + i*step
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add(oth), should only be used internally) over Any   ║
+# ║ Path(_add(other), None) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a0c6cf02dd9c5b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._add","kind":"method","src_hash":"eb05be7af967cd0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"should only be used internally","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"should only be used internally","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a0c6cf02dd9c5b2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._add","kind":"method","src_hash":"eb05be7af967cd0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(other)","rhs":"None","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a0c6cf02dd9c5b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add(self, other):
         """
         Should only be used internally.
@@ -341,16 +428,22 @@ class SeqBase(Basic):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul(oth), should only be used internally) over Any   ║
+# ║ Path(_mul(other), None) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9a1835453c9244c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._mul","kind":"method","src_hash":"91bd62006a9fcc85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul(oth)","rhs":"should only be used internally","over":{"base":"Any"},"name":"_mul_correct"},"guarantee":"should only be used internally","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9a1835453c9244c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase._mul","kind":"method","src_hash":"91bd62006a9fcc85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul(other)","rhs":"None","over":{"base":"Any"},"name":"_mul_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9a1835453c9244c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul(self, other):
         """
         Should only be used internally.
@@ -368,16 +461,22 @@ class SeqBase(Basic):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff_mul(oth), should be used when ``other`` is not a sequence) over Any ║
+# ║ Path(coeff_mul(other), Mul(self, other)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(self, other)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_mul : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b10db2af4f435df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.coeff_mul","kind":"method","src_hash":"4beb6fdf8fb71906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(oth)","rhs":"should be used when ``other`` is not a sequence","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"should be used when ``other`` is not a sequence","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b10db2af4f435df"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.coeff_mul","kind":"method","src_hash":"4beb6fdf8fb71906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(other)","rhs":"Mul(self, other)","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"returns Mul(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b10db2af4f435df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff_mul(self, other):
         """
         Should be used when ``other`` is not a sequence. Should be
@@ -399,16 +498,23 @@ class SeqBase(Basic):
         return Mul(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), SeqAdd(self, other)) over {Any | isinstance(other, SeqBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, SeqBase)                     ║
+# ║   returns:  SeqAdd(self, other)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | isinstance(other, SeqBase)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f542bac5c05fb6f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__add__","kind":"method","src_hash":"5230dae892755c7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f542bac5c05fb6f8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__add__","kind":"method","src_hash":"5230dae892755c7e","in":{"base":"Any","pred":"isinstance(other, SeqBase)"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"SeqAdd(self, other)","over":{"base":"Any","pred":"isinstance(other, SeqBase)"},"name":"__add___correct"},"guarantee":"returns SeqAdd(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f542bac5c05fb6f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, SeqBase)"],"returns_expr":"SeqAdd(self, other)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """Returns the term-wise addition of 'self' and 'other'.
 
@@ -428,30 +534,43 @@ class SeqBase(Basic):
 
     @call_highest_priority('__add__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), self + other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + other                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8184301bf2dce891           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__radd__","kind":"method","src_hash":"a0cbb64515a501dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8184301bf2dce891"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__radd__","kind":"method","src_hash":"a0cbb64515a501dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self + other","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8184301bf2dce891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), returns the term-wise subtraction of ``self`` and ``other``) over Any ║
+# ║ Path(__sub__(other), SeqAdd(self, -other)) over {Any | isinstance(other, SeqBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, SeqBase)                     ║
+# ║   returns:  SeqAdd(self, -other)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | isinstance(other, SeqBase)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b66ff9cc9194330           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__sub__","kind":"method","src_hash":"e93cf709d555fac5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"returns the term-wise subtraction of ``self`` and ``other``","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns the term-wise subtraction of ``self`` and ``other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b66ff9cc9194330"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__sub__","kind":"method","src_hash":"e93cf709d555fac5","in":{"base":"Any","pred":"isinstance(other, SeqBase)"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"SeqAdd(self, -other)","over":{"base":"Any","pred":"isinstance(other, SeqBase)"},"name":"__sub___correct"},"guarantee":"returns SeqAdd(self, -other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b66ff9cc9194330","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, SeqBase)"],"returns_expr":"SeqAdd(self, -other)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """Returns the term-wise subtraction of ``self`` and ``other``.
 
@@ -471,30 +590,42 @@ class SeqBase(Basic):
 
     @call_highest_priority('__sub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -self + other) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self + other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 263c8f45c295c44c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__rsub__","kind":"method","src_hash":"e17d2d9e529bc23f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"263c8f45c295c44c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__rsub__","kind":"method","src_hash":"e17d2d9e529bc23f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"263c8f45c295c44c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-self) + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.coeff_mul(-1)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coeff_mul(-1)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e3c263f0a6ca6f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__neg__","kind":"method","src_hash":"c815c56dcb7438d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e3c263f0a6ca6f1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__neg__","kind":"method","src_hash":"c815c56dcb7438d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.coeff_mul(-1)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.coeff_mul(-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e3c263f0a6ca6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coeff_mul(-1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff_mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         """Negates the sequence.
 
@@ -509,16 +640,23 @@ class SeqBase(Basic):
         return self.coeff_mul(-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), SeqMul(self, other)) over {Any | isinstance(other, SeqBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, SeqBase)                     ║
+# ║   returns:  SeqMul(self, other)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | isinstance(other, SeqBase)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3fa49e7093cf8f25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__mul__","kind":"method","src_hash":"bb0f347c6d7bb08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fa49e7093cf8f25"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__mul__","kind":"method","src_hash":"bb0f347c6d7bb08b","in":{"base":"Any","pred":"isinstance(other, SeqBase)"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"SeqMul(self, other)","over":{"base":"Any","pred":"isinstance(other, SeqBase)"},"name":"__mul___correct"},"guarantee":"returns SeqMul(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fa49e7093cf8f25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, SeqBase)"],"returns_expr":"SeqMul(self, other)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """Returns the term-wise multiplication of 'self' and 'other'.
 
@@ -539,46 +677,70 @@ class SeqBase(Basic):
 
     @call_highest_priority('__mul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), self * other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * other                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7779754dc4ef854f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__rmul__","kind":"method","src_hash":"6c31d46d8a49ab24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7779754dc4ef854f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__rmul__","kind":"method","src_hash":"6c31d46d8a49ab24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"self * other","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns self * other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7779754dc4ef854f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return self * other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7e7b47fceefaaa1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__iter__","kind":"method","src_hash":"be9ca21b195b9690","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7e7b47fceefaaa1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__iter__","kind":"method","src_hash":"be9ca21b195b9690","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7e7b47fceefaaa1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ith_point","self.coeff","self.length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         for i in range(self.length):
             pt = self._ith_point(i)
             yield self.coeff(pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), result == (self.coeff(index) if isinstance(index, int) else [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) and result == self.coeff(index) or result == [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) over {Any | hasattr(index, 'start') and hasattr(index, 'stop') and hasattr(index, 'step')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(index, 'start')                        ║
+# ║   requires: hasattr(index, 'stop')                         ║
+# ║   requires: hasattr(index, 'step')                         ║
+# ║   ensures:  result == (self.coeff(index) if isinstanc...   ║
+# ║   ensures:  result == self.coeff(index) or result == ...   ║
+# ║   fiber[int]: isinstance(index, int) => self.coeff(in...   ║
+# ║   fiber[slice]: isinstance(index, slice) => [self.coe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | hasattr(index, 'start') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7987d8b70035522f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__getitem__","kind":"method","src_hash":"1be3a5740b808cf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7987d8b70035522f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.__getitem__","kind":"method","src_hash":"1be3a5740b808cf4","in":{"base":"Any","pred":"hasattr(index, 'start') and hasattr(index, 'stop') and hasattr(index, 'step')"},"out":{"base":"Any","pred":"result satisfies: result == (self.coeff(index) if isinstance(index, int) else [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) and result == self.coeff(index) or result == [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"},"spec":{"lhs":"__getitem__(index)","rhs":"result == (self.coeff(index) if isinstance(index, int) else [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) and result == self.coeff(index) or result == [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]","over":{"base":"Any","pred":"hasattr(index, 'start') and hasattr(index, 'stop') and hasattr(index, 'step')"},"name":"__getitem___correct"},"guarantee":"result == (self.coeff(index) if isinstance(index, int) else [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]); result == self.coeff(index) or result == [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7987d8b70035522f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(index, 'start')","hasattr(index, 'stop')","hasattr(index, 'step')"],"ensures":["result == (self.coeff(index) if isinstance(index, int) else [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)])","result == self.coeff(index) or result == [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"],"fibers":[{"name":"int","guard":"isinstance(index, int)","ensures":["result == self.coeff(index)"],"decidability":"structural","returns_expr":"self.coeff(index)"},{"name":"slice","guard":"isinstance(index, slice)","ensures":["result == [self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"],"decidability":"structural","returns_expr":"[self.coeff(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["index.start","index.step","index.stop","self._ith_point","self.coeff","self.length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         if isinstance(index, int):
             index = self._ith_point(index)
@@ -593,16 +755,22 @@ class SeqBase(Basic):
                     range(start, stop, index.step or 1)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_linear_recurrence(n, ), finds the shortest linear recurrence that satisfies the first n terms of sequence of order `\leq` ``n/2`` if possible. if ``d`` is specified, find shortest linear recurrence of order `\leq` min(d, n/2) over Any ║
+# ║ Path(find_linear_recurrence(n, d, gfvar), <unspecified:find_linear_recurrence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_linear_recurrence : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09423cb2b0a76684  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.find_linear_recurrence","kind":"method","src_hash":"65d48e3b3c41d2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_linear_recurrence(n, )","rhs":"finds the shortest linear recurrence that satisfies the first n terms of sequence of order `\\leq` ``n/2`` if possible. if ``d`` is specified, find shortest linear recurrence of order `\\leq` min(d, n/2","over":{"base":"Any"},"name":"find_linear_recurrence_correct"},"guarantee":"finds the shortest linear recurrence that satisfies the first n terms of sequence of order `\\leq` ``n/2`` if possible. if ``d`` is specified, find shortest linear recurrence of order `\\leq` min(d, n/2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase.find_linear_recurrence_correct","statement":"Path(find_linear_recurrence(x), finds the shortest linear recurrence that satisfies the first n terms of sequence of order `\\leq` ``n/2`` if possible. if ``d`` is specified, find shortest linear recurrence of order `\\leq` min(d, n/2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09423cb2b0a76684"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqBase.find_linear_recurrence","kind":"method","src_hash":"65d48e3b3c41d2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_linear_recurrence(n, d, gfvar)","rhs":"<unspecified:find_linear_recurrence>","over":{"base":"Any"},"name":"find_linear_recurrence_correct"},"guarantee":"finds the shortest linear recurrence that satisfies the first n terms of sequence of order `\\leq` ``n/2`` if possible. if ``d`` is specified, find shortest linear recurrence of order `\\leq` min(d, n/2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqBase.find_linear_recurrence_correct","statement":"Path(find_linear_recurrence(x), finds the shortest linear recurrence that satisfies the first n terms of sequence of order `\\leq` ``n/2`` if possible. if ``d`` is specified, find shortest linear recurrence of order `\\leq` min(d, n/2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09423cb2b0a76684","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_linear_recurrence(self,n,d=None,gfvar=None):
         r"""
         Finds the shortest linear recurrence that satisfies the first n
@@ -681,14 +849,20 @@ class SeqBase(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EmptySequence(*args), correctly constructs a EmptySequence instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EmptySequence : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqBase)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EmptySequence : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fd456249e6be805  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence","kind":"class","src_hash":"1420230fc4b34e10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EmptySequence(*args)","rhs":"correctly constructs a EmptySequence instance","over":{"base":"Any"},"name":"EmptySequence_class_invariant"},"guarantee":"correctly constructs a EmptySequence instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd456249e6be805"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence","kind":"class","src_hash":"1420230fc4b34e10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqBase)"},"spec":{"lhs":"EmptySequence(*args)","rhs":"correctly constructs a EmptySequence instance","over":{"base":"Any"},"name":"EmptySequence_class_invariant"},"guarantee":"isinstance(self, SeqBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd456249e6be805","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function EmptySequence not found in source"]}}
 class EmptySequence(SeqBase, metaclass=Singleton):
     """Represents an empty sequence.
 
@@ -712,60 +886,84 @@ class EmptySequence(SeqBase, metaclass=Singleton):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), S.EmptySet) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e8b9860b0823146           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.interval","kind":"property","src_hash":"80627c029680b39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e8b9860b0823146"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.interval","kind":"property","src_hash":"80627c029680b39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"S.EmptySet","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e8b9860b0823146","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         return S.EmptySet
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), S.Zero) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e614c013c85d6c53           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.length","kind":"property","src_hash":"f70e3d6b9283dbac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e614c013c85d6c53"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.length","kind":"property","src_hash":"f70e3d6b9283dbac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"S.Zero","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e614c013c85d6c53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff_mul(coe), see docstring of seqbase.coeff_mul) over Any ║
+# ║ Path(coeff_mul(coeff), <unspecified:coeff_mul>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_mul : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a9da87df57d71a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.coeff_mul","kind":"method","src_hash":"86dd5f699ba147aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(coe)","rhs":"see docstring of seqbase.coeff_mul","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"see docstring of seqbase.coeff_mul","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a9da87df57d71a3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.coeff_mul","kind":"method","src_hash":"86dd5f699ba147aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(coeff)","rhs":"<unspecified:coeff_mul>","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"see docstring of seqbase.coeff_mul","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a9da87df57d71a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff_mul(self, coeff):
         """See docstring of SeqBase.coeff_mul"""
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter([])) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter([])                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9a67b69bf69fb95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.__iter__","kind":"method","src_hash":"d4e453e4851fadc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9a67b69bf69fb95"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.EmptySequence.__iter__","kind":"method","src_hash":"d4e453e4851fadc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter([])","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter([])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9a67b69bf69fb95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter([])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter([])
 
@@ -773,14 +971,20 @@ class EmptySequence(SeqBase, metaclass=Singleton):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqExpr(*args), correctly constructs a SeqExpr instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SeqExpr : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqBase)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SeqExpr : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13f9e613f7c11fc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr","kind":"class","src_hash":"c15397d3f2e13a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SeqExpr(*args)","rhs":"correctly constructs a SeqExpr instance","over":{"base":"Any"},"name":"SeqExpr_class_invariant"},"guarantee":"correctly constructs a SeqExpr instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13f9e613f7c11fc5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr","kind":"class","src_hash":"c15397d3f2e13a29","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqBase)"},"spec":{"lhs":"SeqExpr(*args)","rhs":"correctly constructs a SeqExpr instance","over":{"base":"Any"},"name":"SeqExpr_class_invariant"},"guarantee":"isinstance(self, SeqBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13f9e613f7c11fc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqExpr not found in source"]}}
 class SeqExpr(SeqBase):
     """Sequence expression class.
 
@@ -809,91 +1013,127 @@ class SeqExpr(SeqBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gen(), returns the gen attribute) over Any            ║
+# ║ Path(gen(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gen : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ab4e0b5bf710c3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.gen","kind":"property","src_hash":"fff70f458e6e049d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gen()","rhs":"returns the gen attribute","over":{"base":"Any"},"name":"gen_correct"},"guarantee":"returns the gen attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ab4e0b5bf710c3f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.gen","kind":"property","src_hash":"fff70f458e6e049d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gen()","rhs":"self.args[0]","over":{"base":"Any"},"name":"gen_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ab4e0b5bf710c3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gen(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), Interval(self.args[1][1], self.args[1][2])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Interval(self.args[1][1], self.args[1][2])     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17e5d57ebd9f8291           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.interval","kind":"property","src_hash":"10408b2e4317d076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17e5d57ebd9f8291"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.interval","kind":"property","src_hash":"10408b2e4317d076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"Interval(self.args[1][1], self.args[1][2])","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns Interval(self.args[1][1], self.args[1][2])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17e5d57ebd9f8291","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Interval(self.args[1][1], self.args[1][2])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         return Interval(self.args[1][1], self.args[1][2])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), self.interval.inf) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.inf                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80d1a915d5812308           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80d1a915d5812308"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"self.interval.inf","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns self.interval.inf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80d1a915d5812308","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.inf","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         return self.interval.inf
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), self.interval.sup) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.sup                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cb0a0a1621c38d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cb0a0a1621c38d0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"self.interval.sup","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns self.interval.sup","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cb0a0a1621c38d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.sup","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         return self.interval.sup
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self.stop - self.start + 1) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.stop - self.start + 1                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef72008561c1cfa9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.length","kind":"property","src_hash":"40a620e717d25bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef72008561c1cfa9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.length","kind":"property","src_hash":"40a620e717d25bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self.stop - self.start + 1","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self.stop - self.start + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef72008561c1cfa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.stop - self.start + 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start","self.stop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return self.stop - self.start + 1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), (self.args[1][0],)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[1][0],)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dcdc796fecc8307f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.variables","kind":"property","src_hash":"fae0ef8d61a8e883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcdc796fecc8307f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExpr.variables","kind":"property","src_hash":"fae0ef8d61a8e883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"(self.args[1][0],)","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns (self.args[1][0],)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcdc796fecc8307f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[1][0],)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         return (self.args[1][0],)
 
@@ -901,14 +1141,20 @@ class SeqExpr(SeqBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqPer(*args), correctly constructs a SeqPer instance) over {Any | isinstance(other, SeqPer) and isinstance(x, (Symbol, Idx))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqExpr)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeqPer : {Any | isinstance(other, SeqPer) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c32f8fd8e45d8c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer","kind":"class","src_hash":"8bde90d07a25ae2d","in":{"base":"Any","pred":"isinstance(other, SeqPer) and isinstance(x, (Symbol, Idx))"},"out":{"base":"Any"},"spec":{"lhs":"SeqPer(*args)","rhs":"correctly constructs a SeqPer instance","over":{"base":"Any","pred":"isinstance(other, SeqPer) and isinstance(x, (Symbol, Idx))"},"name":"SeqPer_class_invariant"},"guarantee":"correctly constructs a SeqPer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c32f8fd8e45d8c6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer","kind":"class","src_hash":"8bde90d07a25ae2d","in":{"base":"Any","pred":"isinstance(other, SeqPer) and isinstance(x, (Symbol, Idx))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqExpr)"},"spec":{"lhs":"SeqPer(*args)","rhs":"correctly constructs a SeqPer instance","over":{"base":"Any","pred":"isinstance(other, SeqPer) and isinstance(x, (Symbol, Idx))"},"name":"SeqPer_class_invariant"},"guarantee":"isinstance(self, SeqExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c32f8fd8e45d8c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqPer not found in source"]}}
 class SeqPer(SeqExpr):
     """
     Represents a periodic sequence.
@@ -959,16 +1205,24 @@ class SeqPer(SeqExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, periodical, limits), len(free) == old_len_free - 1) over {Any | hasattr(periodical, 'free_symbols') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(periodical, 'free_symbols')            ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(periodical, 'free_symbols') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 985d9aaaf4b5e3ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.__new__","kind":"method","src_hash":"4f2162fc71cd0c40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"985d9aaaf4b5e3ce"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.__new__","kind":"method","src_hash":"4f2162fc71cd0c40","in":{"base":"Any","pred":"hasattr(periodical, 'free_symbols') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"__new__(cls, periodical, limits)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"hasattr(periodical, 'free_symbols') and len(free) > 0"},"name":"__new___correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"985d9aaaf4b5e3ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(periodical, 'free_symbols')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["periodical.free_symbols"],"calls_mutating":["free.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, periodical, limits=None):
         periodical = sympify(periodical)
 
@@ -1011,45 +1265,63 @@ class SeqPer(SeqExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(), returns the period attribute) over Any      ║
+# ║ Path(period(), len(self.gen)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.gen)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fa817e8c32820dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.period","kind":"property","src_hash":"4861464af7a42354","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period()","rhs":"returns the period attribute","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns the period attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fa817e8c32820dc"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.period","kind":"property","src_hash":"4861464af7a42354","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period()","rhs":"len(self.gen)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns len(self.gen)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fa817e8c32820dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.gen)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gen"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self):
         return len(self.gen)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(periodical(), returns the periodical attribute) over Any ║
+# ║ Path(periodical(), self.gen) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.gen                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ periodical : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2f2146ca4df8b9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.periodical","kind":"property","src_hash":"15dd49e5e3ea6878","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"periodical()","rhs":"returns the periodical attribute","over":{"base":"Any"},"name":"periodical_correct"},"guarantee":"returns the periodical attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2f2146ca4df8b9a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.periodical","kind":"property","src_hash":"15dd49e5e3ea6878","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"periodical()","rhs":"self.gen","over":{"base":"Any"},"name":"periodical_correct"},"guarantee":"returns self.gen","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2f2146ca4df8b9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.gen","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gen"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def periodical(self):
         return self.gen
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_coeff(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_coeff(pt), self.periodical[idx].subs(self.variables[0], pt)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.periodical[idx].subs(self.variables[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_coeff : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 575bce6406eee3c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e174e1998f66eed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer._eval_coeff","kind":"method","src_hash":"684a192168d8ddeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer._eval_coeff_correct","statement":"Path(_eval_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"575bce6406eee3c3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer._eval_coeff","kind":"method","src_hash":"684a192168d8ddeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"self.periodical[idx].subs(self.variables[0], pt)","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"returns self.periodical[idx].subs(self.variables[0], pt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer._eval_coeff_correct","statement":"Path(_eval_coeff(x), returns self.periodical[idx].subs(self.variables[0], pt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e174e1998f66eed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.periodical[idx].subs(self.variables[0], pt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.period","self.periodical","self.start","self.stop","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_coeff(self, pt):
         if self.start is S.NegativeInfinity:
             idx = (self.stop - pt) % self.period
@@ -1058,16 +1330,24 @@ class SeqPer(SeqExpr):
         return self.periodical[idx].subs(self.variables[0], pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add(oth), see docstring of seqbase._add) over Any    ║
+# ║ Path(_add(other), SeqPer(new_per, (self.variables[0], start, stop))) over {Any | hasattr(other, 'periodical') and hasattr(other, 'period')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'periodical')                   ║
+# ║   requires: hasattr(other, 'period')                       ║
+# ║   returns:  SeqPer(new_per, (self.variables[0], start...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add : {Any | hasattr(other, 'periodical') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d22d31dddb16c13d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66aef4bb761a7d9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer._add","kind":"method","src_hash":"7b90bf40b9aacba5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"see docstring of seqbase._add","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"see docstring of seqbase._add","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer._add_correct","statement":"Path(_add(x), see docstring of seqbase._add)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d22d31dddb16c13d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer._add","kind":"method","src_hash":"7b90bf40b9aacba5","in":{"base":"Any","pred":"hasattr(other, 'periodical') and hasattr(other, 'period')"},"out":{"base":"Any"},"spec":{"lhs":"_add(other)","rhs":"SeqPer(new_per, (self.variables[0], start, stop))","over":{"base":"Any","pred":"hasattr(other, 'periodical') and hasattr(other, 'period')"},"name":"_add_correct"},"guarantee":"returns SeqPer(new_per, (self.variables[0], start, stop))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer._add_correct","statement":"Path(_add(x), returns SeqPer(new_per, (self.variables[0], start, stop)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66aef4bb761a7d9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'periodical')","hasattr(other, 'period')"],"returns_expr":"SeqPer(new_per, (self.variables[0], start, stop))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add(self, other):
         """See docstring of SeqBase._add"""
         if isinstance(other, SeqPer):
@@ -1086,16 +1366,24 @@ class SeqPer(SeqExpr):
             return SeqPer(new_per, (self.variables[0], start, stop))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul(oth), see docstring of seqbase._mul) over Any    ║
+# ║ Path(_mul(other), SeqPer(new_per, (self.variables[0], start, stop))) over {Any | hasattr(other, 'periodical') and hasattr(other, 'period')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mul : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'periodical')                   ║
+# ║   requires: hasattr(other, 'period')                       ║
+# ║   returns:  SeqPer(new_per, (self.variables[0], start...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mul : {Any | hasattr(other, 'periodical') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e685991b065aa31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c454aac0df504a92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer._mul","kind":"method","src_hash":"e3bfbfef1055ee2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul(oth)","rhs":"see docstring of seqbase._mul","over":{"base":"Any"},"name":"_mul_correct"},"guarantee":"see docstring of seqbase._mul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer._mul_correct","statement":"Path(_mul(x), see docstring of seqbase._mul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e685991b065aa31"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer._mul","kind":"method","src_hash":"e3bfbfef1055ee2d","in":{"base":"Any","pred":"hasattr(other, 'periodical') and hasattr(other, 'period')"},"out":{"base":"Any"},"spec":{"lhs":"_mul(other)","rhs":"SeqPer(new_per, (self.variables[0], start, stop))","over":{"base":"Any","pred":"hasattr(other, 'periodical') and hasattr(other, 'period')"},"name":"_mul_correct"},"guarantee":"returns SeqPer(new_per, (self.variables[0], start, stop))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer._mul_correct","statement":"Path(_mul(x), returns SeqPer(new_per, (self.variables[0], start, stop)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c454aac0df504a92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'periodical')","hasattr(other, 'period')"],"returns_expr":"SeqPer(new_per, (self.variables[0], start, stop))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul(self, other):
         """See docstring of SeqBase._mul"""
         if isinstance(other, SeqPer):
@@ -1114,16 +1402,22 @@ class SeqPer(SeqExpr):
             return SeqPer(new_per, (self.variables[0], start, stop))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff_mul(coe), see docstring of seqbase.coeff_mul) over Any ║
+# ║ Path(coeff_mul(coeff), SeqPer(per, self.args[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SeqPer(per, self.args[1])                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_mul : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 374e08c5c94e6528  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1fc0687eb61b9e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.coeff_mul","kind":"method","src_hash":"ad40553e4130f656","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(coe)","rhs":"see docstring of seqbase.coeff_mul","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"see docstring of seqbase.coeff_mul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer.coeff_mul_correct","statement":"Path(coeff_mul(x), see docstring of seqbase.coeff_mul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"374e08c5c94e6528"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqPer.coeff_mul","kind":"method","src_hash":"ad40553e4130f656","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(coeff)","rhs":"SeqPer(per, self.args[1])","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"returns SeqPer(per, self.args[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqPer.coeff_mul_correct","statement":"Path(coeff_mul(x), returns SeqPer(per, self.args[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1fc0687eb61b9e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SeqPer(per, self.args[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.periodical"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff_mul(self, coeff):
         """See docstring of SeqBase.coeff_mul"""
         coeff = sympify(coeff)
@@ -1134,14 +1428,20 @@ class SeqPer(SeqExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqFormula(*args), correctly constructs a SeqFormula instance) over {Any | isinstance(other, SeqFormula) and isinstance(x, (Symbol, Idx))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqExpr)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeqFormula : {Any | isinstance(other, SeqFormula) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f2c07fafd6cd046  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula","kind":"class","src_hash":"f502be68713f80c7","in":{"base":"Any","pred":"isinstance(other, SeqFormula) and isinstance(x, (Symbol, Idx))"},"out":{"base":"Any"},"spec":{"lhs":"SeqFormula(*args)","rhs":"correctly constructs a SeqFormula instance","over":{"base":"Any","pred":"isinstance(other, SeqFormula) and isinstance(x, (Symbol, Idx))"},"name":"SeqFormula_class_invariant"},"guarantee":"correctly constructs a SeqFormula instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f2c07fafd6cd046"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula","kind":"class","src_hash":"f502be68713f80c7","in":{"base":"Any","pred":"isinstance(other, SeqFormula) and isinstance(x, (Symbol, Idx))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqExpr)"},"spec":{"lhs":"SeqFormula(*args)","rhs":"correctly constructs a SeqFormula instance","over":{"base":"Any","pred":"isinstance(other, SeqFormula) and isinstance(x, (Symbol, Idx))"},"name":"SeqFormula_class_invariant"},"guarantee":"isinstance(self, SeqExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f2c07fafd6cd046","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqFormula not found in source"]}}
 class SeqFormula(SeqExpr):
     """
     Represents sequence based on a formula.
@@ -1184,16 +1484,24 @@ class SeqFormula(SeqExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, formula, limits), len(free) == old_len_free - 1) over {Any | hasattr(formula, 'free_symbols') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(formula, 'free_symbols')               ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(formula, 'free_symbols') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18d1eae001b2d8e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.__new__","kind":"method","src_hash":"25ef3ef4f0d898b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18d1eae001b2d8e9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.__new__","kind":"method","src_hash":"25ef3ef4f0d898b8","in":{"base":"Any","pred":"hasattr(formula, 'free_symbols') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"__new__(cls, formula, limits)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"hasattr(formula, 'free_symbols') and len(free) > 0"},"name":"__new___correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18d1eae001b2d8e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(formula, 'free_symbols')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["formula.free_symbols"],"calls_mutating":["free.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, formula, limits=None):
         formula = sympify(formula)
 
@@ -1235,45 +1543,65 @@ class SeqFormula(SeqExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(formula(), returns the formula attribute) over Any    ║
+# ║ Path(formula(), self.gen) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.gen                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ formula : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a12cce655cca971d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.formula","kind":"property","src_hash":"f5fdee8499e7dfbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"formula()","rhs":"returns the formula attribute","over":{"base":"Any"},"name":"formula_correct"},"guarantee":"returns the formula attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a12cce655cca971d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.formula","kind":"property","src_hash":"f5fdee8499e7dfbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"formula()","rhs":"self.gen","over":{"base":"Any"},"name":"formula_correct"},"guarantee":"returns self.gen","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a12cce655cca971d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.gen","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gen"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def formula(self):
         return self.gen
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_coeff(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_coeff(pt), self.formula.subs(d, pt)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.formula.subs(d, pt)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_coeff : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60858481dbe1d2ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddf3d6db1e8e1784  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula._eval_coeff","kind":"method","src_hash":"a55ae8f655c7ce48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula._eval_coeff_correct","statement":"Path(_eval_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60858481dbe1d2ae"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula._eval_coeff","kind":"method","src_hash":"a55ae8f655c7ce48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"self.formula.subs(d, pt)","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"returns self.formula.subs(d, pt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula._eval_coeff_correct","statement":"Path(_eval_coeff(x), returns self.formula.subs(d, pt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddf3d6db1e8e1784","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.formula.subs(d, pt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.formula","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_coeff(self, pt):
         d = self.variables[0]
         return self.formula.subs(d, pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add(oth), see docstring of seqbase._add) over Any    ║
+# ║ Path(_add(other), SeqFormula(formula, (v1, start, stop))) over {Any | hasattr(other, 'formula') and hasattr(other, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'formula')                      ║
+# ║   requires: hasattr(other, 'variables')                    ║
+# ║   returns:  SeqFormula(formula, (v1, start, stop))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add : {Any | hasattr(other, 'formula') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bec719ee2c9846ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd9ba7c45ac71de1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula._add","kind":"method","src_hash":"2c4ec0dc3aa395c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"see docstring of seqbase._add","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"see docstring of seqbase._add","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula._add_correct","statement":"Path(_add(x), see docstring of seqbase._add)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bec719ee2c9846ea"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula._add","kind":"method","src_hash":"2c4ec0dc3aa395c8","in":{"base":"Any","pred":"hasattr(other, 'formula') and hasattr(other, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_add(other)","rhs":"SeqFormula(formula, (v1, start, stop))","over":{"base":"Any","pred":"hasattr(other, 'formula') and hasattr(other, 'variables')"},"name":"_add_correct"},"guarantee":"returns SeqFormula(formula, (v1, start, stop))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula._add_correct","statement":"Path(_add(x), returns SeqFormula(formula, (v1, start, stop)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd9ba7c45ac71de1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'formula')","hasattr(other, 'variables')"],"returns_expr":"SeqFormula(formula, (v1, start, stop))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.formula","other.variables","self._intersect_interval","self.formula","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add(self, other):
         """See docstring of SeqBase._add"""
         if isinstance(other, SeqFormula):
@@ -1284,16 +1612,24 @@ class SeqFormula(SeqExpr):
             return SeqFormula(formula, (v1, start, stop))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul(oth), see docstring of seqbase._mul) over Any    ║
+# ║ Path(_mul(other), SeqFormula(formula, (v1, start, stop))) over {Any | hasattr(other, 'formula') and hasattr(other, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mul : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'formula')                      ║
+# ║   requires: hasattr(other, 'variables')                    ║
+# ║   returns:  SeqFormula(formula, (v1, start, stop))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mul : {Any | hasattr(other, 'formula') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44d4af2448a86951  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37dd023bb3f07b7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula._mul","kind":"method","src_hash":"468b669cd041a32b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul(oth)","rhs":"see docstring of seqbase._mul","over":{"base":"Any"},"name":"_mul_correct"},"guarantee":"see docstring of seqbase._mul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula._mul_correct","statement":"Path(_mul(x), see docstring of seqbase._mul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44d4af2448a86951"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula._mul","kind":"method","src_hash":"468b669cd041a32b","in":{"base":"Any","pred":"hasattr(other, 'formula') and hasattr(other, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_mul(other)","rhs":"SeqFormula(formula, (v1, start, stop))","over":{"base":"Any","pred":"hasattr(other, 'formula') and hasattr(other, 'variables')"},"name":"_mul_correct"},"guarantee":"returns SeqFormula(formula, (v1, start, stop))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula._mul_correct","statement":"Path(_mul(x), returns SeqFormula(formula, (v1, start, stop)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37dd023bb3f07b7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'formula')","hasattr(other, 'variables')"],"returns_expr":"SeqFormula(formula, (v1, start, stop))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.formula","other.variables","self._intersect_interval","self.formula","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul(self, other):
         """See docstring of SeqBase._mul"""
         if isinstance(other, SeqFormula):
@@ -1304,16 +1640,22 @@ class SeqFormula(SeqExpr):
             return SeqFormula(formula, (v1, start, stop))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff_mul(coe), see docstring of seqbase.coeff_mul) over Any ║
+# ║ Path(coeff_mul(coeff), SeqFormula(formula, self.args[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SeqFormula(formula, self.args[1])              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_mul : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c636f05f5c36faf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8873deae8149f99d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.coeff_mul","kind":"method","src_hash":"6a41f032d41f36a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(coe)","rhs":"see docstring of seqbase.coeff_mul","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"see docstring of seqbase.coeff_mul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula.coeff_mul_correct","statement":"Path(coeff_mul(x), see docstring of seqbase.coeff_mul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c636f05f5c36faf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.coeff_mul","kind":"method","src_hash":"6a41f032d41f36a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_mul(coeff)","rhs":"SeqFormula(formula, self.args[1])","over":{"base":"Any"},"name":"coeff_mul_correct"},"guarantee":"returns SeqFormula(formula, self.args[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqFormula.coeff_mul_correct","statement":"Path(coeff_mul(x), returns SeqFormula(formula, self.args[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8873deae8149f99d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SeqFormula(formula, self.args[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.formula"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff_mul(self, coeff):
         """See docstring of SeqBase.coeff_mul"""
         coeff = sympify(coeff)
@@ -1321,30 +1663,42 @@ class SeqFormula(SeqExpr):
         return SeqFormula(formula, self.args[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(*ar), expand produces the expected output) over Any ║
+# ║ Path(expand(*args, **kwargs), SeqFormula(expand(self.formula, *args, **kwargs), self.args[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SeqFormula(expand(self.formula, *args, **...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aeec47bf567c9c99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.expand","kind":"method","src_hash":"2e1385878c76298f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(*ar)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aeec47bf567c9c99"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqFormula.expand","kind":"method","src_hash":"2e1385878c76298f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(*args, **kwargs)","rhs":"SeqFormula(expand(self.formula, *args, **kwargs), self.args[1])","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns SeqFormula(expand(self.formula, *args, **kwargs), self.args[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aeec47bf567c9c99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SeqFormula(expand(self.formula, *args, **kwargs), self.args[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.formula"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, *args, **kwargs):
         return SeqFormula(expand(self.formula, *args, **kwargs), self.args[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RecursiveSeq(*args), correctly constructs a RecursiveSeq instance) over {Any | isinstance(yn, AppliedUndef) and isinstance(n, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqBase)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RecursiveSeq : {Any | isinstance(yn, AppliedUndef) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1d67bffd7d33a7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq","kind":"class","src_hash":"f0e3354160be1040","in":{"base":"Any","pred":"isinstance(yn, AppliedUndef) and isinstance(n, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"RecursiveSeq(*args)","rhs":"correctly constructs a RecursiveSeq instance","over":{"base":"Any","pred":"isinstance(yn, AppliedUndef) and isinstance(n, Basic)"},"name":"RecursiveSeq_class_invariant"},"guarantee":"correctly constructs a RecursiveSeq instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1d67bffd7d33a7a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq","kind":"class","src_hash":"f0e3354160be1040","in":{"base":"Any","pred":"isinstance(yn, AppliedUndef) and isinstance(n, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqBase)"},"spec":{"lhs":"RecursiveSeq(*args)","rhs":"correctly constructs a RecursiveSeq instance","over":{"base":"Any","pred":"isinstance(yn, AppliedUndef) and isinstance(n, Basic)"},"name":"RecursiveSeq_class_invariant"},"guarantee":"isinstance(self, SeqBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1d67bffd7d33a7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function RecursiveSeq not found in source"]}}
 class RecursiveSeq(SeqBase):
     """
     A finite degree recursive sequence.
@@ -1423,16 +1777,25 @@ class RecursiveSeq(SeqBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, recurrence, yn), <unspecified:__new__>) over {Any | isinstance(yn, AppliedUndef) and not (not isinstance(n, Basic) or not n.is_symbol) and not (yn.args != (n,)) and hasattr(yn, 'func') and hasattr(yn, 'args') and hasattr(recurrence, 'find') and hasattr(n, 'is_symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(yn, AppliedUndef)                   ║
+# ║   requires: not (not isinstance(n, Basic) or not n.is...   ║
+# ║   requires: not (yn.args != (n,))                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(yn, AppliedUndef) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab0a5ede2575b20a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.__new__","kind":"method","src_hash":"3ce5474f068d0b54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab0a5ede2575b20a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.__new__","kind":"method","src_hash":"3ce5474f068d0b54","in":{"base":"Any","pred":"isinstance(yn, AppliedUndef) and not (not isinstance(n, Basic) or not n.is_symbol) and not (yn.args != (n,)) and hasattr(yn, 'func') and hasattr(yn, 'args') and hasattr(recurrence, 'find') and hasattr(n, 'is_symbol')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, recurrence, yn)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(yn, AppliedUndef) and not (not isinstance(n, Basic) or not n.is_symbol) and not (yn.args != (n,)) and hasattr(yn, 'func') and hasattr(yn, 'args') and hasattr(recurrence, 'find') and hasattr(n, 'is_symbol')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab0a5ede2575b20a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(yn, AppliedUndef)","not (not isinstance(n, Basic) or not n.is_symbol)","not (yn.args != (n,))","hasattr(yn, 'func')","hasattr(yn, 'args')","hasattr(recurrence, 'find')","hasattr(n, 'is_symbol')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_symbol","recurrence.find","yn.args","yn.func"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, recurrence, yn, n, initial=None, start=0):
         if not isinstance(yn, AppliedUndef):
             raise TypeError("recurrence sequence must be an applied undefined function"
@@ -1488,159 +1851,219 @@ class RecursiveSeq(SeqBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_recurrence(), returns the _recurrence attribute) over Any ║
+# ║ Path(_recurrence(), self.args[0]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _recurrence : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69a80fc1a3d45f46           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq._recurrence","kind":"property","src_hash":"780f767520793522","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_recurrence()","rhs":"returns the _recurrence attribute","over":{"base":"Any"},"name":"_recurrence_correct"},"guarantee":"returns the _recurrence attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69a80fc1a3d45f46"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq._recurrence","kind":"property","src_hash":"780f767520793522","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_recurrence()","rhs":"self.args[0]","over":{"base":"Any"},"name":"_recurrence_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69a80fc1a3d45f46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _recurrence(self):
         """Equation defining recurrence."""
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(recurrence(), returns the recurrence attribute) over Any ║
+# ║ Path(recurrence(), Eq(self.yn, self.args[0])) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Eq(self.yn, self.args[0])                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ recurrence : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c787d5f2afc1e79           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.recurrence","kind":"property","src_hash":"b5c73a9291e99137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recurrence()","rhs":"returns the recurrence attribute","over":{"base":"Any"},"name":"recurrence_correct"},"guarantee":"returns the recurrence attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c787d5f2afc1e79"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.recurrence","kind":"property","src_hash":"b5c73a9291e99137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recurrence()","rhs":"Eq(self.yn, self.args[0])","over":{"base":"Any"},"name":"recurrence_correct"},"guarantee":"returns Eq(self.yn, self.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c787d5f2afc1e79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Eq(self.yn, self.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.yn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def recurrence(self):
         """Equation defining recurrence."""
         return Eq(self.yn, self.args[0])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(yn(), returns the yn attribute) over Any              ║
+# ║ Path(yn(), self.args[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ yn : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55eb2d9468d630b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.yn","kind":"property","src_hash":"1901710be91ab3f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yn()","rhs":"returns the yn attribute","over":{"base":"Any"},"name":"yn_correct"},"guarantee":"returns the yn attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55eb2d9468d630b2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.yn","kind":"property","src_hash":"1901710be91ab3f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yn()","rhs":"self.args[1]","over":{"base":"Any"},"name":"yn_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55eb2d9468d630b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def yn(self):
         """Applied function representing the nth term"""
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(y(), returns the y attribute) over Any                ║
+# ║ Path(y(), self.yn.func) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.yn.func                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ y : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05d522d812b18792           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.y","kind":"property","src_hash":"95269a7e436098ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"returns the y attribute","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns the y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05d522d812b18792"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.y","kind":"property","src_hash":"95269a7e436098ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"self.yn.func","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns self.yn.func","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05d522d812b18792","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.yn.func","pure":false,"effects":{"effect_type":"reads_state","reads":["self.yn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def y(self):
         """Undefined function for the nth term of the sequence"""
         return self.yn.func
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), self.args[2]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d982b8a0dedea360           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.n","kind":"property","src_hash":"858213b4224eca1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d982b8a0dedea360"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.n","kind":"property","src_hash":"858213b4224eca1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"self.args[2]","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d982b8a0dedea360","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         """Sequence index symbol"""
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(initial(), returns the initial attribute) over Any    ║
+# ║ Path(initial(), self.args[3]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ initial : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0803537015b8e573           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.initial","kind":"property","src_hash":"d978ac3330abf50a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"initial()","rhs":"returns the initial attribute","over":{"base":"Any"},"name":"initial_correct"},"guarantee":"returns the initial attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0803537015b8e573"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.initial","kind":"property","src_hash":"d978ac3330abf50a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"initial()","rhs":"self.args[3]","over":{"base":"Any"},"name":"initial_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0803537015b8e573","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def initial(self):
         """The initial values of the sequence"""
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), self.args[4]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e6a3dd841f96d0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.start","kind":"property","src_hash":"b1d127192806d8c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e6a3dd841f96d0c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.start","kind":"property","src_hash":"b1d127192806d8c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"self.args[4]","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns self.args[4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e6a3dd841f96d0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         """The starting point of the sequence. This point is included"""
         return self.args[4]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), S.Infinity) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Infinity                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6531d6e61cb06972           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.stop","kind":"property","src_hash":"03da95e6cfd7bdab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6531d6e61cb06972"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.stop","kind":"property","src_hash":"03da95e6cfd7bdab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"S.Infinity","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns S.Infinity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6531d6e61cb06972","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Infinity","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         """The ending point of the sequence. (oo)"""
         return S.Infinity
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), (self.start, S.Infinity)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.start, S.Infinity)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fabeafe1f9ed2a74           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.interval","kind":"property","src_hash":"062f5704f824720e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fabeafe1f9ed2a74"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.interval","kind":"property","src_hash":"062f5704f824720e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"(self.start, S.Infinity)","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns (self.start, S.Infinity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fabeafe1f9ed2a74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.start, S.Infinity)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         """Interval on which sequence is defined."""
         return (self.start, S.Infinity)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_coeff(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_coeff(index), <unspecified:_eval_coeff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_coeff : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aef8007c1647c97a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq._eval_coeff","kind":"method","src_hash":"dc2c009ce197f187","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.RecursiveSeq._eval_coeff_correct","statement":"Path(_eval_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aef8007c1647c97a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq._eval_coeff","kind":"method","src_hash":"dc2c009ce197f187","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(index)","rhs":"<unspecified:_eval_coeff>","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.RecursiveSeq._eval_coeff_correct","statement":"Path(_eval_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aef8007c1647c97a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._recurrence","self.cache","self.n","self.start","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_coeff(self, index):
         if index - self.start < len(self.cache):
             return self.cache[self.y(index)]
@@ -1657,16 +2080,22 @@ class RecursiveSeq(SeqBase):
         return self.cache[self.y(self.start + current)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e4224830e81bde6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.__iter__","kind":"method","src_hash":"07a7424b4d22465a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e4224830e81bde6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.RecursiveSeq.__iter__","kind":"method","src_hash":"07a7424b4d22465a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e4224830e81bde6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_coeff","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         index = self.start
         while True:
@@ -1675,16 +2104,25 @@ class RecursiveSeq(SeqBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sequence(seq), returns appropriate sequence object) over Any ║
+# ║ Path(sequence(seq, limits), result == (SeqPer(seq, limits) if is_sequence(seq, Tuple) else SeqFormula(seq, limits)) and result == SeqPer(seq, limits) or result == SeqFormula(seq, limits)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sequence : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (SeqPer(seq, limits) if is_sequ...   ║
+# ║   ensures:  result == SeqPer(seq, limits) or result =...   ║
+# ║   fiber[case_0]: is_sequence(seq, Tuple) => SeqPer(se...   ║
+# ║   fiber[case_1]: not (is_sequence(seq, Tuple)) => Seq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sequence : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65302d87c681bf90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4d99816de34de4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.sequence","kind":"function","src_hash":"f337a01e1e5520ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sequence(seq)","rhs":"returns appropriate sequence object","over":{"base":"Any"},"name":"sequence_correct"},"guarantee":"returns appropriate sequence object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.sequence_correct","statement":"Path(sequence(x), returns appropriate sequence object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65302d87c681bf90"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.sequence","kind":"function","src_hash":"f337a01e1e5520ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (SeqPer(seq, limits) if is_sequence(seq, Tuple) else SeqFormula(seq, limits)) and result == SeqPer(seq, limits) or result == SeqFormula(seq, limits)"},"spec":{"lhs":"sequence(seq, limits)","rhs":"result == (SeqPer(seq, limits) if is_sequence(seq, Tuple) else SeqFormula(seq, limits)) and result == SeqPer(seq, limits) or result == SeqFormula(seq, limits)","over":{"base":"Any"},"name":"sequence_correct"},"guarantee":"result == (SeqPer(seq, limits) if is_sequence(seq, Tuple) else SeqFormula(seq, limits)); result == SeqPer(seq, limits) or result == SeqFormula(seq, limits); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.sequence_correct","statement":"Path(sequence(x), result == (SeqPer(seq, limits) if is_sequence(seq, Tuple) else SeqFormula(seq, limits)); result == SeqPer(seq, limits) or result == SeqFormula(seq, limits); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4d99816de34de4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (SeqPer(seq, limits) if is_sequence(seq, Tuple) else SeqFormula(seq, limits))","result == SeqPer(seq, limits) or result == SeqFormula(seq, limits)"],"fibers":[{"name":"case_0","guard":"is_sequence(seq, Tuple)","ensures":["result == SeqPer(seq, limits)"],"decidability":"library","returns_expr":"SeqPer(seq, limits)"},{"name":"case_1","guard":"not (is_sequence(seq, Tuple))","ensures":["result == SeqFormula(seq, limits)"],"decidability":"library","returns_expr":"SeqFormula(seq, limits)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sequence(seq, limits=None):
     """
     Returns appropriate sequence object.
@@ -1727,14 +2165,20 @@ def sequence(seq, limits=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqExprOp(*args), correctly constructs a SeqExprOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SeqExprOp : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqBase)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SeqExprOp : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6d4a11c832dbcaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp","kind":"class","src_hash":"129c19aa6499a053","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SeqExprOp(*args)","rhs":"correctly constructs a SeqExprOp instance","over":{"base":"Any"},"name":"SeqExprOp_class_invariant"},"guarantee":"correctly constructs a SeqExprOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6d4a11c832dbcaf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp","kind":"class","src_hash":"129c19aa6499a053","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqBase)"},"spec":{"lhs":"SeqExprOp(*args)","rhs":"correctly constructs a SeqExprOp instance","over":{"base":"Any"},"name":"SeqExprOp_class_invariant"},"guarantee":"isinstance(self, SeqBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6d4a11c832dbcaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqExprOp not found in source"]}}
 class SeqExprOp(SeqBase):
     """
     Base class for operations on sequences.
@@ -1762,16 +2206,22 @@ class SeqExprOp(SeqBase):
     """
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gen(), returns the gen attribute) over Any            ║
+# ║ Path(gen(), tuple((a.gen for a in self.args))) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((a.gen for a in self.args))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gen : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11f8ca7240d6ef82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.gen","kind":"property","src_hash":"cc70073894c78836","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gen()","rhs":"returns the gen attribute","over":{"base":"Any"},"name":"gen_correct"},"guarantee":"returns the gen attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f8ca7240d6ef82"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.gen","kind":"property","src_hash":"cc70073894c78836","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gen()","rhs":"tuple((a.gen for a in self.args))","over":{"base":"Any"},"name":"gen_correct"},"guarantee":"returns tuple((a.gen for a in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f8ca7240d6ef82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((a.gen for a in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gen(self):
         """Generator for the sequence.
 
@@ -1781,16 +2231,22 @@ class SeqExprOp(SeqBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), Intersection(*(a.interval for a in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Intersection(*(a.interval for a in self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cc2eaa831fca3f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.interval","kind":"property","src_hash":"2d529100f1c54e35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc2eaa831fca3f7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.interval","kind":"property","src_hash":"2d529100f1c54e35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"Intersection(*(a.interval for a in self.args))","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns Intersection(*(a.interval for a in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc2eaa831fca3f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Intersection(*(a.interval for a in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         """Sequence is defined on the intersection
         of all the intervals of respective sequences
@@ -1799,62 +2255,86 @@ class SeqExprOp(SeqBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), self.interval.inf) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.inf                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e5ccbbc6684f8ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e5ccbbc6684f8ae"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"self.interval.inf","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns self.interval.inf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e5ccbbc6684f8ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.inf","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         return self.interval.inf
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), self.interval.sup) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.sup                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1077c0aadc53f46f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1077c0aadc53f46f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"self.interval.sup","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns self.interval.sup","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1077c0aadc53f46f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.sup","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         return self.interval.sup
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), tuple(flatten([a.variables for a in self.args]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(flatten([a.variables for a in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfe541160c7d4ff4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.variables","kind":"property","src_hash":"c4f45f6c1de6ae5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfe541160c7d4ff4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.variables","kind":"property","src_hash":"c4f45f6c1de6ae5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"tuple(flatten([a.variables for a in self.args]))","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns tuple(flatten([a.variables for a in self.args]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfe541160c7d4ff4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(flatten([a.variables for a in self.args]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         """Cumulative of all the bound variables"""
         return tuple(flatten([a.variables for a in self.args]))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self.stop - self.start + 1) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.stop - self.start + 1                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 314cc8d16e0b3d04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.length","kind":"property","src_hash":"40a620e717d25bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"314cc8d16e0b3d04"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqExprOp.length","kind":"property","src_hash":"40a620e717d25bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self.stop - self.start + 1","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self.stop - self.start + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"314cc8d16e0b3d04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.stop - self.start + 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start","self.stop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return self.stop - self.start + 1
 
@@ -1862,14 +2342,20 @@ class SeqExprOp(SeqBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqAdd(*args), correctly constructs a SeqAdd instance) over {Any | isinstance(arg, SeqBase) and isinstance(arg, SeqAdd)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqExprOp)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeqAdd : {Any | isinstance(arg, SeqBase) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b213870bf84dc320  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd","kind":"class","src_hash":"10b2fb155b14cba5","in":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqAdd)"},"out":{"base":"Any"},"spec":{"lhs":"SeqAdd(*args)","rhs":"correctly constructs a SeqAdd instance","over":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqAdd)"},"name":"SeqAdd_class_invariant"},"guarantee":"correctly constructs a SeqAdd instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b213870bf84dc320"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd","kind":"class","src_hash":"10b2fb155b14cba5","in":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqAdd)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqExprOp)"},"spec":{"lhs":"SeqAdd(*args)","rhs":"correctly constructs a SeqAdd instance","over":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqAdd)"},"name":"SeqAdd_class_invariant"},"guarantee":"isinstance(self, SeqExprOp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b213870bf84dc320","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqExprOp)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqAdd not found in source"]}}
 class SeqAdd(SeqExprOp):
     """Represents term-wise addition of sequences.
 
@@ -1900,16 +2386,22 @@ class SeqAdd(SeqExprOp):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 483e67c394d96933           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd.__new__","kind":"method","src_hash":"f3dc0c2f7b50ebe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"483e67c394d96933"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd.__new__","kind":"method","src_hash":"f3dc0c2f7b50ebe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"483e67c394d96933","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
 
@@ -1948,16 +2440,28 @@ class SeqAdd(SeqExprOp):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce(arg), simplify :class:`seqadd` using known rules) over Any ║
+# ║ Path(reduce(args), len(args) == old_len_args - 1 and len(new_args) == old_len_new_args + 1 and result == (args.pop() if len(args) == 1 else SeqAdd(args, evaluate=False)) and result == args.pop() or result == SeqAdd(args, evaluate=False)) over {Any | hasattr(args, 'pop') and len(args) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(args, 'pop')                           ║
+# ║   requires: len(args) > 0                                  ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  result == (args.pop() if len(args) == 1 e...   ║
+# ║   fiber[case_0]: len(args) == 1 => args.pop()              ║
+# ║   fiber[case_1]: not (len(args) == 1) => SeqAdd(args,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce : {Any | hasattr(args, 'pop') and len(args) > ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f1ece8fab6b721a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8120e284371270c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd.reduce","kind":"staticmethod","src_hash":"e69046fc6d5a17de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(arg)","rhs":"simplify :class:`seqadd` using known rules","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"simplify :class:`seqadd` using known rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqAdd.reduce_correct","statement":"Path(reduce(x), simplify :class:`seqadd` using known rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f1ece8fab6b721a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd.reduce","kind":"staticmethod","src_hash":"e69046fc6d5a17de","in":{"base":"Any","pred":"hasattr(args, 'pop') and len(args) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args - 1 and len(new_args) == old_len_new_args + 1 and result == (args.pop() if len(args) == 1 else SeqAdd(args, evaluate=False)) and result == args.pop() or result == SeqAdd(args, evaluate=False)"},"spec":{"lhs":"reduce(args)","rhs":"len(args) == old_len_args - 1 and len(new_args) == old_len_new_args + 1 and result == (args.pop() if len(args) == 1 else SeqAdd(args, evaluate=False)) and result == args.pop() or result == SeqAdd(args, evaluate=False)","over":{"base":"Any","pred":"hasattr(args, 'pop') and len(args) > 0"},"name":"reduce_correct"},"guarantee":"len(args) == old_len_args - 1; len(new_args) == old_len_new_args + 1; result == (args.pop() if len(args) == 1 else SeqAdd(args, evaluate=False)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqAdd.reduce_correct","statement":"Path(reduce(x), len(args) == old_len_args - 1; len(new_args) == old_len_new_args + 1; result == (args.pop() if len(args) == 1 else SeqAdd(args, evaluate=False)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8120e284371270c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(args, 'pop')","len(args) > 0"],"ensures":["len(args) == old_len_args - 1","len(new_args) == old_len_new_args + 1","result == (args.pop() if len(args) == 1 else SeqAdd(args, evaluate=False))","result == args.pop() or result == SeqAdd(args, evaluate=False)"],"fibers":[{"name":"case_0","guard":"len(args) == 1","ensures":["result == args.pop()"],"decidability":"z3","returns_expr":"args.pop()"},{"name":"case_1","guard":"not (len(args) == 1)","ensures":["result == SeqAdd(args, evaluate=False)"],"decidability":"z3","returns_expr":"SeqAdd(args, evaluate=False)"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.pop"],"calls_mutating":["args.pop","new_args.append"]},"state_contract":{"modifies":["args.*","new_args.*"],"old_bindings":{"old_len_args":"len(args)","old_len_new_args":"len(new_args)"},"pre_requires":["len(args) > 0"],"post_ensures":["len(args) == old_len_args - 1","len(new_args) == old_len_new_args + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce(args):
         """Simplify :class:`SeqAdd` using known rules.
 
@@ -1994,16 +2498,22 @@ class SeqAdd(SeqExprOp):
             return SeqAdd(args, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_coeff(pt), adds up the coefficients of all the sequences at point pt) over Any ║
+# ║ Path(_eval_coeff(pt), sum((a.coeff(pt) for a in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((a.coeff(pt) for a in self.args))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_coeff : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78117b65f37f58e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd._eval_coeff","kind":"method","src_hash":"82986733ac088922","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"adds up the coefficients of all the sequences at point pt","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"adds up the coefficients of all the sequences at point pt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78117b65f37f58e7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqAdd._eval_coeff","kind":"method","src_hash":"82986733ac088922","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"sum((a.coeff(pt) for a in self.args))","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"returns sum((a.coeff(pt) for a in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78117b65f37f58e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((a.coeff(pt) for a in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_coeff(self, pt):
         """adds up the coefficients of all the sequences at point pt"""
         return sum(a.coeff(pt) for a in self.args)
@@ -2012,14 +2522,20 @@ class SeqAdd(SeqExprOp):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeqMul(*args), correctly constructs a SeqMul instance) over {Any | isinstance(arg, SeqBase) and isinstance(arg, SeqMul)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeqExprOp)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeqMul : {Any | isinstance(arg, SeqBase) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796461c9c654b8f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul","kind":"class","src_hash":"f8bb439b2b5d2bd7","in":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqMul)"},"out":{"base":"Any"},"spec":{"lhs":"SeqMul(*args)","rhs":"correctly constructs a SeqMul instance","over":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqMul)"},"name":"SeqMul_class_invariant"},"guarantee":"correctly constructs a SeqMul instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796461c9c654b8f8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul","kind":"class","src_hash":"f8bb439b2b5d2bd7","in":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqMul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeqExprOp)"},"spec":{"lhs":"SeqMul(*args)","rhs":"correctly constructs a SeqMul instance","over":{"base":"Any","pred":"isinstance(arg, SeqBase) and isinstance(arg, SeqMul)"},"name":"SeqMul_class_invariant"},"guarantee":"isinstance(self, SeqExprOp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796461c9c654b8f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeqExprOp)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeqMul not found in source"]}}
 class SeqMul(SeqExprOp):
     r"""Represents term-wise multiplication of sequences.
 
@@ -2056,16 +2572,22 @@ class SeqMul(SeqExprOp):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cab3445d3a7b76fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul.__new__","kind":"method","src_hash":"4c588b5b688d11ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab3445d3a7b76fc"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul.__new__","kind":"method","src_hash":"4c588b5b688d11ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab3445d3a7b76fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
 
@@ -2102,16 +2624,28 @@ class SeqMul(SeqExprOp):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce(arg), simplify a :class:`seqmul` using known rules) over Any ║
+# ║ Path(reduce(args), len(args) == old_len_args - 1 and len(new_args) == old_len_new_args + 1 and result == (args.pop() if len(args) == 1 else SeqMul(args, evaluate=False)) and result == args.pop() or result == SeqMul(args, evaluate=False)) over {Any | hasattr(args, 'pop') and len(args) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(args, 'pop')                           ║
+# ║   requires: len(args) > 0                                  ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  result == (args.pop() if len(args) == 1 e...   ║
+# ║   fiber[case_0]: len(args) == 1 => args.pop()              ║
+# ║   fiber[case_1]: not (len(args) == 1) => SeqMul(args,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce : {Any | hasattr(args, 'pop') and len(args) > ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a087a27ed1fbc81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4636b3813facd9d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul.reduce","kind":"staticmethod","src_hash":"2c07a3d648a775c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(arg)","rhs":"simplify a :class:`seqmul` using known rules","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"simplify a :class:`seqmul` using known rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqMul.reduce_correct","statement":"Path(reduce(x), simplify a :class:`seqmul` using known rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a087a27ed1fbc81"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul.reduce","kind":"staticmethod","src_hash":"2c07a3d648a775c3","in":{"base":"Any","pred":"hasattr(args, 'pop') and len(args) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args - 1 and len(new_args) == old_len_new_args + 1 and result == (args.pop() if len(args) == 1 else SeqMul(args, evaluate=False)) and result == args.pop() or result == SeqMul(args, evaluate=False)"},"spec":{"lhs":"reduce(args)","rhs":"len(args) == old_len_args - 1 and len(new_args) == old_len_new_args + 1 and result == (args.pop() if len(args) == 1 else SeqMul(args, evaluate=False)) and result == args.pop() or result == SeqMul(args, evaluate=False)","over":{"base":"Any","pred":"hasattr(args, 'pop') and len(args) > 0"},"name":"reduce_correct"},"guarantee":"len(args) == old_len_args - 1; len(new_args) == old_len_new_args + 1; result == (args.pop() if len(args) == 1 else SeqMul(args, evaluate=False)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqMul.reduce_correct","statement":"Path(reduce(x), len(args) == old_len_args - 1; len(new_args) == old_len_new_args + 1; result == (args.pop() if len(args) == 1 else SeqMul(args, evaluate=False)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4636b3813facd9d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(args, 'pop')","len(args) > 0"],"ensures":["len(args) == old_len_args - 1","len(new_args) == old_len_new_args + 1","result == (args.pop() if len(args) == 1 else SeqMul(args, evaluate=False))","result == args.pop() or result == SeqMul(args, evaluate=False)"],"fibers":[{"name":"case_0","guard":"len(args) == 1","ensures":["result == args.pop()"],"decidability":"z3","returns_expr":"args.pop()"},{"name":"case_1","guard":"not (len(args) == 1)","ensures":["result == SeqMul(args, evaluate=False)"],"decidability":"z3","returns_expr":"SeqMul(args, evaluate=False)"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.pop"],"calls_mutating":["args.pop","new_args.append"]},"state_contract":{"modifies":["args.*","new_args.*"],"old_bindings":{"old_len_args":"len(args)","old_len_new_args":"len(new_args)"},"pre_requires":["len(args) > 0"],"post_ensures":["len(args) == old_len_args - 1","len(new_args) == old_len_new_args + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce(args):
         """Simplify a :class:`SeqMul` using known rules.
 
@@ -2151,16 +2685,22 @@ class SeqMul(SeqExprOp):
             return SeqMul(args, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_coeff(pt), multiplies the coefficients of all the sequences at point pt) over Any ║
+# ║ Path(_eval_coeff(pt), <unspecified:_eval_coeff>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_coeff : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7255f925b82265bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul._eval_coeff","kind":"method","src_hash":"5adc327ceab2bc34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"multiplies the coefficients of all the sequences at point pt","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"multiplies the coefficients of all the sequences at point pt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqMul._eval_coeff_correct","statement":"Path(_eval_coeff(x), multiplies the coefficients of all the sequences at point pt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7255f925b82265bf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.sequences.SeqMul._eval_coeff","kind":"method","src_hash":"5adc327ceab2bc34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_coeff(pt)","rhs":"<unspecified:_eval_coeff>","over":{"base":"Any"},"name":"_eval_coeff_correct"},"guarantee":"multiplies the coefficients of all the sequences at point pt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.sequences.SeqMul._eval_coeff_correct","statement":"Path(_eval_coeff(x), multiplies the coefficients of all the sequences at point pt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7255f925b82265bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_coeff(self, pt):
         """multiplies the coefficients of all the sequences at point pt"""
         val = 1

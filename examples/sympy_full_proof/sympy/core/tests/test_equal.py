@@ -21,16 +21,24 @@ from sympy.functions.elementary.exponential import exp
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equal(), test_equal produces the expected output) over Any ║
+# ║ Path(test_equal(), not e1 == e2 and e1 != e2 and e2 == e4 and e2 != e3 and not e2 == e3 and e1 == e2 and not e1 != e2 and e5 == 3 and 3 == e5 and e5 != 4 and 4 != e5 and e5 != 3 + x and 3 + x != e5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equal : Any → {Any | not e1 == e2 and not e1 == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not e1 == e2                                   ║
+# ║   ensures:  e1 != e2                                       ║
+# ║   ensures:  e2 == e4                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equal : Any → {Any | result satisfies: not e1 ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8bff0e267581ef9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a5db05970f4e30a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_equal","kind":"function","src_hash":"768854299b90b21b","in":{"base":"Any"},"out":{"base":"Any","pred":"not e1 == e2 and not e1 == e2 and e1 != e2 and e2 == e4 and e2 != e3 and not e2 == e3 and e1 == e2 and not e1 != e2 and not e1 == e2 and e1 != e2 and e5 == 3 and 3 == e5 and e5 != 4 and 4 != e5 and e5 != 3 + x and 3 + x != e5"},"spec":{"lhs":"test_equal()","rhs":"test_equal produces the expected output","over":{"base":"Any"},"name":"test_equal_correct"},"guarantee":"test_equal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_equal_correct","statement":"Path(test_equal(x), test_equal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8bff0e267581ef9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_equal","kind":"function","src_hash":"768854299b90b21b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not e1 == e2 and e1 != e2 and e2 == e4 and e2 != e3 and not e2 == e3 and e1 == e2 and not e1 != e2 and e5 == 3 and 3 == e5 and e5 != 4 and 4 != e5 and e5 != 3 + x and 3 + x != e5"},"spec":{"lhs":"test_equal()","rhs":"not e1 == e2 and e1 != e2 and e2 == e4 and e2 != e3 and not e2 == e3 and e1 == e2 and not e1 != e2 and e5 == 3 and 3 == e5 and e5 != 4 and 4 != e5 and e5 != 3 + x and 3 + x != e5","over":{"base":"Any"},"name":"test_equal_correct"},"guarantee":"not e1 == e2; e1 != e2; e2 == e4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_equal_correct","statement":"Path(test_equal(x), not e1 == e2; e1 != e2; e2 == e4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a5db05970f4e30a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not e1 == e2","e1 != e2","e2 == e4","e2 != e3","not e2 == e3","e1 == e2","not e1 != e2","e5 == 3","3 == e5","e5 != 4","4 != e5","e5 != 3 + x","3 + x != e5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_equal():
     b = Symbol("b")
     a = Symbol("a")
@@ -66,16 +74,22 @@ def test_equal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expevalbug(), test_expevalbug produces the expected output) over Any ║
+# ║ Path(test_expevalbug(), e1 == e3) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expevalbug : Any → {Any | e1 == e3}                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e1 == e3                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expevalbug : Any → {Any | result satisfies: e1 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a46b8f3f12a75f88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9d1b46f77b5aac1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_expevalbug","kind":"function","src_hash":"01a0b519f7e21423","in":{"base":"Any"},"out":{"base":"Any","pred":"e1 == e3"},"spec":{"lhs":"test_expevalbug()","rhs":"test_expevalbug produces the expected output","over":{"base":"Any"},"name":"test_expevalbug_correct"},"guarantee":"test_expevalbug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_expevalbug_correct","statement":"Path(test_expevalbug(x), test_expevalbug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a46b8f3f12a75f88"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_expevalbug","kind":"function","src_hash":"01a0b519f7e21423","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e1 == e3"},"spec":{"lhs":"test_expevalbug()","rhs":"e1 == e3","over":{"base":"Any"},"name":"test_expevalbug_correct"},"guarantee":"e1 == e3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_expevalbug_correct","statement":"Path(test_expevalbug(x), e1 == e3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9d1b46f77b5aac1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e1 == e3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expevalbug():
     x = Symbol("x")
     e1 = exp(1*x)
@@ -84,16 +98,23 @@ def test_expevalbug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmp_bug1(), test_cmp_bug1 produces the expected output) over Any ║
+# ║ Path(test_cmp_bug1(), not x == t and x != t) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmp_bug1 : Any → {Any | not x == t and x != t}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not x == t                                     ║
+# ║   ensures:  x != t                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmp_bug1 : Any → {Any | result satisfies: not x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91bf6757c4ce94d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afb93053c82f707c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_cmp_bug1","kind":"function","src_hash":"733f29c55e33637d","in":{"base":"Any"},"out":{"base":"Any","pred":"not x == t and x != t"},"spec":{"lhs":"test_cmp_bug1()","rhs":"test_cmp_bug1 produces the expected output","over":{"base":"Any"},"name":"test_cmp_bug1_correct"},"guarantee":"test_cmp_bug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_cmp_bug1_correct","statement":"Path(test_cmp_bug1(x), test_cmp_bug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91bf6757c4ce94d5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_cmp_bug1","kind":"function","src_hash":"733f29c55e33637d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not x == t and x != t"},"spec":{"lhs":"test_cmp_bug1()","rhs":"not x == t and x != t","over":{"base":"Any"},"name":"test_cmp_bug1_correct"},"guarantee":"not x == t; x != t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_cmp_bug1_correct","statement":"Path(test_cmp_bug1(x), not x == t; x != t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afb93053c82f707c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not x == t","x != t"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmp_bug1():
     class T:
         pass
@@ -106,16 +127,23 @@ def test_cmp_bug1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmp_bug2(), test_cmp_bug2 produces the expected output) over Any ║
+# ║ Path(test_cmp_bug2(), not Symbol == t and Symbol != t) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmp_bug2 : Any → {Any | not Symbol == t and Symb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not Symbol == t                                ║
+# ║   ensures:  Symbol != t                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmp_bug2 : Any → {Any | result satisfies: not Sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e7bbd9313604745  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4e1d72e2964806c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_cmp_bug2","kind":"function","src_hash":"44bcc750ccf31963","in":{"base":"Any"},"out":{"base":"Any","pred":"not Symbol == t and Symbol != t"},"spec":{"lhs":"test_cmp_bug2()","rhs":"test_cmp_bug2 produces the expected output","over":{"base":"Any"},"name":"test_cmp_bug2_correct"},"guarantee":"test_cmp_bug2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_cmp_bug2_correct","statement":"Path(test_cmp_bug2(x), test_cmp_bug2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e7bbd9313604745"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_cmp_bug2","kind":"function","src_hash":"44bcc750ccf31963","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not Symbol == t and Symbol != t"},"spec":{"lhs":"test_cmp_bug2()","rhs":"not Symbol == t and Symbol != t","over":{"base":"Any"},"name":"test_cmp_bug2_correct"},"guarantee":"not Symbol == t; Symbol != t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_cmp_bug2_correct","statement":"Path(test_cmp_bug2(x), not Symbol == t; Symbol != t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e1d72e2964806c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not Symbol == t","Symbol != t"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_cmp_bug2():
     class T:
         pass
@@ -127,16 +155,24 @@ def test_cmp_bug2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmp_issue_4357(), check that basic subclasses can be compared with sympifiable objects) over Any ║
+# ║ Path(test_cmp_issue_4357(), not Symbol == 1 and Symbol != 1 and not Symbol == 'x' and Symbol != 'x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmp_issue_4357 : Any → {Any | not Symbol == 1 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not Symbol == 1                                ║
+# ║   ensures:  Symbol != 1                                    ║
+# ║   ensures:  not Symbol == 'x'                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmp_issue_4357 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 644eaa65c61a8c0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 061aa82d551ad21d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_cmp_issue_4357","kind":"function","src_hash":"37ad4503702004d2","in":{"base":"Any"},"out":{"base":"Any","pred":"not Symbol == 1 and Symbol != 1 and not Symbol == 'x' and Symbol != 'x'"},"spec":{"lhs":"test_cmp_issue_4357()","rhs":"check that basic subclasses can be compared with sympifiable objects","over":{"base":"Any"},"name":"test_cmp_issue_4357_correct"},"guarantee":"check that basic subclasses can be compared with sympifiable objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_cmp_issue_4357_correct","statement":"Path(test_cmp_issue_4357(x), check that basic subclasses can be compared with sympifiable objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"644eaa65c61a8c0e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_cmp_issue_4357","kind":"function","src_hash":"37ad4503702004d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not Symbol == 1 and Symbol != 1 and not Symbol == 'x' and Symbol != 'x'"},"spec":{"lhs":"test_cmp_issue_4357()","rhs":"not Symbol == 1 and Symbol != 1 and not Symbol == 'x' and Symbol != 'x'","over":{"base":"Any"},"name":"test_cmp_issue_4357_correct"},"guarantee":"not Symbol == 1; Symbol != 1; not Symbol == 'x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_cmp_issue_4357_correct","statement":"Path(test_cmp_issue_4357(x), not Symbol == 1; Symbol != 1; not Symbol == 'x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"061aa82d551ad21d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not Symbol == 1","Symbol != 1","not Symbol == 'x'","Symbol != 'x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmp_issue_4357():
     """ Check that Basic subclasses can be compared with sympifiable objects.
 
@@ -149,16 +185,24 @@ def test_cmp_issue_4357():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_eq(), test_dummy_eq produces the expected output) over Any ║
+# ║ Path(test_dummy_eq(), (u ** 2 + 1).dummy_eq(x ** 2 + 1) is True and (u ** 2 + 1 == x ** 2 + 1) is False and (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True and (u ** 2 + y).dummy_eq(x ** 2 + y, y) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_eq : Any → {Any | (u ** 2 + 1).dummy_eq(x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (u ** 2 + 1).dummy_eq(x ** 2 + 1) is True      ║
+# ║   ensures:  (u ** 2 + 1 == x ** 2 + 1) is False            ║
+# ║   ensures:  (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_eq : Any → {Any | result satisfies: (u ** ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a050f181fab6e00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ae0b1b45edd481f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_dummy_eq","kind":"function","src_hash":"f25ddacbdedfee37","in":{"base":"Any"},"out":{"base":"Any","pred":"(u ** 2 + 1).dummy_eq(x ** 2 + 1) is True and (u ** 2 + 1 == x ** 2 + 1) is False and (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True and (u ** 2 + y).dummy_eq(x ** 2 + y, y) is False"},"spec":{"lhs":"test_dummy_eq()","rhs":"test_dummy_eq produces the expected output","over":{"base":"Any"},"name":"test_dummy_eq_correct"},"guarantee":"test_dummy_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_dummy_eq_correct","statement":"Path(test_dummy_eq(x), test_dummy_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a050f181fab6e00"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_equal.test_dummy_eq","kind":"function","src_hash":"f25ddacbdedfee37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (u ** 2 + 1).dummy_eq(x ** 2 + 1) is True and (u ** 2 + 1 == x ** 2 + 1) is False and (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True and (u ** 2 + y).dummy_eq(x ** 2 + y, y) is False"},"spec":{"lhs":"test_dummy_eq()","rhs":"(u ** 2 + 1).dummy_eq(x ** 2 + 1) is True and (u ** 2 + 1 == x ** 2 + 1) is False and (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True and (u ** 2 + y).dummy_eq(x ** 2 + y, y) is False","over":{"base":"Any"},"name":"test_dummy_eq_correct"},"guarantee":"(u ** 2 + 1).dummy_eq(x ** 2 + 1) is True; (u ** 2 + 1 == x ** 2 + 1) is False; (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_equal.test_dummy_eq_correct","statement":"Path(test_dummy_eq(x), (u ** 2 + 1).dummy_eq(x ** 2 + 1) is True; (u ** 2 + 1 == x ** 2 + 1) is False; (u ** 2 + y).dummy_eq(x ** 2 + y, x) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ae0b1b45edd481f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(u ** 2 + 1).dummy_eq(x ** 2 + 1) is True","(u ** 2 + 1 == x ** 2 + 1) is False","(u ** 2 + y).dummy_eq(x ** 2 + y, x) is True","(u ** 2 + y).dummy_eq(x ** 2 + y, y) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dummy_eq():
     x = Symbol('x')
     y = Symbol('y')

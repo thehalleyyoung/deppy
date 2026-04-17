@@ -24,16 +24,24 @@ from sympy.plotting.intervalmath.interval_arithmetic import \
 
 # Tests for exception handling in experimental_lambdify
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_experimental_lambify(), test_experimental_lambify produces the expected output) over Any ║
+# ║ Path(test_experimental_lambify(), Max(2, 5) == 5 and Max(5, 7) == 7 and f(1) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_experimental_lambify : Any → {Any | Max(2, 5) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Max(2, 5) == 5                                 ║
+# ║   ensures:  Max(5, 7) == 7                                 ║
+# ║   ensures:  f(1) == 2                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_experimental_lambify : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca3bfc01a5ff56df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86348ed4010c7cb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_experimental_lambdify.test_experimental_lambify","kind":"function","src_hash":"6ecf69786cad7171","in":{"base":"Any"},"out":{"base":"Any","pred":"Max(2, 5) == 5 and Max(5, 7) == 7 and f(1) == 2"},"spec":{"lhs":"test_experimental_lambify()","rhs":"test_experimental_lambify produces the expected output","over":{"base":"Any"},"name":"test_experimental_lambify_correct"},"guarantee":"test_experimental_lambify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_experimental_lambdify.test_experimental_lambify_correct","statement":"Path(test_experimental_lambify(x), test_experimental_lambify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca3bfc01a5ff56df"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_experimental_lambdify.test_experimental_lambify","kind":"function","src_hash":"6ecf69786cad7171","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Max(2, 5) == 5 and Max(5, 7) == 7 and f(1) == 2"},"spec":{"lhs":"test_experimental_lambify()","rhs":"Max(2, 5) == 5 and Max(5, 7) == 7 and f(1) == 2","over":{"base":"Any"},"name":"test_experimental_lambify_correct"},"guarantee":"Max(2, 5) == 5; Max(5, 7) == 7; f(1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_experimental_lambdify.test_experimental_lambify_correct","statement":"Path(test_experimental_lambify(x), Max(2, 5) == 5; Max(5, 7) == 7; f(1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86348ed4010c7cb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Max(2, 5) == 5","Max(5, 7) == 7","f(1) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_experimental_lambify():
     x = Symbol('x')
     f = experimental_lambdify([x], Max(x, 5))
@@ -49,16 +57,23 @@ def test_experimental_lambify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_composite_boolean_region(), test_composite_boolean_region produces the expected output) over Any ║
+# ║ Path(test_composite_boolean_region(), f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_composite_boolean_region : Any → {Any | f(*a) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(*a) == intervalMembership(True, True)        ║
+# ║   ensures:  f(*a) == intervalMembership(False, True)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_composite_boolean_region : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25ad84298254811  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2d063eaadd2d5ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_experimental_lambdify.test_composite_boolean_region","kind":"function","src_hash":"000ab42d0d6e050b","in":{"base":"Any"},"out":{"base":"Any","pred":"f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(False, True) and f(*a) == intervalMembership(True, True)"},"spec":{"lhs":"test_composite_boolean_region()","rhs":"test_composite_boolean_region produces the expected output","over":{"base":"Any"},"name":"test_composite_boolean_region_correct"},"guarantee":"test_composite_boolean_region produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_experimental_lambdify.test_composite_boolean_region_correct","statement":"Path(test_composite_boolean_region(x), test_composite_boolean_region produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25ad84298254811"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_experimental_lambdify.test_composite_boolean_region","kind":"function","src_hash":"000ab42d0d6e050b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True)"},"spec":{"lhs":"test_composite_boolean_region()","rhs":"f(*a) == intervalMembership(True, True) and f(*a) == intervalMembership(False, True)","over":{"base":"Any"},"name":"test_composite_boolean_region_correct"},"guarantee":"f(*a) == intervalMembership(True, True); f(*a) == intervalMembership(False, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_experimental_lambdify.test_composite_boolean_region_correct","statement":"Path(test_composite_boolean_region(x), f(*a) == intervalMembership(True, True); f(*a) == intervalMembership(False, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d063eaadd2d5ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(*a) == intervalMembership(True, True)","f(*a) == intervalMembership(False, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_composite_boolean_region():
     x, y = symbols('x y')
 

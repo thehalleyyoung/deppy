@@ -25,76 +25,106 @@ from sympy.logic.algorithms.dpll import dpll_satisfiable
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f1(), test_f1 produces the expected output) over Any ║
+# ║ Path(test_f1(), bool(dpll_satisfiable(load(f1)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f1 : Any → {Any | bool(dpll_satisfiable(load(f1)))}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(dpll_satisfiable(load(f1)))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f1 : Any → {Any | result satisfies: bool(dpll_sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30ab737061be4afd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d99ba37069e2264  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f1","kind":"function","src_hash":"5c318c4dc674a6b2","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(dpll_satisfiable(load(f1)))"},"spec":{"lhs":"test_f1()","rhs":"test_f1 produces the expected output","over":{"base":"Any"},"name":"test_f1_correct"},"guarantee":"test_f1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f1_correct","statement":"Path(test_f1(x), test_f1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30ab737061be4afd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f1","kind":"function","src_hash":"5c318c4dc674a6b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(dpll_satisfiable(load(f1)))"},"spec":{"lhs":"test_f1()","rhs":"bool(dpll_satisfiable(load(f1)))","over":{"base":"Any"},"name":"test_f1_correct"},"guarantee":"bool(dpll_satisfiable(load(f1)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f1_correct","statement":"Path(test_f1(x), bool(dpll_satisfiable(load(f1))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d99ba37069e2264","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(dpll_satisfiable(load(f1)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f1():
     assert bool(dpll_satisfiable(load(f1)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f2(), test_f2 produces the expected output) over Any ║
+# ║ Path(test_f2(), bool(dpll_satisfiable(load(f2)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f2 : Any → {Any | bool(dpll_satisfiable(load(f2)))}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(dpll_satisfiable(load(f2)))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f2 : Any → {Any | result satisfies: bool(dpll_sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 335d1dcbd68cc206  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e4c1ba8fbc1969  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f2","kind":"function","src_hash":"23bc566cc5848fab","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(dpll_satisfiable(load(f2)))"},"spec":{"lhs":"test_f2()","rhs":"test_f2 produces the expected output","over":{"base":"Any"},"name":"test_f2_correct"},"guarantee":"test_f2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f2_correct","statement":"Path(test_f2(x), test_f2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"335d1dcbd68cc206"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f2","kind":"function","src_hash":"23bc566cc5848fab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(dpll_satisfiable(load(f2)))"},"spec":{"lhs":"test_f2()","rhs":"bool(dpll_satisfiable(load(f2)))","over":{"base":"Any"},"name":"test_f2_correct"},"guarantee":"bool(dpll_satisfiable(load(f2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f2_correct","statement":"Path(test_f2(x), bool(dpll_satisfiable(load(f2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e4c1ba8fbc1969","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(dpll_satisfiable(load(f2)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f2():
     assert bool(dpll_satisfiable(load(f2)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f3(), test_f3 produces the expected output) over Any ║
+# ║ Path(test_f3(), bool(dpll_satisfiable(load(f3)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f3 : Any → {Any | bool(dpll_satisfiable(load(f3)))}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(dpll_satisfiable(load(f3)))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f3 : Any → {Any | result satisfies: bool(dpll_sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e8652323ded2b1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7777f6c53c7f5b84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f3","kind":"function","src_hash":"95f3dbf88c463a8e","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(dpll_satisfiable(load(f3)))"},"spec":{"lhs":"test_f3()","rhs":"test_f3 produces the expected output","over":{"base":"Any"},"name":"test_f3_correct"},"guarantee":"test_f3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f3_correct","statement":"Path(test_f3(x), test_f3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e8652323ded2b1f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f3","kind":"function","src_hash":"95f3dbf88c463a8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(dpll_satisfiable(load(f3)))"},"spec":{"lhs":"test_f3()","rhs":"bool(dpll_satisfiable(load(f3)))","over":{"base":"Any"},"name":"test_f3_correct"},"guarantee":"bool(dpll_satisfiable(load(f3)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f3_correct","statement":"Path(test_f3(x), bool(dpll_satisfiable(load(f3))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7777f6c53c7f5b84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(dpll_satisfiable(load(f3)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f3():
     assert bool(dpll_satisfiable(load(f3)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f4(), test_f4 produces the expected output) over Any ║
+# ║ Path(test_f4(), not bool(dpll_satisfiable(load(f4)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f4 : Any → {Any | not bool(dpll_satisfiable(load...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not bool(dpll_satisfiable(load(f4)))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f4 : Any → {Any | result satisfies: not bool(dpl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caac9efdb036e807  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eea436466b255ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f4","kind":"function","src_hash":"f8477e52b5944644","in":{"base":"Any"},"out":{"base":"Any","pred":"not bool(dpll_satisfiable(load(f4)))"},"spec":{"lhs":"test_f4()","rhs":"test_f4 produces the expected output","over":{"base":"Any"},"name":"test_f4_correct"},"guarantee":"test_f4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f4_correct","statement":"Path(test_f4(x), test_f4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caac9efdb036e807"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f4","kind":"function","src_hash":"f8477e52b5944644","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not bool(dpll_satisfiable(load(f4)))"},"spec":{"lhs":"test_f4()","rhs":"not bool(dpll_satisfiable(load(f4)))","over":{"base":"Any"},"name":"test_f4_correct"},"guarantee":"not bool(dpll_satisfiable(load(f4)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f4_correct","statement":"Path(test_f4(x), not bool(dpll_satisfiable(load(f4))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eea436466b255ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not bool(dpll_satisfiable(load(f4)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f4():
     assert not bool(dpll_satisfiable(load(f4)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f5(), test_f5 produces the expected output) over Any ║
+# ║ Path(test_f5(), bool(dpll_satisfiable(load(f5)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f5 : Any → {Any | bool(dpll_satisfiable(load(f5)))}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(dpll_satisfiable(load(f5)))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f5 : Any → {Any | result satisfies: bool(dpll_sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d85db23934c090c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5da54448ac22938e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f5","kind":"function","src_hash":"f4533bc039eff8a1","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(dpll_satisfiable(load(f5)))"},"spec":{"lhs":"test_f5()","rhs":"test_f5 produces the expected output","over":{"base":"Any"},"name":"test_f5_correct"},"guarantee":"test_f5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f5_correct","statement":"Path(test_f5(x), test_f5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d85db23934c090c3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_dimacs.test_f5","kind":"function","src_hash":"f4533bc039eff8a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(dpll_satisfiable(load(f5)))"},"spec":{"lhs":"test_f5()","rhs":"bool(dpll_satisfiable(load(f5)))","over":{"base":"Any"},"name":"test_f5_correct"},"guarantee":"bool(dpll_satisfiable(load(f5)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_dimacs.test_f5_correct","statement":"Path(test_f5(x), bool(dpll_satisfiable(load(f5))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da54448ac22938e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(dpll_satisfiable(load(f5)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f5():
     assert bool(dpll_satisfiable(load(f5)))
 

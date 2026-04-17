@@ -28,16 +28,22 @@ global_namespace: dict[str, Any] = {}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispatch(*ty), dispatch function on the types of the inputs) over Any ║
+# ║ Path(dispatch(*types, namespace, on_ambiguity), <unspecified:dispatch>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispatch : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66e34e26acaf5d50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.core.dispatch","kind":"function","src_hash":"dcf40537071c584f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch(*ty)","rhs":"dispatch function on the types of the inputs","over":{"base":"Any"},"name":"dispatch_correct"},"guarantee":"dispatch function on the types of the inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.core.dispatch_correct","statement":"Path(dispatch(x), dispatch function on the types of the inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66e34e26acaf5d50"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.core.dispatch","kind":"function","src_hash":"dcf40537071c584f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch(*types, namespace, on_ambiguity)","rhs":"<unspecified:dispatch>","over":{"base":"Any"},"name":"dispatch_correct"},"guarantee":"dispatch function on the types of the inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.core.dispatch_correct","statement":"Path(dispatch(x), dispatch function on the types of the inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66e34e26acaf5d50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*types', 'namespace', 'on_ambiguity']"]}}
 def dispatch(*types, namespace=global_namespace, on_ambiguity=ambiguity_warn):
     """ Dispatch function on the types of the inputs
 
@@ -102,16 +108,22 @@ def dispatch(*types, namespace=global_namespace, on_ambiguity=ambiguity_warn):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ismethod(fun), is func a method?) over Any            ║
+# ║ Path(ismethod(func), signature.parameters.get('self', None) is not None) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  signature.parameters.get('self', None) is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ismethod : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98ac467619660ba1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24ecfb06a467b243  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.core.ismethod","kind":"function","src_hash":"ceb279a3332ac40b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ismethod(fun)","rhs":"is func a method?","over":{"base":"Any"},"name":"ismethod_correct"},"guarantee":"is func a method?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.core.ismethod_correct","statement":"Path(ismethod(x), is func a method?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ac467619660ba1"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.core.ismethod","kind":"function","src_hash":"ceb279a3332ac40b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ismethod(func)","rhs":"signature.parameters.get('self', None) is not None","over":{"base":"Any"},"name":"ismethod_correct"},"guarantee":"returns signature.parameters.get('self', None) is not None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.core.ismethod_correct","statement":"Path(ismethod(x), returns signature.parameters.get('self', None) is not None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24ecfb06a467b243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"signature.parameters.get('self', None) is not None","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ismethod(func):
     """ Is func a method?
 

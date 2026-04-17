@@ -16,16 +16,22 @@
 # ════════════════════════════════════════════════════════════════════
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(allclose(A, ), allclose produces the expected output) over Any ║
+# ║ Path(allclose(A, B, rtol), <unspecified:allclose>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ allclose : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96c8ca44eeadc3ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.matrices.allclose","kind":"function","src_hash":"ccb9fe4e162169fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allclose(A, )","rhs":"allclose produces the expected output","over":{"base":"Any"},"name":"allclose_correct"},"guarantee":"allclose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.matrices.allclose_correct","statement":"Path(allclose(x), allclose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96c8ca44eeadc3ca"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.matrices.allclose","kind":"function","src_hash":"ccb9fe4e162169fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allclose(A, B, rtol)","rhs":"<unspecified:allclose>","over":{"base":"Any"},"name":"allclose_correct"},"guarantee":"allclose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.matrices.allclose_correct","statement":"Path(allclose(x), allclose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96c8ca44eeadc3ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def allclose(A, B, rtol=1e-05, atol=1e-08):
     if len(A) != len(B):
         return False

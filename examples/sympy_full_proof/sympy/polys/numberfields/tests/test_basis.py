@@ -27,16 +27,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_round_two(), test_round_two produces the expected output) over Any ║
+# ║ Path(test_round_two(), <unspecified:test_round_two>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_round_two : Any → {Any | d == d_exp and (B.inv()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc97ea98d9df17a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_basis.test_round_two","kind":"function","src_hash":"bf7b3ec0f5077c6d","in":{"base":"Any"},"out":{"base":"Any","pred":"d == d_exp and (B.inv() * B_exp).det() ** 2 == 1"},"spec":{"lhs":"test_round_two()","rhs":"test_round_two produces the expected output","over":{"base":"Any"},"name":"test_round_two_correct"},"guarantee":"test_round_two produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_basis.test_round_two_correct","statement":"Path(test_round_two(x), test_round_two produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc97ea98d9df17a7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_basis.test_round_two","kind":"function","src_hash":"bf7b3ec0f5077c6d","in":{"base":"Any"},"out":{"base":"Any","pred":"d == d_exp and (B.inv() * B_exp).det() ** 2 == 1"},"spec":{"lhs":"test_round_two()","rhs":"<unspecified:test_round_two>","over":{"base":"Any"},"name":"test_round_two_correct"},"guarantee":"test_round_two produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_basis.test_round_two_correct","statement":"Path(test_round_two(x), test_round_two produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc97ea98d9df17a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"assumed","binding":true}}
 def test_round_two():
     # Poly must be irreducible, and over ZZ or QQ:
     raises(ValueError, lambda: round_two(Poly(x ** 2 - 1)))
@@ -102,16 +108,24 @@ def test_round_two():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AlgebraicField_integral_basis(), test_AlgebraicField_integral_basis produces the expected output) over Any ║
+# ║ Path(test_AlgebraicField_integral_basis(), B0 == [k([1]), k([S.Half, S.Half])] and B1 == [1, S.Half + alpha / 2] and B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AlgebraicField_integral_basis : Any → {Any | B0 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B0 == [k([1]), k([S.Half, S.Half])]            ║
+# ║   ensures:  B1 == [1, S.Half + alpha / 2]                  ║
+# ║   ensures:  B2 == [k.ext.field_element([1]), k.ext.fi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AlgebraicField_integral_basis : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34ea3aaa0f8b067a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6d3a0aff002580a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_basis.test_AlgebraicField_integral_basis","kind":"function","src_hash":"8a7a5c57a88b7e2d","in":{"base":"Any"},"out":{"base":"Any","pred":"B0 == [k([1]), k([S.Half, S.Half])] and B1 == [1, S.Half + alpha / 2] and B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])]"},"spec":{"lhs":"test_AlgebraicField_integral_basis()","rhs":"test_AlgebraicField_integral_basis produces the expected output","over":{"base":"Any"},"name":"test_AlgebraicField_integral_basis_correct"},"guarantee":"test_AlgebraicField_integral_basis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_basis.test_AlgebraicField_integral_basis_correct","statement":"Path(test_AlgebraicField_integral_basis(x), test_AlgebraicField_integral_basis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34ea3aaa0f8b067a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_basis.test_AlgebraicField_integral_basis","kind":"function","src_hash":"8a7a5c57a88b7e2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B0 == [k([1]), k([S.Half, S.Half])] and B1 == [1, S.Half + alpha / 2] and B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])]"},"spec":{"lhs":"test_AlgebraicField_integral_basis()","rhs":"B0 == [k([1]), k([S.Half, S.Half])] and B1 == [1, S.Half + alpha / 2] and B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])]","over":{"base":"Any"},"name":"test_AlgebraicField_integral_basis_correct"},"guarantee":"B0 == [k([1]), k([S.Half, S.Half])]; B1 == [1, S.Half + alpha / 2]; B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_basis.test_AlgebraicField_integral_basis_correct","statement":"Path(test_AlgebraicField_integral_basis(x), B0 == [k([1]), k([S.Half, S.Half])]; B1 == [1, S.Half + alpha / 2]; B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d3a0aff002580a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B0 == [k([1]), k([S.Half, S.Half])]","B1 == [1, S.Half + alpha / 2]","B2 == [k.ext.field_element([1]), k.ext.field_element([S.Half, S.Half])]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_AlgebraicField_integral_basis():
     alpha = AlgebraicNumber(sqrt(5), alias='alpha')
     k = QQ.algebraic_field(alpha)

@@ -21,16 +21,26 @@ from .traverse import top_down
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(d, ), id) over Any                               ║
+# ║ Path(subs(d, **kwargs), id) over {Any | hasattr(d, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subs : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'items')                            ║
+# ║   ensures:  result == (top_down(do_one(*map(rl.subs, ...   ║
+# ║   ensures:  result == top_down(do_one(*map(rl.subs, *...   ║
+# ║   fiber[case_0]: d => top_down(do_one(*map(rl.subs, *...   ║
+# ║   fiber[case_1]: not (d) => lambda x: x                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subs : {Any | hasattr(d, 'items')} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4283130f4d324636   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tools.subs","kind":"function","src_hash":"48948b5469eb82de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(d, )","rhs":"full simultaneous exact substitution","over":{"base":"Any"},"name":"subs_correct","kind":"composition"},"guarantee":"full simultaneous exact substitution","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"top_down","by":"library_axiom"},{"fn":"do_one","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"zip","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4283130f4d324636"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tools.subs","kind":"function","src_hash":"48948b5469eb82de","in":{"base":"Any","pred":"hasattr(d, 'items')"},"out":{"base":"Any","pred":"result satisfies: result == (top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) if d else lambda x: x) and result == top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) or result == lambda x: x"},"spec":{"lhs":"subs(d, **kwargs)","rhs":"result == (top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) if d else lambda x: x) and result == top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) or result == lambda x: x","over":{"base":"Any","pred":"hasattr(d, 'items')"},"name":"subs_correct","kind":"composition"},"guarantee":"result == (top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) if d else lambda x: x); result == top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) or result == lambda x: x; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"top_down","by":"library_axiom"},{"fn":"do_one","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"zip","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4283130f4d324636","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'items')"],"ensures":["result == (top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) if d else lambda x: x)","result == top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs) or result == lambda x: x"],"fibers":[{"name":"case_0","guard":"d","ensures":["result == top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs)"],"decidability":"library","returns_expr":"top_down(do_one(*map(rl.subs, *zip(*d.items()))), **kwargs)"},{"name":"case_1","guard":"not (d)","ensures":["result == lambda x: x"],"decidability":"library","returns_expr":"lambda x: x"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["d.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['d'], spec=['d', '**kwargs']"]}}
 def subs(d, **kwargs):
     """ Full simultaneous exact substitution.
 
@@ -51,16 +61,22 @@ def subs(d, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canon(*ru), strategy for canonicalization) over Any   ║
+# ║ Path(canon(*rules, **kwargs), exhaust(top_down(exhaust(do_one(*rules)), **kwargs))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exhaust(top_down(exhaust(do_one(*rules)),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ canon : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8feee9b26ddfa098           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tools.canon","kind":"function","src_hash":"066066ccb63d3717","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canon(*ru)","rhs":"strategy for canonicalization","over":{"base":"Any"},"name":"canon_correct"},"guarantee":"strategy for canonicalization","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8feee9b26ddfa098"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tools.canon","kind":"function","src_hash":"066066ccb63d3717","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canon(*rules, **kwargs)","rhs":"exhaust(top_down(exhaust(do_one(*rules)), **kwargs))","over":{"base":"Any"},"name":"canon_correct"},"guarantee":"returns exhaust(top_down(exhaust(do_one(*rules)), **kwargs))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8feee9b26ddfa098","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exhaust(top_down(exhaust(do_one(*rules)), **kwargs))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*rules', '**kwargs']"]}}
 def canon(*rules, **kwargs):
     """ Strategy for canonicalization.
 
@@ -75,16 +91,22 @@ def canon(*rules, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(typed(rul), apply rules based on the expression type) over Any ║
+# ║ Path(typed(ruletypes), switch(type, ruletypes)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  switch(type, ruletypes)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ typed : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82f51924e8e7f2bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tools.typed","kind":"function","src_hash":"c4b82382a81be756","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"typed(rul)","rhs":"apply rules based on the expression type","over":{"base":"Any"},"name":"typed_correct"},"guarantee":"apply rules based on the expression type","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82f51924e8e7f2bd"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tools.typed","kind":"function","src_hash":"c4b82382a81be756","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"typed(ruletypes)","rhs":"switch(type, ruletypes)","over":{"base":"Any"},"name":"typed_correct"},"guarantee":"returns switch(type, ruletypes)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82f51924e8e7f2bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"switch(type, ruletypes)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def typed(ruletypes):
     """ Apply rules based on the expression type
 

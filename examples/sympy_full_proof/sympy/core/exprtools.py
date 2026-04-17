@@ -44,31 +44,44 @@ _eps = Dummy(positive=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_isnumber(i), internal helper behaves correctly) over {Any | isinstance(i, (SYMPY_INTS, float))} ║
+# ║ Path(_isnumber(i), isinstance(i, (SYMPY_INTS, float)) or i.is_Number) over {Any | isinstance(i, (SYMPY_INTS, float)) and hasattr(i, 'is_Number')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(i, 'is_Number')                        ║
+# ║   returns:  isinstance(i, (SYMPY_INTS, float)) or i.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _isnumber : {Any | isinstance(i, (SYMPY_INTS, float))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db4c79731262d5da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._isnumber","kind":"function","src_hash":"f489fa580f7035b2","in":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, float))"},"out":{"base":"Any"},"spec":{"lhs":"_isnumber(i)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, float))"},"name":"_isnumber_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db4c79731262d5da"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._isnumber","kind":"function","src_hash":"f489fa580f7035b2","in":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, float)) and hasattr(i, 'is_Number')"},"out":{"base":"Any"},"spec":{"lhs":"_isnumber(i)","rhs":"isinstance(i, (SYMPY_INTS, float)) or i.is_Number","over":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, float)) and hasattr(i, 'is_Number')"},"name":"_isnumber_correct"},"guarantee":"returns isinstance(i, (SYMPY_INTS, float)) or i.is_Number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db4c79731262d5da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(i, 'is_Number')"],"returns_expr":"isinstance(i, (SYMPY_INTS, float)) or i.is_Number","pure":false,"effects":{"effect_type":"reads_state","reads":["i.is_Number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _isnumber(i):
     return isinstance(i, (SYMPY_INTS, float)) or i.is_Number
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_monotonic_sign(), return the value closest to 0 that ``self`` may have if all symbols are signed and the result is uniformly the same sign for all values of symbols. if a symbol is only signed but not known to be an in) over Any ║
+# ║ Path(_monotonic_sign(), # HINT: _monotonic_sign may be idempotent: _monotonic_sign(_monotonic_sign(x)) == _monotonic_sign(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _monotonic_sign : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _monotonic_sign may be idempotent...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _monotonic_sign : Any → {Any | result satisfies: # HI...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 652b0f2b9ecb1db0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d17090094e9ceccf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._monotonic_sign","kind":"function","src_hash":"7c55f707228a2f36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_monotonic_sign()","rhs":"return the value closest to 0 that ``self`` may have if all symbols are signed and the result is uniformly the same sign for all values of symbols. if a symbol is only signed but not known to be an in","over":{"base":"Any"},"name":"_monotonic_sign_correct"},"guarantee":"return the value closest to 0 that ``self`` may have if all symbols are signed and the result is uniformly the same sign for all values of symbols. if a symbol is only signed but not known to be an in","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._monotonic_sign_correct","statement":"Path(_monotonic_sign(x), return the value closest to 0 that ``self`` may have if all symbols are signed and the result is uniformly the same sign for all values of symbols. if a symbol is only signed but not known to be an in)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"652b0f2b9ecb1db0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._monotonic_sign","kind":"function","src_hash":"7c55f707228a2f36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _monotonic_sign may be idempotent: _monotonic_sign(_monotonic_sign(x)) == _monotonic_sign(x)"},"spec":{"lhs":"_monotonic_sign()","rhs":"# HINT: _monotonic_sign may be idempotent: _monotonic_sign(_monotonic_sign(x)) == _monotonic_sign(x)","over":{"base":"Any"},"name":"_monotonic_sign_correct"},"guarantee":"# HINT: _monotonic_sign may be idempotent: _monotonic_sign(_monotonic_sign(x)) == _monotonic_sign(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._monotonic_sign_correct","statement":"Path(_monotonic_sign(x), # HINT: _monotonic_sign may be idempotent: _monotonic_sign(_monotonic_sign(x)) == _monotonic_sign(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d17090094e9ceccf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _monotonic_sign may be idempotent: _monotonic_sign(_monotonic_sign(x)) == _monotonic_sign(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def _monotonic_sign(self):
     """Return the value closest to 0 that ``self`` may have if all symbols
     are signed and the result is uniformly the same sign for all values of symbols.
@@ -255,16 +268,26 @@ def _monotonic_sign(self):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decompose_power(exp), decompose power into symbolic base and integer exponent) over Expr ║
+# ║ Path(decompose_power(expr), (base, e)) over {Expr | isinstance(expr, Expr) and hasattr(expr, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ decompose_power : Expr → tuple[Expr, int]                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: hasattr(expr, 'as_base_exp')                   ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 2                               ║
+# ║   returns:  (base, e)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ decompose_power : {Expr | isinstance(expr, Expr) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4123da9272c35635  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7500fd5b8a38eb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.decompose_power","kind":"function","src_hash":"558c9658155a43ea","in":{"base":"Expr"},"out":{"base":"tuple[Expr, int]"},"spec":{"lhs":"decompose_power(exp)","rhs":"decompose power into symbolic base and integer exponent","over":{"base":"Expr"},"name":"decompose_power_correct"},"guarantee":"decompose power into symbolic base and integer exponent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.decompose_power_correct","statement":"Path(decompose_power(x), decompose power into symbolic base and integer exponent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4123da9272c35635"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.decompose_power","kind":"function","src_hash":"558c9658155a43ea","in":{"base":"Expr","pred":"isinstance(expr, Expr) and hasattr(expr, 'as_base_exp')"},"out":{"base":"tuple[Expr, int]","pred":"result satisfies: result == ((base, e))"},"spec":{"lhs":"decompose_power(expr)","rhs":"(base, e)","over":{"base":"Expr","pred":"isinstance(expr, Expr) and hasattr(expr, 'as_base_exp')"},"name":"decompose_power_correct"},"guarantee":"returns (base, e); isinstance(result, tuple); len(result) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.decompose_power_correct","statement":"Path(decompose_power(x), returns (base, e); isinstance(result, tuple); len(result) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7500fd5b8a38eb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Expr)","hasattr(expr, 'as_base_exp')"],"ensures":["isinstance(result, tuple)","len(result) == 2"],"returns_expr":"(base, e)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_base_exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def decompose_power(expr: Expr) -> tuple[Expr, int]:
     """
     Decompose power into symbolic base and integer exponent.
@@ -310,16 +333,26 @@ def decompose_power(expr: Expr) -> tuple[Expr, int]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decompose_power_rat(exp), decompose power into symbolic base and rational exponent; if the exponent is not a rational, then separate only the integer coefficient) over Expr ║
+# ║ Path(decompose_power_rat(expr), (base, exp)) over {Expr | isinstance(expr, Expr) and hasattr(expr, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ decompose_power_rat : Expr → tuple[Expr, Rational]         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: hasattr(expr, 'as_base_exp')                   ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 2                               ║
+# ║   returns:  (base, exp)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ decompose_power_rat : {Expr | isinstance(expr, Expr) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d9b278ac7898ab6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98a9b1bec04da597  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.decompose_power_rat","kind":"function","src_hash":"3d57d1f6b413b87b","in":{"base":"Expr"},"out":{"base":"tuple[Expr, Rational]"},"spec":{"lhs":"decompose_power_rat(exp)","rhs":"decompose power into symbolic base and rational exponent; if the exponent is not a rational, then separate only the integer coefficient","over":{"base":"Expr"},"name":"decompose_power_rat_correct"},"guarantee":"decompose power into symbolic base and rational exponent; if the exponent is not a rational, then separate only the integer coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.decompose_power_rat_correct","statement":"Path(decompose_power_rat(x), decompose power into symbolic base and rational exponent; if the exponent is not a rational, then separate only the integer coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d9b278ac7898ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.decompose_power_rat","kind":"function","src_hash":"3d57d1f6b413b87b","in":{"base":"Expr","pred":"isinstance(expr, Expr) and hasattr(expr, 'as_base_exp')"},"out":{"base":"tuple[Expr, Rational]","pred":"result satisfies: result == ((base, exp))"},"spec":{"lhs":"decompose_power_rat(expr)","rhs":"(base, exp)","over":{"base":"Expr","pred":"isinstance(expr, Expr) and hasattr(expr, 'as_base_exp')"},"name":"decompose_power_rat_correct"},"guarantee":"returns (base, exp); isinstance(result, tuple); len(result) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.decompose_power_rat_correct","statement":"Path(decompose_power_rat(x), returns (base, exp); isinstance(result, tuple); len(result) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98a9b1bec04da597","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Expr)","hasattr(expr, 'as_base_exp')"],"ensures":["isinstance(result, tuple)","len(result) == 2"],"returns_expr":"(base, exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_base_exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def decompose_power_rat(expr: Expr) -> tuple[Expr, Rational]:
     """
     Decompose power into symbolic base and rational exponent;
@@ -349,30 +382,44 @@ def decompose_power_rat(expr: Expr) -> tuple[Expr, Rational]:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Factors instance) preserved by Factors(*args) over {Any | isinstance(factors, (SYMPY_INTS, float)) and isinstance(factors, Factors) and isinstance(other, SYMPY_INTS)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Factors : {Any | isinstance(factors, (SYMPY_INTS, flo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec4895ea2300ab4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors","kind":"class","src_hash":"a2144e2ba4507bd7","in":{"base":"Any","pred":"isinstance(factors, (SYMPY_INTS, float)) and isinstance(factors, Factors) and isinstance(other, SYMPY_INTS)"},"out":{"base":"Any","pred":"factor not in rem"},"spec":{"lhs":"Factors(*args)","rhs":"correctly constructs a Factors instance","over":{"base":"Any","pred":"isinstance(factors, (SYMPY_INTS, float)) and isinstance(factors, Factors) and isinstance(other, SYMPY_INTS)"},"name":"Factors_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Factors instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_zero","pred":"self.is_zero","kind":"class"},{"name":"is_one","pred":"self.is_one","kind":"class"},{"name":"representation","pred":"hasattr(self, 'factors') and hasattr(self, 'gens')","kind":"class","induction":"structural on factors, gens"}],"methods_preserving":["__init__","__hash__","__repr__","is_zero","is_one","as_expr","mul","normal","div","quo","rem","pow","gcd","lcm","__mul__","__divmod__","__truediv__","__mod__","__pow__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec4895ea2300ab4b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors","kind":"class","src_hash":"a2144e2ba4507bd7","in":{"base":"Any","pred":"isinstance(factors, (SYMPY_INTS, float)) and isinstance(factors, Factors) and isinstance(other, SYMPY_INTS)"},"out":{"base":"Any","pred":"factor not in rem"},"spec":{"lhs":"Factors(*args)","rhs":"correctly constructs a Factors instance","over":{"base":"Any","pred":"isinstance(factors, (SYMPY_INTS, float)) and isinstance(factors, Factors) and isinstance(other, SYMPY_INTS)"},"name":"Factors_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_zero","pred":"self.is_zero","kind":"class"},{"name":"is_one","pred":"self.is_one","kind":"class"},{"name":"representation","pred":"hasattr(self, 'factors') and hasattr(self, 'gens')","kind":"class","induction":"structural on factors, gens"}],"methods_preserving":["__init__","__hash__","__repr__","is_zero","is_one","as_expr","mul","normal","div","quo","rem","pow","gcd","lcm","__mul__","__divmod__","__truediv__","__mod__","__pow__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec4895ea2300ab4b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'factors')","hasattr(self, 'gens')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Factors not found in source"]}}
 class Factors:
     """Efficient representation of ``f_1*f_2*...*f_n``."""
 
     __slots__ = ('factors', 'gens')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fac), initializes the instance correctly) over Any ║
+# ║ Path(__init__(factors), len(factors) == old_len_factors - 1) over {Any | not (keys is None) and hasattr(factors, 'factors') and hasattr(factors, 'args') and hasattr(factors, 'args_cnc') and hasattr(factors, 'copy') and hasattr(factors, 'keys') and hasattr(factors, 'pop') and hasattr(factors, 'get') and len(factors) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (keys is None)                             ║
+# ║   requires: hasattr(factors, 'factors')                    ║
+# ║   requires: hasattr(factors, 'args')                       ║
+# ║   ensures:  len(factors) == old_len_factors - 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (keys is None) and hasattr(fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbd3b8b2b5a46664           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__init__","kind":"method","src_hash":"d83d731d87f0c9a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fac)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbd3b8b2b5a46664"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__init__","kind":"method","src_hash":"d83d731d87f0c9a0","in":{"base":"Any","pred":"not (keys is None) and hasattr(factors, 'factors') and hasattr(factors, 'args') and hasattr(factors, 'args_cnc') and hasattr(factors, 'copy') and hasattr(factors, 'keys') and hasattr(factors, 'pop') and hasattr(factors, 'get') and len(factors) > 0"},"out":{"base":"Any","pred":"result satisfies: len(factors) == old_len_factors - 1"},"spec":{"lhs":"__init__(factors)","rhs":"len(factors) == old_len_factors - 1","over":{"base":"Any","pred":"not (keys is None) and hasattr(factors, 'factors') and hasattr(factors, 'args') and hasattr(factors, 'args_cnc') and hasattr(factors, 'copy') and hasattr(factors, 'keys') and hasattr(factors, 'pop') and hasattr(factors, 'get') and len(factors) > 0"},"name":"__init___correct"},"guarantee":"len(factors) == old_len_factors - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbd3b8b2b5a46664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (keys is None)","hasattr(factors, 'factors')","hasattr(factors, 'args')","hasattr(factors, 'args_cnc')","hasattr(factors, 'copy')","hasattr(factors, 'keys')","hasattr(factors, 'pop')","hasattr(factors, 'get')","len(factors) > 0"],"ensures":["len(factors) == old_len_factors - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["factors.args","factors.args_cnc","factors.copy","factors.factors","factors.get","factors.keys","factors.pop"],"writes":["factors[*]","self.factors","self.gens"],"calls_mutating":["c.remove","factors.pop"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["c.*","factors.*","factors[*]","self.factors","self.gens"],"old_bindings":{"old_factors_star":"factors[*]","old_self_factors":"self.factors","old_self_gens":"self.gens","old_len_factors":"len(factors)"},"pre_requires":["len(factors) > 0"],"post_ensures":["len(factors) == old_len_factors - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, factors=None):  # Factors
         """Initialize Factors from dict or expr.
 
@@ -484,48 +531,66 @@ class Factors:
         self.gens = frozenset(keys())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((keys, values))) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((keys, values))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca045981b7bb0d4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__hash__","kind":"method","src_hash":"33c14a703664828f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca045981b7bb0d4a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__hash__","kind":"method","src_hash":"33c14a703664828f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((keys, values))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((keys, values))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca045981b7bb0d4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((keys, values))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):  # Factors
         keys = tuple(ordered(self.factors.keys()))
         values = [self.factors[k] for k in keys]
         return hash((keys, values))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'Factors({%s})' % ', '.join(['%s: %s' % (k, v) for k, v in ordered(self.factors.items())])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Factors({%s})' % ', '.join(['%s: %s' % (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10bd15b0da28af68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__repr__","kind":"method","src_hash":"49f7f8f4ef59a70e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10bd15b0da28af68"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__repr__","kind":"method","src_hash":"49f7f8f4ef59a70e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'Factors({%s})' % ', '.join(['%s: %s' % (k, v) for k, v in ordered(self.factors.items())])","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'Factors({%s})' % ', '.join(['%s: %s' % (k, v) for k, v in ordered(self.factors.items())])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10bd15b0da28af68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Factors({%s})' % ', '.join(['%s: %s' % (k, v) for k, v in ordered(self.factors.items())])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):  # Factors
         return "Factors({%s})" % ', '.join(
             ['%s: %s' % (k, v) for k, v in ordered(self.factors.items())])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), returns the is_zero attribute) over Any    ║
+# ║ Path(is_zero(), len(f) == 1 and S.Zero in f) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(f) == 1 and S.Zero in f                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac0bfda5184362b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.is_zero","kind":"property","src_hash":"9ea432d2c46c7372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"returns the is_zero attribute","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns the is_zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac0bfda5184362b9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.is_zero","kind":"property","src_hash":"9ea432d2c46c7372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"len(f) == 1 and S.Zero in f","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns len(f) == 1 and S.Zero in f","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac0bfda5184362b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(f) == 1 and S.Zero in f","pure":false,"effects":{"effect_type":"reads_state","reads":["self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):  # Factors
         """
         >>> from sympy.core.exprtools import Factors
@@ -537,16 +602,22 @@ class Factors:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_one(), returns the is_one attribute) over Any      ║
+# ║ Path(is_one(), not self.factors) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.factors                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_one : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2338ebb5b43e09d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.is_one","kind":"property","src_hash":"e001455dd078df81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_one()","rhs":"returns the is_one attribute","over":{"base":"Any"},"name":"is_one_correct"},"guarantee":"returns the is_one attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2338ebb5b43e09d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.is_one","kind":"property","src_hash":"e001455dd078df81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_one()","rhs":"not self.factors","over":{"base":"Any"},"name":"is_one_correct"},"guarantee":"returns not self.factors","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2338ebb5b43e09d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.factors","pure":false,"effects":{"effect_type":"reads_state","reads":["self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_one(self):  # Factors
         """
         >>> from sympy.core.exprtools import Factors
@@ -556,16 +627,22 @@ class Factors:
         return not self.factors
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(), return the underlying expression) over Any ║
+# ║ Path(as_expr(), Mul(*args)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(*args)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfc586adf496a5b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f17c05b4ad215a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.as_expr","kind":"method","src_hash":"3cfd7386a20a257c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr()","rhs":"return the underlying expression","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"return the underlying expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.as_expr_correct","statement":"Path(as_expr(x), return the underlying expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfc586adf496a5b3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.as_expr","kind":"method","src_hash":"3cfd7386a20a257c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr()","rhs":"Mul(*args)","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"returns Mul(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.as_expr_correct","statement":"Path(as_expr(x), returns Mul(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f17c05b4ad215a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(self):  # Factors
         """Return the underlying expression.
 
@@ -593,16 +670,23 @@ class Factors:
         return Mul(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(oth), return factors of ``self * other``) over Any ║
+# ║ Path(mul(other), <unspecified:mul>) over {Any | hasattr(other, 'factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'factors')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul : {Any | hasattr(other, 'factors')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dee2f93330a7fa0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.mul","kind":"method","src_hash":"ff35a226bd64fc07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(oth)","rhs":"return factors of ``self * other``","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"return factors of ``self * other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.mul_correct","statement":"Path(mul(x), return factors of ``self * other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dee2f93330a7fa0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.mul","kind":"method","src_hash":"ff35a226bd64fc07","in":{"base":"Any","pred":"hasattr(other, 'factors')"},"out":{"base":"Any"},"spec":{"lhs":"mul(other)","rhs":"<unspecified:mul>","over":{"base":"Any","pred":"hasattr(other, 'factors')"},"name":"mul_correct"},"guarantee":"return factors of ``self * other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.mul_correct","statement":"Path(mul(x), return factors of ``self * other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dee2f93330a7fa0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'factors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.factors","self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self, other):  # Factors
         """Return Factors of ``self * other``.
 
@@ -637,16 +721,24 @@ class Factors:
         return Factors(factors)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal(oth), id) over Any                             ║
+# ║ Path(normal(other), id) over {Any | hasattr(other, 'is_zero') and hasattr(other, 'factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ normal : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   requires: hasattr(other, 'factors')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ normal : {Any | hasattr(other, 'is_zero') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ef471b5cd63756f1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.normal","kind":"method","src_hash":"5aef9f67a782f7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal(oth)","rhs":"return ``self`` and ``other`` with ``gcd`` removed from each. the only differences between this and method ``div`` is that this is 1) optimized for the case when there are few factors in common and 2)","over":{"base":"Any"},"name":"normal_correct","kind":"composition"},"guarantee":"return ``self`` and ``other`` with ``gcd`` removed from each. the only differences between this and method ``div`` is that this is 1) optimized for the case when there are few factors in common and 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Factors","by":"library_axiom"},{"fn":"Factors","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef471b5cd63756f1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.normal","kind":"method","src_hash":"5aef9f67a782f7c5","in":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'factors')"},"out":{"base":"Any"},"spec":{"lhs":"normal(other)","rhs":"<unspecified:normal>","over":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'factors')"},"name":"normal_correct","kind":"composition"},"guarantee":"return ``self`` and ``other`` with ``gcd`` removed from each. the only differences between this and method ``div`` is that this is 1) optimized for the case when there are few factors in common and 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Factors","by":"library_axiom"},{"fn":"Factors","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef471b5cd63756f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_zero')","hasattr(other, 'factors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.factors","other.is_zero","self.factors","self.is_zero"],"catches":["KeyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normal(self, other):
         """Return ``self`` and ``other`` with ``gcd`` removed from each.
         The only differences between this and method ``div`` is that this
@@ -718,16 +810,24 @@ class Factors:
         return Factors(self_factors), Factors(other_factors)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(oth), id) over Any                                ║
+# ║ Path(div(other), id) over {Any | hasattr(other, 'is_zero') and hasattr(other, 'factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ div : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   requires: hasattr(other, 'factors')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ div : {Any | hasattr(other, 'is_zero') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1b4c36793ca4eb8f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.div","kind":"method","src_hash":"19dc17ba636cb56b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(oth)","rhs":"return ``self`` and ``other`` with ``gcd`` removed from each. this is optimized for the case when there are many factors in common","over":{"base":"Any"},"name":"div_correct","kind":"composition"},"guarantee":"return ``self`` and ``other`` with ``gcd`` removed from each. this is optimized for the case when there are many factors in common","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Factors","by":"library_axiom"},{"fn":"Factors","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b4c36793ca4eb8f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.div","kind":"method","src_hash":"19dc17ba636cb56b","in":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'factors')"},"out":{"base":"Any"},"spec":{"lhs":"div(other)","rhs":"<unspecified:div>","over":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'factors')"},"name":"div_correct","kind":"composition"},"guarantee":"return ``self`` and ``other`` with ``gcd`` removed from each. this is optimized for the case when there are many factors in common","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Factors","by":"library_axiom"},{"fn":"Factors","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b4c36793ca4eb8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_zero')","hasattr(other, 'factors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.factors","other.is_zero","self.factors","self.is_zero"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, other):  # Factors
         """Return ``self`` and ``other`` with ``gcd`` removed from each.
         This is optimized for the case when there are many factors in common.
@@ -831,16 +931,22 @@ class Factors:
         return Factors(quo), Factors(rem)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(oth), return numerator factor of ``self / other``) over Any ║
+# ║ Path(quo(other), self.div(other)[0]) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.div(other)[0]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quo : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0128687455191f09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.quo","kind":"method","src_hash":"068c02995a6a5cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(oth)","rhs":"return numerator factor of ``self / other``","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"return numerator factor of ``self / other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0128687455191f09"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.quo","kind":"method","src_hash":"068c02995a6a5cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(other)","rhs":"self.div(other)[0]","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"returns self.div(other)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0128687455191f09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.div(other)[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.div"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, other):  # Factors
         """Return numerator Factor of ``self / other``.
 
@@ -857,16 +963,22 @@ class Factors:
         return self.div(other)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem(oth), return denominator factors of ``self / other``) over Any ║
+# ║ Path(rem(other), self.div(other)[1]) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.div(other)[1]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rem : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc27b94a5e58dfe4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.rem","kind":"method","src_hash":"a0766a09e7b20a8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(oth)","rhs":"return denominator factors of ``self / other``","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"return denominator factors of ``self / other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc27b94a5e58dfe4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.rem","kind":"method","src_hash":"a0766a09e7b20a8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(other)","rhs":"self.div(other)[1]","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"returns self.div(other)[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc27b94a5e58dfe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.div(other)[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.div"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rem(self, other):  # Factors
         """Return denominator Factors of ``self / other``.
 
@@ -885,16 +997,24 @@ class Factors:
         return self.div(other)[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow(oth), return self raised to a non-negative integer power) over Any ║
+# ║ Path(pow(other), Factors(factors)) over {Any | hasattr(other, 'is_Integer') and hasattr(other, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pow : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_Integer')                   ║
+# ║   requires: hasattr(other, 'as_expr')                      ║
+# ║   returns:  Factors(factors)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pow : {Any | hasattr(other, 'is_Integer') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df3f218e042ecacb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d638f69dec31ec69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.pow","kind":"method","src_hash":"235200cef1a533dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow(oth)","rhs":"return self raised to a non-negative integer power","over":{"base":"Any"},"name":"pow_correct"},"guarantee":"return self raised to a non-negative integer power","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.pow_correct","statement":"Path(pow(x), return self raised to a non-negative integer power)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df3f218e042ecacb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.pow","kind":"method","src_hash":"235200cef1a533dc","in":{"base":"Any","pred":"hasattr(other, 'is_Integer') and hasattr(other, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"pow(other)","rhs":"Factors(factors)","over":{"base":"Any","pred":"hasattr(other, 'is_Integer') and hasattr(other, 'as_expr')"},"name":"pow_correct"},"guarantee":"returns Factors(factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.pow_correct","statement":"Path(pow(x), returns Factors(factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d638f69dec31ec69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_Integer')","hasattr(other, 'as_expr')"],"returns_expr":"Factors(factors)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.as_expr","other.is_Integer","self.factors"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow(self, other):  # Factors
         """Return self raised to a non-negative integer power.
 
@@ -924,16 +1044,24 @@ class Factors:
             raise ValueError("expected non-negative integer, got %s" % other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(oth), return factors of ``gcd(self, other)``) over Any ║
+# ║ Path(gcd(other), <unspecified:gcd>) over {Any | hasattr(other, 'is_zero') and hasattr(other, 'factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcd : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   requires: hasattr(other, 'factors')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcd : {Any | hasattr(other, 'is_zero') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a8fc8f26f9a4e91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.gcd","kind":"method","src_hash":"435041291d677702","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(oth)","rhs":"return factors of ``gcd(self, other)``","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"return factors of ``gcd(self, other)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.gcd_correct","statement":"Path(gcd(x), return factors of ``gcd(self, other)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8fc8f26f9a4e91"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.gcd","kind":"method","src_hash":"435041291d677702","in":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'factors')"},"out":{"base":"Any"},"spec":{"lhs":"gcd(other)","rhs":"<unspecified:gcd>","over":{"base":"Any","pred":"hasattr(other, 'is_zero') and hasattr(other, 'factors')"},"name":"gcd_correct"},"guarantee":"return factors of ``gcd(self, other)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.gcd_correct","statement":"Path(gcd(x), return factors of ``gcd(self, other)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8fc8f26f9a4e91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_zero')","hasattr(other, 'factors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.factors","other.is_zero","self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, other):  # Factors
         """Return Factors of ``gcd(self, other)``. The keys are
         the intersection of factors with the minimum exponent for
@@ -968,16 +1096,23 @@ class Factors:
         return Factors(factors)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(oth), return factors of ``lcm(self, other)`` which are the union of factors with the maximum exponent for each factor) over Any ║
+# ║ Path(lcm(other), <unspecified:lcm>) over {Any | hasattr(other, 'factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lcm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'factors')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lcm : {Any | hasattr(other, 'factors')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a721a835ff7fd1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.lcm","kind":"method","src_hash":"73f7f1cf8fb9667a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(oth)","rhs":"return factors of ``lcm(self, other)`` which are the union of factors with the maximum exponent for each factor","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"return factors of ``lcm(self, other)`` which are the union of factors with the maximum exponent for each factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.lcm_correct","statement":"Path(lcm(x), return factors of ``lcm(self, other)`` which are the union of factors with the maximum exponent for each factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a721a835ff7fd1a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.lcm","kind":"method","src_hash":"73f7f1cf8fb9667a","in":{"base":"Any","pred":"hasattr(other, 'factors')"},"out":{"base":"Any"},"spec":{"lhs":"lcm(other)","rhs":"<unspecified:lcm>","over":{"base":"Any","pred":"hasattr(other, 'factors')"},"name":"lcm_correct"},"guarantee":"return factors of ``lcm(self, other)`` which are the union of factors with the maximum exponent for each factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Factors.lcm_correct","statement":"Path(lcm(x), return factors of ``lcm(self, other)`` which are the union of factors with the maximum exponent for each factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a721a835ff7fd1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'factors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.factors","self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, other):  # Factors
         """Return Factors of ``lcm(self, other)`` which are
         the union of factors with the maximum exponent for
@@ -1009,102 +1144,145 @@ class Factors:
         return Factors(factors)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self.mul(other)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.mul(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2408c7319011bada           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__mul__","kind":"method","src_hash":"284abeea3ed9048a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2408c7319011bada"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__mul__","kind":"method","src_hash":"284abeea3ed9048a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self.mul(other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self.mul(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2408c7319011bada","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.mul(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):  # Factors
         return self.mul(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__divmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__divmod__(other), self.div(other)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.div(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __divmod__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 479387e1ba8aac76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__divmod__","kind":"method","src_hash":"da654f4b545bd279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"479387e1ba8aac76"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__divmod__","kind":"method","src_hash":"da654f4b545bd279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(other)","rhs":"self.div(other)","over":{"base":"Any"},"name":"__divmod___correct"},"guarantee":"returns self.div(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"479387e1ba8aac76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.div(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.div"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __divmod__(self, other):  # Factors
         return self.div(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self.quo(other)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.quo(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea451d9ff66fa6df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__truediv__","kind":"method","src_hash":"c5a3cf6c4c557817","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea451d9ff66fa6df"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__truediv__","kind":"method","src_hash":"c5a3cf6c4c557817","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self.quo(other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self.quo(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea451d9ff66fa6df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.quo(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.quo"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):  # Factors
         return self.quo(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__mod__(other), self.rem(other)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rem(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mod__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a22336390cc05b73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__mod__","kind":"method","src_hash":"83c3146a0c1e56a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a22336390cc05b73"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__mod__","kind":"method","src_hash":"83c3146a0c1e56a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(other)","rhs":"self.rem(other)","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"returns self.rem(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a22336390cc05b73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rem(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mod__(self, other):  # Factors
         return self.rem(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), self.pow(other)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pow(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7431472369f0820f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__pow__","kind":"method","src_hash":"afd14006970cad67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7431472369f0820f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__pow__","kind":"method","src_hash":"afd14006970cad67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other)","rhs":"self.pow(other)","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"returns self.pow(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7431472369f0820f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pow(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pow"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):  # Factors
         return self.pow(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self.factors == other.factors) over {Any | hasattr(other, 'factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'factors')                      ║
+# ║   returns:  self.factors == other.factors                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'factors')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cf916c3d741706c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__eq__","kind":"method","src_hash":"0d827ecca4cfc2ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cf916c3d741706c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__eq__","kind":"method","src_hash":"0d827ecca4cfc2ef","in":{"base":"Any","pred":"hasattr(other, 'factors')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self.factors == other.factors","over":{"base":"Any","pred":"hasattr(other, 'factors')"},"name":"__eq___correct"},"guarantee":"returns self.factors == other.factors","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cf916c3d741706c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'factors')"],"returns_expr":"self.factors == other.factors","pure":false,"effects":{"effect_type":"reads_state","reads":["other.factors","self.factors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):  # Factors
         if not isinstance(other, Factors):
             other = Factors(other)
         return self.factors == other.factors
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e136805da8905fa5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__ne__","kind":"method","src_hash":"8db423348857ed6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e136805da8905fa5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Factors.__ne__","kind":"method","src_hash":"8db423348857ed6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e136805da8905fa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):  # Factors
         return not self == other
 
@@ -1112,30 +1290,44 @@ class Factors:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Term instance) preserved by Term(*args) over {Any | isinstance(other, Term) and isinstance(other, SYMPY_INTS)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Term : {Any | isinstance(other, Term) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee51e34debdce707  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term","kind":"class","src_hash":"0c14303174609251","in":{"base":"Any","pred":"isinstance(other, Term) and isinstance(other, SYMPY_INTS)"},"out":{"base":"Any"},"spec":{"lhs":"Term(*args)","rhs":"correctly constructs a Term instance","over":{"base":"Any","pred":"isinstance(other, Term) and isinstance(other, SYMPY_INTS)"},"name":"Term_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Term instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'coeff') and hasattr(self, 'numer') and hasattr(self, 'denom')","kind":"class","induction":"structural on coeff, numer, denom"}],"methods_preserving":["__init__","__hash__","__repr__","as_expr","mul","inv","quo","pow","gcd","lcm","__mul__","__truediv__","__pow__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee51e34debdce707"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term","kind":"class","src_hash":"0c14303174609251","in":{"base":"Any","pred":"isinstance(other, Term) and isinstance(other, SYMPY_INTS)"},"out":{"base":"Any"},"spec":{"lhs":"Term(*args)","rhs":"correctly constructs a Term instance","over":{"base":"Any","pred":"isinstance(other, Term) and isinstance(other, SYMPY_INTS)"},"name":"Term_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'coeff') and hasattr(self, 'numer') and hasattr(self, 'denom')","kind":"class","induction":"structural on coeff, numer, denom"}],"methods_preserving":["__init__","__hash__","__repr__","as_expr","mul","inv","quo","pow","gcd","lcm","__mul__","__truediv__","__pow__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee51e34debdce707","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'coeff')","hasattr(self, 'numer')","hasattr(self, 'denom')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Term not found in source"]}}
 class Term:
     """Efficient representation of ``coeff*(numer/denom)``. """
 
     __slots__ = ('coeff', 'numer', 'denom')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ter), initializes the instance correctly) over Any ║
+# ║ Path(__init__(term, numer, denom), self.numer == numer and self.denom == denom) over {Any | hasattr(term, 'is_commutative') and hasattr(term, 'as_coeff_mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(term, 'is_commutative')                ║
+# ║   requires: hasattr(term, 'as_coeff_mul')                  ║
+# ║   ensures:  self.numer == numer                            ║
+# ║   ensures:  self.denom == denom                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(term, 'is_commutative') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 251cece82a1be2b4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__init__","kind":"method","src_hash":"d28883bc5eb7184c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ter)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"251cece82a1be2b4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__init__","kind":"method","src_hash":"d28883bc5eb7184c","in":{"base":"Any","pred":"hasattr(term, 'is_commutative') and hasattr(term, 'as_coeff_mul')"},"out":{"base":"Any","pred":"result satisfies: self.numer == numer and self.denom == denom"},"spec":{"lhs":"__init__(term, numer, denom)","rhs":"self.numer == numer and self.denom == denom","over":{"base":"Any","pred":"hasattr(term, 'is_commutative') and hasattr(term, 'as_coeff_mul')"},"name":"__init___correct"},"guarantee":"self.numer == numer; self.denom == denom","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"251cece82a1be2b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(term, 'is_commutative')","hasattr(term, 'as_coeff_mul')"],"ensures":["self.numer == numer","self.denom == denom"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["term.as_coeff_mul","term.is_commutative"],"writes":["denom[*]","numer[*]","self.coeff","self.denom","self.numer"],"raises":["NonCommutativeExpression"]},"state_contract":{"modifies":["denom[*]","numer[*]","self.coeff","self.denom","self.numer"],"old_bindings":{"old_denom_star":"denom[*]","old_numer_star":"numer[*]","old_self_coeff":"self.coeff","old_self_denom":"self.denom","old_self_numer":"self.numer"},"exceptional_post":{"NonCommutativeExpression":["isinstance(raised, NonCommutativeExpression)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, term, numer=None, denom=None):  # Term
         if numer is None and denom is None:
             if not term.is_commutative:
@@ -1173,58 +1365,85 @@ class Term:
         self.denom = denom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.coeff, self.numer, self.denom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.coeff, self.numer, self.denom))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68874bc7ede4f6fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__hash__","kind":"method","src_hash":"a32d3339e6ad33a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68874bc7ede4f6fa"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__hash__","kind":"method","src_hash":"a32d3339e6ad33a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.coeff, self.numer, self.denom))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.coeff, self.numer, self.denom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68874bc7ede4f6fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.coeff, self.numer, self.denom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):  # Term
         return hash((self.coeff, self.numer, self.denom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'Term(%s, %s, %s)' % (self.coeff, self.numer, self.denom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Term(%s, %s, %s)' % (self.coeff, self.nu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7359c3fed63949a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__repr__","kind":"method","src_hash":"b91bebcf979eadcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7359c3fed63949a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__repr__","kind":"method","src_hash":"b91bebcf979eadcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'Term(%s, %s, %s)' % (self.coeff, self.numer, self.denom)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'Term(%s, %s, %s)' % (self.coeff, self.numer, self.denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7359c3fed63949a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Term(%s, %s, %s)' % (self.coeff, self.numer, self.denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):  # Term
         return "Term(%s, %s, %s)" % (self.coeff, self.numer, self.denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(), as_expr produces the expected output) over Any ║
+# ║ Path(as_expr(), self.coeff * (self.numer.as_expr() / self.denom.as_expr())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coeff * (self.numer.as_expr() / self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 297ccf453a9bb29f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.as_expr","kind":"method","src_hash":"5091b7e745d6c54a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr()","rhs":"as_expr produces the expected output","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"as_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"297ccf453a9bb29f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.as_expr","kind":"method","src_hash":"5091b7e745d6c54a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr()","rhs":"self.coeff * (self.numer.as_expr() / self.denom.as_expr())","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"returns self.coeff * (self.numer.as_expr() / self.denom.as_expr())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"297ccf453a9bb29f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coeff * (self.numer.as_expr() / self.denom.as_expr())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(self):  # Term
         return self.coeff*(self.numer.as_expr()/self.denom.as_expr())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(oth), mul produces the expected output) over Any  ║
+# ║ Path(mul(other), Term(coeff, numer, denom)) over {Any | hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'coeff')                        ║
+# ║   requires: hasattr(other, 'numer')                        ║
+# ║   requires: hasattr(other, 'denom')                        ║
+# ║   returns:  Term(coeff, numer, denom)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul : {Any | hasattr(other, 'coeff') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38a9ff1388f8cffc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1240649e005b397e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.mul","kind":"method","src_hash":"50fa0a20c65c5192","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(oth)","rhs":"mul produces the expected output","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Term.mul_correct","statement":"Path(mul(x), mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38a9ff1388f8cffc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.mul","kind":"method","src_hash":"50fa0a20c65c5192","in":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"mul(other)","rhs":"Term(coeff, numer, denom)","over":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"name":"mul_correct"},"guarantee":"returns Term(coeff, numer, denom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.Term.mul_correct","statement":"Path(mul(x), returns Term(coeff, numer, denom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1240649e005b397e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'coeff')","hasattr(other, 'numer')","hasattr(other, 'denom')"],"returns_expr":"Term(coeff, numer, denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.coeff","other.denom","other.numer","self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self, other):  # Term
         coeff = self.coeff*other.coeff
         numer = self.numer.mul(other.numer)
@@ -1235,44 +1454,66 @@ class Term:
         return Term(coeff, numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inv(), inv produces the expected output) over Any     ║
+# ║ Path(inv(), Term(1 / self.coeff, self.denom, self.numer)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Term(1 / self.coeff, self.denom, self.numer)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inv : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49624d46f778886e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.inv","kind":"method","src_hash":"a94496921c9da1f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inv()","rhs":"inv produces the expected output","over":{"base":"Any"},"name":"inv_correct"},"guarantee":"inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49624d46f778886e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.inv","kind":"method","src_hash":"a94496921c9da1f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inv()","rhs":"Term(1 / self.coeff, self.denom, self.numer)","over":{"base":"Any"},"name":"inv_correct"},"guarantee":"returns Term(1 / self.coeff, self.denom, self.numer)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49624d46f778886e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Term(1 / self.coeff, self.denom, self.numer)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inv(self):  # Term
         return Term(1/self.coeff, self.denom, self.numer)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(oth), quo produces the expected output) over Any  ║
+# ║ Path(quo(other), self.mul(other.inv())) over {Any | hasattr(other, 'inv')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quo : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'inv')                          ║
+# ║   returns:  self.mul(other.inv())                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quo : {Any | hasattr(other, 'inv')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f4b36b51f6c853d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.quo","kind":"method","src_hash":"6da9790017321d98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(oth)","rhs":"quo produces the expected output","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f4b36b51f6c853d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.quo","kind":"method","src_hash":"6da9790017321d98","in":{"base":"Any","pred":"hasattr(other, 'inv')"},"out":{"base":"Any"},"spec":{"lhs":"quo(other)","rhs":"self.mul(other.inv())","over":{"base":"Any","pred":"hasattr(other, 'inv')"},"name":"quo_correct"},"guarantee":"returns self.mul(other.inv())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f4b36b51f6c853d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'inv')"],"returns_expr":"self.mul(other.inv())","pure":false,"effects":{"effect_type":"reads_state","reads":["other.inv","self.mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, other):  # Term
         return self.mul(other.inv())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow(oth), id) over Any                                ║
+# ║ Path(pow(other), id) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pow : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.inv().pow(-other) if othe...   ║
+# ║   ensures:  result == self.inv().pow(-other) or resul...   ║
+# ║   fiber[negative]: other < 0 => self.inv().pow(-other)     ║
+# ║   fiber[negative]: not (other < 0) => Term(self.coeff...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pow : Any → {Any | result satisfies: result == (self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a6b2c21f12f3f601   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.pow","kind":"method","src_hash":"df72854b8d0defb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow(oth)","rhs":"pow produces the expected output","over":{"base":"Any"},"name":"pow_correct","kind":"composition"},"guarantee":"pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b2c21f12f3f601"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.pow","kind":"method","src_hash":"df72854b8d0defb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.inv().pow(-other) if other < 0 else Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))) and result == self.inv().pow(-other) or result == Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))"},"spec":{"lhs":"pow(other)","rhs":"result == (self.inv().pow(-other) if other < 0 else Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))) and result == self.inv().pow(-other) or result == Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))","over":{"base":"Any"},"name":"pow_correct","kind":"composition"},"guarantee":"result == (self.inv().pow(-other) if other < 0 else Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))); result == self.inv().pow(-other) or result == Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b2c21f12f3f601","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.inv().pow(-other) if other < 0 else Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other)))","result == self.inv().pow(-other) or result == Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))"],"fibers":[{"name":"negative","guard":"other < 0","ensures":["result == self.inv().pow(-other)"],"decidability":"z3","returns_expr":"self.inv().pow(-other)"},{"name":"negative","guard":"not (other < 0)","ensures":["result == Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))"],"decidability":"z3","returns_expr":"Term(self.coeff ** other, self.numer.pow(other), self.denom.pow(other))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.denom","self.inv","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow(self, other):  # Term
         if other < 0:
             return self.inv().pow(-other)
@@ -1282,48 +1523,75 @@ class Term:
                         self.denom.pow(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(oth), id) over Any                                ║
+# ║ Path(gcd(other), id) over {Any | hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcd : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'coeff')                        ║
+# ║   requires: hasattr(other, 'numer')                        ║
+# ║   requires: hasattr(other, 'denom')                        ║
+# ║   returns:  Term(self.coeff.gcd(other.coeff), self.nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcd : {Any | hasattr(other, 'coeff') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 62fb42f2e31ebe73   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.gcd","kind":"method","src_hash":"d26ff5c95dec2816","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(oth)","rhs":"gcd produces the expected output","over":{"base":"Any"},"name":"gcd_correct","kind":"composition"},"guarantee":"gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Term","by":"library_axiom"},{"fn":"gcd","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62fb42f2e31ebe73"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.gcd","kind":"method","src_hash":"d26ff5c95dec2816","in":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"gcd(other)","rhs":"Term(self.coeff.gcd(other.coeff), self.numer.gcd(other.numer), self.denom.gcd(other.denom))","over":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"name":"gcd_correct","kind":"composition"},"guarantee":"returns Term(self.coeff.gcd(other.coeff), self.numer.gcd(other.numer), self.denom.gcd(other.denom))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Term","by":"library_axiom"},{"fn":"gcd","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62fb42f2e31ebe73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'coeff')","hasattr(other, 'numer')","hasattr(other, 'denom')"],"returns_expr":"Term(self.coeff.gcd(other.coeff), self.numer.gcd(other.numer), self.denom.gcd(other.denom))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.coeff","other.denom","other.numer","self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, other):  # Term
         return Term(self.coeff.gcd(other.coeff),
                     self.numer.gcd(other.numer),
                     self.denom.gcd(other.denom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(oth), id) over Any                                ║
+# ║ Path(lcm(other), id) over {Any | hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lcm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'coeff')                        ║
+# ║   requires: hasattr(other, 'numer')                        ║
+# ║   requires: hasattr(other, 'denom')                        ║
+# ║   returns:  Term(self.coeff.lcm(other.coeff), self.nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lcm : {Any | hasattr(other, 'coeff') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b083969ee77731b7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.lcm","kind":"method","src_hash":"edf2fdd8e1b203a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(oth)","rhs":"lcm produces the expected output","over":{"base":"Any"},"name":"lcm_correct","kind":"composition"},"guarantee":"lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Term","by":"library_axiom"},{"fn":"lcm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b083969ee77731b7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.lcm","kind":"method","src_hash":"edf2fdd8e1b203a0","in":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"lcm(other)","rhs":"Term(self.coeff.lcm(other.coeff), self.numer.lcm(other.numer), self.denom.lcm(other.denom))","over":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"name":"lcm_correct","kind":"composition"},"guarantee":"returns Term(self.coeff.lcm(other.coeff), self.numer.lcm(other.numer), self.denom.lcm(other.denom))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Term","by":"library_axiom"},{"fn":"lcm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b083969ee77731b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'coeff')","hasattr(other, 'numer')","hasattr(other, 'denom')"],"returns_expr":"Term(self.coeff.lcm(other.coeff), self.numer.lcm(other.numer), self.denom.lcm(other.denom))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.coeff","other.denom","other.numer","self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, other):  # Term
         return Term(self.coeff.lcm(other.coeff),
                     self.numer.lcm(other.numer),
                     self.denom.lcm(other.denom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), result == (self.mul(other) if isinstance(other, Term) else NotImplemented) and result == self.mul(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.mul(other) if isinstance(...   ║
+# ║   ensures:  result == self.mul(other) or result == No...   ║
+# ║   fiber[Term]: isinstance(other, Term) => self.mul(ot...   ║
+# ║   fiber[Term]: not (isinstance(other, Term)) => NotIm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6478ad2059f5a84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__mul__","kind":"method","src_hash":"4aaed954eb71405e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6478ad2059f5a84"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__mul__","kind":"method","src_hash":"4aaed954eb71405e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.mul(other) if isinstance(other, Term) else NotImplemented) and result == self.mul(other) or result == NotImplemented"},"spec":{"lhs":"__mul__(other)","rhs":"result == (self.mul(other) if isinstance(other, Term) else NotImplemented) and result == self.mul(other) or result == NotImplemented","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"result == (self.mul(other) if isinstance(other, Term) else NotImplemented); result == self.mul(other) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6478ad2059f5a84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.mul(other) if isinstance(other, Term) else NotImplemented)","result == self.mul(other) or result == NotImplemented"],"fibers":[{"name":"Term","guard":"isinstance(other, Term)","ensures":["result == self.mul(other)"],"decidability":"structural","returns_expr":"self.mul(other)"},{"name":"Term","guard":"not (isinstance(other, Term))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):  # Term
         if isinstance(other, Term):
             return self.mul(other)
@@ -1331,16 +1599,25 @@ class Term:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), result == (self.quo(other) if isinstance(other, Term) else NotImplemented) and result == self.quo(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.quo(other) if isinstance(...   ║
+# ║   ensures:  result == self.quo(other) or result == No...   ║
+# ║   fiber[Term]: isinstance(other, Term) => self.quo(ot...   ║
+# ║   fiber[Term]: not (isinstance(other, Term)) => NotIm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98c4d1ccc2a64c9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__truediv__","kind":"method","src_hash":"bb8e1cf082b46005","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98c4d1ccc2a64c9d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__truediv__","kind":"method","src_hash":"bb8e1cf082b46005","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.quo(other) if isinstance(other, Term) else NotImplemented) and result == self.quo(other) or result == NotImplemented"},"spec":{"lhs":"__truediv__(other)","rhs":"result == (self.quo(other) if isinstance(other, Term) else NotImplemented) and result == self.quo(other) or result == NotImplemented","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"result == (self.quo(other) if isinstance(other, Term) else NotImplemented); result == self.quo(other) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98c4d1ccc2a64c9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.quo(other) if isinstance(other, Term) else NotImplemented)","result == self.quo(other) or result == NotImplemented"],"fibers":[{"name":"Term","guard":"isinstance(other, Term)","ensures":["result == self.quo(other)"],"decidability":"structural","returns_expr":"self.quo(other)"},{"name":"Term","guard":"not (isinstance(other, Term))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.quo"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):  # Term
         if isinstance(other, Term):
             return self.quo(other)
@@ -1348,16 +1625,25 @@ class Term:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), result == (self.pow(other) if isinstance(other, SYMPY_INTS) else NotImplemented) and result == self.pow(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.pow(other) if isinstance(...   ║
+# ║   ensures:  result == self.pow(other) or result == No...   ║
+# ║   fiber[SYMPY_INTS]: isinstance(other, SYMPY_INTS) =>...   ║
+# ║   fiber[SYMPY_INTS]: not (isinstance(other, SYMPY_INT...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eab558fe8bd0d5da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__pow__","kind":"method","src_hash":"78a0625626829069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eab558fe8bd0d5da"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__pow__","kind":"method","src_hash":"78a0625626829069","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.pow(other) if isinstance(other, SYMPY_INTS) else NotImplemented) and result == self.pow(other) or result == NotImplemented"},"spec":{"lhs":"__pow__(other)","rhs":"result == (self.pow(other) if isinstance(other, SYMPY_INTS) else NotImplemented) and result == self.pow(other) or result == NotImplemented","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"result == (self.pow(other) if isinstance(other, SYMPY_INTS) else NotImplemented); result == self.pow(other) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eab558fe8bd0d5da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.pow(other) if isinstance(other, SYMPY_INTS) else NotImplemented)","result == self.pow(other) or result == NotImplemented"],"fibers":[{"name":"SYMPY_INTS","guard":"isinstance(other, SYMPY_INTS)","ensures":["result == self.pow(other)"],"decidability":"structural","returns_expr":"self.pow(other)"},{"name":"SYMPY_INTS","guard":"not (isinstance(other, SYMPY_INTS))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.pow"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):  # Term
         if isinstance(other, SYMPY_INTS):
             return self.pow(other)
@@ -1365,38 +1651,56 @@ class Term:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self.coeff == other.coeff and self.numer == other.numer and (self.denom == other.denom)) over {Any | hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'coeff')                        ║
+# ║   requires: hasattr(other, 'numer')                        ║
+# ║   requires: hasattr(other, 'denom')                        ║
+# ║   returns:  self.coeff == other.coeff and self.numer ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'coeff') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 896d7d8cfb9148bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__eq__","kind":"method","src_hash":"a32bfa54deb08752","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"896d7d8cfb9148bb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__eq__","kind":"method","src_hash":"a32bfa54deb08752","in":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self.coeff == other.coeff and self.numer == other.numer and (self.denom == other.denom)","over":{"base":"Any","pred":"hasattr(other, 'coeff') and hasattr(other, 'numer') and hasattr(other, 'denom')"},"name":"__eq___correct"},"guarantee":"returns self.coeff == other.coeff and self.numer == other.numer and (self.denom == other.denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"896d7d8cfb9148bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'coeff')","hasattr(other, 'numer')","hasattr(other, 'denom')"],"returns_expr":"self.coeff == other.coeff and self.numer == other.numer and (self.denom == other.denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.coeff","other.denom","other.numer","self.coeff","self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):  # Term
         return (self.coeff == other.coeff and
                 self.numer == other.numer and
                 self.denom == other.denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 92ca6416460c525d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__ne__","kind":"method","src_hash":"49545e35ed48f1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92ca6416460c525d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.Term.__ne__","kind":"method","src_hash":"49545e35ed48f1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92ca6416460c525d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):  # Term
         return not self == other
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd_terms(ter), helper function for :func:`gcd_terms`) over {Any | isinstance(terms, Basic) and isinstance(terms, Tuple)} ║
+# ║ Path(_gcd_terms(terms, isprimitive, fraction), len(numers) == old_len_numers + 1) over {Any | isinstance(terms, Basic) and isinstance(terms, Tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(numers) == old_len_numers + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gcd_terms : {Any | isinstance(terms, Basic) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1409,9 +1713,12 @@ class Term:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b8a8a47a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._gcd_terms","kind":"function","src_hash":"31d630084f37d3e8","in":{"base":"Any","pred":"isinstance(terms, Basic) and isinstance(terms, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_terms(ter)","rhs":"helper function for :func:`gcd_terms`","over":{"base":"Any","pred":"isinstance(terms, Basic) and isinstance(terms, Tuple)"},"name":"_gcd_terms_correct"},"guarantee":"helper function for :func:`gcd_terms`","fibers":[{"name":"Basic","pred":"isinstance(terms, Basic)","path":{"lhs":"_gcd_terms(x)","rhs":"helper function for :func:`gcd_terms`","over":{"base":"Basic","pred":"isinstance(terms, Basic)"},"name":"_gcd_terms_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._gcd_terms_Basic_correct","statement":"_gcd_terms satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"Tuple","pred":"isinstance(terms, Tuple)","path":{"lhs":"_gcd_terms(x)","rhs":"helper function for :func:`gcd_terms`","over":{"base":"Tuple","pred":"isinstance(terms, Tuple)"},"name":"_gcd_terms_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._gcd_terms_Tuple_correct","statement":"_gcd_terms satisfies spec on Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b8a8a47a9093cd5b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._gcd_terms","kind":"function","src_hash":"31d630084f37d3e8","in":{"base":"Any","pred":"isinstance(terms, Basic) and isinstance(terms, Tuple)"},"out":{"base":"Any","pred":"result satisfies: len(numers) == old_len_numers + 1"},"spec":{"lhs":"_gcd_terms(terms, isprimitive, fraction)","rhs":"len(numers) == old_len_numers + 1","over":{"base":"Any","pred":"isinstance(terms, Basic) and isinstance(terms, Tuple)"},"name":"_gcd_terms_correct"},"guarantee":"len(numers) == old_len_numers + 1","fibers":[{"name":"Basic","pred":"isinstance(terms, Basic)","path":{"lhs":"_gcd_terms(x)","rhs":"len(numers) == old_len_numers + 1","over":{"base":"Basic","pred":"isinstance(terms, Basic)"},"name":"_gcd_terms_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._gcd_terms_Basic_correct","statement":"_gcd_terms satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"Tuple","pred":"isinstance(terms, Tuple)","path":{"lhs":"_gcd_terms(x)","rhs":"len(numers) == old_len_numers + 1","over":{"base":"Tuple","pred":"isinstance(terms, Tuple)"},"name":"_gcd_terms_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._gcd_terms_Tuple_correct","statement":"_gcd_terms satisfies spec on Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b8a8a47a9093cd5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(numers) == old_len_numers + 1"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["terms[*]"],"calls_mutating":["numers.append"]},"state_contract":{"modifies":["numers.*","terms[*]"],"old_bindings":{"old_terms_star":"terms[*]","old_len_numers":"len(numers)"},"post_ensures":["len(numers) == old_len_numers + 1"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(terms) == 1', 'len(terms) == 0', 'isinstance(terms, Basic) and (not isinstance(terms, Tuple))'}, fibers={'Tuple', 'Basic'})"]}}
 def _gcd_terms(terms, isprimitive=False, fraction=True):
     """Helper function for :func:`gcd_terms`.
 
@@ -1478,7 +1785,13 @@ def _gcd_terms(terms, isprimitive=False, fraction=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd_terms(ter), compute the gcd of ``terms`` and put them together) over {Any | isinstance(terms, Add) and isinstance(terms, Dict) and isinstance(terms, Basic)} ║
+# ║ Path(gcd_terms(terms, isprimitive, clear), # HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)) over {Any | isinstance(terms, Add) and isinstance(terms, Dict) and isinstance(terms, Basic) and hasattr(terms, 'is_Atom') and hasattr(terms, 'is_Mul') and hasattr(terms, 'func') and hasattr(terms, 'as_coeff_mul') and hasattr(terms, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(terms, 'is_Atom')                      ║
+# ║   requires: hasattr(terms, 'is_Mul')                       ║
+# ║   requires: hasattr(terms, 'func')                         ║
+# ║   ensures:  # HINT: gcd_terms may be idempotent: gcd_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcd_terms : {Any | isinstance(terms, Add) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1493,9 +1806,12 @@ def _gcd_terms(terms, isprimitive=False, fraction=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?4 ✗4 VCs | 10.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef7ce8f4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.gcd_terms","kind":"function","src_hash":"fb3e957dd46aa68c","in":{"base":"Any","pred":"isinstance(terms, Add) and isinstance(terms, Dict) and isinstance(terms, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"gcd_terms(ter)","rhs":"compute the gcd of ``terms`` and put them together","over":{"base":"Any","pred":"isinstance(terms, Add) and isinstance(terms, Dict) and isinstance(terms, Basic)"},"name":"gcd_terms_correct"},"guarantee":"compute the gcd of ``terms`` and put them together","fibers":[{"name":"Add","pred":"isinstance(terms, Add)","path":{"lhs":"gcd_terms(x)","rhs":"compute the gcd of ``terms`` and put them together","over":{"base":"Add","pred":"isinstance(terms, Add)"},"name":"gcd_terms_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Add_correct","statement":"gcd_terms satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Dict","pred":"isinstance(terms, Dict)","path":{"lhs":"gcd_terms(x)","rhs":"compute the gcd of ``terms`` and put them together","over":{"base":"Dict","pred":"isinstance(terms, Dict)"},"name":"gcd_terms_Dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Dict_correct","statement":"gcd_terms satisfies spec on Dict inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(terms, Basic)","path":{"lhs":"gcd_terms(x)","rhs":"compute the gcd of ``terms`` and put them together","over":{"base":"Basic","pred":"isinstance(terms, Basic)"},"name":"gcd_terms_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Basic_correct","statement":"gcd_terms satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(a, Expr)","path":{"lhs":"gcd_terms(x)","rhs":"compute the gcd of ``terms`` and put them together","over":{"base":"Expr","pred":"isinstance(a, Expr)"},"name":"gcd_terms_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Expr_correct","statement":"gcd_terms satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef7ce8f4778eeec9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.gcd_terms","kind":"function","src_hash":"fb3e957dd46aa68c","in":{"base":"Any","pred":"isinstance(terms, Add) and isinstance(terms, Dict) and isinstance(terms, Basic) and hasattr(terms, 'is_Atom') and hasattr(terms, 'is_Mul') and hasattr(terms, 'func') and hasattr(terms, 'as_coeff_mul') and hasattr(terms, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)"},"spec":{"lhs":"gcd_terms(terms, isprimitive, clear)","rhs":"# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)","over":{"base":"Any","pred":"isinstance(terms, Add) and isinstance(terms, Dict) and isinstance(terms, Basic) and hasattr(terms, 'is_Atom') and hasattr(terms, 'is_Mul') and hasattr(terms, 'func') and hasattr(terms, 'as_coeff_mul') and hasattr(terms, 'args')"},"name":"gcd_terms_correct"},"guarantee":"# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)","fibers":[{"name":"Add","pred":"isinstance(terms, Add)","path":{"lhs":"gcd_terms(x)","rhs":"# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)","over":{"base":"Add","pred":"isinstance(terms, Add)"},"name":"gcd_terms_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Add_correct","statement":"gcd_terms satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Dict","pred":"isinstance(terms, Dict)","path":{"lhs":"gcd_terms(x)","rhs":"# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)","over":{"base":"Dict","pred":"isinstance(terms, Dict)"},"name":"gcd_terms_Dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Dict_correct","statement":"gcd_terms satisfies spec on Dict inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(terms, Basic)","path":{"lhs":"gcd_terms(x)","rhs":"# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)","over":{"base":"Basic","pred":"isinstance(terms, Basic)"},"name":"gcd_terms_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Basic_correct","statement":"gcd_terms satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(a, Expr)","path":{"lhs":"gcd_terms(x)","rhs":"# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)","over":{"base":"Expr","pred":"isinstance(a, Expr)"},"name":"gcd_terms_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.gcd_terms_Expr_correct","statement":"gcd_terms satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef7ce8f4778eeec9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(terms, 'is_Atom')","hasattr(terms, 'is_Mul')","hasattr(terms, 'func')","hasattr(terms, 'as_coeff_mul')","hasattr(terms, 'args')"],"ensures":["# HINT: gcd_terms may be idempotent: gcd_terms(gcd_terms(x)) == gcd_terms(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":4,"n_assumed":4,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":10.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(a, Expr)', 'isinstance(a, Basic)', 'isinstance(terms, Dict)', 'not isinstance(terms, Basic)'}, fibers={'Expr', 'Add', 'Dict', 'Basic'})"]}}
 def gcd_terms(terms, isprimitive=False, clear=True, fraction=True):
     """Compute the GCD of ``terms`` and put them together.
 
@@ -1625,9 +1941,15 @@ def gcd_terms(terms, isprimitive=False, clear=True, fraction=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_factor_sum_int(exp), return sum or integral object with factors that are not in the wrt variables removed) over {Any | isinstance(f, Add)} ║
+# ║ Path(_factor_sum_int(expr, **kwargs), <unspecified:_factor_sum_int>) over {Any | isinstance(f, Add) and hasattr(expr, 'function') and hasattr(expr, 'limits') and hasattr(expr, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _factor_sum_int : {Any | isinstance(f, Add)} → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   requires: hasattr(expr, 'limits')                        ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _factor_sum_int : {Any | isinstance(f, Add) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Add: {isinstance(f, Add)} → library_axiom                ║
@@ -1637,9 +1959,12 @@ def gcd_terms(terms, isprimitive=False, clear=True, fraction=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b65e0208...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._factor_sum_int","kind":"function","src_hash":"d459d8ffe3d0ca89","in":{"base":"Any","pred":"isinstance(f, Add)"},"out":{"base":"Any"},"spec":{"lhs":"_factor_sum_int(exp)","rhs":"return sum or integral object with factors that are not in the wrt variables removed","over":{"base":"Any","pred":"isinstance(f, Add)"},"name":"_factor_sum_int_correct"},"guarantee":"return sum or integral object with factors that are not in the wrt variables removed","fibers":[{"name":"Add","pred":"isinstance(f, Add)","path":{"lhs":"_factor_sum_int(x)","rhs":"return sum or integral object with factors that are not in the wrt variables removed","over":{"base":"Add","pred":"isinstance(f, Add)"},"name":"_factor_sum_int_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._factor_sum_int_Add_correct","statement":"_factor_sum_int satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b65e0208c0bab7cd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._factor_sum_int","kind":"function","src_hash":"d459d8ffe3d0ca89","in":{"base":"Any","pred":"isinstance(f, Add) and hasattr(expr, 'function') and hasattr(expr, 'limits') and hasattr(expr, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_factor_sum_int(expr, **kwargs)","rhs":"<unspecified:_factor_sum_int>","over":{"base":"Any","pred":"isinstance(f, Add) and hasattr(expr, 'function') and hasattr(expr, 'limits') and hasattr(expr, 'func')"},"name":"_factor_sum_int_correct"},"guarantee":"return sum or integral object with factors that are not in the wrt variables removed","fibers":[{"name":"Add","pred":"isinstance(f, Add)","path":{"lhs":"_factor_sum_int(x)","rhs":"return sum or integral object with factors that are not in the wrt variables removed","over":{"base":"Add","pred":"isinstance(f, Add)"},"name":"_factor_sum_int_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools._factor_sum_int_Add_correct","statement":"_factor_sum_int satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b65e0208c0bab7cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'function')","hasattr(expr, 'limits')","hasattr(expr, 'func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.func","expr.function","expr.limits"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(f, Add)', 'result == 0'}, fibers={'Add'})"]}}
 def _factor_sum_int(expr, **kwargs):
     """Return Sum or Integral object with factors that are not
     in the wrt variables removed. In cases where there are additive
@@ -1689,7 +2014,13 @@ def _factor_sum_int(expr, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_terms(exp), remove common factors from terms in all arguments without changing the underlying structure of the expr) over {Expr | complex | isinstance(expr, (Sum, Integral)) and isinstance(expr, Basic)} ║
+# ║ Path(factor_terms(expr, radical, clear), isinstance(result, Expr)) over {Expr | complex | isinstance(expr, (Sum, Integral)) and isinstance(expr, Basic) and isinstance(expr, Expr | complex) and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Function') and hasattr(expr, 'args') and hasattr(expr, 'as_content_primitive') and hasattr(expr, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr | complex)               ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   ensures:  isinstance(result, Expr)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factor_terms : {Expr | complex | isinstance(expr, (Su...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1702,9 +2033,12 @@ def _factor_sum_int(expr, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 85616b49...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.factor_terms","kind":"function","src_hash":"ce8c355e649b65b5","in":{"base":"Expr | complex","pred":"isinstance(expr, (Sum, Integral)) and isinstance(expr, Basic)"},"out":{"base":"Expr"},"spec":{"lhs":"factor_terms(exp)","rhs":"remove common factors from terms in all arguments without changing the underlying structure of the expr","over":{"base":"Expr | complex","pred":"isinstance(expr, (Sum, Integral)) and isinstance(expr, Basic)"},"name":"factor_terms_correct"},"guarantee":"remove common factors from terms in all arguments without changing the underlying structure of the expr","fibers":[{"name":"(Sum","pred":"isinstance(expr, (Sum, Integral))","path":{"lhs":"factor_terms(x)","rhs":"remove common factors from terms in all arguments without changing the underlying structure of the expr","over":{"base":"(Sum","pred":"isinstance(expr, (Sum, Integral))"},"name":"factor_terms_(Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.factor_terms_(Sum_correct","statement":"factor_terms satisfies spec on (Sum inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"factor_terms(x)","rhs":"remove common factors from terms in all arguments without changing the underlying structure of the expr","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"factor_terms_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.factor_terms_Basic_correct","statement":"factor_terms satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"85616b495ad15aab"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.factor_terms","kind":"function","src_hash":"ce8c355e649b65b5","in":{"base":"Expr | complex","pred":"isinstance(expr, (Sum, Integral)) and isinstance(expr, Basic) and isinstance(expr, Expr | complex) and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Function') and hasattr(expr, 'args') and hasattr(expr, 'as_content_primitive') and hasattr(expr, 'func')"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"factor_terms(expr, radical, clear)","rhs":"isinstance(result, Expr)","over":{"base":"Expr | complex","pred":"isinstance(expr, (Sum, Integral)) and isinstance(expr, Basic) and isinstance(expr, Expr | complex) and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Function') and hasattr(expr, 'args') and hasattr(expr, 'as_content_primitive') and hasattr(expr, 'func')"},"name":"factor_terms_correct"},"guarantee":"isinstance(result, Expr)","fibers":[{"name":"(Sum","pred":"isinstance(expr, (Sum, Integral))","path":{"lhs":"factor_terms(x)","rhs":"isinstance(result, Expr)","over":{"base":"(Sum","pred":"isinstance(expr, (Sum, Integral))"},"name":"factor_terms_(Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.factor_terms_(Sum_correct","statement":"factor_terms satisfies spec on (Sum inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"factor_terms(x)","rhs":"isinstance(result, Expr)","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"factor_terms_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.factor_terms_Basic_correct","statement":"factor_terms satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"85616b495ad15aab","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr | complex)","hasattr(expr, 'is_Atom')","hasattr(expr, 'is_Pow')","hasattr(expr, 'is_Function')","hasattr(expr, 'args')","hasattr(expr, 'as_content_primitive')","hasattr(expr, 'func')"],"ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_content_primitive","expr.func","expr.is_Atom","expr.is_Function","expr.is_Pow"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'newargs == args', 'isinstance(expr, (Sum, Integral))', 'e.is_Mul and e != Mul(*e.args)', 'not isinstance(expr, Basic) or expr.is_Atom', 'not any((a.as_coeff_Mul()[0].extract_multiplicatively(-1) is None for a in list_args))'}, fibers={'(Sum', 'Basic'})"]}}
 def factor_terms(expr: Expr | complex, radical=False, clear=False, fraction=False, sign=True) -> Expr:
     """Remove common factors from terms in all arguments without
     changing the underlying structure of the expr. No expansion or
@@ -1820,16 +2154,22 @@ def factor_terms(expr: Expr | complex, radical=False, clear=False, fraction=Fals
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mask_nc(eq,), id) over Any                           ║
+# ║ Path(_mask_nc(eq, name), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mask_nc : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dff428fea72d7535   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._mask_nc","kind":"function","src_hash":"6b5dd23510a4a7ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mask_nc(eq,)","rhs":"return ``eq`` with non-commutative objects replaced with dummy symbols","over":{"base":"Any"},"name":"_mask_nc_correct","kind":"composition"},"guarantee":"return ``eq`` with non-commutative objects replaced with dummy symbols","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Dummy","by":"library_axiom"},{"fn":"next","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dff428fea72d7535"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools._mask_nc","kind":"function","src_hash":"6b5dd23510a4a7ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mask_nc(eq, name)","rhs":"<unspecified:_mask_nc>","over":{"base":"Any"},"name":"_mask_nc_correct","kind":"composition"},"guarantee":"return ``eq`` with non-commutative objects replaced with dummy symbols","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Dummy","by":"library_axiom"},{"fn":"next","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dff428fea72d7535","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _mask_nc(eq, name=None):
     """
     Return ``eq`` with non-commutative objects replaced with Dummy
@@ -1955,9 +2295,15 @@ def _mask_nc(eq, name=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_nc(exp), return the factored form of ``expr`` while handling non-commutative expressions) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(factor_nc(expr), # HINT: factor_nc may be idempotent: factor_nc(factor_nc(x)) == factor_nc(x)) over {Any | isinstance(expr, Expr) and hasattr(expr, 'is_Add') and hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factor_nc : {Any | isinstance(expr, Expr)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  # HINT: factor_nc may be idempotent: fact...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factor_nc : {Any | isinstance(expr, Expr) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -1967,9 +2313,12 @@ def _mask_nc(eq, name=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ece20b3d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.factor_nc","kind":"function","src_hash":"4e2c89ff04209f9b","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"factor_nc(exp)","rhs":"return the factored form of ``expr`` while handling non-commutative expressions","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"factor_nc_correct"},"guarantee":"return the factored form of ``expr`` while handling non-commutative expressions","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"factor_nc(x)","rhs":"return the factored form of ``expr`` while handling non-commutative expressions","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"factor_nc_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.factor_nc_Expr_correct","statement":"factor_nc satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ece20b3d107a5057"}
+# @cctt_verify {"v":2,"sym":"sympy.core.exprtools.factor_nc","kind":"function","src_hash":"4e2c89ff04209f9b","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Add') and hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'expand')"},"out":{"base":"Any","pred":"result satisfies: # HINT: factor_nc may be idempotent: factor_nc(factor_nc(x)) == factor_nc(x)"},"spec":{"lhs":"factor_nc(expr)","rhs":"# HINT: factor_nc may be idempotent: factor_nc(factor_nc(x)) == factor_nc(x)","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Add') and hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'expand')"},"name":"factor_nc_correct"},"guarantee":"# HINT: factor_nc may be idempotent: factor_nc(factor_nc(x)) == factor_nc(x)","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"factor_nc(x)","rhs":"# HINT: factor_nc may be idempotent: factor_nc(factor_nc(x)) == factor_nc(x)","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"factor_nc_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.exprtools.factor_nc_Expr_correct","statement":"factor_nc satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ece20b3d107a5057","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Add')","hasattr(expr, 'func')","hasattr(expr, 'args')","hasattr(expr, 'expand')"],"ensures":["# HINT: factor_nc may be idempotent: factor_nc(factor_nc(x)) == factor_nc(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'i == 0', '_pemexpand(ok) == target', 'not isinstance(expr, Expr) or not expr.args', 'et.is_Integer and bt == b'}, fibers={'Expr'})"]}}
 def factor_nc(expr):
     """Return the factored form of ``expr`` while handling non-commutative
     expressions.

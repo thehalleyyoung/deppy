@@ -29,7 +29,12 @@ A, B, C, D = symbols('A,B,C,D', commutative=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutator(), test_commutator produces the expected output) over {Any | isinstance(c, Comm)} ║
+# ║ Path(test_commutator(), c.is_commutative is False and isinstance(c, Comm) and c.subs(A, C) == Comm(C, B)) over {Any | isinstance(c, Comm)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.is_commutative is False                      ║
+# ║   ensures:  isinstance(c, Comm)                            ║
+# ║   ensures:  c.subs(A, C) == Comm(C, B)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_commutator : {Any | isinstance(c, Comm)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -41,9 +46,12 @@ A, B, C, D = symbols('A,B,C,D', commutative=False)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 64f566da...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_commutator","kind":"function","src_hash":"7ffb295284c54dce","in":{"base":"Any","pred":"isinstance(c, Comm)"},"out":{"base":"Any","pred":"c.is_commutative is False and isinstance(c, Comm) and c.subs(A, C) == Comm(C, B)"},"spec":{"lhs":"test_commutator()","rhs":"test_commutator produces the expected output","over":{"base":"Any","pred":"isinstance(c, Comm)"},"name":"test_commutator_correct"},"guarantee":"test_commutator produces the expected output","fibers":[{"name":"Comm","pred":"isinstance(c, Comm)","path":{"lhs":"test_commutator(x)","rhs":"test_commutator produces the expected output","over":{"base":"Comm","pred":"isinstance(c, Comm)"},"name":"test_commutator_Comm_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_commutator_Comm_correct","statement":"test_commutator satisfies spec on Comm inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64f566da15700a20"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_commutator","kind":"function","src_hash":"7ffb295284c54dce","in":{"base":"Any","pred":"isinstance(c, Comm)"},"out":{"base":"Any","pred":"result satisfies: c.is_commutative is False and isinstance(c, Comm) and c.subs(A, C) == Comm(C, B)"},"spec":{"lhs":"test_commutator()","rhs":"c.is_commutative is False and isinstance(c, Comm) and c.subs(A, C) == Comm(C, B)","over":{"base":"Any","pred":"isinstance(c, Comm)"},"name":"test_commutator_correct"},"guarantee":"c.is_commutative is False; isinstance(c, Comm); c.subs(A, C) == Comm(C, B)","fibers":[{"name":"Comm","pred":"isinstance(c, Comm)","path":{"lhs":"test_commutator(x)","rhs":"c.is_commutative is False; isinstance(c, Comm); c.subs(A, C) == Comm(C, B)","over":{"base":"Comm","pred":"isinstance(c, Comm)"},"name":"test_commutator_Comm_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_commutator_Comm_correct","statement":"test_commutator satisfies spec on Comm inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64f566da15700a20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.is_commutative is False","isinstance(c, Comm)","c.subs(A, C) == Comm(C, B)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_commutator():
     c = Comm(A, B)
     assert c.is_commutative is False
@@ -52,16 +60,24 @@ def test_commutator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutator_identities(), test_commutator_identities produces the expected output) over Any ║
+# ║ Path(test_commutator_identities(), Comm(a * A, b * B) == a * b * Comm(A, B) and Comm(A, A) == 0 and Comm(a, b) == 0 and Comm(A, B) == -Comm(B, A) and Comm(A, B).doit() == A * B - B * A and Comm(A, B * C).expand(commutator=True) == Comm(A, B) * C + B * Comm(A, C) and Comm(A * B, C * D).expand(commutator=True) == A * C * Comm(B, D) + A * Comm(B, C) * D + C * Comm(A, D) * B + Comm(A, C) * D * B and Comm(A, B ** 2).expand(commutator=True) == Comm(A, B) * B + B * Comm(A, B) and Comm(A ** 2, C ** 2).expand(commutator=True) == Comm(A * B, C * D).expand(commutator=True).replace(B, A).replace(D, C) == A * C * Comm(A, C) + A * Comm(A, C) * C + C * Comm(A, C) * A + Comm(A, C) * C * A and Comm(A, C ** (-2)).expand(commutator=True) == Comm(A, 1 / C * (1 / D)).expand(commutator=True).replace(D, C) and Comm(A + B, C + D).expand(commutator=True) == Comm(A, C) + Comm(A, D) + Comm(B, C) + Comm(B, D) and Comm(A, B + C).expand(commutator=True) == Comm(A, B) + Comm(A, C) and Comm(A ** n, B).expand(commutator=True) == Comm(A ** n, B) and e.doit().expand() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutator_identities : Any → {Any | Comm(a * A,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Comm(a * A, b * B) == a * b * Comm(A, B)       ║
+# ║   ensures:  Comm(A, A) == 0                                ║
+# ║   ensures:  Comm(a, b) == 0                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutator_identities : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ead72f2f90de710d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24ef912d63780cb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_commutator_identities","kind":"function","src_hash":"1d1e2b49476dca2e","in":{"base":"Any"},"out":{"base":"Any","pred":"Comm(a * A, b * B) == a * b * Comm(A, B) and Comm(A, A) == 0 and Comm(a, b) == 0 and Comm(A, B) == -Comm(B, A) and Comm(A, B).doit() == A * B - B * A and Comm(A, B * C).expand(commutator=True) == Comm(A, B) * C + B * Comm(A, C) and Comm(A, B ** 2).expand(commutator=True) == Comm(A, B) * B + B * Comm(A, B) and Comm(A, B + C).expand(commutator=True) == Comm(A, B) + Comm(A, C) and Comm(A ** n, B).expand(commutator=True) == Comm(A ** n, B) and e.doit().expand() == 0"},"spec":{"lhs":"test_commutator_identities()","rhs":"test_commutator_identities produces the expected output","over":{"base":"Any"},"name":"test_commutator_identities_correct"},"guarantee":"test_commutator_identities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_commutator_identities_correct","statement":"Path(test_commutator_identities(x), test_commutator_identities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ead72f2f90de710d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_commutator_identities","kind":"function","src_hash":"1d1e2b49476dca2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Comm(a * A, b * B) == a * b * Comm(A, B) and Comm(A, A) == 0 and Comm(a, b) == 0 and Comm(A, B) == -Comm(B, A) and Comm(A, B).doit() == A * B - B * A and Comm(A, B * C).expand(commutator=True) == Comm(A, B) * C + B * Comm(A, C) and Comm(A * B, C * D).expand(commutator=True) == A * C * Comm(B, D) + A * Comm(B, C) * D + C * Comm(A, D) * B + Comm(A, C) * D * B and Comm(A, B ** 2).expand(commutator=True) == Comm(A, B) * B + B * Comm(A, B) and Comm(A ** 2, C ** 2).expand(commutator=True) == Comm(A * B, C * D).expand(commutator=True).replace(B, A).replace(D, C) == A * C * Comm(A, C) + A * Comm(A, C) * C + C * Comm(A, C) * A + Comm(A, C) * C * A and Comm(A, C ** (-2)).expand(commutator=True) == Comm(A, 1 / C * (1 / D)).expand(commutator=True).replace(D, C) and Comm(A + B, C + D).expand(commutator=True) == Comm(A, C) + Comm(A, D) + Comm(B, C) + Comm(B, D) and Comm(A, B + C).expand(commutator=True) == Comm(A, B) + Comm(A, C) and Comm(A ** n, B).expand(commutator=True) == Comm(A ** n, B) and e.doit().expand() == 0"},"spec":{"lhs":"test_commutator_identities()","rhs":"Comm(a * A, b * B) == a * b * Comm(A, B) and Comm(A, A) == 0 and Comm(a, b) == 0 and Comm(A, B) == -Comm(B, A) and Comm(A, B).doit() == A * B - B * A and Comm(A, B * C).expand(commutator=True) == Comm(A, B) * C + B * Comm(A, C) and Comm(A * B, C * D).expand(commutator=True) == A * C * Comm(B, D) + A * Comm(B, C) * D + C * Comm(A, D) * B + Comm(A, C) * D * B and Comm(A, B ** 2).expand(commutator=True) == Comm(A, B) * B + B * Comm(A, B) and Comm(A ** 2, C ** 2).expand(commutator=True) == Comm(A * B, C * D).expand(commutator=True).replace(B, A).replace(D, C) == A * C * Comm(A, C) + A * Comm(A, C) * C + C * Comm(A, C) * A + Comm(A, C) * C * A and Comm(A, C ** (-2)).expand(commutator=True) == Comm(A, 1 / C * (1 / D)).expand(commutator=True).replace(D, C) and Comm(A + B, C + D).expand(commutator=True) == Comm(A, C) + Comm(A, D) + Comm(B, C) + Comm(B, D) and Comm(A, B + C).expand(commutator=True) == Comm(A, B) + Comm(A, C) and Comm(A ** n, B).expand(commutator=True) == Comm(A ** n, B) and e.doit().expand() == 0","over":{"base":"Any"},"name":"test_commutator_identities_correct"},"guarantee":"Comm(a * A, b * B) == a * b * Comm(A, B); Comm(A, A) == 0; Comm(a, b) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_commutator_identities_correct","statement":"Path(test_commutator_identities(x), Comm(a * A, b * B) == a * b * Comm(A, B); Comm(A, A) == 0; Comm(a, b) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24ef912d63780cb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Comm(a * A, b * B) == a * b * Comm(A, B)","Comm(A, A) == 0","Comm(a, b) == 0","Comm(A, B) == -Comm(B, A)","Comm(A, B).doit() == A * B - B * A","Comm(A, B * C).expand(commutator=True) == Comm(A, B) * C + B * Comm(A, C)","Comm(A * B, C * D).expand(commutator=True) == A * C * Comm(B, D) + A * Comm(B, C) * D + C * Comm(A, D) * B + Comm(A, C) * D * B","Comm(A, B ** 2).expand(commutator=True) == Comm(A, B) * B + B * Comm(A, B)","Comm(A ** 2, C ** 2).expand(commutator=True) == Comm(A * B, C * D).expand(commutator=True).replace(B, A).replace(D, C) == A * C * Comm(A, C) + A * Comm(A, C) * C + C * Comm(A, C) * A + Comm(A, C) * C * A","Comm(A, C ** (-2)).expand(commutator=True) == Comm(A, 1 / C * (1 / D)).expand(commutator=True).replace(D, C)","Comm(A + B, C + D).expand(commutator=True) == Comm(A, C) + Comm(A, D) + Comm(B, C) + Comm(B, D)","Comm(A, B + C).expand(commutator=True) == Comm(A, B) + Comm(A, C)","Comm(A ** n, B).expand(commutator=True) == Comm(A ** n, B)","e.doit().expand() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_commutator_identities():
     assert Comm(a*A, b*B) == a*b*Comm(A, B)
     assert Comm(A, A) == 0
@@ -87,16 +103,22 @@ def test_commutator_identities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutator_dagger(), test_commutator_dagger produces the expected output) over Any ║
+# ║ Path(test_commutator_dagger(), Dagger(comm).expand(commutator=True) == -Comm(Dagger(B), Dagger(C)) * Dagger(A) - Dagger(B) * Comm(Dagger(A), Dagger(C))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutator_dagger : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(comm).expand(commutator=True) == -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutator_dagger : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d0485d51bdd89bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecda31fb3e0751c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_commutator_dagger","kind":"function","src_hash":"bf48e1e8dce6adec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_commutator_dagger()","rhs":"test_commutator_dagger produces the expected output","over":{"base":"Any"},"name":"test_commutator_dagger_correct"},"guarantee":"test_commutator_dagger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_commutator_dagger_correct","statement":"Path(test_commutator_dagger(x), test_commutator_dagger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d0485d51bdd89bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_commutator_dagger","kind":"function","src_hash":"bf48e1e8dce6adec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(comm).expand(commutator=True) == -Comm(Dagger(B), Dagger(C)) * Dagger(A) - Dagger(B) * Comm(Dagger(A), Dagger(C))"},"spec":{"lhs":"test_commutator_dagger()","rhs":"Dagger(comm).expand(commutator=True) == -Comm(Dagger(B), Dagger(C)) * Dagger(A) - Dagger(B) * Comm(Dagger(A), Dagger(C))","over":{"base":"Any"},"name":"test_commutator_dagger_correct"},"guarantee":"Dagger(comm).expand(commutator=True) == -Comm(Dagger(B), Dagger(C)) * Dagger(A) - Dagger(B) * Comm(Dagger(A), Dagger(C))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_commutator_dagger_correct","statement":"Path(test_commutator_dagger(x), Dagger(comm).expand(commutator=True) == -Comm(Dagger(B), Dagger(C)) * Dagger(A) - Dagger(B) * Comm(Dagger(A), Dagger(C)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecda31fb3e0751c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(comm).expand(commutator=True) == -Comm(Dagger(B), Dagger(C)) * Dagger(A) - Dagger(B) * Comm(Dagger(A), Dagger(C))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutator_dagger():
     comm = Comm(A*B, C)
     assert Dagger(comm).expand(commutator=True) == \
@@ -105,87 +127,125 @@ def test_commutator_dagger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Foo(), correctly constructs a Foo instance) over Any  ║
+# ║ Path(Foo(), isinstance(self, Operator)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Foo : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Foo : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cd56b7a410ee437           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Foo","kind":"class","src_hash":"e063fe434ede24ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Foo()","rhs":"correctly constructs a Foo instance","over":{"base":"Any"},"name":"Foo_correct"},"guarantee":"correctly constructs a Foo instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cd56b7a410ee437"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Foo","kind":"class","src_hash":"e063fe434ede24ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"Foo()","rhs":"isinstance(self, Operator)","over":{"base":"Any"},"name":"Foo_correct"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cd56b7a410ee437","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Foo not found in source"]}}
 class Foo(Operator):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_Bar(bar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_Bar(bar), Integer(0)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integer(0)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_Bar : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6291eeedf150c47d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Foo._eval_commutator_Bar","kind":"method","src_hash":"7354f6310668b66e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_Bar(bar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_Bar_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6291eeedf150c47d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Foo._eval_commutator_Bar","kind":"method","src_hash":"7354f6310668b66e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_Bar(bar)","rhs":"Integer(0)","over":{"base":"Any"},"name":"_eval_commutator_Bar_correct"},"guarantee":"returns Integer(0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6291eeedf150c47d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integer(0)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_Bar(self, bar):
         return Integer(0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Bar(), correctly constructs a Bar instance) over Any  ║
+# ║ Path(Bar(), isinstance(self, Operator)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Bar : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Bar : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f39a5f05232cf8a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Bar","kind":"class","src_hash":"a70c53a598f5587b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Bar()","rhs":"correctly constructs a Bar instance","over":{"base":"Any"},"name":"Bar_correct"},"guarantee":"correctly constructs a Bar instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f39a5f05232cf8a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Bar","kind":"class","src_hash":"a70c53a598f5587b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"Bar()","rhs":"isinstance(self, Operator)","over":{"base":"Any"},"name":"Bar_correct"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f39a5f05232cf8a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Bar not found in source"]}}
 class Bar(Operator):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Tam(), correctly constructs a Tam instance) over Any  ║
+# ║ Path(Tam(), isinstance(self, Operator)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Tam : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Tam : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1f2e924b578acc8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Tam","kind":"class","src_hash":"36bdff54aba237d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Tam()","rhs":"correctly constructs a Tam instance","over":{"base":"Any"},"name":"Tam_correct"},"guarantee":"correctly constructs a Tam instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1f2e924b578acc8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Tam","kind":"class","src_hash":"36bdff54aba237d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"Tam()","rhs":"isinstance(self, Operator)","over":{"base":"Any"},"name":"Tam_correct"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1f2e924b578acc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Tam not found in source"]}}
 class Tam(Operator):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_Foo(foo), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_Foo(foo), Integer(1)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integer(1)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_Foo : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 891e4e5160b56b56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Tam._eval_commutator_Foo","kind":"method","src_hash":"524ad5c0c10fc9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_Foo(foo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_Foo_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"891e4e5160b56b56"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.Tam._eval_commutator_Foo","kind":"method","src_hash":"524ad5c0c10fc9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_Foo(foo)","rhs":"Integer(1)","over":{"base":"Any"},"name":"_eval_commutator_Foo_correct"},"guarantee":"returns Integer(1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"891e4e5160b56b56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integer(1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_Foo(self, foo):
         return Integer(1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_commutator(), test_eval_commutator produces the expected output) over Any ║
+# ║ Path(test_eval_commutator(), Comm(F, B).doit() == 0 and Comm(B, F).doit() == 0 and Comm(F, T).doit() == -1 and Comm(T, F).doit() == 1 and Comm(B, T).doit() == B * T - T * B and Comm(F ** 2, B).expand(commutator=True).doit() == 0 and Comm(F ** 2, T).expand(commutator=True).doit() == -2 * F and Comm(F, T ** 2).expand(commutator=True).doit() == -2 * T and Comm(T ** 2, F).expand(commutator=True).doit() == 2 * T and Comm(T ** 2, F ** 3).expand(commutator=True).doit() == 2 * F * T * F + 2 * F ** 2 * T + 2 * T * F ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_commutator : Any → {Any | Comm(F, B).doit()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Comm(F, B).doit() == 0                         ║
+# ║   ensures:  Comm(B, F).doit() == 0                         ║
+# ║   ensures:  Comm(F, T).doit() == -1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_commutator : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4e595dea83ad2f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 155b754fdc694bfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_eval_commutator","kind":"function","src_hash":"804b175e6323a369","in":{"base":"Any"},"out":{"base":"Any","pred":"Comm(F, B).doit() == 0 and Comm(B, F).doit() == 0 and Comm(F, T).doit() == -1 and Comm(T, F).doit() == 1 and Comm(B, T).doit() == B * T - T * B and Comm(F ** 2, B).expand(commutator=True).doit() == 0 and Comm(F ** 2, T).expand(commutator=True).doit() == -2 * F and Comm(F, T ** 2).expand(commutator=True).doit() == -2 * T and Comm(T ** 2, F).expand(commutator=True).doit() == 2 * T"},"spec":{"lhs":"test_eval_commutator()","rhs":"test_eval_commutator produces the expected output","over":{"base":"Any"},"name":"test_eval_commutator_correct"},"guarantee":"test_eval_commutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_eval_commutator_correct","statement":"Path(test_eval_commutator(x), test_eval_commutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4e595dea83ad2f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_commutator.test_eval_commutator","kind":"function","src_hash":"804b175e6323a369","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Comm(F, B).doit() == 0 and Comm(B, F).doit() == 0 and Comm(F, T).doit() == -1 and Comm(T, F).doit() == 1 and Comm(B, T).doit() == B * T - T * B and Comm(F ** 2, B).expand(commutator=True).doit() == 0 and Comm(F ** 2, T).expand(commutator=True).doit() == -2 * F and Comm(F, T ** 2).expand(commutator=True).doit() == -2 * T and Comm(T ** 2, F).expand(commutator=True).doit() == 2 * T and Comm(T ** 2, F ** 3).expand(commutator=True).doit() == 2 * F * T * F + 2 * F ** 2 * T + 2 * T * F ** 2"},"spec":{"lhs":"test_eval_commutator()","rhs":"Comm(F, B).doit() == 0 and Comm(B, F).doit() == 0 and Comm(F, T).doit() == -1 and Comm(T, F).doit() == 1 and Comm(B, T).doit() == B * T - T * B and Comm(F ** 2, B).expand(commutator=True).doit() == 0 and Comm(F ** 2, T).expand(commutator=True).doit() == -2 * F and Comm(F, T ** 2).expand(commutator=True).doit() == -2 * T and Comm(T ** 2, F).expand(commutator=True).doit() == 2 * T and Comm(T ** 2, F ** 3).expand(commutator=True).doit() == 2 * F * T * F + 2 * F ** 2 * T + 2 * T * F ** 2","over":{"base":"Any"},"name":"test_eval_commutator_correct"},"guarantee":"Comm(F, B).doit() == 0; Comm(B, F).doit() == 0; Comm(F, T).doit() == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_commutator.test_eval_commutator_correct","statement":"Path(test_eval_commutator(x), Comm(F, B).doit() == 0; Comm(B, F).doit() == 0; Comm(F, T).doit() == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"155b754fdc694bfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Comm(F, B).doit() == 0","Comm(B, F).doit() == 0","Comm(F, T).doit() == -1","Comm(T, F).doit() == 1","Comm(B, T).doit() == B * T - T * B","Comm(F ** 2, B).expand(commutator=True).doit() == 0","Comm(F ** 2, T).expand(commutator=True).doit() == -2 * F","Comm(F, T ** 2).expand(commutator=True).doit() == -2 * T","Comm(T ** 2, F).expand(commutator=True).doit() == 2 * T","Comm(T ** 2, F ** 3).expand(commutator=True).doit() == 2 * F * T * F + 2 * F ** 2 * T + 2 * T * F ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_eval_commutator():
     F = Foo('F')
     B = Bar('B')

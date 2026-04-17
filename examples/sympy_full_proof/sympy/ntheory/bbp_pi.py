@@ -92,16 +92,22 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_series(j, ), internal helper behaves correctly) over Any ║
+# ║ Path(_series(j, n, prec), <unspecified:_series>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _series : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c5f95356ce8a55f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.bbp_pi._series","kind":"function","src_hash":"0c095859ad79d87d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_series(j, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_series_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.bbp_pi._series_correct","statement":"Path(_series(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c5f95356ce8a55f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.bbp_pi._series","kind":"function","src_hash":"0c095859ad79d87d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_series(j, n, prec)","rhs":"<unspecified:_series>","over":{"base":"Any"},"name":"_series_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.bbp_pi._series_correct","statement":"Path(_series(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c5f95356ce8a55f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _series(j, n, prec=14):
 
     # Left sum from the bbp algorithm
@@ -135,16 +141,24 @@ def _series(j, n, prec=14):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pi_hex_digits(n, ), returns a string containing ``prec`` (default 14) digits starting at the nth digit of pi in hex) over Any ║
+# ║ Path(pi_hex_digits(n, prec), <unspecified:pi_hex_digits>) over {Any | not (n < 0) and not (prec < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pi_hex_digits : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   requires: not (prec < 0)                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pi_hex_digits : {Any | not (n < 0) and not (prec < 0)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69d942db55f3a3c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.bbp_pi.pi_hex_digits","kind":"function","src_hash":"1c49a233ca51d8c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pi_hex_digits(n, )","rhs":"returns a string containing ``prec`` (default 14) digits starting at the nth digit of pi in hex","over":{"base":"Any"},"name":"pi_hex_digits_correct"},"guarantee":"returns a string containing ``prec`` (default 14) digits starting at the nth digit of pi in hex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.bbp_pi.pi_hex_digits_correct","statement":"Path(pi_hex_digits(x), returns a string containing ``prec`` (default 14) digits starting at the nth digit of pi in hex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69d942db55f3a3c1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.bbp_pi.pi_hex_digits","kind":"function","src_hash":"1c49a233ca51d8c3","in":{"base":"Any","pred":"not (n < 0) and not (prec < 0)"},"out":{"base":"Any"},"spec":{"lhs":"pi_hex_digits(n, prec)","rhs":"<unspecified:pi_hex_digits>","over":{"base":"Any","pred":"not (n < 0) and not (prec < 0)"},"name":"pi_hex_digits_correct"},"guarantee":"returns a string containing ``prec`` (default 14) digits starting at the nth digit of pi in hex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.bbp_pi.pi_hex_digits_correct","statement":"Path(pi_hex_digits(x), returns a string containing ``prec`` (default 14) digits starting at the nth digit of pi in hex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69d942db55f3a3c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 0)","not (prec < 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def pi_hex_digits(n, prec=14):
     """Returns a string containing ``prec`` (default 14) digits
     starting at the nth digit of pi in hex. Counting of digits
@@ -219,16 +233,22 @@ def pi_hex_digits(n, prec=14):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dn(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_dn(n, prec), ((n + prec).bit_length() - 1) // 4 + prec + 3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((n + prec).bit_length() - 1) // 4 + prec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dn : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b5ec3586be59438  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d31c10a9183c1436  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.bbp_pi._dn","kind":"function","src_hash":"983cafc07357539e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dn(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.bbp_pi._dn_correct","statement":"Path(_dn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b5ec3586be59438"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.bbp_pi._dn","kind":"function","src_hash":"983cafc07357539e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dn(n, prec)","rhs":"((n + prec).bit_length() - 1) // 4 + prec + 3","over":{"base":"Any"},"name":"_dn_correct"},"guarantee":"returns ((n + prec).bit_length() - 1) // 4 + prec + 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.bbp_pi._dn_correct","statement":"Path(_dn(x), returns ((n + prec).bit_length() - 1) // 4 + prec + 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d31c10a9183c1436","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((n + prec).bit_length() - 1) // 4 + prec + 3","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dn(n, prec):
     # controller for n dependence on precision
     # n = starting digit index

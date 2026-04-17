@@ -209,16 +209,27 @@ FFLU_EXAMPLES = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_fflu(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(_check_fflu(A, P, L), P_field.shape == (m, m) and L_field.shape == (m, m) and D_field.shape == (m, m) and U_field.shape == (m, n) and L_field.is_lower and D_field.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U_field.is_upper) over {Any | hasattr(A, 'shape') and hasattr(D, 'inv_den') and hasattr(P, 'to_field') and hasattr(L, 'to_field') and hasattr(D, 'to_field') and hasattr(U, 'to_field') and hasattr(P, 'matmul') and hasattr(L, 'matmul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_fflu : Any → {Any | P_field.shape == (m, m) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(D, 'inv_den')                          ║
+# ║   requires: hasattr(P, 'to_field')                         ║
+# ║   ensures:  P_field.shape == (m, m)                        ║
+# ║   ensures:  L_field.shape == (m, m)                        ║
+# ║   ensures:  D_field.shape == (m, m)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_fflu : {Any | hasattr(A, 'shape') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0133ece7bdf26261  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62af385dfb455886  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu._check_fflu","kind":"function","src_hash":"8900299ae8bb4ec9","in":{"base":"Any"},"out":{"base":"Any","pred":"P_field.shape == (m, m) and L_field.shape == (m, m) and D_field.shape == (m, m) and U_field.shape == (m, n) and L_field.is_lower and D_field.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U_field.is_upper"},"spec":{"lhs":"_check_fflu(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_fflu_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._check_fflu_correct","statement":"Path(_check_fflu(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0133ece7bdf26261"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu._check_fflu","kind":"function","src_hash":"8900299ae8bb4ec9","in":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(D, 'inv_den') and hasattr(P, 'to_field') and hasattr(L, 'to_field') and hasattr(D, 'to_field') and hasattr(U, 'to_field') and hasattr(P, 'matmul') and hasattr(L, 'matmul')"},"out":{"base":"Any","pred":"result satisfies: P_field.shape == (m, m) and L_field.shape == (m, m) and D_field.shape == (m, m) and U_field.shape == (m, n) and L_field.is_lower and D_field.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U_field.is_upper"},"spec":{"lhs":"_check_fflu(A, P, L)","rhs":"P_field.shape == (m, m) and L_field.shape == (m, m) and D_field.shape == (m, m) and U_field.shape == (m, n) and L_field.is_lower and D_field.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U_field.is_upper","over":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(D, 'inv_den') and hasattr(P, 'to_field') and hasattr(L, 'to_field') and hasattr(D, 'to_field') and hasattr(U, 'to_field') and hasattr(P, 'matmul') and hasattr(L, 'matmul')"},"name":"_check_fflu_correct"},"guarantee":"P_field.shape == (m, m); L_field.shape == (m, m); D_field.shape == (m, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._check_fflu_correct","statement":"Path(_check_fflu(x), P_field.shape == (m, m); L_field.shape == (m, m); D_field.shape == (m, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62af385dfb455886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'shape')","hasattr(D, 'inv_den')","hasattr(P, 'to_field')","hasattr(L, 'to_field')","hasattr(D, 'to_field')","hasattr(U, 'to_field')","hasattr(P, 'matmul')","hasattr(L, 'matmul')"],"ensures":["P_field.shape == (m, m)","L_field.shape == (m, m)","D_field.shape == (m, m)","U_field.shape == (m, n)","L_field.is_lower","D_field.is_diagonal","P.matmul(A).rmul(d) == L.matmul(di).matmul(U)","U_field.is_upper"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.shape","D.inv_den","D.to_field","L.matmul","L.to_field","P.matmul","P.to_field","U.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_fflu(A, P, L, D, U):
     P_field = P.to_field().to_dense()
     L_field = L.to_field().to_dense()
@@ -237,7 +248,16 @@ def _check_fflu(A, P, L, D, U):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_DM(A, ), internal helper behaves correctly) over {Any | isinstance(A, DomainMatrix) and isinstance(A, Matrix)} ║
+# ║ Path(_to_DM(A, ans), result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain)) and result == A or result == A.to_DM(ans.domain)) over {Any | isinstance(A, DomainMatrix) and isinstance(A, Matrix) and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_list') and hasattr(A, 'to_DM') and hasattr(ans, 'domain')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'to_list')                          ║
+# ║   ensures:  result == (A if isinstance(A, DomainMatri...   ║
+# ║   ensures:  result == A or result == A.to_DM(ans.domain)   ║
+# ║   fiber[DomainMatrix]: isinstance(A, DomainMatrix) => A    ║
+# ║   fiber[Matrix]: isinstance(A, Matrix) => A.to_DM(ans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_DM : {Any | isinstance(A, DomainMatrix) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -250,9 +270,12 @@ def _check_fflu(A, P, L, D, U):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ce4f23dc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu._to_DM","kind":"function","src_hash":"9cfcaae5fba373c3","in":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"_to_DM(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, Matrix)"},"name":"_to_DM_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"DomainMatrix","pred":"isinstance(A, DomainMatrix)","path":{"lhs":"_to_DM(x)","rhs":"internal helper behaves correctly","over":{"base":"DomainMatrix","pred":"isinstance(A, DomainMatrix)"},"name":"_to_DM_DomainMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._to_DM_DomainMatrix_correct","statement":"_to_DM satisfies spec on DomainMatrix inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(A, Matrix)","path":{"lhs":"_to_DM(x)","rhs":"internal helper behaves correctly","over":{"base":"Matrix","pred":"isinstance(A, Matrix)"},"name":"_to_DM_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._to_DM_Matrix_correct","statement":"_to_DM satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce4f23dc299915ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu._to_DM","kind":"function","src_hash":"9cfcaae5fba373c3","in":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, Matrix) and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_list') and hasattr(A, 'to_DM') and hasattr(ans, 'domain')"},"out":{"base":"Any","pred":"result satisfies: result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain)) and result == A or result == A.to_DM(ans.domain)"},"spec":{"lhs":"_to_DM(A, ans)","rhs":"result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain)) and result == A or result == A.to_DM(ans.domain)","over":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, Matrix) and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_list') and hasattr(A, 'to_DM') and hasattr(ans, 'domain')"},"name":"_to_DM_correct"},"guarantee":"result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain)); result == A or result == A.to_DM(ans.domain); 2-fiber decomposition","fibers":[{"name":"DomainMatrix","pred":"isinstance(A, DomainMatrix)","path":{"lhs":"_to_DM(x)","rhs":"result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain)); result == A or result == A.to_DM(ans.domain); 2-fiber decomposition","over":{"base":"DomainMatrix","pred":"isinstance(A, DomainMatrix)"},"name":"_to_DM_DomainMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._to_DM_DomainMatrix_correct","statement":"_to_DM satisfies spec on DomainMatrix inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(A, Matrix)","path":{"lhs":"_to_DM(x)","rhs":"result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain)); result == A or result == A.to_DM(ans.domain); 2-fiber decomposition","over":{"base":"Matrix","pred":"isinstance(A, Matrix)"},"name":"_to_DM_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._to_DM_Matrix_correct","statement":"_to_DM satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce4f23dc299915ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'shape')","hasattr(A, 'domain')","hasattr(A, 'to_list')","hasattr(A, 'to_DM')","hasattr(ans, 'domain')"],"ensures":["result == (A if isinstance(A, DomainMatrix) else A.to_DM(ans.domain))","result == A or result == A.to_DM(ans.domain)"],"fibers":[{"name":"DomainMatrix","guard":"isinstance(A, DomainMatrix)","ensures":["result == A"],"decidability":"structural","returns_expr":"A"},{"name":"Matrix","guard":"isinstance(A, Matrix)","ensures":["result == A.to_DM(ans.domain)"],"decidability":"structural","returns_expr":"A.to_DM(ans.domain)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.shape","A.to_DM","A.to_list","ans.domain"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(A, DomainMatrix)', 'isinstance(A, Matrix)'}, fibers={'DomainMatrix', 'Matrix'})"]}}
 def _to_DM(A, ans):
     if isinstance(A, DomainMatrix):
         return A
@@ -262,16 +285,25 @@ def _to_DM(A, ans):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_fflu_result(res), internal helper behaves correctly) over Any ║
+# ║ Path(_check_fflu_result(result, A, P_ans), P.shape == (m, m) and L.shape == (m, m) and D.shape == (m, m) and U.shape == (m, n) and L.is_lower and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U.is_upper) over {Any | hasattr(A, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_fflu_result : Any → {Any | P.shape == (m, m) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   ensures:  P.shape == (m, m)                              ║
+# ║   ensures:  L.shape == (m, m)                              ║
+# ║   ensures:  D.shape == (m, m)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_fflu_result : {Any | hasattr(A, 'shape')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dad0342c6a41942c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1772b484d426aee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu._check_fflu_result","kind":"function","src_hash":"358a4898914f97c9","in":{"base":"Any"},"out":{"base":"Any","pred":"P.shape == (m, m) and L.shape == (m, m) and D.shape == (m, m) and U.shape == (m, n) and L.is_lower and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U.is_upper"},"spec":{"lhs":"_check_fflu_result(res)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_fflu_result_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._check_fflu_result_correct","statement":"Path(_check_fflu_result(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dad0342c6a41942c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu._check_fflu_result","kind":"function","src_hash":"358a4898914f97c9","in":{"base":"Any","pred":"hasattr(A, 'shape')"},"out":{"base":"Any","pred":"result satisfies: P.shape == (m, m) and L.shape == (m, m) and D.shape == (m, m) and U.shape == (m, n) and L.is_lower and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U.is_upper"},"spec":{"lhs":"_check_fflu_result(result, A, P_ans)","rhs":"P.shape == (m, m) and L.shape == (m, m) and D.shape == (m, m) and U.shape == (m, n) and L.is_lower and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U) and U.is_upper","over":{"base":"Any","pred":"hasattr(A, 'shape')"},"name":"_check_fflu_result_correct"},"guarantee":"P.shape == (m, m); L.shape == (m, m); D.shape == (m, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu._check_fflu_result_correct","statement":"Path(_check_fflu_result(x), P.shape == (m, m); L.shape == (m, m); D.shape == (m, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1772b484d426aee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'shape')"],"ensures":["P.shape == (m, m)","L.shape == (m, m)","D.shape == (m, m)","U.shape == (m, n)","L.is_lower","D.is_diagonal","P.matmul(A).rmul(d) == L.matmul(di).matmul(U)","U.is_upper"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_fflu_result(result, A, P_ans, L_ans, D_ans, U_ans):
     P, L, D, U = result
     P = _to_DM(P, P_ans)
@@ -293,16 +325,24 @@ def _check_fflu_result(result, A, P_ans, L_ans, D_ans, U_ans):
 
 @pytest.mark.parametrize('name, A, P_ans, L_ans, D_ans, U_ans', FFLU_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_dense_fflu(nam), test_dm_dense_fflu produces the expected output) over Any ║
+# ║ Path(test_dm_dense_fflu(name, A, P_ans), <unspecified:test_dm_dense_fflu>) over {Any | hasattr(A, 'to_dense') and hasattr(A, 'fflu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_dense_fflu : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_dense')                         ║
+# ║   requires: hasattr(A, 'fflu')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_dense_fflu : {Any | hasattr(A, 'to_dense') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbea97d517546e64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_dm_dense_fflu","kind":"function","src_hash":"fa8a7a36b9bbdc03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_fflu(nam)","rhs":"test_dm_dense_fflu produces the expected output","over":{"base":"Any"},"name":"test_dm_dense_fflu_correct"},"guarantee":"test_dm_dense_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_dm_dense_fflu_correct","statement":"Path(test_dm_dense_fflu(x), test_dm_dense_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbea97d517546e64"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_dm_dense_fflu","kind":"function","src_hash":"fa8a7a36b9bbdc03","in":{"base":"Any","pred":"hasattr(A, 'to_dense') and hasattr(A, 'fflu')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_fflu(name, A, P_ans)","rhs":"<unspecified:test_dm_dense_fflu>","over":{"base":"Any","pred":"hasattr(A, 'to_dense') and hasattr(A, 'fflu')"},"name":"test_dm_dense_fflu_correct"},"guarantee":"test_dm_dense_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_dm_dense_fflu_correct","statement":"Path(test_dm_dense_fflu(x), test_dm_dense_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbea97d517546e64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_dense')","hasattr(A, 'fflu')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.fflu","A.to_dense"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_dense_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
     A = A.to_dense()
     _check_fflu_result(A.fflu(), A, P_ans, L_ans, D_ans, U_ans)
@@ -310,16 +350,24 @@ def test_dm_dense_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
 
 @pytest.mark.parametrize('name, A, P_ans, L_ans, D_ans, U_ans', FFLU_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_fflu(nam), test_dm_sparse_fflu produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_fflu(name, A, P_ans), <unspecified:test_dm_sparse_fflu>) over {Any | hasattr(A, 'to_sparse') and hasattr(A, 'fflu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_fflu : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(A, 'fflu')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_fflu : {Any | hasattr(A, 'to_sparse') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9912e732d2599ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_dm_sparse_fflu","kind":"function","src_hash":"daf34ece578de0fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_fflu(nam)","rhs":"test_dm_sparse_fflu produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_fflu_correct"},"guarantee":"test_dm_sparse_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_dm_sparse_fflu_correct","statement":"Path(test_dm_sparse_fflu(x), test_dm_sparse_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9912e732d2599ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_dm_sparse_fflu","kind":"function","src_hash":"daf34ece578de0fd","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'fflu')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_fflu(name, A, P_ans)","rhs":"<unspecified:test_dm_sparse_fflu>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'fflu')"},"name":"test_dm_sparse_fflu_correct"},"guarantee":"test_dm_sparse_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_dm_sparse_fflu_correct","statement":"Path(test_dm_sparse_fflu(x), test_dm_sparse_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9912e732d2599ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(A, 'fflu')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.fflu","A.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
     A = A.to_sparse()
     _check_fflu_result(A.fflu(), A, P_ans, L_ans, D_ans, U_ans)
@@ -327,16 +375,24 @@ def test_dm_sparse_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
 
 @pytest.mark.parametrize('name, A, P_ans, L_ans, D_ans, U_ans', FFLU_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_fflu(nam), test_ddm_fflu produces the expected output) over Any ║
+# ║ Path(test_ddm_fflu(name, A, P_ans), <unspecified:test_ddm_fflu>) over {Any | hasattr(A, 'to_ddm') and hasattr(A, 'fflu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_fflu : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_ddm')                           ║
+# ║   requires: hasattr(A, 'fflu')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_fflu : {Any | hasattr(A, 'to_ddm') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0702952925bde28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_ddm_fflu","kind":"function","src_hash":"972367139b5a5fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_fflu(nam)","rhs":"test_ddm_fflu produces the expected output","over":{"base":"Any"},"name":"test_ddm_fflu_correct"},"guarantee":"test_ddm_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_ddm_fflu_correct","statement":"Path(test_ddm_fflu(x), test_ddm_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0702952925bde28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_ddm_fflu","kind":"function","src_hash":"972367139b5a5fe2","in":{"base":"Any","pred":"hasattr(A, 'to_ddm') and hasattr(A, 'fflu')"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_fflu(name, A, P_ans)","rhs":"<unspecified:test_ddm_fflu>","over":{"base":"Any","pred":"hasattr(A, 'to_ddm') and hasattr(A, 'fflu')"},"name":"test_ddm_fflu_correct"},"guarantee":"test_ddm_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_ddm_fflu_correct","statement":"Path(test_ddm_fflu(x), test_ddm_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0702952925bde28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_ddm')","hasattr(A, 'fflu')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.fflu","A.to_ddm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ddm_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
     A = A.to_ddm()
     _check_fflu_result(A.fflu(), A, P_ans, L_ans, D_ans, U_ans)
@@ -344,16 +400,24 @@ def test_ddm_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
 
 @pytest.mark.parametrize('name, A, P_ans, L_ans, D_ans, U_ans', FFLU_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_fflu(nam), test_sdm_fflu produces the expected output) over Any ║
+# ║ Path(test_sdm_fflu(name, A, P_ans), <unspecified:test_sdm_fflu>) over {Any | hasattr(A, 'to_sdm') and hasattr(A, 'fflu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_fflu : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sdm')                           ║
+# ║   requires: hasattr(A, 'fflu')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_fflu : {Any | hasattr(A, 'to_sdm') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ed2d4e2e39ac5df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_sdm_fflu","kind":"function","src_hash":"aee39bfd60c41925","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_fflu(nam)","rhs":"test_sdm_fflu produces the expected output","over":{"base":"Any"},"name":"test_sdm_fflu_correct"},"guarantee":"test_sdm_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_sdm_fflu_correct","statement":"Path(test_sdm_fflu(x), test_sdm_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ed2d4e2e39ac5df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_sdm_fflu","kind":"function","src_hash":"aee39bfd60c41925","in":{"base":"Any","pred":"hasattr(A, 'to_sdm') and hasattr(A, 'fflu')"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_fflu(name, A, P_ans)","rhs":"<unspecified:test_sdm_fflu>","over":{"base":"Any","pred":"hasattr(A, 'to_sdm') and hasattr(A, 'fflu')"},"name":"test_sdm_fflu_correct"},"guarantee":"test_sdm_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_sdm_fflu_correct","statement":"Path(test_sdm_fflu(x), test_sdm_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ed2d4e2e39ac5df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sdm')","hasattr(A, 'fflu')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.fflu","A.to_sdm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
     A = A.to_sdm()
     _check_fflu_result(A.fflu(), A, P_ans, L_ans, D_ans, U_ans)
@@ -361,16 +425,25 @@ def test_sdm_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
 
 @pytest.mark.parametrize('name, A, P_ans, L_ans, D_ans, U_ans', FFLU_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dfm_fflu(nam), test_dfm_fflu produces the expected output) over Any ║
+# ║ Path(test_dfm_fflu(name, A, P_ans), <unspecified:test_dfm_fflu>) over {Any | hasattr(A, 'to_dfm') and hasattr(A, 'domain') and hasattr(A, 'fflu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dfm_fflu : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_dfm')                           ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'fflu')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dfm_fflu : {Any | hasattr(A, 'to_dfm') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcb335de1daa9902  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_dfm_fflu","kind":"function","src_hash":"a63c2c2a5fe12a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dfm_fflu(nam)","rhs":"test_dfm_fflu produces the expected output","over":{"base":"Any"},"name":"test_dfm_fflu_correct"},"guarantee":"test_dfm_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_dfm_fflu_correct","statement":"Path(test_dfm_fflu(x), test_dfm_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb335de1daa9902"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_dfm_fflu","kind":"function","src_hash":"a63c2c2a5fe12a01","in":{"base":"Any","pred":"hasattr(A, 'to_dfm') and hasattr(A, 'domain') and hasattr(A, 'fflu')"},"out":{"base":"Any"},"spec":{"lhs":"test_dfm_fflu(name, A, P_ans)","rhs":"<unspecified:test_dfm_fflu>","over":{"base":"Any","pred":"hasattr(A, 'to_dfm') and hasattr(A, 'domain') and hasattr(A, 'fflu')"},"name":"test_dfm_fflu_correct"},"guarantee":"test_dfm_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_dfm_fflu_correct","statement":"Path(test_dfm_fflu(x), test_dfm_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb335de1daa9902","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_dfm')","hasattr(A, 'domain')","hasattr(A, 'fflu')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.fflu","A.to_dfm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dfm_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
     pytest.importorskip('flint')
     if A.domain not in (ZZ, QQ) and not A.domain.is_FF:
@@ -380,16 +453,24 @@ def test_dfm_fflu(name, A, P_ans, L_ans, D_ans, U_ans):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fflu_empty_matrix(), test_fflu_empty_matrix produces the expected output) over Any ║
+# ║ Path(test_fflu_empty_matrix(), P.shape == (0, 0) and L.shape == (0, 0) and D.shape == (0, 0) and U.shape == (0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fflu_empty_matrix : Any → {Any | P.shape == (0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.shape == (0, 0)                              ║
+# ║   ensures:  L.shape == (0, 0)                              ║
+# ║   ensures:  D.shape == (0, 0)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fflu_empty_matrix : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35a761d0a56b9292  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29446bd42751ac06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_fflu_empty_matrix","kind":"function","src_hash":"50bf54377031a1b1","in":{"base":"Any"},"out":{"base":"Any","pred":"P.shape == (0, 0) and L.shape == (0, 0) and D.shape == (0, 0) and U.shape == (0, 0)"},"spec":{"lhs":"test_fflu_empty_matrix()","rhs":"test_fflu_empty_matrix produces the expected output","over":{"base":"Any"},"name":"test_fflu_empty_matrix_correct"},"guarantee":"test_fflu_empty_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_fflu_empty_matrix_correct","statement":"Path(test_fflu_empty_matrix(x), test_fflu_empty_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a761d0a56b9292"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_fflu_empty_matrix","kind":"function","src_hash":"50bf54377031a1b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.shape == (0, 0) and L.shape == (0, 0) and D.shape == (0, 0) and U.shape == (0, 0)"},"spec":{"lhs":"test_fflu_empty_matrix()","rhs":"P.shape == (0, 0) and L.shape == (0, 0) and D.shape == (0, 0) and U.shape == (0, 0)","over":{"base":"Any"},"name":"test_fflu_empty_matrix_correct"},"guarantee":"P.shape == (0, 0); L.shape == (0, 0); D.shape == (0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_fflu_empty_matrix_correct","statement":"Path(test_fflu_empty_matrix(x), P.shape == (0, 0); L.shape == (0, 0); D.shape == (0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29446bd42751ac06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.shape == (0, 0)","L.shape == (0, 0)","D.shape == (0, 0)","U.shape == (0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fflu_empty_matrix():
     A = DomainMatrix([], (0, 0), ZZ)
     P, L, D, U = A.fflu()
@@ -400,16 +481,24 @@ def test_fflu_empty_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fflu_properties(), test_fflu_properties produces the expected output) over Any ║
+# ║ Path(test_fflu_properties(), P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and L.is_lower and U.is_upper and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fflu_properties : Any → {Any | P.shape == (2, 2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.shape == (2, 2)                              ║
+# ║   ensures:  L.shape == (2, 2)                              ║
+# ║   ensures:  D.shape == (2, 2)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fflu_properties : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaeb560de6d814ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc90bdf89144c133  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_fflu_properties","kind":"function","src_hash":"3c1c397a7098056d","in":{"base":"Any"},"out":{"base":"Any","pred":"P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and L.is_lower and U.is_upper and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)"},"spec":{"lhs":"test_fflu_properties()","rhs":"test_fflu_properties produces the expected output","over":{"base":"Any"},"name":"test_fflu_properties_correct"},"guarantee":"test_fflu_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_fflu_properties_correct","statement":"Path(test_fflu_properties(x), test_fflu_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaeb560de6d814ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_fflu_properties","kind":"function","src_hash":"3c1c397a7098056d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and L.is_lower and U.is_upper and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)"},"spec":{"lhs":"test_fflu_properties()","rhs":"P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and L.is_lower and U.is_upper and D.is_diagonal and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)","over":{"base":"Any"},"name":"test_fflu_properties_correct"},"guarantee":"P.shape == (2, 2); L.shape == (2, 2); D.shape == (2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_fflu_properties_correct","statement":"Path(test_fflu_properties(x), P.shape == (2, 2); L.shape == (2, 2); D.shape == (2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc90bdf89144c133","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.shape == (2, 2)","L.shape == (2, 2)","D.shape == (2, 2)","U.shape == (2, 2)","L.is_lower","U.is_upper","D.is_diagonal","P.matmul(A).rmul(d) == L.matmul(di).matmul(U)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_fflu_properties():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     P, L, D, U = A.fflu()
@@ -425,16 +514,24 @@ def test_fflu_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fflu_rank_deficient(), test_fflu_rank_deficient produces the expected output) over Any ║
+# ║ Path(test_fflu_rank_deficient(), P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and U.getitem_sympy(1, 1) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fflu_rank_deficient : Any → {Any | P.shape == (2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.shape == (2, 2)                              ║
+# ║   ensures:  L.shape == (2, 2)                              ║
+# ║   ensures:  D.shape == (2, 2)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fflu_rank_deficient : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 327fc56b99a559e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9935f218ea1b8bfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_fflu_rank_deficient","kind":"function","src_hash":"acbdda9fba8a2dc3","in":{"base":"Any"},"out":{"base":"Any","pred":"P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and U.getitem_sympy(1, 1) == 0"},"spec":{"lhs":"test_fflu_rank_deficient()","rhs":"test_fflu_rank_deficient produces the expected output","over":{"base":"Any"},"name":"test_fflu_rank_deficient_correct"},"guarantee":"test_fflu_rank_deficient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_fflu_rank_deficient_correct","statement":"Path(test_fflu_rank_deficient(x), test_fflu_rank_deficient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"327fc56b99a559e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_fflu.test_fflu_rank_deficient","kind":"function","src_hash":"acbdda9fba8a2dc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and U.getitem_sympy(1, 1) == 0"},"spec":{"lhs":"test_fflu_rank_deficient()","rhs":"P.shape == (2, 2) and L.shape == (2, 2) and D.shape == (2, 2) and U.shape == (2, 2) and U.getitem_sympy(1, 1) == 0","over":{"base":"Any"},"name":"test_fflu_rank_deficient_correct"},"guarantee":"P.shape == (2, 2); L.shape == (2, 2); D.shape == (2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_fflu.test_fflu_rank_deficient_correct","statement":"Path(test_fflu_rank_deficient(x), P.shape == (2, 2); L.shape == (2, 2); D.shape == (2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9935f218ea1b8bfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.shape == (2, 2)","L.shape == (2, 2)","D.shape == (2, 2)","U.shape == (2, 2)","U.getitem_sympy(1, 1) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fflu_rank_deficient():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(2), ZZ(4)]], (2, 2), ZZ)
     P, L, D, U = A.fflu()

@@ -29,16 +29,24 @@ tau1 = symbols("tau1", commutative = False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pauli(), test_Pauli produces the expected output) over Any ║
+# ║ Path(test_Pauli(), sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == I * sigma3 and sigma3 * sigma1 == I * sigma2 and sigma2 * sigma3 == I * sigma1 and sigma1 * sigma1 == 1 and sigma2 * sigma2 == 1 and sigma3 * sigma3 == 1 and sigma1 ** 0 == 1 and sigma1 ** 1 == sigma1 and sigma1 ** 2 == 1 and sigma1 ** 3 == sigma1 and sigma1 ** 4 == 1 and sigma3 ** 2 == 1 and sigma1 * 2 * sigma1 == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pauli : Any → {Any | sigma1 == sigma1 and sigma1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sigma1 == sigma1                               ║
+# ║   ensures:  sigma1 != sigma2                               ║
+# ║   ensures:  sigma1 * sigma2 == I * sigma3                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pauli : Any → {Any | result satisfies: sigma1 ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 005e9dc69cb51ee2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cddc20297eefa74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_paulialgebra.test_Pauli","kind":"function","src_hash":"3a77f21f2e8a9ad2","in":{"base":"Any"},"out":{"base":"Any","pred":"sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == I * sigma3 and sigma3 * sigma1 == I * sigma2 and sigma2 * sigma3 == I * sigma1 and sigma1 * sigma1 == 1 and sigma2 * sigma2 == 1 and sigma3 * sigma3 == 1 and sigma1 ** 0 == 1 and sigma1 ** 1 == sigma1 and sigma1 ** 2 == 1 and sigma1 ** 3 == sigma1 and sigma1 ** 4 == 1 and sigma3 ** 2 == 1 and sigma1 * 2 * sigma1 == 2"},"spec":{"lhs":"test_Pauli()","rhs":"test_Pauli produces the expected output","over":{"base":"Any"},"name":"test_Pauli_correct"},"guarantee":"test_Pauli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_paulialgebra.test_Pauli_correct","statement":"Path(test_Pauli(x), test_Pauli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"005e9dc69cb51ee2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_paulialgebra.test_Pauli","kind":"function","src_hash":"3a77f21f2e8a9ad2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == I * sigma3 and sigma3 * sigma1 == I * sigma2 and sigma2 * sigma3 == I * sigma1 and sigma1 * sigma1 == 1 and sigma2 * sigma2 == 1 and sigma3 * sigma3 == 1 and sigma1 ** 0 == 1 and sigma1 ** 1 == sigma1 and sigma1 ** 2 == 1 and sigma1 ** 3 == sigma1 and sigma1 ** 4 == 1 and sigma3 ** 2 == 1 and sigma1 * 2 * sigma1 == 2"},"spec":{"lhs":"test_Pauli()","rhs":"sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == I * sigma3 and sigma3 * sigma1 == I * sigma2 and sigma2 * sigma3 == I * sigma1 and sigma1 * sigma1 == 1 and sigma2 * sigma2 == 1 and sigma3 * sigma3 == 1 and sigma1 ** 0 == 1 and sigma1 ** 1 == sigma1 and sigma1 ** 2 == 1 and sigma1 ** 3 == sigma1 and sigma1 ** 4 == 1 and sigma3 ** 2 == 1 and sigma1 * 2 * sigma1 == 2","over":{"base":"Any"},"name":"test_Pauli_correct"},"guarantee":"sigma1 == sigma1; sigma1 != sigma2; sigma1 * sigma2 == I * sigma3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_paulialgebra.test_Pauli_correct","statement":"Path(test_Pauli(x), sigma1 == sigma1; sigma1 != sigma2; sigma1 * sigma2 == I * sigma3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cddc20297eefa74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sigma1 == sigma1","sigma1 != sigma2","sigma1 * sigma2 == I * sigma3","sigma3 * sigma1 == I * sigma2","sigma2 * sigma3 == I * sigma1","sigma1 * sigma1 == 1","sigma2 * sigma2 == 1","sigma3 * sigma3 == 1","sigma1 ** 0 == 1","sigma1 ** 1 == sigma1","sigma1 ** 2 == 1","sigma1 ** 3 == sigma1","sigma1 ** 4 == 1","sigma3 ** 2 == 1","sigma1 * 2 * sigma1 == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Pauli():
 
     assert sigma1 == sigma1
@@ -64,16 +72,24 @@ def test_Pauli():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evaluate_pauli_product(), test_evaluate_pauli_product produces the expected output) over Any ║
+# ║ Path(test_evaluate_pauli_product(), evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1 and evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3 and evaluate_pauli_product(1 + I * sigma1 * sigma2 * sigma1 * sigma2 + I * sigma1 * sigma2 * tau1 * sigma1 * sigma3 + (tau1 ** 2).subs(tau1, I * sigma1) + sigma3 * (tau1 ** 2).subs(tau1, I * sigma1) + TensorProduct(I * sigma1 * sigma2 * sigma1 * sigma2, 1)) == 1 - I + I * sigma3 * tau1 * sigma2 - 1 - sigma3 - I * TensorProduct(1, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evaluate_pauli_product : Any → {Any | evaluate_p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  evaluate_pauli_product(I * sigma2 * sigma...   ║
+# ║   ensures:  evaluate_pauli_product(-I * 4 * sigma1 * ...   ║
+# ║   ensures:  evaluate_pauli_product(1 + I * sigma1 * s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evaluate_pauli_product : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0d81dfde14cca55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18abaca04bd4d163  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_paulialgebra.test_evaluate_pauli_product","kind":"function","src_hash":"c76d0104e6a5c75b","in":{"base":"Any"},"out":{"base":"Any","pred":"evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1 and evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3"},"spec":{"lhs":"test_evaluate_pauli_product()","rhs":"test_evaluate_pauli_product produces the expected output","over":{"base":"Any"},"name":"test_evaluate_pauli_product_correct"},"guarantee":"test_evaluate_pauli_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_paulialgebra.test_evaluate_pauli_product_correct","statement":"Path(test_evaluate_pauli_product(x), test_evaluate_pauli_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0d81dfde14cca55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_paulialgebra.test_evaluate_pauli_product","kind":"function","src_hash":"c76d0104e6a5c75b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1 and evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3 and evaluate_pauli_product(1 + I * sigma1 * sigma2 * sigma1 * sigma2 + I * sigma1 * sigma2 * tau1 * sigma1 * sigma3 + (tau1 ** 2).subs(tau1, I * sigma1) + sigma3 * (tau1 ** 2).subs(tau1, I * sigma1) + TensorProduct(I * sigma1 * sigma2 * sigma1 * sigma2, 1)) == 1 - I + I * sigma3 * tau1 * sigma2 - 1 - sigma3 - I * TensorProduct(1, 1)"},"spec":{"lhs":"test_evaluate_pauli_product()","rhs":"evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1 and evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3 and evaluate_pauli_product(1 + I * sigma1 * sigma2 * sigma1 * sigma2 + I * sigma1 * sigma2 * tau1 * sigma1 * sigma3 + (tau1 ** 2).subs(tau1, I * sigma1) + sigma3 * (tau1 ** 2).subs(tau1, I * sigma1) + TensorProduct(I * sigma1 * sigma2 * sigma1 * sigma2, 1)) == 1 - I + I * sigma3 * tau1 * sigma2 - 1 - sigma3 - I * TensorProduct(1, 1)","over":{"base":"Any"},"name":"test_evaluate_pauli_product_correct"},"guarantee":"evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1; evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3; evaluate_pauli_product(1 + I * sigma1 * sigma2 * sigma1 * sigma2 + I * sigma1 * sigma2 * tau1 * sigma1 * sigma3 + (tau1 ** 2).subs(tau1, I * sigma1) + sigma3 * (tau1 ** 2).subs(tau1, I * sigma1) + TensorProduct(I * sigma1 * sigma2 * sigma1 * sigma2, 1)) == 1 - I + I * sigma3 * tau1 * sigma2 - 1 - sigma3 - I * TensorProduct(1, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_paulialgebra.test_evaluate_pauli_product_correct","statement":"Path(test_evaluate_pauli_product(x), evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1; evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3; evaluate_pauli_product(1 + I * sigma1 * sigma2 * sigma1 * sigma2 + I * sigma1 * sigma2 * tau1 * sigma1 * sigma3 + (tau1 ** 2).subs(tau1, I * sigma1) + sigma3 * (tau1 ** 2).subs(tau1, I * sigma1) + TensorProduct(I * sigma1 * sigma2 * sigma1 * sigma2, 1)) == 1 - I + I * sigma3 * tau1 * sigma2 - 1 - sigma3 - I * TensorProduct(1, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18abaca04bd4d163","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["evaluate_pauli_product(I * sigma2 * sigma3) == -sigma1","evaluate_pauli_product(-I * 4 * sigma1 * sigma2) == 4 * sigma3","evaluate_pauli_product(1 + I * sigma1 * sigma2 * sigma1 * sigma2 + I * sigma1 * sigma2 * tau1 * sigma1 * sigma3 + (tau1 ** 2).subs(tau1, I * sigma1) + sigma3 * (tau1 ** 2).subs(tau1, I * sigma1) + TensorProduct(I * sigma1 * sigma2 * sigma1 * sigma2, 1)) == 1 - I + I * sigma3 * tau1 * sigma2 - 1 - sigma3 - I * TensorProduct(1, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_evaluate_pauli_product():
     from sympy.physics.paulialgebra import evaluate_pauli_product
 
@@ -93,15 +109,21 @@ def test_evaluate_pauli_product():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pauli_should_work(), test_Pauli_should_work produces the expected output) over Any ║
+# ║ Path(test_Pauli_should_work(), sigma1 * sigma3 * sigma1 == -sigma3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pauli_should_work : Any → {Any | sigma1 * sigma3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sigma1 * sigma3 * sigma1 == -sigma3            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pauli_should_work : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac79e727987f1616  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaca448b2761b9ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_paulialgebra.test_Pauli_should_work","kind":"function","src_hash":"31af53b619b3fb77","in":{"base":"Any"},"out":{"base":"Any","pred":"sigma1 * sigma3 * sigma1 == -sigma3"},"spec":{"lhs":"test_Pauli_should_work()","rhs":"test_Pauli_should_work produces the expected output","over":{"base":"Any"},"name":"test_Pauli_should_work_correct"},"guarantee":"test_Pauli_should_work produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_paulialgebra.test_Pauli_should_work_correct","statement":"Path(test_Pauli_should_work(x), test_Pauli_should_work produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac79e727987f1616"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_paulialgebra.test_Pauli_should_work","kind":"function","src_hash":"31af53b619b3fb77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sigma1 * sigma3 * sigma1 == -sigma3"},"spec":{"lhs":"test_Pauli_should_work()","rhs":"sigma1 * sigma3 * sigma1 == -sigma3","over":{"base":"Any"},"name":"test_Pauli_should_work_correct"},"guarantee":"sigma1 * sigma3 * sigma1 == -sigma3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_paulialgebra.test_Pauli_should_work_correct","statement":"Path(test_Pauli_should_work(x), sigma1 * sigma3 * sigma1 == -sigma3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaca448b2761b9ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sigma1 * sigma3 * sigma1 == -sigma3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Pauli_should_work():
     assert sigma1*sigma3*sigma1 == -sigma3

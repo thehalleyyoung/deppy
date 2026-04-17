@@ -23,16 +23,22 @@ from sympy.functions.elementary.trigonometric import cos, sin
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cosm1(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_cosm1(x, evaluate), Add(cos(x, evaluate=evaluate), -S.One, evaluate=evaluate)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(cos(x, evaluate=evaluate), -S.One, ev...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _cosm1 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec49dcbbf9edf451           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes._cosm1","kind":"function","src_hash":"22d70226ebd0b3c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cosm1(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_cosm1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec49dcbbf9edf451"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes._cosm1","kind":"function","src_hash":"22d70226ebd0b3c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cosm1(x, evaluate)","rhs":"Add(cos(x, evaluate=evaluate), -S.One, evaluate=evaluate)","over":{"base":"Any"},"name":"_cosm1_correct"},"guarantee":"returns Add(cos(x, evaluate=evaluate), -S.One, evaluate=evaluate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec49dcbbf9edf451","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(cos(x, evaluate=evaluate), -S.One, evaluate=evaluate)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['x'], spec=['x', 'evaluate']"]}}
 def _cosm1(x, *, evaluate=True):
     return Add(cos(x, evaluate=evaluate), -S.One, evaluate=evaluate)
 
@@ -40,14 +46,20 @@ def _cosm1(x, *, evaluate=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(cosm1(*args), correctly constructs a cosm1 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cosm1 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cosm1 : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 023e00991fd22295  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1","kind":"class","src_hash":"5f7edadaf12f21cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cosm1(*args)","rhs":"correctly constructs a cosm1 instance","over":{"base":"Any"},"name":"cosm1_class_invariant"},"guarantee":"correctly constructs a cosm1 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"023e00991fd22295"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1","kind":"class","src_hash":"5f7edadaf12f21cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"cosm1(*args)","rhs":"correctly constructs a cosm1 instance","over":{"base":"Any"},"name":"cosm1_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"023e00991fd22295","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function cosm1 not found in source"]}}
 class cosm1(Function):
     """ Minus one plus cosine of x, i.e. cos(x) - 1. For use when x is close to zero.
 
@@ -57,16 +69,23 @@ class cosm1(Function):
     nargs = 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of this function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => -sin(*self.args)         ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b6fcaedda516028  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7db5f3126062f5f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1.fdiff","kind":"method","src_hash":"b8ff9d83e0060e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of this function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.cosm1.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b6fcaedda516028"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1.fdiff","kind":"method","src_hash":"b8ff9d83e0060e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.cosm1.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7db5f3126062f5f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == -sin(*self.args)"],"decidability":"z3","returns_expr":"-sin(*self.args)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of this function.
@@ -77,44 +96,65 @@ class cosm1(Function):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(x, **kwargs), _cosm1(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _cosm1(x)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7eb22f162413b2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1._eval_rewrite_as_cos","kind":"method","src_hash":"be850ad77c9dd358","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7eb22f162413b2f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1._eval_rewrite_as_cos","kind":"method","src_hash":"be850ad77c9dd358","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(x, **kwargs)","rhs":"_cosm1(x)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns _cosm1(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7eb22f162413b2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_cosm1(x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, x, **kwargs):
         return _cosm1(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(*args, **kwargs), self.rewrite(cos).evalf(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(cos).evalf(*args, **kwargs)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76ec19c4eae79c9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1._eval_evalf","kind":"method","src_hash":"e5c65b1d2806b16e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76ec19c4eae79c9f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1._eval_evalf","kind":"method","src_hash":"e5c65b1d2806b16e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(*args, **kwargs)","rhs":"self.rewrite(cos).evalf(*args, **kwargs)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.rewrite(cos).evalf(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76ec19c4eae79c9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(cos).evalf(*args, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, *args, **kwargs):
         return self.rewrite(cos).evalf(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), result == (candidate if candidate != _cosm1(x, evaluate=False) else cosm1(x)) and result == candidate or result == cosm1(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_simplify : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (candidate if candidate != _cos...   ║
+# ║   ensures:  result == candidate or result == cosm1(x)      ║
+# ║   fiber[case_0]: candidate != _cosm1(x, evaluate=Fals...   ║
+# ║   fiber[case_1]: not (candidate != _cosm1(x, evaluate...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_simplify : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e43a0095574b6877  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6da31292584a0792  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1._eval_simplify","kind":"method","src_hash":"42607db5db34f509","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.cosm1._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e43a0095574b6877"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.cosm1._eval_simplify","kind":"method","src_hash":"42607db5db34f509","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (candidate if candidate != _cosm1(x, evaluate=False) else cosm1(x)) and result == candidate or result == cosm1(x)"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"result == (candidate if candidate != _cosm1(x, evaluate=False) else cosm1(x)) and result == candidate or result == cosm1(x)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"result == (candidate if candidate != _cosm1(x, evaluate=False) else cosm1(x)); result == candidate or result == cosm1(x); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.cosm1._eval_simplify_correct","statement":"Path(_eval_simplify(x), result == (candidate if candidate != _cosm1(x, evaluate=False) else cosm1(x)); result == candidate or result == cosm1(x); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6da31292584a0792","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (candidate if candidate != _cosm1(x, evaluate=False) else cosm1(x))","result == candidate or result == cosm1(x)"],"fibers":[{"name":"case_0","guard":"candidate != _cosm1(x, evaluate=False)","ensures":["result == candidate"],"decidability":"z3","returns_expr":"candidate"},{"name":"case_1","guard":"not (candidate != _cosm1(x, evaluate=False))","ensures":["result == cosm1(x)"],"decidability":"z3","returns_expr":"cosm1(x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         x, = self.args
         candidate = _cosm1(x.simplify(**kwargs))
@@ -125,16 +165,22 @@ class cosm1(Function):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_powm1(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_powm1(x, y, evaluate), Add(Pow(x, y, evaluate=evaluate), -S.One, evaluate=evaluate)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(Pow(x, y, evaluate=evaluate), -S.One,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _powm1 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a2fcf853082e426           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes._powm1","kind":"function","src_hash":"109f548be08283fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_powm1(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_powm1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a2fcf853082e426"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes._powm1","kind":"function","src_hash":"109f548be08283fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_powm1(x, y, evaluate)","rhs":"Add(Pow(x, y, evaluate=evaluate), -S.One, evaluate=evaluate)","over":{"base":"Any"},"name":"_powm1_correct"},"guarantee":"returns Add(Pow(x, y, evaluate=evaluate), -S.One, evaluate=evaluate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a2fcf853082e426","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(Pow(x, y, evaluate=evaluate), -S.One, evaluate=evaluate)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['x', 'y'], spec=['x', 'y', 'evaluate']"]}}
 def _powm1(x, y, *, evaluate=True):
     return Add(Pow(x, y, evaluate=evaluate), -S.One, evaluate=evaluate)
 
@@ -142,14 +188,20 @@ def _powm1(x, y, *, evaluate=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(powm1(*args), correctly constructs a powm1 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ powm1 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ powm1 : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cc7ff8ddae08ca3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1","kind":"class","src_hash":"3bc6a19d8a7be0cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"powm1(*args)","rhs":"correctly constructs a powm1 instance","over":{"base":"Any"},"name":"powm1_class_invariant"},"guarantee":"correctly constructs a powm1 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cc7ff8ddae08ca3"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1","kind":"class","src_hash":"3bc6a19d8a7be0cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"powm1(*args)","rhs":"correctly constructs a powm1 instance","over":{"base":"Any"},"name":"powm1_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cc7ff8ddae08ca3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function powm1 not found in source"]}}
 class powm1(Function):
     """ Minus one plus x to the power of y, i.e. x**y - 1. For use when x is close to one or y is close to zero.
 
@@ -159,16 +211,24 @@ class powm1(Function):
     nargs = 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of this function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => Pow(self.args[0], s...   ║
+# ║   fiber[case_1]: argindex == 2 => log(self.args[0]) *...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f78a6beaa84e87b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c982053e634ad32a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1.fdiff","kind":"method","src_hash":"86887700d9c59de7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of this function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.powm1.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f78a6beaa84e87b8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1.fdiff","kind":"method","src_hash":"86887700d9c59de7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.powm1.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c982053e634ad32a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == Pow(self.args[0], self.args[1]) * self.args[1] / self.args[0]"],"decidability":"z3","returns_expr":"Pow(self.args[0], self.args[1]) * self.args[1] / self.args[0]"},{"name":"case_1","guard":"argindex == 2","ensures":["result == log(self.args[0]) * Pow(*self.args)"],"decidability":"z3","returns_expr":"log(self.args[0]) * Pow(*self.args)"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of this function.
@@ -181,44 +241,65 @@ class powm1(Function):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Pow(x, y, **kwargs), _powm1(x, y)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _powm1(x, y)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2b97c4dcb005a60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1._eval_rewrite_as_Pow","kind":"method","src_hash":"494aadbb359da683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2b97c4dcb005a60"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1._eval_rewrite_as_Pow","kind":"method","src_hash":"494aadbb359da683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(x, y, **kwargs)","rhs":"_powm1(x, y)","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"returns _powm1(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2b97c4dcb005a60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_powm1(x, y)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, x, y, **kwargs):
         return _powm1(x, y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(*args, **kwargs), self.rewrite(Pow).evalf(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(Pow).evalf(*args, **kwargs)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc0570621ffc59de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1._eval_evalf","kind":"method","src_hash":"e5a4815c1efc7e84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc0570621ffc59de"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1._eval_evalf","kind":"method","src_hash":"e5a4815c1efc7e84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(*args, **kwargs)","rhs":"self.rewrite(Pow).evalf(*args, **kwargs)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.rewrite(Pow).evalf(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc0570621ffc59de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(Pow).evalf(*args, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, *args, **kwargs):
         return self.rewrite(Pow).evalf(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), result == (candidate if candidate != _powm1(x, y, evaluate=False) else powm1(x, y)) and result == candidate or result == powm1(x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_simplify : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (candidate if candidate != _pow...   ║
+# ║   ensures:  result == candidate or result == powm1(x, y)   ║
+# ║   fiber[case_0]: candidate != _powm1(x, y, evaluate=F...   ║
+# ║   fiber[case_1]: not (candidate != _powm1(x, y, evalu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_simplify : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27a3e3b9df13ba93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01717517dabbc4d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1._eval_simplify","kind":"method","src_hash":"9279ca547b5a85bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.powm1._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27a3e3b9df13ba93"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.scipy_nodes.powm1._eval_simplify","kind":"method","src_hash":"9279ca547b5a85bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (candidate if candidate != _powm1(x, y, evaluate=False) else powm1(x, y)) and result == candidate or result == powm1(x, y)"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"result == (candidate if candidate != _powm1(x, y, evaluate=False) else powm1(x, y)) and result == candidate or result == powm1(x, y)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"result == (candidate if candidate != _powm1(x, y, evaluate=False) else powm1(x, y)); result == candidate or result == powm1(x, y); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.scipy_nodes.powm1._eval_simplify_correct","statement":"Path(_eval_simplify(x), result == (candidate if candidate != _powm1(x, y, evaluate=False) else powm1(x, y)); result == candidate or result == powm1(x, y); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01717517dabbc4d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (candidate if candidate != _powm1(x, y, evaluate=False) else powm1(x, y))","result == candidate or result == powm1(x, y)"],"fibers":[{"name":"case_0","guard":"candidate != _powm1(x, y, evaluate=False)","ensures":["result == candidate"],"decidability":"z3","returns_expr":"candidate"},{"name":"case_1","guard":"not (candidate != _powm1(x, y, evaluate=False))","ensures":["result == powm1(x, y)"],"decidability":"z3","returns_expr":"powm1(x, y)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         x, y = self.args
         candidate = _powm1(x.simplify(**kwargs), y.simplify(**kwargs))

@@ -7,7 +7,7 @@
 ║  Definitions:  35871                             ║
 ║  Proved:       35871                             ║
 ║  Pass rate:    100.0%                            ║
-║  Elapsed:      44.0s                              ║
+║  Elapsed:      85.7s                              ║
 ╠══════════════════════════════════════════════════╣
 ║    KERNEL       10340                            ║
 ║    LIBRARY      25531                            ║

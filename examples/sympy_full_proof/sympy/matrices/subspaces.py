@@ -19,16 +19,24 @@ from .utilities import _iszero
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_columnspace(M, ), returns a list of vectors (matrix objects) that span columnspace of ``m``) over Any ║
+# ║ Path(_columnspace(M, simplify), [M.col(i) for i in pivots]) over {Any | hasattr(M, 'echelon_form') and hasattr(M, 'col')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _columnspace : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'echelon_form')                     ║
+# ║   requires: hasattr(M, 'col')                              ║
+# ║   returns:  [M.col(i) for i in pivots]                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _columnspace : {Any | hasattr(M, 'echelon_form') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da77565b780c202a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae54f6bbeef3c1e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._columnspace","kind":"function","src_hash":"3bc6c0e3a68d9d7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_columnspace(M, )","rhs":"returns a list of vectors (matrix objects) that span columnspace of ``m``","over":{"base":"Any"},"name":"_columnspace_correct"},"guarantee":"returns a list of vectors (matrix objects) that span columnspace of ``m``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.subspaces._columnspace_correct","statement":"Path(_columnspace(x), returns a list of vectors (matrix objects) that span columnspace of ``m``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da77565b780c202a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._columnspace","kind":"function","src_hash":"3bc6c0e3a68d9d7a","in":{"base":"Any","pred":"hasattr(M, 'echelon_form') and hasattr(M, 'col')"},"out":{"base":"Any"},"spec":{"lhs":"_columnspace(M, simplify)","rhs":"[M.col(i) for i in pivots]","over":{"base":"Any","pred":"hasattr(M, 'echelon_form') and hasattr(M, 'col')"},"name":"_columnspace_correct"},"guarantee":"returns [M.col(i) for i in pivots]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.subspaces._columnspace_correct","statement":"Path(_columnspace(x), returns [M.col(i) for i in pivots])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae54f6bbeef3c1e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'echelon_form')","hasattr(M, 'col')"],"returns_expr":"[M.col(i) for i in pivots]","pure":false,"effects":{"effect_type":"reads_state","reads":["M.col","M.echelon_form"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _columnspace(M, simplify=False):
     """Returns a list of vectors (Matrix objects) that span columnspace of ``M``
 
@@ -64,16 +72,25 @@ def _columnspace(M, simplify=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nullspace(M, ), returns list of vectors (matrix objects) that span nullspace of ``m``) over Any ║
+# ║ Path(_nullspace(M, simplify, iszerofunc), [M._new(M.cols, 1, b) for b in basis]) over {Any | hasattr(M, 'rref') and hasattr(M, 'one') and hasattr(M, 'cols') and hasattr(M, '_new') and hasattr(M, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _nullspace : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rref')                             ║
+# ║   requires: hasattr(M, 'one')                              ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   returns:  [M._new(M.cols, 1, b) for b in basis]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _nullspace : {Any | hasattr(M, 'rref') and hasattr(M,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bea58064e33a77c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f20141dd2ba5fe05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._nullspace","kind":"function","src_hash":"69b606599584c2f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nullspace(M, )","rhs":"returns list of vectors (matrix objects) that span nullspace of ``m``","over":{"base":"Any"},"name":"_nullspace_correct"},"guarantee":"returns list of vectors (matrix objects) that span nullspace of ``m``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.subspaces._nullspace_correct","statement":"Path(_nullspace(x), returns list of vectors (matrix objects) that span nullspace of ``m``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bea58064e33a77c2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._nullspace","kind":"function","src_hash":"69b606599584c2f1","in":{"base":"Any","pred":"hasattr(M, 'rref') and hasattr(M, 'one') and hasattr(M, 'cols') and hasattr(M, '_new') and hasattr(M, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_nullspace(M, simplify, iszerofunc)","rhs":"[M._new(M.cols, 1, b) for b in basis]","over":{"base":"Any","pred":"hasattr(M, 'rref') and hasattr(M, 'one') and hasattr(M, 'cols') and hasattr(M, '_new') and hasattr(M, 'zero')"},"name":"_nullspace_correct"},"guarantee":"returns [M._new(M.cols, 1, b) for b in basis]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.subspaces._nullspace_correct","statement":"Path(_nullspace(x), returns [M._new(M.cols, 1, b) for b in basis])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f20141dd2ba5fe05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rref')","hasattr(M, 'one')","hasattr(M, 'cols')","hasattr(M, '_new')","hasattr(M, 'zero')"],"returns_expr":"[M._new(M.cols, 1, b) for b in basis]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _nullspace(M, simplify=False, iszerofunc=_iszero):
     """Returns list of vectors (Matrix objects) that span nullspace of ``M``
 
@@ -120,16 +137,23 @@ def _nullspace(M, simplify=False, iszerofunc=_iszero):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rowspace(M, ), id) over Any                          ║
+# ║ Path(_rowspace(M, simplify), id) over {Any | hasattr(M, 'echelon_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rowspace : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'echelon_form')                     ║
+# ║   returns:  [reduced.row(i) for i in range(len(pivots))]   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rowspace : {Any | hasattr(M, 'echelon_form')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8dc19c52710d6525   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._rowspace","kind":"function","src_hash":"21bf041c85b43f46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rowspace(M, )","rhs":"returns a list of vectors that span the row space of ``m``","over":{"base":"Any"},"name":"_rowspace_correct","kind":"composition"},"guarantee":"returns a list of vectors that span the row space of ``m``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"row","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dc19c52710d6525"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._rowspace","kind":"function","src_hash":"21bf041c85b43f46","in":{"base":"Any","pred":"hasattr(M, 'echelon_form')"},"out":{"base":"Any"},"spec":{"lhs":"_rowspace(M, simplify)","rhs":"[reduced.row(i) for i in range(len(pivots))]","over":{"base":"Any","pred":"hasattr(M, 'echelon_form')"},"name":"_rowspace_correct","kind":"composition"},"guarantee":"returns [reduced.row(i) for i in range(len(pivots))]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"row","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dc19c52710d6525","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'echelon_form')"],"returns_expr":"[reduced.row(i) for i in range(len(pivots))]","pure":false,"effects":{"effect_type":"reads_state","reads":["M.echelon_form"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rowspace(M, simplify=False):
     """Returns a list of vectors that span the row space of ``M``.
 
@@ -153,16 +177,22 @@ def _rowspace(M, simplify=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orthogonalize(cls), apply the gram-schmidt orthogonalization procedure to vectors supplied in ``vecs``) over Any ║
+# ║ Path(_orthogonalize(cls, *vecs, normalize), len(ret) == old_len_ret + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _orthogonalize : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(ret) == old_len_ret + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _orthogonalize : Any → {Any | result satisfies: len(r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a08299f14b0148  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 865ae26d4d5e1268  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._orthogonalize","kind":"function","src_hash":"e920213d36af288d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orthogonalize(cls)","rhs":"apply the gram-schmidt orthogonalization procedure to vectors supplied in ``vecs``","over":{"base":"Any"},"name":"_orthogonalize_correct"},"guarantee":"apply the gram-schmidt orthogonalization procedure to vectors supplied in ``vecs``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.subspaces._orthogonalize_correct","statement":"Path(_orthogonalize(x), apply the gram-schmidt orthogonalization procedure to vectors supplied in ``vecs``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a08299f14b0148"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.subspaces._orthogonalize","kind":"function","src_hash":"e920213d36af288d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(ret) == old_len_ret + 1"},"spec":{"lhs":"_orthogonalize(cls, *vecs, normalize)","rhs":"len(ret) == old_len_ret + 1","over":{"base":"Any"},"name":"_orthogonalize_correct"},"guarantee":"len(ret) == old_len_ret + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.subspaces._orthogonalize_correct","statement":"Path(_orthogonalize(x), len(ret) == old_len_ret + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"865ae26d4d5e1268","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(ret) == old_len_ret + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.hstack"],"calls_mutating":["ret.append"],"raises":["ValueError"]},"state_contract":{"modifies":["ret.*"],"old_bindings":{"old_len_ret":"len(ret)"},"post_ensures":["len(ret) == old_len_ret + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['cls'], spec=['cls', '*vecs', 'normalize', 'rankcheck']"]}}
 def _orthogonalize(cls, *vecs, normalize=False, rankcheck=False):
     """Apply the Gram-Schmidt orthogonalization procedure
     to vectors supplied in ``vecs``.

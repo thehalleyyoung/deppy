@@ -26,30 +26,45 @@ from sympy.core.cache import cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Point(*args), correctly constructs a Point instance) over {Any | isinstance(other, CoordSys3D) and isinstance(position, Vector) and isinstance(parent_point, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Point : {Any | isinstance(other, CoordSys3D) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d04ce5a2c914a40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point","kind":"class","src_hash":"f0371f377fcbcbf8","in":{"base":"Any","pred":"isinstance(other, CoordSys3D) and isinstance(position, Vector) and isinstance(parent_point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any","pred":"isinstance(other, CoordSys3D) and isinstance(position, Vector) and isinstance(parent_point, Point)"},"name":"Point_class_invariant"},"guarantee":"correctly constructs a Point instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d04ce5a2c914a40"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point","kind":"class","src_hash":"f0371f377fcbcbf8","in":{"base":"Any","pred":"isinstance(other, CoordSys3D) and isinstance(position, Vector) and isinstance(parent_point, Point)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any","pred":"isinstance(other, CoordSys3D) and isinstance(position, Vector) and isinstance(parent_point, Point)"},"name":"Point_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d04ce5a2c914a40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point not found in source"]}}
 class Point(Basic):
     """
     Represents a point in 3-D space.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, position), <unspecified:__new__>) over {Any | isinstance(position, Vector) and not (not isinstance(parent_point, Point) and parent_point is not None) and hasattr(parent_point, '_root')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(position, Vector)                   ║
+# ║   requires: not (not isinstance(parent_point, Point) ...   ║
+# ║   requires: hasattr(parent_point, '_root')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(position, Vector) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39287cc700482bbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.__new__","kind":"method","src_hash":"a3c5aba74ea1e0a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39287cc700482bbb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.__new__","kind":"method","src_hash":"a3c5aba74ea1e0a0","in":{"base":"Any","pred":"isinstance(position, Vector) and not (not isinstance(parent_point, Point) and parent_point is not None) and hasattr(parent_point, '_root')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, position)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(position, Vector) and not (not isinstance(parent_point, Point) and parent_point is not None) and hasattr(parent_point, '_root')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39287cc700482bbb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(position, Vector)","not (not isinstance(parent_point, Point) and parent_point is not None)","hasattr(parent_point, '_root')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["parent_point._root"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, position=Vector.zero, parent_point=None):
         name = str(name)
         # Check the args first
@@ -81,16 +96,25 @@ class Point(Basic):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(position_wrt(oth), returns the position vector of this point with respect to another point/coordsys3d) over Any ║
+# ║ Path(position_wrt(other), <unspecified:position_wrt>) over {Any | not (not isinstance(other, Point) and (not isinstance(other, CoordSys3D))) and hasattr(other, 'origin') and hasattr(other, '_parent') and hasattr(other, '_pos')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ position_wrt : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not isinstance(other, Point) and (no...   ║
+# ║   requires: hasattr(other, 'origin')                       ║
+# ║   requires: hasattr(other, '_parent')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ position_wrt : {Any | not (not isinstance(other, Poin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82dc082c2c562a5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.position_wrt","kind":"method","src_hash":"50daff148af75ab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"position_wrt(oth)","rhs":"returns the position vector of this point with respect to another point/coordsys3d","over":{"base":"Any"},"name":"position_wrt_correct"},"guarantee":"returns the position vector of this point with respect to another point/coordsys3d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.point.Point.position_wrt_correct","statement":"Path(position_wrt(x), returns the position vector of this point with respect to another point/coordsys3d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82dc082c2c562a5d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.position_wrt","kind":"method","src_hash":"50daff148af75ab5","in":{"base":"Any","pred":"not (not isinstance(other, Point) and (not isinstance(other, CoordSys3D))) and hasattr(other, 'origin') and hasattr(other, '_parent') and hasattr(other, '_pos')"},"out":{"base":"Any"},"spec":{"lhs":"position_wrt(other)","rhs":"<unspecified:position_wrt>","over":{"base":"Any","pred":"not (not isinstance(other, Point) and (not isinstance(other, CoordSys3D))) and hasattr(other, 'origin') and hasattr(other, '_parent') and hasattr(other, '_pos')"},"name":"position_wrt_correct"},"guarantee":"returns the position vector of this point with respect to another point/coordsys3d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.point.Point.position_wrt_correct","statement":"Path(position_wrt(x), returns the position vector of this point with respect to another point/coordsys3d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82dc082c2c562a5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not isinstance(other, Point) and (not isinstance(other, CoordSys3D)))","hasattr(other, 'origin')","hasattr(other, '_parent')","hasattr(other, '_pos')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._parent","other._pos","other.origin","self._parent","self._pos"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def position_wrt(self, other):
         """
         Returns the position vector of this Point with respect to
@@ -138,16 +162,22 @@ class Point(Basic):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(locate_new(nam), returns a new point located at the given position wrt this point. thus, the position vector of the new point wrt this one will be equal to the given 'position' parameter) over Any ║
+# ║ Path(locate_new(name, position), Point(name, position, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(name, position, self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ locate_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 534197acfb9ed338           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.locate_new","kind":"method","src_hash":"44b4077492f9c852","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"locate_new(nam)","rhs":"returns a new point located at the given position wrt this point. thus, the position vector of the new point wrt this one will be equal to the given 'position' parameter","over":{"base":"Any"},"name":"locate_new_correct"},"guarantee":"returns a new point located at the given position wrt this point. thus, the position vector of the new point wrt this one will be equal to the given 'position' parameter","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"534197acfb9ed338"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.locate_new","kind":"method","src_hash":"44b4077492f9c852","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"locate_new(name, position)","rhs":"Point(name, position, self)","over":{"base":"Any"},"name":"locate_new_correct"},"guarantee":"returns Point(name, position, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"534197acfb9ed338","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(name, position, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def locate_new(self, name, position):
         """
         Returns a new Point located at the given position wrt this
@@ -177,16 +207,23 @@ class Point(Basic):
         return Point(name, position, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(express_coordinates(coo), id) over Any                ║
+# ║ Path(express_coordinates(coordinate_system), id) over {Any | hasattr(coordinate_system, 'origin')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ express_coordinates : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(coordinate_system, 'origin')           ║
+# ║   returns:  tuple(pos_vect.to_matrix(coordinate_system))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ express_coordinates : {Any | hasattr(coordinate_syste...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 675b17c25e0e7d90   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.express_coordinates","kind":"method","src_hash":"a51683fb2fd659e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"express_coordinates(coo)","rhs":"returns the cartesian/rectangular coordinates of this point wrt the origin of the given coordsys3d instance","over":{"base":"Any"},"name":"express_coordinates_correct","kind":"composition"},"guarantee":"returns the cartesian/rectangular coordinates of this point wrt the origin of the given coordsys3d instance","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"to_matrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"675b17c25e0e7d90"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point.express_coordinates","kind":"method","src_hash":"a51683fb2fd659e0","in":{"base":"Any","pred":"hasattr(coordinate_system, 'origin')"},"out":{"base":"Any"},"spec":{"lhs":"express_coordinates(coordinate_system)","rhs":"tuple(pos_vect.to_matrix(coordinate_system))","over":{"base":"Any","pred":"hasattr(coordinate_system, 'origin')"},"name":"express_coordinates_correct","kind":"composition"},"guarantee":"returns tuple(pos_vect.to_matrix(coordinate_system))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"to_matrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"675b17c25e0e7d90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(coordinate_system, 'origin')"],"returns_expr":"tuple(pos_vect.to_matrix(coordinate_system))","pure":false,"effects":{"effect_type":"reads_state","reads":["coordinate_system.origin","self.position_wrt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def express_coordinates(self, coordinate_system):
         """
         Returns the Cartesian/rectangular coordinates of this point
@@ -217,15 +254,21 @@ class Point(Basic):
         return tuple(pos_vect.to_matrix(coordinate_system))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), self._name) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 137f1b7f0e612798           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"137f1b7f0e612798"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.point.Point._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"self._name","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"137f1b7f0e612798","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         return self._name

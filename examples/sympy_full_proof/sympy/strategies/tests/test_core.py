@@ -25,16 +25,23 @@ from io import StringIO
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(posdec(x), posdec produces the expected output) over int ║
+# ║ Path(posdec(x), isinstance(result, int)) over {int | isinstance(x, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ posdec : int → int                                         ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(x, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ posdec : {int | isinstance(x, int)} → {int | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4f39ada235e6932  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f44315e7929c7f43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.posdec","kind":"function","src_hash":"0ee9eb66748b8072","in":{"base":"int"},"out":{"base":"int"},"spec":{"lhs":"posdec(x)","rhs":"posdec produces the expected output","over":{"base":"int"},"name":"posdec_correct"},"guarantee":"posdec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.posdec_correct","statement":"Path(posdec(x), posdec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4f39ada235e6932"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.posdec","kind":"function","src_hash":"0ee9eb66748b8072","in":{"base":"int","pred":"isinstance(x, int)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int)"},"spec":{"lhs":"posdec(x)","rhs":"isinstance(result, int)","over":{"base":"int","pred":"isinstance(x, int)"},"name":"posdec_correct"},"guarantee":"isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.posdec_correct","statement":"Path(posdec(x), isinstance(result, int))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f44315e7929c7f43","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(x, int)"],"ensures":["isinstance(result, int)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def posdec(x: int) -> int:
     if x > 0:
         return x - 1
@@ -42,46 +49,70 @@ def posdec(x: int) -> int:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inc(x), inc produces the expected output) over int    ║
+# ║ Path(inc(x), x + 1) over {int | isinstance(x, int)}        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inc : int → int                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  x + 1                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inc : {int | isinstance(x, int)} → {int | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 575168db2c39b7fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.inc","kind":"function","src_hash":"ddfed276c81c9baa","in":{"base":"int"},"out":{"base":"int"},"spec":{"lhs":"inc(x)","rhs":"inc produces the expected output","over":{"base":"int"},"name":"inc_correct"},"guarantee":"inc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"575168db2c39b7fb"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.inc","kind":"function","src_hash":"ddfed276c81c9baa","in":{"base":"int","pred":"isinstance(x, int)"},"out":{"base":"int","pred":"result satisfies: result == (x + 1)"},"spec":{"lhs":"inc(x)","rhs":"x + 1","over":{"base":"int","pred":"isinstance(x, int)"},"name":"inc_correct"},"guarantee":"returns x + 1; isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"575168db2c39b7fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, int)"],"ensures":["isinstance(result, int)"],"returns_expr":"x + 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def inc(x: int) -> int:
     return x + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dec(x), dec produces the expected output) over int    ║
+# ║ Path(dec(x), x - 1) over {int | isinstance(x, int)}        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dec : int → int                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  x - 1                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dec : {int | isinstance(x, int)} → {int | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e0d61eb5e53b02e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.dec","kind":"function","src_hash":"1fae3ad8691c32a1","in":{"base":"int"},"out":{"base":"int"},"spec":{"lhs":"dec(x)","rhs":"dec produces the expected output","over":{"base":"int"},"name":"dec_correct"},"guarantee":"dec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e0d61eb5e53b02e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.dec","kind":"function","src_hash":"1fae3ad8691c32a1","in":{"base":"int","pred":"isinstance(x, int)"},"out":{"base":"int","pred":"result satisfies: result == (x - 1)"},"spec":{"lhs":"dec(x)","rhs":"x - 1","over":{"base":"int","pred":"isinstance(x, int)"},"name":"dec_correct"},"guarantee":"returns x - 1; isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e0d61eb5e53b02e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, int)"],"ensures":["isinstance(result, int)"],"returns_expr":"x - 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dec(x: int) -> int:
     return x - 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_null_safe(), test_null_safe produces the expected output) over Any ║
+# ║ Path(test_null_safe(), rl(1) == safe_rl(1) and rl(3) is None and safe_rl(3) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_null_safe : Any → {Any | rl(1) == safe_rl(1) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(1) == safe_rl(1)                            ║
+# ║   ensures:  rl(3) is None                                  ║
+# ║   ensures:  safe_rl(3) == 3                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_null_safe : Any → {Any | result satisfies: rl(1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdea25f1a66b0369  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17e8774640e0cfa1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_null_safe","kind":"function","src_hash":"5cb56efc56290f77","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(1) == safe_rl(1) and rl(3) is None and safe_rl(3) == 3"},"spec":{"lhs":"test_null_safe()","rhs":"test_null_safe produces the expected output","over":{"base":"Any"},"name":"test_null_safe_correct"},"guarantee":"test_null_safe produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_null_safe_correct","statement":"Path(test_null_safe(x), test_null_safe produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdea25f1a66b0369"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_null_safe","kind":"function","src_hash":"5cb56efc56290f77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rl(1) == safe_rl(1) and rl(3) is None and safe_rl(3) == 3"},"spec":{"lhs":"test_null_safe()","rhs":"rl(1) == safe_rl(1) and rl(3) is None and safe_rl(3) == 3","over":{"base":"Any"},"name":"test_null_safe_correct"},"guarantee":"rl(1) == safe_rl(1); rl(3) is None; safe_rl(3) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_null_safe_correct","statement":"Path(test_null_safe(x), rl(1) == safe_rl(1); rl(3) is None; safe_rl(3) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17e8774640e0cfa1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(1) == safe_rl(1)","rl(3) is None","safe_rl(3) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_null_safe():
     def rl(expr: int) -> int | None:
         if expr == 1:
@@ -95,16 +126,23 @@ def test_null_safe():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exhaust(), test_exhaust produces the expected output) over Any ║
+# ║ Path(test_exhaust(), sink(5) == 0 and sink(10) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exhaust : Any → {Any | sink(5) == 0 and sink(10)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sink(5) == 0                                   ║
+# ║   ensures:  sink(10) == 0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exhaust : Any → {Any | result satisfies: sink(5)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f02c7f6fd0def91f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe95040b9a9fee4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_exhaust","kind":"function","src_hash":"0eb97fd9e2c6d6cb","in":{"base":"Any"},"out":{"base":"Any","pred":"sink(5) == 0 and sink(10) == 0"},"spec":{"lhs":"test_exhaust()","rhs":"test_exhaust produces the expected output","over":{"base":"Any"},"name":"test_exhaust_correct"},"guarantee":"test_exhaust produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_exhaust_correct","statement":"Path(test_exhaust(x), test_exhaust produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f02c7f6fd0def91f"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_exhaust","kind":"function","src_hash":"0eb97fd9e2c6d6cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sink(5) == 0 and sink(10) == 0"},"spec":{"lhs":"test_exhaust()","rhs":"sink(5) == 0 and sink(10) == 0","over":{"base":"Any"},"name":"test_exhaust_correct"},"guarantee":"sink(5) == 0; sink(10) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_exhaust_correct","statement":"Path(test_exhaust(x), sink(5) == 0; sink(10) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe95040b9a9fee4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sink(5) == 0","sink(10) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exhaust():
     sink = exhaust(posdec)
     assert sink(5) == 0
@@ -112,16 +150,23 @@ def test_exhaust():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_memoize(), test_memoize produces the expected output) over Any ║
+# ║ Path(test_memoize(), rl(5) == posdec(5) and rl(-2) == posdec(-2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_memoize : Any → {Any | rl(5) == posdec(5) and rl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(5) == posdec(5)                             ║
+# ║   ensures:  rl(-2) == posdec(-2)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_memoize : Any → {Any | result satisfies: rl(5) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37748c3fc63a7c1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5fe9b75314ade61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_memoize","kind":"function","src_hash":"b7103b07595ab32b","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(5) == posdec(5) and rl(5) == posdec(5) and rl(-2) == posdec(-2)"},"spec":{"lhs":"test_memoize()","rhs":"test_memoize produces the expected output","over":{"base":"Any"},"name":"test_memoize_correct"},"guarantee":"test_memoize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_memoize_correct","statement":"Path(test_memoize(x), test_memoize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37748c3fc63a7c1e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_memoize","kind":"function","src_hash":"b7103b07595ab32b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rl(5) == posdec(5) and rl(-2) == posdec(-2)"},"spec":{"lhs":"test_memoize()","rhs":"rl(5) == posdec(5) and rl(-2) == posdec(-2)","over":{"base":"Any"},"name":"test_memoize_correct"},"guarantee":"rl(5) == posdec(5); rl(-2) == posdec(-2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_memoize_correct","statement":"Path(test_memoize(x), rl(5) == posdec(5); rl(-2) == posdec(-2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5fe9b75314ade61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(5) == posdec(5)","rl(-2) == posdec(-2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_memoize():
     rl = memoize(posdec)
     assert rl(5) == posdec(5)
@@ -130,16 +175,23 @@ def test_memoize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_condition(), test_condition produces the expected output) over Any ║
+# ║ Path(test_condition(), rl(5) == 5 and rl(4) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_condition : Any → {Any | rl(5) == 5 and rl(4) == 3}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(5) == 5                                     ║
+# ║   ensures:  rl(4) == 3                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_condition : Any → {Any | result satisfies: rl(5)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40d0fc5dcea6327e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b2e3ed58742188a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_condition","kind":"function","src_hash":"6b5469a1e6a10c26","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(5) == 5 and rl(4) == 3"},"spec":{"lhs":"test_condition()","rhs":"test_condition produces the expected output","over":{"base":"Any"},"name":"test_condition_correct"},"guarantee":"test_condition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_condition_correct","statement":"Path(test_condition(x), test_condition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40d0fc5dcea6327e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_condition","kind":"function","src_hash":"6b5469a1e6a10c26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rl(5) == 5 and rl(4) == 3"},"spec":{"lhs":"test_condition()","rhs":"rl(5) == 5 and rl(4) == 3","over":{"base":"Any"},"name":"test_condition_correct"},"guarantee":"rl(5) == 5; rl(4) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_condition_correct","statement":"Path(test_condition(x), rl(5) == 5; rl(4) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b2e3ed58742188a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(5) == 5","rl(4) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_condition():
     rl = condition(lambda x: x % 2 == 0, posdec)
     assert rl(5) == 5
@@ -147,16 +199,23 @@ def test_condition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_chain(), test_chain produces the expected output) over Any ║
+# ║ Path(test_chain(), rl(5) == 3 and rl(1) == 0) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_chain : Any → {Any | rl(5) == 3 and rl(1) == 0}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(5) == 3                                     ║
+# ║   ensures:  rl(1) == 0                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_chain : Any → {Any | result satisfies: rl(5) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe9a89f66279370  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ba467f751c40327  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_chain","kind":"function","src_hash":"82bd0535532bc8e4","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(5) == 3 and rl(1) == 0"},"spec":{"lhs":"test_chain()","rhs":"test_chain produces the expected output","over":{"base":"Any"},"name":"test_chain_correct"},"guarantee":"test_chain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_chain_correct","statement":"Path(test_chain(x), test_chain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe9a89f66279370"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_chain","kind":"function","src_hash":"82bd0535532bc8e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rl(5) == 3 and rl(1) == 0"},"spec":{"lhs":"test_chain()","rhs":"rl(5) == 3 and rl(1) == 0","over":{"base":"Any"},"name":"test_chain_correct"},"guarantee":"rl(5) == 3; rl(1) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_chain_correct","statement":"Path(test_chain(x), rl(5) == 3; rl(1) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ba467f751c40327","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(5) == 3","rl(1) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_chain():
     rl = chain(posdec, posdec)
     assert rl(5) == 3
@@ -164,16 +223,22 @@ def test_chain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tryit(), test_tryit produces the expected output) over Any ║
+# ║ Path(test_tryit(), safe_rl(S(1)) == S(1)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tryit : Any → {Any | safe_rl(S(1)) == S(1) and F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  safe_rl(S(1)) == S(1)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tryit : Any → {Any | result satisfies: safe_rl(S...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c7d3306b1f7be7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5577d6fe299806d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_tryit","kind":"function","src_hash":"4fc1adae180fc6f1","in":{"base":"Any"},"out":{"base":"Any","pred":"safe_rl(S(1)) == S(1) and False"},"spec":{"lhs":"test_tryit()","rhs":"test_tryit produces the expected output","over":{"base":"Any"},"name":"test_tryit_correct"},"guarantee":"test_tryit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_tryit_correct","statement":"Path(test_tryit(x), test_tryit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c7d3306b1f7be7c"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_tryit","kind":"function","src_hash":"4fc1adae180fc6f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: safe_rl(S(1)) == S(1)"},"spec":{"lhs":"test_tryit()","rhs":"safe_rl(S(1)) == S(1)","over":{"base":"Any"},"name":"test_tryit_correct"},"guarantee":"safe_rl(S(1)) == S(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_tryit_correct","statement":"Path(test_tryit(x), safe_rl(S(1)) == S(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5577d6fe299806d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["safe_rl(S(1)) == S(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tryit():
     def rl(expr: Basic) -> Basic:
         assert False
@@ -183,16 +248,24 @@ def test_tryit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_do_one(), test_do_one produces the expected output) over Any ║
+# ║ Path(test_do_one(), rl(5) == 4 and rule(1) == 2 and rule(rule(1)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_do_one : Any → {Any | rl(5) == 4 and rule(1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(5) == 4                                     ║
+# ║   ensures:  rule(1) == 2                                   ║
+# ║   ensures:  rule(rule(1)) == 3                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_do_one : Any → {Any | result satisfies: rl(5) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7433221cbe7e871  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eb5bda1c3714a3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_do_one","kind":"function","src_hash":"e536dd078eff59df","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(5) == 4 and rule(1) == 2 and rule(rule(1)) == 3"},"spec":{"lhs":"test_do_one()","rhs":"test_do_one produces the expected output","over":{"base":"Any"},"name":"test_do_one_correct"},"guarantee":"test_do_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_do_one_correct","statement":"Path(test_do_one(x), test_do_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7433221cbe7e871"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_do_one","kind":"function","src_hash":"e536dd078eff59df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rl(5) == 4 and rule(1) == 2 and rule(rule(1)) == 3"},"spec":{"lhs":"test_do_one()","rhs":"rl(5) == 4 and rule(1) == 2 and rule(rule(1)) == 3","over":{"base":"Any"},"name":"test_do_one_correct"},"guarantee":"rl(5) == 4; rule(1) == 2; rule(rule(1)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_do_one_correct","statement":"Path(test_do_one(x), rl(5) == 4; rule(1) == 2; rule(rule(1)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eb5bda1c3714a3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(5) == 4","rule(1) == 2","rule(rule(1)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_do_one():
     rl = do_one(posdec, posdec)
     assert rl(5) == 4
@@ -213,16 +286,24 @@ def test_do_one():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_debug(), test_debug produces the expected output) over Any ║
+# ║ Path(test_debug(), posdec.__name__ in log and '5' in log and '4' in log) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_debug : Any → {Any | posdec.__name__ in log and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  posdec.__name__ in log                         ║
+# ║   ensures:  '5' in log                                     ║
+# ║   ensures:  '4' in log                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_debug : Any → {Any | result satisfies: posdec.__...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c45ba4f73a498778  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3210815f2bdd629  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_debug","kind":"function","src_hash":"47efa2acea0f91c2","in":{"base":"Any"},"out":{"base":"Any","pred":"posdec.__name__ in log and '5' in log and '4' in log"},"spec":{"lhs":"test_debug()","rhs":"test_debug produces the expected output","over":{"base":"Any"},"name":"test_debug_correct"},"guarantee":"test_debug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_debug_correct","statement":"Path(test_debug(x), test_debug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45ba4f73a498778"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_debug","kind":"function","src_hash":"47efa2acea0f91c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: posdec.__name__ in log and '5' in log and '4' in log"},"spec":{"lhs":"test_debug()","rhs":"posdec.__name__ in log and '5' in log and '4' in log","over":{"base":"Any"},"name":"test_debug_correct"},"guarantee":"posdec.__name__ in log; '5' in log; '4' in log","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_debug_correct","statement":"Path(test_debug(x), posdec.__name__ in log; '5' in log; '4' in log)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3210815f2bdd629","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["posdec.__name__ in log","'5' in log","'4' in log"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["file.close"],"io_operations":["file.close"]},"state_contract":{"modifies":["file.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_debug():
     file = StringIO()
     rl = debug(posdec, file)
@@ -236,16 +317,25 @@ def test_debug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_switch(), test_switch produces the expected output) over Any ║
+# ║ Path(test_switch(), x % 3) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_switch : Any → {Any | rl(3) == 4 and rl(4) == 3 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(3) == 4                                     ║
+# ║   ensures:  rl(4) == 3                                     ║
+# ║   ensures:  rl(5) == 5                                     ║
+# ║   returns:  x % 3                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_switch : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30532f05db6e250f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f7bf323c58136e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_switch","kind":"function","src_hash":"059bc90e10f4eb5c","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(3) == 4 and rl(4) == 3 and rl(5) == 5"},"spec":{"lhs":"test_switch()","rhs":"test_switch produces the expected output","over":{"base":"Any"},"name":"test_switch_correct"},"guarantee":"test_switch produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_switch_correct","statement":"Path(test_switch(x), test_switch produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30532f05db6e250f"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_switch","kind":"function","src_hash":"059bc90e10f4eb5c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x % 3)"},"spec":{"lhs":"test_switch()","rhs":"x % 3","over":{"base":"Any"},"name":"test_switch_correct"},"guarantee":"returns x % 3; rl(3) == 4; rl(4) == 3; rl(5) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_switch_correct","statement":"Path(test_switch(x), returns x % 3; rl(3) == 4; rl(4) == 3; rl(5) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7bf323c58136e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(3) == 4","rl(4) == 3","rl(5) == 5"],"returns_expr":"x % 3","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_switch():
     def key(x: int) -> int:
         return x % 3
@@ -257,16 +347,24 @@ def test_switch():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_minimize(), test_minimize produces the expected output) over Any ║
+# ║ Path(test_minimize(), -x) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_minimize : Any → {Any | rl(4) == 3 and rl(4) == 5}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(4) == 3                                     ║
+# ║   ensures:  rl(4) == 5                                     ║
+# ║   returns:  -x                                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_minimize : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d72f29ebc4387c92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e46737d89d4ba3ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_minimize","kind":"function","src_hash":"985a93ecec6e7371","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(4) == 3 and rl(4) == 5"},"spec":{"lhs":"test_minimize()","rhs":"test_minimize produces the expected output","over":{"base":"Any"},"name":"test_minimize_correct"},"guarantee":"test_minimize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_minimize_correct","statement":"Path(test_minimize(x), test_minimize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d72f29ebc4387c92"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_core.test_minimize","kind":"function","src_hash":"985a93ecec6e7371","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (-x)"},"spec":{"lhs":"test_minimize()","rhs":"-x","over":{"base":"Any"},"name":"test_minimize_correct"},"guarantee":"returns -x; rl(4) == 3; rl(4) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_core.test_minimize_correct","statement":"Path(test_minimize(x), returns -x; rl(4) == 3; rl(4) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e46737d89d4ba3ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(4) == 3","rl(4) == 5"],"returns_expr":"-x","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_minimize():
     def key(x: int) -> int:
         return -x

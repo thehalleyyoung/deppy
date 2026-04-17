@@ -44,32 +44,46 @@ from sympy.stats.random_matrix_models import GaussianEnsemble, RandomMatrixPSpac
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GaussianEnsemble(), test_GaussianEnsemble produces the expected output) over Any ║
+# ║ Path(test_GaussianEnsemble(), density(G) == G.pspace.model) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GaussianEnsemble : Any → {Any | density(G) == G....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(G) == G.pspace.model                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GaussianEnsemble : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bf21db8f97b69b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d85d46372aae561  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianEnsemble","kind":"function","src_hash":"a28c938f91f056ae","in":{"base":"Any"},"out":{"base":"Any","pred":"density(G) == G.pspace.model"},"spec":{"lhs":"test_GaussianEnsemble()","rhs":"test_GaussianEnsemble produces the expected output","over":{"base":"Any"},"name":"test_GaussianEnsemble_correct"},"guarantee":"test_GaussianEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianEnsemble_correct","statement":"Path(test_GaussianEnsemble(x), test_GaussianEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bf21db8f97b69b1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianEnsemble","kind":"function","src_hash":"a28c938f91f056ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(G) == G.pspace.model"},"spec":{"lhs":"test_GaussianEnsemble()","rhs":"density(G) == G.pspace.model","over":{"base":"Any"},"name":"test_GaussianEnsemble_correct"},"guarantee":"density(G) == G.pspace.model","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianEnsemble_correct","statement":"Path(test_GaussianEnsemble(x), density(G) == G.pspace.model)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d85d46372aae561","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(G) == G.pspace.model"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_GaussianEnsemble():
     G = GaussianEnsemble('G', 3)
     assert density(G) == G.pspace.model
     raises(ValueError, lambda: GaussianEnsemble('G', 3.5))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GaussianUnitaryEnsemble(), test_GaussianUnitaryEnsemble produces the expected output) over Any ║
+# ║ Path(test_GaussianUnitaryEnsemble(), density(G)(H) == sqrt(2) * exp(-3 * Trace(H ** 2) / 2) / (4 * pi ** Rational(9, 2)) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 27 * sqrt(6) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 2, (j, i + 1, 3), (i, 1, 2)) / (16 * pi ** Rational(3, 2)))) and level_spacing_distribution(G).dummy_eq(Lambda(s, 32 * s ** 2 * exp(-4 * s ** 2 / pi) / pi ** 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GaussianUnitaryEnsemble : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(G)(H) == sqrt(2) * exp(-3 * Trace...   ║
+# ║   ensures:  joint_eigen_distribution(G).dummy_eq(Lamb...   ║
+# ║   ensures:  level_spacing_distribution(G).dummy_eq(La...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GaussianUnitaryEnsemble : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f784073d82de75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 447dfb38159ae05e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianUnitaryEnsemble","kind":"function","src_hash":"119f24291430e39f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_GaussianUnitaryEnsemble()","rhs":"test_GaussianUnitaryEnsemble produces the expected output","over":{"base":"Any"},"name":"test_GaussianUnitaryEnsemble_correct"},"guarantee":"test_GaussianUnitaryEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianUnitaryEnsemble_correct","statement":"Path(test_GaussianUnitaryEnsemble(x), test_GaussianUnitaryEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f784073d82de75"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianUnitaryEnsemble","kind":"function","src_hash":"119f24291430e39f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(G)(H) == sqrt(2) * exp(-3 * Trace(H ** 2) / 2) / (4 * pi ** Rational(9, 2)) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 27 * sqrt(6) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 2, (j, i + 1, 3), (i, 1, 2)) / (16 * pi ** Rational(3, 2)))) and level_spacing_distribution(G).dummy_eq(Lambda(s, 32 * s ** 2 * exp(-4 * s ** 2 / pi) / pi ** 2))"},"spec":{"lhs":"test_GaussianUnitaryEnsemble()","rhs":"density(G)(H) == sqrt(2) * exp(-3 * Trace(H ** 2) / 2) / (4 * pi ** Rational(9, 2)) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 27 * sqrt(6) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 2, (j, i + 1, 3), (i, 1, 2)) / (16 * pi ** Rational(3, 2)))) and level_spacing_distribution(G).dummy_eq(Lambda(s, 32 * s ** 2 * exp(-4 * s ** 2 / pi) / pi ** 2))","over":{"base":"Any"},"name":"test_GaussianUnitaryEnsemble_correct"},"guarantee":"density(G)(H) == sqrt(2) * exp(-3 * Trace(H ** 2) / 2) / (4 * pi ** Rational(9, 2)); joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 27 * sqrt(6) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 2, (j, i + 1, 3), (i, 1, 2)) / (16 * pi ** Rational(3, 2)))); level_spacing_distribution(G).dummy_eq(Lambda(s, 32 * s ** 2 * exp(-4 * s ** 2 / pi) / pi ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianUnitaryEnsemble_correct","statement":"Path(test_GaussianUnitaryEnsemble(x), density(G)(H) == sqrt(2) * exp(-3 * Trace(H ** 2) / 2) / (4 * pi ** Rational(9, 2)); joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 27 * sqrt(6) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 2, (j, i + 1, 3), (i, 1, 2)) / (16 * pi ** Rational(3, 2)))); level_spacing_distribution(G).dummy_eq(Lambda(s, 32 * s ** 2 * exp(-4 * s ** 2 / pi) / pi ** 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"447dfb38159ae05e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(G)(H) == sqrt(2) * exp(-3 * Trace(H ** 2) / 2) / (4 * pi ** Rational(9, 2))","joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 27 * sqrt(6) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 2, (j, i + 1, 3), (i, 1, 2)) / (16 * pi ** Rational(3, 2))))","level_spacing_distribution(G).dummy_eq(Lambda(s, 32 * s ** 2 * exp(-4 * s ** 2 / pi) / pi ** 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_GaussianUnitaryEnsemble():
     H = RandomMatrixSymbol('H', 3, 3)
     G = GUE('U', 3)
@@ -86,16 +100,24 @@ def test_GaussianUnitaryEnsemble():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GaussianOrthogonalEnsemble(), test_GaussianOrthogonalEnsemble produces the expected output) over Any ║
+# ║ Path(test_GaussianOrthogonalEnsemble(), density(G)(H) == exp(-3 * Trace(H ** 2) / 4) / Integral(exp(-3 * Trace(_H ** 2) / 4), _H) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 9 * sqrt(2) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]), (j, i + 1, 3), (i, 1, 2)) / (32 * pi))) and level_spacing_distribution(G).dummy_eq(Lambda(s, s * pi * exp(-s ** 2 * pi / 4) / 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GaussianOrthogonalEnsemble : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(G)(H) == exp(-3 * Trace(H ** 2) /...   ║
+# ║   ensures:  joint_eigen_distribution(G).dummy_eq(Lamb...   ║
+# ║   ensures:  level_spacing_distribution(G).dummy_eq(La...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GaussianOrthogonalEnsemble : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e2504fe64f86fc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f48b28641d72359  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianOrthogonalEnsemble","kind":"function","src_hash":"a75ba4b8e0538f15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_GaussianOrthogonalEnsemble()","rhs":"test_GaussianOrthogonalEnsemble produces the expected output","over":{"base":"Any"},"name":"test_GaussianOrthogonalEnsemble_correct"},"guarantee":"test_GaussianOrthogonalEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianOrthogonalEnsemble_correct","statement":"Path(test_GaussianOrthogonalEnsemble(x), test_GaussianOrthogonalEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e2504fe64f86fc3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianOrthogonalEnsemble","kind":"function","src_hash":"a75ba4b8e0538f15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(G)(H) == exp(-3 * Trace(H ** 2) / 4) / Integral(exp(-3 * Trace(_H ** 2) / 4), _H) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 9 * sqrt(2) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]), (j, i + 1, 3), (i, 1, 2)) / (32 * pi))) and level_spacing_distribution(G).dummy_eq(Lambda(s, s * pi * exp(-s ** 2 * pi / 4) / 2))"},"spec":{"lhs":"test_GaussianOrthogonalEnsemble()","rhs":"density(G)(H) == exp(-3 * Trace(H ** 2) / 4) / Integral(exp(-3 * Trace(_H ** 2) / 4), _H) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 9 * sqrt(2) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]), (j, i + 1, 3), (i, 1, 2)) / (32 * pi))) and level_spacing_distribution(G).dummy_eq(Lambda(s, s * pi * exp(-s ** 2 * pi / 4) / 2))","over":{"base":"Any"},"name":"test_GaussianOrthogonalEnsemble_correct"},"guarantee":"density(G)(H) == exp(-3 * Trace(H ** 2) / 4) / Integral(exp(-3 * Trace(_H ** 2) / 4), _H); joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 9 * sqrt(2) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]), (j, i + 1, 3), (i, 1, 2)) / (32 * pi))); level_spacing_distribution(G).dummy_eq(Lambda(s, s * pi * exp(-s ** 2 * pi / 4) / 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianOrthogonalEnsemble_correct","statement":"Path(test_GaussianOrthogonalEnsemble(x), density(G)(H) == exp(-3 * Trace(H ** 2) / 4) / Integral(exp(-3 * Trace(_H ** 2) / 4), _H); joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 9 * sqrt(2) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]), (j, i + 1, 3), (i, 1, 2)) / (32 * pi))); level_spacing_distribution(G).dummy_eq(Lambda(s, s * pi * exp(-s ** 2 * pi / 4) / 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f48b28641d72359","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(G)(H) == exp(-3 * Trace(H ** 2) / 4) / Integral(exp(-3 * Trace(_H ** 2) / 4), _H)","joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 9 * sqrt(2) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]), (j, i + 1, 3), (i, 1, 2)) / (32 * pi)))","level_spacing_distribution(G).dummy_eq(Lambda(s, s * pi * exp(-s ** 2 * pi / 4) / 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_GaussianOrthogonalEnsemble():
     H = RandomMatrixSymbol('H', 3, 3)
     _H = MatrixSymbol('_H', 3, 3)
@@ -112,16 +134,24 @@ def test_GaussianOrthogonalEnsemble():
     assert level_spacing_distribution(G).dummy_eq(Lambda(s, s*pi*exp(-s**2*pi/4)/2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GaussianSymplecticEnsemble(), test_GaussianSymplecticEnsemble produces the expected output) over Any ║
+# ║ Path(test_GaussianSymplecticEnsemble(), density(G)(H) == exp(-3 * Trace(H ** 2)) / Integral(exp(-3 * Trace(_H ** 2)), _H) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 162 * sqrt(3) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 4, (j, i + 1, 3), (i, 1, 2)) / (5 * pi ** Rational(3, 2)))) and level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144) * s ** 4 * exp(-64 * s ** 2 / (9 * pi)) / (729 * pi ** 3)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GaussianSymplecticEnsemble : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(G)(H) == exp(-3 * Trace(H ** 2)) ...   ║
+# ║   ensures:  joint_eigen_distribution(G).dummy_eq(Lamb...   ║
+# ║   ensures:  level_spacing_distribution(G).dummy_eq(La...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GaussianSymplecticEnsemble : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c5dad2ed914c9d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3adccc41e8931ee1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianSymplecticEnsemble","kind":"function","src_hash":"af3a44ec86850d86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_GaussianSymplecticEnsemble()","rhs":"test_GaussianSymplecticEnsemble produces the expected output","over":{"base":"Any"},"name":"test_GaussianSymplecticEnsemble_correct"},"guarantee":"test_GaussianSymplecticEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianSymplecticEnsemble_correct","statement":"Path(test_GaussianSymplecticEnsemble(x), test_GaussianSymplecticEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c5dad2ed914c9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_GaussianSymplecticEnsemble","kind":"function","src_hash":"af3a44ec86850d86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(G)(H) == exp(-3 * Trace(H ** 2)) / Integral(exp(-3 * Trace(_H ** 2)), _H) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 162 * sqrt(3) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 4, (j, i + 1, 3), (i, 1, 2)) / (5 * pi ** Rational(3, 2)))) and level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144) * s ** 4 * exp(-64 * s ** 2 / (9 * pi)) / (729 * pi ** 3)))"},"spec":{"lhs":"test_GaussianSymplecticEnsemble()","rhs":"density(G)(H) == exp(-3 * Trace(H ** 2)) / Integral(exp(-3 * Trace(_H ** 2)), _H) and joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 162 * sqrt(3) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 4, (j, i + 1, 3), (i, 1, 2)) / (5 * pi ** Rational(3, 2)))) and level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144) * s ** 4 * exp(-64 * s ** 2 / (9 * pi)) / (729 * pi ** 3)))","over":{"base":"Any"},"name":"test_GaussianSymplecticEnsemble_correct"},"guarantee":"density(G)(H) == exp(-3 * Trace(H ** 2)) / Integral(exp(-3 * Trace(_H ** 2)), _H); joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 162 * sqrt(3) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 4, (j, i + 1, 3), (i, 1, 2)) / (5 * pi ** Rational(3, 2)))); level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144) * s ** 4 * exp(-64 * s ** 2 / (9 * pi)) / (729 * pi ** 3)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_GaussianSymplecticEnsemble_correct","statement":"Path(test_GaussianSymplecticEnsemble(x), density(G)(H) == exp(-3 * Trace(H ** 2)) / Integral(exp(-3 * Trace(_H ** 2)), _H); joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 162 * sqrt(3) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 4, (j, i + 1, 3), (i, 1, 2)) / (5 * pi ** Rational(3, 2)))); level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144) * s ** 4 * exp(-64 * s ** 2 / (9 * pi)) / (729 * pi ** 3))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3adccc41e8931ee1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(G)(H) == exp(-3 * Trace(H ** 2)) / Integral(exp(-3 * Trace(_H ** 2)), _H)","joint_eigen_distribution(G).dummy_eq(Lambda((l[1], l[2], l[3]), 162 * sqrt(3) * exp(-3 * l[1] ** 2 / 2 - 3 * l[2] ** 2 / 2 - 3 * l[3] ** 2 / 2) * Product(Abs(l[i] - l[j]) ** 4, (j, i + 1, 3), (i, 1, 2)) / (5 * pi ** Rational(3, 2))))","level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144) * s ** 4 * exp(-64 * s ** 2 / (9 * pi)) / (729 * pi ** 3)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_GaussianSymplecticEnsemble():
     H = RandomMatrixSymbol('H', 3, 3)
     _H = MatrixSymbol('_H', 3, 3)
@@ -138,16 +168,22 @@ def test_GaussianSymplecticEnsemble():
     assert level_spacing_distribution(G).dummy_eq(Lambda(s, S(262144)*s**4*exp(-64*s**2/(9*pi))/(729*pi**3)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CircularUnitaryEnsemble(), test_CircularUnitaryEnsemble produces the expected output) over Any ║
+# ║ Path(test_CircularUnitaryEnsemble(), joint_eigen_distribution(CU).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 2, (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 3)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CircularUnitaryEnsemble : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  joint_eigen_distribution(CU).dummy_eq(Lam...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CircularUnitaryEnsemble : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39cf8ca191a09933  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae23bf153628005a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_CircularUnitaryEnsemble","kind":"function","src_hash":"c7b5b10be46ae1ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_CircularUnitaryEnsemble()","rhs":"test_CircularUnitaryEnsemble produces the expected output","over":{"base":"Any"},"name":"test_CircularUnitaryEnsemble_correct"},"guarantee":"test_CircularUnitaryEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_CircularUnitaryEnsemble_correct","statement":"Path(test_CircularUnitaryEnsemble(x), test_CircularUnitaryEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39cf8ca191a09933"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_CircularUnitaryEnsemble","kind":"function","src_hash":"c7b5b10be46ae1ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: joint_eigen_distribution(CU).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 2, (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 3)))"},"spec":{"lhs":"test_CircularUnitaryEnsemble()","rhs":"joint_eigen_distribution(CU).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 2, (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 3)))","over":{"base":"Any"},"name":"test_CircularUnitaryEnsemble_correct"},"guarantee":"joint_eigen_distribution(CU).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 2, (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 3)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_CircularUnitaryEnsemble_correct","statement":"Path(test_CircularUnitaryEnsemble(x), joint_eigen_distribution(CU).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 2, (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 3))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae23bf153628005a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["joint_eigen_distribution(CU).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 2, (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 3)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CircularUnitaryEnsemble():
     CU = CUE('U', 3)
     j, k = (Dummy('j', integer=True, positive=True),
@@ -160,16 +196,22 @@ def test_CircularUnitaryEnsemble():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CircularOrthogonalEnsemble(), test_CircularOrthogonalEnsemble produces the expected output) over Any ║
+# ║ Path(test_CircularOrthogonalEnsemble(), joint_eigen_distribution(CO).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])), (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 2)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CircularOrthogonalEnsemble : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  joint_eigen_distribution(CO).dummy_eq(Lam...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CircularOrthogonalEnsemble : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c216e6462842cfca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f16c681559ddeb43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_CircularOrthogonalEnsemble","kind":"function","src_hash":"5513f17fce2ac8f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_CircularOrthogonalEnsemble()","rhs":"test_CircularOrthogonalEnsemble produces the expected output","over":{"base":"Any"},"name":"test_CircularOrthogonalEnsemble_correct"},"guarantee":"test_CircularOrthogonalEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_CircularOrthogonalEnsemble_correct","statement":"Path(test_CircularOrthogonalEnsemble(x), test_CircularOrthogonalEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c216e6462842cfca"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_CircularOrthogonalEnsemble","kind":"function","src_hash":"5513f17fce2ac8f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: joint_eigen_distribution(CO).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])), (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 2)))"},"spec":{"lhs":"test_CircularOrthogonalEnsemble()","rhs":"joint_eigen_distribution(CO).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])), (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 2)))","over":{"base":"Any"},"name":"test_CircularOrthogonalEnsemble_correct"},"guarantee":"joint_eigen_distribution(CO).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])), (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_CircularOrthogonalEnsemble_correct","statement":"Path(test_CircularOrthogonalEnsemble(x), joint_eigen_distribution(CO).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])), (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f16c681559ddeb43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["joint_eigen_distribution(CO).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])), (j, k + 1, 3), (k, 1, 2)) / (48 * pi ** 2)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CircularOrthogonalEnsemble():
     CO = COE('U', 3)
     j, k = (Dummy('j', integer=True, positive=True),
@@ -182,16 +224,22 @@ def test_CircularOrthogonalEnsemble():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CircularSymplecticEnsemble(), test_CircularSymplecticEnsemble produces the expected output) over Any ║
+# ║ Path(test_CircularSymplecticEnsemble(), joint_eigen_distribution(CS).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 4, (j, k + 1, 3), (k, 1, 2)) / (720 * pi ** 3)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CircularSymplecticEnsemble : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  joint_eigen_distribution(CS).dummy_eq(Lam...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CircularSymplecticEnsemble : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b7b7a52b8276001  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5614217c30d73d58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_CircularSymplecticEnsemble","kind":"function","src_hash":"1bcb1429ea192b1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_CircularSymplecticEnsemble()","rhs":"test_CircularSymplecticEnsemble produces the expected output","over":{"base":"Any"},"name":"test_CircularSymplecticEnsemble_correct"},"guarantee":"test_CircularSymplecticEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_CircularSymplecticEnsemble_correct","statement":"Path(test_CircularSymplecticEnsemble(x), test_CircularSymplecticEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b7b7a52b8276001"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_CircularSymplecticEnsemble","kind":"function","src_hash":"1bcb1429ea192b1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: joint_eigen_distribution(CS).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 4, (j, k + 1, 3), (k, 1, 2)) / (720 * pi ** 3)))"},"spec":{"lhs":"test_CircularSymplecticEnsemble()","rhs":"joint_eigen_distribution(CS).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 4, (j, k + 1, 3), (k, 1, 2)) / (720 * pi ** 3)))","over":{"base":"Any"},"name":"test_CircularSymplecticEnsemble_correct"},"guarantee":"joint_eigen_distribution(CS).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 4, (j, k + 1, 3), (k, 1, 2)) / (720 * pi ** 3)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_CircularSymplecticEnsemble_correct","statement":"Path(test_CircularSymplecticEnsemble(x), joint_eigen_distribution(CS).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 4, (j, k + 1, 3), (k, 1, 2)) / (720 * pi ** 3))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5614217c30d73d58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["joint_eigen_distribution(CS).dummy_eq(Lambda((t[1], t[2], t[3]), Product(Abs(exp(I * t[j]) - exp(I * t[k])) ** 4, (j, k + 1, 3), (k, 1, 2)) / (720 * pi ** 3)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CircularSymplecticEnsemble():
     CS = CSE('U', 3)
     j, k = (Dummy('j', integer=True, positive=True),
@@ -204,16 +252,22 @@ def test_CircularSymplecticEnsemble():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_JointEigenDistribution(), test_JointEigenDistribution produces the expected output) over Any ║
+# ║ Path(test_JointEigenDistribution(), JointEigenDistribution(A) == JointDistributionHandmade(-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2, sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_JointEigenDistribution : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  JointEigenDistribution(A) == JointDistrib...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_JointEigenDistribution : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60d9e903287ba788  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 632e28d1a7137b85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_JointEigenDistribution","kind":"function","src_hash":"a5dd8ee14b3f9cb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_JointEigenDistribution()","rhs":"test_JointEigenDistribution produces the expected output","over":{"base":"Any"},"name":"test_JointEigenDistribution_correct"},"guarantee":"test_JointEigenDistribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_JointEigenDistribution_correct","statement":"Path(test_JointEigenDistribution(x), test_JointEigenDistribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60d9e903287ba788"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_JointEigenDistribution","kind":"function","src_hash":"a5dd8ee14b3f9cb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: JointEigenDistribution(A) == JointDistributionHandmade(-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2, sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2)"},"spec":{"lhs":"test_JointEigenDistribution()","rhs":"JointEigenDistribution(A) == JointDistributionHandmade(-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2, sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2)","over":{"base":"Any"},"name":"test_JointEigenDistribution_correct"},"guarantee":"JointEigenDistribution(A) == JointDistributionHandmade(-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2, sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_JointEigenDistribution_correct","statement":"Path(test_JointEigenDistribution(x), JointEigenDistribution(A) == JointDistributionHandmade(-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2, sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"632e28d1a7137b85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["JointEigenDistribution(A) == JointDistributionHandmade(-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2, sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) / 2 + A[0, 0] / 2 + A[1, 1] / 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_JointEigenDistribution():
     A = Matrix([[Normal('A00', 0, 1), Normal('A01', 1, 1)],
                 [Beta('A10', 1, 1), Beta('A11', 1, 1)]])
@@ -223,16 +277,24 @@ def test_JointEigenDistribution():
     raises(ValueError, lambda: JointEigenDistribution(Matrix([[1, 0], [2, 1]])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19841(), test_issue_19841 produces the expected output) over Any ║
+# ║ Path(test_issue_19841(), G1.args == G2.args and H.doit() == H and (2 * H).xreplace({H: X}) == 2 * X and (2 * H).xreplace({H2: X}) == 2 * H and (2 * H2).xreplace({H: X}) == 2 * H2 and (2 * H2).xreplace({H2: X}) == 2 * X) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19841 : Any → {Any | G1.args == G2.args an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  G1.args == G2.args                             ║
+# ║   ensures:  H.doit() == H                                  ║
+# ║   ensures:  (2 * H).xreplace({H: X}) == 2 * X              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19841 : Any → {Any | result satisfies: G1....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c32a52a9e0fea19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db9e93324f04cc37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_issue_19841","kind":"function","src_hash":"d6734a410685115a","in":{"base":"Any"},"out":{"base":"Any","pred":"G1.args == G2.args and H.doit() == H and (2 * H).xreplace({H: X}) == 2 * X and (2 * H).xreplace({H2: X}) == 2 * H and (2 * H2).xreplace({H: X}) == 2 * H2 and (2 * H2).xreplace({H2: X}) == 2 * X"},"spec":{"lhs":"test_issue_19841()","rhs":"test_issue_19841 produces the expected output","over":{"base":"Any"},"name":"test_issue_19841_correct"},"guarantee":"test_issue_19841 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_issue_19841_correct","statement":"Path(test_issue_19841(x), test_issue_19841 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c32a52a9e0fea19"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_random_matrix.test_issue_19841","kind":"function","src_hash":"d6734a410685115a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: G1.args == G2.args and H.doit() == H and (2 * H).xreplace({H: X}) == 2 * X and (2 * H).xreplace({H2: X}) == 2 * H and (2 * H2).xreplace({H: X}) == 2 * H2 and (2 * H2).xreplace({H2: X}) == 2 * X"},"spec":{"lhs":"test_issue_19841()","rhs":"G1.args == G2.args and H.doit() == H and (2 * H).xreplace({H: X}) == 2 * X and (2 * H).xreplace({H2: X}) == 2 * H and (2 * H2).xreplace({H: X}) == 2 * H2 and (2 * H2).xreplace({H2: X}) == 2 * X","over":{"base":"Any"},"name":"test_issue_19841_correct"},"guarantee":"G1.args == G2.args; H.doit() == H; (2 * H).xreplace({H: X}) == 2 * X","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_random_matrix.test_issue_19841_correct","statement":"Path(test_issue_19841(x), G1.args == G2.args; H.doit() == H; (2 * H).xreplace({H: X}) == 2 * X)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db9e93324f04cc37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["G1.args == G2.args","H.doit() == H","(2 * H).xreplace({H: X}) == 2 * X","(2 * H).xreplace({H2: X}) == 2 * H","(2 * H2).xreplace({H: X}) == 2 * H2","(2 * H2).xreplace({H2: X}) == 2 * X"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_19841():
     G1 = GUE('U', 2)
     G2 = G1.xreplace({2: 2})

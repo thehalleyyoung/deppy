@@ -25,14 +25,23 @@ from sympy.core.random import random_complex_number
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_egyptian_fraction(), id) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_egyptian_fraction : Any → {Any | test_equality(r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  test_equality(r)                               ║
+# ║   ensures:  egyptian_fraction(Rational(4, 17)) == [5,...   ║
+# ║   ensures:  egyptian_fraction(Rational(7, 13), 'Greed...   ║
+# ║   returns:  r == Add(*[Rational(1, i) for i in egypti...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_egyptian_fraction : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2d1a384d18fa517e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_egyptian_fraction.test_egyptian_fraction","kind":"function","src_hash":"60e0a35be0199c9e","in":{"base":"Any"},"out":{"base":"Any","pred":"test_equality(r) and egyptian_fraction(Rational(4, 17)) == [5, 29, 1233, 3039345] and egyptian_fraction(Rational(7, 13), 'Greedy') == [2, 26] and egyptian_fraction(Rational(18, 23), 'Takenouchi') == [2, 6, 12, 35, 276, 2415] and egyptian_fraction(Rational(5, 6), 'Golomb') == [2, 6, 12, 20, 30] and egyptian_fraction(Rational(5, 121), 'Golomb') == [25, 1225, 3577, 7081, 11737]"},"spec":{"lhs":"test_egyptian_fraction()","rhs":"test_egyptian_fraction produces the expected output","over":{"base":"Any"},"name":"test_egyptian_fraction_correct","kind":"composition"},"guarantee":"test_egyptian_fraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"egyptian_fraction","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d1a384d18fa517e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_egyptian_fraction.test_egyptian_fraction","kind":"function","src_hash":"60e0a35be0199c9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (r == Add(*[Rational(1, i) for i in egyptian_fraction(r, alg)]))"},"spec":{"lhs":"test_egyptian_fraction()","rhs":"r == Add(*[Rational(1, i) for i in egyptian_fraction(r, alg)])","over":{"base":"Any"},"name":"test_egyptian_fraction_correct","kind":"composition"},"guarantee":"returns r == Add(*[Rational(1, i) for i in egyptian_fraction(r, alg)]); test_equality(r); egyptian_fraction(Rational(4, 17)) == [5, 29, 1233, 3039345]; egyptian_fraction(Rational(7, 13), 'Greedy') == [2, 26]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"egyptian_fraction","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d1a384d18fa517e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["test_equality(r)","egyptian_fraction(Rational(4, 17)) == [5, 29, 1233, 3039345]","egyptian_fraction(Rational(7, 13), 'Greedy') == [2, 26]","egyptian_fraction(Rational(23, 101), 'Greedy') == [5, 37, 1438, 2985448, 40108045937720]","egyptian_fraction(Rational(18, 23), 'Takenouchi') == [2, 6, 12, 35, 276, 2415]","egyptian_fraction(Rational(5, 6), 'Graham Jewett') == [6, 7, 8, 9, 10, 42, 43, 44, 45, 56, 57, 58, 72, 73, 90, 1806, 1807, 1808, 1892, 1893, 1980, 3192, 3193, 3306, 5256, 3263442, 3263443, 3267056, 3581556, 10192056, 10650056950806]","egyptian_fraction(Rational(5, 6), 'Golomb') == [2, 6, 12, 20, 30]","egyptian_fraction(Rational(5, 121), 'Golomb') == [25, 1225, 3577, 7081, 11737]","egyptian_fraction(Rational(8, 3), 'Golomb') == [1, 2, 3, 4, 5, 6, 7, 14, 574, 2788, 6460, 11590, 33062, 113820]","egyptian_fraction(Rational(355, 113)) == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 27, 744, 893588, 1251493536607, 20361068938197002344405230]"],"returns_expr":"r == Add(*[Rational(1, i) for i in egyptian_fraction(r, alg)])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_egyptian_fraction():
     def test_equality(r, alg="Greedy"):
         return r == Add(*[Rational(1, i) for i in egyptian_fraction(r, alg)])
@@ -63,16 +72,22 @@ def test_egyptian_fraction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input(), test_input produces the expected output) over Any ║
+# ║ Path(test_input(), d == [1, 2, 6] and all((i.is_Integer for i in d))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input : Any → {Any | d == [1, 2, 6] and all((i.i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d == [1, 2, 6] and all((i.is_Integer for ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input : Any → {Any | result satisfies: d == [1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04924566096bf287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5264494f7b44bc12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_egyptian_fraction.test_input","kind":"function","src_hash":"33c21d48a4efc0fb","in":{"base":"Any"},"out":{"base":"Any","pred":"d == [1, 2, 6] and all((i.is_Integer for i in d)) and all((i.is_Integer for i in d)) and d == [3, 4, 12] and d == [2, 6]"},"spec":{"lhs":"test_input()","rhs":"test_input produces the expected output","over":{"base":"Any"},"name":"test_input_correct"},"guarantee":"test_input produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_egyptian_fraction.test_input_correct","statement":"Path(test_input(x), test_input produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04924566096bf287"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_egyptian_fraction.test_input","kind":"function","src_hash":"33c21d48a4efc0fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d == [1, 2, 6] and all((i.is_Integer for i in d))"},"spec":{"lhs":"test_input()","rhs":"d == [1, 2, 6] and all((i.is_Integer for i in d))","over":{"base":"Any"},"name":"test_input_correct"},"guarantee":"d == [1, 2, 6] and all((i.is_Integer for i in d))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_egyptian_fraction.test_input_correct","statement":"Path(test_input(x), d == [1, 2, 6] and all((i.is_Integer for i in d)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5264494f7b44bc12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d == [1, 2, 6] and all((i.is_Integer for i in d))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_input():
     r = (2,3), Rational(2, 3), (Rational(2), Rational(3))
     for m in ["Greedy", "Graham Jewett", "Takenouchi", "Golomb"]:

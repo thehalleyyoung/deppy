@@ -39,14 +39,20 @@ _u0mksa = u0.convert_to(meter*kilogram/(ampere**2*second**2))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Medium(*args), correctly constructs a Medium instance) over {Any | isinstance(name, Str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Medium : {Any | isinstance(name, Str)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Medium : {Any | isinstance(name, Str)} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e24ca35e9fc0af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium","kind":"class","src_hash":"7c360d8ad84e1121","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any"},"spec":{"lhs":"Medium(*args)","rhs":"correctly constructs a Medium instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"Medium_class_invariant"},"guarantee":"correctly constructs a Medium instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e24ca35e9fc0af"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium","kind":"class","src_hash":"7c360d8ad84e1121","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Medium(*args)","rhs":"correctly constructs a Medium instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"Medium_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e24ca35e9fc0af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Medium not found in source"]}}
 class Medium(Basic):
 
     """
@@ -98,16 +104,22 @@ class Medium(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, permittivity), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9c6f944f3275b79           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.__new__","kind":"method","src_hash":"0b59732ab6f31c59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9c6f944f3275b79"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.__new__","kind":"method","src_hash":"0b59732ab6f31c59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, permittivity)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9c6f944f3275b79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, permittivity=None, permeability=None, n=None):
         if not isinstance(name, Str):
             name = Str(name)
@@ -137,31 +149,43 @@ class Medium(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b33d5f2e543b9d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b33d5f2e543b9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b33d5f2e543b9d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(speed(), returns the speed attribute) over Any        ║
+# ║ Path(speed(), c / self.n) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  c / self.n                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ speed : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50aec334df5950a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.speed","kind":"property","src_hash":"4582ec5dbaddac0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"speed()","rhs":"returns the speed attribute","over":{"base":"Any"},"name":"speed_correct"},"guarantee":"returns the speed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50aec334df5950a7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.speed","kind":"property","src_hash":"4582ec5dbaddac0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"speed()","rhs":"c / self.n","over":{"base":"Any"},"name":"speed_correct"},"guarantee":"returns c / self.n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50aec334df5950a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"c / self.n","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def speed(self):
         """
         Returns speed of the electromagnetic wave travelling in the medium.
@@ -182,16 +206,22 @@ class Medium(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refractive_index(), returns the refractive_index attribute) over Any ║
+# ║ Path(refractive_index(), c / self.speed) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  c / self.speed                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refractive_index : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8fb1b8f10bf7e46           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.refractive_index","kind":"property","src_hash":"fd9c25a6f39ba89d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refractive_index()","rhs":"returns the refractive_index attribute","over":{"base":"Any"},"name":"refractive_index_correct"},"guarantee":"returns the refractive_index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8fb1b8f10bf7e46"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.Medium.refractive_index","kind":"property","src_hash":"fd9c25a6f39ba89d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refractive_index()","rhs":"c / self.speed","over":{"base":"Any"},"name":"refractive_index_correct"},"guarantee":"returns c / self.speed","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8fb1b8f10bf7e46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"c / self.speed","pure":false,"effects":{"effect_type":"reads_state","reads":["self.speed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refractive_index(self):
         """
         Returns refractive index of the medium.
@@ -211,14 +241,20 @@ class Medium(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MediumN(*args), correctly constructs a MediumN instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MediumN : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Medium)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MediumN : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30c6bcab1c31e786  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumN","kind":"class","src_hash":"72bc3b394865552e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MediumN(*args)","rhs":"correctly constructs a MediumN instance","over":{"base":"Any"},"name":"MediumN_class_invariant"},"guarantee":"correctly constructs a MediumN instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30c6bcab1c31e786"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumN","kind":"class","src_hash":"72bc3b394865552e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Medium)"},"spec":{"lhs":"MediumN(*args)","rhs":"correctly constructs a MediumN instance","over":{"base":"Any"},"name":"MediumN_class_invariant"},"guarantee":"isinstance(self, Medium)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30c6bcab1c31e786","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Medium)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MediumN not found in source"]}}
 class MediumN(Medium):
 
     """
@@ -238,32 +274,44 @@ class MediumN(Medium):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, n), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 559fb99a73d61187           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumN.__new__","kind":"method","src_hash":"11911e69ed28dc63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"559fb99a73d61187"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumN.__new__","kind":"method","src_hash":"11911e69ed28dc63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, n)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"559fb99a73d61187","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, n):
         obj = super(Medium, cls).__new__(cls, name, n)
         return obj
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee51f7c549b317f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumN.n","kind":"property","src_hash":"89f2c46e58c3d6a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee51f7c549b317f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumN.n","kind":"property","src_hash":"89f2c46e58c3d6a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"self.args[1]","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee51f7c549b317f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         return self.args[1]
 
@@ -271,14 +319,20 @@ class MediumN(Medium):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MediumPP(*args), correctly constructs a MediumPP instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MediumPP : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Medium)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MediumPP : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f4fd7d640fb553d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP","kind":"class","src_hash":"2ce249f37990f4d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MediumPP(*args)","rhs":"correctly constructs a MediumPP instance","over":{"base":"Any"},"name":"MediumPP_class_invariant"},"guarantee":"correctly constructs a MediumPP instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4fd7d640fb553d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP","kind":"class","src_hash":"2ce249f37990f4d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Medium)"},"spec":{"lhs":"MediumPP(*args)","rhs":"correctly constructs a MediumPP instance","over":{"base":"Any"},"name":"MediumPP_class_invariant"},"guarantee":"isinstance(self, Medium)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4fd7d640fb553d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Medium)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MediumPP not found in source"]}}
 class MediumPP(Medium):
     """
     Represents an optical medium for which the permittivity and permeability are known.
@@ -303,32 +357,44 @@ class MediumPP(Medium):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, permittivity), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ad11079b924e477           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.__new__","kind":"method","src_hash":"6a14aeee2fff9d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ad11079b924e477"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.__new__","kind":"method","src_hash":"6a14aeee2fff9d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, permittivity)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ad11079b924e477","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, permittivity, permeability):
         obj = super(Medium, cls).__new__(cls, name, permittivity, permeability)
         return obj
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intrinsic_impedance(), returns the intrinsic_impedance attribute) over Any ║
+# ║ Path(intrinsic_impedance(), sqrt(self.permeability / self.permittivity)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(self.permeability / self.permittivity)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intrinsic_impedance : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46ef08bf1a64ec35           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.intrinsic_impedance","kind":"property","src_hash":"e9618afa9dde7104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intrinsic_impedance()","rhs":"returns the intrinsic_impedance attribute","over":{"base":"Any"},"name":"intrinsic_impedance_correct"},"guarantee":"returns the intrinsic_impedance attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46ef08bf1a64ec35"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.intrinsic_impedance","kind":"property","src_hash":"e9618afa9dde7104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intrinsic_impedance()","rhs":"sqrt(self.permeability / self.permittivity)","over":{"base":"Any"},"name":"intrinsic_impedance_correct"},"guarantee":"returns sqrt(self.permeability / self.permittivity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46ef08bf1a64ec35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(self.permeability / self.permittivity)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.permeability","self.permittivity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intrinsic_impedance(self):
         """
         Returns intrinsic impedance of the medium.
@@ -356,16 +422,22 @@ class MediumPP(Medium):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permittivity(), returns the permittivity attribute) over Any ║
+# ║ Path(permittivity(), self.args[1]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permittivity : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e550fb7fb7d284ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.permittivity","kind":"property","src_hash":"d1a31a18d51443ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permittivity()","rhs":"returns the permittivity attribute","over":{"base":"Any"},"name":"permittivity_correct"},"guarantee":"returns the permittivity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e550fb7fb7d284ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.permittivity","kind":"property","src_hash":"d1a31a18d51443ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permittivity()","rhs":"self.args[1]","over":{"base":"Any"},"name":"permittivity_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e550fb7fb7d284ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def permittivity(self):
         """
         Returns electric permittivity of the medium.
@@ -383,16 +455,22 @@ class MediumPP(Medium):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permeability(), returns the permeability attribute) over Any ║
+# ║ Path(permeability(), self.args[2]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permeability : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 827a403c830e7726           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.permeability","kind":"property","src_hash":"40ad3f80d0c58ecb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permeability()","rhs":"returns the permeability attribute","over":{"base":"Any"},"name":"permeability_correct"},"guarantee":"returns the permeability attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"827a403c830e7726"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.permeability","kind":"property","src_hash":"40ad3f80d0c58ecb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permeability()","rhs":"self.args[2]","over":{"base":"Any"},"name":"permeability_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"827a403c830e7726","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def permeability(self):
         """
         Returns magnetic permeability of the medium.
@@ -410,15 +488,21 @@ class MediumPP(Medium):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), c * sqrt(self.permittivity * self.permeability)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  c * sqrt(self.permittivity * self.permeab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a13038109614a7b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.n","kind":"property","src_hash":"13d4d28bf6334b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a13038109614a7b3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.medium.MediumPP.n","kind":"property","src_hash":"13d4d28bf6334b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"c * sqrt(self.permittivity * self.permeability)","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns c * sqrt(self.permittivity * self.permeability)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a13038109614a7b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"c * sqrt(self.permittivity * self.permeability)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.permeability","self.permittivity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         return c*sqrt(self.permittivity*self.permeability)

@@ -29,14 +29,20 @@ from bisect import bisect_left
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CosetTable instance) preserved by CosetTable(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CosetTable : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CosetTable : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efd847dead0f5420  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable","kind":"class","src_hash":"d1330ef70131e82b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CosetTable(*args)","rhs":"correctly constructs a CosetTable instance","over":{"base":"Any"},"name":"CosetTable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CosetTable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'fp_group') and hasattr(self, 'subgroup') and hasattr(self, 'coset_table_limit') and hasattr(self, 'p') and hasattr(self, 'A') and hasattr(self, 'P') and hasattr(self, 'table') and hasattr(self, 'A_dict')","kind":"class","induction":"structural on fp_group, subgroup, coset_table_limit, p"}],"methods_preserving":["__init__","omega","copy","__str__","n","is_complete","define","define_c","scan_c","coincidence_c","scan","scan_check","merge","rep","coincidence","scan_and_fill","scan_and_fill_c","look_ahead","process_deductions","process_deductions_check","switch","standardize","compress","conjugates","coset_representative","modified_define","modified_scan","modified_scan_and_fill","modified_merge","modified_rep","modified_coincidence"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efd847dead0f5420"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable","kind":"class","src_hash":"d1330ef70131e82b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"CosetTable(*args)","rhs":"correctly constructs a CosetTable instance","over":{"base":"Any"},"name":"CosetTable_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting); preserves 12 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'fp_group') and hasattr(self, 'subgroup') and hasattr(self, 'coset_table_limit') and hasattr(self, 'p') and hasattr(self, 'A') and hasattr(self, 'P') and hasattr(self, 'table') and hasattr(self, 'A_dict')","kind":"class","induction":"structural on fp_group, subgroup, coset_table_limit, p"}],"methods_preserving":["__init__","omega","copy","__str__","n","is_complete","define","define_c","scan_c","coincidence_c","scan","scan_check","merge","rep","coincidence","scan_and_fill","scan_and_fill_c","look_ahead","process_deductions","process_deductions_check","switch","standardize","compress","conjugates","coset_representative","modified_define","modified_scan","modified_scan_and_fill","modified_merge","modified_rep","modified_coincidence"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efd847dead0f5420","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"],"invariants":["hasattr(self, 'fp_group')","hasattr(self, 'subgroup')","hasattr(self, 'coset_table_limit')","hasattr(self, 'p')","hasattr(self, 'A')","hasattr(self, 'P')","hasattr(self, 'table')","hasattr(self, 'A_dict')","hasattr(self, 'A_dict_inv')","hasattr(self, 'deduction_stack')","hasattr(self, '_grp')","hasattr(self, 'p_p')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function CosetTable not found in source"]}}
 class CosetTable(DefaultPrinting):
     # coset_table: Mathematically a coset table
     #               represented using a list of lists
@@ -81,16 +87,24 @@ class CosetTable(DefaultPrinting):
     max_stack_size = 100
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fp_), initializes the instance correctly) over Any ║
+# ║ Path(__init__(fp_grp, subgroup, max_cosets), self.fp_group == fp_grp and self.subgroup == subgroup and self.coset_table_limit == max_cosets) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.fp_group == fp_grp                        ║
+# ║   ensures:  self.subgroup == subgroup                      ║
+# ║   ensures:  self.coset_table_limit == max_cosets           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.fp_gro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da60951a57b28bec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.__init__","kind":"method","src_hash":"3528d34a43f31bb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fp_)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da60951a57b28bec"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.__init__","kind":"method","src_hash":"3528d34a43f31bb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.fp_group == fp_grp and self.subgroup == subgroup and self.coset_table_limit == max_cosets"},"spec":{"lhs":"__init__(fp_grp, subgroup, max_cosets)","rhs":"self.fp_group == fp_grp and self.subgroup == subgroup and self.coset_table_limit == max_cosets","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.fp_group == fp_grp; self.subgroup == subgroup; self.coset_table_limit == max_cosets","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da60951a57b28bec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.fp_group == fp_grp","self.subgroup == subgroup","self.coset_table_limit == max_cosets"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, fp_grp, subgroup, max_cosets=None):
         if not max_cosets:
             max_cosets = CosetTable.coset_table_max_limit
@@ -125,31 +139,43 @@ class CosetTable(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(omega(), returns the omega attribute) over Any        ║
+# ║ Path(omega(), [coset for coset in range(len(self.p)) if self.p[coset] == coset]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [coset for coset in range(len(self.p)) if...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ omega : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65e5d172363219b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.omega","kind":"property","src_hash":"e1d16650f6715630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"returns the omega attribute","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns the omega attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65e5d172363219b5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.omega","kind":"property","src_hash":"e1d16650f6715630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"[coset for coset in range(len(self.p)) if self.p[coset] == coset]","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns [coset for coset in range(len(self.p)) if self.p[coset] == coset]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65e5d172363219b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[coset for coset in range(len(self.p)) if self.p[coset] == coset]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def omega(self):
         """Set of live cosets. """
         return [coset for coset in range(len(self.p)) if self.p[coset] == coset]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), return a shallow copy of coset table instance ``self``) over Any ║
+# ║ Path(copy(), <unspecified:copy>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc8c3fb71d738e77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.copy","kind":"method","src_hash":"014bc38ce3564068","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"return a shallow copy of coset table instance ``self``","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"return a shallow copy of coset table instance ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.copy_correct","statement":"Path(copy(x), return a shallow copy of coset table instance ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc8c3fb71d738e77"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.copy","kind":"method","src_hash":"014bc38ce3564068","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"<unspecified:copy>","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"return a shallow copy of coset table instance ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.copy_correct","statement":"Path(copy(x), return a shallow copy of coset table instance ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc8c3fb71d738e77","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.deduction_stack","self.fp_group","self.p","self.subgroup","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         """
         Return a shallow copy of Coset Table instance ``self``.
@@ -162,16 +188,22 @@ class CosetTable(DefaultPrinting):
         return self_copy
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'Coset Table on %s with %s as subgroup generators' % (self.fp_group, self.subgroup)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Coset Table on %s with %s as subgroup ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d135aa16a50c32e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.__str__","kind":"method","src_hash":"ba4a8e512b149581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d135aa16a50c32e3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.__str__","kind":"method","src_hash":"ba4a8e512b149581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'Coset Table on %s with %s as subgroup generators' % (self.fp_group, self.subgroup)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'Coset Table on %s with %s as subgroup generators' % (self.fp_group, self.subgroup)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d135aa16a50c32e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Coset Table on %s with %s as subgroup generators' % (self.fp_group, self.subgroup)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fp_group","self.subgroup"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "Coset Table on %s with %s as subgroup generators" \
                 % (self.fp_group, self.subgroup)
@@ -180,16 +212,22 @@ class CosetTable(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), <unspecified:n>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3951202c72a0b8eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.n","kind":"property","src_hash":"80d1bcaa159e1627","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3951202c72a0b8eb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.n","kind":"property","src_hash":"80d1bcaa159e1627","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"<unspecified:n>","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3951202c72a0b8eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.omega","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         """The number `n` represents the length of the sublist containing the
         live cosets.
@@ -201,16 +239,22 @@ class CosetTable(DefaultPrinting):
 
     # Pg. 152 [1]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_complete(), the coset table is called complete if it has no undefined entries on the live cosets; that is, `\alpha^x` is defined for all `\alpha \in \omega` and `x \in a`) over Any ║
+# ║ Path(is_complete(), not any((None in self.table[coset] for coset in self.omega))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not any((None in self.table[coset] for co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_complete : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20fe5913c8f9a2a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.is_complete","kind":"method","src_hash":"a56f31cb80239eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_complete()","rhs":"the coset table is called complete if it has no undefined entries on the live cosets; that is, `\\alpha^x` is defined for all `\\alpha \\in \\omega` and `x \\in a`","over":{"base":"Any"},"name":"is_complete_correct"},"guarantee":"the coset table is called complete if it has no undefined entries on the live cosets; that is, `\\alpha^x` is defined for all `\\alpha \\in \\omega` and `x \\in a`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20fe5913c8f9a2a9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.is_complete","kind":"method","src_hash":"a56f31cb80239eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_complete()","rhs":"not any((None in self.table[coset] for coset in self.omega))","over":{"base":"Any"},"name":"is_complete_correct"},"guarantee":"returns not any((None in self.table[coset] for coset in self.omega))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20fe5913c8f9a2a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not any((None in self.table[coset] for coset in self.omega))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.omega","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_complete(self):
         r"""
         The coset table is called complete if it has no undefined entries
@@ -222,16 +266,24 @@ class CosetTable(DefaultPrinting):
 
     # Pg. 153 [1]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(define(alp), this routine is used in the relator-based strategy of todd-coxeter algorithm if some `\alpha^x` is undefined) over Any ║
+# ║ Path(define(alpha, x, modified), len(self) == old_len_self + 1 and len(table) == old_len_table + 1) over {Any | not (len_table >= self.coset_table_limit)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ define : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len_table >= self.coset_table_limit)      ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   ensures:  len(table) == old_len_table + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ define : {Any | not (len_table >= self.coset_table_li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b1923290d13e2ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f6385d4e463c109  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.define","kind":"method","src_hash":"ab25d9e354f1c21b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"define(alp)","rhs":"this routine is used in the relator-based strategy of todd-coxeter algorithm if some `\\alpha^x` is undefined","over":{"base":"Any"},"name":"define_correct"},"guarantee":"this routine is used in the relator-based strategy of todd-coxeter algorithm if some `\\alpha^x` is undefined","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.define_correct","statement":"Path(define(x), this routine is used in the relator-based strategy of todd-coxeter algorithm if some `\\alpha^x` is undefined)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b1923290d13e2ef"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.define","kind":"method","src_hash":"ab25d9e354f1c21b","in":{"base":"Any","pred":"not (len_table >= self.coset_table_limit)"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1 and len(table) == old_len_table + 1"},"spec":{"lhs":"define(alpha, x, modified)","rhs":"len(self) == old_len_self + 1 and len(table) == old_len_table + 1","over":{"base":"Any","pred":"not (len_table >= self.coset_table_limit)"},"name":"define_correct"},"guarantee":"len(self) == old_len_self + 1; len(table) == old_len_table + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.define_correct","statement":"Path(define(x), len(self) == old_len_self + 1; len(table) == old_len_table + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f6385d4e463c109","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len_table >= self.coset_table_limit)"],"ensures":["len(self) == old_len_self + 1","len(table) == old_len_table + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A","self.A_dict","self.A_dict_inv","self.P","self._grp","self.coset_table_limit","self.p","self.p_p","self.table"],"calls_mutating":["self.P.append","self.p.append","table.append"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","table.*"],"old_bindings":{"old_len_self":"len(self)","old_len_table":"len(table)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(table) == old_len_table + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def define(self, alpha, x, modified=False):
         r"""
         This routine is used in the relator-based strategy of Todd-Coxeter
@@ -272,16 +324,24 @@ class CosetTable(DefaultPrinting):
             self.p_p[beta] = self._grp.identity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(define_c(alp), a variation of ``define`` routine, described on pg) over Any ║
+# ║ Path(define_c(alpha, x), len(self) == old_len_self + 1 and len(table) == old_len_table + 1) over {Any | not (len_table >= self.coset_table_limit)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ define_c : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len_table >= self.coset_table_limit)      ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   ensures:  len(table) == old_len_table + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ define_c : {Any | not (len_table >= self.coset_table_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1439711021b2df54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2420a7606f64e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.define_c","kind":"method","src_hash":"d31cd9d577e95442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"define_c(alp)","rhs":"a variation of ``define`` routine, described on pg","over":{"base":"Any"},"name":"define_c_correct"},"guarantee":"a variation of ``define`` routine, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.define_c_correct","statement":"Path(define_c(x), a variation of ``define`` routine, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1439711021b2df54"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.define_c","kind":"method","src_hash":"d31cd9d577e95442","in":{"base":"Any","pred":"not (len_table >= self.coset_table_limit)"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1 and len(table) == old_len_table + 1"},"spec":{"lhs":"define_c(alpha, x)","rhs":"len(self) == old_len_self + 1 and len(table) == old_len_table + 1","over":{"base":"Any","pred":"not (len_table >= self.coset_table_limit)"},"name":"define_c_correct"},"guarantee":"len(self) == old_len_self + 1; len(table) == old_len_table + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.define_c_correct","statement":"Path(define_c(x), len(self) == old_len_self + 1; len(table) == old_len_table + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2420a7606f64e9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len_table >= self.coset_table_limit)"],"ensures":["len(self) == old_len_self + 1","len(table) == old_len_table + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A","self.A_dict","self.A_dict_inv","self.coset_table_limit","self.deduction_stack","self.p","self.table"],"calls_mutating":["self.deduction_stack.append","self.p.append","table.append"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","table.*"],"old_bindings":{"old_len_self":"len(self)","old_len_table":"len(table)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(table) == old_len_table + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def define_c(self, alpha, x):
         r"""
         A variation of ``define`` routine, described on Pg. 165 [1], used in
@@ -313,16 +373,22 @@ class CosetTable(DefaultPrinting):
         self.deduction_stack.append((alpha, x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scan_c(alp), a variation of ``scan`` routine, described on pg) over Any ║
+# ║ Path(scan_c(alpha, word), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scan_c : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scan_c : Any → {Any | result satisfies: len(self) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30789bd1da76c19b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e6b867c04fe0fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_c","kind":"method","src_hash":"d4a9e6365b772728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan_c(alp)","rhs":"a variation of ``scan`` routine, described on pg","over":{"base":"Any"},"name":"scan_c_correct"},"guarantee":"a variation of ``scan`` routine, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_c_correct","statement":"Path(scan_c(x), a variation of ``scan`` routine, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30789bd1da76c19b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_c","kind":"method","src_hash":"d4a9e6365b772728","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"scan_c(alpha, word)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"scan_c_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_c_correct","statement":"Path(scan_c(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e6b867c04fe0fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A_dict","self.A_dict_inv","self.coincidence_c","self.deduction_stack","self.table"],"calls_mutating":["self.deduction_stack.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scan_c(self, alpha, word):
         """
         A variation of ``scan`` routine, described on pg. 165 of [1], which
@@ -371,16 +437,24 @@ class CosetTable(DefaultPrinting):
     # alpha, beta coincide, i.e. alpha, beta represent the pair of cosets where
     # coincidence occurs
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coincidence_c(alp), a variation of ``coincidence`` routine used in the coset-table based method of coset enumeration) over Any ║
+# ║ Path(coincidence_c(alpha, beta), len(q) == old_len_q - 1 and len(self) == old_len_self + 1) over {Any | len(q) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coincidence_c : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(q) > 0                                     ║
+# ║   ensures:  len(q) == old_len_q - 1                        ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coincidence_c : {Any | len(q) > 0} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cecc0a93ae00a83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3390ddd44c2aff21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.coincidence_c","kind":"method","src_hash":"3e4a1d191aea9576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coincidence_c(alp)","rhs":"a variation of ``coincidence`` routine used in the coset-table based method of coset enumeration","over":{"base":"Any"},"name":"coincidence_c_correct"},"guarantee":"a variation of ``coincidence`` routine used in the coset-table based method of coset enumeration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.coincidence_c_correct","statement":"Path(coincidence_c(x), a variation of ``coincidence`` routine used in the coset-table based method of coset enumeration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cecc0a93ae00a83"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.coincidence_c","kind":"method","src_hash":"3e4a1d191aea9576","in":{"base":"Any","pred":"len(q) > 0"},"out":{"base":"Any","pred":"result satisfies: len(q) == old_len_q - 1 and len(self) == old_len_self + 1"},"spec":{"lhs":"coincidence_c(alpha, beta)","rhs":"len(q) == old_len_q - 1 and len(self) == old_len_self + 1","over":{"base":"Any","pred":"len(q) > 0"},"name":"coincidence_c_correct"},"guarantee":"len(q) == old_len_q - 1; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.coincidence_c_correct","statement":"Path(coincidence_c(x), len(q) == old_len_q - 1; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3390ddd44c2aff21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(q) > 0"],"ensures":["len(q) == old_len_q - 1","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A_dict","self.A_dict_inv","self.deduction_stack","self.merge","self.rep","self.table"],"calls_mutating":["q.pop","self.deduction_stack.append"]},"state_contract":{"modifies":["q.*","self.*"],"old_bindings":{"old_len_q":"len(q)","old_len_self":"len(self)"},"pre_requires":["len(q) > 0"],"post_ensures":["len(q) == old_len_q - 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coincidence_c(self, alpha, beta):
         """
         A variation of ``coincidence`` routine used in the coset-table based
@@ -419,16 +493,22 @@ class CosetTable(DefaultPrinting):
                         table[nu][A_dict_inv[x]] = mu
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scan(alp), ``scan`` performs a scanning process on the input ``word``. it first locates the largest prefix ``s`` of ``word`` for which `\alpha^s` is defined (i.e is not ``none``), ``s`` may be empty) over Any ║
+# ║ Path(scan(alpha, word, y), <unspecified:scan>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scan : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2984338741e59a92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan","kind":"method","src_hash":"6eb74c05be3b4445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan(alp)","rhs":"``scan`` performs a scanning process on the input ``word``. it first locates the largest prefix ``s`` of ``word`` for which `\\alpha^s` is defined (i.e is not ``none``), ``s`` may be empty","over":{"base":"Any"},"name":"scan_correct"},"guarantee":"``scan`` performs a scanning process on the input ``word``. it first locates the largest prefix ``s`` of ``word`` for which `\\alpha^s` is defined (i.e is not ``none``), ``s`` may be empty","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_correct","statement":"Path(scan(x), ``scan`` performs a scanning process on the input ``word``. it first locates the largest prefix ``s`` of ``word`` for which `\\alpha^s` is defined (i.e is not ``none``), ``s`` may be empty)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2984338741e59a92"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan","kind":"method","src_hash":"6eb74c05be3b4445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan(alpha, word, y)","rhs":"<unspecified:scan>","over":{"base":"Any"},"name":"scan_correct"},"guarantee":"``scan`` performs a scanning process on the input ``word``. it first locates the largest prefix ``s`` of ``word`` for which `\\alpha^s` is defined (i.e is not ``none``), ``s`` may be empty","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_correct","statement":"Path(scan(x), ``scan`` performs a scanning process on the input ``word``. it first locates the largest prefix ``s`` of ``word`` for which `\\alpha^s` is defined (i.e is not ``none``), ``s`` may be empty)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2984338741e59a92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.A_dict","self.A_dict_inv","self.P","self._grp","self.coincidence","self.define","self.modified_coincidence","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scan(self, alpha, word, y=None, fill=False, modified=False):
         r"""
         ``scan`` performs a scanning process on the input ``word``.
@@ -528,16 +608,22 @@ class CosetTable(DefaultPrinting):
 
     # used in the low-index subgroups algorithm
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scan_check(alp), another version of ``scan`` routine, described on, it checks whether `\alpha` scans correctly under `word`, it is a straightforward modification of ``scan``) over Any ║
+# ║ Path(scan_check(alpha, word), <unspecified:scan_check>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scan_check : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75f239dc3f3ec4bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_check","kind":"method","src_hash":"ab9d26c2fe5b9f4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan_check(alp)","rhs":"another version of ``scan`` routine, described on, it checks whether `\\alpha` scans correctly under `word`, it is a straightforward modification of ``scan``","over":{"base":"Any"},"name":"scan_check_correct"},"guarantee":"another version of ``scan`` routine, described on, it checks whether `\\alpha` scans correctly under `word`, it is a straightforward modification of ``scan``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_check_correct","statement":"Path(scan_check(x), another version of ``scan`` routine, described on, it checks whether `\\alpha` scans correctly under `word`, it is a straightforward modification of ``scan``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f239dc3f3ec4bc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_check","kind":"method","src_hash":"ab9d26c2fe5b9f4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan_check(alpha, word)","rhs":"<unspecified:scan_check>","over":{"base":"Any"},"name":"scan_check_correct"},"guarantee":"another version of ``scan`` routine, described on, it checks whether `\\alpha` scans correctly under `word`, it is a straightforward modification of ``scan``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_check_correct","statement":"Path(scan_check(x), another version of ``scan`` routine, described on, it checks whether `\\alpha` scans correctly under `word`, it is a straightforward modification of ``scan``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f239dc3f3ec4bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.A_dict","self.A_dict_inv","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scan_check(self, alpha, word):
         r"""
         Another version of ``scan`` routine, described on, it checks whether
@@ -583,16 +669,23 @@ class CosetTable(DefaultPrinting):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(merge(k, ), merge two classes with representatives ``k`` and ``lamda``, described on pg) over Any ║
+# ║ Path(merge(k, lamda, q), len(q) == old_len_q + 1) over {Any | hasattr(q, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ merge : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(q, 'append')                           ║
+# ║   ensures:  len(q) == old_len_q + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ merge : {Any | hasattr(q, 'append')} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 036e98c8e02cf698  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0b601b98dbdaf08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.merge","kind":"method","src_hash":"72d0b333268229d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"merge(k, )","rhs":"merge two classes with representatives ``k`` and ``lamda``, described on pg","over":{"base":"Any"},"name":"merge_correct"},"guarantee":"merge two classes with representatives ``k`` and ``lamda``, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.merge_correct","statement":"Path(merge(x), merge two classes with representatives ``k`` and ``lamda``, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"036e98c8e02cf698"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.merge","kind":"method","src_hash":"72d0b333268229d1","in":{"base":"Any","pred":"hasattr(q, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(q) == old_len_q + 1"},"spec":{"lhs":"merge(k, lamda, q)","rhs":"len(q) == old_len_q + 1","over":{"base":"Any","pred":"hasattr(q, 'append')"},"name":"merge_correct"},"guarantee":"len(q) == old_len_q + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.merge_correct","statement":"Path(merge(x), len(q) == old_len_q + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0b601b98dbdaf08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(q, 'append')"],"ensures":["len(q) == old_len_q + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["q.append","self.p","self.p_p","self.rep"],"calls_mutating":["q.append"]},"state_contract":{"modifies":["q.*"],"old_bindings":{"old_len_q":"len(q)"},"post_ensures":["len(q) == old_len_q + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def merge(self, k, lamda, q, w=None, modified=False):
         """
         Merge two classes with representatives ``k`` and ``lamda``, described
@@ -634,16 +727,22 @@ class CosetTable(DefaultPrinting):
             q.append(v)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rep(k, ), parameters ==========) over Any             ║
+# ║ Path(rep(k, modified), <unspecified:rep>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rep : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f25eafc07416d25c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.rep","kind":"method","src_hash":"b69d4ccf0505290a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rep(k, )","rhs":"parameters ==========","over":{"base":"Any"},"name":"rep_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.rep_correct","statement":"Path(rep(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f25eafc07416d25c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.rep","kind":"method","src_hash":"b69d4ccf0505290a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rep(k, modified)","rhs":"<unspecified:rep>","over":{"base":"Any"},"name":"rep_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.rep_correct","statement":"Path(rep(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f25eafc07416d25c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.p_p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rep(self, k, modified=False):
         r"""
         Parameters
@@ -717,16 +816,22 @@ class CosetTable(DefaultPrinting):
     # alpha, beta coincide, i.e. alpha, beta represent the pair of cosets
     # where coincidence occurs
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coincidence(alp), the third situation described in ``scan`` routine is handled by this routine, described on pg) over Any ║
+# ║ Path(coincidence(alpha, beta, w), <unspecified:coincidence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coincidence : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0888738df3e9900  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.coincidence","kind":"method","src_hash":"1f30fc8d94812ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coincidence(alp)","rhs":"the third situation described in ``scan`` routine is handled by this routine, described on pg","over":{"base":"Any"},"name":"coincidence_correct"},"guarantee":"the third situation described in ``scan`` routine is handled by this routine, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.coincidence_correct","statement":"Path(coincidence(x), the third situation described in ``scan`` routine is handled by this routine, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0888738df3e9900"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.coincidence","kind":"method","src_hash":"1f30fc8d94812ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coincidence(alpha, beta, w)","rhs":"<unspecified:coincidence>","over":{"base":"Any"},"name":"coincidence_correct"},"guarantee":"the third situation described in ``scan`` routine is handled by this routine, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.coincidence_correct","statement":"Path(coincidence(x), the third situation described in ``scan`` routine is handled by this routine, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0888738df3e9900","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coincidence(self, alpha, beta, w=None, modified=False):
         r"""
         The third situation described in ``scan`` routine is handled by this
@@ -787,16 +892,22 @@ class CosetTable(DefaultPrinting):
 
     # method used in the HLT strategy
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scan_and_fill(alp), a modified version of ``scan`` routine used in the relator-based method of coset enumeration, described on pg) over Any ║
+# ║ Path(scan_and_fill(alpha, word), <unspecified:scan_and_fill>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scan_and_fill : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa9600ba9f7a0d37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill","kind":"method","src_hash":"ad733a2c04858c62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan_and_fill(alp)","rhs":"a modified version of ``scan`` routine used in the relator-based method of coset enumeration, described on pg","over":{"base":"Any"},"name":"scan_and_fill_correct"},"guarantee":"a modified version of ``scan`` routine used in the relator-based method of coset enumeration, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill_correct","statement":"Path(scan_and_fill(x), a modified version of ``scan`` routine used in the relator-based method of coset enumeration, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa9600ba9f7a0d37"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill","kind":"method","src_hash":"ad733a2c04858c62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan_and_fill(alpha, word)","rhs":"<unspecified:scan_and_fill>","over":{"base":"Any"},"name":"scan_and_fill_correct"},"guarantee":"a modified version of ``scan`` routine used in the relator-based method of coset enumeration, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill_correct","statement":"Path(scan_and_fill(x), a modified version of ``scan`` routine used in the relator-based method of coset enumeration, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa9600ba9f7a0d37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scan"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scan_and_fill(self, alpha, word):
         """
         A modified version of ``scan`` routine used in the relator-based
@@ -810,16 +921,22 @@ class CosetTable(DefaultPrinting):
         self.scan(alpha, word, fill=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scan_and_fill_c(alp), a modified version of ``scan`` routine, described on pg) over Any ║
+# ║ Path(scan_and_fill_c(alpha, word), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scan_and_fill_c : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scan_and_fill_c : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f46ca137dca12c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31e94f1df53c286b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill_c","kind":"method","src_hash":"f8f340485a9d5469","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scan_and_fill_c(alp)","rhs":"a modified version of ``scan`` routine, described on pg","over":{"base":"Any"},"name":"scan_and_fill_c_correct"},"guarantee":"a modified version of ``scan`` routine, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill_c_correct","statement":"Path(scan_and_fill_c(x), a modified version of ``scan`` routine, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f46ca137dca12c2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill_c","kind":"method","src_hash":"f8f340485a9d5469","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"scan_and_fill_c(alpha, word)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"scan_and_fill_c_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.scan_and_fill_c_correct","statement":"Path(scan_and_fill_c(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31e94f1df53c286b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A_dict","self.A_dict_inv","self.coincidence_c","self.deduction_stack","self.define_c","self.table"],"calls_mutating":["self.deduction_stack.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scan_and_fill_c(self, alpha, word):
         """
         A modified version of ``scan`` routine, described on Pg. 165 second
@@ -866,16 +983,22 @@ class CosetTable(DefaultPrinting):
 
     # method used in the HLT strategy
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(look_ahead(), when combined with the hlt method this is known as hlt+lookahead method of coset enumeration, described on pg) over Any ║
+# ║ Path(look_ahead(), <unspecified:look_ahead>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ look_ahead : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 757fdd78a3434ae8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.look_ahead","kind":"method","src_hash":"c64d2242a0ddf203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"look_ahead()","rhs":"when combined with the hlt method this is known as hlt+lookahead method of coset enumeration, described on pg","over":{"base":"Any"},"name":"look_ahead_correct"},"guarantee":"when combined with the hlt method this is known as hlt+lookahead method of coset enumeration, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.look_ahead_correct","statement":"Path(look_ahead(x), when combined with the hlt method this is known as hlt+lookahead method of coset enumeration, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"757fdd78a3434ae8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.look_ahead","kind":"method","src_hash":"c64d2242a0ddf203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"look_ahead()","rhs":"<unspecified:look_ahead>","over":{"base":"Any"},"name":"look_ahead_correct"},"guarantee":"when combined with the hlt method this is known as hlt+lookahead method of coset enumeration, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.look_ahead_correct","statement":"Path(look_ahead(x), when combined with the hlt method this is known as hlt+lookahead method of coset enumeration, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"757fdd78a3434ae8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fp_group","self.omega","self.p","self.scan"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def look_ahead(self):
         """
         When combined with the HLT method this is known as HLT+Lookahead
@@ -897,16 +1020,23 @@ class CosetTable(DefaultPrinting):
 
     # Pg. 166
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_deductions(R_c), processes the deductions that have been pushed onto ``deduction_stack``, described on pg) over Any ║
+# ║ Path(process_deductions(R_c_x, R_c_x_inv), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ process_deductions : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ process_deductions : {Any | len(self) > 0} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e8351a9d69cfb75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 807b82a7af88f913  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.process_deductions","kind":"method","src_hash":"51b9278b43ca410e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_deductions(R_c)","rhs":"processes the deductions that have been pushed onto ``deduction_stack``, described on pg","over":{"base":"Any"},"name":"process_deductions_correct"},"guarantee":"processes the deductions that have been pushed onto ``deduction_stack``, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.process_deductions_correct","statement":"Path(process_deductions(x), processes the deductions that have been pushed onto ``deduction_stack``, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e8351a9d69cfb75"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.process_deductions","kind":"method","src_hash":"51b9278b43ca410e","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"process_deductions(R_c_x, R_c_x_inv)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"process_deductions_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.process_deductions_correct","statement":"Path(process_deductions(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"807b82a7af88f913","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A_dict","self.deduction_stack","self.look_ahead","self.p","self.scan_c","self.table"],"calls_mutating":["self.deduction_stack.pop"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def process_deductions(self, R_c_x, R_c_x_inv):
         """
         Processes the deductions that have been pushed onto ``deduction_stack``,
@@ -940,16 +1070,23 @@ class CosetTable(DefaultPrinting):
                         break
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_deductions_check(R_c), a variation of ``process_deductions``, this calls ``scan_check`` wherever ``process_deductions`` calls ``scan``, described on pg) over Any ║
+# ║ Path(process_deductions_check(R_c_x, R_c_x_inv), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ process_deductions_check : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ process_deductions_check : {Any | len(self) > 0} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bb0d85627ee1070  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 465e1757366ad73a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.process_deductions_check","kind":"method","src_hash":"990a37f2f8a29a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_deductions_check(R_c)","rhs":"a variation of ``process_deductions``, this calls ``scan_check`` wherever ``process_deductions`` calls ``scan``, described on pg","over":{"base":"Any"},"name":"process_deductions_check_correct"},"guarantee":"a variation of ``process_deductions``, this calls ``scan_check`` wherever ``process_deductions`` calls ``scan``, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.process_deductions_check_correct","statement":"Path(process_deductions_check(x), a variation of ``process_deductions``, this calls ``scan_check`` wherever ``process_deductions`` calls ``scan``, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bb0d85627ee1070"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.process_deductions_check","kind":"method","src_hash":"990a37f2f8a29a3e","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"process_deductions_check(R_c_x, R_c_x_inv)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"process_deductions_check_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.process_deductions_check_correct","statement":"Path(process_deductions_check(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"465e1757366ad73a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A_dict","self.deduction_stack","self.scan_check","self.table"],"calls_mutating":["self.deduction_stack.pop"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def process_deductions_check(self, R_c_x, R_c_x_inv):
         """
         A variation of ``process_deductions``, this calls ``scan_check``
@@ -973,16 +1110,22 @@ class CosetTable(DefaultPrinting):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(switch(bet), switch the elements `\beta, \gamma \in \omega` of ``self``, used by the ``standardize`` procedure, described on pg) over Any ║
+# ║ Path(switch(beta, gamma), <unspecified:switch>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ switch : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83e36a45aa862f4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.switch","kind":"method","src_hash":"1402156e5ec9c90a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"switch(bet)","rhs":"switch the elements `\\beta, \\gamma \\in \\omega` of ``self``, used by the ``standardize`` procedure, described on pg","over":{"base":"Any"},"name":"switch_correct"},"guarantee":"switch the elements `\\beta, \\gamma \\in \\omega` of ``self``, used by the ``standardize`` procedure, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.switch_correct","statement":"Path(switch(x), switch the elements `\\beta, \\gamma \\in \\omega` of ``self``, used by the ``standardize`` procedure, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e36a45aa862f4c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.switch","kind":"method","src_hash":"1402156e5ec9c90a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"switch(beta, gamma)","rhs":"<unspecified:switch>","over":{"base":"Any"},"name":"switch_correct"},"guarantee":"switch the elements `\\beta, \\gamma \\in \\omega` of ``self``, used by the ``standardize`` procedure, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.switch_correct","statement":"Path(switch(x), switch the elements `\\beta, \\gamma \\in \\omega` of ``self``, used by the ``standardize`` procedure, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e36a45aa862f4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.A","self.A_dict","self.p","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def switch(self, beta, gamma):
         r"""Switch the elements `\beta, \gamma \in \Omega` of ``self``, used
         by the ``standardize`` procedure, described on Pg. 167 [1].
@@ -1008,16 +1151,22 @@ class CosetTable(DefaultPrinting):
                         table[alpha][A_dict[x]] = beta
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(standardize(), a coset table is standardized if when running through the cosets and within each coset through the generator images (ignoring generator inverses), the cosets appear in order of the integers `0, 1, \do) over Any ║
+# ║ Path(standardize(), <unspecified:standardize>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ standardize : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78502716cb26e3d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.standardize","kind":"method","src_hash":"e8617b84d2c9f758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"standardize()","rhs":"a coset table is standardized if when running through the cosets and within each coset through the generator images (ignoring generator inverses), the cosets appear in order of the integers `0, 1, \\do","over":{"base":"Any"},"name":"standardize_correct"},"guarantee":"a coset table is standardized if when running through the cosets and within each coset through the generator images (ignoring generator inverses), the cosets appear in order of the integers `0, 1, \\do","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.standardize_correct","statement":"Path(standardize(x), a coset table is standardized if when running through the cosets and within each coset through the generator images (ignoring generator inverses), the cosets appear in order of the integers `0, 1, \\do)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78502716cb26e3d8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.standardize","kind":"method","src_hash":"e8617b84d2c9f758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"standardize()","rhs":"<unspecified:standardize>","over":{"base":"Any"},"name":"standardize_correct"},"guarantee":"a coset table is standardized if when running through the cosets and within each coset through the generator images (ignoring generator inverses), the cosets appear in order of the integers `0, 1, \\do","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.standardize_correct","statement":"Path(standardize(x), a coset table is standardized if when running through the cosets and within each coset through the generator images (ignoring generator inverses), the cosets appear in order of the integers `0, 1, \\do)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78502716cb26e3d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.A","self.A_dict","self.n","self.switch","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def standardize(self):
         r"""
         A coset table is standardized if when running through the cosets and
@@ -1067,16 +1216,22 @@ class CosetTable(DefaultPrinting):
 
     # Compression of a Coset Table
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compress(), removes the non-live cosets from the coset table, described on pg) over Any ║
+# ║ Path(compress(), <unspecified:compress>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compress : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68b39d7df3cd2d76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.compress","kind":"method","src_hash":"29dcf9c3a3a3beee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compress()","rhs":"removes the non-live cosets from the coset table, described on pg","over":{"base":"Any"},"name":"compress_correct"},"guarantee":"removes the non-live cosets from the coset table, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.compress_correct","statement":"Path(compress(x), removes the non-live cosets from the coset table, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b39d7df3cd2d76"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.compress","kind":"method","src_hash":"29dcf9c3a3a3beee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compress()","rhs":"<unspecified:compress>","over":{"base":"Any"},"name":"compress_correct"},"guarantee":"removes the non-live cosets from the coset table, described on pg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.compress_correct","statement":"Path(compress(x), removes the non-live cosets from the coset table, described on pg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b39d7df3cd2d76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.A","self.A_dict","self.A_dict_inv","self.omega","self.p","self.table"],"writes":["self.p"]},"state_contract":{"modifies":["self.p"],"old_bindings":{"old_self_p":"self.p"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compress(self):
         """Removes the non-live cosets from the coset table, described on
         pg. 167 [1].
@@ -1112,16 +1267,22 @@ class CosetTable(DefaultPrinting):
                 row[j] -= bisect_left(chi, row[j])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugates(R), conjugates produces the expected output) over Any ║
+# ║ Path(conjugates(R), <unspecified:conjugates>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjugates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1aaaf2ad78b1f68a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.conjugates","kind":"method","src_hash":"0d5cc7ef2baa24a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugates(R)","rhs":"conjugates produces the expected output","over":{"base":"Any"},"name":"conjugates_correct"},"guarantee":"conjugates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.conjugates_correct","statement":"Path(conjugates(x), conjugates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aaaf2ad78b1f68a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.conjugates","kind":"method","src_hash":"0d5cc7ef2baa24a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugates(R)","rhs":"<unspecified:conjugates>","over":{"base":"Any"},"name":"conjugates_correct"},"guarantee":"conjugates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.conjugates_correct","statement":"Path(conjugates(x), conjugates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aaaf2ad78b1f68a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conjugates(self, R):
         R_c = list(chain.from_iterable((rel.cyclic_conjugates(), \
                 (rel**-1).cyclic_conjugates()) for rel in R))
@@ -1136,16 +1297,22 @@ class CosetTable(DefaultPrinting):
         return R_c_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_representative(cos), compute the coset representative of a given coset) over Any ║
+# ║ Path(coset_representative(coset), <unspecified:coset_representative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coset_representative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe0720d3c8e11611  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.coset_representative","kind":"method","src_hash":"d7cc00918ee709b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_representative(cos)","rhs":"compute the coset representative of a given coset","over":{"base":"Any"},"name":"coset_representative_correct"},"guarantee":"compute the coset representative of a given coset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.coset_representative_correct","statement":"Path(coset_representative(x), compute the coset representative of a given coset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe0720d3c8e11611"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.coset_representative","kind":"method","src_hash":"d7cc00918ee709b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_representative(coset)","rhs":"<unspecified:coset_representative>","over":{"base":"Any"},"name":"coset_representative_correct"},"guarantee":"compute the coset representative of a given coset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.coset_representative_correct","statement":"Path(coset_representative(x), compute the coset representative of a given coset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe0720d3c8e11611","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.A","self.A_dict","self.coset_representative","self.fp_group","self.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_representative(self, coset):
         '''
         Compute the coset representative of a given coset.
@@ -1181,16 +1348,22 @@ class CosetTable(DefaultPrinting):
     ##############################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_define(alp), define a function p_p from from [1..n] to a* as an additional component of the modified coset table) over Any ║
+# ║ Path(modified_define(alpha, x), <unspecified:modified_define>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_define : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbd2e0545586dbb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_define","kind":"method","src_hash":"2a745c1b404141a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_define(alp)","rhs":"define a function p_p from from [1..n] to a* as an additional component of the modified coset table","over":{"base":"Any"},"name":"modified_define_correct"},"guarantee":"define a function p_p from from [1..n] to a* as an additional component of the modified coset table","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_define_correct","statement":"Path(modified_define(x), define a function p_p from from [1..n] to a* as an additional component of the modified coset table)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd2e0545586dbb6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_define","kind":"method","src_hash":"2a745c1b404141a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_define(alpha, x)","rhs":"<unspecified:modified_define>","over":{"base":"Any"},"name":"modified_define_correct"},"guarantee":"define a function p_p from from [1..n] to a* as an additional component of the modified coset table","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_define_correct","statement":"Path(modified_define(x), define a function p_p from from [1..n] to a* as an additional component of the modified coset table)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd2e0545586dbb6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.define"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def modified_define(self, alpha, x):
         r"""
         Define a function p_p from from [1..n] to A* as
@@ -1211,16 +1384,22 @@ class CosetTable(DefaultPrinting):
         self.define(alpha, x, modified=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_scan(alp), parameters ========== \alpha \in \omega w \in a* y \in (yuy^-1) fill -- `modified_scan_and_fill` when set to true) over Any ║
+# ║ Path(modified_scan(alpha, w, y), <unspecified:modified_scan>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_scan : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c13ab90f640a3b9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_scan","kind":"method","src_hash":"90aea9725cc8f358","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_scan(alp)","rhs":"parameters ========== \\alpha \\in \\omega w \\in a* y \\in (yuy^-1) fill -- `modified_scan_and_fill` when set to true","over":{"base":"Any"},"name":"modified_scan_correct"},"guarantee":"parameters ========== \\alpha \\in \\omega w \\in a* y \\in (yuy^-1) fill -- `modified_scan_and_fill` when set to true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_scan_correct","statement":"Path(modified_scan(x), parameters ========== \\alpha \\in \\omega w \\in a* y \\in (yuy^-1) fill -- `modified_scan_and_fill` when set to true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c13ab90f640a3b9a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_scan","kind":"method","src_hash":"90aea9725cc8f358","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_scan(alpha, w, y)","rhs":"<unspecified:modified_scan>","over":{"base":"Any"},"name":"modified_scan_correct"},"guarantee":"parameters ========== \\alpha \\in \\omega w \\in a* y \\in (yuy^-1) fill -- `modified_scan_and_fill` when set to true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_scan_correct","statement":"Path(modified_scan(x), parameters ========== \\alpha \\in \\omega w \\in a* y \\in (yuy^-1) fill -- `modified_scan_and_fill` when set to true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c13ab90f640a3b9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scan"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def modified_scan(self, alpha, w, y, fill=False):
         r"""
         Parameters
@@ -1238,30 +1417,42 @@ class CosetTable(DefaultPrinting):
         self.scan(alpha, w, y=y, fill=fill, modified=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_scan_and_fill(alp), modified_scan_and_fill produces the expected output) over Any ║
+# ║ Path(modified_scan_and_fill(alpha, w, y), <unspecified:modified_scan_and_fill>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_scan_and_fill : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 577b1b5830c116d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_scan_and_fill","kind":"method","src_hash":"26ffbba98ecc18e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_scan_and_fill(alp)","rhs":"modified_scan_and_fill produces the expected output","over":{"base":"Any"},"name":"modified_scan_and_fill_correct"},"guarantee":"modified_scan_and_fill produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_scan_and_fill_correct","statement":"Path(modified_scan_and_fill(x), modified_scan_and_fill produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"577b1b5830c116d2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_scan_and_fill","kind":"method","src_hash":"26ffbba98ecc18e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_scan_and_fill(alpha, w, y)","rhs":"<unspecified:modified_scan_and_fill>","over":{"base":"Any"},"name":"modified_scan_and_fill_correct"},"guarantee":"modified_scan_and_fill produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_scan_and_fill_correct","statement":"Path(modified_scan_and_fill(x), modified_scan_and_fill produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"577b1b5830c116d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.modified_scan"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def modified_scan_and_fill(self, alpha, w, y):
         self.modified_scan(alpha, w, y, fill=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_merge(k, ), parameters ==========) over Any  ║
+# ║ Path(modified_merge(k, lamda, w), <unspecified:modified_merge>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_merge : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51651796a574a5be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_merge","kind":"method","src_hash":"71a2956b1dec3ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_merge(k, )","rhs":"parameters ==========","over":{"base":"Any"},"name":"modified_merge_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_merge_correct","statement":"Path(modified_merge(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51651796a574a5be"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_merge","kind":"method","src_hash":"71a2956b1dec3ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_merge(k, lamda, w)","rhs":"<unspecified:modified_merge>","over":{"base":"Any"},"name":"modified_merge_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_merge_correct","statement":"Path(modified_merge(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51651796a574a5be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.merge"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def modified_merge(self, k, lamda, w, q):
         r"""
         Parameters
@@ -1279,16 +1470,22 @@ class CosetTable(DefaultPrinting):
         self.merge(k, lamda, q, w=w, modified=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_rep(k), parameters ==========) over Any      ║
+# ║ Path(modified_rep(k), <unspecified:modified_rep>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_rep : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c6aac2d796890e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_rep","kind":"method","src_hash":"6e346d500fd9ca69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_rep(k)","rhs":"parameters ==========","over":{"base":"Any"},"name":"modified_rep_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_rep_correct","statement":"Path(modified_rep(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c6aac2d796890e7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_rep","kind":"method","src_hash":"6e346d500fd9ca69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_rep(k)","rhs":"<unspecified:modified_rep>","over":{"base":"Any"},"name":"modified_rep_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_rep_correct","statement":"Path(modified_rep(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c6aac2d796890e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def modified_rep(self, k):
         r"""
         Parameters
@@ -1304,16 +1501,22 @@ class CosetTable(DefaultPrinting):
         self.rep(k, modified=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_coincidence(alp), parameters ==========) over Any ║
+# ║ Path(modified_coincidence(alpha, beta, w), <unspecified:modified_coincidence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_coincidence : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6398a90ef53f0b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_coincidence","kind":"method","src_hash":"eefe0002b0d9a52c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_coincidence(alp)","rhs":"parameters ==========","over":{"base":"Any"},"name":"modified_coincidence_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_coincidence_correct","statement":"Path(modified_coincidence(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6398a90ef53f0b4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.CosetTable.modified_coincidence","kind":"method","src_hash":"eefe0002b0d9a52c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_coincidence(alpha, beta, w)","rhs":"<unspecified:modified_coincidence>","over":{"base":"Any"},"name":"modified_coincidence_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.CosetTable.modified_coincidence_correct","statement":"Path(modified_coincidence(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6398a90ef53f0b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coincidence"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def modified_coincidence(self, alpha, beta, w):
         r"""
         Parameters
@@ -1335,16 +1538,25 @@ class CosetTable(DefaultPrinting):
 
 # relator-based method
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_enumeration_r(fp_), this is easier of the two implemented methods of coset enumeration. and is often called the hlt method, after hazelgrove, leech, trotter the idea is that we make use of ``scan_and_fill`` makes new def) over Any ║
+# ║ Path(coset_enumeration_r(fp_grp, Y, max_cosets), <unspecified:coset_enumeration_r>) over {Any | hasattr(fp_grp, 'relators') and hasattr(draft, 'table') and hasattr(draft, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coset_enumeration_r : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fp_grp, 'relators')                    ║
+# ║   requires: hasattr(draft, 'table')                        ║
+# ║   requires: hasattr(draft, 'p')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coset_enumeration_r : {Any | hasattr(fp_grp, 'relator...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3596fb00a03f095  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.coset_enumeration_r","kind":"function","src_hash":"3348f7755bebc09b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_enumeration_r(fp_)","rhs":"this is easier of the two implemented methods of coset enumeration. and is often called the hlt method, after hazelgrove, leech, trotter the idea is that we make use of ``scan_and_fill`` makes new def","over":{"base":"Any"},"name":"coset_enumeration_r_correct"},"guarantee":"this is easier of the two implemented methods of coset enumeration. and is often called the hlt method, after hazelgrove, leech, trotter the idea is that we make use of ``scan_and_fill`` makes new def","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.coset_enumeration_r_correct","statement":"Path(coset_enumeration_r(x), this is easier of the two implemented methods of coset enumeration. and is often called the hlt method, after hazelgrove, leech, trotter the idea is that we make use of ``scan_and_fill`` makes new def)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3596fb00a03f095"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.coset_enumeration_r","kind":"function","src_hash":"3348f7755bebc09b","in":{"base":"Any","pred":"hasattr(fp_grp, 'relators') and hasattr(draft, 'table') and hasattr(draft, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"coset_enumeration_r(fp_grp, Y, max_cosets)","rhs":"<unspecified:coset_enumeration_r>","over":{"base":"Any","pred":"hasattr(fp_grp, 'relators') and hasattr(draft, 'table') and hasattr(draft, 'p')"},"name":"coset_enumeration_r_correct"},"guarantee":"this is easier of the two implemented methods of coset enumeration. and is often called the hlt method, after hazelgrove, leech, trotter the idea is that we make use of ``scan_and_fill`` makes new def","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.coset_enumeration_r_correct","statement":"Path(coset_enumeration_r(x), this is easier of the two implemented methods of coset enumeration. and is often called the hlt method, after hazelgrove, leech, trotter the idea is that we make use of ``scan_and_fill`` makes new def)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3596fb00a03f095","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fp_grp, 'relators')","hasattr(draft, 'table')","hasattr(draft, 'p')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["draft.p","draft.table","fp_grp.relators"],"raises":["e"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"e":["isinstance(raised, e)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def coset_enumeration_r(fp_grp, Y, max_cosets=None, draft=None,
                                     incomplete=False, modified=False):
     """
@@ -1544,16 +1756,22 @@ def coset_enumeration_r(fp_grp, Y, max_cosets=None, draft=None,
     return C
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_coset_enumeration_r(fp_), introduce a new set of symbols y \in y that correspond to the generators of the subgroup) over Any ║
+# ║ Path(modified_coset_enumeration_r(fp_grp, Y, max_cosets), coset_enumeration_r(fp_grp, Y, max_cosets=max_cosets, draft=draft, incomplete=incomplete, modified=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  coset_enumeration_r(fp_grp, Y, max_cosets...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_coset_enumeration_r : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 131362a318ec2d10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b34fc6ad3cdb6dc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.modified_coset_enumeration_r","kind":"function","src_hash":"fc5e7d5fe4b2f42f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_coset_enumeration_r(fp_)","rhs":"introduce a new set of symbols y \\in y that correspond to the generators of the subgroup","over":{"base":"Any"},"name":"modified_coset_enumeration_r_correct"},"guarantee":"introduce a new set of symbols y \\in y that correspond to the generators of the subgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.modified_coset_enumeration_r_correct","statement":"Path(modified_coset_enumeration_r(x), introduce a new set of symbols y \\in y that correspond to the generators of the subgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"131362a318ec2d10"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.modified_coset_enumeration_r","kind":"function","src_hash":"fc5e7d5fe4b2f42f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_coset_enumeration_r(fp_grp, Y, max_cosets)","rhs":"coset_enumeration_r(fp_grp, Y, max_cosets=max_cosets, draft=draft, incomplete=incomplete, modified=True)","over":{"base":"Any"},"name":"modified_coset_enumeration_r_correct"},"guarantee":"returns coset_enumeration_r(fp_grp, Y, max_cosets=max_cosets, draft=draft, incomplete=incomplete, modified=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.modified_coset_enumeration_r_correct","statement":"Path(modified_coset_enumeration_r(x), returns coset_enumeration_r(fp_grp, Y, max_cosets=max_cosets, draft=draft, incomplete=incomplete, modified=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b34fc6ad3cdb6dc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"coset_enumeration_r(fp_grp, Y, max_cosets=max_cosets, draft=draft, incomplete=incomplete, modified=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def modified_coset_enumeration_r(fp_grp, Y, max_cosets=None, draft=None,
                                     incomplete=False):
     r"""
@@ -1592,16 +1810,26 @@ def modified_coset_enumeration_r(fp_grp, Y, max_cosets=None, draft=None,
 # Pg. 166
 # coset-table based method
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_enumeration_c(fp_), >>> from sympy.combinatorics.free_groups import free_group >>> from sympy.combinatorics.fp_groups import fpgroup, coset_enumeration_c >>> f, x, y = free_group("x, y") >>> f = fpgroup(f, [x**3, y**3, x) over Any ║
+# ║ Path(coset_enumeration_c(fp_grp, Y, max_cosets), len(C) == old_len_C + 1 and len(R_c_list) == old_len_R_c_list + 1) over {Any | hasattr(fp_grp, 'generators') and hasattr(fp_grp, 'relators') and hasattr(draft, 'deduction_stack') and hasattr(draft, 'table') and hasattr(draft, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coset_enumeration_c : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fp_grp, 'generators')                  ║
+# ║   requires: hasattr(fp_grp, 'relators')                    ║
+# ║   requires: hasattr(draft, 'deduction_stack')              ║
+# ║   ensures:  len(C) == old_len_C + 1                        ║
+# ║   ensures:  len(R_c_list) == old_len_R_c_list + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coset_enumeration_c : {Any | hasattr(fp_grp, 'generat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 013567166078100e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe433e00a031531  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.coset_enumeration_c","kind":"function","src_hash":"dae496d8b76cfac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_enumeration_c(fp_)","rhs":">>> from sympy.combinatorics.free_groups import free_group >>> from sympy.combinatorics.fp_groups import fpgroup, coset_enumeration_c >>> f, x, y = free_group(\"x, y\") >>> f = fpgroup(f, [x**3, y**3, x","over":{"base":"Any"},"name":"coset_enumeration_c_correct"},"guarantee":">>> from sympy.combinatorics.free_groups import free_group >>> from sympy.combinatorics.fp_groups import fpgroup, coset_enumeration_c >>> f, x, y = free_group(\"x, y\") >>> f = fpgroup(f, [x**3, y**3, x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.coset_enumeration_c_correct","statement":"Path(coset_enumeration_c(x), >>> from sympy.combinatorics.free_groups import free_group >>> from sympy.combinatorics.fp_groups import fpgroup, coset_enumeration_c >>> f, x, y = free_group(\"x, y\") >>> f = fpgroup(f, [x**3, y**3, x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"013567166078100e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.coset_table.coset_enumeration_c","kind":"function","src_hash":"dae496d8b76cfac3","in":{"base":"Any","pred":"hasattr(fp_grp, 'generators') and hasattr(fp_grp, 'relators') and hasattr(draft, 'deduction_stack') and hasattr(draft, 'table') and hasattr(draft, 'p')"},"out":{"base":"Any","pred":"result satisfies: len(C) == old_len_C + 1 and len(R_c_list) == old_len_R_c_list + 1"},"spec":{"lhs":"coset_enumeration_c(fp_grp, Y, max_cosets)","rhs":"len(C) == old_len_C + 1 and len(R_c_list) == old_len_R_c_list + 1","over":{"base":"Any","pred":"hasattr(fp_grp, 'generators') and hasattr(fp_grp, 'relators') and hasattr(draft, 'deduction_stack') and hasattr(draft, 'table') and hasattr(draft, 'p')"},"name":"coset_enumeration_c_correct"},"guarantee":"len(C) == old_len_C + 1; len(R_c_list) == old_len_R_c_list + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.coset_table.coset_enumeration_c_correct","statement":"Path(coset_enumeration_c(x), len(C) == old_len_C + 1; len(R_c_list) == old_len_R_c_list + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe433e00a031531","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fp_grp, 'generators')","hasattr(fp_grp, 'relators')","hasattr(draft, 'deduction_stack')","hasattr(draft, 'table')","hasattr(draft, 'p')"],"ensures":["len(C) == old_len_C + 1","len(R_c_list) == old_len_R_c_list + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["draft.deduction_stack","draft.p","draft.table","fp_grp.generators","fp_grp.relators"],"calls_mutating":["C.deduction_stack.append","R_c_list.append","R_set.difference_update"],"raises":["e"],"catches":["ValueError"]},"state_contract":{"modifies":["C.*","R_c_list.*","R_set.*"],"old_bindings":{"old_len_C":"len(C)","old_len_R_c_list":"len(R_c_list)"},"post_ensures":["len(C) == old_len_C + 1","len(R_c_list) == old_len_R_c_list + 1"],"exceptional_post":{"e":["isinstance(raised, e)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def coset_enumeration_c(fp_grp, Y, max_cosets=None, draft=None,
                                                 incomplete=False):
     """

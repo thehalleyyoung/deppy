@@ -41,14 +41,20 @@ if TYPE_CHECKING:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SingletonRegistry instance) preserved by SingletonRegistry(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SingletonRegistry : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Registry)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SingletonRegistry : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12a0f5fcf7b996a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry","kind":"class","src_hash":"72fef474c4bfbb73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingletonRegistry(*args)","rhs":"correctly constructs a SingletonRegistry instance","over":{"base":"Any"},"name":"SingletonRegistry_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SingletonRegistry instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_classes_to_install')","kind":"class","induction":"structural on _classes_to_install"}],"methods_preserving":["__init__","register","__getattr__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12a0f5fcf7b996a8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry","kind":"class","src_hash":"72fef474c4bfbb73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Registry)"},"spec":{"lhs":"SingletonRegistry(*args)","rhs":"correctly constructs a SingletonRegistry instance","over":{"base":"Any"},"name":"SingletonRegistry_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Registry); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_classes_to_install')","kind":"class","induction":"structural on _classes_to_install"}],"methods_preserving":["__init__","register","__getattr__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12a0f5fcf7b996a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Registry)"],"invariants":["hasattr(self, '_classes_to_install')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingletonRegistry not found in source"]}}
 class SingletonRegistry(Registry):
     """
     The registry for the singleton classes (accessible as ``S``).
@@ -140,16 +146,22 @@ class SingletonRegistry(Registry):
     __call__ = staticmethod(sympify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f250d84b4260ea90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.__init__","kind":"method","src_hash":"e2073f34d068facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f250d84b4260ea90"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.__init__","kind":"method","src_hash":"e2073f34d068facc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f250d84b4260ea90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self._classes_to_install = {}
         # Dict of classes that have been registered, but that have not have been
@@ -162,16 +174,22 @@ class SingletonRegistry(Registry):
         # finished).
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register(cls), register produces the expected output) over Any ║
+# ║ Path(register(cls), <unspecified:register>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ register : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9daa56b1cf98bccc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.register","kind":"method","src_hash":"03712d1ce225cb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register(cls)","rhs":"register produces the expected output","over":{"base":"Any"},"name":"register_correct"},"guarantee":"register produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.singleton.SingletonRegistry.register_correct","statement":"Path(register(x), register produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9daa56b1cf98bccc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.register","kind":"method","src_hash":"03712d1ce225cb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register(cls)","rhs":"<unspecified:register>","over":{"base":"Any"},"name":"register_correct"},"guarantee":"register produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.singleton.SingletonRegistry.register_correct","statement":"Path(register(x), register produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9daa56b1cf98bccc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["cls.__name__","self._classes_to_install"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def register(self, cls):
         # Make sure a duplicate class overwrites the old one
         if hasattr(self, cls.__name__):
@@ -179,16 +197,23 @@ class SingletonRegistry(Registry):
         self._classes_to_install[cls.__name__] = cls
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getattr__(nam), python calls __getattr__ if no attribute of that name was installed yet) over Any ║
+# ║ Path(__getattr__(name), <unspecified:__getattr__>) over {Any | not (name not in self._classes_to_install)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getattr__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (name not in self._classes_to_install)     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getattr__ : {Any | not (name not in self._classes_t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c17f6a234f31144           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.__getattr__","kind":"method","src_hash":"41ade3ffbb66439d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getattr__(nam)","rhs":"python calls __getattr__ if no attribute of that name was installed yet","over":{"base":"Any"},"name":"__getattr___correct"},"guarantee":"python calls __getattr__ if no attribute of that name was installed yet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c17f6a234f31144"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.__getattr__","kind":"method","src_hash":"41ade3ffbb66439d","in":{"base":"Any","pred":"not (name not in self._classes_to_install)"},"out":{"base":"Any"},"spec":{"lhs":"__getattr__(name)","rhs":"<unspecified:__getattr__>","over":{"base":"Any","pred":"not (name not in self._classes_to_install)"},"name":"__getattr___correct"},"guarantee":"python calls __getattr__ if no attribute of that name was installed yet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c17f6a234f31144","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (name not in self._classes_to_install)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.__setattr__","self._classes_to_install"],"raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getattr__(self, name):
         """Python calls __getattr__ if no attribute of that name was installed
         yet.
@@ -211,16 +236,22 @@ class SingletonRegistry(Registry):
         return value_to_install
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'S') over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'S'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0453820912b69d6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.__repr__","kind":"method","src_hash":"c6d05dc41b4cc93b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0453820912b69d6d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.SingletonRegistry.__repr__","kind":"method","src_hash":"c6d05dc41b4cc93b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'S'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'S'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0453820912b69d6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'S'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "S"
 
@@ -230,14 +261,20 @@ S = SingletonRegistry()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Singleton(*args), correctly constructs a Singleton instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Singleton : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Singleton : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 920ea0d77a311575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.Singleton","kind":"class","src_hash":"f48b84ae772833f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Singleton(*args)","rhs":"correctly constructs a Singleton instance","over":{"base":"Any"},"name":"Singleton_class_invariant"},"guarantee":"correctly constructs a Singleton instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920ea0d77a311575"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.Singleton","kind":"class","src_hash":"f48b84ae772833f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, type)"},"spec":{"lhs":"Singleton(*args)","rhs":"correctly constructs a Singleton instance","over":{"base":"Any"},"name":"Singleton_class_invariant"},"guarantee":"isinstance(self, type)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920ea0d77a311575","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Singleton not found in source"]}}
 class Singleton(type):
     """
     Metaclass for singleton classes.
@@ -271,16 +308,22 @@ class Singleton(type):
     creation time, which would be prone to import cycles.)
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cls), initializes the instance correctly) over Any ║
+# ║ Path(__init__(cls, *args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5aac23a7e25607ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.singleton.Singleton.__init__","kind":"method","src_hash":"71e3ee33a8d6f352","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5aac23a7e25607ff"}
+# @cctt_verify {"v":2,"sym":"sympy.core.singleton.Singleton.__init__","kind":"method","src_hash":"71e3ee33a8d6f352","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls, *args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5aac23a7e25607ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["cls.__getnewargs__","cls.__getstate__","cls.__new__","cls._instance"]},"state_contract":{"modifies":["cls.__getnewargs__","cls.__getstate__","cls.__new__","cls._instance"],"old_bindings":{"old_cls___getnewargs__":"cls.__getnewargs__","old_cls___getstate__":"cls.__getstate__","old_cls___new__":"cls.__new__","old_cls__instance":"cls._instance"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(cls, *args, **kwargs):
         cls._instance = obj = Basic.__new__(cls)
         cls.__new__ = lambda cls: obj

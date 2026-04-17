@@ -27,14 +27,20 @@ from sympy.functions.elementary.integers import floor
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Higher(*args), correctly constructs a Higher instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Higher : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Integer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Higher : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85ee46b3d1be0487  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher","kind":"class","src_hash":"e07225cbfc3dfbe8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Higher(*args)","rhs":"correctly constructs a Higher instance","over":{"base":"Any"},"name":"Higher_class_invariant"},"guarantee":"correctly constructs a Higher instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85ee46b3d1be0487"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher","kind":"class","src_hash":"e07225cbfc3dfbe8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Integer)"},"spec":{"lhs":"Higher(*args)","rhs":"correctly constructs a Higher instance","over":{"base":"Any"},"name":"Higher_class_invariant"},"guarantee":"isinstance(self, Integer)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85ee46b3d1be0487","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Integer)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Higher not found in source"]}}
 class Higher(Integer):
     '''
     Integer of value 1 and _op_priority 20
@@ -46,16 +52,22 @@ class Higher(Integer):
     result: Expr = S.One
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40bdb706a1f789a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__new__","kind":"method","src_hash":"0cf92eed1f0823c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40bdb706a1f789a0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__new__","kind":"method","src_hash":"0cf92eed1f0823c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40bdb706a1f789a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = Expr.__new__(cls)
         obj.p = 1
@@ -63,211 +75,295 @@ class Higher(Integer):
 
     @call_highest_priority('__rmul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self.result) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f79455e544652c64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__mul__","kind":"method","src_hash":"c65cd54eb7f091e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f79455e544652c64"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__mul__","kind":"method","src_hash":"c65cd54eb7f091e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f79455e544652c64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         return self.result
 
     @call_highest_priority('__mul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), 2 * self.result) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9704315d0029c2ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rmul__","kind":"method","src_hash":"2740e545021331c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9704315d0029c2ab"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rmul__","kind":"method","src_hash":"2740e545021331c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9704315d0029c2ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return 2*self.result
 
     @call_highest_priority('__radd__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), self.result) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63c2630705f0d269           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__add__","kind":"method","src_hash":"44c2b5c1188f0108","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63c2630705f0d269"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__add__","kind":"method","src_hash":"44c2b5c1188f0108","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63c2630705f0d269","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return self.result
 
     @call_highest_priority('__add__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), 2 * self.result) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26e46e358e854612           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__radd__","kind":"method","src_hash":"a95c2438c0b05a6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26e46e358e854612"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__radd__","kind":"method","src_hash":"a95c2438c0b05a6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26e46e358e854612","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return 2*self.result
 
     @call_highest_priority('__rsub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self.result) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f7cda802294b54b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__sub__","kind":"method","src_hash":"6d6b125ab7ec6865","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f7cda802294b54b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__sub__","kind":"method","src_hash":"6d6b125ab7ec6865","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f7cda802294b54b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self.result
 
     @call_highest_priority('__sub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), 2 * self.result) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e1b0d65e228abc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rsub__","kind":"method","src_hash":"08205301f91cc7bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e1b0d65e228abc0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rsub__","kind":"method","src_hash":"08205301f91cc7bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e1b0d65e228abc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return 2*self.result
 
     @call_highest_priority('__rpow__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), self.result) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a52135bfeea5cc2c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__pow__","kind":"method","src_hash":"287536dc70fc6a7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a52135bfeea5cc2c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__pow__","kind":"method","src_hash":"287536dc70fc6a7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a52135bfeea5cc2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):
         return self.result
 
     @call_highest_priority('__pow__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rpow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rpow__(other), 2 * self.result) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rpow__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32c10b1337e7cac4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rpow__","kind":"method","src_hash":"269d12e8a5bdc9b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rpow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32c10b1337e7cac4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rpow__","kind":"method","src_hash":"269d12e8a5bdc9b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__rpow___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32c10b1337e7cac4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rpow__(self, other):
         return 2*self.result
 
     @call_highest_priority('__rtruediv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self.result) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6eca96504802b171           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__truediv__","kind":"method","src_hash":"f7c6b5d365bc2c15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6eca96504802b171"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__truediv__","kind":"method","src_hash":"f7c6b5d365bc2c15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6eca96504802b171","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         return self.result
 
     @call_highest_priority('__truediv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), 2 * self.result) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c15655e7b73aff4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rtruediv__","kind":"method","src_hash":"ef6d3bc5156892a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c15655e7b73aff4a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rtruediv__","kind":"method","src_hash":"ef6d3bc5156892a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c15655e7b73aff4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         return 2*self.result
 
     @call_highest_priority('__rmod__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__mod__(other), self.result) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mod__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fce8373fb09ab5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__mod__","kind":"method","src_hash":"6d8ec5cff834ec01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fce8373fb09ab5e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__mod__","kind":"method","src_hash":"6d8ec5cff834ec01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fce8373fb09ab5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mod__(self, other):
         return self.result
 
     @call_highest_priority('__mod__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmod__(other), 2 * self.result) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmod__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09111872bcd1ca6a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rmod__","kind":"method","src_hash":"a9e8bf496172f086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09111872bcd1ca6a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rmod__","kind":"method","src_hash":"a9e8bf496172f086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09111872bcd1ca6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmod__(self, other):
         return 2*self.result
 
     @call_highest_priority('__rfloordiv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__floordiv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__floordiv__(other), self.result) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.result                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __floordiv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 668a89871e49b260           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__floordiv__","kind":"method","src_hash":"e7a4863e6a062314","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__floordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"668a89871e49b260"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__floordiv__","kind":"method","src_hash":"e7a4863e6a062314","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(other)","rhs":"self.result","over":{"base":"Any"},"name":"__floordiv___correct"},"guarantee":"returns self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"668a89871e49b260","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __floordiv__(self, other):
         return self.result
 
     @call_highest_priority('__floordiv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rfloordiv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rfloordiv__(other), 2 * self.result) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.result                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rfloordiv__ : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 060d4cc39461cf17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rfloordiv__","kind":"method","src_hash":"2bd8c91910b52fc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rfloordiv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rfloordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"060d4cc39461cf17"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Higher.__rfloordiv__","kind":"method","src_hash":"2bd8c91910b52fc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rfloordiv__(other)","rhs":"2 * self.result","over":{"base":"Any"},"name":"__rfloordiv___correct"},"guarantee":"returns 2 * self.result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"060d4cc39461cf17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.result"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rfloordiv__(self, other):
         return 2*self.result
 
@@ -275,14 +371,20 @@ class Higher(Integer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Lower(*args), correctly constructs a Lower instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Lower : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Higher)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Lower : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe40068f6ece0d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Lower","kind":"class","src_hash":"e0b275cd5b2eda2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Lower(*args)","rhs":"correctly constructs a Lower instance","over":{"base":"Any"},"name":"Lower_class_invariant"},"guarantee":"correctly constructs a Lower instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe40068f6ece0d9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Lower","kind":"class","src_hash":"e0b275cd5b2eda2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Higher)"},"spec":{"lhs":"Lower(*args)","rhs":"correctly constructs a Lower instance","over":{"base":"Any"},"name":"Lower_class_invariant"},"guarantee":"isinstance(self, Higher)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe40068f6ece0d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Higher)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Lower not found in source"]}}
 class Lower(Higher):
     '''
     Integer of value -1 and _op_priority 5
@@ -294,16 +396,22 @@ class Lower(Higher):
     result: Expr = S.NegativeOne
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a88ac44346bc99af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Lower.__new__","kind":"method","src_hash":"23a3239bb2e56242","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a88ac44346bc99af"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.Lower.__new__","kind":"method","src_hash":"23a3239bb2e56242","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a88ac44346bc99af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = Expr.__new__(cls)
         obj.p = -1
@@ -316,16 +424,24 @@ l = Lower()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul(), test_mul produces the expected output) over Any ║
+# ║ Path(test_mul(), h * l == h * x == 1 and l * h == x * h == 2 and x * l == l * x == -x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul : Any → {Any | h * l == h * x == 1 and l * h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h * l == h * x == 1                            ║
+# ║   ensures:  l * h == x * h == 2                            ║
+# ║   ensures:  x * l == l * x == -x                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul : Any → {Any | result satisfies: h * l == h ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d775294058ff3a10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d3120f523887e19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_mul","kind":"function","src_hash":"3490f2a3699dbc0b","in":{"base":"Any"},"out":{"base":"Any","pred":"h * l == h * x == 1 and l * h == x * h == 2 and x * l == l * x == -x"},"spec":{"lhs":"test_mul()","rhs":"test_mul produces the expected output","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"test_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_mul_correct","statement":"Path(test_mul(x), test_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d775294058ff3a10"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_mul","kind":"function","src_hash":"3490f2a3699dbc0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h * l == h * x == 1 and l * h == x * h == 2 and x * l == l * x == -x"},"spec":{"lhs":"test_mul()","rhs":"h * l == h * x == 1 and l * h == x * h == 2 and x * l == l * x == -x","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"h * l == h * x == 1; l * h == x * h == 2; x * l == l * x == -x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_mul_correct","statement":"Path(test_mul(x), h * l == h * x == 1; l * h == x * h == 2; x * l == l * x == -x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d3120f523887e19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h * l == h * x == 1","l * h == x * h == 2","x * l == l * x == -x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mul():
     assert h*l == h*x == 1
     assert l*h == x*h == 2
@@ -333,16 +449,24 @@ def test_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add(), test_add produces the expected output) over Any ║
+# ║ Path(test_add(), h + l == h + x == 1 and l + h == x + h == 2 and x + l == l + x == x - 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add : Any → {Any | h + l == h + x == 1 and l + h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h + l == h + x == 1                            ║
+# ║   ensures:  l + h == x + h == 2                            ║
+# ║   ensures:  x + l == l + x == x - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add : Any → {Any | result satisfies: h + l == h ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8958a5a0906fa0d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 210a8628a4a9c583  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_add","kind":"function","src_hash":"5bfb8cca0291d855","in":{"base":"Any"},"out":{"base":"Any","pred":"h + l == h + x == 1 and l + h == x + h == 2 and x + l == l + x == x - 1"},"spec":{"lhs":"test_add()","rhs":"test_add produces the expected output","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"test_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_add_correct","statement":"Path(test_add(x), test_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8958a5a0906fa0d4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_add","kind":"function","src_hash":"5bfb8cca0291d855","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h + l == h + x == 1 and l + h == x + h == 2 and x + l == l + x == x - 1"},"spec":{"lhs":"test_add()","rhs":"h + l == h + x == 1 and l + h == x + h == 2 and x + l == l + x == x - 1","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"h + l == h + x == 1; l + h == x + h == 2; x + l == l + x == x - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_add_correct","statement":"Path(test_add(x), h + l == h + x == 1; l + h == x + h == 2; x + l == l + x == x - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"210a8628a4a9c583","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h + l == h + x == 1","l + h == x + h == 2","x + l == l + x == x - 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_add():
     assert h + l == h + x == 1
     assert l + h == x + h == 2
@@ -350,16 +474,24 @@ def test_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sub(), test_sub produces the expected output) over Any ║
+# ║ Path(test_sub(), h - l == h - x == 1 and l - h == x - h == 2 and x - l == -(l - x) == x + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sub : Any → {Any | h - l == h - x == 1 and l - h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h - l == h - x == 1                            ║
+# ║   ensures:  l - h == x - h == 2                            ║
+# ║   ensures:  x - l == -(l - x) == x + 1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sub : Any → {Any | result satisfies: h - l == h ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4590cdfe3ea8fb2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7429de8bbc6aabde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_sub","kind":"function","src_hash":"47135f95f22c46b1","in":{"base":"Any"},"out":{"base":"Any","pred":"h - l == h - x == 1 and l - h == x - h == 2 and x - l == -(l - x) == x + 1"},"spec":{"lhs":"test_sub()","rhs":"test_sub produces the expected output","over":{"base":"Any"},"name":"test_sub_correct"},"guarantee":"test_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_sub_correct","statement":"Path(test_sub(x), test_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4590cdfe3ea8fb2a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_sub","kind":"function","src_hash":"47135f95f22c46b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h - l == h - x == 1 and l - h == x - h == 2 and x - l == -(l - x) == x + 1"},"spec":{"lhs":"test_sub()","rhs":"h - l == h - x == 1 and l - h == x - h == 2 and x - l == -(l - x) == x + 1","over":{"base":"Any"},"name":"test_sub_correct"},"guarantee":"h - l == h - x == 1; l - h == x - h == 2; x - l == -(l - x) == x + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_sub_correct","statement":"Path(test_sub(x), h - l == h - x == 1; l - h == x - h == 2; x - l == -(l - x) == x + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7429de8bbc6aabde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h - l == h - x == 1","l - h == x - h == 2","x - l == -(l - x) == x + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sub():
     assert h - l == h - x == 1
     assert l - h == x - h == 2
@@ -367,16 +499,24 @@ def test_sub():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow(), test_pow produces the expected output) over Any ║
+# ║ Path(test_pow(), h ** l == h ** x == 1 and l ** h == x ** h == 2 and (x ** l).args == (1 / x).args and (x ** l).is_Pow and (l ** x).args == ((-1) ** x).args and (l ** x).is_Pow) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow : Any → {Any | h ** l == h ** x == 1 and l *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h ** l == h ** x == 1                          ║
+# ║   ensures:  l ** h == x ** h == 2                          ║
+# ║   ensures:  (x ** l).args == (1 / x).args and (x ** l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow : Any → {Any | result satisfies: h ** l == h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 869facc0e4635051  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f30198a2eef2efe5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_pow","kind":"function","src_hash":"ce459e9d8b42572e","in":{"base":"Any"},"out":{"base":"Any","pred":"h ** l == h ** x == 1 and l ** h == x ** h == 2 and (x ** l).args == (1 / x).args and (x ** l).is_Pow and (l ** x).args == ((-1) ** x).args and (l ** x).is_Pow"},"spec":{"lhs":"test_pow()","rhs":"test_pow produces the expected output","over":{"base":"Any"},"name":"test_pow_correct"},"guarantee":"test_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_pow_correct","statement":"Path(test_pow(x), test_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"869facc0e4635051"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_pow","kind":"function","src_hash":"ce459e9d8b42572e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h ** l == h ** x == 1 and l ** h == x ** h == 2 and (x ** l).args == (1 / x).args and (x ** l).is_Pow and (l ** x).args == ((-1) ** x).args and (l ** x).is_Pow"},"spec":{"lhs":"test_pow()","rhs":"h ** l == h ** x == 1 and l ** h == x ** h == 2 and (x ** l).args == (1 / x).args and (x ** l).is_Pow and (l ** x).args == ((-1) ** x).args and (l ** x).is_Pow","over":{"base":"Any"},"name":"test_pow_correct"},"guarantee":"h ** l == h ** x == 1; l ** h == x ** h == 2; (x ** l).args == (1 / x).args and (x ** l).is_Pow","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_pow_correct","statement":"Path(test_pow(x), h ** l == h ** x == 1; l ** h == x ** h == 2; (x ** l).args == (1 / x).args and (x ** l).is_Pow)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f30198a2eef2efe5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h ** l == h ** x == 1","l ** h == x ** h == 2","(x ** l).args == (1 / x).args and (x ** l).is_Pow","(l ** x).args == ((-1) ** x).args and (l ** x).is_Pow"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pow():
     assert h**l == h**x == 1
     assert l**h == x**h == 2
@@ -385,16 +525,24 @@ def test_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_div(), test_div produces the expected output) over Any ║
+# ║ Path(test_div(), h / l == h / x == 1 and l / h == x / h == 2 and x / l == 1 / (l / x) == -x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_div : Any → {Any | h / l == h / x == 1 and l / h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h / l == h / x == 1                            ║
+# ║   ensures:  l / h == x / h == 2                            ║
+# ║   ensures:  x / l == 1 / (l / x) == -x                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_div : Any → {Any | result satisfies: h / l == h ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8417c863562b8dd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1b5e79d75d4c24b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_div","kind":"function","src_hash":"5ca1aea8c4d71000","in":{"base":"Any"},"out":{"base":"Any","pred":"h / l == h / x == 1 and l / h == x / h == 2 and x / l == 1 / (l / x) == -x"},"spec":{"lhs":"test_div()","rhs":"test_div produces the expected output","over":{"base":"Any"},"name":"test_div_correct"},"guarantee":"test_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_div_correct","statement":"Path(test_div(x), test_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8417c863562b8dd3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_div","kind":"function","src_hash":"5ca1aea8c4d71000","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h / l == h / x == 1 and l / h == x / h == 2 and x / l == 1 / (l / x) == -x"},"spec":{"lhs":"test_div()","rhs":"h / l == h / x == 1 and l / h == x / h == 2 and x / l == 1 / (l / x) == -x","over":{"base":"Any"},"name":"test_div_correct"},"guarantee":"h / l == h / x == 1; l / h == x / h == 2; x / l == 1 / (l / x) == -x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_div_correct","statement":"Path(test_div(x), h / l == h / x == 1; l / h == x / h == 2; x / l == 1 / (l / x) == -x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1b5e79d75d4c24b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h / l == h / x == 1","l / h == x / h == 2","x / l == 1 / (l / x) == -x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_div():
     assert h/l == h/x == 1
     assert l/h == x/h == 2
@@ -402,16 +550,24 @@ def test_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mod(), test_mod produces the expected output) over Any ║
+# ║ Path(test_mod(), h % l == h % x == 1 and l % h == x % h == 2 and x % l == Mod(x, -1) and l % x == Mod(-1, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mod : Any → {Any | h % l == h % x == 1 and l % h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h % l == h % x == 1                            ║
+# ║   ensures:  l % h == x % h == 2                            ║
+# ║   ensures:  x % l == Mod(x, -1)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mod : Any → {Any | result satisfies: h % l == h ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76cd17bb3ec5a31a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7a72a7e5fceffad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_mod","kind":"function","src_hash":"4a0157205f2c9fb3","in":{"base":"Any"},"out":{"base":"Any","pred":"h % l == h % x == 1 and l % h == x % h == 2 and x % l == Mod(x, -1) and l % x == Mod(-1, x)"},"spec":{"lhs":"test_mod()","rhs":"test_mod produces the expected output","over":{"base":"Any"},"name":"test_mod_correct"},"guarantee":"test_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_mod_correct","statement":"Path(test_mod(x), test_mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76cd17bb3ec5a31a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_mod","kind":"function","src_hash":"4a0157205f2c9fb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h % l == h % x == 1 and l % h == x % h == 2 and x % l == Mod(x, -1) and l % x == Mod(-1, x)"},"spec":{"lhs":"test_mod()","rhs":"h % l == h % x == 1 and l % h == x % h == 2 and x % l == Mod(x, -1) and l % x == Mod(-1, x)","over":{"base":"Any"},"name":"test_mod_correct"},"guarantee":"h % l == h % x == 1; l % h == x % h == 2; x % l == Mod(x, -1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_mod_correct","statement":"Path(test_mod(x), h % l == h % x == 1; l % h == x % h == 2; x % l == Mod(x, -1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a72a7e5fceffad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h % l == h % x == 1","l % h == x % h == 2","x % l == Mod(x, -1)","l % x == Mod(-1, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mod():
     assert h%l == h%x == 1
     assert l%h == x%h == 2
@@ -420,16 +576,24 @@ def test_mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_floordiv(), test_floordiv produces the expected output) over Any ║
+# ║ Path(test_floordiv(), h // l == h // x == 1 and l // h == x // h == 2 and x // l == floor(-x) and l // x == floor(-1 / x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_floordiv : Any → {Any | h // l == h // x == 1 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h // l == h // x == 1                          ║
+# ║   ensures:  l // h == x // h == 2                          ║
+# ║   ensures:  x // l == floor(-x)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_floordiv : Any → {Any | result satisfies: h // l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39d4120d436c56b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1baf407040fec726  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_floordiv","kind":"function","src_hash":"23be3b2bb77be2f1","in":{"base":"Any"},"out":{"base":"Any","pred":"h // l == h // x == 1 and l // h == x // h == 2 and x // l == floor(-x) and l // x == floor(-1 / x)"},"spec":{"lhs":"test_floordiv()","rhs":"test_floordiv produces the expected output","over":{"base":"Any"},"name":"test_floordiv_correct"},"guarantee":"test_floordiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_floordiv_correct","statement":"Path(test_floordiv(x), test_floordiv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39d4120d436c56b6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_priority.test_floordiv","kind":"function","src_hash":"23be3b2bb77be2f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h // l == h // x == 1 and l // h == x // h == 2 and x // l == floor(-x) and l // x == floor(-1 / x)"},"spec":{"lhs":"test_floordiv()","rhs":"h // l == h // x == 1 and l // h == x // h == 2 and x // l == floor(-x) and l // x == floor(-1 / x)","over":{"base":"Any"},"name":"test_floordiv_correct"},"guarantee":"h // l == h // x == 1; l // h == x // h == 2; x // l == floor(-x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_priority.test_floordiv_correct","statement":"Path(test_floordiv(x), h // l == h // x == 1; l // h == x // h == 2; x // l == floor(-x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1baf407040fec726","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h // l == h // x == 1","l // h == x // h == 2","x // l == floor(-x)","l // x == floor(-1 / x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_floordiv():
     assert h//l == h//x == 1
     assert l//h == x//h == 2

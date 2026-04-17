@@ -36,16 +36,24 @@ from sympy.utilities.misc import as_int
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fourier_transform(seq), utility function for the discrete fourier transform) over Any ║
+# ║ Path(_fourier_transform(seq, dps, inverse), <unspecified:_fourier_transform>) over {Any | iterable(seq) and not (any((x.has(Symbol) for x in a)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fourier_transform : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(seq)                                  ║
+# ║   requires: not (any((x.has(Symbol) for x in a)))          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fourier_transform : {Any | iterable(seq) and not (an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4889d9e64bff1230  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._fourier_transform","kind":"function","src_hash":"2c7c6b8d6ee717c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fourier_transform(seq)","rhs":"utility function for the discrete fourier transform","over":{"base":"Any"},"name":"_fourier_transform_correct"},"guarantee":"utility function for the discrete fourier transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._fourier_transform_correct","statement":"Path(_fourier_transform(x), utility function for the discrete fourier transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4889d9e64bff1230"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._fourier_transform","kind":"function","src_hash":"2c7c6b8d6ee717c4","in":{"base":"Any","pred":"iterable(seq) and not (any((x.has(Symbol) for x in a)))"},"out":{"base":"Any"},"spec":{"lhs":"_fourier_transform(seq, dps, inverse)","rhs":"<unspecified:_fourier_transform>","over":{"base":"Any","pred":"iterable(seq) and not (any((x.has(Symbol) for x in a)))"},"name":"_fourier_transform_correct"},"guarantee":"utility function for the discrete fourier transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._fourier_transform_correct","statement":"Path(_fourier_transform(x), utility function for the discrete fourier transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4889d9e64bff1230","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(seq)","not (any((x.has(Symbol) for x in a)))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _fourier_transform(seq, dps, inverse=False):
     """Utility function for the Discrete Fourier Transform"""
 
@@ -96,16 +104,22 @@ def _fourier_transform(seq, dps, inverse=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fft(seq), performs the discrete fourier transform (**dft**) in the complex domain) over Any ║
+# ║ Path(fft(seq, dps), _fourier_transform(seq, dps=dps)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _fourier_transform(seq, dps=dps)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fft : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63b9fc6cbb1842f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.fft","kind":"function","src_hash":"708c2171278e98f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fft(seq)","rhs":"performs the discrete fourier transform (**dft**) in the complex domain","over":{"base":"Any"},"name":"fft_correct"},"guarantee":"performs the discrete fourier transform (**dft**) in the complex domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63b9fc6cbb1842f9"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.fft","kind":"function","src_hash":"708c2171278e98f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fft(seq, dps)","rhs":"_fourier_transform(seq, dps=dps)","over":{"base":"Any"},"name":"fft_correct"},"guarantee":"returns _fourier_transform(seq, dps=dps)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63b9fc6cbb1842f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_fourier_transform(seq, dps=dps)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def fft(seq, dps=None):
     r"""
     Performs the Discrete Fourier Transform (**DFT**) in the complex domain.
@@ -156,16 +170,22 @@ def fft(seq, dps=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ifft(seq), ifft produces the expected output) over Any ║
+# ║ Path(ifft(seq, dps), _fourier_transform(seq, dps=dps, inverse=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _fourier_transform(seq, dps=dps, inverse=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ifft : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f683e3f6ed225be4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.ifft","kind":"function","src_hash":"9312a7e12d66ccb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ifft(seq)","rhs":"ifft produces the expected output","over":{"base":"Any"},"name":"ifft_correct"},"guarantee":"ifft produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f683e3f6ed225be4"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.ifft","kind":"function","src_hash":"9312a7e12d66ccb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ifft(seq, dps)","rhs":"_fourier_transform(seq, dps=dps, inverse=True)","over":{"base":"Any"},"name":"ifft_correct"},"guarantee":"returns _fourier_transform(seq, dps=dps, inverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f683e3f6ed225be4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_fourier_transform(seq, dps=dps, inverse=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ifft(seq, dps=None):
     return _fourier_transform(seq, dps=dps, inverse=True)
 
@@ -179,16 +199,24 @@ ifft.__doc__ = fft.__doc__
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_number_theoretic_transform(seq), utility function for the number theoretic transform) over Any ║
+# ║ Path(_number_theoretic_transform(seq, prime, inverse), <unspecified:_number_theoretic_transform>) over {Any | iterable(seq) and isprime(p)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _number_theoretic_transform : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(seq)                                  ║
+# ║   requires: isprime(p)                                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _number_theoretic_transform : {Any | iterable(seq) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c150d3827ca954a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._number_theoretic_transform","kind":"function","src_hash":"0595405f04f9bb1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_number_theoretic_transform(seq)","rhs":"utility function for the number theoretic transform","over":{"base":"Any"},"name":"_number_theoretic_transform_correct"},"guarantee":"utility function for the number theoretic transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._number_theoretic_transform_correct","statement":"Path(_number_theoretic_transform(x), utility function for the number theoretic transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c150d3827ca954a8"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._number_theoretic_transform","kind":"function","src_hash":"0595405f04f9bb1f","in":{"base":"Any","pred":"iterable(seq) and isprime(p)"},"out":{"base":"Any"},"spec":{"lhs":"_number_theoretic_transform(seq, prime, inverse)","rhs":"<unspecified:_number_theoretic_transform>","over":{"base":"Any","pred":"iterable(seq) and isprime(p)"},"name":"_number_theoretic_transform_correct"},"guarantee":"utility function for the number theoretic transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._number_theoretic_transform_correct","statement":"Path(_number_theoretic_transform(x), utility function for the number theoretic transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c150d3827ca954a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(seq)","isprime(p)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _number_theoretic_transform(seq, prime, inverse=False):
     """Utility function for the Number Theoretic Transform"""
 
@@ -248,16 +276,22 @@ def _number_theoretic_transform(seq, prime, inverse=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ntt(seq), performs the number theoretic transform (**ntt**), which specializes the discrete fourier transform (**dft**) over quotient ring `z/pz` for prime `p` instead of complex numbers `c`) over Any ║
+# ║ Path(ntt(seq, prime), _number_theoretic_transform(seq, prime=prime)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _number_theoretic_transform(seq, prime=pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ntt : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbd0ed79c9e1aa69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.ntt","kind":"function","src_hash":"9d319066776d9882","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ntt(seq)","rhs":"performs the number theoretic transform (**ntt**), which specializes the discrete fourier transform (**dft**) over quotient ring `z/pz` for prime `p` instead of complex numbers `c`","over":{"base":"Any"},"name":"ntt_correct"},"guarantee":"performs the number theoretic transform (**ntt**), which specializes the discrete fourier transform (**dft**) over quotient ring `z/pz` for prime `p` instead of complex numbers `c`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbd0ed79c9e1aa69"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.ntt","kind":"function","src_hash":"9d319066776d9882","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ntt(seq, prime)","rhs":"_number_theoretic_transform(seq, prime=prime)","over":{"base":"Any"},"name":"ntt_correct"},"guarantee":"returns _number_theoretic_transform(seq, prime=prime)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbd0ed79c9e1aa69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_number_theoretic_transform(seq, prime=prime)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ntt(seq, prime):
     r"""
     Performs the Number Theoretic Transform (**NTT**), which specializes the
@@ -302,16 +336,22 @@ def ntt(seq, prime):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intt(seq), intt produces the expected output) over Any ║
+# ║ Path(intt(seq, prime), _number_theoretic_transform(seq, prime=prime, inverse=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _number_theoretic_transform(seq, prime=pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intt : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc44662d74dc310e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.intt","kind":"function","src_hash":"95b852ec13849927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intt(seq)","rhs":"intt produces the expected output","over":{"base":"Any"},"name":"intt_correct"},"guarantee":"intt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc44662d74dc310e"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.intt","kind":"function","src_hash":"95b852ec13849927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intt(seq, prime)","rhs":"_number_theoretic_transform(seq, prime=prime, inverse=True)","over":{"base":"Any"},"name":"intt_correct"},"guarantee":"returns _number_theoretic_transform(seq, prime=prime, inverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc44662d74dc310e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_number_theoretic_transform(seq, prime=prime, inverse=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def intt(seq, prime):
     return _number_theoretic_transform(seq, prime=prime, inverse=True)
 
@@ -325,16 +365,23 @@ intt.__doc__ = ntt.__doc__
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_walsh_hadamard_transform(seq), utility function for the walsh hadamard transform) over Any ║
+# ║ Path(_walsh_hadamard_transform(seq, inverse), <unspecified:_walsh_hadamard_transform>) over {Any | iterable(seq)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _walsh_hadamard_transform : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(seq)                                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _walsh_hadamard_transform : {Any | iterable(seq)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16d3fe0a2b798119  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._walsh_hadamard_transform","kind":"function","src_hash":"e9733bc209b5f06a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_walsh_hadamard_transform(seq)","rhs":"utility function for the walsh hadamard transform","over":{"base":"Any"},"name":"_walsh_hadamard_transform_correct"},"guarantee":"utility function for the walsh hadamard transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._walsh_hadamard_transform_correct","statement":"Path(_walsh_hadamard_transform(x), utility function for the walsh hadamard transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16d3fe0a2b798119"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._walsh_hadamard_transform","kind":"function","src_hash":"e9733bc209b5f06a","in":{"base":"Any","pred":"iterable(seq)"},"out":{"base":"Any"},"spec":{"lhs":"_walsh_hadamard_transform(seq, inverse)","rhs":"<unspecified:_walsh_hadamard_transform>","over":{"base":"Any","pred":"iterable(seq)"},"name":"_walsh_hadamard_transform_correct"},"guarantee":"utility function for the walsh hadamard transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._walsh_hadamard_transform_correct","statement":"Path(_walsh_hadamard_transform(x), utility function for the walsh hadamard transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16d3fe0a2b798119","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(seq)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _walsh_hadamard_transform(seq, inverse=False):
     """Utility function for the Walsh Hadamard Transform"""
 
@@ -367,16 +414,22 @@ def _walsh_hadamard_transform(seq, inverse=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fwht(seq), performs the walsh hadamard transform (**wht**), and uses hadamard ordering for the sequence) over Any ║
+# ║ Path(fwht(seq), _walsh_hadamard_transform(seq)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _walsh_hadamard_transform(seq)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fwht : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18b50d1f937bc068           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.fwht","kind":"function","src_hash":"4e848284e82e75b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fwht(seq)","rhs":"performs the walsh hadamard transform (**wht**), and uses hadamard ordering for the sequence","over":{"base":"Any"},"name":"fwht_correct"},"guarantee":"performs the walsh hadamard transform (**wht**), and uses hadamard ordering for the sequence","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18b50d1f937bc068"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.fwht","kind":"function","src_hash":"4e848284e82e75b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fwht(seq)","rhs":"_walsh_hadamard_transform(seq)","over":{"base":"Any"},"name":"fwht_correct"},"guarantee":"returns _walsh_hadamard_transform(seq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18b50d1f937bc068","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_walsh_hadamard_transform(seq)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def fwht(seq):
     r"""
     Performs the Walsh Hadamard Transform (**WHT**), and uses Hadamard
@@ -417,16 +470,22 @@ def fwht(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ifwht(seq), ifwht produces the expected output) over Any ║
+# ║ Path(ifwht(seq), _walsh_hadamard_transform(seq, inverse=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _walsh_hadamard_transform(seq, inverse=True)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ifwht : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b19adfa841b68c2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.ifwht","kind":"function","src_hash":"d25f148efcd9fc75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ifwht(seq)","rhs":"ifwht produces the expected output","over":{"base":"Any"},"name":"ifwht_correct"},"guarantee":"ifwht produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b19adfa841b68c2a"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.ifwht","kind":"function","src_hash":"d25f148efcd9fc75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ifwht(seq)","rhs":"_walsh_hadamard_transform(seq, inverse=True)","over":{"base":"Any"},"name":"ifwht_correct"},"guarantee":"returns _walsh_hadamard_transform(seq, inverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b19adfa841b68c2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_walsh_hadamard_transform(seq, inverse=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ifwht(seq):
     return _walsh_hadamard_transform(seq, inverse=True)
 
@@ -440,16 +499,23 @@ ifwht.__doc__ = fwht.__doc__
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mobius_transform(seq), utility function for performing mobius transform using yate's dynamic programming method) over Any ║
+# ║ Path(_mobius_transform(seq, sgn, subset), <unspecified:_mobius_transform>) over {Any | iterable(seq)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mobius_transform : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(seq)                                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mobius_transform : {Any | iterable(seq)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57e351af6215b08c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._mobius_transform","kind":"function","src_hash":"2f91e441e8bd7bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mobius_transform(seq)","rhs":"utility function for performing mobius transform using yate's dynamic programming method","over":{"base":"Any"},"name":"_mobius_transform_correct"},"guarantee":"utility function for performing mobius transform using yate's dynamic programming method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._mobius_transform_correct","statement":"Path(_mobius_transform(x), utility function for performing mobius transform using yate's dynamic programming method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57e351af6215b08c"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms._mobius_transform","kind":"function","src_hash":"2f91e441e8bd7bca","in":{"base":"Any","pred":"iterable(seq)"},"out":{"base":"Any"},"spec":{"lhs":"_mobius_transform(seq, sgn, subset)","rhs":"<unspecified:_mobius_transform>","over":{"base":"Any","pred":"iterable(seq)"},"name":"_mobius_transform_correct"},"guarantee":"utility function for performing mobius transform using yate's dynamic programming method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.transforms._mobius_transform_correct","statement":"Path(_mobius_transform(x), utility function for performing mobius transform using yate's dynamic programming method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57e351af6215b08c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(seq)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _mobius_transform(seq, sgn, subset):
     r"""Utility function for performing Mobius Transform using
     Yate's Dynamic Programming method"""
@@ -489,16 +555,22 @@ def _mobius_transform(seq, sgn, subset):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mobius_transform(seq), performs the mobius transform for subset lattice with indices of sequence as bitmasks) over Any ║
+# ║ Path(mobius_transform(seq, subset), _mobius_transform(seq, sgn=+1, subset=subset)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _mobius_transform(seq, sgn=+1, subset=sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mobius_transform : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16586780c7d875db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.mobius_transform","kind":"function","src_hash":"0de674b239c66054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobius_transform(seq)","rhs":"performs the mobius transform for subset lattice with indices of sequence as bitmasks","over":{"base":"Any"},"name":"mobius_transform_correct"},"guarantee":"performs the mobius transform for subset lattice with indices of sequence as bitmasks","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16586780c7d875db"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.mobius_transform","kind":"function","src_hash":"0de674b239c66054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobius_transform(seq, subset)","rhs":"_mobius_transform(seq, sgn=+1, subset=subset)","over":{"base":"Any"},"name":"mobius_transform_correct"},"guarantee":"returns _mobius_transform(seq, sgn=+1, subset=subset)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16586780c7d875db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_mobius_transform(seq, sgn=+1, subset=subset)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def mobius_transform(seq, subset=True):
     r"""
     Performs the Mobius Transform for subset lattice with indices of
@@ -558,16 +630,22 @@ def mobius_transform(seq, subset=True):
     return _mobius_transform(seq, sgn=+1, subset=subset)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_mobius_transform(seq), inverse_mobius_transform produces the expected output) over Any ║
+# ║ Path(inverse_mobius_transform(seq, subset), _mobius_transform(seq, sgn=-1, subset=subset)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _mobius_transform(seq, sgn=-1, subset=sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_mobius_transform : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03fba93f37a68d00           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.inverse_mobius_transform","kind":"function","src_hash":"4d1b4a8c6ef9a259","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_mobius_transform(seq)","rhs":"inverse_mobius_transform produces the expected output","over":{"base":"Any"},"name":"inverse_mobius_transform_correct"},"guarantee":"inverse_mobius_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03fba93f37a68d00"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.transforms.inverse_mobius_transform","kind":"function","src_hash":"4d1b4a8c6ef9a259","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_mobius_transform(seq, subset)","rhs":"_mobius_transform(seq, sgn=-1, subset=subset)","over":{"base":"Any"},"name":"inverse_mobius_transform_correct"},"guarantee":"returns _mobius_transform(seq, sgn=-1, subset=subset)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03fba93f37a68d00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_mobius_transform(seq, sgn=-1, subset=subset)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def inverse_mobius_transform(seq, subset=True):
     return _mobius_transform(seq, sgn=-1, subset=subset)
 

@@ -35,16 +35,24 @@ PythonRational = public(PythonMPQ)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify_pythonrational(arg), sympify_pythonrational produces the expected output) over Any ║
+# ║ Path(sympify_pythonrational(arg), Rational(arg.numerator, arg.denominator)) over {Any | hasattr(arg, 'numerator') and hasattr(arg, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympify_pythonrational : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'numerator')                      ║
+# ║   requires: hasattr(arg, 'denominator')                    ║
+# ║   returns:  Rational(arg.numerator, arg.denominator)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympify_pythonrational : {Any | hasattr(arg, 'numerat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a798fd5852a9976           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domainsthonrational.sympify_pythonrational","kind":"function","src_hash":"f3cf36b734520b04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympify_pythonrational(arg)","rhs":"sympify_pythonrational produces the expected output","over":{"base":"Any"},"name":"sympify_pythonrational_correct"},"guarantee":"sympify_pythonrational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a798fd5852a9976"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domainsthonrational.sympify_pythonrational","kind":"function","src_hash":"f3cf36b734520b04","in":{"base":"Any","pred":"hasattr(arg, 'numerator') and hasattr(arg, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"sympify_pythonrational(arg)","rhs":"Rational(arg.numerator, arg.denominator)","over":{"base":"Any","pred":"hasattr(arg, 'numerator') and hasattr(arg, 'denominator')"},"name":"sympify_pythonrational_correct"},"guarantee":"returns Rational(arg.numerator, arg.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a798fd5852a9976","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'numerator')","hasattr(arg, 'denominator')"],"returns_expr":"Rational(arg.numerator, arg.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.denominator","arg.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sympify_pythonrational(arg):
     return Rational(arg.numerator, arg.denominator)
 _sympy_converter[PythonRational] = sympify_pythonrational

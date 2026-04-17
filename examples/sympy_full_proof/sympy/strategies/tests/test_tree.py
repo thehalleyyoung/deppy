@@ -20,106 +20,149 @@ from functools import partial, reduce
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inc(x), inc produces the expected output) over Any    ║
+# ║ Path(inc(x), x + 1) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x + 1                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inc : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca9c81d2565dae1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.inc","kind":"function","src_hash":"53c12f2f1d5c1a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inc(x)","rhs":"inc produces the expected output","over":{"base":"Any"},"name":"inc_correct"},"guarantee":"inc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca9c81d2565dae1c"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.inc","kind":"function","src_hash":"53c12f2f1d5c1a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inc(x)","rhs":"x + 1","over":{"base":"Any"},"name":"inc_correct"},"guarantee":"returns x + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca9c81d2565dae1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x + 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def inc(x):
     return x + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dec(x), dec produces the expected output) over Any    ║
+# ║ Path(dec(x), x - 1) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x - 1                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dec : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6b8f0d9a4aa1553           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.dec","kind":"function","src_hash":"18dcbb347656d5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dec(x)","rhs":"dec produces the expected output","over":{"base":"Any"},"name":"dec_correct"},"guarantee":"dec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6b8f0d9a4aa1553"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.dec","kind":"function","src_hash":"18dcbb347656d5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dec(x)","rhs":"x - 1","over":{"base":"Any"},"name":"dec_correct"},"guarantee":"returns x - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6b8f0d9a4aa1553","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x - 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dec(x):
     return x - 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(double(x), double produces the expected output) over Any ║
+# ║ Path(double(x), 2 * x) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * x                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ double : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bbde74022a60fca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.double","kind":"function","src_hash":"0d810f2090e71bc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"double(x)","rhs":"double produces the expected output","over":{"base":"Any"},"name":"double_correct"},"guarantee":"double produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bbde74022a60fca"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.double","kind":"function","src_hash":"0d810f2090e71bc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"double(x)","rhs":"2 * x","over":{"base":"Any"},"name":"double_correct"},"guarantee":"returns 2 * x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bbde74022a60fca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * x","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def double(x):
     return 2 * x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(square(x), square produces the expected output) over Any ║
+# ║ Path(square(x), x ** 2) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x ** 2                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ square : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54751db0675e113c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.square","kind":"function","src_hash":"7107a1d311cb961e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"square(x)","rhs":"square produces the expected output","over":{"base":"Any"},"name":"square_correct"},"guarantee":"square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54751db0675e113c"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.square","kind":"function","src_hash":"7107a1d311cb961e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"square(x)","rhs":"x ** 2","over":{"base":"Any"},"name":"square_correct"},"guarantee":"returns x ** 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54751db0675e113c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x ** 2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def square(x):
     return x**2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(*ar), add produces the expected output) over Any  ║
+# ║ Path(add(*args), sum(args)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum(args)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62c3b99cd510737d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.add","kind":"function","src_hash":"3ba0851c96129260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*ar)","rhs":"add produces the expected output","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62c3b99cd510737d"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.add","kind":"function","src_hash":"3ba0851c96129260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*args)","rhs":"sum(args)","over":{"base":"Any"},"name":"add_correct"},"guarantee":"returns sum(args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62c3b99cd510737d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum(args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def add(*args):
     return sum(args)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(*ar), mul produces the expected output) over Any  ║
+# ║ Path(mul(*args), reduce(lambda a, b: a * b, args, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  reduce(lambda a, b: a * b, args, 1)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mul : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 236f93ee8a81c4c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.mul","kind":"function","src_hash":"769c77e2a3eb7fab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(*ar)","rhs":"mul produces the expected output","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"236f93ee8a81c4c6"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.mul","kind":"function","src_hash":"769c77e2a3eb7fab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(*args)","rhs":"reduce(lambda a, b: a * b, args, 1)","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"returns reduce(lambda a, b: a * b, args, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"236f93ee8a81c4c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"reduce(lambda a, b: a * b, args, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def mul(*args):
     return reduce(lambda a, b: a * b, args, 1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_treeapply(), test_treeapply produces the expected output) over Any ║
+# ║ Path(test_treeapply(), treeapply(tree, {list: min, tuple: max}) == 3 and treeapply(tree, {list: add, tuple: mul}) == 60) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_treeapply : Any → {Any | treeapply(tree, {list: ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  treeapply(tree, {list: min, tuple: max}) ...   ║
+# ║   ensures:  treeapply(tree, {list: add, tuple: mul}) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_treeapply : Any → {Any | result satisfies: treea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e674d1a88c4aead  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56017fe50f58c58a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_treeapply","kind":"function","src_hash":"0ef3e93b550766d1","in":{"base":"Any"},"out":{"base":"Any","pred":"treeapply(tree, {list: min, tuple: max}) == 3 and treeapply(tree, {list: add, tuple: mul}) == 60"},"spec":{"lhs":"test_treeapply()","rhs":"test_treeapply produces the expected output","over":{"base":"Any"},"name":"test_treeapply_correct"},"guarantee":"test_treeapply produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_treeapply_correct","statement":"Path(test_treeapply(x), test_treeapply produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e674d1a88c4aead"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_treeapply","kind":"function","src_hash":"0ef3e93b550766d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: treeapply(tree, {list: min, tuple: max}) == 3 and treeapply(tree, {list: add, tuple: mul}) == 60"},"spec":{"lhs":"test_treeapply()","rhs":"treeapply(tree, {list: min, tuple: max}) == 3 and treeapply(tree, {list: add, tuple: mul}) == 60","over":{"base":"Any"},"name":"test_treeapply_correct"},"guarantee":"treeapply(tree, {list: min, tuple: max}) == 3; treeapply(tree, {list: add, tuple: mul}) == 60","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_treeapply_correct","statement":"Path(test_treeapply(x), treeapply(tree, {list: min, tuple: max}) == 3; treeapply(tree, {list: add, tuple: mul}) == 60)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56017fe50f58c58a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["treeapply(tree, {list: min, tuple: max}) == 3","treeapply(tree, {list: add, tuple: mul}) == 60"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_treeapply():
     tree = ([3, 3], [4, 1], 2)
     assert treeapply(tree, {list: min, tuple: max}) == 3
@@ -127,16 +170,23 @@ def test_treeapply():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_treeapply_leaf(), test_treeapply_leaf produces the expected output) over Any ║
+# ║ Path(test_treeapply_leaf(), treeapply(3, {}, leaf=lambda x: x ** 2) == 9 and treeapply(tree, {list: min, tuple: max}, leaf=lambda x: x + 1) == treeapply(treep1, {list: min, tuple: max})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_treeapply_leaf : Any → {Any | treeapply(3, {}, l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  treeapply(3, {}, leaf=lambda x: x ** 2) == 9   ║
+# ║   ensures:  treeapply(tree, {list: min, tuple: max}, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_treeapply_leaf : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d78c4208815136a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9019e237e0c0964a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_treeapply_leaf","kind":"function","src_hash":"5ef85d109102b249","in":{"base":"Any"},"out":{"base":"Any","pred":"treeapply(3, {}, leaf=lambda x: x ** 2) == 9"},"spec":{"lhs":"test_treeapply_leaf()","rhs":"test_treeapply_leaf produces the expected output","over":{"base":"Any"},"name":"test_treeapply_leaf_correct"},"guarantee":"test_treeapply_leaf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_treeapply_leaf_correct","statement":"Path(test_treeapply_leaf(x), test_treeapply_leaf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d78c4208815136a0"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_treeapply_leaf","kind":"function","src_hash":"5ef85d109102b249","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: treeapply(3, {}, leaf=lambda x: x ** 2) == 9 and treeapply(tree, {list: min, tuple: max}, leaf=lambda x: x + 1) == treeapply(treep1, {list: min, tuple: max})"},"spec":{"lhs":"test_treeapply_leaf()","rhs":"treeapply(3, {}, leaf=lambda x: x ** 2) == 9 and treeapply(tree, {list: min, tuple: max}, leaf=lambda x: x + 1) == treeapply(treep1, {list: min, tuple: max})","over":{"base":"Any"},"name":"test_treeapply_leaf_correct"},"guarantee":"treeapply(3, {}, leaf=lambda x: x ** 2) == 9; treeapply(tree, {list: min, tuple: max}, leaf=lambda x: x + 1) == treeapply(treep1, {list: min, tuple: max})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_treeapply_leaf_correct","statement":"Path(test_treeapply_leaf(x), treeapply(3, {}, leaf=lambda x: x ** 2) == 9; treeapply(tree, {list: min, tuple: max}, leaf=lambda x: x + 1) == treeapply(treep1, {list: min, tuple: max}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9019e237e0c0964a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["treeapply(3, {}, leaf=lambda x: x ** 2) == 9","treeapply(tree, {list: min, tuple: max}, leaf=lambda x: x + 1) == treeapply(treep1, {list: min, tuple: max})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_treeapply_leaf():
     assert treeapply(3, {}, leaf=lambda x: x**2) == 9
     tree = ([3, 3], [4, 1], 2)
@@ -146,16 +196,24 @@ def test_treeapply_leaf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_treeapply_strategies(), test_treeapply_strategies produces the expected output) over Any ║
+# ║ Path(test_treeapply_strategies(), treeapply(inc, join) == inc and treeapply((inc, dec), join)(5) == minimize(inc, dec)(5) and treeapply([inc, dec], join)(5) == chain(inc, dec)(5) and treeapply(tree, join)(5) == 6 and treeapply(tree, join)(1) == 0 and fn(4) == 6 and fn(1) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_treeapply_strategies : Any → {Any | treeapply(in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  treeapply(inc, join) == inc                    ║
+# ║   ensures:  treeapply((inc, dec), join)(5) == minimiz...   ║
+# ║   ensures:  treeapply([inc, dec], join)(5) == chain(i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_treeapply_strategies : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22f6ff0472df4de9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dcb0f41a7c14cf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_treeapply_strategies","kind":"function","src_hash":"02d6f306a2a132e1","in":{"base":"Any"},"out":{"base":"Any","pred":"treeapply(inc, join) == inc and treeapply((inc, dec), join)(5) == minimize(inc, dec)(5) and treeapply([inc, dec], join)(5) == chain(inc, dec)(5) and treeapply(tree, join)(5) == 6 and treeapply(tree, join)(1) == 0 and fn(4) == 6 and fn(1) == 2"},"spec":{"lhs":"test_treeapply_strategies()","rhs":"test_treeapply_strategies produces the expected output","over":{"base":"Any"},"name":"test_treeapply_strategies_correct"},"guarantee":"test_treeapply_strategies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_treeapply_strategies_correct","statement":"Path(test_treeapply_strategies(x), test_treeapply_strategies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22f6ff0472df4de9"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_treeapply_strategies","kind":"function","src_hash":"02d6f306a2a132e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: treeapply(inc, join) == inc and treeapply((inc, dec), join)(5) == minimize(inc, dec)(5) and treeapply([inc, dec], join)(5) == chain(inc, dec)(5) and treeapply(tree, join)(5) == 6 and treeapply(tree, join)(1) == 0 and fn(4) == 6 and fn(1) == 2"},"spec":{"lhs":"test_treeapply_strategies()","rhs":"treeapply(inc, join) == inc and treeapply((inc, dec), join)(5) == minimize(inc, dec)(5) and treeapply([inc, dec], join)(5) == chain(inc, dec)(5) and treeapply(tree, join)(5) == 6 and treeapply(tree, join)(1) == 0 and fn(4) == 6 and fn(1) == 2","over":{"base":"Any"},"name":"test_treeapply_strategies_correct"},"guarantee":"treeapply(inc, join) == inc; treeapply((inc, dec), join)(5) == minimize(inc, dec)(5); treeapply([inc, dec], join)(5) == chain(inc, dec)(5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_treeapply_strategies_correct","statement":"Path(test_treeapply_strategies(x), treeapply(inc, join) == inc; treeapply((inc, dec), join)(5) == minimize(inc, dec)(5); treeapply([inc, dec], join)(5) == chain(inc, dec)(5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dcb0f41a7c14cf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["treeapply(inc, join) == inc","treeapply((inc, dec), join)(5) == minimize(inc, dec)(5)","treeapply([inc, dec], join)(5) == chain(inc, dec)(5)","treeapply(tree, join)(5) == 6","treeapply(tree, join)(1) == 0","fn(4) == 6","fn(1) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_treeapply_strategies():
     from sympy.strategies import chain, minimize
     join = {list: chain, tuple: minimize}
@@ -175,16 +233,24 @@ def test_treeapply_strategies():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_greedy(), test_greedy produces the expected output) over Any ║
+# ║ Path(test_greedy(), fn(4) == 6 and fn(1) == 2 and lowest(10) == 8 and highest(10) == 12) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_greedy : Any → {Any | fn(4) == 6 and fn(1) == 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fn(4) == 6                                     ║
+# ║   ensures:  fn(1) == 2                                     ║
+# ║   ensures:  lowest(10) == 8                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_greedy : Any → {Any | result satisfies: fn(4) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e805b7d4dda84cf5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32d88a48f02f6492  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_greedy","kind":"function","src_hash":"a19b8778ffc72ddc","in":{"base":"Any"},"out":{"base":"Any","pred":"fn(4) == 6 and fn(1) == 2 and lowest(10) == 8 and highest(10) == 12"},"spec":{"lhs":"test_greedy()","rhs":"test_greedy produces the expected output","over":{"base":"Any"},"name":"test_greedy_correct"},"guarantee":"test_greedy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_greedy_correct","statement":"Path(test_greedy(x), test_greedy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e805b7d4dda84cf5"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_greedy","kind":"function","src_hash":"a19b8778ffc72ddc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fn(4) == 6 and fn(1) == 2 and lowest(10) == 8 and highest(10) == 12"},"spec":{"lhs":"test_greedy()","rhs":"fn(4) == 6 and fn(1) == 2 and lowest(10) == 8 and highest(10) == 12","over":{"base":"Any"},"name":"test_greedy_correct"},"guarantee":"fn(4) == 6; fn(1) == 2; lowest(10) == 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_greedy_correct","statement":"Path(test_greedy(x), fn(4) == 6; fn(1) == 2; lowest(10) == 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32d88a48f02f6492","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fn(4) == 6","fn(1) == 2","lowest(10) == 8","highest(10) == 12"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_greedy():
     tree = [inc, (dec, double)]  # either inc or dec-then-double
 
@@ -201,16 +267,24 @@ def test_greedy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_allresults(), test_allresults produces the expected output) over Any ║
+# ║ Path(test_allresults(), set(allresults(inc)(3)) == {inc(3)} and set(allresults([inc, dec])(3)) == {2, 4} and set(allresults((inc, dec))(3)) == {3} and set(allresults([inc, (dec, double)])(4)) == {5, 6}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_allresults : Any → {Any | set(allresults(inc)(3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(allresults(inc)(3)) == {inc(3)}            ║
+# ║   ensures:  set(allresults([inc, dec])(3)) == {2, 4}       ║
+# ║   ensures:  set(allresults((inc, dec))(3)) == {3}          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_allresults : Any → {Any | result satisfies: set(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e07bff77e3579d96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e7c756b5b356106  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_allresults","kind":"function","src_hash":"7d61da6ee7a70ef7","in":{"base":"Any"},"out":{"base":"Any","pred":"set(allresults(inc)(3)) == {inc(3)} and set(allresults([inc, dec])(3)) == {2, 4} and set(allresults((inc, dec))(3)) == {3} and set(allresults([inc, (dec, double)])(4)) == {5, 6}"},"spec":{"lhs":"test_allresults()","rhs":"test_allresults produces the expected output","over":{"base":"Any"},"name":"test_allresults_correct"},"guarantee":"test_allresults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_allresults_correct","statement":"Path(test_allresults(x), test_allresults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e07bff77e3579d96"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_allresults","kind":"function","src_hash":"7d61da6ee7a70ef7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(allresults(inc)(3)) == {inc(3)} and set(allresults([inc, dec])(3)) == {2, 4} and set(allresults((inc, dec))(3)) == {3} and set(allresults([inc, (dec, double)])(4)) == {5, 6}"},"spec":{"lhs":"test_allresults()","rhs":"set(allresults(inc)(3)) == {inc(3)} and set(allresults([inc, dec])(3)) == {2, 4} and set(allresults((inc, dec))(3)) == {3} and set(allresults([inc, (dec, double)])(4)) == {5, 6}","over":{"base":"Any"},"name":"test_allresults_correct"},"guarantee":"set(allresults(inc)(3)) == {inc(3)}; set(allresults([inc, dec])(3)) == {2, 4}; set(allresults((inc, dec))(3)) == {3}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_allresults_correct","statement":"Path(test_allresults(x), set(allresults(inc)(3)) == {inc(3)}; set(allresults([inc, dec])(3)) == {2, 4}; set(allresults((inc, dec))(3)) == {3})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e7c756b5b356106","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(allresults(inc)(3)) == {inc(3)}","set(allresults([inc, dec])(3)) == {2, 4}","set(allresults((inc, dec))(3)) == {3}","set(allresults([inc, (dec, double)])(4)) == {5, 6}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_allresults():
     # square = lambda x: x**2
 
@@ -221,16 +295,24 @@ def test_allresults():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_brute(), test_brute produces the expected output) over Any ║
+# ║ Path(test_brute(), fn(2) == (2 + 1) ** 2 and fn(-2) == (-2 - 1) ** 2 and brute(inc)(1) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_brute : Any → {Any | fn(2) == (2 + 1) ** 2 and f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fn(2) == (2 + 1) ** 2                          ║
+# ║   ensures:  fn(-2) == (-2 - 1) ** 2                        ║
+# ║   ensures:  brute(inc)(1) == 2                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_brute : Any → {Any | result satisfies: fn(2) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82e670071de4c95b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 057499cb0b83c0a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_brute","kind":"function","src_hash":"76eeade73bdefe66","in":{"base":"Any"},"out":{"base":"Any","pred":"fn(2) == (2 + 1) ** 2 and fn(-2) == (-2 - 1) ** 2 and brute(inc)(1) == 2"},"spec":{"lhs":"test_brute()","rhs":"test_brute produces the expected output","over":{"base":"Any"},"name":"test_brute_correct"},"guarantee":"test_brute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_brute_correct","statement":"Path(test_brute(x), test_brute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82e670071de4c95b"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_tree.test_brute","kind":"function","src_hash":"76eeade73bdefe66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fn(2) == (2 + 1) ** 2 and fn(-2) == (-2 - 1) ** 2 and brute(inc)(1) == 2"},"spec":{"lhs":"test_brute()","rhs":"fn(2) == (2 + 1) ** 2 and fn(-2) == (-2 - 1) ** 2 and brute(inc)(1) == 2","over":{"base":"Any"},"name":"test_brute_correct"},"guarantee":"fn(2) == (2 + 1) ** 2; fn(-2) == (-2 - 1) ** 2; brute(inc)(1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_tree.test_brute_correct","statement":"Path(test_brute(x), fn(2) == (2 + 1) ** 2; fn(-2) == (-2 - 1) ** 2; brute(inc)(1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"057499cb0b83c0a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fn(2) == (2 + 1) ** 2","fn(-2) == (-2 - 1) ** 2","brute(inc)(1) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_brute():
     tree = ([inc, dec], square)
     fn = brute(tree, lambda x: -x)

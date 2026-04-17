@@ -27,16 +27,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QuotientRingElement(), test_QuotientRingElement produces the expected output) over Any ║
+# ║ Path(test_QuotientRingElement(), X * (X + 1) == R.convert(x ** 2 + x) and X * x == R.convert(x ** 2) and x * X == R.convert(x ** 2) and X + x == R.convert(2 * x) and x + X == 2 * X and X ** 2 == R.convert(x ** 2) and 1 / (1 - X) == R.convert(sum((x ** i for i in range(10)))) and X ** 10 == R.zero and X != x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QuotientRingElement : Any → {Any | X * (X + 1) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X * (X + 1) == R.convert(x ** 2 + x)           ║
+# ║   ensures:  X * x == R.convert(x ** 2)                     ║
+# ║   ensures:  x * X == R.convert(x ** 2)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QuotientRingElement : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33eeaf5deab332ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 574789b5e257cbf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_quotientring.test_QuotientRingElement","kind":"function","src_hash":"bfe201b06034eb10","in":{"base":"Any"},"out":{"base":"Any","pred":"X * (X + 1) == R.convert(x ** 2 + x) and X * x == R.convert(x ** 2) and x * X == R.convert(x ** 2) and X + x == R.convert(2 * x) and x + X == 2 * X and X ** 2 == R.convert(x ** 2) and 1 / (1 - X) == R.convert(sum((x ** i for i in range(10)))) and X ** 10 == R.zero and X != x"},"spec":{"lhs":"test_QuotientRingElement()","rhs":"test_QuotientRingElement produces the expected output","over":{"base":"Any"},"name":"test_QuotientRingElement_correct"},"guarantee":"test_QuotientRingElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_quotientring.test_QuotientRingElement_correct","statement":"Path(test_QuotientRingElement(x), test_QuotientRingElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33eeaf5deab332ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_quotientring.test_QuotientRingElement","kind":"function","src_hash":"bfe201b06034eb10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X * (X + 1) == R.convert(x ** 2 + x) and X * x == R.convert(x ** 2) and x * X == R.convert(x ** 2) and X + x == R.convert(2 * x) and x + X == 2 * X and X ** 2 == R.convert(x ** 2) and 1 / (1 - X) == R.convert(sum((x ** i for i in range(10)))) and X ** 10 == R.zero and X != x"},"spec":{"lhs":"test_QuotientRingElement()","rhs":"X * (X + 1) == R.convert(x ** 2 + x) and X * x == R.convert(x ** 2) and x * X == R.convert(x ** 2) and X + x == R.convert(2 * x) and x + X == 2 * X and X ** 2 == R.convert(x ** 2) and 1 / (1 - X) == R.convert(sum((x ** i for i in range(10)))) and X ** 10 == R.zero and X != x","over":{"base":"Any"},"name":"test_QuotientRingElement_correct"},"guarantee":"X * (X + 1) == R.convert(x ** 2 + x); X * x == R.convert(x ** 2); x * X == R.convert(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_quotientring.test_QuotientRingElement_correct","statement":"Path(test_QuotientRingElement(x), X * (X + 1) == R.convert(x ** 2 + x); X * x == R.convert(x ** 2); x * X == R.convert(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"574789b5e257cbf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X * (X + 1) == R.convert(x ** 2 + x)","X * x == R.convert(x ** 2)","x * X == R.convert(x ** 2)","X + x == R.convert(2 * x)","x + X == 2 * X","X ** 2 == R.convert(x ** 2)","1 / (1 - X) == R.convert(sum((x ** i for i in range(10))))","X ** 10 == R.zero","X != x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_QuotientRingElement():
     R = QQ.old_poly_ring(x)/[x**10]
     X = R.convert(x)
@@ -55,16 +63,24 @@ def test_QuotientRingElement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QuotientRing(), test_QuotientRing produces the expected output) over Any ║
+# ║ Path(test_QuotientRing(), R == QQ.old_poly_ring(x) / [x ** 2 + 1] and R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1) and R != QQ.old_poly_ring(x) and R.convert(1) / x == -x + I and -1 + I == x ** 2 + I and R.convert(ZZ(1), ZZ) == 1 + I and R.convert(R.convert(x), R) == R.convert(x) and -1 + I == X ** 2 + I and -1 + I == Y ** 2 + I and R.to_sympy(X) == x and R.convert(1) + I == (R / I).convert(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QuotientRing : Any → {Any | R == QQ.old_poly_rin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R == QQ.old_poly_ring(x) / [x ** 2 + 1]        ║
+# ║   ensures:  R == QQ.old_poly_ring(x) / QQ.old_poly_ri...   ║
+# ║   ensures:  R != QQ.old_poly_ring(x)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QuotientRing : Any → {Any | result satisfies: R ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4b0590e42162ee2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc015468c761828f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_quotientring.test_QuotientRing","kind":"function","src_hash":"d88563a5a848f1b8","in":{"base":"Any"},"out":{"base":"Any","pred":"R == QQ.old_poly_ring(x) / [x ** 2 + 1] and R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1) and R != QQ.old_poly_ring(x) and R.convert(1) / x == -x + I and -1 + I == x ** 2 + I and R.convert(ZZ(1), ZZ) == 1 + I and R.convert(R.convert(x), R) == R.convert(x) and -1 + I == X ** 2 + I and -1 + I == Y ** 2 + I and R.to_sympy(X) == x and R.convert(1) + I == (R / I).convert(1)"},"spec":{"lhs":"test_QuotientRing()","rhs":"test_QuotientRing produces the expected output","over":{"base":"Any"},"name":"test_QuotientRing_correct"},"guarantee":"test_QuotientRing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_quotientring.test_QuotientRing_correct","statement":"Path(test_QuotientRing(x), test_QuotientRing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4b0590e42162ee2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.tests.test_quotientring.test_QuotientRing","kind":"function","src_hash":"d88563a5a848f1b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R == QQ.old_poly_ring(x) / [x ** 2 + 1] and R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1) and R != QQ.old_poly_ring(x) and R.convert(1) / x == -x + I and -1 + I == x ** 2 + I and R.convert(ZZ(1), ZZ) == 1 + I and R.convert(R.convert(x), R) == R.convert(x) and -1 + I == X ** 2 + I and -1 + I == Y ** 2 + I and R.to_sympy(X) == x and R.convert(1) + I == (R / I).convert(1)"},"spec":{"lhs":"test_QuotientRing()","rhs":"R == QQ.old_poly_ring(x) / [x ** 2 + 1] and R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1) and R != QQ.old_poly_ring(x) and R.convert(1) / x == -x + I and -1 + I == x ** 2 + I and R.convert(ZZ(1), ZZ) == 1 + I and R.convert(R.convert(x), R) == R.convert(x) and -1 + I == X ** 2 + I and -1 + I == Y ** 2 + I and R.to_sympy(X) == x and R.convert(1) + I == (R / I).convert(1)","over":{"base":"Any"},"name":"test_QuotientRing_correct"},"guarantee":"R == QQ.old_poly_ring(x) / [x ** 2 + 1]; R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1); R != QQ.old_poly_ring(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.tests.test_quotientring.test_QuotientRing_correct","statement":"Path(test_QuotientRing(x), R == QQ.old_poly_ring(x) / [x ** 2 + 1]; R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1); R != QQ.old_poly_ring(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc015468c761828f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R == QQ.old_poly_ring(x) / [x ** 2 + 1]","R == QQ.old_poly_ring(x) / QQ.old_poly_ring(x).ideal(x ** 2 + 1)","R != QQ.old_poly_ring(x)","R.convert(1) / x == -x + I","-1 + I == x ** 2 + I","R.convert(ZZ(1), ZZ) == 1 + I","R.convert(R.convert(x), R) == R.convert(x)","-1 + I == X ** 2 + I","-1 + I == Y ** 2 + I","R.to_sympy(X) == x","R.convert(1) + I == (R / I).convert(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_QuotientRing():
     I = QQ.old_poly_ring(x).ideal(x**2 + 1)
     R = QQ.old_poly_ring(x)/I

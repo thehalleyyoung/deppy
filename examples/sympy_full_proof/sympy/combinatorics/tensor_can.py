@@ -42,16 +42,23 @@ from sympy.combinatorics.util import _distribute_gens_by_base, \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dummy_sgs(dum), return the strong generators for dummy indices) over Any ║
+# ║ Path(dummy_sgs(dummies, sym, n), len(res) == old_len_res + 1) over {Any | not (len(dummies) > n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dummy_sgs : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(dummies) > n)                         ║
+# ║   ensures:  len(res) == old_len_res + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dummy_sgs : {Any | not (len(dummies) > n)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a1e560dd7c21d54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c025ba4e98960db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.dummy_sgs","kind":"function","src_hash":"c81f3851542bb52d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dummy_sgs(dum)","rhs":"return the strong generators for dummy indices","over":{"base":"Any"},"name":"dummy_sgs_correct"},"guarantee":"return the strong generators for dummy indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.dummy_sgs_correct","statement":"Path(dummy_sgs(x), return the strong generators for dummy indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a1e560dd7c21d54"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.dummy_sgs","kind":"function","src_hash":"c81f3851542bb52d","in":{"base":"Any","pred":"not (len(dummies) > n)"},"out":{"base":"Any","pred":"result satisfies: len(res) == old_len_res + 1"},"spec":{"lhs":"dummy_sgs(dummies, sym, n)","rhs":"len(res) == old_len_res + 1","over":{"base":"Any","pred":"not (len(dummies) > n)"},"name":"dummy_sgs_correct"},"guarantee":"len(res) == old_len_res + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.dummy_sgs_correct","statement":"Path(dummy_sgs(x), len(res) == old_len_res + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c025ba4e98960db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(dummies) > n)"],"ensures":["len(res) == old_len_res + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["res.append"],"raises":["ValueError"]},"state_contract":{"modifies":["res.*"],"old_bindings":{"old_len_res":"len(res)"},"post_ensures":["len(res) == old_len_res + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dummy_sgs(dummies, sym, n):
     """
     Return the strong generators for dummy indices.
@@ -100,16 +107,22 @@ def dummy_sgs(dummies, sym, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_min_dummies(dum), return list of minima of the orbits of indices in group of dummies. see ``double_coset_can_rep`` for the description of ``dummies`` and ``sym``. ``indices`` is the initial list of dummy indices) over Any ║
+# ║ Path(_min_dummies(dummies, sym, indices), <unspecified:_min_dummies>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _min_dummies : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b32bdf020c0c58a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._min_dummies","kind":"function","src_hash":"8a79841846e6a1df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_min_dummies(dum)","rhs":"return list of minima of the orbits of indices in group of dummies. see ``double_coset_can_rep`` for the description of ``dummies`` and ``sym``. ``indices`` is the initial list of dummy indices","over":{"base":"Any"},"name":"_min_dummies_correct"},"guarantee":"return list of minima of the orbits of indices in group of dummies. see ``double_coset_can_rep`` for the description of ``dummies`` and ``sym``. ``indices`` is the initial list of dummy indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._min_dummies_correct","statement":"Path(_min_dummies(x), return list of minima of the orbits of indices in group of dummies. see ``double_coset_can_rep`` for the description of ``dummies`` and ``sym``. ``indices`` is the initial list of dummy indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b32bdf020c0c58a9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._min_dummies","kind":"function","src_hash":"8a79841846e6a1df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_min_dummies(dummies, sym, indices)","rhs":"<unspecified:_min_dummies>","over":{"base":"Any"},"name":"_min_dummies_correct"},"guarantee":"return list of minima of the orbits of indices in group of dummies. see ``double_coset_can_rep`` for the description of ``dummies`` and ``sym``. ``indices`` is the initial list of dummy indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._min_dummies_correct","statement":"Path(_min_dummies(x), return list of minima of the orbits of indices in group of dummies. see ``double_coset_can_rep`` for the description of ``dummies`` and ``sym``. ``indices`` is the initial list of dummy indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b32bdf020c0c58a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _min_dummies(dummies, sym, indices):
     """
     Return list of minima of the orbits of indices in group of dummies.
@@ -136,16 +149,22 @@ def _min_dummies(dummies, sym, indices):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trace_S(s, ), return the representative h satisfying s[h[b]] == j) over Any ║
+# ║ Path(_trace_S(s, j, b), <unspecified:_trace_S>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trace_S : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d662bb4fb1398f35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._trace_S","kind":"function","src_hash":"78a64ac82157f7f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trace_S(s, )","rhs":"return the representative h satisfying s[h[b]] == j","over":{"base":"Any"},"name":"_trace_S_correct"},"guarantee":"return the representative h satisfying s[h[b]] == j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._trace_S_correct","statement":"Path(_trace_S(x), return the representative h satisfying s[h[b]] == j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d662bb4fb1398f35"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._trace_S","kind":"function","src_hash":"78a64ac82157f7f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trace_S(s, j, b)","rhs":"<unspecified:_trace_S>","over":{"base":"Any"},"name":"_trace_S_correct"},"guarantee":"return the representative h satisfying s[h[b]] == j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._trace_S_correct","statement":"Path(_trace_S(x), return the representative h satisfying s[h[b]] == j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d662bb4fb1398f35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _trace_S(s, j, b, S_cosets):
     """
     Return the representative h satisfying s[h[b]] == j
@@ -159,16 +178,22 @@ def _trace_S(s, j, b, S_cosets):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trace_D(gj,), return the representative h satisfying h[gj] == p_i) over Any ║
+# ║ Path(_trace_D(gj, p_i, Dxtrav), <unspecified:_trace_D>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trace_D : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad3174ba19f1885a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._trace_D","kind":"function","src_hash":"eba2ce517372eed4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trace_D(gj,)","rhs":"return the representative h satisfying h[gj] == p_i","over":{"base":"Any"},"name":"_trace_D_correct"},"guarantee":"return the representative h satisfying h[gj] == p_i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._trace_D_correct","statement":"Path(_trace_D(x), return the representative h satisfying h[gj] == p_i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad3174ba19f1885a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._trace_D","kind":"function","src_hash":"eba2ce517372eed4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trace_D(gj, p_i, Dxtrav)","rhs":"<unspecified:_trace_D>","over":{"base":"Any"},"name":"_trace_D_correct"},"guarantee":"return the representative h satisfying h[gj] == p_i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._trace_D_correct","statement":"Path(_trace_D(x), return the representative h satisfying h[gj] == p_i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad3174ba19f1885a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _trace_D(gj, p_i, Dxtrav):
     """
     Return the representative h satisfying h[gj] == p_i
@@ -182,16 +207,23 @@ def _trace_D(gj, p_i, Dxtrav):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dumx_remove(dum), remove p0 from dumx) over Any      ║
+# ║ Path(_dumx_remove(dumx, dumx_flat, p0), len(res) == old_len_res + 1) over {Any | hasattr(dumx_flat, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dumx_remove : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dumx_flat, 'remove')                   ║
+# ║   ensures:  len(res) == old_len_res + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dumx_remove : {Any | hasattr(dumx_flat, 'remove')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92736328e500aa31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4edbb70549d86530  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._dumx_remove","kind":"function","src_hash":"9d45ef6c687bd7d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dumx_remove(dum)","rhs":"remove p0 from dumx","over":{"base":"Any"},"name":"_dumx_remove_correct"},"guarantee":"remove p0 from dumx","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._dumx_remove_correct","statement":"Path(_dumx_remove(x), remove p0 from dumx)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92736328e500aa31"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._dumx_remove","kind":"function","src_hash":"9d45ef6c687bd7d0","in":{"base":"Any","pred":"hasattr(dumx_flat, 'remove')"},"out":{"base":"Any","pred":"result satisfies: len(res) == old_len_res + 1"},"spec":{"lhs":"_dumx_remove(dumx, dumx_flat, p0)","rhs":"len(res) == old_len_res + 1","over":{"base":"Any","pred":"hasattr(dumx_flat, 'remove')"},"name":"_dumx_remove_correct"},"guarantee":"len(res) == old_len_res + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._dumx_remove_correct","statement":"Path(_dumx_remove(x), len(res) == old_len_res + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4edbb70549d86530","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dumx_flat, 'remove')"],"ensures":["len(res) == old_len_res + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["dumx_flat.remove"],"calls_mutating":["dumx_flat.remove","dx.remove","res.append"]},"state_contract":{"modifies":["dumx_flat.*","dx.*","res.*"],"old_bindings":{"old_len_res":"len(res)"},"post_ensures":["len(res) == old_len_res + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dumx_remove(dumx, dumx_flat, p0):
     """
     remove p0 from dumx
@@ -214,16 +246,22 @@ def _dumx_remove(dumx, dumx_flat, p0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transversal2coset(siz), transversal2coset produces the expected output) over Any ║
+# ║ Path(transversal2coset(size, base, transversal), a[:j + 1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a[:j + 1]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transversal2coset : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab47b0d47b19437c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d1527fdafe002d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.transversal2coset","kind":"function","src_hash":"df69d80fd522adcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transversal2coset(siz)","rhs":"transversal2coset produces the expected output","over":{"base":"Any"},"name":"transversal2coset_correct"},"guarantee":"transversal2coset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.transversal2coset_correct","statement":"Path(transversal2coset(x), transversal2coset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab47b0d47b19437c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.transversal2coset","kind":"function","src_hash":"df69d80fd522adcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transversal2coset(size, base, transversal)","rhs":"a[:j + 1]","over":{"base":"Any"},"name":"transversal2coset_correct"},"guarantee":"returns a[:j + 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.transversal2coset_correct","statement":"Path(transversal2coset(x), returns a[:j + 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d1527fdafe002d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a[:j + 1]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def transversal2coset(size, base, transversal):
     a = []
     j = 0
@@ -240,16 +278,27 @@ def transversal2coset(size, base, transversal):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(double_coset_can_rep(dum), butler-portugal algorithm for tensor canonicalization with dummy indices) over Any ║
+# ║ Path(double_coset_can_rep(dummies, sym, b_S), len(TAB) == old_len_TAB + 1 and len(TAB) == old_len_TAB - 1 and len(TAB1) == old_len_TAB1 + 1 and len(TAB1) == old_len_TAB1 - 1 and len(TAB1) == old_len_TAB1) over {Any | hasattr(b_S, 'remove') and len(TAB) > 0 and len(TAB1) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ double_coset_can_rep : Any → {Any | d1[dg[j]] == p_i}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b_S, 'remove')                         ║
+# ║   requires: len(TAB) > 0                                   ║
+# ║   requires: len(TAB1) > 0                                  ║
+# ║   ensures:  len(TAB) == old_len_TAB + 1                    ║
+# ║   ensures:  len(TAB) == old_len_TAB - 1                    ║
+# ║   ensures:  len(TAB1) == old_len_TAB1 + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ double_coset_can_rep : {Any | hasattr(b_S, 'remove') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b717a06328b8d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87ee3cbe8562b8f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.double_coset_can_rep","kind":"function","src_hash":"b1cb18ab33218cf1","in":{"base":"Any"},"out":{"base":"Any","pred":"d1[dg[j]] == p_i"},"spec":{"lhs":"double_coset_can_rep(dum)","rhs":"butler-portugal algorithm for tensor canonicalization with dummy indices","over":{"base":"Any"},"name":"double_coset_can_rep_correct"},"guarantee":"butler-portugal algorithm for tensor canonicalization with dummy indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.double_coset_can_rep_correct","statement":"Path(double_coset_can_rep(x), butler-portugal algorithm for tensor canonicalization with dummy indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b717a06328b8d0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.double_coset_can_rep","kind":"function","src_hash":"b1cb18ab33218cf1","in":{"base":"Any","pred":"hasattr(b_S, 'remove') and len(TAB) > 0 and len(TAB1) > 0"},"out":{"base":"Any","pred":"result satisfies: len(TAB) == old_len_TAB + 1 and len(TAB) == old_len_TAB - 1 and len(TAB1) == old_len_TAB1 + 1 and len(TAB1) == old_len_TAB1 - 1 and len(TAB1) == old_len_TAB1"},"spec":{"lhs":"double_coset_can_rep(dummies, sym, b_S)","rhs":"len(TAB) == old_len_TAB + 1 and len(TAB) == old_len_TAB - 1 and len(TAB1) == old_len_TAB1 + 1 and len(TAB1) == old_len_TAB1 - 1 and len(TAB1) == old_len_TAB1","over":{"base":"Any","pred":"hasattr(b_S, 'remove') and len(TAB) > 0 and len(TAB1) > 0"},"name":"double_coset_can_rep_correct"},"guarantee":"len(TAB) == old_len_TAB + 1; len(TAB) == old_len_TAB - 1; len(TAB1) == old_len_TAB1 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.double_coset_can_rep_correct","statement":"Path(double_coset_can_rep(x), len(TAB) == old_len_TAB + 1; len(TAB) == old_len_TAB - 1; len(TAB1) == old_len_TAB1 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87ee3cbe8562b8f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b_S, 'remove')","len(TAB) > 0","len(TAB1) > 0"],"ensures":["len(TAB) == old_len_TAB + 1","len(TAB) == old_len_TAB - 1","len(TAB1) == old_len_TAB1 + 1","len(TAB1) == old_len_TAB1 - 1","len(TAB1) == old_len_TAB1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["b_S.remove","g.array_form","g.size"],"calls_mutating":["TAB.append","TAB.pop","TAB1.append","TAB1.pop","TAB1.sort","b_S.remove","dsgsx.extend","dumx_flat.extend"]},"state_contract":{"modifies":["TAB.*","TAB1.*","b_S.*","dsgsx.*","dumx_flat.*"],"old_bindings":{"old_len_TAB":"len(TAB)","old_len_TAB1":"len(TAB1)","old_len_dsgsx":"len(dsgsx)","old_len_dumx_flat":"len(dumx_flat)"},"pre_requires":["len(TAB) > 0","len(TAB1) > 0"],"post_ensures":["len(TAB) == old_len_TAB + 1","len(TAB) == old_len_TAB - 1","len(TAB1) == old_len_TAB1 + 1","len(TAB1) == old_len_TAB1 - 1","len(TAB1) == old_len_TAB1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
     r"""
     Butler-Portugal algorithm for tensor canonicalization with dummy indices.
@@ -625,16 +674,24 @@ def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonical_free(bas), canonicalization of a tensor with respect to free indices choosing the minimum with respect to lexicographical ordering in the free indices) over Any ║
+# ║ Path(canonical_free(base, gens, g), len(base) == old_len_base + 1) over {Any | hasattr(g, 'array_form') and hasattr(base, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonical_free : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'array_form')                       ║
+# ║   requires: hasattr(base, 'append')                        ║
+# ║   ensures:  len(base) == old_len_base + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonical_free : {Any | hasattr(g, 'array_form') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fe93a3148598ade  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3e73d78a6c6a0b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.canonical_free","kind":"function","src_hash":"84244438de148fb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical_free(bas)","rhs":"canonicalization of a tensor with respect to free indices choosing the minimum with respect to lexicographical ordering in the free indices","over":{"base":"Any"},"name":"canonical_free_correct"},"guarantee":"canonicalization of a tensor with respect to free indices choosing the minimum with respect to lexicographical ordering in the free indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.canonical_free_correct","statement":"Path(canonical_free(x), canonicalization of a tensor with respect to free indices choosing the minimum with respect to lexicographical ordering in the free indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fe93a3148598ade"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.canonical_free","kind":"function","src_hash":"84244438de148fb9","in":{"base":"Any","pred":"hasattr(g, 'array_form') and hasattr(base, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(base) == old_len_base + 1"},"spec":{"lhs":"canonical_free(base, gens, g)","rhs":"len(base) == old_len_base + 1","over":{"base":"Any","pred":"hasattr(g, 'array_form') and hasattr(base, 'append')"},"name":"canonical_free_correct"},"guarantee":"len(base) == old_len_base + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.canonical_free_correct","statement":"Path(canonical_free(x), len(base) == old_len_base + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e73d78a6c6a0b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'array_form')","hasattr(base, 'append')"],"ensures":["len(base) == old_len_base + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["base.append","g.array_form"],"calls_mutating":["base.append"]},"state_contract":{"modifies":["base.*"],"old_bindings":{"old_len_base":"len(base)"},"post_ensures":["len(base) == old_len_base + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def canonical_free(base, gens, g, num_free):
     """
     Canonicalization of a tensor with respect to free indices
@@ -710,16 +767,22 @@ def canonical_free(base, gens, g, num_free):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_map_slots(siz), internal helper behaves correctly) over Any ║
+# ║ Path(_get_map_slots(size, fixed_slots), <unspecified:_get_map_slots>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_map_slots : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2b59f6b72e528df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._get_map_slots","kind":"function","src_hash":"fa435b6b57d857f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_map_slots(siz)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_map_slots_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._get_map_slots_correct","statement":"Path(_get_map_slots(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2b59f6b72e528df"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._get_map_slots","kind":"function","src_hash":"fa435b6b57d857f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_map_slots(size, fixed_slots)","rhs":"<unspecified:_get_map_slots>","over":{"base":"Any"},"name":"_get_map_slots_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._get_map_slots_correct","statement":"Path(_get_map_slots(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2b59f6b72e528df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_map_slots(size, fixed_slots):
     res = list(range(size))
     pos = 0
@@ -732,16 +795,22 @@ def _get_map_slots(size, fixed_slots):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lift_sgens(siz), internal helper behaves correctly) over Any ║
+# ║ Path(_lift_sgens(size, fixed_slots, free), <unspecified:_lift_sgens>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _lift_sgens : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf12550eed744881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._lift_sgens","kind":"function","src_hash":"5486d51a991e7379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lift_sgens(siz)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_lift_sgens_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._lift_sgens_correct","statement":"Path(_lift_sgens(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf12550eed744881"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._lift_sgens","kind":"function","src_hash":"5486d51a991e7379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lift_sgens(size, fixed_slots, free)","rhs":"<unspecified:_lift_sgens>","over":{"base":"Any"},"name":"_lift_sgens_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._lift_sgens_correct","statement":"Path(_lift_sgens(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf12550eed744881","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _lift_sgens(size, fixed_slots, free, s):
     a = []
     j = k = 0
@@ -758,9 +827,15 @@ def _lift_sgens(size, fixed_slots, free, s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonicalize(g, ), canonicalize tensor formed by tensors) over {Any | isinstance(msym, list)} ║
+# ║ Path(canonicalize(g, dummies, msym), len(fr) == old_len_fr + 1 and len(free_i) == old_len_free_i + 1 and len(v1) == old_len_v1 + 1) over {Any | isinstance(msym, list) and hasattr(g, 'size')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonicalize : {Any | isinstance(msym, list)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'size')                             ║
+# ║   ensures:  len(fr) == old_len_fr + 1                      ║
+# ║   ensures:  len(free_i) == old_len_free_i + 1              ║
+# ║   ensures:  len(v1) == old_len_v1 + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonicalize : {Any | isinstance(msym, list) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   list: {isinstance(msym, list)} → library_axiom           ║
@@ -770,9 +845,12 @@ def _lift_sgens(size, fixed_slots, free, s):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8a5ff564...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.canonicalize","kind":"function","src_hash":"8a987cf33e6258ca","in":{"base":"Any","pred":"isinstance(msym, list)"},"out":{"base":"Any"},"spec":{"lhs":"canonicalize(g, )","rhs":"canonicalize tensor formed by tensors","over":{"base":"Any","pred":"isinstance(msym, list)"},"name":"canonicalize_correct"},"guarantee":"canonicalize tensor formed by tensors","fibers":[{"name":"list","pred":"isinstance(msym, list)","path":{"lhs":"canonicalize(x)","rhs":"canonicalize tensor formed by tensors","over":{"base":"list","pred":"isinstance(msym, list)"},"name":"canonicalize_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.canonicalize_list_correct","statement":"canonicalize satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a5ff564a2a874a3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.canonicalize","kind":"function","src_hash":"8a987cf33e6258ca","in":{"base":"Any","pred":"isinstance(msym, list) and hasattr(g, 'size')"},"out":{"base":"Any","pred":"result satisfies: len(fr) == old_len_fr + 1 and len(free_i) == old_len_free_i + 1 and len(v1) == old_len_v1 + 1"},"spec":{"lhs":"canonicalize(g, dummies, msym)","rhs":"len(fr) == old_len_fr + 1 and len(free_i) == old_len_free_i + 1 and len(v1) == old_len_v1 + 1","over":{"base":"Any","pred":"isinstance(msym, list) and hasattr(g, 'size')"},"name":"canonicalize_correct"},"guarantee":"len(fr) == old_len_fr + 1; len(free_i) == old_len_free_i + 1; len(v1) == old_len_v1 + 1","fibers":[{"name":"list","pred":"isinstance(msym, list)","path":{"lhs":"canonicalize(x)","rhs":"len(fr) == old_len_fr + 1; len(free_i) == old_len_free_i + 1; len(v1) == old_len_v1 + 1","over":{"base":"list","pred":"isinstance(msym, list)"},"name":"canonicalize_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.canonicalize_list_correct","statement":"canonicalize satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a5ff564a2a874a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'size')"],"ensures":["len(fr) == old_len_fr + 1","len(free_i) == old_len_free_i + 1","len(v1) == old_len_v1 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.size"],"calls_mutating":["flat_dummies.extend","fr.append","free_i.append","g1_red.extend","v1.append"],"raises":["ValueError"]},"state_contract":{"modifies":["flat_dummies.*","fr.*","free_i.*","g1_red.*","v1.*"],"old_bindings":{"old_len_flat_dummies":"len(flat_dummies)","old_len_fr":"len(fr)","old_len_free_i":"len(free_i)","old_len_g1_red":"len(g1_red)","old_len_v1":"len(v1)"},"post_ensures":["len(fr) == old_len_fr + 1","len(free_i) == old_len_free_i + 1","len(v1) == old_len_v1 + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['g', 'dummies', 'msym'], spec=['g', 'dummies', 'msym', '*v']","Poor branch-fiber coverage: 0% (branches={'flat_dummies and flat_dummies != list(range(flat_dummies[0], flat_dummies[-1] + 1))', 'len(dummies) != num_types', 'not isinstance(msym, list)', 'num_types == 1 and (not isinstance(msym, list))', 'size != size1', 'g2 == 0'}, fibers={'list'})"]}}
 def canonicalize(g, dummies, msym, *v):
     """
     canonicalize tensor formed by tensors
@@ -998,16 +1076,22 @@ def canonicalize(g, dummies, msym, *v):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perm_af_direct_product(gen), direct products of the generators gens1 and gens2) over Any ║
+# ║ Path(perm_af_direct_product(gens1, gens2, signed), <unspecified:perm_af_direct_product>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perm_af_direct_product : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f65937f39bfb8d1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.perm_af_direct_product","kind":"function","src_hash":"38dce38308932c93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perm_af_direct_product(gen)","rhs":"direct products of the generators gens1 and gens2","over":{"base":"Any"},"name":"perm_af_direct_product_correct"},"guarantee":"direct products of the generators gens1 and gens2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.perm_af_direct_product_correct","statement":"Path(perm_af_direct_product(x), direct products of the generators gens1 and gens2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f65937f39bfb8d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.perm_af_direct_product","kind":"function","src_hash":"38dce38308932c93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perm_af_direct_product(gens1, gens2, signed)","rhs":"<unspecified:perm_af_direct_product>","over":{"base":"Any"},"name":"perm_af_direct_product_correct"},"guarantee":"direct products of the generators gens1 and gens2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.perm_af_direct_product_correct","statement":"Path(perm_af_direct_product(x), direct products of the generators gens1 and gens2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f65937f39bfb8d1f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def perm_af_direct_product(gens1, gens2, signed=True):
     """
     Direct products of the generators gens1 and gens2.
@@ -1046,16 +1130,22 @@ def perm_af_direct_product(gens1, gens2, signed=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bsgs_direct_product(bas), direct product of two bsgs) over Any ║
+# ║ Path(bsgs_direct_product(base1, gens1, base2), (base, [_af_new(h) for h in gens])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (base, [_af_new(h) for h in gens])             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bsgs_direct_product : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04687688883c446c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 431d7c7b1e2af42f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.bsgs_direct_product","kind":"function","src_hash":"83aabba29d1d63b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bsgs_direct_product(bas)","rhs":"direct product of two bsgs","over":{"base":"Any"},"name":"bsgs_direct_product_correct"},"guarantee":"direct product of two bsgs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.bsgs_direct_product_correct","statement":"Path(bsgs_direct_product(x), direct product of two bsgs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04687688883c446c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.bsgs_direct_product","kind":"function","src_hash":"83aabba29d1d63b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bsgs_direct_product(base1, gens1, base2)","rhs":"(base, [_af_new(h) for h in gens])","over":{"base":"Any"},"name":"bsgs_direct_product_correct"},"guarantee":"returns (base, [_af_new(h) for h in gens])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.bsgs_direct_product_correct","statement":"Path(bsgs_direct_product(x), returns (base, [_af_new(h) for h in gens]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"431d7c7b1e2af42f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(base, [_af_new(h) for h in gens])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def bsgs_direct_product(base1, gens1, base2, gens2, signed=True):
     """
     Direct product of two BSGS.
@@ -1096,16 +1186,22 @@ def bsgs_direct_product(base1, gens1, base2, gens2, signed=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_symmetric_group_sgs(n, ), id) over Any            ║
+# ║ Path(get_symmetric_group_sgs(n, antisym), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_symmetric_group_sgs : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a6e3a6dd852438cf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.get_symmetric_group_sgs","kind":"function","src_hash":"da5e54f01aa92bff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_symmetric_group_sgs(n, )","rhs":"return base, gens of the minimal bsgs for (anti)symmetric tensor","over":{"base":"Any"},"name":"get_symmetric_group_sgs_correct","kind":"composition"},"guarantee":"return base, gens of the minimal bsgs for (anti)symmetric tensor","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_af_new","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e3a6dd852438cf"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.get_symmetric_group_sgs","kind":"function","src_hash":"da5e54f01aa92bff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_symmetric_group_sgs(n, antisym)","rhs":"<unspecified:get_symmetric_group_sgs>","over":{"base":"Any"},"name":"get_symmetric_group_sgs_correct","kind":"composition"},"guarantee":"return base, gens of the minimal bsgs for (anti)symmetric tensor","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_af_new","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e3a6dd852438cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_symmetric_group_sgs(n, antisym=False):
     """
     Return base, gens of the minimal BSGS for (anti)symmetric tensor
@@ -1140,16 +1236,22 @@ riemann_bsgs = [0, 2], [Permutation(0, 1)(4, 5), Permutation(2, 3)(4, 5),
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_transversals(bas), return transversals for the group with bsgs base, gens) over Any ║
+# ║ Path(get_transversals(base, gens), <unspecified:get_transversals>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_transversals : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb4cb641d40d6067  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.get_transversals","kind":"function","src_hash":"70f6acf34f8add7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_transversals(bas)","rhs":"return transversals for the group with bsgs base, gens","over":{"base":"Any"},"name":"get_transversals_correct"},"guarantee":"return transversals for the group with bsgs base, gens","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.get_transversals_correct","statement":"Path(get_transversals(x), return transversals for the group with bsgs base, gens)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb4cb641d40d6067"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.get_transversals","kind":"function","src_hash":"70f6acf34f8add7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_transversals(base, gens)","rhs":"<unspecified:get_transversals>","over":{"base":"Any"},"name":"get_transversals_correct"},"guarantee":"return transversals for the group with bsgs base, gens","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.get_transversals_correct","statement":"Path(get_transversals(x), return transversals for the group with bsgs base, gens)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb4cb641d40d6067","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_transversals(base, gens):
     """
     Return transversals for the group with BSGS base, gens
@@ -1164,16 +1266,22 @@ def get_transversals(base, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_minimal_bsgs(bas), check if the bsgs has minimal base under lexigographic order) over Any ║
+# ║ Path(_is_minimal_bsgs(base, gens), base1 == base) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  base1 == base                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_minimal_bsgs : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9e6f4049e1bd280  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a7d70fb91dd7aa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._is_minimal_bsgs","kind":"function","src_hash":"d53159c724173a1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_minimal_bsgs(bas)","rhs":"check if the bsgs has minimal base under lexigographic order","over":{"base":"Any"},"name":"_is_minimal_bsgs_correct"},"guarantee":"check if the bsgs has minimal base under lexigographic order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._is_minimal_bsgs_correct","statement":"Path(_is_minimal_bsgs(x), check if the bsgs has minimal base under lexigographic order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9e6f4049e1bd280"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can._is_minimal_bsgs","kind":"function","src_hash":"d53159c724173a1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_minimal_bsgs(base, gens)","rhs":"base1 == base","over":{"base":"Any"},"name":"_is_minimal_bsgs_correct"},"guarantee":"returns base1 == base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can._is_minimal_bsgs_correct","statement":"Path(_is_minimal_bsgs(x), returns base1 == base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7d70fb91dd7aa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"base1 == base","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_minimal_bsgs(base, gens):
     """
     Check if the BSGS has minimal base under lexigographic order.
@@ -1202,16 +1310,22 @@ def _is_minimal_bsgs(base, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_minimal_bsgs(bas), compute a minimal gsgs) over Any ║
+# ║ Path(get_minimal_bsgs(base, gens), <unspecified:get_minimal_bsgs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_minimal_bsgs : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dc5f862b1107a91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.get_minimal_bsgs","kind":"function","src_hash":"a59adb29ae0e976e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_minimal_bsgs(bas)","rhs":"compute a minimal gsgs","over":{"base":"Any"},"name":"get_minimal_bsgs_correct"},"guarantee":"compute a minimal gsgs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.get_minimal_bsgs_correct","statement":"Path(get_minimal_bsgs(x), compute a minimal gsgs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dc5f862b1107a91"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.get_minimal_bsgs","kind":"function","src_hash":"a59adb29ae0e976e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_minimal_bsgs(base, gens)","rhs":"<unspecified:get_minimal_bsgs>","over":{"base":"Any"},"name":"get_minimal_bsgs_correct"},"guarantee":"compute a minimal gsgs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.get_minimal_bsgs_correct","statement":"Path(get_minimal_bsgs(x), compute a minimal gsgs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dc5f862b1107a91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_minimal_bsgs(base, gens):
     """
     Compute a minimal GSGS
@@ -1241,16 +1355,23 @@ def get_minimal_bsgs(base, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensor_gens(bas), returns size, res_base, res_gens bsgs for n tensors of the same type) over Any ║
+# ║ Path(tensor_gens(base, gens, list_free_indices), <unspecified:tensor_gens>) over {Any | hasattr(list_free_indices, 'count')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tensor_gens : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(list_free_indices, 'count')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tensor_gens : {Any | hasattr(list_free_indices, 'coun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 789333fae2d2eee7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.tensor_gens","kind":"function","src_hash":"0df66b5b0256cc8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tensor_gens(bas)","rhs":"returns size, res_base, res_gens bsgs for n tensors of the same type","over":{"base":"Any"},"name":"tensor_gens_correct"},"guarantee":"returns size, res_base, res_gens bsgs for n tensors of the same type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.tensor_gens_correct","statement":"Path(tensor_gens(x), returns size, res_base, res_gens bsgs for n tensors of the same type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"789333fae2d2eee7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.tensor_gens","kind":"function","src_hash":"0df66b5b0256cc8f","in":{"base":"Any","pred":"hasattr(list_free_indices, 'count')"},"out":{"base":"Any"},"spec":{"lhs":"tensor_gens(base, gens, list_free_indices)","rhs":"<unspecified:tensor_gens>","over":{"base":"Any","pred":"hasattr(list_free_indices, 'count')"},"name":"tensor_gens_correct"},"guarantee":"returns size, res_base, res_gens bsgs for n tensors of the same type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.tensor_gens_correct","statement":"Path(tensor_gens(x), returns size, res_base, res_gens bsgs for n tensors of the same type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"789333fae2d2eee7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(list_free_indices, 'count')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def tensor_gens(base, gens, list_free_indices, sym=0):
     """
     Returns size, res_base, res_gens BSGS for n tensors of the
@@ -1372,16 +1493,22 @@ def tensor_gens(base, gens, list_free_indices, sym=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gens_products(*v), returns size, res_base, res_gens bsgs for n tensors of different types) over Any ║
+# ║ Path(gens_products(*v), (res_size, res_base, res_gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (res_size, res_base, res_gens)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gens_products : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 901d4f6fc4dd37f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4bcef6c65ed16cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.gens_products","kind":"function","src_hash":"8f3da50a6d828e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gens_products(*v)","rhs":"returns size, res_base, res_gens bsgs for n tensors of different types","over":{"base":"Any"},"name":"gens_products_correct"},"guarantee":"returns size, res_base, res_gens bsgs for n tensors of different types","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.gens_products_correct","statement":"Path(gens_products(x), returns size, res_base, res_gens bsgs for n tensors of different types)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"901d4f6fc4dd37f1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tensor_can.gens_products","kind":"function","src_hash":"8f3da50a6d828e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gens_products(*v)","rhs":"(res_size, res_base, res_gens)","over":{"base":"Any"},"name":"gens_products_correct"},"guarantee":"returns (res_size, res_base, res_gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tensor_can.gens_products_correct","statement":"Path(gens_products(x), returns (res_size, res_base, res_gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4bcef6c65ed16cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(res_size, res_base, res_gens)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*v']"]}}
 def gens_products(*v):
     """
     Returns size, res_base, res_gens BSGS for n tensors of different types.

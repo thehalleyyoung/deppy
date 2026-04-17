@@ -78,16 +78,23 @@ __all__ = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(m_values(j), id) over Any                             ║
+# ║ Path(m_values(j), id) over {Any | not (not size.is_Integer or not size > 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ m_values : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not size.is_Integer or not size > 0)      ║
+# ║   returns:  (size, [j - i for i in range(int(2 * j + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ m_values : {Any | not (not size.is_Integer or not siz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5d2be78ff82cda49   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.m_values","kind":"function","src_hash":"b1d2d8669065dd48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m_values(j)","rhs":"m_values produces the expected output","over":{"base":"Any"},"name":"m_values_correct","kind":"composition"},"guarantee":"m_values produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2be78ff82cda49"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.m_values","kind":"function","src_hash":"b1d2d8669065dd48","in":{"base":"Any","pred":"not (not size.is_Integer or not size > 0)"},"out":{"base":"Any"},"spec":{"lhs":"m_values(j)","rhs":"(size, [j - i for i in range(int(2 * j + 1))])","over":{"base":"Any","pred":"not (not size.is_Integer or not size > 0)"},"name":"m_values_correct","kind":"composition"},"guarantee":"returns (size, [j - i for i in range(int(2 * j + 1))])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2be78ff82cda49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not size.is_Integer or not size > 0)"],"returns_expr":"(size, [j - i for i in range(int(2 * j + 1))])","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def m_values(j):
     j = sympify(j)
     size = 2*j + 1
@@ -106,103 +113,145 @@ def m_values(j):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SpinOpBase(*args), correctly constructs a SpinOpBase instance) over {Any | isinstance(state, State) and isinstance(state, Sum) and isinstance(self, (JxOp, JyOp, JzOp))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SpinOpBase : {Any | isinstance(state, State) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d5c8b15ddf10420  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase","kind":"class","src_hash":"9460de47e08d90a4","in":{"base":"Any","pred":"isinstance(state, State) and isinstance(state, Sum) and isinstance(self, (JxOp, JyOp, JzOp))"},"out":{"base":"Any"},"spec":{"lhs":"SpinOpBase(*args)","rhs":"correctly constructs a SpinOpBase instance","over":{"base":"Any","pred":"isinstance(state, State) and isinstance(state, Sum) and isinstance(self, (JxOp, JyOp, JzOp))"},"name":"SpinOpBase_class_invariant"},"guarantee":"correctly constructs a SpinOpBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5c8b15ddf10420"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase","kind":"class","src_hash":"9460de47e08d90a4","in":{"base":"Any","pred":"isinstance(state, State) and isinstance(state, Sum) and isinstance(self, (JxOp, JyOp, JzOp))"},"out":{"base":"Any"},"spec":{"lhs":"SpinOpBase(*args)","rhs":"correctly constructs a SpinOpBase instance","over":{"base":"Any","pred":"isinstance(state, State) and isinstance(state, Sum) and isinstance(self, (JxOp, JyOp, JzOp))"},"name":"SpinOpBase_class_invariant"},"guarantee":"correctly constructs a SpinOpBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5c8b15ddf10420","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function SpinOpBase not found in source"]}}
 class SpinOpBase:
     """Base class for spin operators."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, label), ComplexSpace(S.Infinity)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexSpace(S.Infinity)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4c40dbe4e40774f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._eval_hilbert_space","kind":"classmethod","src_hash":"3393ecbe24e7725c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4c40dbe4e40774f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._eval_hilbert_space","kind":"classmethod","src_hash":"3393ecbe24e7725c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, label)","rhs":"ComplexSpace(S.Infinity)","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns ComplexSpace(S.Infinity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4c40dbe4e40774f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexSpace(S.Infinity)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, label):
         # We consider all j values so our space is infinite.
         return ComplexSpace(S.Infinity)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 035b24c71c811ac3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"035b24c71c811ac3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"035b24c71c811ac3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents(printer, *args), '%s%s' % (self.name, self._coord)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s%s' % (self.name, self._coord)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f10aa29721daf31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._print_contents","kind":"method","src_hash":"02ea14dcbf9ec100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f10aa29721daf31"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._print_contents","kind":"method","src_hash":"02ea14dcbf9ec100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents(printer, *args)","rhs":"'%s%s' % (self.name, self._coord)","over":{"base":"Any"},"name":"_print_contents_correct"},"guarantee":"returns '%s%s' % (self.name, self._coord)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f10aa29721daf31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s%s' % (self.name, self._coord)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents(self, printer, *args):
         return '%s%s' % (self.name, self._coord)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents_pretty(printer, *args), self._print_subscript_pretty(a, b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_subscript_pretty(a, b)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents_pretty : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9641355c522c927  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f358b057f6b907  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._print_contents_pretty","kind":"method","src_hash":"b986792c7c5b3f66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._print_contents_pretty_correct","statement":"Path(_print_contents_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9641355c522c927"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._print_contents_pretty","kind":"method","src_hash":"b986792c7c5b3f66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_pretty(printer, *args)","rhs":"self._print_subscript_pretty(a, b)","over":{"base":"Any"},"name":"_print_contents_pretty_correct"},"guarantee":"returns self._print_subscript_pretty(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._print_contents_pretty_correct","statement":"Path(_print_contents_pretty(x), returns self._print_subscript_pretty(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f358b057f6b907","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_subscript_pretty(a, b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord","self._print_subscript_pretty","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents_pretty(self, printer, *args):
         a = stringPict(str(self.name))
         b = stringPict(self._coord)
         return self._print_subscript_pretty(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents_latex(printer, *args), '%s_%s' % (self.name, self._coord)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s_%s' % (self.name, self._coord)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents_latex : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84720632b5a7b6f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._print_contents_latex","kind":"method","src_hash":"81d854b042d1cc8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84720632b5a7b6f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._print_contents_latex","kind":"method","src_hash":"81d854b042d1cc8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_latex(printer, *args)","rhs":"'%s_%s' % (self.name, self._coord)","over":{"base":"Any"},"name":"_print_contents_latex_correct"},"guarantee":"returns '%s_%s' % (self.name, self._coord)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84720632b5a7b6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s_%s' % (self.name, self._coord)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents_latex(self, printer, *args):
         return r'%s_%s' % ((self.name, self._coord))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_base(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_base(basis, **options), <unspecified:_represent_base>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_base : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c4bd45ff03da5b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._represent_base","kind":"method","src_hash":"62d0208eaae494df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_base(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._represent_base_correct","statement":"Path(_represent_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c4bd45ff03da5b3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._represent_base","kind":"method","src_hash":"62d0208eaae494df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_base(basis, **options)","rhs":"<unspecified:_represent_base>","over":{"base":"Any"},"name":"_represent_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._represent_base_correct","statement":"Path(_represent_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c4bd45ff03da5b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.matrix_element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_base(self, basis, **options):
         j = options.get('j', S.Half)
         size, mvals = m_values(j)
@@ -214,16 +263,24 @@ class SpinOpBase:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_op(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_op(ket, orig_basis, **options), ret.rewrite(orig_basis)) over {Any | not (ret == self * state) and hasattr(ket, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_op : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (ret == self * state)                      ║
+# ║   requires: hasattr(ket, 'rewrite')                        ║
+# ║   returns:  ret.rewrite(orig_basis)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_op : {Any | not (ret == self * state) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d3f608bc02b7ed4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca368e7c9e58f2e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_op","kind":"method","src_hash":"246f4bff8c7f9e86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_op(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_op_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._apply_op_correct","statement":"Path(_apply_op(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d3f608bc02b7ed4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_op","kind":"method","src_hash":"246f4bff8c7f9e86","in":{"base":"Any","pred":"not (ret == self * state) and hasattr(ket, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_op(ket, orig_basis, **options)","rhs":"ret.rewrite(orig_basis)","over":{"base":"Any","pred":"not (ret == self * state) and hasattr(ket, 'rewrite')"},"name":"_apply_op_correct"},"guarantee":"returns ret.rewrite(orig_basis)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._apply_op_correct","statement":"Path(_apply_op(x), returns ret.rewrite(orig_basis))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca368e7c9e58f2e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (ret == self * state)","hasattr(ket, 'rewrite')"],"returns_expr":"ret.rewrite(orig_basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.rewrite","self._apply_operator_Sum","self.basis"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_op(self, ket, orig_basis, **options):
         state = ket.rewrite(self.basis)
         # If the state has only one term
@@ -239,100 +296,146 @@ class SpinOpBase:
         return ret.rewrite(orig_basis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JxKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JxKet(ket, **options), self._apply_op(ket, 'Jx', **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_op(ket, 'Jx', **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JxKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1676df0381cd4977           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JxKet","kind":"method","src_hash":"6018fe2d1f92ba9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JxKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1676df0381cd4977"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JxKet","kind":"method","src_hash":"6018fe2d1f92ba9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKet(ket, **options)","rhs":"self._apply_op(ket, 'Jx', **options)","over":{"base":"Any"},"name":"_apply_operator_JxKet_correct"},"guarantee":"returns self._apply_op(ket, 'Jx', **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1676df0381cd4977","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_op(ket, 'Jx', **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JxKet(self, ket, **options):
         return self._apply_op(ket, 'Jx', **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JxKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JxKetCoupled(ket, **options), self._apply_op(ket, 'Jx', **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_op(ket, 'Jx', **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JxKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 694a581ecc0a79d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JxKetCoupled","kind":"method","src_hash":"5ea0b7c84cdf67f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JxKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"694a581ecc0a79d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JxKetCoupled","kind":"method","src_hash":"5ea0b7c84cdf67f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKetCoupled(ket, **options)","rhs":"self._apply_op(ket, 'Jx', **options)","over":{"base":"Any"},"name":"_apply_operator_JxKetCoupled_correct"},"guarantee":"returns self._apply_op(ket, 'Jx', **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"694a581ecc0a79d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_op(ket, 'Jx', **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JxKetCoupled(self, ket, **options):
         return self._apply_op(ket, 'Jx', **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JyKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JyKet(ket, **options), self._apply_op(ket, 'Jy', **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_op(ket, 'Jy', **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JyKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3215fa2451e9723           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JyKet","kind":"method","src_hash":"0312845c9e50a69f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JyKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3215fa2451e9723"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JyKet","kind":"method","src_hash":"0312845c9e50a69f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKet(ket, **options)","rhs":"self._apply_op(ket, 'Jy', **options)","over":{"base":"Any"},"name":"_apply_operator_JyKet_correct"},"guarantee":"returns self._apply_op(ket, 'Jy', **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3215fa2451e9723","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_op(ket, 'Jy', **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JyKet(self, ket, **options):
         return self._apply_op(ket, 'Jy', **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JyKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JyKetCoupled(ket, **options), self._apply_op(ket, 'Jy', **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_op(ket, 'Jy', **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JyKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9aa5bde770a45c99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JyKetCoupled","kind":"method","src_hash":"ad73808881603f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JyKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9aa5bde770a45c99"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JyKetCoupled","kind":"method","src_hash":"ad73808881603f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKetCoupled(ket, **options)","rhs":"self._apply_op(ket, 'Jy', **options)","over":{"base":"Any"},"name":"_apply_operator_JyKetCoupled_correct"},"guarantee":"returns self._apply_op(ket, 'Jy', **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9aa5bde770a45c99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_op(ket, 'Jy', **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JyKetCoupled(self, ket, **options):
         return self._apply_op(ket, 'Jy', **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), self._apply_op(ket, 'Jz', **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_op(ket, 'Jz', **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5699327046102c0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JzKet","kind":"method","src_hash":"8f0d14aff62c0671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5699327046102c0d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JzKet","kind":"method","src_hash":"8f0d14aff62c0671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"self._apply_op(ket, 'Jz', **options)","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"returns self._apply_op(ket, 'Jz', **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5699327046102c0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_op(ket, 'Jz', **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         return self._apply_op(ket, 'Jz', **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), self._apply_op(ket, 'Jz', **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_op(ket, 'Jz', **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b65c1d26bd064b14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JzKetCoupled","kind":"method","src_hash":"645361e9b23e0b33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b65c1d26bd064b14"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_JzKetCoupled","kind":"method","src_hash":"645361e9b23e0b33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"self._apply_op(ket, 'Jz', **options)","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"returns self._apply_op(ket, 'Jz', **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b65c1d26bd064b14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_op(ket, 'Jz', **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         return self._apply_op(ket, 'Jz', **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_TensorProduct(tp,), id) over Any      ║
+# ║ Path(_apply_operator_TensorProduct(tp, **options), id) over {Any | isinstance(self, (JxOp, JyOp, JzOp)) and hasattr(tp, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_TensorProduct : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(self, (JxOp, JyOp, JzOp))           ║
+# ║   requires: hasattr(tp, 'args')                            ║
+# ║   ensures:  len(arg) == old_len_arg + 1                    ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   returns:  Add(*result).expand()                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_TensorProduct : {Any | isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0c5542622618dfca   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_TensorProduct","kind":"method","src_hash":"5679d2ba7786fe87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_TensorProduct(tp,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_TensorProduct_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c5542622618dfca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_TensorProduct","kind":"method","src_hash":"5679d2ba7786fe87","in":{"base":"Any","pred":"isinstance(self, (JxOp, JyOp, JzOp)) and hasattr(tp, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*result).expand())"},"spec":{"lhs":"_apply_operator_TensorProduct(tp, **options)","rhs":"Add(*result).expand()","over":{"base":"Any","pred":"isinstance(self, (JxOp, JyOp, JzOp)) and hasattr(tp, 'args')"},"name":"_apply_operator_TensorProduct_correct","kind":"composition"},"guarantee":"returns Add(*result).expand(); len(arg) == old_len_arg + 1; len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c5542622618dfca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(self, (JxOp, JyOp, JzOp))","hasattr(tp, 'args')"],"ensures":["len(arg) == old_len_arg + 1","len(result) == old_len_result + 1"],"returns_expr":"Add(*result).expand()","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self._apply_operator","tp.__class__","tp.args"],"calls_mutating":["arg.append","arg.extend","result.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["arg.*","result.*"],"old_bindings":{"old_len_arg":"len(arg)","old_len_result":"len(result)"},"post_ensures":["len(arg) == old_len_arg + 1","len(result) == old_len_result + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_TensorProduct(self, tp, **options):
         # Uncoupling operator is only easily found for coordinate basis spin operators
         # TODO: add methods for uncoupling operators
@@ -349,16 +452,25 @@ class SpinOpBase:
 
     # TODO: move this to qapply_Mul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_Sum(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_Sum(s, **options), Sum(new_func, *s.limits)) over {Any | not (new_func == self * s.function) and hasattr(s, 'function') and hasattr(s, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_Sum : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (new_func == self * s.function)            ║
+# ║   requires: hasattr(s, 'function')                         ║
+# ║   requires: hasattr(s, 'limits')                           ║
+# ║   returns:  Sum(new_func, *s.limits)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_Sum : {Any | not (new_func == self * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec7083be7be7c802  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 668667b32d9c8092  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_Sum","kind":"method","src_hash":"f83e7deecd1091be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Sum(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_Sum_correct","statement":"Path(_apply_operator_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec7083be7be7c802"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_Sum","kind":"method","src_hash":"f83e7deecd1091be","in":{"base":"Any","pred":"not (new_func == self * s.function) and hasattr(s, 'function') and hasattr(s, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Sum(s, **options)","rhs":"Sum(new_func, *s.limits)","over":{"base":"Any","pred":"not (new_func == self * s.function) and hasattr(s, 'function') and hasattr(s, 'limits')"},"name":"_apply_operator_Sum_correct"},"guarantee":"returns Sum(new_func, *s.limits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinOpBase._apply_operator_Sum_correct","statement":"Path(_apply_operator_Sum(x), returns Sum(new_func, *s.limits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"668667b32d9c8092","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (new_func == self * s.function)","hasattr(s, 'function')","hasattr(s, 'limits')"],"returns_expr":"Sum(new_func, *s.limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.function","s.limits"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_Sum(self, s, **options):
         new_func = qapply(self*s.function)
         if new_func == self*s.function:
@@ -366,16 +478,22 @@ class SpinOpBase:
         return Sum(new_func, *s.limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trace(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_trace(**options), self._represent_default_basis().trace()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_default_basis().trace()        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0dbba2ae9d41570b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._eval_trace","kind":"method","src_hash":"d5667e8afd58bcfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dbba2ae9d41570b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinOpBase._eval_trace","kind":"method","src_hash":"d5667e8afd58bcfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(**options)","rhs":"self._represent_default_basis().trace()","over":{"base":"Any"},"name":"_eval_trace_correct"},"guarantee":"returns self._represent_default_basis().trace()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dbba2ae9d41570b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_default_basis().trace()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_default_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self, **options):
         #TODO: use options to use different j values
         #For now eval at default basis
@@ -388,14 +506,21 @@ class SpinOpBase:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JplusOp(*args), correctly constructs a JplusOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JplusOp : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinOpBase)                   ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JplusOp : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 263954e623e58388  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp","kind":"class","src_hash":"af7625ce6d499334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JplusOp(*args)","rhs":"correctly constructs a JplusOp instance","over":{"base":"Any"},"name":"JplusOp_class_invariant"},"guarantee":"correctly constructs a JplusOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263954e623e58388"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp","kind":"class","src_hash":"af7625ce6d499334","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinOpBase) and isinstance(self, Operator)"},"spec":{"lhs":"JplusOp(*args)","rhs":"correctly constructs a JplusOp instance","over":{"base":"Any"},"name":"JplusOp_class_invariant"},"guarantee":"isinstance(self, SpinOpBase); isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263954e623e58388","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinOpBase)","isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function JplusOp not found in source"]}}
 class JplusOp(SpinOpBase, Operator):
     """The J+ operator."""
 
@@ -404,30 +529,44 @@ class JplusOp(SpinOpBase, Operator):
     basis = 'Jz'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JminusOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JminusOp(other), 2 * hbar * JzOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * hbar * JzOp(self.name)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JminusOp : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 008d8560097b68ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._eval_commutator_JminusOp","kind":"method","src_hash":"439cc3bd8776aab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JminusOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JminusOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"008d8560097b68ba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._eval_commutator_JminusOp","kind":"method","src_hash":"439cc3bd8776aab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JminusOp(other)","rhs":"2 * hbar * JzOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JminusOp_correct"},"guarantee":"returns 2 * hbar * JzOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"008d8560097b68ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * hbar * JzOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JminusOp(self, other):
         return 2*hbar*JzOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), <unspecified:_apply_operator_JzKet>) over {Any | hasattr(ket, 'j') and hasattr(ket, 'm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKet : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   requires: hasattr(ket, 'm')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKet : {Any | hasattr(ket, 'j') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c79977bcb6a039c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKet","kind":"method","src_hash":"edbc1b2c174e36af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c79977bcb6a039c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKet","kind":"method","src_hash":"edbc1b2c174e36af","in":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"<unspecified:_apply_operator_JzKet>","over":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm')"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c79977bcb6a039c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ket, 'j')","hasattr(ket, 'm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j","ket.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         j = ket.j
         m = ket.m
@@ -437,16 +576,25 @@ class JplusOp(SpinOpBase, Operator):
         return hbar*sqrt(j*(j + S.One) - m*(m + S.One))*JzKet(j, m + S.One)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), <unspecified:_apply_operator_JzKetCoupled>) over {Any | hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKetCoupled : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   requires: hasattr(ket, 'm')                              ║
+# ║   requires: hasattr(ket, 'jn')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKetCoupled : {Any | hasattr(ket, 'j...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a6f6ce4e89ec1bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"0ae0e71c6ff68606","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a6f6ce4e89ec1bd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"0ae0e71c6ff68606","in":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"<unspecified:_apply_operator_JzKetCoupled>","over":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JplusOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a6f6ce4e89ec1bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ket, 'j')","hasattr(ket, 'm')","hasattr(ket, 'jn')","hasattr(ket, 'coupling')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ket.coupling","ket.j","ket.jn","ket.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         j = ket.j
         m = ket.m
@@ -458,16 +606,22 @@ class JplusOp(SpinOpBase, Operator):
         return hbar*sqrt(j*(j + S.One) - m*(m + S.One))*JzKetCoupled(j, m + S.One, jn, coupling)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_element(j, ), matrix_element produces the expected output) over Any ║
+# ║ Path(matrix_element(j, m, jp), <unspecified:matrix_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58cd3ccecefeeac7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp.matrix_element","kind":"method","src_hash":"4efdaea712ebe952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, )","rhs":"matrix_element produces the expected output","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JplusOp.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58cd3ccecefeeac7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp.matrix_element","kind":"method","src_hash":"4efdaea712ebe952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, m, jp)","rhs":"<unspecified:matrix_element>","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JplusOp.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58cd3ccecefeeac7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matrix_element(self, j, m, jp, mp):
         result = hbar*sqrt(j*(j + S.One) - mp*(mp + S.One))
         result *= KroneckerDelta(m, mp + 1)
@@ -475,44 +629,62 @@ class JplusOp(SpinOpBase, Operator):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9279dac6a24bae5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9279dac6a24bae5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9279dac6a24bae5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(basis, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(basis, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e683ccc9b399b4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e683ccc9b399b4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(basis, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(basis, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e683ccc9b399b4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(basis, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(basis, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_xyz(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_xyz(*args, **kwargs), JxOp(args[0]) + I * JyOp(args[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JxOp(args[0]) + I * JyOp(args[0])              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_xyz : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82a97756e0db8902           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._eval_rewrite_as_xyz","kind":"method","src_hash":"053e5e693b4420a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_xyz(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_xyz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82a97756e0db8902"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JplusOp._eval_rewrite_as_xyz","kind":"method","src_hash":"053e5e693b4420a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_xyz(*args, **kwargs)","rhs":"JxOp(args[0]) + I * JyOp(args[0])","over":{"base":"Any"},"name":"_eval_rewrite_as_xyz_correct"},"guarantee":"returns JxOp(args[0]) + I * JyOp(args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82a97756e0db8902","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JxOp(args[0]) + I * JyOp(args[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_xyz(self, *args, **kwargs):
         return JxOp(args[0]) + I*JyOp(args[0])
 
@@ -520,14 +692,21 @@ class JplusOp(SpinOpBase, Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JminusOp(*args), correctly constructs a JminusOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JminusOp : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinOpBase)                   ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JminusOp : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc28fdcbd5bf8fa8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp","kind":"class","src_hash":"308120c712c06502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JminusOp(*args)","rhs":"correctly constructs a JminusOp instance","over":{"base":"Any"},"name":"JminusOp_class_invariant"},"guarantee":"correctly constructs a JminusOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc28fdcbd5bf8fa8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp","kind":"class","src_hash":"308120c712c06502","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinOpBase) and isinstance(self, Operator)"},"spec":{"lhs":"JminusOp(*args)","rhs":"correctly constructs a JminusOp instance","over":{"base":"Any"},"name":"JminusOp_class_invariant"},"guarantee":"isinstance(self, SpinOpBase); isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc28fdcbd5bf8fa8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinOpBase)","isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function JminusOp not found in source"]}}
 class JminusOp(SpinOpBase, Operator):
     """The J- operator."""
 
@@ -536,16 +715,24 @@ class JminusOp(SpinOpBase, Operator):
     basis = 'Jz'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), <unspecified:_apply_operator_JzKet>) over {Any | hasattr(ket, 'j') and hasattr(ket, 'm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKet : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   requires: hasattr(ket, 'm')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKet : {Any | hasattr(ket, 'j') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e7c562f776af445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKet","kind":"method","src_hash":"189640e87298314e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e7c562f776af445"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKet","kind":"method","src_hash":"189640e87298314e","in":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"<unspecified:_apply_operator_JzKet>","over":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm')"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e7c562f776af445","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ket, 'j')","hasattr(ket, 'm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j","ket.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         j = ket.j
         m = ket.m
@@ -555,16 +742,25 @@ class JminusOp(SpinOpBase, Operator):
         return hbar*sqrt(j*(j + S.One) - m*(m - S.One))*JzKet(j, m - S.One)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), <unspecified:_apply_operator_JzKetCoupled>) over {Any | hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKetCoupled : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   requires: hasattr(ket, 'm')                              ║
+# ║   requires: hasattr(ket, 'jn')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKetCoupled : {Any | hasattr(ket, 'j...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 709a16c49bb19fe0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"3cfc1f6c81de5289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709a16c49bb19fe0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"3cfc1f6c81de5289","in":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"<unspecified:_apply_operator_JzKetCoupled>","over":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JminusOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709a16c49bb19fe0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ket, 'j')","hasattr(ket, 'm')","hasattr(ket, 'jn')","hasattr(ket, 'coupling')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ket.coupling","ket.j","ket.jn","ket.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         j = ket.j
         m = ket.m
@@ -576,16 +772,22 @@ class JminusOp(SpinOpBase, Operator):
         return hbar*sqrt(j*(j + S.One) - m*(m - S.One))*JzKetCoupled(j, m - S.One, jn, coupling)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_element(j, ), matrix_element produces the expected output) over Any ║
+# ║ Path(matrix_element(j, m, jp), <unspecified:matrix_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4edd106e4bbc7984  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp.matrix_element","kind":"method","src_hash":"ec92ea4b2d3b145e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, )","rhs":"matrix_element produces the expected output","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JminusOp.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4edd106e4bbc7984"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp.matrix_element","kind":"method","src_hash":"ec92ea4b2d3b145e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, m, jp)","rhs":"<unspecified:matrix_element>","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JminusOp.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4edd106e4bbc7984","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matrix_element(self, j, m, jp, mp):
         result = hbar*sqrt(j*(j + S.One) - mp*(mp - S.One))
         result *= KroneckerDelta(m, mp - 1)
@@ -593,44 +795,62 @@ class JminusOp(SpinOpBase, Operator):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a4b06bbd5be401c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a4b06bbd5be401c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a4b06bbd5be401c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(basis, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(basis, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fa31e0c7eb4c16c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fa31e0c7eb4c16c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(basis, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(basis, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fa31e0c7eb4c16c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(basis, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(basis, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_xyz(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_xyz(*args, **kwargs), JxOp(args[0]) - I * JyOp(args[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JxOp(args[0]) - I * JyOp(args[0])              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_xyz : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 544147589f9a0379           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._eval_rewrite_as_xyz","kind":"method","src_hash":"830bdb5a52a0e5e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_xyz(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_xyz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"544147589f9a0379"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JminusOp._eval_rewrite_as_xyz","kind":"method","src_hash":"830bdb5a52a0e5e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_xyz(*args, **kwargs)","rhs":"JxOp(args[0]) - I * JyOp(args[0])","over":{"base":"Any"},"name":"_eval_rewrite_as_xyz_correct"},"guarantee":"returns JxOp(args[0]) - I * JyOp(args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"544147589f9a0379","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JxOp(args[0]) - I * JyOp(args[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_xyz(self, *args, **kwargs):
         return JxOp(args[0]) - I*JyOp(args[0])
 
@@ -638,14 +858,21 @@ class JminusOp(SpinOpBase, Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JxOp(*args), correctly constructs a JxOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JxOp : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinOpBase)                   ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JxOp : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 689155832846662e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp","kind":"class","src_hash":"160a6af97fd4d2c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JxOp(*args)","rhs":"correctly constructs a JxOp instance","over":{"base":"Any"},"name":"JxOp_class_invariant"},"guarantee":"correctly constructs a JxOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"689155832846662e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp","kind":"class","src_hash":"160a6af97fd4d2c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinOpBase) and isinstance(self, HermitianOperator)"},"spec":{"lhs":"JxOp(*args)","rhs":"correctly constructs a JxOp instance","over":{"base":"Any"},"name":"JxOp_class_invariant"},"guarantee":"isinstance(self, SpinOpBase); isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"689155832846662e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinOpBase)","isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function JxOp not found in source"]}}
 class JxOp(SpinOpBase, HermitianOperator):
     """The Jx operator."""
 
@@ -654,106 +881,148 @@ class JxOp(SpinOpBase, HermitianOperator):
     basis = 'Jx'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JyOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JyOp(other), I * hbar * JzOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  I * hbar * JzOp(self.name)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JyOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b805e588027e0f83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._eval_commutator_JyOp","kind":"method","src_hash":"da9572c6e1a97a08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JyOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b805e588027e0f83"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._eval_commutator_JyOp","kind":"method","src_hash":"da9572c6e1a97a08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JyOp(other)","rhs":"I * hbar * JzOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JyOp_correct"},"guarantee":"returns I * hbar * JzOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b805e588027e0f83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"I * hbar * JzOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JyOp(self, other):
         return I*hbar*JzOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JzOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JzOp(other), -I * hbar * JyOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -I * hbar * JyOp(self.name)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JzOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50f088ae1a80a0c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._eval_commutator_JzOp","kind":"method","src_hash":"a504b9508abfd3be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JzOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50f088ae1a80a0c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._eval_commutator_JzOp","kind":"method","src_hash":"a504b9508abfd3be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JzOp(other)","rhs":"-I * hbar * JyOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JzOp_correct"},"guarantee":"returns -I * hbar * JyOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50f088ae1a80a0c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-I * hbar * JyOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JzOp(self, other):
         return -I*hbar*JyOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), (jp + jm) / Integer(2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (jp + jm) / Integer(2)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12909a9bf5538deb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b683d36a81cd322  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKet","kind":"method","src_hash":"351ae22fc1a7f62c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12909a9bf5538deb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKet","kind":"method","src_hash":"351ae22fc1a7f62c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"(jp + jm) / Integer(2)","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"returns (jp + jm) / Integer(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), returns (jp + jm) / Integer(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b683d36a81cd322","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(jp + jm) / Integer(2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         jp = JplusOp(self.name)._apply_operator_JzKet(ket, **options)
         jm = JminusOp(self.name)._apply_operator_JzKet(ket, **options)
         return (jp + jm)/Integer(2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), (jp + jm) / Integer(2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (jp + jm) / Integer(2)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7367d6783b329e8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d80a5d11d90790ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"66d182d6c0f0d2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7367d6783b329e8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"66d182d6c0f0d2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"(jp + jm) / Integer(2)","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"returns (jp + jm) / Integer(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JxOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), returns (jp + jm) / Integer(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d80a5d11d90790ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(jp + jm) / Integer(2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         jp = JplusOp(self.name)._apply_operator_JzKetCoupled(ket, **options)
         jm = JminusOp(self.name)._apply_operator_JzKetCoupled(ket, **options)
         return (jp + jm)/Integer(2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98326f44d84366fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98326f44d84366fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98326f44d84366fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), (jp + jm) / Integer(2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (jp + jm) / Integer(2)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e56004f53442228  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 232996d53952333b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._represent_JzOp","kind":"method","src_hash":"ae71ece18f087306","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JxOp._represent_JzOp_correct","statement":"Path(_represent_JzOp(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e56004f53442228"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._represent_JzOp","kind":"method","src_hash":"ae71ece18f087306","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"(jp + jm) / Integer(2)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns (jp + jm) / Integer(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JxOp._represent_JzOp_correct","statement":"Path(_represent_JzOp(x), returns (jp + jm) / Integer(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"232996d53952333b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(jp + jm) / Integer(2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         jp = JplusOp(self.name)._represent_JzOp(basis, **options)
         jm = JminusOp(self.name)._represent_JzOp(basis, **options)
         return (jp + jm)/Integer(2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_plusminus(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_plusminus(*args, **kwargs), (JplusOp(args[0]) + JminusOp(args[0])) / 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (JplusOp(args[0]) + JminusOp(args[0])) / 2     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_plusminus : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6db108be88add1a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._eval_rewrite_as_plusminus","kind":"method","src_hash":"a804b72a0d474300","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_plusminus(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_plusminus_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6db108be88add1a9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxOp._eval_rewrite_as_plusminus","kind":"method","src_hash":"a804b72a0d474300","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_plusminus(*args, **kwargs)","rhs":"(JplusOp(args[0]) + JminusOp(args[0])) / 2","over":{"base":"Any"},"name":"_eval_rewrite_as_plusminus_correct"},"guarantee":"returns (JplusOp(args[0]) + JminusOp(args[0])) / 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6db108be88add1a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(JplusOp(args[0]) + JminusOp(args[0])) / 2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_plusminus(self, *args, **kwargs):
         return (JplusOp(args[0]) + JminusOp(args[0]))/2
 
@@ -761,14 +1030,21 @@ class JxOp(SpinOpBase, HermitianOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JyOp(*args), correctly constructs a JyOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JyOp : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinOpBase)                   ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JyOp : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5a953064bb36532  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp","kind":"class","src_hash":"7e9786e5313afa44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JyOp(*args)","rhs":"correctly constructs a JyOp instance","over":{"base":"Any"},"name":"JyOp_class_invariant"},"guarantee":"correctly constructs a JyOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5a953064bb36532"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp","kind":"class","src_hash":"7e9786e5313afa44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinOpBase) and isinstance(self, HermitianOperator)"},"spec":{"lhs":"JyOp(*args)","rhs":"correctly constructs a JyOp instance","over":{"base":"Any"},"name":"JyOp_class_invariant"},"guarantee":"isinstance(self, SpinOpBase); isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5a953064bb36532","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinOpBase)","isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function JyOp not found in source"]}}
 class JyOp(SpinOpBase, HermitianOperator):
     """The Jy operator."""
 
@@ -777,106 +1053,148 @@ class JyOp(SpinOpBase, HermitianOperator):
     basis = 'Jy'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JzOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JzOp(other), I * hbar * JxOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  I * hbar * JxOp(self.name)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JzOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a59819842737e7ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._eval_commutator_JzOp","kind":"method","src_hash":"b37c2275b74997b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JzOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a59819842737e7ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._eval_commutator_JzOp","kind":"method","src_hash":"b37c2275b74997b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JzOp(other)","rhs":"I * hbar * JxOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JzOp_correct"},"guarantee":"returns I * hbar * JxOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a59819842737e7ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"I * hbar * JxOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JzOp(self, other):
         return I*hbar*JxOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JxOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JxOp(other), -I * hbar * J2Op(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -I * hbar * J2Op(self.name)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JxOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87a1ca3e874fea5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._eval_commutator_JxOp","kind":"method","src_hash":"37331587be84104c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JxOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87a1ca3e874fea5d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._eval_commutator_JxOp","kind":"method","src_hash":"37331587be84104c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JxOp(other)","rhs":"-I * hbar * J2Op(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JxOp_correct"},"guarantee":"returns -I * hbar * J2Op(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87a1ca3e874fea5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-I * hbar * J2Op(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JxOp(self, other):
         return -I*hbar*J2Op(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), (jp - jm) / (Integer(2) * I)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (jp - jm) / (Integer(2) * I)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f91b8c568ee138a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61264fbd2e055deb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKet","kind":"method","src_hash":"90e8f157891df3c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f91b8c568ee138a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKet","kind":"method","src_hash":"90e8f157891df3c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"(jp - jm) / (Integer(2) * I)","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"returns (jp - jm) / (Integer(2) * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), returns (jp - jm) / (Integer(2) * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61264fbd2e055deb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(jp - jm) / (Integer(2) * I)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         jp = JplusOp(self.name)._apply_operator_JzKet(ket, **options)
         jm = JminusOp(self.name)._apply_operator_JzKet(ket, **options)
         return (jp - jm)/(Integer(2)*I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), (jp - jm) / (Integer(2) * I)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (jp - jm) / (Integer(2) * I)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36cb38fbf80719d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8576ed9ea30c93ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"eb040e9111ebe267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36cb38fbf80719d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKetCoupled","kind":"method","src_hash":"eb040e9111ebe267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"(jp - jm) / (Integer(2) * I)","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"returns (jp - jm) / (Integer(2) * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JyOp._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), returns (jp - jm) / (Integer(2) * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8576ed9ea30c93ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(jp - jm) / (Integer(2) * I)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         jp = JplusOp(self.name)._apply_operator_JzKetCoupled(ket, **options)
         jm = JminusOp(self.name)._apply_operator_JzKetCoupled(ket, **options)
         return (jp - jm)/(Integer(2)*I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ad92bb8d474b2b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ad92bb8d474b2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ad92bb8d474b2b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), (jp - jm) / (Integer(2) * I)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (jp - jm) / (Integer(2) * I)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 561a8b209432ca10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 571e404ad44502dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._represent_JzOp","kind":"method","src_hash":"6b3803bf9a26cbb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JyOp._represent_JzOp_correct","statement":"Path(_represent_JzOp(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"561a8b209432ca10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._represent_JzOp","kind":"method","src_hash":"6b3803bf9a26cbb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"(jp - jm) / (Integer(2) * I)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns (jp - jm) / (Integer(2) * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JyOp._represent_JzOp_correct","statement":"Path(_represent_JzOp(x), returns (jp - jm) / (Integer(2) * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571e404ad44502dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(jp - jm) / (Integer(2) * I)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         jp = JplusOp(self.name)._represent_JzOp(basis, **options)
         jm = JminusOp(self.name)._represent_JzOp(basis, **options)
         return (jp - jm)/(Integer(2)*I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_plusminus(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_plusminus(*args, **kwargs), (JplusOp(args[0]) - JminusOp(args[0])) / (2 * I)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (JplusOp(args[0]) - JminusOp(args[0])) / ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_plusminus : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd2fca2818c333de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._eval_rewrite_as_plusminus","kind":"method","src_hash":"e0590e9646269f18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_plusminus(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_plusminus_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd2fca2818c333de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyOp._eval_rewrite_as_plusminus","kind":"method","src_hash":"e0590e9646269f18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_plusminus(*args, **kwargs)","rhs":"(JplusOp(args[0]) - JminusOp(args[0])) / (2 * I)","over":{"base":"Any"},"name":"_eval_rewrite_as_plusminus_correct"},"guarantee":"returns (JplusOp(args[0]) - JminusOp(args[0])) / (2 * I)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd2fca2818c333de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(JplusOp(args[0]) - JminusOp(args[0])) / (2 * I)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_plusminus(self, *args, **kwargs):
         return (JplusOp(args[0]) - JminusOp(args[0]))/(2*I)
 
@@ -884,14 +1202,21 @@ class JyOp(SpinOpBase, HermitianOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JzOp(*args), correctly constructs a JzOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JzOp : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinOpBase)                   ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JzOp : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4ef9d49bf9c5ebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp","kind":"class","src_hash":"043f1011fbe17c00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JzOp(*args)","rhs":"correctly constructs a JzOp instance","over":{"base":"Any"},"name":"JzOp_class_invariant"},"guarantee":"correctly constructs a JzOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4ef9d49bf9c5ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp","kind":"class","src_hash":"043f1011fbe17c00","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinOpBase) and isinstance(self, HermitianOperator)"},"spec":{"lhs":"JzOp(*args)","rhs":"correctly constructs a JzOp instance","over":{"base":"Any"},"name":"JzOp_class_invariant"},"guarantee":"isinstance(self, SpinOpBase); isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4ef9d49bf9c5ebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinOpBase)","isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JzOp not found in source"]}}
 class JzOp(SpinOpBase, HermitianOperator):
     """The Jz operator."""
 
@@ -900,72 +1225,102 @@ class JzOp(SpinOpBase, HermitianOperator):
     basis = 'Jz'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JxOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JxOp(other), I * hbar * JyOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  I * hbar * JyOp(self.name)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JxOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37e3db2d5179ba9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JxOp","kind":"method","src_hash":"5af9a3be5da10081","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JxOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37e3db2d5179ba9f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JxOp","kind":"method","src_hash":"5af9a3be5da10081","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JxOp(other)","rhs":"I * hbar * JyOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JxOp_correct"},"guarantee":"returns I * hbar * JyOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37e3db2d5179ba9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"I * hbar * JyOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JxOp(self, other):
         return I*hbar*JyOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JyOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JyOp(other), -I * hbar * JxOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -I * hbar * JxOp(self.name)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JyOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ea77a312917fa7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JyOp","kind":"method","src_hash":"ca04f7c302f16246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JyOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ea77a312917fa7e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JyOp","kind":"method","src_hash":"ca04f7c302f16246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JyOp(other)","rhs":"-I * hbar * JxOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JyOp_correct"},"guarantee":"returns -I * hbar * JxOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ea77a312917fa7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-I * hbar * JxOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JyOp(self, other):
         return -I*hbar*JxOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JplusOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JplusOp(other), hbar * JplusOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hbar * JplusOp(self.name)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JplusOp : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b1d917394d699d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JplusOp","kind":"method","src_hash":"49390460c8fdabc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JplusOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JplusOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b1d917394d699d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JplusOp","kind":"method","src_hash":"49390460c8fdabc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JplusOp(other)","rhs":"hbar * JplusOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JplusOp_correct"},"guarantee":"returns hbar * JplusOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b1d917394d699d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hbar * JplusOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JplusOp(self, other):
         return hbar*JplusOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JminusOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JminusOp(other), -hbar * JminusOp(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -hbar * JminusOp(self.name)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JminusOp : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6277039ef8bd7094           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JminusOp","kind":"method","src_hash":"74687d99b9ae4dd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JminusOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JminusOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6277039ef8bd7094"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._eval_commutator_JminusOp","kind":"method","src_hash":"74687d99b9ae4dd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JminusOp(other)","rhs":"-hbar * JminusOp(self.name)","over":{"base":"Any"},"name":"_eval_commutator_JminusOp_correct"},"guarantee":"returns -hbar * JminusOp(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6277039ef8bd7094","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-hbar * JminusOp(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JminusOp(self, other):
         return -hbar*JminusOp(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_element(j, ), matrix_element produces the expected output) over Any ║
+# ║ Path(matrix_element(j, m, jp), <unspecified:matrix_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a439debe2562532  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp.matrix_element","kind":"method","src_hash":"4d7f4f0e20856753","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, )","rhs":"matrix_element produces the expected output","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JzOp.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a439debe2562532"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp.matrix_element","kind":"method","src_hash":"4d7f4f0e20856753","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, m, jp)","rhs":"<unspecified:matrix_element>","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.JzOp.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a439debe2562532","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matrix_element(self, j, m, jp, mp):
         result = hbar*mp
         result *= KroneckerDelta(m, mp)
@@ -973,30 +1328,42 @@ class JzOp(SpinOpBase, HermitianOperator):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 614046305e7b5f0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"614046305e7b5f0b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"614046305e7b5f0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(basis, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(basis, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62de1d589be4229b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62de1d589be4229b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzOp._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(basis, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(basis, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62de1d589be4229b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(basis, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(basis, **options)
 
@@ -1004,190 +1371,275 @@ class JzOp(SpinOpBase, HermitianOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(J2Op(*args), correctly constructs a J2Op instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ J2Op : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinOpBase)                   ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ J2Op : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 025e085784f133b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op","kind":"class","src_hash":"b650041d50865ef2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"J2Op(*args)","rhs":"correctly constructs a J2Op instance","over":{"base":"Any"},"name":"J2Op_class_invariant"},"guarantee":"correctly constructs a J2Op instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"025e085784f133b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op","kind":"class","src_hash":"b650041d50865ef2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinOpBase) and isinstance(self, HermitianOperator)"},"spec":{"lhs":"J2Op(*args)","rhs":"correctly constructs a J2Op instance","over":{"base":"Any"},"name":"J2Op_class_invariant"},"guarantee":"isinstance(self, SpinOpBase); isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"025e085784f133b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinOpBase)","isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function J2Op not found in source"]}}
 class J2Op(SpinOpBase, HermitianOperator):
     """The J^2 operator."""
 
     _coord = '2'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JxOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JxOp(other), S.Zero) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JxOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 273d40203da91e66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JxOp","kind":"method","src_hash":"b841872adbb78b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JxOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"273d40203da91e66"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JxOp","kind":"method","src_hash":"b841872adbb78b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JxOp(other)","rhs":"S.Zero","over":{"base":"Any"},"name":"_eval_commutator_JxOp_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"273d40203da91e66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JxOp(self, other):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JyOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JyOp(other), S.Zero) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JyOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 256c1b6f6767f6ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JyOp","kind":"method","src_hash":"e0898e2e6ce5feb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JyOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256c1b6f6767f6ab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JyOp","kind":"method","src_hash":"e0898e2e6ce5feb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JyOp(other)","rhs":"S.Zero","over":{"base":"Any"},"name":"_eval_commutator_JyOp_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256c1b6f6767f6ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JyOp(self, other):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JzOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JzOp(other), S.Zero) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JzOp : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7456aeb7f9821795           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JzOp","kind":"method","src_hash":"ba0f19a33a0b8171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JzOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7456aeb7f9821795"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JzOp","kind":"method","src_hash":"ba0f19a33a0b8171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JzOp(other)","rhs":"S.Zero","over":{"base":"Any"},"name":"_eval_commutator_JzOp_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7456aeb7f9821795","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JzOp(self, other):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JplusOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JplusOp(other), S.Zero) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JplusOp : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 155688c5109e25df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JplusOp","kind":"method","src_hash":"e5846cb00723d3d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JplusOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JplusOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"155688c5109e25df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JplusOp","kind":"method","src_hash":"e5846cb00723d3d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JplusOp(other)","rhs":"S.Zero","over":{"base":"Any"},"name":"_eval_commutator_JplusOp_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"155688c5109e25df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JplusOp(self, other):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_commutator_JminusOp(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_commutator_JminusOp(other), S.Zero) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_commutator_JminusOp : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7a337e046a49e748           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JminusOp","kind":"method","src_hash":"f54f414f555272c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JminusOp(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_commutator_JminusOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a337e046a49e748"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_commutator_JminusOp","kind":"method","src_hash":"f54f414f555272c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_commutator_JminusOp(other)","rhs":"S.Zero","over":{"base":"Any"},"name":"_eval_commutator_JminusOp_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a337e046a49e748","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_commutator_JminusOp(self, other):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JxKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JxKet(ket, **options), hbar ** 2 * j * (j + 1) * ket) over {Any | hasattr(ket, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JxKet : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   returns:  hbar ** 2 * j * (j + 1) * ket                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JxKet : {Any | hasattr(ket, 'j')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0d8cf39005eb0f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fd27074f21abc70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKet","kind":"method","src_hash":"59f82bb49730d512","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JxKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKet_correct","statement":"Path(_apply_operator_JxKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0d8cf39005eb0f8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKet","kind":"method","src_hash":"59f82bb49730d512","in":{"base":"Any","pred":"hasattr(ket, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKet(ket, **options)","rhs":"hbar ** 2 * j * (j + 1) * ket","over":{"base":"Any","pred":"hasattr(ket, 'j')"},"name":"_apply_operator_JxKet_correct"},"guarantee":"returns hbar ** 2 * j * (j + 1) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKet_correct","statement":"Path(_apply_operator_JxKet(x), returns hbar ** 2 * j * (j + 1) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fd27074f21abc70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')"],"returns_expr":"hbar ** 2 * j * (j + 1) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JxKet(self, ket, **options):
         j = ket.j
         return hbar**2*j*(j + 1)*ket
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JxKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JxKetCoupled(ket, **options), hbar ** 2 * j * (j + 1) * ket) over {Any | hasattr(ket, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JxKetCoupled : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   returns:  hbar ** 2 * j * (j + 1) * ket                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JxKetCoupled : {Any | hasattr(ket, 'j...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70e70a816c85aebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31e3ca0e00cfbee8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKetCoupled","kind":"method","src_hash":"f8ff70944a4c7fad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JxKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKetCoupled_correct","statement":"Path(_apply_operator_JxKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70e70a816c85aebe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKetCoupled","kind":"method","src_hash":"f8ff70944a4c7fad","in":{"base":"Any","pred":"hasattr(ket, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKetCoupled(ket, **options)","rhs":"hbar ** 2 * j * (j + 1) * ket","over":{"base":"Any","pred":"hasattr(ket, 'j')"},"name":"_apply_operator_JxKetCoupled_correct"},"guarantee":"returns hbar ** 2 * j * (j + 1) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JxKetCoupled_correct","statement":"Path(_apply_operator_JxKetCoupled(x), returns hbar ** 2 * j * (j + 1) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31e3ca0e00cfbee8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')"],"returns_expr":"hbar ** 2 * j * (j + 1) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JxKetCoupled(self, ket, **options):
         j = ket.j
         return hbar**2*j*(j + 1)*ket
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JyKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JyKet(ket, **options), hbar ** 2 * j * (j + 1) * ket) over {Any | hasattr(ket, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JyKet : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   returns:  hbar ** 2 * j * (j + 1) * ket                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JyKet : {Any | hasattr(ket, 'j')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf006bc60d2599b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4521e5521e25213c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKet","kind":"method","src_hash":"8e662fe447849f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JyKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKet_correct","statement":"Path(_apply_operator_JyKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf006bc60d2599b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKet","kind":"method","src_hash":"8e662fe447849f69","in":{"base":"Any","pred":"hasattr(ket, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKet(ket, **options)","rhs":"hbar ** 2 * j * (j + 1) * ket","over":{"base":"Any","pred":"hasattr(ket, 'j')"},"name":"_apply_operator_JyKet_correct"},"guarantee":"returns hbar ** 2 * j * (j + 1) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKet_correct","statement":"Path(_apply_operator_JyKet(x), returns hbar ** 2 * j * (j + 1) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4521e5521e25213c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')"],"returns_expr":"hbar ** 2 * j * (j + 1) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JyKet(self, ket, **options):
         j = ket.j
         return hbar**2*j*(j + 1)*ket
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JyKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JyKetCoupled(ket, **options), hbar ** 2 * j * (j + 1) * ket) over {Any | hasattr(ket, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JyKetCoupled : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   returns:  hbar ** 2 * j * (j + 1) * ket                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JyKetCoupled : {Any | hasattr(ket, 'j...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7103050d1fddf76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c536aae63bae0dc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKetCoupled","kind":"method","src_hash":"8944cfe3acaa318c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JyKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKetCoupled_correct","statement":"Path(_apply_operator_JyKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7103050d1fddf76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKetCoupled","kind":"method","src_hash":"8944cfe3acaa318c","in":{"base":"Any","pred":"hasattr(ket, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKetCoupled(ket, **options)","rhs":"hbar ** 2 * j * (j + 1) * ket","over":{"base":"Any","pred":"hasattr(ket, 'j')"},"name":"_apply_operator_JyKetCoupled_correct"},"guarantee":"returns hbar ** 2 * j * (j + 1) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JyKetCoupled_correct","statement":"Path(_apply_operator_JyKetCoupled(x), returns hbar ** 2 * j * (j + 1) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c536aae63bae0dc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')"],"returns_expr":"hbar ** 2 * j * (j + 1) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JyKetCoupled(self, ket, **options):
         j = ket.j
         return hbar**2*j*(j + 1)*ket
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), hbar ** 2 * j * (j + 1) * ket) over {Any | hasattr(ket, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKet : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   returns:  hbar ** 2 * j * (j + 1) * ket                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKet : {Any | hasattr(ket, 'j')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a64f16d85588a20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12031394cdd0008e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKet","kind":"method","src_hash":"59b92e4989e5bb1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a64f16d85588a20"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKet","kind":"method","src_hash":"59b92e4989e5bb1c","in":{"base":"Any","pred":"hasattr(ket, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"hbar ** 2 * j * (j + 1) * ket","over":{"base":"Any","pred":"hasattr(ket, 'j')"},"name":"_apply_operator_JzKet_correct"},"guarantee":"returns hbar ** 2 * j * (j + 1) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKet_correct","statement":"Path(_apply_operator_JzKet(x), returns hbar ** 2 * j * (j + 1) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12031394cdd0008e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')"],"returns_expr":"hbar ** 2 * j * (j + 1) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         j = ket.j
         return hbar**2*j*(j + 1)*ket
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), hbar ** 2 * j * (j + 1) * ket) over {Any | hasattr(ket, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_JzKetCoupled : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   returns:  hbar ** 2 * j * (j + 1) * ket                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_JzKetCoupled : {Any | hasattr(ket, 'j...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 529ed23a81f148fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ae15ddf5ea1c687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKetCoupled","kind":"method","src_hash":"90e8e121bbe9415d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"529ed23a81f148fe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKetCoupled","kind":"method","src_hash":"90e8e121bbe9415d","in":{"base":"Any","pred":"hasattr(ket, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"hbar ** 2 * j * (j + 1) * ket","over":{"base":"Any","pred":"hasattr(ket, 'j')"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"returns hbar ** 2 * j * (j + 1) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._apply_operator_JzKetCoupled_correct","statement":"Path(_apply_operator_JzKetCoupled(x), returns hbar ** 2 * j * (j + 1) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ae15ddf5ea1c687","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')"],"returns_expr":"hbar ** 2 * j * (j + 1) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.j"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         j = ket.j
         return hbar**2*j*(j + 1)*ket
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_element(j, ), matrix_element produces the expected output) over Any ║
+# ║ Path(matrix_element(j, m, jp), <unspecified:matrix_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7c684c1235790c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op.matrix_element","kind":"method","src_hash":"533471fedf0d9367","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, )","rhs":"matrix_element produces the expected output","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c684c1235790c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op.matrix_element","kind":"method","src_hash":"533471fedf0d9367","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, m, jp)","rhs":"<unspecified:matrix_element>","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c684c1235790c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matrix_element(self, j, m, jp, mp):
         result = (hbar**2)*j*(j + 1)
         result *= KroneckerDelta(m, mp)
@@ -1195,88 +1647,124 @@ class J2Op(SpinOpBase, HermitianOperator):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e4b5777f81f3e2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4b5777f81f3e2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4b5777f81f3e2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(basis, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(basis, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cc0591305a300ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cc0591305a300ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(basis, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(basis, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cc0591305a300ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(basis, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(basis, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents_pretty(printer, *args), a ** b) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a ** b                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents_pretty : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c421757af01794da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3dcbd62a88f2b21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._print_contents_pretty","kind":"method","src_hash":"e8ed17bfb52591e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._print_contents_pretty_correct","statement":"Path(_print_contents_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c421757af01794da"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._print_contents_pretty","kind":"method","src_hash":"e8ed17bfb52591e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_pretty(printer, *args)","rhs":"a ** b","over":{"base":"Any"},"name":"_print_contents_pretty_correct"},"guarantee":"returns a ** b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._print_contents_pretty_correct","statement":"Path(_print_contents_pretty(x), returns a ** b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3dcbd62a88f2b21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a ** b","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents_pretty(self, printer, *args):
         a = prettyForm(str(self.name))
         b = prettyForm('2')
         return a**b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents_latex(printer, *args), '%s^2' % str(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s^2' % str(self.name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents_latex : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee6bd9c8fc2173fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._print_contents_latex","kind":"method","src_hash":"2bc500c093af0377","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee6bd9c8fc2173fe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._print_contents_latex","kind":"method","src_hash":"2bc500c093af0377","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_latex(printer, *args)","rhs":"'%s^2' % str(self.name)","over":{"base":"Any"},"name":"_print_contents_latex_correct"},"guarantee":"returns '%s^2' % str(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee6bd9c8fc2173fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s^2' % str(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents_latex(self, printer, *args):
         return r'%s^2' % str(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_xyz(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_xyz(*args, **kwargs), JxOp(args[0]) ** 2 + JyOp(args[0]) ** 2 + JzOp(args[0]) ** 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JxOp(args[0]) ** 2 + JyOp(args[0]) ** 2 +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_xyz : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5732af5e5b9b99b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_rewrite_as_xyz","kind":"method","src_hash":"86266227046c0f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_xyz(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_xyz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5732af5e5b9b99b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_rewrite_as_xyz","kind":"method","src_hash":"86266227046c0f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_xyz(*args, **kwargs)","rhs":"JxOp(args[0]) ** 2 + JyOp(args[0]) ** 2 + JzOp(args[0]) ** 2","over":{"base":"Any"},"name":"_eval_rewrite_as_xyz_correct"},"guarantee":"returns JxOp(args[0]) ** 2 + JyOp(args[0]) ** 2 + JzOp(args[0]) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5732af5e5b9b99b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JxOp(args[0]) ** 2 + JyOp(args[0]) ** 2 + JzOp(args[0]) ** 2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_xyz(self, *args, **kwargs):
         return JxOp(args[0])**2 + JyOp(args[0])**2 + JzOp(args[0])**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_plusminus(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_plusminus(*args, **kwargs), JzOp(a) ** 2 + S.Half * (JplusOp(a) * JminusOp(a) + JminusOp(a) * JplusOp(a))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JzOp(a) ** 2 + S.Half * (JplusOp(a) * Jmi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_plusminus : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4a575188d23bdbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea116759716e04f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_rewrite_as_plusminus","kind":"method","src_hash":"7c7b475c12b6383b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_plusminus(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_plusminus_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._eval_rewrite_as_plusminus_correct","statement":"Path(_eval_rewrite_as_plusminus(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4a575188d23bdbf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.J2Op._eval_rewrite_as_plusminus","kind":"method","src_hash":"7c7b475c12b6383b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_plusminus(*args, **kwargs)","rhs":"JzOp(a) ** 2 + S.Half * (JplusOp(a) * JminusOp(a) + JminusOp(a) * JplusOp(a))","over":{"base":"Any"},"name":"_eval_rewrite_as_plusminus_correct"},"guarantee":"returns JzOp(a) ** 2 + S.Half * (JplusOp(a) * JminusOp(a) + JminusOp(a) * JplusOp(a))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.J2Op._eval_rewrite_as_plusminus_correct","statement":"Path(_eval_rewrite_as_plusminus(x), returns JzOp(a) ** 2 + S.Half * (JplusOp(a) * JminusOp(a) + JminusOp(a) * JplusOp(a)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea116759716e04f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JzOp(a) ** 2 + S.Half * (JplusOp(a) * JminusOp(a) + JminusOp(a) * JplusOp(a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_plusminus(self, *args, **kwargs):
         a = args[0]
         return JzOp(a)**2 + \
@@ -1286,14 +1774,20 @@ class J2Op(SpinOpBase, HermitianOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Rotation(*args), correctly constructs a Rotation instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Rotation : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, UnitaryOperator)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Rotation : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7ee81532b75e1d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation","kind":"class","src_hash":"6c4911d0d672db24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Rotation(*args)","rhs":"correctly constructs a Rotation instance","over":{"base":"Any"},"name":"Rotation_class_invariant"},"guarantee":"correctly constructs a Rotation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7ee81532b75e1d2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation","kind":"class","src_hash":"6c4911d0d672db24","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, UnitaryOperator)"},"spec":{"lhs":"Rotation(*args)","rhs":"correctly constructs a Rotation instance","over":{"base":"Any"},"name":"Rotation_class_invariant"},"guarantee":"isinstance(self, UnitaryOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7ee81532b75e1d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, UnitaryOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Rotation not found in source"]}}
 class Rotation(UnitaryOperator):
     """Wigner D operator in terms of Euler angles.
 
@@ -1348,16 +1842,24 @@ class Rotation(UnitaryOperator):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), args) over {Any | not (len(args) != 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_args : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) != 3)                           ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_args : {Any | not (len(args) != 3)} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5175a70be889002f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40634ae9fe9dd993  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._eval_args","kind":"classmethod","src_hash":"7d859809d2f29ba8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5175a70be889002f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._eval_args","kind":"classmethod","src_hash":"7d859809d2f29ba8","in":{"base":"Any","pred":"not (len(args) != 3)"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"args","over":{"base":"Any","pred":"not (len(args) != 3)"},"name":"_eval_args_correct"},"guarantee":"returns args; result == args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._eval_args_correct","statement":"Path(_eval_args(x), returns args; result == args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40634ae9fe9dd993","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) != 3)"],"ensures":["result == args"],"returns_expr":"args","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         args = QExpr._eval_args(args)
         if len(args) != 3:
@@ -1366,90 +1868,130 @@ class Rotation(UnitaryOperator):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, label), ComplexSpace(S.Infinity)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexSpace(S.Infinity)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40c6ce80e49b9dcc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._eval_hilbert_space","kind":"classmethod","src_hash":"3393ecbe24e7725c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40c6ce80e49b9dcc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._eval_hilbert_space","kind":"classmethod","src_hash":"3393ecbe24e7725c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, label)","rhs":"ComplexSpace(S.Infinity)","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns ComplexSpace(S.Infinity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40c6ce80e49b9dcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexSpace(S.Infinity)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, label):
         # We consider all j values so our space is infinite.
         return ComplexSpace(S.Infinity)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(alpha(), returns the alpha attribute) over Any        ║
+# ║ Path(alpha(), self.label[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ alpha : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 785c91af352f9129           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.alpha","kind":"property","src_hash":"0f6969e7e618c92e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alpha()","rhs":"returns the alpha attribute","over":{"base":"Any"},"name":"alpha_correct"},"guarantee":"returns the alpha attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"785c91af352f9129"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.alpha","kind":"property","src_hash":"0f6969e7e618c92e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alpha()","rhs":"self.label[0]","over":{"base":"Any"},"name":"alpha_correct"},"guarantee":"returns self.label[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"785c91af352f9129","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def alpha(self):
         return self.label[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(beta(), returns the beta attribute) over Any          ║
+# ║ Path(beta(), self.label[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ beta : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 597c99b35652fb0f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.beta","kind":"property","src_hash":"39b85e178537ac65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta()","rhs":"returns the beta attribute","over":{"base":"Any"},"name":"beta_correct"},"guarantee":"returns the beta attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"597c99b35652fb0f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.beta","kind":"property","src_hash":"39b85e178537ac65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta()","rhs":"self.label[1]","over":{"base":"Any"},"name":"beta_correct"},"guarantee":"returns self.label[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"597c99b35652fb0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def beta(self):
         return self.label[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gamma(), returns the gamma attribute) over Any        ║
+# ║ Path(gamma(), self.label[2]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[2]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gamma : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e57bbc3268b0ce9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.gamma","kind":"property","src_hash":"0df677730baa1d5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"returns the gamma attribute","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns the gamma attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e57bbc3268b0ce9d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.gamma","kind":"property","src_hash":"0df677730baa1d5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"self.label[2]","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns self.label[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e57bbc3268b0ce9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gamma(self):
         return self.label[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_operator_name(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_operator_name(printer, *args), 'R') over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'R'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_operator_name : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 335727b4778fbd99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._print_operator_name","kind":"method","src_hash":"af2beee5efaf61b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_operator_name_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"335727b4778fbd99"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._print_operator_name","kind":"method","src_hash":"af2beee5efaf61b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name(printer, *args)","rhs":"'R'","over":{"base":"Any"},"name":"_print_operator_name_correct"},"guarantee":"returns 'R'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"335727b4778fbd99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'R'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_operator_name(self, printer, *args):
         return 'R'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_operator_name_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_operator_name_pretty(printer, *args), result == (prettyForm('ℛ' + ' ') if printer._use_unicode else prettyForm('R ')) and result == prettyForm('ℛ' + ' ') or result == prettyForm('R ')) over {Any | hasattr(printer, '_use_unicode')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_operator_name_pretty : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_use_unicode')               ║
+# ║   ensures:  result == (prettyForm('ℛ' + ' ') if print...   ║
+# ║   ensures:  result == prettyForm('ℛ' + ' ') or result...   ║
+# ║   fiber[case_0]: printer._use_unicode => prettyForm('...   ║
+# ║   fiber[case_1]: not (printer._use_unicode) => pretty...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_operator_name_pretty : {Any | hasattr(printer,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3af294b6a667e7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58c97749960840fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._print_operator_name_pretty","kind":"method","src_hash":"1cb839e7702558a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_operator_name_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._print_operator_name_pretty_correct","statement":"Path(_print_operator_name_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3af294b6a667e7d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._print_operator_name_pretty","kind":"method","src_hash":"1cb839e7702558a4","in":{"base":"Any","pred":"hasattr(printer, '_use_unicode')"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm('\u211b' + ' ') if printer._use_unicode else prettyForm('R ')) and result == prettyForm('\u211b' + ' ') or result == prettyForm('R ')"},"spec":{"lhs":"_print_operator_name_pretty(printer, *args)","rhs":"result == (prettyForm('\u211b' + ' ') if printer._use_unicode else prettyForm('R ')) and result == prettyForm('\u211b' + ' ') or result == prettyForm('R ')","over":{"base":"Any","pred":"hasattr(printer, '_use_unicode')"},"name":"_print_operator_name_pretty_correct"},"guarantee":"result == (prettyForm('\u211b' + ' ') if printer._use_unicode else prettyForm('R ')); result == prettyForm('\u211b' + ' ') or result == prettyForm('R '); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._print_operator_name_pretty_correct","statement":"Path(_print_operator_name_pretty(x), result == (prettyForm('\u211b' + ' ') if printer._use_unicode else prettyForm('R ')); result == prettyForm('\u211b' + ' ') or result == prettyForm('R '); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c97749960840fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_use_unicode')"],"ensures":["result == (prettyForm('\u211b' + ' ') if printer._use_unicode else prettyForm('R '))","result == prettyForm('\u211b' + ' ') or result == prettyForm('R ')"],"fibers":[{"name":"case_0","guard":"printer._use_unicode","ensures":["result == prettyForm('\u211b' + ' ')"],"decidability":"library","returns_expr":"prettyForm('\u211b' + ' ')"},{"name":"case_1","guard":"not (printer._use_unicode)","ensures":["result == prettyForm('R ')"],"decidability":"library","returns_expr":"prettyForm('R ')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_operator_name_pretty(self, printer, *args):
         if printer._use_unicode:
             return prettyForm('\N{SCRIPT CAPITAL R}' + ' ')
@@ -1457,45 +1999,63 @@ class Rotation(UnitaryOperator):
             return prettyForm("R ")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_operator_name_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_operator_name_latex(printer, *args), '\\mathcal{R}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\mathcal{R}'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_operator_name_latex : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 754c2fb7ae9309a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._print_operator_name_latex","kind":"method","src_hash":"0e7865fdf50f658e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_operator_name_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"754c2fb7ae9309a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._print_operator_name_latex","kind":"method","src_hash":"0e7865fdf50f658e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_latex(printer, *args)","rhs":"'\\\\mathcal{R}'","over":{"base":"Any"},"name":"_print_operator_name_latex_correct"},"guarantee":"returns '\\\\mathcal{R}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"754c2fb7ae9309a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\mathcal{R}'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_operator_name_latex(self, printer, *args):
         return r'\mathcal{R}'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), Rotation(-self.gamma, -self.beta, -self.alpha)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Rotation(-self.gamma, -self.beta, -self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5063f66d5620c94c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._eval_inverse","kind":"method","src_hash":"7939b40126cd8fdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5063f66d5620c94c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._eval_inverse","kind":"method","src_hash":"7939b40126cd8fdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"Rotation(-self.gamma, -self.beta, -self.alpha)","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"returns Rotation(-self.gamma, -self.beta, -self.alpha)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5063f66d5620c94c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Rotation(-self.gamma, -self.beta, -self.alpha)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.beta","self.gamma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         return Rotation(-self.gamma, -self.beta, -self.alpha)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(D(cls), wigner d-function) over Any                   ║
+# ║ Path(D(cls, j, m), WignerD(j, m, mp, alpha, beta, gamma)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  WignerD(j, m, mp, alpha, beta, gamma)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ D : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a3b5a8fc86a318f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.D","kind":"classmethod","src_hash":"2a7c4cbb7bf583d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"D(cls)","rhs":"wigner d-function","over":{"base":"Any"},"name":"D_correct"},"guarantee":"wigner d-function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a3b5a8fc86a318f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.D","kind":"classmethod","src_hash":"2a7c4cbb7bf583d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"D(cls, j, m)","rhs":"WignerD(j, m, mp, alpha, beta, gamma)","over":{"base":"Any"},"name":"D_correct"},"guarantee":"returns WignerD(j, m, mp, alpha, beta, gamma)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a3b5a8fc86a318f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"WignerD(j, m, mp, alpha, beta, gamma)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def D(cls, j, m, mp, alpha, beta, gamma):
         """Wigner D-function.
 
@@ -1540,16 +2100,22 @@ class Rotation(UnitaryOperator):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(d(cls), wigner small-d function) over Any             ║
+# ║ Path(d(cls, j, m), WignerD(j, m, mp, 0, beta, 0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  WignerD(j, m, mp, 0, beta, 0)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ d : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2d8e2e243dbd36d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.d","kind":"classmethod","src_hash":"cb5c3dd67abc5773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"d(cls)","rhs":"wigner small-d function","over":{"base":"Any"},"name":"d_correct"},"guarantee":"wigner small-d function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2d8e2e243dbd36d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.d","kind":"classmethod","src_hash":"cb5c3dd67abc5773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"d(cls, j, m)","rhs":"WignerD(j, m, mp, 0, beta, 0)","over":{"base":"Any"},"name":"d_correct"},"guarantee":"returns WignerD(j, m, mp, 0, beta, 0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2d8e2e243dbd36d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"WignerD(j, m, mp, 0, beta, 0)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def d(cls, j, m, mp, beta):
         """Wigner small-d function.
 
@@ -1590,16 +2156,22 @@ class Rotation(UnitaryOperator):
         return WignerD(j, m, mp, 0, beta, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_element(j, ), matrix_element produces the expected output) over Any ║
+# ║ Path(matrix_element(j, m, jp), <unspecified:matrix_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4332e87fb690275  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.matrix_element","kind":"method","src_hash":"2057e1a1aa826a11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, )","rhs":"matrix_element produces the expected output","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4332e87fb690275"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation.matrix_element","kind":"method","src_hash":"2057e1a1aa826a11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_element(j, m, jp)","rhs":"<unspecified:matrix_element>","over":{"base":"Any"},"name":"matrix_element_correct"},"guarantee":"matrix_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation.matrix_element_correct","statement":"Path(matrix_element(x), matrix_element produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4332e87fb690275","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.alpha","self.beta","self.gamma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matrix_element(self, j, m, jp, mp):
         result = self.__class__.D(
             jp, m, mp, self.alpha, self.beta, self.gamma
@@ -1608,16 +2180,22 @@ class Rotation(UnitaryOperator):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_base(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_base(basis, **options), <unspecified:_represent_base>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_base : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2a172490ec55ae1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._represent_base","kind":"method","src_hash":"ba6991f2f1258d43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_base(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._represent_base_correct","statement":"Path(_represent_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a172490ec55ae1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._represent_base","kind":"method","src_hash":"ba6991f2f1258d43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_base(basis, **options)","rhs":"<unspecified:_represent_base>","over":{"base":"Any"},"name":"_represent_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._represent_base_correct","statement":"Path(_represent_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a172490ec55ae1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.matrix_element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_base(self, basis, **options):
         j = sympify(options.get('j', S.Half))
         # TODO: move evaluation up to represent function/implement elsewhere
@@ -1634,44 +2212,67 @@ class Rotation(UnitaryOperator):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66481c41569e33cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66481c41569e33cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66481c41569e33cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(basis, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(basis, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 453b78c4c7e074ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"453b78c4c7e074ad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._represent_JzOp","kind":"method","src_hash":"1342445b38fd6fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(basis, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(basis, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"453b78c4c7e074ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(basis, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(basis, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_uncoupled(sta), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_uncoupled(state, ket, dummy), result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))) and result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))) over {Any | hasattr(ket, 'j') and hasattr(ket, 'm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_uncoupled : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   requires: hasattr(ket, 'm')                              ║
+# ║   ensures:  result == (Add(*s) if j.is_number else Su...   ║
+# ║   ensures:  result == Add(*s) or result == Sum(Rotati...   ║
+# ║   fiber[case_0]: j.is_number => Add(*s)                    ║
+# ║   fiber[case_1]: not (j.is_number) => Sum(Rotation.D(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_uncoupled : {Any | hasattr(ket, 'j') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 884dbe7aa9672fc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61a7698ad5d6c54f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_uncoupled","kind":"method","src_hash":"7dd1ceb9de897fb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_uncoupled(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_uncoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._apply_operator_uncoupled_correct","statement":"Path(_apply_operator_uncoupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"884dbe7aa9672fc2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_uncoupled","kind":"method","src_hash":"7dd1ceb9de897fb2","in":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm')"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))) and result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))"},"spec":{"lhs":"_apply_operator_uncoupled(state, ket, dummy)","rhs":"result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))) and result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))","over":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm')"},"name":"_apply_operator_uncoupled_correct"},"guarantee":"result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))); result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._apply_operator_uncoupled_correct","statement":"Path(_apply_operator_uncoupled(x), result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))); result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61a7698ad5d6c54f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')","hasattr(ket, 'm')"],"ensures":["result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j)))","result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))"],"fibers":[{"name":"case_0","guard":"j.is_number","ensures":["result == Add(*s)"],"decidability":"library","returns_expr":"Add(*s)"},{"name":"case_1","guard":"not (j.is_number)","ensures":["result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))"],"decidability":"library","returns_expr":"Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp), (mp, -j, j))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_uncoupled(self, state, ket, *, dummy=True, **options):
         a = self.alpha
         b = self.beta
@@ -1695,58 +2296,88 @@ class Rotation(UnitaryOperator):
             return Sum(Rotation.D(j, m, mp, a, b, g)*state(j, mp), (mp, -j, j))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JxKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JxKet(ket, **options), self._apply_operator_uncoupled(JxKet, ket, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_operator_uncoupled(JxKet, ket...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JxKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46659f9e5f583b6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JxKet","kind":"method","src_hash":"271786013d8bc524","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JxKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46659f9e5f583b6e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JxKet","kind":"method","src_hash":"271786013d8bc524","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKet(ket, **options)","rhs":"self._apply_operator_uncoupled(JxKet, ket, **options)","over":{"base":"Any"},"name":"_apply_operator_JxKet_correct"},"guarantee":"returns self._apply_operator_uncoupled(JxKet, ket, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46659f9e5f583b6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_operator_uncoupled(JxKet, ket, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_operator_uncoupled"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JxKet(self, ket, **options):
         return self._apply_operator_uncoupled(JxKet, ket, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JyKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JyKet(ket, **options), self._apply_operator_uncoupled(JyKet, ket, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_operator_uncoupled(JyKet, ket...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JyKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e100ad1e862e7a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JyKet","kind":"method","src_hash":"1aba49e9ed8b1143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JyKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e100ad1e862e7a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JyKet","kind":"method","src_hash":"1aba49e9ed8b1143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKet(ket, **options)","rhs":"self._apply_operator_uncoupled(JyKet, ket, **options)","over":{"base":"Any"},"name":"_apply_operator_JyKet_correct"},"guarantee":"returns self._apply_operator_uncoupled(JyKet, ket, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e100ad1e862e7a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_operator_uncoupled(JyKet, ket, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_operator_uncoupled"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JyKet(self, ket, **options):
         return self._apply_operator_uncoupled(JyKet, ket, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKet(ket, **options), self._apply_operator_uncoupled(JzKet, ket, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_operator_uncoupled(JzKet, ket...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKet : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a3956e084f180ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JzKet","kind":"method","src_hash":"8e29b9fbea0162cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3956e084f180ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JzKet","kind":"method","src_hash":"8e29b9fbea0162cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKet(ket, **options)","rhs":"self._apply_operator_uncoupled(JzKet, ket, **options)","over":{"base":"Any"},"name":"_apply_operator_JzKet_correct"},"guarantee":"returns self._apply_operator_uncoupled(JzKet, ket, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3956e084f180ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_operator_uncoupled(JzKet, ket, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_operator_uncoupled"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKet(self, ket, **options):
         return self._apply_operator_uncoupled(JzKet, ket, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_coupled(sta), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_coupled(state, ket, dummy), result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))) and result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))) over {Any | hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_coupled : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'j')                              ║
+# ║   requires: hasattr(ket, 'm')                              ║
+# ║   requires: hasattr(ket, 'jn')                             ║
+# ║   ensures:  result == (Add(*s) if j.is_number else Su...   ║
+# ║   ensures:  result == Add(*s) or result == Sum(Rotati...   ║
+# ║   fiber[case_0]: j.is_number => Add(*s)                    ║
+# ║   fiber[case_1]: not (j.is_number) => Sum(Rotation.D(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_coupled : {Any | hasattr(ket, 'j') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 581f461f2c4c3b05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6424d33a970c8572  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_coupled","kind":"method","src_hash":"63040de403377daf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_coupled(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_coupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._apply_operator_coupled_correct","statement":"Path(_apply_operator_coupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581f461f2c4c3b05"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_coupled","kind":"method","src_hash":"63040de403377daf","in":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))) and result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))"},"spec":{"lhs":"_apply_operator_coupled(state, ket, dummy)","rhs":"result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))) and result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))","over":{"base":"Any","pred":"hasattr(ket, 'j') and hasattr(ket, 'm') and hasattr(ket, 'jn') and hasattr(ket, 'coupling')"},"name":"_apply_operator_coupled_correct"},"guarantee":"result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))); result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.Rotation._apply_operator_coupled_correct","statement":"Path(_apply_operator_coupled(x), result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))); result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6424d33a970c8572","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'j')","hasattr(ket, 'm')","hasattr(ket, 'jn')","hasattr(ket, 'coupling')"],"ensures":["result == (Add(*s) if j.is_number else Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j)))","result == Add(*s) or result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))"],"fibers":[{"name":"case_0","guard":"j.is_number","ensures":["result == Add(*s)"],"decidability":"library","returns_expr":"Add(*s)"},{"name":"case_1","guard":"not (j.is_number)","ensures":["result == Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))"],"decidability":"library","returns_expr":"Sum(Rotation.D(j, m, mp, a, b, g) * state(j, mp, jn, coupling), (mp, -j, j))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_coupled(self, state, ket, *, dummy=True, **options):
         a = self.alpha
         b = self.beta
@@ -1773,58 +2404,82 @@ class Rotation(UnitaryOperator):
                 j, mp, jn, coupling), (mp, -j, j))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JxKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JxKetCoupled(ket, **options), self._apply_operator_coupled(JxKetCoupled, ket, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_operator_coupled(JxKetCoupled...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JxKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6098e1e5758ff026           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JxKetCoupled","kind":"method","src_hash":"e6b22578efa4ac47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JxKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6098e1e5758ff026"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JxKetCoupled","kind":"method","src_hash":"e6b22578efa4ac47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JxKetCoupled(ket, **options)","rhs":"self._apply_operator_coupled(JxKetCoupled, ket, **options)","over":{"base":"Any"},"name":"_apply_operator_JxKetCoupled_correct"},"guarantee":"returns self._apply_operator_coupled(JxKetCoupled, ket, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6098e1e5758ff026","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_operator_coupled(JxKetCoupled, ket, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_operator_coupled"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JxKetCoupled(self, ket, **options):
         return self._apply_operator_coupled(JxKetCoupled, ket, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JyKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JyKetCoupled(ket, **options), self._apply_operator_coupled(JyKetCoupled, ket, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_operator_coupled(JyKetCoupled...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JyKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c899da71d8409642           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JyKetCoupled","kind":"method","src_hash":"42ca7370cd1d099d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JyKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c899da71d8409642"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JyKetCoupled","kind":"method","src_hash":"42ca7370cd1d099d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JyKetCoupled(ket, **options)","rhs":"self._apply_operator_coupled(JyKetCoupled, ket, **options)","over":{"base":"Any"},"name":"_apply_operator_JyKetCoupled_correct"},"guarantee":"returns self._apply_operator_coupled(JyKetCoupled, ket, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c899da71d8409642","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_operator_coupled(JyKetCoupled, ket, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_operator_coupled"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JyKetCoupled(self, ket, **options):
         return self._apply_operator_coupled(JyKetCoupled, ket, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_JzKetCoupled(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_JzKetCoupled(ket, **options), self._apply_operator_coupled(JzKetCoupled, ket, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_operator_coupled(JzKetCoupled...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_JzKetCoupled : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff8d9e67ffe3ee14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JzKetCoupled","kind":"method","src_hash":"8291d3e07751bbdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff8d9e67ffe3ee14"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.Rotation._apply_operator_JzKetCoupled","kind":"method","src_hash":"8291d3e07751bbdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_JzKetCoupled(ket, **options)","rhs":"self._apply_operator_coupled(JzKetCoupled, ket, **options)","over":{"base":"Any"},"name":"_apply_operator_JzKetCoupled_correct"},"guarantee":"returns self._apply_operator_coupled(JzKetCoupled, ket, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff8d9e67ffe3ee14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_operator_coupled(JzKetCoupled, ket, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply_operator_coupled"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_JzKetCoupled(self, ket, **options):
         return self._apply_operator_coupled(JzKetCoupled, ket, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WignerD(*args), correctly constructs a WignerD instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WignerD : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WignerD : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4b5b9e9e109db10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD","kind":"class","src_hash":"415849352f39b3f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WignerD(*args)","rhs":"correctly constructs a WignerD instance","over":{"base":"Any"},"name":"WignerD_class_invariant"},"guarantee":"correctly constructs a WignerD instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4b5b9e9e109db10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD","kind":"class","src_hash":"415849352f39b3f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"WignerD(*args)","rhs":"correctly constructs a WignerD instance","over":{"base":"Any"},"name":"WignerD_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4b5b9e9e109db10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function WignerD not found in source"]}}
 class WignerD(Expr):
     r"""Wigner-D function
 
@@ -1908,16 +2563,23 @@ class WignerD(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **hints), <unspecified:__new__>) over {Any | len(args) == 6} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: len(args) == 6                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(args) == 6} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab8f1296efcd6c76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.__new__","kind":"method","src_hash":"f05c3ab3fb12ca75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab8f1296efcd6c76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.__new__","kind":"method","src_hash":"f05c3ab3fb12ca75","in":{"base":"Any","pred":"len(args) == 6"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **hints)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"len(args) == 6"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab8f1296efcd6c76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["len(args) == 6"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **hints):
         if not len(args) == 6:
             raise ValueError('6 parameters expected, got %s' % args)
@@ -1929,105 +2591,148 @@ class WignerD(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j(), returns the j attribute) over Any                ║
+# ║ Path(j(), self.args[0]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62557558d1ec9d32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.j","kind":"property","src_hash":"e6c553ab4f14ebe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"returns the j attribute","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns the j attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62557558d1ec9d32"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.j","kind":"property","src_hash":"e6c553ab4f14ebe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"self.args[0]","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62557558d1ec9d32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(m(), returns the m attribute) over Any                ║
+# ║ Path(m(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ m : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2d40f835e64d9d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.m","kind":"property","src_hash":"7b9f8e7f046d321e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m()","rhs":"returns the m attribute","over":{"base":"Any"},"name":"m_correct"},"guarantee":"returns the m attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2d40f835e64d9d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.m","kind":"property","src_hash":"7b9f8e7f046d321e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m()","rhs":"self.args[1]","over":{"base":"Any"},"name":"m_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2d40f835e64d9d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def m(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mp(), returns the mp attribute) over Any              ║
+# ║ Path(mp(), self.args[2]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mp : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 428342030cd64cec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.mp","kind":"property","src_hash":"f38403de0bc5e114","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mp()","rhs":"returns the mp attribute","over":{"base":"Any"},"name":"mp_correct"},"guarantee":"returns the mp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"428342030cd64cec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.mp","kind":"property","src_hash":"f38403de0bc5e114","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mp()","rhs":"self.args[2]","over":{"base":"Any"},"name":"mp_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"428342030cd64cec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mp(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(alpha(), returns the alpha attribute) over Any        ║
+# ║ Path(alpha(), self.args[3]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ alpha : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee3a1fb975faad95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.alpha","kind":"property","src_hash":"dc278fb773ca6a8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alpha()","rhs":"returns the alpha attribute","over":{"base":"Any"},"name":"alpha_correct"},"guarantee":"returns the alpha attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee3a1fb975faad95"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.alpha","kind":"property","src_hash":"dc278fb773ca6a8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"alpha()","rhs":"self.args[3]","over":{"base":"Any"},"name":"alpha_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee3a1fb975faad95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def alpha(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(beta(), returns the beta attribute) over Any          ║
+# ║ Path(beta(), self.args[4]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ beta : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8cce2f7241306e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.beta","kind":"property","src_hash":"3b81fc3a93485976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta()","rhs":"returns the beta attribute","over":{"base":"Any"},"name":"beta_correct"},"guarantee":"returns the beta attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8cce2f7241306e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.beta","kind":"property","src_hash":"3b81fc3a93485976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta()","rhs":"self.args[4]","over":{"base":"Any"},"name":"beta_correct"},"guarantee":"returns self.args[4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8cce2f7241306e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def beta(self):
         return self.args[4]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gamma(), returns the gamma attribute) over Any        ║
+# ║ Path(gamma(), self.args[5]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[5]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gamma : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f02f511063c3fd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.gamma","kind":"property","src_hash":"8fb90b3009ed2de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"returns the gamma attribute","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns the gamma attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f02f511063c3fd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.gamma","kind":"property","src_hash":"8fb90b3009ed2de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"self.args[5]","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns self.args[5]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f02f511063c3fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[5]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gamma(self):
         return self.args[5]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28d97b9dbc299f90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD._latex","kind":"method","src_hash":"52eeae5cdf1e8974","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28d97b9dbc299f90"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD._latex","kind":"method","src_hash":"52eeae5cdf1e8974","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28d97b9dbc299f90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.alpha","self.beta","self.gamma","self.j","self.m","self.mp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         if self.alpha == 0 and self.gamma == 0:
             return r'd^{%s}_{%s,%s}\left(%s\right)' % \
@@ -2042,16 +2747,23 @@ class WignerD(Expr):
                 printer._print(self.alpha), printer._print(self.beta), printer._print(self.gamma) )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f73dc99d4fd8b7ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD._pretty","kind":"method","src_hash":"3b904b16b99efbb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73dc99d4fd8b7ed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD._pretty","kind":"method","src_hash":"3b904b16b99efbb8","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73dc99d4fd8b7ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.alpha","self.beta","self.gamma","self.j","self.m","self.mp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         top = printer._print(self.j)
 
@@ -2085,31 +2797,43 @@ class WignerD(Expr):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), WignerD(*self.args, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  WignerD(*self.args, **hints)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19f632a22b9f052f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce58ea86840b3a58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.doit","kind":"method","src_hash":"eb42767cc8a528d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19f632a22b9f052f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD.doit","kind":"method","src_hash":"eb42767cc8a528d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"WignerD(*self.args, **hints)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns WignerD(*self.args, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD.doit_correct","statement":"Path(doit(x), returns WignerD(*self.args, **hints))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce58ea86840b3a58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"WignerD(*self.args, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         hints['evaluate'] = True
         return WignerD(*self.args, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_wignerd(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_wignerd(), <unspecified:_eval_wignerd>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_wignerd : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca2c1d24d53f3809  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD._eval_wignerd","kind":"method","src_hash":"63034e9dfd26dc2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_wignerd()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_wignerd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD._eval_wignerd_correct","statement":"Path(_eval_wignerd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca2c1d24d53f3809"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.WignerD._eval_wignerd","kind":"method","src_hash":"63034e9dfd26dc2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_wignerd()","rhs":"<unspecified:_eval_wignerd>","over":{"base":"Any"},"name":"_eval_wignerd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.WignerD._eval_wignerd_correct","statement":"Path(_eval_wignerd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca2c1d24d53f3809","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.beta","self.gamma","self.j","self.m","self.mp"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_wignerd(self):
         j = self.j
         m = self.m
@@ -2170,30 +2894,44 @@ Jminus = JminusOp('J')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SpinState(*args), correctly constructs a SpinState instance) over {Any | isinstance(self, Bra) and isinstance(self, CoupledSpinState) and isinstance(self, Ket)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, State)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SpinState : {Any | isinstance(self, Bra) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e02e13a360e29028  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState","kind":"class","src_hash":"49c38bb32e733cb0","in":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"out":{"base":"Any"},"spec":{"lhs":"SpinState(*args)","rhs":"correctly constructs a SpinState instance","over":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"name":"SpinState_class_invariant"},"guarantee":"correctly constructs a SpinState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e02e13a360e29028"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState","kind":"class","src_hash":"49c38bb32e733cb0","in":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, State)"},"spec":{"lhs":"SpinState(*args)","rhs":"correctly constructs a SpinState instance","over":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"name":"SpinState_class_invariant"},"guarantee":"isinstance(self, State)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e02e13a360e29028","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, State)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SpinState not found in source"]}}
 class SpinState(State):
     """Base class for angular momentum states."""
 
     _label_separator = ','
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, j, m), State.__new__(cls, j, m)) over {Any | hasattr(j, 'is_number') and hasattr(m, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(j, 'is_number')                        ║
+# ║   requires: hasattr(m, 'is_number')                        ║
+# ║   returns:  State.__new__(cls, j, m)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(j, 'is_number') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 434c95c2e31fae5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState.__new__","kind":"method","src_hash":"5b0e47507dfd3964","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"434c95c2e31fae5c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState.__new__","kind":"method","src_hash":"5b0e47507dfd3964","in":{"base":"Any","pred":"hasattr(j, 'is_number') and hasattr(m, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, j, m)","rhs":"State.__new__(cls, j, m)","over":{"base":"Any","pred":"hasattr(j, 'is_number') and hasattr(m, 'is_number')"},"name":"__new___correct"},"guarantee":"returns State.__new__(cls, j, m)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"434c95c2e31fae5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(j, 'is_number')","hasattr(m, 'is_number')"],"returns_expr":"State.__new__(cls, j, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["j.is_number","m.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, j, m):
         j = sympify(j)
         m = sympify(m)
@@ -2216,60 +2954,84 @@ class SpinState(State):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j(), returns the j attribute) over Any                ║
+# ║ Path(j(), self.label[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a75b6547a5cadee1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState.j","kind":"property","src_hash":"0ed7a04df2de4226","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"returns the j attribute","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns the j attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a75b6547a5cadee1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState.j","kind":"property","src_hash":"0ed7a04df2de4226","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"self.label[0]","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns self.label[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a75b6547a5cadee1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j(self):
         return self.label[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(m(), returns the m attribute) over Any                ║
+# ║ Path(m(), self.label[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ m : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6eb112618b2edb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState.m","kind":"property","src_hash":"44419cee6b7d3413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m()","rhs":"returns the m attribute","over":{"base":"Any"},"name":"m_correct"},"guarantee":"returns the m attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6eb112618b2edb4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState.m","kind":"property","src_hash":"44419cee6b7d3413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m()","rhs":"self.label[1]","over":{"base":"Any"},"name":"m_correct"},"guarantee":"returns self.label[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6eb112618b2edb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def m(self):
         return self.label[1]
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, label), ComplexSpace(2 * label[0] + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexSpace(2 * label[0] + 1)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5871df951aea1a3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_hilbert_space","kind":"classmethod","src_hash":"9677d1380fab4ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5871df951aea1a3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_hilbert_space","kind":"classmethod","src_hash":"9677d1380fab4ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, label)","rhs":"ComplexSpace(2 * label[0] + 1)","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns ComplexSpace(2 * label[0] + 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5871df951aea1a3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexSpace(2 * label[0] + 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, label):
         return ComplexSpace(2*label[0] + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_base(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_base(**options), <unspecified:_represent_base>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_base : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1c01bf7d3fbb295  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._represent_base","kind":"method","src_hash":"91a86c539adf5143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_base(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._represent_base_correct","statement":"Path(_represent_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1c01bf7d3fbb295"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._represent_base","kind":"method","src_hash":"91a86c539adf5143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_base(**options)","rhs":"<unspecified:_represent_base>","over":{"base":"Any"},"name":"_represent_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._represent_base_correct","statement":"Path(_represent_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1c01bf7d3fbb295","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.j","self.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_base(self, **options):
         j = self.j
         m = self.m
@@ -2289,64 +3051,89 @@ class SpinState(State):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Jx(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Jx(*args, **options), <unspecified:_eval_rewrite_as_Jx>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Jx : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cffab85017eb070  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jx","kind":"method","src_hash":"7704163df198ca7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jx(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Jx_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jx_correct","statement":"Path(_eval_rewrite_as_Jx(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cffab85017eb070"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jx","kind":"method","src_hash":"7704163df198ca7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jx(*args, **options)","rhs":"<unspecified:_eval_rewrite_as_Jx>","over":{"base":"Any"},"name":"_eval_rewrite_as_Jx_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jx_correct","statement":"Path(_eval_rewrite_as_Jx(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cffab85017eb070","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Jx(self, *args, **options):
         if isinstance(self, Bra):
             return self._rewrite_basis(Jx, JxBra, **options)
         return self._rewrite_basis(Jx, JxKet, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Jy(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Jy(*args, **options), <unspecified:_eval_rewrite_as_Jy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Jy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf8c6a3237a43850  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jy","kind":"method","src_hash":"5c51d03f3cf14586","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jy(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Jy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jy_correct","statement":"Path(_eval_rewrite_as_Jy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf8c6a3237a43850"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jy","kind":"method","src_hash":"5c51d03f3cf14586","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jy(*args, **options)","rhs":"<unspecified:_eval_rewrite_as_Jy>","over":{"base":"Any"},"name":"_eval_rewrite_as_Jy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jy_correct","statement":"Path(_eval_rewrite_as_Jy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf8c6a3237a43850","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Jy(self, *args, **options):
         if isinstance(self, Bra):
             return self._rewrite_basis(Jy, JyBra, **options)
         return self._rewrite_basis(Jy, JyKet, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Jz(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Jz(*args, **options), <unspecified:_eval_rewrite_as_Jz>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Jz : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f42304030cd3646  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jz","kind":"method","src_hash":"9f2a2e0b1d762a0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jz(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Jz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jz_correct","statement":"Path(_eval_rewrite_as_Jz(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f42304030cd3646"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jz","kind":"method","src_hash":"9f2a2e0b1d762a0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jz(*args, **options)","rhs":"<unspecified:_eval_rewrite_as_Jz>","over":{"base":"Any"},"name":"_eval_rewrite_as_Jz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_rewrite_as_Jz_correct","statement":"Path(_eval_rewrite_as_Jz(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f42304030cd3646","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Jz(self, *args, **options):
         if isinstance(self, Bra):
             return self._rewrite_basis(Jz, JzBra, **options)
         return self._rewrite_basis(Jz, JzKet, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_basis(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_rewrite_basis(basis, evect, **options), <unspecified:_rewrite_basis>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: j.is_number => result                     ║
+# ║   fiber[case_1]: not (j.is_number)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite_basis : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e2d1dd573ecf21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c024ab6fff8101a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._rewrite_basis","kind":"method","src_hash":"ca879f6a85ffef7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_basis(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rewrite_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._rewrite_basis_correct","statement":"Path(_rewrite_basis(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e2d1dd573ecf21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._rewrite_basis","kind":"method","src_hash":"ca879f6a85ffef7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_basis(basis, evect, **options)","rhs":"<unspecified:_rewrite_basis>","over":{"base":"Any"},"name":"_rewrite_basis_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._rewrite_basis_correct","statement":"Path(_rewrite_basis(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c024ab6fff8101a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"j.is_number","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"case_1","guard":"not (j.is_number)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args","self.j","self.m","self.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rewrite_basis(self, basis, evect, **options):
         from sympy.physics.quantum.represent import represent
         j = self.j
@@ -2392,16 +3179,25 @@ class SpinState(State):
                 return Sum(lt*state, (mi, -j, j))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_innerproduct_JxBra(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_innerproduct_JxBra(bra, **hints), <unspecified:_eval_innerproduct_JxBra>) over {Any | hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_innerproduct_JxBra : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(bra, 'j')                              ║
+# ║   requires: hasattr(bra, 'dual_class')                     ║
+# ║   requires: hasattr(bra, 'm')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_innerproduct_JxBra : {Any | hasattr(bra, 'j') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6183fa62aa8c65fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JxBra","kind":"method","src_hash":"72068a7caf96d9b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_JxBra(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_innerproduct_JxBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JxBra_correct","statement":"Path(_eval_innerproduct_JxBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6183fa62aa8c65fe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JxBra","kind":"method","src_hash":"72068a7caf96d9b2","in":{"base":"Any","pred":"hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_JxBra(bra, **hints)","rhs":"<unspecified:_eval_innerproduct_JxBra>","over":{"base":"Any","pred":"hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')"},"name":"_eval_innerproduct_JxBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JxBra_correct","statement":"Path(_eval_innerproduct_JxBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6183fa62aa8c65fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(bra, 'j')","hasattr(bra, 'dual_class')","hasattr(bra, 'm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","bra.dual_class","bra.j","bra.m","self.__class__","self._represent_JxOp","self.j","self.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_innerproduct_JxBra(self, bra, **hints):
         result = KroneckerDelta(self.j, bra.j)
         if bra.dual_class() is not self.__class__:
@@ -2412,16 +3208,25 @@ class SpinState(State):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_innerproduct_JyBra(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_innerproduct_JyBra(bra, **hints), <unspecified:_eval_innerproduct_JyBra>) over {Any | hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_innerproduct_JyBra : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(bra, 'j')                              ║
+# ║   requires: hasattr(bra, 'dual_class')                     ║
+# ║   requires: hasattr(bra, 'm')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_innerproduct_JyBra : {Any | hasattr(bra, 'j') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ae2a1425d223591  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JyBra","kind":"method","src_hash":"12922542482bce8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_JyBra(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_innerproduct_JyBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JyBra_correct","statement":"Path(_eval_innerproduct_JyBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ae2a1425d223591"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JyBra","kind":"method","src_hash":"12922542482bce8a","in":{"base":"Any","pred":"hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_JyBra(bra, **hints)","rhs":"<unspecified:_eval_innerproduct_JyBra>","over":{"base":"Any","pred":"hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')"},"name":"_eval_innerproduct_JyBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JyBra_correct","statement":"Path(_eval_innerproduct_JyBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ae2a1425d223591","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(bra, 'j')","hasattr(bra, 'dual_class')","hasattr(bra, 'm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","bra.dual_class","bra.j","bra.m","self.__class__","self._represent_JyOp","self.j","self.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_innerproduct_JyBra(self, bra, **hints):
         result = KroneckerDelta(self.j, bra.j)
         if bra.dual_class() is not self.__class__:
@@ -2432,16 +3237,25 @@ class SpinState(State):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_innerproduct_JzBra(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_innerproduct_JzBra(bra, **hints), <unspecified:_eval_innerproduct_JzBra>) over {Any | hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_innerproduct_JzBra : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(bra, 'j')                              ║
+# ║   requires: hasattr(bra, 'dual_class')                     ║
+# ║   requires: hasattr(bra, 'm')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_innerproduct_JzBra : {Any | hasattr(bra, 'j') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af2389f394e180b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JzBra","kind":"method","src_hash":"1aa454cc757743fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_JzBra(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_innerproduct_JzBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JzBra_correct","statement":"Path(_eval_innerproduct_JzBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af2389f394e180b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JzBra","kind":"method","src_hash":"1aa454cc757743fb","in":{"base":"Any","pred":"hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_JzBra(bra, **hints)","rhs":"<unspecified:_eval_innerproduct_JzBra>","over":{"base":"Any","pred":"hasattr(bra, 'j') and hasattr(bra, 'dual_class') and hasattr(bra, 'm')"},"name":"_eval_innerproduct_JzBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.SpinState._eval_innerproduct_JzBra_correct","statement":"Path(_eval_innerproduct_JzBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af2389f394e180b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(bra, 'j')","hasattr(bra, 'dual_class')","hasattr(bra, 'm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","bra.dual_class","bra.j","bra.m","self.__class__","self._represent_JzOp","self.j","self.m"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_innerproduct_JzBra(self, bra, **hints):
         result = KroneckerDelta(self.j, bra.j)
         if bra.dual_class() is not self.__class__:
@@ -2452,16 +3266,22 @@ class SpinState(State):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trace(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_trace(bra, **hints), (bra * self).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (bra * self).doit()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f6bba52ac868097           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_trace","kind":"method","src_hash":"26ae662ace3fe2af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f6bba52ac868097"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.SpinState._eval_trace","kind":"method","src_hash":"26ae662ace3fe2af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(bra, **hints)","rhs":"(bra * self).doit()","over":{"base":"Any"},"name":"_eval_trace_correct"},"guarantee":"returns (bra * self).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f6bba52ac868097","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(bra * self).doit()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self, bra, **hints):
 
         # One way to implement this method is to assume the basis set k is
@@ -2481,14 +3301,21 @@ class SpinState(State):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JxKet(*args), correctly constructs a JxKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JxKet : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JxKet : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 688a80aa0a577f12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet","kind":"class","src_hash":"ee2352cc14c4eede","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JxKet(*args)","rhs":"correctly constructs a JxKet instance","over":{"base":"Any"},"name":"JxKet_class_invariant"},"guarantee":"correctly constructs a JxKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"688a80aa0a577f12"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet","kind":"class","src_hash":"ee2352cc14c4eede","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState) and isinstance(self, Ket)"},"spec":{"lhs":"JxKet(*args)","rhs":"correctly constructs a JxKet instance","over":{"base":"Any"},"name":"JxKet_class_invariant"},"guarantee":"isinstance(self, SpinState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"688a80aa0a577f12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JxKet not found in source"]}}
 class JxKet(SpinState, Ket):
     """Eigenket of Jx.
 
@@ -2503,87 +3330,123 @@ class JxKet(SpinState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d708ba942159acf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet.dual_class","kind":"classmethod","src_hash":"41b1e2d5bb9319d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d708ba942159acf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet.dual_class","kind":"classmethod","src_hash":"41b1e2d5bb9319d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d708ba942159acf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JxBra
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_class(), coupled_class produces the expected output) over Any ║
+# ║ Path(coupled_class(), <unspecified:coupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_class : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f1f432cbcfb3294           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet.coupled_class","kind":"classmethod","src_hash":"c1e777c4e076da72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"coupled_class produces the expected output","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f1f432cbcfb3294"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet.coupled_class","kind":"classmethod","src_hash":"c1e777c4e076da72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"<unspecified:coupled_class>","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f1f432cbcfb3294","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_class(self):
         return JxKetCoupled
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JxOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JxOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a705084b3e18c79c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_default_basis","kind":"method","src_hash":"ea9f4bd5bf51d63a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a705084b3e18c79c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_default_basis","kind":"method","src_hash":"ea9f4bd5bf51d63a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JxOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JxOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a705084b3e18c79c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JxOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JxOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JxOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JxOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JxOp(basis, **options), self._represent_base(**options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(**options)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JxOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eaeed978c3e8b87f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_JxOp","kind":"method","src_hash":"a8a3b39fe577e66f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eaeed978c3e8b87f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_JxOp","kind":"method","src_hash":"a8a3b39fe577e66f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(basis, **options)","rhs":"self._represent_base(**options)","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"returns self._represent_base(**options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eaeed978c3e8b87f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(**options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JxOp(self, basis, **options):
         return self._represent_base(**options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JyOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JyOp(basis, **options), self._represent_base(alpha=pi * Rational(3, 2), **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(alpha=pi * Rational(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JyOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78634fa757e1bcf3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_JyOp","kind":"method","src_hash":"7b21fb7dc72f1161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78634fa757e1bcf3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_JyOp","kind":"method","src_hash":"7b21fb7dc72f1161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(basis, **options)","rhs":"self._represent_base(alpha=pi * Rational(3, 2), **options)","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"returns self._represent_base(alpha=pi * Rational(3, 2), **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78634fa757e1bcf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(alpha=pi * Rational(3, 2), **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JyOp(self, basis, **options):
         return self._represent_base(alpha=pi*Rational(3, 2), **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(beta=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(beta=pi / 2, **options)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 345cabba4ee1eb41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_JzOp","kind":"method","src_hash":"076887d2aba76ec2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"345cabba4ee1eb41"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKet._represent_JzOp","kind":"method","src_hash":"076887d2aba76ec2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(beta=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(beta=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"345cabba4ee1eb41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(beta=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(beta=pi/2, **options)
 
@@ -2591,14 +3454,21 @@ class JxKet(SpinState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JxBra(*args), correctly constructs a JxBra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JxBra : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JxBra : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a567bdb2c955db9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBra","kind":"class","src_hash":"80d4a7289c0b5a93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JxBra(*args)","rhs":"correctly constructs a JxBra instance","over":{"base":"Any"},"name":"JxBra_class_invariant"},"guarantee":"correctly constructs a JxBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a567bdb2c955db9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBra","kind":"class","src_hash":"80d4a7289c0b5a93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState) and isinstance(self, Bra)"},"spec":{"lhs":"JxBra(*args)","rhs":"correctly constructs a JxBra instance","over":{"base":"Any"},"name":"JxBra_class_invariant"},"guarantee":"isinstance(self, SpinState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a567bdb2c955db9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JxBra not found in source"]}}
 class JxBra(SpinState, Bra):
     """Eigenbra of Jx.
 
@@ -2613,31 +3483,43 @@ class JxBra(SpinState, Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c9c9426b000b3a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBra.dual_class","kind":"classmethod","src_hash":"f88ef9951e7da0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c9c9426b000b3a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBra.dual_class","kind":"classmethod","src_hash":"f88ef9951e7da0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c9c9426b000b3a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JxKet
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_class(), coupled_class produces the expected output) over Any ║
+# ║ Path(coupled_class(), <unspecified:coupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_class : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2359cabc426c7a27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBra.coupled_class","kind":"classmethod","src_hash":"0a9d2b14f1b455ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"coupled_class produces the expected output","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2359cabc426c7a27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBra.coupled_class","kind":"classmethod","src_hash":"0a9d2b14f1b455ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"<unspecified:coupled_class>","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2359cabc426c7a27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_class(self):
         return JxBraCoupled
 
@@ -2645,14 +3527,21 @@ class JxBra(SpinState, Bra):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JyKet(*args), correctly constructs a JyKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JyKet : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JyKet : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eafa9dcbea4cbe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet","kind":"class","src_hash":"efbc3b2417bbc3be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JyKet(*args)","rhs":"correctly constructs a JyKet instance","over":{"base":"Any"},"name":"JyKet_class_invariant"},"guarantee":"correctly constructs a JyKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eafa9dcbea4cbe3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet","kind":"class","src_hash":"efbc3b2417bbc3be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState) and isinstance(self, Ket)"},"spec":{"lhs":"JyKet(*args)","rhs":"correctly constructs a JyKet instance","over":{"base":"Any"},"name":"JyKet_class_invariant"},"guarantee":"isinstance(self, SpinState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eafa9dcbea4cbe3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JyKet not found in source"]}}
 class JyKet(SpinState, Ket):
     """Eigenket of Jy.
 
@@ -2667,87 +3556,123 @@ class JyKet(SpinState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90ffcf86774f212a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet.dual_class","kind":"classmethod","src_hash":"ac22909a0ca7ccb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90ffcf86774f212a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet.dual_class","kind":"classmethod","src_hash":"ac22909a0ca7ccb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90ffcf86774f212a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JyBra
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_class(), coupled_class produces the expected output) over Any ║
+# ║ Path(coupled_class(), <unspecified:coupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_class : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61fb1cc17c51b30c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet.coupled_class","kind":"classmethod","src_hash":"05829a8c26fdebee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"coupled_class produces the expected output","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61fb1cc17c51b30c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet.coupled_class","kind":"classmethod","src_hash":"05829a8c26fdebee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"<unspecified:coupled_class>","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61fb1cc17c51b30c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_class(self):
         return JyKetCoupled
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JyOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JyOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce21c0cd3f569ef6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_default_basis","kind":"method","src_hash":"f51cca6b424c6378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce21c0cd3f569ef6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_default_basis","kind":"method","src_hash":"f51cca6b424c6378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JyOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JyOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce21c0cd3f569ef6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JyOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JyOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JyOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JxOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JxOp(basis, **options), self._represent_base(gamma=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(gamma=pi / 2, **opti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JxOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77da1ba6d4425295           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_JxOp","kind":"method","src_hash":"23488c4445772556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77da1ba6d4425295"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_JxOp","kind":"method","src_hash":"23488c4445772556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(basis, **options)","rhs":"self._represent_base(gamma=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"returns self._represent_base(gamma=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77da1ba6d4425295","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(gamma=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JxOp(self, basis, **options):
         return self._represent_base(gamma=pi/2, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JyOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JyOp(basis, **options), self._represent_base(**options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(**options)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JyOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d773f1a665266db1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_JyOp","kind":"method","src_hash":"ce17cef888c082f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d773f1a665266db1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_JyOp","kind":"method","src_hash":"ce17cef888c082f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(basis, **options)","rhs":"self._represent_base(**options)","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"returns self._represent_base(**options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d773f1a665266db1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(**options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JyOp(self, basis, **options):
         return self._represent_base(**options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(alpha=pi * Rational(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0326883d5b5da119           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_JzOp","kind":"method","src_hash":"abf9c866c0bdd4f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0326883d5b5da119"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKet._represent_JzOp","kind":"method","src_hash":"abf9c866c0bdd4f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0326883d5b5da119","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(alpha=pi*Rational(3, 2), beta=-pi/2, gamma=pi/2, **options)
 
@@ -2755,14 +3680,21 @@ class JyKet(SpinState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JyBra(*args), correctly constructs a JyBra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JyBra : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JyBra : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb5fe23ddb3d3d59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBra","kind":"class","src_hash":"047b563c91c77901","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JyBra(*args)","rhs":"correctly constructs a JyBra instance","over":{"base":"Any"},"name":"JyBra_class_invariant"},"guarantee":"correctly constructs a JyBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb5fe23ddb3d3d59"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBra","kind":"class","src_hash":"047b563c91c77901","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState) and isinstance(self, Bra)"},"spec":{"lhs":"JyBra(*args)","rhs":"correctly constructs a JyBra instance","over":{"base":"Any"},"name":"JyBra_class_invariant"},"guarantee":"isinstance(self, SpinState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb5fe23ddb3d3d59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JyBra not found in source"]}}
 class JyBra(SpinState, Bra):
     """Eigenbra of Jy.
 
@@ -2777,31 +3709,43 @@ class JyBra(SpinState, Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4575b296d348c371           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBra.dual_class","kind":"classmethod","src_hash":"2ebc37df3cecd0dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4575b296d348c371"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBra.dual_class","kind":"classmethod","src_hash":"2ebc37df3cecd0dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4575b296d348c371","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JyKet
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_class(), coupled_class produces the expected output) over Any ║
+# ║ Path(coupled_class(), <unspecified:coupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_class : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85f9d2315344be33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBra.coupled_class","kind":"classmethod","src_hash":"40b2b7c743e0b096","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"coupled_class produces the expected output","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85f9d2315344be33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBra.coupled_class","kind":"classmethod","src_hash":"40b2b7c743e0b096","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"<unspecified:coupled_class>","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85f9d2315344be33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_class(self):
         return JyBraCoupled
 
@@ -2809,14 +3753,21 @@ class JyBra(SpinState, Bra):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JzKet(*args), correctly constructs a JzKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JzKet : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JzKet : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbbd8289ae7f984a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet","kind":"class","src_hash":"cec588de757705ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JzKet(*args)","rhs":"correctly constructs a JzKet instance","over":{"base":"Any"},"name":"JzKet_class_invariant"},"guarantee":"correctly constructs a JzKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbbd8289ae7f984a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet","kind":"class","src_hash":"cec588de757705ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState) and isinstance(self, Ket)"},"spec":{"lhs":"JzKet(*args)","rhs":"correctly constructs a JzKet instance","over":{"base":"Any"},"name":"JzKet_class_invariant"},"guarantee":"isinstance(self, SpinState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbbd8289ae7f984a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JzKet not found in source"]}}
 class JzKet(SpinState, Ket):
     """Eigenket of Jz.
 
@@ -2930,87 +3881,123 @@ class JzKet(SpinState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85293565cb221368           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet.dual_class","kind":"classmethod","src_hash":"37c9fa33a75db104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85293565cb221368"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet.dual_class","kind":"classmethod","src_hash":"37c9fa33a75db104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85293565cb221368","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JzBra
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_class(), coupled_class produces the expected output) over Any ║
+# ║ Path(coupled_class(), <unspecified:coupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_class : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87f2032503011a4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet.coupled_class","kind":"classmethod","src_hash":"35ab016fd8cfad8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"coupled_class produces the expected output","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87f2032503011a4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet.coupled_class","kind":"classmethod","src_hash":"35ab016fd8cfad8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"<unspecified:coupled_class>","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87f2032503011a4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_class(self):
         return JzKetCoupled
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 719242f833f5e458           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"719242f833f5e458"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"719242f833f5e458","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JxOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JxOp(basis, **options), self._represent_base(beta=pi * Rational(3, 2), **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(beta=pi * Rational(3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JxOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec7196d737765473           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_JxOp","kind":"method","src_hash":"276bda72ac047332","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec7196d737765473"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_JxOp","kind":"method","src_hash":"276bda72ac047332","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(basis, **options)","rhs":"self._represent_base(beta=pi * Rational(3, 2), **options)","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"returns self._represent_base(beta=pi * Rational(3, 2), **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec7196d737765473","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(beta=pi * Rational(3, 2), **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JxOp(self, basis, **options):
         return self._represent_base(beta=pi*Rational(3, 2), **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JyOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JyOp(basis, **options), self._represent_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(alpha=pi * Rational(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JyOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a2c34fb5df79d08           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_JyOp","kind":"method","src_hash":"f4447779bdc905ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a2c34fb5df79d08"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_JyOp","kind":"method","src_hash":"f4447779bdc905ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(basis, **options)","rhs":"self._represent_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"returns self._represent_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a2c34fb5df79d08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JyOp(self, basis, **options):
         return self._represent_base(alpha=pi*Rational(3, 2), beta=pi/2, gamma=pi/2, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_base(**options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_base(**options)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0973d3fa610d5a5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_JzOp","kind":"method","src_hash":"055b6401f2f8f831","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0973d3fa610d5a5f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKet._represent_JzOp","kind":"method","src_hash":"055b6401f2f8f831","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_base(**options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_base(**options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0973d3fa610d5a5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_base(**options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_base(**options)
 
@@ -3018,14 +4005,21 @@ class JzKet(SpinState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JzBra(*args), correctly constructs a JzBra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JzBra : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JzBra : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d46965ce074e8f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBra","kind":"class","src_hash":"486d1ddc83bb2fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JzBra(*args)","rhs":"correctly constructs a JzBra instance","over":{"base":"Any"},"name":"JzBra_class_invariant"},"guarantee":"correctly constructs a JzBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d46965ce074e8f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBra","kind":"class","src_hash":"486d1ddc83bb2fea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState) and isinstance(self, Bra)"},"spec":{"lhs":"JzBra(*args)","rhs":"correctly constructs a JzBra instance","over":{"base":"Any"},"name":"JzBra_class_invariant"},"guarantee":"isinstance(self, SpinState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d46965ce074e8f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JzBra not found in source"]}}
 class JzBra(SpinState, Bra):
     """Eigenbra of Jz.
 
@@ -3040,31 +4034,43 @@ class JzBra(SpinState, Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df4c26e59adb53ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBra.dual_class","kind":"classmethod","src_hash":"ba0efe0c4c4dde66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df4c26e59adb53ea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBra.dual_class","kind":"classmethod","src_hash":"ba0efe0c4c4dde66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df4c26e59adb53ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JzKet
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_class(), coupled_class produces the expected output) over Any ║
+# ║ Path(coupled_class(), <unspecified:coupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_class : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23f72d6703fc0088           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBra.coupled_class","kind":"classmethod","src_hash":"8363f2649f58f890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"coupled_class produces the expected output","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23f72d6703fc0088"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBra.coupled_class","kind":"classmethod","src_hash":"8363f2649f58f890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_class()","rhs":"<unspecified:coupled_class>","over":{"base":"Any"},"name":"coupled_class_correct"},"guarantee":"coupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23f72d6703fc0088","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_class(self):
         return JzBraCoupled
 
@@ -3074,16 +4080,22 @@ class JzBra(SpinState, Bra):
 # This same method is also used by the uncouple method, and is separated from
 # the CoupledSpinState class to maintain consistency in defining coupling
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_coupled(jco), internal helper behaves correctly) over Any ║
+# ║ Path(_build_coupled(jcoupling, length), (coupled_n, coupled_jn)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coupled_n, coupled_jn)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _build_coupled : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9055f6b34a4f4f0b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 156fed61c2e6b1cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._build_coupled","kind":"function","src_hash":"ab7afcb7e12a65ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_coupled(jco)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_build_coupled_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._build_coupled_correct","statement":"Path(_build_coupled(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9055f6b34a4f4f0b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._build_coupled","kind":"function","src_hash":"ab7afcb7e12a65ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_coupled(jcoupling, length)","rhs":"(coupled_n, coupled_jn)","over":{"base":"Any"},"name":"_build_coupled_correct"},"guarantee":"returns (coupled_n, coupled_jn)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._build_coupled_correct","statement":"Path(_build_coupled(x), returns (coupled_n, coupled_jn))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"156fed61c2e6b1cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coupled_n, coupled_jn)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _build_coupled(jcoupling, length):
     n_list = [ [n + 1] for n in range(length) ]
     coupled_jn = []
@@ -3099,28 +4111,44 @@ def _build_coupled(jcoupling, length):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CoupledSpinState(*args), correctly constructs a CoupledSpinState instance) over {Any | isinstance(self, Bra) and isinstance(jn, (list, tuple, Tuple))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SpinState)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CoupledSpinState : {Any | isinstance(self, Bra) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95ce1133b393652a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState","kind":"class","src_hash":"390f6c07880939c2","in":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(jn, (list, tuple, Tuple))"},"out":{"base":"Any"},"spec":{"lhs":"CoupledSpinState(*args)","rhs":"correctly constructs a CoupledSpinState instance","over":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(jn, (list, tuple, Tuple))"},"name":"CoupledSpinState_class_invariant"},"guarantee":"correctly constructs a CoupledSpinState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ce1133b393652a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState","kind":"class","src_hash":"390f6c07880939c2","in":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(jn, (list, tuple, Tuple))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SpinState)"},"spec":{"lhs":"CoupledSpinState(*args)","rhs":"correctly constructs a CoupledSpinState instance","over":{"base":"Any","pred":"isinstance(self, Bra) and isinstance(jn, (list, tuple, Tuple))"},"name":"CoupledSpinState_class_invariant"},"guarantee":"isinstance(self, SpinState)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ce1133b393652a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SpinState)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function CoupledSpinState not found in source"]}}
 class CoupledSpinState(SpinState):
     """Base class for coupled angular momentum states."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, j, m), State.__new__(cls, j, m, jn, jcoupling)) over {Any | isinstance(jn, (list, tuple, Tuple)) and isinstance(jcoupling, (list, tuple, Tuple)) and all((isinstance(term, (list, tuple, Tuple)) for term in jcoupling))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(jn, (list, tuple, Tuple))           ║
+# ║   requires: isinstance(jcoupling, (list, tuple, Tuple))    ║
+# ║   requires: all((isinstance(term, (list, tuple, Tuple...   ║
+# ║   ensures:  len(jcoupling) == old_len_jcoupling + 1        ║
+# ║   returns:  State.__new__(cls, j, m, jn, jcoupling)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(jn, (list, tuple, Tuple))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 566e489a9bfb5a58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.__new__","kind":"method","src_hash":"8d5832a94bb196ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"566e489a9bfb5a58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.__new__","kind":"method","src_hash":"8d5832a94bb196ea","in":{"base":"Any","pred":"isinstance(jn, (list, tuple, Tuple)) and isinstance(jcoupling, (list, tuple, Tuple)) and all((isinstance(term, (list, tuple, Tuple)) for term in jcoupling))"},"out":{"base":"Any","pred":"result satisfies: result == (State.__new__(cls, j, m, jn, jcoupling))"},"spec":{"lhs":"__new__(cls, j, m)","rhs":"State.__new__(cls, j, m, jn, jcoupling)","over":{"base":"Any","pred":"isinstance(jn, (list, tuple, Tuple)) and isinstance(jcoupling, (list, tuple, Tuple)) and all((isinstance(term, (list, tuple, Tuple)) for term in jcoupling))"},"name":"__new___correct"},"guarantee":"returns State.__new__(cls, j, m, jn, jcoupling); len(jcoupling) == old_len_jcoupling + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"566e489a9bfb5a58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(jn, (list, tuple, Tuple))","isinstance(jcoupling, (list, tuple, Tuple))","all((isinstance(term, (list, tuple, Tuple)) for term in jcoupling))"],"ensures":["len(jcoupling) == old_len_jcoupling + 1"],"returns_expr":"State.__new__(cls, j, m, jn, jcoupling)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","jn.__class__"],"calls_mutating":["jcoupling.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["jcoupling.*"],"old_bindings":{"old_len_jcoupling":"len(jcoupling)"},"post_ensures":["len(jcoupling) == old_len_jcoupling + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, j, m, jn, *jcoupling):
         # Check j and m values using SpinState
         SpinState(j, m)
@@ -3188,16 +4216,23 @@ class CoupledSpinState(SpinState):
         return State.__new__(cls, j, m, jn, jcoupling)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label(printer, *args), ','.join(label)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_label : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  ','.join(label)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_label : {Any | hasattr(printer, '_print')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0803b1513cf174f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13a34dacfdc18a1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._print_label","kind":"method","src_hash":"7d3194b4ac148b0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._print_label_correct","statement":"Path(_print_label(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0803b1513cf174f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._print_label","kind":"method","src_hash":"7d3194b4ac148b0a","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_print_label(printer, *args)","rhs":"','.join(label)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_print_label_correct"},"guarantee":"returns ','.join(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._print_label_correct","statement":"Path(_print_label(x), returns ','.join(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a34dacfdc18a1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"','.join(label)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label(self, printer, *args):
         label = [printer._print(self.j), printer._print(self.m)]
         for i, ji in enumerate(self.jn, start=1):
@@ -3211,16 +4246,23 @@ class CoupledSpinState(SpinState):
         return ','.join(label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label_pretty(printer, *args), self._print_sequence_pretty(label, self._label_separator, printer, *args)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_label_pretty : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  self._print_sequence_pretty(label, self._...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_label_pretty : {Any | hasattr(printer, '_print...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3bf391289fb7deb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e45ea8444b4787  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._print_label_pretty","kind":"method","src_hash":"1087666b00bac125","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._print_label_pretty_correct","statement":"Path(_print_label_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3bf391289fb7deb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._print_label_pretty","kind":"method","src_hash":"1087666b00bac125","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_pretty(printer, *args)","rhs":"self._print_sequence_pretty(label, self._label_separator, printer, *args)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_print_label_pretty_correct"},"guarantee":"returns self._print_sequence_pretty(label, self._label_separator, printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._print_label_pretty_correct","statement":"Path(_print_label_pretty(x), returns self._print_sequence_pretty(label, self._label_separator, printer, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e45ea8444b4787","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"self._print_sequence_pretty(label, self._label_separator, printer, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label_pretty(self, printer, *args):
         label = [self.j, self.m]
         for i, ji in enumerate(self.jn, start=1):
@@ -3239,16 +4281,23 @@ class CoupledSpinState(SpinState):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label_latex(printer, *args), self._label_separator.join(label)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_label_latex : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  self._label_separator.join(label)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_label_latex : {Any | hasattr(printer, '_print'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc8f8f0d03a0e328  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3992dee62a674eed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._print_label_latex","kind":"method","src_hash":"9ec593cc62921792","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._print_label_latex_correct","statement":"Path(_print_label_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc8f8f0d03a0e328"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._print_label_latex","kind":"method","src_hash":"9ec593cc62921792","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_latex(printer, *args)","rhs":"self._label_separator.join(label)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_print_label_latex_correct"},"guarantee":"returns self._label_separator.join(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._print_label_latex_correct","statement":"Path(_print_label_latex(x), returns self._label_separator.join(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3992dee62a674eed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"self._label_separator.join(label)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label_latex(self, printer, *args):
         label = [
             printer._print(self.j, *args),
@@ -3263,76 +4312,109 @@ class CoupledSpinState(SpinState):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jn(), returns the jn attribute) over Any              ║
+# ║ Path(jn(), self.label[2]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[2]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jn : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70fbf30070d6d444           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.jn","kind":"property","src_hash":"16946cca8efb66cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jn()","rhs":"returns the jn attribute","over":{"base":"Any"},"name":"jn_correct"},"guarantee":"returns the jn attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70fbf30070d6d444"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.jn","kind":"property","src_hash":"16946cca8efb66cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jn()","rhs":"self.label[2]","over":{"base":"Any"},"name":"jn_correct"},"guarantee":"returns self.label[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70fbf30070d6d444","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jn(self):
         return self.label[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupling(), returns the coupling attribute) over Any  ║
+# ║ Path(coupling(), self.label[3]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[3]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupling : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c760ac45ab06356           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.coupling","kind":"property","src_hash":"24064db0a79d8683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupling()","rhs":"returns the coupling attribute","over":{"base":"Any"},"name":"coupling_correct"},"guarantee":"returns the coupling attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c760ac45ab06356"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.coupling","kind":"property","src_hash":"24064db0a79d8683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupling()","rhs":"self.label[3]","over":{"base":"Any"},"name":"coupling_correct"},"guarantee":"returns self.label[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c760ac45ab06356","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupling(self):
         return self.label[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_jn(), returns the coupled_jn attribute) over Any ║
+# ║ Path(coupled_jn(), _build_coupled(self.label[3], len(self.label[2]))[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _build_coupled(self.label[3], len(self.la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_jn : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 116f636f453da795           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.coupled_jn","kind":"property","src_hash":"44cdd0439a1ae606","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_jn()","rhs":"returns the coupled_jn attribute","over":{"base":"Any"},"name":"coupled_jn_correct"},"guarantee":"returns the coupled_jn attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"116f636f453da795"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.coupled_jn","kind":"property","src_hash":"44cdd0439a1ae606","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_jn()","rhs":"_build_coupled(self.label[3], len(self.label[2]))[1]","over":{"base":"Any"},"name":"coupled_jn_correct"},"guarantee":"returns _build_coupled(self.label[3], len(self.label[2]))[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"116f636f453da795","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_build_coupled(self.label[3], len(self.label[2]))[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_jn(self):
         return _build_coupled(self.label[3], len(self.label[2]))[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coupled_n(), returns the coupled_n attribute) over Any ║
+# ║ Path(coupled_n(), _build_coupled(self.label[3], len(self.label[2]))[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _build_coupled(self.label[3], len(self.la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coupled_n : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99d814e1eaa6fad8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.coupled_n","kind":"property","src_hash":"886800fa41832abe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_n()","rhs":"returns the coupled_n attribute","over":{"base":"Any"},"name":"coupled_n_correct"},"guarantee":"returns the coupled_n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99d814e1eaa6fad8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState.coupled_n","kind":"property","src_hash":"886800fa41832abe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coupled_n()","rhs":"_build_coupled(self.label[3], len(self.label[2]))[0]","over":{"base":"Any"},"name":"coupled_n_correct"},"guarantee":"returns _build_coupled(self.label[3], len(self.label[2]))[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99d814e1eaa6fad8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_build_coupled(self.label[3], len(self.label[2]))[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coupled_n(self):
         return _build_coupled(self.label[3], len(self.label[2]))[0]
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), id) over Any                ║
+# ║ Path(_eval_hilbert_space(cls, label), id) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_hilbert_space : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (DirectSumHilbertSpace(*[Comple...   ║
+# ║   ensures:  result == DirectSumHilbertSpace(*[Complex...   ║
+# ║   fiber[case_0]: j.is_number => DirectSumHilbertSpace...   ║
+# ║   fiber[case_1]: not (j.is_number) => ComplexSpace(2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_hilbert_space : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c5b24f4fea667180   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_hilbert_space","kind":"classmethod","src_hash":"f1154f95e1a81c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DirectSumHilbertSpace","by":"library_axiom"},{"fn":"ComplexSpace","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5b24f4fea667180"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_hilbert_space","kind":"classmethod","src_hash":"f1154f95e1a81c50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) if j.is_number else ComplexSpace(2 * j + 1)) and result == DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) or result == ComplexSpace(2 * j + 1)"},"spec":{"lhs":"_eval_hilbert_space(cls, label)","rhs":"result == (DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) if j.is_number else ComplexSpace(2 * j + 1)) and result == DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) or result == ComplexSpace(2 * j + 1)","over":{"base":"Any"},"name":"_eval_hilbert_space_correct","kind":"composition"},"guarantee":"result == (DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) if j.is_number else ComplexSpace(2 * j + 1)); result == DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) or result == ComplexSpace(2 * j + 1); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DirectSumHilbertSpace","by":"library_axiom"},{"fn":"ComplexSpace","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5b24f4fea667180","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) if j.is_number else ComplexSpace(2 * j + 1))","result == DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)]) or result == ComplexSpace(2 * j + 1)"],"fibers":[{"name":"case_0","guard":"j.is_number","ensures":["result == DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)])"],"decidability":"library","returns_expr":"DirectSumHilbertSpace(*[ComplexSpace(x) for x in range(int(2 * j + 1), 0, -2)])"},{"name":"case_1","guard":"not (j.is_number)","ensures":["result == ComplexSpace(2 * j + 1)"],"decidability":"library","returns_expr":"ComplexSpace(2 * j + 1)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, label):
         j = Add(*label[2])
         if j.is_number:
@@ -3346,16 +4428,24 @@ class CoupledSpinState(SpinState):
             return ComplexSpace(2*j + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_coupled_base(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_coupled_base(**options), <unspecified:_represent_coupled_base>) over {Any | self.j.is_number and self.hilbert_space.dimension.is_number} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _represent_coupled_base : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.j.is_number                               ║
+# ║   requires: self.hilbert_space.dimension.is_number         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _represent_coupled_base : {Any | self.j.is_number and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b1c2707efe16dc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._represent_coupled_base","kind":"method","src_hash":"71dd711d69597417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_coupled_base(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_coupled_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._represent_coupled_base_correct","statement":"Path(_represent_coupled_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b1c2707efe16dc8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._represent_coupled_base","kind":"method","src_hash":"71dd711d69597417","in":{"base":"Any","pred":"self.j.is_number and self.hilbert_space.dimension.is_number"},"out":{"base":"Any"},"spec":{"lhs":"_represent_coupled_base(**options)","rhs":"<unspecified:_represent_coupled_base>","over":{"base":"Any","pred":"self.j.is_number and self.hilbert_space.dimension.is_number"},"name":"_represent_coupled_base_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._represent_coupled_base_correct","statement":"Path(_represent_coupled_base(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b1c2707efe16dc8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.j.is_number","self.hilbert_space.dimension.is_number"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.hilbert_space","self.j","self.m","self.uncoupled_class"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_coupled_base(self, **options):
         evect = self.uncoupled_class()
         if not self.j.is_number:
@@ -3374,48 +4464,66 @@ class CoupledSpinState(SpinState):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Jx(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Jx(*args, **options), <unspecified:_eval_rewrite_as_Jx>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Jx : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10f95638fd407dd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jx","kind":"method","src_hash":"814327efbf79017e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jx(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Jx_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jx_correct","statement":"Path(_eval_rewrite_as_Jx(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10f95638fd407dd1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jx","kind":"method","src_hash":"814327efbf79017e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jx(*args, **options)","rhs":"<unspecified:_eval_rewrite_as_Jx>","over":{"base":"Any"},"name":"_eval_rewrite_as_Jx_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jx_correct","statement":"Path(_eval_rewrite_as_Jx(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10f95638fd407dd1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Jx(self, *args, **options):
         if isinstance(self, Bra):
             return self._rewrite_basis(Jx, JxBraCoupled, **options)
         return self._rewrite_basis(Jx, JxKetCoupled, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Jy(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Jy(*args, **options), <unspecified:_eval_rewrite_as_Jy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Jy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96942c474196d00a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jy","kind":"method","src_hash":"b40cd3beb543ad32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jy(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Jy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jy_correct","statement":"Path(_eval_rewrite_as_Jy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96942c474196d00a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jy","kind":"method","src_hash":"b40cd3beb543ad32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jy(*args, **options)","rhs":"<unspecified:_eval_rewrite_as_Jy>","over":{"base":"Any"},"name":"_eval_rewrite_as_Jy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jy_correct","statement":"Path(_eval_rewrite_as_Jy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96942c474196d00a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Jy(self, *args, **options):
         if isinstance(self, Bra):
             return self._rewrite_basis(Jy, JyBraCoupled, **options)
         return self._rewrite_basis(Jy, JyKetCoupled, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Jz(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Jz(*args, **options), <unspecified:_eval_rewrite_as_Jz>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Jz : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acb3330b3db7cf41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jz","kind":"method","src_hash":"9f8cb2bb89e045bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jz(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Jz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jz_correct","statement":"Path(_eval_rewrite_as_Jz(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acb3330b3db7cf41"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jz","kind":"method","src_hash":"9f8cb2bb89e045bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Jz(*args, **options)","rhs":"<unspecified:_eval_rewrite_as_Jz>","over":{"base":"Any"},"name":"_eval_rewrite_as_Jz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.CoupledSpinState._eval_rewrite_as_Jz_correct","statement":"Path(_eval_rewrite_as_Jz(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acb3330b3db7cf41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Jz(self, *args, **options):
         if isinstance(self, Bra):
             return self._rewrite_basis(Jz, JzBraCoupled, **options)
@@ -3425,14 +4533,21 @@ class CoupledSpinState(SpinState):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JxKetCoupled(*args), correctly constructs a JxKetCoupled instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JxKetCoupled : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CoupledSpinState)             ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JxKetCoupled : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a3d80cdfa91e05c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled","kind":"class","src_hash":"caf4e6fd59c7634d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JxKetCoupled(*args)","rhs":"correctly constructs a JxKetCoupled instance","over":{"base":"Any"},"name":"JxKetCoupled_class_invariant"},"guarantee":"correctly constructs a JxKetCoupled instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a3d80cdfa91e05c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled","kind":"class","src_hash":"caf4e6fd59c7634d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"spec":{"lhs":"JxKetCoupled(*args)","rhs":"correctly constructs a JxKetCoupled instance","over":{"base":"Any"},"name":"JxKetCoupled_class_invariant"},"guarantee":"isinstance(self, CoupledSpinState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a3d80cdfa91e05c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CoupledSpinState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JxKetCoupled not found in source"]}}
 class JxKetCoupled(CoupledSpinState, Ket):
     """Coupled eigenket of Jx.
 
@@ -3447,87 +4562,123 @@ class JxKetCoupled(CoupledSpinState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0281894e97f5658           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled.dual_class","kind":"classmethod","src_hash":"2a9414c03a43af93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0281894e97f5658"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled.dual_class","kind":"classmethod","src_hash":"2a9414c03a43af93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0281894e97f5658","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JxBraCoupled
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncoupled_class(), uncoupled_class produces the expected output) over Any ║
+# ║ Path(uncoupled_class(), <unspecified:uncoupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncoupled_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4934a7fe55d201c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled.uncoupled_class","kind":"classmethod","src_hash":"e570d66a2e217397","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"uncoupled_class produces the expected output","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4934a7fe55d201c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled.uncoupled_class","kind":"classmethod","src_hash":"e570d66a2e217397","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"<unspecified:uncoupled_class>","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4934a7fe55d201c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uncoupled_class(self):
         return JxKet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 390033853c4d3df7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"390033853c4d3df7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"390033853c4d3df7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JxOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JxOp(basis, **options), self._represent_coupled_base(**options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(**options)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JxOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17d0bfdf3d949482           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_JxOp","kind":"method","src_hash":"d3b8e729d070a531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17d0bfdf3d949482"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_JxOp","kind":"method","src_hash":"d3b8e729d070a531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(basis, **options)","rhs":"self._represent_coupled_base(**options)","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"returns self._represent_coupled_base(**options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17d0bfdf3d949482","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(**options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JxOp(self, basis, **options):
         return self._represent_coupled_base(**options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JyOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JyOp(basis, **options), self._represent_coupled_base(alpha=pi * Rational(3, 2), **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(alpha=pi * R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JyOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1ce3cd3fe5539c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_JyOp","kind":"method","src_hash":"2b92a427ac279d40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1ce3cd3fe5539c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_JyOp","kind":"method","src_hash":"2b92a427ac279d40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(basis, **options)","rhs":"self._represent_coupled_base(alpha=pi * Rational(3, 2), **options)","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"returns self._represent_coupled_base(alpha=pi * Rational(3, 2), **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1ce3cd3fe5539c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(alpha=pi * Rational(3, 2), **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JyOp(self, basis, **options):
         return self._represent_coupled_base(alpha=pi*Rational(3, 2), **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_coupled_base(beta=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(beta=pi / 2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8e0074fa35d0db4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_JzOp","kind":"method","src_hash":"969c1dc34e19107c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8e0074fa35d0db4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxKetCoupled._represent_JzOp","kind":"method","src_hash":"969c1dc34e19107c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_coupled_base(beta=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_coupled_base(beta=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8e0074fa35d0db4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(beta=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_coupled_base(beta=pi/2, **options)
 
@@ -3535,14 +4686,21 @@ class JxKetCoupled(CoupledSpinState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JxBraCoupled(*args), correctly constructs a JxBraCoupled instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JxBraCoupled : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CoupledSpinState)             ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JxBraCoupled : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf15f48152fead55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBraCoupled","kind":"class","src_hash":"76754ab24d32610c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JxBraCoupled(*args)","rhs":"correctly constructs a JxBraCoupled instance","over":{"base":"Any"},"name":"JxBraCoupled_class_invariant"},"guarantee":"correctly constructs a JxBraCoupled instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf15f48152fead55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBraCoupled","kind":"class","src_hash":"76754ab24d32610c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CoupledSpinState) and isinstance(self, Bra)"},"spec":{"lhs":"JxBraCoupled(*args)","rhs":"correctly constructs a JxBraCoupled instance","over":{"base":"Any"},"name":"JxBraCoupled_class_invariant"},"guarantee":"isinstance(self, CoupledSpinState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf15f48152fead55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CoupledSpinState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JxBraCoupled not found in source"]}}
 class JxBraCoupled(CoupledSpinState, Bra):
     """Coupled eigenbra of Jx.
 
@@ -3557,31 +4715,43 @@ class JxBraCoupled(CoupledSpinState, Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 22beab44dee8d382           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBraCoupled.dual_class","kind":"classmethod","src_hash":"125a67a3a96b6fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22beab44dee8d382"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBraCoupled.dual_class","kind":"classmethod","src_hash":"125a67a3a96b6fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22beab44dee8d382","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JxKetCoupled
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncoupled_class(), uncoupled_class produces the expected output) over Any ║
+# ║ Path(uncoupled_class(), <unspecified:uncoupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncoupled_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fef51ca726a1a4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBraCoupled.uncoupled_class","kind":"classmethod","src_hash":"18d85c850a6a536c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"uncoupled_class produces the expected output","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fef51ca726a1a4e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JxBraCoupled.uncoupled_class","kind":"classmethod","src_hash":"18d85c850a6a536c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"<unspecified:uncoupled_class>","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fef51ca726a1a4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uncoupled_class(self):
         return JxBra
 
@@ -3589,14 +4759,21 @@ class JxBraCoupled(CoupledSpinState, Bra):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JyKetCoupled(*args), correctly constructs a JyKetCoupled instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JyKetCoupled : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CoupledSpinState)             ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JyKetCoupled : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43cd946454a245b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled","kind":"class","src_hash":"7868544bd343f260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JyKetCoupled(*args)","rhs":"correctly constructs a JyKetCoupled instance","over":{"base":"Any"},"name":"JyKetCoupled_class_invariant"},"guarantee":"correctly constructs a JyKetCoupled instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43cd946454a245b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled","kind":"class","src_hash":"7868544bd343f260","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"spec":{"lhs":"JyKetCoupled(*args)","rhs":"correctly constructs a JyKetCoupled instance","over":{"base":"Any"},"name":"JyKetCoupled_class_invariant"},"guarantee":"isinstance(self, CoupledSpinState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43cd946454a245b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CoupledSpinState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JyKetCoupled not found in source"]}}
 class JyKetCoupled(CoupledSpinState, Ket):
     """Coupled eigenket of Jy.
 
@@ -3611,87 +4788,123 @@ class JyKetCoupled(CoupledSpinState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 504eb5c96948b660           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled.dual_class","kind":"classmethod","src_hash":"f6352a595feeb9b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"504eb5c96948b660"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled.dual_class","kind":"classmethod","src_hash":"f6352a595feeb9b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"504eb5c96948b660","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JyBraCoupled
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncoupled_class(), uncoupled_class produces the expected output) over Any ║
+# ║ Path(uncoupled_class(), <unspecified:uncoupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncoupled_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 169e761b45826502           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled.uncoupled_class","kind":"classmethod","src_hash":"46d3c08a5372d53d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"uncoupled_class produces the expected output","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"169e761b45826502"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled.uncoupled_class","kind":"classmethod","src_hash":"46d3c08a5372d53d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"<unspecified:uncoupled_class>","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"169e761b45826502","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uncoupled_class(self):
         return JyKet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ac798cf4aaa42c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ac798cf4aaa42c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ac798cf4aaa42c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JxOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JxOp(basis, **options), self._represent_coupled_base(gamma=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(gamma=pi / 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JxOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4fbde9d8c62d67fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_JxOp","kind":"method","src_hash":"6ab7423d23205f32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fbde9d8c62d67fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_JxOp","kind":"method","src_hash":"6ab7423d23205f32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(basis, **options)","rhs":"self._represent_coupled_base(gamma=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"returns self._represent_coupled_base(gamma=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fbde9d8c62d67fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(gamma=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JxOp(self, basis, **options):
         return self._represent_coupled_base(gamma=pi/2, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JyOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JyOp(basis, **options), self._represent_coupled_base(**options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(**options)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JyOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2847ae176e60a14b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_JyOp","kind":"method","src_hash":"d3894cd50f09187d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2847ae176e60a14b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_JyOp","kind":"method","src_hash":"d3894cd50f09187d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(basis, **options)","rhs":"self._represent_coupled_base(**options)","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"returns self._represent_coupled_base(**options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2847ae176e60a14b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(**options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JyOp(self, basis, **options):
         return self._represent_coupled_base(**options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(alpha=pi * R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 641b5fe5c7f1385f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_JzOp","kind":"method","src_hash":"803dd090f5693b0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"641b5fe5c7f1385f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyKetCoupled._represent_JzOp","kind":"method","src_hash":"803dd090f5693b0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"641b5fe5c7f1385f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=-pi / 2, gamma=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_coupled_base(alpha=pi*Rational(3, 2), beta=-pi/2, gamma=pi/2, **options)
 
@@ -3699,14 +4912,21 @@ class JyKetCoupled(CoupledSpinState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JyBraCoupled(*args), correctly constructs a JyBraCoupled instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JyBraCoupled : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CoupledSpinState)             ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JyBraCoupled : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 003c24b5b45833ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBraCoupled","kind":"class","src_hash":"08d61b0671a9b4f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JyBraCoupled(*args)","rhs":"correctly constructs a JyBraCoupled instance","over":{"base":"Any"},"name":"JyBraCoupled_class_invariant"},"guarantee":"correctly constructs a JyBraCoupled instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"003c24b5b45833ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBraCoupled","kind":"class","src_hash":"08d61b0671a9b4f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CoupledSpinState) and isinstance(self, Bra)"},"spec":{"lhs":"JyBraCoupled(*args)","rhs":"correctly constructs a JyBraCoupled instance","over":{"base":"Any"},"name":"JyBraCoupled_class_invariant"},"guarantee":"isinstance(self, CoupledSpinState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"003c24b5b45833ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CoupledSpinState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JyBraCoupled not found in source"]}}
 class JyBraCoupled(CoupledSpinState, Bra):
     """Coupled eigenbra of Jy.
 
@@ -3721,31 +4941,43 @@ class JyBraCoupled(CoupledSpinState, Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dfb564649ffbd0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBraCoupled.dual_class","kind":"classmethod","src_hash":"fe425e0e6ee49579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dfb564649ffbd0c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBraCoupled.dual_class","kind":"classmethod","src_hash":"fe425e0e6ee49579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dfb564649ffbd0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JyKetCoupled
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncoupled_class(), uncoupled_class produces the expected output) over Any ║
+# ║ Path(uncoupled_class(), <unspecified:uncoupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncoupled_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62fe011e6cc2fbe8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBraCoupled.uncoupled_class","kind":"classmethod","src_hash":"7d0406d83cd80e1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"uncoupled_class produces the expected output","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62fe011e6cc2fbe8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JyBraCoupled.uncoupled_class","kind":"classmethod","src_hash":"7d0406d83cd80e1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"<unspecified:uncoupled_class>","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62fe011e6cc2fbe8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uncoupled_class(self):
         return JyBra
 
@@ -3753,14 +4985,21 @@ class JyBraCoupled(CoupledSpinState, Bra):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JzKetCoupled(*args), correctly constructs a JzKetCoupled instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JzKetCoupled : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CoupledSpinState)             ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JzKetCoupled : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d669757e9dca70bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled","kind":"class","src_hash":"833af63c71041edc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JzKetCoupled(*args)","rhs":"correctly constructs a JzKetCoupled instance","over":{"base":"Any"},"name":"JzKetCoupled_class_invariant"},"guarantee":"correctly constructs a JzKetCoupled instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d669757e9dca70bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled","kind":"class","src_hash":"833af63c71041edc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CoupledSpinState) and isinstance(self, Ket)"},"spec":{"lhs":"JzKetCoupled(*args)","rhs":"correctly constructs a JzKetCoupled instance","over":{"base":"Any"},"name":"JzKetCoupled_class_invariant"},"guarantee":"isinstance(self, CoupledSpinState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d669757e9dca70bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CoupledSpinState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JzKetCoupled not found in source"]}}
 class JzKetCoupled(CoupledSpinState, Ket):
     r"""Coupled eigenket of Jz
 
@@ -3880,87 +5119,123 @@ class JzKetCoupled(CoupledSpinState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af7c8817a4e6e178           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled.dual_class","kind":"classmethod","src_hash":"f0b0cd3d94fe9747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af7c8817a4e6e178"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled.dual_class","kind":"classmethod","src_hash":"f0b0cd3d94fe9747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af7c8817a4e6e178","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JzBraCoupled
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncoupled_class(), uncoupled_class produces the expected output) over Any ║
+# ║ Path(uncoupled_class(), <unspecified:uncoupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncoupled_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcb1ac11f70fd34f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled.uncoupled_class","kind":"classmethod","src_hash":"e8038775fddf7f08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"uncoupled_class produces the expected output","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcb1ac11f70fd34f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled.uncoupled_class","kind":"classmethod","src_hash":"e8038775fddf7f08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"<unspecified:uncoupled_class>","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcb1ac11f70fd34f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uncoupled_class(self):
         return JzKet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_JzOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_JzOp(None, **options)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6baf1c4514555955           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6baf1c4514555955"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_default_basis","kind":"method","src_hash":"42def3d1b8008778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_JzOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_JzOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6baf1c4514555955","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_JzOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_JzOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_JzOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JxOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JxOp(basis, **options), self._represent_coupled_base(beta=pi * Rational(3, 2), **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(beta=pi * Ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JxOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc72039c5d30f2b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_JxOp","kind":"method","src_hash":"cb4b3a35a64951dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc72039c5d30f2b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_JxOp","kind":"method","src_hash":"cb4b3a35a64951dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JxOp(basis, **options)","rhs":"self._represent_coupled_base(beta=pi * Rational(3, 2), **options)","over":{"base":"Any"},"name":"_represent_JxOp_correct"},"guarantee":"returns self._represent_coupled_base(beta=pi * Rational(3, 2), **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc72039c5d30f2b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(beta=pi * Rational(3, 2), **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JxOp(self, basis, **options):
         return self._represent_coupled_base(beta=pi*Rational(3, 2), **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JyOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JyOp(basis, **options), self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(alpha=pi * R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JyOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7d40447d89e7663           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_JyOp","kind":"method","src_hash":"590e100b10e3f34b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7d40447d89e7663"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_JyOp","kind":"method","src_hash":"590e100b10e3f34b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JyOp(basis, **options)","rhs":"self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)","over":{"base":"Any"},"name":"_represent_JyOp_correct"},"guarantee":"returns self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7d40447d89e7663","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(alpha=pi * Rational(3, 2), beta=pi / 2, gamma=pi / 2, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JyOp(self, basis, **options):
         return self._represent_coupled_base(alpha=pi*Rational(3, 2), beta=pi/2, gamma=pi/2, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_JzOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_JzOp(basis, **options), self._represent_coupled_base(**options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_coupled_base(**options)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_JzOp : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80900ba666b6e21c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_JzOp","kind":"method","src_hash":"5173b4a3a1240bfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80900ba666b6e21c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzKetCoupled._represent_JzOp","kind":"method","src_hash":"5173b4a3a1240bfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_JzOp(basis, **options)","rhs":"self._represent_coupled_base(**options)","over":{"base":"Any"},"name":"_represent_JzOp_correct"},"guarantee":"returns self._represent_coupled_base(**options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80900ba666b6e21c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_coupled_base(**options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_coupled_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_JzOp(self, basis, **options):
         return self._represent_coupled_base(**options)
 
@@ -3968,14 +5243,21 @@ class JzKetCoupled(CoupledSpinState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JzBraCoupled(*args), correctly constructs a JzBraCoupled instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JzBraCoupled : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CoupledSpinState)             ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JzBraCoupled : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b9e1741361c8255  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBraCoupled","kind":"class","src_hash":"bd62f084ac197950","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JzBraCoupled(*args)","rhs":"correctly constructs a JzBraCoupled instance","over":{"base":"Any"},"name":"JzBraCoupled_class_invariant"},"guarantee":"correctly constructs a JzBraCoupled instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9e1741361c8255"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBraCoupled","kind":"class","src_hash":"bd62f084ac197950","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CoupledSpinState) and isinstance(self, Bra)"},"spec":{"lhs":"JzBraCoupled(*args)","rhs":"correctly constructs a JzBraCoupled instance","over":{"base":"Any"},"name":"JzBraCoupled_class_invariant"},"guarantee":"isinstance(self, CoupledSpinState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9e1741361c8255","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CoupledSpinState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JzBraCoupled not found in source"]}}
 class JzBraCoupled(CoupledSpinState, Bra):
     """Coupled eigenbra of Jz.
 
@@ -3990,31 +5272,43 @@ class JzBraCoupled(CoupledSpinState, Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | affcada0f12e43ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBraCoupled.dual_class","kind":"classmethod","src_hash":"4d816aba6c22d0c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"affcada0f12e43ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBraCoupled.dual_class","kind":"classmethod","src_hash":"4d816aba6c22d0c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"affcada0f12e43ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return JzKetCoupled
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncoupled_class(), uncoupled_class produces the expected output) over Any ║
+# ║ Path(uncoupled_class(), <unspecified:uncoupled_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncoupled_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00cce0f2272c8005           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBraCoupled.uncoupled_class","kind":"classmethod","src_hash":"6e41c207ea5a0d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"uncoupled_class produces the expected output","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00cce0f2272c8005"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.JzBraCoupled.uncoupled_class","kind":"classmethod","src_hash":"6e41c207ea5a0d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncoupled_class()","rhs":"<unspecified:uncoupled_class>","over":{"base":"Any"},"name":"uncoupled_class_correct"},"guarantee":"uncoupled_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00cce0f2272c8005","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uncoupled_class(self):
         return JzBra
 
@@ -4024,9 +5318,15 @@ class JzBraCoupled(CoupledSpinState, Bra):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(couple(exp), couple a tensor product of spin states) over {Any | isinstance(state, SpinState)} ║
+# ║ Path(couple(expr, jcoupling_list), expr) over {Any | isinstance(state, SpinState) and hasattr(expr, 'atoms') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ couple : {Any | isinstance(state, SpinState)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ couple : {Any | isinstance(state, SpinState) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   SpinState: {isinstance(state, SpinState)} → library...   ║
@@ -4036,9 +5336,12 @@ class JzBraCoupled(CoupledSpinState, Bra):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5a9e3419...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.couple","kind":"function","src_hash":"7fc7e38edb219cc1","in":{"base":"Any","pred":"isinstance(state, SpinState)"},"out":{"base":"Any"},"spec":{"lhs":"couple(exp)","rhs":"couple a tensor product of spin states","over":{"base":"Any","pred":"isinstance(state, SpinState)"},"name":"couple_correct"},"guarantee":"couple a tensor product of spin states","fibers":[{"name":"SpinState","pred":"isinstance(state, SpinState)","path":{"lhs":"couple(x)","rhs":"couple a tensor product of spin states","over":{"base":"SpinState","pred":"isinstance(state, SpinState)"},"name":"couple_SpinState_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.couple_SpinState_correct","statement":"couple satisfies spec on SpinState inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5a9e341973f56644"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.couple","kind":"function","src_hash":"7fc7e38edb219cc1","in":{"base":"Any","pred":"isinstance(state, SpinState) and hasattr(expr, 'atoms') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"couple(expr, jcoupling_list)","rhs":"expr","over":{"base":"Any","pred":"isinstance(state, SpinState) and hasattr(expr, 'atoms') and hasattr(expr, 'subs')"},"name":"couple_correct"},"guarantee":"returns expr; result == expr","fibers":[{"name":"SpinState","pred":"isinstance(state, SpinState)","path":{"lhs":"couple(x)","rhs":"returns expr; result == expr","over":{"base":"SpinState","pred":"isinstance(state, SpinState)"},"name":"couple_SpinState_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.couple_SpinState_correct","statement":"couple satisfies spec on SpinState inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5a9e341973f56644","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')","hasattr(expr, 'subs')"],"ensures":["result == expr"],"returns_expr":"expr","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.atoms","expr.subs"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not all((isinstance(state, SpinState) for state in tp.args))'}, fibers={'SpinState'})"]}}
 def couple(expr, jcoupling_list=None):
     """ Couple a tensor product of spin states
 
@@ -4110,16 +5413,27 @@ def couple(expr, jcoupling_list=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_couple(tp,), internal helper behaves correctly) over Any ║
+# ║ Path(_couple(tp, jcoupling_list), len(cg_terms) == old_len_cg_terms + 1 and len(coupling_list) == old_len_coupling_list + 1 and len(jcoupling) == old_len_jcoupling + 1 and len(jcoupling_list) == old_len_jcoupling_list + 1 and len(result) == old_len_result + 1 and len(sum_terms) == old_len_sum_terms + 1) over {Any | len(jcoupling_list) == len(states) - 1 and all((len(coupling) == 2 for coupling in jcoupling_list)) and hasattr(tp, 'args') and hasattr(jcoupling_list, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _couple : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(jcoupling_list) == len(states) - 1         ║
+# ║   requires: all((len(coupling) == 2 for coupling in j...   ║
+# ║   requires: hasattr(tp, 'args')                            ║
+# ║   ensures:  len(cg_terms) == old_len_cg_terms + 1          ║
+# ║   ensures:  len(coupling_list) == old_len_coupling_li...   ║
+# ║   ensures:  len(jcoupling) == old_len_jcoupling + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _couple : {Any | len(jcoupling_list) == len(states) -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddb7347e202c8ea2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78f62282cc83b73c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._couple","kind":"function","src_hash":"606c3bb2f2d02f7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_couple(tp,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_couple_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._couple_correct","statement":"Path(_couple(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddb7347e202c8ea2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._couple","kind":"function","src_hash":"606c3bb2f2d02f7b","in":{"base":"Any","pred":"len(jcoupling_list) == len(states) - 1 and all((len(coupling) == 2 for coupling in jcoupling_list)) and hasattr(tp, 'args') and hasattr(jcoupling_list, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(cg_terms) == old_len_cg_terms + 1 and len(coupling_list) == old_len_coupling_list + 1 and len(jcoupling) == old_len_jcoupling + 1 and len(jcoupling_list) == old_len_jcoupling_list + 1 and len(result) == old_len_result + 1 and len(sum_terms) == old_len_sum_terms + 1"},"spec":{"lhs":"_couple(tp, jcoupling_list)","rhs":"len(cg_terms) == old_len_cg_terms + 1 and len(coupling_list) == old_len_coupling_list + 1 and len(jcoupling) == old_len_jcoupling + 1 and len(jcoupling_list) == old_len_jcoupling_list + 1 and len(result) == old_len_result + 1 and len(sum_terms) == old_len_sum_terms + 1","over":{"base":"Any","pred":"len(jcoupling_list) == len(states) - 1 and all((len(coupling) == 2 for coupling in jcoupling_list)) and hasattr(tp, 'args') and hasattr(jcoupling_list, 'append')"},"name":"_couple_correct"},"guarantee":"len(cg_terms) == old_len_cg_terms + 1; len(coupling_list) == old_len_coupling_list + 1; len(jcoupling) == old_len_jcoupling + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._couple_correct","statement":"Path(_couple(x), len(cg_terms) == old_len_cg_terms + 1; len(coupling_list) == old_len_coupling_list + 1; len(jcoupling) == old_len_jcoupling + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78f62282cc83b73c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(jcoupling_list) == len(states) - 1","all((len(coupling) == 2 for coupling in jcoupling_list))","hasattr(tp, 'args')","hasattr(jcoupling_list, 'append')"],"ensures":["len(cg_terms) == old_len_cg_terms + 1","len(coupling_list) == old_len_coupling_list + 1","len(jcoupling) == old_len_jcoupling + 1","len(jcoupling_list) == old_len_jcoupling_list + 1","len(result) == old_len_result + 1","len(sum_terms) == old_len_sum_terms + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["jcoupling_list.append","tp.args"],"calls_mutating":["cg_terms.append","coupling_list.append","jcoupling.append","jcoupling_list.append","result.append","sum_terms.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["cg_terms.*","coupling_list.*","jcoupling.*","jcoupling_list.*","result.*","sum_terms.*"],"old_bindings":{"old_len_cg_terms":"len(cg_terms)","old_len_coupling_list":"len(coupling_list)","old_len_jcoupling":"len(jcoupling)","old_len_jcoupling_list":"len(jcoupling_list)","old_len_result":"len(result)","old_len_sum_terms":"len(sum_terms)"},"post_ensures":["len(cg_terms) == old_len_cg_terms + 1","len(coupling_list) == old_len_coupling_list + 1","len(jcoupling) == old_len_jcoupling + 1","len(jcoupling_list) == old_len_jcoupling_list + 1","len(result) == old_len_result + 1","len(sum_terms) == old_len_sum_terms + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def _couple(tp, jcoupling_list):
     states = tp.args
     coupled_evect = states[0].coupled_class()
@@ -4234,16 +5548,25 @@ def _couple(tp, jcoupling_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncouple(exp), uncouple a coupled spin state) over Any ║
+# ║ Path(uncouple(expr, jn, jcoupling_list), expr) over {Any | hasattr(expr, 'atoms') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ uncouple : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ uncouple : {Any | hasattr(expr, 'atoms') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 828a784754db54af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9fb97c3c73b4806  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.uncouple","kind":"function","src_hash":"43c8509caea380af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncouple(exp)","rhs":"uncouple a coupled spin state","over":{"base":"Any"},"name":"uncouple_correct"},"guarantee":"uncouple a coupled spin state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.uncouple_correct","statement":"Path(uncouple(x), uncouple a coupled spin state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"828a784754db54af"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin.uncouple","kind":"function","src_hash":"43c8509caea380af","in":{"base":"Any","pred":"hasattr(expr, 'atoms') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"uncouple(expr, jn, jcoupling_list)","rhs":"expr","over":{"base":"Any","pred":"hasattr(expr, 'atoms') and hasattr(expr, 'subs')"},"name":"uncouple_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin.uncouple_correct","statement":"Path(uncouple(x), returns expr; result == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9fb97c3c73b4806","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')","hasattr(expr, 'subs')"],"ensures":["result == expr"],"returns_expr":"expr","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","expr.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def uncouple(expr, jn=None, jcoupling_list=None):
     """ Uncouple a coupled spin state
 
@@ -4319,7 +5642,15 @@ def uncouple(expr, jn=None, jcoupling_list=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_uncouple(sta), internal helper behaves correctly) over {Any | isinstance(state, CoupledSpinState) and isinstance(state, SpinState) and isinstance(jn, (list, tuple))} ║
+# ║ Path(_uncouple(state, jn, jcoupling_list), len(cg_terms) == old_len_cg_terms + 1 and len(coupling_list) == old_len_coupling_list + 1 and len(jcoupling_list) == old_len_jcoupling_list + 1 and len(result) == old_len_result + 1) over {Any | isinstance(state, CoupledSpinState) and isinstance(state, SpinState) and isinstance(jn, (list, tuple)) and hasattr(state, 'j') and hasattr(state, 'm') and hasattr(state, 'jn') and hasattr(state, 'coupled_n') and hasattr(state, 'coupled_jn') and hasattr(state, 'uncoupled_class') and hasattr(jcoupling_list, 'append')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(state, 'j')                            ║
+# ║   requires: hasattr(state, 'm')                            ║
+# ║   requires: hasattr(state, 'jn')                           ║
+# ║   ensures:  len(cg_terms) == old_len_cg_terms + 1          ║
+# ║   ensures:  len(coupling_list) == old_len_coupling_li...   ║
+# ║   ensures:  len(jcoupling_list) == old_len_jcoupling_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _uncouple : {Any | isinstance(state, CoupledSpinState...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4333,9 +5664,12 @@ def uncouple(expr, jn=None, jcoupling_list=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 9.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f7192f5d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._uncouple","kind":"function","src_hash":"8267b28ea46e9d2f","in":{"base":"Any","pred":"isinstance(state, CoupledSpinState) and isinstance(state, SpinState) and isinstance(jn, (list, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"_uncouple(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(state, CoupledSpinState) and isinstance(state, SpinState) and isinstance(jn, (list, tuple))"},"name":"_uncouple_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"CoupledSpinState","pred":"isinstance(state, CoupledSpinState)","path":{"lhs":"_uncouple(x)","rhs":"internal helper behaves correctly","over":{"base":"CoupledSpinState","pred":"isinstance(state, CoupledSpinState)"},"name":"_uncouple_CoupledSpinState_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._uncouple_CoupledSpinState_correct","statement":"_uncouple satisfies spec on CoupledSpinState inputs"},"trust":"LIBRARY"},{"name":"SpinState","pred":"isinstance(state, SpinState)","path":{"lhs":"_uncouple(x)","rhs":"internal helper behaves correctly","over":{"base":"SpinState","pred":"isinstance(state, SpinState)"},"name":"_uncouple_SpinState_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._uncouple_SpinState_correct","statement":"_uncouple satisfies spec on SpinState inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(jn, (list, tuple))","path":{"lhs":"_uncouple(x)","rhs":"internal helper behaves correctly","over":{"base":"(list","pred":"isinstance(jn, (list, tuple))"},"name":"_uncouple_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._uncouple_(list_correct","statement":"_uncouple satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f7192f5d6d9a40fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._uncouple","kind":"function","src_hash":"8267b28ea46e9d2f","in":{"base":"Any","pred":"isinstance(state, CoupledSpinState) and isinstance(state, SpinState) and isinstance(jn, (list, tuple)) and hasattr(state, 'j') and hasattr(state, 'm') and hasattr(state, 'jn') and hasattr(state, 'coupled_n') and hasattr(state, 'coupled_jn') and hasattr(state, 'uncoupled_class') and hasattr(jcoupling_list, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(cg_terms) == old_len_cg_terms + 1 and len(coupling_list) == old_len_coupling_list + 1 and len(jcoupling_list) == old_len_jcoupling_list + 1 and len(result) == old_len_result + 1"},"spec":{"lhs":"_uncouple(state, jn, jcoupling_list)","rhs":"len(cg_terms) == old_len_cg_terms + 1 and len(coupling_list) == old_len_coupling_list + 1 and len(jcoupling_list) == old_len_jcoupling_list + 1 and len(result) == old_len_result + 1","over":{"base":"Any","pred":"isinstance(state, CoupledSpinState) and isinstance(state, SpinState) and isinstance(jn, (list, tuple)) and hasattr(state, 'j') and hasattr(state, 'm') and hasattr(state, 'jn') and hasattr(state, 'coupled_n') and hasattr(state, 'coupled_jn') and hasattr(state, 'uncoupled_class') and hasattr(jcoupling_list, 'append')"},"name":"_uncouple_correct"},"guarantee":"len(cg_terms) == old_len_cg_terms + 1; len(coupling_list) == old_len_coupling_list + 1; len(jcoupling_list) == old_len_jcoupling_list + 1","fibers":[{"name":"CoupledSpinState","pred":"isinstance(state, CoupledSpinState)","path":{"lhs":"_uncouple(x)","rhs":"len(cg_terms) == old_len_cg_terms + 1; len(coupling_list) == old_len_coupling_list + 1; len(jcoupling_list) == old_len_jcoupling_list + 1","over":{"base":"CoupledSpinState","pred":"isinstance(state, CoupledSpinState)"},"name":"_uncouple_CoupledSpinState_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._uncouple_CoupledSpinState_correct","statement":"_uncouple satisfies spec on CoupledSpinState inputs"},"trust":"LIBRARY"},{"name":"SpinState","pred":"isinstance(state, SpinState)","path":{"lhs":"_uncouple(x)","rhs":"len(cg_terms) == old_len_cg_terms + 1; len(coupling_list) == old_len_coupling_list + 1; len(jcoupling_list) == old_len_jcoupling_list + 1","over":{"base":"SpinState","pred":"isinstance(state, SpinState)"},"name":"_uncouple_SpinState_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._uncouple_SpinState_correct","statement":"_uncouple satisfies spec on SpinState inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(jn, (list, tuple))","path":{"lhs":"_uncouple(x)","rhs":"len(cg_terms) == old_len_cg_terms + 1; len(coupling_list) == old_len_coupling_list + 1; len(jcoupling_list) == old_len_jcoupling_list + 1","over":{"base":"(list","pred":"isinstance(jn, (list, tuple))"},"name":"_uncouple_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._uncouple_(list_correct","statement":"_uncouple satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f7192f5d6d9a40fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(state, 'j')","hasattr(state, 'm')","hasattr(state, 'jn')","hasattr(state, 'coupled_n')","hasattr(state, 'coupled_jn')","hasattr(state, 'uncoupled_class')","hasattr(jcoupling_list, 'append')"],"ensures":["len(cg_terms) == old_len_cg_terms + 1","len(coupling_list) == old_len_coupling_list + 1","len(jcoupling_list) == old_len_jcoupling_list + 1","len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["*.__class__","jcoupling_list.append","state.__class__","state.coupled_jn","state.coupled_n","state.j","state.jn","state.m","state.uncoupled_class"],"calls_mutating":["cg_terms.append","coupling_list.append","jcoupling_list.append","result.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["cg_terms.*","coupling_list.*","jcoupling_list.*","result.*"],"old_bindings":{"old_len_cg_terms":"len(cg_terms)","old_len_coupling_list":"len(coupling_list)","old_len_jcoupling_list":"len(jcoupling_list)","old_len_result":"len(result)"},"post_ensures":["len(cg_terms) == old_len_cg_terms + 1","len(coupling_list) == old_len_coupling_list + 1","len(jcoupling_list) == old_len_jcoupling_list + 1","len(result) == old_len_result + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":9.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(jn, (list, tuple))', 'isinstance(state, SpinState)', 'isinstance(state, CoupledSpinState)', 'jcoupling_list is None', 'any((d > p for d, p in zip(diff_list, diff_max)))', 'jn is None', 'not len(jcoupling_list) == len(jn) - 1', 'not isinstance(jcoupling_list, (list, tuple))'}, fibers={'CoupledSpinState', '(list', 'SpinState'})"]}}
 def _uncouple(state, jn, jcoupling_list):
     if isinstance(state, CoupledSpinState):
         jn = state.jn
@@ -4418,16 +5752,22 @@ def _uncouple(state, jn, jcoupling_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_confignum_to_difflist(con), internal helper behaves correctly) over Any ║
+# ║ Path(_confignum_to_difflist(config_num, diff, list_len), <unspecified:_confignum_to_difflist>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _confignum_to_difflist : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 633348bf3e4d2ff5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._confignum_to_difflist","kind":"function","src_hash":"5d4a30c45a213a88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_confignum_to_difflist(con)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_confignum_to_difflist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._confignum_to_difflist_correct","statement":"Path(_confignum_to_difflist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"633348bf3e4d2ff5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.spin._confignum_to_difflist","kind":"function","src_hash":"5d4a30c45a213a88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_confignum_to_difflist(config_num, diff, list_len)","rhs":"<unspecified:_confignum_to_difflist>","over":{"base":"Any"},"name":"_confignum_to_difflist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.spin._confignum_to_difflist_correct","statement":"Path(_confignum_to_difflist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"633348bf3e4d2ff5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _confignum_to_difflist(config_num, diff, list_len):
     # Determines configuration of diffs into list_len number of slots
     diff_list = []

@@ -31,14 +31,20 @@ methods).
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SumApprox instance) preserved by SumApprox(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SumApprox : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Optimization)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SumApprox : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d58143751decca35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox","kind":"class","src_hash":"0ba593b88611dff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SumApprox(*args)","rhs":"correctly constructs a SumApprox instance","over":{"base":"Any"},"name":"SumApprox_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SumApprox instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'bounds') and hasattr(self, 'reltol')","kind":"class","induction":"structural on bounds, reltol"}],"methods_preserving":["__init__","__call__","query","value"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58143751decca35"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox","kind":"class","src_hash":"0ba593b88611dff6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Optimization)"},"spec":{"lhs":"SumApprox(*args)","rhs":"correctly constructs a SumApprox instance","over":{"base":"Any"},"name":"SumApprox_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Optimization); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'bounds') and hasattr(self, 'reltol')","kind":"class","induction":"structural on bounds, reltol"}],"methods_preserving":["__init__","__call__","query","value"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58143751decca35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Optimization)"],"invariants":["hasattr(self, 'bounds')","hasattr(self, 'reltol')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SumApprox not found in source"]}}
 class SumApprox(Optimization):
     """
     Approximates sum by neglecting small terms.
@@ -80,60 +86,92 @@ class SumApprox(Optimization):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bou), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bounds, reltol, **kwargs), self.bounds == bounds and self.reltol == reltol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.bounds == bounds                          ║
+# ║   ensures:  self.reltol == reltol                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.bounds...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a19c18075287400           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.__init__","kind":"method","src_hash":"9235df2b69dc486a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bou)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a19c18075287400"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.__init__","kind":"method","src_hash":"9235df2b69dc486a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.bounds == bounds and self.reltol == reltol"},"spec":{"lhs":"__init__(bounds, reltol, **kwargs)","rhs":"self.bounds == bounds and self.reltol == reltol","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.bounds == bounds; self.reltol == reltol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a19c18075287400","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.bounds == bounds","self.reltol == reltol"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bounds, reltol, **kwargs):
         super().__init__(**kwargs)
         self.bounds = bounds
         self.reltol = reltol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), expr.factor().replace(self.query, lambda arg: self.value(arg))) over {Any | hasattr(expr, 'factor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'factor')                        ║
+# ║   returns:  expr.factor().replace(self.query, lambda ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(expr, 'factor')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cc83a88d81f01ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.__call__","kind":"method","src_hash":"5767ddff69ca951a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc83a88d81f01ee"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.__call__","kind":"method","src_hash":"5767ddff69ca951a","in":{"base":"Any","pred":"hasattr(expr, 'factor')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"expr.factor().replace(self.query, lambda arg: self.value(arg))","over":{"base":"Any","pred":"hasattr(expr, 'factor')"},"name":"__call___correct"},"guarantee":"returns expr.factor().replace(self.query, lambda arg: self.value(arg))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc83a88d81f01ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'factor')"],"returns_expr":"expr.factor().replace(self.query, lambda arg: self.value(arg))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.factor","self.query","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         return expr.factor().replace(self.query, lambda arg: self.value(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(query(exp), query produces the expected output) over Any ║
+# ║ Path(query(expr), expr.is_Add) over {Any | hasattr(expr, 'is_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ query : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   returns:  expr.is_Add                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ query : {Any | hasattr(expr, 'is_Add')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e98cfcee045a089           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.query","kind":"method","src_hash":"2934a88e374ab059","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"query(exp)","rhs":"query produces the expected output","over":{"base":"Any"},"name":"query_correct"},"guarantee":"query produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e98cfcee045a089"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.query","kind":"method","src_hash":"2934a88e374ab059","in":{"base":"Any","pred":"hasattr(expr, 'is_Add')"},"out":{"base":"Any"},"spec":{"lhs":"query(expr)","rhs":"expr.is_Add","over":{"base":"Any","pred":"hasattr(expr, 'is_Add')"},"name":"query_correct"},"guarantee":"returns expr.is_Add","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e98cfcee045a089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Add')"],"returns_expr":"expr.is_Add","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_Add"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def query(self, expr):
         return expr.is_Add
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(value(add), value produces the expected output) over Any ║
+# ║ Path(value(add), result == (add.func(*new_terms) if all((term.is_number or term in self.bounds for term in add.args)) else add) and result == add.func(*new_terms) or result == add) over {Any | hasattr(add, 'args') and hasattr(add, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ value : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(add, 'args')                           ║
+# ║   requires: hasattr(add, 'func')                           ║
+# ║   ensures:  result == (add.func(*new_terms) if all((t...   ║
+# ║   ensures:  result == add.func(*new_terms) or result ...   ║
+# ║   fiber[case_0]: all((term.is_number or term in self....   ║
+# ║   fiber[case_1]: not (all((term.is_number or term in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ value : {Any | hasattr(add, 'args') and hasattr(add, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c58f58f3e8afc5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e9cd0e557ff78e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.value","kind":"method","src_hash":"4de48526af7a17fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"value(add)","rhs":"value produces the expected output","over":{"base":"Any"},"name":"value_correct"},"guarantee":"value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.approximations.SumApprox.value_correct","statement":"Path(value(x), value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c58f58f3e8afc5e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SumApprox.value","kind":"method","src_hash":"4de48526af7a17fa","in":{"base":"Any","pred":"hasattr(add, 'args') and hasattr(add, 'func')"},"out":{"base":"Any","pred":"result satisfies: result == (add.func(*new_terms) if all((term.is_number or term in self.bounds for term in add.args)) else add) and result == add.func(*new_terms) or result == add"},"spec":{"lhs":"value(add)","rhs":"result == (add.func(*new_terms) if all((term.is_number or term in self.bounds for term in add.args)) else add) and result == add.func(*new_terms) or result == add","over":{"base":"Any","pred":"hasattr(add, 'args') and hasattr(add, 'func')"},"name":"value_correct"},"guarantee":"result == (add.func(*new_terms) if all((term.is_number or term in self.bounds for term in add.args)) else add); result == add.func(*new_terms) or result == add; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.approximations.SumApprox.value_correct","statement":"Path(value(x), result == (add.func(*new_terms) if all((term.is_number or term in self.bounds for term in add.args)) else add); result == add.func(*new_terms) or result == add; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e9cd0e557ff78e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(add, 'args')","hasattr(add, 'func')"],"ensures":["result == (add.func(*new_terms) if all((term.is_number or term in self.bounds for term in add.args)) else add)","result == add.func(*new_terms) or result == add"],"fibers":[{"name":"case_0","guard":"all((term.is_number or term in self.bounds for term in add.args))","ensures":["result == add.func(*new_terms)"],"decidability":"library","returns_expr":"add.func(*new_terms)"},{"name":"case_1","guard":"not (all((term.is_number or term in self.bounds for term in add.args)))","ensures":["result == add"],"decidability":"library","returns_expr":"add"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def value(self, add):
         for term in add.args:
             if term.is_number or term in self.bounds or len(term.free_symbols) != 1:
@@ -175,14 +213,20 @@ class SumApprox(Optimization):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SeriesApprox instance) preserved by SeriesApprox(*args) over {Any | isinstance(expr, UndefinedFunction)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Optimization)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeriesApprox : {Any | isinstance(expr, UndefinedFunct...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5d784d1bfef86cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox","kind":"class","src_hash":"6630ca9a491f3258","in":{"base":"Any","pred":"isinstance(expr, UndefinedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"SeriesApprox(*args)","rhs":"correctly constructs a SeriesApprox instance","over":{"base":"Any","pred":"isinstance(expr, UndefinedFunction)"},"name":"SeriesApprox_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SeriesApprox instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'bounds') and hasattr(self, 'reltol') and hasattr(self, 'max_order') and hasattr(self, 'n_point_checks') and hasattr(self, '_prec')","kind":"class","induction":"structural on bounds, reltol, max_order, n_point_checks"}],"methods_preserving":["__init__","__call__","query","value"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5d784d1bfef86cd"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox","kind":"class","src_hash":"6630ca9a491f3258","in":{"base":"Any","pred":"isinstance(expr, UndefinedFunction)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Optimization)"},"spec":{"lhs":"SeriesApprox(*args)","rhs":"correctly constructs a SeriesApprox instance","over":{"base":"Any","pred":"isinstance(expr, UndefinedFunction)"},"name":"SeriesApprox_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Optimization); preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'bounds') and hasattr(self, 'reltol') and hasattr(self, 'max_order') and hasattr(self, 'n_point_checks') and hasattr(self, '_prec')","kind":"class","induction":"structural on bounds, reltol, max_order, n_point_checks"}],"methods_preserving":["__init__","__call__","query","value"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5d784d1bfef86cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Optimization)"],"invariants":["hasattr(self, 'bounds')","hasattr(self, 'reltol')","hasattr(self, 'max_order')","hasattr(self, 'n_point_checks')","hasattr(self, '_prec')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeriesApprox not found in source"]}}
 class SeriesApprox(Optimization):
     """ Approximates functions by expanding them as a series.
 
@@ -222,16 +266,25 @@ class SeriesApprox(Optimization):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bou), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bounds, reltol, max_order), self.bounds == bounds and self.reltol == reltol and self.max_order == max_order and self.n_point_checks == n_point_checks) over {Any | not (n_point_checks % 2 == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n_point_checks % 2 == 1)                  ║
+# ║   ensures:  self.bounds == bounds                          ║
+# ║   ensures:  self.reltol == reltol                          ║
+# ║   ensures:  self.max_order == max_order                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (n_point_checks % 2 == 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08438ef5cbac19b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.__init__","kind":"method","src_hash":"b3fa08fa42b7be78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bou)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08438ef5cbac19b7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.__init__","kind":"method","src_hash":"b3fa08fa42b7be78","in":{"base":"Any","pred":"not (n_point_checks % 2 == 1)"},"out":{"base":"Any","pred":"result satisfies: self.bounds == bounds and self.reltol == reltol and self.max_order == max_order and self.n_point_checks == n_point_checks"},"spec":{"lhs":"__init__(bounds, reltol, max_order)","rhs":"self.bounds == bounds and self.reltol == reltol and self.max_order == max_order and self.n_point_checks == n_point_checks","over":{"base":"Any","pred":"not (n_point_checks % 2 == 1)"},"name":"__init___correct"},"guarantee":"self.bounds == bounds; self.reltol == reltol; self.max_order == max_order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08438ef5cbac19b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n_point_checks % 2 == 1)"],"ensures":["self.bounds == bounds","self.reltol == reltol","self.max_order == max_order","self.n_point_checks == n_point_checks"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.reltol"],"writes":["self._prec","self.bounds","self.max_order","self.n_point_checks","self.reltol"],"raises":["ValueError"]},"state_contract":{"modifies":["self._prec","self.bounds","self.max_order","self.n_point_checks","self.reltol"],"old_bindings":{"old_self__prec":"self._prec","old_self_bounds":"self.bounds","old_self_max_order":"self.max_order","old_self_n_point_checks":"self.n_point_checks","old_self_reltol":"self.reltol"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bounds, reltol, max_order=4, n_point_checks=4, **kwargs):
         super().__init__(**kwargs)
         self.bounds = bounds
@@ -243,45 +296,69 @@ class SeriesApprox(Optimization):
         self._prec = math.ceil(-math.log10(self.reltol))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), expr.factor().replace(self.query, lambda arg: self.value(arg))) over {Any | hasattr(expr, 'factor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'factor')                        ║
+# ║   returns:  expr.factor().replace(self.query, lambda ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(expr, 'factor')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73d8445d0284702c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.__call__","kind":"method","src_hash":"5767ddff69ca951a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73d8445d0284702c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.__call__","kind":"method","src_hash":"5767ddff69ca951a","in":{"base":"Any","pred":"hasattr(expr, 'factor')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"expr.factor().replace(self.query, lambda arg: self.value(arg))","over":{"base":"Any","pred":"hasattr(expr, 'factor')"},"name":"__call___correct"},"guarantee":"returns expr.factor().replace(self.query, lambda arg: self.value(arg))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73d8445d0284702c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'factor')"],"returns_expr":"expr.factor().replace(self.query, lambda arg: self.value(arg))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.factor","self.query","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         return expr.factor().replace(self.query, lambda arg: self.value(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(query(exp), query produces the expected output) over Any ║
+# ║ Path(query(expr), expr.is_Function and (not isinstance(expr, UndefinedFunction)) and (len(expr.args) == 1)) over {Any | hasattr(expr, 'is_Function') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ query : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Function')                   ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  expr.is_Function and (not isinstance(expr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ query : {Any | hasattr(expr, 'is_Function') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4b8d99cf53b44f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe4a7d5e880601bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.query","kind":"method","src_hash":"3dd08daac1f37e2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"query(exp)","rhs":"query produces the expected output","over":{"base":"Any"},"name":"query_correct"},"guarantee":"query produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.approximations.SeriesApprox.query_correct","statement":"Path(query(x), query produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4b8d99cf53b44f2"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.query","kind":"method","src_hash":"3dd08daac1f37e2c","in":{"base":"Any","pred":"hasattr(expr, 'is_Function') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"query(expr)","rhs":"expr.is_Function and (not isinstance(expr, UndefinedFunction)) and (len(expr.args) == 1)","over":{"base":"Any","pred":"hasattr(expr, 'is_Function') and hasattr(expr, 'args')"},"name":"query_correct"},"guarantee":"returns expr.is_Function and (not isinstance(expr, UndefinedFunction)) and (len(expr.args) == 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.approximations.SeriesApprox.query_correct","statement":"Path(query(x), returns expr.is_Function and (not isinstance(expr, UndefinedFunction)) and (len(expr.args) == 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe4a7d5e880601bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Function')","hasattr(expr, 'args')"],"returns_expr":"expr.is_Function and (not isinstance(expr, UndefinedFunction)) and (len(expr.args) == 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def query(self, expr):
         return (expr.is_Function and not isinstance(expr, UndefinedFunction)
                 and len(expr.args) == 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(value(fex), value produces the expected output) over Any ║
+# ║ Path(value(fexpr), <unspecified:value>) over {Any | hasattr(fexpr, 'free_symbols') and hasattr(fexpr, 'xreplace') and hasattr(fexpr, 'series')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ value : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fexpr, 'free_symbols')                 ║
+# ║   requires: hasattr(fexpr, 'xreplace')                     ║
+# ║   requires: hasattr(fexpr, 'series')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ value : {Any | hasattr(fexpr, 'free_symbols') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be11967effe1f566  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.value","kind":"method","src_hash":"346446c5d5ceec9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"value(fex)","rhs":"value produces the expected output","over":{"base":"Any"},"name":"value_correct"},"guarantee":"value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.approximations.SeriesApprox.value_correct","statement":"Path(value(x), value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be11967effe1f566"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.approximations.SeriesApprox.value","kind":"method","src_hash":"346446c5d5ceec9c","in":{"base":"Any","pred":"hasattr(fexpr, 'free_symbols') and hasattr(fexpr, 'xreplace') and hasattr(fexpr, 'series')"},"out":{"base":"Any"},"spec":{"lhs":"value(fexpr)","rhs":"<unspecified:value>","over":{"base":"Any","pred":"hasattr(fexpr, 'free_symbols') and hasattr(fexpr, 'xreplace') and hasattr(fexpr, 'series')"},"name":"value_correct"},"guarantee":"value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.approximations.SeriesApprox.value_correct","statement":"Path(value(x), value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be11967effe1f566","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fexpr, 'free_symbols')","hasattr(fexpr, 'xreplace')","hasattr(fexpr, 'series')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["fexpr.free_symbols","fexpr.series","fexpr.xreplace","self._prec","self.bounds","self.max_order","self.n_point_checks","self.reltol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def value(self, fexpr):
         free_symbols = fexpr.free_symbols
         if len(free_symbols) != 1:

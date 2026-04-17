@@ -26,16 +26,22 @@ from io import BytesIO
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_preview(), test_preview produces the expected output) over Any ║
+# ║ Path(test_preview(), <unspecified:test_preview>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_preview : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44d7a7ce6fde8156  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_preview.test_preview","kind":"function","src_hash":"8d378b1fc19188f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_preview()","rhs":"test_preview produces the expected output","over":{"base":"Any"},"name":"test_preview_correct"},"guarantee":"test_preview produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_preview.test_preview_correct","statement":"Path(test_preview(x), test_preview produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44d7a7ce6fde8156"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_preview.test_preview","kind":"function","src_hash":"8d378b1fc19188f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_preview()","rhs":"<unspecified:test_preview>","over":{"base":"Any"},"name":"test_preview_correct"},"guarantee":"test_preview produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_preview.test_preview_correct","statement":"Path(test_preview(x), test_preview produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44d7a7ce6fde8156","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_preview():
     x = Symbol('x')
     obj = BytesIO()
@@ -46,16 +52,22 @@ def test_preview():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_preview_unicode_symbol(), test_preview_unicode_symbol produces the expected output) over Any ║
+# ║ Path(test_preview_unicode_symbol(), <unspecified:test_preview_unicode_symbol>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_preview_unicode_symbol : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3657f66b16384e6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_preview.test_preview_unicode_symbol","kind":"function","src_hash":"1760cc30cb400ef8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_preview_unicode_symbol()","rhs":"test_preview_unicode_symbol produces the expected output","over":{"base":"Any"},"name":"test_preview_unicode_symbol_correct"},"guarantee":"test_preview_unicode_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_preview.test_preview_unicode_symbol_correct","statement":"Path(test_preview_unicode_symbol(x), test_preview_unicode_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3657f66b16384e6d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_preview.test_preview_unicode_symbol","kind":"function","src_hash":"1760cc30cb400ef8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_preview_unicode_symbol()","rhs":"<unspecified:test_preview_unicode_symbol>","over":{"base":"Any"},"name":"test_preview_unicode_symbol_correct"},"guarantee":"test_preview_unicode_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_preview.test_preview_unicode_symbol_correct","statement":"Path(test_preview_unicode_symbol(x), test_preview_unicode_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3657f66b16384e6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_preview_unicode_symbol():
     # issue 9107
     a = Symbol('α')
@@ -67,16 +79,22 @@ def test_preview_unicode_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_preview_latex_construct_in_expr(), test_preview_latex_construct_in_expr produces the expected output) over Any ║
+# ║ Path(test_preview_latex_construct_in_expr(), <unspecified:test_preview_latex_construct_in_expr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_preview_latex_construct_in_expr : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5ae85b98936e46b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_preview.test_preview_latex_construct_in_expr","kind":"function","src_hash":"8f7b8c610aa2ff23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_preview_latex_construct_in_expr()","rhs":"test_preview_latex_construct_in_expr produces the expected output","over":{"base":"Any"},"name":"test_preview_latex_construct_in_expr_correct"},"guarantee":"test_preview_latex_construct_in_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_preview.test_preview_latex_construct_in_expr_correct","statement":"Path(test_preview_latex_construct_in_expr(x), test_preview_latex_construct_in_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5ae85b98936e46b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_preview.test_preview_latex_construct_in_expr","kind":"function","src_hash":"8f7b8c610aa2ff23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_preview_latex_construct_in_expr()","rhs":"<unspecified:test_preview_latex_construct_in_expr>","over":{"base":"Any"},"name":"test_preview_latex_construct_in_expr_correct"},"guarantee":"test_preview_latex_construct_in_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_preview.test_preview_latex_construct_in_expr_correct","statement":"Path(test_preview_latex_construct_in_expr(x), test_preview_latex_construct_in_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5ae85b98936e46b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_preview_latex_construct_in_expr():
     # see PR 9801
     x = Symbol('x')

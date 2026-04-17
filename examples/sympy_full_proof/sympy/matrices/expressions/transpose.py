@@ -22,14 +22,20 @@ from sympy.matrices.expressions.matexpr import MatrixExpr
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Transpose(*args), correctly constructs a Transpose instance) over {Any | isinstance(arg, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Transpose : {Any | isinstance(arg, Basic)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Transpose : {Any | isinstance(arg, Basic)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22ce3ea74c44113c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose","kind":"class","src_hash":"4495abaa2b12d7fb","in":{"base":"Any","pred":"isinstance(arg, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"Transpose(*args)","rhs":"correctly constructs a Transpose instance","over":{"base":"Any","pred":"isinstance(arg, Basic)"},"name":"Transpose_class_invariant"},"guarantee":"correctly constructs a Transpose instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22ce3ea74c44113c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose","kind":"class","src_hash":"4495abaa2b12d7fb","in":{"base":"Any","pred":"isinstance(arg, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"Transpose(*args)","rhs":"correctly constructs a Transpose instance","over":{"base":"Any","pred":"isinstance(arg, Basic)"},"name":"Transpose_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22ce3ea74c44113c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Transpose not found in source"]}}
 class Transpose(MatrixExpr):
     """
     The transpose of a matrix expression.
@@ -57,16 +63,22 @@ class Transpose(MatrixExpr):
     is_Transpose = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e6f747e432bf6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose.doit","kind":"method","src_hash":"1ffb0fd3ac545054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.Transpose.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e6f747e432bf6e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose.doit","kind":"method","src_hash":"1ffb0fd3ac545054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.Transpose.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e6f747e432bf6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         arg = self.arg
         if hints.get('deep', True) and isinstance(arg, Basic):
@@ -80,162 +92,228 @@ class Transpose(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arg(), returns the arg attribute) over Any            ║
+# ║ Path(arg(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a41387ec5acef87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"returns the arg attribute","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns the arg attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a41387ec5acef87"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"self.args[0]","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a41387ec5acef87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arg(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.arg.shape[::-1]) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg.shape[::-1]                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bd9781d9ba78ac2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose.shape","kind":"property","src_hash":"ec4c9a7ad17c8072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bd9781d9ba78ac2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose.shape","kind":"property","src_hash":"ec4c9a7ad17c8072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.arg.shape[::-1]","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.arg.shape[::-1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bd9781d9ba78ac2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg.shape[::-1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.arg.shape[::-1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, expand), self.arg._entry(j, i, expand=expand, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg._entry(j, i, expand=expand, **kw...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5da3c1d43874b963           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._entry","kind":"method","src_hash":"e4fe85bfee4b77bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5da3c1d43874b963"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._entry","kind":"method","src_hash":"e4fe85bfee4b77bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, expand)","rhs":"self.arg._entry(j, i, expand=expand, **kwargs)","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns self.arg._entry(j, i, expand=expand, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5da3c1d43874b963","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg._entry(j, i, expand=expand, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, expand=False, **kwargs):
         return self.arg._entry(j, i, expand=expand, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), self.arg.conjugate()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg.conjugate()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 748cf0a5a1daf1c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_adjoint","kind":"method","src_hash":"20573f3f7865a8cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"748cf0a5a1daf1c9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_adjoint","kind":"method","src_hash":"20573f3f7865a8cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"self.arg.conjugate()","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns self.arg.conjugate()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"748cf0a5a1daf1c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg.conjugate()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return self.arg.conjugate()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.arg.adjoint()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg.adjoint()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f260572265e7ba8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_conjugate","kind":"method","src_hash":"f8aeedf0f298a873","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f260572265e7ba8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_conjugate","kind":"method","src_hash":"f8aeedf0f298a873","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.arg.adjoint()","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.arg.adjoint()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f260572265e7ba8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg.adjoint()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.arg.adjoint()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), self.arg) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47699bdbf0068a8f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_transpose","kind":"method","src_hash":"5d7c76a865446da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47699bdbf0068a8f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_transpose","kind":"method","src_hash":"5d7c76a865446da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"self.arg","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns self.arg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47699bdbf0068a8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         return self.arg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_trace(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Trace(self.arg)                                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 65487cab968a4ed5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_trace","kind":"method","src_hash":"bb99f6feb849e69b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Trace","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65487cab968a4ed5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_trace","kind":"method","src_hash":"bb99f6feb849e69b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"Trace(self.arg)","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"returns Trace(self.arg)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Trace","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65487cab968a4ed5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Trace(self.arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self):
         from .trace import Trace
         return Trace(self.arg)  # Trace(X.T) => Trace(X)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_determinant(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_determinant(), det(self.arg)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  det(self.arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 477ccc6c889d6bbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d7447ce5be52654  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_determinant","kind":"method","src_hash":"08ed94d266509a6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.Transpose._eval_determinant_correct","statement":"Path(_eval_determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"477ccc6c889d6bbd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_determinant","kind":"method","src_hash":"08ed94d266509a6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"det(self.arg)","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"returns det(self.arg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.Transpose._eval_determinant_correct","statement":"Path(_eval_determinant(x), returns det(self.arg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7447ce5be52654","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"det(self.arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self):
         from sympy.matrices.expressions.determinant import det
         return det(self.arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), self.arg._eval_derivative(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg._eval_derivative(x)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c84229cac794b95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_derivative","kind":"method","src_hash":"dd9a261dd9ca4b46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c84229cac794b95"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_derivative","kind":"method","src_hash":"dd9a261dd9ca4b46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"self.arg._eval_derivative(x)","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.arg._eval_derivative(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c84229cac794b95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg._eval_derivative(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         # x is a scalar:
         return self.arg._eval_derivative(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative_matrix_lines(x), [i.transpose() for i in lines]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [i.transpose() for i in lines]                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative_matrix_lines : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff39b30ff0c5798a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b98a3946e07c876  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_derivative_matrix_lines","kind":"method","src_hash":"ac430212e64cda4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.Transpose._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff39b30ff0c5798a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.Transpose._eval_derivative_matrix_lines","kind":"method","src_hash":"ac430212e64cda4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"[i.transpose() for i in lines]","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"returns [i.transpose() for i in lines]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.Transpose._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), returns [i.transpose() for i in lines])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b98a3946e07c876","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[i.transpose() for i in lines]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative_matrix_lines(self, x):
         lines = self.args[0]._eval_derivative_matrix_lines(x)
         return [i.transpose() for i in lines]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(exp), matrix transpose) over Any            ║
+# ║ Path(transpose(expr), Transpose(expr).doit(deep=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Transpose(expr).doit(deep=False)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0170688cef8e13af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.transpose","kind":"function","src_hash":"db9b87c053bf2d8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose(exp)","rhs":"matrix transpose","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"matrix transpose","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0170688cef8e13af"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.transpose","kind":"function","src_hash":"db9b87c053bf2d8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose(expr)","rhs":"Transpose(expr).doit(deep=False)","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns Transpose(expr).doit(deep=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0170688cef8e13af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Transpose(expr).doit(deep=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def transpose(expr):
     """Matrix transpose"""
     return Transpose(expr).doit(deep=False)
@@ -246,16 +324,23 @@ from sympy.assumptions.refine import handlers_dict
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_Transpose(exp), >>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> x.t x.t >>> with assuming(q.symmetric(x)): ) over Any ║
+# ║ Path(refine_Transpose(expr, assumptions), <unspecified:refine_Transpose>) over {Any | hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_Transpose : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_Transpose : {Any | hasattr(expr, 'arg')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70804eefe50cf8aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.refine_Transpose","kind":"function","src_hash":"5ab566e2724b0164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_Transpose(exp)","rhs":">>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> x.t x.t >>> with assuming(q.symmetric(x)): ","over":{"base":"Any"},"name":"refine_Transpose_correct"},"guarantee":">>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> x.t x.t >>> with assuming(q.symmetric(x)): ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.refine_Transpose_correct","statement":"Path(refine_Transpose(x), >>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> x.t x.t >>> with assuming(q.symmetric(x)): )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70804eefe50cf8aa"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.transpose.refine_Transpose","kind":"function","src_hash":"5ab566e2724b0164","in":{"base":"Any","pred":"hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"refine_Transpose(expr, assumptions)","rhs":"<unspecified:refine_Transpose>","over":{"base":"Any","pred":"hasattr(expr, 'arg')"},"name":"refine_Transpose_correct"},"guarantee":">>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> x.t x.t >>> with assuming(q.symmetric(x)): ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.transpose.refine_Transpose_correct","statement":"Path(refine_Transpose(x), >>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> x.t x.t >>> with assuming(q.symmetric(x)): )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70804eefe50cf8aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'arg')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def refine_Transpose(expr, assumptions):
     """
     >>> from sympy import MatrixSymbol, Q, assuming, refine

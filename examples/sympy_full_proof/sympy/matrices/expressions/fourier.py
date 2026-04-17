@@ -26,14 +26,20 @@ from sympy.functions.elementary.miscellaneous import sqrt
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DFT(*args), correctly constructs a DFT instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DFT : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DFT : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e59367cde697e05c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT","kind":"class","src_hash":"321b27c93d3ee754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DFT(*args)","rhs":"correctly constructs a DFT instance","over":{"base":"Any"},"name":"DFT_class_invariant"},"guarantee":"correctly constructs a DFT instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e59367cde697e05c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT","kind":"class","src_hash":"321b27c93d3ee754","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"DFT(*args)","rhs":"correctly constructs a DFT instance","over":{"base":"Any"},"name":"DFT_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e59367cde697e05c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function DFT not found in source"]}}
 class DFT(MatrixExpr):
     r"""
     Returns a discrete Fourier transform matrix. The matrix is scaled
@@ -68,16 +74,22 @@ class DFT(MatrixExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, n), <unspecified:__new__>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0289f23db3267896           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT.__new__","kind":"method","src_hash":"ef02f2f950043014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0289f23db3267896"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT.__new__","kind":"method","src_hash":"ef02f2f950043014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, n)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0289f23db3267896","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_dim"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, n):
         n = _sympify(n)
         cls._check_dim(n)
@@ -89,31 +101,43 @@ class DFT(MatrixExpr):
     shape = property(lambda self: (self.n, self.n))  # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), w ** (i * j) / sqrt(self.n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  w ** (i * j) / sqrt(self.n)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05461fb461889cbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78304f1fa33c6a24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT._entry","kind":"method","src_hash":"baf4ebbe4ad1dc60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.fourier.DFT._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05461fb461889cbf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT._entry","kind":"method","src_hash":"baf4ebbe4ad1dc60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"w ** (i * j) / sqrt(self.n)","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns w ** (i * j) / sqrt(self.n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.fourier.DFT._entry_correct","statement":"Path(_entry(x), returns w ** (i * j) / sqrt(self.n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78304f1fa33c6a24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"w ** (i * j) / sqrt(self.n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         w = exp(-2*S.Pi*I/self.n)
         return w**(i*j) / sqrt(self.n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), IDFT(self.n)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IDFT(self.n)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 094d37fd72826790           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT._eval_inverse","kind":"method","src_hash":"67941879a32723bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"094d37fd72826790"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.DFT._eval_inverse","kind":"method","src_hash":"67941879a32723bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"IDFT(self.n)","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"returns IDFT(self.n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"094d37fd72826790","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IDFT(self.n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         return IDFT(self.n)
 
@@ -121,14 +145,20 @@ class DFT(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IDFT(*args), correctly constructs a IDFT instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IDFT : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DFT)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IDFT : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8814b5b00901b7a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.IDFT","kind":"class","src_hash":"bbf013e2dd86a506","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IDFT(*args)","rhs":"correctly constructs a IDFT instance","over":{"base":"Any"},"name":"IDFT_class_invariant"},"guarantee":"correctly constructs a IDFT instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8814b5b00901b7a2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.IDFT","kind":"class","src_hash":"bbf013e2dd86a506","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DFT)"},"spec":{"lhs":"IDFT(*args)","rhs":"correctly constructs a IDFT instance","over":{"base":"Any"},"name":"IDFT_class_invariant"},"guarantee":"isinstance(self, DFT)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8814b5b00901b7a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DFT)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function IDFT not found in source"]}}
 class IDFT(DFT):
     r"""
     Returns an inverse discrete Fourier transform matrix. The matrix is scaled
@@ -156,30 +186,42 @@ class IDFT(DFT):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), w ** (-i * j) / sqrt(self.n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  w ** (-i * j) / sqrt(self.n)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b4065e91e7dc1d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f783ab339aaff87d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.IDFT._entry","kind":"method","src_hash":"0ee25c77d8debfdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.fourier.IDFT._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b4065e91e7dc1d4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.IDFT._entry","kind":"method","src_hash":"0ee25c77d8debfdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"w ** (-i * j) / sqrt(self.n)","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns w ** (-i * j) / sqrt(self.n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.fourier.IDFT._entry_correct","statement":"Path(_entry(x), returns w ** (-i * j) / sqrt(self.n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f783ab339aaff87d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"w ** (-i * j) / sqrt(self.n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         w = exp(-2*S.Pi*I/self.n)
         return w**(-i*j) / sqrt(self.n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), DFT(self.n)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DFT(self.n)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1c2b7e8eb1dddff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.IDFT._eval_inverse","kind":"method","src_hash":"7f1596d7d8f5c095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c2b7e8eb1dddff"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.fourier.IDFT._eval_inverse","kind":"method","src_hash":"7f1596d7d8f5c095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"DFT(self.n)","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"returns DFT(self.n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c2b7e8eb1dddff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DFT(self.n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         return DFT(self.n)

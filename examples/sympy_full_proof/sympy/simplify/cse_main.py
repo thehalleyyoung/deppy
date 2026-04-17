@@ -60,14 +60,20 @@ basic_optimizations = [(cse_opts.sub_pre, cse_opts.sub_post),
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(reps_toposort(r), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [r[i] for i in topological_sort((range(le...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ reps_toposort : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cd4653cb123e4842   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.reps_toposort","kind":"function","src_hash":"9846ea0f39477812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reps_toposort(r)","rhs":"sort replacements ``r`` so (k1, v1) appears before (k2, v2) if k2 is in v1's free symbols","over":{"base":"Any"},"name":"reps_toposort_correct","kind":"composition"},"guarantee":"sort replacements ``r`` so (k1, v1) appears before (k2, v2) if k2 is in v1's free symbols","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"topological_sort","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd4653cb123e4842"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.reps_toposort","kind":"function","src_hash":"9846ea0f39477812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reps_toposort(r)","rhs":"[r[i] for i in topological_sort((range(len(r)), E))]","over":{"base":"Any"},"name":"reps_toposort_correct","kind":"composition"},"guarantee":"returns [r[i] for i in topological_sort((range(len(r)), E))]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"topological_sort","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd4653cb123e4842","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[r[i] for i in topological_sort((range(len(r)), E))]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def reps_toposort(r):
     """Sort replacements ``r`` so (k1, v1) appears before (k2, v2)
     if k2 is in v1's free symbols. This orders items in the
@@ -98,16 +104,22 @@ def reps_toposort(r):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cse_separate(r, ), move expressions that are in the form (symbol, expr) out of the expressions and sort them into the replacements using the reps_toposort) over Any ║
+# ║ Path(cse_separate(r, e), [reps_toposort(r), e]) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [reps_toposort(r), e]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cse_separate : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83cefb405b34bed9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 994e64a61c529ac4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.cse_separate","kind":"function","src_hash":"b84d2130638d4af6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cse_separate(r, )","rhs":"move expressions that are in the form (symbol, expr) out of the expressions and sort them into the replacements using the reps_toposort","over":{"base":"Any"},"name":"cse_separate_correct"},"guarantee":"move expressions that are in the form (symbol, expr) out of the expressions and sort them into the replacements using the reps_toposort","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_separate_correct","statement":"Path(cse_separate(x), move expressions that are in the form (symbol, expr) out of the expressions and sort them into the replacements using the reps_toposort)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83cefb405b34bed9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.cse_separate","kind":"function","src_hash":"b84d2130638d4af6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cse_separate(r, e)","rhs":"[reps_toposort(r), e]","over":{"base":"Any"},"name":"cse_separate_correct"},"guarantee":"returns [reps_toposort(r), e]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_separate_correct","statement":"Path(cse_separate(x), returns [reps_toposort(r), e])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"994e64a61c529ac4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[reps_toposort(r), e]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cse_separate(r, e):
     """Move expressions that are in the form (symbol, expr) out of the
     expressions and sort them into the replacements using the reps_toposort.
@@ -135,16 +147,22 @@ def cse_separate(r, e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cse_release_variables(r, ), return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is either an expression or none) over Any ║
+# ║ Path(cse_release_variables(r, e), <unspecified:cse_release_variables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cse_release_variables : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb7575f9ea5f29f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.cse_release_variables","kind":"function","src_hash":"b196fc182af98511","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cse_release_variables(r, )","rhs":"return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is either an expression or none","over":{"base":"Any"},"name":"cse_release_variables_correct"},"guarantee":"return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is either an expression or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_release_variables_correct","statement":"Path(cse_release_variables(x), return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is either an expression or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb7575f9ea5f29f8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.cse_release_variables","kind":"function","src_hash":"b196fc182af98511","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cse_release_variables(r, e)","rhs":"<unspecified:cse_release_variables>","over":{"base":"Any"},"name":"cse_release_variables_correct"},"guarantee":"return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is either an expression or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_release_variables_correct","statement":"Path(cse_release_variables(x), return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is either an expression or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb7575f9ea5f29f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def cse_release_variables(r, e):
     """
     Return tuples giving ``(a, b)`` where ``a`` is a symbol and ``b`` is
@@ -216,16 +234,23 @@ def cse_release_variables(r, e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess_for_cse(exp), preprocess an expression to optimize for common subexpression elimination) over Any ║
+# ║ Path(preprocess_for_cse(expr, optimizations), expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preprocess_for_cse : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preprocess_for_cse : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4326957a52fedfd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f567e30f9108c5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.preprocess_for_cse","kind":"function","src_hash":"fc3f776ff713ba6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preprocess_for_cse(exp)","rhs":"preprocess an expression to optimize for common subexpression elimination","over":{"base":"Any"},"name":"preprocess_for_cse_correct"},"guarantee":"preprocess an expression to optimize for common subexpression elimination","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.preprocess_for_cse_correct","statement":"Path(preprocess_for_cse(x), preprocess an expression to optimize for common subexpression elimination)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4326957a52fedfd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.preprocess_for_cse","kind":"function","src_hash":"fc3f776ff713ba6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"preprocess_for_cse(expr, optimizations)","rhs":"expr","over":{"base":"Any"},"name":"preprocess_for_cse_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.preprocess_for_cse_correct","statement":"Path(preprocess_for_cse(x), returns expr; result == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f567e30f9108c5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expr"],"returns_expr":"expr","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def preprocess_for_cse(expr, optimizations):
     """ Preprocess an expression to optimize for common subexpression
     elimination.
@@ -251,16 +276,23 @@ def preprocess_for_cse(expr, optimizations):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postprocess_for_cse(exp), postprocess an expression after common subexpression elimination to return the expression to canonical sympy form) over Any ║
+# ║ Path(postprocess_for_cse(expr, optimizations), expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ postprocess_for_cse : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ postprocess_for_cse : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7b8d7d9faf76e34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb75ea910c3454c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.postprocess_for_cse","kind":"function","src_hash":"1ca33d35f48f0eae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postprocess_for_cse(exp)","rhs":"postprocess an expression after common subexpression elimination to return the expression to canonical sympy form","over":{"base":"Any"},"name":"postprocess_for_cse_correct"},"guarantee":"postprocess an expression after common subexpression elimination to return the expression to canonical sympy form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.postprocess_for_cse_correct","statement":"Path(postprocess_for_cse(x), postprocess an expression after common subexpression elimination to return the expression to canonical sympy form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7b8d7d9faf76e34"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.postprocess_for_cse","kind":"function","src_hash":"1ca33d35f48f0eae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"postprocess_for_cse(expr, optimizations)","rhs":"expr","over":{"base":"Any"},"name":"postprocess_for_cse_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.postprocess_for_cse_correct","statement":"Path(postprocess_for_cse(x), returns expr; result == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb75ea910c3454c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expr"],"returns_expr":"expr","pure":false,"effects":{"effect_type":"io","io_operations":["post"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def postprocess_for_cse(expr, optimizations):
     """Postprocess an expression after common subexpression elimination to
     return the expression to canonical SymPy form.
@@ -290,14 +322,19 @@ def postprocess_for_cse(expr, optimizations):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FuncArgTracker instance) preserved by FuncArgTracker(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FuncArgTracker : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ea3f6908f7c7288  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker","kind":"class","src_hash":"d3a8d22f0f424076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FuncArgTracker(*args)","rhs":"correctly constructs a FuncArgTracker instance","over":{"base":"Any"},"name":"FuncArgTracker_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FuncArgTracker instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'value_numbers') and hasattr(self, 'value_number_to_value') and hasattr(self, 'arg_to_funcset') and hasattr(self, 'func_to_argset')","kind":"class","induction":"structural on value_numbers, value_number_to_value, arg_to_funcset, func_to_argset"}],"methods_preserving":["__init__","get_args_in_value_order","get_or_add_value_number","stop_arg_tracking","get_common_arg_candidates","get_subset_candidates","update_func_argset"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ea3f6908f7c7288"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker","kind":"class","src_hash":"d3a8d22f0f424076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FuncArgTracker(*args)","rhs":"correctly constructs a FuncArgTracker instance","over":{"base":"Any"},"name":"FuncArgTracker_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'value_numbers') and hasattr(self, 'value_number_to_value') and hasattr(self, 'arg_to_funcset') and hasattr(self, 'func_to_argset')","kind":"class","induction":"structural on value_numbers, value_number_to_value, arg_to_funcset, func_to_argset"}],"methods_preserving":["__init__","get_args_in_value_order","get_or_add_value_number","stop_arg_tracking","get_common_arg_candidates","get_subset_candidates","update_func_argset"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ea3f6908f7c7288","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'value_numbers')","hasattr(self, 'value_number_to_value')","hasattr(self, 'arg_to_funcset')","hasattr(self, 'func_to_argset')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function FuncArgTracker not found in source"]}}
 class FuncArgTracker:
     """
     A class which manages a mapping from functions to arguments and an inverse
@@ -305,16 +342,22 @@ class FuncArgTracker:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(funcs), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3142c4283d29261c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.__init__","kind":"method","src_hash":"149759d087a347ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3142c4283d29261c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.__init__","kind":"method","src_hash":"149759d087a347ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(funcs)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3142c4283d29261c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.arg_to_funcset","self.func_to_argset","self.get_or_add_value_number"],"writes":["self.arg_to_funcset","self.func_to_argset","self.value_number_to_value","self.value_numbers"],"calls_mutating":["func_argset.add","self.func_to_argset.append"]},"state_contract":{"modifies":["func_argset.*","self.*","self.arg_to_funcset","self.func_to_argset","self.value_number_to_value","self.value_numbers"],"old_bindings":{"old_self_arg_to_funcset":"self.arg_to_funcset","old_self_func_to_argset":"self.func_to_argset","old_self_value_number_to_value":"self.value_number_to_value","old_self_value_numbers":"self.value_numbers","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, funcs):
         # To minimize the number of symbolic comparisons, all function arguments
         # get assigned a value number.
@@ -336,16 +379,22 @@ class FuncArgTracker:
             self.func_to_argset.append(func_argset)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_args_in_value_order(arg), return the list of arguments in sorted order according to their value numbers) over Any ║
+# ║ Path(get_args_in_value_order(argset), [self.value_number_to_value[argn] for argn in sorted(argset)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.value_number_to_value[argn] for arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_args_in_value_order : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71c276e3d1742f45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_args_in_value_order","kind":"method","src_hash":"d2ce81aa400a82c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_args_in_value_order(arg)","rhs":"return the list of arguments in sorted order according to their value numbers","over":{"base":"Any"},"name":"get_args_in_value_order_correct"},"guarantee":"return the list of arguments in sorted order according to their value numbers","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71c276e3d1742f45"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_args_in_value_order","kind":"method","src_hash":"d2ce81aa400a82c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_args_in_value_order(argset)","rhs":"[self.value_number_to_value[argn] for argn in sorted(argset)]","over":{"base":"Any"},"name":"get_args_in_value_order_correct"},"guarantee":"returns [self.value_number_to_value[argn] for argn in sorted(argset)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71c276e3d1742f45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.value_number_to_value[argn] for argn in sorted(argset)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.value_number_to_value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_args_in_value_order(self, argset):
         """
         Return the list of arguments in sorted order according to their value
@@ -354,16 +403,22 @@ class FuncArgTracker:
         return [self.value_number_to_value[argn] for argn in sorted(argset)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_or_add_value_number(val), return the value number for the given argument) over Any ║
+# ║ Path(get_or_add_value_number(value), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_or_add_value_number : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_or_add_value_number : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b8b8fb0b10e9647  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f1d412e6ff151d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_or_add_value_number","kind":"method","src_hash":"be7e15ae0a3d5c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_or_add_value_number(val)","rhs":"return the value number for the given argument","over":{"base":"Any"},"name":"get_or_add_value_number_correct"},"guarantee":"return the value number for the given argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.get_or_add_value_number_correct","statement":"Path(get_or_add_value_number(x), return the value number for the given argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b8b8fb0b10e9647"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_or_add_value_number","kind":"method","src_hash":"be7e15ae0a3d5c84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"get_or_add_value_number(value)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"get_or_add_value_number_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.get_or_add_value_number_correct","statement":"Path(get_or_add_value_number(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f1d412e6ff151d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.arg_to_funcset","self.value_number_to_value","self.value_numbers"],"calls_mutating":["self.arg_to_funcset.append","self.value_number_to_value.append","self.value_numbers.setdefault"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_or_add_value_number(self, value):
         """
         Return the value number for the given argument.
@@ -376,16 +431,22 @@ class FuncArgTracker:
         return value_number
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop_arg_tracking(fun), remove the function func_i from the argument to function mapping) over Any ║
+# ║ Path(stop_arg_tracking(func_i), <unspecified:stop_arg_tracking>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop_arg_tracking : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5e7392e780fd4f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.stop_arg_tracking","kind":"method","src_hash":"af94c79bf432988f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop_arg_tracking(fun)","rhs":"remove the function func_i from the argument to function mapping","over":{"base":"Any"},"name":"stop_arg_tracking_correct"},"guarantee":"remove the function func_i from the argument to function mapping","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.stop_arg_tracking_correct","statement":"Path(stop_arg_tracking(x), remove the function func_i from the argument to function mapping)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5e7392e780fd4f8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.stop_arg_tracking","kind":"method","src_hash":"af94c79bf432988f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop_arg_tracking(func_i)","rhs":"<unspecified:stop_arg_tracking>","over":{"base":"Any"},"name":"stop_arg_tracking_correct"},"guarantee":"remove the function func_i from the argument to function mapping","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.stop_arg_tracking_correct","statement":"Path(stop_arg_tracking(x), remove the function func_i from the argument to function mapping)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5e7392e780fd4f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg_to_funcset","self.func_to_argset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop_arg_tracking(self, func_i):
         """
         Remove the function func_i from the argument to function mapping.
@@ -395,16 +456,22 @@ class FuncArgTracker:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_common_arg_candidates(arg), return a dict whose keys are function numbers) over Any ║
+# ║ Path(get_common_arg_candidates(argset, min_func_i), <unspecified:get_common_arg_candidates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_common_arg_candidates : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12b2b9d284ebb657  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_common_arg_candidates","kind":"method","src_hash":"0de04828ae046706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_common_arg_candidates(arg)","rhs":"return a dict whose keys are function numbers","over":{"base":"Any"},"name":"get_common_arg_candidates_correct"},"guarantee":"return a dict whose keys are function numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.get_common_arg_candidates_correct","statement":"Path(get_common_arg_candidates(x), return a dict whose keys are function numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12b2b9d284ebb657"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_common_arg_candidates","kind":"method","src_hash":"0de04828ae046706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_common_arg_candidates(argset, min_func_i)","rhs":"<unspecified:get_common_arg_candidates>","over":{"base":"Any"},"name":"get_common_arg_candidates_correct"},"guarantee":"return a dict whose keys are function numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.get_common_arg_candidates_correct","statement":"Path(get_common_arg_candidates(x), return a dict whose keys are function numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12b2b9d284ebb657","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg_to_funcset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_common_arg_candidates(self, argset, min_func_i=0):
         """Return a dict whose keys are function numbers. The entries of the dict are
         the number of arguments said function has in common with
@@ -446,16 +513,22 @@ class FuncArgTracker:
         return {k: v for k, v in count_map.items() if v >= 2}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_subset_candidates(arg), return a set of functions each of which whose argument list contains ``argset``, optionally filtered only to contain functions in ``restrict_to_funcset``) over Any ║
+# ║ Path(get_subset_candidates(argset, restrict_to_funcset), <unspecified:get_subset_candidates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_subset_candidates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3e813b818b3ead3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_subset_candidates","kind":"method","src_hash":"7bfa3400d0342897","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_subset_candidates(arg)","rhs":"return a set of functions each of which whose argument list contains ``argset``, optionally filtered only to contain functions in ``restrict_to_funcset``","over":{"base":"Any"},"name":"get_subset_candidates_correct"},"guarantee":"return a set of functions each of which whose argument list contains ``argset``, optionally filtered only to contain functions in ``restrict_to_funcset``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.get_subset_candidates_correct","statement":"Path(get_subset_candidates(x), return a set of functions each of which whose argument list contains ``argset``, optionally filtered only to contain functions in ``restrict_to_funcset``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3e813b818b3ead3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.get_subset_candidates","kind":"method","src_hash":"7bfa3400d0342897","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_subset_candidates(argset, restrict_to_funcset)","rhs":"<unspecified:get_subset_candidates>","over":{"base":"Any"},"name":"get_subset_candidates_correct"},"guarantee":"return a set of functions each of which whose argument list contains ``argset``, optionally filtered only to contain functions in ``restrict_to_funcset``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.get_subset_candidates_correct","statement":"Path(get_subset_candidates(x), return a set of functions each of which whose argument list contains ``argset``, optionally filtered only to contain functions in ``restrict_to_funcset``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3e813b818b3ead3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg_to_funcset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_subset_candidates(self, argset, restrict_to_funcset=None):
         """
         Return a set of functions each of which whose argument list contains
@@ -476,16 +549,22 @@ class FuncArgTracker:
         return indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update_func_argset(fun), update a function with a new set of arguments) over Any ║
+# ║ Path(update_func_argset(func_i, new_argset), <unspecified:update_func_argset>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update_func_argset : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6abdcdd6ab493881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.update_func_argset","kind":"method","src_hash":"efef9a215cab48fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_func_argset(fun)","rhs":"update a function with a new set of arguments","over":{"base":"Any"},"name":"update_func_argset_correct"},"guarantee":"update a function with a new set of arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.update_func_argset_correct","statement":"Path(update_func_argset(x), update a function with a new set of arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6abdcdd6ab493881"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.FuncArgTracker.update_func_argset","kind":"method","src_hash":"efef9a215cab48fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_func_argset(func_i, new_argset)","rhs":"<unspecified:update_func_argset>","over":{"base":"Any"},"name":"update_func_argset_correct"},"guarantee":"update a function with a new set of arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.FuncArgTracker.update_func_argset_correct","statement":"Path(update_func_argset(x), update a function with a new set of arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6abdcdd6ab493881","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg_to_funcset","self.func_to_argset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update_func_argset(self, func_i, new_argset):
         """
         Update a function with a new set of arguments.
@@ -505,72 +584,102 @@ class FuncArgTracker:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Unevaluated instance) preserved by Unevaluated(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Unevaluated : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46071548e205adff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated","kind":"class","src_hash":"9d565a2a592a9c4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Unevaluated(*args)","rhs":"correctly constructs a Unevaluated instance","over":{"base":"Any"},"name":"Unevaluated_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Unevaluated instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'args')","kind":"class","induction":"structural on func, args"}],"methods_preserving":["__init__","__str__","as_unevaluated_basic","free_symbols"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46071548e205adff"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated","kind":"class","src_hash":"9d565a2a592a9c4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Unevaluated(*args)","rhs":"correctly constructs a Unevaluated instance","over":{"base":"Any"},"name":"Unevaluated_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'args')","kind":"class","induction":"structural on func, args"}],"methods_preserving":["__init__","__str__","as_unevaluated_basic","free_symbols"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46071548e205adff","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'func')","hasattr(self, 'args')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Unevaluated not found in source"]}}
 class Unevaluated:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(func, args), self.func == func and self.args == args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.func == func                              ║
+# ║   ensures:  self.args == args                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.func =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e76536d17164a14d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.__init__","kind":"method","src_hash":"f9b54aad654bc1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e76536d17164a14d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.__init__","kind":"method","src_hash":"f9b54aad654bc1a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.func == func and self.args == args"},"spec":{"lhs":"__init__(func, args)","rhs":"self.func == func and self.args == args","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.func == func; self.args == args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e76536d17164a14d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.func == func","self.args == args"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, func, args):
         self.func = func
         self.args = args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'Uneval<{}>({})'.format(self.func, ', '.join((str(a) for a in self.args)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Uneval<{}>({})'.format(self.func, ', '.j...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3ba5f1efe01ad39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.__str__","kind":"method","src_hash":"fba6671a02482265","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3ba5f1efe01ad39"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.__str__","kind":"method","src_hash":"fba6671a02482265","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'Uneval<{}>({})'.format(self.func, ', '.join((str(a) for a in self.args)))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'Uneval<{}>({})'.format(self.func, ', '.join((str(a) for a in self.args)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3ba5f1efe01ad39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Uneval<{}>({})'.format(self.func, ', '.join((str(a) for a in self.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "Uneval<{}>({})".format(
                 self.func, ", ".join(str(a) for a in self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_unevaluated_basic(), as_unevaluated_basic produces the expected output) over Any ║
+# ║ Path(as_unevaluated_basic(), self.func(*self.args, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*self.args, evaluate=False)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_unevaluated_basic : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aca9eacb6f4abcf5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.as_unevaluated_basic","kind":"method","src_hash":"ed98dd130fc45f5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_unevaluated_basic()","rhs":"as_unevaluated_basic produces the expected output","over":{"base":"Any"},"name":"as_unevaluated_basic_correct"},"guarantee":"as_unevaluated_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aca9eacb6f4abcf5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.as_unevaluated_basic","kind":"method","src_hash":"ed98dd130fc45f5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_unevaluated_basic()","rhs":"self.func(*self.args, evaluate=False)","over":{"base":"Any"},"name":"as_unevaluated_basic_correct"},"guarantee":"returns self.func(*self.args, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aca9eacb6f4abcf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*self.args, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_unevaluated_basic(self):
         return self.func(*self.args, evaluate=False)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), set().union(*[a.free_symbols for a in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set().union(*[a.free_symbols for a in sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25efb2de4933efb1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.free_symbols","kind":"property","src_hash":"26c651fd0debc8cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25efb2de4933efb1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.Unevaluated.free_symbols","kind":"property","src_hash":"26c651fd0debc8cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"set().union(*[a.free_symbols for a in self.args])","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns set().union(*[a.free_symbols for a in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25efb2de4933efb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set().union(*[a.free_symbols for a in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return set().union(*[a.free_symbols for a in self.args])
 
@@ -578,16 +687,23 @@ class Unevaluated:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(match_common_args(fun), recognize and extract common subexpressions of function arguments within a set of function calls) over Any ║
+# ║ Path(match_common_args(func_class, funcs, opt_subs), len(common_arg_candidates) == old_len_common_arg_candidates - 1) over {Any | len(common_arg_candidates) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ match_common_args : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(common_arg_candidates) > 0                 ║
+# ║   ensures:  len(common_arg_candidates) == old_len_com...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ match_common_args : {Any | len(common_arg_candidates)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ad00702fade3c94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6d9c73954747151  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.match_common_args","kind":"function","src_hash":"ab1b4fee0f1fb696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"match_common_args(fun)","rhs":"recognize and extract common subexpressions of function arguments within a set of function calls","over":{"base":"Any"},"name":"match_common_args_correct"},"guarantee":"recognize and extract common subexpressions of function arguments within a set of function calls","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.match_common_args_correct","statement":"Path(match_common_args(x), recognize and extract common subexpressions of function arguments within a set of function calls)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ad00702fade3c94"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.match_common_args","kind":"function","src_hash":"ab1b4fee0f1fb696","in":{"base":"Any","pred":"len(common_arg_candidates) > 0"},"out":{"base":"Any","pred":"result satisfies: len(common_arg_candidates) == old_len_common_arg_candidates - 1"},"spec":{"lhs":"match_common_args(func_class, funcs, opt_subs)","rhs":"len(common_arg_candidates) == old_len_common_arg_candidates - 1","over":{"base":"Any","pred":"len(common_arg_candidates) > 0"},"name":"match_common_args_correct"},"guarantee":"len(common_arg_candidates) == old_len_common_arg_candidates - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.match_common_args_correct","statement":"Path(match_common_args(x), len(common_arg_candidates) == old_len_common_arg_candidates - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6d9c73954747151","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(common_arg_candidates) > 0"],"ensures":["len(common_arg_candidates) == old_len_common_arg_candidates - 1"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["opt_subs[*]"],"calls_mutating":["changed.add","common_arg_candidates.pop"]},"state_contract":{"modifies":["changed.*","common_arg_candidates.*","opt_subs[*]"],"old_bindings":{"old_opt_subs_star":"opt_subs[*]","old_len_common_arg_candidates":"len(common_arg_candidates)"},"pre_requires":["len(common_arg_candidates) > 0"],"post_ensures":["len(common_arg_candidates) == old_len_common_arg_candidates - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def match_common_args(func_class, funcs, opt_subs):
     """
     Recognize and extract common subexpressions of function arguments within a
@@ -683,7 +799,10 @@ def match_common_args(func_class, funcs, opt_subs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(opt_cse(exp), find optimization opportunities in adds, muls, pows and negative coefficient muls) over {Any | isinstance(expr, (Mul, MatMul)) and isinstance(e, (Basic, Unevaluated)) and isinstance(expr, Add)} ║
+# ║ Path(opt_cse(exprs, order), <unspecified:opt_cse>) over {Any | isinstance(expr, (Mul, MatMul)) and isinstance(e, (Basic, Unevaluated)) and isinstance(expr, Add)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ opt_cse : {Any | isinstance(expr, (Mul, MatMul)) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -699,9 +818,12 @@ def match_common_args(func_class, funcs, opt_subs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓16 ?8 ✗14 VCs | 46.9ms                       ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b2fada2e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.opt_cse","kind":"function","src_hash":"23b488d48faec56b","in":{"base":"Any","pred":"isinstance(expr, (Mul, MatMul)) and isinstance(e, (Basic, Unevaluated)) and isinstance(expr, Add)"},"out":{"base":"Any"},"spec":{"lhs":"opt_cse(exp)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"Any","pred":"isinstance(expr, (Mul, MatMul)) and isinstance(e, (Basic, Unevaluated)) and isinstance(expr, Add)"},"name":"opt_cse_correct"},"guarantee":"find optimization opportunities in adds, muls, pows and negative coefficient muls","fibers":[{"name":"(Mul","pred":"isinstance(expr, (Mul, MatMul))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Mul","pred":"isinstance(expr, (Mul, MatMul))"},"name":"opt_cse_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Mul_correct","statement":"opt_cse satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(Basic","pred":"isinstance(e, (Basic, Unevaluated))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Basic","pred":"isinstance(e, (Basic, Unevaluated))"},"name":"opt_cse_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Basic_correct","statement":"opt_cse satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"opt_cse_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_Add_correct","statement":"opt_cse satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(expr, (Add, MatAdd))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Add","pred":"isinstance(expr, (Add, MatAdd))"},"name":"opt_cse_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Add_correct","statement":"opt_cse satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"opt_cse_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_MatrixExpr_correct","statement":"opt_cse satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"Inverse","pred":"isinstance(expr, Inverse)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"Inverse","pred":"isinstance(expr, Inverse)"},"name":"opt_cse_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_Inverse_correct","statement":"opt_cse satisfies spec on Inverse inputs"},"trust":"LIBRARY"},{"name":"(Pow","pred":"isinstance(expr, (Pow, MatPow))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Pow","pred":"isinstance(expr, (Pow, MatPow))"},"name":"opt_cse_(Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Pow_correct","statement":"opt_cse satisfies spec on (Pow inputs"},"trust":"LIBRARY"},{"name":"MatMul","pred":"isinstance(m, MatMul)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"MatMul","pred":"isinstance(m, MatMul)"},"name":"opt_cse_MatMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_MatMul_correct","statement":"opt_cse satisfies spec on MatMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":8,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b2fada2e5bb31f90"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.opt_cse","kind":"function","src_hash":"23b488d48faec56b","in":{"base":"Any","pred":"isinstance(expr, (Mul, MatMul)) and isinstance(e, (Basic, Unevaluated)) and isinstance(expr, Add)"},"out":{"base":"Any"},"spec":{"lhs":"opt_cse(exprs, order)","rhs":"<unspecified:opt_cse>","over":{"base":"Any","pred":"isinstance(expr, (Mul, MatMul)) and isinstance(e, (Basic, Unevaluated)) and isinstance(expr, Add)"},"name":"opt_cse_correct"},"guarantee":"find optimization opportunities in adds, muls, pows and negative coefficient muls","fibers":[{"name":"(Mul","pred":"isinstance(expr, (Mul, MatMul))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Mul","pred":"isinstance(expr, (Mul, MatMul))"},"name":"opt_cse_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Mul_correct","statement":"opt_cse satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(Basic","pred":"isinstance(e, (Basic, Unevaluated))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Basic","pred":"isinstance(e, (Basic, Unevaluated))"},"name":"opt_cse_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Basic_correct","statement":"opt_cse satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"opt_cse_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_Add_correct","statement":"opt_cse satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(expr, (Add, MatAdd))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Add","pred":"isinstance(expr, (Add, MatAdd))"},"name":"opt_cse_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Add_correct","statement":"opt_cse satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"opt_cse_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_MatrixExpr_correct","statement":"opt_cse satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"Inverse","pred":"isinstance(expr, Inverse)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"Inverse","pred":"isinstance(expr, Inverse)"},"name":"opt_cse_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_Inverse_correct","statement":"opt_cse satisfies spec on Inverse inputs"},"trust":"LIBRARY"},{"name":"(Pow","pred":"isinstance(expr, (Pow, MatPow))","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"(Pow","pred":"isinstance(expr, (Pow, MatPow))"},"name":"opt_cse_(Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_(Pow_correct","statement":"opt_cse satisfies spec on (Pow inputs"},"trust":"LIBRARY"},{"name":"MatMul","pred":"isinstance(m, MatMul)","path":{"lhs":"opt_cse(x)","rhs":"find optimization opportunities in adds, muls, pows and negative coefficient muls","over":{"base":"MatMul","pred":"isinstance(m, MatMul)"},"name":"opt_cse_MatMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.opt_cse_MatMul_correct","statement":"opt_cse satisfies spec on MatMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":8,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b2fada2e5bb31f90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":38,"n_verified":16,"n_assumed":8,"n_failed":14,"trust_level":"LIBRARY_ASSUMED","compile_ms":46.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, (Basic, Unevaluated))', 'isinstance(expr, Add)', 'len(c) > 1', 'isinstance(expr, (Mul, MatMul))', 'not isinstance(expr, (Basic, Unevaluated))', 'isinstance(expr, (Add, MatAdd))', 'isinstance(expr, (Pow, MatPow))', 'not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign()', 'c_mul == 1', 'len(expr.args) == 1', 'isinstance(expr, Inverse)', 'isinstance(m, MatMul)'}, fibers={'(Basic', '(Add', '(Pow', '(Mul', 'MatMul', 'Add', 'MatrixExpr', 'Inverse'})"]}}
 def opt_cse(exprs, order='canonical'):
     """Find optimization opportunities in Adds, Muls, Pows and negative
     coefficient Muls.
@@ -827,7 +949,11 @@ def opt_cse(exprs, order='canonical'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tree_cse(exp), perform raw cse on expression tree, taking opt_subs into account) over {Any | isinstance(expr, RootOf) and isinstance(e, Basic) and isinstance(expr, (Basic, Unevaluated))} ║
+# ║ Path(tree_cse(exprs, symbols, opt_subs), len(reduced_exprs) == old_len_reduced_exprs + 1 and len(replacements) == old_len_replacements + 1) over {Any | isinstance(expr, RootOf) and isinstance(e, Basic) and isinstance(expr, (Basic, Unevaluated))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(reduced_exprs) == old_len_reduced_exp...   ║
+# ║   ensures:  len(replacements) == old_len_replacements...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tree_cse : {Any | isinstance(expr, RootOf) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -843,9 +969,12 @@ def opt_cse(exprs, order='canonical'):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓16 ?8 ✗14 VCs | 42.6ms                       ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6dc1e6a3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.tree_cse","kind":"function","src_hash":"4bc9830c639a8d4e","in":{"base":"Any","pred":"isinstance(expr, RootOf) and isinstance(e, Basic) and isinstance(expr, (Basic, Unevaluated))"},"out":{"base":"Any"},"spec":{"lhs":"tree_cse(exp)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"Any","pred":"isinstance(expr, RootOf) and isinstance(e, Basic) and isinstance(expr, (Basic, Unevaluated))"},"name":"tree_cse_correct"},"guarantee":"perform raw cse on expression tree, taking opt_subs into account","fibers":[{"name":"RootOf","pred":"isinstance(expr, RootOf)","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"RootOf","pred":"isinstance(expr, RootOf)"},"name":"tree_cse_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_RootOf_correct","statement":"tree_cse satisfies spec on RootOf inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"tree_cse_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_Basic_correct","statement":"tree_cse satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"(Basic","pred":"isinstance(expr, (Basic, Unevaluated))","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"(Basic","pred":"isinstance(expr, (Basic, Unevaluated))"},"name":"tree_cse_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(Basic_correct","statement":"tree_cse satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(expr, (Mul, MatMul))","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"(Mul","pred":"isinstance(expr, (Mul, MatMul))"},"name":"tree_cse_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(Mul_correct","statement":"tree_cse satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"Unevaluated","pred":"isinstance(expr, Unevaluated)","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"Unevaluated","pred":"isinstance(expr, Unevaluated)"},"name":"tree_cse_Unevaluated_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_Unevaluated_correct","statement":"tree_cse satisfies spec on Unevaluated inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(orig_expr, MatrixExpr)","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"MatrixExpr","pred":"isinstance(orig_expr, MatrixExpr)"},"name":"tree_cse_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_MatrixExpr_correct","statement":"tree_cse satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"(MatrixSymbol","pred":"isinstance(expr, (MatrixSymbol, MatrixElement))","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"(MatrixSymbol","pred":"isinstance(expr, (MatrixSymbol, MatrixElement))"},"name":"tree_cse_(MatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(MatrixSymbol_correct","statement":"tree_cse satisfies spec on (MatrixSymbol inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(expr, (Add, MatAdd))","path":{"lhs":"tree_cse(x)","rhs":"perform raw cse on expression tree, taking opt_subs into account","over":{"base":"(Add","pred":"isinstance(expr, (Add, MatAdd))"},"name":"tree_cse_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(Add_correct","statement":"tree_cse satisfies spec on (Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":8,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6dc1e6a3a8f34e84"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.tree_cse","kind":"function","src_hash":"4bc9830c639a8d4e","in":{"base":"Any","pred":"isinstance(expr, RootOf) and isinstance(e, Basic) and isinstance(expr, (Basic, Unevaluated))"},"out":{"base":"Any","pred":"result satisfies: len(reduced_exprs) == old_len_reduced_exprs + 1 and len(replacements) == old_len_replacements + 1"},"spec":{"lhs":"tree_cse(exprs, symbols, opt_subs)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1 and len(replacements) == old_len_replacements + 1","over":{"base":"Any","pred":"isinstance(expr, RootOf) and isinstance(e, Basic) and isinstance(expr, (Basic, Unevaluated))"},"name":"tree_cse_correct"},"guarantee":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","fibers":[{"name":"RootOf","pred":"isinstance(expr, RootOf)","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"RootOf","pred":"isinstance(expr, RootOf)"},"name":"tree_cse_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_RootOf_correct","statement":"tree_cse satisfies spec on RootOf inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"tree_cse_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_Basic_correct","statement":"tree_cse satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"(Basic","pred":"isinstance(expr, (Basic, Unevaluated))","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"(Basic","pred":"isinstance(expr, (Basic, Unevaluated))"},"name":"tree_cse_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(Basic_correct","statement":"tree_cse satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(expr, (Mul, MatMul))","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"(Mul","pred":"isinstance(expr, (Mul, MatMul))"},"name":"tree_cse_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(Mul_correct","statement":"tree_cse satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"Unevaluated","pred":"isinstance(expr, Unevaluated)","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"Unevaluated","pred":"isinstance(expr, Unevaluated)"},"name":"tree_cse_Unevaluated_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_Unevaluated_correct","statement":"tree_cse satisfies spec on Unevaluated inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(orig_expr, MatrixExpr)","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"MatrixExpr","pred":"isinstance(orig_expr, MatrixExpr)"},"name":"tree_cse_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_MatrixExpr_correct","statement":"tree_cse satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"(MatrixSymbol","pred":"isinstance(expr, (MatrixSymbol, MatrixElement))","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"(MatrixSymbol","pred":"isinstance(expr, (MatrixSymbol, MatrixElement))"},"name":"tree_cse_(MatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(MatrixSymbol_correct","statement":"tree_cse satisfies spec on (MatrixSymbol inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(expr, (Add, MatAdd))","path":{"lhs":"tree_cse(x)","rhs":"len(reduced_exprs) == old_len_reduced_exprs + 1; len(replacements) == old_len_replacements + 1","over":{"base":"(Add","pred":"isinstance(expr, (Add, MatAdd))"},"name":"tree_cse_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.tree_cse_(Add_correct","statement":"tree_cse satisfies spec on (Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":8,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6dc1e6a3a8f34e84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(reduced_exprs) == old_len_reduced_exprs + 1","len(replacements) == old_len_replacements + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["excluded_symbols.add","reduced_exprs.append","replacements.append","seen_subexp.add","to_eliminate.add"],"raises":["ValueError"],"catches":["StopIteration"]},"state_contract":{"modifies":["excluded_symbols.*","reduced_exprs.*","replacements.*","seen_subexp.*","to_eliminate.*"],"old_bindings":{"old_len_reduced_exprs":"len(reduced_exprs)","old_len_replacements":"len(replacements)"},"post_ensures":["len(reduced_exprs) == old_len_reduced_exprs + 1","len(replacements) == old_len_replacements + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":38,"n_verified":16,"n_assumed":8,"n_failed":14,"trust_level":"LIBRARY_ASSUMED","compile_ms":42.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'c == [1]', 'opt_subs is None', 'isinstance(e, Basic)', 'isinstance(expr, RootOf)', \"order != 'none'\", 'isinstance(expr, Unevaluated) or new_args != args', 'isinstance(expr, (Mul, MatMul))', 'isinstance(expr, (Add, MatAdd))', 'not isinstance(expr, (Basic, Unevaluated))', 'isinstance(expr, Basic) and (expr.is_Atom or expr.is_Order or isinstance(expr, (MatrixSymbol, MatrixElement)))', 'isinstance(orig_expr, MatrixExpr)'}, fibers={'(MatrixSymbol', '(Basic', '(Add', 'Unevaluated', 'RootOf', '(Mul', 'Basic', 'MatrixExpr'})"]}}
 def tree_cse(exprs, symbols, opt_subs=None, order='canonical', ignore=()):
     """Perform raw CSE on expression tree, taking opt_subs into account.
 
@@ -992,7 +1121,10 @@ def tree_cse(exprs, symbols, opt_subs=None, order='canonical', ignore=()):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cse(exp), perform common subexpression elimination on an expression) over {Any | isinstance(exprs, (int, float)) and isinstance(exprs, (Basic, MatrixBase)) and isinstance(e, (Matrix, ImmutableMatrix))} ║
+# ║ Path(cse(exprs, symbols, optimizations), <unspecified:cse>) over {Any | isinstance(exprs, (int, float)) and isinstance(exprs, (Basic, MatrixBase)) and isinstance(e, (Matrix, ImmutableMatrix))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cse : {Any | isinstance(exprs, (int, float)) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1008,9 +1140,12 @@ def tree_cse(exprs, symbols, opt_subs=None, order='canonical', ignore=()):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓8 ?6 ✗9 VCs | 25.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ff4c99a3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.cse","kind":"function","src_hash":"299fdabb72f57d90","in":{"base":"Any","pred":"isinstance(exprs, (int, float)) and isinstance(exprs, (Basic, MatrixBase)) and isinstance(e, (Matrix, ImmutableMatrix))"},"out":{"base":"Any"},"spec":{"lhs":"cse(exp)","rhs":"perform common subexpression elimination on an expression","over":{"base":"Any","pred":"isinstance(exprs, (int, float)) and isinstance(exprs, (Basic, MatrixBase)) and isinstance(e, (Matrix, ImmutableMatrix))"},"name":"cse_correct"},"guarantee":"perform common subexpression elimination on an expression","fibers":[{"name":"(int","pred":"isinstance(exprs, (int, float))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(int","pred":"isinstance(exprs, (int, float))"},"name":"cse_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(int_correct","statement":"cse satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"(Basic","pred":"isinstance(exprs, (Basic, MatrixBase))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(Basic","pred":"isinstance(exprs, (Basic, MatrixBase))"},"name":"cse_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(Basic_correct","statement":"cse satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"(Matrix","pred":"isinstance(e, (Matrix, ImmutableMatrix))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(Matrix","pred":"isinstance(e, (Matrix, ImmutableMatrix))"},"name":"cse_(Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(Matrix_correct","statement":"cse satisfies spec on (Matrix inputs"},"trust":"LIBRARY"},{"name":"(SparseMatrix","pred":"isinstance(e, (SparseMatrix, ImmutableSparseMatrix))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(SparseMatrix","pred":"isinstance(e, (SparseMatrix, ImmutableSparseMatrix))"},"name":"cse_(SparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(SparseMatrix_correct","statement":"cse satisfies spec on (SparseMatrix inputs"},"trust":"LIBRARY"},{"name":"ImmutableMatrix","pred":"isinstance(e, ImmutableMatrix)","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"ImmutableMatrix","pred":"isinstance(e, ImmutableMatrix)"},"name":"cse_ImmutableMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_ImmutableMatrix_correct","statement":"cse satisfies spec on ImmutableMatrix inputs"},"trust":"LIBRARY"},{"name":"ImmutableSparseMatrix","pred":"isinstance(e, ImmutableSparseMatrix)","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"ImmutableSparseMatrix","pred":"isinstance(e, ImmutableSparseMatrix)"},"name":"cse_ImmutableSparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_ImmutableSparseMatrix_correct","statement":"cse satisfies spec on ImmutableSparseMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ff4c99a397fbb517"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main.cse","kind":"function","src_hash":"299fdabb72f57d90","in":{"base":"Any","pred":"isinstance(exprs, (int, float)) and isinstance(exprs, (Basic, MatrixBase)) and isinstance(e, (Matrix, ImmutableMatrix))"},"out":{"base":"Any"},"spec":{"lhs":"cse(exprs, symbols, optimizations)","rhs":"<unspecified:cse>","over":{"base":"Any","pred":"isinstance(exprs, (int, float)) and isinstance(exprs, (Basic, MatrixBase)) and isinstance(e, (Matrix, ImmutableMatrix))"},"name":"cse_correct"},"guarantee":"perform common subexpression elimination on an expression","fibers":[{"name":"(int","pred":"isinstance(exprs, (int, float))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(int","pred":"isinstance(exprs, (int, float))"},"name":"cse_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(int_correct","statement":"cse satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"(Basic","pred":"isinstance(exprs, (Basic, MatrixBase))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(Basic","pred":"isinstance(exprs, (Basic, MatrixBase))"},"name":"cse_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(Basic_correct","statement":"cse satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"(Matrix","pred":"isinstance(e, (Matrix, ImmutableMatrix))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(Matrix","pred":"isinstance(e, (Matrix, ImmutableMatrix))"},"name":"cse_(Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(Matrix_correct","statement":"cse satisfies spec on (Matrix inputs"},"trust":"LIBRARY"},{"name":"(SparseMatrix","pred":"isinstance(e, (SparseMatrix, ImmutableSparseMatrix))","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"(SparseMatrix","pred":"isinstance(e, (SparseMatrix, ImmutableSparseMatrix))"},"name":"cse_(SparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_(SparseMatrix_correct","statement":"cse satisfies spec on (SparseMatrix inputs"},"trust":"LIBRARY"},{"name":"ImmutableMatrix","pred":"isinstance(e, ImmutableMatrix)","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"ImmutableMatrix","pred":"isinstance(e, ImmutableMatrix)"},"name":"cse_ImmutableMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_ImmutableMatrix_correct","statement":"cse satisfies spec on ImmutableMatrix inputs"},"trust":"LIBRARY"},{"name":"ImmutableSparseMatrix","pred":"isinstance(e, ImmutableSparseMatrix)","path":{"lhs":"cse(x)","rhs":"perform common subexpression elimination on an expression","over":{"base":"ImmutableSparseMatrix","pred":"isinstance(e, ImmutableSparseMatrix)"},"name":"cse_ImmutableSparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main.cse_ImmutableSparseMatrix_correct","statement":"cse satisfies spec on ImmutableSparseMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ff4c99a397fbb517","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":8,"n_assumed":6,"n_failed":9,"trust_level":"LIBRARY_ASSUMED","compile_ms":25.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'symbols is None', 'isinstance(e, (SparseMatrix, ImmutableSparseMatrix))', 'isinstance(e, ImmutableSparseMatrix)', 'optimizations is None', 'isinstance(exprs, (Basic, MatrixBase))', 'postprocess is None', 'isinstance(e, (Matrix, ImmutableMatrix))', 'isinstance(e, ImmutableMatrix)', \"optimizations == 'basic'\", 'isinstance(exprs, (int, float))'}, fibers={'(Matrix', '(Basic', '(SparseMatrix', 'ImmutableSparseMatrix', 'ImmutableMatrix', '(int'})"]}}
 def cse(exprs, symbols=None, optimizations=None, postprocess=None,
         order='canonical', ignore=(), list=True):
     """ Perform common subexpression elimination on an expression.
@@ -1165,7 +1300,11 @@ def cse(exprs, symbols=None, optimizations=None, postprocess=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cse_homogeneous(exp), same as ``cse`` but the ``reduced_exprs`` are returned with the same type as ``exprs`` or a sympified version of the same) over {Any | isinstance(exprs, str) and isinstance(exprs, (list, tuple, set)) and isinstance(exprs, dict)} ║
+# ║ Path(_cse_homogeneous(exprs, **kwargs), # HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)) over {Any | isinstance(exprs, str) and isinstance(exprs, (list, tuple, set)) and isinstance(exprs, dict) and hasattr(exprs, 'keys')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(exprs, 'keys')                         ║
+# ║   ensures:  # HINT: _cse_homogeneous may be idempoten...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _cse_homogeneous : {Any | isinstance(exprs, str) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1179,9 +1318,12 @@ def cse(exprs, symbols=None, optimizations=None, postprocess=None,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 68d57c3b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main._cse_homogeneous","kind":"function","src_hash":"d42c728b795d5075","in":{"base":"Any","pred":"isinstance(exprs, str) and isinstance(exprs, (list, tuple, set)) and isinstance(exprs, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_cse_homogeneous(exp)","rhs":"same as ``cse`` but the ``reduced_exprs`` are returned with the same type as ``exprs`` or a sympified version of the same","over":{"base":"Any","pred":"isinstance(exprs, str) and isinstance(exprs, (list, tuple, set)) and isinstance(exprs, dict)"},"name":"_cse_homogeneous_correct"},"guarantee":"same as ``cse`` but the ``reduced_exprs`` are returned with the same type as ``exprs`` or a sympified version of the same","fibers":[{"name":"str","pred":"isinstance(exprs, str)","path":{"lhs":"_cse_homogeneous(x)","rhs":"same as ``cse`` but the ``reduced_exprs`` are returned with the same type as ``exprs`` or a sympified version of the same","over":{"base":"str","pred":"isinstance(exprs, str)"},"name":"_cse_homogeneous_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main._cse_homogeneous_str_correct","statement":"_cse_homogeneous satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(exprs, (list, tuple, set))","path":{"lhs":"_cse_homogeneous(x)","rhs":"same as ``cse`` but the ``reduced_exprs`` are returned with the same type as ``exprs`` or a sympified version of the same","over":{"base":"(list","pred":"isinstance(exprs, (list, tuple, set))"},"name":"_cse_homogeneous_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main._cse_homogeneous_(list_correct","statement":"_cse_homogeneous satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(exprs, dict)","path":{"lhs":"_cse_homogeneous(x)","rhs":"same as ``cse`` but the ``reduced_exprs`` are returned with the same type as ``exprs`` or a sympified version of the same","over":{"base":"dict","pred":"isinstance(exprs, dict)"},"name":"_cse_homogeneous_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main._cse_homogeneous_dict_correct","statement":"_cse_homogeneous satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"68d57c3b6ddde9cf"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_main._cse_homogeneous","kind":"function","src_hash":"d42c728b795d5075","in":{"base":"Any","pred":"isinstance(exprs, str) and isinstance(exprs, (list, tuple, set)) and isinstance(exprs, dict) and hasattr(exprs, 'keys')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)"},"spec":{"lhs":"_cse_homogeneous(exprs, **kwargs)","rhs":"# HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)","over":{"base":"Any","pred":"isinstance(exprs, str) and isinstance(exprs, (list, tuple, set)) and isinstance(exprs, dict) and hasattr(exprs, 'keys')"},"name":"_cse_homogeneous_correct"},"guarantee":"# HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)","fibers":[{"name":"str","pred":"isinstance(exprs, str)","path":{"lhs":"_cse_homogeneous(x)","rhs":"# HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)","over":{"base":"str","pred":"isinstance(exprs, str)"},"name":"_cse_homogeneous_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main._cse_homogeneous_str_correct","statement":"_cse_homogeneous satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(exprs, (list, tuple, set))","path":{"lhs":"_cse_homogeneous(x)","rhs":"# HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)","over":{"base":"(list","pred":"isinstance(exprs, (list, tuple, set))"},"name":"_cse_homogeneous_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main._cse_homogeneous_(list_correct","statement":"_cse_homogeneous satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(exprs, dict)","path":{"lhs":"_cse_homogeneous(x)","rhs":"# HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)","over":{"base":"dict","pred":"isinstance(exprs, dict)"},"name":"_cse_homogeneous_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_main._cse_homogeneous_dict_correct","statement":"_cse_homogeneous satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"68d57c3b6ddde9cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(exprs, 'keys')"],"ensures":["# HINT: _cse_homogeneous may be idempotent: _cse_homogeneous(_cse_homogeneous(x)) == _cse_homogeneous(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["exprs.keys"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['exprs'], spec=['exprs', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(exprs, (list, tuple, set))', 'isinstance(exprs, dict)', 'isinstance(exprs, str)'}, fibers={'dict', 'str', '(list'})"]}}
 def _cse_homogeneous(exprs, **kwargs):
     """
     Same as ``cse`` but the ``reduced_exprs`` are returned

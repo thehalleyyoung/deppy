@@ -41,16 +41,24 @@ scipy = import_module("scipy")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lp(), test_lp produces the expected output) over Any ║
+# ║ Path(test_lp(), ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lp : Any → {Any | ans == lpmax(objective, constr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans == lpmax(objective, constraints)           ║
+# ║   ensures:  objective.subs(argmax) == optimum              ║
+# ║   ensures:  ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3})       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lp : Any → {Any | result satisfies: ans == lpmax...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5d2d4ebbea7c5be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3aa1ad0a51ed9988  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_lp","kind":"function","src_hash":"537abf5f740c6b98","in":{"base":"Any"},"out":{"base":"Any","pred":"ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and ans == lpmax(objective, constraints) and ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3}) and objective.subs(argmax) == optimum and ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and constr.subs(argmax) == True and constr.subs(argmax) == True and constr.subs(argmax) == True and constr.subs(argmax) == True and constr.subs(argmax) == True"},"spec":{"lhs":"test_lp()","rhs":"test_lp produces the expected output","over":{"base":"Any"},"name":"test_lp_correct"},"guarantee":"test_lp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_lp_correct","statement":"Path(test_lp(x), test_lp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5d2d4ebbea7c5be"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_lp","kind":"function","src_hash":"537abf5f740c6b98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3})"},"spec":{"lhs":"test_lp()","rhs":"ans == lpmax(objective, constraints) and objective.subs(argmax) == optimum and ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3})","over":{"base":"Any"},"name":"test_lp_correct"},"guarantee":"ans == lpmax(objective, constraints); objective.subs(argmax) == optimum; ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_lp_correct","statement":"Path(test_lp(x), ans == lpmax(objective, constraints); objective.subs(argmax) == optimum; ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aa1ad0a51ed9988","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans == lpmax(objective, constraints)","objective.subs(argmax) == optimum","ans == (4, {x1: 7, x2: 0, x3: 0, x4: 3})"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["choice","random"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_lp():
     r1 = y + 2*z <= 3
     r2 = -x - 3*z <= -2
@@ -155,16 +163,24 @@ def test_lp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplex(), test_simplex produces the expected output) over Any ║
+# ║ Path(test_simplex(), _simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0]) and _simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0]) and _simplex([[]], [], [[1]], [0]) == (0, [0], []) and lpmax(x - y, [x <= y + 2, x >= y + 2, x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, y + 2), x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, 2)]) == (2, {x: 2, y: 0}) and lpmax(y, [Eq(y, 2)]) == (2, {y: 2}) and lpmin(y, [x <= y + 2, x >= y + 2, y >= 0]) == (0, {x: 2, y: 0}) and lpmax(y, [0 <= y + 2, 0 >= y + 2]) == (-2, {y: -2}) and lpmax(y, [0 <= y + 2, 0 >= y + 2, y <= 0]) == (-2, {y: -2}) and lpmin(x, [y >= 1, x >= y]) == (1, {x: 1, y: 1}) and lpmin(x, [y >= 1, x >= y + z, x >= 0, z >= 0]) == (1, {x: 1, y: 1, z: 0}) and linprog(c, a, b, aeq, beq, bounds=(0, 1)) == ans and (lpans[0], list(lpans[1].values())) == ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplex : Any → {Any | _simplex(A, B, -C, -D) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _simplex(A, B, -C, -D) == (-6, [3, 2], [1...   ║
+# ║   ensures:  _simplex(A, B, -C, -D, dual=True) == (-6,...   ║
+# ║   ensures:  _simplex([[]], [], [[1]], [0]) == (0, [0]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplex : Any → {Any | result satisfies: _simple...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3acf95b283f5cb38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcbc430bc4e68d25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_simplex","kind":"function","src_hash":"85c6fcb408148047","in":{"base":"Any"},"out":{"base":"Any","pred":"_simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0]) and _simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0]) and _simplex([[]], [], [[1]], [0]) == (0, [0], []) and lpmax(x - y, [x <= y + 2, x >= y + 2, x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, y + 2), x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, 2)]) == (2, {x: 2, y: 0}) and lpmax(y, [Eq(y, 2)]) == (2, {y: 2}) and lpmin(y, [x <= y + 2, x >= y + 2, y >= 0]) == (0, {x: 2, y: 0}) and lpmax(y, [0 <= y + 2, 0 >= y + 2]) == (-2, {y: -2}) and lpmax(y, [0 <= y + 2, 0 >= y + 2, y <= 0]) == (-2, {y: -2}) and lpmin(x, [y >= 1, x >= y]) == (1, {x: 1, y: 1}) and lpmin(x, [y >= 1, x >= y + z, x >= 0, z >= 0]) == (1, {x: 1, y: 1, z: 0}) and linprog(c, a, b, aeq, beq, bounds=(0, 1)) == ans and (lpans[0], list(lpans[1].values())) == ans"},"spec":{"lhs":"test_simplex()","rhs":"test_simplex produces the expected output","over":{"base":"Any"},"name":"test_simplex_correct"},"guarantee":"test_simplex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_simplex_correct","statement":"Path(test_simplex(x), test_simplex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3acf95b283f5cb38"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_simplex","kind":"function","src_hash":"85c6fcb408148047","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0]) and _simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0]) and _simplex([[]], [], [[1]], [0]) == (0, [0], []) and lpmax(x - y, [x <= y + 2, x >= y + 2, x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, y + 2), x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, 2)]) == (2, {x: 2, y: 0}) and lpmax(y, [Eq(y, 2)]) == (2, {y: 2}) and lpmin(y, [x <= y + 2, x >= y + 2, y >= 0]) == (0, {x: 2, y: 0}) and lpmax(y, [0 <= y + 2, 0 >= y + 2]) == (-2, {y: -2}) and lpmax(y, [0 <= y + 2, 0 >= y + 2, y <= 0]) == (-2, {y: -2}) and lpmin(x, [y >= 1, x >= y]) == (1, {x: 1, y: 1}) and lpmin(x, [y >= 1, x >= y + z, x >= 0, z >= 0]) == (1, {x: 1, y: 1, z: 0}) and linprog(c, a, b, aeq, beq, bounds=(0, 1)) == ans and (lpans[0], list(lpans[1].values())) == ans"},"spec":{"lhs":"test_simplex()","rhs":"_simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0]) and _simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0]) and _simplex([[]], [], [[1]], [0]) == (0, [0], []) and lpmax(x - y, [x <= y + 2, x >= y + 2, x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, y + 2), x >= 0, y >= 0]) == (2, {x: 2, y: 0}) and lpmax(x - y, [x <= y + 2, Eq(x, 2)]) == (2, {x: 2, y: 0}) and lpmax(y, [Eq(y, 2)]) == (2, {y: 2}) and lpmin(y, [x <= y + 2, x >= y + 2, y >= 0]) == (0, {x: 2, y: 0}) and lpmax(y, [0 <= y + 2, 0 >= y + 2]) == (-2, {y: -2}) and lpmax(y, [0 <= y + 2, 0 >= y + 2, y <= 0]) == (-2, {y: -2}) and lpmin(x, [y >= 1, x >= y]) == (1, {x: 1, y: 1}) and lpmin(x, [y >= 1, x >= y + z, x >= 0, z >= 0]) == (1, {x: 1, y: 1, z: 0}) and linprog(c, a, b, aeq, beq, bounds=(0, 1)) == ans and (lpans[0], list(lpans[1].values())) == ans","over":{"base":"Any"},"name":"test_simplex_correct"},"guarantee":"_simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0]); _simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0]); _simplex([[]], [], [[1]], [0]) == (0, [0], [])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_simplex_correct","statement":"Path(test_simplex(x), _simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0]); _simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0]); _simplex([[]], [], [[1]], [0]) == (0, [0], []))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcbc430bc4e68d25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_simplex(A, B, -C, -D) == (-6, [3, 2], [1, 0, 0, 0])","_simplex(A, B, -C, -D, dual=True) == (-6, [1, 0, 0, 0], [5, 0])","_simplex([[]], [], [[1]], [0]) == (0, [0], [])","lpmax(x - y, [x <= y + 2, x >= y + 2, x >= 0, y >= 0]) == (2, {x: 2, y: 0})","lpmax(x - y, [x <= y + 2, Eq(x, y + 2), x >= 0, y >= 0]) == (2, {x: 2, y: 0})","lpmax(x - y, [x <= y + 2, Eq(x, 2)]) == (2, {x: 2, y: 0})","lpmax(y, [Eq(y, 2)]) == (2, {y: 2})","lpmin(y, [x <= y + 2, x >= y + 2, y >= 0]) == (0, {x: 2, y: 0})","lpmax(y, [0 <= y + 2, 0 >= y + 2]) == (-2, {y: -2})","lpmax(y, [0 <= y + 2, 0 >= y + 2, y <= 0]) == (-2, {y: -2})","lpmin(x, [y >= 1, x >= y]) == (1, {x: 1, y: 1})","lpmin(x, [y >= 1, x >= y + z, x >= 0, z >= 0]) == (1, {x: 1, y: 1, z: 0})","linprog(c, a, b, aeq, beq, bounds=(0, 1)) == ans","(lpans[0], list(lpans[1].values())) == ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_simplex():
     L = [
         [[1, 1], [-1, 1], [0, 1], [-1, 0]],
@@ -225,16 +241,23 @@ def test_simplex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lpmin_lpmax(), test_lpmin_lpmax produces the expected output) over Any ║
+# ║ Path(test_lpmin_lpmax(), ans == (-1, {x1: 1, x2: 0}) and ans == (-1, {y1: 1, y2: 0})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lpmin_lpmax : Any → {Any | ans == (-1, {x1: 1, x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans == (-1, {x1: 1, x2: 0})                    ║
+# ║   ensures:  ans == (-1, {y1: 1, y2: 0})                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lpmin_lpmax : Any → {Any | result satisfies: ans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8a89a7e188c8b46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 584c7052e5a8bd3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_lpmin_lpmax","kind":"function","src_hash":"88f547a4493ccfea","in":{"base":"Any"},"out":{"base":"Any","pred":"ans == (-1, {x1: 1, x2: 0}) and ans == (-1, {y1: 1, y2: 0})"},"spec":{"lhs":"test_lpmin_lpmax()","rhs":"test_lpmin_lpmax produces the expected output","over":{"base":"Any"},"name":"test_lpmin_lpmax_correct"},"guarantee":"test_lpmin_lpmax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_lpmin_lpmax_correct","statement":"Path(test_lpmin_lpmax(x), test_lpmin_lpmax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8a89a7e188c8b46"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_lpmin_lpmax","kind":"function","src_hash":"88f547a4493ccfea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans == (-1, {x1: 1, x2: 0}) and ans == (-1, {y1: 1, y2: 0})"},"spec":{"lhs":"test_lpmin_lpmax()","rhs":"ans == (-1, {x1: 1, x2: 0}) and ans == (-1, {y1: 1, y2: 0})","over":{"base":"Any"},"name":"test_lpmin_lpmax_correct"},"guarantee":"ans == (-1, {x1: 1, x2: 0}); ans == (-1, {y1: 1, y2: 0})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_lpmin_lpmax_correct","statement":"Path(test_lpmin_lpmax(x), ans == (-1, {x1: 1, x2: 0}); ans == (-1, {y1: 1, y2: 0}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"584c7052e5a8bd3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans == (-1, {x1: 1, x2: 0})","ans == (-1, {y1: 1, y2: 0})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lpmin_lpmax():
     v = x1, x2, y1, y2 = symbols('x1 x2 y1 y2')
     L = [[1, -1]], [1], [[1, 1]], [2]
@@ -253,16 +276,24 @@ def test_lpmin_lpmax():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linprog(), test_linprog produces the expected output) over Any ║
+# ║ Path(test_linprog(), linprog([[1]], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], bounds=(2, 3)) == (2, [2]) and linprog([1, -1], [[1, 1]], [2], bounds={1: (None, None)}) == (-2, [0, 2]) and linprog([1, -1], [[1, 1]], [5], bounds={1: (3, None)}) == (-5, [0, 5])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linprog : Any → {Any | linprog([[1]], [], [], bo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  linprog([[1]], [], [], bounds=(2, 3)) == ...   ║
+# ║   ensures:  linprog([1], [], [], bounds=(2, 3)) == (2...   ║
+# ║   ensures:  linprog([1], bounds=(2, 3)) == (2, [2])        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linprog : Any → {Any | result satisfies: linprog...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a774fd28a4624d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ebf874b26f06187  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_linprog","kind":"function","src_hash":"d50adc9d5c6725e1","in":{"base":"Any"},"out":{"base":"Any","pred":"linprog([[1]], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], bounds=(2, 3)) == (2, [2]) and linprog([1, -1], [[1, 1]], [2], bounds={1: (None, None)}) == (-2, [0, 2]) and linprog([1, -1], [[1, 1]], [5], bounds={1: (3, None)}) == (-5, [0, 5]) and lpmin(f, ineq) == (ans[0], dict(zip(v, ans[1]))) and linprog(c, *ab) == ans and lpmin(f, ineq + eq) == (ans[0], dict(zip(v, ans[1]))) and linprog(c, *ab, *abeq) == (ans[0] - 1, ans[1]) and lpmin(f, ineq + eq) == (ans[0], dict(zip(v, ans[1]))) and linprog(c, *ab, *abeq) == (ans[0] - 1, ans[1]) and lpmin(f, ineq + [z <= S.Half]) == (ans[0], dict(zip(v, ans[1]))) and linprog(c, *ab, bounds=bounds) == (ans[0] - 1, ans[1]) and linprog(c, *ab, bounds={v.index(z): bounds[-1]}) == (ans[0] - 1, ans[1])"},"spec":{"lhs":"test_linprog()","rhs":"test_linprog produces the expected output","over":{"base":"Any"},"name":"test_linprog_correct"},"guarantee":"test_linprog produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_linprog_correct","statement":"Path(test_linprog(x), test_linprog produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a774fd28a4624d8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_simplex.test_linprog","kind":"function","src_hash":"d50adc9d5c6725e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: linprog([[1]], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], bounds=(2, 3)) == (2, [2]) and linprog([1, -1], [[1, 1]], [2], bounds={1: (None, None)}) == (-2, [0, 2]) and linprog([1, -1], [[1, 1]], [5], bounds={1: (3, None)}) == (-5, [0, 5])"},"spec":{"lhs":"test_linprog()","rhs":"linprog([[1]], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], [], [], bounds=(2, 3)) == (2, [2]) and linprog([1], bounds=(2, 3)) == (2, [2]) and linprog([1, -1], [[1, 1]], [2], bounds={1: (None, None)}) == (-2, [0, 2]) and linprog([1, -1], [[1, 1]], [5], bounds={1: (3, None)}) == (-5, [0, 5])","over":{"base":"Any"},"name":"test_linprog_correct"},"guarantee":"linprog([[1]], [], [], bounds=(2, 3)) == (2, [2]); linprog([1], [], [], bounds=(2, 3)) == (2, [2]); linprog([1], bounds=(2, 3)) == (2, [2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_simplex.test_linprog_correct","statement":"Path(test_linprog(x), linprog([[1]], [], [], bounds=(2, 3)) == (2, [2]); linprog([1], [], [], bounds=(2, 3)) == (2, [2]); linprog([1], bounds=(2, 3)) == (2, [2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ebf874b26f06187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["linprog([[1]], [], [], bounds=(2, 3)) == (2, [2])","linprog([1], [], [], bounds=(2, 3)) == (2, [2])","linprog([1], bounds=(2, 3)) == (2, [2])","linprog([1, -1], [[1, 1]], [2], bounds={1: (None, None)}) == (-2, [0, 2])","linprog([1, -1], [[1, 1]], [5], bounds={1: (3, None)}) == (-5, [0, 5])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_linprog():
     for do in range(2):
         if not do:

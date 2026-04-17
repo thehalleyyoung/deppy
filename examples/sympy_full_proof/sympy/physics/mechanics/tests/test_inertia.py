@@ -22,16 +22,24 @@ from sympy.physics.mechanics import (inertia, inertia_of_point_mass,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inertia_dyadic(), test_inertia_dyadic produces the expected output) over Any ║
+# ║ Path(test_inertia_dyadic(), inertia(N, ixx, iyy, izz) == ixx * (N.x | N.x) + iyy * (N.y | N.y) + izz * (N.z | N.z) and inertia(N, 0, 0, 0) == 0 * (N.x | N.x) and inertia(N, ixx, iyy, izz, ixy, iyz, izx) == ixx * (N.x | N.x) + ixy * (N.x | N.y) + izx * (N.x | N.z) + ixy * (N.y | N.x) + iyy * (N.y | N.y) + iyz * (N.y | N.z) + izx * (N.z | N.x) + iyz * (N.z | N.y) + izz * (N.z | N.z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inertia_dyadic : Any → {Any | inertia(N, 0, 0, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  inertia(N, ixx, iyy, izz) == ixx * (N.x |...   ║
+# ║   ensures:  inertia(N, 0, 0, 0) == 0 * (N.x | N.x)         ║
+# ║   ensures:  inertia(N, ixx, iyy, izz, ixy, iyz, izx) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inertia_dyadic : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 016a0b3d0786a24f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9bcaf79c116f9bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_inertia.test_inertia_dyadic","kind":"function","src_hash":"76da07a56ee7ab7a","in":{"base":"Any"},"out":{"base":"Any","pred":"inertia(N, 0, 0, 0) == 0 * (N.x | N.x)"},"spec":{"lhs":"test_inertia_dyadic()","rhs":"test_inertia_dyadic produces the expected output","over":{"base":"Any"},"name":"test_inertia_dyadic_correct"},"guarantee":"test_inertia_dyadic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_inertia.test_inertia_dyadic_correct","statement":"Path(test_inertia_dyadic(x), test_inertia_dyadic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"016a0b3d0786a24f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_inertia.test_inertia_dyadic","kind":"function","src_hash":"76da07a56ee7ab7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: inertia(N, ixx, iyy, izz) == ixx * (N.x | N.x) + iyy * (N.y | N.y) + izz * (N.z | N.z) and inertia(N, 0, 0, 0) == 0 * (N.x | N.x) and inertia(N, ixx, iyy, izz, ixy, iyz, izx) == ixx * (N.x | N.x) + ixy * (N.x | N.y) + izx * (N.x | N.z) + ixy * (N.y | N.x) + iyy * (N.y | N.y) + iyz * (N.y | N.z) + izx * (N.z | N.x) + iyz * (N.z | N.y) + izz * (N.z | N.z)"},"spec":{"lhs":"test_inertia_dyadic()","rhs":"inertia(N, ixx, iyy, izz) == ixx * (N.x | N.x) + iyy * (N.y | N.y) + izz * (N.z | N.z) and inertia(N, 0, 0, 0) == 0 * (N.x | N.x) and inertia(N, ixx, iyy, izz, ixy, iyz, izx) == ixx * (N.x | N.x) + ixy * (N.x | N.y) + izx * (N.x | N.z) + ixy * (N.y | N.x) + iyy * (N.y | N.y) + iyz * (N.y | N.z) + izx * (N.z | N.x) + iyz * (N.z | N.y) + izz * (N.z | N.z)","over":{"base":"Any"},"name":"test_inertia_dyadic_correct"},"guarantee":"inertia(N, ixx, iyy, izz) == ixx * (N.x | N.x) + iyy * (N.y | N.y) + izz * (N.z | N.z); inertia(N, 0, 0, 0) == 0 * (N.x | N.x); inertia(N, ixx, iyy, izz, ixy, iyz, izx) == ixx * (N.x | N.x) + ixy * (N.x | N.y) + izx * (N.x | N.z) + ixy * (N.y | N.x) + iyy * (N.y | N.y) + iyz * (N.y | N.z) + izx * (N.z | N.x) + iyz * (N.z | N.y) + izz * (N.z | N.z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_inertia.test_inertia_dyadic_correct","statement":"Path(test_inertia_dyadic(x), inertia(N, ixx, iyy, izz) == ixx * (N.x | N.x) + iyy * (N.y | N.y) + izz * (N.z | N.z); inertia(N, 0, 0, 0) == 0 * (N.x | N.x); inertia(N, ixx, iyy, izz, ixy, iyz, izx) == ixx * (N.x | N.x) + ixy * (N.x | N.y) + izx * (N.x | N.z) + ixy * (N.y | N.x) + iyy * (N.y | N.y) + iyz * (N.y | N.z) + izx * (N.z | N.x) + iyz * (N.z | N.y) + izz * (N.z | N.z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9bcaf79c116f9bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["inertia(N, ixx, iyy, izz) == ixx * (N.x | N.x) + iyy * (N.y | N.y) + izz * (N.z | N.z)","inertia(N, 0, 0, 0) == 0 * (N.x | N.x)","inertia(N, ixx, iyy, izz, ixy, iyz, izx) == ixx * (N.x | N.x) + ixy * (N.x | N.y) + izx * (N.x | N.z) + ixy * (N.y | N.x) + iyy * (N.y | N.y) + iyz * (N.y | N.z) + izx * (N.z | N.x) + iyz * (N.z | N.y) + izz * (N.z | N.z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_inertia_dyadic():
     N = ReferenceFrame('N')
     ixx, iyy, izz = symbols('ixx iyy izz')
@@ -47,16 +55,24 @@ def test_inertia_dyadic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inertia_of_point_mass(), test_inertia_of_point_mass produces the expected output) over Any ║
+# ║ Path(test_inertia_of_point_mass(), I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z) and I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z) and I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y) and I == m * (s ** 2 + t ** 2) * (N.x | N.x) - m * r * s * (N.x | N.y) - m * r * t * (N.x | N.z) - m * r * s * (N.y | N.x) + m * (r ** 2 + t ** 2) * (N.y | N.y) - m * s * t * (N.y | N.z) - m * r * t * (N.z | N.x) - m * s * t * (N.z | N.y) + m * (r ** 2 + s ** 2) * (N.z | N.z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inertia_of_point_mass : Any → {Any | I == m * r ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I == m * r ** 2 * (N.y | N.y) + m * r ** ...   ║
+# ║   ensures:  I == m * s ** 2 * (N.x | N.x) + m * s ** ...   ║
+# ║   ensures:  I == m * t ** 2 * (N.x | N.x) + m * t ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inertia_of_point_mass : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81d4092b4196910d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3e2bd0f9ec714f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_inertia.test_inertia_of_point_mass","kind":"function","src_hash":"3996cf5720dcd3d9","in":{"base":"Any"},"out":{"base":"Any","pred":"I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z) and I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z) and I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y)"},"spec":{"lhs":"test_inertia_of_point_mass()","rhs":"test_inertia_of_point_mass produces the expected output","over":{"base":"Any"},"name":"test_inertia_of_point_mass_correct"},"guarantee":"test_inertia_of_point_mass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_inertia.test_inertia_of_point_mass_correct","statement":"Path(test_inertia_of_point_mass(x), test_inertia_of_point_mass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81d4092b4196910d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_inertia.test_inertia_of_point_mass","kind":"function","src_hash":"3996cf5720dcd3d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z) and I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z) and I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y) and I == m * (s ** 2 + t ** 2) * (N.x | N.x) - m * r * s * (N.x | N.y) - m * r * t * (N.x | N.z) - m * r * s * (N.y | N.x) + m * (r ** 2 + t ** 2) * (N.y | N.y) - m * s * t * (N.y | N.z) - m * r * t * (N.z | N.x) - m * s * t * (N.z | N.y) + m * (r ** 2 + s ** 2) * (N.z | N.z)"},"spec":{"lhs":"test_inertia_of_point_mass()","rhs":"I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z) and I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z) and I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y) and I == m * (s ** 2 + t ** 2) * (N.x | N.x) - m * r * s * (N.x | N.y) - m * r * t * (N.x | N.z) - m * r * s * (N.y | N.x) + m * (r ** 2 + t ** 2) * (N.y | N.y) - m * s * t * (N.y | N.z) - m * r * t * (N.z | N.x) - m * s * t * (N.z | N.y) + m * (r ** 2 + s ** 2) * (N.z | N.z)","over":{"base":"Any"},"name":"test_inertia_of_point_mass_correct"},"guarantee":"I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z); I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z); I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_inertia.test_inertia_of_point_mass_correct","statement":"Path(test_inertia_of_point_mass(x), I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z); I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z); I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3e2bd0f9ec714f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I == m * r ** 2 * (N.y | N.y) + m * r ** 2 * (N.z | N.z)","I == m * s ** 2 * (N.x | N.x) + m * s ** 2 * (N.z | N.z)","I == m * t ** 2 * (N.x | N.x) + m * t ** 2 * (N.y | N.y)","I == m * (s ** 2 + t ** 2) * (N.x | N.x) - m * r * s * (N.x | N.y) - m * r * t * (N.x | N.z) - m * r * s * (N.y | N.x) + m * (r ** 2 + t ** 2) * (N.y | N.y) - m * s * t * (N.y | N.z) - m * r * t * (N.z | N.x) - m * s * t * (N.z | N.y) + m * (r ** 2 + s ** 2) * (N.z | N.z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_inertia_of_point_mass():
     r, s, t, m = symbols('r s t m')
     N = ReferenceFrame('N')
@@ -87,7 +103,12 @@ def test_inertia_of_point_mass():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inertia_object(), test_inertia_object produces the expected output) over {Any | isinstance(I, tuple)} ║
+# ║ Path(test_inertia_object(), isinstance(I, tuple) and I.__repr__() == 'Inertia(dyadic=ixx*(N.x|N.x) + iyy*(N.y|N.y) + izz*(N.z|N.z), point=O)' and I.dyadic == I_dyadic and I.point == O and I[0] == I_dyadic and I[1] == O and I == (I_dyadic, O) and I == Inertia(O, I_dyadic) and I == Inertia.from_inertia_scalars(O, N, ixx, iyy, izz)) over {Any | isinstance(I, tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(I, tuple)                           ║
+# ║   ensures:  I.__repr__() == 'Inertia(dyadic=ixx*(N.x|...   ║
+# ║   ensures:  I.dyadic == I_dyadic                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_inertia_object : {Any | isinstance(I, tuple)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -99,9 +120,12 @@ def test_inertia_of_point_mass():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3c355074...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_inertia.test_inertia_object","kind":"function","src_hash":"3e010513b1feeebf","in":{"base":"Any","pred":"isinstance(I, tuple)"},"out":{"base":"Any","pred":"isinstance(I, tuple) and I.dyadic == I_dyadic and I.point == O and I[0] == I_dyadic and I[1] == O and I == (I_dyadic, O) and I == Inertia(O, I_dyadic) and I == Inertia.from_inertia_scalars(O, N, ixx, iyy, izz)"},"spec":{"lhs":"test_inertia_object()","rhs":"test_inertia_object produces the expected output","over":{"base":"Any","pred":"isinstance(I, tuple)"},"name":"test_inertia_object_correct"},"guarantee":"test_inertia_object produces the expected output","fibers":[{"name":"tuple","pred":"isinstance(I, tuple)","path":{"lhs":"test_inertia_object(x)","rhs":"test_inertia_object produces the expected output","over":{"base":"tuple","pred":"isinstance(I, tuple)"},"name":"test_inertia_object_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_inertia.test_inertia_object_tuple_correct","statement":"test_inertia_object satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c35507421b96586"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_inertia.test_inertia_object","kind":"function","src_hash":"3e010513b1feeebf","in":{"base":"Any","pred":"isinstance(I, tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(I, tuple) and I.__repr__() == 'Inertia(dyadic=ixx*(N.x|N.x) + iyy*(N.y|N.y) + izz*(N.z|N.z), point=O)' and I.dyadic == I_dyadic and I.point == O and I[0] == I_dyadic and I[1] == O and I == (I_dyadic, O) and I == Inertia(O, I_dyadic) and I == Inertia.from_inertia_scalars(O, N, ixx, iyy, izz)"},"spec":{"lhs":"test_inertia_object()","rhs":"isinstance(I, tuple) and I.__repr__() == 'Inertia(dyadic=ixx*(N.x|N.x) + iyy*(N.y|N.y) + izz*(N.z|N.z), point=O)' and I.dyadic == I_dyadic and I.point == O and I[0] == I_dyadic and I[1] == O and I == (I_dyadic, O) and I == Inertia(O, I_dyadic) and I == Inertia.from_inertia_scalars(O, N, ixx, iyy, izz)","over":{"base":"Any","pred":"isinstance(I, tuple)"},"name":"test_inertia_object_correct"},"guarantee":"isinstance(I, tuple); I.__repr__() == 'Inertia(dyadic=ixx*(N.x|N.x) + iyy*(N.y|N.y) + izz*(N.z|N.z), point=O)'; I.dyadic == I_dyadic","fibers":[{"name":"tuple","pred":"isinstance(I, tuple)","path":{"lhs":"test_inertia_object(x)","rhs":"isinstance(I, tuple); I.__repr__() == 'Inertia(dyadic=ixx*(N.x|N.x) + iyy*(N.y|N.y) + izz*(N.z|N.z), point=O)'; I.dyadic == I_dyadic","over":{"base":"tuple","pred":"isinstance(I, tuple)"},"name":"test_inertia_object_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_inertia.test_inertia_object_tuple_correct","statement":"test_inertia_object satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c35507421b96586","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(I, tuple)","I.__repr__() == 'Inertia(dyadic=ixx*(N.x|N.x) + iyy*(N.y|N.y) + izz*(N.z|N.z), point=O)'","I.dyadic == I_dyadic","I.point == O","I[0] == I_dyadic","I[1] == O","I == (I_dyadic, O)","I == Inertia(O, I_dyadic)","I == Inertia.from_inertia_scalars(O, N, ixx, iyy, izz)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_inertia_object():
     N = ReferenceFrame('N')
     O = Point('O')

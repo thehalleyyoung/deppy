@@ -27,16 +27,25 @@ from sympy.polys.polyutils import _sort_factors
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_crt(U, ), chinese remainder theorem) over Any      ║
+# ║ Path(gf_crt(U, M, K), v % p) over {Any | hasattr(K, 'zero') and hasattr(K, 'one') and hasattr(K, 'gcdex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_crt : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'gcdex')                            ║
+# ║   returns:  v % p                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_crt : {Any | hasattr(K, 'zero') and hasattr(K, 'on...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 594102c977be9e5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b8f0f01d7dfba97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_crt","kind":"function","src_hash":"162031b2ed746b60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_crt(U, )","rhs":"chinese remainder theorem","over":{"base":"Any"},"name":"gf_crt_correct"},"guarantee":"chinese remainder theorem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_crt_correct","statement":"Path(gf_crt(x), chinese remainder theorem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"594102c977be9e5b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_crt","kind":"function","src_hash":"162031b2ed746b60","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one') and hasattr(K, 'gcdex')"},"out":{"base":"Any"},"spec":{"lhs":"gf_crt(U, M, K)","rhs":"v % p","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one') and hasattr(K, 'gcdex')"},"name":"gf_crt_correct"},"guarantee":"returns v % p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_crt_correct","statement":"Path(gf_crt(x), returns v % p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b8f0f01d7dfba97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')","hasattr(K, 'one')","hasattr(K, 'gcdex')"],"returns_expr":"v % p","pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcdex","K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_crt(U, M, K=None):
     """
     Chinese Remainder Theorem.
@@ -83,16 +92,24 @@ def gf_crt(U, M, K=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_crt1(M, ), first part of the chinese remainder theorem) over Any ║
+# ║ Path(gf_crt1(M, K), (p, E, S)) over {Any | hasattr(K, 'one') and hasattr(K, 'gcdex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_crt1 : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'gcdex')                            ║
+# ║   returns:  (p, E, S)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_crt1 : {Any | hasattr(K, 'one') and hasattr(K, 'gc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cccd1883898ab92e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42d135aa7d110657  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_crt1","kind":"function","src_hash":"9a646cafabf97b36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_crt1(M, )","rhs":"first part of the chinese remainder theorem","over":{"base":"Any"},"name":"gf_crt1_correct"},"guarantee":"first part of the chinese remainder theorem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_crt1_correct","statement":"Path(gf_crt1(x), first part of the chinese remainder theorem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cccd1883898ab92e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_crt1","kind":"function","src_hash":"9a646cafabf97b36","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'gcdex')"},"out":{"base":"Any"},"spec":{"lhs":"gf_crt1(M, K)","rhs":"(p, E, S)","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'gcdex')"},"name":"gf_crt1_correct"},"guarantee":"returns (p, E, S)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_crt1_correct","statement":"Path(gf_crt1(x), returns (p, E, S))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42d135aa7d110657","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')","hasattr(K, 'gcdex')"],"returns_expr":"(p, E, S)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_crt1(M, K):
     """
     First part of the Chinese Remainder Theorem.
@@ -143,16 +160,22 @@ def gf_crt1(M, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_crt2(U, ), second part of the chinese remainder theorem) over Any ║
+# ║ Path(gf_crt2(U, M, p), v % p) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  v % p                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_crt2 : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7fc37f0a228f174  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93c2ab53bd5f882f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_crt2","kind":"function","src_hash":"5b0c035fdbbcdd0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_crt2(U, )","rhs":"second part of the chinese remainder theorem","over":{"base":"Any"},"name":"gf_crt2_correct"},"guarantee":"second part of the chinese remainder theorem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_crt2_correct","statement":"Path(gf_crt2(x), second part of the chinese remainder theorem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7fc37f0a228f174"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_crt2","kind":"function","src_hash":"5b0c035fdbbcdd0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_crt2(U, M, p)","rhs":"v % p","over":{"base":"Any"},"name":"gf_crt2_correct"},"guarantee":"returns v % p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_crt2_correct","statement":"Path(gf_crt2(x), returns v % p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93c2ab53bd5f882f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"v % p","pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_crt2(U, M, p, E, S, K):
     """
     Second part of the Chinese Remainder Theorem.
@@ -191,16 +214,25 @@ def gf_crt2(U, M, p, E, S, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_int(a, ), coerce ``a mod p`` to an integer in the range ``[-p/2, p/2]``) over Any ║
+# ║ Path(gf_int(a, p), result == (a if a <= p // 2 else a - p) and result == a or result == a - p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_int : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (a if a <= p // 2 else a - p)        ║
+# ║   ensures:  result == a or result == a - p                 ║
+# ║   fiber[case_0]: a <= p // 2 => a                          ║
+# ║   fiber[case_1]: not (a <= p // 2) => a - p                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_int : Any → {Any | result satisfies: result == (a ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df6ffdde899c53f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 837091da839aa91b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_int","kind":"function","src_hash":"f8add7d3935590f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_int(a, )","rhs":"coerce ``a mod p`` to an integer in the range ``[-p/2, p/2]``","over":{"base":"Any"},"name":"gf_int_correct"},"guarantee":"coerce ``a mod p`` to an integer in the range ``[-p/2, p/2]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_int_correct","statement":"Path(gf_int(x), coerce ``a mod p`` to an integer in the range ``[-p/2, p/2]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df6ffdde899c53f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_int","kind":"function","src_hash":"f8add7d3935590f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a if a <= p // 2 else a - p) and result == a or result == a - p"},"spec":{"lhs":"gf_int(a, p)","rhs":"result == (a if a <= p // 2 else a - p) and result == a or result == a - p","over":{"base":"Any"},"name":"gf_int_correct"},"guarantee":"result == (a if a <= p // 2 else a - p); result == a or result == a - p; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_int_correct","statement":"Path(gf_int(x), result == (a if a <= p // 2 else a - p); result == a or result == a - p; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"837091da839aa91b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (a if a <= p // 2 else a - p)","result == a or result == a - p"],"fibers":[{"name":"case_0","guard":"a <= p // 2","ensures":["result == a"],"decidability":"z3","returns_expr":"a"},{"name":"case_1","guard":"not (a <= p // 2)","ensures":["result == a - p"],"decidability":"z3","returns_expr":"a - p"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def gf_int(a, p):
     """
     Coerce ``a mod p`` to an integer in the range ``[-p/2, p/2]``.
@@ -223,16 +255,22 @@ def gf_int(a, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_degree(f), return the leading degree of ``f``) over Any ║
+# ║ Path(gf_degree(f), len(f) - 1) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(f) - 1                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_degree : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0705f12213b51d73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_degree","kind":"function","src_hash":"b329f2212cb60a19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_degree(f)","rhs":"return the leading degree of ``f``","over":{"base":"Any"},"name":"gf_degree_correct"},"guarantee":"return the leading degree of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0705f12213b51d73"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_degree","kind":"function","src_hash":"b329f2212cb60a19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_degree(f)","rhs":"len(f) - 1","over":{"base":"Any"},"name":"gf_degree_correct"},"guarantee":"returns len(f) - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0705f12213b51d73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(f) - 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_degree(f):
     """
     Return the leading degree of ``f``.
@@ -252,16 +290,26 @@ def gf_degree(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_LC(f, ), return the leading coefficient of ``f``) over Any ║
+# ║ Path(gf_LC(f, K), result == (K.zero if not f else f[0]) and result == K.zero or result == f[0]) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_LC : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  result == (K.zero if not f else f[0])          ║
+# ║   ensures:  result == K.zero or result == f[0]             ║
+# ║   fiber[case_0]: not f => K.zero                           ║
+# ║   fiber[case_1]: not (not f) => f[0]                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_LC : {Any | hasattr(K, 'zero')} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7a81b5edb013a2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe3fa988e40bcd89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_LC","kind":"function","src_hash":"d21537971679a3bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_LC(f, )","rhs":"return the leading coefficient of ``f``","over":{"base":"Any"},"name":"gf_LC_correct"},"guarantee":"return the leading coefficient of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_LC_correct","statement":"Path(gf_LC(x), return the leading coefficient of ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7a81b5edb013a2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_LC","kind":"function","src_hash":"d21537971679a3bf","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: result == (K.zero if not f else f[0]) and result == K.zero or result == f[0]"},"spec":{"lhs":"gf_LC(f, K)","rhs":"result == (K.zero if not f else f[0]) and result == K.zero or result == f[0]","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_LC_correct"},"guarantee":"result == (K.zero if not f else f[0]); result == K.zero or result == f[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_LC_correct","statement":"Path(gf_LC(x), result == (K.zero if not f else f[0]); result == K.zero or result == f[0]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe3fa988e40bcd89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"ensures":["result == (K.zero if not f else f[0])","result == K.zero or result == f[0]"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == K.zero"],"decidability":"library","returns_expr":"K.zero"},{"name":"case_1","guard":"not (not f)","ensures":["result == f[0]"],"decidability":"library","returns_expr":"f[0]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def gf_LC(f, K):
     """
     Return the leading coefficient of ``f``.
@@ -283,16 +331,26 @@ def gf_LC(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_TC(f, ), return the trailing coefficient of ``f``) over Any ║
+# ║ Path(gf_TC(f, K), result == (K.zero if not f else f[-1]) and result == K.zero or result == f[-1]) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_TC : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  result == (K.zero if not f else f[-1])         ║
+# ║   ensures:  result == K.zero or result == f[-1]            ║
+# ║   fiber[case_0]: not f => K.zero                           ║
+# ║   fiber[case_1]: not (not f) => f[-1]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_TC : {Any | hasattr(K, 'zero')} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79cdeb6c98087bb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdcc914ad2f0509e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_TC","kind":"function","src_hash":"afbb4f72d7212629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_TC(f, )","rhs":"return the trailing coefficient of ``f``","over":{"base":"Any"},"name":"gf_TC_correct"},"guarantee":"return the trailing coefficient of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_TC_correct","statement":"Path(gf_TC(x), return the trailing coefficient of ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79cdeb6c98087bb1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_TC","kind":"function","src_hash":"afbb4f72d7212629","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: result == (K.zero if not f else f[-1]) and result == K.zero or result == f[-1]"},"spec":{"lhs":"gf_TC(f, K)","rhs":"result == (K.zero if not f else f[-1]) and result == K.zero or result == f[-1]","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_TC_correct"},"guarantee":"result == (K.zero if not f else f[-1]); result == K.zero or result == f[-1]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_TC_correct","statement":"Path(gf_TC(x), result == (K.zero if not f else f[-1]); result == K.zero or result == f[-1]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdcc914ad2f0509e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"ensures":["result == (K.zero if not f else f[-1])","result == K.zero or result == f[-1]"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == K.zero"],"decidability":"library","returns_expr":"K.zero"},{"name":"case_1","guard":"not (not f)","ensures":["result == f[-1]"],"decidability":"library","returns_expr":"f[-1]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def gf_TC(f, K):
     """
     Return the trailing coefficient of ``f``.
@@ -314,16 +372,22 @@ def gf_TC(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_strip(f), remove leading zeros from ``f``) over Any ║
+# ║ Path(gf_strip(f), <unspecified:gf_strip>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_strip : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2316a1262de66dc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_strip","kind":"function","src_hash":"c9a88f1c3c048d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_strip(f)","rhs":"remove leading zeros from ``f``","over":{"base":"Any"},"name":"gf_strip_correct"},"guarantee":"remove leading zeros from ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_strip_correct","statement":"Path(gf_strip(x), remove leading zeros from ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2316a1262de66dc2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_strip","kind":"function","src_hash":"c9a88f1c3c048d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_strip(f)","rhs":"<unspecified:gf_strip>","over":{"base":"Any"},"name":"gf_strip_correct"},"guarantee":"remove leading zeros from ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_strip_correct","statement":"Path(gf_strip(x), remove leading zeros from ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2316a1262de66dc2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_strip(f):
     """
     Remove leading zeros from ``f``.
@@ -353,16 +417,22 @@ def gf_strip(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_trunc(f, ), reduce all coefficients modulo ``p``) over Any ║
+# ║ Path(gf_trunc(f, p), gf_strip([a % p for a in f])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_strip([a % p for a in f])                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_trunc : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c119ac5f64ec1db3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_trunc","kind":"function","src_hash":"37a6d25632369de5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trunc(f, )","rhs":"reduce all coefficients modulo ``p``","over":{"base":"Any"},"name":"gf_trunc_correct"},"guarantee":"reduce all coefficients modulo ``p``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c119ac5f64ec1db3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_trunc","kind":"function","src_hash":"37a6d25632369de5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trunc(f, p)","rhs":"gf_strip([a % p for a in f])","over":{"base":"Any"},"name":"gf_trunc_correct"},"guarantee":"returns gf_strip([a % p for a in f])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c119ac5f64ec1db3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_strip([a % p for a in f])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_trunc(f, p):
     """
     Reduce all coefficients modulo ``p``.
@@ -380,16 +450,22 @@ def gf_trunc(f, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_normal(f, ), normalize all coefficients in ``k``) over Any ║
+# ║ Path(gf_normal(f, p, K), gf_trunc(list(map(K, f)), p)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_trunc(list(map(K, f)), p)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_normal : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38339d9e317a50e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_normal","kind":"function","src_hash":"4052217e64f47d8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_normal(f, )","rhs":"normalize all coefficients in ``k``","over":{"base":"Any"},"name":"gf_normal_correct"},"guarantee":"normalize all coefficients in ``k``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38339d9e317a50e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_normal","kind":"function","src_hash":"4052217e64f47d8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_normal(f, p, K)","rhs":"gf_trunc(list(map(K, f)), p)","over":{"base":"Any"},"name":"gf_normal_correct"},"guarantee":"returns gf_trunc(list(map(K, f)), p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38339d9e317a50e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_trunc(list(map(K, f)), p)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_normal(f, p, K):
     """
     Normalize all coefficients in ``K``.
@@ -408,9 +484,15 @@ def gf_normal(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_from_dict(f, ), create a ``gf(p)[x]`` polynomial from a dict) over {Any | isinstance(n, SYMPY_INTS)} ║
+# ║ Path(gf_from_dict(f, p, K), gf_trunc(h, p)) over {Any | isinstance(n, SYMPY_INTS) and hasattr(f, 'keys') and hasattr(f, 'get') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_from_dict : {Any | isinstance(n, SYMPY_INTS)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'keys')                             ║
+# ║   requires: hasattr(f, 'get')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   returns:  gf_trunc(h, p)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_from_dict : {Any | isinstance(n, SYMPY_INTS) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   SYMPY_INTS: {isinstance(n, SYMPY_INTS)} → library_a...   ║
@@ -420,9 +502,12 @@ def gf_normal(f, p, K):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9e1827a1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_from_dict","kind":"function","src_hash":"525d937cbec48ba2","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS)"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_dict(f, )","rhs":"create a ``gf(p)[x]`` polynomial from a dict","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS)"},"name":"gf_from_dict_correct"},"guarantee":"create a ``gf(p)[x]`` polynomial from a dict","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"gf_from_dict(x)","rhs":"create a ``gf(p)[x]`` polynomial from a dict","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"gf_from_dict_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_from_dict_SYMPY_INTS_correct","statement":"gf_from_dict satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e1827a1f1e5ce61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_from_dict","kind":"function","src_hash":"525d937cbec48ba2","in":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and hasattr(f, 'keys') and hasattr(f, 'get') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_dict(f, p, K)","rhs":"gf_trunc(h, p)","over":{"base":"Any","pred":"isinstance(n, SYMPY_INTS) and hasattr(f, 'keys') and hasattr(f, 'get') and hasattr(K, 'zero')"},"name":"gf_from_dict_correct"},"guarantee":"returns gf_trunc(h, p)","fibers":[{"name":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)","path":{"lhs":"gf_from_dict(x)","rhs":"returns gf_trunc(h, p)","over":{"base":"SYMPY_INTS","pred":"isinstance(n, SYMPY_INTS)"},"name":"gf_from_dict_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_from_dict_SYMPY_INTS_correct","statement":"gf_from_dict satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e1827a1f1e5ce61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'keys')","hasattr(f, 'get')","hasattr(K, 'zero')"],"returns_expr":"gf_trunc(h, p)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(n, SYMPY_INTS)'}, fibers={'SYMPY_INTS'})"]}}
 def gf_from_dict(f, p, K):
     """
     Create a ``GF(p)[x]`` polynomial from a dict.
@@ -452,16 +537,22 @@ def gf_from_dict(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_to_dict(f, ), convert a ``gf(p)[x]`` polynomial to a dict) over Any ║
+# ║ Path(gf_to_dict(f, p, symmetric), <unspecified:gf_to_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_to_dict : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d951ea094d65ecf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_to_dict","kind":"function","src_hash":"a4d8a503c54b14bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_dict(f, )","rhs":"convert a ``gf(p)[x]`` polynomial to a dict","over":{"base":"Any"},"name":"gf_to_dict_correct"},"guarantee":"convert a ``gf(p)[x]`` polynomial to a dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_to_dict_correct","statement":"Path(gf_to_dict(x), convert a ``gf(p)[x]`` polynomial to a dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d951ea094d65ecf3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_to_dict","kind":"function","src_hash":"a4d8a503c54b14bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_dict(f, p, symmetric)","rhs":"<unspecified:gf_to_dict>","over":{"base":"Any"},"name":"gf_to_dict_correct"},"guarantee":"convert a ``gf(p)[x]`` polynomial to a dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_to_dict_correct","statement":"Path(gf_to_dict(x), convert a ``gf(p)[x]`` polynomial to a dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d951ea094d65ecf3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_to_dict(f, p, symmetric=True):
     """
     Convert a ``GF(p)[x]`` polynomial to a dict.
@@ -492,16 +583,22 @@ def gf_to_dict(f, p, symmetric=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_from_int_poly(f, ), create a ``gf(p)[x]`` polynomial from ``z[x]``) over Any ║
+# ║ Path(gf_from_int_poly(f, p), gf_trunc(f, p)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_trunc(f, p)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_from_int_poly : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 175b6cc048a3ef06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_from_int_poly","kind":"function","src_hash":"64c43e4e9f5e90e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_int_poly(f, )","rhs":"create a ``gf(p)[x]`` polynomial from ``z[x]``","over":{"base":"Any"},"name":"gf_from_int_poly_correct"},"guarantee":"create a ``gf(p)[x]`` polynomial from ``z[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"175b6cc048a3ef06"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_from_int_poly","kind":"function","src_hash":"64c43e4e9f5e90e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_int_poly(f, p)","rhs":"gf_trunc(f, p)","over":{"base":"Any"},"name":"gf_from_int_poly_correct"},"guarantee":"returns gf_trunc(f, p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"175b6cc048a3ef06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_trunc(f, p)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_from_int_poly(f, p):
     """
     Create a ``GF(p)[x]`` polynomial from ``Z[x]``.
@@ -519,16 +616,25 @@ def gf_from_int_poly(f, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_to_int_poly(f, ), convert a ``gf(p)[x]`` polynomial to ``z[x]``) over Any ║
+# ║ Path(gf_to_int_poly(f, p, symmetric), result == ([gf_int(c, p) for c in f] if symmetric else f) and result == [gf_int(c, p) for c in f] or result == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_to_int_poly : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([gf_int(c, p) for c in f] if s...   ║
+# ║   ensures:  result == [gf_int(c, p) for c in f] or re...   ║
+# ║   fiber[case_0]: symmetric => [gf_int(c, p) for c in f]    ║
+# ║   fiber[case_1]: not (symmetric) => f                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_to_int_poly : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f01726411c52c7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acf45c6e9a29a49f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_to_int_poly","kind":"function","src_hash":"a84360de0f43df85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_int_poly(f, )","rhs":"convert a ``gf(p)[x]`` polynomial to ``z[x]``","over":{"base":"Any"},"name":"gf_to_int_poly_correct"},"guarantee":"convert a ``gf(p)[x]`` polynomial to ``z[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_to_int_poly_correct","statement":"Path(gf_to_int_poly(x), convert a ``gf(p)[x]`` polynomial to ``z[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f01726411c52c7d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_to_int_poly","kind":"function","src_hash":"a84360de0f43df85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([gf_int(c, p) for c in f] if symmetric else f) and result == [gf_int(c, p) for c in f] or result == f"},"spec":{"lhs":"gf_to_int_poly(f, p, symmetric)","rhs":"result == ([gf_int(c, p) for c in f] if symmetric else f) and result == [gf_int(c, p) for c in f] or result == f","over":{"base":"Any"},"name":"gf_to_int_poly_correct"},"guarantee":"result == ([gf_int(c, p) for c in f] if symmetric else f); result == [gf_int(c, p) for c in f] or result == f; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_to_int_poly_correct","statement":"Path(gf_to_int_poly(x), result == ([gf_int(c, p) for c in f] if symmetric else f); result == [gf_int(c, p) for c in f] or result == f; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acf45c6e9a29a49f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([gf_int(c, p) for c in f] if symmetric else f)","result == [gf_int(c, p) for c in f] or result == f"],"fibers":[{"name":"case_0","guard":"symmetric","ensures":["result == [gf_int(c, p) for c in f]"],"decidability":"library","returns_expr":"[gf_int(c, p) for c in f]"},{"name":"case_1","guard":"not (symmetric)","ensures":["result == f"],"decidability":"library","returns_expr":"f"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_to_int_poly(f, p, symmetric=True):
     """
     Convert a ``GF(p)[x]`` polynomial to ``Z[x]``.
@@ -552,16 +658,22 @@ def gf_to_int_poly(f, p, symmetric=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_neg(f, ), negate a polynomial in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_neg(f, p, K), [-coeff % p for coeff in f]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [-coeff % p for coeff in f]                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_neg : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ed7a65a915d7d2c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_neg","kind":"function","src_hash":"a275b69dea2adac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_neg(f, )","rhs":"negate a polynomial in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_neg_correct"},"guarantee":"negate a polynomial in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ed7a65a915d7d2c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_neg","kind":"function","src_hash":"a275b69dea2adac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_neg(f, p, K)","rhs":"[-coeff % p for coeff in f]","over":{"base":"Any"},"name":"gf_neg_correct"},"guarantee":"returns [-coeff % p for coeff in f]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ed7a65a915d7d2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[-coeff % p for coeff in f]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_neg(f, p, K):
     """
     Negate a polynomial in ``GF(p)[x]``.
@@ -580,16 +692,22 @@ def gf_neg(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_add_ground(f, ), compute ``f + a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``) over Any ║
+# ║ Path(gf_add_ground(f, a, p), <unspecified:gf_add_ground>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_add_ground : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35aaf3441bc851f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_add_ground","kind":"function","src_hash":"3992ebd5619142eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_ground(f, )","rhs":"compute ``f + a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","over":{"base":"Any"},"name":"gf_add_ground_correct"},"guarantee":"compute ``f + a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_add_ground_correct","statement":"Path(gf_add_ground(x), compute ``f + a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35aaf3441bc851f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_add_ground","kind":"function","src_hash":"3992ebd5619142eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_ground(f, a, p)","rhs":"<unspecified:gf_add_ground>","over":{"base":"Any"},"name":"gf_add_ground_correct"},"guarantee":"compute ``f + a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_add_ground_correct","statement":"Path(gf_add_ground(x), compute ``f + a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35aaf3441bc851f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_add_ground(f, a, p, K):
     """
     Compute ``f + a`` where ``f`` in ``GF(p)[x]`` and ``a`` in ``GF(p)``.
@@ -619,16 +737,22 @@ def gf_add_ground(f, a, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sub_ground(f, ), compute ``f - a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``) over Any ║
+# ║ Path(gf_sub_ground(f, a, p), <unspecified:gf_sub_ground>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sub_ground : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bce7c4d5129c3b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sub_ground","kind":"function","src_hash":"bfbe36eba142ca37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_ground(f, )","rhs":"compute ``f - a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","over":{"base":"Any"},"name":"gf_sub_ground_correct"},"guarantee":"compute ``f - a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sub_ground_correct","statement":"Path(gf_sub_ground(x), compute ``f - a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bce7c4d5129c3b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sub_ground","kind":"function","src_hash":"bfbe36eba142ca37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_ground(f, a, p)","rhs":"<unspecified:gf_sub_ground>","over":{"base":"Any"},"name":"gf_sub_ground_correct"},"guarantee":"compute ``f - a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sub_ground_correct","statement":"Path(gf_sub_ground(x), compute ``f - a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bce7c4d5129c3b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_sub_ground(f, a, p, K):
     """
     Compute ``f - a`` where ``f`` in ``GF(p)[x]`` and ``a`` in ``GF(p)``.
@@ -658,16 +782,25 @@ def gf_sub_ground(f, a, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_mul_ground(f, ), compute ``f * a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``) over Any ║
+# ║ Path(gf_mul_ground(f, a, p), result == ([] if not a else [a * b % p for b in f]) and result == [] or result == [a * b % p for b in f]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_mul_ground : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([] if not a else [a * b % p fo...   ║
+# ║   ensures:  result == [] or result == [a * b % p for ...   ║
+# ║   fiber[case_0]: not a => []                               ║
+# ║   fiber[case_1]: not (not a) => [a * b % p for b in f]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_mul_ground : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 460adee50b807dbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3514f40aa5bc500c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_mul_ground","kind":"function","src_hash":"bca81984aa6977f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul_ground(f, )","rhs":"compute ``f * a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","over":{"base":"Any"},"name":"gf_mul_ground_correct"},"guarantee":"compute ``f * a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_mul_ground_correct","statement":"Path(gf_mul_ground(x), compute ``f * a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"460adee50b807dbf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_mul_ground","kind":"function","src_hash":"bca81984aa6977f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([] if not a else [a * b % p for b in f]) and result == [] or result == [a * b % p for b in f]"},"spec":{"lhs":"gf_mul_ground(f, a, p)","rhs":"result == ([] if not a else [a * b % p for b in f]) and result == [] or result == [a * b % p for b in f]","over":{"base":"Any"},"name":"gf_mul_ground_correct"},"guarantee":"result == ([] if not a else [a * b % p for b in f]); result == [] or result == [a * b % p for b in f]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_mul_ground_correct","statement":"Path(gf_mul_ground(x), result == ([] if not a else [a * b % p for b in f]); result == [] or result == [a * b % p for b in f]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3514f40aa5bc500c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([] if not a else [a * b % p for b in f])","result == [] or result == [a * b % p for b in f]"],"fibers":[{"name":"case_0","guard":"not a","ensures":["result == []"],"decidability":"library","returns_expr":"[]"},{"name":"case_1","guard":"not (not a)","ensures":["result == [a * b % p for b in f]"],"decidability":"library","returns_expr":"[a * b % p for b in f]"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_mul_ground(f, a, p, K):
     """
     Compute ``f * a`` where ``f`` in ``GF(p)[x]`` and ``a`` in ``GF(p)``.
@@ -689,16 +822,23 @@ def gf_mul_ground(f, a, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_quo_ground(f, ), compute ``f/a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``) over Any ║
+# ║ Path(gf_quo_ground(f, a, p), gf_mul_ground(f, K.invert(a, p), p, K)) over {Any | hasattr(K, 'invert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_quo_ground : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'invert')                           ║
+# ║   returns:  gf_mul_ground(f, K.invert(a, p), p, K)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_quo_ground : {Any | hasattr(K, 'invert')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0fa15941ca497125           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_quo_ground","kind":"function","src_hash":"917864726043013b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo_ground(f, )","rhs":"compute ``f/a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","over":{"base":"Any"},"name":"gf_quo_ground_correct"},"guarantee":"compute ``f/a`` where ``f`` in ``gf(p)[x]`` and ``a`` in ``gf(p)``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0fa15941ca497125"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_quo_ground","kind":"function","src_hash":"917864726043013b","in":{"base":"Any","pred":"hasattr(K, 'invert')"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo_ground(f, a, p)","rhs":"gf_mul_ground(f, K.invert(a, p), p, K)","over":{"base":"Any","pred":"hasattr(K, 'invert')"},"name":"gf_quo_ground_correct"},"guarantee":"returns gf_mul_ground(f, K.invert(a, p), p, K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0fa15941ca497125","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'invert')"],"returns_expr":"gf_mul_ground(f, K.invert(a, p), p, K)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.invert"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_quo_ground(f, a, p, K):
     """
     Compute ``f/a`` where ``f`` in ``GF(p)[x]`` and ``a`` in ``GF(p)``.
@@ -717,16 +857,22 @@ def gf_quo_ground(f, a, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_add(f, ), add polynomials in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_add(f, g, p), <unspecified:gf_add>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_add : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fed4fbf8b6c5019  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_add","kind":"function","src_hash":"d94c30c1d1f8e24d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add(f, )","rhs":"add polynomials in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_add_correct"},"guarantee":"add polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_add_correct","statement":"Path(gf_add(x), add polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fed4fbf8b6c5019"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_add","kind":"function","src_hash":"d94c30c1d1f8e24d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add(f, g, p)","rhs":"<unspecified:gf_add>","over":{"base":"Any"},"name":"gf_add_correct"},"guarantee":"add polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_add_correct","statement":"Path(gf_add(x), add polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fed4fbf8b6c5019","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_add(f, g, p, K):
     """
     Add polynomials in ``GF(p)[x]``.
@@ -763,16 +909,22 @@ def gf_add(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sub(f, ), subtract polynomials in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_sub(f, g, p), <unspecified:gf_sub>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sub : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26a59f29f4eb9cc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sub","kind":"function","src_hash":"a97544f7e1e14f6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub(f, )","rhs":"subtract polynomials in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_sub_correct"},"guarantee":"subtract polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sub_correct","statement":"Path(gf_sub(x), subtract polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26a59f29f4eb9cc3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sub","kind":"function","src_hash":"a97544f7e1e14f6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub(f, g, p)","rhs":"<unspecified:gf_sub>","over":{"base":"Any"},"name":"gf_sub_correct"},"guarantee":"subtract polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sub_correct","statement":"Path(gf_sub(x), subtract polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26a59f29f4eb9cc3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_sub(f, g, p, K):
     """
     Subtract polynomials in ``GF(p)[x]``.
@@ -809,16 +961,23 @@ def gf_sub(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_mul(f, ), multiply polynomials in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_mul(f, g, p), gf_strip(h)) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_mul : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   returns:  gf_strip(h)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_mul : {Any | hasattr(K, 'zero')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fd14095b62459f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76f3b9e54656674c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_mul","kind":"function","src_hash":"facb0f302195ccc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul(f, )","rhs":"multiply polynomials in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_mul_correct"},"guarantee":"multiply polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_mul_correct","statement":"Path(gf_mul(x), multiply polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fd14095b62459f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_mul","kind":"function","src_hash":"facb0f302195ccc2","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul(f, g, p)","rhs":"gf_strip(h)","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_mul_correct"},"guarantee":"returns gf_strip(h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_mul_correct","statement":"Path(gf_mul(x), returns gf_strip(h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76f3b9e54656674c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"returns_expr":"gf_strip(h)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_mul(f, g, p, K):
     """
     Multiply polynomials in ``GF(p)[x]``.
@@ -851,16 +1010,23 @@ def gf_mul(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqr(f, ), square polynomials in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_sqr(f, p, K), gf_strip(h)) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_sqr : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   returns:  gf_strip(h)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_sqr : {Any | hasattr(K, 'zero')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16070c1742486707  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e0bc04ca0894101  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqr","kind":"function","src_hash":"1eb4f7179f73556c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqr(f, )","rhs":"square polynomials in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_sqr_correct"},"guarantee":"square polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqr_correct","statement":"Path(gf_sqr(x), square polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16070c1742486707"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqr","kind":"function","src_hash":"1eb4f7179f73556c","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqr(f, p, K)","rhs":"gf_strip(h)","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_sqr_correct"},"guarantee":"returns gf_strip(h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqr_correct","statement":"Path(gf_sqr(x), returns gf_strip(h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e0bc04ca0894101","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"returns_expr":"gf_strip(h)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_sqr(f, p, K):
     """
     Square polynomials in ``GF(p)[x]``.
@@ -905,16 +1071,22 @@ def gf_sqr(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_add_mul(f, ), returns ``f + g*h`` where ``f``, ``g``, ``h`` in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_add_mul(f, g, h), gf_add(f, gf_mul(g, h, p, K), p, K)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_add(f, gf_mul(g, h, p, K), p, K)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_add_mul : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7e5dff8ffe842db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_add_mul","kind":"function","src_hash":"c20def3217c1f381","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_mul(f, )","rhs":"returns ``f + g*h`` where ``f``, ``g``, ``h`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_add_mul_correct"},"guarantee":"returns ``f + g*h`` where ``f``, ``g``, ``h`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7e5dff8ffe842db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_add_mul","kind":"function","src_hash":"c20def3217c1f381","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_mul(f, g, h)","rhs":"gf_add(f, gf_mul(g, h, p, K), p, K)","over":{"base":"Any"},"name":"gf_add_mul_correct"},"guarantee":"returns gf_add(f, gf_mul(g, h, p, K), p, K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7e5dff8ffe842db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_add(f, gf_mul(g, h, p, K), p, K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def gf_add_mul(f, g, h, p, K):
     """
     Returns ``f + g*h`` where ``f``, ``g``, ``h`` in ``GF(p)[x]``.
@@ -931,16 +1103,22 @@ def gf_add_mul(f, g, h, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sub_mul(f, ), compute ``f - g*h`` where ``f``, ``g``, ``h`` in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_sub_mul(f, g, h), gf_sub(f, gf_mul(g, h, p, K), p, K)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_sub(f, gf_mul(g, h, p, K), p, K)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sub_mul : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23a49fe27274f8b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sub_mul","kind":"function","src_hash":"9606ea8d94ef8ad6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_mul(f, )","rhs":"compute ``f - g*h`` where ``f``, ``g``, ``h`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_sub_mul_correct"},"guarantee":"compute ``f - g*h`` where ``f``, ``g``, ``h`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a49fe27274f8b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sub_mul","kind":"function","src_hash":"9606ea8d94ef8ad6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_mul(f, g, h)","rhs":"gf_sub(f, gf_mul(g, h, p, K), p, K)","over":{"base":"Any"},"name":"gf_sub_mul_correct"},"guarantee":"returns gf_sub(f, gf_mul(g, h, p, K), p, K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a49fe27274f8b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_sub(f, gf_mul(g, h, p, K), p, K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def gf_sub_mul(f, g, h, p, K):
     """
     Compute ``f - g*h`` where ``f``, ``g``, ``h`` in ``GF(p)[x]``.
@@ -959,9 +1137,13 @@ def gf_sub_mul(f, g, h, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_expand(F, ), expand results of :func:`~.factor` in ``gf(p)[x]``) over {Any | isinstance(F, tuple)} ║
+# ║ Path(gf_expand(F, p, K), <unspecified:gf_expand>) over {Any | isinstance(F, tuple) and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_expand : {Any | isinstance(F, tuple)} → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_expand : {Any | isinstance(F, tuple) and hasattr(K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(F, tuple)} → library_axiom            ║
@@ -971,9 +1153,12 @@ def gf_sub_mul(f, g, h, p, K):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9f9f7960...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_expand","kind":"function","src_hash":"1313057cf695fdb9","in":{"base":"Any","pred":"isinstance(F, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"gf_expand(F, )","rhs":"expand results of :func:`~.factor` in ``gf(p)[x]``","over":{"base":"Any","pred":"isinstance(F, tuple)"},"name":"gf_expand_correct"},"guarantee":"expand results of :func:`~.factor` in ``gf(p)[x]``","fibers":[{"name":"tuple","pred":"isinstance(F, tuple)","path":{"lhs":"gf_expand(x)","rhs":"expand results of :func:`~.factor` in ``gf(p)[x]``","over":{"base":"tuple","pred":"isinstance(F, tuple)"},"name":"gf_expand_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_expand_tuple_correct","statement":"gf_expand satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9f9f7960178bd067"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_expand","kind":"function","src_hash":"1313057cf695fdb9","in":{"base":"Any","pred":"isinstance(F, tuple) and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_expand(F, p, K)","rhs":"<unspecified:gf_expand>","over":{"base":"Any","pred":"isinstance(F, tuple) and hasattr(K, 'one')"},"name":"gf_expand_correct"},"guarantee":"expand results of :func:`~.factor` in ``gf(p)[x]``","fibers":[{"name":"tuple","pred":"isinstance(F, tuple)","path":{"lhs":"gf_expand(x)","rhs":"expand results of :func:`~.factor` in ``gf(p)[x]``","over":{"base":"tuple","pred":"isinstance(F, tuple)"},"name":"gf_expand_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_expand_tuple_correct","statement":"gf_expand satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9f9f7960178bd067","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(F, tuple)'}, fibers={'tuple'})"]}}
 def gf_expand(F, p, K):
     """
     Expand results of :func:`~.factor` in ``GF(p)[x]``.
@@ -1003,16 +1188,25 @@ def gf_expand(F, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_div(f, ), division with remainder in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_div(f, g, p), <unspecified:gf_div>) over {Any | g and hasattr(K, 'invert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_div : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: g                                              ║
+# ║   requires: hasattr(K, 'invert')                           ║
+# ║   fiber[case_0]: not g                                     ║
+# ║   fiber[case_1]: df < dg => ([], f)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_div : {Any | g and hasattr(K, 'invert')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64e5305009dabe01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6617792bd277dbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_div","kind":"function","src_hash":"6e30f02a1a1fc5be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_div(f, )","rhs":"division with remainder in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_div_correct"},"guarantee":"division with remainder in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_div_correct","statement":"Path(gf_div(x), division with remainder in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64e5305009dabe01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_div","kind":"function","src_hash":"6e30f02a1a1fc5be","in":{"base":"Any","pred":"g and hasattr(K, 'invert')"},"out":{"base":"Any"},"spec":{"lhs":"gf_div(f, g, p)","rhs":"<unspecified:gf_div>","over":{"base":"Any","pred":"g and hasattr(K, 'invert')"},"name":"gf_div_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_div_correct","statement":"Path(gf_div(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6617792bd277dbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["g","hasattr(K, 'invert')"],"fibers":[{"name":"case_0","guard":"not g","ensures":[],"decidability":"library"},{"name":"case_1","guard":"df < dg","ensures":["result == ([], f)"],"decidability":"z3","returns_expr":"([], f)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.invert"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_div(f, g, p, K):
     """
     Division with remainder in ``GF(p)[x]``.
@@ -1068,16 +1262,22 @@ def gf_div(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_rem(f, ), compute polynomial remainder in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_rem(f, g, p), gf_div(f, g, p, K)[1]) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_div(f, g, p, K)[1]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_rem : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad55de0c81fad8f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_rem","kind":"function","src_hash":"14f747d3ed32d21e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rem(f, )","rhs":"compute polynomial remainder in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_rem_correct"},"guarantee":"compute polynomial remainder in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad55de0c81fad8f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_rem","kind":"function","src_hash":"14f747d3ed32d21e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rem(f, g, p)","rhs":"gf_div(f, g, p, K)[1]","over":{"base":"Any"},"name":"gf_rem_correct"},"guarantee":"returns gf_div(f, g, p, K)[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad55de0c81fad8f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_div(f, g, p, K)[1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def gf_rem(f, g, p, K):
     """
     Compute polynomial remainder in ``GF(p)[x]``.
@@ -1096,16 +1296,25 @@ def gf_rem(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_quo(f, ), compute exact quotient in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_quo(f, g, p), <unspecified:gf_quo>) over {Any | g and hasattr(K, 'invert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_quo : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: g                                              ║
+# ║   requires: hasattr(K, 'invert')                           ║
+# ║   fiber[case_0]: not g                                     ║
+# ║   fiber[case_1]: df < dg => []                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_quo : {Any | g and hasattr(K, 'invert')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bcf3a23cbd8c890  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e396d1afb0154ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_quo","kind":"function","src_hash":"f482ea901c187590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo(f, )","rhs":"compute exact quotient in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_quo_correct"},"guarantee":"compute exact quotient in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_quo_correct","statement":"Path(gf_quo(x), compute exact quotient in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bcf3a23cbd8c890"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_quo","kind":"function","src_hash":"f482ea901c187590","in":{"base":"Any","pred":"g and hasattr(K, 'invert')"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo(f, g, p)","rhs":"<unspecified:gf_quo>","over":{"base":"Any","pred":"g and hasattr(K, 'invert')"},"name":"gf_quo_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_quo_correct","statement":"Path(gf_quo(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e396d1afb0154ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["g","hasattr(K, 'invert')"],"fibers":[{"name":"case_0","guard":"not g","ensures":[],"decidability":"library"},{"name":"case_1","guard":"df < dg","ensures":["result == []"],"decidability":"z3","returns_expr":"[]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.invert"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_quo(f, g, p, K):
     """
     Compute exact quotient in ``GF(p)[x]``.
@@ -1146,16 +1355,23 @@ def gf_quo(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_exquo(f, ), compute polynomial quotient in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_exquo(f, g, p), <unspecified:gf_exquo>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not r => q                                ║
+# ║   fiber[case_1]: not (not r)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_exquo : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8dbd78b0ce9bf9a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6034d8615cec6e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_exquo","kind":"function","src_hash":"c25c8aea90741f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_exquo(f, )","rhs":"compute polynomial quotient in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_exquo_correct"},"guarantee":"compute polynomial quotient in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_exquo_correct","statement":"Path(gf_exquo(x), compute polynomial quotient in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8dbd78b0ce9bf9a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_exquo","kind":"function","src_hash":"c25c8aea90741f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_exquo(f, g, p)","rhs":"<unspecified:gf_exquo>","over":{"base":"Any"},"name":"gf_exquo_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_exquo_correct","statement":"Path(gf_exquo(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6034d8615cec6e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not r","ensures":["result == q"],"decidability":"library","returns_expr":"q"},{"name":"case_1","guard":"not (not r)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ExactQuotientFailed"]},"state_contract":{"exceptional_post":{"ExactQuotientFailed":["isinstance(raised, ExactQuotientFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_exquo(f, g, p, K):
     """
     Compute polynomial quotient in ``GF(p)[x]``.
@@ -1184,16 +1400,26 @@ def gf_exquo(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_lshift(f, ), efficiently multiply ``f`` by ``x**n``) over Any ║
+# ║ Path(gf_lshift(f, n, K), result == (f if not f else f + [K.zero] * n) and result == f or result == f + [K.zero] * n) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_lshift : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  result == (f if not f else f + [K.zero] * n)   ║
+# ║   ensures:  result == f or result == f + [K.zero] * n      ║
+# ║   fiber[case_0]: not f => f                                ║
+# ║   fiber[case_1]: not (not f) => f + [K.zero] * n           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_lshift : {Any | hasattr(K, 'zero')} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ca36a5d878252fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de650567a0f48261  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_lshift","kind":"function","src_hash":"e93fb0ef887ad3ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lshift(f, )","rhs":"efficiently multiply ``f`` by ``x**n``","over":{"base":"Any"},"name":"gf_lshift_correct"},"guarantee":"efficiently multiply ``f`` by ``x**n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_lshift_correct","statement":"Path(gf_lshift(x), efficiently multiply ``f`` by ``x**n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ca36a5d878252fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_lshift","kind":"function","src_hash":"e93fb0ef887ad3ce","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: result == (f if not f else f + [K.zero] * n) and result == f or result == f + [K.zero] * n"},"spec":{"lhs":"gf_lshift(f, n, K)","rhs":"result == (f if not f else f + [K.zero] * n) and result == f or result == f + [K.zero] * n","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_lshift_correct"},"guarantee":"result == (f if not f else f + [K.zero] * n); result == f or result == f + [K.zero] * n; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_lshift_correct","statement":"Path(gf_lshift(x), result == (f if not f else f + [K.zero] * n); result == f or result == f + [K.zero] * n; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de650567a0f48261","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"ensures":["result == (f if not f else f + [K.zero] * n)","result == f or result == f + [K.zero] * n"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == f"],"decidability":"library","returns_expr":"f"},{"name":"case_1","guard":"not (not f)","ensures":["result == f + [K.zero] * n"],"decidability":"library","returns_expr":"f + [K.zero] * n"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def gf_lshift(f, n, K):
     """
     Efficiently multiply ``f`` by ``x**n``.
@@ -1215,16 +1441,25 @@ def gf_lshift(f, n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_rshift(f, ), efficiently divide ``f`` by ``x**n``) over Any ║
+# ║ Path(gf_rshift(f, n, K), result == ((f, []) if not n else (f[:-n], f[-n:])) and result == (f, []) or result == (f[:-n], f[-n:])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_rshift : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((f, []) if not n else (f[:-n],...   ║
+# ║   ensures:  result == (f, []) or result == (f[:-n], f...   ║
+# ║   fiber[case_0]: not n => (f, [])                          ║
+# ║   fiber[case_1]: not (not n) => (f[:-n], f[-n:])           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_rshift : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd2b89ee49cbc96f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2800107573cdb660  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_rshift","kind":"function","src_hash":"e8ea076d40c6eda2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rshift(f, )","rhs":"efficiently divide ``f`` by ``x**n``","over":{"base":"Any"},"name":"gf_rshift_correct"},"guarantee":"efficiently divide ``f`` by ``x**n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_rshift_correct","statement":"Path(gf_rshift(x), efficiently divide ``f`` by ``x**n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd2b89ee49cbc96f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_rshift","kind":"function","src_hash":"e8ea076d40c6eda2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((f, []) if not n else (f[:-n], f[-n:])) and result == (f, []) or result == (f[:-n], f[-n:])"},"spec":{"lhs":"gf_rshift(f, n, K)","rhs":"result == ((f, []) if not n else (f[:-n], f[-n:])) and result == (f, []) or result == (f[:-n], f[-n:])","over":{"base":"Any"},"name":"gf_rshift_correct"},"guarantee":"result == ((f, []) if not n else (f[:-n], f[-n:])); result == (f, []) or result == (f[:-n], f[-n:]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_rshift_correct","statement":"Path(gf_rshift(x), result == ((f, []) if not n else (f[:-n], f[-n:])); result == (f, []) or result == (f[:-n], f[-n:]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2800107573cdb660","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((f, []) if not n else (f[:-n], f[-n:]))","result == (f, []) or result == (f[:-n], f[-n:])"],"fibers":[{"name":"case_0","guard":"not n","ensures":["result == (f, [])"],"decidability":"library","returns_expr":"(f, [])"},{"name":"case_1","guard":"not (not n)","ensures":["result == (f[:-n], f[-n:])"],"decidability":"library","returns_expr":"(f[:-n], f[-n:])"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_rshift(f, n, K):
     """
     Efficiently divide ``f`` by ``x**n``.
@@ -1246,16 +1481,27 @@ def gf_rshift(f, n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_pow(f, ), compute ``f**n`` in ``gf(p)[x]`` using repeated squaring) over Any ║
+# ║ Path(gf_pow(f, n, p), result == ([K.one] if not n else f if n == 1 else gf_sqr(f, p, K)) and result == [K.one] or result == f or result == gf_sqr(f, p, K)) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_pow : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ensures:  result == ([K.one] if not n else f if n =...   ║
+# ║   ensures:  result == [K.one] or result == f or resul...   ║
+# ║   fiber[case_0]: not n => [K.one]                          ║
+# ║   fiber[case_1]: n == 1 => f                               ║
+# ║   fiber[case_2]: n == 2 => gf_sqr(f, p, K)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_pow : {Any | hasattr(K, 'one')} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7dcc1f1ae6ab929  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14a3a8048f6feed4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_pow","kind":"function","src_hash":"980f3908ef35fc3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_pow(f, )","rhs":"compute ``f**n`` in ``gf(p)[x]`` using repeated squaring","over":{"base":"Any"},"name":"gf_pow_correct"},"guarantee":"compute ``f**n`` in ``gf(p)[x]`` using repeated squaring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_pow_correct","statement":"Path(gf_pow(x), compute ``f**n`` in ``gf(p)[x]`` using repeated squaring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7dcc1f1ae6ab929"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_pow","kind":"function","src_hash":"980f3908ef35fc3a","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: result == ([K.one] if not n else f if n == 1 else gf_sqr(f, p, K)) and result == [K.one] or result == f or result == gf_sqr(f, p, K)"},"spec":{"lhs":"gf_pow(f, n, p)","rhs":"result == ([K.one] if not n else f if n == 1 else gf_sqr(f, p, K)) and result == [K.one] or result == f or result == gf_sqr(f, p, K)","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"gf_pow_correct"},"guarantee":"result == ([K.one] if not n else f if n == 1 else gf_sqr(f, p, K)); result == [K.one] or result == f or result == gf_sqr(f, p, K); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_pow_correct","statement":"Path(gf_pow(x), result == ([K.one] if not n else f if n == 1 else gf_sqr(f, p, K)); result == [K.one] or result == f or result == gf_sqr(f, p, K); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14a3a8048f6feed4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"ensures":["result == ([K.one] if not n else f if n == 1 else gf_sqr(f, p, K))","result == [K.one] or result == f or result == gf_sqr(f, p, K)"],"fibers":[{"name":"case_0","guard":"not n","ensures":["result == [K.one]"],"decidability":"library","returns_expr":"[K.one]"},{"name":"case_1","guard":"n == 1","ensures":["result == f"],"decidability":"z3","returns_expr":"f"},{"name":"case_2","guard":"n == 2","ensures":["result == gf_sqr(f, p, K)"],"decidability":"z3","returns_expr":"gf_sqr(f, p, K)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_pow(f, n, p, K):
     """
     Compute ``f**n`` in ``GF(p)[x]`` using repeated squaring.
@@ -1294,16 +1540,24 @@ def gf_pow(f, n, p, K):
     return h
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_frobenius_monomial_base(g, ), return the list of ``x**(i*p) mod g in z_p`` for ``i = 0, .., n - 1`` where ``n = gf_degree(g)``) over Any ║
+# ║ Path(gf_frobenius_monomial_base(g, p, K), <unspecified:gf_frobenius_monomial_base>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_frobenius_monomial_base : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_frobenius_monomial_base : {Any | hasattr(K, 'one')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 904c6e2b634d57fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_frobenius_monomial_base","kind":"function","src_hash":"14b6814a1e4646a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_frobenius_monomial_base(g, )","rhs":"return the list of ``x**(i*p) mod g in z_p`` for ``i = 0, .., n - 1`` where ``n = gf_degree(g)``","over":{"base":"Any"},"name":"gf_frobenius_monomial_base_correct"},"guarantee":"return the list of ``x**(i*p) mod g in z_p`` for ``i = 0, .., n - 1`` where ``n = gf_degree(g)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_frobenius_monomial_base_correct","statement":"Path(gf_frobenius_monomial_base(x), return the list of ``x**(i*p) mod g in z_p`` for ``i = 0, .., n - 1`` where ``n = gf_degree(g)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"904c6e2b634d57fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_frobenius_monomial_base","kind":"function","src_hash":"14b6814a1e4646a1","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_frobenius_monomial_base(g, p, K)","rhs":"<unspecified:gf_frobenius_monomial_base>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_frobenius_monomial_base_correct"},"guarantee":"return the list of ``x**(i*p) mod g in z_p`` for ``i = 0, .., n - 1`` where ``n = gf_degree(g)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_frobenius_monomial_base_correct","statement":"Path(gf_frobenius_monomial_base(x), return the list of ``x**(i*p) mod g in z_p`` for ``i = 0, .., n - 1`` where ``n = gf_degree(g)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"904c6e2b634d57fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_frobenius_monomial_base(g, p, K):
     """
     return the list of ``x**(i*p) mod g in Z_p`` for ``i = 0, .., n - 1``
@@ -1337,16 +1591,22 @@ def gf_frobenius_monomial_base(g, p, K):
     return b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_frobenius_map(f, ), compute gf_pow_mod(f, p, g, p, k) using the frobenius map) over Any ║
+# ║ Path(gf_frobenius_map(f, g, b), <unspecified:gf_frobenius_map>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_frobenius_map : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49f90df09bcb8dff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_frobenius_map","kind":"function","src_hash":"3a6c6e6337ae1ae0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_frobenius_map(f, )","rhs":"compute gf_pow_mod(f, p, g, p, k) using the frobenius map","over":{"base":"Any"},"name":"gf_frobenius_map_correct"},"guarantee":"compute gf_pow_mod(f, p, g, p, k) using the frobenius map","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_frobenius_map_correct","statement":"Path(gf_frobenius_map(x), compute gf_pow_mod(f, p, g, p, k) using the frobenius map)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49f90df09bcb8dff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_frobenius_map","kind":"function","src_hash":"3a6c6e6337ae1ae0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_frobenius_map(f, g, b)","rhs":"<unspecified:gf_frobenius_map>","over":{"base":"Any"},"name":"gf_frobenius_map_correct"},"guarantee":"compute gf_pow_mod(f, p, g, p, k) using the frobenius map","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_frobenius_map_correct","statement":"Path(gf_frobenius_map(x), compute gf_pow_mod(f, p, g, p, k) using the frobenius map)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49f90df09bcb8dff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_frobenius_map(f, g, b, p, K):
     """
     compute gf_pow_mod(f, p, g, p, K) using the Frobenius map
@@ -1385,16 +1645,22 @@ def gf_frobenius_map(f, g, b, p, K):
     return sf
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gf_pow_pnm1d2(f, ), utility function for ``gf_edf_zassenhaus`` compute ``f**((p**n - 1) // 2)`` in ``gf(p)[x]/(g)`` ``f**((p**n - 1) // 2) = (f*f**p*...*f**(p**n - 1))**((p - 1) // 2)``) over Any ║
+# ║ Path(_gf_pow_pnm1d2(f, n, g), <unspecified:_gf_pow_pnm1d2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gf_pow_pnm1d2 : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab20cb6f5827895  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._gf_pow_pnm1d2","kind":"function","src_hash":"f4ccc1085dbafbc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_pow_pnm1d2(f, )","rhs":"utility function for ``gf_edf_zassenhaus`` compute ``f**((p**n - 1) // 2)`` in ``gf(p)[x]/(g)`` ``f**((p**n - 1) // 2) = (f*f**p*...*f**(p**n - 1))**((p - 1) // 2)``","over":{"base":"Any"},"name":"_gf_pow_pnm1d2_correct"},"guarantee":"utility function for ``gf_edf_zassenhaus`` compute ``f**((p**n - 1) // 2)`` in ``gf(p)[x]/(g)`` ``f**((p**n - 1) // 2) = (f*f**p*...*f**(p**n - 1))**((p - 1) // 2)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._gf_pow_pnm1d2_correct","statement":"Path(_gf_pow_pnm1d2(x), utility function for ``gf_edf_zassenhaus`` compute ``f**((p**n - 1) // 2)`` in ``gf(p)[x]/(g)`` ``f**((p**n - 1) // 2) = (f*f**p*...*f**(p**n - 1))**((p - 1) // 2)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab20cb6f5827895"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._gf_pow_pnm1d2","kind":"function","src_hash":"f4ccc1085dbafbc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_pow_pnm1d2(f, n, g)","rhs":"<unspecified:_gf_pow_pnm1d2>","over":{"base":"Any"},"name":"_gf_pow_pnm1d2_correct"},"guarantee":"utility function for ``gf_edf_zassenhaus`` compute ``f**((p**n - 1) // 2)`` in ``gf(p)[x]/(g)`` ``f**((p**n - 1) // 2) = (f*f**p*...*f**(p**n - 1))**((p - 1) // 2)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._gf_pow_pnm1d2_correct","statement":"Path(_gf_pow_pnm1d2(x), utility function for ``gf_edf_zassenhaus`` compute ``f**((p**n - 1) // 2)`` in ``gf(p)[x]/(g)`` ``f**((p**n - 1) // 2) = (f*f**p*...*f**(p**n - 1))**((p - 1) // 2)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab20cb6f5827895","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _gf_pow_pnm1d2(f, n, g, b, p, K):
     """
     utility function for ``gf_edf_zassenhaus``
@@ -1413,16 +1679,27 @@ def _gf_pow_pnm1d2(f, n, g, b, p, K):
     return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_pow_mod(f, ), compute ``f**n`` in ``gf(p)[x]/(g)`` using repeated squaring) over Any ║
+# ║ Path(gf_pow_mod(f, n, g), result == ([K.one] if not n else gf_rem(f, g, p, K) if n == 1 else gf_rem(gf_sqr(f, p, K), g, p, K)) and result == [K.one] or result == gf_rem(f, g, p, K) or result == gf_rem(gf_sqr(f, p, K), g, p, K)) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_pow_mod : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ensures:  result == ([K.one] if not n else gf_rem(f...   ║
+# ║   ensures:  result == [K.one] or result == gf_rem(f, ...   ║
+# ║   fiber[case_0]: not n => [K.one]                          ║
+# ║   fiber[case_1]: n == 1 => gf_rem(f, g, p, K)              ║
+# ║   fiber[case_2]: n == 2 => gf_rem(gf_sqr(f, p, K), g,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_pow_mod : {Any | hasattr(K, 'one')} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c8c535522654baf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d587655590085cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_pow_mod","kind":"function","src_hash":"f5b44f76c52562d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_pow_mod(f, )","rhs":"compute ``f**n`` in ``gf(p)[x]/(g)`` using repeated squaring","over":{"base":"Any"},"name":"gf_pow_mod_correct"},"guarantee":"compute ``f**n`` in ``gf(p)[x]/(g)`` using repeated squaring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_pow_mod_correct","statement":"Path(gf_pow_mod(x), compute ``f**n`` in ``gf(p)[x]/(g)`` using repeated squaring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c8c535522654baf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_pow_mod","kind":"function","src_hash":"f5b44f76c52562d7","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: result == ([K.one] if not n else gf_rem(f, g, p, K) if n == 1 else gf_rem(gf_sqr(f, p, K), g, p, K)) and result == [K.one] or result == gf_rem(f, g, p, K) or result == gf_rem(gf_sqr(f, p, K), g, p, K)"},"spec":{"lhs":"gf_pow_mod(f, n, g)","rhs":"result == ([K.one] if not n else gf_rem(f, g, p, K) if n == 1 else gf_rem(gf_sqr(f, p, K), g, p, K)) and result == [K.one] or result == gf_rem(f, g, p, K) or result == gf_rem(gf_sqr(f, p, K), g, p, K)","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"gf_pow_mod_correct"},"guarantee":"result == ([K.one] if not n else gf_rem(f, g, p, K) if n == 1 else gf_rem(gf_sqr(f, p, K), g, p, K)); result == [K.one] or result == gf_rem(f, g, p, K) or result == gf_rem(gf_sqr(f, p, K), g, p, K); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_pow_mod_correct","statement":"Path(gf_pow_mod(x), result == ([K.one] if not n else gf_rem(f, g, p, K) if n == 1 else gf_rem(gf_sqr(f, p, K), g, p, K)); result == [K.one] or result == gf_rem(f, g, p, K) or result == gf_rem(gf_sqr(f, p, K), g, p, K); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d587655590085cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"ensures":["result == ([K.one] if not n else gf_rem(f, g, p, K) if n == 1 else gf_rem(gf_sqr(f, p, K), g, p, K))","result == [K.one] or result == gf_rem(f, g, p, K) or result == gf_rem(gf_sqr(f, p, K), g, p, K)"],"fibers":[{"name":"case_0","guard":"not n","ensures":["result == [K.one]"],"decidability":"library","returns_expr":"[K.one]"},{"name":"case_1","guard":"n == 1","ensures":["result == gf_rem(f, g, p, K)"],"decidability":"z3","returns_expr":"gf_rem(f, g, p, K)"},{"name":"case_2","guard":"n == 2","ensures":["result == gf_rem(gf_sqr(f, p, K), g, p, K)"],"decidability":"z3","returns_expr":"gf_rem(gf_sqr(f, p, K), g, p, K)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_pow_mod(f, n, g, p, K):
     """
     Compute ``f**n`` in ``GF(p)[x]/(g)`` using repeated squaring.
@@ -1473,16 +1750,22 @@ def gf_pow_mod(f, n, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_gcd(f, ), euclidean algorithm in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_gcd(f, g, p), gf_monic(f, p, K)[1]) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_monic(f, p, K)[1]                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_gcd : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e860c73f28eeb283  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fd44a0920e8313d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_gcd","kind":"function","src_hash":"5021b771083d8d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcd(f, )","rhs":"euclidean algorithm in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_gcd_correct"},"guarantee":"euclidean algorithm in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_gcd_correct","statement":"Path(gf_gcd(x), euclidean algorithm in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e860c73f28eeb283"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_gcd","kind":"function","src_hash":"5021b771083d8d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcd(f, g, p)","rhs":"gf_monic(f, p, K)[1]","over":{"base":"Any"},"name":"gf_gcd_correct"},"guarantee":"returns gf_monic(f, p, K)[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_gcd_correct","statement":"Path(gf_gcd(x), returns gf_monic(f, p, K)[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fd44a0920e8313d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_monic(f, p, K)[1]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_gcd(f, g, p, K):
     """
     Euclidean Algorithm in ``GF(p)[x]``.
@@ -1504,16 +1787,22 @@ def gf_gcd(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_lcm(f, ), compute polynomial lcm in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_lcm(f, g, p), <unspecified:gf_lcm>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_lcm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c842ee8df7f8e890  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_lcm","kind":"function","src_hash":"69f22b39368df07a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lcm(f, )","rhs":"compute polynomial lcm in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_lcm_correct"},"guarantee":"compute polynomial lcm in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_lcm_correct","statement":"Path(gf_lcm(x), compute polynomial lcm in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c842ee8df7f8e890"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_lcm","kind":"function","src_hash":"69f22b39368df07a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lcm(f, g, p)","rhs":"<unspecified:gf_lcm>","over":{"base":"Any"},"name":"gf_lcm_correct"},"guarantee":"compute polynomial lcm in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_lcm_correct","statement":"Path(gf_lcm(x), compute polynomial lcm in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c842ee8df7f8e890","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_lcm(f, g, p, K):
     """
     Compute polynomial LCM in ``GF(p)[x]``.
@@ -1538,16 +1827,22 @@ def gf_lcm(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_cofactors(f, ), compute polynomial gcd and cofactors in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_cofactors(f, g, p), <unspecified:gf_cofactors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_cofactors : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e98c09adcf935fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_cofactors","kind":"function","src_hash":"3c1d0f4c9b8f990a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_cofactors(f, )","rhs":"compute polynomial gcd and cofactors in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_cofactors_correct"},"guarantee":"compute polynomial gcd and cofactors in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_cofactors_correct","statement":"Path(gf_cofactors(x), compute polynomial gcd and cofactors in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e98c09adcf935fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_cofactors","kind":"function","src_hash":"3c1d0f4c9b8f990a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_cofactors(f, g, p)","rhs":"<unspecified:gf_cofactors>","over":{"base":"Any"},"name":"gf_cofactors_correct"},"guarantee":"compute polynomial gcd and cofactors in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_cofactors_correct","statement":"Path(gf_cofactors(x), compute polynomial gcd and cofactors in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e98c09adcf935fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_cofactors(f, g, p, K):
     """
     Compute polynomial GCD and cofactors in ``GF(p)[x]``.
@@ -1572,16 +1867,24 @@ def gf_cofactors(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_gcdex(f, ), extended euclidean algorithm in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_gcdex(f, g, p), <unspecified:gf_gcdex>) over {Any | hasattr(K, 'invert') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_gcdex : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'invert')                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_gcdex : {Any | hasattr(K, 'invert') and hasattr(K,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e420bc29106023ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_gcdex","kind":"function","src_hash":"143981f15a041dc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcdex(f, )","rhs":"extended euclidean algorithm in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_gcdex_correct"},"guarantee":"extended euclidean algorithm in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_gcdex_correct","statement":"Path(gf_gcdex(x), extended euclidean algorithm in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e420bc29106023ec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_gcdex","kind":"function","src_hash":"143981f15a041dc3","in":{"base":"Any","pred":"hasattr(K, 'invert') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcdex(f, g, p)","rhs":"<unspecified:gf_gcdex>","over":{"base":"Any","pred":"hasattr(K, 'invert') and hasattr(K, 'one')"},"name":"gf_gcdex_correct"},"guarantee":"extended euclidean algorithm in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_gcdex_correct","statement":"Path(gf_gcdex(x), extended euclidean algorithm in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e420bc29106023ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'invert')","hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.invert","K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gf_gcdex(f, g, p, K):
     """
     Extended Euclidean Algorithm in ``GF(p)[x]``.
@@ -1649,16 +1952,25 @@ def gf_gcdex(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_monic(f, ), compute lc and a monic polynomial in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_monic(f, p, K), <unspecified:gf_monic>) over {Any | hasattr(K, 'zero') and hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_monic : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   fiber[case_0]: not f => (K.zero, [])                     ║
+# ║   fiber[case_1]: not (not f)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_monic : {Any | hasattr(K, 'zero') and hasattr(K, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33af340b9636a414  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 302de5eba711b816  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_monic","kind":"function","src_hash":"235048d551ac4374","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_monic(f, )","rhs":"compute lc and a monic polynomial in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_monic_correct"},"guarantee":"compute lc and a monic polynomial in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_monic_correct","statement":"Path(gf_monic(x), compute lc and a monic polynomial in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33af340b9636a414"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_monic","kind":"function","src_hash":"235048d551ac4374","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_monic(f, p, K)","rhs":"<unspecified:gf_monic>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'is_one')"},"name":"gf_monic_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_monic_correct","statement":"Path(gf_monic(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"302de5eba711b816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')","hasattr(K, 'is_one')"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == (K.zero, [])"],"decidability":"library","returns_expr":"(K.zero, [])"},{"name":"case_1","guard":"not (not f)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_monic(f, p, K):
     """
     Compute LC and a monic polynomial in ``GF(p)[x]``.
@@ -1685,16 +1997,23 @@ def gf_monic(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_diff(f, ), differentiate polynomial in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_diff(f, p, K), gf_strip(h)) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_diff : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   returns:  gf_strip(h)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_diff : {Any | hasattr(K, 'zero')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c79607331bd1abea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51c1fc08e6b8425b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_diff","kind":"function","src_hash":"fefc7d40bc8600f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_diff(f, )","rhs":"differentiate polynomial in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_diff_correct"},"guarantee":"differentiate polynomial in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_diff_correct","statement":"Path(gf_diff(x), differentiate polynomial in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79607331bd1abea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_diff","kind":"function","src_hash":"fefc7d40bc8600f6","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_diff(f, p, K)","rhs":"gf_strip(h)","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_diff_correct"},"guarantee":"returns gf_strip(h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_diff_correct","statement":"Path(gf_diff(x), returns gf_strip(h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51c1fc08e6b8425b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"returns_expr":"gf_strip(h)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_diff(f, p, K):
     """
     Differentiate polynomial in ``GF(p)[x]``.
@@ -1726,16 +2045,23 @@ def gf_diff(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_eval(f, ), evaluate ``f(a)`` in ``gf(p)`` using horner scheme) over Any ║
+# ║ Path(gf_eval(f, a, p), <unspecified:gf_eval>) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_eval : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_eval : {Any | hasattr(K, 'zero')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1830e605a6bf6cd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_eval","kind":"function","src_hash":"98e2a7bf307693b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_eval(f, )","rhs":"evaluate ``f(a)`` in ``gf(p)`` using horner scheme","over":{"base":"Any"},"name":"gf_eval_correct"},"guarantee":"evaluate ``f(a)`` in ``gf(p)`` using horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_eval_correct","statement":"Path(gf_eval(x), evaluate ``f(a)`` in ``gf(p)`` using horner scheme)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1830e605a6bf6cd2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_eval","kind":"function","src_hash":"98e2a7bf307693b0","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_eval(f, a, p)","rhs":"<unspecified:gf_eval>","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"gf_eval_correct"},"guarantee":"evaluate ``f(a)`` in ``gf(p)`` using horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_eval_correct","statement":"Path(gf_eval(x), evaluate ``f(a)`` in ``gf(p)`` using horner scheme)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1830e605a6bf6cd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_eval(f, a, p, K):
     """
     Evaluate ``f(a)`` in ``GF(p)`` using Horner scheme.
@@ -1761,16 +2087,22 @@ def gf_eval(f, a, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_multi_eval(f, ), evaluate ``f(a)`` for ``a`` in ``[a_1, ..., a_n]``) over Any ║
+# ║ Path(gf_multi_eval(f, A, p), [gf_eval(f, a, p, K) for a in A]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gf_eval(f, a, p, K) for a in A]               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_multi_eval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d4e0f9ea89c3b5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_multi_eval","kind":"function","src_hash":"65f914ee7e9ef768","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_multi_eval(f, )","rhs":"evaluate ``f(a)`` for ``a`` in ``[a_1, ..., a_n]``","over":{"base":"Any"},"name":"gf_multi_eval_correct"},"guarantee":"evaluate ``f(a)`` for ``a`` in ``[a_1, ..., a_n]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d4e0f9ea89c3b5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_multi_eval","kind":"function","src_hash":"65f914ee7e9ef768","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_multi_eval(f, A, p)","rhs":"[gf_eval(f, a, p, K) for a in A]","over":{"base":"Any"},"name":"gf_multi_eval_correct"},"guarantee":"returns [gf_eval(f, a, p, K) for a in A]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d4e0f9ea89c3b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gf_eval(f, a, p, K) for a in A]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def gf_multi_eval(f, A, p, K):
     """
     Evaluate ``f(a)`` for ``a`` in ``[a_1, ..., a_n]``.
@@ -1789,16 +2121,22 @@ def gf_multi_eval(f, A, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_compose(f, ), id) over Any                         ║
+# ║ Path(gf_compose(f, g, p), id) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_compose : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 21e32166e1de5809   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_compose","kind":"function","src_hash":"3a4c57f0407b7dff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose(f, )","rhs":"compute polynomial composition ``f(g)`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_compose_correct","kind":"composition"},"guarantee":"compute polynomial composition ``f(g)`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gf_strip","by":"library_axiom"},{"fn":"gf_eval","by":"library_axiom"},{"fn":"gf_LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21e32166e1de5809"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_compose","kind":"function","src_hash":"3a4c57f0407b7dff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose(f, g, p)","rhs":"<unspecified:gf_compose>","over":{"base":"Any"},"name":"gf_compose_correct","kind":"composition"},"guarantee":"compute polynomial composition ``f(g)`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gf_strip","by":"library_axiom"},{"fn":"gf_eval","by":"library_axiom"},{"fn":"gf_LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21e32166e1de5809","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_compose(f, g, p, K):
     """
     Compute polynomial composition ``f(g)`` in ``GF(p)[x]``.
@@ -1829,16 +2167,22 @@ def gf_compose(f, g, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_compose_mod(g, ), compute polynomial composition ``g(h)`` in ``gf(p)[x]/(f)``) over Any ║
+# ║ Path(gf_compose_mod(g, h, f), <unspecified:gf_compose_mod>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_compose_mod : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0159efbd8aaf5ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_compose_mod","kind":"function","src_hash":"4173b64e951b66d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose_mod(g, )","rhs":"compute polynomial composition ``g(h)`` in ``gf(p)[x]/(f)``","over":{"base":"Any"},"name":"gf_compose_mod_correct"},"guarantee":"compute polynomial composition ``g(h)`` in ``gf(p)[x]/(f)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_compose_mod_correct","statement":"Path(gf_compose_mod(x), compute polynomial composition ``g(h)`` in ``gf(p)[x]/(f)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0159efbd8aaf5ed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_compose_mod","kind":"function","src_hash":"4173b64e951b66d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose_mod(g, h, f)","rhs":"<unspecified:gf_compose_mod>","over":{"base":"Any"},"name":"gf_compose_mod_correct"},"guarantee":"compute polynomial composition ``g(h)`` in ``gf(p)[x]/(f)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_compose_mod_correct","statement":"Path(gf_compose_mod(x), compute polynomial composition ``g(h)`` in ``gf(p)[x]/(f)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0159efbd8aaf5ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_compose_mod(g, h, f, p, K):
     """
     Compute polynomial composition ``g(h)`` in ``GF(p)[x]/(f)``.
@@ -1867,16 +2211,22 @@ def gf_compose_mod(g, h, f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_trace_map(a, ), compute polynomial trace map in ``gf(p)[x]/(f)``) over Any ║
+# ║ Path(gf_trace_map(a, b, c), (gf_compose_mod(a, V, f, p, K), U)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (gf_compose_mod(a, V, f, p, K), U)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_trace_map : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0d9f9c597a4a4e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26348794b9a2f7de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_trace_map","kind":"function","src_hash":"3ec3677174e7bcb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trace_map(a, )","rhs":"compute polynomial trace map in ``gf(p)[x]/(f)``","over":{"base":"Any"},"name":"gf_trace_map_correct"},"guarantee":"compute polynomial trace map in ``gf(p)[x]/(f)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_trace_map_correct","statement":"Path(gf_trace_map(x), compute polynomial trace map in ``gf(p)[x]/(f)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0d9f9c597a4a4e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_trace_map","kind":"function","src_hash":"3ec3677174e7bcb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trace_map(a, b, c)","rhs":"(gf_compose_mod(a, V, f, p, K), U)","over":{"base":"Any"},"name":"gf_trace_map_correct"},"guarantee":"returns (gf_compose_mod(a, V, f, p, K), U)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_trace_map_correct","statement":"Path(gf_trace_map(x), returns (gf_compose_mod(a, V, f, p, K), U))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26348794b9a2f7de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(gf_compose_mod(a, V, f, p, K), U)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_trace_map(a, b, c, n, f, p, K):
     """
     Compute polynomial trace map in ``GF(p)[x]/(f)``.
@@ -1933,16 +2283,22 @@ def gf_trace_map(a, b, c, n, f, p, K):
     return gf_compose_mod(a, V, f, p, K), U
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gf_trace_map(f, ), utility for ``gf_edf_shoup``) over Any ║
+# ║ Path(_gf_trace_map(f, n, g), <unspecified:_gf_trace_map>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gf_trace_map : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e27b63b278e905c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._gf_trace_map","kind":"function","src_hash":"062ff22d08675196","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_trace_map(f, )","rhs":"utility for ``gf_edf_shoup``","over":{"base":"Any"},"name":"_gf_trace_map_correct"},"guarantee":"utility for ``gf_edf_shoup``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._gf_trace_map_correct","statement":"Path(_gf_trace_map(x), utility for ``gf_edf_shoup``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e27b63b278e905c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._gf_trace_map","kind":"function","src_hash":"062ff22d08675196","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_trace_map(f, n, g)","rhs":"<unspecified:_gf_trace_map>","over":{"base":"Any"},"name":"_gf_trace_map_correct"},"guarantee":"utility for ``gf_edf_shoup``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._gf_trace_map_correct","statement":"Path(_gf_trace_map(x), utility for ``gf_edf_shoup``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e27b63b278e905c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _gf_trace_map(f, n, g, b, p, K):
     """
     utility for ``gf_edf_shoup``
@@ -1958,16 +2314,23 @@ def _gf_trace_map(f, n, g, b, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_random(n, ), id) over Any                          ║
+# ║ Path(gf_random(n, p, K), id) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_random : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   returns:  [K.one] + [K(int(uniform(0, pi))) for i i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_random : {Any | hasattr(K, 'one')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 51208d4b96c01d55   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_random","kind":"function","src_hash":"41364412a9434d1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_random(n, )","rhs":"generate a random polynomial in ``gf(p)[x]`` of degree ``n``","over":{"base":"Any"},"name":"gf_random_correct","kind":"composition"},"guarantee":"generate a random polynomial in ``gf(p)[x]`` of degree ``n``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K","by":"library_axiom"},{"fn":"int","by":"library_axiom"},{"fn":"uniform","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51208d4b96c01d55"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_random","kind":"function","src_hash":"41364412a9434d1d","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_random(n, p, K)","rhs":"[K.one] + [K(int(uniform(0, pi))) for i in range(0, n)]","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"gf_random_correct","kind":"composition"},"guarantee":"returns [K.one] + [K(int(uniform(0, pi))) for i in range(0, n)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K","by":"library_axiom"},{"fn":"int","by":"library_axiom"},{"fn":"uniform","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51208d4b96c01d55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"returns_expr":"[K.one] + [K(int(uniform(0, pi))) for i in range(0, n)]","pure":false,"effects":{"effect_type":"nondeterministic","reads":["K.one"],"nondeterministic_sources":["uniform"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_random(n, p, K):
     """
     Generate a random polynomial in ``GF(p)[x]`` of degree ``n``.
@@ -1986,16 +2349,22 @@ def gf_random(n, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irreducible(n, ), generate random irreducible polynomial of degree ``n`` in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_irreducible(n, p, K), <unspecified:gf_irreducible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_irreducible : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 992ac23674bfdf24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irreducible","kind":"function","src_hash":"e74533576940d059","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible(n, )","rhs":"generate random irreducible polynomial of degree ``n`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_irreducible_correct"},"guarantee":"generate random irreducible polynomial of degree ``n`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irreducible_correct","statement":"Path(gf_irreducible(x), generate random irreducible polynomial of degree ``n`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"992ac23674bfdf24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irreducible","kind":"function","src_hash":"e74533576940d059","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible(n, p, K)","rhs":"<unspecified:gf_irreducible>","over":{"base":"Any"},"name":"gf_irreducible_correct"},"guarantee":"generate random irreducible polynomial of degree ``n`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irreducible_correct","statement":"Path(gf_irreducible(x), generate random irreducible polynomial of degree ``n`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"992ac23674bfdf24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_irreducible(n, p, K):
     """
     Generate random irreducible polynomial of degree ``n`` in ``GF(p)[x]``.
@@ -2016,16 +2385,24 @@ def gf_irreducible(n, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irred_p_ben_or(f, ), ben-or's polynomial irreducibility test over finite fields) over Any ║
+# ║ Path(gf_irred_p_ben_or(f, p, K), <unspecified:gf_irred_p_ben_or>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_irred_p_ben_or : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_irred_p_ben_or : {Any | hasattr(K, 'one') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 772a6e0e9453cf48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irred_p_ben_or","kind":"function","src_hash":"ede4480e078d505d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_ben_or(f, )","rhs":"ben-or's polynomial irreducibility test over finite fields","over":{"base":"Any"},"name":"gf_irred_p_ben_or_correct"},"guarantee":"ben-or's polynomial irreducibility test over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irred_p_ben_or_correct","statement":"Path(gf_irred_p_ben_or(x), ben-or's polynomial irreducibility test over finite fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772a6e0e9453cf48"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irred_p_ben_or","kind":"function","src_hash":"ede4480e078d505d","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_ben_or(f, p, K)","rhs":"<unspecified:gf_irred_p_ben_or>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_irred_p_ben_or_correct"},"guarantee":"ben-or's polynomial irreducibility test over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irred_p_ben_or_correct","statement":"Path(gf_irred_p_ben_or(x), ben-or's polynomial irreducibility test over finite fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772a6e0e9453cf48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gf_irred_p_ben_or(f, p, K):
     """
     Ben-Or's polynomial irreducibility test over finite fields.
@@ -2072,16 +2449,24 @@ def gf_irred_p_ben_or(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irred_p_rabin(f, ), rabin's polynomial irreducibility test over finite fields) over Any ║
+# ║ Path(gf_irred_p_rabin(f, p, K), <unspecified:gf_irred_p_rabin>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_irred_p_rabin : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_irred_p_rabin : {Any | hasattr(K, 'one') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24b28a6cc93f45ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irred_p_rabin","kind":"function","src_hash":"7f8ed5398ab992d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_rabin(f, )","rhs":"rabin's polynomial irreducibility test over finite fields","over":{"base":"Any"},"name":"gf_irred_p_rabin_correct"},"guarantee":"rabin's polynomial irreducibility test over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irred_p_rabin_correct","statement":"Path(gf_irred_p_rabin(x), rabin's polynomial irreducibility test over finite fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b28a6cc93f45ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irred_p_rabin","kind":"function","src_hash":"7f8ed5398ab992d3","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_rabin(f, p, K)","rhs":"<unspecified:gf_irred_p_rabin>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_irred_p_rabin_correct"},"guarantee":"rabin's polynomial irreducibility test over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irred_p_rabin_correct","statement":"Path(gf_irred_p_rabin(x), rabin's polynomial irreducibility test over finite fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b28a6cc93f45ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_irred_p_rabin(f, p, K):
     """
     Rabin's polynomial irreducibility test over finite fields.
@@ -2132,16 +2517,22 @@ _irred_methods = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irreducible_p(f, ), test irreducibility of a polynomial ``f`` in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_irreducible_p(f, p, K), <unspecified:gf_irreducible_p>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_irreducible_p : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f7625b4a42073ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irreducible_p","kind":"function","src_hash":"01ba55889fddae03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible_p(f, )","rhs":"test irreducibility of a polynomial ``f`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_irreducible_p_correct"},"guarantee":"test irreducibility of a polynomial ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irreducible_p_correct","statement":"Path(gf_irreducible_p(x), test irreducibility of a polynomial ``f`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f7625b4a42073ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_irreducible_p","kind":"function","src_hash":"01ba55889fddae03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible_p(f, p, K)","rhs":"<unspecified:gf_irreducible_p>","over":{"base":"Any"},"name":"gf_irreducible_p_correct"},"guarantee":"test irreducibility of a polynomial ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_irreducible_p_correct","statement":"Path(gf_irreducible_p(x), test irreducibility of a polynomial ``f`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f7625b4a42073ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_irreducible_p(f, p, K):
     """
     Test irreducibility of a polynomial ``f`` in ``GF(p)[x]``.
@@ -2169,16 +2560,26 @@ def gf_irreducible_p(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqf_p(f, ), return ``true`` if ``f`` is square-free in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_sqf_p(f, p, K), result == (True if not f else gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]) and result == True or result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_sqf_p : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ensures:  result == (True if not f else gf_gcd(f, g...   ║
+# ║   ensures:  result == True or result == gf_gcd(f, gf_...   ║
+# ║   fiber[case_0]: not f => True                             ║
+# ║   fiber[case_1]: not (not f) => gf_gcd(f, gf_diff(f, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_sqf_p : {Any | hasattr(K, 'one')} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42d19e480f05b4c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac208cbf434449c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqf_p","kind":"function","src_hash":"50792f58d9979a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_p(f, )","rhs":"return ``true`` if ``f`` is square-free in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_sqf_p_correct"},"guarantee":"return ``true`` if ``f`` is square-free in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqf_p_correct","statement":"Path(gf_sqf_p(x), return ``true`` if ``f`` is square-free in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42d19e480f05b4c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqf_p","kind":"function","src_hash":"50792f58d9979a9d","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: result == (True if not f else gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]) and result == True or result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]"},"spec":{"lhs":"gf_sqf_p(f, p, K)","rhs":"result == (True if not f else gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]) and result == True or result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"gf_sqf_p_correct"},"guarantee":"result == (True if not f else gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]); result == True or result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqf_p_correct","statement":"Path(gf_sqf_p(x), result == (True if not f else gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]); result == True or result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac208cbf434449c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"ensures":["result == (True if not f else gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one])","result == True or result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"not (not f)","ensures":["result == gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]"],"decidability":"library","returns_expr":"gf_gcd(f, gf_diff(f, p, K), p, K) == [K.one]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_sqf_p(f, p, K):
     """
     Return ``True`` if ``f`` is square-free in ``GF(p)[x]``.
@@ -2204,16 +2605,23 @@ def gf_sqf_p(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqf_part(f, ), return square-free part of a ``gf(p)[x]`` polynomial) over Any ║
+# ║ Path(gf_sqf_part(f, p, K), <unspecified:gf_sqf_part>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_sqf_part : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_sqf_part : {Any | hasattr(K, 'one')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbc5ae5e167e9c22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqf_part","kind":"function","src_hash":"fecbdf2e9de4de99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_part(f, )","rhs":"return square-free part of a ``gf(p)[x]`` polynomial","over":{"base":"Any"},"name":"gf_sqf_part_correct"},"guarantee":"return square-free part of a ``gf(p)[x]`` polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqf_part_correct","statement":"Path(gf_sqf_part(x), return square-free part of a ``gf(p)[x]`` polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc5ae5e167e9c22"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqf_part","kind":"function","src_hash":"fecbdf2e9de4de99","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_part(f, p, K)","rhs":"<unspecified:gf_sqf_part>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"gf_sqf_part_correct"},"guarantee":"return square-free part of a ``gf(p)[x]`` polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqf_part_correct","statement":"Path(gf_sqf_part(x), return square-free part of a ``gf(p)[x]`` polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc5ae5e167e9c22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_sqf_part(f, p, K):
     """
     Return square-free part of a ``GF(p)[x]`` polynomial.
@@ -2239,16 +2647,24 @@ def gf_sqf_part(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqf_list(f, ), return the square-free decomposition of a ``gf(p)[x]`` polynomial) over Any ║
+# ║ Path(gf_sqf_list(f, p, K), len(factors) == old_len_factors + 1) over {Any | not (all) and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_sqf_list : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (all)                                      ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ensures:  len(factors) == old_len_factors + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_sqf_list : {Any | not (all) and hasattr(K, 'one')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 211f74933327b58c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84c7d64dd88264c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqf_list","kind":"function","src_hash":"808f82e99d3a654a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_list(f, )","rhs":"return the square-free decomposition of a ``gf(p)[x]`` polynomial","over":{"base":"Any"},"name":"gf_sqf_list_correct"},"guarantee":"return the square-free decomposition of a ``gf(p)[x]`` polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqf_list_correct","statement":"Path(gf_sqf_list(x), return the square-free decomposition of a ``gf(p)[x]`` polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"211f74933327b58c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_sqf_list","kind":"function","src_hash":"808f82e99d3a654a","in":{"base":"Any","pred":"not (all) and hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: len(factors) == old_len_factors + 1"},"spec":{"lhs":"gf_sqf_list(f, p, K)","rhs":"len(factors) == old_len_factors + 1","over":{"base":"Any","pred":"not (all) and hasattr(K, 'one')"},"name":"gf_sqf_list_correct"},"guarantee":"len(factors) == old_len_factors + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_sqf_list_correct","statement":"Path(gf_sqf_list(x), len(factors) == old_len_factors + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84c7d64dd88264c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (all)","hasattr(K, 'one')"],"ensures":["len(factors) == old_len_factors + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["K.one"],"writes":["f[*]"],"calls_mutating":["factors.append"],"raises":["ValueError"]},"state_contract":{"modifies":["f[*]","factors.*"],"old_bindings":{"old_f_star":"f[*]","old_len_factors":"len(factors)"},"post_ensures":["len(factors) == old_len_factors + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gf_sqf_list(f, p, K, all=False):
     """
     Return the square-free decomposition of a ``GF(p)[x]`` polynomial.
@@ -2339,16 +2755,24 @@ def gf_sqf_list(f, p, K, all=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_Qmatrix(f, ), calculate berlekamp's ``q`` matrix) over Any ║
+# ║ Path(gf_Qmatrix(f, p, K), <unspecified:gf_Qmatrix>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_Qmatrix : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_Qmatrix : {Any | hasattr(K, 'one') and hasattr(K, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aba4e6e85935cb2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_Qmatrix","kind":"function","src_hash":"7122758fd93e77f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_Qmatrix(f, )","rhs":"calculate berlekamp's ``q`` matrix","over":{"base":"Any"},"name":"gf_Qmatrix_correct"},"guarantee":"calculate berlekamp's ``q`` matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_Qmatrix_correct","statement":"Path(gf_Qmatrix(x), calculate berlekamp's ``q`` matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aba4e6e85935cb2b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_Qmatrix","kind":"function","src_hash":"7122758fd93e77f6","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_Qmatrix(f, p, K)","rhs":"<unspecified:gf_Qmatrix>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_Qmatrix_correct"},"guarantee":"calculate berlekamp's ``q`` matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_Qmatrix_correct","statement":"Path(gf_Qmatrix(x), calculate berlekamp's ``q`` matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aba4e6e85935cb2b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_Qmatrix(f, p, K):
     """
     Calculate Berlekamp's ``Q`` matrix.
@@ -2390,16 +2814,24 @@ def gf_Qmatrix(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_Qbasis(Q, ), compute a basis of the kernel of ``q``) over Any ║
+# ║ Path(gf_Qbasis(Q, p, K), <unspecified:gf_Qbasis>) over {Any | hasattr(K, 'invert') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_Qbasis : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'invert')                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_Qbasis : {Any | hasattr(K, 'invert') and hasattr(K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ecf635a9f9f2601  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_Qbasis","kind":"function","src_hash":"f1807897a6a9774b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_Qbasis(Q, )","rhs":"compute a basis of the kernel of ``q``","over":{"base":"Any"},"name":"gf_Qbasis_correct"},"guarantee":"compute a basis of the kernel of ``q``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_Qbasis_correct","statement":"Path(gf_Qbasis(x), compute a basis of the kernel of ``q``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ecf635a9f9f2601"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_Qbasis","kind":"function","src_hash":"f1807897a6a9774b","in":{"base":"Any","pred":"hasattr(K, 'invert') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_Qbasis(Q, p, K)","rhs":"<unspecified:gf_Qbasis>","over":{"base":"Any","pred":"hasattr(K, 'invert') and hasattr(K, 'one')"},"name":"gf_Qbasis_correct"},"guarantee":"compute a basis of the kernel of ``q``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_Qbasis_correct","statement":"Path(gf_Qbasis(x), compute a basis of the kernel of ``q``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ecf635a9f9f2601","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'invert')","hasattr(K, 'one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def gf_Qbasis(Q, p, K):
     """
     Compute a basis of the kernel of ``Q``.
@@ -2463,16 +2895,24 @@ def gf_Qbasis(Q, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_berlekamp(f, ), factor a square-free ``f`` in ``gf(p)[x]`` for small ``p``) over Any ║
+# ║ Path(gf_berlekamp(f, p, K), <unspecified:gf_berlekamp>) over {Any | hasattr(K, 'zero') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_berlekamp : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_berlekamp : {Any | hasattr(K, 'zero') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b78c46470262c057  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_berlekamp","kind":"function","src_hash":"13962b0f76c7ad89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_berlekamp(f, )","rhs":"factor a square-free ``f`` in ``gf(p)[x]`` for small ``p``","over":{"base":"Any"},"name":"gf_berlekamp_correct"},"guarantee":"factor a square-free ``f`` in ``gf(p)[x]`` for small ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_berlekamp_correct","statement":"Path(gf_berlekamp(x), factor a square-free ``f`` in ``gf(p)[x]`` for small ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b78c46470262c057"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_berlekamp","kind":"function","src_hash":"13962b0f76c7ad89","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gf_berlekamp(f, p, K)","rhs":"<unspecified:gf_berlekamp>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"name":"gf_berlekamp_correct"},"guarantee":"factor a square-free ``f`` in ``gf(p)[x]`` for small ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_berlekamp_correct","statement":"Path(gf_berlekamp(x), factor a square-free ``f`` in ``gf(p)[x]`` for small ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b78c46470262c057","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gf_berlekamp(f, p, K):
     """
     Factor a square-free ``f`` in ``GF(p)[x]`` for small ``p``.
@@ -2518,16 +2958,27 @@ def gf_berlekamp(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_ddf_zassenhaus(f, ), cantor-zassenhaus: deterministic distinct degree factorization) over Any ║
+# ║ Path(gf_ddf_zassenhaus(f, p, K), result == (factors + [(f, gf_degree(f))] if f != [K.one] else factors) and result == factors + [(f, gf_degree(f))] or result == factors) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_ddf_zassenhaus : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  result == (factors + [(f, gf_degree(f))] ...   ║
+# ║   ensures:  result == factors + [(f, gf_degree(f))] o...   ║
+# ║   fiber[case_0]: f != [K.one] => factors + [(f, gf_de...   ║
+# ║   fiber[case_1]: not (f != [K.one]) => factors             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_ddf_zassenhaus : {Any | hasattr(K, 'one') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 218679f287139412  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abbb622d1723f139  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_ddf_zassenhaus","kind":"function","src_hash":"897effea23909ef3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_zassenhaus(f, )","rhs":"cantor-zassenhaus: deterministic distinct degree factorization","over":{"base":"Any"},"name":"gf_ddf_zassenhaus_correct"},"guarantee":"cantor-zassenhaus: deterministic distinct degree factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_ddf_zassenhaus_correct","statement":"Path(gf_ddf_zassenhaus(x), cantor-zassenhaus: deterministic distinct degree factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"218679f287139412"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_ddf_zassenhaus","kind":"function","src_hash":"897effea23909ef3","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: result == (factors + [(f, gf_degree(f))] if f != [K.one] else factors) and result == factors + [(f, gf_degree(f))] or result == factors"},"spec":{"lhs":"gf_ddf_zassenhaus(f, p, K)","rhs":"result == (factors + [(f, gf_degree(f))] if f != [K.one] else factors) and result == factors + [(f, gf_degree(f))] or result == factors","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_ddf_zassenhaus_correct"},"guarantee":"result == (factors + [(f, gf_degree(f))] if f != [K.one] else factors); result == factors + [(f, gf_degree(f))] or result == factors; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_ddf_zassenhaus_correct","statement":"Path(gf_ddf_zassenhaus(x), result == (factors + [(f, gf_degree(f))] if f != [K.one] else factors); result == factors + [(f, gf_degree(f))] or result == factors; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abbb622d1723f139","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"ensures":["result == (factors + [(f, gf_degree(f))] if f != [K.one] else factors)","result == factors + [(f, gf_degree(f))] or result == factors"],"fibers":[{"name":"case_0","guard":"f != [K.one]","ensures":["result == factors + [(f, gf_degree(f))]"],"decidability":"z3","returns_expr":"factors + [(f, gf_degree(f))]"},{"name":"case_1","guard":"not (f != [K.one])","ensures":["result == factors"],"decidability":"z3","returns_expr":"factors"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_ddf_zassenhaus(f, p, K):
     """
     Cantor-Zassenhaus: Deterministic Distinct Degree Factorization
@@ -2586,16 +3037,24 @@ def gf_ddf_zassenhaus(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_edf_zassenhaus(f, ), cantor-zassenhaus: probabilistic equal degree factorization) over Any ║
+# ║ Path(gf_edf_zassenhaus(f, n, p), # HINT: gf_edf_zassenhaus may be idempotent: gf_edf_zassenhaus(gf_edf_zassenhaus(x)) == gf_edf_zassenhaus(x)) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_edf_zassenhaus : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  # HINT: gf_edf_zassenhaus may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_edf_zassenhaus : {Any | hasattr(K, 'one') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b369d32203db24e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d9a46ef00f00fa4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_edf_zassenhaus","kind":"function","src_hash":"6f2eb58a5a6416a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_edf_zassenhaus(f, )","rhs":"cantor-zassenhaus: probabilistic equal degree factorization","over":{"base":"Any"},"name":"gf_edf_zassenhaus_correct"},"guarantee":"cantor-zassenhaus: probabilistic equal degree factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_edf_zassenhaus_correct","statement":"Path(gf_edf_zassenhaus(x), cantor-zassenhaus: probabilistic equal degree factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b369d32203db24e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_edf_zassenhaus","kind":"function","src_hash":"6f2eb58a5a6416a7","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: # HINT: gf_edf_zassenhaus may be idempotent: gf_edf_zassenhaus(gf_edf_zassenhaus(x)) == gf_edf_zassenhaus(x)"},"spec":{"lhs":"gf_edf_zassenhaus(f, n, p)","rhs":"# HINT: gf_edf_zassenhaus may be idempotent: gf_edf_zassenhaus(gf_edf_zassenhaus(x)) == gf_edf_zassenhaus(x)","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_edf_zassenhaus_correct"},"guarantee":"# HINT: gf_edf_zassenhaus may be idempotent: gf_edf_zassenhaus(gf_edf_zassenhaus(x)) == gf_edf_zassenhaus(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_edf_zassenhaus_correct","statement":"Path(gf_edf_zassenhaus(x), # HINT: gf_edf_zassenhaus may be idempotent: gf_edf_zassenhaus(gf_edf_zassenhaus(x)) == gf_edf_zassenhaus(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d9a46ef00f00fa4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"ensures":["# HINT: gf_edf_zassenhaus may be idempotent: gf_edf_zassenhaus(gf_edf_zassenhaus(x)) == gf_edf_zassenhaus(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gf_edf_zassenhaus(f, n, p, K):
     """
     Cantor-Zassenhaus: Probabilistic Equal Degree Factorization
@@ -2661,16 +3120,24 @@ def gf_edf_zassenhaus(f, n, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_ddf_shoup(f, ), kaltofen-shoup: deterministic distinct degree factorization) over Any ║
+# ║ Path(gf_ddf_shoup(f, p, K), <unspecified:gf_ddf_shoup>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_ddf_shoup : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_ddf_shoup : {Any | hasattr(K, 'one') and hasattr(K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 560e578211ec2c15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_ddf_shoup","kind":"function","src_hash":"e81ee2a37ae9ea06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_shoup(f, )","rhs":"kaltofen-shoup: deterministic distinct degree factorization","over":{"base":"Any"},"name":"gf_ddf_shoup_correct"},"guarantee":"kaltofen-shoup: deterministic distinct degree factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_ddf_shoup_correct","statement":"Path(gf_ddf_shoup(x), kaltofen-shoup: deterministic distinct degree factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"560e578211ec2c15"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_ddf_shoup","kind":"function","src_hash":"e81ee2a37ae9ea06","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_shoup(f, p, K)","rhs":"<unspecified:gf_ddf_shoup>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_ddf_shoup_correct"},"guarantee":"kaltofen-shoup: deterministic distinct degree factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_ddf_shoup_correct","statement":"Path(gf_ddf_shoup(x), kaltofen-shoup: deterministic distinct degree factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"560e578211ec2c15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def gf_ddf_shoup(f, p, K):
     """
     Kaltofen-Shoup: Deterministic Distinct Degree Factorization
@@ -2748,16 +3215,24 @@ def gf_ddf_shoup(f, p, K):
     return factors
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_edf_shoup(f, ), gathen-shoup: probabilistic equal degree factorization) over Any ║
+# ║ Path(gf_edf_shoup(f, n, p), # HINT: gf_edf_shoup may be idempotent: gf_edf_shoup(gf_edf_shoup(x)) == gf_edf_shoup(x)) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gf_edf_shoup : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  # HINT: gf_edf_shoup may be idempotent: g...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gf_edf_shoup : {Any | hasattr(K, 'one') and hasattr(K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 998cc3acf0b37991  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5474e5598f1fef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_edf_shoup","kind":"function","src_hash":"e4fe3257654c68a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_edf_shoup(f, )","rhs":"gathen-shoup: probabilistic equal degree factorization","over":{"base":"Any"},"name":"gf_edf_shoup_correct"},"guarantee":"gathen-shoup: probabilistic equal degree factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_edf_shoup_correct","statement":"Path(gf_edf_shoup(x), gathen-shoup: probabilistic equal degree factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"998cc3acf0b37991"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_edf_shoup","kind":"function","src_hash":"e4fe3257654c68a1","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: # HINT: gf_edf_shoup may be idempotent: gf_edf_shoup(gf_edf_shoup(x)) == gf_edf_shoup(x)"},"spec":{"lhs":"gf_edf_shoup(f, n, p)","rhs":"# HINT: gf_edf_shoup may be idempotent: gf_edf_shoup(gf_edf_shoup(x)) == gf_edf_shoup(x)","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"gf_edf_shoup_correct"},"guarantee":"# HINT: gf_edf_shoup may be idempotent: gf_edf_shoup(gf_edf_shoup(x)) == gf_edf_shoup(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_edf_shoup_correct","statement":"Path(gf_edf_shoup(x), # HINT: gf_edf_shoup may be idempotent: gf_edf_shoup(gf_edf_shoup(x)) == gf_edf_shoup(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5474e5598f1fef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"ensures":["# HINT: gf_edf_shoup may be idempotent: gf_edf_shoup(gf_edf_shoup(x)) == gf_edf_shoup(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def gf_edf_shoup(f, n, p, K):
     """
     Gathen-Shoup: Probabilistic Equal Degree Factorization
@@ -2822,16 +3297,22 @@ def gf_edf_shoup(f, n, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_zassenhaus(f, ), factor a square-free ``f`` in ``gf(p)[x]`` for medium ``p``) over Any ║
+# ║ Path(gf_zassenhaus(f, p, K), _sort_factors(factors, multiple=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sort_factors(factors, multiple=False)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_zassenhaus : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 536219a8437383b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b11639cd83d9f7cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_zassenhaus","kind":"function","src_hash":"445efab39c0f1177","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_zassenhaus(f, )","rhs":"factor a square-free ``f`` in ``gf(p)[x]`` for medium ``p``","over":{"base":"Any"},"name":"gf_zassenhaus_correct"},"guarantee":"factor a square-free ``f`` in ``gf(p)[x]`` for medium ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_zassenhaus_correct","statement":"Path(gf_zassenhaus(x), factor a square-free ``f`` in ``gf(p)[x]`` for medium ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"536219a8437383b3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_zassenhaus","kind":"function","src_hash":"445efab39c0f1177","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_zassenhaus(f, p, K)","rhs":"_sort_factors(factors, multiple=False)","over":{"base":"Any"},"name":"gf_zassenhaus_correct"},"guarantee":"returns _sort_factors(factors, multiple=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_zassenhaus_correct","statement":"Path(gf_zassenhaus(x), returns _sort_factors(factors, multiple=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11639cd83d9f7cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sort_factors(factors, multiple=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_zassenhaus(f, p, K):
     """
     Factor a square-free ``f`` in ``GF(p)[x]`` for medium ``p``.
@@ -2855,16 +3336,22 @@ def gf_zassenhaus(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_shoup(f, ), factor a square-free ``f`` in ``gf(p)[x]`` for large ``p``) over Any ║
+# ║ Path(gf_shoup(f, p, K), _sort_factors(factors, multiple=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sort_factors(factors, multiple=False)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_shoup : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b17fec799cdd943  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8145f7d3dc2ae32e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_shoup","kind":"function","src_hash":"4c2c16f11f7a492a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_shoup(f, )","rhs":"factor a square-free ``f`` in ``gf(p)[x]`` for large ``p``","over":{"base":"Any"},"name":"gf_shoup_correct"},"guarantee":"factor a square-free ``f`` in ``gf(p)[x]`` for large ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_shoup_correct","statement":"Path(gf_shoup(x), factor a square-free ``f`` in ``gf(p)[x]`` for large ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b17fec799cdd943"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_shoup","kind":"function","src_hash":"4c2c16f11f7a492a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_shoup(f, p, K)","rhs":"_sort_factors(factors, multiple=False)","over":{"base":"Any"},"name":"gf_shoup_correct"},"guarantee":"returns _sort_factors(factors, multiple=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_shoup_correct","statement":"Path(gf_shoup(x), returns _sort_factors(factors, multiple=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8145f7d3dc2ae32e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sort_factors(factors, multiple=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_shoup(f, p, K):
     """
     Factor a square-free ``f`` in ``GF(p)[x]`` for large ``p``.
@@ -2894,16 +3381,22 @@ _factor_methods = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_factor_sqf(f, ), factor a square-free polynomial ``f`` in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_factor_sqf(f, p, K), <unspecified:gf_factor_sqf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_factor_sqf : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfe96521591ca02d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_factor_sqf","kind":"function","src_hash":"d8f1d55d55872f64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_factor_sqf(f, )","rhs":"factor a square-free polynomial ``f`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_factor_sqf_correct"},"guarantee":"factor a square-free polynomial ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_factor_sqf_correct","statement":"Path(gf_factor_sqf(x), factor a square-free polynomial ``f`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe96521591ca02d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_factor_sqf","kind":"function","src_hash":"d8f1d55d55872f64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_factor_sqf(f, p, K)","rhs":"<unspecified:gf_factor_sqf>","over":{"base":"Any"},"name":"gf_factor_sqf_correct"},"guarantee":"factor a square-free polynomial ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_factor_sqf_correct","statement":"Path(gf_factor_sqf(x), factor a square-free polynomial ``f`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe96521591ca02d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_factor_sqf(f, p, K, method=None):
     """
     Factor a square-free polynomial ``f`` in ``GF(p)[x]``.
@@ -2934,16 +3427,22 @@ def gf_factor_sqf(f, p, K, method=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_factor(f, ), factor (non square-free) polynomials in ``gf(p)[x]``) over Any ║
+# ║ Path(gf_factor(f, p, K), <unspecified:gf_factor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_factor : Any → {Any | result satisfies: :}              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cdb7cf9e8d68902  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_factor","kind":"function","src_hash":"55f50e9aedee2166","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: :"},"spec":{"lhs":"gf_factor(f, )","rhs":"factor (non square-free) polynomials in ``gf(p)[x]``","over":{"base":"Any"},"name":"gf_factor_correct"},"guarantee":"factor (non square-free) polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_factor_correct","statement":"Path(gf_factor(x), factor (non square-free) polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cdb7cf9e8d68902"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_factor","kind":"function","src_hash":"55f50e9aedee2166","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: :"},"spec":{"lhs":"gf_factor(f, p, K)","rhs":"<unspecified:gf_factor>","over":{"base":"Any"},"name":"gf_factor_correct"},"guarantee":"factor (non square-free) polynomials in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_factor_correct","statement":"Path(gf_factor(x), factor (non square-free) polynomials in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cdb7cf9e8d68902","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gf_factor(f, p, K):
     """
     Factor (non square-free) polynomials in ``GF(p)[x]``.
@@ -3009,16 +3508,22 @@ def gf_factor(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_value(f, ), value of polynomial 'f' at 'a' in field r) over Any ║
+# ║ Path(gf_value(f, a), <unspecified:gf_value>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_value : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 859a136823ceb8e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_value","kind":"function","src_hash":"0c1d7b386c135f60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_value(f, )","rhs":"value of polynomial 'f' at 'a' in field r","over":{"base":"Any"},"name":"gf_value_correct"},"guarantee":"value of polynomial 'f' at 'a' in field r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_value_correct","statement":"Path(gf_value(x), value of polynomial 'f' at 'a' in field r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"859a136823ceb8e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_value","kind":"function","src_hash":"0c1d7b386c135f60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_value(f, a)","rhs":"<unspecified:gf_value>","over":{"base":"Any"},"name":"gf_value_correct"},"guarantee":"value of polynomial 'f' at 'a' in field r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.gf_value_correct","statement":"Path(gf_value(x), value of polynomial 'f' at 'a' in field r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"859a136823ceb8e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def gf_value(f, a):
     """
     Value of polynomial 'f' at 'a' in field R.
@@ -3040,16 +3545,22 @@ def gf_value(f, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_congruence(a, ), id) over Any                  ║
+# ║ Path(linear_congruence(a, b, m), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_congruence : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 39bf090f1f2927cf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.linear_congruence","kind":"function","src_hash":"f54981433ac30462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_congruence(a, )","rhs":"returns the values of x satisfying a*x congruent b mod(m)","over":{"base":"Any"},"name":"linear_congruence_correct","kind":"composition"},"guarantee":"returns the values of x satisfying a*x congruent b mod(m)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39bf090f1f2927cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.linear_congruence","kind":"function","src_hash":"f54981433ac30462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_congruence(a, b, m)","rhs":"<unspecified:linear_congruence>","over":{"base":"Any"},"name":"linear_congruence_correct","kind":"composition"},"guarantee":"returns the values of x satisfying a*x congruent b mod(m)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39bf090f1f2927cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def linear_congruence(a, b, m):
     """
     Returns the values of x satisfying a*x congruent b mod(m)
@@ -3086,16 +3597,22 @@ def linear_congruence(a, b, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_raise_mod_power(x, ), used in gf_csolve to generate solutions of f(x) cong 0 mod(p**(s + 1)) from the solutions of f(x) cong 0 mod(p**s)) over Any ║
+# ║ Path(_raise_mod_power(x, s, p), linear_congruence(alpha, beta, p)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  linear_congruence(alpha, beta, p)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _raise_mod_power : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9739e8783fc8daa6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fbcf9d99a62b4da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._raise_mod_power","kind":"function","src_hash":"c0147b9a5ddc6d84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_raise_mod_power(x, )","rhs":"used in gf_csolve to generate solutions of f(x) cong 0 mod(p**(s + 1)) from the solutions of f(x) cong 0 mod(p**s)","over":{"base":"Any"},"name":"_raise_mod_power_correct"},"guarantee":"used in gf_csolve to generate solutions of f(x) cong 0 mod(p**(s + 1)) from the solutions of f(x) cong 0 mod(p**s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._raise_mod_power_correct","statement":"Path(_raise_mod_power(x), used in gf_csolve to generate solutions of f(x) cong 0 mod(p**(s + 1)) from the solutions of f(x) cong 0 mod(p**s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9739e8783fc8daa6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._raise_mod_power","kind":"function","src_hash":"c0147b9a5ddc6d84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_raise_mod_power(x, s, p)","rhs":"linear_congruence(alpha, beta, p)","over":{"base":"Any"},"name":"_raise_mod_power_correct"},"guarantee":"returns linear_congruence(alpha, beta, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._raise_mod_power_correct","statement":"Path(_raise_mod_power(x), returns linear_congruence(alpha, beta, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fbcf9d99a62b4da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"linear_congruence(alpha, beta, p)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _raise_mod_power(x, s, p, f):
     """
     Used in gf_csolve to generate solutions of f(x) cong 0 mod(p**(s + 1))
@@ -3137,16 +3654,25 @@ def _raise_mod_power(x, s, p, f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_csolve_prime_las_vegas(f, ), solutions of `f(x) \equiv 0 \pmod{p}`, `f(0) \not\equiv 0 \pmod{p}`) over Any ║
+# ║ Path(_csolve_prime_las_vegas(f, p, seed), sorted(root)) over {Any | len(factors) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _csolve_prime_las_vegas : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(factors) > 0                               ║
+# ║   ensures:  len(factors) == old_len_factors + 1            ║
+# ║   ensures:  len(factors) == old_len_factors - 1            ║
+# ║   returns:  sorted(root)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _csolve_prime_las_vegas : {Any | len(factors) > 0} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a20771422b46425f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4f4a3d1eb576897  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._csolve_prime_las_vegas","kind":"function","src_hash":"8336ab47a001de3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_csolve_prime_las_vegas(f, )","rhs":"solutions of `f(x) \\equiv 0 \\pmod{p}`, `f(0) \\not\\equiv 0 \\pmod{p}`","over":{"base":"Any"},"name":"_csolve_prime_las_vegas_correct"},"guarantee":"solutions of `f(x) \\equiv 0 \\pmod{p}`, `f(0) \\not\\equiv 0 \\pmod{p}`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._csolve_prime_las_vegas_correct","statement":"Path(_csolve_prime_las_vegas(x), solutions of `f(x) \\equiv 0 \\pmod{p}`, `f(0) \\not\\equiv 0 \\pmod{p}`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20771422b46425f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools._csolve_prime_las_vegas","kind":"function","src_hash":"8336ab47a001de3d","in":{"base":"Any","pred":"len(factors) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (sorted(root))"},"spec":{"lhs":"_csolve_prime_las_vegas(f, p, seed)","rhs":"sorted(root)","over":{"base":"Any","pred":"len(factors) > 0"},"name":"_csolve_prime_las_vegas_correct"},"guarantee":"returns sorted(root); len(factors) == old_len_factors + 1; len(factors) == old_len_factors - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools._csolve_prime_las_vegas_correct","statement":"Path(_csolve_prime_las_vegas(x), returns sorted(root); len(factors) == old_len_factors + 1; len(factors) == old_len_factors - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4f4a3d1eb576897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(factors) > 0"],"ensures":["len(factors) == old_len_factors + 1","len(factors) == old_len_factors - 1"],"returns_expr":"sorted(root)","pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["factors.append","factors.pop","root.add","root.update"],"nondeterministic_sources":["randint"]},"state_contract":{"modifies":["factors.*","root.*"],"old_bindings":{"old_len_factors":"len(factors)","old_len_root":"len(root)"},"pre_requires":["len(factors) > 0"],"post_ensures":["len(factors) == old_len_factors + 1","len(factors) == old_len_factors - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _csolve_prime_las_vegas(f, p, seed=None):
     r""" Solutions of `f(x) \equiv 0 \pmod{p}`, `f(0) \not\equiv 0 \pmod{p}`.
 
@@ -3241,16 +3767,22 @@ def _csolve_prime_las_vegas(f, p, seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(csolve_prime(f, ), solutions of `f(x) \equiv 0 \pmod{p^e}`) over Any ║
+# ║ Path(csolve_prime(f, p, e), <unspecified:csolve_prime>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ csolve_prime : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 826d4e3a8f644a26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.csolve_prime","kind":"function","src_hash":"3c3467d29e0a78b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"csolve_prime(f, )","rhs":"solutions of `f(x) \\equiv 0 \\pmod{p^e}`","over":{"base":"Any"},"name":"csolve_prime_correct"},"guarantee":"solutions of `f(x) \\equiv 0 \\pmod{p^e}`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.csolve_prime_correct","statement":"Path(csolve_prime(x), solutions of `f(x) \\equiv 0 \\pmod{p^e}`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"826d4e3a8f644a26"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.csolve_prime","kind":"function","src_hash":"3c3467d29e0a78b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"csolve_prime(f, p, e)","rhs":"<unspecified:csolve_prime>","over":{"base":"Any"},"name":"csolve_prime_correct"},"guarantee":"solutions of `f(x) \\equiv 0 \\pmod{p^e}`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.galoistools.csolve_prime_correct","statement":"Path(csolve_prime(x), solutions of `f(x) \\equiv 0 \\pmod{p^e}`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"826d4e3a8f644a26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def csolve_prime(f, p, e=1):
     r""" Solutions of `f(x) \equiv 0 \pmod{p^e}`.
 
@@ -3322,16 +3854,22 @@ def csolve_prime(f, p, e=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_csolve(f, ), id) over Any                          ║
+# ║ Path(gf_csolve(f, n), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sorted([gf_crt(per, dist_factors, ZZ) for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_csolve : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7f5363470ed6baea   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_csolve","kind":"function","src_hash":"b76bb3bc30bcbdb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_csolve(f, )","rhs":"to solve f(x) congruent 0 mod(n)","over":{"base":"Any"},"name":"gf_csolve_correct","kind":"composition"},"guarantee":"to solve f(x) congruent 0 mod(n)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"gf_crt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f5363470ed6baea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.galoistools.gf_csolve","kind":"function","src_hash":"b76bb3bc30bcbdb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_csolve(f, n)","rhs":"sorted([gf_crt(per, dist_factors, ZZ) for per in perms])","over":{"base":"Any"},"name":"gf_csolve_correct","kind":"composition"},"guarantee":"returns sorted([gf_crt(per, dist_factors, ZZ) for per in perms])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"gf_crt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f5363470ed6baea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sorted([gf_crt(per, dist_factors, ZZ) for per in perms])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gf_csolve(f, n):
     """
     To solve f(x) congruent 0 mod(n).

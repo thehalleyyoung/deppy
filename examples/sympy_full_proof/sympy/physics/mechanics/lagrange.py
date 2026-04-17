@@ -30,14 +30,20 @@ __all__ = ['LagrangesMethod']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LagrangesMethod instance) preserved by LagrangesMethod(*args) over {Any | isinstance(op_point, dict) and isinstance(frame, ReferenceFrame)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Methods)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LagrangesMethod : {Any | isinstance(op_point, dict) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d64e5f4df958541  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod","kind":"class","src_hash":"96528509b26627dc","in":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(frame, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"LagrangesMethod(*args)","rhs":"correctly constructs a LagrangesMethod instance","over":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(frame, ReferenceFrame)"},"name":"LagrangesMethod_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LagrangesMethod instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_L') and hasattr(self, 'eom') and hasattr(self, '_m_cd') and hasattr(self, '_m_d') and hasattr(self, '_f_cd') and hasattr(self, '_f_d') and hasattr(self, 'lam_coeffs') and hasattr(self, '_forcelist')","kind":"class","induction":"structural on _L, eom, _m_cd, _m_d"}],"methods_preserving":["__init__","form_lagranges_equations","_form_eoms","mass_matrix","mass_matrix_full","forcing","forcing_full","to_linearizer","linearize","solve_multipliers","rhs","q","u","bodies","forcelist","loads"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d64e5f4df958541"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod","kind":"class","src_hash":"96528509b26627dc","in":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(frame, ReferenceFrame)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Methods)"},"spec":{"lhs":"LagrangesMethod(*args)","rhs":"correctly constructs a LagrangesMethod instance","over":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(frame, ReferenceFrame)"},"name":"LagrangesMethod_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, _Methods); preserves 20 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_L') and hasattr(self, 'eom') and hasattr(self, '_m_cd') and hasattr(self, '_m_d') and hasattr(self, '_f_cd') and hasattr(self, '_f_d') and hasattr(self, 'lam_coeffs') and hasattr(self, '_forcelist')","kind":"class","induction":"structural on _L, eom, _m_cd, _m_d"}],"methods_preserving":["__init__","form_lagranges_equations","_form_eoms","mass_matrix","mass_matrix_full","forcing","forcing_full","to_linearizer","linearize","solve_multipliers","rhs","q","u","bodies","forcelist","loads"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d64e5f4df958541","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Methods)"],"invariants":["hasattr(self, '_L')","hasattr(self, 'eom')","hasattr(self, '_m_cd')","hasattr(self, '_m_d')","hasattr(self, '_f_cd')","hasattr(self, '_f_d')","hasattr(self, 'lam_coeffs')","hasattr(self, '_forcelist')","hasattr(self, '_bodies')","hasattr(self, 'inertial')","hasattr(self, 'lam_vec')","hasattr(self, '_term1')","hasattr(self, '_term2')","hasattr(self, '_term3')","hasattr(self, '_term4')","hasattr(self, '_q')","hasattr(self, '_qdots')","hasattr(self, '_qdoubledots')","hasattr(self, 'coneqs')","hasattr(self, '_hol_coneqs')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LagrangesMethod not found in source"]}}
 class LagrangesMethod(_Methods):
     """Lagrange's method object.
 
@@ -131,16 +137,24 @@ class LagrangesMethod(_Methods):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(Lag), initializes the instance correctly) over Any ║
+# ║ Path(__init__(Lagrangian, qs, forcelist), self._forcelist == forcelist and self._bodies == bodies and self.inertial == frame) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._forcelist == forcelist                   ║
+# ║   ensures:  self._bodies == bodies                         ║
+# ║   ensures:  self.inertial == frame                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._force...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bff02f52847e8ceb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.__init__","kind":"method","src_hash":"cf02705e942b4b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(Lag)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bff02f52847e8ceb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.__init__","kind":"method","src_hash":"cf02705e942b4b93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._forcelist == forcelist and self._bodies == bodies and self.inertial == frame"},"spec":{"lhs":"__init__(Lagrangian, qs, forcelist)","rhs":"self._forcelist == forcelist and self._bodies == bodies and self.inertial == frame","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._forcelist == forcelist; self._bodies == bodies; self.inertial == frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bff02f52847e8ceb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._forcelist == forcelist","self._bodies == bodies","self.inertial == frame"],"pure":false,"effects":{"effect_type":"reads_state","reads":["hol_coneqs.diff","self._qdots","self.q"],"writes":["self._L","self._bodies","self._f_cd","self._f_d","self._forcelist","self._hol_coneqs","self._m_cd","self._m_d","self._q","self._qdots","self._qdoubledots","self._term1","self._term2","self._term3","self._term4","self.coneqs","self.eom","self.inertial","self.lam_coeffs","self.lam_vec"],"raises":["TypeError"]},"state_contract":{"modifies":["self._L","self._bodies","self._f_cd","self._f_d","self._forcelist","self._hol_coneqs","self._m_cd","self._m_d","self._q","self._qdots","self._qdoubledots","self._term1","self._term2","self._term3","self._term4","self.coneqs","self.eom","self.inertial","self.lam_coeffs","self.lam_vec"],"old_bindings":{"old_self__L":"self._L","old_self__bodies":"self._bodies","old_self__f_cd":"self._f_cd","old_self__f_d":"self._f_d","old_self__forcelist":"self._forcelist","old_self__hol_coneqs":"self._hol_coneqs","old_self__m_cd":"self._m_cd","old_self__m_d":"self._m_d","old_self__q":"self._q","old_self__qdots":"self._qdots","old_self__qdoubledots":"self._qdoubledots","old_self__term1":"self._term1","old_self__term2":"self._term2","old_self__term3":"self._term3","old_self__term4":"self._term4","old_self_coneqs":"self.coneqs","old_self_eom":"self.eom","old_self_inertial":"self.inertial","old_self_lam_coeffs":"self.lam_coeffs","old_self_lam_vec":"self.lam_vec"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, Lagrangian, qs, forcelist=None, bodies=None, frame=None,
                  hol_coneqs=None, nonhol_coneqs=None):
         """Supply the following for the initialization of LagrangesMethod.
@@ -211,16 +225,22 @@ class LagrangesMethod(_Methods):
         self._hol_coneqs = hol_coneqs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(form_lagranges_equations(), method to form lagrange's equations of motion) over Any ║
+# ║ Path(form_lagranges_equations(), self.eom) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.eom                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ form_lagranges_equations : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d82ca0103e6b812e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f8e37bb96769c8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.form_lagranges_equations","kind":"method","src_hash":"8e3876f86932dd2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"form_lagranges_equations()","rhs":"method to form lagrange's equations of motion","over":{"base":"Any"},"name":"form_lagranges_equations_correct"},"guarantee":"method to form lagrange's equations of motion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.form_lagranges_equations_correct","statement":"Path(form_lagranges_equations(x), method to form lagrange's equations of motion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d82ca0103e6b812e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.form_lagranges_equations","kind":"method","src_hash":"8e3876f86932dd2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"form_lagranges_equations()","rhs":"self.eom","over":{"base":"Any"},"name":"form_lagranges_equations_correct"},"guarantee":"returns self.eom","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.form_lagranges_equations_correct","statement":"Path(form_lagranges_equations(x), returns self.eom)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f8e37bb96769c8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.eom","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._L","self._qdots","self._qdoubledots","self._term1","self._term2","self._term3","self._term4","self.coneqs","self.eom","self.forcelist","self.inertial","self.lam_coeffs","self.lam_vec","self.q"],"writes":["self._f_cd","self._f_d","self._m_cd","self._m_d","self._term1","self._term2","self._term3","self._term4","self.eom","self.lam_coeffs","self.lam_vec"]},"state_contract":{"modifies":["self._f_cd","self._f_d","self._m_cd","self._m_d","self._term1","self._term2","self._term3","self._term4","self.eom","self.lam_coeffs","self.lam_vec"],"old_bindings":{"old_self__f_cd":"self._f_cd","old_self__f_d":"self._f_d","old_self__m_cd":"self._m_cd","old_self__m_d":"self._m_d","old_self__term1":"self._term1","old_self__term2":"self._term2","old_self__term3":"self._term3","old_self__term4":"self._term4","old_self_eom":"self.eom","old_self_lam_coeffs":"self.lam_coeffs","old_self_lam_vec":"self.lam_vec"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def form_lagranges_equations(self):
         """Method to form Lagrange's equations of motion.
 
@@ -278,31 +298,44 @@ class LagrangesMethod(_Methods):
         return self.eom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_eoms(), internal helper behaves correctly) over Any ║
+# ║ Path(_form_eoms(), self.form_lagranges_equations()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.form_lagranges_equations()                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _form_eoms : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01aaf34f48199207           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod._form_eoms","kind":"method","src_hash":"c49225a3bd59448c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_eoms()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_form_eoms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01aaf34f48199207"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod._form_eoms","kind":"method","src_hash":"c49225a3bd59448c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_eoms()","rhs":"self.form_lagranges_equations()","over":{"base":"Any"},"name":"_form_eoms_correct"},"guarantee":"returns self.form_lagranges_equations()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01aaf34f48199207","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.form_lagranges_equations()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.form_lagranges_equations"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_eoms(self):
         return self.form_lagranges_equations()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix(), returns the mass_matrix attribute) over Any ║
+# ║ Path(mass_matrix(), <unspecified:mass_matrix>) over {Any | not (self.eom is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mass_matrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.eom is None)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mass_matrix : {Any | not (self.eom is None)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e39558f7351fdc26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.mass_matrix","kind":"property","src_hash":"6b29492d464309e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"returns the mass_matrix attribute","over":{"base":"Any"},"name":"mass_matrix_correct"},"guarantee":"returns the mass_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e39558f7351fdc26"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.mass_matrix","kind":"property","src_hash":"6b29492d464309e2","in":{"base":"Any","pred":"not (self.eom is None)"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"<unspecified:mass_matrix>","over":{"base":"Any","pred":"not (self.eom is None)"},"name":"mass_matrix_correct"},"guarantee":"returns the mass_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e39558f7351fdc26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.eom is None)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._m_d","self.coneqs","self.eom","self.lam_coeffs"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix(self):
         """Returns the mass matrix, which is augmented by the Lagrange
         multipliers, if necessary.
@@ -328,16 +361,23 @@ class LagrangesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix_full(), returns the mass_matrix_full attribute) over Any ║
+# ║ Path(mass_matrix_full(), <unspecified:mass_matrix_full>) over {Any | not (self.eom is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mass_matrix_full : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.eom is None)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mass_matrix_full : {Any | not (self.eom is None)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a1b092134bc9e7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.mass_matrix_full","kind":"property","src_hash":"2cf9d082979fd3a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"returns the mass_matrix_full attribute","over":{"base":"Any"},"name":"mass_matrix_full_correct"},"guarantee":"returns the mass_matrix_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a1b092134bc9e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.mass_matrix_full","kind":"property","src_hash":"2cf9d082979fd3a5","in":{"base":"Any","pred":"not (self.eom is None)"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"<unspecified:mass_matrix_full>","over":{"base":"Any","pred":"not (self.eom is None)"},"name":"mass_matrix_full_correct"},"guarantee":"returns the mass_matrix_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a1b092134bc9e7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.eom is None)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._m_cd","self.coneqs","self.eom","self.mass_matrix","self.q"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix_full(self):
         """Augments the coefficients of qdots to the mass_matrix."""
 
@@ -355,16 +395,23 @@ class LagrangesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing(), returns the forcing attribute) over Any    ║
+# ║ Path(forcing(), self._f_d) over {Any | not (self.eom is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ forcing : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.eom is None)                         ║
+# ║   returns:  self._f_d                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ forcing : {Any | not (self.eom is None)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1be9221b2dd6d8af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.forcing","kind":"property","src_hash":"949ff2486ae06a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"returns the forcing attribute","over":{"base":"Any"},"name":"forcing_correct"},"guarantee":"returns the forcing attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1be9221b2dd6d8af"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.forcing","kind":"property","src_hash":"949ff2486ae06a0c","in":{"base":"Any","pred":"not (self.eom is None)"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"self._f_d","over":{"base":"Any","pred":"not (self.eom is None)"},"name":"forcing_correct"},"guarantee":"returns self._f_d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1be9221b2dd6d8af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.eom is None)"],"returns_expr":"self._f_d","pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_d","self.eom"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing(self):
         """Returns the forcing vector from 'lagranges_equations' method."""
 
@@ -374,16 +421,23 @@ class LagrangesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing_full(), returns the forcing_full attribute) over Any ║
+# ║ Path(forcing_full(), <unspecified:forcing_full>) over {Any | not (self.eom is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ forcing_full : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.eom is None)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ forcing_full : {Any | not (self.eom is None)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 787ad207f29cde71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.forcing_full","kind":"property","src_hash":"bb9ef07ecc130848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"returns the forcing_full attribute","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"returns the forcing_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787ad207f29cde71"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.forcing_full","kind":"property","src_hash":"bb9ef07ecc130848","in":{"base":"Any","pred":"not (self.eom is None)"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"<unspecified:forcing_full>","over":{"base":"Any","pred":"not (self.eom is None)"},"name":"forcing_full_correct"},"guarantee":"returns the forcing_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787ad207f29cde71","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.eom is None)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_cd","self._qdots","self.coneqs","self.eom","self.forcing"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing_full(self):
         """Augments qdots to the forcing vector above."""
 
@@ -395,16 +449,23 @@ class LagrangesMethod(_Methods):
             return self._qdots.col_join(self.forcing)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_linearizer(q_i), returns an instance of the linearizer class, initiated from the data in the lagrangesmethod class) over Any ║
+# ║ Path(to_linearizer(q_ind, qd_ind, q_dep), Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, lams, linear_solver=linear_solver)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_linearizer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(r) == old_len_r                            ║
+# ║   returns:  Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_linearizer : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b5c8cf7be8e74fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b6ddfcfba473ba8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.to_linearizer","kind":"method","src_hash":"6d17bbc1e13dc3f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_linearizer(q_i)","rhs":"returns an instance of the linearizer class, initiated from the data in the lagrangesmethod class","over":{"base":"Any"},"name":"to_linearizer_correct"},"guarantee":"returns an instance of the linearizer class, initiated from the data in the lagrangesmethod class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.to_linearizer_correct","statement":"Path(to_linearizer(x), returns an instance of the linearizer class, initiated from the data in the lagrangesmethod class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5c8cf7be8e74fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.to_linearizer","kind":"method","src_hash":"6d17bbc1e13dc3f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, lams, linear_solver=linear_solver))"},"spec":{"lhs":"to_linearizer(q_ind, qd_ind, q_dep)","rhs":"Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, lams, linear_solver=linear_solver)","over":{"base":"Any"},"name":"to_linearizer_correct"},"guarantee":"returns Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, lams, linear_solver=linear_solver); len(r) == old_len_r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.to_linearizer_correct","statement":"Path(to_linearizer(x), returns Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, lams, linear_solver=linear_solver); len(r) == old_len_r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b6ddfcfba473ba8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(r) == old_len_r"],"returns_expr":"Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, lams, linear_solver=linear_solver)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hol_coneqs","self._qdots","self._term1","self._term2","self._term3","self._term4","self.coneqs","self.lam_vec","self.q"],"calls_mutating":["r.sort"],"raises":["ValueError"]},"state_contract":{"modifies":["r.*"],"old_bindings":{"old_len_r":"len(r)"},"post_ensures":["len(r) == old_len_r"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_linearizer(self, q_ind=None, qd_ind=None, q_dep=None, qd_dep=None,
                       linear_solver='LU'):
         """Returns an instance of the Linearizer class, initiated from the data
@@ -489,16 +550,22 @@ class LagrangesMethod(_Methods):
                           q_d, u_i, u_d, r, lams, linear_solver=linear_solver)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linearize(q_i), linearize the equations of motion about a symbolic operating point) over Any ║
+# ║ Path(linearize(q_ind, qd_ind, q_dep), result + (linearizer.r,)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  result + (linearizer.r,)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linearize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1f92840a55f3d38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2892ac5c45e33e6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.linearize","kind":"method","src_hash":"05630e078fe5071c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linearize(q_i)","rhs":"linearize the equations of motion about a symbolic operating point","over":{"base":"Any"},"name":"linearize_correct"},"guarantee":"linearize the equations of motion about a symbolic operating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.linearize_correct","statement":"Path(linearize(x), linearize the equations of motion about a symbolic operating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1f92840a55f3d38"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.linearize","kind":"method","src_hash":"05630e078fe5071c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linearize(q_ind, qd_ind, q_dep)","rhs":"result + (linearizer.r,)","over":{"base":"Any"},"name":"linearize_correct"},"guarantee":"returns result + (linearizer.r,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.linearize_correct","statement":"Path(linearize(x), returns result + (linearizer.r,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2892ac5c45e33e6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"result + (linearizer.r,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_linearizer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linearize(self, q_ind=None, qd_ind=None, q_dep=None, qd_dep=None,
                   linear_solver='LU', **kwargs):
         """Linearize the equations of motion about a symbolic operating point.
@@ -550,16 +617,23 @@ class LagrangesMethod(_Methods):
         return result + (linearizer.r,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_multipliers(op_), solves for the values of the lagrange multipliers symbolically at the specified operating point) over Any ║
+# ║ Path(solve_multipliers(op_point, sol_type), <unspecified:solve_multipliers>) over {Any | not (k == 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_multipliers : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (k == 0)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_multipliers : {Any | not (k == 0)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58fc90a4459f460b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.solve_multipliers","kind":"method","src_hash":"8125df81af969244","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_multipliers(op_)","rhs":"solves for the values of the lagrange multipliers symbolically at the specified operating point","over":{"base":"Any"},"name":"solve_multipliers_correct"},"guarantee":"solves for the values of the lagrange multipliers symbolically at the specified operating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.solve_multipliers_correct","statement":"Path(solve_multipliers(x), solves for the values of the lagrange multipliers symbolically at the specified operating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58fc90a4459f460b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.solve_multipliers","kind":"method","src_hash":"8125df81af969244","in":{"base":"Any","pred":"not (k == 0)"},"out":{"base":"Any"},"spec":{"lhs":"solve_multipliers(op_point, sol_type)","rhs":"<unspecified:solve_multipliers>","over":{"base":"Any","pred":"not (k == 0)"},"name":"solve_multipliers_correct"},"guarantee":"solves for the values of the lagrange multipliers symbolically at the specified operating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.solve_multipliers_correct","statement":"Path(solve_multipliers(x), solves for the values of the lagrange multipliers symbolically at the specified operating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58fc90a4459f460b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (k == 0)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_cd","self.forcing","self.lam_coeffs","self.lam_vec","self.mass_matrix"],"calls_mutating":["op_point_dict.update"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["op_point_dict.*"],"old_bindings":{"old_len_op_point_dict":"len(op_point_dict)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_multipliers(self, op_point=None, sol_type='dict'):
         """Solves for the values of the lagrange multipliers symbolically at
         the specified operating point.
@@ -611,16 +685,22 @@ class LagrangesMethod(_Methods):
             raise ValueError("Unknown sol_type {:}.".format(sol_type))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(inv), returns equations that can be solved numerically) over Any ║
+# ║ Path(rhs(inv_method, **kwargs), self._rhs) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rhs                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1768fdd2d0cf557  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec9c035132bc135a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.rhs","kind":"method","src_hash":"3202b938ea6838e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs(inv)","rhs":"returns equations that can be solved numerically","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns equations that can be solved numerically","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.rhs_correct","statement":"Path(rhs(x), returns equations that can be solved numerically)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1768fdd2d0cf557"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.rhs","kind":"method","src_hash":"3202b938ea6838e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs(inv_method, **kwargs)","rhs":"self._rhs","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns self._rhs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.lagrange.LagrangesMethod.rhs_correct","statement":"Path(rhs(x), returns self._rhs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec9c035132bc135a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rhs","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rhs","self.forcing_full","self.mass_matrix_full"],"writes":["self._rhs"]},"state_contract":{"modifies":["self._rhs"],"old_bindings":{"old_self__rhs":"self._rhs"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self, inv_method=None, **kwargs):
         """Returns equations that can be solved numerically.
 
@@ -642,75 +722,105 @@ class LagrangesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q(), returns the q attribute) over Any                ║
+# ║ Path(q(), self._q) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b79726596fe8c6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.q","kind":"property","src_hash":"698a60c599fae369","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"returns the q attribute","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns the q attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b79726596fe8c6d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.q","kind":"property","src_hash":"698a60c599fae369","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"self._q","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns self._q","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b79726596fe8c6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q(self):
         return self._q
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(u(), returns the u attribute) over Any                ║
+# ║ Path(u(), self._qdots) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._qdots                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ u : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65a5831490e01efd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.u","kind":"property","src_hash":"9044a177e369a5f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"returns the u attribute","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns the u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65a5831490e01efd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.u","kind":"property","src_hash":"9044a177e369a5f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"self._qdots","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns self._qdots","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65a5831490e01efd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._qdots","pure":false,"effects":{"effect_type":"reads_state","reads":["self._qdots"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def u(self):
         return self._qdots
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bodies(), returns the bodies attribute) over Any      ║
+# ║ Path(bodies(), self._bodies) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._bodies                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bodies : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | de43d47d45054089           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.bodies","kind":"property","src_hash":"83ac84ea054bf2b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"returns the bodies attribute","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"returns the bodies attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de43d47d45054089"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.bodies","kind":"property","src_hash":"83ac84ea054bf2b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"self._bodies","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"returns self._bodies","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de43d47d45054089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._bodies","pure":false,"effects":{"effect_type":"reads_state","reads":["self._bodies"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bodies(self):
         return self._bodies
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcelist(), returns the forcelist attribute) over Any ║
+# ║ Path(forcelist(), self._forcelist) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._forcelist                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcelist : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cd1993cc3ddc521           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.forcelist","kind":"property","src_hash":"58762de936e9e0b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcelist()","rhs":"returns the forcelist attribute","over":{"base":"Any"},"name":"forcelist_correct"},"guarantee":"returns the forcelist attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cd1993cc3ddc521"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.forcelist","kind":"property","src_hash":"58762de936e9e0b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcelist()","rhs":"self._forcelist","over":{"base":"Any"},"name":"forcelist_correct"},"guarantee":"returns self._forcelist","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cd1993cc3ddc521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._forcelist","pure":false,"effects":{"effect_type":"reads_state","reads":["self._forcelist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcelist(self):
         return self._forcelist
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads(), returns the loads attribute) over Any        ║
+# ║ Path(loads(), self._forcelist) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._forcelist                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51a507171f5f32eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.loads","kind":"property","src_hash":"c01c276bd93773f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"returns the loads attribute","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns the loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51a507171f5f32eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.lagrange.LagrangesMethod.loads","kind":"property","src_hash":"c01c276bd93773f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"self._forcelist","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns self._forcelist","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51a507171f5f32eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._forcelist","pure":false,"effects":{"effect_type":"reads_state","reads":["self._forcelist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads(self):
         return self._forcelist

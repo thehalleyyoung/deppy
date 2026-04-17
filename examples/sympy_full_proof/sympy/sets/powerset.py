@@ -27,14 +27,20 @@ from .sets import Set, FiniteSet, SetKind
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PowerSet(*args), correctly constructs a PowerSet instance) over {Any | isinstance(other, PowerSet) and isinstance(arg, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PowerSet : {Any | isinstance(other, PowerSet) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98202d5cccfe4872  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet","kind":"class","src_hash":"1adb622f0a773326","in":{"base":"Any","pred":"isinstance(other, PowerSet) and isinstance(arg, Set)"},"out":{"base":"Any"},"spec":{"lhs":"PowerSet(*args)","rhs":"correctly constructs a PowerSet instance","over":{"base":"Any","pred":"isinstance(other, PowerSet) and isinstance(arg, Set)"},"name":"PowerSet_class_invariant"},"guarantee":"correctly constructs a PowerSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98202d5cccfe4872"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet","kind":"class","src_hash":"1adb622f0a773326","in":{"base":"Any","pred":"isinstance(other, PowerSet) and isinstance(arg, Set)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"PowerSet(*args)","rhs":"correctly constructs a PowerSet instance","over":{"base":"Any","pred":"isinstance(other, PowerSet) and isinstance(arg, Set)"},"name":"PowerSet_class_invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98202d5cccfe4872","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PowerSet not found in source"]}}
 class PowerSet(Set):
     r"""A symbolic object representing a power set.
 
@@ -95,16 +101,23 @@ class PowerSet(Set):
     .. [2] https://en.wikipedia.org/wiki/Axiom_of_power_set
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg, evaluate), super().__new__(cls, arg)) over {Any | isinstance(arg, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(arg, Set)                           ║
+# ║   returns:  super().__new__(cls, arg)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(arg, Set)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13029857cf5b8fc7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.__new__","kind":"method","src_hash":"01a0001c49dc1407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13029857cf5b8fc7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.__new__","kind":"method","src_hash":"01a0001c49dc1407","in":{"base":"Any","pred":"isinstance(arg, Set)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg, evaluate)","rhs":"super().__new__(cls, arg)","over":{"base":"Any","pred":"isinstance(arg, Set)"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13029857cf5b8fc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(arg, Set)"],"returns_expr":"super().__new__(cls, arg)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg, evaluate=None):
         if evaluate is None:
             evaluate=global_parameters.evaluate
@@ -118,30 +131,42 @@ class PowerSet(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arg(), returns the arg attribute) over Any            ║
+# ║ Path(arg(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c5cf3a50bc6a807           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"returns the arg attribute","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns the arg attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c5cf3a50bc6a807"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"self.args[0]","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c5cf3a50bc6a807","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arg(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_FiniteSet(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_FiniteSet(*args, **kwargs), <unspecified:_eval_rewrite_as_FiniteSet>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_FiniteSet : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f53c7d76d7f9bf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet._eval_rewrite_as_FiniteSet","kind":"method","src_hash":"c85a7b2d2a628603","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_FiniteSet(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_FiniteSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.powerset.PowerSet._eval_rewrite_as_FiniteSet_correct","statement":"Path(_eval_rewrite_as_FiniteSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f53c7d76d7f9bf2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet._eval_rewrite_as_FiniteSet","kind":"method","src_hash":"c85a7b2d2a628603","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_FiniteSet(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_FiniteSet>","over":{"base":"Any"},"name":"_eval_rewrite_as_FiniteSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.powerset.PowerSet._eval_rewrite_as_FiniteSet_correct","statement":"Path(_eval_rewrite_as_FiniteSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f53c7d76d7f9bf2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_FiniteSet(self, *args, **kwargs):
         arg = self.arg
         if arg.is_FiniteSet:
@@ -150,16 +175,22 @@ class PowerSet(Set):
 
     @_sympifyit('other', NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0728ee5b496335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet._contains","kind":"method","src_hash":"d4aa478a20c1c9a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.powerset.PowerSet._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0728ee5b496335"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet._contains","kind":"method","src_hash":"d4aa478a20c1c9a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.powerset.PowerSet._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0728ee5b496335","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         if not isinstance(other, Set):
             return None
@@ -167,45 +198,64 @@ class PowerSet(Set):
         return fuzzy_bool(self.arg.is_superset(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_subset(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_subset(other), self.arg.is_subset(other.arg)) over {Any | hasattr(other, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_subset : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'arg')                          ║
+# ║   returns:  self.arg.is_subset(other.arg)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_subset : {Any | hasattr(other, 'arg')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7884f302234ba66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb7ae547adf254f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet._eval_is_subset","kind":"method","src_hash":"2ed39ca55c2443ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_subset(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_subset_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.powerset.PowerSet._eval_is_subset_correct","statement":"Path(_eval_is_subset(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7884f302234ba66"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet._eval_is_subset","kind":"method","src_hash":"2ed39ca55c2443ed","in":{"base":"Any","pred":"hasattr(other, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_subset(other)","rhs":"self.arg.is_subset(other.arg)","over":{"base":"Any","pred":"hasattr(other, 'arg')"},"name":"_eval_is_subset_correct"},"guarantee":"returns self.arg.is_subset(other.arg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.powerset.PowerSet._eval_is_subset_correct","statement":"Path(_eval_is_subset(x), returns self.arg.is_subset(other.arg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb7ae547adf254f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'arg')"],"returns_expr":"self.arg.is_subset(other.arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.arg","self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_subset(self, other):
         if isinstance(other, PowerSet):
             return self.arg.is_subset(other.arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), 2 ** len(self.arg)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** len(self.arg)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8164a6aaf666c4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.__len__","kind":"method","src_hash":"e64a222bce998d47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8164a6aaf666c4d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.__len__","kind":"method","src_hash":"e64a222bce998d47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"2 ** len(self.arg)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns 2 ** len(self.arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8164a6aaf666c4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** len(self.arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return 2 ** len(self.arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eca5e4f88412917f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.__iter__","kind":"method","src_hash":"537a2d292ad305d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eca5e4f88412917f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.__iter__","kind":"method","src_hash":"537a2d292ad305d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eca5e4f88412917f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         found = [S.EmptySet]
         yield S.EmptySet
@@ -221,15 +271,21 @@ class PowerSet(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), SetKind(self.arg.kind)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(self.arg.kind)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2a437f478149d5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.kind","kind":"property","src_hash":"6a0a7c7bfe266e8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2a437f478149d5a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.powerset.PowerSet.kind","kind":"property","src_hash":"6a0a7c7bfe266e8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"SetKind(self.arg.kind)","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns SetKind(self.arg.kind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2a437f478149d5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(self.arg.kind)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         return SetKind(self.arg.kind)

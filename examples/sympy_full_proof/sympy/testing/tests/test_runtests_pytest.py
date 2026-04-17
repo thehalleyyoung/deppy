@@ -30,14 +30,20 @@ from sympy.testing.runtests_pytest import (
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestMakeAbsolutePath(*args), correctly constructs a TestMakeAbsolutePath instance) over str ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestMakeAbsolutePath : str → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1a2231b4aa08eb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath","kind":"class","src_hash":"faeb470c01a7f89c","in":{"base":"str"},"out":{"base":"Any"},"spec":{"lhs":"TestMakeAbsolutePath(*args)","rhs":"correctly constructs a TestMakeAbsolutePath instance","over":{"base":"str"},"name":"TestMakeAbsolutePath_class_invariant"},"guarantee":"correctly constructs a TestMakeAbsolutePath instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1a2231b4aa08eb0"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath","kind":"class","src_hash":"faeb470c01a7f89c","in":{"base":"str"},"out":{"base":"Any"},"spec":{"lhs":"TestMakeAbsolutePath(*args)","rhs":"correctly constructs a TestMakeAbsolutePath instance","over":{"base":"str"},"name":"TestMakeAbsolutePath_class_invariant"},"guarantee":"correctly constructs a TestMakeAbsolutePath instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1a2231b4aa08eb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestMakeAbsolutePath not found in source"]}}
 class TestMakeAbsolutePath:
 
     @staticmethod
@@ -45,16 +51,23 @@ class TestMakeAbsolutePath:
         'partial_path', ['sympy', 'sympy/core', 'sympy/nonexistant_directory'],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_partial_path(par), paths that start with `sympy` are valid) over Any ║
+# ║ Path(test_valid_partial_path(partial_path), <unspecified:test_valid_partial_path>) over {Any | isinstance(partial_path, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_partial_path : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(partial_path, str)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_partial_path : {Any | isinstance(partial_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5097a7dcc11bc0db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_valid_partial_path","kind":"staticmethod","src_hash":"df61991a571980d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_partial_path(par)","rhs":"paths that start with `sympy` are valid","over":{"base":"Any"},"name":"test_valid_partial_path_correct"},"guarantee":"paths that start with `sympy` are valid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_valid_partial_path_correct","statement":"Path(test_valid_partial_path(x), paths that start with `sympy` are valid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5097a7dcc11bc0db"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_valid_partial_path","kind":"staticmethod","src_hash":"df61991a571980d6","in":{"base":"Any","pred":"isinstance(partial_path, str)"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_partial_path(partial_path)","rhs":"<unspecified:test_valid_partial_path>","over":{"base":"Any","pred":"isinstance(partial_path, str)"},"name":"test_valid_partial_path_correct"},"guarantee":"paths that start with `sympy` are valid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_valid_partial_path_correct","statement":"Path(test_valid_partial_path(x), paths that start with `sympy` are valid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5097a7dcc11bc0db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(partial_path, str)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_partial_path(partial_path: str):
         """Paths that start with `sympy` are valid."""
         _ = make_absolute_path(partial_path)
@@ -64,16 +77,23 @@ class TestMakeAbsolutePath:
         'partial_path', ['not_sympy', 'also/not/sympy'],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_partial_path_raises_value_error(par), a `valueerror` is raises on paths that don't start with `sympy`) over Any ║
+# ║ Path(test_invalid_partial_path_raises_value_error(partial_path), <unspecified:test_invalid_partial_path_raises_value_error>) over {Any | isinstance(partial_path, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_invalid_partial_path_raises_value_error : Any → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(partial_path, str)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_invalid_partial_path_raises_value_error : {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35bd1b0b0d262af2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_invalid_partial_path_raises_value_error","kind":"staticmethod","src_hash":"0994c7e9064aedb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_partial_path_raises_value_error(par)","rhs":"a `valueerror` is raises on paths that don't start with `sympy`","over":{"base":"Any"},"name":"test_invalid_partial_path_raises_value_error_correct"},"guarantee":"a `valueerror` is raises on paths that don't start with `sympy`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_invalid_partial_path_raises_value_error_correct","statement":"Path(test_invalid_partial_path_raises_value_error(x), a `valueerror` is raises on paths that don't start with `sympy`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35bd1b0b0d262af2"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_invalid_partial_path_raises_value_error","kind":"staticmethod","src_hash":"0994c7e9064aedb4","in":{"base":"Any","pred":"isinstance(partial_path, str)"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_partial_path_raises_value_error(partial_path)","rhs":"<unspecified:test_invalid_partial_path_raises_value_error>","over":{"base":"Any","pred":"isinstance(partial_path, str)"},"name":"test_invalid_partial_path_raises_value_error_correct"},"guarantee":"a `valueerror` is raises on paths that don't start with `sympy`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestMakeAbsolutePath.test_invalid_partial_path_raises_value_error_correct","statement":"Path(test_invalid_partial_path_raises_value_error(x), a `valueerror` is raises on paths that don't start with `sympy`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35bd1b0b0d262af2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(partial_path, str)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_partial_path_raises_value_error(partial_path: str):
         """A `ValueError` is raises on paths that don't start with `sympy`."""
         with pytest.raises(ValueError):
@@ -83,28 +103,40 @@ class TestMakeAbsolutePath:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestUpdateArgsWithPaths(*args), correctly constructs a TestUpdateArgsWithPaths instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestUpdateArgsWithPaths : Any → {Any | args == expect...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d65b263b5c8f9624  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths","kind":"class","src_hash":"c56bb65b7cf020f7","in":{"base":"Any"},"out":{"base":"Any","pred":"args == expected and args == expected and args == expected and args == expected and len(args) == len(expected_paths) and len(args) == len(expected_args) and len(args) == len(expected_args) and len(args) == len(expected_args) and len(args) == len(expected_args) and expected in arg and expected in arg and expected in arg and expected in arg and expected in arg"},"spec":{"lhs":"TestUpdateArgsWithPaths(*args)","rhs":"correctly constructs a TestUpdateArgsWithPaths instance","over":{"base":"Any"},"name":"TestUpdateArgsWithPaths_class_invariant"},"guarantee":"correctly constructs a TestUpdateArgsWithPaths instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65b263b5c8f9624"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths","kind":"class","src_hash":"c56bb65b7cf020f7","in":{"base":"Any"},"out":{"base":"Any","pred":"args == expected and args == expected and args == expected and args == expected and len(args) == len(expected_paths) and len(args) == len(expected_args) and len(args) == len(expected_args) and len(args) == len(expected_args) and len(args) == len(expected_args) and expected in arg and expected in arg and expected in arg and expected in arg and expected in arg"},"spec":{"lhs":"TestUpdateArgsWithPaths(*args)","rhs":"correctly constructs a TestUpdateArgsWithPaths instance","over":{"base":"Any"},"name":"TestUpdateArgsWithPaths_class_invariant"},"guarantee":"correctly constructs a TestUpdateArgsWithPaths instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65b263b5c8f9624","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestUpdateArgsWithPaths not found in source"]}}
 class TestUpdateArgsWithPaths:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_paths(), if no paths are passed, only `sympy` and `doc/src` are appended) over Any ║
+# ║ Path(test_no_paths(), args == expected) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_no_paths : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  args == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_no_paths : Any → {Any | result satisfies: args =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3ba01da26d98e80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9328045f534764a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_no_paths","kind":"staticmethod","src_hash":"3e73354db7df50f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_paths()","rhs":"if no paths are passed, only `sympy` and `doc/src` are appended","over":{"base":"Any"},"name":"test_no_paths_correct"},"guarantee":"if no paths are passed, only `sympy` and `doc/src` are appended","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_no_paths_correct","statement":"Path(test_no_paths(x), if no paths are passed, only `sympy` and `doc/src` are appended)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3ba01da26d98e80"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_no_paths","kind":"staticmethod","src_hash":"3e73354db7df50f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: args == expected"},"spec":{"lhs":"test_no_paths()","rhs":"args == expected","over":{"base":"Any"},"name":"test_no_paths_correct"},"guarantee":"args == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_no_paths_correct","statement":"Path(test_no_paths(x), args == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9328045f534764a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["args == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_no_paths():
         """If no paths are passed, only `sympy` and `doc/src` are appended.
 
@@ -127,16 +159,23 @@ class TestUpdateArgsWithPaths:
         ['sympy/core/tests/test_basic.py', '_basic']
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_one_file(pat), single files/paths, full or partial, are matched correctly) over Any ║
+# ║ Path(test_one_file(path), args == expected) over {Any | isinstance(path, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_one_file : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(path, str)                          ║
+# ║   ensures:  args == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_one_file : {Any | isinstance(path, str)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2231fd0fe93c9b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd633c2ad468b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_one_file","kind":"staticmethod","src_hash":"a68377947e631a9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_one_file(pat)","rhs":"single files/paths, full or partial, are matched correctly","over":{"base":"Any"},"name":"test_one_file_correct"},"guarantee":"single files/paths, full or partial, are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_one_file_correct","statement":"Path(test_one_file(x), single files/paths, full or partial, are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2231fd0fe93c9b3"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_one_file","kind":"staticmethod","src_hash":"a68377947e631a9e","in":{"base":"Any","pred":"isinstance(path, str)"},"out":{"base":"Any","pred":"result satisfies: args == expected"},"spec":{"lhs":"test_one_file(path)","rhs":"args == expected","over":{"base":"Any","pred":"isinstance(path, str)"},"name":"test_one_file_correct"},"guarantee":"args == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_one_file_correct","statement":"Path(test_one_file(x), args == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd633c2ad468b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(path, str)"],"ensures":["args == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_one_file(path: str):
         """Single files/paths, full or partial, are matched correctly."""
         args = update_args_with_paths(paths=[path], keywords=None, args=[])
@@ -147,16 +186,22 @@ class TestUpdateArgsWithPaths:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_partial_path_from_root(), partial paths from the root directly are matched correctly) over Any ║
+# ║ Path(test_partial_path_from_root(), args == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_partial_path_from_root : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  args == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_partial_path_from_root : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 401ff86ad7a920d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ed79c4c9b31b2a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_partial_path_from_root","kind":"staticmethod","src_hash":"884ec2fff6b4ac7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_partial_path_from_root()","rhs":"partial paths from the root directly are matched correctly","over":{"base":"Any"},"name":"test_partial_path_from_root_correct"},"guarantee":"partial paths from the root directly are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_partial_path_from_root_correct","statement":"Path(test_partial_path_from_root(x), partial paths from the root directly are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"401ff86ad7a920d4"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_partial_path_from_root","kind":"staticmethod","src_hash":"884ec2fff6b4ac7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: args == expected"},"spec":{"lhs":"test_partial_path_from_root()","rhs":"args == expected","over":{"base":"Any"},"name":"test_partial_path_from_root_correct"},"guarantee":"args == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_partial_path_from_root_correct","statement":"Path(test_partial_path_from_root(x), args == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ed79c4c9b31b2a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["args == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_partial_path_from_root():
         """Partial paths from the root directly are matched correctly."""
         args = update_args_with_paths(paths=['sympy/functions'], keywords=None, args=[])
@@ -165,16 +210,22 @@ class TestUpdateArgsWithPaths:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_paths_from_root(), multiple paths, partial or full, are matched correctly) over Any ║
+# ║ Path(test_multiple_paths_from_root(), args == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_paths_from_root : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  args == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_paths_from_root : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1671404ebb211c38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77f724157cac7678  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_root","kind":"staticmethod","src_hash":"b3dccfc823517b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_multiple_paths_from_root()","rhs":"multiple paths, partial or full, are matched correctly","over":{"base":"Any"},"name":"test_multiple_paths_from_root_correct"},"guarantee":"multiple paths, partial or full, are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_root_correct","statement":"Path(test_multiple_paths_from_root(x), multiple paths, partial or full, are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1671404ebb211c38"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_root","kind":"staticmethod","src_hash":"b3dccfc823517b69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: args == expected"},"spec":{"lhs":"test_multiple_paths_from_root()","rhs":"args == expected","over":{"base":"Any"},"name":"test_multiple_paths_from_root_correct"},"guarantee":"args == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_root_correct","statement":"Path(test_multiple_paths_from_root(x), args == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77f724157cac7678","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["args == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_multiple_paths_from_root():
         """Multiple paths, partial or full, are matched correctly."""
         paths = ['sympy/core/tests/test_basic.py', 'sympy/functions']
@@ -202,16 +253,24 @@ class TestUpdateArgsWithPaths:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_paths_from_non_root(pat), multiple partial paths are matched correctly) over Any ║
+# ║ Path(test_multiple_paths_from_non_root(paths, expected_paths), len(args) == len(expected_paths)) over {Any | isinstance(paths, List[str]) and isinstance(expected_paths, List[str])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_paths_from_non_root : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(paths, List[str])                   ║
+# ║   requires: isinstance(expected_paths, List[str])          ║
+# ║   ensures:  len(args) == len(expected_paths)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_paths_from_non_root : {Any | isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0917267a17587954  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b9849b5844aaaf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_non_root","kind":"staticmethod","src_hash":"a2da10a25e3fa257","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_multiple_paths_from_non_root(pat)","rhs":"multiple partial paths are matched correctly","over":{"base":"Any"},"name":"test_multiple_paths_from_non_root_correct"},"guarantee":"multiple partial paths are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_non_root_correct","statement":"Path(test_multiple_paths_from_non_root(x), multiple partial paths are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0917267a17587954"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_non_root","kind":"staticmethod","src_hash":"a2da10a25e3fa257","in":{"base":"Any","pred":"isinstance(paths, List[str]) and isinstance(expected_paths, List[str])"},"out":{"base":"Any","pred":"result satisfies: len(args) == len(expected_paths)"},"spec":{"lhs":"test_multiple_paths_from_non_root(paths, expected_paths)","rhs":"len(args) == len(expected_paths)","over":{"base":"Any","pred":"isinstance(paths, List[str]) and isinstance(expected_paths, List[str])"},"name":"test_multiple_paths_from_non_root_correct"},"guarantee":"len(args) == len(expected_paths)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_paths_from_non_root_correct","statement":"Path(test_multiple_paths_from_non_root(x), len(args) == len(expected_paths))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b9849b5844aaaf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(paths, List[str])","isinstance(expected_paths, List[str])"],"ensures":["len(args) == len(expected_paths)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_multiple_paths_from_non_root(paths: List[str], expected_paths: List[str]):
         """Multiple partial paths are matched correctly."""
         args = update_args_with_paths(paths=paths, keywords=None, args=[])
@@ -232,16 +291,23 @@ class TestUpdateArgsWithPaths:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_string_as_keyword(pat), string keywords are matched correctly) over Any ║
+# ║ Path(test_string_as_keyword(paths), len(args) == len(expected_args)) over {Any | isinstance(paths, List[str])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_string_as_keyword : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(paths, List[str])                   ║
+# ║   ensures:  len(args) == len(expected_args)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_string_as_keyword : {Any | isinstance(paths, Lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff78c5c1a42f3cc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c54e7847fb00ab4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_string_as_keyword","kind":"staticmethod","src_hash":"97026b3619fea3de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_string_as_keyword(pat)","rhs":"string keywords are matched correctly","over":{"base":"Any"},"name":"test_string_as_keyword_correct"},"guarantee":"string keywords are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_string_as_keyword_correct","statement":"Path(test_string_as_keyword(x), string keywords are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff78c5c1a42f3cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_string_as_keyword","kind":"staticmethod","src_hash":"97026b3619fea3de","in":{"base":"Any","pred":"isinstance(paths, List[str])"},"out":{"base":"Any","pred":"result satisfies: len(args) == len(expected_args)"},"spec":{"lhs":"test_string_as_keyword(paths)","rhs":"len(args) == len(expected_args)","over":{"base":"Any","pred":"isinstance(paths, List[str])"},"name":"test_string_as_keyword_correct"},"guarantee":"len(args) == len(expected_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_string_as_keyword_correct","statement":"Path(test_string_as_keyword(x), len(args) == len(expected_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c54e7847fb00ab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(paths, List[str])"],"ensures":["len(args) == len(expected_args)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_string_as_keyword(paths: List[str]):
         """String keywords are matched correctly."""
         keywords = ('bicycle', )
@@ -263,16 +329,23 @@ class TestUpdateArgsWithPaths:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integer_as_keyword(pat), integer keywords are matched correctly) over Any ║
+# ║ Path(test_integer_as_keyword(paths), len(args) == len(expected_args)) over {Any | isinstance(paths, List[str])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integer_as_keyword : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(paths, List[str])                   ║
+# ║   ensures:  len(args) == len(expected_args)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integer_as_keyword : {Any | isinstance(paths, Li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 619597e27ce914a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a7b0aea99ad1fde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_integer_as_keyword","kind":"staticmethod","src_hash":"087f8dbb6a4e4a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_integer_as_keyword(pat)","rhs":"integer keywords are matched correctly","over":{"base":"Any"},"name":"test_integer_as_keyword_correct"},"guarantee":"integer keywords are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_integer_as_keyword_correct","statement":"Path(test_integer_as_keyword(x), integer keywords are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619597e27ce914a3"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_integer_as_keyword","kind":"staticmethod","src_hash":"087f8dbb6a4e4a3e","in":{"base":"Any","pred":"isinstance(paths, List[str])"},"out":{"base":"Any","pred":"result satisfies: len(args) == len(expected_args)"},"spec":{"lhs":"test_integer_as_keyword(paths)","rhs":"len(args) == len(expected_args)","over":{"base":"Any","pred":"isinstance(paths, List[str])"},"name":"test_integer_as_keyword_correct"},"guarantee":"len(args) == len(expected_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_integer_as_keyword_correct","statement":"Path(test_integer_as_keyword(x), len(args) == len(expected_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a7b0aea99ad1fde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(paths, List[str])"],"ensures":["len(args) == len(expected_args)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_integer_as_keyword(paths: List[str]):
         """Integer keywords are matched correctly."""
         keywords = ('3538', )
@@ -284,16 +357,22 @@ class TestUpdateArgsWithPaths:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_keywords(), multiple keywords are matched correctly) over Any ║
+# ║ Path(test_multiple_keywords(), len(args) == len(expected_args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_keywords : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(args) == len(expected_args)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_keywords : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c860cdf75067808  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee23a5e3ad781151  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_keywords","kind":"staticmethod","src_hash":"453e5425043101eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_multiple_keywords()","rhs":"multiple keywords are matched correctly","over":{"base":"Any"},"name":"test_multiple_keywords_correct"},"guarantee":"multiple keywords are matched correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_keywords_correct","statement":"Path(test_multiple_keywords(x), multiple keywords are matched correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c860cdf75067808"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_keywords","kind":"staticmethod","src_hash":"453e5425043101eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(args) == len(expected_args)"},"spec":{"lhs":"test_multiple_keywords()","rhs":"len(args) == len(expected_args)","over":{"base":"Any"},"name":"test_multiple_keywords_correct"},"guarantee":"len(args) == len(expected_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_multiple_keywords_correct","statement":"Path(test_multiple_keywords(x), len(args) == len(expected_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee23a5e3ad781151","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(args) == len(expected_args)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_multiple_keywords():
         """Multiple keywords are matched correctly."""
         keywords = ('bicycle', '3538')
@@ -308,16 +387,22 @@ class TestUpdateArgsWithPaths:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_keyword_match_in_multiple_files(), keywords are matched across multiple files) over Any ║
+# ║ Path(test_keyword_match_in_multiple_files(), len(args) == len(expected_args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_keyword_match_in_multiple_files : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(args) == len(expected_args)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_keyword_match_in_multiple_files : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac3b9871f6fedbcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e486911607f87034  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_keyword_match_in_multiple_files","kind":"staticmethod","src_hash":"0a1b03d310e58197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_keyword_match_in_multiple_files()","rhs":"keywords are matched across multiple files","over":{"base":"Any"},"name":"test_keyword_match_in_multiple_files_correct"},"guarantee":"keywords are matched across multiple files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_keyword_match_in_multiple_files_correct","statement":"Path(test_keyword_match_in_multiple_files(x), keywords are matched across multiple files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac3b9871f6fedbcd"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_keyword_match_in_multiple_files","kind":"staticmethod","src_hash":"0a1b03d310e58197","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(args) == len(expected_args)"},"spec":{"lhs":"test_keyword_match_in_multiple_files()","rhs":"len(args) == len(expected_args)","over":{"base":"Any"},"name":"test_keyword_match_in_multiple_files_correct"},"guarantee":"len(args) == len(expected_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_runtests_pytest.TestUpdateArgsWithPaths.test_keyword_match_in_multiple_files_correct","statement":"Path(test_keyword_match_in_multiple_files(x), len(args) == len(expected_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e486911607f87034","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(args) == len(expected_args)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_keyword_match_in_multiple_files():
         """Keywords are matched across multiple files."""
         keywords = ('1130', )

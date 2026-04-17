@@ -57,14 +57,20 @@ __all__ = ['diophantine', 'classify_diop']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DiophantineSolutionSet instance) preserved by DiophantineSolutionSet(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DiophantineSolutionSet : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DiophantineSolutionSet : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a67087545904fade  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet","kind":"class","src_hash":"0ddfa0dc4b9d5882","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiophantineSolutionSet(*args)","rhs":"correctly constructs a DiophantineSolutionSet instance","over":{"base":"Any"},"name":"DiophantineSolutionSet_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DiophantineSolutionSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'symbols') and hasattr(self, 'parameters')","kind":"class","induction":"structural on symbols, parameters"}],"methods_preserving":["__init__","add","update","dict_iterator","subs","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a67087545904fade"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet","kind":"class","src_hash":"0ddfa0dc4b9d5882","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, set)"},"spec":{"lhs":"DiophantineSolutionSet(*args)","rhs":"correctly constructs a DiophantineSolutionSet instance","over":{"base":"Any"},"name":"DiophantineSolutionSet_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, set); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'symbols') and hasattr(self, 'parameters')","kind":"class","induction":"structural on symbols, parameters"}],"methods_preserving":["__init__","add","update","dict_iterator","subs","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a67087545904fade","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, set)"],"invariants":["hasattr(self, 'symbols')","hasattr(self, 'parameters')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiophantineSolutionSet not found in source"]}}
 class DiophantineSolutionSet(set):
     """
     Container for a set of solutions to a particular diophantine equation.
@@ -128,16 +134,24 @@ class DiophantineSolutionSet(set):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sym), initializes the instance correctly) over Any ║
+# ║ Path(__init__(symbols_seq, parameters), <unspecified:__init__>) over {Any | is_sequence(symbols_seq) and is_sequence(parameters)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: is_sequence(symbols_seq)                       ║
+# ║   requires: is_sequence(parameters)                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | is_sequence(symbols_seq) and is_seq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c3a6a2462dc832f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.__init__","kind":"method","src_hash":"d935ec03668be2f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sym)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c3a6a2462dc832f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.__init__","kind":"method","src_hash":"d935ec03668be2f3","in":{"base":"Any","pred":"is_sequence(symbols_seq) and is_sequence(parameters)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(symbols_seq, parameters)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"is_sequence(symbols_seq) and is_sequence(parameters)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c3a6a2462dc832f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["is_sequence(symbols_seq)","is_sequence(parameters)"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self.parameters","self.symbols"],"raises":["ValueError"]},"state_contract":{"modifies":["self.parameters","self.symbols"],"old_bindings":{"old_self_parameters":"self.parameters","old_self_symbols":"self.symbols"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, symbols_seq, parameters):
         super().__init__()
 
@@ -151,16 +165,23 @@ class DiophantineSolutionSet(set):
         self.parameters = tuple(parameters)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(sol), add produces the expected output) over Any  ║
+# ║ Path(add(solution), <unspecified:add>) over {Any | not (len(solution) != len(self.symbols))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(solution) != len(self.symbols))       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : {Any | not (len(solution) != len(self.symbols))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7cbf68a84b00e84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.add","kind":"method","src_hash":"15cfb12eab69563e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(sol)","rhs":"add produces the expected output","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7cbf68a84b00e84"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.add","kind":"method","src_hash":"15cfb12eab69563e","in":{"base":"Any","pred":"not (len(solution) != len(self.symbols))"},"out":{"base":"Any"},"spec":{"lhs":"add(solution)","rhs":"<unspecified:add>","over":{"base":"Any","pred":"not (len(solution) != len(self.symbols))"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7cbf68a84b00e84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(solution) != len(self.symbols))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbols"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, solution):
         if len(solution) != len(self.symbols):
             raise ValueError("Solution should have a length of %s, not %s" % (len(self.symbols), len(solution)))
@@ -173,46 +194,64 @@ class DiophantineSolutionSet(set):
         super().add(Tuple(*solution))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update(*so), update produces the expected output) over Any ║
+# ║ Path(update(*solutions), <unspecified:update>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75c2d075f779e22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.update","kind":"method","src_hash":"cd7206e8e351270a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(*so)","rhs":"update produces the expected output","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75c2d075f779e22"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.update","kind":"method","src_hash":"cd7206e8e351270a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(*solutions)","rhs":"<unspecified:update>","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75c2d075f779e22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update(self, *solutions):
         for solution in solutions:
             self.add(solution)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict_iterator(), dict_iterator produces the expected output) over Any ║
+# ║ Path(dict_iterator(), <unspecified:dict_iterator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict_iterator : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be7d5c2e1d9a9d57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.dict_iterator","kind":"method","src_hash":"d7f2b98bcaee5fdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict_iterator()","rhs":"dict_iterator produces the expected output","over":{"base":"Any"},"name":"dict_iterator_correct"},"guarantee":"dict_iterator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.dict_iterator_correct","statement":"Path(dict_iterator(x), dict_iterator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be7d5c2e1d9a9d57"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.dict_iterator","kind":"method","src_hash":"d7f2b98bcaee5fdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict_iterator()","rhs":"<unspecified:dict_iterator>","over":{"base":"Any"},"name":"dict_iterator_correct"},"guarantee":"dict_iterator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.dict_iterator_correct","statement":"Path(dict_iterator(x), dict_iterator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be7d5c2e1d9a9d57","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict_iterator(self):
         for solution in ordered(self):
             yield dict(zip(self.symbols, solution))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(*ar), subs produces the expected output) over Any ║
+# ║ Path(subs(*args, **kwargs), <unspecified:subs>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c7106b57acbea4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.subs","kind":"method","src_hash":"1afc8706d79f096e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(*ar)","rhs":"subs produces the expected output","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.subs_correct","statement":"Path(subs(x), subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c7106b57acbea4e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.subs","kind":"method","src_hash":"1afc8706d79f096e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(*args, **kwargs)","rhs":"<unspecified:subs>","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.subs_correct","statement":"Path(subs(x), subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c7106b57acbea4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subs(self, *args, **kwargs):
         result = DiophantineSolutionSet(self.symbols, self.parameters)
         for solution in self:
@@ -220,16 +259,23 @@ class DiophantineSolutionSet(set):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), self.subs(rep)) over {Any | not (len(args) > len(self.parameters))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) > len(self.parameters))         ║
+# ║   returns:  self.subs(rep)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | not (len(args) > len(self.parameter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce45152b938f9793           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.__call__","kind":"method","src_hash":"251634c473c05fdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce45152b938f9793"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineSolutionSet.__call__","kind":"method","src_hash":"251634c473c05fdc","in":{"base":"Any","pred":"not (len(args) > len(self.parameters))"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"self.subs(rep)","over":{"base":"Any","pred":"not (len(args) > len(self.parameters))"},"name":"__call___correct"},"guarantee":"returns self.subs(rep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce45152b938f9793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) > len(self.parameters))"],"returns_expr":"self.subs(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.parameters","self.subs"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         if len(args) > len(self.parameters):
             raise ValueError("Evaluation should have at most %s values, not %s" % (len(self.parameters), len(args)))
@@ -240,14 +286,19 @@ class DiophantineSolutionSet(set):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DiophantineEquationType instance) preserved by DiophantineEquationType(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DiophantineEquationType : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79a407212b0b036f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType","kind":"class","src_hash":"ed88e51c9721004c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiophantineEquationType(*args)","rhs":"correctly constructs a DiophantineEquationType instance","over":{"base":"Any"},"name":"DiophantineEquationType_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DiophantineEquationType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'equation') and hasattr(self, 'free_symbols') and hasattr(self, 'free_symbols') and hasattr(self, 'coeff') and hasattr(self, 'total_degree') and hasattr(self, 'homogeneous') and hasattr(self, 'homogeneous_order') and hasattr(self, 'dimension')","kind":"class","induction":"structural on equation, free_symbols, free_symbols, coeff"}],"methods_preserving":["__init__","matches","n_parameters","parameters","solve","pre_solve"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79a407212b0b036f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType","kind":"class","src_hash":"ed88e51c9721004c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiophantineEquationType(*args)","rhs":"correctly constructs a DiophantineEquationType instance","over":{"base":"Any"},"name":"DiophantineEquationType_class_invariant","kind":"invariant"},"guarantee":"preserves 8 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'equation') and hasattr(self, 'free_symbols') and hasattr(self, 'free_symbols') and hasattr(self, 'coeff') and hasattr(self, 'total_degree') and hasattr(self, 'homogeneous') and hasattr(self, 'homogeneous_order') and hasattr(self, 'dimension')","kind":"class","induction":"structural on equation, free_symbols, free_symbols, coeff"}],"methods_preserving":["__init__","matches","n_parameters","parameters","solve","pre_solve"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79a407212b0b036f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'equation')","hasattr(self, 'coeff')","hasattr(self, 'total_degree')","hasattr(self, 'homogeneous')","hasattr(self, 'homogeneous_order')","hasattr(self, 'dimension')","hasattr(self, '_parameters')","hasattr(self, 'free_symbols')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiophantineEquationType not found in source"]}}
 class DiophantineEquationType:
     """
     Internal representation of a particular diophantine equation type.
@@ -275,16 +326,24 @@ class DiophantineEquationType:
     name: str
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(equ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(equation, free_symbols), len(self) == old_len_self) over {Any | self.free_symbols and all((int_valued(c) for c in self.coeff.values()))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.free_symbols                              ║
+# ║   requires: all((int_valued(c) for c in self.coeff.va...   ║
+# ║   ensures:  len(self) == old_len_self                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | self.free_symbols and all((int_valu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2b35a07c556d084           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.__init__","kind":"method","src_hash":"e6d3040f544c9aa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(equ)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b35a07c556d084"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.__init__","kind":"method","src_hash":"e6d3040f544c9aa5","in":{"base":"Any","pred":"self.free_symbols and all((int_valued(c) for c in self.coeff.values()))"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self"},"spec":{"lhs":"__init__(equation, free_symbols)","rhs":"len(self) == old_len_self","over":{"base":"Any","pred":"self.free_symbols and all((int_valued(c) for c in self.coeff.values()))"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b35a07c556d084","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.free_symbols","all((int_valued(c) for c in self.coeff.values()))"],"ensures":["len(self) == old_len_self"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.coeff","self.equation","self.free_symbols"],"writes":["self._parameters","self.coeff","self.dimension","self.equation","self.free_symbols","self.homogeneous","self.homogeneous_order","self.total_degree"],"calls_mutating":["self.free_symbols.sort"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["self.*","self._parameters","self.coeff","self.dimension","self.equation","self.free_symbols","self.homogeneous","self.homogeneous_order","self.total_degree"],"old_bindings":{"old_self__parameters":"self._parameters","old_self_coeff":"self.coeff","old_self_dimension":"self.dimension","old_self_equation":"self.equation","old_self_free_symbols":"self.free_symbols","old_self_homogeneous":"self.homogeneous","old_self_homogeneous_order":"self.homogeneous_order","old_self_total_degree":"self.total_degree","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, equation, free_symbols=None):
         self.equation = _sympify(equation).expand(force=True)
 
@@ -308,16 +367,22 @@ class DiophantineEquationType:
         self._parameters = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), determine whether the given equation can be matched to the particular equation type) over Any ║
+# ║ Path(matches(), False) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df8d4c6543d4f37e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.matches","kind":"method","src_hash":"08421bbaaaf2a82a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"determine whether the given equation can be matched to the particular equation type","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"determine whether the given equation can be matched to the particular equation type","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df8d4c6543d4f37e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.matches","kind":"method","src_hash":"08421bbaaaf2a82a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"False","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df8d4c6543d4f37e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         """
         Determine whether the given equation can be matched to the particular equation type.
@@ -326,61 +391,86 @@ class DiophantineEquationType:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n_parameters(), returns the n_parameters attribute) over Any ║
+# ║ Path(n_parameters(), self.dimension) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dimension                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n_parameters : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d719eabd6532a6f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.n_parameters","kind":"property","src_hash":"0b9bd584cf1ff957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n_parameters()","rhs":"returns the n_parameters attribute","over":{"base":"Any"},"name":"n_parameters_correct"},"guarantee":"returns the n_parameters attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d719eabd6532a6f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.n_parameters","kind":"property","src_hash":"0b9bd584cf1ff957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n_parameters()","rhs":"self.dimension","over":{"base":"Any"},"name":"n_parameters_correct"},"guarantee":"returns self.dimension","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d719eabd6532a6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dimension","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n_parameters(self):
         return self.dimension
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parameters(), returns the parameters attribute) over Any ║
+# ║ Path(parameters(), self._parameters) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parameters                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parameters : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a23e44ee2fcce402           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.parameters","kind":"property","src_hash":"7cc7afd24ddca0aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameters()","rhs":"returns the parameters attribute","over":{"base":"Any"},"name":"parameters_correct"},"guarantee":"returns the parameters attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a23e44ee2fcce402"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.parameters","kind":"property","src_hash":"7cc7afd24ddca0aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameters()","rhs":"self._parameters","over":{"base":"Any"},"name":"parameters_correct"},"guarantee":"returns self._parameters","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a23e44ee2fcce402","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parameters","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._parameters","self.n_parameters"],"writes":["self._parameters"]},"state_contract":{"modifies":["self._parameters"],"old_bindings":{"old_self__parameters":"self._parameters"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parameters(self):
         if self._parameters is None:
             self._parameters = symbols('t_:%i' % (self.n_parameters,), integer=True)
         return self._parameters
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), isinstance(result, DiophantineSolutionSet)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve : Any → DiophantineSolutionSet                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, DiophantineSolutionSet)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve : Any → {DiophantineSolutionSet | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34acd5abe07e8d9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.solve","kind":"method","src_hash":"a109c1229957bdc6","in":{"base":"Any"},"out":{"base":"DiophantineSolutionSet"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34acd5abe07e8d9a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.solve","kind":"method","src_hash":"a109c1229957bdc6","in":{"base":"Any"},"out":{"base":"DiophantineSolutionSet","pred":"result satisfies: isinstance(result, DiophantineSolutionSet)"},"spec":{"lhs":"solve(parameters, limit)","rhs":"isinstance(result, DiophantineSolutionSet)","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"isinstance(result, DiophantineSolutionSet)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34acd5abe07e8d9a","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, DiophantineSolutionSet)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=None) -> DiophantineSolutionSet:
         raise NotImplementedError('No solver has been written for %s.' % self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pre_solve(par), pre_solve produces the expected output) over Any ║
+# ║ Path(pre_solve(parameters), <unspecified:pre_solve>) over {Any | self.matches()} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pre_solve : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.matches()                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pre_solve : {Any | self.matches()} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9464b30c7bca90f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.pre_solve","kind":"method","src_hash":"3a5b7a8cc7a09616","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pre_solve(par)","rhs":"pre_solve produces the expected output","over":{"base":"Any"},"name":"pre_solve_correct"},"guarantee":"pre_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.pre_solve_correct","statement":"Path(pre_solve(x), pre_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9464b30c7bca90f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.pre_solve","kind":"method","src_hash":"3a5b7a8cc7a09616","in":{"base":"Any","pred":"self.matches()"},"out":{"base":"Any"},"spec":{"lhs":"pre_solve(parameters)","rhs":"<unspecified:pre_solve>","over":{"base":"Any","pred":"self.matches()"},"name":"pre_solve_correct"},"guarantee":"pre_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.DiophantineEquationType.pre_solve_correct","statement":"Path(pre_solve(x), pre_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9464b30c7bca90f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.matches()"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.matches","self.n_parameters","self.name"],"writes":["self._parameters"],"raises":["ValueError"]},"state_contract":{"modifies":["self._parameters"],"old_bindings":{"old_self__parameters":"self._parameters"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pre_solve(self, parameters=None):
         if not self.matches():
             raise ValueError("This equation does not match the %s equation type." % self.name)
@@ -395,14 +485,20 @@ class DiophantineEquationType:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Univariate(*args), correctly constructs a Univariate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Univariate : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Univariate : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1f44be550125b29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Univariate","kind":"class","src_hash":"b6407aaaa0b1dd69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Univariate(*args)","rhs":"correctly constructs a Univariate instance","over":{"base":"Any"},"name":"Univariate_class_invariant"},"guarantee":"correctly constructs a Univariate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f44be550125b29"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Univariate","kind":"class","src_hash":"b6407aaaa0b1dd69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"Univariate(*args)","rhs":"correctly constructs a Univariate instance","over":{"base":"Any"},"name":"Univariate_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f44be550125b29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Univariate not found in source"]}}
 class Univariate(DiophantineEquationType):
     """
     Representation of a univariate diophantine equation.
@@ -424,30 +520,42 @@ class Univariate(DiophantineEquationType):
     name = 'univariate'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), self.dimension == 1) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dimension == 1                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48d55512dea869e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Univariate.matches","kind":"method","src_hash":"ce61cfc27b6a4787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48d55512dea869e4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Univariate.matches","kind":"method","src_hash":"ce61cfc27b6a4787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"self.dimension == 1","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"returns self.dimension == 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48d55512dea869e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dimension == 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         return self.dimension == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), <unspecified:solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c381f6b436a775ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Univariate.solve","kind":"method","src_hash":"b059739f9fd1cf12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.Univariate.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c381f6b436a775ef"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Univariate.solve","kind":"method","src_hash":"b059739f9fd1cf12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(parameters, limit)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.Univariate.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c381f6b436a775ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=None):
         self.pre_solve(parameters)
 
@@ -460,14 +568,20 @@ class Univariate(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Linear(*args), correctly constructs a Linear instance) over {Any | isinstance(sol_x, Add)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Linear : {Any | isinstance(sol_x, Add)} → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Linear : {Any | isinstance(sol_x, Add)} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aceff3cc2e9002c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Linear","kind":"class","src_hash":"7f12b58f364b8c69","in":{"base":"Any","pred":"isinstance(sol_x, Add)"},"out":{"base":"Any"},"spec":{"lhs":"Linear(*args)","rhs":"correctly constructs a Linear instance","over":{"base":"Any","pred":"isinstance(sol_x, Add)"},"name":"Linear_class_invariant"},"guarantee":"correctly constructs a Linear instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aceff3cc2e9002c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Linear","kind":"class","src_hash":"7f12b58f364b8c69","in":{"base":"Any","pred":"isinstance(sol_x, Add)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"Linear(*args)","rhs":"correctly constructs a Linear instance","over":{"base":"Any","pred":"isinstance(sol_x, Add)"},"name":"Linear_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aceff3cc2e9002c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Linear not found in source"]}}
 class Linear(DiophantineEquationType):
     """
     Representation of a linear diophantine equation.
@@ -497,30 +611,42 @@ class Linear(DiophantineEquationType):
     name = 'linear'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), self.total_degree == 1) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.total_degree == 1                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ddd9f04496f5189           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Linear.matches","kind":"method","src_hash":"9c1b0ab10ff9b345","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ddd9f04496f5189"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Linear.matches","kind":"method","src_hash":"9c1b0ab10ff9b345","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"self.total_degree == 1","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"returns self.total_degree == 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ddd9f04496f5189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.total_degree == 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         return self.total_degree == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), <unspecified:solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc008a07d569529  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Linear.solve","kind":"method","src_hash":"8305c0457f53ff09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.Linear.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc008a07d569529"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.Linear.solve","kind":"method","src_hash":"8305c0457f53ff09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(parameters, limit)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.Linear.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc008a07d569529","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=None):
         self.pre_solve(parameters)
 
@@ -691,14 +817,20 @@ class Linear(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BinaryQuadratic(*args), correctly constructs a BinaryQuadratic instance) over {Any | isinstance(s0, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BinaryQuadratic : {Any | isinstance(s0, Symbol)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BinaryQuadratic : {Any | isinstance(s0, Symbol)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef433a2f8f41a171  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.BinaryQuadratic","kind":"class","src_hash":"ebc52d56a8c7f02a","in":{"base":"Any","pred":"isinstance(s0, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"BinaryQuadratic(*args)","rhs":"correctly constructs a BinaryQuadratic instance","over":{"base":"Any","pred":"isinstance(s0, Symbol)"},"name":"BinaryQuadratic_class_invariant"},"guarantee":"correctly constructs a BinaryQuadratic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef433a2f8f41a171"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.BinaryQuadratic","kind":"class","src_hash":"ebc52d56a8c7f02a","in":{"base":"Any","pred":"isinstance(s0, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"BinaryQuadratic(*args)","rhs":"correctly constructs a BinaryQuadratic instance","over":{"base":"Any","pred":"isinstance(s0, Symbol)"},"name":"BinaryQuadratic_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef433a2f8f41a171","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function BinaryQuadratic not found in source"]}}
 class BinaryQuadratic(DiophantineEquationType):
     """
     Representation of a binary quadratic diophantine equation.
@@ -734,30 +866,42 @@ class BinaryQuadratic(DiophantineEquationType):
     name = 'binary_quadratic'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), self.total_degree == 2 and self.dimension == 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.total_degree == 2 and self.dimension...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19276668e2432223           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.BinaryQuadratic.matches","kind":"method","src_hash":"6442000ebda2e93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19276668e2432223"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.BinaryQuadratic.matches","kind":"method","src_hash":"6442000ebda2e93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"self.total_degree == 2 and self.dimension == 2","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"returns self.total_degree == 2 and self.dimension == 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19276668e2432223","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.total_degree == 2 and self.dimension == 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         return self.total_degree == 2 and self.dimension == 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), isinstance(result, DiophantineSolutionSet)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve : Any → DiophantineSolutionSet                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, DiophantineSolutionSet)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve : Any → {DiophantineSolutionSet | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf2b4f6e17b6c774  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1def39b8d3f22dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.BinaryQuadratic.solve","kind":"method","src_hash":"fb5a646ef83d624c","in":{"base":"Any"},"out":{"base":"DiophantineSolutionSet"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.BinaryQuadratic.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf2b4f6e17b6c774"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.BinaryQuadratic.solve","kind":"method","src_hash":"fb5a646ef83d624c","in":{"base":"Any"},"out":{"base":"DiophantineSolutionSet","pred":"result satisfies: isinstance(result, DiophantineSolutionSet)"},"spec":{"lhs":"solve(parameters, limit)","rhs":"isinstance(result, DiophantineSolutionSet)","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"isinstance(result, DiophantineSolutionSet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.BinaryQuadratic.solve_correct","statement":"Path(solve(x), isinstance(result, DiophantineSolutionSet))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1def39b8d3f22dd","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, DiophantineSolutionSet)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=None) -> DiophantineSolutionSet:
         self.pre_solve(parameters)
 
@@ -946,14 +1090,20 @@ class BinaryQuadratic(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InhomogeneousTernaryQuadratic(*args), correctly constructs a InhomogeneousTernaryQuadratic instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InhomogeneousTernaryQuadratic : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InhomogeneousTernaryQuadratic : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c91f22b6e7fe1be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousTernaryQuadratic","kind":"class","src_hash":"1637ebd97c3f960c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InhomogeneousTernaryQuadratic(*args)","rhs":"correctly constructs a InhomogeneousTernaryQuadratic instance","over":{"base":"Any"},"name":"InhomogeneousTernaryQuadratic_class_invariant"},"guarantee":"correctly constructs a InhomogeneousTernaryQuadratic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c91f22b6e7fe1be"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousTernaryQuadratic","kind":"class","src_hash":"1637ebd97c3f960c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"InhomogeneousTernaryQuadratic(*args)","rhs":"correctly constructs a InhomogeneousTernaryQuadratic instance","over":{"base":"Any"},"name":"InhomogeneousTernaryQuadratic_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c91f22b6e7fe1be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InhomogeneousTernaryQuadratic not found in source"]}}
 class InhomogeneousTernaryQuadratic(DiophantineEquationType):
     """
 
@@ -966,16 +1116,22 @@ class InhomogeneousTernaryQuadratic(DiophantineEquationType):
     name = 'inhomogeneous_ternary_quadratic'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86545178f31929d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousTernaryQuadratic.matches","kind":"method","src_hash":"f8f72beb60663db8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.InhomogeneousTernaryQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86545178f31929d0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousTernaryQuadratic.matches","kind":"method","src_hash":"f8f72beb60663db8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.InhomogeneousTernaryQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86545178f31929d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.homogeneous","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension == 3):
             return False
@@ -987,14 +1143,20 @@ class InhomogeneousTernaryQuadratic(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HomogeneousTernaryQuadraticNormal(*args), correctly constructs a HomogeneousTernaryQuadraticNormal instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomogeneousTernaryQuadraticNormal : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomogeneousTernaryQuadraticNormal : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 169c9ad70fc663fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal","kind":"class","src_hash":"72cc86f3e05e30b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomogeneousTernaryQuadraticNormal(*args)","rhs":"correctly constructs a HomogeneousTernaryQuadraticNormal instance","over":{"base":"Any"},"name":"HomogeneousTernaryQuadraticNormal_class_invariant"},"guarantee":"correctly constructs a HomogeneousTernaryQuadraticNormal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"169c9ad70fc663fa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal","kind":"class","src_hash":"72cc86f3e05e30b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"HomogeneousTernaryQuadraticNormal(*args)","rhs":"correctly constructs a HomogeneousTernaryQuadraticNormal instance","over":{"base":"Any"},"name":"HomogeneousTernaryQuadraticNormal_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"169c9ad70fc663fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function HomogeneousTernaryQuadraticNormal not found in source"]}}
 class HomogeneousTernaryQuadraticNormal(DiophantineEquationType):
     """
     Representation of a homogeneous ternary quadratic normal diophantine equation.
@@ -1012,16 +1174,22 @@ class HomogeneousTernaryQuadraticNormal(DiophantineEquationType):
     name = 'homogeneous_ternary_quadratic_normal'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d970ae702b37805  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.matches","kind":"method","src_hash":"f403c6204f61f834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d970ae702b37805"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.matches","kind":"method","src_hash":"f403c6204f61f834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d970ae702b37805","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.dimension","self.free_symbols","self.homogeneous","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension == 3):
             return False
@@ -1034,16 +1202,22 @@ class HomogeneousTernaryQuadraticNormal(DiophantineEquationType):
         return len(nonzero) == 3 and all(i**2 in nonzero for i in self.free_symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), isinstance(result, DiophantineSolutionSet)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve : Any → DiophantineSolutionSet                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, DiophantineSolutionSet)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve : Any → {DiophantineSolutionSet | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbfb19e641c5c942  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a36d4d9a399207ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.solve","kind":"method","src_hash":"f801a2abebb8417d","in":{"base":"Any"},"out":{"base":"DiophantineSolutionSet"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbfb19e641c5c942"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.solve","kind":"method","src_hash":"f801a2abebb8417d","in":{"base":"Any"},"out":{"base":"DiophantineSolutionSet","pred":"result satisfies: isinstance(result, DiophantineSolutionSet)"},"spec":{"lhs":"solve(parameters, limit)","rhs":"isinstance(result, DiophantineSolutionSet)","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"isinstance(result, DiophantineSolutionSet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadraticNormal.solve_correct","statement":"Path(solve(x), isinstance(result, DiophantineSolutionSet))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a36d4d9a399207ac","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, DiophantineSolutionSet)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=None) -> DiophantineSolutionSet:
         self.pre_solve(parameters)
 
@@ -1107,14 +1281,20 @@ class HomogeneousTernaryQuadraticNormal(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HomogeneousTernaryQuadratic(*args), correctly constructs a HomogeneousTernaryQuadratic instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomogeneousTernaryQuadratic : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomogeneousTernaryQuadratic : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0193520897afdd34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic","kind":"class","src_hash":"062a983d883d6860","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomogeneousTernaryQuadratic(*args)","rhs":"correctly constructs a HomogeneousTernaryQuadratic instance","over":{"base":"Any"},"name":"HomogeneousTernaryQuadratic_class_invariant"},"guarantee":"correctly constructs a HomogeneousTernaryQuadratic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0193520897afdd34"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic","kind":"class","src_hash":"062a983d883d6860","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"HomogeneousTernaryQuadratic(*args)","rhs":"correctly constructs a HomogeneousTernaryQuadratic instance","over":{"base":"Any"},"name":"HomogeneousTernaryQuadratic_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0193520897afdd34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function HomogeneousTernaryQuadratic not found in source"]}}
 class HomogeneousTernaryQuadratic(DiophantineEquationType):
     """
     Representation of a homogeneous ternary quadratic diophantine equation.
@@ -1134,16 +1314,22 @@ class HomogeneousTernaryQuadratic(DiophantineEquationType):
     name = 'homogeneous_ternary_quadratic'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 569733fef7d3c58c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.matches","kind":"method","src_hash":"18dc4493428c264f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"569733fef7d3c58c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.matches","kind":"method","src_hash":"18dc4493428c264f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"569733fef7d3c58c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.dimension","self.free_symbols","self.homogeneous","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension == 3):
             return False
@@ -1156,16 +1342,22 @@ class HomogeneousTernaryQuadratic(DiophantineEquationType):
         return not (len(nonzero) == 3 and all(i**2 in nonzero for i in self.free_symbols))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), <unspecified:solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d6d07479b9dbd9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.solve","kind":"method","src_hash":"464ab70ff6da2ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6d07479b9dbd9d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.solve","kind":"method","src_hash":"464ab70ff6da2ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(parameters, limit)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousTernaryQuadratic.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6d07479b9dbd9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=None):
         self.pre_solve(parameters)
 
@@ -1276,14 +1468,20 @@ class HomogeneousTernaryQuadratic(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InhomogeneousGeneralQuadratic(*args), correctly constructs a InhomogeneousGeneralQuadratic instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InhomogeneousGeneralQuadratic : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InhomogeneousGeneralQuadratic : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be1bee378e5cba5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousGeneralQuadratic","kind":"class","src_hash":"d827d3fceaaed10b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InhomogeneousGeneralQuadratic(*args)","rhs":"correctly constructs a InhomogeneousGeneralQuadratic instance","over":{"base":"Any"},"name":"InhomogeneousGeneralQuadratic_class_invariant"},"guarantee":"correctly constructs a InhomogeneousGeneralQuadratic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be1bee378e5cba5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousGeneralQuadratic","kind":"class","src_hash":"d827d3fceaaed10b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"InhomogeneousGeneralQuadratic(*args)","rhs":"correctly constructs a InhomogeneousGeneralQuadratic instance","over":{"base":"Any"},"name":"InhomogeneousGeneralQuadratic_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be1bee378e5cba5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InhomogeneousGeneralQuadratic not found in source"]}}
 class InhomogeneousGeneralQuadratic(DiophantineEquationType):
     """
 
@@ -1296,16 +1494,22 @@ class InhomogeneousGeneralQuadratic(DiophantineEquationType):
     name = 'inhomogeneous_general_quadratic'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d162e0272549eb6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousGeneralQuadratic.matches","kind":"method","src_hash":"d66e0e6dc9988def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.InhomogeneousGeneralQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d162e0272549eb6c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.InhomogeneousGeneralQuadratic.matches","kind":"method","src_hash":"d66e0e6dc9988def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.InhomogeneousGeneralQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d162e0272549eb6c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.dimension","self.homogeneous","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension >= 3):
             return False
@@ -1318,14 +1522,20 @@ class InhomogeneousGeneralQuadratic(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HomogeneousGeneralQuadratic(*args), correctly constructs a HomogeneousGeneralQuadratic instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomogeneousGeneralQuadratic : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomogeneousGeneralQuadratic : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74e4020f40055341  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousGeneralQuadratic","kind":"class","src_hash":"3f357c73fa6bd598","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomogeneousGeneralQuadratic(*args)","rhs":"correctly constructs a HomogeneousGeneralQuadratic instance","over":{"base":"Any"},"name":"HomogeneousGeneralQuadratic_class_invariant"},"guarantee":"correctly constructs a HomogeneousGeneralQuadratic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74e4020f40055341"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousGeneralQuadratic","kind":"class","src_hash":"3f357c73fa6bd598","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"HomogeneousGeneralQuadratic(*args)","rhs":"correctly constructs a HomogeneousGeneralQuadratic instance","over":{"base":"Any"},"name":"HomogeneousGeneralQuadratic_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74e4020f40055341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function HomogeneousGeneralQuadratic not found in source"]}}
 class HomogeneousGeneralQuadratic(DiophantineEquationType):
     """
 
@@ -1338,16 +1548,22 @@ class HomogeneousGeneralQuadratic(DiophantineEquationType):
     name = 'homogeneous_general_quadratic'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f51099026401e385  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousGeneralQuadratic.matches","kind":"method","src_hash":"641aafeacabd42e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousGeneralQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f51099026401e385"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.HomogeneousGeneralQuadratic.matches","kind":"method","src_hash":"641aafeacabd42e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.HomogeneousGeneralQuadratic.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f51099026401e385","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.dimension","self.homogeneous","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension >= 3):
             return False
@@ -1360,14 +1576,20 @@ class HomogeneousGeneralQuadratic(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeneralSumOfSquares(*args), correctly constructs a GeneralSumOfSquares instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneralSumOfSquares : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneralSumOfSquares : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbdb4acfd3139b33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares","kind":"class","src_hash":"63c39c3bb91018eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralSumOfSquares(*args)","rhs":"correctly constructs a GeneralSumOfSquares instance","over":{"base":"Any"},"name":"GeneralSumOfSquares_class_invariant"},"guarantee":"correctly constructs a GeneralSumOfSquares instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdb4acfd3139b33"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares","kind":"class","src_hash":"63c39c3bb91018eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"GeneralSumOfSquares(*args)","rhs":"correctly constructs a GeneralSumOfSquares instance","over":{"base":"Any"},"name":"GeneralSumOfSquares_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdb4acfd3139b33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeneralSumOfSquares not found in source"]}}
 class GeneralSumOfSquares(DiophantineEquationType):
     r"""
     Representation of the diophantine equation
@@ -1404,16 +1626,22 @@ class GeneralSumOfSquares(DiophantineEquationType):
     name = 'general_sum_of_squares'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed685c844e8920fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.matches","kind":"method","src_hash":"c41d9913f4c2f9b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed685c844e8920fc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.matches","kind":"method","src_hash":"c41d9913f4c2f9b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed685c844e8920fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.dimension","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension >= 3):
             return False
@@ -1424,16 +1652,22 @@ class GeneralSumOfSquares(DiophantineEquationType):
         return all(self.coeff[k] == 1 for k in self.coeff if k != 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), <unspecified:solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17a5151d93e0a5e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.solve","kind":"method","src_hash":"24bc8a8a32a1d58d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17a5151d93e0a5e7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.solve","kind":"method","src_hash":"24bc8a8a32a1d58d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(parameters, limit)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfSquares.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17a5151d93e0a5e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=1):
         self.pre_solve(parameters)
 
@@ -1464,14 +1698,20 @@ class GeneralSumOfSquares(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeneralPythagorean(*args), correctly constructs a GeneralPythagorean instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneralPythagorean : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneralPythagorean : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96fde7ed08cfc65b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean","kind":"class","src_hash":"50f2f47ea013baf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralPythagorean(*args)","rhs":"correctly constructs a GeneralPythagorean instance","over":{"base":"Any"},"name":"GeneralPythagorean_class_invariant"},"guarantee":"correctly constructs a GeneralPythagorean instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96fde7ed08cfc65b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean","kind":"class","src_hash":"50f2f47ea013baf4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"GeneralPythagorean(*args)","rhs":"correctly constructs a GeneralPythagorean instance","over":{"base":"Any"},"name":"GeneralPythagorean_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96fde7ed08cfc65b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeneralPythagorean not found in source"]}}
 class GeneralPythagorean(DiophantineEquationType):
     """
     Representation of the general pythagorean equation,
@@ -1491,16 +1731,22 @@ class GeneralPythagorean(DiophantineEquationType):
     name = 'general_pythagorean'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d8d9a595cae44d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.matches","kind":"method","src_hash":"a41463db5f31a74e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8d9a595cae44d6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.matches","kind":"method","src_hash":"a41463db5f31a74e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8d9a595cae44d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.dimension","self.homogeneous_order","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not (self.total_degree == 2 and self.dimension >= 3):
             return False
@@ -1518,30 +1764,42 @@ class GeneralPythagorean(DiophantineEquationType):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n_parameters(), returns the n_parameters attribute) over Any ║
+# ║ Path(n_parameters(), self.dimension - 1) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dimension - 1                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n_parameters : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4116be543316b16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.n_parameters","kind":"property","src_hash":"c238775c34011df1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n_parameters()","rhs":"returns the n_parameters attribute","over":{"base":"Any"},"name":"n_parameters_correct"},"guarantee":"returns the n_parameters attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4116be543316b16"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.n_parameters","kind":"property","src_hash":"c238775c34011df1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n_parameters()","rhs":"self.dimension - 1","over":{"base":"Any"},"name":"n_parameters_correct"},"guarantee":"returns self.dimension - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4116be543316b16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dimension - 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n_parameters(self):
         return self.dimension - 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), <unspecified:solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61fa4422a3497662  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.solve","kind":"method","src_hash":"e870a3032affb749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61fa4422a3497662"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.solve","kind":"method","src_hash":"e870a3032affb749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(parameters, limit)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralPythagorean.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61fa4422a3497662","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=1):
         self.pre_solve(parameters)
 
@@ -1584,16 +1842,22 @@ class GeneralPythagorean(DiophantineEquationType):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CubicThue(), correctly constructs a CubicThue instance) over Any ║
+# ║ Path(CubicThue(), isinstance(self, DiophantineEquationType)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CubicThue : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CubicThue : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c431a60a2ef99ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.CubicThue","kind":"class","src_hash":"73583a87f87be663","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CubicThue()","rhs":"correctly constructs a CubicThue instance","over":{"base":"Any"},"name":"CubicThue_correct"},"guarantee":"correctly constructs a CubicThue instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c431a60a2ef99ac"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.CubicThue","kind":"class","src_hash":"73583a87f87be663","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"CubicThue()","rhs":"isinstance(self, DiophantineEquationType)","over":{"base":"Any"},"name":"CubicThue_correct"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c431a60a2ef99ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CubicThue not found in source"]}}
 class CubicThue(DiophantineEquationType):
     """
     Representation of a cubic Thue diophantine equation.
@@ -1618,16 +1882,22 @@ class CubicThue(DiophantineEquationType):
     name = 'cubic_thue'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), self.total_degree == 3 and self.dimension == 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.total_degree == 3 and self.dimension...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 541bb0a53e587646           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.CubicThue.matches","kind":"method","src_hash":"b95d57be6ec2573c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"541bb0a53e587646"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.CubicThue.matches","kind":"method","src_hash":"b95d57be6ec2573c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"self.total_degree == 3 and self.dimension == 2","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"returns self.total_degree == 3 and self.dimension == 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"541bb0a53e587646","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.total_degree == 3 and self.dimension == 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         return self.total_degree == 3 and self.dimension == 2
 
@@ -1635,14 +1905,20 @@ class CubicThue(DiophantineEquationType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeneralSumOfEvenPowers(*args), correctly constructs a GeneralSumOfEvenPowers instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneralSumOfEvenPowers : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiophantineEquationType)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneralSumOfEvenPowers : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b817a8b18fa179c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers","kind":"class","src_hash":"c2a62e8064e6e574","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralSumOfEvenPowers(*args)","rhs":"correctly constructs a GeneralSumOfEvenPowers instance","over":{"base":"Any"},"name":"GeneralSumOfEvenPowers_class_invariant"},"guarantee":"correctly constructs a GeneralSumOfEvenPowers instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b817a8b18fa179c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers","kind":"class","src_hash":"c2a62e8064e6e574","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiophantineEquationType)"},"spec":{"lhs":"GeneralSumOfEvenPowers(*args)","rhs":"correctly constructs a GeneralSumOfEvenPowers instance","over":{"base":"Any"},"name":"GeneralSumOfEvenPowers_class_invariant"},"guarantee":"isinstance(self, DiophantineEquationType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b817a8b18fa179c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiophantineEquationType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeneralSumOfEvenPowers not found in source"]}}
 class GeneralSumOfEvenPowers(DiophantineEquationType):
     """
     Representation of the diophantine equation
@@ -1664,16 +1940,22 @@ class GeneralSumOfEvenPowers(DiophantineEquationType):
     name = 'general_sum_of_even_powers'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), <unspecified:matches>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a5bb4eb068586f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.matches","kind":"method","src_hash":"b125727d3c20bccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5bb4eb068586f1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.matches","kind":"method","src_hash":"b125727d3c20bccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches()","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5bb4eb068586f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff","self.total_degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self):
         if not self.total_degree > 3:
             return False
@@ -1684,16 +1966,22 @@ class GeneralSumOfEvenPowers(DiophantineEquationType):
         return all(self.coeff[k] == 1 for k in self.coeff if k != 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(par), solve produces the expected output) over Any ║
+# ║ Path(solve(parameters, limit), <unspecified:solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc44088f7c04d35c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.solve","kind":"method","src_hash":"72b44934622dd309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(par)","rhs":"solve produces the expected output","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc44088f7c04d35c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.solve","kind":"method","src_hash":"72b44934622dd309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(parameters, limit)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.GeneralSumOfEvenPowers.solve_correct","statement":"Path(solve(x), solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc44088f7c04d35c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, parameters=None, limit=1):
         self.pre_solve(parameters)
 
@@ -1748,16 +2036,22 @@ diop_known = {diop_class.name for diop_class in all_diop_classes}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_gcd(*x), internal helper behaves correctly) over Any ║
+# ║ Path(_remove_gcd(*x), <unspecified:_remove_gcd>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_gcd : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a972b98db06539c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._remove_gcd","kind":"function","src_hash":"c502c0723e2d7db8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_gcd(*x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_remove_gcd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._remove_gcd_correct","statement":"Path(_remove_gcd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a972b98db06539c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._remove_gcd","kind":"function","src_hash":"c502c0723e2d7db8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_gcd(*x)","rhs":"<unspecified:_remove_gcd>","over":{"base":"Any"},"name":"_remove_gcd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._remove_gcd_correct","statement":"Path(_remove_gcd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a972b98db06539c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"],"catches":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*x']"]}}
 def _remove_gcd(*x):
     try:
         g = igcd(*x)
@@ -1774,32 +2068,44 @@ def _remove_gcd(*x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rational_pq(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_rational_pq(a, b), _remove_gcd(sign(b) * a, abs(b))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _remove_gcd(sign(b) * a, abs(b))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rational_pq : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85b1779f7c25348e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._rational_pq","kind":"function","src_hash":"9cd79d17df66eef0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rational_pq(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rational_pq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85b1779f7c25348e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._rational_pq","kind":"function","src_hash":"9cd79d17df66eef0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rational_pq(a, b)","rhs":"_remove_gcd(sign(b) * a, abs(b))","over":{"base":"Any"},"name":"_rational_pq_correct"},"guarantee":"returns _remove_gcd(sign(b) * a, abs(b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85b1779f7c25348e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_remove_gcd(sign(b) * a, abs(b))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _rational_pq(a, b):
     # return `(numer, denom)` for a/b; sign in numer and gcd removed
     return _remove_gcd(sign(b)*a, abs(b))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nint_or_floor(p, ), internal helper behaves correctly) over Any ║
+# ║ Path(_nint_or_floor(p, q), <unspecified:_nint_or_floor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nint_or_floor : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 669af083125eb81c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._nint_or_floor","kind":"function","src_hash":"dc3fc5cfcdc23b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nint_or_floor(p, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_nint_or_floor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._nint_or_floor_correct","statement":"Path(_nint_or_floor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669af083125eb81c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._nint_or_floor","kind":"function","src_hash":"dc3fc5cfcdc23b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nint_or_floor(p, q)","rhs":"<unspecified:_nint_or_floor>","over":{"base":"Any"},"name":"_nint_or_floor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._nint_or_floor_correct","statement":"Path(_nint_or_floor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669af083125eb81c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _nint_or_floor(p, q):
     # return nearest int to p/q; in case of tie return floor(p/q)
     w, r = divmod(p, q)
@@ -1809,39 +2115,57 @@ def _nint_or_floor(p, q):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_odd(i), internal helper behaves correctly) over Any  ║
+# ║ Path(_odd(i), i % 2 != 0) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  i % 2 != 0                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _odd : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb4be600cffabbff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._odd","kind":"function","src_hash":"a3b2d6483f300d48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_odd(i)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_odd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb4be600cffabbff"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._odd","kind":"function","src_hash":"a3b2d6483f300d48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_odd(i)","rhs":"i % 2 != 0","over":{"base":"Any"},"name":"_odd_correct"},"guarantee":"returns i % 2 != 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb4be600cffabbff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"i % 2 != 0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _odd(i):
     return i % 2 != 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_even(i), internal helper behaves correctly) over Any ║
+# ║ Path(_even(i), i % 2 == 0) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  i % 2 == 0                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _even : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b97615281222237           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._even","kind":"function","src_hash":"1ff7fb828d09740b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_even(i)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b97615281222237"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._even","kind":"function","src_hash":"1ff7fb828d09740b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_even(i)","rhs":"i % 2 == 0","over":{"base":"Any"},"name":"_even_correct"},"guarantee":"returns i % 2 == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b97615281222237","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"i % 2 == 0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _even(i):
     return i % 2 == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diophantine(eq,), simplify the solution procedure of diophantine equation ``eq`` by converting it into a product of terms which should equal zero) over {Any | isinstance(eq, Eq)} ║
+# ║ Path(diophantine(eq, param, syms), len(var) == old_len_var) over {Any | isinstance(eq, Eq) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(eq, 'as_numer_denom') and hasattr(eq, 'is_number') and hasattr(eq, 'is_polynomial') and hasattr(eq, 'as_independent') and hasattr(eq, 'subs') and hasattr(eq, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diophantine : {Any | isinstance(eq, Eq)} → {Any | not...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(eq, 'lhs')                             ║
+# ║   requires: hasattr(eq, 'rhs')                             ║
+# ║   requires: hasattr(eq, 'as_numer_denom')                  ║
+# ║   ensures:  len(var) == old_len_var                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diophantine : {Any | isinstance(eq, Eq) and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Eq: {isinstance(eq, Eq)} → library_axiom                 ║
@@ -1851,9 +2175,12 @@ def _even(i):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 3.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 55b0a309...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diophantine","kind":"function","src_hash":"7666f16acb3edbdd","in":{"base":"Any","pred":"isinstance(eq, Eq)"},"out":{"base":"Any","pred":"not eq.is_number and not any((g.is_number for g in p.gens)) and eq.is_polynomial()"},"spec":{"lhs":"diophantine(eq,)","rhs":"simplify the solution procedure of diophantine equation ``eq`` by converting it into a product of terms which should equal zero","over":{"base":"Any","pred":"isinstance(eq, Eq)"},"name":"diophantine_correct"},"guarantee":"simplify the solution procedure of diophantine equation ``eq`` by converting it into a product of terms which should equal zero","fibers":[{"name":"Eq","pred":"isinstance(eq, Eq)","path":{"lhs":"diophantine(x)","rhs":"simplify the solution procedure of diophantine equation ``eq`` by converting it into a product of terms which should equal zero","over":{"base":"Eq","pred":"isinstance(eq, Eq)"},"name":"diophantine_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diophantine_Eq_correct","statement":"diophantine satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"55b0a30985a4a16a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diophantine","kind":"function","src_hash":"7666f16acb3edbdd","in":{"base":"Any","pred":"isinstance(eq, Eq) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(eq, 'as_numer_denom') and hasattr(eq, 'is_number') and hasattr(eq, 'is_polynomial') and hasattr(eq, 'as_independent') and hasattr(eq, 'subs') and hasattr(eq, 'expand')"},"out":{"base":"Any","pred":"result satisfies: len(var) == old_len_var"},"spec":{"lhs":"diophantine(eq, param, syms)","rhs":"len(var) == old_len_var","over":{"base":"Any","pred":"isinstance(eq, Eq) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(eq, 'as_numer_denom') and hasattr(eq, 'is_number') and hasattr(eq, 'is_polynomial') and hasattr(eq, 'as_independent') and hasattr(eq, 'subs') and hasattr(eq, 'expand')"},"name":"diophantine_correct"},"guarantee":"len(var) == old_len_var","fibers":[{"name":"Eq","pred":"isinstance(eq, Eq)","path":{"lhs":"diophantine(x)","rhs":"len(var) == old_len_var","over":{"base":"Eq","pred":"isinstance(eq, Eq)"},"name":"diophantine_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diophantine_Eq_correct","statement":"diophantine satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"55b0a30985a4a16a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(eq, 'lhs')","hasattr(eq, 'rhs')","hasattr(eq, 'as_numer_denom')","hasattr(eq, 'is_number')","hasattr(eq, 'is_polynomial')","hasattr(eq, 'as_independent')","hasattr(eq, 'subs')","hasattr(eq, 'expand')"],"ensures":["len(var) == old_len_var"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.as_independent","eq.as_numer_denom","eq.expand","eq.is_number","eq.is_polynomial","eq.lhs","eq.rhs","eq.subs"],"calls_mutating":["final_soln.add","final_soln.update","sols.add","sols.discard","sols.update","var.sort"],"raises":["NotImplementedError","TypeError"],"catches":["KeyError"]},"state_contract":{"modifies":["final_soln.*","sols.*","var.*"],"old_bindings":{"old_len_final_soln":"len(final_soln)","old_len_sols":"len(sols)","old_len_var":"len(var)"},"post_ensures":["len(var) == old_len_var"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'syms != var', \"t == 'general_sum_of_squares'\", 'fl[0].is_Rational and fl[0] != 1', 'isinstance(eq, Eq)', 'len_var == 3', 'len_var == 2'}, fibers={'Eq'})"]}}
 def diophantine(eq, param=symbols("t", integer=True), syms=None,
                 permute=False):
     """
@@ -2110,16 +2437,22 @@ def diophantine(eq, param=symbols("t", integer=True), syms=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(merge_solution(var), this is used to construct the full solution from the solutions of sub equations) over Any ║
+# ║ Path(merge_solution(var, var_t, solution), <unspecified:merge_solution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ merge_solution : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f61514db4bd27b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.merge_solution","kind":"function","src_hash":"1df67f600ea86d07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"merge_solution(var)","rhs":"this is used to construct the full solution from the solutions of sub equations","over":{"base":"Any"},"name":"merge_solution_correct"},"guarantee":"this is used to construct the full solution from the solutions of sub equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.merge_solution_correct","statement":"Path(merge_solution(x), this is used to construct the full solution from the solutions of sub equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f61514db4bd27b1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.merge_solution","kind":"function","src_hash":"1df67f600ea86d07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"merge_solution(var, var_t, solution)","rhs":"<unspecified:merge_solution>","over":{"base":"Any"},"name":"merge_solution_correct"},"guarantee":"this is used to construct the full solution from the solutions of sub equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.merge_solution_correct","statement":"Path(merge_solution(x), this is used to construct the full solution from the solutions of sub equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f61514db4bd27b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def merge_solution(var, var_t, solution):
     """
     This is used to construct the full solution from the solutions of sub
@@ -2156,16 +2489,22 @@ def merge_solution(var, var_t, solution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diop_solve(eq,), id) over Any                        ║
+# ║ Path(_diop_solve(eq, params), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  diop_type(eq).solve(parameters=params)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _diop_solve : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8173008a9b2e43a3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._diop_solve","kind":"function","src_hash":"778752da3323a195","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diop_solve(eq,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_diop_solve_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diop_type","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8173008a9b2e43a3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._diop_solve","kind":"function","src_hash":"778752da3323a195","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diop_solve(eq, params)","rhs":"diop_type(eq).solve(parameters=params)","over":{"base":"Any"},"name":"_diop_solve_correct","kind":"composition"},"guarantee":"returns diop_type(eq).solve(parameters=params)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diop_type","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8173008a9b2e43a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"diop_type(eq).solve(parameters=params)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _diop_solve(eq, params=None):
     for diop_type in all_diop_classes:
         if diop_type(eq).matches():
@@ -2173,16 +2512,25 @@ def _diop_solve(eq, params=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_solve(eq,), solves the diophantine equation ``eq``) over Any ║
+# ║ Path(diop_solve(eq, param), <unspecified:diop_solve>) over {Any | not (eq_type is not None and eq_type not in diop_known)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diop_solve : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (eq_type is not None and eq_type not ...   ║
+# ║   fiber[case_0]: eq_type == Linear.name => diop_linea...   ║
+# ║   fiber[case_1]: eq_type == BinaryQuadratic.name => d...   ║
+# ║   fiber[case_2]: eq_type == HomogeneousTernaryQuadrat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diop_solve : {Any | not (eq_type is not None and eq_t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74d06f77ae862112  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84079778af117d4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_solve","kind":"function","src_hash":"5987a9bfc0d8c556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_solve(eq,)","rhs":"solves the diophantine equation ``eq``","over":{"base":"Any"},"name":"diop_solve_correct"},"guarantee":"solves the diophantine equation ``eq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_solve_correct","statement":"Path(diop_solve(x), solves the diophantine equation ``eq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74d06f77ae862112"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_solve","kind":"function","src_hash":"5987a9bfc0d8c556","in":{"base":"Any","pred":"not (eq_type is not None and eq_type not in diop_known)"},"out":{"base":"Any"},"spec":{"lhs":"diop_solve(eq, param)","rhs":"<unspecified:diop_solve>","over":{"base":"Any","pred":"not (eq_type is not None and eq_type not in diop_known)"},"name":"diop_solve_correct"},"guarantee":"8-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_solve_correct","statement":"Path(diop_solve(x), 8-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84079778af117d4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (eq_type is not None and eq_type not in diop_known)"],"fibers":[{"name":"case_0","guard":"eq_type == Linear.name","ensures":["result == diop_linear(eq, param)"],"decidability":"z3","returns_expr":"diop_linear(eq, param)"},{"name":"case_1","guard":"eq_type == BinaryQuadratic.name","ensures":["result == diop_quadratic(eq, param)"],"decidability":"z3","returns_expr":"diop_quadratic(eq, param)"},{"name":"case_2","guard":"eq_type == HomogeneousTernaryQuadratic.name","ensures":["result == diop_ternary_quadratic(eq, parameterize=True)"],"decidability":"z3","returns_expr":"diop_ternary_quadratic(eq, parameterize=True)"},{"name":"case_3","guard":"eq_type == HomogeneousTernaryQuadraticNormal.name","ensures":["result == diop_ternary_quadratic_normal(eq, parameterize=True)"],"decidability":"z3","returns_expr":"diop_ternary_quadratic_normal(eq, parameterize=True)"},{"name":"case_4","guard":"eq_type == GeneralPythagorean.name","ensures":["result == diop_general_pythagorean(eq, param)"],"decidability":"z3","returns_expr":"diop_general_pythagorean(eq, param)"},{"name":"case_5","guard":"eq_type == Univariate.name","ensures":["result == diop_univariate(eq)"],"decidability":"z3","returns_expr":"diop_univariate(eq)"},{"name":"case_6","guard":"eq_type == GeneralSumOfSquares.name","ensures":["result == diop_general_sum_of_squares(eq, limit=S.Infinity)"],"decidability":"z3","returns_expr":"diop_general_sum_of_squares(eq, limit=S.Infinity)"},{"name":"case_7","guard":"eq_type == GeneralSumOfEvenPowers.name","ensures":["result == diop_general_sum_of_even_powers(eq, limit=S.Infinity)"],"decidability":"z3","returns_expr":"diop_general_sum_of_even_powers(eq, limit=S.Infinity)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def diop_solve(eq, param=symbols("t", integer=True)):
     """
     Solves the diophantine equation ``eq``.
@@ -2270,16 +2618,22 @@ def diop_solve(eq, param=symbols("t", integer=True)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(classify_diop(eq,), classify_diop produces the expected output) over Any ║
+# ║ Path(classify_diop(eq, _dict), (diop_type.free_symbols, dict(diop_type.coeff) if _dict else diop_type.coeff, diop_type.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (diop_type.free_symbols, dict(diop_type.c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ classify_diop : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc255a1a646381ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e13197a4803c20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.classify_diop","kind":"function","src_hash":"5ff0b5aa50dcd2d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"classify_diop(eq,)","rhs":"classify_diop produces the expected output","over":{"base":"Any"},"name":"classify_diop_correct"},"guarantee":"classify_diop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.classify_diop_correct","statement":"Path(classify_diop(x), classify_diop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc255a1a646381ad"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.classify_diop","kind":"function","src_hash":"5ff0b5aa50dcd2d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"classify_diop(eq, _dict)","rhs":"(diop_type.free_symbols, dict(diop_type.coeff) if _dict else diop_type.coeff, diop_type.name)","over":{"base":"Any"},"name":"classify_diop_correct"},"guarantee":"returns (diop_type.free_symbols, dict(diop_type.coeff) if _dict else diop_type.coeff, diop_type.name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.classify_diop_correct","statement":"Path(classify_diop(x), returns (diop_type.free_symbols, dict(diop_type.coeff) if _dict else diop_type.coeff, diop_type.name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e13197a4803c20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(diop_type.free_symbols, dict(diop_type.coeff) if _dict else diop_type.coeff, diop_type.name)","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def classify_diop(eq, _dict=True):
     # docstring supplied externally
 
@@ -2351,16 +2705,22 @@ classify_diop.func_doc = (  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_linear(eq,), solves linear diophantine equations) over Any ║
+# ║ Path(diop_linear(eq, param), <unspecified:diop_linear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_linear : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6c8ae0704497ba4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_linear","kind":"function","src_hash":"b1aab3fba0337847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_linear(eq,)","rhs":"solves linear diophantine equations","over":{"base":"Any"},"name":"diop_linear_correct"},"guarantee":"solves linear diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_linear_correct","statement":"Path(diop_linear(x), solves linear diophantine equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6c8ae0704497ba4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_linear","kind":"function","src_hash":"b1aab3fba0337847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_linear(eq, param)","rhs":"<unspecified:diop_linear>","over":{"base":"Any"},"name":"diop_linear_correct"},"guarantee":"solves linear diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_linear_correct","statement":"Path(diop_linear(x), solves linear diophantine equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6c8ae0704497ba4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def diop_linear(eq, param=symbols("t", integer=True)):
     """
     Solves linear diophantine equations.
@@ -2420,16 +2780,22 @@ def diop_linear(eq, param=symbols("t", integer=True)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_solution_linear(c, ), return the base solution for the linear equation, `ax + by = c`) over Any ║
+# ║ Path(base_solution_linear(c, a, b), <unspecified:base_solution_linear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_solution_linear : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 661082b44dfb262d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.base_solution_linear","kind":"function","src_hash":"02125064f8c3991c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_solution_linear(c, )","rhs":"return the base solution for the linear equation, `ax + by = c`","over":{"base":"Any"},"name":"base_solution_linear_correct"},"guarantee":"return the base solution for the linear equation, `ax + by = c`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.base_solution_linear_correct","statement":"Path(base_solution_linear(x), return the base solution for the linear equation, `ax + by = c`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661082b44dfb262d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.base_solution_linear","kind":"function","src_hash":"02125064f8c3991c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_solution_linear(c, a, b)","rhs":"<unspecified:base_solution_linear>","over":{"base":"Any"},"name":"base_solution_linear_correct"},"guarantee":"return the base solution for the linear equation, `ax + by = c`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.base_solution_linear_correct","statement":"Path(base_solution_linear(x), return the base solution for the linear equation, `ax + by = c`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661082b44dfb262d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def base_solution_linear(c, a, b, t=None):
     """
     Return the base solution for the linear equation, `ax + by = c`.
@@ -2485,14 +2851,20 @@ def base_solution_linear(c, a, b, t=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(diop_univariate(eq), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {(int(i),) for i in solveset_real(eq, var...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ diop_univariate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e8bde13128a083e3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_univariate","kind":"function","src_hash":"b2c84fbc29bb1ae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_univariate(eq)","rhs":"solves a univariate diophantine equations","over":{"base":"Any"},"name":"diop_univariate_correct","kind":"composition"},"guarantee":"solves a univariate diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"solveset_real","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8bde13128a083e3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_univariate","kind":"function","src_hash":"b2c84fbc29bb1ae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_univariate(eq)","rhs":"{(int(i),) for i in solveset_real(eq, var[0]).intersect(S.Integers)}","over":{"base":"Any"},"name":"diop_univariate_correct","kind":"composition"},"guarantee":"returns {(int(i),) for i in solveset_real(eq, var[0]).intersect(S.Integers)}","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"solveset_real","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8bde13128a083e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{(int(i),) for i in solveset_real(eq, var[0]).intersect(S.Integers)}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_univariate(eq):
     """
     Solves a univariate diophantine equations.
@@ -2532,16 +2904,22 @@ def diop_univariate(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divisible(a, ), returns `true` if ``a`` is divisible by ``b`` and `false` otherwise) over Any ║
+# ║ Path(divisible(a, b), not a % b) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not a % b                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divisible : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dfb9ead60c61c1d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.divisible","kind":"function","src_hash":"9c74a16653af1c8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisible(a, )","rhs":"returns `true` if ``a`` is divisible by ``b`` and `false` otherwise","over":{"base":"Any"},"name":"divisible_correct"},"guarantee":"returns `true` if ``a`` is divisible by ``b`` and `false` otherwise","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfb9ead60c61c1d0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.divisible","kind":"function","src_hash":"9c74a16653af1c8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisible(a, b)","rhs":"not a % b","over":{"base":"Any"},"name":"divisible_correct"},"guarantee":"returns not a % b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfb9ead60c61c1d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not a % b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def divisible(a, b):
     """
     Returns `True` if ``a`` is divisible by ``b`` and `False` otherwise.
@@ -2550,16 +2928,22 @@ def divisible(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_quadratic(eq,), id) over Any                     ║
+# ║ Path(diop_quadratic(eq, param), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(BinaryQuadratic(eq).solve(parameters=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_quadratic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e872b72bce769272   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_quadratic","kind":"function","src_hash":"e80e58aa7c6cf780","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_quadratic(eq,)","rhs":"solves quadratic diophantine equations","over":{"base":"Any"},"name":"diop_quadratic_correct","kind":"composition"},"guarantee":"solves quadratic diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"BinaryQuadratic","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e872b72bce769272"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_quadratic","kind":"function","src_hash":"e80e58aa7c6cf780","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_quadratic(eq, param)","rhs":"set(BinaryQuadratic(eq).solve(parameters=parameters))","over":{"base":"Any"},"name":"diop_quadratic_correct","kind":"composition"},"guarantee":"returns set(BinaryQuadratic(eq).solve(parameters=parameters))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"BinaryQuadratic","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e872b72bce769272","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(BinaryQuadratic(eq).solve(parameters=parameters))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_quadratic(eq, param=symbols("t", integer=True)):
     """
     Solves quadratic diophantine equations.
@@ -2614,16 +2998,23 @@ def diop_quadratic(eq, param=symbols("t", integer=True)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_solution_quad(var), check whether `(u, v)` is solution to the quadratic binary diophantine equation with the variable list ``var`` and coefficient dictionary ``coeff``) over Any ║
+# ║ Path(is_solution_quad(var, coeff, u), _mexpand(eq) == 0) over {Any | hasattr(coeff, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_solution_quad : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(coeff, 'items')                        ║
+# ║   returns:  _mexpand(eq) == 0                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_solution_quad : {Any | hasattr(coeff, 'items')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a9877d4318d0e17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a8a244538607bda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.is_solution_quad","kind":"function","src_hash":"13bd570e2e9c2615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_solution_quad(var)","rhs":"check whether `(u, v)` is solution to the quadratic binary diophantine equation with the variable list ``var`` and coefficient dictionary ``coeff``","over":{"base":"Any"},"name":"is_solution_quad_correct"},"guarantee":"check whether `(u, v)` is solution to the quadratic binary diophantine equation with the variable list ``var`` and coefficient dictionary ``coeff``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.is_solution_quad_correct","statement":"Path(is_solution_quad(x), check whether `(u, v)` is solution to the quadratic binary diophantine equation with the variable list ``var`` and coefficient dictionary ``coeff``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a9877d4318d0e17"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.is_solution_quad","kind":"function","src_hash":"13bd570e2e9c2615","in":{"base":"Any","pred":"hasattr(coeff, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"is_solution_quad(var, coeff, u)","rhs":"_mexpand(eq) == 0","over":{"base":"Any","pred":"hasattr(coeff, 'items')"},"name":"is_solution_quad_correct"},"guarantee":"returns _mexpand(eq) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.is_solution_quad_correct","statement":"Path(is_solution_quad(x), returns _mexpand(eq) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a8a244538607bda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(coeff, 'items')"],"returns_expr":"_mexpand(eq) == 0","pure":false,"effects":{"effect_type":"reads_state","reads":["coeff.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_solution_quad(var, coeff, u, v):
     """
     Check whether `(u, v)` is solution to the quadratic binary diophantine
@@ -2638,16 +3029,22 @@ def is_solution_quad(var, coeff, u, v):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_DN(D, ), solves the equation `x^2 - dy^2 = n`) over Any ║
+# ║ Path(diop_DN(D, N, t), # HINT: diop_DN may be idempotent: diop_DN(diop_DN(x)) == diop_DN(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diop_DN : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: diop_DN may be idempotent: diop_D...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diop_DN : Any → {Any | result satisfies: # HINT: diop...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29440bb815b51296  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 781cb3063d19abfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_DN","kind":"function","src_hash":"558fb52192fc0ec6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_DN(D, )","rhs":"solves the equation `x^2 - dy^2 = n`","over":{"base":"Any"},"name":"diop_DN_correct"},"guarantee":"solves the equation `x^2 - dy^2 = n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_DN_correct","statement":"Path(diop_DN(x), solves the equation `x^2 - dy^2 = n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29440bb815b51296"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_DN","kind":"function","src_hash":"558fb52192fc0ec6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: diop_DN may be idempotent: diop_DN(diop_DN(x)) == diop_DN(x)"},"spec":{"lhs":"diop_DN(D, N, t)","rhs":"# HINT: diop_DN may be idempotent: diop_DN(diop_DN(x)) == diop_DN(x)","over":{"base":"Any"},"name":"diop_DN_correct"},"guarantee":"# HINT: diop_DN may be idempotent: diop_DN(diop_DN(x)) == diop_DN(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_DN_correct","statement":"Path(diop_DN(x), # HINT: diop_DN may be idempotent: diop_DN(diop_DN(x)) == diop_DN(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"781cb3063d19abfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: diop_DN may be idempotent: diop_DN(diop_DN(x)) == diop_DN(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def diop_DN(D, N, t=symbols("t", integer=True)):
     """
     Solves the equation `x^2 - Dy^2 = N`.
@@ -2788,16 +3185,22 @@ def diop_DN(D, N, t=symbols("t", integer=True)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_special_diop_DN(D, ), solves the equation `x^2 - dy^2 = n` for the special case where `1 < n**2 < d` and `d` is not a perfect square. it is better to call `diop_dn` rather than this function, as the former checks the condi) over Any ║
+# ║ Path(_special_diop_DN(D, N), <unspecified:_special_diop_DN>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _special_diop_DN : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6acb7fbc4cedad07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._special_diop_DN","kind":"function","src_hash":"e1be359c50c2585b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_special_diop_DN(D, )","rhs":"solves the equation `x^2 - dy^2 = n` for the special case where `1 < n**2 < d` and `d` is not a perfect square. it is better to call `diop_dn` rather than this function, as the former checks the condi","over":{"base":"Any"},"name":"_special_diop_DN_correct"},"guarantee":"solves the equation `x^2 - dy^2 = n` for the special case where `1 < n**2 < d` and `d` is not a perfect square. it is better to call `diop_dn` rather than this function, as the former checks the condi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._special_diop_DN_correct","statement":"Path(_special_diop_DN(x), solves the equation `x^2 - dy^2 = n` for the special case where `1 < n**2 < d` and `d` is not a perfect square. it is better to call `diop_dn` rather than this function, as the former checks the condi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6acb7fbc4cedad07"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._special_diop_DN","kind":"function","src_hash":"e1be359c50c2585b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_special_diop_DN(D, N)","rhs":"<unspecified:_special_diop_DN>","over":{"base":"Any"},"name":"_special_diop_DN_correct"},"guarantee":"solves the equation `x^2 - dy^2 = n` for the special case where `1 < n**2 < d` and `d` is not a perfect square. it is better to call `diop_dn` rather than this function, as the former checks the condi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._special_diop_DN_correct","statement":"Path(_special_diop_DN(x), solves the equation `x^2 - dy^2 = n` for the special case where `1 < n**2 < d` and `d` is not a perfect square. it is better to call `diop_dn` rather than this function, as the former checks the condi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6acb7fbc4cedad07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _special_diop_DN(D, N):
     """
     Solves the equation `x^2 - Dy^2 = N` for the special case where
@@ -2876,16 +3279,25 @@ def _special_diop_DN(D, N):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cornacchia(a, ), solves `ax^2 + by^2 = m` where `\gcd(a, b) = 1 = gcd(a, m)` and `a, b > 0`) over int ║
+# ║ Path(cornacchia(a, b, m), isinstance(result, set)) over {int | isinstance(a, int) and isinstance(b, int) and isinstance(m, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cornacchia : int → set[tuple[int, int]]                    ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(a, int)                             ║
+# ║   requires: isinstance(b, int)                             ║
+# ║   requires: isinstance(m, int)                             ║
+# ║   ensures:  isinstance(result, set)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cornacchia : {int | isinstance(a, int) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9aab4c5ff3709ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6a680e3a24b7e81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.cornacchia","kind":"function","src_hash":"6263c5684d1e3b8e","in":{"base":"int"},"out":{"base":"set[tuple[int, int]]"},"spec":{"lhs":"cornacchia(a, )","rhs":"solves `ax^2 + by^2 = m` where `\\gcd(a, b) = 1 = gcd(a, m)` and `a, b > 0`","over":{"base":"int"},"name":"cornacchia_correct"},"guarantee":"solves `ax^2 + by^2 = m` where `\\gcd(a, b) = 1 = gcd(a, m)` and `a, b > 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.cornacchia_correct","statement":"Path(cornacchia(x), solves `ax^2 + by^2 = m` where `\\gcd(a, b) = 1 = gcd(a, m)` and `a, b > 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9aab4c5ff3709ba"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.cornacchia","kind":"function","src_hash":"6263c5684d1e3b8e","in":{"base":"int","pred":"isinstance(a, int) and isinstance(b, int) and isinstance(m, int)"},"out":{"base":"set[tuple[int, int]]","pred":"result satisfies: isinstance(result, set)"},"spec":{"lhs":"cornacchia(a, b, m)","rhs":"isinstance(result, set)","over":{"base":"int","pred":"isinstance(a, int) and isinstance(b, int) and isinstance(m, int)"},"name":"cornacchia_correct"},"guarantee":"isinstance(result, set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.cornacchia_correct","statement":"Path(cornacchia(x), isinstance(result, set))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a680e3a24b7e81","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(a, int)","isinstance(b, int)","isinstance(m, int)"],"ensures":["isinstance(result, set)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def cornacchia(a:int, b:int, m:int) -> set[tuple[int, int]]:
     r"""
     Solves `ax^2 + by^2 = m` where `\gcd(a, b) = 1 = gcd(a, m)` and `a, b > 0`.
@@ -2960,16 +3372,22 @@ def cornacchia(a:int, b:int, m:int) -> set[tuple[int, int]]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PQa(P_0), returns useful information needed to solve the pell equation) over Any ║
+# ║ Path(PQa(P_0, Q_0, D), <unspecified:PQa>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ PQa : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b610c4bba012aca6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.PQa","kind":"function","src_hash":"de8da9a68bd44f7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PQa(P_0)","rhs":"returns useful information needed to solve the pell equation","over":{"base":"Any"},"name":"PQa_correct"},"guarantee":"returns useful information needed to solve the pell equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.PQa_correct","statement":"Path(PQa(x), returns useful information needed to solve the pell equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b610c4bba012aca6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.PQa","kind":"function","src_hash":"de8da9a68bd44f7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PQa(P_0, Q_0, D)","rhs":"<unspecified:PQa>","over":{"base":"Any"},"name":"PQa_correct"},"guarantee":"returns useful information needed to solve the pell equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.PQa_correct","statement":"Path(PQa(x), returns useful information needed to solve the pell equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b610c4bba012aca6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def PQa(P_0, Q_0, D):
     r"""
     Returns useful information needed to solve the Pell equation.
@@ -3027,16 +3445,22 @@ def PQa(P_0, Q_0, D):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_bf_DN(D, ), uses brute force to solve the equation, `x^2 - dy^2 = n`) over Any ║
+# ║ Path(diop_bf_DN(D, N, t), <unspecified:diop_bf_DN>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_bf_DN : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e891ff188ace9194  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_bf_DN","kind":"function","src_hash":"49c41ce1a50bfbac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_bf_DN(D, )","rhs":"uses brute force to solve the equation, `x^2 - dy^2 = n`","over":{"base":"Any"},"name":"diop_bf_DN_correct"},"guarantee":"uses brute force to solve the equation, `x^2 - dy^2 = n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_bf_DN_correct","statement":"Path(diop_bf_DN(x), uses brute force to solve the equation, `x^2 - dy^2 = n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e891ff188ace9194"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_bf_DN","kind":"function","src_hash":"49c41ce1a50bfbac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_bf_DN(D, N, t)","rhs":"<unspecified:diop_bf_DN>","over":{"base":"Any"},"name":"diop_bf_DN_correct"},"guarantee":"uses brute force to solve the equation, `x^2 - dy^2 = n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_bf_DN_correct","statement":"Path(diop_bf_DN(x), uses brute force to solve the equation, `x^2 - dy^2 = n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e891ff188ace9194","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def diop_bf_DN(D, N, t=symbols("t", integer=True)):
     r"""
     Uses brute force to solve the equation, `x^2 - Dy^2 = N`.
@@ -3125,16 +3549,22 @@ def diop_bf_DN(D, N, t=symbols("t", integer=True)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equivalent(u, ), returns true if two solutions `(u, v)` and `(r, s)` of `x^2 - dy^2 = n` belongs to the same equivalence class and false otherwise) over Any ║
+# ║ Path(equivalent(u, v, r), divisible(u * r - D * v * s, N) and divisible(u * s - v * r, N)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  divisible(u * r - D * v * s, N) and divis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equivalent : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af0c4636bfc2db1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.equivalent","kind":"function","src_hash":"7d8ee21899aa776d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equivalent(u, )","rhs":"returns true if two solutions `(u, v)` and `(r, s)` of `x^2 - dy^2 = n` belongs to the same equivalence class and false otherwise","over":{"base":"Any"},"name":"equivalent_correct"},"guarantee":"returns true if two solutions `(u, v)` and `(r, s)` of `x^2 - dy^2 = n` belongs to the same equivalence class and false otherwise","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af0c4636bfc2db1d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.equivalent","kind":"function","src_hash":"7d8ee21899aa776d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equivalent(u, v, r)","rhs":"divisible(u * r - D * v * s, N) and divisible(u * s - v * r, N)","over":{"base":"Any"},"name":"equivalent_correct"},"guarantee":"returns divisible(u * r - D * v * s, N) and divisible(u * s - v * r, N)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af0c4636bfc2db1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"divisible(u * r - D * v * s, N) and divisible(u * s - v * r, N)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def equivalent(u, v, r, s, D, N):
     """
     Returns True if two solutions `(u, v)` and `(r, s)` of `x^2 - Dy^2 = N`
@@ -3175,7 +3605,10 @@ def equivalent(u, v, r, s, D, N):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(P, ), returns the (length of aperiodic part + length of periodic part) of continued fraction representation of `\\frac{p + \sqrt{d}}{q}`) over {Any | isinstance(v[-1], list)} ║
+# ║ Path(length(P, Q, D), rpt + nonrpt) over {Any | isinstance(v[-1], list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rpt + nonrpt                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : {Any | isinstance(v[-1], list)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3187,9 +3620,12 @@ def equivalent(u, v, r, s, D, N):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 48499b5c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.length","kind":"function","src_hash":"25d6cdee14909422","in":{"base":"Any","pred":"isinstance(v[-1], list)"},"out":{"base":"Any"},"spec":{"lhs":"length(P, )","rhs":"returns the (length of aperiodic part + length of periodic part) of continued fraction representation of `\\\\frac{p + \\sqrt{d}}{q}`","over":{"base":"Any","pred":"isinstance(v[-1], list)"},"name":"length_correct"},"guarantee":"returns the (length of aperiodic part + length of periodic part) of continued fraction representation of `\\\\frac{p + \\sqrt{d}}{q}`","fibers":[{"name":"list","pred":"isinstance(v[-1], list)","path":{"lhs":"length(x)","rhs":"returns the (length of aperiodic part + length of periodic part) of continued fraction representation of `\\\\frac{p + \\sqrt{d}}{q}`","over":{"base":"list","pred":"isinstance(v[-1], list)"},"name":"length_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.length_list_correct","statement":"length satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"48499b5c1873a845"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.length","kind":"function","src_hash":"25d6cdee14909422","in":{"base":"Any","pred":"isinstance(v[-1], list)"},"out":{"base":"Any"},"spec":{"lhs":"length(P, Q, D)","rhs":"rpt + nonrpt","over":{"base":"Any","pred":"isinstance(v[-1], list)"},"name":"length_correct"},"guarantee":"returns rpt + nonrpt","fibers":[{"name":"list","pred":"isinstance(v[-1], list)","path":{"lhs":"length(x)","rhs":"returns rpt + nonrpt","over":{"base":"list","pred":"isinstance(v[-1], list)"},"name":"length_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.length_list_correct","statement":"length satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"48499b5c1873a845","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rpt + nonrpt","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(v[-1], list)'}, fibers={'list'})"]}}
 def length(P, Q, D):
     r"""
     Returns the (length of aperiodic part + length of periodic part) of
@@ -3236,16 +3672,22 @@ def length(P, Q, D):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transformation_to_DN(eq), this function transforms general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0` to more easy to deal with `x^2 - dy^2 = n` form) over Any ║
+# ║ Path(transformation_to_DN(eq), _transformation_to_DN(var, coeff)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _transformation_to_DN(var, coeff)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transformation_to_DN : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a5180154a07423  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 044956c06291b35a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.transformation_to_DN","kind":"function","src_hash":"71b783ffdbb91256","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_to_DN(eq)","rhs":"this function transforms general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0` to more easy to deal with `x^2 - dy^2 = n` form","over":{"base":"Any"},"name":"transformation_to_DN_correct"},"guarantee":"this function transforms general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0` to more easy to deal with `x^2 - dy^2 = n` form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.transformation_to_DN_correct","statement":"Path(transformation_to_DN(x), this function transforms general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0` to more easy to deal with `x^2 - dy^2 = n` form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a5180154a07423"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.transformation_to_DN","kind":"function","src_hash":"71b783ffdbb91256","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_to_DN(eq)","rhs":"_transformation_to_DN(var, coeff)","over":{"base":"Any"},"name":"transformation_to_DN_correct"},"guarantee":"returns _transformation_to_DN(var, coeff)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.transformation_to_DN_correct","statement":"Path(transformation_to_DN(x), returns _transformation_to_DN(var, coeff))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"044956c06291b35a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_transformation_to_DN(var, coeff)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def transformation_to_DN(eq):
     """
     This function transforms general quadratic,
@@ -3330,16 +3772,22 @@ def transformation_to_DN(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transformation_to_DN(var), id) over Any              ║
+# ║ Path(_transformation_to_DN(var, coeff), id) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transformation_to_DN : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _transformation_to_DN may be idem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transformation_to_DN : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 346fac7d27d1eb3f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._transformation_to_DN","kind":"function","src_hash":"60635f2ceb0ceb44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_to_DN(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transformation_to_DN_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"},{"fn":"S","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346fac7d27d1eb3f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._transformation_to_DN","kind":"function","src_hash":"60635f2ceb0ceb44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _transformation_to_DN may be idempotent: _transformation_to_DN(_transformation_to_DN(x)) == _transformation_to_DN(x)"},"spec":{"lhs":"_transformation_to_DN(var, coeff)","rhs":"# HINT: _transformation_to_DN may be idempotent: _transformation_to_DN(_transformation_to_DN(x)) == _transformation_to_DN(x)","over":{"base":"Any"},"name":"_transformation_to_DN_correct","kind":"composition"},"guarantee":"# HINT: _transformation_to_DN may be idempotent: _transformation_to_DN(_transformation_to_DN(x)) == _transformation_to_DN(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"},{"fn":"S","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346fac7d27d1eb3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _transformation_to_DN may be idempotent: _transformation_to_DN(_transformation_to_DN(x)) == _transformation_to_DN(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _transformation_to_DN(var, coeff):
 
     x, y = var
@@ -3388,16 +3836,22 @@ def _transformation_to_DN(var, coeff):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_DN(eq), this function returns a tuple, `(d, n)` of the simplified form, `x^2 - dy^2 = n`, corresponding to the general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0`) over Any ║
+# ║ Path(find_DN(eq), _find_DN(var, coeff)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _find_DN(var, coeff)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_DN : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7da4f73b38008bc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 129b107eb292c64c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.find_DN","kind":"function","src_hash":"5503872b3a0c47ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_DN(eq)","rhs":"this function returns a tuple, `(d, n)` of the simplified form, `x^2 - dy^2 = n`, corresponding to the general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0`","over":{"base":"Any"},"name":"find_DN_correct"},"guarantee":"this function returns a tuple, `(d, n)` of the simplified form, `x^2 - dy^2 = n`, corresponding to the general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.find_DN_correct","statement":"Path(find_DN(x), this function returns a tuple, `(d, n)` of the simplified form, `x^2 - dy^2 = n`, corresponding to the general quadratic, `ax^2 + bxy + cy^2 + dx + ey + f = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7da4f73b38008bc8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.find_DN","kind":"function","src_hash":"5503872b3a0c47ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_DN(eq)","rhs":"_find_DN(var, coeff)","over":{"base":"Any"},"name":"find_DN_correct"},"guarantee":"returns _find_DN(var, coeff)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.find_DN_correct","statement":"Path(find_DN(x), returns _find_DN(var, coeff))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"129b107eb292c64c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_find_DN(var, coeff)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_DN(eq):
     """
     This function returns a tuple, `(D, N)` of the simplified form,
@@ -3443,16 +3897,22 @@ def find_DN(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_DN(var), internal helper behaves correctly) over Any ║
+# ║ Path(_find_DN(var, coeff), (-coeff[Y ** 2] / coeff[X ** 2], -coeff[1] / coeff[X ** 2])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-coeff[Y ** 2] / coeff[X ** 2], -coeff[1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_DN : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7217be3b89d028b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27905ec72ee180bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._find_DN","kind":"function","src_hash":"dfd35b03dc62c43f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_DN(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_find_DN_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._find_DN_correct","statement":"Path(_find_DN(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7217be3b89d028b4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._find_DN","kind":"function","src_hash":"dfd35b03dc62c43f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_DN(var, coeff)","rhs":"(-coeff[Y ** 2] / coeff[X ** 2], -coeff[1] / coeff[X ** 2])","over":{"base":"Any"},"name":"_find_DN_correct"},"guarantee":"returns (-coeff[Y ** 2] / coeff[X ** 2], -coeff[1] / coeff[X ** 2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._find_DN_correct","statement":"Path(_find_DN(x), returns (-coeff[Y ** 2] / coeff[X ** 2], -coeff[1] / coeff[X ** 2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27905ec72ee180bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-coeff[Y ** 2] / coeff[X ** 2], -coeff[1] / coeff[X ** 2])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _find_DN(var, coeff):
 
     x, y = var
@@ -3471,16 +3931,25 @@ def _find_DN(var, coeff):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_param(x, ), if there is a number modulo ``a`` such that ``x`` and ``y`` are both integers, then return a parametric representation for ``x`` and ``y`` else return (none, none)) over Any ║
+# ║ Path(check_param(x, y, a), <unspecified:check_param>) over {Any | hasattr(x, 'is_number') and hasattr(y, 'is_number') and hasattr(x, 'is_Integer') and hasattr(y, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_param : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_number')                        ║
+# ║   requires: hasattr(y, 'is_number')                        ║
+# ║   requires: hasattr(x, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_param : {Any | hasattr(x, 'is_number') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c55fb40f4214e23c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.check_param","kind":"function","src_hash":"5e75b2db43a535be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_param(x, )","rhs":"if there is a number modulo ``a`` such that ``x`` and ``y`` are both integers, then return a parametric representation for ``x`` and ``y`` else return (none, none)","over":{"base":"Any"},"name":"check_param_correct"},"guarantee":"if there is a number modulo ``a`` such that ``x`` and ``y`` are both integers, then return a parametric representation for ``x`` and ``y`` else return (none, none)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.check_param_correct","statement":"Path(check_param(x), if there is a number modulo ``a`` such that ``x`` and ``y`` are both integers, then return a parametric representation for ``x`` and ``y`` else return (none, none))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c55fb40f4214e23c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.check_param","kind":"function","src_hash":"5e75b2db43a535be","in":{"base":"Any","pred":"hasattr(x, 'is_number') and hasattr(y, 'is_number') and hasattr(x, 'is_Integer') and hasattr(y, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"check_param(x, y, a)","rhs":"<unspecified:check_param>","over":{"base":"Any","pred":"hasattr(x, 'is_number') and hasattr(y, 'is_number') and hasattr(x, 'is_Integer') and hasattr(y, 'is_Integer')"},"name":"check_param_correct"},"guarantee":"if there is a number modulo ``a`` such that ``x`` and ``y`` are both integers, then return a parametric representation for ``x`` and ``y`` else return (none, none)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.check_param_correct","statement":"Path(check_param(x), if there is a number modulo ``a`` such that ``x`` and ``y`` are both integers, then return a parametric representation for ``x`` and ``y`` else return (none, none))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c55fb40f4214e23c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_number')","hasattr(y, 'is_number')","hasattr(x, 'is_Integer')","hasattr(y, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.is_Integer","x.is_number","y.is_Integer","y.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def check_param(x, y, a, params):
     """
     If there is a number modulo ``a`` such that ``x`` and ``y`` are both
@@ -3510,16 +3979,22 @@ def check_param(x, y, a, params):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_ternary_quadratic(eq,), solves the general quadratic ternary form, `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`) over Any ║
+# ║ Path(diop_ternary_quadratic(eq, parameterize), <unspecified:diop_ternary_quadratic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_ternary_quadratic : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78c319c3b8b145c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic","kind":"function","src_hash":"359a2a54fae0244c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_ternary_quadratic(eq,)","rhs":"solves the general quadratic ternary form, `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`","over":{"base":"Any"},"name":"diop_ternary_quadratic_correct"},"guarantee":"solves the general quadratic ternary form, `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic_correct","statement":"Path(diop_ternary_quadratic(x), solves the general quadratic ternary form, `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78c319c3b8b145c9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic","kind":"function","src_hash":"359a2a54fae0244c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_ternary_quadratic(eq, parameterize)","rhs":"<unspecified:diop_ternary_quadratic>","over":{"base":"Any"},"name":"diop_ternary_quadratic_correct"},"guarantee":"solves the general quadratic ternary form, `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic_correct","statement":"Path(diop_ternary_quadratic(x), solves the general quadratic ternary form, `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78c319c3b8b145c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_ternary_quadratic(eq, parameterize=False):
     """
     Solves the general quadratic ternary form,
@@ -3572,16 +4047,25 @@ def diop_ternary_quadratic(eq, parameterize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diop_ternary_quadratic(_va), id) over Any            ║
+# ║ Path(_diop_ternary_quadratic(_var, coeff), id) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _diop_ternary_quadratic : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (HomogeneousTernaryQuadratic(eq...   ║
+# ║   ensures:  result == HomogeneousTernaryQuadratic(eq,...   ║
+# ║   fiber[case_0]: HomogeneousTernaryQuadratic(eq).matc...   ║
+# ║   fiber[case_1]: HomogeneousTernaryQuadraticNormal(eq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _diop_ternary_quadratic : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 90fa23b80965dcbd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._diop_ternary_quadratic","kind":"function","src_hash":"fd536083da069985","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diop_ternary_quadratic(_va)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_diop_ternary_quadratic_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HomogeneousTernaryQuadratic","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fa23b80965dcbd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._diop_ternary_quadratic","kind":"function","src_hash":"fd536083da069985","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() if HomogeneousTernaryQuadratic(eq).matches() else HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()) and result == HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() or result == HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()"},"spec":{"lhs":"_diop_ternary_quadratic(_var, coeff)","rhs":"result == (HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() if HomogeneousTernaryQuadratic(eq).matches() else HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()) and result == HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() or result == HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()","over":{"base":"Any"},"name":"_diop_ternary_quadratic_correct","kind":"composition"},"guarantee":"result == (HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() if HomogeneousTernaryQuadratic(eq).matches() else HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()); result == HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() or result == HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve(); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HomogeneousTernaryQuadratic","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fa23b80965dcbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() if HomogeneousTernaryQuadratic(eq).matches() else HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve())","result == HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve() or result == HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()"],"fibers":[{"name":"case_0","guard":"HomogeneousTernaryQuadratic(eq).matches()","ensures":["result == HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve()"],"decidability":"library","returns_expr":"HomogeneousTernaryQuadratic(eq, free_symbols=_var).solve()"},{"name":"case_1","guard":"HomogeneousTernaryQuadraticNormal(eq).matches()","ensures":["result == HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()"],"decidability":"library","returns_expr":"HomogeneousTernaryQuadraticNormal(eq, free_symbols=_var).solve()"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _diop_ternary_quadratic(_var, coeff):
     eq = sum(i*coeff[i] for i in coeff)
     if HomogeneousTernaryQuadratic(eq).matches():
@@ -3591,16 +4075,22 @@ def _diop_ternary_quadratic(_var, coeff):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transformation_to_normal(eq), returns the transformation matrix that converts a general ternary quadratic equation ``eq`` (`ax^2 + by^2 + cz^2 + dxy + eyz + fxz`) to a form without cross terms: `ax^2 + by^2 + cz^2 = 0`) over Any ║
+# ║ Path(transformation_to_normal(eq), _transformation_to_normal(var, coeff)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _transformation_to_normal(var, coeff)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transformation_to_normal : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cae7a7c054e35b8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e8a40d497c02be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.transformation_to_normal","kind":"function","src_hash":"2a43f3239e038089","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_to_normal(eq)","rhs":"returns the transformation matrix that converts a general ternary quadratic equation ``eq`` (`ax^2 + by^2 + cz^2 + dxy + eyz + fxz`) to a form without cross terms: `ax^2 + by^2 + cz^2 = 0`","over":{"base":"Any"},"name":"transformation_to_normal_correct"},"guarantee":"returns the transformation matrix that converts a general ternary quadratic equation ``eq`` (`ax^2 + by^2 + cz^2 + dxy + eyz + fxz`) to a form without cross terms: `ax^2 + by^2 + cz^2 = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.transformation_to_normal_correct","statement":"Path(transformation_to_normal(x), returns the transformation matrix that converts a general ternary quadratic equation ``eq`` (`ax^2 + by^2 + cz^2 + dxy + eyz + fxz`) to a form without cross terms: `ax^2 + by^2 + cz^2 = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cae7a7c054e35b8b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.transformation_to_normal","kind":"function","src_hash":"2a43f3239e038089","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_to_normal(eq)","rhs":"_transformation_to_normal(var, coeff)","over":{"base":"Any"},"name":"transformation_to_normal_correct"},"guarantee":"returns _transformation_to_normal(var, coeff)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.transformation_to_normal_correct","statement":"Path(transformation_to_normal(x), returns _transformation_to_normal(var, coeff))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e8a40d497c02be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_transformation_to_normal(var, coeff)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def transformation_to_normal(eq):
     """
     Returns the transformation Matrix that converts a general ternary
@@ -3618,16 +4108,22 @@ def transformation_to_normal(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transformation_to_normal(var), internal helper behaves correctly) over Any ║
+# ║ Path(_transformation_to_normal(var, coeff), # HINT: _transformation_to_normal may be idempotent: _transformation_to_normal(_transformation_to_normal(x)) == _transformation_to_normal(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transformation_to_normal : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _transformation_to_normal may be ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transformation_to_normal : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a377a51b06c258f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 127d827aa50791c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._transformation_to_normal","kind":"function","src_hash":"459d08ee06afa13f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_to_normal(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transformation_to_normal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._transformation_to_normal_correct","statement":"Path(_transformation_to_normal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a377a51b06c258f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._transformation_to_normal","kind":"function","src_hash":"459d08ee06afa13f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _transformation_to_normal may be idempotent: _transformation_to_normal(_transformation_to_normal(x)) == _transformation_to_normal(x)"},"spec":{"lhs":"_transformation_to_normal(var, coeff)","rhs":"# HINT: _transformation_to_normal may be idempotent: _transformation_to_normal(_transformation_to_normal(x)) == _transformation_to_normal(x)","over":{"base":"Any"},"name":"_transformation_to_normal_correct"},"guarantee":"# HINT: _transformation_to_normal may be idempotent: _transformation_to_normal(_transformation_to_normal(x)) == _transformation_to_normal(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._transformation_to_normal_correct","statement":"Path(_transformation_to_normal(x), # HINT: _transformation_to_normal may be idempotent: _transformation_to_normal(_transformation_to_normal(x)) == _transformation_to_normal(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"127d827aa50791c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _transformation_to_normal may be idempotent: _transformation_to_normal(_transformation_to_normal(x)) == _transformation_to_normal(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _transformation_to_normal(var, coeff):
 
     _var = list(var)  # copy
@@ -3709,16 +4205,22 @@ def _transformation_to_normal(var, coeff):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parametrize_ternary_quadratic(eq), returns the parametrized general solution for the ternary quadratic equation ``eq`` which has the form `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`) over Any ║
+# ║ Path(parametrize_ternary_quadratic(eq), _parametrize_ternary_quadratic((x_0, y_0, z_0), var, coeff)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _parametrize_ternary_quadratic((x_0, y_0,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parametrize_ternary_quadratic : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d0390c9df7ea9eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42e404937a700974  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.parametrize_ternary_quadratic","kind":"function","src_hash":"01474b2dbc953bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametrize_ternary_quadratic(eq)","rhs":"returns the parametrized general solution for the ternary quadratic equation ``eq`` which has the form `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`","over":{"base":"Any"},"name":"parametrize_ternary_quadratic_correct"},"guarantee":"returns the parametrized general solution for the ternary quadratic equation ``eq`` which has the form `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.parametrize_ternary_quadratic_correct","statement":"Path(parametrize_ternary_quadratic(x), returns the parametrized general solution for the ternary quadratic equation ``eq`` which has the form `ax^2 + by^2 + cz^2 + fxy + gyz + hxz = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d0390c9df7ea9eb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.parametrize_ternary_quadratic","kind":"function","src_hash":"01474b2dbc953bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametrize_ternary_quadratic(eq)","rhs":"_parametrize_ternary_quadratic((x_0, y_0, z_0), var, coeff)","over":{"base":"Any"},"name":"parametrize_ternary_quadratic_correct"},"guarantee":"returns _parametrize_ternary_quadratic((x_0, y_0, z_0), var, coeff)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.parametrize_ternary_quadratic_correct","statement":"Path(parametrize_ternary_quadratic(x), returns _parametrize_ternary_quadratic((x_0, y_0, z_0), var, coeff))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42e404937a700974","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_parametrize_ternary_quadratic((x_0, y_0, z_0), var, coeff)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def parametrize_ternary_quadratic(eq):
     """
     Returns the parametrized general solution for the ternary quadratic
@@ -3785,16 +4287,25 @@ def parametrize_ternary_quadratic(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parametrize_ternary_quadratic(sol), internal helper behaves correctly) over Any ║
+# ║ Path(_parametrize_ternary_quadratic(solution, _var, coeff), # HINT: _parametrize_ternary_quadratic may be idempotent: _parametrize_ternary_quadratic(_parametrize_ternary_quadratic(x)) == _parametrize_ternary_quadratic(x)) over {Any | 1 not in coeff and hasattr(solution, 'count') and hasattr(coeff, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parametrize_ternary_quadratic : Any → {Any | 1 not i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: 1 not in coeff                                 ║
+# ║   requires: hasattr(solution, 'count')                     ║
+# ║   requires: hasattr(coeff, 'items')                        ║
+# ║   ensures:  # HINT: _parametrize_ternary_quadratic ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parametrize_ternary_quadratic : {Any | 1 not in coef...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d90d6d7b60fb6a6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc7789c13dc4f2c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._parametrize_ternary_quadratic","kind":"function","src_hash":"8947f80e53fc2222","in":{"base":"Any"},"out":{"base":"Any","pred":"1 not in coeff"},"spec":{"lhs":"_parametrize_ternary_quadratic(sol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_parametrize_ternary_quadratic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._parametrize_ternary_quadratic_correct","statement":"Path(_parametrize_ternary_quadratic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d90d6d7b60fb6a6d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._parametrize_ternary_quadratic","kind":"function","src_hash":"8947f80e53fc2222","in":{"base":"Any","pred":"1 not in coeff and hasattr(solution, 'count') and hasattr(coeff, 'items')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _parametrize_ternary_quadratic may be idempotent: _parametrize_ternary_quadratic(_parametrize_ternary_quadratic(x)) == _parametrize_ternary_quadratic(x)"},"spec":{"lhs":"_parametrize_ternary_quadratic(solution, _var, coeff)","rhs":"# HINT: _parametrize_ternary_quadratic may be idempotent: _parametrize_ternary_quadratic(_parametrize_ternary_quadratic(x)) == _parametrize_ternary_quadratic(x)","over":{"base":"Any","pred":"1 not in coeff and hasattr(solution, 'count') and hasattr(coeff, 'items')"},"name":"_parametrize_ternary_quadratic_correct"},"guarantee":"# HINT: _parametrize_ternary_quadratic may be idempotent: _parametrize_ternary_quadratic(_parametrize_ternary_quadratic(x)) == _parametrize_ternary_quadratic(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._parametrize_ternary_quadratic_correct","statement":"Path(_parametrize_ternary_quadratic(x), # HINT: _parametrize_ternary_quadratic may be idempotent: _parametrize_ternary_quadratic(_parametrize_ternary_quadratic(x)) == _parametrize_ternary_quadratic(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc7789c13dc4f2c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["1 not in coeff","hasattr(solution, 'count')","hasattr(coeff, 'items')"],"ensures":["# HINT: _parametrize_ternary_quadratic may be idempotent: _parametrize_ternary_quadratic(_parametrize_ternary_quadratic(x)) == _parametrize_ternary_quadratic(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["coeff.items","solution.count"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _parametrize_ternary_quadratic(solution, _var, coeff):
     # called for a*x**2 + b*y**2 + c*z**2 + d*x*y + e*y*z + f*x*z = 0
     assert 1 not in coeff
@@ -3836,16 +4347,22 @@ def _parametrize_ternary_quadratic(solution, _var, coeff):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_ternary_quadratic_normal(eq,), solves the quadratic ternary diophantine equation, `ax^2 + by^2 + cz^2 = 0`) over Any ║
+# ║ Path(diop_ternary_quadratic_normal(eq, parameterize), <unspecified:diop_ternary_quadratic_normal>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_ternary_quadratic_normal : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b88a34dd039a4e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic_normal","kind":"function","src_hash":"c8ecae88f85640c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_ternary_quadratic_normal(eq,)","rhs":"solves the quadratic ternary diophantine equation, `ax^2 + by^2 + cz^2 = 0`","over":{"base":"Any"},"name":"diop_ternary_quadratic_normal_correct"},"guarantee":"solves the quadratic ternary diophantine equation, `ax^2 + by^2 + cz^2 = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic_normal_correct","statement":"Path(diop_ternary_quadratic_normal(x), solves the quadratic ternary diophantine equation, `ax^2 + by^2 + cz^2 = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b88a34dd039a4e4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic_normal","kind":"function","src_hash":"c8ecae88f85640c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_ternary_quadratic_normal(eq, parameterize)","rhs":"<unspecified:diop_ternary_quadratic_normal>","over":{"base":"Any"},"name":"diop_ternary_quadratic_normal_correct"},"guarantee":"solves the quadratic ternary diophantine equation, `ax^2 + by^2 + cz^2 = 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.diop_ternary_quadratic_normal_correct","statement":"Path(diop_ternary_quadratic_normal(x), solves the quadratic ternary diophantine equation, `ax^2 + by^2 + cz^2 = 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b88a34dd039a4e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_ternary_quadratic_normal(eq, parameterize=False):
     """
     Solves the quadratic ternary diophantine equation,
@@ -3891,32 +4408,47 @@ def diop_ternary_quadratic_normal(eq, parameterize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diop_ternary_quadratic_normal(var), id) over Any     ║
+# ║ Path(_diop_ternary_quadratic_normal(var, coeff), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HomogeneousTernaryQuadraticNormal(eq, fre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _diop_ternary_quadratic_normal : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 84cab0a064b3c0c6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._diop_ternary_quadratic_normal","kind":"function","src_hash":"bedb8fe2dd21a0ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diop_ternary_quadratic_normal(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_diop_ternary_quadratic_normal_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HomogeneousTernaryQuadraticNormal","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84cab0a064b3c0c6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._diop_ternary_quadratic_normal","kind":"function","src_hash":"bedb8fe2dd21a0ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diop_ternary_quadratic_normal(var, coeff)","rhs":"HomogeneousTernaryQuadraticNormal(eq, free_symbols=var).solve()","over":{"base":"Any"},"name":"_diop_ternary_quadratic_normal_correct","kind":"composition"},"guarantee":"returns HomogeneousTernaryQuadraticNormal(eq, free_symbols=var).solve()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"HomogeneousTernaryQuadraticNormal","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84cab0a064b3c0c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HomogeneousTernaryQuadraticNormal(eq, free_symbols=var).solve()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _diop_ternary_quadratic_normal(var, coeff):
     eq = sum(i * coeff[i] for i in coeff)
     return HomogeneousTernaryQuadraticNormal(eq, free_symbols=var).solve()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqf_normal(a, ), return `a', b', c'`, the coefficients of the square-free normal form of `ax^2 + by^2 + cz^2 = 0`, where `a', b', c'` are pairwise prime) over Any ║
+# ║ Path(sqf_normal(a, b, c), result == ((sq, sqf, (A, B, C)) if steps else (A, B, C)) and result == (sq, sqf, (A, B, C)) or result == (A, B, C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqf_normal : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((sq, sqf, (A, B, C)) if steps ...   ║
+# ║   ensures:  result == (sq, sqf, (A, B, C)) or result ...   ║
+# ║   fiber[case_0]: steps => (sq, sqf, (A, B, C))             ║
+# ║   fiber[case_1]: not (steps) => (A, B, C)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqf_normal : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bc5f2bd8eaa9fe5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 941ab0a4fc285284  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sqf_normal","kind":"function","src_hash":"1c9e4c9bcc661ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqf_normal(a, )","rhs":"return `a', b', c'`, the coefficients of the square-free normal form of `ax^2 + by^2 + cz^2 = 0`, where `a', b', c'` are pairwise prime","over":{"base":"Any"},"name":"sqf_normal_correct"},"guarantee":"return `a', b', c'`, the coefficients of the square-free normal form of `ax^2 + by^2 + cz^2 = 0`, where `a', b', c'` are pairwise prime","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sqf_normal_correct","statement":"Path(sqf_normal(x), return `a', b', c'`, the coefficients of the square-free normal form of `ax^2 + by^2 + cz^2 = 0`, where `a', b', c'` are pairwise prime)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bc5f2bd8eaa9fe5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sqf_normal","kind":"function","src_hash":"1c9e4c9bcc661ad0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((sq, sqf, (A, B, C)) if steps else (A, B, C)) and result == (sq, sqf, (A, B, C)) or result == (A, B, C)"},"spec":{"lhs":"sqf_normal(a, b, c)","rhs":"result == ((sq, sqf, (A, B, C)) if steps else (A, B, C)) and result == (sq, sqf, (A, B, C)) or result == (A, B, C)","over":{"base":"Any"},"name":"sqf_normal_correct"},"guarantee":"result == ((sq, sqf, (A, B, C)) if steps else (A, B, C)); result == (sq, sqf, (A, B, C)) or result == (A, B, C); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sqf_normal_correct","statement":"Path(sqf_normal(x), result == ((sq, sqf, (A, B, C)) if steps else (A, B, C)); result == (sq, sqf, (A, B, C)) or result == (A, B, C); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"941ab0a4fc285284","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((sq, sqf, (A, B, C)) if steps else (A, B, C))","result == (sq, sqf, (A, B, C)) or result == (A, B, C)"],"fibers":[{"name":"case_0","guard":"steps","ensures":["result == (sq, sqf, (A, B, C))"],"decidability":"library","returns_expr":"(sq, sqf, (A, B, C))"},{"name":"case_1","guard":"not (steps)","ensures":["result == (A, B, C)"],"decidability":"library","returns_expr":"(A, B, C)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sqf_normal(a, b, c, steps=False):
     """
     Return `a', b', c'`, the coefficients of the square-free normal
@@ -3975,7 +4507,10 @@ def sqf_normal(a, b, c, steps=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(square_factor(a), returns an integer `c` s.t) over {Any | isinstance(a, dict)} ║
+# ║ Path(square_factor(a), Mul(*[p ** (e // 2) for p, e in f.items()])) over {Any | isinstance(a, dict)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(*[p ** (e // 2) for p, e in f.items()])    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ square_factor : {Any | isinstance(a, dict)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3987,9 +4522,12 @@ def sqf_normal(a, b, c, steps=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cc3a91d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.square_factor","kind":"function","src_hash":"56dad5fcedd49865","in":{"base":"Any","pred":"isinstance(a, dict)"},"out":{"base":"Any"},"spec":{"lhs":"square_factor(a)","rhs":"returns an integer `c` s.t","over":{"base":"Any","pred":"isinstance(a, dict)"},"name":"square_factor_correct"},"guarantee":"returns an integer `c` s.t","fibers":[{"name":"dict","pred":"isinstance(a, dict)","path":{"lhs":"square_factor(x)","rhs":"returns an integer `c` s.t","over":{"base":"dict","pred":"isinstance(a, dict)"},"name":"square_factor_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.square_factor_dict_correct","statement":"square_factor satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cc3a91d2291d72b3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.square_factor","kind":"function","src_hash":"56dad5fcedd49865","in":{"base":"Any","pred":"isinstance(a, dict)"},"out":{"base":"Any"},"spec":{"lhs":"square_factor(a)","rhs":"Mul(*[p ** (e // 2) for p, e in f.items()])","over":{"base":"Any","pred":"isinstance(a, dict)"},"name":"square_factor_correct"},"guarantee":"returns Mul(*[p ** (e // 2) for p, e in f.items()])","fibers":[{"name":"dict","pred":"isinstance(a, dict)","path":{"lhs":"square_factor(x)","rhs":"returns Mul(*[p ** (e // 2) for p, e in f.items()])","over":{"base":"dict","pred":"isinstance(a, dict)"},"name":"square_factor_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.square_factor_dict_correct","statement":"square_factor satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cc3a91d2291d72b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(*[p ** (e // 2) for p, e in f.items()])","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def square_factor(a):
     r"""
     Returns an integer `c` s.t. `a = c^2k, \ c,k \in Z`. Here `k` is square
@@ -4017,16 +4555,23 @@ def square_factor(a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reconstruct(A, ), reconstruct the `z` value of an equivalent solution of `ax^2 + by^2 + cz^2` from the `z` value of a solution of the square-free normal form of the equation, `a'*x^2 + b'*y^2 + c'*z^2`, where `a'`, `b') over Any ║
+# ║ Path(reconstruct(A, B, z), z) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reconstruct : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == z                                    ║
+# ║   returns:  z                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reconstruct : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f53c21fcaf6a3ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b422eba81c3220bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.reconstruct","kind":"function","src_hash":"7c1ecca3a20d1b35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reconstruct(A, )","rhs":"reconstruct the `z` value of an equivalent solution of `ax^2 + by^2 + cz^2` from the `z` value of a solution of the square-free normal form of the equation, `a'*x^2 + b'*y^2 + c'*z^2`, where `a'`, `b'","over":{"base":"Any"},"name":"reconstruct_correct"},"guarantee":"reconstruct the `z` value of an equivalent solution of `ax^2 + by^2 + cz^2` from the `z` value of a solution of the square-free normal form of the equation, `a'*x^2 + b'*y^2 + c'*z^2`, where `a'`, `b'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.reconstruct_correct","statement":"Path(reconstruct(x), reconstruct the `z` value of an equivalent solution of `ax^2 + by^2 + cz^2` from the `z` value of a solution of the square-free normal form of the equation, `a'*x^2 + b'*y^2 + c'*z^2`, where `a'`, `b')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f53c21fcaf6a3ff"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.reconstruct","kind":"function","src_hash":"7c1ecca3a20d1b35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (z)"},"spec":{"lhs":"reconstruct(A, B, z)","rhs":"z","over":{"base":"Any"},"name":"reconstruct_correct"},"guarantee":"returns z; result == z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.reconstruct_correct","statement":"Path(reconstruct(x), returns z; result == z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b422eba81c3220bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == z"],"returns_expr":"z","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def reconstruct(A, B, z):
     """
     Reconstruct the `z` value of an equivalent solution of `ax^2 + by^2 + cz^2`
@@ -4043,16 +4588,23 @@ def reconstruct(A, B, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ldescent(A, ), return a non-trivial solution to `w^2 = ax^2 + by^2` using lagrange's method; return none if there is no such solution) over Any ║
+# ║ Path(ldescent(A, B), # HINT: ldescent may be idempotent: ldescent(ldescent(x)) == ldescent(x)) over {Any | not (A == 0 or B == 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ldescent : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (A == 0 or B == 0)                         ║
+# ║   ensures:  # HINT: ldescent may be idempotent: ldesc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ldescent : {Any | not (A == 0 or B == 0)} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b6b13d0f82324c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cddf2088a6c0553b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.ldescent","kind":"function","src_hash":"441d6d21c2b1a351","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ldescent(A, )","rhs":"return a non-trivial solution to `w^2 = ax^2 + by^2` using lagrange's method; return none if there is no such solution","over":{"base":"Any"},"name":"ldescent_correct"},"guarantee":"return a non-trivial solution to `w^2 = ax^2 + by^2` using lagrange's method; return none if there is no such solution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.ldescent_correct","statement":"Path(ldescent(x), return a non-trivial solution to `w^2 = ax^2 + by^2` using lagrange's method; return none if there is no such solution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b6b13d0f82324c0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.ldescent","kind":"function","src_hash":"441d6d21c2b1a351","in":{"base":"Any","pred":"not (A == 0 or B == 0)"},"out":{"base":"Any","pred":"result satisfies: # HINT: ldescent may be idempotent: ldescent(ldescent(x)) == ldescent(x)"},"spec":{"lhs":"ldescent(A, B)","rhs":"# HINT: ldescent may be idempotent: ldescent(ldescent(x)) == ldescent(x)","over":{"base":"Any","pred":"not (A == 0 or B == 0)"},"name":"ldescent_correct"},"guarantee":"# HINT: ldescent may be idempotent: ldescent(ldescent(x)) == ldescent(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.ldescent_correct","statement":"Path(ldescent(x), # HINT: ldescent may be idempotent: ldescent(ldescent(x)) == ldescent(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cddf2088a6c0553b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (A == 0 or B == 0)"],"ensures":["# HINT: ldescent may be idempotent: ldescent(ldescent(x)) == ldescent(x)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def ldescent(A, B):
     """
     Return a non-trivial solution to `w^2 = Ax^2 + By^2` using
@@ -4122,16 +4674,22 @@ def ldescent(A, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(descent(A, ), returns a non-trivial solution, (x, y, z), to `x^2 = ay^2 + bz^2` using lagrange's descent method with lattice-reduction) over Any ║
+# ║ Path(descent(A, B), # HINT: descent may be idempotent: descent(descent(x)) == descent(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ descent : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: descent may be idempotent: descen...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ descent : Any → {Any | result satisfies: # HINT: desc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e05dda5cacc868d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a73edfcb7c3021a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.descent","kind":"function","src_hash":"289685fb2a8e171f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"descent(A, )","rhs":"returns a non-trivial solution, (x, y, z), to `x^2 = ay^2 + bz^2` using lagrange's descent method with lattice-reduction","over":{"base":"Any"},"name":"descent_correct"},"guarantee":"returns a non-trivial solution, (x, y, z), to `x^2 = ay^2 + bz^2` using lagrange's descent method with lattice-reduction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.descent_correct","statement":"Path(descent(x), returns a non-trivial solution, (x, y, z), to `x^2 = ay^2 + bz^2` using lagrange's descent method with lattice-reduction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e05dda5cacc868d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.descent","kind":"function","src_hash":"289685fb2a8e171f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: descent may be idempotent: descent(descent(x)) == descent(x)"},"spec":{"lhs":"descent(A, B)","rhs":"# HINT: descent may be idempotent: descent(descent(x)) == descent(x)","over":{"base":"Any"},"name":"descent_correct"},"guarantee":"# HINT: descent may be idempotent: descent(descent(x)) == descent(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.descent_correct","statement":"Path(descent(x), # HINT: descent may be idempotent: descent(descent(x)) == descent(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a73edfcb7c3021a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: descent may be idempotent: descent(descent(x)) == descent(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def descent(A, B):
     """
     Returns a non-trivial solution, (x, y, z), to `x^2 = Ay^2 + Bz^2`
@@ -4187,16 +4745,26 @@ def descent(A, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gaussian_reduce(w, ), returns a reduced solution `(x, z)` to the congruence `x^2 - az^2 \equiv 0 \pmod{b}` so that `x^2 + |a|z^2` is as small as possible. here ``w`` is a solution of the congruence `x^2 \equiv a \pmod{b}`) over int ║
+# ║ Path(gaussian_reduce(w, a, b), isinstance(result, tuple) and len(result) == 2) over {int | isinstance(w, int) and isinstance(a, int) and isinstance(b, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gaussian_reduce : int → tuple[int, int]                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(w, int)                             ║
+# ║   requires: isinstance(a, int)                             ║
+# ║   requires: isinstance(b, int)                             ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 2                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gaussian_reduce : {int | isinstance(w, int) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 219842ec8da45259  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b69e9e64beec4831  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.gaussian_reduce","kind":"function","src_hash":"691ee9393fbb8686","in":{"base":"int"},"out":{"base":"tuple[int, int]"},"spec":{"lhs":"gaussian_reduce(w, )","rhs":"returns a reduced solution `(x, z)` to the congruence `x^2 - az^2 \\equiv 0 \\pmod{b}` so that `x^2 + |a|z^2` is as small as possible. here ``w`` is a solution of the congruence `x^2 \\equiv a \\pmod{b}`","over":{"base":"int"},"name":"gaussian_reduce_correct"},"guarantee":"returns a reduced solution `(x, z)` to the congruence `x^2 - az^2 \\equiv 0 \\pmod{b}` so that `x^2 + |a|z^2` is as small as possible. here ``w`` is a solution of the congruence `x^2 \\equiv a \\pmod{b}`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.gaussian_reduce_correct","statement":"Path(gaussian_reduce(x), returns a reduced solution `(x, z)` to the congruence `x^2 - az^2 \\equiv 0 \\pmod{b}` so that `x^2 + |a|z^2` is as small as possible. here ``w`` is a solution of the congruence `x^2 \\equiv a \\pmod{b}`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"219842ec8da45259"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.gaussian_reduce","kind":"function","src_hash":"691ee9393fbb8686","in":{"base":"int","pred":"isinstance(w, int) and isinstance(a, int) and isinstance(b, int)"},"out":{"base":"tuple[int, int]","pred":"result satisfies: isinstance(result, tuple) and len(result) == 2"},"spec":{"lhs":"gaussian_reduce(w, a, b)","rhs":"isinstance(result, tuple) and len(result) == 2","over":{"base":"int","pred":"isinstance(w, int) and isinstance(a, int) and isinstance(b, int)"},"name":"gaussian_reduce_correct"},"guarantee":"isinstance(result, tuple); len(result) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.gaussian_reduce_correct","statement":"Path(gaussian_reduce(x), isinstance(result, tuple); len(result) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b69e9e64beec4831","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(w, int)","isinstance(a, int)","isinstance(b, int)"],"ensures":["isinstance(result, tuple)","len(result) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gaussian_reduce(w:int, a:int, b:int) -> tuple[int, int]:
     r"""
     Returns a reduced solution `(x, z)` to the congruence
@@ -4286,16 +4854,22 @@ def gaussian_reduce(w:int, a:int, b:int) -> tuple[int, int]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(holzer(x, ), id) over Any                             ║
+# ║ Path(holzer(x, y, z), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([int(i) for i in (x_0, y_0, z_0)])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ holzer : Any → {Any | all((i.is_Integer for i in (x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d3d626500ad25b13   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.holzer","kind":"function","src_hash":"6fcc31b037bd0836","in":{"base":"Any"},"out":{"base":"Any","pred":"all((i.is_Integer for i in (x, y, z))) and abs(w - r) <= S.Half and abs(w - r) <= S.One"},"spec":{"lhs":"holzer(x, )","rhs":"simplify the solution `(x, y, z)` of the equation `ax^2 + by^2 = cz^2` with `a, b, c > 0` and `z^2 \\geq \\mid ab \\mid` to a new reduced solution `(x', y', z')` such that `z'^2 \\leq \\mid ab \\mid`","over":{"base":"Any"},"name":"holzer_correct","kind":"composition"},"guarantee":"simplify the solution `(x, y, z)` of the equation `ax^2 + by^2 = cz^2` with `a, b, c > 0` and `z^2 \\geq \\mid ab \\mid` to a new reduced solution `(x', y', z')` such that `z'^2 \\leq \\mid ab \\mid`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3d626500ad25b13"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.holzer","kind":"function","src_hash":"6fcc31b037bd0836","in":{"base":"Any"},"out":{"base":"Any","pred":"all((i.is_Integer for i in (x, y, z))) and abs(w - r) <= S.Half and abs(w - r) <= S.One"},"spec":{"lhs":"holzer(x, y, z)","rhs":"tuple([int(i) for i in (x_0, y_0, z_0)])","over":{"base":"Any"},"name":"holzer_correct","kind":"composition"},"guarantee":"returns tuple([int(i) for i in (x_0, y_0, z_0)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3d626500ad25b13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([int(i) for i in (x_0, y_0, z_0)])","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def holzer(x, y, z, a, b, c):
     r"""
     Simplify the solution `(x, y, z)` of the equation
@@ -4362,16 +4936,22 @@ def holzer(x, y, z, a, b, c):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_general_pythagorean(eq,), id) over Any           ║
+# ║ Path(diop_general_pythagorean(eq, param), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(GeneralPythagorean(eq).solve(paramet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_general_pythagorean : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3b8d834b768f8078   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_general_pythagorean","kind":"function","src_hash":"ef526e4cc34ed01d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_general_pythagorean(eq,)","rhs":"solves the general pythagorean equation, `a_{1}^2x_{1}^2 + a_{2}^2x_{2}^2 +","over":{"base":"Any"},"name":"diop_general_pythagorean_correct","kind":"composition"},"guarantee":"solves the general pythagorean equation, `a_{1}^2x_{1}^2 + a_{2}^2x_{2}^2 +","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"GeneralPythagorean","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8d834b768f8078"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_general_pythagorean","kind":"function","src_hash":"ef526e4cc34ed01d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_general_pythagorean(eq, param)","rhs":"list(GeneralPythagorean(eq).solve(parameters=params))[0]","over":{"base":"Any"},"name":"diop_general_pythagorean_correct","kind":"composition"},"guarantee":"returns list(GeneralPythagorean(eq).solve(parameters=params))[0]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"GeneralPythagorean","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8d834b768f8078","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(GeneralPythagorean(eq).solve(parameters=params))[0]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_general_pythagorean(eq, param=symbols("m", integer=True)):
     """
     Solves the general pythagorean equation,
@@ -4408,16 +4988,22 @@ def diop_general_pythagorean(eq, param=symbols("m", integer=True)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_general_sum_of_squares(eq,), id) over Any        ║
+# ║ Path(diop_general_sum_of_squares(eq, limit), id) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(GeneralSumOfSquares(eq).solve(limit=l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_general_sum_of_squares : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a8a2040e062d6922   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_general_sum_of_squares","kind":"function","src_hash":"4583d1c15f3f8595","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_general_sum_of_squares(eq,)","rhs":"solves the equation `x_{1}^2 + x_{2}^2 +","over":{"base":"Any"},"name":"diop_general_sum_of_squares_correct","kind":"composition"},"guarantee":"solves the equation `x_{1}^2 + x_{2}^2 +","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"GeneralSumOfSquares","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a2040e062d6922"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_general_sum_of_squares","kind":"function","src_hash":"4583d1c15f3f8595","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_general_sum_of_squares(eq, limit)","rhs":"set(GeneralSumOfSquares(eq).solve(limit=limit))","over":{"base":"Any"},"name":"diop_general_sum_of_squares_correct","kind":"composition"},"guarantee":"returns set(GeneralSumOfSquares(eq).solve(limit=limit))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"GeneralSumOfSquares","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a2040e062d6922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(GeneralSumOfSquares(eq).solve(limit=limit))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_general_sum_of_squares(eq, limit=1):
     r"""
     Solves the equation `x_{1}^2 + x_{2}^2 + . . . + x_{n}^2 - k = 0`.
@@ -4459,16 +5045,22 @@ def diop_general_sum_of_squares(eq, limit=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diop_general_sum_of_even_powers(eq,), id) over Any    ║
+# ║ Path(diop_general_sum_of_even_powers(eq, limit), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(GeneralSumOfEvenPowers(eq).solve(limi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diop_general_sum_of_even_powers : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a247b3c95e0bed6a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_general_sum_of_even_powers","kind":"function","src_hash":"b4c9765c049e88af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_general_sum_of_even_powers(eq,)","rhs":"solves the equation `x_{1}^e + x_{2}^e +","over":{"base":"Any"},"name":"diop_general_sum_of_even_powers_correct","kind":"composition"},"guarantee":"solves the equation `x_{1}^e + x_{2}^e +","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"GeneralSumOfEvenPowers","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a247b3c95e0bed6a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.diop_general_sum_of_even_powers","kind":"function","src_hash":"b4c9765c049e88af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diop_general_sum_of_even_powers(eq, limit)","rhs":"set(GeneralSumOfEvenPowers(eq).solve(limit=limit))","over":{"base":"Any"},"name":"diop_general_sum_of_even_powers_correct","kind":"composition"},"guarantee":"returns set(GeneralSumOfEvenPowers(eq).solve(limit=limit))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"GeneralSumOfEvenPowers","by":"library_axiom"},{"fn":"solve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a247b3c95e0bed6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(GeneralSumOfEvenPowers(eq).solve(limit=limit))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def diop_general_sum_of_even_powers(eq, limit=1):
     """
     Solves the equation `x_{1}^e + x_{2}^e + . . . + x_{n}^e - k = 0`
@@ -4508,16 +5100,22 @@ def diop_general_sum_of_even_powers(eq, limit=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partition(n, ), returns a generator that can be used to generate partitions of an integer `n`) over Any ║
+# ║ Path(partition(n, k, zeros), <unspecified:partition>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ partition : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82252b619d159db8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.partition","kind":"function","src_hash":"c15d3550b1da68bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition(n, )","rhs":"returns a generator that can be used to generate partitions of an integer `n`","over":{"base":"Any"},"name":"partition_correct"},"guarantee":"returns a generator that can be used to generate partitions of an integer `n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.partition_correct","statement":"Path(partition(x), returns a generator that can be used to generate partitions of an integer `n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82252b619d159db8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.partition","kind":"function","src_hash":"c15d3550b1da68bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition(n, k, zeros)","rhs":"<unspecified:partition>","over":{"base":"Any"},"name":"partition_correct"},"guarantee":"returns a generator that can be used to generate partitions of an integer `n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.partition_correct","statement":"Path(partition(x), returns a generator that can be used to generate partitions of an integer `n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82252b619d159db8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def partition(n, k=None, zeros=False):
     """
     Returns a generator that can be used to generate partitions of an integer
@@ -4575,16 +5173,23 @@ def partition(n, k=None, zeros=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prime_as_sum_of_two_squares(p), represent a prime `p` as a unique sum of two squares; this can only be done if the prime is congruent to 1 mod 4) over Any ║
+# ║ Path(prime_as_sum_of_two_squares(p), (int(a % b), int(b))) over {Any | isprime(p)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prime_as_sum_of_two_squares : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isprime(p)                                     ║
+# ║   returns:  (int(a % b), int(b))                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prime_as_sum_of_two_squares : {Any | isprime(p)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b0b29f8cde9c3d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a47e31c42564c30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.prime_as_sum_of_two_squares","kind":"function","src_hash":"0a9af09feda1961d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prime_as_sum_of_two_squares(p)","rhs":"represent a prime `p` as a unique sum of two squares; this can only be done if the prime is congruent to 1 mod 4","over":{"base":"Any"},"name":"prime_as_sum_of_two_squares_correct"},"guarantee":"represent a prime `p` as a unique sum of two squares; this can only be done if the prime is congruent to 1 mod 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.prime_as_sum_of_two_squares_correct","statement":"Path(prime_as_sum_of_two_squares(x), represent a prime `p` as a unique sum of two squares; this can only be done if the prime is congruent to 1 mod 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b0b29f8cde9c3d7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.prime_as_sum_of_two_squares","kind":"function","src_hash":"0a9af09feda1961d","in":{"base":"Any","pred":"isprime(p)"},"out":{"base":"Any"},"spec":{"lhs":"prime_as_sum_of_two_squares(p)","rhs":"(int(a % b), int(b))","over":{"base":"Any","pred":"isprime(p)"},"name":"prime_as_sum_of_two_squares_correct"},"guarantee":"returns (int(a % b), int(b))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.prime_as_sum_of_two_squares_correct","statement":"Path(prime_as_sum_of_two_squares(x), returns (int(a % b), int(b)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a47e31c42564c30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isprime(p)"],"returns_expr":"(int(a % b), int(b))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def prime_as_sum_of_two_squares(p):
     """
     Represent a prime `p` as a unique sum of two squares; this can
@@ -4656,16 +5261,24 @@ def prime_as_sum_of_two_squares(p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum_of_three_squares(n), returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and $a, b, c \geq 0$) over Any ║
+# ║ Path(sum_of_three_squares(n), <unspecified:sum_of_three_squares>) over {Any | False and not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sum_of_three_squares : Any → {Any | False and False}       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: False                                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sum_of_three_squares : {Any | False and not (n < 0)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d67a162b985b093  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sum_of_three_squares","kind":"function","src_hash":"74193fbcb9918b78","in":{"base":"Any"},"out":{"base":"Any","pred":"False and False"},"spec":{"lhs":"sum_of_three_squares(n)","rhs":"returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and $a, b, c \\geq 0$","over":{"base":"Any"},"name":"sum_of_three_squares_correct"},"guarantee":"returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and $a, b, c \\geq 0$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sum_of_three_squares_correct","statement":"Path(sum_of_three_squares(x), returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and $a, b, c \\geq 0$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d67a162b985b093"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sum_of_three_squares","kind":"function","src_hash":"74193fbcb9918b78","in":{"base":"Any","pred":"False and not (n < 0)"},"out":{"base":"Any","pred":"False and False"},"spec":{"lhs":"sum_of_three_squares(n)","rhs":"<unspecified:sum_of_three_squares>","over":{"base":"Any","pred":"False and not (n < 0)"},"name":"sum_of_three_squares_correct"},"guarantee":"returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and $a, b, c \\geq 0$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sum_of_three_squares_correct","statement":"Path(sum_of_three_squares(x), returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and $a, b, c \\geq 0$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d67a162b985b093","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["False","not (n < 0)"],"pure":false,"effects":{"effect_type":"io","raises":["ValueError"],"io_operations":["remove"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def sum_of_three_squares(n):
     r"""
     Returns a 3-tuple $(a, b, c)$ such that $a^2 + b^2 + c^2 = n$ and
@@ -4760,16 +5373,23 @@ def sum_of_three_squares(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum_of_four_squares(n), returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`. here `a, b, c, d \geq 0`) over Any ║
+# ║ Path(sum_of_four_squares(n), <unspecified:sum_of_four_squares>) over {Any | not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sum_of_four_squares : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sum_of_four_squares : {Any | not (n < 0)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8b371ca1dff09b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sum_of_four_squares","kind":"function","src_hash":"be9ba7d8a43ea514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sum_of_four_squares(n)","rhs":"returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`. here `a, b, c, d \\geq 0`","over":{"base":"Any"},"name":"sum_of_four_squares_correct"},"guarantee":"returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`. here `a, b, c, d \\geq 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sum_of_four_squares_correct","statement":"Path(sum_of_four_squares(x), returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`. here `a, b, c, d \\geq 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8b371ca1dff09b0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sum_of_four_squares","kind":"function","src_hash":"be9ba7d8a43ea514","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"sum_of_four_squares(n)","rhs":"<unspecified:sum_of_four_squares>","over":{"base":"Any","pred":"not (n < 0)"},"name":"sum_of_four_squares_correct"},"guarantee":"returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`. here `a, b, c, d \\geq 0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sum_of_four_squares_correct","statement":"Path(sum_of_four_squares(x), returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`. here `a, b, c, d \\geq 0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8b371ca1dff09b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 0)"],"pure":false,"effects":{"effect_type":"io","raises":["ValueError"],"io_operations":["remove"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sum_of_four_squares(n):
     r"""
     Returns a 4-tuple `(a, b, c, d)` such that `a^2 + b^2 + c^2 + d^2 = n`.
@@ -4838,16 +5458,23 @@ def sum_of_four_squares(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(power_representation(n, ), returns a generator for finding k-tuples of integers, `(n_{1}, n_{2},) over Any ║
+# ║ Path(power_representation(n, p, k), # HINT: power_representation may be idempotent: power_representation(power_representation(x)) == power_representation(x)) over {Any | not (p < 1 or k < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ power_representation : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (p < 1 or k < 1)                           ║
+# ║   ensures:  # HINT: power_representation may be idemp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ power_representation : {Any | not (p < 1 or k < 1)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f0ef656bf4f4274  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 590c631c80f9578b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.power_representation","kind":"function","src_hash":"63c37b878d51032d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"power_representation(n, )","rhs":"returns a generator for finding k-tuples of integers, `(n_{1}, n_{2},","over":{"base":"Any"},"name":"power_representation_correct"},"guarantee":"returns a generator for finding k-tuples of integers, `(n_{1}, n_{2},","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.power_representation_correct","statement":"Path(power_representation(x), returns a generator for finding k-tuples of integers, `(n_{1}, n_{2},)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f0ef656bf4f4274"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.power_representation","kind":"function","src_hash":"63c37b878d51032d","in":{"base":"Any","pred":"not (p < 1 or k < 1)"},"out":{"base":"Any","pred":"result satisfies: # HINT: power_representation may be idempotent: power_representation(power_representation(x)) == power_representation(x)"},"spec":{"lhs":"power_representation(n, p, k)","rhs":"# HINT: power_representation may be idempotent: power_representation(power_representation(x)) == power_representation(x)","over":{"base":"Any","pred":"not (p < 1 or k < 1)"},"name":"power_representation_correct"},"guarantee":"# HINT: power_representation may be idempotent: power_representation(power_representation(x)) == power_representation(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.power_representation_correct","statement":"Path(power_representation(x), # HINT: power_representation may be idempotent: power_representation(power_representation(x)) == power_representation(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"590c631c80f9578b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (p < 1 or k < 1)"],"ensures":["# HINT: power_representation may be idempotent: power_representation(power_representation(x)) == power_representation(x)"],"pure":false,"effects":{"effect_type":"io","raises":["ValueError"],"io_operations":["remove"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def power_representation(n, p, k, zeros=False):
     r"""
     Returns a generator for finding k-tuples of integers,
@@ -4979,16 +5606,22 @@ sum_of_powers = power_representation
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow_rep_recursive(n_i), pow_rep_recursive produces the expected output) over Any ║
+# ║ Path(pow_rep_recursive(n_i, k, n_remaining), # HINT: pow_rep_recursive may be idempotent: pow_rep_recursive(pow_rep_recursive(x)) == pow_rep_recursive(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pow_rep_recursive : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: pow_rep_recursive may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pow_rep_recursive : Any → {Any | result satisfies: # ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbf30ba9d131398b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33cb7bddd8b6d2ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.pow_rep_recursive","kind":"function","src_hash":"a03f9348244df7af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow_rep_recursive(n_i)","rhs":"pow_rep_recursive produces the expected output","over":{"base":"Any"},"name":"pow_rep_recursive_correct"},"guarantee":"pow_rep_recursive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.pow_rep_recursive_correct","statement":"Path(pow_rep_recursive(x), pow_rep_recursive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbf30ba9d131398b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.pow_rep_recursive","kind":"function","src_hash":"a03f9348244df7af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: pow_rep_recursive may be idempotent: pow_rep_recursive(pow_rep_recursive(x)) == pow_rep_recursive(x)"},"spec":{"lhs":"pow_rep_recursive(n_i, k, n_remaining)","rhs":"# HINT: pow_rep_recursive may be idempotent: pow_rep_recursive(pow_rep_recursive(x)) == pow_rep_recursive(x)","over":{"base":"Any"},"name":"pow_rep_recursive_correct"},"guarantee":"# HINT: pow_rep_recursive may be idempotent: pow_rep_recursive(pow_rep_recursive(x)) == pow_rep_recursive(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.pow_rep_recursive_correct","statement":"Path(pow_rep_recursive(x), # HINT: pow_rep_recursive may be idempotent: pow_rep_recursive(pow_rep_recursive(x)) == pow_rep_recursive(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33cb7bddd8b6d2ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: pow_rep_recursive may be idempotent: pow_rep_recursive(pow_rep_recursive(x)) == pow_rep_recursive(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def pow_rep_recursive(n_i, k, n_remaining, terms, p):
     # Invalid arguments
     if n_i <= 0 or k <= 0:
@@ -5021,16 +5654,22 @@ def pow_rep_recursive(n_i, k, n_remaining, terms, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum_of_squares(n, ), return a generator that yields the k-tuples of nonnegative values, the squares of which sum to n) over Any ║
+# ║ Path(sum_of_squares(n, k, zeros), <unspecified:sum_of_squares>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sum_of_squares : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad4dd1f06eb8515d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sum_of_squares","kind":"function","src_hash":"329a51eefd2ebe9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sum_of_squares(n, )","rhs":"return a generator that yields the k-tuples of nonnegative values, the squares of which sum to n","over":{"base":"Any"},"name":"sum_of_squares_correct"},"guarantee":"return a generator that yields the k-tuples of nonnegative values, the squares of which sum to n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sum_of_squares_correct","statement":"Path(sum_of_squares(x), return a generator that yields the k-tuples of nonnegative values, the squares of which sum to n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad4dd1f06eb8515d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine.sum_of_squares","kind":"function","src_hash":"329a51eefd2ebe9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sum_of_squares(n, k, zeros)","rhs":"<unspecified:sum_of_squares>","over":{"base":"Any"},"name":"sum_of_squares_correct"},"guarantee":"return a generator that yields the k-tuples of nonnegative values, the squares of which sum to n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine.sum_of_squares_correct","statement":"Path(sum_of_squares(x), return a generator that yields the k-tuples of nonnegative values, the squares of which sum to n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad4dd1f06eb8515d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def sum_of_squares(n, k, zeros=False):
     """Return a generator that yields the k-tuples of nonnegative
     values, the squares of which sum to n. If zeros is False (default)
@@ -5080,16 +5719,22 @@ def sum_of_squares(n, k, zeros=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_can_do_sum_of_squares(n, ), return true if n can be written as the sum of k squares, false if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which case it *can* be written as a sum of two squares)) over Any ║
+# ║ Path(_can_do_sum_of_squares(n, k), <unspecified:_can_do_sum_of_squares>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _can_do_sum_of_squares : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0745fbd9ea52bb53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._can_do_sum_of_squares","kind":"function","src_hash":"9f9f9c69387ec598","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_can_do_sum_of_squares(n, )","rhs":"return true if n can be written as the sum of k squares, false if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which case it *can* be written as a sum of two squares)","over":{"base":"Any"},"name":"_can_do_sum_of_squares_correct"},"guarantee":"return true if n can be written as the sum of k squares, false if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which case it *can* be written as a sum of two squares)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._can_do_sum_of_squares_correct","statement":"Path(_can_do_sum_of_squares(x), return true if n can be written as the sum of k squares, false if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which case it *can* be written as a sum of two squares))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0745fbd9ea52bb53"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.diophantine.diophantine._can_do_sum_of_squares","kind":"function","src_hash":"9f9f9c69387ec598","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_can_do_sum_of_squares(n, k)","rhs":"<unspecified:_can_do_sum_of_squares>","over":{"base":"Any"},"name":"_can_do_sum_of_squares_correct"},"guarantee":"return true if n can be written as the sum of k squares, false if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which case it *can* be written as a sum of two squares)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.diophantine.diophantine._can_do_sum_of_squares_correct","statement":"Path(_can_do_sum_of_squares(x), return true if n can be written as the sum of k squares, false if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which case it *can* be written as a sum of two squares))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0745fbd9ea52bb53","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["remove"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _can_do_sum_of_squares(n, k):
     """Return True if n can be written as the sum of k squares,
     False if it cannot, or 1 if ``k == 2`` and ``n`` is prime (in which

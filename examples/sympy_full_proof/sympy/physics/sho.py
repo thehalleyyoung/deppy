@@ -20,16 +20,22 @@ from sympy.functions import assoc_laguerre, sqrt, exp, factorial, factorial2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(R_nl(n, ), id) over Any                               ║
+# ║ Path(R_nl(n, l, nu), id) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  C * r ** l * exp(-nu * r ** 2) * assoc_la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ R_nl : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8c636600fce4c876   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.sho.R_nl","kind":"function","src_hash":"d7479c8961c13171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"R_nl(n, )","rhs":"returns the radial wavefunction r_{nl} for a 3d isotropic harmonic oscillator","over":{"base":"Any"},"name":"R_nl_correct","kind":"composition"},"guarantee":"returns the radial wavefunction r_{nl} for a 3d isotropic harmonic oscillator","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"assoc_laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c636600fce4c876"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.sho.R_nl","kind":"function","src_hash":"d7479c8961c13171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"R_nl(n, l, nu)","rhs":"C * r ** l * exp(-nu * r ** 2) * assoc_laguerre(n - 1, l + S.Half, 2 * nu * r ** 2)","over":{"base":"Any"},"name":"R_nl_correct","kind":"composition"},"guarantee":"returns C * r ** l * exp(-nu * r ** 2) * assoc_laguerre(n - 1, l + S.Half, 2 * nu * r ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"assoc_laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c636600fce4c876","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"C * r ** l * exp(-nu * r ** 2) * assoc_laguerre(n - 1, l + S.Half, 2 * nu * r ** 2)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def R_nl(n, l, nu, r):
     """
     Returns the radial wavefunction R_{nl} for a 3d isotropic harmonic
@@ -90,16 +96,22 @@ def R_nl(n, l, nu, r):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(E_nl(n, ), returns the energy of an isotropic harmonic oscillator) over Any ║
+# ║ Path(E_nl(n, l, hw), (2 * n + l + Rational(3, 2)) * hw) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (2 * n + l + Rational(3, 2)) * hw              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ E_nl : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 499c99d912928822           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.sho.E_nl","kind":"function","src_hash":"1809706d27646b3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E_nl(n, )","rhs":"returns the energy of an isotropic harmonic oscillator","over":{"base":"Any"},"name":"E_nl_correct"},"guarantee":"returns the energy of an isotropic harmonic oscillator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"499c99d912928822"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.sho.E_nl","kind":"function","src_hash":"1809706d27646b3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E_nl(n, l, hw)","rhs":"(2 * n + l + Rational(3, 2)) * hw","over":{"base":"Any"},"name":"E_nl_correct"},"guarantee":"returns (2 * n + l + Rational(3, 2)) * hw","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"499c99d912928822","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(2 * n + l + Rational(3, 2)) * hw","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def E_nl(n, l, hw):
     """
     Returns the Energy of an isotropic harmonic oscillator.

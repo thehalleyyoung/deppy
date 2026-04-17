@@ -32,16 +32,25 @@ from .utilities import coeff_search, supplement_a_subspace
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_formal_conditions_for_maximal_order(sub), several functions in this module accept an argument which is to be a :py:class:`~.submodule` representing the maximal order in a number field, such as returned by the :py:func:`~sympy.polys.numberfiel) over Any ║
+# ║ Path(_check_formal_conditions_for_maximal_order(submodule), <unspecified:_check_formal_conditions_for_maximal_order>) over {Any | not (cond is not None) and hasattr(submodule, 'is_power_basis_submodule') and hasattr(submodule, 'starts_with_unity') and hasattr(submodule, 'is_sq_maxrank_HNF')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_formal_conditions_for_maximal_order : Any → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (cond is not None)                         ║
+# ║   requires: hasattr(submodule, 'is_power_basis_submod...   ║
+# ║   requires: hasattr(submodule, 'starts_with_unity')        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_formal_conditions_for_maximal_order : {Any | n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70ac1dcfb76c38a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._check_formal_conditions_for_maximal_order","kind":"function","src_hash":"bd8e6bd2a288b596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_formal_conditions_for_maximal_order(sub)","rhs":"several functions in this module accept an argument which is to be a :py:class:`~.submodule` representing the maximal order in a number field, such as returned by the :py:func:`~sympy.polys.numberfiel","over":{"base":"Any"},"name":"_check_formal_conditions_for_maximal_order_correct"},"guarantee":"several functions in this module accept an argument which is to be a :py:class:`~.submodule` representing the maximal order in a number field, such as returned by the :py:func:`~sympy.polys.numberfiel","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._check_formal_conditions_for_maximal_order_correct","statement":"Path(_check_formal_conditions_for_maximal_order(x), several functions in this module accept an argument which is to be a :py:class:`~.submodule` representing the maximal order in a number field, such as returned by the :py:func:`~sympy.polys.numberfiel)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70ac1dcfb76c38a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._check_formal_conditions_for_maximal_order","kind":"function","src_hash":"bd8e6bd2a288b596","in":{"base":"Any","pred":"not (cond is not None) and hasattr(submodule, 'is_power_basis_submodule') and hasattr(submodule, 'starts_with_unity') and hasattr(submodule, 'is_sq_maxrank_HNF')"},"out":{"base":"Any"},"spec":{"lhs":"_check_formal_conditions_for_maximal_order(submodule)","rhs":"<unspecified:_check_formal_conditions_for_maximal_order>","over":{"base":"Any","pred":"not (cond is not None) and hasattr(submodule, 'is_power_basis_submodule') and hasattr(submodule, 'starts_with_unity') and hasattr(submodule, 'is_sq_maxrank_HNF')"},"name":"_check_formal_conditions_for_maximal_order_correct"},"guarantee":"several functions in this module accept an argument which is to be a :py:class:`~.submodule` representing the maximal order in a number field, such as returned by the :py:func:`~sympy.polys.numberfiel","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._check_formal_conditions_for_maximal_order_correct","statement":"Path(_check_formal_conditions_for_maximal_order(x), several functions in this module accept an argument which is to be a :py:class:`~.submodule` representing the maximal order in a number field, such as returned by the :py:func:`~sympy.polys.numberfiel)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70ac1dcfb76c38a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (cond is not None)","hasattr(submodule, 'is_power_basis_submodule')","hasattr(submodule, 'starts_with_unity')","hasattr(submodule, 'is_sq_maxrank_HNF')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["submodule.is_power_basis_submodule","submodule.is_sq_maxrank_HNF","submodule.starts_with_unity"],"raises":["StructureError"]},"state_contract":{"exceptional_post":{"StructureError":["isinstance(raised, StructureError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_formal_conditions_for_maximal_order(submodule):
     r"""
     Several functions in this module accept an argument which is to be a
@@ -69,30 +78,44 @@ def _check_formal_conditions_for_maximal_order(submodule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PrimeIdeal instance) preserved by PrimeIdeal(*args) over {Any | isinstance(other, PrimeIdeal)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PrimeIdeal : {Any | isinstance(other, PrimeIdeal)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegerPowerable)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PrimeIdeal : {Any | isinstance(other, PrimeIdeal)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16ff9ecb5dfb8298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal","kind":"class","src_hash":"bd07b4d64f43cd97","in":{"base":"Any","pred":"isinstance(other, PrimeIdeal)"},"out":{"base":"Any"},"spec":{"lhs":"PrimeIdeal(*args)","rhs":"correctly constructs a PrimeIdeal instance","over":{"base":"Any","pred":"isinstance(other, PrimeIdeal)"},"name":"PrimeIdeal_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PrimeIdeal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_inert","pred":"self.is_inert","kind":"class"},{"name":"representation","pred":"hasattr(self, 'ZK') and hasattr(self, 'p') and hasattr(self, 'alpha') and hasattr(self, 'f') and hasattr(self, '_test_factor') and hasattr(self, 'e')","kind":"class","induction":"structural on ZK, p, alpha, f"}],"methods_preserving":["__init__","__str__","is_inert","repr","__repr__","as_submodule","__eq__","__add__","__mul__","_zeroth_power","_first_power","test_factor","valuation","reduce_element","reduce_ANP","reduce_alg_num"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16ff9ecb5dfb8298"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal","kind":"class","src_hash":"bd07b4d64f43cd97","in":{"base":"Any","pred":"isinstance(other, PrimeIdeal)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegerPowerable)"},"spec":{"lhs":"PrimeIdeal(*args)","rhs":"correctly constructs a PrimeIdeal instance","over":{"base":"Any","pred":"isinstance(other, PrimeIdeal)"},"name":"PrimeIdeal_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, IntegerPowerable); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_inert","pred":"self.is_inert","kind":"class"},{"name":"representation","pred":"hasattr(self, 'ZK') and hasattr(self, 'p') and hasattr(self, 'alpha') and hasattr(self, 'f') and hasattr(self, '_test_factor') and hasattr(self, 'e')","kind":"class","induction":"structural on ZK, p, alpha, f"}],"methods_preserving":["__init__","__str__","is_inert","repr","__repr__","as_submodule","__eq__","__add__","__mul__","_zeroth_power","_first_power","test_factor","valuation","reduce_element","reduce_ANP","reduce_alg_num"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16ff9ecb5dfb8298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegerPowerable)"],"invariants":["hasattr(self, 'ZK')","hasattr(self, 'p')","hasattr(self, 'alpha')","hasattr(self, 'f')","hasattr(self, '_test_factor')","hasattr(self, 'e')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function PrimeIdeal not found in source"]}}
 class PrimeIdeal(IntegerPowerable):
     r"""
     A prime ideal in a ring of algebraic integers.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ZK,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ZK, p, alpha), self.ZK == ZK and self.p == p and self.alpha == alpha and self.f == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ZK == ZK                                  ║
+# ║   ensures:  self.p == p                                    ║
+# ║   ensures:  self.alpha == alpha                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ZK == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | afd6e961a4c794ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__init__","kind":"method","src_hash":"7ed3c2a06e703c02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ZK,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afd6e961a4c794ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__init__","kind":"method","src_hash":"7ed3c2a06e703c02","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ZK == ZK and self.p == p and self.alpha == alpha and self.f == f"},"spec":{"lhs":"__init__(ZK, p, alpha)","rhs":"self.ZK == ZK and self.p == p and self.alpha == alpha and self.f == f","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ZK == ZK; self.p == p; self.alpha == alpha","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afd6e961a4c794ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ZK == ZK","self.p == p","self.alpha == alpha","self.f == f"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ZK, p, alpha, f, e=None):
         """
         Parameters
@@ -120,16 +143,22 @@ class PrimeIdeal(IntegerPowerable):
         self.e = e if e is not None else self.valuation(p * ZK)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 88e03547e352fdca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__str__","kind":"method","src_hash":"afd8d5faa68a8892","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88e03547e352fdca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__str__","kind":"method","src_hash":"afd8d5faa68a8892","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88e03547e352fdca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.is_inert","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.is_inert:
             return f'({self.p})'
@@ -137,16 +166,22 @@ class PrimeIdeal(IntegerPowerable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_inert(), returns the is_inert attribute) over Any  ║
+# ║ Path(is_inert(), self.f == self.ZK.n) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.f == self.ZK.n                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_inert : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f6e8b5387cdade1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.is_inert","kind":"property","src_hash":"3dd5c48ae8535d15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_inert()","rhs":"returns the is_inert attribute","over":{"base":"Any"},"name":"is_inert_correct"},"guarantee":"returns the is_inert attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f6e8b5387cdade1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.is_inert","kind":"property","src_hash":"3dd5c48ae8535d15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_inert()","rhs":"self.f == self.ZK.n","over":{"base":"Any"},"name":"is_inert_correct"},"guarantee":"returns self.f == self.ZK.n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f6e8b5387cdade1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.f == self.ZK.n","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ZK","self.f"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_inert(self):
         """
         Say whether the rational prime we divide is inert, i.e. stays prime in
@@ -155,16 +190,22 @@ class PrimeIdeal(IntegerPowerable):
         return self.f == self.ZK.n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(repr(fie), print a representation of this prime ideal) over Any ║
+# ║ Path(repr(field_gen, just_gens), <unspecified:repr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ repr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5cee39d85759581  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.repr","kind":"method","src_hash":"02fee26582649467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"repr(fie)","rhs":"print a representation of this prime ideal","over":{"base":"Any"},"name":"repr_correct"},"guarantee":"print a representation of this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.repr_correct","statement":"Path(repr(x), print a representation of this prime ideal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5cee39d85759581"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.repr","kind":"method","src_hash":"02fee26582649467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"repr(field_gen, just_gens)","rhs":"<unspecified:repr>","over":{"base":"Any"},"name":"repr_correct"},"guarantee":"print a representation of this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.repr_correct","statement":"Path(repr(x), print a representation of this prime ideal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5cee39d85759581","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ZK","self.alpha","self.e","self.f","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def repr(self, field_gen=None, just_gens=False):
         """
         Print a representation of this prime ideal.
@@ -209,30 +250,42 @@ class PrimeIdeal(IntegerPowerable):
         return f'[ {gens} e={e}, f={f} ]'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), self.repr()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.repr()                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | de2942aaa4dd4dce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__repr__","kind":"method","src_hash":"b8724f201d5da1af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de2942aaa4dd4dce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__repr__","kind":"method","src_hash":"b8724f201d5da1af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"self.repr()","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns self.repr()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de2942aaa4dd4dce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.repr()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.repr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return self.repr()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_submodule(), represent this prime ideal as a :py:class:`~.submodule`) over Any ║
+# ║ Path(as_submodule(), <unspecified:as_submodule>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_submodule : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15fecc08319c6829  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.as_submodule","kind":"method","src_hash":"366b19da5cb0f10c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_submodule()","rhs":"represent this prime ideal as a :py:class:`~.submodule`","over":{"base":"Any"},"name":"as_submodule_correct"},"guarantee":"represent this prime ideal as a :py:class:`~.submodule`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.as_submodule_correct","statement":"Path(as_submodule(x), represent this prime ideal as a :py:class:`~.submodule`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15fecc08319c6829"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.as_submodule","kind":"method","src_hash":"366b19da5cb0f10c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_submodule()","rhs":"<unspecified:as_submodule>","over":{"base":"Any"},"name":"as_submodule_correct"},"guarantee":"represent this prime ideal as a :py:class:`~.submodule`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.as_submodule_correct","statement":"Path(as_submodule(x), represent this prime ideal as a :py:class:`~.submodule`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15fecc08319c6829","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ZK","self.alpha","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_submodule(self):
         r"""
         Represent this prime ideal as a :py:class:`~.Submodule`.
@@ -295,32 +348,45 @@ class PrimeIdeal(IntegerPowerable):
         return M
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'as_submodule')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'as_submodule')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'as_submodule')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e89aab15b77184a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__eq__","kind":"method","src_hash":"349d89517378d7d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e89aab15b77184a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__eq__","kind":"method","src_hash":"349d89517378d7d0","in":{"base":"Any","pred":"hasattr(other, 'as_submodule')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'as_submodule')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e89aab15b77184a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'as_submodule')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.as_submodule","self.as_submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, PrimeIdeal):
             return self.as_submodule() == other.as_submodule()
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), self.as_submodule() + other) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.as_submodule() + other                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba7ca14a3db59df8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__add__","kind":"method","src_hash":"5e3abcf3ef16278b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba7ca14a3db59df8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__add__","kind":"method","src_hash":"5e3abcf3ef16278b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"self.as_submodule() + other","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns self.as_submodule() + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba7ca14a3db59df8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.as_submodule() + other","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """
         Convert to a :py:class:`~.Submodule` and add to another
@@ -337,16 +403,22 @@ class PrimeIdeal(IntegerPowerable):
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self.as_submodule() * other) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.as_submodule() * other                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2e988dd68911f89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__mul__","kind":"method","src_hash":"28bfe71faca6ab09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2e988dd68911f89"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.__mul__","kind":"method","src_hash":"28bfe71faca6ab09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self.as_submodule() * other","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self.as_submodule() * other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2e988dd68911f89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.as_submodule() * other","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Convert to a :py:class:`~.Submodule` and multiply by another
@@ -363,44 +435,63 @@ class PrimeIdeal(IntegerPowerable):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_zeroth_power(), internal helper behaves correctly) over Any ║
+# ║ Path(_zeroth_power(), self.ZK) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ZK                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _zeroth_power : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18bed9a1a2eedf7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal._zeroth_power","kind":"method","src_hash":"181e7f19295d29ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_power()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_zeroth_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18bed9a1a2eedf7f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal._zeroth_power","kind":"method","src_hash":"181e7f19295d29ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_power()","rhs":"self.ZK","over":{"base":"Any"},"name":"_zeroth_power_correct"},"guarantee":"returns self.ZK","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18bed9a1a2eedf7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ZK","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ZK"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _zeroth_power(self):
         return self.ZK
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_first_power(), internal helper behaves correctly) over Any ║
+# ║ Path(_first_power(), self) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _first_power : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _first_power : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f21ccf329189082           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal._first_power","kind":"method","src_hash":"bc2725ba1ebba4c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_power()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_first_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f21ccf329189082"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal._first_power","kind":"method","src_hash":"bc2725ba1ebba4c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_first_power()","rhs":"self","over":{"base":"Any"},"name":"_first_power_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f21ccf329189082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _first_power(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factor(), compute a test factor for this prime ideal) over Any ║
+# ║ Path(test_factor(), self._test_factor) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._test_factor                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_factor : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9a9431ae0201a8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38af204a629d839e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.test_factor","kind":"method","src_hash":"63c43f220cc71087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_factor()","rhs":"compute a test factor for this prime ideal","over":{"base":"Any"},"name":"test_factor_correct"},"guarantee":"compute a test factor for this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.test_factor_correct","statement":"Path(test_factor(x), compute a test factor for this prime ideal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9a9431ae0201a8c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.test_factor","kind":"method","src_hash":"63c43f220cc71087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_factor()","rhs":"self._test_factor","over":{"base":"Any"},"name":"test_factor_correct"},"guarantee":"returns self._test_factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.test_factor_correct","statement":"Path(test_factor(x), returns self._test_factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38af204a629d839e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._test_factor","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ZK","self._test_factor","self.alpha","self.p"],"writes":["self._test_factor"]},"state_contract":{"modifies":["self._test_factor"],"old_bindings":{"old_self__test_factor":"self._test_factor"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_factor(self):
         r"""
         Compute a test factor for this prime ideal.
@@ -422,16 +513,22 @@ class PrimeIdeal(IntegerPowerable):
         return self._test_factor
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(valuation(I), compute the $\mathfrak{p}$-adic valuation of integral ideal i at this prime ideal) over Any ║
+# ║ Path(valuation(I), prime_valuation(I, self)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prime_valuation(I, self)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ valuation : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13d8e5746d02e339           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.valuation","kind":"method","src_hash":"ec70cfacd33640f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"valuation(I)","rhs":"compute the $\\mathfrak{p}$-adic valuation of integral ideal i at this prime ideal","over":{"base":"Any"},"name":"valuation_correct"},"guarantee":"compute the $\\mathfrak{p}$-adic valuation of integral ideal i at this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13d8e5746d02e339"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.valuation","kind":"method","src_hash":"ec70cfacd33640f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"valuation(I)","rhs":"prime_valuation(I, self)","over":{"base":"Any"},"name":"valuation_correct"},"guarantee":"returns prime_valuation(I, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13d8e5746d02e339","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prime_valuation(I, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def valuation(self, I):
         r"""
         Compute the $\mathfrak{p}$-adic valuation of integral ideal I at this
@@ -451,16 +548,22 @@ class PrimeIdeal(IntegerPowerable):
         return prime_valuation(I, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_element(elt), reduce a :py:class:`~.powerbasiselement` to a "small representative" modulo this prime ideal) over Any ║
+# ║ Path(reduce_element(elt), self.as_submodule().reduce_element(elt)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.as_submodule().reduce_element(elt)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0cb93b23c73917b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_element","kind":"method","src_hash":"b5df91e02f8baeff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(elt)","rhs":"reduce a :py:class:`~.powerbasiselement` to a \"small representative\" modulo this prime ideal","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"reduce a :py:class:`~.powerbasiselement` to a \"small representative\" modulo this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0cb93b23c73917b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_element","kind":"method","src_hash":"b5df91e02f8baeff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(elt)","rhs":"self.as_submodule().reduce_element(elt)","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"returns self.as_submodule().reduce_element(elt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0cb93b23c73917b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.as_submodule().reduce_element(elt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_element(self, elt):
         """
         Reduce a :py:class:`~.PowerBasisElement` to a "small representative"
@@ -489,16 +592,22 @@ class PrimeIdeal(IntegerPowerable):
         return self.as_submodule().reduce_element(elt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_ANP(a), reduce an :py:class:`~.anp` to a "small representative" modulo this prime ideal) over Any ║
+# ║ Path(reduce_ANP(a), red.to_ANP()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  red.to_ANP()                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_ANP : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 818f8c62380ffc5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6104e3d4a6c882c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_ANP","kind":"method","src_hash":"21bebcfd9a6dab6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_ANP(a)","rhs":"reduce an :py:class:`~.anp` to a \"small representative\" modulo this prime ideal","over":{"base":"Any"},"name":"reduce_ANP_correct"},"guarantee":"reduce an :py:class:`~.anp` to a \"small representative\" modulo this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_ANP_correct","statement":"Path(reduce_ANP(x), reduce an :py:class:`~.anp` to a \"small representative\" modulo this prime ideal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"818f8c62380ffc5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_ANP","kind":"method","src_hash":"21bebcfd9a6dab6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_ANP(a)","rhs":"red.to_ANP()","over":{"base":"Any"},"name":"reduce_ANP_correct"},"guarantee":"returns red.to_ANP()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_ANP_correct","statement":"Path(reduce_ANP(x), returns red.to_ANP())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6104e3d4a6c882c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"red.to_ANP()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ZK","self.reduce_element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_ANP(self, a):
         """
         Reduce an :py:class:`~.ANP` to a "small representative" modulo this
@@ -529,16 +638,23 @@ class PrimeIdeal(IntegerPowerable):
         return red.to_ANP()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_alg_num(a), id) over Any                       ║
+# ║ Path(reduce_alg_num(a), id) over {Any | hasattr(a, 'field_element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_alg_num : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'field_element')                    ║
+# ║   returns:  a.field_element(list(reversed(red.QQ_col....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_alg_num : {Any | hasattr(a, 'field_element')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | de73304751719b41   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_alg_num","kind":"method","src_hash":"36c4d1bca0eee842","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_alg_num(a)","rhs":"reduce an :py:class:`~.algebraicnumber` to a \"small representative\" modulo this prime ideal","over":{"base":"Any"},"name":"reduce_alg_num_correct","kind":"composition"},"guarantee":"reduce an :py:class:`~.algebraicnumber` to a \"small representative\" modulo this prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"field_element","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"reversed","by":"library_axiom"},{"fn":"flat","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de73304751719b41"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.PrimeIdeal.reduce_alg_num","kind":"method","src_hash":"36c4d1bca0eee842","in":{"base":"Any","pred":"hasattr(a, 'field_element')"},"out":{"base":"Any"},"spec":{"lhs":"reduce_alg_num(a)","rhs":"a.field_element(list(reversed(red.QQ_col.flat())))","over":{"base":"Any","pred":"hasattr(a, 'field_element')"},"name":"reduce_alg_num_correct","kind":"composition"},"guarantee":"returns a.field_element(list(reversed(red.QQ_col.flat())))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"field_element","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"reversed","by":"library_axiom"},{"fn":"flat","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de73304751719b41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'field_element')"],"returns_expr":"a.field_element(list(reversed(red.QQ_col.flat())))","pure":false,"effects":{"effect_type":"reads_state","reads":["a.field_element","self.ZK","self.reduce_element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_alg_num(self, a):
         """
         Reduce an :py:class:`~.AlgebraicNumber` to a "small representative"
@@ -570,16 +686,25 @@ class PrimeIdeal(IntegerPowerable):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_test_factor(p, ), compute the test factor for a :py:class:`~.primeideal` $\mathfrak{p}$) over Any ║
+# ║ Path(_compute_test_factor(p, gens, ZK), <unspecified:_compute_test_factor>) over {Any | hasattr(ZK, 'endomorphism_ring') and hasattr(ZK, 'parent') and hasattr(ZK, 'matrix') and hasattr(ZK, 'denom') and hasattr(ZK, 'n')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compute_test_factor : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ZK, 'endomorphism_ring')               ║
+# ║   requires: hasattr(ZK, 'parent')                          ║
+# ║   requires: hasattr(ZK, 'matrix')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compute_test_factor : {Any | hasattr(ZK, 'endomorphi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c753de9404ad8b7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._compute_test_factor","kind":"function","src_hash":"0e18b3ef384872d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_test_factor(p, )","rhs":"compute the test factor for a :py:class:`~.primeideal` $\\mathfrak{p}$","over":{"base":"Any"},"name":"_compute_test_factor_correct"},"guarantee":"compute the test factor for a :py:class:`~.primeideal` $\\mathfrak{p}$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._compute_test_factor_correct","statement":"Path(_compute_test_factor(x), compute the test factor for a :py:class:`~.primeideal` $\\mathfrak{p}$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c753de9404ad8b7a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._compute_test_factor","kind":"function","src_hash":"0e18b3ef384872d6","in":{"base":"Any","pred":"hasattr(ZK, 'endomorphism_ring') and hasattr(ZK, 'parent') and hasattr(ZK, 'matrix') and hasattr(ZK, 'denom') and hasattr(ZK, 'n')"},"out":{"base":"Any"},"spec":{"lhs":"_compute_test_factor(p, gens, ZK)","rhs":"<unspecified:_compute_test_factor>","over":{"base":"Any","pred":"hasattr(ZK, 'endomorphism_ring') and hasattr(ZK, 'parent') and hasattr(ZK, 'matrix') and hasattr(ZK, 'denom') and hasattr(ZK, 'n')"},"name":"_compute_test_factor_correct"},"guarantee":"compute the test factor for a :py:class:`~.primeideal` $\\mathfrak{p}$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._compute_test_factor_correct","statement":"Path(_compute_test_factor(x), compute the test factor for a :py:class:`~.primeideal` $\\mathfrak{p}$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c753de9404ad8b7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ZK, 'endomorphism_ring')","hasattr(ZK, 'parent')","hasattr(ZK, 'matrix')","hasattr(ZK, 'denom')","hasattr(ZK, 'n')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ZK.denom","ZK.endomorphism_ring","ZK.matrix","ZK.n","ZK.parent"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _compute_test_factor(p, gens, ZK):
     r"""
     Compute the test factor for a :py:class:`~.PrimeIdeal` $\mathfrak{p}$.
@@ -628,16 +753,25 @@ def _compute_test_factor(p, gens, ZK):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prime_valuation(I, ), compute the *p*-adic valuation for an integral ideal *i*) over Any ║
+# ║ Path(prime_valuation(I, P), <unspecified:prime_valuation>) over {Any | hasattr(P, 'p') and hasattr(P, 'ZK') and hasattr(I, 'denom') and hasattr(P, 'test_factor') and hasattr(I, 'matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prime_valuation : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(P, 'p')                                ║
+# ║   requires: hasattr(P, 'ZK')                               ║
+# ║   requires: hasattr(I, 'denom')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prime_valuation : {Any | hasattr(P, 'p') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47f3e804472ba865  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.prime_valuation","kind":"function","src_hash":"ca13e56142bad468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prime_valuation(I, )","rhs":"compute the *p*-adic valuation for an integral ideal *i*","over":{"base":"Any"},"name":"prime_valuation_correct"},"guarantee":"compute the *p*-adic valuation for an integral ideal *i*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.prime_valuation_correct","statement":"Path(prime_valuation(x), compute the *p*-adic valuation for an integral ideal *i*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47f3e804472ba865"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.prime_valuation","kind":"function","src_hash":"ca13e56142bad468","in":{"base":"Any","pred":"hasattr(P, 'p') and hasattr(P, 'ZK') and hasattr(I, 'denom') and hasattr(P, 'test_factor') and hasattr(I, 'matrix')"},"out":{"base":"Any"},"spec":{"lhs":"prime_valuation(I, P)","rhs":"<unspecified:prime_valuation>","over":{"base":"Any","pred":"hasattr(P, 'p') and hasattr(P, 'ZK') and hasattr(I, 'denom') and hasattr(P, 'test_factor') and hasattr(I, 'matrix')"},"name":"prime_valuation_correct"},"guarantee":"compute the *p*-adic valuation for an integral ideal *i*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.prime_valuation_correct","statement":"Path(prime_valuation(x), compute the *p*-adic valuation for an integral ideal *i*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47f3e804472ba865","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(P, 'p')","hasattr(P, 'ZK')","hasattr(I, 'denom')","hasattr(P, 'test_factor')","hasattr(I, 'matrix')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["I.denom","I.matrix","P.ZK","P.p","P.test_factor"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def prime_valuation(I, P):
     r"""
     Compute the *P*-adic valuation for an integral ideal *I*.
@@ -727,16 +861,24 @@ def prime_valuation(I, P):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_two_elt_rep(gen), given a set of *zk*-generators of a prime ideal, compute a set of just two *zk*-generators for the same ideal, one of which is *p* itself) over Any ║
+# ║ Path(_two_elt_rep(gens, ZK, p), <unspecified:_two_elt_rep>) over {Any | hasattr(ZK, 'parent') and hasattr(ZK, 'basis_element_pullbacks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _two_elt_rep : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ZK, 'parent')                          ║
+# ║   requires: hasattr(ZK, 'basis_element_pullbacks')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _two_elt_rep : {Any | hasattr(ZK, 'parent') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2799a85421654b6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._two_elt_rep","kind":"function","src_hash":"211a43c01270c320","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_two_elt_rep(gen)","rhs":"given a set of *zk*-generators of a prime ideal, compute a set of just two *zk*-generators for the same ideal, one of which is *p* itself","over":{"base":"Any"},"name":"_two_elt_rep_correct"},"guarantee":"given a set of *zk*-generators of a prime ideal, compute a set of just two *zk*-generators for the same ideal, one of which is *p* itself","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._two_elt_rep_correct","statement":"Path(_two_elt_rep(x), given a set of *zk*-generators of a prime ideal, compute a set of just two *zk*-generators for the same ideal, one of which is *p* itself)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2799a85421654b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._two_elt_rep","kind":"function","src_hash":"211a43c01270c320","in":{"base":"Any","pred":"hasattr(ZK, 'parent') and hasattr(ZK, 'basis_element_pullbacks')"},"out":{"base":"Any"},"spec":{"lhs":"_two_elt_rep(gens, ZK, p)","rhs":"<unspecified:_two_elt_rep>","over":{"base":"Any","pred":"hasattr(ZK, 'parent') and hasattr(ZK, 'basis_element_pullbacks')"},"name":"_two_elt_rep_correct"},"guarantee":"given a set of *zk*-generators of a prime ideal, compute a set of just two *zk*-generators for the same ideal, one of which is *p* itself","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._two_elt_rep_correct","statement":"Path(_two_elt_rep(x), given a set of *zk*-generators of a prime ideal, compute a set of just two *zk*-generators for the same ideal, one of which is *p* itself)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2799a85421654b6c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ZK, 'parent')","hasattr(ZK, 'basis_element_pullbacks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ZK.basis_element_pullbacks","ZK.parent"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _two_elt_rep(gens, ZK, p, f=None, Np=None):
     r"""
     Given a set of *ZK*-generators of a prime ideal, compute a set of just two
@@ -807,16 +949,24 @@ def _two_elt_rep(gens, ZK, p, f=None, Np=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prime_decomp_easy_case(p, ), id) over Any            ║
+# ║ Path(_prime_decomp_easy_case(p, ZK), id) over {Any | hasattr(ZK, 'parent') and hasattr(ZK, 'n')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _prime_decomp_easy_case : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ZK, 'parent')                          ║
+# ║   requires: hasattr(ZK, 'n')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _prime_decomp_easy_case : {Any | hasattr(ZK, 'parent'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 61cea33d8eec5f39   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_easy_case","kind":"function","src_hash":"d72c947860a0034b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prime_decomp_easy_case(p, )","rhs":"compute the decomposition of rational prime *p* in the ring of integers *zk* (given as a :py:class:`~.submodule`), in the \"easy case\", i.e","over":{"base":"Any"},"name":"_prime_decomp_easy_case_correct","kind":"composition"},"guarantee":"compute the decomposition of rational prime *p* in the ring of integers *zk* (given as a :py:class:`~.submodule`), in the \"easy case\", i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PrimeIdeal","by":"library_axiom"},{"fn":"zero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61cea33d8eec5f39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_easy_case","kind":"function","src_hash":"d72c947860a0034b","in":{"base":"Any","pred":"hasattr(ZK, 'parent') and hasattr(ZK, 'n')"},"out":{"base":"Any"},"spec":{"lhs":"_prime_decomp_easy_case(p, ZK)","rhs":"<unspecified:_prime_decomp_easy_case>","over":{"base":"Any","pred":"hasattr(ZK, 'parent') and hasattr(ZK, 'n')"},"name":"_prime_decomp_easy_case_correct","kind":"composition"},"guarantee":"compute the decomposition of rational prime *p* in the ring of integers *zk* (given as a :py:class:`~.submodule`), in the \"easy case\", i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PrimeIdeal","by":"library_axiom"},{"fn":"zero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61cea33d8eec5f39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ZK, 'parent')","hasattr(ZK, 'n')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ZK.n","ZK.parent"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _prime_decomp_easy_case(p, ZK):
     r"""
     Compute the decomposition of rational prime *p* in the ring of integers
@@ -837,16 +987,25 @@ def _prime_decomp_easy_case(p, ZK):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prime_decomp_compute_kernel(I, ), parameters ==========) over Any ║
+# ║ Path(_prime_decomp_compute_kernel(I, p, ZK), (N, G)) over {Any | hasattr(I, 'matrix') and hasattr(ZK, 'submodule_from_matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _prime_decomp_compute_kernel : Any → {Any | N.starts_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(I, 'matrix')                           ║
+# ║   requires: hasattr(ZK, 'submodule_from_matrix')           ║
+# ║   ensures:  N.starts_with_unity()                          ║
+# ║   returns:  (N, G)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _prime_decomp_compute_kernel : {Any | hasattr(I, 'mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 838b50303e214325  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73ada717cfffb2b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_compute_kernel","kind":"function","src_hash":"742471a47549219c","in":{"base":"Any"},"out":{"base":"Any","pred":"N.starts_with_unity()"},"spec":{"lhs":"_prime_decomp_compute_kernel(I, )","rhs":"parameters ==========","over":{"base":"Any"},"name":"_prime_decomp_compute_kernel_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._prime_decomp_compute_kernel_correct","statement":"Path(_prime_decomp_compute_kernel(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"838b50303e214325"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_compute_kernel","kind":"function","src_hash":"742471a47549219c","in":{"base":"Any","pred":"hasattr(I, 'matrix') and hasattr(ZK, 'submodule_from_matrix')"},"out":{"base":"Any","pred":"result satisfies: result == ((N, G))"},"spec":{"lhs":"_prime_decomp_compute_kernel(I, p, ZK)","rhs":"(N, G)","over":{"base":"Any","pred":"hasattr(I, 'matrix') and hasattr(ZK, 'submodule_from_matrix')"},"name":"_prime_decomp_compute_kernel_correct"},"guarantee":"returns (N, G); N.starts_with_unity()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._prime_decomp_compute_kernel_correct","statement":"Path(_prime_decomp_compute_kernel(x), returns (N, G); N.starts_with_unity())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73ada717cfffb2b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(I, 'matrix')","hasattr(ZK, 'submodule_from_matrix')"],"ensures":["N.starts_with_unity()"],"returns_expr":"(N, G)","pure":false,"effects":{"effect_type":"reads_state","reads":["I.matrix","ZK.submodule_from_matrix"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _prime_decomp_compute_kernel(I, p, ZK):
     r"""
     Parameters
@@ -901,16 +1060,25 @@ def _prime_decomp_compute_kernel(I, p, ZK):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prime_decomp_maximal_ideal(I, ), we have reached the case where we have a maximal (hence prime) ideal *i*, which we know because the quotient ``o/i`` is a field) over Any ║
+# ║ Path(_prime_decomp_maximal_ideal(I, p, ZK), PrimeIdeal(ZK, p, alpha, f)) over {Any | hasattr(I, 'matrix') and hasattr(ZK, 'matrix') and hasattr(ZK, 'parent') and hasattr(ZK, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _prime_decomp_maximal_ideal : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(I, 'matrix')                           ║
+# ║   requires: hasattr(ZK, 'matrix')                          ║
+# ║   requires: hasattr(ZK, 'parent')                          ║
+# ║   returns:  PrimeIdeal(ZK, p, alpha, f)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _prime_decomp_maximal_ideal : {Any | hasattr(I, 'matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbdda0aa03166e77  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9d56b5e94f9710d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_maximal_ideal","kind":"function","src_hash":"6271fbc8f7ab433a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prime_decomp_maximal_ideal(I, )","rhs":"we have reached the case where we have a maximal (hence prime) ideal *i*, which we know because the quotient ``o/i`` is a field","over":{"base":"Any"},"name":"_prime_decomp_maximal_ideal_correct"},"guarantee":"we have reached the case where we have a maximal (hence prime) ideal *i*, which we know because the quotient ``o/i`` is a field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._prime_decomp_maximal_ideal_correct","statement":"Path(_prime_decomp_maximal_ideal(x), we have reached the case where we have a maximal (hence prime) ideal *i*, which we know because the quotient ``o/i`` is a field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdda0aa03166e77"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_maximal_ideal","kind":"function","src_hash":"6271fbc8f7ab433a","in":{"base":"Any","pred":"hasattr(I, 'matrix') and hasattr(ZK, 'matrix') and hasattr(ZK, 'parent') and hasattr(ZK, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"_prime_decomp_maximal_ideal(I, p, ZK)","rhs":"PrimeIdeal(ZK, p, alpha, f)","over":{"base":"Any","pred":"hasattr(I, 'matrix') and hasattr(ZK, 'matrix') and hasattr(ZK, 'parent') and hasattr(ZK, 'denom')"},"name":"_prime_decomp_maximal_ideal_correct"},"guarantee":"returns PrimeIdeal(ZK, p, alpha, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._prime_decomp_maximal_ideal_correct","statement":"Path(_prime_decomp_maximal_ideal(x), returns PrimeIdeal(ZK, p, alpha, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9d56b5e94f9710d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(I, 'matrix')","hasattr(ZK, 'matrix')","hasattr(ZK, 'parent')","hasattr(ZK, 'denom')"],"returns_expr":"PrimeIdeal(ZK, p, alpha, f)","pure":false,"effects":{"effect_type":"reads_state","reads":["I.matrix","ZK.denom","ZK.matrix","ZK.parent"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _prime_decomp_maximal_ideal(I, p, ZK):
     r"""
     We have reached the case where we have a maximal (hence prime) ideal *I*,
@@ -941,16 +1109,26 @@ def _prime_decomp_maximal_ideal(I, p, ZK):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prime_decomp_split_ideal(I, ), perform the step in the prime decomposition algorithm where we have determined the quotient ``zk/i`` is _not_ a field, and we want to perform a non-trivial factorization of *i* by locating an idempote) over Any ║
+# ║ Path(_prime_decomp_split_ideal(I, p, N), alpha.module is G and g == 1) over {Any | I.parent == ZK and G.parent is ZK and (N.parent is G) and hasattr(I, 'parent') and hasattr(G, 'parent') and hasattr(N, 'parent') and hasattr(ZK, 'submodule_from_matrix') and hasattr(I, 'matrix') and hasattr(ZK, 'basis_elements')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _prime_decomp_split_ideal : Any → {Any | I.parent == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: I.parent == ZK and G.parent is ZK and (N....   ║
+# ║   requires: hasattr(I, 'parent')                           ║
+# ║   requires: hasattr(G, 'parent')                           ║
+# ║   ensures:  alpha.module is G                              ║
+# ║   ensures:  g == 1                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _prime_decomp_split_ideal : {Any | I.parent == ZK and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec8a7548e1ac5ceb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5aad4828fbb6b68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_split_ideal","kind":"function","src_hash":"9dac5c1bb675f62b","in":{"base":"Any"},"out":{"base":"Any","pred":"I.parent == ZK and G.parent is ZK and (N.parent is G) and alpha.module is G and g == 1 and e.module is ZK"},"spec":{"lhs":"_prime_decomp_split_ideal(I, )","rhs":"perform the step in the prime decomposition algorithm where we have determined the quotient ``zk/i`` is _not_ a field, and we want to perform a non-trivial factorization of *i* by locating an idempote","over":{"base":"Any"},"name":"_prime_decomp_split_ideal_correct"},"guarantee":"perform the step in the prime decomposition algorithm where we have determined the quotient ``zk/i`` is _not_ a field, and we want to perform a non-trivial factorization of *i* by locating an idempote","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._prime_decomp_split_ideal_correct","statement":"Path(_prime_decomp_split_ideal(x), perform the step in the prime decomposition algorithm where we have determined the quotient ``zk/i`` is _not_ a field, and we want to perform a non-trivial factorization of *i* by locating an idempote)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec8a7548e1ac5ceb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes._prime_decomp_split_ideal","kind":"function","src_hash":"9dac5c1bb675f62b","in":{"base":"Any","pred":"I.parent == ZK and G.parent is ZK and (N.parent is G) and hasattr(I, 'parent') and hasattr(G, 'parent') and hasattr(N, 'parent') and hasattr(ZK, 'submodule_from_matrix') and hasattr(I, 'matrix') and hasattr(ZK, 'basis_elements')"},"out":{"base":"Any","pred":"result satisfies: alpha.module is G and g == 1"},"spec":{"lhs":"_prime_decomp_split_ideal(I, p, N)","rhs":"alpha.module is G and g == 1","over":{"base":"Any","pred":"I.parent == ZK and G.parent is ZK and (N.parent is G) and hasattr(I, 'parent') and hasattr(G, 'parent') and hasattr(N, 'parent') and hasattr(ZK, 'submodule_from_matrix') and hasattr(I, 'matrix') and hasattr(ZK, 'basis_elements')"},"name":"_prime_decomp_split_ideal_correct"},"guarantee":"alpha.module is G; g == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes._prime_decomp_split_ideal_correct","statement":"Path(_prime_decomp_split_ideal(x), alpha.module is G; g == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5aad4828fbb6b68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["I.parent == ZK and G.parent is ZK and (N.parent is G)","hasattr(I, 'parent')","hasattr(G, 'parent')","hasattr(N, 'parent')","hasattr(ZK, 'submodule_from_matrix')","hasattr(I, 'matrix')","hasattr(ZK, 'basis_elements')"],"ensures":["alpha.module is G","g == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _prime_decomp_split_ideal(I, p, N, G, ZK):
     r"""
     Perform the step in the prime decomposition algorithm where we have determined
@@ -995,16 +1173,26 @@ def _prime_decomp_split_ideal(I, p, N, G, ZK):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prime_decomp(p, ), compute the decomposition of rational prime *p* in a number field) over Any ║
+# ║ Path(prime_decomp(p, T, ZK), len(primes) == old_len_primes + 1 and len(stack) == old_len_stack - 1) over {Any | not (T is None and ZK is None) and hasattr(T, 'discriminant') and hasattr(ZK, 'parent') and len(stack) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prime_decomp : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (T is None and ZK is None)                 ║
+# ║   requires: hasattr(T, 'discriminant')                     ║
+# ║   requires: hasattr(ZK, 'parent')                          ║
+# ║   ensures:  len(primes) == old_len_primes + 1              ║
+# ║   ensures:  len(stack) == old_len_stack - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prime_decomp : {Any | not (T is None and ZK is None) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac919efad5d79ebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 295e5e662f4fb5d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.prime_decomp","kind":"function","src_hash":"d6fed03769eaa0f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prime_decomp(p, )","rhs":"compute the decomposition of rational prime *p* in a number field","over":{"base":"Any"},"name":"prime_decomp_correct"},"guarantee":"compute the decomposition of rational prime *p* in a number field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.prime_decomp_correct","statement":"Path(prime_decomp(x), compute the decomposition of rational prime *p* in a number field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac919efad5d79ebe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.primes.prime_decomp","kind":"function","src_hash":"d6fed03769eaa0f1","in":{"base":"Any","pred":"not (T is None and ZK is None) and hasattr(T, 'discriminant') and hasattr(ZK, 'parent') and len(stack) > 0"},"out":{"base":"Any","pred":"result satisfies: len(primes) == old_len_primes + 1 and len(stack) == old_len_stack - 1"},"spec":{"lhs":"prime_decomp(p, T, ZK)","rhs":"len(primes) == old_len_primes + 1 and len(stack) == old_len_stack - 1","over":{"base":"Any","pred":"not (T is None and ZK is None) and hasattr(T, 'discriminant') and hasattr(ZK, 'parent') and len(stack) > 0"},"name":"prime_decomp_correct"},"guarantee":"len(primes) == old_len_primes + 1; len(stack) == old_len_stack - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.primes.prime_decomp_correct","statement":"Path(prime_decomp(x), len(primes) == old_len_primes + 1; len(stack) == old_len_stack - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"295e5e662f4fb5d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (T is None and ZK is None)","hasattr(T, 'discriminant')","hasattr(ZK, 'parent')","len(stack) > 0"],"ensures":["len(primes) == old_len_primes + 1","len(stack) == old_len_stack - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["T.discriminant","ZK.parent"],"calls_mutating":["primes.append","stack.extend","stack.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["primes.*","stack.*"],"old_bindings":{"old_len_primes":"len(primes)","old_len_stack":"len(stack)"},"pre_requires":["len(stack) > 0"],"post_ensures":["len(primes) == old_len_primes + 1","len(stack) == old_len_stack - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def prime_decomp(p, T=None, ZK=None, dK=None, radical=None):
     r"""
     Compute the decomposition of rational prime *p* in a number field.

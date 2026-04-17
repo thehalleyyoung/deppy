@@ -31,9 +31,13 @@ from sympy.assumptions.relation.equality import StrictGreaterThanPredicate, Stri
 from sympy.external import import_module
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z3_satisfiable(exp), z3_satisfiable produces the expected output) over {Any | isinstance(expr, EncodedCNF)} ║
+# ║ Path(z3_satisfiable(expr, all_models), <unspecified:z3_satisfiable>) over {Any | isinstance(expr, EncodedCNF) and not (z3 is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ z3_satisfiable : {Any | isinstance(expr, EncodedCNF)}...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (z3 is None)                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ z3_satisfiable : {Any | isinstance(expr, EncodedCNF) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   EncodedCNF: {isinstance(expr, EncodedCNF)} → librar...   ║
@@ -43,9 +47,12 @@ from sympy.external import import_module
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9e3af2b3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.z3_satisfiable","kind":"function","src_hash":"20de89a65496cf83","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"out":{"base":"Any"},"spec":{"lhs":"z3_satisfiable(exp)","rhs":"z3_satisfiable produces the expected output","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"name":"z3_satisfiable_correct"},"guarantee":"z3_satisfiable produces the expected output","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"z3_satisfiable(x)","rhs":"z3_satisfiable produces the expected output","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"z3_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.z3_wrapper.z3_satisfiable_EncodedCNF_correct","statement":"z3_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e3af2b3551e17e3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.z3_satisfiable","kind":"function","src_hash":"20de89a65496cf83","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and not (z3 is None)"},"out":{"base":"Any"},"spec":{"lhs":"z3_satisfiable(expr, all_models)","rhs":"<unspecified:z3_satisfiable>","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and not (z3 is None)"},"name":"z3_satisfiable_correct"},"guarantee":"z3_satisfiable produces the expected output","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"z3_satisfiable(x)","rhs":"z3_satisfiable produces the expected output","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"z3_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.z3_wrapper.z3_satisfiable_EncodedCNF_correct","statement":"z3_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e3af2b3551e17e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (z3 is None)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'z3 is None', \"res == 'sat'\", 'not isinstance(expr, EncodedCNF)', \"res == 'unsat'\"}, fibers={'EncodedCNF'})"]}}
 def z3_satisfiable(expr, all_models=False):
     if not isinstance(expr, EncodedCNF):
         exprs = EncodedCNF()
@@ -68,39 +75,58 @@ def z3_satisfiable(expr, all_models=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z3_model_to_sympy_model(z3_), id) over Any            ║
+# ║ Path(z3_model_to_sympy_model(z3_model, enc_cnf), id) over {Any | hasattr(enc_cnf, 'encoding')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ z3_model_to_sympy_model : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(enc_cnf, 'encoding')                   ║
+# ║   returns:  {rev_enc[int(var.name()[1:])]: bool(z3_mo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ z3_model_to_sympy_model : {Any | hasattr(enc_cnf, 'en...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f494d20886c09002   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.z3_model_to_sympy_model","kind":"function","src_hash":"4fcfbd2789fcc1da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z3_model_to_sympy_model(z3_)","rhs":"z3_model_to_sympy_model produces the expected output","over":{"base":"Any"},"name":"z3_model_to_sympy_model_correct","kind":"composition"},"guarantee":"z3_model_to_sympy_model produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"name","by":"library_axiom"},{"fn":"bool","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f494d20886c09002"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.z3_model_to_sympy_model","kind":"function","src_hash":"4fcfbd2789fcc1da","in":{"base":"Any","pred":"hasattr(enc_cnf, 'encoding')"},"out":{"base":"Any"},"spec":{"lhs":"z3_model_to_sympy_model(z3_model, enc_cnf)","rhs":"{rev_enc[int(var.name()[1:])]: bool(z3_model[var]) for var in z3_model}","over":{"base":"Any","pred":"hasattr(enc_cnf, 'encoding')"},"name":"z3_model_to_sympy_model_correct","kind":"composition"},"guarantee":"returns {rev_enc[int(var.name()[1:])]: bool(z3_model[var]) for var in z3_model}","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"name","by":"library_axiom"},{"fn":"bool","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f494d20886c09002","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(enc_cnf, 'encoding')"],"returns_expr":"{rev_enc[int(var.name()[1:])]: bool(z3_model[var]) for var in z3_model}","pure":false,"effects":{"effect_type":"reads_state","reads":["enc_cnf.encoding"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def z3_model_to_sympy_model(z3_model, enc_cnf):
     rev_enc = {value : key for key, value in enc_cnf.encoding.items()}
     return {rev_enc[int(var.name()[1:])] : bool(z3_model[var]) for var in z3_model}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clause_to_assertion(cla), clause_to_assertion produces the expected output) over Any ║
+# ║ Path(clause_to_assertion(clause), '(assert (or ' + ' '.join(clause_strings) + '))') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '(assert (or ' + ' '.join(clause_strings)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clause_to_assertion : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 511fb41ee7f0076d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1314b7424f82eee0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.clause_to_assertion","kind":"function","src_hash":"8dbe60db8fc82251","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clause_to_assertion(cla)","rhs":"clause_to_assertion produces the expected output","over":{"base":"Any"},"name":"clause_to_assertion_correct"},"guarantee":"clause_to_assertion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.z3_wrapper.clause_to_assertion_correct","statement":"Path(clause_to_assertion(x), clause_to_assertion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"511fb41ee7f0076d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.clause_to_assertion","kind":"function","src_hash":"8dbe60db8fc82251","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clause_to_assertion(clause)","rhs":"'(assert (or ' + ' '.join(clause_strings) + '))'","over":{"base":"Any"},"name":"clause_to_assertion_correct"},"guarantee":"returns '(assert (or ' + ' '.join(clause_strings) + '))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.z3_wrapper.clause_to_assertion_correct","statement":"Path(clause_to_assertion(x), returns '(assert (or ' + ' '.join(clause_strings) + '))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1314b7424f82eee0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'(assert (or ' + ' '.join(clause_strings) + '))'","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def clause_to_assertion(clause):
     clause_strings = [f"d{abs(lit)}" if lit > 0 else f"(not d{abs(lit)})" for lit in clause]
     return "(assert (or " + " ".join(clause_strings) + "))"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(encoded_cnf_to_z3_solver(enc), encoded_cnf_to_z3_solver produces the expected output) over {Any | isinstance(pred, AppliedPredicate)} ║
+# ║ Path(encoded_cnf_to_z3_solver(enc_cnf, z3), <unspecified:encoded_cnf_to_z3_solver>) over {Any | isinstance(pred, AppliedPredicate) and hasattr(z3, 'Solver') and hasattr(enc_cnf, 'variables') and hasattr(enc_cnf, 'data') and hasattr(enc_cnf, 'encoding')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z3, 'Solver')                          ║
+# ║   requires: hasattr(enc_cnf, 'variables')                  ║
+# ║   requires: hasattr(enc_cnf, 'data')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ encoded_cnf_to_z3_solver : {Any | isinstance(pred, Ap...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -112,9 +138,12 @@ def clause_to_assertion(clause):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0e341e8a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.encoded_cnf_to_z3_solver","kind":"function","src_hash":"ea8316a0cf0c1b5f","in":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"out":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"spec":{"lhs":"encoded_cnf_to_z3_solver(enc)","rhs":"encoded_cnf_to_z3_solver produces the expected output","over":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"name":"encoded_cnf_to_z3_solver_correct"},"guarantee":"encoded_cnf_to_z3_solver produces the expected output","fibers":[{"name":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)","path":{"lhs":"encoded_cnf_to_z3_solver(x)","rhs":"encoded_cnf_to_z3_solver produces the expected output","over":{"base":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)"},"name":"encoded_cnf_to_z3_solver_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.z3_wrapper.encoded_cnf_to_z3_solver_AppliedPredicate_correct","statement":"encoded_cnf_to_z3_solver satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0e341e8a53b4ba97"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.z3_wrapper.encoded_cnf_to_z3_solver","kind":"function","src_hash":"ea8316a0cf0c1b5f","in":{"base":"Any","pred":"isinstance(pred, AppliedPredicate) and hasattr(z3, 'Solver') and hasattr(enc_cnf, 'variables') and hasattr(enc_cnf, 'data') and hasattr(enc_cnf, 'encoding')"},"out":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"spec":{"lhs":"encoded_cnf_to_z3_solver(enc_cnf, z3)","rhs":"<unspecified:encoded_cnf_to_z3_solver>","over":{"base":"Any","pred":"isinstance(pred, AppliedPredicate) and hasattr(z3, 'Solver') and hasattr(enc_cnf, 'variables') and hasattr(enc_cnf, 'data') and hasattr(enc_cnf, 'encoding')"},"name":"encoded_cnf_to_z3_solver_correct"},"guarantee":"encoded_cnf_to_z3_solver produces the expected output","fibers":[{"name":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)","path":{"lhs":"encoded_cnf_to_z3_solver(x)","rhs":"encoded_cnf_to_z3_solver produces the expected output","over":{"base":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)"},"name":"encoded_cnf_to_z3_solver_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.z3_wrapper.encoded_cnf_to_z3_solver_AppliedPredicate_correct","statement":"encoded_cnf_to_z3_solver satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0e341e8a53b4ba97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z3, 'Solver')","hasattr(enc_cnf, 'variables')","hasattr(enc_cnf, 'data')","hasattr(enc_cnf, 'encoding')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(pred, AppliedPredicate)'}, fibers={'AppliedPredicate'})"]}}
 def encoded_cnf_to_z3_solver(enc_cnf, z3):
     def dummify_bool(pred):
         return False

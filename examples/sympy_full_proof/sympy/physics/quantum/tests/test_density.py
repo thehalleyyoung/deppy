@@ -36,7 +36,11 @@ from sympy.physics.quantum.tensorproduct import TensorProduct
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_args(), test_eval_args produces the expected output) over {Any | isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)} ║
+# ║ Path(test_eval_args(), isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)) over {Any | isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Density([Ket(0), 0.5], [Ket(1)...   ║
+# ║   ensures:  isinstance(Density([Qubit('00'), 1 / sqrt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_eval_args : {Any | isinstance(Density([Ket(0), 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -49,9 +53,12 @@ from sympy.physics.quantum.tensorproduct import TensorProduct
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b30d15ba...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_eval_args","kind":"function","src_hash":"c13e0a35fb38c501","in":{"base":"Any","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)"},"out":{"base":"Any","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)"},"spec":{"lhs":"test_eval_args()","rhs":"test_eval_args produces the expected output","over":{"base":"Any","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)"},"name":"test_eval_args_correct"},"guarantee":"test_eval_args produces the expected output","fibers":[{"name":"0_5]","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density)","path":{"lhs":"test_eval_args(x)","rhs":"test_eval_args produces the expected output","over":{"base":"0.5]","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density)"},"name":"test_eval_args_0.5]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_eval_args_0.5]_correct","statement":"test_eval_args satisfies spec on 0.5] inputs"},"trust":"LIBRARY"},{"name":"Qubit","pred":"isinstance(state, Qubit)","path":{"lhs":"test_eval_args(x)","rhs":"test_eval_args produces the expected output","over":{"base":"Qubit","pred":"isinstance(state, Qubit)"},"name":"test_eval_args_Qubit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_eval_args_Qubit_correct","statement":"test_eval_args satisfies spec on Qubit inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b30d15ba43503879"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_eval_args","kind":"function","src_hash":"c13e0a35fb38c501","in":{"base":"Any","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)"},"spec":{"lhs":"test_eval_args()","rhs":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)","over":{"base":"Any","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density) and isinstance(state, Qubit)"},"name":"test_eval_args_correct"},"guarantee":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density); isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)","fibers":[{"name":"0_5]","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density)","path":{"lhs":"test_eval_args(x)","rhs":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density); isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)","over":{"base":"0.5]","pred":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density)"},"name":"test_eval_args_0.5]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_eval_args_0.5]_correct","statement":"test_eval_args satisfies spec on 0.5] inputs"},"trust":"LIBRARY"},{"name":"Qubit","pred":"isinstance(state, Qubit)","path":{"lhs":"test_eval_args(x)","rhs":"isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density); isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)","over":{"base":"Qubit","pred":"isinstance(state, Qubit)"},"name":"test_eval_args_Qubit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_eval_args_Qubit_correct","statement":"test_eval_args satisfies spec on Qubit inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b30d15ba43503879","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density)","isinstance(Density([Qubit('00'), 1 / sqrt(2)], [Qubit('11'), 1 / sqrt(2)]), Density)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":true}}
 def test_eval_args():
     # check instance created
     assert isinstance(Density([Ket(0), 0.5], [Ket(1), 0.5]), Density)
@@ -68,16 +75,24 @@ def test_eval_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), 0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit() and 0.5 * (PxKet(x * y) * Dagger(PxKet(x * y))) + 0.5 * (XKet(x * y) * Dagger(XKet(x * y))) == d_with_sym.doit() and d.doit() == 1.0 * A * C * Dagger(C) * Dagger(A) + 1.0 * A * C * Dagger(C) * Dagger(B) + 1.0 * B * C * Dagger(C) * Dagger(A) + 1.0 * B * C * Dagger(C) * Dagger(B) and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B), C * Dagger(C)) and d.doit() == 0.5 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 0.5 * TensorProduct(C * Dagger(C), D * Dagger(D)) and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 1.0 * TensorProduct(A * Dagger(C), B * Dagger(D)) + 1.0 * TensorProduct(C * Dagger(A), D * Dagger(B)) + 1.0 * TensorProduct(C * Dagger(C), D * Dagger(D)) and t.doit() == 1 and t.doit() == JzKet(1, -1) * Dagger(JzKet(1, -1)) and t.doit() == JzKet(1, 1) * Dagger(JzKet(1, 1)) and t.doit() == JzKet(S.Half, Rational(-1, 2)) * Dagger(JzKet(S.Half, Rational(-1, 2))) and t.doit() == JzKet(S.Half, S.Half) * Dagger(JzKet(S.Half, S.Half))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → {Any | 0.5 * (PxKet() * Dagger(PxKe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  0.5 * (PxKet() * Dagger(PxKet())) + 0.5 *...   ║
+# ║   ensures:  0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)...   ║
+# ║   ensures:  d.doit() == 1.0 * A * C * Dagger(C) * Dag...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: 0.5 * (PxK...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebe634210a5359ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d1b50b8887ecb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_doit","kind":"function","src_hash":"1abf1689088deada","in":{"base":"Any"},"out":{"base":"Any","pred":"0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit() and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B), C * Dagger(C)) and t.doit() == 1 and t.doit() == JzKet(1, -1) * Dagger(JzKet(1, -1)) and t.doit() == JzKet(1, 1) * Dagger(JzKet(1, 1)) and t.doit() == 1 and t.doit() == JzKet(S.Half, S.Half) * Dagger(JzKet(S.Half, S.Half))"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebe634210a5359ba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_doit","kind":"function","src_hash":"1abf1689088deada","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit() and 0.5 * (PxKet(x * y) * Dagger(PxKet(x * y))) + 0.5 * (XKet(x * y) * Dagger(XKet(x * y))) == d_with_sym.doit() and d.doit() == 1.0 * A * C * Dagger(C) * Dagger(A) + 1.0 * A * C * Dagger(C) * Dagger(B) + 1.0 * B * C * Dagger(C) * Dagger(A) + 1.0 * B * C * Dagger(C) * Dagger(B) and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B), C * Dagger(C)) and d.doit() == 0.5 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 0.5 * TensorProduct(C * Dagger(C), D * Dagger(D)) and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 1.0 * TensorProduct(A * Dagger(C), B * Dagger(D)) + 1.0 * TensorProduct(C * Dagger(A), D * Dagger(B)) + 1.0 * TensorProduct(C * Dagger(C), D * Dagger(D)) and t.doit() == 1 and t.doit() == JzKet(1, -1) * Dagger(JzKet(1, -1)) and t.doit() == JzKet(1, 1) * Dagger(JzKet(1, 1)) and t.doit() == JzKet(S.Half, Rational(-1, 2)) * Dagger(JzKet(S.Half, Rational(-1, 2))) and t.doit() == JzKet(S.Half, S.Half) * Dagger(JzKet(S.Half, S.Half))"},"spec":{"lhs":"test_doit()","rhs":"0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit() and 0.5 * (PxKet(x * y) * Dagger(PxKet(x * y))) + 0.5 * (XKet(x * y) * Dagger(XKet(x * y))) == d_with_sym.doit() and d.doit() == 1.0 * A * C * Dagger(C) * Dagger(A) + 1.0 * A * C * Dagger(C) * Dagger(B) + 1.0 * B * C * Dagger(C) * Dagger(A) + 1.0 * B * C * Dagger(C) * Dagger(B) and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B), C * Dagger(C)) and d.doit() == 0.5 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 0.5 * TensorProduct(C * Dagger(C), D * Dagger(D)) and d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 1.0 * TensorProduct(A * Dagger(C), B * Dagger(D)) + 1.0 * TensorProduct(C * Dagger(A), D * Dagger(B)) + 1.0 * TensorProduct(C * Dagger(C), D * Dagger(D)) and t.doit() == 1 and t.doit() == JzKet(1, -1) * Dagger(JzKet(1, -1)) and t.doit() == JzKet(1, 1) * Dagger(JzKet(1, 1)) and t.doit() == JzKet(S.Half, Rational(-1, 2)) * Dagger(JzKet(S.Half, Rational(-1, 2))) and t.doit() == JzKet(S.Half, S.Half) * Dagger(JzKet(S.Half, S.Half))","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit(); 0.5 * (PxKet(x * y) * Dagger(PxKet(x * y))) + 0.5 * (XKet(x * y) * Dagger(XKet(x * y))) == d_with_sym.doit(); d.doit() == 1.0 * A * C * Dagger(C) * Dagger(A) + 1.0 * A * C * Dagger(C) * Dagger(B) + 1.0 * B * C * Dagger(C) * Dagger(A) + 1.0 * B * C * Dagger(C) * Dagger(B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_doit_correct","statement":"Path(test_doit(x), 0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit(); 0.5 * (PxKet(x * y) * Dagger(PxKet(x * y))) + 0.5 * (XKet(x * y) * Dagger(XKet(x * y))) == d_with_sym.doit(); d.doit() == 1.0 * A * C * Dagger(C) * Dagger(A) + 1.0 * A * C * Dagger(C) * Dagger(B) + 1.0 * B * C * Dagger(C) * Dagger(A) + 1.0 * B * C * Dagger(C) * Dagger(B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d1b50b8887ecb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["0.5 * (PxKet() * Dagger(PxKet())) + 0.5 * (XKet() * Dagger(XKet())) == d.doit()","0.5 * (PxKet(x * y) * Dagger(PxKet(x * y))) + 0.5 * (XKet(x * y) * Dagger(XKet(x * y))) == d_with_sym.doit()","d.doit() == 1.0 * A * C * Dagger(C) * Dagger(A) + 1.0 * A * C * Dagger(C) * Dagger(B) + 1.0 * B * C * Dagger(C) * Dagger(A) + 1.0 * B * C * Dagger(C) * Dagger(B)","d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B), C * Dagger(C))","d.doit() == 0.5 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 0.5 * TensorProduct(C * Dagger(C), D * Dagger(D))","d.doit() == 1.0 * TensorProduct(A * Dagger(A), B * Dagger(B)) + 1.0 * TensorProduct(A * Dagger(C), B * Dagger(D)) + 1.0 * TensorProduct(C * Dagger(A), D * Dagger(B)) + 1.0 * TensorProduct(C * Dagger(C), D * Dagger(D))","t.doit() == 1","t.doit() == JzKet(1, -1) * Dagger(JzKet(1, -1))","t.doit() == JzKet(1, 1) * Dagger(JzKet(1, 1))","t.doit() == JzKet(S.Half, Rational(-1, 2)) * Dagger(JzKet(S.Half, Rational(-1, 2)))","t.doit() == JzKet(S.Half, S.Half) * Dagger(JzKet(S.Half, S.Half))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_doit():
 
     x, y = symbols('x y')
@@ -149,16 +164,22 @@ def test_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_op(), test_apply_op produces the expected output) over Any ║
+# ║ Path(test_apply_op(), d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_op : Any → {Any | d.apply_op(XOp()) == Den...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d.apply_op(XOp()) == Density([XOp() * Ket...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_op : Any → {Any | result satisfies: d.appl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 756ba690796525af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f0dfbdcdc38b55c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_apply_op","kind":"function","src_hash":"33cdcf1ed45062cd","in":{"base":"Any"},"out":{"base":"Any","pred":"d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5])"},"spec":{"lhs":"test_apply_op()","rhs":"test_apply_op produces the expected output","over":{"base":"Any"},"name":"test_apply_op_correct"},"guarantee":"test_apply_op produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_apply_op_correct","statement":"Path(test_apply_op(x), test_apply_op produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"756ba690796525af"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_apply_op","kind":"function","src_hash":"33cdcf1ed45062cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5])"},"spec":{"lhs":"test_apply_op()","rhs":"d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5])","over":{"base":"Any"},"name":"test_apply_op_correct"},"guarantee":"d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_apply_op_correct","statement":"Path(test_apply_op(x), d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f0dfbdcdc38b55c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d.apply_op(XOp()) == Density([XOp() * Ket(0), 0.5], [XOp() * Ket(1), 0.5])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_apply_op():
     d = Density([Ket(0), 0.5], [Ket(1), 0.5])
     assert d.apply_op(XOp()) == Density([XOp()*Ket(0), 0.5],
@@ -166,16 +187,24 @@ def test_apply_op():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent(), test_represent produces the expected output) over Any ║
+# ║ Path(test_represent(), represent(0.5 * (PxKet() * Dagger(PxKet()))) + represent(0.5 * (XKet() * Dagger(XKet()))) == represent(d) and represent(0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)))) + represent(0.5 * (XKet(x * y) * Dagger(XKet(x * y)))) == represent(d_with_sym) and represent(0.5 * (XKet() * Dagger(XKet())), basis=PxOp()) + represent(0.5 * (PxKet() * Dagger(PxKet())), basis=PxOp()) == represent(d, basis=PxOp())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(0.5 * (PxKet() * Dagger(PxKet()...   ║
+# ║   ensures:  represent(0.5 * (PxKet(x * y) * Dagger(Px...   ║
+# ║   ensures:  represent(0.5 * (XKet() * Dagger(XKet()))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent : Any → {Any | result satisfies: repre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5552b0502841b8e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e44891a62e12a823  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_represent","kind":"function","src_hash":"1cebcda7f8edb11f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_represent()","rhs":"test_represent produces the expected output","over":{"base":"Any"},"name":"test_represent_correct"},"guarantee":"test_represent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_represent_correct","statement":"Path(test_represent(x), test_represent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5552b0502841b8e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_represent","kind":"function","src_hash":"1cebcda7f8edb11f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(0.5 * (PxKet() * Dagger(PxKet()))) + represent(0.5 * (XKet() * Dagger(XKet()))) == represent(d) and represent(0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)))) + represent(0.5 * (XKet(x * y) * Dagger(XKet(x * y)))) == represent(d_with_sym) and represent(0.5 * (XKet() * Dagger(XKet())), basis=PxOp()) + represent(0.5 * (PxKet() * Dagger(PxKet())), basis=PxOp()) == represent(d, basis=PxOp())"},"spec":{"lhs":"test_represent()","rhs":"represent(0.5 * (PxKet() * Dagger(PxKet()))) + represent(0.5 * (XKet() * Dagger(XKet()))) == represent(d) and represent(0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)))) + represent(0.5 * (XKet(x * y) * Dagger(XKet(x * y)))) == represent(d_with_sym) and represent(0.5 * (XKet() * Dagger(XKet())), basis=PxOp()) + represent(0.5 * (PxKet() * Dagger(PxKet())), basis=PxOp()) == represent(d, basis=PxOp())","over":{"base":"Any"},"name":"test_represent_correct"},"guarantee":"represent(0.5 * (PxKet() * Dagger(PxKet()))) + represent(0.5 * (XKet() * Dagger(XKet()))) == represent(d); represent(0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)))) + represent(0.5 * (XKet(x * y) * Dagger(XKet(x * y)))) == represent(d_with_sym); represent(0.5 * (XKet() * Dagger(XKet())), basis=PxOp()) + represent(0.5 * (PxKet() * Dagger(PxKet())), basis=PxOp()) == represent(d, basis=PxOp())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_represent_correct","statement":"Path(test_represent(x), represent(0.5 * (PxKet() * Dagger(PxKet()))) + represent(0.5 * (XKet() * Dagger(XKet()))) == represent(d); represent(0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)))) + represent(0.5 * (XKet(x * y) * Dagger(XKet(x * y)))) == represent(d_with_sym); represent(0.5 * (XKet() * Dagger(XKet())), basis=PxOp()) + represent(0.5 * (PxKet() * Dagger(PxKet())), basis=PxOp()) == represent(d, basis=PxOp()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e44891a62e12a823","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(0.5 * (PxKet() * Dagger(PxKet()))) + represent(0.5 * (XKet() * Dagger(XKet()))) == represent(d)","represent(0.5 * (PxKet(x * y) * Dagger(PxKet(x * y)))) + represent(0.5 * (XKet(x * y) * Dagger(XKet(x * y)))) == represent(d_with_sym)","represent(0.5 * (XKet() * Dagger(XKet())), basis=PxOp()) + represent(0.5 * (PxKet() * Dagger(PxKet())), basis=PxOp()) == represent(d, basis=PxOp())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_represent():
     x, y = symbols('x y')
     d = Density([XKet(), 0.5], [PxKet(), 0.5])
@@ -195,16 +224,22 @@ def test_represent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_states(), test_states produces the expected output) over Any ║
+# ║ Path(test_states(), states[0] == Ket(0) and states[1] == Ket(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_states : Any → {Any | states[0] == Ket(0) and st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  states[0] == Ket(0) and states[1] == Ket(1)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_states : Any → {Any | result satisfies: states[0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0cdcf92f8909a1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0534cc8b5a32c82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_states","kind":"function","src_hash":"194de48ba7242a3c","in":{"base":"Any"},"out":{"base":"Any","pred":"states[0] == Ket(0) and states[1] == Ket(1)"},"spec":{"lhs":"test_states()","rhs":"test_states produces the expected output","over":{"base":"Any"},"name":"test_states_correct"},"guarantee":"test_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_states_correct","statement":"Path(test_states(x), test_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0cdcf92f8909a1f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_states","kind":"function","src_hash":"194de48ba7242a3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: states[0] == Ket(0) and states[1] == Ket(1)"},"spec":{"lhs":"test_states()","rhs":"states[0] == Ket(0) and states[1] == Ket(1)","over":{"base":"Any"},"name":"test_states_correct"},"guarantee":"states[0] == Ket(0) and states[1] == Ket(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_states_correct","statement":"Path(test_states(x), states[0] == Ket(0) and states[1] == Ket(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0534cc8b5a32c82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["states[0] == Ket(0) and states[1] == Ket(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_states():
     d = Density([Ket(0), 0.5], [Ket(1), 0.5])
     states = d.states()
@@ -212,16 +247,23 @@ def test_states():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_probs(), test_probs produces the expected output) over Any ║
+# ║ Path(test_probs(), probs[0] == 0.75 and probs[1] == 0.25 and probs[0] == x and probs[1] == y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_probs : Any → {Any | probs[0] == 0.75 and probs[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  probs[0] == 0.75 and probs[1] == 0.25          ║
+# ║   ensures:  probs[0] == x and probs[1] == y                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_probs : Any → {Any | result satisfies: probs[0] ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73e7c97ad9e0a01a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 614571c83554ff05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_probs","kind":"function","src_hash":"844765e3402b4ef4","in":{"base":"Any"},"out":{"base":"Any","pred":"probs[0] == 0.75 and probs[1] == 0.25 and probs[0] == x and probs[1] == y"},"spec":{"lhs":"test_probs()","rhs":"test_probs produces the expected output","over":{"base":"Any"},"name":"test_probs_correct"},"guarantee":"test_probs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_probs_correct","statement":"Path(test_probs(x), test_probs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73e7c97ad9e0a01a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_probs","kind":"function","src_hash":"844765e3402b4ef4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: probs[0] == 0.75 and probs[1] == 0.25 and probs[0] == x and probs[1] == y"},"spec":{"lhs":"test_probs()","rhs":"probs[0] == 0.75 and probs[1] == 0.25 and probs[0] == x and probs[1] == y","over":{"base":"Any"},"name":"test_probs_correct"},"guarantee":"probs[0] == 0.75 and probs[1] == 0.25; probs[0] == x and probs[1] == y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_probs_correct","statement":"Path(test_probs(x), probs[0] == 0.75 and probs[1] == 0.25; probs[0] == x and probs[1] == y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"614571c83554ff05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["probs[0] == 0.75 and probs[1] == 0.25","probs[0] == x and probs[1] == y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_probs():
     d = Density([Ket(0), .75], [Ket(1), 0.25])
     probs = d.probs()
@@ -235,16 +277,22 @@ def test_probs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_state(), test_get_state produces the expected output) over Any ║
+# ║ Path(test_get_state(), states[0] == Ket(0) and states[1] == Ket(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_state : Any → {Any | states[0] == Ket(0) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  states[0] == Ket(0) and states[1] == Ket(1)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_state : Any → {Any | result satisfies: state...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c15084d1d6e79869  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d972d7db1fbbbc30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_get_state","kind":"function","src_hash":"7b66b5025c639016","in":{"base":"Any"},"out":{"base":"Any","pred":"states[0] == Ket(0) and states[1] == Ket(1)"},"spec":{"lhs":"test_get_state()","rhs":"test_get_state produces the expected output","over":{"base":"Any"},"name":"test_get_state_correct"},"guarantee":"test_get_state produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_get_state_correct","statement":"Path(test_get_state(x), test_get_state produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c15084d1d6e79869"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_get_state","kind":"function","src_hash":"7b66b5025c639016","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: states[0] == Ket(0) and states[1] == Ket(1)"},"spec":{"lhs":"test_get_state()","rhs":"states[0] == Ket(0) and states[1] == Ket(1)","over":{"base":"Any"},"name":"test_get_state_correct"},"guarantee":"states[0] == Ket(0) and states[1] == Ket(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_get_state_correct","statement":"Path(test_get_state(x), states[0] == Ket(0) and states[1] == Ket(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d972d7db1fbbbc30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["states[0] == Ket(0) and states[1] == Ket(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_state():
     x, y = symbols('x y')
     d = Density([Ket(0), x], [Ket(1), y])
@@ -253,16 +301,22 @@ def test_get_state():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_prob(), test_get_prob produces the expected output) over Any ║
+# ║ Path(test_get_prob(), probs[0] == x and probs[1] == y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_prob : Any → {Any | probs[0] == x and probs[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  probs[0] == x and probs[1] == y                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_prob : Any → {Any | result satisfies: probs[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff2b9a9f098f0f33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eed96205213dc538  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_get_prob","kind":"function","src_hash":"0b47e540f2647368","in":{"base":"Any"},"out":{"base":"Any","pred":"probs[0] == x and probs[1] == y"},"spec":{"lhs":"test_get_prob()","rhs":"test_get_prob produces the expected output","over":{"base":"Any"},"name":"test_get_prob_correct"},"guarantee":"test_get_prob produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_get_prob_correct","statement":"Path(test_get_prob(x), test_get_prob produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff2b9a9f098f0f33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_get_prob","kind":"function","src_hash":"0b47e540f2647368","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: probs[0] == x and probs[1] == y"},"spec":{"lhs":"test_get_prob()","rhs":"probs[0] == x and probs[1] == y","over":{"base":"Any"},"name":"test_get_prob_correct"},"guarantee":"probs[0] == x and probs[1] == y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_get_prob_correct","statement":"Path(test_get_prob(x), probs[0] == x and probs[1] == y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eed96205213dc538","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["probs[0] == x and probs[1] == y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_prob():
     x, y = symbols('x y')
     d = Density([Ket(0), x], [Ket(1), y])
@@ -271,7 +325,11 @@ def test_get_prob():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_entropy(), test_entropy produces the expected output) over {Any | isinstance(np_mat, np.ndarray) and isinstance(mat, scipy_sparse_matrix)} ║
+# ║ Path(test_entropy(), entropy(d) == log(2) / 2 and d.entropy() == log(2) / 2) over {Any | isinstance(np_mat, np.ndarray) and isinstance(mat, scipy_sparse_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  entropy(d) == log(2) / 2                       ║
+# ║   ensures:  d.entropy() == log(2) / 2                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_entropy : {Any | isinstance(np_mat, np.ndarray) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -284,9 +342,12 @@ def test_get_prob():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b6dadfc9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_entropy","kind":"function","src_hash":"9419c00f1005b9ee","in":{"base":"Any","pred":"isinstance(np_mat, np.ndarray) and isinstance(mat, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"entropy(d) == log(2) / 2 and d.entropy() == log(2) / 2 and isinstance(np_mat, np.ndarray) and ent.real == 0.6931471805599453 and ent.imag == 0 and isinstance(mat, scipy_sparse_matrix) and ent.real == 0.6931471805599453 and ent.imag == 0"},"spec":{"lhs":"test_entropy()","rhs":"test_entropy produces the expected output","over":{"base":"Any","pred":"isinstance(np_mat, np.ndarray) and isinstance(mat, scipy_sparse_matrix)"},"name":"test_entropy_correct"},"guarantee":"test_entropy produces the expected output","fibers":[{"name":"np_ndarray","pred":"isinstance(np_mat, np.ndarray)","path":{"lhs":"test_entropy(x)","rhs":"test_entropy produces the expected output","over":{"base":"np.ndarray","pred":"isinstance(np_mat, np.ndarray)"},"name":"test_entropy_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_entropy_np.ndarray_correct","statement":"test_entropy satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(mat, scipy_sparse_matrix)","path":{"lhs":"test_entropy(x)","rhs":"test_entropy produces the expected output","over":{"base":"scipy_sparse_matrix","pred":"isinstance(mat, scipy_sparse_matrix)"},"name":"test_entropy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_entropy_scipy_sparse_matrix_correct","statement":"test_entropy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b6dadfc99de28e2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_entropy","kind":"function","src_hash":"9419c00f1005b9ee","in":{"base":"Any","pred":"isinstance(np_mat, np.ndarray) and isinstance(mat, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"result satisfies: entropy(d) == log(2) / 2 and d.entropy() == log(2) / 2"},"spec":{"lhs":"test_entropy()","rhs":"entropy(d) == log(2) / 2 and d.entropy() == log(2) / 2","over":{"base":"Any","pred":"isinstance(np_mat, np.ndarray) and isinstance(mat, scipy_sparse_matrix)"},"name":"test_entropy_correct"},"guarantee":"entropy(d) == log(2) / 2; d.entropy() == log(2) / 2","fibers":[{"name":"np_ndarray","pred":"isinstance(np_mat, np.ndarray)","path":{"lhs":"test_entropy(x)","rhs":"entropy(d) == log(2) / 2; d.entropy() == log(2) / 2","over":{"base":"np.ndarray","pred":"isinstance(np_mat, np.ndarray)"},"name":"test_entropy_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_entropy_np.ndarray_correct","statement":"test_entropy satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(mat, scipy_sparse_matrix)","path":{"lhs":"test_entropy(x)","rhs":"entropy(d) == log(2) / 2; d.entropy() == log(2) / 2","over":{"base":"scipy_sparse_matrix","pred":"isinstance(mat, scipy_sparse_matrix)"},"name":"test_entropy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_entropy_scipy_sparse_matrix_correct","statement":"test_entropy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b6dadfc99de28e2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["entropy(d) == log(2) / 2","d.entropy() == log(2) / 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":true}}
 def test_entropy():
     up = JzKet(S.Half, S.Half)
     down = JzKet(S.Half, Rational(-1, 2))
@@ -316,16 +377,24 @@ def test_entropy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_trace(), test_eval_trace produces the expected output) over Any ║
+# ║ Path(test_eval_trace(), 1) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_trace : Any → {Any | t.doit() == 1.0 and d....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t.doit() == 1.0                                ║
+# ║   ensures:  d.doit() == 0.5 * OuterProduct(k1, k1.dua...   ║
+# ║   returns:  1                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_trace : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18da3f8f1bb14073  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f6032b971a285b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_eval_trace","kind":"function","src_hash":"50743a107f883bf1","in":{"base":"Any"},"out":{"base":"Any","pred":"t.doit() == 1.0 and d.doit() == 0.5 * OuterProduct(k1, k1.dual) + 0.5 * OuterProduct(k2, k2.dual) and t.doit() == 1.0"},"spec":{"lhs":"test_eval_trace()","rhs":"test_eval_trace produces the expected output","over":{"base":"Any"},"name":"test_eval_trace_correct"},"guarantee":"test_eval_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_eval_trace_correct","statement":"Path(test_eval_trace(x), test_eval_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18da3f8f1bb14073"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_eval_trace","kind":"function","src_hash":"50743a107f883bf1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1)"},"spec":{"lhs":"test_eval_trace()","rhs":"1","over":{"base":"Any"},"name":"test_eval_trace_correct"},"guarantee":"returns 1; t.doit() == 1.0; d.doit() == 0.5 * OuterProduct(k1, k1.dual) + 0.5 * OuterProduct(k2, k2.dual)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_eval_trace_correct","statement":"Path(test_eval_trace(x), returns 1; t.doit() == 1.0; d.doit() == 0.5 * OuterProduct(k1, k1.dual) + 0.5 * OuterProduct(k2, k2.dual))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f6032b971a285b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t.doit() == 1.0","d.doit() == 0.5 * OuterProduct(k1, k1.dual) + 0.5 * OuterProduct(k2, k2.dual)"],"returns_expr":"1","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_eval_trace():
     up = JzKet(S.Half, S.Half)
     down = JzKet(S.Half, Rational(-1, 2))
@@ -351,16 +420,24 @@ def test_eval_trace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fidelity(), test_fidelity produces the expected output) over Any ║
+# ║ Path(test_fidelity(), abs(fidelity(up_dm, up_dm) - 1) < 0.001 and fidelity(up_dm, down_dm) < 0.001 and abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(updown_dm, down_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(up_dm, down_dm)) < 0.001 and abs(fidelity(d1, d2) - 0.991) < 0.001 and abs(fidelity(d2, d1) - fidelity(d1, d2)) < 0.001 and fidelity(state1_dm, state1_dm) == 1 and fidelity(state1_dm, state2_dm) == 0 and abs(fidelity(state1_dm, state3_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(state3_dm, state2_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(d1, d1) - 1) < 0.001 and abs(fidelity(d1, d2) - 0.996) < 0.001 and abs(fidelity(d1, d2) - fidelity(d2, d1)) < 0.001) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fidelity : Any → {Any | abs(fidelity(up_dm, up_d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(fidelity(up_dm, up_dm) - 1) < 0.001        ║
+# ║   ensures:  fidelity(up_dm, down_dm) < 0.001               ║
+# ║   ensures:  abs(fidelity(up_dm, updown_dm) - S.One / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fidelity : Any → {Any | result satisfies: abs(fi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bc121bf589ea97d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 738fe454fad486c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_fidelity","kind":"function","src_hash":"83fd20da5e78719a","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(fidelity(up_dm, up_dm) - 1) < 0.001 and fidelity(up_dm, down_dm) < 0.001 and abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(updown_dm, down_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(up_dm, up_dm) - 1) < 0.001 and abs(fidelity(up_dm, down_dm)) < 0.001 and abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(updown_dm, down_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(d1, d2) - 0.991) < 0.001 and abs(fidelity(d2, d1) - fidelity(d1, d2)) < 0.001 and fidelity(state1_dm, state1_dm) == 1 and fidelity(state1_dm, state2_dm) == 0 and abs(fidelity(state1_dm, state3_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(state3_dm, state2_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(d1, d1) - 1) < 0.001 and abs(fidelity(d1, d2) - 0.996) < 0.001 and abs(fidelity(d1, d2) - fidelity(d2, d1)) < 0.001"},"spec":{"lhs":"test_fidelity()","rhs":"test_fidelity produces the expected output","over":{"base":"Any"},"name":"test_fidelity_correct"},"guarantee":"test_fidelity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_fidelity_correct","statement":"Path(test_fidelity(x), test_fidelity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bc121bf589ea97d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_density.test_fidelity","kind":"function","src_hash":"83fd20da5e78719a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(fidelity(up_dm, up_dm) - 1) < 0.001 and fidelity(up_dm, down_dm) < 0.001 and abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(updown_dm, down_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(up_dm, down_dm)) < 0.001 and abs(fidelity(d1, d2) - 0.991) < 0.001 and abs(fidelity(d2, d1) - fidelity(d1, d2)) < 0.001 and fidelity(state1_dm, state1_dm) == 1 and fidelity(state1_dm, state2_dm) == 0 and abs(fidelity(state1_dm, state3_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(state3_dm, state2_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(d1, d1) - 1) < 0.001 and abs(fidelity(d1, d2) - 0.996) < 0.001 and abs(fidelity(d1, d2) - fidelity(d2, d1)) < 0.001"},"spec":{"lhs":"test_fidelity()","rhs":"abs(fidelity(up_dm, up_dm) - 1) < 0.001 and fidelity(up_dm, down_dm) < 0.001 and abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(updown_dm, down_dm) - S.One / sqrt(2)) < 0.001 and abs(fidelity(up_dm, down_dm)) < 0.001 and abs(fidelity(d1, d2) - 0.991) < 0.001 and abs(fidelity(d2, d1) - fidelity(d1, d2)) < 0.001 and fidelity(state1_dm, state1_dm) == 1 and fidelity(state1_dm, state2_dm) == 0 and abs(fidelity(state1_dm, state3_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(state3_dm, state2_dm) - 1 / sqrt(2)) < 0.001 and abs(fidelity(d1, d1) - 1) < 0.001 and abs(fidelity(d1, d2) - 0.996) < 0.001 and abs(fidelity(d1, d2) - fidelity(d2, d1)) < 0.001","over":{"base":"Any"},"name":"test_fidelity_correct"},"guarantee":"abs(fidelity(up_dm, up_dm) - 1) < 0.001; fidelity(up_dm, down_dm) < 0.001; abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_density.test_fidelity_correct","statement":"Path(test_fidelity(x), abs(fidelity(up_dm, up_dm) - 1) < 0.001; fidelity(up_dm, down_dm) < 0.001; abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738fe454fad486c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(fidelity(up_dm, up_dm) - 1) < 0.001","fidelity(up_dm, down_dm) < 0.001","abs(fidelity(up_dm, updown_dm) - S.One / sqrt(2)) < 0.001","abs(fidelity(updown_dm, down_dm) - S.One / sqrt(2)) < 0.001","abs(fidelity(up_dm, down_dm)) < 0.001","abs(fidelity(d1, d2) - 0.991) < 0.001","abs(fidelity(d2, d1) - fidelity(d1, d2)) < 0.001","fidelity(state1_dm, state1_dm) == 1","fidelity(state1_dm, state2_dm) == 0","abs(fidelity(state1_dm, state3_dm) - 1 / sqrt(2)) < 0.001","abs(fidelity(state3_dm, state2_dm) - 1 / sqrt(2)) < 0.001","abs(fidelity(d1, d1) - 1) < 0.001","abs(fidelity(d1, d2) - 0.996) < 0.001","abs(fidelity(d1, d2) - fidelity(d2, d1)) < 0.001"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_fidelity():
     #test with kets
     up = JzKet(S.Half, S.Half)

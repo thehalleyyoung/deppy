@@ -26,16 +26,24 @@ x, y, z, n = symbols('x,y,z,n')
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_has(), test_has produces the expected output) over Any ║
+# ║ Path(test_has(), cot(x).has(x) and cot(x).has(cot) and not cot(x).has(sin) and sin(x).has(x) and sin(x).has(sin) and not sin(x).has(cot) and exp(x).has(exp)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_has : Any → {Any | cot(x).has(x) and cot(x).has(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cot(x).has(x)                                  ║
+# ║   ensures:  cot(x).has(cot)                                ║
+# ║   ensures:  not cot(x).has(sin)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_has : Any → {Any | result satisfies: cot(x).has(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dbea1dd16dfeb61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62fccd30e37701f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_rewrite.test_has","kind":"function","src_hash":"0c09e409ce92303f","in":{"base":"Any"},"out":{"base":"Any","pred":"cot(x).has(x) and cot(x).has(cot) and not cot(x).has(sin) and sin(x).has(x) and sin(x).has(sin) and not sin(x).has(cot) and exp(x).has(exp)"},"spec":{"lhs":"test_has()","rhs":"test_has produces the expected output","over":{"base":"Any"},"name":"test_has_correct"},"guarantee":"test_has produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_rewrite.test_has_correct","statement":"Path(test_has(x), test_has produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dbea1dd16dfeb61"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_rewrite.test_has","kind":"function","src_hash":"0c09e409ce92303f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cot(x).has(x) and cot(x).has(cot) and not cot(x).has(sin) and sin(x).has(x) and sin(x).has(sin) and not sin(x).has(cot) and exp(x).has(exp)"},"spec":{"lhs":"test_has()","rhs":"cot(x).has(x) and cot(x).has(cot) and not cot(x).has(sin) and sin(x).has(x) and sin(x).has(sin) and not sin(x).has(cot) and exp(x).has(exp)","over":{"base":"Any"},"name":"test_has_correct"},"guarantee":"cot(x).has(x); cot(x).has(cot); not cot(x).has(sin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_rewrite.test_has_correct","statement":"Path(test_has(x), cot(x).has(x); cot(x).has(cot); not cot(x).has(sin))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62fccd30e37701f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cot(x).has(x)","cot(x).has(cot)","not cot(x).has(sin)","sin(x).has(x)","sin(x).has(sin)","not sin(x).has(cot)","exp(x).has(exp)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_has():
     assert cot(x).has(x)
     assert cot(x).has(cot)
@@ -48,16 +56,24 @@ def test_has():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sin_exp_rewrite(), test_sin_exp_rewrite produces the expected output) over Any ║
+# ║ Path(test_sin_exp_rewrite(), sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x)) and sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x) and cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x) and (sin(5 * y) - sin(2 * x)).rewrite(sin, exp).rewrite(exp, sin) == sin(5 * y) - sin(2 * x) and sin(x + y).rewrite(sin, exp).rewrite(exp, sin) == sin(x + y) and cos(x + y).rewrite(cos, exp).rewrite(exp, cos) == cos(x + y) and cos(x).rewrite(cos, exp).rewrite(exp, sin) == cos(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sin_exp_rewrite : Any → {Any | sin(x).rewrite(si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sin(x).rewrite(sin, exp) == -I / 2 * (exp...   ║
+# ║   ensures:  sin(x).rewrite(sin, exp).rewrite(exp, sin...   ║
+# ║   ensures:  cos(x).rewrite(cos, exp).rewrite(exp, cos...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sin_exp_rewrite : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4028b7a121ec26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20c45eb496ea60c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_rewrite.test_sin_exp_rewrite","kind":"function","src_hash":"17b12667e0580c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x)) and sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x) and cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x) and sin(x + y).rewrite(sin, exp).rewrite(exp, sin) == sin(x + y) and cos(x + y).rewrite(cos, exp).rewrite(exp, cos) == cos(x + y) and cos(x).rewrite(cos, exp).rewrite(exp, sin) == cos(x)"},"spec":{"lhs":"test_sin_exp_rewrite()","rhs":"test_sin_exp_rewrite produces the expected output","over":{"base":"Any"},"name":"test_sin_exp_rewrite_correct"},"guarantee":"test_sin_exp_rewrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_rewrite.test_sin_exp_rewrite_correct","statement":"Path(test_sin_exp_rewrite(x), test_sin_exp_rewrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4028b7a121ec26"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_rewrite.test_sin_exp_rewrite","kind":"function","src_hash":"17b12667e0580c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x)) and sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x) and cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x) and (sin(5 * y) - sin(2 * x)).rewrite(sin, exp).rewrite(exp, sin) == sin(5 * y) - sin(2 * x) and sin(x + y).rewrite(sin, exp).rewrite(exp, sin) == sin(x + y) and cos(x + y).rewrite(cos, exp).rewrite(exp, cos) == cos(x + y) and cos(x).rewrite(cos, exp).rewrite(exp, sin) == cos(x)"},"spec":{"lhs":"test_sin_exp_rewrite()","rhs":"sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x)) and sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x) and cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x) and (sin(5 * y) - sin(2 * x)).rewrite(sin, exp).rewrite(exp, sin) == sin(5 * y) - sin(2 * x) and sin(x + y).rewrite(sin, exp).rewrite(exp, sin) == sin(x + y) and cos(x + y).rewrite(cos, exp).rewrite(exp, cos) == cos(x + y) and cos(x).rewrite(cos, exp).rewrite(exp, sin) == cos(x)","over":{"base":"Any"},"name":"test_sin_exp_rewrite_correct"},"guarantee":"sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x)); sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x); cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_rewrite.test_sin_exp_rewrite_correct","statement":"Path(test_sin_exp_rewrite(x), sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x)); sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x); cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20c45eb496ea60c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sin(x).rewrite(sin, exp) == -I / 2 * (exp(I * x) - exp(-I * x))","sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x)","cos(x).rewrite(cos, exp).rewrite(exp, cos) == cos(x)","(sin(5 * y) - sin(2 * x)).rewrite(sin, exp).rewrite(exp, sin) == sin(5 * y) - sin(2 * x)","sin(x + y).rewrite(sin, exp).rewrite(exp, sin) == sin(x + y)","cos(x + y).rewrite(cos, exp).rewrite(exp, cos) == cos(x + y)","cos(x).rewrite(cos, exp).rewrite(exp, sin) == cos(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sin_exp_rewrite():
     assert sin(x).rewrite(sin, exp) == -I/2*(exp(I*x) - exp(-I*x))
     assert sin(x).rewrite(sin, exp).rewrite(exp, sin) == sin(x)

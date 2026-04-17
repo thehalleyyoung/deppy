@@ -45,7 +45,10 @@ from sympy.utilities.iterables import iterable
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rational_algorithm(f, ), rational algorithm for computing formula of coefficients of formal power series of a function) over {Any | isinstance(den, Mul)} ║
+# ║ Path(rational_algorithm(f, x, k), <unspecified:rational_algorithm>) over {Any | isinstance(den, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rational_algorithm : {Any | isinstance(den, Mul)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -57,9 +60,12 @@ from sympy.utilities.iterables import iterable
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 6.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 53149e48...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.rational_algorithm","kind":"function","src_hash":"d3610d58541fe5db","in":{"base":"Any","pred":"isinstance(den, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"rational_algorithm(f, )","rhs":"rational algorithm for computing formula of coefficients of formal power series of a function","over":{"base":"Any","pred":"isinstance(den, Mul)"},"name":"rational_algorithm_correct"},"guarantee":"rational algorithm for computing formula of coefficients of formal power series of a function","fibers":[{"name":"Mul","pred":"isinstance(den, Mul)","path":{"lhs":"rational_algorithm(x)","rhs":"rational algorithm for computing formula of coefficients of formal power series of a function","over":{"base":"Mul","pred":"isinstance(den, Mul)"},"name":"rational_algorithm_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.rational_algorithm_Mul_correct","statement":"rational_algorithm satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53149e48a151c8f3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.rational_algorithm","kind":"function","src_hash":"d3610d58541fe5db","in":{"base":"Any","pred":"isinstance(den, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"rational_algorithm(f, x, k)","rhs":"<unspecified:rational_algorithm>","over":{"base":"Any","pred":"isinstance(den, Mul)"},"name":"rational_algorithm_correct"},"guarantee":"rational algorithm for computing formula of coefficients of formal power series of a function","fibers":[{"name":"Mul","pred":"isinstance(den, Mul)","path":{"lhs":"rational_algorithm(x)","rhs":"rational algorithm for computing formula of coefficients of formal power series of a function","over":{"base":"Mul","pred":"isinstance(den, Mul)"},"name":"rational_algorithm_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.rational_algorithm_Mul_correct","statement":"rational_algorithm satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53149e48a151c8f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(den, Mul)'}, fibers={'Mul'})"]}}
 def rational_algorithm(f, x, k, order=4, full=False):
     """
     Rational algorithm for computing
@@ -199,16 +205,22 @@ def rational_algorithm(f, x, k, order=4, full=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rational_independent(ter), returns a list of all the rationally independent terms) over Any ║
+# ║ Path(rational_independent(terms, x), <unspecified:rational_independent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rational_independent : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b43e168c5df1819e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.rational_independent","kind":"function","src_hash":"4e774eb321976304","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational_independent(ter)","rhs":"returns a list of all the rationally independent terms","over":{"base":"Any"},"name":"rational_independent_correct"},"guarantee":"returns a list of all the rationally independent terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.rational_independent_correct","statement":"Path(rational_independent(x), returns a list of all the rationally independent terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43e168c5df1819e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.rational_independent","kind":"function","src_hash":"4e774eb321976304","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational_independent(terms, x)","rhs":"<unspecified:rational_independent>","over":{"base":"Any"},"name":"rational_independent_correct"},"guarantee":"returns a list of all the rationally independent terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.rational_independent_correct","statement":"Path(rational_independent(x), returns a list of all the rationally independent terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43e168c5df1819e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rational_independent(terms, x):
     """
     Returns a list of all the rationally independent terms.
@@ -244,16 +256,23 @@ def rational_independent(terms, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simpleDE(f, ), generates simple de) over Any          ║
+# ║ Path(simpleDE(f, x, g), (eq, DE)) over {Any | hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simpleDE : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   returns:  (eq, DE)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simpleDE : {Any | hasattr(f, 'diff')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40bf6131d6842f95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 260573928fac2678  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.simpleDE","kind":"function","src_hash":"db59d67f27ca0fd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simpleDE(f, )","rhs":"generates simple de","over":{"base":"Any"},"name":"simpleDE_correct"},"guarantee":"generates simple de","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.simpleDE_correct","statement":"Path(simpleDE(x), generates simple de)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40bf6131d6842f95"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.simpleDE","kind":"function","src_hash":"db59d67f27ca0fd7","in":{"base":"Any","pred":"hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"simpleDE(f, x, g)","rhs":"(eq, DE)","over":{"base":"Any","pred":"hasattr(f, 'diff')"},"name":"simpleDE_correct"},"guarantee":"returns (eq, DE)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.simpleDE_correct","statement":"Path(simpleDE(x), returns (eq, DE))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"260573928fac2678","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'diff')"],"returns_expr":"(eq, DE)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.diff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def simpleDE(f, x, g, order=4):
     r"""
     Generates simple DE.
@@ -300,9 +319,13 @@ def simpleDE(f, x, g, order=4):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp_re(DE,), converts a de with constant coefficients (explike) into a re) over {Any | isinstance(d, Derivative)} ║
+# ║ Path(exp_re(DE, r, k), <unspecified:exp_re>) over {Any | isinstance(d, Derivative) and hasattr(DE, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exp_re : {Any | isinstance(d, Derivative)} → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 'atoms')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exp_re : {Any | isinstance(d, Derivative) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Derivative: {isinstance(d, Derivative)} → library_a...   ║
@@ -312,9 +335,12 @@ def simpleDE(f, x, g, order=4):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8e650953...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.exp_re","kind":"function","src_hash":"019ab460be5340aa","in":{"base":"Any","pred":"isinstance(d, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"exp_re(DE,)","rhs":"converts a de with constant coefficients (explike) into a re","over":{"base":"Any","pred":"isinstance(d, Derivative)"},"name":"exp_re_correct"},"guarantee":"converts a de with constant coefficients (explike) into a re","fibers":[{"name":"Derivative","pred":"isinstance(d, Derivative)","path":{"lhs":"exp_re(x)","rhs":"converts a de with constant coefficients (explike) into a re","over":{"base":"Derivative","pred":"isinstance(d, Derivative)"},"name":"exp_re_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.exp_re_Derivative_correct","statement":"exp_re satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e650953a90e16fe"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.exp_re","kind":"function","src_hash":"019ab460be5340aa","in":{"base":"Any","pred":"isinstance(d, Derivative) and hasattr(DE, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"exp_re(DE, r, k)","rhs":"<unspecified:exp_re>","over":{"base":"Any","pred":"isinstance(d, Derivative) and hasattr(DE, 'atoms')"},"name":"exp_re_correct"},"guarantee":"converts a de with constant coefficients (explike) into a re","fibers":[{"name":"Derivative","pred":"isinstance(d, Derivative)","path":{"lhs":"exp_re(x)","rhs":"converts a de with constant coefficients (explike) into a re","over":{"base":"Derivative","pred":"isinstance(d, Derivative)"},"name":"exp_re_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.exp_re_Derivative_correct","statement":"exp_re satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e650953a90e16fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 'atoms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.atoms"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(d, Derivative)', 'mini is None or j < mini'}, fibers={'Derivative'})"]}}
 def exp_re(DE, r, k):
     """Converts a DE with constant coefficients (explike) into a RE.
 
@@ -366,9 +392,14 @@ def exp_re(DE, r, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyper_re(DE,), converts a de into a re) over {Any | isinstance(d, Derivative)} ║
+# ║ Path(hyper_re(DE, r, k), RE.collect(r(k + m))) over {Any | isinstance(d, Derivative) and hasattr(DE, 'expand') and hasattr(DE, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hyper_re : {Any | isinstance(d, Derivative)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 'expand')                          ║
+# ║   requires: hasattr(DE, 'atoms')                           ║
+# ║   returns:  RE.collect(r(k + m))                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hyper_re : {Any | isinstance(d, Derivative) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Derivative: {isinstance(d, Derivative)} → library_a...   ║
@@ -378,9 +409,12 @@ def exp_re(DE, r, k):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8f421fda...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.hyper_re","kind":"function","src_hash":"62195094497ac1fa","in":{"base":"Any","pred":"isinstance(d, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"hyper_re(DE,)","rhs":"converts a de into a re","over":{"base":"Any","pred":"isinstance(d, Derivative)"},"name":"hyper_re_correct"},"guarantee":"converts a de into a re","fibers":[{"name":"Derivative","pred":"isinstance(d, Derivative)","path":{"lhs":"hyper_re(x)","rhs":"converts a de into a re","over":{"base":"Derivative","pred":"isinstance(d, Derivative)"},"name":"hyper_re_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.hyper_re_Derivative_correct","statement":"hyper_re satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8f421fdae888b666"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.hyper_re","kind":"function","src_hash":"62195094497ac1fa","in":{"base":"Any","pred":"isinstance(d, Derivative) and hasattr(DE, 'expand') and hasattr(DE, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"hyper_re(DE, r, k)","rhs":"RE.collect(r(k + m))","over":{"base":"Any","pred":"isinstance(d, Derivative) and hasattr(DE, 'expand') and hasattr(DE, 'atoms')"},"name":"hyper_re_correct"},"guarantee":"returns RE.collect(r(k + m))","fibers":[{"name":"Derivative","pred":"isinstance(d, Derivative)","path":{"lhs":"hyper_re(x)","rhs":"returns RE.collect(r(k + m))","over":{"base":"Derivative","pred":"isinstance(d, Derivative)"},"name":"hyper_re_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.hyper_re_Derivative_correct","statement":"hyper_re satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8f421fdae888b666","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 'expand')","hasattr(DE, 'atoms')"],"returns_expr":"RE.collect(r(k + m))","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.atoms","DE.expand"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(d, Derivative)', 'mini is None or j - l < mini'}, fibers={'Derivative'})"]}}
 def hyper_re(DE, r, k):
     """
     Converts a DE into a RE.
@@ -438,16 +472,24 @@ def hyper_re(DE, r, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transformation_a(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_transformation_a(f, x, P), (f, P, Q, m)) over {Any | hasattr(P, 'subs') and hasattr(Q, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transformation_a : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(P, 'subs')                             ║
+# ║   requires: hasattr(Q, 'subs')                             ║
+# ║   returns:  (f, P, Q, m)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transformation_a : {Any | hasattr(P, 'subs') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bed06aefe55e8e75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45d5dc0c1e14256e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._transformation_a","kind":"function","src_hash":"a52cd98c3d9e0b11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_a(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transformation_a_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transformation_a_correct","statement":"Path(_transformation_a(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed06aefe55e8e75"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._transformation_a","kind":"function","src_hash":"a52cd98c3d9e0b11","in":{"base":"Any","pred":"hasattr(P, 'subs') and hasattr(Q, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_a(f, x, P)","rhs":"(f, P, Q, m)","over":{"base":"Any","pred":"hasattr(P, 'subs') and hasattr(Q, 'subs')"},"name":"_transformation_a_correct"},"guarantee":"returns (f, P, Q, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transformation_a_correct","statement":"Path(_transformation_a(x), returns (f, P, Q, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45d5dc0c1e14256e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(P, 'subs')","hasattr(Q, 'subs')"],"returns_expr":"(f, P, Q, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["P.subs","Q.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _transformation_a(f, x, P, Q, k, m, shift):
     f *= x**(-shift)
     P = P.subs(k, k + shift)
@@ -456,16 +498,25 @@ def _transformation_a(f, x, P, Q, k, m, shift):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transformation_c(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_transformation_c(f, x, P), (f, P, Q, m)) over {Any | hasattr(f, 'subs') and hasattr(P, 'subs') and hasattr(Q, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transformation_c : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   requires: hasattr(P, 'subs')                             ║
+# ║   requires: hasattr(Q, 'subs')                             ║
+# ║   returns:  (f, P, Q, m)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transformation_c : {Any | hasattr(f, 'subs') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cecf3dc46588cd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2175c8f308c5c44f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._transformation_c","kind":"function","src_hash":"6da01ae16a1fa9c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_c(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transformation_c_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transformation_c_correct","statement":"Path(_transformation_c(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cecf3dc46588cd0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._transformation_c","kind":"function","src_hash":"6da01ae16a1fa9c1","in":{"base":"Any","pred":"hasattr(f, 'subs') and hasattr(P, 'subs') and hasattr(Q, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_c(f, x, P)","rhs":"(f, P, Q, m)","over":{"base":"Any","pred":"hasattr(f, 'subs') and hasattr(P, 'subs') and hasattr(Q, 'subs')"},"name":"_transformation_c_correct"},"guarantee":"returns (f, P, Q, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transformation_c_correct","statement":"Path(_transformation_c(x), returns (f, P, Q, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2175c8f308c5c44f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'subs')","hasattr(P, 'subs')","hasattr(Q, 'subs')"],"returns_expr":"(f, P, Q, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["P.subs","Q.subs","f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _transformation_c(f, x, P, Q, k, m, scale):
     f = f.subs(x, x**scale)
     P = P.subs(k, k / scale)
@@ -475,16 +526,25 @@ def _transformation_c(f, x, P, Q, k, m, scale):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transformation_e(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_transformation_e(f, x, P), (f, P, Q, m)) over {Any | hasattr(f, 'diff') and hasattr(P, 'subs') and hasattr(Q, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transformation_e : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   requires: hasattr(P, 'subs')                             ║
+# ║   requires: hasattr(Q, 'subs')                             ║
+# ║   returns:  (f, P, Q, m)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transformation_e : {Any | hasattr(f, 'diff') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45faa5399621241b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bd7bfce615ecac1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._transformation_e","kind":"function","src_hash":"21df9599611197bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_e(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transformation_e_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transformation_e_correct","statement":"Path(_transformation_e(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45faa5399621241b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._transformation_e","kind":"function","src_hash":"21df9599611197bf","in":{"base":"Any","pred":"hasattr(f, 'diff') and hasattr(P, 'subs') and hasattr(Q, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_transformation_e(f, x, P)","rhs":"(f, P, Q, m)","over":{"base":"Any","pred":"hasattr(f, 'diff') and hasattr(P, 'subs') and hasattr(Q, 'subs')"},"name":"_transformation_e_correct"},"guarantee":"returns (f, P, Q, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transformation_e_correct","statement":"Path(_transformation_e(x), returns (f, P, Q, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bd7bfce615ecac1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'diff')","hasattr(P, 'subs')","hasattr(Q, 'subs')"],"returns_expr":"(f, P, Q, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["P.subs","Q.subs","f.diff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _transformation_e(f, x, P, Q, k, m):
     f = f.diff(x)
     P = P.subs(k, k + 1) * (k + m + 1)
@@ -493,62 +553,89 @@ def _transformation_e(f, x, P, Q, k, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_shift(sol), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_shift(sol, shift), [(res, cond + shift) for res, cond in sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(res, cond + shift) for res, cond in sol]     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_shift : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e65524acf03e8680           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._apply_shift","kind":"function","src_hash":"5a8975935125e2f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_shift(sol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_shift_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e65524acf03e8680"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._apply_shift","kind":"function","src_hash":"5a8975935125e2f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_shift(sol, shift)","rhs":"[(res, cond + shift) for res, cond in sol]","over":{"base":"Any"},"name":"_apply_shift_correct"},"guarantee":"returns [(res, cond + shift) for res, cond in sol]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e65524acf03e8680","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(res, cond + shift) for res, cond in sol]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _apply_shift(sol, shift):
     return [(res, cond + shift) for res, cond in sol]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_scale(sol), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_scale(sol, scale), [(res, cond / scale) for res, cond in sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(res, cond / scale) for res, cond in sol]     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_scale : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fffcaafed65b8db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._apply_scale","kind":"function","src_hash":"c9ceca6edd4bbf76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_scale(sol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_scale_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fffcaafed65b8db"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._apply_scale","kind":"function","src_hash":"c9ceca6edd4bbf76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_scale(sol, scale)","rhs":"[(res, cond / scale) for res, cond in sol]","over":{"base":"Any"},"name":"_apply_scale_correct"},"guarantee":"returns [(res, cond / scale) for res, cond in sol]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fffcaafed65b8db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(res, cond / scale) for res, cond in sol]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _apply_scale(sol, scale):
     return [(res, cond / scale) for res, cond in sol]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_integrate(sol), id) over Any                   ║
+# ║ Path(_apply_integrate(sol, x, k), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(res / ((cond + 1) * cond.as_coeff_Add()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_integrate : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bc9e6fc839ed1518   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._apply_integrate","kind":"function","src_hash":"2eff180de7781681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_integrate(sol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_integrate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_coeff_Add","by":"library_axiom"},{"fn":"coeff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc9e6fc839ed1518"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._apply_integrate","kind":"function","src_hash":"2eff180de7781681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_integrate(sol, x, k)","rhs":"[(res / ((cond + 1) * cond.as_coeff_Add()[1].coeff(k)), cond + 1) for res, cond in sol]","over":{"base":"Any"},"name":"_apply_integrate_correct","kind":"composition"},"guarantee":"returns [(res / ((cond + 1) * cond.as_coeff_Add()[1].coeff(k)), cond + 1) for res, cond in sol]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_coeff_Add","by":"library_axiom"},{"fn":"coeff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc9e6fc839ed1518","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(res / ((cond + 1) * cond.as_coeff_Add()[1].coeff(k)), cond + 1) for res, cond in sol]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _apply_integrate(sol, x, k):
     return [(res / ((cond + 1)*(cond.as_coeff_Add()[1].coeff(k))), cond + 1)
             for res, cond in sol]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_formula(f, ), computes the formula for f) over Any ║
+# ║ Path(_compute_formula(f, x, P), <unspecified:_compute_formula>) over {Any | hasattr(P, 'subs') and hasattr(Q, 'subs') and hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compute_formula : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(P, 'subs')                             ║
+# ║   requires: hasattr(Q, 'subs')                             ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compute_formula : {Any | hasattr(P, 'subs') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dcc74521ce84711  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._compute_formula","kind":"function","src_hash":"e2db5e7a9d6021dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_formula(f, )","rhs":"computes the formula for f","over":{"base":"Any"},"name":"_compute_formula_correct"},"guarantee":"computes the formula for f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._compute_formula_correct","statement":"Path(_compute_formula(x), computes the formula for f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dcc74521ce84711"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._compute_formula","kind":"function","src_hash":"e2db5e7a9d6021dd","in":{"base":"Any","pred":"hasattr(P, 'subs') and hasattr(Q, 'subs') and hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_compute_formula(f, x, P)","rhs":"<unspecified:_compute_formula>","over":{"base":"Any","pred":"hasattr(P, 'subs') and hasattr(Q, 'subs') and hasattr(f, 'diff')"},"name":"_compute_formula_correct"},"guarantee":"computes the formula for f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._compute_formula_correct","statement":"Path(_compute_formula(x), computes the formula for f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dcc74521ce84711","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(P, 'subs')","hasattr(Q, 'subs')","hasattr(f, 'diff')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _compute_formula(f, x, P, Q, k, m, k_max):
     """Computes the formula for f."""
     from sympy.polys import roots
@@ -579,9 +666,13 @@ def _compute_formula(f, x, P, Q, k, m, k_max):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rsolve_hypergeometric(f, ), recursive wrapper to rsolve_hypergeometric) over {Any | isinstance(l, Limit)} ║
+# ║ Path(_rsolve_hypergeometric(f, x, P), # HINT: _rsolve_hypergeometric may be idempotent: _rsolve_hypergeometric(_rsolve_hypergeometric(x)) == _rsolve_hypergeometric(x)) over {Any | isinstance(l, Limit) and hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rsolve_hypergeometric : {Any | isinstance(l, Limit)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   ensures:  # HINT: _rsolve_hypergeometric may be ide...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rsolve_hypergeometric : {Any | isinstance(l, Limit) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Limit: {isinstance(l, Limit)} → library_axiom            ║
@@ -591,9 +682,12 @@ def _compute_formula(f, x, P, Q, k, m, k_max):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 96196ebb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._rsolve_hypergeometric","kind":"function","src_hash":"b9fb05b01db5ad79","in":{"base":"Any","pred":"isinstance(l, Limit)"},"out":{"base":"Any"},"spec":{"lhs":"_rsolve_hypergeometric(f, )","rhs":"recursive wrapper to rsolve_hypergeometric","over":{"base":"Any","pred":"isinstance(l, Limit)"},"name":"_rsolve_hypergeometric_correct"},"guarantee":"recursive wrapper to rsolve_hypergeometric","fibers":[{"name":"Limit","pred":"isinstance(l, Limit)","path":{"lhs":"_rsolve_hypergeometric(x)","rhs":"recursive wrapper to rsolve_hypergeometric","over":{"base":"Limit","pred":"isinstance(l, Limit)"},"name":"_rsolve_hypergeometric_Limit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._rsolve_hypergeometric_Limit_correct","statement":"_rsolve_hypergeometric satisfies spec on Limit inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96196ebb55510be7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._rsolve_hypergeometric","kind":"function","src_hash":"b9fb05b01db5ad79","in":{"base":"Any","pred":"isinstance(l, Limit) and hasattr(f, 'diff')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rsolve_hypergeometric may be idempotent: _rsolve_hypergeometric(_rsolve_hypergeometric(x)) == _rsolve_hypergeometric(x)"},"spec":{"lhs":"_rsolve_hypergeometric(f, x, P)","rhs":"# HINT: _rsolve_hypergeometric may be idempotent: _rsolve_hypergeometric(_rsolve_hypergeometric(x)) == _rsolve_hypergeometric(x)","over":{"base":"Any","pred":"isinstance(l, Limit) and hasattr(f, 'diff')"},"name":"_rsolve_hypergeometric_correct"},"guarantee":"# HINT: _rsolve_hypergeometric may be idempotent: _rsolve_hypergeometric(_rsolve_hypergeometric(x)) == _rsolve_hypergeometric(x)","fibers":[{"name":"Limit","pred":"isinstance(l, Limit)","path":{"lhs":"_rsolve_hypergeometric(x)","rhs":"# HINT: _rsolve_hypergeometric may be idempotent: _rsolve_hypergeometric(_rsolve_hypergeometric(x)) == _rsolve_hypergeometric(x)","over":{"base":"Limit","pred":"isinstance(l, Limit)"},"name":"_rsolve_hypergeometric_Limit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._rsolve_hypergeometric_Limit_correct","statement":"_rsolve_hypergeometric satisfies spec on Limit inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96196ebb55510be7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'diff')"],"ensures":["# HINT: _rsolve_hypergeometric may be idempotent: _rsolve_hypergeometric(_rsolve_hypergeometric(x)) == _rsolve_hypergeometric(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(l, Limit) and l != 0', 'pow_x > mp'}, fibers={'Limit'})"]}}
 def _rsolve_hypergeometric(f, x, P, Q, k, m):
     """
     Recursive wrapper to rsolve_hypergeometric.
@@ -666,16 +760,22 @@ def _rsolve_hypergeometric(f, x, P, Q, k, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rsolve_hypergeometric(f, ), solves re of hypergeometric type) over Any ║
+# ║ Path(rsolve_hypergeometric(f, x, P), <unspecified:rsolve_hypergeometric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rsolve_hypergeometric : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2d93b8fb3cc526f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.rsolve_hypergeometric","kind":"function","src_hash":"2897c5112e4612c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_hypergeometric(f, )","rhs":"solves re of hypergeometric type","over":{"base":"Any"},"name":"rsolve_hypergeometric_correct"},"guarantee":"solves re of hypergeometric type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.rsolve_hypergeometric_correct","statement":"Path(rsolve_hypergeometric(x), solves re of hypergeometric type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d93b8fb3cc526f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.rsolve_hypergeometric","kind":"function","src_hash":"2897c5112e4612c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_hypergeometric(f, x, P)","rhs":"<unspecified:rsolve_hypergeometric>","over":{"base":"Any"},"name":"rsolve_hypergeometric_correct"},"guarantee":"solves re of hypergeometric type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.rsolve_hypergeometric_correct","statement":"Path(rsolve_hypergeometric(x), solves re of hypergeometric type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d93b8fb3cc526f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rsolve_hypergeometric(f, x, P, Q, k, m):
     """
     Solves RE of hypergeometric type.
@@ -766,16 +866,24 @@ def rsolve_hypergeometric(f, x, P, Q, k, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_hyper_RE(f, ), see docstring of :func:`rsolve_hypergeometric` for details) over Any ║
+# ║ Path(_solve_hyper_RE(f, x, RE), rsolve_hypergeometric(f, x, P, Q, k, m)) over {Any | hasattr(RE, 'coeff') and hasattr(RE, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_hyper_RE : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(RE, 'coeff')                           ║
+# ║   requires: hasattr(RE, 'atoms')                           ║
+# ║   returns:  rsolve_hypergeometric(f, x, P, Q, k, m)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_hyper_RE : {Any | hasattr(RE, 'coeff') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c56d9ff57cb96e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e77553770b20106f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._solve_hyper_RE","kind":"function","src_hash":"59728734646a46d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_hyper_RE(f, )","rhs":"see docstring of :func:`rsolve_hypergeometric` for details","over":{"base":"Any"},"name":"_solve_hyper_RE_correct"},"guarantee":"see docstring of :func:`rsolve_hypergeometric` for details","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._solve_hyper_RE_correct","statement":"Path(_solve_hyper_RE(x), see docstring of :func:`rsolve_hypergeometric` for details)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c56d9ff57cb96e0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._solve_hyper_RE","kind":"function","src_hash":"59728734646a46d6","in":{"base":"Any","pred":"hasattr(RE, 'coeff') and hasattr(RE, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_hyper_RE(f, x, RE)","rhs":"rsolve_hypergeometric(f, x, P, Q, k, m)","over":{"base":"Any","pred":"hasattr(RE, 'coeff') and hasattr(RE, 'atoms')"},"name":"_solve_hyper_RE_correct"},"guarantee":"returns rsolve_hypergeometric(f, x, P, Q, k, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._solve_hyper_RE_correct","statement":"Path(_solve_hyper_RE(x), returns rsolve_hypergeometric(f, x, P, Q, k, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e77553770b20106f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(RE, 'coeff')","hasattr(RE, 'atoms')"],"returns_expr":"rsolve_hypergeometric(f, x, P, Q, k, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["RE.atoms","RE.coeff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _solve_hyper_RE(f, x, RE, g, k):
     """See docstring of :func:`rsolve_hypergeometric` for details."""
     terms = Add.make_args(RE)
@@ -791,16 +899,24 @@ def _solve_hyper_RE(f, x, RE, g, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_explike_DE(f, ), solves de with constant coefficients) over Any ║
+# ║ Path(_solve_explike_DE(f, x, DE), (sol / factorial(k), S.Zero, S.Zero)) over {Any | hasattr(f, 'limit') and hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_explike_DE : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'limit')                            ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   returns:  (sol / factorial(k), S.Zero, S.Zero)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_explike_DE : {Any | hasattr(f, 'limit') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b2877febdf407d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcc3e11e44c3bf25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._solve_explike_DE","kind":"function","src_hash":"a9c5d9b4d9b5fde3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_explike_DE(f, )","rhs":"solves de with constant coefficients","over":{"base":"Any"},"name":"_solve_explike_DE_correct"},"guarantee":"solves de with constant coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._solve_explike_DE_correct","statement":"Path(_solve_explike_DE(x), solves de with constant coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b2877febdf407d1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._solve_explike_DE","kind":"function","src_hash":"a9c5d9b4d9b5fde3","in":{"base":"Any","pred":"hasattr(f, 'limit') and hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_explike_DE(f, x, DE)","rhs":"(sol / factorial(k), S.Zero, S.Zero)","over":{"base":"Any","pred":"hasattr(f, 'limit') and hasattr(f, 'diff')"},"name":"_solve_explike_DE_correct"},"guarantee":"returns (sol / factorial(k), S.Zero, S.Zero)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._solve_explike_DE_correct","statement":"Path(_solve_explike_DE(x), returns (sol / factorial(k), S.Zero, S.Zero))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc3e11e44c3bf25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'limit')","hasattr(f, 'diff')"],"returns_expr":"(sol / factorial(k), S.Zero, S.Zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.diff","f.limit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _solve_explike_DE(f, x, DE, g, k):
     """Solves DE with constant coefficients."""
     from sympy.solvers import rsolve
@@ -825,16 +941,24 @@ def _solve_explike_DE(f, x, DE, g, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_simple(f, ), converts de into re and solves using :func:`rsolve`) over Any ║
+# ║ Path(_solve_simple(f, x, DE), (sol, S.Zero, S.Zero)) over {Any | hasattr(f, 'diff') and hasattr(f, 'limit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_simple : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   requires: hasattr(f, 'limit')                            ║
+# ║   returns:  (sol, S.Zero, S.Zero)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_simple : {Any | hasattr(f, 'diff') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c95b9d6494fe479  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 023976c9bed363d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._solve_simple","kind":"function","src_hash":"0f535f43ccd4018b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_simple(f, )","rhs":"converts de into re and solves using :func:`rsolve`","over":{"base":"Any"},"name":"_solve_simple_correct"},"guarantee":"converts de into re and solves using :func:`rsolve`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._solve_simple_correct","statement":"Path(_solve_simple(x), converts de into re and solves using :func:`rsolve`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c95b9d6494fe479"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._solve_simple","kind":"function","src_hash":"0f535f43ccd4018b","in":{"base":"Any","pred":"hasattr(f, 'diff') and hasattr(f, 'limit')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_simple(f, x, DE)","rhs":"(sol, S.Zero, S.Zero)","over":{"base":"Any","pred":"hasattr(f, 'diff') and hasattr(f, 'limit')"},"name":"_solve_simple_correct"},"guarantee":"returns (sol, S.Zero, S.Zero)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._solve_simple_correct","statement":"Path(_solve_simple(x), returns (sol, S.Zero, S.Zero))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"023976c9bed363d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'diff')","hasattr(f, 'limit')"],"returns_expr":"(sol, S.Zero, S.Zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.diff","f.limit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _solve_simple(f, x, DE, g, k):
     """Converts DE into RE and solves using :func:`rsolve`."""
     from sympy.solvers import rsolve
@@ -854,16 +978,26 @@ def _solve_simple(f, x, DE, g, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_explike_DE(DE,), converts de with free parameters into de with constant coefficients) over Any ║
+# ║ Path(_transform_explike_DE(DE, g, x), DE) over {Any | hasattr(DE, 'coeff') and hasattr(DE, 'subs') and hasattr(DE, 'collect') and hasattr(DE, 'factor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_explike_DE : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 'coeff')                           ║
+# ║   requires: hasattr(DE, 'subs')                            ║
+# ║   requires: hasattr(DE, 'collect')                         ║
+# ║   ensures:  result == DE                                   ║
+# ║   returns:  DE                                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_explike_DE : {Any | hasattr(DE, 'coeff') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82fab672b2e155cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d02efd6197f9b929  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._transform_explike_DE","kind":"function","src_hash":"f285ed939ed8decc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_explike_DE(DE,)","rhs":"converts de with free parameters into de with constant coefficients","over":{"base":"Any"},"name":"_transform_explike_DE_correct"},"guarantee":"converts de with free parameters into de with constant coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transform_explike_DE_correct","statement":"Path(_transform_explike_DE(x), converts de with free parameters into de with constant coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82fab672b2e155cc"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._transform_explike_DE","kind":"function","src_hash":"f285ed939ed8decc","in":{"base":"Any","pred":"hasattr(DE, 'coeff') and hasattr(DE, 'subs') and hasattr(DE, 'collect') and hasattr(DE, 'factor')"},"out":{"base":"Any","pred":"result satisfies: result == (DE)"},"spec":{"lhs":"_transform_explike_DE(DE, g, x)","rhs":"DE","over":{"base":"Any","pred":"hasattr(DE, 'coeff') and hasattr(DE, 'subs') and hasattr(DE, 'collect') and hasattr(DE, 'factor')"},"name":"_transform_explike_DE_correct"},"guarantee":"returns DE; result == DE","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transform_explike_DE_correct","statement":"Path(_transform_explike_DE(x), returns DE; result == DE)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d02efd6197f9b929","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 'coeff')","hasattr(DE, 'subs')","hasattr(DE, 'collect')","hasattr(DE, 'factor')"],"ensures":["result == DE"],"returns_expr":"DE","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _transform_explike_DE(DE, g, x, order, syms):
     """Converts DE with free parameters into DE with constant coefficients."""
     from sympy.solvers.solveset import linsolve
@@ -892,16 +1026,22 @@ def _transform_explike_DE(DE, g, x, order, syms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_DE_RE(DE,), converts de with free parameters into re of hypergeometric type) over Any ║
+# ║ Path(_transform_DE_RE(DE, g, k), <unspecified:_transform_DE_RE>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform_DE_RE : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1978932f495ff41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._transform_DE_RE","kind":"function","src_hash":"5a182a45f52dc0b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_DE_RE(DE,)","rhs":"converts de with free parameters into re of hypergeometric type","over":{"base":"Any"},"name":"_transform_DE_RE_correct"},"guarantee":"converts de with free parameters into re of hypergeometric type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transform_DE_RE_correct","statement":"Path(_transform_DE_RE(x), converts de with free parameters into re of hypergeometric type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1978932f495ff41"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._transform_DE_RE","kind":"function","src_hash":"5a182a45f52dc0b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_DE_RE(DE, g, k)","rhs":"<unspecified:_transform_DE_RE>","over":{"base":"Any"},"name":"_transform_DE_RE_correct"},"guarantee":"converts de with free parameters into re of hypergeometric type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._transform_DE_RE_correct","statement":"Path(_transform_DE_RE(x), converts de with free parameters into re of hypergeometric type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1978932f495ff41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _transform_DE_RE(DE, g, k, order, syms):
     """Converts DE with free parameters into RE of hypergeometric type."""
     from sympy.solvers.solveset import linsolve
@@ -923,16 +1063,23 @@ def _transform_DE_RE(DE, g, k, order, syms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_de(f, ), solves the de) over Any                ║
+# ║ Path(solve_de(f, x, DE), <unspecified:solve_de>) over {Any | hasattr(DE, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_de : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 'free_symbols')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_de : {Any | hasattr(DE, 'free_symbols')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c5985a75785acf0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.solve_de","kind":"function","src_hash":"720c24156e28a592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_de(f, )","rhs":"solves the de","over":{"base":"Any"},"name":"solve_de_correct"},"guarantee":"solves the de","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.solve_de_correct","statement":"Path(solve_de(x), solves the de)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c5985a75785acf0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.solve_de","kind":"function","src_hash":"720c24156e28a592","in":{"base":"Any","pred":"hasattr(DE, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"solve_de(f, x, DE)","rhs":"<unspecified:solve_de>","over":{"base":"Any","pred":"hasattr(DE, 'free_symbols')"},"name":"solve_de_correct"},"guarantee":"solves the de","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.solve_de_correct","statement":"Path(solve_de(x), solves the de)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c5985a75785acf0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 'free_symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.free_symbols"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def solve_de(f, x, DE, order, g, k):
     """
     Solves the DE.
@@ -990,16 +1137,22 @@ def solve_de(f, x, DE, order, g, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyper_algorithm(f, ), hypergeometric algorithm for computing formal power series) over Any ║
+# ║ Path(hyper_algorithm(f, x, k), <unspecified:hyper_algorithm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hyper_algorithm : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7497f3f2dab33a37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.hyper_algorithm","kind":"function","src_hash":"dfa06fa0a44a2774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyper_algorithm(f, )","rhs":"hypergeometric algorithm for computing formal power series","over":{"base":"Any"},"name":"hyper_algorithm_correct"},"guarantee":"hypergeometric algorithm for computing formal power series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.hyper_algorithm_correct","statement":"Path(hyper_algorithm(x), hypergeometric algorithm for computing formal power series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7497f3f2dab33a37"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.hyper_algorithm","kind":"function","src_hash":"dfa06fa0a44a2774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyper_algorithm(f, x, k)","rhs":"<unspecified:hyper_algorithm>","over":{"base":"Any"},"name":"hyper_algorithm_correct"},"guarantee":"hypergeometric algorithm for computing formal power series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.hyper_algorithm_correct","statement":"Path(hyper_algorithm(x), hypergeometric algorithm for computing formal power series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7497f3f2dab33a37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def hyper_algorithm(f, x, k, order=4):
     """
     Hypergeometric algorithm for computing Formal Power Series.
@@ -1054,9 +1207,18 @@ def hyper_algorithm(f, x, k, order=4):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_fps(f, ), recursive wrapper to compute fps) over {Any | isinstance(f, Add)} ║
+# ║ Path(_compute_fps(f, x, x0), result == ((result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) if x0 in [S.Infinity, S.NegativeInfinity] else (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))) and result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) or result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))) over {Any | isinstance(f, Add) and hasattr(f, 'is_polynomial') and hasattr(f, 'subs') and hasattr(f, 'coeff') and hasattr(f, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compute_fps : {Any | isinstance(f, Add)} → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_polynomial')                    ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   requires: hasattr(f, 'coeff')                            ║
+# ║   ensures:  result == ((result[0], result[1].subs(x, ...   ║
+# ║   ensures:  result == (result[0], result[1].subs(x, 1...   ║
+# ║   fiber[case_0]: x0 in [S.Infinity, S.NegativeInfinit...   ║
+# ║   fiber[case_1]: x0 or dir == -S.One => (result[0], r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compute_fps : {Any | isinstance(f, Add) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Add: {isinstance(f, Add)} → library_axiom                ║
@@ -1066,9 +1228,12 @@ def hyper_algorithm(f, x, k, order=4):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 51641a27...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal._compute_fps","kind":"function","src_hash":"4ff28cf0e66d4902","in":{"base":"Any","pred":"isinstance(f, Add)"},"out":{"base":"Any"},"spec":{"lhs":"_compute_fps(f, )","rhs":"recursive wrapper to compute fps","over":{"base":"Any","pred":"isinstance(f, Add)"},"name":"_compute_fps_correct"},"guarantee":"recursive wrapper to compute fps","fibers":[{"name":"Add","pred":"isinstance(f, Add)","path":{"lhs":"_compute_fps(x)","rhs":"recursive wrapper to compute fps","over":{"base":"Add","pred":"isinstance(f, Add)"},"name":"_compute_fps_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._compute_fps_Add_correct","statement":"_compute_fps satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"51641a272c5a15c2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal._compute_fps","kind":"function","src_hash":"4ff28cf0e66d4902","in":{"base":"Any","pred":"isinstance(f, Add) and hasattr(f, 'is_polynomial') and hasattr(f, 'subs') and hasattr(f, 'coeff') and hasattr(f, 'free_symbols')"},"out":{"base":"Any","pred":"result satisfies: result == ((result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) if x0 in [S.Infinity, S.NegativeInfinity] else (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))) and result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) or result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))"},"spec":{"lhs":"_compute_fps(f, x, x0)","rhs":"result == ((result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) if x0 in [S.Infinity, S.NegativeInfinity] else (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))) and result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) or result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))","over":{"base":"Any","pred":"isinstance(f, Add) and hasattr(f, 'is_polynomial') and hasattr(f, 'subs') and hasattr(f, 'coeff') and hasattr(f, 'free_symbols')"},"name":"_compute_fps_correct"},"guarantee":"result == ((result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) if x0 in [S.Infinity, S.NegativeInfinity] else (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))); result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) or result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b)); 2-fiber decomposition","fibers":[{"name":"Add","pred":"isinstance(f, Add)","path":{"lhs":"_compute_fps(x)","rhs":"result == ((result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) if x0 in [S.Infinity, S.NegativeInfinity] else (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))); result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) or result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b)); 2-fiber decomposition","over":{"base":"Add","pred":"isinstance(f, Add)"},"name":"_compute_fps_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal._compute_fps_Add_correct","statement":"_compute_fps satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"51641a272c5a15c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_polynomial')","hasattr(f, 'subs')","hasattr(f, 'coeff')","hasattr(f, 'free_symbols')"],"ensures":["result == ((result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) if x0 in [S.Infinity, S.NegativeInfinity] else (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b)))","result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x)) or result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))"],"fibers":[{"name":"case_0","guard":"x0 in [S.Infinity, S.NegativeInfinity]","ensures":["result == (result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x))"],"decidability":"library","returns_expr":"(result[0], result[1].subs(x, 1 / x), result[2].subs(x, 1 / x))"},{"name":"case_1","guard":"x0 or dir == -S.One","ensures":["result == (result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))"],"decidability":"z3","returns_expr":"(result[0], result[1].subs(x, rep2 + rep2b), result[2].subs(x, rep2 + rep2b))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.coeff","f.free_symbols","f.is_polynomial","f.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x0 or dir == -S.One', 'result is None and hyper', 'isinstance(f, Add)', 'result is None', 'res[0].start > ak.start', 'dir == -S.One'}, fibers={'Add'})"]}}
 def _compute_fps(f, x, x0, dir, hyper, order, rational, full):
     """Recursive wrapper to compute fps.
 
@@ -1165,16 +1330,23 @@ def _compute_fps(f, x, x0, dir, hyper, order, rational, full):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_fps(f, ), computes the formula for formal power series of a function) over Any ║
+# ║ Path(compute_fps(f, x, x0), <unspecified:compute_fps>) over {Any | hasattr(f, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_fps : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_fps : {Any | hasattr(f, 'has')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a50fb6c9046407f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.compute_fps","kind":"function","src_hash":"a9a3bf2f573ac56c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_fps(f, )","rhs":"computes the formula for formal power series of a function","over":{"base":"Any"},"name":"compute_fps_correct"},"guarantee":"computes the formula for formal power series of a function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.compute_fps_correct","statement":"Path(compute_fps(x), computes the formula for formal power series of a function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a50fb6c9046407f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.compute_fps","kind":"function","src_hash":"a9a3bf2f573ac56c","in":{"base":"Any","pred":"hasattr(f, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"compute_fps(f, x, x0)","rhs":"<unspecified:compute_fps>","over":{"base":"Any","pred":"hasattr(f, 'has')"},"name":"compute_fps_correct"},"guarantee":"computes the formula for formal power series of a function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.compute_fps_correct","statement":"Path(compute_fps(x), computes the formula for formal power series of a function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a50fb6c9046407f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.has"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def compute_fps(f, x, x0=0, dir=1, hyper=True, order=4, rational=True,
                 full=False):
     """
@@ -1253,30 +1425,45 @@ def compute_fps(f, x, x0=0, dir=1, hyper=True, order=4, rational=True,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Coeff(*args), correctly constructs a Coeff instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Coeff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Coeff : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f1dbe988a30a935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.Coeff","kind":"class","src_hash":"7cbedbe3a52b510c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Coeff(*args)","rhs":"correctly constructs a Coeff instance","over":{"base":"Any"},"name":"Coeff_class_invariant"},"guarantee":"correctly constructs a Coeff instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f1dbe988a30a935"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.Coeff","kind":"class","src_hash":"7cbedbe3a52b510c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"Coeff(*args)","rhs":"correctly constructs a Coeff instance","over":{"base":"Any"},"name":"Coeff_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f1dbe988a30a935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Coeff not found in source"]}}
 class Coeff(Function):
     """
     Coeff(p, x, n) represents the nth coefficient of the polynomial p in x
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, p, x), p.coeff(x, n)) over {Any | hasattr(n, 'is_integer') and hasattr(p, 'is_polynomial') and hasattr(p, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(p, 'is_polynomial')                    ║
+# ║   requires: hasattr(p, 'coeff')                            ║
+# ║   returns:  p.coeff(x, n)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_integer') and hasattr(p,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52a2df68fa6bb234  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8064c8ec68f39bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.Coeff.eval","kind":"classmethod","src_hash":"2e49f85ae455f474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.Coeff.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52a2df68fa6bb234"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.Coeff.eval","kind":"classmethod","src_hash":"2e49f85ae455f474","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(p, 'is_polynomial') and hasattr(p, 'coeff')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, p, x)","rhs":"p.coeff(x, n)","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(p, 'is_polynomial') and hasattr(p, 'coeff')"},"name":"eval_correct"},"guarantee":"returns p.coeff(x, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.Coeff.eval_correct","statement":"Path(eval(x), returns p.coeff(x, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8064c8ec68f39bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_integer')","hasattr(p, 'is_polynomial')","hasattr(p, 'coeff')"],"returns_expr":"p.coeff(x, n)","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","p.coeff","p.is_polynomial"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, p, x, n):
         if p.is_polynomial(x) and n.is_integer:
             return p.coeff(x, n)
@@ -1285,14 +1472,20 @@ class Coeff(Function):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FormalPowerSeries instance) preserved by FormalPowerSeries(*args) over {Any | isinstance(other, FormalPowerSeries)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeriesBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FormalPowerSeries : {Any | isinstance(other, FormalPo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdd77e7e9b5c1a33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries","kind":"class","src_hash":"67dddf039b6a6c5a","in":{"base":"Any","pred":"isinstance(other, FormalPowerSeries)"},"out":{"base":"Any"},"spec":{"lhs":"FormalPowerSeries(*args)","rhs":"correctly constructs a FormalPowerSeries instance","over":{"base":"Any","pred":"isinstance(other, FormalPowerSeries)"},"name":"FormalPowerSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FormalPowerSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ak_seq') and hasattr(self, 'fact_seq') and hasattr(self, 'bell_coeff_seq') and hasattr(self, 'sign_seq')","kind":"class","induction":"structural on ak_seq, fact_seq, bell_coeff_seq, sign_seq"}],"methods_preserving":["__init__","function","x","x0","dir","ak","xk","ind","interval","start","stop","length","infinite","_get_pow_x","polynomial","truncate","zero_coeff","_eval_term","_eval_subs","_eval_as_leading_term","_eval_derivative","integrate","product","coeff_bell","compose","inverse","__add__","__radd__","__neg__","__sub__","__rsub__","__mul__","__rmul__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdd77e7e9b5c1a33"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries","kind":"class","src_hash":"67dddf039b6a6c5a","in":{"base":"Any","pred":"isinstance(other, FormalPowerSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeriesBase)"},"spec":{"lhs":"FormalPowerSeries(*args)","rhs":"correctly constructs a FormalPowerSeries instance","over":{"base":"Any","pred":"isinstance(other, FormalPowerSeries)"},"name":"FormalPowerSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SeriesBase); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ak_seq') and hasattr(self, 'fact_seq') and hasattr(self, 'bell_coeff_seq') and hasattr(self, 'sign_seq')","kind":"class","induction":"structural on ak_seq, fact_seq, bell_coeff_seq, sign_seq"}],"methods_preserving":["__init__","function","x","x0","dir","ak","xk","ind","interval","start","stop","length","infinite","_get_pow_x","polynomial","truncate","zero_coeff","_eval_term","_eval_subs","_eval_as_leading_term","_eval_derivative","integrate","product","coeff_bell","compose","inverse","__add__","__radd__","__neg__","__sub__","__rsub__","__mul__","__rmul__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdd77e7e9b5c1a33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeriesBase)"],"invariants":["hasattr(self, 'ak_seq')","hasattr(self, 'fact_seq')","hasattr(self, 'bell_coeff_seq')","hasattr(self, 'sign_seq')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function FormalPowerSeries not found in source"]}}
 class FormalPowerSeries(SeriesBase):
     """
     Represents Formal Power Series of a function.
@@ -1311,31 +1504,43 @@ class FormalPowerSeries(SeriesBase):
     sympy.series.formal.fps
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), Expr.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, *args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d2f8facf77ce1e9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__new__","kind":"method","src_hash":"8ed614a3aa0bd3ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2f8facf77ce1e9b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__new__","kind":"method","src_hash":"8ed614a3aa0bd3ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Expr.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2f8facf77ce1e9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         args = map(sympify, args)
         return Expr.__new__(cls, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), <unspecified:__init__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6913c69e82128a3d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__init__","kind":"method","src_hash":"2ba39102aea3d82d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6913c69e82128a3d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__init__","kind":"method","src_hash":"2ba39102aea3d82d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6913c69e82128a3d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         ak = args[4][0]
         k = ak.variables[0]
@@ -1346,181 +1551,253 @@ class FormalPowerSeries(SeriesBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f52d4288078d4d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.function","kind":"property","src_hash":"7a40acf2b57dabde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f52d4288078d4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.function","kind":"property","src_hash":"7a40acf2b57dabde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self.args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f52d4288078d4d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16c68adc8e9debb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.x","kind":"property","src_hash":"ea8f85389293328c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16c68adc8e9debb3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.x","kind":"property","src_hash":"ea8f85389293328c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"self.args[1]","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16c68adc8e9debb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x0(), returns the x0 attribute) over Any              ║
+# ║ Path(x0(), self.args[2]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x0 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1e9d9e6fcd15ce0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.x0","kind":"property","src_hash":"45169587442cf687","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x0()","rhs":"returns the x0 attribute","over":{"base":"Any"},"name":"x0_correct"},"guarantee":"returns the x0 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1e9d9e6fcd15ce0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.x0","kind":"property","src_hash":"45169587442cf687","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x0()","rhs":"self.args[2]","over":{"base":"Any"},"name":"x0_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1e9d9e6fcd15ce0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x0(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dir(), returns the dir attribute) over Any            ║
+# ║ Path(dir(), self.args[3]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dir : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2a4c5b01f265eb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.dir","kind":"property","src_hash":"9aaf82eb34367930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dir()","rhs":"returns the dir attribute","over":{"base":"Any"},"name":"dir_correct"},"guarantee":"returns the dir attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a4c5b01f265eb5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.dir","kind":"property","src_hash":"9aaf82eb34367930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dir()","rhs":"self.args[3]","over":{"base":"Any"},"name":"dir_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a4c5b01f265eb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dir(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ak(), returns the ak attribute) over Any              ║
+# ║ Path(ak(), self.args[4][0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4][0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ak : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | de4e37230b22fc0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.ak","kind":"property","src_hash":"3a6a9972ff688b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ak()","rhs":"returns the ak attribute","over":{"base":"Any"},"name":"ak_correct"},"guarantee":"returns the ak attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de4e37230b22fc0a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.ak","kind":"property","src_hash":"3a6a9972ff688b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ak()","rhs":"self.args[4][0]","over":{"base":"Any"},"name":"ak_correct"},"guarantee":"returns self.args[4][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de4e37230b22fc0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ak(self):
         return self.args[4][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xk(), returns the xk attribute) over Any              ║
+# ║ Path(xk(), self.args[4][1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4][1]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xk : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07ac9a5b8ac325fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.xk","kind":"property","src_hash":"2814b771b269d743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xk()","rhs":"returns the xk attribute","over":{"base":"Any"},"name":"xk_correct"},"guarantee":"returns the xk attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07ac9a5b8ac325fd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.xk","kind":"property","src_hash":"2814b771b269d743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xk()","rhs":"self.args[4][1]","over":{"base":"Any"},"name":"xk_correct"},"guarantee":"returns self.args[4][1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07ac9a5b8ac325fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4][1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xk(self):
         return self.args[4][1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ind(), returns the ind attribute) over Any            ║
+# ║ Path(ind(), self.args[4][2]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4][2]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ind : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8615c79bfa36de81           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.ind","kind":"property","src_hash":"615c2e49b50e0465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ind()","rhs":"returns the ind attribute","over":{"base":"Any"},"name":"ind_correct"},"guarantee":"returns the ind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8615c79bfa36de81"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.ind","kind":"property","src_hash":"615c2e49b50e0465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ind()","rhs":"self.args[4][2]","over":{"base":"Any"},"name":"ind_correct"},"guarantee":"returns self.args[4][2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8615c79bfa36de81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4][2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ind(self):
         return self.args[4][2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), Interval(0, oo)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Interval(0, oo)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ce00c4c8466fc59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.interval","kind":"property","src_hash":"5765ca046d9b962f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ce00c4c8466fc59"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.interval","kind":"property","src_hash":"5765ca046d9b962f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"Interval(0, oo)","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns Interval(0, oo)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ce00c4c8466fc59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Interval(0, oo)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         return Interval(0, oo)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), self.interval.inf) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.inf                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f67f5cc25562abc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f67f5cc25562abc5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"self.interval.inf","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns self.interval.inf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f67f5cc25562abc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.inf","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         return self.interval.inf
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), self.interval.sup) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.sup                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 577b4b0af876818b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"577b4b0af876818b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"self.interval.sup","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns self.interval.sup","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"577b4b0af876818b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.sup","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         return self.interval.sup
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), <unspecified:length>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7795af93b3683bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.length","kind":"property","src_hash":"4023ad4b5e915827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7795af93b3683bc"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.length","kind":"property","src_hash":"4023ad4b5e915827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7795af93b3683bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return oo
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(infinite(), returns the infinite attribute) over Any  ║
+# ║ Path(infinite(), self.ind + inf_sum) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ind + inf_sum                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ infinite : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4492315fde1950e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.infinite","kind":"property","src_hash":"444cfe651e6e5698","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"infinite()","rhs":"returns the infinite attribute","over":{"base":"Any"},"name":"infinite_correct"},"guarantee":"returns the infinite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4492315fde1950e8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.infinite","kind":"property","src_hash":"444cfe651e6e5698","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"infinite()","rhs":"self.ind + inf_sum","over":{"base":"Any"},"name":"infinite_correct"},"guarantee":"returns self.ind + inf_sum","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4492315fde1950e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ind + inf_sum","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ak","self.ind","self.xk"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def infinite(self):
         """Returns an infinite representation of the series"""
         from sympy.concrete import Sum
@@ -1531,16 +1808,23 @@ class FormalPowerSeries(SeriesBase):
         return self.ind + inf_sum
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_pow_x(ter), returns the power of x in a term) over Any ║
+# ║ Path(_get_pow_x(term), <unspecified:_get_pow_x>) over {Any | hasattr(term, 'as_independent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_pow_x : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(term, 'as_independent')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_pow_x : {Any | hasattr(term, 'as_independent')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eac23e911921f676  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._get_pow_x","kind":"method","src_hash":"8c03aeb596b10758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_pow_x(ter)","rhs":"returns the power of x in a term","over":{"base":"Any"},"name":"_get_pow_x_correct"},"guarantee":"returns the power of x in a term","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._get_pow_x_correct","statement":"Path(_get_pow_x(x), returns the power of x in a term)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac23e911921f676"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._get_pow_x","kind":"method","src_hash":"8c03aeb596b10758","in":{"base":"Any","pred":"hasattr(term, 'as_independent')"},"out":{"base":"Any"},"spec":{"lhs":"_get_pow_x(term)","rhs":"<unspecified:_get_pow_x>","over":{"base":"Any","pred":"hasattr(term, 'as_independent')"},"name":"_get_pow_x_correct"},"guarantee":"returns the power of x in a term","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._get_pow_x_correct","statement":"Path(_get_pow_x(x), returns the power of x in a term)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac23e911921f676","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(term, 'as_independent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","term.as_independent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_pow_x(self, term):
         """Returns the power of x in a term."""
         xterm, pow_x = term.as_independent(self.x)[1].as_base_exp()
@@ -1549,16 +1833,22 @@ class FormalPowerSeries(SeriesBase):
         return pow_x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polynomial(n), truncated series as polynomial) over Any ║
+# ║ Path(polynomial(n), Add(*terms)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*terms)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polynomial : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d112f5f967bfc18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1684b697a5c4cf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.polynomial","kind":"method","src_hash":"f3713d8f20477258","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial(n)","rhs":"truncated series as polynomial","over":{"base":"Any"},"name":"polynomial_correct"},"guarantee":"truncated series as polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.polynomial_correct","statement":"Path(polynomial(x), truncated series as polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d112f5f967bfc18"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.polynomial","kind":"method","src_hash":"f3713d8f20477258","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial(n)","rhs":"Add(*terms)","over":{"base":"Any"},"name":"polynomial_correct"},"guarantee":"returns Add(*terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.polynomial_correct","statement":"Path(polynomial(x), returns Add(*terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1684b697a5c4cf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def polynomial(self, n=6):
         """
         Truncated series as polynomial.
@@ -1585,16 +1875,22 @@ class FormalPowerSeries(SeriesBase):
         return Add(*terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(truncate(n), truncated series) over Any               ║
+# ║ Path(truncate(n), <unspecified:truncate>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ truncate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69f282b9bcfdfb8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.truncate","kind":"method","src_hash":"2772edb71bad76fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"truncate(n)","rhs":"truncated series","over":{"base":"Any"},"name":"truncate_correct"},"guarantee":"truncated series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.truncate_correct","statement":"Path(truncate(x), truncated series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69f282b9bcfdfb8b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.truncate","kind":"method","src_hash":"2772edb71bad76fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"truncate(n)","rhs":"<unspecified:truncate>","over":{"base":"Any"},"name":"truncate_correct"},"guarantee":"truncated series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.truncate_correct","statement":"Path(truncate(x), truncated series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69f282b9bcfdfb8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.polynomial","self.x","self.x0","self.xk"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def truncate(self, n=6):
         """
         Truncated series.
@@ -1618,30 +1914,42 @@ class FormalPowerSeries(SeriesBase):
         return self.polynomial(n) + Order(pt_xk, (x, x0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero_coeff(), zero_coeff produces the expected output) over Any ║
+# ║ Path(zero_coeff(), self._eval_term(0)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_term(0)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero_coeff : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cc4f0e4dafefc95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.zero_coeff","kind":"method","src_hash":"b4358c1837bf295a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero_coeff()","rhs":"zero_coeff produces the expected output","over":{"base":"Any"},"name":"zero_coeff_correct"},"guarantee":"zero_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cc4f0e4dafefc95"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.zero_coeff","kind":"method","src_hash":"b4358c1837bf295a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero_coeff()","rhs":"self._eval_term(0)","over":{"base":"Any"},"name":"zero_coeff_correct"},"guarantee":"returns self._eval_term(0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cc4f0e4dafefc95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_term(0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_term"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zero_coeff(self):
         return self._eval_term(0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_term(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_term(pt), term.collect(self.x)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  term.collect(self.x)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_term : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cb85226ee0bba27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b3b038463f6ae0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_term","kind":"method","src_hash":"ba41a05dbc88c81f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cb85226ee0bba27"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_term","kind":"method","src_hash":"ba41a05dbc88c81f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"term.collect(self.x)","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"returns term.collect(self.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_term_correct","statement":"Path(_eval_term(x), returns term.collect(self.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3b038463f6ae0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"term.collect(self.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_pow_x","self.ak","self.free_symbols","self.ind","self.x","self.xk"],"catches":["IndexError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_term(self, pt):
         try:
             pt_xk = self.xk.coeff(pt)
@@ -1667,48 +1975,67 @@ class FormalPowerSeries(SeriesBase):
         return term.collect(self.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over {Any | hasattr(old, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(old, 'has')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'has')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f33383f24c82f13e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_subs","kind":"method","src_hash":"adf2e8ada57cf10f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f33383f24c82f13e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_subs","kind":"method","src_hash":"adf2e8ada57cf10f","in":{"base":"Any","pred":"hasattr(old, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any","pred":"hasattr(old, 'has')"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f33383f24c82f13e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(old, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["old.has","self.x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         x = self.x
         if old.has(x):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15dca12d9b3a4de1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_as_leading_term","kind":"method","src_hash":"34e0f59fd541aefe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15dca12d9b3a4de1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_as_leading_term","kind":"method","src_hash":"34e0f59fd541aefe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15dca12d9b3a4de1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         for t in self:
             if t is not S.Zero:
                 return t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(f, self.x, self.x0, self.dir, (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a47caa5f2ab3655  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b96758da9089c018  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_derivative","kind":"method","src_hash":"41f614fe96a2b035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a47caa5f2ab3655"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries._eval_derivative","kind":"method","src_hash":"41f614fe96a2b035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries._eval_derivative_correct","statement":"Path(_eval_derivative(x), returns self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b96758da9089c018","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         f = self.function.diff(x)
         ind = self.ind.diff(x)
@@ -1733,16 +2060,23 @@ class FormalPowerSeries(SeriesBase):
         return self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(x, ), integrate formal power series) over Any ║
+# ║ Path(integrate(x, **kwargs), <unspecified:integrate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: x is None                           ║
+# ║   fiber[case_1]: iterable(x) => integrate(self.functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integrate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e78d91e2e191461d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63ab1de019ecc6a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.integrate","kind":"method","src_hash":"2d40b884667a446b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(x, )","rhs":"integrate formal power series","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"integrate formal power series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.integrate_correct","statement":"Path(integrate(x), integrate formal power series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78d91e2e191461d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.integrate","kind":"method","src_hash":"2d40b884667a446b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(x, **kwargs)","rhs":"<unspecified:integrate>","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.integrate_correct","statement":"Path(integrate(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63ab1de019ecc6a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"x is None","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"iterable(x)","ensures":["result == integrate(self.function, x)"],"decidability":"library","returns_expr":"integrate(self.function, x)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integrate(self, x=None, **kwargs):
         """
         Integrate Formal Power Series.
@@ -1789,16 +2123,25 @@ class FormalPowerSeries(SeriesBase):
         return self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product(oth), multiplies two formal power series, using discrete convolution and return the truncated terms upto specified order) over Any ║
+# ║ Path(product(other, x, n), <unspecified:product>) over {Any | isinstance(other, FormalPowerSeries) and not (self.dir != other.dir) and hasattr(other, 'dir') and hasattr(other, 'x0') and hasattr(other, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ product : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, FormalPowerSeries)           ║
+# ║   requires: not (self.dir != other.dir)                    ║
+# ║   requires: hasattr(other, 'dir')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ product : {Any | isinstance(other, FormalPowerSeries)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f5286333dbd120  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.product","kind":"method","src_hash":"dc1e2453291c2423","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product(oth)","rhs":"multiplies two formal power series, using discrete convolution and return the truncated terms upto specified order","over":{"base":"Any"},"name":"product_correct"},"guarantee":"multiplies two formal power series, using discrete convolution and return the truncated terms upto specified order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.product_correct","statement":"Path(product(x), multiplies two formal power series, using discrete convolution and return the truncated terms upto specified order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f5286333dbd120"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.product","kind":"method","src_hash":"dc1e2453291c2423","in":{"base":"Any","pred":"isinstance(other, FormalPowerSeries) and not (self.dir != other.dir) and hasattr(other, 'dir') and hasattr(other, 'x0') and hasattr(other, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"product(other, x, n)","rhs":"<unspecified:product>","over":{"base":"Any","pred":"isinstance(other, FormalPowerSeries) and not (self.dir != other.dir) and hasattr(other, 'dir') and hasattr(other, 'x0') and hasattr(other, 'x')"},"name":"product_correct"},"guarantee":"multiplies two formal power series, using discrete convolution and return the truncated terms upto specified order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.product_correct","statement":"Path(product(x), multiplies two formal power series, using discrete convolution and return the truncated terms upto specified order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f5286333dbd120","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, FormalPowerSeries)","not (self.dir != other.dir)","hasattr(other, 'dir')","hasattr(other, 'x0')","hasattr(other, 'x')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.dir","other.x","other.x0","self.dir","self.x","self.x0"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def product(self, other, x=None, n=6):
         """
         Multiplies two Formal Power Series, using discrete convolution and
@@ -1854,14 +2197,20 @@ class FormalPowerSeries(SeriesBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(coeff_bell(n), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sequence(tuple(inner_coeffs), (k, 1, oo))      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_bell : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ebec82424684d4a7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.coeff_bell","kind":"method","src_hash":"d9f1fc2426de74e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_bell(n)","rhs":"self.coeff_bell(n) returns a sequence of bell polynomials of the second kind. note that ``n`` should be a integer","over":{"base":"Any"},"name":"coeff_bell_correct","kind":"composition"},"guarantee":"self.coeff_bell(n) returns a sequence of bell polynomials of the second kind. note that ``n`` should be a integer","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sequence","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebec82424684d4a7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.coeff_bell","kind":"method","src_hash":"d9f1fc2426de74e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_bell(n)","rhs":"sequence(tuple(inner_coeffs), (k, 1, oo))","over":{"base":"Any"},"name":"coeff_bell_correct","kind":"composition"},"guarantee":"returns sequence(tuple(inner_coeffs), (k, 1, oo))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sequence","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebec82424684d4a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sequence(tuple(inner_coeffs), (k, 1, oo))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bell_coeff_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff_bell(self, n):
         r"""
         self.coeff_bell(n) returns a sequence of Bell polynomials of the second kind.
@@ -1894,16 +2243,25 @@ class FormalPowerSeries(SeriesBase):
         return sequence(tuple(inner_coeffs), (k, 1, oo))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compose(oth), returns the truncated terms of the formal power series of the composed function, up to specified ``n``) over Any ║
+# ║ Path(compose(other, x, n), <unspecified:compose>) over {Any | isinstance(other, FormalPowerSeries) and not (self.dir != other.dir) and not (other._eval_term(0).as_coeff_mul(other.x)[0] is not S.Zero) and hasattr(other, 'dir') and hasattr(other, 'x0') and hasattr(other, 'x') and hasattr(other, '_eval_term')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compose : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, FormalPowerSeries)           ║
+# ║   requires: not (self.dir != other.dir)                    ║
+# ║   requires: not (other._eval_term(0).as_coeff_mul(oth...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compose : {Any | isinstance(other, FormalPowerSeries)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd4fe1b47e67688b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.compose","kind":"method","src_hash":"6099eea10c477e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(oth)","rhs":"returns the truncated terms of the formal power series of the composed function, up to specified ``n``","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"returns the truncated terms of the formal power series of the composed function, up to specified ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.compose_correct","statement":"Path(compose(x), returns the truncated terms of the formal power series of the composed function, up to specified ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd4fe1b47e67688b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.compose","kind":"method","src_hash":"6099eea10c477e5d","in":{"base":"Any","pred":"isinstance(other, FormalPowerSeries) and not (self.dir != other.dir) and not (other._eval_term(0).as_coeff_mul(other.x)[0] is not S.Zero) and hasattr(other, 'dir') and hasattr(other, 'x0') and hasattr(other, 'x') and hasattr(other, '_eval_term')"},"out":{"base":"Any"},"spec":{"lhs":"compose(other, x, n)","rhs":"<unspecified:compose>","over":{"base":"Any","pred":"isinstance(other, FormalPowerSeries) and not (self.dir != other.dir) and not (other._eval_term(0).as_coeff_mul(other.x)[0] is not S.Zero) and hasattr(other, 'dir') and hasattr(other, 'x0') and hasattr(other, 'x') and hasattr(other, '_eval_term')"},"name":"compose_correct"},"guarantee":"returns the truncated terms of the formal power series of the composed function, up to specified ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.compose_correct","statement":"Path(compose(x), returns the truncated terms of the formal power series of the composed function, up to specified ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd4fe1b47e67688b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, FormalPowerSeries)","not (self.dir != other.dir)","not (other._eval_term(0).as_coeff_mul(other.x)[0] is not S.Zero)","hasattr(other, 'dir')","hasattr(other, 'x0')","hasattr(other, 'x')","hasattr(other, '_eval_term')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._eval_term","other.dir","other.x","other.x0","self.dir","self.x","self.x0"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compose(self, other, x=None, n=6):
         r"""
         Returns the truncated terms of the formal power series of the composed function,
@@ -1979,16 +2337,23 @@ class FormalPowerSeries(SeriesBase):
         return FormalPowerSeriesCompose(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(x, ), returns the truncated terms of the inverse of the formal power series, up to specified ``n``) over Any ║
+# ║ Path(inverse(x, n), <unspecified:inverse>) over {Any | not (self._eval_term(0).is_zero)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inverse : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self._eval_term(0).is_zero)               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inverse : {Any | not (self._eval_term(0).is_zero)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6680938f6388b3b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.inverse","kind":"method","src_hash":"8bd57af5f87142d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(x, )","rhs":"returns the truncated terms of the inverse of the formal power series, up to specified ``n``","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the truncated terms of the inverse of the formal power series, up to specified ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.inverse_correct","statement":"Path(inverse(x), returns the truncated terms of the inverse of the formal power series, up to specified ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6680938f6388b3b8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.inverse","kind":"method","src_hash":"8bd57af5f87142d6","in":{"base":"Any","pred":"not (self._eval_term(0).is_zero)"},"out":{"base":"Any"},"spec":{"lhs":"inverse(x, n)","rhs":"<unspecified:inverse>","over":{"base":"Any","pred":"not (self._eval_term(0).is_zero)"},"name":"inverse_correct"},"guarantee":"returns the truncated terms of the inverse of the formal power series, up to specified ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeries.inverse_correct","statement":"Path(inverse(x), returns the truncated terms of the inverse of the formal power series, up to specified ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6680938f6388b3b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self._eval_term(0).is_zero)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_term"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, x=None, n=6):
         r"""
         Returns the truncated terms of the inverse of the formal power series,
@@ -2048,16 +2413,28 @@ class FormalPowerSeries(SeriesBase):
         return FormalPowerSeriesInverse(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), result == (self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) if isinstance(other, FormalPowerSeries) else self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))) and result == self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) or result == self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))) over {Any | hasattr(other, 'dir') and hasattr(other, 'x') and hasattr(other, 'ak') and hasattr(other, 'x0') and hasattr(other, 'ind') and hasattr(other, 'has') and hasattr(other, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'dir')                          ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   requires: hasattr(other, 'ak')                           ║
+# ║   ensures:  result == (self.func(f, x, self.x0, self....   ║
+# ║   ensures:  result == self.func(f, x, self.x0, self.d...   ║
+# ║   fiber[FormalPowerSeries]: isinstance(other, FormalP...   ║
+# ║   fiber[case_1]: not other.has(self.x) => self.func(f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'dir') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05fba28356866dde           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__add__","kind":"method","src_hash":"380e413ded3e2d5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05fba28356866dde"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__add__","kind":"method","src_hash":"380e413ded3e2d5c","in":{"base":"Any","pred":"hasattr(other, 'dir') and hasattr(other, 'x') and hasattr(other, 'ak') and hasattr(other, 'x0') and hasattr(other, 'ind') and hasattr(other, 'has') and hasattr(other, 'function')"},"out":{"base":"Any","pred":"result satisfies: result == (self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) if isinstance(other, FormalPowerSeries) else self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))) and result == self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) or result == self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))"},"spec":{"lhs":"__add__(other)","rhs":"result == (self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) if isinstance(other, FormalPowerSeries) else self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))) and result == self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) or result == self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))","over":{"base":"Any","pred":"hasattr(other, 'dir') and hasattr(other, 'x') and hasattr(other, 'ak') and hasattr(other, 'x0') and hasattr(other, 'ind') and hasattr(other, 'has') and hasattr(other, 'function')"},"name":"__add___correct"},"guarantee":"result == (self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) if isinstance(other, FormalPowerSeries) else self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))); result == self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) or result == self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05fba28356866dde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'dir')","hasattr(other, 'x')","hasattr(other, 'ak')","hasattr(other, 'x0')","hasattr(other, 'ind')","hasattr(other, 'has')","hasattr(other, 'function')"],"ensures":["result == (self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) if isinstance(other, FormalPowerSeries) else self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind)))","result == self.func(f, x, self.x0, self.dir, (ak, self.xk, ind)) or result == self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))"],"fibers":[{"name":"FormalPowerSeries","guard":"isinstance(other, FormalPowerSeries)","ensures":["result == self.func(f, x, self.x0, self.dir, (ak, self.xk, ind))"],"decidability":"structural","returns_expr":"self.func(f, x, self.x0, self.dir, (ak, self.xk, ind))"},{"name":"case_1","guard":"not other.has(self.x)","ensures":["result == self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))"],"decidability":"library","returns_expr":"self.func(f, self.x, self.x0, self.dir, (self.ak, self.xk, ind))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.ak","other.dir","other.function","other.has","other.ind","other.x","other.x0","self.ak","self.dir","self.func","self.function","self.ind","self.x","self.x0","self.xk"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         other = sympify(other)
 
@@ -2097,73 +2474,104 @@ class FormalPowerSeries(SeriesBase):
         return Add(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), self.__add__(other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(other)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 348db75718b4f9f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__radd__","kind":"method","src_hash":"9d629b952f3bc53b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"348db75718b4f9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__radd__","kind":"method","src_hash":"9d629b952f3bc53b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self.__add__(other)","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self.__add__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"348db75718b4f9f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return self.__add__(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.func(-self.function, self.x, self.x0, self.dir, (-self.ak, self.xk, -self.ind))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(-self.function, self.x, self.x0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca28447d397f365b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__neg__","kind":"method","src_hash":"6ac20afcbca1396f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca28447d397f365b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__neg__","kind":"method","src_hash":"6ac20afcbca1396f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.func(-self.function, self.x, self.x0, self.dir, (-self.ak, self.xk, -self.ind))","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.func(-self.function, self.x, self.x0, self.dir, (-self.ak, self.xk, -self.ind))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca28447d397f365b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(-self.function, self.x, self.x0, self.dir, (-self.ak, self.xk, -self.ind))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ak","self.dir","self.func","self.function","self.ind","self.x","self.x0","self.xk"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.func(-self.function, self.x, self.x0, self.dir,
                          (-self.ak, self.xk, -self.ind))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self.__add__(-other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(-other)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 470deb4b6b55b504           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__sub__","kind":"method","src_hash":"21c148c0e418d582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"470deb4b6b55b504"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__sub__","kind":"method","src_hash":"21c148c0e418d582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(-other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(-other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"470deb4b6b55b504","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(-other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self.__add__(-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), (-self).__add__(other)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-self).__add__(other)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6c6f9c1bb8a2b33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__rsub__","kind":"method","src_hash":"b77de4318c718805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6c6f9c1bb8a2b33"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__rsub__","kind":"method","src_hash":"b77de4318c718805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"(-self).__add__(other)","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns (-self).__add__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6c6f9c1bb8a2b33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-self).__add__(other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-self).__add__(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'has')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'has')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acbedc4faf565d76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__mul__","kind":"method","src_hash":"bd1bf923aeed68b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acbedc4faf565d76"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__mul__","kind":"method","src_hash":"bd1bf923aeed68b9","in":{"base":"Any","pred":"hasattr(other, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'has')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acbedc4faf565d76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.has","self.ak","self.dir","self.func","self.function","self.ind","self.x","self.x0","self.xk"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         other = sympify(other)
 
@@ -2177,16 +2585,22 @@ class FormalPowerSeries(SeriesBase):
         return self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), self.__mul__(other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__mul__(other)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6f9e194b7cb1431           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__rmul__","kind":"method","src_hash":"8bc02efa491d6224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6f9e194b7cb1431"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeries.__rmul__","kind":"method","src_hash":"8bc02efa491d6224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"self.__mul__(other)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns self.__mul__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6f9e194b7cb1431","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__mul__(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return self.__mul__(other)
 
@@ -2194,161 +2608,227 @@ class FormalPowerSeries(SeriesBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FiniteFormalPowerSeries(*args), correctly constructs a FiniteFormalPowerSeries instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FiniteFormalPowerSeries : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FormalPowerSeries)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FiniteFormalPowerSeries : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b3d659181c55774  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries","kind":"class","src_hash":"a024698759d7313e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FiniteFormalPowerSeries(*args)","rhs":"correctly constructs a FiniteFormalPowerSeries instance","over":{"base":"Any"},"name":"FiniteFormalPowerSeries_class_invariant"},"guarantee":"correctly constructs a FiniteFormalPowerSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3d659181c55774"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries","kind":"class","src_hash":"a024698759d7313e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FormalPowerSeries)"},"spec":{"lhs":"FiniteFormalPowerSeries(*args)","rhs":"correctly constructs a FiniteFormalPowerSeries instance","over":{"base":"Any"},"name":"FiniteFormalPowerSeries_class_invariant"},"guarantee":"isinstance(self, FormalPowerSeries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3d659181c55774","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FormalPowerSeries)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteFormalPowerSeries not found in source"]}}
 class FiniteFormalPowerSeries(FormalPowerSeries):
     """Base Class for Product, Compose and Inverse classes"""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), <unspecified:__init__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1d30f92a7bb56d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.__init__","kind":"method","src_hash":"128b73b1c2294521","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1d30f92a7bb56d9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.__init__","kind":"method","src_hash":"128b73b1c2294521","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1d30f92a7bb56d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         pass
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ffps(), returns the ffps attribute) over Any          ║
+# ║ Path(ffps(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ffps : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8f4d12a054dd1f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.ffps","kind":"property","src_hash":"41462d65c68550a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ffps()","rhs":"returns the ffps attribute","over":{"base":"Any"},"name":"ffps_correct"},"guarantee":"returns the ffps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8f4d12a054dd1f5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.ffps","kind":"property","src_hash":"41462d65c68550a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ffps()","rhs":"self.args[0]","over":{"base":"Any"},"name":"ffps_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8f4d12a054dd1f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ffps(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gfps(), returns the gfps attribute) over Any          ║
+# ║ Path(gfps(), self.args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gfps : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cff549fda2b9bad0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.gfps","kind":"property","src_hash":"4c2fb5ae07807cdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gfps()","rhs":"returns the gfps attribute","over":{"base":"Any"},"name":"gfps_correct"},"guarantee":"returns the gfps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cff549fda2b9bad0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.gfps","kind":"property","src_hash":"4c2fb5ae07807cdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gfps()","rhs":"self.args[1]","over":{"base":"Any"},"name":"gfps_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cff549fda2b9bad0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gfps(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(f(), returns the f attribute) over Any                ║
+# ║ Path(f(), self.ffps.function) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ffps.function                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ f : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 268991ddbc635212           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.f","kind":"property","src_hash":"69a174c5c32d4e72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f()","rhs":"returns the f attribute","over":{"base":"Any"},"name":"f_correct"},"guarantee":"returns the f attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"268991ddbc635212"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.f","kind":"property","src_hash":"69a174c5c32d4e72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f()","rhs":"self.ffps.function","over":{"base":"Any"},"name":"f_correct"},"guarantee":"returns self.ffps.function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"268991ddbc635212","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ffps.function","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ffps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def f(self):
         return self.ffps.function
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(g(), returns the g attribute) over Any                ║
+# ║ Path(g(), self.gfps.function) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.gfps.function                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ g : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea020a737a225ee8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.g","kind":"property","src_hash":"9c1c81856f72f63a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"g()","rhs":"returns the g attribute","over":{"base":"Any"},"name":"g_correct"},"guarantee":"returns the g attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea020a737a225ee8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.g","kind":"property","src_hash":"9c1c81856f72f63a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"g()","rhs":"self.gfps.function","over":{"base":"Any"},"name":"g_correct"},"guarantee":"returns self.gfps.function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea020a737a225ee8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.gfps.function","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gfps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def g(self):
         return self.gfps.function
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(infinite(), returns the infinite attribute) over Any  ║
+# ║ Path(infinite(), <unspecified:infinite>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ infinite : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e131ff1052963dd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.infinite","kind":"property","src_hash":"0f6adde18cf13a64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"infinite()","rhs":"returns the infinite attribute","over":{"base":"Any"},"name":"infinite_correct"},"guarantee":"returns the infinite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e131ff1052963dd9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.infinite","kind":"property","src_hash":"0f6adde18cf13a64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"infinite()","rhs":"<unspecified:infinite>","over":{"base":"Any"},"name":"infinite_correct"},"guarantee":"returns the infinite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e131ff1052963dd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def infinite(self):
         raise NotImplementedError("No infinite version for an object of"
                      " FiniteFormalPowerSeries class.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_terms(n), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_terms(n), <unspecified:_eval_terms>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_terms : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae8e535af87c3660           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries._eval_terms","kind":"method","src_hash":"36e44e3106f34555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae8e535af87c3660"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries._eval_terms","kind":"method","src_hash":"36e44e3106f34555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"<unspecified:_eval_terms>","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae8e535af87c3660","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_terms(self, n):
         raise NotImplementedError("(%s)._eval_terms()" % self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_term(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_term(pt), <unspecified:_eval_term>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_term : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f528c1916107c502  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries._eval_term","kind":"method","src_hash":"d7b4748d74f8653b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FiniteFormalPowerSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f528c1916107c502"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries._eval_term","kind":"method","src_hash":"d7b4748d74f8653b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"<unspecified:_eval_term>","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FiniteFormalPowerSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f528c1916107c502","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_term(self, pt):
         raise NotImplementedError("By the current logic, one can get terms"
                                    "upto a certain order, instead of getting term by term.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polynomial(n), polynomial produces the expected output) over Any ║
+# ║ Path(polynomial(n), self._eval_terms(n)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_terms(n)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polynomial : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 124600981e69bc18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.polynomial","kind":"method","src_hash":"8de8db4bc09778c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial(n)","rhs":"polynomial produces the expected output","over":{"base":"Any"},"name":"polynomial_correct"},"guarantee":"polynomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"124600981e69bc18"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.polynomial","kind":"method","src_hash":"8de8db4bc09778c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial(n)","rhs":"self._eval_terms(n)","over":{"base":"Any"},"name":"polynomial_correct"},"guarantee":"returns self._eval_terms(n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"124600981e69bc18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_terms(n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_terms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def polynomial(self, n):
         return self._eval_terms(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(truncate(n), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.polynomial(n) + Order(pt_xk, (x, x0))     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ truncate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fa5e694f7eddf467   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.truncate","kind":"method","src_hash":"c2c56afe16aded9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"truncate(n)","rhs":"truncate produces the expected output","over":{"base":"Any"},"name":"truncate_correct","kind":"composition"},"guarantee":"truncate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polynomial","by":"library_axiom"},{"fn":"Order","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa5e694f7eddf467"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.truncate","kind":"method","src_hash":"c2c56afe16aded9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"truncate(n)","rhs":"self.polynomial(n) + Order(pt_xk, (x, x0))","over":{"base":"Any"},"name":"truncate_correct","kind":"composition"},"guarantee":"returns self.polynomial(n) + Order(pt_xk, (x, x0))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"polynomial","by":"library_axiom"},{"fn":"Order","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa5e694f7eddf467","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.polynomial(n) + Order(pt_xk, (x, x0))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ffps","self.polynomial"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def truncate(self, n=6):
         ffps = self.ffps
         pt_xk = ffps.xk.coeff(n)
@@ -2357,30 +2837,42 @@ class FiniteFormalPowerSeries(FormalPowerSeries):
         return self.polynomial(n) + Order(pt_xk, (x, x0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), <unspecified:_eval_derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d818dd2bebce21f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries._eval_derivative","kind":"method","src_hash":"65e50531f507063b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d818dd2bebce21f7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries._eval_derivative","kind":"method","src_hash":"65e50531f507063b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"<unspecified:_eval_derivative>","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d818dd2bebce21f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(x), integrate produces the expected output) over Any ║
+# ║ Path(integrate(x), <unspecified:integrate>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integrate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd62241259971fce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.integrate","kind":"method","src_hash":"35d5798613e7e2ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(x)","rhs":"integrate produces the expected output","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd62241259971fce"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FiniteFormalPowerSeries.integrate","kind":"method","src_hash":"35d5798613e7e2ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(x)","rhs":"<unspecified:integrate>","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd62241259971fce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integrate(self, x):
         raise NotImplementedError
 
@@ -2388,14 +2880,20 @@ class FiniteFormalPowerSeries(FormalPowerSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FormalPowerSeriesProduct instance) preserved by FormalPowerSeriesProduct(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FormalPowerSeriesProduct : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FiniteFormalPowerSeries)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FormalPowerSeriesProduct : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d0ffe036234edd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct","kind":"class","src_hash":"cd5469befaa907ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FormalPowerSeriesProduct(*args)","rhs":"correctly constructs a FormalPowerSeriesProduct instance","over":{"base":"Any"},"name":"FormalPowerSeriesProduct_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FormalPowerSeriesProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'coeff1') and hasattr(self, 'coeff2')","kind":"class","induction":"structural on coeff1, coeff2"}],"methods_preserving":["__init__","function","_eval_terms"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d0ffe036234edd1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct","kind":"class","src_hash":"cd5469befaa907ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FiniteFormalPowerSeries)"},"spec":{"lhs":"FormalPowerSeriesProduct(*args)","rhs":"correctly constructs a FormalPowerSeriesProduct instance","over":{"base":"Any"},"name":"FormalPowerSeriesProduct_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, FiniteFormalPowerSeries); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'coeff1') and hasattr(self, 'coeff2')","kind":"class","induction":"structural on coeff1, coeff2"}],"methods_preserving":["__init__","function","_eval_terms"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d0ffe036234edd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FiniteFormalPowerSeries)"],"invariants":["hasattr(self, 'coeff1')","hasattr(self, 'coeff2')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FormalPowerSeriesProduct not found in source"]}}
 class FormalPowerSeriesProduct(FiniteFormalPowerSeries):
     """Represents the product of two formal power series of two functions.
 
@@ -2419,16 +2917,22 @@ class FormalPowerSeriesProduct(FiniteFormalPowerSeries):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), <unspecified:__init__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70aab84129594552           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct.__init__","kind":"method","src_hash":"b2da71e4a38db9e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70aab84129594552"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct.__init__","kind":"method","src_hash":"b2da71e4a38db9e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70aab84129594552","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         ffps, gfps = self.ffps, self.gfps
 
@@ -2440,31 +2944,43 @@ class FormalPowerSeriesProduct(FiniteFormalPowerSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self.f * self.g) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.f * self.g                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46d93c7644ec87e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct.function","kind":"property","src_hash":"efeec4e2c35baa06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46d93c7644ec87e4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct.function","kind":"property","src_hash":"efeec4e2c35baa06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self.f * self.g","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self.f * self.g","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46d93c7644ec87e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.f * self.g","pure":false,"effects":{"effect_type":"reads_state","reads":["self.f","self.g"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """Function of the product of two formal power series."""
         return self.f * self.g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_terms(n), returns the first ``n`` terms of the product formal power series. term by term logic is implemented here) over Any ║
+# ║ Path(_eval_terms(n), Add(*terms)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*terms)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_terms : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e350753ccebac40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9320105129c6515  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct._eval_terms","kind":"method","src_hash":"f185a05dfd035443","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"returns the first ``n`` terms of the product formal power series. term by term logic is implemented here","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"returns the first ``n`` terms of the product formal power series. term by term logic is implemented here","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeriesProduct._eval_terms_correct","statement":"Path(_eval_terms(x), returns the first ``n`` terms of the product formal power series. term by term logic is implemented here)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e350753ccebac40"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesProduct._eval_terms","kind":"method","src_hash":"f185a05dfd035443","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"Add(*terms)","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"returns Add(*terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeriesProduct._eval_terms_correct","statement":"Path(_eval_terms(x), returns Add(*terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9320105129c6515","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_terms(self, n):
         """
         Returns the first ``n`` terms of the product formal power series.
@@ -2502,14 +3018,20 @@ class FormalPowerSeriesProduct(FiniteFormalPowerSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FormalPowerSeriesCompose(*args), correctly constructs a FormalPowerSeriesCompose instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FormalPowerSeriesCompose : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FiniteFormalPowerSeries)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FormalPowerSeriesCompose : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee1053ea2b092c97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesCompose","kind":"class","src_hash":"4567ada9eb40c53b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FormalPowerSeriesCompose(*args)","rhs":"correctly constructs a FormalPowerSeriesCompose instance","over":{"base":"Any"},"name":"FormalPowerSeriesCompose_class_invariant"},"guarantee":"correctly constructs a FormalPowerSeriesCompose instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee1053ea2b092c97"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesCompose","kind":"class","src_hash":"4567ada9eb40c53b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FiniteFormalPowerSeries)"},"spec":{"lhs":"FormalPowerSeriesCompose(*args)","rhs":"correctly constructs a FormalPowerSeriesCompose instance","over":{"base":"Any"},"name":"FormalPowerSeriesCompose_class_invariant"},"guarantee":"isinstance(self, FiniteFormalPowerSeries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee1053ea2b092c97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FiniteFormalPowerSeries)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FormalPowerSeriesCompose not found in source"]}}
 class FormalPowerSeriesCompose(FiniteFormalPowerSeries):
     """
     Represents the composed formal power series of two functions.
@@ -2537,32 +3059,44 @@ class FormalPowerSeriesCompose(FiniteFormalPowerSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), f.subs(x, g)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f.subs(x, g)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d367363c9141b1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesCompose.function","kind":"property","src_hash":"2bb2137297da8c8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d367363c9141b1b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesCompose.function","kind":"property","src_hash":"2bb2137297da8c8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"f.subs(x, g)","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns f.subs(x, g)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d367363c9141b1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f.subs(x, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.f","self.ffps","self.g"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """Function for the composed formal power series."""
         f, g, x = self.f, self.g, self.ffps.x
         return f.subs(x, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_terms(n), returns the first `n` terms of the composed formal power series. term by term logic is implemented here) over Any ║
+# ║ Path(_eval_terms(n), Add(*terms)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*terms)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_terms : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 760d6b193c4a477a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c82d6b943fe67c7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesCompose._eval_terms","kind":"method","src_hash":"e569c8c79ae08bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"returns the first `n` terms of the composed formal power series. term by term logic is implemented here","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"returns the first `n` terms of the composed formal power series. term by term logic is implemented here","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeriesCompose._eval_terms_correct","statement":"Path(_eval_terms(x), returns the first `n` terms of the composed formal power series. term by term logic is implemented here)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760d6b193c4a477a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesCompose._eval_terms","kind":"method","src_hash":"e569c8c79ae08bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"Add(*terms)","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"returns Add(*terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeriesCompose._eval_terms_correct","statement":"Path(_eval_terms(x), returns Add(*terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c82d6b943fe67c7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_terms(self, n):
         """
         Returns the first `n` terms of the composed formal power series.
@@ -2612,14 +3146,20 @@ class FormalPowerSeriesCompose(FiniteFormalPowerSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FormalPowerSeriesInverse instance) preserved by FormalPowerSeriesInverse(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FormalPowerSeriesInverse : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FiniteFormalPowerSeries)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FormalPowerSeriesInverse : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e71b203525ae911  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse","kind":"class","src_hash":"2c84f5941711b05e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FormalPowerSeriesInverse(*args)","rhs":"correctly constructs a FormalPowerSeriesInverse instance","over":{"base":"Any"},"name":"FormalPowerSeriesInverse_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FormalPowerSeriesInverse instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'aux_seq')","kind":"class","induction":"structural on aux_seq"}],"methods_preserving":["__init__","function","g","gfps","_eval_terms"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e71b203525ae911"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse","kind":"class","src_hash":"2c84f5941711b05e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FiniteFormalPowerSeries)"},"spec":{"lhs":"FormalPowerSeriesInverse(*args)","rhs":"correctly constructs a FormalPowerSeriesInverse instance","over":{"base":"Any"},"name":"FormalPowerSeriesInverse_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, FiniteFormalPowerSeries); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'aux_seq')","kind":"class","induction":"structural on aux_seq"}],"methods_preserving":["__init__","function","g","gfps","_eval_terms"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e71b203525ae911","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FiniteFormalPowerSeries)"],"invariants":["hasattr(self, 'aux_seq')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FormalPowerSeriesInverse not found in source"]}}
 class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
     """
     Represents the Inverse of a formal power series.
@@ -2643,16 +3183,22 @@ class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), <unspecified:__init__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48712e1880270450           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.__init__","kind":"method","src_hash":"10c6abac3e30e4a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48712e1880270450"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.__init__","kind":"method","src_hash":"10c6abac3e30e4a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48712e1880270450","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         ffps = self.ffps
         k = ffps.xk.variables[0]
@@ -2663,16 +3209,22 @@ class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), 1 / f) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / f                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e54ce785dd776ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.function","kind":"property","src_hash":"2abd39f7414fd326","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e54ce785dd776ea"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.function","kind":"property","src_hash":"2abd39f7414fd326","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"1 / f","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns 1 / f","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e54ce785dd776ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / f","pure":false,"effects":{"effect_type":"reads_state","reads":["self.f"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """Function for the inverse of a formal power series."""
         f = self.f
@@ -2680,47 +3232,65 @@ class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(g(), returns the g attribute) over Any                ║
+# ║ Path(g(), <unspecified:g>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ g : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1c4732265007574           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.g","kind":"property","src_hash":"aaf9f1915aabdf1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"g()","rhs":"returns the g attribute","over":{"base":"Any"},"name":"g_correct"},"guarantee":"returns the g attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c4732265007574"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.g","kind":"property","src_hash":"aaf9f1915aabdf1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"g()","rhs":"<unspecified:g>","over":{"base":"Any"},"name":"g_correct"},"guarantee":"returns the g attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c4732265007574","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def g(self):
         raise ValueError("Only one function is considered while performing"
                         "inverse of a formal power series.")
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gfps(), returns the gfps attribute) over Any          ║
+# ║ Path(gfps(), <unspecified:gfps>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gfps : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbb9e26641da507c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.gfps","kind":"property","src_hash":"d122e7a49af5b066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gfps()","rhs":"returns the gfps attribute","over":{"base":"Any"},"name":"gfps_correct"},"guarantee":"returns the gfps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbb9e26641da507c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse.gfps","kind":"property","src_hash":"d122e7a49af5b066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gfps()","rhs":"<unspecified:gfps>","over":{"base":"Any"},"name":"gfps_correct"},"guarantee":"returns the gfps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbb9e26641da507c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gfps(self):
         raise ValueError("Only one function is considered while performing"
                         "inverse of a formal power series.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_terms(n), returns the first ``n`` terms of the composed formal power series. term by term logic is implemented here) over Any ║
+# ║ Path(_eval_terms(n), Add(*terms)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*terms)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_terms : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8c913d11c60a547  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 952ad89858918dfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse._eval_terms","kind":"method","src_hash":"aa53902812e0ce04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"returns the first ``n`` terms of the composed formal power series. term by term logic is implemented here","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"returns the first ``n`` terms of the composed formal power series. term by term logic is implemented here","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeriesInverse._eval_terms_correct","statement":"Path(_eval_terms(x), returns the first ``n`` terms of the composed formal power series. term by term logic is implemented here)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8c913d11c60a547"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.FormalPowerSeriesInverse._eval_terms","kind":"method","src_hash":"aa53902812e0ce04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_terms(n)","rhs":"Add(*terms)","over":{"base":"Any"},"name":"_eval_terms_correct"},"guarantee":"returns Add(*terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.FormalPowerSeriesInverse._eval_terms_correct","statement":"Path(_eval_terms(x), returns Add(*terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952ad89858918dfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_terms(self, n):
         """
         Returns the first ``n`` terms of the composed formal power series.
@@ -2767,16 +3337,24 @@ class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fps(f, ), generates formal power series of ``f``) over Any ║
+# ║ Path(fps(f, x, x0), len(free) == old_len_free - 1) over {Any | hasattr(f, 'free_symbols') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fps : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fps : {Any | hasattr(f, 'free_symbols') and len(free)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bbdad7b24f40da6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fa3eb7adf885011  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.formal.fps","kind":"function","src_hash":"ada66a75775abafb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fps(f, )","rhs":"generates formal power series of ``f``","over":{"base":"Any"},"name":"fps_correct"},"guarantee":"generates formal power series of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.fps_correct","statement":"Path(fps(x), generates formal power series of ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bbdad7b24f40da6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.formal.fps","kind":"function","src_hash":"ada66a75775abafb","in":{"base":"Any","pred":"hasattr(f, 'free_symbols') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"fps(f, x, x0)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"hasattr(f, 'free_symbols') and len(free) > 0"},"name":"fps_correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.formal.fps_correct","statement":"Path(fps(x), len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fa3eb7adf885011","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'free_symbols')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.free_symbols"],"calls_mutating":["free.pop"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def fps(f, x=None, x0=0, dir=1, hyper=True, order=4, rational=True, full=False):
     """
     Generates Formal Power Series of ``f``.

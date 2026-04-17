@@ -43,27 +43,39 @@ x, y, t = symbols('x,y,t')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomKet(*args), correctly constructs a CustomKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomKet : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomKet : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ec032d4f6d752d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKet","kind":"class","src_hash":"23e3a08960c20ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomKet(*args)","rhs":"correctly constructs a CustomKet instance","over":{"base":"Any"},"name":"CustomKet_class_invariant"},"guarantee":"correctly constructs a CustomKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ec032d4f6d752d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKet","kind":"class","src_hash":"23e3a08960c20ee0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ket)"},"spec":{"lhs":"CustomKet(*args)","rhs":"correctly constructs a CustomKet instance","over":{"base":"Any"},"name":"CustomKet_class_invariant"},"guarantee":"isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ec032d4f6d752d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomKet not found in source"]}}
 class CustomKet(Ket):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), default_args produces the expected output) over Any ║
+# ║ Path(default_args(), ('test',)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('test',)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 941e47f3fb841c05           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKet.default_args","kind":"classmethod","src_hash":"ee205560b4a0c9c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"default_args produces the expected output","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"default_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"941e47f3fb841c05"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKet.default_args","kind":"classmethod","src_hash":"ee205560b4a0c9c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"('test',)","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"returns ('test',)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"941e47f3fb841c05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('test',)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         return ("test",)
 
@@ -71,27 +83,39 @@ class CustomKet(Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomKetMultipleLabels(*args), correctly constructs a CustomKetMultipleLabels instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomKetMultipleLabels : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomKetMultipleLabels : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bee9779fb852d4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKetMultipleLabels","kind":"class","src_hash":"eed7aa00e28a53cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomKetMultipleLabels(*args)","rhs":"correctly constructs a CustomKetMultipleLabels instance","over":{"base":"Any"},"name":"CustomKetMultipleLabels_class_invariant"},"guarantee":"correctly constructs a CustomKetMultipleLabels instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bee9779fb852d4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKetMultipleLabels","kind":"class","src_hash":"eed7aa00e28a53cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ket)"},"spec":{"lhs":"CustomKetMultipleLabels(*args)","rhs":"correctly constructs a CustomKetMultipleLabels instance","over":{"base":"Any"},"name":"CustomKetMultipleLabels_class_invariant"},"guarantee":"isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bee9779fb852d4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomKetMultipleLabels not found in source"]}}
 class CustomKetMultipleLabels(Ket):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), default_args produces the expected output) over Any ║
+# ║ Path(default_args(), ('r', 'theta', 'phi')) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('r', 'theta', 'phi')                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 135c4accba7290fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKetMultipleLabels.default_args","kind":"classmethod","src_hash":"2c865c66422369db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"default_args produces the expected output","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"default_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"135c4accba7290fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomKetMultipleLabels.default_args","kind":"classmethod","src_hash":"2c865c66422369db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"('r', 'theta', 'phi')","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"returns ('r', 'theta', 'phi')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"135c4accba7290fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('r', 'theta', 'phi')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         return ("r", "theta", "phi")
 
@@ -99,27 +123,39 @@ class CustomKetMultipleLabels(Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomTimeDepKet(*args), correctly constructs a CustomTimeDepKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomTimeDepKet : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TimeDepKet)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomTimeDepKet : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5928b0fa3db62dda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKet","kind":"class","src_hash":"923ae58438089bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomTimeDepKet(*args)","rhs":"correctly constructs a CustomTimeDepKet instance","over":{"base":"Any"},"name":"CustomTimeDepKet_class_invariant"},"guarantee":"correctly constructs a CustomTimeDepKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5928b0fa3db62dda"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKet","kind":"class","src_hash":"923ae58438089bb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TimeDepKet)"},"spec":{"lhs":"CustomTimeDepKet(*args)","rhs":"correctly constructs a CustomTimeDepKet instance","over":{"base":"Any"},"name":"CustomTimeDepKet_class_invariant"},"guarantee":"isinstance(self, TimeDepKet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5928b0fa3db62dda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TimeDepKet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomTimeDepKet not found in source"]}}
 class CustomTimeDepKet(TimeDepKet):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), default_args produces the expected output) over Any ║
+# ║ Path(default_args(), ('test', 't')) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('test', 't')                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fffaa9d5182c825           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKet.default_args","kind":"classmethod","src_hash":"07ba1509f94d1651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"default_args produces the expected output","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"default_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fffaa9d5182c825"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKet.default_args","kind":"classmethod","src_hash":"07ba1509f94d1651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"('test', 't')","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"returns ('test', 't')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fffaa9d5182c825","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('test', 't')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         return ("test", "t")
 
@@ -127,33 +163,50 @@ class CustomTimeDepKet(TimeDepKet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomTimeDepKetMultipleLabels(*args), correctly constructs a CustomTimeDepKetMultipleLabels instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomTimeDepKetMultipleLabels : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TimeDepKet)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomTimeDepKetMultipleLabels : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86781bbdc4638e54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKetMultipleLabels","kind":"class","src_hash":"05440c32d7cdc5d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomTimeDepKetMultipleLabels(*args)","rhs":"correctly constructs a CustomTimeDepKetMultipleLabels instance","over":{"base":"Any"},"name":"CustomTimeDepKetMultipleLabels_class_invariant"},"guarantee":"correctly constructs a CustomTimeDepKetMultipleLabels instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86781bbdc4638e54"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKetMultipleLabels","kind":"class","src_hash":"05440c32d7cdc5d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TimeDepKet)"},"spec":{"lhs":"CustomTimeDepKetMultipleLabels(*args)","rhs":"correctly constructs a CustomTimeDepKetMultipleLabels instance","over":{"base":"Any"},"name":"CustomTimeDepKetMultipleLabels_class_invariant"},"guarantee":"isinstance(self, TimeDepKet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86781bbdc4638e54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TimeDepKet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomTimeDepKetMultipleLabels not found in source"]}}
 class CustomTimeDepKetMultipleLabels(TimeDepKet):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), default_args produces the expected output) over Any ║
+# ║ Path(default_args(), ('r', 'theta', 'phi', 't')) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('r', 'theta', 'phi', 't')                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acce220fb80de4de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKetMultipleLabels.default_args","kind":"classmethod","src_hash":"adf916c55de6921a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"default_args produces the expected output","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"default_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acce220fb80de4de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.CustomTimeDepKetMultipleLabels.default_args","kind":"classmethod","src_hash":"adf916c55de6921a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"('r', 'theta', 'phi', 't')","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"returns ('r', 'theta', 'phi', 't')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acce220fb80de4de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('r', 'theta', 'phi', 't')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         return ("r", "theta", "phi", "t")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ket(), test_ket produces the expected output) over {Any | isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase)} ║
+# ║ Path(test_ket(), isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Symbol('0'),) and k.hilbert_space == HilbertSpace() and k.is_commutative is False and k.label == (Symbol('pi'),) and k.label == (x, y) and k.dual_class() == Bra and k.dual == Bra(x, y) and k.subs(x, y) == Ket(y, y) and k == CustomKet('test') and k == CustomKetMultipleLabels('r', 'theta', 'phi') and Ket() == Ket('psi')) over {Any | isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(k, Ket)                             ║
+# ║   ensures:  isinstance(k, KetBase)                         ║
+# ║   ensures:  isinstance(k, StateBase)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ket : {Any | isinstance(k, Ket) and isinstance(k...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -168,9 +221,12 @@ class CustomTimeDepKetMultipleLabels(TimeDepKet):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8e7a28be...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_ket","kind":"function","src_hash":"4254a9b5b1f3f5a8","in":{"base":"Any","pred":"isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"out":{"base":"Any","pred":"isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Symbol('0'),) and k.hilbert_space == HilbertSpace() and k.is_commutative is False and k.label == (Symbol('pi'),) and k.label == (x, y) and k.hilbert_space == HilbertSpace() and k.is_commutative is False and k.dual_class() == Bra and k.dual == Bra(x, y) and k.subs(x, y) == Ket(y, y) and k == CustomKet('test') and k == CustomKetMultipleLabels('r', 'theta', 'phi') and Ket() == Ket('psi')"},"spec":{"lhs":"test_ket()","rhs":"test_ket produces the expected output","over":{"base":"Any","pred":"isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"name":"test_ket_correct"},"guarantee":"test_ket produces the expected output","fibers":[{"name":"Ket","pred":"isinstance(k, Ket)","path":{"lhs":"test_ket(x)","rhs":"test_ket produces the expected output","over":{"base":"Ket","pred":"isinstance(k, Ket)"},"name":"test_ket_Ket_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_Ket_correct","statement":"test_ket satisfies spec on Ket inputs"},"trust":"LIBRARY"},{"name":"KetBase","pred":"isinstance(k, KetBase)","path":{"lhs":"test_ket(x)","rhs":"test_ket produces the expected output","over":{"base":"KetBase","pred":"isinstance(k, KetBase)"},"name":"test_ket_KetBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_KetBase_correct","statement":"test_ket satisfies spec on KetBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(k, StateBase)","path":{"lhs":"test_ket(x)","rhs":"test_ket produces the expected output","over":{"base":"StateBase","pred":"isinstance(k, StateBase)"},"name":"test_ket_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_StateBase_correct","statement":"test_ket satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(k, QExpr)","path":{"lhs":"test_ket(x)","rhs":"test_ket produces the expected output","over":{"base":"QExpr","pred":"isinstance(k, QExpr)"},"name":"test_ket_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_QExpr_correct","statement":"test_ket satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e7a28beb4665a11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_ket","kind":"function","src_hash":"4254a9b5b1f3f5a8","in":{"base":"Any","pred":"isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Symbol('0'),) and k.hilbert_space == HilbertSpace() and k.is_commutative is False and k.label == (Symbol('pi'),) and k.label == (x, y) and k.dual_class() == Bra and k.dual == Bra(x, y) and k.subs(x, y) == Ket(y, y) and k == CustomKet('test') and k == CustomKetMultipleLabels('r', 'theta', 'phi') and Ket() == Ket('psi')"},"spec":{"lhs":"test_ket()","rhs":"isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Symbol('0'),) and k.hilbert_space == HilbertSpace() and k.is_commutative is False and k.label == (Symbol('pi'),) and k.label == (x, y) and k.dual_class() == Bra and k.dual == Bra(x, y) and k.subs(x, y) == Ket(y, y) and k == CustomKet('test') and k == CustomKetMultipleLabels('r', 'theta', 'phi') and Ket() == Ket('psi')","over":{"base":"Any","pred":"isinstance(k, Ket) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"name":"test_ket_correct"},"guarantee":"isinstance(k, Ket); isinstance(k, KetBase); isinstance(k, StateBase)","fibers":[{"name":"Ket","pred":"isinstance(k, Ket)","path":{"lhs":"test_ket(x)","rhs":"isinstance(k, Ket); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"Ket","pred":"isinstance(k, Ket)"},"name":"test_ket_Ket_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_Ket_correct","statement":"test_ket satisfies spec on Ket inputs"},"trust":"LIBRARY"},{"name":"KetBase","pred":"isinstance(k, KetBase)","path":{"lhs":"test_ket(x)","rhs":"isinstance(k, Ket); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"KetBase","pred":"isinstance(k, KetBase)"},"name":"test_ket_KetBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_KetBase_correct","statement":"test_ket satisfies spec on KetBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(k, StateBase)","path":{"lhs":"test_ket(x)","rhs":"isinstance(k, Ket); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"StateBase","pred":"isinstance(k, StateBase)"},"name":"test_ket_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_StateBase_correct","statement":"test_ket satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(k, QExpr)","path":{"lhs":"test_ket(x)","rhs":"isinstance(k, Ket); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"QExpr","pred":"isinstance(k, QExpr)"},"name":"test_ket_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ket_QExpr_correct","statement":"test_ket satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e7a28beb4665a11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(k, Ket)","isinstance(k, KetBase)","isinstance(k, StateBase)","isinstance(k, QExpr)","k.label == (Symbol('0'),)","k.hilbert_space == HilbertSpace()","k.is_commutative is False","k.label == (Symbol('pi'),)","k.label == (x, y)","k.dual_class() == Bra","k.dual == Bra(x, y)","k.subs(x, y) == Ket(y, y)","k == CustomKet('test')","k == CustomKetMultipleLabels('r', 'theta', 'phi')","Ket() == Ket('psi')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"failed","binding":true}}
 def test_ket():
     k = Ket('0')
 
@@ -206,7 +262,12 @@ def test_ket():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bra(), test_bra produces the expected output) over {Any | isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase)} ║
+# ║ Path(test_bra(), isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Symbol('0'),) and b.hilbert_space == HilbertSpace() and b.is_commutative is False and b.label == (Symbol('pi'),) and b.label == (x, y) and b.dual_class() == Ket and b.dual == Ket(x, y) and b.subs(x, y) == Bra(y, y) and Bra() == Bra('psi')) over {Any | isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(b, Bra)                             ║
+# ║   ensures:  isinstance(b, BraBase)                         ║
+# ║   ensures:  isinstance(b, StateBase)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_bra : {Any | isinstance(b, Bra) and isinstance(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -221,9 +282,12 @@ def test_ket():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 5.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d5b6c029...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_bra","kind":"function","src_hash":"5ac0b15d1c82c297","in":{"base":"Any","pred":"isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"out":{"base":"Any","pred":"isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Symbol('0'),) and b.hilbert_space == HilbertSpace() and b.is_commutative is False and b.label == (Symbol('pi'),) and b.label == (x, y) and b.hilbert_space == HilbertSpace() and b.is_commutative is False and b.dual_class() == Ket and b.dual == Ket(x, y) and b.subs(x, y) == Bra(y, y) and Bra() == Bra('psi')"},"spec":{"lhs":"test_bra()","rhs":"test_bra produces the expected output","over":{"base":"Any","pred":"isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"name":"test_bra_correct"},"guarantee":"test_bra produces the expected output","fibers":[{"name":"Bra","pred":"isinstance(b, Bra)","path":{"lhs":"test_bra(x)","rhs":"test_bra produces the expected output","over":{"base":"Bra","pred":"isinstance(b, Bra)"},"name":"test_bra_Bra_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_Bra_correct","statement":"test_bra satisfies spec on Bra inputs"},"trust":"LIBRARY"},{"name":"BraBase","pred":"isinstance(b, BraBase)","path":{"lhs":"test_bra(x)","rhs":"test_bra produces the expected output","over":{"base":"BraBase","pred":"isinstance(b, BraBase)"},"name":"test_bra_BraBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_BraBase_correct","statement":"test_bra satisfies spec on BraBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(b, StateBase)","path":{"lhs":"test_bra(x)","rhs":"test_bra produces the expected output","over":{"base":"StateBase","pred":"isinstance(b, StateBase)"},"name":"test_bra_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_StateBase_correct","statement":"test_bra satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(b, QExpr)","path":{"lhs":"test_bra(x)","rhs":"test_bra produces the expected output","over":{"base":"QExpr","pred":"isinstance(b, QExpr)"},"name":"test_bra_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_QExpr_correct","statement":"test_bra satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d5b6c0293edf8d8d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_bra","kind":"function","src_hash":"5ac0b15d1c82c297","in":{"base":"Any","pred":"isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Symbol('0'),) and b.hilbert_space == HilbertSpace() and b.is_commutative is False and b.label == (Symbol('pi'),) and b.label == (x, y) and b.dual_class() == Ket and b.dual == Ket(x, y) and b.subs(x, y) == Bra(y, y) and Bra() == Bra('psi')"},"spec":{"lhs":"test_bra()","rhs":"isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Symbol('0'),) and b.hilbert_space == HilbertSpace() and b.is_commutative is False and b.label == (Symbol('pi'),) and b.label == (x, y) and b.dual_class() == Ket and b.dual == Ket(x, y) and b.subs(x, y) == Bra(y, y) and Bra() == Bra('psi')","over":{"base":"Any","pred":"isinstance(b, Bra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"name":"test_bra_correct"},"guarantee":"isinstance(b, Bra); isinstance(b, BraBase); isinstance(b, StateBase)","fibers":[{"name":"Bra","pred":"isinstance(b, Bra)","path":{"lhs":"test_bra(x)","rhs":"isinstance(b, Bra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"Bra","pred":"isinstance(b, Bra)"},"name":"test_bra_Bra_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_Bra_correct","statement":"test_bra satisfies spec on Bra inputs"},"trust":"LIBRARY"},{"name":"BraBase","pred":"isinstance(b, BraBase)","path":{"lhs":"test_bra(x)","rhs":"isinstance(b, Bra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"BraBase","pred":"isinstance(b, BraBase)"},"name":"test_bra_BraBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_BraBase_correct","statement":"test_bra satisfies spec on BraBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(b, StateBase)","path":{"lhs":"test_bra(x)","rhs":"isinstance(b, Bra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"StateBase","pred":"isinstance(b, StateBase)"},"name":"test_bra_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_StateBase_correct","statement":"test_bra satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(b, QExpr)","path":{"lhs":"test_bra(x)","rhs":"isinstance(b, Bra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"QExpr","pred":"isinstance(b, QExpr)"},"name":"test_bra_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_QExpr_correct","statement":"test_bra satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d5b6c0293edf8d8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(b, Bra)","isinstance(b, BraBase)","isinstance(b, StateBase)","isinstance(b, QExpr)","b.label == (Symbol('0'),)","b.hilbert_space == HilbertSpace()","b.is_commutative is False","b.label == (Symbol('pi'),)","b.label == (x, y)","b.dual_class() == Ket","b.dual == Ket(x, y)","b.subs(x, y) == Bra(y, y)","Bra() == Bra('psi')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.4,"verdict_class":"failed","binding":true}}
 def test_bra():
     b = Bra('0')
 
@@ -253,16 +317,22 @@ def test_bra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ops(), test_ops produces the expected output) over Any ║
+# ║ Path(test_ops(), k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ops : Any → {Any | k == Add(Mul(2, I, k0), Mul(R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  k == Add(Mul(2, I, k0), Mul(Rational(-1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ops : Any → {Any | result satisfies: k == Add(Mu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7020c9a49d0cf59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 177cff6856ce6cea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_ops","kind":"function","src_hash":"c23321a4efc8eeda","in":{"base":"Any"},"out":{"base":"Any","pred":"k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1))"},"spec":{"lhs":"test_ops()","rhs":"test_ops produces the expected output","over":{"base":"Any"},"name":"test_ops_correct"},"guarantee":"test_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ops_correct","statement":"Path(test_ops(x), test_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7020c9a49d0cf59"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_ops","kind":"function","src_hash":"c23321a4efc8eeda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1))"},"spec":{"lhs":"test_ops()","rhs":"k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1))","over":{"base":"Any"},"name":"test_ops_correct"},"guarantee":"k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_ops_correct","statement":"Path(test_ops(x), k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"177cff6856ce6cea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["k == Add(Mul(2, I, k0), Mul(Rational(-1, 2), x, Pow(2, S.Half), k1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ops():
     k0 = Ket(0)
     k1 = Ket(1)
@@ -272,7 +342,12 @@ def test_ops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_time_dep_ket(), test_time_dep_ket produces the expected output) over {Any | isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase)} ║
+# ║ Path(test_time_dep_ket(), isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Integer(0),) and k.args == (Integer(0), t) and k.time == t and k.dual_class() == TimeDepBra and k.dual == TimeDepBra(0, t) and k.subs(t, 2) == TimeDepKet(0, 2) and k.label == (x,) and k.args == (x, sympify(0.5)) and k.label == (Symbol('test'),) and k.time == Symbol('t') and k == CustomTimeDepKet('test', 't') and k.label == (Symbol('r'), Symbol('theta'), Symbol('phi')) and k == CustomTimeDepKetMultipleLabels('r', 'theta', 'phi', 't') and TimeDepKet() == TimeDepKet('psi', 't')) over {Any | isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(k, TimeDepKet)                      ║
+# ║   ensures:  isinstance(k, KetBase)                         ║
+# ║   ensures:  isinstance(k, StateBase)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_time_dep_ket : {Any | isinstance(k, TimeDepKet) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -287,9 +362,12 @@ def test_ops():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 6.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a1034b3a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_time_dep_ket","kind":"function","src_hash":"8e231d2207e7e0b4","in":{"base":"Any","pred":"isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"out":{"base":"Any","pred":"isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Integer(0),) and k.args == (Integer(0), t) and k.time == t and k.dual_class() == TimeDepBra and k.dual == TimeDepBra(0, t) and k.subs(t, 2) == TimeDepKet(0, 2) and k.label == (x,) and k.args == (x, sympify(0.5)) and k.label == (Symbol('test'),) and k.time == Symbol('t') and k == CustomTimeDepKet('test', 't') and k.label == (Symbol('r'), Symbol('theta'), Symbol('phi')) and k.time == Symbol('t') and k == CustomTimeDepKetMultipleLabels('r', 'theta', 'phi', 't') and TimeDepKet() == TimeDepKet('psi', 't')"},"spec":{"lhs":"test_time_dep_ket()","rhs":"test_time_dep_ket produces the expected output","over":{"base":"Any","pred":"isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"name":"test_time_dep_ket_correct"},"guarantee":"test_time_dep_ket produces the expected output","fibers":[{"name":"TimeDepKet","pred":"isinstance(k, TimeDepKet)","path":{"lhs":"test_time_dep_ket(x)","rhs":"test_time_dep_ket produces the expected output","over":{"base":"TimeDepKet","pred":"isinstance(k, TimeDepKet)"},"name":"test_time_dep_ket_TimeDepKet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_TimeDepKet_correct","statement":"test_time_dep_ket satisfies spec on TimeDepKet inputs"},"trust":"LIBRARY"},{"name":"KetBase","pred":"isinstance(k, KetBase)","path":{"lhs":"test_time_dep_ket(x)","rhs":"test_time_dep_ket produces the expected output","over":{"base":"KetBase","pred":"isinstance(k, KetBase)"},"name":"test_time_dep_ket_KetBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_KetBase_correct","statement":"test_time_dep_ket satisfies spec on KetBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(k, StateBase)","path":{"lhs":"test_time_dep_ket(x)","rhs":"test_time_dep_ket produces the expected output","over":{"base":"StateBase","pred":"isinstance(k, StateBase)"},"name":"test_time_dep_ket_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_StateBase_correct","statement":"test_time_dep_ket satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(k, QExpr)","path":{"lhs":"test_time_dep_ket(x)","rhs":"test_time_dep_ket produces the expected output","over":{"base":"QExpr","pred":"isinstance(k, QExpr)"},"name":"test_time_dep_ket_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_QExpr_correct","statement":"test_time_dep_ket satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a1034b3a2b609d6d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_time_dep_ket","kind":"function","src_hash":"8e231d2207e7e0b4","in":{"base":"Any","pred":"isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Integer(0),) and k.args == (Integer(0), t) and k.time == t and k.dual_class() == TimeDepBra and k.dual == TimeDepBra(0, t) and k.subs(t, 2) == TimeDepKet(0, 2) and k.label == (x,) and k.args == (x, sympify(0.5)) and k.label == (Symbol('test'),) and k.time == Symbol('t') and k == CustomTimeDepKet('test', 't') and k.label == (Symbol('r'), Symbol('theta'), Symbol('phi')) and k == CustomTimeDepKetMultipleLabels('r', 'theta', 'phi', 't') and TimeDepKet() == TimeDepKet('psi', 't')"},"spec":{"lhs":"test_time_dep_ket()","rhs":"isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase) and isinstance(k, QExpr) and k.label == (Integer(0),) and k.args == (Integer(0), t) and k.time == t and k.dual_class() == TimeDepBra and k.dual == TimeDepBra(0, t) and k.subs(t, 2) == TimeDepKet(0, 2) and k.label == (x,) and k.args == (x, sympify(0.5)) and k.label == (Symbol('test'),) and k.time == Symbol('t') and k == CustomTimeDepKet('test', 't') and k.label == (Symbol('r'), Symbol('theta'), Symbol('phi')) and k == CustomTimeDepKetMultipleLabels('r', 'theta', 'phi', 't') and TimeDepKet() == TimeDepKet('psi', 't')","over":{"base":"Any","pred":"isinstance(k, TimeDepKet) and isinstance(k, KetBase) and isinstance(k, StateBase)"},"name":"test_time_dep_ket_correct"},"guarantee":"isinstance(k, TimeDepKet); isinstance(k, KetBase); isinstance(k, StateBase)","fibers":[{"name":"TimeDepKet","pred":"isinstance(k, TimeDepKet)","path":{"lhs":"test_time_dep_ket(x)","rhs":"isinstance(k, TimeDepKet); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"TimeDepKet","pred":"isinstance(k, TimeDepKet)"},"name":"test_time_dep_ket_TimeDepKet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_TimeDepKet_correct","statement":"test_time_dep_ket satisfies spec on TimeDepKet inputs"},"trust":"LIBRARY"},{"name":"KetBase","pred":"isinstance(k, KetBase)","path":{"lhs":"test_time_dep_ket(x)","rhs":"isinstance(k, TimeDepKet); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"KetBase","pred":"isinstance(k, KetBase)"},"name":"test_time_dep_ket_KetBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_KetBase_correct","statement":"test_time_dep_ket satisfies spec on KetBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(k, StateBase)","path":{"lhs":"test_time_dep_ket(x)","rhs":"isinstance(k, TimeDepKet); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"StateBase","pred":"isinstance(k, StateBase)"},"name":"test_time_dep_ket_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_StateBase_correct","statement":"test_time_dep_ket satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(k, QExpr)","path":{"lhs":"test_time_dep_ket(x)","rhs":"isinstance(k, TimeDepKet); isinstance(k, KetBase); isinstance(k, StateBase)","over":{"base":"QExpr","pred":"isinstance(k, QExpr)"},"name":"test_time_dep_ket_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_ket_QExpr_correct","statement":"test_time_dep_ket satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a1034b3a2b609d6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(k, TimeDepKet)","isinstance(k, KetBase)","isinstance(k, StateBase)","isinstance(k, QExpr)","k.label == (Integer(0),)","k.args == (Integer(0), t)","k.time == t","k.dual_class() == TimeDepBra","k.dual == TimeDepBra(0, t)","k.subs(t, 2) == TimeDepKet(0, 2)","k.label == (x,)","k.args == (x, sympify(0.5))","k.label == (Symbol('test'),)","k.time == Symbol('t')","k == CustomTimeDepKet('test', 't')","k.label == (Symbol('r'), Symbol('theta'), Symbol('phi'))","k == CustomTimeDepKetMultipleLabels('r', 'theta', 'phi', 't')","TimeDepKet() == TimeDepKet('psi', 't')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.8,"verdict_class":"failed","binding":true}}
 def test_time_dep_ket():
     k = TimeDepKet(0, t)
 
@@ -325,7 +403,12 @@ def test_time_dep_ket():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_time_dep_bra(), test_time_dep_bra produces the expected output) over {Any | isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase)} ║
+# ║ Path(test_time_dep_bra(), isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Integer(0),) and b.args == (Integer(0), t) and b.time == t and b.dual_class() == TimeDepKet and b.dual == TimeDepKet(0, t) and k.label == (x,) and k.args == (x, sympify(0.5)) and TimeDepBra() == TimeDepBra('psi', 't')) over {Any | isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(b, TimeDepBra)                      ║
+# ║   ensures:  isinstance(b, BraBase)                         ║
+# ║   ensures:  isinstance(b, StateBase)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_time_dep_bra : {Any | isinstance(b, TimeDepBra) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -340,9 +423,12 @@ def test_time_dep_ket():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ad5fb555...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_time_dep_bra","kind":"function","src_hash":"6397fcb7b34c6fc4","in":{"base":"Any","pred":"isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"out":{"base":"Any","pred":"isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Integer(0),) and b.args == (Integer(0), t) and b.time == t and b.dual_class() == TimeDepKet and b.dual == TimeDepKet(0, t) and k.label == (x,) and k.args == (x, sympify(0.5)) and TimeDepBra() == TimeDepBra('psi', 't')"},"spec":{"lhs":"test_time_dep_bra()","rhs":"test_time_dep_bra produces the expected output","over":{"base":"Any","pred":"isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"name":"test_time_dep_bra_correct"},"guarantee":"test_time_dep_bra produces the expected output","fibers":[{"name":"TimeDepBra","pred":"isinstance(b, TimeDepBra)","path":{"lhs":"test_time_dep_bra(x)","rhs":"test_time_dep_bra produces the expected output","over":{"base":"TimeDepBra","pred":"isinstance(b, TimeDepBra)"},"name":"test_time_dep_bra_TimeDepBra_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_TimeDepBra_correct","statement":"test_time_dep_bra satisfies spec on TimeDepBra inputs"},"trust":"LIBRARY"},{"name":"BraBase","pred":"isinstance(b, BraBase)","path":{"lhs":"test_time_dep_bra(x)","rhs":"test_time_dep_bra produces the expected output","over":{"base":"BraBase","pred":"isinstance(b, BraBase)"},"name":"test_time_dep_bra_BraBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_BraBase_correct","statement":"test_time_dep_bra satisfies spec on BraBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(b, StateBase)","path":{"lhs":"test_time_dep_bra(x)","rhs":"test_time_dep_bra produces the expected output","over":{"base":"StateBase","pred":"isinstance(b, StateBase)"},"name":"test_time_dep_bra_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_StateBase_correct","statement":"test_time_dep_bra satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(b, QExpr)","path":{"lhs":"test_time_dep_bra(x)","rhs":"test_time_dep_bra produces the expected output","over":{"base":"QExpr","pred":"isinstance(b, QExpr)"},"name":"test_time_dep_bra_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_QExpr_correct","statement":"test_time_dep_bra satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ad5fb555c7f472d1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_time_dep_bra","kind":"function","src_hash":"6397fcb7b34c6fc4","in":{"base":"Any","pred":"isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Integer(0),) and b.args == (Integer(0), t) and b.time == t and b.dual_class() == TimeDepKet and b.dual == TimeDepKet(0, t) and k.label == (x,) and k.args == (x, sympify(0.5)) and TimeDepBra() == TimeDepBra('psi', 't')"},"spec":{"lhs":"test_time_dep_bra()","rhs":"isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase) and isinstance(b, QExpr) and b.label == (Integer(0),) and b.args == (Integer(0), t) and b.time == t and b.dual_class() == TimeDepKet and b.dual == TimeDepKet(0, t) and k.label == (x,) and k.args == (x, sympify(0.5)) and TimeDepBra() == TimeDepBra('psi', 't')","over":{"base":"Any","pred":"isinstance(b, TimeDepBra) and isinstance(b, BraBase) and isinstance(b, StateBase)"},"name":"test_time_dep_bra_correct"},"guarantee":"isinstance(b, TimeDepBra); isinstance(b, BraBase); isinstance(b, StateBase)","fibers":[{"name":"TimeDepBra","pred":"isinstance(b, TimeDepBra)","path":{"lhs":"test_time_dep_bra(x)","rhs":"isinstance(b, TimeDepBra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"TimeDepBra","pred":"isinstance(b, TimeDepBra)"},"name":"test_time_dep_bra_TimeDepBra_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_TimeDepBra_correct","statement":"test_time_dep_bra satisfies spec on TimeDepBra inputs"},"trust":"LIBRARY"},{"name":"BraBase","pred":"isinstance(b, BraBase)","path":{"lhs":"test_time_dep_bra(x)","rhs":"isinstance(b, TimeDepBra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"BraBase","pred":"isinstance(b, BraBase)"},"name":"test_time_dep_bra_BraBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_BraBase_correct","statement":"test_time_dep_bra satisfies spec on BraBase inputs"},"trust":"LIBRARY"},{"name":"StateBase","pred":"isinstance(b, StateBase)","path":{"lhs":"test_time_dep_bra(x)","rhs":"isinstance(b, TimeDepBra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"StateBase","pred":"isinstance(b, StateBase)"},"name":"test_time_dep_bra_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_StateBase_correct","statement":"test_time_dep_bra satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(b, QExpr)","path":{"lhs":"test_time_dep_bra(x)","rhs":"isinstance(b, TimeDepBra); isinstance(b, BraBase); isinstance(b, StateBase)","over":{"base":"QExpr","pred":"isinstance(b, QExpr)"},"name":"test_time_dep_bra_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_time_dep_bra_QExpr_correct","statement":"test_time_dep_bra satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ad5fb555c7f472d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(b, TimeDepBra)","isinstance(b, BraBase)","isinstance(b, StateBase)","isinstance(b, QExpr)","b.label == (Integer(0),)","b.args == (Integer(0), t)","b.time == t","b.dual_class() == TimeDepKet","b.dual == TimeDepKet(0, t)","k.label == (x,)","k.args == (x, sympify(0.5))","TimeDepBra() == TimeDepBra('psi', 't')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"failed","binding":true}}
 def test_time_dep_bra():
     b = TimeDepBra(0, t)
 
@@ -366,16 +452,24 @@ def test_time_dep_bra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bra_ket_dagger(), test_bra_ket_dagger produces the expected output) over Any ║
+# ║ Path(test_bra_ket_dagger(), Dagger(k) == Bra('k') and Dagger(b) == Ket('b') and Dagger(k).is_commutative is False and Dagger(e) == conjugate(x) * Dagger(k2) - 2 * I * Dagger(k)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bra_ket_dagger : Any → {Any | Dagger(k) == Bra('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(k) == Bra('k')                          ║
+# ║   ensures:  Dagger(b) == Ket('b')                          ║
+# ║   ensures:  Dagger(k).is_commutative is False              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bra_ket_dagger : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90178da681be4b92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ef13ae11a17f93f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_bra_ket_dagger","kind":"function","src_hash":"1a850f407dc5f5e0","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(k) == Bra('k') and Dagger(b) == Ket('b') and Dagger(k).is_commutative is False and Dagger(e) == conjugate(x) * Dagger(k2) - 2 * I * Dagger(k)"},"spec":{"lhs":"test_bra_ket_dagger()","rhs":"test_bra_ket_dagger produces the expected output","over":{"base":"Any"},"name":"test_bra_ket_dagger_correct"},"guarantee":"test_bra_ket_dagger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_ket_dagger_correct","statement":"Path(test_bra_ket_dagger(x), test_bra_ket_dagger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90178da681be4b92"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_bra_ket_dagger","kind":"function","src_hash":"1a850f407dc5f5e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(k) == Bra('k') and Dagger(b) == Ket('b') and Dagger(k).is_commutative is False and Dagger(e) == conjugate(x) * Dagger(k2) - 2 * I * Dagger(k)"},"spec":{"lhs":"test_bra_ket_dagger()","rhs":"Dagger(k) == Bra('k') and Dagger(b) == Ket('b') and Dagger(k).is_commutative is False and Dagger(e) == conjugate(x) * Dagger(k2) - 2 * I * Dagger(k)","over":{"base":"Any"},"name":"test_bra_ket_dagger_correct"},"guarantee":"Dagger(k) == Bra('k'); Dagger(b) == Ket('b'); Dagger(k).is_commutative is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_bra_ket_dagger_correct","statement":"Path(test_bra_ket_dagger(x), Dagger(k) == Bra('k'); Dagger(b) == Ket('b'); Dagger(k).is_commutative is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ef13ae11a17f93f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(k) == Bra('k')","Dagger(b) == Ket('b')","Dagger(k).is_commutative is False","Dagger(e) == conjugate(x) * Dagger(k2) - 2 * I * Dagger(k)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bra_ket_dagger():
     x = symbols('x', complex=True)
     k = Ket('k')
@@ -390,16 +484,24 @@ def test_bra_ket_dagger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wavefunction(), test_wavefunction produces the expected output) over Any ║
+# ║ Path(test_wavefunction(), f.is_normalized is False and f.norm is oo and f(10) == 100 and p(10) == 10000 and lims[x] == (-oo, oo) and diff(f, x) == Wavefunction(2 * x, x) and conjugate(f) == Wavefunction(conjugate(f.expr), x) and conjugate(f) == Dagger(f) and lims_g[x] == (0, 1) and lims_g[y] == (0, 2) and g.is_normalized is False and g.norm == sqrt(42) / 3 and g(2, 4) == 0 and g(1, 1) == 2 and diff(diff(g, x), y) == Wavefunction(2 * x + 2 * y, (x, 0, 1), (y, 0, 2)) and conjugate(g) == Wavefunction(conjugate(g.expr), *g.args[1:]) and conjugate(g) == Dagger(g) and h.is_normalized is True and h.normalize() == h and conjugate(h) == Wavefunction(conjugate(h.expr), (x, 0, 1)) and conjugate(h) == Dagger(h) and piab.norm == sqrt(L / 2) and piab(L + 1) == 0 and piab(0.5) == sin(0.5 * n * pi / L) and piab(0.5, n=1, L=1) == sin(0.5 * pi) and piab.normalize() == Wavefunction(sqrt(2) / sqrt(L) * sin(n * pi * x / L), (x, 0, L)) and conjugate(piab) == Wavefunction(conjugate(piab.expr), (x, 0, L)) and conjugate(piab) == Dagger(piab) and type(k.variables[0]) == Symbol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_wavefunction : Any → {Any | f.is_normalized is F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.is_normalized is False                       ║
+# ║   ensures:  f.norm is oo                                   ║
+# ║   ensures:  f(10) == 100                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_wavefunction : Any → {Any | result satisfies: f....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9f6b8b4f9e7187c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc3b7f276415b6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_wavefunction","kind":"function","src_hash":"01094f148b3cc5cb","in":{"base":"Any"},"out":{"base":"Any","pred":"f.is_normalized is False and f.norm is oo and f(10) == 100 and p(10) == 10000 and lims[x] == (-oo, oo) and diff(f, x) == Wavefunction(2 * x, x) and conjugate(f) == Wavefunction(conjugate(f.expr), x) and conjugate(f) == Dagger(f) and lims_g[x] == (0, 1) and lims_g[y] == (0, 2) and g.is_normalized is False and g.norm == sqrt(42) / 3 and g(2, 4) == 0 and g(1, 1) == 2 and diff(diff(g, x), y) == Wavefunction(2 * x + 2 * y, (x, 0, 1), (y, 0, 2)) and conjugate(g) == Wavefunction(conjugate(g.expr), *g.args[1:]) and conjugate(g) == Dagger(g) and h.is_normalized is True and h.normalize() == h and conjugate(h) == Wavefunction(conjugate(h.expr), (x, 0, 1)) and conjugate(h) == Dagger(h) and piab.norm == sqrt(L / 2) and piab(L + 1) == 0 and piab(0.5) == sin(0.5 * n * pi / L) and piab(0.5, n=1, L=1) == sin(0.5 * pi) and conjugate(piab) == Wavefunction(conjugate(piab.expr), (x, 0, L)) and conjugate(piab) == Dagger(piab) and type(k.variables[0]) == Symbol"},"spec":{"lhs":"test_wavefunction()","rhs":"test_wavefunction produces the expected output","over":{"base":"Any"},"name":"test_wavefunction_correct"},"guarantee":"test_wavefunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_wavefunction_correct","statement":"Path(test_wavefunction(x), test_wavefunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9f6b8b4f9e7187c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_wavefunction","kind":"function","src_hash":"01094f148b3cc5cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.is_normalized is False and f.norm is oo and f(10) == 100 and p(10) == 10000 and lims[x] == (-oo, oo) and diff(f, x) == Wavefunction(2 * x, x) and conjugate(f) == Wavefunction(conjugate(f.expr), x) and conjugate(f) == Dagger(f) and lims_g[x] == (0, 1) and lims_g[y] == (0, 2) and g.is_normalized is False and g.norm == sqrt(42) / 3 and g(2, 4) == 0 and g(1, 1) == 2 and diff(diff(g, x), y) == Wavefunction(2 * x + 2 * y, (x, 0, 1), (y, 0, 2)) and conjugate(g) == Wavefunction(conjugate(g.expr), *g.args[1:]) and conjugate(g) == Dagger(g) and h.is_normalized is True and h.normalize() == h and conjugate(h) == Wavefunction(conjugate(h.expr), (x, 0, 1)) and conjugate(h) == Dagger(h) and piab.norm == sqrt(L / 2) and piab(L + 1) == 0 and piab(0.5) == sin(0.5 * n * pi / L) and piab(0.5, n=1, L=1) == sin(0.5 * pi) and piab.normalize() == Wavefunction(sqrt(2) / sqrt(L) * sin(n * pi * x / L), (x, 0, L)) and conjugate(piab) == Wavefunction(conjugate(piab.expr), (x, 0, L)) and conjugate(piab) == Dagger(piab) and type(k.variables[0]) == Symbol"},"spec":{"lhs":"test_wavefunction()","rhs":"f.is_normalized is False and f.norm is oo and f(10) == 100 and p(10) == 10000 and lims[x] == (-oo, oo) and diff(f, x) == Wavefunction(2 * x, x) and conjugate(f) == Wavefunction(conjugate(f.expr), x) and conjugate(f) == Dagger(f) and lims_g[x] == (0, 1) and lims_g[y] == (0, 2) and g.is_normalized is False and g.norm == sqrt(42) / 3 and g(2, 4) == 0 and g(1, 1) == 2 and diff(diff(g, x), y) == Wavefunction(2 * x + 2 * y, (x, 0, 1), (y, 0, 2)) and conjugate(g) == Wavefunction(conjugate(g.expr), *g.args[1:]) and conjugate(g) == Dagger(g) and h.is_normalized is True and h.normalize() == h and conjugate(h) == Wavefunction(conjugate(h.expr), (x, 0, 1)) and conjugate(h) == Dagger(h) and piab.norm == sqrt(L / 2) and piab(L + 1) == 0 and piab(0.5) == sin(0.5 * n * pi / L) and piab(0.5, n=1, L=1) == sin(0.5 * pi) and piab.normalize() == Wavefunction(sqrt(2) / sqrt(L) * sin(n * pi * x / L), (x, 0, L)) and conjugate(piab) == Wavefunction(conjugate(piab.expr), (x, 0, L)) and conjugate(piab) == Dagger(piab) and type(k.variables[0]) == Symbol","over":{"base":"Any"},"name":"test_wavefunction_correct"},"guarantee":"f.is_normalized is False; f.norm is oo; f(10) == 100","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_wavefunction_correct","statement":"Path(test_wavefunction(x), f.is_normalized is False; f.norm is oo; f(10) == 100)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc3b7f276415b6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.is_normalized is False","f.norm is oo","f(10) == 100","p(10) == 10000","lims[x] == (-oo, oo)","diff(f, x) == Wavefunction(2 * x, x)","conjugate(f) == Wavefunction(conjugate(f.expr), x)","conjugate(f) == Dagger(f)","lims_g[x] == (0, 1)","lims_g[y] == (0, 2)","g.is_normalized is False","g.norm == sqrt(42) / 3","g(2, 4) == 0","g(1, 1) == 2","diff(diff(g, x), y) == Wavefunction(2 * x + 2 * y, (x, 0, 1), (y, 0, 2))","conjugate(g) == Wavefunction(conjugate(g.expr), *g.args[1:])","conjugate(g) == Dagger(g)","h.is_normalized is True","h.normalize() == h","conjugate(h) == Wavefunction(conjugate(h.expr), (x, 0, 1))","conjugate(h) == Dagger(h)","piab.norm == sqrt(L / 2)","piab(L + 1) == 0","piab(0.5) == sin(0.5 * n * pi / L)","piab(0.5, n=1, L=1) == sin(0.5 * pi)","piab.normalize() == Wavefunction(sqrt(2) / sqrt(L) * sin(n * pi * x / L), (x, 0, L))","conjugate(piab) == Wavefunction(conjugate(piab.expr), (x, 0, L))","conjugate(piab) == Dagger(piab)","type(k.variables[0]) == Symbol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_wavefunction():
     x, y = symbols('x y', real=True)
     L = symbols('L', positive=True)
@@ -452,16 +554,24 @@ def test_wavefunction():
     assert type(k.variables[0]) == Symbol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orthogonal_states(), test_orthogonal_states produces the expected output) over Any ║
+# ║ Path(test_orthogonal_states(), bracket.doit() == 1 and bracket.doit() == 0 and bracket.doit() == bracket) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orthogonal_states : Any → {Any | bracket.doit() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bracket.doit() == 1                            ║
+# ║   ensures:  bracket.doit() == 0                            ║
+# ║   ensures:  bracket.doit() == bracket                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orthogonal_states : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9df04b1ad2272710  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeb1f204e91dff98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_orthogonal_states","kind":"function","src_hash":"acbe62bec0b38d98","in":{"base":"Any"},"out":{"base":"Any","pred":"bracket.doit() == 1 and bracket.doit() == 0 and bracket.doit() == bracket"},"spec":{"lhs":"test_orthogonal_states()","rhs":"test_orthogonal_states produces the expected output","over":{"base":"Any"},"name":"test_orthogonal_states_correct"},"guarantee":"test_orthogonal_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_orthogonal_states_correct","statement":"Path(test_orthogonal_states(x), test_orthogonal_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9df04b1ad2272710"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_state.test_orthogonal_states","kind":"function","src_hash":"acbe62bec0b38d98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bracket.doit() == 1 and bracket.doit() == 0 and bracket.doit() == bracket"},"spec":{"lhs":"test_orthogonal_states()","rhs":"bracket.doit() == 1 and bracket.doit() == 0 and bracket.doit() == bracket","over":{"base":"Any"},"name":"test_orthogonal_states_correct"},"guarantee":"bracket.doit() == 1; bracket.doit() == 0; bracket.doit() == bracket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_state.test_orthogonal_states_correct","statement":"Path(test_orthogonal_states(x), bracket.doit() == 1; bracket.doit() == 0; bracket.doit() == bracket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeb1f204e91dff98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bracket.doit() == 1","bracket.doit() == 0","bracket.doit() == bracket"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orthogonal_states():
     bracket = OrthogonalBra(x) * OrthogonalKet(x)
     assert bracket.doit() == 1

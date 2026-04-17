@@ -28,16 +28,24 @@ from sympy.utilities.timeutils import timethis
 
 @timethis('residue')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(residue(exp), finds the residue of ``expr`` at the point x=x0) over Any ║
+# ║ Path(residue(expr, x, x0), <unspecified:residue>) over {Any | hasattr(expr, 'subs') and hasattr(expr, 'nseries')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ residue : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(expr, 'nseries')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ residue : {Any | hasattr(expr, 'subs') and hasattr(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16df42fd387089c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.residues.residue","kind":"function","src_hash":"4456f4c34e5ef434","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"residue(exp)","rhs":"finds the residue of ``expr`` at the point x=x0","over":{"base":"Any"},"name":"residue_correct"},"guarantee":"finds the residue of ``expr`` at the point x=x0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.residues.residue_correct","statement":"Path(residue(x), finds the residue of ``expr`` at the point x=x0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16df42fd387089c3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.residues.residue","kind":"function","src_hash":"4456f4c34e5ef434","in":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(expr, 'nseries')"},"out":{"base":"Any"},"spec":{"lhs":"residue(expr, x, x0)","rhs":"<unspecified:residue>","over":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(expr, 'nseries')"},"name":"residue_correct"},"guarantee":"finds the residue of ``expr`` at the point x=x0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.residues.residue_correct","statement":"Path(residue(x), finds the residue of ``expr`` at the point x=x0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16df42fd387089c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')","hasattr(expr, 'nseries')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.nseries","expr.subs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def residue(expr, x, x0):
     """
     Finds the residue of ``expr`` at the point x=x0.

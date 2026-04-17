@@ -63,16 +63,22 @@ from sympy.utilities.misc import filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linsolve(eqs), solve a linear system of equations) over Any ║
+# ║ Path(_linsolve(eqs, syms), <unspecified:_linsolve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _linsolve : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a171daabc73265f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve._linsolve","kind":"function","src_hash":"e3d81c516d8ad3bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linsolve(eqs)","rhs":"solve a linear system of equations","over":{"base":"Any"},"name":"_linsolve_correct"},"guarantee":"solve a linear system of equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve._linsolve_correct","statement":"Path(_linsolve(x), solve a linear system of equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a171daabc73265f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve._linsolve","kind":"function","src_hash":"e3d81c516d8ad3bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linsolve(eqs, syms)","rhs":"<unspecified:_linsolve>","over":{"base":"Any"},"name":"_linsolve_correct"},"guarantee":"solve a linear system of equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve._linsolve_correct","statement":"Path(_linsolve(x), solve a linear system of equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a171daabc73265f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _linsolve(eqs, syms):
 
     """Solve a linear system of equations.
@@ -146,16 +152,22 @@ def _linsolve(eqs, syms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympy_dict_to_dm(eqs), convert a system of dict equations to a sparse augmented matrix) over Any ║
+# ║ Path(sympy_dict_to_dm(eqs_coeffs, eqs_rhs, syms), <unspecified:sympy_dict_to_dm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_dict_to_dm : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1deeae5fc5d26273  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve.sympy_dict_to_dm","kind":"function","src_hash":"39805fb985347ccf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_dict_to_dm(eqs)","rhs":"convert a system of dict equations to a sparse augmented matrix","over":{"base":"Any"},"name":"sympy_dict_to_dm_correct"},"guarantee":"convert a system of dict equations to a sparse augmented matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve.sympy_dict_to_dm_correct","statement":"Path(sympy_dict_to_dm(x), convert a system of dict equations to a sparse augmented matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1deeae5fc5d26273"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve.sympy_dict_to_dm","kind":"function","src_hash":"39805fb985347ccf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_dict_to_dm(eqs_coeffs, eqs_rhs, syms)","rhs":"<unspecified:sympy_dict_to_dm>","over":{"base":"Any"},"name":"sympy_dict_to_dm_correct"},"guarantee":"convert a system of dict equations to a sparse augmented matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve.sympy_dict_to_dm_correct","statement":"Path(sympy_dict_to_dm(x), convert a system of dict equations to a sparse augmented matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1deeae5fc5d26273","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sympy_dict_to_dm(eqs_coeffs, eqs_rhs, syms):
     """Convert a system of dict equations to a sparse augmented matrix"""
     elems = set(eqs_rhs).union(*(e.values() for e in eqs_coeffs))
@@ -176,16 +188,22 @@ def sympy_dict_to_dm(eqs_coeffs, eqs_rhs, syms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linear_eq_to_dict(eqs), convert a system expr/eq equations into dict form, returning the coefficient dictionaries and a list of syms-independent terms from each expression in ``eqs```) over Any ║
+# ║ Path(_linear_eq_to_dict(eqs, syms), (coeffs, ind)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeffs, ind)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _linear_eq_to_dict : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f483ca68189d976b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b41bfd926d419350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve._linear_eq_to_dict","kind":"function","src_hash":"5456f8e0ef8afa0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_eq_to_dict(eqs)","rhs":"convert a system expr/eq equations into dict form, returning the coefficient dictionaries and a list of syms-independent terms from each expression in ``eqs```","over":{"base":"Any"},"name":"_linear_eq_to_dict_correct"},"guarantee":"convert a system expr/eq equations into dict form, returning the coefficient dictionaries and a list of syms-independent terms from each expression in ``eqs```","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve._linear_eq_to_dict_correct","statement":"Path(_linear_eq_to_dict(x), convert a system expr/eq equations into dict form, returning the coefficient dictionaries and a list of syms-independent terms from each expression in ``eqs```)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f483ca68189d976b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve._linear_eq_to_dict","kind":"function","src_hash":"5456f8e0ef8afa0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_eq_to_dict(eqs, syms)","rhs":"(coeffs, ind)","over":{"base":"Any"},"name":"_linear_eq_to_dict_correct"},"guarantee":"returns (coeffs, ind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve._linear_eq_to_dict_correct","statement":"Path(_linear_eq_to_dict(x), returns (coeffs, ind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b41bfd926d419350","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeffs, ind)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _linear_eq_to_dict(eqs, syms):
     """Convert a system Expr/Eq equations into dict form, returning
     the coefficient dictionaries and a list of syms-independent terms
@@ -225,16 +243,28 @@ def _linear_eq_to_dict(eqs, syms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lin_eq2dict(a, ), return (c, d) where c is the sym-independent part of ``a`` and ``d`` is an efficiently calculated dictionary mapping symbols to their coefficients) over Any ║
+# ║ Path(_lin_eq2dict(a, symset), len(coeff_list) == old_len_coeff_list + 1) over {Any | hasattr(a, 'is_Add') and hasattr(a, 'args') and hasattr(a, 'is_Mul') and hasattr(a, 'has_xfree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _lin_eq2dict : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_Add')                           ║
+# ║   requires: hasattr(a, 'args')                             ║
+# ║   requires: hasattr(a, 'is_Mul')                           ║
+# ║   ensures:  len(coeff_list) == old_len_coeff_list + 1      ║
+# ║   fiber[case_0]: a in symset => (S.Zero, {a: S.One})       ║
+# ║   fiber[case_1]: a.is_Add => (coeff, terms)                ║
+# ║   fiber[case_2]: a.is_Mul                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _lin_eq2dict : {Any | hasattr(a, 'is_Add') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaa334c982b71856  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80165eda36624dea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve._lin_eq2dict","kind":"function","src_hash":"77d54981d56024eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lin_eq2dict(a, )","rhs":"return (c, d) where c is the sym-independent part of ``a`` and ``d`` is an efficiently calculated dictionary mapping symbols to their coefficients","over":{"base":"Any"},"name":"_lin_eq2dict_correct"},"guarantee":"return (c, d) where c is the sym-independent part of ``a`` and ``d`` is an efficiently calculated dictionary mapping symbols to their coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve._lin_eq2dict_correct","statement":"Path(_lin_eq2dict(x), return (c, d) where c is the sym-independent part of ``a`` and ``d`` is an efficiently calculated dictionary mapping symbols to their coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa334c982b71856"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.linsolve._lin_eq2dict","kind":"function","src_hash":"77d54981d56024eb","in":{"base":"Any","pred":"hasattr(a, 'is_Add') and hasattr(a, 'args') and hasattr(a, 'is_Mul') and hasattr(a, 'has_xfree')"},"out":{"base":"Any","pred":"result satisfies: len(coeff_list) == old_len_coeff_list + 1"},"spec":{"lhs":"_lin_eq2dict(a, symset)","rhs":"len(coeff_list) == old_len_coeff_list + 1","over":{"base":"Any","pred":"hasattr(a, 'is_Add') and hasattr(a, 'args') and hasattr(a, 'is_Mul') and hasattr(a, 'has_xfree')"},"name":"_lin_eq2dict_correct"},"guarantee":"len(coeff_list) == old_len_coeff_list + 1; 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.linsolve._lin_eq2dict_correct","statement":"Path(_lin_eq2dict(x), len(coeff_list) == old_len_coeff_list + 1; 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80165eda36624dea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_Add')","hasattr(a, 'args')","hasattr(a, 'is_Mul')","hasattr(a, 'has_xfree')"],"ensures":["len(coeff_list) == old_len_coeff_list + 1"],"fibers":[{"name":"case_0","guard":"a in symset","ensures":["result == (S.Zero, {a: S.One})"],"decidability":"library","returns_expr":"(S.Zero, {a: S.One})"},{"name":"case_1","guard":"a.is_Add","ensures":["result == (coeff, terms)"],"decidability":"library","returns_expr":"(coeff, terms)"},{"name":"case_2","guard":"a.is_Mul","ensures":[],"decidability":"library"},{"name":"case_3","guard":"not a.has_xfree(symset)","ensures":["result == (a, {})"],"decidability":"library","returns_expr":"(a, {})"},{"name":"case_4","guard":"not (a in symset) and not (a.is_Add) and not (a.is_Mul) and not (not a.has_xfree(symset))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","a.has_xfree","a.is_Add","a.is_Mul"],"calls_mutating":["coeff_list.append"],"raises":["PolyNonlinearError"]},"state_contract":{"modifies":["coeff_list.*"],"old_bindings":{"old_len_coeff_list":"len(coeff_list)"},"post_ensures":["len(coeff_list) == old_len_coeff_list + 1"],"exceptional_post":{"PolyNonlinearError":["isinstance(raised, PolyNonlinearError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _lin_eq2dict(a, symset):
     """return (c, d) where c is the sym-independent part of ``a`` and
     ``d`` is an efficiently calculated dictionary mapping symbols to

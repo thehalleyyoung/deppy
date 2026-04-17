@@ -26,16 +26,24 @@ from sympy.testing.pytest import raises, XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset_creation(), test_powerset_creation produces the expected output) over Any ║
+# ║ Path(test_powerset_creation(), unchanged(PowerSet, FiniteSet(1, 2)) and unchanged(PowerSet, S.EmptySet) and unchanged(PowerSet, S.Reals) and unchanged(PowerSet, S.Integers)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powerset_creation : Any → {Any | unchanged(Power...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(PowerSet, FiniteSet(1, 2))           ║
+# ║   ensures:  unchanged(PowerSet, S.EmptySet)                ║
+# ║   ensures:  unchanged(PowerSet, S.Reals)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powerset_creation : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30f2b39c9a96ab99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3363c78dfb0ab0db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_creation","kind":"function","src_hash":"4ff864e14bf54947","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(PowerSet, FiniteSet(1, 2)) and unchanged(PowerSet, S.EmptySet) and unchanged(PowerSet, S.Reals) and unchanged(PowerSet, S.Integers)"},"spec":{"lhs":"test_powerset_creation()","rhs":"test_powerset_creation produces the expected output","over":{"base":"Any"},"name":"test_powerset_creation_correct"},"guarantee":"test_powerset_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_creation_correct","statement":"Path(test_powerset_creation(x), test_powerset_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30f2b39c9a96ab99"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_creation","kind":"function","src_hash":"4ff864e14bf54947","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(PowerSet, FiniteSet(1, 2)) and unchanged(PowerSet, S.EmptySet) and unchanged(PowerSet, S.Reals) and unchanged(PowerSet, S.Integers)"},"spec":{"lhs":"test_powerset_creation()","rhs":"unchanged(PowerSet, FiniteSet(1, 2)) and unchanged(PowerSet, S.EmptySet) and unchanged(PowerSet, S.Reals) and unchanged(PowerSet, S.Integers)","over":{"base":"Any"},"name":"test_powerset_creation_correct"},"guarantee":"unchanged(PowerSet, FiniteSet(1, 2)); unchanged(PowerSet, S.EmptySet); unchanged(PowerSet, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_creation_correct","statement":"Path(test_powerset_creation(x), unchanged(PowerSet, FiniteSet(1, 2)); unchanged(PowerSet, S.EmptySet); unchanged(PowerSet, S.Reals))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3363c78dfb0ab0db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(PowerSet, FiniteSet(1, 2))","unchanged(PowerSet, S.EmptySet)","unchanged(PowerSet, S.Reals)","unchanged(PowerSet, S.Integers)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_powerset_creation():
     assert unchanged(PowerSet, FiniteSet(1, 2))
     assert unchanged(PowerSet, S.EmptySet)
@@ -45,16 +53,24 @@ def test_powerset_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset_rewrite_FiniteSet(), test_powerset_rewrite_FiniteSet produces the expected output) over Any ║
+# ║ Path(test_powerset_rewrite_FiniteSet(), PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)) and PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet) and PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powerset_rewrite_FiniteSet : Any → {Any | PowerS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PowerSet(FiniteSet(1, 2)).rewrite(FiniteS...   ║
+# ║   ensures:  PowerSet(S.EmptySet).rewrite(FiniteSet) =...   ║
+# ║   ensures:  PowerSet(S.Naturals).rewrite(FiniteSet) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powerset_rewrite_FiniteSet : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be908009f2bdd0eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 020c5a5b46b2e441  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_rewrite_FiniteSet","kind":"function","src_hash":"2ac38db8b8d8d80c","in":{"base":"Any"},"out":{"base":"Any","pred":"PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet) and PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals)"},"spec":{"lhs":"test_powerset_rewrite_FiniteSet()","rhs":"test_powerset_rewrite_FiniteSet produces the expected output","over":{"base":"Any"},"name":"test_powerset_rewrite_FiniteSet_correct"},"guarantee":"test_powerset_rewrite_FiniteSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_rewrite_FiniteSet_correct","statement":"Path(test_powerset_rewrite_FiniteSet(x), test_powerset_rewrite_FiniteSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be908009f2bdd0eb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_rewrite_FiniteSet","kind":"function","src_hash":"2ac38db8b8d8d80c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)) and PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet) and PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals)"},"spec":{"lhs":"test_powerset_rewrite_FiniteSet()","rhs":"PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)) and PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet) and PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals)","over":{"base":"Any"},"name":"test_powerset_rewrite_FiniteSet_correct"},"guarantee":"PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)); PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet); PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_rewrite_FiniteSet_correct","statement":"Path(test_powerset_rewrite_FiniteSet(x), PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)); PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet); PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"020c5a5b46b2e441","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2))","PowerSet(S.EmptySet).rewrite(FiniteSet) == FiniteSet(S.EmptySet)","PowerSet(S.Naturals).rewrite(FiniteSet) == PowerSet(S.Naturals)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_powerset_rewrite_FiniteSet():
     assert PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) == \
         FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2))
@@ -63,16 +79,24 @@ def test_powerset_rewrite_FiniteSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finiteset_rewrite_powerset(), test_finiteset_rewrite_powerset produces the expected output) over Any ║
+# ║ Path(test_finiteset_rewrite_powerset(), FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet) and FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)).rewrite(PowerSet) == PowerSet(FiniteSet(1, 2)) and FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finiteset_rewrite_powerset : Any → {Any | Finite...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(S.EmptySet).rewrite(PowerSet) =...   ║
+# ║   ensures:  FiniteSet(S.EmptySet, FiniteSet(1), Finit...   ║
+# ║   ensures:  FiniteSet(1, 2, 3).rewrite(PowerSet) == F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finiteset_rewrite_powerset : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db449c60fe66310b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0675ea9489e9eca0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_finiteset_rewrite_powerset","kind":"function","src_hash":"333b5601a3a36f27","in":{"base":"Any"},"out":{"base":"Any","pred":"FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet) and FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3)"},"spec":{"lhs":"test_finiteset_rewrite_powerset()","rhs":"test_finiteset_rewrite_powerset produces the expected output","over":{"base":"Any"},"name":"test_finiteset_rewrite_powerset_correct"},"guarantee":"test_finiteset_rewrite_powerset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_finiteset_rewrite_powerset_correct","statement":"Path(test_finiteset_rewrite_powerset(x), test_finiteset_rewrite_powerset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db449c60fe66310b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_finiteset_rewrite_powerset","kind":"function","src_hash":"333b5601a3a36f27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet) and FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)).rewrite(PowerSet) == PowerSet(FiniteSet(1, 2)) and FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3)"},"spec":{"lhs":"test_finiteset_rewrite_powerset()","rhs":"FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet) and FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)).rewrite(PowerSet) == PowerSet(FiniteSet(1, 2)) and FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3)","over":{"base":"Any"},"name":"test_finiteset_rewrite_powerset_correct"},"guarantee":"FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet); FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)).rewrite(PowerSet) == PowerSet(FiniteSet(1, 2)); FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_finiteset_rewrite_powerset_correct","statement":"Path(test_finiteset_rewrite_powerset(x), FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet); FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)).rewrite(PowerSet) == PowerSet(FiniteSet(1, 2)); FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0675ea9489e9eca0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet)","FiniteSet(S.EmptySet, FiniteSet(1), FiniteSet(2), FiniteSet(1, 2)).rewrite(PowerSet) == PowerSet(FiniteSet(1, 2))","FiniteSet(1, 2, 3).rewrite(PowerSet) == FiniteSet(1, 2, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_finiteset_rewrite_powerset():
     assert FiniteSet(S.EmptySet).rewrite(PowerSet) == PowerSet(S.EmptySet)
     assert FiniteSet(
@@ -83,16 +107,22 @@ def test_finiteset_rewrite_powerset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset__contains__(), test_powerset__contains__ produces the expected output) over Any ║
+# ║ Path(test_powerset__contains__(), <unspecified:test_powerset__contains__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_powerset__contains__ : Any → {Any | subset_serie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 733ad407918b986f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset__contains__","kind":"function","src_hash":"89de50a8b19c54e5","in":{"base":"Any"},"out":{"base":"Any","pred":"subset_series[i] in PowerSet(subset_series[j], evaluate=False) and subset_series[i] not in PowerSet(subset_series[j], evaluate=False)"},"spec":{"lhs":"test_powerset__contains__()","rhs":"test_powerset__contains__ produces the expected output","over":{"base":"Any"},"name":"test_powerset__contains___correct"},"guarantee":"test_powerset__contains__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset__contains___correct","statement":"Path(test_powerset__contains__(x), test_powerset__contains__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"733ad407918b986f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset__contains__","kind":"function","src_hash":"89de50a8b19c54e5","in":{"base":"Any"},"out":{"base":"Any","pred":"subset_series[i] in PowerSet(subset_series[j], evaluate=False) and subset_series[i] not in PowerSet(subset_series[j], evaluate=False)"},"spec":{"lhs":"test_powerset__contains__()","rhs":"<unspecified:test_powerset__contains__>","over":{"base":"Any"},"name":"test_powerset__contains___correct"},"guarantee":"test_powerset__contains__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset__contains___correct","statement":"Path(test_powerset__contains__(x), test_powerset__contains__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"733ad407918b986f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_powerset__contains__():
     subset_series = [
         S.EmptySet,
@@ -117,16 +147,24 @@ def test_powerset__contains__():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_failing_powerset__contains__(), test_failing_powerset__contains__ produces the expected output) over Any ║
+# ║ Path(test_failing_powerset__contains__(), FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Integers not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Integers not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Rationals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Rationals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Reals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Reals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Complexes not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Complexes not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_failing_powerset__contains__ : Any → {Any | Fini...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(1, 2) not in PowerSet(S.EmptySe...   ║
+# ║   ensures:  S.Naturals not in PowerSet(S.EmptySet).re...   ║
+# ║   ensures:  S.Naturals not in PowerSet(FiniteSet(1, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_failing_powerset__contains__ : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68a2f5f303cc8840  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 937f8e103a4337e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_failing_powerset__contains__","kind":"function","src_hash":"8b8bc65ee466ff61","in":{"base":"Any"},"out":{"base":"Any","pred":"FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Integers not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Integers not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Rationals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Rationals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Reals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Reals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Complexes not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Complexes not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)"},"spec":{"lhs":"test_failing_powerset__contains__()","rhs":"test_failing_powerset__contains__ produces the expected output","over":{"base":"Any"},"name":"test_failing_powerset__contains___correct"},"guarantee":"test_failing_powerset__contains__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_failing_powerset__contains___correct","statement":"Path(test_failing_powerset__contains__(x), test_failing_powerset__contains__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68a2f5f303cc8840"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_failing_powerset__contains__","kind":"function","src_hash":"8b8bc65ee466ff61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Integers not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Integers not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Rationals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Rationals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Reals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Reals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Complexes not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Complexes not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)"},"spec":{"lhs":"test_failing_powerset__contains__()","rhs":"FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Naturals0 not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Integers not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Integers not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Rationals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Rationals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Reals not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Reals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet) and S.Complexes not in PowerSet(S.EmptySet).rewrite(FiniteSet) and S.Complexes not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","over":{"base":"Any"},"name":"test_failing_powerset__contains___correct"},"guarantee":"FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet); S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet); S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_failing_powerset__contains___correct","statement":"Path(test_failing_powerset__contains__(x), FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet); S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet); S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937f8e103a4337e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(1, 2) not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Naturals not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Naturals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","S.Naturals0 not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Naturals0 not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","S.Integers not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Integers not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","S.Rationals not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Rationals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","S.Reals not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Reals not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)","S.Complexes not in PowerSet(S.EmptySet).rewrite(FiniteSet)","S.Complexes not in PowerSet(FiniteSet(1, 2)).rewrite(FiniteSet)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_failing_powerset__contains__():
     # XXX These are failing when evaluate=True,
     # but using unevaluated PowerSet works fine.
@@ -146,16 +184,24 @@ def test_failing_powerset__contains__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset__len__(), test_powerset__len__ produces the expected output) over Any ║
+# ║ Path(test_powerset__len__(), len(A) == 1 and len(A) == 2 and len(A) == 4 and len(A) == 16) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powerset__len__ : Any → {Any | len(A) == 1 and l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(A) == 1                                    ║
+# ║   ensures:  len(A) == 2                                    ║
+# ║   ensures:  len(A) == 4                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powerset__len__ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e110a8dcec8ed1cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78334a8a6d507f37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset__len__","kind":"function","src_hash":"491c9437ebbee35e","in":{"base":"Any"},"out":{"base":"Any","pred":"len(A) == 1 and len(A) == 2 and len(A) == 4 and len(A) == 16"},"spec":{"lhs":"test_powerset__len__()","rhs":"test_powerset__len__ produces the expected output","over":{"base":"Any"},"name":"test_powerset__len___correct"},"guarantee":"test_powerset__len__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset__len___correct","statement":"Path(test_powerset__len__(x), test_powerset__len__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e110a8dcec8ed1cd"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset__len__","kind":"function","src_hash":"491c9437ebbee35e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(A) == 1 and len(A) == 2 and len(A) == 4 and len(A) == 16"},"spec":{"lhs":"test_powerset__len__()","rhs":"len(A) == 1 and len(A) == 2 and len(A) == 4 and len(A) == 16","over":{"base":"Any"},"name":"test_powerset__len___correct"},"guarantee":"len(A) == 1; len(A) == 2; len(A) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset__len___correct","statement":"Path(test_powerset__len__(x), len(A) == 1; len(A) == 2; len(A) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78334a8a6d507f37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(A) == 1","len(A) == 2","len(A) == 4","len(A) == 16"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_powerset__len__():
     A = PowerSet(S.EmptySet, evaluate=False)
     assert len(A) == 1
@@ -168,16 +214,24 @@ def test_powerset__len__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset__iter__(), test_powerset__iter__ produces the expected output) over Any ║
+# ║ Path(test_powerset__iter__(), next(a) == S.EmptySet and next(a) == FiniteSet(1) and next(a) == FiniteSet(2) and next(a) == FiniteSet(1, 2) and next(a) == FiniteSet(3) and next(a) == FiniteSet(1, 3) and next(a) == FiniteSet(2, 3) and next(a) == FiniteSet(1, 2, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powerset__iter__ : Any → {Any | next(a) == S.Emp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(a) == S.EmptySet                          ║
+# ║   ensures:  next(a) == FiniteSet(1)                        ║
+# ║   ensures:  next(a) == FiniteSet(2)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powerset__iter__ : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50fa6e0fb89b8b00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 610384b5155056c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset__iter__","kind":"function","src_hash":"be76ac3609532e14","in":{"base":"Any"},"out":{"base":"Any","pred":"next(a) == S.EmptySet and next(a) == FiniteSet(1) and next(a) == FiniteSet(2) and next(a) == FiniteSet(1, 2) and next(a) == S.EmptySet and next(a) == FiniteSet(1) and next(a) == FiniteSet(2) and next(a) == FiniteSet(1, 2) and next(a) == FiniteSet(3) and next(a) == FiniteSet(1, 3) and next(a) == FiniteSet(2, 3) and next(a) == FiniteSet(1, 2, 3)"},"spec":{"lhs":"test_powerset__iter__()","rhs":"test_powerset__iter__ produces the expected output","over":{"base":"Any"},"name":"test_powerset__iter___correct"},"guarantee":"test_powerset__iter__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset__iter___correct","statement":"Path(test_powerset__iter__(x), test_powerset__iter__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50fa6e0fb89b8b00"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset__iter__","kind":"function","src_hash":"be76ac3609532e14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(a) == S.EmptySet and next(a) == FiniteSet(1) and next(a) == FiniteSet(2) and next(a) == FiniteSet(1, 2) and next(a) == FiniteSet(3) and next(a) == FiniteSet(1, 3) and next(a) == FiniteSet(2, 3) and next(a) == FiniteSet(1, 2, 3)"},"spec":{"lhs":"test_powerset__iter__()","rhs":"next(a) == S.EmptySet and next(a) == FiniteSet(1) and next(a) == FiniteSet(2) and next(a) == FiniteSet(1, 2) and next(a) == FiniteSet(3) and next(a) == FiniteSet(1, 3) and next(a) == FiniteSet(2, 3) and next(a) == FiniteSet(1, 2, 3)","over":{"base":"Any"},"name":"test_powerset__iter___correct"},"guarantee":"next(a) == S.EmptySet; next(a) == FiniteSet(1); next(a) == FiniteSet(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset__iter___correct","statement":"Path(test_powerset__iter__(x), next(a) == S.EmptySet; next(a) == FiniteSet(1); next(a) == FiniteSet(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"610384b5155056c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(a) == S.EmptySet","next(a) == FiniteSet(1)","next(a) == FiniteSet(2)","next(a) == FiniteSet(1, 2)","next(a) == FiniteSet(3)","next(a) == FiniteSet(1, 3)","next(a) == FiniteSet(2, 3)","next(a) == FiniteSet(1, 2, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_powerset__iter__():
     a = PowerSet(FiniteSet(1, 2)).__iter__()
     assert next(a) == S.EmptySet
@@ -197,16 +251,23 @@ def test_powerset__iter__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset_contains(), test_powerset_contains produces the expected output) over Any ║
+# ║ Path(test_powerset_contains(), A.contains(2) == Contains(2, A) and A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powerset_contains : Any → {Any | A.contains(2) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.contains(2) == Contains(2, A)                ║
+# ║   ensures:  A.contains(FiniteSet(1)) == Contains(Fini...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powerset_contains : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6a6a64449c29889  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e829a681646d830  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_contains","kind":"function","src_hash":"2c8f6a101c5a199b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.contains(2) == Contains(2, A) and A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A)"},"spec":{"lhs":"test_powerset_contains()","rhs":"test_powerset_contains produces the expected output","over":{"base":"Any"},"name":"test_powerset_contains_correct"},"guarantee":"test_powerset_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_contains_correct","statement":"Path(test_powerset_contains(x), test_powerset_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6a6a64449c29889"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_contains","kind":"function","src_hash":"2c8f6a101c5a199b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.contains(2) == Contains(2, A) and A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A)"},"spec":{"lhs":"test_powerset_contains()","rhs":"A.contains(2) == Contains(2, A) and A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A)","over":{"base":"Any"},"name":"test_powerset_contains_correct"},"guarantee":"A.contains(2) == Contains(2, A); A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_contains_correct","statement":"Path(test_powerset_contains(x), A.contains(2) == Contains(2, A); A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e829a681646d830","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.contains(2) == Contains(2, A)","A.contains(FiniteSet(1)) == Contains(FiniteSet(1), A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_powerset_contains():
     A = PowerSet(FiniteSet(1), evaluate=False)
     assert A.contains(2) == Contains(2, A)
@@ -218,16 +279,24 @@ def test_powerset_contains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powerset_method(), test_powerset_method produces the expected output) over Any ║
+# ║ Path(test_powerset_method(), len(pset) == 1 and pset == FiniteSet(S.EmptySet) and len(pset) == 2 ** len(A) and pset == FiniteSet(FiniteSet(), FiniteSet(1), FiniteSet(2), A) and A.powerset() == PowerSet(A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powerset_method : Any → {Any | len(pset) == 1 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(pset) == 1                                 ║
+# ║   ensures:  pset == FiniteSet(S.EmptySet)                  ║
+# ║   ensures:  len(pset) == 2 ** len(A)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powerset_method : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0f98d463e90d834  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ede755c7838af46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_method","kind":"function","src_hash":"2bb7fcbcac29fa9e","in":{"base":"Any"},"out":{"base":"Any","pred":"len(pset) == 1 and pset == FiniteSet(S.EmptySet) and len(pset) == 2 ** len(A) and pset == FiniteSet(FiniteSet(), FiniteSet(1), FiniteSet(2), A) and A.powerset() == PowerSet(A)"},"spec":{"lhs":"test_powerset_method()","rhs":"test_powerset_method produces the expected output","over":{"base":"Any"},"name":"test_powerset_method_correct"},"guarantee":"test_powerset_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_method_correct","statement":"Path(test_powerset_method(x), test_powerset_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0f98d463e90d834"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_powerset_method","kind":"function","src_hash":"2bb7fcbcac29fa9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(pset) == 1 and pset == FiniteSet(S.EmptySet) and len(pset) == 2 ** len(A) and pset == FiniteSet(FiniteSet(), FiniteSet(1), FiniteSet(2), A) and A.powerset() == PowerSet(A)"},"spec":{"lhs":"test_powerset_method()","rhs":"len(pset) == 1 and pset == FiniteSet(S.EmptySet) and len(pset) == 2 ** len(A) and pset == FiniteSet(FiniteSet(), FiniteSet(1), FiniteSet(2), A) and A.powerset() == PowerSet(A)","over":{"base":"Any"},"name":"test_powerset_method_correct"},"guarantee":"len(pset) == 1; pset == FiniteSet(S.EmptySet); len(pset) == 2 ** len(A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_powerset_method_correct","statement":"Path(test_powerset_method(x), len(pset) == 1; pset == FiniteSet(S.EmptySet); len(pset) == 2 ** len(A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ede755c7838af46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(pset) == 1","pset == FiniteSet(S.EmptySet)","len(pset) == 2 ** len(A)","pset == FiniteSet(FiniteSet(), FiniteSet(1), FiniteSet(2), A)","A.powerset() == PowerSet(A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_powerset_method():
     # EmptySet
     A = FiniteSet()
@@ -246,16 +315,23 @@ def test_powerset_method():
     assert A.powerset() == PowerSet(A)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_subset(), test_is_subset produces the expected output) over Any ║
+# ║ Path(test_is_subset(), subset.is_subset(pset) and not pset.is_subset(bad_set)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_subset : Any → {Any | subset.is_subset(pset) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  subset.is_subset(pset)                         ║
+# ║   ensures:  not pset.is_subset(bad_set)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_subset : Any → {Any | result satisfies: subse...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7608ddb10f52e10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0abfd6b79a7fd213  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_is_subset","kind":"function","src_hash":"76678efbcba6eab7","in":{"base":"Any"},"out":{"base":"Any","pred":"subset.is_subset(pset) and not pset.is_subset(bad_set)"},"spec":{"lhs":"test_is_subset()","rhs":"test_is_subset produces the expected output","over":{"base":"Any"},"name":"test_is_subset_correct"},"guarantee":"test_is_subset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_is_subset_correct","statement":"Path(test_is_subset(x), test_is_subset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7608ddb10f52e10"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_powerset.test_is_subset","kind":"function","src_hash":"76678efbcba6eab7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: subset.is_subset(pset) and not pset.is_subset(bad_set)"},"spec":{"lhs":"test_is_subset()","rhs":"subset.is_subset(pset) and not pset.is_subset(bad_set)","over":{"base":"Any"},"name":"test_is_subset_correct"},"guarantee":"subset.is_subset(pset); not pset.is_subset(bad_set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_powerset.test_is_subset_correct","statement":"Path(test_is_subset(x), subset.is_subset(pset); not pset.is_subset(bad_set))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0abfd6b79a7fd213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["subset.is_subset(pset)","not pset.is_subset(bad_set)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_subset():
     # covers line 101-102
     # initialize powerset(1), which is a subset of powerset(1,2)

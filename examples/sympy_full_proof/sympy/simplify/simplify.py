@@ -70,16 +70,25 @@ import mpmath
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(separatevars(exp), separates variables in an expression, if possible) over Any ║
+# ║ Path(separatevars(expr, symbols, dict), result == (_separatevars_dict(_separatevars(expr, force), symbols) if dict else _separatevars(expr, force)) and result == _separatevars_dict(_separatevars(expr, force), symbols) or result == _separatevars(expr, force)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ separatevars : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (_separatevars_dict(_separateva...   ║
+# ║   ensures:  result == _separatevars_dict(_separatevar...   ║
+# ║   fiber[case_0]: dict => _separatevars_dict(_separate...   ║
+# ║   fiber[case_1]: not (dict) => _separatevars(expr, fo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ separatevars : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bab6a5dcad27b0a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccadab2819f59651  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.separatevars","kind":"function","src_hash":"efb172ffe860ae37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"separatevars(exp)","rhs":"separates variables in an expression, if possible","over":{"base":"Any"},"name":"separatevars_correct"},"guarantee":"separates variables in an expression, if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.separatevars_correct","statement":"Path(separatevars(x), separates variables in an expression, if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bab6a5dcad27b0a2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.separatevars","kind":"function","src_hash":"efb172ffe860ae37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (_separatevars_dict(_separatevars(expr, force), symbols) if dict else _separatevars(expr, force)) and result == _separatevars_dict(_separatevars(expr, force), symbols) or result == _separatevars(expr, force)"},"spec":{"lhs":"separatevars(expr, symbols, dict)","rhs":"result == (_separatevars_dict(_separatevars(expr, force), symbols) if dict else _separatevars(expr, force)) and result == _separatevars_dict(_separatevars(expr, force), symbols) or result == _separatevars(expr, force)","over":{"base":"Any"},"name":"separatevars_correct"},"guarantee":"result == (_separatevars_dict(_separatevars(expr, force), symbols) if dict else _separatevars(expr, force)); result == _separatevars_dict(_separatevars(expr, force), symbols) or result == _separatevars(expr, force); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.separatevars_correct","statement":"Path(separatevars(x), result == (_separatevars_dict(_separatevars(expr, force), symbols) if dict else _separatevars(expr, force)); result == _separatevars_dict(_separatevars(expr, force), symbols) or result == _separatevars(expr, force); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccadab2819f59651","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (_separatevars_dict(_separatevars(expr, force), symbols) if dict else _separatevars(expr, force))","result == _separatevars_dict(_separatevars(expr, force), symbols) or result == _separatevars(expr, force)"],"fibers":[{"name":"case_0","guard":"dict","ensures":["result == _separatevars_dict(_separatevars(expr, force), symbols)"],"decidability":"library","returns_expr":"_separatevars_dict(_separatevars(expr, force), symbols)"},{"name":"case_1","guard":"not (dict)","ensures":["result == _separatevars(expr, force)"],"decidability":"library","returns_expr":"_separatevars(expr, force)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def separatevars(expr, symbols=[], dict=False, force=False):
     """
     Separates variables in an expression, if possible.  By
@@ -155,9 +164,15 @@ def separatevars(expr, symbols=[], dict=False, force=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_separatevars(exp), internal helper behaves correctly) over {Any | isinstance(expr, Abs)} ║
+# ║ Path(_separatevars(expr, force), <unspecified:_separatevars>) over {Any | isinstance(expr, Abs) and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _separatevars : {Any | isinstance(expr, Abs)} → Any        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _separatevars : {Any | isinstance(expr, Abs) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Abs: {isinstance(expr, Abs)} → library_axiom             ║
@@ -167,9 +182,12 @@ def separatevars(expr, symbols=[], dict=False, force=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ae7cea39...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._separatevars","kind":"function","src_hash":"f1fd01fef5de4f1d","in":{"base":"Any","pred":"isinstance(expr, Abs)"},"out":{"base":"Any"},"spec":{"lhs":"_separatevars(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Abs)"},"name":"_separatevars_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Abs","pred":"isinstance(expr, Abs)","path":{"lhs":"_separatevars(x)","rhs":"internal helper behaves correctly","over":{"base":"Abs","pred":"isinstance(expr, Abs)"},"name":"_separatevars_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._separatevars_Abs_correct","statement":"_separatevars satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae7cea3931f3c6af"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._separatevars","kind":"function","src_hash":"f1fd01fef5de4f1d","in":{"base":"Any","pred":"isinstance(expr, Abs) and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_separatevars(expr, force)","rhs":"<unspecified:_separatevars>","over":{"base":"Any","pred":"isinstance(expr, Abs) and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'func')"},"name":"_separatevars_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Abs","pred":"isinstance(expr, Abs)","path":{"lhs":"_separatevars(x)","rhs":"internal helper behaves correctly","over":{"base":"Abs","pred":"isinstance(expr, Abs)"},"name":"_separatevars_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._separatevars_Abs_correct","statement":"_separatevars satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae7cea3931f3c6af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Pow')","hasattr(expr, 'expand')","hasattr(expr, 'is_Add')","hasattr(expr, 'args')","hasattr(expr, 'free_symbols')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.exp","expr.expand","expr.free_symbols","expr.func","expr.is_Add","expr.is_Mul","expr.is_Pow"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Abs)', 'expr.is_Pow and expr.base != S.Exp1', 'len(expr.free_symbols) < 2', 'len(nonsepar.free_symbols) > 1'}, fibers={'Abs'})"]}}
 def _separatevars(expr, force):
     if isinstance(expr, Abs):
         arg = expr.args[0]
@@ -235,16 +253,27 @@ def _separatevars(expr, force):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_separatevars_dict(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_separatevars_dict(expr, symbols), len(intersection) == old_len_intersection - 1) over {Any | hasattr(expr, 'free_symbols') and len(intersection) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _separatevars_dict : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: len(intersection) > 0                          ║
+# ║   ensures:  len(intersection) == old_len_intersection...   ║
+# ║   fiber[case_0]: symbols                                   ║
+# ║   fiber[zero_or_none]: symbols is None => {'coeff': e...   ║
+# ║   fiber[zero_or_none]: not (symbols) and not (symbols...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _separatevars_dict : {Any | hasattr(expr, 'free_symbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66a950a3426e6199  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 910cd57b9d3431f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._separatevars_dict","kind":"function","src_hash":"55e9be63f86eaf7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_separatevars_dict(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_separatevars_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._separatevars_dict_correct","statement":"Path(_separatevars_dict(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66a950a3426e6199"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._separatevars_dict","kind":"function","src_hash":"55e9be63f86eaf7b","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and len(intersection) > 0"},"out":{"base":"Any","pred":"result satisfies: len(intersection) == old_len_intersection - 1"},"spec":{"lhs":"_separatevars_dict(expr, symbols)","rhs":"len(intersection) == old_len_intersection - 1","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and len(intersection) > 0"},"name":"_separatevars_dict_correct"},"guarantee":"len(intersection) == old_len_intersection - 1; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._separatevars_dict_correct","statement":"Path(_separatevars_dict(x), len(intersection) == old_len_intersection - 1; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"910cd57b9d3431f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'free_symbols')","len(intersection) > 0"],"ensures":["len(intersection) == old_len_intersection - 1"],"fibers":[{"name":"case_0","guard":"symbols","ensures":[],"decidability":"library"},{"name":"zero_or_none","guard":"symbols is None","ensures":["result == {'coeff': expr}"],"decidability":"structural","returns_expr":"{'coeff': expr}"},{"name":"zero_or_none","guard":"not (symbols) and not (symbols is None)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.free_symbols"],"calls_mutating":["intersection.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["intersection.*"],"old_bindings":{"old_len_intersection":"len(intersection)"},"pre_requires":["len(intersection) > 0"],"post_ensures":["len(intersection) == old_len_intersection - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _separatevars_dict(expr, symbols):
     if symbols:
         if not all(t.is_Atom for t in symbols):
@@ -278,9 +307,14 @@ def _separatevars_dict(expr, symbols):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(posify(eq), return ``eq`` (with generic symbols made positive) and a dictionary containing the mapping between the old and new symbols) over {Any | isinstance(eq, Basic)} ║
+# ║ Path(posify(eq), # HINT: posify may be idempotent: posify(posify(x)) == posify(x)) over {Any | isinstance(eq, Basic) and hasattr(eq, 'subs') and hasattr(eq, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ posify : {Any | isinstance(eq, Basic)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(eq, 'subs')                            ║
+# ║   requires: hasattr(eq, 'free_symbols')                    ║
+# ║   ensures:  # HINT: posify may be idempotent: posify(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ posify : {Any | isinstance(eq, Basic) and hasattr(eq,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(eq, Basic)} → library_axiom           ║
@@ -290,9 +324,12 @@ def _separatevars_dict(expr, symbols):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 612ae447...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.posify","kind":"function","src_hash":"8b48f8b9ecb8432a","in":{"base":"Any","pred":"isinstance(eq, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"posify(eq)","rhs":"return ``eq`` (with generic symbols made positive) and a dictionary containing the mapping between the old and new symbols","over":{"base":"Any","pred":"isinstance(eq, Basic)"},"name":"posify_correct"},"guarantee":"return ``eq`` (with generic symbols made positive) and a dictionary containing the mapping between the old and new symbols","fibers":[{"name":"Basic","pred":"isinstance(eq, Basic)","path":{"lhs":"posify(x)","rhs":"return ``eq`` (with generic symbols made positive) and a dictionary containing the mapping between the old and new symbols","over":{"base":"Basic","pred":"isinstance(eq, Basic)"},"name":"posify_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.posify_Basic_correct","statement":"posify satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"612ae447281c39f9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.posify","kind":"function","src_hash":"8b48f8b9ecb8432a","in":{"base":"Any","pred":"isinstance(eq, Basic) and hasattr(eq, 'subs') and hasattr(eq, 'free_symbols')"},"out":{"base":"Any","pred":"result satisfies: # HINT: posify may be idempotent: posify(posify(x)) == posify(x)"},"spec":{"lhs":"posify(eq)","rhs":"# HINT: posify may be idempotent: posify(posify(x)) == posify(x)","over":{"base":"Any","pred":"isinstance(eq, Basic) and hasattr(eq, 'subs') and hasattr(eq, 'free_symbols')"},"name":"posify_correct"},"guarantee":"# HINT: posify may be idempotent: posify(posify(x)) == posify(x)","fibers":[{"name":"Basic","pred":"isinstance(eq, Basic)","path":{"lhs":"posify(x)","rhs":"# HINT: posify may be idempotent: posify(posify(x)) == posify(x)","over":{"base":"Basic","pred":"isinstance(eq, Basic)"},"name":"posify_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.posify_Basic_correct","statement":"posify satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"612ae447281c39f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(eq, 'subs')","hasattr(eq, 'free_symbols')"],"ensures":["# HINT: posify may be idempotent: posify(posify(x)) == posify(x)"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["eq.free_symbols","eq.subs"],"writes":["eq[*]"],"calls_mutating":["reps.update"]},"state_contract":{"modifies":["eq[*]","reps.*"],"old_bindings":{"old_eq_star":"eq[*]","old_len_reps":"len(reps)"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(eq, Basic) and iterable(eq)'}, fibers={'Basic'})"]}}
 def posify(eq):
     """Return ``eq`` (with generic symbols made positive) and a
     dictionary containing the mapping between the old and new
@@ -355,16 +392,23 @@ def posify(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hypersimp(f, ), given combinatorial term f(k) simplify its consecutive term ratio i.e) over Any ║
+# ║ Path(hypersimp(f, k), <unspecified:hypersimp>) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hypersimp : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hypersimp : {Any | hasattr(f, 'subs')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40caa65cb1b263c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.hypersimp","kind":"function","src_hash":"531696635fb288bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hypersimp(f, )","rhs":"given combinatorial term f(k) simplify its consecutive term ratio i.e","over":{"base":"Any"},"name":"hypersimp_correct"},"guarantee":"given combinatorial term f(k) simplify its consecutive term ratio i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.hypersimp_correct","statement":"Path(hypersimp(x), given combinatorial term f(k) simplify its consecutive term ratio i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40caa65cb1b263c0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.hypersimp","kind":"function","src_hash":"531696635fb288bd","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"hypersimp(f, k)","rhs":"<unspecified:hypersimp>","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"hypersimp_correct"},"guarantee":"given combinatorial term f(k) simplify its consecutive term ratio i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.hypersimp_correct","statement":"Path(hypersimp(x), given combinatorial term f(k) simplify its consecutive term ratio i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40caa65cb1b263c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def hypersimp(f, k):
     """Given combinatorial term f(k) simplify its consecutive term ratio
        i.e. f(k+1)/f(k).  The input term can be composed of functions and
@@ -413,16 +457,22 @@ def hypersimp(f, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hypersimilar(f, ), returns true if ``f`` and ``g`` are hyper-similar) over Any ║
+# ║ Path(hypersimilar(f, g, k), h.is_rational_function(k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  h.is_rational_function(k)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hypersimilar : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d299ab55059e77d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab646945ac03684b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.hypersimilar","kind":"function","src_hash":"10ae3edbab47bf75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hypersimilar(f, )","rhs":"returns true if ``f`` and ``g`` are hyper-similar","over":{"base":"Any"},"name":"hypersimilar_correct"},"guarantee":"returns true if ``f`` and ``g`` are hyper-similar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.hypersimilar_correct","statement":"Path(hypersimilar(x), returns true if ``f`` and ``g`` are hyper-similar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d299ab55059e77d0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.hypersimilar","kind":"function","src_hash":"10ae3edbab47bf75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hypersimilar(f, g, k)","rhs":"h.is_rational_function(k)","over":{"base":"Any"},"name":"hypersimilar_correct"},"guarantee":"returns h.is_rational_function(k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.hypersimilar_correct","statement":"Path(hypersimilar(x), returns h.is_rational_function(k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab646945ac03684b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"h.is_rational_function(k)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def hypersimilar(f, g, k):
     """
     Returns True if ``f`` and ``g`` are hyper-similar.
@@ -446,7 +496,12 @@ def hypersimilar(f, g, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(signsimp(exp), make all add sub-expressions canonical wrt sign) over {Any | isinstance(expr, (Expr, Relational)) and isinstance(rv, Add)} ║
+# ║ Path(signsimp(expr, evaluate), # HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)) over {Any | isinstance(expr, (Expr, Relational)) and isinstance(rv, Add) and hasattr(expr, 'is_Atom') and hasattr(expr, 'replace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   ensures:  # HINT: signsimp may be idempotent: signs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ signsimp : {Any | isinstance(expr, (Expr, Relational)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -459,9 +514,12 @@ def hypersimilar(f, g, k):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0746a587...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.signsimp","kind":"function","src_hash":"01e2bea2bc75fe3d","in":{"base":"Any","pred":"isinstance(expr, (Expr, Relational)) and isinstance(rv, Add)"},"out":{"base":"Any"},"spec":{"lhs":"signsimp(exp)","rhs":"make all add sub-expressions canonical wrt sign","over":{"base":"Any","pred":"isinstance(expr, (Expr, Relational)) and isinstance(rv, Add)"},"name":"signsimp_correct"},"guarantee":"make all add sub-expressions canonical wrt sign","fibers":[{"name":"(Expr","pred":"isinstance(expr, (Expr, Relational))","path":{"lhs":"signsimp(x)","rhs":"make all add sub-expressions canonical wrt sign","over":{"base":"(Expr","pred":"isinstance(expr, (Expr, Relational))"},"name":"signsimp_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.signsimp_(Expr_correct","statement":"signsimp satisfies spec on (Expr inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(rv, Add)","path":{"lhs":"signsimp(x)","rhs":"make all add sub-expressions canonical wrt sign","over":{"base":"Add","pred":"isinstance(rv, Add)"},"name":"signsimp_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.signsimp_Add_correct","statement":"signsimp satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0746a58716b427aa"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.signsimp","kind":"function","src_hash":"01e2bea2bc75fe3d","in":{"base":"Any","pred":"isinstance(expr, (Expr, Relational)) and isinstance(rv, Add) and hasattr(expr, 'is_Atom') and hasattr(expr, 'replace')"},"out":{"base":"Any","pred":"result satisfies: # HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)"},"spec":{"lhs":"signsimp(expr, evaluate)","rhs":"# HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)","over":{"base":"Any","pred":"isinstance(expr, (Expr, Relational)) and isinstance(rv, Add) and hasattr(expr, 'is_Atom') and hasattr(expr, 'replace')"},"name":"signsimp_correct"},"guarantee":"# HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)","fibers":[{"name":"(Expr","pred":"isinstance(expr, (Expr, Relational))","path":{"lhs":"signsimp(x)","rhs":"# HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)","over":{"base":"(Expr","pred":"isinstance(expr, (Expr, Relational))"},"name":"signsimp_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.signsimp_(Expr_correct","statement":"signsimp satisfies spec on (Expr inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(rv, Add)","path":{"lhs":"signsimp(x)","rhs":"# HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)","over":{"base":"Add","pred":"isinstance(rv, Add)"},"name":"signsimp_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.signsimp_Add_correct","statement":"signsimp satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0746a58716b427aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'replace')"],"ensures":["# HINT: signsimp may be idempotent: signsimp(signsimp(x)) == signsimp(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_Atom","expr.replace"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not evaluate and isinstance(rv, Add) and rv.could_extract_minus_sign()', 'not isinstance(e, (Expr, Relational)) or e.is_Atom', 'not isinstance(expr, (Expr, Relational)) or expr.is_Atom', 'evaluate is None'}, fibers={'Add', '(Expr'})"]}}
 def signsimp(expr, evaluate=None):
     """Make all Add sub-expressions canonical wrt sign.
 
@@ -535,59 +593,93 @@ def signsimp(expr, evaluate=None):
 
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(exp), simplify produces the expected output) over Expr ║
+# ║ Path(simplify(expr, **kwargs), isinstance(result, Expr)) over {Expr | isinstance(expr, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simplify : Expr → Expr                                     ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simplify : {Expr | isinstance(expr, Expr)} → {Expr | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7547dcad648e0c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"08eabe0ce3b8a8da","in":{"base":"Expr"},"out":{"base":"Expr"},"spec":{"lhs":"simplify(exp)","rhs":"simplify produces the expected output","over":{"base":"Expr"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7547dcad648e0c5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"08eabe0ce3b8a8da","in":{"base":"Expr","pred":"isinstance(expr, Expr)"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"simplify(expr, **kwargs)","rhs":"isinstance(result, Expr)","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"simplify_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7547dcad648e0c5","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)"],"ensures":["isinstance(result, Expr)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def simplify(expr: Expr, **kwargs) -> Expr: ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(exp), simplify produces the expected output) over Boolean ║
+# ║ Path(simplify(expr, **kwargs), isinstance(result, Boolean)) over {Boolean | isinstance(expr, Boolean)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simplify : Boolean → Boolean                               ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Boolean)                      ║
+# ║   ensures:  isinstance(result, Boolean)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simplify : {Boolean | isinstance(expr, Boolean)} → {B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5019d71e92d83cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"2b77e4a400aef47d","in":{"base":"Boolean"},"out":{"base":"Boolean"},"spec":{"lhs":"simplify(exp)","rhs":"simplify produces the expected output","over":{"base":"Boolean"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5019d71e92d83cd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"2b77e4a400aef47d","in":{"base":"Boolean","pred":"isinstance(expr, Boolean)"},"out":{"base":"Boolean","pred":"result satisfies: isinstance(result, Boolean)"},"spec":{"lhs":"simplify(expr, **kwargs)","rhs":"isinstance(result, Boolean)","over":{"base":"Boolean","pred":"isinstance(expr, Boolean)"},"name":"simplify_correct"},"guarantee":"isinstance(result, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5019d71e92d83cd","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Boolean)"],"ensures":["isinstance(result, Boolean)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def simplify(expr: Boolean, **kwargs) -> Boolean: ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(exp), simplify produces the expected output) over Set ║
+# ║ Path(simplify(expr, **kwargs), isinstance(result, Set)) over {Set | isinstance(expr, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simplify : Set → Set                                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Set)                          ║
+# ║   ensures:  isinstance(result, Set)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simplify : {Set | isinstance(expr, Set)} → {Set | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4a8eff6caf0336d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"73e3c8d641d7e47b","in":{"base":"Set"},"out":{"base":"Set"},"spec":{"lhs":"simplify(exp)","rhs":"simplify produces the expected output","over":{"base":"Set"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4a8eff6caf0336d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"73e3c8d641d7e47b","in":{"base":"Set","pred":"isinstance(expr, Set)"},"out":{"base":"Set","pred":"result satisfies: isinstance(result, Set)"},"spec":{"lhs":"simplify(expr, **kwargs)","rhs":"isinstance(result, Set)","over":{"base":"Set","pred":"isinstance(expr, Set)"},"name":"simplify_correct"},"guarantee":"isinstance(result, Set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4a8eff6caf0336d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Set)"],"ensures":["isinstance(result, Set)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def simplify(expr: Set, **kwargs) -> Set: ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(exp), simplify produces the expected output) over Basic ║
+# ║ Path(simplify(expr, **kwargs), isinstance(result, Basic)) over {Basic | isinstance(expr, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simplify : Basic → Basic                                   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Basic)                        ║
+# ║   ensures:  isinstance(result, Basic)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simplify : {Basic | isinstance(expr, Basic)} → {Basic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0c5291f6d029188           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"6f80be6dde46e5a2","in":{"base":"Basic"},"out":{"base":"Basic"},"spec":{"lhs":"simplify(exp)","rhs":"simplify produces the expected output","over":{"base":"Basic"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0c5291f6d029188"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"6f80be6dde46e5a2","in":{"base":"Basic","pred":"isinstance(expr, Basic)"},"out":{"base":"Basic","pred":"result satisfies: isinstance(result, Basic)"},"spec":{"lhs":"simplify(expr, **kwargs)","rhs":"isinstance(result, Basic)","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"simplify_correct"},"guarantee":"isinstance(result, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0c5291f6d029188","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Basic)"],"ensures":["isinstance(result, Basic)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def simplify(expr: Basic, **kwargs) -> Basic: ...
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(exp), simplifies the given expression) over {Any | isinstance(expr, Expr) and isinstance(expr, handled) and isinstance(expr, Basic)} ║
+# ║ Path(simplify(expr, ratio, measure), # HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)) over {Any | isinstance(expr, Expr) and isinstance(expr, handled) and isinstance(expr, Basic) and hasattr(expr, 'is_zero') and hasattr(expr, 'replace') and hasattr(expr, 'is_commutative') and hasattr(expr, 'has') and hasattr(expr, 'as_numer_denom') and hasattr(expr, 'could_extract_minus_sign') and hasattr(expr, 'args') and hasattr(expr, 'rewrite') and hasattr(expr, 'xreplace') and hasattr(expr, 'is_Number') and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_zero')                       ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   requires: hasattr(expr, 'is_commutative')                ║
+# ║   ensures:  # HINT: simplify may be idempotent: simpl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : {Any | isinstance(expr, Expr) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -601,9 +693,12 @@ def simplify(expr: Basic, **kwargs) -> Basic: ...
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 4.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 858f487c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"b191d392e4b12752","in":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(expr, handled) and isinstance(expr, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"simplify(exp)","rhs":"simplifies the given expression","over":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(expr, handled) and isinstance(expr, Basic)"},"name":"simplify_correct"},"guarantee":"simplifies the given expression","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"simplify(x)","rhs":"simplifies the given expression","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"simplify_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.simplify_Expr_correct","statement":"simplify satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"handled","pred":"isinstance(expr, handled)","path":{"lhs":"simplify(x)","rhs":"simplifies the given expression","over":{"base":"handled","pred":"isinstance(expr, handled)"},"name":"simplify_handled_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.simplify_handled_correct","statement":"simplify satisfies spec on handled inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"simplify(x)","rhs":"simplifies the given expression","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"simplify_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.simplify_Basic_correct","statement":"simplify satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"858f487cacf15c96"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.simplify","kind":"function","src_hash":"b191d392e4b12752","in":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(expr, handled) and isinstance(expr, Basic) and hasattr(expr, 'is_zero') and hasattr(expr, 'replace') and hasattr(expr, 'is_commutative') and hasattr(expr, 'has') and hasattr(expr, 'as_numer_denom') and hasattr(expr, 'could_extract_minus_sign') and hasattr(expr, 'args') and hasattr(expr, 'rewrite') and hasattr(expr, 'xreplace') and hasattr(expr, 'is_Number') and hasattr(expr, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: # HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)"},"spec":{"lhs":"simplify(expr, ratio, measure)","rhs":"# HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)","over":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(expr, handled) and isinstance(expr, Basic) and hasattr(expr, 'is_zero') and hasattr(expr, 'replace') and hasattr(expr, 'is_commutative') and hasattr(expr, 'has') and hasattr(expr, 'as_numer_denom') and hasattr(expr, 'could_extract_minus_sign') and hasattr(expr, 'args') and hasattr(expr, 'rewrite') and hasattr(expr, 'xreplace') and hasattr(expr, 'is_Number') and hasattr(expr, 'atoms')"},"name":"simplify_correct"},"guarantee":"# HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"simplify(x)","rhs":"# HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"simplify_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.simplify_Expr_correct","statement":"simplify satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"handled","pred":"isinstance(expr, handled)","path":{"lhs":"simplify(x)","rhs":"# HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)","over":{"base":"handled","pred":"isinstance(expr, handled)"},"name":"simplify_handled_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.simplify_handled_correct","statement":"simplify satisfies spec on handled inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"simplify(x)","rhs":"# HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"simplify_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.simplify_Basic_correct","statement":"simplify satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"858f487cacf15c96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_zero')","hasattr(expr, 'replace')","hasattr(expr, 'is_commutative')","hasattr(expr, 'has')","hasattr(expr, 'as_numer_denom')","hasattr(expr, 'could_extract_minus_sign')","hasattr(expr, 'args')","hasattr(expr, 'rewrite')","hasattr(expr, 'xreplace')","hasattr(expr, 'is_Number')","hasattr(expr, 'atoms')"],"ensures":["# HINT: simplify may be idempotent: simplify(simplify(x)) == simplify(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_numer_denom","expr.atoms","expr.could_extract_minus_sign","expr.has","expr.is_Number","expr.is_commutative","expr.is_zero","expr.replace","expr.rewrite","expr.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'ratio', 'measure', 'rational', 'inverse', 'doit'], spec=['expr', 'ratio', 'measure', 'rational', 'inverse', 'doit', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Expr) and expr.is_zero', 'not isinstance(expr, Basic)', 'not isinstance(expr, handled)', 'not isinstance(expr, Basic) or not expr.args', 'floats and rational is None', 'd != 0', 'measure(expr) > ratio * measure(original_expr)'}, fibers={'Basic', 'Expr', 'handled'})"]}}
 def simplify(expr, ratio=1.7, measure=count_ops, rational=False, inverse=False, doit=True, **kwargs):
     """Simplifies the given expression.
 
@@ -947,7 +1042,13 @@ def simplify(expr, ratio=1.7, measure=count_ops, rational=False, inverse=False, 
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum_simplify(s, ), main function for sum simplification) over {Any | isinstance(s, Add) and isinstance(i, Sum)} ║
+# ║ Path(sum_simplify(s, **kwargs), # HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)) over {Any | isinstance(s, Add) and isinstance(i, Sum) and hasattr(s, 'args') and hasattr(s, 'xreplace') and hasattr(s, 'atoms') and hasattr(s, '_eval_simplify')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   requires: hasattr(s, 'xreplace')                         ║
+# ║   requires: hasattr(s, 'atoms')                            ║
+# ║   ensures:  # HINT: sum_simplify may be idempotent: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sum_simplify : {Any | isinstance(s, Add) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -960,9 +1061,12 @@ def simplify(expr, ratio=1.7, measure=count_ops, rational=False, inverse=False, 
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 70a9c1a3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.sum_simplify","kind":"function","src_hash":"11c2f4e02dcc071c","in":{"base":"Any","pred":"isinstance(s, Add) and isinstance(i, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"sum_simplify(s, )","rhs":"main function for sum simplification","over":{"base":"Any","pred":"isinstance(s, Add) and isinstance(i, Sum)"},"name":"sum_simplify_correct"},"guarantee":"main function for sum simplification","fibers":[{"name":"Add","pred":"isinstance(s, Add)","path":{"lhs":"sum_simplify(x)","rhs":"main function for sum simplification","over":{"base":"Add","pred":"isinstance(s, Add)"},"name":"sum_simplify_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_simplify_Add_correct","statement":"sum_simplify satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(i, Sum)","path":{"lhs":"sum_simplify(x)","rhs":"main function for sum simplification","over":{"base":"Sum","pred":"isinstance(i, Sum)"},"name":"sum_simplify_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_simplify_Sum_correct","statement":"sum_simplify satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"70a9c1a3fc7572ef"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.sum_simplify","kind":"function","src_hash":"11c2f4e02dcc071c","in":{"base":"Any","pred":"isinstance(s, Add) and isinstance(i, Sum) and hasattr(s, 'args') and hasattr(s, 'xreplace') and hasattr(s, 'atoms') and hasattr(s, '_eval_simplify')"},"out":{"base":"Any","pred":"result satisfies: # HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)"},"spec":{"lhs":"sum_simplify(s, **kwargs)","rhs":"# HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)","over":{"base":"Any","pred":"isinstance(s, Add) and isinstance(i, Sum) and hasattr(s, 'args') and hasattr(s, 'xreplace') and hasattr(s, 'atoms') and hasattr(s, '_eval_simplify')"},"name":"sum_simplify_correct"},"guarantee":"# HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)","fibers":[{"name":"Add","pred":"isinstance(s, Add)","path":{"lhs":"sum_simplify(x)","rhs":"# HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)","over":{"base":"Add","pred":"isinstance(s, Add)"},"name":"sum_simplify_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_simplify_Add_correct","statement":"sum_simplify satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(i, Sum)","path":{"lhs":"sum_simplify(x)","rhs":"# HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)","over":{"base":"Sum","pred":"isinstance(i, Sum)"},"name":"sum_simplify_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_simplify_Sum_correct","statement":"sum_simplify satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"70a9c1a3fc7572ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'args')","hasattr(s, 'xreplace')","hasattr(s, 'atoms')","hasattr(s, '_eval_simplify')"],"ensures":["# HINT: sum_simplify may be idempotent: sum_simplify(sum_simplify(x)) == sum_simplify(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['s'], spec=['s', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'not isinstance(s, Add)'}, fibers={'Add', 'Sum'})"]}}
 def sum_simplify(s, **kwargs):
     """Main function for Sum simplification"""
     if not isinstance(s, Add):
@@ -991,7 +1095,10 @@ def sum_simplify(s, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum_combine(s_t), helper function for sum simplification) over {Any | isinstance(temp, (Sum, Mul))} ║
+# ║ Path(sum_combine(s_t), <unspecified:sum_combine>) over {Any | isinstance(temp, (Sum, Mul))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sum_combine : {Any | isinstance(temp, (Sum, Mul))} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1003,9 +1110,12 @@ def sum_simplify(s, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a5b967e6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.sum_combine","kind":"function","src_hash":"22034d9f81b56cef","in":{"base":"Any","pred":"isinstance(temp, (Sum, Mul))"},"out":{"base":"Any"},"spec":{"lhs":"sum_combine(s_t)","rhs":"helper function for sum simplification","over":{"base":"Any","pred":"isinstance(temp, (Sum, Mul))"},"name":"sum_combine_correct"},"guarantee":"helper function for sum simplification","fibers":[{"name":"(Sum","pred":"isinstance(temp, (Sum, Mul))","path":{"lhs":"sum_combine(x)","rhs":"helper function for sum simplification","over":{"base":"(Sum","pred":"isinstance(temp, (Sum, Mul))"},"name":"sum_combine_(Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_combine_(Sum_correct","statement":"sum_combine satisfies spec on (Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a5b967e6bf167b00"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.sum_combine","kind":"function","src_hash":"22034d9f81b56cef","in":{"base":"Any","pred":"isinstance(temp, (Sum, Mul))"},"out":{"base":"Any"},"spec":{"lhs":"sum_combine(s_t)","rhs":"<unspecified:sum_combine>","over":{"base":"Any","pred":"isinstance(temp, (Sum, Mul))"},"name":"sum_combine_correct"},"guarantee":"helper function for sum simplification","fibers":[{"name":"(Sum","pred":"isinstance(temp, (Sum, Mul))","path":{"lhs":"sum_combine(x)","rhs":"helper function for sum simplification","over":{"base":"(Sum","pred":"isinstance(temp, (Sum, Mul))"},"name":"sum_combine_(Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_combine_(Sum_correct","statement":"sum_combine satisfies spec on (Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a5b967e6bf167b00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["s_t[*]"]},"state_contract":{"modifies":["s_t[*]"],"old_bindings":{"old_s_t_star":"s_t[*]"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(temp, (Sum, Mul))', 'not used[j] and i != j'}, fibers={'(Sum'})"]}}
 def sum_combine(s_t):
     """Helper function for Sum simplification
 
@@ -1033,16 +1143,22 @@ def sum_combine(s_t):
     return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_sum(lim), return sum with constant factors extracted) over Any ║
+# ║ Path(factor_sum(limits, radical, clear), factor_terms(expr, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factor_terms(expr, **kwargs)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factor_sum : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28fa1a6f19841086  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be0ddad1f01066af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.factor_sum","kind":"function","src_hash":"124ad23c352f6cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factor_sum(lim)","rhs":"return sum with constant factors extracted","over":{"base":"Any"},"name":"factor_sum_correct"},"guarantee":"return sum with constant factors extracted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.factor_sum_correct","statement":"Path(factor_sum(x), return sum with constant factors extracted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28fa1a6f19841086"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.factor_sum","kind":"function","src_hash":"124ad23c352f6cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factor_sum(limits, radical, clear)","rhs":"factor_terms(expr, **kwargs)","over":{"base":"Any"},"name":"factor_sum_correct"},"guarantee":"returns factor_terms(expr, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.factor_sum_correct","statement":"Path(factor_sum(x), returns factor_terms(expr, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be0ddad1f01066af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factor_terms(expr, **kwargs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True):
     """Return Sum with constant factors extracted.
 
@@ -1070,7 +1186,10 @@ def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, si
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum_add(oth), helper function for sum simplification) over {Any | isinstance(self, Mul) and isinstance(x, Sum)} ║
+# ║ Path(sum_add(other, method), <unspecified:sum_add>) over {Any | isinstance(self, Mul) and isinstance(x, Sum)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sum_add : {Any | isinstance(self, Mul) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1083,9 +1202,12 @@ def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, si
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5feeb6b9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.sum_add","kind":"function","src_hash":"73f0ef457e397ff0","in":{"base":"Any","pred":"isinstance(self, Mul) and isinstance(x, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"sum_add(oth)","rhs":"helper function for sum simplification","over":{"base":"Any","pred":"isinstance(self, Mul) and isinstance(x, Sum)"},"name":"sum_add_correct"},"guarantee":"helper function for sum simplification","fibers":[{"name":"Mul","pred":"isinstance(self, Mul)","path":{"lhs":"sum_add(x)","rhs":"helper function for sum simplification","over":{"base":"Mul","pred":"isinstance(self, Mul)"},"name":"sum_add_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_add_Mul_correct","statement":"sum_add satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(x, Sum)","path":{"lhs":"sum_add(x)","rhs":"helper function for sum simplification","over":{"base":"Sum","pred":"isinstance(x, Sum)"},"name":"sum_add_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_add_Sum_correct","statement":"sum_add satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5feeb6b950a2c7cc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.sum_add","kind":"function","src_hash":"73f0ef457e397ff0","in":{"base":"Any","pred":"isinstance(self, Mul) and isinstance(x, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"sum_add(other, method)","rhs":"<unspecified:sum_add>","over":{"base":"Any","pred":"isinstance(self, Mul) and isinstance(x, Sum)"},"name":"sum_add_correct"},"guarantee":"helper function for sum simplification","fibers":[{"name":"Mul","pred":"isinstance(self, Mul)","path":{"lhs":"sum_add(x)","rhs":"helper function for sum simplification","over":{"base":"Mul","pred":"isinstance(self, Mul)"},"name":"sum_add_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_add_Mul_correct","statement":"sum_add satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(x, Sum)","path":{"lhs":"sum_add(x)","rhs":"helper function for sum simplification","over":{"base":"Sum","pred":"isinstance(x, Sum)"},"name":"sum_add_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.sum_add_Sum_correct","statement":"sum_add satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5feeb6b950a2c7cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x2 == y1 + 1', 'x1 == y2 + 1', 'isinstance(self, Mul)', 'method == 1', 'len(rself.limits) == len(rother.limits) == 1', 'method == 0', 'isinstance(other, Mul)', 'simplify(rself.function - rother.function) == 0', 'rself.limits == rother.limits', 'i == j'}, fibers={'Sum', 'Mul'})"]}}
 def sum_add(self, other, method=0):
     """Helper function for Sum simplification"""
     #we know this is something in terms of a constant * a sum
@@ -1131,7 +1253,10 @@ def sum_add(self, other, method=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product_simplify(s, ), main function for product simplification) over {Any | isinstance(term, Product)} ║
+# ║ Path(product_simplify(s, **kwargs), <unspecified:product_simplify>) over {Any | isinstance(term, Product)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ product_simplify : {Any | isinstance(term, Product)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1143,9 +1268,12 @@ def sum_add(self, other, method=0):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 04f584de...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.product_simplify","kind":"function","src_hash":"e08c728c72131989","in":{"base":"Any","pred":"isinstance(term, Product)"},"out":{"base":"Any"},"spec":{"lhs":"product_simplify(s, )","rhs":"main function for product simplification","over":{"base":"Any","pred":"isinstance(term, Product)"},"name":"product_simplify_correct"},"guarantee":"main function for product simplification","fibers":[{"name":"Product","pred":"isinstance(term, Product)","path":{"lhs":"product_simplify(x)","rhs":"main function for product simplification","over":{"base":"Product","pred":"isinstance(term, Product)"},"name":"product_simplify_Product_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.product_simplify_Product_correct","statement":"product_simplify satisfies spec on Product inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"04f584ded0daf140"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.product_simplify","kind":"function","src_hash":"e08c728c72131989","in":{"base":"Any","pred":"isinstance(term, Product)"},"out":{"base":"Any"},"spec":{"lhs":"product_simplify(s, **kwargs)","rhs":"<unspecified:product_simplify>","over":{"base":"Any","pred":"isinstance(term, Product)"},"name":"product_simplify_correct"},"guarantee":"main function for product simplification","fibers":[{"name":"Product","pred":"isinstance(term, Product)","path":{"lhs":"product_simplify(x)","rhs":"main function for product simplification","over":{"base":"Product","pred":"isinstance(term, Product)"},"name":"product_simplify_Product_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.product_simplify_Product_correct","statement":"product_simplify satisfies spec on Product inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"04f584ded0daf140","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['s'], spec=['s', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'not used[j] and i != j', 'isinstance(term, Product)', 'isinstance(tmp_prod, Product)'}, fibers={'Product'})"]}}
 def product_simplify(s, **kwargs):
     """Main function for Product simplification"""
     terms = Mul.make_args(s)
@@ -1185,16 +1313,24 @@ def product_simplify(s, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product_mul(oth), helper function for product simplification) over Any ║
+# ║ Path(product_mul(other, method), <unspecified:product_mul>) over {Any | hasattr(other, 'limits') and hasattr(other, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ product_mul : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'limits')                       ║
+# ║   requires: hasattr(other, 'function')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ product_mul : {Any | hasattr(other, 'limits') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b175ce849940362d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.product_mul","kind":"function","src_hash":"c57f5efd75d8d345","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product_mul(oth)","rhs":"helper function for product simplification","over":{"base":"Any"},"name":"product_mul_correct"},"guarantee":"helper function for product simplification","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.product_mul_correct","statement":"Path(product_mul(x), helper function for product simplification)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b175ce849940362d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.product_mul","kind":"function","src_hash":"c57f5efd75d8d345","in":{"base":"Any","pred":"hasattr(other, 'limits') and hasattr(other, 'function')"},"out":{"base":"Any"},"spec":{"lhs":"product_mul(other, method)","rhs":"<unspecified:product_mul>","over":{"base":"Any","pred":"hasattr(other, 'limits') and hasattr(other, 'function')"},"name":"product_mul_correct"},"guarantee":"helper function for product simplification","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.product_mul_correct","statement":"Path(product_mul(x), helper function for product simplification)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b175ce849940362d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'limits')","hasattr(other, 'function')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.function","other.limits","self.function","self.limits"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def product_mul(self, other, method=0):
     """Helper function for Product simplification"""
     if type(self) is type(other):
@@ -1221,16 +1357,22 @@ def product_mul(self, other, method=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nthroot_solve(p, ), helper function for ``nthroot`` it denests ``p**rational(1, n)`` using its minimal polynomial) over Any ║
+# ║ Path(_nthroot_solve(p, n, prec), <unspecified:_nthroot_solve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nthroot_solve : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b74651b60163fb47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._nthroot_solve","kind":"function","src_hash":"31fe13cd8e820583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nthroot_solve(p, )","rhs":"helper function for ``nthroot`` it denests ``p**rational(1, n)`` using its minimal polynomial","over":{"base":"Any"},"name":"_nthroot_solve_correct"},"guarantee":"helper function for ``nthroot`` it denests ``p**rational(1, n)`` using its minimal polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._nthroot_solve_correct","statement":"Path(_nthroot_solve(x), helper function for ``nthroot`` it denests ``p**rational(1, n)`` using its minimal polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b74651b60163fb47"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._nthroot_solve","kind":"function","src_hash":"31fe13cd8e820583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nthroot_solve(p, n, prec)","rhs":"<unspecified:_nthroot_solve>","over":{"base":"Any"},"name":"_nthroot_solve_correct"},"guarantee":"helper function for ``nthroot`` it denests ``p**rational(1, n)`` using its minimal polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._nthroot_solve_correct","statement":"Path(_nthroot_solve(x), helper function for ``nthroot`` it denests ``p**rational(1, n)`` using its minimal polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b74651b60163fb47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _nthroot_solve(p, n, prec):
     """
      helper function for ``nthroot``
@@ -1256,9 +1398,12 @@ def _nthroot_solve(p, n, prec):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(logcombine(exp), takes logarithms and combines them using the following rules:) over {Any | isinstance(other[0], log)} ║
+# ║ Path(logcombine(expr, force), # HINT: logcombine may be idempotent: logcombine(logcombine(x)) == logcombine(x)) over {Any | isinstance(other[0], log)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ logcombine : {Any | isinstance(other[0], log)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: logcombine may be idempotent: log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ logcombine : {Any | isinstance(other[0], log)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   log: {isinstance(other[0], log)} → library_axiom         ║
@@ -1268,9 +1413,12 @@ def _nthroot_solve(p, n, prec):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 08e8b97c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.logcombine","kind":"function","src_hash":"eaffec8df6fd9a9b","in":{"base":"Any","pred":"isinstance(other[0], log)"},"out":{"base":"Any"},"spec":{"lhs":"logcombine(exp)","rhs":"takes logarithms and combines them using the following rules:","over":{"base":"Any","pred":"isinstance(other[0], log)"},"name":"logcombine_correct"},"guarantee":"takes logarithms and combines them using the following rules:","fibers":[{"name":"log","pred":"isinstance(other[0], log)","path":{"lhs":"logcombine(x)","rhs":"takes logarithms and combines them using the following rules:","over":{"base":"log","pred":"isinstance(other[0], log)"},"name":"logcombine_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.logcombine_log_correct","statement":"logcombine satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"08e8b97cbe8dbac1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.logcombine","kind":"function","src_hash":"eaffec8df6fd9a9b","in":{"base":"Any","pred":"isinstance(other[0], log)"},"out":{"base":"Any","pred":"result satisfies: # HINT: logcombine may be idempotent: logcombine(logcombine(x)) == logcombine(x)"},"spec":{"lhs":"logcombine(expr, force)","rhs":"# HINT: logcombine may be idempotent: logcombine(logcombine(x)) == logcombine(x)","over":{"base":"Any","pred":"isinstance(other[0], log)"},"name":"logcombine_correct"},"guarantee":"# HINT: logcombine may be idempotent: logcombine(logcombine(x)) == logcombine(x)","fibers":[{"name":"log","pred":"isinstance(other[0], log)","path":{"lhs":"logcombine(x)","rhs":"# HINT: logcombine may be idempotent: logcombine(logcombine(x)) == logcombine(x)","over":{"base":"log","pred":"isinstance(other[0], log)"},"name":"logcombine_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.logcombine_log_correct","statement":"logcombine satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"08e8b97cbe8dbac1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: logcombine may be idempotent: logcombine(logcombine(x)) == logcombine(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(other) == 1 and isinstance(other[0], log)', 'isinstance(l, log)', 'len(lo) > 1', 'not logs and all((len(log1[k]) == 1 and log1[k][0] == [] for k in log1))', 'isinstance(a, log) and goodlog(a)', 'isinstance(ai, log) and goodlog(ai)', 'num.count_ops() > den.count_ops()', 'ai.is_Rational and ai < 0'}, fibers={'log'})"]}}
 def logcombine(expr, force=False):
     """
     Takes logarithms and combines them using the following rules:
@@ -1416,7 +1564,10 @@ def logcombine(expr, force=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inversecombine(exp), simplify the composition of a function and its inverse) over {Any | isinstance(rv, log) and isinstance(rv.args[0], exp) and isinstance(rv.args[0], rv.inverse(argindex=1))} ║
+# ║ Path(inversecombine(expr), <unspecified:inversecombine>) over {Any | isinstance(rv, log) and isinstance(rv.args[0], exp) and isinstance(rv.args[0], rv.inverse(argindex=1))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inversecombine : {Any | isinstance(rv, log) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1430,9 +1581,12 @@ def logcombine(expr, force=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 72ec855f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.inversecombine","kind":"function","src_hash":"704ef220d689f776","in":{"base":"Any","pred":"isinstance(rv, log) and isinstance(rv.args[0], exp) and isinstance(rv.args[0], rv.inverse(argindex=1))"},"out":{"base":"Any"},"spec":{"lhs":"inversecombine(exp)","rhs":"simplify the composition of a function and its inverse","over":{"base":"Any","pred":"isinstance(rv, log) and isinstance(rv.args[0], exp) and isinstance(rv.args[0], rv.inverse(argindex=1))"},"name":"inversecombine_correct"},"guarantee":"simplify the composition of a function and its inverse","fibers":[{"name":"log","pred":"isinstance(rv, log)","path":{"lhs":"inversecombine(x)","rhs":"simplify the composition of a function and its inverse","over":{"base":"log","pred":"isinstance(rv, log)"},"name":"inversecombine_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.inversecombine_log_correct","statement":"inversecombine satisfies spec on log inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(rv.args[0], exp)","path":{"lhs":"inversecombine(x)","rhs":"simplify the composition of a function and its inverse","over":{"base":"exp","pred":"isinstance(rv.args[0], exp)"},"name":"inversecombine_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.inversecombine_exp_correct","statement":"inversecombine satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"rv_inverse(argindex=1","pred":"isinstance(rv.args[0], rv.inverse(argindex=1))","path":{"lhs":"inversecombine(x)","rhs":"simplify the composition of a function and its inverse","over":{"base":"rv.inverse(argindex=1","pred":"isinstance(rv.args[0], rv.inverse(argindex=1))"},"name":"inversecombine_rv.inverse(argindex=1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.inversecombine_rv.inverse(argindex=1_correct","statement":"inversecombine satisfies spec on rv.inverse(argindex=1 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"72ec855f7340eea8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.inversecombine","kind":"function","src_hash":"704ef220d689f776","in":{"base":"Any","pred":"isinstance(rv, log) and isinstance(rv.args[0], exp) and isinstance(rv.args[0], rv.inverse(argindex=1))"},"out":{"base":"Any"},"spec":{"lhs":"inversecombine(expr)","rhs":"<unspecified:inversecombine>","over":{"base":"Any","pred":"isinstance(rv, log) and isinstance(rv.args[0], exp) and isinstance(rv.args[0], rv.inverse(argindex=1))"},"name":"inversecombine_correct"},"guarantee":"simplify the composition of a function and its inverse","fibers":[{"name":"log","pred":"isinstance(rv, log)","path":{"lhs":"inversecombine(x)","rhs":"simplify the composition of a function and its inverse","over":{"base":"log","pred":"isinstance(rv, log)"},"name":"inversecombine_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.inversecombine_log_correct","statement":"inversecombine satisfies spec on log inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(rv.args[0], exp)","path":{"lhs":"inversecombine(x)","rhs":"simplify the composition of a function and its inverse","over":{"base":"exp","pred":"isinstance(rv.args[0], exp)"},"name":"inversecombine_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.inversecombine_exp_correct","statement":"inversecombine satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"rv_inverse(argindex=1","pred":"isinstance(rv.args[0], rv.inverse(argindex=1))","path":{"lhs":"inversecombine(x)","rhs":"simplify the composition of a function and its inverse","over":{"base":"rv.inverse(argindex=1","pred":"isinstance(rv.args[0], rv.inverse(argindex=1))"},"name":"inversecombine_rv.inverse(argindex=1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.inversecombine_rv.inverse(argindex=1_correct","statement":"inversecombine satisfies spec on rv.inverse(argindex=1 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"72ec855f7340eea8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'rv.is_Pow and rv.base == S.Exp1', 'isinstance(rv.exp, log)', 'len(rv.args) == 1 and len(rv.args[0].args) == 1 and isinstance(rv.args[0], rv.inverse(argindex=1))', 'isinstance(rv.args[0], exp) or (rv.args[0].is_Pow and rv.args[0].base == S.Exp1)', 'isinstance(rv, log)'}, fibers={'exp', 'log', 'rv_inverse(argindex=1'})"]}}
 def inversecombine(expr):
     """Simplify the composition of a function and its inverse.
 
@@ -1472,7 +1626,13 @@ def inversecombine(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kroneckersimp(exp), simplify expressions with kroneckerdelta) over {Any | isinstance(a, KroneckerDelta) and isinstance(e, Mul)} ║
+# ║ Path(kroneckersimp(expr), <unspecified:kroneckersimp>) over {Any | isinstance(a, KroneckerDelta) and isinstance(e, Mul) and hasattr(expr, 'has') and hasattr(expr, 'rewrite') and hasattr(expr, 'replace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kroneckersimp : {Any | isinstance(a, KroneckerDelta) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1485,9 +1645,12 @@ def inversecombine(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 822e3b09...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.kroneckersimp","kind":"function","src_hash":"ac7c3dbc7edb6421","in":{"base":"Any","pred":"isinstance(a, KroneckerDelta) and isinstance(e, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"kroneckersimp(exp)","rhs":"simplify expressions with kroneckerdelta","over":{"base":"Any","pred":"isinstance(a, KroneckerDelta) and isinstance(e, Mul)"},"name":"kroneckersimp_correct"},"guarantee":"simplify expressions with kroneckerdelta","fibers":[{"name":"KroneckerDelta","pred":"isinstance(a, KroneckerDelta)","path":{"lhs":"kroneckersimp(x)","rhs":"simplify expressions with kroneckerdelta","over":{"base":"KroneckerDelta","pred":"isinstance(a, KroneckerDelta)"},"name":"kroneckersimp_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.kroneckersimp_KroneckerDelta_correct","statement":"kroneckersimp satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"kroneckersimp(x)","rhs":"simplify expressions with kroneckerdelta","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"kroneckersimp_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.kroneckersimp_Mul_correct","statement":"kroneckersimp satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"822e3b09daddd7a0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.kroneckersimp","kind":"function","src_hash":"ac7c3dbc7edb6421","in":{"base":"Any","pred":"isinstance(a, KroneckerDelta) and isinstance(e, Mul) and hasattr(expr, 'has') and hasattr(expr, 'rewrite') and hasattr(expr, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"kroneckersimp(expr)","rhs":"<unspecified:kroneckersimp>","over":{"base":"Any","pred":"isinstance(a, KroneckerDelta) and isinstance(e, Mul) and hasattr(expr, 'has') and hasattr(expr, 'rewrite') and hasattr(expr, 'replace')"},"name":"kroneckersimp_correct"},"guarantee":"simplify expressions with kroneckerdelta","fibers":[{"name":"KroneckerDelta","pred":"isinstance(a, KroneckerDelta)","path":{"lhs":"kroneckersimp(x)","rhs":"simplify expressions with kroneckerdelta","over":{"base":"KroneckerDelta","pred":"isinstance(a, KroneckerDelta)"},"name":"kroneckersimp_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.kroneckersimp_KroneckerDelta_correct","statement":"kroneckersimp satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"kroneckersimp(x)","rhs":"simplify expressions with kroneckerdelta","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"kroneckersimp_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.kroneckersimp_Mul_correct","statement":"kroneckersimp satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"822e3b09daddd7a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'has')","hasattr(expr, 'rewrite')","hasattr(expr, 'replace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has","expr.replace","expr.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.1,"verdict_class":"failed","binding":true}}
 def kroneckersimp(expr):
     """
     Simplify expressions with KroneckerDelta.
@@ -1540,9 +1703,15 @@ def kroneckersimp(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(besselsimp(exp), simplify bessel-type functions) over {Any | isinstance(x, bessel)} ║
+# ║ Path(besselsimp(expr), <unspecified:besselsimp>) over {Any | isinstance(x, bessel) and hasattr(expr, 'replace') and hasattr(expr, 'has') and hasattr(expr, 'factor') and hasattr(expr, 'find') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ besselsimp : {Any | isinstance(x, bessel)} → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'factor')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ besselsimp : {Any | isinstance(x, bessel) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   bessel: {isinstance(x, bessel)} → library_axiom          ║
@@ -1552,9 +1721,12 @@ def kroneckersimp(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b6841d1f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.besselsimp","kind":"function","src_hash":"3f2283a526d34fdf","in":{"base":"Any","pred":"isinstance(x, bessel)"},"out":{"base":"Any"},"spec":{"lhs":"besselsimp(exp)","rhs":"simplify bessel-type functions","over":{"base":"Any","pred":"isinstance(x, bessel)"},"name":"besselsimp_correct"},"guarantee":"simplify bessel-type functions","fibers":[{"name":"bessel","pred":"isinstance(x, bessel)","path":{"lhs":"besselsimp(x)","rhs":"simplify bessel-type functions","over":{"base":"bessel","pred":"isinstance(x, bessel)"},"name":"besselsimp_bessel_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.besselsimp_bessel_correct","statement":"besselsimp satisfies spec on bessel inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b6841d1f1ed2e451"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.besselsimp","kind":"function","src_hash":"3f2283a526d34fdf","in":{"base":"Any","pred":"isinstance(x, bessel) and hasattr(expr, 'replace') and hasattr(expr, 'has') and hasattr(expr, 'factor') and hasattr(expr, 'find') and hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"besselsimp(expr)","rhs":"<unspecified:besselsimp>","over":{"base":"Any","pred":"isinstance(x, bessel) and hasattr(expr, 'replace') and hasattr(expr, 'has') and hasattr(expr, 'factor') and hasattr(expr, 'find') and hasattr(expr, 'subs')"},"name":"besselsimp_correct"},"guarantee":"simplify bessel-type functions","fibers":[{"name":"bessel","pred":"isinstance(x, bessel)","path":{"lhs":"besselsimp(x)","rhs":"simplify bessel-type functions","over":{"base":"bessel","pred":"isinstance(x, bessel)"},"name":"besselsimp_bessel_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.besselsimp_bessel_correct","statement":"besselsimp satisfies spec on bessel inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b6841d1f1ed2e451","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'replace')","hasattr(expr, 'has')","hasattr(expr, 'factor')","hasattr(expr, 'find')","hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.factor","expr.find","expr.has","expr.replace","expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'nu.is_Integer and nu > 1', 'nu % 1 == S.Half', 'expr != orig_expr'}, fibers={'bessel'})"]}}
 def besselsimp(expr):
     """
     Simplify bessel-type functions.
@@ -1671,16 +1843,24 @@ def besselsimp(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nthroot(exp), compute a real nth-root of a sum of surds) over Any ║
+# ║ Path(nthroot(expr, n, max_len), <unspecified:nthroot>) over {Any | hasattr(n, 'is_integer') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nthroot : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nthroot : {Any | hasattr(n, 'is_integer') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56372ec891f36e9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.nthroot","kind":"function","src_hash":"c2323429f8ba0710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nthroot(exp)","rhs":"compute a real nth-root of a sum of surds","over":{"base":"Any"},"name":"nthroot_correct"},"guarantee":"compute a real nth-root of a sum of surds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nthroot_correct","statement":"Path(nthroot(x), compute a real nth-root of a sum of surds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56372ec891f36e9e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.nthroot","kind":"function","src_hash":"c2323429f8ba0710","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"nthroot(expr, n, max_len)","rhs":"<unspecified:nthroot>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(expr, 'args')"},"name":"nthroot_correct"},"guarantee":"compute a real nth-root of a sum of surds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nthroot_correct","statement":"Path(nthroot(x), compute a real nth-root of a sum of surds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56372ec891f36e9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def nthroot(expr, n, max_len=4, prec=15):
     """
     Compute a real nth-root of a sum of surds.
@@ -1742,16 +1922,25 @@ def nthroot(expr, n, max_len=4, prec=15):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nsimplify(exp), id) over Any                          ║
+# ║ Path(nsimplify(expr, constants, tolerance), id) over {Any | hasattr(expr, 'free_symbols') and hasattr(expr, 'evalf') and hasattr(expr, 'is_finite') and hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nsimplify : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'evalf')                         ║
+# ║   requires: hasattr(expr, 'is_finite')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nsimplify : {Any | hasattr(expr, 'free_symbols') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 57d122aadbc4c08a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.nsimplify","kind":"function","src_hash":"efa6b9839e79753c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nsimplify(exp)","rhs":"find a simple representation for a number or, if there are free symbols or if ``rational=true``, then replace floats with their rational equivalents","over":{"base":"Any"},"name":"nsimplify_correct","kind":"composition"},"guarantee":"find a simple representation for a number or, if there are free symbols or if ``rational=true``, then replace floats with their rational equivalents","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sympify","by":"library_axiom"},{"fn":"as_int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d122aadbc4c08a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.nsimplify","kind":"function","src_hash":"efa6b9839e79753c","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'evalf') and hasattr(expr, 'is_finite') and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"nsimplify(expr, constants, tolerance)","rhs":"<unspecified:nsimplify>","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'evalf') and hasattr(expr, 'is_finite') and hasattr(expr, 'atoms')"},"name":"nsimplify_correct","kind":"composition"},"guarantee":"find a simple representation for a number or, if there are free symbols or if ``rational=true``, then replace floats with their rational equivalents","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sympify","by":"library_axiom"},{"fn":"as_int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d122aadbc4c08a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'free_symbols')","hasattr(expr, 'evalf')","hasattr(expr, 'is_finite')","hasattr(expr, 'atoms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","expr.evalf","expr.free_symbols","expr.is_finite"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def nsimplify(expr, constants=(), tolerance=None, full=False, rational=None,
     rational_conversion='base10'):
     """
@@ -1892,16 +2081,22 @@ def nsimplify(expr, constants=(), tolerance=None, full=False, rational=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_real_to_rational(exp), replace all reals in expr with rationals) over Any ║
+# ║ Path(_real_to_rational(expr, tolerance, rational_conversion), p.subs(reps, simultaneous=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p.subs(reps, simultaneous=True)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _real_to_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 000d5c40b41d3283  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c0519fb19c0ad3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._real_to_rational","kind":"function","src_hash":"3e40613ece71003f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_real_to_rational(exp)","rhs":"replace all reals in expr with rationals","over":{"base":"Any"},"name":"_real_to_rational_correct"},"guarantee":"replace all reals in expr with rationals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._real_to_rational_correct","statement":"Path(_real_to_rational(x), replace all reals in expr with rationals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"000d5c40b41d3283"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify._real_to_rational","kind":"function","src_hash":"3e40613ece71003f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_real_to_rational(expr, tolerance, rational_conversion)","rhs":"p.subs(reps, simultaneous=True)","over":{"base":"Any"},"name":"_real_to_rational_correct"},"guarantee":"returns p.subs(reps, simultaneous=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify._real_to_rational_correct","statement":"Path(_real_to_rational(x), returns p.subs(reps, simultaneous=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c0519fb19c0ad3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p.subs(reps, simultaneous=True)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _real_to_rational(expr, tolerance=None, rational_conversion='base10'):
     """
     Replace all reals in expr with rationals.
@@ -1968,16 +2163,25 @@ def _real_to_rational(expr, tolerance=None, rational_conversion='base10'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clear_coefficients(exp), return `p, r` where `p` is the expression obtained when rational additive and multiplicative coefficients of `expr` have been stripped away in a naive fashion (i.e) over Any ║
+# ║ Path(clear_coefficients(expr, rhs), <unspecified:clear_coefficients>) over {Any | hasattr(expr, 'free_symbols') and hasattr(expr, 'is_Rational') and hasattr(expr, 'could_extract_minus_sign') and hasattr(expr, 'as_coeff_Add') and hasattr(expr, 'as_content_primitive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ clear_coefficients : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'is_Rational')                   ║
+# ║   requires: hasattr(expr, 'could_extract_minus_sign')      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ clear_coefficients : {Any | hasattr(expr, 'free_symbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cc8f661d5288298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.clear_coefficients","kind":"function","src_hash":"ad0134ef4e31e815","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_coefficients(exp)","rhs":"return `p, r` where `p` is the expression obtained when rational additive and multiplicative coefficients of `expr` have been stripped away in a naive fashion (i.e","over":{"base":"Any"},"name":"clear_coefficients_correct"},"guarantee":"return `p, r` where `p` is the expression obtained when rational additive and multiplicative coefficients of `expr` have been stripped away in a naive fashion (i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.clear_coefficients_correct","statement":"Path(clear_coefficients(x), return `p, r` where `p` is the expression obtained when rational additive and multiplicative coefficients of `expr` have been stripped away in a naive fashion (i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cc8f661d5288298"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.clear_coefficients","kind":"function","src_hash":"ad0134ef4e31e815","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'is_Rational') and hasattr(expr, 'could_extract_minus_sign') and hasattr(expr, 'as_coeff_Add') and hasattr(expr, 'as_content_primitive')"},"out":{"base":"Any"},"spec":{"lhs":"clear_coefficients(expr, rhs)","rhs":"<unspecified:clear_coefficients>","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'is_Rational') and hasattr(expr, 'could_extract_minus_sign') and hasattr(expr, 'as_coeff_Add') and hasattr(expr, 'as_content_primitive')"},"name":"clear_coefficients_correct"},"guarantee":"return `p, r` where `p` is the expression obtained when rational additive and multiplicative coefficients of `expr` have been stripped away in a naive fashion (i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.clear_coefficients_correct","statement":"Path(clear_coefficients(x), return `p, r` where `p` is the expression obtained when rational additive and multiplicative coefficients of `expr` have been stripped away in a naive fashion (i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cc8f661d5288298","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'free_symbols')","hasattr(expr, 'is_Rational')","hasattr(expr, 'could_extract_minus_sign')","hasattr(expr, 'as_coeff_Add')","hasattr(expr, 'as_content_primitive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_coeff_Add","expr.as_content_primitive","expr.could_extract_minus_sign","expr.free_symbols","expr.is_Rational"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def clear_coefficients(expr, rhs=S.Zero):
     """Return `p, r` where `p` is the expression obtained when Rational
     additive and multiplicative coefficients of `expr` have been stripped
@@ -2025,7 +2229,13 @@ def clear_coefficients(expr, rhs=S.Zero):
     return expr, rhs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nc_simplify(exp), simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o) over {Any | isinstance(expr, MatrixExpr) and isinstance(expr, _Pow) and isinstance(expr, _Add)} ║
+# ║ Path(nc_simplify(expr, deep), # HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)) over {Any | isinstance(expr, MatrixExpr) and isinstance(expr, _Pow) and isinstance(expr, _Add) and hasattr(expr, 'is_commutative') and hasattr(expr, 'args') and hasattr(expr, 'doit') and hasattr(expr, 'args_cnc')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_commutative')                ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'doit')                          ║
+# ║   ensures:  # HINT: nc_simplify may be idempotent: nc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nc_simplify : {Any | isinstance(expr, MatrixExpr) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2041,9 +2251,12 @@ def clear_coefficients(expr, rhs=S.Zero):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?5 ✗5 VCs | 8.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0e891ce7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.nc_simplify","kind":"function","src_hash":"b2ec67c0e8f65a77","in":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and isinstance(expr, _Pow) and isinstance(expr, _Add)"},"out":{"base":"Any"},"spec":{"lhs":"nc_simplify(exp)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and isinstance(expr, _Pow) and isinstance(expr, _Add)"},"name":"nc_simplify_correct"},"guarantee":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","fibers":[{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"nc_simplify(x)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"nc_simplify_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify_MatrixExpr_correct","statement":"nc_simplify satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"_Pow","pred":"isinstance(expr, _Pow)","path":{"lhs":"nc_simplify(x)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"_Pow","pred":"isinstance(expr, _Pow)"},"name":"nc_simplify__Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify__Pow_correct","statement":"nc_simplify satisfies spec on _Pow inputs"},"trust":"LIBRARY"},{"name":"_Add","pred":"isinstance(expr, _Add)","path":{"lhs":"nc_simplify(x)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"_Add","pred":"isinstance(expr, _Add)"},"name":"nc_simplify__Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify__Add_correct","statement":"nc_simplify satisfies spec on _Add inputs"},"trust":"LIBRARY"},{"name":"(_Add","pred":"isinstance(s, (_Add, _Mul))","path":{"lhs":"nc_simplify(x)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"(_Add","pred":"isinstance(s, (_Add, _Mul))"},"name":"nc_simplify_(_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify_(_Add_correct","statement":"nc_simplify satisfies spec on (_Add inputs"},"trust":"LIBRARY"},{"name":"(_Add","pred":"isinstance(expr, (_Add, _Mul, _Pow))","path":{"lhs":"nc_simplify(x)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"(_Add","pred":"isinstance(expr, (_Add, _Mul, _Pow))"},"name":"nc_simplify_(_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify_(_Add_correct","statement":"nc_simplify satisfies spec on (_Add inputs"},"trust":"LIBRARY"},{"name":"_Symbol","pred":"isinstance(args[i].args[0], _Symbol)","path":{"lhs":"nc_simplify(x)","rhs":"simplify a non-commutative expression composed of multiplication and raising to a power by grouping repeated subterms into one power. priority is given to simplifications that give the fewest number o","over":{"base":"_Symbol","pred":"isinstance(args[i].args[0], _Symbol)"},"name":"nc_simplify__Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify__Symbol_correct","statement":"nc_simplify satisfies spec on _Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0e891ce7617a01bf"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.nc_simplify","kind":"function","src_hash":"b2ec67c0e8f65a77","in":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and isinstance(expr, _Pow) and isinstance(expr, _Add) and hasattr(expr, 'is_commutative') and hasattr(expr, 'args') and hasattr(expr, 'doit') and hasattr(expr, 'args_cnc')"},"out":{"base":"Any","pred":"result satisfies: # HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)"},"spec":{"lhs":"nc_simplify(expr, deep)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and isinstance(expr, _Pow) and isinstance(expr, _Add) and hasattr(expr, 'is_commutative') and hasattr(expr, 'args') and hasattr(expr, 'doit') and hasattr(expr, 'args_cnc')"},"name":"nc_simplify_correct"},"guarantee":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","fibers":[{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"nc_simplify(x)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"nc_simplify_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify_MatrixExpr_correct","statement":"nc_simplify satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"_Pow","pred":"isinstance(expr, _Pow)","path":{"lhs":"nc_simplify(x)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"_Pow","pred":"isinstance(expr, _Pow)"},"name":"nc_simplify__Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify__Pow_correct","statement":"nc_simplify satisfies spec on _Pow inputs"},"trust":"LIBRARY"},{"name":"_Add","pred":"isinstance(expr, _Add)","path":{"lhs":"nc_simplify(x)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"_Add","pred":"isinstance(expr, _Add)"},"name":"nc_simplify__Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify__Add_correct","statement":"nc_simplify satisfies spec on _Add inputs"},"trust":"LIBRARY"},{"name":"(_Add","pred":"isinstance(s, (_Add, _Mul))","path":{"lhs":"nc_simplify(x)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"(_Add","pred":"isinstance(s, (_Add, _Mul))"},"name":"nc_simplify_(_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify_(_Add_correct","statement":"nc_simplify satisfies spec on (_Add inputs"},"trust":"LIBRARY"},{"name":"(_Add","pred":"isinstance(expr, (_Add, _Mul, _Pow))","path":{"lhs":"nc_simplify(x)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"(_Add","pred":"isinstance(expr, (_Add, _Mul, _Pow))"},"name":"nc_simplify_(_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify_(_Add_correct","statement":"nc_simplify satisfies spec on (_Add inputs"},"trust":"LIBRARY"},{"name":"_Symbol","pred":"isinstance(args[i].args[0], _Symbol)","path":{"lhs":"nc_simplify(x)","rhs":"# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)","over":{"base":"_Symbol","pred":"isinstance(args[i].args[0], _Symbol)"},"name":"nc_simplify__Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.nc_simplify__Symbol_correct","statement":"nc_simplify satisfies spec on _Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0e891ce7617a01bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_commutative')","hasattr(expr, 'args')","hasattr(expr, 'doit')","hasattr(expr, 'args_cnc')"],"ensures":["# HINT: nc_simplify may be idempotent: nc_simplify(nc_simplify(x)) == nc_simplify(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":7,"n_assumed":5,"n_failed":5,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, _Pow)', 'args[i - l:i] == subterm', 'end + l - 1 < len(args) and args[end:end + l - 1] == subterm[:-1]', 'inv_tot > len(args) / 2', 'args[i + 1:i + 1 + l] == subterm', 'pre != 1 or post != 1', 'isinstance(subterm[0], _Pow)', 'isinstance(s, (_Add, _Mul))', 'i < len(args) - 1', 'len(inverses) == 1', 'f_expr != expr', 'args[start - l] == pre_arg', 'not isinstance(expr, (_Add, _Mul, _Pow)) or expr.is_commutative', 'isinstance(args[end + l - 1], _Pow) and args[end + l - 1].args[0] == post_arg', 'subterm in simps and simps[subterm] >= start', 'args[end + l - 1] == post_arg', 'start - l >= 0 and args[start - l + 1:start] == subterm[1:]', 's != alt_s and get_score(alt_s) < get_score(s)', 'isinstance(args[end], _Pow) and args[end].args[0].args == subterm', 'isinstance(s, _Pow)', 'isinstance(args[start - 1], _Pow) and args[start - 1].args[0] == post_arg', 'isinstance(subterm[-1], _Pow)', 'post_exp and exp % 2 == 0 and (start > 0)', 'args[start - 1] == post_arg', 'i == len(args) - 1 or rep == [0]', 'isinstance(expr, MatrixExpr)', 'isinstance(expr, _Add)', 'not isinstance(expr, MatrixExpr)', 'isinstance(args[start - l], _Pow) and args[start - l].args[0] == pre_arg', '_pre_exp == 0 or _post_exp == 0', 'isinstance(arg, _Pow) and arg.args[1].is_extended_negative', 'j + i + 1 + v < len(args) and args[i] == args[j + i + 1 + v]', 'len(inverses) > 1', 'simp_coeff > max_simp_coeff', 'isinstance(args[i], _Pow) and (not isinstance(args[i].args[0], _Symbol))'}, fibers={'_Symbol', '_Add', '_Pow', '(_Add', 'MatrixExpr'})"]}}
 def nc_simplify(expr, deep=True):
     '''
     Simplify a non-commutative expression composed of multiplication
@@ -2373,9 +2586,15 @@ def nc_simplify(expr, deep=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dotprodsimp(exp), simplification for a sum of products targeted at the kind of blowup that occurs during summation of products) over {Any | isinstance(expr, Basic)} ║
+# ║ Path(dotprodsimp(expr, withsimp), <unspecified:dotprodsimp>) over {Any | isinstance(expr, Basic) and hasattr(expr, 'args') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(expr, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dotprodsimp : {Any | isinstance(expr, Basic)} → Any        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dotprodsimp : {Any | isinstance(expr, Basic) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(expr, Basic)} → library_axiom         ║
@@ -2385,9 +2604,12 @@ def nc_simplify(expr, deep=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5d90142c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.dotprodsimp","kind":"function","src_hash":"e939345c720a2ac3","in":{"base":"Any","pred":"isinstance(expr, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"dotprodsimp(exp)","rhs":"simplification for a sum of products targeted at the kind of blowup that occurs during summation of products","over":{"base":"Any","pred":"isinstance(expr, Basic)"},"name":"dotprodsimp_correct"},"guarantee":"simplification for a sum of products targeted at the kind of blowup that occurs during summation of products","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"dotprodsimp(x)","rhs":"simplification for a sum of products targeted at the kind of blowup that occurs during summation of products","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"dotprodsimp_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.dotprodsimp_Basic_correct","statement":"dotprodsimp satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5d90142cb423b353"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.simplify.dotprodsimp","kind":"function","src_hash":"e939345c720a2ac3","in":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'args') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(expr, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"dotprodsimp(expr, withsimp)","rhs":"<unspecified:dotprodsimp>","over":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'args') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(expr, 'func')"},"name":"dotprodsimp_correct"},"guarantee":"simplification for a sum of products targeted at the kind of blowup that occurs during summation of products","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"dotprodsimp(x)","rhs":"simplification for a sum of products targeted at the kind of blowup that occurs during summation of products","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"dotprodsimp_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.simplify.dotprodsimp_Basic_correct","statement":"dotprodsimp satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5d90142cb423b353","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Pow')","hasattr(expr, 'expand')","hasattr(expr, 'func')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr2ops < exprops', 'expr2 is expr or count_ops_alg(expr2)[0] >= 6', 'expr2 != expr', 'exprops >= 6', 'not isinstance(a, Basic)', 'args is None', 'expr3 != expr2', 'isinstance(expr, Basic) and (expr.is_Add or expr.is_Mul or expr.is_Pow)', 'exprops == 5 and expr.is_Add and expr.args[0].is_Mul and expr.args[1].is_Mul and expr.args[0].args[-1].is_Pow and expr.args[1].args[-1].is_Pow and (expr.args[0].args[-1].exp is S.NegativeOne) and (expr.args[1].args[-1].exp is S.NegativeOne)'}, fibers={'Basic'})"]}}
 def dotprodsimp(expr, withsimp=False):
     """Simplification for a sum of products targeted at the kind of blowup that
     occurs during summation of products. Intended to reduce expression blowup

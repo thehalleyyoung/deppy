@@ -24,7 +24,11 @@ from sympy.printing.fortran import FCodePrinter
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(render_as_module(def), creates a ``module`` instance and renders it as a string) over {Any | isinstance(definitions, Module)} ║
+# ║ Path(render_as_module(definitions, name, declarations), fstr.replace(printer.doprint(dummy), module_use_str)) over {Any | isinstance(definitions, Module) and not (isinstance(definitions, Module))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(definitions, Module))          ║
+# ║   returns:  fstr.replace(printer.doprint(dummy), modu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ render_as_module : {Any | isinstance(definitions, Mod...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -36,9 +40,12 @@ from sympy.printing.fortran import FCodePrinter
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c8d9d8c6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.futils.render_as_module","kind":"function","src_hash":"f193df0d630c1806","in":{"base":"Any","pred":"isinstance(definitions, Module)"},"out":{"base":"Any"},"spec":{"lhs":"render_as_module(def)","rhs":"creates a ``module`` instance and renders it as a string","over":{"base":"Any","pred":"isinstance(definitions, Module)"},"name":"render_as_module_correct"},"guarantee":"creates a ``module`` instance and renders it as a string","fibers":[{"name":"Module","pred":"isinstance(definitions, Module)","path":{"lhs":"render_as_module(x)","rhs":"creates a ``module`` instance and renders it as a string","over":{"base":"Module","pred":"isinstance(definitions, Module)"},"name":"render_as_module_Module_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.futils.render_as_module_Module_correct","statement":"render_as_module satisfies spec on Module inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c8d9d8c6bc835ce3"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.futils.render_as_module","kind":"function","src_hash":"f193df0d630c1806","in":{"base":"Any","pred":"isinstance(definitions, Module) and not (isinstance(definitions, Module))"},"out":{"base":"Any"},"spec":{"lhs":"render_as_module(definitions, name, declarations)","rhs":"fstr.replace(printer.doprint(dummy), module_use_str)","over":{"base":"Any","pred":"isinstance(definitions, Module) and not (isinstance(definitions, Module))"},"name":"render_as_module_correct"},"guarantee":"returns fstr.replace(printer.doprint(dummy), module_use_str)","fibers":[{"name":"Module","pred":"isinstance(definitions, Module)","path":{"lhs":"render_as_module(x)","rhs":"returns fstr.replace(printer.doprint(dummy), module_use_str)","over":{"base":"Module","pred":"isinstance(definitions, Module)"},"name":"render_as_module_Module_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.futils.render_as_module_Module_correct","statement":"render_as_module satisfies spec on Module inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c8d9d8c6bc835ce3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(definitions, Module))"],"returns_expr":"fstr.replace(printer.doprint(dummy), module_use_str)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(definitions, Module)'}, fibers={'Module'})"]}}
 def render_as_module(definitions, name, declarations=(), printer_settings=None):
     """ Creates a ``Module`` instance and renders it as a string.
 

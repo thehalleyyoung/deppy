@@ -25,16 +25,22 @@ from sympy.testing.pytest import XFAIL, raises
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1(), test_1 produces the expected output) over Any ║
+# ║ Path(test_1(), <unspecified:test_1>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_1 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7de51ff720538da6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_gtk.test_1","kind":"function","src_hash":"8c8b3bfb9efb4e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1()","rhs":"test_1 produces the expected output","over":{"base":"Any"},"name":"test_1_correct"},"guarantee":"test_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_gtk.test_1_correct","statement":"Path(test_1(x), test_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7de51ff720538da6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_gtk.test_1","kind":"function","src_hash":"8c8b3bfb9efb4e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1()","rhs":"<unspecified:test_1>","over":{"base":"Any"},"name":"test_1_correct"},"guarantee":"test_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_gtk.test_1_correct","statement":"Path(test_1(x), test_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7de51ff720538da6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_1():
     from sympy.abc import x
     print_gtk(x**2, start_viewer=False)
@@ -42,16 +48,22 @@ def test_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_settings(), test_settings produces the expected output) over Any ║
+# ║ Path(test_settings(), <unspecified:test_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_settings : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5da52d9d3965bda5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_gtk.test_settings","kind":"function","src_hash":"8a4c735c17f5c1f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"test_settings produces the expected output","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_gtk.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da52d9d3965bda5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_gtk.test_settings","kind":"function","src_hash":"8a4c735c17f5c1f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"<unspecified:test_settings>","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_gtk.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da52d9d3965bda5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_settings():
     from sympy.abc import x
     raises(TypeError, lambda: print_gtk(x, method="garbage"))

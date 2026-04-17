@@ -52,16 +52,23 @@ from sympy.polys.matrices.dense import ddm_irref, ddm_irref_den
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref(M, ), compute the reduced row echelon form of a ``domainmatrix``) over Any ║
+# ║ Path(_dm_rref(M, method), (M_rref, pivots)) over {Any | hasattr(M, 'clear_denoms_rowwise')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'clear_denoms_rowwise')             ║
+# ║   returns:  (M_rref, pivots)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref : {Any | hasattr(M, 'clear_denoms_rowwise')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfb904627f9b6521  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 259ea5b7a3474fa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref","kind":"function","src_hash":"3b31ae54c8192399","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref(M, )","rhs":"compute the reduced row echelon form of a ``domainmatrix``","over":{"base":"Any"},"name":"_dm_rref_correct"},"guarantee":"compute the reduced row echelon form of a ``domainmatrix``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_correct","statement":"Path(_dm_rref(x), compute the reduced row echelon form of a ``domainmatrix``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfb904627f9b6521"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref","kind":"function","src_hash":"3b31ae54c8192399","in":{"base":"Any","pred":"hasattr(M, 'clear_denoms_rowwise')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref(M, method)","rhs":"(M_rref, pivots)","over":{"base":"Any","pred":"hasattr(M, 'clear_denoms_rowwise')"},"name":"_dm_rref_correct"},"guarantee":"returns (M_rref, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_correct","statement":"Path(_dm_rref(x), returns (M_rref, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"259ea5b7a3474fa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'clear_denoms_rowwise')"],"returns_expr":"(M_rref, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.clear_denoms_rowwise"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M'], spec=['M', 'method']"]}}
 def _dm_rref(M, *, method='auto'):
     """
     Compute the reduced row echelon form of a ``DomainMatrix``.
@@ -115,16 +122,24 @@ def _dm_rref(M, *, method='auto'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_den(M, ), compute the reduced row echelon form of a ``domainmatrix`` with denominator) over Any ║
+# ║ Path(_dm_rref_den(M, keep_domain, method), (M_rref, den, pivots)) over {Any | hasattr(M, 'domain') and hasattr(M, 'clear_denoms_rowwise')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_den : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   requires: hasattr(M, 'clear_denoms_rowwise')             ║
+# ║   returns:  (M_rref, den, pivots)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_den : {Any | hasattr(M, 'domain') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 974f898f257607da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdf27f324e1a4891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den","kind":"function","src_hash":"9148155a040b245b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den(M, )","rhs":"compute the reduced row echelon form of a ``domainmatrix`` with denominator","over":{"base":"Any"},"name":"_dm_rref_den_correct"},"guarantee":"compute the reduced row echelon form of a ``domainmatrix`` with denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_den_correct","statement":"Path(_dm_rref_den(x), compute the reduced row echelon form of a ``domainmatrix`` with denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"974f898f257607da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den","kind":"function","src_hash":"9148155a040b245b","in":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(M, 'clear_denoms_rowwise')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den(M, keep_domain, method)","rhs":"(M_rref, den, pivots)","over":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(M, 'clear_denoms_rowwise')"},"name":"_dm_rref_den_correct"},"guarantee":"returns (M_rref, den, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_den_correct","statement":"Path(_dm_rref_den(x), returns (M_rref, den, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf27f324e1a4891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'domain')","hasattr(M, 'clear_denoms_rowwise')"],"returns_expr":"(M_rref, den, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.clear_denoms_rowwise","M.domain"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M'], spec=['M', 'keep_domain', 'method']"]}}
 def _dm_rref_den(M, *, keep_domain=True, method='auto'):
     """
     Compute the reduced row echelon form of a ``DomainMatrix`` with denominator.
@@ -204,16 +219,25 @@ def _dm_rref_den(M, *, keep_domain=True, method='auto'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_to_fmt(M, ), convert a matrix to the given format and return the old format) over Any ║
+# ║ Path(_dm_to_fmt(M, fmt), (M, old_fmt)) over {Any | hasattr(M, 'rep') and hasattr(M, 'to_dense') and hasattr(M, 'to_sparse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_to_fmt : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   requires: hasattr(M, 'to_dense')                         ║
+# ║   requires: hasattr(M, 'to_sparse')                        ║
+# ║   returns:  (M, old_fmt)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_to_fmt : {Any | hasattr(M, 'rep') and hasattr(M, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfca5fdbf838f26e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8160a6971147b86f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_to_fmt","kind":"function","src_hash":"4b507a8915555a59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_to_fmt(M, )","rhs":"convert a matrix to the given format and return the old format","over":{"base":"Any"},"name":"_dm_to_fmt_correct"},"guarantee":"convert a matrix to the given format and return the old format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_to_fmt_correct","statement":"Path(_dm_to_fmt(x), convert a matrix to the given format and return the old format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfca5fdbf838f26e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_to_fmt","kind":"function","src_hash":"4b507a8915555a59","in":{"base":"Any","pred":"hasattr(M, 'rep') and hasattr(M, 'to_dense') and hasattr(M, 'to_sparse')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_to_fmt(M, fmt)","rhs":"(M, old_fmt)","over":{"base":"Any","pred":"hasattr(M, 'rep') and hasattr(M, 'to_dense') and hasattr(M, 'to_sparse')"},"name":"_dm_to_fmt_correct"},"guarantee":"returns (M, old_fmt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_to_fmt_correct","statement":"Path(_dm_to_fmt(x), returns (M, old_fmt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8160a6971147b86f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rep')","hasattr(M, 'to_dense')","hasattr(M, 'to_sparse')"],"returns_expr":"(M, old_fmt)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.rep","M.to_dense","M.to_sparse"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_to_fmt(M, fmt):
     """Convert a matrix to the given format and return the old format."""
     old_fmt = M.rep.fmt
@@ -232,16 +256,26 @@ def _dm_to_fmt(M, fmt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_GJ(M), compute rref using gauss-jordan elimination with division) over Any ║
+# ║ Path(_dm_rref_GJ(M), result == (_dm_rref_GJ_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_GJ_dense(M)) and result == _dm_rref_GJ_sparse(M) or result == _dm_rref_GJ_dense(M)) over {Any | hasattr(M, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_GJ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   ensures:  result == (_dm_rref_GJ_sparse(M) if M.rep...   ║
+# ║   ensures:  result == _dm_rref_GJ_sparse(M) or result...   ║
+# ║   fiber[case_0]: M.rep.fmt == 'sparse' => _dm_rref_GJ...   ║
+# ║   fiber[case_1]: not (M.rep.fmt == 'sparse') => _dm_r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_GJ : {Any | hasattr(M, 'rep')} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a702aa6950498df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82c7acb0fe295976  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_GJ","kind":"function","src_hash":"595669c3de7d0a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_GJ(M)","rhs":"compute rref using gauss-jordan elimination with division","over":{"base":"Any"},"name":"_dm_rref_GJ_correct"},"guarantee":"compute rref using gauss-jordan elimination with division","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_GJ_correct","statement":"Path(_dm_rref_GJ(x), compute rref using gauss-jordan elimination with division)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a702aa6950498df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_GJ","kind":"function","src_hash":"595669c3de7d0a68","in":{"base":"Any","pred":"hasattr(M, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == (_dm_rref_GJ_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_GJ_dense(M)) and result == _dm_rref_GJ_sparse(M) or result == _dm_rref_GJ_dense(M)"},"spec":{"lhs":"_dm_rref_GJ(M)","rhs":"result == (_dm_rref_GJ_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_GJ_dense(M)) and result == _dm_rref_GJ_sparse(M) or result == _dm_rref_GJ_dense(M)","over":{"base":"Any","pred":"hasattr(M, 'rep')"},"name":"_dm_rref_GJ_correct"},"guarantee":"result == (_dm_rref_GJ_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_GJ_dense(M)); result == _dm_rref_GJ_sparse(M) or result == _dm_rref_GJ_dense(M); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_GJ_correct","statement":"Path(_dm_rref_GJ(x), result == (_dm_rref_GJ_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_GJ_dense(M)); result == _dm_rref_GJ_sparse(M) or result == _dm_rref_GJ_dense(M); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82c7acb0fe295976","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rep')"],"ensures":["result == (_dm_rref_GJ_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_GJ_dense(M))","result == _dm_rref_GJ_sparse(M) or result == _dm_rref_GJ_dense(M)"],"fibers":[{"name":"case_0","guard":"M.rep.fmt == 'sparse'","ensures":["result == _dm_rref_GJ_sparse(M)"],"decidability":"z3","returns_expr":"_dm_rref_GJ_sparse(M)"},{"name":"case_1","guard":"not (M.rep.fmt == 'sparse')","ensures":["result == _dm_rref_GJ_dense(M)"],"decidability":"z3","returns_expr":"_dm_rref_GJ_dense(M)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.rep"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _dm_rref_GJ(M):
     """Compute RREF using Gauss-Jordan elimination with division."""
     if M.rep.fmt == 'sparse':
@@ -251,16 +285,26 @@ def _dm_rref_GJ(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_den_FF(M), compute rref using fraction-free gauss-jordan elimination) over Any ║
+# ║ Path(_dm_rref_den_FF(M), result == (_dm_rref_den_FF_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_den_FF_dense(M)) and result == _dm_rref_den_FF_sparse(M) or result == _dm_rref_den_FF_dense(M)) over {Any | hasattr(M, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_den_FF : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   ensures:  result == (_dm_rref_den_FF_sparse(M) if M...   ║
+# ║   ensures:  result == _dm_rref_den_FF_sparse(M) or re...   ║
+# ║   fiber[case_0]: M.rep.fmt == 'sparse' => _dm_rref_de...   ║
+# ║   fiber[case_1]: not (M.rep.fmt == 'sparse') => _dm_r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_den_FF : {Any | hasattr(M, 'rep')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fce0cb43872a78ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4633dfdd93430b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den_FF","kind":"function","src_hash":"5f8b71a23426024d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den_FF(M)","rhs":"compute rref using fraction-free gauss-jordan elimination","over":{"base":"Any"},"name":"_dm_rref_den_FF_correct"},"guarantee":"compute rref using fraction-free gauss-jordan elimination","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_den_FF_correct","statement":"Path(_dm_rref_den_FF(x), compute rref using fraction-free gauss-jordan elimination)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fce0cb43872a78ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den_FF","kind":"function","src_hash":"5f8b71a23426024d","in":{"base":"Any","pred":"hasattr(M, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == (_dm_rref_den_FF_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_den_FF_dense(M)) and result == _dm_rref_den_FF_sparse(M) or result == _dm_rref_den_FF_dense(M)"},"spec":{"lhs":"_dm_rref_den_FF(M)","rhs":"result == (_dm_rref_den_FF_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_den_FF_dense(M)) and result == _dm_rref_den_FF_sparse(M) or result == _dm_rref_den_FF_dense(M)","over":{"base":"Any","pred":"hasattr(M, 'rep')"},"name":"_dm_rref_den_FF_correct"},"guarantee":"result == (_dm_rref_den_FF_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_den_FF_dense(M)); result == _dm_rref_den_FF_sparse(M) or result == _dm_rref_den_FF_dense(M); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_den_FF_correct","statement":"Path(_dm_rref_den_FF(x), result == (_dm_rref_den_FF_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_den_FF_dense(M)); result == _dm_rref_den_FF_sparse(M) or result == _dm_rref_den_FF_dense(M); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4633dfdd93430b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rep')"],"ensures":["result == (_dm_rref_den_FF_sparse(M) if M.rep.fmt == 'sparse' else _dm_rref_den_FF_dense(M))","result == _dm_rref_den_FF_sparse(M) or result == _dm_rref_den_FF_dense(M)"],"fibers":[{"name":"case_0","guard":"M.rep.fmt == 'sparse'","ensures":["result == _dm_rref_den_FF_sparse(M)"],"decidability":"z3","returns_expr":"_dm_rref_den_FF_sparse(M)"},{"name":"case_1","guard":"not (M.rep.fmt == 'sparse')","ensures":["result == _dm_rref_den_FF_dense(M)"],"decidability":"z3","returns_expr":"_dm_rref_den_FF_dense(M)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.rep"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _dm_rref_den_FF(M):
     """Compute RREF using fraction-free Gauss-Jordan elimination."""
     if M.rep.fmt == 'sparse':
@@ -270,16 +314,25 @@ def _dm_rref_den_FF(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_GJ_sparse(M), compute rref using sparse gauss-jordan elimination with division) over Any ║
+# ║ Path(_dm_rref_GJ_sparse(M), (M.from_rep(M_rref_sdm), pivots)) over {Any | hasattr(M, 'rep') and hasattr(M, 'shape') and hasattr(M, 'domain') and hasattr(M, 'from_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_GJ_sparse : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   returns:  (M.from_rep(M_rref_sdm), pivots)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_GJ_sparse : {Any | hasattr(M, 'rep') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08828d6414a8642f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bbc6d3a3620752b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_GJ_sparse","kind":"function","src_hash":"4273540f04d2c1b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_GJ_sparse(M)","rhs":"compute rref using sparse gauss-jordan elimination with division","over":{"base":"Any"},"name":"_dm_rref_GJ_sparse_correct"},"guarantee":"compute rref using sparse gauss-jordan elimination with division","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_GJ_sparse_correct","statement":"Path(_dm_rref_GJ_sparse(x), compute rref using sparse gauss-jordan elimination with division)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08828d6414a8642f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_GJ_sparse","kind":"function","src_hash":"4273540f04d2c1b9","in":{"base":"Any","pred":"hasattr(M, 'rep') and hasattr(M, 'shape') and hasattr(M, 'domain') and hasattr(M, 'from_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_GJ_sparse(M)","rhs":"(M.from_rep(M_rref_sdm), pivots)","over":{"base":"Any","pred":"hasattr(M, 'rep') and hasattr(M, 'shape') and hasattr(M, 'domain') and hasattr(M, 'from_rep')"},"name":"_dm_rref_GJ_sparse_correct"},"guarantee":"returns (M.from_rep(M_rref_sdm), pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_GJ_sparse_correct","statement":"Path(_dm_rref_GJ_sparse(x), returns (M.from_rep(M_rref_sdm), pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bbc6d3a3620752b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rep')","hasattr(M, 'shape')","hasattr(M, 'domain')","hasattr(M, 'from_rep')"],"returns_expr":"(M.from_rep(M_rref_sdm), pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.from_rep","M.rep","M.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_rref_GJ_sparse(M):
     """Compute RREF using sparse Gauss-Jordan elimination with division."""
     M_rref_d, pivots, _ = sdm_irref(M.rep)
@@ -289,16 +342,25 @@ def _dm_rref_GJ_sparse(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_GJ_dense(M), id) over Any                    ║
+# ║ Path(_dm_rref_GJ_dense(M), id) over {Any | hasattr(M, 'shape') and hasattr(M, 'domain') and hasattr(M, 'from_rep') and hasattr(M, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_GJ_dense : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   requires: hasattr(M, 'from_rep')                         ║
+# ║   returns:  (M.from_rep(M_rref_ddm.to_dfm_or_ddm()), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_GJ_dense : {Any | hasattr(M, 'shape') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c8af7396dffa1d9f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_GJ_dense","kind":"function","src_hash":"9ad375fe6db36d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_GJ_dense(M)","rhs":"compute rref using dense gauss-jordan elimination with division","over":{"base":"Any"},"name":"_dm_rref_GJ_dense_correct","kind":"composition"},"guarantee":"compute rref using dense gauss-jordan elimination with division","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8af7396dffa1d9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_GJ_dense","kind":"function","src_hash":"9ad375fe6db36d2d","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'domain') and hasattr(M, 'from_rep') and hasattr(M, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_GJ_dense(M)","rhs":"(M.from_rep(M_rref_ddm.to_dfm_or_ddm()), pivots)","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'domain') and hasattr(M, 'from_rep') and hasattr(M, 'rep')"},"name":"_dm_rref_GJ_dense_correct","kind":"composition"},"guarantee":"returns (M.from_rep(M_rref_ddm.to_dfm_or_ddm()), pivots)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8af7396dffa1d9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')","hasattr(M, 'domain')","hasattr(M, 'from_rep')","hasattr(M, 'rep')"],"returns_expr":"(M.from_rep(M_rref_ddm.to_dfm_or_ddm()), pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.from_rep","M.rep","M.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_rref_GJ_dense(M):
     """Compute RREF using dense Gauss-Jordan elimination with division."""
     partial_pivot = M.domain.is_RR or M.domain.is_CC
@@ -310,16 +372,25 @@ def _dm_rref_GJ_dense(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_den_FF_sparse(M), compute rref using sparse fraction-free gauss-jordan elimination) over Any ║
+# ║ Path(_dm_rref_den_FF_sparse(M), (M.from_rep(M_rref_sdm), den, pivots)) over {Any | hasattr(M, 'rep') and hasattr(M, 'domain') and hasattr(M, 'shape') and hasattr(M, 'from_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_den_FF_sparse : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   returns:  (M.from_rep(M_rref_sdm), den, pivots)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_den_FF_sparse : {Any | hasattr(M, 'rep') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d4353951bb3071e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ba96b28960c1d7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den_FF_sparse","kind":"function","src_hash":"c5074ae4eea49793","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den_FF_sparse(M)","rhs":"compute rref using sparse fraction-free gauss-jordan elimination","over":{"base":"Any"},"name":"_dm_rref_den_FF_sparse_correct"},"guarantee":"compute rref using sparse fraction-free gauss-jordan elimination","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_den_FF_sparse_correct","statement":"Path(_dm_rref_den_FF_sparse(x), compute rref using sparse fraction-free gauss-jordan elimination)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d4353951bb3071e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den_FF_sparse","kind":"function","src_hash":"c5074ae4eea49793","in":{"base":"Any","pred":"hasattr(M, 'rep') and hasattr(M, 'domain') and hasattr(M, 'shape') and hasattr(M, 'from_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den_FF_sparse(M)","rhs":"(M.from_rep(M_rref_sdm), den, pivots)","over":{"base":"Any","pred":"hasattr(M, 'rep') and hasattr(M, 'domain') and hasattr(M, 'shape') and hasattr(M, 'from_rep')"},"name":"_dm_rref_den_FF_sparse_correct"},"guarantee":"returns (M.from_rep(M_rref_sdm), den, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_den_FF_sparse_correct","statement":"Path(_dm_rref_den_FF_sparse(x), returns (M.from_rep(M_rref_sdm), den, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ba96b28960c1d7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rep')","hasattr(M, 'domain')","hasattr(M, 'shape')","hasattr(M, 'from_rep')"],"returns_expr":"(M.from_rep(M_rref_sdm), den, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.from_rep","M.rep","M.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_rref_den_FF_sparse(M):
     """Compute RREF using sparse fraction-free Gauss-Jordan elimination."""
     M_rref_d, den, pivots = sdm_rref_den(M.rep, M.domain)
@@ -329,16 +400,25 @@ def _dm_rref_den_FF_sparse(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_den_FF_dense(M), id) over Any                ║
+# ║ Path(_dm_rref_den_FF_dense(M), id) over {Any | hasattr(M, 'domain') and hasattr(M, 'shape') and hasattr(M, 'from_rep') and hasattr(M, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_den_FF_dense : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'from_rep')                         ║
+# ║   returns:  (M.from_rep(M_rref_ddm.to_dfm_or_ddm()), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_den_FF_dense : {Any | hasattr(M, 'domain') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 03410bb59ba2e7bb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den_FF_dense","kind":"function","src_hash":"abc667cf6468d101","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den_FF_dense(M)","rhs":"compute rref using sparse fraction-free gauss-jordan elimination","over":{"base":"Any"},"name":"_dm_rref_den_FF_dense_correct","kind":"composition"},"guarantee":"compute rref using sparse fraction-free gauss-jordan elimination","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03410bb59ba2e7bb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_den_FF_dense","kind":"function","src_hash":"abc667cf6468d101","in":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(M, 'shape') and hasattr(M, 'from_rep') and hasattr(M, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_den_FF_dense(M)","rhs":"(M.from_rep(M_rref_ddm.to_dfm_or_ddm()), den, pivots)","over":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(M, 'shape') and hasattr(M, 'from_rep') and hasattr(M, 'rep')"},"name":"_dm_rref_den_FF_dense_correct","kind":"composition"},"guarantee":"returns (M.from_rep(M_rref_ddm.to_dfm_or_ddm()), den, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03410bb59ba2e7bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'domain')","hasattr(M, 'shape')","hasattr(M, 'from_rep')","hasattr(M, 'rep')"],"returns_expr":"(M.from_rep(M_rref_ddm.to_dfm_or_ddm()), den, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.from_rep","M.rep","M.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_rref_den_FF_dense(M):
     """Compute RREF using sparse fraction-free Gauss-Jordan elimination."""
     ddm = M.rep.to_ddm().copy()
@@ -349,16 +429,25 @@ def _dm_rref_den_FF_dense(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_choose_method(M, ), choose the fastest method for computing rref for m) over Any ║
+# ║ Path(_dm_rref_choose_method(M, method, denominator), (method, use_fmt)) over {Any | hasattr(M, 'domain') and hasattr(method, 'endswith') and hasattr(M, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_rref_choose_method : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   requires: hasattr(method, 'endswith')                    ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   returns:  (method, use_fmt)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_rref_choose_method : {Any | hasattr(M, 'domain') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 559c89972fdb3304  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3add30630b2a143c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_choose_method","kind":"function","src_hash":"2b2487d1695f2fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_choose_method(M, )","rhs":"choose the fastest method for computing rref for m","over":{"base":"Any"},"name":"_dm_rref_choose_method_correct"},"guarantee":"choose the fastest method for computing rref for m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_choose_method_correct","statement":"Path(_dm_rref_choose_method(x), choose the fastest method for computing rref for m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"559c89972fdb3304"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_choose_method","kind":"function","src_hash":"2b2487d1695f2fb0","in":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(method, 'endswith') and hasattr(M, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_choose_method(M, method, denominator)","rhs":"(method, use_fmt)","over":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(method, 'endswith') and hasattr(M, 'rep')"},"name":"_dm_rref_choose_method_correct"},"guarantee":"returns (method, use_fmt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_choose_method_correct","statement":"Path(_dm_rref_choose_method(x), returns (method, use_fmt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3add30630b2a143c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'domain')","hasattr(method, 'endswith')","hasattr(M, 'rep')"],"returns_expr":"(method, use_fmt)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.rep","method.endswith"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M', 'method'], spec=['M', 'method', 'denominator']"]}}
 def _dm_rref_choose_method(M, method, *, denominator=False):
     """Choose the fastest method for computing RREF for M."""
 
@@ -406,16 +495,22 @@ def _dm_rref_choose_method(M, method, *, denominator=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_choose_method_QQ(M, ), choose the fastest method for computing rref over qq) over Any ║
+# ║ Path(_dm_rref_choose_method_QQ(M, denominator), <unspecified:_dm_rref_choose_method_QQ>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dm_rref_choose_method_QQ : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cab555184517ce40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_choose_method_QQ","kind":"function","src_hash":"0aa20984119c59ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_choose_method_QQ(M, )","rhs":"choose the fastest method for computing rref over qq","over":{"base":"Any"},"name":"_dm_rref_choose_method_QQ_correct"},"guarantee":"choose the fastest method for computing rref over qq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_choose_method_QQ_correct","statement":"Path(_dm_rref_choose_method_QQ(x), choose the fastest method for computing rref over qq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab555184517ce40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_choose_method_QQ","kind":"function","src_hash":"0aa20984119c59ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_choose_method_QQ(M, denominator)","rhs":"<unspecified:_dm_rref_choose_method_QQ>","over":{"base":"Any"},"name":"_dm_rref_choose_method_QQ_correct"},"guarantee":"choose the fastest method for computing rref over qq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_choose_method_QQ_correct","statement":"Path(_dm_rref_choose_method_QQ(x), choose the fastest method for computing rref over qq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab555184517ce40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M'], spec=['M', 'denominator']"]}}
 def _dm_rref_choose_method_QQ(M, *, denominator=False):
     """Choose the fastest method for computing RREF over QQ."""
     # The same sorts of considerations apply here as in the case of ZZ. Here
@@ -462,16 +557,22 @@ def _dm_rref_choose_method_QQ(M, *, denominator=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_rref_choose_method_ZZ(M, ), choose the fastest method for computing rref over zz) over Any ║
+# ║ Path(_dm_rref_choose_method_ZZ(M, denominator), <unspecified:_dm_rref_choose_method_ZZ>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dm_rref_choose_method_ZZ : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0521871e1a16bb55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_choose_method_ZZ","kind":"function","src_hash":"807eff0bade1c635","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_choose_method_ZZ(M, )","rhs":"choose the fastest method for computing rref over zz","over":{"base":"Any"},"name":"_dm_rref_choose_method_ZZ_correct"},"guarantee":"choose the fastest method for computing rref over zz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_choose_method_ZZ_correct","statement":"Path(_dm_rref_choose_method_ZZ(x), choose the fastest method for computing rref over zz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0521871e1a16bb55"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_rref_choose_method_ZZ","kind":"function","src_hash":"807eff0bade1c635","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_rref_choose_method_ZZ(M, denominator)","rhs":"<unspecified:_dm_rref_choose_method_ZZ>","over":{"base":"Any"},"name":"_dm_rref_choose_method_ZZ_correct"},"guarantee":"choose the fastest method for computing rref over zz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_rref_choose_method_ZZ_correct","statement":"Path(_dm_rref_choose_method_ZZ(x), choose the fastest method for computing rref over zz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0521871e1a16bb55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M'], spec=['M', 'denominator']"]}}
 def _dm_rref_choose_method_ZZ(M, *, denominator=False):
     """Choose the fastest method for computing RREF over ZZ."""
     # In the extreme of very sparse matrices and low bit counts it is faster to
@@ -527,16 +628,27 @@ def _dm_rref_choose_method_ZZ(M, *, denominator=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_row_density(M), density measure for sparse matrices) over Any ║
+# ║ Path(_dm_row_density(M), result == ((0, 0, ncols) if not rows_nz else (density, nrows_nz, ncols)) and result == (0, 0, ncols) or result == (density, nrows_nz, ncols)) over {Any | hasattr(M, 'shape') and hasattr(M, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_row_density : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'rep')                              ║
+# ║   ensures:  result == ((0, 0, ncols) if not rows_nz e...   ║
+# ║   ensures:  result == (0, 0, ncols) or result == (den...   ║
+# ║   fiber[case_0]: not rows_nz => (0, 0, ncols)              ║
+# ║   fiber[case_1]: not (not rows_nz) => (density, nrows...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_row_density : {Any | hasattr(M, 'shape') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7acd5aded551c68  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6696291b4457df8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_row_density","kind":"function","src_hash":"a56dae34f50d00ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_row_density(M)","rhs":"density measure for sparse matrices","over":{"base":"Any"},"name":"_dm_row_density_correct"},"guarantee":"density measure for sparse matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_row_density_correct","statement":"Path(_dm_row_density(x), density measure for sparse matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7acd5aded551c68"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_row_density","kind":"function","src_hash":"a56dae34f50d00ab","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == ((0, 0, ncols) if not rows_nz else (density, nrows_nz, ncols)) and result == (0, 0, ncols) or result == (density, nrows_nz, ncols)"},"spec":{"lhs":"_dm_row_density(M)","rhs":"result == ((0, 0, ncols) if not rows_nz else (density, nrows_nz, ncols)) and result == (0, 0, ncols) or result == (density, nrows_nz, ncols)","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'rep')"},"name":"_dm_row_density_correct"},"guarantee":"result == ((0, 0, ncols) if not rows_nz else (density, nrows_nz, ncols)); result == (0, 0, ncols) or result == (density, nrows_nz, ncols); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_row_density_correct","statement":"Path(_dm_row_density(x), result == ((0, 0, ncols) if not rows_nz else (density, nrows_nz, ncols)); result == (0, 0, ncols) or result == (density, nrows_nz, ncols); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6696291b4457df8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')","hasattr(M, 'rep')"],"ensures":["result == ((0, 0, ncols) if not rows_nz else (density, nrows_nz, ncols))","result == (0, 0, ncols) or result == (density, nrows_nz, ncols)"],"fibers":[{"name":"case_0","guard":"not rows_nz","ensures":["result == (0, 0, ncols)"],"decidability":"library","returns_expr":"(0, 0, ncols)"},{"name":"case_1","guard":"not (not rows_nz)","ensures":["result == (density, nrows_nz, ncols)"],"decidability":"library","returns_expr":"(density, nrows_nz, ncols)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.rep","M.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_row_density(M):
     """Density measure for sparse matrices.
 
@@ -560,16 +672,23 @@ def _dm_row_density(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_elements(M), return nonzero elements of a domainmatrix) over Any ║
+# ║ Path(_dm_elements(M), <unspecified:_dm_elements>) over {Any | hasattr(M, 'to_flat_nz')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dm_elements : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'to_flat_nz')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dm_elements : {Any | hasattr(M, 'to_flat_nz')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eba865177fe1d011  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_elements","kind":"function","src_hash":"79fd3fa7785fe405","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_elements(M)","rhs":"return nonzero elements of a domainmatrix","over":{"base":"Any"},"name":"_dm_elements_correct"},"guarantee":"return nonzero elements of a domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_elements_correct","statement":"Path(_dm_elements(x), return nonzero elements of a domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eba865177fe1d011"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_elements","kind":"function","src_hash":"79fd3fa7785fe405","in":{"base":"Any","pred":"hasattr(M, 'to_flat_nz')"},"out":{"base":"Any"},"spec":{"lhs":"_dm_elements(M)","rhs":"<unspecified:_dm_elements>","over":{"base":"Any","pred":"hasattr(M, 'to_flat_nz')"},"name":"_dm_elements_correct"},"guarantee":"return nonzero elements of a domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_elements_correct","statement":"Path(_dm_elements(x), return nonzero elements of a domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eba865177fe1d011","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'to_flat_nz')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.to_flat_nz"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _dm_elements(M):
     """Return nonzero elements of a DomainMatrix."""
     elements, _ = M.to_flat_nz()
@@ -577,16 +696,22 @@ def _dm_elements(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dm_QQ_numers_denoms(Mq), returns the numerators and denominators of a domainmatrix over qq) over Any ║
+# ║ Path(_dm_QQ_numers_denoms(Mq), (numers, denoms)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (numers, denoms)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dm_QQ_numers_denoms : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee7f639708321ed7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9af9b89aaf254071  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_QQ_numers_denoms","kind":"function","src_hash":"225331a8c6347b6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_QQ_numers_denoms(Mq)","rhs":"returns the numerators and denominators of a domainmatrix over qq","over":{"base":"Any"},"name":"_dm_QQ_numers_denoms_correct"},"guarantee":"returns the numerators and denominators of a domainmatrix over qq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_QQ_numers_denoms_correct","statement":"Path(_dm_QQ_numers_denoms(x), returns the numerators and denominators of a domainmatrix over qq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7f639708321ed7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._dm_QQ_numers_denoms","kind":"function","src_hash":"225331a8c6347b6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dm_QQ_numers_denoms(Mq)","rhs":"(numers, denoms)","over":{"base":"Any"},"name":"_dm_QQ_numers_denoms_correct"},"guarantee":"returns (numers, denoms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._dm_QQ_numers_denoms_correct","statement":"Path(_dm_QQ_numers_denoms(x), returns (numers, denoms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9af9b89aaf254071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(numers, denoms)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dm_QQ_numers_denoms(Mq):
     """Returns the numerators and denominators of a DomainMatrix over QQ."""
     elements = _dm_elements(Mq)
@@ -596,16 +721,27 @@ def _dm_QQ_numers_denoms(Mq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_field(M), convert a domainmatrix to a field if possible) over Any ║
+# ║ Path(_to_field(M), result == (M.to_field() if K.has_assoc_Field else M) and result == M.to_field() or result == M) over {Any | hasattr(M, 'domain') and hasattr(M, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _to_field : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'domain')                           ║
+# ║   requires: hasattr(M, 'to_field')                         ║
+# ║   ensures:  result == (M.to_field() if K.has_assoc_Fi...   ║
+# ║   ensures:  result == M.to_field() or result == M          ║
+# ║   fiber[case_0]: K.has_assoc_Field => M.to_field()         ║
+# ║   fiber[case_1]: not (K.has_assoc_Field) => M              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _to_field : {Any | hasattr(M, 'domain') and hasattr(M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 773c56dcb70f2a46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cb88718e9a26a8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._to_field","kind":"function","src_hash":"88e9ccbaaa36dc0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_field(M)","rhs":"convert a domainmatrix to a field if possible","over":{"base":"Any"},"name":"_to_field_correct"},"guarantee":"convert a domainmatrix to a field if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._to_field_correct","statement":"Path(_to_field(x), convert a domainmatrix to a field if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"773c56dcb70f2a46"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.rref._to_field","kind":"function","src_hash":"88e9ccbaaa36dc0e","in":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(M, 'to_field')"},"out":{"base":"Any","pred":"result satisfies: result == (M.to_field() if K.has_assoc_Field else M) and result == M.to_field() or result == M"},"spec":{"lhs":"_to_field(M)","rhs":"result == (M.to_field() if K.has_assoc_Field else M) and result == M.to_field() or result == M","over":{"base":"Any","pred":"hasattr(M, 'domain') and hasattr(M, 'to_field')"},"name":"_to_field_correct"},"guarantee":"result == (M.to_field() if K.has_assoc_Field else M); result == M.to_field() or result == M; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.rref._to_field_correct","statement":"Path(_to_field(x), result == (M.to_field() if K.has_assoc_Field else M); result == M.to_field() or result == M; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cb88718e9a26a8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'domain')","hasattr(M, 'to_field')"],"ensures":["result == (M.to_field() if K.has_assoc_Field else M)","result == M.to_field() or result == M"],"fibers":[{"name":"case_0","guard":"K.has_assoc_Field","ensures":["result == M.to_field()"],"decidability":"library","returns_expr":"M.to_field()"},{"name":"case_1","guard":"not (K.has_assoc_Field)","ensures":["result == M"],"decidability":"library","returns_expr":"M"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _to_field(M):
     """Convert a DomainMatrix to a field if possible."""
     K = M.domain

@@ -63,14 +63,20 @@ _PyHASH_INF = sys.hash_info.inf
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PythonMPQ(*args), correctly constructs a PythonMPQ instance) over {Any | isinstance(other, PythonMPQ) and isinstance(other, int) and isinstance(numerator, (Decimal, float, str))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PythonMPQ : {Any | isinstance(other, PythonMPQ) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6c00d7f8617629c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ","kind":"class","src_hash":"50e3b4708b2a8959","in":{"base":"Any","pred":"isinstance(other, PythonMPQ) and isinstance(other, int) and isinstance(numerator, (Decimal, float, str))"},"out":{"base":"Any"},"spec":{"lhs":"PythonMPQ(*args)","rhs":"correctly constructs a PythonMPQ instance","over":{"base":"Any","pred":"isinstance(other, PythonMPQ) and isinstance(other, int) and isinstance(numerator, (Decimal, float, str))"},"name":"PythonMPQ_class_invariant"},"guarantee":"correctly constructs a PythonMPQ instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6c00d7f8617629c"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ","kind":"class","src_hash":"50e3b4708b2a8959","in":{"base":"Any","pred":"isinstance(other, PythonMPQ) and isinstance(other, int) and isinstance(numerator, (Decimal, float, str))"},"out":{"base":"Any"},"spec":{"lhs":"PythonMPQ(*args)","rhs":"correctly constructs a PythonMPQ instance","over":{"base":"Any","pred":"isinstance(other, PythonMPQ) and isinstance(other, int) and isinstance(numerator, (Decimal, float, str))"},"name":"PythonMPQ_class_invariant"},"guarantee":"correctly constructs a PythonMPQ instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6c00d7f8617629c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PythonMPQ not found in source"]}}
 class PythonMPQ:
     """Rational number implementation that is intended to be compatible with
     gmpy2's mpq.
@@ -83,16 +89,24 @@ class PythonMPQ:
     __slots__ = ('numerator', 'denominator')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct pythonmpq with gcd computation and checks) over Any ║
+# ║ Path(__new__(cls, numerator, denominator), <unspecified:__new__>) over {Any | hasattr(numerator, 'numerator') and hasattr(numerator, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(numerator, 'numerator')                ║
+# ║   requires: hasattr(numerator, 'denominator')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(numerator, 'numerator') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27e345401e50bf84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__new__","kind":"method","src_hash":"d5990fca1a944561","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct pythonmpq with gcd computation and checks","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct pythonmpq with gcd computation and checks","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27e345401e50bf84"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__new__","kind":"method","src_hash":"d5990fca1a944561","in":{"base":"Any","pred":"hasattr(numerator, 'numerator') and hasattr(numerator, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, numerator, denominator)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(numerator, 'numerator') and hasattr(numerator, 'denominator')"},"name":"__new___correct"},"guarantee":"construct pythonmpq with gcd computation and checks","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27e345401e50bf84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(numerator, 'numerator')","hasattr(numerator, 'denominator')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new","cls._new_check","numerator.denominator","numerator.numerator"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, numerator, denominator=None):
         """Construct PythonMPQ with gcd computation and checks"""
         if denominator is not None:
@@ -131,16 +145,23 @@ class PythonMPQ:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_check(cls), construct pythonmpq, check divide by zero and canonicalize signs) over Any ║
+# ║ Path(_new_check(cls, numerator, denominator), cls._new(numerator, denominator)) over {Any | denominator} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _new_check : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: denominator                                    ║
+# ║   returns:  cls._new(numerator, denominator)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _new_check : {Any | denominator} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec3624b59f964706  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56a533dcef0ba2e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ._new_check","kind":"classmethod","src_hash":"a6fa76a742d55a34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_check(cls)","rhs":"construct pythonmpq, check divide by zero and canonicalize signs","over":{"base":"Any"},"name":"_new_check_correct"},"guarantee":"construct pythonmpq, check divide by zero and canonicalize signs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.externalthonmpq.PythonMPQ._new_check_correct","statement":"Path(_new_check(x), construct pythonmpq, check divide by zero and canonicalize signs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec3624b59f964706"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ._new_check","kind":"classmethod","src_hash":"a6fa76a742d55a34","in":{"base":"Any","pred":"denominator"},"out":{"base":"Any"},"spec":{"lhs":"_new_check(cls, numerator, denominator)","rhs":"cls._new(numerator, denominator)","over":{"base":"Any","pred":"denominator"},"name":"_new_check_correct"},"guarantee":"returns cls._new(numerator, denominator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.externalthonmpq.PythonMPQ._new_check_correct","statement":"Path(_new_check(x), returns cls._new(numerator, denominator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56a533dcef0ba2e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["denominator"],"returns_expr":"cls._new(numerator, denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_check(cls, numerator, denominator):
         """Construct PythonMPQ, check divide by zero and canonicalize signs"""
         if not denominator:
@@ -152,16 +173,22 @@ class PythonMPQ:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), construct pythonmpq efficiently (no checks)) over Any ║
+# ║ Path(_new(cls, numerator, denominator), <unspecified:_new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aacc535d1e1c9dce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ._new","kind":"classmethod","src_hash":"98171bc43cd83e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"construct pythonmpq efficiently (no checks)","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"construct pythonmpq efficiently (no checks)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.externalthonmpq.PythonMPQ._new_correct","statement":"Path(_new(x), construct pythonmpq efficiently (no checks))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aacc535d1e1c9dce"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ._new","kind":"classmethod","src_hash":"98171bc43cd83e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, numerator, denominator)","rhs":"<unspecified:_new>","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"construct pythonmpq efficiently (no checks)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.externalthonmpq.PythonMPQ._new_correct","statement":"Path(_new(x), construct pythonmpq efficiently (no checks))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aacc535d1e1c9dce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, numerator, denominator):
         """Construct PythonMPQ efficiently (no checks)"""
         obj = super().__new__(cls)
@@ -170,16 +197,22 @@ class PythonMPQ:
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__int__(), convert to int (truncates towards zero)) over Any ║
+# ║ Path(__int__(), <unspecified:__int__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __int__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d568e55cb70ca734           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__int__","kind":"method","src_hash":"d2fb6b437da428ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__int__()","rhs":"convert to int (truncates towards zero)","over":{"base":"Any"},"name":"__int___correct"},"guarantee":"convert to int (truncates towards zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d568e55cb70ca734"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__int__","kind":"method","src_hash":"d2fb6b437da428ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__int__()","rhs":"<unspecified:__int__>","over":{"base":"Any"},"name":"__int___correct"},"guarantee":"convert to int (truncates towards zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d568e55cb70ca734","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __int__(self):
         """Convert to int (truncates towards zero)"""
         p, q = self.numerator, self.denominator
@@ -188,46 +221,70 @@ class PythonMPQ:
         return p//q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__float__(), convert to float (approximately)) over Any ║
+# ║ Path(__float__(), self.numerator / self.denominator) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.numerator / self.denominator              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __float__ : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48e4c76122a1ff4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__float__","kind":"method","src_hash":"400cd46de5dc7942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__float__()","rhs":"convert to float (approximately)","over":{"base":"Any"},"name":"__float___correct"},"guarantee":"convert to float (approximately)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48e4c76122a1ff4a"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__float__","kind":"method","src_hash":"400cd46de5dc7942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__float__()","rhs":"self.numerator / self.denominator","over":{"base":"Any"},"name":"__float___correct"},"guarantee":"returns self.numerator / self.denominator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48e4c76122a1ff4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.numerator / self.denominator","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __float__(self):
         """Convert to float (approximately)"""
         return self.numerator / self.denominator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), bool(self.numerator)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.numerator)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25b3008e8d1beb2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__bool__","kind":"method","src_hash":"1cf72e976655296d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25b3008e8d1beb2e"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__bool__","kind":"method","src_hash":"1cf72e976655296d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"bool(self.numerator)","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns bool(self.numerator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25b3008e8d1beb2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.numerator)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         """True/False if nonzero/zero"""
         return bool(self.numerator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (self.numerator == other.numerator and self.denominator == other.denominator if isinstance(other, PythonMPQ) else self.__eq__(PythonMPQ(other)) if isinstance(other, self._compatible_types) else NotImplemented) and result == self.numerator == other.numerator and self.denominator == other.denominator or result == self.__eq__(PythonMPQ(other)) or result == NotImplemented) over {Any | hasattr(other, 'numerator') and hasattr(other, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'numerator')                    ║
+# ║   requires: hasattr(other, 'denominator')                  ║
+# ║   ensures:  result == (self.numerator == other.numera...   ║
+# ║   ensures:  result == self.numerator == other.numerat...   ║
+# ║   fiber[PythonMPQ]: isinstance(other, PythonMPQ) => s...   ║
+# ║   fiber[case_1]: isinstance(other, self._compatible_t...   ║
+# ║   fiber[PythonMPQ]: not (isinstance(other, PythonMPQ)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'numerator') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b27670fe3f1cce81           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__eq__","kind":"method","src_hash":"6ddb6b7e3768eca9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b27670fe3f1cce81"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__eq__","kind":"method","src_hash":"6ddb6b7e3768eca9","in":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"out":{"base":"Any","pred":"result satisfies: result == (self.numerator == other.numerator and self.denominator == other.denominator if isinstance(other, PythonMPQ) else self.__eq__(PythonMPQ(other)) if isinstance(other, self._compatible_types) else NotImplemented) and result == self.numerator == other.numerator and self.denominator == other.denominator or result == self.__eq__(PythonMPQ(other)) or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (self.numerator == other.numerator and self.denominator == other.denominator if isinstance(other, PythonMPQ) else self.__eq__(PythonMPQ(other)) if isinstance(other, self._compatible_types) else NotImplemented) and result == self.numerator == other.numerator and self.denominator == other.denominator or result == self.__eq__(PythonMPQ(other)) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"name":"__eq___correct"},"guarantee":"result == (self.numerator == other.numerator and self.denominator == other.denominator if isinstance(other, PythonMPQ) else self.__eq__(PythonMPQ(other)) if isinstance(other, self._compatible_types) else NotImplemented); result == self.numerator == other.numerator and self.denominator == other.denominator or result == self.__eq__(PythonMPQ(other)) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b27670fe3f1cce81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'numerator')","hasattr(other, 'denominator')"],"ensures":["result == (self.numerator == other.numerator and self.denominator == other.denominator if isinstance(other, PythonMPQ) else self.__eq__(PythonMPQ(other)) if isinstance(other, self._compatible_types) else NotImplemented)","result == self.numerator == other.numerator and self.denominator == other.denominator or result == self.__eq__(PythonMPQ(other)) or result == NotImplemented"],"fibers":[{"name":"PythonMPQ","guard":"isinstance(other, PythonMPQ)","ensures":["result == self.numerator == other.numerator and self.denominator == other.denominator"],"decidability":"structural","returns_expr":"self.numerator == other.numerator and self.denominator == other.denominator"},{"name":"case_1","guard":"isinstance(other, self._compatible_types)","ensures":["result == self.__eq__(PythonMPQ(other))"],"decidability":"structural","returns_expr":"self.__eq__(PythonMPQ(other))"},{"name":"PythonMPQ","guard":"not (isinstance(other, PythonMPQ)) and not (isinstance(other, self._compatible_types))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.denominator","other.numerator","self.__eq__","self._compatible_types","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Compare equal with PythonMPQ, int, float, Decimal or Fraction"""
         if isinstance(other, PythonMPQ):
@@ -239,16 +296,22 @@ class PythonMPQ:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), -2 if result == -1 else result) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -2 if result == -1 else result                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97669a9366f0ca31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__hash__","kind":"method","src_hash":"c790caf7fb55f422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97669a9366f0ca31"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__hash__","kind":"method","src_hash":"c790caf7fb55f422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"-2 if result == -1 else result","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns -2 if result == -1 else result","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97669a9366f0ca31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-2 if result == -1 else result","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denominator","self.numerator"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         """hash - same as mpq/Fraction"""
         try:
@@ -261,31 +324,46 @@ class PythonMPQ:
         return -2 if result == -1 else result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__reduce__(), deconstruct for pickling) over Any      ║
+# ║ Path(__reduce__(), (type(self), (self.numerator, self.denominator))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (type(self), (self.numerator, self.denomi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __reduce__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f7a8caa7da8ff3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__reduce__","kind":"method","src_hash":"27ec7d1b45eaa347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__reduce__()","rhs":"deconstruct for pickling","over":{"base":"Any"},"name":"__reduce___correct"},"guarantee":"deconstruct for pickling","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f7a8caa7da8ff3e"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__reduce__","kind":"method","src_hash":"27ec7d1b45eaa347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__reduce__()","rhs":"(type(self), (self.numerator, self.denominator))","over":{"base":"Any"},"name":"__reduce___correct"},"guarantee":"returns (type(self), (self.numerator, self.denominator))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f7a8caa7da8ff3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(type(self), (self.numerator, self.denominator))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __reduce__(self):
         """Deconstruct for pickling"""
         return type(self), (self.numerator, self.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), result == (f'{self.numerator}/{self.denominator}' if self.denominator != 1 else f'{self.numerator}') and result == f'{self.numerator}/{self.denominator}' or result == f'{self.numerator}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __str__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (f'{self.numerator}/{self.denom...   ║
+# ║   ensures:  result == f'{self.numerator}/{self.denomi...   ║
+# ║   fiber[case_0]: self.denominator != 1 => f'{self.num...   ║
+# ║   fiber[case_1]: not (self.denominator != 1) => f'{se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __str__ : Any → {Any | result satisfies: result == (f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 604dd62c1764932b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__str__","kind":"method","src_hash":"73edc238511a9af8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"604dd62c1764932b"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__str__","kind":"method","src_hash":"73edc238511a9af8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (f'{self.numerator}/{self.denominator}' if self.denominator != 1 else f'{self.numerator}') and result == f'{self.numerator}/{self.denominator}' or result == f'{self.numerator}'"},"spec":{"lhs":"__str__()","rhs":"result == (f'{self.numerator}/{self.denominator}' if self.denominator != 1 else f'{self.numerator}') and result == f'{self.numerator}/{self.denominator}' or result == f'{self.numerator}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"result == (f'{self.numerator}/{self.denominator}' if self.denominator != 1 else f'{self.numerator}'); result == f'{self.numerator}/{self.denominator}' or result == f'{self.numerator}'; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"604dd62c1764932b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (f'{self.numerator}/{self.denominator}' if self.denominator != 1 else f'{self.numerator}')","result == f'{self.numerator}/{self.denominator}' or result == f'{self.numerator}'"],"fibers":[{"name":"case_0","guard":"self.denominator != 1","ensures":["result == f'{self.numerator}/{self.denominator}'"],"decidability":"z3","returns_expr":"f'{self.numerator}/{self.denominator}'"},{"name":"case_1","guard":"not (self.denominator != 1)","ensures":["result == f'{self.numerator}'"],"decidability":"z3","returns_expr":"f'{self.numerator}'"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """Convert to string"""
         if self.denominator != 1:
@@ -294,31 +372,45 @@ class PythonMPQ:
             return f"{self.numerator}"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'MPQ({self.numerator},{self.denominator})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'MPQ({self.numerator},{self.denominator})'    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5db0b204ab656ff1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__repr__","kind":"method","src_hash":"74289a268a704216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5db0b204ab656ff1"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__repr__","kind":"method","src_hash":"74289a268a704216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'MPQ({self.numerator},{self.denominator})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'MPQ({self.numerator},{self.denominator})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5db0b204ab656ff1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'MPQ({self.numerator},{self.denominator})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Convert to string"""
         return f"MPQ({self.numerator},{self.denominator})"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cmp(oth), helper for lt/le/gt/ge) over Any           ║
+# ║ Path(_cmp(other, op), <unspecified:_cmp>) over {Any | hasattr(other, 'denominator') and hasattr(other, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cmp : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'denominator')                  ║
+# ║   requires: hasattr(other, 'numerator')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cmp : {Any | hasattr(other, 'denominator') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7c2c4522e891d85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ._cmp","kind":"method","src_hash":"23270559ec69b684","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cmp(oth)","rhs":"helper for lt/le/gt/ge","over":{"base":"Any"},"name":"_cmp_correct"},"guarantee":"helper for lt/le/gt/ge","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.externalthonmpq.PythonMPQ._cmp_correct","statement":"Path(_cmp(x), helper for lt/le/gt/ge)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c2c4522e891d85"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ._cmp","kind":"method","src_hash":"23270559ec69b684","in":{"base":"Any","pred":"hasattr(other, 'denominator') and hasattr(other, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"_cmp(other, op)","rhs":"<unspecified:_cmp>","over":{"base":"Any","pred":"hasattr(other, 'denominator') and hasattr(other, 'numerator')"},"name":"_cmp_correct"},"guarantee":"helper for lt/le/gt/ge","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.externalthonmpq.PythonMPQ._cmp_correct","statement":"Path(_cmp(x), helper for lt/le/gt/ge)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c2c4522e891d85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'denominator')","hasattr(other, 'numerator')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.denominator","other.numerator","self._compatible_types","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _cmp(self, other, op):
         """Helper for lt/le/gt/ge"""
         if not isinstance(other, self._compatible_types):
@@ -328,121 +420,174 @@ class PythonMPQ:
         return op(lhs, rhs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), self < other) over Any                   ║
+# ║ Path(__lt__(other), self._cmp(other, operator.lt)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._cmp(other, operator.lt)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __lt__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3863f20b6957412a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__lt__","kind":"method","src_hash":"4dc9efe47f8826eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"self < other","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"self < other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3863f20b6957412a"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__lt__","kind":"method","src_hash":"4dc9efe47f8826eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"self._cmp(other, operator.lt)","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"returns self._cmp(other, operator.lt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3863f20b6957412a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._cmp(other, operator.lt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         """self < other"""
         return self._cmp(other, operator.lt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), self <= other) over Any                  ║
+# ║ Path(__le__(other), self._cmp(other, operator.le)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._cmp(other, operator.le)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __le__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9137329f36ce760c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__le__","kind":"method","src_hash":"434968d078cf8c32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"self <= other","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"self <= other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9137329f36ce760c"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__le__","kind":"method","src_hash":"434968d078cf8c32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"self._cmp(other, operator.le)","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"returns self._cmp(other, operator.le)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9137329f36ce760c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._cmp(other, operator.le)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         """self <= other"""
         return self._cmp(other, operator.le)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), self > other) over Any                   ║
+# ║ Path(__gt__(other), self._cmp(other, operator.gt)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._cmp(other, operator.gt)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __gt__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6561afdc685216fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__gt__","kind":"method","src_hash":"abf4a1c70ef347d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"self > other","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"self > other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6561afdc685216fc"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__gt__","kind":"method","src_hash":"abf4a1c70ef347d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"self._cmp(other, operator.gt)","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"returns self._cmp(other, operator.gt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6561afdc685216fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._cmp(other, operator.gt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         """self > other"""
         return self._cmp(other, operator.gt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), self >= other) over Any                  ║
+# ║ Path(__ge__(other), self._cmp(other, operator.ge)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._cmp(other, operator.ge)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ge__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ad72f7ba32ac8ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__ge__","kind":"method","src_hash":"38919bc7fd464d46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"self >= other","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"self >= other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ad72f7ba32ac8ac"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__ge__","kind":"method","src_hash":"38919bc7fd464d46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"self._cmp(other, operator.ge)","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"returns self._cmp(other, operator.ge)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ad72f7ba32ac8ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._cmp(other, operator.ge)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         """self >= other"""
         return self._cmp(other, operator.ge)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__abs__(), abs(q)) over Any                           ║
+# ║ Path(__abs__(), self._new(abs(self.numerator), self.denominator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._new(abs(self.numerator), self.denom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __abs__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49962420bf5e5d82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__abs__","kind":"method","src_hash":"727cb5b63d2e2eb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__abs__()","rhs":"abs(q)","over":{"base":"Any"},"name":"__abs___correct"},"guarantee":"abs(q)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49962420bf5e5d82"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__abs__","kind":"method","src_hash":"727cb5b63d2e2eb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__abs__()","rhs":"self._new(abs(self.numerator), self.denominator)","over":{"base":"Any"},"name":"__abs___correct"},"guarantee":"returns self._new(abs(self.numerator), self.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49962420bf5e5d82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._new(abs(self.numerator), self.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __abs__(self):
         """abs(q)"""
         return self._new(abs(self.numerator), self.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(), +q) over Any                               ║
+# ║ Path(__pos__(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pos__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pos__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43f5c964cfe211de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__pos__","kind":"method","src_hash":"9a7e12ab325885e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__()","rhs":"+q","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"+q","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f5c964cfe211de"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__pos__","kind":"method","src_hash":"9a7e12ab325885e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__pos__()","rhs":"self","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f5c964cfe211de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(self):
         """+q"""
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self._new(-self.numerator, self.denominator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._new(-self.numerator, self.denominator)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b560ab3224abce1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__neg__","kind":"method","src_hash":"5fe030a2c17c4724","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b560ab3224abce1"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__neg__","kind":"method","src_hash":"5fe030a2c17c4724","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self._new(-self.numerator, self.denominator)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self._new(-self.numerator, self.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b560ab3224abce1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._new(-self.numerator, self.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         """-q"""
         return self._new(-self.numerator, self.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'numerator') and hasattr(other, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'numerator')                    ║
+# ║   requires: hasattr(other, 'denominator')                  ║
+# ║   fiber[PythonMPQ]: isinstance(other, PythonMPQ)           ║
+# ║   fiber[int]: isinstance(other, int)                       ║
+# ║   fiber[PythonMPQ]: not (isinstance(other, PythonMPQ)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'numerator') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bec50ceca514f8c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__add__","kind":"method","src_hash":"e3ac3387678fb467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bec50ceca514f8c7"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__add__","kind":"method","src_hash":"e3ac3387678fb467","in":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"name":"__add___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bec50ceca514f8c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'numerator')","hasattr(other, 'denominator')"],"fibers":[{"name":"PythonMPQ","guard":"isinstance(other, PythonMPQ)","ensures":[],"decidability":"structural"},{"name":"int","guard":"isinstance(other, int)","ensures":[],"decidability":"structural"},{"name":"PythonMPQ","guard":"not (isinstance(other, PythonMPQ)) and not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.denominator","other.numerator","self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """q1 + q2"""
         if isinstance(other, PythonMPQ):
@@ -477,16 +622,25 @@ class PythonMPQ:
         return self._new(p, q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), z1 + q2) over Any                      ║
+# ║ Path(__radd__(other), result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __radd__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._new(p, q) if isinstance(...   ║
+# ║   ensures:  result == self._new(p, q) or result == No...   ║
+# ║   fiber[int]: isinstance(other, int) => self._new(p, q)    ║
+# ║   fiber[int]: not (isinstance(other, int)) => NotImpl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __radd__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 334a81e3fe7b35a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__radd__","kind":"method","src_hash":"ab3401de804dc56e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"z1 + q2","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"z1 + q2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334a81e3fe7b35a8"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__radd__","kind":"method","src_hash":"ab3401de804dc56e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented"},"spec":{"lhs":"__radd__(other)","rhs":"result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"result == (self._new(p, q) if isinstance(other, int) else NotImplemented); result == self._new(p, q) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334a81e3fe7b35a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._new(p, q) if isinstance(other, int) else NotImplemented)","result == self._new(p, q) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._new(p, q)"],"decidability":"structural","returns_expr":"self._new(p, q)"},{"name":"int","guard":"not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         """z1 + q2"""
         if isinstance(other, int):
@@ -497,16 +651,26 @@ class PythonMPQ:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), q1 - q2) over Any                       ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over {Any | hasattr(other, 'numerator') and hasattr(other, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'numerator')                    ║
+# ║   requires: hasattr(other, 'denominator')                  ║
+# ║   fiber[PythonMPQ]: isinstance(other, PythonMPQ)           ║
+# ║   fiber[int]: isinstance(other, int)                       ║
+# ║   fiber[PythonMPQ]: not (isinstance(other, PythonMPQ)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'numerator') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aaa70d4a81702eb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__sub__","kind":"method","src_hash":"b00d939da27bc5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"q1 - q2","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"q1 - q2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaa70d4a81702eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__sub__","kind":"method","src_hash":"b00d939da27bc5ed","in":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"name":"__sub___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaa70d4a81702eb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'numerator')","hasattr(other, 'denominator')"],"fibers":[{"name":"PythonMPQ","guard":"isinstance(other, PythonMPQ)","ensures":[],"decidability":"structural"},{"name":"int","guard":"isinstance(other, int)","ensures":[],"decidability":"structural"},{"name":"PythonMPQ","guard":"not (isinstance(other, PythonMPQ)) and not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.denominator","other.numerator","self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self ,other):
         """q1 - q2"""
         if isinstance(other, PythonMPQ):
@@ -530,16 +694,25 @@ class PythonMPQ:
         return self._new(p, q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), z1 - q2) over Any                      ║
+# ║ Path(__rsub__(other), result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._new(p, q) if isinstance(...   ║
+# ║   ensures:  result == self._new(p, q) or result == No...   ║
+# ║   fiber[int]: isinstance(other, int) => self._new(p, q)    ║
+# ║   fiber[int]: not (isinstance(other, int)) => NotImpl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee81b36c267e6cec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__rsub__","kind":"method","src_hash":"3cc18317e2f0980c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"z1 - q2","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"z1 - q2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee81b36c267e6cec"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__rsub__","kind":"method","src_hash":"3cc18317e2f0980c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented"},"spec":{"lhs":"__rsub__(other)","rhs":"result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"result == (self._new(p, q) if isinstance(other, int) else NotImplemented); result == self._new(p, q) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee81b36c267e6cec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._new(p, q) if isinstance(other, int) else NotImplemented)","result == self._new(p, q) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._new(p, q)"],"decidability":"structural","returns_expr":"self._new(p, q)"},{"name":"int","guard":"not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         """z1 - q2"""
         if isinstance(other, int):
@@ -550,16 +723,26 @@ class PythonMPQ:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'numerator') and hasattr(other, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'numerator')                    ║
+# ║   requires: hasattr(other, 'denominator')                  ║
+# ║   fiber[PythonMPQ]: isinstance(other, PythonMPQ)           ║
+# ║   fiber[int]: isinstance(other, int)                       ║
+# ║   fiber[PythonMPQ]: not (isinstance(other, PythonMPQ)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'numerator') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cc03d7eb54fab3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__mul__","kind":"method","src_hash":"2ecb2b24c1b6a82e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc03d7eb54fab3a"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__mul__","kind":"method","src_hash":"2ecb2b24c1b6a82e","in":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"name":"__mul___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc03d7eb54fab3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'numerator')","hasattr(other, 'denominator')"],"fibers":[{"name":"PythonMPQ","guard":"isinstance(other, PythonMPQ)","ensures":[],"decidability":"structural"},{"name":"int","guard":"isinstance(other, int)","ensures":[],"decidability":"structural"},{"name":"PythonMPQ","guard":"not (isinstance(other, PythonMPQ)) and not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.denominator","other.numerator","self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """q1 * q2"""
         if isinstance(other, PythonMPQ):
@@ -578,16 +761,25 @@ class PythonMPQ:
         return self._new(p, q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), z1 * q2) over Any                      ║
+# ║ Path(__rmul__(other), result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._new(p, q) if isinstance(...   ║
+# ║   ensures:  result == self._new(p, q) or result == No...   ║
+# ║   fiber[int]: isinstance(other, int) => self._new(p, q)    ║
+# ║   fiber[int]: not (isinstance(other, int)) => NotImpl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0cf54f497a1e7c64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__rmul__","kind":"method","src_hash":"7b7a34e16fb8be63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"z1 * q2","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"z1 * q2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cf54f497a1e7c64"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__rmul__","kind":"method","src_hash":"7b7a34e16fb8be63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented"},"spec":{"lhs":"__rmul__(other)","rhs":"result == (self._new(p, q) if isinstance(other, int) else NotImplemented) and result == self._new(p, q) or result == NotImplemented","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"result == (self._new(p, q) if isinstance(other, int) else NotImplemented); result == self._new(p, q) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cf54f497a1e7c64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._new(p, q) if isinstance(other, int) else NotImplemented)","result == self._new(p, q) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._new(p, q)"],"decidability":"structural","returns_expr":"self._new(p, q)"},{"name":"int","guard":"not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         """z1 * q2"""
         if isinstance(other, int):
@@ -599,16 +791,22 @@ class PythonMPQ:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(exp), q ** z) over Any                        ║
+# ║ Path(__pow__(exp), self._new_check(p ** exp, q ** exp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._new_check(p ** exp, q ** exp)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 113dee66aa7c9f8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__pow__","kind":"method","src_hash":"dd929015b5e1946e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(exp)","rhs":"q ** z","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"q ** z","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"113dee66aa7c9f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__pow__","kind":"method","src_hash":"dd929015b5e1946e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(exp)","rhs":"self._new_check(p ** exp, q ** exp)","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"returns self._new_check(p ** exp, q ** exp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"113dee66aa7c9f8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._new_check(p ** exp, q ** exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new_check","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, exp):
         """q ** z"""
         p, q = self.numerator, self.denominator
@@ -619,16 +817,26 @@ class PythonMPQ:
         return self._new_check(p**exp, q**exp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), q1 / q2) over Any                   ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'numerator') and hasattr(other, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'numerator')                    ║
+# ║   requires: hasattr(other, 'denominator')                  ║
+# ║   fiber[PythonMPQ]: isinstance(other, PythonMPQ)           ║
+# ║   fiber[int]: isinstance(other, int)                       ║
+# ║   fiber[PythonMPQ]: not (isinstance(other, PythonMPQ)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'numerator') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2733421dea07688c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__truediv__","kind":"method","src_hash":"bad96f17ffbab277","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"q1 / q2","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"q1 / q2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2733421dea07688c"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__truediv__","kind":"method","src_hash":"bad96f17ffbab277","in":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'numerator') and hasattr(other, 'denominator')"},"name":"__truediv___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2733421dea07688c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'numerator')","hasattr(other, 'denominator')"],"fibers":[{"name":"PythonMPQ","guard":"isinstance(other, PythonMPQ)","ensures":[],"decidability":"structural"},{"name":"int","guard":"isinstance(other, int)","ensures":[],"decidability":"structural"},{"name":"PythonMPQ","guard":"not (isinstance(other, PythonMPQ)) and not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.denominator","other.numerator","self._new_check","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         """q1 / q2"""
         if isinstance(other, PythonMPQ):
@@ -647,16 +855,25 @@ class PythonMPQ:
         return self._new_check(p, q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), z / q) over Any                    ║
+# ║ Path(__rtruediv__(other), result == (self._new_check(p, q) if isinstance(other, int) else NotImplemented) and result == self._new_check(p, q) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._new_check(p, q) if isins...   ║
+# ║   ensures:  result == self._new_check(p, q) or result...   ║
+# ║   fiber[int]: isinstance(other, int) => self._new_che...   ║
+# ║   fiber[int]: not (isinstance(other, int)) => NotImpl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 161b62e20afb93d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__rtruediv__","kind":"method","src_hash":"728dc1ac5611ffb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"z / q","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"z / q","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"161b62e20afb93d3"}
+# @cctt_verify {"v":2,"sym":"sympy.externalthonmpq.PythonMPQ.__rtruediv__","kind":"method","src_hash":"728dc1ac5611ffb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._new_check(p, q) if isinstance(other, int) else NotImplemented) and result == self._new_check(p, q) or result == NotImplemented"},"spec":{"lhs":"__rtruediv__(other)","rhs":"result == (self._new_check(p, q) if isinstance(other, int) else NotImplemented) and result == self._new_check(p, q) or result == NotImplemented","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"result == (self._new_check(p, q) if isinstance(other, int) else NotImplemented); result == self._new_check(p, q) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"161b62e20afb93d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._new_check(p, q) if isinstance(other, int) else NotImplemented)","result == self._new_check(p, q) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._new_check(p, q)"],"decidability":"structural","returns_expr":"self._new_check(p, q)"},{"name":"int","guard":"not (isinstance(other, int))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._new_check","self.denominator","self.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         """z / q"""
         if isinstance(other, int):

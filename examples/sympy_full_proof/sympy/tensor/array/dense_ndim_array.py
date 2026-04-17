@@ -30,58 +30,83 @@ from sympy.utilities.iterables import flatten
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DenseNDimArray(*args), correctly constructs a DenseNDimArray instance) over {Any | isinstance(index, tuple) and isinstance(i, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NDimArray)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DenseNDimArray : {Any | isinstance(index, tuple) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff6cfcaf2de28335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray","kind":"class","src_hash":"8dfab36bcbf4eedc","in":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any"},"spec":{"lhs":"DenseNDimArray(*args)","rhs":"correctly constructs a DenseNDimArray instance","over":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"name":"DenseNDimArray_class_invariant"},"guarantee":"correctly constructs a DenseNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff6cfcaf2de28335"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray","kind":"class","src_hash":"8dfab36bcbf4eedc","in":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NDimArray)"},"spec":{"lhs":"DenseNDimArray(*args)","rhs":"correctly constructs a DenseNDimArray instance","over":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"name":"DenseNDimArray_class_invariant"},"guarantee":"isinstance(self, NDimArray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff6cfcaf2de28335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NDimArray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function DenseNDimArray not found in source"]}}
 class DenseNDimArray(NDimArray):
 
     _array: List[Basic]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(*args, **kwargs), ImmutableDenseNDimArray(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(*args, **kwargs)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c81bbecf3a3cfe94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.__new__","kind":"method","src_hash":"a74f7466e5516a91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c81bbecf3a3cfe94"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.__new__","kind":"method","src_hash":"a74f7466e5516a91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(*args, **kwargs)","rhs":"ImmutableDenseNDimArray(*args, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns ImmutableDenseNDimArray(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c81bbecf3a3cfe94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(self, *args, **kwargs):
         return ImmutableDenseNDimArray(*args, **kwargs)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), ArrayKind._union(self._array)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kind : Any → ArrayKind                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, ArrayKind)                  ║
+# ║   returns:  ArrayKind._union(self._array)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kind : Any → {ArrayKind | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 028410c034d7de03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.kind","kind":"property","src_hash":"229dea0f1308bb54","in":{"base":"Any"},"out":{"base":"ArrayKind"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"028410c034d7de03"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.kind","kind":"property","src_hash":"229dea0f1308bb54","in":{"base":"Any"},"out":{"base":"ArrayKind","pred":"result satisfies: result == (ArrayKind._union(self._array))"},"spec":{"lhs":"kind()","rhs":"ArrayKind._union(self._array)","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns ArrayKind._union(self._array); isinstance(result, ArrayKind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"028410c034d7de03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, ArrayKind)"],"returns_expr":"ArrayKind._union(self._array)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self) -> ArrayKind:
         return ArrayKind._union(self._array)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9908a78a1638df1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.__getitem__","kind":"method","src_hash":"789d91395d2826f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9908a78a1638df1b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.__getitem__","kind":"method","src_hash":"789d91395d2826f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9908a78a1638df1b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array","self._check_index_for_getitem","self._check_symbolic_index","self._get_slice_data_for_array_access","self._parse_index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         """
         Allows to get items from N-dim array.
@@ -132,31 +157,44 @@ class DenseNDimArray(NDimArray):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(cls), zeros produces the expected output) over Any ║
+# ║ Path(zeros(cls, *shape), cls._new(([0] * list_length,), shape)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._new(([0] * list_length,), shape)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01612b3efdb49382  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d01d0ce43faa43db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.zeros","kind":"classmethod","src_hash":"aaaf1e9ed27d88de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls)","rhs":"zeros produces the expected output","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.zeros_correct","statement":"Path(zeros(x), zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01612b3efdb49382"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.zeros","kind":"classmethod","src_hash":"aaaf1e9ed27d88de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls, *shape)","rhs":"cls._new(([0] * list_length,), shape)","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns cls._new(([0] * list_length,), shape)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.zeros_correct","statement":"Path(zeros(x), returns cls._new(([0] * list_length,), shape))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d01d0ce43faa43db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._new(([0] * list_length,), shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeros(cls, *shape):
         list_length = functools.reduce(lambda x, y: x*y, shape, S.One)
         return cls._new(([0]*list_length,), shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tomatrix(), converts mutabledensendimarray to matrix) over Any ║
+# ║ Path(tomatrix(), Matrix(self.shape[0], self.shape[1], self._array)) over {Any | not (self.rank() != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tomatrix : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.rank() != 2)                         ║
+# ║   returns:  Matrix(self.shape[0], self.shape[1], self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tomatrix : {Any | not (self.rank() != 2)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f61890029104d98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | beb8e52159eee9c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.tomatrix","kind":"method","src_hash":"5864b4004ef8a525","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tomatrix()","rhs":"converts mutabledensendimarray to matrix","over":{"base":"Any"},"name":"tomatrix_correct"},"guarantee":"converts mutabledensendimarray to matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.tomatrix_correct","statement":"Path(tomatrix(x), converts mutabledensendimarray to matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f61890029104d98"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.tomatrix","kind":"method","src_hash":"5864b4004ef8a525","in":{"base":"Any","pred":"not (self.rank() != 2)"},"out":{"base":"Any"},"spec":{"lhs":"tomatrix()","rhs":"Matrix(self.shape[0], self.shape[1], self._array)","over":{"base":"Any","pred":"not (self.rank() != 2)"},"name":"tomatrix_correct"},"guarantee":"returns Matrix(self.shape[0], self.shape[1], self._array)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.tomatrix_correct","statement":"Path(tomatrix(x), returns Matrix(self.shape[0], self.shape[1], self._array))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beb8e52159eee9c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.rank() != 2)"],"returns_expr":"Matrix(self.shape[0], self.shape[1], self._array)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array","self.rank","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tomatrix(self):
         """
         Converts MutableDenseNDimArray to Matrix. Can convert only 2-dim array, else will raise error.
@@ -182,16 +220,23 @@ class DenseNDimArray(NDimArray):
         return Matrix(self.shape[0], self.shape[1], self._array)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reshape(*ne), id) over Any                            ║
+# ║ Path(reshape(*newshape), id) over {Any | not (new_total_size != self._loop_size)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reshape : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (new_total_size != self._loop_size)        ║
+# ║   returns:  type(self)(self._array, newshape)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reshape : {Any | not (new_total_size != self._loop_si...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 53aac2869363c359   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.reshape","kind":"method","src_hash":"2dd95cb1d001bbdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reshape(*ne)","rhs":"returns mutabledensendimarray instance with new shape","over":{"base":"Any"},"name":"reshape_correct","kind":"composition"},"guarantee":"returns mutabledensendimarray instance with new shape","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53aac2869363c359"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.DenseNDimArray.reshape","kind":"method","src_hash":"2dd95cb1d001bbdc","in":{"base":"Any","pred":"not (new_total_size != self._loop_size)"},"out":{"base":"Any"},"spec":{"lhs":"reshape(*newshape)","rhs":"type(self)(self._array, newshape)","over":{"base":"Any","pred":"not (new_total_size != self._loop_size)"},"name":"reshape_correct","kind":"composition"},"guarantee":"returns type(self)(self._array, newshape)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53aac2869363c359","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (new_total_size != self._loop_size)"],"returns_expr":"type(self)(self._array, newshape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array","self._loop_size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reshape(self, *newshape):
         """
         Returns MutableDenseNDimArray instance with new shape. Elements number
@@ -226,41 +271,60 @@ class DenseNDimArray(NDimArray):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ImmutableDenseNDimArray(*args), correctly constructs a ImmutableDenseNDimArray instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ImmutableDenseNDimArray : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DenseNDimArray)               ║
+# ║   ensures:  isinstance(self, ImmutableNDimArray)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ImmutableDenseNDimArray : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3960ccfed5e13f4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray","kind":"class","src_hash":"b4e60c0bdc839286","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ImmutableDenseNDimArray(*args)","rhs":"correctly constructs a ImmutableDenseNDimArray instance","over":{"base":"Any"},"name":"ImmutableDenseNDimArray_class_invariant"},"guarantee":"correctly constructs a ImmutableDenseNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3960ccfed5e13f4a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray","kind":"class","src_hash":"b4e60c0bdc839286","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DenseNDimArray) and isinstance(self, ImmutableNDimArray)"},"spec":{"lhs":"ImmutableDenseNDimArray(*args)","rhs":"correctly constructs a ImmutableDenseNDimArray instance","over":{"base":"Any"},"name":"ImmutableDenseNDimArray_class_invariant"},"guarantee":"isinstance(self, DenseNDimArray); isinstance(self, ImmutableNDimArray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3960ccfed5e13f4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DenseNDimArray)","isinstance(self, ImmutableNDimArray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ImmutableDenseNDimArray not found in source"]}}
 class ImmutableDenseNDimArray(DenseNDimArray, ImmutableNDimArray): # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, iterable, shape), cls._new(iterable, shape, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._new(iterable, shape, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ea1966db5ba9c15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray.__new__","kind":"method","src_hash":"26a4b5a425c48b3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ea1966db5ba9c15"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray.__new__","kind":"method","src_hash":"26a4b5a425c48b3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, iterable, shape)","rhs":"cls._new(iterable, shape, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls._new(iterable, shape, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ea1966db5ba9c15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._new(iterable, shape, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, iterable, shape=None, **kwargs):
         return cls._new(iterable, shape, **kwargs)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, iterable, shape), <unspecified:_new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 895551dc4412e316  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._new","kind":"classmethod","src_hash":"72242d556ea4841a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"895551dc4412e316"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._new","kind":"classmethod","src_hash":"72242d556ea4841a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, iterable, shape)","rhs":"<unspecified:_new>","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"895551dc4412e316","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_special_bounds","cls._handle_ndarray_creation_inputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, iterable, shape, **kwargs):
         shape, flat_list = cls._handle_ndarray_creation_inputs(iterable, shape, **kwargs)
         shape = Tuple(*map(_sympify, shape))
@@ -275,44 +339,62 @@ class ImmutableDenseNDimArray(DenseNDimArray, ImmutableNDimArray): # type: ignor
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(ind), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(index, value), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | faafd4cab9a10418           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray.__setitem__","kind":"method","src_hash":"5e4fbc9a6d838018","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(ind)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faafd4cab9a10418"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray.__setitem__","kind":"method","src_hash":"5e4fbc9a6d838018","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(index, value)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faafd4cab9a10418","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, index, value):
         raise TypeError('immutable N-dim array')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mutable(), as_mutable produces the expected output) over Any ║
+# ║ Path(as_mutable(), MutableDenseNDimArray(self)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MutableDenseNDimArray(self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mutable : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bdc96486a5687908           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray.as_mutable","kind":"method","src_hash":"8c1cfbb0c6719c86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"as_mutable produces the expected output","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"as_mutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdc96486a5687908"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray.as_mutable","kind":"method","src_hash":"8c1cfbb0c6719c86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"MutableDenseNDimArray(self)","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns MutableDenseNDimArray(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdc96486a5687908","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MutableDenseNDimArray(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_mutable(self):
         return MutableDenseNDimArray(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), self.applyfunc(simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.applyfunc(simplify)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79d6bab0e75834b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e0ef3612c21478e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._eval_simplify","kind":"method","src_hash":"2c0373ed0aadb5e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79d6bab0e75834b1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._eval_simplify","kind":"method","src_hash":"2c0373ed0aadb5e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"self.applyfunc(simplify)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns self.applyfunc(simplify)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray._eval_simplify_correct","statement":"Path(_eval_simplify(x), returns self.applyfunc(simplify))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e0ef3612c21478e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.applyfunc(simplify)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.applyfunc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.simplify.simplify import simplify
         return self.applyfunc(simplify)
@@ -320,42 +402,61 @@ class ImmutableDenseNDimArray(DenseNDimArray, ImmutableNDimArray): # type: ignor
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MutableDenseNDimArray(*args), correctly constructs a MutableDenseNDimArray instance) over {Any | isinstance(index, tuple) and isinstance(i, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DenseNDimArray)               ║
+# ║   ensures:  isinstance(self, MutableNDimArray)             ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MutableDenseNDimArray : {Any | isinstance(index, tupl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fc3671fde5c5213  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray","kind":"class","src_hash":"09f3ac91629b24c2","in":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any"},"spec":{"lhs":"MutableDenseNDimArray(*args)","rhs":"correctly constructs a MutableDenseNDimArray instance","over":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"name":"MutableDenseNDimArray_class_invariant"},"guarantee":"correctly constructs a MutableDenseNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fc3671fde5c5213"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray","kind":"class","src_hash":"09f3ac91629b24c2","in":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DenseNDimArray) and isinstance(self, MutableNDimArray)"},"spec":{"lhs":"MutableDenseNDimArray(*args)","rhs":"correctly constructs a MutableDenseNDimArray instance","over":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"name":"MutableDenseNDimArray_class_invariant"},"guarantee":"isinstance(self, DenseNDimArray); isinstance(self, MutableNDimArray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fc3671fde5c5213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DenseNDimArray)","isinstance(self, MutableNDimArray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MutableDenseNDimArray not found in source"]}}
 class MutableDenseNDimArray(DenseNDimArray, MutableNDimArray):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, iterable, shape), cls._new(iterable, shape, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._new(iterable, shape, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5dc4f762cb7ba886           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.__new__","kind":"method","src_hash":"e2f3c2a7bf6a72f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5dc4f762cb7ba886"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.__new__","kind":"method","src_hash":"e2f3c2a7bf6a72f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, iterable, shape)","rhs":"cls._new(iterable, shape, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls._new(iterable, shape, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5dc4f762cb7ba886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._new(iterable, shape, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, iterable=None, shape=None, **kwargs):
         return cls._new(iterable, shape, **kwargs)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, iterable, shape), <unspecified:_new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 427aad517856eed3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray._new","kind":"classmethod","src_hash":"fe2743ab9919a23d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"427aad517856eed3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray._new","kind":"classmethod","src_hash":"fe2743ab9919a23d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, iterable, shape)","rhs":"<unspecified:_new>","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"427aad517856eed3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._handle_ndarray_creation_inputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, iterable, shape, **kwargs):
         shape, flat_list = cls._handle_ndarray_creation_inputs(iterable, shape, **kwargs)
         flat_list = flatten(flat_list)
@@ -367,16 +468,22 @@ class MutableDenseNDimArray(DenseNDimArray, MutableNDimArray):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(ind), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(index, value), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c94e2371124f6042           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.__setitem__","kind":"method","src_hash":"52fa551b9790a671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(ind)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c94e2371124f6042"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.__setitem__","kind":"method","src_hash":"52fa551b9790a671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(index, value)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c94e2371124f6042","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array","self._get_slice_data_for_array_assignment","self._parse_index","self._setter_iterable_check"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, index, value):
         """Allows to set items to MutableDenseNDimArray.
 
@@ -403,30 +510,42 @@ class MutableDenseNDimArray(DenseNDimArray, MutableNDimArray):
             self._array[index] = value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_immutable(), as_immutable produces the expected output) over Any ║
+# ║ Path(as_immutable(), ImmutableDenseNDimArray(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(self)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_immutable : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 378d614d52dd16c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.as_immutable","kind":"method","src_hash":"17a37a6be27453b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"as_immutable produces the expected output","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"as_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"378d614d52dd16c7"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.as_immutable","kind":"method","src_hash":"17a37a6be27453b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"ImmutableDenseNDimArray(self)","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"returns ImmutableDenseNDimArray(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"378d614d52dd16c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_immutable(self):
         return ImmutableDenseNDimArray(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {i for j in self._array for i in j.free_symbols}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {i for j in self._array for i in j.free_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ddd2a2995c5fd4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.free_symbols","kind":"property","src_hash":"9d18da5d34db3726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ddd2a2995c5fd4c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.dense_ndim_array.MutableDenseNDimArray.free_symbols","kind":"property","src_hash":"9d18da5d34db3726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{i for j in self._array for i in j.free_symbols}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {i for j in self._array for i in j.free_symbols}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ddd2a2995c5fd4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{i for j in self._array for i in j.free_symbols}","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return {i for j in self._array for i in j.free_symbols}

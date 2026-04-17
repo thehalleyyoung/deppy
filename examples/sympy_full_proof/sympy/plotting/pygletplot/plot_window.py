@@ -28,27 +28,41 @@ from sympy.plotting.pygletplot.plot_controller import PlotController
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotWindow instance) preserved by PlotWindow(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotWindow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ManagedWindow)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotWindow : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d9587c7171efa44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow","kind":"class","src_hash":"d2eeaa37786583c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotWindow(*args)","rhs":"correctly constructs a PlotWindow instance","over":{"base":"Any"},"name":"PlotWindow_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotWindow instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'plot') and hasattr(self, 'camera') and hasattr(self, '_calculating') and hasattr(self, 'antialiasing') and hasattr(self, 'ortho') and hasattr(self, 'invert_mouse_zoom') and hasattr(self, 'linewidth') and hasattr(self, 'title')","kind":"class","induction":"structural on plot, camera, _calculating, antialiasing"}],"methods_preserving":["__init__","setup","on_resize","update","draw","update_caption"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d9587c7171efa44"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow","kind":"class","src_hash":"d2eeaa37786583c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ManagedWindow)"},"spec":{"lhs":"PlotWindow(*args)","rhs":"correctly constructs a PlotWindow instance","over":{"base":"Any"},"name":"PlotWindow_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ManagedWindow); preserves 11 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'plot') and hasattr(self, 'camera') and hasattr(self, '_calculating') and hasattr(self, 'antialiasing') and hasattr(self, 'ortho') and hasattr(self, 'invert_mouse_zoom') and hasattr(self, 'linewidth') and hasattr(self, 'title')","kind":"class","induction":"structural on plot, camera, _calculating, antialiasing"}],"methods_preserving":["__init__","setup","on_resize","update","draw","update_caption"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d9587c7171efa44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ManagedWindow)"],"invariants":["hasattr(self, 'plot')","hasattr(self, 'camera')","hasattr(self, '_calculating')","hasattr(self, 'antialiasing')","hasattr(self, 'ortho')","hasattr(self, 'invert_mouse_zoom')","hasattr(self, 'linewidth')","hasattr(self, 'title')","hasattr(self, 'last_caption_update')","hasattr(self, 'caption_update_interval')","hasattr(self, 'drawing_first_object')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotWindow not found in source"]}}
 class PlotWindow(ManagedWindow):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(plo), initializes the instance correctly) over Any ║
+# ║ Path(__init__(plot, antialiasing, ortho), self.plot == plot and self.antialiasing == antialiasing and self.ortho == ortho and self.invert_mouse_zoom == invert_mouse_zoom and self.linewidth == linewidth) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.plot == plot                              ║
+# ║   ensures:  self.antialiasing == antialiasing              ║
+# ║   ensures:  self.ortho == ortho                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.plot =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef9e321902685000           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.__init__","kind":"method","src_hash":"050aeec2403389e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(plo)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef9e321902685000"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.__init__","kind":"method","src_hash":"050aeec2403389e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.plot == plot and self.antialiasing == antialiasing and self.ortho == ortho and self.invert_mouse_zoom == invert_mouse_zoom and self.linewidth == linewidth"},"spec":{"lhs":"__init__(plot, antialiasing, ortho)","rhs":"self.plot == plot and self.antialiasing == antialiasing and self.ortho == ortho and self.invert_mouse_zoom == invert_mouse_zoom and self.linewidth == linewidth","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.plot == plot; self.antialiasing == antialiasing; self.ortho == ortho","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef9e321902685000","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.plot == plot","self.antialiasing == antialiasing","self.ortho == ortho","self.invert_mouse_zoom == invert_mouse_zoom","self.linewidth == linewidth"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, plot, antialiasing=True, ortho=False,
                  invert_mouse_zoom=False, linewidth=1.5, caption="SymPy Plot",
                  **kwargs):
@@ -80,16 +94,22 @@ class PlotWindow(ManagedWindow):
         super().__init__(**kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setup(), setup produces the expected output) over Any ║
+# ║ Path(setup(), <unspecified:setup>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ setup : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f94ae2f923ed0cf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.setup","kind":"method","src_hash":"238bc1560d219492","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup()","rhs":"setup produces the expected output","over":{"base":"Any"},"name":"setup_correct"},"guarantee":"setup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.setup_correct","statement":"Path(setup(x), setup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f94ae2f923ed0cf6"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.setup","kind":"method","src_hash":"238bc1560d219492","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup()","rhs":"<unspecified:setup>","over":{"base":"Any"},"name":"setup_correct"},"guarantee":"setup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.setup_correct","statement":"Path(setup(x), setup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f94ae2f923ed0cf6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.antialiasing","self.camera","self.controller","self.invert_mouse_zoom","self.linewidth","self.ortho","self.push_handlers"],"writes":["self.camera","self.controller"]},"state_contract":{"modifies":["self.camera","self.controller"],"old_bindings":{"old_self_camera":"self.camera","old_self_controller":"self.controller"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def setup(self):
         self.camera = PlotCamera(self, ortho=self.ortho)
         self.controller = PlotController(self,
@@ -116,46 +136,64 @@ class PlotWindow(ManagedWindow):
         self.camera.setup_projection()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(on_resize(w, ), on_resize produces the expected output) over Any ║
+# ║ Path(on_resize(w, h), <unspecified:on_resize>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ on_resize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 734c2a82c943f316  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.on_resize","kind":"method","src_hash":"f5800c8d00b2833b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_resize(w, )","rhs":"on_resize produces the expected output","over":{"base":"Any"},"name":"on_resize_correct"},"guarantee":"on_resize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.on_resize_correct","statement":"Path(on_resize(x), on_resize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"734c2a82c943f316"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.on_resize","kind":"method","src_hash":"f5800c8d00b2833b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_resize(w, h)","rhs":"<unspecified:on_resize>","over":{"base":"Any"},"name":"on_resize_correct"},"guarantee":"on_resize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.on_resize_correct","statement":"Path(on_resize(x), on_resize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"734c2a82c943f316","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.camera"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def on_resize(self, w, h):
         super().on_resize(w, h)
         if self.camera is not None:
             self.camera.setup_projection()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update(dt), update produces the expected output) over Any ║
+# ║ Path(update(dt), <unspecified:update>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f07a1d07cb298a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.update","kind":"method","src_hash":"07695d7e2b96ab59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(dt)","rhs":"update produces the expected output","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f07a1d07cb298a9"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.update","kind":"method","src_hash":"07695d7e2b96ab59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(dt)","rhs":"<unspecified:update>","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f07a1d07cb298a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.controller"],"calls_mutating":["self.controller.update"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update(self, dt):
         self.controller.update(dt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), draw produces the expected output) over Any   ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26d41121a6af8334  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.draw","kind":"method","src_hash":"6a71af7321fbe821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"draw produces the expected output","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26d41121a6af8334"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.draw","kind":"method","src_hash":"6a71af7321fbe821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26d41121a6af8334","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.camera","self.caption_update_interval","self.drawing_first_object","self.last_caption_update","self.plot","self.update_caption"],"writes":["self.drawing_first_object","self.last_caption_update"],"catches":["ValueError"],"nondeterministic_sources":["perf_counter"]},"state_contract":{"modifies":["self.drawing_first_object","self.last_caption_update"],"old_bindings":{"old_self_drawing_first_object":"self.drawing_first_object","old_self_last_caption_update":"self.last_caption_update"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         self.plot._render_lock.acquire()
         self.camera.apply_transformation()
@@ -212,16 +250,22 @@ class PlotWindow(ManagedWindow):
         self.plot._render_lock.release()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update_caption(cal), update_caption produces the expected output) over Any ║
+# ║ Path(update_caption(calc_verts_pos, calc_verts_len, calc_cverts_pos), <unspecified:update_caption>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update_caption : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef2b9c1126426452  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.update_caption","kind":"method","src_hash":"1c9052850650410c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_caption(cal)","rhs":"update_caption produces the expected output","over":{"base":"Any"},"name":"update_caption_correct"},"guarantee":"update_caption produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.update_caption_correct","statement":"Path(update_caption(x), update_caption produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef2b9c1126426452"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_window.PlotWindow.update_caption","kind":"method","src_hash":"1c9052850650410c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_caption(calc_verts_pos, calc_verts_len, calc_cverts_pos)","rhs":"<unspecified:update_caption>","over":{"base":"Any"},"name":"update_caption_correct"},"guarantee":"update_caption produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_window.PlotWindow.update_caption_correct","statement":"Path(update_caption(x), update_caption produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef2b9c1126426452","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.caption","self.set_caption","self.title"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update_caption(self, calc_verts_pos, calc_verts_len,
             calc_cverts_pos, calc_cverts_len):
         caption = self.title

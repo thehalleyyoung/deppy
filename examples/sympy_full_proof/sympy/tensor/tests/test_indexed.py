@@ -35,16 +35,24 @@ from sympy.tensor.indexed import IndexedBase, Idx, Indexed
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_construction(), test_Idx_construction produces the expected output) over Any ║
+# ║ Path(test_Idx_construction(), Idx(i) != Idx(i, 1) and Idx(i, a) == Idx(i, (0, a - 1)) and Idx(i, oo) == Idx(i, (0, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_construction : Any → {Any | Idx(i) != Idx(i,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Idx(i) != Idx(i, 1)                            ║
+# ║   ensures:  Idx(i, a) == Idx(i, (0, a - 1))                ║
+# ║   ensures:  Idx(i, oo) == Idx(i, (0, oo))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_construction : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec8e54055132d71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8252c86e968d22ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_construction","kind":"function","src_hash":"ccb485721961fec7","in":{"base":"Any"},"out":{"base":"Any","pred":"Idx(i) != Idx(i, 1) and Idx(i, a) == Idx(i, (0, a - 1)) and Idx(i, oo) == Idx(i, (0, oo))"},"spec":{"lhs":"test_Idx_construction()","rhs":"test_Idx_construction produces the expected output","over":{"base":"Any"},"name":"test_Idx_construction_correct"},"guarantee":"test_Idx_construction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_construction_correct","statement":"Path(test_Idx_construction(x), test_Idx_construction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec8e54055132d71"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_construction","kind":"function","src_hash":"ccb485721961fec7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Idx(i) != Idx(i, 1) and Idx(i, a) == Idx(i, (0, a - 1)) and Idx(i, oo) == Idx(i, (0, oo))"},"spec":{"lhs":"test_Idx_construction()","rhs":"Idx(i) != Idx(i, 1) and Idx(i, a) == Idx(i, (0, a - 1)) and Idx(i, oo) == Idx(i, (0, oo))","over":{"base":"Any"},"name":"test_Idx_construction_correct"},"guarantee":"Idx(i) != Idx(i, 1); Idx(i, a) == Idx(i, (0, a - 1)); Idx(i, oo) == Idx(i, (0, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_construction_correct","statement":"Path(test_Idx_construction(x), Idx(i) != Idx(i, 1); Idx(i, a) == Idx(i, (0, a - 1)); Idx(i, oo) == Idx(i, (0, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8252c86e968d22ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Idx(i) != Idx(i, 1)","Idx(i, a) == Idx(i, (0, a - 1))","Idx(i, oo) == Idx(i, (0, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Idx_construction():
     i, a, b = symbols('i a b', integer=True)
     assert Idx(i) != Idx(i, 1)
@@ -62,16 +70,24 @@ def test_Idx_construction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_properties(), test_Idx_properties produces the expected output) over Any ║
+# ║ Path(test_Idx_properties(), Idx(i).is_integer and Idx(i).name == 'i' and Idx(i + 2).name == 'i + 2' and Idx('foo').name == 'foo') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_properties : Any → {Any | Idx(i).is_integer ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Idx(i).is_integer                              ║
+# ║   ensures:  Idx(i).name == 'i'                             ║
+# ║   ensures:  Idx(i + 2).name == 'i + 2'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_properties : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd6cbcca72f00cc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eb1d10949d0c39e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_properties","kind":"function","src_hash":"2bbeb3cf5bca1071","in":{"base":"Any"},"out":{"base":"Any","pred":"Idx(i).is_integer and Idx(i).name == 'i' and Idx(i + 2).name == 'i + 2' and Idx('foo').name == 'foo'"},"spec":{"lhs":"test_Idx_properties()","rhs":"test_Idx_properties produces the expected output","over":{"base":"Any"},"name":"test_Idx_properties_correct"},"guarantee":"test_Idx_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_properties_correct","statement":"Path(test_Idx_properties(x), test_Idx_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd6cbcca72f00cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_properties","kind":"function","src_hash":"2bbeb3cf5bca1071","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Idx(i).is_integer and Idx(i).name == 'i' and Idx(i + 2).name == 'i + 2' and Idx('foo').name == 'foo'"},"spec":{"lhs":"test_Idx_properties()","rhs":"Idx(i).is_integer and Idx(i).name == 'i' and Idx(i + 2).name == 'i + 2' and Idx('foo').name == 'foo'","over":{"base":"Any"},"name":"test_Idx_properties_correct"},"guarantee":"Idx(i).is_integer; Idx(i).name == 'i'; Idx(i + 2).name == 'i + 2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_properties_correct","statement":"Path(test_Idx_properties(x), Idx(i).is_integer; Idx(i).name == 'i'; Idx(i + 2).name == 'i + 2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eb1d10949d0c39e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Idx(i).is_integer","Idx(i).name == 'i'","Idx(i + 2).name == 'i + 2'","Idx('foo').name == 'foo'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Idx_properties():
     i, a, b = symbols('i a b', integer=True)
     assert Idx(i).is_integer
@@ -81,16 +97,24 @@ def test_Idx_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_bounds(), test_Idx_bounds produces the expected output) over Any ║
+# ║ Path(test_Idx_bounds(), Idx(i).lower is None and Idx(i).upper is None and Idx(i, a).lower == 0 and Idx(i, a).upper == a - 1 and Idx(i, 5).lower == 0 and Idx(i, 5).upper == 4 and Idx(i, oo).lower == 0 and Idx(i, oo).upper is oo and Idx(i, (a, b)).lower == a and Idx(i, (a, b)).upper == b and Idx(i, (1, 5)).lower == 1 and Idx(i, (1, 5)).upper == 5 and Idx(i, (-oo, oo)).lower is -oo and Idx(i, (-oo, oo)).upper is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_bounds : Any → {Any | Idx(i).lower is None a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Idx(i).lower is None                           ║
+# ║   ensures:  Idx(i).upper is None                           ║
+# ║   ensures:  Idx(i, a).lower == 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_bounds : Any → {Any | result satisfies: Idx(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c48007f1047f8c9d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d145e35746d2e731  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_bounds","kind":"function","src_hash":"01e19bbf1316a2d3","in":{"base":"Any"},"out":{"base":"Any","pred":"Idx(i).lower is None and Idx(i).upper is None and Idx(i, a).lower == 0 and Idx(i, a).upper == a - 1 and Idx(i, 5).lower == 0 and Idx(i, 5).upper == 4 and Idx(i, oo).lower == 0 and Idx(i, oo).upper is oo and Idx(i, (a, b)).lower == a and Idx(i, (a, b)).upper == b and Idx(i, (1, 5)).lower == 1 and Idx(i, (1, 5)).upper == 5 and Idx(i, (-oo, oo)).lower is -oo and Idx(i, (-oo, oo)).upper is oo"},"spec":{"lhs":"test_Idx_bounds()","rhs":"test_Idx_bounds produces the expected output","over":{"base":"Any"},"name":"test_Idx_bounds_correct"},"guarantee":"test_Idx_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_bounds_correct","statement":"Path(test_Idx_bounds(x), test_Idx_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c48007f1047f8c9d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_bounds","kind":"function","src_hash":"01e19bbf1316a2d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Idx(i).lower is None and Idx(i).upper is None and Idx(i, a).lower == 0 and Idx(i, a).upper == a - 1 and Idx(i, 5).lower == 0 and Idx(i, 5).upper == 4 and Idx(i, oo).lower == 0 and Idx(i, oo).upper is oo and Idx(i, (a, b)).lower == a and Idx(i, (a, b)).upper == b and Idx(i, (1, 5)).lower == 1 and Idx(i, (1, 5)).upper == 5 and Idx(i, (-oo, oo)).lower is -oo and Idx(i, (-oo, oo)).upper is oo"},"spec":{"lhs":"test_Idx_bounds()","rhs":"Idx(i).lower is None and Idx(i).upper is None and Idx(i, a).lower == 0 and Idx(i, a).upper == a - 1 and Idx(i, 5).lower == 0 and Idx(i, 5).upper == 4 and Idx(i, oo).lower == 0 and Idx(i, oo).upper is oo and Idx(i, (a, b)).lower == a and Idx(i, (a, b)).upper == b and Idx(i, (1, 5)).lower == 1 and Idx(i, (1, 5)).upper == 5 and Idx(i, (-oo, oo)).lower is -oo and Idx(i, (-oo, oo)).upper is oo","over":{"base":"Any"},"name":"test_Idx_bounds_correct"},"guarantee":"Idx(i).lower is None; Idx(i).upper is None; Idx(i, a).lower == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_bounds_correct","statement":"Path(test_Idx_bounds(x), Idx(i).lower is None; Idx(i).upper is None; Idx(i, a).lower == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d145e35746d2e731","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Idx(i).lower is None","Idx(i).upper is None","Idx(i, a).lower == 0","Idx(i, a).upper == a - 1","Idx(i, 5).lower == 0","Idx(i, 5).upper == 4","Idx(i, oo).lower == 0","Idx(i, oo).upper is oo","Idx(i, (a, b)).lower == a","Idx(i, (a, b)).upper == b","Idx(i, (1, 5)).lower == 1","Idx(i, (1, 5)).upper == 5","Idx(i, (-oo, oo)).lower is -oo","Idx(i, (-oo, oo)).upper is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Idx_bounds():
     i, a, b = symbols('i a b', integer=True)
     assert Idx(i).lower is None
@@ -110,16 +134,24 @@ def test_Idx_bounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_fixed_bounds(), test_Idx_fixed_bounds produces the expected output) over Any ║
+# ║ Path(test_Idx_fixed_bounds(), Idx(x).lower is None and Idx(x).upper is None and Idx(x, a).lower == 0 and Idx(x, a).upper == a - 1 and Idx(x, 5).lower == 0 and Idx(x, 5).upper == 4 and Idx(x, oo).lower == 0 and Idx(x, oo).upper is oo and Idx(x, (a, b)).lower == a and Idx(x, (a, b)).upper == b and Idx(x, (1, 5)).lower == 1 and Idx(x, (1, 5)).upper == 5 and Idx(x, (-oo, oo)).lower is -oo and Idx(x, (-oo, oo)).upper is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_fixed_bounds : Any → {Any | Idx(x).lower is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Idx(x).lower is None                           ║
+# ║   ensures:  Idx(x).upper is None                           ║
+# ║   ensures:  Idx(x, a).lower == 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_fixed_bounds : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 633b0c965ae78169  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 566fc55e33d680bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_fixed_bounds","kind":"function","src_hash":"e36cc9f4cb456513","in":{"base":"Any"},"out":{"base":"Any","pred":"Idx(x).lower is None and Idx(x).upper is None and Idx(x, a).lower == 0 and Idx(x, a).upper == a - 1 and Idx(x, 5).lower == 0 and Idx(x, 5).upper == 4 and Idx(x, oo).lower == 0 and Idx(x, oo).upper is oo and Idx(x, (a, b)).lower == a and Idx(x, (a, b)).upper == b and Idx(x, (1, 5)).lower == 1 and Idx(x, (1, 5)).upper == 5 and Idx(x, (-oo, oo)).lower is -oo and Idx(x, (-oo, oo)).upper is oo"},"spec":{"lhs":"test_Idx_fixed_bounds()","rhs":"test_Idx_fixed_bounds produces the expected output","over":{"base":"Any"},"name":"test_Idx_fixed_bounds_correct"},"guarantee":"test_Idx_fixed_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_fixed_bounds_correct","statement":"Path(test_Idx_fixed_bounds(x), test_Idx_fixed_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"633b0c965ae78169"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_fixed_bounds","kind":"function","src_hash":"e36cc9f4cb456513","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Idx(x).lower is None and Idx(x).upper is None and Idx(x, a).lower == 0 and Idx(x, a).upper == a - 1 and Idx(x, 5).lower == 0 and Idx(x, 5).upper == 4 and Idx(x, oo).lower == 0 and Idx(x, oo).upper is oo and Idx(x, (a, b)).lower == a and Idx(x, (a, b)).upper == b and Idx(x, (1, 5)).lower == 1 and Idx(x, (1, 5)).upper == 5 and Idx(x, (-oo, oo)).lower is -oo and Idx(x, (-oo, oo)).upper is oo"},"spec":{"lhs":"test_Idx_fixed_bounds()","rhs":"Idx(x).lower is None and Idx(x).upper is None and Idx(x, a).lower == 0 and Idx(x, a).upper == a - 1 and Idx(x, 5).lower == 0 and Idx(x, 5).upper == 4 and Idx(x, oo).lower == 0 and Idx(x, oo).upper is oo and Idx(x, (a, b)).lower == a and Idx(x, (a, b)).upper == b and Idx(x, (1, 5)).lower == 1 and Idx(x, (1, 5)).upper == 5 and Idx(x, (-oo, oo)).lower is -oo and Idx(x, (-oo, oo)).upper is oo","over":{"base":"Any"},"name":"test_Idx_fixed_bounds_correct"},"guarantee":"Idx(x).lower is None; Idx(x).upper is None; Idx(x, a).lower == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_fixed_bounds_correct","statement":"Path(test_Idx_fixed_bounds(x), Idx(x).lower is None; Idx(x).upper is None; Idx(x, a).lower == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"566fc55e33d680bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Idx(x).lower is None","Idx(x).upper is None","Idx(x, a).lower == 0","Idx(x, a).upper == a - 1","Idx(x, 5).lower == 0","Idx(x, 5).upper == 4","Idx(x, oo).lower == 0","Idx(x, oo).upper is oo","Idx(x, (a, b)).lower == a","Idx(x, (a, b)).upper == b","Idx(x, (1, 5)).lower == 1","Idx(x, (1, 5)).upper == 5","Idx(x, (-oo, oo)).lower is -oo","Idx(x, (-oo, oo)).upper is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Idx_fixed_bounds():
     i, a, b, x = symbols('i a b x', integer=True)
     assert Idx(x).lower is None
@@ -139,7 +171,12 @@ def test_Idx_fixed_bounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_inequalities(), test_Idx_inequalities produces the expected output) over {Any | isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and isinstance(i14 <= 1, LessThan)} ║
+# ║ Path(test_Idx_inequalities(), i14 <= 5 and i14 < 5 and not i14 >= 5 and not i14 > 5 and 5 >= i14 and 5 > i14 and not 5 <= i14 and not 5 < i14 and LessThan(i14, 5) and StrictLessThan(i14, 5) and not GreaterThan(i14, 5) and not StrictGreaterThan(i14, 5) and i14 <= 4 and isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and not i14 > 4 and isinstance(i14 <= 1, LessThan) and not i14 < 1 and i14 >= 1 and isinstance(i14 > 1, StrictGreaterThan) and not i14 <= 0 and not i14 < 0 and i14 >= 0 and i14 > 0 and isinstance(i14 < x, StrictLessThan) and isinstance(i14 > x, StrictGreaterThan) and isinstance(i14 <= x, LessThan) and isinstance(i14 >= x, GreaterThan) and i14 < i79 and i14 <= i79 and not i14 > i79 and not i14 >= i79 and i14 <= i46 and isinstance(i14 < i46, StrictLessThan) and isinstance(i14 >= i46, GreaterThan) and not i14 > i46 and isinstance(i14 < i35, StrictLessThan) and isinstance(i14 > i35, StrictGreaterThan) and isinstance(i14 <= i35, LessThan) and isinstance(i14 >= i35, GreaterThan) and isinstance(iNone1 < iNone2, StrictLessThan) and isinstance(iNone1 > iNone2, StrictGreaterThan) and isinstance(iNone1 <= iNone2, LessThan) and isinstance(iNone1 >= iNone2, GreaterThan)) over {Any | isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and isinstance(i14 <= 1, LessThan)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i14 <= 5                                       ║
+# ║   ensures:  i14 < 5                                        ║
+# ║   ensures:  not i14 >= 5                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Idx_inequalities : {Any | isinstance(i14 < 4, St...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -154,9 +191,12 @@ def test_Idx_fixed_bounds():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?4 ✗7 VCs | 20.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bccd75f5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_inequalities","kind":"function","src_hash":"e69a741b0def4045","in":{"base":"Any","pred":"isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and isinstance(i14 <= 1, LessThan)"},"out":{"base":"Any","pred":"i14 <= 5 and i14 < 5 and not i14 >= 5 and not i14 > 5 and 5 >= i14 and 5 > i14 and not 5 <= i14 and not 5 < i14 and LessThan(i14, 5) and StrictLessThan(i14, 5) and not GreaterThan(i14, 5) and not StrictGreaterThan(i14, 5) and i14 <= 4 and isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and not i14 > 4 and isinstance(i14 <= 1, LessThan) and not i14 < 1 and i14 >= 1 and isinstance(i14 > 1, StrictGreaterThan) and not i14 <= 0 and not i14 < 0 and i14 >= 0 and i14 > 0 and isinstance(i14 < x, StrictLessThan) and isinstance(i14 > x, StrictGreaterThan) and isinstance(i14 <= x, LessThan) and isinstance(i14 >= x, GreaterThan) and i14 < i79 and i14 <= i79 and not i14 > i79 and not i14 >= i79 and i14 <= i46 and isinstance(i14 < i46, StrictLessThan) and isinstance(i14 >= i46, GreaterThan) and not i14 > i46 and isinstance(i14 < i35, StrictLessThan) and isinstance(i14 > i35, StrictGreaterThan) and isinstance(i14 <= i35, LessThan) and isinstance(i14 >= i35, GreaterThan) and isinstance(iNone1 < iNone2, StrictLessThan) and isinstance(iNone1 > iNone2, StrictGreaterThan) and isinstance(iNone1 <= iNone2, LessThan) and isinstance(iNone1 >= iNone2, GreaterThan)"},"spec":{"lhs":"test_Idx_inequalities()","rhs":"test_Idx_inequalities produces the expected output","over":{"base":"Any","pred":"isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and isinstance(i14 <= 1, LessThan)"},"name":"test_Idx_inequalities_correct"},"guarantee":"test_Idx_inequalities produces the expected output","fibers":[{"name":"StrictLessThan","pred":"isinstance(i14 < 4, StrictLessThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"test_Idx_inequalities produces the expected output","over":{"base":"StrictLessThan","pred":"isinstance(i14 < 4, StrictLessThan)"},"name":"test_Idx_inequalities_StrictLessThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_StrictLessThan_correct","statement":"test_Idx_inequalities satisfies spec on StrictLessThan inputs"},"trust":"LIBRARY"},{"name":"GreaterThan","pred":"isinstance(i14 >= 4, GreaterThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"test_Idx_inequalities produces the expected output","over":{"base":"GreaterThan","pred":"isinstance(i14 >= 4, GreaterThan)"},"name":"test_Idx_inequalities_GreaterThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_GreaterThan_correct","statement":"test_Idx_inequalities satisfies spec on GreaterThan inputs"},"trust":"LIBRARY"},{"name":"LessThan","pred":"isinstance(i14 <= 1, LessThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"test_Idx_inequalities produces the expected output","over":{"base":"LessThan","pred":"isinstance(i14 <= 1, LessThan)"},"name":"test_Idx_inequalities_LessThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_LessThan_correct","statement":"test_Idx_inequalities satisfies spec on LessThan inputs"},"trust":"LIBRARY"},{"name":"StrictGreaterThan","pred":"isinstance(i14 > 1, StrictGreaterThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"test_Idx_inequalities produces the expected output","over":{"base":"StrictGreaterThan","pred":"isinstance(i14 > 1, StrictGreaterThan)"},"name":"test_Idx_inequalities_StrictGreaterThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_StrictGreaterThan_correct","statement":"test_Idx_inequalities satisfies spec on StrictGreaterThan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bccd75f5762a5af8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_inequalities","kind":"function","src_hash":"e69a741b0def4045","in":{"base":"Any","pred":"isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and isinstance(i14 <= 1, LessThan)"},"out":{"base":"Any","pred":"result satisfies: i14 <= 5 and i14 < 5 and not i14 >= 5 and not i14 > 5 and 5 >= i14 and 5 > i14 and not 5 <= i14 and not 5 < i14 and LessThan(i14, 5) and StrictLessThan(i14, 5) and not GreaterThan(i14, 5) and not StrictGreaterThan(i14, 5) and i14 <= 4 and isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and not i14 > 4 and isinstance(i14 <= 1, LessThan) and not i14 < 1 and i14 >= 1 and isinstance(i14 > 1, StrictGreaterThan) and not i14 <= 0 and not i14 < 0 and i14 >= 0 and i14 > 0 and isinstance(i14 < x, StrictLessThan) and isinstance(i14 > x, StrictGreaterThan) and isinstance(i14 <= x, LessThan) and isinstance(i14 >= x, GreaterThan) and i14 < i79 and i14 <= i79 and not i14 > i79 and not i14 >= i79 and i14 <= i46 and isinstance(i14 < i46, StrictLessThan) and isinstance(i14 >= i46, GreaterThan) and not i14 > i46 and isinstance(i14 < i35, StrictLessThan) and isinstance(i14 > i35, StrictGreaterThan) and isinstance(i14 <= i35, LessThan) and isinstance(i14 >= i35, GreaterThan) and isinstance(iNone1 < iNone2, StrictLessThan) and isinstance(iNone1 > iNone2, StrictGreaterThan) and isinstance(iNone1 <= iNone2, LessThan) and isinstance(iNone1 >= iNone2, GreaterThan)"},"spec":{"lhs":"test_Idx_inequalities()","rhs":"i14 <= 5 and i14 < 5 and not i14 >= 5 and not i14 > 5 and 5 >= i14 and 5 > i14 and not 5 <= i14 and not 5 < i14 and LessThan(i14, 5) and StrictLessThan(i14, 5) and not GreaterThan(i14, 5) and not StrictGreaterThan(i14, 5) and i14 <= 4 and isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and not i14 > 4 and isinstance(i14 <= 1, LessThan) and not i14 < 1 and i14 >= 1 and isinstance(i14 > 1, StrictGreaterThan) and not i14 <= 0 and not i14 < 0 and i14 >= 0 and i14 > 0 and isinstance(i14 < x, StrictLessThan) and isinstance(i14 > x, StrictGreaterThan) and isinstance(i14 <= x, LessThan) and isinstance(i14 >= x, GreaterThan) and i14 < i79 and i14 <= i79 and not i14 > i79 and not i14 >= i79 and i14 <= i46 and isinstance(i14 < i46, StrictLessThan) and isinstance(i14 >= i46, GreaterThan) and not i14 > i46 and isinstance(i14 < i35, StrictLessThan) and isinstance(i14 > i35, StrictGreaterThan) and isinstance(i14 <= i35, LessThan) and isinstance(i14 >= i35, GreaterThan) and isinstance(iNone1 < iNone2, StrictLessThan) and isinstance(iNone1 > iNone2, StrictGreaterThan) and isinstance(iNone1 <= iNone2, LessThan) and isinstance(iNone1 >= iNone2, GreaterThan)","over":{"base":"Any","pred":"isinstance(i14 < 4, StrictLessThan) and isinstance(i14 >= 4, GreaterThan) and isinstance(i14 <= 1, LessThan)"},"name":"test_Idx_inequalities_correct"},"guarantee":"i14 <= 5; i14 < 5; not i14 >= 5","fibers":[{"name":"StrictLessThan","pred":"isinstance(i14 < 4, StrictLessThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"i14 <= 5; i14 < 5; not i14 >= 5","over":{"base":"StrictLessThan","pred":"isinstance(i14 < 4, StrictLessThan)"},"name":"test_Idx_inequalities_StrictLessThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_StrictLessThan_correct","statement":"test_Idx_inequalities satisfies spec on StrictLessThan inputs"},"trust":"LIBRARY"},{"name":"GreaterThan","pred":"isinstance(i14 >= 4, GreaterThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"i14 <= 5; i14 < 5; not i14 >= 5","over":{"base":"GreaterThan","pred":"isinstance(i14 >= 4, GreaterThan)"},"name":"test_Idx_inequalities_GreaterThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_GreaterThan_correct","statement":"test_Idx_inequalities satisfies spec on GreaterThan inputs"},"trust":"LIBRARY"},{"name":"LessThan","pred":"isinstance(i14 <= 1, LessThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"i14 <= 5; i14 < 5; not i14 >= 5","over":{"base":"LessThan","pred":"isinstance(i14 <= 1, LessThan)"},"name":"test_Idx_inequalities_LessThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_LessThan_correct","statement":"test_Idx_inequalities satisfies spec on LessThan inputs"},"trust":"LIBRARY"},{"name":"StrictGreaterThan","pred":"isinstance(i14 > 1, StrictGreaterThan)","path":{"lhs":"test_Idx_inequalities(x)","rhs":"i14 <= 5; i14 < 5; not i14 >= 5","over":{"base":"StrictGreaterThan","pred":"isinstance(i14 > 1, StrictGreaterThan)"},"name":"test_Idx_inequalities_StrictGreaterThan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_StrictGreaterThan_correct","statement":"test_Idx_inequalities satisfies spec on StrictGreaterThan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bccd75f5762a5af8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i14 <= 5","i14 < 5","not i14 >= 5","not i14 > 5","5 >= i14","5 > i14","not 5 <= i14","not 5 < i14","LessThan(i14, 5)","StrictLessThan(i14, 5)","not GreaterThan(i14, 5)","not StrictGreaterThan(i14, 5)","i14 <= 4","isinstance(i14 < 4, StrictLessThan)","isinstance(i14 >= 4, GreaterThan)","not i14 > 4","isinstance(i14 <= 1, LessThan)","not i14 < 1","i14 >= 1","isinstance(i14 > 1, StrictGreaterThan)","not i14 <= 0","not i14 < 0","i14 >= 0","i14 > 0","isinstance(i14 < x, StrictLessThan)","isinstance(i14 > x, StrictGreaterThan)","isinstance(i14 <= x, LessThan)","isinstance(i14 >= x, GreaterThan)","i14 < i79","i14 <= i79","not i14 > i79","not i14 >= i79","i14 <= i46","isinstance(i14 < i46, StrictLessThan)","isinstance(i14 >= i46, GreaterThan)","not i14 > i46","isinstance(i14 < i35, StrictLessThan)","isinstance(i14 > i35, StrictGreaterThan)","isinstance(i14 <= i35, LessThan)","isinstance(i14 >= i35, GreaterThan)","isinstance(iNone1 < iNone2, StrictLessThan)","isinstance(iNone1 > iNone2, StrictGreaterThan)","isinstance(iNone1 <= iNone2, LessThan)","isinstance(iNone1 >= iNone2, GreaterThan)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":1,"n_assumed":4,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":20.4,"verdict_class":"failed","binding":true}}
 def test_Idx_inequalities():
     i14 = Idx("i14", (1, 4))
     i79 = Idx("i79", (7, 9))
@@ -225,16 +265,24 @@ def test_Idx_inequalities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_inequalities_current_fails(), test_Idx_inequalities_current_fails produces the expected output) over Any ║
+# ║ Path(test_Idx_inequalities_current_fails(), S(5) >= i14 and S(5) > i14 and not S(5) <= i14 and not S(5) < i14) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_inequalities_current_fails : Any → {Any | S(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S(5) >= i14                                    ║
+# ║   ensures:  S(5) > i14                                     ║
+# ║   ensures:  not S(5) <= i14                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_inequalities_current_fails : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8f7a1b610137aee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b83a22ee233b9012  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_current_fails","kind":"function","src_hash":"705910b22482fa1a","in":{"base":"Any"},"out":{"base":"Any","pred":"S(5) >= i14 and S(5) > i14 and not S(5) <= i14 and not S(5) < i14"},"spec":{"lhs":"test_Idx_inequalities_current_fails()","rhs":"test_Idx_inequalities_current_fails produces the expected output","over":{"base":"Any"},"name":"test_Idx_inequalities_current_fails_correct"},"guarantee":"test_Idx_inequalities_current_fails produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_current_fails_correct","statement":"Path(test_Idx_inequalities_current_fails(x), test_Idx_inequalities_current_fails produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f7a1b610137aee"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_current_fails","kind":"function","src_hash":"705910b22482fa1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S(5) >= i14 and S(5) > i14 and not S(5) <= i14 and not S(5) < i14"},"spec":{"lhs":"test_Idx_inequalities_current_fails()","rhs":"S(5) >= i14 and S(5) > i14 and not S(5) <= i14 and not S(5) < i14","over":{"base":"Any"},"name":"test_Idx_inequalities_current_fails_correct"},"guarantee":"S(5) >= i14; S(5) > i14; not S(5) <= i14","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_inequalities_current_fails_correct","statement":"Path(test_Idx_inequalities_current_fails(x), S(5) >= i14; S(5) > i14; not S(5) <= i14)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b83a22ee233b9012","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S(5) >= i14","S(5) > i14","not S(5) <= i14","not S(5) < i14"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Idx_inequalities_current_fails():
     i14 = Idx("i14", (1, 4))
 
@@ -245,16 +293,22 @@ def test_Idx_inequalities_current_fails():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_func_args(), test_Idx_func_args produces the expected output) over Any ║
+# ║ Path(test_Idx_func_args(), ii.func(*ii.args) == ii) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_func_args : Any → {Any | ii.func(*ii.args) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ii.func(*ii.args) == ii                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_func_args : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 223f74f2a4321623  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a484797b23d19850  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_func_args","kind":"function","src_hash":"6c06ce5ad5ef2977","in":{"base":"Any"},"out":{"base":"Any","pred":"ii.func(*ii.args) == ii and ii.func(*ii.args) == ii and ii.func(*ii.args) == ii"},"spec":{"lhs":"test_Idx_func_args()","rhs":"test_Idx_func_args produces the expected output","over":{"base":"Any"},"name":"test_Idx_func_args_correct"},"guarantee":"test_Idx_func_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_func_args_correct","statement":"Path(test_Idx_func_args(x), test_Idx_func_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"223f74f2a4321623"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_func_args","kind":"function","src_hash":"6c06ce5ad5ef2977","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ii.func(*ii.args) == ii"},"spec":{"lhs":"test_Idx_func_args()","rhs":"ii.func(*ii.args) == ii","over":{"base":"Any"},"name":"test_Idx_func_args_correct"},"guarantee":"ii.func(*ii.args) == ii","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_func_args_correct","statement":"Path(test_Idx_func_args(x), ii.func(*ii.args) == ii)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a484797b23d19850","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ii.func(*ii.args) == ii"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Idx_func_args():
     i, a, b = symbols('i a b', integer=True)
     ii = Idx(i)
@@ -266,16 +320,24 @@ def test_Idx_func_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx_subs(), test_Idx_subs produces the expected output) over Any ║
+# ║ Path(test_Idx_subs(), Idx(i, a).subs(a, b) == Idx(i, b) and Idx(i, a).subs(i, b) == Idx(b, a) and Idx(i).subs(i, 2) == Idx(2) and Idx(i, a).subs(a, 2) == Idx(i, 2) and Idx(i, (a, b)).subs(i, 2) == Idx(2, (a, b))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx_subs : Any → {Any | Idx(i, a).subs(a, b) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Idx(i, a).subs(a, b) == Idx(i, b)              ║
+# ║   ensures:  Idx(i, a).subs(i, b) == Idx(b, a)              ║
+# ║   ensures:  Idx(i).subs(i, 2) == Idx(2)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx_subs : Any → {Any | result satisfies: Idx(i,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3799edae15116630  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee366b988f2464b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_subs","kind":"function","src_hash":"a8147708aee04a9f","in":{"base":"Any"},"out":{"base":"Any","pred":"Idx(i, a).subs(a, b) == Idx(i, b) and Idx(i, a).subs(i, b) == Idx(b, a) and Idx(i).subs(i, 2) == Idx(2) and Idx(i, a).subs(a, 2) == Idx(i, 2) and Idx(i, (a, b)).subs(i, 2) == Idx(2, (a, b))"},"spec":{"lhs":"test_Idx_subs()","rhs":"test_Idx_subs produces the expected output","over":{"base":"Any"},"name":"test_Idx_subs_correct"},"guarantee":"test_Idx_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_subs_correct","statement":"Path(test_Idx_subs(x), test_Idx_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3799edae15116630"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Idx_subs","kind":"function","src_hash":"a8147708aee04a9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Idx(i, a).subs(a, b) == Idx(i, b) and Idx(i, a).subs(i, b) == Idx(b, a) and Idx(i).subs(i, 2) == Idx(2) and Idx(i, a).subs(a, 2) == Idx(i, 2) and Idx(i, (a, b)).subs(i, 2) == Idx(2, (a, b))"},"spec":{"lhs":"test_Idx_subs()","rhs":"Idx(i, a).subs(a, b) == Idx(i, b) and Idx(i, a).subs(i, b) == Idx(b, a) and Idx(i).subs(i, 2) == Idx(2) and Idx(i, a).subs(a, 2) == Idx(i, 2) and Idx(i, (a, b)).subs(i, 2) == Idx(2, (a, b))","over":{"base":"Any"},"name":"test_Idx_subs_correct"},"guarantee":"Idx(i, a).subs(a, b) == Idx(i, b); Idx(i, a).subs(i, b) == Idx(b, a); Idx(i).subs(i, 2) == Idx(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Idx_subs_correct","statement":"Path(test_Idx_subs(x), Idx(i, a).subs(a, b) == Idx(i, b); Idx(i, a).subs(i, b) == Idx(b, a); Idx(i).subs(i, 2) == Idx(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee366b988f2464b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Idx(i, a).subs(a, b) == Idx(i, b)","Idx(i, a).subs(i, b) == Idx(b, a)","Idx(i).subs(i, 2) == Idx(2)","Idx(i, a).subs(a, 2) == Idx(i, 2)","Idx(i, (a, b)).subs(i, 2) == Idx(2, (a, b))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Idx_subs():
     i, a, b = symbols('i a b', integer=True)
     assert Idx(i, a).subs(a, b) == Idx(i, b)
@@ -287,16 +349,24 @@ def test_Idx_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndexedBase_sugar(), test_IndexedBase_sugar produces the expected output) over Any ║
+# ║ Path(test_IndexedBase_sugar(), A1 == A2[i, j] and A1 == A2[[i, j]] and A1 == A2[Tuple(i, j)] and all((a.is_Integer for a in A2[1, 0].args[1:]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IndexedBase_sugar : Any → {Any | A1 == A2[i, j] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A1 == A2[i, j]                                 ║
+# ║   ensures:  A1 == A2[[i, j]]                               ║
+# ║   ensures:  A1 == A2[Tuple(i, j)]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IndexedBase_sugar : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f190e8c42dfd8c96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b4623cc81553756  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_sugar","kind":"function","src_hash":"5f8841fd48b92ab5","in":{"base":"Any"},"out":{"base":"Any","pred":"A1 == A2[i, j] and A1 == A2[i, j] and A1 == A2[[i, j]] and A1 == A2[Tuple(i, j)] and all((a.is_Integer for a in A2[1, 0].args[1:]))"},"spec":{"lhs":"test_IndexedBase_sugar()","rhs":"test_IndexedBase_sugar produces the expected output","over":{"base":"Any"},"name":"test_IndexedBase_sugar_correct"},"guarantee":"test_IndexedBase_sugar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_sugar_correct","statement":"Path(test_IndexedBase_sugar(x), test_IndexedBase_sugar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f190e8c42dfd8c96"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_sugar","kind":"function","src_hash":"5f8841fd48b92ab5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A1 == A2[i, j] and A1 == A2[[i, j]] and A1 == A2[Tuple(i, j)] and all((a.is_Integer for a in A2[1, 0].args[1:]))"},"spec":{"lhs":"test_IndexedBase_sugar()","rhs":"A1 == A2[i, j] and A1 == A2[[i, j]] and A1 == A2[Tuple(i, j)] and all((a.is_Integer for a in A2[1, 0].args[1:]))","over":{"base":"Any"},"name":"test_IndexedBase_sugar_correct"},"guarantee":"A1 == A2[i, j]; A1 == A2[[i, j]]; A1 == A2[Tuple(i, j)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_sugar_correct","statement":"Path(test_IndexedBase_sugar(x), A1 == A2[i, j]; A1 == A2[[i, j]]; A1 == A2[Tuple(i, j)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b4623cc81553756","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A1 == A2[i, j]","A1 == A2[[i, j]]","A1 == A2[Tuple(i, j)]","all((a.is_Integer for a in A2[1, 0].args[1:]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IndexedBase_sugar():
     i, j = symbols('i j', integer=True)
     a = symbols('a')
@@ -310,16 +380,23 @@ def test_IndexedBase_sugar():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndexedBase_subs(), test_IndexedBase_subs produces the expected output) over Any ║
+# ║ Path(test_IndexedBase_subs(), A[i] == B[i].subs(b, a) and C[1] == A[1].subs(A, C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IndexedBase_subs : Any → {Any | A[i] == B[i].sub...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[i] == B[i].subs(b, a)                        ║
+# ║   ensures:  C[1] == A[1].subs(A, C)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IndexedBase_subs : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 909c68f4bb27f1cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18bbf67a85dd4e08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_subs","kind":"function","src_hash":"a3eecb19b755c62b","in":{"base":"Any"},"out":{"base":"Any","pred":"A[i] == B[i].subs(b, a) and C[1] == A[1].subs(A, C)"},"spec":{"lhs":"test_IndexedBase_subs()","rhs":"test_IndexedBase_subs produces the expected output","over":{"base":"Any"},"name":"test_IndexedBase_subs_correct"},"guarantee":"test_IndexedBase_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_subs_correct","statement":"Path(test_IndexedBase_subs(x), test_IndexedBase_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"909c68f4bb27f1cf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_subs","kind":"function","src_hash":"a3eecb19b755c62b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[i] == B[i].subs(b, a) and C[1] == A[1].subs(A, C)"},"spec":{"lhs":"test_IndexedBase_subs()","rhs":"A[i] == B[i].subs(b, a) and C[1] == A[1].subs(A, C)","over":{"base":"Any"},"name":"test_IndexedBase_subs_correct"},"guarantee":"A[i] == B[i].subs(b, a); C[1] == A[1].subs(A, C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_subs_correct","statement":"Path(test_IndexedBase_subs(x), A[i] == B[i].subs(b, a); C[1] == A[1].subs(A, C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18bbf67a85dd4e08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[i] == B[i].subs(b, a)","C[1] == A[1].subs(A, C)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IndexedBase_subs():
     i = symbols('i', integer=True)
     a, b = symbols('a b')
@@ -331,16 +408,24 @@ def test_IndexedBase_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndexedBase_shape(), test_IndexedBase_shape produces the expected output) over Any ║
+# ║ Path(test_IndexedBase_shape(), b.shape == Tuple(m, n) and a[i, j] != b[i, j] and a[i, j] == b[i, j].subs(n, m) and b.func(*b.args) == b and b[i, j].func(*b[i, j].args) == b[i, j] and F.shape == Tuple(m) and F[i].subs(i, j) == F[j]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IndexedBase_shape : Any → {Any | b.shape == Tupl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.shape == Tuple(m, n)                         ║
+# ║   ensures:  a[i, j] != b[i, j]                             ║
+# ║   ensures:  a[i, j] == b[i, j].subs(n, m)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IndexedBase_shape : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a6a0087770d0395  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9402f0de07811dde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_shape","kind":"function","src_hash":"09c001cadc10b3f7","in":{"base":"Any"},"out":{"base":"Any","pred":"b.shape == Tuple(m, n) and a[i, j] != b[i, j] and a[i, j] == b[i, j].subs(n, m) and b.func(*b.args) == b and b[i, j].func(*b[i, j].args) == b[i, j] and F.shape == Tuple(m) and F[i].subs(i, j) == F[j]"},"spec":{"lhs":"test_IndexedBase_shape()","rhs":"test_IndexedBase_shape produces the expected output","over":{"base":"Any"},"name":"test_IndexedBase_shape_correct"},"guarantee":"test_IndexedBase_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_shape_correct","statement":"Path(test_IndexedBase_shape(x), test_IndexedBase_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a6a0087770d0395"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_shape","kind":"function","src_hash":"09c001cadc10b3f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.shape == Tuple(m, n) and a[i, j] != b[i, j] and a[i, j] == b[i, j].subs(n, m) and b.func(*b.args) == b and b[i, j].func(*b[i, j].args) == b[i, j] and F.shape == Tuple(m) and F[i].subs(i, j) == F[j]"},"spec":{"lhs":"test_IndexedBase_shape()","rhs":"b.shape == Tuple(m, n) and a[i, j] != b[i, j] and a[i, j] == b[i, j].subs(n, m) and b.func(*b.args) == b and b[i, j].func(*b[i, j].args) == b[i, j] and F.shape == Tuple(m) and F[i].subs(i, j) == F[j]","over":{"base":"Any"},"name":"test_IndexedBase_shape_correct"},"guarantee":"b.shape == Tuple(m, n); a[i, j] != b[i, j]; a[i, j] == b[i, j].subs(n, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_shape_correct","statement":"Path(test_IndexedBase_shape(x), b.shape == Tuple(m, n); a[i, j] != b[i, j]; a[i, j] == b[i, j].subs(n, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9402f0de07811dde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.shape == Tuple(m, n)","a[i, j] != b[i, j]","a[i, j] == b[i, j].subs(n, m)","b.func(*b.args) == b","b[i, j].func(*b[i, j].args) == b[i, j]","F.shape == Tuple(m)","F[i].subs(i, j) == F[j]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_IndexedBase_shape():
     i, j, m, n = symbols('i j m n', integer=True)
     a = IndexedBase('a', shape=(m, m))
@@ -359,16 +444,24 @@ def test_IndexedBase_shape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndexedBase_assumptions(), test_IndexedBase_assumptions produces the expected output) over Any ║
+# ║ Path(test_IndexedBase_assumptions(), A != IndexedBase(a) and A == IndexedBase(a, positive=True, real=True) and A[i] != Indexed(a, i)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IndexedBase_assumptions : Any → {Any | A != Inde...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A != IndexedBase(a)                            ║
+# ║   ensures:  A == IndexedBase(a, positive=True, real=T...   ║
+# ║   ensures:  A[i] != Indexed(a, i)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IndexedBase_assumptions : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8249b2d24c38137d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32144d0091f50566  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions","kind":"function","src_hash":"fb72b7e34f9a6409","in":{"base":"Any"},"out":{"base":"Any","pred":"A != IndexedBase(a) and A == IndexedBase(a, positive=True, real=True) and A[i] != Indexed(a, i) and c.is_real and c.is_complex and not c.is_imaginary and c.is_nonnegative and c.is_nonzero and c.is_commutative and log(exp(c)) == c"},"spec":{"lhs":"test_IndexedBase_assumptions()","rhs":"test_IndexedBase_assumptions produces the expected output","over":{"base":"Any"},"name":"test_IndexedBase_assumptions_correct"},"guarantee":"test_IndexedBase_assumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions_correct","statement":"Path(test_IndexedBase_assumptions(x), test_IndexedBase_assumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8249b2d24c38137d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions","kind":"function","src_hash":"fb72b7e34f9a6409","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A != IndexedBase(a) and A == IndexedBase(a, positive=True, real=True) and A[i] != Indexed(a, i)"},"spec":{"lhs":"test_IndexedBase_assumptions()","rhs":"A != IndexedBase(a) and A == IndexedBase(a, positive=True, real=True) and A[i] != Indexed(a, i)","over":{"base":"Any"},"name":"test_IndexedBase_assumptions_correct"},"guarantee":"A != IndexedBase(a); A == IndexedBase(a, positive=True, real=True); A[i] != Indexed(a, i)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions_correct","statement":"Path(test_IndexedBase_assumptions(x), A != IndexedBase(a); A == IndexedBase(a, positive=True, real=True); A[i] != Indexed(a, i))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32144d0091f50566","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A != IndexedBase(a)","A == IndexedBase(a, positive=True, real=True)","A[i] != Indexed(a, i)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IndexedBase_assumptions():
     i = Symbol('i', integer=True)
     a = Symbol('a')
@@ -388,16 +481,24 @@ def test_IndexedBase_assumptions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndexedBase_assumptions_inheritance(), test_IndexedBase_assumptions_inheritance produces the expected output) over Any ║
+# ║ Path(test_IndexedBase_assumptions_inheritance(), I_inherit.is_integer and I_explicit.is_integer and I_inherit.label.is_integer and I_explicit.label.is_integer and I_inherit == I_explicit) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I_inherit.is_integer                           ║
+# ║   ensures:  I_explicit.is_integer                          ║
+# ║   ensures:  I_inherit.label.is_integer                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_IndexedBase_assumptions_inheritance : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9305c1b70d0f57d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ce18915f7d449d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions_inheritance","kind":"function","src_hash":"f5eacf4f9c87e9ee","in":{"base":"Any"},"out":{"base":"Any","pred":"I_inherit.is_integer and I_explicit.is_integer and I_inherit.label.is_integer and I_explicit.label.is_integer and I_inherit == I_explicit"},"spec":{"lhs":"test_IndexedBase_assumptions_inheritance()","rhs":"test_IndexedBase_assumptions_inheritance produces the expected output","over":{"base":"Any"},"name":"test_IndexedBase_assumptions_inheritance_correct"},"guarantee":"test_IndexedBase_assumptions_inheritance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions_inheritance_correct","statement":"Path(test_IndexedBase_assumptions_inheritance(x), test_IndexedBase_assumptions_inheritance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9305c1b70d0f57d5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions_inheritance","kind":"function","src_hash":"f5eacf4f9c87e9ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I_inherit.is_integer and I_explicit.is_integer and I_inherit.label.is_integer and I_explicit.label.is_integer and I_inherit == I_explicit"},"spec":{"lhs":"test_IndexedBase_assumptions_inheritance()","rhs":"I_inherit.is_integer and I_explicit.is_integer and I_inherit.label.is_integer and I_explicit.label.is_integer and I_inherit == I_explicit","over":{"base":"Any"},"name":"test_IndexedBase_assumptions_inheritance_correct"},"guarantee":"I_inherit.is_integer; I_explicit.is_integer; I_inherit.label.is_integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_assumptions_inheritance_correct","statement":"Path(test_IndexedBase_assumptions_inheritance(x), I_inherit.is_integer; I_explicit.is_integer; I_inherit.label.is_integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ce18915f7d449d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I_inherit.is_integer","I_explicit.is_integer","I_inherit.label.is_integer","I_explicit.label.is_integer","I_inherit == I_explicit"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IndexedBase_assumptions_inheritance():
     I = Symbol('I', integer=True)
     I_inherit = IndexedBase(I)
@@ -411,16 +512,23 @@ def test_IndexedBase_assumptions_inheritance():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17652(), regression test issue #17652) over Any ║
+# ║ Path(test_issue_17652(), type(x) == SubClass and type(base.label) == SubClass) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17652 : Any → {Any | type(x) == SubClass a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  type(x) == SubClass                            ║
+# ║   ensures:  type(base.label) == SubClass                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17652 : Any → {Any | result satisfies: typ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 977670e62e6267b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1455cd3a26caab3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_17652","kind":"function","src_hash":"39200bb45e8599dd","in":{"base":"Any"},"out":{"base":"Any","pred":"type(x) == SubClass and type(x) == SubClass and type(base.label) == SubClass"},"spec":{"lhs":"test_issue_17652()","rhs":"regression test issue #17652","over":{"base":"Any"},"name":"test_issue_17652_correct"},"guarantee":"regression test issue #17652","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_17652_correct","statement":"Path(test_issue_17652(x), regression test issue #17652)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"977670e62e6267b8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_17652","kind":"function","src_hash":"39200bb45e8599dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: type(x) == SubClass and type(base.label) == SubClass"},"spec":{"lhs":"test_issue_17652()","rhs":"type(x) == SubClass and type(base.label) == SubClass","over":{"base":"Any"},"name":"test_issue_17652_correct"},"guarantee":"type(x) == SubClass; type(base.label) == SubClass","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_17652_correct","statement":"Path(test_issue_17652(x), type(x) == SubClass; type(base.label) == SubClass)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1455cd3a26caab3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["type(x) == SubClass","type(base.label) == SubClass"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17652():
     """Regression test issue #17652.
 
@@ -437,16 +545,24 @@ def test_issue_17652():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed_constructor(), test_Indexed_constructor produces the expected output) over Any ║
+# ║ Path(test_Indexed_constructor(), A == Indexed(Symbol('A'), i, j) and A == Indexed(IndexedBase('A'), i, j) and A.free_symbols == {A, A.base.label, i, j}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed_constructor : Any → {Any | A == Indexed(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == Indexed(Symbol('A'), i, j)                ║
+# ║   ensures:  A == Indexed(IndexedBase('A'), i, j)           ║
+# ║   ensures:  A.free_symbols == {A, A.base.label, i, j}      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed_constructor : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58d926f9ac0f37ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 974c7e5d3bd3bcf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_constructor","kind":"function","src_hash":"266557d57eac7ba1","in":{"base":"Any"},"out":{"base":"Any","pred":"A == Indexed(Symbol('A'), i, j) and A == Indexed(IndexedBase('A'), i, j) and A.free_symbols == {A, A.base.label, i, j}"},"spec":{"lhs":"test_Indexed_constructor()","rhs":"test_Indexed_constructor produces the expected output","over":{"base":"Any"},"name":"test_Indexed_constructor_correct"},"guarantee":"test_Indexed_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_constructor_correct","statement":"Path(test_Indexed_constructor(x), test_Indexed_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d926f9ac0f37ed"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_constructor","kind":"function","src_hash":"266557d57eac7ba1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == Indexed(Symbol('A'), i, j) and A == Indexed(IndexedBase('A'), i, j) and A.free_symbols == {A, A.base.label, i, j}"},"spec":{"lhs":"test_Indexed_constructor()","rhs":"A == Indexed(Symbol('A'), i, j) and A == Indexed(IndexedBase('A'), i, j) and A.free_symbols == {A, A.base.label, i, j}","over":{"base":"Any"},"name":"test_Indexed_constructor_correct"},"guarantee":"A == Indexed(Symbol('A'), i, j); A == Indexed(IndexedBase('A'), i, j); A.free_symbols == {A, A.base.label, i, j}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_constructor_correct","statement":"Path(test_Indexed_constructor(x), A == Indexed(Symbol('A'), i, j); A == Indexed(IndexedBase('A'), i, j); A.free_symbols == {A, A.base.label, i, j})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"974c7e5d3bd3bcf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == Indexed(Symbol('A'), i, j)","A == Indexed(IndexedBase('A'), i, j)","A.free_symbols == {A, A.base.label, i, j}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Indexed_constructor():
     i, j = symbols('i j', integer=True)
     A = Indexed('A', i, j)
@@ -458,16 +574,22 @@ def test_Indexed_constructor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed_func_args(), test_Indexed_func_args produces the expected output) over Any ║
+# ║ Path(test_Indexed_func_args(), A == A.func(*A.args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed_func_args : Any → {Any | A == A.func(*A....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == A.func(*A.args)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed_func_args : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe9198748736a466  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77d06417322767fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_func_args","kind":"function","src_hash":"f4928462341a8e6a","in":{"base":"Any"},"out":{"base":"Any","pred":"A == A.func(*A.args)"},"spec":{"lhs":"test_Indexed_func_args()","rhs":"test_Indexed_func_args produces the expected output","over":{"base":"Any"},"name":"test_Indexed_func_args_correct"},"guarantee":"test_Indexed_func_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_func_args_correct","statement":"Path(test_Indexed_func_args(x), test_Indexed_func_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe9198748736a466"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_func_args","kind":"function","src_hash":"f4928462341a8e6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == A.func(*A.args)"},"spec":{"lhs":"test_Indexed_func_args()","rhs":"A == A.func(*A.args)","over":{"base":"Any"},"name":"test_Indexed_func_args_correct"},"guarantee":"A == A.func(*A.args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_func_args_correct","statement":"Path(test_Indexed_func_args(x), A == A.func(*A.args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77d06417322767fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == A.func(*A.args)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Indexed_func_args():
     i, j = symbols('i j', integer=True)
     a = symbols('a')
@@ -476,16 +598,23 @@ def test_Indexed_func_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed_subs(), test_Indexed_subs produces the expected output) over Any ║
+# ║ Path(test_Indexed_subs(), A[i, j] == B[i, j].subs(b, a) and A[i, j] == A[i, k].subs(k, j)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed_subs : Any → {Any | A[i, j] == B[i, j].s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[i, j] == B[i, j].subs(b, a)                  ║
+# ║   ensures:  A[i, j] == A[i, k].subs(k, j)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed_subs : Any → {Any | result satisfies: A[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 117b397281a63501  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810cb45ab383b118  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_subs","kind":"function","src_hash":"85cece0ccefce2d4","in":{"base":"Any"},"out":{"base":"Any","pred":"A[i, j] == B[i, j].subs(b, a) and A[i, j] == A[i, k].subs(k, j)"},"spec":{"lhs":"test_Indexed_subs()","rhs":"test_Indexed_subs produces the expected output","over":{"base":"Any"},"name":"test_Indexed_subs_correct"},"guarantee":"test_Indexed_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_subs_correct","statement":"Path(test_Indexed_subs(x), test_Indexed_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"117b397281a63501"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_subs","kind":"function","src_hash":"85cece0ccefce2d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[i, j] == B[i, j].subs(b, a) and A[i, j] == A[i, k].subs(k, j)"},"spec":{"lhs":"test_Indexed_subs()","rhs":"A[i, j] == B[i, j].subs(b, a) and A[i, j] == A[i, k].subs(k, j)","over":{"base":"Any"},"name":"test_Indexed_subs_correct"},"guarantee":"A[i, j] == B[i, j].subs(b, a); A[i, j] == A[i, k].subs(k, j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_subs_correct","statement":"Path(test_Indexed_subs(x), A[i, j] == B[i, j].subs(b, a); A[i, j] == A[i, k].subs(k, j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810cb45ab383b118","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[i, j] == B[i, j].subs(b, a)","A[i, j] == A[i, k].subs(k, j)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Indexed_subs():
     i, j, k = symbols('i j k', integer=True)
     a, b = symbols('a b')
@@ -496,16 +625,24 @@ def test_Indexed_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed_properties(), test_Indexed_properties produces the expected output) over Any ║
+# ║ Path(test_Indexed_properties(), A.name == 'A[i, j]' and A.rank == 2 and A.indices == (i, j) and A.base == IndexedBase('A') and A.ranges == [None, None] and Indexed('A', Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed('A', Idx(i, m), Idx(j, n)).shape == Tuple(m, n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed_properties : Any → {Any | A.name == 'A[i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.name == 'A[i, j]'                            ║
+# ║   ensures:  A.rank == 2                                    ║
+# ║   ensures:  A.indices == (i, j)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed_properties : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57930b8f7782d435  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9d5f2f07486c502  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_properties","kind":"function","src_hash":"97b4ab288cc67dbc","in":{"base":"Any"},"out":{"base":"Any","pred":"A.name == 'A[i, j]' and A.rank == 2 and A.indices == (i, j) and A.base == IndexedBase('A') and A.ranges == [None, None] and Indexed('A', Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed('A', Idx(i, m), Idx(j, n)).shape == Tuple(m, n)"},"spec":{"lhs":"test_Indexed_properties()","rhs":"test_Indexed_properties produces the expected output","over":{"base":"Any"},"name":"test_Indexed_properties_correct"},"guarantee":"test_Indexed_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_properties_correct","statement":"Path(test_Indexed_properties(x), test_Indexed_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57930b8f7782d435"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_properties","kind":"function","src_hash":"97b4ab288cc67dbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.name == 'A[i, j]' and A.rank == 2 and A.indices == (i, j) and A.base == IndexedBase('A') and A.ranges == [None, None] and Indexed('A', Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed('A', Idx(i, m), Idx(j, n)).shape == Tuple(m, n)"},"spec":{"lhs":"test_Indexed_properties()","rhs":"A.name == 'A[i, j]' and A.rank == 2 and A.indices == (i, j) and A.base == IndexedBase('A') and A.ranges == [None, None] and Indexed('A', Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed('A', Idx(i, m), Idx(j, n)).shape == Tuple(m, n)","over":{"base":"Any"},"name":"test_Indexed_properties_correct"},"guarantee":"A.name == 'A[i, j]'; A.rank == 2; A.indices == (i, j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_properties_correct","statement":"Path(test_Indexed_properties(x), A.name == 'A[i, j]'; A.rank == 2; A.indices == (i, j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9d5f2f07486c502","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.name == 'A[i, j]'","A.rank == 2","A.indices == (i, j)","A.base == IndexedBase('A')","A.ranges == [None, None]","Indexed('A', Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)]","Indexed('A', Idx(i, m), Idx(j, n)).shape == Tuple(m, n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Indexed_properties():
     i, j = symbols('i j', integer=True)
     A = Indexed('A', i, j)
@@ -524,16 +661,24 @@ def test_Indexed_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed_shape_precedence(), test_Indexed_shape_precedence produces the expected output) over Any ║
+# ║ Path(test_Indexed_shape_precedence(), a.shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j)).ranges == [Tuple(0, m - 1), (None, None)] and Indexed(a, Idx(i, m), Idx(j)).shape == Tuple(o, p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed_shape_precedence : Any → {Any | a.shape ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.shape == Tuple(o, p)                         ║
+# ║   ensures:  Indexed(a, Idx(i, m), Idx(j, n)).ranges =...   ║
+# ║   ensures:  Indexed(a, Idx(i, m), Idx(j, n)).shape ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed_shape_precedence : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f89f98a016c2b8a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26c58f460c628b0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_shape_precedence","kind":"function","src_hash":"19eca430fa5c74be","in":{"base":"Any"},"out":{"base":"Any","pred":"a.shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j)).ranges == [Tuple(0, m - 1), (None, None)] and Indexed(a, Idx(i, m), Idx(j)).shape == Tuple(o, p)"},"spec":{"lhs":"test_Indexed_shape_precedence()","rhs":"test_Indexed_shape_precedence produces the expected output","over":{"base":"Any"},"name":"test_Indexed_shape_precedence_correct"},"guarantee":"test_Indexed_shape_precedence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_shape_precedence_correct","statement":"Path(test_Indexed_shape_precedence(x), test_Indexed_shape_precedence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f89f98a016c2b8a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_shape_precedence","kind":"function","src_hash":"19eca430fa5c74be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j)).ranges == [Tuple(0, m - 1), (None, None)] and Indexed(a, Idx(i, m), Idx(j)).shape == Tuple(o, p)"},"spec":{"lhs":"test_Indexed_shape_precedence()","rhs":"a.shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)] and Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p) and Indexed(a, Idx(i, m), Idx(j)).ranges == [Tuple(0, m - 1), (None, None)] and Indexed(a, Idx(i, m), Idx(j)).shape == Tuple(o, p)","over":{"base":"Any"},"name":"test_Indexed_shape_precedence_correct"},"guarantee":"a.shape == Tuple(o, p); Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)]; Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_shape_precedence_correct","statement":"Path(test_Indexed_shape_precedence(x), a.shape == Tuple(o, p); Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)]; Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26c58f460c628b0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.shape == Tuple(o, p)","Indexed(a, Idx(i, m), Idx(j, n)).ranges == [Tuple(0, m - 1), Tuple(0, n - 1)]","Indexed(a, Idx(i, m), Idx(j, n)).shape == Tuple(o, p)","Indexed(a, Idx(i, m), Idx(j)).ranges == [Tuple(0, m - 1), (None, None)]","Indexed(a, Idx(i, m), Idx(j)).shape == Tuple(o, p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Indexed_shape_precedence():
     i, j = symbols('i j', integer=True)
     o, p = symbols('o p', integer=True)
@@ -549,16 +694,23 @@ def test_Indexed_shape_precedence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complex_indices(), test_complex_indices produces the expected output) over Any ║
+# ║ Path(test_complex_indices(), A.rank == 2 and A.indices == (i, i + j)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complex_indices : Any → {Any | A.rank == 2 and A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rank == 2                                    ║
+# ║   ensures:  A.indices == (i, i + j)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complex_indices : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d081f9f34b087a79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6d99e78050a3670  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_complex_indices","kind":"function","src_hash":"e7a2377a68df2757","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rank == 2 and A.indices == (i, i + j)"},"spec":{"lhs":"test_complex_indices()","rhs":"test_complex_indices produces the expected output","over":{"base":"Any"},"name":"test_complex_indices_correct"},"guarantee":"test_complex_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_complex_indices_correct","statement":"Path(test_complex_indices(x), test_complex_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d081f9f34b087a79"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_complex_indices","kind":"function","src_hash":"e7a2377a68df2757","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rank == 2 and A.indices == (i, i + j)"},"spec":{"lhs":"test_complex_indices()","rhs":"A.rank == 2 and A.indices == (i, i + j)","over":{"base":"Any"},"name":"test_complex_indices_correct"},"guarantee":"A.rank == 2; A.indices == (i, i + j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_complex_indices_correct","statement":"Path(test_complex_indices(x), A.rank == 2; A.indices == (i, i + j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d99e78050a3670","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rank == 2","A.indices == (i, i + j)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_complex_indices():
     i, j = symbols('i j', integer=True)
     A = Indexed('A', i, i + j)
@@ -567,16 +719,22 @@ def test_complex_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_not_interable(), test_not_interable produces the expected output) over Any ║
+# ║ Path(test_not_interable(), not iterable(A)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_not_interable : Any → {Any | not iterable(A)}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not iterable(A)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_not_interable : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9851b3e644c2ddf0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfa552b6e483b8da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_not_interable","kind":"function","src_hash":"4928a0635e947d4a","in":{"base":"Any"},"out":{"base":"Any","pred":"not iterable(A)"},"spec":{"lhs":"test_not_interable()","rhs":"test_not_interable produces the expected output","over":{"base":"Any"},"name":"test_not_interable_correct"},"guarantee":"test_not_interable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_not_interable_correct","statement":"Path(test_not_interable(x), test_not_interable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9851b3e644c2ddf0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_not_interable","kind":"function","src_hash":"4928a0635e947d4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not iterable(A)"},"spec":{"lhs":"test_not_interable()","rhs":"not iterable(A)","over":{"base":"Any"},"name":"test_not_interable_correct"},"guarantee":"not iterable(A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_not_interable_correct","statement":"Path(test_not_interable(x), not iterable(A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfa552b6e483b8da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not iterable(A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_not_interable():
     i, j = symbols('i j', integer=True)
     A = Indexed('A', i, i + j)
@@ -584,16 +742,22 @@ def test_not_interable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed_coeff(), test_Indexed_coeff produces the expected output) over Any ║
+# ║ Path(test_Indexed_coeff(), a == b) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed_coeff : Any → {Any | a == b}                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == b                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed_coeff : Any → {Any | result satisfies: a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53280d873e4dc22d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54c1f20438e60401  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_coeff","kind":"function","src_hash":"e866e3695e58f601","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b"},"spec":{"lhs":"test_Indexed_coeff()","rhs":"test_Indexed_coeff produces the expected output","over":{"base":"Any"},"name":"test_Indexed_coeff_correct"},"guarantee":"test_Indexed_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_coeff_correct","statement":"Path(test_Indexed_coeff(x), test_Indexed_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53280d873e4dc22d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Indexed_coeff","kind":"function","src_hash":"e866e3695e58f601","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == b"},"spec":{"lhs":"test_Indexed_coeff()","rhs":"a == b","over":{"base":"Any"},"name":"test_Indexed_coeff_correct"},"guarantee":"a == b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Indexed_coeff_correct","statement":"Path(test_Indexed_coeff(x), a == b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54c1f20438e60401","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Indexed_coeff():
     N = Symbol('N', integer=True)
     len_y = N
@@ -605,16 +769,24 @@ def test_Indexed_coeff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiation(), test_differentiation produces the expected output) over Any ║
+# ║ Path(test_differentiation(), m.is_real and expr.diff(hj) == KroneckerDelta(i, j) and expr.diff(hi) == KroneckerDelta(i, i) and expr.diff(hj) == S(2) * KroneckerDelta(i, j) and expr.diff(hi) == S(2) * KroneckerDelta(i, i) and expr.diff(a) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hj) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr.diff(hj), (i, -oo, oo)) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hj).doit() == 2 and Sum(expr.diff(hi), (i, -oo, oo)).doit() == Sum(2, (i, -oo, oo)).doit() and Sum(expr, (i, -oo, oo)).diff(hi).doit() is oo and expr.diff(hi) == a * h[j] * KroneckerDelta(i, j) and expr.diff(a) == hj * hj / S(2) and expr.diff(a, 2) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo)) and Sum(expr.diff(hi), (i, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hi).doit() == a * h[j] and Sum(expr, (j, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo)) and Sum(expr.diff(hi), (j, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo)) and Sum(expr, (j, -oo, oo)).diff(hi).doit() == a * h[i] and expr.diff(hi) == 2 * a * cos(hj * hj) * hj * KroneckerDelta(i, j) and expr.diff(hj) == 2 * a * cos(hj * hj) * hj and expr.diff(hi) == a * L[i, j] * KroneckerDelta(i, j) and expr.diff(hj) == a * L[i, j] and expr.diff(L[i, j]) == a * h[j] and expr.diff(L[k, l]) == a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j] and expr.diff(L[i, l]) == a * KroneckerDelta(j, l) * h[j] and Sum(expr, (j, -oo, oo)).diff(L[k, l]) == Sum(a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j], (j, -oo, oo)) and Sum(expr, (j, -oo, oo)).diff(L[k, l]).doit() == a * KroneckerDelta(i, k) * h[l] and h[m].diff(h[m]) == 1 and h[m].diff(h[n]) == KroneckerDelta(m, n) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (m, -oo, oo)) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]).doit() == a and Sum(a * h[m], (n, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (n, -oo, oo)) and Sum(a * h[m], (m, -oo, oo)).diff(h[m]).doit() == oo * a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiation : Any → {Any | m.is_real and exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m.is_real                                      ║
+# ║   ensures:  expr.diff(hj) == KroneckerDelta(i, j)          ║
+# ║   ensures:  expr.diff(hi) == KroneckerDelta(i, i)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiation : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 501515a22b975d43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 962f02d910f24fe9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_differentiation","kind":"function","src_hash":"276e5cb2519fc1b3","in":{"base":"Any"},"out":{"base":"Any","pred":"m.is_real and expr.diff(hj) == KroneckerDelta(i, j) and expr.diff(hi) == KroneckerDelta(i, i) and expr.diff(hj) == S(2) * KroneckerDelta(i, j) and expr.diff(hi) == S(2) * KroneckerDelta(i, i) and expr.diff(a) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hj) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr.diff(hj), (i, -oo, oo)) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hj).doit() == 2 and Sum(expr.diff(hi), (i, -oo, oo)).doit() == Sum(2, (i, -oo, oo)).doit() and Sum(expr, (i, -oo, oo)).diff(hi).doit() is oo and expr.diff(hi) == a * h[j] * KroneckerDelta(i, j) and expr.diff(a) == hj * hj / S(2) and expr.diff(a, 2) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hi).doit() == a * h[j] and Sum(expr, (j, -oo, oo)).diff(hi).doit() == a * h[i] and expr.diff(hi) == 2 * a * cos(hj * hj) * hj * KroneckerDelta(i, j) and expr.diff(hj) == 2 * a * cos(hj * hj) * hj and expr.diff(hi) == a * L[i, j] * KroneckerDelta(i, j) and expr.diff(hj) == a * L[i, j] and expr.diff(L[i, j]) == a * h[j] and expr.diff(L[k, l]) == a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j] and expr.diff(L[i, l]) == a * KroneckerDelta(j, l) * h[j] and Sum(expr, (j, -oo, oo)).diff(L[k, l]).doit() == a * KroneckerDelta(i, k) * h[l] and h[m].diff(h[m]) == 1 and h[m].diff(h[n]) == KroneckerDelta(m, n) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]).doit() == a and Sum(a * h[m], (m, -oo, oo)).diff(h[m]).doit() == oo * a"},"spec":{"lhs":"test_differentiation()","rhs":"test_differentiation produces the expected output","over":{"base":"Any"},"name":"test_differentiation_correct"},"guarantee":"test_differentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_differentiation_correct","statement":"Path(test_differentiation(x), test_differentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"501515a22b975d43"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_differentiation","kind":"function","src_hash":"276e5cb2519fc1b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m.is_real and expr.diff(hj) == KroneckerDelta(i, j) and expr.diff(hi) == KroneckerDelta(i, i) and expr.diff(hj) == S(2) * KroneckerDelta(i, j) and expr.diff(hi) == S(2) * KroneckerDelta(i, i) and expr.diff(a) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hj) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr.diff(hj), (i, -oo, oo)) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hj).doit() == 2 and Sum(expr.diff(hi), (i, -oo, oo)).doit() == Sum(2, (i, -oo, oo)).doit() and Sum(expr, (i, -oo, oo)).diff(hi).doit() is oo and expr.diff(hi) == a * h[j] * KroneckerDelta(i, j) and expr.diff(a) == hj * hj / S(2) and expr.diff(a, 2) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo)) and Sum(expr.diff(hi), (i, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hi).doit() == a * h[j] and Sum(expr, (j, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo)) and Sum(expr.diff(hi), (j, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo)) and Sum(expr, (j, -oo, oo)).diff(hi).doit() == a * h[i] and expr.diff(hi) == 2 * a * cos(hj * hj) * hj * KroneckerDelta(i, j) and expr.diff(hj) == 2 * a * cos(hj * hj) * hj and expr.diff(hi) == a * L[i, j] * KroneckerDelta(i, j) and expr.diff(hj) == a * L[i, j] and expr.diff(L[i, j]) == a * h[j] and expr.diff(L[k, l]) == a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j] and expr.diff(L[i, l]) == a * KroneckerDelta(j, l) * h[j] and Sum(expr, (j, -oo, oo)).diff(L[k, l]) == Sum(a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j], (j, -oo, oo)) and Sum(expr, (j, -oo, oo)).diff(L[k, l]).doit() == a * KroneckerDelta(i, k) * h[l] and h[m].diff(h[m]) == 1 and h[m].diff(h[n]) == KroneckerDelta(m, n) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (m, -oo, oo)) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]).doit() == a and Sum(a * h[m], (n, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (n, -oo, oo)) and Sum(a * h[m], (m, -oo, oo)).diff(h[m]).doit() == oo * a"},"spec":{"lhs":"test_differentiation()","rhs":"m.is_real and expr.diff(hj) == KroneckerDelta(i, j) and expr.diff(hi) == KroneckerDelta(i, i) and expr.diff(hj) == S(2) * KroneckerDelta(i, j) and expr.diff(hi) == S(2) * KroneckerDelta(i, i) and expr.diff(a) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hj) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr.diff(hj), (i, -oo, oo)) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hj).doit() == 2 and Sum(expr.diff(hi), (i, -oo, oo)).doit() == Sum(2, (i, -oo, oo)).doit() and Sum(expr, (i, -oo, oo)).diff(hi).doit() is oo and expr.diff(hi) == a * h[j] * KroneckerDelta(i, j) and expr.diff(a) == hj * hj / S(2) and expr.diff(a, 2) is S.Zero and Sum(expr, (i, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo)) and Sum(expr.diff(hi), (i, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo)) and Sum(expr, (i, -oo, oo)).diff(hi).doit() == a * h[j] and Sum(expr, (j, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo)) and Sum(expr.diff(hi), (j, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo)) and Sum(expr, (j, -oo, oo)).diff(hi).doit() == a * h[i] and expr.diff(hi) == 2 * a * cos(hj * hj) * hj * KroneckerDelta(i, j) and expr.diff(hj) == 2 * a * cos(hj * hj) * hj and expr.diff(hi) == a * L[i, j] * KroneckerDelta(i, j) and expr.diff(hj) == a * L[i, j] and expr.diff(L[i, j]) == a * h[j] and expr.diff(L[k, l]) == a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j] and expr.diff(L[i, l]) == a * KroneckerDelta(j, l) * h[j] and Sum(expr, (j, -oo, oo)).diff(L[k, l]) == Sum(a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j], (j, -oo, oo)) and Sum(expr, (j, -oo, oo)).diff(L[k, l]).doit() == a * KroneckerDelta(i, k) * h[l] and h[m].diff(h[m]) == 1 and h[m].diff(h[n]) == KroneckerDelta(m, n) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (m, -oo, oo)) and Sum(a * h[m], (m, -oo, oo)).diff(h[n]).doit() == a and Sum(a * h[m], (n, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (n, -oo, oo)) and Sum(a * h[m], (m, -oo, oo)).diff(h[m]).doit() == oo * a","over":{"base":"Any"},"name":"test_differentiation_correct"},"guarantee":"m.is_real; expr.diff(hj) == KroneckerDelta(i, j); expr.diff(hi) == KroneckerDelta(i, i)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_differentiation_correct","statement":"Path(test_differentiation(x), m.is_real; expr.diff(hj) == KroneckerDelta(i, j); expr.diff(hi) == KroneckerDelta(i, i))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"962f02d910f24fe9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m.is_real","expr.diff(hj) == KroneckerDelta(i, j)","expr.diff(hi) == KroneckerDelta(i, i)","expr.diff(hj) == S(2) * KroneckerDelta(i, j)","expr.diff(hi) == S(2) * KroneckerDelta(i, i)","expr.diff(a) is S.Zero","Sum(expr, (i, -oo, oo)).diff(hj) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo))","Sum(expr.diff(hj), (i, -oo, oo)) == Sum(2 * KroneckerDelta(i, j), (i, -oo, oo))","Sum(expr, (i, -oo, oo)).diff(hj).doit() == 2","Sum(expr.diff(hi), (i, -oo, oo)).doit() == Sum(2, (i, -oo, oo)).doit()","Sum(expr, (i, -oo, oo)).diff(hi).doit() is oo","expr.diff(hi) == a * h[j] * KroneckerDelta(i, j)","expr.diff(a) == hj * hj / S(2)","expr.diff(a, 2) is S.Zero","Sum(expr, (i, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo))","Sum(expr.diff(hi), (i, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (i, -oo, oo))","Sum(expr, (i, -oo, oo)).diff(hi).doit() == a * h[j]","Sum(expr, (j, -oo, oo)).diff(hi) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo))","Sum(expr.diff(hi), (j, -oo, oo)) == Sum(a * KroneckerDelta(i, j) * h[j], (j, -oo, oo))","Sum(expr, (j, -oo, oo)).diff(hi).doit() == a * h[i]","expr.diff(hi) == 2 * a * cos(hj * hj) * hj * KroneckerDelta(i, j)","expr.diff(hj) == 2 * a * cos(hj * hj) * hj","expr.diff(hi) == a * L[i, j] * KroneckerDelta(i, j)","expr.diff(hj) == a * L[i, j]","expr.diff(L[i, j]) == a * h[j]","expr.diff(L[k, l]) == a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j]","expr.diff(L[i, l]) == a * KroneckerDelta(j, l) * h[j]","Sum(expr, (j, -oo, oo)).diff(L[k, l]) == Sum(a * KroneckerDelta(i, k) * KroneckerDelta(j, l) * h[j], (j, -oo, oo))","Sum(expr, (j, -oo, oo)).diff(L[k, l]).doit() == a * KroneckerDelta(i, k) * h[l]","h[m].diff(h[m]) == 1","h[m].diff(h[n]) == KroneckerDelta(m, n)","Sum(a * h[m], (m, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (m, -oo, oo))","Sum(a * h[m], (m, -oo, oo)).diff(h[n]).doit() == a","Sum(a * h[m], (n, -oo, oo)).diff(h[n]) == Sum(a * KroneckerDelta(m, n), (n, -oo, oo))","Sum(a * h[m], (m, -oo, oo)).diff(h[m]).doit() == oo * a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def test_differentiation():
     from sympy.functions.special.tensor_functions import KroneckerDelta
     i, j, k, l = symbols('i j k l', cls=Idx)
@@ -676,16 +848,22 @@ def test_differentiation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_indexed_series(), test_indexed_series produces the expected output) over Any ║
+# ║ Path(test_indexed_series(), sin(A[i]).series(A[i]) == A[i] - A[i] ** 3 / 6 + A[i] ** 5 / 120 + Order(A[i] ** 6, A[i])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_indexed_series : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sin(A[i]).series(A[i]) == A[i] - A[i] ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_indexed_series : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 230b6b52a3e300fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfff8bd177071f95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_indexed_series","kind":"function","src_hash":"98a50d2337498099","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_indexed_series()","rhs":"test_indexed_series produces the expected output","over":{"base":"Any"},"name":"test_indexed_series_correct"},"guarantee":"test_indexed_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_indexed_series_correct","statement":"Path(test_indexed_series(x), test_indexed_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"230b6b52a3e300fd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_indexed_series","kind":"function","src_hash":"98a50d2337498099","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sin(A[i]).series(A[i]) == A[i] - A[i] ** 3 / 6 + A[i] ** 5 / 120 + Order(A[i] ** 6, A[i])"},"spec":{"lhs":"test_indexed_series()","rhs":"sin(A[i]).series(A[i]) == A[i] - A[i] ** 3 / 6 + A[i] ** 5 / 120 + Order(A[i] ** 6, A[i])","over":{"base":"Any"},"name":"test_indexed_series_correct"},"guarantee":"sin(A[i]).series(A[i]) == A[i] - A[i] ** 3 / 6 + A[i] ** 5 / 120 + Order(A[i] ** 6, A[i])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_indexed_series_correct","statement":"Path(test_indexed_series(x), sin(A[i]).series(A[i]) == A[i] - A[i] ** 3 / 6 + A[i] ** 5 / 120 + Order(A[i] ** 6, A[i]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfff8bd177071f95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sin(A[i]).series(A[i]) == A[i] - A[i] ** 3 / 6 + A[i] ** 5 / 120 + Order(A[i] ** 6, A[i])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_indexed_series():
     A = IndexedBase("A")
     i = symbols("i", integer=True)
@@ -693,16 +871,24 @@ def test_indexed_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_indexed_is_constant(), test_indexed_is_constant produces the expected output) over Any ║
+# ║ Path(test_indexed_is_constant(), not A[i].is_constant() and A[i].is_constant(j) and not A[1 + 2 * i, k].is_constant() and not A[1 + 2 * i, k].is_constant(i) and A[1 + 2 * i, k].is_constant(j) and not A[1 + 2 * i, k].is_constant(k)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_indexed_is_constant : Any → {Any | not A[i].is_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not A[i].is_constant()                         ║
+# ║   ensures:  A[i].is_constant(j)                            ║
+# ║   ensures:  not A[1 + 2 * i, k].is_constant()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_indexed_is_constant : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 480e46ec8379dea6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2187b76ae43f5252  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_indexed_is_constant","kind":"function","src_hash":"5497c26d39b261aa","in":{"base":"Any"},"out":{"base":"Any","pred":"not A[i].is_constant() and A[i].is_constant(j) and not A[1 + 2 * i, k].is_constant() and not A[1 + 2 * i, k].is_constant(i) and A[1 + 2 * i, k].is_constant(j) and not A[1 + 2 * i, k].is_constant(k)"},"spec":{"lhs":"test_indexed_is_constant()","rhs":"test_indexed_is_constant produces the expected output","over":{"base":"Any"},"name":"test_indexed_is_constant_correct"},"guarantee":"test_indexed_is_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_indexed_is_constant_correct","statement":"Path(test_indexed_is_constant(x), test_indexed_is_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"480e46ec8379dea6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_indexed_is_constant","kind":"function","src_hash":"5497c26d39b261aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not A[i].is_constant() and A[i].is_constant(j) and not A[1 + 2 * i, k].is_constant() and not A[1 + 2 * i, k].is_constant(i) and A[1 + 2 * i, k].is_constant(j) and not A[1 + 2 * i, k].is_constant(k)"},"spec":{"lhs":"test_indexed_is_constant()","rhs":"not A[i].is_constant() and A[i].is_constant(j) and not A[1 + 2 * i, k].is_constant() and not A[1 + 2 * i, k].is_constant(i) and A[1 + 2 * i, k].is_constant(j) and not A[1 + 2 * i, k].is_constant(k)","over":{"base":"Any"},"name":"test_indexed_is_constant_correct"},"guarantee":"not A[i].is_constant(); A[i].is_constant(j); not A[1 + 2 * i, k].is_constant()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_indexed_is_constant_correct","statement":"Path(test_indexed_is_constant(x), not A[i].is_constant(); A[i].is_constant(j); not A[1 + 2 * i, k].is_constant())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2187b76ae43f5252","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not A[i].is_constant()","A[i].is_constant(j)","not A[1 + 2 * i, k].is_constant()","not A[1 + 2 * i, k].is_constant(i)","A[1 + 2 * i, k].is_constant(j)","not A[1 + 2 * i, k].is_constant(k)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_indexed_is_constant():
     A = IndexedBase("A")
     i, j, k = symbols("i,j,k")
@@ -715,16 +901,24 @@ def test_indexed_is_constant():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12533(), test_issue_12533 produces the expected output) over Any ║
+# ║ Path(test_issue_12533(), IndexedBase(range(5)) == Range(0, 5, 1) and d[0].subs(Symbol('d'), range(5)) == 0 and d[0].subs(d, range(5)) == 0 and d[1].subs(d, range(5)) == 1 and Indexed(Range(5), 2) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12533 : Any → {Any | IndexedBase(range(5))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  IndexedBase(range(5)) == Range(0, 5, 1)        ║
+# ║   ensures:  d[0].subs(Symbol('d'), range(5)) == 0          ║
+# ║   ensures:  d[0].subs(d, range(5)) == 0                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12533 : Any → {Any | result satisfies: Ind...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd1443737e2ecdea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 359432c53e8777a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_12533","kind":"function","src_hash":"7b7a6ff39027632e","in":{"base":"Any"},"out":{"base":"Any","pred":"IndexedBase(range(5)) == Range(0, 5, 1) and d[0].subs(Symbol('d'), range(5)) == 0 and d[0].subs(d, range(5)) == 0 and d[1].subs(d, range(5)) == 1 and Indexed(Range(5), 2) == 2"},"spec":{"lhs":"test_issue_12533()","rhs":"test_issue_12533 produces the expected output","over":{"base":"Any"},"name":"test_issue_12533_correct"},"guarantee":"test_issue_12533 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_12533_correct","statement":"Path(test_issue_12533(x), test_issue_12533 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd1443737e2ecdea"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_12533","kind":"function","src_hash":"7b7a6ff39027632e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: IndexedBase(range(5)) == Range(0, 5, 1) and d[0].subs(Symbol('d'), range(5)) == 0 and d[0].subs(d, range(5)) == 0 and d[1].subs(d, range(5)) == 1 and Indexed(Range(5), 2) == 2"},"spec":{"lhs":"test_issue_12533()","rhs":"IndexedBase(range(5)) == Range(0, 5, 1) and d[0].subs(Symbol('d'), range(5)) == 0 and d[0].subs(d, range(5)) == 0 and d[1].subs(d, range(5)) == 1 and Indexed(Range(5), 2) == 2","over":{"base":"Any"},"name":"test_issue_12533_correct"},"guarantee":"IndexedBase(range(5)) == Range(0, 5, 1); d[0].subs(Symbol('d'), range(5)) == 0; d[0].subs(d, range(5)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_12533_correct","statement":"Path(test_issue_12533(x), IndexedBase(range(5)) == Range(0, 5, 1); d[0].subs(Symbol('d'), range(5)) == 0; d[0].subs(d, range(5)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"359432c53e8777a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["IndexedBase(range(5)) == Range(0, 5, 1)","d[0].subs(Symbol('d'), range(5)) == 0","d[0].subs(d, range(5)) == 0","d[1].subs(d, range(5)) == 1","Indexed(Range(5), 2) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12533():
     d = IndexedBase('d')
     assert IndexedBase(range(5)) == Range(0, 5, 1)
@@ -735,16 +929,22 @@ def test_issue_12533():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12780(), test_issue_12780 produces the expected output) over Any ║
+# ║ Path(test_issue_12780(), <unspecified:test_issue_12780>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_12780 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b169a6b31d069cd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_12780","kind":"function","src_hash":"d6c0dd0bec8c9847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_12780()","rhs":"test_issue_12780 produces the expected output","over":{"base":"Any"},"name":"test_issue_12780_correct"},"guarantee":"test_issue_12780 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_12780_correct","statement":"Path(test_issue_12780(x), test_issue_12780 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b169a6b31d069cd2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_12780","kind":"function","src_hash":"d6c0dd0bec8c9847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_12780()","rhs":"<unspecified:test_issue_12780>","over":{"base":"Any"},"name":"test_issue_12780_correct"},"guarantee":"test_issue_12780 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_12780_correct","statement":"Path(test_issue_12780(x), test_issue_12780 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b169a6b31d069cd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12780():
     n = symbols("n")
     i = Idx("i", (0, n))
@@ -752,16 +952,24 @@ def test_issue_12780():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18604(), test_issue_18604 produces the expected output) over Any ║
+# ║ Path(test_issue_18604(), Idx('i', m).name == 'i' and Idx('i', m).lower == 0 and Idx('i', m).upper == m - 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18604 : Any → {Any | Idx('i', m).name == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Idx('i', m).name == 'i'                        ║
+# ║   ensures:  Idx('i', m).lower == 0                         ║
+# ║   ensures:  Idx('i', m).upper == m - 1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18604 : Any → {Any | result satisfies: Idx...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e70d0d0c1da6aae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d25b207f466b1ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_18604","kind":"function","src_hash":"7f7ad21c46054161","in":{"base":"Any"},"out":{"base":"Any","pred":"Idx('i', m).name == 'i' and Idx('i', m).lower == 0 and Idx('i', m).upper == m - 1"},"spec":{"lhs":"test_issue_18604()","rhs":"test_issue_18604 produces the expected output","over":{"base":"Any"},"name":"test_issue_18604_correct"},"guarantee":"test_issue_18604 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_18604_correct","statement":"Path(test_issue_18604(x), test_issue_18604 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e70d0d0c1da6aae"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_issue_18604","kind":"function","src_hash":"7f7ad21c46054161","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Idx('i', m).name == 'i' and Idx('i', m).lower == 0 and Idx('i', m).upper == m - 1"},"spec":{"lhs":"test_issue_18604()","rhs":"Idx('i', m).name == 'i' and Idx('i', m).lower == 0 and Idx('i', m).upper == m - 1","over":{"base":"Any"},"name":"test_issue_18604_correct"},"guarantee":"Idx('i', m).name == 'i'; Idx('i', m).lower == 0; Idx('i', m).upper == m - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_issue_18604_correct","statement":"Path(test_issue_18604(x), Idx('i', m).name == 'i'; Idx('i', m).lower == 0; Idx('i', m).upper == m - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d25b207f466b1ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Idx('i', m).name == 'i'","Idx('i', m).lower == 0","Idx('i', m).upper == m - 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18604():
     m = symbols("m")
     assert Idx("i", m).name == 'i'
@@ -771,16 +979,24 @@ def test_issue_18604():
     raises(TypeError, lambda: Idx("i", m))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Subs_with_Indexed(), test_Subs_with_Indexed produces the expected output) over Any ║
+# ║ Path(test_Subs_with_Indexed(), Subs(A[i], A[i], A[j]).diff(A[j]) == 1 and Subs(A[i], A[i], x).diff(A[i]) == 0 and Subs(A[i], A[i], x).diff(A[j]) == 0 and Subs(A[i], A[i], x).diff(x) == 1 and Subs(A[i], A[i], x).diff(y) == 0 and Subs(A[i], A[i], A[j]).diff(A[k]) == KroneckerDelta(j, k) and Subs(x, x, A[i]).diff(A[j]) == KroneckerDelta(i, j) and Subs(f(A[i]), A[i], x).diff(A[j]) == 0 and Subs(f(A[i]), A[i], A[k]).diff(A[j]) == Derivative(f(A[k]), A[k]) * KroneckerDelta(j, k) and Subs(x, x, A[i] ** 2).diff(A[j]) == 2 * KroneckerDelta(i, j) * A[i] and Subs(A[i], A[i], A[j] ** 2).diff(A[k]) == 2 * KroneckerDelta(j, k) * A[j] and Subs(A[i] * x, x, A[i]).diff(A[i]) == 2 * A[i] and Subs(A[i] * x, x, A[i]).diff(A[j]) == 2 * A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[i]) == A[j] + A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[j]) == A[i] + A[j] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[i]).diff(A[k]) == 2 * A[i] * KroneckerDelta(i, k) and Subs(A[i] * x, x, A[j]).diff(A[k]) == KroneckerDelta(i, k) * A[j] + KroneckerDelta(j, k) * A[i] and Subs(A[i] * x, A[i], x).diff(A[i]) == 0 and Subs(A[i] * x, A[i], x).diff(A[j]) == 0 and Subs(A[i] * x, A[j], x).diff(A[i]) == x and Subs(A[i] * x, A[j], x).diff(A[j]) == x * KroneckerDelta(i, j) and Subs(A[i] * x, A[i], x).diff(A[k]) == 0 and Subs(A[i] * x, A[j], x).diff(A[k]) == x * KroneckerDelta(i, k)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Subs_with_Indexed : Any → {Any | Subs(A[i], A[i]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Subs(A[i], A[i], A[j]).diff(A[j]) == 1         ║
+# ║   ensures:  Subs(A[i], A[i], x).diff(A[i]) == 0            ║
+# ║   ensures:  Subs(A[i], A[i], x).diff(A[j]) == 0            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Subs_with_Indexed : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2822d8114ecea08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fda9f8a92c180084  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Subs_with_Indexed","kind":"function","src_hash":"1098233ac7e73c8c","in":{"base":"Any"},"out":{"base":"Any","pred":"Subs(A[i], A[i], A[j]).diff(A[j]) == 1 and Subs(A[i], A[i], x).diff(A[i]) == 0 and Subs(A[i], A[i], x).diff(A[j]) == 0 and Subs(A[i], A[i], x).diff(x) == 1 and Subs(A[i], A[i], x).diff(y) == 0 and Subs(A[i], A[i], A[j]).diff(A[k]) == KroneckerDelta(j, k) and Subs(x, x, A[i]).diff(A[j]) == KroneckerDelta(i, j) and Subs(f(A[i]), A[i], x).diff(A[j]) == 0 and Subs(x, x, A[i] ** 2).diff(A[j]) == 2 * KroneckerDelta(i, j) * A[i] and Subs(A[i], A[i], A[j] ** 2).diff(A[k]) == 2 * KroneckerDelta(j, k) * A[j] and Subs(A[i] * x, x, A[i]).diff(A[i]) == 2 * A[i] and Subs(A[i] * x, x, A[i]).diff(A[j]) == 2 * A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[i]) == A[j] + A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[j]) == A[i] + A[j] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[i]).diff(A[k]) == 2 * A[i] * KroneckerDelta(i, k) and Subs(A[i] * x, A[i], x).diff(A[i]) == 0 and Subs(A[i] * x, A[i], x).diff(A[j]) == 0 and Subs(A[i] * x, A[j], x).diff(A[i]) == x and Subs(A[i] * x, A[j], x).diff(A[j]) == x * KroneckerDelta(i, j) and Subs(A[i] * x, A[i], x).diff(A[k]) == 0 and Subs(A[i] * x, A[j], x).diff(A[k]) == x * KroneckerDelta(i, k)"},"spec":{"lhs":"test_Subs_with_Indexed()","rhs":"test_Subs_with_Indexed produces the expected output","over":{"base":"Any"},"name":"test_Subs_with_Indexed_correct"},"guarantee":"test_Subs_with_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Subs_with_Indexed_correct","statement":"Path(test_Subs_with_Indexed(x), test_Subs_with_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2822d8114ecea08"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_Subs_with_Indexed","kind":"function","src_hash":"1098233ac7e73c8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Subs(A[i], A[i], A[j]).diff(A[j]) == 1 and Subs(A[i], A[i], x).diff(A[i]) == 0 and Subs(A[i], A[i], x).diff(A[j]) == 0 and Subs(A[i], A[i], x).diff(x) == 1 and Subs(A[i], A[i], x).diff(y) == 0 and Subs(A[i], A[i], A[j]).diff(A[k]) == KroneckerDelta(j, k) and Subs(x, x, A[i]).diff(A[j]) == KroneckerDelta(i, j) and Subs(f(A[i]), A[i], x).diff(A[j]) == 0 and Subs(f(A[i]), A[i], A[k]).diff(A[j]) == Derivative(f(A[k]), A[k]) * KroneckerDelta(j, k) and Subs(x, x, A[i] ** 2).diff(A[j]) == 2 * KroneckerDelta(i, j) * A[i] and Subs(A[i], A[i], A[j] ** 2).diff(A[k]) == 2 * KroneckerDelta(j, k) * A[j] and Subs(A[i] * x, x, A[i]).diff(A[i]) == 2 * A[i] and Subs(A[i] * x, x, A[i]).diff(A[j]) == 2 * A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[i]) == A[j] + A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[j]) == A[i] + A[j] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[i]).diff(A[k]) == 2 * A[i] * KroneckerDelta(i, k) and Subs(A[i] * x, x, A[j]).diff(A[k]) == KroneckerDelta(i, k) * A[j] + KroneckerDelta(j, k) * A[i] and Subs(A[i] * x, A[i], x).diff(A[i]) == 0 and Subs(A[i] * x, A[i], x).diff(A[j]) == 0 and Subs(A[i] * x, A[j], x).diff(A[i]) == x and Subs(A[i] * x, A[j], x).diff(A[j]) == x * KroneckerDelta(i, j) and Subs(A[i] * x, A[i], x).diff(A[k]) == 0 and Subs(A[i] * x, A[j], x).diff(A[k]) == x * KroneckerDelta(i, k)"},"spec":{"lhs":"test_Subs_with_Indexed()","rhs":"Subs(A[i], A[i], A[j]).diff(A[j]) == 1 and Subs(A[i], A[i], x).diff(A[i]) == 0 and Subs(A[i], A[i], x).diff(A[j]) == 0 and Subs(A[i], A[i], x).diff(x) == 1 and Subs(A[i], A[i], x).diff(y) == 0 and Subs(A[i], A[i], A[j]).diff(A[k]) == KroneckerDelta(j, k) and Subs(x, x, A[i]).diff(A[j]) == KroneckerDelta(i, j) and Subs(f(A[i]), A[i], x).diff(A[j]) == 0 and Subs(f(A[i]), A[i], A[k]).diff(A[j]) == Derivative(f(A[k]), A[k]) * KroneckerDelta(j, k) and Subs(x, x, A[i] ** 2).diff(A[j]) == 2 * KroneckerDelta(i, j) * A[i] and Subs(A[i], A[i], A[j] ** 2).diff(A[k]) == 2 * KroneckerDelta(j, k) * A[j] and Subs(A[i] * x, x, A[i]).diff(A[i]) == 2 * A[i] and Subs(A[i] * x, x, A[i]).diff(A[j]) == 2 * A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[i]) == A[j] + A[i] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[j]).diff(A[j]) == A[i] + A[j] * KroneckerDelta(i, j) and Subs(A[i] * x, x, A[i]).diff(A[k]) == 2 * A[i] * KroneckerDelta(i, k) and Subs(A[i] * x, x, A[j]).diff(A[k]) == KroneckerDelta(i, k) * A[j] + KroneckerDelta(j, k) * A[i] and Subs(A[i] * x, A[i], x).diff(A[i]) == 0 and Subs(A[i] * x, A[i], x).diff(A[j]) == 0 and Subs(A[i] * x, A[j], x).diff(A[i]) == x and Subs(A[i] * x, A[j], x).diff(A[j]) == x * KroneckerDelta(i, j) and Subs(A[i] * x, A[i], x).diff(A[k]) == 0 and Subs(A[i] * x, A[j], x).diff(A[k]) == x * KroneckerDelta(i, k)","over":{"base":"Any"},"name":"test_Subs_with_Indexed_correct"},"guarantee":"Subs(A[i], A[i], A[j]).diff(A[j]) == 1; Subs(A[i], A[i], x).diff(A[i]) == 0; Subs(A[i], A[i], x).diff(A[j]) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_Subs_with_Indexed_correct","statement":"Path(test_Subs_with_Indexed(x), Subs(A[i], A[i], A[j]).diff(A[j]) == 1; Subs(A[i], A[i], x).diff(A[i]) == 0; Subs(A[i], A[i], x).diff(A[j]) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fda9f8a92c180084","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Subs(A[i], A[i], A[j]).diff(A[j]) == 1","Subs(A[i], A[i], x).diff(A[i]) == 0","Subs(A[i], A[i], x).diff(A[j]) == 0","Subs(A[i], A[i], x).diff(x) == 1","Subs(A[i], A[i], x).diff(y) == 0","Subs(A[i], A[i], A[j]).diff(A[k]) == KroneckerDelta(j, k)","Subs(x, x, A[i]).diff(A[j]) == KroneckerDelta(i, j)","Subs(f(A[i]), A[i], x).diff(A[j]) == 0","Subs(f(A[i]), A[i], A[k]).diff(A[j]) == Derivative(f(A[k]), A[k]) * KroneckerDelta(j, k)","Subs(x, x, A[i] ** 2).diff(A[j]) == 2 * KroneckerDelta(i, j) * A[i]","Subs(A[i], A[i], A[j] ** 2).diff(A[k]) == 2 * KroneckerDelta(j, k) * A[j]","Subs(A[i] * x, x, A[i]).diff(A[i]) == 2 * A[i]","Subs(A[i] * x, x, A[i]).diff(A[j]) == 2 * A[i] * KroneckerDelta(i, j)","Subs(A[i] * x, x, A[j]).diff(A[i]) == A[j] + A[i] * KroneckerDelta(i, j)","Subs(A[i] * x, x, A[j]).diff(A[j]) == A[i] + A[j] * KroneckerDelta(i, j)","Subs(A[i] * x, x, A[i]).diff(A[k]) == 2 * A[i] * KroneckerDelta(i, k)","Subs(A[i] * x, x, A[j]).diff(A[k]) == KroneckerDelta(i, k) * A[j] + KroneckerDelta(j, k) * A[i]","Subs(A[i] * x, A[i], x).diff(A[i]) == 0","Subs(A[i] * x, A[i], x).diff(A[j]) == 0","Subs(A[i] * x, A[j], x).diff(A[i]) == x","Subs(A[i] * x, A[j], x).diff(A[j]) == x * KroneckerDelta(i, j)","Subs(A[i] * x, A[i], x).diff(A[k]) == 0","Subs(A[i] * x, A[j], x).diff(A[k]) == x * KroneckerDelta(i, k)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_Subs_with_Indexed():
     A = IndexedBase("A")
     i, j, k = symbols("i,j,k")
@@ -815,16 +1031,23 @@ def test_Subs_with_Indexed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complicated_derivative_with_Indexed(), test_complicated_derivative_with_Indexed produces the expected output) over Any ║
+# ║ Path(test_complicated_derivative_with_Indexed(), expr.diff(x[m0]).dummy_eq((x[i] - y[i]) * KroneckerDelta(i, m0) * 2 * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma) and expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma + 4 * (x[i] - y[i]) ** 2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1, _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complicated_derivative_with_Indexed : Any → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.diff(x[m0]).dummy_eq((x[i] - y[i]) *...   ║
+# ║   ensures:  expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complicated_derivative_with_Indexed : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 828847e2b42cfdac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbc3a1abe350fdb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_complicated_derivative_with_Indexed","kind":"function","src_hash":"a4248b816984e3ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_complicated_derivative_with_Indexed()","rhs":"test_complicated_derivative_with_Indexed produces the expected output","over":{"base":"Any"},"name":"test_complicated_derivative_with_Indexed_correct"},"guarantee":"test_complicated_derivative_with_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_complicated_derivative_with_Indexed_correct","statement":"Path(test_complicated_derivative_with_Indexed(x), test_complicated_derivative_with_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"828847e2b42cfdac"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_complicated_derivative_with_Indexed","kind":"function","src_hash":"a4248b816984e3ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.diff(x[m0]).dummy_eq((x[i] - y[i]) * KroneckerDelta(i, m0) * 2 * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma) and expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma + 4 * (x[i] - y[i]) ** 2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1, _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma ** 2)"},"spec":{"lhs":"test_complicated_derivative_with_Indexed()","rhs":"expr.diff(x[m0]).dummy_eq((x[i] - y[i]) * KroneckerDelta(i, m0) * 2 * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma) and expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma + 4 * (x[i] - y[i]) ** 2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1, _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma ** 2)","over":{"base":"Any"},"name":"test_complicated_derivative_with_Indexed_correct"},"guarantee":"expr.diff(x[m0]).dummy_eq((x[i] - y[i]) * KroneckerDelta(i, m0) * 2 * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma); expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma + 4 * (x[i] - y[i]) ** 2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1, _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_complicated_derivative_with_Indexed_correct","statement":"Path(test_complicated_derivative_with_Indexed(x), expr.diff(x[m0]).dummy_eq((x[i] - y[i]) * KroneckerDelta(i, m0) * 2 * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma); expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma + 4 * (x[i] - y[i]) ** 2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1, _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbc3a1abe350fdb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.diff(x[m0]).dummy_eq((x[i] - y[i]) * KroneckerDelta(i, m0) * 2 * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma)","expr.diff(x[m0]).diff(x[m1]).dummy_eq(2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma + 4 * (x[i] - y[i]) ** 2 * KroneckerDelta(i, m0) * KroneckerDelta(i, m1) * Subs(Derivative(f(_xi_1), _xi_1, _xi_1), (_xi_1,), ((x[i] - y[i]) ** 2 / sigma,)) / sigma ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_complicated_derivative_with_Indexed():
     x, y = symbols("x,y", cls=IndexedBase)
     sigma = symbols("sigma")
@@ -859,16 +1082,23 @@ def test_complicated_derivative_with_Indexed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndexedBase_commutative(), test_IndexedBase_commutative produces the expected output) over Any ║
+# ║ Path(test_IndexedBase_commutative(), t[0] * v[0] == v[0] * t[0] and t[0] * u[0] != u[0] * t[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IndexedBase_commutative : Any → {Any | t[0] * v[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t[0] * v[0] == v[0] * t[0]                     ║
+# ║   ensures:  t[0] * u[0] != u[0] * t[0]                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IndexedBase_commutative : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68213e8c43cd2576  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6cb1241ac4dd438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_commutative","kind":"function","src_hash":"a122f2e25d772790","in":{"base":"Any"},"out":{"base":"Any","pred":"t[0] * v[0] == v[0] * t[0] and t[0] * u[0] != u[0] * t[0]"},"spec":{"lhs":"test_IndexedBase_commutative()","rhs":"test_IndexedBase_commutative produces the expected output","over":{"base":"Any"},"name":"test_IndexedBase_commutative_correct"},"guarantee":"test_IndexedBase_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_commutative_correct","statement":"Path(test_IndexedBase_commutative(x), test_IndexedBase_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68213e8c43cd2576"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_indexed.test_IndexedBase_commutative","kind":"function","src_hash":"a122f2e25d772790","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t[0] * v[0] == v[0] * t[0] and t[0] * u[0] != u[0] * t[0]"},"spec":{"lhs":"test_IndexedBase_commutative()","rhs":"t[0] * v[0] == v[0] * t[0] and t[0] * u[0] != u[0] * t[0]","over":{"base":"Any"},"name":"test_IndexedBase_commutative_correct"},"guarantee":"t[0] * v[0] == v[0] * t[0]; t[0] * u[0] != u[0] * t[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_indexed.test_IndexedBase_commutative_correct","statement":"Path(test_IndexedBase_commutative(x), t[0] * v[0] == v[0] * t[0]; t[0] * u[0] != u[0] * t[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6cb1241ac4dd438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t[0] * v[0] == v[0] * t[0]","t[0] * u[0] != u[0] * t[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IndexedBase_commutative():
     t = IndexedBase('t', commutative=False)
     u = IndexedBase('u', commutative=False)

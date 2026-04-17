@@ -71,32 +71,49 @@ R = TypeVar('R', bound=RingElement)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_transpose(mat), matrix transpose) over Sequence[Sequence[T]] ║
+# ║ Path(ddm_transpose(matrix), list(map(list, zip(*matrix)))) over {Sequence[Sequence[T]] | isinstance(matrix, Sequence[Sequence[T]])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_transpose : Sequence[Sequence[T]] → list[list[T]]      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(matrix, Sequence[Sequence[T]])      ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[T) for x in result)     ║
+# ║   returns:  list(map(list, zip(*matrix)))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_transpose : {Sequence[Sequence[T]] | isinstance(m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6e52efe49b7bc51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_transpose","kind":"function","src_hash":"abc469c271c1a59b","in":{"base":"Sequence[Sequence[T]]"},"out":{"base":"list[list[T]]"},"spec":{"lhs":"ddm_transpose(mat)","rhs":"matrix transpose","over":{"base":"Sequence[Sequence[T]]"},"name":"ddm_transpose_correct"},"guarantee":"matrix transpose","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6e52efe49b7bc51"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_transpose","kind":"function","src_hash":"abc469c271c1a59b","in":{"base":"Sequence[Sequence[T]]","pred":"isinstance(matrix, Sequence[Sequence[T]])"},"out":{"base":"list[list[T]]","pred":"result satisfies: result == (list(map(list, zip(*matrix))))"},"spec":{"lhs":"ddm_transpose(matrix)","rhs":"list(map(list, zip(*matrix)))","over":{"base":"Sequence[Sequence[T]]","pred":"isinstance(matrix, Sequence[Sequence[T]])"},"name":"ddm_transpose_correct"},"guarantee":"returns list(map(list, zip(*matrix))); isinstance(result, list); all(isinstance(x, list[T) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6e52efe49b7bc51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(matrix, Sequence[Sequence[T]])"],"ensures":["isinstance(result, list)","all(isinstance(x, list[T) for x in result)"],"returns_expr":"list(map(list, zip(*matrix)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def ddm_transpose(matrix: Sequence[Sequence[T]]) -> list[list[T]]:
     """matrix transpose"""
     return list(map(list, zip(*matrix)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_iadd(a, ), a += b) over list[list[R]]             ║
+# ║ Path(ddm_iadd(a, b), <unspecified:ddm_iadd>) over {list[list[R]] | isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_iadd : list[list[R]] → None                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(a, list[list[R]])                   ║
+# ║   requires: isinstance(b, Sequence[Sequence[R]])           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_iadd : {list[list[R]] | isinstance(a, list[list[R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff2ae40d0964b24b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_iadd","kind":"function","src_hash":"648413d8b029afcc","in":{"base":"list[list[R]]"},"out":{"base":"None"},"spec":{"lhs":"ddm_iadd(a, )","rhs":"a += b","over":{"base":"list[list[R]]"},"name":"ddm_iadd_correct"},"guarantee":"a += b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_iadd_correct","statement":"Path(ddm_iadd(x), a += b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff2ae40d0964b24b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_iadd","kind":"function","src_hash":"648413d8b029afcc","in":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]])"},"out":{"base":"None"},"spec":{"lhs":"ddm_iadd(a, b)","rhs":"<unspecified:ddm_iadd>","over":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]])"},"name":"ddm_iadd_correct"},"guarantee":"a += b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_iadd_correct","statement":"Path(ddm_iadd(x), a += b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff2ae40d0964b24b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(a, list[list[R]])","isinstance(b, Sequence[Sequence[R]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_iadd(a: list[list[R]], b: Sequence[Sequence[R]]) -> None:
     """a += b"""
     for ai, bi in zip(a, b):
@@ -105,16 +122,24 @@ def ddm_iadd(a: list[list[R]], b: Sequence[Sequence[R]]) -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_isub(a, ), a -= b) over list[list[R]]             ║
+# ║ Path(ddm_isub(a, b), <unspecified:ddm_isub>) over {list[list[R]] | isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_isub : list[list[R]] → None                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(a, list[list[R]])                   ║
+# ║   requires: isinstance(b, Sequence[Sequence[R]])           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_isub : {list[list[R]] | isinstance(a, list[list[R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc523ba579a62878  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_isub","kind":"function","src_hash":"809d8c983962ceed","in":{"base":"list[list[R]]"},"out":{"base":"None"},"spec":{"lhs":"ddm_isub(a, )","rhs":"a -= b","over":{"base":"list[list[R]]"},"name":"ddm_isub_correct"},"guarantee":"a -= b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_isub_correct","statement":"Path(ddm_isub(x), a -= b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc523ba579a62878"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_isub","kind":"function","src_hash":"809d8c983962ceed","in":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]])"},"out":{"base":"None"},"spec":{"lhs":"ddm_isub(a, b)","rhs":"<unspecified:ddm_isub>","over":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]])"},"name":"ddm_isub_correct"},"guarantee":"a -= b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_isub_correct","statement":"Path(ddm_isub(x), a -= b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc523ba579a62878","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(a, list[list[R]])","isinstance(b, Sequence[Sequence[R]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_isub(a: list[list[R]], b: Sequence[Sequence[R]]) -> None:
     """a -= b"""
     for ai, bi in zip(a, b):
@@ -123,16 +148,23 @@ def ddm_isub(a: list[list[R]], b: Sequence[Sequence[R]]) -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_ineg(a), a <-- -a) over list[list[R]]             ║
+# ║ Path(ddm_ineg(a), <unspecified:ddm_ineg>) over {list[list[R]] | isinstance(a, list[list[R]])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_ineg : list[list[R]] → None                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(a, list[list[R]])                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_ineg : {list[list[R]] | isinstance(a, list[list[R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c2770d2ae4b2c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ineg","kind":"function","src_hash":"a6089d8980665a2d","in":{"base":"list[list[R]]"},"out":{"base":"None"},"spec":{"lhs":"ddm_ineg(a)","rhs":"a <-- -a","over":{"base":"list[list[R]]"},"name":"ddm_ineg_correct"},"guarantee":"a <-- -a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ineg_correct","statement":"Path(ddm_ineg(x), a <-- -a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c2770d2ae4b2c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ineg","kind":"function","src_hash":"a6089d8980665a2d","in":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]])"},"out":{"base":"None"},"spec":{"lhs":"ddm_ineg(a)","rhs":"<unspecified:ddm_ineg>","over":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]])"},"name":"ddm_ineg_correct"},"guarantee":"a <-- -a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ineg_correct","statement":"Path(ddm_ineg(x), a <-- -a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c2770d2ae4b2c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(a, list[list[R]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_ineg(a: list[list[R]]) -> None:
     """a <-- -a"""
     for ai in a:
@@ -141,16 +173,24 @@ def ddm_ineg(a: list[list[R]]) -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_imul(a, ), a <-- a*b) over list[list[R]]          ║
+# ║ Path(ddm_imul(a, b), <unspecified:ddm_imul>) over {list[list[R]] | isinstance(a, list[list[R]]) and isinstance(b, R)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_imul : list[list[R]] → None                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(a, list[list[R]])                   ║
+# ║   requires: isinstance(b, R)                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_imul : {list[list[R]] | isinstance(a, list[list[R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 187b3da5d8a4c7b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_imul","kind":"function","src_hash":"22347f2b7ff4bc24","in":{"base":"list[list[R]]"},"out":{"base":"None"},"spec":{"lhs":"ddm_imul(a, )","rhs":"a <-- a*b","over":{"base":"list[list[R]]"},"name":"ddm_imul_correct"},"guarantee":"a <-- a*b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_imul_correct","statement":"Path(ddm_imul(x), a <-- a*b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187b3da5d8a4c7b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_imul","kind":"function","src_hash":"22347f2b7ff4bc24","in":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, R)"},"out":{"base":"None"},"spec":{"lhs":"ddm_imul(a, b)","rhs":"<unspecified:ddm_imul>","over":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, R)"},"name":"ddm_imul_correct"},"guarantee":"a <-- a*b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_imul_correct","statement":"Path(ddm_imul(x), a <-- a*b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187b3da5d8a4c7b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(a, list[list[R]])","isinstance(b, R)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_imul(a: list[list[R]], b: R) -> None:
     """a <-- a*b"""
     for ai in a:
@@ -159,16 +199,24 @@ def ddm_imul(a: list[list[R]], b: R) -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_irmul(a, ), a <-- b*a) over list[list[R]]         ║
+# ║ Path(ddm_irmul(a, b), <unspecified:ddm_irmul>) over {list[list[R]] | isinstance(a, list[list[R]]) and isinstance(b, R)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_irmul : list[list[R]] → None                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(a, list[list[R]])                   ║
+# ║   requires: isinstance(b, R)                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_irmul : {list[list[R]] | isinstance(a, list[list[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15b12238645d8880  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_irmul","kind":"function","src_hash":"37b761804ad0ca32","in":{"base":"list[list[R]]"},"out":{"base":"None"},"spec":{"lhs":"ddm_irmul(a, )","rhs":"a <-- b*a","over":{"base":"list[list[R]]"},"name":"ddm_irmul_correct"},"guarantee":"a <-- b*a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_irmul_correct","statement":"Path(ddm_irmul(x), a <-- b*a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15b12238645d8880"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_irmul","kind":"function","src_hash":"37b761804ad0ca32","in":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, R)"},"out":{"base":"None"},"spec":{"lhs":"ddm_irmul(a, b)","rhs":"<unspecified:ddm_irmul>","over":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, R)"},"name":"ddm_irmul_correct"},"guarantee":"a <-- b*a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_irmul_correct","statement":"Path(ddm_irmul(x), a <-- b*a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15b12238645d8880","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(a, list[list[R]])","isinstance(b, R)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_irmul(a: list[list[R]], b: R) -> None:
     """a <-- b*a"""
     for ai in a:
@@ -177,16 +225,25 @@ def ddm_irmul(a: list[list[R]], b: R) -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_imatmul(a, ), a += b @ c) over list[list[R]]      ║
+# ║ Path(ddm_imatmul(a, b, c), <unspecified:ddm_imatmul>) over {list[list[R]] | isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]]) and isinstance(c, Sequence[Sequence[R]])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_imatmul : list[list[R]] → None                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(a, list[list[R]])                   ║
+# ║   requires: isinstance(b, Sequence[Sequence[R]])           ║
+# ║   requires: isinstance(c, Sequence[Sequence[R]])           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_imatmul : {list[list[R]] | isinstance(a, list[lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c15c938c99964407  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_imatmul","kind":"function","src_hash":"f7ffbadf71038b28","in":{"base":"list[list[R]]"},"out":{"base":"None"},"spec":{"lhs":"ddm_imatmul(a, )","rhs":"a += b @ c","over":{"base":"list[list[R]]"},"name":"ddm_imatmul_correct"},"guarantee":"a += b @ c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_imatmul_correct","statement":"Path(ddm_imatmul(x), a += b @ c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c15c938c99964407"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_imatmul","kind":"function","src_hash":"f7ffbadf71038b28","in":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]]) and isinstance(c, Sequence[Sequence[R]])"},"out":{"base":"None"},"spec":{"lhs":"ddm_imatmul(a, b, c)","rhs":"<unspecified:ddm_imatmul>","over":{"base":"list[list[R]]","pred":"isinstance(a, list[list[R]]) and isinstance(b, Sequence[Sequence[R]]) and isinstance(c, Sequence[Sequence[R]])"},"name":"ddm_imatmul_correct"},"guarantee":"a += b @ c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_imatmul_correct","statement":"Path(ddm_imatmul(x), a += b @ c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c15c938c99964407","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(a, list[list[R]])","isinstance(b, Sequence[Sequence[R]])","isinstance(c, Sequence[Sequence[R]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_imatmul(
     a: list[list[R]], b: Sequence[Sequence[R]], c: Sequence[Sequence[R]]
 ) -> None:
@@ -199,16 +256,22 @@ def ddm_imatmul(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_irref(a, ), in-place reduced row echelon form of a matrix) over Any ║
+# ║ Path(ddm_irref(a, _partial_pivot), <unspecified:ddm_irref>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ddm_irref : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fab7a6b27da564d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_irref","kind":"function","src_hash":"c6578f69edfa23ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_irref(a, )","rhs":"in-place reduced row echelon form of a matrix","over":{"base":"Any"},"name":"ddm_irref_correct"},"guarantee":"in-place reduced row echelon form of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_irref_correct","statement":"Path(ddm_irref(x), in-place reduced row echelon form of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fab7a6b27da564d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_irref","kind":"function","src_hash":"c6578f69edfa23ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_irref(a, _partial_pivot)","rhs":"<unspecified:ddm_irref>","over":{"base":"Any"},"name":"ddm_irref_correct"},"guarantee":"in-place reduced row echelon form of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_irref_correct","statement":"Path(ddm_irref(x), in-place reduced row echelon form of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fab7a6b27da564d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def ddm_irref(a, _partial_pivot=False):
     """In-place reduced row echelon form of a matrix.
 
@@ -342,16 +405,25 @@ def ddm_irref(a, _partial_pivot=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_irref_den(a, ), a <-- rref(a); return (den, pivots)) over Any ║
+# ║ Path(ddm_irref_den(a, K), <unspecified:ddm_irref_den>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'is_one') and hasattr(K, 'exquo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_irref_den : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_irref_den : {Any | hasattr(K, 'one') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8a96d9f34738ef4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_irref_den","kind":"function","src_hash":"00acf9353e782d25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_irref_den(a, )","rhs":"a <-- rref(a); return (den, pivots)","over":{"base":"Any"},"name":"ddm_irref_den_correct"},"guarantee":"a <-- rref(a); return (den, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_irref_den_correct","statement":"Path(ddm_irref_den(x), a <-- rref(a); return (den, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8a96d9f34738ef4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_irref_den","kind":"function","src_hash":"00acf9353e782d25","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'is_one') and hasattr(K, 'exquo')"},"out":{"base":"Any"},"spec":{"lhs":"ddm_irref_den(a, K)","rhs":"<unspecified:ddm_irref_den>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'is_one') and hasattr(K, 'exquo')"},"name":"ddm_irref_den_correct"},"guarantee":"a <-- rref(a); return (den, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_irref_den_correct","statement":"Path(ddm_irref_den(x), a <-- rref(a); return (den, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8a96d9f34738ef4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')","hasattr(K, 'is_one')","hasattr(K, 'exquo')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def ddm_irref_den(a, K):
     """a  <--  rref(a); return (den, pivots)
 
@@ -541,16 +613,25 @@ def ddm_irref_den(a, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_idet(a, ), a <-- echelon(a); return det) over Any ║
+# ║ Path(ddm_idet(a, K), <unspecified:ddm_idet>) over {Any | hasattr(K, 'exquo') and hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_idet : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'exquo')                            ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_idet : {Any | hasattr(K, 'exquo') and hasattr(K, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32f8e03f8f6c78d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_idet","kind":"function","src_hash":"4ff69bb519415beb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_idet(a, )","rhs":"a <-- echelon(a); return det","over":{"base":"Any"},"name":"ddm_idet_correct"},"guarantee":"a <-- echelon(a); return det","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_idet_correct","statement":"Path(ddm_idet(x), a <-- echelon(a); return det)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32f8e03f8f6c78d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_idet","kind":"function","src_hash":"4ff69bb519415beb","in":{"base":"Any","pred":"hasattr(K, 'exquo') and hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"ddm_idet(a, K)","rhs":"<unspecified:ddm_idet>","over":{"base":"Any","pred":"hasattr(K, 'exquo') and hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"ddm_idet_correct"},"guarantee":"a <-- echelon(a); return det","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_idet_correct","statement":"Path(ddm_idet(x), a <-- echelon(a); return det)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32f8e03f8f6c78d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'exquo')","hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.exquo","K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def ddm_idet(a, K):
     """a  <--  echelon(a); return det
 
@@ -625,16 +706,25 @@ def ddm_idet(a, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_iinv(ain), ainv <-- inv(a)) over Any              ║
+# ║ Path(ddm_iinv(ainv, a, K), <unspecified:ddm_iinv>) over {Any | K.is_Field and not (m != n) and hasattr(K, 'is_Field') and hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_iinv : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: K.is_Field                                     ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_iinv : {Any | K.is_Field and not (m != n) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d821fc614cb0a084  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_iinv","kind":"function","src_hash":"ad8cdb64201b816e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_iinv(ain)","rhs":"ainv <-- inv(a)","over":{"base":"Any"},"name":"ddm_iinv_correct"},"guarantee":"ainv <-- inv(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_iinv_correct","statement":"Path(ddm_iinv(x), ainv <-- inv(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d821fc614cb0a084"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_iinv","kind":"function","src_hash":"ad8cdb64201b816e","in":{"base":"Any","pred":"K.is_Field and not (m != n) and hasattr(K, 'is_Field') and hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"ddm_iinv(ainv, a, K)","rhs":"<unspecified:ddm_iinv>","over":{"base":"Any","pred":"K.is_Field and not (m != n) and hasattr(K, 'is_Field') and hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"ddm_iinv_correct"},"guarantee":"ainv <-- inv(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_iinv_correct","statement":"Path(ddm_iinv(x), ainv <-- inv(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d821fc614cb0a084","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["K.is_Field","not (m != n)","hasattr(K, 'is_Field')","hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["K.is_Field","K.one","K.zero"],"writes":["ainv[*]"],"raises":["DMDomainError","DMNonInvertibleMatrixError","DMNonSquareMatrixError"]},"state_contract":{"modifies":["ainv[*]"],"old_bindings":{"old_ainv_star":"ainv[*]"},"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"],"DMNonInvertibleMatrixError":["isinstance(raised, DMNonInvertibleMatrixError)"],"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def ddm_iinv(ainv, a, K):
     """ainv  <--  inv(a)
 
@@ -683,16 +773,23 @@ def ddm_iinv(ainv, a, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_ilu_split(L, ), l, u <-- lu(u)) over Any          ║
+# ║ Path(ddm_ilu_split(L, U, K), <unspecified:ddm_ilu_split>) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_ilu_split : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_ilu_split : {Any | hasattr(K, 'zero')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 786dd083490d6c46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ilu_split","kind":"function","src_hash":"bc8814a7ed4be4ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_ilu_split(L, )","rhs":"l, u <-- lu(u)","over":{"base":"Any"},"name":"ddm_ilu_split_correct"},"guarantee":"l, u <-- lu(u)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ilu_split_correct","statement":"Path(ddm_ilu_split(x), l, u <-- lu(u))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"786dd083490d6c46"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ilu_split","kind":"function","src_hash":"bc8814a7ed4be4ce","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"ddm_ilu_split(L, U, K)","rhs":"<unspecified:ddm_ilu_split>","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"ddm_ilu_split_correct"},"guarantee":"l, u <-- lu(u)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ilu_split_correct","statement":"Path(ddm_ilu_split(x), l, u <-- lu(u))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"786dd083490d6c46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ddm_ilu_split(L, U, K):
     """L, U  <--  LU(U)
 
@@ -740,16 +837,22 @@ def ddm_ilu_split(L, U, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_ilu(a), a <-- lu(a)) over Any                     ║
+# ║ Path(ddm_ilu(a), <unspecified:ddm_ilu>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ddm_ilu : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f30c32a338e333ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ilu","kind":"function","src_hash":"0a736b87912e4684","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_ilu(a)","rhs":"a <-- lu(a)","over":{"base":"Any"},"name":"ddm_ilu_correct"},"guarantee":"a <-- lu(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ilu_correct","statement":"Path(ddm_ilu(x), a <-- lu(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f30c32a338e333ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ilu","kind":"function","src_hash":"0a736b87912e4684","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_ilu(a)","rhs":"<unspecified:ddm_ilu>","over":{"base":"Any"},"name":"ddm_ilu_correct"},"guarantee":"a <-- lu(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ilu_correct","statement":"Path(ddm_ilu(x), a <-- lu(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f30c32a338e333ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def ddm_ilu(a):
     """a  <--  LU(a)
 
@@ -826,16 +929,23 @@ def ddm_ilu(a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_ilu_solve(x, ), x <-- solve(l*u*x = swaps(b))) over Any ║
+# ║ Path(ddm_ilu_solve(x, L, U), <unspecified:ddm_ilu_solve>) over {Any | m2} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_ilu_solve : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: m2                                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_ilu_solve : {Any | m2} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7faf940796cd21f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ilu_solve","kind":"function","src_hash":"cb7c8a014acab660","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_ilu_solve(x, )","rhs":"x <-- solve(l*u*x = swaps(b))","over":{"base":"Any"},"name":"ddm_ilu_solve_correct"},"guarantee":"x <-- solve(l*u*x = swaps(b))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ilu_solve_correct","statement":"Path(ddm_ilu_solve(x), x <-- solve(l*u*x = swaps(b)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7faf940796cd21f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_ilu_solve","kind":"function","src_hash":"cb7c8a014acab660","in":{"base":"Any","pred":"m2"},"out":{"base":"Any"},"spec":{"lhs":"ddm_ilu_solve(x, L, U)","rhs":"<unspecified:ddm_ilu_solve>","over":{"base":"Any","pred":"m2"},"name":"ddm_ilu_solve_correct"},"guarantee":"x <-- solve(l*u*x = swaps(b))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_ilu_solve_correct","statement":"Path(ddm_ilu_solve(x), x <-- solve(l*u*x = swaps(b)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7faf940796cd21f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["m2"],"pure":false,"effects":{"effect_type":"reads_state","raises":["DMNonInvertibleMatrixError","DMShapeError","NotImplementedError"]},"state_contract":{"exceptional_post":{"DMNonInvertibleMatrixError":["isinstance(raised, DMNonInvertibleMatrixError)"],"DMShapeError":["isinstance(raised, DMShapeError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def ddm_ilu_solve(x, L, U, swaps, b):
     """x  <--  solve(L*U*x = swaps(b))
 
@@ -923,16 +1033,25 @@ def ddm_ilu_solve(x, L, U, swaps, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_berk(M, ), berkowitz algorithm for computing the characteristic polynomial) over Any ║
+# ║ Path(ddm_berk(M, K), # HINT: ddm_berk may be idempotent: ddm_berk(ddm_berk(x)) == ddm_berk(x)) over {Any | not (m != n) and hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ddm_berk : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  # HINT: ddm_berk may be idempotent: ddm_b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ddm_berk : {Any | not (m != n) and hasattr(K, 'one') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f15741b1ffd3aa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97afafd4d500aeef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_berk","kind":"function","src_hash":"e53f7716cf4b9619","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_berk(M, )","rhs":"berkowitz algorithm for computing the characteristic polynomial","over":{"base":"Any"},"name":"ddm_berk_correct"},"guarantee":"berkowitz algorithm for computing the characteristic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_berk_correct","statement":"Path(ddm_berk(x), berkowitz algorithm for computing the characteristic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f15741b1ffd3aa7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.dense.ddm_berk","kind":"function","src_hash":"e53f7716cf4b9619","in":{"base":"Any","pred":"not (m != n) and hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: # HINT: ddm_berk may be idempotent: ddm_berk(ddm_berk(x)) == ddm_berk(x)"},"spec":{"lhs":"ddm_berk(M, K)","rhs":"# HINT: ddm_berk may be idempotent: ddm_berk(ddm_berk(x)) == ddm_berk(x)","over":{"base":"Any","pred":"not (m != n) and hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"ddm_berk_correct"},"guarantee":"# HINT: ddm_berk may be idempotent: ddm_berk(ddm_berk(x)) == ddm_berk(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.dense.ddm_berk_correct","statement":"Path(ddm_berk(x), # HINT: ddm_berk may be idempotent: ddm_berk(ddm_berk(x)) == ddm_berk(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97afafd4d500aeef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m != n)","hasattr(K, 'one')","hasattr(K, 'zero')"],"ensures":["# HINT: ddm_berk may be idempotent: ddm_berk(ddm_berk(x)) == ddm_berk(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"],"raises":["DMShapeError"]},"state_contract":{"exceptional_post":{"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def ddm_berk(M, K):
     """
     Berkowitz algorithm for computing the characteristic polynomial.

@@ -28,14 +28,21 @@ __all__ = ['Dyadic']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Dyadic instance) preserved by Dyadic(*args) over {Any | isinstance(other, Dyadic) and isinstance(v[0], Add)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printable)                    ║
+# ║   ensures:  isinstance(self, EvalfMixin)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Dyadic : {Any | isinstance(other, Dyadic) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 816edcee70780779  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic","kind":"class","src_hash":"d3ec74bcb69effe7","in":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(v[0], Add)"},"out":{"base":"Any"},"spec":{"lhs":"Dyadic(*args)","rhs":"correctly constructs a Dyadic instance","over":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(v[0], Add)"},"name":"Dyadic_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Dyadic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'args')","kind":"class","induction":"structural on args"}],"methods_preserving":["__init__","func","__add__","__mul__","dot","__truediv__","__eq__","__ne__","__neg__","_latex","_pretty","render","__rsub__","_sympystr","__sub__","cross","express","to_matrix","doit","dt","simplify","subs","applyfunc","_eval_evalf","xreplace"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"816edcee70780779"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic","kind":"class","src_hash":"d3ec74bcb69effe7","in":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(v[0], Add)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printable) and isinstance(self, EvalfMixin)"},"spec":{"lhs":"Dyadic(*args)","rhs":"correctly constructs a Dyadic instance","over":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(v[0], Add)"},"name":"Dyadic_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printable); isinstance(self, EvalfMixin); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'args')","kind":"class","induction":"structural on args"}],"methods_preserving":["__init__","func","__add__","__mul__","dot","__truediv__","__eq__","__ne__","__neg__","_latex","_pretty","render","__rsub__","_sympystr","__sub__","cross","express","to_matrix","doit","dt","simplify","subs","applyfunc","_eval_evalf","xreplace"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"816edcee70780779","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printable)","isinstance(self, EvalfMixin)"],"invariants":["hasattr(self, 'args')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Dyadic not found in source"]}}
 class Dyadic(Printable, EvalfMixin):
     """A Dyadic object.
 
@@ -52,16 +59,23 @@ class Dyadic(Printable, EvalfMixin):
     is_number = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(inl), initializes the instance correctly) over Any ║
+# ║ Path(__init__(inlist), len(self) == old_len_self + 1) over {Any | hasattr(inlist, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(inlist, 'remove')                      ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(inlist, 'remove')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e03ff29a0f5aa24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__init__","kind":"method","src_hash":"dc93deec57063539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(inl)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e03ff29a0f5aa24"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__init__","kind":"method","src_hash":"dc93deec57063539","in":{"base":"Any","pred":"hasattr(inlist, 'remove')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(inlist)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(inlist, 'remove')"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e03ff29a0f5aa24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(inlist, 'remove')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["inlist.remove","self.args"],"writes":["self.args"],"calls_mutating":["inlist.remove","self.args.append","self.args.remove"]},"state_contract":{"modifies":["inlist.*","self.*","self.args"],"old_bindings":{"old_self_args":"self.args","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, inlist):
         """
         Just like Vector's init, you should not call this unless creating a
@@ -102,31 +116,44 @@ class Dyadic(Printable, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func(), returns the func attribute) over Any          ║
+# ║ Path(func(), <unspecified:func>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec0fcf7a02395976           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.func","kind":"property","src_hash":"f2d58c30607c0d29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"returns the func attribute","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec0fcf7a02395976"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.func","kind":"property","src_hash":"f2d58c30607c0d29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"<unspecified:func>","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec0fcf7a02395976","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def func(self):
         """Returns the class Dyadic. """
         return Dyadic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), Dyadic(self.args + other.args)) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  Dyadic(self.args + other.args)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2dc1cda94c518278           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__add__","kind":"method","src_hash":"c4793eda911640b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dc1cda94c518278"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__add__","kind":"method","src_hash":"c4793eda911640b6","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"Dyadic(self.args + other.args)","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"returns Dyadic(self.args + other.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dc1cda94c518278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"Dyadic(self.args + other.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """The add operator for Dyadic. """
         other = _check_dyadic(other)
@@ -135,16 +162,22 @@ class Dyadic(Printable, EvalfMixin):
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), Dyadic(newlist)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Dyadic(newlist)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7b389851c9e3488           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__mul__","kind":"method","src_hash":"b3e0b307fa822d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7b389851c9e3488"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__mul__","kind":"method","src_hash":"b3e0b307fa822d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"Dyadic(newlist)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns Dyadic(newlist)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7b389851c9e3488","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Dyadic(newlist)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """Multiplies the Dyadic by a sympifyable expression.
 
@@ -174,16 +207,23 @@ class Dyadic(Printable, EvalfMixin):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(oth), the inner product operator for a dyadic and a dyadic or vector) over Any ║
+# ║ Path(dot(other), <unspecified:dot>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dot : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dot : {Any | hasattr(other, 'args')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96a834bd585ca4e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.dot","kind":"method","src_hash":"27d4c1eec5690835","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(oth)","rhs":"the inner product operator for a dyadic and a dyadic or vector","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"the inner product operator for a dyadic and a dyadic or vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.dot_correct","statement":"Path(dot(x), the inner product operator for a dyadic and a dyadic or vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96a834bd585ca4e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.dot","kind":"method","src_hash":"27d4c1eec5690835","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"dot(other)","rhs":"<unspecified:dot>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"dot_correct"},"guarantee":"the inner product operator for a dyadic and a dyadic or vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.dot_correct","statement":"Path(dot(x), the inner product operator for a dyadic and a dyadic or vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96a834bd585ca4e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dot(self, other):
         """The inner product operator for a Dyadic and a Dyadic or Vector.
 
@@ -224,31 +264,44 @@ class Dyadic(Printable, EvalfMixin):
     __and__ = dot
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), divides the dyadic by a sympifyable expression) over Any ║
+# ║ Path(__truediv__(other), self.__mul__(1 / other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__mul__(1 / other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67557c77c90a651f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__truediv__","kind":"method","src_hash":"1646b89f11a6585e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"divides the dyadic by a sympifyable expression","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"divides the dyadic by a sympifyable expression","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67557c77c90a651f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__truediv__","kind":"method","src_hash":"1646b89f11a6585e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self.__mul__(1 / other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self.__mul__(1 / other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67557c77c90a651f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__mul__(1 / other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         """Divides the Dyadic by a sympifyable expression. """
         return self.__mul__(1 / other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08416f04d9765768           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__eq__","kind":"method","src_hash":"712cac582061ab9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08416f04d9765768"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__eq__","kind":"method","src_hash":"712cac582061ab9c","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08416f04d9765768","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Tests for equality.
 
@@ -266,44 +319,63 @@ class Dyadic(Printable, EvalfMixin):
         return set(self.args) == set(other.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6bc7da0b0fc84eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6bc7da0b0fc84eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6bc7da0b0fc84eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self * -1) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * -1                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b16bdc5cdc0b346d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__neg__","kind":"method","src_hash":"15b85c3227f685df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b16bdc5cdc0b346d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__neg__","kind":"method","src_hash":"15b85c3227f685df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self * -1","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self * -1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b16bdc5cdc0b346d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * -1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self * -1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bef53095287dd00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._latex","kind":"method","src_hash":"6dc66a4a6e81f383","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bef53095287dd00"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._latex","kind":"method","src_hash":"6dc66a4a6e81f383","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bef53095287dd00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         ar = self.args  # just to shorten things
         if len(ar) == 0:
@@ -341,16 +413,23 @@ class Dyadic(Printable, EvalfMixin):
         return outstr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer), <unspecified:_pretty>) over {Any | hasattr(printer, '_use_unicode')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_use_unicode')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_use_unicode')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da6c9d83be880aa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._pretty","kind":"method","src_hash":"0893ac0e3c436c1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da6c9d83be880aa2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._pretty","kind":"method","src_hash":"0893ac0e3c436c1c","in":{"base":"Any","pred":"hasattr(printer, '_use_unicode')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_use_unicode')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da6c9d83be880aa2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_use_unicode')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer):
         e = self
 
@@ -406,30 +485,43 @@ class Dyadic(Printable, EvalfMixin):
         return Fake()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -1 * self + other) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -1 * self + other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1a9014de80d4b6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__rsub__","kind":"method","src_hash":"3e6b6bc8488e2b97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1a9014de80d4b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__rsub__","kind":"method","src_hash":"3e6b6bc8488e2b97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-1 * self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -1 * self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1a9014de80d4b6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-1 * self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-1 * self) + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), printing method) over Any             ║
+# ║ Path(_sympystr(printer), <unspecified:_sympystr>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 778a7c59961e0039  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._sympystr","kind":"method","src_hash":"06e695e389d7940c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"printing method","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._sympystr_correct","statement":"Path(_sympystr(x), printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"778a7c59961e0039"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._sympystr","kind":"method","src_hash":"06e695e389d7940c","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"<unspecified:_sympystr>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"printing method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._sympystr_correct","statement":"Path(_sympystr(x), printing method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"778a7c59961e0039","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         """Printing method. """
         ar = self.args  # just to shorten things
@@ -467,31 +559,43 @@ class Dyadic(Printable, EvalfMixin):
         return outstr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), the subtraction operator) over Any      ║
+# ║ Path(__sub__(other), self.__add__(other * -1)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(other * -1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0241adc116f6fc17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__sub__","kind":"method","src_hash":"a1503e77aa83d2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"the subtraction operator","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"the subtraction operator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0241adc116f6fc17"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.__sub__","kind":"method","src_hash":"a1503e77aa83d2aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(other * -1)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(other * -1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0241adc116f6fc17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(other * -1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """The subtraction operator. """
         return self.__add__(other * -1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(oth), returns the dyadic resulting from the dyadic vector cross product: dyadic x vector) over Any ║
+# ║ Path(cross(other), <unspecified:cross>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cross : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db06670e68f2658e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.cross","kind":"method","src_hash":"0ead8fc1e45ef94b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(oth)","rhs":"returns the dyadic resulting from the dyadic vector cross product: dyadic x vector","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"returns the dyadic resulting from the dyadic vector cross product: dyadic x vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.cross_correct","statement":"Path(cross(x), returns the dyadic resulting from the dyadic vector cross product: dyadic x vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db06670e68f2658e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.cross","kind":"method","src_hash":"0ead8fc1e45ef94b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(other)","rhs":"<unspecified:cross>","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"returns the dyadic resulting from the dyadic vector cross product: dyadic x vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.cross_correct","statement":"Path(cross(x), returns the dyadic resulting from the dyadic vector cross product: dyadic x vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db06670e68f2658e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cross(self, other):
         """Returns the dyadic resulting from the dyadic vector cross product:
         Dyadic x Vector.
@@ -521,16 +625,22 @@ class Dyadic(Printable, EvalfMixin):
     __xor__ = cross
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(express(fra), expresses this dyadic in alternate frame(s)) over Any ║
+# ║ Path(express(frame1, frame2), express(self, frame1, frame2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  express(self, frame1, frame2)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ express : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64506070a4dac959  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24cbb7c629d24df7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.express","kind":"method","src_hash":"51191dc11d24904c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"express(fra)","rhs":"expresses this dyadic in alternate frame(s)","over":{"base":"Any"},"name":"express_correct"},"guarantee":"expresses this dyadic in alternate frame(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.express_correct","statement":"Path(express(x), expresses this dyadic in alternate frame(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64506070a4dac959"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.express","kind":"method","src_hash":"51191dc11d24904c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"express(frame1, frame2)","rhs":"express(self, frame1, frame2)","over":{"base":"Any"},"name":"express_correct"},"guarantee":"returns express(self, frame1, frame2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.express_correct","statement":"Path(express(x), returns express(self, frame1, frame2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24cbb7c629d24df7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"express(self, frame1, frame2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def express(self, frame1, frame2=None):
         """Expresses this Dyadic in alternate frame(s)
 
@@ -567,16 +677,22 @@ class Dyadic(Printable, EvalfMixin):
         return express(self, frame1, frame2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_matrix(ref), id) over Any                          ║
+# ║ Path(to_matrix(reference_frame, second_reference_frame), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([i.dot(self).dot(j) for i in refer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_matrix : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bef3039b0d4204e2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.to_matrix","kind":"method","src_hash":"61b06497b25629da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_matrix(ref)","rhs":"returns the matrix form of the dyadic with respect to one or two reference frames","over":{"base":"Any"},"name":"to_matrix_correct","kind":"composition"},"guarantee":"returns the matrix form of the dyadic with respect to one or two reference frames","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"dot","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bef3039b0d4204e2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.to_matrix","kind":"method","src_hash":"61b06497b25629da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_matrix(reference_frame, second_reference_frame)","rhs":"Matrix([i.dot(self).dot(j) for i in reference_frame for j in second_reference_frame]).reshape(3, 3)","over":{"base":"Any"},"name":"to_matrix_correct","kind":"composition"},"guarantee":"returns Matrix([i.dot(self).dot(j) for i in reference_frame for j in second_reference_frame]).reshape(3, 3)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"dot","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bef3039b0d4204e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([i.dot(self).dot(j) for i in reference_frame for j in second_reference_frame]).reshape(3, 3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_matrix(self, reference_frame, second_reference_frame=None):
         """Returns the matrix form of the dyadic with respect to one or two
         reference frames.
@@ -627,32 +743,44 @@ class Dyadic(Printable, EvalfMixin):
                       second_reference_frame]).reshape(3, 3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), id) over Any                               ║
+# ║ Path(doit(**hints), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum([Dyadic([(v[0].doit(**hints), v[1], v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d96eb934ff7dcb72   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.doit","kind":"method","src_hash":"50fee9fb03f8fe54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"calls .doit() on each term in the dyadic","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"calls .doit() on each term in the dyadic","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Dyadic","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96eb934ff7dcb72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.doit","kind":"method","src_hash":"50fee9fb03f8fe54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"sum([Dyadic([(v[0].doit(**hints), v[1], v[2])]) for v in self.args], Dyadic(0))","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"returns sum([Dyadic([(v[0].doit(**hints), v[1], v[2])]) for v in self.args], Dyadic(0))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Dyadic","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96eb934ff7dcb72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum([Dyadic([(v[0].doit(**hints), v[1], v[2])]) for v in self.args], Dyadic(0))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """Calls .doit() on each term in the Dyadic"""
         return sum([Dyadic([(v[0].doit(**hints), v[1], v[2])])
                     for v in self.args], Dyadic(0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dt(fra), take the time derivative of this dyadic in a frame) over Any ║
+# ║ Path(dt(frame), time_derivative(self, frame)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  time_derivative(self, frame)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dt : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37c5cd5826830364  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c6294c1bf5d0a0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.dt","kind":"method","src_hash":"39ed16c4158cbdc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dt(fra)","rhs":"take the time derivative of this dyadic in a frame","over":{"base":"Any"},"name":"dt_correct"},"guarantee":"take the time derivative of this dyadic in a frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.dt_correct","statement":"Path(dt(x), take the time derivative of this dyadic in a frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37c5cd5826830364"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.dt","kind":"method","src_hash":"39ed16c4158cbdc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dt(frame)","rhs":"time_derivative(self, frame)","over":{"base":"Any"},"name":"dt_correct"},"guarantee":"returns time_derivative(self, frame)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.dt_correct","statement":"Path(dt(x), returns time_derivative(self, frame))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c6294c1bf5d0a0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"time_derivative(self, frame)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dt(self, frame):
         """Take the time derivative of this Dyadic in a frame.
 
@@ -682,16 +810,22 @@ class Dyadic(Printable, EvalfMixin):
         return time_derivative(self, frame)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(), returns a simplified dyadic) over Any     ║
+# ║ Path(simplify(), <unspecified:simplify>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0919d6c283dcb03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.simplify","kind":"method","src_hash":"10cb3fccf42c9599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify()","rhs":"returns a simplified dyadic","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"returns a simplified dyadic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.simplify_correct","statement":"Path(simplify(x), returns a simplified dyadic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0919d6c283dcb03"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.simplify","kind":"method","src_hash":"10cb3fccf42c9599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify()","rhs":"<unspecified:simplify>","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"returns a simplified dyadic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.simplify_correct","statement":"Path(simplify(x), returns a simplified dyadic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0919d6c283dcb03","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simplify(self):
         """Returns a simplified Dyadic."""
         out = Dyadic(0)
@@ -700,16 +834,22 @@ class Dyadic(Printable, EvalfMixin):
         return out
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(*ar), id) over Any                               ║
+# ║ Path(subs(*args, **kwargs), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum([Dyadic([(v[0].subs(*args, **kwargs),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c8e619edd9b31ab6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.subs","kind":"method","src_hash":"63762addf5172611","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(*ar)","rhs":"substitution on the dyadic","over":{"base":"Any"},"name":"subs_correct","kind":"composition"},"guarantee":"substitution on the dyadic","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Dyadic","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8e619edd9b31ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.subs","kind":"method","src_hash":"63762addf5172611","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(*args, **kwargs)","rhs":"sum([Dyadic([(v[0].subs(*args, **kwargs), v[1], v[2])]) for v in self.args], Dyadic(0))","over":{"base":"Any"},"name":"subs_correct","kind":"composition"},"guarantee":"returns sum([Dyadic([(v[0].subs(*args, **kwargs), v[1], v[2])]) for v in self.args], Dyadic(0))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Dyadic","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8e619edd9b31ab6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum([Dyadic([(v[0].subs(*args, **kwargs), v[1], v[2])]) for v in self.args], Dyadic(0))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subs(self, *args, **kwargs):
         """Substitution on the Dyadic.
 
@@ -730,16 +870,23 @@ class Dyadic(Printable, EvalfMixin):
                     for v in self.args], Dyadic(0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applyfunc(f), apply a function to each component of a dyadic) over Any ║
+# ║ Path(applyfunc(f), <unspecified:applyfunc>) over {Any | callable(f)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ applyfunc : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: callable(f)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ applyfunc : {Any | callable(f)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ab67bfa6cc5e72a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.applyfunc","kind":"method","src_hash":"2322d196909ec900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"apply a function to each component of a dyadic","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"apply a function to each component of a dyadic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.applyfunc_correct","statement":"Path(applyfunc(x), apply a function to each component of a dyadic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab67bfa6cc5e72a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.applyfunc","kind":"method","src_hash":"2322d196909ec900","in":{"base":"Any","pred":"callable(f)"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"<unspecified:applyfunc>","over":{"base":"Any","pred":"callable(f)"},"name":"applyfunc_correct"},"guarantee":"apply a function to each component of a dyadic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.applyfunc_correct","statement":"Path(applyfunc(x), apply a function to each component of a dyadic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab67bfa6cc5e72a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["callable(f)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, f):
         """Apply a function to each component of a Dyadic."""
         if not callable(f):
@@ -751,16 +898,22 @@ class Dyadic(Printable, EvalfMixin):
         return out
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fe51eda7d14b95f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._eval_evalf","kind":"method","src_hash":"9f84a04edf79d83f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fe51eda7d14b95f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic._eval_evalf","kind":"method","src_hash":"9f84a04edf79d83f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fe51eda7d14b95f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if not self.args:
             return self
@@ -773,16 +926,22 @@ class Dyadic(Printable, EvalfMixin):
         return Dyadic(new_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xreplace(rul), replace occurrences of objects within the measure numbers of the dyadic) over Any ║
+# ║ Path(xreplace(rule), Dyadic(new_args)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Dyadic(new_args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xreplace : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e7b215adefb2482  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 376b3722f5c56701  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.xreplace","kind":"method","src_hash":"63fd4906a1e760fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xreplace(rul)","rhs":"replace occurrences of objects within the measure numbers of the dyadic","over":{"base":"Any"},"name":"xreplace_correct"},"guarantee":"replace occurrences of objects within the measure numbers of the dyadic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.xreplace_correct","statement":"Path(xreplace(x), replace occurrences of objects within the measure numbers of the dyadic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e7b215adefb2482"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic.Dyadic.xreplace","kind":"method","src_hash":"63fd4906a1e760fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xreplace(rule)","rhs":"Dyadic(new_args)","over":{"base":"Any"},"name":"xreplace_correct"},"guarantee":"returns Dyadic(new_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic.Dyadic.xreplace_correct","statement":"Path(xreplace(x), returns Dyadic(new_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"376b3722f5c56701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Dyadic(new_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xreplace(self, rule):
         """
         Replace occurrences of objects within the measure numbers of the
@@ -832,9 +991,14 @@ class Dyadic(Printable, EvalfMixin):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_dyadic(oth), internal helper behaves correctly) over {Any | isinstance(other, Dyadic)} ║
+# ║ Path(_check_dyadic(other), other) over {Any | isinstance(other, Dyadic) and isinstance(other, Dyadic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_dyadic : {Any | isinstance(other, Dyadic)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Dyadic)                      ║
+# ║   ensures:  result == other                                ║
+# ║   returns:  other                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_dyadic : {Any | isinstance(other, Dyadic) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Dyadic: {isinstance(other, Dyadic)} → library_axiom      ║
@@ -844,9 +1008,12 @@ class Dyadic(Printable, EvalfMixin):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 10783253...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic._check_dyadic","kind":"function","src_hash":"4f757c5ff06d223c","in":{"base":"Any","pred":"isinstance(other, Dyadic)"},"out":{"base":"Any"},"spec":{"lhs":"_check_dyadic(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(other, Dyadic)"},"name":"_check_dyadic_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Dyadic","pred":"isinstance(other, Dyadic)","path":{"lhs":"_check_dyadic(x)","rhs":"internal helper behaves correctly","over":{"base":"Dyadic","pred":"isinstance(other, Dyadic)"},"name":"_check_dyadic_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic._check_dyadic_Dyadic_correct","statement":"_check_dyadic satisfies spec on Dyadic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1078325358dfba10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.dyadic._check_dyadic","kind":"function","src_hash":"4f757c5ff06d223c","in":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(other, Dyadic)"},"out":{"base":"Any","pred":"result satisfies: result == (other)"},"spec":{"lhs":"_check_dyadic(other)","rhs":"other","over":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(other, Dyadic)"},"name":"_check_dyadic_correct"},"guarantee":"returns other; result == other","fibers":[{"name":"Dyadic","pred":"isinstance(other, Dyadic)","path":{"lhs":"_check_dyadic(x)","rhs":"returns other; result == other","over":{"base":"Dyadic","pred":"isinstance(other, Dyadic)"},"name":"_check_dyadic_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.dyadic._check_dyadic_Dyadic_correct","statement":"_check_dyadic satisfies spec on Dyadic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1078325358dfba10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Dyadic)"],"ensures":["result == other"],"returns_expr":"other","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(other, Dyadic)'}, fibers={'Dyadic'})"]}}
 def _check_dyadic(other):
     if not isinstance(other, Dyadic):
         raise TypeError('A Dyadic must be supplied')

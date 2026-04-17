@@ -25,16 +25,22 @@ import itertools as itl
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MDNotImplementedError(), correctly constructs a MDNotImplementedError instance) over Any ║
+# ║ Path(MDNotImplementedError(), isinstance(self, NotImplementedError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MDNotImplementedError : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NotImplementedError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MDNotImplementedError : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b915ac71967fcfe0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MDNotImplementedError","kind":"class","src_hash":"6273617046338042","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MDNotImplementedError()","rhs":"correctly constructs a MDNotImplementedError instance","over":{"base":"Any"},"name":"MDNotImplementedError_correct"},"guarantee":"correctly constructs a MDNotImplementedError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b915ac71967fcfe0"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MDNotImplementedError","kind":"class","src_hash":"6273617046338042","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NotImplementedError)"},"spec":{"lhs":"MDNotImplementedError()","rhs":"isinstance(self, NotImplementedError)","over":{"base":"Any"},"name":"MDNotImplementedError_correct"},"guarantee":"isinstance(self, NotImplementedError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b915ac71967fcfe0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NotImplementedError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function MDNotImplementedError not found in source"]}}
 class MDNotImplementedError(NotImplementedError):
     """ A NotImplementedError for multiple dispatch """
 
@@ -42,16 +48,23 @@ class MDNotImplementedError(NotImplementedError):
 ### Functions for on_ambiguity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambiguity_warn(dis), raise warning when ambiguity is detected) over Any ║
+# ║ Path(ambiguity_warn(dispatcher, ambiguities), <unspecified:ambiguity_warn>) over {Any | hasattr(dispatcher, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ambiguity_warn : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dispatcher, 'name')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ambiguity_warn : {Any | hasattr(dispatcher, 'name')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f9a42fe2a226e4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.ambiguity_warn","kind":"function","src_hash":"c10d12bb1fa5dedb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambiguity_warn(dis)","rhs":"raise warning when ambiguity is detected","over":{"base":"Any"},"name":"ambiguity_warn_correct"},"guarantee":"raise warning when ambiguity is detected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.ambiguity_warn_correct","statement":"Path(ambiguity_warn(x), raise warning when ambiguity is detected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f9a42fe2a226e4c"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.ambiguity_warn","kind":"function","src_hash":"c10d12bb1fa5dedb","in":{"base":"Any","pred":"hasattr(dispatcher, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"ambiguity_warn(dispatcher, ambiguities)","rhs":"<unspecified:ambiguity_warn>","over":{"base":"Any","pred":"hasattr(dispatcher, 'name')"},"name":"ambiguity_warn_correct"},"guarantee":"raise warning when ambiguity is detected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.ambiguity_warn_correct","statement":"Path(ambiguity_warn(x), raise warning when ambiguity is detected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f9a42fe2a226e4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dispatcher, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dispatcher.name"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def ambiguity_warn(dispatcher, ambiguities):
     """ Raise warning when ambiguity is detected
 
@@ -72,42 +85,59 @@ def ambiguity_warn(dispatcher, ambiguities):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RaiseNotImplementedError instance) preserved by RaiseNotImplementedError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RaiseNotImplementedError : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87a66b1fb1d81918  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.RaiseNotImplementedError","kind":"class","src_hash":"a177e50d115fc2b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RaiseNotImplementedError(*args)","rhs":"correctly constructs a RaiseNotImplementedError instance","over":{"base":"Any"},"name":"RaiseNotImplementedError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RaiseNotImplementedError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'dispatcher')","kind":"class","induction":"structural on dispatcher"}],"methods_preserving":["__init__","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87a66b1fb1d81918"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.RaiseNotImplementedError","kind":"class","src_hash":"a177e50d115fc2b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RaiseNotImplementedError(*args)","rhs":"correctly constructs a RaiseNotImplementedError instance","over":{"base":"Any"},"name":"RaiseNotImplementedError_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'dispatcher')","kind":"class","induction":"structural on dispatcher"}],"methods_preserving":["__init__","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87a66b1fb1d81918","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'dispatcher')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function RaiseNotImplementedError not found in source"]}}
 class RaiseNotImplementedError:
     """Raise ``NotImplementedError`` when called."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dis), initializes the instance correctly) over Any ║
+# ║ Path(__init__(dispatcher), self.dispatcher == dispatcher) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.dispatcher == dispatcher                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.dispat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c10157ec935f59b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.RaiseNotImplementedError.__init__","kind":"method","src_hash":"3df8a338aad79d13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dis)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c10157ec935f59b"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.RaiseNotImplementedError.__init__","kind":"method","src_hash":"3df8a338aad79d13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.dispatcher == dispatcher"},"spec":{"lhs":"__init__(dispatcher)","rhs":"self.dispatcher == dispatcher","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.dispatcher == dispatcher","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c10157ec935f59b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.dispatcher == dispatcher"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, dispatcher):
         self.dispatcher = dispatcher
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args, **kwargs), <unspecified:__call__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d098d52fc2608a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.RaiseNotImplementedError.__call__","kind":"method","src_hash":"01258d1eb1c7c6aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d098d52fc2608a0"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.RaiseNotImplementedError.__call__","kind":"method","src_hash":"01258d1eb1c7c6aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args, **kwargs)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d098d52fc2608a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dispatcher"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args, **kwargs):
         types = tuple(type(a) for a in args)
         raise NotImplementedError(
@@ -116,16 +146,23 @@ class RaiseNotImplementedError:
         ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambiguity_register_error_ignore_dup(dis), if super signature for ambiguous types is duplicate types, ignore it. else, register instance of ``raisenotimplementederror`` for ambiguous types) over Any ║
+# ║ Path(ambiguity_register_error_ignore_dup(dispatcher, ambiguities), <unspecified:ambiguity_register_error_ignore_dup>) over {Any | hasattr(dispatcher, 'add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ambiguity_register_error_ignore_dup : Any → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dispatcher, 'add')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ambiguity_register_error_ignore_dup : {Any | hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e0f7be4b4ea2f17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.ambiguity_register_error_ignore_dup","kind":"function","src_hash":"285127ae0fa80127","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambiguity_register_error_ignore_dup(dis)","rhs":"if super signature for ambiguous types is duplicate types, ignore it. else, register instance of ``raisenotimplementederror`` for ambiguous types","over":{"base":"Any"},"name":"ambiguity_register_error_ignore_dup_correct"},"guarantee":"if super signature for ambiguous types is duplicate types, ignore it. else, register instance of ``raisenotimplementederror`` for ambiguous types","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.ambiguity_register_error_ignore_dup_correct","statement":"Path(ambiguity_register_error_ignore_dup(x), if super signature for ambiguous types is duplicate types, ignore it. else, register instance of ``raisenotimplementederror`` for ambiguous types)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e0f7be4b4ea2f17"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.ambiguity_register_error_ignore_dup","kind":"function","src_hash":"285127ae0fa80127","in":{"base":"Any","pred":"hasattr(dispatcher, 'add')"},"out":{"base":"Any"},"spec":{"lhs":"ambiguity_register_error_ignore_dup(dispatcher, ambiguities)","rhs":"<unspecified:ambiguity_register_error_ignore_dup>","over":{"base":"Any","pred":"hasattr(dispatcher, 'add')"},"name":"ambiguity_register_error_ignore_dup_correct"},"guarantee":"if super signature for ambiguous types is duplicate types, ignore it. else, register instance of ``raisenotimplementederror`` for ambiguous types","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.ambiguity_register_error_ignore_dup_correct","statement":"Path(ambiguity_register_error_ignore_dup(x), if super signature for ambiguous types is duplicate types, ignore it. else, register instance of ``raisenotimplementederror`` for ambiguous types)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e0f7be4b4ea2f17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dispatcher, 'add')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["dispatcher.add"],"calls_mutating":["dispatcher.add"]},"state_contract":{"modifies":["dispatcher.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ambiguity_register_error_ignore_dup(dispatcher, ambiguities):
     """
     If super signature for ambiguous types is duplicate types, ignore it.
@@ -159,31 +196,43 @@ _resolve = [True]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(halt_ordering(), halt_ordering produces the expected output) over Any ║
+# ║ Path(halt_ordering(), <unspecified:halt_ordering>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ halt_ordering : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e967a73f999111b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.halt_ordering","kind":"function","src_hash":"751b4d9c06cd93db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"halt_ordering()","rhs":"halt_ordering produces the expected output","over":{"base":"Any"},"name":"halt_ordering_correct"},"guarantee":"halt_ordering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.halt_ordering_correct","statement":"Path(halt_ordering(x), halt_ordering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e967a73f999111b"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.halt_ordering","kind":"function","src_hash":"751b4d9c06cd93db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"halt_ordering()","rhs":"<unspecified:halt_ordering>","over":{"base":"Any"},"name":"halt_ordering_correct"},"guarantee":"halt_ordering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.halt_ordering_correct","statement":"Path(halt_ordering(x), halt_ordering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e967a73f999111b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def halt_ordering():
     _resolve[0] = False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(restart_ordering(on_), restart_ordering produces the expected output) over Any ║
+# ║ Path(restart_ordering(on_ambiguity), <unspecified:restart_ordering>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ restart_ordering : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 911d387a9eb86328  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.restart_ordering","kind":"function","src_hash":"dd0dfee2aa4679af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"restart_ordering(on_)","rhs":"restart_ordering produces the expected output","over":{"base":"Any"},"name":"restart_ordering_correct"},"guarantee":"restart_ordering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.restart_ordering_correct","statement":"Path(restart_ordering(x), restart_ordering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"911d387a9eb86328"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.restart_ordering","kind":"function","src_hash":"dd0dfee2aa4679af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"restart_ordering(on_ambiguity)","rhs":"<unspecified:restart_ordering>","over":{"base":"Any"},"name":"restart_ordering_correct"},"guarantee":"restart_ordering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.restart_ordering_correct","statement":"Path(restart_ordering(x), restart_ordering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"911d387a9eb86328","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def restart_ordering(on_ambiguity=ambiguity_warn):
     _resolve[0] = True
     while _unresolved_dispatchers:
@@ -194,14 +243,19 @@ def restart_ordering(on_ambiguity=ambiguity_warn):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Dispatcher instance) preserved by Dispatcher(*args) over {Any | isinstance(typ, tuple) and isinstance(typ, type)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Dispatcher : {Any | isinstance(typ, tuple) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ec693699f2bf04a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher","kind":"class","src_hash":"3af65a9bc7b32ed8","in":{"base":"Any","pred":"isinstance(typ, tuple) and isinstance(typ, type)"},"out":{"base":"Any"},"spec":{"lhs":"Dispatcher(*args)","rhs":"correctly constructs a Dispatcher instance","over":{"base":"Any","pred":"isinstance(typ, tuple) and isinstance(typ, type)"},"name":"Dispatcher_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Dispatcher instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, '__name__') and hasattr(self, 'funcs') and hasattr(self, '_cache') and hasattr(self, 'ordering') and hasattr(self, 'doc')","kind":"class","induction":"structural on name, __name__, funcs, _cache"}],"methods_preserving":["__init__","register","add","reorder","__call__","__str__","dispatch","dispatch_iter","resolve","__getstate__","__setstate__","__doc__","_help","help","_source","source"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ec693699f2bf04a"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher","kind":"class","src_hash":"3af65a9bc7b32ed8","in":{"base":"Any","pred":"isinstance(typ, tuple) and isinstance(typ, type)"},"out":{"base":"Any"},"spec":{"lhs":"Dispatcher(*args)","rhs":"correctly constructs a Dispatcher instance","over":{"base":"Any","pred":"isinstance(typ, tuple) and isinstance(typ, type)"},"name":"Dispatcher_class_invariant","kind":"invariant"},"guarantee":"preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, '__name__') and hasattr(self, 'funcs') and hasattr(self, '_cache') and hasattr(self, 'ordering') and hasattr(self, 'doc')","kind":"class","induction":"structural on name, __name__, funcs, _cache"}],"methods_preserving":["__init__","register","add","reorder","__call__","__str__","dispatch","dispatch_iter","resolve","__getstate__","__setstate__","__doc__","_help","help","_source","source"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ec693699f2bf04a","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'name')","hasattr(self, '__name__')","hasattr(self, 'funcs')","hasattr(self, '_cache')","hasattr(self, 'ordering')","hasattr(self, 'doc')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Dispatcher not found in source"]}}
 class Dispatcher:
     """ Dispatch methods based on type signature
 
@@ -227,16 +281,24 @@ class Dispatcher:
     __slots__ = '__name__', 'name', 'funcs', 'ordering', '_cache', 'doc'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, doc), self.name == name and self.__name__ == name and self.doc == doc) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.name == name                              ║
+# ║   ensures:  self.__name__ == name                          ║
+# ║   ensures:  self.doc == doc                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.name =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 798c4a91e51d76bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__init__","kind":"method","src_hash":"b6d9d6f7e184e390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"798c4a91e51d76bf"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__init__","kind":"method","src_hash":"b6d9d6f7e184e390","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.name == name and self.__name__ == name and self.doc == doc"},"spec":{"lhs":"__init__(name, doc)","rhs":"self.name == name and self.__name__ == name and self.doc == doc","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.name == name; self.__name__ == name; self.doc == doc","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"798c4a91e51d76bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.name == name","self.__name__ == name","self.doc == doc"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, doc=None):
         self.name = self.__name__ = name
         self.funcs = {}
@@ -245,16 +307,22 @@ class Dispatcher:
         self.doc = doc
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register(*ty), register dispatcher with new implementation) over Any ║
+# ║ Path(register(*types, **kwargs), <unspecified:register>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ register : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a53cf071b531a21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.register","kind":"method","src_hash":"6691f5b9bbc072b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register(*ty)","rhs":"register dispatcher with new implementation","over":{"base":"Any"},"name":"register_correct"},"guarantee":"register dispatcher with new implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.register_correct","statement":"Path(register(x), register dispatcher with new implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a53cf071b531a21"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.register","kind":"method","src_hash":"6691f5b9bbc072b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register(*types, **kwargs)","rhs":"<unspecified:register>","over":{"base":"Any"},"name":"register_correct"},"guarantee":"register dispatcher with new implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.register_correct","statement":"Path(register(x), register dispatcher with new implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a53cf071b531a21","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def register(self, *types, **kwargs):
         """ Register dispatcher with new implementation
 
@@ -289,16 +357,22 @@ class Dispatcher:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_func_params(cls), get_func_params produces the expected output) over Any ║
+# ║ Path(get_func_params(cls, func), sig.parameters.values()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sig.parameters.values()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_func_params : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e17a91893361f45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d30ec5dac6f40b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_params","kind":"classmethod","src_hash":"a44ce641654cd008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_func_params(cls)","rhs":"get_func_params produces the expected output","over":{"base":"Any"},"name":"get_func_params_correct"},"guarantee":"get_func_params produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_params_correct","statement":"Path(get_func_params(x), get_func_params produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e17a91893361f45"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_params","kind":"classmethod","src_hash":"a44ce641654cd008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_func_params(cls, func)","rhs":"sig.parameters.values()","over":{"base":"Any"},"name":"get_func_params_correct"},"guarantee":"returns sig.parameters.values()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_params_correct","statement":"Path(get_func_params(x), returns sig.parameters.values())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d30ec5dac6f40b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sig.parameters.values()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_func_params(cls, func):
         if hasattr(inspect, "signature"):
             sig = inspect.signature(func)
@@ -306,16 +380,22 @@ class Dispatcher:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_func_annotations(cls), get annotations of function positional parameters) over Any ║
+# ║ Path(get_func_annotations(cls, func), <unspecified:get_func_annotations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_func_annotations : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 861bfbdd7b8be535  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_annotations","kind":"classmethod","src_hash":"5d7d8a529893bdbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_func_annotations(cls)","rhs":"get annotations of function positional parameters","over":{"base":"Any"},"name":"get_func_annotations_correct"},"guarantee":"get annotations of function positional parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_annotations_correct","statement":"Path(get_func_annotations(x), get annotations of function positional parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"861bfbdd7b8be535"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_annotations","kind":"classmethod","src_hash":"5d7d8a529893bdbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_func_annotations(cls, func)","rhs":"<unspecified:get_func_annotations>","over":{"base":"Any"},"name":"get_func_annotations_correct"},"guarantee":"get annotations of function positional parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.get_func_annotations_correct","statement":"Path(get_func_annotations(x), get annotations of function positional parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"861bfbdd7b8be535","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.get_func_params"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_func_annotations(cls, func):
         """ Get annotations of function positional parameters
         """
@@ -336,16 +416,22 @@ class Dispatcher:
                 return annotations
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(sig), add new types/method pair to dispatcher) over Any ║
+# ║ Path(add(signature, func, on_ambiguity), len(self) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == 0                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : Any → {Any | result satisfies: len(self) == 0}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 085df2a3a1ff0fee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6515d2d93288794a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.add","kind":"method","src_hash":"2ec0d29c9a7b228c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(sig)","rhs":"add new types/method pair to dispatcher","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add new types/method pair to dispatcher","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.add_correct","statement":"Path(add(x), add new types/method pair to dispatcher)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"085df2a3a1ff0fee"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.add","kind":"method","src_hash":"2ec0d29c9a7b228c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == 0"},"spec":{"lhs":"add(signature, func, on_ambiguity)","rhs":"len(self) == 0","over":{"base":"Any"},"name":"add_correct"},"guarantee":"len(self) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.add_correct","statement":"Path(add(x), len(self) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6515d2d93288794a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == 0"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cache","self.add","self.funcs","self.get_func_annotations","self.name","self.reorder"],"calls_mutating":["self._cache.clear","self.add"],"raises":["TypeError"]},"state_contract":{"modifies":["self.*"],"post_ensures":["len(self) == 0"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, signature, func, on_ambiguity=ambiguity_warn):
         """ Add new types/method pair to dispatcher
 
@@ -391,16 +477,22 @@ class Dispatcher:
         self._cache.clear()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reorder(on_), reorder produces the expected output) over Any ║
+# ║ Path(reorder(on_ambiguity), <unspecified:reorder>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reorder : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8c1465a1f1ae9a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.reorder","kind":"method","src_hash":"afc39b4d505867d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reorder(on_)","rhs":"reorder produces the expected output","over":{"base":"Any"},"name":"reorder_correct"},"guarantee":"reorder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.reorder_correct","statement":"Path(reorder(x), reorder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8c1465a1f1ae9a1"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.reorder","kind":"method","src_hash":"afc39b4d505867d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reorder(on_ambiguity)","rhs":"<unspecified:reorder>","over":{"base":"Any"},"name":"reorder_correct"},"guarantee":"reorder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.reorder_correct","statement":"Path(reorder(x), reorder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8c1465a1f1ae9a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.funcs"],"writes":["self.ordering"],"calls_mutating":["_unresolved_dispatchers.add"]},"state_contract":{"modifies":["_unresolved_dispatchers.*","self.ordering"],"old_bindings":{"old_self_ordering":"self.ordering"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reorder(self, on_ambiguity=ambiguity_warn):
         if _resolve[0]:
             self.ordering = ordering(self.funcs)
@@ -411,16 +503,22 @@ class Dispatcher:
             _unresolved_dispatchers.add(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args, **kwargs), <unspecified:__call__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba70a3d7fe5eaf66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__call__","kind":"method","src_hash":"7ffa7bab8eacf046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba70a3d7fe5eaf66"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__call__","kind":"method","src_hash":"7ffa7bab8eacf046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args, **kwargs)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba70a3d7fe5eaf66","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache","self.dispatch","self.dispatch_iter","self.name"],"raises":["NotImplementedError"],"catches":["KeyError","MDNotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args, **kwargs):
         types = tuple([type(arg) for arg in args])
         try:
@@ -448,31 +546,43 @@ class Dispatcher:
                                       % (self.name, str_signature(types)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<dispatched %s>' % self.name) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<dispatched %s>' % self.name                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2364ab12d34744f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__str__","kind":"method","src_hash":"954fedc81095de04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2364ab12d34744f"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__str__","kind":"method","src_hash":"954fedc81095de04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<dispatched %s>' % self.name","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<dispatched %s>' % self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2364ab12d34744f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<dispatched %s>' % self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "<dispatched %s>" % self.name
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispatch(*ty), deterimine appropriate implementation for this type signature) over Any ║
+# ║ Path(dispatch(*types), <unspecified:dispatch>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispatch : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb837f1677093199  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch","kind":"method","src_hash":"0ac878ae2414f5b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch(*ty)","rhs":"deterimine appropriate implementation for this type signature","over":{"base":"Any"},"name":"dispatch_correct"},"guarantee":"deterimine appropriate implementation for this type signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch_correct","statement":"Path(dispatch(x), deterimine appropriate implementation for this type signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb837f1677093199"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch","kind":"method","src_hash":"0ac878ae2414f5b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch(*types)","rhs":"<unspecified:dispatch>","over":{"base":"Any"},"name":"dispatch_correct"},"guarantee":"deterimine appropriate implementation for this type signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch_correct","statement":"Path(dispatch(x), deterimine appropriate implementation for this type signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb837f1677093199","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dispatch_iter","self.funcs"],"catches":["StopIteration"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dispatch(self, *types):
         """ Deterimine appropriate implementation for this type signature
 
@@ -504,16 +614,22 @@ class Dispatcher:
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispatch_iter(*ty), dispatch_iter produces the expected output) over Any ║
+# ║ Path(dispatch_iter(*types), <unspecified:dispatch_iter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispatch_iter : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26283c7838c28bd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch_iter","kind":"method","src_hash":"56cbdb65f3f49998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch_iter(*ty)","rhs":"dispatch_iter produces the expected output","over":{"base":"Any"},"name":"dispatch_iter_correct"},"guarantee":"dispatch_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch_iter_correct","statement":"Path(dispatch_iter(x), dispatch_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26283c7838c28bd1"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch_iter","kind":"method","src_hash":"56cbdb65f3f49998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch_iter(*types)","rhs":"<unspecified:dispatch_iter>","over":{"base":"Any"},"name":"dispatch_iter_correct"},"guarantee":"dispatch_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.dispatch_iter_correct","statement":"Path(dispatch_iter(x), dispatch_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26283c7838c28bd1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.funcs","self.ordering"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dispatch_iter(self, *types):
         n = len(types)
         for signature in self.ordering:
@@ -522,16 +638,22 @@ class Dispatcher:
                 yield result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(resolve(typ), deterimine appropriate implementation for this type signature) over Any ║
+# ║ Path(resolve(types), self.dispatch(*types)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dispatch(*types)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ resolve : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44916f9e40001605  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a94235a6045afc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.resolve","kind":"method","src_hash":"4c4857d2e5c65462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"resolve(typ)","rhs":"deterimine appropriate implementation for this type signature","over":{"base":"Any"},"name":"resolve_correct"},"guarantee":"deterimine appropriate implementation for this type signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.resolve_correct","statement":"Path(resolve(x), deterimine appropriate implementation for this type signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44916f9e40001605"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.resolve","kind":"method","src_hash":"4c4857d2e5c65462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"resolve(types)","rhs":"self.dispatch(*types)","over":{"base":"Any"},"name":"resolve_correct"},"guarantee":"returns self.dispatch(*types)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.resolve_correct","statement":"Path(resolve(x), returns self.dispatch(*types))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a94235a6045afc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dispatch(*types)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dispatch"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def resolve(self, types):
         """ Deterimine appropriate implementation for this type signature
 
@@ -544,31 +666,43 @@ class Dispatcher:
         return self.dispatch(*types)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getstate__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getstate__(), {'name': self.name, 'funcs': self.funcs}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {'name': self.name, 'funcs': self.funcs}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getstate__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa1d947ba83ede4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__getstate__","kind":"method","src_hash":"367bc626073cfb35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa1d947ba83ede4d"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__getstate__","kind":"method","src_hash":"367bc626073cfb35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__()","rhs":"{'name': self.name, 'funcs': self.funcs}","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"returns {'name': self.name, 'funcs': self.funcs}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa1d947ba83ede4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{'name': self.name, 'funcs': self.funcs}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.funcs","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getstate__(self):
         return {'name': self.name,
                 'funcs': self.funcs}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setstate__(d), internal helper behaves correctly) over Any ║
+# ║ Path(__setstate__(d), <unspecified:__setstate__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setstate__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3a3e1fa20814414           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__setstate__","kind":"method","src_hash":"5359cf15f089a257","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setstate__(d)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__setstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3a3e1fa20814414"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__setstate__","kind":"method","src_hash":"5359cf15f089a257","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setstate__(d)","rhs":"<unspecified:__setstate__>","over":{"base":"Any"},"name":"__setstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3a3e1fa20814414","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.funcs"],"writes":["self._cache","self.funcs","self.name","self.ordering"]},"state_contract":{"modifies":["self._cache","self.funcs","self.name","self.ordering"],"old_bindings":{"old_self__cache":"self._cache","old_self_funcs":"self.funcs","old_self_name":"self.name","old_self_ordering":"self.ordering"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setstate__(self, d):
         self.name = d['name']
         self.funcs = d['funcs']
@@ -577,16 +711,22 @@ class Dispatcher:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__doc__(), returns the __doc__ attribute) over Any    ║
+# ║ Path(__doc__(), '\n\n'.join(docs)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n\n'.join(docs)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __doc__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70678940925f25a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__doc__","kind":"property","src_hash":"b7b61ff3e67798ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__()","rhs":"returns the __doc__ attribute","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns the __doc__ attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70678940925f25a3"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.__doc__","kind":"property","src_hash":"b7b61ff3e67798ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__()","rhs":"'\\n\\n'.join(docs)","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns '\\n\\n'.join(docs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70678940925f25a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n\\n'.join(docs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __doc__(self):
         docs = ["Multiply dispatched method: %s" % self.name]
 
@@ -610,45 +750,64 @@ class Dispatcher:
         return '\n\n'.join(docs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_help(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_help(*args), self.dispatch(*map(type, args)).__doc__) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dispatch(*map(type, args)).__doc__        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _help : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7acf1d5d24d81679           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher._help","kind":"method","src_hash":"ee99941f0d84a762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_help(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_help_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7acf1d5d24d81679"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher._help","kind":"method","src_hash":"ee99941f0d84a762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_help(*args)","rhs":"self.dispatch(*map(type, args)).__doc__","over":{"base":"Any"},"name":"_help_correct"},"guarantee":"returns self.dispatch(*map(type, args)).__doc__","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7acf1d5d24d81679","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dispatch(*map(type, args)).__doc__","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dispatch"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _help(self, *args):
         return self.dispatch(*map(type, args)).__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(help(*ar), print docstring for the function corresponding to inputs) over Any ║
+# ║ Path(help(*args, **kwargs), <unspecified:help>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ help : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03e9331db56e039e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.help","kind":"method","src_hash":"f79b569d2e6ce6e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"help(*ar)","rhs":"print docstring for the function corresponding to inputs","over":{"base":"Any"},"name":"help_correct"},"guarantee":"print docstring for the function corresponding to inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.help_correct","statement":"Path(help(x), print docstring for the function corresponding to inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e9331db56e039e"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.help","kind":"method","src_hash":"f79b569d2e6ce6e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"help(*args, **kwargs)","rhs":"<unspecified:help>","over":{"base":"Any"},"name":"help_correct"},"guarantee":"print docstring for the function corresponding to inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.help_correct","statement":"Path(help(x), print docstring for the function corresponding to inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e9331db56e039e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._help"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def help(self, *args, **kwargs):
         """ Print docstring for the function corresponding to inputs """
         print(self._help(*args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_source(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_source(*args), source(func)) over {Any | func}       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _source : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: func                                           ║
+# ║   returns:  source(func)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _source : {Any | func} → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5dc2a605e6b2bcf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d97977615a717362  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher._source","kind":"method","src_hash":"cbef1a67ad2d6b10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_source(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_source_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher._source_correct","statement":"Path(_source(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5dc2a605e6b2bcf"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher._source","kind":"method","src_hash":"cbef1a67ad2d6b10","in":{"base":"Any","pred":"func"},"out":{"base":"Any"},"spec":{"lhs":"_source(*args)","rhs":"source(func)","over":{"base":"Any","pred":"func"},"name":"_source_correct"},"guarantee":"returns source(func)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher._source_correct","statement":"Path(_source(x), returns source(func))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d97977615a717362","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["func"],"returns_expr":"source(func)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dispatch"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _source(self, *args):
         func = self.dispatch(*map(type, args))
         if not func:
@@ -656,32 +815,44 @@ class Dispatcher:
         return source(func)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(source(*ar), print source code for the function corresponding to inputs) over Any ║
+# ║ Path(source(*args, **kwargs), <unspecified:source>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ source : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c00086a3b6ed219  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.source","kind":"method","src_hash":"08848f830d9e46ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"source(*ar)","rhs":"print source code for the function corresponding to inputs","over":{"base":"Any"},"name":"source_correct"},"guarantee":"print source code for the function corresponding to inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.source_correct","statement":"Path(source(x), print source code for the function corresponding to inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c00086a3b6ed219"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.Dispatcher.source","kind":"method","src_hash":"08848f830d9e46ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"source(*args, **kwargs)","rhs":"<unspecified:source>","over":{"base":"Any"},"name":"source_correct"},"guarantee":"print source code for the function corresponding to inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.Dispatcher.source_correct","statement":"Path(source(x), print source code for the function corresponding to inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c00086a3b6ed219","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._source"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def source(self, *args, **kwargs):
         """ Print source code for the function corresponding to inputs """
         print(self._source(*args))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(source(fun), source produces the expected output) over Any ║
+# ║ Path(source(func), <unspecified:source>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ source : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a21c56d0cd8fa3e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.source","kind":"function","src_hash":"3fadf612332a24c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"source(fun)","rhs":"source produces the expected output","over":{"base":"Any"},"name":"source_correct"},"guarantee":"source produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.source_correct","statement":"Path(source(x), source produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a21c56d0cd8fa3e1"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.source","kind":"function","src_hash":"3fadf612332a24c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"source(func)","rhs":"<unspecified:source>","over":{"base":"Any"},"name":"source_correct"},"guarantee":"source produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.source_correct","statement":"Path(source(x), source produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a21c56d0cd8fa3e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def source(func):
     s = 'File: %s\n\n' % inspect.getsourcefile(func)
     s = s + inspect.getsource(func)
@@ -691,14 +862,20 @@ def source(func):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MethodDispatcher(*args), correctly constructs a MethodDispatcher instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MethodDispatcher : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Dispatcher)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MethodDispatcher : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92ce2bf94a58cb07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher","kind":"class","src_hash":"13e8f7398524e113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MethodDispatcher(*args)","rhs":"correctly constructs a MethodDispatcher instance","over":{"base":"Any"},"name":"MethodDispatcher_class_invariant"},"guarantee":"correctly constructs a MethodDispatcher instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ce2bf94a58cb07"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher","kind":"class","src_hash":"13e8f7398524e113","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Dispatcher)"},"spec":{"lhs":"MethodDispatcher(*args)","rhs":"correctly constructs a MethodDispatcher instance","over":{"base":"Any"},"name":"MethodDispatcher_class_invariant"},"guarantee":"isinstance(self, Dispatcher)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ce2bf94a58cb07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Dispatcher)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MethodDispatcher not found in source"]}}
 class MethodDispatcher(Dispatcher):
     """ Dispatch methods based on type signature
 
@@ -708,48 +885,67 @@ class MethodDispatcher(Dispatcher):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_func_params(cls), id) over Any                    ║
+# ║ Path(get_func_params(cls, func), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  itl.islice(sig.parameters.values(), 1, None)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_func_params : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d38e31a4f7233ddc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher.get_func_params","kind":"classmethod","src_hash":"c5bcc257aff24f88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_func_params(cls)","rhs":"get_func_params produces the expected output","over":{"base":"Any"},"name":"get_func_params_correct","kind":"composition"},"guarantee":"get_func_params produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"islice","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d38e31a4f7233ddc"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher.get_func_params","kind":"classmethod","src_hash":"c5bcc257aff24f88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_func_params(cls, func)","rhs":"itl.islice(sig.parameters.values(), 1, None)","over":{"base":"Any"},"name":"get_func_params_correct","kind":"composition"},"guarantee":"returns itl.islice(sig.parameters.values(), 1, None)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"islice","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d38e31a4f7233ddc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"itl.islice(sig.parameters.values(), 1, None)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_func_params(cls, func):
         if hasattr(inspect, "signature"):
             sig = inspect.signature(func)
             return itl.islice(sig.parameters.values(), 1, None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__get__(ins), internal helper behaves correctly) over Any ║
+# ║ Path(__get__(instance, owner), <unspecified:__get__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __get__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d094d5b53c150c71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher.__get__","kind":"method","src_hash":"90b0a11ef958b018","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__get__(ins)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__get___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d094d5b53c150c71"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher.__get__","kind":"method","src_hash":"90b0a11ef958b018","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__get__(instance, owner)","rhs":"<unspecified:__get__>","over":{"base":"Any"},"name":"__get___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d094d5b53c150c71","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.cls","self.obj"]},"state_contract":{"modifies":["self.cls","self.obj"],"old_bindings":{"old_self_cls":"self.cls","old_self_obj":"self.obj"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __get__(self, instance, owner):
         self.obj = instance
         self.cls = owner
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args, **kwargs), func(self.obj, *args, **kwargs)) over {Any | func} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: func                                           ║
+# ║   returns:  func(self.obj, *args, **kwargs)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | func} → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 787e7cc1d069305b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher.__call__","kind":"method","src_hash":"c30528f0f53d4d41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787e7cc1d069305b"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.MethodDispatcher.__call__","kind":"method","src_hash":"c30528f0f53d4d41","in":{"base":"Any","pred":"func"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args, **kwargs)","rhs":"func(self.obj, *args, **kwargs)","over":{"base":"Any","pred":"func"},"name":"__call___correct"},"guarantee":"returns func(self.obj, *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787e7cc1d069305b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["func"],"returns_expr":"func(self.obj, *args, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dispatch","self.name","self.obj"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args, **kwargs):
         types = tuple([type(arg) for arg in args])
         func = self.dispatch(*types)
@@ -760,16 +956,22 @@ class MethodDispatcher(Dispatcher):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(str_signature(sig), string representation of type signature) over Any ║
+# ║ Path(str_signature(sig), ', '.join((cls.__name__ for cls in sig))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ', '.join((cls.__name__ for cls in sig))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ str_signature : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d1fe3dd2afbd93c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.str_signature","kind":"function","src_hash":"40cdf0ef489b449a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"str_signature(sig)","rhs":"string representation of type signature","over":{"base":"Any"},"name":"str_signature_correct"},"guarantee":"string representation of type signature","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d1fe3dd2afbd93c"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.str_signature","kind":"function","src_hash":"40cdf0ef489b449a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"str_signature(sig)","rhs":"', '.join((cls.__name__ for cls in sig))","over":{"base":"Any"},"name":"str_signature_correct"},"guarantee":"returns ', '.join((cls.__name__ for cls in sig))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d1fe3dd2afbd93c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"', '.join((cls.__name__ for cls in sig))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def str_signature(sig):
     """ String representation of type signature
 
@@ -781,16 +983,22 @@ def str_signature(sig):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(warning_text(nam), the text for ambiguity warnings) over Any ║
+# ║ Path(warning_text(name, amb), <unspecified:warning_text>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ warning_text : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a408d4915e5076e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.warning_text","kind":"function","src_hash":"45fb7419120c44a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"warning_text(nam)","rhs":"the text for ambiguity warnings","over":{"base":"Any"},"name":"warning_text_correct"},"guarantee":"the text for ambiguity warnings","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.warning_text_correct","statement":"Path(warning_text(x), the text for ambiguity warnings)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a408d4915e5076e1"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.dispatcher.warning_text","kind":"function","src_hash":"45fb7419120c44a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"warning_text(name, amb)","rhs":"<unspecified:warning_text>","over":{"base":"Any"},"name":"warning_text_correct"},"guarantee":"the text for ambiguity warnings","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.dispatcher.warning_text_correct","statement":"Path(warning_text(x), the text for ambiguity warnings)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a408d4915e5076e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def warning_text(name, amb):
     """ The text for ambiguity warnings """
     text = "\nAmbiguities exist in dispatched function %s\n\n" % (name)

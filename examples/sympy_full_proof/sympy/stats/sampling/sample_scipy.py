@@ -36,16 +36,22 @@ scipy = import_module("scipy", import_kwargs={'fromlist':['stats']})
 
 @singledispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(do_sample_scipy(dis), do_sample_scipy produces the expected output) over Any ║
+# ║ Path(do_sample_scipy(dist, size, seed), None) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ do_sample_scipy : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc9a2b1c18d366a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy.do_sample_scipy","kind":"function","src_hash":"b95a174e73c49b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"do_sample_scipy(dis)","rhs":"do_sample_scipy produces the expected output","over":{"base":"Any"},"name":"do_sample_scipy_correct"},"guarantee":"do_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc9a2b1c18d366a9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy.do_sample_scipy","kind":"function","src_hash":"b95a174e73c49b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"do_sample_scipy(dist, size, seed)","rhs":"None","over":{"base":"Any"},"name":"do_sample_scipy_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc9a2b1c18d366a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def do_sample_scipy(dist, size, seed):
     return None
 
@@ -54,16 +60,25 @@ def do_sample_scipy(dist, size, seed):
 
 @do_sample_scipy.register(SingleContinuousDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over SingleContinuousDistribution ║
+# ║ Path(_(dist, size, seed), <unspecified:_>) over {SingleContinuousDistribution | isinstance(dist, SingleContinuousDistribution) and hasattr(dist, 'pdf') and hasattr(dist, 'set')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : SingleContinuousDistribution → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(dist, SingleContinuousDistribu...   ║
+# ║   requires: hasattr(dist, 'pdf')                           ║
+# ║   requires: hasattr(dist, 'set')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {SingleContinuousDistribution | isinstance(dist, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   scipy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | d16a5aba0c43...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"8de39e997acf23ce","in":{"base":"SingleContinuousDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"SingleContinuousDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.sample_scipy.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["scipy.__module__"],"compiled":true,"vhash":"d16a5aba0c43e58d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"8de39e997acf23ce","in":{"base":"SingleContinuousDistribution","pred":"isinstance(dist, SingleContinuousDistribution) and hasattr(dist, 'pdf') and hasattr(dist, 'set')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"<unspecified:_>","over":{"base":"SingleContinuousDistribution","pred":"isinstance(dist, SingleContinuousDistribution) and hasattr(dist, 'pdf') and hasattr(dist, 'set')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.sample_scipy.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["scipy.__module__"],"compiled":true,"vhash":"d16a5aba0c43e58d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(dist, SingleContinuousDistribution)","hasattr(dist, 'pdf')","hasattr(dist, 'set')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dist.pdf","dist.set"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(dist: SingleContinuousDistribution, size, seed):
     # if we don't need to make a handmade pdf, we won't
     import scipy.stats
@@ -82,16 +97,24 @@ def _(dist: SingleContinuousDistribution, size, seed):
 
 @do_sample_scipy.register(ChiSquaredDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over ChiSquaredDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.chi2.rvs(df=float(dist.k), size=size, random_state=seed)) over {ChiSquaredDistribution | isinstance(dist, ChiSquaredDistribution) and hasattr(dist, 'k')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ChiSquaredDistribution → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, ChiSquaredDistribution)       ║
+# ║   requires: hasattr(dist, 'k')                             ║
+# ║   returns:  scipy.stats.chi2.rvs(df=float(dist.k), si...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ChiSquaredDistribution | isinstance(dist, ChiSqu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dffe2d4feb5f6eb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"648b4a3b30f2c317","in":{"base":"ChiSquaredDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"ChiSquaredDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dffe2d4feb5f6eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"648b4a3b30f2c317","in":{"base":"ChiSquaredDistribution","pred":"isinstance(dist, ChiSquaredDistribution) and hasattr(dist, 'k')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.chi2.rvs(df=float(dist.k), size=size, random_state=seed)","over":{"base":"ChiSquaredDistribution","pred":"isinstance(dist, ChiSquaredDistribution) and hasattr(dist, 'k')"},"name":"__correct"},"guarantee":"returns scipy.stats.chi2.rvs(df=float(dist.k), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dffe2d4feb5f6eb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, ChiSquaredDistribution)","hasattr(dist, 'k')"],"returns_expr":"scipy.stats.chi2.rvs(df=float(dist.k), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: ChiSquaredDistribution, size, seed):
     # same parametrisation
     return scipy.stats.chi2.rvs(df=float(dist.k), size=size, random_state=seed)
@@ -99,16 +122,24 @@ def _(dist: ChiSquaredDistribution, size, seed):
 
 @do_sample_scipy.register(ExponentialDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over ExponentialDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.expon.rvs(scale=1 / float(dist.rate), size=size, random_state=seed)) over {ExponentialDistribution | isinstance(dist, ExponentialDistribution) and hasattr(dist, 'rate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ExponentialDistribution → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, ExponentialDistribution)      ║
+# ║   requires: hasattr(dist, 'rate')                          ║
+# ║   returns:  scipy.stats.expon.rvs(scale=1 / float(dis...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ExponentialDistribution | isinstance(dist, Expon...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 878477ba0cbf9772           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"5b238efa051dea41","in":{"base":"ExponentialDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"ExponentialDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"878477ba0cbf9772"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"5b238efa051dea41","in":{"base":"ExponentialDistribution","pred":"isinstance(dist, ExponentialDistribution) and hasattr(dist, 'rate')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.expon.rvs(scale=1 / float(dist.rate), size=size, random_state=seed)","over":{"base":"ExponentialDistribution","pred":"isinstance(dist, ExponentialDistribution) and hasattr(dist, 'rate')"},"name":"__correct"},"guarantee":"returns scipy.stats.expon.rvs(scale=1 / float(dist.rate), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"878477ba0cbf9772","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, ExponentialDistribution)","hasattr(dist, 'rate')"],"returns_expr":"scipy.stats.expon.rvs(scale=1 / float(dist.rate), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.rate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: ExponentialDistribution, size, seed):
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.expon.html#scipy.stats.expon
     return scipy.stats.expon.rvs(scale=1 / float(dist.rate), size=size, random_state=seed)
@@ -116,16 +147,25 @@ def _(dist: ExponentialDistribution, size, seed):
 
 @do_sample_scipy.register(GammaDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over GammaDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.gamma.rvs(a=float(dist.k), scale=float(dist.theta), size=size, random_state=seed)) over {GammaDistribution | isinstance(dist, GammaDistribution) and hasattr(dist, 'k') and hasattr(dist, 'theta')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : GammaDistribution → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, GammaDistribution)            ║
+# ║   requires: hasattr(dist, 'k')                             ║
+# ║   requires: hasattr(dist, 'theta')                         ║
+# ║   returns:  scipy.stats.gamma.rvs(a=float(dist.k), sc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {GammaDistribution | isinstance(dist, GammaDistri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7356b76503a91c19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"b7693a105e797292","in":{"base":"GammaDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"GammaDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7356b76503a91c19"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"b7693a105e797292","in":{"base":"GammaDistribution","pred":"isinstance(dist, GammaDistribution) and hasattr(dist, 'k') and hasattr(dist, 'theta')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.gamma.rvs(a=float(dist.k), scale=float(dist.theta), size=size, random_state=seed)","over":{"base":"GammaDistribution","pred":"isinstance(dist, GammaDistribution) and hasattr(dist, 'k') and hasattr(dist, 'theta')"},"name":"__correct"},"guarantee":"returns scipy.stats.gamma.rvs(a=float(dist.k), scale=float(dist.theta), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7356b76503a91c19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, GammaDistribution)","hasattr(dist, 'k')","hasattr(dist, 'theta')"],"returns_expr":"scipy.stats.gamma.rvs(a=float(dist.k), scale=float(dist.theta), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.k","dist.theta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: GammaDistribution, size, seed):
     # https://stackoverflow.com/questions/42150965/how-to-plot-gamma-distribution-with-alpha-and-beta-parameters-in-python
     return scipy.stats.gamma.rvs(a=float(dist.k), scale=float(dist.theta), size=size, random_state=seed)
@@ -133,16 +173,25 @@ def _(dist: GammaDistribution, size, seed):
 
 @do_sample_scipy.register(LogNormalDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over LogNormalDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.lognorm.rvs(scale=float(exp(dist.mean)), s=float(dist.std), size=size, random_state=seed)) over {LogNormalDistribution | isinstance(dist, LogNormalDistribution) and hasattr(dist, 'std') and hasattr(dist, 'mean')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : LogNormalDistribution → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, LogNormalDistribution)        ║
+# ║   requires: hasattr(dist, 'std')                           ║
+# ║   requires: hasattr(dist, 'mean')                          ║
+# ║   returns:  scipy.stats.lognorm.rvs(scale=float(exp(d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {LogNormalDistribution | isinstance(dist, LogNorm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55a54f4eed89216c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"c7df928fa53e314d","in":{"base":"LogNormalDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"LogNormalDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55a54f4eed89216c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"c7df928fa53e314d","in":{"base":"LogNormalDistribution","pred":"isinstance(dist, LogNormalDistribution) and hasattr(dist, 'std') and hasattr(dist, 'mean')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.lognorm.rvs(scale=float(exp(dist.mean)), s=float(dist.std), size=size, random_state=seed)","over":{"base":"LogNormalDistribution","pred":"isinstance(dist, LogNormalDistribution) and hasattr(dist, 'std') and hasattr(dist, 'mean')"},"name":"__correct"},"guarantee":"returns scipy.stats.lognorm.rvs(scale=float(exp(dist.mean)), s=float(dist.std), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55a54f4eed89216c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, LogNormalDistribution)","hasattr(dist, 'std')","hasattr(dist, 'mean')"],"returns_expr":"scipy.stats.lognorm.rvs(scale=float(exp(dist.mean)), s=float(dist.std), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.mean","dist.std"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: LogNormalDistribution, size, seed):
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.lognorm.html
     return scipy.stats.lognorm.rvs(scale=float(exp(dist.mean)), s=float(dist.std), size=size, random_state=seed)
@@ -150,32 +199,50 @@ def _(dist: LogNormalDistribution, size, seed):
 
 @do_sample_scipy.register(NormalDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over NormalDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.norm.rvs(loc=float(dist.mean), scale=float(dist.std), size=size, random_state=seed)) over {NormalDistribution | isinstance(dist, NormalDistribution) and hasattr(dist, 'mean') and hasattr(dist, 'std')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : NormalDistribution → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, NormalDistribution)           ║
+# ║   requires: hasattr(dist, 'mean')                          ║
+# ║   requires: hasattr(dist, 'std')                           ║
+# ║   returns:  scipy.stats.norm.rvs(loc=float(dist.mean)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {NormalDistribution | isinstance(dist, NormalDist...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8559fc139cbb358           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"f1098e686b5a62c0","in":{"base":"NormalDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"NormalDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8559fc139cbb358"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"f1098e686b5a62c0","in":{"base":"NormalDistribution","pred":"isinstance(dist, NormalDistribution) and hasattr(dist, 'mean') and hasattr(dist, 'std')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.norm.rvs(loc=float(dist.mean), scale=float(dist.std), size=size, random_state=seed)","over":{"base":"NormalDistribution","pred":"isinstance(dist, NormalDistribution) and hasattr(dist, 'mean') and hasattr(dist, 'std')"},"name":"__correct"},"guarantee":"returns scipy.stats.norm.rvs(loc=float(dist.mean), scale=float(dist.std), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8559fc139cbb358","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, NormalDistribution)","hasattr(dist, 'mean')","hasattr(dist, 'std')"],"returns_expr":"scipy.stats.norm.rvs(loc=float(dist.mean), scale=float(dist.std), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.mean","dist.std"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: NormalDistribution, size, seed):
     return scipy.stats.norm.rvs(loc=float(dist.mean), scale=float(dist.std), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(ParetoDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over ParetoDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.pareto.rvs(b=float(dist.alpha), scale=float(dist.xm), size=size, random_state=seed)) over {ParetoDistribution | isinstance(dist, ParetoDistribution) and hasattr(dist, 'alpha') and hasattr(dist, 'xm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ParetoDistribution → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, ParetoDistribution)           ║
+# ║   requires: hasattr(dist, 'alpha')                         ║
+# ║   requires: hasattr(dist, 'xm')                            ║
+# ║   returns:  scipy.stats.pareto.rvs(b=float(dist.alpha...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ParetoDistribution | isinstance(dist, ParetoDist...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5a7707f48cb0bb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"24764598edf3b8bf","in":{"base":"ParetoDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"ParetoDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5a7707f48cb0bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"24764598edf3b8bf","in":{"base":"ParetoDistribution","pred":"isinstance(dist, ParetoDistribution) and hasattr(dist, 'alpha') and hasattr(dist, 'xm')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.pareto.rvs(b=float(dist.alpha), scale=float(dist.xm), size=size, random_state=seed)","over":{"base":"ParetoDistribution","pred":"isinstance(dist, ParetoDistribution) and hasattr(dist, 'alpha') and hasattr(dist, 'xm')"},"name":"__correct"},"guarantee":"returns scipy.stats.pareto.rvs(b=float(dist.alpha), scale=float(dist.xm), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5a7707f48cb0bb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, ParetoDistribution)","hasattr(dist, 'alpha')","hasattr(dist, 'xm')"],"returns_expr":"scipy.stats.pareto.rvs(b=float(dist.alpha), scale=float(dist.xm), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.alpha","dist.xm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: ParetoDistribution, size, seed):
     # https://stackoverflow.com/questions/42260519/defining-pareto-distribution-in-python-scipy
     return scipy.stats.pareto.rvs(b=float(dist.alpha), scale=float(dist.xm), size=size, random_state=seed)
@@ -183,32 +250,49 @@ def _(dist: ParetoDistribution, size, seed):
 
 @do_sample_scipy.register(StudentTDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over StudentTDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.t.rvs(df=float(dist.nu), size=size, random_state=seed)) over {StudentTDistribution | isinstance(dist, StudentTDistribution) and hasattr(dist, 'nu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : StudentTDistribution → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, StudentTDistribution)         ║
+# ║   requires: hasattr(dist, 'nu')                            ║
+# ║   returns:  scipy.stats.t.rvs(df=float(dist.nu), size...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {StudentTDistribution | isinstance(dist, StudentT...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6b65884d1b98fdc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"9ebd82c9d7a91306","in":{"base":"StudentTDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"StudentTDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6b65884d1b98fdc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"9ebd82c9d7a91306","in":{"base":"StudentTDistribution","pred":"isinstance(dist, StudentTDistribution) and hasattr(dist, 'nu')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.t.rvs(df=float(dist.nu), size=size, random_state=seed)","over":{"base":"StudentTDistribution","pred":"isinstance(dist, StudentTDistribution) and hasattr(dist, 'nu')"},"name":"__correct"},"guarantee":"returns scipy.stats.t.rvs(df=float(dist.nu), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6b65884d1b98fdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, StudentTDistribution)","hasattr(dist, 'nu')"],"returns_expr":"scipy.stats.t.rvs(df=float(dist.nu), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.nu"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: StudentTDistribution, size, seed):
     return scipy.stats.t.rvs(df=float(dist.nu), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(UniformDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over UniformDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.uniform.rvs(loc=float(dist.left), scale=float(dist.right - dist.left), size=size, random_state=seed)) over {UniformDistribution | isinstance(dist, UniformDistribution) and hasattr(dist, 'left') and hasattr(dist, 'right')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : UniformDistribution → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, UniformDistribution)          ║
+# ║   requires: hasattr(dist, 'left')                          ║
+# ║   requires: hasattr(dist, 'right')                         ║
+# ║   returns:  scipy.stats.uniform.rvs(loc=float(dist.le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {UniformDistribution | isinstance(dist, UniformDi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cc1346fbe6200a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"848b3676caabdc05","in":{"base":"UniformDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"UniformDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc1346fbe6200a1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"848b3676caabdc05","in":{"base":"UniformDistribution","pred":"isinstance(dist, UniformDistribution) and hasattr(dist, 'left') and hasattr(dist, 'right')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.uniform.rvs(loc=float(dist.left), scale=float(dist.right - dist.left), size=size, random_state=seed)","over":{"base":"UniformDistribution","pred":"isinstance(dist, UniformDistribution) and hasattr(dist, 'left') and hasattr(dist, 'right')"},"name":"__correct"},"guarantee":"returns scipy.stats.uniform.rvs(loc=float(dist.left), scale=float(dist.right - dist.left), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc1346fbe6200a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, UniformDistribution)","hasattr(dist, 'left')","hasattr(dist, 'right')"],"returns_expr":"scipy.stats.uniform.rvs(loc=float(dist.left), scale=float(dist.right - dist.left), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.left","dist.right"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: UniformDistribution, size, seed):
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.uniform.html
     return scipy.stats.uniform.rvs(loc=float(dist.left), scale=float(dist.right - dist.left), size=size, random_state=seed)
@@ -216,16 +300,25 @@ def _(dist: UniformDistribution, size, seed):
 
 @do_sample_scipy.register(BetaDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over BetaDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.beta.rvs(a=float(dist.alpha), b=float(dist.beta), size=size, random_state=seed)) over {BetaDistribution | isinstance(dist, BetaDistribution) and hasattr(dist, 'alpha') and hasattr(dist, 'beta')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : BetaDistribution → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, BetaDistribution)             ║
+# ║   requires: hasattr(dist, 'alpha')                         ║
+# ║   requires: hasattr(dist, 'beta')                          ║
+# ║   returns:  scipy.stats.beta.rvs(a=float(dist.alpha),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {BetaDistribution | isinstance(dist, BetaDistribu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1838b358ed12d962           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"ba150ded1e1b8f98","in":{"base":"BetaDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"BetaDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1838b358ed12d962"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"ba150ded1e1b8f98","in":{"base":"BetaDistribution","pred":"isinstance(dist, BetaDistribution) and hasattr(dist, 'alpha') and hasattr(dist, 'beta')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.beta.rvs(a=float(dist.alpha), b=float(dist.beta), size=size, random_state=seed)","over":{"base":"BetaDistribution","pred":"isinstance(dist, BetaDistribution) and hasattr(dist, 'alpha') and hasattr(dist, 'beta')"},"name":"__correct"},"guarantee":"returns scipy.stats.beta.rvs(a=float(dist.alpha), b=float(dist.beta), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1838b358ed12d962","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, BetaDistribution)","hasattr(dist, 'alpha')","hasattr(dist, 'beta')"],"returns_expr":"scipy.stats.beta.rvs(a=float(dist.alpha), b=float(dist.beta), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.alpha","dist.beta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: BetaDistribution, size, seed):
     # same parametrisation
     return scipy.stats.beta.rvs(a=float(dist.alpha), b=float(dist.beta), size=size, random_state=seed)
@@ -233,16 +326,25 @@ def _(dist: BetaDistribution, size, seed):
 
 @do_sample_scipy.register(CauchyDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over CauchyDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.cauchy.rvs(loc=float(dist.x0), scale=float(dist.gamma), size=size, random_state=seed)) over {CauchyDistribution | isinstance(dist, CauchyDistribution) and hasattr(dist, 'x0') and hasattr(dist, 'gamma')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : CauchyDistribution → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, CauchyDistribution)           ║
+# ║   requires: hasattr(dist, 'x0')                            ║
+# ║   requires: hasattr(dist, 'gamma')                         ║
+# ║   returns:  scipy.stats.cauchy.rvs(loc=float(dist.x0)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {CauchyDistribution | isinstance(dist, CauchyDist...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb602930c0beb3ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"ca3fb9675d838566","in":{"base":"CauchyDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"CauchyDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb602930c0beb3ac"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"ca3fb9675d838566","in":{"base":"CauchyDistribution","pred":"isinstance(dist, CauchyDistribution) and hasattr(dist, 'x0') and hasattr(dist, 'gamma')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.cauchy.rvs(loc=float(dist.x0), scale=float(dist.gamma), size=size, random_state=seed)","over":{"base":"CauchyDistribution","pred":"isinstance(dist, CauchyDistribution) and hasattr(dist, 'x0') and hasattr(dist, 'gamma')"},"name":"__correct"},"guarantee":"returns scipy.stats.cauchy.rvs(loc=float(dist.x0), scale=float(dist.gamma), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb602930c0beb3ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, CauchyDistribution)","hasattr(dist, 'x0')","hasattr(dist, 'gamma')"],"returns_expr":"scipy.stats.cauchy.rvs(loc=float(dist.x0), scale=float(dist.gamma), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.gamma","dist.x0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: CauchyDistribution, size, seed):
     return scipy.stats.cauchy.rvs(loc=float(dist.x0), scale=float(dist.gamma), size=size, random_state=seed)
 
@@ -251,16 +353,25 @@ def _(dist: CauchyDistribution, size, seed):
 
 @do_sample_scipy.register(DiscreteDistributionHandmade)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over DiscreteDistributionHandmade ║
+# ║ Path(_(dist, size, seed), <unspecified:_>) over {DiscreteDistributionHandmade | isinstance(dist, DiscreteDistributionHandmade) and hasattr(dist, 'pdf') and hasattr(dist, 'set')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : DiscreteDistributionHandmade → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(dist, DiscreteDistributionHand...   ║
+# ║   requires: hasattr(dist, 'pdf')                           ║
+# ║   requires: hasattr(dist, 'set')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {DiscreteDistributionHandmade | isinstance(dist, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   scipy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 7ea4729695ac...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"35c393094ce1ff12","in":{"base":"DiscreteDistributionHandmade"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"DiscreteDistributionHandmade"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.sample_scipy.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["scipy.__module__"],"compiled":true,"vhash":"7ea4729695aca551"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"35c393094ce1ff12","in":{"base":"DiscreteDistributionHandmade","pred":"isinstance(dist, DiscreteDistributionHandmade) and hasattr(dist, 'pdf') and hasattr(dist, 'set')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"<unspecified:_>","over":{"base":"DiscreteDistributionHandmade","pred":"isinstance(dist, DiscreteDistributionHandmade) and hasattr(dist, 'pdf') and hasattr(dist, 'set')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.sample_scipy.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["scipy.__module__"],"compiled":true,"vhash":"7ea4729695aca551","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(dist, DiscreteDistributionHandmade)","hasattr(dist, 'pdf')","hasattr(dist, 'set')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dist.pdf","dist.set"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(dist: DiscreteDistributionHandmade, size, seed):
     from scipy.stats import rv_discrete
 
@@ -278,112 +389,170 @@ def _(dist: DiscreteDistributionHandmade, size, seed):
 
 @do_sample_scipy.register(GeometricDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over GeometricDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.geom.rvs(p=float(dist.p), size=size, random_state=seed)) over {GeometricDistribution | isinstance(dist, GeometricDistribution) and hasattr(dist, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : GeometricDistribution → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, GeometricDistribution)        ║
+# ║   requires: hasattr(dist, 'p')                             ║
+# ║   returns:  scipy.stats.geom.rvs(p=float(dist.p), siz...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {GeometricDistribution | isinstance(dist, Geometr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28e42b6e4c6d9bab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"61d6bbe31b580357","in":{"base":"GeometricDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"GeometricDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28e42b6e4c6d9bab"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"61d6bbe31b580357","in":{"base":"GeometricDistribution","pred":"isinstance(dist, GeometricDistribution) and hasattr(dist, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.geom.rvs(p=float(dist.p), size=size, random_state=seed)","over":{"base":"GeometricDistribution","pred":"isinstance(dist, GeometricDistribution) and hasattr(dist, 'p')"},"name":"__correct"},"guarantee":"returns scipy.stats.geom.rvs(p=float(dist.p), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28e42b6e4c6d9bab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, GeometricDistribution)","hasattr(dist, 'p')"],"returns_expr":"scipy.stats.geom.rvs(p=float(dist.p), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: GeometricDistribution, size, seed):
     return scipy.stats.geom.rvs(p=float(dist.p), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(LogarithmicDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over LogarithmicDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.logser.rvs(p=float(dist.p), size=size, random_state=seed)) over {LogarithmicDistribution | isinstance(dist, LogarithmicDistribution) and hasattr(dist, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : LogarithmicDistribution → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, LogarithmicDistribution)      ║
+# ║   requires: hasattr(dist, 'p')                             ║
+# ║   returns:  scipy.stats.logser.rvs(p=float(dist.p), s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {LogarithmicDistribution | isinstance(dist, Logar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d2d76f550b10e4f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"8d45db27f1fe910f","in":{"base":"LogarithmicDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"LogarithmicDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2d76f550b10e4f8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"8d45db27f1fe910f","in":{"base":"LogarithmicDistribution","pred":"isinstance(dist, LogarithmicDistribution) and hasattr(dist, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.logser.rvs(p=float(dist.p), size=size, random_state=seed)","over":{"base":"LogarithmicDistribution","pred":"isinstance(dist, LogarithmicDistribution) and hasattr(dist, 'p')"},"name":"__correct"},"guarantee":"returns scipy.stats.logser.rvs(p=float(dist.p), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2d76f550b10e4f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, LogarithmicDistribution)","hasattr(dist, 'p')"],"returns_expr":"scipy.stats.logser.rvs(p=float(dist.p), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(dist: LogarithmicDistribution, size, seed):
     return scipy.stats.logser.rvs(p=float(dist.p), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(NegativeBinomialDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over NegativeBinomialDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.nbinom.rvs(n=float(dist.r), p=float(dist.p), size=size, random_state=seed)) over {NegativeBinomialDistribution | isinstance(dist, NegativeBinomialDistribution) and hasattr(dist, 'r') and hasattr(dist, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : NegativeBinomialDistribution → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, NegativeBinomialDistribu...   ║
+# ║   requires: hasattr(dist, 'r')                             ║
+# ║   requires: hasattr(dist, 'p')                             ║
+# ║   returns:  scipy.stats.nbinom.rvs(n=float(dist.r), p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {NegativeBinomialDistribution | isinstance(dist, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04715931f41d2570           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"e511c1e042bb63bc","in":{"base":"NegativeBinomialDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"NegativeBinomialDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04715931f41d2570"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"e511c1e042bb63bc","in":{"base":"NegativeBinomialDistribution","pred":"isinstance(dist, NegativeBinomialDistribution) and hasattr(dist, 'r') and hasattr(dist, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.nbinom.rvs(n=float(dist.r), p=float(dist.p), size=size, random_state=seed)","over":{"base":"NegativeBinomialDistribution","pred":"isinstance(dist, NegativeBinomialDistribution) and hasattr(dist, 'r') and hasattr(dist, 'p')"},"name":"__correct"},"guarantee":"returns scipy.stats.nbinom.rvs(n=float(dist.r), p=float(dist.p), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04715931f41d2570","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, NegativeBinomialDistribution)","hasattr(dist, 'r')","hasattr(dist, 'p')"],"returns_expr":"scipy.stats.nbinom.rvs(n=float(dist.r), p=float(dist.p), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.p","dist.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: NegativeBinomialDistribution, size, seed):
     return scipy.stats.nbinom.rvs(n=float(dist.r), p=float(dist.p), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(PoissonDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over PoissonDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.poisson.rvs(mu=float(dist.lamda), size=size, random_state=seed)) over {PoissonDistribution | isinstance(dist, PoissonDistribution) and hasattr(dist, 'lamda')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : PoissonDistribution → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, PoissonDistribution)          ║
+# ║   requires: hasattr(dist, 'lamda')                         ║
+# ║   returns:  scipy.stats.poisson.rvs(mu=float(dist.lam...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {PoissonDistribution | isinstance(dist, PoissonDi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | baabf6898b279f39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"c75436c5a479b17f","in":{"base":"PoissonDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"PoissonDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"baabf6898b279f39"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"c75436c5a479b17f","in":{"base":"PoissonDistribution","pred":"isinstance(dist, PoissonDistribution) and hasattr(dist, 'lamda')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.poisson.rvs(mu=float(dist.lamda), size=size, random_state=seed)","over":{"base":"PoissonDistribution","pred":"isinstance(dist, PoissonDistribution) and hasattr(dist, 'lamda')"},"name":"__correct"},"guarantee":"returns scipy.stats.poisson.rvs(mu=float(dist.lamda), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"baabf6898b279f39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, PoissonDistribution)","hasattr(dist, 'lamda')"],"returns_expr":"scipy.stats.poisson.rvs(mu=float(dist.lamda), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: PoissonDistribution, size, seed):
     return scipy.stats.poisson.rvs(mu=float(dist.lamda), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(SkellamDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over SkellamDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.skellam.rvs(mu1=float(dist.mu1), mu2=float(dist.mu2), size=size, random_state=seed)) over {SkellamDistribution | isinstance(dist, SkellamDistribution) and hasattr(dist, 'mu1') and hasattr(dist, 'mu2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : SkellamDistribution → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, SkellamDistribution)          ║
+# ║   requires: hasattr(dist, 'mu1')                           ║
+# ║   requires: hasattr(dist, 'mu2')                           ║
+# ║   returns:  scipy.stats.skellam.rvs(mu1=float(dist.mu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {SkellamDistribution | isinstance(dist, SkellamDi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9610a088c746930           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"08a6e092b402b2ec","in":{"base":"SkellamDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"SkellamDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9610a088c746930"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"08a6e092b402b2ec","in":{"base":"SkellamDistribution","pred":"isinstance(dist, SkellamDistribution) and hasattr(dist, 'mu1') and hasattr(dist, 'mu2')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.skellam.rvs(mu1=float(dist.mu1), mu2=float(dist.mu2), size=size, random_state=seed)","over":{"base":"SkellamDistribution","pred":"isinstance(dist, SkellamDistribution) and hasattr(dist, 'mu1') and hasattr(dist, 'mu2')"},"name":"__correct"},"guarantee":"returns scipy.stats.skellam.rvs(mu1=float(dist.mu1), mu2=float(dist.mu2), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9610a088c746930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, SkellamDistribution)","hasattr(dist, 'mu1')","hasattr(dist, 'mu2')"],"returns_expr":"scipy.stats.skellam.rvs(mu1=float(dist.mu1), mu2=float(dist.mu2), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.mu1","dist.mu2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: SkellamDistribution, size, seed):
     return scipy.stats.skellam.rvs(mu1=float(dist.mu1), mu2=float(dist.mu2), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(YuleSimonDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over YuleSimonDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.yulesimon.rvs(alpha=float(dist.rho), size=size, random_state=seed)) over {YuleSimonDistribution | isinstance(dist, YuleSimonDistribution) and hasattr(dist, 'rho')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : YuleSimonDistribution → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, YuleSimonDistribution)        ║
+# ║   requires: hasattr(dist, 'rho')                           ║
+# ║   returns:  scipy.stats.yulesimon.rvs(alpha=float(dis...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {YuleSimonDistribution | isinstance(dist, YuleSim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe5c76f54870bf93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"b227591d27ebbd16","in":{"base":"YuleSimonDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"YuleSimonDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe5c76f54870bf93"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"b227591d27ebbd16","in":{"base":"YuleSimonDistribution","pred":"isinstance(dist, YuleSimonDistribution) and hasattr(dist, 'rho')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.yulesimon.rvs(alpha=float(dist.rho), size=size, random_state=seed)","over":{"base":"YuleSimonDistribution","pred":"isinstance(dist, YuleSimonDistribution) and hasattr(dist, 'rho')"},"name":"__correct"},"guarantee":"returns scipy.stats.yulesimon.rvs(alpha=float(dist.rho), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe5c76f54870bf93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, YuleSimonDistribution)","hasattr(dist, 'rho')"],"returns_expr":"scipy.stats.yulesimon.rvs(alpha=float(dist.rho), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.rho"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: YuleSimonDistribution, size, seed):
     return scipy.stats.yulesimon.rvs(alpha=float(dist.rho), size=size, random_state=seed)
 
 
 @do_sample_scipy.register(ZetaDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over ZetaDistribution ║
+# ║ Path(_(dist, size, seed), scipy.stats.zipf.rvs(a=float(dist.s), size=size, random_state=seed)) over {ZetaDistribution | isinstance(dist, ZetaDistribution) and hasattr(dist, 's')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ZetaDistribution → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, ZetaDistribution)             ║
+# ║   requires: hasattr(dist, 's')                             ║
+# ║   returns:  scipy.stats.zipf.rvs(a=float(dist.s), siz...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ZetaDistribution | isinstance(dist, ZetaDistribu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb611b2001c0b917           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"9a1ad9604d02563a","in":{"base":"ZetaDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"ZetaDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb611b2001c0b917"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"9a1ad9604d02563a","in":{"base":"ZetaDistribution","pred":"isinstance(dist, ZetaDistribution) and hasattr(dist, 's')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy.stats.zipf.rvs(a=float(dist.s), size=size, random_state=seed)","over":{"base":"ZetaDistribution","pred":"isinstance(dist, ZetaDistribution) and hasattr(dist, 's')"},"name":"__correct"},"guarantee":"returns scipy.stats.zipf.rvs(a=float(dist.s), size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb611b2001c0b917","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, ZetaDistribution)","hasattr(dist, 's')"],"returns_expr":"scipy.stats.zipf.rvs(a=float(dist.s), size=size, random_state=seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["dist.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _(dist: ZetaDistribution, size, seed):
     return scipy.stats.zipf.rvs(a=float(dist.s), size=size, random_state=seed)
 
@@ -392,16 +561,24 @@ def _(dist: ZetaDistribution, size, seed):
 
 @do_sample_scipy.register(SingleFiniteDistribution)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(dis), internal helper behaves correctly) over SingleFiniteDistribution ║
+# ║ Path(_(dist, size, seed), scipy_rv.rvs(size=size, random_state=seed)) over {SingleFiniteDistribution | isinstance(dist, SingleFiniteDistribution) and hasattr(dist, 'dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : SingleFiniteDistribution → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dist, SingleFiniteDistribution)     ║
+# ║   requires: hasattr(dist, 'dict')                          ║
+# ║   returns:  scipy_rv.rvs(size=size, random_state=seed)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {SingleFiniteDistribution | isinstance(dist, Sing...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   scipy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 7f9096ba3b1a...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 67d7794a0373...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"6d52032a6ead0fd0","in":{"base":"SingleFiniteDistribution"},"out":{"base":"Any"},"spec":{"lhs":"_(dis)","rhs":"internal helper behaves correctly","over":{"base":"SingleFiniteDistribution"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.sample_scipy.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["scipy.__module__"],"compiled":true,"vhash":"7f9096ba3b1ac227"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.sample_scipy._","kind":"function","src_hash":"6d52032a6ead0fd0","in":{"base":"SingleFiniteDistribution","pred":"isinstance(dist, SingleFiniteDistribution) and hasattr(dist, 'dict')"},"out":{"base":"Any"},"spec":{"lhs":"_(dist, size, seed)","rhs":"scipy_rv.rvs(size=size, random_state=seed)","over":{"base":"SingleFiniteDistribution","pred":"isinstance(dist, SingleFiniteDistribution) and hasattr(dist, 'dict')"},"name":"__correct"},"guarantee":"returns scipy_rv.rvs(size=size, random_state=seed)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.sample_scipy.__correct","statement":"Path(_(x), returns scipy_rv.rvs(size=size, random_state=seed))"},"assumes":[],"trust":["scipy.__module__"],"compiled":true,"vhash":"67d7794a0373ee77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dist, SingleFiniteDistribution)","hasattr(dist, 'dict')"],"returns_expr":"scipy_rv.rvs(size=size, random_state=seed)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(dist: SingleFiniteDistribution, size, seed):
     # scipy can handle with custom distributions
 

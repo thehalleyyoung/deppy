@@ -87,36 +87,54 @@ __all__ = [
 
 @is_random.register(Indexed)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x), internal helper behaves correctly) over Any     ║
+# ║ Path(_(x), is_random(x.base)) over {Any | hasattr(x, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'base')                             ║
+# ║   returns:  is_random(x.base)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(x, 'base')} → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40d4372b58c879d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._","kind":"function","src_hash":"ae295faf67597348","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40d4372b58c879d9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._","kind":"function","src_hash":"ae295faf67597348","in":{"base":"Any","pred":"hasattr(x, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_(x)","rhs":"is_random(x.base)","over":{"base":"Any","pred":"hasattr(x, 'base')"},"name":"__correct"},"guarantee":"returns is_random(x.base)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40d4372b58c879d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'base')"],"returns_expr":"is_random(x.base)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x):
     return is_random(x.base)
 
 @is_random.register(RandomIndexedSymbol)  # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x), internal helper behaves correctly) over Any     ║
+# ║ Path(_(x), True) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0214f929c142dfc6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._","kind":"function","src_hash":"3f722a1541cca3d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0214f929c142dfc6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._","kind":"function","src_hash":"3f722a1541cca3d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0214f929c142dfc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x):
     return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_converter(itr), helper function for converting list/tuple/set to set. if parameter is not an instance of list/tuple/set then no operation is performed) over {Any | isinstance(itr, (list, tuple, set)) and isinstance(itr, Set)} ║
+# ║ Path(_set_converter(itr), itr) over {Any | isinstance(itr, (list, tuple, set)) and isinstance(itr, Set) and isinstance(itr, Set)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(itr, Set)                           ║
+# ║   ensures:  result == itr                                  ║
+# ║   returns:  itr                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_converter : {Any | isinstance(itr, (list, tuple,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -129,9 +147,12 @@ def _(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5f437961...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._set_converter","kind":"function","src_hash":"7610022745fc70bc","in":{"base":"Any","pred":"isinstance(itr, (list, tuple, set)) and isinstance(itr, Set)"},"out":{"base":"Any"},"spec":{"lhs":"_set_converter(itr)","rhs":"helper function for converting list/tuple/set to set. if parameter is not an instance of list/tuple/set then no operation is performed","over":{"base":"Any","pred":"isinstance(itr, (list, tuple, set)) and isinstance(itr, Set)"},"name":"_set_converter_correct"},"guarantee":"helper function for converting list/tuple/set to set. if parameter is not an instance of list/tuple/set then no operation is performed","fibers":[{"name":"(list","pred":"isinstance(itr, (list, tuple, set))","path":{"lhs":"_set_converter(x)","rhs":"helper function for converting list/tuple/set to set. if parameter is not an instance of list/tuple/set then no operation is performed","over":{"base":"(list","pred":"isinstance(itr, (list, tuple, set))"},"name":"_set_converter_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._set_converter_(list_correct","statement":"_set_converter satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"Set","pred":"isinstance(itr, Set)","path":{"lhs":"_set_converter(x)","rhs":"helper function for converting list/tuple/set to set. if parameter is not an instance of list/tuple/set then no operation is performed","over":{"base":"Set","pred":"isinstance(itr, Set)"},"name":"_set_converter_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._set_converter_Set_correct","statement":"_set_converter satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5f437961a57c84c9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._set_converter","kind":"function","src_hash":"7610022745fc70bc","in":{"base":"Any","pred":"isinstance(itr, (list, tuple, set)) and isinstance(itr, Set) and isinstance(itr, Set)"},"out":{"base":"Any","pred":"result satisfies: result == (itr)"},"spec":{"lhs":"_set_converter(itr)","rhs":"itr","over":{"base":"Any","pred":"isinstance(itr, (list, tuple, set)) and isinstance(itr, Set) and isinstance(itr, Set)"},"name":"_set_converter_correct"},"guarantee":"returns itr; result == itr","fibers":[{"name":"(list","pred":"isinstance(itr, (list, tuple, set))","path":{"lhs":"_set_converter(x)","rhs":"returns itr; result == itr","over":{"base":"(list","pred":"isinstance(itr, (list, tuple, set))"},"name":"_set_converter_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._set_converter_(list_correct","statement":"_set_converter satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"Set","pred":"isinstance(itr, Set)","path":{"lhs":"_set_converter(x)","rhs":"returns itr; result == itr","over":{"base":"Set","pred":"isinstance(itr, Set)"},"name":"_set_converter_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._set_converter_Set_correct","statement":"_set_converter satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5f437961a57c84c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(itr, Set)"],"ensures":["result == itr"],"returns_expr":"itr","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(itr, (list, tuple, set))', 'not isinstance(itr, Set)'}, fibers={'Set', '(list'})"]}}
 def _set_converter(itr):
     """
     Helper function for converting list/tuple/set to Set.
@@ -158,7 +179,11 @@ def _set_converter(itr):
     return itr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_state_converter(itr), helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range) over {tSequence | isinstance(itr, (Tuple, set, FiniteSet)) and isinstance(itr, (list, tuple)) and isinstance(itr, Range)} ║
+# ║ Path(_state_converter(itr), isinstance(result, Tuple | Range)) over {tSequence | isinstance(itr, (Tuple, set, FiniteSet)) and isinstance(itr, (list, tuple)) and isinstance(itr, Range) and isinstance(itr, tSequence)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(itr, tSequence)                     ║
+# ║   ensures:  isinstance(result, Tuple | Range)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _state_converter : {tSequence | isinstance(itr, (Tupl...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -173,9 +198,12 @@ def _set_converter(itr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?4 ✗4 VCs | 11.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f7ad582e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._state_converter","kind":"function","src_hash":"1add7299745ea62e","in":{"base":"tSequence","pred":"isinstance(itr, (Tuple, set, FiniteSet)) and isinstance(itr, (list, tuple)) and isinstance(itr, Range)"},"out":{"base":"Tuple | Range"},"spec":{"lhs":"_state_converter(itr)","rhs":"helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range","over":{"base":"tSequence","pred":"isinstance(itr, (Tuple, set, FiniteSet)) and isinstance(itr, (list, tuple)) and isinstance(itr, Range)"},"name":"_state_converter_correct"},"guarantee":"helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range","fibers":[{"name":"(Tuple","pred":"isinstance(itr, (Tuple, set, FiniteSet))","path":{"lhs":"_state_converter(x)","rhs":"helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range","over":{"base":"(Tuple","pred":"isinstance(itr, (Tuple, set, FiniteSet))"},"name":"_state_converter_(Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_(Tuple_correct","statement":"_state_converter satisfies spec on (Tuple inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(itr, (list, tuple))","path":{"lhs":"_state_converter(x)","rhs":"helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range","over":{"base":"(list","pred":"isinstance(itr, (list, tuple))"},"name":"_state_converter_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_(list_correct","statement":"_state_converter satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"Range","pred":"isinstance(itr, Range)","path":{"lhs":"_state_converter(x)","rhs":"helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range","over":{"base":"Range","pred":"isinstance(itr, Range)"},"name":"_state_converter_Range_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_Range_correct","statement":"_state_converter satisfies spec on Range inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(i, str)","path":{"lhs":"_state_converter(x)","rhs":"helper function for converting list/tuple/set/range/tuple/finiteset to tuple/range","over":{"base":"str","pred":"isinstance(i, str)"},"name":"_state_converter_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_str_correct","statement":"_state_converter satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f7ad582e1bcc0976"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._state_converter","kind":"function","src_hash":"1add7299745ea62e","in":{"base":"tSequence","pred":"isinstance(itr, (Tuple, set, FiniteSet)) and isinstance(itr, (list, tuple)) and isinstance(itr, Range) and isinstance(itr, tSequence)"},"out":{"base":"Tuple | Range","pred":"result satisfies: isinstance(result, Tuple | Range)"},"spec":{"lhs":"_state_converter(itr)","rhs":"isinstance(result, Tuple | Range)","over":{"base":"tSequence","pred":"isinstance(itr, (Tuple, set, FiniteSet)) and isinstance(itr, (list, tuple)) and isinstance(itr, Range) and isinstance(itr, tSequence)"},"name":"_state_converter_correct"},"guarantee":"isinstance(result, Tuple | Range)","fibers":[{"name":"(Tuple","pred":"isinstance(itr, (Tuple, set, FiniteSet))","path":{"lhs":"_state_converter(x)","rhs":"isinstance(result, Tuple | Range)","over":{"base":"(Tuple","pred":"isinstance(itr, (Tuple, set, FiniteSet))"},"name":"_state_converter_(Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_(Tuple_correct","statement":"_state_converter satisfies spec on (Tuple inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(itr, (list, tuple))","path":{"lhs":"_state_converter(x)","rhs":"isinstance(result, Tuple | Range)","over":{"base":"(list","pred":"isinstance(itr, (list, tuple))"},"name":"_state_converter_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_(list_correct","statement":"_state_converter satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"Range","pred":"isinstance(itr, Range)","path":{"lhs":"_state_converter(x)","rhs":"isinstance(result, Tuple | Range)","over":{"base":"Range","pred":"isinstance(itr, Range)"},"name":"_state_converter_Range_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_Range_correct","statement":"_state_converter satisfies spec on Range inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(i, str)","path":{"lhs":"_state_converter(x)","rhs":"isinstance(result, Tuple | Range)","over":{"base":"str","pred":"isinstance(i, str)"},"name":"_state_converter_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._state_converter_str_correct","statement":"_state_converter satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f7ad582e1bcc0976","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(itr, tSequence)"],"ensures":["isinstance(result, Tuple | Range)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":4,"n_assumed":4,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(itr, (list, tuple))', 'isinstance(itr, (Tuple, set, FiniteSet))', 'len(set(itr)) != len(itr)', 'isinstance(itr, Range)'}, fibers={'(Tuple', 'str', '(list', 'Range'})"]}}
 def _state_converter(itr: tSequence) -> Tuple | Range:
     """
     Helper function for converting list/tuple/set/Range/Tuple/FiniteSet
@@ -205,9 +233,15 @@ def _state_converter(itr: tSequence) -> Tuple | Range:
     return itr_ret
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sym_sympify(arg), converts an arbitrary expression to a type that can be used inside sympy. as generally strings are unwise to use in the expressions, it returns the symbol of argument if the string type argument is pa) over {Any | isinstance(arg, str)} ║
+# ║ Path(_sym_sympify(arg), result == (Symbol(arg) if isinstance(arg, str) else _sympify(arg)) and result == Symbol(arg) or result == _sympify(arg)) over {Any | isinstance(arg, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sym_sympify : {Any | isinstance(arg, str)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Symbol(arg) if isinstance(arg,...   ║
+# ║   ensures:  result == Symbol(arg) or result == _sympi...   ║
+# ║   fiber[str]: isinstance(arg, str) => Symbol(arg)          ║
+# ║   fiber[str]: not (isinstance(arg, str)) => _sympify(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sym_sympify : {Any | isinstance(arg, str)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(arg, str)} → library_axiom              ║
@@ -217,9 +251,12 @@ def _state_converter(itr: tSequence) -> Tuple | Range:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 783b634f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._sym_sympify","kind":"function","src_hash":"96c62e6fa9d13c91","in":{"base":"Any","pred":"isinstance(arg, str)"},"out":{"base":"Any"},"spec":{"lhs":"_sym_sympify(arg)","rhs":"converts an arbitrary expression to a type that can be used inside sympy. as generally strings are unwise to use in the expressions, it returns the symbol of argument if the string type argument is pa","over":{"base":"Any","pred":"isinstance(arg, str)"},"name":"_sym_sympify_correct"},"guarantee":"converts an arbitrary expression to a type that can be used inside sympy. as generally strings are unwise to use in the expressions, it returns the symbol of argument if the string type argument is pa","fibers":[{"name":"str","pred":"isinstance(arg, str)","path":{"lhs":"_sym_sympify(x)","rhs":"converts an arbitrary expression to a type that can be used inside sympy. as generally strings are unwise to use in the expressions, it returns the symbol of argument if the string type argument is pa","over":{"base":"str","pred":"isinstance(arg, str)"},"name":"_sym_sympify_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._sym_sympify_str_correct","statement":"_sym_sympify satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"783b634ff1bc4659"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._sym_sympify","kind":"function","src_hash":"96c62e6fa9d13c91","in":{"base":"Any","pred":"isinstance(arg, str)"},"out":{"base":"Any","pred":"result satisfies: result == (Symbol(arg) if isinstance(arg, str) else _sympify(arg)) and result == Symbol(arg) or result == _sympify(arg)"},"spec":{"lhs":"_sym_sympify(arg)","rhs":"result == (Symbol(arg) if isinstance(arg, str) else _sympify(arg)) and result == Symbol(arg) or result == _sympify(arg)","over":{"base":"Any","pred":"isinstance(arg, str)"},"name":"_sym_sympify_correct"},"guarantee":"result == (Symbol(arg) if isinstance(arg, str) else _sympify(arg)); result == Symbol(arg) or result == _sympify(arg); 2-fiber decomposition","fibers":[{"name":"str","pred":"isinstance(arg, str)","path":{"lhs":"_sym_sympify(x)","rhs":"result == (Symbol(arg) if isinstance(arg, str) else _sympify(arg)); result == Symbol(arg) or result == _sympify(arg); 2-fiber decomposition","over":{"base":"str","pred":"isinstance(arg, str)"},"name":"_sym_sympify_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._sym_sympify_str_correct","statement":"_sym_sympify satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"783b634ff1bc4659","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Symbol(arg) if isinstance(arg, str) else _sympify(arg))","result == Symbol(arg) or result == _sympify(arg)"],"fibers":[{"name":"str","guard":"isinstance(arg, str)","ensures":["result == Symbol(arg)"],"decidability":"structural","returns_expr":"Symbol(arg)"},{"name":"str","guard":"not (isinstance(arg, str))","ensures":["result == _sympify(arg)"],"decidability":"structural","returns_expr":"_sympify(arg)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, str)'}, fibers={'str'})"]}}
 def _sym_sympify(arg):
     """
     Converts an arbitrary expression to a type that can be used inside SymPy.
@@ -243,7 +280,14 @@ def _sym_sympify(arg):
         return _sympify(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matrix_checks(mat), internal helper behaves correctly) over {Any | isinstance(matrix, Matrix) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))} ║
+# ║ Path(_matrix_checks(matrix), matrix) over {Any | isinstance(matrix, Matrix) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)) and not (matrix.shape[0] != matrix.shape[1]) and hasattr(matrix, 'shape') and hasattr(matrix, 'tolist')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(matrix, (Matrix, MatrixSymbol,...   ║
+# ║   requires: not (matrix.shape[0] != matrix.shape[1])       ║
+# ║   requires: hasattr(matrix, 'shape')                       ║
+# ║   ensures:  result == matrix                               ║
+# ║   returns:  matrix                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matrix_checks : {Any | isinstance(matrix, Matrix) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -256,9 +300,12 @@ def _sym_sympify(arg):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 705aee2c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._matrix_checks","kind":"function","src_hash":"523079e327c0cf8e","in":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))"},"out":{"base":"Any"},"spec":{"lhs":"_matrix_checks(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))"},"name":"_matrix_checks_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Matrix","pred":"isinstance(matrix, Matrix)","path":{"lhs":"_matrix_checks(x)","rhs":"internal helper behaves correctly","over":{"base":"Matrix","pred":"isinstance(matrix, Matrix)"},"name":"_matrix_checks_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._matrix_checks_Matrix_correct","statement":"_matrix_checks satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"(Matrix","pred":"isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))","path":{"lhs":"_matrix_checks(x)","rhs":"internal helper behaves correctly","over":{"base":"(Matrix","pred":"isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))"},"name":"_matrix_checks_(Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._matrix_checks_(Matrix_correct","statement":"_matrix_checks satisfies spec on (Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"705aee2cdf55773a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._matrix_checks","kind":"function","src_hash":"523079e327c0cf8e","in":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)) and not (matrix.shape[0] != matrix.shape[1]) and hasattr(matrix, 'shape') and hasattr(matrix, 'tolist')"},"out":{"base":"Any","pred":"result satisfies: result == (matrix)"},"spec":{"lhs":"_matrix_checks(matrix)","rhs":"matrix","over":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)) and isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)) and not (matrix.shape[0] != matrix.shape[1]) and hasattr(matrix, 'shape') and hasattr(matrix, 'tolist')"},"name":"_matrix_checks_correct"},"guarantee":"returns matrix; result == matrix","fibers":[{"name":"Matrix","pred":"isinstance(matrix, Matrix)","path":{"lhs":"_matrix_checks(x)","rhs":"returns matrix; result == matrix","over":{"base":"Matrix","pred":"isinstance(matrix, Matrix)"},"name":"_matrix_checks_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._matrix_checks_Matrix_correct","statement":"_matrix_checks satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"(Matrix","pred":"isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))","path":{"lhs":"_matrix_checks(x)","rhs":"returns matrix; result == matrix","over":{"base":"(Matrix","pred":"isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))"},"name":"_matrix_checks_(Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._matrix_checks_(Matrix_correct","statement":"_matrix_checks satisfies spec on (Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"705aee2cdf55773a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))","not (matrix.shape[0] != matrix.shape[1])","hasattr(matrix, 'shape')","hasattr(matrix, 'tolist')"],"ensures":["result == matrix"],"returns_expr":"matrix","pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.shape","matrix.tolist"],"raises":["NonSquareMatrixError","TypeError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'matrix.shape[0] != matrix.shape[1]', 'not isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix))', 'isinstance(matrix, Matrix)'}, fibers={'(Matrix', 'Matrix'})"]}}
 def _matrix_checks(matrix):
     if not isinstance(matrix, (Matrix, MatrixSymbol, ImmutableMatrix)):
         raise TypeError("Transition probabilities either should "
@@ -272,14 +319,20 @@ def _matrix_checks(matrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StochasticProcess(*args), correctly constructs a StochasticProcess instance) over {Any | isinstance(self.args[1], (FiniteSet, Range)) and isinstance(self.args[1], Tuple) and isinstance(arg, RandomIndexedSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ StochasticProcess : {Any | isinstance(self.args[1], (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d7065dd2279f9c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess","kind":"class","src_hash":"06c6fc75b641c963","in":{"base":"Any","pred":"isinstance(self.args[1], (FiniteSet, Range)) and isinstance(self.args[1], Tuple) and isinstance(arg, RandomIndexedSymbol)"},"out":{"base":"Any","pred":"isinstance(self.args[1], Tuple)"},"spec":{"lhs":"StochasticProcess(*args)","rhs":"correctly constructs a StochasticProcess instance","over":{"base":"Any","pred":"isinstance(self.args[1], (FiniteSet, Range)) and isinstance(self.args[1], Tuple) and isinstance(arg, RandomIndexedSymbol)"},"name":"StochasticProcess_class_invariant"},"guarantee":"correctly constructs a StochasticProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d7065dd2279f9c4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess","kind":"class","src_hash":"06c6fc75b641c963","in":{"base":"Any","pred":"isinstance(self.args[1], (FiniteSet, Range)) and isinstance(self.args[1], Tuple) and isinstance(arg, RandomIndexedSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"StochasticProcess(*args)","rhs":"correctly constructs a StochasticProcess instance","over":{"base":"Any","pred":"isinstance(self.args[1], (FiniteSet, Range)) and isinstance(self.args[1], Tuple) and isinstance(arg, RandomIndexedSymbol)"},"name":"StochasticProcess_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d7065dd2279f9c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function StochasticProcess not found in source"]}}
 class StochasticProcess(Basic):
     """
     Base class for all the stochastic processes whether
@@ -302,16 +355,22 @@ class StochasticProcess(Basic):
     index_set = S.Reals
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, state_space), Basic.__new__(cls, sym, state_space)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, sym, state_space)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c08bdbd65b4ed59c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.__new__","kind":"method","src_hash":"f41d19f4871fa1d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c08bdbd65b4ed59c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.__new__","kind":"method","src_hash":"f41d19f4871fa1d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, state_space)","rhs":"Basic.__new__(cls, sym, state_space)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym, state_space)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c08bdbd65b4ed59c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, sym, state_space)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, state_space=S.Reals, **kwargs):
         sym = _symbol_converter(sym)
         state_space = _set_converter(state_space)
@@ -319,31 +378,43 @@ class StochasticProcess(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbol(), returns the symbol attribute) over Any      ║
+# ║ Path(symbol(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbol : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7cd5458ce1d1565f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"returns the symbol attribute","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns the symbol attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7cd5458ce1d1565f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"self.args[0]","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7cd5458ce1d1565f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbol(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_space(), returns the state_space attribute) over Any ║
+# ║ Path(state_space(), isinstance(result, FiniteSet | Range)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ state_space : Any → FiniteSet | Range                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, FiniteSet | Range)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ state_space : Any → {FiniteSet | Range | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2ff4fbd0731e279           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.state_space","kind":"property","src_hash":"e4f28842ccbfd0c7","in":{"base":"Any"},"out":{"base":"FiniteSet | Range"},"spec":{"lhs":"state_space()","rhs":"returns the state_space attribute","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns the state_space attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2ff4fbd0731e279"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.state_space","kind":"property","src_hash":"e4f28842ccbfd0c7","in":{"base":"Any"},"out":{"base":"FiniteSet | Range","pred":"result satisfies: isinstance(result, FiniteSet | Range)"},"spec":{"lhs":"state_space()","rhs":"isinstance(result, FiniteSet | Range)","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"isinstance(result, FiniteSet | Range)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2ff4fbd0731e279","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, FiniteSet | Range)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_space(self) -> FiniteSet | Range:
         if not isinstance(self.args[1], (FiniteSet, Range)):
             assert isinstance(self.args[1], Tuple)
@@ -351,16 +422,22 @@ class StochasticProcess(Basic):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_deprecation_warn_distribution(), internal helper behaves correctly) over Any ║
+# ║ Path(_deprecation_warn_distribution(), <unspecified:_deprecation_warn_distribution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _deprecation_warn_distribution : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bb1f3541c88fb1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess._deprecation_warn_distribution","kind":"method","src_hash":"8b289ed0243f15a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecation_warn_distribution()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_deprecation_warn_distribution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.StochasticProcess._deprecation_warn_distribution_correct","statement":"Path(_deprecation_warn_distribution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bb1f3541c88fb1e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess._deprecation_warn_distribution","kind":"method","src_hash":"8b289ed0243f15a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecation_warn_distribution()","rhs":"<unspecified:_deprecation_warn_distribution>","over":{"base":"Any"},"name":"_deprecation_warn_distribution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.StochasticProcess._deprecation_warn_distribution_correct","statement":"Path(_deprecation_warn_distribution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bb1f3541c88fb1e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _deprecation_warn_distribution(self):
         sympy_deprecation_warning(
             """
@@ -376,46 +453,64 @@ class StochasticProcess(Basic):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribution(key), distribution produces the expected output) over Any ║
+# ║ Path(distribution(key), Distribution()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Distribution()                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribution : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c892456be910141b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66f14d738e3285e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.distribution","kind":"method","src_hash":"308c04c73a9bcc60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"distribution produces the expected output","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.StochasticProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c892456be910141b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.distribution","kind":"method","src_hash":"308c04c73a9bcc60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"Distribution()","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"returns Distribution()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.StochasticProcess.distribution_correct","statement":"Path(distribution(x), returns Distribution())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f14d738e3285e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Distribution()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._deprecation_warn_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distribution(self, key=None):
         if key is None:
             self._deprecation_warn_distribution()
         return Distribution()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(x), density produces the expected output) over Any ║
+# ║ Path(density(x), Density()) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Density()                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45c70dcb1845b038           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.density","kind":"method","src_hash":"6cbdd0b42eab6e7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45c70dcb1845b038"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.density","kind":"method","src_hash":"6cbdd0b42eab6e7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"Density()","over":{"base":"Any"},"name":"density_correct"},"guarantee":"returns Density()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45c70dcb1845b038","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Density()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, x):
         return Density()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(tim), correctly applies the callable) over Any ║
+# ║ Path(__call__(time), <unspecified:__call__>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03a0f606711e7e9c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.__call__","kind":"method","src_hash":"c410e0d8bfdea5b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(tim)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03a0f606711e7e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.__call__","kind":"method","src_hash":"c410e0d8bfdea5b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(time)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03a0f606711e7e9c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, time):
         """
         Overridden in ContinuousTimeStochasticProcess.
@@ -423,16 +518,22 @@ class StochasticProcess(Basic):
         raise NotImplementedError("Use [] for indexing discrete time stochastic process.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(tim), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(time), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e1cb533c2fbebac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.__getitem__","kind":"method","src_hash":"4135fe891be95c45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(tim)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e1cb533c2fbebac"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.__getitem__","kind":"method","src_hash":"4135fe891be95c45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(time)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e1cb533c2fbebac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, time):
         """
         Overridden in DiscreteTimeStochasticProcess.
@@ -440,30 +541,42 @@ class StochasticProcess(Basic):
         raise NotImplementedError("Use () for indexing continuous time stochastic process.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), probability produces the expected output) over Any ║
+# ║ Path(probability(condition), <unspecified:probability>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ probability : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94c1f7f6f827a9c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.probability","kind":"method","src_hash":"a456021daab5ad7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"probability produces the expected output","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c1f7f6f827a9c3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.probability","kind":"method","src_hash":"a456021daab5ad7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(condition)","rhs":"<unspecified:probability>","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c1f7f6f827a9c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_distribution(*ar), computes the joint distribution of the random indexed variables) over Any ║
+# ║ Path(joint_distribution(*args), <unspecified:joint_distribution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_distribution : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c383250b61b71d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.joint_distribution","kind":"method","src_hash":"c7658aed7e72f1d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_distribution(*ar)","rhs":"computes the joint distribution of the random indexed variables","over":{"base":"Any"},"name":"joint_distribution_correct"},"guarantee":"computes the joint distribution of the random indexed variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.StochasticProcess.joint_distribution_correct","statement":"Path(joint_distribution(x), computes the joint distribution of the random indexed variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c383250b61b71d7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.joint_distribution","kind":"method","src_hash":"c7658aed7e72f1d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_distribution(*args)","rhs":"<unspecified:joint_distribution>","over":{"base":"Any"},"name":"joint_distribution_correct"},"guarantee":"computes the joint distribution of the random indexed variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.StochasticProcess.joint_distribution_correct","statement":"Path(joint_distribution(x), computes the joint distribution of the random indexed variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c383250b61b71d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__call__","self.__getitem__","self.index_set"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_distribution(self, *args):
         """
         Computes the joint distribution of the random indexed variables.
@@ -507,59 +620,85 @@ class StochasticProcess(Basic):
         return JointDistributionHandmade(density)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expectation(con), expectation produces the expected output) over Any ║
+# ║ Path(expectation(condition, given_condition), <unspecified:expectation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expectation : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d1144d02879445a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.expectation","kind":"method","src_hash":"84a5cee18d65a3b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expectation(con)","rhs":"expectation produces the expected output","over":{"base":"Any"},"name":"expectation_correct"},"guarantee":"expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d1144d02879445a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.expectation","kind":"method","src_hash":"84a5cee18d65a3b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expectation(condition, given_condition)","rhs":"<unspecified:expectation>","over":{"base":"Any"},"name":"expectation_correct"},"guarantee":"expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d1144d02879445a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expectation(self, condition, given_condition):
         raise NotImplementedError("Abstract method for expectation queries.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sample(), sample produces the expected output) over Any ║
+# ║ Path(sample(), <unspecified:sample>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sample : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1e55d951fecd8b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.sample","kind":"method","src_hash":"c7025b56a7559992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample()","rhs":"sample produces the expected output","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"sample produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e55d951fecd8b9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticProcess.sample","kind":"method","src_hash":"c7025b56a7559992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample()","rhs":"<unspecified:sample>","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"sample produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e55d951fecd8b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sample(self):
         raise NotImplementedError("Abstract method for sampling queries.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DiscreteTimeStochasticProcess(*args), correctly constructs a DiscreteTimeStochasticProcess instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DiscreteTimeStochasticProcess : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StochasticProcess)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DiscreteTimeStochasticProcess : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba7eafc7eb6049ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteTimeStochasticProcess","kind":"class","src_hash":"947810775e3aa334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiscreteTimeStochasticProcess(*args)","rhs":"correctly constructs a DiscreteTimeStochasticProcess instance","over":{"base":"Any"},"name":"DiscreteTimeStochasticProcess_class_invariant"},"guarantee":"correctly constructs a DiscreteTimeStochasticProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7eafc7eb6049ff"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteTimeStochasticProcess","kind":"class","src_hash":"947810775e3aa334","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StochasticProcess)"},"spec":{"lhs":"DiscreteTimeStochasticProcess(*args)","rhs":"correctly constructs a DiscreteTimeStochasticProcess instance","over":{"base":"Any"},"name":"DiscreteTimeStochasticProcess_class_invariant"},"guarantee":"isinstance(self, StochasticProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7eafc7eb6049ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StochasticProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiscreteTimeStochasticProcess not found in source"]}}
 class DiscreteTimeStochasticProcess(StochasticProcess):
     """
     Base class for all discrete stochastic processes.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(tim), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(time), RandomIndexedSymbol(idx_obj, pspace_obj)) over {Any | not (not time.is_symbol and time not in self.index_set) and hasattr(time, 'is_symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not time.is_symbol and time not in s...   ║
+# ║   requires: hasattr(time, 'is_symbol')                     ║
+# ║   returns:  RandomIndexedSymbol(idx_obj, pspace_obj)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | not (not time.is_symbol and time...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 942b2b7ffbc27cd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteTimeStochasticProcess.__getitem__","kind":"method","src_hash":"d4fd689eb5400cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(tim)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"942b2b7ffbc27cd9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteTimeStochasticProcess.__getitem__","kind":"method","src_hash":"d4fd689eb5400cb6","in":{"base":"Any","pred":"not (not time.is_symbol and time not in self.index_set) and hasattr(time, 'is_symbol')"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(time)","rhs":"RandomIndexedSymbol(idx_obj, pspace_obj)","over":{"base":"Any","pred":"not (not time.is_symbol and time not in self.index_set) and hasattr(time, 'is_symbol')"},"name":"__getitem___correct"},"guarantee":"returns RandomIndexedSymbol(idx_obj, pspace_obj)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"942b2b7ffbc27cd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not time.is_symbol and time not in self.index_set)","hasattr(time, 'is_symbol')"],"returns_expr":"RandomIndexedSymbol(idx_obj, pspace_obj)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution","self.index_set","self.symbol","time.is_symbol"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, time):
         """
         For indexing discrete time stochastic processes.
@@ -579,29 +718,43 @@ class DiscreteTimeStochasticProcess(StochasticProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ContinuousTimeStochasticProcess(*args), correctly constructs a ContinuousTimeStochasticProcess instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ContinuousTimeStochasticProcess : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StochasticProcess)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ContinuousTimeStochasticProcess : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afa80f5634316ab3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousTimeStochasticProcess","kind":"class","src_hash":"29188cf195e49212","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ContinuousTimeStochasticProcess(*args)","rhs":"correctly constructs a ContinuousTimeStochasticProcess instance","over":{"base":"Any"},"name":"ContinuousTimeStochasticProcess_class_invariant"},"guarantee":"correctly constructs a ContinuousTimeStochasticProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa80f5634316ab3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousTimeStochasticProcess","kind":"class","src_hash":"29188cf195e49212","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StochasticProcess)"},"spec":{"lhs":"ContinuousTimeStochasticProcess(*args)","rhs":"correctly constructs a ContinuousTimeStochasticProcess instance","over":{"base":"Any"},"name":"ContinuousTimeStochasticProcess_class_invariant"},"guarantee":"isinstance(self, StochasticProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa80f5634316ab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StochasticProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ContinuousTimeStochasticProcess not found in source"]}}
 class ContinuousTimeStochasticProcess(StochasticProcess):
     """
     Base class for all continuous time stochastic process.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(tim), correctly applies the callable) over Any ║
+# ║ Path(__call__(time), RandomIndexedSymbol(func_obj, pspace_obj)) over {Any | not (not time.is_symbol and time not in self.index_set) and hasattr(time, 'is_symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not time.is_symbol and time not in s...   ║
+# ║   requires: hasattr(time, 'is_symbol')                     ║
+# ║   returns:  RandomIndexedSymbol(func_obj, pspace_obj)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | not (not time.is_symbol and time no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d42b94b3facaf0ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousTimeStochasticProcess.__call__","kind":"method","src_hash":"5c0ca105f2ab7352","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(tim)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d42b94b3facaf0ce"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousTimeStochasticProcess.__call__","kind":"method","src_hash":"5c0ca105f2ab7352","in":{"base":"Any","pred":"not (not time.is_symbol and time not in self.index_set) and hasattr(time, 'is_symbol')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(time)","rhs":"RandomIndexedSymbol(func_obj, pspace_obj)","over":{"base":"Any","pred":"not (not time.is_symbol and time not in self.index_set) and hasattr(time, 'is_symbol')"},"name":"__call___correct"},"guarantee":"returns RandomIndexedSymbol(func_obj, pspace_obj)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d42b94b3facaf0ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not time.is_symbol and time not in self.index_set)","hasattr(time, 'is_symbol')"],"returns_expr":"RandomIndexedSymbol(func_obj, pspace_obj)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution","self.index_set","self.symbol","time.is_symbol"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, time):
         """
         For indexing continuous time stochastic processes.
@@ -621,14 +774,20 @@ class ContinuousTimeStochasticProcess(StochasticProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TransitionMatrixOf(*args), correctly constructs a TransitionMatrixOf instance) over {Any | isinstance(process, DiscreteMarkovChain)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TransitionMatrixOf : {Any | isinstance(process, Discr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd5371e9b7765aec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.TransitionMatrixOf","kind":"class","src_hash":"c0f78a187736385c","in":{"base":"Any","pred":"isinstance(process, DiscreteMarkovChain)"},"out":{"base":"Any"},"spec":{"lhs":"TransitionMatrixOf(*args)","rhs":"correctly constructs a TransitionMatrixOf instance","over":{"base":"Any","pred":"isinstance(process, DiscreteMarkovChain)"},"name":"TransitionMatrixOf_class_invariant"},"guarantee":"correctly constructs a TransitionMatrixOf instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd5371e9b7765aec"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.TransitionMatrixOf","kind":"class","src_hash":"c0f78a187736385c","in":{"base":"Any","pred":"isinstance(process, DiscreteMarkovChain)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Boolean)"},"spec":{"lhs":"TransitionMatrixOf(*args)","rhs":"correctly constructs a TransitionMatrixOf instance","over":{"base":"Any","pred":"isinstance(process, DiscreteMarkovChain)"},"name":"TransitionMatrixOf_class_invariant"},"guarantee":"isinstance(self, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd5371e9b7765aec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Boolean)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function TransitionMatrixOf not found in source"]}}
 class TransitionMatrixOf(Boolean):
     """
     Assumes that the matrix is the transition matrix
@@ -636,16 +795,23 @@ class TransitionMatrixOf(Boolean):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, process, matrix), Basic.__new__(cls, process, matrix)) over {Any | isinstance(process, DiscreteMarkovChain)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(process, DiscreteMarkovChain)       ║
+# ║   returns:  Basic.__new__(cls, process, matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(process, DiscreteMarkovCh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39bdbe09889d07fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.TransitionMatrixOf.__new__","kind":"method","src_hash":"4d0cc3af3d93c564","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39bdbe09889d07fc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.TransitionMatrixOf.__new__","kind":"method","src_hash":"4d0cc3af3d93c564","in":{"base":"Any","pred":"isinstance(process, DiscreteMarkovChain)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, process, matrix)","rhs":"Basic.__new__(cls, process, matrix)","over":{"base":"Any","pred":"isinstance(process, DiscreteMarkovChain)"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, process, matrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39bdbe09889d07fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(process, DiscreteMarkovChain)"],"returns_expr":"Basic.__new__(cls, process, matrix)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, process, matrix):
         if not isinstance(process, DiscreteMarkovChain):
             raise ValueError("Currently only DiscreteMarkovChain "
@@ -659,14 +825,20 @@ class TransitionMatrixOf(Boolean):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeneratorMatrixOf(*args), correctly constructs a GeneratorMatrixOf instance) over {Any | isinstance(process, ContinuousMarkovChain)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TransitionMatrixOf)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GeneratorMatrixOf : {Any | isinstance(process, Contin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c83212fe2c172c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GeneratorMatrixOf","kind":"class","src_hash":"feb6ebb48ed22e26","in":{"base":"Any","pred":"isinstance(process, ContinuousMarkovChain)"},"out":{"base":"Any"},"spec":{"lhs":"GeneratorMatrixOf(*args)","rhs":"correctly constructs a GeneratorMatrixOf instance","over":{"base":"Any","pred":"isinstance(process, ContinuousMarkovChain)"},"name":"GeneratorMatrixOf_class_invariant"},"guarantee":"correctly constructs a GeneratorMatrixOf instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c83212fe2c172c8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GeneratorMatrixOf","kind":"class","src_hash":"feb6ebb48ed22e26","in":{"base":"Any","pred":"isinstance(process, ContinuousMarkovChain)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TransitionMatrixOf)"},"spec":{"lhs":"GeneratorMatrixOf(*args)","rhs":"correctly constructs a GeneratorMatrixOf instance","over":{"base":"Any","pred":"isinstance(process, ContinuousMarkovChain)"},"name":"GeneratorMatrixOf_class_invariant"},"guarantee":"isinstance(self, TransitionMatrixOf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c83212fe2c172c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TransitionMatrixOf)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeneratorMatrixOf not found in source"]}}
 class GeneratorMatrixOf(TransitionMatrixOf):
     """
     Assumes that the matrix is the generator matrix
@@ -674,16 +846,23 @@ class GeneratorMatrixOf(TransitionMatrixOf):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, process, matrix), Basic.__new__(cls, process, matrix)) over {Any | isinstance(process, ContinuousMarkovChain)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(process, ContinuousMarkovChain)     ║
+# ║   returns:  Basic.__new__(cls, process, matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(process, ContinuousMarkov...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8959cbbc921d9ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GeneratorMatrixOf.__new__","kind":"method","src_hash":"3705068d676c02df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8959cbbc921d9ff"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GeneratorMatrixOf.__new__","kind":"method","src_hash":"3705068d676c02df","in":{"base":"Any","pred":"isinstance(process, ContinuousMarkovChain)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, process, matrix)","rhs":"Basic.__new__(cls, process, matrix)","over":{"base":"Any","pred":"isinstance(process, ContinuousMarkovChain)"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, process, matrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8959cbbc921d9ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(process, ContinuousMarkovChain)"],"returns_expr":"Basic.__new__(cls, process, matrix)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, process, matrix):
         if not isinstance(process, ContinuousMarkovChain):
             raise ValueError("Currently only ContinuousMarkovChain "
@@ -694,27 +873,42 @@ class GeneratorMatrixOf(TransitionMatrixOf):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StochasticStateSpaceOf(*args), correctly constructs a StochasticStateSpaceOf instance) over {Any | isinstance(state_space, Range) and isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ StochasticStateSpaceOf : {Any | isinstance(state_spac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1365fdf9677a1467  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticStateSpaceOf","kind":"class","src_hash":"a84d1f706effa246","in":{"base":"Any","pred":"isinstance(state_space, Range) and isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain))"},"out":{"base":"Any"},"spec":{"lhs":"StochasticStateSpaceOf(*args)","rhs":"correctly constructs a StochasticStateSpaceOf instance","over":{"base":"Any","pred":"isinstance(state_space, Range) and isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain))"},"name":"StochasticStateSpaceOf_class_invariant"},"guarantee":"correctly constructs a StochasticStateSpaceOf instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1365fdf9677a1467"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticStateSpaceOf","kind":"class","src_hash":"a84d1f706effa246","in":{"base":"Any","pred":"isinstance(state_space, Range) and isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Boolean)"},"spec":{"lhs":"StochasticStateSpaceOf(*args)","rhs":"correctly constructs a StochasticStateSpaceOf instance","over":{"base":"Any","pred":"isinstance(state_space, Range) and isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain))"},"name":"StochasticStateSpaceOf_class_invariant"},"guarantee":"isinstance(self, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1365fdf9677a1467","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Boolean)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function StochasticStateSpaceOf not found in source"]}}
 class StochasticStateSpaceOf(Boolean):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, process, state_space), Basic.__new__(cls, process, state_index)) over {Any | isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain)) and hasattr(state_space, 'step') and hasattr(state_space, 'stop') and hasattr(state_space, 'start')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(process, (DiscreteMarkovChain,...   ║
+# ║   requires: hasattr(state_space, 'step')                   ║
+# ║   requires: hasattr(state_space, 'stop')                   ║
+# ║   returns:  Basic.__new__(cls, process, state_index)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(process, (DiscreteMarkovC...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0001ef9bfe414348           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticStateSpaceOf.__new__","kind":"method","src_hash":"d0d3fdc952d3cb5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0001ef9bfe414348"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.StochasticStateSpaceOf.__new__","kind":"method","src_hash":"d0d3fdc952d3cb5e","in":{"base":"Any","pred":"isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain)) and hasattr(state_space, 'step') and hasattr(state_space, 'stop') and hasattr(state_space, 'start')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, process, state_space)","rhs":"Basic.__new__(cls, process, state_index)","over":{"base":"Any","pred":"isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain)) and hasattr(state_space, 'step') and hasattr(state_space, 'stop') and hasattr(state_space, 'start')"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, process, state_index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0001ef9bfe414348","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain))","hasattr(state_space, 'step')","hasattr(state_space, 'stop')","hasattr(state_space, 'start')"],"returns_expr":"Basic.__new__(cls, process, state_index)","pure":false,"effects":{"effect_type":"reads_state","reads":["state_space.start","state_space.step","state_space.stop"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, process, state_space):
         if not isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain)):
             raise ValueError("Currently only DiscreteMarkovChain and ContinuousMarkovChain "
@@ -733,14 +927,20 @@ class StochasticStateSpaceOf(Boolean):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MarkovProcess(*args), correctly constructs a MarkovProcess instance) over {Any | isinstance(self, DiscreteMarkovChain) and isinstance(given_condition, And) and isinstance(given_condition, TransitionMatrixOf)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StochasticProcess)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MarkovProcess : {Any | isinstance(self, DiscreteMarko...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5749409c40327e8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess","kind":"class","src_hash":"9c9d9d8dfb969b5a","in":{"base":"Any","pred":"isinstance(self, DiscreteMarkovChain) and isinstance(given_condition, And) and isinstance(given_condition, TransitionMatrixOf)"},"out":{"base":"Any"},"spec":{"lhs":"MarkovProcess(*args)","rhs":"correctly constructs a MarkovProcess instance","over":{"base":"Any","pred":"isinstance(self, DiscreteMarkovChain) and isinstance(given_condition, And) and isinstance(given_condition, TransitionMatrixOf)"},"name":"MarkovProcess_class_invariant"},"guarantee":"correctly constructs a MarkovProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5749409c40327e8d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess","kind":"class","src_hash":"9c9d9d8dfb969b5a","in":{"base":"Any","pred":"isinstance(self, DiscreteMarkovChain) and isinstance(given_condition, And) and isinstance(given_condition, TransitionMatrixOf)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StochasticProcess)"},"spec":{"lhs":"MarkovProcess(*args)","rhs":"correctly constructs a MarkovProcess instance","over":{"base":"Any","pred":"isinstance(self, DiscreteMarkovChain) and isinstance(given_condition, And) and isinstance(given_condition, TransitionMatrixOf)"},"name":"MarkovProcess_class_invariant"},"guarantee":"isinstance(self, StochasticProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5749409c40327e8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StochasticProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function MarkovProcess not found in source"]}}
 class MarkovProcess(StochasticProcess):
     """
     Contains methods that handle queries
@@ -749,16 +949,23 @@ class MarkovProcess(StochasticProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(number_of_states(), returns the number_of_states attribute) over Any ║
+# ║ Path(number_of_states(), _sympify(self.args[2].shape[0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ number_of_states : Any → Integer | Symbol                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Integer | Symbol)           ║
+# ║   returns:  _sympify(self.args[2].shape[0])                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ number_of_states : Any → {Integer | Symbol | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f8f1ba424eb4175           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.number_of_states","kind":"property","src_hash":"704f7110b92a494d","in":{"base":"Any"},"out":{"base":"Integer | Symbol"},"spec":{"lhs":"number_of_states()","rhs":"returns the number_of_states attribute","over":{"base":"Any"},"name":"number_of_states_correct"},"guarantee":"returns the number_of_states attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f8f1ba424eb4175"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.number_of_states","kind":"property","src_hash":"704f7110b92a494d","in":{"base":"Any"},"out":{"base":"Integer | Symbol","pred":"result satisfies: result == (_sympify(self.args[2].shape[0]))"},"spec":{"lhs":"number_of_states()","rhs":"_sympify(self.args[2].shape[0])","over":{"base":"Any"},"name":"number_of_states_correct"},"guarantee":"returns _sympify(self.args[2].shape[0]); isinstance(result, Integer | Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f8f1ba424eb4175","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Integer | Symbol)"],"returns_expr":"_sympify(self.args[2].shape[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def number_of_states(self) -> Integer | Symbol:
         """
         The number of states in the Markov Chain.
@@ -767,16 +974,22 @@ class MarkovProcess(StochasticProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_state_index(), returns the _state_index attribute) over Any ║
+# ║ Path(_state_index(), self.args[1]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _state_index : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b77c1c454b098ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._state_index","kind":"property","src_hash":"d42bcb425ebe7bf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_state_index()","rhs":"returns the _state_index attribute","over":{"base":"Any"},"name":"_state_index_correct"},"guarantee":"returns the _state_index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b77c1c454b098ef"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._state_index","kind":"property","src_hash":"d42bcb425ebe7bf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_state_index()","rhs":"self.args[1]","over":{"base":"Any"},"name":"_state_index_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b77c1c454b098ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _state_index(self):
         """
         Returns state index as Range.
@@ -785,16 +998,25 @@ class MarkovProcess(StochasticProcess):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sanity_checks(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_sanity_checks(cls, state_space, trans_probs), (state_space, trans_probs)) over {Any | hasattr(trans_probs, 'shape') and hasattr(state_space, 'step') and hasattr(state_space, 'stop') and hasattr(state_space, 'start')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sanity_checks : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(trans_probs, 'shape')                  ║
+# ║   requires: hasattr(state_space, 'step')                   ║
+# ║   requires: hasattr(state_space, 'stop')                   ║
+# ║   returns:  (state_space, trans_probs)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sanity_checks : {Any | hasattr(trans_probs, 'shape')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9332a6b41085238d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b4e170593c81633  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._sanity_checks","kind":"classmethod","src_hash":"ed6baf2f6c290e7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sanity_checks(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sanity_checks_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._sanity_checks_correct","statement":"Path(_sanity_checks(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9332a6b41085238d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._sanity_checks","kind":"classmethod","src_hash":"ed6baf2f6c290e7f","in":{"base":"Any","pred":"hasattr(trans_probs, 'shape') and hasattr(state_space, 'step') and hasattr(state_space, 'stop') and hasattr(state_space, 'start')"},"out":{"base":"Any"},"spec":{"lhs":"_sanity_checks(cls, state_space, trans_probs)","rhs":"(state_space, trans_probs)","over":{"base":"Any","pred":"hasattr(trans_probs, 'shape') and hasattr(state_space, 'step') and hasattr(state_space, 'stop') and hasattr(state_space, 'start')"},"name":"_sanity_checks_correct"},"guarantee":"returns (state_space, trans_probs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._sanity_checks_correct","statement":"Path(_sanity_checks(x), returns (state_space, trans_probs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b4e170593c81633","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(trans_probs, 'shape')","hasattr(state_space, 'step')","hasattr(state_space, 'stop')","hasattr(state_space, 'start')"],"returns_expr":"(state_space, trans_probs)","pure":false,"effects":{"effect_type":"reads_state","reads":["state_space.start","state_space.step","state_space.stop","trans_probs.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sanity_checks(cls, state_space, trans_probs):
         # Try to never have None as state_space or trans_probs.
         # This helps a lot if we get it done at the start.
@@ -831,16 +1053,25 @@ class MarkovProcess(StochasticProcess):
         return state_space, trans_probs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_information(giv), helper function to extract information, like, transition matrix/generator matrix, state space, etc) over Any ║
+# ║ Path(_extract_information(given_condition), (trans_probs, state_index, given_condition)) over {Any | hasattr(given_condition, 'args') and hasattr(given_condition, 'matrix') and hasattr(given_condition, 'state_index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _extract_information : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(given_condition, 'args')               ║
+# ║   requires: hasattr(given_condition, 'matrix')             ║
+# ║   requires: hasattr(given_condition, 'state_index')        ║
+# ║   returns:  (trans_probs, state_index, given_condition)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _extract_information : {Any | hasattr(given_condition...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8399884ac4f6162  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8b28497e51362f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._extract_information","kind":"method","src_hash":"b3a5c261455de592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_information(giv)","rhs":"helper function to extract information, like, transition matrix/generator matrix, state space, etc","over":{"base":"Any"},"name":"_extract_information_correct"},"guarantee":"helper function to extract information, like, transition matrix/generator matrix, state space, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._extract_information_correct","statement":"Path(_extract_information(x), helper function to extract information, like, transition matrix/generator matrix, state space, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8399884ac4f6162"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._extract_information","kind":"method","src_hash":"b3a5c261455de592","in":{"base":"Any","pred":"hasattr(given_condition, 'args') and hasattr(given_condition, 'matrix') and hasattr(given_condition, 'state_index')"},"out":{"base":"Any"},"spec":{"lhs":"_extract_information(given_condition)","rhs":"(trans_probs, state_index, given_condition)","over":{"base":"Any","pred":"hasattr(given_condition, 'args') and hasattr(given_condition, 'matrix') and hasattr(given_condition, 'state_index')"},"name":"_extract_information_correct"},"guarantee":"returns (trans_probs, state_index, given_condition)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._extract_information_correct","statement":"Path(_extract_information(x), returns (trans_probs, state_index, given_condition))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8b28497e51362f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(given_condition, 'args')","hasattr(given_condition, 'matrix')","hasattr(given_condition, 'state_index')"],"returns_expr":"(trans_probs, state_index, given_condition)","pure":false,"effects":{"effect_type":"reads_state","reads":["given_condition.args","given_condition.matrix","given_condition.state_index","self._state_index","self.generator_matrix","self.transition_probabilities"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _extract_information(self, given_condition):
         """
         Helper function to extract information, like,
@@ -871,16 +1102,23 @@ class MarkovProcess(StochasticProcess):
         return trans_probs, state_index, given_condition
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_trans_probs(tra), helper function for checking the validity of transition probabilities) over Any ║
+# ║ Path(_check_trans_probs(trans_probs, row_sum), <unspecified:_check_trans_probs>) over {Any | hasattr(trans_probs, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_trans_probs : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(trans_probs, 'tolist')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_trans_probs : {Any | hasattr(trans_probs, 'tol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4245db0e6b1a2ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._check_trans_probs","kind":"method","src_hash":"34e0dd02bd2c5c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_trans_probs(tra)","rhs":"helper function for checking the validity of transition probabilities","over":{"base":"Any"},"name":"_check_trans_probs_correct"},"guarantee":"helper function for checking the validity of transition probabilities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._check_trans_probs_correct","statement":"Path(_check_trans_probs(x), helper function for checking the validity of transition probabilities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4245db0e6b1a2ab"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._check_trans_probs","kind":"method","src_hash":"34e0dd02bd2c5c46","in":{"base":"Any","pred":"hasattr(trans_probs, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_check_trans_probs(trans_probs, row_sum)","rhs":"<unspecified:_check_trans_probs>","over":{"base":"Any","pred":"hasattr(trans_probs, 'tolist')"},"name":"_check_trans_probs_correct"},"guarantee":"helper function for checking the validity of transition probabilities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._check_trans_probs_correct","statement":"Path(_check_trans_probs(x), helper function for checking the validity of transition probabilities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4245db0e6b1a2ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(trans_probs, 'tolist')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["trans_probs.tolist"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_trans_probs(self, trans_probs, row_sum=1):
         """
         Helper function for checking the validity of transition
@@ -894,16 +1132,26 @@ class MarkovProcess(StochasticProcess):
                     "If you are using Float or floats then please use Rational."%(row_sum))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_work_out_state_index(sta), helper function to extract state space if there is a random symbol in the given condition) over Any ║
+# ║ Path(_work_out_state_index(state_index, given_condition, trans_probs), state_index) over {Any | not (cond1) and hasattr(trans_probs, 'shape') and hasattr(given_condition, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _work_out_state_index : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (cond1)                                    ║
+# ║   requires: hasattr(trans_probs, 'shape')                  ║
+# ║   requires: hasattr(given_condition, 'atoms')              ║
+# ║   ensures:  result == state_index                          ║
+# ║   returns:  state_index                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _work_out_state_index : {Any | not (cond1) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15e07f95362fb67a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2db9432180cfe19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._work_out_state_index","kind":"method","src_hash":"12fa4bbac9815c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_work_out_state_index(sta)","rhs":"helper function to extract state space if there is a random symbol in the given condition","over":{"base":"Any"},"name":"_work_out_state_index_correct"},"guarantee":"helper function to extract state space if there is a random symbol in the given condition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._work_out_state_index_correct","statement":"Path(_work_out_state_index(x), helper function to extract state space if there is a random symbol in the given condition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15e07f95362fb67a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._work_out_state_index","kind":"method","src_hash":"12fa4bbac9815c5d","in":{"base":"Any","pred":"not (cond1) and hasattr(trans_probs, 'shape') and hasattr(given_condition, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: result == (state_index)"},"spec":{"lhs":"_work_out_state_index(state_index, given_condition, trans_probs)","rhs":"state_index","over":{"base":"Any","pred":"not (cond1) and hasattr(trans_probs, 'shape') and hasattr(given_condition, 'atoms')"},"name":"_work_out_state_index_correct"},"guarantee":"returns state_index; result == state_index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._work_out_state_index_correct","statement":"Path(_work_out_state_index(x), returns state_index; result == state_index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2db9432180cfe19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (cond1)","hasattr(trans_probs, 'shape')","hasattr(given_condition, 'atoms')"],"ensures":["result == state_index"],"returns_expr":"state_index","pure":false,"effects":{"effect_type":"reads_state","reads":["given_condition.atoms","self.number_of_states","trans_probs.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _work_out_state_index(self, state_index, given_condition, trans_probs):
         """
         Helper function to extract state space if there
@@ -929,16 +1177,22 @@ class MarkovProcess(StochasticProcess):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocess(giv), helper function for pre-processing the information) over Any ║
+# ║ Path(_preprocess(given_condition, evaluate), <unspecified:_preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocess : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0eb4e70bcdd224b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._preprocess","kind":"method","src_hash":"4c52b229ddf457c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess(giv)","rhs":"helper function for pre-processing the information","over":{"base":"Any"},"name":"_preprocess_correct"},"guarantee":"helper function for pre-processing the information","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._preprocess_correct","statement":"Path(_preprocess(x), helper function for pre-processing the information)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0eb4e70bcdd224b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._preprocess","kind":"method","src_hash":"4c52b229ddf457c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess(given_condition, evaluate)","rhs":"<unspecified:_preprocess>","over":{"base":"Any"},"name":"_preprocess_correct"},"guarantee":"helper function for pre-processing the information","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess._preprocess_correct","statement":"Path(_preprocess(x), helper function for pre-processing the information)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0eb4e70bcdd224b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_trans_probs","self._extract_information","self._work_out_state_index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocess(self, given_condition, evaluate):
         """
         Helper function for pre-processing the information.
@@ -969,16 +1223,25 @@ class MarkovProcess(StochasticProcess):
         return is_insufficient, trans_probs, state_index, given_condition
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(replace_with_index(con), replace_with_index produces the expected output) over Any ║
+# ║ Path(replace_with_index(condition), condition) over {Any | hasattr(condition, 'lhs') and hasattr(condition, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ replace_with_index : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(condition, 'lhs')                      ║
+# ║   requires: hasattr(condition, 'rhs')                      ║
+# ║   ensures:  result == condition                            ║
+# ║   returns:  condition                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ replace_with_index : {Any | hasattr(condition, 'lhs')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7de3ec391fc7c13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0deddbba12c2fa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.replace_with_index","kind":"method","src_hash":"83e400c5d1f19282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"replace_with_index(con)","rhs":"replace_with_index produces the expected output","over":{"base":"Any"},"name":"replace_with_index_correct"},"guarantee":"replace_with_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess.replace_with_index_correct","statement":"Path(replace_with_index(x), replace_with_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7de3ec391fc7c13"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.replace_with_index","kind":"method","src_hash":"83e400c5d1f19282","in":{"base":"Any","pred":"hasattr(condition, 'lhs') and hasattr(condition, 'rhs')"},"out":{"base":"Any","pred":"result satisfies: result == (condition)"},"spec":{"lhs":"replace_with_index(condition)","rhs":"condition","over":{"base":"Any","pred":"hasattr(condition, 'lhs') and hasattr(condition, 'rhs')"},"name":"replace_with_index_correct"},"guarantee":"returns condition; result == condition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess.replace_with_index_correct","statement":"Path(replace_with_index(x), returns condition; result == condition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0deddbba12c2fa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(condition, 'lhs')","hasattr(condition, 'rhs')"],"ensures":["result == condition"],"returns_expr":"condition","pure":false,"effects":{"effect_type":"reads_state","reads":["condition.lhs","condition.rhs","self.index_of"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def replace_with_index(self, condition):
         if isinstance(condition, Relational):
             lhs, rhs = condition.lhs, condition.rhs
@@ -989,16 +1252,26 @@ class MarkovProcess(StochasticProcess):
         return condition
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), handles probability queries for markov process) over Any ║
+# ║ Path(probability(condition, given_condition, evaluate), len(compute_later) == old_len_compute_later + 1 and len(ris) == old_len_ris + 1) over {Any | hasattr(condition, 'atoms') and hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'as_set') and hasattr(condition, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ probability : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(condition, 'atoms')                    ║
+# ║   requires: hasattr(condition, 'lhs')                      ║
+# ║   requires: hasattr(condition, 'rhs')                      ║
+# ║   ensures:  len(compute_later) == old_len_compute_lat...   ║
+# ║   ensures:  len(ris) == old_len_ris + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ probability : {Any | hasattr(condition, 'atoms') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bc66d291907a58f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff5b919fd532437b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.probability","kind":"method","src_hash":"0ef1a10852ef2455","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"handles probability queries for markov process","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"handles probability queries for markov process","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess.probability_correct","statement":"Path(probability(x), handles probability queries for markov process)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bc66d291907a58f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.probability","kind":"method","src_hash":"0ef1a10852ef2455","in":{"base":"Any","pred":"hasattr(condition, 'atoms') and hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'as_set') and hasattr(condition, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(compute_later) == old_len_compute_later + 1 and len(ris) == old_len_ris + 1"},"spec":{"lhs":"probability(condition, given_condition, evaluate)","rhs":"len(compute_later) == old_len_compute_later + 1 and len(ris) == old_len_ris + 1","over":{"base":"Any","pred":"hasattr(condition, 'atoms') and hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'as_set') and hasattr(condition, 'args')"},"name":"probability_correct"},"guarantee":"len(compute_later) == old_len_compute_later + 1; len(ris) == old_len_ris + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess.probability_correct","statement":"Path(probability(x), len(compute_later) == old_len_compute_later + 1; len(ris) == old_len_ris + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff5b919fd532437b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(condition, 'atoms')","hasattr(condition, 'lhs')","hasattr(condition, 'rhs')","hasattr(condition, 'as_set')","hasattr(condition, 'args')"],"ensures":["len(compute_later) == old_len_compute_later + 1","len(ris) == old_len_ris + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["condition.args","condition.as_set","condition.atoms","condition.lhs","condition.rhs","self._preprocess","self._symbolic_probability","self.index_set","self.number_of_states","self.probability","self.replace_with_index","self.state_space","self.transition_probabilities"],"calls_mutating":["compute_later.append","ris.append"],"raises":["IndexError","NotImplementedError","ValueError"]},"state_contract":{"modifies":["compute_later.*","ris.*"],"old_bindings":{"old_len_compute_later":"len(compute_later)","old_len_ris":"len(ris)"},"post_ensures":["len(compute_later) == old_len_compute_later + 1","len(ris) == old_len_ris + 1"],"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition, given_condition=None, evaluate=True, **kwargs):
         """
         Handles probability queries for Markov process.
@@ -1198,16 +1471,26 @@ class MarkovProcess(StochasticProcess):
                                 "implemented yet."%(condition, given_condition))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_symbolic_probability(con), id) over Any              ║
+# ║ Path(_symbolic_probability(condition, new_given_condition, rv), id) over {Any | hasattr(new_given_condition, 'rhs') and hasattr(new_given_condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'lhs') and hasattr(min_key_rv, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _symbolic_probability : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(new_given_condition, 'rhs')            ║
+# ║   requires: hasattr(new_given_condition, 'lhs')            ║
+# ║   requires: hasattr(condition, 'rhs')                      ║
+# ║   fiber[Relational]: isinstance(condition, Relational)     ║
+# ║   fiber[Relational]: not (isinstance(condition, Relat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _symbolic_probability : {Any | hasattr(new_given_cond...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 10e08de3ef071a89   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._symbolic_probability","kind":"method","src_hash":"1b0277bdda6acba1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symbolic_probability(con)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_symbolic_probability_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Probability","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10e08de3ef071a89"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess._symbolic_probability","kind":"method","src_hash":"1b0277bdda6acba1","in":{"base":"Any","pred":"hasattr(new_given_condition, 'rhs') and hasattr(new_given_condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'lhs') and hasattr(min_key_rv, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"_symbolic_probability(condition, new_given_condition, rv)","rhs":"<unspecified:_symbolic_probability>","over":{"base":"Any","pred":"hasattr(new_given_condition, 'rhs') and hasattr(new_given_condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'lhs') and hasattr(min_key_rv, 'key')"},"name":"_symbolic_probability_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Probability","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10e08de3ef071a89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(new_given_condition, 'rhs')","hasattr(new_given_condition, 'lhs')","hasattr(condition, 'rhs')","hasattr(condition, 'lhs')","hasattr(min_key_rv, 'key')"],"fibers":[{"name":"Relational","guard":"isinstance(condition, Relational)","ensures":[],"decidability":"structural"},{"name":"Relational","guard":"not (isinstance(condition, Relational))","ensures":["result == Probability(condition, new_given_condition)"],"decidability":"structural","returns_expr":"Probability(condition, new_given_condition)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["condition.lhs","condition.rhs","min_key_rv.key","new_given_condition.lhs","new_given_condition.rhs","self.generator_matrix","self.probability","self.state_space","self.transition_probabilities"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _symbolic_probability(self, condition, new_given_condition, rv, min_key_rv):
         #Function to calculate probability for queries with symbols
         if isinstance(condition, Relational):
@@ -1240,16 +1523,25 @@ class MarkovProcess(StochasticProcess):
             return Probability(condition, new_given_condition)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expectation(exp), handles expectation queries for markov process) over Any ║
+# ║ Path(expectation(expr, condition, evaluate), <unspecified:expectation>) over {Any | hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expectation : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(condition, 'lhs')                      ║
+# ║   requires: hasattr(condition, 'rhs')                      ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expectation : {Any | hasattr(condition, 'lhs') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be90a29497fcb1bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.expectation","kind":"method","src_hash":"dc4a737319a0e34c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expectation(exp)","rhs":"handles expectation queries for markov process","over":{"base":"Any"},"name":"expectation_correct"},"guarantee":"handles expectation queries for markov process","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess.expectation_correct","statement":"Path(expectation(x), handles expectation queries for markov process)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be90a29497fcb1bb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.MarkovProcess.expectation","kind":"method","src_hash":"dc4a737319a0e34c","in":{"base":"Any","pred":"hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"expectation(expr, condition, evaluate)","rhs":"<unspecified:expectation>","over":{"base":"Any","pred":"hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(expr, 'subs')"},"name":"expectation_correct"},"guarantee":"handles expectation queries for markov process","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.MarkovProcess.expectation_correct","statement":"Path(expectation(x), handles expectation queries for markov process)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be90a29497fcb1bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(condition, 'lhs')","hasattr(condition, 'rhs')","hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["condition.lhs","condition.rhs","expr.subs","self._preprocess","self._state_index","self.probability","self.replace_with_index"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expectation(self, expr, condition=None, evaluate=True, **kwargs):
         """
         Handles expectation queries for markov process.
@@ -1317,14 +1609,21 @@ class MarkovProcess(StochasticProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DiscreteMarkovChain(*args), correctly constructs a DiscreteMarkovChain instance) over {Any | isinstance(obj.number_of_states, Integer) and isinstance(T, MatrixSymbol) and isinstance(trans_probs, ImmutableMatrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiscreteTimeStochasticPr...   ║
+# ║   ensures:  isinstance(self, MarkovProcess)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DiscreteMarkovChain : {Any | isinstance(obj.number_of...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a20181b09bc3afa6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain","kind":"class","src_hash":"c06c32a9950e1e41","in":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(T, MatrixSymbol) and isinstance(trans_probs, ImmutableMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"DiscreteMarkovChain(*args)","rhs":"correctly constructs a DiscreteMarkovChain instance","over":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(T, MatrixSymbol) and isinstance(trans_probs, ImmutableMatrix)"},"name":"DiscreteMarkovChain_class_invariant"},"guarantee":"correctly constructs a DiscreteMarkovChain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20181b09bc3afa6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain","kind":"class","src_hash":"c06c32a9950e1e41","in":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(T, MatrixSymbol) and isinstance(trans_probs, ImmutableMatrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiscreteTimeStochasticProcess) and isinstance(self, MarkovProcess)"},"spec":{"lhs":"DiscreteMarkovChain(*args)","rhs":"correctly constructs a DiscreteMarkovChain instance","over":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(T, MatrixSymbol) and isinstance(trans_probs, ImmutableMatrix)"},"name":"DiscreteMarkovChain_class_invariant"},"guarantee":"isinstance(self, DiscreteTimeStochasticProcess); isinstance(self, MarkovProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20181b09bc3afa6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiscreteTimeStochasticProcess)","isinstance(self, MarkovProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiscreteMarkovChain not found in source"]}}
 class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
     """
     Represents a finite discrete time-homogeneous Markov chain.
@@ -1445,16 +1744,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
     index_set = S.Naturals0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, state_space), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab1c66554ddb6c23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.__new__","kind":"method","src_hash":"47898e169b64b749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab1c66554ddb6c23"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.__new__","kind":"method","src_hash":"47898e169b64b749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, state_space)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab1c66554ddb6c23","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, state_space=None, trans_probs=None):
         sym = _symbol_converter(sym)
 
@@ -1470,16 +1775,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transition_probabilities(), returns the transition_probabilities attribute) over Any ║
+# ║ Path(transition_probabilities(), self.args[2]) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transition_probabilities : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd58e4360c72ef63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.transition_probabilities","kind":"property","src_hash":"bfd44a5993f953e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transition_probabilities()","rhs":"returns the transition_probabilities attribute","over":{"base":"Any"},"name":"transition_probabilities_correct"},"guarantee":"returns the transition_probabilities attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd58e4360c72ef63"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.transition_probabilities","kind":"property","src_hash":"bfd44a5993f953e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transition_probabilities()","rhs":"self.args[2]","over":{"base":"Any"},"name":"transition_probabilities_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd58e4360c72ef63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transition_probabilities(self):
         """
         Transition probabilities of discrete Markov chain,
@@ -1488,16 +1799,27 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(communication_classes(), id) over Any                 ║
+# ║ Path(communication_classes(), id) over {Any | not (isinstance(T, MatrixSymbol)) and len(positive_ntev) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ communication_classes : Any → list[tuple[list[Basic],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(T, MatrixSymbol))              ║
+# ║   requires: len(positive_ntev) > 0                         ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, tuple[list[Basic], Bool...   ║
+# ║   ensures:  len(periods) == old_len_periods + 1            ║
+# ║   returns:  list(zip(classes, recurrence, map(Integer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ communication_classes : {Any | not (isinstance(T, Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8c36e6f13a277e53   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.communication_classes","kind":"method","src_hash":"d3dcce08856a5597","in":{"base":"Any"},"out":{"base":"list[tuple[list[Basic], Boolean, Integer]]"},"spec":{"lhs":"communication_classes()","rhs":"returns the list of communication classes that partition the states of the markov chain","over":{"base":"Any"},"name":"communication_classes_correct","kind":"composition"},"guarantee":"returns the list of communication classes that partition the states of the markov chain","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c36e6f13a277e53"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.communication_classes","kind":"method","src_hash":"d3dcce08856a5597","in":{"base":"Any","pred":"not (isinstance(T, MatrixSymbol)) and len(positive_ntev) > 0"},"out":{"base":"list[tuple[list[Basic], Boolean, Integer]]","pred":"result satisfies: result == (list(zip(classes, recurrence, map(Integer, periods))))"},"spec":{"lhs":"communication_classes()","rhs":"list(zip(classes, recurrence, map(Integer, periods)))","over":{"base":"Any","pred":"not (isinstance(T, MatrixSymbol)) and len(positive_ntev) > 0"},"name":"communication_classes_correct","kind":"composition"},"guarantee":"returns list(zip(classes, recurrence, map(Integer, periods))); isinstance(result, list); all(isinstance(x, tuple[list[Basic], Boolean, Integer) for x in result); len(periods) == old_len_periods + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c36e6f13a277e53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(T, MatrixSymbol))","len(positive_ntev) > 0"],"ensures":["isinstance(result, list)","all(isinstance(x, tuple[list[Basic], Boolean, Integer) for x in result)","len(periods) == old_len_periods + 1","len(positive_ntev) == old_len_positive_ntev - 1","len(recurrence) == old_len_recurrence + 1"],"returns_expr":"list(zip(classes, recurrence, map(Integer, periods)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._state_index","self.number_of_states","self.transition_probabilities"],"calls_mutating":["periods.append","positive_ntev.pop","recurrence.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["periods.*","positive_ntev.*","recurrence.*"],"old_bindings":{"old_len_periods":"len(periods)","old_len_positive_ntev":"len(positive_ntev)","old_len_recurrence":"len(recurrence)"},"pre_requires":["len(positive_ntev) > 0"],"post_ensures":["len(periods) == old_len_periods + 1","len(positive_ntev) == old_len_positive_ntev - 1","len(recurrence) == old_len_recurrence + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def communication_classes(self) -> list[tuple[list[Basic], Boolean, Integer]]:
         """
         Returns the list of communication classes that partition
@@ -1636,14 +1958,23 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(fundamental_matrix(), id) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fundamental_matrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((I - Q).inv().as_immutable() i...   ║
+# ║   ensures:  result == (I - Q).inv().as_immutable() or...   ║
+# ║   fiber[positive]: Q.shape[0] > 0 => (I - Q).inv().as...   ║
+# ║   fiber[positive]: not (Q.shape[0] > 0) => (I - P + W...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fundamental_matrix : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dc2c4c99df4942c5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.fundamental_matrix","kind":"method","src_hash":"fedb9fdce78e369e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fundamental_matrix()","rhs":"each entry fundamental matrix can be interpreted as the expected number of times the chains is in state j if it started in state i","over":{"base":"Any"},"name":"fundamental_matrix_correct","kind":"composition"},"guarantee":"each entry fundamental matrix can be interpreted as the expected number of times the chains is in state j if it started in state i","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc2c4c99df4942c5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.fundamental_matrix","kind":"method","src_hash":"fedb9fdce78e369e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((I - Q).inv().as_immutable() if Q.shape[0] > 0 else (I - P + W).inv().as_immutable()) and result == (I - Q).inv().as_immutable() or result == (I - P + W).inv().as_immutable()"},"spec":{"lhs":"fundamental_matrix()","rhs":"result == ((I - Q).inv().as_immutable() if Q.shape[0] > 0 else (I - P + W).inv().as_immutable()) and result == (I - Q).inv().as_immutable() or result == (I - P + W).inv().as_immutable()","over":{"base":"Any"},"name":"fundamental_matrix_correct","kind":"composition"},"guarantee":"result == ((I - Q).inv().as_immutable() if Q.shape[0] > 0 else (I - P + W).inv().as_immutable()); result == (I - Q).inv().as_immutable() or result == (I - P + W).inv().as_immutable(); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc2c4c99df4942c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((I - Q).inv().as_immutable() if Q.shape[0] > 0 else (I - P + W).inv().as_immutable())","result == (I - Q).inv().as_immutable() or result == (I - P + W).inv().as_immutable()"],"fibers":[{"name":"positive","guard":"Q.shape[0] > 0","ensures":["result == (I - Q).inv().as_immutable()"],"decidability":"z3","returns_expr":"(I - Q).inv().as_immutable()"},{"name":"positive","guard":"not (Q.shape[0] > 0)","ensures":["result == (I - P + W).inv().as_immutable()"],"decidability":"z3","returns_expr":"(I - P + W).inv().as_immutable()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.decompose","self.fixed_row_vector","self.transition_probabilities"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fundamental_matrix(self):
         """
         Each entry fundamental matrix can be interpreted as
@@ -1673,16 +2004,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
             return (I - P + W).inv().as_immutable()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(absorbing_probabilities(), computes the absorbing probabilities, i.e. the ij-th entry of the matrix denotes the probability of markov chain being absorbed in state j starting from state i) over Any ║
+# ║ Path(absorbing_probabilities(), <unspecified:absorbing_probabilities>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ absorbing_probabilities : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ac0fcc2cbf92b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilities","kind":"method","src_hash":"060d11935cfa1a1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"absorbing_probabilities()","rhs":"computes the absorbing probabilities, i.e. the ij-th entry of the matrix denotes the probability of markov chain being absorbed in state j starting from state i","over":{"base":"Any"},"name":"absorbing_probabilities_correct"},"guarantee":"computes the absorbing probabilities, i.e. the ij-th entry of the matrix denotes the probability of markov chain being absorbed in state j starting from state i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilities_correct","statement":"Path(absorbing_probabilities(x), computes the absorbing probabilities, i.e. the ij-th entry of the matrix denotes the probability of markov chain being absorbed in state j starting from state i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ac0fcc2cbf92b8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilities","kind":"method","src_hash":"060d11935cfa1a1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"absorbing_probabilities()","rhs":"<unspecified:absorbing_probabilities>","over":{"base":"Any"},"name":"absorbing_probabilities_correct"},"guarantee":"computes the absorbing probabilities, i.e. the ij-th entry of the matrix denotes the probability of markov chain being absorbed in state j starting from state i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilities_correct","statement":"Path(absorbing_probabilities(x), computes the absorbing probabilities, i.e. the ij-th entry of the matrix denotes the probability of markov chain being absorbed in state j starting from state i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ac0fcc2cbf92b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.decompose","self.fundamental_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def absorbing_probabilities(self):
         """
         Computes the absorbing probabilities, i.e.
@@ -1697,16 +2034,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return N*R
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(absorbing_probabilites(), absorbing_probabilites produces the expected output) over Any ║
+# ║ Path(absorbing_probabilites(), self.absorbing_probabilities()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.absorbing_probabilities()                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ absorbing_probabilites : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50beb98bfe1b8c4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8de1eb15a0fd106  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilites","kind":"method","src_hash":"a55441eb3aabec97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"absorbing_probabilites()","rhs":"absorbing_probabilites produces the expected output","over":{"base":"Any"},"name":"absorbing_probabilites_correct"},"guarantee":"absorbing_probabilites produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilites_correct","statement":"Path(absorbing_probabilites(x), absorbing_probabilites produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50beb98bfe1b8c4e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilites","kind":"method","src_hash":"a55441eb3aabec97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"absorbing_probabilites()","rhs":"self.absorbing_probabilities()","over":{"base":"Any"},"name":"absorbing_probabilites_correct"},"guarantee":"returns self.absorbing_probabilities()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.absorbing_probabilites_correct","statement":"Path(absorbing_probabilites(x), returns self.absorbing_probabilities())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8de1eb15a0fd106","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.absorbing_probabilities()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.absorbing_probabilities"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def absorbing_probabilites(self):
         sympy_deprecation_warning(
             """
@@ -1719,16 +2062,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return self.absorbing_probabilities()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_regular(), is_regular produces the expected output) over Any ║
+# ║ Path(is_regular(), <unspecified:is_regular>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_regular : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 578df795aed815a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_regular","kind":"method","src_hash":"3c95838141a7d0e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_regular()","rhs":"is_regular produces the expected output","over":{"base":"Any"},"name":"is_regular_correct"},"guarantee":"is_regular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_regular_correct","statement":"Path(is_regular(x), is_regular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578df795aed815a2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_regular","kind":"method","src_hash":"3c95838141a7d0e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_regular()","rhs":"<unspecified:is_regular>","over":{"base":"Any"},"name":"is_regular_correct"},"guarantee":"is_regular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_regular_correct","statement":"Path(is_regular(x), is_regular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578df795aed815a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.communication_classes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_regular(self):
         tuples = self.communication_classes()
         if len(tuples) == 0:
@@ -1737,16 +2086,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return And(len(classes) == 1, periods[0] == 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_ergodic(), is_ergodic produces the expected output) over Any ║
+# ║ Path(is_ergodic(), <unspecified:is_ergodic>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_ergodic : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6314e078bfbc3ddb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_ergodic","kind":"method","src_hash":"e4f1794857e66efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_ergodic()","rhs":"is_ergodic produces the expected output","over":{"base":"Any"},"name":"is_ergodic_correct"},"guarantee":"is_ergodic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_ergodic_correct","statement":"Path(is_ergodic(x), is_ergodic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6314e078bfbc3ddb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_ergodic","kind":"method","src_hash":"e4f1794857e66efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_ergodic()","rhs":"<unspecified:is_ergodic>","over":{"base":"Any"},"name":"is_ergodic_correct"},"guarantee":"is_ergodic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_ergodic_correct","statement":"Path(is_ergodic(x), is_ergodic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6314e078bfbc3ddb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.communication_classes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_ergodic(self):
         tuples = self.communication_classes()
         if len(tuples) == 0:
@@ -1755,16 +2110,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return S(len(classes) == 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_absorbing_state(sta), is_absorbing_state produces the expected output) over Any ║
+# ║ Path(is_absorbing_state(state), S(trans_probs[state, state]) is S.One) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S(trans_probs[state, state]) is S.One          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_absorbing_state : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed925518ac2af608  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 243961e2d3a7a5f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_absorbing_state","kind":"method","src_hash":"0929c5e411462ec5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_absorbing_state(sta)","rhs":"is_absorbing_state produces the expected output","over":{"base":"Any"},"name":"is_absorbing_state_correct"},"guarantee":"is_absorbing_state produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_absorbing_state_correct","statement":"Path(is_absorbing_state(x), is_absorbing_state produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed925518ac2af608"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_absorbing_state","kind":"method","src_hash":"0929c5e411462ec5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_absorbing_state(state)","rhs":"S(trans_probs[state, state]) is S.One","over":{"base":"Any"},"name":"is_absorbing_state_correct"},"guarantee":"returns S(trans_probs[state, state]) is S.One","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_absorbing_state_correct","statement":"Path(is_absorbing_state(x), returns S(trans_probs[state, state]) is S.One)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"243961e2d3a7a5f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S(trans_probs[state, state]) is S.One","pure":false,"effects":{"effect_type":"reads_state","reads":["self.transition_probabilities"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_absorbing_state(self, state):
         trans_probs = self.transition_probabilities
         if isinstance(trans_probs, ImmutableMatrix) and \
@@ -1774,30 +2135,42 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(is_absorbing_chain(), id) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(r > 0, A == Identity(r).as_explicit())     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ is_absorbing_chain : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9d322a055aced23d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_absorbing_chain","kind":"method","src_hash":"3a0a374fc8924411","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_absorbing_chain()","rhs":"is_absorbing_chain produces the expected output","over":{"base":"Any"},"name":"is_absorbing_chain_correct","kind":"composition"},"guarantee":"is_absorbing_chain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"Identity","by":"library_axiom"},{"fn":"as_explicit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d322a055aced23d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.is_absorbing_chain","kind":"method","src_hash":"3a0a374fc8924411","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_absorbing_chain()","rhs":"And(r > 0, A == Identity(r).as_explicit())","over":{"base":"Any"},"name":"is_absorbing_chain_correct","kind":"composition"},"guarantee":"returns And(r > 0, A == Identity(r).as_explicit())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"Identity","by":"library_axiom"},{"fn":"as_explicit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d322a055aced23d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(r > 0, A == Identity(r).as_explicit())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.decompose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_absorbing_chain(self):
         states, A, B, C = self.decompose()
         r = A.shape[0]
         return And(r > 0, A == Identity(r).as_explicit())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stationary_distribution(con), the stationary distribution is any row vector, p, that solves p = pp, is row stochastic and each element in p must be nonnegative. that means in matrix form: :math:`(p-i)^t p^t = 0` and :math:`(1, \do) over Any ║
+# ║ Path(stationary_distribution(condition_set), isinstance(result, ImmutableMatrix | ConditionSet | Lambda)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ stationary_distribution : Any → ImmutableMatrix | Con...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, ImmutableMatrix | Cond...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ stationary_distribution : Any → {ImmutableMatrix | Co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fb06968d7f2feba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8013be3ddf5eba5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.stationary_distribution","kind":"method","src_hash":"41425b28d48609e3","in":{"base":"Any"},"out":{"base":"ImmutableMatrix | ConditionSet | Lambda"},"spec":{"lhs":"stationary_distribution(con)","rhs":"the stationary distribution is any row vector, p, that solves p = pp, is row stochastic and each element in p must be nonnegative. that means in matrix form: :math:`(p-i)^t p^t = 0` and :math:`(1, \\do","over":{"base":"Any"},"name":"stationary_distribution_correct"},"guarantee":"the stationary distribution is any row vector, p, that solves p = pp, is row stochastic and each element in p must be nonnegative. that means in matrix form: :math:`(p-i)^t p^t = 0` and :math:`(1, \\do","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.stationary_distribution_correct","statement":"Path(stationary_distribution(x), the stationary distribution is any row vector, p, that solves p = pp, is row stochastic and each element in p must be nonnegative. that means in matrix form: :math:`(p-i)^t p^t = 0` and :math:`(1, \\do)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fb06968d7f2feba"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.stationary_distribution","kind":"method","src_hash":"41425b28d48609e3","in":{"base":"Any"},"out":{"base":"ImmutableMatrix | ConditionSet | Lambda","pred":"result satisfies: isinstance(result, ImmutableMatrix | ConditionSet | Lambda)"},"spec":{"lhs":"stationary_distribution(condition_set)","rhs":"isinstance(result, ImmutableMatrix | ConditionSet | Lambda)","over":{"base":"Any"},"name":"stationary_distribution_correct"},"guarantee":"isinstance(result, ImmutableMatrix | ConditionSet | Lambda)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.stationary_distribution_correct","statement":"Path(stationary_distribution(x), isinstance(result, ImmutableMatrix | ConditionSet | Lambda))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8013be3ddf5eba5","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, ImmutableMatrix | ConditionSet | Lambda)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.number_of_states","self.transition_probabilities"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stationary_distribution(self, condition_set=False) -> ImmutableMatrix | ConditionSet | Lambda:
         r"""
         The stationary distribution is any row vector, p, that solves p = pP,
@@ -1885,16 +2258,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return ImmutableMatrix([soln])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fixed_row_vector(), a wrapper for ``stationary_distribution()``) over Any ║
+# ║ Path(fixed_row_vector(), self.stationary_distribution()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.stationary_distribution()                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fixed_row_vector : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 426ce590e0018909           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.fixed_row_vector","kind":"method","src_hash":"58e39aa83e9c8b64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fixed_row_vector()","rhs":"a wrapper for ``stationary_distribution()``","over":{"base":"Any"},"name":"fixed_row_vector_correct"},"guarantee":"a wrapper for ``stationary_distribution()``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"426ce590e0018909"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.fixed_row_vector","kind":"method","src_hash":"58e39aa83e9c8b64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fixed_row_vector()","rhs":"self.stationary_distribution()","over":{"base":"Any"},"name":"fixed_row_vector_correct"},"guarantee":"returns self.stationary_distribution()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"426ce590e0018909","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.stationary_distribution()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.stationary_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fixed_row_vector(self):
         """
         A wrapper for ``stationary_distribution()``.
@@ -1903,16 +2282,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limiting_distribution(), returns the limiting_distribution attribute) over Any ║
+# ║ Path(limiting_distribution(), self.fixed_row_vector()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.fixed_row_vector()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limiting_distribution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d29019c3a1457f04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.limiting_distribution","kind":"property","src_hash":"d88d220829a7551f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limiting_distribution()","rhs":"returns the limiting_distribution attribute","over":{"base":"Any"},"name":"limiting_distribution_correct"},"guarantee":"returns the limiting_distribution attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d29019c3a1457f04"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.limiting_distribution","kind":"property","src_hash":"d88d220829a7551f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limiting_distribution()","rhs":"self.fixed_row_vector()","over":{"base":"Any"},"name":"limiting_distribution_correct"},"guarantee":"returns self.fixed_row_vector()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d29019c3a1457f04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.fixed_row_vector()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fixed_row_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limiting_distribution(self):
         """
         The fixed row vector is the limiting
@@ -1923,14 +2308,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(decompose(), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ decompose : Any → tuple[list[Basic], ImmutableMatrix,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 4                               ║
+# ║   returns:  (states, A.as_immutable(), B.as_immutable...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ decompose : Any → {tuple[list[Basic], ImmutableMatrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bb0c4b64ce5619fe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.decompose","kind":"method","src_hash":"081ace6234eb4116","in":{"base":"Any"},"out":{"base":"tuple[list[Basic], ImmutableMatrix, ImmutableMatrix, ImmutableMatrix]"},"spec":{"lhs":"decompose()","rhs":"decomposes the transition matrix into submatrices with special properties","over":{"base":"Any"},"name":"decompose_correct","kind":"composition"},"guarantee":"decomposes the transition matrix into submatrices with special properties","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_immutable","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0c4b64ce5619fe"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.decompose","kind":"method","src_hash":"081ace6234eb4116","in":{"base":"Any"},"out":{"base":"tuple[list[Basic], ImmutableMatrix, ImmutableMatrix, ImmutableMatrix]","pred":"result satisfies: result == ((states, A.as_immutable(), B.as_immutable(), C.as_immutable()))"},"spec":{"lhs":"decompose()","rhs":"(states, A.as_immutable(), B.as_immutable(), C.as_immutable())","over":{"base":"Any"},"name":"decompose_correct","kind":"composition"},"guarantee":"returns (states, A.as_immutable(), B.as_immutable(), C.as_immutable()); isinstance(result, tuple); len(result) == 4","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_immutable","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0c4b64ce5619fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, tuple)","len(result) == 4"],"returns_expr":"(states, A.as_immutable(), B.as_immutable(), C.as_immutable())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.communication_classes","self.index_of","self.transition_probabilities"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decompose(self) -> tuple[list[Basic], ImmutableMatrix, ImmutableMatrix, ImmutableMatrix]:
         """
         Decomposes the transition matrix into submatrices with
@@ -2036,14 +2429,22 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(canonical_form(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonical_form : Any → tuple[list[Basic], ImmutableMa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 2                               ║
+# ║   returns:  (states, BlockMatrix([[A, O], [B, C]]).as...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonical_form : Any → {tuple[list[Basic], ImmutableM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ea0ddb991eb16bd9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.canonical_form","kind":"method","src_hash":"1eec30dad4c269e1","in":{"base":"Any"},"out":{"base":"tuple[list[Basic], ImmutableMatrix]"},"spec":{"lhs":"canonical_form()","rhs":"reorders the one-step transition matrix so that recurrent states appear first and transient states appear last","over":{"base":"Any"},"name":"canonical_form_correct","kind":"composition"},"guarantee":"reorders the one-step transition matrix so that recurrent states appear first and transient states appear last","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockMatrix","by":"library_axiom"},{"fn":"as_explicit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea0ddb991eb16bd9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.canonical_form","kind":"method","src_hash":"1eec30dad4c269e1","in":{"base":"Any"},"out":{"base":"tuple[list[Basic], ImmutableMatrix]","pred":"result satisfies: result == ((states, BlockMatrix([[A, O], [B, C]]).as_explicit()))"},"spec":{"lhs":"canonical_form()","rhs":"(states, BlockMatrix([[A, O], [B, C]]).as_explicit())","over":{"base":"Any"},"name":"canonical_form_correct","kind":"composition"},"guarantee":"returns (states, BlockMatrix([[A, O], [B, C]]).as_explicit()); isinstance(result, tuple); len(result) == 2","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockMatrix","by":"library_axiom"},{"fn":"as_explicit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea0ddb991eb16bd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, tuple)","len(result) == 2"],"returns_expr":"(states, BlockMatrix([[A, O], [B, C]]).as_explicit())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.decompose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def canonical_form(self) -> tuple[list[Basic], ImmutableMatrix]:
         """
         Reorders the one-step transition matrix
@@ -2142,16 +2543,23 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return states, BlockMatrix([[A, O], [B, C]]).as_explicit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sample(), returns =======) over Any                   ║
+# ║ Path(sample(), len(samps) == old_len_samps + 1) over {Any | isinstance(self.transition_probabilities, (Matrix, ImmutableMatrix))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sample : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(self.transition_probabilities,...   ║
+# ║   ensures:  len(samps) == old_len_samps + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sample : {Any | isinstance(self.transition_probabilit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d14f74ef6f07b947  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b53c4d0b1a52f88b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.sample","kind":"method","src_hash":"616a15369f90e05a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample()","rhs":"returns =======","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.sample_correct","statement":"Path(sample(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d14f74ef6f07b947"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.sample","kind":"method","src_hash":"616a15369f90e05a","in":{"base":"Any","pred":"isinstance(self.transition_probabilities, (Matrix, ImmutableMatrix))"},"out":{"base":"Any","pred":"result satisfies: len(samps) == old_len_samps + 1"},"spec":{"lhs":"sample()","rhs":"len(samps) == old_len_samps + 1","over":{"base":"Any","pred":"isinstance(self.transition_probabilities, (Matrix, ImmutableMatrix))"},"name":"sample_correct"},"guarantee":"len(samps) == old_len_samps + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.DiscreteMarkovChain.sample_correct","statement":"Path(sample(x), len(samps) == old_len_samps + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b53c4d0b1a52f88b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(self.transition_probabilities, (Matrix, ImmutableMatrix))"],"ensures":["len(samps) == old_len_samps + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.state_space","self.transition_probabilities"],"calls_mutating":["samps.append"],"raises":["ValueError"],"nondeterministic_sources":["random.choice"]},"state_contract":{"modifies":["samps.*"],"old_bindings":{"old_len_samps":"len(samps)"},"post_ensures":["len(samps) == old_len_samps + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sample(self):
         """
         Returns
@@ -2180,14 +2588,21 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ContinuousMarkovChain(*args), correctly constructs a ContinuousMarkovChain instance) over {Any | isinstance(obj.number_of_states, Integer) and isinstance(gen_mat, MatrixSymbol) and isinstance(gen_mat, (Matrix, ImmutableMatrix))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ContinuousTimeStochastic...   ║
+# ║   ensures:  isinstance(self, MarkovProcess)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ContinuousMarkovChain : {Any | isinstance(obj.number_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f4a2739084cc91f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain","kind":"class","src_hash":"c55882948e5d5f8f","in":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(gen_mat, MatrixSymbol) and isinstance(gen_mat, (Matrix, ImmutableMatrix))"},"out":{"base":"Any"},"spec":{"lhs":"ContinuousMarkovChain(*args)","rhs":"correctly constructs a ContinuousMarkovChain instance","over":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(gen_mat, MatrixSymbol) and isinstance(gen_mat, (Matrix, ImmutableMatrix))"},"name":"ContinuousMarkovChain_class_invariant"},"guarantee":"correctly constructs a ContinuousMarkovChain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4a2739084cc91f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain","kind":"class","src_hash":"c55882948e5d5f8f","in":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(gen_mat, MatrixSymbol) and isinstance(gen_mat, (Matrix, ImmutableMatrix))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ContinuousTimeStochasticProcess) and isinstance(self, MarkovProcess)"},"spec":{"lhs":"ContinuousMarkovChain(*args)","rhs":"correctly constructs a ContinuousMarkovChain instance","over":{"base":"Any","pred":"isinstance(obj.number_of_states, Integer) and isinstance(gen_mat, MatrixSymbol) and isinstance(gen_mat, (Matrix, ImmutableMatrix))"},"name":"ContinuousMarkovChain_class_invariant"},"guarantee":"isinstance(self, ContinuousTimeStochasticProcess); isinstance(self, MarkovProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4a2739084cc91f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ContinuousTimeStochasticProcess)","isinstance(self, MarkovProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function ContinuousMarkovChain not found in source"]}}
 class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
     """
     Represents continuous time Markov chain.
@@ -2266,16 +2681,22 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
     index_set = S.Reals
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, state_space), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c53002a186804a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.__new__","kind":"method","src_hash":"28b60aa90e1a889b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c53002a186804a7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.__new__","kind":"method","src_hash":"28b60aa90e1a889b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, state_space)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c53002a186804a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, state_space=None, gen_mat=None):
         sym = _symbol_converter(sym)
         state_space, gen_mat = MarkovProcess._sanity_checks(state_space, gen_mat)
@@ -2289,31 +2710,45 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generator_matrix(), returns the generator_matrix attribute) over Any ║
+# ║ Path(generator_matrix(), self.args[2]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generator_matrix : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd3d1ca542986fd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.generator_matrix","kind":"property","src_hash":"cf1f266c30e01a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator_matrix()","rhs":"returns the generator_matrix attribute","over":{"base":"Any"},"name":"generator_matrix_correct"},"guarantee":"returns the generator_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd3d1ca542986fd8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.generator_matrix","kind":"property","src_hash":"cf1f266c30e01a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator_matrix()","rhs":"self.args[2]","over":{"base":"Any"},"name":"generator_matrix_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd3d1ca542986fd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generator_matrix(self):
         return self.args[2]
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transition_probabilities(gen), id) over Any           ║
+# ║ Path(transition_probabilities(gen_mat), id) over {Any | hasattr(gen_mat, 'is_diagonalizable') and hasattr(gen_mat, 'diagonalize')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transition_probabilities : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(gen_mat, 'is_diagonalizable')          ║
+# ║   requires: hasattr(gen_mat, 'diagonalize')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transition_probabilities : {Any | hasattr(gen_mat, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8ccd0690501e07ff   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.transition_probabilities","kind":"method","src_hash":"b2ce86ab8d877252","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transition_probabilities(gen)","rhs":"transition_probabilities produces the expected output","over":{"base":"Any"},"name":"transition_probabilities_correct","kind":"composition"},"guarantee":"transition_probabilities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"inv","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ccd0690501e07ff"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.transition_probabilities","kind":"method","src_hash":"b2ce86ab8d877252","in":{"base":"Any","pred":"hasattr(gen_mat, 'is_diagonalizable') and hasattr(gen_mat, 'diagonalize')"},"out":{"base":"Any"},"spec":{"lhs":"transition_probabilities(gen_mat)","rhs":"<unspecified:transition_probabilities>","over":{"base":"Any","pred":"hasattr(gen_mat, 'is_diagonalizable') and hasattr(gen_mat, 'diagonalize')"},"name":"transition_probabilities_correct","kind":"composition"},"guarantee":"transition_probabilities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"inv","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ccd0690501e07ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(gen_mat, 'is_diagonalizable')","hasattr(gen_mat, 'diagonalize')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["gen_mat.diagonalize","gen_mat.is_diagonalizable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transition_probabilities(self, gen_mat=None):
         t = Dummy('t')
         if isinstance(gen_mat, (Matrix, ImmutableMatrix)) and \
@@ -2325,16 +2760,22 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
             return Lambda(t, exp(t*gen_mat))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limiting_distribution(), limiting_distribution produces the expected output) over Any ║
+# ║ Path(limiting_distribution(), <unspecified:limiting_distribution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limiting_distribution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e42e5ec6de65724  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.limiting_distribution","kind":"method","src_hash":"e2a2ffd32b2df383","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limiting_distribution()","rhs":"limiting_distribution produces the expected output","over":{"base":"Any"},"name":"limiting_distribution_correct"},"guarantee":"limiting_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.limiting_distribution_correct","statement":"Path(limiting_distribution(x), limiting_distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e42e5ec6de65724"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.limiting_distribution","kind":"method","src_hash":"e2a2ffd32b2df383","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limiting_distribution()","rhs":"<unspecified:limiting_distribution>","over":{"base":"Any"},"name":"limiting_distribution_correct"},"guarantee":"limiting_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.ContinuousMarkovChain.limiting_distribution_correct","statement":"Path(limiting_distribution(x), limiting_distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e42e5ec6de65724","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limiting_distribution(self):
         gen_mat = self.generator_matrix
         if gen_mat is None:
@@ -2354,14 +2795,20 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BernoulliProcess(*args), correctly constructs a BernoulliProcess instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BernoulliProcess : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DiscreteTimeStochasticPr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BernoulliProcess : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0774ed176a09a044  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess","kind":"class","src_hash":"17285323470a2c3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BernoulliProcess(*args)","rhs":"correctly constructs a BernoulliProcess instance","over":{"base":"Any"},"name":"BernoulliProcess_class_invariant"},"guarantee":"correctly constructs a BernoulliProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0774ed176a09a044"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess","kind":"class","src_hash":"17285323470a2c3f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DiscreteTimeStochasticProcess)"},"spec":{"lhs":"BernoulliProcess(*args)","rhs":"correctly constructs a BernoulliProcess instance","over":{"base":"Any"},"name":"BernoulliProcess_class_invariant"},"guarantee":"isinstance(self, DiscreteTimeStochasticProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0774ed176a09a044","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DiscreteTimeStochasticProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function BernoulliProcess not found in source"]}}
 class BernoulliProcess(DiscreteTimeStochasticProcess):
     """
     The Bernoulli process consists of repeated
@@ -2427,16 +2874,22 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
     index_set = S.Naturals0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, p), Basic.__new__(cls, sym, p, success, failure)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, sym, p, success, failure)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aadbc573788649e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.__new__","kind":"method","src_hash":"ef0931562561d906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aadbc573788649e6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.__new__","kind":"method","src_hash":"ef0931562561d906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, p)","rhs":"Basic.__new__(cls, sym, p, success, failure)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym, p, success, failure)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aadbc573788649e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, sym, p, success, failure)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, p, success=1, failure=0):
         _value_check(p >= 0 and p <= 1, 'Value of p must be between 0 and 1.')
         sym = _symbol_converter(sym)
@@ -2447,90 +2900,126 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbol(), returns the symbol attribute) over Any      ║
+# ║ Path(symbol(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbol : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d32f1094f30b0afd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"returns the symbol attribute","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns the symbol attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d32f1094f30b0afd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"self.args[0]","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d32f1094f30b0afd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbol(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p(), returns the p attribute) over Any                ║
+# ║ Path(p(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1808fb5e84beabff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.p","kind":"property","src_hash":"b2e1d075e0cccd8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"returns the p attribute","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1808fb5e84beabff"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.p","kind":"property","src_hash":"b2e1d075e0cccd8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"self.args[1]","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1808fb5e84beabff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(success(), returns the success attribute) over Any    ║
+# ║ Path(success(), self.args[2]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ success : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d03bb3a1f66b882           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.success","kind":"property","src_hash":"4e45d4bc89939554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"success()","rhs":"returns the success attribute","over":{"base":"Any"},"name":"success_correct"},"guarantee":"returns the success attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d03bb3a1f66b882"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.success","kind":"property","src_hash":"4e45d4bc89939554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"success()","rhs":"self.args[2]","over":{"base":"Any"},"name":"success_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d03bb3a1f66b882","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def success(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(failure(), returns the failure attribute) over Any    ║
+# ║ Path(failure(), self.args[3]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ failure : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a904745060e0b00           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.failure","kind":"property","src_hash":"1ece426f36d39f45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"failure()","rhs":"returns the failure attribute","over":{"base":"Any"},"name":"failure_correct"},"guarantee":"returns the failure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a904745060e0b00"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.failure","kind":"property","src_hash":"1ece426f36d39f45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"failure()","rhs":"self.args[3]","over":{"base":"Any"},"name":"failure_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a904745060e0b00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def failure(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_space(), returns the state_space attribute) over Any ║
+# ║ Path(state_space(), _set_converter([self.success, self.failure])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _set_converter([self.success, self.failure])   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_space : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20dec4e6c8e9b314           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.state_space","kind":"property","src_hash":"a19361f2a087b22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"returns the state_space attribute","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns the state_space attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20dec4e6c8e9b314"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.state_space","kind":"property","src_hash":"a19361f2a087b22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"_set_converter([self.success, self.failure])","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns _set_converter([self.success, self.failure])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20dec4e6c8e9b314","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_set_converter([self.success, self.failure])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.failure","self.success"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_space(self):
         return _set_converter([self.success, self.failure])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribution(key), distribution produces the expected output) over Any ║
+# ║ Path(distribution(key), <unspecified:distribution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribution : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be535345f9cad452  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.distribution","kind":"method","src_hash":"8da8cce4483ed887","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"distribution produces the expected output","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.BernoulliProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be535345f9cad452"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.distribution","kind":"method","src_hash":"8da8cce4483ed887","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"<unspecified:distribution>","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.BernoulliProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be535345f9cad452","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._deprecation_warn_distribution","self.failure","self.p","self.success"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distribution(self, key=None):
         if key is None:
             self._deprecation_warn_distribution()
@@ -2538,31 +3027,44 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
         return BernoulliDistribution(self.p, self.success, self.failure)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_rv(rv), simple_rv produces the expected output) over Any ║
+# ║ Path(simple_rv(rv), Bernoulli(rv.name, p=self.p, succ=self.success, fail=self.failure)) over {Any | hasattr(rv, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_rv : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'name')                            ║
+# ║   returns:  Bernoulli(rv.name, p=self.p, succ=self.su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_rv : {Any | hasattr(rv, 'name')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 421d68cb68b80387  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f4a1a058e4142be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.simple_rv","kind":"method","src_hash":"8c474f66848e16e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"simple_rv produces the expected output","over":{"base":"Any"},"name":"simple_rv_correct"},"guarantee":"simple_rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.BernoulliProcess.simple_rv_correct","statement":"Path(simple_rv(x), simple_rv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"421d68cb68b80387"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.simple_rv","kind":"method","src_hash":"8c474f66848e16e9","in":{"base":"Any","pred":"hasattr(rv, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"Bernoulli(rv.name, p=self.p, succ=self.success, fail=self.failure)","over":{"base":"Any","pred":"hasattr(rv, 'name')"},"name":"simple_rv_correct"},"guarantee":"returns Bernoulli(rv.name, p=self.p, succ=self.success, fail=self.failure)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.BernoulliProcess.simple_rv_correct","statement":"Path(simple_rv(x), returns Bernoulli(rv.name, p=self.p, succ=self.success, fail=self.failure))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f4a1a058e4142be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'name')"],"returns_expr":"Bernoulli(rv.name, p=self.p, succ=self.success, fail=self.failure)","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.name","self.failure","self.p","self.success"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_rv(self, rv):
         return Bernoulli(rv.name, p=self.p,
                 succ=self.success, fail=self.failure)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expectation(exp), computes expectation) over Any      ║
+# ║ Path(expectation(expr, condition, evaluate), _SubstituteRV._expectation(expr, condition, evaluate, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _SubstituteRV._expectation(expr, conditio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expectation : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac699802e7a376df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.expectation","kind":"method","src_hash":"70f44668bbb0c157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expectation(exp)","rhs":"computes expectation","over":{"base":"Any"},"name":"expectation_correct"},"guarantee":"computes expectation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac699802e7a376df"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.expectation","kind":"method","src_hash":"70f44668bbb0c157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expectation(expr, condition, evaluate)","rhs":"_SubstituteRV._expectation(expr, condition, evaluate, **kwargs)","over":{"base":"Any"},"name":"expectation_correct"},"guarantee":"returns _SubstituteRV._expectation(expr, condition, evaluate, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac699802e7a376df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_SubstituteRV._expectation(expr, condition, evaluate, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expectation(self, expr, condition=None, evaluate=True, **kwargs):
         """
         Computes expectation.
@@ -2586,16 +3088,22 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
         return _SubstituteRV._expectation(expr, condition, evaluate, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), computes probability) over Any      ║
+# ║ Path(probability(condition, given_condition, evaluate), _SubstituteRV._probability(condition, given_condition, evaluate, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _SubstituteRV._probability(condition, giv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ probability : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 394b07597e88da8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.probability","kind":"method","src_hash":"d4e4c9c6e4894336","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"computes probability","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"computes probability","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"394b07597e88da8b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.probability","kind":"method","src_hash":"d4e4c9c6e4894336","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(condition, given_condition, evaluate)","rhs":"_SubstituteRV._probability(condition, given_condition, evaluate, **kwargs)","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"returns _SubstituteRV._probability(condition, given_condition, evaluate, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"394b07597e88da8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_SubstituteRV._probability(condition, given_condition, evaluate, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition, given_condition=None, evaluate=True, **kwargs):
         """
         Computes probability.
@@ -2621,14 +3129,20 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(density(x), id) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((self.p, Eq(x, self.success)), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5b3935720ff3e441   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.density","kind":"method","src_hash":"41cf6d3a130b72b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b3935720ff3e441"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.BernoulliProcess.density","kind":"method","src_hash":"41cf6d3a130b72b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"Piecewise((self.p, Eq(x, self.success)), (1 - self.p, Eq(x, self.failure)), (S.Zero, True))","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"returns Piecewise((self.p, Eq(x, self.success)), (1 - self.p, Eq(x, self.failure)), (S.Zero, True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b3935720ff3e441","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((self.p, Eq(x, self.success)), (1 - self.p, Eq(x, self.failure)), (S.Zero, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.failure","self.p","self.success"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, x):
         return Piecewise((self.p, Eq(x, self.success)),
                          (1 - self.p, Eq(x, self.failure)),
@@ -2637,14 +3151,20 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_SubstituteRV(*args), correctly constructs a _SubstituteRV instance) over {Any | isinstance(new_givencondition, RandomSymbol) and isinstance(new_condition, (Relational, Boolean)) and isinstance(rv, RandomIndexedSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _SubstituteRV : {Any | isinstance(new_givencondition,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 362ed77dcc027ba0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV","kind":"class","src_hash":"98b6ca4cd252f0c0","in":{"base":"Any","pred":"isinstance(new_givencondition, RandomSymbol) and isinstance(new_condition, (Relational, Boolean)) and isinstance(rv, RandomIndexedSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"_SubstituteRV(*args)","rhs":"correctly constructs a _SubstituteRV instance","over":{"base":"Any","pred":"isinstance(new_givencondition, RandomSymbol) and isinstance(new_condition, (Relational, Boolean)) and isinstance(rv, RandomIndexedSymbol)"},"name":"_SubstituteRV_class_invariant"},"guarantee":"correctly constructs a _SubstituteRV instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"362ed77dcc027ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV","kind":"class","src_hash":"98b6ca4cd252f0c0","in":{"base":"Any","pred":"isinstance(new_givencondition, RandomSymbol) and isinstance(new_condition, (Relational, Boolean)) and isinstance(rv, RandomIndexedSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"_SubstituteRV(*args)","rhs":"correctly constructs a _SubstituteRV instance","over":{"base":"Any","pred":"isinstance(new_givencondition, RandomSymbol) and isinstance(new_condition, (Relational, Boolean)) and isinstance(rv, RandomIndexedSymbol)"},"name":"_SubstituteRV_class_invariant"},"guarantee":"correctly constructs a _SubstituteRV instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"362ed77dcc027ba0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function _SubstituteRV not found in source"]}}
 class _SubstituteRV:
     """
     Internal class to handle the queries of expectation and probability
@@ -2653,16 +3173,24 @@ class _SubstituteRV:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rvindexed_subs(exp), substitutes the randomindexedsymbol with the randomsymbol with same name, distribution and probability as randomindexedsymbol) over Any ║
+# ║ Path(_rvindexed_subs(expr, condition), (expr, condition)) over {Any | hasattr(expr, 'subs') and hasattr(condition, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rvindexed_subs : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(condition, 'subs')                     ║
+# ║   returns:  (expr, condition)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rvindexed_subs : {Any | hasattr(expr, 'subs') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40c4b9ce4710c88e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 728e9e2fd6b18101  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV._rvindexed_subs","kind":"staticmethod","src_hash":"2f818857d1b96c29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rvindexed_subs(exp)","rhs":"substitutes the randomindexedsymbol with the randomsymbol with same name, distribution and probability as randomindexedsymbol","over":{"base":"Any"},"name":"_rvindexed_subs_correct"},"guarantee":"substitutes the randomindexedsymbol with the randomsymbol with same name, distribution and probability as randomindexedsymbol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._SubstituteRV._rvindexed_subs_correct","statement":"Path(_rvindexed_subs(x), substitutes the randomindexedsymbol with the randomsymbol with same name, distribution and probability as randomindexedsymbol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40c4b9ce4710c88e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV._rvindexed_subs","kind":"staticmethod","src_hash":"2f818857d1b96c29","in":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(condition, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_rvindexed_subs(expr, condition)","rhs":"(expr, condition)","over":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(condition, 'subs')"},"name":"_rvindexed_subs_correct"},"guarantee":"returns (expr, condition)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._SubstituteRV._rvindexed_subs_correct","statement":"Path(_rvindexed_subs(x), returns (expr, condition))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"728e9e2fd6b18101","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(condition, 'subs')"],"returns_expr":"(expr, condition)","pure":false,"effects":{"effect_type":"reads_state","reads":["condition.subs","expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rvindexed_subs(expr, condition=None):
         """
         Substitutes the RandomIndexedSymbol with the RandomSymbol with
@@ -2699,16 +3227,22 @@ class _SubstituteRV:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expectation(exp), internal method for computing expectation of indexed rv) over Any ║
+# ║ Path(_expectation(expr, condition, evaluate), <unspecified:_expectation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expectation : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3d317074a076ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV._expectation","kind":"classmethod","src_hash":"e9df4b05e4343fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expectation(exp)","rhs":"internal method for computing expectation of indexed rv","over":{"base":"Any"},"name":"_expectation_correct"},"guarantee":"internal method for computing expectation of indexed rv","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._SubstituteRV._expectation_correct","statement":"Path(_expectation(x), internal method for computing expectation of indexed rv)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3d317074a076ef"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV._expectation","kind":"classmethod","src_hash":"e9df4b05e4343fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expectation(expr, condition, evaluate)","rhs":"<unspecified:_expectation>","over":{"base":"Any"},"name":"_expectation_correct"},"guarantee":"internal method for computing expectation of indexed rv","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types._SubstituteRV._expectation_correct","statement":"Path(_expectation(x), internal method for computing expectation of indexed rv)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3d317074a076ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rvindexed_subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expectation(self, expr, condition=None, evaluate=True, **kwargs):
         """
         Internal method for computing expectation of indexed RV.
@@ -2744,16 +3278,23 @@ class _SubstituteRV:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_probability(con), id) over Any                       ║
+# ║ Path(_probability(condition, given_condition, evaluate), id) over {Any | not (new_givencondition is not None and (not isinstance(new_givencondition, (Relational, Boolean))))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _probability : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (new_givencondition is not None and (...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _probability : {Any | not (new_givencondition is not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b46571256f7c29a6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV._probability","kind":"classmethod","src_hash":"587c34129591cac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_probability(con)","rhs":"internal method for computing probability of indexed rv","over":{"base":"Any"},"name":"_probability_correct","kind":"composition"},"guarantee":"internal method for computing probability of indexed rv","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BernoulliDistribution","by":"library_axiom"},{"fn":"_probability","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b46571256f7c29a6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types._SubstituteRV._probability","kind":"classmethod","src_hash":"587c34129591cac3","in":{"base":"Any","pred":"not (new_givencondition is not None and (not isinstance(new_givencondition, (Relational, Boolean))))"},"out":{"base":"Any"},"spec":{"lhs":"_probability(condition, given_condition, evaluate)","rhs":"<unspecified:_probability>","over":{"base":"Any","pred":"not (new_givencondition is not None and (not isinstance(new_givencondition, (Relational, Boolean))))"},"name":"_probability_correct","kind":"composition"},"guarantee":"internal method for computing probability of indexed rv","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BernoulliDistribution","by":"library_axiom"},{"fn":"_probability","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b46571256f7c29a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (new_givencondition is not None and (not isinstance(new_givencondition, (Relational, Boolean))))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._probability","self._rvindexed_subs"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _probability(self, condition, given_condition=None, evaluate=True, **kwargs):
         """
         Internal method for computing probability of indexed RV
@@ -2807,7 +3348,14 @@ class _SubstituteRV:
             return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_timerv_swaps(exp), finds the appropriate interval for each time stamp in expr by parsing the given condition and returns intervals for each timestamp and dictionary that maps variable time-stamped random indexed symbol ) over {Any | isinstance(condition, (And, Or)) and isinstance(condition, (Relational, Boolean)) and isinstance(expr_sym.key, Symbol)} ║
+# ║ Path(get_timerv_swaps(expr, condition), (intervals, rv_swap)) over {Any | isinstance(condition, (And, Or)) and isinstance(condition, (Relational, Boolean)) and isinstance(expr_sym.key, Symbol) and isinstance(condition, (Relational, Boolean)) and hasattr(condition, 'args') and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(condition, (Relational, Boolean))   ║
+# ║   requires: hasattr(condition, 'args')                     ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   ensures:  len(intervals) == old_len_intervals + 1        ║
+# ║   returns:  (intervals, rv_swap)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_timerv_swaps : {Any | isinstance(condition, (And,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2821,9 +3369,12 @@ class _SubstituteRV:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 697f93d5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.get_timerv_swaps","kind":"function","src_hash":"52bb8360d57fc6c4","in":{"base":"Any","pred":"isinstance(condition, (And, Or)) and isinstance(condition, (Relational, Boolean)) and isinstance(expr_sym.key, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"get_timerv_swaps(exp)","rhs":"finds the appropriate interval for each time stamp in expr by parsing the given condition and returns intervals for each timestamp and dictionary that maps variable time-stamped random indexed symbol ","over":{"base":"Any","pred":"isinstance(condition, (And, Or)) and isinstance(condition, (Relational, Boolean)) and isinstance(expr_sym.key, Symbol)"},"name":"get_timerv_swaps_correct"},"guarantee":"finds the appropriate interval for each time stamp in expr by parsing the given condition and returns intervals for each timestamp and dictionary that maps variable time-stamped random indexed symbol ","fibers":[{"name":"(And","pred":"isinstance(condition, (And, Or))","path":{"lhs":"get_timerv_swaps(x)","rhs":"finds the appropriate interval for each time stamp in expr by parsing the given condition and returns intervals for each timestamp and dictionary that maps variable time-stamped random indexed symbol ","over":{"base":"(And","pred":"isinstance(condition, (And, Or))"},"name":"get_timerv_swaps_(And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.get_timerv_swaps_(And_correct","statement":"get_timerv_swaps satisfies spec on (And inputs"},"trust":"LIBRARY"},{"name":"(Relational","pred":"isinstance(condition, (Relational, Boolean))","path":{"lhs":"get_timerv_swaps(x)","rhs":"finds the appropriate interval for each time stamp in expr by parsing the given condition and returns intervals for each timestamp and dictionary that maps variable time-stamped random indexed symbol ","over":{"base":"(Relational","pred":"isinstance(condition, (Relational, Boolean))"},"name":"get_timerv_swaps_(Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.get_timerv_swaps_(Relational_correct","statement":"get_timerv_swaps satisfies spec on (Relational inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(expr_sym.key, Symbol)","path":{"lhs":"get_timerv_swaps(x)","rhs":"finds the appropriate interval for each time stamp in expr by parsing the given condition and returns intervals for each timestamp and dictionary that maps variable time-stamped random indexed symbol ","over":{"base":"Symbol","pred":"isinstance(expr_sym.key, Symbol)"},"name":"get_timerv_swaps_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.get_timerv_swaps_Symbol_correct","statement":"get_timerv_swaps satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"697f93d546ad303b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.get_timerv_swaps","kind":"function","src_hash":"52bb8360d57fc6c4","in":{"base":"Any","pred":"isinstance(condition, (And, Or)) and isinstance(condition, (Relational, Boolean)) and isinstance(expr_sym.key, Symbol) and isinstance(condition, (Relational, Boolean)) and hasattr(condition, 'args') and hasattr(expr, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: result == ((intervals, rv_swap))"},"spec":{"lhs":"get_timerv_swaps(expr, condition)","rhs":"(intervals, rv_swap)","over":{"base":"Any","pred":"isinstance(condition, (And, Or)) and isinstance(condition, (Relational, Boolean)) and isinstance(expr_sym.key, Symbol) and isinstance(condition, (Relational, Boolean)) and hasattr(condition, 'args') and hasattr(expr, 'atoms')"},"name":"get_timerv_swaps_correct"},"guarantee":"returns (intervals, rv_swap); len(intervals) == old_len_intervals + 1","fibers":[{"name":"(And","pred":"isinstance(condition, (And, Or))","path":{"lhs":"get_timerv_swaps(x)","rhs":"returns (intervals, rv_swap); len(intervals) == old_len_intervals + 1","over":{"base":"(And","pred":"isinstance(condition, (And, Or))"},"name":"get_timerv_swaps_(And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.get_timerv_swaps_(And_correct","statement":"get_timerv_swaps satisfies spec on (And inputs"},"trust":"LIBRARY"},{"name":"(Relational","pred":"isinstance(condition, (Relational, Boolean))","path":{"lhs":"get_timerv_swaps(x)","rhs":"returns (intervals, rv_swap); len(intervals) == old_len_intervals + 1","over":{"base":"(Relational","pred":"isinstance(condition, (Relational, Boolean))"},"name":"get_timerv_swaps_(Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.get_timerv_swaps_(Relational_correct","statement":"get_timerv_swaps satisfies spec on (Relational inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(expr_sym.key, Symbol)","path":{"lhs":"get_timerv_swaps(x)","rhs":"returns (intervals, rv_swap); len(intervals) == old_len_intervals + 1","over":{"base":"Symbol","pred":"isinstance(expr_sym.key, Symbol)"},"name":"get_timerv_swaps_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.get_timerv_swaps_Symbol_correct","statement":"get_timerv_swaps satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"697f93d546ad303b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(condition, (Relational, Boolean))","hasattr(condition, 'args')","hasattr(expr, 'atoms')"],"ensures":["len(intervals) == old_len_intervals + 1"],"returns_expr":"(intervals, rv_swap)","pure":false,"effects":{"effect_type":"reads_state","reads":["condition.args","expr.atoms"],"calls_mutating":["intervals.append"],"raises":["ValueError"]},"state_contract":{"modifies":["intervals.*"],"old_bindings":{"old_len_intervals":"len(intervals)"},"post_ensures":["len(intervals) == old_len_intervals + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'diff_key == oo', 'not isinstance(condition, (Relational, Boolean))', 'isinstance(condition, (And, Or))', 'arg.has(expr_sym.key) and isinstance(expr_sym.key, Symbol)', 'diff_key == S.Zero'}, fibers={'(And', 'Symbol', '(Relational'})"]}}
 def get_timerv_swaps(expr, condition):
     """
     Finds the appropriate interval for each time stamp in expr by parsing
@@ -2890,14 +3441,20 @@ def get_timerv_swaps(expr, condition):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CountingProcess(*args), correctly constructs a CountingProcess instance) over {Any | isinstance(condition, And) and isinstance(condition, (And, Or)) and isinstance(arg, Eq)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ContinuousTimeStochastic...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CountingProcess : {Any | isinstance(condition, And) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25f9ea3b0fa8ebc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess","kind":"class","src_hash":"62090e1405cebaf6","in":{"base":"Any","pred":"isinstance(condition, And) and isinstance(condition, (And, Or)) and isinstance(arg, Eq)"},"out":{"base":"Any"},"spec":{"lhs":"CountingProcess(*args)","rhs":"correctly constructs a CountingProcess instance","over":{"base":"Any","pred":"isinstance(condition, And) and isinstance(condition, (And, Or)) and isinstance(arg, Eq)"},"name":"CountingProcess_class_invariant"},"guarantee":"correctly constructs a CountingProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25f9ea3b0fa8ebc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess","kind":"class","src_hash":"62090e1405cebaf6","in":{"base":"Any","pred":"isinstance(condition, And) and isinstance(condition, (And, Or)) and isinstance(arg, Eq)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ContinuousTimeStochasticProcess)"},"spec":{"lhs":"CountingProcess(*args)","rhs":"correctly constructs a CountingProcess instance","over":{"base":"Any","pred":"isinstance(condition, And) and isinstance(condition, (And, Or)) and isinstance(arg, Eq)"},"name":"CountingProcess_class_invariant"},"guarantee":"isinstance(self, ContinuousTimeStochasticProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25f9ea3b0fa8ebc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ContinuousTimeStochasticProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function CountingProcess not found in source"]}}
 class CountingProcess(ContinuousTimeStochasticProcess):
     """
     This class handles the common methods of the Counting Processes
@@ -2907,30 +3464,45 @@ class CountingProcess(ContinuousTimeStochasticProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbol(), returns the symbol attribute) over Any      ║
+# ║ Path(symbol(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbol : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7af1257241a3bac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"returns the symbol attribute","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns the symbol attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7af1257241a3bac"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"self.args[0]","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7af1257241a3bac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbol(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expectation(exp), id) over Any                        ║
+# ║ Path(expectation(expr, condition, evaluate), id) over {Any | hasattr(expr, 'is_Add') and hasattr(expr, 'subs') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expectation : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expectation : {Any | hasattr(expr, 'is_Add') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4d4bcc99cad11dfe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess.expectation","kind":"method","src_hash":"37689776e5b339c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expectation(exp)","rhs":"computes expectation","over":{"base":"Any"},"name":"expectation_correct","kind":"composition"},"guarantee":"computes expectation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"expectation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d4bcc99cad11dfe"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess.expectation","kind":"method","src_hash":"37689776e5b339c8","in":{"base":"Any","pred":"hasattr(expr, 'is_Add') and hasattr(expr, 'subs') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"expectation(expr, condition, evaluate)","rhs":"<unspecified:expectation>","over":{"base":"Any","pred":"hasattr(expr, 'is_Add') and hasattr(expr, 'subs') and hasattr(expr, 'args')"},"name":"expectation_correct","kind":"composition"},"guarantee":"computes expectation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"expectation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d4bcc99cad11dfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Add')","hasattr(expr, 'subs')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Add","expr.subs","self.expectation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expectation(self, expr, condition=None, evaluate=True, **kwargs):
         """
         Computes expectation
@@ -2966,16 +3538,24 @@ class CountingProcess(ContinuousTimeStochasticProcess):
         return _SubstituteRV._expectation(expr, evaluate=evaluate, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_argwith_tworvs(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_solve_argwith_tworvs(arg), arg) over {Any | hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_argwith_tworvs : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   ensures:  result == arg                                  ║
+# ║   returns:  arg                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_argwith_tworvs : {Any | hasattr(arg, 'args')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0334d49b74399278  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf148874c08fc1d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess._solve_argwith_tworvs","kind":"method","src_hash":"260ef59768b08c34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_argwith_tworvs(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_solve_argwith_tworvs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.CountingProcess._solve_argwith_tworvs_correct","statement":"Path(_solve_argwith_tworvs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0334d49b74399278"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess._solve_argwith_tworvs","kind":"method","src_hash":"260ef59768b08c34","in":{"base":"Any","pred":"hasattr(arg, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (arg)"},"spec":{"lhs":"_solve_argwith_tworvs(arg)","rhs":"arg","over":{"base":"Any","pred":"hasattr(arg, 'args')"},"name":"_solve_argwith_tworvs_correct"},"guarantee":"returns arg; result == arg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.CountingProcess._solve_argwith_tworvs_correct","statement":"Path(_solve_argwith_tworvs(x), returns arg; result == arg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf148874c08fc1d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'args')"],"ensures":["result == arg"],"returns_expr":"arg","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","arg.__class__","arg.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _solve_argwith_tworvs(self, arg):
         if arg.args[0].key >= arg.args[1].key or isinstance(arg, Eq):
             diff_key = abs(arg.args[0].key - arg.args[1].key)
@@ -2988,16 +3568,24 @@ class CountingProcess(ContinuousTimeStochasticProcess):
         return arg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_numerical(con), internal helper behaves correctly) over Any ║
+# ║ Path(_solve_numerical(condition, given_condition), Mul.fromiter(result)) over {Any | hasattr(condition, 'args') and hasattr(given_condition, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_numerical : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(condition, 'args')                     ║
+# ║   requires: hasattr(given_condition, 'args')               ║
+# ║   returns:  Mul.fromiter(result)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_numerical : {Any | hasattr(condition, 'args') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6101a231bcb9f34c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d94451059678e32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess._solve_numerical","kind":"method","src_hash":"7f11825d30fa793d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_numerical(con)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_solve_numerical_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.CountingProcess._solve_numerical_correct","statement":"Path(_solve_numerical(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6101a231bcb9f34c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess._solve_numerical","kind":"method","src_hash":"7f11825d30fa793d","in":{"base":"Any","pred":"hasattr(condition, 'args') and hasattr(given_condition, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_numerical(condition, given_condition)","rhs":"Mul.fromiter(result)","over":{"base":"Any","pred":"hasattr(condition, 'args') and hasattr(given_condition, 'args')"},"name":"_solve_numerical_correct"},"guarantee":"returns Mul.fromiter(result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.CountingProcess._solve_numerical_correct","statement":"Path(_solve_numerical(x), returns Mul.fromiter(result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d94451059678e32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(condition, 'args')","hasattr(given_condition, 'args')"],"returns_expr":"Mul.fromiter(result)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _solve_numerical(self, condition, given_condition=None):
         if isinstance(condition, And):
             args_list = list(condition.args)
@@ -3059,16 +3647,25 @@ class CountingProcess(ContinuousTimeStochasticProcess):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), computes probability) over Any      ║
+# ║ Path(probability(condition, given_condition, evaluate), len(res) == old_len_res + 1) over {Any | hasattr(condition, 'args') and hasattr(given_condition, 'args') and hasattr(given_condition, 'has') and hasattr(condition, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ probability : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(condition, 'args')                     ║
+# ║   requires: hasattr(given_condition, 'args')               ║
+# ║   requires: hasattr(given_condition, 'has')                ║
+# ║   ensures:  len(res) == old_len_res + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ probability : {Any | hasattr(condition, 'args') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89136c608bd2284c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55fc4cac19b88bf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess.probability","kind":"method","src_hash":"53c7c6fb8e210550","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"computes probability","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"computes probability","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.CountingProcess.probability_correct","statement":"Path(probability(x), computes probability)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89136c608bd2284c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.CountingProcess.probability","kind":"method","src_hash":"53c7c6fb8e210550","in":{"base":"Any","pred":"hasattr(condition, 'args') and hasattr(given_condition, 'args') and hasattr(given_condition, 'has') and hasattr(condition, 'subs')"},"out":{"base":"Any","pred":"result satisfies: len(res) == old_len_res + 1"},"spec":{"lhs":"probability(condition, given_condition, evaluate)","rhs":"len(res) == old_len_res + 1","over":{"base":"Any","pred":"hasattr(condition, 'args') and hasattr(given_condition, 'args') and hasattr(given_condition, 'has') and hasattr(condition, 'subs')"},"name":"probability_correct"},"guarantee":"len(res) == old_len_res + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.CountingProcess.probability_correct","statement":"Path(probability(x), len(res) == old_len_res + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55fc4cac19b88bf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(condition, 'args')","hasattr(given_condition, 'args')","hasattr(given_condition, 'has')","hasattr(condition, 'subs')"],"ensures":["len(res) == old_len_res + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["condition.args","condition.subs","given_condition.args","given_condition.has","self._solve_numerical","self.probability"],"calls_mutating":["res.append"],"raises":["ValueError"]},"state_contract":{"modifies":["res.*"],"old_bindings":{"old_len_res":"len(res)"},"post_ensures":["len(res) == old_len_res + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition, given_condition=None, evaluate=True, **kwargs):
         """
         Computes probability.
@@ -3146,14 +3743,20 @@ class CountingProcess(ContinuousTimeStochasticProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PoissonProcess(*args), correctly constructs a PoissonProcess instance) over {Any | isinstance(key, RandomIndexedSymbol) and isinstance(other, PoissonProcess)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CountingProcess)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PoissonProcess : {Any | isinstance(key, RandomIndexed...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97d4ab60fc34a466  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess","kind":"class","src_hash":"214cccd67057ffbd","in":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol) and isinstance(other, PoissonProcess)"},"out":{"base":"Any"},"spec":{"lhs":"PoissonProcess(*args)","rhs":"correctly constructs a PoissonProcess instance","over":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol) and isinstance(other, PoissonProcess)"},"name":"PoissonProcess_class_invariant"},"guarantee":"correctly constructs a PoissonProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d4ab60fc34a466"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess","kind":"class","src_hash":"214cccd67057ffbd","in":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol) and isinstance(other, PoissonProcess)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CountingProcess)"},"spec":{"lhs":"PoissonProcess(*args)","rhs":"correctly constructs a PoissonProcess instance","over":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol) and isinstance(other, PoissonProcess)"},"name":"PoissonProcess_class_invariant"},"guarantee":"isinstance(self, CountingProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d4ab60fc34a466","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CountingProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PoissonProcess not found in source"]}}
 class PoissonProcess(CountingProcess):
     """
     The Poisson process is a counting process. It is usually used in scenarios
@@ -3219,16 +3822,22 @@ class PoissonProcess(CountingProcess):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, lamda), Basic.__new__(cls, sym, lamda)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, sym, lamda)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a94ae6311573f8b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.__new__","kind":"method","src_hash":"66a362c325fb9091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a94ae6311573f8b6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.__new__","kind":"method","src_hash":"66a362c325fb9091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, lamda)","rhs":"Basic.__new__(cls, sym, lamda)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym, lamda)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a94ae6311573f8b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, sym, lamda)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, lamda):
         _value_check(lamda > 0, 'lamda should be a positive number.')
         sym = _symbol_converter(sym)
@@ -3237,45 +3846,64 @@ class PoissonProcess(CountingProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lamda(), returns the lamda attribute) over Any        ║
+# ║ Path(lamda(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lamda : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a7a8f6a68b2553e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.lamda","kind":"property","src_hash":"6cd45f7faa8c3885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lamda()","rhs":"returns the lamda attribute","over":{"base":"Any"},"name":"lamda_correct"},"guarantee":"returns the lamda attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a7a8f6a68b2553e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.lamda","kind":"property","src_hash":"6cd45f7faa8c3885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lamda()","rhs":"self.args[1]","over":{"base":"Any"},"name":"lamda_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a7a8f6a68b2553e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lamda(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_space(), returns the state_space attribute) over Any ║
+# ║ Path(state_space(), S.Naturals0) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Naturals0                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_space : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b45d7d0747746748           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.state_space","kind":"property","src_hash":"f53924f2c2e34317","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"returns the state_space attribute","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns the state_space attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b45d7d0747746748"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.state_space","kind":"property","src_hash":"f53924f2c2e34317","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"S.Naturals0","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns S.Naturals0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b45d7d0747746748","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Naturals0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_space(self):
         return S.Naturals0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribution(key), distribution produces the expected output) over Any ║
+# ║ Path(distribution(key), <unspecified:distribution>) over {Any | hasattr(key, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distribution : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(key, 'key')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distribution : {Any | hasattr(key, 'key')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd3071e7c0656a7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.distribution","kind":"method","src_hash":"c56ee1833bce8cff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"distribution produces the expected output","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.PoissonProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd3071e7c0656a7b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.distribution","kind":"method","src_hash":"c56ee1833bce8cff","in":{"base":"Any","pred":"hasattr(key, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"<unspecified:distribution>","over":{"base":"Any","pred":"hasattr(key, 'key')"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.PoissonProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd3071e7c0656a7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(key, 'key')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["key.key","self._deprecation_warn_distribution","self.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distribution(self, key):
         if isinstance(key, RandomIndexedSymbol):
             self._deprecation_warn_distribution()
@@ -3283,44 +3911,68 @@ class PoissonProcess(CountingProcess):
         return PoissonDistribution(self.lamda*key)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(x), density produces the expected output) over Any ║
+# ║ Path(density(x), (self.lamda * x.key) ** x / factorial(x) * exp(-(self.lamda * x.key))) over {Any | hasattr(x, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ density : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'key')                              ║
+# ║   returns:  (self.lamda * x.key) ** x / factorial(x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ density : {Any | hasattr(x, 'key')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13ce5addee79daf6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.density","kind":"method","src_hash":"8b7fbac7fd14abca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13ce5addee79daf6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.density","kind":"method","src_hash":"8b7fbac7fd14abca","in":{"base":"Any","pred":"hasattr(x, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"(self.lamda * x.key) ** x / factorial(x) * exp(-(self.lamda * x.key))","over":{"base":"Any","pred":"hasattr(x, 'key')"},"name":"density_correct"},"guarantee":"returns (self.lamda * x.key) ** x / factorial(x) * exp(-(self.lamda * x.key))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13ce5addee79daf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'key')"],"returns_expr":"(self.lamda * x.key) ** x / factorial(x) * exp(-(self.lamda * x.key))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lamda","x.key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, x):
         return (self.lamda*x.key)**x / factorial(x) * exp(-(self.lamda*x.key))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_rv(rv), simple_rv produces the expected output) over Any ║
+# ║ Path(simple_rv(rv), Poisson(rv.name, lamda=self.lamda * rv.key)) over {Any | hasattr(rv, 'name') and hasattr(rv, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_rv : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'name')                            ║
+# ║   requires: hasattr(rv, 'key')                             ║
+# ║   returns:  Poisson(rv.name, lamda=self.lamda * rv.key)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_rv : {Any | hasattr(rv, 'name') and hasattr(rv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 258f0d71bddb2ee9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.simple_rv","kind":"method","src_hash":"4eead854873d33bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"simple_rv produces the expected output","over":{"base":"Any"},"name":"simple_rv_correct"},"guarantee":"simple_rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"258f0d71bddb2ee9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.simple_rv","kind":"method","src_hash":"4eead854873d33bf","in":{"base":"Any","pred":"hasattr(rv, 'name') and hasattr(rv, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"Poisson(rv.name, lamda=self.lamda * rv.key)","over":{"base":"Any","pred":"hasattr(rv, 'name') and hasattr(rv, 'key')"},"name":"simple_rv_correct"},"guarantee":"returns Poisson(rv.name, lamda=self.lamda * rv.key)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"258f0d71bddb2ee9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'name')","hasattr(rv, 'key')"],"returns_expr":"Poisson(rv.name, lamda=self.lamda * rv.key)","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.key","rv.name","self.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_rv(self, rv):
         return Poisson(rv.name, lamda=self.lamda*rv.key)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), PoissonProcess(Dummy(self.symbol.name + other.symbol.name), self.lamda + other.lamda)) over {Any | isinstance(other, PoissonProcess) and hasattr(other, 'lamda') and hasattr(other, 'symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, PoissonProcess)              ║
+# ║   requires: hasattr(other, 'lamda')                        ║
+# ║   requires: hasattr(other, 'symbol')                       ║
+# ║   returns:  PoissonProcess(Dummy(self.symbol.name + o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | isinstance(other, PoissonProcess) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ffa1062382072f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.__add__","kind":"method","src_hash":"e9a16c42ac3887a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ffa1062382072f1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.__add__","kind":"method","src_hash":"e9a16c42ac3887a8","in":{"base":"Any","pred":"isinstance(other, PoissonProcess) and hasattr(other, 'lamda') and hasattr(other, 'symbol')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"PoissonProcess(Dummy(self.symbol.name + other.symbol.name), self.lamda + other.lamda)","over":{"base":"Any","pred":"isinstance(other, PoissonProcess) and hasattr(other, 'lamda') and hasattr(other, 'symbol')"},"name":"__add___correct"},"guarantee":"returns PoissonProcess(Dummy(self.symbol.name + other.symbol.name), self.lamda + other.lamda)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ffa1062382072f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, PoissonProcess)","hasattr(other, 'lamda')","hasattr(other, 'symbol')"],"returns_expr":"PoissonProcess(Dummy(self.symbol.name + other.symbol.name), self.lamda + other.lamda)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.lamda","other.symbol","self.lamda","self.symbol"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if not isinstance(other, PoissonProcess):
             raise ValueError("Only instances of Poisson Process can be merged")
@@ -3328,16 +3980,23 @@ class PoissonProcess(CountingProcess):
                 self.lamda + other.lamda)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split(l1,), id) over Any                              ║
+# ║ Path(split(l1, l2), id) over {Any | not (_sympify(l1 + l2) != self.lamda)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (_sympify(l1 + l2) != self.lamda)          ║
+# ║   returns:  (PoissonProcess(Dummy('l1'), l1), Poisson...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split : {Any | not (_sympify(l1 + l2) != self.lamda)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b5b78e53213da949   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.split","kind":"method","src_hash":"bf30b6cc192016b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split(l1,)","rhs":"split produces the expected output","over":{"base":"Any"},"name":"split_correct","kind":"composition"},"guarantee":"split produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PoissonProcess","by":"library_axiom"},{"fn":"Dummy","by":"library_axiom"},{"fn":"PoissonProcess","by":"library_axiom"},{"fn":"Dummy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b78e53213da949"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.PoissonProcess.split","kind":"method","src_hash":"bf30b6cc192016b1","in":{"base":"Any","pred":"not (_sympify(l1 + l2) != self.lamda)"},"out":{"base":"Any"},"spec":{"lhs":"split(l1, l2)","rhs":"(PoissonProcess(Dummy('l1'), l1), PoissonProcess(Dummy('l2'), l2))","over":{"base":"Any","pred":"not (_sympify(l1 + l2) != self.lamda)"},"name":"split_correct","kind":"composition"},"guarantee":"returns (PoissonProcess(Dummy('l1'), l1), PoissonProcess(Dummy('l2'), l2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PoissonProcess","by":"library_axiom"},{"fn":"Dummy","by":"library_axiom"},{"fn":"PoissonProcess","by":"library_axiom"},{"fn":"Dummy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b78e53213da949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (_sympify(l1 + l2) != self.lamda)"],"returns_expr":"(PoissonProcess(Dummy('l1'), l1), PoissonProcess(Dummy('l2'), l2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lamda"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def split(self, l1, l2):
         if _sympify(l1 + l2) != self.lamda:
             raise ValueError("Sum of l1 and l2 should be %s" % str(self.lamda))
@@ -3346,14 +4005,20 @@ class PoissonProcess(CountingProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WienerProcess(*args), correctly constructs a WienerProcess instance) over {Any | isinstance(key, RandomIndexedSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CountingProcess)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ WienerProcess : {Any | isinstance(key, RandomIndexedS...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99a36d6943ab6422  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess","kind":"class","src_hash":"82f38ad923beb553","in":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"WienerProcess(*args)","rhs":"correctly constructs a WienerProcess instance","over":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"name":"WienerProcess_class_invariant"},"guarantee":"correctly constructs a WienerProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a36d6943ab6422"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess","kind":"class","src_hash":"82f38ad923beb553","in":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CountingProcess)"},"spec":{"lhs":"WienerProcess(*args)","rhs":"correctly constructs a WienerProcess instance","over":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"name":"WienerProcess_class_invariant"},"guarantee":"isinstance(self, CountingProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a36d6943ab6422","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CountingProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function WienerProcess not found in source"]}}
 class WienerProcess(CountingProcess):
     """
     The Wiener process is a real valued continuous-time stochastic process.
@@ -3393,46 +4058,65 @@ class WienerProcess(CountingProcess):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym), Basic.__new__(cls, sym)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, sym)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b2a4f22dd9ef0dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.__new__","kind":"method","src_hash":"91141dcb6fdf6c82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b2a4f22dd9ef0dd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.__new__","kind":"method","src_hash":"91141dcb6fdf6c82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym)","rhs":"Basic.__new__(cls, sym)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b2a4f22dd9ef0dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, sym)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym):
         sym = _symbol_converter(sym)
         return Basic.__new__(cls, sym)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_space(), returns the state_space attribute) over Any ║
+# ║ Path(state_space(), S.Reals) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Reals                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_space : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9466108961abc274           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.state_space","kind":"property","src_hash":"e90700384917cc75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"returns the state_space attribute","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns the state_space attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9466108961abc274"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.state_space","kind":"property","src_hash":"e90700384917cc75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"S.Reals","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns S.Reals","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9466108961abc274","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Reals","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_space(self):
         return S.Reals
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribution(key), id) over Any                       ║
+# ║ Path(distribution(key), id) over {Any | hasattr(key, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distribution : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(key, 'key')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distribution : {Any | hasattr(key, 'key')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b4c56896e4a4b4b6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.distribution","kind":"method","src_hash":"da64571646f037f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"distribution produces the expected output","over":{"base":"Any"},"name":"distribution_correct","kind":"composition"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"NormalDistribution","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c56896e4a4b4b6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.distribution","kind":"method","src_hash":"da64571646f037f5","in":{"base":"Any","pred":"hasattr(key, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"<unspecified:distribution>","over":{"base":"Any","pred":"hasattr(key, 'key')"},"name":"distribution_correct","kind":"composition"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"NormalDistribution","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c56896e4a4b4b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(key, 'key')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["key.key","self._deprecation_warn_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distribution(self, key):
         if isinstance(key, RandomIndexedSymbol):
             self._deprecation_warn_distribution()
@@ -3440,30 +4124,45 @@ class WienerProcess(CountingProcess):
         return NormalDistribution(0, sqrt(key))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(x), density produces the expected output) over Any ║
+# ║ Path(density(x), exp(-x ** 2 / (2 * x.key)) / (sqrt(2 * pi) * sqrt(x.key))) over {Any | hasattr(x, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ density : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'key')                              ║
+# ║   returns:  exp(-x ** 2 / (2 * x.key)) / (sqrt(2 * pi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ density : {Any | hasattr(x, 'key')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eca7690a62fc411a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.density","kind":"method","src_hash":"f5e3e993496c6725","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eca7690a62fc411a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.density","kind":"method","src_hash":"f5e3e993496c6725","in":{"base":"Any","pred":"hasattr(x, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"exp(-x ** 2 / (2 * x.key)) / (sqrt(2 * pi) * sqrt(x.key))","over":{"base":"Any","pred":"hasattr(x, 'key')"},"name":"density_correct"},"guarantee":"returns exp(-x ** 2 / (2 * x.key)) / (sqrt(2 * pi) * sqrt(x.key))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eca7690a62fc411a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'key')"],"returns_expr":"exp(-x ** 2 / (2 * x.key)) / (sqrt(2 * pi) * sqrt(x.key))","pure":false,"effects":{"effect_type":"reads_state","reads":["x.key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, x):
         return exp(-x**2/(2*x.key)) / (sqrt(2*pi)*sqrt(x.key))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_rv(rv), simple_rv produces the expected output) over Any ║
+# ║ Path(simple_rv(rv), Normal(rv.name, 0, sqrt(rv.key))) over {Any | hasattr(rv, 'name') and hasattr(rv, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_rv : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'name')                            ║
+# ║   requires: hasattr(rv, 'key')                             ║
+# ║   returns:  Normal(rv.name, 0, sqrt(rv.key))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_rv : {Any | hasattr(rv, 'name') and hasattr(rv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27f0a200d757e595           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.simple_rv","kind":"method","src_hash":"97532fba1018d730","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"simple_rv produces the expected output","over":{"base":"Any"},"name":"simple_rv_correct"},"guarantee":"simple_rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27f0a200d757e595"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.WienerProcess.simple_rv","kind":"method","src_hash":"97532fba1018d730","in":{"base":"Any","pred":"hasattr(rv, 'name') and hasattr(rv, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"Normal(rv.name, 0, sqrt(rv.key))","over":{"base":"Any","pred":"hasattr(rv, 'name') and hasattr(rv, 'key')"},"name":"simple_rv_correct"},"guarantee":"returns Normal(rv.name, 0, sqrt(rv.key))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27f0a200d757e595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'name')","hasattr(rv, 'key')"],"returns_expr":"Normal(rv.name, 0, sqrt(rv.key))","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.key","rv.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_rv(self, rv):
         return Normal(rv.name, 0, sqrt(rv.key))
 
@@ -3471,14 +4170,20 @@ class WienerProcess(CountingProcess):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GammaProcess(*args), correctly constructs a GammaProcess instance) over {Any | isinstance(key, RandomIndexedSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CountingProcess)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GammaProcess : {Any | isinstance(key, RandomIndexedSy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24329688e2c55cd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess","kind":"class","src_hash":"f46052f760581c1a","in":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"GammaProcess(*args)","rhs":"correctly constructs a GammaProcess instance","over":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"name":"GammaProcess_class_invariant"},"guarantee":"correctly constructs a GammaProcess instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24329688e2c55cd7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess","kind":"class","src_hash":"f46052f760581c1a","in":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CountingProcess)"},"spec":{"lhs":"GammaProcess(*args)","rhs":"correctly constructs a GammaProcess instance","over":{"base":"Any","pred":"isinstance(key, RandomIndexedSymbol)"},"name":"GammaProcess_class_invariant"},"guarantee":"isinstance(self, CountingProcess)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24329688e2c55cd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CountingProcess)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function GammaProcess not found in source"]}}
 class GammaProcess(CountingProcess):
     r"""
     A Gamma process is a random process with independent gamma distributed
@@ -3520,16 +4225,22 @@ class GammaProcess(CountingProcess):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, lamda), Basic.__new__(cls, sym, lamda, gamma)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, sym, lamda, gamma)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f996bd3a83b8e546           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.__new__","kind":"method","src_hash":"6be6f4d300bbf3e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f996bd3a83b8e546"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.__new__","kind":"method","src_hash":"6be6f4d300bbf3e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, lamda)","rhs":"Basic.__new__(cls, sym, lamda, gamma)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym, lamda, gamma)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f996bd3a83b8e546","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, sym, lamda, gamma)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, lamda, gamma):
         _value_check(lamda > 0, 'lamda should be a positive number')
         _value_check(gamma > 0, 'gamma should be a positive number')
@@ -3540,60 +4251,85 @@ class GammaProcess(CountingProcess):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lamda(), returns the lamda attribute) over Any        ║
+# ║ Path(lamda(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lamda : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b3646848aa6b479           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.lamda","kind":"property","src_hash":"6cd45f7faa8c3885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lamda()","rhs":"returns the lamda attribute","over":{"base":"Any"},"name":"lamda_correct"},"guarantee":"returns the lamda attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b3646848aa6b479"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.lamda","kind":"property","src_hash":"6cd45f7faa8c3885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lamda()","rhs":"self.args[1]","over":{"base":"Any"},"name":"lamda_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b3646848aa6b479","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lamda(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gamma(), returns the gamma attribute) over Any        ║
+# ║ Path(gamma(), self.args[2]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gamma : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 252303cbe60c3c32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.gamma","kind":"property","src_hash":"befa02e2dbd107d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"returns the gamma attribute","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns the gamma attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"252303cbe60c3c32"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.gamma","kind":"property","src_hash":"befa02e2dbd107d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"self.args[2]","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"252303cbe60c3c32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gamma(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_space(), returns the state_space attribute) over Any ║
+# ║ Path(state_space(), _set_converter(Interval(0, oo))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _set_converter(Interval(0, oo))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_space : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a1643fa5c2da267           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.state_space","kind":"property","src_hash":"6d247d0ad55e4e19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"returns the state_space attribute","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns the state_space attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a1643fa5c2da267"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.state_space","kind":"property","src_hash":"6d247d0ad55e4e19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_space()","rhs":"_set_converter(Interval(0, oo))","over":{"base":"Any"},"name":"state_space_correct"},"guarantee":"returns _set_converter(Interval(0, oo))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a1643fa5c2da267","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_set_converter(Interval(0, oo))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_space(self):
         return _set_converter(Interval(0, oo))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribution(key), distribution produces the expected output) over Any ║
+# ║ Path(distribution(key), <unspecified:distribution>) over {Any | hasattr(key, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distribution : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(key, 'key')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distribution : {Any | hasattr(key, 'key')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 828ba19a998cbc39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.distribution","kind":"method","src_hash":"33dda9230b4e54a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"distribution produces the expected output","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.GammaProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"828ba19a998cbc39"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.distribution","kind":"method","src_hash":"33dda9230b4e54a9","in":{"base":"Any","pred":"hasattr(key, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"distribution(key)","rhs":"<unspecified:distribution>","over":{"base":"Any","pred":"hasattr(key, 'key')"},"name":"distribution_correct"},"guarantee":"distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.stochastic_process_types.GammaProcess.distribution_correct","statement":"Path(distribution(x), distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"828ba19a998cbc39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(key, 'key')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["key.key","self._deprecation_warn_distribution","self.gamma","self.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distribution(self, key):
         if isinstance(key, RandomIndexedSymbol):
             self._deprecation_warn_distribution()
@@ -3601,31 +4337,46 @@ class GammaProcess(CountingProcess):
         return GammaDistribution(self.gamma*key, 1/self.lamda)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(x), id) over Any                              ║
+# ║ Path(density(x), id) over {Any | hasattr(x, 'key')}        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ density : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'key')                              ║
+# ║   returns:  x ** (k - 1) * exp(-x / theta) / (gamma(k...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ density : {Any | hasattr(x, 'key')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 71e0ce25256a2740   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.density","kind":"method","src_hash":"8870f814f8211f77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e0ce25256a2740"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.density","kind":"method","src_hash":"8870f814f8211f77","in":{"base":"Any","pred":"hasattr(x, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"density(x)","rhs":"x ** (k - 1) * exp(-x / theta) / (gamma(k) * theta ** k)","over":{"base":"Any","pred":"hasattr(x, 'key')"},"name":"density_correct","kind":"composition"},"guarantee":"returns x ** (k - 1) * exp(-x / theta) / (gamma(k) * theta ** k)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e0ce25256a2740","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'key')"],"returns_expr":"x ** (k - 1) * exp(-x / theta) / (gamma(k) * theta ** k)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gamma","self.lamda","x.key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, x):
         k = self.gamma*x.key
         theta = 1/self.lamda
         return x**(k - 1) * exp(-x/theta) / (gamma(k)*theta**k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_rv(rv), simple_rv produces the expected output) over Any ║
+# ║ Path(simple_rv(rv), Gamma(rv.name, self.gamma * rv.key, 1 / self.lamda)) over {Any | hasattr(rv, 'name') and hasattr(rv, 'key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_rv : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'name')                            ║
+# ║   requires: hasattr(rv, 'key')                             ║
+# ║   returns:  Gamma(rv.name, self.gamma * rv.key, 1 / s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_rv : {Any | hasattr(rv, 'name') and hasattr(rv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 508700efe5e06bbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.simple_rv","kind":"method","src_hash":"027b116b4ced2508","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"simple_rv produces the expected output","over":{"base":"Any"},"name":"simple_rv_correct"},"guarantee":"simple_rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"508700efe5e06bbe"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.stochastic_process_types.GammaProcess.simple_rv","kind":"method","src_hash":"027b116b4ced2508","in":{"base":"Any","pred":"hasattr(rv, 'name') and hasattr(rv, 'key')"},"out":{"base":"Any"},"spec":{"lhs":"simple_rv(rv)","rhs":"Gamma(rv.name, self.gamma * rv.key, 1 / self.lamda)","over":{"base":"Any","pred":"hasattr(rv, 'name') and hasattr(rv, 'key')"},"name":"simple_rv_correct"},"guarantee":"returns Gamma(rv.name, self.gamma * rv.key, 1 / self.lamda)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"508700efe5e06bbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'name')","hasattr(rv, 'key')"],"returns_expr":"Gamma(rv.name, self.gamma * rv.key, 1 / self.lamda)","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.key","rv.name","self.gamma","self.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_rv(self, rv):
         return Gamma(rv.name, self.gamma*rv.key, 1/self.lamda)

@@ -27,16 +27,24 @@ A = ReferenceFrame('A')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic(), test_dyadic produces the expected output) over Any ║
+# ║ Path(test_dyadic(), d1 * 0 == 0 and d1 != 0 and d1 * 2 == 2 * A.x | A.x and d1 / 2.0 == 0.5 * d1 and d1 & 0 * d1 == 0 and d1 & d2 == 0 and d1 & A.x == A.x and d1 ^ A.x == 0 and d1 ^ A.y == A.x | A.z and d1 ^ A.z == -A.x | A.y and d2 ^ A.x == -A.y | A.z and A.x ^ d1 == 0 and A.y ^ d1 == -A.z | A.x and A.z ^ d1 == A.y | A.x and A.x & d1 == A.x and A.y & d1 == 0 and A.y & d2 == A.y and d1 & d3 == A.x | A.y and d3 & d1 == 0 and d1.dt(A) == 0 and d1.express(B) == d1.express(B, B) and d1.express(B) == cos(q) ** 2 * (B.x | B.x) + -sin(q) * cos(q) * (B.x | B.y) + -sin(q) * cos(q) * (B.y | B.x) + sin(q) ** 2 * (B.y | B.y) and d1.express(B, A) == cos(q) * (B.x | A.x) + -sin(q) * (B.y | A.x) and d1.express(A, B) == cos(q) * (A.x | B.x) + -sin(q) * (A.x | B.y) and d1.dt(B) == -qd * (A.y | A.x) + -qd * (A.x | A.y) and d1.to_matrix(A) == Matrix([[1, 0, 0], [0, 0, 0], [0, 0, 0]]) and d1.to_matrix(A, B) == Matrix([[cos(q), -sin(q), 0], [0, 0, 0], [0, 0, 0]]) and d3.to_matrix(A) == Matrix([[0, 1, 0], [0, 0, 0], [0, 0, 0]]) and d4.to_matrix(A) == Matrix([[a * d, a * e, a * f], [b * d, b * e, b * f], [c * d, c * e, c * f]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic : Any → {Any | d1 * 0 == 0 and d1 != 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d1 * 0 == 0                                    ║
+# ║   ensures:  d1 != 0                                        ║
+# ║   ensures:  d1 * 2 == 2 * A.x | A.x                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic : Any → {Any | result satisfies: d1 * 0 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b2ca8181027c3b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0f65a6eb62f0cf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic","kind":"function","src_hash":"4b856cf182c9ca42","in":{"base":"Any"},"out":{"base":"Any","pred":"d1 * 0 == 0 and d1 != 0 and d1 * 2 == 2 * A.x | A.x and d1 / 2.0 == 0.5 * d1 and d1 & 0 * d1 == 0 and d1 & d2 == 0 and d1 & A.x == A.x and d1 ^ A.x == 0 and d1 ^ A.y == A.x | A.z and d1 ^ A.z == -A.x | A.y and d2 ^ A.x == -A.y | A.z and A.x ^ d1 == 0 and A.y ^ d1 == -A.z | A.x and A.z ^ d1 == A.y | A.x and A.x & d1 == A.x and A.y & d1 == 0 and A.y & d2 == A.y and d1 & d3 == A.x | A.y and d3 & d1 == 0 and d1.dt(A) == 0 and d1.express(B) == d1.express(B, B) and d1.express(B, A) == cos(q) * (B.x | A.x) + -sin(q) * (B.y | A.x) and d1.express(A, B) == cos(q) * (A.x | B.x) + -sin(q) * (A.x | B.y) and d1.dt(B) == -qd * (A.y | A.x) + -qd * (A.x | A.y) and d1.to_matrix(A) == Matrix([[1, 0, 0], [0, 0, 0], [0, 0, 0]]) and d1.to_matrix(A, B) == Matrix([[cos(q), -sin(q), 0], [0, 0, 0], [0, 0, 0]]) and d3.to_matrix(A) == Matrix([[0, 1, 0], [0, 0, 0], [0, 0, 0]]) and (expected - actual).simplify() == 0"},"spec":{"lhs":"test_dyadic()","rhs":"test_dyadic produces the expected output","over":{"base":"Any"},"name":"test_dyadic_correct"},"guarantee":"test_dyadic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_correct","statement":"Path(test_dyadic(x), test_dyadic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b2ca8181027c3b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic","kind":"function","src_hash":"4b856cf182c9ca42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d1 * 0 == 0 and d1 != 0 and d1 * 2 == 2 * A.x | A.x and d1 / 2.0 == 0.5 * d1 and d1 & 0 * d1 == 0 and d1 & d2 == 0 and d1 & A.x == A.x and d1 ^ A.x == 0 and d1 ^ A.y == A.x | A.z and d1 ^ A.z == -A.x | A.y and d2 ^ A.x == -A.y | A.z and A.x ^ d1 == 0 and A.y ^ d1 == -A.z | A.x and A.z ^ d1 == A.y | A.x and A.x & d1 == A.x and A.y & d1 == 0 and A.y & d2 == A.y and d1 & d3 == A.x | A.y and d3 & d1 == 0 and d1.dt(A) == 0 and d1.express(B) == d1.express(B, B) and d1.express(B) == cos(q) ** 2 * (B.x | B.x) + -sin(q) * cos(q) * (B.x | B.y) + -sin(q) * cos(q) * (B.y | B.x) + sin(q) ** 2 * (B.y | B.y) and d1.express(B, A) == cos(q) * (B.x | A.x) + -sin(q) * (B.y | A.x) and d1.express(A, B) == cos(q) * (A.x | B.x) + -sin(q) * (A.x | B.y) and d1.dt(B) == -qd * (A.y | A.x) + -qd * (A.x | A.y) and d1.to_matrix(A) == Matrix([[1, 0, 0], [0, 0, 0], [0, 0, 0]]) and d1.to_matrix(A, B) == Matrix([[cos(q), -sin(q), 0], [0, 0, 0], [0, 0, 0]]) and d3.to_matrix(A) == Matrix([[0, 1, 0], [0, 0, 0], [0, 0, 0]]) and d4.to_matrix(A) == Matrix([[a * d, a * e, a * f], [b * d, b * e, b * f], [c * d, c * e, c * f]])"},"spec":{"lhs":"test_dyadic()","rhs":"d1 * 0 == 0 and d1 != 0 and d1 * 2 == 2 * A.x | A.x and d1 / 2.0 == 0.5 * d1 and d1 & 0 * d1 == 0 and d1 & d2 == 0 and d1 & A.x == A.x and d1 ^ A.x == 0 and d1 ^ A.y == A.x | A.z and d1 ^ A.z == -A.x | A.y and d2 ^ A.x == -A.y | A.z and A.x ^ d1 == 0 and A.y ^ d1 == -A.z | A.x and A.z ^ d1 == A.y | A.x and A.x & d1 == A.x and A.y & d1 == 0 and A.y & d2 == A.y and d1 & d3 == A.x | A.y and d3 & d1 == 0 and d1.dt(A) == 0 and d1.express(B) == d1.express(B, B) and d1.express(B) == cos(q) ** 2 * (B.x | B.x) + -sin(q) * cos(q) * (B.x | B.y) + -sin(q) * cos(q) * (B.y | B.x) + sin(q) ** 2 * (B.y | B.y) and d1.express(B, A) == cos(q) * (B.x | A.x) + -sin(q) * (B.y | A.x) and d1.express(A, B) == cos(q) * (A.x | B.x) + -sin(q) * (A.x | B.y) and d1.dt(B) == -qd * (A.y | A.x) + -qd * (A.x | A.y) and d1.to_matrix(A) == Matrix([[1, 0, 0], [0, 0, 0], [0, 0, 0]]) and d1.to_matrix(A, B) == Matrix([[cos(q), -sin(q), 0], [0, 0, 0], [0, 0, 0]]) and d3.to_matrix(A) == Matrix([[0, 1, 0], [0, 0, 0], [0, 0, 0]]) and d4.to_matrix(A) == Matrix([[a * d, a * e, a * f], [b * d, b * e, b * f], [c * d, c * e, c * f]])","over":{"base":"Any"},"name":"test_dyadic_correct"},"guarantee":"d1 * 0 == 0; d1 != 0; d1 * 2 == 2 * A.x | A.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_correct","statement":"Path(test_dyadic(x), d1 * 0 == 0; d1 != 0; d1 * 2 == 2 * A.x | A.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0f65a6eb62f0cf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d1 * 0 == 0","d1 != 0","d1 * 2 == 2 * A.x | A.x","d1 / 2.0 == 0.5 * d1","d1 & 0 * d1 == 0","d1 & d2 == 0","d1 & A.x == A.x","d1 ^ A.x == 0","d1 ^ A.y == A.x | A.z","d1 ^ A.z == -A.x | A.y","d2 ^ A.x == -A.y | A.z","A.x ^ d1 == 0","A.y ^ d1 == -A.z | A.x","A.z ^ d1 == A.y | A.x","A.x & d1 == A.x","A.y & d1 == 0","A.y & d2 == A.y","d1 & d3 == A.x | A.y","d3 & d1 == 0","d1.dt(A) == 0","d1.express(B) == d1.express(B, B)","d1.express(B) == cos(q) ** 2 * (B.x | B.x) + -sin(q) * cos(q) * (B.x | B.y) + -sin(q) * cos(q) * (B.y | B.x) + sin(q) ** 2 * (B.y | B.y)","d1.express(B, A) == cos(q) * (B.x | A.x) + -sin(q) * (B.y | A.x)","d1.express(A, B) == cos(q) * (A.x | B.x) + -sin(q) * (A.x | B.y)","d1.dt(B) == -qd * (A.y | A.x) + -qd * (A.x | A.y)","d1.to_matrix(A) == Matrix([[1, 0, 0], [0, 0, 0], [0, 0, 0]])","d1.to_matrix(A, B) == Matrix([[cos(q), -sin(q), 0], [0, 0, 0], [0, 0, 0]])","d3.to_matrix(A) == Matrix([[0, 1, 0], [0, 0, 0], [0, 0, 0]])","d4.to_matrix(A) == Matrix([[a * d, a * e, a * f], [b * d, b * e, b * f], [c * d, c * e, c * f]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_dyadic():
     d1 = A.x | A.x
     d2 = A.y | A.y
@@ -94,16 +102,24 @@ def test_dyadic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_simplify(), test_dyadic_simplify produces the expected output) over Any ║
+# ║ Path(test_dyadic_simplify(), N.x & test1 & N.x != (x + y) / (x * y) and N.x & test1 & N.x == (x + y) / (x * y) and N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and N.x & test3 & N.x == 0 and N.x & test4 & N.x == -2 * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_simplify : Any → {Any | N.x & test1 & N.x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.x & test1 & N.x != (x + y) / (x * y)         ║
+# ║   ensures:  N.x & test1 & N.x == (x + y) / (x * y)         ║
+# ║   ensures:  N.x & test2 & N.x == A ** 2 * s ** 4 / (4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_simplify : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2555f5b01f453c12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 109b08080281f6b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_simplify","kind":"function","src_hash":"9764b8d5ed856cdd","in":{"base":"Any"},"out":{"base":"Any","pred":"N.x & test1 & N.x != (x + y) / (x * y) and N.x & test1 & N.x == (x + y) / (x * y) and N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and N.x & test3 & N.x == 0 and N.x & test4 & N.x == -2 * y"},"spec":{"lhs":"test_dyadic_simplify()","rhs":"test_dyadic_simplify produces the expected output","over":{"base":"Any"},"name":"test_dyadic_simplify_correct"},"guarantee":"test_dyadic_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_simplify_correct","statement":"Path(test_dyadic_simplify(x), test_dyadic_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2555f5b01f453c12"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_simplify","kind":"function","src_hash":"9764b8d5ed856cdd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.x & test1 & N.x != (x + y) / (x * y) and N.x & test1 & N.x == (x + y) / (x * y) and N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and N.x & test3 & N.x == 0 and N.x & test4 & N.x == -2 * y"},"spec":{"lhs":"test_dyadic_simplify()","rhs":"N.x & test1 & N.x != (x + y) / (x * y) and N.x & test1 & N.x == (x + y) / (x * y) and N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and N.x & test3 & N.x == 0 and N.x & test4 & N.x == -2 * y","over":{"base":"Any"},"name":"test_dyadic_simplify_correct"},"guarantee":"N.x & test1 & N.x != (x + y) / (x * y); N.x & test1 & N.x == (x + y) / (x * y); N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_simplify_correct","statement":"Path(test_dyadic_simplify(x), N.x & test1 & N.x != (x + y) / (x * y); N.x & test1 & N.x == (x + y) / (x * y); N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109b08080281f6b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.x & test1 & N.x != (x + y) / (x * y)","N.x & test1 & N.x == (x + y) / (x * y)","N.x & test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3)","N.x & test3 & N.x == 0","N.x & test4 & N.x == -2 * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dyadic_simplify():
     x, y, z, k, n, m, w, f, s, A = symbols('x, y, z, k, n, m, w, f, s, A')
     N = ReferenceFrame('N')
@@ -128,16 +144,22 @@ def test_dyadic_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_subs(), test_dyadic_subs produces the expected output) over Any ║
+# ║ Path(test_dyadic_subs(), a.subs({s: 2}) == 2 * (N.x | N.x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_subs : Any → {Any | a.subs({s: 2}) == 2 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.subs({s: 2}) == 2 * (N.x | N.x)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_subs : Any → {Any | result satisfies: a.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d32e4b9ed16b9cff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 950ffeea7c5581d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_subs","kind":"function","src_hash":"65a322c862114554","in":{"base":"Any"},"out":{"base":"Any","pred":"a.subs({s: 2}) == 2 * (N.x | N.x)"},"spec":{"lhs":"test_dyadic_subs()","rhs":"test_dyadic_subs produces the expected output","over":{"base":"Any"},"name":"test_dyadic_subs_correct"},"guarantee":"test_dyadic_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_subs_correct","statement":"Path(test_dyadic_subs(x), test_dyadic_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d32e4b9ed16b9cff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_subs","kind":"function","src_hash":"65a322c862114554","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.subs({s: 2}) == 2 * (N.x | N.x)"},"spec":{"lhs":"test_dyadic_subs()","rhs":"a.subs({s: 2}) == 2 * (N.x | N.x)","over":{"base":"Any"},"name":"test_dyadic_subs_correct"},"guarantee":"a.subs({s: 2}) == 2 * (N.x | N.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_subs_correct","statement":"Path(test_dyadic_subs(x), a.subs({s: 2}) == 2 * (N.x | N.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950ffeea7c5581d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.subs({s: 2}) == 2 * (N.x | N.x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dyadic_subs():
     N = ReferenceFrame('N')
     s = symbols('s')
@@ -146,31 +168,45 @@ def test_dyadic_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_dyadic(), test_check_dyadic produces the expected output) over Any ║
+# ║ Path(test_check_dyadic(), <unspecified:test_check_dyadic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_check_dyadic : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8f8ff671a4088d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_check_dyadic","kind":"function","src_hash":"840a4ae892102bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_dyadic()","rhs":"test_check_dyadic produces the expected output","over":{"base":"Any"},"name":"test_check_dyadic_correct"},"guarantee":"test_check_dyadic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_check_dyadic_correct","statement":"Path(test_check_dyadic(x), test_check_dyadic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8f8ff671a4088d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_check_dyadic","kind":"function","src_hash":"840a4ae892102bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_dyadic()","rhs":"<unspecified:test_check_dyadic>","over":{"base":"Any"},"name":"test_check_dyadic_correct"},"guarantee":"test_check_dyadic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_check_dyadic_correct","statement":"Path(test_check_dyadic(x), test_check_dyadic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8f8ff671a4088d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_check_dyadic():
     raises(TypeError, lambda: _check_dyadic(0))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_evalf(), test_dyadic_evalf produces the expected output) over Any ║
+# ║ Path(test_dyadic_evalf(), a.evalf(3) == Float('3.1416', 3) * (N.x | N.x) and a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x) and a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_evalf : Any → {Any | a.evalf(3) == Float(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.evalf(3) == Float('3.1416', 3) * (N.x |...   ║
+# ║   ensures:  a.evalf(2) == Float('5', 2) * Float('3.14...   ║
+# ║   ensures:  a.evalf(9, subs={s: 5.124}) == Float('80....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_evalf : Any → {Any | result satisfies: a....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cff2b520a72830e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d3351d7406fa571  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_evalf","kind":"function","src_hash":"de679bf9e1ed7b15","in":{"base":"Any"},"out":{"base":"Any","pred":"a.evalf(3) == Float('3.1416', 3) * (N.x | N.x) and a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x) and a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x)"},"spec":{"lhs":"test_dyadic_evalf()","rhs":"test_dyadic_evalf produces the expected output","over":{"base":"Any"},"name":"test_dyadic_evalf_correct"},"guarantee":"test_dyadic_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_evalf_correct","statement":"Path(test_dyadic_evalf(x), test_dyadic_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cff2b520a72830e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_evalf","kind":"function","src_hash":"de679bf9e1ed7b15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.evalf(3) == Float('3.1416', 3) * (N.x | N.x) and a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x) and a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x)"},"spec":{"lhs":"test_dyadic_evalf()","rhs":"a.evalf(3) == Float('3.1416', 3) * (N.x | N.x) and a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x) and a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x)","over":{"base":"Any"},"name":"test_dyadic_evalf_correct"},"guarantee":"a.evalf(3) == Float('3.1416', 3) * (N.x | N.x); a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x); a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_evalf_correct","statement":"Path(test_dyadic_evalf(x), a.evalf(3) == Float('3.1416', 3) * (N.x | N.x); a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x); a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d3351d7406fa571","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.evalf(3) == Float('3.1416', 3) * (N.x | N.x)","a.evalf(2) == Float('5', 2) * Float('3.1416', 2) * s * (N.x | N.x)","a.evalf(9, subs={s: 5.124}) == Float('80.48760378', 9) * (N.x | N.x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dyadic_evalf():
     N = ReferenceFrame('N')
     a = pi * (N.x | N.x)
@@ -182,16 +218,24 @@ def test_dyadic_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_xreplace(), test_dyadic_xreplace produces the expected output) over Any ║
+# ║ Path(test_dyadic_xreplace(), v.xreplace({x: cos(x)}) == cos(x) * y * D and v.xreplace({x * y: pi}) == pi * D and v.xreplace({(x * y) ** z: 1}) == D and v.xreplace({x: 1, z: 0}) == D) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_xreplace : Any → {Any | v.xreplace({x: co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v.xreplace({x: cos(x)}) == cos(x) * y * D      ║
+# ║   ensures:  v.xreplace({x * y: pi}) == pi * D              ║
+# ║   ensures:  v.xreplace({(x * y) ** z: 1}) == D             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_xreplace : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ebf1426e1a0e0a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cef69319ed3b43d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_xreplace","kind":"function","src_hash":"45023d25d2619803","in":{"base":"Any"},"out":{"base":"Any","pred":"v.xreplace({x: cos(x)}) == cos(x) * y * D and v.xreplace({x * y: pi}) == pi * D and v.xreplace({(x * y) ** z: 1}) == D and v.xreplace({x: 1, z: 0}) == D"},"spec":{"lhs":"test_dyadic_xreplace()","rhs":"test_dyadic_xreplace produces the expected output","over":{"base":"Any"},"name":"test_dyadic_xreplace_correct"},"guarantee":"test_dyadic_xreplace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_xreplace_correct","statement":"Path(test_dyadic_xreplace(x), test_dyadic_xreplace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ebf1426e1a0e0a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_dyadic.test_dyadic_xreplace","kind":"function","src_hash":"45023d25d2619803","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v.xreplace({x: cos(x)}) == cos(x) * y * D and v.xreplace({x * y: pi}) == pi * D and v.xreplace({(x * y) ** z: 1}) == D and v.xreplace({x: 1, z: 0}) == D"},"spec":{"lhs":"test_dyadic_xreplace()","rhs":"v.xreplace({x: cos(x)}) == cos(x) * y * D and v.xreplace({x * y: pi}) == pi * D and v.xreplace({(x * y) ** z: 1}) == D and v.xreplace({x: 1, z: 0}) == D","over":{"base":"Any"},"name":"test_dyadic_xreplace_correct"},"guarantee":"v.xreplace({x: cos(x)}) == cos(x) * y * D; v.xreplace({x * y: pi}) == pi * D; v.xreplace({(x * y) ** z: 1}) == D","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_dyadic.test_dyadic_xreplace_correct","statement":"Path(test_dyadic_xreplace(x), v.xreplace({x: cos(x)}) == cos(x) * y * D; v.xreplace({x * y: pi}) == pi * D; v.xreplace({(x * y) ** z: 1}) == D)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cef69319ed3b43d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v.xreplace({x: cos(x)}) == cos(x) * y * D","v.xreplace({x * y: pi}) == pi * D","v.xreplace({(x * y) ** z: 1}) == D","v.xreplace({x: 1, z: 0}) == D"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dyadic_xreplace():
     x, y, z = symbols('x y z')
     N = ReferenceFrame('N')

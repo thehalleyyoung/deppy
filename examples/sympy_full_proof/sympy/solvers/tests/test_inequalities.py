@@ -51,16 +51,24 @@ inf = oo.evalf()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_poly_inequality(), test_solve_poly_inequality produces the expected output) over Any ║
+# ║ Path(test_solve_poly_inequality(), psolve(Poly(0, x), '==') == [S.Reals] and psolve(Poly(1, x), '==') == [S.EmptySet] and psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_poly_inequality : Any → {Any | psolve(Poly...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  psolve(Poly(0, x), '==') == [S.Reals]          ║
+# ║   ensures:  psolve(Poly(1, x), '==') == [S.EmptySet]       ║
+# ║   ensures:  psolve(PurePoly(x + 1, x), '>') == [Inter...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_poly_inequality : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f54019a3e04868cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04e1c7e9ec6a1142  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_solve_poly_inequality","kind":"function","src_hash":"806d56300d033189","in":{"base":"Any"},"out":{"base":"Any","pred":"psolve(Poly(0, x), '==') == [S.Reals] and psolve(Poly(1, x), '==') == [S.EmptySet] and psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)]"},"spec":{"lhs":"test_solve_poly_inequality()","rhs":"test_solve_poly_inequality produces the expected output","over":{"base":"Any"},"name":"test_solve_poly_inequality_correct"},"guarantee":"test_solve_poly_inequality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_solve_poly_inequality_correct","statement":"Path(test_solve_poly_inequality(x), test_solve_poly_inequality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f54019a3e04868cb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_solve_poly_inequality","kind":"function","src_hash":"806d56300d033189","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: psolve(Poly(0, x), '==') == [S.Reals] and psolve(Poly(1, x), '==') == [S.EmptySet] and psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)]"},"spec":{"lhs":"test_solve_poly_inequality()","rhs":"psolve(Poly(0, x), '==') == [S.Reals] and psolve(Poly(1, x), '==') == [S.EmptySet] and psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)]","over":{"base":"Any"},"name":"test_solve_poly_inequality_correct"},"guarantee":"psolve(Poly(0, x), '==') == [S.Reals]; psolve(Poly(1, x), '==') == [S.EmptySet]; psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_solve_poly_inequality_correct","statement":"Path(test_solve_poly_inequality(x), psolve(Poly(0, x), '==') == [S.Reals]; psolve(Poly(1, x), '==') == [S.EmptySet]; psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e1c7e9ec6a1142","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["psolve(Poly(0, x), '==') == [S.Reals]","psolve(Poly(1, x), '==') == [S.EmptySet]","psolve(PurePoly(x + 1, x), '>') == [Interval(-1, oo, True, False)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_poly_inequality():
     assert psolve(Poly(0, x), '==') == [S.Reals]
     assert psolve(Poly(1, x), '==') == [S.EmptySet]
@@ -68,16 +76,24 @@ def test_solve_poly_inequality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_poly_inequalities_real_interval(), test_reduce_poly_inequalities_real_interval produces the expected output) over Any ║
+# ║ Path(test_reduce_poly_inequalities_real_interval(), reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=False) == FiniteSet(0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=False) == FiniteSet(0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=False) == S.EmptySet and reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=False) == S.Reals if x.is_real else Interval(-oo, oo) and reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals) and reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals) and reduce_rational_inequalities([[Eq(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1) and reduce_rational_inequalities([[Le(x ** 2, 1)]], x, relational=False) == Interval(-1, 1) and reduce_rational_inequalities([[Lt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1, True, True) and reduce_rational_inequalities([[Ge(x ** 2, 1)]], x, relational=False) == Union(Interval(-oo, -1), Interval(1, oo)) and reduce_rational_inequalities([[Gt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1).complement(S.Reals) and reduce_rational_inequalities([[Ne(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1).complement(S.Reals) and reduce_rational_inequalities([[Eq(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).evalf() and reduce_rational_inequalities([[Le(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0) and reduce_rational_inequalities([[Lt(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0, True, True) and reduce_rational_inequalities([[Ge(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0), Interval(1.0, inf)) and reduce_rational_inequalities([[Gt(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0, right_open=True), Interval(1.0, inf, left_open=True)) and reduce_rational_inequalities([[Ne(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).complement(S.Reals) and reduce_rational_inequalities([[Lt(x ** 2 - 1, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == S.EmptySet and reduce_rational_inequalities([[Le(x ** 2 - 1, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == FiniteSet(-1, 1) and reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, False), Interval(1, s, False, False)) and reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, True), Interval(1, s, True, False)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, False), Interval(1, s, False, True)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(1, s, True, True)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ne(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(-1, 1, True, True), Interval(1, s, True, True)) and reduce_rational_inequalities([[Lt(x ** 2, -1.0)]], x) is S.false) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_rational_inequalities([[Eq(x ** 2,...   ║
+# ║   ensures:  reduce_rational_inequalities([[Le(x ** 2,...   ║
+# ║   ensures:  reduce_rational_inequalities([[Lt(x ** 2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_reduce_poly_inequalities_real_interval : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac4e5ee29ac42567  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0134bbf00f1228b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_real_interval","kind":"function","src_hash":"54b0896945af9140","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_rational_inequalities([[Lt(x ** 2, -1.0)]], x) is S.false"},"spec":{"lhs":"test_reduce_poly_inequalities_real_interval()","rhs":"test_reduce_poly_inequalities_real_interval produces the expected output","over":{"base":"Any"},"name":"test_reduce_poly_inequalities_real_interval_correct"},"guarantee":"test_reduce_poly_inequalities_real_interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_real_interval_correct","statement":"Path(test_reduce_poly_inequalities_real_interval(x), test_reduce_poly_inequalities_real_interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac4e5ee29ac42567"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_real_interval","kind":"function","src_hash":"54b0896945af9140","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=False) == FiniteSet(0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=False) == FiniteSet(0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=False) == S.EmptySet and reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=False) == S.Reals if x.is_real else Interval(-oo, oo) and reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals) and reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals) and reduce_rational_inequalities([[Eq(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1) and reduce_rational_inequalities([[Le(x ** 2, 1)]], x, relational=False) == Interval(-1, 1) and reduce_rational_inequalities([[Lt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1, True, True) and reduce_rational_inequalities([[Ge(x ** 2, 1)]], x, relational=False) == Union(Interval(-oo, -1), Interval(1, oo)) and reduce_rational_inequalities([[Gt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1).complement(S.Reals) and reduce_rational_inequalities([[Ne(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1).complement(S.Reals) and reduce_rational_inequalities([[Eq(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).evalf() and reduce_rational_inequalities([[Le(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0) and reduce_rational_inequalities([[Lt(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0, True, True) and reduce_rational_inequalities([[Ge(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0), Interval(1.0, inf)) and reduce_rational_inequalities([[Gt(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0, right_open=True), Interval(1.0, inf, left_open=True)) and reduce_rational_inequalities([[Ne(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).complement(S.Reals) and reduce_rational_inequalities([[Lt(x ** 2 - 1, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == S.EmptySet and reduce_rational_inequalities([[Le(x ** 2 - 1, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == FiniteSet(-1, 1) and reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, False), Interval(1, s, False, False)) and reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, True), Interval(1, s, True, False)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, False), Interval(1, s, False, True)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(1, s, True, True)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ne(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(-1, 1, True, True), Interval(1, s, True, True)) and reduce_rational_inequalities([[Lt(x ** 2, -1.0)]], x) is S.false"},"spec":{"lhs":"test_reduce_poly_inequalities_real_interval()","rhs":"reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=False) == FiniteSet(0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=False) == FiniteSet(0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=False) == S.EmptySet and reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=False) == S.Reals if x.is_real else Interval(-oo, oo) and reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals) and reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals) and reduce_rational_inequalities([[Eq(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1) and reduce_rational_inequalities([[Le(x ** 2, 1)]], x, relational=False) == Interval(-1, 1) and reduce_rational_inequalities([[Lt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1, True, True) and reduce_rational_inequalities([[Ge(x ** 2, 1)]], x, relational=False) == Union(Interval(-oo, -1), Interval(1, oo)) and reduce_rational_inequalities([[Gt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1).complement(S.Reals) and reduce_rational_inequalities([[Ne(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1).complement(S.Reals) and reduce_rational_inequalities([[Eq(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).evalf() and reduce_rational_inequalities([[Le(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0) and reduce_rational_inequalities([[Lt(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0, True, True) and reduce_rational_inequalities([[Ge(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0), Interval(1.0, inf)) and reduce_rational_inequalities([[Gt(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0, right_open=True), Interval(1.0, inf, left_open=True)) and reduce_rational_inequalities([[Ne(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).complement(S.Reals) and reduce_rational_inequalities([[Lt(x ** 2 - 1, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == S.EmptySet and reduce_rational_inequalities([[Le(x ** 2 - 1, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == FiniteSet(-1, 1) and reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, False), Interval(1, s, False, False)) and reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, True), Interval(1, s, True, False)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, False), Interval(1, s, False, True)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(1, s, True, True)) and reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ne(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(-1, 1, True, True), Interval(1, s, True, True)) and reduce_rational_inequalities([[Lt(x ** 2, -1.0)]], x) is S.false","over":{"base":"Any"},"name":"test_reduce_poly_inequalities_real_interval_correct"},"guarantee":"reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=False) == FiniteSet(0); reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=False) == FiniteSet(0); reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=False) == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_real_interval_correct","statement":"Path(test_reduce_poly_inequalities_real_interval(x), reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=False) == FiniteSet(0); reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=False) == FiniteSet(0); reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=False) == S.EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0134bbf00f1228b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=False) == FiniteSet(0)","reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=False) == FiniteSet(0)","reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=False) == S.EmptySet","reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=False) == S.Reals if x.is_real else Interval(-oo, oo)","reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals)","reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=False) == FiniteSet(0).complement(S.Reals)","reduce_rational_inequalities([[Eq(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1)","reduce_rational_inequalities([[Le(x ** 2, 1)]], x, relational=False) == Interval(-1, 1)","reduce_rational_inequalities([[Lt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1, True, True)","reduce_rational_inequalities([[Ge(x ** 2, 1)]], x, relational=False) == Union(Interval(-oo, -1), Interval(1, oo))","reduce_rational_inequalities([[Gt(x ** 2, 1)]], x, relational=False) == Interval(-1, 1).complement(S.Reals)","reduce_rational_inequalities([[Ne(x ** 2, 1)]], x, relational=False) == FiniteSet(-1, 1).complement(S.Reals)","reduce_rational_inequalities([[Eq(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).evalf()","reduce_rational_inequalities([[Le(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0)","reduce_rational_inequalities([[Lt(x ** 2, 1.0)]], x, relational=False) == Interval(-1.0, 1.0, True, True)","reduce_rational_inequalities([[Ge(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0), Interval(1.0, inf))","reduce_rational_inequalities([[Gt(x ** 2, 1.0)]], x, relational=False) == Union(Interval(-inf, -1.0, right_open=True), Interval(1.0, inf, left_open=True))","reduce_rational_inequalities([[Ne(x ** 2, 1.0)]], x, relational=False) == FiniteSet(-1.0, 1.0).complement(S.Reals)","reduce_rational_inequalities([[Lt(x ** 2 - 1, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == S.EmptySet","reduce_rational_inequalities([[Le(x ** 2 - 1, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == FiniteSet(-1, 1)","reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, False), Interval(1, s, False, False))","reduce_rational_inequalities([[Le(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, False, True), Interval(1, s, True, False))","reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ge(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, False), Interval(1, s, False, True))","reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Gt(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(1, s, True, True))","reduce_rational_inequalities([[Lt(x ** 2 - 2, 0), Ne(x ** 2 - 1, 0)]], x, relational=False) == Union(Interval(-s, -1, True, True), Interval(-1, 1, True, True), Interval(1, s, True, True))","reduce_rational_inequalities([[Lt(x ** 2, -1.0)]], x) is S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_reduce_poly_inequalities_real_interval():
     assert reduce_rational_inequalities(
         [[Eq(x**2, 0)]], x, relational=False) == FiniteSet(0)
@@ -154,16 +170,24 @@ def test_reduce_poly_inequalities_real_interval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_poly_inequalities_complex_relational(), test_reduce_poly_inequalities_complex_relational produces the expected output) over Any ║
+# ║ Path(test_reduce_poly_inequalities_complex_relational(), reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False and reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=True) == And(Lt(-oo, x), Lt(x, oo)) and reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0)) and reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_rational_inequalities([[Eq(x ** 2,...   ║
+# ║   ensures:  reduce_rational_inequalities([[Le(x ** 2,...   ║
+# ║   ensures:  reduce_rational_inequalities([[Lt(x ** 2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_reduce_poly_inequalities_complex_relational : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 598f9be8bd766bfa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3481278d8f4b5e30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_complex_relational","kind":"function","src_hash":"ca28a3e4a1b9da1b","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False"},"spec":{"lhs":"test_reduce_poly_inequalities_complex_relational()","rhs":"test_reduce_poly_inequalities_complex_relational produces the expected output","over":{"base":"Any"},"name":"test_reduce_poly_inequalities_complex_relational_correct"},"guarantee":"test_reduce_poly_inequalities_complex_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_complex_relational_correct","statement":"Path(test_reduce_poly_inequalities_complex_relational(x), test_reduce_poly_inequalities_complex_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"598f9be8bd766bfa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_complex_relational","kind":"function","src_hash":"ca28a3e4a1b9da1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False and reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=True) == And(Lt(-oo, x), Lt(x, oo)) and reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0)) and reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0))"},"spec":{"lhs":"test_reduce_poly_inequalities_complex_relational()","rhs":"reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0) and reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False and reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=True) == And(Lt(-oo, x), Lt(x, oo)) and reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0)) and reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0))","over":{"base":"Any"},"name":"test_reduce_poly_inequalities_complex_relational_correct"},"guarantee":"reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0); reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0); reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_poly_inequalities_complex_relational_correct","statement":"Path(test_reduce_poly_inequalities_complex_relational(x), reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0); reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0); reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3481278d8f4b5e30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_rational_inequalities([[Eq(x ** 2, 0)]], x, relational=True) == Eq(x, 0)","reduce_rational_inequalities([[Le(x ** 2, 0)]], x, relational=True) == Eq(x, 0)","reduce_rational_inequalities([[Lt(x ** 2, 0)]], x, relational=True) == False","reduce_rational_inequalities([[Ge(x ** 2, 0)]], x, relational=True) == And(Lt(-oo, x), Lt(x, oo))","reduce_rational_inequalities([[Gt(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0))","reduce_rational_inequalities([[Ne(x ** 2, 0)]], x, relational=True) == And(Gt(x, -oo), Lt(x, oo), Ne(x, 0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_reduce_poly_inequalities_complex_relational():
     assert reduce_rational_inequalities(
         [[Eq(x**2, 0)]], x, relational=True) == Eq(x, 0)
@@ -205,16 +229,24 @@ def test_reduce_poly_inequalities_complex_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_rational_inequalities_real_relational(), test_reduce_rational_inequalities_real_relational produces the expected output) over Any ║
+# ║ Path(test_reduce_rational_inequalities_real_relational(), reduce_rational_inequalities([], x) == False and reduce_rational_inequalities([[(x ** 2 + 3 * x + 2) / (x ** 2 - 16) >= 0]], x, relational=False) == Union(Interval.open(-oo, -4), Interval(-2, -1), Interval.open(4, oo)) and reduce_rational_inequalities([[(-2 * x - 10) * (3 - x) / ((x ** 2 + 5) * (x - 2) ** 2) < 0]], x, relational=False) == Union(Interval.open(-5, 2), Interval.open(2, 3)) and reduce_rational_inequalities([[(x + 1) / (x - 5) <= 0]], x, relational=False) == Interval.Ropen(-1, 5) and reduce_rational_inequalities([[(x ** 2 + 4 * x + 3) / (x - 1) > 0]], x, relational=False) == Union(Interval.open(-3, -1), Interval.open(1, oo)) and reduce_rational_inequalities([[(x ** 2 - 16) / (x - 1) ** 2 < 0]], x, relational=False) == Union(Interval.open(-4, 1), Interval.open(1, 4)) and reduce_rational_inequalities([[(3 * x + 1) / (x + 4) >= 1]], x, relational=False) == Union(Interval.open(-oo, -4), Interval.Ropen(Rational(3, 2), oo)) and reduce_rational_inequalities([[(x - 8) / x <= 3 - x]], x, relational=False) == Union(Interval.Lopen(-oo, -2), Interval.Lopen(0, 4)) and reduce_rational_inequalities([[x < oo, x >= 0, -oo < x]], x, relational=False) == Interval(0, oo)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_rational_inequalities([], x) == False   ║
+# ║   ensures:  reduce_rational_inequalities([[(x ** 2 + ...   ║
+# ║   ensures:  reduce_rational_inequalities([[(-2 * x - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_reduce_rational_inequalities_real_relational : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3107b2ed253d606b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4323b87959fc9165  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_rational_inequalities_real_relational","kind":"function","src_hash":"4e5263d74a3d2a57","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_rational_inequalities([], x) == False"},"spec":{"lhs":"test_reduce_rational_inequalities_real_relational()","rhs":"test_reduce_rational_inequalities_real_relational produces the expected output","over":{"base":"Any"},"name":"test_reduce_rational_inequalities_real_relational_correct"},"guarantee":"test_reduce_rational_inequalities_real_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_rational_inequalities_real_relational_correct","statement":"Path(test_reduce_rational_inequalities_real_relational(x), test_reduce_rational_inequalities_real_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3107b2ed253d606b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_rational_inequalities_real_relational","kind":"function","src_hash":"4e5263d74a3d2a57","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_rational_inequalities([], x) == False and reduce_rational_inequalities([[(x ** 2 + 3 * x + 2) / (x ** 2 - 16) >= 0]], x, relational=False) == Union(Interval.open(-oo, -4), Interval(-2, -1), Interval.open(4, oo)) and reduce_rational_inequalities([[(-2 * x - 10) * (3 - x) / ((x ** 2 + 5) * (x - 2) ** 2) < 0]], x, relational=False) == Union(Interval.open(-5, 2), Interval.open(2, 3)) and reduce_rational_inequalities([[(x + 1) / (x - 5) <= 0]], x, relational=False) == Interval.Ropen(-1, 5) and reduce_rational_inequalities([[(x ** 2 + 4 * x + 3) / (x - 1) > 0]], x, relational=False) == Union(Interval.open(-3, -1), Interval.open(1, oo)) and reduce_rational_inequalities([[(x ** 2 - 16) / (x - 1) ** 2 < 0]], x, relational=False) == Union(Interval.open(-4, 1), Interval.open(1, 4)) and reduce_rational_inequalities([[(3 * x + 1) / (x + 4) >= 1]], x, relational=False) == Union(Interval.open(-oo, -4), Interval.Ropen(Rational(3, 2), oo)) and reduce_rational_inequalities([[(x - 8) / x <= 3 - x]], x, relational=False) == Union(Interval.Lopen(-oo, -2), Interval.Lopen(0, 4)) and reduce_rational_inequalities([[x < oo, x >= 0, -oo < x]], x, relational=False) == Interval(0, oo)"},"spec":{"lhs":"test_reduce_rational_inequalities_real_relational()","rhs":"reduce_rational_inequalities([], x) == False and reduce_rational_inequalities([[(x ** 2 + 3 * x + 2) / (x ** 2 - 16) >= 0]], x, relational=False) == Union(Interval.open(-oo, -4), Interval(-2, -1), Interval.open(4, oo)) and reduce_rational_inequalities([[(-2 * x - 10) * (3 - x) / ((x ** 2 + 5) * (x - 2) ** 2) < 0]], x, relational=False) == Union(Interval.open(-5, 2), Interval.open(2, 3)) and reduce_rational_inequalities([[(x + 1) / (x - 5) <= 0]], x, relational=False) == Interval.Ropen(-1, 5) and reduce_rational_inequalities([[(x ** 2 + 4 * x + 3) / (x - 1) > 0]], x, relational=False) == Union(Interval.open(-3, -1), Interval.open(1, oo)) and reduce_rational_inequalities([[(x ** 2 - 16) / (x - 1) ** 2 < 0]], x, relational=False) == Union(Interval.open(-4, 1), Interval.open(1, 4)) and reduce_rational_inequalities([[(3 * x + 1) / (x + 4) >= 1]], x, relational=False) == Union(Interval.open(-oo, -4), Interval.Ropen(Rational(3, 2), oo)) and reduce_rational_inequalities([[(x - 8) / x <= 3 - x]], x, relational=False) == Union(Interval.Lopen(-oo, -2), Interval.Lopen(0, 4)) and reduce_rational_inequalities([[x < oo, x >= 0, -oo < x]], x, relational=False) == Interval(0, oo)","over":{"base":"Any"},"name":"test_reduce_rational_inequalities_real_relational_correct"},"guarantee":"reduce_rational_inequalities([], x) == False; reduce_rational_inequalities([[(x ** 2 + 3 * x + 2) / (x ** 2 - 16) >= 0]], x, relational=False) == Union(Interval.open(-oo, -4), Interval(-2, -1), Interval.open(4, oo)); reduce_rational_inequalities([[(-2 * x - 10) * (3 - x) / ((x ** 2 + 5) * (x - 2) ** 2) < 0]], x, relational=False) == Union(Interval.open(-5, 2), Interval.open(2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_rational_inequalities_real_relational_correct","statement":"Path(test_reduce_rational_inequalities_real_relational(x), reduce_rational_inequalities([], x) == False; reduce_rational_inequalities([[(x ** 2 + 3 * x + 2) / (x ** 2 - 16) >= 0]], x, relational=False) == Union(Interval.open(-oo, -4), Interval(-2, -1), Interval.open(4, oo)); reduce_rational_inequalities([[(-2 * x - 10) * (3 - x) / ((x ** 2 + 5) * (x - 2) ** 2) < 0]], x, relational=False) == Union(Interval.open(-5, 2), Interval.open(2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4323b87959fc9165","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_rational_inequalities([], x) == False","reduce_rational_inequalities([[(x ** 2 + 3 * x + 2) / (x ** 2 - 16) >= 0]], x, relational=False) == Union(Interval.open(-oo, -4), Interval(-2, -1), Interval.open(4, oo))","reduce_rational_inequalities([[(-2 * x - 10) * (3 - x) / ((x ** 2 + 5) * (x - 2) ** 2) < 0]], x, relational=False) == Union(Interval.open(-5, 2), Interval.open(2, 3))","reduce_rational_inequalities([[(x + 1) / (x - 5) <= 0]], x, relational=False) == Interval.Ropen(-1, 5)","reduce_rational_inequalities([[(x ** 2 + 4 * x + 3) / (x - 1) > 0]], x, relational=False) == Union(Interval.open(-3, -1), Interval.open(1, oo))","reduce_rational_inequalities([[(x ** 2 - 16) / (x - 1) ** 2 < 0]], x, relational=False) == Union(Interval.open(-4, 1), Interval.open(1, 4))","reduce_rational_inequalities([[(3 * x + 1) / (x + 4) >= 1]], x, relational=False) == Union(Interval.open(-oo, -4), Interval.Ropen(Rational(3, 2), oo))","reduce_rational_inequalities([[(x - 8) / x <= 3 - x]], x, relational=False) == Union(Interval.Lopen(-oo, -2), Interval.Lopen(0, 4))","reduce_rational_inequalities([[x < oo, x >= 0, -oo < x]], x, relational=False) == Interval(0, oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_reduce_rational_inequalities_real_relational():
     assert reduce_rational_inequalities([], x) == False
     assert reduce_rational_inequalities(
@@ -252,16 +284,24 @@ def test_reduce_rational_inequalities_real_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_abs_inequalities(), test_reduce_abs_inequalities produces the expected output) over Any ║
+# ║ Path(test_reduce_abs_inequalities(), reduce_inequalities(e) == ans and reduce_inequalities(e, x) == ans and reduce_inequalities(abs(x - 5)) == Eq(x, 5) and reduce_inequalities(abs(2 * x + 3) >= 8) == Or(And(Le(Rational(5, 2), x), Lt(x, oo)), And(Le(x, Rational(-11, 2)), Lt(-oo, x))) and reduce_inequalities(abs(x - 4) + abs(3 * x - 5) < 7) == And(Lt(S.Half, x), Lt(x, 4)) and reduce_inequalities(abs(x - 4) + abs(3 * abs(x) - 5) < 7) == Or(And(S(-2) < x, x < -1), And(S.Half < x, x < 4)) and reduce_inequalities(x < 3, symbols=[x, nr]) == And(-oo < x, x < 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduce_abs_inequalities : Any → {Any | reduce_in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(e) == ans                  ║
+# ║   ensures:  reduce_inequalities(e, x) == ans               ║
+# ║   ensures:  reduce_inequalities(abs(x - 5)) == Eq(x, 5)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduce_abs_inequalities : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9af58592c09b5c8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4987392e628ac15a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_abs_inequalities","kind":"function","src_hash":"e25c62f234fd5599","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities(e) == ans and reduce_inequalities(e, x) == ans and reduce_inequalities(abs(x - 5)) == Eq(x, 5) and reduce_inequalities(x < 3, symbols=[x, nr]) == And(-oo < x, x < 3)"},"spec":{"lhs":"test_reduce_abs_inequalities()","rhs":"test_reduce_abs_inequalities produces the expected output","over":{"base":"Any"},"name":"test_reduce_abs_inequalities_correct"},"guarantee":"test_reduce_abs_inequalities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_abs_inequalities_correct","statement":"Path(test_reduce_abs_inequalities(x), test_reduce_abs_inequalities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9af58592c09b5c8b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_abs_inequalities","kind":"function","src_hash":"e25c62f234fd5599","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(e) == ans and reduce_inequalities(e, x) == ans and reduce_inequalities(abs(x - 5)) == Eq(x, 5) and reduce_inequalities(abs(2 * x + 3) >= 8) == Or(And(Le(Rational(5, 2), x), Lt(x, oo)), And(Le(x, Rational(-11, 2)), Lt(-oo, x))) and reduce_inequalities(abs(x - 4) + abs(3 * x - 5) < 7) == And(Lt(S.Half, x), Lt(x, 4)) and reduce_inequalities(abs(x - 4) + abs(3 * abs(x) - 5) < 7) == Or(And(S(-2) < x, x < -1), And(S.Half < x, x < 4)) and reduce_inequalities(x < 3, symbols=[x, nr]) == And(-oo < x, x < 3)"},"spec":{"lhs":"test_reduce_abs_inequalities()","rhs":"reduce_inequalities(e) == ans and reduce_inequalities(e, x) == ans and reduce_inequalities(abs(x - 5)) == Eq(x, 5) and reduce_inequalities(abs(2 * x + 3) >= 8) == Or(And(Le(Rational(5, 2), x), Lt(x, oo)), And(Le(x, Rational(-11, 2)), Lt(-oo, x))) and reduce_inequalities(abs(x - 4) + abs(3 * x - 5) < 7) == And(Lt(S.Half, x), Lt(x, 4)) and reduce_inequalities(abs(x - 4) + abs(3 * abs(x) - 5) < 7) == Or(And(S(-2) < x, x < -1), And(S.Half < x, x < 4)) and reduce_inequalities(x < 3, symbols=[x, nr]) == And(-oo < x, x < 3)","over":{"base":"Any"},"name":"test_reduce_abs_inequalities_correct"},"guarantee":"reduce_inequalities(e) == ans; reduce_inequalities(e, x) == ans; reduce_inequalities(abs(x - 5)) == Eq(x, 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_abs_inequalities_correct","statement":"Path(test_reduce_abs_inequalities(x), reduce_inequalities(e) == ans; reduce_inequalities(e, x) == ans; reduce_inequalities(abs(x - 5)) == Eq(x, 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4987392e628ac15a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(e) == ans","reduce_inequalities(e, x) == ans","reduce_inequalities(abs(x - 5)) == Eq(x, 5)","reduce_inequalities(abs(2 * x + 3) >= 8) == Or(And(Le(Rational(5, 2), x), Lt(x, oo)), And(Le(x, Rational(-11, 2)), Lt(-oo, x)))","reduce_inequalities(abs(x - 4) + abs(3 * x - 5) < 7) == And(Lt(S.Half, x), Lt(x, 4))","reduce_inequalities(abs(x - 4) + abs(3 * abs(x) - 5) < 7) == Or(And(S(-2) < x, x < -1), And(S.Half < x, x < 4))","reduce_inequalities(x < 3, symbols=[x, nr]) == And(-oo < x, x < 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_reduce_abs_inequalities():
     e = abs(x - 5) < 3
     ans = And(Lt(2, x), Lt(x, 8))
@@ -282,32 +322,47 @@ def test_reduce_abs_inequalities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_inequalities_general(), test_reduce_inequalities_general produces the expected output) over Any ║
+# ║ Path(test_reduce_inequalities_general(), reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo) and reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduce_inequalities_general : Any → {Any | reduc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(Ge(sqrt(2) * x, 1)) =...   ║
+# ║   ensures:  reduce_inequalities(x + 1 > 0) == And(S.N...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduce_inequalities_general : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fe8015732c60df4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77bc65a445bf0024  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_general","kind":"function","src_hash":"ad9714cdb5760f55","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo) and reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)"},"spec":{"lhs":"test_reduce_inequalities_general()","rhs":"test_reduce_inequalities_general produces the expected output","over":{"base":"Any"},"name":"test_reduce_inequalities_general_correct"},"guarantee":"test_reduce_inequalities_general produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_general_correct","statement":"Path(test_reduce_inequalities_general(x), test_reduce_inequalities_general produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe8015732c60df4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_general","kind":"function","src_hash":"ad9714cdb5760f55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo) and reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)"},"spec":{"lhs":"test_reduce_inequalities_general()","rhs":"reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo) and reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)","over":{"base":"Any"},"name":"test_reduce_inequalities_general_correct"},"guarantee":"reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo); reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_general_correct","statement":"Path(test_reduce_inequalities_general(x), reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo); reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77bc65a445bf0024","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(Ge(sqrt(2) * x, 1)) == And(sqrt(2) / 2 <= x, x < oo)","reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reduce_inequalities_general():
     assert reduce_inequalities(Ge(sqrt(2)*x, 1)) == And(sqrt(2)/2 <= x, x < oo)
     assert reduce_inequalities(x + 1 > 0) == And(S.NegativeOne < x, x < oo)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_inequalities_boolean(), test_reduce_inequalities_boolean produces the expected output) over Any ║
+# ║ Path(test_reduce_inequalities_boolean(), reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0) and reduce_inequalities([Eq(x ** 2, 0), False]) == False and reduce_inequalities(x ** 2 >= 0) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduce_inequalities_boolean : Any → {Any | reduc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities([Eq(x ** 2, 0), True]...   ║
+# ║   ensures:  reduce_inequalities([Eq(x ** 2, 0), False...   ║
+# ║   ensures:  reduce_inequalities(x ** 2 >= 0) is S.true     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduce_inequalities_boolean : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc20f8f5e5895b94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b25264893d685b03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_boolean","kind":"function","src_hash":"867aefad3c6322bc","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0) and reduce_inequalities([Eq(x ** 2, 0), False]) == False and reduce_inequalities(x ** 2 >= 0) is S.true"},"spec":{"lhs":"test_reduce_inequalities_boolean()","rhs":"test_reduce_inequalities_boolean produces the expected output","over":{"base":"Any"},"name":"test_reduce_inequalities_boolean_correct"},"guarantee":"test_reduce_inequalities_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_boolean_correct","statement":"Path(test_reduce_inequalities_boolean(x), test_reduce_inequalities_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc20f8f5e5895b94"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_boolean","kind":"function","src_hash":"867aefad3c6322bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0) and reduce_inequalities([Eq(x ** 2, 0), False]) == False and reduce_inequalities(x ** 2 >= 0) is S.true"},"spec":{"lhs":"test_reduce_inequalities_boolean()","rhs":"reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0) and reduce_inequalities([Eq(x ** 2, 0), False]) == False and reduce_inequalities(x ** 2 >= 0) is S.true","over":{"base":"Any"},"name":"test_reduce_inequalities_boolean_correct"},"guarantee":"reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0); reduce_inequalities([Eq(x ** 2, 0), False]) == False; reduce_inequalities(x ** 2 >= 0) is S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_boolean_correct","statement":"Path(test_reduce_inequalities_boolean(x), reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0); reduce_inequalities([Eq(x ** 2, 0), False]) == False; reduce_inequalities(x ** 2 >= 0) is S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25264893d685b03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities([Eq(x ** 2, 0), True]) == Eq(x, 0)","reduce_inequalities([Eq(x ** 2, 0), False]) == False","reduce_inequalities(x ** 2 >= 0) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reduce_inequalities_boolean():
     assert reduce_inequalities(
         [Eq(x**2, 0), True]) == Eq(x, 0)
@@ -316,16 +371,22 @@ def test_reduce_inequalities_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_inequalities_multivariate(), test_reduce_inequalities_multivariate produces the expected output) over Any ║
+# ║ Path(test_reduce_inequalities_multivariate(), reduce_inequalities([Ge(x ** 2, 1), Ge(y ** 2, 1)]) == And(Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))), Or(And(Le(S.One, y), Lt(y, oo)), And(Le(y, -1), Lt(-oo, y))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduce_inequalities_multivariate : Any → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities([Ge(x ** 2, 1), Ge(y ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduce_inequalities_multivariate : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65a0d2a7e045bedf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dc6f3cbd7aece9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_multivariate","kind":"function","src_hash":"5b4b60fca6bb0f7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_reduce_inequalities_multivariate()","rhs":"test_reduce_inequalities_multivariate produces the expected output","over":{"base":"Any"},"name":"test_reduce_inequalities_multivariate_correct"},"guarantee":"test_reduce_inequalities_multivariate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_multivariate_correct","statement":"Path(test_reduce_inequalities_multivariate(x), test_reduce_inequalities_multivariate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65a0d2a7e045bedf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_multivariate","kind":"function","src_hash":"5b4b60fca6bb0f7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities([Ge(x ** 2, 1), Ge(y ** 2, 1)]) == And(Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))), Or(And(Le(S.One, y), Lt(y, oo)), And(Le(y, -1), Lt(-oo, y))))"},"spec":{"lhs":"test_reduce_inequalities_multivariate()","rhs":"reduce_inequalities([Ge(x ** 2, 1), Ge(y ** 2, 1)]) == And(Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))), Or(And(Le(S.One, y), Lt(y, oo)), And(Le(y, -1), Lt(-oo, y))))","over":{"base":"Any"},"name":"test_reduce_inequalities_multivariate_correct"},"guarantee":"reduce_inequalities([Ge(x ** 2, 1), Ge(y ** 2, 1)]) == And(Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))), Or(And(Le(S.One, y), Lt(y, oo)), And(Le(y, -1), Lt(-oo, y))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_multivariate_correct","statement":"Path(test_reduce_inequalities_multivariate(x), reduce_inequalities([Ge(x ** 2, 1), Ge(y ** 2, 1)]) == And(Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))), Or(And(Le(S.One, y), Lt(y, oo)), And(Le(y, -1), Lt(-oo, y)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dc6f3cbd7aece9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities([Ge(x ** 2, 1), Ge(y ** 2, 1)]) == And(Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))), Or(And(Le(S.One, y), Lt(y, oo)), And(Le(y, -1), Lt(-oo, y))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reduce_inequalities_multivariate():
     assert reduce_inequalities([Ge(x**2, 1), Ge(y**2, 1)]) == And(
         Or(And(Le(S.One, x), Lt(x, oo)), And(Le(x, -1), Lt(-oo, x))),
@@ -333,32 +394,46 @@ def test_reduce_inequalities_multivariate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_inequalities_errors(), test_reduce_inequalities_errors produces the expected output) over Any ║
+# ║ Path(test_reduce_inequalities_errors(), <unspecified:test_reduce_inequalities_errors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_reduce_inequalities_errors : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dcb1e89e7593e7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_errors","kind":"function","src_hash":"b86770645cf5f857","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_reduce_inequalities_errors()","rhs":"test_reduce_inequalities_errors produces the expected output","over":{"base":"Any"},"name":"test_reduce_inequalities_errors_correct"},"guarantee":"test_reduce_inequalities_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_errors_correct","statement":"Path(test_reduce_inequalities_errors(x), test_reduce_inequalities_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dcb1e89e7593e7b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_errors","kind":"function","src_hash":"b86770645cf5f857","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_reduce_inequalities_errors()","rhs":"<unspecified:test_reduce_inequalities_errors>","over":{"base":"Any"},"name":"test_reduce_inequalities_errors_correct"},"guarantee":"test_reduce_inequalities_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_reduce_inequalities_errors_correct","statement":"Path(test_reduce_inequalities_errors(x), test_reduce_inequalities_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dcb1e89e7593e7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reduce_inequalities_errors():
     raises(NotImplementedError, lambda: reduce_inequalities(Ge(sin(x) + x, 1)))
     raises(NotImplementedError, lambda: reduce_inequalities(Ge(x**2*y + y, 1)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__solve_inequalities(), test__solve_inequalities produces the expected output) over Any ║
+# ║ Path(test__solve_inequalities(), reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y) and reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1) and reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y) and reduce_inequalities(Ne(0, x - y), symbols=[x]) == Ne(x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__solve_inequalities : Any → {Any | reduce_inequa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(x + y < 1, symbols=[x...   ║
+# ║   ensures:  reduce_inequalities(x + y >= 1, symbols=[...   ║
+# ║   ensures:  reduce_inequalities(Eq(0, x - y), symbols...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__solve_inequalities : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 387081784ebf4f1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3ab630aa5ee20bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test__solve_inequalities","kind":"function","src_hash":"b7cda96cf926afcd","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y) and reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1) and reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y) and reduce_inequalities(Ne(0, x - y), symbols=[x]) == Ne(x, y)"},"spec":{"lhs":"test__solve_inequalities()","rhs":"test__solve_inequalities produces the expected output","over":{"base":"Any"},"name":"test__solve_inequalities_correct"},"guarantee":"test__solve_inequalities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test__solve_inequalities_correct","statement":"Path(test__solve_inequalities(x), test__solve_inequalities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"387081784ebf4f1f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test__solve_inequalities","kind":"function","src_hash":"b7cda96cf926afcd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y) and reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1) and reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y) and reduce_inequalities(Ne(0, x - y), symbols=[x]) == Ne(x, y)"},"spec":{"lhs":"test__solve_inequalities()","rhs":"reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y) and reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1) and reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y) and reduce_inequalities(Ne(0, x - y), symbols=[x]) == Ne(x, y)","over":{"base":"Any"},"name":"test__solve_inequalities_correct"},"guarantee":"reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y); reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1); reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test__solve_inequalities_correct","statement":"Path(test__solve_inequalities(x), reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y); reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1); reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3ab630aa5ee20bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y)","reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1)","reduce_inequalities(Eq(0, x - y), symbols=[x]) == Eq(x, y)","reduce_inequalities(Ne(0, x - y), symbols=[x]) == Ne(x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__solve_inequalities():
     assert reduce_inequalities(x + y < 1, symbols=[x]) == (x < 1 - y)
     assert reduce_inequalities(x + y >= 1, symbols=[x]) == (x < oo) & (x >= -y + 1)
@@ -367,16 +442,22 @@ def test__solve_inequalities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6343(), test_issue_6343 produces the expected output) over Any ║
+# ║ Path(test_issue_6343(), reduce_inequalities(eq) == And(x < Rational(-15, 4) + sqrt(401) / 4, -sqrt(401) / 4 - Rational(15, 4) < x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6343 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(eq) == And(x < Ration...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6343 : Any → {Any | result satisfies: redu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58939d6b95754ea1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82fa6a2b36ecee47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_6343","kind":"function","src_hash":"3bda0843e5951884","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_6343()","rhs":"test_issue_6343 produces the expected output","over":{"base":"Any"},"name":"test_issue_6343_correct"},"guarantee":"test_issue_6343 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_6343_correct","statement":"Path(test_issue_6343(x), test_issue_6343 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58939d6b95754ea1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_6343","kind":"function","src_hash":"3bda0843e5951884","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(eq) == And(x < Rational(-15, 4) + sqrt(401) / 4, -sqrt(401) / 4 - Rational(15, 4) < x)"},"spec":{"lhs":"test_issue_6343()","rhs":"reduce_inequalities(eq) == And(x < Rational(-15, 4) + sqrt(401) / 4, -sqrt(401) / 4 - Rational(15, 4) < x)","over":{"base":"Any"},"name":"test_issue_6343_correct"},"guarantee":"reduce_inequalities(eq) == And(x < Rational(-15, 4) + sqrt(401) / 4, -sqrt(401) / 4 - Rational(15, 4) < x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_6343_correct","statement":"Path(test_issue_6343(x), reduce_inequalities(eq) == And(x < Rational(-15, 4) + sqrt(401) / 4, -sqrt(401) / 4 - Rational(15, 4) < x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82fa6a2b36ecee47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(eq) == And(x < Rational(-15, 4) + sqrt(401) / 4, -sqrt(401) / 4 - Rational(15, 4) < x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6343():
     eq = -3*x**2/2 - x*Rational(45, 4) + Rational(33, 2) > 0
     assert reduce_inequalities(eq) == \
@@ -384,16 +465,24 @@ def test_issue_6343():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8235(), test_issue_8235 produces the expected output) over Any ║
+# ║ Path(test_issue_8235(), reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1) and reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1) and reduce_inequalities(x ** 2 - 1 > 0) == Or(And(-oo < x, x < -1), And(x < oo, S.One < x)) and reduce_inequalities(x ** 2 - 1 >= 0) == Or(And(-oo < x, x <= -1), And(S.One <= x, x < oo)) and sol == tru and solve(sqrt((-x + 1) ** 2) < 1) == And(S.Zero < x, x < 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8235 : Any → {Any | reduce_inequalities(x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(x ** 2 - 1 < 0) == An...   ║
+# ║   ensures:  reduce_inequalities(x ** 2 - 1 <= 0) == A...   ║
+# ║   ensures:  reduce_inequalities(x ** 2 - 1 > 0) == Or...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8235 : Any → {Any | result satisfies: redu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3847886fcb12b38b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 943541428cbc752c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_8235","kind":"function","src_hash":"abd4cb78afc94fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1) and reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1) and sol == tru and solve(sqrt((-x + 1) ** 2) < 1) == And(S.Zero < x, x < 2)"},"spec":{"lhs":"test_issue_8235()","rhs":"test_issue_8235 produces the expected output","over":{"base":"Any"},"name":"test_issue_8235_correct"},"guarantee":"test_issue_8235 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_8235_correct","statement":"Path(test_issue_8235(x), test_issue_8235 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3847886fcb12b38b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_8235","kind":"function","src_hash":"abd4cb78afc94fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1) and reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1) and reduce_inequalities(x ** 2 - 1 > 0) == Or(And(-oo < x, x < -1), And(x < oo, S.One < x)) and reduce_inequalities(x ** 2 - 1 >= 0) == Or(And(-oo < x, x <= -1), And(S.One <= x, x < oo)) and sol == tru and solve(sqrt((-x + 1) ** 2) < 1) == And(S.Zero < x, x < 2)"},"spec":{"lhs":"test_issue_8235()","rhs":"reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1) and reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1) and reduce_inequalities(x ** 2 - 1 > 0) == Or(And(-oo < x, x < -1), And(x < oo, S.One < x)) and reduce_inequalities(x ** 2 - 1 >= 0) == Or(And(-oo < x, x <= -1), And(S.One <= x, x < oo)) and sol == tru and solve(sqrt((-x + 1) ** 2) < 1) == And(S.Zero < x, x < 2)","over":{"base":"Any"},"name":"test_issue_8235_correct"},"guarantee":"reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1); reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1); reduce_inequalities(x ** 2 - 1 > 0) == Or(And(-oo < x, x < -1), And(x < oo, S.One < x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_8235_correct","statement":"Path(test_issue_8235(x), reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1); reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1); reduce_inequalities(x ** 2 - 1 > 0) == Or(And(-oo < x, x < -1), And(x < oo, S.One < x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943541428cbc752c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(x ** 2 - 1 < 0) == And(S.NegativeOne < x, x < 1)","reduce_inequalities(x ** 2 - 1 <= 0) == And(S.NegativeOne <= x, x <= 1)","reduce_inequalities(x ** 2 - 1 > 0) == Or(And(-oo < x, x < -1), And(x < oo, S.One < x))","reduce_inequalities(x ** 2 - 1 >= 0) == Or(And(-oo < x, x <= -1), And(S.One <= x, x < oo))","sol == tru","solve(sqrt((-x + 1) ** 2) < 1) == And(S.Zero < x, x < 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_8235():
     assert reduce_inequalities(x**2 - 1 < 0) == \
         And(S.NegativeOne < x, x < 1)
@@ -414,16 +503,23 @@ def test_issue_8235():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5526(), test_issue_5526 produces the expected output) over Any ║
+# ║ Path(test_issue_5526(), reduce_inequalities(0 <= x + Integral(y ** 2, (y, 1, 3)) - 1, [x]) == (x >= -Integral(y ** 2, (y, 1, 3)) + 1) and reduce_inequalities(0 <= x + e + y ** 2, [x]) == (x >= -y ** 2 - Sum(f(x), (x, 1, 3)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5526 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(0 <= x + Integral(y *...   ║
+# ║   ensures:  reduce_inequalities(0 <= x + e + y ** 2, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5526 : Any → {Any | result satisfies: redu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d8e5a26af735252  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2fd760ccb601d84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_5526","kind":"function","src_hash":"356a01a118d43a8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_5526()","rhs":"test_issue_5526 produces the expected output","over":{"base":"Any"},"name":"test_issue_5526_correct"},"guarantee":"test_issue_5526 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_5526_correct","statement":"Path(test_issue_5526(x), test_issue_5526 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d8e5a26af735252"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_5526","kind":"function","src_hash":"356a01a118d43a8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(0 <= x + Integral(y ** 2, (y, 1, 3)) - 1, [x]) == (x >= -Integral(y ** 2, (y, 1, 3)) + 1) and reduce_inequalities(0 <= x + e + y ** 2, [x]) == (x >= -y ** 2 - Sum(f(x), (x, 1, 3)))"},"spec":{"lhs":"test_issue_5526()","rhs":"reduce_inequalities(0 <= x + Integral(y ** 2, (y, 1, 3)) - 1, [x]) == (x >= -Integral(y ** 2, (y, 1, 3)) + 1) and reduce_inequalities(0 <= x + e + y ** 2, [x]) == (x >= -y ** 2 - Sum(f(x), (x, 1, 3)))","over":{"base":"Any"},"name":"test_issue_5526_correct"},"guarantee":"reduce_inequalities(0 <= x + Integral(y ** 2, (y, 1, 3)) - 1, [x]) == (x >= -Integral(y ** 2, (y, 1, 3)) + 1); reduce_inequalities(0 <= x + e + y ** 2, [x]) == (x >= -y ** 2 - Sum(f(x), (x, 1, 3)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_5526_correct","statement":"Path(test_issue_5526(x), reduce_inequalities(0 <= x + Integral(y ** 2, (y, 1, 3)) - 1, [x]) == (x >= -Integral(y ** 2, (y, 1, 3)) + 1); reduce_inequalities(0 <= x + e + y ** 2, [x]) == (x >= -y ** 2 - Sum(f(x), (x, 1, 3))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2fd760ccb601d84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(0 <= x + Integral(y ** 2, (y, 1, 3)) - 1, [x]) == (x >= -Integral(y ** 2, (y, 1, 3)) + 1)","reduce_inequalities(0 <= x + e + y ** 2, [x]) == (x >= -y ** 2 - Sum(f(x), (x, 1, 3)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5526():
     assert reduce_inequalities(0 <=
         x + Integral(y**2, (y, 1, 3)) - 1, [x]) == \
@@ -435,16 +531,24 @@ def test_issue_5526():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_univariate_inequality(), test_solve_univariate_inequality produces the expected output) over Any ║
+# ║ Path(test_solve_univariate_inequality(), isolve(x ** 2 >= 4, x, relational=False) == Union(Interval(-oo, -2), Interval(2, oo)) and isolve(x ** 2 >= 4, x) == Or(And(Le(2, x), Lt(x, oo)), And(Le(x, -2), Lt(-oo, x))) and isolve((x - 1) * (x - 2) * (x - 3) >= 0, x, relational=False) == Union(Interval(1, 2), Interval(3, oo)) and isolve((x - 1) * (x - 2) * (x - 3) >= 0, x) == Or(And(Le(1, x), Le(x, 2)), And(Le(3, x), Lt(x, oo))) and isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=FiniteSet(0, 3)) == Or(Eq(x, 0), Eq(x, 3)) and isolve(x ** 3 - 2 * x - 1 > 0, x, relational=False) == Union(Interval(-1, -sqrt(5) / 2 + S.Half, True, True), Interval(S.Half + sqrt(5) / 2, oo, True, True)) and isolve(x ** 3 - x ** 2 + x - 1 > 0, x, relational=False) == Interval(1, oo, True) and isolve((x + I) * (x + 2 * I) < 0, x) == Eq(x, 0) and isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) < 0, x) == Or(Eq(x, 1), Eq(x, 2)) and isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) / (x - 2) > 0, x) == Eq(x, 1) and isolve(x ** 7 - x - 2 > 0, x) == And(rootof(x ** 7 - x - 2, 0) < x, x < oo) and isolve(1 / (x - 2) > 0, x) == And(S(2) < x, x < oo) and isolve((x - 1) / den <= 0, x) == (x > -oo) & (x < 2) & Ne(x, 1) and isolve(n / c1 > -2, c1) == (-n / 2 < c1) and isolve(n / c1 < 0, c1) == True and isolve(n / c1 > 0, c1) == False and isolve(zero < 0, x, relational=False) is S.EmptySet and isolve(zero <= 0, x, relational=False) is S.Reals) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_univariate_inequality : Any → {Any | isolv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolve(x ** 2 >= 4, x, relational=False) ...   ║
+# ║   ensures:  isolve(x ** 2 >= 4, x) == Or(And(Le(2, x)...   ║
+# ║   ensures:  isolve((x - 1) * (x - 2) * (x - 3) >= 0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_univariate_inequality : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 204854baf1cbe6c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4233449bec10ee5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_solve_univariate_inequality","kind":"function","src_hash":"b95c9609881bda17","in":{"base":"Any"},"out":{"base":"Any","pred":"isolve((x + I) * (x + 2 * I) < 0, x) == Eq(x, 0) and isolve(x ** 7 - x - 2 > 0, x) == And(rootof(x ** 7 - x - 2, 0) < x, x < oo) and isolve(1 / (x - 2) > 0, x) == And(S(2) < x, x < oo) and isolve((x - 1) / den <= 0, x) == (x > -oo) & (x < 2) & Ne(x, 1) and isolve(n / c1 > -2, c1) == (-n / 2 < c1) and isolve(n / c1 < 0, c1) == True and isolve(n / c1 > 0, c1) == False and isolve(zero < 0, x, relational=False) is S.EmptySet and isolve(zero <= 0, x, relational=False) is S.Reals"},"spec":{"lhs":"test_solve_univariate_inequality()","rhs":"test_solve_univariate_inequality produces the expected output","over":{"base":"Any"},"name":"test_solve_univariate_inequality_correct"},"guarantee":"test_solve_univariate_inequality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_solve_univariate_inequality_correct","statement":"Path(test_solve_univariate_inequality(x), test_solve_univariate_inequality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"204854baf1cbe6c5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_solve_univariate_inequality","kind":"function","src_hash":"b95c9609881bda17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolve(x ** 2 >= 4, x, relational=False) == Union(Interval(-oo, -2), Interval(2, oo)) and isolve(x ** 2 >= 4, x) == Or(And(Le(2, x), Lt(x, oo)), And(Le(x, -2), Lt(-oo, x))) and isolve((x - 1) * (x - 2) * (x - 3) >= 0, x, relational=False) == Union(Interval(1, 2), Interval(3, oo)) and isolve((x - 1) * (x - 2) * (x - 3) >= 0, x) == Or(And(Le(1, x), Le(x, 2)), And(Le(3, x), Lt(x, oo))) and isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=FiniteSet(0, 3)) == Or(Eq(x, 0), Eq(x, 3)) and isolve(x ** 3 - 2 * x - 1 > 0, x, relational=False) == Union(Interval(-1, -sqrt(5) / 2 + S.Half, True, True), Interval(S.Half + sqrt(5) / 2, oo, True, True)) and isolve(x ** 3 - x ** 2 + x - 1 > 0, x, relational=False) == Interval(1, oo, True) and isolve((x + I) * (x + 2 * I) < 0, x) == Eq(x, 0) and isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) < 0, x) == Or(Eq(x, 1), Eq(x, 2)) and isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) / (x - 2) > 0, x) == Eq(x, 1) and isolve(x ** 7 - x - 2 > 0, x) == And(rootof(x ** 7 - x - 2, 0) < x, x < oo) and isolve(1 / (x - 2) > 0, x) == And(S(2) < x, x < oo) and isolve((x - 1) / den <= 0, x) == (x > -oo) & (x < 2) & Ne(x, 1) and isolve(n / c1 > -2, c1) == (-n / 2 < c1) and isolve(n / c1 < 0, c1) == True and isolve(n / c1 > 0, c1) == False and isolve(zero < 0, x, relational=False) is S.EmptySet and isolve(zero <= 0, x, relational=False) is S.Reals"},"spec":{"lhs":"test_solve_univariate_inequality()","rhs":"isolve(x ** 2 >= 4, x, relational=False) == Union(Interval(-oo, -2), Interval(2, oo)) and isolve(x ** 2 >= 4, x) == Or(And(Le(2, x), Lt(x, oo)), And(Le(x, -2), Lt(-oo, x))) and isolve((x - 1) * (x - 2) * (x - 3) >= 0, x, relational=False) == Union(Interval(1, 2), Interval(3, oo)) and isolve((x - 1) * (x - 2) * (x - 3) >= 0, x) == Or(And(Le(1, x), Le(x, 2)), And(Le(3, x), Lt(x, oo))) and isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=FiniteSet(0, 3)) == Or(Eq(x, 0), Eq(x, 3)) and isolve(x ** 3 - 2 * x - 1 > 0, x, relational=False) == Union(Interval(-1, -sqrt(5) / 2 + S.Half, True, True), Interval(S.Half + sqrt(5) / 2, oo, True, True)) and isolve(x ** 3 - x ** 2 + x - 1 > 0, x, relational=False) == Interval(1, oo, True) and isolve((x + I) * (x + 2 * I) < 0, x) == Eq(x, 0) and isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) < 0, x) == Or(Eq(x, 1), Eq(x, 2)) and isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) / (x - 2) > 0, x) == Eq(x, 1) and isolve(x ** 7 - x - 2 > 0, x) == And(rootof(x ** 7 - x - 2, 0) < x, x < oo) and isolve(1 / (x - 2) > 0, x) == And(S(2) < x, x < oo) and isolve((x - 1) / den <= 0, x) == (x > -oo) & (x < 2) & Ne(x, 1) and isolve(n / c1 > -2, c1) == (-n / 2 < c1) and isolve(n / c1 < 0, c1) == True and isolve(n / c1 > 0, c1) == False and isolve(zero < 0, x, relational=False) is S.EmptySet and isolve(zero <= 0, x, relational=False) is S.Reals","over":{"base":"Any"},"name":"test_solve_univariate_inequality_correct"},"guarantee":"isolve(x ** 2 >= 4, x, relational=False) == Union(Interval(-oo, -2), Interval(2, oo)); isolve(x ** 2 >= 4, x) == Or(And(Le(2, x), Lt(x, oo)), And(Le(x, -2), Lt(-oo, x))); isolve((x - 1) * (x - 2) * (x - 3) >= 0, x, relational=False) == Union(Interval(1, 2), Interval(3, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_solve_univariate_inequality_correct","statement":"Path(test_solve_univariate_inequality(x), isolve(x ** 2 >= 4, x, relational=False) == Union(Interval(-oo, -2), Interval(2, oo)); isolve(x ** 2 >= 4, x) == Or(And(Le(2, x), Lt(x, oo)), And(Le(x, -2), Lt(-oo, x))); isolve((x - 1) * (x - 2) * (x - 3) >= 0, x, relational=False) == Union(Interval(1, 2), Interval(3, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4233449bec10ee5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolve(x ** 2 >= 4, x, relational=False) == Union(Interval(-oo, -2), Interval(2, oo))","isolve(x ** 2 >= 4, x) == Or(And(Le(2, x), Lt(x, oo)), And(Le(x, -2), Lt(-oo, x)))","isolve((x - 1) * (x - 2) * (x - 3) >= 0, x, relational=False) == Union(Interval(1, 2), Interval(3, oo))","isolve((x - 1) * (x - 2) * (x - 3) >= 0, x) == Or(And(Le(1, x), Le(x, 2)), And(Le(3, x), Lt(x, oo)))","isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=FiniteSet(0, 3)) == Or(Eq(x, 0), Eq(x, 3))","isolve(x ** 3 - 2 * x - 1 > 0, x, relational=False) == Union(Interval(-1, -sqrt(5) / 2 + S.Half, True, True), Interval(S.Half + sqrt(5) / 2, oo, True, True))","isolve(x ** 3 - x ** 2 + x - 1 > 0, x, relational=False) == Interval(1, oo, True)","isolve((x + I) * (x + 2 * I) < 0, x) == Eq(x, 0)","isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) < 0, x) == Or(Eq(x, 1), Eq(x, 2))","isolve(((x - 1) * (x - 2) + I) * ((x - 1) * (x - 2) + 2 * I) / (x - 2) > 0, x) == Eq(x, 1)","isolve(x ** 7 - x - 2 > 0, x) == And(rootof(x ** 7 - x - 2, 0) < x, x < oo)","isolve(1 / (x - 2) > 0, x) == And(S(2) < x, x < oo)","isolve((x - 1) / den <= 0, x) == (x > -oo) & (x < 2) & Ne(x, 1)","isolve(n / c1 > -2, c1) == (-n / 2 < c1)","isolve(n / c1 < 0, c1) == True","isolve(n / c1 > 0, c1) == False","isolve(zero < 0, x, relational=False) is S.EmptySet","isolve(zero <= 0, x, relational=False) is S.Reals"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_solve_univariate_inequality():
     assert isolve(x**2 >= 4, x, relational=False) == Union(Interval(-oo, -2),
         Interval(2, oo))
@@ -508,16 +612,24 @@ def test_solve_univariate_inequality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trig_inequalities(), test_trig_inequalities produces the expected output) over Any ║
+# ║ Path(test_trig_inequalities(), isolve(sin(x) < S.Half, x, relational=False) == Union(Interval(0, pi / 6, False, True), Interval.open(pi * Rational(5, 6), 2 * pi)) and isolve(sin(x) > S.Half, x, relational=False) == Interval(pi / 6, pi * Rational(5, 6), True, True) and isolve(cos(x) < S.Zero, x, relational=False) == Interval(pi / 2, pi * Rational(3, 2), True, True) and isolve(cos(x) >= S.Zero, x, relational=False) == Union(Interval(0, pi / 2), Interval.Ropen(pi * Rational(3, 2), 2 * pi)) and isolve(tan(x) < S.One, x, relational=False) == Union(Interval.Ropen(0, pi / 4), Interval.open(pi / 2, pi)) and isolve(sin(x) <= S.Zero, x, relational=False) == Union(FiniteSet(S.Zero), Interval.Ropen(pi, 2 * pi)) and isolve(sin(x) <= S.One, x, relational=False) == S.Reals and isolve(cos(x) < S(-2), x, relational=False) == S.EmptySet and isolve(sin(x) >= S.NegativeOne, x, relational=False) == S.Reals and isolve(cos(x) > S.One, x, relational=False) == S.EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trig_inequalities : Any → {Any | isolve(sin(x) <...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolve(sin(x) < S.Half, x, relational=Fal...   ║
+# ║   ensures:  isolve(sin(x) > S.Half, x, relational=Fal...   ║
+# ║   ensures:  isolve(cos(x) < S.Zero, x, relational=Fal...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trig_inequalities : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 201229359f2fc0ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4da1baabdde03d7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_trig_inequalities","kind":"function","src_hash":"5f233fcde8a32cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"isolve(sin(x) <= S.One, x, relational=False) == S.Reals and isolve(cos(x) < S(-2), x, relational=False) == S.EmptySet and isolve(sin(x) >= S.NegativeOne, x, relational=False) == S.Reals and isolve(cos(x) > S.One, x, relational=False) == S.EmptySet"},"spec":{"lhs":"test_trig_inequalities()","rhs":"test_trig_inequalities produces the expected output","over":{"base":"Any"},"name":"test_trig_inequalities_correct"},"guarantee":"test_trig_inequalities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_trig_inequalities_correct","statement":"Path(test_trig_inequalities(x), test_trig_inequalities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"201229359f2fc0ca"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_trig_inequalities","kind":"function","src_hash":"5f233fcde8a32cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolve(sin(x) < S.Half, x, relational=False) == Union(Interval(0, pi / 6, False, True), Interval.open(pi * Rational(5, 6), 2 * pi)) and isolve(sin(x) > S.Half, x, relational=False) == Interval(pi / 6, pi * Rational(5, 6), True, True) and isolve(cos(x) < S.Zero, x, relational=False) == Interval(pi / 2, pi * Rational(3, 2), True, True) and isolve(cos(x) >= S.Zero, x, relational=False) == Union(Interval(0, pi / 2), Interval.Ropen(pi * Rational(3, 2), 2 * pi)) and isolve(tan(x) < S.One, x, relational=False) == Union(Interval.Ropen(0, pi / 4), Interval.open(pi / 2, pi)) and isolve(sin(x) <= S.Zero, x, relational=False) == Union(FiniteSet(S.Zero), Interval.Ropen(pi, 2 * pi)) and isolve(sin(x) <= S.One, x, relational=False) == S.Reals and isolve(cos(x) < S(-2), x, relational=False) == S.EmptySet and isolve(sin(x) >= S.NegativeOne, x, relational=False) == S.Reals and isolve(cos(x) > S.One, x, relational=False) == S.EmptySet"},"spec":{"lhs":"test_trig_inequalities()","rhs":"isolve(sin(x) < S.Half, x, relational=False) == Union(Interval(0, pi / 6, False, True), Interval.open(pi * Rational(5, 6), 2 * pi)) and isolve(sin(x) > S.Half, x, relational=False) == Interval(pi / 6, pi * Rational(5, 6), True, True) and isolve(cos(x) < S.Zero, x, relational=False) == Interval(pi / 2, pi * Rational(3, 2), True, True) and isolve(cos(x) >= S.Zero, x, relational=False) == Union(Interval(0, pi / 2), Interval.Ropen(pi * Rational(3, 2), 2 * pi)) and isolve(tan(x) < S.One, x, relational=False) == Union(Interval.Ropen(0, pi / 4), Interval.open(pi / 2, pi)) and isolve(sin(x) <= S.Zero, x, relational=False) == Union(FiniteSet(S.Zero), Interval.Ropen(pi, 2 * pi)) and isolve(sin(x) <= S.One, x, relational=False) == S.Reals and isolve(cos(x) < S(-2), x, relational=False) == S.EmptySet and isolve(sin(x) >= S.NegativeOne, x, relational=False) == S.Reals and isolve(cos(x) > S.One, x, relational=False) == S.EmptySet","over":{"base":"Any"},"name":"test_trig_inequalities_correct"},"guarantee":"isolve(sin(x) < S.Half, x, relational=False) == Union(Interval(0, pi / 6, False, True), Interval.open(pi * Rational(5, 6), 2 * pi)); isolve(sin(x) > S.Half, x, relational=False) == Interval(pi / 6, pi * Rational(5, 6), True, True); isolve(cos(x) < S.Zero, x, relational=False) == Interval(pi / 2, pi * Rational(3, 2), True, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_trig_inequalities_correct","statement":"Path(test_trig_inequalities(x), isolve(sin(x) < S.Half, x, relational=False) == Union(Interval(0, pi / 6, False, True), Interval.open(pi * Rational(5, 6), 2 * pi)); isolve(sin(x) > S.Half, x, relational=False) == Interval(pi / 6, pi * Rational(5, 6), True, True); isolve(cos(x) < S.Zero, x, relational=False) == Interval(pi / 2, pi * Rational(3, 2), True, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4da1baabdde03d7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolve(sin(x) < S.Half, x, relational=False) == Union(Interval(0, pi / 6, False, True), Interval.open(pi * Rational(5, 6), 2 * pi))","isolve(sin(x) > S.Half, x, relational=False) == Interval(pi / 6, pi * Rational(5, 6), True, True)","isolve(cos(x) < S.Zero, x, relational=False) == Interval(pi / 2, pi * Rational(3, 2), True, True)","isolve(cos(x) >= S.Zero, x, relational=False) == Union(Interval(0, pi / 2), Interval.Ropen(pi * Rational(3, 2), 2 * pi))","isolve(tan(x) < S.One, x, relational=False) == Union(Interval.Ropen(0, pi / 4), Interval.open(pi / 2, pi))","isolve(sin(x) <= S.Zero, x, relational=False) == Union(FiniteSet(S.Zero), Interval.Ropen(pi, 2 * pi))","isolve(sin(x) <= S.One, x, relational=False) == S.Reals","isolve(cos(x) < S(-2), x, relational=False) == S.EmptySet","isolve(sin(x) >= S.NegativeOne, x, relational=False) == S.Reals","isolve(cos(x) > S.One, x, relational=False) == S.EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_trig_inequalities():
     # all the inequalities are solved in a periodic interval.
     assert isolve(sin(x) < S.Half, x, relational=False) == \
@@ -542,16 +654,24 @@ def test_trig_inequalities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9954(), test_issue_9954 produces the expected output) over Any ║
+# ║ Path(test_issue_9954(), isolve(x ** 2 >= 0, x, relational=False) == S.Reals and isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x) and isolve(x ** 2 < 0, x, relational=False) == S.EmptySet and isolve(x ** 2 < 0, x, relational=True) == S.EmptySet.as_relational(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9954 : Any → {Any | isolve(x ** 2 >= 0, x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolve(x ** 2 >= 0, x, relational=False) ...   ║
+# ║   ensures:  isolve(x ** 2 >= 0, x, relational=True) =...   ║
+# ║   ensures:  isolve(x ** 2 < 0, x, relational=False) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9954 : Any → {Any | result satisfies: isol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2f8d7d7c1a52256  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c803523558ca6e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_9954","kind":"function","src_hash":"5f72aeaaa151bba3","in":{"base":"Any"},"out":{"base":"Any","pred":"isolve(x ** 2 >= 0, x, relational=False) == S.Reals and isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x) and isolve(x ** 2 < 0, x, relational=False) == S.EmptySet and isolve(x ** 2 < 0, x, relational=True) == S.EmptySet.as_relational(x)"},"spec":{"lhs":"test_issue_9954()","rhs":"test_issue_9954 produces the expected output","over":{"base":"Any"},"name":"test_issue_9954_correct"},"guarantee":"test_issue_9954 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_9954_correct","statement":"Path(test_issue_9954(x), test_issue_9954 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2f8d7d7c1a52256"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_9954","kind":"function","src_hash":"5f72aeaaa151bba3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolve(x ** 2 >= 0, x, relational=False) == S.Reals and isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x) and isolve(x ** 2 < 0, x, relational=False) == S.EmptySet and isolve(x ** 2 < 0, x, relational=True) == S.EmptySet.as_relational(x)"},"spec":{"lhs":"test_issue_9954()","rhs":"isolve(x ** 2 >= 0, x, relational=False) == S.Reals and isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x) and isolve(x ** 2 < 0, x, relational=False) == S.EmptySet and isolve(x ** 2 < 0, x, relational=True) == S.EmptySet.as_relational(x)","over":{"base":"Any"},"name":"test_issue_9954_correct"},"guarantee":"isolve(x ** 2 >= 0, x, relational=False) == S.Reals; isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x); isolve(x ** 2 < 0, x, relational=False) == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_9954_correct","statement":"Path(test_issue_9954(x), isolve(x ** 2 >= 0, x, relational=False) == S.Reals; isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x); isolve(x ** 2 < 0, x, relational=False) == S.EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c803523558ca6e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolve(x ** 2 >= 0, x, relational=False) == S.Reals","isolve(x ** 2 >= 0, x, relational=True) == S.Reals.as_relational(x)","isolve(x ** 2 < 0, x, relational=False) == S.EmptySet","isolve(x ** 2 < 0, x, relational=True) == S.EmptySet.as_relational(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9954():
     assert isolve(x**2 >= 0, x, relational=False) == S.Reals
     assert isolve(x**2 >= 0, x, relational=True) == S.Reals.as_relational(x)
@@ -561,16 +681,22 @@ def test_issue_9954():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_general_univariate(), test_slow_general_univariate produces the expected output) over Any ║
+# ║ Path(test_slow_general_univariate(), solve(sqrt(x) + 1 / root(x, 3) > 1) == Or(And(0 < x, x < r ** 6), And(r ** 6 < x, x < oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slow_general_univariate : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(x) + 1 / root(x, 3) > 1) == Or...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slow_general_univariate : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d913b7bfe5719420  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0afe782ad09aa0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_slow_general_univariate","kind":"function","src_hash":"0190f122330b833b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_general_univariate()","rhs":"test_slow_general_univariate produces the expected output","over":{"base":"Any"},"name":"test_slow_general_univariate_correct"},"guarantee":"test_slow_general_univariate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_slow_general_univariate_correct","statement":"Path(test_slow_general_univariate(x), test_slow_general_univariate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d913b7bfe5719420"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_slow_general_univariate","kind":"function","src_hash":"0190f122330b833b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(x) + 1 / root(x, 3) > 1) == Or(And(0 < x, x < r ** 6), And(r ** 6 < x, x < oo))"},"spec":{"lhs":"test_slow_general_univariate()","rhs":"solve(sqrt(x) + 1 / root(x, 3) > 1) == Or(And(0 < x, x < r ** 6), And(r ** 6 < x, x < oo))","over":{"base":"Any"},"name":"test_slow_general_univariate_correct"},"guarantee":"solve(sqrt(x) + 1 / root(x, 3) > 1) == Or(And(0 < x, x < r ** 6), And(r ** 6 < x, x < oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_slow_general_univariate_correct","statement":"Path(test_slow_general_univariate(x), solve(sqrt(x) + 1 / root(x, 3) > 1) == Or(And(0 < x, x < r ** 6), And(r ** 6 < x, x < oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0afe782ad09aa0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(x) + 1 / root(x, 3) > 1) == Or(And(0 < x, x < r ** 6), And(r ** 6 < x, x < oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_slow_general_univariate():
     r = rootof(x**5 - x**2 + 1, 0)
     assert solve(sqrt(x) + 1/root(x, 3) > 1) == \
@@ -578,16 +704,23 @@ def test_slow_general_univariate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8545(), test_issue_8545 produces the expected output) over Any ║
+# ║ Path(test_issue_8545(), reduce_abs_inequality(eq, '<', x) == ans and reduce_inequalities(eq < 0) == ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8545 : Any → {Any | reduce_abs_inequality(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_abs_inequality(eq, '<', x) == ans       ║
+# ║   ensures:  reduce_inequalities(eq < 0) == ans             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8545 : Any → {Any | result satisfies: redu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e26edc8a785a9d40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdd03f68d56c6930  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_8545","kind":"function","src_hash":"724b1f5408af4bfd","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_abs_inequality(eq, '<', x) == ans and reduce_inequalities(eq < 0) == ans"},"spec":{"lhs":"test_issue_8545()","rhs":"test_issue_8545 produces the expected output","over":{"base":"Any"},"name":"test_issue_8545_correct"},"guarantee":"test_issue_8545 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_8545_correct","statement":"Path(test_issue_8545(x), test_issue_8545 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e26edc8a785a9d40"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_8545","kind":"function","src_hash":"724b1f5408af4bfd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_abs_inequality(eq, '<', x) == ans and reduce_inequalities(eq < 0) == ans"},"spec":{"lhs":"test_issue_8545()","rhs":"reduce_abs_inequality(eq, '<', x) == ans and reduce_inequalities(eq < 0) == ans","over":{"base":"Any"},"name":"test_issue_8545_correct"},"guarantee":"reduce_abs_inequality(eq, '<', x) == ans; reduce_inequalities(eq < 0) == ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_8545_correct","statement":"Path(test_issue_8545(x), reduce_abs_inequality(eq, '<', x) == ans; reduce_inequalities(eq < 0) == ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdd03f68d56c6930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_abs_inequality(eq, '<', x) == ans","reduce_inequalities(eq < 0) == ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8545():
     eq = 1 - x - abs(1 - x)
     ans = And(Lt(1, x), Lt(x, oo))
@@ -597,32 +730,47 @@ def test_issue_8545():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8974(), test_issue_8974 produces the expected output) over Any ║
+# ║ Path(test_issue_8974(), isolve(-oo < x, x) == And(-oo < x, x < oo) and isolve(oo > x, x) == And(-oo < x, x < oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8974 : Any → {Any | isolve(-oo < x, x) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolve(-oo < x, x) == And(-oo < x, x < oo)     ║
+# ║   ensures:  isolve(oo > x, x) == And(-oo < x, x < oo)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8974 : Any → {Any | result satisfies: isol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84d72850d034cd07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03a2791541533d3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_8974","kind":"function","src_hash":"b0b29efe35e14862","in":{"base":"Any"},"out":{"base":"Any","pred":"isolve(-oo < x, x) == And(-oo < x, x < oo) and isolve(oo > x, x) == And(-oo < x, x < oo)"},"spec":{"lhs":"test_issue_8974()","rhs":"test_issue_8974 produces the expected output","over":{"base":"Any"},"name":"test_issue_8974_correct"},"guarantee":"test_issue_8974 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_8974_correct","statement":"Path(test_issue_8974(x), test_issue_8974 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d72850d034cd07"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_8974","kind":"function","src_hash":"b0b29efe35e14862","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolve(-oo < x, x) == And(-oo < x, x < oo) and isolve(oo > x, x) == And(-oo < x, x < oo)"},"spec":{"lhs":"test_issue_8974()","rhs":"isolve(-oo < x, x) == And(-oo < x, x < oo) and isolve(oo > x, x) == And(-oo < x, x < oo)","over":{"base":"Any"},"name":"test_issue_8974_correct"},"guarantee":"isolve(-oo < x, x) == And(-oo < x, x < oo); isolve(oo > x, x) == And(-oo < x, x < oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_8974_correct","statement":"Path(test_issue_8974(x), isolve(-oo < x, x) == And(-oo < x, x < oo); isolve(oo > x, x) == And(-oo < x, x < oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03a2791541533d3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolve(-oo < x, x) == And(-oo < x, x < oo)","isolve(oo > x, x) == And(-oo < x, x < oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8974():
     assert isolve(-oo < x, x) == And(-oo < x, x < oo)
     assert isolve(oo > x, x) == And(-oo < x, x < oo)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10198(), test_issue_10198 produces the expected output) over Any ║
+# ║ Path(test_issue_10198(), reduce_inequalities(-1 + 1 / abs(1 / x - 1) < 0) == (x > -oo) & (x < S(1) / 2) & Ne(x, 0) and reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1) and reduce_abs_inequality(-3 + 1 / abs(1 - 1 / x), '<', x) == Or(And(-oo < x, x < 0), And(S.Zero < x, x < Rational(3, 4)), And(Rational(3, 2) < x, x < oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10198 : Any → {Any | reduce_inequalities(a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(-1 + 1 / abs(1 / x - ...   ║
+# ║   ensures:  reduce_inequalities(abs(1 / sqrt(x)) - 1,...   ║
+# ║   ensures:  reduce_abs_inequality(-3 + 1 / abs(1 - 1 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10198 : Any → {Any | result satisfies: red...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d92d6b4d1d251372  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70e3c4c66ee4ed92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10198","kind":"function","src_hash":"c47d3b59eaf5a609","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1)"},"spec":{"lhs":"test_issue_10198()","rhs":"test_issue_10198 produces the expected output","over":{"base":"Any"},"name":"test_issue_10198_correct"},"guarantee":"test_issue_10198 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10198_correct","statement":"Path(test_issue_10198(x), test_issue_10198 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92d6b4d1d251372"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10198","kind":"function","src_hash":"c47d3b59eaf5a609","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(-1 + 1 / abs(1 / x - 1) < 0) == (x > -oo) & (x < S(1) / 2) & Ne(x, 0) and reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1) and reduce_abs_inequality(-3 + 1 / abs(1 - 1 / x), '<', x) == Or(And(-oo < x, x < 0), And(S.Zero < x, x < Rational(3, 4)), And(Rational(3, 2) < x, x < oo))"},"spec":{"lhs":"test_issue_10198()","rhs":"reduce_inequalities(-1 + 1 / abs(1 / x - 1) < 0) == (x > -oo) & (x < S(1) / 2) & Ne(x, 0) and reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1) and reduce_abs_inequality(-3 + 1 / abs(1 - 1 / x), '<', x) == Or(And(-oo < x, x < 0), And(S.Zero < x, x < Rational(3, 4)), And(Rational(3, 2) < x, x < oo))","over":{"base":"Any"},"name":"test_issue_10198_correct"},"guarantee":"reduce_inequalities(-1 + 1 / abs(1 / x - 1) < 0) == (x > -oo) & (x < S(1) / 2) & Ne(x, 0); reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1); reduce_abs_inequality(-3 + 1 / abs(1 - 1 / x), '<', x) == Or(And(-oo < x, x < 0), And(S.Zero < x, x < Rational(3, 4)), And(Rational(3, 2) < x, x < oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10198_correct","statement":"Path(test_issue_10198(x), reduce_inequalities(-1 + 1 / abs(1 / x - 1) < 0) == (x > -oo) & (x < S(1) / 2) & Ne(x, 0); reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1); reduce_abs_inequality(-3 + 1 / abs(1 - 1 / x), '<', x) == Or(And(-oo < x, x < 0), And(S.Zero < x, x < Rational(3, 4)), And(Rational(3, 2) < x, x < oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70e3c4c66ee4ed92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(-1 + 1 / abs(1 / x - 1) < 0) == (x > -oo) & (x < S(1) / 2) & Ne(x, 0)","reduce_inequalities(abs(1 / sqrt(x)) - 1, x) == Eq(x, 1)","reduce_abs_inequality(-3 + 1 / abs(1 - 1 / x), '<', x) == Or(And(-oo < x, x < 0), And(S.Zero < x, x < Rational(3, 4)), And(Rational(3, 2) < x, x < oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_10198():
     assert reduce_inequalities(
         -1 + 1/abs(1/x - 1) < 0) == (x > -oo) & (x < S(1)/2) & Ne(x, 0)
@@ -636,16 +784,23 @@ def test_issue_10198():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10047(), test_issue_10047 produces the expected output) over Any ║
+# ║ Path(test_issue_10047(), solve(sin(x) < 2) == True and solveset(sin(x) < 2, domain=S.Reals) == S.Reals) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10047 : Any → {Any | solve(sin(x) < 2) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sin(x) < 2) == True                      ║
+# ║   ensures:  solveset(sin(x) < 2, domain=S.Reals) == S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10047 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a6d1d20f43772c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5287403272f36898  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10047","kind":"function","src_hash":"9068293e3bc4fa6f","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sin(x) < 2) == True and solveset(sin(x) < 2, domain=S.Reals) == S.Reals"},"spec":{"lhs":"test_issue_10047()","rhs":"test_issue_10047 produces the expected output","over":{"base":"Any"},"name":"test_issue_10047_correct"},"guarantee":"test_issue_10047 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10047_correct","statement":"Path(test_issue_10047(x), test_issue_10047 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a6d1d20f43772c2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10047","kind":"function","src_hash":"9068293e3bc4fa6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sin(x) < 2) == True and solveset(sin(x) < 2, domain=S.Reals) == S.Reals"},"spec":{"lhs":"test_issue_10047()","rhs":"solve(sin(x) < 2) == True and solveset(sin(x) < 2, domain=S.Reals) == S.Reals","over":{"base":"Any"},"name":"test_issue_10047_correct"},"guarantee":"solve(sin(x) < 2) == True; solveset(sin(x) < 2, domain=S.Reals) == S.Reals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10047_correct","statement":"Path(test_issue_10047(x), solve(sin(x) < 2) == True; solveset(sin(x) < 2, domain=S.Reals) == S.Reals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5287403272f36898","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sin(x) < 2) == True","solveset(sin(x) < 2, domain=S.Reals) == S.Reals"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10047():
     # issue 10047: this must remain an inequality, not True, since if x
     # is not real the inequality is invalid
@@ -658,32 +813,44 @@ def test_issue_10047():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10268(), test_issue_10268 produces the expected output) over Any ║
+# ║ Path(test_issue_10268(), solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10268 : Any → {Any | solve(log(x) < 1000) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(log(x) < 1000) == And(S.Zero < x, x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10268 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3371b16845aad5d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25664e2a702b028b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10268","kind":"function","src_hash":"d74f44b6f87fc04a","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))"},"spec":{"lhs":"test_issue_10268()","rhs":"test_issue_10268 produces the expected output","over":{"base":"Any"},"name":"test_issue_10268_correct"},"guarantee":"test_issue_10268 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10268_correct","statement":"Path(test_issue_10268(x), test_issue_10268 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3371b16845aad5d1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10268","kind":"function","src_hash":"d74f44b6f87fc04a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))"},"spec":{"lhs":"test_issue_10268()","rhs":"solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))","over":{"base":"Any"},"name":"test_issue_10268_correct"},"guarantee":"solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10268_correct","statement":"Path(test_issue_10268(x), solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25664e2a702b028b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_10268():
     assert solve(log(x) < 1000) == And(S.Zero < x, x < exp(1000))
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_isolve_Sets(), test_isolve_Sets produces the expected output) over Any ║
+# ║ Path(test_isolve_Sets(), isolve(Abs(x) <= n, x, relational=False) == Piecewise((S.EmptySet, n < 0), (Interval(-n, n), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_isolve_Sets : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolve(Abs(x) <= n, x, relational=False) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_isolve_Sets : Any → {Any | result satisfies: iso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 024aaf837592dd7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 662736f8bad9983c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_isolve_Sets","kind":"function","src_hash":"e40d9bd3e4b3f4d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_isolve_Sets()","rhs":"test_isolve_Sets produces the expected output","over":{"base":"Any"},"name":"test_isolve_Sets_correct"},"guarantee":"test_isolve_Sets produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_isolve_Sets_correct","statement":"Path(test_isolve_Sets(x), test_isolve_Sets produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024aaf837592dd7c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_isolve_Sets","kind":"function","src_hash":"e40d9bd3e4b3f4d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolve(Abs(x) <= n, x, relational=False) == Piecewise((S.EmptySet, n < 0), (Interval(-n, n), True))"},"spec":{"lhs":"test_isolve_Sets()","rhs":"isolve(Abs(x) <= n, x, relational=False) == Piecewise((S.EmptySet, n < 0), (Interval(-n, n), True))","over":{"base":"Any"},"name":"test_isolve_Sets_correct"},"guarantee":"isolve(Abs(x) <= n, x, relational=False) == Piecewise((S.EmptySet, n < 0), (Interval(-n, n), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_isolve_Sets_correct","statement":"Path(test_isolve_Sets(x), isolve(Abs(x) <= n, x, relational=False) == Piecewise((S.EmptySet, n < 0), (Interval(-n, n), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"662736f8bad9983c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolve(Abs(x) <= n, x, relational=False) == Piecewise((S.EmptySet, n < 0), (Interval(-n, n), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_isolve_Sets():
     n = Dummy('n')
     assert isolve(Abs(x) <= n, x, relational=False) == \
@@ -691,16 +858,24 @@ def test_isolve_Sets():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integer_domain_relational_isolve(), test_integer_domain_relational_isolve produces the expected output) over Any ║
+# ║ Path(test_integer_domain_relational_isolve(), isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3) and isolve(x + 2 < 0, x, domain=S.Integers) == (x <= -3) & (x > -oo) & Eq(Mod(x, 1), 0) and isolve(2 * x + 3 > 0, x, domain=S.Integers) == (x >= -1) & (x < oo) & Eq(Mod(x, 1), 0) and isolve(x ** 2 + 3 * x - 2 < 0, x, domain=S.Integers) == (x >= -3) & (x <= 0) & Eq(Mod(x, 1), 0) and isolve(x ** 2 + 3 * x - 2 > 0, x, domain=S.Integers) == (x >= 1) & (x < oo) & Eq(Mod(x, 1), 0) | (x <= -4) & (x > -oo) & Eq(Mod(x, 1), 0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolve((x - 1) * (x - 2) * (x - 4) < 0, x...   ║
+# ║   ensures:  isolve(x + 2 < 0, x, domain=S.Integers) =...   ║
+# ║   ensures:  isolve(2 * x + 3 > 0, x, domain=S.Integer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_integer_domain_relational_isolve : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b78993bd17c37187  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5abb577ae32cc6f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_integer_domain_relational_isolve","kind":"function","src_hash":"7ded426aea2a282a","in":{"base":"Any"},"out":{"base":"Any","pred":"isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3)"},"spec":{"lhs":"test_integer_domain_relational_isolve()","rhs":"test_integer_domain_relational_isolve produces the expected output","over":{"base":"Any"},"name":"test_integer_domain_relational_isolve_correct"},"guarantee":"test_integer_domain_relational_isolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_integer_domain_relational_isolve_correct","statement":"Path(test_integer_domain_relational_isolve(x), test_integer_domain_relational_isolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b78993bd17c37187"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_integer_domain_relational_isolve","kind":"function","src_hash":"7ded426aea2a282a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3) and isolve(x + 2 < 0, x, domain=S.Integers) == (x <= -3) & (x > -oo) & Eq(Mod(x, 1), 0) and isolve(2 * x + 3 > 0, x, domain=S.Integers) == (x >= -1) & (x < oo) & Eq(Mod(x, 1), 0) and isolve(x ** 2 + 3 * x - 2 < 0, x, domain=S.Integers) == (x >= -3) & (x <= 0) & Eq(Mod(x, 1), 0) and isolve(x ** 2 + 3 * x - 2 > 0, x, domain=S.Integers) == (x >= 1) & (x < oo) & Eq(Mod(x, 1), 0) | (x <= -4) & (x > -oo) & Eq(Mod(x, 1), 0)"},"spec":{"lhs":"test_integer_domain_relational_isolve()","rhs":"isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3) and isolve(x + 2 < 0, x, domain=S.Integers) == (x <= -3) & (x > -oo) & Eq(Mod(x, 1), 0) and isolve(2 * x + 3 > 0, x, domain=S.Integers) == (x >= -1) & (x < oo) & Eq(Mod(x, 1), 0) and isolve(x ** 2 + 3 * x - 2 < 0, x, domain=S.Integers) == (x >= -3) & (x <= 0) & Eq(Mod(x, 1), 0) and isolve(x ** 2 + 3 * x - 2 > 0, x, domain=S.Integers) == (x >= 1) & (x < oo) & Eq(Mod(x, 1), 0) | (x <= -4) & (x > -oo) & Eq(Mod(x, 1), 0)","over":{"base":"Any"},"name":"test_integer_domain_relational_isolve_correct"},"guarantee":"isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3); isolve(x + 2 < 0, x, domain=S.Integers) == (x <= -3) & (x > -oo) & Eq(Mod(x, 1), 0); isolve(2 * x + 3 > 0, x, domain=S.Integers) == (x >= -1) & (x < oo) & Eq(Mod(x, 1), 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_integer_domain_relational_isolve_correct","statement":"Path(test_integer_domain_relational_isolve(x), isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3); isolve(x + 2 < 0, x, domain=S.Integers) == (x <= -3) & (x > -oo) & Eq(Mod(x, 1), 0); isolve(2 * x + 3 > 0, x, domain=S.Integers) == (x >= -1) & (x < oo) & Eq(Mod(x, 1), 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abb577ae32cc6f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolve((x - 1) * (x - 2) * (x - 4) < 0, x, domain=dom) == Eq(x, 3)","isolve(x + 2 < 0, x, domain=S.Integers) == (x <= -3) & (x > -oo) & Eq(Mod(x, 1), 0)","isolve(2 * x + 3 > 0, x, domain=S.Integers) == (x >= -1) & (x < oo) & Eq(Mod(x, 1), 0)","isolve(x ** 2 + 3 * x - 2 < 0, x, domain=S.Integers) == (x >= -3) & (x <= 0) & Eq(Mod(x, 1), 0)","isolve(x ** 2 + 3 * x - 2 > 0, x, domain=S.Integers) == (x >= 1) & (x < oo) & Eq(Mod(x, 1), 0) | (x <= -4) & (x > -oo) & Eq(Mod(x, 1), 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_integer_domain_relational_isolve():
 
     dom = FiniteSet(0, 3)
@@ -720,16 +895,24 @@ def test_integer_domain_relational_isolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10671_12466(), test_issue_10671_12466 produces the expected output) over Any ║
+# ║ Path(test_issue_10671_12466(), solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi) and solveset((1 / x).diff(x) < 0, x, i) == i and solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10671_12466 : Any → {Any | solveset(sin(y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solveset(sin(y), y, Interval(0, pi)) == F...   ║
+# ║   ensures:  solveset((1 / x).diff(x) < 0, x, i) == i       ║
+# ║   ensures:  solveset(log(x - 6) / x <= 0, x, S.Reals)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10671_12466 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 203ac7016838141a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2616e1e2e10bbaee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10671_12466","kind":"function","src_hash":"e74c690a7a5e0724","in":{"base":"Any"},"out":{"base":"Any","pred":"solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi) and solveset((1 / x).diff(x) < 0, x, i) == i and solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7)"},"spec":{"lhs":"test_issue_10671_12466()","rhs":"test_issue_10671_12466 produces the expected output","over":{"base":"Any"},"name":"test_issue_10671_12466_correct"},"guarantee":"test_issue_10671_12466 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10671_12466_correct","statement":"Path(test_issue_10671_12466(x), test_issue_10671_12466 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"203ac7016838141a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_10671_12466","kind":"function","src_hash":"e74c690a7a5e0724","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi) and solveset((1 / x).diff(x) < 0, x, i) == i and solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7)"},"spec":{"lhs":"test_issue_10671_12466()","rhs":"solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi) and solveset((1 / x).diff(x) < 0, x, i) == i and solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7)","over":{"base":"Any"},"name":"test_issue_10671_12466_correct"},"guarantee":"solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi); solveset((1 / x).diff(x) < 0, x, i) == i; solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_10671_12466_correct","statement":"Path(test_issue_10671_12466(x), solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi); solveset((1 / x).diff(x) < 0, x, i) == i; solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2616e1e2e10bbaee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi)","solveset((1 / x).diff(x) < 0, x, i) == i","solveset(log(x - 6) / x <= 0, x, S.Reals) == Interval.Lopen(6, 7)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10671_12466():
     assert solveset(sin(y), y, Interval(0, pi)) == FiniteSet(0, pi)
     i = Interval(1, 10)
@@ -739,16 +922,24 @@ def test_issue_10671_12466():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__solve_inequality(), test__solve_inequality produces the expected output) over Any ║
+# ║ Path(test__solve_inequality(), _solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1) and _solve_inequality(ie, x) == ie and _solve_inequality(2 * x ** 2 + 2 * x - 1 < 0, x, linear=True) == (x * (x + 1) < S.Half) and _solve_inequality(Eq(x * y, 1), x) == Eq(x * y, 1) and _solve_inequality(Eq(x * nz, 1), x) == Eq(x, 1 / nz) and _solve_inequality(x * nz < 1, x) == (x * nz < 1) and _solve_inequality(a / x > 1, x) == (S.Zero < x) & (x < a) and _solve_inequality(a / x > 1, x, linear=True) == (1 / x > 1 / a) and _solve_inequality(e, x) == Ne(x, 0) and _solve_inequality(x < x * (1 / x - 1), x) == (x < S.Half) & Ne(x, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__solve_inequality : Any → {Any | _solve_inequali...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _solve_inequality(Eq(2 * x - 1, x), x) ==...   ║
+# ║   ensures:  _solve_inequality(ie, x) == ie                 ║
+# ║   ensures:  _solve_inequality(2 * x ** 2 + 2 * x - 1 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__solve_inequality : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5241a221625cd746  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57cf4ec37983c4b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test__solve_inequality","kind":"function","src_hash":"110afa418b9e00f9","in":{"base":"Any"},"out":{"base":"Any","pred":"_solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1) and _solve_inequality(ie, x) == ie and _solve_inequality(Eq(x * y, 1), x) == Eq(x * y, 1) and _solve_inequality(Eq(x * nz, 1), x) == Eq(x, 1 / nz) and _solve_inequality(x * nz < 1, x) == (x * nz < 1) and _solve_inequality(a / x > 1, x) == (S.Zero < x) & (x < a) and _solve_inequality(a / x > 1, x, linear=True) == (1 / x > 1 / a) and _solve_inequality(e, x) == Ne(x, 0) and _solve_inequality(x < x * (1 / x - 1), x) == (x < S.Half) & Ne(x, 0) and _solve_inequality(op(x, 1), x).lhs == x and _solve_inequality(op(S.One, x), x).lhs == x and _solve_inequality(e, x, linear=True) == (fx > c / S(2))"},"spec":{"lhs":"test__solve_inequality()","rhs":"test__solve_inequality produces the expected output","over":{"base":"Any"},"name":"test__solve_inequality_correct"},"guarantee":"test__solve_inequality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test__solve_inequality_correct","statement":"Path(test__solve_inequality(x), test__solve_inequality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5241a221625cd746"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test__solve_inequality","kind":"function","src_hash":"110afa418b9e00f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1) and _solve_inequality(ie, x) == ie and _solve_inequality(2 * x ** 2 + 2 * x - 1 < 0, x, linear=True) == (x * (x + 1) < S.Half) and _solve_inequality(Eq(x * y, 1), x) == Eq(x * y, 1) and _solve_inequality(Eq(x * nz, 1), x) == Eq(x, 1 / nz) and _solve_inequality(x * nz < 1, x) == (x * nz < 1) and _solve_inequality(a / x > 1, x) == (S.Zero < x) & (x < a) and _solve_inequality(a / x > 1, x, linear=True) == (1 / x > 1 / a) and _solve_inequality(e, x) == Ne(x, 0) and _solve_inequality(x < x * (1 / x - 1), x) == (x < S.Half) & Ne(x, 0)"},"spec":{"lhs":"test__solve_inequality()","rhs":"_solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1) and _solve_inequality(ie, x) == ie and _solve_inequality(2 * x ** 2 + 2 * x - 1 < 0, x, linear=True) == (x * (x + 1) < S.Half) and _solve_inequality(Eq(x * y, 1), x) == Eq(x * y, 1) and _solve_inequality(Eq(x * nz, 1), x) == Eq(x, 1 / nz) and _solve_inequality(x * nz < 1, x) == (x * nz < 1) and _solve_inequality(a / x > 1, x) == (S.Zero < x) & (x < a) and _solve_inequality(a / x > 1, x, linear=True) == (1 / x > 1 / a) and _solve_inequality(e, x) == Ne(x, 0) and _solve_inequality(x < x * (1 / x - 1), x) == (x < S.Half) & Ne(x, 0)","over":{"base":"Any"},"name":"test__solve_inequality_correct"},"guarantee":"_solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1); _solve_inequality(ie, x) == ie; _solve_inequality(2 * x ** 2 + 2 * x - 1 < 0, x, linear=True) == (x * (x + 1) < S.Half)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test__solve_inequality_correct","statement":"Path(test__solve_inequality(x), _solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1); _solve_inequality(ie, x) == ie; _solve_inequality(2 * x ** 2 + 2 * x - 1 < 0, x, linear=True) == (x * (x + 1) < S.Half))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57cf4ec37983c4b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_solve_inequality(Eq(2 * x - 1, x), x) == Eq(x, 1)","_solve_inequality(ie, x) == ie","_solve_inequality(2 * x ** 2 + 2 * x - 1 < 0, x, linear=True) == (x * (x + 1) < S.Half)","_solve_inequality(Eq(x * y, 1), x) == Eq(x * y, 1)","_solve_inequality(Eq(x * nz, 1), x) == Eq(x, 1 / nz)","_solve_inequality(x * nz < 1, x) == (x * nz < 1)","_solve_inequality(a / x > 1, x) == (S.Zero < x) & (x < a)","_solve_inequality(a / x > 1, x, linear=True) == (1 / x > 1 / a)","_solve_inequality(e, x) == Ne(x, 0)","_solve_inequality(x < x * (1 / x - 1), x) == (x < S.Half) & Ne(x, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test__solve_inequality():
     for op in (Gt, Lt, Le, Ge, Eq, Ne):
         assert _solve_inequality(op(x, 1), x).lhs == x
@@ -778,16 +969,24 @@ def test__solve_inequality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__pt(), test__pt produces the expected output) over Any ║
+# ║ Path(test__pt(), _pt(-oo, oo) == 0 and _pt(S.One, S(3)) == 2 and _pt(S.One, oo) == _pt(oo, S.One) == 2 and _pt(S.One, -oo) == _pt(-oo, S.One) == S.Half and _pt(S.NegativeOne, oo) == _pt(oo, S.NegativeOne) == Rational(-1, 2) and _pt(S.NegativeOne, -oo) == _pt(-oo, S.NegativeOne) == -2 and _pt(x, oo) == _pt(oo, x) == x + 1 and _pt(x, -oo) == _pt(-oo, x) == x - 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__pt : Any → {Any | _pt(-oo, oo) == 0 and _pt(S.O...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _pt(-oo, oo) == 0                              ║
+# ║   ensures:  _pt(S.One, S(3)) == 2                          ║
+# ║   ensures:  _pt(S.One, oo) == _pt(oo, S.One) == 2          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__pt : Any → {Any | result satisfies: _pt(-oo, oo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6de132022be3b7c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d97011970e570545  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test__pt","kind":"function","src_hash":"12bf9d4e6afbaeb8","in":{"base":"Any"},"out":{"base":"Any","pred":"_pt(-oo, oo) == 0 and _pt(S.One, S(3)) == 2 and _pt(S.One, oo) == _pt(oo, S.One) == 2 and _pt(S.One, -oo) == _pt(-oo, S.One) == S.Half and _pt(S.NegativeOne, oo) == _pt(oo, S.NegativeOne) == Rational(-1, 2) and _pt(S.NegativeOne, -oo) == _pt(-oo, S.NegativeOne) == -2 and _pt(x, oo) == _pt(oo, x) == x + 1 and _pt(x, -oo) == _pt(-oo, x) == x - 1"},"spec":{"lhs":"test__pt()","rhs":"test__pt produces the expected output","over":{"base":"Any"},"name":"test__pt_correct"},"guarantee":"test__pt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test__pt_correct","statement":"Path(test__pt(x), test__pt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6de132022be3b7c3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test__pt","kind":"function","src_hash":"12bf9d4e6afbaeb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _pt(-oo, oo) == 0 and _pt(S.One, S(3)) == 2 and _pt(S.One, oo) == _pt(oo, S.One) == 2 and _pt(S.One, -oo) == _pt(-oo, S.One) == S.Half and _pt(S.NegativeOne, oo) == _pt(oo, S.NegativeOne) == Rational(-1, 2) and _pt(S.NegativeOne, -oo) == _pt(-oo, S.NegativeOne) == -2 and _pt(x, oo) == _pt(oo, x) == x + 1 and _pt(x, -oo) == _pt(-oo, x) == x - 1"},"spec":{"lhs":"test__pt()","rhs":"_pt(-oo, oo) == 0 and _pt(S.One, S(3)) == 2 and _pt(S.One, oo) == _pt(oo, S.One) == 2 and _pt(S.One, -oo) == _pt(-oo, S.One) == S.Half and _pt(S.NegativeOne, oo) == _pt(oo, S.NegativeOne) == Rational(-1, 2) and _pt(S.NegativeOne, -oo) == _pt(-oo, S.NegativeOne) == -2 and _pt(x, oo) == _pt(oo, x) == x + 1 and _pt(x, -oo) == _pt(-oo, x) == x - 1","over":{"base":"Any"},"name":"test__pt_correct"},"guarantee":"_pt(-oo, oo) == 0; _pt(S.One, S(3)) == 2; _pt(S.One, oo) == _pt(oo, S.One) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test__pt_correct","statement":"Path(test__pt(x), _pt(-oo, oo) == 0; _pt(S.One, S(3)) == 2; _pt(S.One, oo) == _pt(oo, S.One) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d97011970e570545","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_pt(-oo, oo) == 0","_pt(S.One, S(3)) == 2","_pt(S.One, oo) == _pt(oo, S.One) == 2","_pt(S.One, -oo) == _pt(-oo, S.One) == S.Half","_pt(S.NegativeOne, oo) == _pt(oo, S.NegativeOne) == Rational(-1, 2)","_pt(S.NegativeOne, -oo) == _pt(-oo, S.NegativeOne) == -2","_pt(x, oo) == _pt(oo, x) == x + 1","_pt(x, -oo) == _pt(-oo, x) == x - 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test__pt():
     from sympy.solvers.inequalities import _pt
     assert _pt(-oo, oo) == 0
@@ -802,46 +1001,64 @@ def test__pt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25697(), test_issue_25697 produces the expected output) over Any ║
+# ║ Path(test_issue_25697(), _solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25697 : Any → {Any | _solve_inequality(log...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _solve_inequality(log(x, 3) <= 2, x) == (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25697 : Any → {Any | result satisfies: _so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5bd09bae6d5b399  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2d7a4b03a015b54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_25697","kind":"function","src_hash":"a7dd97690ea3a1c5","in":{"base":"Any"},"out":{"base":"Any","pred":"_solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)"},"spec":{"lhs":"test_issue_25697()","rhs":"test_issue_25697 produces the expected output","over":{"base":"Any"},"name":"test_issue_25697_correct"},"guarantee":"test_issue_25697 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_25697_correct","statement":"Path(test_issue_25697(x), test_issue_25697 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5bd09bae6d5b399"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_25697","kind":"function","src_hash":"a7dd97690ea3a1c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)"},"spec":{"lhs":"test_issue_25697()","rhs":"_solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)","over":{"base":"Any"},"name":"test_issue_25697_correct"},"guarantee":"_solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_25697_correct","statement":"Path(test_issue_25697(x), _solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2d7a4b03a015b54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_25697():
     assert _solve_inequality(log(x, 3) <= 2, x) == (x <= 9) & (S.Zero < x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25738(), test_issue_25738 produces the expected output) over Any ║
+# ║ Path(test_issue_25738(), reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25738 : Any → {Any | reduce_inequalities(3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(3 < abs(x)) == reduce...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25738 : Any → {Any | result satisfies: red...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a29063ffd9dc0f76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a528d30cfe30376  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_25738","kind":"function","src_hash":"2c94de9dbd48e7f1","in":{"base":"Any"},"out":{"base":"Any","pred":"reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3)"},"spec":{"lhs":"test_issue_25738()","rhs":"test_issue_25738 produces the expected output","over":{"base":"Any"},"name":"test_issue_25738_correct"},"guarantee":"test_issue_25738 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_25738_correct","statement":"Path(test_issue_25738(x), test_issue_25738 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a29063ffd9dc0f76"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_25738","kind":"function","src_hash":"2c94de9dbd48e7f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3)"},"spec":{"lhs":"test_issue_25738()","rhs":"reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3)","over":{"base":"Any"},"name":"test_issue_25738_correct"},"guarantee":"reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_25738_correct","statement":"Path(test_issue_25738(x), reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a528d30cfe30376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(3 < abs(x)) == reduce_inequalities(pi < abs(x)).subs(pi, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_25738():
     assert reduce_inequalities(3 < abs(x)
         ) == reduce_inequalities(pi < abs(x)).subs(pi, 3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25983(), test_issue_25983 produces the expected output) over Any ║
+# ║ Path(test_issue_25983(), reduce_inequalities(pi / Abs(x) <= 1) == (pi <= x) & (x < oo) | (-oo < x) & (x <= -pi)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25983 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  reduce_inequalities(pi / Abs(x) <= 1) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25983 : Any → {Any | result satisfies: red...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da4c02864b1c7660  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 809a66ed83a0218b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_25983","kind":"function","src_hash":"13b49b1c84ebd6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_25983()","rhs":"test_issue_25983 produces the expected output","over":{"base":"Any"},"name":"test_issue_25983_correct"},"guarantee":"test_issue_25983 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_25983_correct","statement":"Path(test_issue_25983(x), test_issue_25983 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da4c02864b1c7660"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_inequalities.test_issue_25983","kind":"function","src_hash":"13b49b1c84ebd6bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: reduce_inequalities(pi / Abs(x) <= 1) == (pi <= x) & (x < oo) | (-oo < x) & (x <= -pi)"},"spec":{"lhs":"test_issue_25983()","rhs":"reduce_inequalities(pi / Abs(x) <= 1) == (pi <= x) & (x < oo) | (-oo < x) & (x <= -pi)","over":{"base":"Any"},"name":"test_issue_25983_correct"},"guarantee":"reduce_inequalities(pi / Abs(x) <= 1) == (pi <= x) & (x < oo) | (-oo < x) & (x <= -pi)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_inequalities.test_issue_25983_correct","statement":"Path(test_issue_25983(x), reduce_inequalities(pi / Abs(x) <= 1) == (pi <= x) & (x < oo) | (-oo < x) & (x <= -pi))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"809a66ed83a0218b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["reduce_inequalities(pi / Abs(x) <= 1) == (pi <= x) & (x < oo) | (-oo < x) & (x <= -pi)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_25983():
     assert(reduce_inequalities(pi/Abs(x) <= 1) == ((pi <= x) & (x < oo)) | ((-oo < x) & (x <= -pi)))

@@ -23,16 +23,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ideal_operations(), test_ideal_operations produces the expected output) over Any ║
+# ║ Path(test_ideal_operations(), not I == J and I == I and I.union(J) == T and I + J == T and I + T == T and not I.subset(T) and T.subset(I) and I.product(J) == S and I * J == S and x * J == S and I * y == S and R.convert(x) * J == S and I * R.convert(y) == S and not I.is_zero() and not J.is_whole_ring() and R.ideal(x ** 2 + 1, x).is_whole_ring() and R.ideal() == R.ideal(0) and R.ideal().is_zero() and T.contains(x * y) and T.subset([x, y]) and T.in_terms_of_generators(x) == [R(1), R(0)] and T ** 0 == R.ideal(1) and T ** 1 == T and T ** 2 == R.ideal(x ** 2, y ** 2, x * y) and I ** 5 == R.ideal(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ideal_operations : Any → {Any | not I == J and I...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not I == J                                     ║
+# ║   ensures:  I == I                                         ║
+# ║   ensures:  I.union(J) == T                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ideal_operations : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0087fb0db449aaff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3204fb26a08769f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_ideal_operations","kind":"function","src_hash":"6d0eb77cb4582691","in":{"base":"Any"},"out":{"base":"Any","pred":"not I == J and I == I and I.union(J) == T and I + J == T and I + T == T and not I.subset(T) and T.subset(I) and I.product(J) == S and I * J == S and x * J == S and I * y == S and R.convert(x) * J == S and I * R.convert(y) == S and not I.is_zero() and not J.is_whole_ring() and R.ideal(x ** 2 + 1, x).is_whole_ring() and R.ideal() == R.ideal(0) and R.ideal().is_zero() and T.contains(x * y) and T.subset([x, y]) and T.in_terms_of_generators(x) == [R(1), R(0)] and T ** 0 == R.ideal(1) and T ** 1 == T and T ** 2 == R.ideal(x ** 2, y ** 2, x * y) and I ** 5 == R.ideal(x ** 5)"},"spec":{"lhs":"test_ideal_operations()","rhs":"test_ideal_operations produces the expected output","over":{"base":"Any"},"name":"test_ideal_operations_correct"},"guarantee":"test_ideal_operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_ideal_operations_correct","statement":"Path(test_ideal_operations(x), test_ideal_operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0087fb0db449aaff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_ideal_operations","kind":"function","src_hash":"6d0eb77cb4582691","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not I == J and I == I and I.union(J) == T and I + J == T and I + T == T and not I.subset(T) and T.subset(I) and I.product(J) == S and I * J == S and x * J == S and I * y == S and R.convert(x) * J == S and I * R.convert(y) == S and not I.is_zero() and not J.is_whole_ring() and R.ideal(x ** 2 + 1, x).is_whole_ring() and R.ideal() == R.ideal(0) and R.ideal().is_zero() and T.contains(x * y) and T.subset([x, y]) and T.in_terms_of_generators(x) == [R(1), R(0)] and T ** 0 == R.ideal(1) and T ** 1 == T and T ** 2 == R.ideal(x ** 2, y ** 2, x * y) and I ** 5 == R.ideal(x ** 5)"},"spec":{"lhs":"test_ideal_operations()","rhs":"not I == J and I == I and I.union(J) == T and I + J == T and I + T == T and not I.subset(T) and T.subset(I) and I.product(J) == S and I * J == S and x * J == S and I * y == S and R.convert(x) * J == S and I * R.convert(y) == S and not I.is_zero() and not J.is_whole_ring() and R.ideal(x ** 2 + 1, x).is_whole_ring() and R.ideal() == R.ideal(0) and R.ideal().is_zero() and T.contains(x * y) and T.subset([x, y]) and T.in_terms_of_generators(x) == [R(1), R(0)] and T ** 0 == R.ideal(1) and T ** 1 == T and T ** 2 == R.ideal(x ** 2, y ** 2, x * y) and I ** 5 == R.ideal(x ** 5)","over":{"base":"Any"},"name":"test_ideal_operations_correct"},"guarantee":"not I == J; I == I; I.union(J) == T","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_ideal_operations_correct","statement":"Path(test_ideal_operations(x), not I == J; I == I; I.union(J) == T)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3204fb26a08769f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not I == J","I == I","I.union(J) == T","I + J == T","I + T == T","not I.subset(T)","T.subset(I)","I.product(J) == S","I * J == S","x * J == S","I * y == S","R.convert(x) * J == S","I * R.convert(y) == S","not I.is_zero()","not J.is_whole_ring()","R.ideal(x ** 2 + 1, x).is_whole_ring()","R.ideal() == R.ideal(0)","R.ideal().is_zero()","T.contains(x * y)","T.subset([x, y])","T.in_terms_of_generators(x) == [R(1), R(0)]","T ** 0 == R.ideal(1)","T ** 1 == T","T ** 2 == R.ideal(x ** 2, y ** 2, x * y)","I ** 5 == R.ideal(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_ideal_operations():
     R = QQ.old_poly_ring(x, y)
     I = R.ideal(x)
@@ -76,16 +84,23 @@ def test_ideal_operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exceptions(), test_exceptions produces the expected output) over Any ║
+# ║ Path(test_exceptions(), (I == J) is False and I != J) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exceptions : Any → {Any | (I == J) is False and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (I == J) is False                              ║
+# ║   ensures:  I != J                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exceptions : Any → {Any | result satisfies: (I =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0135baa78edad143  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c236a4219c510ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_exceptions","kind":"function","src_hash":"eaa73f7c907d538e","in":{"base":"Any"},"out":{"base":"Any","pred":"(I == J) is False and I != J"},"spec":{"lhs":"test_exceptions()","rhs":"test_exceptions produces the expected output","over":{"base":"Any"},"name":"test_exceptions_correct"},"guarantee":"test_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_exceptions_correct","statement":"Path(test_exceptions(x), test_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0135baa78edad143"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_exceptions","kind":"function","src_hash":"eaa73f7c907d538e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (I == J) is False and I != J"},"spec":{"lhs":"test_exceptions()","rhs":"(I == J) is False and I != J","over":{"base":"Any"},"name":"test_exceptions_correct"},"guarantee":"(I == J) is False; I != J","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_exceptions_correct","statement":"Path(test_exceptions(x), (I == J) is False; I != J)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c236a4219c510ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(I == J) is False","I != J"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exceptions():
     I = QQ.old_poly_ring(x).ideal(x)
     J = QQ.old_poly_ring(y).ideal(1)
@@ -100,14 +115,23 @@ def test_exceptions():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_nontriv_global(), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nontriv_global : Any → {Any | contains([x, y], x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contains([x, y], x)                            ║
+# ║   ensures:  contains([x, y], x + y)                        ║
+# ║   ensures:  not contains([x, y], 1)                        ║
+# ║   returns:  R.ideal(*I).contains(f)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nontriv_global : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 07a6876726b5c140   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_nontriv_global","kind":"function","src_hash":"d2d18fc7aef45046","in":{"base":"Any"},"out":{"base":"Any","pred":"contains([x, y], x) and contains([x, y], x + y) and not contains([x, y], 1) and not contains([x, y], z) and contains([x ** 2 + y, x ** 2 + x], x - y) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 3) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y ** 2) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y * z) and contains([x, 1 + x + y, 5 - 7 * y], 1) and not contains([x * (1 + x + y), y * (1 + z)], x) and not contains([x * (1 + x + y), y * (1 + z)], x + y)"},"spec":{"lhs":"test_nontriv_global()","rhs":"test_nontriv_global produces the expected output","over":{"base":"Any"},"name":"test_nontriv_global_correct","kind":"composition"},"guarantee":"test_nontriv_global produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ideal","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07a6876726b5c140"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_nontriv_global","kind":"function","src_hash":"d2d18fc7aef45046","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (R.ideal(*I).contains(f))"},"spec":{"lhs":"test_nontriv_global()","rhs":"R.ideal(*I).contains(f)","over":{"base":"Any"},"name":"test_nontriv_global_correct","kind":"composition"},"guarantee":"returns R.ideal(*I).contains(f); contains([x, y], x); contains([x, y], x + y); not contains([x, y], 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ideal","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07a6876726b5c140","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contains([x, y], x)","contains([x, y], x + y)","not contains([x, y], 1)","not contains([x, y], z)","contains([x ** 2 + y, x ** 2 + x], x - y)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 3)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y ** 2)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4 + y ** 3 + 2 * z * y * x)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y * z)","contains([x, 1 + x + y, 5 - 7 * y], 1)","contains([x ** 3 + y ** 3, y ** 3 + z ** 3, z ** 3 + x ** 3, x ** 2 * y + x ** 2 * z + y ** 2 * z], x ** 3)","not contains([x ** 3 + y ** 3, y ** 3 + z ** 3, z ** 3 + x ** 3, x ** 2 * y + x ** 2 * z + y ** 2 * z], x ** 2 + y ** 2)","not contains([x * (1 + x + y), y * (1 + z)], x)","not contains([x * (1 + x + y), y * (1 + z)], x + y)"],"returns_expr":"R.ideal(*I).contains(f)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_nontriv_global():
     R = QQ.old_poly_ring(x, y, z)
 
@@ -141,14 +165,23 @@ def test_nontriv_global():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_nontriv_local(), id) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nontriv_local : Any → {Any | contains([x, y], x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contains([x, y], x)                            ║
+# ║   ensures:  contains([x, y], x + y)                        ║
+# ║   ensures:  not contains([x, y], 1)                        ║
+# ║   returns:  R.ideal(*I).contains(f)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nontriv_local : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a2207f376786b303   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_nontriv_local","kind":"function","src_hash":"92b586c782adf4b4","in":{"base":"Any"},"out":{"base":"Any","pred":"contains([x, y], x) and contains([x, y], x + y) and not contains([x, y], 1) and not contains([x, y], z) and contains([x ** 2 + y, x ** 2 + x], x - y) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2) and contains([x * (1 + x + y), y * (1 + z)], x) and contains([x * (1 + x + y), y * (1 + z)], x + y)"},"spec":{"lhs":"test_nontriv_local()","rhs":"test_nontriv_local produces the expected output","over":{"base":"Any"},"name":"test_nontriv_local_correct","kind":"composition"},"guarantee":"test_nontriv_local produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ideal","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2207f376786b303"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_nontriv_local","kind":"function","src_hash":"92b586c782adf4b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (R.ideal(*I).contains(f))"},"spec":{"lhs":"test_nontriv_local()","rhs":"R.ideal(*I).contains(f)","over":{"base":"Any"},"name":"test_nontriv_local_correct","kind":"composition"},"guarantee":"returns R.ideal(*I).contains(f); contains([x, y], x); contains([x, y], x + y); not contains([x, y], 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ideal","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2207f376786b303","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contains([x, y], x)","contains([x, y], x + y)","not contains([x, y], 1)","not contains([x, y], z)","contains([x ** 2 + y, x ** 2 + x], x - y)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2)","contains([x * (1 + x + y), y * (1 + z)], x)","contains([x * (1 + x + y), y * (1 + z)], x + y)"],"returns_expr":"R.ideal(*I).contains(f)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_nontriv_local():
     R = QQ.old_poly_ring(x, y, z, order=ilex)
 
@@ -166,16 +199,24 @@ def test_nontriv_local():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection(), test_intersection produces the expected output) over Any ║
+# ║ Path(test_intersection(), R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z) and R.ideal(x, y).intersect(R.ideal()).is_zero() and R.ideal(x, y).intersect(R.ideal(y ** 2 + y ** 2 * z, z + z * x ** 3 * y)) == R.ideal(y ** 2, y * z, x * z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intersection : Any → {Any | R.ideal(x, y).inters...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.ideal(x, y).intersect(R.ideal(y ** 2, z...   ║
+# ║   ensures:  R.ideal(x, y).intersect(R.ideal()).is_zero()   ║
+# ║   ensures:  R.ideal(x, y).intersect(R.ideal(y ** 2 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intersection : Any → {Any | result satisfies: R....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc033a9fd7653f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 886e72ff96cad2b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_intersection","kind":"function","src_hash":"a063ba18ce150b48","in":{"base":"Any"},"out":{"base":"Any","pred":"R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z) and R.ideal(x, y).intersect(R.ideal()).is_zero()"},"spec":{"lhs":"test_intersection()","rhs":"test_intersection produces the expected output","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"test_intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_intersection_correct","statement":"Path(test_intersection(x), test_intersection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc033a9fd7653f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_intersection","kind":"function","src_hash":"a063ba18ce150b48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z) and R.ideal(x, y).intersect(R.ideal()).is_zero() and R.ideal(x, y).intersect(R.ideal(y ** 2 + y ** 2 * z, z + z * x ** 3 * y)) == R.ideal(y ** 2, y * z, x * z)"},"spec":{"lhs":"test_intersection()","rhs":"R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z) and R.ideal(x, y).intersect(R.ideal()).is_zero() and R.ideal(x, y).intersect(R.ideal(y ** 2 + y ** 2 * z, z + z * x ** 3 * y)) == R.ideal(y ** 2, y * z, x * z)","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z); R.ideal(x, y).intersect(R.ideal()).is_zero(); R.ideal(x, y).intersect(R.ideal(y ** 2 + y ** 2 * z, z + z * x ** 3 * y)) == R.ideal(y ** 2, y * z, x * z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_intersection_correct","statement":"Path(test_intersection(x), R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z); R.ideal(x, y).intersect(R.ideal()).is_zero(); R.ideal(x, y).intersect(R.ideal(y ** 2 + y ** 2 * z, z + z * x ** 3 * y)) == R.ideal(y ** 2, y * z, x * z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"886e72ff96cad2b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.ideal(x, y).intersect(R.ideal(y ** 2, z)) == R.ideal(y ** 2, y * z, x * z)","R.ideal(x, y).intersect(R.ideal()).is_zero()","R.ideal(x, y).intersect(R.ideal(y ** 2 + y ** 2 * z, z + z * x ** 3 * y)) == R.ideal(y ** 2, y * z, x * z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_intersection():
     R = QQ.old_poly_ring(x, y, z)
     # SCA, example 1.8.11
@@ -189,16 +230,22 @@ def test_intersection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quotient(), test_quotient produces the expected output) over Any ║
+# ║ Path(test_quotient(), R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quotient : Any → {Any | R.ideal(x, y).quotient(R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.ideal(x, y).quotient(R.ideal(y ** 2, z)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quotient : Any → {Any | result satisfies: R.idea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fc3c19f87ac7f8a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c144c999e65cac9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_quotient","kind":"function","src_hash":"03e491886eb7ca28","in":{"base":"Any"},"out":{"base":"Any","pred":"R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y)"},"spec":{"lhs":"test_quotient()","rhs":"test_quotient produces the expected output","over":{"base":"Any"},"name":"test_quotient_correct"},"guarantee":"test_quotient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_quotient_correct","statement":"Path(test_quotient(x), test_quotient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fc3c19f87ac7f8a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_quotient","kind":"function","src_hash":"03e491886eb7ca28","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y)"},"spec":{"lhs":"test_quotient()","rhs":"R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y)","over":{"base":"Any"},"name":"test_quotient_correct"},"guarantee":"R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_quotient_correct","statement":"Path(test_quotient(x), R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c144c999e65cac9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.ideal(x, y).quotient(R.ideal(y ** 2, z)) == R.ideal(x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quotient():
     # SCA, example 1.8.13
     R = QQ.old_poly_ring(x, y, z)
@@ -206,16 +253,23 @@ def test_quotient():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduction(), test_reduction produces the expected output) over Any ║
+# ║ Path(test_reduction(), I.reduce_element(e) == e and I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduction : Any → {Any | I.reduce_element(e) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I.reduce_element(e) == e                       ║
+# ║   ensures:  I.reduce_element(e, NF=sdm_nf_buchberger_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduction : Any → {Any | result satisfies: I.red...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aae2a474a3ca7870  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3defb1df169acc4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_reduction","kind":"function","src_hash":"f6e3ec44192ea210","in":{"base":"Any"},"out":{"base":"Any","pred":"I.reduce_element(e) == e and I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3)"},"spec":{"lhs":"test_reduction()","rhs":"test_reduction produces the expected output","over":{"base":"Any"},"name":"test_reduction_correct"},"guarantee":"test_reduction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_reduction_correct","statement":"Path(test_reduction(x), test_reduction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aae2a474a3ca7870"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_ideals.test_reduction","kind":"function","src_hash":"f6e3ec44192ea210","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I.reduce_element(e) == e and I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3)"},"spec":{"lhs":"test_reduction()","rhs":"I.reduce_element(e) == e and I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3)","over":{"base":"Any"},"name":"test_reduction_correct"},"guarantee":"I.reduce_element(e) == e; I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_ideals.test_reduction_correct","statement":"Path(test_reduction(x), I.reduce_element(e) == e; I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3defb1df169acc4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I.reduce_element(e) == e","I.reduce_element(e, NF=sdm_nf_buchberger_reduced) == R.convert(x ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reduction():
     from sympy.polys.distributedmodules import sdm_nf_buchberger_reduced
     R = QQ.old_poly_ring(x, y)

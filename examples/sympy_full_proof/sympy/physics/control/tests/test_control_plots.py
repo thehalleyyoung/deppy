@@ -58,46 +58,64 @@ par1 = Parallel(tf1, tf2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_tuple(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_to_tuple(a, b), (tuple(a), tuple(b))) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (tuple(a), tuple(b))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_tuple : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76c7022cc52106c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots._to_tuple","kind":"function","src_hash":"0a8400018c09a918","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_tuple(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_to_tuple_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76c7022cc52106c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots._to_tuple","kind":"function","src_hash":"0a8400018c09a918","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_tuple(a, b)","rhs":"(tuple(a), tuple(b))","over":{"base":"Any"},"name":"_to_tuple_correct"},"guarantee":"returns (tuple(a), tuple(b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76c7022cc52106c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(tuple(a), tuple(b))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _to_tuple(a, b):
     return tuple(a), tuple(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trim_tuple(a, ), id) over Any                        ║
+# ║ Path(_trim_tuple(a, b), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (tuple(a[0:2] + a[len(a) // 2:len(a) // 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trim_tuple : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 930cfcf99244cba1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots._trim_tuple","kind":"function","src_hash":"f74efc235b5940ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trim_tuple(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_trim_tuple_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"930cfcf99244cba1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots._trim_tuple","kind":"function","src_hash":"f74efc235b5940ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trim_tuple(a, b)","rhs":"(tuple(a[0:2] + a[len(a) // 2:len(a) // 2 + 1] + a[-2:]), tuple(b[0:2] + b[len(b) // 2:len(b) // 2 + 1] + b[-2:]))","over":{"base":"Any"},"name":"_trim_tuple_correct","kind":"composition"},"guarantee":"returns (tuple(a[0:2] + a[len(a) // 2:len(a) // 2 + 1] + a[-2:]), tuple(b[0:2] + b[len(b) // 2:len(b) // 2 + 1] + b[-2:]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"930cfcf99244cba1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(tuple(a[0:2] + a[len(a) // 2:len(a) // 2 + 1] + a[-2:]), tuple(b[0:2] + b[len(b) // 2:len(b) // 2 + 1] + b[-2:]))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _trim_tuple(a, b):
     a, b = _to_tuple(a, b)
     return tuple(a[0: 2] + a[len(a)//2 : len(a)//2 + 1] + a[-2:]), \
         tuple(b[0: 2] + b[len(b)//2 : len(b)//2 + 1] + b[-2:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(y_coordinate_equality(plo), id) over Any              ║
+# ║ Path(y_coordinate_equality(plot_data_func, evalf_func, system), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((Abs(y_exp_i - y_i) < 1e-08 for y_exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ y_coordinate_equality : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 803e43166c1b6d7c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.y_coordinate_equality","kind":"function","src_hash":"eca8081719e4ec6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y_coordinate_equality(plo)","rhs":"checks whether the y-coordinate value of the plotted data point is equal to the value of the function at a particular x","over":{"base":"Any"},"name":"y_coordinate_equality_correct","kind":"composition"},"guarantee":"checks whether the y-coordinate value of the plotted data point is equal to the value of the function at a particular x","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"803e43166c1b6d7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.y_coordinate_equality","kind":"function","src_hash":"eca8081719e4ec6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y_coordinate_equality(plot_data_func, evalf_func, system)","rhs":"all((Abs(y_exp_i - y_i) < 1e-08 for y_exp_i, y_i in zip(y_exp, y)))","over":{"base":"Any"},"name":"y_coordinate_equality_correct","kind":"composition"},"guarantee":"returns all((Abs(y_exp_i - y_i) < 1e-08 for y_exp_i, y_i in zip(y_exp, y)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"803e43166c1b6d7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((Abs(y_exp_i - y_i) < 1e-08 for y_exp_i, y_i in zip(y_exp, y)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def y_coordinate_equality(plot_data_func, evalf_func, system):
     """Checks whether the y-coordinate value of the plotted
     data point is equal to the value of the function at a
@@ -109,16 +127,22 @@ def y_coordinate_equality(plot_data_func, evalf_func, system):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_errors(), test_errors produces the expected output) over Any ║
+# ║ Path(test_errors(), <unspecified:test_errors>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_errors : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6920c7befb5c40a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_errors","kind":"function","src_hash":"84ea4ca73f278065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_errors()","rhs":"test_errors produces the expected output","over":{"base":"Any"},"name":"test_errors_correct"},"guarantee":"test_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_errors_correct","statement":"Path(test_errors(x), test_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6920c7befb5c40a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_errors","kind":"function","src_hash":"84ea4ca73f278065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_errors()","rhs":"<unspecified:test_errors>","over":{"base":"Any"},"name":"test_errors_correct"},"guarantee":"test_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_errors_correct","statement":"Path(test_errors(x), test_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6920c7befb5c40a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_errors():
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -162,16 +186,25 @@ def test_errors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pole_zero(), test_pole_zero produces the expected output) over Any ║
+# ║ Path(test_pole_zero(), p_check and z_check) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pole_zero : Any → {Any | pz_tester(tf1, exp1) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pz_tester(tf1, exp1)                           ║
+# ║   ensures:  pz_tester(tf2, exp2)                           ║
+# ║   ensures:  pz_tester(tf3, exp3)                           ║
+# ║   returns:  p_check and z_check                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pole_zero : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74eeb4568c8c8659  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99b26ed6cec7c98f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_pole_zero","kind":"function","src_hash":"d8095e2f656b5cb4","in":{"base":"Any"},"out":{"base":"Any","pred":"pz_tester(tf1, exp1) and pz_tester(tf2, exp2) and pz_tester(tf3, exp3) and pz_tester(ser1, exp4) and pz_tester(par1, exp5) and pz_tester(tf8, exp6)"},"spec":{"lhs":"test_pole_zero()","rhs":"test_pole_zero produces the expected output","over":{"base":"Any"},"name":"test_pole_zero_correct"},"guarantee":"test_pole_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_pole_zero_correct","statement":"Path(test_pole_zero(x), test_pole_zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74eeb4568c8c8659"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_pole_zero","kind":"function","src_hash":"d8095e2f656b5cb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (p_check and z_check)"},"spec":{"lhs":"test_pole_zero()","rhs":"p_check and z_check","over":{"base":"Any"},"name":"test_pole_zero_correct"},"guarantee":"returns p_check and z_check; pz_tester(tf1, exp1); pz_tester(tf2, exp2); pz_tester(tf3, exp3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_pole_zero_correct","statement":"Path(test_pole_zero(x), returns p_check and z_check; pz_tester(tf1, exp1); pz_tester(tf2, exp2); pz_tester(tf3, exp3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99b26ed6cec7c98f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pz_tester(tf1, exp1)","pz_tester(tf2, exp2)","pz_tester(tf3, exp3)","pz_tester(ser1, exp4)","pz_tester(par1, exp5)","pz_tester(tf8, exp6)"],"returns_expr":"p_check and z_check","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pole_zero():
 
     def pz_tester(sys, expected_value):
@@ -204,14 +237,22 @@ def test_pole_zero():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_bode(), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bode : Any → {Any | test_bode_data(tf1) and test...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  test_bode_data(tf1)                            ║
+# ║   ensures:  test_bode_data(tf2)                            ║
+# ║   ensures:  test_bode_data(tf3)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bode : Any → {Any | result satisfies: test_bode_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fd2dcd3f88c7cbba   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_bode","kind":"function","src_hash":"a30420933b688347","in":{"base":"Any"},"out":{"base":"Any","pred":"test_bode_data(tf1) and test_bode_data(tf2) and test_bode_data(tf3) and test_bode_data(tf4) and test_bode_data(tf5)"},"spec":{"lhs":"test_bode()","rhs":"test_bode produces the expected output","over":{"base":"Any"},"name":"test_bode_correct","kind":"composition"},"guarantee":"test_bode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"arg","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd2dcd3f88c7cbba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_bode","kind":"function","src_hash":"a30420933b688347","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: test_bode_data(tf1) and test_bode_data(tf2) and test_bode_data(tf3) and test_bode_data(tf4) and test_bode_data(tf5)"},"spec":{"lhs":"test_bode()","rhs":"test_bode_data(tf1) and test_bode_data(tf2) and test_bode_data(tf3) and test_bode_data(tf4) and test_bode_data(tf5)","over":{"base":"Any"},"name":"test_bode_correct","kind":"composition"},"guarantee":"test_bode_data(tf1); test_bode_data(tf2); test_bode_data(tf3)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"arg","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd2dcd3f88c7cbba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["test_bode_data(tf1)","test_bode_data(tf2)","test_bode_data(tf3)","test_bode_data(tf4)","test_bode_data(tf5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bode():
     if not numpy:
         skip("NumPy is required for this test")
@@ -240,32 +281,47 @@ def test_bode():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_point_accuracy(a, ), id) over Any               ║
+# ║ Path(check_point_accuracy(a, b), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((isclose(*_, rel_tol=0.1, abs_tol=1e-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_point_accuracy : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8f0bb10cf56b289a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.check_point_accuracy","kind":"function","src_hash":"82645473555e60f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_point_accuracy(a, )","rhs":"check_point_accuracy produces the expected output","over":{"base":"Any"},"name":"check_point_accuracy_correct","kind":"composition"},"guarantee":"check_point_accuracy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"isclose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f0bb10cf56b289a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.check_point_accuracy","kind":"function","src_hash":"82645473555e60f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_point_accuracy(a, b)","rhs":"all((isclose(*_, rel_tol=0.1, abs_tol=1e-06) for _ in zip(a, b)))","over":{"base":"Any"},"name":"check_point_accuracy_correct","kind":"composition"},"guarantee":"returns all((isclose(*_, rel_tol=0.1, abs_tol=1e-06) for _ in zip(a, b)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"isclose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f0bb10cf56b289a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((isclose(*_, rel_tol=0.1, abs_tol=1e-06) for _ in zip(a, b)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def check_point_accuracy(a, b):
     return all(isclose(*_, rel_tol=1e-1, abs_tol=1e-6
         ) for _ in zip(a, b))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_impulse_response(), test_impulse_response produces the expected output) over Any ║
+# ║ Path(test_impulse_response(), x_check and y_check) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_impulse_response : Any → {Any | impulse_res_test...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  impulse_res_tester(tf1, exp1)                  ║
+# ║   ensures:  impulse_res_tester(tf2, exp2)                  ║
+# ║   ensures:  impulse_res_tester(tf3, exp3)                  ║
+# ║   returns:  x_check and y_check                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_impulse_response : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e45a041a315ba96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b8b99352979e2f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_impulse_response","kind":"function","src_hash":"5592b57e9e3982f3","in":{"base":"Any"},"out":{"base":"Any","pred":"impulse_res_tester(tf1, exp1) and impulse_res_tester(tf2, exp2) and impulse_res_tester(tf3, exp3) and impulse_res_tester(tf4, exp4) and impulse_res_tester(tf5, exp5) and impulse_res_tester(tf7, exp6) and impulse_res_tester(ser1, exp7)"},"spec":{"lhs":"test_impulse_response()","rhs":"test_impulse_response produces the expected output","over":{"base":"Any"},"name":"test_impulse_response_correct"},"guarantee":"test_impulse_response produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_impulse_response_correct","statement":"Path(test_impulse_response(x), test_impulse_response produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e45a041a315ba96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_impulse_response","kind":"function","src_hash":"5592b57e9e3982f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x_check and y_check)"},"spec":{"lhs":"test_impulse_response()","rhs":"x_check and y_check","over":{"base":"Any"},"name":"test_impulse_response_correct"},"guarantee":"returns x_check and y_check; impulse_res_tester(tf1, exp1); impulse_res_tester(tf2, exp2); impulse_res_tester(tf3, exp3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_impulse_response_correct","statement":"Path(test_impulse_response(x), returns x_check and y_check; impulse_res_tester(tf1, exp1); impulse_res_tester(tf2, exp2); impulse_res_tester(tf3, exp3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b8b99352979e2f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["impulse_res_tester(tf1, exp1)","impulse_res_tester(tf2, exp2)","impulse_res_tester(tf3, exp3)","impulse_res_tester(tf4, exp4)","impulse_res_tester(tf5, exp5)","impulse_res_tester(tf7, exp6)","impulse_res_tester(ser1, exp7)"],"returns_expr":"x_check and y_check","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_impulse_response():
     if not numpy:
         skip("NumPy is required for this test")
@@ -318,16 +374,25 @@ def test_impulse_response():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_step_response(), test_step_response produces the expected output) over Any ║
+# ║ Path(test_step_response(), x_check and y_check) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_step_response : Any → {Any | step_res_tester(tf1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  step_res_tester(tf1, exp1)                     ║
+# ║   ensures:  step_res_tester(tf2, exp2)                     ║
+# ║   ensures:  step_res_tester(tf3, exp3)                     ║
+# ║   returns:  x_check and y_check                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_step_response : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c833ab0152dee51d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83e30b4cc3b5bb8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_step_response","kind":"function","src_hash":"81b01ca5e43e821d","in":{"base":"Any"},"out":{"base":"Any","pred":"step_res_tester(tf1, exp1) and step_res_tester(tf2, exp2) and step_res_tester(tf3, exp3) and step_res_tester(tf4, exp4) and step_res_tester(tf5, exp5) and step_res_tester(ser2, exp6)"},"spec":{"lhs":"test_step_response()","rhs":"test_step_response produces the expected output","over":{"base":"Any"},"name":"test_step_response_correct"},"guarantee":"test_step_response produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_step_response_correct","statement":"Path(test_step_response(x), test_step_response produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c833ab0152dee51d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_step_response","kind":"function","src_hash":"81b01ca5e43e821d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x_check and y_check)"},"spec":{"lhs":"test_step_response()","rhs":"x_check and y_check","over":{"base":"Any"},"name":"test_step_response_correct"},"guarantee":"returns x_check and y_check; step_res_tester(tf1, exp1); step_res_tester(tf2, exp2); step_res_tester(tf3, exp3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_step_response_correct","statement":"Path(test_step_response(x), returns x_check and y_check; step_res_tester(tf1, exp1); step_res_tester(tf2, exp2); step_res_tester(tf3, exp3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e30b4cc3b5bb8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["step_res_tester(tf1, exp1)","step_res_tester(tf2, exp2)","step_res_tester(tf3, exp3)","step_res_tester(tf4, exp4)","step_res_tester(tf5, exp5)","step_res_tester(ser2, exp6)"],"returns_expr":"x_check and y_check","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_step_response():
     if not numpy:
         skip("NumPy is required for this test")
@@ -377,16 +442,25 @@ def test_step_response():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ramp_response(), test_ramp_response produces the expected output) over Any ║
+# ║ Path(test_ramp_response(), x_check and y_check) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ramp_response : Any → {Any | ramp_res_tester(tf1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ramp_res_tester(tf1, 6, exp1)                  ║
+# ║   ensures:  ramp_res_tester(tf2, 10, exp2, 1.2)            ║
+# ║   ensures:  ramp_res_tester(tf3, 10, exp3, 1.5)            ║
+# ║   returns:  x_check and y_check                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ramp_response : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e52a20d9e89ab4a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a76382e92dfa0d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_ramp_response","kind":"function","src_hash":"740b1acf5c62ccd0","in":{"base":"Any"},"out":{"base":"Any","pred":"ramp_res_tester(tf1, 6, exp1) and ramp_res_tester(tf2, 10, exp2, 1.2) and ramp_res_tester(tf3, 10, exp3, 1.5) and ramp_res_tester(tf4, 10, exp4, 3) and ramp_res_tester(tf5, 10, exp5, 9) and ramp_res_tester(tf6, 10, exp6)"},"spec":{"lhs":"test_ramp_response()","rhs":"test_ramp_response produces the expected output","over":{"base":"Any"},"name":"test_ramp_response_correct"},"guarantee":"test_ramp_response produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_ramp_response_correct","statement":"Path(test_ramp_response(x), test_ramp_response produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e52a20d9e89ab4a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_ramp_response","kind":"function","src_hash":"740b1acf5c62ccd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x_check and y_check)"},"spec":{"lhs":"test_ramp_response()","rhs":"x_check and y_check","over":{"base":"Any"},"name":"test_ramp_response_correct"},"guarantee":"returns x_check and y_check; ramp_res_tester(tf1, 6, exp1); ramp_res_tester(tf2, 10, exp2, 1.2); ramp_res_tester(tf3, 10, exp3, 1.5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_ramp_response_correct","statement":"Path(test_ramp_response(x), returns x_check and y_check; ramp_res_tester(tf1, 6, exp1); ramp_res_tester(tf2, 10, exp2, 1.2); ramp_res_tester(tf3, 10, exp3, 1.5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a76382e92dfa0d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ramp_res_tester(tf1, 6, exp1)","ramp_res_tester(tf2, 10, exp2, 1.2)","ramp_res_tester(tf3, 10, exp3, 1.5)","ramp_res_tester(tf4, 10, exp4, 3)","ramp_res_tester(tf5, 10, exp5, 9)","ramp_res_tester(tf6, 10, exp6)"],"returns_expr":"x_check and y_check","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_ramp_response():
     if not numpy:
         skip("NumPy is required for this test")
@@ -430,16 +504,24 @@ def test_ramp_response():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nyquist_plot_expr(), test_nyquist_plot_expr produces the expected output) over Any ║
+# ║ Path(test_nyquist_plot_expr(), r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and i2 == w2 * (1 - 6 * w2 ** 2) / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and r3 == -w3 ** 4 / (w3 ** 6 + 1) and i3 == -w3 / (w3 ** 6 + 1) and r4 == 0 and i4 == 10 / w4 ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nyquist_plot_expr : Any → {Any | r1 == (2 - w1 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (...   ║
+# ║   ensures:  i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - ...   ║
+# ║   ensures:  r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nyquist_plot_expr : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be1d5054ae5b582  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16fc77b747ae6035  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_nyquist_plot_expr","kind":"function","src_hash":"f3b47726f91d5f16","in":{"base":"Any"},"out":{"base":"Any","pred":"r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and i2 == w2 * (1 - 6 * w2 ** 2) / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and r3 == -w3 ** 4 / (w3 ** 6 + 1) and i3 == -w3 / (w3 ** 6 + 1) and r4 == 0 and i4 == 10 / w4 ** 3"},"spec":{"lhs":"test_nyquist_plot_expr()","rhs":"test_nyquist_plot_expr produces the expected output","over":{"base":"Any"},"name":"test_nyquist_plot_expr_correct"},"guarantee":"test_nyquist_plot_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_nyquist_plot_expr_correct","statement":"Path(test_nyquist_plot_expr(x), test_nyquist_plot_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be1d5054ae5b582"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_nyquist_plot_expr","kind":"function","src_hash":"f3b47726f91d5f16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and i2 == w2 * (1 - 6 * w2 ** 2) / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and r3 == -w3 ** 4 / (w3 ** 6 + 1) and i3 == -w3 / (w3 ** 6 + 1) and r4 == 0 and i4 == 10 / w4 ** 3"},"spec":{"lhs":"test_nyquist_plot_expr()","rhs":"r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2) and r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and i2 == w2 * (1 - 6 * w2 ** 2) / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2) and r3 == -w3 ** 4 / (w3 ** 6 + 1) and i3 == -w3 / (w3 ** 6 + 1) and r4 == 0 and i4 == 10 / w4 ** 3","over":{"base":"Any"},"name":"test_nyquist_plot_expr_correct"},"guarantee":"r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2); i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2); r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_nyquist_plot_expr_correct","statement":"Path(test_nyquist_plot_expr(x), r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2); i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2); r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16fc77b747ae6035","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r1 == (2 - w1 ** 2) / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2)","i1 == -0.5 * w1 / (0.25 * w1 ** 2 + (2 - w1 ** 2) ** 2)","r2 == 3 * w2 ** 2 / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2)","i2 == w2 * (1 - 6 * w2 ** 2) / (9 * w2 ** 2 + (1 - 6 * w2 ** 2) ** 2)","r3 == -w3 ** 4 / (w3 ** 6 + 1)","i3 == -w3 / (w3 ** 6 + 1)","r4 == 0","i4 == 10 / w4 ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_nyquist_plot_expr():
     r1, i1, w1 = nyquist_plot_expr(tf1)
     r2, i2, w2 = nyquist_plot_expr(tf2)
@@ -456,16 +538,24 @@ def test_nyquist_plot_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nichols_expr(), test_nichols_expr produces the expected output) over Any ║
+# ║ Path(test_nichols_expr(), m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10) and p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi and m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10) and p2 == 180 * arg(w2 * I / (-6 * w2 ** 2 + 3 * w2 * I + 1)) / pi and m3 == 20 * log(Abs(w3) / sqrt(w3 ** 6 + 1)) / log(10) and p3 == 180 * arg(-w3 * I / (w3 ** 3 * I + 1)) / pi and m4 == 20 * log(10 / (w4 ** 2 * Abs(w4))) / log(10) and p4 == 180 * arg(I / w4 ** 3) / pi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nichols_expr : Any → {Any | m1 == 20 * log(1 / s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * ...   ║
+# ║   ensures:  p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 ...   ║
+# ║   ensures:  m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nichols_expr : Any → {Any | result satisfies: m1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3165898e6504f611  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f2dbb4c44c02c5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_nichols_expr","kind":"function","src_hash":"740b251cd5ec9a79","in":{"base":"Any"},"out":{"base":"Any","pred":"m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10) and p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi and m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10) and p2 == 180 * arg(w2 * I / (-6 * w2 ** 2 + 3 * w2 * I + 1)) / pi and m3 == 20 * log(Abs(w3) / sqrt(w3 ** 6 + 1)) / log(10) and p3 == 180 * arg(-w3 * I / (w3 ** 3 * I + 1)) / pi and m4 == 20 * log(10 / (w4 ** 2 * Abs(w4))) / log(10) and p4 == 180 * arg(I / w4 ** 3) / pi"},"spec":{"lhs":"test_nichols_expr()","rhs":"test_nichols_expr produces the expected output","over":{"base":"Any"},"name":"test_nichols_expr_correct"},"guarantee":"test_nichols_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_nichols_expr_correct","statement":"Path(test_nichols_expr(x), test_nichols_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3165898e6504f611"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.tests.test_control_plots.test_nichols_expr","kind":"function","src_hash":"740b251cd5ec9a79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10) and p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi and m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10) and p2 == 180 * arg(w2 * I / (-6 * w2 ** 2 + 3 * w2 * I + 1)) / pi and m3 == 20 * log(Abs(w3) / sqrt(w3 ** 6 + 1)) / log(10) and p3 == 180 * arg(-w3 * I / (w3 ** 3 * I + 1)) / pi and m4 == 20 * log(10 / (w4 ** 2 * Abs(w4))) / log(10) and p4 == 180 * arg(I / w4 ** 3) / pi"},"spec":{"lhs":"test_nichols_expr()","rhs":"m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10) and p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi and m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10) and p2 == 180 * arg(w2 * I / (-6 * w2 ** 2 + 3 * w2 * I + 1)) / pi and m3 == 20 * log(Abs(w3) / sqrt(w3 ** 6 + 1)) / log(10) and p3 == 180 * arg(-w3 * I / (w3 ** 3 * I + 1)) / pi and m4 == 20 * log(10 / (w4 ** 2 * Abs(w4))) / log(10) and p4 == 180 * arg(I / w4 ** 3) / pi","over":{"base":"Any"},"name":"test_nichols_expr_correct"},"guarantee":"m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10); p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi; m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.tests.test_control_plots.test_nichols_expr_correct","statement":"Path(test_nichols_expr(x), m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10); p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi; m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f2dbb4c44c02c5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m1 == 20 * log(1 / sqrt(w1 ** 4 - 3.75 * w1 ** 2 + 4)) / log(10)","p1 == 180 * arg(1 / (-w1 ** 2 + 0.5 * w1 * I + 2)) / pi","m2 == 20 * log(Abs(w2) / sqrt(36 * w2 ** 4 - 3 * w2 ** 2 + 1)) / log(10)","p2 == 180 * arg(w2 * I / (-6 * w2 ** 2 + 3 * w2 * I + 1)) / pi","m3 == 20 * log(Abs(w3) / sqrt(w3 ** 6 + 1)) / log(10)","p3 == 180 * arg(-w3 * I / (w3 ** 3 * I + 1)) / pi","m4 == 20 * log(10 / (w4 ** 2 * Abs(w4))) / log(10)","p4 == 180 * arg(I / w4 ** 3) / pi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_nichols_expr():
     m1, p1, w1 = nichols_plot_expr(tf1)
     m2, p2, w2 = nichols_plot_expr(tf2)

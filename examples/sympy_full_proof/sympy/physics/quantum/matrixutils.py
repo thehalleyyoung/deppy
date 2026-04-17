@@ -61,7 +61,13 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympy_to_numpy(m, ), convert a sympy matrix/complex number to a numpy matrix or scalar) over {Any | isinstance(m, MatrixBase) and isinstance(m, Expr)} ║
+# ║ Path(sympy_to_numpy(m, **options), <unspecified:sympy_to_numpy>) over {Any | isinstance(m, MatrixBase) and isinstance(m, Expr) and np and hasattr(m, 'tolist') and hasattr(m, 'is_Number') and hasattr(m, 'is_NumberSymbol')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: np                                             ║
+# ║   requires: hasattr(m, 'tolist')                           ║
+# ║   requires: hasattr(m, 'is_Number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_to_numpy : {Any | isinstance(m, MatrixBase) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -74,9 +80,12 @@ else:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7609aa50...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.sympy_to_numpy","kind":"function","src_hash":"cfd616024cd637f7","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"sympy_to_numpy(m, )","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr)"},"name":"sympy_to_numpy_correct"},"guarantee":"convert a sympy matrix/complex number to a numpy matrix or scalar","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"sympy_to_numpy(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"sympy_to_numpy_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_numpy_MatrixBase_correct","statement":"sympy_to_numpy satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(m, Expr)","path":{"lhs":"sympy_to_numpy(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"Expr","pred":"isinstance(m, Expr)"},"name":"sympy_to_numpy_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_numpy_Expr_correct","statement":"sympy_to_numpy satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7609aa508c3a6294"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.sympy_to_numpy","kind":"function","src_hash":"cfd616024cd637f7","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr) and np and hasattr(m, 'tolist') and hasattr(m, 'is_Number') and hasattr(m, 'is_NumberSymbol')"},"out":{"base":"Any"},"spec":{"lhs":"sympy_to_numpy(m, **options)","rhs":"<unspecified:sympy_to_numpy>","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr) and np and hasattr(m, 'tolist') and hasattr(m, 'is_Number') and hasattr(m, 'is_NumberSymbol')"},"name":"sympy_to_numpy_correct"},"guarantee":"convert a sympy matrix/complex number to a numpy matrix or scalar","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"sympy_to_numpy(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"sympy_to_numpy_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_numpy_MatrixBase_correct","statement":"sympy_to_numpy satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(m, Expr)","path":{"lhs":"sympy_to_numpy(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"Expr","pred":"isinstance(m, Expr)"},"name":"sympy_to_numpy_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_numpy_Expr_correct","statement":"sympy_to_numpy satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7609aa508c3a6294","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["np","hasattr(m, 'tolist')","hasattr(m, 'is_Number')","hasattr(m, 'is_NumberSymbol')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_Number","m.is_NumberSymbol","m.tolist"],"raises":["ImportError","TypeError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']","Poor branch-fiber coverage: 0% (branches={'isinstance(m, MatrixBase)', 'm.is_Number or m.is_NumberSymbol or m == I', 'isinstance(m, Expr)'}, fibers={'MatrixBase', 'Expr'})"]}}
 def sympy_to_numpy(m, **options):
     """Convert a SymPy Matrix/complex number to a numpy matrix or scalar."""
     if not np:
@@ -91,7 +100,13 @@ def sympy_to_numpy(m, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympy_to_scipy_sparse(m, ), convert a sympy matrix/complex number to a numpy matrix or scalar) over {Any | isinstance(m, MatrixBase) and isinstance(m, Expr)} ║
+# ║ Path(sympy_to_scipy_sparse(m, **options), <unspecified:sympy_to_scipy_sparse>) over {Any | isinstance(m, MatrixBase) and isinstance(m, Expr) and not (not np or not sparse) and hasattr(m, 'is_Number') and hasattr(m, 'is_NumberSymbol') and hasattr(m, 'tolist')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not np or not sparse)                     ║
+# ║   requires: hasattr(m, 'is_Number')                        ║
+# ║   requires: hasattr(m, 'is_NumberSymbol')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_to_scipy_sparse : {Any | isinstance(m, MatrixBa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -104,9 +119,12 @@ def sympy_to_numpy(m, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1272657b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.sympy_to_scipy_sparse","kind":"function","src_hash":"f68905507a69a6f3","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"sympy_to_scipy_sparse(m, )","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr)"},"name":"sympy_to_scipy_sparse_correct"},"guarantee":"convert a sympy matrix/complex number to a numpy matrix or scalar","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"sympy_to_scipy_sparse(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"sympy_to_scipy_sparse_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_scipy_sparse_MatrixBase_correct","statement":"sympy_to_scipy_sparse satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(m, Expr)","path":{"lhs":"sympy_to_scipy_sparse(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"Expr","pred":"isinstance(m, Expr)"},"name":"sympy_to_scipy_sparse_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_scipy_sparse_Expr_correct","statement":"sympy_to_scipy_sparse satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1272657b164028f5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.sympy_to_scipy_sparse","kind":"function","src_hash":"f68905507a69a6f3","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr) and not (not np or not sparse) and hasattr(m, 'is_Number') and hasattr(m, 'is_NumberSymbol') and hasattr(m, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"sympy_to_scipy_sparse(m, **options)","rhs":"<unspecified:sympy_to_scipy_sparse>","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, Expr) and not (not np or not sparse) and hasattr(m, 'is_Number') and hasattr(m, 'is_NumberSymbol') and hasattr(m, 'tolist')"},"name":"sympy_to_scipy_sparse_correct"},"guarantee":"convert a sympy matrix/complex number to a numpy matrix or scalar","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"sympy_to_scipy_sparse(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"sympy_to_scipy_sparse_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_scipy_sparse_MatrixBase_correct","statement":"sympy_to_scipy_sparse satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(m, Expr)","path":{"lhs":"sympy_to_scipy_sparse(x)","rhs":"convert a sympy matrix/complex number to a numpy matrix or scalar","over":{"base":"Expr","pred":"isinstance(m, Expr)"},"name":"sympy_to_scipy_sparse_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.sympy_to_scipy_sparse_Expr_correct","statement":"sympy_to_scipy_sparse satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1272657b164028f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not np or not sparse)","hasattr(m, 'is_Number')","hasattr(m, 'is_NumberSymbol')","hasattr(m, 'tolist')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_Number","m.is_NumberSymbol","m.tolist"],"raises":["ImportError","TypeError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']","Poor branch-fiber coverage: 0% (branches={'m.is_Number or m.is_NumberSymbol or m == I', 'isinstance(m, MatrixBase)', 'isinstance(m, Expr)'}, fibers={'MatrixBase', 'Expr'})"]}}
 def sympy_to_scipy_sparse(m, **options):
     """Convert a SymPy Matrix/complex number to a numpy matrix or scalar."""
     if not np or not sparse:
@@ -121,39 +139,59 @@ def sympy_to_scipy_sparse(m, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scipy_sparse_to_sympy(m, ), convert a scipy.sparse matrix to a sympy matrix) over Any ║
+# ║ Path(scipy_sparse_to_sympy(m, **options), MatrixBase(m.todense())) over {Any | hasattr(m, 'todense')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scipy_sparse_to_sympy : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'todense')                          ║
+# ║   returns:  MatrixBase(m.todense())                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scipy_sparse_to_sympy : {Any | hasattr(m, 'todense')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c949a7b47325c2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.scipy_sparse_to_sympy","kind":"function","src_hash":"5f66d0d6b39e50a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scipy_sparse_to_sympy(m, )","rhs":"convert a scipy.sparse matrix to a sympy matrix","over":{"base":"Any"},"name":"scipy_sparse_to_sympy_correct"},"guarantee":"convert a scipy.sparse matrix to a sympy matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c949a7b47325c2e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.scipy_sparse_to_sympy","kind":"function","src_hash":"5f66d0d6b39e50a3","in":{"base":"Any","pred":"hasattr(m, 'todense')"},"out":{"base":"Any"},"spec":{"lhs":"scipy_sparse_to_sympy(m, **options)","rhs":"MatrixBase(m.todense())","over":{"base":"Any","pred":"hasattr(m, 'todense')"},"name":"scipy_sparse_to_sympy_correct"},"guarantee":"returns MatrixBase(m.todense())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c949a7b47325c2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'todense')"],"returns_expr":"MatrixBase(m.todense())","pure":false,"effects":{"effect_type":"reads_state","reads":["m.todense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']"]}}
 def scipy_sparse_to_sympy(m, **options):
     """Convert a scipy.sparse matrix to a SymPy matrix."""
     return MatrixBase(m.todense())
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numpy_to_sympy(m, ), convert a numpy matrix to a sympy matrix) over Any ║
+# ║ Path(numpy_to_sympy(m, **options), MatrixBase(m)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixBase(m)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ numpy_to_sympy : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 456558da0bf6203d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.numpy_to_sympy","kind":"function","src_hash":"662427fade4f292c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numpy_to_sympy(m, )","rhs":"convert a numpy matrix to a sympy matrix","over":{"base":"Any"},"name":"numpy_to_sympy_correct"},"guarantee":"convert a numpy matrix to a sympy matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"456558da0bf6203d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.numpy_to_sympy","kind":"function","src_hash":"662427fade4f292c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numpy_to_sympy(m, **options)","rhs":"MatrixBase(m)","over":{"base":"Any"},"name":"numpy_to_sympy_correct"},"guarantee":"returns MatrixBase(m)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"456558da0bf6203d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixBase(m)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']"]}}
 def numpy_to_sympy(m, **options):
     """Convert a numpy matrix to a SymPy matrix."""
     return MatrixBase(m)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(m, ), convert a numpy/scipy.sparse matrix to a sympy matrix) over {Any | isinstance(m, MatrixBase) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)} ║
+# ║ Path(to_sympy(m, **options), result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m) and result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m)) over {Any | isinstance(m, MatrixBase) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (m if isinstance(m, MatrixBase)...   ║
+# ║   ensures:  result == m or result == numpy_to_sympy(m...   ║
+# ║   fiber[MatrixBase]: isinstance(m, MatrixBase) => m        ║
+# ║   fiber[numpy_ndarray]: isinstance(m, numpy_ndarray) ...   ║
+# ║   fiber[scipy_sparse_matrix]: isinstance(m, scipy_spa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : {Any | isinstance(m, MatrixBase) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -168,9 +206,12 @@ def numpy_to_sympy(m, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a58d5aa4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.to_sympy","kind":"function","src_hash":"2a94b1a7cd4014de","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(m, )","rhs":"convert a numpy/scipy.sparse matrix to a sympy matrix","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"name":"to_sympy_correct"},"guarantee":"convert a numpy/scipy.sparse matrix to a sympy matrix","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"to_sympy(x)","rhs":"convert a numpy/scipy.sparse matrix to a sympy matrix","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"to_sympy_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_MatrixBase_correct","statement":"to_sympy satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)","path":{"lhs":"to_sympy(x)","rhs":"convert a numpy/scipy.sparse matrix to a sympy matrix","over":{"base":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)"},"name":"to_sympy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_numpy_ndarray_correct","statement":"to_sympy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)","path":{"lhs":"to_sympy(x)","rhs":"convert a numpy/scipy.sparse matrix to a sympy matrix","over":{"base":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)"},"name":"to_sympy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_scipy_sparse_matrix_correct","statement":"to_sympy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(m, Expr)","path":{"lhs":"to_sympy(x)","rhs":"convert a numpy/scipy.sparse matrix to a sympy matrix","over":{"base":"Expr","pred":"isinstance(m, Expr)"},"name":"to_sympy_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_Expr_correct","statement":"to_sympy satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a58d5aa40e511332"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.to_sympy","kind":"function","src_hash":"2a94b1a7cd4014de","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"result satisfies: result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m) and result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m)"},"spec":{"lhs":"to_sympy(m, **options)","rhs":"result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m) and result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m)","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"name":"to_sympy_correct"},"guarantee":"result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m); result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m); 4-fiber decomposition","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"to_sympy(x)","rhs":"result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m); result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m); 4-fiber decomposition","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"to_sympy_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_MatrixBase_correct","statement":"to_sympy satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)","path":{"lhs":"to_sympy(x)","rhs":"result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m); result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m); 4-fiber decomposition","over":{"base":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)"},"name":"to_sympy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_numpy_ndarray_correct","statement":"to_sympy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)","path":{"lhs":"to_sympy(x)","rhs":"result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m); result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m); 4-fiber decomposition","over":{"base":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)"},"name":"to_sympy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_scipy_sparse_matrix_correct","statement":"to_sympy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(m, Expr)","path":{"lhs":"to_sympy(x)","rhs":"result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m); result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m); 4-fiber decomposition","over":{"base":"Expr","pred":"isinstance(m, Expr)"},"name":"to_sympy_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_sympy_Expr_correct","statement":"to_sympy satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a58d5aa40e511332","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (m if isinstance(m, MatrixBase) else numpy_to_sympy(m) if isinstance(m, numpy_ndarray) else scipy_sparse_to_sympy(m) if isinstance(m, scipy_sparse_matrix) else m)","result == m or result == numpy_to_sympy(m) or result == scipy_sparse_to_sympy(m)"],"fibers":[{"name":"MatrixBase","guard":"isinstance(m, MatrixBase)","ensures":["result == m"],"decidability":"structural","returns_expr":"m"},{"name":"numpy_ndarray","guard":"isinstance(m, numpy_ndarray)","ensures":["result == numpy_to_sympy(m)"],"decidability":"structural","returns_expr":"numpy_to_sympy(m)"},{"name":"scipy_sparse_matrix","guard":"isinstance(m, scipy_sparse_matrix)","ensures":["result == scipy_sparse_to_sympy(m)"],"decidability":"structural","returns_expr":"scipy_sparse_to_sympy(m)"},{"name":"Expr","guard":"isinstance(m, Expr)","ensures":["result == m"],"decidability":"structural","returns_expr":"m"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']","Poor branch-fiber coverage: 0% (branches={'isinstance(m, numpy_ndarray)', 'isinstance(m, MatrixBase)', 'isinstance(m, Expr)', 'isinstance(m, scipy_sparse_matrix)'}, fibers={'Expr', 'MatrixBase', 'numpy_ndarray', 'scipy_sparse_matrix'})"]}}
 def to_sympy(m, **options):
     """Convert a numpy/scipy.sparse matrix to a SymPy matrix."""
     if isinstance(m, MatrixBase):
@@ -185,7 +226,15 @@ def to_sympy(m, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_numpy(m, ), convert a sympy/scipy.sparse matrix to a numpy matrix) over {Any | isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)} ║
+# ║ Path(to_numpy(m, **options), result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()) and result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense()) over {Any | isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix) and hasattr(m, 'todense')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'todense')                          ║
+# ║   ensures:  result == (sympy_to_numpy(m, dtype=dtype)...   ║
+# ║   ensures:  result == sympy_to_numpy(m, dtype=dtype) ...   ║
+# ║   fiber[case_0]: isinstance(m, (MatrixBase, Expr)) =>...   ║
+# ║   fiber[numpy_ndarray]: isinstance(m, numpy_ndarray) ...   ║
+# ║   fiber[scipy_sparse_matrix]: isinstance(m, scipy_spa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_numpy : {Any | isinstance(m, (MatrixBase, Expr)) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -199,9 +248,12 @@ def to_sympy(m, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3514ce83...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.to_numpy","kind":"function","src_hash":"45e75472378e17b6","in":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"out":{"base":"Any"},"spec":{"lhs":"to_numpy(m, )","rhs":"convert a sympy/scipy.sparse matrix to a numpy matrix","over":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"name":"to_numpy_correct"},"guarantee":"convert a sympy/scipy.sparse matrix to a numpy matrix","fibers":[{"name":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))","path":{"lhs":"to_numpy(x)","rhs":"convert a sympy/scipy.sparse matrix to a numpy matrix","over":{"base":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))"},"name":"to_numpy_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_numpy_(MatrixBase_correct","statement":"to_numpy satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)","path":{"lhs":"to_numpy(x)","rhs":"convert a sympy/scipy.sparse matrix to a numpy matrix","over":{"base":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)"},"name":"to_numpy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_numpy_numpy_ndarray_correct","statement":"to_numpy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)","path":{"lhs":"to_numpy(x)","rhs":"convert a sympy/scipy.sparse matrix to a numpy matrix","over":{"base":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)"},"name":"to_numpy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_numpy_scipy_sparse_matrix_correct","statement":"to_numpy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3514ce83b82370fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.to_numpy","kind":"function","src_hash":"45e75472378e17b6","in":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix) and hasattr(m, 'todense')"},"out":{"base":"Any","pred":"result satisfies: result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()) and result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense()"},"spec":{"lhs":"to_numpy(m, **options)","rhs":"result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()) and result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense()","over":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix) and hasattr(m, 'todense')"},"name":"to_numpy_correct"},"guarantee":"result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()); result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense(); 3-fiber decomposition","fibers":[{"name":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))","path":{"lhs":"to_numpy(x)","rhs":"result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()); result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense(); 3-fiber decomposition","over":{"base":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))"},"name":"to_numpy_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_numpy_(MatrixBase_correct","statement":"to_numpy satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)","path":{"lhs":"to_numpy(x)","rhs":"result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()); result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense(); 3-fiber decomposition","over":{"base":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)"},"name":"to_numpy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_numpy_numpy_ndarray_correct","statement":"to_numpy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)","path":{"lhs":"to_numpy(x)","rhs":"result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense()); result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense(); 3-fiber decomposition","over":{"base":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)"},"name":"to_numpy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_numpy_scipy_sparse_matrix_correct","statement":"to_numpy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3514ce83b82370fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'todense')"],"ensures":["result == (sympy_to_numpy(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else m if isinstance(m, numpy_ndarray) else m.todense())","result == sympy_to_numpy(m, dtype=dtype) or result == m or result == m.todense()"],"fibers":[{"name":"case_0","guard":"isinstance(m, (MatrixBase, Expr))","ensures":["result == sympy_to_numpy(m, dtype=dtype)"],"decidability":"structural","returns_expr":"sympy_to_numpy(m, dtype=dtype)"},{"name":"numpy_ndarray","guard":"isinstance(m, numpy_ndarray)","ensures":["result == m"],"decidability":"structural","returns_expr":"m"},{"name":"scipy_sparse_matrix","guard":"isinstance(m, scipy_sparse_matrix)","ensures":["result == m.todense()"],"decidability":"structural","returns_expr":"m.todense()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.todense"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']","Poor branch-fiber coverage: 0% (branches={'isinstance(m, numpy_ndarray)', 'isinstance(m, (MatrixBase, Expr))', 'isinstance(m, scipy_sparse_matrix)'}, fibers={'(MatrixBase', 'numpy_ndarray', 'scipy_sparse_matrix'})"]}}
 def to_numpy(m, **options):
     """Convert a sympy/scipy.sparse matrix to a numpy matrix."""
     dtype = options.get('dtype', 'complex')
@@ -215,7 +267,14 @@ def to_numpy(m, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_scipy_sparse(m, ), convert a sympy/numpy matrix to a scipy.sparse matrix) over {Any | isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)} ║
+# ║ Path(to_scipy_sparse(m, **options), result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m) and result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m) over {Any | isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (sympy_to_scipy_sparse(m, dtype...   ║
+# ║   ensures:  result == sympy_to_scipy_sparse(m, dtype=...   ║
+# ║   fiber[case_0]: isinstance(m, (MatrixBase, Expr)) =>...   ║
+# ║   fiber[numpy_ndarray]: isinstance(m, numpy_ndarray) ...   ║
+# ║   fiber[scipy_sparse_matrix]: isinstance(m, scipy_spa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_scipy_sparse : {Any | isinstance(m, (MatrixBase, E...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -229,9 +288,12 @@ def to_numpy(m, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 30949ccc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.to_scipy_sparse","kind":"function","src_hash":"b568829a8cc71ff7","in":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"out":{"base":"Any"},"spec":{"lhs":"to_scipy_sparse(m, )","rhs":"convert a sympy/numpy matrix to a scipy.sparse matrix","over":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"name":"to_scipy_sparse_correct"},"guarantee":"convert a sympy/numpy matrix to a scipy.sparse matrix","fibers":[{"name":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))","path":{"lhs":"to_scipy_sparse(x)","rhs":"convert a sympy/numpy matrix to a scipy.sparse matrix","over":{"base":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))"},"name":"to_scipy_sparse_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_scipy_sparse_(MatrixBase_correct","statement":"to_scipy_sparse satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)","path":{"lhs":"to_scipy_sparse(x)","rhs":"convert a sympy/numpy matrix to a scipy.sparse matrix","over":{"base":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)"},"name":"to_scipy_sparse_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_scipy_sparse_numpy_ndarray_correct","statement":"to_scipy_sparse satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)","path":{"lhs":"to_scipy_sparse(x)","rhs":"convert a sympy/numpy matrix to a scipy.sparse matrix","over":{"base":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)"},"name":"to_scipy_sparse_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_scipy_sparse_scipy_sparse_matrix_correct","statement":"to_scipy_sparse satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30949ccca377c99e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.to_scipy_sparse","kind":"function","src_hash":"b568829a8cc71ff7","in":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"result satisfies: result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m) and result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m"},"spec":{"lhs":"to_scipy_sparse(m, **options)","rhs":"result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m) and result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m","over":{"base":"Any","pred":"isinstance(m, (MatrixBase, Expr)) and isinstance(m, numpy_ndarray) and isinstance(m, scipy_sparse_matrix)"},"name":"to_scipy_sparse_correct"},"guarantee":"result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m); result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m; 3-fiber decomposition","fibers":[{"name":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))","path":{"lhs":"to_scipy_sparse(x)","rhs":"result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m); result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m; 3-fiber decomposition","over":{"base":"(MatrixBase","pred":"isinstance(m, (MatrixBase, Expr))"},"name":"to_scipy_sparse_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_scipy_sparse_(MatrixBase_correct","statement":"to_scipy_sparse satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)","path":{"lhs":"to_scipy_sparse(x)","rhs":"result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m); result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m; 3-fiber decomposition","over":{"base":"numpy_ndarray","pred":"isinstance(m, numpy_ndarray)"},"name":"to_scipy_sparse_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_scipy_sparse_numpy_ndarray_correct","statement":"to_scipy_sparse satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)","path":{"lhs":"to_scipy_sparse(x)","rhs":"result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m); result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m; 3-fiber decomposition","over":{"base":"scipy_sparse_matrix","pred":"isinstance(m, scipy_sparse_matrix)"},"name":"to_scipy_sparse_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.to_scipy_sparse_scipy_sparse_matrix_correct","statement":"to_scipy_sparse satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30949ccca377c99e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (sympy_to_scipy_sparse(m, dtype=dtype) if isinstance(m, (MatrixBase, Expr)) else sparse.csr_matrix(m) if isinstance(m, numpy_ndarray) else m)","result == sympy_to_scipy_sparse(m, dtype=dtype) or result == sparse.csr_matrix(m) or result == m"],"fibers":[{"name":"case_0","guard":"isinstance(m, (MatrixBase, Expr))","ensures":["result == sympy_to_scipy_sparse(m, dtype=dtype)"],"decidability":"structural","returns_expr":"sympy_to_scipy_sparse(m, dtype=dtype)"},{"name":"numpy_ndarray","guard":"isinstance(m, numpy_ndarray)","ensures":["result == sparse.csr_matrix(m)"],"decidability":"structural","returns_expr":"sparse.csr_matrix(m)"},{"name":"scipy_sparse_matrix","guard":"isinstance(m, scipy_sparse_matrix)","ensures":["result == m"],"decidability":"structural","returns_expr":"m"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError","TypeError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['m'], spec=['m', '**options']","Poor branch-fiber coverage: 0% (branches={'isinstance(m, numpy_ndarray)', 'isinstance(m, (MatrixBase, Expr))', 'isinstance(m, scipy_sparse_matrix)'}, fibers={'(MatrixBase', 'numpy_ndarray', 'scipy_sparse_matrix'})"]}}
 def to_scipy_sparse(m, **options):
     """Convert a sympy/numpy matrix to a scipy.sparse matrix."""
     dtype = options.get('dtype', 'complex')
@@ -247,7 +309,12 @@ def to_scipy_sparse(m, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten_scalar(e), flatten a 1x1 matrix to a scalar, return larger matrices unchanged) over {Any | isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix))} ║
+# ║ Path(flatten_scalar(e), e) over {Any | isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix)) and hasattr(e, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'shape')                            ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatten_scalar : {Any | isinstance(e, MatrixBase) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -260,9 +327,12 @@ def to_scipy_sparse(m, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 3.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9341cde8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.flatten_scalar","kind":"function","src_hash":"f71867a41f594c51","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"out":{"base":"Any"},"spec":{"lhs":"flatten_scalar(e)","rhs":"flatten a 1x1 matrix to a scalar, return larger matrices unchanged","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"name":"flatten_scalar_correct"},"guarantee":"flatten a 1x1 matrix to a scalar, return larger matrices unchanged","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"flatten_scalar(x)","rhs":"flatten a 1x1 matrix to a scalar, return larger matrices unchanged","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"flatten_scalar_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.flatten_scalar_MatrixBase_correct","statement":"flatten_scalar satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))","path":{"lhs":"flatten_scalar(x)","rhs":"flatten a 1x1 matrix to a scalar, return larger matrices unchanged","over":{"base":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"name":"flatten_scalar_(numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.flatten_scalar_(numpy_ndarray_correct","statement":"flatten_scalar satisfies spec on (numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9341cde84368d7b3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.flatten_scalar","kind":"function","src_hash":"f71867a41f594c51","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix)) and hasattr(e, 'shape')"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"flatten_scalar(e)","rhs":"e","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix)) and hasattr(e, 'shape')"},"name":"flatten_scalar_correct"},"guarantee":"returns e; result == e","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"flatten_scalar(x)","rhs":"returns e; result == e","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"flatten_scalar_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.flatten_scalar_MatrixBase_correct","statement":"flatten_scalar satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))","path":{"lhs":"flatten_scalar(x)","rhs":"returns e; result == e","over":{"base":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"name":"flatten_scalar_(numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.flatten_scalar_(numpy_ndarray_correct","statement":"flatten_scalar satisfies spec on (numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9341cde84368d7b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'shape')"],"ensures":["result == e"],"returns_expr":"e","pure":false,"effects":{"effect_type":"reads_state","reads":["e.shape"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, (numpy_ndarray, scipy_sparse_matrix))', 'e.shape == (1, 1)', 'isinstance(e, MatrixBase)'}, fibers={'(numpy_ndarray', 'MatrixBase'})"]}}
 def flatten_scalar(e):
     """Flatten a 1x1 matrix to a scalar, return larger matrices unchanged."""
     if isinstance(e, MatrixBase):
@@ -275,7 +345,15 @@ def flatten_scalar(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_dagger(e), return the dagger of a sympy/numpy/scipy.sparse matrix) over {Any | isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix))} ║
+# ║ Path(matrix_dagger(e), result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose()) and result == e.H or result == e.conjugate().transpose()) over {Any | isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix)) and hasattr(e, 'H') and hasattr(e, 'conjugate')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'H')                                ║
+# ║   requires: hasattr(e, 'conjugate')                        ║
+# ║   ensures:  result == (e.H if isinstance(e, MatrixBas...   ║
+# ║   ensures:  result == e.H or result == e.conjugate()....   ║
+# ║   fiber[MatrixBase]: isinstance(e, MatrixBase) => e.H      ║
+# ║   fiber[case_1]: isinstance(e, (numpy_ndarray, scipy_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_dagger : {Any | isinstance(e, MatrixBase) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -288,9 +366,12 @@ def flatten_scalar(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 3.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b3a4f1e1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_dagger","kind":"function","src_hash":"ac50e15fb1781632","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"out":{"base":"Any"},"spec":{"lhs":"matrix_dagger(e)","rhs":"return the dagger of a sympy/numpy/scipy.sparse matrix","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"name":"matrix_dagger_correct"},"guarantee":"return the dagger of a sympy/numpy/scipy.sparse matrix","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"matrix_dagger(x)","rhs":"return the dagger of a sympy/numpy/scipy.sparse matrix","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"matrix_dagger_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_dagger_MatrixBase_correct","statement":"matrix_dagger satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))","path":{"lhs":"matrix_dagger(x)","rhs":"return the dagger of a sympy/numpy/scipy.sparse matrix","over":{"base":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"name":"matrix_dagger_(numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_dagger_(numpy_ndarray_correct","statement":"matrix_dagger satisfies spec on (numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3a4f1e1d481e910"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_dagger","kind":"function","src_hash":"ac50e15fb1781632","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix)) and hasattr(e, 'H') and hasattr(e, 'conjugate')"},"out":{"base":"Any","pred":"result satisfies: result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose()) and result == e.H or result == e.conjugate().transpose()"},"spec":{"lhs":"matrix_dagger(e)","rhs":"result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose()) and result == e.H or result == e.conjugate().transpose()","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, (numpy_ndarray, scipy_sparse_matrix)) and hasattr(e, 'H') and hasattr(e, 'conjugate')"},"name":"matrix_dagger_correct"},"guarantee":"result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose()); result == e.H or result == e.conjugate().transpose(); 2-fiber decomposition","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"matrix_dagger(x)","rhs":"result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose()); result == e.H or result == e.conjugate().transpose(); 2-fiber decomposition","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"matrix_dagger_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_dagger_MatrixBase_correct","statement":"matrix_dagger satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))","path":{"lhs":"matrix_dagger(x)","rhs":"result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose()); result == e.H or result == e.conjugate().transpose(); 2-fiber decomposition","over":{"base":"(numpy_ndarray","pred":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))"},"name":"matrix_dagger_(numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_dagger_(numpy_ndarray_correct","statement":"matrix_dagger satisfies spec on (numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3a4f1e1d481e910","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'H')","hasattr(e, 'conjugate')"],"ensures":["result == (e.H if isinstance(e, MatrixBase) else e.conjugate().transpose())","result == e.H or result == e.conjugate().transpose()"],"fibers":[{"name":"MatrixBase","guard":"isinstance(e, MatrixBase)","ensures":["result == e.H"],"decidability":"structural","returns_expr":"e.H"},{"name":"case_1","guard":"isinstance(e, (numpy_ndarray, scipy_sparse_matrix))","ensures":["result == e.conjugate().transpose()"],"decidability":"structural","returns_expr":"e.conjugate().transpose()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.H","e.conjugate"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, (numpy_ndarray, scipy_sparse_matrix))', 'isinstance(e, MatrixBase)'}, fibers={'(numpy_ndarray', 'MatrixBase'})"]}}
 def matrix_dagger(e):
     """Return the dagger of a sympy/numpy/scipy.sparse matrix."""
     if isinstance(e, MatrixBase):
@@ -302,16 +383,22 @@ def matrix_dagger(e):
 
 # TODO: Move this into sympy.matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympy_tensor_product(*ma), compute the kronecker product of a sequence of sympy matrices) over Any ║
+# ║ Path(_sympy_tensor_product(*matrices), matrix_kronecker_product(*matrices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  matrix_kronecker_product(*matrices)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympy_tensor_product : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28b72a3ae11625eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c361df83a0ecae37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._sympy_tensor_product","kind":"function","src_hash":"587b4e4d2d453f5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_tensor_product(*ma)","rhs":"compute the kronecker product of a sequence of sympy matrices","over":{"base":"Any"},"name":"_sympy_tensor_product_correct"},"guarantee":"compute the kronecker product of a sequence of sympy matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._sympy_tensor_product_correct","statement":"Path(_sympy_tensor_product(x), compute the kronecker product of a sequence of sympy matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b72a3ae11625eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._sympy_tensor_product","kind":"function","src_hash":"587b4e4d2d453f5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_tensor_product(*matrices)","rhs":"matrix_kronecker_product(*matrices)","over":{"base":"Any"},"name":"_sympy_tensor_product_correct"},"guarantee":"returns matrix_kronecker_product(*matrices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._sympy_tensor_product_correct","statement":"Path(_sympy_tensor_product(x), returns matrix_kronecker_product(*matrices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c361df83a0ecae37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"matrix_kronecker_product(*matrices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*matrices']"]}}
 def _sympy_tensor_product(*matrices):
     """Compute the kronecker product of a sequence of SymPy Matrices.
     """
@@ -321,16 +408,23 @@ def _sympy_tensor_product(*matrices):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numpy_tensor_product(*pr), numpy version of tensor product of multiple arguments) over Any ║
+# ║ Path(_numpy_tensor_product(*product), <unspecified:_numpy_tensor_product>) over {Any | np} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _numpy_tensor_product : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: np                                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _numpy_tensor_product : {Any | np} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f98efc767e201efc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_tensor_product","kind":"function","src_hash":"8b6001e236f7e978","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_tensor_product(*pr)","rhs":"numpy version of tensor product of multiple arguments","over":{"base":"Any"},"name":"_numpy_tensor_product_correct"},"guarantee":"numpy version of tensor product of multiple arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._numpy_tensor_product_correct","statement":"Path(_numpy_tensor_product(x), numpy version of tensor product of multiple arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f98efc767e201efc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_tensor_product","kind":"function","src_hash":"8b6001e236f7e978","in":{"base":"Any","pred":"np"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_tensor_product(*product)","rhs":"<unspecified:_numpy_tensor_product>","over":{"base":"Any","pred":"np"},"name":"_numpy_tensor_product_correct"},"guarantee":"numpy version of tensor product of multiple arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._numpy_tensor_product_correct","statement":"Path(_numpy_tensor_product(x), numpy version of tensor product of multiple arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f98efc767e201efc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["np"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*product']"]}}
 def _numpy_tensor_product(*product):
     """numpy version of tensor product of multiple arguments."""
     if not np:
@@ -342,16 +436,23 @@ def _numpy_tensor_product(*product):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scipy_sparse_tensor_product(*pr), scipy.sparse version of tensor product of multiple arguments) over Any ║
+# ║ Path(_scipy_sparse_tensor_product(*product), sparse.csr_matrix(answer)) over {Any | sparse} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _scipy_sparse_tensor_product : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: sparse                                         ║
+# ║   returns:  sparse.csr_matrix(answer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _scipy_sparse_tensor_product : {Any | sparse} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc356f24df5c82aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e772f8b6efc1a71a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_tensor_product","kind":"function","src_hash":"0065d518532b5f74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_tensor_product(*pr)","rhs":"scipy.sparse version of tensor product of multiple arguments","over":{"base":"Any"},"name":"_scipy_sparse_tensor_product_correct"},"guarantee":"scipy.sparse version of tensor product of multiple arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_tensor_product_correct","statement":"Path(_scipy_sparse_tensor_product(x), scipy.sparse version of tensor product of multiple arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc356f24df5c82aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_tensor_product","kind":"function","src_hash":"0065d518532b5f74","in":{"base":"Any","pred":"sparse"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_tensor_product(*product)","rhs":"sparse.csr_matrix(answer)","over":{"base":"Any","pred":"sparse"},"name":"_scipy_sparse_tensor_product_correct"},"guarantee":"returns sparse.csr_matrix(answer)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_tensor_product_correct","statement":"Path(_scipy_sparse_tensor_product(x), returns sparse.csr_matrix(answer))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e772f8b6efc1a71a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["sparse"],"returns_expr":"sparse.csr_matrix(answer)","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*product']"]}}
 def _scipy_sparse_tensor_product(*product):
     """scipy.sparse version of tensor product of multiple arguments."""
     if not sparse:
@@ -365,7 +466,14 @@ def _scipy_sparse_tensor_product(*product):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_tensor_product(*pr), compute the matrix tensor product of sympy/numpy/scipy.sparse matrices) over {Any | isinstance(product[0], MatrixBase) and isinstance(product[0], numpy_ndarray) and isinstance(product[0], scipy_sparse_matrix)} ║
+# ║ Path(matrix_tensor_product(*product), result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)) and result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product)) over {Any | isinstance(product[0], MatrixBase) and isinstance(product[0], numpy_ndarray) and isinstance(product[0], scipy_sparse_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (_sympy_tensor_product(*product...   ║
+# ║   ensures:  result == _sympy_tensor_product(*product)...   ║
+# ║   fiber[case_0]: isinstance(product[0], MatrixBase) =...   ║
+# ║   fiber[case_1]: isinstance(product[0], numpy_ndarray...   ║
+# ║   fiber[case_2]: isinstance(product[0], scipy_sparse_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_tensor_product : {Any | isinstance(product[0],...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -379,9 +487,12 @@ def _scipy_sparse_tensor_product(*product):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 0.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | db034520...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_tensor_product","kind":"function","src_hash":"2c53e69c479b90de","in":{"base":"Any","pred":"isinstance(product[0], MatrixBase) and isinstance(product[0], numpy_ndarray) and isinstance(product[0], scipy_sparse_matrix)"},"out":{"base":"Any"},"spec":{"lhs":"matrix_tensor_product(*pr)","rhs":"compute the matrix tensor product of sympy/numpy/scipy.sparse matrices","over":{"base":"Any","pred":"isinstance(product[0], MatrixBase) and isinstance(product[0], numpy_ndarray) and isinstance(product[0], scipy_sparse_matrix)"},"name":"matrix_tensor_product_correct"},"guarantee":"compute the matrix tensor product of sympy/numpy/scipy.sparse matrices","fibers":[{"name":"MatrixBase","pred":"isinstance(product[0], MatrixBase)","path":{"lhs":"matrix_tensor_product(x)","rhs":"compute the matrix tensor product of sympy/numpy/scipy.sparse matrices","over":{"base":"MatrixBase","pred":"isinstance(product[0], MatrixBase)"},"name":"matrix_tensor_product_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_tensor_product_MatrixBase_correct","statement":"matrix_tensor_product satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(product[0], numpy_ndarray)","path":{"lhs":"matrix_tensor_product(x)","rhs":"compute the matrix tensor product of sympy/numpy/scipy.sparse matrices","over":{"base":"numpy_ndarray","pred":"isinstance(product[0], numpy_ndarray)"},"name":"matrix_tensor_product_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_tensor_product_numpy_ndarray_correct","statement":"matrix_tensor_product satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(product[0], scipy_sparse_matrix)","path":{"lhs":"matrix_tensor_product(x)","rhs":"compute the matrix tensor product of sympy/numpy/scipy.sparse matrices","over":{"base":"scipy_sparse_matrix","pred":"isinstance(product[0], scipy_sparse_matrix)"},"name":"matrix_tensor_product_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_tensor_product_scipy_sparse_matrix_correct","statement":"matrix_tensor_product satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"db0345203a8d248c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_tensor_product","kind":"function","src_hash":"2c53e69c479b90de","in":{"base":"Any","pred":"isinstance(product[0], MatrixBase) and isinstance(product[0], numpy_ndarray) and isinstance(product[0], scipy_sparse_matrix)"},"out":{"base":"Any","pred":"result satisfies: result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)) and result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product)"},"spec":{"lhs":"matrix_tensor_product(*product)","rhs":"result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)) and result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product)","over":{"base":"Any","pred":"isinstance(product[0], MatrixBase) and isinstance(product[0], numpy_ndarray) and isinstance(product[0], scipy_sparse_matrix)"},"name":"matrix_tensor_product_correct"},"guarantee":"result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)); result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product); 3-fiber decomposition","fibers":[{"name":"MatrixBase","pred":"isinstance(product[0], MatrixBase)","path":{"lhs":"matrix_tensor_product(x)","rhs":"result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)); result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product); 3-fiber decomposition","over":{"base":"MatrixBase","pred":"isinstance(product[0], MatrixBase)"},"name":"matrix_tensor_product_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_tensor_product_MatrixBase_correct","statement":"matrix_tensor_product satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(product[0], numpy_ndarray)","path":{"lhs":"matrix_tensor_product(x)","rhs":"result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)); result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product); 3-fiber decomposition","over":{"base":"numpy_ndarray","pred":"isinstance(product[0], numpy_ndarray)"},"name":"matrix_tensor_product_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_tensor_product_numpy_ndarray_correct","statement":"matrix_tensor_product satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(product[0], scipy_sparse_matrix)","path":{"lhs":"matrix_tensor_product(x)","rhs":"result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product)); result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product); 3-fiber decomposition","over":{"base":"scipy_sparse_matrix","pred":"isinstance(product[0], scipy_sparse_matrix)"},"name":"matrix_tensor_product_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_tensor_product_scipy_sparse_matrix_correct","statement":"matrix_tensor_product satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"db0345203a8d248c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (_sympy_tensor_product(*product) if isinstance(product[0], MatrixBase) else _numpy_tensor_product(*product) if isinstance(product[0], numpy_ndarray) else _scipy_sparse_tensor_product(*product))","result == _sympy_tensor_product(*product) or result == _numpy_tensor_product(*product) or result == _scipy_sparse_tensor_product(*product)"],"fibers":[{"name":"case_0","guard":"isinstance(product[0], MatrixBase)","ensures":["result == _sympy_tensor_product(*product)"],"decidability":"structural","returns_expr":"_sympy_tensor_product(*product)"},{"name":"case_1","guard":"isinstance(product[0], numpy_ndarray)","ensures":["result == _numpy_tensor_product(*product)"],"decidability":"structural","returns_expr":"_numpy_tensor_product(*product)"},{"name":"case_2","guard":"isinstance(product[0], scipy_sparse_matrix)","ensures":["result == _scipy_sparse_tensor_product(*product)"],"decidability":"structural","returns_expr":"_scipy_sparse_tensor_product(*product)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*product']","Poor branch-fiber coverage: 0% (branches={'isinstance(product[0], MatrixBase)', 'isinstance(product[0], numpy_ndarray)', 'isinstance(product[0], scipy_sparse_matrix)'}, fibers={'MatrixBase', 'numpy_ndarray', 'scipy_sparse_matrix'})"]}}
 def matrix_tensor_product(*product):
     """Compute the matrix tensor product of sympy/numpy/scipy.sparse matrices."""
     if isinstance(product[0], MatrixBase):
@@ -393,16 +504,23 @@ def matrix_tensor_product(*product):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numpy_eye(n), id) over Any                           ║
+# ║ Path(_numpy_eye(n), id) over {Any | np}                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _numpy_eye : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: np                                             ║
+# ║   returns:  np.array(np.eye(n, dtype='complex'))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _numpy_eye : {Any | np} → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bc78102285454797   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_eye","kind":"function","src_hash":"b3fb77221ae04c30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_eye(n)","rhs":"numpy version of complex eye","over":{"base":"Any"},"name":"_numpy_eye_correct","kind":"composition"},"guarantee":"numpy version of complex eye","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"array","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc78102285454797"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_eye","kind":"function","src_hash":"b3fb77221ae04c30","in":{"base":"Any","pred":"np"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_eye(n)","rhs":"np.array(np.eye(n, dtype='complex'))","over":{"base":"Any","pred":"np"},"name":"_numpy_eye_correct","kind":"composition"},"guarantee":"returns np.array(np.eye(n, dtype='complex'))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"array","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc78102285454797","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["np"],"returns_expr":"np.array(np.eye(n, dtype='complex'))","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _numpy_eye(n):
     """numpy version of complex eye."""
     if not np:
@@ -411,16 +529,23 @@ def _numpy_eye(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scipy_sparse_eye(n), scipy.sparse version of complex eye) over Any ║
+# ║ Path(_scipy_sparse_eye(n), sparse.eye(n, n, dtype='complex')) over {Any | sparse} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _scipy_sparse_eye : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: sparse                                         ║
+# ║   returns:  sparse.eye(n, n, dtype='complex')              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _scipy_sparse_eye : {Any | sparse} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12dead1cd8512d0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb14ee771f126706  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_eye","kind":"function","src_hash":"110494e491ca0409","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_eye(n)","rhs":"scipy.sparse version of complex eye","over":{"base":"Any"},"name":"_scipy_sparse_eye_correct"},"guarantee":"scipy.sparse version of complex eye","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_eye_correct","statement":"Path(_scipy_sparse_eye(x), scipy.sparse version of complex eye)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12dead1cd8512d0a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_eye","kind":"function","src_hash":"110494e491ca0409","in":{"base":"Any","pred":"sparse"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_eye(n)","rhs":"sparse.eye(n, n, dtype='complex')","over":{"base":"Any","pred":"sparse"},"name":"_scipy_sparse_eye_correct"},"guarantee":"returns sparse.eye(n, n, dtype='complex')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_eye_correct","statement":"Path(_scipy_sparse_eye(x), returns sparse.eye(n, n, dtype='complex'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb14ee771f126706","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["sparse"],"returns_expr":"sparse.eye(n, n, dtype='complex')","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _scipy_sparse_eye(n):
     """scipy.sparse version of complex eye."""
     if not sparse:
@@ -429,16 +554,26 @@ def _scipy_sparse_eye(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_eye(n, ), get the version of eye and tensor_product for a given format) over Any ║
+# ║ Path(matrix_eye(n, **options), result == (eye(n) if format == 'sympy' else _numpy_eye(n) if format == 'numpy' else _scipy_sparse_eye(n)) and result == eye(n) or result == _numpy_eye(n) or result == _scipy_sparse_eye(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix_eye : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (eye(n) if format == 'sympy' el...   ║
+# ║   ensures:  result == eye(n) or result == _numpy_eye(...   ║
+# ║   fiber[case_0]: format == 'sympy' => eye(n)               ║
+# ║   fiber[case_1]: format == 'numpy' => _numpy_eye(n)        ║
+# ║   fiber[case_2]: format == 'scipy.sparse' => _scipy_s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix_eye : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0f0d3ce543d9c50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f806a12ff9f9798  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_eye","kind":"function","src_hash":"b789167d015b05f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_eye(n, )","rhs":"get the version of eye and tensor_product for a given format","over":{"base":"Any"},"name":"matrix_eye_correct"},"guarantee":"get the version of eye and tensor_product for a given format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_eye_correct","statement":"Path(matrix_eye(x), get the version of eye and tensor_product for a given format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0f0d3ce543d9c50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_eye","kind":"function","src_hash":"b789167d015b05f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (eye(n) if format == 'sympy' else _numpy_eye(n) if format == 'numpy' else _scipy_sparse_eye(n)) and result == eye(n) or result == _numpy_eye(n) or result == _scipy_sparse_eye(n)"},"spec":{"lhs":"matrix_eye(n, **options)","rhs":"result == (eye(n) if format == 'sympy' else _numpy_eye(n) if format == 'numpy' else _scipy_sparse_eye(n)) and result == eye(n) or result == _numpy_eye(n) or result == _scipy_sparse_eye(n)","over":{"base":"Any"},"name":"matrix_eye_correct"},"guarantee":"result == (eye(n) if format == 'sympy' else _numpy_eye(n) if format == 'numpy' else _scipy_sparse_eye(n)); result == eye(n) or result == _numpy_eye(n) or result == _scipy_sparse_eye(n); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_eye_correct","statement":"Path(matrix_eye(x), result == (eye(n) if format == 'sympy' else _numpy_eye(n) if format == 'numpy' else _scipy_sparse_eye(n)); result == eye(n) or result == _numpy_eye(n) or result == _scipy_sparse_eye(n); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f806a12ff9f9798","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (eye(n) if format == 'sympy' else _numpy_eye(n) if format == 'numpy' else _scipy_sparse_eye(n))","result == eye(n) or result == _numpy_eye(n) or result == _scipy_sparse_eye(n)"],"fibers":[{"name":"case_0","guard":"format == 'sympy'","ensures":["result == eye(n)"],"decidability":"z3","returns_expr":"eye(n)"},{"name":"case_1","guard":"format == 'numpy'","ensures":["result == _numpy_eye(n)"],"decidability":"z3","returns_expr":"_numpy_eye(n)"},{"name":"case_2","guard":"format == 'scipy.sparse'","ensures":["result == _scipy_sparse_eye(n)"],"decidability":"z3","returns_expr":"_scipy_sparse_eye(n)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['n'], spec=['n', '**options']"]}}
 def matrix_eye(n, **options):
     """Get the version of eye and tensor_product for a given format."""
     format = options.get('format', 'sympy')
@@ -452,16 +587,23 @@ def matrix_eye(n, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numpy_zeros(m, ), numpy version of zeros) over Any   ║
+# ║ Path(_numpy_zeros(m, n, **options), np.zeros((m, n), dtype=dtype)) over {Any | np} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _numpy_zeros : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: np                                             ║
+# ║   returns:  np.zeros((m, n), dtype=dtype)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _numpy_zeros : {Any | np} → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d5bc68e0320af7b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0a592f6e23dfa7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_zeros","kind":"function","src_hash":"bacce699e8e79ced","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_zeros(m, )","rhs":"numpy version of zeros","over":{"base":"Any"},"name":"_numpy_zeros_correct"},"guarantee":"numpy version of zeros","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._numpy_zeros_correct","statement":"Path(_numpy_zeros(x), numpy version of zeros)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d5bc68e0320af7b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_zeros","kind":"function","src_hash":"bacce699e8e79ced","in":{"base":"Any","pred":"np"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_zeros(m, n, **options)","rhs":"np.zeros((m, n), dtype=dtype)","over":{"base":"Any","pred":"np"},"name":"_numpy_zeros_correct"},"guarantee":"returns np.zeros((m, n), dtype=dtype)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._numpy_zeros_correct","statement":"Path(_numpy_zeros(x), returns np.zeros((m, n), dtype=dtype))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a592f6e23dfa7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["np"],"returns_expr":"np.zeros((m, n), dtype=dtype)","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['m', 'n'], spec=['m', 'n', '**options']"]}}
 def _numpy_zeros(m, n, **options):
     """numpy version of zeros."""
     dtype = options.get('dtype', 'float64')
@@ -471,16 +613,23 @@ def _numpy_zeros(m, n, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scipy_sparse_zeros(m, ), scipy.sparse version of zeros) over Any ║
+# ║ Path(_scipy_sparse_zeros(m, n, **options), <unspecified:_scipy_sparse_zeros>) over {Any | sparse} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _scipy_sparse_zeros : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: sparse                                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _scipy_sparse_zeros : {Any | sparse} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47b073c7fb112008  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_zeros","kind":"function","src_hash":"d6177864208b956a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_zeros(m, )","rhs":"scipy.sparse version of zeros","over":{"base":"Any"},"name":"_scipy_sparse_zeros_correct"},"guarantee":"scipy.sparse version of zeros","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_zeros_correct","statement":"Path(_scipy_sparse_zeros(x), scipy.sparse version of zeros)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47b073c7fb112008"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_zeros","kind":"function","src_hash":"d6177864208b956a","in":{"base":"Any","pred":"sparse"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_zeros(m, n, **options)","rhs":"<unspecified:_scipy_sparse_zeros>","over":{"base":"Any","pred":"sparse"},"name":"_scipy_sparse_zeros_correct"},"guarantee":"scipy.sparse version of zeros","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_zeros_correct","statement":"Path(_scipy_sparse_zeros(x), scipy.sparse version of zeros)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47b073c7fb112008","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["sparse"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['m', 'n'], spec=['m', 'n', '**options']"]}}
 def _scipy_sparse_zeros(m, n, **options):
     """scipy.sparse version of zeros."""
     spmatrix = options.get('spmatrix', 'csr')
@@ -494,16 +643,26 @@ def _scipy_sparse_zeros(m, n, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_zeros(m, ), "get a zeros matrix for a given format) over Any ║
+# ║ Path(matrix_zeros(m, n, **options), result == (zeros(m, n) if format == 'sympy' else _numpy_zeros(m, n, **options) if format == 'numpy' else _scipy_sparse_zeros(m, n, **options)) and result == zeros(m, n) or result == _numpy_zeros(m, n, **options) or result == _scipy_sparse_zeros(m, n, **options)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix_zeros : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (zeros(m, n) if format == 'symp...   ║
+# ║   ensures:  result == zeros(m, n) or result == _numpy...   ║
+# ║   fiber[case_0]: format == 'sympy' => zeros(m, n)          ║
+# ║   fiber[case_1]: format == 'numpy' => _numpy_zeros(m,...   ║
+# ║   fiber[case_2]: format == 'scipy.sparse' => _scipy_s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix_zeros : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdf4f784f8d832d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bfb3266b048bbe1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_zeros","kind":"function","src_hash":"76e8d3c54806316c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_zeros(m, )","rhs":"\"get a zeros matrix for a given format","over":{"base":"Any"},"name":"matrix_zeros_correct"},"guarantee":"\"get a zeros matrix for a given format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_zeros_correct","statement":"Path(matrix_zeros(x), \"get a zeros matrix for a given format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdf4f784f8d832d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_zeros","kind":"function","src_hash":"76e8d3c54806316c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (zeros(m, n) if format == 'sympy' else _numpy_zeros(m, n, **options) if format == 'numpy' else _scipy_sparse_zeros(m, n, **options)) and result == zeros(m, n) or result == _numpy_zeros(m, n, **options) or result == _scipy_sparse_zeros(m, n, **options)"},"spec":{"lhs":"matrix_zeros(m, n, **options)","rhs":"result == (zeros(m, n) if format == 'sympy' else _numpy_zeros(m, n, **options) if format == 'numpy' else _scipy_sparse_zeros(m, n, **options)) and result == zeros(m, n) or result == _numpy_zeros(m, n, **options) or result == _scipy_sparse_zeros(m, n, **options)","over":{"base":"Any"},"name":"matrix_zeros_correct"},"guarantee":"result == (zeros(m, n) if format == 'sympy' else _numpy_zeros(m, n, **options) if format == 'numpy' else _scipy_sparse_zeros(m, n, **options)); result == zeros(m, n) or result == _numpy_zeros(m, n, **options) or result == _scipy_sparse_zeros(m, n, **options); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_zeros_correct","statement":"Path(matrix_zeros(x), result == (zeros(m, n) if format == 'sympy' else _numpy_zeros(m, n, **options) if format == 'numpy' else _scipy_sparse_zeros(m, n, **options)); result == zeros(m, n) or result == _numpy_zeros(m, n, **options) or result == _scipy_sparse_zeros(m, n, **options); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bfb3266b048bbe1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (zeros(m, n) if format == 'sympy' else _numpy_zeros(m, n, **options) if format == 'numpy' else _scipy_sparse_zeros(m, n, **options))","result == zeros(m, n) or result == _numpy_zeros(m, n, **options) or result == _scipy_sparse_zeros(m, n, **options)"],"fibers":[{"name":"case_0","guard":"format == 'sympy'","ensures":["result == zeros(m, n)"],"decidability":"z3","returns_expr":"zeros(m, n)"},{"name":"case_1","guard":"format == 'numpy'","ensures":["result == _numpy_zeros(m, n, **options)"],"decidability":"z3","returns_expr":"_numpy_zeros(m, n, **options)"},{"name":"case_2","guard":"format == 'scipy.sparse'","ensures":["result == _scipy_sparse_zeros(m, n, **options)"],"decidability":"z3","returns_expr":"_scipy_sparse_zeros(m, n, **options)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['m', 'n'], spec=['m', 'n', '**options']"]}}
 def matrix_zeros(m, n, **options):
     """"Get a zeros matrix for a given format."""
     format = options.get('format', 'sympy')
@@ -517,16 +676,23 @@ def matrix_zeros(m, n, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numpy_matrix_to_zero(e), convert a numpy zero matrix to the zero scalar) over Any ║
+# ║ Path(_numpy_matrix_to_zero(e), <unspecified:_numpy_matrix_to_zero>) over {Any | np} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _numpy_matrix_to_zero : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: np                                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _numpy_matrix_to_zero : {Any | np} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1586129f587736b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_matrix_to_zero","kind":"function","src_hash":"7d92b04c6840dee6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_matrix_to_zero(e)","rhs":"convert a numpy zero matrix to the zero scalar","over":{"base":"Any"},"name":"_numpy_matrix_to_zero_correct"},"guarantee":"convert a numpy zero matrix to the zero scalar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._numpy_matrix_to_zero_correct","statement":"Path(_numpy_matrix_to_zero(x), convert a numpy zero matrix to the zero scalar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1586129f587736b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._numpy_matrix_to_zero","kind":"function","src_hash":"7d92b04c6840dee6","in":{"base":"Any","pred":"np"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_matrix_to_zero(e)","rhs":"<unspecified:_numpy_matrix_to_zero>","over":{"base":"Any","pred":"np"},"name":"_numpy_matrix_to_zero_correct"},"guarantee":"convert a numpy zero matrix to the zero scalar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._numpy_matrix_to_zero_correct","statement":"Path(_numpy_matrix_to_zero(x), convert a numpy zero matrix to the zero scalar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1586129f587736b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["np"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _numpy_matrix_to_zero(e):
     """Convert a numpy zero matrix to the zero scalar."""
     if not np:
@@ -539,16 +705,24 @@ def _numpy_matrix_to_zero(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scipy_sparse_matrix_to_zero(e), convert a scipy.sparse zero matrix to the zero scalar) over Any ║
+# ║ Path(_scipy_sparse_matrix_to_zero(e), <unspecified:_scipy_sparse_matrix_to_zero>) over {Any | np and hasattr(e, 'todense')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _scipy_sparse_matrix_to_zero : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: np                                             ║
+# ║   requires: hasattr(e, 'todense')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _scipy_sparse_matrix_to_zero : {Any | np and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99fbddba4dedd001  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_matrix_to_zero","kind":"function","src_hash":"1fe545b645712afa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_matrix_to_zero(e)","rhs":"convert a scipy.sparse zero matrix to the zero scalar","over":{"base":"Any"},"name":"_scipy_sparse_matrix_to_zero_correct"},"guarantee":"convert a scipy.sparse zero matrix to the zero scalar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_matrix_to_zero_correct","statement":"Path(_scipy_sparse_matrix_to_zero(x), convert a scipy.sparse zero matrix to the zero scalar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99fbddba4dedd001"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils._scipy_sparse_matrix_to_zero","kind":"function","src_hash":"1fe545b645712afa","in":{"base":"Any","pred":"np and hasattr(e, 'todense')"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_matrix_to_zero(e)","rhs":"<unspecified:_scipy_sparse_matrix_to_zero>","over":{"base":"Any","pred":"np and hasattr(e, 'todense')"},"name":"_scipy_sparse_matrix_to_zero_correct"},"guarantee":"convert a scipy.sparse zero matrix to the zero scalar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils._scipy_sparse_matrix_to_zero_correct","statement":"Path(_scipy_sparse_matrix_to_zero(x), convert a scipy.sparse zero matrix to the zero scalar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99fbddba4dedd001","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["np","hasattr(e, 'todense')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.todense"],"raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _scipy_sparse_matrix_to_zero(e):
     """Convert a scipy.sparse zero matrix to the zero scalar."""
     if not np:
@@ -562,7 +736,12 @@ def _scipy_sparse_matrix_to_zero(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_to_zero(e), convert a zero matrix to the scalar zero) over {Any | isinstance(e, MatrixBase) and isinstance(e, numpy_ndarray) and isinstance(e, scipy_sparse_matrix)} ║
+# ║ Path(matrix_to_zero(e), e) over {Any | isinstance(e, MatrixBase) and isinstance(e, numpy_ndarray) and isinstance(e, scipy_sparse_matrix) and hasattr(e, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'shape')                            ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_to_zero : {Any | isinstance(e, MatrixBase) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -576,9 +755,12 @@ def _scipy_sparse_matrix_to_zero(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 3.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 509b77b2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_to_zero","kind":"function","src_hash":"53a61efa7f4794a8","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, numpy_ndarray) and isinstance(e, scipy_sparse_matrix)"},"out":{"base":"Any"},"spec":{"lhs":"matrix_to_zero(e)","rhs":"convert a zero matrix to the scalar zero","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, numpy_ndarray) and isinstance(e, scipy_sparse_matrix)"},"name":"matrix_to_zero_correct"},"guarantee":"convert a zero matrix to the scalar zero","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"matrix_to_zero(x)","rhs":"convert a zero matrix to the scalar zero","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"matrix_to_zero_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_to_zero_MatrixBase_correct","statement":"matrix_to_zero satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(e, numpy_ndarray)","path":{"lhs":"matrix_to_zero(x)","rhs":"convert a zero matrix to the scalar zero","over":{"base":"numpy_ndarray","pred":"isinstance(e, numpy_ndarray)"},"name":"matrix_to_zero_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_to_zero_numpy_ndarray_correct","statement":"matrix_to_zero satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(e, scipy_sparse_matrix)","path":{"lhs":"matrix_to_zero(x)","rhs":"convert a zero matrix to the scalar zero","over":{"base":"scipy_sparse_matrix","pred":"isinstance(e, scipy_sparse_matrix)"},"name":"matrix_to_zero_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_to_zero_scipy_sparse_matrix_correct","statement":"matrix_to_zero satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"509b77b2274b74c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixutils.matrix_to_zero","kind":"function","src_hash":"53a61efa7f4794a8","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, numpy_ndarray) and isinstance(e, scipy_sparse_matrix) and hasattr(e, 'shape')"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"matrix_to_zero(e)","rhs":"e","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and isinstance(e, numpy_ndarray) and isinstance(e, scipy_sparse_matrix) and hasattr(e, 'shape')"},"name":"matrix_to_zero_correct"},"guarantee":"returns e; result == e","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"matrix_to_zero(x)","rhs":"returns e; result == e","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"matrix_to_zero_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_to_zero_MatrixBase_correct","statement":"matrix_to_zero satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(e, numpy_ndarray)","path":{"lhs":"matrix_to_zero(x)","rhs":"returns e; result == e","over":{"base":"numpy_ndarray","pred":"isinstance(e, numpy_ndarray)"},"name":"matrix_to_zero_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_to_zero_numpy_ndarray_correct","statement":"matrix_to_zero satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(e, scipy_sparse_matrix)","path":{"lhs":"matrix_to_zero(x)","rhs":"returns e; result == e","over":{"base":"scipy_sparse_matrix","pred":"isinstance(e, scipy_sparse_matrix)"},"name":"matrix_to_zero_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixutils.matrix_to_zero_scipy_sparse_matrix_correct","statement":"matrix_to_zero satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"509b77b2274b74c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'shape')"],"ensures":["result == e"],"returns_expr":"e","pure":false,"effects":{"effect_type":"reads_state","reads":["e.shape"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, scipy_sparse_matrix)', 'zeros(*e.shape) == e', 'isinstance(e, numpy_ndarray)', 'isinstance(e, MatrixBase)'}, fibers={'MatrixBase', 'numpy_ndarray', 'scipy_sparse_matrix'})"]}}
 def matrix_to_zero(e):
     """Convert a zero matrix to the scalar zero."""
     if isinstance(e, MatrixBase):

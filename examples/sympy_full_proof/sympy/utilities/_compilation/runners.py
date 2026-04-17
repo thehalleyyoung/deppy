@@ -32,14 +32,19 @@ from .util import (
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CompilerRunner instance) preserved by CompilerRunner(*args) over {Any | isinstance(sources, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CompilerRunner : {Any | isinstance(sources, str)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ef7630d210b2e93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner","kind":"class","src_hash":"7e5b884b74da4b38","in":{"base":"Any","pred":"isinstance(sources, str)"},"out":{"base":"Any"},"spec":{"lhs":"CompilerRunner(*args)","rhs":"correctly constructs a CompilerRunner instance","over":{"base":"Any","pred":"isinstance(sources, str)"},"name":"CompilerRunner_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CompilerRunner instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'sources') and hasattr(self, 'out') and hasattr(self, 'flags') and hasattr(self, 'cwd') and hasattr(self, 'compiler_binary') and hasattr(self, 'compiler_binary') and hasattr(self, 'compiler_vendor') and hasattr(self, 'compiler_name')","kind":"class","induction":"structural on sources, out, flags, cwd"}],"methods_preserving":["__init__","cmd","run"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ef7630d210b2e93"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner","kind":"class","src_hash":"7e5b884b74da4b38","in":{"base":"Any","pred":"isinstance(sources, str)"},"out":{"base":"Any"},"spec":{"lhs":"CompilerRunner(*args)","rhs":"correctly constructs a CompilerRunner instance","over":{"base":"Any","pred":"isinstance(sources, str)"},"name":"CompilerRunner_class_invariant","kind":"invariant"},"guarantee":"preserves 15 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'sources') and hasattr(self, 'out') and hasattr(self, 'flags') and hasattr(self, 'cwd') and hasattr(self, 'compiler_binary') and hasattr(self, 'compiler_binary') and hasattr(self, 'compiler_vendor') and hasattr(self, 'compiler_name')","kind":"class","induction":"structural on sources, out, flags, cwd"}],"methods_preserving":["__init__","cmd","run"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ef7630d210b2e93","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'sources')","hasattr(self, 'out')","hasattr(self, 'flags')","hasattr(self, 'cwd')","hasattr(self, 'define')","hasattr(self, 'undef')","hasattr(self, 'include_dirs')","hasattr(self, 'libraries')","hasattr(self, 'library_dirs')","hasattr(self, 'std')","hasattr(self, 'run_linker')","hasattr(self, 'linkline')","hasattr(self, 'compiler_binary')","hasattr(self, 'compiler_vendor')","hasattr(self, 'compiler_name')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CompilerRunner not found in source"]}}
 class CompilerRunner:
     """ CompilerRunner base class.
 
@@ -97,16 +102,25 @@ class CompilerRunner:
     compiler_name_vendor_mapping: dict[str, str]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sou), initializes the instance correctly) over Any ║
+# ║ Path(__init__(sources, out, flags), len(flags) == old_len_flags + 1 and len(self) == old_len_self + 1) over {Any | not (isinstance(sources, str)) and hasattr(flags, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(sources, str))                 ║
+# ║   requires: hasattr(flags, 'append')                       ║
+# ║   ensures:  len(flags) == old_len_flags + 1                ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (isinstance(sources, str)) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ae3ad0e2b309a7d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.__init__","kind":"method","src_hash":"0ac9d9f7587f799e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sou)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ae3ad0e2b309a7d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.__init__","kind":"method","src_hash":"0ac9d9f7587f799e","in":{"base":"Any","pred":"not (isinstance(sources, str)) and hasattr(flags, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(flags) == old_len_flags + 1 and len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(sources, out, flags)","rhs":"len(flags) == old_len_flags + 1 and len(self) == old_len_self + 1","over":{"base":"Any","pred":"not (isinstance(sources, str)) and hasattr(flags, 'append')"},"name":"__init___correct"},"guarantee":"len(flags) == old_len_flags + 1; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ae3ad0e2b309a7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(sources, str))","hasattr(flags, 'append')"],"ensures":["len(flags) == old_len_flags + 1","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["flags.append","self.compiler_binary","self.compiler_dict","self.compiler_name","self.environ_key_compiler","self.environ_key_flags","self.environ_key_ldflags","self.find_compiler","self.flags","self.run_linker","self.standards","self.std","self.std_formater"],"writes":["self.compiler_binary","self.compiler_name","self.compiler_vendor","self.cwd","self.define","self.flags","self.include_dirs","self.libraries","self.library_dirs","self.linkline","self.out","self.run_linker","self.sources","self.std","self.undef"],"calls_mutating":["flags.append","self.flags.append"],"raises":["CompileError","ValueError"]},"state_contract":{"modifies":["flags.*","self.*","self.compiler_binary","self.compiler_name","self.compiler_vendor","self.cwd","self.define","self.flags","self.include_dirs","self.libraries","self.library_dirs","self.linkline","self.out","self.run_linker","self.sources","self.std","self.undef"],"old_bindings":{"old_self_compiler_binary":"self.compiler_binary","old_self_compiler_name":"self.compiler_name","old_self_compiler_vendor":"self.compiler_vendor","old_self_cwd":"self.cwd","old_self_define":"self.define","old_self_flags":"self.flags","old_self_include_dirs":"self.include_dirs","old_self_libraries":"self.libraries","old_self_library_dirs":"self.library_dirs","old_self_linkline":"self.linkline","old_self_out":"self.out","old_self_run_linker":"self.run_linker","old_self_sources":"self.sources","old_self_std":"self.std","old_self_undef":"self.undef","old_len_flags":"len(flags)","old_len_self":"len(self)"},"post_ensures":["len(flags) == old_len_flags + 1","len(self) == old_len_self + 1"],"exceptional_post":{"CompileError":["isinstance(raised, CompileError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, sources, out, flags=None, run_linker=True, compiler=None, cwd='.',
                  include_dirs=None, libraries=None, library_dirs=None, std=None, define=None,
                  undef=None, strict_aliasing=None, preferred_vendor=None, linkline=None, **kwargs):
@@ -184,16 +198,22 @@ class CompilerRunner:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_compiler(cls), identify a suitable c/fortran/other compiler) over Any ║
+# ║ Path(find_compiler(cls, preferred_vendor), (name, path, cls.compiler_name_vendor_mapping[name])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (name, path, cls.compiler_name_vendor_map...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_compiler : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d159bab5ec16aa94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed3604584095c569  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.find_compiler","kind":"classmethod","src_hash":"370013de48936582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_compiler(cls)","rhs":"identify a suitable c/fortran/other compiler","over":{"base":"Any"},"name":"find_compiler_correct"},"guarantee":"identify a suitable c/fortran/other compiler","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners.CompilerRunner.find_compiler_correct","statement":"Path(find_compiler(x), identify a suitable c/fortran/other compiler)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d159bab5ec16aa94"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.find_compiler","kind":"classmethod","src_hash":"370013de48936582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_compiler(cls, preferred_vendor)","rhs":"(name, path, cls.compiler_name_vendor_mapping[name])","over":{"base":"Any"},"name":"find_compiler_correct"},"guarantee":"returns (name, path, cls.compiler_name_vendor_mapping[name])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners.CompilerRunner.find_compiler_correct","statement":"Path(find_compiler(x), returns (name, path, cls.compiler_name_vendor_mapping[name]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed3604584095c569","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(name, path, cls.compiler_name_vendor_mapping[name])","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.compiler_dict","cls.compiler_name_vendor_mapping"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_compiler(cls, preferred_vendor=None):
         """ Identify a suitable C/fortran/other compiler. """
         candidates = list(cls.compiler_dict.keys())
@@ -206,16 +226,22 @@ class CompilerRunner:
         return name, path, cls.compiler_name_vendor_mapping[name]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cmd(), list of arguments (str) to be passed to e.g) over Any ║
+# ║ Path(cmd(), len(counted) == old_len_counted + 1) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cmd : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(counted) == old_len_counted + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cmd : Any → {Any | result satisfies: len(counted) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4c518e6497500e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7442f5f9e4646cc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.cmd","kind":"method","src_hash":"0f978d42bfeef41e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cmd()","rhs":"list of arguments (str) to be passed to e.g","over":{"base":"Any"},"name":"cmd_correct"},"guarantee":"list of arguments (str) to be passed to e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners.CompilerRunner.cmd_correct","statement":"Path(cmd(x), list of arguments (str) to be passed to e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4c518e6497500e1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.cmd","kind":"method","src_hash":"0f978d42bfeef41e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(counted) == old_len_counted + 1"},"spec":{"lhs":"cmd()","rhs":"len(counted) == old_len_counted + 1","over":{"base":"Any"},"name":"cmd_correct"},"guarantee":"len(counted) == old_len_counted + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners.CompilerRunner.cmd_correct","statement":"Path(cmd(x), len(counted) == old_len_counted + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7442f5f9e4646cc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(counted) == old_len_counted + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.compiler_binary","self.define","self.flags","self.include_dirs","self.libraries","self.library_dirs","self.linkline","self.run_linker","self.sources","self.undef"],"calls_mutating":["counted.append"],"raises":["CompileError"]},"state_contract":{"modifies":["counted.*"],"old_bindings":{"old_len_counted":"len(counted)"},"post_ensures":["len(counted) == old_len_counted + 1"],"exceptional_post":{"CompileError":["isinstance(raised, CompileError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cmd(self):
         """ List of arguments (str) to be passed to e.g. ``subprocess.Popen``. """
         cmd = (
@@ -240,16 +266,22 @@ class CompilerRunner:
         return cmd
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(run(), run produces the expected output) over Any     ║
+# ║ Path(run(), (self.cmd_outerr, self.cmd_returncode)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.cmd_outerr, self.cmd_returncode)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ run : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93486864f159416e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 709d914db48e36fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.run","kind":"method","src_hash":"0dd73a544908c8d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"run()","rhs":"run produces the expected output","over":{"base":"Any"},"name":"run_correct"},"guarantee":"run produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners.CompilerRunner.run_correct","statement":"Path(run(x), run produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93486864f159416e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CompilerRunner.run","kind":"method","src_hash":"0dd73a544908c8d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"run()","rhs":"(self.cmd_outerr, self.cmd_returncode)","over":{"base":"Any"},"name":"run_correct"},"guarantee":"returns (self.cmd_outerr, self.cmd_returncode)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners.CompilerRunner.run_correct","statement":"Path(run(x), returns (self.cmd_outerr, self.cmd_returncode))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709d914db48e36fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.cmd_outerr, self.cmd_returncode)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.cmd","self.cmd_outerr","self.cmd_returncode","self.cwd","self.flags","self.out"],"writes":["self.cmd_outerr","self.cmd_returncode","self.flags"],"calls_mutating":["self.flags.extend"],"raises":["CompileError"],"catches":["UnicodeDecodeError"]},"state_contract":{"modifies":["self.*","self.cmd_outerr","self.cmd_returncode","self.flags"],"old_bindings":{"old_self_cmd_outerr":"self.cmd_outerr","old_self_cmd_returncode":"self.cmd_returncode","old_self_flags":"self.flags","old_len_self":"len(self)"},"exceptional_post":{"CompileError":["isinstance(raised, CompileError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def run(self):
         self.flags = unique_list(self.flags)
 
@@ -284,16 +316,22 @@ class CompilerRunner:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CCompilerRunner(), correctly constructs a CCompilerRunner instance) over Any ║
+# ║ Path(CCompilerRunner(), isinstance(self, CompilerRunner)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CCompilerRunner : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CompilerRunner)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CCompilerRunner : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd7365cd532a689b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CCompilerRunner","kind":"class","src_hash":"9c1cfbe8577831bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CCompilerRunner()","rhs":"correctly constructs a CCompilerRunner instance","over":{"base":"Any"},"name":"CCompilerRunner_correct"},"guarantee":"correctly constructs a CCompilerRunner instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd7365cd532a689b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CCompilerRunner","kind":"class","src_hash":"9c1cfbe8577831bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CompilerRunner)"},"spec":{"lhs":"CCompilerRunner()","rhs":"isinstance(self, CompilerRunner)","over":{"base":"Any"},"name":"CCompilerRunner_correct"},"guarantee":"isinstance(self, CompilerRunner)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd7365cd532a689b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CompilerRunner)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CCompilerRunner not found in source"]}}
 class CCompilerRunner(CompilerRunner):
 
     environ_key_compiler = 'CC'
@@ -321,16 +359,22 @@ class CCompilerRunner(CompilerRunner):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mk_flag_filter(cmp), internal helper behaves correctly) over Any ║
+# ║ Path(_mk_flag_filter(cmplr_name), <unspecified:_mk_flag_filter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mk_flag_filter : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45cb2d2955ebe325  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners._mk_flag_filter","kind":"function","src_hash":"ea9e1758a1ecac8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mk_flag_filter(cmp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mk_flag_filter_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners._mk_flag_filter_correct","statement":"Path(_mk_flag_filter(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45cb2d2955ebe325"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners._mk_flag_filter","kind":"function","src_hash":"ea9e1758a1ecac8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mk_flag_filter(cmplr_name)","rhs":"<unspecified:_mk_flag_filter>","over":{"base":"Any"},"name":"_mk_flag_filter_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.runners._mk_flag_filter_correct","statement":"Path(_mk_flag_filter(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45cb2d2955ebe325","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mk_flag_filter(cmplr_name):  # helper for class initialization
     not_welcome = {'g++': ("Wimplicit-interface",)}  # "Wstrict-prototypes",)}
     if cmplr_name in not_welcome:
@@ -346,16 +390,22 @@ def _mk_flag_filter(cmplr_name):  # helper for class initialization
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CppCompilerRunner(), correctly constructs a CppCompilerRunner instance) over Any ║
+# ║ Path(CppCompilerRunner(), isinstance(self, CompilerRunner)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CppCompilerRunner : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CompilerRunner)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CppCompilerRunner : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e775226c8fbb508d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CppCompilerRunner","kind":"class","src_hash":"3837f987da52815d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CppCompilerRunner()","rhs":"correctly constructs a CppCompilerRunner instance","over":{"base":"Any"},"name":"CppCompilerRunner_correct"},"guarantee":"correctly constructs a CppCompilerRunner instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e775226c8fbb508d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.CppCompilerRunner","kind":"class","src_hash":"3837f987da52815d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CompilerRunner)"},"spec":{"lhs":"CppCompilerRunner()","rhs":"isinstance(self, CompilerRunner)","over":{"base":"Any"},"name":"CppCompilerRunner_correct"},"guarantee":"isinstance(self, CompilerRunner)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e775226c8fbb508d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CompilerRunner)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CppCompilerRunner not found in source"]}}
 class CppCompilerRunner(CompilerRunner):
 
     environ_key_compiler = 'CXX'
@@ -384,16 +434,22 @@ class CppCompilerRunner(CompilerRunner):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FortranCompilerRunner(), correctly constructs a FortranCompilerRunner instance) over Any ║
+# ║ Path(FortranCompilerRunner(), isinstance(self, CompilerRunner)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FortranCompilerRunner : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CompilerRunner)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FortranCompilerRunner : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7b3de2d28a5ecd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.FortranCompilerRunner","kind":"class","src_hash":"01c9b4acff7d365c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FortranCompilerRunner()","rhs":"correctly constructs a FortranCompilerRunner instance","over":{"base":"Any"},"name":"FortranCompilerRunner_correct"},"guarantee":"correctly constructs a FortranCompilerRunner instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7b3de2d28a5ecd9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.runners.FortranCompilerRunner","kind":"class","src_hash":"01c9b4acff7d365c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CompilerRunner)"},"spec":{"lhs":"FortranCompilerRunner()","rhs":"isinstance(self, CompilerRunner)","over":{"base":"Any"},"name":"FortranCompilerRunner_correct"},"guarantee":"isinstance(self, CompilerRunner)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7b3de2d28a5ecd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CompilerRunner)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FortranCompilerRunner not found in source"]}}
 class FortranCompilerRunner(CompilerRunner):
 
     environ_key_compiler = 'FC'

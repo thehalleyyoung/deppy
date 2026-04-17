@@ -28,7 +28,13 @@ from sympy.vector.dyadic import Dyadic
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(express(exp), global function for 'express' functionality) over {Any | isinstance(expr, Vector) and isinstance(system, CoordSys3D) and isinstance(expr, Dyadic)} ║
+# ║ Path(express(expr, system, system2), # HINT: express may be idempotent: express(express(x)) == express(x)) over {Any | isinstance(expr, Vector) and isinstance(system, CoordSys3D) and isinstance(expr, Dyadic) and isinstance(system, CoordSys3D) and hasattr(expr, 'separate') and hasattr(expr, 'subs') and hasattr(expr, 'components') and hasattr(expr, 'atoms') and hasattr(system, 'rotation_matrix')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(system, CoordSys3D)                 ║
+# ║   requires: hasattr(expr, 'separate')                      ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  # HINT: express may be idempotent: expres...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ express : {Any | isinstance(expr, Vector) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -42,9 +48,12 @@ from sympy.vector.dyadic import Dyadic
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b37530de...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.express","kind":"function","src_hash":"10b18f152d509ead","in":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(system, CoordSys3D) and isinstance(expr, Dyadic)"},"out":{"base":"Any"},"spec":{"lhs":"express(exp)","rhs":"global function for 'express' functionality","over":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(system, CoordSys3D) and isinstance(expr, Dyadic)"},"name":"express_correct"},"guarantee":"global function for 'express' functionality","fibers":[{"name":"Vector","pred":"isinstance(expr, Vector)","path":{"lhs":"express(x)","rhs":"global function for 'express' functionality","over":{"base":"Vector","pred":"isinstance(expr, Vector)"},"name":"express_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.express_Vector_correct","statement":"express satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"CoordSys3D","pred":"isinstance(system, CoordSys3D)","path":{"lhs":"express(x)","rhs":"global function for 'express' functionality","over":{"base":"CoordSys3D","pred":"isinstance(system, CoordSys3D)"},"name":"express_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.express_CoordSys3D_correct","statement":"express satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"},{"name":"Dyadic","pred":"isinstance(expr, Dyadic)","path":{"lhs":"express(x)","rhs":"global function for 'express' functionality","over":{"base":"Dyadic","pred":"isinstance(expr, Dyadic)"},"name":"express_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.express_Dyadic_correct","statement":"express satisfies spec on Dyadic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b37530dee61468e3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.express","kind":"function","src_hash":"10b18f152d509ead","in":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(system, CoordSys3D) and isinstance(expr, Dyadic) and isinstance(system, CoordSys3D) and hasattr(expr, 'separate') and hasattr(expr, 'subs') and hasattr(expr, 'components') and hasattr(expr, 'atoms') and hasattr(system, 'rotation_matrix')"},"out":{"base":"Any","pred":"result satisfies: # HINT: express may be idempotent: express(express(x)) == express(x)"},"spec":{"lhs":"express(expr, system, system2)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(system, CoordSys3D) and isinstance(expr, Dyadic) and isinstance(system, CoordSys3D) and hasattr(expr, 'separate') and hasattr(expr, 'subs') and hasattr(expr, 'components') and hasattr(expr, 'atoms') and hasattr(system, 'rotation_matrix')"},"name":"express_correct"},"guarantee":"# HINT: express may be idempotent: express(express(x)) == express(x)","fibers":[{"name":"Vector","pred":"isinstance(expr, Vector)","path":{"lhs":"express(x)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"Vector","pred":"isinstance(expr, Vector)"},"name":"express_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.express_Vector_correct","statement":"express satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"CoordSys3D","pred":"isinstance(system, CoordSys3D)","path":{"lhs":"express(x)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"CoordSys3D","pred":"isinstance(system, CoordSys3D)"},"name":"express_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.express_CoordSys3D_correct","statement":"express satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"},{"name":"Dyadic","pred":"isinstance(expr, Dyadic)","path":{"lhs":"express(x)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"Dyadic","pred":"isinstance(expr, Dyadic)"},"name":"express_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.express_Dyadic_correct","statement":"express satisfies spec on Dyadic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b37530dee61468e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(system, CoordSys3D)","hasattr(expr, 'separate')","hasattr(expr, 'subs')","hasattr(expr, 'components')","hasattr(expr, 'atoms')","hasattr(system, 'rotation_matrix')"],"ensures":["# HINT: express may be idempotent: express(express(x)) == express(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","expr.components","expr.separate","expr.subs","system.rotation_matrix"],"calls_mutating":["subs_dict.update","system_set.add"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["subs_dict.*","system_set.*"],"old_bindings":{"old_len_subs_dict":"len(subs_dict)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.system != system', 'not isinstance(system, CoordSys3D)', 'isinstance(expr, Vector)', 'system2 is None', 'x != system', 'not isinstance(system2, CoordSys3D)', 'isinstance(expr, Dyadic)'}, fibers={'Dyadic', 'Vector', 'CoordSys3D'})"]}}
 def express(expr, system, system2=None, variables=False):
     """
     Global function for 'express' functionality.
@@ -159,7 +168,14 @@ def express(expr, system, system2=None, variables=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(directional_derivative(fie), returns the directional derivative of a scalar or vector field computed along a given vector in coordinate system which parameters are expressed) over {Any | isinstance(field, Vector)} ║
+# ║ Path(directional_derivative(field, direction_vector), result == (out if len(coord_sys) > 0 else Vector.zero if isinstance(field, Vector) else S.Zero) and result == out or result == Vector.zero or result == S.Zero) over {Any | isinstance(field, Vector)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (out if len(coord_sys) > 0 else...   ║
+# ║   ensures:  result == out or result == Vector.zero or...   ║
+# ║   fiber[positive]: len(coord_sys) > 0 => out               ║
+# ║   fiber[Vector]: isinstance(field, Vector) => Vector....   ║
+# ║   fiber[Vector]: not (len(coord_sys) > 0) and not (is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ directional_derivative : {Any | isinstance(field, Vec...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -171,9 +187,12 @@ def express(expr, system, system2=None, variables=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5200ec58...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.directional_derivative","kind":"function","src_hash":"10ef34d9ddfce8e2","in":{"base":"Any","pred":"isinstance(field, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"directional_derivative(fie)","rhs":"returns the directional derivative of a scalar or vector field computed along a given vector in coordinate system which parameters are expressed","over":{"base":"Any","pred":"isinstance(field, Vector)"},"name":"directional_derivative_correct"},"guarantee":"returns the directional derivative of a scalar or vector field computed along a given vector in coordinate system which parameters are expressed","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"directional_derivative(x)","rhs":"returns the directional derivative of a scalar or vector field computed along a given vector in coordinate system which parameters are expressed","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"directional_derivative_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.directional_derivative_Vector_correct","statement":"directional_derivative satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5200ec58dca8612e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.directional_derivative","kind":"function","src_hash":"10ef34d9ddfce8e2","in":{"base":"Any","pred":"isinstance(field, Vector)"},"out":{"base":"Any","pred":"result satisfies: result == (out if len(coord_sys) > 0 else Vector.zero if isinstance(field, Vector) else S.Zero) and result == out or result == Vector.zero or result == S.Zero"},"spec":{"lhs":"directional_derivative(field, direction_vector)","rhs":"result == (out if len(coord_sys) > 0 else Vector.zero if isinstance(field, Vector) else S.Zero) and result == out or result == Vector.zero or result == S.Zero","over":{"base":"Any","pred":"isinstance(field, Vector)"},"name":"directional_derivative_correct"},"guarantee":"result == (out if len(coord_sys) > 0 else Vector.zero if isinstance(field, Vector) else S.Zero); result == out or result == Vector.zero or result == S.Zero; 3-fiber decomposition","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"directional_derivative(x)","rhs":"result == (out if len(coord_sys) > 0 else Vector.zero if isinstance(field, Vector) else S.Zero); result == out or result == Vector.zero or result == S.Zero; 3-fiber decomposition","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"directional_derivative_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.directional_derivative_Vector_correct","statement":"directional_derivative satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5200ec58dca8612e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (out if len(coord_sys) > 0 else Vector.zero if isinstance(field, Vector) else S.Zero)","result == out or result == Vector.zero or result == S.Zero"],"fibers":[{"name":"positive","guard":"len(coord_sys) > 0","ensures":["result == out"],"decidability":"z3","returns_expr":"out"},{"name":"Vector","guard":"isinstance(field, Vector)","ensures":["result == Vector.zero"],"decidability":"structural","returns_expr":"Vector.zero"},{"name":"Vector","guard":"not (len(coord_sys) > 0) and not (isinstance(field, Vector))","ensures":["result == S.Zero"],"decidability":"structural","returns_expr":"S.Zero"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'out == 0 and isinstance(field, Vector)', 'isinstance(field, Vector)', 'len(coord_sys) > 0'}, fibers={'Vector'})"]}}
 def directional_derivative(field, direction_vector):
     """
     Returns the directional derivative of a scalar or vector field computed
@@ -224,16 +243,23 @@ def directional_derivative(field, direction_vector):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(laplacian(exp), id) over Any                          ║
+# ║ Path(laplacian(expr), id) over {Any | hasattr(expr, 'is_Vector')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ laplacian : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Vector')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ laplacian : {Any | hasattr(expr, 'is_Vector')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 82cfb1c76a371a58   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.laplacian","kind":"function","src_hash":"caec87c9204a2e37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laplacian(exp)","rhs":"return the laplacian of the given field computed in terms of the base scalars of the given coordinate system","over":{"base":"Any"},"name":"laplacian_correct","kind":"composition"},"guarantee":"return the laplacian of the given field computed in terms of the base scalars of the given coordinate system","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gradient","by":"library_axiom"},{"fn":"divergence","by":"library_axiom"},{"fn":"curl","by":"library_axiom"},{"fn":"curl","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82cfb1c76a371a58"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.laplacian","kind":"function","src_hash":"caec87c9204a2e37","in":{"base":"Any","pred":"hasattr(expr, 'is_Vector')"},"out":{"base":"Any"},"spec":{"lhs":"laplacian(expr)","rhs":"<unspecified:laplacian>","over":{"base":"Any","pred":"hasattr(expr, 'is_Vector')"},"name":"laplacian_correct","kind":"composition"},"guarantee":"return the laplacian of the given field computed in terms of the base scalars of the given coordinate system","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gradient","by":"library_axiom"},{"fn":"divergence","by":"library_axiom"},{"fn":"curl","by":"library_axiom"},{"fn":"curl","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82cfb1c76a371a58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Vector')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_Vector"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def laplacian(expr):
     """
     Return the laplacian of the given field computed in terms of
@@ -266,9 +292,13 @@ def laplacian(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_conservative(fie), checks if a field is conservative) over {Any | isinstance(field, Vector)} ║
+# ║ Path(is_conservative(field), <unspecified:is_conservative>) over {Any | isinstance(field, Vector) and isinstance(field, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_conservative : {Any | isinstance(field, Vector)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(field, Vector)                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_conservative : {Any | isinstance(field, Vector) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Vector: {isinstance(field, Vector)} → library_axiom      ║
@@ -278,9 +308,12 @@ def laplacian(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5cc2b658...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.is_conservative","kind":"function","src_hash":"099b9cc07d6c034a","in":{"base":"Any","pred":"isinstance(field, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"is_conservative(fie)","rhs":"checks if a field is conservative","over":{"base":"Any","pred":"isinstance(field, Vector)"},"name":"is_conservative_correct"},"guarantee":"checks if a field is conservative","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"is_conservative(x)","rhs":"checks if a field is conservative","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"is_conservative_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.is_conservative_Vector_correct","statement":"is_conservative satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5cc2b6582bcc1f46"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.is_conservative","kind":"function","src_hash":"099b9cc07d6c034a","in":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(field, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"is_conservative(field)","rhs":"<unspecified:is_conservative>","over":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(field, Vector)"},"name":"is_conservative_correct"},"guarantee":"checks if a field is conservative","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"is_conservative(x)","rhs":"checks if a field is conservative","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"is_conservative_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.is_conservative_Vector_correct","statement":"is_conservative satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5cc2b6582bcc1f46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(field, Vector)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(field, Vector)', 'field == Vector.zero'}, fibers={'Vector'})"]}}
 def is_conservative(field):
     """
     Checks if a field is conservative.
@@ -315,9 +348,13 @@ def is_conservative(field):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_solenoidal(fie), checks if a field is solenoidal) over {Any | isinstance(field, Vector)} ║
+# ║ Path(is_solenoidal(field), <unspecified:is_solenoidal>) over {Any | isinstance(field, Vector) and isinstance(field, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_solenoidal : {Any | isinstance(field, Vector)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(field, Vector)                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_solenoidal : {Any | isinstance(field, Vector) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Vector: {isinstance(field, Vector)} → library_axiom      ║
@@ -327,9 +364,12 @@ def is_conservative(field):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a4cd5265...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.is_solenoidal","kind":"function","src_hash":"7749bc44121b1cf2","in":{"base":"Any","pred":"isinstance(field, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"is_solenoidal(fie)","rhs":"checks if a field is solenoidal","over":{"base":"Any","pred":"isinstance(field, Vector)"},"name":"is_solenoidal_correct"},"guarantee":"checks if a field is solenoidal","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"is_solenoidal(x)","rhs":"checks if a field is solenoidal","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"is_solenoidal_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.is_solenoidal_Vector_correct","statement":"is_solenoidal satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a4cd5265ab2f0b4f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.is_solenoidal","kind":"function","src_hash":"7749bc44121b1cf2","in":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(field, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"is_solenoidal(field)","rhs":"<unspecified:is_solenoidal>","over":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(field, Vector)"},"name":"is_solenoidal_correct"},"guarantee":"checks if a field is solenoidal","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"is_solenoidal(x)","rhs":"checks if a field is solenoidal","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"is_solenoidal_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.is_solenoidal_Vector_correct","statement":"is_solenoidal satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a4cd5265ab2f0b4f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(field, Vector)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(field, Vector)', 'field == Vector.zero'}, fibers={'Vector'})"]}}
 def is_solenoidal(field):
     """
     Checks if a field is solenoidal.
@@ -364,7 +404,13 @@ def is_solenoidal(field):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_potential(fie), returns the scalar potential function of a field in a given coordinate system (without the added integration constant)) over {Any | isinstance(coord_sys, CoordSys3D)} ║
+# ║ Path(scalar_potential(field, coord_sys), <unspecified:scalar_potential>) over {Any | isinstance(coord_sys, CoordSys3D) and is_conservative(field) and isinstance(coord_sys, CoordSys3D) and hasattr(coord_sys, 'base_vectors') and hasattr(coord_sys, 'base_scalars') and hasattr(field, 'dot')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: is_conservative(field)                         ║
+# ║   requires: isinstance(coord_sys, CoordSys3D)              ║
+# ║   requires: hasattr(coord_sys, 'base_vectors')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scalar_potential : {Any | isinstance(coord_sys, Coord...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -376,9 +422,12 @@ def is_solenoidal(field):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6d215c91...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.scalar_potential","kind":"function","src_hash":"14715f0515b3546a","in":{"base":"Any","pred":"isinstance(coord_sys, CoordSys3D)"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential(fie)","rhs":"returns the scalar potential function of a field in a given coordinate system (without the added integration constant)","over":{"base":"Any","pred":"isinstance(coord_sys, CoordSys3D)"},"name":"scalar_potential_correct"},"guarantee":"returns the scalar potential function of a field in a given coordinate system (without the added integration constant)","fibers":[{"name":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)","path":{"lhs":"scalar_potential(x)","rhs":"returns the scalar potential function of a field in a given coordinate system (without the added integration constant)","over":{"base":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)"},"name":"scalar_potential_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.scalar_potential_CoordSys3D_correct","statement":"scalar_potential satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d215c910d47f237"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.scalar_potential","kind":"function","src_hash":"14715f0515b3546a","in":{"base":"Any","pred":"isinstance(coord_sys, CoordSys3D) and is_conservative(field) and isinstance(coord_sys, CoordSys3D) and hasattr(coord_sys, 'base_vectors') and hasattr(coord_sys, 'base_scalars') and hasattr(field, 'dot')"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential(field, coord_sys)","rhs":"<unspecified:scalar_potential>","over":{"base":"Any","pred":"isinstance(coord_sys, CoordSys3D) and is_conservative(field) and isinstance(coord_sys, CoordSys3D) and hasattr(coord_sys, 'base_vectors') and hasattr(coord_sys, 'base_scalars') and hasattr(field, 'dot')"},"name":"scalar_potential_correct"},"guarantee":"returns the scalar potential function of a field in a given coordinate system (without the added integration constant)","fibers":[{"name":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)","path":{"lhs":"scalar_potential(x)","rhs":"returns the scalar potential function of a field in a given coordinate system (without the added integration constant)","over":{"base":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)"},"name":"scalar_potential_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.scalar_potential_CoordSys3D_correct","statement":"scalar_potential satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d215c910d47f237","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["is_conservative(field)","isinstance(coord_sys, CoordSys3D)","hasattr(coord_sys, 'base_vectors')","hasattr(coord_sys, 'base_scalars')","hasattr(field, 'dot')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["coord_sys.base_scalars","coord_sys.base_vectors","field.dot"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(coord_sys, CoordSys3D)', 'field == Vector.zero'}, fibers={'CoordSys3D'})"]}}
 def scalar_potential(field, coord_sys):
     """
     Returns the scalar potential function of a field in a given
@@ -431,7 +480,13 @@ def scalar_potential(field, coord_sys):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_potential_difference(fie), returns the scalar potential difference between two points in a certain coordinate system, wrt a given field) over {Any | isinstance(field, Vector) and isinstance(coord_sys, CoordSys3D)} ║
+# ║ Path(scalar_potential_difference(field, coord_sys, point1), scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)) over {Any | isinstance(field, Vector) and isinstance(coord_sys, CoordSys3D) and isinstance(coord_sys, CoordSys3D) and hasattr(coord_sys, 'origin') and hasattr(coord_sys, 'base_scalars') and hasattr(point1, 'position_wrt') and hasattr(point2, 'position_wrt') and hasattr(coord_sys, 'base_vectors')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(coord_sys, CoordSys3D)              ║
+# ║   requires: hasattr(coord_sys, 'origin')                   ║
+# ║   requires: hasattr(coord_sys, 'base_scalars')             ║
+# ║   returns:  scalar_fn.subs(subs_dict2) - scalar_fn.su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scalar_potential_difference : {Any | isinstance(field...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -444,9 +499,12 @@ def scalar_potential(field, coord_sys):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c708d248...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.scalar_potential_difference","kind":"function","src_hash":"25c73f1ccf57ce0c","in":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(coord_sys, CoordSys3D)"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential_difference(fie)","rhs":"returns the scalar potential difference between two points in a certain coordinate system, wrt a given field","over":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(coord_sys, CoordSys3D)"},"name":"scalar_potential_difference_correct"},"guarantee":"returns the scalar potential difference between two points in a certain coordinate system, wrt a given field","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"scalar_potential_difference(x)","rhs":"returns the scalar potential difference between two points in a certain coordinate system, wrt a given field","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"scalar_potential_difference_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.scalar_potential_difference_Vector_correct","statement":"scalar_potential_difference satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)","path":{"lhs":"scalar_potential_difference(x)","rhs":"returns the scalar potential difference between two points in a certain coordinate system, wrt a given field","over":{"base":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)"},"name":"scalar_potential_difference_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.scalar_potential_difference_CoordSys3D_correct","statement":"scalar_potential_difference satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c708d2486f870c8c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.scalar_potential_difference","kind":"function","src_hash":"25c73f1ccf57ce0c","in":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(coord_sys, CoordSys3D) and isinstance(coord_sys, CoordSys3D) and hasattr(coord_sys, 'origin') and hasattr(coord_sys, 'base_scalars') and hasattr(point1, 'position_wrt') and hasattr(point2, 'position_wrt') and hasattr(coord_sys, 'base_vectors')"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential_difference(field, coord_sys, point1)","rhs":"scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","over":{"base":"Any","pred":"isinstance(field, Vector) and isinstance(coord_sys, CoordSys3D) and isinstance(coord_sys, CoordSys3D) and hasattr(coord_sys, 'origin') and hasattr(coord_sys, 'base_scalars') and hasattr(point1, 'position_wrt') and hasattr(point2, 'position_wrt') and hasattr(coord_sys, 'base_vectors')"},"name":"scalar_potential_difference_correct"},"guarantee":"returns scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"scalar_potential_difference(x)","rhs":"returns scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"scalar_potential_difference_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.scalar_potential_difference_Vector_correct","statement":"scalar_potential_difference satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)","path":{"lhs":"scalar_potential_difference(x)","rhs":"returns scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","over":{"base":"CoordSys3D","pred":"isinstance(coord_sys, CoordSys3D)"},"name":"scalar_potential_difference_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.scalar_potential_difference_CoordSys3D_correct","statement":"scalar_potential_difference satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c708d2486f870c8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(coord_sys, CoordSys3D)","hasattr(coord_sys, 'origin')","hasattr(coord_sys, 'base_scalars')","hasattr(point1, 'position_wrt')","hasattr(point2, 'position_wrt')","hasattr(coord_sys, 'base_vectors')"],"returns_expr":"scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","pure":false,"effects":{"effect_type":"reads_state","reads":["coord_sys.base_scalars","coord_sys.base_vectors","coord_sys.origin","point1.position_wrt","point2.position_wrt"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(coord_sys, CoordSys3D)', 'isinstance(field, Vector)'}, fibers={'Vector', 'CoordSys3D'})"]}}
 def scalar_potential_difference(field, coord_sys, point1, point2):
     """
     Returns the scalar potential difference between two points in a
@@ -517,16 +575,23 @@ def scalar_potential_difference(field, coord_sys, point1, point2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_to_vector(mat), converts a vector in matrix form to a vector instance) over Any ║
+# ║ Path(matrix_to_vector(matrix, system), <unspecified:matrix_to_vector>) over {Any | hasattr(system, 'base_vectors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix_to_vector : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(system, 'base_vectors')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix_to_vector : {Any | hasattr(system, 'base_vecto...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7893a791e30bed96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.matrix_to_vector","kind":"function","src_hash":"c86b381259daa107","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_to_vector(mat)","rhs":"converts a vector in matrix form to a vector instance","over":{"base":"Any"},"name":"matrix_to_vector_correct"},"guarantee":"converts a vector in matrix form to a vector instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.matrix_to_vector_correct","statement":"Path(matrix_to_vector(x), converts a vector in matrix form to a vector instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7893a791e30bed96"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.matrix_to_vector","kind":"function","src_hash":"c86b381259daa107","in":{"base":"Any","pred":"hasattr(system, 'base_vectors')"},"out":{"base":"Any"},"spec":{"lhs":"matrix_to_vector(matrix, system)","rhs":"<unspecified:matrix_to_vector>","over":{"base":"Any","pred":"hasattr(system, 'base_vectors')"},"name":"matrix_to_vector_correct"},"guarantee":"converts a vector in matrix form to a vector instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.matrix_to_vector_correct","statement":"Path(matrix_to_vector(x), converts a vector in matrix form to a vector instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7893a791e30bed96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(system, 'base_vectors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["system.base_vectors"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def matrix_to_vector(matrix, system):
     """
     Converts a vector in matrix form to a Vector instance.
@@ -567,16 +632,27 @@ def matrix_to_vector(matrix, system):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_path(fro), calculates the 'path' of objects starting from 'from_object' to 'to_object', along with the index of the first common ancestor in the tree) over Any ║
+# ║ Path(_path(from_object, to_object), (index, from_path)) over {Any | not (from_object._root != to_object._root) and hasattr(from_object, '_root') and hasattr(to_object, '_root')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _path : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (from_object._root != to_object._root)     ║
+# ║   requires: hasattr(from_object, '_root')                  ║
+# ║   requires: hasattr(to_object, '_root')                    ║
+# ║   ensures:  len(from_path) == old_len_from_path + 1        ║
+# ║   ensures:  len(other_path) == old_len_other_path + 1      ║
+# ║   returns:  (index, from_path)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _path : {Any | not (from_object._root != to_object._r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fe5dc5646286310  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fac78faf9377002e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions._path","kind":"function","src_hash":"ef160d1b936136d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_path(fro)","rhs":"calculates the 'path' of objects starting from 'from_object' to 'to_object', along with the index of the first common ancestor in the tree","over":{"base":"Any"},"name":"_path_correct"},"guarantee":"calculates the 'path' of objects starting from 'from_object' to 'to_object', along with the index of the first common ancestor in the tree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions._path_correct","statement":"Path(_path(x), calculates the 'path' of objects starting from 'from_object' to 'to_object', along with the index of the first common ancestor in the tree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fe5dc5646286310"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions._path","kind":"function","src_hash":"ef160d1b936136d3","in":{"base":"Any","pred":"not (from_object._root != to_object._root) and hasattr(from_object, '_root') and hasattr(to_object, '_root')"},"out":{"base":"Any","pred":"result satisfies: result == ((index, from_path))"},"spec":{"lhs":"_path(from_object, to_object)","rhs":"(index, from_path)","over":{"base":"Any","pred":"not (from_object._root != to_object._root) and hasattr(from_object, '_root') and hasattr(to_object, '_root')"},"name":"_path_correct"},"guarantee":"returns (index, from_path); len(from_path) == old_len_from_path + 1; len(other_path) == old_len_other_path + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions._path_correct","statement":"Path(_path(x), returns (index, from_path); len(from_path) == old_len_from_path + 1; len(other_path) == old_len_other_path + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac78faf9377002e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (from_object._root != to_object._root)","hasattr(from_object, '_root')","hasattr(to_object, '_root')"],"ensures":["len(from_path) == old_len_from_path + 1","len(other_path) == old_len_other_path + 1"],"returns_expr":"(index, from_path)","pure":false,"effects":{"effect_type":"reads_state","reads":["from_object._root","to_object._root"],"calls_mutating":["from_path.append","from_path.extend","other_path.append"],"raises":["ValueError"]},"state_contract":{"modifies":["from_path.*","other_path.*"],"old_bindings":{"old_len_from_path":"len(from_path)","old_len_other_path":"len(other_path)"},"post_ensures":["len(from_path) == old_len_from_path + 1","len(other_path) == old_len_other_path + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _path(from_object, to_object):
     """
     Calculates the 'path' of objects starting from 'from_object'
@@ -608,9 +684,13 @@ def _path(from_object, to_object):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthogonalize(*vl), takes a sequence of independent vectors and orthogonalizes them using the gram - schmidt process) over {Any | isinstance(vec, Vector)} ║
+# ║ Path(orthogonalize(*vlist, orthonormal), len(ortho_vlist) == old_len_ortho_vlist + 1) over {Any | isinstance(vec, Vector) and all((isinstance(vec, Vector) for vec in vlist))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orthogonalize : {Any | isinstance(vec, Vector)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((isinstance(vec, Vector) for vec in v...   ║
+# ║   ensures:  len(ortho_vlist) == old_len_ortho_vlist + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orthogonalize : {Any | isinstance(vec, Vector) and al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Vector: {isinstance(vec, Vector)} → library_axiom        ║
@@ -620,9 +700,12 @@ def _path(from_object, to_object):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0bbe421b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.functions.orthogonalize","kind":"function","src_hash":"f12cd27e5796582d","in":{"base":"Any","pred":"isinstance(vec, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"orthogonalize(*vl)","rhs":"takes a sequence of independent vectors and orthogonalizes them using the gram - schmidt process","over":{"base":"Any","pred":"isinstance(vec, Vector)"},"name":"orthogonalize_correct"},"guarantee":"takes a sequence of independent vectors and orthogonalizes them using the gram - schmidt process","fibers":[{"name":"Vector","pred":"isinstance(vec, Vector)","path":{"lhs":"orthogonalize(x)","rhs":"takes a sequence of independent vectors and orthogonalizes them using the gram - schmidt process","over":{"base":"Vector","pred":"isinstance(vec, Vector)"},"name":"orthogonalize_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.orthogonalize_Vector_correct","statement":"orthogonalize satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0bbe421bea1d0735"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.functions.orthogonalize","kind":"function","src_hash":"f12cd27e5796582d","in":{"base":"Any","pred":"isinstance(vec, Vector) and all((isinstance(vec, Vector) for vec in vlist))"},"out":{"base":"Any","pred":"result satisfies: len(ortho_vlist) == old_len_ortho_vlist + 1"},"spec":{"lhs":"orthogonalize(*vlist, orthonormal)","rhs":"len(ortho_vlist) == old_len_ortho_vlist + 1","over":{"base":"Any","pred":"isinstance(vec, Vector) and all((isinstance(vec, Vector) for vec in vlist))"},"name":"orthogonalize_correct"},"guarantee":"len(ortho_vlist) == old_len_ortho_vlist + 1","fibers":[{"name":"Vector","pred":"isinstance(vec, Vector)","path":{"lhs":"orthogonalize(x)","rhs":"len(ortho_vlist) == old_len_ortho_vlist + 1","over":{"base":"Vector","pred":"isinstance(vec, Vector)"},"name":"orthogonalize_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.functions.orthogonalize_Vector_correct","statement":"orthogonalize satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0bbe421bea1d0735","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((isinstance(vec, Vector) for vec in vlist))"],"ensures":["len(ortho_vlist) == old_len_ortho_vlist + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["ortho_vlist.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["ortho_vlist.*"],"old_bindings":{"old_len_ortho_vlist":"len(ortho_vlist)"},"post_ensures":["len(ortho_vlist) == old_len_ortho_vlist + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*vlist', 'orthonormal']","Poor branch-fiber coverage: 0% (branches={'not all((isinstance(vec, Vector) for vec in vlist))'}, fibers={'Vector'})"]}}
 def orthogonalize(*vlist, orthonormal=False):
     """
     Takes a sequence of independent vectors and orthogonalizes them

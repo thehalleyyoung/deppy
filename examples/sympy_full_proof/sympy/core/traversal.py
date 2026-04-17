@@ -27,16 +27,22 @@ from sympy.utilities.iterables import iterable
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterargs(exp), yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable) over Any ║
+# ║ Path(iterargs(expr), <unspecified:iterargs>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iterargs : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20e16051dd9a6bfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.iterargs","kind":"function","src_hash":"493a0ee48b5ca746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterargs(exp)","rhs":"yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable","over":{"base":"Any"},"name":"iterargs_correct"},"guarantee":"yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.iterargs_correct","statement":"Path(iterargs(x), yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20e16051dd9a6bfd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.iterargs","kind":"function","src_hash":"493a0ee48b5ca746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterargs(expr)","rhs":"<unspecified:iterargs>","over":{"base":"Any"},"name":"iterargs_correct"},"guarantee":"yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.iterargs_correct","statement":"Path(iterargs(x), yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20e16051dd9a6bfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def iterargs(expr):
     """Yield the args of a Basic object in a breadth-first traversal.
     Depth-traversal stops if `arg.args` is either empty or is not
@@ -63,16 +69,22 @@ def iterargs(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterfreeargs(exp), yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable) over Any ║
+# ║ Path(iterfreeargs(expr, _first), # HINT: iterfreeargs may be idempotent: iterfreeargs(iterfreeargs(x)) == iterfreeargs(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ iterfreeargs : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: iterfreeargs may be idempotent: i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ iterfreeargs : Any → {Any | result satisfies: # HINT:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ce5974b2e24d0fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa8b5d6a70f4b57e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.iterfreeargs","kind":"function","src_hash":"2c398dd3e43ce85e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterfreeargs(exp)","rhs":"yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable","over":{"base":"Any"},"name":"iterfreeargs_correct"},"guarantee":"yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.iterfreeargs_correct","statement":"Path(iterfreeargs(x), yield the args of a basic object in a breadth-first traversal. depth-traversal stops if `arg.args` is either empty or is not an iterable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ce5974b2e24d0fd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.iterfreeargs","kind":"function","src_hash":"2c398dd3e43ce85e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: iterfreeargs may be idempotent: iterfreeargs(iterfreeargs(x)) == iterfreeargs(x)"},"spec":{"lhs":"iterfreeargs(expr, _first)","rhs":"# HINT: iterfreeargs may be idempotent: iterfreeargs(iterfreeargs(x)) == iterfreeargs(x)","over":{"base":"Any"},"name":"iterfreeargs_correct"},"guarantee":"# HINT: iterfreeargs may be idempotent: iterfreeargs(iterfreeargs(x)) == iterfreeargs(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.iterfreeargs_correct","statement":"Path(iterfreeargs(x), # HINT: iterfreeargs may be idempotent: iterfreeargs(iterfreeargs(x)) == iterfreeargs(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa8b5d6a70f4b57e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: iterfreeargs may be idempotent: iterfreeargs(iterfreeargs(x)) == iterfreeargs(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def iterfreeargs(expr, _first=True):
     """Yield the args of a Basic object in a breadth-first traversal.
     Depth-traversal stops if `arg.args` is either empty or is not
@@ -107,14 +119,19 @@ def iterfreeargs(expr, _first=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a preorder_traversal instance) preserved by preorder_traversal(*args) over {Any | isinstance(node, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ preorder_traversal : {Any | isinstance(node, Basic)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47c4385a2313bbc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal","kind":"class","src_hash":"aa0f62a296976331","in":{"base":"Any","pred":"isinstance(node, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"preorder_traversal(*args)","rhs":"correctly constructs a preorder_traversal instance","over":{"base":"Any","pred":"isinstance(node, Basic)"},"name":"preorder_traversal_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a preorder_traversal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_skip_flag') and hasattr(self, '_pt')","kind":"class","induction":"structural on _skip_flag, _pt"}],"methods_preserving":["__init__","_preorder_traversal","skip","__next__","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47c4385a2313bbc7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal","kind":"class","src_hash":"aa0f62a296976331","in":{"base":"Any","pred":"isinstance(node, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"preorder_traversal(*args)","rhs":"correctly constructs a preorder_traversal instance","over":{"base":"Any","pred":"isinstance(node, Basic)"},"name":"preorder_traversal_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_skip_flag') and hasattr(self, '_pt')","kind":"class","induction":"structural on _skip_flag, _pt"}],"methods_preserving":["__init__","_preorder_traversal","skip","__next__","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47c4385a2313bbc7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_skip_flag')","hasattr(self, '_pt')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function preorder_traversal not found in source"]}}
 class preorder_traversal:
     """
     Do a pre-order traversal of a tree.
@@ -161,31 +178,45 @@ class preorder_traversal:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nod), initializes the instance correctly) over Any ║
+# ║ Path(__init__(node, keys), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9f51781a9f3199d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.__init__","kind":"method","src_hash":"45e0352e68b69c19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nod)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9f51781a9f3199d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.__init__","kind":"method","src_hash":"45e0352e68b69c19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(node, keys)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9f51781a9f3199d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, node, keys=None):
         self._skip_flag = False
         self._pt = self._preorder_traversal(node, keys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preorder_traversal(nod), internal helper behaves correctly) over Any ║
+# ║ Path(_preorder_traversal(node, keys), <unspecified:_preorder_traversal>) over {Any | hasattr(node, '_argset') and hasattr(node, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _preorder_traversal : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, '_argset')                       ║
+# ║   requires: hasattr(node, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _preorder_traversal : {Any | hasattr(node, '_argset')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48630e3baf954a80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal._preorder_traversal","kind":"method","src_hash":"f50a044b35ebaedb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preorder_traversal(nod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_preorder_traversal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.preorder_traversal._preorder_traversal_correct","statement":"Path(_preorder_traversal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48630e3baf954a80"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal._preorder_traversal","kind":"method","src_hash":"f50a044b35ebaedb","in":{"base":"Any","pred":"hasattr(node, '_argset') and hasattr(node, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_preorder_traversal(node, keys)","rhs":"<unspecified:_preorder_traversal>","over":{"base":"Any","pred":"hasattr(node, '_argset') and hasattr(node, 'args')"},"name":"_preorder_traversal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.preorder_traversal._preorder_traversal_correct","statement":"Path(_preorder_traversal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48630e3baf954a80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, '_argset')","hasattr(node, 'args')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["node._argset","node.args","self._preorder_traversal","self._skip_flag"],"writes":["self._skip_flag"]},"state_contract":{"modifies":["self._skip_flag"],"old_bindings":{"old_self__skip_flag":"self._skip_flag"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preorder_traversal(self, node, keys):
         yield node
         if self._skip_flag:
@@ -210,16 +241,22 @@ class preorder_traversal:
                 yield from self._preorder_traversal(item, keys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(skip(), skip yielding current node's (last yielded node's) subtrees) over Any ║
+# ║ Path(skip(), <unspecified:skip>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ skip : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65aafbd8e107d37d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.skip","kind":"method","src_hash":"f1332b4662aed03f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skip()","rhs":"skip yielding current node's (last yielded node's) subtrees","over":{"base":"Any"},"name":"skip_correct"},"guarantee":"skip yielding current node's (last yielded node's) subtrees","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.preorder_traversal.skip_correct","statement":"Path(skip(x), skip yielding current node's (last yielded node's) subtrees)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65aafbd8e107d37d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.skip","kind":"method","src_hash":"f1332b4662aed03f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skip()","rhs":"<unspecified:skip>","over":{"base":"Any"},"name":"skip_correct"},"guarantee":"skip yielding current node's (last yielded node's) subtrees","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.preorder_traversal.skip_correct","statement":"Path(skip(x), skip yielding current node's (last yielded node's) subtrees)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65aafbd8e107d37d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._skip_flag"]},"state_contract":{"modifies":["self._skip_flag"],"old_bindings":{"old_self__skip_flag":"self._skip_flag"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def skip(self):
         """
         Skip yielding current node's (last yielded node's) subtrees.
@@ -241,45 +278,67 @@ class preorder_traversal:
         self._skip_flag = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__next__(), internal helper behaves correctly) over Any ║
+# ║ Path(__next__(), next(self._pt)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  next(self._pt)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __next__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a26d0f783ec67dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.__next__","kind":"method","src_hash":"dec954fe60928e3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__next__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__next___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a26d0f783ec67dd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.__next__","kind":"method","src_hash":"dec954fe60928e3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__next__()","rhs":"next(self._pt)","over":{"base":"Any"},"name":"__next___correct"},"guarantee":"returns next(self._pt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a26d0f783ec67dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"next(self._pt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._pt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __next__(self):
         return next(self._pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __iter__ : Any → Iterator[Basic]                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Iterator[Basic])            ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __iter__ : Any → {Iterator[Basic] | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f365d4a66dcc62df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.__iter__","kind":"method","src_hash":"79af6f47c873a3a2","in":{"base":"Any"},"out":{"base":"Iterator[Basic]"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f365d4a66dcc62df"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.preorder_traversal.__iter__","kind":"method","src_hash":"79af6f47c873a3a2","in":{"base":"Any"},"out":{"base":"Iterator[Basic]","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__iter__()","rhs":"self","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self; isinstance(result, Iterator[Basic]); result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f365d4a66dcc62df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Iterator[Basic])","result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self) -> Iterator[Basic]:
         return self
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(use(exp), use ``func`` to transform ``expr`` at the given level) over Any ║
+# ║ Path(use(expr, func, level), <unspecified:use>) over {Any | hasattr(expr, 'is_Atom') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ use : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ use : {Any | hasattr(expr, 'is_Atom') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f0930817c77e3d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.use","kind":"function","src_hash":"677a38fa61643fb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"use(exp)","rhs":"use ``func`` to transform ``expr`` at the given level","over":{"base":"Any"},"name":"use_correct"},"guarantee":"use ``func`` to transform ``expr`` at the given level","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.use_correct","statement":"Path(use(x), use ``func`` to transform ``expr`` at the given level)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f0930817c77e3d1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.use","kind":"function","src_hash":"677a38fa61643fb9","in":{"base":"Any","pred":"hasattr(expr, 'is_Atom') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"use(expr, func, level)","rhs":"<unspecified:use>","over":{"base":"Any","pred":"hasattr(expr, 'is_Atom') and hasattr(expr, 'args')"},"name":"use_correct"},"guarantee":"use ``func`` to transform ``expr`` at the given level","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.use_correct","statement":"Path(use(x), use ``func`` to transform ``expr`` at the given level)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f0930817c77e3d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr.args","expr.is_Atom"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def use(expr, func, level=0, args=(), kwargs={}):
     """
     Use ``func`` to transform ``expr`` at the given level.
@@ -313,9 +372,13 @@ def use(expr, func, level=0, args=(), kwargs={}):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(walk(e, ), iterate through the args that are the given types (target) and return a list of the args that were traversed; arguments that are not of the specified types are not traversed) over {Any | isinstance(e, target)} ║
+# ║ Path(walk(e, *target), # HINT: walk may be idempotent: walk(walk(x)) == walk(x)) over {Any | isinstance(e, target) and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ walk : {Any | isinstance(e, target)} → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  # HINT: walk may be idempotent: walk(walk...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ walk : {Any | isinstance(e, target) and hasattr(e, 'a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   target: {isinstance(e, target)} → library_axiom          ║
@@ -325,9 +388,12 @@ def use(expr, func, level=0, args=(), kwargs={}):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4bb6445b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.walk","kind":"function","src_hash":"29e2027237faf892","in":{"base":"Any","pred":"isinstance(e, target)"},"out":{"base":"Any"},"spec":{"lhs":"walk(e, )","rhs":"iterate through the args that are the given types (target) and return a list of the args that were traversed; arguments that are not of the specified types are not traversed","over":{"base":"Any","pred":"isinstance(e, target)"},"name":"walk_correct"},"guarantee":"iterate through the args that are the given types (target) and return a list of the args that were traversed; arguments that are not of the specified types are not traversed","fibers":[{"name":"target","pred":"isinstance(e, target)","path":{"lhs":"walk(x)","rhs":"iterate through the args that are the given types (target) and return a list of the args that were traversed; arguments that are not of the specified types are not traversed","over":{"base":"target","pred":"isinstance(e, target)"},"name":"walk_target_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.walk_target_correct","statement":"walk satisfies spec on target inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4bb6445bea3a0537"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.walk","kind":"function","src_hash":"29e2027237faf892","in":{"base":"Any","pred":"isinstance(e, target) and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: walk may be idempotent: walk(walk(x)) == walk(x)"},"spec":{"lhs":"walk(e, *target)","rhs":"# HINT: walk may be idempotent: walk(walk(x)) == walk(x)","over":{"base":"Any","pred":"isinstance(e, target) and hasattr(e, 'args')"},"name":"walk_correct"},"guarantee":"# HINT: walk may be idempotent: walk(walk(x)) == walk(x)","fibers":[{"name":"target","pred":"isinstance(e, target)","path":{"lhs":"walk(x)","rhs":"# HINT: walk may be idempotent: walk(walk(x)) == walk(x)","over":{"base":"target","pred":"isinstance(e, target)"},"name":"walk_target_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.walk_target_correct","statement":"walk satisfies spec on target inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4bb6445bea3a0537","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["# HINT: walk may be idempotent: walk(walk(x)) == walk(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['e'], spec=['e', '*target']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, target)'}, fibers={'target'})"]}}
 def walk(e, *target):
     """Iterate through the args that are the given types (target) and
     return a list of the args that were traversed; arguments
@@ -356,16 +422,26 @@ def walk(e, *target):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bottom_up(rv,), apply ``f`` to all expressions in an expression tree from the bottom up) over Any ║
+# ║ Path(bottom_up(rv, F, atoms), rv) over {Any | hasattr(rv, 'args') and hasattr(rv, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bottom_up : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   ensures:  result == rv                                   ║
+# ║   ensures:  # HINT: bottom_up may be idempotent: bott...   ║
+# ║   returns:  rv                                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bottom_up : {Any | hasattr(rv, 'args') and hasattr(rv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1703188998189394  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39e6c311a730d3d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.bottom_up","kind":"function","src_hash":"e667545d3cc16574","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bottom_up(rv,)","rhs":"apply ``f`` to all expressions in an expression tree from the bottom up","over":{"base":"Any"},"name":"bottom_up_correct"},"guarantee":"apply ``f`` to all expressions in an expression tree from the bottom up","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.bottom_up_correct","statement":"Path(bottom_up(x), apply ``f`` to all expressions in an expression tree from the bottom up)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1703188998189394"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.bottom_up","kind":"function","src_hash":"e667545d3cc16574","in":{"base":"Any","pred":"hasattr(rv, 'args') and hasattr(rv, 'func')"},"out":{"base":"Any","pred":"result satisfies: result == (rv)"},"spec":{"lhs":"bottom_up(rv, F, atoms)","rhs":"rv","over":{"base":"Any","pred":"hasattr(rv, 'args') and hasattr(rv, 'func')"},"name":"bottom_up_correct"},"guarantee":"returns rv; result == rv; # HINT: bottom_up may be idempotent: bottom_up(bottom_up(x)) == bottom_up(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.bottom_up_correct","statement":"Path(bottom_up(x), returns rv; result == rv; # HINT: bottom_up may be idempotent: bottom_up(bottom_up(x)) == bottom_up(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39e6c311a730d3d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'args')","hasattr(rv, 'func')"],"ensures":["result == rv","# HINT: bottom_up may be idempotent: bottom_up(bottom_up(x)) == bottom_up(x)"],"returns_expr":"rv","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args","rv.func"],"catches":["TypeError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bottom_up(rv, F, atoms=False, nonbasic=False):
     """Apply ``F`` to all expressions in an expression tree from the
     bottom up. If ``atoms`` is True, apply ``F`` even if there are no args;
@@ -391,9 +467,13 @@ def bottom_up(rv, F, atoms=False, nonbasic=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postorder_traversal(nod), do a postorder traversal of a tree) over {Any | isinstance(node, Basic)} ║
+# ║ Path(postorder_traversal(node, keys), # HINT: postorder_traversal may be idempotent: postorder_traversal(postorder_traversal(x)) == postorder_traversal(x)) over {Any | isinstance(node, Basic) and hasattr(node, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ postorder_traversal : {Any | isinstance(node, Basic)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(node, 'args')                          ║
+# ║   ensures:  # HINT: postorder_traversal may be idempo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ postorder_traversal : {Any | isinstance(node, Basic) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(node, Basic)} → library_axiom         ║
@@ -403,9 +483,12 @@ def bottom_up(rv, F, atoms=False, nonbasic=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 47c8465f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.traversal.postorder_traversal","kind":"function","src_hash":"66546b7c1a25e185","in":{"base":"Any","pred":"isinstance(node, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"postorder_traversal(nod)","rhs":"do a postorder traversal of a tree","over":{"base":"Any","pred":"isinstance(node, Basic)"},"name":"postorder_traversal_correct"},"guarantee":"do a postorder traversal of a tree","fibers":[{"name":"Basic","pred":"isinstance(node, Basic)","path":{"lhs":"postorder_traversal(x)","rhs":"do a postorder traversal of a tree","over":{"base":"Basic","pred":"isinstance(node, Basic)"},"name":"postorder_traversal_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.postorder_traversal_Basic_correct","statement":"postorder_traversal satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"47c8465f4636aa7f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.traversal.postorder_traversal","kind":"function","src_hash":"66546b7c1a25e185","in":{"base":"Any","pred":"isinstance(node, Basic) and hasattr(node, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: postorder_traversal may be idempotent: postorder_traversal(postorder_traversal(x)) == postorder_traversal(x)"},"spec":{"lhs":"postorder_traversal(node, keys)","rhs":"# HINT: postorder_traversal may be idempotent: postorder_traversal(postorder_traversal(x)) == postorder_traversal(x)","over":{"base":"Any","pred":"isinstance(node, Basic) and hasattr(node, 'args')"},"name":"postorder_traversal_correct"},"guarantee":"# HINT: postorder_traversal may be idempotent: postorder_traversal(postorder_traversal(x)) == postorder_traversal(x)","fibers":[{"name":"Basic","pred":"isinstance(node, Basic)","path":{"lhs":"postorder_traversal(x)","rhs":"# HINT: postorder_traversal may be idempotent: postorder_traversal(postorder_traversal(x)) == postorder_traversal(x)","over":{"base":"Basic","pred":"isinstance(node, Basic)"},"name":"postorder_traversal_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.traversal.postorder_traversal_Basic_correct","statement":"postorder_traversal satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"47c8465f4636aa7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(node, 'args')"],"ensures":["# HINT: postorder_traversal may be idempotent: postorder_traversal(postorder_traversal(x)) == postorder_traversal(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["node.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(node, Basic)', 'keys != True'}, fibers={'Basic'})"]}}
 def postorder_traversal(node, keys=None):
     """
     Do a postorder traversal of a tree.

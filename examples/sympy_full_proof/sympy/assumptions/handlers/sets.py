@@ -45,16 +45,23 @@ from ..predicates.sets import (IntegerPredicate, RationalPredicate,
 # IntegerPredicate
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_IntegerPredicate_number(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_IntegerPredicate_number(expr, assumptions), <unspecified:_IntegerPredicate_number>) over {Any | hasattr(expr, 'round')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _IntegerPredicate_number : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'round')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _IntegerPredicate_number : {Any | hasattr(expr, 'roun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 978ccfd69ac57639  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._IntegerPredicate_number","kind":"function","src_hash":"cfbdacfc7e539b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_IntegerPredicate_number(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_IntegerPredicate_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets._IntegerPredicate_number_correct","statement":"Path(_IntegerPredicate_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978ccfd69ac57639"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._IntegerPredicate_number","kind":"function","src_hash":"cfbdacfc7e539b9d","in":{"base":"Any","pred":"hasattr(expr, 'round')"},"out":{"base":"Any"},"spec":{"lhs":"_IntegerPredicate_number(expr, assumptions)","rhs":"<unspecified:_IntegerPredicate_number>","over":{"base":"Any","pred":"hasattr(expr, 'round')"},"name":"_IntegerPredicate_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets._IntegerPredicate_number_correct","statement":"Path(_IntegerPredicate_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978ccfd69ac57639","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'round')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.round"],"raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _IntegerPredicate_number(expr, assumptions):
     # helper function
         try:
@@ -67,47 +74,67 @@ def _IntegerPredicate_number(expr, assumptions):
 
 @IntegerPredicate.register_many(int, Integer) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @IntegerPredicate.register_many(Exp1, GoldenRatio, ImaginaryUnit, Infinity,
         NegativeInfinity, Pi, Rational, TribonacciConstant)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d6af380642cdc94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return False
 
 @IntegerPredicate.register(Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (ret is None) and hasattr(expr, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   requires: hasattr(expr, 'is_integer')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret is None) and hasattr(expr, 'is_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41bf09ffa4694c0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"d9b211f4f1402544","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41bf09ffa4694c0d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"d9b211f4f1402544","in":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_integer')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41bf09ffa4694c0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)","hasattr(expr, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_integer"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     ret = expr.is_integer
     if ret is None:
@@ -116,16 +143,23 @@ def _(expr, assumptions):
 
 @IntegerPredicate.register(Add)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * integer + integer -> integer * integer + !integer -> !integer * !integer + !integer -> ?) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05689cda8be32d52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"1b56017fe7521b8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* integer + integer -> integer * integer + !integer -> !integer * !integer + !integer -> ?","over":{"base":"Any"},"name":"__correct"},"guarantee":"* integer + integer -> integer * integer + !integer -> !integer * !integer + !integer -> ?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * integer + integer -> integer * integer + !integer -> !integer * !integer + !integer -> ?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05689cda8be32d52"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"1b56017fe7521b8a","in":{"base":"Any","pred":"hasattr(expr, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number')"},"name":"__correct"},"guarantee":"* integer + integer -> integer * integer + !integer -> !integer * !integer + !integer -> ?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * integer + integer -> integer * integer + !integer -> !integer * !integer + !integer -> ?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05689cda8be32d52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Integer + Integer       -> Integer
@@ -138,16 +172,25 @@ def _(expr, assumptions):
 
 @IntegerPredicate.register(Pow)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d60be58d3c73367d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"7003375c3b5cf3b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d60be58d3c73367d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"7003375c3b5cf3b8","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d60be58d3c73367d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(expr,assumptions):
     if expr.is_number:
         return _IntegerPredicate_number(expr, assumptions)
@@ -159,16 +202,24 @@ def _(expr,assumptions):
 
 @IntegerPredicate.register(Mul)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * integer*integer -> integer * integer*irrational -> !integer * odd/even -> !integer * integer*rational -> ?) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b211a5361f1f7997  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"60c90c07840ea7a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* integer*integer -> integer * integer*irrational -> !integer * odd/even -> !integer * integer*rational -> ?","over":{"base":"Any"},"name":"__correct"},"guarantee":"* integer*integer -> integer * integer*irrational -> !integer * odd/even -> !integer * integer*rational -> ?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * integer*integer -> integer * integer*irrational -> !integer * odd/even -> !integer * integer*rational -> ?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b211a5361f1f7997"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"60c90c07840ea7a4","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"* integer*integer -> integer * integer*irrational -> !integer * odd/even -> !integer * integer*rational -> ?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * integer*integer -> integer * integer*irrational -> !integer * odd/even -> !integer * integer*rational -> ?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b211a5361f1f7997","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Integer*Integer      -> Integer
@@ -198,32 +249,46 @@ def _(expr, assumptions):
 
 @IntegerPredicate.register(Abs)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50ec2a984cd05c33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9199c9f47cbfff1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"aece0beceef6988c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50ec2a984cd05c33"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"aece0beceef6988c","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9199c9f47cbfff1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if ask(Q.integer(expr.args[0]), assumptions):
         return True
 
 @IntegerPredicate.register_many(Determinant, MatrixElement, Trace)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), ask(Q.integer_elements(expr.args[0]), assumptions)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(Q.integer_elements(expr.args[0]), ass...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f88479c9d4f834d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"4fd37224d978f8de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f88479c9d4f834d0"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"4fd37224d978f8de","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.integer_elements(expr.args[0]), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns ask(Q.integer_elements(expr.args[0]), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f88479c9d4f834d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(Q.integer_elements(expr.args[0]), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return ask(Q.integer_elements(expr.args[0]), assumptions)
 
@@ -232,62 +297,88 @@ def _(expr, assumptions):
 
 @RationalPredicate.register(Rational)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @RationalPredicate.register(Float)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), None) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cb2195867390d1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9543a13305fd0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb2195867390d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9543a13305fd0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb2195867390d1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return None
 
 @RationalPredicate.register_many(Exp1, GoldenRatio, ImaginaryUnit, Infinity,
     NegativeInfinity, Pi, TribonacciConstant)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d6af380642cdc94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return False
 
 @RationalPredicate.register(Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (ret is None) and hasattr(expr, 'is_rational')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   requires: hasattr(expr, 'is_rational')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret is None) and hasattr(expr, 'is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47e1576718b865b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"0c5460ed17c4d04f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47e1576718b865b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"0c5460ed17c4d04f","in":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_rational')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_rational')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47e1576718b865b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)","hasattr(expr, 'is_rational')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_rational"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     ret = expr.is_rational
     if ret is None:
@@ -296,16 +387,24 @@ def _(expr, assumptions):
 
 @RationalPredicate.register_many(Add, Mul)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * rational + rational -> rational * rational + !rational -> !rational * !rational + !rational -> ?) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'as_real_imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'as_real_imag')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8bd11bf66292579  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"eab7db95bd0b4272","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* rational + rational -> rational * rational + !rational -> !rational * !rational + !rational -> ?","over":{"base":"Any"},"name":"__correct"},"guarantee":"* rational + rational -> rational * rational + !rational -> !rational * !rational + !rational -> ?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * rational + rational -> rational * rational + !rational -> !rational * !rational + !rational -> ?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8bd11bf66292579"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"eab7db95bd0b4272","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'as_real_imag')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'as_real_imag')"},"name":"__correct"},"guarantee":"* rational + rational -> rational * rational + !rational -> !rational * !rational + !rational -> ?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * rational + rational -> rational * rational + !rational -> !rational * !rational + !rational -> ?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8bd11bf66292579","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'as_real_imag')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_real_imag","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Rational + Rational     -> Rational
@@ -319,16 +418,24 @@ def _(expr, assumptions):
 
 @RationalPredicate.register(Pow)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'base') and hasattr(expr, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 80cdf00487faa371   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bb1bafcbf56e9d38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* rational ** integer -> rational * irrational ** rational -> irrational * rational ** irrational -> ?","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"* rational ** integer -> rational * irrational ** rational -> irrational * rational ** irrational -> ?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"zero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80cdf00487faa371"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bb1bafcbf56e9d38","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct","kind":"composition"},"guarantee":"* rational ** integer -> rational * irrational ** rational -> irrational * rational ** irrational -> ?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"zero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80cdf00487faa371","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Rational ** Integer      -> Rational
@@ -365,16 +472,23 @@ def _(expr, assumptions):
 
 @RationalPredicate.register_many(asin, atan, cos, sin, tan)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(~Q.nonzero(x), assumptions)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b7f005e1ee151302   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2859ef703fa64a42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7f005e1ee151302"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2859ef703fa64a42","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(~Q.nonzero(x), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(~Q.nonzero(x), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7f005e1ee151302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(~Q.nonzero(x), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.args[0]
     if ask(Q.rational(x), assumptions):
@@ -382,16 +496,23 @@ def _(expr, assumptions):
 
 @RationalPredicate.register(exp)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  ask(~Q.nonzero(x), assumptions)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'exp')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eb7b321b92dbe5b8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"64a814f435a06523","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb7b321b92dbe5b8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"64a814f435a06523","in":{"base":"Any","pred":"hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(~Q.nonzero(x), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'exp')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(~Q.nonzero(x), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb7b321b92dbe5b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')"],"returns_expr":"ask(~Q.nonzero(x), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.exp
     if ask(Q.rational(x), assumptions):
@@ -399,16 +520,23 @@ def _(expr, assumptions):
 
 @RationalPredicate.register_many(acot, cot)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  False                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2735f7d94fcd0249  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dc129086da0ef31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"7d05ddcb29168efb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2735f7d94fcd0249"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"7d05ddcb29168efb","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dc129086da0ef31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"False","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.args[0]
     if ask(Q.rational(x), assumptions):
@@ -416,16 +544,23 @@ def _(expr, assumptions):
 
 @RationalPredicate.register_many(acos, log)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(~Q.nonzero(x - 1), assumptions)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a3f0c5c15195e035   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"6c1c04b575f25b81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f0c5c15195e035"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"6c1c04b575f25b81","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(~Q.nonzero(x - 1), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(~Q.nonzero(x - 1), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f0c5c15195e035","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(~Q.nonzero(x - 1), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.args[0]
     if ask(Q.rational(x), assumptions):
@@ -436,16 +571,24 @@ def _(expr, assumptions):
 
 @IrrationalPredicate.register(Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (ret is None) and hasattr(expr, 'is_irrational')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   requires: hasattr(expr, 'is_irrational')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret is None) and hasattr(expr, 'is_ir...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71f2ffb75d263f6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"d106510ab991a200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71f2ffb75d263f6c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"d106510ab991a200","in":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_irrational')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_irrational')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71f2ffb75d263f6c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)","hasattr(expr, 'is_irrational')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_irrational"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     ret = expr.is_irrational
     if ret is None:
@@ -454,16 +597,25 @@ def _(expr, assumptions):
 
 @IrrationalPredicate.register(Basic)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), result == (not _rational if _real else _real) and result == not _rational or result == _real) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (not _rational if _real else _r...   ║
+# ║   ensures:  result == not _rational or result == _real     ║
+# ║   fiber[case_0]: _real => not _rational                    ║
+# ║   fiber[case_1]: not (_real) => _real                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (not _ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3de4986158a458fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7912be5d9b42f6dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"78d148c222e1ee98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3de4986158a458fb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"78d148c222e1ee98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (not _rational if _real else _real) and result == not _rational or result == _real"},"spec":{"lhs":"_(expr, assumptions)","rhs":"result == (not _rational if _real else _real) and result == not _rational or result == _real","over":{"base":"Any"},"name":"__correct"},"guarantee":"result == (not _rational if _real else _real); result == not _rational or result == _real; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), result == (not _rational if _real else _real); result == not _rational or result == _real; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7912be5d9b42f6dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (not _rational if _real else _real)","result == not _rational or result == _real"],"fibers":[{"name":"case_0","guard":"_real","ensures":["result == not _rational"],"decidability":"library","returns_expr":"not _rational"},{"name":"case_1","guard":"not (_real)","ensures":["result == _real"],"decidability":"library","returns_expr":"_real"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     _real = ask(Q.real(expr), assumptions)
     if _real:
@@ -478,16 +630,23 @@ def _(expr, assumptions):
 # RealPredicate
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_RealPredicate_number(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_RealPredicate_number(expr, assumptions), not i) over {Any | hasattr(expr, 'as_real_imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _RealPredicate_number : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_real_imag')                  ║
+# ║   returns:  not i                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _RealPredicate_number : {Any | hasattr(expr, 'as_real...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e137e1c2d121ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f22da7ba17942a76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._RealPredicate_number","kind":"function","src_hash":"0d7d4579255506a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_RealPredicate_number(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_RealPredicate_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets._RealPredicate_number_correct","statement":"Path(_RealPredicate_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e137e1c2d121ce"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._RealPredicate_number","kind":"function","src_hash":"0d7d4579255506a7","in":{"base":"Any","pred":"hasattr(expr, 'as_real_imag')"},"out":{"base":"Any"},"spec":{"lhs":"_RealPredicate_number(expr, assumptions)","rhs":"not i","over":{"base":"Any","pred":"hasattr(expr, 'as_real_imag')"},"name":"_RealPredicate_number_correct"},"guarantee":"returns not i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets._RealPredicate_number_correct","statement":"Path(_RealPredicate_number(x), returns not i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22da7ba17942a76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_real_imag')"],"returns_expr":"not i","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_real_imag"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _RealPredicate_number(expr, assumptions):
     # let as_real_imag() work first since the expression may
     # be simpler to evaluate
@@ -500,46 +659,66 @@ def _RealPredicate_number(expr, assumptions):
 @RealPredicate.register_many(Abs, Exp1, Float, GoldenRatio, im, Pi, Rational,
     re, TribonacciConstant)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @RealPredicate.register_many(ImaginaryUnit, Infinity, NegativeInfinity)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d6af380642cdc94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return False
 
 @RealPredicate.register(Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (ret is None) and hasattr(expr, 'is_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   requires: hasattr(expr, 'is_real')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret is None) and hasattr(expr, 'is_re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e051d5dc58d6872  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"694b75da1c7c1061","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e051d5dc58d6872"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"694b75da1c7c1061","in":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_real')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_real')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e051d5dc58d6872","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)","hasattr(expr, 'is_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_real"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     ret = expr.is_real
     if ret is None:
@@ -548,16 +727,23 @@ def _(expr, assumptions):
 
 @RealPredicate.register(Add)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * real + real -> real * real + (complex & !real) -> !real) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b9309425c5f2ca9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"8929ba09309742af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* real + real -> real * real + (complex & !real) -> !real","over":{"base":"Any"},"name":"__correct"},"guarantee":"* real + real -> real * real + (complex & !real) -> !real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real + real -> real * real + (complex & !real) -> !real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9309425c5f2ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"8929ba09309742af","in":{"base":"Any","pred":"hasattr(expr, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number')"},"name":"__correct"},"guarantee":"* real + real -> real * real + (complex & !real) -> !real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real + real -> real * real + (complex & !real) -> !real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9309425c5f2ca9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Real + Real              -> Real
@@ -569,16 +755,24 @@ def _(expr, assumptions):
 
 @RealPredicate.register(Mul)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * real*real -> real * real*imaginary -> !real * imaginary*imaginary -> real) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc88bcb1386d15e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"92cb21c1b9ff970d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* real*real -> real * real*imaginary -> !real * imaginary*imaginary -> real","over":{"base":"Any"},"name":"__correct"},"guarantee":"* real*real -> real * real*imaginary -> !real * imaginary*imaginary -> real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real*real -> real * real*imaginary -> !real * imaginary*imaginary -> real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc88bcb1386d15e8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"92cb21c1b9ff970d","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"* real*real -> real * real*imaginary -> !real * imaginary*imaginary -> real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real*real -> real * real*imaginary -> !real * imaginary*imaginary -> real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc88bcb1386d15e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Real*Real               -> Real
@@ -600,16 +794,25 @@ def _(expr, assumptions):
 
 @RealPredicate.register(Pow)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * real**integer -> real * positive**real -> real * negative**real -> ? * real**(integer/even) -> real if base is nonnegative * real**(integer/odd) -> real * imaginary**(integer/even) -> real * imagina) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e52156418bcc8920  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e1337112989c306e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* real**integer -> real * positive**real -> real * negative**real -> ? * real**(integer/even) -> real if base is nonnegative * real**(integer/odd) -> real * imaginary**(integer/even) -> real * imagina","over":{"base":"Any"},"name":"__correct"},"guarantee":"* real**integer -> real * positive**real -> real * negative**real -> ? * real**(integer/even) -> real if base is nonnegative * real**(integer/odd) -> real * imaginary**(integer/even) -> real * imagina","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real**integer -> real * positive**real -> real * negative**real -> ? * real**(integer/even) -> real if base is nonnegative * real**(integer/odd) -> real * imaginary**(integer/even) -> real * imagina)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e52156418bcc8920"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e1337112989c306e","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"* real**integer -> real * positive**real -> real * negative**real -> ? * real**(integer/even) -> real if base is nonnegative * real**(integer/odd) -> real * imaginary**(integer/even) -> real * imagina","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real**integer -> real * positive**real -> real * negative**real -> ? * real**(integer/even) -> real if base is nonnegative * real**(integer/odd) -> real * imaginary**(integer/even) -> real * imagina)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e52156418bcc8920","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Real**Integer              -> Real
@@ -678,32 +881,46 @@ def _(expr, assumptions):
 
 @RealPredicate.register_many(cos, sin)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e73af9e3e03f8e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 129a62ab2f5b0bb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"50565cda77ea14d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e73af9e3e03f8e1"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"50565cda77ea14d4","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"129a62ab2f5b0bb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if ask(Q.real(expr.args[0]), assumptions):
             return True
 
 @RealPredicate.register(exp)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), ask(Q.integer(expr.exp / I / pi) | Q.real(expr.exp), assumptions)) over {Any | hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  ask(Q.integer(expr.exp / I / pi) | Q.real...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'exp')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 199db7b72a2c68d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea9309b64ee9f4e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"a9c98b55b5c3701d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199db7b72a2c68d6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"a9c98b55b5c3701d","in":{"base":"Any","pred":"hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.integer(expr.exp / I / pi) | Q.real(expr.exp), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"returns ask(Q.integer(expr.exp / I / pi) | Q.real(expr.exp), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns ask(Q.integer(expr.exp / I / pi) | Q.real(expr.exp), assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea9309b64ee9f4e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')"],"returns_expr":"ask(Q.integer(expr.exp / I / pi) | Q.real(expr.exp), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     return ask(
         Q.integer(expr.exp/I/pi) | Q.real(expr.exp), assumptions
@@ -711,31 +928,45 @@ def _(expr, assumptions):
 
 @RealPredicate.register(log)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), ask(Q.positive(expr.args[0]), assumptions)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(Q.positive(expr.args[0]), assumptions)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37cf70a0ac2cbffb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2ee1ac9a75f8f162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37cf70a0ac2cbffb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2ee1ac9a75f8f162","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.positive(expr.args[0]), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns ask(Q.positive(expr.args[0]), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37cf70a0ac2cbffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(Q.positive(expr.args[0]), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return ask(Q.positive(expr.args[0]), assumptions)
 
 @RealPredicate.register_many(Determinant, MatrixElement, Trace)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), ask(Q.real_elements(expr.args[0]), assumptions)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(Q.real_elements(expr.args[0]), assump...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 374f1f37a4269c2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"8ac99f3bf2d8271a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"374f1f37a4269c2a"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"8ac99f3bf2d8271a","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.real_elements(expr.args[0]), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns ask(Q.real_elements(expr.args[0]), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"374f1f37a4269c2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(Q.real_elements(expr.args[0]), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return ask(Q.real_elements(expr.args[0]), assumptions)
 
@@ -744,16 +975,22 @@ def _(expr, assumptions):
 
 @ExtendedRealPredicate.register(object)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ask(Q.negative_infinite(expr) | Q.negativ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f320f497cb316ac6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"44fba9cbf0762f54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"negative_infinite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f320f497cb316ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"44fba9cbf0762f54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.negative_infinite(expr) | Q.negative(expr) | Q.zero(expr) | Q.positive(expr) | Q.positive_infinite(expr), assumptions)","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(Q.negative_infinite(expr) | Q.negative(expr) | Q.zero(expr) | Q.positive(expr) | Q.positive_infinite(expr), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"negative_infinite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f320f497cb316ac6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ask(Q.negative_infinite(expr) | Q.negative(expr) | Q.zero(expr) | Q.positive(expr) | Q.positive_infinite(expr), assumptions)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     return ask(Q.negative_infinite(expr)
                | Q.negative(expr)
@@ -764,31 +1001,43 @@ def _(expr, assumptions):
 
 @ExtendedRealPredicate.register_many(Infinity, NegativeInfinity)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @ExtendedRealPredicate.register_many(Add, Mul, Pow) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), test_closed_group(expr, assumptions, Q.extended_real)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  test_closed_group(expr, assumptions, Q.ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c7898f448cfb1ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bff40b74674c8118","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c7898f448cfb1ec"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bff40b74674c8118","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"test_closed_group(expr, assumptions, Q.extended_real)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns test_closed_group(expr, assumptions, Q.extended_real)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c7898f448cfb1ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"test_closed_group(expr, assumptions, Q.extended_real)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return test_closed_group(expr, assumptions, Q.extended_real)
 
@@ -797,7 +1046,10 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register(object) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {Any | isinstance(expr, MatrixBase)} ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | isinstance(expr, MatrixBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {Any | isinstance(expr, MatrixBase)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -809,9 +1061,12 @@ def _(expr, assumptions):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 02d4afdf...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"67f69987ddaf8132","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"__MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__MatrixBase_correct","statement":"_ satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02d4afdf21ea0345"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"67f69987ddaf8132","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"__MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__MatrixBase_correct","statement":"_ satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02d4afdf21ea0345","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, MatrixBase)'}, fibers={'MatrixBase'})"]}}
 def _(expr, assumptions):
     if isinstance(expr, MatrixBase):
         return None
@@ -819,16 +1074,24 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register(Add) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * hermitian + hermitian -> hermitian * hermitian + !hermitian -> !hermitian) over Any ║
+# ║ Path(_(expr, assumptions), test_closed_group(expr, assumptions, Q.hermitian)) over {Any | not (expr.is_number) and hasattr(expr, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.is_number)                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   returns:  test_closed_group(expr, assumptions, Q.he...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (expr.is_number) and hasattr(expr, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 870eba1f023dd533  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d85e0112512f90cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"79d03ef79b9cbc9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* hermitian + hermitian -> hermitian * hermitian + !hermitian -> !hermitian","over":{"base":"Any"},"name":"__correct"},"guarantee":"* hermitian + hermitian -> hermitian * hermitian + !hermitian -> !hermitian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * hermitian + hermitian -> hermitian * hermitian + !hermitian -> !hermitian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"870eba1f023dd533"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"79d03ef79b9cbc9b","in":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"test_closed_group(expr, assumptions, Q.hermitian)","over":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number')"},"name":"__correct"},"guarantee":"returns test_closed_group(expr, assumptions, Q.hermitian)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns test_closed_group(expr, assumptions, Q.hermitian))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d85e0112512f90cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.is_number)","hasattr(expr, 'is_number')"],"returns_expr":"test_closed_group(expr, assumptions, Q.hermitian)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Hermitian + Hermitian  -> Hermitian
@@ -840,16 +1103,25 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register(Mul) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), as long as there is at most only one noncommutative term:) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (expr.is_number)                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (expr.is_number) and hasattr(expr, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cbbe077e610655f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"a1ccd5794c5033c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"as long as there is at most only one noncommutative term:","over":{"base":"Any"},"name":"__correct"},"guarantee":"as long as there is at most only one noncommutative term:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), as long as there is at most only one noncommutative term:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cbbe077e610655f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"a1ccd5794c5033c8","in":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"as long as there is at most only one noncommutative term:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), as long as there is at most only one noncommutative term:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cbbe077e610655f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (expr.is_number)","hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     As long as there is at most only one noncommutative term:
@@ -876,16 +1148,25 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register(Pow) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * hermitian**integer -> hermitian) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (expr.is_number)                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (expr.is_number) and hasattr(expr, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aff0ff70149621fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"f7c63b7b4ca744fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* hermitian**integer -> hermitian","over":{"base":"Any"},"name":"__correct"},"guarantee":"* hermitian**integer -> hermitian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * hermitian**integer -> hermitian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff0ff70149621fb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"f7c63b7b4ca744fe","in":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"* hermitian**integer -> hermitian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * hermitian**integer -> hermitian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff0ff70149621fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (expr.is_number)","hasattr(expr, 'is_number')","hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","expr.is_number"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Hermitian**Integer -> Hermitian
@@ -903,16 +1184,23 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register_many(cos, sin) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb57eda37e0e07b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9cfdbfa9e3d466e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"5bb2618714733b17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb57eda37e0e07b3"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"5bb2618714733b17","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9cfdbfa9e3d466e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if ask(Q.hermitian(expr.args[0]), assumptions):
         return True
@@ -920,16 +1208,23 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register(exp) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over {Any | hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'exp')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb0d179c26d616a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdee5149638a0622  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"728b917c23ad375c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0d179c26d616a5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"728b917c23ad375c","in":{"base":"Any","pred":"hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any","pred":"hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdee5149638a0622","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')"],"returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if ask(Q.hermitian(expr.exp), assumptions):
         return True
@@ -937,16 +1232,24 @@ def _(expr, assumptions):
 
 @HermitianPredicate.register(MatrixBase) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(mat), internal helper behaves correctly) over Any   ║
+# ║ Path(_(mat, assumptions), <unspecified:_>) over {Any | not (ret_val is None) and hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret_val is None)                          ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret_val is None) and hasattr(mat, 'sh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e26112edf40074c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"41bc542115edfd1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e26112edf40074c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"41bc542115edfd1d","in":{"base":"Any","pred":"not (ret_val is None) and hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(mat, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret_val is None) and hasattr(mat, 'shape')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e26112edf40074c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret_val is None)","hasattr(mat, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(mat, assumptions):
     rows, cols = mat.shape
     ret_val = True
@@ -967,46 +1270,66 @@ def _(mat, assumptions):
 @ComplexPredicate.register_many(Abs, cos, exp, im, ImaginaryUnit, log, Number, # type:ignore
     NumberSymbol, re, sin)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @ComplexPredicate.register_many(Infinity, NegativeInfinity) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d6af380642cdc94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return False
 
 @ComplexPredicate.register(Expr) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (ret is None) and hasattr(expr, 'is_complex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   requires: hasattr(expr, 'is_complex')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret is None) and hasattr(expr, 'is_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2993473dfcbaa25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9b853b03aa4d7c48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2993473dfcbaa25"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9b853b03aa4d7c48","in":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_complex')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_complex')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2993473dfcbaa25","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)","hasattr(expr, 'is_complex')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_complex"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     ret = expr.is_complex
     if ret is None:
@@ -1015,31 +1338,44 @@ def _(expr, assumptions):
 
 @ComplexPredicate.register_many(Add, Mul) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), test_closed_group(expr, assumptions, Q.complex)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  test_closed_group(expr, assumptions, Q.co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1a2029593288974           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9cf5c4a0ca94a176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1a2029593288974"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9cf5c4a0ca94a176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"test_closed_group(expr, assumptions, Q.complex)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns test_closed_group(expr, assumptions, Q.complex)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1a2029593288974","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"test_closed_group(expr, assumptions, Q.complex)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return test_closed_group(expr, assumptions, Q.complex)
 
 @ComplexPredicate.register(Pow) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'base')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dae9e511c525327b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"0db3f180d7b68d7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae9e511c525327b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"0db3f180d7b68d7c","in":{"base":"Any","pred":"hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'base')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae9e511c525327b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if expr.base == E:
         return True
@@ -1047,31 +1383,44 @@ def _(expr, assumptions):
 
 @ComplexPredicate.register_many(Determinant, MatrixElement, Trace) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), ask(Q.complex_elements(expr.args[0]), assumptions)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(Q.complex_elements(expr.args[0]), ass...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d63700ac98d4605           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bba7fd2148455fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d63700ac98d4605"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bba7fd2148455fe7","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.complex_elements(expr.args[0]), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns ask(Q.complex_elements(expr.args[0]), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d63700ac98d4605","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(Q.complex_elements(expr.args[0]), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return ask(Q.complex_elements(expr.args[0]), assumptions)
 
 @ComplexPredicate.register(NaN) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), None) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cb2195867390d1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9543a13305fd0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb2195867390d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9543a13305fd0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb2195867390d1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return None
 
@@ -1079,16 +1428,23 @@ def _(expr, assumptions):
 # ImaginaryPredicate
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Imaginary_number(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_Imaginary_number(expr, assumptions), not r) over {Any | hasattr(expr, 'as_real_imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _Imaginary_number : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_real_imag')                  ║
+# ║   returns:  not r                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _Imaginary_number : {Any | hasattr(expr, 'as_real_ima...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d149eab75dc1d994  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e00fe1451413013c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._Imaginary_number","kind":"function","src_hash":"fdb9c7abc4d3825b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Imaginary_number(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Imaginary_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets._Imaginary_number_correct","statement":"Path(_Imaginary_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d149eab75dc1d994"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._Imaginary_number","kind":"function","src_hash":"fdb9c7abc4d3825b","in":{"base":"Any","pred":"hasattr(expr, 'as_real_imag')"},"out":{"base":"Any"},"spec":{"lhs":"_Imaginary_number(expr, assumptions)","rhs":"not r","over":{"base":"Any","pred":"hasattr(expr, 'as_real_imag')"},"name":"_Imaginary_number_correct"},"guarantee":"returns not r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets._Imaginary_number_correct","statement":"Path(_Imaginary_number(x), returns not r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e00fe1451413013c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_real_imag')"],"returns_expr":"not r","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_real_imag"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _Imaginary_number(expr, assumptions):
     # let as_real_imag() work first since the expression may
     # be simpler to evaluate
@@ -1100,31 +1456,45 @@ def _Imaginary_number(expr, assumptions):
 
 @ImaginaryPredicate.register(ImaginaryUnit) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @ImaginaryPredicate.register(Expr) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (ret is None) and hasattr(expr, 'is_imaginary')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   requires: hasattr(expr, 'is_imaginary')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret is None) and hasattr(expr, 'is_im...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b325a56f1c4d187  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"0737348a280528a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b325a56f1c4d187"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"0737348a280528a0","in":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_imaginary')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret is None) and hasattr(expr, 'is_imaginary')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b325a56f1c4d187","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)","hasattr(expr, 'is_imaginary')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_imaginary"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     ret = expr.is_imaginary
     if ret is None:
@@ -1133,16 +1503,24 @@ def _(expr, assumptions):
 
 @ImaginaryPredicate.register(Add) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * imaginary + imaginary -> imaginary * imaginary + complex -> ? * imaginary + real -> !imaginary) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04a64fd682c0314c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bb6081281f62b834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* imaginary + imaginary -> imaginary * imaginary + complex -> ? * imaginary + real -> !imaginary","over":{"base":"Any"},"name":"__correct"},"guarantee":"* imaginary + imaginary -> imaginary * imaginary + complex -> ? * imaginary + real -> !imaginary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * imaginary + imaginary -> imaginary * imaginary + complex -> ? * imaginary + real -> !imaginary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a64fd682c0314c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bb6081281f62b834","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"* imaginary + imaginary -> imaginary * imaginary + complex -> ? * imaginary + real -> !imaginary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * imaginary + imaginary -> imaginary * imaginary + complex -> ? * imaginary + real -> !imaginary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a64fd682c0314c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Imaginary + Imaginary -> Imaginary
@@ -1169,16 +1547,24 @@ def _(expr, assumptions):
 
 @ImaginaryPredicate.register(Mul) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * real*imaginary -> imaginary * imaginary*imaginary -> real) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f778dbf4bfe3d6bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2cfd3849b0a101ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* real*imaginary -> imaginary * imaginary*imaginary -> real","over":{"base":"Any"},"name":"__correct"},"guarantee":"* real*imaginary -> imaginary * imaginary*imaginary -> real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real*imaginary -> imaginary * imaginary*imaginary -> real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f778dbf4bfe3d6bf"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2cfd3849b0a101ce","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"* real*imaginary -> imaginary * imaginary*imaginary -> real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * real*imaginary -> imaginary * imaginary*imaginary -> real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f778dbf4bfe3d6bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Real*Imaginary      -> Imaginary
@@ -1200,16 +1586,25 @@ def _(expr, assumptions):
 
 @ImaginaryPredicate.register(Pow) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * imaginary**odd -> imaginary * imaginary**even -> real * b**imaginary -> !imaginary if exponent is an integer multiple of i*pi/log(b) * imaginary**real -> ? * positive**real -> real * negative**integ) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'is_number') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 803994593ef1921e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"8b51a3380c4a52b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* imaginary**odd -> imaginary * imaginary**even -> real * b**imaginary -> !imaginary if exponent is an integer multiple of i*pi/log(b) * imaginary**real -> ? * positive**real -> real * negative**integ","over":{"base":"Any"},"name":"__correct"},"guarantee":"* imaginary**odd -> imaginary * imaginary**even -> real * b**imaginary -> !imaginary if exponent is an integer multiple of i*pi/log(b) * imaginary**real -> ? * positive**real -> real * negative**integ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * imaginary**odd -> imaginary * imaginary**even -> real * b**imaginary -> !imaginary if exponent is an integer multiple of i*pi/log(b) * imaginary**real -> ? * positive**real -> real * negative**integ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"803994593ef1921e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"8b51a3380c4a52b9","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"* imaginary**odd -> imaginary * imaginary**even -> real * b**imaginary -> !imaginary if exponent is an integer multiple of i*pi/log(b) * imaginary**real -> ? * positive**real -> real * negative**integ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * imaginary**odd -> imaginary * imaginary**even -> real * b**imaginary -> !imaginary if exponent is an integer multiple of i*pi/log(b) * imaginary**real -> ? * positive**real -> real * negative**integ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"803994593ef1921e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Imaginary**Odd        -> Imaginary
@@ -1267,16 +1662,23 @@ def _(expr, assumptions):
 
 @ImaginaryPredicate.register(log) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c82c82b08855a381  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"3e1f0e5a4cdecafe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c82c82b08855a381"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"3e1f0e5a4cdecafe","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c82c82b08855a381","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if ask(Q.real(expr.args[0]), assumptions):
         if ask(Q.positive(expr.args[0]), assumptions):
@@ -1295,47 +1697,67 @@ def _(expr, assumptions):
 
 @ImaginaryPredicate.register(exp) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  ask(Q.integer(2 * a) & ~Q.integer(a), ass...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'exp')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7ffa6884e2a2779c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"236747af31ca169b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"integer","by":"library_axiom"},{"fn":"integer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ffa6884e2a2779c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"236747af31ca169b","in":{"base":"Any","pred":"hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(Q.integer(2 * a) & ~Q.integer(a), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'exp')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(Q.integer(2 * a) & ~Q.integer(a), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"integer","by":"library_axiom"},{"fn":"integer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ffa6884e2a2779c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')"],"returns_expr":"ask(Q.integer(2 * a) & ~Q.integer(a), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     a = expr.exp/I/pi
     return ask(Q.integer(2*a) & ~Q.integer(a), assumptions)
 
 @ImaginaryPredicate.register_many(Number, NumberSymbol) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), not expr.as_real_imag()[1] == 0) over {Any | hasattr(expr, 'as_real_imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_real_imag')                  ║
+# ║   returns:  not expr.as_real_imag()[1] == 0                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'as_real_imag')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2592f0dad2353f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"4205fe63e5e60b0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2592f0dad2353f8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"4205fe63e5e60b0d","in":{"base":"Any","pred":"hasattr(expr, 'as_real_imag')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"not expr.as_real_imag()[1] == 0","over":{"base":"Any","pred":"hasattr(expr, 'as_real_imag')"},"name":"__correct"},"guarantee":"returns not expr.as_real_imag()[1] == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2592f0dad2353f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_real_imag')"],"returns_expr":"not expr.as_real_imag()[1] == 0","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_real_imag"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return not (expr.as_real_imag()[1] == 0)
 
 @ImaginaryPredicate.register(NaN) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), None) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cb2195867390d1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9543a13305fd0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb2195867390d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9543a13305fd0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb2195867390d1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return None
 
@@ -1344,7 +1766,10 @@ def _(expr, assumptions):
 
 @AntihermitianPredicate.register(object) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {Any | isinstance(expr, MatrixBase)} ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | isinstance(expr, MatrixBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {Any | isinstance(expr, MatrixBase)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1356,9 +1781,12 @@ def _(expr, assumptions):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e6793b9c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bd07c6a34a21f20c","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"__MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__MatrixBase_correct","statement":"_ satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e6793b9c4addc13f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"bd07c6a34a21f20c","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"__MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__MatrixBase_correct","statement":"_ satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e6793b9c4addc13f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, MatrixBase)'}, fibers={'MatrixBase'})"]}}
 def _(expr, assumptions):
     if isinstance(expr, MatrixBase):
         return None
@@ -1368,16 +1796,24 @@ def _(expr, assumptions):
 
 @AntihermitianPredicate.register(Add) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * antihermitian + antihermitian -> antihermitian * antihermitian + !antihermitian -> !antihermitian) over Any ║
+# ║ Path(_(expr, assumptions), test_closed_group(expr, assumptions, Q.antihermitian)) over {Any | not (expr.is_number) and hasattr(expr, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.is_number)                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   returns:  test_closed_group(expr, assumptions, Q.an...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (expr.is_number) and hasattr(expr, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfa593bcf617c7af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c1bcc6a06e70bc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9733843e240b6335","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* antihermitian + antihermitian -> antihermitian * antihermitian + !antihermitian -> !antihermitian","over":{"base":"Any"},"name":"__correct"},"guarantee":"* antihermitian + antihermitian -> antihermitian * antihermitian + !antihermitian -> !antihermitian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * antihermitian + antihermitian -> antihermitian * antihermitian + !antihermitian -> !antihermitian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfa593bcf617c7af"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"9733843e240b6335","in":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"test_closed_group(expr, assumptions, Q.antihermitian)","over":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number')"},"name":"__correct"},"guarantee":"returns test_closed_group(expr, assumptions, Q.antihermitian)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns test_closed_group(expr, assumptions, Q.antihermitian))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c1bcc6a06e70bc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.is_number)","hasattr(expr, 'is_number')"],"returns_expr":"test_closed_group(expr, assumptions, Q.antihermitian)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Antihermitian + Antihermitian  -> Antihermitian
@@ -1389,16 +1825,25 @@ def _(expr, assumptions):
 
 @AntihermitianPredicate.register(Mul) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), as long as there is at most only one noncommutative term:) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (expr.is_number)                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (expr.is_number) and hasattr(expr, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c87d59512ac963a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"50b1acf4a41755c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"as long as there is at most only one noncommutative term:","over":{"base":"Any"},"name":"__correct"},"guarantee":"as long as there is at most only one noncommutative term:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), as long as there is at most only one noncommutative term:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c87d59512ac963a6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"50b1acf4a41755c5","in":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"as long as there is at most only one noncommutative term:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), as long as there is at most only one noncommutative term:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c87d59512ac963a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (expr.is_number)","hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     As long as there is at most only one noncommutative term:
@@ -1425,16 +1870,25 @@ def _(expr, assumptions):
 
 @AntihermitianPredicate.register(Pow) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), * hermitian**integer -> !antihermitian * antihermitian**even -> !antihermitian * antihermitian**odd -> antihermitian) over Any ║
+# ║ Path(_(expr, assumptions), <unspecified:_>) over {Any | not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (expr.is_number)                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (expr.is_number) and hasattr(expr, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caa21917f74bffb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"f55c5a73d55fa8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"* hermitian**integer -> !antihermitian * antihermitian**even -> !antihermitian * antihermitian**odd -> antihermitian","over":{"base":"Any"},"name":"__correct"},"guarantee":"* hermitian**integer -> !antihermitian * antihermitian**even -> !antihermitian * antihermitian**odd -> antihermitian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * hermitian**integer -> !antihermitian * antihermitian**even -> !antihermitian * antihermitian**odd -> antihermitian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caa21917f74bffb8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"f55c5a73d55fa8c8","in":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (expr.is_number) and hasattr(expr, 'is_number') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct"},"guarantee":"* hermitian**integer -> !antihermitian * antihermitian**even -> !antihermitian * antihermitian**odd -> antihermitian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), * hermitian**integer -> !antihermitian * antihermitian**even -> !antihermitian * antihermitian**odd -> antihermitian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caa21917f74bffb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (expr.is_number)","hasattr(expr, 'is_number')","hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","expr.is_number"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     """
     * Hermitian**Integer  -> !Antihermitian
@@ -1455,16 +1909,24 @@ def _(expr, assumptions):
 
 @AntihermitianPredicate.register(MatrixBase) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(mat), internal helper behaves correctly) over Any   ║
+# ║ Path(_(mat, assumptions), <unspecified:_>) over {Any | not (ret_val is None) and hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret_val is None)                          ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | not (ret_val is None) and hasattr(mat, 'sh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20507ea3b4082db5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"36ace90f78aa104e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20507ea3b4082db5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"36ace90f78aa104e","in":{"base":"Any","pred":"not (ret_val is None) and hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(mat, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"not (ret_val is None) and hasattr(mat, 'shape')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20507ea3b4082db5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret_val is None)","hasattr(mat, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape"],"raises":["MDNotImplementedError"]},"state_contract":{"exceptional_post":{"MDNotImplementedError":["isinstance(raised, MDNotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(mat, assumptions):
     rows, cols = mat.shape
     ret_val = True
@@ -1485,62 +1947,88 @@ def _(mat, assumptions):
 @AlgebraicPredicate.register_many(AlgebraicNumber, Float, GoldenRatio, # type:ignore
     ImaginaryUnit, TribonacciConstant)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), True) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 919bb640c5fa24be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ae12acfea890b2e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"919bb640c5fa24be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return True
 
 @AlgebraicPredicate.register_many(ComplexInfinity, Exp1, Infinity, # type:ignore
     NegativeInfinity, Pi)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d6af380642cdc94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"e8576061ef4c1c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d6af380642cdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return False
 
 @AlgebraicPredicate.register_many(Add, Mul) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), test_closed_group(expr, assumptions, Q.algebraic)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  test_closed_group(expr, assumptions, Q.al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 456f790d3f4ef489           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"799f77648f284eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"456f790d3f4ef489"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"799f77648f284eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"test_closed_group(expr, assumptions, Q.algebraic)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns test_closed_group(expr, assumptions, Q.algebraic)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"456f790d3f4ef489","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"test_closed_group(expr, assumptions, Q.algebraic)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return test_closed_group(expr, assumptions, Q.algebraic)
 
 @AlgebraicPredicate.register(Pow) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'base') and hasattr(expr, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5aa6f555e7343c3e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"abb3e8c8df186831","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5aa6f555e7343c3e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"abb3e8c8df186831","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5aa6f555e7343c3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     if expr.base == E:
         if ask(Q.algebraic(expr.exp), assumptions):
@@ -1564,31 +2052,45 @@ def _(expr, assumptions):
 
 @AlgebraicPredicate.register(Rational) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), expr.q != 0) over {Any | hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  expr.q != 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'q')} → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abfed13bb2ca19f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"24d5916362c29e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abfed13bb2ca19f0"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"24d5916362c29e1b","in":{"base":"Any","pred":"hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"expr.q != 0","over":{"base":"Any","pred":"hasattr(expr, 'q')"},"name":"__correct"},"guarantee":"returns expr.q != 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abfed13bb2ca19f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'q')"],"returns_expr":"expr.q != 0","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr, assumptions):
     return expr.q != 0
 
 @AlgebraicPredicate.register_many(asin, atan, cos, sin, tan) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(~Q.nonzero(x), assumptions)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a659cc1e7b88914f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ea611682d68fe977","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a659cc1e7b88914f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"ea611682d68fe977","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(~Q.nonzero(x), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(~Q.nonzero(x), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a659cc1e7b88914f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(~Q.nonzero(x), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.args[0]
     if ask(Q.algebraic(x), assumptions):
@@ -1596,16 +2098,23 @@ def _(expr, assumptions):
 
 @AlgebraicPredicate.register(exp) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  ask(~Q.nonzero(x), assumptions)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'exp')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f4ec06bdcac40cff   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"533e154a5745db37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ec06bdcac40cff"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"533e154a5745db37","in":{"base":"Any","pred":"hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(~Q.nonzero(x), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'exp')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(~Q.nonzero(x), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ec06bdcac40cff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')"],"returns_expr":"ask(~Q.nonzero(x), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.exp
     if ask(Q.algebraic(x), assumptions):
@@ -1613,16 +2122,23 @@ def _(expr, assumptions):
 
 @AlgebraicPredicate.register_many(acot, cot) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr, assumptions), False) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  False                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e91800956f82954  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bce8e0ec41d3cd97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2f50f580c6b080f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e91800956f82954"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"2f50f580c6b080f6","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"False","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.handlers.sets.__correct","statement":"Path(_(x), returns False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce8e0ec41d3cd97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"False","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.args[0]
     if ask(Q.algebraic(x), assumptions):
@@ -1630,16 +2146,23 @@ def _(expr, assumptions):
 
 @AlgebraicPredicate.register_many(acos, log) # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Any                                  ║
+# ║ Path(_(expr, assumptions), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ask(~Q.nonzero(x - 1), assumptions)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 196c1b7c52e847b7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"b8ad989843abdf48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"196c1b7c52e847b7"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.handlers.sets._","kind":"function","src_hash":"b8ad989843abdf48","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, assumptions)","rhs":"ask(~Q.nonzero(x - 1), assumptions)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"__correct","kind":"composition"},"guarantee":"returns ask(~Q.nonzero(x - 1), assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ask","by":"library_axiom"},{"fn":"nonzero","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"196c1b7c52e847b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"ask(~Q.nonzero(x - 1), assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr, assumptions):
     x = expr.args[0]
     if ask(Q.algebraic(x), assumptions):

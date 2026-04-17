@@ -65,7 +65,10 @@ dont_check_attrs = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(a, ), check that pickling and copying round-trips) over {Any | isinstance(a, Basic) and isinstance(a, type)} ║
+# ║ Path(check(a, exclude, check_attr), <unspecified:check>) over {Any | isinstance(a, Basic) and isinstance(a, type)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : {Any | isinstance(a, Basic) and isinstance(a,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -78,9 +81,12 @@ dont_check_attrs = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 61c5d39f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.check","kind":"function","src_hash":"1ff39794337700d6","in":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, type)"},"out":{"base":"Any","pred":"set(d1) == set(d2) and hasattr(b, i) and getattr(a, i) == getattr(b, i) and hasattr(b, i) and getattr(b, i) == attr"},"spec":{"lhs":"check(a, )","rhs":"check that pickling and copying round-trips","over":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, type)"},"name":"check_correct"},"guarantee":"check that pickling and copying round-trips","fibers":[{"name":"Basic","pred":"isinstance(a, Basic)","path":{"lhs":"check(x)","rhs":"check that pickling and copying round-trips","over":{"base":"Basic","pred":"isinstance(a, Basic)"},"name":"check_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.check_Basic_correct","statement":"check satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"type","pred":"isinstance(a, type)","path":{"lhs":"check(x)","rhs":"check that pickling and copying round-trips","over":{"base":"type","pred":"isinstance(a, type)"},"name":"check_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.check_type_correct","statement":"check satisfies spec on type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"61c5d39f04fa1f02"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.check","kind":"function","src_hash":"1ff39794337700d6","in":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, type)"},"out":{"base":"Any","pred":"set(d1) == set(d2) and hasattr(b, i) and getattr(a, i) == getattr(b, i) and hasattr(b, i) and getattr(b, i) == attr"},"spec":{"lhs":"check(a, exclude, check_attr)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, type)"},"name":"check_correct"},"guarantee":"check that pickling and copying round-trips","fibers":[{"name":"Basic","pred":"isinstance(a, Basic)","path":{"lhs":"check(x)","rhs":"check that pickling and copying round-trips","over":{"base":"Basic","pred":"isinstance(a, Basic)"},"name":"check_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.check_Basic_correct","statement":"check satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"type","pred":"isinstance(a, type)","path":{"lhs":"check(x)","rhs":"check that pickling and copying round-trips","over":{"base":"type","pred":"isinstance(a, type)"},"name":"check_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.check_type_correct","statement":"check satisfies spec on type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"61c5d39f04fa1f02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(a, Basic)', 'isinstance(a, type)'}, fibers={'type', 'Basic'})"]}}
 def check(a, exclude=[], check_attr=True, deprecated=()):
     """ Check that pickling and copying round-trips.
     """
@@ -141,45 +147,63 @@ def check(a, exclude=[], check_attr=True, deprecated=()):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_basic(), test_core_basic produces the expected output) over Any ║
+# ║ Path(test_core_basic(), <unspecified:test_core_basic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_basic : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 023946612ab774d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_basic","kind":"function","src_hash":"bf0f54955e31b514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_basic()","rhs":"test_core_basic produces the expected output","over":{"base":"Any"},"name":"test_core_basic_correct"},"guarantee":"test_core_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_basic_correct","statement":"Path(test_core_basic(x), test_core_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"023946612ab774d7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_basic","kind":"function","src_hash":"bf0f54955e31b514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_basic()","rhs":"<unspecified:test_core_basic>","over":{"base":"Any"},"name":"test_core_basic_correct"},"guarantee":"test_core_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_basic_correct","statement":"Path(test_core_basic(x), test_core_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"023946612ab774d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_core_basic():
     for c in (Atom, Atom(), Basic, Basic(), SingletonRegistry, S):
         check(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_Str(), test_core_Str produces the expected output) over Any ║
+# ║ Path(test_core_Str(), <unspecified:test_core_Str>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_Str : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfe3d44a62545b6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_Str","kind":"function","src_hash":"b446326ea8a8560a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_Str()","rhs":"test_core_Str produces the expected output","over":{"base":"Any"},"name":"test_core_Str_correct"},"guarantee":"test_core_Str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_Str_correct","statement":"Path(test_core_Str(x), test_core_Str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe3d44a62545b6a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_Str","kind":"function","src_hash":"b446326ea8a8560a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_Str()","rhs":"<unspecified:test_core_Str>","over":{"base":"Any"},"name":"test_core_Str_correct"},"guarantee":"test_core_Str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_Str_correct","statement":"Path(test_core_Str(x), test_core_Str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe3d44a62545b6a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_Str():
     check(Str('x'))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_symbol(), test_core_symbol produces the expected output) over Any ║
+# ║ Path(test_core_symbol(), <unspecified:test_core_symbol>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_symbol : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53da77097d7f7d67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_symbol","kind":"function","src_hash":"3cc1f04aa369d583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_symbol()","rhs":"test_core_symbol produces the expected output","over":{"base":"Any"},"name":"test_core_symbol_correct"},"guarantee":"test_core_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_symbol_correct","statement":"Path(test_core_symbol(x), test_core_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53da77097d7f7d67"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_symbol","kind":"function","src_hash":"3cc1f04aa369d583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_symbol()","rhs":"<unspecified:test_core_symbol>","over":{"base":"Any"},"name":"test_core_symbol_correct"},"guarantee":"test_core_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_symbol_correct","statement":"Path(test_core_symbol(x), test_core_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53da77097d7f7d67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_core_symbol():
     # make the Symbol a unique name that doesn't class with any other
     # testing variable in this file since after this test the symbol
@@ -190,16 +214,22 @@ def test_core_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_numbers(), test_core_numbers produces the expected output) over Any ║
+# ║ Path(test_core_numbers(), <unspecified:test_core_numbers>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_numbers : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1ba8394aeafe6f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_numbers","kind":"function","src_hash":"c5bf9dddaa1322fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_numbers()","rhs":"test_core_numbers produces the expected output","over":{"base":"Any"},"name":"test_core_numbers_correct"},"guarantee":"test_core_numbers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_numbers_correct","statement":"Path(test_core_numbers(x), test_core_numbers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ba8394aeafe6f7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_numbers","kind":"function","src_hash":"c5bf9dddaa1322fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_numbers()","rhs":"<unspecified:test_core_numbers>","over":{"base":"Any"},"name":"test_core_numbers_correct"},"guarantee":"test_core_numbers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_numbers_correct","statement":"Path(test_core_numbers(x), test_core_numbers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ba8394aeafe6f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_core_numbers():
     for c in (Integer(2), Rational(2, 3), Float("1.2")):
         check(c)
@@ -208,16 +238,22 @@ def test_core_numbers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_float_copy(), test_core_float_copy produces the expected output) over Any ║
+# ║ Path(test_core_float_copy(), <unspecified:test_core_float_copy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_float_copy : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7c36cb1ca3a89b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_float_copy","kind":"function","src_hash":"780b66c59cb41de1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_float_copy()","rhs":"test_core_float_copy produces the expected output","over":{"base":"Any"},"name":"test_core_float_copy_correct"},"guarantee":"test_core_float_copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_float_copy_correct","statement":"Path(test_core_float_copy(x), test_core_float_copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7c36cb1ca3a89b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_float_copy","kind":"function","src_hash":"780b66c59cb41de1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_float_copy()","rhs":"<unspecified:test_core_float_copy>","over":{"base":"Any"},"name":"test_core_float_copy_correct"},"guarantee":"test_core_float_copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_float_copy_correct","statement":"Path(test_core_float_copy(x), test_core_float_copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7c36cb1ca3a89b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_float_copy():
     # See gh-7457
     y = Symbol("x") + 1.0
@@ -225,16 +261,22 @@ def test_core_float_copy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_relational(), test_core_relational produces the expected output) over Any ║
+# ║ Path(test_core_relational(), <unspecified:test_core_relational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_relational : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce6cd4aab331433d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_relational","kind":"function","src_hash":"a5d07a8cbbf2911f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_relational()","rhs":"test_core_relational produces the expected output","over":{"base":"Any"},"name":"test_core_relational_correct"},"guarantee":"test_core_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_relational_correct","statement":"Path(test_core_relational(x), test_core_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce6cd4aab331433d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_relational","kind":"function","src_hash":"a5d07a8cbbf2911f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_relational()","rhs":"<unspecified:test_core_relational>","over":{"base":"Any"},"name":"test_core_relational_correct"},"guarantee":"test_core_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_relational_correct","statement":"Path(test_core_relational(x), test_core_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce6cd4aab331433d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_core_relational():
     x = Symbol("x")
     y = Symbol("y")
@@ -246,16 +288,22 @@ def test_core_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_add(), test_core_add produces the expected output) over Any ║
+# ║ Path(test_core_add(), <unspecified:test_core_add>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_add : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52c63de9dfe2b3ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_add","kind":"function","src_hash":"5170a07da14ff390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_add()","rhs":"test_core_add produces the expected output","over":{"base":"Any"},"name":"test_core_add_correct"},"guarantee":"test_core_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_add_correct","statement":"Path(test_core_add(x), test_core_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52c63de9dfe2b3ad"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_add","kind":"function","src_hash":"5170a07da14ff390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_add()","rhs":"<unspecified:test_core_add>","over":{"base":"Any"},"name":"test_core_add_correct"},"guarantee":"test_core_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_add_correct","statement":"Path(test_core_add(x), test_core_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52c63de9dfe2b3ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_add():
     x = Symbol("x")
     for c in (Add, Add(x, 4)):
@@ -263,16 +311,22 @@ def test_core_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_mul(), test_core_mul produces the expected output) over Any ║
+# ║ Path(test_core_mul(), <unspecified:test_core_mul>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_mul : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdbb5824a05ffd8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_mul","kind":"function","src_hash":"dca4b50df0993530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_mul()","rhs":"test_core_mul produces the expected output","over":{"base":"Any"},"name":"test_core_mul_correct"},"guarantee":"test_core_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_mul_correct","statement":"Path(test_core_mul(x), test_core_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdbb5824a05ffd8b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_mul","kind":"function","src_hash":"dca4b50df0993530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_mul()","rhs":"<unspecified:test_core_mul>","over":{"base":"Any"},"name":"test_core_mul_correct"},"guarantee":"test_core_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_mul_correct","statement":"Path(test_core_mul(x), test_core_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdbb5824a05ffd8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_mul():
     x = Symbol("x")
     for c in (Mul, Mul(x, 4)):
@@ -280,16 +334,22 @@ def test_core_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_power(), test_core_power produces the expected output) over Any ║
+# ║ Path(test_core_power(), <unspecified:test_core_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_power : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1f17488cc20b9b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_power","kind":"function","src_hash":"0723f6bc5e1f928a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_power()","rhs":"test_core_power produces the expected output","over":{"base":"Any"},"name":"test_core_power_correct"},"guarantee":"test_core_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_power_correct","statement":"Path(test_core_power(x), test_core_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1f17488cc20b9b0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_power","kind":"function","src_hash":"0723f6bc5e1f928a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_power()","rhs":"<unspecified:test_core_power>","over":{"base":"Any"},"name":"test_core_power_correct"},"guarantee":"test_core_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_power_correct","statement":"Path(test_core_power(x), test_core_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1f17488cc20b9b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_power():
     x = Symbol("x")
     for c in (Pow, Pow(x, 4)):
@@ -297,16 +357,22 @@ def test_core_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_function(), test_core_function produces the expected output) over Any ║
+# ║ Path(test_core_function(), <unspecified:test_core_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_function : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 795a073f079f944d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_function","kind":"function","src_hash":"3b47ac65d4ce470d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_function()","rhs":"test_core_function produces the expected output","over":{"base":"Any"},"name":"test_core_function_correct"},"guarantee":"test_core_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_function_correct","statement":"Path(test_core_function(x), test_core_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795a073f079f944d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_function","kind":"function","src_hash":"3b47ac65d4ce470d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_function()","rhs":"<unspecified:test_core_function>","over":{"base":"Any"},"name":"test_core_function_correct"},"guarantee":"test_core_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_function_correct","statement":"Path(test_core_function(x), test_core_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795a073f079f944d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_core_function():
     x = Symbol("x")
     for f in (Derivative, Derivative(x), Function, FunctionClass, Lambda,
@@ -315,32 +381,44 @@ def test_core_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_undefinedfunctions(), test_core_undefinedfunctions produces the expected output) over Any ║
+# ║ Path(test_core_undefinedfunctions(), <unspecified:test_core_undefinedfunctions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_undefinedfunctions : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be4cef3f5915d085  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_undefinedfunctions","kind":"function","src_hash":"28f86f3a9a8abf4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_undefinedfunctions()","rhs":"test_core_undefinedfunctions produces the expected output","over":{"base":"Any"},"name":"test_core_undefinedfunctions_correct"},"guarantee":"test_core_undefinedfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_undefinedfunctions_correct","statement":"Path(test_core_undefinedfunctions(x), test_core_undefinedfunctions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be4cef3f5915d085"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_undefinedfunctions","kind":"function","src_hash":"28f86f3a9a8abf4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_undefinedfunctions()","rhs":"<unspecified:test_core_undefinedfunctions>","over":{"base":"Any"},"name":"test_core_undefinedfunctions_correct"},"guarantee":"test_core_undefinedfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_undefinedfunctions_correct","statement":"Path(test_core_undefinedfunctions(x), test_core_undefinedfunctions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be4cef3f5915d085","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_undefinedfunctions():
     f = Function("f")
     check(f)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_appliedundef(), test_core_appliedundef produces the expected output) over Any ║
+# ║ Path(test_core_appliedundef(), <unspecified:test_core_appliedundef>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_appliedundef : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ab860835dfe318  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_appliedundef","kind":"function","src_hash":"7401e808238359b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_appliedundef()","rhs":"test_core_appliedundef produces the expected output","over":{"base":"Any"},"name":"test_core_appliedundef_correct"},"guarantee":"test_core_appliedundef produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_appliedundef_correct","statement":"Path(test_core_appliedundef(x), test_core_appliedundef produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ab860835dfe318"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_appliedundef","kind":"function","src_hash":"7401e808238359b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_appliedundef()","rhs":"<unspecified:test_core_appliedundef>","over":{"base":"Any"},"name":"test_core_appliedundef_correct"},"guarantee":"test_core_appliedundef produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_appliedundef_correct","statement":"Path(test_core_appliedundef(x), test_core_appliedundef produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ab860835dfe318","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_appliedundef():
     x = Symbol("_long_unique_name_1")
     f = Function("_long_unique_name_2")
@@ -348,48 +426,66 @@ def test_core_appliedundef():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_interval(), test_core_interval produces the expected output) over Any ║
+# ║ Path(test_core_interval(), <unspecified:test_core_interval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_interval : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e21e77af9cc1660d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_interval","kind":"function","src_hash":"4ae477bcc3507f6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_interval()","rhs":"test_core_interval produces the expected output","over":{"base":"Any"},"name":"test_core_interval_correct"},"guarantee":"test_core_interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_interval_correct","statement":"Path(test_core_interval(x), test_core_interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e21e77af9cc1660d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_interval","kind":"function","src_hash":"4ae477bcc3507f6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_interval()","rhs":"<unspecified:test_core_interval>","over":{"base":"Any"},"name":"test_core_interval_correct"},"guarantee":"test_core_interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_interval_correct","statement":"Path(test_core_interval(x), test_core_interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e21e77af9cc1660d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_interval():
     for c in (Interval, Interval(0, 2)):
         check(c)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core_multidimensional(), test_core_multidimensional produces the expected output) over Any ║
+# ║ Path(test_core_multidimensional(), <unspecified:test_core_multidimensional>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_core_multidimensional : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65d38a5e7a4531d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_multidimensional","kind":"function","src_hash":"4749f3e5f2a37635","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_multidimensional()","rhs":"test_core_multidimensional produces the expected output","over":{"base":"Any"},"name":"test_core_multidimensional_correct"},"guarantee":"test_core_multidimensional produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_multidimensional_correct","statement":"Path(test_core_multidimensional(x), test_core_multidimensional produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65d38a5e7a4531d8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_core_multidimensional","kind":"function","src_hash":"4749f3e5f2a37635","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_core_multidimensional()","rhs":"<unspecified:test_core_multidimensional>","over":{"base":"Any"},"name":"test_core_multidimensional_correct"},"guarantee":"test_core_multidimensional produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_core_multidimensional_correct","statement":"Path(test_core_multidimensional(x), test_core_multidimensional produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65d38a5e7a4531d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_core_multidimensional():
     for c in (vectorize, vectorize(0)):
         check(c)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Singletons(), test_Singletons produces the expected output) over Any ║
+# ║ Path(test_Singletons(), <unspecified:test_Singletons>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Singletons : Any → {Any | func(obj) is obj}           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f4b4a47fa66e596  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_Singletons","kind":"function","src_hash":"deedd328f9271003","in":{"base":"Any"},"out":{"base":"Any","pred":"func(obj) is obj"},"spec":{"lhs":"test_Singletons()","rhs":"test_Singletons produces the expected output","over":{"base":"Any"},"name":"test_Singletons_correct"},"guarantee":"test_Singletons produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_Singletons_correct","statement":"Path(test_Singletons(x), test_Singletons produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4b4a47fa66e596"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_Singletons","kind":"function","src_hash":"deedd328f9271003","in":{"base":"Any"},"out":{"base":"Any","pred":"func(obj) is obj"},"spec":{"lhs":"test_Singletons()","rhs":"<unspecified:test_Singletons>","over":{"base":"Any"},"name":"test_Singletons_correct"},"guarantee":"test_Singletons produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_Singletons_correct","statement":"Path(test_Singletons(x), test_Singletons produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4b4a47fa66e596","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Singletons():
     protocols = [0, 1, 2, 3, 4]
     copiers = [copy.copy, copy.deepcopy]
@@ -408,16 +504,22 @@ def test_Singletons():
 from sympy.combinatorics.free_groups import FreeGroup
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_free_group(), test_free_group produces the expected output) over Any ║
+# ║ Path(test_free_group(), <unspecified:test_free_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_free_group : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1c45837097b5f64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_free_group","kind":"function","src_hash":"c929b0699917d1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_free_group()","rhs":"test_free_group produces the expected output","over":{"base":"Any"},"name":"test_free_group_correct"},"guarantee":"test_free_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_free_group_correct","statement":"Path(test_free_group(x), test_free_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1c45837097b5f64"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_free_group","kind":"function","src_hash":"c929b0699917d1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_free_group()","rhs":"<unspecified:test_free_group>","over":{"base":"Any"},"name":"test_free_group_correct"},"guarantee":"test_free_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_free_group_correct","statement":"Path(test_free_group(x), test_free_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1c45837097b5f64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_free_group():
     check(FreeGroup("x, y, z"), check_attr=False)
 
@@ -433,16 +535,22 @@ from sympy.functions import (Piecewise, lowergamma, acosh, chebyshevu,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_functions(), test_functions produces the expected output) over Any ║
+# ║ Path(test_functions(), <unspecified:test_functions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_functions : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15d2dde6c154e4eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_functions","kind":"function","src_hash":"0a1141625a1aa315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_functions()","rhs":"test_functions produces the expected output","over":{"base":"Any"},"name":"test_functions_correct"},"guarantee":"test_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_functions_correct","statement":"Path(test_functions(x), test_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d2dde6c154e4eb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_functions","kind":"function","src_hash":"0a1141625a1aa315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_functions()","rhs":"<unspecified:test_functions>","over":{"base":"Any"},"name":"test_functions_correct"},"guarantee":"test_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_functions_correct","statement":"Path(test_functions(x), test_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d2dde6c154e4eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_functions():
     one_var = (acosh, ln, Heaviside, factorial, bernoulli, coth, tanh,
             sign, arg, asin, DiracDelta, re, Abs, sinh, cos, cot, acos, acot,
@@ -475,16 +583,22 @@ from sympy.geometry.polygon import Polygon, RegularPolygon, Triangle
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geometry(), test_geometry produces the expected output) over Any ║
+# ║ Path(test_geometry(), <unspecified:test_geometry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geometry : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81de38302d252b0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_geometry","kind":"function","src_hash":"6e3d92da6a6dc120","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geometry()","rhs":"test_geometry produces the expected output","over":{"base":"Any"},"name":"test_geometry_correct"},"guarantee":"test_geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_geometry_correct","statement":"Path(test_geometry(x), test_geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81de38302d252b0b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_geometry","kind":"function","src_hash":"6e3d92da6a6dc120","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geometry()","rhs":"<unspecified:test_geometry>","over":{"base":"Any"},"name":"test_geometry_correct"},"guarantee":"test_geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_geometry_correct","statement":"Path(test_geometry(x), test_geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81de38302d252b0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_geometry():
     p1 = Point(1, 2)
     p2 = Point(2, 3)
@@ -503,16 +617,22 @@ from sympy.integrals.integrals import Integral
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integrals(), test_integrals produces the expected output) over Any ║
+# ║ Path(test_integrals(), <unspecified:test_integrals>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_integrals : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 596287652476d1a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_integrals","kind":"function","src_hash":"70cb0976e576ba8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_integrals()","rhs":"test_integrals produces the expected output","over":{"base":"Any"},"name":"test_integrals_correct"},"guarantee":"test_integrals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_integrals_correct","statement":"Path(test_integrals(x), test_integrals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"596287652476d1a5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_integrals","kind":"function","src_hash":"70cb0976e576ba8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_integrals()","rhs":"<unspecified:test_integrals>","over":{"base":"Any"},"name":"test_integrals_correct"},"guarantee":"test_integrals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_integrals_correct","statement":"Path(test_integrals(x), test_integrals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"596287652476d1a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_integrals():
     x = Symbol("x")
     for c in (Integral, Integral(x)):
@@ -523,16 +643,22 @@ from sympy.core.logic import Logic
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logic(), test_logic produces the expected output) over Any ║
+# ║ Path(test_logic(), <unspecified:test_logic>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_logic : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ebb9e6cc0ac01f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_logic","kind":"function","src_hash":"5100f4c0b9917e12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_logic()","rhs":"test_logic produces the expected output","over":{"base":"Any"},"name":"test_logic_correct"},"guarantee":"test_logic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_logic_correct","statement":"Path(test_logic(x), test_logic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ebb9e6cc0ac01f6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_logic","kind":"function","src_hash":"5100f4c0b9917e12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_logic()","rhs":"<unspecified:test_logic>","over":{"base":"Any"},"name":"test_logic_correct"},"guarantee":"test_logic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_logic_correct","statement":"Path(test_logic(x), test_logic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ebb9e6cc0ac01f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_logic():
     for c in (Logic, Logic(1)):
         check(c)
@@ -542,16 +668,22 @@ from sympy.matrices import Matrix, SparseMatrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrices(), test_matrices produces the expected output) over Any ║
+# ║ Path(test_matrices(), <unspecified:test_matrices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrices : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81936c3c3bdcc358  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_matrices","kind":"function","src_hash":"e88da2259e057819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrices()","rhs":"test_matrices produces the expected output","over":{"base":"Any"},"name":"test_matrices_correct"},"guarantee":"test_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_matrices_correct","statement":"Path(test_matrices(x), test_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81936c3c3bdcc358"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_matrices","kind":"function","src_hash":"e88da2259e057819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matrices()","rhs":"<unspecified:test_matrices>","over":{"base":"Any"},"name":"test_matrices_correct"},"guarantee":"test_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_matrices_correct","statement":"Path(test_matrices(x), test_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81936c3c3bdcc358","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrices():
     for c in (Matrix, Matrix([1, 2, 3]), SparseMatrix, SparseMatrix([[1, 2], [3, 4]])):
         check(c, deprecated=['_smat', '_mat'])
@@ -561,16 +693,22 @@ from sympy.ntheory.generate import Sieve
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ntheory(), test_ntheory produces the expected output) over Any ║
+# ║ Path(test_ntheory(), <unspecified:test_ntheory>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ntheory : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 991cdf8d338dee6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_ntheory","kind":"function","src_hash":"aeb7bc175c57b596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ntheory()","rhs":"test_ntheory produces the expected output","over":{"base":"Any"},"name":"test_ntheory_correct"},"guarantee":"test_ntheory produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_ntheory_correct","statement":"Path(test_ntheory(x), test_ntheory produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"991cdf8d338dee6b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_ntheory","kind":"function","src_hash":"aeb7bc175c57b596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ntheory()","rhs":"<unspecified:test_ntheory>","over":{"base":"Any"},"name":"test_ntheory_correct"},"guarantee":"test_ntheory produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_ntheory_correct","statement":"Path(test_ntheory(x), test_ntheory produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"991cdf8d338dee6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ntheory():
     for c in (Sieve, Sieve()):
         check(c)
@@ -581,16 +719,22 @@ from sympy.physics.units import Unit
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_physics(), test_physics produces the expected output) over Any ║
+# ║ Path(test_physics(), <unspecified:test_physics>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_physics : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c44c884a97b7823  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_physics","kind":"function","src_hash":"112f0823cff29c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_physics()","rhs":"test_physics produces the expected output","over":{"base":"Any"},"name":"test_physics_correct"},"guarantee":"test_physics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_physics_correct","statement":"Path(test_physics(x), test_physics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c44c884a97b7823"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_physics","kind":"function","src_hash":"112f0823cff29c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_physics()","rhs":"<unspecified:test_physics>","over":{"base":"Any"},"name":"test_physics_correct"},"guarantee":"test_physics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_physics_correct","statement":"Path(test_physics(x), test_physics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c44c884a97b7823","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_physics():
     for c in (Unit, meter, Pauli, Pauli(1)):
         check(c)
@@ -601,16 +745,22 @@ def test_physics():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plotting(), test_plotting produces the expected output) over Any ║
+# ║ Path(test_plotting(), <unspecified:test_plotting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plotting : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99ec24885d548107  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_plotting","kind":"function","src_hash":"9d15571a69f28249","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plotting()","rhs":"test_plotting produces the expected output","over":{"base":"Any"},"name":"test_plotting_correct"},"guarantee":"test_plotting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_plotting_correct","statement":"Path(test_plotting(x), test_plotting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99ec24885d548107"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_plotting","kind":"function","src_hash":"9d15571a69f28249","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plotting()","rhs":"<unspecified:test_plotting>","over":{"base":"Any"},"name":"test_plotting_correct"},"guarantee":"test_plotting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_plotting_correct","statement":"Path(test_plotting(x), test_plotting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99ec24885d548107","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_plotting():
     from sympy.plotting.pygletplot.color_scheme import ColorGradient, ColorScheme
     from sympy.plotting.pygletplot.managed_window import ManagedWindow
@@ -639,16 +789,22 @@ def test_plotting():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plotting2(), test_plotting2 produces the expected output) over Any ║
+# ║ Path(test_plotting2(), <unspecified:test_plotting2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plotting2 : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 251f3258599594dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_plotting2","kind":"function","src_hash":"bb1f1fa097571608","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plotting2()","rhs":"test_plotting2 produces the expected output","over":{"base":"Any"},"name":"test_plotting2_correct"},"guarantee":"test_plotting2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_plotting2_correct","statement":"Path(test_plotting2(x), test_plotting2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"251f3258599594dc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_plotting2","kind":"function","src_hash":"bb1f1fa097571608","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plotting2()","rhs":"<unspecified:test_plotting2>","over":{"base":"Any"},"name":"test_plotting2_correct"},"guarantee":"test_plotting2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_plotting2_correct","statement":"Path(test_plotting2(x), test_plotting2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"251f3258599594dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plotting2():
     #from sympy.plotting.color_scheme import ColorGradient
     from sympy.plotting.pygletplot.color_scheme import ColorScheme
@@ -678,16 +834,22 @@ from sympy.polys.orderings import lex
 from sympy.polys.polytools import Poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_polytools(), test_pickling_polys_polytools produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_polytools(), <unspecified:test_pickling_polys_polytools>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_polytools : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfee21682e892ab2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_polytools","kind":"function","src_hash":"9f73b8e7a2fb82ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_polytools()","rhs":"test_pickling_polys_polytools produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_polytools_correct"},"guarantee":"test_pickling_polys_polytools produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_polytools_correct","statement":"Path(test_pickling_polys_polytools(x), test_pickling_polys_polytools produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfee21682e892ab2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_polytools","kind":"function","src_hash":"9f73b8e7a2fb82ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_polytools()","rhs":"<unspecified:test_pickling_polys_polytools>","over":{"base":"Any"},"name":"test_pickling_polys_polytools_correct"},"guarantee":"test_pickling_polys_polytools produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_polytools_correct","statement":"Path(test_pickling_polys_polytools(x), test_pickling_polys_polytools produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfee21682e892ab2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_polytools():
     from sympy.polys.polytools import PurePoly
     # from sympy.polys.polytools import GroebnerBasis
@@ -704,16 +866,22 @@ def test_pickling_polys_polytools():
     #     check(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_polyclasses(), test_pickling_polys_polyclasses produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_polyclasses(), <unspecified:test_pickling_polys_polyclasses>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_polyclasses : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb234939c8120f97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_polyclasses","kind":"function","src_hash":"d93e643d4a55a0d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_polyclasses()","rhs":"test_pickling_polys_polyclasses produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_polyclasses_correct"},"guarantee":"test_pickling_polys_polyclasses produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_polyclasses_correct","statement":"Path(test_pickling_polys_polyclasses(x), test_pickling_polys_polyclasses produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb234939c8120f97"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_polyclasses","kind":"function","src_hash":"d93e643d4a55a0d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_polyclasses()","rhs":"<unspecified:test_pickling_polys_polyclasses>","over":{"base":"Any"},"name":"test_pickling_polys_polyclasses_correct"},"guarantee":"test_pickling_polys_polyclasses produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_polyclasses_correct","statement":"Path(test_pickling_polys_polyclasses(x), test_pickling_polys_polyclasses produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb234939c8120f97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_polyclasses():
     from sympy.polys.polyclasses import DMP, DMF, ANP
 
@@ -726,16 +894,22 @@ def test_pickling_polys_polyclasses():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_rings(), test_pickling_polys_rings produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_rings(), <unspecified:test_pickling_polys_rings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_rings : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f6e5c9c68189de6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_rings","kind":"function","src_hash":"cb08180875cdf063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_rings()","rhs":"test_pickling_polys_rings produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_rings_correct"},"guarantee":"test_pickling_polys_rings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_rings_correct","statement":"Path(test_pickling_polys_rings(x), test_pickling_polys_rings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6e5c9c68189de6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_rings","kind":"function","src_hash":"cb08180875cdf063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_rings()","rhs":"<unspecified:test_pickling_polys_rings>","over":{"base":"Any"},"name":"test_pickling_polys_rings_correct"},"guarantee":"test_pickling_polys_rings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_rings_correct","statement":"Path(test_pickling_polys_rings(x), test_pickling_polys_rings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6e5c9c68189de6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_rings():
     # NOTE: can't use protocols < 2 because we have to execute __new__ to
     # make sure caching of rings works properly.
@@ -751,16 +925,22 @@ def test_pickling_polys_rings():
         check(c, exclude=[0, 1], check_attr=False) # TODO: Py3k
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_fields(), test_pickling_polys_fields produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_fields(), <unspecified:test_pickling_polys_fields>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_fields : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d7bf20e2f1ba85d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_fields","kind":"function","src_hash":"811219d27812d4b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_fields()","rhs":"test_pickling_polys_fields produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_fields_correct"},"guarantee":"test_pickling_polys_fields produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d7bf20e2f1ba85d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_fields","kind":"function","src_hash":"811219d27812d4b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_fields()","rhs":"<unspecified:test_pickling_polys_fields>","over":{"base":"Any"},"name":"test_pickling_polys_fields_correct"},"guarantee":"test_pickling_polys_fields produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d7bf20e2f1ba85d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def test_pickling_polys_fields():
     pass
     # NOTE: can't use protocols < 2 because we have to execute __new__ to
@@ -779,16 +959,22 @@ def test_pickling_polys_fields():
     #     check(c, exclude=[0, 1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_elements(), test_pickling_polys_elements produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_elements(), <unspecified:test_pickling_polys_elements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_elements : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94b0f389e66e1c2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_elements","kind":"function","src_hash":"2e19e61ffad5f45e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_elements()","rhs":"test_pickling_polys_elements produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_elements_correct"},"guarantee":"test_pickling_polys_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_elements_correct","statement":"Path(test_pickling_polys_elements(x), test_pickling_polys_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b0f389e66e1c2c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_elements","kind":"function","src_hash":"2e19e61ffad5f45e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_elements()","rhs":"<unspecified:test_pickling_polys_elements>","over":{"base":"Any"},"name":"test_pickling_polys_elements_correct"},"guarantee":"test_pickling_polys_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_elements_correct","statement":"Path(test_pickling_polys_elements(x), test_pickling_polys_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b0f389e66e1c2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_elements():
     from sympy.polys.domains.pythonrational import PythonRational
     #from sympy.polys.domains.pythonfinitefield import PythonFiniteField
@@ -814,16 +1000,22 @@ def test_pickling_polys_elements():
     #     check(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_domains(), test_pickling_polys_domains produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_domains(), <unspecified:test_pickling_polys_domains>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_domains : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3f23e3d1fc99f62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_domains","kind":"function","src_hash":"4d8691f4e9d261c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_domains()","rhs":"test_pickling_polys_domains produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_domains_correct"},"guarantee":"test_pickling_polys_domains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_domains_correct","statement":"Path(test_pickling_polys_domains(x), test_pickling_polys_domains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3f23e3d1fc99f62"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_domains","kind":"function","src_hash":"4d8691f4e9d261c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_domains()","rhs":"<unspecified:test_pickling_polys_domains>","over":{"base":"Any"},"name":"test_pickling_polys_domains_correct"},"guarantee":"test_pickling_polys_domains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_domains_correct","statement":"Path(test_pickling_polys_domains(x), test_pickling_polys_domains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3f23e3d1fc99f62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_domains():
     # from sympy.polys.domains.pythonfinitefield import PythonFiniteField
     from sympy.polys.domains.pythonintegerring import PythonIntegerRing
@@ -885,16 +1077,22 @@ def test_pickling_polys_domains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_orderings(), test_pickling_polys_orderings produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_orderings(), <unspecified:test_pickling_polys_orderings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_orderings : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bca8a5a347d8ffb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_orderings","kind":"function","src_hash":"6fc2bf5e5a971506","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_orderings()","rhs":"test_pickling_polys_orderings produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_orderings_correct"},"guarantee":"test_pickling_polys_orderings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_orderings_correct","statement":"Path(test_pickling_polys_orderings(x), test_pickling_polys_orderings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bca8a5a347d8ffb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_orderings","kind":"function","src_hash":"6fc2bf5e5a971506","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_orderings()","rhs":"<unspecified:test_pickling_polys_orderings>","over":{"base":"Any"},"name":"test_pickling_polys_orderings_correct"},"guarantee":"test_pickling_polys_orderings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_orderings_correct","statement":"Path(test_pickling_polys_orderings(x), test_pickling_polys_orderings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bca8a5a347d8ffb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_orderings():
     from sympy.polys.orderings import (LexOrder, GradedLexOrder,
         ReversedGradedLexOrder, InverseOrder)
@@ -920,16 +1118,22 @@ def test_pickling_polys_orderings():
         check(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_monomials(), test_pickling_polys_monomials produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_monomials(), <unspecified:test_pickling_polys_monomials>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_monomials : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca0aeb55df70f224  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_monomials","kind":"function","src_hash":"0ebcd154c6cb2429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_monomials()","rhs":"test_pickling_polys_monomials produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_monomials_correct"},"guarantee":"test_pickling_polys_monomials produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_monomials_correct","statement":"Path(test_pickling_polys_monomials(x), test_pickling_polys_monomials produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca0aeb55df70f224"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_monomials","kind":"function","src_hash":"0ebcd154c6cb2429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_monomials()","rhs":"<unspecified:test_pickling_polys_monomials>","over":{"base":"Any"},"name":"test_pickling_polys_monomials_correct"},"guarantee":"test_pickling_polys_monomials produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_monomials_correct","statement":"Path(test_pickling_polys_monomials(x), test_pickling_polys_monomials produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca0aeb55df70f224","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_monomials():
     from sympy.polys.monomials import MonomialOps, Monomial
     x, y, z = symbols("x,y,z")
@@ -941,16 +1145,22 @@ def test_pickling_polys_monomials():
         check(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_errors(), test_pickling_polys_errors produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_errors(), <unspecified:test_pickling_polys_errors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_errors : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c12449bde3348df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_errors","kind":"function","src_hash":"48f1726800811d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_errors()","rhs":"test_pickling_polys_errors produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_errors_correct"},"guarantee":"test_pickling_polys_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_errors_correct","statement":"Path(test_pickling_polys_errors(x), test_pickling_polys_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c12449bde3348df"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_errors","kind":"function","src_hash":"48f1726800811d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_errors()","rhs":"<unspecified:test_pickling_polys_errors>","over":{"base":"Any"},"name":"test_pickling_polys_errors_correct"},"guarantee":"test_pickling_polys_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_errors_correct","statement":"Path(test_pickling_polys_errors(x), test_pickling_polys_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c12449bde3348df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_errors():
     from sympy.polys.polyerrors import (HeuristicGCDFailed,
         HomomorphismFailed, IsomorphismFailed, ExtraneousFactors,
@@ -1049,16 +1259,22 @@ def test_pickling_polys_errors():
 #    ComplexInterval
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickling_polys_rootoftools(), test_pickling_polys_rootoftools produces the expected output) over Any ║
+# ║ Path(test_pickling_polys_rootoftools(), <unspecified:test_pickling_polys_rootoftools>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pickling_polys_rootoftools : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9563a2556dbc5bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_rootoftools","kind":"function","src_hash":"f9d415ff3994d7c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_rootoftools()","rhs":"test_pickling_polys_rootoftools produces the expected output","over":{"base":"Any"},"name":"test_pickling_polys_rootoftools_correct"},"guarantee":"test_pickling_polys_rootoftools produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_rootoftools_correct","statement":"Path(test_pickling_polys_rootoftools(x), test_pickling_polys_rootoftools produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9563a2556dbc5bd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_pickling_polys_rootoftools","kind":"function","src_hash":"f9d415ff3994d7c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pickling_polys_rootoftools()","rhs":"<unspecified:test_pickling_polys_rootoftools>","over":{"base":"Any"},"name":"test_pickling_polys_rootoftools_correct"},"guarantee":"test_pickling_polys_rootoftools produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_pickling_polys_rootoftools_correct","statement":"Path(test_pickling_polys_rootoftools(x), test_pickling_polys_rootoftools produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9563a2556dbc5bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pickling_polys_rootoftools():
     from sympy.polys.rootoftools import CRootOf, RootSum
 
@@ -1081,16 +1297,22 @@ from sympy.printing.python import PythonPrinter
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing(), test_printing produces the expected output) over Any ║
+# ║ Path(test_printing(), <unspecified:test_printing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_printing : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9966813a6d9d484  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing","kind":"function","src_hash":"c9e0752be987f07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing()","rhs":"test_printing produces the expected output","over":{"base":"Any"},"name":"test_printing_correct"},"guarantee":"test_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing_correct","statement":"Path(test_printing(x), test_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9966813a6d9d484"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing","kind":"function","src_hash":"c9e0752be987f07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing()","rhs":"<unspecified:test_printing>","over":{"base":"Any"},"name":"test_printing_correct"},"guarantee":"test_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing_correct","statement":"Path(test_printing(x), test_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9966813a6d9d484","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printing():
     for c in (LatexPrinter, LatexPrinter(), MathMLContentPrinter,
               MathMLPresentationPrinter, PrettyPrinter, prettyForm, stringPict,
@@ -1101,48 +1323,66 @@ def test_printing():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing1(), test_printing1 produces the expected output) over Any ║
+# ║ Path(test_printing1(), <unspecified:test_printing1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_printing1 : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b6fbb9a0cfaa98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing1","kind":"function","src_hash":"34c9e017bd393cd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing1()","rhs":"test_printing1 produces the expected output","over":{"base":"Any"},"name":"test_printing1_correct"},"guarantee":"test_printing1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing1_correct","statement":"Path(test_printing1(x), test_printing1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b6fbb9a0cfaa98"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing1","kind":"function","src_hash":"34c9e017bd393cd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing1()","rhs":"<unspecified:test_printing1>","over":{"base":"Any"},"name":"test_printing1_correct"},"guarantee":"test_printing1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing1_correct","statement":"Path(test_printing1(x), test_printing1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b6fbb9a0cfaa98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_printing1():
     check(MathMLContentPrinter())
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing2(), test_printing2 produces the expected output) over Any ║
+# ║ Path(test_printing2(), <unspecified:test_printing2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_printing2 : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82edaa075f9abb9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing2","kind":"function","src_hash":"d9639fc95e410630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing2()","rhs":"test_printing2 produces the expected output","over":{"base":"Any"},"name":"test_printing2_correct"},"guarantee":"test_printing2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing2_correct","statement":"Path(test_printing2(x), test_printing2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82edaa075f9abb9c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing2","kind":"function","src_hash":"d9639fc95e410630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing2()","rhs":"<unspecified:test_printing2>","over":{"base":"Any"},"name":"test_printing2_correct"},"guarantee":"test_printing2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing2_correct","statement":"Path(test_printing2(x), test_printing2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82edaa075f9abb9c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_printing2():
     check(MathMLPresentationPrinter())
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing3(), test_printing3 produces the expected output) over Any ║
+# ║ Path(test_printing3(), <unspecified:test_printing3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_printing3 : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2226528d982c4649  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing3","kind":"function","src_hash":"7c287836a754fefe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing3()","rhs":"test_printing3 produces the expected output","over":{"base":"Any"},"name":"test_printing3_correct"},"guarantee":"test_printing3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing3_correct","statement":"Path(test_printing3(x), test_printing3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2226528d982c4649"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_printing3","kind":"function","src_hash":"7c287836a754fefe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_printing3()","rhs":"<unspecified:test_printing3>","over":{"base":"Any"},"name":"test_printing3_correct"},"guarantee":"test_printing3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_printing3_correct","statement":"Path(test_printing3(x), test_printing3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2226528d982c4649","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_printing3():
     check(PrettyPrinter())
 
@@ -1152,16 +1392,22 @@ from sympy.series.order import Order
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series(), test_series produces the expected output) over Any ║
+# ║ Path(test_series(), <unspecified:test_series>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_series : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b12686a4802a0f29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_series","kind":"function","src_hash":"6051e4ea414bf143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_series()","rhs":"test_series produces the expected output","over":{"base":"Any"},"name":"test_series_correct"},"guarantee":"test_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_series_correct","statement":"Path(test_series(x), test_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12686a4802a0f29"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_series","kind":"function","src_hash":"6051e4ea414bf143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_series()","rhs":"<unspecified:test_series>","over":{"base":"Any"},"name":"test_series_correct"},"guarantee":"test_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_series_correct","statement":"Path(test_series(x), test_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12686a4802a0f29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_series():
     e = Symbol("e")
     x = Symbol("x")
@@ -1174,63 +1420,87 @@ from sympy.concrete.summations import Sum
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_concrete(), test_concrete produces the expected output) over Any ║
+# ║ Path(test_concrete(), <unspecified:test_concrete>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_concrete : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99d370871177bbe7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_concrete","kind":"function","src_hash":"5c31903a4705d8d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_concrete()","rhs":"test_concrete produces the expected output","over":{"base":"Any"},"name":"test_concrete_correct"},"guarantee":"test_concrete produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_concrete_correct","statement":"Path(test_concrete(x), test_concrete produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99d370871177bbe7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_concrete","kind":"function","src_hash":"5c31903a4705d8d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_concrete()","rhs":"<unspecified:test_concrete>","over":{"base":"Any"},"name":"test_concrete_correct"},"guarantee":"test_concrete produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_concrete_correct","statement":"Path(test_concrete(x), test_concrete produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99d370871177bbe7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_concrete():
     x = Symbol("x")
     for c in (Product, Product(x, (x, 2, 4)), Sum, Sum(x, (x, 2, 4))):
         check(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecation_warning(), test_deprecation_warning produces the expected output) over Any ║
+# ║ Path(test_deprecation_warning(), <unspecified:test_deprecation_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecation_warning : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3594a7038c437da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_deprecation_warning","kind":"function","src_hash":"f9169aecec3635df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecation_warning()","rhs":"test_deprecation_warning produces the expected output","over":{"base":"Any"},"name":"test_deprecation_warning_correct"},"guarantee":"test_deprecation_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_deprecation_warning_correct","statement":"Path(test_deprecation_warning(x), test_deprecation_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3594a7038c437da"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_deprecation_warning","kind":"function","src_hash":"f9169aecec3635df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecation_warning()","rhs":"<unspecified:test_deprecation_warning>","over":{"base":"Any"},"name":"test_deprecation_warning_correct"},"guarantee":"test_deprecation_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_deprecation_warning_correct","statement":"Path(test_deprecation_warning(x), test_deprecation_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3594a7038c437da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecation_warning():
     w = SymPyDeprecationWarning("message", deprecated_since_version='1.0', active_deprecations_target="active-deprecations")
     check(w)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18438(), test_issue_18438 produces the expected output) over Any ║
+# ║ Path(test_issue_18438(), pickle.loads(pickle.dumps(S.Half)) == S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18438 : Any → {Any | pickle.loads(pickle.d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pickle.loads(pickle.dumps(S.Half)) == S.Half   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18438 : Any → {Any | result satisfies: pic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2e501929aeac16f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a1bb591471ecd30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_issue_18438","kind":"function","src_hash":"8fe1e2aba7c02c13","in":{"base":"Any"},"out":{"base":"Any","pred":"pickle.loads(pickle.dumps(S.Half)) == S.Half"},"spec":{"lhs":"test_issue_18438()","rhs":"test_issue_18438 produces the expected output","over":{"base":"Any"},"name":"test_issue_18438_correct"},"guarantee":"test_issue_18438 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_issue_18438_correct","statement":"Path(test_issue_18438(x), test_issue_18438 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2e501929aeac16f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_issue_18438","kind":"function","src_hash":"8fe1e2aba7c02c13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pickle.loads(pickle.dumps(S.Half)) == S.Half"},"spec":{"lhs":"test_issue_18438()","rhs":"pickle.loads(pickle.dumps(S.Half)) == S.Half","over":{"base":"Any"},"name":"test_issue_18438_correct"},"guarantee":"pickle.loads(pickle.dumps(S.Half)) == S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_issue_18438_correct","statement":"Path(test_issue_18438(x), pickle.loads(pickle.dumps(S.Half)) == S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a1bb591471ecd30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pickle.loads(pickle.dumps(S.Half)) == S.Half"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_18438():
     assert pickle.loads(pickle.dumps(S.Half)) == S.Half
 
 
 #================= old pickles =================
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unpickle_from_older_versions(), test_unpickle_from_older_versions produces the expected output) over Any ║
+# ║ Path(test_unpickle_from_older_versions(), pickle.loads(data) == sqrt(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unpickle_from_older_versions : Any → {Any | pick...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pickle.loads(data) == sqrt(2)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unpickle_from_older_versions : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7942514fcbcae6c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f64955cb20756f8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_unpickle_from_older_versions","kind":"function","src_hash":"43a3b871e4d19221","in":{"base":"Any"},"out":{"base":"Any","pred":"pickle.loads(data) == sqrt(2)"},"spec":{"lhs":"test_unpickle_from_older_versions()","rhs":"test_unpickle_from_older_versions produces the expected output","over":{"base":"Any"},"name":"test_unpickle_from_older_versions_correct"},"guarantee":"test_unpickle_from_older_versions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_unpickle_from_older_versions_correct","statement":"Path(test_unpickle_from_older_versions(x), test_unpickle_from_older_versions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7942514fcbcae6c0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_pickling.test_unpickle_from_older_versions","kind":"function","src_hash":"43a3b871e4d19221","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pickle.loads(data) == sqrt(2)"},"spec":{"lhs":"test_unpickle_from_older_versions()","rhs":"pickle.loads(data) == sqrt(2)","over":{"base":"Any"},"name":"test_unpickle_from_older_versions_correct"},"guarantee":"pickle.loads(data) == sqrt(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_pickling.test_unpickle_from_older_versions_correct","statement":"Path(test_unpickle_from_older_versions(x), pickle.loads(data) == sqrt(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f64955cb20756f8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pickle.loads(data) == sqrt(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_unpickle_from_older_versions():
     data = (
         b'\x80\x04\x95^\x00\x00\x00\x00\x00\x00\x00\x8c\x10sympy.core.power'

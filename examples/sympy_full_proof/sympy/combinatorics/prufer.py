@@ -28,14 +28,20 @@ from collections import defaultdict
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Prufer(*args), correctly constructs a Prufer instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Prufer : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Prufer : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ab9c3d5618814ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer","kind":"class","src_hash":"d8107b4699702770","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Prufer(*args)","rhs":"correctly constructs a Prufer instance","over":{"base":"Any"},"name":"Prufer_class_invariant"},"guarantee":"correctly constructs a Prufer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ab9c3d5618814ce"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer","kind":"class","src_hash":"d8107b4699702770","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Prufer(*args)","rhs":"correctly constructs a Prufer instance","over":{"base":"Any"},"name":"Prufer_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ab9c3d5618814ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Prufer not found in source"]}}
 class Prufer(Basic):
     """
     The Prufer correspondence is an algorithm that describes the
@@ -59,16 +65,22 @@ class Prufer(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prufer_repr(), returns the prufer_repr attribute) over Any ║
+# ║ Path(prufer_repr(), self._prufer_repr) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._prufer_repr                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prufer_repr : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef154c752a8c257c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.prufer_repr","kind":"property","src_hash":"74b55c9c25f22396","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prufer_repr()","rhs":"returns the prufer_repr attribute","over":{"base":"Any"},"name":"prufer_repr_correct"},"guarantee":"returns the prufer_repr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef154c752a8c257c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.prufer_repr","kind":"property","src_hash":"74b55c9c25f22396","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prufer_repr()","rhs":"self._prufer_repr","over":{"base":"Any"},"name":"prufer_repr_correct"},"guarantee":"returns self._prufer_repr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef154c752a8c257c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._prufer_repr","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._prufer_repr","self._tree_repr","self.nodes","self.to_prufer"],"writes":["self._prufer_repr"]},"state_contract":{"modifies":["self._prufer_repr"],"old_bindings":{"old_self__prufer_repr":"self._prufer_repr"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prufer_repr(self):
         """Returns Prufer sequence for the Prufer object.
 
@@ -97,16 +109,22 @@ class Prufer(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tree_repr(), returns the tree_repr attribute) over Any ║
+# ║ Path(tree_repr(), self._tree_repr) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tree_repr                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tree_repr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 043434ccc694ee32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.tree_repr","kind":"property","src_hash":"4041b69d77ec1b63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tree_repr()","rhs":"returns the tree_repr attribute","over":{"base":"Any"},"name":"tree_repr_correct"},"guarantee":"returns the tree_repr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"043434ccc694ee32"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.tree_repr","kind":"property","src_hash":"4041b69d77ec1b63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tree_repr()","rhs":"self._tree_repr","over":{"base":"Any"},"name":"tree_repr_correct"},"guarantee":"returns self._tree_repr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"043434ccc694ee32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tree_repr","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._prufer_repr","self._tree_repr","self.to_tree"],"writes":["self._tree_repr"]},"state_contract":{"modifies":["self._tree_repr"],"old_bindings":{"old_self__tree_repr":"self._tree_repr"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tree_repr(self):
         """Returns the tree representation of the Prufer object.
 
@@ -131,16 +149,22 @@ class Prufer(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nodes(), returns the nodes attribute) over Any        ║
+# ║ Path(nodes(), self._nodes) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._nodes                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nodes : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fcc4e95329a8ca32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.nodes","kind":"property","src_hash":"e0fe8730f8366b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nodes()","rhs":"returns the nodes attribute","over":{"base":"Any"},"name":"nodes_correct"},"guarantee":"returns the nodes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcc4e95329a8ca32"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.nodes","kind":"property","src_hash":"e0fe8730f8366b69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nodes()","rhs":"self._nodes","over":{"base":"Any"},"name":"nodes_correct"},"guarantee":"returns self._nodes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcc4e95329a8ca32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._nodes","pure":false,"effects":{"effect_type":"reads_state","reads":["self._nodes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nodes(self):
         """Returns the number of nodes in the tree.
 
@@ -158,16 +182,22 @@ class Prufer(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the rank attribute) over Any          ║
+# ║ Path(rank(), self._rank) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b262667a852ecdfd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.rank","kind":"property","src_hash":"4d9d8fef385680c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the rank attribute","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b262667a852ecdfd"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.rank","kind":"property","src_hash":"4d9d8fef385680c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self._rank","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self._rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b262667a852ecdfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rank","self.prufer_rank"],"writes":["self._rank"]},"state_contract":{"modifies":["self._rank"],"old_bindings":{"old_self__rank":"self._rank"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """Returns the rank of the Prufer sequence.
 
@@ -195,16 +225,22 @@ class Prufer(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(size(), returns the size attribute) over Any          ║
+# ║ Path(size(), self.prev(self.rank).prev().rank + 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.prev(self.rank).prev().rank + 1           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ size : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6bc7e05c1a147f03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.size","kind":"property","src_hash":"bc8cec8607821e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"returns the size attribute","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc7e05c1a147f03"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.size","kind":"property","src_hash":"bc8cec8607821e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"self.prev(self.rank).prev().rank + 1","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns self.prev(self.rank).prev().rank + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc7e05c1a147f03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.prev(self.rank).prev().rank + 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.prev","self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def size(self):
         """Return the number of possible trees of this Prufer object.
 
@@ -225,16 +261,25 @@ class Prufer(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_prufer(tre), return the prufer sequence for a tree given as a list of edges where ``n`` is the number of nodes in the tree) over Any ║
+# ║ Path(to_prufer(tree, n), len(L) == old_len_L + 1 and len(d) == old_len_d - 1) over {Any | hasattr(tree, 'remove') and len(d) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_prufer : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(tree, 'remove')                        ║
+# ║   requires: len(d) > 0                                     ║
+# ║   ensures:  len(L) == old_len_L + 1                        ║
+# ║   ensures:  len(d) == old_len_d - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_prufer : {Any | hasattr(tree, 'remove') and len(d)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 274dc246b88e39ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 799771104923bfdc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.to_prufer","kind":"staticmethod","src_hash":"6943da0a536de25b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_prufer(tre)","rhs":"return the prufer sequence for a tree given as a list of edges where ``n`` is the number of nodes in the tree","over":{"base":"Any"},"name":"to_prufer_correct"},"guarantee":"return the prufer sequence for a tree given as a list of edges where ``n`` is the number of nodes in the tree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.to_prufer_correct","statement":"Path(to_prufer(x), return the prufer sequence for a tree given as a list of edges where ``n`` is the number of nodes in the tree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"274dc246b88e39ec"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.to_prufer","kind":"staticmethod","src_hash":"6943da0a536de25b","in":{"base":"Any","pred":"hasattr(tree, 'remove') and len(d) > 0"},"out":{"base":"Any","pred":"result satisfies: len(L) == old_len_L + 1 and len(d) == old_len_d - 1"},"spec":{"lhs":"to_prufer(tree, n)","rhs":"len(L) == old_len_L + 1 and len(d) == old_len_d - 1","over":{"base":"Any","pred":"hasattr(tree, 'remove') and len(d) > 0"},"name":"to_prufer_correct"},"guarantee":"len(L) == old_len_L + 1; len(d) == old_len_d - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.to_prufer_correct","statement":"Path(to_prufer(x), len(L) == old_len_L + 1; len(d) == old_len_d - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"799771104923bfdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(tree, 'remove')","len(d) > 0"],"ensures":["len(L) == old_len_L + 1","len(d) == old_len_d - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["tree.remove"],"calls_mutating":["L.append","d.pop","tree.remove"]},"state_contract":{"modifies":["L.*","d.*","tree.*"],"old_bindings":{"old_len_L":"len(L)","old_len_d":"len(d)"},"pre_requires":["len(d) > 0"],"post_ensures":["len(L) == old_len_L + 1","len(d) == old_len_d - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_prufer(tree, n):
         """Return the Prufer sequence for a tree given as a list of edges where
         ``n`` is the number of nodes in the tree.
@@ -287,16 +332,22 @@ class Prufer(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_tree(pru), return the tree (as a list of edges) of the given prufer sequence) over Any ║
+# ║ Path(to_tree(prufer), <unspecified:to_tree>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_tree : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31724e43be34dea5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.to_tree","kind":"staticmethod","src_hash":"8dd5b5167a9f10f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_tree(pru)","rhs":"return the tree (as a list of edges) of the given prufer sequence","over":{"base":"Any"},"name":"to_tree_correct"},"guarantee":"return the tree (as a list of edges) of the given prufer sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.to_tree_correct","statement":"Path(to_tree(x), return the tree (as a list of edges) of the given prufer sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31724e43be34dea5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.to_tree","kind":"staticmethod","src_hash":"8dd5b5167a9f10f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_tree(prufer)","rhs":"<unspecified:to_tree>","over":{"base":"Any"},"name":"to_tree_correct"},"guarantee":"return the tree (as a list of edges) of the given prufer sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.to_tree_correct","statement":"Path(to_tree(x), return the tree (as a list of edges) of the given prufer sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31724e43be34dea5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_tree(prufer):
         """Return the tree (as a list of edges) of the given Prufer sequence.
 
@@ -343,16 +394,25 @@ class Prufer(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(edges(*ru), return a list of edges and the number of nodes from the given runs that connect nodes in an integer-labelled tree) over Any ║
+# ║ Path(edges(*runs), (sorted(rv), nmax + 1)) over {Any | len(missing) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ edges : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(missing) > 0                               ║
+# ║   ensures:  len(missing) == old_len_missing - 1            ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ║   returns:  (sorted(rv), nmax + 1)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ edges : {Any | len(missing) > 0} → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 383beb554cb91094  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 458d25eea1e0d5c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.edges","kind":"staticmethod","src_hash":"424c4c4be094d007","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"edges(*ru)","rhs":"return a list of edges and the number of nodes from the given runs that connect nodes in an integer-labelled tree","over":{"base":"Any"},"name":"edges_correct"},"guarantee":"return a list of edges and the number of nodes from the given runs that connect nodes in an integer-labelled tree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.edges_correct","statement":"Path(edges(x), return a list of edges and the number of nodes from the given runs that connect nodes in an integer-labelled tree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"383beb554cb91094"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.edges","kind":"staticmethod","src_hash":"424c4c4be094d007","in":{"base":"Any","pred":"len(missing) > 0"},"out":{"base":"Any","pred":"result satisfies: result == ((sorted(rv), nmax + 1))"},"spec":{"lhs":"edges(*runs)","rhs":"(sorted(rv), nmax + 1)","over":{"base":"Any","pred":"len(missing) > 0"},"name":"edges_correct"},"guarantee":"returns (sorted(rv), nmax + 1); len(missing) == old_len_missing - 1; len(rv) == old_len_rv + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.edges_correct","statement":"Path(edges(x), returns (sorted(rv), nmax + 1); len(missing) == old_len_missing - 1; len(rv) == old_len_rv + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"458d25eea1e0d5c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(missing) > 0"],"ensures":["len(missing) == old_len_missing - 1","len(rv) == old_len_rv + 1"],"returns_expr":"(sorted(rv), nmax + 1)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["e.add","got.update","missing.pop","rv.append"],"raises":["ValueError"]},"state_contract":{"modifies":["e.*","got.*","missing.*","rv.*"],"old_bindings":{"old_len_got":"len(got)","old_len_missing":"len(missing)","old_len_rv":"len(rv)"},"pre_requires":["len(missing) > 0"],"post_ensures":["len(missing) == old_len_missing - 1","len(rv) == old_len_rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def edges(*runs):
         """Return a list of edges and the number of nodes from the given runs
         that connect nodes in an integer-labelled tree.
@@ -407,16 +467,22 @@ class Prufer(Basic):
         return sorted(rv), nmax + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prufer_rank(), computes the rank of a prufer sequence) over Any ║
+# ║ Path(prufer_rank(), <unspecified:prufer_rank>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prufer_rank : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e2daf498a44728  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.prufer_rank","kind":"method","src_hash":"2ae3ba70dd0f5ef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prufer_rank()","rhs":"computes the rank of a prufer sequence","over":{"base":"Any"},"name":"prufer_rank_correct"},"guarantee":"computes the rank of a prufer sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.prufer_rank_correct","statement":"Path(prufer_rank(x), computes the rank of a prufer sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e2daf498a44728"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.prufer_rank","kind":"method","src_hash":"2ae3ba70dd0f5ef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prufer_rank()","rhs":"<unspecified:prufer_rank>","over":{"base":"Any"},"name":"prufer_rank_correct"},"guarantee":"computes the rank of a prufer sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.prufer.Prufer.prufer_rank_correct","statement":"Path(prufer_rank(x), computes the rank of a prufer sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e2daf498a44728","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nodes","self.prufer_repr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prufer_rank(self):
         """Computes the rank of a Prufer sequence.
 
@@ -443,16 +509,22 @@ class Prufer(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank(ran), id) over Any                             ║
+# ║ Path(unrank(rank, n), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Prufer([L[i] for i in range(len(L))])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bf7c84ea15115ff7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.unrank","kind":"classmethod","src_hash":"f7a1963a211f2e33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank(ran)","rhs":"finds the unranked prufer sequence","over":{"base":"Any"},"name":"unrank_correct","kind":"composition"},"guarantee":"finds the unranked prufer sequence","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Prufer","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf7c84ea15115ff7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.unrank","kind":"classmethod","src_hash":"f7a1963a211f2e33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank(rank, n)","rhs":"Prufer([L[i] for i in range(len(L))])","over":{"base":"Any"},"name":"unrank_correct","kind":"composition"},"guarantee":"returns Prufer([L[i] for i in range(len(L))])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Prufer","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf7c84ea15115ff7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Prufer([L[i] for i in range(len(L))])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank(self, rank, n):
         """Finds the unranked Prufer sequence.
 
@@ -472,16 +544,23 @@ class Prufer(Basic):
         return Prufer([L[i] for i in range(len(L))])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), the constructor for the prufer object) over Any ║
+# ║ Path(__new__(cls, *args, **kw_args), len(missing) == old_len_missing - 1) over {Any | len(missing) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(missing) > 0                               ║
+# ║   ensures:  len(missing) == old_len_missing - 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(missing) > 0} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd2e3b11bdd2b599           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.__new__","kind":"method","src_hash":"cecf443e21214b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"the constructor for the prufer object","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"the constructor for the prufer object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd2e3b11bdd2b599"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.__new__","kind":"method","src_hash":"cecf443e21214b32","in":{"base":"Any","pred":"len(missing) > 0"},"out":{"base":"Any","pred":"result satisfies: len(missing) == old_len_missing - 1"},"spec":{"lhs":"__new__(cls, *args, **kw_args)","rhs":"len(missing) == old_len_missing - 1","over":{"base":"Any","pred":"len(missing) > 0"},"name":"__new___correct"},"guarantee":"len(missing) == old_len_missing - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd2e3b11bdd2b599","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(missing) > 0"],"ensures":["len(missing) == old_len_missing - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["missing.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["missing.*"],"old_bindings":{"old_len_missing":"len(missing)"},"pre_requires":["len(missing) > 0"],"post_ensures":["len(missing) == old_len_missing - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kw_args):
         """The constructor for the Prufer object.
 
@@ -538,16 +617,22 @@ class Prufer(Basic):
         return ret_obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next(del), generates the prufer sequence that is delta beyond the current one) over Any ║
+# ║ Path(next(delta), Prufer.unrank(self.rank + delta, self.nodes)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Prufer.unrank(self.rank + delta, self.nodes)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8502adac41010284           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.next","kind":"method","src_hash":"cd23fe5446b57263","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next(del)","rhs":"generates the prufer sequence that is delta beyond the current one","over":{"base":"Any"},"name":"next_correct"},"guarantee":"generates the prufer sequence that is delta beyond the current one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8502adac41010284"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.next","kind":"method","src_hash":"cd23fe5446b57263","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next(delta)","rhs":"Prufer.unrank(self.rank + delta, self.nodes)","over":{"base":"Any"},"name":"next_correct"},"guarantee":"returns Prufer.unrank(self.rank + delta, self.nodes)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8502adac41010284","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Prufer.unrank(self.rank + delta, self.nodes)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nodes","self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next(self, delta=1):
         """Generates the Prufer sequence that is delta beyond the current one.
 
@@ -571,16 +656,22 @@ class Prufer(Basic):
         return Prufer.unrank(self.rank + delta, self.nodes)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prev(del), generates the prufer sequence that is -delta before the current one) over Any ║
+# ║ Path(prev(delta), Prufer.unrank(self.rank - delta, self.nodes)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Prufer.unrank(self.rank - delta, self.nodes)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prev : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79da9f391879365f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.prev","kind":"method","src_hash":"aabd32d6d35caced","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev(del)","rhs":"generates the prufer sequence that is -delta before the current one","over":{"base":"Any"},"name":"prev_correct"},"guarantee":"generates the prufer sequence that is -delta before the current one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79da9f391879365f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.prufer.Prufer.prev","kind":"method","src_hash":"aabd32d6d35caced","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev(delta)","rhs":"Prufer.unrank(self.rank - delta, self.nodes)","over":{"base":"Any"},"name":"prev_correct"},"guarantee":"returns Prufer.unrank(self.rank - delta, self.nodes)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79da9f391879365f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Prufer.unrank(self.rank - delta, self.nodes)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nodes","self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prev(self, delta=1):
         """Generates the Prufer sequence that is -delta before the current one.
 

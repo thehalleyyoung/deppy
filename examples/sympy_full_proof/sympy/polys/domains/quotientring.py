@@ -32,14 +32,19 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a QuotientRingElement instance) preserved by QuotientRingElement(*args) over {Any | isinstance(o, self.__class__)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ QuotientRingElement : {Any | isinstance(o, self.__cla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3e383ce23e33044  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement","kind":"class","src_hash":"0d39ec889bfe5c6c","in":{"base":"Any","pred":"isinstance(o, self.__class__)"},"out":{"base":"Any"},"spec":{"lhs":"QuotientRingElement(*args)","rhs":"correctly constructs a QuotientRingElement instance","over":{"base":"Any","pred":"isinstance(o, self.__class__)"},"name":"QuotientRingElement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a QuotientRingElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring') and hasattr(self, 'data')","kind":"class","induction":"structural on ring, data"}],"methods_preserving":["__init__","__str__","__bool__","__add__","__neg__","__sub__","__rsub__","__mul__","__rtruediv__","__truediv__","__pow__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3e383ce23e33044"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement","kind":"class","src_hash":"0d39ec889bfe5c6c","in":{"base":"Any","pred":"isinstance(o, self.__class__)"},"out":{"base":"Any"},"spec":{"lhs":"QuotientRingElement(*args)","rhs":"correctly constructs a QuotientRingElement instance","over":{"base":"Any","pred":"isinstance(o, self.__class__)"},"name":"QuotientRingElement_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring') and hasattr(self, 'data')","kind":"class","induction":"structural on ring, data"}],"methods_preserving":["__init__","__str__","__bool__","__add__","__neg__","__sub__","__rsub__","__mul__","__rtruediv__","__truediv__","__pow__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3e383ce23e33044","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'ring')","hasattr(self, 'data')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function QuotientRingElement not found in source"]}}
 class QuotientRingElement:
     """
     Class representing elements of (commutative) quotient rings.
@@ -51,31 +56,44 @@ class QuotientRingElement:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, data), self.ring == ring and self.data == data) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ring == ring                              ║
+# ║   ensures:  self.data == data                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ring =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7c0e3365c7213c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__init__","kind":"method","src_hash":"924be9b98d45e555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7c0e3365c7213c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__init__","kind":"method","src_hash":"924be9b98d45e555","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ring == ring and self.data == data"},"spec":{"lhs":"__init__(ring, data)","rhs":"self.ring == ring and self.data == data","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ring == ring; self.data == data","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7c0e3365c7213c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ring == ring","self.data == data"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, data):
         self.ring = ring
         self.data = data
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), sstr(data) + ' + ' + str(self.ring.base_ideal)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sstr(data) + ' + ' + str(self.ring.base_i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ae432d2c4bd53cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__str__","kind":"method","src_hash":"602debad2680b0e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ae432d2c4bd53cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__str__","kind":"method","src_hash":"602debad2680b0e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"sstr(data) + ' + ' + str(self.ring.base_ideal)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns sstr(data) + ' + ' + str(self.ring.base_ideal)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ae432d2c4bd53cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(data) + ' + ' + str(self.ring.base_ideal)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         from sympy.printing.str import sstr
         data = self.ring.ring.to_sympy(self.data)
@@ -84,30 +102,44 @@ class QuotientRingElement:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), not self.ring.is_zero(self)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.ring.is_zero(self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a6709ab9ba80ac6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__bool__","kind":"method","src_hash":"f3e5e4bddbc4b273","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a6709ab9ba80ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__bool__","kind":"method","src_hash":"f3e5e4bddbc4b273","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"not self.ring.is_zero(self)","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns not self.ring.is_zero(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a6709ab9ba80ac6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.ring.is_zero(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         return not self.ring.is_zero(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(om), returns the sum/concatenation) over Any  ║
+# ║ Path(__add__(om), <unspecified:__add__>) over {Any | hasattr(om, 'ring') and hasattr(om, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(om, 'ring')                            ║
+# ║   requires: hasattr(om, 'data')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(om, 'ring') and hasattr(om, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96773bbe9b0ba488           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__add__","kind":"method","src_hash":"8fec658d43b848e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(om)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96773bbe9b0ba488"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__add__","kind":"method","src_hash":"8fec658d43b848e7","in":{"base":"Any","pred":"hasattr(om, 'ring') and hasattr(om, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(om)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(om, 'ring') and hasattr(om, 'data')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96773bbe9b0ba488","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(om, 'ring')","hasattr(om, 'data')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","om.data","om.ring","self.__class__","self.data","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, om):
         if not isinstance(om, self.__class__) or om.ring != self.ring:
             try:
@@ -119,58 +151,83 @@ class QuotientRingElement:
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.ring(self.data * self.ring.ring.convert(-1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring(self.data * self.ring.ring.conv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d44e28eeacfbce5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__neg__","kind":"method","src_hash":"1fb2d51ffa0db6b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d44e28eeacfbce5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__neg__","kind":"method","src_hash":"1fb2d51ffa0db6b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.ring(self.data * self.ring.ring.convert(-1))","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.ring(self.data * self.ring.ring.convert(-1))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d44e28eeacfbce5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring(self.data * self.ring.ring.convert(-1))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.ring(self.data*self.ring.ring.convert(-1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(om), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(om), self.__add__(-om)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(-om)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2965589b6c939734           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__sub__","kind":"method","src_hash":"58fe09f67ea5158d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(om)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2965589b6c939734"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__sub__","kind":"method","src_hash":"58fe09f67ea5158d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(om)","rhs":"self.__add__(-om)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(-om)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2965589b6c939734","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(-om)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, om):
         return self.__add__(-om)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(om), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(om), (-self).__add__(om)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-self).__add__(om)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5836d5dfd2564320           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__rsub__","kind":"method","src_hash":"b2419370241d7e23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(om)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5836d5dfd2564320"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__rsub__","kind":"method","src_hash":"b2419370241d7e23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(om)","rhs":"(-self).__add__(om)","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns (-self).__add__(om)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5836d5dfd2564320","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-self).__add__(om)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, om):
         return (-self).__add__(om)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(o), returns the product) over Any             ║
+# ║ Path(__mul__(o), <unspecified:__mul__>) over {Any | hasattr(o, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'data')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(o, 'data')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9abc193a05978e69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__mul__","kind":"method","src_hash":"9b184220364da044","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(o)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9abc193a05978e69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__mul__","kind":"method","src_hash":"9b184220364da044","in":{"base":"Any","pred":"hasattr(o, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(o)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(o, 'data')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9abc193a05978e69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'data')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","o.data","self.__class__","self.data","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, o):
         if not isinstance(o, self.__class__):
             try:
@@ -182,30 +239,42 @@ class QuotientRingElement:
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(o), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(o), self.ring.revert(self) * o) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.revert(self) * o                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 652565723e21cbee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__rtruediv__","kind":"method","src_hash":"1edbd933a9eedc57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"652565723e21cbee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__rtruediv__","kind":"method","src_hash":"1edbd933a9eedc57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(o)","rhs":"self.ring.revert(self) * o","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"returns self.ring.revert(self) * o","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"652565723e21cbee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.revert(self) * o","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, o):
         return self.ring.revert(self)*o
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(o), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(o), <unspecified:__truediv__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 802221f916c66ceb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__truediv__","kind":"method","src_hash":"95c4fd8010b3df18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"802221f916c66ceb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__truediv__","kind":"method","src_hash":"95c4fd8010b3df18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(o)","rhs":"<unspecified:__truediv__>","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"802221f916c66ceb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, o):
         if not isinstance(o, self.__class__):
             try:
@@ -215,48 +284,67 @@ class QuotientRingElement:
         return self.ring.revert(o)*self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(oth), <unspecified:__pow__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15c26cb1da93c94a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__pow__","kind":"method","src_hash":"ba9e34d55e99fbc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c26cb1da93c94a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__pow__","kind":"method","src_hash":"ba9e34d55e99fbc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c26cb1da93c94a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, oth):
         if oth < 0:
             return self.ring.revert(self) ** -oth
         return self.ring(self.data ** oth)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(om), correctly determines equality) over Any   ║
+# ║ Path(__eq__(om), <unspecified:__eq__>) over {Any | hasattr(om, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(om, 'ring')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(om, 'ring')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3ffa300f987464a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__eq__","kind":"method","src_hash":"01f6ebe03d5ca4b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(om)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3ffa300f987464a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__eq__","kind":"method","src_hash":"01f6ebe03d5ca4b9","in":{"base":"Any","pred":"hasattr(om, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(om)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(om, 'ring')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3ffa300f987464a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(om, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","om.ring","self.__class__","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, om):
         if not isinstance(om, self.__class__) or om.ring != self.ring:
             return False
         return self.ring.is_zero(self - om)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(om), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(om), not self == om) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == om                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5185b98c8f53f75a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__ne__","kind":"method","src_hash":"28b38d49337e0900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(om)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5185b98c8f53f75a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRingElement.__ne__","kind":"method","src_hash":"28b38d49337e0900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(om)","rhs":"not self == om","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == om","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5185b98c8f53f75a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == om","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, om):
         return not self == om
 
@@ -264,14 +352,20 @@ class QuotientRingElement:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a QuotientRing instance) preserved by QuotientRing(*args) over {Any | isinstance(a, self.ring.dtype) and isinstance(other, QuotientRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ring)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ QuotientRing : {Any | isinstance(a, self.ring.dtype) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95e448d6b7c41ce8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing","kind":"class","src_hash":"f7db105c92ba922d","in":{"base":"Any","pred":"isinstance(a, self.ring.dtype) and isinstance(other, QuotientRing)"},"out":{"base":"Any"},"spec":{"lhs":"QuotientRing(*args)","rhs":"correctly constructs a QuotientRing instance","over":{"base":"Any","pred":"isinstance(a, self.ring.dtype) and isinstance(other, QuotientRing)"},"name":"QuotientRing_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a QuotientRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring') and hasattr(self, 'base_ideal') and hasattr(self, 'zero') and hasattr(self, 'one')","kind":"class","induction":"structural on ring, base_ideal, zero, one"}],"methods_preserving":["__init__","__str__","__hash__","new","__eq__","from_sympy","to_sympy","from_QuotientRing","poly_ring","frac_field","revert","is_zero","free_module"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95e448d6b7c41ce8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing","kind":"class","src_hash":"f7db105c92ba922d","in":{"base":"Any","pred":"isinstance(a, self.ring.dtype) and isinstance(other, QuotientRing)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ring)"},"spec":{"lhs":"QuotientRing(*args)","rhs":"correctly constructs a QuotientRing instance","over":{"base":"Any","pred":"isinstance(a, self.ring.dtype) and isinstance(other, QuotientRing)"},"name":"QuotientRing_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Ring); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring') and hasattr(self, 'base_ideal') and hasattr(self, 'zero') and hasattr(self, 'one')","kind":"class","induction":"structural on ring, base_ideal, zero, one"}],"methods_preserving":["__init__","__str__","__hash__","new","__eq__","from_sympy","to_sympy","from_QuotientRing","poly_ring","frac_field","revert","is_zero","free_module"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95e448d6b7c41ce8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ring)"],"invariants":["hasattr(self, 'ring')","hasattr(self, 'base_ideal')","hasattr(self, 'zero')","hasattr(self, 'one')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function QuotientRing not found in source"]}}
 class QuotientRing(Ring):
     """
     Class representing (commutative) quotient rings.
@@ -304,16 +398,25 @@ class QuotientRing(Ring):
     dtype = QuotientRingElement
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, ideal), self.ring == ring and self.base_ideal == ideal) over {Any | ideal.ring == ring and hasattr(ideal, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: ideal.ring == ring                             ║
+# ║   requires: hasattr(ideal, 'ring')                         ║
+# ║   ensures:  self.ring == ring                              ║
+# ║   ensures:  self.base_ideal == ideal                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | ideal.ring == ring and hasattr(idea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec7c5056c22003fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__init__","kind":"method","src_hash":"30c9635bdb68edb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec7c5056c22003fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__init__","kind":"method","src_hash":"30c9635bdb68edb1","in":{"base":"Any","pred":"ideal.ring == ring and hasattr(ideal, 'ring')"},"out":{"base":"Any","pred":"result satisfies: self.ring == ring and self.base_ideal == ideal"},"spec":{"lhs":"__init__(ring, ideal)","rhs":"self.ring == ring and self.base_ideal == ideal","over":{"base":"Any","pred":"ideal.ring == ring and hasattr(ideal, 'ring')"},"name":"__init___correct"},"guarantee":"self.ring == ring; self.base_ideal == ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec7c5056c22003fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["ideal.ring == ring","hasattr(ideal, 'ring')"],"ensures":["self.ring == ring","self.base_ideal == ideal"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ideal.ring","self.ring"],"writes":["self.base_ideal","self.one","self.ring","self.zero"],"raises":["ValueError"]},"state_contract":{"modifies":["self.base_ideal","self.one","self.ring","self.zero"],"old_bindings":{"old_self_base_ideal":"self.base_ideal","old_self_one":"self.one","old_self_ring":"self.ring","old_self_zero":"self.zero"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, ideal):
         if not ideal.ring == ring:
             raise ValueError('Ideal must belong to %s, got %s' % (ring, ideal))
@@ -323,44 +426,62 @@ class QuotientRing(Ring):
         self.one = self(self.ring.one)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.ring) + '/' + str(self.base_ideal)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.ring) + '/' + str(self.base_ideal)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6506eb5ba896085b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__str__","kind":"method","src_hash":"b1c6739f6b8af1c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6506eb5ba896085b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__str__","kind":"method","src_hash":"b1c6739f6b8af1c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.ring) + '/' + str(self.base_ideal)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.ring) + '/' + str(self.base_ideal)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6506eb5ba896085b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.ring) + '/' + str(self.base_ideal)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_ideal","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return str(self.ring) + "/" + str(self.base_ideal)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.dtype, self.ring, self.base_ideal))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.dtype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa6b2b879bba80b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__hash__","kind":"method","src_hash":"3611ab1d473703ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa6b2b879bba80b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__hash__","kind":"method","src_hash":"3611ab1d473703ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.dtype, self.ring, self.base_ideal))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.dtype, self.ring, self.base_ideal))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa6b2b879bba80b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.dtype, self.ring, self.base_ideal))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.base_ideal","self.dtype","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.ring, self.base_ideal))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(new(a), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(self, self.base_ideal.reduce_e...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 88564e7a39aaf8d2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.new","kind":"method","src_hash":"0adbf1745e35fef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(a)","rhs":"construct an element of ``self`` domain from ``a``","over":{"base":"Any"},"name":"new_correct","kind":"composition"},"guarantee":"construct an element of ``self`` domain from ``a``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dtype","by":"library_axiom"},{"fn":"reduce_element","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88564e7a39aaf8d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.new","kind":"method","src_hash":"0adbf1745e35fef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(a)","rhs":"self.dtype(self, self.base_ideal.reduce_element(a))","over":{"base":"Any"},"name":"new_correct","kind":"composition"},"guarantee":"returns self.dtype(self, self.base_ideal.reduce_element(a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dtype","by":"library_axiom"},{"fn":"reduce_element","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88564e7a39aaf8d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(self, self.base_ideal.reduce_element(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_ideal","self.dtype","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, a):
         """Construct an element of ``self`` domain from ``a``. """
         if not isinstance(a, self.ring.dtype):
@@ -369,32 +490,47 @@ class QuotientRing(Ring):
         return self.dtype(self, self.base_ideal.reduce_element(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, QuotientRing) and self.ring == other.ring and (self.base_ideal == other.base_ideal)) over {Any | hasattr(other, 'ring') and hasattr(other, 'base_ideal')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'ring')                         ║
+# ║   requires: hasattr(other, 'base_ideal')                   ║
+# ║   returns:  isinstance(other, QuotientRing) and self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'ring') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f584ba13bf383d24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__eq__","kind":"method","src_hash":"2700ccb4d212c33e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f584ba13bf383d24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.__eq__","kind":"method","src_hash":"2700ccb4d212c33e","in":{"base":"Any","pred":"hasattr(other, 'ring') and hasattr(other, 'base_ideal')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, QuotientRing) and self.ring == other.ring and (self.base_ideal == other.base_ideal)","over":{"base":"Any","pred":"hasattr(other, 'ring') and hasattr(other, 'base_ideal')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, QuotientRing) and self.ring == other.ring and (self.base_ideal == other.base_ideal)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f584ba13bf383d24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'ring')","hasattr(other, 'base_ideal')"],"returns_expr":"isinstance(other, QuotientRing) and self.ring == other.ring and (self.base_ideal == other.base_ideal)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.base_ideal","other.ring","self.base_ideal","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, QuotientRing) and \
             self.ring == other.ring and self.base_ideal == other.base_ideal
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), K1(K1.ring.convert(a, K0))) over {Any | hasattr(K1, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'ring')                            ║
+# ║   returns:  K1(K1.ring.convert(a, K0))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ : {Any | hasattr(K1, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06b9999538e6e2de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.from_ZZ","kind":"method","src_hash":"85dd23890a2e700a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06b9999538e6e2de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.from_ZZ","kind":"method","src_hash":"85dd23890a2e700a","in":{"base":"Any","pred":"hasattr(K1, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"K1(K1.ring.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'ring')"},"name":"from_ZZ_correct"},"guarantee":"returns K1(K1.ring.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06b9999538e6e2de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'ring')"],"returns_expr":"K1(K1.ring.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1(K1.ring.convert(a, K0))
@@ -408,89 +544,128 @@ class QuotientRing(Ring):
     from_FractionField = from_ZZ_python
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), from_sympy produces the expected output) over Any ║
+# ║ Path(from_sympy(a), self(self.ring.from_sympy(a))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self(self.ring.from_sympy(a))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_sympy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4120dc75c76a2cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.from_sympy","kind":"method","src_hash":"8cab4dbd0da03642","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"from_sympy produces the expected output","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"from_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4120dc75c76a2cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.from_sympy","kind":"method","src_hash":"8cab4dbd0da03642","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"self(self.ring.from_sympy(a))","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"returns self(self.ring.from_sympy(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4120dc75c76a2cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self(self.ring.from_sympy(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         return self(self.ring.from_sympy(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), to_sympy produces the expected output) over Any ║
+# ║ Path(to_sympy(a), self.ring.to_sympy(a.data)) over {Any | hasattr(a, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'data')                             ║
+# ║   returns:  self.ring.to_sympy(a.data)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(a, 'data')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2890f610ac8be3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.to_sympy","kind":"method","src_hash":"1b21077dcef8ecfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"to_sympy produces the expected output","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2890f610ac8be3c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.to_sympy","kind":"method","src_hash":"1b21077dcef8ecfe","in":{"base":"Any","pred":"hasattr(a, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"self.ring.to_sympy(a.data)","over":{"base":"Any","pred":"hasattr(a, 'data')"},"name":"to_sympy_correct"},"guarantee":"returns self.ring.to_sympy(a.data)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2890f610ac8be3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'data')"],"returns_expr":"self.ring.to_sympy(a.data)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.data","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         return self.ring.to_sympy(a.data)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QuotientRing(a, ), from_QuotientRing produces the expected output) over Any ║
+# ║ Path(from_QuotientRing(a, K0), a) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QuotientRing : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QuotientRing : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdc464cf9c376dd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0495abd62269fcff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.from_QuotientRing","kind":"method","src_hash":"f027960dc9815081","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QuotientRing(a, )","rhs":"from_QuotientRing produces the expected output","over":{"base":"Any"},"name":"from_QuotientRing_correct"},"guarantee":"from_QuotientRing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.quotientring.QuotientRing.from_QuotientRing_correct","statement":"Path(from_QuotientRing(x), from_QuotientRing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdc464cf9c376dd8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.from_QuotientRing","kind":"method","src_hash":"f027960dc9815081","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_QuotientRing(a, K0)","rhs":"a","over":{"base":"Any"},"name":"from_QuotientRing_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.quotientring.QuotientRing.from_QuotientRing_correct","statement":"Path(from_QuotientRing(x), returns a; result == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0495abd62269fcff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QuotientRing(self, a, K0):
         if K0 == self:
             return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(poly_ring(*ge), returns a polynomial ring, i.e) over Any ║
+# ║ Path(poly_ring(*gens), <unspecified:poly_ring>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ poly_ring : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d868d089324c7662           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.poly_ring","kind":"method","src_hash":"3e1dc55e23598713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poly_ring(*ge)","rhs":"returns a polynomial ring, i.e","over":{"base":"Any"},"name":"poly_ring_correct"},"guarantee":"returns a polynomial ring, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d868d089324c7662"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.poly_ring","kind":"method","src_hash":"3e1dc55e23598713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poly_ring(*gens)","rhs":"<unspecified:poly_ring>","over":{"base":"Any"},"name":"poly_ring_correct"},"guarantee":"returns a polynomial ring, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d868d089324c7662","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def poly_ring(self, *gens):
         """Returns a polynomial ring, i.e. ``K[X]``. """
         raise NotImplementedError('nested domains not allowed')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frac_field(*ge), returns a fraction field, i.e) over Any ║
+# ║ Path(frac_field(*gens), <unspecified:frac_field>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ frac_field : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8cfd13504fc88f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.frac_field","kind":"method","src_hash":"adfd06c46b1e615b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frac_field(*ge)","rhs":"returns a fraction field, i.e","over":{"base":"Any"},"name":"frac_field_correct"},"guarantee":"returns a fraction field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8cfd13504fc88f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.frac_field","kind":"method","src_hash":"adfd06c46b1e615b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frac_field(*gens)","rhs":"<unspecified:frac_field>","over":{"base":"Any"},"name":"frac_field_correct"},"guarantee":"returns a fraction field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8cfd13504fc88f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frac_field(self, *gens):
         """Returns a fraction field, i.e. ``K(X)``. """
         raise NotImplementedError('nested domains not allowed')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(revert(a), id) over Any                               ║
+# ║ Path(revert(a), id) over {Any | hasattr(a, 'data')}        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ revert : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'data')                             ║
+# ║   returns:  self(I.in_terms_of_generators(1)[0])           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ revert : {Any | hasattr(a, 'data')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6ea52ac8bba113bf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.revert","kind":"method","src_hash":"f675d65ccf719fa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"compute a**(-1), if possible","over":{"base":"Any"},"name":"revert_correct","kind":"composition"},"guarantee":"compute a**(-1), if possible","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"self","by":"library_axiom"},{"fn":"in_terms_of_generators","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ea52ac8bba113bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.revert","kind":"method","src_hash":"f675d65ccf719fa8","in":{"base":"Any","pred":"hasattr(a, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"self(I.in_terms_of_generators(1)[0])","over":{"base":"Any","pred":"hasattr(a, 'data')"},"name":"revert_correct","kind":"composition"},"guarantee":"returns self(I.in_terms_of_generators(1)[0])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"self","by":"library_axiom"},{"fn":"in_terms_of_generators","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ea52ac8bba113bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'data')"],"returns_expr":"self(I.in_terms_of_generators(1)[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["a.data","self.base_ideal","self.ring"],"raises":["NotReversible"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"NotReversible":["isinstance(raised, NotReversible)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def revert(self, a):
         """
         Compute a**(-1), if possible.
@@ -502,30 +677,43 @@ class QuotientRing(Ring):
             raise NotReversible('%s not a unit in %r' % (a, self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(a), is_zero produces the expected output) over Any ║
+# ║ Path(is_zero(a), self.base_ideal.contains(a.data)) over {Any | hasattr(a, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_zero : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'data')                             ║
+# ║   returns:  self.base_ideal.contains(a.data)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_zero : {Any | hasattr(a, 'data')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fdadbdd0df02818           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.is_zero","kind":"method","src_hash":"06745ff8aa8961c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero(a)","rhs":"is_zero produces the expected output","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"is_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fdadbdd0df02818"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.is_zero","kind":"method","src_hash":"06745ff8aa8961c0","in":{"base":"Any","pred":"hasattr(a, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"is_zero(a)","rhs":"self.base_ideal.contains(a.data)","over":{"base":"Any","pred":"hasattr(a, 'data')"},"name":"is_zero_correct"},"guarantee":"returns self.base_ideal.contains(a.data)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fdadbdd0df02818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'data')"],"returns_expr":"self.base_ideal.contains(a.data)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.data","self.base_ideal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self, a):
         return self.base_ideal.contains(a.data)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_module(ran), generate a free module of rank ``rank`` over ``self``) over Any ║
+# ║ Path(free_module(rank), FreeModuleQuotientRing(self, rank)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FreeModuleQuotientRing(self, rank)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_module : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b4c994d10d3249c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.free_module","kind":"method","src_hash":"480a9be94b9ffeac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_module(ran)","rhs":"generate a free module of rank ``rank`` over ``self``","over":{"base":"Any"},"name":"free_module_correct"},"guarantee":"generate a free module of rank ``rank`` over ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b4c994d10d3249c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.quotientring.QuotientRing.free_module","kind":"method","src_hash":"480a9be94b9ffeac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_module(rank)","rhs":"FreeModuleQuotientRing(self, rank)","over":{"base":"Any"},"name":"free_module_correct"},"guarantee":"returns FreeModuleQuotientRing(self, rank)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b4c994d10d3249c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FreeModuleQuotientRing(self, rank)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_module(self, rank):
         """
         Generate a free module of rank ``rank`` over ``self``.

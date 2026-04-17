@@ -24,16 +24,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lll(), test_lll produces the expected output) over Any ║
+# ║ Path(test_lll(), <unspecified:test_lll>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lll : Any → {Any | reduced == reduced_dm.rep.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5da3e79dce2130d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll","kind":"function","src_hash":"0c4dfd2f7b0eb935","in":{"base":"Any"},"out":{"base":"Any","pred":"reduced == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep.to_ddm() and transform.matmul(basis_dm.rep.to_ddm()) == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep.to_ddm() and transform.matmul(basis_dm.rep.to_ddm()) == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep and reduced == reduced_dm.rep and transform.matmul(basis_dm.rep) == reduced_dm.rep and reduced == reduced_dm.rep.to_sdm() and reduced == reduced_dm.rep.to_sdm() and transform.matmul(basis_dm.rep.to_sdm()) == reduced_dm.rep.to_sdm() and reduced == reduced_dm and reduced == reduced_dm and transform.matmul(basis_dm) == reduced_dm"},"spec":{"lhs":"test_lll()","rhs":"test_lll produces the expected output","over":{"base":"Any"},"name":"test_lll_correct"},"guarantee":"test_lll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_correct","statement":"Path(test_lll(x), test_lll produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da3e79dce2130d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll","kind":"function","src_hash":"0c4dfd2f7b0eb935","in":{"base":"Any"},"out":{"base":"Any","pred":"reduced == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep.to_ddm() and transform.matmul(basis_dm.rep.to_ddm()) == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep.to_ddm() and transform.matmul(basis_dm.rep.to_ddm()) == reduced_dm.rep.to_ddm() and reduced == reduced_dm.rep and reduced == reduced_dm.rep and transform.matmul(basis_dm.rep) == reduced_dm.rep and reduced == reduced_dm.rep.to_sdm() and reduced == reduced_dm.rep.to_sdm() and transform.matmul(basis_dm.rep.to_sdm()) == reduced_dm.rep.to_sdm() and reduced == reduced_dm and reduced == reduced_dm and transform.matmul(basis_dm) == reduced_dm"},"spec":{"lhs":"test_lll()","rhs":"<unspecified:test_lll>","over":{"base":"Any"},"name":"test_lll_correct"},"guarantee":"test_lll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_correct","statement":"Path(test_lll(x), test_lll produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da3e79dce2130d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_lll():
     normal_test_data = [
         (
@@ -104,16 +110,22 @@ def test_lll():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lll_linear_dependent(), test_lll_linear_dependent produces the expected output) over Any ║
+# ║ Path(test_lll_linear_dependent(), <unspecified:test_lll_linear_dependent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lll_linear_dependent : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75f3d69bbef0c325  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_linear_dependent","kind":"function","src_hash":"f05642ed7ebf4a7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_linear_dependent()","rhs":"test_lll_linear_dependent produces the expected output","over":{"base":"Any"},"name":"test_lll_linear_dependent_correct"},"guarantee":"test_lll_linear_dependent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_linear_dependent_correct","statement":"Path(test_lll_linear_dependent(x), test_lll_linear_dependent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f3d69bbef0c325"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_linear_dependent","kind":"function","src_hash":"f05642ed7ebf4a7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_linear_dependent()","rhs":"<unspecified:test_lll_linear_dependent>","over":{"base":"Any"},"name":"test_lll_linear_dependent_correct"},"guarantee":"test_lll_linear_dependent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_linear_dependent_correct","statement":"Path(test_lll_linear_dependent(x), test_lll_linear_dependent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f3d69bbef0c325","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lll_linear_dependent():
     linear_dependent_test_data = [
         DM([[0, -1, -2, -3],
@@ -142,16 +154,22 @@ def test_lll_linear_dependent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lll_wrong_delta(), test_lll_wrong_delta produces the expected output) over Any ║
+# ║ Path(test_lll_wrong_delta(), <unspecified:test_lll_wrong_delta>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lll_wrong_delta : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e47eef40b8cddb99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_delta","kind":"function","src_hash":"858d92b989e70449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_wrong_delta()","rhs":"test_lll_wrong_delta produces the expected output","over":{"base":"Any"},"name":"test_lll_wrong_delta_correct"},"guarantee":"test_lll_wrong_delta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_delta_correct","statement":"Path(test_lll_wrong_delta(x), test_lll_wrong_delta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e47eef40b8cddb99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_delta","kind":"function","src_hash":"858d92b989e70449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_wrong_delta()","rhs":"<unspecified:test_lll_wrong_delta>","over":{"base":"Any"},"name":"test_lll_wrong_delta_correct"},"guarantee":"test_lll_wrong_delta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_delta_correct","statement":"Path(test_lll_wrong_delta(x), test_lll_wrong_delta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e47eef40b8cddb99","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lll_wrong_delta():
     dummy_matrix = DomainMatrix.ones((3, 3), ZZ)
     for wrong_delta in [QQ(-1, 4), QQ(0, 1), QQ(1, 4), QQ(1, 1), QQ(100, 1)]:
@@ -168,16 +186,22 @@ def test_lll_wrong_delta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lll_wrong_shape(), test_lll_wrong_shape produces the expected output) over Any ║
+# ║ Path(test_lll_wrong_shape(), <unspecified:test_lll_wrong_shape>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lll_wrong_shape : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8934c868b942c853  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_shape","kind":"function","src_hash":"7c5d78040da2e1b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_wrong_shape()","rhs":"test_lll_wrong_shape produces the expected output","over":{"base":"Any"},"name":"test_lll_wrong_shape_correct"},"guarantee":"test_lll_wrong_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_shape_correct","statement":"Path(test_lll_wrong_shape(x), test_lll_wrong_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8934c868b942c853"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_shape","kind":"function","src_hash":"7c5d78040da2e1b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_wrong_shape()","rhs":"<unspecified:test_lll_wrong_shape>","over":{"base":"Any"},"name":"test_lll_wrong_shape_correct"},"guarantee":"test_lll_wrong_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_shape_correct","statement":"Path(test_lll_wrong_shape(x), test_lll_wrong_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8934c868b942c853","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lll_wrong_shape():
     wrong_shape_matrix = DomainMatrix.ones((4, 3), ZZ)
     raises(DMShapeError, lambda: _ddm_lll(wrong_shape_matrix.rep))
@@ -193,16 +217,22 @@ def test_lll_wrong_shape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lll_wrong_domain(), test_lll_wrong_domain produces the expected output) over Any ║
+# ║ Path(test_lll_wrong_domain(), <unspecified:test_lll_wrong_domain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lll_wrong_domain : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cae0a3c6c4d5e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_domain","kind":"function","src_hash":"cd421039df596071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_wrong_domain()","rhs":"test_lll_wrong_domain produces the expected output","over":{"base":"Any"},"name":"test_lll_wrong_domain_correct"},"guarantee":"test_lll_wrong_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_domain_correct","statement":"Path(test_lll_wrong_domain(x), test_lll_wrong_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cae0a3c6c4d5e80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_domain","kind":"function","src_hash":"cd421039df596071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lll_wrong_domain()","rhs":"<unspecified:test_lll_wrong_domain>","over":{"base":"Any"},"name":"test_lll_wrong_domain_correct"},"guarantee":"test_lll_wrong_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_lll.test_lll_wrong_domain_correct","statement":"Path(test_lll_wrong_domain(x), test_lll_wrong_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cae0a3c6c4d5e80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lll_wrong_domain():
     wrong_domain_matrix = DomainMatrix.ones((3, 3), QQ)
     raises(DMDomainError, lambda: _ddm_lll(wrong_domain_matrix.rep))

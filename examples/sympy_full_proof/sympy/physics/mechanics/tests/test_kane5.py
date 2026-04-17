@@ -22,16 +22,22 @@ from sympy.physics.mechanics import (dynamicsymbols, cross, inertia, RigidBody,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_rolling_disc(), internal helper behaves correctly) over Any ║
+# ║ Path(_create_rolling_disc(), {'frame': ground.frame, 'q_ind': [q1, q2, q3, q4, q5], 'u_ind': [u1, u2, u3], 'u_dep': [u4, u5], 'kdes': kdes, 'fnh': fnh, 'bodies': bodies, 'loads': loads}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {'frame': ground.frame, 'q_ind': [q1, q2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_rolling_disc : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 559c740c8299bb89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31273d47f76330e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5._create_rolling_disc","kind":"function","src_hash":"075728c4112d6c63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_rolling_disc()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_rolling_disc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5._create_rolling_disc_correct","statement":"Path(_create_rolling_disc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"559c740c8299bb89"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5._create_rolling_disc","kind":"function","src_hash":"075728c4112d6c63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_rolling_disc()","rhs":"{'frame': ground.frame, 'q_ind': [q1, q2, q3, q4, q5], 'u_ind': [u1, u2, u3], 'u_dep': [u4, u5], 'kdes': kdes, 'fnh': fnh, 'bodies': bodies, 'loads': loads}","over":{"base":"Any"},"name":"_create_rolling_disc_correct"},"guarantee":"returns {'frame': ground.frame, 'q_ind': [q1, q2, q3, q4, q5], 'u_ind': [u1, u2, u3], 'u_dep': [u4, u5], 'kdes': kdes, 'fnh': fnh, 'bodies': bodies, 'loads': loads}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5._create_rolling_disc_correct","statement":"Path(_create_rolling_disc(x), returns {'frame': ground.frame, 'q_ind': [q1, q2, q3, q4, q5], 'u_ind': [u1, u2, u3], 'u_dep': [u4, u5], 'kdes': kdes, 'fnh': fnh, 'bodies': bodies, 'loads': loads})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31273d47f76330e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{'frame': ground.frame, 'q_ind': [q1, q2, q3, q4, q5], 'u_ind': [u1, u2, u3], 'u_dep': [u4, u5], 'kdes': kdes, 'fnh': fnh, 'bodies': bodies, 'loads': loads}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _create_rolling_disc():
     # Define symbols and coordinates
     t = dynamicsymbols._t
@@ -81,16 +87,25 @@ def _create_rolling_disc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify_rolling_disc_numerically(kan), internal helper behaves correctly) over Any ║
+# ║ Path(_verify_rolling_disc_numerically(kane, all_zero), all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected))) over {Any | hasattr(kane, 'mass_matrix_full') and hasattr(kane, 'forcing_full') and hasattr(kane, '_Ars')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify_rolling_disc_numerically : Any → {Any | all((...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(kane, 'mass_matrix_full')              ║
+# ║   requires: hasattr(kane, 'forcing_full')                  ║
+# ║   requires: hasattr(kane, '_Ars')                          ║
+# ║   ensures:  all((abs(x) < eps for x in solve_sys(q_va...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify_rolling_disc_numerically : {Any | hasattr(kan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8904e1c057425660  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c105edbc3bcc5df9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5._verify_rolling_disc_numerically","kind":"function","src_hash":"a88327979afbde3f","in":{"base":"Any"},"out":{"base":"Any","pred":"all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected)) and all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected)) and solve_sys(q_vals, u_vals, p_vals) == zeros(10, 1)"},"spec":{"lhs":"_verify_rolling_disc_numerically(kan)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_rolling_disc_numerically_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5._verify_rolling_disc_numerically_correct","statement":"Path(_verify_rolling_disc_numerically(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8904e1c057425660"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5._verify_rolling_disc_numerically","kind":"function","src_hash":"a88327979afbde3f","in":{"base":"Any","pred":"hasattr(kane, 'mass_matrix_full') and hasattr(kane, 'forcing_full') and hasattr(kane, '_Ars')"},"out":{"base":"Any","pred":"result satisfies: all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected))"},"spec":{"lhs":"_verify_rolling_disc_numerically(kane, all_zero)","rhs":"all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected))","over":{"base":"Any","pred":"hasattr(kane, 'mass_matrix_full') and hasattr(kane, 'forcing_full') and hasattr(kane, '_Ars')"},"name":"_verify_rolling_disc_numerically_correct"},"guarantee":"all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5._verify_rolling_disc_numerically_correct","statement":"Path(_verify_rolling_disc_numerically(x), all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c105edbc3bcc5df9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(kane, 'mass_matrix_full')","hasattr(kane, 'forcing_full')","hasattr(kane, '_Ars')"],"ensures":["all((abs(x) < eps for x in solve_sys(q_vals, u_vals, p_vals) - expected))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _verify_rolling_disc_numerically(kane, all_zero=False):
     q, u, p = dynamicsymbols('q1:6'), dynamicsymbols('u1:6'), symbols('g r m')
     eval_sys = lambdify((q, u, p), (kane.mass_matrix_full, kane.forcing_full),
@@ -129,16 +144,22 @@ def _verify_rolling_disc_numerically(kane, all_zero=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kane_rolling_disc_lu(), test_kane_rolling_disc_lu produces the expected output) over Any ║
+# ║ Path(test_kane_rolling_disc_lu(), <unspecified:test_kane_rolling_disc_lu>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_kane_rolling_disc_lu : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20d7f6e629ce2951  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_lu","kind":"function","src_hash":"494b54e4bd2cc29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kane_rolling_disc_lu()","rhs":"test_kane_rolling_disc_lu produces the expected output","over":{"base":"Any"},"name":"test_kane_rolling_disc_lu_correct"},"guarantee":"test_kane_rolling_disc_lu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_lu_correct","statement":"Path(test_kane_rolling_disc_lu(x), test_kane_rolling_disc_lu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d7f6e629ce2951"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_lu","kind":"function","src_hash":"494b54e4bd2cc29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kane_rolling_disc_lu()","rhs":"<unspecified:test_kane_rolling_disc_lu>","over":{"base":"Any"},"name":"test_kane_rolling_disc_lu_correct"},"guarantee":"test_kane_rolling_disc_lu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_lu_correct","statement":"Path(test_kane_rolling_disc_lu(x), test_kane_rolling_disc_lu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d7f6e629ce2951","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_kane_rolling_disc_lu():
     props = _create_rolling_disc()
     kane = KanesMethod(props['frame'], props['q_ind'], props['u_ind'],
@@ -151,16 +172,23 @@ def test_kane_rolling_disc_lu():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kane_rolling_disc_kdes_callable(), test_kane_rolling_disc_kdes_callable produces the expected output) over Any ║
+# ║ Path(test_kane_rolling_disc_kdes_callable(), all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(zero_vals, zero_vals, zero_vals, p_vals))) and all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(q_vals, qd_vals, u_vals, p_vals)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kane_rolling_disc_kdes_callable : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((abs(qdi - fui) < eps for qdi, fui in...   ║
+# ║   ensures:  all((abs(qdi - fui) < eps for qdi, fui in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kane_rolling_disc_kdes_callable : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0f9cd02ee5ecfce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1048e5117ee4f82c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_kdes_callable","kind":"function","src_hash":"1523e4762846e9b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kane_rolling_disc_kdes_callable()","rhs":"test_kane_rolling_disc_kdes_callable produces the expected output","over":{"base":"Any"},"name":"test_kane_rolling_disc_kdes_callable_correct"},"guarantee":"test_kane_rolling_disc_kdes_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_kdes_callable_correct","statement":"Path(test_kane_rolling_disc_kdes_callable(x), test_kane_rolling_disc_kdes_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0f9cd02ee5ecfce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_kdes_callable","kind":"function","src_hash":"1523e4762846e9b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(zero_vals, zero_vals, zero_vals, p_vals))) and all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(q_vals, qd_vals, u_vals, p_vals)))"},"spec":{"lhs":"test_kane_rolling_disc_kdes_callable()","rhs":"all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(zero_vals, zero_vals, zero_vals, p_vals))) and all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(q_vals, qd_vals, u_vals, p_vals)))","over":{"base":"Any"},"name":"test_kane_rolling_disc_kdes_callable_correct"},"guarantee":"all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(zero_vals, zero_vals, zero_vals, p_vals))); all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(q_vals, qd_vals, u_vals, p_vals)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane5.test_kane_rolling_disc_kdes_callable_correct","statement":"Path(test_kane_rolling_disc_kdes_callable(x), all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(zero_vals, zero_vals, zero_vals, p_vals))); all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(q_vals, qd_vals, u_vals, p_vals))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1048e5117ee4f82c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(zero_vals, zero_vals, zero_vals, p_vals)))","all((abs(qdi - fui) < eps for qdi, fui in eval_kdes(q_vals, qd_vals, u_vals, p_vals)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_kane_rolling_disc_kdes_callable():
     props = _create_rolling_disc()
     kane = KanesMethod(

@@ -23,7 +23,10 @@ import math
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_valid(x), check if a floating point number is valid) over {Any | isinstance(x, complex)} ║
+# ║ Path(is_valid(x), <unspecified:is_valid>) over {Any | isinstance(x, complex)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_valid : {Any | isinstance(x, complex)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -35,9 +38,12 @@ import math
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2fb9c7cc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.is_valid","kind":"function","src_hash":"2c0f5abe26bf386a","in":{"base":"Any","pred":"isinstance(x, complex)"},"out":{"base":"Any"},"spec":{"lhs":"is_valid(x)","rhs":"check if a floating point number is valid","over":{"base":"Any","pred":"isinstance(x, complex)"},"name":"is_valid_correct"},"guarantee":"check if a floating point number is valid","fibers":[{"name":"complex","pred":"isinstance(x, complex)","path":{"lhs":"is_valid(x)","rhs":"check if a floating point number is valid","over":{"base":"complex","pred":"isinstance(x, complex)"},"name":"is_valid_complex_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.is_valid_complex_correct","statement":"is_valid satisfies spec on complex inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2fb9c7cc3303f454"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.is_valid","kind":"function","src_hash":"2c0f5abe26bf386a","in":{"base":"Any","pred":"isinstance(x, complex)"},"out":{"base":"Any"},"spec":{"lhs":"is_valid(x)","rhs":"<unspecified:is_valid>","over":{"base":"Any","pred":"isinstance(x, complex)"},"name":"is_valid_correct"},"guarantee":"check if a floating point number is valid","fibers":[{"name":"complex","pred":"isinstance(x, complex)","path":{"lhs":"is_valid(x)","rhs":"check if a floating point number is valid","over":{"base":"complex","pred":"isinstance(x, complex)"},"name":"is_valid_complex_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.is_valid_complex_correct","statement":"is_valid satisfies spec on complex inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2fb9c7cc3303f454","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, complex)', 'x is None'}, fibers={'complex'})"]}}
 def is_valid(x):
     """Check if a floating point number is valid"""
     if x is None:
@@ -48,16 +54,22 @@ def is_valid(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rescale(y, ), rescale the given array `y` to fit into the integer values between `0` and `h-1` for the values between ``mi`` and ``ma``) over Any ║
+# ║ Path(rescale(y, W, H), <unspecified:rescale>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rescale : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 308707d31a841e5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.rescale","kind":"function","src_hash":"c6b3f33bfa9c1761","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rescale(y, )","rhs":"rescale the given array `y` to fit into the integer values between `0` and `h-1` for the values between ``mi`` and ``ma``","over":{"base":"Any"},"name":"rescale_correct"},"guarantee":"rescale the given array `y` to fit into the integer values between `0` and `h-1` for the values between ``mi`` and ``ma``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.rescale_correct","statement":"Path(rescale(x), rescale the given array `y` to fit into the integer values between `0` and `h-1` for the values between ``mi`` and ``ma``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"308707d31a841e5b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.rescale","kind":"function","src_hash":"c6b3f33bfa9c1761","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rescale(y, W, H)","rhs":"<unspecified:rescale>","over":{"base":"Any"},"name":"rescale_correct"},"guarantee":"rescale the given array `y` to fit into the integer values between `0` and `h-1` for the values between ``mi`` and ``ma``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.rescale_correct","statement":"Path(rescale(x), rescale the given array `y` to fit into the integer values between `0` and `h-1` for the values between ``mi`` and ``ma``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"308707d31a841e5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rescale(y, W, H, mi, ma):
     """Rescale the given array `y` to fit into the integer values
     between `0` and `H-1` for the values between ``mi`` and ``ma``.
@@ -82,24 +94,37 @@ def rescale(y, W, H, mi, ma):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linspace(sta), linspace produces the expected output) over Any ║
+# ║ Path(linspace(start, stop, num), [start + (stop - start) * x / (num - 1) for x in range(num)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [start + (stop - start) * x / (num - 1) f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linspace : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62a45d6242729e99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.linspace","kind":"function","src_hash":"6422aa9391c3ea53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linspace(sta)","rhs":"linspace produces the expected output","over":{"base":"Any"},"name":"linspace_correct"},"guarantee":"linspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62a45d6242729e99"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.linspace","kind":"function","src_hash":"6422aa9391c3ea53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linspace(start, stop, num)","rhs":"[start + (stop - start) * x / (num - 1) for x in range(num)]","over":{"base":"Any"},"name":"linspace_correct"},"guarantee":"returns [start + (stop - start) * x / (num - 1) for x in range(num)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62a45d6242729e99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[start + (stop - start) * x / (num - 1) for x in range(num)]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def linspace(start, stop, num):
     return [start + (stop - start) * x / (num-1) for x in range(num)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(textplot_str(exp), generator for the lines of the plot) over {Any | isinstance(a, complex)} ║
+# ║ Path(textplot_str(expr, a, b), len(free) == old_len_free - 1 and len(y) == old_len_y + 1) over {Any | isinstance(a, complex) and not (len(free) > 1) and hasattr(expr, 'free_symbols') and hasattr(a, 'imag') and hasattr(a, 'real') and hasattr(b, 'imag') and hasattr(b, 'real') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ textplot_str : {Any | isinstance(a, complex)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(free) > 1)                            ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(a, 'imag')                             ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ║   ensures:  len(y) == old_len_y + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ textplot_str : {Any | isinstance(a, complex) and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   complex: {isinstance(a, complex)} → library_axiom        ║
@@ -109,9 +134,12 @@ def linspace(start, stop, num):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9415cc84...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.textplot_str","kind":"function","src_hash":"74e4c31ae5d1ff97","in":{"base":"Any","pred":"isinstance(a, complex)"},"out":{"base":"Any"},"spec":{"lhs":"textplot_str(exp)","rhs":"generator for the lines of the plot","over":{"base":"Any","pred":"isinstance(a, complex)"},"name":"textplot_str_correct"},"guarantee":"generator for the lines of the plot","fibers":[{"name":"complex","pred":"isinstance(a, complex)","path":{"lhs":"textplot_str(x)","rhs":"generator for the lines of the plot","over":{"base":"complex","pred":"isinstance(a, complex)"},"name":"textplot_str_complex_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.textplot_str_complex_correct","statement":"textplot_str satisfies spec on complex inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9415cc849bc40bea"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.textplot_str","kind":"function","src_hash":"74e4c31ae5d1ff97","in":{"base":"Any","pred":"isinstance(a, complex) and not (len(free) > 1) and hasattr(expr, 'free_symbols') and hasattr(a, 'imag') and hasattr(a, 'real') and hasattr(b, 'imag') and hasattr(b, 'real') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1 and len(y) == old_len_y + 1"},"spec":{"lhs":"textplot_str(expr, a, b)","rhs":"len(free) == old_len_free - 1 and len(y) == old_len_y + 1","over":{"base":"Any","pred":"isinstance(a, complex) and not (len(free) > 1) and hasattr(expr, 'free_symbols') and hasattr(a, 'imag') and hasattr(a, 'real') and hasattr(b, 'imag') and hasattr(b, 'real') and len(free) > 0"},"name":"textplot_str_correct"},"guarantee":"len(free) == old_len_free - 1; len(y) == old_len_y + 1","fibers":[{"name":"complex","pred":"isinstance(a, complex)","path":{"lhs":"textplot_str(x)","rhs":"len(free) == old_len_free - 1; len(y) == old_len_y + 1","over":{"base":"complex","pred":"isinstance(a, complex)"},"name":"textplot_str_complex_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.textplot_str_complex_correct","statement":"textplot_str satisfies spec on complex inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9415cc849bc40bea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(free) > 1)","hasattr(expr, 'free_symbols')","hasattr(a, 'imag')","hasattr(a, 'real')","hasattr(b, 'imag')","hasattr(b, 'real')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1","len(y) == old_len_y + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.imag","a.real","b.imag","b.real","expr.free_symbols"],"calls_mutating":["free.pop","y.append"],"raises":["ValueError"]},"state_contract":{"modifies":["free.*","y.*"],"old_bindings":{"old_len_free":"len(free)","old_len_y":"len(y)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1","len(y) == old_len_y + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(free) > 1', 'y[i] == h', '(i == 0 or y[i - 1] == h + 1) and (i == W - 1 or y[i + 1] == h - 1)', 'b.imag == 0', 'W % 2 == 1', 'a.imag == 0', 'h == 0', 'isinstance(b, complex)', 'isinstance(a, complex)', '(i == 0 or y[i - 1] == h - 1) and (i == W - 1 or y[i + 1] == h + 1)', 'ma == mi', 'h == H // 2'}, fibers={'complex'})"]}}
 def textplot_str(expr, a, b, W=55, H=21):
     """Generator for the lines of the plot"""
     free = expr.free_symbols
@@ -200,16 +228,22 @@ def textplot_str(expr, a, b, W=55, H=21):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(textplot(exp), print a crude ascii art plot of the sympy expression 'expr' (which should contain a single symbol, e.g) over Any ║
+# ║ Path(textplot(expr, a, b), <unspecified:textplot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ textplot : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5600b85d8c63b59c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.textplot","kind":"function","src_hash":"1e35642b80019984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"textplot(exp)","rhs":"print a crude ascii art plot of the sympy expression 'expr' (which should contain a single symbol, e.g","over":{"base":"Any"},"name":"textplot_correct"},"guarantee":"print a crude ascii art plot of the sympy expression 'expr' (which should contain a single symbol, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.textplot_correct","statement":"Path(textplot(x), print a crude ascii art plot of the sympy expression 'expr' (which should contain a single symbol, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5600b85d8c63b59c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.textplot.textplot","kind":"function","src_hash":"1e35642b80019984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"textplot(expr, a, b)","rhs":"<unspecified:textplot>","over":{"base":"Any"},"name":"textplot_correct"},"guarantee":"print a crude ascii art plot of the sympy expression 'expr' (which should contain a single symbol, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.textplot.textplot_correct","statement":"Path(textplot(x), print a crude ascii art plot of the sympy expression 'expr' (which should contain a single symbol, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5600b85d8c63b59c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def textplot(expr, a, b, W=55, H=21):
     r"""
     Print a crude ASCII art plot of the SymPy expression 'expr' (which

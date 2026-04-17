@@ -28,7 +28,10 @@ from sympy.printing.latex import latex
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_str_or_latex(lab), internal helper behaves correctly) over {Any | isinstance(label, Basic)} ║
+# ║ Path(_str_or_latex(label), <unspecified:_str_or_latex>) over {Any | isinstance(label, Basic)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _str_or_latex : {Any | isinstance(label, Basic)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -40,9 +43,12 @@ from sympy.printing.latex import latex
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f0478409...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib._str_or_latex","kind":"function","src_hash":"89680b92dc13229c","in":{"base":"Any","pred":"isinstance(label, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"_str_or_latex(lab)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(label, Basic)"},"name":"_str_or_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Basic","pred":"isinstance(label, Basic)","path":{"lhs":"_str_or_latex(x)","rhs":"internal helper behaves correctly","over":{"base":"Basic","pred":"isinstance(label, Basic)"},"name":"_str_or_latex_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib._str_or_latex_Basic_correct","statement":"_str_or_latex satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f04784098695a16d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib._str_or_latex","kind":"function","src_hash":"89680b92dc13229c","in":{"base":"Any","pred":"isinstance(label, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"_str_or_latex(label)","rhs":"<unspecified:_str_or_latex>","over":{"base":"Any","pred":"isinstance(label, Basic)"},"name":"_str_or_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Basic","pred":"isinstance(label, Basic)","path":{"lhs":"_str_or_latex(x)","rhs":"internal helper behaves correctly","over":{"base":"Basic","pred":"isinstance(label, Basic)"},"name":"_str_or_latex_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib._str_or_latex_Basic_correct","statement":"_str_or_latex satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f04784098695a16d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(label, Basic)'}, fibers={'Basic'})"]}}
 def _str_or_latex(label):
     if isinstance(label, Basic):
         return latex(label, mode='inline')
@@ -50,16 +56,22 @@ def _str_or_latex(label):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matplotlib_list(int), returns lists for matplotlib ``fill`` command from a list of bounding rectangular intervals) over Any ║
+# ║ Path(_matplotlib_list(interval_list), (xlist, ylist)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xlist, ylist)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matplotlib_list : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51dd91701e79db86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b92c00d39b9cd35d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib._matplotlib_list","kind":"function","src_hash":"a484d425122185ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matplotlib_list(int)","rhs":"returns lists for matplotlib ``fill`` command from a list of bounding rectangular intervals","over":{"base":"Any"},"name":"_matplotlib_list_correct"},"guarantee":"returns lists for matplotlib ``fill`` command from a list of bounding rectangular intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib._matplotlib_list_correct","statement":"Path(_matplotlib_list(x), returns lists for matplotlib ``fill`` command from a list of bounding rectangular intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51dd91701e79db86"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib._matplotlib_list","kind":"function","src_hash":"a484d425122185ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matplotlib_list(interval_list)","rhs":"(xlist, ylist)","over":{"base":"Any"},"name":"_matplotlib_list_correct"},"guarantee":"returns (xlist, ylist)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib._matplotlib_list_correct","statement":"Path(_matplotlib_list(x), returns (xlist, ylist))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b92c00d39b9cd35d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xlist, ylist)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _matplotlib_list(interval_list):
     """
     Returns lists for matplotlib ``fill`` command from a list of bounding
@@ -87,30 +99,42 @@ def _matplotlib_list(interval_list):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MatplotlibBackend instance) preserved by MatplotlibBackend(*args) over {Any | isinstance(ax, Axes3D) and isinstance(s.line_color, (int, float)) and isinstance(s.surface_color, (float, int, Callable))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, base_backend.Plot)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatplotlibBackend : {Any | isinstance(ax, Axes3D) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14bbc44dd78376c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend","kind":"class","src_hash":"c215183cbaef9785","in":{"base":"Any","pred":"isinstance(ax, Axes3D) and isinstance(s.line_color, (int, float)) and isinstance(s.surface_color, (float, int, Callable))"},"out":{"base":"Any"},"spec":{"lhs":"MatplotlibBackend(*args)","rhs":"correctly constructs a MatplotlibBackend instance","over":{"base":"Any","pred":"isinstance(ax, Axes3D) and isinstance(s.line_color, (int, float)) and isinstance(s.surface_color, (float, int, Callable))"},"name":"MatplotlibBackend_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MatplotlibBackend instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'matplotlib') and hasattr(self, 'plt') and hasattr(self, 'cm') and hasattr(self, 'LineCollection') and hasattr(self, 'aspect') and hasattr(self, 'aspect') and hasattr(self, '_plotgrid_fig') and hasattr(self, '_plotgrid_ax')","kind":"class","induction":"structural on matplotlib, plt, cm, LineCollection"}],"methods_preserving":["__init__","_create_figure","_process_series","process_series","show","save","close"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14bbc44dd78376c1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend","kind":"class","src_hash":"c215183cbaef9785","in":{"base":"Any","pred":"isinstance(ax, Axes3D) and isinstance(s.line_color, (int, float)) and isinstance(s.surface_color, (float, int, Callable))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, base_backend.Plot)"},"spec":{"lhs":"MatplotlibBackend(*args)","rhs":"correctly constructs a MatplotlibBackend instance","over":{"base":"Any","pred":"isinstance(ax, Axes3D) and isinstance(s.line_color, (int, float)) and isinstance(s.surface_color, (float, int, Callable))"},"name":"MatplotlibBackend_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, base_backend.Plot); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'matplotlib') and hasattr(self, 'plt') and hasattr(self, 'cm') and hasattr(self, 'LineCollection') and hasattr(self, 'aspect') and hasattr(self, 'aspect') and hasattr(self, '_plotgrid_fig') and hasattr(self, '_plotgrid_ax')","kind":"class","induction":"structural on matplotlib, plt, cm, LineCollection"}],"methods_preserving":["__init__","_create_figure","_process_series","process_series","show","save","close"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14bbc44dd78376c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, base_backend.Plot)"],"invariants":["hasattr(self, 'matplotlib')","hasattr(self, 'plt')","hasattr(self, 'cm')","hasattr(self, 'LineCollection')","hasattr(self, 'aspect')","hasattr(self, '_plotgrid_fig')","hasattr(self, '_plotgrid_ax')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatplotlibBackend not found in source"]}}
 class MatplotlibBackend(base_backend.Plot):
     """ This class implements the functionalities to use Matplotlib with SymPy
     plotting functions.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*se), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*series, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbf666827018d574           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.__init__","kind":"method","src_hash":"edd4fac1588e0dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*se)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbf666827018d574"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.__init__","kind":"method","src_hash":"edd4fac1588e0dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*series, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbf666827018d574","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *series, **kwargs):
         super().__init__(*series, **kwargs)
         self.matplotlib = import_module('matplotlib',
@@ -128,16 +152,22 @@ class MatplotlibBackend(base_backend.Plot):
         self._plotgrid_ax = kwargs.pop("ax", None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_figure(), internal helper behaves correctly) over Any ║
+# ║ Path(_create_figure(), <unspecified:_create_figure>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_figure : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 609d58575acf92d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._create_figure","kind":"method","src_hash":"5b615cefaf53a0ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_figure()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_figure_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._create_figure_correct","statement":"Path(_create_figure(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"609d58575acf92d3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._create_figure","kind":"method","src_hash":"5b615cefaf53a0ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_figure()","rhs":"<unspecified:_create_figure>","over":{"base":"Any"},"name":"_create_figure_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._create_figure_correct","statement":"Path(_create_figure(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"609d58575acf92d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._plotgrid_ax","self._plotgrid_fig","self._series","self.ax","self.fig","self.plt","self.size"],"writes":["self.ax","self.fig"]},"state_contract":{"modifies":["self.ax","self.fig"],"old_bindings":{"old_self_ax":"self.ax","old_self_fig":"self.fig"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_figure(self):
         def set_spines(ax):
             ax.spines['left'].set_position('zero')
@@ -162,16 +192,22 @@ class MatplotlibBackend(base_backend.Plot):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_segments(x, ), convert two list of coordinates to a list of segments to be used with matplotlib's :external:class:`~matplotlib.collections.linecollection`) over Any ║
+# ║ Path(get_segments(x, y, z), np.ma.concatenate([points[:-1], points[1:]], axis=1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  np.ma.concatenate([points[:-1], points[1:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_segments : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e174b343f107d8bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b6110d39cee3b79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.get_segments","kind":"staticmethod","src_hash":"de57abb4ed4f91d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_segments(x, )","rhs":"convert two list of coordinates to a list of segments to be used with matplotlib's :external:class:`~matplotlib.collections.linecollection`","over":{"base":"Any"},"name":"get_segments_correct"},"guarantee":"convert two list of coordinates to a list of segments to be used with matplotlib's :external:class:`~matplotlib.collections.linecollection`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.get_segments_correct","statement":"Path(get_segments(x), convert two list of coordinates to a list of segments to be used with matplotlib's :external:class:`~matplotlib.collections.linecollection`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e174b343f107d8bd"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.get_segments","kind":"staticmethod","src_hash":"de57abb4ed4f91d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_segments(x, y, z)","rhs":"np.ma.concatenate([points[:-1], points[1:]], axis=1)","over":{"base":"Any"},"name":"get_segments_correct"},"guarantee":"returns np.ma.concatenate([points[:-1], points[1:]], axis=1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.get_segments_correct","statement":"Path(get_segments(x), returns np.ma.concatenate([points[:-1], points[1:]], axis=1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b6110d39cee3b79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"np.ma.concatenate([points[:-1], points[1:]], axis=1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_segments(x, y, z=None):
         """ Convert two list of coordinates to a list of segments to be used
         with Matplotlib's :external:class:`~matplotlib.collections.LineCollection`.
@@ -198,16 +234,27 @@ class MatplotlibBackend(base_backend.Plot):
         return np.ma.concatenate([points[:-1], points[1:]], axis=1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_series(ser), internal helper behaves correctly) over Any ║
+# ║ Path(_process_series(series, ax), len(xlims) == old_len_xlims + 1 and len(ylims) == old_len_ylims + 1 and len(zlims) == old_len_zlims + 1) over {Any | hasattr(ax, 'autoscale_view') and hasattr(ax, 'set_xscale') and hasattr(ax, 'set_yscale') and hasattr(ax, 'set_autoscale_on') and hasattr(ax, 'set_axis_off') and hasattr(ax, 'legend') and hasattr(ax, 'set_xmargin') and hasattr(ax, 'set_ymargin') and hasattr(ax, 'set_title') and hasattr(ax, 'set_xlabel') and hasattr(ax, 'set_ylabel') and hasattr(ax, 'set_zlabel') and hasattr(ax, 'set_xlim') and hasattr(ax, 'set_ylim') and hasattr(ax, 'set_zlim') and hasattr(ax, 'add_collection') and hasattr(ax, 'plot') and hasattr(ax, 'contour') and hasattr(ax, 'get_autoscalex_on') and hasattr(ax, 'get_autoscaley_on') and hasattr(ax, 'legend_') and hasattr(ax, 'get_xlim') and hasattr(ax, 'get_ylim') and hasattr(ax, 'plot_surface') and hasattr(ax, 'spines') and hasattr(ax, 'fill') and hasattr(ax, 'contourf') and hasattr(ax, 'annotate') and hasattr(ax, 'fill_between') and hasattr(ax, 'add_patch')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _process_series : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ax, 'autoscale_view')                  ║
+# ║   requires: hasattr(ax, 'set_xscale')                      ║
+# ║   requires: hasattr(ax, 'set_yscale')                      ║
+# ║   ensures:  len(xlims) == old_len_xlims + 1                ║
+# ║   ensures:  len(ylims) == old_len_ylims + 1                ║
+# ║   ensures:  len(zlims) == old_len_zlims + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _process_series : {Any | hasattr(ax, 'autoscale_view'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3292f8086e067cb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62c78191fffc3547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._process_series","kind":"method","src_hash":"491947340a39482c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_series(ser)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_process_series_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._process_series_correct","statement":"Path(_process_series(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3292f8086e067cb1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._process_series","kind":"method","src_hash":"491947340a39482c","in":{"base":"Any","pred":"hasattr(ax, 'autoscale_view') and hasattr(ax, 'set_xscale') and hasattr(ax, 'set_yscale') and hasattr(ax, 'set_autoscale_on') and hasattr(ax, 'set_axis_off') and hasattr(ax, 'legend') and hasattr(ax, 'set_xmargin') and hasattr(ax, 'set_ymargin') and hasattr(ax, 'set_title') and hasattr(ax, 'set_xlabel') and hasattr(ax, 'set_ylabel') and hasattr(ax, 'set_zlabel') and hasattr(ax, 'set_xlim') and hasattr(ax, 'set_ylim') and hasattr(ax, 'set_zlim') and hasattr(ax, 'add_collection') and hasattr(ax, 'plot') and hasattr(ax, 'contour') and hasattr(ax, 'get_autoscalex_on') and hasattr(ax, 'get_autoscaley_on') and hasattr(ax, 'legend_') and hasattr(ax, 'get_xlim') and hasattr(ax, 'get_ylim') and hasattr(ax, 'plot_surface') and hasattr(ax, 'spines') and hasattr(ax, 'fill') and hasattr(ax, 'contourf') and hasattr(ax, 'annotate') and hasattr(ax, 'fill_between') and hasattr(ax, 'add_patch')"},"out":{"base":"Any","pred":"result satisfies: len(xlims) == old_len_xlims + 1 and len(ylims) == old_len_ylims + 1 and len(zlims) == old_len_zlims + 1"},"spec":{"lhs":"_process_series(series, ax)","rhs":"len(xlims) == old_len_xlims + 1 and len(ylims) == old_len_ylims + 1 and len(zlims) == old_len_zlims + 1","over":{"base":"Any","pred":"hasattr(ax, 'autoscale_view') and hasattr(ax, 'set_xscale') and hasattr(ax, 'set_yscale') and hasattr(ax, 'set_autoscale_on') and hasattr(ax, 'set_axis_off') and hasattr(ax, 'legend') and hasattr(ax, 'set_xmargin') and hasattr(ax, 'set_ymargin') and hasattr(ax, 'set_title') and hasattr(ax, 'set_xlabel') and hasattr(ax, 'set_ylabel') and hasattr(ax, 'set_zlabel') and hasattr(ax, 'set_xlim') and hasattr(ax, 'set_ylim') and hasattr(ax, 'set_zlim') and hasattr(ax, 'add_collection') and hasattr(ax, 'plot') and hasattr(ax, 'contour') and hasattr(ax, 'get_autoscalex_on') and hasattr(ax, 'get_autoscaley_on') and hasattr(ax, 'legend_') and hasattr(ax, 'get_xlim') and hasattr(ax, 'get_ylim') and hasattr(ax, 'plot_surface') and hasattr(ax, 'spines') and hasattr(ax, 'fill') and hasattr(ax, 'contourf') and hasattr(ax, 'annotate') and hasattr(ax, 'fill_between') and hasattr(ax, 'add_patch')"},"name":"_process_series_correct"},"guarantee":"len(xlims) == old_len_xlims + 1; len(ylims) == old_len_ylims + 1; len(zlims) == old_len_zlims + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend._process_series_correct","statement":"Path(_process_series(x), len(xlims) == old_len_xlims + 1; len(ylims) == old_len_ylims + 1; len(zlims) == old_len_zlims + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62c78191fffc3547","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ax, 'autoscale_view')","hasattr(ax, 'set_xscale')","hasattr(ax, 'set_yscale')","hasattr(ax, 'set_autoscale_on')","hasattr(ax, 'set_axis_off')","hasattr(ax, 'legend')","hasattr(ax, 'set_xmargin')","hasattr(ax, 'set_ymargin')","hasattr(ax, 'set_title')","hasattr(ax, 'set_xlabel')","hasattr(ax, 'set_ylabel')","hasattr(ax, 'set_zlabel')","hasattr(ax, 'set_xlim')","hasattr(ax, 'set_ylim')","hasattr(ax, 'set_zlim')","hasattr(ax, 'add_collection')","hasattr(ax, 'plot')","hasattr(ax, 'contour')","hasattr(ax, 'get_autoscalex_on')","hasattr(ax, 'get_autoscaley_on')","hasattr(ax, 'legend_')","hasattr(ax, 'get_xlim')","hasattr(ax, 'get_ylim')","hasattr(ax, 'plot_surface')","hasattr(ax, 'spines')","hasattr(ax, 'fill')","hasattr(ax, 'contourf')","hasattr(ax, 'annotate')","hasattr(ax, 'fill_between')","hasattr(ax, 'add_patch')"],"ensures":["len(xlims) == old_len_xlims + 1","len(ylims) == old_len_ylims + 1","len(zlims) == old_len_zlims + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ax.add_collection","ax.add_patch","ax.annotate","ax.autoscale_view","ax.contour","ax.contourf","ax.fill","ax.fill_between","ax.get_autoscalex_on","ax.get_autoscaley_on","ax.get_xlim","ax.get_ylim","ax.legend","ax.legend_","ax.plot","ax.plot_surface","ax.set_autoscale_on","ax.set_axis_off","ax.set_title","ax.set_xlabel","ax.set_xlim","ax.set_xmargin","ax.set_xscale","ax.set_ylabel","ax.set_ylim","ax.set_ymargin","ax.set_yscale","ax.set_zlabel","ax.set_zlim","ax.spines","self.LineCollection","self.aspect","self.autoscale","self.ax","self.axis","self.axis_center","self.cm","self.get_segments","self.legend","self.margin","self.matplotlib","self.title","self.xlabel","self.xlim","self.xscale","self.ylabel","self.ylim","self.yscale","self.zlabel"],"calls_mutating":["xlims.append","ylims.append","zlims.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["xlims.*","ylims.*","zlims.*"],"old_bindings":{"old_len_xlims":"len(xlims)","old_len_ylims":"len(ylims)","old_len_zlims":"len(zlims)"},"post_ensures":["len(xlims) == old_len_xlims + 1","len(ylims) == old_len_ylims + 1","len(zlims) == old_len_zlims + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_series(self, series, ax):
         np = import_module('numpy')
         mpl_toolkits = import_module(
@@ -391,16 +438,22 @@ class MatplotlibBackend(base_backend.Plot):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_series(), iterates over every ``plot`` object and further calls _process_series()) over Any ║
+# ║ Path(process_series(), <unspecified:process_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ process_series : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05e659f54c04319a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.process_series","kind":"method","src_hash":"fdab03c53a59e826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_series()","rhs":"iterates over every ``plot`` object and further calls _process_series()","over":{"base":"Any"},"name":"process_series_correct"},"guarantee":"iterates over every ``plot`` object and further calls _process_series()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.process_series_correct","statement":"Path(process_series(x), iterates over every ``plot`` object and further calls _process_series())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05e659f54c04319a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.process_series","kind":"method","src_hash":"fdab03c53a59e826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_series()","rhs":"<unspecified:process_series>","over":{"base":"Any"},"name":"process_series_correct"},"guarantee":"iterates over every ``plot`` object and further calls _process_series()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.process_series_correct","statement":"Path(process_series(x), iterates over every ``plot`` object and further calls _process_series())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05e659f54c04319a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_figure","self._process_series","self._series","self.ax"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def process_series(self):
         """
         Iterates over every ``Plot`` object and further calls
@@ -410,16 +463,22 @@ class MatplotlibBackend(base_backend.Plot):
         self._process_series(self._series, self.ax)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(show(), show produces the expected output) over Any   ║
+# ║ Path(show(), <unspecified:show>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ show : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a96c2588e1e43ef0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.show","kind":"method","src_hash":"edb7425bed04c5af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"show produces the expected output","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.show_correct","statement":"Path(show(x), show produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a96c2588e1e43ef0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.show","kind":"method","src_hash":"edb7425bed04c5af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"<unspecified:show>","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.show_correct","statement":"Path(show(x), show produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a96c2588e1e43ef0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.close","self.fig","self.plt","self.process_series"],"calls_mutating":["self.close"],"io_operations":["self.close"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def show(self):
         self.process_series()
         #TODO after fixing https://github.com/ipython/ipython/issues/1255
@@ -432,30 +491,42 @@ class MatplotlibBackend(base_backend.Plot):
             self.close()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(save(pat), save produces the expected output) over Any ║
+# ║ Path(save(path), <unspecified:save>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ save : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c38152378b6eb33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.save","kind":"method","src_hash":"9baa130d839b3052","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save(pat)","rhs":"save produces the expected output","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.save_correct","statement":"Path(save(x), save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c38152378b6eb33"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.save","kind":"method","src_hash":"9baa130d839b3052","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save(path)","rhs":"<unspecified:save>","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.save_correct","statement":"Path(save(x), save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c38152378b6eb33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fig","self.process_series"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def save(self, path):
         self.process_series()
         self.fig.savefig(path)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(close(), close produces the expected output) over Any ║
+# ║ Path(close(), <unspecified:close>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ close : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5de4dd3b71b04c6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.close","kind":"method","src_hash":"44df49277535e162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"close produces the expected output","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.close_correct","statement":"Path(close(x), close produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de4dd3b71b04c6a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.close","kind":"method","src_hash":"44df49277535e162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"<unspecified:close>","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.backends.matplotlibbackend.matplotlib.MatplotlibBackend.close_correct","statement":"Path(close(x), close produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de4dd3b71b04c6a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.fig","self.plt"],"calls_mutating":["self.plt.close"],"io_operations":["self.plt.close"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def close(self):
         self.plt.close(self.fig)

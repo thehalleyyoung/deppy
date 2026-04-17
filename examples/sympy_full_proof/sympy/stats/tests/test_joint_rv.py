@@ -53,16 +53,24 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Normal(), test_Normal produces the expected output) over Any ║
+# ║ Path(test_Normal(), m == A and density(m)(1, 2) == 1 / (2 * pi) and m.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and density(m)(x, y) == density(p)(x, y) and marginal_distribution(n, 0, 1)(1, 2) == 1 / (2 * pi) and integrate(density(m)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(N)(0, 0) == exp(-((4 * x + y) / (2 * x * y))) / (2 * pi * sqrt(x * y)) and density(X) == MultivariateNormalDistribution(mu, sigma) and eval_a == sqrt(2) / (4 * pi ** Rational(3 / 2)) and eval_b == sqrt(2) / (4 * pi ** Rational(3 / 2)) and density_X_at_obs == expected_density) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Normal : Any → {Any | m == A and density(m)(1, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m == A                                         ║
+# ║   ensures:  density(m)(1, 2) == 1 / (2 * pi)               ║
+# ║   ensures:  m.pspace.distribution.set == ProductSet(S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Normal : Any → {Any | result satisfies: m == A a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b12d01b006406c93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82d8fceba697fe25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_Normal","kind":"function","src_hash":"1bf0b3e7b6c66e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"m == A and density(m)(1, 2) == 1 / (2 * pi) and m.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and density(m)(x, y) == density(p)(x, y) and marginal_distribution(n, 0, 1)(1, 2) == 1 / (2 * pi) and integrate(density(m)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(N)(0, 0) == exp(-((4 * x + y) / (2 * x * y))) / (2 * pi * sqrt(x * y)) and density(X) == MultivariateNormalDistribution(mu, sigma) and eval_a == sqrt(2) / (4 * pi ** Rational(3 / 2)) and eval_b == sqrt(2) / (4 * pi ** Rational(3 / 2)) and density_X_at_obs == expected_density"},"spec":{"lhs":"test_Normal()","rhs":"test_Normal produces the expected output","over":{"base":"Any"},"name":"test_Normal_correct"},"guarantee":"test_Normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_Normal_correct","statement":"Path(test_Normal(x), test_Normal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12d01b006406c93"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_Normal","kind":"function","src_hash":"1bf0b3e7b6c66e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m == A and density(m)(1, 2) == 1 / (2 * pi) and m.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and density(m)(x, y) == density(p)(x, y) and marginal_distribution(n, 0, 1)(1, 2) == 1 / (2 * pi) and integrate(density(m)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(N)(0, 0) == exp(-((4 * x + y) / (2 * x * y))) / (2 * pi * sqrt(x * y)) and density(X) == MultivariateNormalDistribution(mu, sigma) and eval_a == sqrt(2) / (4 * pi ** Rational(3 / 2)) and eval_b == sqrt(2) / (4 * pi ** Rational(3 / 2)) and density_X_at_obs == expected_density"},"spec":{"lhs":"test_Normal()","rhs":"m == A and density(m)(1, 2) == 1 / (2 * pi) and m.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and density(m)(x, y) == density(p)(x, y) and marginal_distribution(n, 0, 1)(1, 2) == 1 / (2 * pi) and integrate(density(m)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(N)(0, 0) == exp(-((4 * x + y) / (2 * x * y))) / (2 * pi * sqrt(x * y)) and density(X) == MultivariateNormalDistribution(mu, sigma) and eval_a == sqrt(2) / (4 * pi ** Rational(3 / 2)) and eval_b == sqrt(2) / (4 * pi ** Rational(3 / 2)) and density_X_at_obs == expected_density","over":{"base":"Any"},"name":"test_Normal_correct"},"guarantee":"m == A; density(m)(1, 2) == 1 / (2 * pi); m.pspace.distribution.set == ProductSet(S.Reals, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_Normal_correct","statement":"Path(test_Normal(x), m == A; density(m)(1, 2) == 1 / (2 * pi); m.pspace.distribution.set == ProductSet(S.Reals, S.Reals))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82d8fceba697fe25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m == A","density(m)(1, 2) == 1 / (2 * pi)","m.pspace.distribution.set == ProductSet(S.Reals, S.Reals)","density(m)(x, y) == density(p)(x, y)","marginal_distribution(n, 0, 1)(1, 2) == 1 / (2 * pi)","integrate(density(m)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0","density(N)(0, 0) == exp(-((4 * x + y) / (2 * x * y))) / (2 * pi * sqrt(x * y))","density(X) == MultivariateNormalDistribution(mu, sigma)","eval_a == sqrt(2) / (4 * pi ** Rational(3 / 2))","eval_b == sqrt(2) / (4 * pi ** Rational(3 / 2))","density_X_at_obs == expected_density"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_Normal():
     m = Normal('A', [1, 2], [[1, 0], [0, 1]])
     A = MultivariateNormal('A', [1, 2], [[1, 0], [0, 1]])
@@ -125,16 +133,24 @@ def test_Normal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MultivariateTDist(), test_MultivariateTDist produces the expected output) over Any ║
+# ║ Path(test_MultivariateTDist(), density(t1)(1, 1) == 1 / (8 * pi) and t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(t2)(1, 2) == 1 / (2 * pi * sqrt(x * y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MultivariateTDist : Any → {Any | density(t1)(1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(t1)(1, 1) == 1 / (8 * pi)              ║
+# ║   ensures:  t1.pspace.distribution.set == ProductSet(...   ║
+# ║   ensures:  integrate(density(t1)(x, y), (x, -oo, oo)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MultivariateTDist : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80fcf4f6bc47d509  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77c0363f5e388c96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_MultivariateTDist","kind":"function","src_hash":"f83c2b9aa26d13db","in":{"base":"Any"},"out":{"base":"Any","pred":"density(t1)(1, 1) == 1 / (8 * pi) and t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(t2)(1, 2) == 1 / (2 * pi * sqrt(x * y))"},"spec":{"lhs":"test_MultivariateTDist()","rhs":"test_MultivariateTDist produces the expected output","over":{"base":"Any"},"name":"test_MultivariateTDist_correct"},"guarantee":"test_MultivariateTDist produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_MultivariateTDist_correct","statement":"Path(test_MultivariateTDist(x), test_MultivariateTDist produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80fcf4f6bc47d509"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_MultivariateTDist","kind":"function","src_hash":"f83c2b9aa26d13db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(t1)(1, 1) == 1 / (8 * pi) and t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(t2)(1, 2) == 1 / (2 * pi * sqrt(x * y))"},"spec":{"lhs":"test_MultivariateTDist()","rhs":"density(t1)(1, 1) == 1 / (8 * pi) and t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0 and density(t2)(1, 2) == 1 / (2 * pi * sqrt(x * y))","over":{"base":"Any"},"name":"test_MultivariateTDist_correct"},"guarantee":"density(t1)(1, 1) == 1 / (8 * pi); t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals); integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_MultivariateTDist_correct","statement":"Path(test_MultivariateTDist(x), density(t1)(1, 1) == 1 / (8 * pi); t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals); integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77c0363f5e388c96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(t1)(1, 1) == 1 / (8 * pi)","t1.pspace.distribution.set == ProductSet(S.Reals, S.Reals)","integrate(density(t1)(x, y), (x, -oo, oo), (y, -oo, oo)).evalf() == 1.0","density(t2)(1, 2) == 1 / (2 * pi * sqrt(x * y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MultivariateTDist():
     t1 = MultivariateT('T', [0, 0], [[1, 0], [0, 1]], 2)
     assert(density(t1))(1, 1) == 1/(8*pi)
@@ -147,16 +163,24 @@ def test_MultivariateTDist():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivariate_laplace(), test_multivariate_laplace produces the expected output) over Any ║
+# ║ Path(test_multivariate_laplace(), density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi and density(L1)(0, 1) == exp(2 / y) * besselk(0, sqrt((2 + 4 / y + 1 / x) / y)) / (pi * sqrt(x * y)) and L.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and L.pspace.distribution == L2.pspace.distribution) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivariate_laplace : Any → {Any | density(L)(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(L)(2, 3) == exp(2) * besselk(0, s...   ║
+# ║   ensures:  density(L1)(0, 1) == exp(2 / y) * besselk...   ║
+# ║   ensures:  L.pspace.distribution.set == ProductSet(S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivariate_laplace : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41d683e2d0f17963  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c8680c6f66a1e07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_multivariate_laplace","kind":"function","src_hash":"5e8350fbfe345808","in":{"base":"Any"},"out":{"base":"Any","pred":"density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi and L.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and L.pspace.distribution == L2.pspace.distribution"},"spec":{"lhs":"test_multivariate_laplace()","rhs":"test_multivariate_laplace produces the expected output","over":{"base":"Any"},"name":"test_multivariate_laplace_correct"},"guarantee":"test_multivariate_laplace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_multivariate_laplace_correct","statement":"Path(test_multivariate_laplace(x), test_multivariate_laplace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41d683e2d0f17963"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_multivariate_laplace","kind":"function","src_hash":"5e8350fbfe345808","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi and density(L1)(0, 1) == exp(2 / y) * besselk(0, sqrt((2 + 4 / y + 1 / x) / y)) / (pi * sqrt(x * y)) and L.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and L.pspace.distribution == L2.pspace.distribution"},"spec":{"lhs":"test_multivariate_laplace()","rhs":"density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi and density(L1)(0, 1) == exp(2 / y) * besselk(0, sqrt((2 + 4 / y + 1 / x) / y)) / (pi * sqrt(x * y)) and L.pspace.distribution.set == ProductSet(S.Reals, S.Reals) and L.pspace.distribution == L2.pspace.distribution","over":{"base":"Any"},"name":"test_multivariate_laplace_correct"},"guarantee":"density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi; density(L1)(0, 1) == exp(2 / y) * besselk(0, sqrt((2 + 4 / y + 1 / x) / y)) / (pi * sqrt(x * y)); L.pspace.distribution.set == ProductSet(S.Reals, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_multivariate_laplace_correct","statement":"Path(test_multivariate_laplace(x), density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi; density(L1)(0, 1) == exp(2 / y) * besselk(0, sqrt((2 + 4 / y + 1 / x) / y)) / (pi * sqrt(x * y)); L.pspace.distribution.set == ProductSet(S.Reals, S.Reals))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c8680c6f66a1e07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(L)(2, 3) == exp(2) * besselk(0, sqrt(39)) / pi","density(L1)(0, 1) == exp(2 / y) * besselk(0, sqrt((2 + 4 / y + 1 / x) / y)) / (pi * sqrt(x * y))","L.pspace.distribution.set == ProductSet(S.Reals, S.Reals)","L.pspace.distribution == L2.pspace.distribution"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_multivariate_laplace():
     raises(ValueError, lambda: Laplace('T', [1, 2], [[1, 2], [2, 1]]))
     L = Laplace('L', [1, 0], [[1, 0], [0, 1]])
@@ -170,16 +194,24 @@ def test_multivariate_laplace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NormalGamma(), test_NormalGamma produces the expected output) over Any ║
+# ║ Path(test_NormalGamma(), density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi) and ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo)) and marginal_distribution(ng, 0)(1) == 3 * sqrt(10) * gamma(Rational(7, 4)) / (10 * sqrt(pi) * gamma(Rational(5, 4))) and marginal_distribution(ng, y)(1) == exp(Rational(-1, 4)) / 128 and marginal_distribution(ng, [0, 1])(x) == x ** 2 * exp(-x / 4) / 128) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NormalGamma : Any → {Any | density(ng)(1, 1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi)   ║
+# ║   ensures:  ng.pspace.distribution.set == ProductSet(...   ║
+# ║   ensures:  marginal_distribution(ng, 0)(1) == 3 * sq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NormalGamma : Any → {Any | result satisfies: den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edc4666383295004  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdd505ebcdcfff3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_NormalGamma","kind":"function","src_hash":"0e6b2ee3ae831467","in":{"base":"Any"},"out":{"base":"Any","pred":"density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi) and ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo)) and marginal_distribution(ng, y)(1) == exp(Rational(-1, 4)) / 128 and marginal_distribution(ng, [0, 1])(x) == x ** 2 * exp(-x / 4) / 128"},"spec":{"lhs":"test_NormalGamma()","rhs":"test_NormalGamma produces the expected output","over":{"base":"Any"},"name":"test_NormalGamma_correct"},"guarantee":"test_NormalGamma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_NormalGamma_correct","statement":"Path(test_NormalGamma(x), test_NormalGamma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edc4666383295004"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_NormalGamma","kind":"function","src_hash":"0e6b2ee3ae831467","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi) and ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo)) and marginal_distribution(ng, 0)(1) == 3 * sqrt(10) * gamma(Rational(7, 4)) / (10 * sqrt(pi) * gamma(Rational(5, 4))) and marginal_distribution(ng, y)(1) == exp(Rational(-1, 4)) / 128 and marginal_distribution(ng, [0, 1])(x) == x ** 2 * exp(-x / 4) / 128"},"spec":{"lhs":"test_NormalGamma()","rhs":"density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi) and ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo)) and marginal_distribution(ng, 0)(1) == 3 * sqrt(10) * gamma(Rational(7, 4)) / (10 * sqrt(pi) * gamma(Rational(5, 4))) and marginal_distribution(ng, y)(1) == exp(Rational(-1, 4)) / 128 and marginal_distribution(ng, [0, 1])(x) == x ** 2 * exp(-x / 4) / 128","over":{"base":"Any"},"name":"test_NormalGamma_correct"},"guarantee":"density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi); ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo)); marginal_distribution(ng, 0)(1) == 3 * sqrt(10) * gamma(Rational(7, 4)) / (10 * sqrt(pi) * gamma(Rational(5, 4)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_NormalGamma_correct","statement":"Path(test_NormalGamma(x), density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi); ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo)); marginal_distribution(ng, 0)(1) == 3 * sqrt(10) * gamma(Rational(7, 4)) / (10 * sqrt(pi) * gamma(Rational(5, 4))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdd505ebcdcfff3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(ng)(1, 1) == 32 * exp(-4) / sqrt(pi)","ng.pspace.distribution.set == ProductSet(S.Reals, Interval(0, oo))","marginal_distribution(ng, 0)(1) == 3 * sqrt(10) * gamma(Rational(7, 4)) / (10 * sqrt(pi) * gamma(Rational(5, 4)))","marginal_distribution(ng, y)(1) == exp(Rational(-1, 4)) / 128","marginal_distribution(ng, [0, 1])(x) == x ** 2 * exp(-x / 4) / 128"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_NormalGamma():
     ng = NormalGamma('G', 1, 2, 3, 4)
     assert density(ng)(1, 1) == 32*exp(-4)/sqrt(pi)
@@ -192,16 +224,24 @@ def test_NormalGamma():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GeneralizedMultivariateLogGammaDistribution(), test_GeneralizedMultivariateLogGammaDistribution produces the expected output) over Any ║
+# ║ Path(test_GeneralizedMultivariateLogGammaDistribution(), str(density(Gd)(y_1, y_2, y_3, y_4)) == dend and str(density(G)(y_1, y_2, y_3, y_4)) == den and str(marginal_distribution(G, G[0])(y_1)) == marg) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(density(Gd)(y_1, y_2, y_3, y_4)) == dend   ║
+# ║   ensures:  str(density(G)(y_1, y_2, y_3, y_4)) == den     ║
+# ║   ensures:  str(marginal_distribution(G, G[0])(y_1)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_GeneralizedMultivariateLogGammaDistribution : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b334f2be06f68a44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d2514ea599fc318  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_GeneralizedMultivariateLogGammaDistribution","kind":"function","src_hash":"4638a942ac037f43","in":{"base":"Any"},"out":{"base":"Any","pred":"str(density(Gd)(y_1, y_2, y_3, y_4)) == dend and str(density(G)(y_1, y_2, y_3, y_4)) == den and str(marginal_distribution(G, G[0])(y_1)) == marg"},"spec":{"lhs":"test_GeneralizedMultivariateLogGammaDistribution()","rhs":"test_GeneralizedMultivariateLogGammaDistribution produces the expected output","over":{"base":"Any"},"name":"test_GeneralizedMultivariateLogGammaDistribution_correct"},"guarantee":"test_GeneralizedMultivariateLogGammaDistribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_GeneralizedMultivariateLogGammaDistribution_correct","statement":"Path(test_GeneralizedMultivariateLogGammaDistribution(x), test_GeneralizedMultivariateLogGammaDistribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b334f2be06f68a44"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_GeneralizedMultivariateLogGammaDistribution","kind":"function","src_hash":"4638a942ac037f43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(density(Gd)(y_1, y_2, y_3, y_4)) == dend and str(density(G)(y_1, y_2, y_3, y_4)) == den and str(marginal_distribution(G, G[0])(y_1)) == marg"},"spec":{"lhs":"test_GeneralizedMultivariateLogGammaDistribution()","rhs":"str(density(Gd)(y_1, y_2, y_3, y_4)) == dend and str(density(G)(y_1, y_2, y_3, y_4)) == den and str(marginal_distribution(G, G[0])(y_1)) == marg","over":{"base":"Any"},"name":"test_GeneralizedMultivariateLogGammaDistribution_correct"},"guarantee":"str(density(Gd)(y_1, y_2, y_3, y_4)) == dend; str(density(G)(y_1, y_2, y_3, y_4)) == den; str(marginal_distribution(G, G[0])(y_1)) == marg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_GeneralizedMultivariateLogGammaDistribution_correct","statement":"Path(test_GeneralizedMultivariateLogGammaDistribution(x), str(density(Gd)(y_1, y_2, y_3, y_4)) == dend; str(density(G)(y_1, y_2, y_3, y_4)) == den; str(marginal_distribution(G, G[0])(y_1)) == marg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d2514ea599fc318","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(density(Gd)(y_1, y_2, y_3, y_4)) == dend","str(density(G)(y_1, y_2, y_3, y_4)) == den","str(marginal_distribution(G, G[0])(y_1)) == marg"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_GeneralizedMultivariateLogGammaDistribution():
     h = S.Half
     omega = Matrix([[1, h, h, h],
@@ -262,16 +302,24 @@ def test_GeneralizedMultivariateLogGammaDistribution():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MultivariateBeta(), test_MultivariateBeta produces the expected output) over Any ║
+# ║ Path(test_MultivariateBeta(), density(mb)(1, 2) == S(2) ** (a2 - 1) * gamma(a1 + a2) / (gamma(a1) * gamma(a2)) and marginal_distribution(mb_c, 0)(3) == S(3) ** (a1 - 1) * gamma(a1 + a2) / (a2 * gamma(a1) * gamma(a2)) and mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MultivariateBeta : Any → {Any | mb.pspace.distri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(mb)(1, 2) == S(2) ** (a2 - 1) * g...   ║
+# ║   ensures:  marginal_distribution(mb_c, 0)(3) == S(3)...   ║
+# ║   ensures:  mb.pspace.distribution.set == ProductSet(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MultivariateBeta : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eead8dc4aa4abde  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24d1c25c53d11c58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_MultivariateBeta","kind":"function","src_hash":"dec600bae378ecce","in":{"base":"Any"},"out":{"base":"Any","pred":"mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1))"},"spec":{"lhs":"test_MultivariateBeta()","rhs":"test_MultivariateBeta produces the expected output","over":{"base":"Any"},"name":"test_MultivariateBeta_correct"},"guarantee":"test_MultivariateBeta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_MultivariateBeta_correct","statement":"Path(test_MultivariateBeta(x), test_MultivariateBeta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eead8dc4aa4abde"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_MultivariateBeta","kind":"function","src_hash":"dec600bae378ecce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(mb)(1, 2) == S(2) ** (a2 - 1) * gamma(a1 + a2) / (gamma(a1) * gamma(a2)) and marginal_distribution(mb_c, 0)(3) == S(3) ** (a1 - 1) * gamma(a1 + a2) / (a2 * gamma(a1) * gamma(a2)) and mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1))"},"spec":{"lhs":"test_MultivariateBeta()","rhs":"density(mb)(1, 2) == S(2) ** (a2 - 1) * gamma(a1 + a2) / (gamma(a1) * gamma(a2)) and marginal_distribution(mb_c, 0)(3) == S(3) ** (a1 - 1) * gamma(a1 + a2) / (a2 * gamma(a1) * gamma(a2)) and mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1))","over":{"base":"Any"},"name":"test_MultivariateBeta_correct"},"guarantee":"density(mb)(1, 2) == S(2) ** (a2 - 1) * gamma(a1 + a2) / (gamma(a1) * gamma(a2)); marginal_distribution(mb_c, 0)(3) == S(3) ** (a1 - 1) * gamma(a1 + a2) / (a2 * gamma(a1) * gamma(a2)); mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_MultivariateBeta_correct","statement":"Path(test_MultivariateBeta(x), density(mb)(1, 2) == S(2) ** (a2 - 1) * gamma(a1 + a2) / (gamma(a1) * gamma(a2)); marginal_distribution(mb_c, 0)(3) == S(3) ** (a1 - 1) * gamma(a1 + a2) / (a2 * gamma(a1) * gamma(a2)); mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24d1c25c53d11c58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(mb)(1, 2) == S(2) ** (a2 - 1) * gamma(a1 + a2) / (gamma(a1) * gamma(a2))","marginal_distribution(mb_c, 0)(3) == S(3) ** (a1 - 1) * gamma(a1 + a2) / (a2 * gamma(a1) * gamma(a2))","mb.pspace.distribution.set == ProductSet(Interval(0, 1), Interval(0, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_MultivariateBeta():
     a1, a2 = symbols('a1, a2', positive=True)
     a1_f, a2_f = symbols('a1, a2', positive=False, real=True)
@@ -289,16 +337,24 @@ def test_MultivariateBeta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MultivariateEwens(), test_MultivariateEwens produces the expected output) over Any ║
+# ║ Path(test_MultivariateEwens(), density(ed)(a[0], a[1], a[2]) == Piecewise((6 * 2 ** (-a[1]) * 3 ** (-a[2]) * theta ** a[0] * theta ** a[1] * theta ** a[2] / (theta * (theta + 1) * (theta + 2) * factorial(a[0]) * factorial(a[1]) * factorial(a[2])), Eq(a[0] + 2 * a[1] + 3 * a[2], 3)), (0, True)) and marginal_distribution(ed, ed[1])(a[1]) == Piecewise((6 * 2 ** (-a[1]) * theta ** a[1] / ((theta + 1) * (theta + 2) * factorial(a[1])), Eq(2 * a[1] + 1, 3)), (0, True)) and ed.pspace.distribution.set == ProductSet(Range(0, 4, 1), Range(0, 2, 1), Range(0, 2, 1)) and density(eds)(a).dummy_eq(den)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MultivariateEwens : Any → {Any | density(eds)(a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(ed)(a[0], a[1], a[2]) == Piecewis...   ║
+# ║   ensures:  marginal_distribution(ed, ed[1])(a[1]) ==...   ║
+# ║   ensures:  ed.pspace.distribution.set == ProductSet(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MultivariateEwens : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a615044b4fef5593  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff46ea992728ba1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_MultivariateEwens","kind":"function","src_hash":"830100305d5da886","in":{"base":"Any"},"out":{"base":"Any","pred":"density(eds)(a).dummy_eq(den)"},"spec":{"lhs":"test_MultivariateEwens()","rhs":"test_MultivariateEwens produces the expected output","over":{"base":"Any"},"name":"test_MultivariateEwens_correct"},"guarantee":"test_MultivariateEwens produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_MultivariateEwens_correct","statement":"Path(test_MultivariateEwens(x), test_MultivariateEwens produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a615044b4fef5593"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_MultivariateEwens","kind":"function","src_hash":"830100305d5da886","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(ed)(a[0], a[1], a[2]) == Piecewise((6 * 2 ** (-a[1]) * 3 ** (-a[2]) * theta ** a[0] * theta ** a[1] * theta ** a[2] / (theta * (theta + 1) * (theta + 2) * factorial(a[0]) * factorial(a[1]) * factorial(a[2])), Eq(a[0] + 2 * a[1] + 3 * a[2], 3)), (0, True)) and marginal_distribution(ed, ed[1])(a[1]) == Piecewise((6 * 2 ** (-a[1]) * theta ** a[1] / ((theta + 1) * (theta + 2) * factorial(a[1])), Eq(2 * a[1] + 1, 3)), (0, True)) and ed.pspace.distribution.set == ProductSet(Range(0, 4, 1), Range(0, 2, 1), Range(0, 2, 1)) and density(eds)(a).dummy_eq(den)"},"spec":{"lhs":"test_MultivariateEwens()","rhs":"density(ed)(a[0], a[1], a[2]) == Piecewise((6 * 2 ** (-a[1]) * 3 ** (-a[2]) * theta ** a[0] * theta ** a[1] * theta ** a[2] / (theta * (theta + 1) * (theta + 2) * factorial(a[0]) * factorial(a[1]) * factorial(a[2])), Eq(a[0] + 2 * a[1] + 3 * a[2], 3)), (0, True)) and marginal_distribution(ed, ed[1])(a[1]) == Piecewise((6 * 2 ** (-a[1]) * theta ** a[1] / ((theta + 1) * (theta + 2) * factorial(a[1])), Eq(2 * a[1] + 1, 3)), (0, True)) and ed.pspace.distribution.set == ProductSet(Range(0, 4, 1), Range(0, 2, 1), Range(0, 2, 1)) and density(eds)(a).dummy_eq(den)","over":{"base":"Any"},"name":"test_MultivariateEwens_correct"},"guarantee":"density(ed)(a[0], a[1], a[2]) == Piecewise((6 * 2 ** (-a[1]) * 3 ** (-a[2]) * theta ** a[0] * theta ** a[1] * theta ** a[2] / (theta * (theta + 1) * (theta + 2) * factorial(a[0]) * factorial(a[1]) * factorial(a[2])), Eq(a[0] + 2 * a[1] + 3 * a[2], 3)), (0, True)); marginal_distribution(ed, ed[1])(a[1]) == Piecewise((6 * 2 ** (-a[1]) * theta ** a[1] / ((theta + 1) * (theta + 2) * factorial(a[1])), Eq(2 * a[1] + 1, 3)), (0, True)); ed.pspace.distribution.set == ProductSet(Range(0, 4, 1), Range(0, 2, 1), Range(0, 2, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_MultivariateEwens_correct","statement":"Path(test_MultivariateEwens(x), density(ed)(a[0], a[1], a[2]) == Piecewise((6 * 2 ** (-a[1]) * 3 ** (-a[2]) * theta ** a[0] * theta ** a[1] * theta ** a[2] / (theta * (theta + 1) * (theta + 2) * factorial(a[0]) * factorial(a[1]) * factorial(a[2])), Eq(a[0] + 2 * a[1] + 3 * a[2], 3)), (0, True)); marginal_distribution(ed, ed[1])(a[1]) == Piecewise((6 * 2 ** (-a[1]) * theta ** a[1] / ((theta + 1) * (theta + 2) * factorial(a[1])), Eq(2 * a[1] + 1, 3)), (0, True)); ed.pspace.distribution.set == ProductSet(Range(0, 4, 1), Range(0, 2, 1), Range(0, 2, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff46ea992728ba1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(ed)(a[0], a[1], a[2]) == Piecewise((6 * 2 ** (-a[1]) * 3 ** (-a[2]) * theta ** a[0] * theta ** a[1] * theta ** a[2] / (theta * (theta + 1) * (theta + 2) * factorial(a[0]) * factorial(a[1]) * factorial(a[2])), Eq(a[0] + 2 * a[1] + 3 * a[2], 3)), (0, True))","marginal_distribution(ed, ed[1])(a[1]) == Piecewise((6 * 2 ** (-a[1]) * theta ** a[1] / ((theta + 1) * (theta + 2) * factorial(a[1])), Eq(2 * a[1] + 1, 3)), (0, True))","ed.pspace.distribution.set == ProductSet(Range(0, 4, 1), Range(0, 2, 1), Range(0, 2, 1))","density(eds)(a).dummy_eq(den)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_MultivariateEwens():
     n, theta, i = symbols('n theta i', positive=True)
 
@@ -331,16 +387,23 @@ def test_MultivariateEwens():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Multinomial(), test_Multinomial produces the expected output) over Any ║
+# ║ Path(test_Multinomial(), density(M)(x1, x2, x3, x4) == Piecewise((p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * f(n) / (f(x1) * f(x2) * f(x3) * f(x4)), Eq(n, x1 + x2 + x3 + x4)), (0, True)) and marginal_distribution(C, C[0])(x1).subs(x1, 1) == 3 * p1 * p2 ** 2 + 6 * p1 * p2 * p3 + 3 * p1 * p3 ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Multinomial : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(M)(x1, x2, x3, x4) == Piecewise((...   ║
+# ║   ensures:  marginal_distribution(C, C[0])(x1).subs(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Multinomial : Any → {Any | result satisfies: den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d277eb7077b8f821  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97f2047a4c7d4947  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_Multinomial","kind":"function","src_hash":"9ef97bd27867c1ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Multinomial()","rhs":"test_Multinomial produces the expected output","over":{"base":"Any"},"name":"test_Multinomial_correct"},"guarantee":"test_Multinomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_Multinomial_correct","statement":"Path(test_Multinomial(x), test_Multinomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d277eb7077b8f821"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_Multinomial","kind":"function","src_hash":"9ef97bd27867c1ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(M)(x1, x2, x3, x4) == Piecewise((p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * f(n) / (f(x1) * f(x2) * f(x3) * f(x4)), Eq(n, x1 + x2 + x3 + x4)), (0, True)) and marginal_distribution(C, C[0])(x1).subs(x1, 1) == 3 * p1 * p2 ** 2 + 6 * p1 * p2 * p3 + 3 * p1 * p3 ** 2"},"spec":{"lhs":"test_Multinomial()","rhs":"density(M)(x1, x2, x3, x4) == Piecewise((p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * f(n) / (f(x1) * f(x2) * f(x3) * f(x4)), Eq(n, x1 + x2 + x3 + x4)), (0, True)) and marginal_distribution(C, C[0])(x1).subs(x1, 1) == 3 * p1 * p2 ** 2 + 6 * p1 * p2 * p3 + 3 * p1 * p3 ** 2","over":{"base":"Any"},"name":"test_Multinomial_correct"},"guarantee":"density(M)(x1, x2, x3, x4) == Piecewise((p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * f(n) / (f(x1) * f(x2) * f(x3) * f(x4)), Eq(n, x1 + x2 + x3 + x4)), (0, True)); marginal_distribution(C, C[0])(x1).subs(x1, 1) == 3 * p1 * p2 ** 2 + 6 * p1 * p2 * p3 + 3 * p1 * p3 ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_Multinomial_correct","statement":"Path(test_Multinomial(x), density(M)(x1, x2, x3, x4) == Piecewise((p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * f(n) / (f(x1) * f(x2) * f(x3) * f(x4)), Eq(n, x1 + x2 + x3 + x4)), (0, True)); marginal_distribution(C, C[0])(x1).subs(x1, 1) == 3 * p1 * p2 ** 2 + 6 * p1 * p2 * p3 + 3 * p1 * p3 ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97f2047a4c7d4947","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(M)(x1, x2, x3, x4) == Piecewise((p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * f(n) / (f(x1) * f(x2) * f(x3) * f(x4)), Eq(n, x1 + x2 + x3 + x4)), (0, True))","marginal_distribution(C, C[0])(x1).subs(x1, 1) == 3 * p1 * p2 ** 2 + 6 * p1 * p2 * p3 + 3 * p1 * p3 ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Multinomial():
     n, x1, x2, x3, x4 = symbols('n, x1, x2, x3, x4', nonnegative=True, integer=True)
     p1, p2, p3, p4 = symbols('p1, p2, p3, p4', positive=True)
@@ -361,16 +424,24 @@ def test_Multinomial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NegativeMultinomial(), test_NegativeMultinomial produces the expected output) over Any ║
+# ║ Path(test_NegativeMultinomial(), simplify(density(N)(x1, x2, x3, x4) - p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * (-p1 - p2 - p3 - p4 + 1) ** 4 * g(x1 + x2 + x3 + x4 + 4) / (6 * f(x1) * f(x2) * f(x3) * f(x4))) is S.Zero and comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01) and N.pspace.distribution.set == ProductSet(Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NegativeMultinomial : Any → {Any | comp(marginal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(density(N)(x1, x2, x3, x4) - p1 ...   ║
+# ║   ensures:  comp(marginal_distribution(C, C[0])(1).ev...   ║
+# ║   ensures:  N.pspace.distribution.set == ProductSet(R...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NegativeMultinomial : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1775477ce14f8de7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7444615db1bc9fde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_NegativeMultinomial","kind":"function","src_hash":"80bb5d755834debd","in":{"base":"Any"},"out":{"base":"Any","pred":"comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01)"},"spec":{"lhs":"test_NegativeMultinomial()","rhs":"test_NegativeMultinomial produces the expected output","over":{"base":"Any"},"name":"test_NegativeMultinomial_correct"},"guarantee":"test_NegativeMultinomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_NegativeMultinomial_correct","statement":"Path(test_NegativeMultinomial(x), test_NegativeMultinomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1775477ce14f8de7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_NegativeMultinomial","kind":"function","src_hash":"80bb5d755834debd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(density(N)(x1, x2, x3, x4) - p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * (-p1 - p2 - p3 - p4 + 1) ** 4 * g(x1 + x2 + x3 + x4 + 4) / (6 * f(x1) * f(x2) * f(x3) * f(x4))) is S.Zero and comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01) and N.pspace.distribution.set == ProductSet(Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1))"},"spec":{"lhs":"test_NegativeMultinomial()","rhs":"simplify(density(N)(x1, x2, x3, x4) - p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * (-p1 - p2 - p3 - p4 + 1) ** 4 * g(x1 + x2 + x3 + x4 + 4) / (6 * f(x1) * f(x2) * f(x3) * f(x4))) is S.Zero and comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01) and N.pspace.distribution.set == ProductSet(Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1))","over":{"base":"Any"},"name":"test_NegativeMultinomial_correct"},"guarantee":"simplify(density(N)(x1, x2, x3, x4) - p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * (-p1 - p2 - p3 - p4 + 1) ** 4 * g(x1 + x2 + x3 + x4 + 4) / (6 * f(x1) * f(x2) * f(x3) * f(x4))) is S.Zero; comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01); N.pspace.distribution.set == ProductSet(Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_NegativeMultinomial_correct","statement":"Path(test_NegativeMultinomial(x), simplify(density(N)(x1, x2, x3, x4) - p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * (-p1 - p2 - p3 - p4 + 1) ** 4 * g(x1 + x2 + x3 + x4 + 4) / (6 * f(x1) * f(x2) * f(x3) * f(x4))) is S.Zero; comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01); N.pspace.distribution.set == ProductSet(Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7444615db1bc9fde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(density(N)(x1, x2, x3, x4) - p1 ** x1 * p2 ** x2 * p3 ** x3 * p4 ** x4 * (-p1 - p2 - p3 - p4 + 1) ** 4 * g(x1 + x2 + x3 + x4 + 4) / (6 * f(x1) * f(x2) * f(x3) * f(x4))) is S.Zero","comp(marginal_distribution(C, C[0])(1).evalf(), 0.33, 0.01)","N.pspace.distribution.set == ProductSet(Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1), Range(0, oo, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_NegativeMultinomial():
     k0, x1, x2, x3, x4 = symbols('k0, x1, x2, x3, x4', nonnegative=True, integer=True)
     p1, p2, p3, p4 = symbols('p1, p2, p3, p4', positive=True)
@@ -391,16 +462,24 @@ def test_NegativeMultinomial():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_JointPSpace_marginal_distribution(), test_JointPSpace_marginal_distribution produces the expected output) over Any ║
+# ║ Path(test_JointPSpace_marginal_distribution(), got == ans and integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1 and comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  got == ans                                     ║
+# ║   ensures:  integrate(marginal_distribution(T, 1)(x),...   ║
+# ║   ensures:  comp(marginal_distribution(t, 0)(1).evalf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_JointPSpace_marginal_distribution : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8be0fb3a6a452bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 573d1aa91a713a09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_JointPSpace_marginal_distribution","kind":"function","src_hash":"c6f165f9dd638c08","in":{"base":"Any"},"out":{"base":"Any","pred":"got == ans and integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1 and comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01)"},"spec":{"lhs":"test_JointPSpace_marginal_distribution()","rhs":"test_JointPSpace_marginal_distribution produces the expected output","over":{"base":"Any"},"name":"test_JointPSpace_marginal_distribution_correct"},"guarantee":"test_JointPSpace_marginal_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_JointPSpace_marginal_distribution_correct","statement":"Path(test_JointPSpace_marginal_distribution(x), test_JointPSpace_marginal_distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8be0fb3a6a452bf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_JointPSpace_marginal_distribution","kind":"function","src_hash":"c6f165f9dd638c08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: got == ans and integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1 and comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01)"},"spec":{"lhs":"test_JointPSpace_marginal_distribution()","rhs":"got == ans and integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1 and comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01)","over":{"base":"Any"},"name":"test_JointPSpace_marginal_distribution_correct"},"guarantee":"got == ans; integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1; comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_JointPSpace_marginal_distribution_correct","statement":"Path(test_JointPSpace_marginal_distribution(x), got == ans; integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1; comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"573d1aa91a713a09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["got == ans","integrate(marginal_distribution(T, 1)(x), (x, -oo, oo)) == 1","comp(marginal_distribution(t, 0)(1).evalf(), 0.2, 0.01)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_JointPSpace_marginal_distribution():
     T = MultivariateT('T', [0, 0], [[1, 0], [0, 1]], 2)
     got = marginal_distribution(T, T[1])(x)
@@ -413,7 +492,12 @@ def test_JointPSpace_marginal_distribution():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_JointRV(), test_JointRV produces the expected output) over {Any | isinstance(X.pspace.distribution, JointDistributionHandmade)} ║
+# ║ Path(test_JointRV(), density(X)(1, 2) == exp(-2) / (2 * pi) and isinstance(X.pspace.distribution, JointDistributionHandmade) and marginal_distribution(X, 0)(2) == sqrt(2) * exp(Rational(-1, 2)) / (2 * sqrt(pi))) over {Any | isinstance(X.pspace.distribution, JointDistributionHandmade)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(X)(1, 2) == exp(-2) / (2 * pi)         ║
+# ║   ensures:  isinstance(X.pspace.distribution, JointDi...   ║
+# ║   ensures:  marginal_distribution(X, 0)(2) == sqrt(2)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_JointRV : {Any | isinstance(X.pspace.distributio...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -425,9 +509,12 @@ def test_JointPSpace_marginal_distribution():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 019de73e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_JointRV","kind":"function","src_hash":"f09acc27937e64c4","in":{"base":"Any","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)"},"out":{"base":"Any","pred":"density(X)(1, 2) == exp(-2) / (2 * pi) and isinstance(X.pspace.distribution, JointDistributionHandmade)"},"spec":{"lhs":"test_JointRV()","rhs":"test_JointRV produces the expected output","over":{"base":"Any","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)"},"name":"test_JointRV_correct"},"guarantee":"test_JointRV produces the expected output","fibers":[{"name":"JointDistributionHandmade","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)","path":{"lhs":"test_JointRV(x)","rhs":"test_JointRV produces the expected output","over":{"base":"JointDistributionHandmade","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)"},"name":"test_JointRV_JointDistributionHandmade_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_JointRV_JointDistributionHandmade_correct","statement":"test_JointRV satisfies spec on JointDistributionHandmade inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"019de73eaa87c963"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_JointRV","kind":"function","src_hash":"f09acc27937e64c4","in":{"base":"Any","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)"},"out":{"base":"Any","pred":"result satisfies: density(X)(1, 2) == exp(-2) / (2 * pi) and isinstance(X.pspace.distribution, JointDistributionHandmade) and marginal_distribution(X, 0)(2) == sqrt(2) * exp(Rational(-1, 2)) / (2 * sqrt(pi))"},"spec":{"lhs":"test_JointRV()","rhs":"density(X)(1, 2) == exp(-2) / (2 * pi) and isinstance(X.pspace.distribution, JointDistributionHandmade) and marginal_distribution(X, 0)(2) == sqrt(2) * exp(Rational(-1, 2)) / (2 * sqrt(pi))","over":{"base":"Any","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)"},"name":"test_JointRV_correct"},"guarantee":"density(X)(1, 2) == exp(-2) / (2 * pi); isinstance(X.pspace.distribution, JointDistributionHandmade); marginal_distribution(X, 0)(2) == sqrt(2) * exp(Rational(-1, 2)) / (2 * sqrt(pi))","fibers":[{"name":"JointDistributionHandmade","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)","path":{"lhs":"test_JointRV(x)","rhs":"density(X)(1, 2) == exp(-2) / (2 * pi); isinstance(X.pspace.distribution, JointDistributionHandmade); marginal_distribution(X, 0)(2) == sqrt(2) * exp(Rational(-1, 2)) / (2 * sqrt(pi))","over":{"base":"JointDistributionHandmade","pred":"isinstance(X.pspace.distribution, JointDistributionHandmade)"},"name":"test_JointRV_JointDistributionHandmade_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_JointRV_JointDistributionHandmade_correct","statement":"test_JointRV satisfies spec on JointDistributionHandmade inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"019de73eaa87c963","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(X)(1, 2) == exp(-2) / (2 * pi)","isinstance(X.pspace.distribution, JointDistributionHandmade)","marginal_distribution(X, 0)(2) == sqrt(2) * exp(Rational(-1, 2)) / (2 * sqrt(pi))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_JointRV():
     x1, x2 = (Indexed('x', i) for i in (1, 2))
     pdf = exp(-x1**2/2 + x1 - x2**2/2 - S.Half)/(2*pi)
@@ -438,16 +525,22 @@ def test_JointRV():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expectation(), test_expectation produces the expected output) over Any ║
+# ║ Path(test_expectation(), simplify(E(m[1])) == y) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expectation : Any → {Any | simplify(E(m[1])) == y}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(E(m[1])) == y                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expectation : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a95bf3188e5f995  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74424b3f19e03e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_expectation","kind":"function","src_hash":"ded3cb92d42b0ab1","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(E(m[1])) == y"},"spec":{"lhs":"test_expectation()","rhs":"test_expectation produces the expected output","over":{"base":"Any"},"name":"test_expectation_correct"},"guarantee":"test_expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_expectation_correct","statement":"Path(test_expectation(x), test_expectation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a95bf3188e5f995"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_expectation","kind":"function","src_hash":"ded3cb92d42b0ab1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(E(m[1])) == y"},"spec":{"lhs":"test_expectation()","rhs":"simplify(E(m[1])) == y","over":{"base":"Any"},"name":"test_expectation_correct"},"guarantee":"simplify(E(m[1])) == y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_expectation_correct","statement":"Path(test_expectation(x), simplify(E(m[1])) == y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74424b3f19e03e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(E(m[1])) == y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expectation():
     m = Normal('A', [x, y], [[1, 0], [0, 1]])
     assert simplify(E(m[1])) == y
@@ -455,32 +548,44 @@ def test_expectation():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_joint_vector_expectation(), test_joint_vector_expectation produces the expected output) over Any ║
+# ║ Path(test_joint_vector_expectation(), E(m) == (x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_joint_vector_expectation : Any → {Any | E(m) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(m) == (x, y)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_joint_vector_expectation : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 262ead3dc2997d9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03fc0890ed4d69b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_joint_vector_expectation","kind":"function","src_hash":"68301bfe20e09511","in":{"base":"Any"},"out":{"base":"Any","pred":"E(m) == (x, y)"},"spec":{"lhs":"test_joint_vector_expectation()","rhs":"test_joint_vector_expectation produces the expected output","over":{"base":"Any"},"name":"test_joint_vector_expectation_correct"},"guarantee":"test_joint_vector_expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_joint_vector_expectation_correct","statement":"Path(test_joint_vector_expectation(x), test_joint_vector_expectation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"262ead3dc2997d9e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_joint_vector_expectation","kind":"function","src_hash":"68301bfe20e09511","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(m) == (x, y)"},"spec":{"lhs":"test_joint_vector_expectation()","rhs":"E(m) == (x, y)","over":{"base":"Any"},"name":"test_joint_vector_expectation_correct"},"guarantee":"E(m) == (x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_joint_vector_expectation_correct","statement":"Path(test_joint_vector_expectation(x), E(m) == (x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03fc0890ed4d69b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(m) == (x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_joint_vector_expectation():
     m = Normal('A', [x, y], [[1, 0], [0, 1]])
     assert E(m) == (x, y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_numpy(), test_sample_numpy produces the expected output) over Any ║
+# ║ Path(test_sample_numpy(), <unspecified:test_sample_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_numpy : Any → {Any | tuple(sam) in X.pspa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00556d3b1678398  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_numpy","kind":"function","src_hash":"2dff6e4db1dd6276","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(sam) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_numpy()","rhs":"test_sample_numpy produces the expected output","over":{"base":"Any"},"name":"test_sample_numpy_correct"},"guarantee":"test_sample_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_numpy_correct","statement":"Path(test_sample_numpy(x), test_sample_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00556d3b1678398"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_numpy","kind":"function","src_hash":"2dff6e4db1dd6276","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(sam) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_numpy()","rhs":"<unspecified:test_sample_numpy>","over":{"base":"Any"},"name":"test_sample_numpy_correct"},"guarantee":"test_sample_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_numpy_correct","statement":"Path(test_sample_numpy(x), test_sample_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00556d3b1678398","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_numpy():
     distribs_numpy = [
         MultivariateNormal("M", [3, 4], [[2, 1], [1, 2]]),
@@ -501,16 +606,22 @@ def test_sample_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_scipy(), test_sample_scipy produces the expected output) over Any ║
+# ║ Path(test_sample_scipy(), <unspecified:test_sample_scipy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_scipy : Any → {Any | tuple(sam) in X.pspa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea4b3f73e1045512  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_scipy","kind":"function","src_hash":"b11e00a881f3807d","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(sam) in X.pspace.distribution.set and tuple(samps2[i][j]) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"test_sample_scipy produces the expected output","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea4b3f73e1045512"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_scipy","kind":"function","src_hash":"b11e00a881f3807d","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(sam) in X.pspace.distribution.set and tuple(samps2[i][j]) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"<unspecified:test_sample_scipy>","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea4b3f73e1045512","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_scipy():
     distribs_scipy = [
         MultivariateNormal("M", [0, 0], [[0.1, 0.025], [0.025, 0.1]]),
@@ -536,16 +647,22 @@ def test_sample_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_pymc(), test_sample_pymc produces the expected output) over Any ║
+# ║ Path(test_sample_pymc(), <unspecified:test_sample_pymc>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_pymc : Any → {Any | tuple(sam.flatten()) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40fccbc94cdf399a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_pymc","kind":"function","src_hash":"2b7b27f8cb034a0c","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(sam.flatten()) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"test_sample_pymc produces the expected output","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40fccbc94cdf399a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_pymc","kind":"function","src_hash":"2b7b27f8cb034a0c","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(sam.flatten()) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"<unspecified:test_sample_pymc>","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40fccbc94cdf399a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_pymc():
     distribs_pymc = [
         MultivariateNormal("M", [5, 2], [[1, 0], [0, 1]]),
@@ -566,16 +683,22 @@ def test_sample_pymc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_seed(), test_sample_seed produces the expected output) over Any ║
+# ║ Path(test_sample_seed(), <unspecified:test_sample_seed>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_seed : Any → {Any | all(s0 == s1) and all...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3043ae30b3150cbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_seed","kind":"function","src_hash":"6c34f42d38d4dda9","in":{"base":"Any"},"out":{"base":"Any","pred":"all(s0 == s1) and all(s1 != s2)"},"spec":{"lhs":"test_sample_seed()","rhs":"test_sample_seed produces the expected output","over":{"base":"Any"},"name":"test_sample_seed_correct"},"guarantee":"test_sample_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_seed_correct","statement":"Path(test_sample_seed(x), test_sample_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3043ae30b3150cbc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_sample_seed","kind":"function","src_hash":"6c34f42d38d4dda9","in":{"base":"Any"},"out":{"base":"Any","pred":"all(s0 == s1) and all(s1 != s2)"},"spec":{"lhs":"test_sample_seed()","rhs":"<unspecified:test_sample_seed>","over":{"base":"Any"},"name":"test_sample_seed_correct"},"guarantee":"test_sample_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_sample_seed_correct","statement":"Path(test_sample_seed(x), test_sample_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3043ae30b3150cbc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","catches":["NotImplementedError"],"nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_seed():
     x1, x2 = (Indexed('x', i) for i in (1, 2))
     pdf = exp(-x1**2/2 + x1 - x2**2/2 - S.Half)/(2*pi)
@@ -601,16 +724,22 @@ def test_sample_seed():
 # scipy.
 #
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21057(), test_issue_21057 produces the expected output) over Any ║
+# ║ Path(test_issue_21057(), m == n) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21057 : Any → {Any | m == n and tuple(s1.f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m == n                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21057 : Any → {Any | result satisfies: m =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9262af723498cdd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34b835c3b4c30b4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_issue_21057","kind":"function","src_hash":"600d36a41bc381a3","in":{"base":"Any"},"out":{"base":"Any","pred":"m == n and tuple(s1.flatten()) == tuple(s2.flatten()) and tuple(s.flatten()) in p.pspace.distribution.set"},"spec":{"lhs":"test_issue_21057()","rhs":"test_issue_21057 produces the expected output","over":{"base":"Any"},"name":"test_issue_21057_correct"},"guarantee":"test_issue_21057 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_issue_21057_correct","statement":"Path(test_issue_21057(x), test_issue_21057 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9262af723498cdd4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_issue_21057","kind":"function","src_hash":"600d36a41bc381a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m == n"},"spec":{"lhs":"test_issue_21057()","rhs":"m == n","over":{"base":"Any"},"name":"test_issue_21057_correct"},"guarantee":"m == n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_issue_21057_correct","statement":"Path(test_issue_21057(x), m == n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34b835c3b4c30b4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m == n"],"pure":false,"effects":{"effect_type":"nondeterministic","catches":["NotImplementedError"],"nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21057():
     m = Normal("x", [0, 0], [[0, 0], [0, 0]])
     n = MultivariateNormal("x", [0, 0], [[0, 0], [0, 0]])
@@ -637,16 +766,22 @@ def test_issue_21057():
 #
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21057_pymc(), test_issue_21057_pymc produces the expected output) over Any ║
+# ║ Path(test_issue_21057_pymc(), m == n) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21057_pymc : Any → {Any | m == n and tuple...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m == n                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21057_pymc : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a90743c0a015dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ffc5f8232d73935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_issue_21057_pymc","kind":"function","src_hash":"828cdf185f912619","in":{"base":"Any"},"out":{"base":"Any","pred":"m == n and tuple(s1.flatten()) == tuple(s2.flatten()) and tuple(s.flatten()) in p.pspace.distribution.set"},"spec":{"lhs":"test_issue_21057_pymc()","rhs":"test_issue_21057_pymc produces the expected output","over":{"base":"Any"},"name":"test_issue_21057_pymc_correct"},"guarantee":"test_issue_21057_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_issue_21057_pymc_correct","statement":"Path(test_issue_21057_pymc(x), test_issue_21057_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a90743c0a015dd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_joint_rv.test_issue_21057_pymc","kind":"function","src_hash":"828cdf185f912619","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m == n"},"spec":{"lhs":"test_issue_21057_pymc()","rhs":"m == n","over":{"base":"Any"},"name":"test_issue_21057_pymc_correct"},"guarantee":"m == n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_joint_rv.test_issue_21057_pymc_correct","statement":"Path(test_issue_21057_pymc(x), m == n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ffc5f8232d73935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m == n"],"pure":false,"effects":{"effect_type":"nondeterministic","catches":["NotImplementedError"],"nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21057_pymc():
     m = Normal("x", [0, 0], [[0, 0], [0, 0]])
     n = MultivariateNormal("x", [0, 0], [[0, 0], [0, 0]])

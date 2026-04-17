@@ -28,16 +28,24 @@ n = Symbol('n', integer=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parser(), test_parser produces the expected output) over Any ║
+# ║ Path(test_parser(), Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5) and parse_maxima('13^26') == 91733330193268616658399616009 and parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2) and parse_maxima('log(%e)') == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parser : Any → {Any | Abs(parse_maxima('float(1/...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Abs(parse_maxima('float(1/3)') - 0.333333...   ║
+# ║   ensures:  parse_maxima('13^26') == 9173333019326861...   ║
+# ║   ensures:  parse_maxima('sin(%pi/2) + cos(%pi/3)') =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parser : Any → {Any | result satisfies: Abs(pars...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2055c342edf6cfe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc92ec83ead5db8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_maxima.test_parser","kind":"function","src_hash":"6f9ed480f0860c9c","in":{"base":"Any"},"out":{"base":"Any","pred":"Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5) and parse_maxima('13^26') == 91733330193268616658399616009 and parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2) and parse_maxima('log(%e)') == 1"},"spec":{"lhs":"test_parser()","rhs":"test_parser produces the expected output","over":{"base":"Any"},"name":"test_parser_correct"},"guarantee":"test_parser produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_maxima.test_parser_correct","statement":"Path(test_parser(x), test_parser produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2055c342edf6cfe4"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_maxima.test_parser","kind":"function","src_hash":"6f9ed480f0860c9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5) and parse_maxima('13^26') == 91733330193268616658399616009 and parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2) and parse_maxima('log(%e)') == 1"},"spec":{"lhs":"test_parser()","rhs":"Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5) and parse_maxima('13^26') == 91733330193268616658399616009 and parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2) and parse_maxima('log(%e)') == 1","over":{"base":"Any"},"name":"test_parser_correct"},"guarantee":"Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5); parse_maxima('13^26') == 91733330193268616658399616009; parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_maxima.test_parser_correct","statement":"Path(test_parser(x), Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5); parse_maxima('13^26') == 91733330193268616658399616009; parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc92ec83ead5db8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Abs(parse_maxima('float(1/3)') - 0.333333333) < 10 ** (-5)","parse_maxima('13^26') == 91733330193268616658399616009","parse_maxima('sin(%pi/2) + cos(%pi/3)') == Rational(3, 2)","parse_maxima('log(%e)') == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_parser():
     assert Abs(parse_maxima('float(1/3)') - 0.333333333) < 10**(-5)
     assert parse_maxima('13^26') == 91733330193268616658399616009
@@ -46,16 +54,23 @@ def test_parser():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_injection(), test_injection produces the expected output) over Any ║
+# ║ Path(test_injection(), c == x + 1 and g == 9) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_injection : Any → {Any | c == x + 1 and g == 9}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == x + 1                                     ║
+# ║   ensures:  g == 9                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_injection : Any → {Any | result satisfies: c == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e5076aba4a14c3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 146f39c1583297f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_maxima.test_injection","kind":"function","src_hash":"fde3c31c9096645a","in":{"base":"Any"},"out":{"base":"Any","pred":"c == x + 1 and g == 9"},"spec":{"lhs":"test_injection()","rhs":"test_injection produces the expected output","over":{"base":"Any"},"name":"test_injection_correct"},"guarantee":"test_injection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_maxima.test_injection_correct","statement":"Path(test_injection(x), test_injection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e5076aba4a14c3e"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_maxima.test_injection","kind":"function","src_hash":"fde3c31c9096645a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == x + 1 and g == 9"},"spec":{"lhs":"test_injection()","rhs":"c == x + 1 and g == 9","over":{"base":"Any"},"name":"test_injection_correct"},"guarantee":"c == x + 1; g == 9","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_maxima.test_injection_correct","statement":"Path(test_injection(x), c == x + 1; g == 9)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146f39c1583297f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == x + 1","g == 9"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_injection():
     parse_maxima('c: x+1', globals=globals())
     # c created by parse_maxima
@@ -67,16 +82,24 @@ def test_injection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maxima_functions(), test_maxima_functions produces the expected output) over Any ║
+# ║ Path(test_maxima_functions(), parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1 and parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2 and parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2 and parse_maxima('trigexpand(sin(2*x)+cos(2*x))') == -1 + 2 * cos(x) ** 2 + 2 * cos(x) * sin(x) and parse_maxima('solve(x^2-4,x)') == [-2, 2] and parse_maxima('limit((1+1/x)^x,x,inf)') == E and parse_maxima('limit(sqrt(-x)/x,x,0,minus)') is -oo and parse_maxima('diff(x^x, x)') == x ** x * (1 + log(x)) and parse_maxima('sum(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == (n ** 2 + n) / 2 and parse_maxima('product(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == factorial(n) and parse_maxima('ratsimp((x^2-1)/(x+1))') == x - 1 and Abs(parse_maxima('float(sec(%pi/3) + csc(%pi/3))') - 3.154700538379252) < 10 ** (-5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maxima_functions : Any → {Any | parse_maxima('ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_maxima('expand( (x+1)^2)') == x ** ...   ║
+# ║   ensures:  parse_maxima('factor( x**2 + 2*x + 1)') =...   ║
+# ║   ensures:  parse_maxima('2*cos(x)^2 + sin(x)^2') == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maxima_functions : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd6dcfc30a7587db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b060bb4d62bf3fa1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_maxima.test_maxima_functions","kind":"function","src_hash":"00ffab110bc69092","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1 and parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2 and parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2 and parse_maxima('solve(x^2-4,x)') == [-2, 2] and parse_maxima('limit((1+1/x)^x,x,inf)') == E and parse_maxima('limit(sqrt(-x)/x,x,0,minus)') is -oo and parse_maxima('diff(x^x, x)') == x ** x * (1 + log(x)) and parse_maxima('ratsimp((x^2-1)/(x+1))') == x - 1"},"spec":{"lhs":"test_maxima_functions()","rhs":"test_maxima_functions produces the expected output","over":{"base":"Any"},"name":"test_maxima_functions_correct"},"guarantee":"test_maxima_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_maxima.test_maxima_functions_correct","statement":"Path(test_maxima_functions(x), test_maxima_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd6dcfc30a7587db"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_maxima.test_maxima_functions","kind":"function","src_hash":"00ffab110bc69092","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1 and parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2 and parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2 and parse_maxima('trigexpand(sin(2*x)+cos(2*x))') == -1 + 2 * cos(x) ** 2 + 2 * cos(x) * sin(x) and parse_maxima('solve(x^2-4,x)') == [-2, 2] and parse_maxima('limit((1+1/x)^x,x,inf)') == E and parse_maxima('limit(sqrt(-x)/x,x,0,minus)') is -oo and parse_maxima('diff(x^x, x)') == x ** x * (1 + log(x)) and parse_maxima('sum(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == (n ** 2 + n) / 2 and parse_maxima('product(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == factorial(n) and parse_maxima('ratsimp((x^2-1)/(x+1))') == x - 1 and Abs(parse_maxima('float(sec(%pi/3) + csc(%pi/3))') - 3.154700538379252) < 10 ** (-5)"},"spec":{"lhs":"test_maxima_functions()","rhs":"parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1 and parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2 and parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2 and parse_maxima('trigexpand(sin(2*x)+cos(2*x))') == -1 + 2 * cos(x) ** 2 + 2 * cos(x) * sin(x) and parse_maxima('solve(x^2-4,x)') == [-2, 2] and parse_maxima('limit((1+1/x)^x,x,inf)') == E and parse_maxima('limit(sqrt(-x)/x,x,0,minus)') is -oo and parse_maxima('diff(x^x, x)') == x ** x * (1 + log(x)) and parse_maxima('sum(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == (n ** 2 + n) / 2 and parse_maxima('product(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == factorial(n) and parse_maxima('ratsimp((x^2-1)/(x+1))') == x - 1 and Abs(parse_maxima('float(sec(%pi/3) + csc(%pi/3))') - 3.154700538379252) < 10 ** (-5)","over":{"base":"Any"},"name":"test_maxima_functions_correct"},"guarantee":"parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1; parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2; parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_maxima.test_maxima_functions_correct","statement":"Path(test_maxima_functions(x), parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1; parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2; parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b060bb4d62bf3fa1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_maxima('expand( (x+1)^2)') == x ** 2 + 2 * x + 1","parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1) ** 2","parse_maxima('2*cos(x)^2 + sin(x)^2') == 2 * cos(x) ** 2 + sin(x) ** 2","parse_maxima('trigexpand(sin(2*x)+cos(2*x))') == -1 + 2 * cos(x) ** 2 + 2 * cos(x) * sin(x)","parse_maxima('solve(x^2-4,x)') == [-2, 2]","parse_maxima('limit((1+1/x)^x,x,inf)') == E","parse_maxima('limit(sqrt(-x)/x,x,0,minus)') is -oo","parse_maxima('diff(x^x, x)') == x ** x * (1 + log(x))","parse_maxima('sum(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == (n ** 2 + n) / 2","parse_maxima('product(k, k, 1, n)', name_dict={'n': Symbol('n', integer=True), 'k': Symbol('k', integer=True)}) == factorial(n)","parse_maxima('ratsimp((x^2-1)/(x+1))') == x - 1","Abs(parse_maxima('float(sec(%pi/3) + csc(%pi/3))') - 3.154700538379252) < 10 ** (-5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_maxima_functions():
     assert parse_maxima('expand( (x+1)^2)') == x**2 + 2*x + 1
     assert parse_maxima('factor( x**2 + 2*x + 1)') == (x + 1)**2

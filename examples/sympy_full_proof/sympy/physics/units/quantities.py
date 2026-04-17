@@ -29,14 +29,20 @@ from sympy.physics.units.prefixes import Prefix
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Quantity instance) preserved by Quantity(*args) over {Any | isinstance(scale_factor, Prefix) and isinstance(name, Symbol) and isinstance(abbrev, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Quantity : {Any | isinstance(scale_factor, Prefix) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aabe582998ef8c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity","kind":"class","src_hash":"ed9d9d1594ee2c08","in":{"base":"Any","pred":"isinstance(scale_factor, Prefix) and isinstance(name, Symbol) and isinstance(abbrev, str)"},"out":{"base":"Any"},"spec":{"lhs":"Quantity(*args)","rhs":"correctly constructs a Quantity instance","over":{"base":"Any","pred":"isinstance(scale_factor, Prefix) and isinstance(name, Symbol) and isinstance(abbrev, str)"},"name":"Quantity_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Quantity instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_prefixed","pred":"self.is_prefixed","kind":"class"}],"methods_preserving":["set_global_dimension","set_global_relative_scale_factor","name","dimension","abbrev","scale_factor","_eval_is_positive","_eval_is_constant","_eval_Abs","_eval_subs","_latex","convert_to","free_symbols","is_prefixed"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aabe582998ef8c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity","kind":"class","src_hash":"ed9d9d1594ee2c08","in":{"base":"Any","pred":"isinstance(scale_factor, Prefix) and isinstance(name, Symbol) and isinstance(abbrev, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicExpr)"},"spec":{"lhs":"Quantity(*args)","rhs":"correctly constructs a Quantity instance","over":{"base":"Any","pred":"isinstance(scale_factor, Prefix) and isinstance(name, Symbol) and isinstance(abbrev, str)"},"name":"Quantity_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, AtomicExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_prefixed","pred":"self.is_prefixed","kind":"class"}],"methods_preserving":["set_global_dimension","set_global_relative_scale_factor","name","dimension","abbrev","scale_factor","_eval_is_positive","_eval_is_constant","_eval_Abs","_eval_subs","_latex","convert_to","free_symbols","is_prefixed"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aabe582998ef8c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Quantity not found in source"]}}
 class Quantity(AtomicExpr):
     """
     Physical quantity: can be a unit of measure, a constant or a generic quantity.
@@ -50,16 +56,22 @@ class Quantity(AtomicExpr):
     _diff_wrt = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, abbrev), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb25f8192bdb1293           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.__new__","kind":"method","src_hash":"8e5802f16061feea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb25f8192bdb1293"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.__new__","kind":"method","src_hash":"8e5802f16061feea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, abbrev)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb25f8192bdb1293","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["cls._is_prefixed"]},"state_contract":{"modifies":["cls._is_prefixed"],"old_bindings":{"old_cls__is_prefixed":"cls._is_prefixed"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, abbrev=None,
                 latex_repr=None, pretty_unicode_repr=None,
                 pretty_ascii_repr=None, mathml_presentation_repr=None,
@@ -88,30 +100,43 @@ class Quantity(AtomicExpr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_global_dimension(dim), set_global_dimension produces the expected output) over Any ║
+# ║ Path(set_global_dimension(dimension), <unspecified:set_global_dimension>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_global_dimension : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08a57ebe0838266d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.set_global_dimension","kind":"method","src_hash":"7b13b43021ce1dbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_global_dimension(dim)","rhs":"set_global_dimension produces the expected output","over":{"base":"Any"},"name":"set_global_dimension_correct"},"guarantee":"set_global_dimension produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity.set_global_dimension_correct","statement":"Path(set_global_dimension(x), set_global_dimension produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08a57ebe0838266d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.set_global_dimension","kind":"method","src_hash":"7b13b43021ce1dbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_global_dimension(dimension)","rhs":"<unspecified:set_global_dimension>","over":{"base":"Any"},"name":"set_global_dimension_correct"},"guarantee":"set_global_dimension produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity.set_global_dimension_correct","statement":"Path(set_global_dimension(x), set_global_dimension produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08a57ebe0838266d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_global_dimension(self, dimension):
         _QuantityMapper._quantity_dimension_global[self] = dimension
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_global_relative_scale_factor(sca), setting a scale factor that is valid across all unit system) over Any ║
+# ║ Path(set_global_relative_scale_factor(scale_factor, reference_quantity), <unspecified:set_global_relative_scale_factor>) over {Any | hasattr(scale_factor, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_global_relative_scale_factor : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(scale_factor, 'replace')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_global_relative_scale_factor : {Any | hasattr(sca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21e4b551d6add40d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.set_global_relative_scale_factor","kind":"method","src_hash":"7504fdec3a80cc7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_global_relative_scale_factor(sca)","rhs":"setting a scale factor that is valid across all unit system","over":{"base":"Any"},"name":"set_global_relative_scale_factor_correct"},"guarantee":"setting a scale factor that is valid across all unit system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity.set_global_relative_scale_factor_correct","statement":"Path(set_global_relative_scale_factor(x), setting a scale factor that is valid across all unit system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21e4b551d6add40d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.set_global_relative_scale_factor","kind":"method","src_hash":"7504fdec3a80cc7f","in":{"base":"Any","pred":"hasattr(scale_factor, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"set_global_relative_scale_factor(scale_factor, reference_quantity)","rhs":"<unspecified:set_global_relative_scale_factor>","over":{"base":"Any","pred":"hasattr(scale_factor, 'replace')"},"name":"set_global_relative_scale_factor_correct"},"guarantee":"setting a scale factor that is valid across all unit system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity.set_global_relative_scale_factor_correct","statement":"Path(set_global_relative_scale_factor(x), setting a scale factor that is valid across all unit system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21e4b551d6add40d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(scale_factor, 'replace')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["scale_factor.replace"],"writes":["self._is_prefixed"]},"state_contract":{"modifies":["self._is_prefixed"],"old_bindings":{"old_self__is_prefixed":"self._is_prefixed"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_global_relative_scale_factor(self, scale_factor, reference_quantity):
         """
         Setting a scale factor that is valid across all unit system.
@@ -131,31 +156,43 @@ class Quantity(AtomicExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9bf7294082ff286a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bf7294082ff286a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bf7294082ff286a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self._name
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), unit_system.get_quantity_dimension(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  unit_system.get_quantity_dimension(self)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ec77c0de7724f11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.dimension","kind":"property","src_hash":"a3352551a0b8239f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ec77c0de7724f11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.dimension","kind":"property","src_hash":"a3352551a0b8239f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"unit_system.get_quantity_dimension(self)","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns unit_system.get_quantity_dimension(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ec77c0de7724f11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"unit_system.get_quantity_dimension(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         from sympy.physics.units import UnitSystem
         unit_system = UnitSystem.get_default_unit_system()
@@ -163,16 +200,22 @@ class Quantity(AtomicExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(abbrev(), returns the abbrev attribute) over Any      ║
+# ║ Path(abbrev(), self._abbrev) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._abbrev                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ abbrev : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be2b7437a3cba8da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.abbrev","kind":"property","src_hash":"2e94089b70832039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abbrev()","rhs":"returns the abbrev attribute","over":{"base":"Any"},"name":"abbrev_correct"},"guarantee":"returns the abbrev attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be2b7437a3cba8da"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.abbrev","kind":"property","src_hash":"2e94089b70832039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abbrev()","rhs":"self._abbrev","over":{"base":"Any"},"name":"abbrev_correct"},"guarantee":"returns self._abbrev","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be2b7437a3cba8da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._abbrev","pure":false,"effects":{"effect_type":"reads_state","reads":["self._abbrev"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def abbrev(self):
         """
         Symbol representing the unit name.
@@ -183,16 +226,22 @@ class Quantity(AtomicExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale_factor(), returns the scale_factor attribute) over Any ║
+# ║ Path(scale_factor(), unit_system.get_quantity_scale_factor(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  unit_system.get_quantity_scale_factor(self)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scale_factor : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f269541d1b8deedf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.scale_factor","kind":"property","src_hash":"9f7f60fc407d90f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_factor()","rhs":"returns the scale_factor attribute","over":{"base":"Any"},"name":"scale_factor_correct"},"guarantee":"returns the scale_factor attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f269541d1b8deedf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.scale_factor","kind":"property","src_hash":"9f7f60fc407d90f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_factor()","rhs":"unit_system.get_quantity_scale_factor(self)","over":{"base":"Any"},"name":"scale_factor_correct"},"guarantee":"returns unit_system.get_quantity_scale_factor(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f269541d1b8deedf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"unit_system.get_quantity_scale_factor(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale_factor(self):
         """
         Overall magnitude of the quantity as compared to the canonical units.
@@ -202,73 +251,107 @@ class Quantity(AtomicExpr):
         return unit_system.get_quantity_scale_factor(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), True) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c883b940060454e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_is_positive","kind":"method","src_hash":"af86b302162cada8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c883b940060454e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_is_positive","kind":"method","src_hash":"af86b302162cada8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c883b940060454e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_constant(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_constant(), True) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_constant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3aaa64c20899cf16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_is_constant","kind":"method","src_hash":"41d37345f97df7a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_constant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_constant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aaa64c20899cf16"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_is_constant","kind":"method","src_hash":"41d37345f97df7a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_constant()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_constant_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aaa64c20899cf16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_constant(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Abs(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Abs(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_Abs : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_Abs : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54f587dfb81b4182           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_Abs","kind":"method","src_hash":"2ab40ae606413a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Abs()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Abs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54f587dfb81b4182"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_Abs","kind":"method","src_hash":"2ab40ae606413a30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_eval_Abs()","rhs":"self","over":{"base":"Any"},"name":"_eval_Abs_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54f587dfb81b4182","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Abs(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f396b6dccc549537  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_subs","kind":"method","src_hash":"ad273ffc3890ebf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f396b6dccc549537"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._eval_subs","kind":"method","src_hash":"ad273ffc3890ebf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f396b6dccc549537","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         if isinstance(new, Quantity) and self != old:
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), result == (self._latex_repr if self._latex_repr else '\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])) and result == self._latex_repr or result == '\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._latex_repr if self._late...   ║
+# ║   ensures:  result == self._latex_repr or result == '...   ║
+# ║   fiber[case_0]: self._latex_repr => self._latex_repr      ║
+# ║   fiber[case_1]: not (self._latex_repr) => '\\text{{{...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : Any → {Any | result satisfies: result == (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6041e3a69db2c84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c79423a0dd70d9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._latex","kind":"method","src_hash":"afd4c2d8a19e1ebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6041e3a69db2c84"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity._latex","kind":"method","src_hash":"afd4c2d8a19e1ebe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._latex_repr if self._latex_repr else '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])) and result == self._latex_repr or result == '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])"},"spec":{"lhs":"_latex(printer)","rhs":"result == (self._latex_repr if self._latex_repr else '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])) and result == self._latex_repr or result == '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"result == (self._latex_repr if self._latex_repr else '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])); result == self._latex_repr or result == '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity._latex_correct","statement":"Path(_latex(x), result == (self._latex_repr if self._latex_repr else '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])); result == self._latex_repr or result == '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c79423a0dd70d9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._latex_repr if self._latex_repr else '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0]))","result == self._latex_repr or result == '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])"],"fibers":[{"name":"case_0","guard":"self._latex_repr","ensures":["result == self._latex_repr"],"decidability":"library","returns_expr":"self._latex_repr"},{"name":"case_1","guard":"not (self._latex_repr)","ensures":["result == '\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])"],"decidability":"library","returns_expr":"'\\\\text{{{}}}'.format(self.args[1] if len(self.args) >= 2 else self.args[0])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._latex_repr","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         if self._latex_repr:
             return self._latex_repr
@@ -277,16 +360,22 @@ class Quantity(AtomicExpr):
                           if len(self.args) >= 2 else self.args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to(oth), convert the quantity to another quantity of same dimensions) over Any ║
+# ║ Path(convert_to(other, unit_system), convert_to(self, other, unit_system)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  convert_to(self, other, unit_system)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_to : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27ff47760534b200  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52889429502fe773  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.convert_to","kind":"method","src_hash":"faf67e298301d315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(oth)","rhs":"convert the quantity to another quantity of same dimensions","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"convert the quantity to another quantity of same dimensions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity.convert_to_correct","statement":"Path(convert_to(x), convert the quantity to another quantity of same dimensions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27ff47760534b200"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.convert_to","kind":"method","src_hash":"faf67e298301d315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(other, unit_system)","rhs":"convert_to(self, other, unit_system)","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"returns convert_to(self, other, unit_system)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.quantities.Quantity.convert_to_correct","statement":"Path(convert_to(x), returns convert_to(self, other, unit_system))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52889429502fe773","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"convert_to(self, other, unit_system)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to(self, other, unit_system="SI"):
         """
         Convert the quantity to another quantity of same dimensions.
@@ -309,47 +398,65 @@ class Quantity(AtomicExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), set()) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set()                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fea0c740696551f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.free_symbols","kind":"property","src_hash":"17bb8a98e1043e57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fea0c740696551f5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.free_symbols","kind":"property","src_hash":"17bb8a98e1043e57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"set()","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fea0c740696551f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """Return free symbols from quantity."""
         return set()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_prefixed(), returns the is_prefixed attribute) over Any ║
+# ║ Path(is_prefixed(), self._is_prefixed) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_prefixed                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_prefixed : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f7128231226494e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.is_prefixed","kind":"property","src_hash":"84ebbe22cae7fe65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prefixed()","rhs":"returns the is_prefixed attribute","over":{"base":"Any"},"name":"is_prefixed_correct"},"guarantee":"returns the is_prefixed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f7128231226494e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.Quantity.is_prefixed","kind":"property","src_hash":"84ebbe22cae7fe65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prefixed()","rhs":"self._is_prefixed","over":{"base":"Any"},"name":"is_prefixed_correct"},"guarantee":"returns self._is_prefixed","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f7128231226494e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_prefixed","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_prefixed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_prefixed(self):
         """Whether or not the quantity is prefixed. Eg. `kilogram` is prefixed, but `gram` is not."""
         return self._is_prefixed
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PhysicalConstant(), correctly constructs a PhysicalConstant instance) over Any ║
+# ║ Path(PhysicalConstant(), isinstance(self, Quantity)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PhysicalConstant : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Quantity)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PhysicalConstant : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 029411f926da37c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.PhysicalConstant","kind":"class","src_hash":"315714f5b875ffc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PhysicalConstant()","rhs":"correctly constructs a PhysicalConstant instance","over":{"base":"Any"},"name":"PhysicalConstant_correct"},"guarantee":"correctly constructs a PhysicalConstant instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"029411f926da37c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.quantities.PhysicalConstant","kind":"class","src_hash":"315714f5b875ffc8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Quantity)"},"spec":{"lhs":"PhysicalConstant()","rhs":"isinstance(self, Quantity)","over":{"base":"Any"},"name":"PhysicalConstant_correct"},"guarantee":"isinstance(self, Quantity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"029411f926da37c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Quantity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function PhysicalConstant not found in source"]}}
 class PhysicalConstant(Quantity):
     """Represents a physical constant, eg. `speed_of_light` or `avogadro_constant`."""
 

@@ -37,7 +37,13 @@ from sympy.utilities.misc import filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_poly_inequality(pol), solve a polynomial inequality with rational coefficients) over {Any | isinstance(poly, Poly)} ║
+# ║ Path(solve_poly_inequality(poly, rel), len(intervals) == old_len_intervals + 1) over {Any | isinstance(poly, Poly) and isinstance(poly, Poly) and hasattr(poly, 'as_expr') and hasattr(poly, 'real_roots') and hasattr(poly, 'LC')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(poly, Poly)                         ║
+# ║   requires: hasattr(poly, 'as_expr')                       ║
+# ║   requires: hasattr(poly, 'real_roots')                    ║
+# ║   ensures:  len(intervals) == old_len_intervals + 1        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_poly_inequality : {Any | isinstance(poly, Poly)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -49,9 +55,12 @@ from sympy.utilities.misc import filldedent
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7d47df06...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_poly_inequality","kind":"function","src_hash":"fc88d66755e63314","in":{"base":"Any","pred":"isinstance(poly, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_inequality(pol)","rhs":"solve a polynomial inequality with rational coefficients","over":{"base":"Any","pred":"isinstance(poly, Poly)"},"name":"solve_poly_inequality_correct"},"guarantee":"solve a polynomial inequality with rational coefficients","fibers":[{"name":"Poly","pred":"isinstance(poly, Poly)","path":{"lhs":"solve_poly_inequality(x)","rhs":"solve a polynomial inequality with rational coefficients","over":{"base":"Poly","pred":"isinstance(poly, Poly)"},"name":"solve_poly_inequality_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.solve_poly_inequality_Poly_correct","statement":"solve_poly_inequality satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d47df06dc78302d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_poly_inequality","kind":"function","src_hash":"fc88d66755e63314","in":{"base":"Any","pred":"isinstance(poly, Poly) and isinstance(poly, Poly) and hasattr(poly, 'as_expr') and hasattr(poly, 'real_roots') and hasattr(poly, 'LC')"},"out":{"base":"Any","pred":"result satisfies: len(intervals) == old_len_intervals + 1"},"spec":{"lhs":"solve_poly_inequality(poly, rel)","rhs":"len(intervals) == old_len_intervals + 1","over":{"base":"Any","pred":"isinstance(poly, Poly) and isinstance(poly, Poly) and hasattr(poly, 'as_expr') and hasattr(poly, 'real_roots') and hasattr(poly, 'LC')"},"name":"solve_poly_inequality_correct"},"guarantee":"len(intervals) == old_len_intervals + 1","fibers":[{"name":"Poly","pred":"isinstance(poly, Poly)","path":{"lhs":"solve_poly_inequality(x)","rhs":"len(intervals) == old_len_intervals + 1","over":{"base":"Poly","pred":"isinstance(poly, Poly)"},"name":"solve_poly_inequality_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.solve_poly_inequality_Poly_correct","statement":"solve_poly_inequality satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d47df06dc78302d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(poly, Poly)","hasattr(poly, 'as_expr')","hasattr(poly, 'real_roots')","hasattr(poly, 'LC')"],"ensures":["len(intervals) == old_len_intervals + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.LC","poly.as_expr","poly.real_roots"],"calls_mutating":["intervals.append","intervals.insert"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"modifies":["intervals.*"],"old_bindings":{"old_len_intervals":"len(intervals)"},"post_ensures":["len(intervals) == old_len_intervals + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'sign == eq_sign and (not equal)', \"rel == '!='\", \"rel == '>='\", \"rel == '=='\", 'sign == eq_sign', \"rel == '<'\", 'sign != eq_sign and equal', \"rel == '>'\", \"rel == '<='\", 'poly.LC() > 0', 'not isinstance(poly, Poly)'}, fibers={'Poly'})"]}}
 def solve_poly_inequality(poly, rel):
     """Solve a polynomial inequality with rational coefficients.
 
@@ -144,16 +153,22 @@ def solve_poly_inequality(poly, rel):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_poly_inequalities(pol), solve polynomial inequalities with rational coefficients) over Any ║
+# ║ Path(solve_poly_inequalities(polys), Union(*[s for p in polys for s in solve_poly_inequality(*p)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Union(*[s for p in polys for s in solve_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_poly_inequalities : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3878c8425da8fb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_poly_inequalities","kind":"function","src_hash":"ea0959b394b80094","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_inequalities(pol)","rhs":"solve polynomial inequalities with rational coefficients","over":{"base":"Any"},"name":"solve_poly_inequalities_correct"},"guarantee":"solve polynomial inequalities with rational coefficients","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3878c8425da8fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_poly_inequalities","kind":"function","src_hash":"ea0959b394b80094","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_inequalities(polys)","rhs":"Union(*[s for p in polys for s in solve_poly_inequality(*p)])","over":{"base":"Any"},"name":"solve_poly_inequalities_correct"},"guarantee":"returns Union(*[s for p in polys for s in solve_poly_inequality(*p)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3878c8425da8fb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Union(*[s for p in polys for s in solve_poly_inequality(*p)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def solve_poly_inequalities(polys):
     """Solve polynomial inequalities with rational coefficients.
 
@@ -172,16 +187,22 @@ def solve_poly_inequalities(polys):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_rational_inequalities(eqs), solve a system of rational inequalities with rational coefficients) over Any ║
+# ║ Path(solve_rational_inequalities(eqs), <unspecified:solve_rational_inequalities>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_rational_inequalities : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12d2e8f5fdb9fd85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_rational_inequalities","kind":"function","src_hash":"f4fe3c99f0c86a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_rational_inequalities(eqs)","rhs":"solve a system of rational inequalities with rational coefficients","over":{"base":"Any"},"name":"solve_rational_inequalities_correct"},"guarantee":"solve a system of rational inequalities with rational coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.solve_rational_inequalities_correct","statement":"Path(solve_rational_inequalities(x), solve a system of rational inequalities with rational coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12d2e8f5fdb9fd85"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_rational_inequalities","kind":"function","src_hash":"f4fe3c99f0c86a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_rational_inequalities(eqs)","rhs":"<unspecified:solve_rational_inequalities>","over":{"base":"Any"},"name":"solve_rational_inequalities_correct"},"guarantee":"solve a system of rational inequalities with rational coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.solve_rational_inequalities_correct","statement":"Path(solve_rational_inequalities(x), solve a system of rational inequalities with rational coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12d2e8f5fdb9fd85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def solve_rational_inequalities(eqs):
     """Solve a system of rational inequalities with rational coefficients.
 
@@ -249,7 +270,10 @@ def solve_rational_inequalities(eqs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_rational_inequalities(exp), reduce a system of rational inequalities with rational coefficients) over {Any | isinstance(expr, tuple)} ║
+# ║ Path(reduce_rational_inequalities(exprs, gen, relational), len(_eqs) == old_len__eqs + 1) over {Any | isinstance(expr, tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(_eqs) == old_len__eqs + 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_rational_inequalities : {Any | isinstance(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -261,9 +285,12 @@ def solve_rational_inequalities(eqs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2eac706d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_rational_inequalities","kind":"function","src_hash":"98533169caa27d64","in":{"base":"Any","pred":"isinstance(expr, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"reduce_rational_inequalities(exp)","rhs":"reduce a system of rational inequalities with rational coefficients","over":{"base":"Any","pred":"isinstance(expr, tuple)"},"name":"reduce_rational_inequalities_correct"},"guarantee":"reduce a system of rational inequalities with rational coefficients","fibers":[{"name":"tuple","pred":"isinstance(expr, tuple)","path":{"lhs":"reduce_rational_inequalities(x)","rhs":"reduce a system of rational inequalities with rational coefficients","over":{"base":"tuple","pred":"isinstance(expr, tuple)"},"name":"reduce_rational_inequalities_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.reduce_rational_inequalities_tuple_correct","statement":"reduce_rational_inequalities satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2eac706d2b4528d2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_rational_inequalities","kind":"function","src_hash":"98533169caa27d64","in":{"base":"Any","pred":"isinstance(expr, tuple)"},"out":{"base":"Any","pred":"result satisfies: len(_eqs) == old_len__eqs + 1"},"spec":{"lhs":"reduce_rational_inequalities(exprs, gen, relational)","rhs":"len(_eqs) == old_len__eqs + 1","over":{"base":"Any","pred":"isinstance(expr, tuple)"},"name":"reduce_rational_inequalities_correct"},"guarantee":"len(_eqs) == old_len__eqs + 1","fibers":[{"name":"tuple","pred":"isinstance(expr, tuple)","path":{"lhs":"reduce_rational_inequalities(x)","rhs":"len(_eqs) == old_len__eqs + 1","over":{"base":"tuple","pred":"isinstance(expr, tuple)"},"name":"reduce_rational_inequalities_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.reduce_rational_inequalities_tuple_correct","statement":"reduce_rational_inequalities satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2eac706d2b4528d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(_eqs) == old_len__eqs + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["_eqs.append"],"raises":["PolynomialError"],"catches":["PolynomialError"]},"state_contract":{"modifies":["_eqs.*"],"old_bindings":{"old_len__eqs":"len(_eqs)"},"post_ensures":["len(_eqs) == old_len__eqs + 1"],"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, tuple)'}, fibers={'tuple'})"]}}
 def reduce_rational_inequalities(exprs, gen, relational=True):
     """Reduce a system of rational inequalities with rational coefficients.
 
@@ -356,9 +383,16 @@ def reduce_rational_inequalities(exprs, gen, relational=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_abs_inequality(exp), reduce an inequality with nested absolute values) over {Any | isinstance(expr, Abs)} ║
+# ║ Path(reduce_abs_inequality(expr, rel, gen), len(exprs) == old_len_exprs + 1 and len(inequalities) == old_len_inequalities + 1) over {Any | isinstance(expr, Abs) and not (gen.is_extended_real is False) and hasattr(gen, 'is_extended_real') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_abs_inequality : {Any | isinstance(expr, Abs)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (gen.is_extended_real is False)            ║
+# ║   requires: hasattr(gen, 'is_extended_real')               ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   ensures:  len(exprs) == old_len_exprs + 1                ║
+# ║   ensures:  len(inequalities) == old_len_inequalities...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_abs_inequality : {Any | isinstance(expr, Abs) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Abs: {isinstance(expr, Abs)} → library_axiom             ║
@@ -368,9 +402,12 @@ def reduce_rational_inequalities(exprs, gen, relational=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bed904d6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_abs_inequality","kind":"function","src_hash":"325c9fcc0797aebd","in":{"base":"Any","pred":"isinstance(expr, Abs)"},"out":{"base":"Any"},"spec":{"lhs":"reduce_abs_inequality(exp)","rhs":"reduce an inequality with nested absolute values","over":{"base":"Any","pred":"isinstance(expr, Abs)"},"name":"reduce_abs_inequality_correct"},"guarantee":"reduce an inequality with nested absolute values","fibers":[{"name":"Abs","pred":"isinstance(expr, Abs)","path":{"lhs":"reduce_abs_inequality(x)","rhs":"reduce an inequality with nested absolute values","over":{"base":"Abs","pred":"isinstance(expr, Abs)"},"name":"reduce_abs_inequality_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.reduce_abs_inequality_Abs_correct","statement":"reduce_abs_inequality satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bed904d69e47c6dc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_abs_inequality","kind":"function","src_hash":"325c9fcc0797aebd","in":{"base":"Any","pred":"isinstance(expr, Abs) and not (gen.is_extended_real is False) and hasattr(gen, 'is_extended_real') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any","pred":"result satisfies: len(exprs) == old_len_exprs + 1 and len(inequalities) == old_len_inequalities + 1"},"spec":{"lhs":"reduce_abs_inequality(expr, rel, gen)","rhs":"len(exprs) == old_len_exprs + 1 and len(inequalities) == old_len_inequalities + 1","over":{"base":"Any","pred":"isinstance(expr, Abs) and not (gen.is_extended_real is False) and hasattr(gen, 'is_extended_real') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"reduce_abs_inequality_correct"},"guarantee":"len(exprs) == old_len_exprs + 1; len(inequalities) == old_len_inequalities + 1","fibers":[{"name":"Abs","pred":"isinstance(expr, Abs)","path":{"lhs":"reduce_abs_inequality(x)","rhs":"len(exprs) == old_len_exprs + 1; len(inequalities) == old_len_inequalities + 1","over":{"base":"Abs","pred":"isinstance(expr, Abs)"},"name":"reduce_abs_inequality_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.reduce_abs_inequality_Abs_correct","statement":"reduce_abs_inequality satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bed904d69e47c6dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (gen.is_extended_real is False)","hasattr(gen, 'is_extended_real')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'func')","hasattr(expr, 'args')","hasattr(expr, 'is_Pow')","hasattr(expr, 'exp')","hasattr(expr, 'base')"],"ensures":["len(exprs) == old_len_exprs + 1","len(inequalities) == old_len_inequalities + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.exp","expr.func","expr.is_Add","expr.is_Mul","expr.is_Pow","gen.is_extended_real"],"calls_mutating":["exprs.append","exprs.extend","inequalities.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["exprs.*","inequalities.*"],"old_bindings":{"old_len_exprs":"len(exprs)","old_len_inequalities":"len(inequalities)"},"post_ensures":["len(exprs) == old_len_exprs + 1","len(inequalities) == old_len_inequalities + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Abs)'}, fibers={'Abs'})"]}}
 def reduce_abs_inequality(expr, rel, gen):
     """Reduce an inequality with nested absolute values.
 
@@ -443,16 +480,22 @@ def reduce_abs_inequality(expr, rel, gen):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_abs_inequalities(exp), id) over Any            ║
+# ║ Path(reduce_abs_inequalities(exprs, gen), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*[reduce_abs_inequality(expr, rel, ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_abs_inequalities : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 419e669eb6d58e8d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_abs_inequalities","kind":"function","src_hash":"3509e75c3c8b5c56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_abs_inequalities(exp)","rhs":"reduce a system of inequalities with nested absolute values","over":{"base":"Any"},"name":"reduce_abs_inequalities_correct","kind":"composition"},"guarantee":"reduce a system of inequalities with nested absolute values","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"reduce_abs_inequality","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419e669eb6d58e8d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_abs_inequalities","kind":"function","src_hash":"3509e75c3c8b5c56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_abs_inequalities(exprs, gen)","rhs":"And(*[reduce_abs_inequality(expr, rel, gen) for expr, rel in exprs])","over":{"base":"Any"},"name":"reduce_abs_inequalities_correct","kind":"composition"},"guarantee":"returns And(*[reduce_abs_inequality(expr, rel, gen) for expr, rel in exprs])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"reduce_abs_inequality","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419e669eb6d58e8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*[reduce_abs_inequality(expr, rel, gen) for expr, rel in exprs])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def reduce_abs_inequalities(exprs, gen):
     """Reduce a system of inequalities with nested absolute values.
 
@@ -479,7 +522,16 @@ def reduce_abs_inequalities(exprs, gen):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_univariate_inequality(exp), solves a real univariate inequality) over {Any | isinstance(a, Interval)} ║
+# ║ Path(solve_univariate_inequality(expr, gen, relational), len(sol_sets) == old_len_sol_sets + 1) over {Any | isinstance(a, Interval) and not (domain.is_subset(S.Reals) is False) and hasattr(gen, 'is_extended_real') and hasattr(domain, 'is_subset') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(domain, 'inf') and hasattr(domain, 'sup') and hasattr(expr, 'xreplace') and hasattr(expr, 'func') and hasattr(expr, 'rel_op') and hasattr(domain, 'boundary') and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (domain.is_subset(S.Reals) is False)       ║
+# ║   requires: hasattr(gen, 'is_extended_real')               ║
+# ║   requires: hasattr(domain, 'is_subset')                   ║
+# ║   ensures:  len(sol_sets) == old_len_sol_sets + 1          ║
+# ║   fiber[case_0]: domain.is_subset(S.Reals) is False        ║
+# ║   fiber[case_1]: domain is not S.Reals => rv               ║
+# ║   fiber[case_2]: not (domain.is_subset(S.Reals) is Fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_univariate_inequality : {Any | isinstance(a, In...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -491,9 +543,12 @@ def reduce_abs_inequalities(exprs, gen):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 4.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6810a5f5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_univariate_inequality","kind":"function","src_hash":"636ddde86c4615a3","in":{"base":"Any","pred":"isinstance(a, Interval)"},"out":{"base":"Any"},"spec":{"lhs":"solve_univariate_inequality(exp)","rhs":"solves a real univariate inequality","over":{"base":"Any","pred":"isinstance(a, Interval)"},"name":"solve_univariate_inequality_correct"},"guarantee":"solves a real univariate inequality","fibers":[{"name":"Interval","pred":"isinstance(a, Interval)","path":{"lhs":"solve_univariate_inequality(x)","rhs":"solves a real univariate inequality","over":{"base":"Interval","pred":"isinstance(a, Interval)"},"name":"solve_univariate_inequality_Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.solve_univariate_inequality_Interval_correct","statement":"solve_univariate_inequality satisfies spec on Interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6810a5f5b6fa2acd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.solve_univariate_inequality","kind":"function","src_hash":"636ddde86c4615a3","in":{"base":"Any","pred":"isinstance(a, Interval) and not (domain.is_subset(S.Reals) is False) and hasattr(gen, 'is_extended_real') and hasattr(domain, 'is_subset') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(domain, 'inf') and hasattr(domain, 'sup') and hasattr(expr, 'xreplace') and hasattr(expr, 'func') and hasattr(expr, 'rel_op') and hasattr(domain, 'boundary') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: len(sol_sets) == old_len_sol_sets + 1"},"spec":{"lhs":"solve_univariate_inequality(expr, gen, relational)","rhs":"len(sol_sets) == old_len_sol_sets + 1","over":{"base":"Any","pred":"isinstance(a, Interval) and not (domain.is_subset(S.Reals) is False) and hasattr(gen, 'is_extended_real') and hasattr(domain, 'is_subset') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(domain, 'inf') and hasattr(domain, 'sup') and hasattr(expr, 'xreplace') and hasattr(expr, 'func') and hasattr(expr, 'rel_op') and hasattr(domain, 'boundary') and hasattr(expr, 'subs')"},"name":"solve_univariate_inequality_correct"},"guarantee":"len(sol_sets) == old_len_sol_sets + 1; 3-fiber decomposition","fibers":[{"name":"Interval","pred":"isinstance(a, Interval)","path":{"lhs":"solve_univariate_inequality(x)","rhs":"len(sol_sets) == old_len_sol_sets + 1; 3-fiber decomposition","over":{"base":"Interval","pred":"isinstance(a, Interval)"},"name":"solve_univariate_inequality_Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.solve_univariate_inequality_Interval_correct","statement":"solve_univariate_inequality satisfies spec on Interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6810a5f5b6fa2acd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (domain.is_subset(S.Reals) is False)","hasattr(gen, 'is_extended_real')","hasattr(domain, 'is_subset')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(domain, 'inf')","hasattr(domain, 'sup')","hasattr(expr, 'xreplace')","hasattr(expr, 'func')","hasattr(expr, 'rel_op')","hasattr(domain, 'boundary')","hasattr(expr, 'subs')"],"ensures":["len(sol_sets) == old_len_sol_sets + 1"],"fibers":[{"name":"case_0","guard":"domain.is_subset(S.Reals) is False","ensures":[],"decidability":"library"},{"name":"case_1","guard":"domain is not S.Reals","ensures":["result == rv"],"decidability":"library","returns_expr":"rv"},{"name":"case_2","guard":"not (domain.is_subset(S.Reals) is False) and not (domain is not S.Reals)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.boundary","domain.inf","domain.is_subset","domain.sup","expr.func","expr.lhs","expr.rel_op","expr.rhs","expr.subs","expr.xreplace","gen.is_extended_real"],"calls_mutating":["discontinuities.remove","singularities.extend","singularities.remove","sol_sets.append"],"raises":["NotImplementedError","TypeError","ValueError"],"catches":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["discontinuities.*","singularities.*","sol_sets.*"],"old_bindings":{"old_len_singularities":"len(singularities)","old_len_sol_sets":"len(sol_sets)"},"post_ensures":["len(sol_sets) == old_len_sol_sets + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'coeffI != S.Zero and check', \"rel in ('<', '<=')\", 'not isinstance(a, Interval)', 'solns is None', 'start != end', 'period == S.Zero', 'gen not in n.free_symbols and len(e.free_symbols) > 1', '(coeffI := expanded_e.coeff(S.ImaginaryUnit)) != S.Zero', 'len(reals) > 1', \"rel in ('>', '>=')\", 'gen.is_extended_real is None', 'rv is None'}, fibers={'Interval'})"]}}
 def solve_univariate_inequality(expr, gen, relational=True, domain=S.Reals, continuous=False):
     """Solves a real univariate inequality.
 
@@ -790,16 +845,25 @@ def solve_univariate_inequality(expr, gen, relational=True, domain=S.Reals, cont
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pt(sta), return a point between start and end) over Any ║
+# ║ Path(_pt(start, end), <unspecified:_pt>) over {Any | hasattr(start, 'is_infinite') and hasattr(end, 'is_infinite') and hasattr(start, 'is_extended_positive') and hasattr(end, 'is_extended_negative') and hasattr(start, 'is_extended_negative') and hasattr(end, 'is_extended_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pt : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(start, 'is_infinite')                  ║
+# ║   requires: hasattr(end, 'is_infinite')                    ║
+# ║   requires: hasattr(start, 'is_extended_positive')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pt : {Any | hasattr(start, 'is_infinite') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a93f45d94b78902  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities._pt","kind":"function","src_hash":"88d58baabaec7514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pt(sta)","rhs":"return a point between start and end","over":{"base":"Any"},"name":"_pt_correct"},"guarantee":"return a point between start and end","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities._pt_correct","statement":"Path(_pt(x), return a point between start and end)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a93f45d94b78902"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities._pt","kind":"function","src_hash":"88d58baabaec7514","in":{"base":"Any","pred":"hasattr(start, 'is_infinite') and hasattr(end, 'is_infinite') and hasattr(start, 'is_extended_positive') and hasattr(end, 'is_extended_negative') and hasattr(start, 'is_extended_negative') and hasattr(end, 'is_extended_positive')"},"out":{"base":"Any"},"spec":{"lhs":"_pt(start, end)","rhs":"<unspecified:_pt>","over":{"base":"Any","pred":"hasattr(start, 'is_infinite') and hasattr(end, 'is_infinite') and hasattr(start, 'is_extended_positive') and hasattr(end, 'is_extended_negative') and hasattr(start, 'is_extended_negative') and hasattr(end, 'is_extended_positive')"},"name":"_pt_correct"},"guarantee":"return a point between start and end","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities._pt_correct","statement":"Path(_pt(x), return a point between start and end)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a93f45d94b78902","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(start, 'is_infinite')","hasattr(end, 'is_infinite')","hasattr(start, 'is_extended_positive')","hasattr(end, 'is_extended_negative')","hasattr(start, 'is_extended_negative')","hasattr(end, 'is_extended_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["end.is_extended_negative","end.is_extended_positive","end.is_infinite","start.is_extended_negative","start.is_extended_positive","start.is_infinite"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _pt(start, end):
     """Return a point between start and end"""
     if not start.is_infinite and not end.is_infinite:
@@ -834,9 +898,15 @@ def _pt(start, end):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_inequality(ie,), return the inequality with s isolated on the left, if possible. if the relationship is non-linear, a solution involving and or or may be returned) over {Any | isinstance(c, Eq)} ║
+# ║ Path(_solve_inequality(ie, s, linear), len(conds) == old_len_conds + 1) over {Any | isinstance(c, Eq) and hasattr(ie, 'free_symbols') and hasattr(ie, 'rhs') and hasattr(ie, 'reversed') and hasattr(ie, 'lhs') and hasattr(ie, 'subs') and hasattr(ie, 'func') and hasattr(ie, 'rel_op')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_inequality : {Any | isinstance(c, Eq)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ie, 'free_symbols')                    ║
+# ║   requires: hasattr(ie, 'rhs')                             ║
+# ║   requires: hasattr(ie, 'reversed')                        ║
+# ║   ensures:  len(conds) == old_len_conds + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_inequality : {Any | isinstance(c, Eq) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Eq: {isinstance(c, Eq)} → library_axiom                  ║
@@ -846,9 +916,12 @@ def _pt(start, end):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 212f9866...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities._solve_inequality","kind":"function","src_hash":"70bf33dd1fe78511","in":{"base":"Any","pred":"isinstance(c, Eq)"},"out":{"base":"Any"},"spec":{"lhs":"_solve_inequality(ie,)","rhs":"return the inequality with s isolated on the left, if possible. if the relationship is non-linear, a solution involving and or or may be returned","over":{"base":"Any","pred":"isinstance(c, Eq)"},"name":"_solve_inequality_correct"},"guarantee":"return the inequality with s isolated on the left, if possible. if the relationship is non-linear, a solution involving and or or may be returned","fibers":[{"name":"Eq","pred":"isinstance(c, Eq)","path":{"lhs":"_solve_inequality(x)","rhs":"return the inequality with s isolated on the left, if possible. if the relationship is non-linear, a solution involving and or or may be returned","over":{"base":"Eq","pred":"isinstance(c, Eq)"},"name":"_solve_inequality_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities._solve_inequality_Eq_correct","statement":"_solve_inequality satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"212f986619b28d59"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities._solve_inequality","kind":"function","src_hash":"70bf33dd1fe78511","in":{"base":"Any","pred":"isinstance(c, Eq) and hasattr(ie, 'free_symbols') and hasattr(ie, 'rhs') and hasattr(ie, 'reversed') and hasattr(ie, 'lhs') and hasattr(ie, 'subs') and hasattr(ie, 'func') and hasattr(ie, 'rel_op')"},"out":{"base":"Any","pred":"result satisfies: len(conds) == old_len_conds + 1"},"spec":{"lhs":"_solve_inequality(ie, s, linear)","rhs":"len(conds) == old_len_conds + 1","over":{"base":"Any","pred":"isinstance(c, Eq) and hasattr(ie, 'free_symbols') and hasattr(ie, 'rhs') and hasattr(ie, 'reversed') and hasattr(ie, 'lhs') and hasattr(ie, 'subs') and hasattr(ie, 'func') and hasattr(ie, 'rel_op')"},"name":"_solve_inequality_correct"},"guarantee":"len(conds) == old_len_conds + 1","fibers":[{"name":"Eq","pred":"isinstance(c, Eq)","path":{"lhs":"_solve_inequality(x)","rhs":"len(conds) == old_len_conds + 1","over":{"base":"Eq","pred":"isinstance(c, Eq)"},"name":"_solve_inequality_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities._solve_inequality_Eq_correct","statement":"_solve_inequality satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"212f986619b28d59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ie, 'free_symbols')","hasattr(ie, 'rhs')","hasattr(ie, 'reversed')","hasattr(ie, 'lhs')","hasattr(ie, 'subs')","hasattr(ie, 'func')","hasattr(ie, 'rel_op')"],"ensures":["len(conds) == old_len_conds + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ie.free_symbols","ie.func","ie.lhs","ie.rel_op","ie.reversed","ie.rhs","ie.subs"],"calls_mutating":["conds.append"],"raises":["NotImplementedError"],"catches":["PolynomialError","TypeError"]},"state_contract":{"modifies":["conds.*"],"old_bindings":{"old_len_conds":"len(conds)"},"post_ensures":["len(conds) == old_len_conds + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not linear and p.degree() > 1', 'ie.lhs == s and s not in ie.rhs.free_symbols', 'ie.rhs == s', \"a.is_zero != False or (a.is_negative == a.is_positive is None and ie.rel_op not in ('!=', '=='))\", 'p.degree() == 0', 'isinstance(c, Eq) and c.lhs == s', 'rv is None'}, fibers={'Eq'})"]}}
 def _solve_inequality(ie, s, linear=False):
     """Return the inequality with s isolated on the left, if possible.
     If the relationship is non-linear, a solution involving And or Or
@@ -1023,9 +1096,17 @@ def _solve_inequality(ie, s, linear=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reduce_inequalities(ine), internal helper behaves correctly) over {Any | isinstance(i, Abs)} ║
+# ║ Path(_reduce_inequalities(inequalities, symbols), And(*poly_reduced + abs_reduced + other)) over {Any | isinstance(i, Abs) and len(common) > 0 and len(gens) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _reduce_inequalities : {Any | isinstance(i, Abs)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(common) > 0                                ║
+# ║   requires: len(gens) > 0                                  ║
+# ║   ensures:  len(common) == old_len_common - 1              ║
+# ║   ensures:  len(gens) == old_len_gens - 1                  ║
+# ║   ensures:  len(other) == old_len_other + 1                ║
+# ║   returns:  And(*poly_reduced + abs_reduced + other)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _reduce_inequalities : {Any | isinstance(i, Abs) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Abs: {isinstance(i, Abs)} → library_axiom                ║
@@ -1035,9 +1116,12 @@ def _solve_inequality(ie, s, linear=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5d54ce61...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities._reduce_inequalities","kind":"function","src_hash":"15b5a2cc5de77e2d","in":{"base":"Any","pred":"isinstance(i, Abs)"},"out":{"base":"Any"},"spec":{"lhs":"_reduce_inequalities(ine)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(i, Abs)"},"name":"_reduce_inequalities_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Abs","pred":"isinstance(i, Abs)","path":{"lhs":"_reduce_inequalities(x)","rhs":"internal helper behaves correctly","over":{"base":"Abs","pred":"isinstance(i, Abs)"},"name":"_reduce_inequalities_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities._reduce_inequalities_Abs_correct","statement":"_reduce_inequalities satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5d54ce6158160ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities._reduce_inequalities","kind":"function","src_hash":"15b5a2cc5de77e2d","in":{"base":"Any","pred":"isinstance(i, Abs) and len(common) > 0 and len(gens) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (And(*poly_reduced + abs_reduced + other))"},"spec":{"lhs":"_reduce_inequalities(inequalities, symbols)","rhs":"And(*poly_reduced + abs_reduced + other)","over":{"base":"Any","pred":"isinstance(i, Abs) and len(common) > 0 and len(gens) > 0"},"name":"_reduce_inequalities_correct"},"guarantee":"returns And(*poly_reduced + abs_reduced + other); len(common) == old_len_common - 1; len(gens) == old_len_gens - 1; len(other) == old_len_other + 1","fibers":[{"name":"Abs","pred":"isinstance(i, Abs)","path":{"lhs":"_reduce_inequalities(x)","rhs":"returns And(*poly_reduced + abs_reduced + other); len(common) == old_len_common - 1; len(gens) == old_len_gens - 1; len(other) == old_len_other + 1","over":{"base":"Abs","pred":"isinstance(i, Abs)"},"name":"_reduce_inequalities_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities._reduce_inequalities_Abs_correct","statement":"_reduce_inequalities satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5d54ce6158160ab6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(common) > 0","len(gens) > 0"],"ensures":["len(common) == old_len_common - 1","len(gens) == old_len_gens - 1","len(other) == old_len_other + 1"],"returns_expr":"And(*poly_reduced + abs_reduced + other)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["abs_part.setdefault","common.pop","gens.pop","other.append","poly_part.setdefault"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["abs_part.*","common.*","gens.*","other.*","poly_part.*"],"old_bindings":{"old_len_common":"len(common)","old_len_gens":"len(gens)","old_len_other":"len(other)"},"pre_requires":["len(common) > 0","len(gens) > 0"],"post_ensures":["len(common) == old_len_common - 1","len(gens) == old_len_gens - 1","len(other) == old_len_other + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'components and all((isinstance(i, Abs) for i in components))', 'len(gens) == 1', 'len(common) == 1'}, fibers={'Abs'})"]}}
 def _reduce_inequalities(inequalities, symbols):
     # helper for reduce_inequalities
 
@@ -1084,7 +1168,10 @@ def _reduce_inequalities(inequalities, symbols):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_inequalities(ine), reduce a system of inequalities with rational coefficients) over {Any | isinstance(i, Relational)} ║
+# ║ Path(reduce_inequalities(inequalities, symbols), len(keep) == old_len_keep + 1) over {Any | isinstance(i, Relational)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(keep) == old_len_keep + 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_inequalities : {Any | isinstance(i, Relational...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1096,9 +1183,12 @@ def _reduce_inequalities(inequalities, symbols):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6fa96b27...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_inequalities","kind":"function","src_hash":"530bf95963edca78","in":{"base":"Any","pred":"isinstance(i, Relational)"},"out":{"base":"Any"},"spec":{"lhs":"reduce_inequalities(ine)","rhs":"reduce a system of inequalities with rational coefficients","over":{"base":"Any","pred":"isinstance(i, Relational)"},"name":"reduce_inequalities_correct"},"guarantee":"reduce a system of inequalities with rational coefficients","fibers":[{"name":"Relational","pred":"isinstance(i, Relational)","path":{"lhs":"reduce_inequalities(x)","rhs":"reduce a system of inequalities with rational coefficients","over":{"base":"Relational","pred":"isinstance(i, Relational)"},"name":"reduce_inequalities_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.reduce_inequalities_Relational_correct","statement":"reduce_inequalities satisfies spec on Relational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6fa96b2705124ff2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.inequalities.reduce_inequalities","kind":"function","src_hash":"530bf95963edca78","in":{"base":"Any","pred":"isinstance(i, Relational)"},"out":{"base":"Any","pred":"result satisfies: len(keep) == old_len_keep + 1"},"spec":{"lhs":"reduce_inequalities(inequalities, symbols)","rhs":"len(keep) == old_len_keep + 1","over":{"base":"Any","pred":"isinstance(i, Relational)"},"name":"reduce_inequalities_correct"},"guarantee":"len(keep) == old_len_keep + 1","fibers":[{"name":"Relational","pred":"isinstance(i, Relational)","path":{"lhs":"reduce_inequalities(x)","rhs":"len(keep) == old_len_keep + 1","over":{"base":"Relational","pred":"isinstance(i, Relational)"},"name":"reduce_inequalities_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.inequalities.reduce_inequalities_Relational_correct","statement":"reduce_inequalities satisfies spec on Relational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6fa96b2705124ff2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(keep) == old_len_keep + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["keep.append"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["keep.*"],"old_bindings":{"old_len_keep":"len(keep)"},"post_ensures":["len(keep) == old_len_keep + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'i == False', 'i == True', 'isinstance(i, Relational)'}, fibers={'Relational'})"]}}
 def reduce_inequalities(inequalities, symbols=[]):
     """Reduce a system of inequalities with rational coefficients.
 

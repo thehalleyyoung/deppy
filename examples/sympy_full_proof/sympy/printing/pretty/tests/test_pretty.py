@@ -101,16 +101,22 @@ from sympy.vector import CoordSys3D, Gradient, Curl, Divergence, Dot, Cross, Lap
 
 import sympy as sym
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lowergamma(), correctly constructs a lowergamma instance) over Any ║
+# ║ Path(lowergamma(), isinstance(self, sym.lowergamma)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lowergamma : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, sym.lowergamma)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lowergamma : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1bca67b254be7b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.lowergamma","kind":"class","src_hash":"d4b502ee640645fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lowergamma()","rhs":"correctly constructs a lowergamma instance","over":{"base":"Any"},"name":"lowergamma_correct"},"guarantee":"correctly constructs a lowergamma instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1bca67b254be7b9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.lowergamma","kind":"class","src_hash":"d4b502ee640645fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, sym.lowergamma)"},"spec":{"lhs":"lowergamma()","rhs":"isinstance(self, sym.lowergamma)","over":{"base":"Any"},"name":"lowergamma_correct"},"guarantee":"isinstance(self, sym.lowergamma)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1bca67b254be7b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, sym.lowergamma)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function lowergamma not found in source"]}}
 class lowergamma(sym.lowergamma):
     pass   # testing notation inheritance by a subclass with same name
 
@@ -292,48 +298,68 @@ O(x**2 + y**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty(exp), ascii pretty-printing) over Any          ║
+# ║ Path(pretty(expr, order), xpretty(expr, order=order, use_unicode=False, wrap_line=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  xpretty(expr, order=order, use_unicode=Fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 263403b2d0ad70ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.pretty","kind":"function","src_hash":"6912ad4e2971d417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty(exp)","rhs":"ascii pretty-printing","over":{"base":"Any"},"name":"pretty_correct"},"guarantee":"ascii pretty-printing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"263403b2d0ad70ac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.pretty","kind":"function","src_hash":"6912ad4e2971d417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty(expr, order)","rhs":"xpretty(expr, order=order, use_unicode=False, wrap_line=False)","over":{"base":"Any"},"name":"pretty_correct"},"guarantee":"returns xpretty(expr, order=order, use_unicode=False, wrap_line=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"263403b2d0ad70ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"xpretty(expr, order=order, use_unicode=False, wrap_line=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def pretty(expr, order=None):
     """ASCII pretty-printing"""
     return xpretty(expr, order=order, use_unicode=False, wrap_line=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upretty(exp), unicode pretty-printing) over Any       ║
+# ║ Path(upretty(expr, order), xpretty(expr, order=order, use_unicode=True, wrap_line=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  xpretty(expr, order=order, use_unicode=Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upretty : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d985a1952b86efdb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.upretty","kind":"function","src_hash":"3151dd17902ae667","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upretty(exp)","rhs":"unicode pretty-printing","over":{"base":"Any"},"name":"upretty_correct"},"guarantee":"unicode pretty-printing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d985a1952b86efdb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.upretty","kind":"function","src_hash":"3151dd17902ae667","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upretty(expr, order)","rhs":"xpretty(expr, order=order, use_unicode=True, wrap_line=False)","over":{"base":"Any"},"name":"upretty_correct"},"guarantee":"returns xpretty(expr, order=order, use_unicode=True, wrap_line=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d985a1952b86efdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"xpretty(expr, order=order, use_unicode=True, wrap_line=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def upretty(expr, order=None):
     """Unicode pretty-printing"""
     return xpretty(expr, order=order, use_unicode=True, wrap_line=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ascii_str(), test_pretty_ascii_str produces the expected output) over Any ║
+# ║ Path(test_pretty_ascii_str(), pretty('xxx') == 'xxx' and pretty("xxx'xxx") == "xxx'xxx" and pretty('xxx"xxx') == 'xxx"xxx' and pretty('xxx"xxx\'xxx') == 'xxx"xxx\'xxx' and pretty('xxx\nxxx') == 'xxx\nxxx') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ascii_str : Any → {Any | pretty('xxx') ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty('xxx') == 'xxx'                         ║
+# ║   ensures:  pretty("xxx'xxx") == "xxx'xxx"                 ║
+# ║   ensures:  pretty('xxx"xxx') == 'xxx"xxx'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ascii_str : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a300fb4a6ec0288a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee5b8194591bc18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ascii_str","kind":"function","src_hash":"d55e07ec64178adc","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty('xxx') == 'xxx' and pretty('xxx') == 'xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx' and pretty('xxx\\nxxx') == 'xxx\\nxxx'"},"spec":{"lhs":"test_pretty_ascii_str()","rhs":"test_pretty_ascii_str produces the expected output","over":{"base":"Any"},"name":"test_pretty_ascii_str_correct"},"guarantee":"test_pretty_ascii_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ascii_str_correct","statement":"Path(test_pretty_ascii_str(x), test_pretty_ascii_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a300fb4a6ec0288a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ascii_str","kind":"function","src_hash":"d55e07ec64178adc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty('xxx') == 'xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx' and pretty('xxx\\nxxx') == 'xxx\\nxxx'"},"spec":{"lhs":"test_pretty_ascii_str()","rhs":"pretty('xxx') == 'xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx' and pretty('xxx\\nxxx') == 'xxx\\nxxx'","over":{"base":"Any"},"name":"test_pretty_ascii_str_correct"},"guarantee":"pretty('xxx') == 'xxx'; pretty(\"xxx'xxx\") == \"xxx'xxx\"; pretty('xxx\"xxx') == 'xxx\"xxx'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ascii_str_correct","statement":"Path(test_pretty_ascii_str(x), pretty('xxx') == 'xxx'; pretty(\"xxx'xxx\") == \"xxx'xxx\"; pretty('xxx\"xxx') == 'xxx\"xxx')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee5b8194591bc18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty('xxx') == 'xxx'","pretty(\"xxx'xxx\") == \"xxx'xxx\"","pretty('xxx\"xxx') == 'xxx\"xxx'","pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx'","pretty('xxx\\nxxx') == 'xxx\\nxxx'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_ascii_str():
     assert pretty( 'xxx' ) == 'xxx'
     assert pretty( "xxx" ) == 'xxx'
@@ -348,16 +374,24 @@ def test_pretty_ascii_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_unicode_str(), test_pretty_unicode_str produces the expected output) over Any ║
+# ║ Path(test_pretty_unicode_str(), pretty('xxx') == 'xxx' and pretty("xxx'xxx") == "xxx'xxx" and pretty('xxx"xxx') == 'xxx"xxx' and pretty('xxx"xxx\'xxx') == 'xxx"xxx\'xxx' and pretty('xxx\nxxx') == 'xxx\nxxx') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_unicode_str : Any → {Any | pretty('xxx') ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty('xxx') == 'xxx'                         ║
+# ║   ensures:  pretty("xxx'xxx") == "xxx'xxx"                 ║
+# ║   ensures:  pretty('xxx"xxx') == 'xxx"xxx'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_unicode_str : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12266735287f5723  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb1906b874e149e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_unicode_str","kind":"function","src_hash":"ab8efb27e585561b","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty('xxx') == 'xxx' and pretty('xxx') == 'xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx' and pretty('xxx\\nxxx') == 'xxx\\nxxx'"},"spec":{"lhs":"test_pretty_unicode_str()","rhs":"test_pretty_unicode_str produces the expected output","over":{"base":"Any"},"name":"test_pretty_unicode_str_correct"},"guarantee":"test_pretty_unicode_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_unicode_str_correct","statement":"Path(test_pretty_unicode_str(x), test_pretty_unicode_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12266735287f5723"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_unicode_str","kind":"function","src_hash":"ab8efb27e585561b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty('xxx') == 'xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx' and pretty('xxx\\nxxx') == 'xxx\\nxxx'"},"spec":{"lhs":"test_pretty_unicode_str()","rhs":"pretty('xxx') == 'xxx' and pretty(\"xxx'xxx\") == \"xxx'xxx\" and pretty('xxx\"xxx') == 'xxx\"xxx' and pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx' and pretty('xxx\\nxxx') == 'xxx\\nxxx'","over":{"base":"Any"},"name":"test_pretty_unicode_str_correct"},"guarantee":"pretty('xxx') == 'xxx'; pretty(\"xxx'xxx\") == \"xxx'xxx\"; pretty('xxx\"xxx') == 'xxx\"xxx'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_unicode_str_correct","statement":"Path(test_pretty_unicode_str(x), pretty('xxx') == 'xxx'; pretty(\"xxx'xxx\") == \"xxx'xxx\"; pretty('xxx\"xxx') == 'xxx\"xxx')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb1906b874e149e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty('xxx') == 'xxx'","pretty(\"xxx'xxx\") == \"xxx'xxx\"","pretty('xxx\"xxx') == 'xxx\"xxx'","pretty('xxx\"xxx\\'xxx') == 'xxx\"xxx\\'xxx'","pretty('xxx\\nxxx') == 'xxx\\nxxx'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_unicode_str():
     assert pretty( 'xxx' ) == 'xxx'
     assert pretty( 'xxx' ) == 'xxx'
@@ -372,16 +406,24 @@ def test_pretty_unicode_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upretty_greek(), test_upretty_greek produces the expected output) over Any ║
+# ║ Path(test_upretty_greek(), upretty(oo) == '∞' and upretty(Symbol('alpha^+_1')) == 'α⁺₁' and upretty(Symbol('beta')) == 'β' and upretty(Symbol('lambda')) == 'λ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upretty_greek : Any → {Any | upretty(oo) == '∞' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(oo) == '∞'                             ║
+# ║   ensures:  upretty(Symbol('alpha^+_1')) == 'α⁺₁'          ║
+# ║   ensures:  upretty(Symbol('beta')) == 'β'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upretty_greek : Any → {Any | result satisfies: u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ca3e99fb22ecdde  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51407dd356eaf7f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_greek","kind":"function","src_hash":"b3e454d45edb7b11","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(oo) == '\u221e' and upretty(Symbol('alpha^+_1')) == '\u03b1\u207a\u2081' and upretty(Symbol('beta')) == '\u03b2' and upretty(Symbol('lambda')) == '\u03bb'"},"spec":{"lhs":"test_upretty_greek()","rhs":"test_upretty_greek produces the expected output","over":{"base":"Any"},"name":"test_upretty_greek_correct"},"guarantee":"test_upretty_greek produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_greek_correct","statement":"Path(test_upretty_greek(x), test_upretty_greek produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca3e99fb22ecdde"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_greek","kind":"function","src_hash":"b3e454d45edb7b11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(oo) == '\u221e' and upretty(Symbol('alpha^+_1')) == '\u03b1\u207a\u2081' and upretty(Symbol('beta')) == '\u03b2' and upretty(Symbol('lambda')) == '\u03bb'"},"spec":{"lhs":"test_upretty_greek()","rhs":"upretty(oo) == '\u221e' and upretty(Symbol('alpha^+_1')) == '\u03b1\u207a\u2081' and upretty(Symbol('beta')) == '\u03b2' and upretty(Symbol('lambda')) == '\u03bb'","over":{"base":"Any"},"name":"test_upretty_greek_correct"},"guarantee":"upretty(oo) == '\u221e'; upretty(Symbol('alpha^+_1')) == '\u03b1\u207a\u2081'; upretty(Symbol('beta')) == '\u03b2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_greek_correct","statement":"Path(test_upretty_greek(x), upretty(oo) == '\u221e'; upretty(Symbol('alpha^+_1')) == '\u03b1\u207a\u2081'; upretty(Symbol('beta')) == '\u03b2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51407dd356eaf7f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(oo) == '\u221e'","upretty(Symbol('alpha^+_1')) == '\u03b1\u207a\u2081'","upretty(Symbol('beta')) == '\u03b2'","upretty(Symbol('lambda')) == '\u03bb'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_upretty_greek():
     assert upretty( oo ) == '∞'
     assert upretty( Symbol('alpha^+_1') ) == 'α⁺₁'
@@ -390,16 +432,24 @@ def test_upretty_greek():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upretty_multiindex(), test_upretty_multiindex produces the expected output) over Any ║
+# ║ Path(test_upretty_multiindex(), upretty(Symbol('beta12')) == 'β₁₂' and upretty(Symbol('Y00')) == 'Y₀₀' and upretty(Symbol('Y_00')) == 'Y₀₀' and upretty(Symbol('F^+-')) == 'F⁺⁻') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upretty_multiindex : Any → {Any | upretty(Symbol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Symbol('beta12')) == 'β₁₂'             ║
+# ║   ensures:  upretty(Symbol('Y00')) == 'Y₀₀'                ║
+# ║   ensures:  upretty(Symbol('Y_00')) == 'Y₀₀'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upretty_multiindex : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c0aea0e02550275  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08519ceeee049227  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_multiindex","kind":"function","src_hash":"b0a3ee642edaf989","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Symbol('beta12')) == '\u03b2\u2081\u2082' and upretty(Symbol('Y00')) == 'Y\u2080\u2080' and upretty(Symbol('Y_00')) == 'Y\u2080\u2080' and upretty(Symbol('F^+-')) == 'F\u207a\u207b'"},"spec":{"lhs":"test_upretty_multiindex()","rhs":"test_upretty_multiindex produces the expected output","over":{"base":"Any"},"name":"test_upretty_multiindex_correct"},"guarantee":"test_upretty_multiindex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_multiindex_correct","statement":"Path(test_upretty_multiindex(x), test_upretty_multiindex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c0aea0e02550275"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_multiindex","kind":"function","src_hash":"b0a3ee642edaf989","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Symbol('beta12')) == '\u03b2\u2081\u2082' and upretty(Symbol('Y00')) == 'Y\u2080\u2080' and upretty(Symbol('Y_00')) == 'Y\u2080\u2080' and upretty(Symbol('F^+-')) == 'F\u207a\u207b'"},"spec":{"lhs":"test_upretty_multiindex()","rhs":"upretty(Symbol('beta12')) == '\u03b2\u2081\u2082' and upretty(Symbol('Y00')) == 'Y\u2080\u2080' and upretty(Symbol('Y_00')) == 'Y\u2080\u2080' and upretty(Symbol('F^+-')) == 'F\u207a\u207b'","over":{"base":"Any"},"name":"test_upretty_multiindex_correct"},"guarantee":"upretty(Symbol('beta12')) == '\u03b2\u2081\u2082'; upretty(Symbol('Y00')) == 'Y\u2080\u2080'; upretty(Symbol('Y_00')) == 'Y\u2080\u2080'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_multiindex_correct","statement":"Path(test_upretty_multiindex(x), upretty(Symbol('beta12')) == '\u03b2\u2081\u2082'; upretty(Symbol('Y00')) == 'Y\u2080\u2080'; upretty(Symbol('Y_00')) == 'Y\u2080\u2080')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08519ceeee049227","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Symbol('beta12')) == '\u03b2\u2081\u2082'","upretty(Symbol('Y00')) == 'Y\u2080\u2080'","upretty(Symbol('Y_00')) == 'Y\u2080\u2080'","upretty(Symbol('F^+-')) == 'F\u207a\u207b'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_upretty_multiindex():
     assert upretty( Symbol('beta12') ) == 'β₁₂'
     assert upretty( Symbol('Y00') ) == 'Y₀₀'
@@ -408,16 +458,24 @@ def test_upretty_multiindex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upretty_sub_super(), test_upretty_sub_super produces the expected output) over Any ║
+# ║ Path(test_upretty_sub_super(), upretty(Symbol('beta_1_2')) == 'β₁ ₂' and upretty(Symbol('beta^1^2')) == 'β¹ ²' and upretty(Symbol('beta_1^2')) == 'β²₁' and upretty(Symbol('beta_10_20')) == 'β₁₀ ₂₀' and upretty(Symbol('beta_ax_gamma^i')) == 'βⁱₐₓ ᵧ' and upretty(Symbol('F^1^2_3_4')) == 'F¹ ²₃ ₄' and upretty(Symbol('F_1_2^3^4')) == 'F³ ⁴₁ ₂' and upretty(Symbol('F_1_2_3_4')) == 'F₁ ₂ ₃ ₄' and upretty(Symbol('F^1^2^3^4')) == 'F¹ ² ³ ⁴') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upretty_sub_super : Any → {Any | upretty(Symbol(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Symbol('beta_1_2')) == 'β₁ ₂'          ║
+# ║   ensures:  upretty(Symbol('beta^1^2')) == 'β¹ ²'          ║
+# ║   ensures:  upretty(Symbol('beta_1^2')) == 'β²₁'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upretty_sub_super : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c70293a7c64f2b03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a729b3309d8dcc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_sub_super","kind":"function","src_hash":"c8422eb9b3241ac3","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Symbol('beta_1_2')) == '\u03b2\u2081 \u2082' and upretty(Symbol('beta^1^2')) == '\u03b2\u00b9 \u00b2' and upretty(Symbol('beta_1^2')) == '\u03b2\u00b2\u2081' and upretty(Symbol('beta_10_20')) == '\u03b2\u2081\u2080 \u2082\u2080' and upretty(Symbol('beta_ax_gamma^i')) == '\u03b2\u2071\u2090\u2093 \u1d67' and upretty(Symbol('F^1^2_3_4')) == 'F\u00b9 \u00b2\u2083 \u2084' and upretty(Symbol('F_1_2^3^4')) == 'F\u00b3 \u2074\u2081 \u2082' and upretty(Symbol('F_1_2_3_4')) == 'F\u2081 \u2082 \u2083 \u2084' and upretty(Symbol('F^1^2^3^4')) == 'F\u00b9 \u00b2 \u00b3 \u2074'"},"spec":{"lhs":"test_upretty_sub_super()","rhs":"test_upretty_sub_super produces the expected output","over":{"base":"Any"},"name":"test_upretty_sub_super_correct"},"guarantee":"test_upretty_sub_super produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_sub_super_correct","statement":"Path(test_upretty_sub_super(x), test_upretty_sub_super produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c70293a7c64f2b03"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_sub_super","kind":"function","src_hash":"c8422eb9b3241ac3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Symbol('beta_1_2')) == '\u03b2\u2081 \u2082' and upretty(Symbol('beta^1^2')) == '\u03b2\u00b9 \u00b2' and upretty(Symbol('beta_1^2')) == '\u03b2\u00b2\u2081' and upretty(Symbol('beta_10_20')) == '\u03b2\u2081\u2080 \u2082\u2080' and upretty(Symbol('beta_ax_gamma^i')) == '\u03b2\u2071\u2090\u2093 \u1d67' and upretty(Symbol('F^1^2_3_4')) == 'F\u00b9 \u00b2\u2083 \u2084' and upretty(Symbol('F_1_2^3^4')) == 'F\u00b3 \u2074\u2081 \u2082' and upretty(Symbol('F_1_2_3_4')) == 'F\u2081 \u2082 \u2083 \u2084' and upretty(Symbol('F^1^2^3^4')) == 'F\u00b9 \u00b2 \u00b3 \u2074'"},"spec":{"lhs":"test_upretty_sub_super()","rhs":"upretty(Symbol('beta_1_2')) == '\u03b2\u2081 \u2082' and upretty(Symbol('beta^1^2')) == '\u03b2\u00b9 \u00b2' and upretty(Symbol('beta_1^2')) == '\u03b2\u00b2\u2081' and upretty(Symbol('beta_10_20')) == '\u03b2\u2081\u2080 \u2082\u2080' and upretty(Symbol('beta_ax_gamma^i')) == '\u03b2\u2071\u2090\u2093 \u1d67' and upretty(Symbol('F^1^2_3_4')) == 'F\u00b9 \u00b2\u2083 \u2084' and upretty(Symbol('F_1_2^3^4')) == 'F\u00b3 \u2074\u2081 \u2082' and upretty(Symbol('F_1_2_3_4')) == 'F\u2081 \u2082 \u2083 \u2084' and upretty(Symbol('F^1^2^3^4')) == 'F\u00b9 \u00b2 \u00b3 \u2074'","over":{"base":"Any"},"name":"test_upretty_sub_super_correct"},"guarantee":"upretty(Symbol('beta_1_2')) == '\u03b2\u2081 \u2082'; upretty(Symbol('beta^1^2')) == '\u03b2\u00b9 \u00b2'; upretty(Symbol('beta_1^2')) == '\u03b2\u00b2\u2081'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_sub_super_correct","statement":"Path(test_upretty_sub_super(x), upretty(Symbol('beta_1_2')) == '\u03b2\u2081 \u2082'; upretty(Symbol('beta^1^2')) == '\u03b2\u00b9 \u00b2'; upretty(Symbol('beta_1^2')) == '\u03b2\u00b2\u2081')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a729b3309d8dcc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Symbol('beta_1_2')) == '\u03b2\u2081 \u2082'","upretty(Symbol('beta^1^2')) == '\u03b2\u00b9 \u00b2'","upretty(Symbol('beta_1^2')) == '\u03b2\u00b2\u2081'","upretty(Symbol('beta_10_20')) == '\u03b2\u2081\u2080 \u2082\u2080'","upretty(Symbol('beta_ax_gamma^i')) == '\u03b2\u2071\u2090\u2093 \u1d67'","upretty(Symbol('F^1^2_3_4')) == 'F\u00b9 \u00b2\u2083 \u2084'","upretty(Symbol('F_1_2^3^4')) == 'F\u00b3 \u2074\u2081 \u2082'","upretty(Symbol('F_1_2_3_4')) == 'F\u2081 \u2082 \u2083 \u2084'","upretty(Symbol('F^1^2^3^4')) == 'F\u00b9 \u00b2 \u00b3 \u2074'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_upretty_sub_super():
     assert upretty( Symbol('beta_1_2') ) == 'β₁ ₂'
     assert upretty( Symbol('beta^1^2') ) == 'β¹ ²'
@@ -431,16 +489,24 @@ def test_upretty_sub_super():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upretty_subs_missing_in_24(), test_upretty_subs_missing_in_24 produces the expected output) over Any ║
+# ║ Path(test_upretty_subs_missing_in_24(), upretty(Symbol('F_beta')) == 'Fᵦ' and upretty(Symbol('F_gamma')) == 'Fᵧ' and upretty(Symbol('F_rho')) == 'Fᵨ' and upretty(Symbol('F_phi')) == 'Fᵩ' and upretty(Symbol('F_chi')) == 'Fᵪ' and upretty(Symbol('F_a')) == 'Fₐ' and upretty(Symbol('F_e')) == 'Fₑ' and upretty(Symbol('F_i')) == 'Fᵢ' and upretty(Symbol('F_o')) == 'Fₒ' and upretty(Symbol('F_u')) == 'Fᵤ' and upretty(Symbol('F_r')) == 'Fᵣ' and upretty(Symbol('F_v')) == 'Fᵥ' and upretty(Symbol('F_x')) == 'Fₓ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upretty_subs_missing_in_24 : Any → {Any | uprett...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Symbol('F_beta')) == 'Fᵦ'              ║
+# ║   ensures:  upretty(Symbol('F_gamma')) == 'Fᵧ'             ║
+# ║   ensures:  upretty(Symbol('F_rho')) == 'Fᵨ'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upretty_subs_missing_in_24 : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b3738ada4ac2586  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc88ef59c368e05e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_subs_missing_in_24","kind":"function","src_hash":"659e447371dceb86","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Symbol('F_beta')) == 'F\u1d66' and upretty(Symbol('F_gamma')) == 'F\u1d67' and upretty(Symbol('F_rho')) == 'F\u1d68' and upretty(Symbol('F_phi')) == 'F\u1d69' and upretty(Symbol('F_chi')) == 'F\u1d6a' and upretty(Symbol('F_a')) == 'F\u2090' and upretty(Symbol('F_e')) == 'F\u2091' and upretty(Symbol('F_i')) == 'F\u1d62' and upretty(Symbol('F_o')) == 'F\u2092' and upretty(Symbol('F_u')) == 'F\u1d64' and upretty(Symbol('F_r')) == 'F\u1d63' and upretty(Symbol('F_v')) == 'F\u1d65' and upretty(Symbol('F_x')) == 'F\u2093'"},"spec":{"lhs":"test_upretty_subs_missing_in_24()","rhs":"test_upretty_subs_missing_in_24 produces the expected output","over":{"base":"Any"},"name":"test_upretty_subs_missing_in_24_correct"},"guarantee":"test_upretty_subs_missing_in_24 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_subs_missing_in_24_correct","statement":"Path(test_upretty_subs_missing_in_24(x), test_upretty_subs_missing_in_24 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b3738ada4ac2586"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_subs_missing_in_24","kind":"function","src_hash":"659e447371dceb86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Symbol('F_beta')) == 'F\u1d66' and upretty(Symbol('F_gamma')) == 'F\u1d67' and upretty(Symbol('F_rho')) == 'F\u1d68' and upretty(Symbol('F_phi')) == 'F\u1d69' and upretty(Symbol('F_chi')) == 'F\u1d6a' and upretty(Symbol('F_a')) == 'F\u2090' and upretty(Symbol('F_e')) == 'F\u2091' and upretty(Symbol('F_i')) == 'F\u1d62' and upretty(Symbol('F_o')) == 'F\u2092' and upretty(Symbol('F_u')) == 'F\u1d64' and upretty(Symbol('F_r')) == 'F\u1d63' and upretty(Symbol('F_v')) == 'F\u1d65' and upretty(Symbol('F_x')) == 'F\u2093'"},"spec":{"lhs":"test_upretty_subs_missing_in_24()","rhs":"upretty(Symbol('F_beta')) == 'F\u1d66' and upretty(Symbol('F_gamma')) == 'F\u1d67' and upretty(Symbol('F_rho')) == 'F\u1d68' and upretty(Symbol('F_phi')) == 'F\u1d69' and upretty(Symbol('F_chi')) == 'F\u1d6a' and upretty(Symbol('F_a')) == 'F\u2090' and upretty(Symbol('F_e')) == 'F\u2091' and upretty(Symbol('F_i')) == 'F\u1d62' and upretty(Symbol('F_o')) == 'F\u2092' and upretty(Symbol('F_u')) == 'F\u1d64' and upretty(Symbol('F_r')) == 'F\u1d63' and upretty(Symbol('F_v')) == 'F\u1d65' and upretty(Symbol('F_x')) == 'F\u2093'","over":{"base":"Any"},"name":"test_upretty_subs_missing_in_24_correct"},"guarantee":"upretty(Symbol('F_beta')) == 'F\u1d66'; upretty(Symbol('F_gamma')) == 'F\u1d67'; upretty(Symbol('F_rho')) == 'F\u1d68'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_subs_missing_in_24_correct","statement":"Path(test_upretty_subs_missing_in_24(x), upretty(Symbol('F_beta')) == 'F\u1d66'; upretty(Symbol('F_gamma')) == 'F\u1d67'; upretty(Symbol('F_rho')) == 'F\u1d68')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc88ef59c368e05e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Symbol('F_beta')) == 'F\u1d66'","upretty(Symbol('F_gamma')) == 'F\u1d67'","upretty(Symbol('F_rho')) == 'F\u1d68'","upretty(Symbol('F_phi')) == 'F\u1d69'","upretty(Symbol('F_chi')) == 'F\u1d6a'","upretty(Symbol('F_a')) == 'F\u2090'","upretty(Symbol('F_e')) == 'F\u2091'","upretty(Symbol('F_i')) == 'F\u1d62'","upretty(Symbol('F_o')) == 'F\u2092'","upretty(Symbol('F_u')) == 'F\u1d64'","upretty(Symbol('F_r')) == 'F\u1d63'","upretty(Symbol('F_v')) == 'F\u1d65'","upretty(Symbol('F_x')) == 'F\u2093'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_upretty_subs_missing_in_24():
     assert upretty( Symbol('F_beta') ) == 'Fᵦ'
     assert upretty( Symbol('F_gamma') ) == 'Fᵧ'
@@ -459,16 +525,24 @@ def test_upretty_subs_missing_in_24():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_missing_in_2X_issue_9047(), test_missing_in_2X_issue_9047 produces the expected output) over Any ║
+# ║ Path(test_missing_in_2X_issue_9047(), upretty(Symbol('F_h')) == 'Fₕ' and upretty(Symbol('F_k')) == 'Fₖ' and upretty(Symbol('F_l')) == 'Fₗ' and upretty(Symbol('F_m')) == 'Fₘ' and upretty(Symbol('F_n')) == 'Fₙ' and upretty(Symbol('F_p')) == 'Fₚ' and upretty(Symbol('F_s')) == 'Fₛ' and upretty(Symbol('F_t')) == 'Fₜ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_missing_in_2X_issue_9047 : Any → {Any | upretty(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Symbol('F_h')) == 'Fₕ'                 ║
+# ║   ensures:  upretty(Symbol('F_k')) == 'Fₖ'                 ║
+# ║   ensures:  upretty(Symbol('F_l')) == 'Fₗ'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_missing_in_2X_issue_9047 : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d40a23755ed9d832  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26b072eeee37a038  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_missing_in_2X_issue_9047","kind":"function","src_hash":"6afd1f7741b900b6","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Symbol('F_h')) == 'F\u2095' and upretty(Symbol('F_k')) == 'F\u2096' and upretty(Symbol('F_l')) == 'F\u2097' and upretty(Symbol('F_m')) == 'F\u2098' and upretty(Symbol('F_n')) == 'F\u2099' and upretty(Symbol('F_p')) == 'F\u209a' and upretty(Symbol('F_s')) == 'F\u209b' and upretty(Symbol('F_t')) == 'F\u209c'"},"spec":{"lhs":"test_missing_in_2X_issue_9047()","rhs":"test_missing_in_2X_issue_9047 produces the expected output","over":{"base":"Any"},"name":"test_missing_in_2X_issue_9047_correct"},"guarantee":"test_missing_in_2X_issue_9047 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_missing_in_2X_issue_9047_correct","statement":"Path(test_missing_in_2X_issue_9047(x), test_missing_in_2X_issue_9047 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d40a23755ed9d832"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_missing_in_2X_issue_9047","kind":"function","src_hash":"6afd1f7741b900b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Symbol('F_h')) == 'F\u2095' and upretty(Symbol('F_k')) == 'F\u2096' and upretty(Symbol('F_l')) == 'F\u2097' and upretty(Symbol('F_m')) == 'F\u2098' and upretty(Symbol('F_n')) == 'F\u2099' and upretty(Symbol('F_p')) == 'F\u209a' and upretty(Symbol('F_s')) == 'F\u209b' and upretty(Symbol('F_t')) == 'F\u209c'"},"spec":{"lhs":"test_missing_in_2X_issue_9047()","rhs":"upretty(Symbol('F_h')) == 'F\u2095' and upretty(Symbol('F_k')) == 'F\u2096' and upretty(Symbol('F_l')) == 'F\u2097' and upretty(Symbol('F_m')) == 'F\u2098' and upretty(Symbol('F_n')) == 'F\u2099' and upretty(Symbol('F_p')) == 'F\u209a' and upretty(Symbol('F_s')) == 'F\u209b' and upretty(Symbol('F_t')) == 'F\u209c'","over":{"base":"Any"},"name":"test_missing_in_2X_issue_9047_correct"},"guarantee":"upretty(Symbol('F_h')) == 'F\u2095'; upretty(Symbol('F_k')) == 'F\u2096'; upretty(Symbol('F_l')) == 'F\u2097'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_missing_in_2X_issue_9047_correct","statement":"Path(test_missing_in_2X_issue_9047(x), upretty(Symbol('F_h')) == 'F\u2095'; upretty(Symbol('F_k')) == 'F\u2096'; upretty(Symbol('F_l')) == 'F\u2097')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26b072eeee37a038","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Symbol('F_h')) == 'F\u2095'","upretty(Symbol('F_k')) == 'F\u2096'","upretty(Symbol('F_l')) == 'F\u2097'","upretty(Symbol('F_m')) == 'F\u2098'","upretty(Symbol('F_n')) == 'F\u2099'","upretty(Symbol('F_p')) == 'F\u209a'","upretty(Symbol('F_s')) == 'F\u209b'","upretty(Symbol('F_t')) == 'F\u209c'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_missing_in_2X_issue_9047():
     assert upretty( Symbol('F_h') ) == 'Fₕ'
     assert upretty( Symbol('F_k') ) == 'Fₖ'
@@ -481,16 +555,24 @@ def test_missing_in_2X_issue_9047():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upretty_modifiers(), test_upretty_modifiers produces the expected output) over Any ║
+# ║ Path(test_upretty_modifiers(), upretty(Symbol('Fmathring')) == 'F̊' and upretty(Symbol('Fddddot')) == 'F⃜' and upretty(Symbol('Fdddot')) == 'F⃛' and upretty(Symbol('Fddot')) == 'F̈' and upretty(Symbol('Fdot')) == 'Ḟ' and upretty(Symbol('Fcheck')) == 'F̌' and upretty(Symbol('Fbreve')) == 'F̆' and upretty(Symbol('Facute')) == 'F́' and upretty(Symbol('Fgrave')) == 'F̀' and upretty(Symbol('Ftilde')) == 'F̃' and upretty(Symbol('Fhat')) == 'F̂' and upretty(Symbol('Fbar')) == 'F̅' and upretty(Symbol('Fvec')) == 'F⃗' and upretty(Symbol('Fprime')) == 'F′' and upretty(Symbol('Fprm')) == 'F′' and upretty(Symbol('Fbold')) == 'Fbold' and upretty(Symbol('Fbm')) == 'Fbm' and upretty(Symbol('Fcal')) == 'Fcal' and upretty(Symbol('Fscr')) == 'Fscr' and upretty(Symbol('Ffrak')) == 'Ffrak' and upretty(Symbol('Fnorm')) == '‖F‖' and upretty(Symbol('Favg')) == '⟨F⟩' and upretty(Symbol('Fabs')) == '|F|' and upretty(Symbol('Fmag')) == '|F|' and upretty(Symbol('xvecdot')) == 'x⃗̇' and upretty(Symbol('xDotVec')) == 'ẋ⃗' and upretty(Symbol('xHATNorm')) == '‖x̂‖' and upretty(Symbol('xMathring_yCheckPRM__zbreveAbs')) == 'x̊_y̌′__|z̆|' and upretty(Symbol('alphadothat_nVECDOT__tTildePrime')) == 'α̇̂_n⃗̇__t̃′' and upretty(Symbol('x_dot')) == 'x_dot' and upretty(Symbol('x__dot')) == 'x__dot') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upretty_modifiers : Any → {Any | upretty(Symbol(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Symbol('Fmathring')) == 'F̊'           ║
+# ║   ensures:  upretty(Symbol('Fddddot')) == 'F⃜'             ║
+# ║   ensures:  upretty(Symbol('Fdddot')) == 'F⃛'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upretty_modifiers : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2acc6d67c8900d60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 365c2b1e919345e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_modifiers","kind":"function","src_hash":"92860880dc66e904","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Symbol('Fmathring')) == 'F\u030a' and upretty(Symbol('Fddddot')) == 'F\u20dc' and upretty(Symbol('Fdddot')) == 'F\u20db' and upretty(Symbol('Fddot')) == 'F\u0308' and upretty(Symbol('Fdot')) == 'F\u0307' and upretty(Symbol('Fcheck')) == 'F\u030c' and upretty(Symbol('Fbreve')) == 'F\u0306' and upretty(Symbol('Facute')) == 'F\u0301' and upretty(Symbol('Fgrave')) == 'F\u0300' and upretty(Symbol('Ftilde')) == 'F\u0303' and upretty(Symbol('Fhat')) == 'F\u0302' and upretty(Symbol('Fbar')) == 'F\u0305' and upretty(Symbol('Fvec')) == 'F\u20d7' and upretty(Symbol('Fprime')) == 'F\u2032' and upretty(Symbol('Fprm')) == 'F\u2032' and upretty(Symbol('Fbold')) == 'Fbold' and upretty(Symbol('Fbm')) == 'Fbm' and upretty(Symbol('Fcal')) == 'Fcal' and upretty(Symbol('Fscr')) == 'Fscr' and upretty(Symbol('Ffrak')) == 'Ffrak' and upretty(Symbol('Fnorm')) == '\u2016F\u2016' and upretty(Symbol('Favg')) == '\u27e8F\u27e9' and upretty(Symbol('Fabs')) == '|F|' and upretty(Symbol('Fmag')) == '|F|' and upretty(Symbol('xvecdot')) == 'x\u20d7\u0307' and upretty(Symbol('xDotVec')) == 'x\u0307\u20d7' and upretty(Symbol('xHATNorm')) == '\u2016x\u0302\u2016' and upretty(Symbol('xMathring_yCheckPRM__zbreveAbs')) == 'x\u030a_y\u030c\u2032__|z\u0306|' and upretty(Symbol('alphadothat_nVECDOT__tTildePrime')) == '\u03b1\u0307\u0302_n\u20d7\u0307__t\u0303\u2032' and upretty(Symbol('x_dot')) == 'x_dot' and upretty(Symbol('x__dot')) == 'x__dot'"},"spec":{"lhs":"test_upretty_modifiers()","rhs":"test_upretty_modifiers produces the expected output","over":{"base":"Any"},"name":"test_upretty_modifiers_correct"},"guarantee":"test_upretty_modifiers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_modifiers_correct","statement":"Path(test_upretty_modifiers(x), test_upretty_modifiers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2acc6d67c8900d60"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_upretty_modifiers","kind":"function","src_hash":"92860880dc66e904","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Symbol('Fmathring')) == 'F\u030a' and upretty(Symbol('Fddddot')) == 'F\u20dc' and upretty(Symbol('Fdddot')) == 'F\u20db' and upretty(Symbol('Fddot')) == 'F\u0308' and upretty(Symbol('Fdot')) == 'F\u0307' and upretty(Symbol('Fcheck')) == 'F\u030c' and upretty(Symbol('Fbreve')) == 'F\u0306' and upretty(Symbol('Facute')) == 'F\u0301' and upretty(Symbol('Fgrave')) == 'F\u0300' and upretty(Symbol('Ftilde')) == 'F\u0303' and upretty(Symbol('Fhat')) == 'F\u0302' and upretty(Symbol('Fbar')) == 'F\u0305' and upretty(Symbol('Fvec')) == 'F\u20d7' and upretty(Symbol('Fprime')) == 'F\u2032' and upretty(Symbol('Fprm')) == 'F\u2032' and upretty(Symbol('Fbold')) == 'Fbold' and upretty(Symbol('Fbm')) == 'Fbm' and upretty(Symbol('Fcal')) == 'Fcal' and upretty(Symbol('Fscr')) == 'Fscr' and upretty(Symbol('Ffrak')) == 'Ffrak' and upretty(Symbol('Fnorm')) == '\u2016F\u2016' and upretty(Symbol('Favg')) == '\u27e8F\u27e9' and upretty(Symbol('Fabs')) == '|F|' and upretty(Symbol('Fmag')) == '|F|' and upretty(Symbol('xvecdot')) == 'x\u20d7\u0307' and upretty(Symbol('xDotVec')) == 'x\u0307\u20d7' and upretty(Symbol('xHATNorm')) == '\u2016x\u0302\u2016' and upretty(Symbol('xMathring_yCheckPRM__zbreveAbs')) == 'x\u030a_y\u030c\u2032__|z\u0306|' and upretty(Symbol('alphadothat_nVECDOT__tTildePrime')) == '\u03b1\u0307\u0302_n\u20d7\u0307__t\u0303\u2032' and upretty(Symbol('x_dot')) == 'x_dot' and upretty(Symbol('x__dot')) == 'x__dot'"},"spec":{"lhs":"test_upretty_modifiers()","rhs":"upretty(Symbol('Fmathring')) == 'F\u030a' and upretty(Symbol('Fddddot')) == 'F\u20dc' and upretty(Symbol('Fdddot')) == 'F\u20db' and upretty(Symbol('Fddot')) == 'F\u0308' and upretty(Symbol('Fdot')) == 'F\u0307' and upretty(Symbol('Fcheck')) == 'F\u030c' and upretty(Symbol('Fbreve')) == 'F\u0306' and upretty(Symbol('Facute')) == 'F\u0301' and upretty(Symbol('Fgrave')) == 'F\u0300' and upretty(Symbol('Ftilde')) == 'F\u0303' and upretty(Symbol('Fhat')) == 'F\u0302' and upretty(Symbol('Fbar')) == 'F\u0305' and upretty(Symbol('Fvec')) == 'F\u20d7' and upretty(Symbol('Fprime')) == 'F\u2032' and upretty(Symbol('Fprm')) == 'F\u2032' and upretty(Symbol('Fbold')) == 'Fbold' and upretty(Symbol('Fbm')) == 'Fbm' and upretty(Symbol('Fcal')) == 'Fcal' and upretty(Symbol('Fscr')) == 'Fscr' and upretty(Symbol('Ffrak')) == 'Ffrak' and upretty(Symbol('Fnorm')) == '\u2016F\u2016' and upretty(Symbol('Favg')) == '\u27e8F\u27e9' and upretty(Symbol('Fabs')) == '|F|' and upretty(Symbol('Fmag')) == '|F|' and upretty(Symbol('xvecdot')) == 'x\u20d7\u0307' and upretty(Symbol('xDotVec')) == 'x\u0307\u20d7' and upretty(Symbol('xHATNorm')) == '\u2016x\u0302\u2016' and upretty(Symbol('xMathring_yCheckPRM__zbreveAbs')) == 'x\u030a_y\u030c\u2032__|z\u0306|' and upretty(Symbol('alphadothat_nVECDOT__tTildePrime')) == '\u03b1\u0307\u0302_n\u20d7\u0307__t\u0303\u2032' and upretty(Symbol('x_dot')) == 'x_dot' and upretty(Symbol('x__dot')) == 'x__dot'","over":{"base":"Any"},"name":"test_upretty_modifiers_correct"},"guarantee":"upretty(Symbol('Fmathring')) == 'F\u030a'; upretty(Symbol('Fddddot')) == 'F\u20dc'; upretty(Symbol('Fdddot')) == 'F\u20db'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_upretty_modifiers_correct","statement":"Path(test_upretty_modifiers(x), upretty(Symbol('Fmathring')) == 'F\u030a'; upretty(Symbol('Fddddot')) == 'F\u20dc'; upretty(Symbol('Fdddot')) == 'F\u20db')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"365c2b1e919345e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Symbol('Fmathring')) == 'F\u030a'","upretty(Symbol('Fddddot')) == 'F\u20dc'","upretty(Symbol('Fdddot')) == 'F\u20db'","upretty(Symbol('Fddot')) == 'F\u0308'","upretty(Symbol('Fdot')) == 'F\u0307'","upretty(Symbol('Fcheck')) == 'F\u030c'","upretty(Symbol('Fbreve')) == 'F\u0306'","upretty(Symbol('Facute')) == 'F\u0301'","upretty(Symbol('Fgrave')) == 'F\u0300'","upretty(Symbol('Ftilde')) == 'F\u0303'","upretty(Symbol('Fhat')) == 'F\u0302'","upretty(Symbol('Fbar')) == 'F\u0305'","upretty(Symbol('Fvec')) == 'F\u20d7'","upretty(Symbol('Fprime')) == 'F\u2032'","upretty(Symbol('Fprm')) == 'F\u2032'","upretty(Symbol('Fbold')) == 'Fbold'","upretty(Symbol('Fbm')) == 'Fbm'","upretty(Symbol('Fcal')) == 'Fcal'","upretty(Symbol('Fscr')) == 'Fscr'","upretty(Symbol('Ffrak')) == 'Ffrak'","upretty(Symbol('Fnorm')) == '\u2016F\u2016'","upretty(Symbol('Favg')) == '\u27e8F\u27e9'","upretty(Symbol('Fabs')) == '|F|'","upretty(Symbol('Fmag')) == '|F|'","upretty(Symbol('xvecdot')) == 'x\u20d7\u0307'","upretty(Symbol('xDotVec')) == 'x\u0307\u20d7'","upretty(Symbol('xHATNorm')) == '\u2016x\u0302\u2016'","upretty(Symbol('xMathring_yCheckPRM__zbreveAbs')) == 'x\u030a_y\u030c\u2032__|z\u0306|'","upretty(Symbol('alphadothat_nVECDOT__tTildePrime')) == '\u03b1\u0307\u0302_n\u20d7\u0307__t\u0303\u2032'","upretty(Symbol('x_dot')) == 'x_dot'","upretty(Symbol('x__dot')) == 'x__dot'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_upretty_modifiers():
     # Accents
     assert upretty( Symbol('Fmathring') ) == 'F̊'
@@ -530,16 +612,24 @@ def test_upretty_modifiers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Cycle(), test_pretty_Cycle produces the expected output) over Any ║
+# ║ Path(test_pretty_Cycle(), pretty(Cycle(1, 2)) == '(1 2)' and pretty(Cycle(2)) == '(2)' and pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)' and pretty(Cycle()) == '()') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Cycle : Any → {Any | pretty(Cycle(1, 2)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Cycle(1, 2)) == '(1 2)'                 ║
+# ║   ensures:  pretty(Cycle(2)) == '(2)'                      ║
+# ║   ensures:  pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Cycle : Any → {Any | result satisfies: pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 686d86fcbb7e25a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 234b7df9837362f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Cycle","kind":"function","src_hash":"e6d8e96dd12a6e74","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Cycle(1, 2)) == '(1 2)' and pretty(Cycle(2)) == '(2)' and pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)' and pretty(Cycle()) == '()'"},"spec":{"lhs":"test_pretty_Cycle()","rhs":"test_pretty_Cycle produces the expected output","over":{"base":"Any"},"name":"test_pretty_Cycle_correct"},"guarantee":"test_pretty_Cycle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Cycle_correct","statement":"Path(test_pretty_Cycle(x), test_pretty_Cycle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"686d86fcbb7e25a8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Cycle","kind":"function","src_hash":"e6d8e96dd12a6e74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Cycle(1, 2)) == '(1 2)' and pretty(Cycle(2)) == '(2)' and pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)' and pretty(Cycle()) == '()'"},"spec":{"lhs":"test_pretty_Cycle()","rhs":"pretty(Cycle(1, 2)) == '(1 2)' and pretty(Cycle(2)) == '(2)' and pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)' and pretty(Cycle()) == '()'","over":{"base":"Any"},"name":"test_pretty_Cycle_correct"},"guarantee":"pretty(Cycle(1, 2)) == '(1 2)'; pretty(Cycle(2)) == '(2)'; pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Cycle_correct","statement":"Path(test_pretty_Cycle(x), pretty(Cycle(1, 2)) == '(1 2)'; pretty(Cycle(2)) == '(2)'; pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"234b7df9837362f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Cycle(1, 2)) == '(1 2)'","pretty(Cycle(2)) == '(2)'","pretty(Cycle(1, 3)(4, 5)) == '(1 3)(4 5)'","pretty(Cycle()) == '()'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_Cycle():
     from sympy.combinatorics.permutations import Cycle
     assert pretty(Cycle(1, 2)) == '(1 2)'
@@ -549,16 +639,24 @@ def test_pretty_Cycle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Permutation(), test_pretty_Permutation produces the expected output) over Any ║
+# ║ Path(test_pretty_Permutation(), xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=False, use_unicode=True) == '⎛0 1 2 3 4⎞\n⎝0 2 1 4 3⎠' and xpretty(p1, perm_cyclic=False, use_unicode=False) == '/0 1 2 3 4\\\n\\0 2 1 4 3/') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Permutation : Any → {Any | xpretty(p1, pe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(p1, perm_cyclic=True, use_unicode...   ║
+# ║   ensures:  xpretty(p1, perm_cyclic=True, use_unicode...   ║
+# ║   ensures:  xpretty(p1, perm_cyclic=False, use_unicod...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Permutation : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38f6f1505b7b392b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4eac413fff45755  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Permutation","kind":"function","src_hash":"1918f1cd6bf3221f","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=False, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0' and xpretty(p1, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0' and xpretty(p1, use_unicode=False) == '/0 1 2 3 4\\\\\\n\\\\0 2 1 4 3/'"},"spec":{"lhs":"test_pretty_Permutation()","rhs":"test_pretty_Permutation produces the expected output","over":{"base":"Any"},"name":"test_pretty_Permutation_correct"},"guarantee":"test_pretty_Permutation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Permutation_correct","statement":"Path(test_pretty_Permutation(x), test_pretty_Permutation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38f6f1505b7b392b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Permutation","kind":"function","src_hash":"1918f1cd6bf3221f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=False, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0' and xpretty(p1, perm_cyclic=False, use_unicode=False) == '/0 1 2 3 4\\\\\\n\\\\0 2 1 4 3/'"},"spec":{"lhs":"test_pretty_Permutation()","rhs":"xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)' and xpretty(p1, perm_cyclic=False, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0' and xpretty(p1, perm_cyclic=False, use_unicode=False) == '/0 1 2 3 4\\\\\\n\\\\0 2 1 4 3/'","over":{"base":"Any"},"name":"test_pretty_Permutation_correct"},"guarantee":"xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)'; xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)'; xpretty(p1, perm_cyclic=False, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Permutation_correct","statement":"Path(test_pretty_Permutation(x), xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)'; xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)'; xpretty(p1, perm_cyclic=False, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4eac413fff45755","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(p1, perm_cyclic=True, use_unicode=True) == '(1 2)(3 4)'","xpretty(p1, perm_cyclic=True, use_unicode=False) == '(1 2)(3 4)'","xpretty(p1, perm_cyclic=False, use_unicode=True) == '\u239b0 1 2 3 4\u239e\\n\u239d0 2 1 4 3\u23a0'","xpretty(p1, perm_cyclic=False, use_unicode=False) == '/0 1 2 3 4\\\\\\n\\\\0 2 1 4 3/'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_Permutation():
     from sympy.combinatorics.permutations import Permutation
     p1 = Permutation(1, 2)(3, 4)
@@ -584,16 +682,24 @@ def test_pretty_Permutation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_basic(), test_pretty_basic produces the expected output) over Any ║
+# ║ Path(test_pretty_basic(), pretty(-Rational(1) / 2) == '-1/2' and pretty(-Rational(13) / 22) == '-13 \n----\n 22 ' and pretty(expr) == ascii_str and upretty(expr) == ucode_str and xpretty(expr, use_unicode=False, wrap_line=False, root_notation=False) == ascii_str and xpretty(expr, use_unicode=True, wrap_line=False, root_notation=False) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_basic : Any → {Any | pretty(-Rational(1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(-Rational(1) / 2) == '-1/2'             ║
+# ║   ensures:  pretty(-Rational(13) / 22) == '-13 \n----...   ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_basic : Any → {Any | result satisfies: pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 177aa9599e1de5ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a9429b656143c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_basic","kind":"function","src_hash":"99a53bba43d1e36d","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(-Rational(1) / 2) == '-1/2' and pretty(-Rational(13) / 22) == '-13 \\n----\\n 22 ' and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_basic()","rhs":"test_pretty_basic produces the expected output","over":{"base":"Any"},"name":"test_pretty_basic_correct"},"guarantee":"test_pretty_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_basic_correct","statement":"Path(test_pretty_basic(x), test_pretty_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"177aa9599e1de5ab"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_basic","kind":"function","src_hash":"99a53bba43d1e36d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(-Rational(1) / 2) == '-1/2' and pretty(-Rational(13) / 22) == '-13 \\n----\\n 22 ' and pretty(expr) == ascii_str and upretty(expr) == ucode_str and xpretty(expr, use_unicode=False, wrap_line=False, root_notation=False) == ascii_str and xpretty(expr, use_unicode=True, wrap_line=False, root_notation=False) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]"},"spec":{"lhs":"test_pretty_basic()","rhs":"pretty(-Rational(1) / 2) == '-1/2' and pretty(-Rational(13) / 22) == '-13 \\n----\\n 22 ' and pretty(expr) == ascii_str and upretty(expr) == ucode_str and xpretty(expr, use_unicode=False, wrap_line=False, root_notation=False) == ascii_str and xpretty(expr, use_unicode=True, wrap_line=False, root_notation=False) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]","over":{"base":"Any"},"name":"test_pretty_basic_correct"},"guarantee":"pretty(-Rational(1) / 2) == '-1/2'; pretty(-Rational(13) / 22) == '-13 \\n----\\n 22 '; pretty(expr) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_basic_correct","statement":"Path(test_pretty_basic(x), pretty(-Rational(1) / 2) == '-1/2'; pretty(-Rational(13) / 22) == '-13 \\n----\\n 22 '; pretty(expr) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a9429b656143c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(-Rational(1) / 2) == '-1/2'","pretty(-Rational(13) / 22) == '-13 \\n----\\n 22 '","pretty(expr) == ascii_str","upretty(expr) == ucode_str","xpretty(expr, use_unicode=False, wrap_line=False, root_notation=False) == ascii_str","xpretty(expr, use_unicode=True, wrap_line=False, root_notation=False) == ucode_str","pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3]","upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]","pretty(expr) in [ascii_str_1, ascii_str_2]","upretty(expr) in [ucode_str_1, ucode_str_2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_basic():
     assert pretty( -Rational(1)/2 ) == '-1/2'
     assert pretty( -Rational(13)/22 ) == \
@@ -1005,16 +1111,23 @@ x + 10\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negative_fractions(), test_negative_fractions produces the expected output) over Any ║
+# ║ Path(test_negative_fractions(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_negative_fractions : Any → {Any | pretty(expr) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_negative_fractions : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e46b82e418193e15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88d60412aab2c98f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_negative_fractions","kind":"function","src_hash":"db64440899b4a490","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_negative_fractions()","rhs":"test_negative_fractions produces the expected output","over":{"base":"Any"},"name":"test_negative_fractions_correct"},"guarantee":"test_negative_fractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_negative_fractions_correct","statement":"Path(test_negative_fractions(x), test_negative_fractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e46b82e418193e15"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_negative_fractions","kind":"function","src_hash":"db64440899b4a490","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_negative_fractions()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_negative_fractions_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_negative_fractions_correct","statement":"Path(test_negative_fractions(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88d60412aab2c98f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_negative_fractions():
     expr = -x/y
     ascii_str =\
@@ -1181,16 +1294,24 @@ y  \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mul(), test_Mul produces the expected output) over Any ║
+# ║ Path(test_Mul(), pretty(expr) == '0*1' and upretty(expr) == '0⋅1' and pretty(expr) == '1*0' and upretty(expr) == '1⋅0' and pretty(expr) == '1*1' and upretty(expr) == '1⋅1' and pretty(expr) == '1*1*1' and upretty(expr) == '1⋅1⋅1' and pretty(expr) == '1*2' and upretty(expr) == '1⋅2' and pretty(expr) == '0 + 1' and upretty(expr) == '0 + 1' and pretty(expr) == '1*1*2' and upretty(expr) == '1⋅1⋅2' and pretty(expr) == '0 + 0 + 1' and upretty(expr) == '0 + 0 + 1' and pretty(expr) == '1*-1' and upretty(expr) == '1⋅-1' and pretty(expr) == '1.0*x' and upretty(expr) == '1.0⋅x' and pretty(expr) == '1*1*2*3*x' and upretty(expr) == '1⋅1⋅2⋅3⋅x' and pretty(expr) == '-1*1' and upretty(expr) == '-1⋅1' and pretty(expr) == '4*3*2*1*0*y*x' and upretty(expr) == '4⋅3⋅2⋅1⋅0⋅y⋅x' and pretty(expr) == '4*3*2*(z + 1)*0*y*x' and upretty(expr) == '4⋅3⋅2⋅(z + 1)⋅0⋅y⋅x' and pretty(expr) == '2/3*5/7' and upretty(expr) == '2/3⋅5/7' and pretty(expr) == '(x + y)*1/2' and upretty(expr) == '(x + y)⋅1/2' and pretty(expr) == 'x + y\n-----\n  2  ' and upretty(expr) == 'x + y\n─────\n  2  ' and pretty(expr) == '1*(x + y)' and upretty(expr) == '1⋅(x + y)' and pretty(expr) == '(x - y)*1' and upretty(expr) == '(x - y)⋅1' and pretty(expr) == '1/2*(x - y)*1*(x + y)' and upretty(expr) == '1/2⋅(x - y)⋅1⋅(x + y)' and pretty(expr) == '(x + y)*3/4*1*(y - z)' and upretty(expr) == '(x + y)⋅3/4⋅1⋅(y - z)' and pretty(expr) == '(x + y)*1*3/4*5/6' and upretty(expr) == '(x + y)⋅1⋅3/4⋅5/6' and pretty(expr) == '3/4*(x + y)*1*(y - z)' and upretty(expr) == '3/4⋅(x + y)⋅1⋅(y - z)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mul : Any → {Any | pretty(expr) == '0*1' and upr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == '0*1'                          ║
+# ║   ensures:  upretty(expr) == '0⋅1'                         ║
+# ║   ensures:  pretty(expr) == '1*0'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mul : Any → {Any | result satisfies: pretty(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea8745208160a88c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 143627c0f1549654  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Mul","kind":"function","src_hash":"7a98351e8fb1f252","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == '0*1' and upretty(expr) == '0\u22c51' and pretty(expr) == '1*0' and upretty(expr) == '1\u22c50' and pretty(expr) == '1*1' and upretty(expr) == '1\u22c51' and pretty(expr) == '1*1*1' and upretty(expr) == '1\u22c51\u22c51' and pretty(expr) == '1*2' and upretty(expr) == '1\u22c52' and pretty(expr) == '0 + 1' and upretty(expr) == '0 + 1' and pretty(expr) == '1*1*2' and upretty(expr) == '1\u22c51\u22c52' and pretty(expr) == '0 + 0 + 1' and upretty(expr) == '0 + 0 + 1' and pretty(expr) == '1*-1' and upretty(expr) == '1\u22c5-1' and pretty(expr) == '1.0*x' and upretty(expr) == '1.0\u22c5x' and pretty(expr) == '1*1*2*3*x' and upretty(expr) == '1\u22c51\u22c52\u22c53\u22c5x' and pretty(expr) == '-1*1' and upretty(expr) == '-1\u22c51' and pretty(expr) == '4*3*2*1*0*y*x' and upretty(expr) == '4\u22c53\u22c52\u22c51\u22c50\u22c5y\u22c5x' and pretty(expr) == '4*3*2*(z + 1)*0*y*x' and upretty(expr) == '4\u22c53\u22c52\u22c5(z + 1)\u22c50\u22c5y\u22c5x' and pretty(expr) == '2/3*5/7' and upretty(expr) == '2/3\u22c55/7' and pretty(expr) == '(x + y)*1/2' and upretty(expr) == '(x + y)\u22c51/2' and pretty(expr) == 'x + y\\n-----\\n  2  ' and upretty(expr) == 'x + y\\n\u2500\u2500\u2500\u2500\u2500\\n  2  ' and pretty(expr) == '1*(x + y)' and upretty(expr) == '1\u22c5(x + y)' and pretty(expr) == '(x - y)*1' and upretty(expr) == '(x - y)\u22c51' and pretty(expr) == '1/2*(x - y)*1*(x + y)' and upretty(expr) == '1/2\u22c5(x - y)\u22c51\u22c5(x + y)' and pretty(expr) == '(x + y)*3/4*1*(y - z)' and upretty(expr) == '(x + y)\u22c53/4\u22c51\u22c5(y - z)' and pretty(expr) == '(x + y)*1*3/4*5/6' and upretty(expr) == '(x + y)\u22c51\u22c53/4\u22c55/6' and pretty(expr) == '3/4*(x + y)*1*(y - z)' and upretty(expr) == '3/4\u22c5(x + y)\u22c51\u22c5(y - z)'"},"spec":{"lhs":"test_Mul()","rhs":"test_Mul produces the expected output","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"test_Mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Mul_correct","statement":"Path(test_Mul(x), test_Mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea8745208160a88c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Mul","kind":"function","src_hash":"7a98351e8fb1f252","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == '0*1' and upretty(expr) == '0\u22c51' and pretty(expr) == '1*0' and upretty(expr) == '1\u22c50' and pretty(expr) == '1*1' and upretty(expr) == '1\u22c51' and pretty(expr) == '1*1*1' and upretty(expr) == '1\u22c51\u22c51' and pretty(expr) == '1*2' and upretty(expr) == '1\u22c52' and pretty(expr) == '0 + 1' and upretty(expr) == '0 + 1' and pretty(expr) == '1*1*2' and upretty(expr) == '1\u22c51\u22c52' and pretty(expr) == '0 + 0 + 1' and upretty(expr) == '0 + 0 + 1' and pretty(expr) == '1*-1' and upretty(expr) == '1\u22c5-1' and pretty(expr) == '1.0*x' and upretty(expr) == '1.0\u22c5x' and pretty(expr) == '1*1*2*3*x' and upretty(expr) == '1\u22c51\u22c52\u22c53\u22c5x' and pretty(expr) == '-1*1' and upretty(expr) == '-1\u22c51' and pretty(expr) == '4*3*2*1*0*y*x' and upretty(expr) == '4\u22c53\u22c52\u22c51\u22c50\u22c5y\u22c5x' and pretty(expr) == '4*3*2*(z + 1)*0*y*x' and upretty(expr) == '4\u22c53\u22c52\u22c5(z + 1)\u22c50\u22c5y\u22c5x' and pretty(expr) == '2/3*5/7' and upretty(expr) == '2/3\u22c55/7' and pretty(expr) == '(x + y)*1/2' and upretty(expr) == '(x + y)\u22c51/2' and pretty(expr) == 'x + y\\n-----\\n  2  ' and upretty(expr) == 'x + y\\n\u2500\u2500\u2500\u2500\u2500\\n  2  ' and pretty(expr) == '1*(x + y)' and upretty(expr) == '1\u22c5(x + y)' and pretty(expr) == '(x - y)*1' and upretty(expr) == '(x - y)\u22c51' and pretty(expr) == '1/2*(x - y)*1*(x + y)' and upretty(expr) == '1/2\u22c5(x - y)\u22c51\u22c5(x + y)' and pretty(expr) == '(x + y)*3/4*1*(y - z)' and upretty(expr) == '(x + y)\u22c53/4\u22c51\u22c5(y - z)' and pretty(expr) == '(x + y)*1*3/4*5/6' and upretty(expr) == '(x + y)\u22c51\u22c53/4\u22c55/6' and pretty(expr) == '3/4*(x + y)*1*(y - z)' and upretty(expr) == '3/4\u22c5(x + y)\u22c51\u22c5(y - z)'"},"spec":{"lhs":"test_Mul()","rhs":"pretty(expr) == '0*1' and upretty(expr) == '0\u22c51' and pretty(expr) == '1*0' and upretty(expr) == '1\u22c50' and pretty(expr) == '1*1' and upretty(expr) == '1\u22c51' and pretty(expr) == '1*1*1' and upretty(expr) == '1\u22c51\u22c51' and pretty(expr) == '1*2' and upretty(expr) == '1\u22c52' and pretty(expr) == '0 + 1' and upretty(expr) == '0 + 1' and pretty(expr) == '1*1*2' and upretty(expr) == '1\u22c51\u22c52' and pretty(expr) == '0 + 0 + 1' and upretty(expr) == '0 + 0 + 1' and pretty(expr) == '1*-1' and upretty(expr) == '1\u22c5-1' and pretty(expr) == '1.0*x' and upretty(expr) == '1.0\u22c5x' and pretty(expr) == '1*1*2*3*x' and upretty(expr) == '1\u22c51\u22c52\u22c53\u22c5x' and pretty(expr) == '-1*1' and upretty(expr) == '-1\u22c51' and pretty(expr) == '4*3*2*1*0*y*x' and upretty(expr) == '4\u22c53\u22c52\u22c51\u22c50\u22c5y\u22c5x' and pretty(expr) == '4*3*2*(z + 1)*0*y*x' and upretty(expr) == '4\u22c53\u22c52\u22c5(z + 1)\u22c50\u22c5y\u22c5x' and pretty(expr) == '2/3*5/7' and upretty(expr) == '2/3\u22c55/7' and pretty(expr) == '(x + y)*1/2' and upretty(expr) == '(x + y)\u22c51/2' and pretty(expr) == 'x + y\\n-----\\n  2  ' and upretty(expr) == 'x + y\\n\u2500\u2500\u2500\u2500\u2500\\n  2  ' and pretty(expr) == '1*(x + y)' and upretty(expr) == '1\u22c5(x + y)' and pretty(expr) == '(x - y)*1' and upretty(expr) == '(x - y)\u22c51' and pretty(expr) == '1/2*(x - y)*1*(x + y)' and upretty(expr) == '1/2\u22c5(x - y)\u22c51\u22c5(x + y)' and pretty(expr) == '(x + y)*3/4*1*(y - z)' and upretty(expr) == '(x + y)\u22c53/4\u22c51\u22c5(y - z)' and pretty(expr) == '(x + y)*1*3/4*5/6' and upretty(expr) == '(x + y)\u22c51\u22c53/4\u22c55/6' and pretty(expr) == '3/4*(x + y)*1*(y - z)' and upretty(expr) == '3/4\u22c5(x + y)\u22c51\u22c5(y - z)'","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"pretty(expr) == '0*1'; upretty(expr) == '0\u22c51'; pretty(expr) == '1*0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Mul_correct","statement":"Path(test_Mul(x), pretty(expr) == '0*1'; upretty(expr) == '0\u22c51'; pretty(expr) == '1*0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143627c0f1549654","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == '0*1'","upretty(expr) == '0\u22c51'","pretty(expr) == '1*0'","upretty(expr) == '1\u22c50'","pretty(expr) == '1*1'","upretty(expr) == '1\u22c51'","pretty(expr) == '1*1*1'","upretty(expr) == '1\u22c51\u22c51'","pretty(expr) == '1*2'","upretty(expr) == '1\u22c52'","pretty(expr) == '0 + 1'","upretty(expr) == '0 + 1'","pretty(expr) == '1*1*2'","upretty(expr) == '1\u22c51\u22c52'","pretty(expr) == '0 + 0 + 1'","upretty(expr) == '0 + 0 + 1'","pretty(expr) == '1*-1'","upretty(expr) == '1\u22c5-1'","pretty(expr) == '1.0*x'","upretty(expr) == '1.0\u22c5x'","pretty(expr) == '1*1*2*3*x'","upretty(expr) == '1\u22c51\u22c52\u22c53\u22c5x'","pretty(expr) == '-1*1'","upretty(expr) == '-1\u22c51'","pretty(expr) == '4*3*2*1*0*y*x'","upretty(expr) == '4\u22c53\u22c52\u22c51\u22c50\u22c5y\u22c5x'","pretty(expr) == '4*3*2*(z + 1)*0*y*x'","upretty(expr) == '4\u22c53\u22c52\u22c5(z + 1)\u22c50\u22c5y\u22c5x'","pretty(expr) == '2/3*5/7'","upretty(expr) == '2/3\u22c55/7'","pretty(expr) == '(x + y)*1/2'","upretty(expr) == '(x + y)\u22c51/2'","pretty(expr) == 'x + y\\n-----\\n  2  '","upretty(expr) == 'x + y\\n\u2500\u2500\u2500\u2500\u2500\\n  2  '","pretty(expr) == '1*(x + y)'","upretty(expr) == '1\u22c5(x + y)'","pretty(expr) == '(x - y)*1'","upretty(expr) == '(x - y)\u22c51'","pretty(expr) == '1/2*(x - y)*1*(x + y)'","upretty(expr) == '1/2\u22c5(x - y)\u22c51\u22c5(x + y)'","pretty(expr) == '(x + y)*3/4*1*(y - z)'","upretty(expr) == '(x + y)\u22c53/4\u22c51\u22c5(y - z)'","pretty(expr) == '(x + y)*1*3/4*5/6'","upretty(expr) == '(x + y)\u22c51\u22c53/4\u22c55/6'","pretty(expr) == '3/4*(x + y)*1*(y - z)'","upretty(expr) == '3/4\u22c5(x + y)\u22c51\u22c5(y - z)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_Mul():
     expr = Mul(0, 1, evaluate=False)
     assert pretty(expr) == "0*1"
@@ -1264,16 +1385,23 @@ def test_Mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5524(), test_issue_5524 produces the expected output) over Any ║
+# ║ Path(test_issue_5524(), pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2           /         ___    \\\n- (5 - y)  + (x - 5)*\\-x - 2*\\/ 2  + 5/' and upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2                          \n- (5 - y)  + (x - 5)⋅(-x - 2⋅√2 + 5)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5524 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5)...   ║
+# ║   ensures:  upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5524 : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 627fa3187b38eaf2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0eec5b387653df6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_5524","kind":"function","src_hash":"82889c8661791b14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_5524()","rhs":"test_issue_5524 produces the expected output","over":{"base":"Any"},"name":"test_issue_5524_correct"},"guarantee":"test_issue_5524 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_5524_correct","statement":"Path(test_issue_5524(x), test_issue_5524 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"627fa3187b38eaf2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_5524","kind":"function","src_hash":"82889c8661791b14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2           /         ___    \\\\\\n- (5 - y)  + (x - 5)*\\\\-x - 2*\\\\/ 2  + 5/' and upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2                          \\n- (5 - y)  + (x - 5)\u22c5(-x - 2\u22c5\u221a2 + 5)'"},"spec":{"lhs":"test_issue_5524()","rhs":"pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2           /         ___    \\\\\\n- (5 - y)  + (x - 5)*\\\\-x - 2*\\\\/ 2  + 5/' and upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2                          \\n- (5 - y)  + (x - 5)\u22c5(-x - 2\u22c5\u221a2 + 5)'","over":{"base":"Any"},"name":"test_issue_5524_correct"},"guarantee":"pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2           /         ___    \\\\\\n- (5 - y)  + (x - 5)*\\\\-x - 2*\\\\/ 2  + 5/'; upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2                          \\n- (5 - y)  + (x - 5)\u22c5(-x - 2\u22c5\u221a2 + 5)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_5524_correct","statement":"Path(test_issue_5524(x), pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2           /         ___    \\\\\\n- (5 - y)  + (x - 5)*\\\\-x - 2*\\\\/ 2  + 5/'; upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2                          \\n- (5 - y)  + (x - 5)\u22c5(-x - 2\u22c5\u221a2 + 5)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0eec5b387653df6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2           /         ___    \\\\\\n- (5 - y)  + (x - 5)*\\\\-x - 2*\\\\/ 2  + 5/'","upretty(-(-x + 5) * (-x - 2 * sqrt(2) + 5) - (-y + 5) * (-y + 5)) == '         2                          \\n- (5 - y)  + (x - 5)\u22c5(-x - 2\u22c5\u221a2 + 5)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5524():
     assert pretty(-(-x + 5)*(-x - 2*sqrt(2) + 5) - (-y + 5)*(-y + 5)) == \
 """\
@@ -1289,16 +1417,24 @@ def test_issue_5524():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ordering(), test_pretty_ordering produces the expected output) over Any ║
+# ║ Path(test_pretty_ordering(), pretty(x ** 2 + x + 1, order='lex') == ' 2        \nx  + x + 1' and pretty(x ** 2 + x + 1, order='rev-lex') == '         2\n1 + x + x ' and pretty(1 - x, order='lex') == '-x + 1' and pretty(1 - x, order='rev-lex') == '1 - x' and pretty(1 - 2 * x, order='lex') == '-2*x + 1' and pretty(1 - 2 * x, order='rev-lex') == '1 - 2*x' and pretty(f, order=None) == '   4    2    3    2\n2*x  - x  + y  + y ' and pretty(f, order='lex') == '   4    2    3    2\n2*x  - x  + y  + y ' and pretty(f, order='rev-lex') == ' 2    3    2      4\ny  + y  - x  + 2*x ' and pretty(expr, order=None) == ascii_str and upretty(expr, order=None) == ucode_str and pretty(expr, order='lex') == ascii_str and upretty(expr, order='lex') == ucode_str and pretty(expr, order='rev-lex') == ascii_str and upretty(expr, order='rev-lex') == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ordering : Any → {Any | pretty(x ** 2 + x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(x ** 2 + x + 1, order='lex') == ' ...   ║
+# ║   ensures:  pretty(x ** 2 + x + 1, order='rev-lex') =...   ║
+# ║   ensures:  pretty(1 - x, order='lex') == '-x + 1'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ordering : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 423ebf153b669e73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6669ecfa744e6ae8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ordering","kind":"function","src_hash":"e3d1c237cd08778f","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(x ** 2 + x + 1, order='lex') == ' 2        \\nx  + x + 1' and pretty(x ** 2 + x + 1, order='rev-lex') == '         2\\n1 + x + x ' and pretty(1 - x, order='lex') == '-x + 1' and pretty(1 - x, order='rev-lex') == '1 - x' and pretty(1 - 2 * x, order='lex') == '-2*x + 1' and pretty(1 - 2 * x, order='rev-lex') == '1 - 2*x' and pretty(f, order=None) == '   4    2    3    2\\n2*x  - x  + y  + y ' and pretty(f, order='lex') == '   4    2    3    2\\n2*x  - x  + y  + y ' and pretty(f, order='rev-lex') == ' 2    3    2      4\\ny  + y  - x  + 2*x ' and pretty(expr, order=None) == ascii_str and upretty(expr, order=None) == ucode_str and pretty(expr, order='lex') == ascii_str and upretty(expr, order='lex') == ucode_str and pretty(expr, order='rev-lex') == ascii_str and upretty(expr, order='rev-lex') == ucode_str"},"spec":{"lhs":"test_pretty_ordering()","rhs":"test_pretty_ordering produces the expected output","over":{"base":"Any"},"name":"test_pretty_ordering_correct"},"guarantee":"test_pretty_ordering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ordering_correct","statement":"Path(test_pretty_ordering(x), test_pretty_ordering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"423ebf153b669e73"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ordering","kind":"function","src_hash":"e3d1c237cd08778f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(x ** 2 + x + 1, order='lex') == ' 2        \\nx  + x + 1' and pretty(x ** 2 + x + 1, order='rev-lex') == '         2\\n1 + x + x ' and pretty(1 - x, order='lex') == '-x + 1' and pretty(1 - x, order='rev-lex') == '1 - x' and pretty(1 - 2 * x, order='lex') == '-2*x + 1' and pretty(1 - 2 * x, order='rev-lex') == '1 - 2*x' and pretty(f, order=None) == '   4    2    3    2\\n2*x  - x  + y  + y ' and pretty(f, order='lex') == '   4    2    3    2\\n2*x  - x  + y  + y ' and pretty(f, order='rev-lex') == ' 2    3    2      4\\ny  + y  - x  + 2*x ' and pretty(expr, order=None) == ascii_str and upretty(expr, order=None) == ucode_str and pretty(expr, order='lex') == ascii_str and upretty(expr, order='lex') == ucode_str and pretty(expr, order='rev-lex') == ascii_str and upretty(expr, order='rev-lex') == ucode_str"},"spec":{"lhs":"test_pretty_ordering()","rhs":"pretty(x ** 2 + x + 1, order='lex') == ' 2        \\nx  + x + 1' and pretty(x ** 2 + x + 1, order='rev-lex') == '         2\\n1 + x + x ' and pretty(1 - x, order='lex') == '-x + 1' and pretty(1 - x, order='rev-lex') == '1 - x' and pretty(1 - 2 * x, order='lex') == '-2*x + 1' and pretty(1 - 2 * x, order='rev-lex') == '1 - 2*x' and pretty(f, order=None) == '   4    2    3    2\\n2*x  - x  + y  + y ' and pretty(f, order='lex') == '   4    2    3    2\\n2*x  - x  + y  + y ' and pretty(f, order='rev-lex') == ' 2    3    2      4\\ny  + y  - x  + 2*x ' and pretty(expr, order=None) == ascii_str and upretty(expr, order=None) == ucode_str and pretty(expr, order='lex') == ascii_str and upretty(expr, order='lex') == ucode_str and pretty(expr, order='rev-lex') == ascii_str and upretty(expr, order='rev-lex') == ucode_str","over":{"base":"Any"},"name":"test_pretty_ordering_correct"},"guarantee":"pretty(x ** 2 + x + 1, order='lex') == ' 2        \\nx  + x + 1'; pretty(x ** 2 + x + 1, order='rev-lex') == '         2\\n1 + x + x '; pretty(1 - x, order='lex') == '-x + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ordering_correct","statement":"Path(test_pretty_ordering(x), pretty(x ** 2 + x + 1, order='lex') == ' 2        \\nx  + x + 1'; pretty(x ** 2 + x + 1, order='rev-lex') == '         2\\n1 + x + x '; pretty(1 - x, order='lex') == '-x + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6669ecfa744e6ae8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(x ** 2 + x + 1, order='lex') == ' 2        \\nx  + x + 1'","pretty(x ** 2 + x + 1, order='rev-lex') == '         2\\n1 + x + x '","pretty(1 - x, order='lex') == '-x + 1'","pretty(1 - x, order='rev-lex') == '1 - x'","pretty(1 - 2 * x, order='lex') == '-2*x + 1'","pretty(1 - 2 * x, order='rev-lex') == '1 - 2*x'","pretty(f, order=None) == '   4    2    3    2\\n2*x  - x  + y  + y '","pretty(f, order='lex') == '   4    2    3    2\\n2*x  - x  + y  + y '","pretty(f, order='rev-lex') == ' 2    3    2      4\\ny  + y  - x  + 2*x '","pretty(expr, order=None) == ascii_str","upretty(expr, order=None) == ucode_str","pretty(expr, order='lex') == ascii_str","upretty(expr, order='lex') == ucode_str","pretty(expr, order='rev-lex') == ascii_str","upretty(expr, order='rev-lex') == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_ordering():
     assert pretty(x**2 + x + 1, order='lex') == \
 """\
@@ -1359,63 +1495,91 @@ x - ── + ─── + O⎝x ⎠\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_EulerGamma(), test_EulerGamma produces the expected output) over Any ║
+# ║ Path(test_EulerGamma(), pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma' and upretty(EulerGamma) == 'γ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_EulerGamma : Any → {Any | pretty(EulerGamma) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(EulerGamma) == str(EulerGamma) == ...   ║
+# ║   ensures:  upretty(EulerGamma) == 'γ'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_EulerGamma : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 835275eda1b94c38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59b27f2ae72172f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_EulerGamma","kind":"function","src_hash":"d2b8f20172278f73","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma' and upretty(EulerGamma) == '\u03b3'"},"spec":{"lhs":"test_EulerGamma()","rhs":"test_EulerGamma produces the expected output","over":{"base":"Any"},"name":"test_EulerGamma_correct"},"guarantee":"test_EulerGamma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_EulerGamma_correct","statement":"Path(test_EulerGamma(x), test_EulerGamma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835275eda1b94c38"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_EulerGamma","kind":"function","src_hash":"d2b8f20172278f73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma' and upretty(EulerGamma) == '\u03b3'"},"spec":{"lhs":"test_EulerGamma()","rhs":"pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma' and upretty(EulerGamma) == '\u03b3'","over":{"base":"Any"},"name":"test_EulerGamma_correct"},"guarantee":"pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma'; upretty(EulerGamma) == '\u03b3'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_EulerGamma_correct","statement":"Path(test_EulerGamma(x), pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma'; upretty(EulerGamma) == '\u03b3')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59b27f2ae72172f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(EulerGamma) == str(EulerGamma) == 'EulerGamma'","upretty(EulerGamma) == '\u03b3'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_EulerGamma():
     assert pretty(EulerGamma) == str(EulerGamma) == "EulerGamma"
     assert upretty(EulerGamma) == "γ"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GoldenRatio(), test_GoldenRatio produces the expected output) over Any ║
+# ║ Path(test_GoldenRatio(), pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio' and upretty(GoldenRatio) == 'φ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GoldenRatio : Any → {Any | pretty(GoldenRatio) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(GoldenRatio) == str(GoldenRatio) =...   ║
+# ║   ensures:  upretty(GoldenRatio) == 'φ'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GoldenRatio : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a84ca59508da1a20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ad49c58533352c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_GoldenRatio","kind":"function","src_hash":"046c93fb80253897","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio' and upretty(GoldenRatio) == '\u03c6'"},"spec":{"lhs":"test_GoldenRatio()","rhs":"test_GoldenRatio produces the expected output","over":{"base":"Any"},"name":"test_GoldenRatio_correct"},"guarantee":"test_GoldenRatio produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_GoldenRatio_correct","statement":"Path(test_GoldenRatio(x), test_GoldenRatio produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a84ca59508da1a20"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_GoldenRatio","kind":"function","src_hash":"046c93fb80253897","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio' and upretty(GoldenRatio) == '\u03c6'"},"spec":{"lhs":"test_GoldenRatio()","rhs":"pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio' and upretty(GoldenRatio) == '\u03c6'","over":{"base":"Any"},"name":"test_GoldenRatio_correct"},"guarantee":"pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio'; upretty(GoldenRatio) == '\u03c6'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_GoldenRatio_correct","statement":"Path(test_GoldenRatio(x), pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio'; upretty(GoldenRatio) == '\u03c6')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ad49c58533352c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(GoldenRatio) == str(GoldenRatio) == 'GoldenRatio'","upretty(GoldenRatio) == '\u03c6'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_GoldenRatio():
     assert pretty(GoldenRatio) == str(GoldenRatio) == "GoldenRatio"
     assert upretty(GoldenRatio) == "φ"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Catalan(), test_Catalan produces the expected output) over Any ║
+# ║ Path(test_Catalan(), pretty(Catalan) == upretty(Catalan) == 'G') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Catalan : Any → {Any | pretty(Catalan) == uprett...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Catalan) == upretty(Catalan) == 'G'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Catalan : Any → {Any | result satisfies: pretty(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3730d591fa29afc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6ec71c6ac22b821  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Catalan","kind":"function","src_hash":"50bda1f75d57d7de","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Catalan) == upretty(Catalan) == 'G'"},"spec":{"lhs":"test_Catalan()","rhs":"test_Catalan produces the expected output","over":{"base":"Any"},"name":"test_Catalan_correct"},"guarantee":"test_Catalan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Catalan_correct","statement":"Path(test_Catalan(x), test_Catalan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3730d591fa29afc2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Catalan","kind":"function","src_hash":"50bda1f75d57d7de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Catalan) == upretty(Catalan) == 'G'"},"spec":{"lhs":"test_Catalan()","rhs":"pretty(Catalan) == upretty(Catalan) == 'G'","over":{"base":"Any"},"name":"test_Catalan_correct"},"guarantee":"pretty(Catalan) == upretty(Catalan) == 'G'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Catalan_correct","statement":"Path(test_Catalan(x), pretty(Catalan) == upretty(Catalan) == 'G')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6ec71c6ac22b821","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Catalan) == upretty(Catalan) == 'G'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Catalan():
     assert pretty(Catalan) == upretty(Catalan) == "G"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_relational(), test_pretty_relational produces the expected output) over Any ║
+# ║ Path(test_pretty_relational(), pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_relational : Any → {Any | pretty(expr) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ║   ensures:  pretty(expr) in [ascii_str_1, ascii_str_2]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_relational : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f1bce9705ac5827  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28212397f01fd22c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_relational","kind":"function","src_hash":"664a8882b0bd9a2b","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]"},"spec":{"lhs":"test_pretty_relational()","rhs":"test_pretty_relational produces the expected output","over":{"base":"Any"},"name":"test_pretty_relational_correct"},"guarantee":"test_pretty_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_relational_correct","statement":"Path(test_pretty_relational(x), test_pretty_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f1bce9705ac5827"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_relational","kind":"function","src_hash":"664a8882b0bd9a2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]"},"spec":{"lhs":"test_pretty_relational()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2]","over":{"base":"Any"},"name":"test_pretty_relational_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str; pretty(expr) in [ascii_str_1, ascii_str_2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_relational_correct","statement":"Path(test_pretty_relational(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str; pretty(expr) in [ascii_str_1, ascii_str_2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28212397f01fd22c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str","pretty(expr) in [ascii_str_1, ascii_str_2]","upretty(expr) in [ucode_str_1, ucode_str_2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_relational():
     expr = Eq(x, y)
     ascii_str = \
@@ -1507,16 +1671,23 @@ y + 1     \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Assignment(), test_Assignment produces the expected output) over Any ║
+# ║ Path(test_Assignment(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Assignment : Any → {Any | pretty(expr) == ascii_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Assignment : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f785b3ac23cbf9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89fee016fa312fb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Assignment","kind":"function","src_hash":"8f99439e49900495","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_Assignment()","rhs":"test_Assignment produces the expected output","over":{"base":"Any"},"name":"test_Assignment_correct"},"guarantee":"test_Assignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Assignment_correct","statement":"Path(test_Assignment(x), test_Assignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f785b3ac23cbf9c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Assignment","kind":"function","src_hash":"8f99439e49900495","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_Assignment()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_Assignment_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Assignment_correct","statement":"Path(test_Assignment(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89fee016fa312fb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Assignment():
     expr = Assignment(x, y)
     ascii_str = \
@@ -1532,16 +1703,23 @@ x := y\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AugmentedAssignment(), test_AugmentedAssignment produces the expected output) over Any ║
+# ║ Path(test_AugmentedAssignment(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AugmentedAssignment : Any → {Any | pretty(expr) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AugmentedAssignment : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63d935e155cde47e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c29cd9ff9bf71b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_AugmentedAssignment","kind":"function","src_hash":"e85721e009715bed","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_AugmentedAssignment()","rhs":"test_AugmentedAssignment produces the expected output","over":{"base":"Any"},"name":"test_AugmentedAssignment_correct"},"guarantee":"test_AugmentedAssignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_AugmentedAssignment_correct","statement":"Path(test_AugmentedAssignment(x), test_AugmentedAssignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63d935e155cde47e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_AugmentedAssignment","kind":"function","src_hash":"e85721e009715bed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_AugmentedAssignment()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_AugmentedAssignment_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_AugmentedAssignment_correct","statement":"Path(test_AugmentedAssignment(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c29cd9ff9bf71b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_AugmentedAssignment():
     expr = AddAugmentedAssignment(x, y)
     ascii_str = \
@@ -1605,16 +1783,23 @@ x %= y\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_rational(), test_pretty_rational produces the expected output) over Any ║
+# ║ Path(test_pretty_rational(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_rational : Any → {Any | pretty(expr) == a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_rational : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea11c259ba96adcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 248ba22b66b87db4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_rational","kind":"function","src_hash":"06dba03f4d95e758","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_rational()","rhs":"test_pretty_rational produces the expected output","over":{"base":"Any"},"name":"test_pretty_rational_correct"},"guarantee":"test_pretty_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_rational_correct","statement":"Path(test_pretty_rational(x), test_pretty_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea11c259ba96adcb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_rational","kind":"function","src_hash":"06dba03f4d95e758","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_rational()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_rational_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_rational_correct","statement":"Path(test_pretty_rational(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"248ba22b66b87db4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_rational():
     expr = y*x**-2
     ascii_str = \
@@ -1677,16 +1862,24 @@ tan (x)\
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_functions(), tests for abs, conjugate, exp, function braces, and factorial) over Any ║
+# ║ Path(test_pretty_functions(), pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and upretty(expr) in [ucode_str_1, ucode_str_2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_functions : Any → {Any | pretty(expr) in ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) in [ascii_str_1, ascii_str_2]     ║
+# ║   ensures:  upretty(expr) in [ucode_str_1, ucode_str_...   ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_functions : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4357ef0110aac54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72e1688c6c23a7bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_functions","kind":"function","src_hash":"d51061898669f835","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_functions()","rhs":"tests for abs, conjugate, exp, function braces, and factorial","over":{"base":"Any"},"name":"test_pretty_functions_correct"},"guarantee":"tests for abs, conjugate, exp, function braces, and factorial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_functions_correct","statement":"Path(test_pretty_functions(x), tests for abs, conjugate, exp, function braces, and factorial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4357ef0110aac54"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_functions","kind":"function","src_hash":"d51061898669f835","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and upretty(expr) in [ucode_str_1, ucode_str_2]"},"spec":{"lhs":"test_pretty_functions()","rhs":"pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and upretty(expr) in [ucode_str_1, ucode_str_2]","over":{"base":"Any"},"name":"test_pretty_functions_correct"},"guarantee":"pretty(expr) in [ascii_str_1, ascii_str_2]; upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]; pretty(expr) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_functions_correct","statement":"Path(test_pretty_functions(x), pretty(expr) in [ascii_str_1, ascii_str_2]; upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]; pretty(expr) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72e1688c6c23a7bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) in [ascii_str_1, ascii_str_2]","upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]","pretty(expr) == ascii_str","upretty(expr) == ucode_str","upretty(expr) in [ucode_str_1, ucode_str_2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_functions():
     """Tests for Abs, conjugate, exp, function braces, and factorial."""
     expr = (2*x + exp(x))
@@ -2453,16 +2646,23 @@ E ⎜─⎟\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_sqrt(), test_pretty_sqrt produces the expected output) over Any ║
+# ║ Path(test_pretty_sqrt(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_sqrt : Any → {Any | pretty(expr) == ascii...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_sqrt : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aca9e3adaebdbeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bddc42acad12657a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt","kind":"function","src_hash":"b946f3b245cab80e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_sqrt()","rhs":"test_pretty_sqrt produces the expected output","over":{"base":"Any"},"name":"test_pretty_sqrt_correct"},"guarantee":"test_pretty_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_correct","statement":"Path(test_pretty_sqrt(x), test_pretty_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aca9e3adaebdbeb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt","kind":"function","src_hash":"b946f3b245cab80e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_sqrt()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_sqrt_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_correct","statement":"Path(test_pretty_sqrt(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bddc42acad12657a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_sqrt():
     expr = sqrt(2)
     ascii_str = \
@@ -2589,16 +2789,23 @@ x ___\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_sqrt_char_knob(), test_pretty_sqrt_char_knob produces the expected output) over Any ║
+# ║ Path(test_pretty_sqrt_char_knob(), xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1 and xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_sqrt_char_knob : Any → {Any | xpretty(exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(expr, use_unicode=True, use_unico...   ║
+# ║   ensures:  xpretty(expr, use_unicode=True, use_unico...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_sqrt_char_knob : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c90ba2b8523541f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41ef0b500ae22df2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_char_knob","kind":"function","src_hash":"898e5eec6bda1b86","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1 and xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2"},"spec":{"lhs":"test_pretty_sqrt_char_knob()","rhs":"test_pretty_sqrt_char_knob produces the expected output","over":{"base":"Any"},"name":"test_pretty_sqrt_char_knob_correct"},"guarantee":"test_pretty_sqrt_char_knob produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_char_knob_correct","statement":"Path(test_pretty_sqrt_char_knob(x), test_pretty_sqrt_char_knob produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c90ba2b8523541f9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_char_knob","kind":"function","src_hash":"898e5eec6bda1b86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1 and xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2"},"spec":{"lhs":"test_pretty_sqrt_char_knob()","rhs":"xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1 and xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2","over":{"base":"Any"},"name":"test_pretty_sqrt_char_knob_correct"},"guarantee":"xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1; xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_char_knob_correct","statement":"Path(test_pretty_sqrt_char_knob(x), xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1; xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41ef0b500ae22df2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(expr, use_unicode=True, use_unicode_sqrt_char=False) == ucode_str1","xpretty(expr, use_unicode=True, use_unicode_sqrt_char=True) == ucode_str2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_sqrt_char_knob():
     # See PR #9234.
     expr = sqrt(2)
@@ -2616,16 +2823,22 @@ def test_pretty_sqrt_char_knob():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_sqrt_longsymbol_no_sqrt_char(), test_pretty_sqrt_longsymbol_no_sqrt_char produces the expected output) over Any ║
+# ║ Path(test_pretty_sqrt_longsymbol_no_sqrt_char(), upretty(expr) == ucode_str) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pretty_sqrt_longsymbol_no_sqrt_char : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9ae70b564cc45d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 628f79c3bfa85ff7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_longsymbol_no_sqrt_char","kind":"function","src_hash":"e507a290cf30c684","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_sqrt_longsymbol_no_sqrt_char()","rhs":"test_pretty_sqrt_longsymbol_no_sqrt_char produces the expected output","over":{"base":"Any"},"name":"test_pretty_sqrt_longsymbol_no_sqrt_char_correct"},"guarantee":"test_pretty_sqrt_longsymbol_no_sqrt_char produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_longsymbol_no_sqrt_char_correct","statement":"Path(test_pretty_sqrt_longsymbol_no_sqrt_char(x), test_pretty_sqrt_longsymbol_no_sqrt_char produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9ae70b564cc45d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_longsymbol_no_sqrt_char","kind":"function","src_hash":"e507a290cf30c684","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_sqrt_longsymbol_no_sqrt_char()","rhs":"upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_sqrt_longsymbol_no_sqrt_char_correct"},"guarantee":"upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sqrt_longsymbol_no_sqrt_char_correct","statement":"Path(test_pretty_sqrt_longsymbol_no_sqrt_char(x), upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628f79c3bfa85ff7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_pretty_sqrt_longsymbol_no_sqrt_char():
     # Do not use unicode sqrt char for long symbols (see PR #9234).
     expr = sqrt(Symbol('C1'))
@@ -2638,16 +2851,23 @@ def test_pretty_sqrt_longsymbol_no_sqrt_char():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_KroneckerDelta(), test_pretty_KroneckerDelta produces the expected output) over Any ║
+# ║ Path(test_pretty_KroneckerDelta(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_KroneckerDelta : Any → {Any | pretty(expr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_KroneckerDelta : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ab2877cac7a421b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9050b338e2222156  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_KroneckerDelta","kind":"function","src_hash":"697565523c093f9c","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_KroneckerDelta()","rhs":"test_pretty_KroneckerDelta produces the expected output","over":{"base":"Any"},"name":"test_pretty_KroneckerDelta_correct"},"guarantee":"test_pretty_KroneckerDelta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_KroneckerDelta_correct","statement":"Path(test_pretty_KroneckerDelta(x), test_pretty_KroneckerDelta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ab2877cac7a421b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_KroneckerDelta","kind":"function","src_hash":"697565523c093f9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_KroneckerDelta()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_KroneckerDelta_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_KroneckerDelta_correct","statement":"Path(test_pretty_KroneckerDelta(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9050b338e2222156","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_KroneckerDelta():
     x, y = symbols("x, y")
     expr = KroneckerDelta(x, y)
@@ -2666,16 +2886,23 @@ d   \n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_product(), test_pretty_product produces the expected output) over Any ║
+# ║ Path(test_pretty_product(), pretty(expr) == ascii_str and upretty(expr) == unicode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_product : Any → {Any | pretty(expr) == as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == unicode_str                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_product : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1488ce1e33649296  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d6652a16f55f395  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_product","kind":"function","src_hash":"ae63235c0f8cc61b","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == unicode_str"},"spec":{"lhs":"test_pretty_product()","rhs":"test_pretty_product produces the expected output","over":{"base":"Any"},"name":"test_pretty_product_correct"},"guarantee":"test_pretty_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_product_correct","statement":"Path(test_pretty_product(x), test_pretty_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1488ce1e33649296"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_product","kind":"function","src_hash":"ae63235c0f8cc61b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == unicode_str"},"spec":{"lhs":"test_pretty_product()","rhs":"pretty(expr) == ascii_str and upretty(expr) == unicode_str","over":{"base":"Any"},"name":"test_pretty_product_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == unicode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_product_correct","statement":"Path(test_pretty_product(x), pretty(expr) == ascii_str; upretty(expr) == unicode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d6652a16f55f395","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == unicode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_product():
     n, m, k, l = symbols('n m k l')
     f = symbols('f', cls=Function)
@@ -2734,16 +2961,24 @@ __________ __________      \n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Lambda(), test_pretty_Lambda produces the expected output) over Any ║
+# ║ Path(test_pretty_Lambda(), pretty(expr) == 'x -> x' and upretty(expr) == 'x ↦ x' and pretty(expr) == 'x -> x + 1' and upretty(expr) == 'x ↦ x + 1' and pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Lambda : Any → {Any | pretty(expr) == 'x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == 'x -> x'                       ║
+# ║   ensures:  upretty(expr) == 'x ↦ x'                       ║
+# ║   ensures:  pretty(expr) == 'x -> x + 1'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Lambda : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44a4a15d12f7f7a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59bef2599462c6ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Lambda","kind":"function","src_hash":"6eea50d8ed1d3e94","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == 'x -> x' and upretty(expr) == 'x \u21a6 x' and pretty(expr) == 'x -> x + 1' and upretty(expr) == 'x \u21a6 x + 1' and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_Lambda()","rhs":"test_pretty_Lambda produces the expected output","over":{"base":"Any"},"name":"test_pretty_Lambda_correct"},"guarantee":"test_pretty_Lambda produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Lambda_correct","statement":"Path(test_pretty_Lambda(x), test_pretty_Lambda produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44a4a15d12f7f7a1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Lambda","kind":"function","src_hash":"6eea50d8ed1d3e94","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == 'x -> x' and upretty(expr) == 'x \u21a6 x' and pretty(expr) == 'x -> x + 1' and upretty(expr) == 'x \u21a6 x + 1' and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_Lambda()","rhs":"pretty(expr) == 'x -> x' and upretty(expr) == 'x \u21a6 x' and pretty(expr) == 'x -> x + 1' and upretty(expr) == 'x \u21a6 x + 1' and pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_Lambda_correct"},"guarantee":"pretty(expr) == 'x -> x'; upretty(expr) == 'x \u21a6 x'; pretty(expr) == 'x -> x + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Lambda_correct","statement":"Path(test_pretty_Lambda(x), pretty(expr) == 'x -> x'; upretty(expr) == 'x \u21a6 x'; pretty(expr) == 'x -> x + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59bef2599462c6ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == 'x -> x'","upretty(expr) == 'x \u21a6 x'","pretty(expr) == 'x -> x + 1'","upretty(expr) == 'x \u21a6 x + 1'","pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_Lambda():
     # S.IdentityFunction is a special case
     expr = Lambda(y, y)
@@ -2820,16 +3055,24 @@ x ↦ x \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_TransferFunction(), test_pretty_TransferFunction produces the expected output) over Any ║
+# ║ Path(test_pretty_TransferFunction(), upretty(tf1) == 's - 1\n─────\ns + 1' and upretty(tf2) == '2⋅s + 1\n───────\n 3 - p ' and upretty(tf3) == '  p  \n─────\np + 1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_TransferFunction : Any → {Any | upretty(t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(tf1) == 's - 1\n─────\ns + 1'          ║
+# ║   ensures:  upretty(tf2) == '2⋅s + 1\n───────\n 3 - p '    ║
+# ║   ensures:  upretty(tf3) == '  p  \n─────\np + 1'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_TransferFunction : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35cdb929706304dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24e72384c6090a99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunction","kind":"function","src_hash":"3fb08ac36d4ee8d6","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(tf1) == 's - 1\\n\u2500\u2500\u2500\u2500\u2500\\ns + 1' and upretty(tf2) == '2\u22c5s + 1\\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n 3 - p ' and upretty(tf3) == '  p  \\n\u2500\u2500\u2500\u2500\u2500\\np + 1'"},"spec":{"lhs":"test_pretty_TransferFunction()","rhs":"test_pretty_TransferFunction produces the expected output","over":{"base":"Any"},"name":"test_pretty_TransferFunction_correct"},"guarantee":"test_pretty_TransferFunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunction_correct","statement":"Path(test_pretty_TransferFunction(x), test_pretty_TransferFunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35cdb929706304dc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunction","kind":"function","src_hash":"3fb08ac36d4ee8d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(tf1) == 's - 1\\n\u2500\u2500\u2500\u2500\u2500\\ns + 1' and upretty(tf2) == '2\u22c5s + 1\\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n 3 - p ' and upretty(tf3) == '  p  \\n\u2500\u2500\u2500\u2500\u2500\\np + 1'"},"spec":{"lhs":"test_pretty_TransferFunction()","rhs":"upretty(tf1) == 's - 1\\n\u2500\u2500\u2500\u2500\u2500\\ns + 1' and upretty(tf2) == '2\u22c5s + 1\\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n 3 - p ' and upretty(tf3) == '  p  \\n\u2500\u2500\u2500\u2500\u2500\\np + 1'","over":{"base":"Any"},"name":"test_pretty_TransferFunction_correct"},"guarantee":"upretty(tf1) == 's - 1\\n\u2500\u2500\u2500\u2500\u2500\\ns + 1'; upretty(tf2) == '2\u22c5s + 1\\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n 3 - p '; upretty(tf3) == '  p  \\n\u2500\u2500\u2500\u2500\u2500\\np + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunction_correct","statement":"Path(test_pretty_TransferFunction(x), upretty(tf1) == 's - 1\\n\u2500\u2500\u2500\u2500\u2500\\ns + 1'; upretty(tf2) == '2\u22c5s + 1\\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n 3 - p '; upretty(tf3) == '  p  \\n\u2500\u2500\u2500\u2500\u2500\\np + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24e72384c6090a99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(tf1) == 's - 1\\n\u2500\u2500\u2500\u2500\u2500\\ns + 1'","upretty(tf2) == '2\u22c5s + 1\\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n 3 - p '","upretty(tf3) == '  p  \\n\u2500\u2500\u2500\u2500\u2500\\np + 1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_TransferFunction():
     tf1 = TransferFunction(s - 1, s + 1, s)
     assert upretty(tf1) == "s - 1\n─────\ns + 1"
@@ -2840,16 +3083,24 @@ def test_pretty_TransferFunction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Series(), test_pretty_Series produces the expected output) over Any ║
+# ║ Path(test_pretty_Series(), upretty(Series(tf1, tf3)) == expected1 and upretty(Series(-tf2, -tf1)) == expected2 and upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3 and upretty(Series(Parallel(tf1, tf2), Parallel(tf2, tf3))) == expected4 and upretty(MIMOSeries(tfm2, tfm1)) == expected5 and upretty(MIMOSeries(MIMOParallel(tfm4, -tfm5), tfm3, tfm1)) == expected6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Series : Any → {Any | upretty(Series(tf1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Series(tf1, tf3)) == expected1         ║
+# ║   ensures:  upretty(Series(-tf2, -tf1)) == expected2       ║
+# ║   ensures:  upretty(Series(tf3, tf1, Parallel(-tf1, t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Series : Any → {Any | result satisfies: u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8a6f32e958b6af0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef12a917c1d2b2a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Series","kind":"function","src_hash":"3e99d1ce91e78c21","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Series(tf1, tf3)) == expected1 and upretty(Series(-tf2, -tf1)) == expected2 and upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3 and upretty(Series(Parallel(tf1, tf2), Parallel(tf2, tf3))) == expected4 and upretty(MIMOSeries(tfm2, tfm1)) == expected5 and upretty(MIMOSeries(MIMOParallel(tfm4, -tfm5), tfm3, tfm1)) == expected6"},"spec":{"lhs":"test_pretty_Series()","rhs":"test_pretty_Series produces the expected output","over":{"base":"Any"},"name":"test_pretty_Series_correct"},"guarantee":"test_pretty_Series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Series_correct","statement":"Path(test_pretty_Series(x), test_pretty_Series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a6f32e958b6af0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Series","kind":"function","src_hash":"3e99d1ce91e78c21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Series(tf1, tf3)) == expected1 and upretty(Series(-tf2, -tf1)) == expected2 and upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3 and upretty(Series(Parallel(tf1, tf2), Parallel(tf2, tf3))) == expected4 and upretty(MIMOSeries(tfm2, tfm1)) == expected5 and upretty(MIMOSeries(MIMOParallel(tfm4, -tfm5), tfm3, tfm1)) == expected6"},"spec":{"lhs":"test_pretty_Series()","rhs":"upretty(Series(tf1, tf3)) == expected1 and upretty(Series(-tf2, -tf1)) == expected2 and upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3 and upretty(Series(Parallel(tf1, tf2), Parallel(tf2, tf3))) == expected4 and upretty(MIMOSeries(tfm2, tfm1)) == expected5 and upretty(MIMOSeries(MIMOParallel(tfm4, -tfm5), tfm3, tfm1)) == expected6","over":{"base":"Any"},"name":"test_pretty_Series_correct"},"guarantee":"upretty(Series(tf1, tf3)) == expected1; upretty(Series(-tf2, -tf1)) == expected2; upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Series_correct","statement":"Path(test_pretty_Series(x), upretty(Series(tf1, tf3)) == expected1; upretty(Series(-tf2, -tf1)) == expected2; upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef12a917c1d2b2a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Series(tf1, tf3)) == expected1","upretty(Series(-tf2, -tf1)) == expected2","upretty(Series(tf3, tf1, Parallel(-tf1, tf2))) == expected3","upretty(Series(Parallel(tf1, tf2), Parallel(tf2, tf3))) == expected4","upretty(MIMOSeries(tfm2, tfm1)) == expected5","upretty(MIMOSeries(MIMOParallel(tfm4, -tfm5), tfm3, tfm1)) == expected6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_Series():
     tf1 = TransferFunction(x + y, x - 2*y, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -2925,16 +3176,24 @@ def test_pretty_Series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Parallel(), test_pretty_Parallel produces the expected output) over Any ║
+# ║ Path(test_pretty_Parallel(), upretty(Parallel(tf1, tf2)) == expected1 and upretty(Parallel(-tf2, -tf1)) == expected2 and upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3 and upretty(Parallel(Series(tf1, tf2), Series(tf2, tf3))) == expected4 and upretty(MIMOParallel(-tfm3, -tfm2, tfm1)) == expected5 and upretty(MIMOParallel(MIMOSeries(tfm4, -tfm2), tfm2)) == expected6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Parallel : Any → {Any | upretty(Parallel(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Parallel(tf1, tf2)) == expected1       ║
+# ║   ensures:  upretty(Parallel(-tf2, -tf1)) == expected2     ║
+# ║   ensures:  upretty(Parallel(tf3, tf1, Series(-tf1, t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Parallel : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd4d351bd21c58d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a461c82779a65db9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Parallel","kind":"function","src_hash":"fdc6c502730aa9d5","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Parallel(tf1, tf2)) == expected1 and upretty(Parallel(-tf2, -tf1)) == expected2 and upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3 and upretty(Parallel(Series(tf1, tf2), Series(tf2, tf3))) == expected4 and upretty(MIMOParallel(-tfm3, -tfm2, tfm1)) == expected5 and upretty(MIMOParallel(MIMOSeries(tfm4, -tfm2), tfm2)) == expected6"},"spec":{"lhs":"test_pretty_Parallel()","rhs":"test_pretty_Parallel produces the expected output","over":{"base":"Any"},"name":"test_pretty_Parallel_correct"},"guarantee":"test_pretty_Parallel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Parallel_correct","statement":"Path(test_pretty_Parallel(x), test_pretty_Parallel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd4d351bd21c58d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Parallel","kind":"function","src_hash":"fdc6c502730aa9d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Parallel(tf1, tf2)) == expected1 and upretty(Parallel(-tf2, -tf1)) == expected2 and upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3 and upretty(Parallel(Series(tf1, tf2), Series(tf2, tf3))) == expected4 and upretty(MIMOParallel(-tfm3, -tfm2, tfm1)) == expected5 and upretty(MIMOParallel(MIMOSeries(tfm4, -tfm2), tfm2)) == expected6"},"spec":{"lhs":"test_pretty_Parallel()","rhs":"upretty(Parallel(tf1, tf2)) == expected1 and upretty(Parallel(-tf2, -tf1)) == expected2 and upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3 and upretty(Parallel(Series(tf1, tf2), Series(tf2, tf3))) == expected4 and upretty(MIMOParallel(-tfm3, -tfm2, tfm1)) == expected5 and upretty(MIMOParallel(MIMOSeries(tfm4, -tfm2), tfm2)) == expected6","over":{"base":"Any"},"name":"test_pretty_Parallel_correct"},"guarantee":"upretty(Parallel(tf1, tf2)) == expected1; upretty(Parallel(-tf2, -tf1)) == expected2; upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Parallel_correct","statement":"Path(test_pretty_Parallel(x), upretty(Parallel(tf1, tf2)) == expected1; upretty(Parallel(-tf2, -tf1)) == expected2; upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a461c82779a65db9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Parallel(tf1, tf2)) == expected1","upretty(Parallel(-tf2, -tf1)) == expected2","upretty(Parallel(tf3, tf1, Series(-tf1, tf2))) == expected3","upretty(Parallel(Series(tf1, tf2), Series(tf2, tf3))) == expected4","upretty(MIMOParallel(-tfm3, -tfm2, tfm1)) == expected5","upretty(MIMOParallel(MIMOSeries(tfm4, -tfm2), tfm2)) == expected6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pretty_Parallel():
     tf1 = TransferFunction(x + y, x - 2*y, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -3014,16 +3273,24 @@ x  + y    x + y    ⎛-x - y ⎞ ⎛x - y⎞
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Feedback(), test_pretty_Feedback produces the expected output) over Any ║
+# ║ Path(test_pretty_Feedback(), upretty(Feedback(tf, tf1)) == expected1 and upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2 and upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3 and upretty(Feedback(tf1 * tf2, tf)) == expected4 and upretty(Feedback(tf1 * tf2, tf5)) == expected5 and upretty(Feedback(tf3 * tf5, tf2 * tf1)) == expected6 and upretty(Feedback(tf4, tf6)) == expected7 and upretty(Feedback(tf5, tf)) == expected8 and upretty(Feedback(tf1 * tf2, tf5, 1)) == expected9 and upretty(Feedback(tf5, tf, 1)) == expected10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Feedback : Any → {Any | upretty(Feedback(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Feedback(tf, tf1)) == expected1        ║
+# ║   ensures:  upretty(Feedback(tf, tf2 * tf1 * tf3)) ==...   ║
+# ║   ensures:  upretty(Feedback(tf1, tf2 * tf3 * tf5)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Feedback : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f996f3782a7e337b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ffdee516f7aefb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Feedback","kind":"function","src_hash":"f01ee4ce8c901f2b","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Feedback(tf, tf1)) == expected1 and upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2 and upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3 and upretty(Feedback(tf1 * tf2, tf)) == expected4 and upretty(Feedback(tf1 * tf2, tf5)) == expected5 and upretty(Feedback(tf3 * tf5, tf2 * tf1)) == expected6 and upretty(Feedback(tf4, tf6)) == expected7 and upretty(Feedback(tf5, tf)) == expected8 and upretty(Feedback(tf1 * tf2, tf5, 1)) == expected9 and upretty(Feedback(tf5, tf, 1)) == expected10"},"spec":{"lhs":"test_pretty_Feedback()","rhs":"test_pretty_Feedback produces the expected output","over":{"base":"Any"},"name":"test_pretty_Feedback_correct"},"guarantee":"test_pretty_Feedback produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Feedback_correct","statement":"Path(test_pretty_Feedback(x), test_pretty_Feedback produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f996f3782a7e337b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Feedback","kind":"function","src_hash":"f01ee4ce8c901f2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Feedback(tf, tf1)) == expected1 and upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2 and upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3 and upretty(Feedback(tf1 * tf2, tf)) == expected4 and upretty(Feedback(tf1 * tf2, tf5)) == expected5 and upretty(Feedback(tf3 * tf5, tf2 * tf1)) == expected6 and upretty(Feedback(tf4, tf6)) == expected7 and upretty(Feedback(tf5, tf)) == expected8 and upretty(Feedback(tf1 * tf2, tf5, 1)) == expected9 and upretty(Feedback(tf5, tf, 1)) == expected10"},"spec":{"lhs":"test_pretty_Feedback()","rhs":"upretty(Feedback(tf, tf1)) == expected1 and upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2 and upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3 and upretty(Feedback(tf1 * tf2, tf)) == expected4 and upretty(Feedback(tf1 * tf2, tf5)) == expected5 and upretty(Feedback(tf3 * tf5, tf2 * tf1)) == expected6 and upretty(Feedback(tf4, tf6)) == expected7 and upretty(Feedback(tf5, tf)) == expected8 and upretty(Feedback(tf1 * tf2, tf5, 1)) == expected9 and upretty(Feedback(tf5, tf, 1)) == expected10","over":{"base":"Any"},"name":"test_pretty_Feedback_correct"},"guarantee":"upretty(Feedback(tf, tf1)) == expected1; upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2; upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Feedback_correct","statement":"Path(test_pretty_Feedback(x), upretty(Feedback(tf, tf1)) == expected1; upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2; upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ffdee516f7aefb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Feedback(tf, tf1)) == expected1","upretty(Feedback(tf, tf2 * tf1 * tf3)) == expected2","upretty(Feedback(tf1, tf2 * tf3 * tf5)) == expected3","upretty(Feedback(tf1 * tf2, tf)) == expected4","upretty(Feedback(tf1 * tf2, tf5)) == expected5","upretty(Feedback(tf3 * tf5, tf2 * tf1)) == expected6","upretty(Feedback(tf4, tf6)) == expected7","upretty(Feedback(tf5, tf)) == expected8","upretty(Feedback(tf1 * tf2, tf5, 1)) == expected9","upretty(Feedback(tf5, tf, 1)) == expected10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pretty_Feedback():
     tf = TransferFunction(1, 1, y)
     tf1 = TransferFunction(x + y, x - 2*y, y)
@@ -3152,16 +3419,23 @@ def test_pretty_Feedback():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_MIMOFeedback(), test_pretty_MIMOFeedback produces the expected output) over Any ║
+# ║ Path(test_pretty_MIMOFeedback(), upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1 and upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_MIMOFeedback : Any → {Any | upretty(MIMOF...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(MIMOFeedback(tfm_1, tfm_2, 1)) ==...   ║
+# ║   ensures:  upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_MIMOFeedback : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8606c9714be4e0ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d128538f4bb5abd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_MIMOFeedback","kind":"function","src_hash":"70da02f719b07e59","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1 and upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2"},"spec":{"lhs":"test_pretty_MIMOFeedback()","rhs":"test_pretty_MIMOFeedback produces the expected output","over":{"base":"Any"},"name":"test_pretty_MIMOFeedback_correct"},"guarantee":"test_pretty_MIMOFeedback produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_MIMOFeedback_correct","statement":"Path(test_pretty_MIMOFeedback(x), test_pretty_MIMOFeedback produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8606c9714be4e0ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_MIMOFeedback","kind":"function","src_hash":"70da02f719b07e59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1 and upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2"},"spec":{"lhs":"test_pretty_MIMOFeedback()","rhs":"upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1 and upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2","over":{"base":"Any"},"name":"test_pretty_MIMOFeedback_correct"},"guarantee":"upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1; upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_MIMOFeedback_correct","statement":"Path(test_pretty_MIMOFeedback(x), upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1; upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d128538f4bb5abd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(MIMOFeedback(tfm_1, tfm_2, 1)) == expected1","upretty(MIMOFeedback(tfm_1 * tfm_2, tfm_3)) == expected2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_MIMOFeedback():
     tf1 = TransferFunction(x + y, x - 2*y, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -3197,16 +3471,24 @@ def test_pretty_MIMOFeedback():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_TransferFunctionMatrix(), test_pretty_TransferFunctionMatrix produces the expected output) over Any ║
+# ║ Path(test_pretty_TransferFunctionMatrix(), upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1 and upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2 and upretty(TransferFunctionMatrix([[tf1, tf2], [tf3, tf4], [tf5, tf6]])) == expected3 and upretty(TransferFunctionMatrix([[tf2, tf1, tf4], [-tf3, -tf5, -tf6]])) == expected4 and upretty(TransferFunctionMatrix([[Series(tf2, tf1), tf1, tf4], [Parallel(tf6, tf5), tf1, -tf6]])) == expected5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_TransferFunctionMatrix : Any → {Any | upr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(TransferFunctionMatrix([[tf1], [t...   ║
+# ║   ensures:  upretty(TransferFunctionMatrix([[tf1], [t...   ║
+# ║   ensures:  upretty(TransferFunctionMatrix([[tf1, tf2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_TransferFunctionMatrix : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f7a5c79aa990fe7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52c42e750197959f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunctionMatrix","kind":"function","src_hash":"b4962de46ac1eb8d","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1 and upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2"},"spec":{"lhs":"test_pretty_TransferFunctionMatrix()","rhs":"test_pretty_TransferFunctionMatrix produces the expected output","over":{"base":"Any"},"name":"test_pretty_TransferFunctionMatrix_correct"},"guarantee":"test_pretty_TransferFunctionMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunctionMatrix_correct","statement":"Path(test_pretty_TransferFunctionMatrix(x), test_pretty_TransferFunctionMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f7a5c79aa990fe7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunctionMatrix","kind":"function","src_hash":"b4962de46ac1eb8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1 and upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2 and upretty(TransferFunctionMatrix([[tf1, tf2], [tf3, tf4], [tf5, tf6]])) == expected3 and upretty(TransferFunctionMatrix([[tf2, tf1, tf4], [-tf3, -tf5, -tf6]])) == expected4 and upretty(TransferFunctionMatrix([[Series(tf2, tf1), tf1, tf4], [Parallel(tf6, tf5), tf1, -tf6]])) == expected5"},"spec":{"lhs":"test_pretty_TransferFunctionMatrix()","rhs":"upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1 and upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2 and upretty(TransferFunctionMatrix([[tf1, tf2], [tf3, tf4], [tf5, tf6]])) == expected3 and upretty(TransferFunctionMatrix([[tf2, tf1, tf4], [-tf3, -tf5, -tf6]])) == expected4 and upretty(TransferFunctionMatrix([[Series(tf2, tf1), tf1, tf4], [Parallel(tf6, tf5), tf1, -tf6]])) == expected5","over":{"base":"Any"},"name":"test_pretty_TransferFunctionMatrix_correct"},"guarantee":"upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1; upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2; upretty(TransferFunctionMatrix([[tf1, tf2], [tf3, tf4], [tf5, tf6]])) == expected3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_TransferFunctionMatrix_correct","statement":"Path(test_pretty_TransferFunctionMatrix(x), upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1; upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2; upretty(TransferFunctionMatrix([[tf1, tf2], [tf3, tf4], [tf5, tf6]])) == expected3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52c42e750197959f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(TransferFunctionMatrix([[tf1], [tf2]])) == expected1","upretty(TransferFunctionMatrix([[tf1], [tf2], [-tf3]])) == expected2","upretty(TransferFunctionMatrix([[tf1, tf2], [tf3, tf4], [tf5, tf6]])) == expected3","upretty(TransferFunctionMatrix([[tf2, tf1, tf4], [-tf3, -tf5, -tf6]])) == expected4","upretty(TransferFunctionMatrix([[Series(tf2, tf1), tf1, tf4], [Parallel(tf6, tf5), tf1, -tf6]])) == expected5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_TransferFunctionMatrix():
     tf1 = TransferFunction(x + y, x - 2*y, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -3288,16 +3570,24 @@ def test_pretty_TransferFunctionMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_StateSpace(), test_pretty_StateSpace produces the expected output) over Any ║
+# ║ Path(test_pretty_StateSpace(), upretty(ss1) == expected1 and upretty(ss2) == expected2 and upretty(ss3) == expected3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_StateSpace : Any → {Any | upretty(ss1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(ss1) == expected1                      ║
+# ║   ensures:  upretty(ss2) == expected2                      ║
+# ║   ensures:  upretty(ss3) == expected3                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_StateSpace : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e4f8db0426b831b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90c9b40231178ae0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_StateSpace","kind":"function","src_hash":"8be61a41e41845e7","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(ss1) == expected1 and upretty(ss2) == expected2 and upretty(ss3) == expected3"},"spec":{"lhs":"test_pretty_StateSpace()","rhs":"test_pretty_StateSpace produces the expected output","over":{"base":"Any"},"name":"test_pretty_StateSpace_correct"},"guarantee":"test_pretty_StateSpace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_StateSpace_correct","statement":"Path(test_pretty_StateSpace(x), test_pretty_StateSpace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e4f8db0426b831b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_StateSpace","kind":"function","src_hash":"8be61a41e41845e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(ss1) == expected1 and upretty(ss2) == expected2 and upretty(ss3) == expected3"},"spec":{"lhs":"test_pretty_StateSpace()","rhs":"upretty(ss1) == expected1 and upretty(ss2) == expected2 and upretty(ss3) == expected3","over":{"base":"Any"},"name":"test_pretty_StateSpace_correct"},"guarantee":"upretty(ss1) == expected1; upretty(ss2) == expected2; upretty(ss3) == expected3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_StateSpace_correct","statement":"Path(test_pretty_StateSpace(x), upretty(ss1) == expected1; upretty(ss2) == expected2; upretty(ss3) == expected3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90c9b40231178ae0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(ss1) == expected1","upretty(ss2) == expected2","upretty(ss3) == expected3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_StateSpace():
     ss1 = StateSpace(Matrix([a]), Matrix([b]), Matrix([c]), Matrix([d]))
     A = Matrix([[0, 1], [1, 0]])
@@ -3340,16 +3630,23 @@ def test_pretty_StateSpace():
     assert upretty(ss3) == expected3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_order(), test_pretty_order produces the expected output) over Any ║
+# ║ Path(test_pretty_order(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_order : Any → {Any | pretty(expr) == asci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_order : Any → {Any | result satisfies: pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58664e4f0ace7821  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f8d6a07dfe523ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_order","kind":"function","src_hash":"87c2de8dd218b072","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_order()","rhs":"test_pretty_order produces the expected output","over":{"base":"Any"},"name":"test_pretty_order_correct"},"guarantee":"test_pretty_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_order_correct","statement":"Path(test_pretty_order(x), test_pretty_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58664e4f0ace7821"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_order","kind":"function","src_hash":"87c2de8dd218b072","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_order()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_order_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_order_correct","statement":"Path(test_pretty_order(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8d6a07dfe523ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_order():
     expr = O(1)
     ascii_str = \
@@ -3437,16 +3734,24 @@ O⎝x  + y ; (x, y) → (∞, ∞)⎠\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_derivatives(), test_pretty_derivatives produces the expected output) over Any ║
+# ║ Path(test_pretty_derivatives(), pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_derivatives : Any → {Any | pretty(expr) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ║   ensures:  pretty(expr) in [ascii_str_1, ascii_str_2]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_derivatives : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4d02b0822ad3ecf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cb81585d710cd8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_derivatives","kind":"function","src_hash":"e3c30dedc16a289e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_derivatives()","rhs":"test_pretty_derivatives produces the expected output","over":{"base":"Any"},"name":"test_pretty_derivatives_correct"},"guarantee":"test_pretty_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_derivatives_correct","statement":"Path(test_pretty_derivatives(x), test_pretty_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4d02b0822ad3ecf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_derivatives","kind":"function","src_hash":"e3c30dedc16a289e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]"},"spec":{"lhs":"test_pretty_derivatives()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3] and upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]","over":{"base":"Any"},"name":"test_pretty_derivatives_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str; pretty(expr) in [ascii_str_1, ascii_str_2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_derivatives_correct","statement":"Path(test_pretty_derivatives(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str; pretty(expr) in [ascii_str_1, ascii_str_2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cb81585d710cd8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str","pretty(expr) in [ascii_str_1, ascii_str_2]","upretty(expr) in [ucode_str_1, ucode_str_2]","pretty(expr) in [ascii_str_1, ascii_str_2, ascii_str_3]","upretty(expr) in [ucode_str_1, ucode_str_2, ucode_str_3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_pretty_derivatives():
     # Simple
     expr = Derivative(log(x), x, evaluate=False)
@@ -3717,16 +4022,23 @@ dx       \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_integrals(), test_pretty_integrals produces the expected output) over Any ║
+# ║ Path(test_pretty_integrals(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_integrals : Any → {Any | pretty(expr) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_integrals : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d670e87e18169a0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cafaa3b4a0e4780f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_integrals","kind":"function","src_hash":"e85ab65a971d6f59","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_integrals()","rhs":"test_pretty_integrals produces the expected output","over":{"base":"Any"},"name":"test_pretty_integrals_correct"},"guarantee":"test_pretty_integrals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_integrals_correct","statement":"Path(test_pretty_integrals(x), test_pretty_integrals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d670e87e18169a0a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_integrals","kind":"function","src_hash":"e85ab65a971d6f59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_integrals()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_integrals_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_integrals_correct","statement":"Path(test_pretty_integrals(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cafaa3b4a0e4780f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pretty_integrals():
     expr = Integral(log(x), x)
     ascii_str = \
@@ -3910,16 +4222,24 @@ def test_pretty_integrals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_matrix(), test_pretty_matrix produces the expected output) over Any ║
+# ║ Path(test_pretty_matrix(), pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_matrix : Any → {Any | pretty(expr) == asc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == unicode_str                   ║
+# ║   ensures:  pretty(expr) in [ascii_str_1, ascii_str_2]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_matrix : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbbe2162fe00b110  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52e5cb98c1f73909  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_matrix","kind":"function","src_hash":"a07e4f88ff1f75e0","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and pretty(expr) == ascii_str and upretty(expr) == ucode_str and upretty(expr) == unicode_str"},"spec":{"lhs":"test_pretty_matrix()","rhs":"test_pretty_matrix produces the expected output","over":{"base":"Any"},"name":"test_pretty_matrix_correct"},"guarantee":"test_pretty_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_matrix_correct","statement":"Path(test_pretty_matrix(x), test_pretty_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbbe2162fe00b110"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_matrix","kind":"function","src_hash":"a07e4f88ff1f75e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_matrix()","rhs":"pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) in [ascii_str_1, ascii_str_2] and upretty(expr) in [ucode_str_1, ucode_str_2] and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_matrix_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == unicode_str; pretty(expr) in [ascii_str_1, ascii_str_2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_matrix_correct","statement":"Path(test_pretty_matrix(x), pretty(expr) == ascii_str; upretty(expr) == unicode_str; pretty(expr) in [ascii_str_1, ascii_str_2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52e5cb98c1f73909","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == unicode_str","pretty(expr) in [ascii_str_1, ascii_str_2]","upretty(expr) in [ucode_str_1, ucode_str_2]","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_matrix():
     # Empty Matrix
     expr = Matrix()
@@ -4005,16 +4325,22 @@ def test_pretty_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ndim_arrays(), test_pretty_ndim_arrays produces the expected output) over Any ║
+# ║ Path(test_pretty_ndim_arrays(), <unspecified:test_pretty_ndim_arrays>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pretty_ndim_arrays : Any → {Any | pretty(M) == '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 340812d7486b693b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ndim_arrays","kind":"function","src_hash":"e4e543caf13709e0","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(M) == 'x' and upretty(M) == 'x' and pretty(M) == ascii_str and upretty(M) == ucode_str and pretty(M1) == ascii_str and upretty(M1) == ucode_str and pretty(M2) == ascii_str and upretty(M2) == ucode_str and pretty(M3) == ascii_str and upretty(M3) == ucode_str and pretty(Mrow) == ascii_str and upretty(Mrow) == ucode_str and pretty(Mcolumn) == ascii_str and upretty(Mcolumn) == ucode_str and pretty(Mcol2) == ascii_str and upretty(Mcol2) == ucode_str"},"spec":{"lhs":"test_pretty_ndim_arrays()","rhs":"test_pretty_ndim_arrays produces the expected output","over":{"base":"Any"},"name":"test_pretty_ndim_arrays_correct"},"guarantee":"test_pretty_ndim_arrays produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ndim_arrays_correct","statement":"Path(test_pretty_ndim_arrays(x), test_pretty_ndim_arrays produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340812d7486b693b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ndim_arrays","kind":"function","src_hash":"e4e543caf13709e0","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(M) == 'x' and upretty(M) == 'x' and pretty(M) == ascii_str and upretty(M) == ucode_str and pretty(M1) == ascii_str and upretty(M1) == ucode_str and pretty(M2) == ascii_str and upretty(M2) == ucode_str and pretty(M3) == ascii_str and upretty(M3) == ucode_str and pretty(Mrow) == ascii_str and upretty(Mrow) == ucode_str and pretty(Mcolumn) == ascii_str and upretty(Mcolumn) == ucode_str and pretty(Mcol2) == ascii_str and upretty(Mcol2) == ucode_str"},"spec":{"lhs":"test_pretty_ndim_arrays()","rhs":"<unspecified:test_pretty_ndim_arrays>","over":{"base":"Any"},"name":"test_pretty_ndim_arrays_correct"},"guarantee":"test_pretty_ndim_arrays produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ndim_arrays_correct","statement":"Path(test_pretty_ndim_arrays(x), test_pretty_ndim_arrays produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340812d7486b693b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_ndim_arrays():
     x, y, z, w = symbols("x y z w")
 
@@ -4196,16 +4522,23 @@ def test_pretty_ndim_arrays():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_TensorProduct(), test_tensor_TensorProduct produces the expected output) over Any ║
+# ║ Path(test_tensor_TensorProduct(), upretty(TensorProduct(A, B)) == 'A⊗B' and upretty(TensorProduct(A, B, A)) == 'A⊗B⊗A') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_TensorProduct : Any → {Any | upretty(Tens...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(TensorProduct(A, B)) == 'A⊗B'          ║
+# ║   ensures:  upretty(TensorProduct(A, B, A)) == 'A⊗B⊗A'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_TensorProduct : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07e4e4ec851dfec2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d37f9fb7ddf16982  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_tensor_TensorProduct","kind":"function","src_hash":"ddf45b80e0c6aca0","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(TensorProduct(A, B)) == 'A\u2297B' and upretty(TensorProduct(A, B, A)) == 'A\u2297B\u2297A'"},"spec":{"lhs":"test_tensor_TensorProduct()","rhs":"test_tensor_TensorProduct produces the expected output","over":{"base":"Any"},"name":"test_tensor_TensorProduct_correct"},"guarantee":"test_tensor_TensorProduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_tensor_TensorProduct_correct","statement":"Path(test_tensor_TensorProduct(x), test_tensor_TensorProduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07e4e4ec851dfec2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_tensor_TensorProduct","kind":"function","src_hash":"ddf45b80e0c6aca0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(TensorProduct(A, B)) == 'A\u2297B' and upretty(TensorProduct(A, B, A)) == 'A\u2297B\u2297A'"},"spec":{"lhs":"test_tensor_TensorProduct()","rhs":"upretty(TensorProduct(A, B)) == 'A\u2297B' and upretty(TensorProduct(A, B, A)) == 'A\u2297B\u2297A'","over":{"base":"Any"},"name":"test_tensor_TensorProduct_correct"},"guarantee":"upretty(TensorProduct(A, B)) == 'A\u2297B'; upretty(TensorProduct(A, B, A)) == 'A\u2297B\u2297A'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_tensor_TensorProduct_correct","statement":"Path(test_tensor_TensorProduct(x), upretty(TensorProduct(A, B)) == 'A\u2297B'; upretty(TensorProduct(A, B, A)) == 'A\u2297B\u2297A')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d37f9fb7ddf16982","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(TensorProduct(A, B)) == 'A\u2297B'","upretty(TensorProduct(A, B, A)) == 'A\u2297B\u2297A'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_TensorProduct():
     A = MatrixSymbol("A", 3, 3)
     B = MatrixSymbol("B", 3, 3)
@@ -4214,16 +4547,23 @@ def test_tensor_TensorProduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diffgeom_print_WedgeProduct(), test_diffgeom_print_WedgeProduct produces the expected output) over Any ║
+# ║ Path(test_diffgeom_print_WedgeProduct(), upretty(wp) == 'ⅆ x∧ⅆ y' and pretty(wp) == 'd x/\\d y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diffgeom_print_WedgeProduct : Any → {Any | upret...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(wp) == 'ⅆ x∧ⅆ y'                       ║
+# ║   ensures:  pretty(wp) == 'd x/\\d y'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diffgeom_print_WedgeProduct : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd88c277b5075f8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b31a6531bfe11a6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_diffgeom_print_WedgeProduct","kind":"function","src_hash":"dbdb340773d172a7","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(wp) == '\u2146 x\u2227\u2146 y' and pretty(wp) == 'd x/\\\\d y'"},"spec":{"lhs":"test_diffgeom_print_WedgeProduct()","rhs":"test_diffgeom_print_WedgeProduct produces the expected output","over":{"base":"Any"},"name":"test_diffgeom_print_WedgeProduct_correct"},"guarantee":"test_diffgeom_print_WedgeProduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_diffgeom_print_WedgeProduct_correct","statement":"Path(test_diffgeom_print_WedgeProduct(x), test_diffgeom_print_WedgeProduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd88c277b5075f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_diffgeom_print_WedgeProduct","kind":"function","src_hash":"dbdb340773d172a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(wp) == '\u2146 x\u2227\u2146 y' and pretty(wp) == 'd x/\\\\d y'"},"spec":{"lhs":"test_diffgeom_print_WedgeProduct()","rhs":"upretty(wp) == '\u2146 x\u2227\u2146 y' and pretty(wp) == 'd x/\\\\d y'","over":{"base":"Any"},"name":"test_diffgeom_print_WedgeProduct_correct"},"guarantee":"upretty(wp) == '\u2146 x\u2227\u2146 y'; pretty(wp) == 'd x/\\\\d y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_diffgeom_print_WedgeProduct_correct","statement":"Path(test_diffgeom_print_WedgeProduct(x), upretty(wp) == '\u2146 x\u2227\u2146 y'; pretty(wp) == 'd x/\\\\d y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b31a6531bfe11a6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(wp) == '\u2146 x\u2227\u2146 y'","pretty(wp) == 'd x/\\\\d y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_diffgeom_print_WedgeProduct():
     from sympy.diffgeom.rn import R2
     from sympy.diffgeom import WedgeProduct
@@ -4233,16 +4573,24 @@ def test_diffgeom_print_WedgeProduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Adjoint(), test_Adjoint produces the expected output) over Any ║
+# ║ Path(test_Adjoint(), pretty(Adjoint(X)) == ' +\nX ' and pretty(Adjoint(X + Y)) == '       +\n(X + Y) ' and pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\nX  + Y ' and pretty(Adjoint(X * Y)) == '     +\n(X*Y) ' and pretty(Adjoint(Y) * Adjoint(X)) == ' +  +\nY *X ' and pretty(Adjoint(X ** 2)) == '    +\n/ 2\\ \n\\X / ' and pretty(Adjoint(X) ** 2) == '    2\n/ +\\ \n\\X / ' and pretty(Adjoint(Inverse(X))) == '     +\n/ -1\\ \n\\X  / ' and pretty(Inverse(Adjoint(X))) == '    -1\n/ +\\  \n\\X /  ' and pretty(Adjoint(Transpose(X))) == '    +\n/ T\\ \n\\X / ' and pretty(Transpose(Adjoint(X))) == '    T\n/ +\\ \n\\X / ' and upretty(Adjoint(X)) == ' †\nX ' and upretty(Adjoint(X + Y)) == '       †\n(X + Y) ' and upretty(Adjoint(X) + Adjoint(Y)) == ' †    †\nX  + Y ' and upretty(Adjoint(X * Y)) == '     †\n(X⋅Y) ' and upretty(Adjoint(Y) * Adjoint(X)) == ' †  †\nY ⋅X ' and upretty(Adjoint(X ** 2)) == '    †\n⎛ 2⎞ \n⎝X ⎠ ' and upretty(Adjoint(X) ** 2) == '    2\n⎛ †⎞ \n⎝X ⎠ ' and upretty(Adjoint(Inverse(X))) == '     †\n⎛ -1⎞ \n⎝X  ⎠ ' and upretty(Inverse(Adjoint(X))) == '    -1\n⎛ †⎞  \n⎝X ⎠  ' and upretty(Adjoint(Transpose(X))) == '    †\n⎛ T⎞ \n⎝X ⎠ ' and upretty(Transpose(Adjoint(X))) == '    T\n⎛ †⎞ \n⎝X ⎠ ' and upretty(Adjoint(m)) == '      †\n⎡1  2⎤ \n⎢    ⎥ \n⎣3  4⎦ ' and upretty(Adjoint(m + X)) == '            †\n⎛⎡1  2⎤    ⎞ \n⎜⎢    ⎥ + X⎟ \n⎝⎣3  4⎦    ⎠ ' and upretty(Adjoint(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           †\n⎡  𝟙     X⎤ \n⎢         ⎥ \n⎢⎡1  2⎤   ⎥ \n⎢⎢    ⎥  𝟘⎥ \n⎣⎣3  4⎦   ⎦ ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Adjoint : Any → {Any | pretty(Adjoint(X)) == ' +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Adjoint(X)) == ' +\nX '                 ║
+# ║   ensures:  pretty(Adjoint(X + Y)) == '       +\n(X +...   ║
+# ║   ensures:  pretty(Adjoint(X) + Adjoint(Y)) == ' +   ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Adjoint : Any → {Any | result satisfies: pretty(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fb7d26dbbb76acb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39079cd034eafd75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Adjoint","kind":"function","src_hash":"0be496d80e201471","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Adjoint(X)) == ' +\\nX ' and pretty(Adjoint(X + Y)) == '       +\\n(X + Y) ' and pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\\nX  + Y ' and pretty(Adjoint(X * Y)) == '     +\\n(X*Y) ' and pretty(Adjoint(Y) * Adjoint(X)) == ' +  +\\nY *X ' and pretty(Adjoint(X ** 2)) == '    +\\n/ 2\\\\ \\n\\\\X / ' and pretty(Adjoint(X) ** 2) == '    2\\n/ +\\\\ \\n\\\\X / ' and pretty(Adjoint(Inverse(X))) == '     +\\n/ -1\\\\ \\n\\\\X  / ' and pretty(Inverse(Adjoint(X))) == '    -1\\n/ +\\\\  \\n\\\\X /  ' and pretty(Adjoint(Transpose(X))) == '    +\\n/ T\\\\ \\n\\\\X / ' and pretty(Transpose(Adjoint(X))) == '    T\\n/ +\\\\ \\n\\\\X / ' and upretty(Adjoint(X)) == ' \u2020\\nX ' and upretty(Adjoint(X + Y)) == '       \u2020\\n(X + Y) ' and upretty(Adjoint(X) + Adjoint(Y)) == ' \u2020    \u2020\\nX  + Y ' and upretty(Adjoint(X * Y)) == '     \u2020\\n(X\u22c5Y) ' and upretty(Adjoint(Y) * Adjoint(X)) == ' \u2020  \u2020\\nY \u22c5X ' and upretty(Adjoint(X ** 2)) == '    \u2020\\n\u239b 2\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(X) ** 2) == '    2\\n\u239b \u2020\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(Inverse(X))) == '     \u2020\\n\u239b -1\u239e \\n\u239dX  \u23a0 ' and upretty(Inverse(Adjoint(X))) == '    -1\\n\u239b \u2020\u239e  \\n\u239dX \u23a0  ' and upretty(Adjoint(Transpose(X))) == '    \u2020\\n\u239b T\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(Adjoint(X))) == '    T\\n\u239b \u2020\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(m)) == '      \u2020\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 '"},"spec":{"lhs":"test_Adjoint()","rhs":"test_Adjoint produces the expected output","over":{"base":"Any"},"name":"test_Adjoint_correct"},"guarantee":"test_Adjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Adjoint_correct","statement":"Path(test_Adjoint(x), test_Adjoint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fb7d26dbbb76acb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Adjoint","kind":"function","src_hash":"0be496d80e201471","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Adjoint(X)) == ' +\\nX ' and pretty(Adjoint(X + Y)) == '       +\\n(X + Y) ' and pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\\nX  + Y ' and pretty(Adjoint(X * Y)) == '     +\\n(X*Y) ' and pretty(Adjoint(Y) * Adjoint(X)) == ' +  +\\nY *X ' and pretty(Adjoint(X ** 2)) == '    +\\n/ 2\\\\ \\n\\\\X / ' and pretty(Adjoint(X) ** 2) == '    2\\n/ +\\\\ \\n\\\\X / ' and pretty(Adjoint(Inverse(X))) == '     +\\n/ -1\\\\ \\n\\\\X  / ' and pretty(Inverse(Adjoint(X))) == '    -1\\n/ +\\\\  \\n\\\\X /  ' and pretty(Adjoint(Transpose(X))) == '    +\\n/ T\\\\ \\n\\\\X / ' and pretty(Transpose(Adjoint(X))) == '    T\\n/ +\\\\ \\n\\\\X / ' and upretty(Adjoint(X)) == ' \u2020\\nX ' and upretty(Adjoint(X + Y)) == '       \u2020\\n(X + Y) ' and upretty(Adjoint(X) + Adjoint(Y)) == ' \u2020    \u2020\\nX  + Y ' and upretty(Adjoint(X * Y)) == '     \u2020\\n(X\u22c5Y) ' and upretty(Adjoint(Y) * Adjoint(X)) == ' \u2020  \u2020\\nY \u22c5X ' and upretty(Adjoint(X ** 2)) == '    \u2020\\n\u239b 2\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(X) ** 2) == '    2\\n\u239b \u2020\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(Inverse(X))) == '     \u2020\\n\u239b -1\u239e \\n\u239dX  \u23a0 ' and upretty(Inverse(Adjoint(X))) == '    -1\\n\u239b \u2020\u239e  \\n\u239dX \u23a0  ' and upretty(Adjoint(Transpose(X))) == '    \u2020\\n\u239b T\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(Adjoint(X))) == '    T\\n\u239b \u2020\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(m)) == '      \u2020\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 ' and upretty(Adjoint(m + X)) == '            \u2020\\n\u239b\u23a11  2\u23a4    \u239e \\n\u239c\u23a2    \u23a5 + X\u239f \\n\u239d\u23a33  4\u23a6    \u23a0 ' and upretty(Adjoint(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           \u2020\\n\u23a1  \ud835\udfd9     X\u23a4 \\n\u23a2         \u23a5 \\n\u23a2\u23a11  2\u23a4   \u23a5 \\n\u23a2\u23a2    \u23a5  \ud835\udfd8\u23a5 \\n\u23a3\u23a33  4\u23a6   \u23a6 '"},"spec":{"lhs":"test_Adjoint()","rhs":"pretty(Adjoint(X)) == ' +\\nX ' and pretty(Adjoint(X + Y)) == '       +\\n(X + Y) ' and pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\\nX  + Y ' and pretty(Adjoint(X * Y)) == '     +\\n(X*Y) ' and pretty(Adjoint(Y) * Adjoint(X)) == ' +  +\\nY *X ' and pretty(Adjoint(X ** 2)) == '    +\\n/ 2\\\\ \\n\\\\X / ' and pretty(Adjoint(X) ** 2) == '    2\\n/ +\\\\ \\n\\\\X / ' and pretty(Adjoint(Inverse(X))) == '     +\\n/ -1\\\\ \\n\\\\X  / ' and pretty(Inverse(Adjoint(X))) == '    -1\\n/ +\\\\  \\n\\\\X /  ' and pretty(Adjoint(Transpose(X))) == '    +\\n/ T\\\\ \\n\\\\X / ' and pretty(Transpose(Adjoint(X))) == '    T\\n/ +\\\\ \\n\\\\X / ' and upretty(Adjoint(X)) == ' \u2020\\nX ' and upretty(Adjoint(X + Y)) == '       \u2020\\n(X + Y) ' and upretty(Adjoint(X) + Adjoint(Y)) == ' \u2020    \u2020\\nX  + Y ' and upretty(Adjoint(X * Y)) == '     \u2020\\n(X\u22c5Y) ' and upretty(Adjoint(Y) * Adjoint(X)) == ' \u2020  \u2020\\nY \u22c5X ' and upretty(Adjoint(X ** 2)) == '    \u2020\\n\u239b 2\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(X) ** 2) == '    2\\n\u239b \u2020\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(Inverse(X))) == '     \u2020\\n\u239b -1\u239e \\n\u239dX  \u23a0 ' and upretty(Inverse(Adjoint(X))) == '    -1\\n\u239b \u2020\u239e  \\n\u239dX \u23a0  ' and upretty(Adjoint(Transpose(X))) == '    \u2020\\n\u239b T\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(Adjoint(X))) == '    T\\n\u239b \u2020\u239e \\n\u239dX \u23a0 ' and upretty(Adjoint(m)) == '      \u2020\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 ' and upretty(Adjoint(m + X)) == '            \u2020\\n\u239b\u23a11  2\u23a4    \u239e \\n\u239c\u23a2    \u23a5 + X\u239f \\n\u239d\u23a33  4\u23a6    \u23a0 ' and upretty(Adjoint(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           \u2020\\n\u23a1  \ud835\udfd9     X\u23a4 \\n\u23a2         \u23a5 \\n\u23a2\u23a11  2\u23a4   \u23a5 \\n\u23a2\u23a2    \u23a5  \ud835\udfd8\u23a5 \\n\u23a3\u23a33  4\u23a6   \u23a6 '","over":{"base":"Any"},"name":"test_Adjoint_correct"},"guarantee":"pretty(Adjoint(X)) == ' +\\nX '; pretty(Adjoint(X + Y)) == '       +\\n(X + Y) '; pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\\nX  + Y '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Adjoint_correct","statement":"Path(test_Adjoint(x), pretty(Adjoint(X)) == ' +\\nX '; pretty(Adjoint(X + Y)) == '       +\\n(X + Y) '; pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\\nX  + Y ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39079cd034eafd75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Adjoint(X)) == ' +\\nX '","pretty(Adjoint(X + Y)) == '       +\\n(X + Y) '","pretty(Adjoint(X) + Adjoint(Y)) == ' +    +\\nX  + Y '","pretty(Adjoint(X * Y)) == '     +\\n(X*Y) '","pretty(Adjoint(Y) * Adjoint(X)) == ' +  +\\nY *X '","pretty(Adjoint(X ** 2)) == '    +\\n/ 2\\\\ \\n\\\\X / '","pretty(Adjoint(X) ** 2) == '    2\\n/ +\\\\ \\n\\\\X / '","pretty(Adjoint(Inverse(X))) == '     +\\n/ -1\\\\ \\n\\\\X  / '","pretty(Inverse(Adjoint(X))) == '    -1\\n/ +\\\\  \\n\\\\X /  '","pretty(Adjoint(Transpose(X))) == '    +\\n/ T\\\\ \\n\\\\X / '","pretty(Transpose(Adjoint(X))) == '    T\\n/ +\\\\ \\n\\\\X / '","upretty(Adjoint(X)) == ' \u2020\\nX '","upretty(Adjoint(X + Y)) == '       \u2020\\n(X + Y) '","upretty(Adjoint(X) + Adjoint(Y)) == ' \u2020    \u2020\\nX  + Y '","upretty(Adjoint(X * Y)) == '     \u2020\\n(X\u22c5Y) '","upretty(Adjoint(Y) * Adjoint(X)) == ' \u2020  \u2020\\nY \u22c5X '","upretty(Adjoint(X ** 2)) == '    \u2020\\n\u239b 2\u239e \\n\u239dX \u23a0 '","upretty(Adjoint(X) ** 2) == '    2\\n\u239b \u2020\u239e \\n\u239dX \u23a0 '","upretty(Adjoint(Inverse(X))) == '     \u2020\\n\u239b -1\u239e \\n\u239dX  \u23a0 '","upretty(Inverse(Adjoint(X))) == '    -1\\n\u239b \u2020\u239e  \\n\u239dX \u23a0  '","upretty(Adjoint(Transpose(X))) == '    \u2020\\n\u239b T\u239e \\n\u239dX \u23a0 '","upretty(Transpose(Adjoint(X))) == '    T\\n\u239b \u2020\u239e \\n\u239dX \u23a0 '","upretty(Adjoint(m)) == '      \u2020\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 '","upretty(Adjoint(m + X)) == '            \u2020\\n\u239b\u23a11  2\u23a4    \u239e \\n\u239c\u23a2    \u23a5 + X\u239f \\n\u239d\u23a33  4\u23a6    \u23a0 '","upretty(Adjoint(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           \u2020\\n\u23a1  \ud835\udfd9     X\u23a4 \\n\u23a2         \u23a5 \\n\u23a2\u23a11  2\u23a4   \u23a5 \\n\u23a2\u23a2    \u23a5  \ud835\udfd8\u23a5 \\n\u23a3\u23a33  4\u23a6   \u23a6 '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_Adjoint():
     X = MatrixSymbol('X', 2, 2)
     Y = MatrixSymbol('Y', 2, 2)
@@ -4296,16 +4644,24 @@ def test_Adjoint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Transpose(), test_Transpose produces the expected output) over Any ║
+# ║ Path(test_Transpose(), pretty(Transpose(X)) == ' T\nX ' and pretty(Transpose(X + Y)) == '       T\n(X + Y) ' and pretty(Transpose(X) + Transpose(Y)) == ' T    T\nX  + Y ' and pretty(Transpose(X * Y)) == '     T\n(X*Y) ' and pretty(Transpose(Y) * Transpose(X)) == ' T  T\nY *X ' and pretty(Transpose(X ** 2)) == '    T\n/ 2\\ \n\\X / ' and pretty(Transpose(X) ** 2) == '    2\n/ T\\ \n\\X / ' and pretty(Transpose(Inverse(X))) == '     T\n/ -1\\ \n\\X  / ' and pretty(Inverse(Transpose(X))) == '    -1\n/ T\\  \n\\X /  ' and upretty(Transpose(X)) == ' T\nX ' and upretty(Transpose(X + Y)) == '       T\n(X + Y) ' and upretty(Transpose(X) + Transpose(Y)) == ' T    T\nX  + Y ' and upretty(Transpose(X * Y)) == '     T\n(X⋅Y) ' and upretty(Transpose(Y) * Transpose(X)) == ' T  T\nY ⋅X ' and upretty(Transpose(X ** 2)) == '    T\n⎛ 2⎞ \n⎝X ⎠ ' and upretty(Transpose(X) ** 2) == '    2\n⎛ T⎞ \n⎝X ⎠ ' and upretty(Transpose(Inverse(X))) == '     T\n⎛ -1⎞ \n⎝X  ⎠ ' and upretty(Inverse(Transpose(X))) == '    -1\n⎛ T⎞  \n⎝X ⎠  ' and upretty(Transpose(m)) == '      T\n⎡1  2⎤ \n⎢    ⎥ \n⎣3  4⎦ ' and upretty(Transpose(m + X)) == '            T\n⎛⎡1  2⎤    ⎞ \n⎜⎢    ⎥ + X⎟ \n⎝⎣3  4⎦    ⎠ ' and upretty(Transpose(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           T\n⎡  𝟙     X⎤ \n⎢         ⎥ \n⎢⎡1  2⎤   ⎥ \n⎢⎢    ⎥  𝟘⎥ \n⎣⎣3  4⎦   ⎦ ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Transpose : Any → {Any | pretty(Transpose(X)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Transpose(X)) == ' T\nX '               ║
+# ║   ensures:  pretty(Transpose(X + Y)) == '       T\n(X...   ║
+# ║   ensures:  pretty(Transpose(X) + Transpose(Y)) == ' ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Transpose : Any → {Any | result satisfies: prett...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee9a6e23b5dda926  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c8cccefa727aae1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Transpose","kind":"function","src_hash":"a22a42d89d92941f","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Transpose(X)) == ' T\\nX ' and pretty(Transpose(X + Y)) == '       T\\n(X + Y) ' and pretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ' and pretty(Transpose(X * Y)) == '     T\\n(X*Y) ' and pretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY *X ' and pretty(Transpose(X ** 2)) == '    T\\n/ 2\\\\ \\n\\\\X / ' and pretty(Transpose(X) ** 2) == '    2\\n/ T\\\\ \\n\\\\X / ' and pretty(Transpose(Inverse(X))) == '     T\\n/ -1\\\\ \\n\\\\X  / ' and pretty(Inverse(Transpose(X))) == '    -1\\n/ T\\\\  \\n\\\\X /  ' and upretty(Transpose(X)) == ' T\\nX ' and upretty(Transpose(X + Y)) == '       T\\n(X + Y) ' and upretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ' and upretty(Transpose(X * Y)) == '     T\\n(X\u22c5Y) ' and upretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY \u22c5X ' and upretty(Transpose(X ** 2)) == '    T\\n\u239b 2\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(X) ** 2) == '    2\\n\u239b T\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(Inverse(X))) == '     T\\n\u239b -1\u239e \\n\u239dX  \u23a0 ' and upretty(Inverse(Transpose(X))) == '    -1\\n\u239b T\u239e  \\n\u239dX \u23a0  ' and upretty(Transpose(m)) == '      T\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 '"},"spec":{"lhs":"test_Transpose()","rhs":"test_Transpose produces the expected output","over":{"base":"Any"},"name":"test_Transpose_correct"},"guarantee":"test_Transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Transpose_correct","statement":"Path(test_Transpose(x), test_Transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee9a6e23b5dda926"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Transpose","kind":"function","src_hash":"a22a42d89d92941f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Transpose(X)) == ' T\\nX ' and pretty(Transpose(X + Y)) == '       T\\n(X + Y) ' and pretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ' and pretty(Transpose(X * Y)) == '     T\\n(X*Y) ' and pretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY *X ' and pretty(Transpose(X ** 2)) == '    T\\n/ 2\\\\ \\n\\\\X / ' and pretty(Transpose(X) ** 2) == '    2\\n/ T\\\\ \\n\\\\X / ' and pretty(Transpose(Inverse(X))) == '     T\\n/ -1\\\\ \\n\\\\X  / ' and pretty(Inverse(Transpose(X))) == '    -1\\n/ T\\\\  \\n\\\\X /  ' and upretty(Transpose(X)) == ' T\\nX ' and upretty(Transpose(X + Y)) == '       T\\n(X + Y) ' and upretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ' and upretty(Transpose(X * Y)) == '     T\\n(X\u22c5Y) ' and upretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY \u22c5X ' and upretty(Transpose(X ** 2)) == '    T\\n\u239b 2\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(X) ** 2) == '    2\\n\u239b T\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(Inverse(X))) == '     T\\n\u239b -1\u239e \\n\u239dX  \u23a0 ' and upretty(Inverse(Transpose(X))) == '    -1\\n\u239b T\u239e  \\n\u239dX \u23a0  ' and upretty(Transpose(m)) == '      T\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 ' and upretty(Transpose(m + X)) == '            T\\n\u239b\u23a11  2\u23a4    \u239e \\n\u239c\u23a2    \u23a5 + X\u239f \\n\u239d\u23a33  4\u23a6    \u23a0 ' and upretty(Transpose(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           T\\n\u23a1  \ud835\udfd9     X\u23a4 \\n\u23a2         \u23a5 \\n\u23a2\u23a11  2\u23a4   \u23a5 \\n\u23a2\u23a2    \u23a5  \ud835\udfd8\u23a5 \\n\u23a3\u23a33  4\u23a6   \u23a6 '"},"spec":{"lhs":"test_Transpose()","rhs":"pretty(Transpose(X)) == ' T\\nX ' and pretty(Transpose(X + Y)) == '       T\\n(X + Y) ' and pretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ' and pretty(Transpose(X * Y)) == '     T\\n(X*Y) ' and pretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY *X ' and pretty(Transpose(X ** 2)) == '    T\\n/ 2\\\\ \\n\\\\X / ' and pretty(Transpose(X) ** 2) == '    2\\n/ T\\\\ \\n\\\\X / ' and pretty(Transpose(Inverse(X))) == '     T\\n/ -1\\\\ \\n\\\\X  / ' and pretty(Inverse(Transpose(X))) == '    -1\\n/ T\\\\  \\n\\\\X /  ' and upretty(Transpose(X)) == ' T\\nX ' and upretty(Transpose(X + Y)) == '       T\\n(X + Y) ' and upretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ' and upretty(Transpose(X * Y)) == '     T\\n(X\u22c5Y) ' and upretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY \u22c5X ' and upretty(Transpose(X ** 2)) == '    T\\n\u239b 2\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(X) ** 2) == '    2\\n\u239b T\u239e \\n\u239dX \u23a0 ' and upretty(Transpose(Inverse(X))) == '     T\\n\u239b -1\u239e \\n\u239dX  \u23a0 ' and upretty(Inverse(Transpose(X))) == '    -1\\n\u239b T\u239e  \\n\u239dX \u23a0  ' and upretty(Transpose(m)) == '      T\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 ' and upretty(Transpose(m + X)) == '            T\\n\u239b\u23a11  2\u23a4    \u239e \\n\u239c\u23a2    \u23a5 + X\u239f \\n\u239d\u23a33  4\u23a6    \u23a0 ' and upretty(Transpose(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           T\\n\u23a1  \ud835\udfd9     X\u23a4 \\n\u23a2         \u23a5 \\n\u23a2\u23a11  2\u23a4   \u23a5 \\n\u23a2\u23a2    \u23a5  \ud835\udfd8\u23a5 \\n\u23a3\u23a33  4\u23a6   \u23a6 '","over":{"base":"Any"},"name":"test_Transpose_correct"},"guarantee":"pretty(Transpose(X)) == ' T\\nX '; pretty(Transpose(X + Y)) == '       T\\n(X + Y) '; pretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Transpose_correct","statement":"Path(test_Transpose(x), pretty(Transpose(X)) == ' T\\nX '; pretty(Transpose(X + Y)) == '       T\\n(X + Y) '; pretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c8cccefa727aae1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Transpose(X)) == ' T\\nX '","pretty(Transpose(X + Y)) == '       T\\n(X + Y) '","pretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y '","pretty(Transpose(X * Y)) == '     T\\n(X*Y) '","pretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY *X '","pretty(Transpose(X ** 2)) == '    T\\n/ 2\\\\ \\n\\\\X / '","pretty(Transpose(X) ** 2) == '    2\\n/ T\\\\ \\n\\\\X / '","pretty(Transpose(Inverse(X))) == '     T\\n/ -1\\\\ \\n\\\\X  / '","pretty(Inverse(Transpose(X))) == '    -1\\n/ T\\\\  \\n\\\\X /  '","upretty(Transpose(X)) == ' T\\nX '","upretty(Transpose(X + Y)) == '       T\\n(X + Y) '","upretty(Transpose(X) + Transpose(Y)) == ' T    T\\nX  + Y '","upretty(Transpose(X * Y)) == '     T\\n(X\u22c5Y) '","upretty(Transpose(Y) * Transpose(X)) == ' T  T\\nY \u22c5X '","upretty(Transpose(X ** 2)) == '    T\\n\u239b 2\u239e \\n\u239dX \u23a0 '","upretty(Transpose(X) ** 2) == '    2\\n\u239b T\u239e \\n\u239dX \u23a0 '","upretty(Transpose(Inverse(X))) == '     T\\n\u239b -1\u239e \\n\u239dX  \u23a0 '","upretty(Inverse(Transpose(X))) == '    -1\\n\u239b T\u239e  \\n\u239dX \u23a0  '","upretty(Transpose(m)) == '      T\\n\u23a11  2\u23a4 \\n\u23a2    \u23a5 \\n\u23a33  4\u23a6 '","upretty(Transpose(m + X)) == '            T\\n\u239b\u23a11  2\u23a4    \u239e \\n\u239c\u23a2    \u23a5 + X\u239f \\n\u239d\u23a33  4\u23a6    \u23a0 '","upretty(Transpose(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '           T\\n\u23a1  \ud835\udfd9     X\u23a4 \\n\u23a2         \u23a5 \\n\u23a2\u23a11  2\u23a4   \u23a5 \\n\u23a2\u23a2    \u23a5  \ud835\udfd8\u23a5 \\n\u23a3\u23a33  4\u23a6   \u23a6 '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Transpose():
     X = MatrixSymbol('X', 2, 2)
     Y = MatrixSymbol('Y', 2, 2)
@@ -4353,16 +4709,24 @@ def test_Transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Trace_issue_9044(), test_pretty_Trace_issue_9044 produces the expected output) over Any ║
+# ║ Path(test_pretty_Trace_issue_9044(), pretty(Trace(X)) == ascii_str_1 and upretty(Trace(X)) == ucode_str_1 and pretty(Trace(X) + Trace(Y)) == ascii_str_2 and upretty(Trace(X) + Trace(Y)) == ucode_str_2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Trace_issue_9044 : Any → {Any | pretty(Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Trace(X)) == ascii_str_1                ║
+# ║   ensures:  upretty(Trace(X)) == ucode_str_1               ║
+# ║   ensures:  pretty(Trace(X) + Trace(Y)) == ascii_str_2     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Trace_issue_9044 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75a13070b33a5253  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2db36d694ea30aa0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Trace_issue_9044","kind":"function","src_hash":"bea6510de89f6953","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Trace(X)) == ascii_str_1 and upretty(Trace(X)) == ucode_str_1 and pretty(Trace(X) + Trace(Y)) == ascii_str_2 and upretty(Trace(X) + Trace(Y)) == ucode_str_2"},"spec":{"lhs":"test_pretty_Trace_issue_9044()","rhs":"test_pretty_Trace_issue_9044 produces the expected output","over":{"base":"Any"},"name":"test_pretty_Trace_issue_9044_correct"},"guarantee":"test_pretty_Trace_issue_9044 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Trace_issue_9044_correct","statement":"Path(test_pretty_Trace_issue_9044(x), test_pretty_Trace_issue_9044 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75a13070b33a5253"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Trace_issue_9044","kind":"function","src_hash":"bea6510de89f6953","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Trace(X)) == ascii_str_1 and upretty(Trace(X)) == ucode_str_1 and pretty(Trace(X) + Trace(Y)) == ascii_str_2 and upretty(Trace(X) + Trace(Y)) == ucode_str_2"},"spec":{"lhs":"test_pretty_Trace_issue_9044()","rhs":"pretty(Trace(X)) == ascii_str_1 and upretty(Trace(X)) == ucode_str_1 and pretty(Trace(X) + Trace(Y)) == ascii_str_2 and upretty(Trace(X) + Trace(Y)) == ucode_str_2","over":{"base":"Any"},"name":"test_pretty_Trace_issue_9044_correct"},"guarantee":"pretty(Trace(X)) == ascii_str_1; upretty(Trace(X)) == ucode_str_1; pretty(Trace(X) + Trace(Y)) == ascii_str_2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Trace_issue_9044_correct","statement":"Path(test_pretty_Trace_issue_9044(x), pretty(Trace(X)) == ascii_str_1; upretty(Trace(X)) == ucode_str_1; pretty(Trace(X) + Trace(Y)) == ascii_str_2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2db36d694ea30aa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Trace(X)) == ascii_str_1","upretty(Trace(X)) == ucode_str_1","pretty(Trace(X) + Trace(Y)) == ascii_str_2","upretty(Trace(X) + Trace(Y)) == ucode_str_2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_Trace_issue_9044():
     X = Matrix([[1, 2], [3, 4]])
     Y = Matrix([[2, 4], [6, 8]])
@@ -4398,16 +4762,24 @@ tr⎜⎢    ⎥⎟ + tr⎜⎢    ⎥⎟
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSlice(), test_MatrixSlice produces the expected output) over Any ║
+# ║ Path(test_MatrixSlice(), pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]' and pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]' and pretty(expr) == upretty(expr) == 'X[:x, y:]' and pretty(expr) == upretty(expr) == 'X[x:, :y]' and pretty(expr) == upretty(expr) == 'X[x:y, z:w]' and pretty(expr) == upretty(expr) == 'X[x:y:t, w:t:x]' and pretty(expr) == upretty(expr) == 'X[x::y, t::w]' and pretty(expr) == upretty(expr) == 'X[:x:y, :t:w]' and pretty(expr) == upretty(expr) == 'X[::x, ::y]' and pretty(expr) == upretty(expr) == 'X[::2, ::2]' and pretty(expr) == upretty(expr) == 'X[1:2:3, 4:5:6]' and pretty(expr) == upretty(expr) == 'X[1:3:5, 4:6:8]' and pretty(expr) == upretty(expr) == 'X[1:10:2, :]' and pretty(expr) == upretty(expr) == 'Y[:5, 1:9:2]' and pretty(expr) == upretty(expr) == 'Y[:5, 1::2]' and pretty(expr) == upretty(expr) == 'Y[5:6, :5:2]' and pretty(expr) == upretty(expr) == 'X[:1, :1]' and pretty(expr) == upretty(expr) == 'X[:1:2, :1:2]' and pretty(expr) == upretty(expr) == '(Y + Z)[2:, 2:]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSlice : Any → {Any | pretty(expr) == upret...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == upretty(expr) == 'X[:, :]'     ║
+# ║   ensures:  pretty(expr) == upretty(expr) == 'X[x:x +...   ║
+# ║   ensures:  pretty(expr) == upretty(expr) == 'X[x:x +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSlice : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08c2d207811930ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 744e587209894506  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixSlice","kind":"function","src_hash":"4e4302146560f61a","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]' and pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]' and pretty(expr) == upretty(expr) == 'X[:x, y:]' and pretty(expr) == upretty(expr) == 'X[:x, y:]' and pretty(expr) == upretty(expr) == 'X[x:, :y]' and pretty(expr) == upretty(expr) == 'X[x:y, z:w]' and pretty(expr) == upretty(expr) == 'X[x:y:t, w:t:x]' and pretty(expr) == upretty(expr) == 'X[x::y, t::w]' and pretty(expr) == upretty(expr) == 'X[:x:y, :t:w]' and pretty(expr) == upretty(expr) == 'X[::x, ::y]' and pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[::2, ::2]' and pretty(expr) == upretty(expr) == 'X[1:2:3, 4:5:6]' and pretty(expr) == upretty(expr) == 'X[1:3:5, 4:6:8]' and pretty(expr) == upretty(expr) == 'X[1:10:2, :]' and pretty(expr) == upretty(expr) == 'Y[:5, 1:9:2]' and pretty(expr) == upretty(expr) == 'Y[:5, 1::2]' and pretty(expr) == upretty(expr) == 'Y[5:6, :5:2]' and pretty(expr) == upretty(expr) == 'X[:1, :1]' and pretty(expr) == upretty(expr) == 'X[:1:2, :1:2]' and pretty(expr) == upretty(expr) == '(Y + Z)[2:, 2:]'"},"spec":{"lhs":"test_MatrixSlice()","rhs":"test_MatrixSlice produces the expected output","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"test_MatrixSlice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), test_MatrixSlice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08c2d207811930ae"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixSlice","kind":"function","src_hash":"4e4302146560f61a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]' and pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]' and pretty(expr) == upretty(expr) == 'X[:x, y:]' and pretty(expr) == upretty(expr) == 'X[x:, :y]' and pretty(expr) == upretty(expr) == 'X[x:y, z:w]' and pretty(expr) == upretty(expr) == 'X[x:y:t, w:t:x]' and pretty(expr) == upretty(expr) == 'X[x::y, t::w]' and pretty(expr) == upretty(expr) == 'X[:x:y, :t:w]' and pretty(expr) == upretty(expr) == 'X[::x, ::y]' and pretty(expr) == upretty(expr) == 'X[::2, ::2]' and pretty(expr) == upretty(expr) == 'X[1:2:3, 4:5:6]' and pretty(expr) == upretty(expr) == 'X[1:3:5, 4:6:8]' and pretty(expr) == upretty(expr) == 'X[1:10:2, :]' and pretty(expr) == upretty(expr) == 'Y[:5, 1:9:2]' and pretty(expr) == upretty(expr) == 'Y[:5, 1::2]' and pretty(expr) == upretty(expr) == 'Y[5:6, :5:2]' and pretty(expr) == upretty(expr) == 'X[:1, :1]' and pretty(expr) == upretty(expr) == 'X[:1:2, :1:2]' and pretty(expr) == upretty(expr) == '(Y + Z)[2:, 2:]'"},"spec":{"lhs":"test_MatrixSlice()","rhs":"pretty(expr) == upretty(expr) == 'X[:, :]' and pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]' and pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]' and pretty(expr) == upretty(expr) == 'X[:x, y:]' and pretty(expr) == upretty(expr) == 'X[x:, :y]' and pretty(expr) == upretty(expr) == 'X[x:y, z:w]' and pretty(expr) == upretty(expr) == 'X[x:y:t, w:t:x]' and pretty(expr) == upretty(expr) == 'X[x::y, t::w]' and pretty(expr) == upretty(expr) == 'X[:x:y, :t:w]' and pretty(expr) == upretty(expr) == 'X[::x, ::y]' and pretty(expr) == upretty(expr) == 'X[::2, ::2]' and pretty(expr) == upretty(expr) == 'X[1:2:3, 4:5:6]' and pretty(expr) == upretty(expr) == 'X[1:3:5, 4:6:8]' and pretty(expr) == upretty(expr) == 'X[1:10:2, :]' and pretty(expr) == upretty(expr) == 'Y[:5, 1:9:2]' and pretty(expr) == upretty(expr) == 'Y[:5, 1::2]' and pretty(expr) == upretty(expr) == 'Y[5:6, :5:2]' and pretty(expr) == upretty(expr) == 'X[:1, :1]' and pretty(expr) == upretty(expr) == 'X[:1:2, :1:2]' and pretty(expr) == upretty(expr) == '(Y + Z)[2:, 2:]'","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"pretty(expr) == upretty(expr) == 'X[:, :]'; pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]'; pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), pretty(expr) == upretty(expr) == 'X[:, :]'; pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]'; pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"744e587209894506","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == upretty(expr) == 'X[:, :]'","pretty(expr) == upretty(expr) == 'X[x:x + 1, y:y + 1]'","pretty(expr) == upretty(expr) == 'X[x:x + 1:2, y:y + 1:2]'","pretty(expr) == upretty(expr) == 'X[:x, y:]'","pretty(expr) == upretty(expr) == 'X[x:, :y]'","pretty(expr) == upretty(expr) == 'X[x:y, z:w]'","pretty(expr) == upretty(expr) == 'X[x:y:t, w:t:x]'","pretty(expr) == upretty(expr) == 'X[x::y, t::w]'","pretty(expr) == upretty(expr) == 'X[:x:y, :t:w]'","pretty(expr) == upretty(expr) == 'X[::x, ::y]'","pretty(expr) == upretty(expr) == 'X[::2, ::2]'","pretty(expr) == upretty(expr) == 'X[1:2:3, 4:5:6]'","pretty(expr) == upretty(expr) == 'X[1:3:5, 4:6:8]'","pretty(expr) == upretty(expr) == 'X[1:10:2, :]'","pretty(expr) == upretty(expr) == 'Y[:5, 1:9:2]'","pretty(expr) == upretty(expr) == 'Y[:5, 1::2]'","pretty(expr) == upretty(expr) == 'Y[5:6, :5:2]'","pretty(expr) == upretty(expr) == 'X[:1, :1]'","pretty(expr) == upretty(expr) == 'X[:1:2, :1:2]'","pretty(expr) == upretty(expr) == '(Y + Z)[2:, 2:]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_MatrixSlice():
     n = Symbol('n', integer=True)
     x, y, z, w, t, = symbols('x y z w t')
@@ -4466,16 +4838,24 @@ def test_MatrixSlice():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixExpressions(), test_MatrixExpressions produces the expected output) over Any ║
+# ║ Path(test_MatrixExpressions(), pretty(X) == upretty(X) == 'X' and pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixExpressions : Any → {Any | pretty(X) == up...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(X) == upretty(X) == 'X'                 ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixExpressions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4037c16702646b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 965e42f10e970371  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixExpressions","kind":"function","src_hash":"299c3a135b7ee28b","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(X) == upretty(X) == 'X' and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_MatrixExpressions()","rhs":"test_MatrixExpressions produces the expected output","over":{"base":"Any"},"name":"test_MatrixExpressions_correct"},"guarantee":"test_MatrixExpressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixExpressions_correct","statement":"Path(test_MatrixExpressions(x), test_MatrixExpressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4037c16702646b1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixExpressions","kind":"function","src_hash":"299c3a135b7ee28b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(X) == upretty(X) == 'X' and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_MatrixExpressions()","rhs":"pretty(X) == upretty(X) == 'X' and pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_MatrixExpressions_correct"},"guarantee":"pretty(X) == upretty(X) == 'X'; pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixExpressions_correct","statement":"Path(test_MatrixExpressions(x), pretty(X) == upretty(X) == 'X'; pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"965e42f10e970371","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(X) == upretty(X) == 'X'","pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixExpressions():
     n = Symbol('n', integer=True)
     X = MatrixSymbol('X', n, n)
@@ -4514,16 +4894,24 @@ def test_MatrixExpressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_dotproduct(), test_pretty_dotproduct produces the expected output) over Any ║
+# ║ Path(test_pretty_dotproduct(), pretty(DotProduct(A, B)) == 'A*B' and pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]' and upretty(DotProduct(A, B)) == 'A⋅B' and upretty(DotProduct(C, D)) == '[1  2  3]⋅[1  3  4]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_dotproduct : Any → {Any | pretty(DotProdu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(DotProduct(A, B)) == 'A*B'              ║
+# ║   ensures:  pretty(DotProduct(C, D)) == '[1  2  3]*[1...   ║
+# ║   ensures:  upretty(DotProduct(A, B)) == 'A⋅B'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_dotproduct : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3dabe7775dfab4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce80008975cefdd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_dotproduct","kind":"function","src_hash":"350470638f4ff4b5","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(DotProduct(A, B)) == 'A*B' and pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]' and upretty(DotProduct(A, B)) == 'A\u22c5B' and upretty(DotProduct(C, D)) == '[1  2  3]\u22c5[1  3  4]'"},"spec":{"lhs":"test_pretty_dotproduct()","rhs":"test_pretty_dotproduct produces the expected output","over":{"base":"Any"},"name":"test_pretty_dotproduct_correct"},"guarantee":"test_pretty_dotproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_dotproduct_correct","statement":"Path(test_pretty_dotproduct(x), test_pretty_dotproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3dabe7775dfab4b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_dotproduct","kind":"function","src_hash":"350470638f4ff4b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(DotProduct(A, B)) == 'A*B' and pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]' and upretty(DotProduct(A, B)) == 'A\u22c5B' and upretty(DotProduct(C, D)) == '[1  2  3]\u22c5[1  3  4]'"},"spec":{"lhs":"test_pretty_dotproduct()","rhs":"pretty(DotProduct(A, B)) == 'A*B' and pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]' and upretty(DotProduct(A, B)) == 'A\u22c5B' and upretty(DotProduct(C, D)) == '[1  2  3]\u22c5[1  3  4]'","over":{"base":"Any"},"name":"test_pretty_dotproduct_correct"},"guarantee":"pretty(DotProduct(A, B)) == 'A*B'; pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]'; upretty(DotProduct(A, B)) == 'A\u22c5B'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_dotproduct_correct","statement":"Path(test_pretty_dotproduct(x), pretty(DotProduct(A, B)) == 'A*B'; pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]'; upretty(DotProduct(A, B)) == 'A\u22c5B')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce80008975cefdd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(DotProduct(A, B)) == 'A*B'","pretty(DotProduct(C, D)) == '[1  2  3]*[1  3  4]'","upretty(DotProduct(A, B)) == 'A\u22c5B'","upretty(DotProduct(C, D)) == '[1  2  3]\u22c5[1  3  4]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_dotproduct():
     from sympy.matrices.expressions.dotproduct import DotProduct
     n = symbols("n", integer=True)
@@ -4539,16 +4927,24 @@ def test_pretty_dotproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Determinant(), test_pretty_Determinant produces the expected output) over Any ║
+# ║ Path(test_pretty_Determinant(), upretty(Determinant(m)) == '│1  2│\n│    │\n│3  4│' and upretty(Determinant(Inverse(m))) == '│      -1│\n│⎡1  2⎤  │\n│⎢    ⎥  │\n│⎣3  4⎦  │' and upretty(Determinant(X)) == '│X│' and upretty(Determinant(X + m)) == '│⎡1  2⎤    │\n│⎢    ⎥ + X│\n│⎣3  4⎦    │' and upretty(Determinant(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '│  𝟙     X│\n│         │\n│⎡1  2⎤   │\n│⎢    ⎥  𝟘│\n│⎣3  4⎦   │') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Determinant : Any → {Any | upretty(Determ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Determinant(m)) == '│1  2│\n│    ...   ║
+# ║   ensures:  upretty(Determinant(Inverse(m))) == '│   ...   ║
+# ║   ensures:  upretty(Determinant(X)) == '│X│'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Determinant : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dbc12e3e71797a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7af14f034e28faf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Determinant","kind":"function","src_hash":"3dd946f451717c01","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Determinant(m)) == '\u25021  2\u2502\\n\u2502    \u2502\\n\u25023  4\u2502' and upretty(Determinant(X)) == '\u2502X\u2502' and upretty(Determinant(X + m)) == '\u2502\u23a11  2\u23a4    \u2502\\n\u2502\u23a2    \u23a5 + X\u2502\\n\u2502\u23a33  4\u23a6    \u2502'"},"spec":{"lhs":"test_pretty_Determinant()","rhs":"test_pretty_Determinant produces the expected output","over":{"base":"Any"},"name":"test_pretty_Determinant_correct"},"guarantee":"test_pretty_Determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Determinant_correct","statement":"Path(test_pretty_Determinant(x), test_pretty_Determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dbc12e3e71797a7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Determinant","kind":"function","src_hash":"3dd946f451717c01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Determinant(m)) == '\u25021  2\u2502\\n\u2502    \u2502\\n\u25023  4\u2502' and upretty(Determinant(Inverse(m))) == '\u2502      -1\u2502\\n\u2502\u23a11  2\u23a4  \u2502\\n\u2502\u23a2    \u23a5  \u2502\\n\u2502\u23a33  4\u23a6  \u2502' and upretty(Determinant(X)) == '\u2502X\u2502' and upretty(Determinant(X + m)) == '\u2502\u23a11  2\u23a4    \u2502\\n\u2502\u23a2    \u23a5 + X\u2502\\n\u2502\u23a33  4\u23a6    \u2502' and upretty(Determinant(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '\u2502  \ud835\udfd9     X\u2502\\n\u2502         \u2502\\n\u2502\u23a11  2\u23a4   \u2502\\n\u2502\u23a2    \u23a5  \ud835\udfd8\u2502\\n\u2502\u23a33  4\u23a6   \u2502'"},"spec":{"lhs":"test_pretty_Determinant()","rhs":"upretty(Determinant(m)) == '\u25021  2\u2502\\n\u2502    \u2502\\n\u25023  4\u2502' and upretty(Determinant(Inverse(m))) == '\u2502      -1\u2502\\n\u2502\u23a11  2\u23a4  \u2502\\n\u2502\u23a2    \u23a5  \u2502\\n\u2502\u23a33  4\u23a6  \u2502' and upretty(Determinant(X)) == '\u2502X\u2502' and upretty(Determinant(X + m)) == '\u2502\u23a11  2\u23a4    \u2502\\n\u2502\u23a2    \u23a5 + X\u2502\\n\u2502\u23a33  4\u23a6    \u2502' and upretty(Determinant(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '\u2502  \ud835\udfd9     X\u2502\\n\u2502         \u2502\\n\u2502\u23a11  2\u23a4   \u2502\\n\u2502\u23a2    \u23a5  \ud835\udfd8\u2502\\n\u2502\u23a33  4\u23a6   \u2502'","over":{"base":"Any"},"name":"test_pretty_Determinant_correct"},"guarantee":"upretty(Determinant(m)) == '\u25021  2\u2502\\n\u2502    \u2502\\n\u25023  4\u2502'; upretty(Determinant(Inverse(m))) == '\u2502      -1\u2502\\n\u2502\u23a11  2\u23a4  \u2502\\n\u2502\u23a2    \u23a5  \u2502\\n\u2502\u23a33  4\u23a6  \u2502'; upretty(Determinant(X)) == '\u2502X\u2502'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Determinant_correct","statement":"Path(test_pretty_Determinant(x), upretty(Determinant(m)) == '\u25021  2\u2502\\n\u2502    \u2502\\n\u25023  4\u2502'; upretty(Determinant(Inverse(m))) == '\u2502      -1\u2502\\n\u2502\u23a11  2\u23a4  \u2502\\n\u2502\u23a2    \u23a5  \u2502\\n\u2502\u23a33  4\u23a6  \u2502'; upretty(Determinant(X)) == '\u2502X\u2502')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af14f034e28faf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Determinant(m)) == '\u25021  2\u2502\\n\u2502    \u2502\\n\u25023  4\u2502'","upretty(Determinant(Inverse(m))) == '\u2502      -1\u2502\\n\u2502\u23a11  2\u23a4  \u2502\\n\u2502\u23a2    \u23a5  \u2502\\n\u2502\u23a33  4\u23a6  \u2502'","upretty(Determinant(X)) == '\u2502X\u2502'","upretty(Determinant(X + m)) == '\u2502\u23a11  2\u23a4    \u2502\\n\u2502\u23a2    \u23a5 + X\u2502\\n\u2502\u23a33  4\u23a6    \u2502'","upretty(Determinant(BlockMatrix(((OneMatrix(2, 2), X), (m, ZeroMatrix(2, 2)))))) == '\u2502  \ud835\udfd9     X\u2502\\n\u2502         \u2502\\n\u2502\u23a11  2\u23a4   \u2502\\n\u2502\u23a2    \u23a5  \ud835\udfd8\u2502\\n\u2502\u23a33  4\u23a6   \u2502'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_Determinant():
     from sympy.matrices import Determinant, Inverse, BlockMatrix, OneMatrix, ZeroMatrix
     m = Matrix(((1, 2), (3, 4)))
@@ -4574,16 +4970,23 @@ def test_pretty_Determinant():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_piecewise(), test_pretty_piecewise produces the expected output) over Any ║
+# ║ Path(test_pretty_piecewise(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_piecewise : Any → {Any | pretty(expr) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_piecewise : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7151fe3d2096ca9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a050f26bbd9f555  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_piecewise","kind":"function","src_hash":"606b04d9a28c0ea6","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_piecewise()","rhs":"test_pretty_piecewise produces the expected output","over":{"base":"Any"},"name":"test_pretty_piecewise_correct"},"guarantee":"test_pretty_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_piecewise_correct","statement":"Path(test_pretty_piecewise(x), test_pretty_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7151fe3d2096ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_piecewise","kind":"function","src_hash":"606b04d9a28c0ea6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_piecewise()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_piecewise_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_piecewise_correct","statement":"Path(test_pretty_piecewise(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a050f26bbd9f555","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_pretty_piecewise():
     expr = Piecewise((x, x < 1), (x**2, True))
     ascii_str = \
@@ -4808,16 +5211,23 @@ x⋅⎜⎨            ⎟\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ITE(), test_pretty_ITE produces the expected output) over Any ║
+# ║ Path(test_pretty_ITE(), pretty(expr) == '/y    for x  \n<            \n\\z  otherwise' and upretty(expr) == '⎧y    for x  \n⎨            \n⎩z  otherwise') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ITE : Any → {Any | pretty(expr) == '/y   ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == '/y    for x  \n<        ...   ║
+# ║   ensures:  upretty(expr) == '⎧y    for x  \n⎨       ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ITE : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42a6311a459677cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ebc3a1644b99364  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ITE","kind":"function","src_hash":"b59c3444bd5d2508","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == '/y    for x  \\n<            \\n\\\\z  otherwise' and upretty(expr) == '\u23a7y    for x  \\n\u23a8            \\n\u23a9z  otherwise'"},"spec":{"lhs":"test_pretty_ITE()","rhs":"test_pretty_ITE produces the expected output","over":{"base":"Any"},"name":"test_pretty_ITE_correct"},"guarantee":"test_pretty_ITE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ITE_correct","statement":"Path(test_pretty_ITE(x), test_pretty_ITE produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42a6311a459677cd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ITE","kind":"function","src_hash":"b59c3444bd5d2508","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == '/y    for x  \\n<            \\n\\\\z  otherwise' and upretty(expr) == '\u23a7y    for x  \\n\u23a8            \\n\u23a9z  otherwise'"},"spec":{"lhs":"test_pretty_ITE()","rhs":"pretty(expr) == '/y    for x  \\n<            \\n\\\\z  otherwise' and upretty(expr) == '\u23a7y    for x  \\n\u23a8            \\n\u23a9z  otherwise'","over":{"base":"Any"},"name":"test_pretty_ITE_correct"},"guarantee":"pretty(expr) == '/y    for x  \\n<            \\n\\\\z  otherwise'; upretty(expr) == '\u23a7y    for x  \\n\u23a8            \\n\u23a9z  otherwise'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ITE_correct","statement":"Path(test_pretty_ITE(x), pretty(expr) == '/y    for x  \\n<            \\n\\\\z  otherwise'; upretty(expr) == '\u23a7y    for x  \\n\u23a8            \\n\u23a9z  otherwise')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ebc3a1644b99364","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == '/y    for x  \\n<            \\n\\\\z  otherwise'","upretty(expr) == '\u23a7y    for x  \\n\u23a8            \\n\u23a9z  otherwise'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_ITE():
     expr = ITE(x, y, z)
     assert pretty(expr) == (
@@ -4833,16 +5243,24 @@ def test_pretty_ITE():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_seq(), test_pretty_seq produces the expected output) over Any ║
+# ║ Path(test_pretty_seq(), pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr_2) == ascii_str and upretty(expr_2) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_seq : Any → {Any | pretty(expr) == ascii_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ║   ensures:  pretty(expr_2) == ascii_str                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_seq : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19d059650fd1ad78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61ea97033730af87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_seq","kind":"function","src_hash":"eab2267a6cf00a15","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and pretty(expr_2) == ascii_str and upretty(expr) == ucode_str and upretty(expr_2) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and pretty(expr_2) == ascii_str and upretty(expr) == ucode_str and upretty(expr_2) == ucode_str and pretty(expr) == ascii_str and pretty(expr_2) == ascii_str and upretty(expr) == ucode_str and upretty(expr_2) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and pretty(expr_2) == ascii_str and upretty(expr) == ucode_str and upretty(expr_2) == ucode_str"},"spec":{"lhs":"test_pretty_seq()","rhs":"test_pretty_seq produces the expected output","over":{"base":"Any"},"name":"test_pretty_seq_correct"},"guarantee":"test_pretty_seq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_seq_correct","statement":"Path(test_pretty_seq(x), test_pretty_seq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19d059650fd1ad78"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_seq","kind":"function","src_hash":"eab2267a6cf00a15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr_2) == ascii_str and upretty(expr_2) == ucode_str"},"spec":{"lhs":"test_pretty_seq()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr_2) == ascii_str and upretty(expr_2) == ucode_str","over":{"base":"Any"},"name":"test_pretty_seq_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str; pretty(expr_2) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_seq_correct","statement":"Path(test_pretty_seq(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str; pretty(expr_2) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61ea97033730af87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str","pretty(expr_2) == ascii_str","upretty(expr_2) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_pretty_seq():
     expr = ()
     ascii_str = \
@@ -5056,16 +5474,24 @@ def test_pretty_seq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_any_object_in_sequence(), test_any_object_in_sequence produces the expected output) over Any ║
+# ║ Path(test_any_object_in_sequence(), pretty(expr) == '[Basic(Basic()), Basic()]' and upretty(expr) == '[Basic(Basic()), Basic()]' and pretty(expr) == '{Basic(), Basic(Basic())}' and upretty(expr) == '{Basic(), Basic(Basic())}' and pretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and pretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_any_object_in_sequence : Any → {Any | pretty(exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == '[Basic(Basic()), Basic()]'    ║
+# ║   ensures:  upretty(expr) == '[Basic(Basic()), Basic()]'   ║
+# ║   ensures:  pretty(expr) == '{Basic(), Basic(Basic())}'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_any_object_in_sequence : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03be196156772f01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34c3d611d41d52da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_any_object_in_sequence","kind":"function","src_hash":"2abf0682154e45c3","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == '[Basic(Basic()), Basic()]' and upretty(expr) == '[Basic(Basic()), Basic()]' and pretty(expr) == '{Basic(), Basic(Basic())}' and upretty(expr) == '{Basic(), Basic(Basic())}' and pretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and pretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'"},"spec":{"lhs":"test_any_object_in_sequence()","rhs":"test_any_object_in_sequence produces the expected output","over":{"base":"Any"},"name":"test_any_object_in_sequence_correct"},"guarantee":"test_any_object_in_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_any_object_in_sequence_correct","statement":"Path(test_any_object_in_sequence(x), test_any_object_in_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03be196156772f01"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_any_object_in_sequence","kind":"function","src_hash":"2abf0682154e45c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == '[Basic(Basic()), Basic()]' and upretty(expr) == '[Basic(Basic()), Basic()]' and pretty(expr) == '{Basic(), Basic(Basic())}' and upretty(expr) == '{Basic(), Basic(Basic())}' and pretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and pretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'"},"spec":{"lhs":"test_any_object_in_sequence()","rhs":"pretty(expr) == '[Basic(Basic()), Basic()]' and upretty(expr) == '[Basic(Basic()), Basic()]' and pretty(expr) == '{Basic(), Basic(Basic())}' and upretty(expr) == '{Basic(), Basic(Basic())}' and pretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and pretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}' and upretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'","over":{"base":"Any"},"name":"test_any_object_in_sequence_correct"},"guarantee":"pretty(expr) == '[Basic(Basic()), Basic()]'; upretty(expr) == '[Basic(Basic()), Basic()]'; pretty(expr) == '{Basic(), Basic(Basic())}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_any_object_in_sequence_correct","statement":"Path(test_any_object_in_sequence(x), pretty(expr) == '[Basic(Basic()), Basic()]'; upretty(expr) == '[Basic(Basic()), Basic()]'; pretty(expr) == '{Basic(), Basic(Basic())}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34c3d611d41d52da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == '[Basic(Basic()), Basic()]'","upretty(expr) == '[Basic(Basic()), Basic()]'","pretty(expr) == '{Basic(), Basic(Basic())}'","upretty(expr) == '{Basic(), Basic(Basic())}'","pretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'","pretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'","upretty(expr) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'","upretty(expr2) == '{Basic(): Basic(Basic()), Basic(Basic()): Basic()}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_any_object_in_sequence():
     # Cf. issue 5306
     b1 = Basic()
@@ -5091,16 +5517,24 @@ def test_any_object_in_sequence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_builtin_set(), test_print_builtin_set produces the expected output) over Any ║
+# ║ Path(test_print_builtin_set(), pretty(set()) == 'set()' and upretty(set()) == 'set()' and pretty(frozenset()) == 'frozenset()' and upretty(frozenset()) == 'frozenset()' and pretty(s1) == ' 1    \n{-, x}\n x    ' and upretty(s1) == '⎧1   ⎫\n⎨─, x⎬\n⎩x   ⎭' and pretty(s2) == '           1     \nfrozenset({-, x})\n           x     ' and upretty(s2) == '         ⎛⎧1   ⎫⎞\nfrozenset⎜⎨─, x⎬⎟\n         ⎝⎩x   ⎭⎠') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_builtin_set : Any → {Any | pretty(set()) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(set()) == 'set()'                       ║
+# ║   ensures:  upretty(set()) == 'set()'                      ║
+# ║   ensures:  pretty(frozenset()) == 'frozenset()'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_builtin_set : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d70a3ea1ae11708  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e13f9f573741148a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_builtin_set","kind":"function","src_hash":"dd3ea94612ca75f0","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(set()) == 'set()' and upretty(set()) == 'set()' and pretty(frozenset()) == 'frozenset()' and upretty(frozenset()) == 'frozenset()' and pretty(s1) == ' 1    \\n{-, x}\\n x    ' and upretty(s1) == '\u23a71   \u23ab\\n\u23a8\u2500, x\u23ac\\n\u23a9x   \u23ad' and pretty(s2) == '           1     \\nfrozenset({-, x})\\n           x     ' and upretty(s2) == '         \u239b\u23a71   \u23ab\u239e\\nfrozenset\u239c\u23a8\u2500, x\u23ac\u239f\\n         \u239d\u23a9x   \u23ad\u23a0'"},"spec":{"lhs":"test_print_builtin_set()","rhs":"test_print_builtin_set produces the expected output","over":{"base":"Any"},"name":"test_print_builtin_set_correct"},"guarantee":"test_print_builtin_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_builtin_set_correct","statement":"Path(test_print_builtin_set(x), test_print_builtin_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d70a3ea1ae11708"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_builtin_set","kind":"function","src_hash":"dd3ea94612ca75f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(set()) == 'set()' and upretty(set()) == 'set()' and pretty(frozenset()) == 'frozenset()' and upretty(frozenset()) == 'frozenset()' and pretty(s1) == ' 1    \\n{-, x}\\n x    ' and upretty(s1) == '\u23a71   \u23ab\\n\u23a8\u2500, x\u23ac\\n\u23a9x   \u23ad' and pretty(s2) == '           1     \\nfrozenset({-, x})\\n           x     ' and upretty(s2) == '         \u239b\u23a71   \u23ab\u239e\\nfrozenset\u239c\u23a8\u2500, x\u23ac\u239f\\n         \u239d\u23a9x   \u23ad\u23a0'"},"spec":{"lhs":"test_print_builtin_set()","rhs":"pretty(set()) == 'set()' and upretty(set()) == 'set()' and pretty(frozenset()) == 'frozenset()' and upretty(frozenset()) == 'frozenset()' and pretty(s1) == ' 1    \\n{-, x}\\n x    ' and upretty(s1) == '\u23a71   \u23ab\\n\u23a8\u2500, x\u23ac\\n\u23a9x   \u23ad' and pretty(s2) == '           1     \\nfrozenset({-, x})\\n           x     ' and upretty(s2) == '         \u239b\u23a71   \u23ab\u239e\\nfrozenset\u239c\u23a8\u2500, x\u23ac\u239f\\n         \u239d\u23a9x   \u23ad\u23a0'","over":{"base":"Any"},"name":"test_print_builtin_set_correct"},"guarantee":"pretty(set()) == 'set()'; upretty(set()) == 'set()'; pretty(frozenset()) == 'frozenset()'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_builtin_set_correct","statement":"Path(test_print_builtin_set(x), pretty(set()) == 'set()'; upretty(set()) == 'set()'; pretty(frozenset()) == 'frozenset()')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e13f9f573741148a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(set()) == 'set()'","upretty(set()) == 'set()'","pretty(frozenset()) == 'frozenset()'","upretty(frozenset()) == 'frozenset()'","pretty(s1) == ' 1    \\n{-, x}\\n x    '","upretty(s1) == '\u23a71   \u23ab\\n\u23a8\u2500, x\u23ac\\n\u23a9x   \u23ad'","pretty(s2) == '           1     \\nfrozenset({-, x})\\n           x     '","upretty(s2) == '         \u239b\u23a71   \u23ab\u239e\\nfrozenset\u239c\u23a8\u2500, x\u23ac\u239f\\n         \u239d\u23a9x   \u23ad\u23a0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_builtin_set():
     assert pretty(set()) == 'set()'
     assert upretty(set()) == 'set()'
@@ -5139,16 +5573,24 @@ frozenset⎜⎨─, x⎬⎟
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_sets(), test_pretty_sets produces the expected output) over Any ║
+# ║ Path(test_pretty_sets(), pretty(s(*[x * y, x ** 2])) == '  2      \n{x , x*y}' and pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty({x * y, x ** 2}) == '  2      \n{x , x*y}' and pretty(set(range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(set(range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty(frozenset([x * y, x ** 2])) == '            2       \nfrozenset({x , x*y})' and pretty(frozenset(range(1, 6))) == 'frozenset({1, 2, 3, 4, 5})' and pretty(frozenset(range(1, 13))) == 'frozenset({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12})' and pretty(Range(0, 3, 1)) == '{0, 1, 2}' and pretty(Range(0, 30, 1)) == ascii_str and upretty(Range(0, 30, 1)) == ucode_str and pretty(Range(30, 1, -1)) == ascii_str and upretty(Range(30, 1, -1)) == ucode_str and pretty(Range(0, oo, 2)) == ascii_str and upretty(Range(0, oo, 2)) == ucode_str and pretty(Range(oo, -2, -2)) == ascii_str and upretty(Range(oo, -2, -2)) == ucode_str and pretty(Range(-2, -oo, -1)) == ascii_str and upretty(Range(-2, -oo, -1)) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_sets : Any → {Any | pretty(s(*[x * y, x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(s(*[x * y, x ** 2])) == '  2      ...   ║
+# ║   ensures:  pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}'   ║
+# ║   ensures:  pretty(s(*range(1, 13))) == '{1, 2, 3, 4,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_sets : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 300754db10fb37a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96587d5122990c7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sets","kind":"function","src_hash":"cbbfde8f3db302eb","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(s(*[x * y, x ** 2])) == '  2      \\n{x , x*y}' and pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty({x * y, x ** 2}) == '  2      \\n{x , x*y}' and pretty(set(range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(set(range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty(frozenset(range(1, 6))) == 'frozenset({1, 2, 3, 4, 5})' and pretty(Range(0, 3, 1)) == '{0, 1, 2}' and pretty(Range(0, 30, 1)) == ascii_str and upretty(Range(0, 30, 1)) == ucode_str and pretty(Range(30, 1, -1)) == ascii_str and upretty(Range(30, 1, -1)) == ucode_str and pretty(Range(0, oo, 2)) == ascii_str and upretty(Range(0, oo, 2)) == ucode_str and pretty(Range(oo, -2, -2)) == ascii_str and upretty(Range(oo, -2, -2)) == ucode_str and pretty(Range(-2, -oo, -1)) == ascii_str and upretty(Range(-2, -oo, -1)) == ucode_str"},"spec":{"lhs":"test_pretty_sets()","rhs":"test_pretty_sets produces the expected output","over":{"base":"Any"},"name":"test_pretty_sets_correct"},"guarantee":"test_pretty_sets produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sets_correct","statement":"Path(test_pretty_sets(x), test_pretty_sets produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"300754db10fb37a3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sets","kind":"function","src_hash":"cbbfde8f3db302eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(s(*[x * y, x ** 2])) == '  2      \\n{x , x*y}' and pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty({x * y, x ** 2}) == '  2      \\n{x , x*y}' and pretty(set(range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(set(range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty(frozenset([x * y, x ** 2])) == '            2       \\nfrozenset({x , x*y})' and pretty(frozenset(range(1, 6))) == 'frozenset({1, 2, 3, 4, 5})' and pretty(frozenset(range(1, 13))) == 'frozenset({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12})' and pretty(Range(0, 3, 1)) == '{0, 1, 2}' and pretty(Range(0, 30, 1)) == ascii_str and upretty(Range(0, 30, 1)) == ucode_str and pretty(Range(30, 1, -1)) == ascii_str and upretty(Range(30, 1, -1)) == ucode_str and pretty(Range(0, oo, 2)) == ascii_str and upretty(Range(0, oo, 2)) == ucode_str and pretty(Range(oo, -2, -2)) == ascii_str and upretty(Range(oo, -2, -2)) == ucode_str and pretty(Range(-2, -oo, -1)) == ascii_str and upretty(Range(-2, -oo, -1)) == ucode_str"},"spec":{"lhs":"test_pretty_sets()","rhs":"pretty(s(*[x * y, x ** 2])) == '  2      \\n{x , x*y}' and pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty({x * y, x ** 2}) == '  2      \\n{x , x*y}' and pretty(set(range(1, 6))) == '{1, 2, 3, 4, 5}' and pretty(set(range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}' and pretty(frozenset([x * y, x ** 2])) == '            2       \\nfrozenset({x , x*y})' and pretty(frozenset(range(1, 6))) == 'frozenset({1, 2, 3, 4, 5})' and pretty(frozenset(range(1, 13))) == 'frozenset({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12})' and pretty(Range(0, 3, 1)) == '{0, 1, 2}' and pretty(Range(0, 30, 1)) == ascii_str and upretty(Range(0, 30, 1)) == ucode_str and pretty(Range(30, 1, -1)) == ascii_str and upretty(Range(30, 1, -1)) == ucode_str and pretty(Range(0, oo, 2)) == ascii_str and upretty(Range(0, oo, 2)) == ucode_str and pretty(Range(oo, -2, -2)) == ascii_str and upretty(Range(oo, -2, -2)) == ucode_str and pretty(Range(-2, -oo, -1)) == ascii_str and upretty(Range(-2, -oo, -1)) == ucode_str","over":{"base":"Any"},"name":"test_pretty_sets_correct"},"guarantee":"pretty(s(*[x * y, x ** 2])) == '  2      \\n{x , x*y}'; pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}'; pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sets_correct","statement":"Path(test_pretty_sets(x), pretty(s(*[x * y, x ** 2])) == '  2      \\n{x , x*y}'; pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}'; pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96587d5122990c7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(s(*[x * y, x ** 2])) == '  2      \\n{x , x*y}'","pretty(s(*range(1, 6))) == '{1, 2, 3, 4, 5}'","pretty(s(*range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}'","pretty({x * y, x ** 2}) == '  2      \\n{x , x*y}'","pretty(set(range(1, 6))) == '{1, 2, 3, 4, 5}'","pretty(set(range(1, 13))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}'","pretty(frozenset([x * y, x ** 2])) == '            2       \\nfrozenset({x , x*y})'","pretty(frozenset(range(1, 6))) == 'frozenset({1, 2, 3, 4, 5})'","pretty(frozenset(range(1, 13))) == 'frozenset({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12})'","pretty(Range(0, 3, 1)) == '{0, 1, 2}'","pretty(Range(0, 30, 1)) == ascii_str","upretty(Range(0, 30, 1)) == ucode_str","pretty(Range(30, 1, -1)) == ascii_str","upretty(Range(30, 1, -1)) == ucode_str","pretty(Range(0, oo, 2)) == ascii_str","upretty(Range(0, oo, 2)) == ucode_str","pretty(Range(oo, -2, -2)) == ascii_str","upretty(Range(oo, -2, -2)) == ucode_str","pretty(Range(-2, -oo, -1)) == ascii_str","upretty(Range(-2, -oo, -1)) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_sets():
     s = FiniteSet
     assert pretty(s(*[x*y, x**2])) == \
@@ -5206,16 +5648,23 @@ frozenset({x , x*y})\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_SetExpr(), test_pretty_SetExpr produces the expected output) over Any ║
+# ║ Path(test_pretty_SetExpr(), pretty(se) == ascii_str and upretty(se) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_SetExpr : Any → {Any | pretty(se) == asci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(se) == ascii_str                        ║
+# ║   ensures:  upretty(se) == ucode_str                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_SetExpr : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdf395a4e7442208  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9d19379a4765d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_SetExpr","kind":"function","src_hash":"0b2e5de43199c92e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(se) == ascii_str and upretty(se) == ucode_str"},"spec":{"lhs":"test_pretty_SetExpr()","rhs":"test_pretty_SetExpr produces the expected output","over":{"base":"Any"},"name":"test_pretty_SetExpr_correct"},"guarantee":"test_pretty_SetExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_SetExpr_correct","statement":"Path(test_pretty_SetExpr(x), test_pretty_SetExpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf395a4e7442208"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_SetExpr","kind":"function","src_hash":"0b2e5de43199c92e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(se) == ascii_str and upretty(se) == ucode_str"},"spec":{"lhs":"test_pretty_SetExpr()","rhs":"pretty(se) == ascii_str and upretty(se) == ucode_str","over":{"base":"Any"},"name":"test_pretty_SetExpr_correct"},"guarantee":"pretty(se) == ascii_str; upretty(se) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_SetExpr_correct","statement":"Path(test_pretty_SetExpr(x), pretty(se) == ascii_str; upretty(se) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9d19379a4765d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(se) == ascii_str","upretty(se) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_SetExpr():
     iv = Interval(1, 3)
     se = SetExpr(iv)
@@ -5226,16 +5675,24 @@ def test_pretty_SetExpr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ImageSet(), test_pretty_ImageSet produces the expected output) over Any ║
+# ║ Path(test_pretty_ImageSet(), pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '⎡  î  ⎤\n⎢─────⎥\n⎣i + 1⎦' and upretty(Matrix([Symbol('ihat'), Symbol('i') + 1])) == '⎡  î  ⎤\n⎢     ⎥\n⎣i + 1⎦') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ImageSet : Any → {Any | pretty(imgset) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(imgset) == ascii_str                    ║
+# ║   ensures:  upretty(imgset) == ucode_str                   ║
+# ║   ensures:  upretty([Symbol('ihat') / (Symbol('i') + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ImageSet : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81f691c0a1899b6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81bd49636574e6cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ImageSet","kind":"function","src_hash":"ee29e1d048f66777","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '\u23a1  i\u0302  \u23a4\\n\u23a2\u2500\u2500\u2500\u2500\u2500\u23a5\\n\u23a3i + 1\u23a6'"},"spec":{"lhs":"test_pretty_ImageSet()","rhs":"test_pretty_ImageSet produces the expected output","over":{"base":"Any"},"name":"test_pretty_ImageSet_correct"},"guarantee":"test_pretty_ImageSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ImageSet_correct","statement":"Path(test_pretty_ImageSet(x), test_pretty_ImageSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81f691c0a1899b6a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ImageSet","kind":"function","src_hash":"ee29e1d048f66777","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '\u23a1  i\u0302  \u23a4\\n\u23a2\u2500\u2500\u2500\u2500\u2500\u23a5\\n\u23a3i + 1\u23a6' and upretty(Matrix([Symbol('ihat'), Symbol('i') + 1])) == '\u23a1  i\u0302  \u23a4\\n\u23a2     \u23a5\\n\u23a3i + 1\u23a6'"},"spec":{"lhs":"test_pretty_ImageSet()","rhs":"pretty(imgset) == ascii_str and upretty(imgset) == ucode_str and upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '\u23a1  i\u0302  \u23a4\\n\u23a2\u2500\u2500\u2500\u2500\u2500\u23a5\\n\u23a3i + 1\u23a6' and upretty(Matrix([Symbol('ihat'), Symbol('i') + 1])) == '\u23a1  i\u0302  \u23a4\\n\u23a2     \u23a5\\n\u23a3i + 1\u23a6'","over":{"base":"Any"},"name":"test_pretty_ImageSet_correct"},"guarantee":"pretty(imgset) == ascii_str; upretty(imgset) == ucode_str; upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '\u23a1  i\u0302  \u23a4\\n\u23a2\u2500\u2500\u2500\u2500\u2500\u23a5\\n\u23a3i + 1\u23a6'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ImageSet_correct","statement":"Path(test_pretty_ImageSet(x), pretty(imgset) == ascii_str; upretty(imgset) == ucode_str; upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '\u23a1  i\u0302  \u23a4\\n\u23a2\u2500\u2500\u2500\u2500\u2500\u23a5\\n\u23a3i + 1\u23a6')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bd49636574e6cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(imgset) == ascii_str","upretty(imgset) == ucode_str","upretty([Symbol('ihat') / (Symbol('i') + 1)]) == '\u23a1  i\u0302  \u23a4\\n\u23a2\u2500\u2500\u2500\u2500\u2500\u23a5\\n\u23a3i + 1\u23a6'","upretty(Matrix([Symbol('ihat'), Symbol('i') + 1])) == '\u23a1  i\u0302  \u23a4\\n\u23a2     \u23a5\\n\u23a3i + 1\u23a6'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_ImageSet():
     imgset = ImageSet(Lambda((x, y), x + y), {1, 2, 3}, {3, 4})
     ascii_str = '{x + y | x in {1, 2, 3}, y in {3, 4}}'
@@ -5306,16 +5763,24 @@ def test_pretty_ImageSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ConditionSet(), test_pretty_ConditionSet produces the expected output) over Any ║
+# ║ Path(test_pretty_ConditionSet(), pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str and upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str and pretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}' and upretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}' and pretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == 'EmptySet' and upretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == '∅' and pretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and upretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and pretty(condset) == ascii_str and upretty(condset) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ConditionSet : Any → {Any | pretty(Condit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(ConditionSet(x, Eq(sin(x), 0), S.R...   ║
+# ║   ensures:  upretty(ConditionSet(x, Eq(sin(x), 0), S....   ║
+# ║   ensures:  pretty(ConditionSet(x, Contains(x, S.Real...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ConditionSet : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaa9e3662f064cc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cc1960c9e5ee0cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ConditionSet","kind":"function","src_hash":"0bbe434de6b9a1fc","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str and upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str and pretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == 'EmptySet' and upretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == '\u2205' and pretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and upretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and pretty(condset) == ascii_str and upretty(condset) == ucode_str and pretty(condset) == ascii_str and upretty(condset) == ucode_str"},"spec":{"lhs":"test_pretty_ConditionSet()","rhs":"test_pretty_ConditionSet produces the expected output","over":{"base":"Any"},"name":"test_pretty_ConditionSet_correct"},"guarantee":"test_pretty_ConditionSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ConditionSet_correct","statement":"Path(test_pretty_ConditionSet(x), test_pretty_ConditionSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaa9e3662f064cc8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ConditionSet","kind":"function","src_hash":"0bbe434de6b9a1fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str and upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str and pretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}' and upretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}' and pretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == 'EmptySet' and upretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == '\u2205' and pretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and upretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and pretty(condset) == ascii_str and upretty(condset) == ucode_str"},"spec":{"lhs":"test_pretty_ConditionSet()","rhs":"pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str and upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str and pretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}' and upretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}' and pretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == 'EmptySet' and upretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == '\u2205' and pretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and upretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}' and pretty(condset) == ascii_str and upretty(condset) == ucode_str","over":{"base":"Any"},"name":"test_pretty_ConditionSet_correct"},"guarantee":"pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str; upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str; pretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ConditionSet_correct","statement":"Path(test_pretty_ConditionSet(x), pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str; upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str; pretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cc1960c9e5ee0cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ascii_str","upretty(ConditionSet(x, Eq(sin(x), 0), S.Reals)) == ucode_str","pretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}'","upretty(ConditionSet(x, Contains(x, S.Reals, evaluate=False), FiniteSet(1))) == '{1}'","pretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == 'EmptySet'","upretty(ConditionSet(x, And(x > 1, x < -1), FiniteSet(1, 2, 3))) == '\u2205'","pretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}'","upretty(ConditionSet(x, Or(x > 1, x < -1), FiniteSet(1, 2))) == '{2}'","pretty(condset) == ascii_str","upretty(condset) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_ConditionSet():
     ascii_str = '{x | x in (-oo, oo) and sin(x) = 0}'
     ucode_str = '{x │ x ∊ ℝ ∧ (sin(x) = 0)}'
@@ -5363,16 +5828,23 @@ def test_pretty_ConditionSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ComplexRegion(), test_pretty_ComplexRegion produces the expected output) over Any ║
+# ║ Path(test_pretty_ComplexRegion(), pretty(cregion) == ascii_str and upretty(cregion) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ComplexRegion : Any → {Any | pretty(cregi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(cregion) == ascii_str                   ║
+# ║   ensures:  upretty(cregion) == ucode_str                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ComplexRegion : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59bb760d3f050145  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1399173078d44ebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRegion","kind":"function","src_hash":"84cf8ee3bda32507","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(cregion) == ascii_str and upretty(cregion) == ucode_str and pretty(cregion) == ascii_str and upretty(cregion) == ucode_str and pretty(cregion) == ascii_str and upretty(cregion) == ucode_str and pretty(cregion) == ascii_str and upretty(cregion) == ucode_str"},"spec":{"lhs":"test_pretty_ComplexRegion()","rhs":"test_pretty_ComplexRegion produces the expected output","over":{"base":"Any"},"name":"test_pretty_ComplexRegion_correct"},"guarantee":"test_pretty_ComplexRegion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRegion_correct","statement":"Path(test_pretty_ComplexRegion(x), test_pretty_ComplexRegion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59bb760d3f050145"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRegion","kind":"function","src_hash":"84cf8ee3bda32507","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(cregion) == ascii_str and upretty(cregion) == ucode_str"},"spec":{"lhs":"test_pretty_ComplexRegion()","rhs":"pretty(cregion) == ascii_str and upretty(cregion) == ucode_str","over":{"base":"Any"},"name":"test_pretty_ComplexRegion_correct"},"guarantee":"pretty(cregion) == ascii_str; upretty(cregion) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRegion_correct","statement":"Path(test_pretty_ComplexRegion(x), pretty(cregion) == ascii_str; upretty(cregion) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1399173078d44ebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(cregion) == ascii_str","upretty(cregion) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_ComplexRegion():
     from sympy.sets.fancysets import ComplexRegion
     cregion = ComplexRegion(Interval(3, 5)*Interval(4, 6))
@@ -5419,16 +5891,23 @@ def test_pretty_ComplexRegion():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Union_issue_10414(), test_pretty_Union_issue_10414 produces the expected output) over Any ║
+# ║ Path(test_pretty_Union_issue_10414(), upretty(Union(a, b)) == ucode_str and pretty(Union(a, b)) == ascii_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Union_issue_10414 : Any → {Any | upretty(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Union(a, b)) == ucode_str              ║
+# ║   ensures:  pretty(Union(a, b)) == ascii_str               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Union_issue_10414 : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cab97dd65477fbbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92ad64a794b37442  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Union_issue_10414","kind":"function","src_hash":"47c7b4f1fe8dae64","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Union(a, b)) == ucode_str and pretty(Union(a, b)) == ascii_str"},"spec":{"lhs":"test_pretty_Union_issue_10414()","rhs":"test_pretty_Union_issue_10414 produces the expected output","over":{"base":"Any"},"name":"test_pretty_Union_issue_10414_correct"},"guarantee":"test_pretty_Union_issue_10414 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Union_issue_10414_correct","statement":"Path(test_pretty_Union_issue_10414(x), test_pretty_Union_issue_10414 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab97dd65477fbbc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Union_issue_10414","kind":"function","src_hash":"47c7b4f1fe8dae64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Union(a, b)) == ucode_str and pretty(Union(a, b)) == ascii_str"},"spec":{"lhs":"test_pretty_Union_issue_10414()","rhs":"upretty(Union(a, b)) == ucode_str and pretty(Union(a, b)) == ascii_str","over":{"base":"Any"},"name":"test_pretty_Union_issue_10414_correct"},"guarantee":"upretty(Union(a, b)) == ucode_str; pretty(Union(a, b)) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Union_issue_10414_correct","statement":"Path(test_pretty_Union_issue_10414(x), upretty(Union(a, b)) == ucode_str; pretty(Union(a, b)) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ad64a794b37442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Union(a, b)) == ucode_str","pretty(Union(a, b)) == ascii_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_Union_issue_10414():
     a, b = Interval(2, 3), Interval(4, 7)
     ucode_str = '[2, 3] ∪ [4, 7]'
@@ -5438,16 +5917,23 @@ def test_pretty_Union_issue_10414():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Intersection_issue_10414(), test_pretty_Intersection_issue_10414 produces the expected output) over Any ║
+# ║ Path(test_pretty_Intersection_issue_10414(), upretty(Intersection(a, b)) == ucode_str and pretty(Intersection(a, b)) == ascii_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Intersection_issue_10414 : Any → {Any | u...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Intersection(a, b)) == ucode_str       ║
+# ║   ensures:  pretty(Intersection(a, b)) == ascii_str        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Intersection_issue_10414 : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 988396c55a43c9b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ae8d0e0ef84d94e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Intersection_issue_10414","kind":"function","src_hash":"fbaca9fd8e06ddfd","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Intersection(a, b)) == ucode_str and pretty(Intersection(a, b)) == ascii_str"},"spec":{"lhs":"test_pretty_Intersection_issue_10414()","rhs":"test_pretty_Intersection_issue_10414 produces the expected output","over":{"base":"Any"},"name":"test_pretty_Intersection_issue_10414_correct"},"guarantee":"test_pretty_Intersection_issue_10414 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Intersection_issue_10414_correct","statement":"Path(test_pretty_Intersection_issue_10414(x), test_pretty_Intersection_issue_10414 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"988396c55a43c9b1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Intersection_issue_10414","kind":"function","src_hash":"fbaca9fd8e06ddfd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Intersection(a, b)) == ucode_str and pretty(Intersection(a, b)) == ascii_str"},"spec":{"lhs":"test_pretty_Intersection_issue_10414()","rhs":"upretty(Intersection(a, b)) == ucode_str and pretty(Intersection(a, b)) == ascii_str","over":{"base":"Any"},"name":"test_pretty_Intersection_issue_10414_correct"},"guarantee":"upretty(Intersection(a, b)) == ucode_str; pretty(Intersection(a, b)) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Intersection_issue_10414_correct","statement":"Path(test_pretty_Intersection_issue_10414(x), upretty(Intersection(a, b)) == ucode_str; pretty(Intersection(a, b)) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae8d0e0ef84d94e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Intersection(a, b)) == ucode_str","pretty(Intersection(a, b)) == ascii_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_Intersection_issue_10414():
     x, y, z, w = symbols('x, y, z, w')
     a, b = Interval(x, y), Interval(z, w)
@@ -5458,16 +5944,23 @@ def test_pretty_Intersection_issue_10414():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet_exponent(), test_ProductSet_exponent produces the expected output) over Any ║
+# ║ Path(test_ProductSet_exponent(), upretty(Interval(0, 1) ** 1) == ucode_str and upretty(Interval(0, 1) ** 2) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ProductSet_exponent : Any → {Any | upretty(Inter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Interval(0, 1) ** 1) == ucode_str      ║
+# ║   ensures:  upretty(Interval(0, 1) ** 2) == ucode_str      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ProductSet_exponent : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c443c03a1ea2e2cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3715b741aee2f9d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_exponent","kind":"function","src_hash":"fa2cb0b65cae8120","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Interval(0, 1) ** 1) == ucode_str and upretty(Interval(0, 1) ** 2) == ucode_str"},"spec":{"lhs":"test_ProductSet_exponent()","rhs":"test_ProductSet_exponent produces the expected output","over":{"base":"Any"},"name":"test_ProductSet_exponent_correct"},"guarantee":"test_ProductSet_exponent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_exponent_correct","statement":"Path(test_ProductSet_exponent(x), test_ProductSet_exponent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c443c03a1ea2e2cc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_exponent","kind":"function","src_hash":"fa2cb0b65cae8120","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Interval(0, 1) ** 1) == ucode_str and upretty(Interval(0, 1) ** 2) == ucode_str"},"spec":{"lhs":"test_ProductSet_exponent()","rhs":"upretty(Interval(0, 1) ** 1) == ucode_str and upretty(Interval(0, 1) ** 2) == ucode_str","over":{"base":"Any"},"name":"test_ProductSet_exponent_correct"},"guarantee":"upretty(Interval(0, 1) ** 1) == ucode_str; upretty(Interval(0, 1) ** 2) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_exponent_correct","statement":"Path(test_ProductSet_exponent(x), upretty(Interval(0, 1) ** 1) == ucode_str; upretty(Interval(0, 1) ** 2) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3715b741aee2f9d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Interval(0, 1) ** 1) == ucode_str","upretty(Interval(0, 1) ** 2) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ProductSet_exponent():
     ucode_str = '      1\n[0, 1] '
     assert upretty(Interval(0, 1)**1) == ucode_str
@@ -5476,16 +5969,22 @@ def test_ProductSet_exponent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet_parenthesis(), test_ProductSet_parenthesis produces the expected output) over Any ║
+# ║ Path(test_ProductSet_parenthesis(), upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ProductSet_parenthesis : Any → {Any | upretty(Un...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Union(a * b, b * FiniteSet(1, 2))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ProductSet_parenthesis : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cf83fdc608498e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0e1a99f80e3d5f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_parenthesis","kind":"function","src_hash":"9c8268cb756ce0cd","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str"},"spec":{"lhs":"test_ProductSet_parenthesis()","rhs":"test_ProductSet_parenthesis produces the expected output","over":{"base":"Any"},"name":"test_ProductSet_parenthesis_correct"},"guarantee":"test_ProductSet_parenthesis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_parenthesis_correct","statement":"Path(test_ProductSet_parenthesis(x), test_ProductSet_parenthesis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cf83fdc608498e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_parenthesis","kind":"function","src_hash":"9c8268cb756ce0cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str"},"spec":{"lhs":"test_ProductSet_parenthesis()","rhs":"upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str","over":{"base":"Any"},"name":"test_ProductSet_parenthesis_correct"},"guarantee":"upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_parenthesis_correct","statement":"Path(test_ProductSet_parenthesis(x), upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0e1a99f80e3d5f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Union(a * b, b * FiniteSet(1, 2))) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ProductSet_parenthesis():
     ucode_str = '([4, 7] × {1, 2}) ∪ ([2, 3] × [4, 7])'
 
@@ -5494,16 +5993,23 @@ def test_ProductSet_parenthesis():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet_prod_char_issue_10413(), test_ProductSet_prod_char_issue_10413 produces the expected output) over Any ║
+# ║ Path(test_ProductSet_prod_char_issue_10413(), pretty(a * b) == ascii_str and upretty(a * b) == ucode_str) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(a * b) == ascii_str                     ║
+# ║   ensures:  upretty(a * b) == ucode_str                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ProductSet_prod_char_issue_10413 : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 686a69b8863a8302  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77f89457a0c39036  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_prod_char_issue_10413","kind":"function","src_hash":"13058b632e71de41","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(a * b) == ascii_str and upretty(a * b) == ucode_str"},"spec":{"lhs":"test_ProductSet_prod_char_issue_10413()","rhs":"test_ProductSet_prod_char_issue_10413 produces the expected output","over":{"base":"Any"},"name":"test_ProductSet_prod_char_issue_10413_correct"},"guarantee":"test_ProductSet_prod_char_issue_10413 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_prod_char_issue_10413_correct","statement":"Path(test_ProductSet_prod_char_issue_10413(x), test_ProductSet_prod_char_issue_10413 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"686a69b8863a8302"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_prod_char_issue_10413","kind":"function","src_hash":"13058b632e71de41","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(a * b) == ascii_str and upretty(a * b) == ucode_str"},"spec":{"lhs":"test_ProductSet_prod_char_issue_10413()","rhs":"pretty(a * b) == ascii_str and upretty(a * b) == ucode_str","over":{"base":"Any"},"name":"test_ProductSet_prod_char_issue_10413_correct"},"guarantee":"pretty(a * b) == ascii_str; upretty(a * b) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_ProductSet_prod_char_issue_10413_correct","statement":"Path(test_ProductSet_prod_char_issue_10413(x), pretty(a * b) == ascii_str; upretty(a * b) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77f89457a0c39036","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(a * b) == ascii_str","upretty(a * b) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ProductSet_prod_char_issue_10413():
     ascii_str = '[2, 3] x [4, 7]'
     ucode_str = '[2, 3] × [4, 7]'
@@ -5514,16 +6020,24 @@ def test_ProductSet_prod_char_issue_10413():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_sequences(), test_pretty_sequences produces the expected output) over Any ║
+# ║ Path(test_pretty_sequences(), pretty(s1) == ascii_str and upretty(s1) == ucode_str and pretty(s2) == ascii_str and upretty(s2) == ucode_str and pretty(s3) == ascii_str and upretty(s3) == ucode_str and pretty(s4) == ascii_str and upretty(s4) == ucode_str and pretty(s5) == ascii_str and upretty(s5) == ucode_str and pretty(s6) == ascii_str and upretty(s6) == ucode_str and pretty(SeqAdd(s1, s2)) == ascii_str and upretty(SeqAdd(s1, s2)) == ucode_str and pretty(SeqAdd(s3, s4)) == ascii_str and upretty(SeqAdd(s3, s4)) == ucode_str and pretty(SeqAdd(s5, s6)) == ascii_str and upretty(SeqAdd(s5, s6)) == ucode_str and pretty(SeqMul(s1, s2)) == ascii_str and upretty(SeqMul(s1, s2)) == ucode_str and pretty(SeqMul(s3, s4)) == ascii_str and upretty(SeqMul(s3, s4)) == ucode_str and pretty(SeqMul(s5, s6)) == ascii_str and upretty(SeqMul(s5, s6)) == ucode_str and pretty(s8) == ascii_str and upretty(s8) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_sequences : Any → {Any | pretty(s1) == as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(s1) == ascii_str                        ║
+# ║   ensures:  upretty(s1) == ucode_str                       ║
+# ║   ensures:  pretty(s2) == ascii_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_sequences : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c18edd6f4a5c7109  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 311ef377672c62c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sequences","kind":"function","src_hash":"732d50ed39b01d32","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(s1) == ascii_str and upretty(s1) == ucode_str and pretty(s2) == ascii_str and upretty(s2) == ucode_str and pretty(s3) == ascii_str and upretty(s3) == ucode_str and pretty(s4) == ascii_str and upretty(s4) == ucode_str and pretty(s5) == ascii_str and upretty(s5) == ucode_str and pretty(s6) == ascii_str and upretty(s6) == ucode_str and pretty(SeqAdd(s1, s2)) == ascii_str and upretty(SeqAdd(s1, s2)) == ucode_str and pretty(SeqAdd(s3, s4)) == ascii_str and upretty(SeqAdd(s3, s4)) == ucode_str and pretty(SeqAdd(s5, s6)) == ascii_str and upretty(SeqAdd(s5, s6)) == ucode_str and pretty(SeqMul(s1, s2)) == ascii_str and upretty(SeqMul(s1, s2)) == ucode_str and pretty(SeqMul(s3, s4)) == ascii_str and upretty(SeqMul(s3, s4)) == ucode_str and pretty(SeqMul(s5, s6)) == ascii_str and upretty(SeqMul(s5, s6)) == ucode_str and pretty(s8) == ascii_str and upretty(s8) == ucode_str"},"spec":{"lhs":"test_pretty_sequences()","rhs":"test_pretty_sequences produces the expected output","over":{"base":"Any"},"name":"test_pretty_sequences_correct"},"guarantee":"test_pretty_sequences produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sequences_correct","statement":"Path(test_pretty_sequences(x), test_pretty_sequences produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c18edd6f4a5c7109"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sequences","kind":"function","src_hash":"732d50ed39b01d32","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(s1) == ascii_str and upretty(s1) == ucode_str and pretty(s2) == ascii_str and upretty(s2) == ucode_str and pretty(s3) == ascii_str and upretty(s3) == ucode_str and pretty(s4) == ascii_str and upretty(s4) == ucode_str and pretty(s5) == ascii_str and upretty(s5) == ucode_str and pretty(s6) == ascii_str and upretty(s6) == ucode_str and pretty(SeqAdd(s1, s2)) == ascii_str and upretty(SeqAdd(s1, s2)) == ucode_str and pretty(SeqAdd(s3, s4)) == ascii_str and upretty(SeqAdd(s3, s4)) == ucode_str and pretty(SeqAdd(s5, s6)) == ascii_str and upretty(SeqAdd(s5, s6)) == ucode_str and pretty(SeqMul(s1, s2)) == ascii_str and upretty(SeqMul(s1, s2)) == ucode_str and pretty(SeqMul(s3, s4)) == ascii_str and upretty(SeqMul(s3, s4)) == ucode_str and pretty(SeqMul(s5, s6)) == ascii_str and upretty(SeqMul(s5, s6)) == ucode_str and pretty(s8) == ascii_str and upretty(s8) == ucode_str"},"spec":{"lhs":"test_pretty_sequences()","rhs":"pretty(s1) == ascii_str and upretty(s1) == ucode_str and pretty(s2) == ascii_str and upretty(s2) == ucode_str and pretty(s3) == ascii_str and upretty(s3) == ucode_str and pretty(s4) == ascii_str and upretty(s4) == ucode_str and pretty(s5) == ascii_str and upretty(s5) == ucode_str and pretty(s6) == ascii_str and upretty(s6) == ucode_str and pretty(SeqAdd(s1, s2)) == ascii_str and upretty(SeqAdd(s1, s2)) == ucode_str and pretty(SeqAdd(s3, s4)) == ascii_str and upretty(SeqAdd(s3, s4)) == ucode_str and pretty(SeqAdd(s5, s6)) == ascii_str and upretty(SeqAdd(s5, s6)) == ucode_str and pretty(SeqMul(s1, s2)) == ascii_str and upretty(SeqMul(s1, s2)) == ucode_str and pretty(SeqMul(s3, s4)) == ascii_str and upretty(SeqMul(s3, s4)) == ucode_str and pretty(SeqMul(s5, s6)) == ascii_str and upretty(SeqMul(s5, s6)) == ucode_str and pretty(s8) == ascii_str and upretty(s8) == ucode_str","over":{"base":"Any"},"name":"test_pretty_sequences_correct"},"guarantee":"pretty(s1) == ascii_str; upretty(s1) == ucode_str; pretty(s2) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sequences_correct","statement":"Path(test_pretty_sequences(x), pretty(s1) == ascii_str; upretty(s1) == ucode_str; pretty(s2) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"311ef377672c62c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(s1) == ascii_str","upretty(s1) == ucode_str","pretty(s2) == ascii_str","upretty(s2) == ucode_str","pretty(s3) == ascii_str","upretty(s3) == ucode_str","pretty(s4) == ascii_str","upretty(s4) == ucode_str","pretty(s5) == ascii_str","upretty(s5) == ucode_str","pretty(s6) == ascii_str","upretty(s6) == ucode_str","pretty(SeqAdd(s1, s2)) == ascii_str","upretty(SeqAdd(s1, s2)) == ucode_str","pretty(SeqAdd(s3, s4)) == ascii_str","upretty(SeqAdd(s3, s4)) == ucode_str","pretty(SeqAdd(s5, s6)) == ascii_str","upretty(SeqAdd(s5, s6)) == ucode_str","pretty(SeqMul(s1, s2)) == ascii_str","upretty(SeqMul(s1, s2)) == ucode_str","pretty(SeqMul(s3, s4)) == ascii_str","upretty(SeqMul(s3, s4)) == ucode_str","pretty(SeqMul(s5, s6)) == ascii_str","upretty(SeqMul(s5, s6)) == ucode_str","pretty(s8) == ascii_str","upretty(s8) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_pretty_sequences():
     s1 = SeqFormula(a**2, (0, oo))
     s2 = SeqPer((1, 2))
@@ -5617,16 +6131,23 @@ def test_pretty_sequences():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_FourierSeries(), test_pretty_FourierSeries produces the expected output) over Any ║
+# ║ Path(test_pretty_FourierSeries(), pretty(f) == ascii_str and upretty(f) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_FourierSeries : Any → {Any | pretty(f) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(f) == ascii_str                         ║
+# ║   ensures:  upretty(f) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_FourierSeries : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 220ddfc28769234f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42ecbadaa0659d16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_FourierSeries","kind":"function","src_hash":"2eca2916fb193b89","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(f) == ascii_str and upretty(f) == ucode_str"},"spec":{"lhs":"test_pretty_FourierSeries()","rhs":"test_pretty_FourierSeries produces the expected output","over":{"base":"Any"},"name":"test_pretty_FourierSeries_correct"},"guarantee":"test_pretty_FourierSeries produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_FourierSeries_correct","statement":"Path(test_pretty_FourierSeries(x), test_pretty_FourierSeries produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"220ddfc28769234f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_FourierSeries","kind":"function","src_hash":"2eca2916fb193b89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(f) == ascii_str and upretty(f) == ucode_str"},"spec":{"lhs":"test_pretty_FourierSeries()","rhs":"pretty(f) == ascii_str and upretty(f) == ucode_str","over":{"base":"Any"},"name":"test_pretty_FourierSeries_correct"},"guarantee":"pretty(f) == ascii_str; upretty(f) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_FourierSeries_correct","statement":"Path(test_pretty_FourierSeries(x), pretty(f) == ascii_str; upretty(f) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42ecbadaa0659d16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(f) == ascii_str","upretty(f) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_FourierSeries():
     f = fourier_series(x, (x, -pi, pi))
 
@@ -5649,16 +6170,23 @@ def test_pretty_FourierSeries():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_FormalPowerSeries(), test_pretty_FormalPowerSeries produces the expected output) over Any ║
+# ║ Path(test_pretty_FormalPowerSeries(), pretty(f) == ascii_str and upretty(f) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_FormalPowerSeries : Any → {Any | pretty(f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(f) == ascii_str                         ║
+# ║   ensures:  upretty(f) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_FormalPowerSeries : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51319a28179afa07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 738c41b533e39244  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_FormalPowerSeries","kind":"function","src_hash":"8af7a34a56020cee","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(f) == ascii_str and upretty(f) == ucode_str"},"spec":{"lhs":"test_pretty_FormalPowerSeries()","rhs":"test_pretty_FormalPowerSeries produces the expected output","over":{"base":"Any"},"name":"test_pretty_FormalPowerSeries_correct"},"guarantee":"test_pretty_FormalPowerSeries produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_FormalPowerSeries_correct","statement":"Path(test_pretty_FormalPowerSeries(x), test_pretty_FormalPowerSeries produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51319a28179afa07"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_FormalPowerSeries","kind":"function","src_hash":"8af7a34a56020cee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(f) == ascii_str and upretty(f) == ucode_str"},"spec":{"lhs":"test_pretty_FormalPowerSeries()","rhs":"pretty(f) == ascii_str and upretty(f) == ucode_str","over":{"base":"Any"},"name":"test_pretty_FormalPowerSeries_correct"},"guarantee":"pretty(f) == ascii_str; upretty(f) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_FormalPowerSeries_correct","statement":"Path(test_pretty_FormalPowerSeries(x), pretty(f) == ascii_str; upretty(f) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738c41b533e39244","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(f) == ascii_str","upretty(f) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_FormalPowerSeries():
     f = fps(log(1 + x))
 
@@ -5695,16 +6223,23 @@ k = 1            \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_limits(), test_pretty_limits produces the expected output) over Any ║
+# ║ Path(test_pretty_limits(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_limits : Any → {Any | pretty(expr) == asc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_limits : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52eb2d8219c1070c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52eba1eb5386660e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_limits","kind":"function","src_hash":"af6ef965c6722d39","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_limits()","rhs":"test_pretty_limits produces the expected output","over":{"base":"Any"},"name":"test_pretty_limits_correct"},"guarantee":"test_pretty_limits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_limits_correct","statement":"Path(test_pretty_limits(x), test_pretty_limits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52eb2d8219c1070c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_limits","kind":"function","src_hash":"af6ef965c6722d39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_limits()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_limits_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_limits_correct","statement":"Path(test_pretty_limits(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52eba1eb5386660e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pretty_limits():
     expr = Limit(x, x, oo)
     ascii_str = \
@@ -5863,16 +6398,23 @@ x─→0      \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_ComplexRootOf(), test_pretty_ComplexRootOf produces the expected output) over Any ║
+# ║ Path(test_pretty_ComplexRootOf(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_ComplexRootOf : Any → {Any | pretty(expr)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_ComplexRootOf : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a27a81c288fe420  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 226c8b28a945fe1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRootOf","kind":"function","src_hash":"10b3d4555a51a315","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_ComplexRootOf()","rhs":"test_pretty_ComplexRootOf produces the expected output","over":{"base":"Any"},"name":"test_pretty_ComplexRootOf_correct"},"guarantee":"test_pretty_ComplexRootOf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRootOf_correct","statement":"Path(test_pretty_ComplexRootOf(x), test_pretty_ComplexRootOf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a27a81c288fe420"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRootOf","kind":"function","src_hash":"10b3d4555a51a315","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_ComplexRootOf()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_ComplexRootOf_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_ComplexRootOf_correct","statement":"Path(test_pretty_ComplexRootOf(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"226c8b28a945fe1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_ComplexRootOf():
     expr = rootof(x**5 + 11*x - 2, 0)
     ascii_str = \
@@ -5891,16 +6433,23 @@ CRootOf⎝x  + 11⋅x - 2, 0⎠\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_RootSum(), test_pretty_RootSum produces the expected output) over Any ║
+# ║ Path(test_pretty_RootSum(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_RootSum : Any → {Any | pretty(expr) == as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_RootSum : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70fcc870cc7b73b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf28c87e615cddab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_RootSum","kind":"function","src_hash":"e34390d871adeb64","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_RootSum()","rhs":"test_pretty_RootSum produces the expected output","over":{"base":"Any"},"name":"test_pretty_RootSum_correct"},"guarantee":"test_pretty_RootSum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_RootSum_correct","statement":"Path(test_pretty_RootSum(x), test_pretty_RootSum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70fcc870cc7b73b0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_RootSum","kind":"function","src_hash":"e34390d871adeb64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_RootSum()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_RootSum_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_RootSum_correct","statement":"Path(test_pretty_RootSum(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf28c87e615cddab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_RootSum():
     expr = RootSum(x**5 + 11*x - 2, auto=False)
     ascii_str = \
@@ -5934,16 +6483,23 @@ RootSum⎝x  + 11⋅x - 2, z ↦ ℯ ⎠\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GroebnerBasis(), test_GroebnerBasis produces the expected output) over Any ║
+# ║ Path(test_GroebnerBasis(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GroebnerBasis : Any → {Any | pretty(expr) == asc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GroebnerBasis : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d73d5a7312037d36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfa58860f12f55db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_GroebnerBasis","kind":"function","src_hash":"d6c79c3eecb3869d","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_GroebnerBasis()","rhs":"test_GroebnerBasis produces the expected output","over":{"base":"Any"},"name":"test_GroebnerBasis_correct"},"guarantee":"test_GroebnerBasis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_GroebnerBasis_correct","statement":"Path(test_GroebnerBasis(x), test_GroebnerBasis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d73d5a7312037d36"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_GroebnerBasis","kind":"function","src_hash":"d6c79c3eecb3869d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_GroebnerBasis()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_GroebnerBasis_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_GroebnerBasis_correct","statement":"Path(test_GroebnerBasis(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfa58860f12f55db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_GroebnerBasis():
     expr = groebner([], x, y)
 
@@ -5994,32 +6550,47 @@ GroebnerBasis⎝⎣2⋅x - y  - y + 1, y  + 2⋅y  - 3⋅y  - 16⋅y + 7⎦, x, 
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_UniversalSet(), test_pretty_UniversalSet produces the expected output) over Any ║
+# ║ Path(test_pretty_UniversalSet(), pretty(S.UniversalSet) == 'UniversalSet' and upretty(S.UniversalSet) == '𝕌') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_UniversalSet : Any → {Any | pretty(S.Univ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(S.UniversalSet) == 'UniversalSet'       ║
+# ║   ensures:  upretty(S.UniversalSet) == '𝕌'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_UniversalSet : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbcb6429ecc7dbe5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f27ee3df0142af0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_UniversalSet","kind":"function","src_hash":"1d7723c88b0180c6","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(S.UniversalSet) == 'UniversalSet' and upretty(S.UniversalSet) == '\ud835\udd4c'"},"spec":{"lhs":"test_pretty_UniversalSet()","rhs":"test_pretty_UniversalSet produces the expected output","over":{"base":"Any"},"name":"test_pretty_UniversalSet_correct"},"guarantee":"test_pretty_UniversalSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_UniversalSet_correct","statement":"Path(test_pretty_UniversalSet(x), test_pretty_UniversalSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbcb6429ecc7dbe5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_UniversalSet","kind":"function","src_hash":"1d7723c88b0180c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(S.UniversalSet) == 'UniversalSet' and upretty(S.UniversalSet) == '\ud835\udd4c'"},"spec":{"lhs":"test_pretty_UniversalSet()","rhs":"pretty(S.UniversalSet) == 'UniversalSet' and upretty(S.UniversalSet) == '\ud835\udd4c'","over":{"base":"Any"},"name":"test_pretty_UniversalSet_correct"},"guarantee":"pretty(S.UniversalSet) == 'UniversalSet'; upretty(S.UniversalSet) == '\ud835\udd4c'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_UniversalSet_correct","statement":"Path(test_pretty_UniversalSet(x), pretty(S.UniversalSet) == 'UniversalSet'; upretty(S.UniversalSet) == '\ud835\udd4c')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f27ee3df0142af0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(S.UniversalSet) == 'UniversalSet'","upretty(S.UniversalSet) == '\ud835\udd4c'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_pretty_UniversalSet():
     assert pretty(S.UniversalSet) == "UniversalSet"
     assert upretty(S.UniversalSet) == '𝕌'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Boolean(), test_pretty_Boolean produces the expected output) over Any ║
+# ║ Path(test_pretty_Boolean(), pretty(expr) == 'Not(x)' and upretty(expr) == '¬x' and pretty(expr) == 'And(x, y)' and upretty(expr) == 'x ∧ y' and pretty(expr) == 'Or(x, y)' and upretty(expr) == 'x ∨ y' and pretty(expr) == 'And(a, b, c, d, e, f)' and upretty(expr) == 'a ∧ b ∧ c ∧ d ∧ e ∧ f' and pretty(expr) == 'Or(a, b, c, d, e, f)' and upretty(expr) == 'a ∨ b ∨ c ∨ d ∨ e ∨ f' and pretty(expr) == 'Xor(x, y)' and upretty(expr) == 'x ⊻ y' and pretty(expr) == 'Nand(x, y)' and upretty(expr) == 'x ⊼ y' and pretty(expr) == 'Nor(x, y)' and upretty(expr) == 'x ⊽ y' and pretty(expr) == 'Implies(x, y)' and upretty(expr) == 'x → y' and pretty(expr) == 'Implies(y, x)' and upretty(expr) == 'y → x' and pretty(expr) == 'Equivalent(x, y)' and upretty(expr) == 'x ⇔ y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Boolean : Any → {Any | pretty(expr) == 'N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == 'Not(x)'                       ║
+# ║   ensures:  upretty(expr) == '¬x'                          ║
+# ║   ensures:  pretty(expr) == 'And(x, y)'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Boolean : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c456acd75662d397  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d6fbec08b4f7a14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Boolean","kind":"function","src_hash":"7623dfd3c503b4e3","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == 'Not(x)' and upretty(expr) == '\u00acx' and pretty(expr) == 'And(x, y)' and upretty(expr) == 'x \u2227 y' and pretty(expr) == 'Or(x, y)' and upretty(expr) == 'x \u2228 y' and pretty(expr) == 'And(a, b, c, d, e, f)' and upretty(expr) == 'a \u2227 b \u2227 c \u2227 d \u2227 e \u2227 f' and pretty(expr) == 'Or(a, b, c, d, e, f)' and upretty(expr) == 'a \u2228 b \u2228 c \u2228 d \u2228 e \u2228 f' and pretty(expr) == 'Xor(x, y)' and upretty(expr) == 'x \u22bb y' and pretty(expr) == 'Nand(x, y)' and upretty(expr) == 'x \u22bc y' and pretty(expr) == 'Nor(x, y)' and upretty(expr) == 'x \u22bd y' and pretty(expr) == 'Implies(x, y)' and upretty(expr) == 'x \u2192 y' and pretty(expr) == 'Implies(y, x)' and upretty(expr) == 'y \u2192 x' and pretty(expr) == 'Equivalent(x, y)' and upretty(expr) == 'x \u21d4 y' and pretty(expr) == 'Equivalent(x, y)' and upretty(expr) == 'x \u21d4 y'"},"spec":{"lhs":"test_pretty_Boolean()","rhs":"test_pretty_Boolean produces the expected output","over":{"base":"Any"},"name":"test_pretty_Boolean_correct"},"guarantee":"test_pretty_Boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Boolean_correct","statement":"Path(test_pretty_Boolean(x), test_pretty_Boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c456acd75662d397"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Boolean","kind":"function","src_hash":"7623dfd3c503b4e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == 'Not(x)' and upretty(expr) == '\u00acx' and pretty(expr) == 'And(x, y)' and upretty(expr) == 'x \u2227 y' and pretty(expr) == 'Or(x, y)' and upretty(expr) == 'x \u2228 y' and pretty(expr) == 'And(a, b, c, d, e, f)' and upretty(expr) == 'a \u2227 b \u2227 c \u2227 d \u2227 e \u2227 f' and pretty(expr) == 'Or(a, b, c, d, e, f)' and upretty(expr) == 'a \u2228 b \u2228 c \u2228 d \u2228 e \u2228 f' and pretty(expr) == 'Xor(x, y)' and upretty(expr) == 'x \u22bb y' and pretty(expr) == 'Nand(x, y)' and upretty(expr) == 'x \u22bc y' and pretty(expr) == 'Nor(x, y)' and upretty(expr) == 'x \u22bd y' and pretty(expr) == 'Implies(x, y)' and upretty(expr) == 'x \u2192 y' and pretty(expr) == 'Implies(y, x)' and upretty(expr) == 'y \u2192 x' and pretty(expr) == 'Equivalent(x, y)' and upretty(expr) == 'x \u21d4 y'"},"spec":{"lhs":"test_pretty_Boolean()","rhs":"pretty(expr) == 'Not(x)' and upretty(expr) == '\u00acx' and pretty(expr) == 'And(x, y)' and upretty(expr) == 'x \u2227 y' and pretty(expr) == 'Or(x, y)' and upretty(expr) == 'x \u2228 y' and pretty(expr) == 'And(a, b, c, d, e, f)' and upretty(expr) == 'a \u2227 b \u2227 c \u2227 d \u2227 e \u2227 f' and pretty(expr) == 'Or(a, b, c, d, e, f)' and upretty(expr) == 'a \u2228 b \u2228 c \u2228 d \u2228 e \u2228 f' and pretty(expr) == 'Xor(x, y)' and upretty(expr) == 'x \u22bb y' and pretty(expr) == 'Nand(x, y)' and upretty(expr) == 'x \u22bc y' and pretty(expr) == 'Nor(x, y)' and upretty(expr) == 'x \u22bd y' and pretty(expr) == 'Implies(x, y)' and upretty(expr) == 'x \u2192 y' and pretty(expr) == 'Implies(y, x)' and upretty(expr) == 'y \u2192 x' and pretty(expr) == 'Equivalent(x, y)' and upretty(expr) == 'x \u21d4 y'","over":{"base":"Any"},"name":"test_pretty_Boolean_correct"},"guarantee":"pretty(expr) == 'Not(x)'; upretty(expr) == '\u00acx'; pretty(expr) == 'And(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Boolean_correct","statement":"Path(test_pretty_Boolean(x), pretty(expr) == 'Not(x)'; upretty(expr) == '\u00acx'; pretty(expr) == 'And(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d6fbec08b4f7a14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == 'Not(x)'","upretty(expr) == '\u00acx'","pretty(expr) == 'And(x, y)'","upretty(expr) == 'x \u2227 y'","pretty(expr) == 'Or(x, y)'","upretty(expr) == 'x \u2228 y'","pretty(expr) == 'And(a, b, c, d, e, f)'","upretty(expr) == 'a \u2227 b \u2227 c \u2227 d \u2227 e \u2227 f'","pretty(expr) == 'Or(a, b, c, d, e, f)'","upretty(expr) == 'a \u2228 b \u2228 c \u2228 d \u2228 e \u2228 f'","pretty(expr) == 'Xor(x, y)'","upretty(expr) == 'x \u22bb y'","pretty(expr) == 'Nand(x, y)'","upretty(expr) == 'x \u22bc y'","pretty(expr) == 'Nor(x, y)'","upretty(expr) == 'x \u22bd y'","pretty(expr) == 'Implies(x, y)'","upretty(expr) == 'x \u2192 y'","pretty(expr) == 'Implies(y, x)'","upretty(expr) == 'y \u2192 x'","pretty(expr) == 'Equivalent(x, y)'","upretty(expr) == 'x \u21d4 y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pretty_Boolean():
     expr = Not(x, evaluate=False)
 
@@ -6085,16 +6656,24 @@ def test_pretty_Boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Domain(), test_pretty_Domain produces the expected output) over Any ║
+# ║ Path(test_pretty_Domain(), pretty(expr) == 'GF(23)' and upretty(expr) == 'ℤ₂₃' and pretty(expr) == 'ZZ' and upretty(expr) == 'ℤ' and pretty(expr) == 'QQ' and upretty(expr) == 'ℚ' and pretty(expr) == 'RR' and upretty(expr) == 'ℝ' and pretty(expr) == 'QQ[x]' and upretty(expr) == 'ℚ[x]' and pretty(expr) == 'QQ[x, y]' and upretty(expr) == 'ℚ[x, y]' and pretty(expr) == 'ZZ(x)' and upretty(expr) == 'ℤ(x)' and pretty(expr) == 'ZZ(x, y)' and upretty(expr) == 'ℤ(x, y)' and pretty(expr) == 'QQ[x, y, order=grlex]' and upretty(expr) == 'ℚ[x, y, order=grlex]' and pretty(expr) == 'QQ[x, y, order=ilex]' and upretty(expr) == 'ℚ[x, y, order=ilex]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Domain : Any → {Any | pretty(expr) == 'GF...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == 'GF(23)'                       ║
+# ║   ensures:  upretty(expr) == 'ℤ₂₃'                         ║
+# ║   ensures:  pretty(expr) == 'ZZ'                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Domain : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1003ad5cadc57c32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a19f0fcc6074dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Domain","kind":"function","src_hash":"423969b4b0eb8bb4","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == 'GF(23)' and upretty(expr) == '\u2124\u2082\u2083' and pretty(expr) == 'ZZ' and upretty(expr) == '\u2124' and pretty(expr) == 'QQ' and upretty(expr) == '\u211a' and pretty(expr) == 'RR' and upretty(expr) == '\u211d' and pretty(expr) == 'QQ[x]' and upretty(expr) == '\u211a[x]' and pretty(expr) == 'QQ[x, y]' and upretty(expr) == '\u211a[x, y]' and pretty(expr) == 'ZZ(x)' and upretty(expr) == '\u2124(x)' and pretty(expr) == 'ZZ(x, y)' and upretty(expr) == '\u2124(x, y)' and pretty(expr) == 'QQ[x, y, order=grlex]' and upretty(expr) == '\u211a[x, y, order=grlex]' and pretty(expr) == 'QQ[x, y, order=ilex]' and upretty(expr) == '\u211a[x, y, order=ilex]'"},"spec":{"lhs":"test_pretty_Domain()","rhs":"test_pretty_Domain produces the expected output","over":{"base":"Any"},"name":"test_pretty_Domain_correct"},"guarantee":"test_pretty_Domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Domain_correct","statement":"Path(test_pretty_Domain(x), test_pretty_Domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1003ad5cadc57c32"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Domain","kind":"function","src_hash":"423969b4b0eb8bb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == 'GF(23)' and upretty(expr) == '\u2124\u2082\u2083' and pretty(expr) == 'ZZ' and upretty(expr) == '\u2124' and pretty(expr) == 'QQ' and upretty(expr) == '\u211a' and pretty(expr) == 'RR' and upretty(expr) == '\u211d' and pretty(expr) == 'QQ[x]' and upretty(expr) == '\u211a[x]' and pretty(expr) == 'QQ[x, y]' and upretty(expr) == '\u211a[x, y]' and pretty(expr) == 'ZZ(x)' and upretty(expr) == '\u2124(x)' and pretty(expr) == 'ZZ(x, y)' and upretty(expr) == '\u2124(x, y)' and pretty(expr) == 'QQ[x, y, order=grlex]' and upretty(expr) == '\u211a[x, y, order=grlex]' and pretty(expr) == 'QQ[x, y, order=ilex]' and upretty(expr) == '\u211a[x, y, order=ilex]'"},"spec":{"lhs":"test_pretty_Domain()","rhs":"pretty(expr) == 'GF(23)' and upretty(expr) == '\u2124\u2082\u2083' and pretty(expr) == 'ZZ' and upretty(expr) == '\u2124' and pretty(expr) == 'QQ' and upretty(expr) == '\u211a' and pretty(expr) == 'RR' and upretty(expr) == '\u211d' and pretty(expr) == 'QQ[x]' and upretty(expr) == '\u211a[x]' and pretty(expr) == 'QQ[x, y]' and upretty(expr) == '\u211a[x, y]' and pretty(expr) == 'ZZ(x)' and upretty(expr) == '\u2124(x)' and pretty(expr) == 'ZZ(x, y)' and upretty(expr) == '\u2124(x, y)' and pretty(expr) == 'QQ[x, y, order=grlex]' and upretty(expr) == '\u211a[x, y, order=grlex]' and pretty(expr) == 'QQ[x, y, order=ilex]' and upretty(expr) == '\u211a[x, y, order=ilex]'","over":{"base":"Any"},"name":"test_pretty_Domain_correct"},"guarantee":"pretty(expr) == 'GF(23)'; upretty(expr) == '\u2124\u2082\u2083'; pretty(expr) == 'ZZ'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Domain_correct","statement":"Path(test_pretty_Domain(x), pretty(expr) == 'GF(23)'; upretty(expr) == '\u2124\u2082\u2083'; pretty(expr) == 'ZZ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a19f0fcc6074dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == 'GF(23)'","upretty(expr) == '\u2124\u2082\u2083'","pretty(expr) == 'ZZ'","upretty(expr) == '\u2124'","pretty(expr) == 'QQ'","upretty(expr) == '\u211a'","pretty(expr) == 'RR'","upretty(expr) == '\u211d'","pretty(expr) == 'QQ[x]'","upretty(expr) == '\u211a[x]'","pretty(expr) == 'QQ[x, y]'","upretty(expr) == '\u211a[x, y]'","pretty(expr) == 'ZZ(x)'","upretty(expr) == '\u2124(x)'","pretty(expr) == 'ZZ(x, y)'","upretty(expr) == '\u2124(x, y)'","pretty(expr) == 'QQ[x, y, order=grlex]'","upretty(expr) == '\u211a[x, y, order=grlex]'","pretty(expr) == 'QQ[x, y, order=ilex]'","upretty(expr) == '\u211a[x, y, order=ilex]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_Domain():
     expr = FF(23)
 
@@ -6148,16 +6727,24 @@ def test_pretty_Domain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_prec(), test_pretty_prec produces the expected output) over Any ║
+# ║ Path(test_pretty_prec(), xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3' and xpretty(S('0.3') * x, full_prec=True, use_unicode=False, wrap_line=False) in ['0.300000000000000*x', 'x*0.300000000000000'] and xpretty(S('0.3') * x, full_prec='auto', use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3'] and xpretty(S('0.3') * x, full_prec=False, use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_prec : Any → {Any | xpretty(S('0.3'), ful...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(S('0.3'), full_prec=True, wrap_li...   ║
+# ║   ensures:  xpretty(S('0.3'), full_prec='auto', wrap_...   ║
+# ║   ensures:  xpretty(S('0.3'), full_prec=False, wrap_l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_prec : Any → {Any | result satisfies: xpr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 267bab0f898de640  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 013299344eefe135  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_prec","kind":"function","src_hash":"9796d1af13a4432a","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3'"},"spec":{"lhs":"test_pretty_prec()","rhs":"test_pretty_prec produces the expected output","over":{"base":"Any"},"name":"test_pretty_prec_correct"},"guarantee":"test_pretty_prec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_prec_correct","statement":"Path(test_pretty_prec(x), test_pretty_prec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"267bab0f898de640"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_prec","kind":"function","src_hash":"9796d1af13a4432a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3' and xpretty(S('0.3') * x, full_prec=True, use_unicode=False, wrap_line=False) in ['0.300000000000000*x', 'x*0.300000000000000'] and xpretty(S('0.3') * x, full_prec='auto', use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3'] and xpretty(S('0.3') * x, full_prec=False, use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3']"},"spec":{"lhs":"test_pretty_prec()","rhs":"xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000' and xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3' and xpretty(S('0.3') * x, full_prec=True, use_unicode=False, wrap_line=False) in ['0.300000000000000*x', 'x*0.300000000000000'] and xpretty(S('0.3') * x, full_prec='auto', use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3'] and xpretty(S('0.3') * x, full_prec=False, use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3']","over":{"base":"Any"},"name":"test_pretty_prec_correct"},"guarantee":"xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000'; xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000'; xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_prec_correct","statement":"Path(test_pretty_prec(x), xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000'; xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000'; xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"013299344eefe135","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(S('0.3'), full_prec=True, wrap_line=False) == '0.300000000000000'","xpretty(S('0.3'), full_prec='auto', wrap_line=False) == '0.300000000000000'","xpretty(S('0.3'), full_prec=False, wrap_line=False) == '0.3'","xpretty(S('0.3') * x, full_prec=True, use_unicode=False, wrap_line=False) in ['0.300000000000000*x', 'x*0.300000000000000']","xpretty(S('0.3') * x, full_prec='auto', use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3']","xpretty(S('0.3') * x, full_prec=False, use_unicode=False, wrap_line=False) in ['0.3*x', 'x*0.3']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_prec():
     assert xpretty(S("0.3"), full_prec=True, wrap_line=False) == "0.300000000000000"
     assert xpretty(S("0.3"), full_prec="auto", wrap_line=False) == "0.300000000000000"
@@ -6177,16 +6764,22 @@ def test_pretty_prec():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pprint(), test_pprint produces the expected output) over Any ║
+# ║ Path(test_pprint(), fd.getvalue() == 'pi\n') over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pprint : Any → {Any | fd.getvalue() == 'pi\n'}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fd.getvalue() == 'pi\n'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pprint : Any → {Any | result satisfies: fd.getva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 707b16630cda7f44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d94b5de77237a5f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pprint","kind":"function","src_hash":"34f1b141c5760b45","in":{"base":"Any"},"out":{"base":"Any","pred":"fd.getvalue() == 'pi\\n'"},"spec":{"lhs":"test_pprint()","rhs":"test_pprint produces the expected output","over":{"base":"Any"},"name":"test_pprint_correct"},"guarantee":"test_pprint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pprint_correct","statement":"Path(test_pprint(x), test_pprint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"707b16630cda7f44"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pprint","kind":"function","src_hash":"34f1b141c5760b45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fd.getvalue() == 'pi\\n'"},"spec":{"lhs":"test_pprint()","rhs":"fd.getvalue() == 'pi\\n'","over":{"base":"Any"},"name":"test_pprint_correct"},"guarantee":"fd.getvalue() == 'pi\\n'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pprint_correct","statement":"Path(test_pprint(x), fd.getvalue() == 'pi\\n')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d94b5de77237a5f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fd.getvalue() == 'pi\\n'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pprint():
     import sys
     from io import StringIO
@@ -6201,16 +6794,23 @@ def test_pprint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_class(), test that the printer dispatcher correctly handles classes) over Any ║
+# ║ Path(test_pretty_class(), pretty(C) == str(C) and pretty(D) == str(D)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_class : Any → {Any | pretty(C) == str(C) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(C) == str(C)                            ║
+# ║   ensures:  pretty(D) == str(D)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_class : Any → {Any | result satisfies: pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9079f9a986577822  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ce627f50ba12a0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_class","kind":"function","src_hash":"6fc2c3b80555adde","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(C) == str(C) and pretty(D) == str(D)"},"spec":{"lhs":"test_pretty_class()","rhs":"test that the printer dispatcher correctly handles classes","over":{"base":"Any"},"name":"test_pretty_class_correct"},"guarantee":"test that the printer dispatcher correctly handles classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_class_correct","statement":"Path(test_pretty_class(x), test that the printer dispatcher correctly handles classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9079f9a986577822"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_class","kind":"function","src_hash":"6fc2c3b80555adde","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(C) == str(C) and pretty(D) == str(D)"},"spec":{"lhs":"test_pretty_class()","rhs":"pretty(C) == str(C) and pretty(D) == str(D)","over":{"base":"Any"},"name":"test_pretty_class_correct"},"guarantee":"pretty(C) == str(C); pretty(D) == str(D)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_class_correct","statement":"Path(test_pretty_class(x), pretty(C) == str(C); pretty(D) == str(D))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ce627f50ba12a0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(C) == str(C)","pretty(D) == str(D)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_class():
     """Test that the printer dispatcher correctly handles classes."""
     class C:
@@ -6224,16 +6824,23 @@ def test_pretty_class():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_no_wrap_line(), test_pretty_no_wrap_line produces the expected output) over Any ║
+# ║ Path(test_pretty_no_wrap_line(), xpretty(huge_expr).find('\n') != -1 and xpretty(huge_expr, wrap_line=False).find('\n') == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_no_wrap_line : Any → {Any | xpretty(huge_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(huge_expr).find('\n') != -1            ║
+# ║   ensures:  xpretty(huge_expr, wrap_line=False).find(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_no_wrap_line : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb0472ea1f1ab7b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b17811d5af1340bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_no_wrap_line","kind":"function","src_hash":"7f88e0efc2bdb7f8","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(huge_expr).find('\\n') != -1 and xpretty(huge_expr, wrap_line=False).find('\\n') == -1"},"spec":{"lhs":"test_pretty_no_wrap_line()","rhs":"test_pretty_no_wrap_line produces the expected output","over":{"base":"Any"},"name":"test_pretty_no_wrap_line_correct"},"guarantee":"test_pretty_no_wrap_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_no_wrap_line_correct","statement":"Path(test_pretty_no_wrap_line(x), test_pretty_no_wrap_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb0472ea1f1ab7b8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_no_wrap_line","kind":"function","src_hash":"7f88e0efc2bdb7f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(huge_expr).find('\\n') != -1 and xpretty(huge_expr, wrap_line=False).find('\\n') == -1"},"spec":{"lhs":"test_pretty_no_wrap_line()","rhs":"xpretty(huge_expr).find('\\n') != -1 and xpretty(huge_expr, wrap_line=False).find('\\n') == -1","over":{"base":"Any"},"name":"test_pretty_no_wrap_line_correct"},"guarantee":"xpretty(huge_expr).find('\\n') != -1; xpretty(huge_expr, wrap_line=False).find('\\n') == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_no_wrap_line_correct","statement":"Path(test_pretty_no_wrap_line(x), xpretty(huge_expr).find('\\n') != -1; xpretty(huge_expr, wrap_line=False).find('\\n') == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b17811d5af1340bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(huge_expr).find('\\n') != -1","xpretty(huge_expr, wrap_line=False).find('\\n') == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_no_wrap_line():
     huge_expr = 0
     for i in range(20):
@@ -6243,31 +6850,44 @@ def test_pretty_no_wrap_line():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_settings(), test_settings produces the expected output) over Any ║
+# ║ Path(test_settings(), <unspecified:test_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_settings : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e97bcfed793f18e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_settings","kind":"function","src_hash":"ab496d0cd50eb49c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"test_settings produces the expected output","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e97bcfed793f18e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_settings","kind":"function","src_hash":"ab496d0cd50eb49c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"<unspecified:test_settings>","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e97bcfed793f18e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_settings():
     raises(TypeError, lambda: pretty(S(4), method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_sum(), test_pretty_sum produces the expected output) over Any ║
+# ║ Path(test_pretty_sum(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_sum : Any → {Any | pretty(expr) == ascii_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_sum : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41da254525c91f1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64007c2711a1c2d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sum","kind":"function","src_hash":"00cf6c874764a3c1","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_sum()","rhs":"test_pretty_sum produces the expected output","over":{"base":"Any"},"name":"test_pretty_sum_correct"},"guarantee":"test_pretty_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sum_correct","statement":"Path(test_pretty_sum(x), test_pretty_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41da254525c91f1a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_sum","kind":"function","src_hash":"00cf6c874764a3c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_sum()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_sum_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_sum_correct","statement":"Path(test_pretty_sum(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64007c2711a1c2d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_sum():
     from sympy.abc import x, a, b, k, m, n
 
@@ -6787,16 +7407,24 @@ k = ─────                                \n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_units(), test_units produces the expected output) over Any ║
+# ║ Path(test_units(), upretty(expr) == 'joule' and pretty(expr) == 'joule' and upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1 and pretty(expr.convert_to(kg * m ** 2 / s ** 2)) == ascii_str1 and upretty(3 * kg * x * m ** 2 * y / s ** 2) == unicode_str2 and pretty(3 * kg * x * m ** 2 * y / s ** 2) == ascii_str2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_units : Any → {Any | upretty(expr) == 'joule' an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(expr) == 'joule'                       ║
+# ║   ensures:  pretty(expr) == 'joule'                        ║
+# ║   ensures:  upretty(expr.convert_to(kg * m ** 2 / s *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_units : Any → {Any | result satisfies: upretty(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adff6ec31c3ce077  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d187c59ce7c3f34c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_units","kind":"function","src_hash":"b7e6d07395ae4741","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(expr) == 'joule' and pretty(expr) == 'joule' and upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1 and pretty(expr.convert_to(kg * m ** 2 / s ** 2)) == ascii_str1 and upretty(3 * kg * x * m ** 2 * y / s ** 2) == unicode_str2 and pretty(3 * kg * x * m ** 2 * y / s ** 2) == ascii_str2"},"spec":{"lhs":"test_units()","rhs":"test_units produces the expected output","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"test_units produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_units_correct","statement":"Path(test_units(x), test_units produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adff6ec31c3ce077"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_units","kind":"function","src_hash":"b7e6d07395ae4741","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(expr) == 'joule' and pretty(expr) == 'joule' and upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1 and pretty(expr.convert_to(kg * m ** 2 / s ** 2)) == ascii_str1 and upretty(3 * kg * x * m ** 2 * y / s ** 2) == unicode_str2 and pretty(3 * kg * x * m ** 2 * y / s ** 2) == ascii_str2"},"spec":{"lhs":"test_units()","rhs":"upretty(expr) == 'joule' and pretty(expr) == 'joule' and upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1 and pretty(expr.convert_to(kg * m ** 2 / s ** 2)) == ascii_str1 and upretty(3 * kg * x * m ** 2 * y / s ** 2) == unicode_str2 and pretty(3 * kg * x * m ** 2 * y / s ** 2) == ascii_str2","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"upretty(expr) == 'joule'; pretty(expr) == 'joule'; upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_units_correct","statement":"Path(test_units(x), upretty(expr) == 'joule'; pretty(expr) == 'joule'; upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d187c59ce7c3f34c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(expr) == 'joule'","pretty(expr) == 'joule'","upretty(expr.convert_to(kg * m ** 2 / s ** 2)) == unicode_str1","pretty(expr.convert_to(kg * m ** 2 / s ** 2)) == ascii_str1","upretty(3 * kg * x * m ** 2 * y / s ** 2) == unicode_str2","pretty(3 * kg * x * m ** 2 * y / s ** 2) == ascii_str2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_units():
     expr = joule
     ascii_str1 = \
@@ -6843,16 +7471,23 @@ kilogram⋅meter \n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Subs(), test_pretty_Subs produces the expected output) over Any ║
+# ║ Path(test_pretty_Subs(), pretty(expr) == ascii_str and upretty(expr) == unicode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Subs : Any → {Any | pretty(expr) == ascii...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == unicode_str                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Subs : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c661608eeff969b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80cf9fe185cf31ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Subs","kind":"function","src_hash":"805788ab42c1bc7e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) == ascii_str and upretty(expr) == unicode_str and pretty(expr) == ascii_str and upretty(expr) == unicode_str"},"spec":{"lhs":"test_pretty_Subs()","rhs":"test_pretty_Subs produces the expected output","over":{"base":"Any"},"name":"test_pretty_Subs_correct"},"guarantee":"test_pretty_Subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Subs_correct","statement":"Path(test_pretty_Subs(x), test_pretty_Subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c661608eeff969b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Subs","kind":"function","src_hash":"805788ab42c1bc7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == unicode_str"},"spec":{"lhs":"test_pretty_Subs()","rhs":"pretty(expr) == ascii_str and upretty(expr) == unicode_str","over":{"base":"Any"},"name":"test_pretty_Subs_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == unicode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Subs_correct","statement":"Path(test_pretty_Subs(x), pretty(expr) == ascii_str; upretty(expr) == unicode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80cf9fe185cf31ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == unicode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_Subs():
     f = Function('f')
     expr = Subs(f(x), x, ph**2)
@@ -6910,16 +7545,24 @@ def test_pretty_Subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gammas(), test_gammas produces the expected output) over Any ║
+# ║ Path(test_gammas(), upretty(lowergamma(x, y)) == 'γ(x, y)' and upretty(uppergamma(x, y)) == 'Γ(x, y)' and xpretty(gamma(x), use_unicode=True) == 'Γ(x)' and xpretty(gamma, use_unicode=True) == 'Γ' and xpretty(symbols('gamma', cls=Function)(x), use_unicode=True) == 'γ(x)' and xpretty(symbols('gamma', cls=Function), use_unicode=True) == 'γ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gammas : Any → {Any | upretty(lowergamma(x, y)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(lowergamma(x, y)) == 'γ(x, y)'         ║
+# ║   ensures:  upretty(uppergamma(x, y)) == 'Γ(x, y)'         ║
+# ║   ensures:  xpretty(gamma(x), use_unicode=True) == 'Γ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gammas : Any → {Any | result satisfies: upretty(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71635355d202f2bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af393c7dbac16c21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_gammas","kind":"function","src_hash":"0846e669813e8df0","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(lowergamma(x, y)) == '\u03b3(x, y)' and upretty(uppergamma(x, y)) == '\u0393(x, y)' and xpretty(gamma(x), use_unicode=True) == '\u0393(x)' and xpretty(gamma, use_unicode=True) == '\u0393' and xpretty(symbols('gamma', cls=Function)(x), use_unicode=True) == '\u03b3(x)' and xpretty(symbols('gamma', cls=Function), use_unicode=True) == '\u03b3'"},"spec":{"lhs":"test_gammas()","rhs":"test_gammas produces the expected output","over":{"base":"Any"},"name":"test_gammas_correct"},"guarantee":"test_gammas produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_gammas_correct","statement":"Path(test_gammas(x), test_gammas produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71635355d202f2bb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_gammas","kind":"function","src_hash":"0846e669813e8df0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(lowergamma(x, y)) == '\u03b3(x, y)' and upretty(uppergamma(x, y)) == '\u0393(x, y)' and xpretty(gamma(x), use_unicode=True) == '\u0393(x)' and xpretty(gamma, use_unicode=True) == '\u0393' and xpretty(symbols('gamma', cls=Function)(x), use_unicode=True) == '\u03b3(x)' and xpretty(symbols('gamma', cls=Function), use_unicode=True) == '\u03b3'"},"spec":{"lhs":"test_gammas()","rhs":"upretty(lowergamma(x, y)) == '\u03b3(x, y)' and upretty(uppergamma(x, y)) == '\u0393(x, y)' and xpretty(gamma(x), use_unicode=True) == '\u0393(x)' and xpretty(gamma, use_unicode=True) == '\u0393' and xpretty(symbols('gamma', cls=Function)(x), use_unicode=True) == '\u03b3(x)' and xpretty(symbols('gamma', cls=Function), use_unicode=True) == '\u03b3'","over":{"base":"Any"},"name":"test_gammas_correct"},"guarantee":"upretty(lowergamma(x, y)) == '\u03b3(x, y)'; upretty(uppergamma(x, y)) == '\u0393(x, y)'; xpretty(gamma(x), use_unicode=True) == '\u0393(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_gammas_correct","statement":"Path(test_gammas(x), upretty(lowergamma(x, y)) == '\u03b3(x, y)'; upretty(uppergamma(x, y)) == '\u0393(x, y)'; xpretty(gamma(x), use_unicode=True) == '\u0393(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af393c7dbac16c21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(lowergamma(x, y)) == '\u03b3(x, y)'","upretty(uppergamma(x, y)) == '\u0393(x, y)'","xpretty(gamma(x), use_unicode=True) == '\u0393(x)'","xpretty(gamma, use_unicode=True) == '\u0393'","xpretty(symbols('gamma', cls=Function)(x), use_unicode=True) == '\u03b3(x)'","xpretty(symbols('gamma', cls=Function), use_unicode=True) == '\u03b3'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gammas():
     assert upretty(lowergamma(x, y)) == "γ(x, y)"
     assert upretty(uppergamma(x, y)) == "Γ(x, y)"
@@ -6930,16 +7573,24 @@ def test_gammas():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_beta(), test_beta produces the expected output) over Any ║
+# ║ Path(test_beta(), xpretty(beta(x, y), use_unicode=True) == 'Β(x, y)' and xpretty(beta(x, y), use_unicode=False) == 'B(x, y)' and xpretty(beta, use_unicode=True) == 'Β' and xpretty(beta, use_unicode=False) == 'B' and xpretty(mybeta(x), use_unicode=True) == 'β(x)' and xpretty(mybeta(x, y, z), use_unicode=False) == 'beta(x, y, z)' and xpretty(mybeta, use_unicode=True) == 'β') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_beta : Any → {Any | xpretty(beta(x, y), use_unic...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(beta(x, y), use_unicode=True) == ...   ║
+# ║   ensures:  xpretty(beta(x, y), use_unicode=False) ==...   ║
+# ║   ensures:  xpretty(beta, use_unicode=True) == 'Β'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_beta : Any → {Any | result satisfies: xpretty(be...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a756c94f71cd5335  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5817b39f7aadd08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_beta","kind":"function","src_hash":"92033e6971cf5a2d","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(beta(x, y), use_unicode=True) == '\u0392(x, y)' and xpretty(beta(x, y), use_unicode=False) == 'B(x, y)' and xpretty(beta, use_unicode=True) == '\u0392' and xpretty(beta, use_unicode=False) == 'B' and xpretty(mybeta(x), use_unicode=True) == '\u03b2(x)' and xpretty(mybeta(x, y, z), use_unicode=False) == 'beta(x, y, z)' and xpretty(mybeta, use_unicode=True) == '\u03b2'"},"spec":{"lhs":"test_beta()","rhs":"test_beta produces the expected output","over":{"base":"Any"},"name":"test_beta_correct"},"guarantee":"test_beta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_beta_correct","statement":"Path(test_beta(x), test_beta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a756c94f71cd5335"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_beta","kind":"function","src_hash":"92033e6971cf5a2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(beta(x, y), use_unicode=True) == '\u0392(x, y)' and xpretty(beta(x, y), use_unicode=False) == 'B(x, y)' and xpretty(beta, use_unicode=True) == '\u0392' and xpretty(beta, use_unicode=False) == 'B' and xpretty(mybeta(x), use_unicode=True) == '\u03b2(x)' and xpretty(mybeta(x, y, z), use_unicode=False) == 'beta(x, y, z)' and xpretty(mybeta, use_unicode=True) == '\u03b2'"},"spec":{"lhs":"test_beta()","rhs":"xpretty(beta(x, y), use_unicode=True) == '\u0392(x, y)' and xpretty(beta(x, y), use_unicode=False) == 'B(x, y)' and xpretty(beta, use_unicode=True) == '\u0392' and xpretty(beta, use_unicode=False) == 'B' and xpretty(mybeta(x), use_unicode=True) == '\u03b2(x)' and xpretty(mybeta(x, y, z), use_unicode=False) == 'beta(x, y, z)' and xpretty(mybeta, use_unicode=True) == '\u03b2'","over":{"base":"Any"},"name":"test_beta_correct"},"guarantee":"xpretty(beta(x, y), use_unicode=True) == '\u0392(x, y)'; xpretty(beta(x, y), use_unicode=False) == 'B(x, y)'; xpretty(beta, use_unicode=True) == '\u0392'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_beta_correct","statement":"Path(test_beta(x), xpretty(beta(x, y), use_unicode=True) == '\u0392(x, y)'; xpretty(beta(x, y), use_unicode=False) == 'B(x, y)'; xpretty(beta, use_unicode=True) == '\u0392')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5817b39f7aadd08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(beta(x, y), use_unicode=True) == '\u0392(x, y)'","xpretty(beta(x, y), use_unicode=False) == 'B(x, y)'","xpretty(beta, use_unicode=True) == '\u0392'","xpretty(beta, use_unicode=False) == 'B'","xpretty(mybeta(x), use_unicode=True) == '\u03b2(x)'","xpretty(mybeta(x, y, z), use_unicode=False) == 'beta(x, y, z)'","xpretty(mybeta, use_unicode=True) == '\u03b2'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_beta():
     assert xpretty(beta(x,y), use_unicode=True) == 'Β(x, y)'
     assert xpretty(beta(x,y), use_unicode=False) == 'B(x, y)'
@@ -6953,16 +7604,23 @@ def test_beta():
 
 # test that notation passes to subclasses of the same name only
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_subclass_different_name(), test_function_subclass_different_name produces the expected output) over Any ║
+# ║ Path(test_function_subclass_different_name(), xpretty(mygamma, use_unicode=True) == 'mygamma' and xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(mygamma, use_unicode=True) == 'my...   ║
+# ║   ensures:  xpretty(mygamma(x), use_unicode=True) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_function_subclass_different_name : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a06e67dce50c2d2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db4d89aaaea8cc83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_function_subclass_different_name","kind":"function","src_hash":"92323ef7db099267","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(mygamma, use_unicode=True) == 'mygamma' and xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)'"},"spec":{"lhs":"test_function_subclass_different_name()","rhs":"test_function_subclass_different_name produces the expected output","over":{"base":"Any"},"name":"test_function_subclass_different_name_correct"},"guarantee":"test_function_subclass_different_name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_function_subclass_different_name_correct","statement":"Path(test_function_subclass_different_name(x), test_function_subclass_different_name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a06e67dce50c2d2c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_function_subclass_different_name","kind":"function","src_hash":"92323ef7db099267","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(mygamma, use_unicode=True) == 'mygamma' and xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)'"},"spec":{"lhs":"test_function_subclass_different_name()","rhs":"xpretty(mygamma, use_unicode=True) == 'mygamma' and xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)'","over":{"base":"Any"},"name":"test_function_subclass_different_name_correct"},"guarantee":"xpretty(mygamma, use_unicode=True) == 'mygamma'; xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_function_subclass_different_name_correct","statement":"Path(test_function_subclass_different_name(x), xpretty(mygamma, use_unicode=True) == 'mygamma'; xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4d89aaaea8cc83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(mygamma, use_unicode=True) == 'mygamma'","xpretty(mygamma(x), use_unicode=True) == 'mygamma(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_function_subclass_different_name():
     class mygamma(gamma):
         pass
@@ -6971,16 +7629,24 @@ def test_function_subclass_different_name():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SingularityFunction(), test_SingularityFunction produces the expected output) over Any ║
+# ║ Path(test_SingularityFunction(), xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\n<x - 1> ' and xpretty(SingularityFunction(x, -1, n), use_unicode=True) == '       n\n<x + 1> ' and xpretty(SingularityFunction(x, a, n), use_unicode=True) == '        n\n<-a + x> ' and xpretty(SingularityFunction(x, y, n), use_unicode=True) == '       n\n<x - y> ' and xpretty(SingularityFunction(x, 0, n), use_unicode=False) == '   n\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=False) == '       n\n<x - 1> ' and xpretty(SingularityFunction(x, -1, n), use_unicode=False) == '       n\n<x + 1> ' and xpretty(SingularityFunction(x, a, n), use_unicode=False) == '        n\n<-a + x> ' and xpretty(SingularityFunction(x, y, n), use_unicode=False) == '       n\n<x - y> ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SingularityFunction : Any → {Any | xpretty(Singu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(SingularityFunction(x, 0, n), use...   ║
+# ║   ensures:  xpretty(SingularityFunction(x, 1, n), use...   ║
+# ║   ensures:  xpretty(SingularityFunction(x, -1, n), us...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SingularityFunction : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 759ded9845d20dd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7770efc64b48d26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_SingularityFunction","kind":"function","src_hash":"597fc6e42c82894e","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\\n<x - 1> ' and xpretty(SingularityFunction(x, y, n), use_unicode=True) == '       n\\n<x - y> ' and xpretty(SingularityFunction(x, 0, n), use_unicode=False) == '   n\\n<x> '"},"spec":{"lhs":"test_SingularityFunction()","rhs":"test_SingularityFunction produces the expected output","over":{"base":"Any"},"name":"test_SingularityFunction_correct"},"guarantee":"test_SingularityFunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_SingularityFunction_correct","statement":"Path(test_SingularityFunction(x), test_SingularityFunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"759ded9845d20dd7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_SingularityFunction","kind":"function","src_hash":"597fc6e42c82894e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\\n<x - 1> ' and xpretty(SingularityFunction(x, -1, n), use_unicode=True) == '       n\\n<x + 1> ' and xpretty(SingularityFunction(x, a, n), use_unicode=True) == '        n\\n<-a + x> ' and xpretty(SingularityFunction(x, y, n), use_unicode=True) == '       n\\n<x - y> ' and xpretty(SingularityFunction(x, 0, n), use_unicode=False) == '   n\\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=False) == '       n\\n<x - 1> ' and xpretty(SingularityFunction(x, -1, n), use_unicode=False) == '       n\\n<x + 1> ' and xpretty(SingularityFunction(x, a, n), use_unicode=False) == '        n\\n<-a + x> ' and xpretty(SingularityFunction(x, y, n), use_unicode=False) == '       n\\n<x - y> '"},"spec":{"lhs":"test_SingularityFunction()","rhs":"xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\\n<x - 1> ' and xpretty(SingularityFunction(x, -1, n), use_unicode=True) == '       n\\n<x + 1> ' and xpretty(SingularityFunction(x, a, n), use_unicode=True) == '        n\\n<-a + x> ' and xpretty(SingularityFunction(x, y, n), use_unicode=True) == '       n\\n<x - y> ' and xpretty(SingularityFunction(x, 0, n), use_unicode=False) == '   n\\n<x> ' and xpretty(SingularityFunction(x, 1, n), use_unicode=False) == '       n\\n<x - 1> ' and xpretty(SingularityFunction(x, -1, n), use_unicode=False) == '       n\\n<x + 1> ' and xpretty(SingularityFunction(x, a, n), use_unicode=False) == '        n\\n<-a + x> ' and xpretty(SingularityFunction(x, y, n), use_unicode=False) == '       n\\n<x - y> '","over":{"base":"Any"},"name":"test_SingularityFunction_correct"},"guarantee":"xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\\n<x> '; xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\\n<x - 1> '; xpretty(SingularityFunction(x, -1, n), use_unicode=True) == '       n\\n<x + 1> '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_SingularityFunction_correct","statement":"Path(test_SingularityFunction(x), xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\\n<x> '; xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\\n<x - 1> '; xpretty(SingularityFunction(x, -1, n), use_unicode=True) == '       n\\n<x + 1> ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7770efc64b48d26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(SingularityFunction(x, 0, n), use_unicode=True) == '   n\\n<x> '","xpretty(SingularityFunction(x, 1, n), use_unicode=True) == '       n\\n<x - 1> '","xpretty(SingularityFunction(x, -1, n), use_unicode=True) == '       n\\n<x + 1> '","xpretty(SingularityFunction(x, a, n), use_unicode=True) == '        n\\n<-a + x> '","xpretty(SingularityFunction(x, y, n), use_unicode=True) == '       n\\n<x - y> '","xpretty(SingularityFunction(x, 0, n), use_unicode=False) == '   n\\n<x> '","xpretty(SingularityFunction(x, 1, n), use_unicode=False) == '       n\\n<x - 1> '","xpretty(SingularityFunction(x, -1, n), use_unicode=False) == '       n\\n<x + 1> '","xpretty(SingularityFunction(x, a, n), use_unicode=False) == '        n\\n<-a + x> '","xpretty(SingularityFunction(x, y, n), use_unicode=False) == '       n\\n<x - y> '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_SingularityFunction():
     assert xpretty(SingularityFunction(x, 0, n), use_unicode=True) == (
 """\
@@ -7035,16 +7701,24 @@ def test_SingularityFunction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deltas(), test_deltas produces the expected output) over Any ║
+# ║ Path(test_deltas(), xpretty(DiracDelta(x), use_unicode=True) == 'δ(x)' and xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \nδ    (x)' and xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \nx⋅δ    (x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deltas : Any → {Any | xpretty(DiracDelta(x), use...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xpretty(DiracDelta(x), use_unicode=True) ...   ║
+# ║   ensures:  xpretty(DiracDelta(x, 1), use_unicode=Tru...   ║
+# ║   ensures:  xpretty(x * DiracDelta(x, 1), use_unicode...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deltas : Any → {Any | result satisfies: xpretty(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fdf2295315b1331  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 549fe5930367397f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_deltas","kind":"function","src_hash":"3c43656400285596","in":{"base":"Any"},"out":{"base":"Any","pred":"xpretty(DiracDelta(x), use_unicode=True) == '\u03b4(x)' and xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \\n\u03b4    (x)' and xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \\nx\u22c5\u03b4    (x)'"},"spec":{"lhs":"test_deltas()","rhs":"test_deltas produces the expected output","over":{"base":"Any"},"name":"test_deltas_correct"},"guarantee":"test_deltas produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_deltas_correct","statement":"Path(test_deltas(x), test_deltas produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fdf2295315b1331"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_deltas","kind":"function","src_hash":"3c43656400285596","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xpretty(DiracDelta(x), use_unicode=True) == '\u03b4(x)' and xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \\n\u03b4    (x)' and xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \\nx\u22c5\u03b4    (x)'"},"spec":{"lhs":"test_deltas()","rhs":"xpretty(DiracDelta(x), use_unicode=True) == '\u03b4(x)' and xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \\n\u03b4    (x)' and xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \\nx\u22c5\u03b4    (x)'","over":{"base":"Any"},"name":"test_deltas_correct"},"guarantee":"xpretty(DiracDelta(x), use_unicode=True) == '\u03b4(x)'; xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \\n\u03b4    (x)'; xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \\nx\u22c5\u03b4    (x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_deltas_correct","statement":"Path(test_deltas(x), xpretty(DiracDelta(x), use_unicode=True) == '\u03b4(x)'; xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \\n\u03b4    (x)'; xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \\nx\u22c5\u03b4    (x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"549fe5930367397f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xpretty(DiracDelta(x), use_unicode=True) == '\u03b4(x)'","xpretty(DiracDelta(x, 1), use_unicode=True) == ' (1)    \\n\u03b4    (x)'","xpretty(x * DiracDelta(x, 1), use_unicode=True) == '   (1)    \\nx\u22c5\u03b4    (x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deltas():
     assert xpretty(DiracDelta(x), use_unicode=True) == 'δ(x)'
     assert xpretty(DiracDelta(x, 1), use_unicode=True) == \
@@ -7060,16 +7734,23 @@ x⋅δ    (x)\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyper(), test_hyper produces the expected output) over Any ║
+# ║ Path(test_hyper(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyper : Any → {Any | pretty(expr) == ascii_str a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyper : Any → {Any | result satisfies: pretty(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22c7628a215e010d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f317fe0119fc54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_hyper","kind":"function","src_hash":"37cb407694959f08","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_hyper()","rhs":"test_hyper produces the expected output","over":{"base":"Any"},"name":"test_hyper_correct"},"guarantee":"test_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_hyper_correct","statement":"Path(test_hyper(x), test_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c7628a215e010d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_hyper","kind":"function","src_hash":"37cb407694959f08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_hyper()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_hyper_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_hyper_correct","statement":"Path(test_hyper(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f317fe0119fc54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_hyper():
     expr = hyper((), (), z)
     ucode_str = \
@@ -7193,16 +7874,23 @@ def test_hyper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg(), test_meijerg produces the expected output) over Any ║
+# ║ Path(test_meijerg(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg : Any → {Any | pretty(expr) == ascii_str...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg : Any → {Any | result satisfies: pretty(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c275911064507f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cf4ac78396d91cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_meijerg","kind":"function","src_hash":"c395c712c36291f7","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_meijerg()","rhs":"test_meijerg produces the expected output","over":{"base":"Any"},"name":"test_meijerg_correct"},"guarantee":"test_meijerg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_meijerg_correct","statement":"Path(test_meijerg(x), test_meijerg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c275911064507f3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_meijerg","kind":"function","src_hash":"c395c712c36291f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_meijerg()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_meijerg_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_meijerg_correct","statement":"Path(test_meijerg(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf4ac78396d91cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_meijerg():
     expr = meijerg([pi, pi, x], [1], [0, 1], [1, 2, 3], z)
     ucode_str = \
@@ -7327,16 +8015,23 @@ def test_meijerg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_noncommutative(), test_noncommutative produces the expected output) over Any ║
+# ║ Path(test_noncommutative(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_noncommutative : Any → {Any | pretty(expr) == as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_noncommutative : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f5fc7f107e75f3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10348549285d8683  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_noncommutative","kind":"function","src_hash":"7bc52d97ff382242","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_noncommutative()","rhs":"test_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_noncommutative_correct"},"guarantee":"test_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_noncommutative_correct","statement":"Path(test_noncommutative(x), test_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f5fc7f107e75f3c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_noncommutative","kind":"function","src_hash":"7bc52d97ff382242","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_noncommutative()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_noncommutative_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_noncommutative_correct","statement":"Path(test_noncommutative(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10348549285d8683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_noncommutative():
     A, B, C = symbols('A,B,C', commutative=False)
 
@@ -7402,16 +8097,23 @@ A⋅C  ⋅B\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_special_functions(), test_pretty_special_functions produces the expected output) over Any ║
+# ║ Path(test_pretty_special_functions(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_special_functions : Any → {Any | pretty(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_special_functions : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80afa2b17bbe2b42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45cf5c194b11cf8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_special_functions","kind":"function","src_hash":"c89aa9aa6a612734","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_special_functions()","rhs":"test_pretty_special_functions produces the expected output","over":{"base":"Any"},"name":"test_pretty_special_functions_correct"},"guarantee":"test_pretty_special_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_special_functions_correct","statement":"Path(test_pretty_special_functions(x), test_pretty_special_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80afa2b17bbe2b42"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_special_functions","kind":"function","src_hash":"c89aa9aa6a612734","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_special_functions()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_special_functions_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_special_functions_correct","statement":"Path(test_pretty_special_functions(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45cf5c194b11cf8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_special_functions():
     x, y = symbols("x y")
 
@@ -7435,16 +8137,23 @@ atan2⎜────, √x⎟\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_geometry(), test_pretty_geometry produces the expected output) over Any ║
+# ║ Path(test_pretty_geometry(), pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))' and pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_geometry : Any → {Any | pretty(e) == 'Seg...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(e) == 'Segment2D(Point2D(0, 1), Po...   ║
+# ║   ensures:  pretty(e) == 'Ray2D(Point2D(1, 1), Point2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_geometry : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1129189ebb1f87a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97c0e50e00d80b91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_geometry","kind":"function","src_hash":"1de5ea64792abdad","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))' and pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))'"},"spec":{"lhs":"test_pretty_geometry()","rhs":"test_pretty_geometry produces the expected output","over":{"base":"Any"},"name":"test_pretty_geometry_correct"},"guarantee":"test_pretty_geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_geometry_correct","statement":"Path(test_pretty_geometry(x), test_pretty_geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1129189ebb1f87a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_geometry","kind":"function","src_hash":"1de5ea64792abdad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))' and pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))'"},"spec":{"lhs":"test_pretty_geometry()","rhs":"pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))' and pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))'","over":{"base":"Any"},"name":"test_pretty_geometry_correct"},"guarantee":"pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))'; pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_geometry_correct","statement":"Path(test_pretty_geometry(x), pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))'; pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97c0e50e00d80b91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))'","pretty(e) == 'Ray2D(Point2D(1, 1), Point2D(2, tan(pi/50) + 1))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_geometry():
     e = Segment((0, 1), (0, 2))
     assert pretty(e) == 'Segment2D(Point2D(0, 1), Point2D(0, 2))'
@@ -7453,16 +8162,24 @@ def test_pretty_geometry():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expint(), test_expint produces the expected output) over Any ║
+# ║ Path(test_expint(), pretty(expr) == string and upretty(expr) == string and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(Shi(x)) == 'Shi(x)' and pretty(Si(x)) == 'Si(x)' and pretty(Ci(x)) == 'Ci(x)' and pretty(Chi(x)) == 'Chi(x)' and upretty(Shi(x)) == 'Shi(x)' and upretty(Si(x)) == 'Si(x)' and upretty(Ci(x)) == 'Ci(x)' and upretty(Chi(x)) == 'Chi(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expint : Any → {Any | pretty(expr) == string and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == string                         ║
+# ║   ensures:  upretty(expr) == string                        ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expint : Any → {Any | result satisfies: pretty(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8088223622fb2e7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6dfa556ef7804dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_expint","kind":"function","src_hash":"54272be462db129a","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == string and upretty(expr) == string and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(Shi(x)) == 'Shi(x)' and pretty(Si(x)) == 'Si(x)' and pretty(Ci(x)) == 'Ci(x)' and pretty(Chi(x)) == 'Chi(x)' and upretty(Shi(x)) == 'Shi(x)' and upretty(Si(x)) == 'Si(x)' and upretty(Ci(x)) == 'Ci(x)' and upretty(Chi(x)) == 'Chi(x)'"},"spec":{"lhs":"test_expint()","rhs":"test_expint produces the expected output","over":{"base":"Any"},"name":"test_expint_correct"},"guarantee":"test_expint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_expint_correct","statement":"Path(test_expint(x), test_expint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8088223622fb2e7d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_expint","kind":"function","src_hash":"54272be462db129a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == string and upretty(expr) == string and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(Shi(x)) == 'Shi(x)' and pretty(Si(x)) == 'Si(x)' and pretty(Ci(x)) == 'Ci(x)' and pretty(Chi(x)) == 'Chi(x)' and upretty(Shi(x)) == 'Shi(x)' and upretty(Si(x)) == 'Si(x)' and upretty(Ci(x)) == 'Ci(x)' and upretty(Chi(x)) == 'Chi(x)'"},"spec":{"lhs":"test_expint()","rhs":"pretty(expr) == string and upretty(expr) == string and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(Shi(x)) == 'Shi(x)' and pretty(Si(x)) == 'Si(x)' and pretty(Ci(x)) == 'Ci(x)' and pretty(Chi(x)) == 'Chi(x)' and upretty(Shi(x)) == 'Shi(x)' and upretty(Si(x)) == 'Si(x)' and upretty(Ci(x)) == 'Ci(x)' and upretty(Chi(x)) == 'Chi(x)'","over":{"base":"Any"},"name":"test_expint_correct"},"guarantee":"pretty(expr) == string; upretty(expr) == string; pretty(expr) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_expint_correct","statement":"Path(test_expint(x), pretty(expr) == string; upretty(expr) == string; pretty(expr) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6dfa556ef7804dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == string","upretty(expr) == string","pretty(expr) == ascii_str","upretty(expr) == ucode_str","pretty(Shi(x)) == 'Shi(x)'","pretty(Si(x)) == 'Si(x)'","pretty(Ci(x)) == 'Ci(x)'","pretty(Chi(x)) == 'Chi(x)'","upretty(Shi(x)) == 'Shi(x)'","upretty(Si(x)) == 'Si(x)'","upretty(Ci(x)) == 'Ci(x)'","upretty(Chi(x)) == 'Chi(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_expint():
     expr = Ei(x)
     string = 'Ei(x)'
@@ -7486,16 +8203,23 @@ def test_expint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_elliptic_functions(), test_elliptic_functions produces the expected output) over Any ║
+# ║ Path(test_elliptic_functions(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_elliptic_functions : Any → {Any | pretty(expr) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_elliptic_functions : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ede620b24b5a328  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a12d9799c641a09e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_elliptic_functions","kind":"function","src_hash":"e4a7d29d3aafe1a6","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_elliptic_functions()","rhs":"test_elliptic_functions produces the expected output","over":{"base":"Any"},"name":"test_elliptic_functions_correct"},"guarantee":"test_elliptic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_elliptic_functions_correct","statement":"Path(test_elliptic_functions(x), test_elliptic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ede620b24b5a328"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_elliptic_functions","kind":"function","src_hash":"e4a7d29d3aafe1a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_elliptic_functions()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_elliptic_functions_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_elliptic_functions_correct","statement":"Path(test_elliptic_functions(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a12d9799c641a09e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_elliptic_functions():
     ascii_str = \
 """\
@@ -7595,16 +8319,24 @@ Pi|3; -|6|\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RandomDomain(), test_RandomDomain produces the expected output) over Any ║
+# ║ Path(test_RandomDomain(), upretty(where(X > 0)) == 'Domain: 0 < x₁ ∧ x₁ < ∞' and upretty(where(D > 4)) == 'Domain: d₁ = 5 ∨ d₁ = 6' and upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 ≤ a ∧ 0 ≤ b ∧ a < ∞ ∧ b < ∞') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RandomDomain : Any → {Any | upretty(where(X > 0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(where(X > 0)) == 'Domain: 0 < x₁ ...   ║
+# ║   ensures:  upretty(where(D > 4)) == 'Domain: d₁ = 5 ...   ║
+# ║   ensures:  upretty(pspace(Tuple(A, B)).domain) == 'D...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RandomDomain : Any → {Any | result satisfies: up...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e705f7e3d1e7138f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3801390081c9ee0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_RandomDomain","kind":"function","src_hash":"050e5c7ec75010b4","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(where(X > 0)) == 'Domain: 0 < x\u2081 \u2227 x\u2081 < \u221e' and upretty(where(D > 4)) == 'Domain: d\u2081 = 5 \u2228 d\u2081 = 6' and upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 \u2264 a \u2227 0 \u2264 b \u2227 a < \u221e \u2227 b < \u221e'"},"spec":{"lhs":"test_RandomDomain()","rhs":"test_RandomDomain produces the expected output","over":{"base":"Any"},"name":"test_RandomDomain_correct"},"guarantee":"test_RandomDomain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_RandomDomain_correct","statement":"Path(test_RandomDomain(x), test_RandomDomain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e705f7e3d1e7138f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_RandomDomain","kind":"function","src_hash":"050e5c7ec75010b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(where(X > 0)) == 'Domain: 0 < x\u2081 \u2227 x\u2081 < \u221e' and upretty(where(D > 4)) == 'Domain: d\u2081 = 5 \u2228 d\u2081 = 6' and upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 \u2264 a \u2227 0 \u2264 b \u2227 a < \u221e \u2227 b < \u221e'"},"spec":{"lhs":"test_RandomDomain()","rhs":"upretty(where(X > 0)) == 'Domain: 0 < x\u2081 \u2227 x\u2081 < \u221e' and upretty(where(D > 4)) == 'Domain: d\u2081 = 5 \u2228 d\u2081 = 6' and upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 \u2264 a \u2227 0 \u2264 b \u2227 a < \u221e \u2227 b < \u221e'","over":{"base":"Any"},"name":"test_RandomDomain_correct"},"guarantee":"upretty(where(X > 0)) == 'Domain: 0 < x\u2081 \u2227 x\u2081 < \u221e'; upretty(where(D > 4)) == 'Domain: d\u2081 = 5 \u2228 d\u2081 = 6'; upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 \u2264 a \u2227 0 \u2264 b \u2227 a < \u221e \u2227 b < \u221e'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_RandomDomain_correct","statement":"Path(test_RandomDomain(x), upretty(where(X > 0)) == 'Domain: 0 < x\u2081 \u2227 x\u2081 < \u221e'; upretty(where(D > 4)) == 'Domain: d\u2081 = 5 \u2228 d\u2081 = 6'; upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 \u2264 a \u2227 0 \u2264 b \u2227 a < \u221e \u2227 b < \u221e')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3801390081c9ee0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(where(X > 0)) == 'Domain: 0 < x\u2081 \u2227 x\u2081 < \u221e'","upretty(where(D > 4)) == 'Domain: d\u2081 = 5 \u2228 d\u2081 = 6'","upretty(pspace(Tuple(A, B)).domain) == 'Domain: 0 \u2264 a \u2227 0 \u2264 b \u2227 a < \u221e \u2227 b < \u221e'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RandomDomain():
     from sympy.stats import Normal, Die, Exponential, pspace, where
     X = Normal('x1', 0, 1)
@@ -7620,16 +8352,24 @@ def test_RandomDomain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PrettyPoly(), test_PrettyPoly produces the expected output) over Any ║
+# ║ Path(test_PrettyPoly(), pretty(expr) == 'x/(x + y)' and upretty(expr) == 'x/(x + y)' and pretty(expr) == 'x + y' and upretty(expr) == 'x + y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PrettyPoly : Any → {Any | pretty(expr) == 'x/(x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == 'x/(x + y)'                    ║
+# ║   ensures:  upretty(expr) == 'x/(x + y)'                   ║
+# ║   ensures:  pretty(expr) == 'x + y'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PrettyPoly : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cba4c170a1716322  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2919a98851e7b935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_PrettyPoly","kind":"function","src_hash":"bf62320d065e0c77","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == 'x/(x + y)' and upretty(expr) == 'x/(x + y)' and pretty(expr) == 'x + y' and upretty(expr) == 'x + y'"},"spec":{"lhs":"test_PrettyPoly()","rhs":"test_PrettyPoly produces the expected output","over":{"base":"Any"},"name":"test_PrettyPoly_correct"},"guarantee":"test_PrettyPoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_PrettyPoly_correct","statement":"Path(test_PrettyPoly(x), test_PrettyPoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba4c170a1716322"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_PrettyPoly","kind":"function","src_hash":"bf62320d065e0c77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == 'x/(x + y)' and upretty(expr) == 'x/(x + y)' and pretty(expr) == 'x + y' and upretty(expr) == 'x + y'"},"spec":{"lhs":"test_PrettyPoly()","rhs":"pretty(expr) == 'x/(x + y)' and upretty(expr) == 'x/(x + y)' and pretty(expr) == 'x + y' and upretty(expr) == 'x + y'","over":{"base":"Any"},"name":"test_PrettyPoly_correct"},"guarantee":"pretty(expr) == 'x/(x + y)'; upretty(expr) == 'x/(x + y)'; pretty(expr) == 'x + y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_PrettyPoly_correct","statement":"Path(test_PrettyPoly(x), pretty(expr) == 'x/(x + y)'; upretty(expr) == 'x/(x + y)'; pretty(expr) == 'x + y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2919a98851e7b935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == 'x/(x + y)'","upretty(expr) == 'x/(x + y)'","pretty(expr) == 'x + y'","upretty(expr) == 'x + y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PrettyPoly():
     F = QQ.frac_field(x, y)
     R = QQ.poly_ring(x, y)
@@ -7644,16 +8384,23 @@ def test_PrettyPoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6285(), test_issue_6285 produces the expected output) over Any ║
+# ║ Path(test_issue_6285(), pretty(Pow(2, -5, evaluate=False)) == '1 \n--\n 5\n2 ' and pretty(Pow(x, 1 / pi)) == ' 1 \n --\n pi\nx  ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6285 : Any → {Any | pretty(Pow(2, -5, eval...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Pow(2, -5, evaluate=False)) == '1 ...   ║
+# ║   ensures:  pretty(Pow(x, 1 / pi)) == ' 1 \n --\n pi\...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6285 : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d18c6f94044c80b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd9946c9b59fe47a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6285","kind":"function","src_hash":"d67ec0ed1fedd775","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Pow(2, -5, evaluate=False)) == '1 \\n--\\n 5\\n2 ' and pretty(Pow(x, 1 / pi)) == ' 1 \\n --\\n pi\\nx  '"},"spec":{"lhs":"test_issue_6285()","rhs":"test_issue_6285 produces the expected output","over":{"base":"Any"},"name":"test_issue_6285_correct"},"guarantee":"test_issue_6285 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6285_correct","statement":"Path(test_issue_6285(x), test_issue_6285 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d18c6f94044c80b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6285","kind":"function","src_hash":"d67ec0ed1fedd775","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Pow(2, -5, evaluate=False)) == '1 \\n--\\n 5\\n2 ' and pretty(Pow(x, 1 / pi)) == ' 1 \\n --\\n pi\\nx  '"},"spec":{"lhs":"test_issue_6285()","rhs":"pretty(Pow(2, -5, evaluate=False)) == '1 \\n--\\n 5\\n2 ' and pretty(Pow(x, 1 / pi)) == ' 1 \\n --\\n pi\\nx  '","over":{"base":"Any"},"name":"test_issue_6285_correct"},"guarantee":"pretty(Pow(2, -5, evaluate=False)) == '1 \\n--\\n 5\\n2 '; pretty(Pow(x, 1 / pi)) == ' 1 \\n --\\n pi\\nx  '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6285_correct","statement":"Path(test_issue_6285(x), pretty(Pow(2, -5, evaluate=False)) == '1 \\n--\\n 5\\n2 '; pretty(Pow(x, 1 / pi)) == ' 1 \\n --\\n pi\\nx  ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd9946c9b59fe47a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Pow(2, -5, evaluate=False)) == '1 \\n--\\n 5\\n2 '","pretty(Pow(x, 1 / pi)) == ' 1 \\n --\\n pi\\nx  '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6285():
     assert pretty(Pow(2, -5, evaluate=False)) == '1 \n--\n 5\n2 '
     assert pretty(Pow(x, (1/pi))) == \
@@ -7664,16 +8411,24 @@ def test_issue_6285():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6359(), test_issue_6359 produces the expected output) over Any ║
+# ║ Path(test_issue_6359(), pretty(Integral(x ** 2, x) ** 2) == '          2\n/  /     \\ \n| |      | \n| |  2   | \n| | x  dx| \n| |      | \n\\/       / ' and upretty(Integral(x ** 2, x) ** 2) == '         2\n⎛⌠      ⎞ \n⎜⎮  2   ⎟ \n⎜⎮ x  dx⎟ \n⎝⌡      ⎠ ' and pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\n/ 1      \\ \n|___     | \n|\\  `    | \n| \\     2| \n| /    x | \n|/__,    | \n\\x = 0   / ' and upretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\n⎛  1     ⎞ \n⎜ ___    ⎟ \n⎜ ╲      ⎟ \n⎜  ╲    2⎟ \n⎜  ╱   x ⎟ \n⎜ ╱      ⎟ \n⎜ ‾‾‾    ⎟ \n⎝x = 0   ⎠ ' and pretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\n/  2      \\ \n|______   | \n| |  |   2| \n| |  |  x | \n| |  |    | \n\\x = 1    / ' and upretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\n⎛  2      ⎞ \n⎜─┬──┬─   ⎟ \n⎜ │  │   2⎟ \n⎜ │  │  x ⎟ \n⎜ │  │    ⎟ \n⎝x = 1    ⎠ ' and pretty(Derivative(f(x), x) ** 2) == '          2\n/d       \\ \n|--(f(x))| \n\\dx      / ' and upretty(Derivative(f(x), x) ** 2) == '          2\n⎛d       ⎞ \n⎜──(f(x))⎟ \n⎝dx      ⎠ ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6359 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Integral(x ** 2, x) ** 2) == '    ...   ║
+# ║   ensures:  upretty(Integral(x ** 2, x) ** 2) == '   ...   ║
+# ║   ensures:  pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == ' ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6359 : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e0905369ebe2d39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 533201ee9186147b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6359","kind":"function","src_hash":"5b5e1cd76dd5f853","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_6359()","rhs":"test_issue_6359 produces the expected output","over":{"base":"Any"},"name":"test_issue_6359_correct"},"guarantee":"test_issue_6359 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6359_correct","statement":"Path(test_issue_6359(x), test_issue_6359 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e0905369ebe2d39"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6359","kind":"function","src_hash":"5b5e1cd76dd5f853","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Integral(x ** 2, x) ** 2) == '          2\\n/  /     \\\\ \\n| |      | \\n| |  2   | \\n| | x  dx| \\n| |      | \\n\\\\/       / ' and upretty(Integral(x ** 2, x) ** 2) == '         2\\n\u239b\u2320      \u239e \\n\u239c\u23ae  2   \u239f \\n\u239c\u23ae x  dx\u239f \\n\u239d\u2321      \u23a0 ' and pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n/ 1      \\\\ \\n|___     | \\n|\\\\  `    | \\n| \\\\     2| \\n| /    x | \\n|/__,    | \\n\\\\x = 0   / ' and upretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n\u239b  1     \u239e \\n\u239c ___    \u239f \\n\u239c \u2572      \u239f \\n\u239c  \u2572    2\u239f \\n\u239c  \u2571   x \u239f \\n\u239c \u2571      \u239f \\n\u239c \u203e\u203e\u203e    \u239f \\n\u239dx = 0   \u23a0 ' and pretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\\n/  2      \\\\ \\n|______   | \\n| |  |   2| \\n| |  |  x | \\n| |  |    | \\n\\\\x = 1    / ' and upretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\\n\u239b  2      \u239e \\n\u239c\u2500\u252c\u2500\u2500\u252c\u2500   \u239f \\n\u239c \u2502  \u2502   2\u239f \\n\u239c \u2502  \u2502  x \u239f \\n\u239c \u2502  \u2502    \u239f \\n\u239dx = 1    \u23a0 ' and pretty(Derivative(f(x), x) ** 2) == '          2\\n/d       \\\\ \\n|--(f(x))| \\n\\\\dx      / ' and upretty(Derivative(f(x), x) ** 2) == '          2\\n\u239bd       \u239e \\n\u239c\u2500\u2500(f(x))\u239f \\n\u239ddx      \u23a0 '"},"spec":{"lhs":"test_issue_6359()","rhs":"pretty(Integral(x ** 2, x) ** 2) == '          2\\n/  /     \\\\ \\n| |      | \\n| |  2   | \\n| | x  dx| \\n| |      | \\n\\\\/       / ' and upretty(Integral(x ** 2, x) ** 2) == '         2\\n\u239b\u2320      \u239e \\n\u239c\u23ae  2   \u239f \\n\u239c\u23ae x  dx\u239f \\n\u239d\u2321      \u23a0 ' and pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n/ 1      \\\\ \\n|___     | \\n|\\\\  `    | \\n| \\\\     2| \\n| /    x | \\n|/__,    | \\n\\\\x = 0   / ' and upretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n\u239b  1     \u239e \\n\u239c ___    \u239f \\n\u239c \u2572      \u239f \\n\u239c  \u2572    2\u239f \\n\u239c  \u2571   x \u239f \\n\u239c \u2571      \u239f \\n\u239c \u203e\u203e\u203e    \u239f \\n\u239dx = 0   \u23a0 ' and pretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\\n/  2      \\\\ \\n|______   | \\n| |  |   2| \\n| |  |  x | \\n| |  |    | \\n\\\\x = 1    / ' and upretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\\n\u239b  2      \u239e \\n\u239c\u2500\u252c\u2500\u2500\u252c\u2500   \u239f \\n\u239c \u2502  \u2502   2\u239f \\n\u239c \u2502  \u2502  x \u239f \\n\u239c \u2502  \u2502    \u239f \\n\u239dx = 1    \u23a0 ' and pretty(Derivative(f(x), x) ** 2) == '          2\\n/d       \\\\ \\n|--(f(x))| \\n\\\\dx      / ' and upretty(Derivative(f(x), x) ** 2) == '          2\\n\u239bd       \u239e \\n\u239c\u2500\u2500(f(x))\u239f \\n\u239ddx      \u23a0 '","over":{"base":"Any"},"name":"test_issue_6359_correct"},"guarantee":"pretty(Integral(x ** 2, x) ** 2) == '          2\\n/  /     \\\\ \\n| |      | \\n| |  2   | \\n| | x  dx| \\n| |      | \\n\\\\/       / '; upretty(Integral(x ** 2, x) ** 2) == '         2\\n\u239b\u2320      \u239e \\n\u239c\u23ae  2   \u239f \\n\u239c\u23ae x  dx\u239f \\n\u239d\u2321      \u23a0 '; pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n/ 1      \\\\ \\n|___     | \\n|\\\\  `    | \\n| \\\\     2| \\n| /    x | \\n|/__,    | \\n\\\\x = 0   / '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6359_correct","statement":"Path(test_issue_6359(x), pretty(Integral(x ** 2, x) ** 2) == '          2\\n/  /     \\\\ \\n| |      | \\n| |  2   | \\n| | x  dx| \\n| |      | \\n\\\\/       / '; upretty(Integral(x ** 2, x) ** 2) == '         2\\n\u239b\u2320      \u239e \\n\u239c\u23ae  2   \u239f \\n\u239c\u23ae x  dx\u239f \\n\u239d\u2321      \u23a0 '; pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n/ 1      \\\\ \\n|___     | \\n|\\\\  `    | \\n| \\\\     2| \\n| /    x | \\n|/__,    | \\n\\\\x = 0   / ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"533201ee9186147b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Integral(x ** 2, x) ** 2) == '          2\\n/  /     \\\\ \\n| |      | \\n| |  2   | \\n| | x  dx| \\n| |      | \\n\\\\/       / '","upretty(Integral(x ** 2, x) ** 2) == '         2\\n\u239b\u2320      \u239e \\n\u239c\u23ae  2   \u239f \\n\u239c\u23ae x  dx\u239f \\n\u239d\u2321      \u23a0 '","pretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n/ 1      \\\\ \\n|___     | \\n|\\\\  `    | \\n| \\\\     2| \\n| /    x | \\n|/__,    | \\n\\\\x = 0   / '","upretty(Sum(x ** 2, (x, 0, 1)) ** 2) == '          2\\n\u239b  1     \u239e \\n\u239c ___    \u239f \\n\u239c \u2572      \u239f \\n\u239c  \u2572    2\u239f \\n\u239c  \u2571   x \u239f \\n\u239c \u2571      \u239f \\n\u239c \u203e\u203e\u203e    \u239f \\n\u239dx = 0   \u23a0 '","pretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\\n/  2      \\\\ \\n|______   | \\n| |  |   2| \\n| |  |  x | \\n| |  |    | \\n\\\\x = 1    / '","upretty(Product(x ** 2, (x, 1, 2)) ** 2) == '           2\\n\u239b  2      \u239e \\n\u239c\u2500\u252c\u2500\u2500\u252c\u2500   \u239f \\n\u239c \u2502  \u2502   2\u239f \\n\u239c \u2502  \u2502  x \u239f \\n\u239c \u2502  \u2502    \u239f \\n\u239dx = 1    \u23a0 '","pretty(Derivative(f(x), x) ** 2) == '          2\\n/d       \\\\ \\n|--(f(x))| \\n\\\\dx      / '","upretty(Derivative(f(x), x) ** 2) == '          2\\n\u239bd       \u239e \\n\u239c\u2500\u2500(f(x))\u239f \\n\u239ddx      \u23a0 '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6359():
     assert pretty(Integral(x**2, x)**2) == \
 """\
@@ -7757,16 +8512,23 @@ def test_issue_6359():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6739(), test_issue_6739 produces the expected output) over Any ║
+# ║ Path(test_issue_6739(), pretty(1 / sqrt(x)) == ascii_str and upretty(1 / sqrt(x)) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6739 : Any → {Any | pretty(1 / sqrt(x)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(1 / sqrt(x)) == ascii_str               ║
+# ║   ensures:  upretty(1 / sqrt(x)) == ucode_str              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6739 : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0feb4583af4c88e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85217367fb350c39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6739","kind":"function","src_hash":"8afc148102e8cc73","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(1 / sqrt(x)) == ascii_str and upretty(1 / sqrt(x)) == ucode_str"},"spec":{"lhs":"test_issue_6739()","rhs":"test_issue_6739 produces the expected output","over":{"base":"Any"},"name":"test_issue_6739_correct"},"guarantee":"test_issue_6739 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6739_correct","statement":"Path(test_issue_6739(x), test_issue_6739 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0feb4583af4c88e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6739","kind":"function","src_hash":"8afc148102e8cc73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(1 / sqrt(x)) == ascii_str and upretty(1 / sqrt(x)) == ucode_str"},"spec":{"lhs":"test_issue_6739()","rhs":"pretty(1 / sqrt(x)) == ascii_str and upretty(1 / sqrt(x)) == ucode_str","over":{"base":"Any"},"name":"test_issue_6739_correct"},"guarantee":"pretty(1 / sqrt(x)) == ascii_str; upretty(1 / sqrt(x)) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6739_correct","statement":"Path(test_issue_6739(x), pretty(1 / sqrt(x)) == ascii_str; upretty(1 / sqrt(x)) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85217367fb350c39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(1 / sqrt(x)) == ascii_str","upretty(1 / sqrt(x)) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6739():
     ascii_str = \
 """\
@@ -7786,32 +8548,46 @@ def test_issue_6739():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complicated_symbol_unchanged(), test_complicated_symbol_unchanged produces the expected output) over Any ║
+# ║ Path(test_complicated_symbol_unchanged(), <unspecified:test_complicated_symbol_unchanged>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_complicated_symbol_unchanged : Any → {Any | pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d8184f3786718b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_complicated_symbol_unchanged","kind":"function","src_hash":"44a041271a3637e3","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Symbol(symb_name)) == symb_name"},"spec":{"lhs":"test_complicated_symbol_unchanged()","rhs":"test_complicated_symbol_unchanged produces the expected output","over":{"base":"Any"},"name":"test_complicated_symbol_unchanged_correct"},"guarantee":"test_complicated_symbol_unchanged produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_complicated_symbol_unchanged_correct","statement":"Path(test_complicated_symbol_unchanged(x), test_complicated_symbol_unchanged produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d8184f3786718b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_complicated_symbol_unchanged","kind":"function","src_hash":"44a041271a3637e3","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Symbol(symb_name)) == symb_name"},"spec":{"lhs":"test_complicated_symbol_unchanged()","rhs":"<unspecified:test_complicated_symbol_unchanged>","over":{"base":"Any"},"name":"test_complicated_symbol_unchanged_correct"},"guarantee":"test_complicated_symbol_unchanged produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_complicated_symbol_unchanged_correct","statement":"Path(test_complicated_symbol_unchanged(x), test_complicated_symbol_unchanged produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d8184f3786718b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_complicated_symbol_unchanged():
     for symb_name in ["dexpr2_d1tau", "dexpr2^d1tau"]:
         assert pretty(Symbol(symb_name)) == symb_name
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_categories(), test_categories produces the expected output) over Any ║
+# ║ Path(test_categories(), pretty(A1) == 'A1' and upretty(A1) == 'A₁' and pretty(f1) == 'f1:A1-->A2' and upretty(f1) == 'f₁:A₁——▶A₂' and pretty(id_A1) == 'id:A1-->A1' and upretty(id_A1) == 'id:A₁——▶A₁' and pretty(f2 * f1) == 'f2*f1:A1-->A3' and upretty(f2 * f1) == 'f₂∘f₁:A₁——▶A₃' and pretty(K1) == 'K1' and upretty(K1) == 'K₁' and pretty(d) == 'EmptySet' and upretty(d) == '∅' and pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet}' and upretty(d) == '{f₂∘f₁:A₁——▶A₃: ∅, id:A₁——▶A₁: ∅, id:A₂——▶A₂: ∅, id:A₃——▶A₃: ∅, f₁:A₁——▶A₂: {unique}, f₂:A₂——▶A₃: ∅}' and pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet} ==> {f2*f1:A1-->A3: {unique}}' and upretty(d) == '{f₂∘f₁:A₁——▶A₃: ∅, id:A₁——▶A₁: ∅, id:A₂——▶A₂: ∅, id:A₃——▶A₃: ∅, f₁:A₁——▶A₂: {unique}, f₂:A₂——▶A₃: ∅} ══▶ {f₂∘f₁:A₁——▶A₃: {unique}}' and pretty(grid) == 'A1  A2\n      \nA3    ' and upretty(grid) == 'A₁  A₂\n      \nA₃    ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_categories : Any → {Any | pretty(A1) == 'A1' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(A1) == 'A1'                             ║
+# ║   ensures:  upretty(A1) == 'A₁'                            ║
+# ║   ensures:  pretty(f1) == 'f1:A1-->A2'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_categories : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f397ca5a2e9017a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdff823f34709304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_categories","kind":"function","src_hash":"26a8ddd2291be66d","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(A1) == 'A1' and upretty(A1) == 'A\u2081' and pretty(f1) == 'f1:A1-->A2' and upretty(f1) == 'f\u2081:A\u2081\u2014\u2014\u25b6A\u2082' and pretty(id_A1) == 'id:A1-->A1' and upretty(id_A1) == 'id:A\u2081\u2014\u2014\u25b6A\u2081' and pretty(f2 * f1) == 'f2*f1:A1-->A3' and upretty(f2 * f1) == 'f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083' and pretty(K1) == 'K1' and upretty(K1) == 'K\u2081' and pretty(d) == 'EmptySet' and upretty(d) == '\u2205' and pretty(grid) == 'A1  A2\\n      \\nA3    ' and upretty(grid) == 'A\u2081  A\u2082\\n      \\nA\u2083    '"},"spec":{"lhs":"test_categories()","rhs":"test_categories produces the expected output","over":{"base":"Any"},"name":"test_categories_correct"},"guarantee":"test_categories produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_categories_correct","statement":"Path(test_categories(x), test_categories produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f397ca5a2e9017a2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_categories","kind":"function","src_hash":"26a8ddd2291be66d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(A1) == 'A1' and upretty(A1) == 'A\u2081' and pretty(f1) == 'f1:A1-->A2' and upretty(f1) == 'f\u2081:A\u2081\u2014\u2014\u25b6A\u2082' and pretty(id_A1) == 'id:A1-->A1' and upretty(id_A1) == 'id:A\u2081\u2014\u2014\u25b6A\u2081' and pretty(f2 * f1) == 'f2*f1:A1-->A3' and upretty(f2 * f1) == 'f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083' and pretty(K1) == 'K1' and upretty(K1) == 'K\u2081' and pretty(d) == 'EmptySet' and upretty(d) == '\u2205' and pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet}' and upretty(d) == '{f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: \u2205, id:A\u2081\u2014\u2014\u25b6A\u2081: \u2205, id:A\u2082\u2014\u2014\u25b6A\u2082: \u2205, id:A\u2083\u2014\u2014\u25b6A\u2083: \u2205, f\u2081:A\u2081\u2014\u2014\u25b6A\u2082: {unique}, f\u2082:A\u2082\u2014\u2014\u25b6A\u2083: \u2205}' and pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet} ==> {f2*f1:A1-->A3: {unique}}' and upretty(d) == '{f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: \u2205, id:A\u2081\u2014\u2014\u25b6A\u2081: \u2205, id:A\u2082\u2014\u2014\u25b6A\u2082: \u2205, id:A\u2083\u2014\u2014\u25b6A\u2083: \u2205, f\u2081:A\u2081\u2014\u2014\u25b6A\u2082: {unique}, f\u2082:A\u2082\u2014\u2014\u25b6A\u2083: \u2205} \u2550\u2550\u25b6 {f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: {unique}}' and pretty(grid) == 'A1  A2\\n      \\nA3    ' and upretty(grid) == 'A\u2081  A\u2082\\n      \\nA\u2083    '"},"spec":{"lhs":"test_categories()","rhs":"pretty(A1) == 'A1' and upretty(A1) == 'A\u2081' and pretty(f1) == 'f1:A1-->A2' and upretty(f1) == 'f\u2081:A\u2081\u2014\u2014\u25b6A\u2082' and pretty(id_A1) == 'id:A1-->A1' and upretty(id_A1) == 'id:A\u2081\u2014\u2014\u25b6A\u2081' and pretty(f2 * f1) == 'f2*f1:A1-->A3' and upretty(f2 * f1) == 'f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083' and pretty(K1) == 'K1' and upretty(K1) == 'K\u2081' and pretty(d) == 'EmptySet' and upretty(d) == '\u2205' and pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet}' and upretty(d) == '{f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: \u2205, id:A\u2081\u2014\u2014\u25b6A\u2081: \u2205, id:A\u2082\u2014\u2014\u25b6A\u2082: \u2205, id:A\u2083\u2014\u2014\u25b6A\u2083: \u2205, f\u2081:A\u2081\u2014\u2014\u25b6A\u2082: {unique}, f\u2082:A\u2082\u2014\u2014\u25b6A\u2083: \u2205}' and pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet} ==> {f2*f1:A1-->A3: {unique}}' and upretty(d) == '{f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: \u2205, id:A\u2081\u2014\u2014\u25b6A\u2081: \u2205, id:A\u2082\u2014\u2014\u25b6A\u2082: \u2205, id:A\u2083\u2014\u2014\u25b6A\u2083: \u2205, f\u2081:A\u2081\u2014\u2014\u25b6A\u2082: {unique}, f\u2082:A\u2082\u2014\u2014\u25b6A\u2083: \u2205} \u2550\u2550\u25b6 {f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: {unique}}' and pretty(grid) == 'A1  A2\\n      \\nA3    ' and upretty(grid) == 'A\u2081  A\u2082\\n      \\nA\u2083    '","over":{"base":"Any"},"name":"test_categories_correct"},"guarantee":"pretty(A1) == 'A1'; upretty(A1) == 'A\u2081'; pretty(f1) == 'f1:A1-->A2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_categories_correct","statement":"Path(test_categories(x), pretty(A1) == 'A1'; upretty(A1) == 'A\u2081'; pretty(f1) == 'f1:A1-->A2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdff823f34709304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(A1) == 'A1'","upretty(A1) == 'A\u2081'","pretty(f1) == 'f1:A1-->A2'","upretty(f1) == 'f\u2081:A\u2081\u2014\u2014\u25b6A\u2082'","pretty(id_A1) == 'id:A1-->A1'","upretty(id_A1) == 'id:A\u2081\u2014\u2014\u25b6A\u2081'","pretty(f2 * f1) == 'f2*f1:A1-->A3'","upretty(f2 * f1) == 'f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083'","pretty(K1) == 'K1'","upretty(K1) == 'K\u2081'","pretty(d) == 'EmptySet'","upretty(d) == '\u2205'","pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet}'","upretty(d) == '{f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: \u2205, id:A\u2081\u2014\u2014\u25b6A\u2081: \u2205, id:A\u2082\u2014\u2014\u25b6A\u2082: \u2205, id:A\u2083\u2014\u2014\u25b6A\u2083: \u2205, f\u2081:A\u2081\u2014\u2014\u25b6A\u2082: {unique}, f\u2082:A\u2082\u2014\u2014\u25b6A\u2083: \u2205}'","pretty(d) == '{f2*f1:A1-->A3: EmptySet, id:A1-->A1: EmptySet, id:A2-->A2: EmptySet, id:A3-->A3: EmptySet, f1:A1-->A2: {unique}, f2:A2-->A3: EmptySet} ==> {f2*f1:A1-->A3: {unique}}'","upretty(d) == '{f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: \u2205, id:A\u2081\u2014\u2014\u25b6A\u2081: \u2205, id:A\u2082\u2014\u2014\u25b6A\u2082: \u2205, id:A\u2083\u2014\u2014\u25b6A\u2083: \u2205, f\u2081:A\u2081\u2014\u2014\u25b6A\u2082: {unique}, f\u2082:A\u2082\u2014\u2014\u25b6A\u2083: \u2205} \u2550\u2550\u25b6 {f\u2082\u2218f\u2081:A\u2081\u2014\u2014\u25b6A\u2083: {unique}}'","pretty(grid) == 'A1  A2\\n      \\nA3    '","upretty(grid) == 'A\u2081  A\u2082\\n      \\nA\u2083    '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_categories():
     from sympy.categories import (Object, IdentityMorphism,
         NamedMorphism, Category, Diagram, DiagramGrid)
@@ -7868,16 +8644,24 @@ def test_categories():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PrettyModules(), test_PrettyModules produces the expected output) over Any ║
+# ║ Path(test_PrettyModules(), upretty(F) == ucode_str and pretty(F) == ascii_str and upretty(M) == ucode_str and pretty(M) == ascii_str and upretty(I) == ucode_str and pretty(I) == ascii_str and upretty(Q) == ucode_str and pretty(Q) == ascii_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PrettyModules : Any → {Any | upretty(F) == ucode...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(F) == ucode_str                        ║
+# ║   ensures:  pretty(F) == ascii_str                         ║
+# ║   ensures:  upretty(M) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PrettyModules : Any → {Any | result satisfies: u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99a17fb54d912bfc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55a8831f48243fc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_PrettyModules","kind":"function","src_hash":"b4cd518f22865a01","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(F) == ucode_str and pretty(F) == ascii_str and upretty(M) == ucode_str and pretty(M) == ascii_str and upretty(I) == ucode_str and pretty(I) == ascii_str and upretty(Q) == ucode_str and pretty(Q) == ascii_str"},"spec":{"lhs":"test_PrettyModules()","rhs":"test_PrettyModules produces the expected output","over":{"base":"Any"},"name":"test_PrettyModules_correct"},"guarantee":"test_PrettyModules produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_PrettyModules_correct","statement":"Path(test_PrettyModules(x), test_PrettyModules produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a17fb54d912bfc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_PrettyModules","kind":"function","src_hash":"b4cd518f22865a01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(F) == ucode_str and pretty(F) == ascii_str and upretty(M) == ucode_str and pretty(M) == ascii_str and upretty(I) == ucode_str and pretty(I) == ascii_str and upretty(Q) == ucode_str and pretty(Q) == ascii_str"},"spec":{"lhs":"test_PrettyModules()","rhs":"upretty(F) == ucode_str and pretty(F) == ascii_str and upretty(M) == ucode_str and pretty(M) == ascii_str and upretty(I) == ucode_str and pretty(I) == ascii_str and upretty(Q) == ucode_str and pretty(Q) == ascii_str","over":{"base":"Any"},"name":"test_PrettyModules_correct"},"guarantee":"upretty(F) == ucode_str; pretty(F) == ascii_str; upretty(M) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_PrettyModules_correct","statement":"Path(test_PrettyModules(x), upretty(F) == ucode_str; pretty(F) == ascii_str; upretty(M) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55a8831f48243fc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(F) == ucode_str","pretty(F) == ascii_str","upretty(M) == ucode_str","pretty(M) == ascii_str","upretty(I) == ucode_str","pretty(I) == ascii_str","upretty(Q) == ucode_str","pretty(Q) == ascii_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PrettyModules():
     R = QQ.old_poly_ring(x, y)
     F = R.free_module(2)
@@ -7969,16 +8753,24 @@ QQ[x, y] \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QuotientRing(), test_QuotientRing produces the expected output) over Any ║
+# ║ Path(test_QuotientRing(), upretty(R) == ucode_str and pretty(R) == ascii_str and upretty(R.one) == ucode_str and pretty(R.one) == ascii_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QuotientRing : Any → {Any | upretty(R) == ucode_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(R) == ucode_str                        ║
+# ║   ensures:  pretty(R) == ascii_str                         ║
+# ║   ensures:  upretty(R.one) == ucode_str                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QuotientRing : Any → {Any | result satisfies: up...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2330c8c5305efc39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab29140633fba14c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_QuotientRing","kind":"function","src_hash":"4f4ac68a8b687126","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(R) == ucode_str and pretty(R) == ascii_str and upretty(R.one) == ucode_str and pretty(R.one) == ascii_str"},"spec":{"lhs":"test_QuotientRing()","rhs":"test_QuotientRing produces the expected output","over":{"base":"Any"},"name":"test_QuotientRing_correct"},"guarantee":"test_QuotientRing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_QuotientRing_correct","statement":"Path(test_QuotientRing(x), test_QuotientRing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2330c8c5305efc39"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_QuotientRing","kind":"function","src_hash":"4f4ac68a8b687126","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(R) == ucode_str and pretty(R) == ascii_str and upretty(R.one) == ucode_str and pretty(R.one) == ascii_str"},"spec":{"lhs":"test_QuotientRing()","rhs":"upretty(R) == ucode_str and pretty(R) == ascii_str and upretty(R.one) == ucode_str and pretty(R.one) == ascii_str","over":{"base":"Any"},"name":"test_QuotientRing_correct"},"guarantee":"upretty(R) == ucode_str; pretty(R) == ascii_str; upretty(R.one) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_QuotientRing_correct","statement":"Path(test_QuotientRing(x), upretty(R) == ucode_str; pretty(R) == ascii_str; upretty(R.one) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab29140633fba14c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(R) == ucode_str","pretty(R) == ascii_str","upretty(R.one) == ucode_str","pretty(R.one) == ascii_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_QuotientRing():
     R = QQ.old_poly_ring(x)/[x**2 + 1]
 
@@ -8018,16 +8810,23 @@ def test_QuotientRing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Homomorphism(), test_Homomorphism produces the expected output) over Any ║
+# ║ Path(test_Homomorphism(), upretty(expr) == ucode_str and pretty(expr) == ascii_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Homomorphism : Any → {Any | upretty(expr) == uco...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Homomorphism : Any → {Any | result satisfies: up...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 684893ba2a2717f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3179350964fe82a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Homomorphism","kind":"function","src_hash":"9577d3a486de0a40","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str"},"spec":{"lhs":"test_Homomorphism()","rhs":"test_Homomorphism produces the expected output","over":{"base":"Any"},"name":"test_Homomorphism_correct"},"guarantee":"test_Homomorphism produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Homomorphism_correct","statement":"Path(test_Homomorphism(x), test_Homomorphism produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"684893ba2a2717f7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Homomorphism","kind":"function","src_hash":"9577d3a486de0a40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(expr) == ucode_str and pretty(expr) == ascii_str"},"spec":{"lhs":"test_Homomorphism()","rhs":"upretty(expr) == ucode_str and pretty(expr) == ascii_str","over":{"base":"Any"},"name":"test_Homomorphism_correct"},"guarantee":"upretty(expr) == ucode_str; pretty(expr) == ascii_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Homomorphism_correct","statement":"Path(test_Homomorphism(x), upretty(expr) == ucode_str; pretty(expr) == ascii_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3179350964fe82a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(expr) == ucode_str","pretty(expr) == ascii_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Homomorphism():
     from sympy.polys.agca import homomorphism
 
@@ -8092,16 +8891,23 @@ def test_Homomorphism():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tr(), test_Tr produces the expected output) over Any ║
+# ║ Path(test_Tr(), pretty(t) == 'Tr(A*B)' and upretty(t) == 'Tr(A⋅B)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tr : Any → {Any | pretty(t) == 'Tr(A*B)' and upr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(t) == 'Tr(A*B)'                         ║
+# ║   ensures:  upretty(t) == 'Tr(A⋅B)'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tr : Any → {Any | result satisfies: pretty(t) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d186bb98cc0975ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f229ced9e0d70f86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Tr","kind":"function","src_hash":"40e65d47be23c606","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(t) == 'Tr(A*B)' and upretty(t) == 'Tr(A\u22c5B)'"},"spec":{"lhs":"test_Tr()","rhs":"test_Tr produces the expected output","over":{"base":"Any"},"name":"test_Tr_correct"},"guarantee":"test_Tr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Tr_correct","statement":"Path(test_Tr(x), test_Tr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d186bb98cc0975ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Tr","kind":"function","src_hash":"40e65d47be23c606","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(t) == 'Tr(A*B)' and upretty(t) == 'Tr(A\u22c5B)'"},"spec":{"lhs":"test_Tr()","rhs":"pretty(t) == 'Tr(A*B)' and upretty(t) == 'Tr(A\u22c5B)'","over":{"base":"Any"},"name":"test_Tr_correct"},"guarantee":"pretty(t) == 'Tr(A*B)'; upretty(t) == 'Tr(A\u22c5B)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Tr_correct","statement":"Path(test_Tr(x), pretty(t) == 'Tr(A*B)'; upretty(t) == 'Tr(A\u22c5B)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f229ced9e0d70f86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(t) == 'Tr(A*B)'","upretty(t) == 'Tr(A\u22c5B)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Tr():
     A, B = symbols('A B', commutative=False)
     t = Tr(A*B)
@@ -8110,63 +8916,90 @@ def test_Tr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Add(), test_pretty_Add produces the expected output) over Any ║
+# ║ Path(test_pretty_Add(), pretty(eq) == '5 - 2*(x - 2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Add : Any → {Any | pretty(eq) == '5 - 2*(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(eq) == '5 - 2*(x - 2)'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Add : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 266713077a2d0aeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0b93466cebe9661  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Add","kind":"function","src_hash":"b9634ca3b8ab47ad","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(eq) == '5 - 2*(x - 2)'"},"spec":{"lhs":"test_pretty_Add()","rhs":"test_pretty_Add produces the expected output","over":{"base":"Any"},"name":"test_pretty_Add_correct"},"guarantee":"test_pretty_Add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Add_correct","statement":"Path(test_pretty_Add(x), test_pretty_Add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"266713077a2d0aeb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Add","kind":"function","src_hash":"b9634ca3b8ab47ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(eq) == '5 - 2*(x - 2)'"},"spec":{"lhs":"test_pretty_Add()","rhs":"pretty(eq) == '5 - 2*(x - 2)'","over":{"base":"Any"},"name":"test_pretty_Add_correct"},"guarantee":"pretty(eq) == '5 - 2*(x - 2)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Add_correct","statement":"Path(test_pretty_Add(x), pretty(eq) == '5 - 2*(x - 2)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0b93466cebe9661","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(eq) == '5 - 2*(x - 2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_pretty_Add():
     eq = Mul(-2, x - 2, evaluate=False) + 5
     assert pretty(eq) == '5 - 2*(x - 2)'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7179(), test_issue_7179 produces the expected output) over Any ║
+# ║ Path(test_issue_7179(), upretty(Not(Equivalent(x, y))) == 'x ⇎ y' and upretty(Not(Implies(x, y))) == 'x ↛ y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7179 : Any → {Any | upretty(Not(Equivalent...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Not(Equivalent(x, y))) == 'x ⇎ y'      ║
+# ║   ensures:  upretty(Not(Implies(x, y))) == 'x ↛ y'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7179 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d6066c666a45356  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eadd171123f5c0b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_7179","kind":"function","src_hash":"19fd09fcc4f01d7b","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Not(Equivalent(x, y))) == 'x \u21ce y' and upretty(Not(Implies(x, y))) == 'x \u219b y'"},"spec":{"lhs":"test_issue_7179()","rhs":"test_issue_7179 produces the expected output","over":{"base":"Any"},"name":"test_issue_7179_correct"},"guarantee":"test_issue_7179 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_7179_correct","statement":"Path(test_issue_7179(x), test_issue_7179 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d6066c666a45356"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_7179","kind":"function","src_hash":"19fd09fcc4f01d7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Not(Equivalent(x, y))) == 'x \u21ce y' and upretty(Not(Implies(x, y))) == 'x \u219b y'"},"spec":{"lhs":"test_issue_7179()","rhs":"upretty(Not(Equivalent(x, y))) == 'x \u21ce y' and upretty(Not(Implies(x, y))) == 'x \u219b y'","over":{"base":"Any"},"name":"test_issue_7179_correct"},"guarantee":"upretty(Not(Equivalent(x, y))) == 'x \u21ce y'; upretty(Not(Implies(x, y))) == 'x \u219b y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_7179_correct","statement":"Path(test_issue_7179(x), upretty(Not(Equivalent(x, y))) == 'x \u21ce y'; upretty(Not(Implies(x, y))) == 'x \u219b y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eadd171123f5c0b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Not(Equivalent(x, y))) == 'x \u21ce y'","upretty(Not(Implies(x, y))) == 'x \u219b y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7179():
     assert upretty(Not(Equivalent(x, y))) == 'x ⇎ y'
     assert upretty(Not(Implies(x, y))) == 'x ↛ y'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7180(), test_issue_7180 produces the expected output) over Any ║
+# ║ Path(test_issue_7180(), upretty(Equivalent(x, y)) == 'x ⇔ y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7180 : Any → {Any | upretty(Equivalent(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Equivalent(x, y)) == 'x ⇔ y'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7180 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53c882d33f9ce8f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 955a5aa9b4d49d5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_7180","kind":"function","src_hash":"b2fb59850cea2171","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Equivalent(x, y)) == 'x \u21d4 y'"},"spec":{"lhs":"test_issue_7180()","rhs":"test_issue_7180 produces the expected output","over":{"base":"Any"},"name":"test_issue_7180_correct"},"guarantee":"test_issue_7180 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_7180_correct","statement":"Path(test_issue_7180(x), test_issue_7180 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53c882d33f9ce8f7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_7180","kind":"function","src_hash":"b2fb59850cea2171","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Equivalent(x, y)) == 'x \u21d4 y'"},"spec":{"lhs":"test_issue_7180()","rhs":"upretty(Equivalent(x, y)) == 'x \u21d4 y'","over":{"base":"Any"},"name":"test_issue_7180_correct"},"guarantee":"upretty(Equivalent(x, y)) == 'x \u21d4 y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_7180_correct","statement":"Path(test_issue_7180(x), upretty(Equivalent(x, y)) == 'x \u21d4 y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"955a5aa9b4d49d5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Equivalent(x, y)) == 'x \u21d4 y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_7180():
     assert upretty(Equivalent(x, y)) == 'x ⇔ y'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Complement(), test_pretty_Complement produces the expected output) over Any ║
+# ║ Path(test_pretty_Complement(), pretty(S.Reals - S.Naturals) == '(-oo, oo) \\ Naturals' and upretty(S.Reals - S.Naturals) == 'ℝ \\ ℕ' and pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\ Naturals0' and upretty(S.Reals - S.Naturals0) == 'ℝ \\ ℕ₀') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Complement : Any → {Any | pretty(S.Reals ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(S.Reals - S.Naturals) == '(-oo, oo...   ║
+# ║   ensures:  upretty(S.Reals - S.Naturals) == 'ℝ \\ ℕ'      ║
+# ║   ensures:  pretty(S.Reals - S.Naturals0) == '(-oo, o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Complement : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 502710327c5867b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e220de6b8c73304f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Complement","kind":"function","src_hash":"216a16eb4686b493","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(S.Reals - S.Naturals) == '(-oo, oo) \\\\ Naturals' and upretty(S.Reals - S.Naturals) == '\u211d \\\\ \u2115' and pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\\\ Naturals0' and upretty(S.Reals - S.Naturals0) == '\u211d \\\\ \u2115\u2080'"},"spec":{"lhs":"test_pretty_Complement()","rhs":"test_pretty_Complement produces the expected output","over":{"base":"Any"},"name":"test_pretty_Complement_correct"},"guarantee":"test_pretty_Complement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Complement_correct","statement":"Path(test_pretty_Complement(x), test_pretty_Complement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"502710327c5867b9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Complement","kind":"function","src_hash":"216a16eb4686b493","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(S.Reals - S.Naturals) == '(-oo, oo) \\\\ Naturals' and upretty(S.Reals - S.Naturals) == '\u211d \\\\ \u2115' and pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\\\ Naturals0' and upretty(S.Reals - S.Naturals0) == '\u211d \\\\ \u2115\u2080'"},"spec":{"lhs":"test_pretty_Complement()","rhs":"pretty(S.Reals - S.Naturals) == '(-oo, oo) \\\\ Naturals' and upretty(S.Reals - S.Naturals) == '\u211d \\\\ \u2115' and pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\\\ Naturals0' and upretty(S.Reals - S.Naturals0) == '\u211d \\\\ \u2115\u2080'","over":{"base":"Any"},"name":"test_pretty_Complement_correct"},"guarantee":"pretty(S.Reals - S.Naturals) == '(-oo, oo) \\\\ Naturals'; upretty(S.Reals - S.Naturals) == '\u211d \\\\ \u2115'; pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\\\ Naturals0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Complement_correct","statement":"Path(test_pretty_Complement(x), pretty(S.Reals - S.Naturals) == '(-oo, oo) \\\\ Naturals'; upretty(S.Reals - S.Naturals) == '\u211d \\\\ \u2115'; pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\\\ Naturals0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e220de6b8c73304f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(S.Reals - S.Naturals) == '(-oo, oo) \\\\ Naturals'","upretty(S.Reals - S.Naturals) == '\u211d \\\\ \u2115'","pretty(S.Reals - S.Naturals0) == '(-oo, oo) \\\\ Naturals0'","upretty(S.Reals - S.Naturals0) == '\u211d \\\\ \u2115\u2080'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_Complement():
     assert pretty(S.Reals - S.Naturals) == '(-oo, oo) \\ Naturals'
     assert upretty(S.Reals - S.Naturals) == 'ℝ \\ ℕ'
@@ -8175,16 +9008,22 @@ def test_pretty_Complement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_SymmetricDifference(), test_pretty_SymmetricDifference produces the expected output) over Any ║
+# ║ Path(test_pretty_SymmetricDifference(), upretty(SymmetricDifference(Interval(2, 3), Interval(3, 5), evaluate=False)) == '[2, 3] ∆ [3, 5]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_SymmetricDifference : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(SymmetricDifference(Interval(2, 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_SymmetricDifference : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57f746a28b72fb94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2075815228bf22fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_SymmetricDifference","kind":"function","src_hash":"b3499f61d3447016","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pretty_SymmetricDifference()","rhs":"test_pretty_SymmetricDifference produces the expected output","over":{"base":"Any"},"name":"test_pretty_SymmetricDifference_correct"},"guarantee":"test_pretty_SymmetricDifference produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_SymmetricDifference_correct","statement":"Path(test_pretty_SymmetricDifference(x), test_pretty_SymmetricDifference produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57f746a28b72fb94"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_SymmetricDifference","kind":"function","src_hash":"b3499f61d3447016","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(SymmetricDifference(Interval(2, 3), Interval(3, 5), evaluate=False)) == '[2, 3] \u2206 [3, 5]'"},"spec":{"lhs":"test_pretty_SymmetricDifference()","rhs":"upretty(SymmetricDifference(Interval(2, 3), Interval(3, 5), evaluate=False)) == '[2, 3] \u2206 [3, 5]'","over":{"base":"Any"},"name":"test_pretty_SymmetricDifference_correct"},"guarantee":"upretty(SymmetricDifference(Interval(2, 3), Interval(3, 5), evaluate=False)) == '[2, 3] \u2206 [3, 5]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_SymmetricDifference_correct","statement":"Path(test_pretty_SymmetricDifference(x), upretty(SymmetricDifference(Interval(2, 3), Interval(3, 5), evaluate=False)) == '[2, 3] \u2206 [3, 5]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2075815228bf22fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(SymmetricDifference(Interval(2, 3), Interval(3, 5), evaluate=False)) == '[2, 3] \u2206 [3, 5]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_SymmetricDifference():
     from sympy.sets.sets import SymmetricDifference
     assert upretty(SymmetricDifference(Interval(2,3), Interval(3,5), \
@@ -8194,32 +9033,46 @@ def test_pretty_SymmetricDifference():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Contains(), test_pretty_Contains produces the expected output) over Any ║
+# ║ Path(test_pretty_Contains(), pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)' and upretty(Contains(x, S.Integers)) == 'x ∈ ℤ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Contains : Any → {Any | pretty(Contains(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Contains(x, S.Integers)) == 'Conta...   ║
+# ║   ensures:  upretty(Contains(x, S.Integers)) == 'x ∈ ℤ'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Contains : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5590f2e066585e48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b5127da84d04b8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Contains","kind":"function","src_hash":"cfcc305a6006c2ed","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)' and upretty(Contains(x, S.Integers)) == 'x \u2208 \u2124'"},"spec":{"lhs":"test_pretty_Contains()","rhs":"test_pretty_Contains produces the expected output","over":{"base":"Any"},"name":"test_pretty_Contains_correct"},"guarantee":"test_pretty_Contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Contains_correct","statement":"Path(test_pretty_Contains(x), test_pretty_Contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5590f2e066585e48"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Contains","kind":"function","src_hash":"cfcc305a6006c2ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)' and upretty(Contains(x, S.Integers)) == 'x \u2208 \u2124'"},"spec":{"lhs":"test_pretty_Contains()","rhs":"pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)' and upretty(Contains(x, S.Integers)) == 'x \u2208 \u2124'","over":{"base":"Any"},"name":"test_pretty_Contains_correct"},"guarantee":"pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)'; upretty(Contains(x, S.Integers)) == 'x \u2208 \u2124'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Contains_correct","statement":"Path(test_pretty_Contains(x), pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)'; upretty(Contains(x, S.Integers)) == 'x \u2208 \u2124')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b5127da84d04b8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)'","upretty(Contains(x, S.Integers)) == 'x \u2208 \u2124'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_Contains():
     assert pretty(Contains(x, S.Integers)) == 'Contains(x, Integers)'
     assert upretty(Contains(x, S.Integers)) == 'x ∈ ℤ'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8292(), test_issue_8292 produces the expected output) over Any ║
+# ║ Path(test_issue_8292(), pretty(e) == ascii_str and upretty(e) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8292 : Any → {Any | pretty(e) == ascii_str...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(e) == ascii_str                         ║
+# ║   ensures:  upretty(e) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8292 : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b6591e7610c9857  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de714e784a199c9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_8292","kind":"function","src_hash":"a5a0382cb1f68ad0","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(e) == ascii_str and upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_8292()","rhs":"test_issue_8292 produces the expected output","over":{"base":"Any"},"name":"test_issue_8292_correct"},"guarantee":"test_issue_8292 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_8292_correct","statement":"Path(test_issue_8292(x), test_issue_8292 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b6591e7610c9857"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_8292","kind":"function","src_hash":"a5a0382cb1f68ad0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(e) == ascii_str and upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_8292()","rhs":"pretty(e) == ascii_str and upretty(e) == ucode_str","over":{"base":"Any"},"name":"test_issue_8292_correct"},"guarantee":"pretty(e) == ascii_str; upretty(e) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_8292_correct","statement":"Path(test_issue_8292(x), pretty(e) == ascii_str; upretty(e) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de714e784a199c9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(e) == ascii_str","upretty(e) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8292():
     from sympy.core import sympify
     e = sympify('((x+x**4)/(x-1))-(2*(x-1)**4/(x-1)**4)', evaluate=False)
@@ -8244,16 +9097,23 @@ def test_issue_8292():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4335(), test_issue_4335 produces the expected output) over Any ║
+# ║ Path(test_issue_4335(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4335 : Any → {Any | pretty(expr) == ascii_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4335 : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e84f2ad5c3d068  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d83686d1e6c83e76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_4335","kind":"function","src_hash":"6b6c03f62f3dd62b","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_issue_4335()","rhs":"test_issue_4335 produces the expected output","over":{"base":"Any"},"name":"test_issue_4335_correct"},"guarantee":"test_issue_4335 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_4335_correct","statement":"Path(test_issue_4335(x), test_issue_4335 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e84f2ad5c3d068"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_4335","kind":"function","src_hash":"6b6c03f62f3dd62b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_issue_4335()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_issue_4335_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_4335_correct","statement":"Path(test_issue_4335(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d83686d1e6c83e76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4335():
     y = Function('y')
     expr = -y(x).diff(x)
@@ -8274,16 +9134,22 @@ def test_issue_4335():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8344(), test_issue_8344 produces the expected output) over Any ║
+# ║ Path(test_issue_8344(), upretty(e) == ucode_str) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8344 : Any → {Any | upretty(e) == ucode_str}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(e) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8344 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b61eac61c775c0e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6e2793f2f52ffaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_8344","kind":"function","src_hash":"175bdfaf2f8131de","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_8344()","rhs":"test_issue_8344 produces the expected output","over":{"base":"Any"},"name":"test_issue_8344_correct"},"guarantee":"test_issue_8344 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_8344_correct","statement":"Path(test_issue_8344(x), test_issue_8344 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b61eac61c775c0e1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_8344","kind":"function","src_hash":"175bdfaf2f8131de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_8344()","rhs":"upretty(e) == ucode_str","over":{"base":"Any"},"name":"test_issue_8344_correct"},"guarantee":"upretty(e) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_8344_correct","statement":"Path(test_issue_8344(x), upretty(e) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6e2793f2f52ffaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(e) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_8344():
     from sympy.core import sympify
     e = sympify('2*x*y**2/1**2 + 1', evaluate=False)
@@ -8299,16 +9165,22 @@ def test_issue_8344():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6324(), test_issue_6324 produces the expected output) over Any ║
+# ║ Path(test_issue_6324(), upretty(e) == ucode_str) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6324 : Any → {Any | upretty(e) == ucode_str}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(e) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6324 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff97a4a41aec9dc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7f904a4840f2679  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6324","kind":"function","src_hash":"7d18cb3c3edc959a","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_6324()","rhs":"test_issue_6324 produces the expected output","over":{"base":"Any"},"name":"test_issue_6324_correct"},"guarantee":"test_issue_6324 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6324_correct","statement":"Path(test_issue_6324(x), test_issue_6324 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff97a4a41aec9dc0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6324","kind":"function","src_hash":"7d18cb3c3edc959a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_6324()","rhs":"upretty(e) == ucode_str","over":{"base":"Any"},"name":"test_issue_6324_correct"},"guarantee":"upretty(e) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6324_correct","statement":"Path(test_issue_6324(x), upretty(e) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7f904a4840f2679","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(e) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6324():
     x = Pow(2, 3, evaluate=False)
     y = Pow(10, -2, evaluate=False)
@@ -8325,16 +9197,22 @@ def test_issue_6324():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7927(), test_issue_7927 produces the expected output) over Any ║
+# ║ Path(test_issue_7927(), upretty(e) == ucode_str) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7927 : Any → {Any | upretty(e) == ucode_st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(e) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7927 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c93322406f9af155  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 798f78f93cff6cf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_7927","kind":"function","src_hash":"dd2e0af1c6364271","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(e) == ucode_str and upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_7927()","rhs":"test_issue_7927 produces the expected output","over":{"base":"Any"},"name":"test_issue_7927_correct"},"guarantee":"test_issue_7927 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_7927_correct","statement":"Path(test_issue_7927(x), test_issue_7927 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c93322406f9af155"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_7927","kind":"function","src_hash":"dd2e0af1c6364271","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_7927()","rhs":"upretty(e) == ucode_str","over":{"base":"Any"},"name":"test_issue_7927_correct"},"guarantee":"upretty(e) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_7927_correct","statement":"Path(test_issue_7927(x), upretty(e) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"798f78f93cff6cf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(e) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7927():
     e = sin(x/2)**cos(x/2)
     ucode_str = \
@@ -8359,16 +9237,22 @@ def test_issue_7927():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6134(), test_issue_6134 produces the expected output) over Any ║
+# ║ Path(test_issue_6134(), upretty(e) == ucode_str) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6134 : Any → {Any | upretty(e) == ucode_str}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(e) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6134 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d9ce03fb926ea88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d4f473ae4a5b8dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6134","kind":"function","src_hash":"874662788d8ebe35","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_6134()","rhs":"test_issue_6134 produces the expected output","over":{"base":"Any"},"name":"test_issue_6134_correct"},"guarantee":"test_issue_6134 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6134_correct","statement":"Path(test_issue_6134(x), test_issue_6134 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d9ce03fb926ea88"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_6134","kind":"function","src_hash":"874662788d8ebe35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(e) == ucode_str"},"spec":{"lhs":"test_issue_6134()","rhs":"upretty(e) == ucode_str","over":{"base":"Any"},"name":"test_issue_6134_correct"},"guarantee":"upretty(e) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_6134_correct","statement":"Path(test_issue_6134(x), upretty(e) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d4f473ae4a5b8dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(e) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6134():
     from sympy.abc import lamda, t
     phi = Function('phi')
@@ -8386,16 +9270,23 @@ def test_issue_6134():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9877(), test_issue_9877 produces the expected output) over Any ║
+# ║ Path(test_issue_9877(), upretty(Union(a, Complement(b, c))) == ucode_str1 and upretty(Intersection(d, e, Complement(f, g))) == ucode_str2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9877 : Any → {Any | upretty(Union(a, Compl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Union(a, Complement(b, c))) == uc...   ║
+# ║   ensures:  upretty(Intersection(d, e, Complement(f, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9877 : Any → {Any | result satisfies: upre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db4374d1ca77849b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a94b1d8e0b2480db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_9877","kind":"function","src_hash":"1645ba88e14912b9","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(Union(a, Complement(b, c))) == ucode_str1 and upretty(Intersection(d, e, Complement(f, g))) == ucode_str2"},"spec":{"lhs":"test_issue_9877()","rhs":"test_issue_9877 produces the expected output","over":{"base":"Any"},"name":"test_issue_9877_correct"},"guarantee":"test_issue_9877 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_9877_correct","statement":"Path(test_issue_9877(x), test_issue_9877 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4374d1ca77849b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_9877","kind":"function","src_hash":"1645ba88e14912b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Union(a, Complement(b, c))) == ucode_str1 and upretty(Intersection(d, e, Complement(f, g))) == ucode_str2"},"spec":{"lhs":"test_issue_9877()","rhs":"upretty(Union(a, Complement(b, c))) == ucode_str1 and upretty(Intersection(d, e, Complement(f, g))) == ucode_str2","over":{"base":"Any"},"name":"test_issue_9877_correct"},"guarantee":"upretty(Union(a, Complement(b, c))) == ucode_str1; upretty(Intersection(d, e, Complement(f, g))) == ucode_str2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_9877_correct","statement":"Path(test_issue_9877(x), upretty(Union(a, Complement(b, c))) == ucode_str1; upretty(Intersection(d, e, Complement(f, g))) == ucode_str2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a94b1d8e0b2480db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Union(a, Complement(b, c))) == ucode_str1","upretty(Intersection(d, e, Complement(f, g))) == ucode_str2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9877():
     ucode_str1 = '(2, 3) ∪ ([1, 2] \\ {x})'
     a, b, c = Interval(2, 3, True, True), Interval(1, 2), FiniteSet(x)
@@ -8407,16 +9298,23 @@ def test_issue_9877():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13651(), test_issue_13651 produces the expected output) over Any ║
+# ║ Path(test_issue_13651(), pretty(expr1) == 'c - (a + b)' and pretty(expr2) == 'c - (a - b + d)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13651 : Any → {Any | pretty(expr1) == 'c -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr1) == 'c - (a + b)'                 ║
+# ║   ensures:  pretty(expr2) == 'c - (a - b + d)'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13651 : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d60dcafc220b4350  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45a9cdef5845cda1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_13651","kind":"function","src_hash":"b0210708380e76f5","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr1) == 'c - (a + b)' and pretty(expr2) == 'c - (a - b + d)'"},"spec":{"lhs":"test_issue_13651()","rhs":"test_issue_13651 produces the expected output","over":{"base":"Any"},"name":"test_issue_13651_correct"},"guarantee":"test_issue_13651 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_13651_correct","statement":"Path(test_issue_13651(x), test_issue_13651 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d60dcafc220b4350"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_13651","kind":"function","src_hash":"b0210708380e76f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr1) == 'c - (a + b)' and pretty(expr2) == 'c - (a - b + d)'"},"spec":{"lhs":"test_issue_13651()","rhs":"pretty(expr1) == 'c - (a + b)' and pretty(expr2) == 'c - (a - b + d)'","over":{"base":"Any"},"name":"test_issue_13651_correct"},"guarantee":"pretty(expr1) == 'c - (a + b)'; pretty(expr2) == 'c - (a - b + d)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_13651_correct","statement":"Path(test_issue_13651(x), pretty(expr1) == 'c - (a + b)'; pretty(expr2) == 'c - (a - b + d)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45a9cdef5845cda1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr1) == 'c - (a + b)'","pretty(expr2) == 'c - (a - b + d)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13651():
     expr1 = c + Mul(-1, a + b, evaluate=False)
     assert pretty(expr1) == 'c - (a + b)'
@@ -8425,16 +9323,23 @@ def test_issue_13651():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_primenu(), test_pretty_primenu produces the expected output) over Any ║
+# ║ Path(test_pretty_primenu(), pretty(primenu(n)) == ascii_str1 and upretty(primenu(n)) == ucode_str1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_primenu : Any → {Any | pretty(primenu(n))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(primenu(n)) == ascii_str1               ║
+# ║   ensures:  upretty(primenu(n)) == ucode_str1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_primenu : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81c00e8e383ac644  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86aa81421c182680  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_primenu","kind":"function","src_hash":"6705eb1328c84887","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(primenu(n)) == ascii_str1 and upretty(primenu(n)) == ucode_str1"},"spec":{"lhs":"test_pretty_primenu()","rhs":"test_pretty_primenu produces the expected output","over":{"base":"Any"},"name":"test_pretty_primenu_correct"},"guarantee":"test_pretty_primenu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_primenu_correct","statement":"Path(test_pretty_primenu(x), test_pretty_primenu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c00e8e383ac644"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_primenu","kind":"function","src_hash":"6705eb1328c84887","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(primenu(n)) == ascii_str1 and upretty(primenu(n)) == ucode_str1"},"spec":{"lhs":"test_pretty_primenu()","rhs":"pretty(primenu(n)) == ascii_str1 and upretty(primenu(n)) == ucode_str1","over":{"base":"Any"},"name":"test_pretty_primenu_correct"},"guarantee":"pretty(primenu(n)) == ascii_str1; upretty(primenu(n)) == ucode_str1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_primenu_correct","statement":"Path(test_pretty_primenu(x), pretty(primenu(n)) == ascii_str1; upretty(primenu(n)) == ucode_str1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86aa81421c182680","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(primenu(n)) == ascii_str1","upretty(primenu(n)) == ucode_str1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_primenu():
     from sympy.functions.combinatorial.numbers import primenu
 
@@ -8447,16 +9352,23 @@ def test_pretty_primenu():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_primeomega(), test_pretty_primeomega produces the expected output) over Any ║
+# ║ Path(test_pretty_primeomega(), pretty(primeomega(n)) == ascii_str1 and upretty(primeomega(n)) == ucode_str1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_primeomega : Any → {Any | pretty(primeome...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(primeomega(n)) == ascii_str1            ║
+# ║   ensures:  upretty(primeomega(n)) == ucode_str1           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_primeomega : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 050238fa5303fa08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dde8a228f7f0e126  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_primeomega","kind":"function","src_hash":"fa6c071d9522296a","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(primeomega(n)) == ascii_str1 and upretty(primeomega(n)) == ucode_str1"},"spec":{"lhs":"test_pretty_primeomega()","rhs":"test_pretty_primeomega produces the expected output","over":{"base":"Any"},"name":"test_pretty_primeomega_correct"},"guarantee":"test_pretty_primeomega produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_primeomega_correct","statement":"Path(test_pretty_primeomega(x), test_pretty_primeomega produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"050238fa5303fa08"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_primeomega","kind":"function","src_hash":"fa6c071d9522296a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(primeomega(n)) == ascii_str1 and upretty(primeomega(n)) == ucode_str1"},"spec":{"lhs":"test_pretty_primeomega()","rhs":"pretty(primeomega(n)) == ascii_str1 and upretty(primeomega(n)) == ucode_str1","over":{"base":"Any"},"name":"test_pretty_primeomega_correct"},"guarantee":"pretty(primeomega(n)) == ascii_str1; upretty(primeomega(n)) == ucode_str1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_primeomega_correct","statement":"Path(test_pretty_primeomega(x), pretty(primeomega(n)) == ascii_str1; upretty(primeomega(n)) == ucode_str1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dde8a228f7f0e126","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(primeomega(n)) == ascii_str1","upretty(primeomega(n)) == ucode_str1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_primeomega():
     from sympy.functions.combinatorial.numbers import primeomega
 
@@ -8469,16 +9381,24 @@ def test_pretty_primeomega():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_Mod(), test_pretty_Mod produces the expected output) over Any ║
+# ║ Path(test_pretty_Mod(), pretty(Mod(x, 7)) == ascii_str1 and upretty(Mod(x, 7)) == ucode_str1 and pretty(Mod(x + 1, 7)) == ascii_str2 and upretty(Mod(x + 1, 7)) == ucode_str2 and pretty(Mod(2 * x, 7)) == ascii_str3 and upretty(Mod(2 * x, 7)) == ucode_str3 and pretty(Mod(x, 7) + 1) == ascii_str4 and upretty(Mod(x, 7) + 1) == ucode_str4 and pretty(2 * Mod(x, 7)) == ascii_str5 and upretty(2 * Mod(x, 7)) == ucode_str5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_Mod : Any → {Any | pretty(Mod(x, 7)) == a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Mod(x, 7)) == ascii_str1                ║
+# ║   ensures:  upretty(Mod(x, 7)) == ucode_str1               ║
+# ║   ensures:  pretty(Mod(x + 1, 7)) == ascii_str2            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_Mod : Any → {Any | result satisfies: pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81db06794fe8269e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e2af43bab7717bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Mod","kind":"function","src_hash":"9ea12f63ebb82622","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Mod(x, 7)) == ascii_str1 and upretty(Mod(x, 7)) == ucode_str1 and pretty(Mod(x + 1, 7)) == ascii_str2 and upretty(Mod(x + 1, 7)) == ucode_str2 and pretty(Mod(2 * x, 7)) == ascii_str3 and upretty(Mod(2 * x, 7)) == ucode_str3 and pretty(Mod(x, 7) + 1) == ascii_str4 and upretty(Mod(x, 7) + 1) == ucode_str4 and pretty(2 * Mod(x, 7)) == ascii_str5 and upretty(2 * Mod(x, 7)) == ucode_str5"},"spec":{"lhs":"test_pretty_Mod()","rhs":"test_pretty_Mod produces the expected output","over":{"base":"Any"},"name":"test_pretty_Mod_correct"},"guarantee":"test_pretty_Mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Mod_correct","statement":"Path(test_pretty_Mod(x), test_pretty_Mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81db06794fe8269e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_Mod","kind":"function","src_hash":"9ea12f63ebb82622","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Mod(x, 7)) == ascii_str1 and upretty(Mod(x, 7)) == ucode_str1 and pretty(Mod(x + 1, 7)) == ascii_str2 and upretty(Mod(x + 1, 7)) == ucode_str2 and pretty(Mod(2 * x, 7)) == ascii_str3 and upretty(Mod(2 * x, 7)) == ucode_str3 and pretty(Mod(x, 7) + 1) == ascii_str4 and upretty(Mod(x, 7) + 1) == ucode_str4 and pretty(2 * Mod(x, 7)) == ascii_str5 and upretty(2 * Mod(x, 7)) == ucode_str5"},"spec":{"lhs":"test_pretty_Mod()","rhs":"pretty(Mod(x, 7)) == ascii_str1 and upretty(Mod(x, 7)) == ucode_str1 and pretty(Mod(x + 1, 7)) == ascii_str2 and upretty(Mod(x + 1, 7)) == ucode_str2 and pretty(Mod(2 * x, 7)) == ascii_str3 and upretty(Mod(2 * x, 7)) == ucode_str3 and pretty(Mod(x, 7) + 1) == ascii_str4 and upretty(Mod(x, 7) + 1) == ucode_str4 and pretty(2 * Mod(x, 7)) == ascii_str5 and upretty(2 * Mod(x, 7)) == ucode_str5","over":{"base":"Any"},"name":"test_pretty_Mod_correct"},"guarantee":"pretty(Mod(x, 7)) == ascii_str1; upretty(Mod(x, 7)) == ucode_str1; pretty(Mod(x + 1, 7)) == ascii_str2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_Mod_correct","statement":"Path(test_pretty_Mod(x), pretty(Mod(x, 7)) == ascii_str1; upretty(Mod(x, 7)) == ucode_str1; pretty(Mod(x + 1, 7)) == ascii_str2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e2af43bab7717bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Mod(x, 7)) == ascii_str1","upretty(Mod(x, 7)) == ucode_str1","pretty(Mod(x + 1, 7)) == ascii_str2","upretty(Mod(x + 1, 7)) == ucode_str2","pretty(Mod(2 * x, 7)) == ascii_str3","upretty(Mod(2 * x, 7)) == ucode_str3","pretty(Mod(x, 7) + 1) == ascii_str4","upretty(Mod(x, 7) + 1) == ucode_str4","pretty(2 * Mod(x, 7)) == ascii_str5","upretty(2 * Mod(x, 7)) == ucode_str5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_Mod():
     from sympy.core import Mod
 
@@ -8511,32 +9431,47 @@ def test_pretty_Mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11801(), test_issue_11801 produces the expected output) over Any ║
+# ║ Path(test_issue_11801(), pretty(Symbol('')) == '' and upretty(Symbol('')) == '') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11801 : Any → {Any | pretty(Symbol('')) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Symbol('')) == ''                       ║
+# ║   ensures:  upretty(Symbol('')) == ''                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11801 : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 064dd0ea5f3644b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56ec7395577ca4cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_11801","kind":"function","src_hash":"5abd8d3f191f79c9","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Symbol('')) == '' and upretty(Symbol('')) == ''"},"spec":{"lhs":"test_issue_11801()","rhs":"test_issue_11801 produces the expected output","over":{"base":"Any"},"name":"test_issue_11801_correct"},"guarantee":"test_issue_11801 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_11801_correct","statement":"Path(test_issue_11801(x), test_issue_11801 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"064dd0ea5f3644b6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_11801","kind":"function","src_hash":"5abd8d3f191f79c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Symbol('')) == '' and upretty(Symbol('')) == ''"},"spec":{"lhs":"test_issue_11801()","rhs":"pretty(Symbol('')) == '' and upretty(Symbol('')) == ''","over":{"base":"Any"},"name":"test_issue_11801_correct"},"guarantee":"pretty(Symbol('')) == ''; upretty(Symbol('')) == ''","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_11801_correct","statement":"Path(test_issue_11801(x), pretty(Symbol('')) == ''; upretty(Symbol('')) == '')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ec7395577ca4cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Symbol('')) == ''","upretty(Symbol('')) == ''"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_11801():
     assert pretty(Symbol("")) == ""
     assert upretty(Symbol("")) == ""
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_UnevaluatedExpr(), test_pretty_UnevaluatedExpr produces the expected output) over Any ║
+# ║ Path(test_pretty_UnevaluatedExpr(), upretty(he) == ucode_str and upretty(he ** 2) == ucode_str and upretty(he + 1) == ucode_str and upretty(x * he) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_UnevaluatedExpr : Any → {Any | upretty(he...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(he) == ucode_str                       ║
+# ║   ensures:  upretty(he ** 2) == ucode_str                  ║
+# ║   ensures:  upretty(he + 1) == ucode_str                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_UnevaluatedExpr : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bb308ed3d33c207  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4f7c5bc431c278e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_UnevaluatedExpr","kind":"function","src_hash":"d5c4f1b7328dd3e6","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(he) == ucode_str and upretty(he ** 2) == ucode_str and upretty(he + 1) == ucode_str and upretty(x * he) == ucode_str"},"spec":{"lhs":"test_pretty_UnevaluatedExpr()","rhs":"test_pretty_UnevaluatedExpr produces the expected output","over":{"base":"Any"},"name":"test_pretty_UnevaluatedExpr_correct"},"guarantee":"test_pretty_UnevaluatedExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_UnevaluatedExpr_correct","statement":"Path(test_pretty_UnevaluatedExpr(x), test_pretty_UnevaluatedExpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bb308ed3d33c207"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_UnevaluatedExpr","kind":"function","src_hash":"d5c4f1b7328dd3e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(he) == ucode_str and upretty(he ** 2) == ucode_str and upretty(he + 1) == ucode_str and upretty(x * he) == ucode_str"},"spec":{"lhs":"test_pretty_UnevaluatedExpr()","rhs":"upretty(he) == ucode_str and upretty(he ** 2) == ucode_str and upretty(he + 1) == ucode_str and upretty(x * he) == ucode_str","over":{"base":"Any"},"name":"test_pretty_UnevaluatedExpr_correct"},"guarantee":"upretty(he) == ucode_str; upretty(he ** 2) == ucode_str; upretty(he + 1) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_UnevaluatedExpr_correct","statement":"Path(test_pretty_UnevaluatedExpr(x), upretty(he) == ucode_str; upretty(he ** 2) == ucode_str; upretty(he + 1) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4f7c5bc431c278e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(he) == ucode_str","upretty(he ** 2) == ucode_str","upretty(he + 1) == ucode_str","upretty(x * he) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty_UnevaluatedExpr():
     x = symbols('x')
     he = UnevaluatedExpr(1/x)
@@ -8579,16 +9514,22 @@ x⋅─\n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10472(), test_issue_10472 produces the expected output) over Any ║
+# ║ Path(test_issue_10472(), upretty(M) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10472 : Any → {Any | upretty(M) == ucode_str}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(M) == ucode_str                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10472 : Any → {Any | result satisfies: upr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c1befc327636706  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3305a422c10b3ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_10472","kind":"function","src_hash":"10280fc9cd06a8c2","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(M) == ucode_str"},"spec":{"lhs":"test_issue_10472()","rhs":"test_issue_10472 produces the expected output","over":{"base":"Any"},"name":"test_issue_10472_correct"},"guarantee":"test_issue_10472 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_10472_correct","statement":"Path(test_issue_10472(x), test_issue_10472 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c1befc327636706"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_10472","kind":"function","src_hash":"10280fc9cd06a8c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(M) == ucode_str"},"spec":{"lhs":"test_issue_10472()","rhs":"upretty(M) == ucode_str","over":{"base":"Any"},"name":"test_issue_10472_correct"},"guarantee":"upretty(M) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_10472_correct","statement":"Path(test_issue_10472(x), upretty(M) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3305a422c10b3ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(M) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10472():
     M = (Matrix([[0, 0], [0, 0]]), Matrix([0, 0]))
 
@@ -8602,16 +9543,24 @@ def test_issue_10472():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), pretty(A[0, 0]) == ascii_str1 and upretty(A[0, 0]) == ucode_str1 and pretty(3 * A[0, 0]) == ascii_str1 and upretty(3 * A[0, 0]) == ucode_str1 and pretty(F) == ascii_str1 and upretty(F) == ucode_str1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | pretty(A[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(A[0, 0]) == ascii_str1                  ║
+# ║   ensures:  upretty(A[0, 0]) == ucode_str1                 ║
+# ║   ensures:  pretty(3 * A[0, 0]) == ascii_str1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79659e9d179542e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c97bad965d2ed884  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixElement_printing","kind":"function","src_hash":"11e4acad85478b35","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(A[0, 0]) == ascii_str1 and upretty(A[0, 0]) == ucode_str1 and pretty(3 * A[0, 0]) == ascii_str1 and upretty(3 * A[0, 0]) == ucode_str1 and pretty(F) == ascii_str1 and upretty(F) == ucode_str1"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79659e9d179542e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixElement_printing","kind":"function","src_hash":"11e4acad85478b35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(A[0, 0]) == ascii_str1 and upretty(A[0, 0]) == ucode_str1 and pretty(3 * A[0, 0]) == ascii_str1 and upretty(3 * A[0, 0]) == ucode_str1 and pretty(F) == ascii_str1 and upretty(F) == ucode_str1"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"pretty(A[0, 0]) == ascii_str1 and upretty(A[0, 0]) == ucode_str1 and pretty(3 * A[0, 0]) == ascii_str1 and upretty(3 * A[0, 0]) == ucode_str1 and pretty(F) == ascii_str1 and upretty(F) == ucode_str1","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"pretty(A[0, 0]) == ascii_str1; upretty(A[0, 0]) == ucode_str1; pretty(3 * A[0, 0]) == ascii_str1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), pretty(A[0, 0]) == ascii_str1; upretty(A[0, 0]) == ucode_str1; pretty(3 * A[0, 0]) == ascii_str1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97bad965d2ed884","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(A[0, 0]) == ascii_str1","upretty(A[0, 0]) == ucode_str1","pretty(3 * A[0, 0]) == ascii_str1","upretty(3 * A[0, 0]) == ucode_str1","pretty(F) == ascii_str1","upretty(F) == ucode_str1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     # test cases for issue #11821
     A = MatrixSymbol("A", 1, 3)
@@ -8636,16 +9585,23 @@ def test_MatrixElement_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12675(), test_issue_12675 produces the expected output) over Any ║
+# ║ Path(test_issue_12675(), upretty((x / y) ** t * e.j) == ucode_str and upretty(1 / y * e.j) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12675 : Any → {Any | upretty((x / y) ** t ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty((x / y) ** t * e.j) == ucode_str       ║
+# ║   ensures:  upretty(1 / y * e.j) == ucode_str              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12675 : Any → {Any | result satisfies: upr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32102e828360a187  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34ebfa35d37933ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_12675","kind":"function","src_hash":"bee7d2020b4757fe","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty((x / y) ** t * e.j) == ucode_str and upretty(1 / y * e.j) == ucode_str"},"spec":{"lhs":"test_issue_12675()","rhs":"test_issue_12675 produces the expected output","over":{"base":"Any"},"name":"test_issue_12675_correct"},"guarantee":"test_issue_12675 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_12675_correct","statement":"Path(test_issue_12675(x), test_issue_12675 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32102e828360a187"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_12675","kind":"function","src_hash":"bee7d2020b4757fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty((x / y) ** t * e.j) == ucode_str and upretty(1 / y * e.j) == ucode_str"},"spec":{"lhs":"test_issue_12675()","rhs":"upretty((x / y) ** t * e.j) == ucode_str and upretty(1 / y * e.j) == ucode_str","over":{"base":"Any"},"name":"test_issue_12675_correct"},"guarantee":"upretty((x / y) ** t * e.j) == ucode_str; upretty(1 / y * e.j) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_12675_correct","statement":"Path(test_issue_12675(x), upretty((x / y) ** t * e.j) == ucode_str; upretty(1 / y * e.j) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34ebfa35d37933ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty((x / y) ** t * e.j) == ucode_str","upretty(1 / y * e.j) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12675():
     x, y, t, j = symbols('x y t j')
     e = CoordSys3D('e')
@@ -8668,16 +9624,24 @@ def test_issue_12675():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol_printing(), test_MatrixSymbol_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixSymbol_printing(), pretty(-A * B * C) == '-A*B*C' and pretty(A - B) == '-B + A' and pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C' and pretty(x + y) == 'x + y*' and pretty(-a * x + -2 * y * y) == ascii_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSymbol_printing : Any → {Any | pretty(-A *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(-A * B * C) == '-A*B*C'                 ║
+# ║   ensures:  pretty(A - B) == '-B + A'                      ║
+# ║   ensures:  pretty(A * B * C - A * B - B * C) == '-A*...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSymbol_printing : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b12fca086bcb526  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e32360ca441f2442  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixSymbol_printing","kind":"function","src_hash":"59df1b3d7e3e6ad9","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(-A * B * C) == '-A*B*C' and pretty(A - B) == '-B + A' and pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C' and pretty(x + y) == 'x + y*' and pretty(-a * x + -2 * y * y) == ascii_str"},"spec":{"lhs":"test_MatrixSymbol_printing()","rhs":"test_MatrixSymbol_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixSymbol_printing_correct"},"guarantee":"test_MatrixSymbol_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixSymbol_printing_correct","statement":"Path(test_MatrixSymbol_printing(x), test_MatrixSymbol_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b12fca086bcb526"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_MatrixSymbol_printing","kind":"function","src_hash":"59df1b3d7e3e6ad9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(-A * B * C) == '-A*B*C' and pretty(A - B) == '-B + A' and pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C' and pretty(x + y) == 'x + y*' and pretty(-a * x + -2 * y * y) == ascii_str"},"spec":{"lhs":"test_MatrixSymbol_printing()","rhs":"pretty(-A * B * C) == '-A*B*C' and pretty(A - B) == '-B + A' and pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C' and pretty(x + y) == 'x + y*' and pretty(-a * x + -2 * y * y) == ascii_str","over":{"base":"Any"},"name":"test_MatrixSymbol_printing_correct"},"guarantee":"pretty(-A * B * C) == '-A*B*C'; pretty(A - B) == '-B + A'; pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_MatrixSymbol_printing_correct","statement":"Path(test_MatrixSymbol_printing(x), pretty(-A * B * C) == '-A*B*C'; pretty(A - B) == '-B + A'; pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e32360ca441f2442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(-A * B * C) == '-A*B*C'","pretty(A - B) == '-B + A'","pretty(A * B * C - A * B - B * C) == '-A*B -B*C + A*B*C'","pretty(x + y) == 'x + y*'","pretty(-a * x + -2 * y * y) == ascii_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol_printing():
     # test cases for issue #14237
     A = MatrixSymbol("A", 3, 3)
@@ -8700,16 +9664,24 @@ def test_MatrixSymbol_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_degree_printing(), test_degree_printing produces the expected output) over Any ║
+# ║ Path(test_degree_printing(), pretty(expr1) == '90°' and pretty(expr2) == 'x°' and pretty(expr3) == 'cos(x° + 90°)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_degree_printing : Any → {Any | pretty(expr1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr1) == '90°'                         ║
+# ║   ensures:  pretty(expr2) == 'x°'                          ║
+# ║   ensures:  pretty(expr3) == 'cos(x° + 90°)'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_degree_printing : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb8f2c363419ef53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6d95338edfce2f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_degree_printing","kind":"function","src_hash":"8ae647e6bc037874","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr1) == '90\u00b0' and pretty(expr2) == 'x\u00b0' and pretty(expr3) == 'cos(x\u00b0 + 90\u00b0)'"},"spec":{"lhs":"test_degree_printing()","rhs":"test_degree_printing produces the expected output","over":{"base":"Any"},"name":"test_degree_printing_correct"},"guarantee":"test_degree_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_degree_printing_correct","statement":"Path(test_degree_printing(x), test_degree_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb8f2c363419ef53"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_degree_printing","kind":"function","src_hash":"8ae647e6bc037874","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr1) == '90\u00b0' and pretty(expr2) == 'x\u00b0' and pretty(expr3) == 'cos(x\u00b0 + 90\u00b0)'"},"spec":{"lhs":"test_degree_printing()","rhs":"pretty(expr1) == '90\u00b0' and pretty(expr2) == 'x\u00b0' and pretty(expr3) == 'cos(x\u00b0 + 90\u00b0)'","over":{"base":"Any"},"name":"test_degree_printing_correct"},"guarantee":"pretty(expr1) == '90\u00b0'; pretty(expr2) == 'x\u00b0'; pretty(expr3) == 'cos(x\u00b0 + 90\u00b0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_degree_printing_correct","statement":"Path(test_degree_printing(x), pretty(expr1) == '90\u00b0'; pretty(expr2) == 'x\u00b0'; pretty(expr3) == 'cos(x\u00b0 + 90\u00b0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d95338edfce2f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr1) == '90\u00b0'","pretty(expr2) == 'x\u00b0'","pretty(expr3) == 'cos(x\u00b0 + 90\u00b0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_degree_printing():
     expr1 = 90*degree
     assert pretty(expr1) == '90°'
@@ -8720,16 +9692,24 @@ def test_degree_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_expr_pretty_printing(), test_vector_expr_pretty_printing produces the expected output) over Any ║
+# ║ Path(test_vector_expr_pretty_printing(), upretty(Cross(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)×((x_A) i_A + (3⋅y_A) j_A)' and upretty(x * Cross(A.i, A.j)) == 'x⋅(i_A)×(j_A)' and upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '∇×((x_A) i_A + (3⋅y_A) j_A)' and upretty(Divergence(A.x * A.i + 3 * A.y * A.j)) == '∇⋅((x_A) i_A + (3⋅y_A) j_A)' and upretty(Dot(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)⋅((x_A) i_A + (3⋅y_A) j_A)' and upretty(Gradient(A.x + 3 * A.y)) == '∇(x_A + 3⋅y_A)' and upretty(Laplacian(A.x + 3 * A.y)) == '∆(x_A + 3⋅y_A)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_expr_pretty_printing : Any → {Any | upret...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(Cross(A.i, A.x * A.i + 3 * A.y * ...   ║
+# ║   ensures:  upretty(x * Cross(A.i, A.j)) == 'x⋅(i_A)×...   ║
+# ║   ensures:  upretty(Curl(A.x * A.i + 3 * A.y * A.j)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_expr_pretty_printing : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3be54c5596e29aaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3ba8fd372da6c65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_vector_expr_pretty_printing","kind":"function","src_hash":"5393fe57df9ad20e","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(x * Cross(A.i, A.j)) == 'x\u22c5(i_A)\u00d7(j_A)' and upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u00d7((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Divergence(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u22c5((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Gradient(A.x + 3 * A.y)) == '\u2207(x_A + 3\u22c5y_A)' and upretty(Laplacian(A.x + 3 * A.y)) == '\u2206(x_A + 3\u22c5y_A)'"},"spec":{"lhs":"test_vector_expr_pretty_printing()","rhs":"test_vector_expr_pretty_printing produces the expected output","over":{"base":"Any"},"name":"test_vector_expr_pretty_printing_correct"},"guarantee":"test_vector_expr_pretty_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_vector_expr_pretty_printing_correct","statement":"Path(test_vector_expr_pretty_printing(x), test_vector_expr_pretty_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be54c5596e29aaf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_vector_expr_pretty_printing","kind":"function","src_hash":"5393fe57df9ad20e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(Cross(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u00d7((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(x * Cross(A.i, A.j)) == 'x\u22c5(i_A)\u00d7(j_A)' and upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u00d7((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Divergence(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u22c5((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Dot(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u22c5((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Gradient(A.x + 3 * A.y)) == '\u2207(x_A + 3\u22c5y_A)' and upretty(Laplacian(A.x + 3 * A.y)) == '\u2206(x_A + 3\u22c5y_A)'"},"spec":{"lhs":"test_vector_expr_pretty_printing()","rhs":"upretty(Cross(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u00d7((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(x * Cross(A.i, A.j)) == 'x\u22c5(i_A)\u00d7(j_A)' and upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u00d7((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Divergence(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u22c5((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Dot(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u22c5((x_A) i_A + (3\u22c5y_A) j_A)' and upretty(Gradient(A.x + 3 * A.y)) == '\u2207(x_A + 3\u22c5y_A)' and upretty(Laplacian(A.x + 3 * A.y)) == '\u2206(x_A + 3\u22c5y_A)'","over":{"base":"Any"},"name":"test_vector_expr_pretty_printing_correct"},"guarantee":"upretty(Cross(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u00d7((x_A) i_A + (3\u22c5y_A) j_A)'; upretty(x * Cross(A.i, A.j)) == 'x\u22c5(i_A)\u00d7(j_A)'; upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u00d7((x_A) i_A + (3\u22c5y_A) j_A)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_vector_expr_pretty_printing_correct","statement":"Path(test_vector_expr_pretty_printing(x), upretty(Cross(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u00d7((x_A) i_A + (3\u22c5y_A) j_A)'; upretty(x * Cross(A.i, A.j)) == 'x\u22c5(i_A)\u00d7(j_A)'; upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u00d7((x_A) i_A + (3\u22c5y_A) j_A)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3ba8fd372da6c65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(Cross(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u00d7((x_A) i_A + (3\u22c5y_A) j_A)'","upretty(x * Cross(A.i, A.j)) == 'x\u22c5(i_A)\u00d7(j_A)'","upretty(Curl(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u00d7((x_A) i_A + (3\u22c5y_A) j_A)'","upretty(Divergence(A.x * A.i + 3 * A.y * A.j)) == '\u2207\u22c5((x_A) i_A + (3\u22c5y_A) j_A)'","upretty(Dot(A.i, A.x * A.i + 3 * A.y * A.j)) == '(i_A)\u22c5((x_A) i_A + (3\u22c5y_A) j_A)'","upretty(Gradient(A.x + 3 * A.y)) == '\u2207(x_A + 3\u22c5y_A)'","upretty(Laplacian(A.x + 3 * A.y)) == '\u2206(x_A + 3\u22c5y_A)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_vector_expr_pretty_printing():
     A = CoordSys3D('A')
 
@@ -8748,16 +9728,23 @@ def test_vector_expr_pretty_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_print_tensor_expr(), test_pretty_print_tensor_expr produces the expected output) over Any ║
+# ║ Path(test_pretty_print_tensor_expr(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_print_tensor_expr : Any → {Any | pretty(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_print_tensor_expr : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b0d82626b20e49f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bab4ee69ebaab8e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_expr","kind":"function","src_hash":"f0eb3093bb45aef2","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_print_tensor_expr()","rhs":"test_pretty_print_tensor_expr produces the expected output","over":{"base":"Any"},"name":"test_pretty_print_tensor_expr_correct"},"guarantee":"test_pretty_print_tensor_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_expr_correct","statement":"Path(test_pretty_print_tensor_expr(x), test_pretty_print_tensor_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b0d82626b20e49f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_expr","kind":"function","src_hash":"f0eb3093bb45aef2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_print_tensor_expr()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_print_tensor_expr_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_expr_correct","statement":"Path(test_pretty_print_tensor_expr(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bab4ee69ebaab8e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_pretty_print_tensor_expr():
     L = TensorIndexType("L")
     i, j, k = tensor_indices("i j k", L)
@@ -8923,16 +9910,23 @@ H   ⋅A  ⋅B \n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_print_tensor_partial_deriv(), test_pretty_print_tensor_partial_deriv produces the expected output) over Any ║
+# ║ Path(test_pretty_print_tensor_partial_deriv(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pretty_print_tensor_partial_deriv : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ed92417ef5335b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6aa413934932d28e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_partial_deriv","kind":"function","src_hash":"d061292711b6f78f","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and upretty(expr) == ucode_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_print_tensor_partial_deriv()","rhs":"test_pretty_print_tensor_partial_deriv produces the expected output","over":{"base":"Any"},"name":"test_pretty_print_tensor_partial_deriv_correct"},"guarantee":"test_pretty_print_tensor_partial_deriv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_partial_deriv_correct","statement":"Path(test_pretty_print_tensor_partial_deriv(x), test_pretty_print_tensor_partial_deriv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ed92417ef5335b9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_partial_deriv","kind":"function","src_hash":"d061292711b6f78f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_pretty_print_tensor_partial_deriv()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_pretty_print_tensor_partial_deriv_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_print_tensor_partial_deriv_correct","statement":"Path(test_pretty_print_tensor_partial_deriv(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aa413934932d28e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_pretty_print_tensor_partial_deriv():
     from sympy.tensor.toperators import PartialDerivative
 
@@ -9109,16 +10103,22 @@ H    \n\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15560(), test_issue_15560 produces the expected output) over Any ║
+# ║ Path(test_issue_15560(), e == result) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15560 : Any → {Any | e == result}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == result                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15560 : Any → {Any | result satisfies: e =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58bec67d4c90fd9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92ff0cab3b23a32b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_15560","kind":"function","src_hash":"690b350cbf8ed540","in":{"base":"Any"},"out":{"base":"Any","pred":"e == result"},"spec":{"lhs":"test_issue_15560()","rhs":"test_issue_15560 produces the expected output","over":{"base":"Any"},"name":"test_issue_15560_correct"},"guarantee":"test_issue_15560 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_15560_correct","statement":"Path(test_issue_15560(x), test_issue_15560 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58bec67d4c90fd9b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_15560","kind":"function","src_hash":"690b350cbf8ed540","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == result"},"spec":{"lhs":"test_issue_15560()","rhs":"e == result","over":{"base":"Any"},"name":"test_issue_15560_correct"},"guarantee":"e == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_15560_correct","statement":"Path(test_issue_15560(x), e == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ff0cab3b23a32b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15560():
     a = MatrixSymbol('a', 1, 1)
     e = pretty(a*(KroneckerProduct(a, a)))
@@ -9127,16 +10127,23 @@ def test_issue_15560():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_polylog(), test_print_polylog produces the expected output) over Any ║
+# ║ Path(test_print_polylog(), pretty(polylog(2, 3)) == aresult and upretty(polylog(2, 3)) == uresult) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_polylog : Any → {Any | pretty(polylog(2, 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(polylog(2, 3)) == aresult               ║
+# ║   ensures:  upretty(polylog(2, 3)) == uresult              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_polylog : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df84472f85160245  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f673113ff1a98c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_polylog","kind":"function","src_hash":"c89c0550d5b3569d","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(polylog(2, 3)) == aresult and upretty(polylog(2, 3)) == uresult"},"spec":{"lhs":"test_print_polylog()","rhs":"test_print_polylog produces the expected output","over":{"base":"Any"},"name":"test_print_polylog_correct"},"guarantee":"test_print_polylog produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_polylog_correct","statement":"Path(test_print_polylog(x), test_print_polylog produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df84472f85160245"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_polylog","kind":"function","src_hash":"c89c0550d5b3569d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(polylog(2, 3)) == aresult and upretty(polylog(2, 3)) == uresult"},"spec":{"lhs":"test_print_polylog()","rhs":"pretty(polylog(2, 3)) == aresult and upretty(polylog(2, 3)) == uresult","over":{"base":"Any"},"name":"test_print_polylog_correct"},"guarantee":"pretty(polylog(2, 3)) == aresult; upretty(polylog(2, 3)) == uresult","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_polylog_correct","statement":"Path(test_print_polylog(x), pretty(polylog(2, 3)) == aresult; upretty(polylog(2, 3)) == uresult)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f673113ff1a98c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(polylog(2, 3)) == aresult","upretty(polylog(2, 3)) == uresult"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_polylog():
     # Part of issue 6013
     uresult = 'Li₂(3)'
@@ -9147,16 +10154,24 @@ def test_print_polylog():
 
 # Issue #25312
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_expint_polylog_symbolic_order(), test_print_expint_polylog_symbolic_order produces the expected output) over Any ║
+# ║ Path(test_print_expint_polylog_symbolic_order(), pretty(polylog(s, z)) == aresult and upretty(polylog(s, z)) == uresult and pretty(expint(s, z)) == aresult and upretty(expint(s, z)) == uresult) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(polylog(s, z)) == aresult               ║
+# ║   ensures:  upretty(polylog(s, z)) == uresult              ║
+# ║   ensures:  pretty(expint(s, z)) == aresult                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_print_expint_polylog_symbolic_order : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5c8effdba7be3f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7979cff88a2afd87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_expint_polylog_symbolic_order","kind":"function","src_hash":"fbd358a52942b9e9","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(polylog(s, z)) == aresult and upretty(polylog(s, z)) == uresult and pretty(expint(s, z)) == aresult and upretty(expint(s, z)) == uresult"},"spec":{"lhs":"test_print_expint_polylog_symbolic_order()","rhs":"test_print_expint_polylog_symbolic_order produces the expected output","over":{"base":"Any"},"name":"test_print_expint_polylog_symbolic_order_correct"},"guarantee":"test_print_expint_polylog_symbolic_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_expint_polylog_symbolic_order_correct","statement":"Path(test_print_expint_polylog_symbolic_order(x), test_print_expint_polylog_symbolic_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5c8effdba7be3f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_expint_polylog_symbolic_order","kind":"function","src_hash":"fbd358a52942b9e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(polylog(s, z)) == aresult and upretty(polylog(s, z)) == uresult and pretty(expint(s, z)) == aresult and upretty(expint(s, z)) == uresult"},"spec":{"lhs":"test_print_expint_polylog_symbolic_order()","rhs":"pretty(polylog(s, z)) == aresult and upretty(polylog(s, z)) == uresult and pretty(expint(s, z)) == aresult and upretty(expint(s, z)) == uresult","over":{"base":"Any"},"name":"test_print_expint_polylog_symbolic_order_correct"},"guarantee":"pretty(polylog(s, z)) == aresult; upretty(polylog(s, z)) == uresult; pretty(expint(s, z)) == aresult","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_expint_polylog_symbolic_order_correct","statement":"Path(test_print_expint_polylog_symbolic_order(x), pretty(polylog(s, z)) == aresult; upretty(polylog(s, z)) == uresult; pretty(expint(s, z)) == aresult)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7979cff88a2afd87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(polylog(s, z)) == aresult","upretty(polylog(s, z)) == uresult","pretty(expint(s, z)) == aresult","upretty(expint(s, z)) == uresult"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_expint_polylog_symbolic_order():
     s, z = symbols("s, z")
     uresult = 'Liₛ(z)'
@@ -9172,16 +10187,22 @@ def test_print_expint_polylog_symbolic_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_polylog_long_order_issue_25309(), test_print_polylog_long_order_issue_25309 produces the expected output) over Any ║
+# ║ Path(test_print_polylog_long_order_issue_25309(), upretty(polylog(s ** 2, z)) == ucode_str) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(polylog(s ** 2, z)) == ucode_str       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_print_polylog_long_order_issue_25309 : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c06d04b05f6cc970  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fc245bc85cb6c94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_polylog_long_order_issue_25309","kind":"function","src_hash":"29425bf1158d24b5","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(polylog(s ** 2, z)) == ucode_str"},"spec":{"lhs":"test_print_polylog_long_order_issue_25309()","rhs":"test_print_polylog_long_order_issue_25309 produces the expected output","over":{"base":"Any"},"name":"test_print_polylog_long_order_issue_25309_correct"},"guarantee":"test_print_polylog_long_order_issue_25309 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_polylog_long_order_issue_25309_correct","statement":"Path(test_print_polylog_long_order_issue_25309(x), test_print_polylog_long_order_issue_25309 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c06d04b05f6cc970"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_polylog_long_order_issue_25309","kind":"function","src_hash":"29425bf1158d24b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(polylog(s ** 2, z)) == ucode_str"},"spec":{"lhs":"test_print_polylog_long_order_issue_25309()","rhs":"upretty(polylog(s ** 2, z)) == ucode_str","over":{"base":"Any"},"name":"test_print_polylog_long_order_issue_25309_correct"},"guarantee":"upretty(polylog(s ** 2, z)) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_polylog_long_order_issue_25309_correct","statement":"Path(test_print_polylog_long_order_issue_25309(x), upretty(polylog(s ** 2, z)) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fc245bc85cb6c94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(polylog(s ** 2, z)) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_print_polylog_long_order_issue_25309():
     s, z = symbols("s, z")
     ucode_str = \
@@ -9193,16 +10214,23 @@ polylog⎝s , z⎠\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_lerchphi(), test_print_lerchphi produces the expected output) over Any ║
+# ║ Path(test_print_lerchphi(), pretty(lerchphi(a, 1, 2)) == aresult and upretty(lerchphi(a, 1, 2)) == uresult) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_lerchphi : Any → {Any | pretty(lerchphi(a,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(lerchphi(a, 1, 2)) == aresult           ║
+# ║   ensures:  upretty(lerchphi(a, 1, 2)) == uresult          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_lerchphi : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cfa23966e3a60af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58897b4db79e34e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_lerchphi","kind":"function","src_hash":"53f30a2d8362f01e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(lerchphi(a, 1, 2)) == aresult and upretty(lerchphi(a, 1, 2)) == uresult"},"spec":{"lhs":"test_print_lerchphi()","rhs":"test_print_lerchphi produces the expected output","over":{"base":"Any"},"name":"test_print_lerchphi_correct"},"guarantee":"test_print_lerchphi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_lerchphi_correct","statement":"Path(test_print_lerchphi(x), test_print_lerchphi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cfa23966e3a60af"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_print_lerchphi","kind":"function","src_hash":"53f30a2d8362f01e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(lerchphi(a, 1, 2)) == aresult and upretty(lerchphi(a, 1, 2)) == uresult"},"spec":{"lhs":"test_print_lerchphi()","rhs":"pretty(lerchphi(a, 1, 2)) == aresult and upretty(lerchphi(a, 1, 2)) == uresult","over":{"base":"Any"},"name":"test_print_lerchphi_correct"},"guarantee":"pretty(lerchphi(a, 1, 2)) == aresult; upretty(lerchphi(a, 1, 2)) == uresult","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_print_lerchphi_correct","statement":"Path(test_print_lerchphi(x), pretty(lerchphi(a, 1, 2)) == aresult; upretty(lerchphi(a, 1, 2)) == uresult)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58897b4db79e34e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(lerchphi(a, 1, 2)) == aresult","upretty(lerchphi(a, 1, 2)) == uresult"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_lerchphi():
     # Part of issue 6013
     a = Symbol('a')
@@ -9214,16 +10242,22 @@ def test_print_lerchphi():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15583(), test_issue_15583 produces the expected output) over Any ║
+# ║ Path(test_issue_15583(), e == result) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15583 : Any → {Any | e == result}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == result                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15583 : Any → {Any | result satisfies: e =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e7fb1650fd6cccf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2566134395c60aab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_15583","kind":"function","src_hash":"a60fded749bfb3e0","in":{"base":"Any"},"out":{"base":"Any","pred":"e == result"},"spec":{"lhs":"test_issue_15583()","rhs":"test_issue_15583 produces the expected output","over":{"base":"Any"},"name":"test_issue_15583_correct"},"guarantee":"test_issue_15583 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_15583_correct","statement":"Path(test_issue_15583(x), test_issue_15583 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e7fb1650fd6cccf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_15583","kind":"function","src_hash":"a60fded749bfb3e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == result"},"spec":{"lhs":"test_issue_15583()","rhs":"e == result","over":{"base":"Any"},"name":"test_issue_15583_correct"},"guarantee":"e == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_15583_correct","statement":"Path(test_issue_15583(x), e == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2566134395c60aab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15583():
 
     N = mechanics.ReferenceFrame('N')
@@ -9233,16 +10267,25 @@ def test_issue_15583():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrixSymbolBold(), test_matrixSymbolBold produces the expected output) over Any ║
+# ║ Path(test_matrixSymbolBold(), xpretty(expr, use_unicode=True, wrap_line=False, mat_symbol_style='bold')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrixSymbolBold : Any → {Any | boldpretty(trace...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  boldpretty(trace(A)) == 'tr(𝐀)'                ║
+# ║   ensures:  boldpretty(-A) == '-𝐀'                         ║
+# ║   ensures:  boldpretty(A - A * B - B) == '-𝐁 -𝐀⋅𝐁 + 𝐀'     ║
+# ║   returns:  xpretty(expr, use_unicode=True, wrap_line...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrixSymbolBold : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f742391a5988e8aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35c4f537ed795cbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_matrixSymbolBold","kind":"function","src_hash":"a6c0fb122a711161","in":{"base":"Any"},"out":{"base":"Any","pred":"boldpretty(trace(A)) == 'tr(\ud835\udc00)' and boldpretty(-A) == '-\ud835\udc00' and boldpretty(A - A * B - B) == '-\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01 + \ud835\udc00' and boldpretty(-A * B - A * B * C - B) == '-\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01\u22c5\ud835\udc02' and boldpretty(A) == '\ud835\udc00\u0308' and boldpretty(omega) == '\u03c9' and boldpretty(omega) == '\u2016\u03c9\u2016' and boldpretty(a * B * c + b * d) == 'b\u22c5\ud835\udc1d + \u03b1\u22c5\ud835\udc01\u22c5\ud835\udc1c' and boldpretty(a * B * c + b * d) == 'b\u22c5\u03b4 + \u03b1\u22c5\u0392\u22c5\ud835\udc1c' and boldpretty(A) == '\ud835\udc00\u2082'"},"spec":{"lhs":"test_matrixSymbolBold()","rhs":"test_matrixSymbolBold produces the expected output","over":{"base":"Any"},"name":"test_matrixSymbolBold_correct"},"guarantee":"test_matrixSymbolBold produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_matrixSymbolBold_correct","statement":"Path(test_matrixSymbolBold(x), test_matrixSymbolBold produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f742391a5988e8aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_matrixSymbolBold","kind":"function","src_hash":"a6c0fb122a711161","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (xpretty(expr, use_unicode=True, wrap_line=False, mat_symbol_style='bold'))"},"spec":{"lhs":"test_matrixSymbolBold()","rhs":"xpretty(expr, use_unicode=True, wrap_line=False, mat_symbol_style='bold')","over":{"base":"Any"},"name":"test_matrixSymbolBold_correct"},"guarantee":"returns xpretty(expr, use_unicode=True, wrap_line=False, mat_symbol_style='bold'); boldpretty(trace(A)) == 'tr(\ud835\udc00)'; boldpretty(-A) == '-\ud835\udc00'; boldpretty(A - A * B - B) == '-\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01 + \ud835\udc00'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_matrixSymbolBold_correct","statement":"Path(test_matrixSymbolBold(x), returns xpretty(expr, use_unicode=True, wrap_line=False, mat_symbol_style='bold'); boldpretty(trace(A)) == 'tr(\ud835\udc00)'; boldpretty(-A) == '-\ud835\udc00'; boldpretty(A - A * B - B) == '-\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01 + \ud835\udc00')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35c4f537ed795cbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["boldpretty(trace(A)) == 'tr(\ud835\udc00)'","boldpretty(-A) == '-\ud835\udc00'","boldpretty(A - A * B - B) == '-\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01 + \ud835\udc00'","boldpretty(-A * B - A * B * C - B) == '-\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01 -\ud835\udc00\u22c5\ud835\udc01\u22c5\ud835\udc02'","boldpretty(A) == '\ud835\udc00\u0308'","boldpretty(omega) == '\u03c9'","boldpretty(omega) == '\u2016\u03c9\u2016'","boldpretty(a * B * c + b * d) == 'b\u22c5\ud835\udc1d + \u03b1\u22c5\ud835\udc01\u22c5\ud835\udc1c'","boldpretty(a * B * c + b * d) == 'b\u22c5\u03b4 + \u03b1\u22c5\u0392\u22c5\ud835\udc1c'","boldpretty(A) == '\ud835\udc00\u2082'"],"returns_expr":"xpretty(expr, use_unicode=True, wrap_line=False, mat_symbol_style='bold')","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_matrixSymbolBold():
     # Issue 15871
     def boldpretty(expr):
@@ -9284,16 +10327,24 @@ def test_matrixSymbolBold():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_center_accent(), test_center_accent produces the expected output) over Any ║
+# ║ Path(test_center_accent(), center_accent('a', '̃') == 'ã' and center_accent('aa', '̃') == 'aã' and center_accent('aaa', '̃') == 'aãa' and center_accent('aaaa', '̃') == 'aaãa' and center_accent('aaaaa', '̃') == 'aaãaa' and center_accent('abcdefg', '⃜') == 'abcd⃜efg') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_center_accent : Any → {Any | center_accent('a', ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  center_accent('a', '̃') == 'ã'                ║
+# ║   ensures:  center_accent('aa', '̃') == 'aã'              ║
+# ║   ensures:  center_accent('aaa', '̃') == 'aãa'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_center_accent : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d49803e2d7c3c124  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9e24d4f448ba83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_center_accent","kind":"function","src_hash":"0ba3af3f602f7c62","in":{"base":"Any"},"out":{"base":"Any","pred":"center_accent('a', '\u0303') == 'a\u0303' and center_accent('aa', '\u0303') == 'aa\u0303' and center_accent('aaa', '\u0303') == 'aa\u0303a' and center_accent('aaaa', '\u0303') == 'aaa\u0303a' and center_accent('aaaaa', '\u0303') == 'aaa\u0303aa' and center_accent('abcdefg', '\u20dc') == 'abcd\u20dcefg'"},"spec":{"lhs":"test_center_accent()","rhs":"test_center_accent produces the expected output","over":{"base":"Any"},"name":"test_center_accent_correct"},"guarantee":"test_center_accent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_center_accent_correct","statement":"Path(test_center_accent(x), test_center_accent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d49803e2d7c3c124"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_center_accent","kind":"function","src_hash":"0ba3af3f602f7c62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: center_accent('a', '\u0303') == 'a\u0303' and center_accent('aa', '\u0303') == 'aa\u0303' and center_accent('aaa', '\u0303') == 'aa\u0303a' and center_accent('aaaa', '\u0303') == 'aaa\u0303a' and center_accent('aaaaa', '\u0303') == 'aaa\u0303aa' and center_accent('abcdefg', '\u20dc') == 'abcd\u20dcefg'"},"spec":{"lhs":"test_center_accent()","rhs":"center_accent('a', '\u0303') == 'a\u0303' and center_accent('aa', '\u0303') == 'aa\u0303' and center_accent('aaa', '\u0303') == 'aa\u0303a' and center_accent('aaaa', '\u0303') == 'aaa\u0303a' and center_accent('aaaaa', '\u0303') == 'aaa\u0303aa' and center_accent('abcdefg', '\u20dc') == 'abcd\u20dcefg'","over":{"base":"Any"},"name":"test_center_accent_correct"},"guarantee":"center_accent('a', '\u0303') == 'a\u0303'; center_accent('aa', '\u0303') == 'aa\u0303'; center_accent('aaa', '\u0303') == 'aa\u0303a'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_center_accent_correct","statement":"Path(test_center_accent(x), center_accent('a', '\u0303') == 'a\u0303'; center_accent('aa', '\u0303') == 'aa\u0303'; center_accent('aaa', '\u0303') == 'aa\u0303a')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9e24d4f448ba83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["center_accent('a', '\u0303') == 'a\u0303'","center_accent('aa', '\u0303') == 'aa\u0303'","center_accent('aaa', '\u0303') == 'aa\u0303a'","center_accent('aaaa', '\u0303') == 'aaa\u0303a'","center_accent('aaaaa', '\u0303') == 'aaa\u0303aa'","center_accent('abcdefg', '\u20dc') == 'abcd\u20dcefg'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_center_accent():
     assert center_accent('a', '\N{COMBINING TILDE}') == 'ã'
     assert center_accent('aa', '\N{COMBINING TILDE}') == 'aã'
@@ -9304,16 +10355,24 @@ def test_center_accent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imaginary_unit(), test_imaginary_unit produces the expected output) over Any ║
+# ║ Path(test_imaginary_unit(), pretty(1 + I, use_unicode=False) == '1 + I' and pretty(1 + I, use_unicode=True) == '1 + ⅈ' and pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I' and pretty(1 + I, use_unicode=True, imaginary_unit='j') == '1 + ⅉ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imaginary_unit : Any → {Any | pretty(1 + I, use_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(1 + I, use_unicode=False) == '1 + I'    ║
+# ║   ensures:  pretty(1 + I, use_unicode=True) == '1 + ⅈ'     ║
+# ║   ensures:  pretty(1 + I, use_unicode=False, imaginar...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imaginary_unit : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 953fc69f73613720  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59bc3f0bef87eec5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_imaginary_unit","kind":"function","src_hash":"0dd2dcc22ad31da5","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(1 + I, use_unicode=False) == '1 + I' and pretty(1 + I, use_unicode=True) == '1 + \u2148' and pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I' and pretty(1 + I, use_unicode=True, imaginary_unit='j') == '1 + \u2149'"},"spec":{"lhs":"test_imaginary_unit()","rhs":"test_imaginary_unit produces the expected output","over":{"base":"Any"},"name":"test_imaginary_unit_correct"},"guarantee":"test_imaginary_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_imaginary_unit_correct","statement":"Path(test_imaginary_unit(x), test_imaginary_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"953fc69f73613720"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_imaginary_unit","kind":"function","src_hash":"0dd2dcc22ad31da5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(1 + I, use_unicode=False) == '1 + I' and pretty(1 + I, use_unicode=True) == '1 + \u2148' and pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I' and pretty(1 + I, use_unicode=True, imaginary_unit='j') == '1 + \u2149'"},"spec":{"lhs":"test_imaginary_unit()","rhs":"pretty(1 + I, use_unicode=False) == '1 + I' and pretty(1 + I, use_unicode=True) == '1 + \u2148' and pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I' and pretty(1 + I, use_unicode=True, imaginary_unit='j') == '1 + \u2149'","over":{"base":"Any"},"name":"test_imaginary_unit_correct"},"guarantee":"pretty(1 + I, use_unicode=False) == '1 + I'; pretty(1 + I, use_unicode=True) == '1 + \u2148'; pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_imaginary_unit_correct","statement":"Path(test_imaginary_unit(x), pretty(1 + I, use_unicode=False) == '1 + I'; pretty(1 + I, use_unicode=True) == '1 + \u2148'; pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59bc3f0bef87eec5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(1 + I, use_unicode=False) == '1 + I'","pretty(1 + I, use_unicode=True) == '1 + \u2148'","pretty(1 + I, use_unicode=False, imaginary_unit='j') == '1 + I'","pretty(1 + I, use_unicode=True, imaginary_unit='j') == '1 + \u2149'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imaginary_unit():
     from sympy.printing.pretty import pretty  # b/c it was redefined above
     assert pretty(1 + I, use_unicode=False) == '1 + I'
@@ -9326,16 +10385,24 @@ def test_imaginary_unit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str_special_matrices(), test_str_special_matrices produces the expected output) over Any ║
+# ║ Path(test_str_special_matrices(), pretty(Identity(4)) == 'I' and upretty(Identity(4)) == '𝕀' and pretty(ZeroMatrix(2, 2)) == '0' and upretty(ZeroMatrix(2, 2)) == '𝟘' and pretty(OneMatrix(2, 2)) == '1' and upretty(OneMatrix(2, 2)) == '𝟙') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str_special_matrices : Any → {Any | pretty(Ident...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Identity(4)) == 'I'                     ║
+# ║   ensures:  upretty(Identity(4)) == '𝕀'                    ║
+# ║   ensures:  pretty(ZeroMatrix(2, 2)) == '0'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str_special_matrices : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82a18b08be30868f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f3f49de773a6fa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_str_special_matrices","kind":"function","src_hash":"3d461ca0ba5dca9e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Identity(4)) == 'I' and upretty(Identity(4)) == '\ud835\udd40' and pretty(ZeroMatrix(2, 2)) == '0' and upretty(ZeroMatrix(2, 2)) == '\ud835\udfd8' and pretty(OneMatrix(2, 2)) == '1' and upretty(OneMatrix(2, 2)) == '\ud835\udfd9'"},"spec":{"lhs":"test_str_special_matrices()","rhs":"test_str_special_matrices produces the expected output","over":{"base":"Any"},"name":"test_str_special_matrices_correct"},"guarantee":"test_str_special_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_str_special_matrices_correct","statement":"Path(test_str_special_matrices(x), test_str_special_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82a18b08be30868f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_str_special_matrices","kind":"function","src_hash":"3d461ca0ba5dca9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Identity(4)) == 'I' and upretty(Identity(4)) == '\ud835\udd40' and pretty(ZeroMatrix(2, 2)) == '0' and upretty(ZeroMatrix(2, 2)) == '\ud835\udfd8' and pretty(OneMatrix(2, 2)) == '1' and upretty(OneMatrix(2, 2)) == '\ud835\udfd9'"},"spec":{"lhs":"test_str_special_matrices()","rhs":"pretty(Identity(4)) == 'I' and upretty(Identity(4)) == '\ud835\udd40' and pretty(ZeroMatrix(2, 2)) == '0' and upretty(ZeroMatrix(2, 2)) == '\ud835\udfd8' and pretty(OneMatrix(2, 2)) == '1' and upretty(OneMatrix(2, 2)) == '\ud835\udfd9'","over":{"base":"Any"},"name":"test_str_special_matrices_correct"},"guarantee":"pretty(Identity(4)) == 'I'; upretty(Identity(4)) == '\ud835\udd40'; pretty(ZeroMatrix(2, 2)) == '0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_str_special_matrices_correct","statement":"Path(test_str_special_matrices(x), pretty(Identity(4)) == 'I'; upretty(Identity(4)) == '\ud835\udd40'; pretty(ZeroMatrix(2, 2)) == '0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f3f49de773a6fa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Identity(4)) == 'I'","upretty(Identity(4)) == '\ud835\udd40'","pretty(ZeroMatrix(2, 2)) == '0'","upretty(ZeroMatrix(2, 2)) == '\ud835\udfd8'","pretty(OneMatrix(2, 2)) == '1'","upretty(OneMatrix(2, 2)) == '\ud835\udfd9'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_str_special_matrices():
     from sympy.matrices import Identity, ZeroMatrix, OneMatrix
     assert pretty(Identity(4)) == 'I'
@@ -9347,16 +10414,24 @@ def test_str_special_matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_misc_functions(), test_pretty_misc_functions produces the expected output) over Any ║
+# ║ Path(test_pretty_misc_functions(), pretty(LambertW(x)) == 'W(x)' and upretty(LambertW(x)) == 'W(x)' and pretty(LambertW(x, y)) == 'W(x, y)' and upretty(LambertW(x, y)) == 'W(x, y)' and pretty(airyai(x)) == 'Ai(x)' and upretty(airyai(x)) == 'Ai(x)' and pretty(airybi(x)) == 'Bi(x)' and upretty(airybi(x)) == 'Bi(x)' and pretty(airyaiprime(x)) == "Ai'(x)" and upretty(airyaiprime(x)) == "Ai'(x)" and pretty(airybiprime(x)) == "Bi'(x)" and upretty(airybiprime(x)) == "Bi'(x)" and pretty(fresnelc(x)) == 'C(x)' and upretty(fresnelc(x)) == 'C(x)' and pretty(fresnels(x)) == 'S(x)' and upretty(fresnels(x)) == 'S(x)' and pretty(Heaviside(x)) == 'Heaviside(x)' and upretty(Heaviside(x)) == 'θ(x)' and pretty(Heaviside(x, y)) == 'Heaviside(x, y)' and upretty(Heaviside(x, y)) == 'θ(x, y)' and pretty(dirichlet_eta(x)) == 'dirichlet_eta(x)' and upretty(dirichlet_eta(x)) == 'η(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_misc_functions : Any → {Any | pretty(Lamb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(LambertW(x)) == 'W(x)'                  ║
+# ║   ensures:  upretty(LambertW(x)) == 'W(x)'                 ║
+# ║   ensures:  pretty(LambertW(x, y)) == 'W(x, y)'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_misc_functions : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3de72f7548b3d463  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72a143ef6d26f521  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_misc_functions","kind":"function","src_hash":"09e843b5db87d81e","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(LambertW(x)) == 'W(x)' and upretty(LambertW(x)) == 'W(x)' and pretty(LambertW(x, y)) == 'W(x, y)' and upretty(LambertW(x, y)) == 'W(x, y)' and pretty(airyai(x)) == 'Ai(x)' and upretty(airyai(x)) == 'Ai(x)' and pretty(airybi(x)) == 'Bi(x)' and upretty(airybi(x)) == 'Bi(x)' and pretty(airyaiprime(x)) == \"Ai'(x)\" and upretty(airyaiprime(x)) == \"Ai'(x)\" and pretty(airybiprime(x)) == \"Bi'(x)\" and upretty(airybiprime(x)) == \"Bi'(x)\" and pretty(fresnelc(x)) == 'C(x)' and upretty(fresnelc(x)) == 'C(x)' and pretty(fresnels(x)) == 'S(x)' and upretty(fresnels(x)) == 'S(x)' and pretty(Heaviside(x)) == 'Heaviside(x)' and upretty(Heaviside(x)) == '\u03b8(x)' and pretty(Heaviside(x, y)) == 'Heaviside(x, y)' and upretty(Heaviside(x, y)) == '\u03b8(x, y)' and pretty(dirichlet_eta(x)) == 'dirichlet_eta(x)' and upretty(dirichlet_eta(x)) == '\u03b7(x)'"},"spec":{"lhs":"test_pretty_misc_functions()","rhs":"test_pretty_misc_functions produces the expected output","over":{"base":"Any"},"name":"test_pretty_misc_functions_correct"},"guarantee":"test_pretty_misc_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_misc_functions_correct","statement":"Path(test_pretty_misc_functions(x), test_pretty_misc_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3de72f7548b3d463"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_pretty_misc_functions","kind":"function","src_hash":"09e843b5db87d81e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(LambertW(x)) == 'W(x)' and upretty(LambertW(x)) == 'W(x)' and pretty(LambertW(x, y)) == 'W(x, y)' and upretty(LambertW(x, y)) == 'W(x, y)' and pretty(airyai(x)) == 'Ai(x)' and upretty(airyai(x)) == 'Ai(x)' and pretty(airybi(x)) == 'Bi(x)' and upretty(airybi(x)) == 'Bi(x)' and pretty(airyaiprime(x)) == \"Ai'(x)\" and upretty(airyaiprime(x)) == \"Ai'(x)\" and pretty(airybiprime(x)) == \"Bi'(x)\" and upretty(airybiprime(x)) == \"Bi'(x)\" and pretty(fresnelc(x)) == 'C(x)' and upretty(fresnelc(x)) == 'C(x)' and pretty(fresnels(x)) == 'S(x)' and upretty(fresnels(x)) == 'S(x)' and pretty(Heaviside(x)) == 'Heaviside(x)' and upretty(Heaviside(x)) == '\u03b8(x)' and pretty(Heaviside(x, y)) == 'Heaviside(x, y)' and upretty(Heaviside(x, y)) == '\u03b8(x, y)' and pretty(dirichlet_eta(x)) == 'dirichlet_eta(x)' and upretty(dirichlet_eta(x)) == '\u03b7(x)'"},"spec":{"lhs":"test_pretty_misc_functions()","rhs":"pretty(LambertW(x)) == 'W(x)' and upretty(LambertW(x)) == 'W(x)' and pretty(LambertW(x, y)) == 'W(x, y)' and upretty(LambertW(x, y)) == 'W(x, y)' and pretty(airyai(x)) == 'Ai(x)' and upretty(airyai(x)) == 'Ai(x)' and pretty(airybi(x)) == 'Bi(x)' and upretty(airybi(x)) == 'Bi(x)' and pretty(airyaiprime(x)) == \"Ai'(x)\" and upretty(airyaiprime(x)) == \"Ai'(x)\" and pretty(airybiprime(x)) == \"Bi'(x)\" and upretty(airybiprime(x)) == \"Bi'(x)\" and pretty(fresnelc(x)) == 'C(x)' and upretty(fresnelc(x)) == 'C(x)' and pretty(fresnels(x)) == 'S(x)' and upretty(fresnels(x)) == 'S(x)' and pretty(Heaviside(x)) == 'Heaviside(x)' and upretty(Heaviside(x)) == '\u03b8(x)' and pretty(Heaviside(x, y)) == 'Heaviside(x, y)' and upretty(Heaviside(x, y)) == '\u03b8(x, y)' and pretty(dirichlet_eta(x)) == 'dirichlet_eta(x)' and upretty(dirichlet_eta(x)) == '\u03b7(x)'","over":{"base":"Any"},"name":"test_pretty_misc_functions_correct"},"guarantee":"pretty(LambertW(x)) == 'W(x)'; upretty(LambertW(x)) == 'W(x)'; pretty(LambertW(x, y)) == 'W(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_pretty_misc_functions_correct","statement":"Path(test_pretty_misc_functions(x), pretty(LambertW(x)) == 'W(x)'; upretty(LambertW(x)) == 'W(x)'; pretty(LambertW(x, y)) == 'W(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a143ef6d26f521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(LambertW(x)) == 'W(x)'","upretty(LambertW(x)) == 'W(x)'","pretty(LambertW(x, y)) == 'W(x, y)'","upretty(LambertW(x, y)) == 'W(x, y)'","pretty(airyai(x)) == 'Ai(x)'","upretty(airyai(x)) == 'Ai(x)'","pretty(airybi(x)) == 'Bi(x)'","upretty(airybi(x)) == 'Bi(x)'","pretty(airyaiprime(x)) == \"Ai'(x)\"","upretty(airyaiprime(x)) == \"Ai'(x)\"","pretty(airybiprime(x)) == \"Bi'(x)\"","upretty(airybiprime(x)) == \"Bi'(x)\"","pretty(fresnelc(x)) == 'C(x)'","upretty(fresnelc(x)) == 'C(x)'","pretty(fresnels(x)) == 'S(x)'","upretty(fresnels(x)) == 'S(x)'","pretty(Heaviside(x)) == 'Heaviside(x)'","upretty(Heaviside(x)) == '\u03b8(x)'","pretty(Heaviside(x, y)) == 'Heaviside(x, y)'","upretty(Heaviside(x, y)) == '\u03b8(x, y)'","pretty(dirichlet_eta(x)) == 'dirichlet_eta(x)'","upretty(dirichlet_eta(x)) == '\u03b7(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pretty_misc_functions():
     assert pretty(LambertW(x)) == 'W(x)'
     assert upretty(LambertW(x)) == 'W(x)'
@@ -9383,16 +10458,23 @@ def test_pretty_misc_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard_power(), test_hadamard_power produces the expected output) over Any ║
+# ║ Path(test_hadamard_power(), pretty(expr) == ascii_str and upretty(expr) == ucode_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hadamard_power : Any → {Any | pretty(expr) == as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(expr) == ascii_str                      ║
+# ║   ensures:  upretty(expr) == ucode_str                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hadamard_power : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16fdbaf49f357b95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40507497fee04e8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_hadamard_power","kind":"function","src_hash":"781a1ba80ae6f3ab","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str and pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_hadamard_power()","rhs":"test_hadamard_power produces the expected output","over":{"base":"Any"},"name":"test_hadamard_power_correct"},"guarantee":"test_hadamard_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_hadamard_power_correct","statement":"Path(test_hadamard_power(x), test_hadamard_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16fdbaf49f357b95"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_hadamard_power","kind":"function","src_hash":"781a1ba80ae6f3ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(expr) == ascii_str and upretty(expr) == ucode_str"},"spec":{"lhs":"test_hadamard_power()","rhs":"pretty(expr) == ascii_str and upretty(expr) == ucode_str","over":{"base":"Any"},"name":"test_hadamard_power_correct"},"guarantee":"pretty(expr) == ascii_str; upretty(expr) == ucode_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_hadamard_power_correct","statement":"Path(test_hadamard_power(x), pretty(expr) == ascii_str; upretty(expr) == ucode_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40507497fee04e8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(expr) == ascii_str","upretty(expr) == ucode_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hadamard_power():
     m, n, p = symbols('m, n, p', integer=True)
     A = MatrixSymbol('A', m, n)
@@ -9445,16 +10527,23 @@ A        \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17258(), test_issue_17258 produces the expected output) over Any ║
+# ║ Path(test_issue_17258(), pretty(Sum(n, (n, -oo, 1))) == '   1     \n  __     \n  \\ `    \n   )    n\n  /_,    \nn = -oo  ' and upretty(Sum(n, (n, -oo, 1))) == '  1     \n ___    \n ╲      \n  ╲     \n  ╱    n\n ╱      \n ‾‾‾    \nn = -∞  ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17258 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Sum(n, (n, -oo, 1))) == '   1     ...   ║
+# ║   ensures:  upretty(Sum(n, (n, -oo, 1))) == '  1     ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17258 : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd414363b268d572  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 951061009f1a5fe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_17258","kind":"function","src_hash":"8f7a0f123094d788","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17258()","rhs":"test_issue_17258 produces the expected output","over":{"base":"Any"},"name":"test_issue_17258_correct"},"guarantee":"test_issue_17258 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_17258_correct","statement":"Path(test_issue_17258(x), test_issue_17258 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd414363b268d572"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_17258","kind":"function","src_hash":"8f7a0f123094d788","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Sum(n, (n, -oo, 1))) == '   1     \\n  __     \\n  \\\\ `    \\n   )    n\\n  /_,    \\nn = -oo  ' and upretty(Sum(n, (n, -oo, 1))) == '  1     \\n ___    \\n \u2572      \\n  \u2572     \\n  \u2571    n\\n \u2571      \\n \u203e\u203e\u203e    \\nn = -\u221e  '"},"spec":{"lhs":"test_issue_17258()","rhs":"pretty(Sum(n, (n, -oo, 1))) == '   1     \\n  __     \\n  \\\\ `    \\n   )    n\\n  /_,    \\nn = -oo  ' and upretty(Sum(n, (n, -oo, 1))) == '  1     \\n ___    \\n \u2572      \\n  \u2572     \\n  \u2571    n\\n \u2571      \\n \u203e\u203e\u203e    \\nn = -\u221e  '","over":{"base":"Any"},"name":"test_issue_17258_correct"},"guarantee":"pretty(Sum(n, (n, -oo, 1))) == '   1     \\n  __     \\n  \\\\ `    \\n   )    n\\n  /_,    \\nn = -oo  '; upretty(Sum(n, (n, -oo, 1))) == '  1     \\n ___    \\n \u2572      \\n  \u2572     \\n  \u2571    n\\n \u2571      \\n \u203e\u203e\u203e    \\nn = -\u221e  '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_17258_correct","statement":"Path(test_issue_17258(x), pretty(Sum(n, (n, -oo, 1))) == '   1     \\n  __     \\n  \\\\ `    \\n   )    n\\n  /_,    \\nn = -oo  '; upretty(Sum(n, (n, -oo, 1))) == '  1     \\n ___    \\n \u2572      \\n  \u2572     \\n  \u2571    n\\n \u2571      \\n \u203e\u203e\u203e    \\nn = -\u221e  ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"951061009f1a5fe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Sum(n, (n, -oo, 1))) == '   1     \\n  __     \\n  \\\\ `    \\n   )    n\\n  /_,    \\nn = -oo  '","upretty(Sum(n, (n, -oo, 1))) == '  1     \\n ___    \\n \u2572      \\n  \u2572     \\n  \u2571    n\\n \u2571      \\n \u203e\u203e\u203e    \\nn = -\u221e  '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17258():
     n = Symbol('n', integer=True)
     assert pretty(Sum(n, (n, -oo, 1))) == \
@@ -9479,16 +10568,22 @@ n = -∞  \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_combining(), test_is_combining produces the expected output) over Any ║
+# ║ Path(test_is_combining(), [is_combining(sym) for sym in line] == [False, True, False, False]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_combining : Any → {Any | [is_combining(sym) f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [is_combining(sym) for sym in line] == [F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_combining : Any → {Any | result satisfies: [i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fca0937dd5915833  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d3ae810e0db5403  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_is_combining","kind":"function","src_hash":"147b1f89ad66212e","in":{"base":"Any"},"out":{"base":"Any","pred":"[is_combining(sym) for sym in line] == [False, True, False, False]"},"spec":{"lhs":"test_is_combining()","rhs":"test_is_combining produces the expected output","over":{"base":"Any"},"name":"test_is_combining_correct"},"guarantee":"test_is_combining produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_is_combining_correct","statement":"Path(test_is_combining(x), test_is_combining produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fca0937dd5915833"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_is_combining","kind":"function","src_hash":"147b1f89ad66212e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [is_combining(sym) for sym in line] == [False, True, False, False]"},"spec":{"lhs":"test_is_combining()","rhs":"[is_combining(sym) for sym in line] == [False, True, False, False]","over":{"base":"Any"},"name":"test_is_combining_correct"},"guarantee":"[is_combining(sym) for sym in line] == [False, True, False, False]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_is_combining_correct","statement":"Path(test_is_combining(x), [is_combining(sym) for sym in line] == [False, True, False, False])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d3ae810e0db5403","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[is_combining(sym) for sym in line] == [False, True, False, False]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_is_combining():
     line = "v̇_m"
     assert [is_combining(sym) for sym in line] == \
@@ -9496,16 +10591,24 @@ def test_is_combining():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17616(), test_issue_17616 produces the expected output) over Any ║
+# ║ Path(test_issue_17616(), pretty(pi ** (1 / exp(1))) == '  / -1\\\n  \\e  /\npi     ' and upretty(pi ** (1 / exp(1))) == ' ⎛ -1⎞\n ⎝ℯ  ⎠\nπ     ' and pretty(pi ** (1 / pi)) == '  1 \n  --\n  pi\npi  ' and upretty(pi ** (1 / pi)) == ' 1\n ─\n π\nπ ' and pretty(pi ** (1 / EulerGamma)) == '      1     \n  ----------\n  EulerGamma\npi          ' and upretty(pi ** (1 / EulerGamma)) == ' 1\n ─\n γ\nπ ' and upretty(7 ** (1 / z)) == 'x₁₇___\n ╲╱ 7 ' and pretty(7 ** (1 / z)) == 'x_17___\n  \\/ 7 ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17616 : Any → {Any | pretty(pi ** (1 / exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(pi ** (1 / exp(1))) == '  / -1\\\n...   ║
+# ║   ensures:  upretty(pi ** (1 / exp(1))) == ' ⎛ -1⎞\n ...   ║
+# ║   ensures:  pretty(pi ** (1 / pi)) == '  1 \n  --\n  ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17616 : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 566a7a5ad64b2cfb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5943bbfb32eaa996  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_17616","kind":"function","src_hash":"01574167d2a04e60","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(pi ** (1 / exp(1))) == '  / -1\\\\\\n  \\\\e  /\\npi     ' and upretty(pi ** (1 / exp(1))) == ' \u239b -1\u239e\\n \u239d\u212f  \u23a0\\n\u03c0     ' and pretty(pi ** (1 / pi)) == '  1 \\n  --\\n  pi\\npi  ' and upretty(pi ** (1 / pi)) == ' 1\\n \u2500\\n \u03c0\\n\u03c0 ' and upretty(pi ** (1 / EulerGamma)) == ' 1\\n \u2500\\n \u03b3\\n\u03c0 ' and upretty(7 ** (1 / z)) == 'x\u2081\u2087___\\n \u2572\u2571 7 ' and pretty(7 ** (1 / z)) == 'x_17___\\n  \\\\/ 7 '"},"spec":{"lhs":"test_issue_17616()","rhs":"test_issue_17616 produces the expected output","over":{"base":"Any"},"name":"test_issue_17616_correct"},"guarantee":"test_issue_17616 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_17616_correct","statement":"Path(test_issue_17616(x), test_issue_17616 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"566a7a5ad64b2cfb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_17616","kind":"function","src_hash":"01574167d2a04e60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(pi ** (1 / exp(1))) == '  / -1\\\\\\n  \\\\e  /\\npi     ' and upretty(pi ** (1 / exp(1))) == ' \u239b -1\u239e\\n \u239d\u212f  \u23a0\\n\u03c0     ' and pretty(pi ** (1 / pi)) == '  1 \\n  --\\n  pi\\npi  ' and upretty(pi ** (1 / pi)) == ' 1\\n \u2500\\n \u03c0\\n\u03c0 ' and pretty(pi ** (1 / EulerGamma)) == '      1     \\n  ----------\\n  EulerGamma\\npi          ' and upretty(pi ** (1 / EulerGamma)) == ' 1\\n \u2500\\n \u03b3\\n\u03c0 ' and upretty(7 ** (1 / z)) == 'x\u2081\u2087___\\n \u2572\u2571 7 ' and pretty(7 ** (1 / z)) == 'x_17___\\n  \\\\/ 7 '"},"spec":{"lhs":"test_issue_17616()","rhs":"pretty(pi ** (1 / exp(1))) == '  / -1\\\\\\n  \\\\e  /\\npi     ' and upretty(pi ** (1 / exp(1))) == ' \u239b -1\u239e\\n \u239d\u212f  \u23a0\\n\u03c0     ' and pretty(pi ** (1 / pi)) == '  1 \\n  --\\n  pi\\npi  ' and upretty(pi ** (1 / pi)) == ' 1\\n \u2500\\n \u03c0\\n\u03c0 ' and pretty(pi ** (1 / EulerGamma)) == '      1     \\n  ----------\\n  EulerGamma\\npi          ' and upretty(pi ** (1 / EulerGamma)) == ' 1\\n \u2500\\n \u03b3\\n\u03c0 ' and upretty(7 ** (1 / z)) == 'x\u2081\u2087___\\n \u2572\u2571 7 ' and pretty(7 ** (1 / z)) == 'x_17___\\n  \\\\/ 7 '","over":{"base":"Any"},"name":"test_issue_17616_correct"},"guarantee":"pretty(pi ** (1 / exp(1))) == '  / -1\\\\\\n  \\\\e  /\\npi     '; upretty(pi ** (1 / exp(1))) == ' \u239b -1\u239e\\n \u239d\u212f  \u23a0\\n\u03c0     '; pretty(pi ** (1 / pi)) == '  1 \\n  --\\n  pi\\npi  '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_17616_correct","statement":"Path(test_issue_17616(x), pretty(pi ** (1 / exp(1))) == '  / -1\\\\\\n  \\\\e  /\\npi     '; upretty(pi ** (1 / exp(1))) == ' \u239b -1\u239e\\n \u239d\u212f  \u23a0\\n\u03c0     '; pretty(pi ** (1 / pi)) == '  1 \\n  --\\n  pi\\npi  ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5943bbfb32eaa996","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(pi ** (1 / exp(1))) == '  / -1\\\\\\n  \\\\e  /\\npi     '","upretty(pi ** (1 / exp(1))) == ' \u239b -1\u239e\\n \u239d\u212f  \u23a0\\n\u03c0     '","pretty(pi ** (1 / pi)) == '  1 \\n  --\\n  pi\\npi  '","upretty(pi ** (1 / pi)) == ' 1\\n \u2500\\n \u03c0\\n\u03c0 '","pretty(pi ** (1 / EulerGamma)) == '      1     \\n  ----------\\n  EulerGamma\\npi          '","upretty(pi ** (1 / EulerGamma)) == ' 1\\n \u2500\\n \u03b3\\n\u03c0 '","upretty(7 ** (1 / z)) == 'x\u2081\u2087___\\n \u2572\u2571 7 '","pretty(7 ** (1 / z)) == 'x_17___\\n  \\\\/ 7 '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17616():
     assert pretty(pi**(1/exp(1))) == \
    '  / -1\\\n'\
@@ -9552,32 +10655,47 @@ def test_issue_17616():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17857(), test_issue_17857 produces the expected output) over Any ║
+# ║ Path(test_issue_17857(), pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}' and pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17857 : Any → {Any | pretty(Range(-oo, oo)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Range(-oo, oo)) == '{..., -1, 0, 1...   ║
+# ║   ensures:  pretty(Range(oo, -oo, -1)) == '{..., 1, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17857 : Any → {Any | result satisfies: pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ec8a8e8f678e107  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c50c9b8a601da2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_17857","kind":"function","src_hash":"dcba5cd202c04bb8","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}' and pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}'"},"spec":{"lhs":"test_issue_17857()","rhs":"test_issue_17857 produces the expected output","over":{"base":"Any"},"name":"test_issue_17857_correct"},"guarantee":"test_issue_17857 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_17857_correct","statement":"Path(test_issue_17857(x), test_issue_17857 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec8a8e8f678e107"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_17857","kind":"function","src_hash":"dcba5cd202c04bb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}' and pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}'"},"spec":{"lhs":"test_issue_17857()","rhs":"pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}' and pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}'","over":{"base":"Any"},"name":"test_issue_17857_correct"},"guarantee":"pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}'; pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_17857_correct","statement":"Path(test_issue_17857(x), pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}'; pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c50c9b8a601da2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}'","pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17857():
     assert pretty(Range(-oo, oo)) == '{..., -1, 0, 1, ...}'
     assert pretty(Range(oo, -oo, -1)) == '{..., 1, 0, -1, ...}'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18272(), test_issue_18272 produces the expected output) over Any ║
+# ║ Path(test_issue_18272(), upretty(ConditionSet(x, Eq(-x + exp(x), 0), S.Complexes)) == '⎧  │         ⎛      x    ⎞⎫\n⎨x │ x ∊ ℂ ∧ ⎝-x + ℯ  = 0⎠⎬\n⎩  │                      ⎭' and upretty(ConditionSet(x, Contains(n / 2, Interval(0, oo)), FiniteSet(-n / 2, n / 2))) == '⎧  │     ⎧-n   n⎫   ⎛n         ⎞⎫\n⎨x │ x ∊ ⎨───, ─⎬ ∧ ⎜─ ∈ [0, ∞)⎟⎬\n⎩  │     ⎩ 2   2⎭   ⎝2         ⎠⎭' and upretty(ConditionSet(x, Eq(Piecewise((1, x >= 3), (x / 2 - 1 / 2, x >= 2), (1 / 2, x >= 1), (x / 2, True)) - 1 / 2, 0), Interval(0, 3))) == '⎧  │              ⎛⎛⎧   1     for x ≥ 3⎞          ⎞⎫\n⎪  │              ⎜⎜⎪                  ⎟          ⎟⎪\n⎪  │              ⎜⎜⎪x                 ⎟          ⎟⎪\n⎪  │              ⎜⎜⎪─ - 0.5  for x ≥ 2⎟          ⎟⎪\n⎪  │              ⎜⎜⎪2                 ⎟          ⎟⎪\n⎨x │ x ∊ [0, 3] ∧ ⎜⎜⎨                  ⎟ - 0.5 = 0⎟⎬\n⎪  │              ⎜⎜⎪  0.5    for x ≥ 1⎟          ⎟⎪\n⎪  │              ⎜⎜⎪                  ⎟          ⎟⎪\n⎪  │              ⎜⎜⎪   x              ⎟          ⎟⎪\n⎪  │              ⎜⎜⎪   ─     otherwise⎟          ⎟⎪\n⎩  │              ⎝⎝⎩   2              ⎠          ⎠⎭') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18272 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(ConditionSet(x, Eq(-x + exp(x), 0...   ║
+# ║   ensures:  upretty(ConditionSet(x, Contains(n / 2, I...   ║
+# ║   ensures:  upretty(ConditionSet(x, Eq(Piecewise((1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18272 : Any → {Any | result satisfies: upr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcee0e81154b9a2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6495ec4c4ea44cbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_18272","kind":"function","src_hash":"0f9377e994e08b8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_18272()","rhs":"test_issue_18272 produces the expected output","over":{"base":"Any"},"name":"test_issue_18272_correct"},"guarantee":"test_issue_18272 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_18272_correct","statement":"Path(test_issue_18272(x), test_issue_18272 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcee0e81154b9a2d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_18272","kind":"function","src_hash":"0f9377e994e08b8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(ConditionSet(x, Eq(-x + exp(x), 0), S.Complexes)) == '\u23a7  \u2502         \u239b      x    \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u2102 \u2227 \u239d-x + \u212f  = 0\u23a0\u23ac\\n\u23a9  \u2502                      \u23ad' and upretty(ConditionSet(x, Contains(n / 2, Interval(0, oo)), FiniteSet(-n / 2, n / 2))) == '\u23a7  \u2502     \u23a7-n   n\u23ab   \u239bn         \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u23a8\u2500\u2500\u2500, \u2500\u23ac \u2227 \u239c\u2500 \u2208 [0, \u221e)\u239f\u23ac\\n\u23a9  \u2502     \u23a9 2   2\u23ad   \u239d2         \u23a0\u23ad' and upretty(ConditionSet(x, Eq(Piecewise((1, x >= 3), (x / 2 - 1 / 2, x >= 2), (1 / 2, x >= 1), (x / 2, True)) - 1 / 2, 0), Interval(0, 3))) == '\u23a7  \u2502              \u239b\u239b\u23a7   1     for x \u2265 3\u239e          \u239e\u23ab\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aax                 \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa\u2500 - 0.5  for x \u2265 2\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa2                 \u239f          \u239f\u23aa\\n\u23a8x \u2502 x \u220a [0, 3] \u2227 \u239c\u239c\u23a8                  \u239f - 0.5 = 0\u239f\u23ac\\n\u23aa  \u2502              \u239c\u239c\u23aa  0.5    for x \u2265 1\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   x              \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   \u2500     otherwise\u239f          \u239f\u23aa\\n\u23a9  \u2502              \u239d\u239d\u23a9   2              \u23a0          \u23a0\u23ad'"},"spec":{"lhs":"test_issue_18272()","rhs":"upretty(ConditionSet(x, Eq(-x + exp(x), 0), S.Complexes)) == '\u23a7  \u2502         \u239b      x    \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u2102 \u2227 \u239d-x + \u212f  = 0\u23a0\u23ac\\n\u23a9  \u2502                      \u23ad' and upretty(ConditionSet(x, Contains(n / 2, Interval(0, oo)), FiniteSet(-n / 2, n / 2))) == '\u23a7  \u2502     \u23a7-n   n\u23ab   \u239bn         \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u23a8\u2500\u2500\u2500, \u2500\u23ac \u2227 \u239c\u2500 \u2208 [0, \u221e)\u239f\u23ac\\n\u23a9  \u2502     \u23a9 2   2\u23ad   \u239d2         \u23a0\u23ad' and upretty(ConditionSet(x, Eq(Piecewise((1, x >= 3), (x / 2 - 1 / 2, x >= 2), (1 / 2, x >= 1), (x / 2, True)) - 1 / 2, 0), Interval(0, 3))) == '\u23a7  \u2502              \u239b\u239b\u23a7   1     for x \u2265 3\u239e          \u239e\u23ab\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aax                 \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa\u2500 - 0.5  for x \u2265 2\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa2                 \u239f          \u239f\u23aa\\n\u23a8x \u2502 x \u220a [0, 3] \u2227 \u239c\u239c\u23a8                  \u239f - 0.5 = 0\u239f\u23ac\\n\u23aa  \u2502              \u239c\u239c\u23aa  0.5    for x \u2265 1\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   x              \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   \u2500     otherwise\u239f          \u239f\u23aa\\n\u23a9  \u2502              \u239d\u239d\u23a9   2              \u23a0          \u23a0\u23ad'","over":{"base":"Any"},"name":"test_issue_18272_correct"},"guarantee":"upretty(ConditionSet(x, Eq(-x + exp(x), 0), S.Complexes)) == '\u23a7  \u2502         \u239b      x    \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u2102 \u2227 \u239d-x + \u212f  = 0\u23a0\u23ac\\n\u23a9  \u2502                      \u23ad'; upretty(ConditionSet(x, Contains(n / 2, Interval(0, oo)), FiniteSet(-n / 2, n / 2))) == '\u23a7  \u2502     \u23a7-n   n\u23ab   \u239bn         \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u23a8\u2500\u2500\u2500, \u2500\u23ac \u2227 \u239c\u2500 \u2208 [0, \u221e)\u239f\u23ac\\n\u23a9  \u2502     \u23a9 2   2\u23ad   \u239d2         \u23a0\u23ad'; upretty(ConditionSet(x, Eq(Piecewise((1, x >= 3), (x / 2 - 1 / 2, x >= 2), (1 / 2, x >= 1), (x / 2, True)) - 1 / 2, 0), Interval(0, 3))) == '\u23a7  \u2502              \u239b\u239b\u23a7   1     for x \u2265 3\u239e          \u239e\u23ab\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aax                 \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa\u2500 - 0.5  for x \u2265 2\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa2                 \u239f          \u239f\u23aa\\n\u23a8x \u2502 x \u220a [0, 3] \u2227 \u239c\u239c\u23a8                  \u239f - 0.5 = 0\u239f\u23ac\\n\u23aa  \u2502              \u239c\u239c\u23aa  0.5    for x \u2265 1\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   x              \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   \u2500     otherwise\u239f          \u239f\u23aa\\n\u23a9  \u2502              \u239d\u239d\u23a9   2              \u23a0          \u23a0\u23ad'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_18272_correct","statement":"Path(test_issue_18272(x), upretty(ConditionSet(x, Eq(-x + exp(x), 0), S.Complexes)) == '\u23a7  \u2502         \u239b      x    \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u2102 \u2227 \u239d-x + \u212f  = 0\u23a0\u23ac\\n\u23a9  \u2502                      \u23ad'; upretty(ConditionSet(x, Contains(n / 2, Interval(0, oo)), FiniteSet(-n / 2, n / 2))) == '\u23a7  \u2502     \u23a7-n   n\u23ab   \u239bn         \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u23a8\u2500\u2500\u2500, \u2500\u23ac \u2227 \u239c\u2500 \u2208 [0, \u221e)\u239f\u23ac\\n\u23a9  \u2502     \u23a9 2   2\u23ad   \u239d2         \u23a0\u23ad'; upretty(ConditionSet(x, Eq(Piecewise((1, x >= 3), (x / 2 - 1 / 2, x >= 2), (1 / 2, x >= 1), (x / 2, True)) - 1 / 2, 0), Interval(0, 3))) == '\u23a7  \u2502              \u239b\u239b\u23a7   1     for x \u2265 3\u239e          \u239e\u23ab\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aax                 \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa\u2500 - 0.5  for x \u2265 2\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa2                 \u239f          \u239f\u23aa\\n\u23a8x \u2502 x \u220a [0, 3] \u2227 \u239c\u239c\u23a8                  \u239f - 0.5 = 0\u239f\u23ac\\n\u23aa  \u2502              \u239c\u239c\u23aa  0.5    for x \u2265 1\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   x              \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   \u2500     otherwise\u239f          \u239f\u23aa\\n\u23a9  \u2502              \u239d\u239d\u23a9   2              \u23a0          \u23a0\u23ad')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6495ec4c4ea44cbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(ConditionSet(x, Eq(-x + exp(x), 0), S.Complexes)) == '\u23a7  \u2502         \u239b      x    \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u2102 \u2227 \u239d-x + \u212f  = 0\u23a0\u23ac\\n\u23a9  \u2502                      \u23ad'","upretty(ConditionSet(x, Contains(n / 2, Interval(0, oo)), FiniteSet(-n / 2, n / 2))) == '\u23a7  \u2502     \u23a7-n   n\u23ab   \u239bn         \u239e\u23ab\\n\u23a8x \u2502 x \u220a \u23a8\u2500\u2500\u2500, \u2500\u23ac \u2227 \u239c\u2500 \u2208 [0, \u221e)\u239f\u23ac\\n\u23a9  \u2502     \u23a9 2   2\u23ad   \u239d2         \u23a0\u23ad'","upretty(ConditionSet(x, Eq(Piecewise((1, x >= 3), (x / 2 - 1 / 2, x >= 2), (1 / 2, x >= 1), (x / 2, True)) - 1 / 2, 0), Interval(0, 3))) == '\u23a7  \u2502              \u239b\u239b\u23a7   1     for x \u2265 3\u239e          \u239e\u23ab\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aax                 \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa\u2500 - 0.5  for x \u2265 2\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa2                 \u239f          \u239f\u23aa\\n\u23a8x \u2502 x \u220a [0, 3] \u2227 \u239c\u239c\u23a8                  \u239f - 0.5 = 0\u239f\u23ac\\n\u23aa  \u2502              \u239c\u239c\u23aa  0.5    for x \u2265 1\u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa                  \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   x              \u239f          \u239f\u23aa\\n\u23aa  \u2502              \u239c\u239c\u23aa   \u2500     otherwise\u239f          \u239f\u23aa\\n\u23a9  \u2502              \u239d\u239d\u23a9   2              \u23a0          \u23a0\u23ad'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_18272():
     x = Symbol('x')
     n = Symbol('n')
@@ -9606,32 +10724,46 @@ def test_issue_18272():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Str(), test_Str produces the expected output) over Any ║
+# ║ Path(test_Str(), pretty(Str('x')) == 'x') over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Str : Any → {Any | pretty(Str('x')) == 'x'}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Str('x')) == 'x'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Str : Any → {Any | result satisfies: pretty(Str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a2131fb24e7301a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1892b30d1da3c8e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Str","kind":"function","src_hash":"5009f618c6bfebcd","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Str('x')) == 'x'"},"spec":{"lhs":"test_Str()","rhs":"test_Str produces the expected output","over":{"base":"Any"},"name":"test_Str_correct"},"guarantee":"test_Str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Str_correct","statement":"Path(test_Str(x), test_Str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a2131fb24e7301a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_Str","kind":"function","src_hash":"5009f618c6bfebcd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Str('x')) == 'x'"},"spec":{"lhs":"test_Str()","rhs":"pretty(Str('x')) == 'x'","over":{"base":"Any"},"name":"test_Str_correct"},"guarantee":"pretty(Str('x')) == 'x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_Str_correct","statement":"Path(test_Str(x), pretty(Str('x')) == 'x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1892b30d1da3c8e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Str('x')) == 'x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Str():
     from sympy.core.symbol import Str
     assert pretty(Str('x')) == 'x'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbolic_probability(), test_symbolic_probability produces the expected output) over Any ║
+# ║ Path(test_symbolic_probability(), pretty(Expectation(X)) == 'E[X]' and pretty(Variance(X)) == 'Var(X)' and pretty(Probability(X > 0)) == 'P(X > 0)' and pretty(Covariance(X, Y)) == 'Cov(X, Y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbolic_probability : Any → {Any | pretty(Expec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Expectation(X)) == 'E[X]'               ║
+# ║   ensures:  pretty(Variance(X)) == 'Var(X)'                ║
+# ║   ensures:  pretty(Probability(X > 0)) == 'P(X > 0)'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbolic_probability : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaba329163c1a119  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52d0155958ab7bc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_symbolic_probability","kind":"function","src_hash":"49f67784e4267fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Expectation(X)) == 'E[X]' and pretty(Variance(X)) == 'Var(X)' and pretty(Probability(X > 0)) == 'P(X > 0)' and pretty(Covariance(X, Y)) == 'Cov(X, Y)'"},"spec":{"lhs":"test_symbolic_probability()","rhs":"test_symbolic_probability produces the expected output","over":{"base":"Any"},"name":"test_symbolic_probability_correct"},"guarantee":"test_symbolic_probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_symbolic_probability_correct","statement":"Path(test_symbolic_probability(x), test_symbolic_probability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaba329163c1a119"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_symbolic_probability","kind":"function","src_hash":"49f67784e4267fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Expectation(X)) == 'E[X]' and pretty(Variance(X)) == 'Var(X)' and pretty(Probability(X > 0)) == 'P(X > 0)' and pretty(Covariance(X, Y)) == 'Cov(X, Y)'"},"spec":{"lhs":"test_symbolic_probability()","rhs":"pretty(Expectation(X)) == 'E[X]' and pretty(Variance(X)) == 'Var(X)' and pretty(Probability(X > 0)) == 'P(X > 0)' and pretty(Covariance(X, Y)) == 'Cov(X, Y)'","over":{"base":"Any"},"name":"test_symbolic_probability_correct"},"guarantee":"pretty(Expectation(X)) == 'E[X]'; pretty(Variance(X)) == 'Var(X)'; pretty(Probability(X > 0)) == 'P(X > 0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_symbolic_probability_correct","statement":"Path(test_symbolic_probability(x), pretty(Expectation(X)) == 'E[X]'; pretty(Variance(X)) == 'Var(X)'; pretty(Probability(X > 0)) == 'P(X > 0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52d0155958ab7bc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Expectation(X)) == 'E[X]'","pretty(Variance(X)) == 'Var(X)'","pretty(Probability(X > 0)) == 'P(X > 0)'","pretty(Covariance(X, Y)) == 'Cov(X, Y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbolic_probability():
     mu = symbols("mu")
     sigma = symbols("sigma", positive=True)
@@ -9644,16 +10776,23 @@ def test_symbolic_probability():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21758(), test_issue_21758 produces the expected output) over Any ║
+# ║ Path(test_issue_21758(), upretty(piecewise_fold(fo)) == '⎧                      2⋅sin(3⋅x)                                \n⎪2⋅sin(x) - sin(2⋅x) + ────────── + …  for n > -∞ ∧ n < ∞ ∧ n ≠ 0\n⎨                          3                                     \n⎪                                                                \n⎩                 0                            otherwise         ' and pretty(FourierSeries(x, (x, -pi, pi), (0, SeqFormula(0, (k, 1, oo)), SeqFormula(0, (n, 1, oo))))) == '0') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21758 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(piecewise_fold(fo)) == '⎧        ...   ║
+# ║   ensures:  pretty(FourierSeries(x, (x, -pi, pi), (0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21758 : Any → {Any | result satisfies: upr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 764ce578012ce026  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 098799c1594cf11f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_21758","kind":"function","src_hash":"d04dd91ecc73a59b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_21758()","rhs":"test_issue_21758 produces the expected output","over":{"base":"Any"},"name":"test_issue_21758_correct"},"guarantee":"test_issue_21758 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_21758_correct","statement":"Path(test_issue_21758(x), test_issue_21758 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"764ce578012ce026"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_issue_21758","kind":"function","src_hash":"d04dd91ecc73a59b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(piecewise_fold(fo)) == '\u23a7                      2\u22c5sin(3\u22c5x)                                \\n\u23aa2\u22c5sin(x) - sin(2\u22c5x) + \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 + \u2026  for n > -\u221e \u2227 n < \u221e \u2227 n \u2260 0\\n\u23a8                          3                                     \\n\u23aa                                                                \\n\u23a9                 0                            otherwise         ' and pretty(FourierSeries(x, (x, -pi, pi), (0, SeqFormula(0, (k, 1, oo)), SeqFormula(0, (n, 1, oo))))) == '0'"},"spec":{"lhs":"test_issue_21758()","rhs":"upretty(piecewise_fold(fo)) == '\u23a7                      2\u22c5sin(3\u22c5x)                                \\n\u23aa2\u22c5sin(x) - sin(2\u22c5x) + \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 + \u2026  for n > -\u221e \u2227 n < \u221e \u2227 n \u2260 0\\n\u23a8                          3                                     \\n\u23aa                                                                \\n\u23a9                 0                            otherwise         ' and pretty(FourierSeries(x, (x, -pi, pi), (0, SeqFormula(0, (k, 1, oo)), SeqFormula(0, (n, 1, oo))))) == '0'","over":{"base":"Any"},"name":"test_issue_21758_correct"},"guarantee":"upretty(piecewise_fold(fo)) == '\u23a7                      2\u22c5sin(3\u22c5x)                                \\n\u23aa2\u22c5sin(x) - sin(2\u22c5x) + \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 + \u2026  for n > -\u221e \u2227 n < \u221e \u2227 n \u2260 0\\n\u23a8                          3                                     \\n\u23aa                                                                \\n\u23a9                 0                            otherwise         '; pretty(FourierSeries(x, (x, -pi, pi), (0, SeqFormula(0, (k, 1, oo)), SeqFormula(0, (n, 1, oo))))) == '0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_issue_21758_correct","statement":"Path(test_issue_21758(x), upretty(piecewise_fold(fo)) == '\u23a7                      2\u22c5sin(3\u22c5x)                                \\n\u23aa2\u22c5sin(x) - sin(2\u22c5x) + \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 + \u2026  for n > -\u221e \u2227 n < \u221e \u2227 n \u2260 0\\n\u23a8                          3                                     \\n\u23aa                                                                \\n\u23a9                 0                            otherwise         '; pretty(FourierSeries(x, (x, -pi, pi), (0, SeqFormula(0, (k, 1, oo)), SeqFormula(0, (n, 1, oo))))) == '0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"098799c1594cf11f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(piecewise_fold(fo)) == '\u23a7                      2\u22c5sin(3\u22c5x)                                \\n\u23aa2\u22c5sin(x) - sin(2\u22c5x) + \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 + \u2026  for n > -\u221e \u2227 n < \u221e \u2227 n \u2260 0\\n\u23a8                          3                                     \\n\u23aa                                                                \\n\u23a9                 0                            otherwise         '","pretty(FourierSeries(x, (x, -pi, pi), (0, SeqFormula(0, (k, 1, oo)), SeqFormula(0, (n, 1, oo))))) == '0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21758():
     from sympy.functions.elementary.piecewise import piecewise_fold
     from sympy.series.fourier import FourierSeries
@@ -9673,16 +10812,24 @@ def test_issue_21758():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diffgeom(), test_diffgeom produces the expected output) over Any ║
+# ║ Path(test_diffgeom(), pretty(m) == 'M' and pretty(p) == 'P' and pretty(rect) == 'rect' and pretty(b) == 'x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diffgeom : Any → {Any | pretty(m) == 'M' and pre...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(m) == 'M'                               ║
+# ║   ensures:  pretty(p) == 'P'                               ║
+# ║   ensures:  pretty(rect) == 'rect'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diffgeom : Any → {Any | result satisfies: pretty...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3d0dd7035b5089a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ef3f2884b75703c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_diffgeom","kind":"function","src_hash":"e4cdf3eeb5151294","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(m) == 'M' and pretty(p) == 'P' and pretty(rect) == 'rect' and pretty(b) == 'x'"},"spec":{"lhs":"test_diffgeom()","rhs":"test_diffgeom produces the expected output","over":{"base":"Any"},"name":"test_diffgeom_correct"},"guarantee":"test_diffgeom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_diffgeom_correct","statement":"Path(test_diffgeom(x), test_diffgeom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3d0dd7035b5089a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_diffgeom","kind":"function","src_hash":"e4cdf3eeb5151294","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(m) == 'M' and pretty(p) == 'P' and pretty(rect) == 'rect' and pretty(b) == 'x'"},"spec":{"lhs":"test_diffgeom()","rhs":"pretty(m) == 'M' and pretty(p) == 'P' and pretty(rect) == 'rect' and pretty(b) == 'x'","over":{"base":"Any"},"name":"test_diffgeom_correct"},"guarantee":"pretty(m) == 'M'; pretty(p) == 'P'; pretty(rect) == 'rect'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_diffgeom_correct","statement":"Path(test_diffgeom(x), pretty(m) == 'M'; pretty(p) == 'P'; pretty(rect) == 'rect')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ef3f2884b75703c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(m) == 'M'","pretty(p) == 'P'","pretty(rect) == 'rect'","pretty(b) == 'x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_diffgeom():
     from sympy.diffgeom import Manifold, Patch, CoordSystem, BaseScalarField
     x,y = symbols('x y', real=True)
@@ -9697,16 +10844,22 @@ def test_diffgeom():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_prettyForm(), test_deprecated_prettyForm produces the expected output) over Any ║
+# ║ Path(test_deprecated_prettyForm(), <unspecified:test_deprecated_prettyForm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_prettyForm : Any → {Any | xstr(1) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03a8820e4f99e5bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_deprecated_prettyForm","kind":"function","src_hash":"040a331abeecd864","in":{"base":"Any"},"out":{"base":"Any","pred":"xstr(1) == '1' and p.unicode == p.s == 's'"},"spec":{"lhs":"test_deprecated_prettyForm()","rhs":"test_deprecated_prettyForm produces the expected output","over":{"base":"Any"},"name":"test_deprecated_prettyForm_correct"},"guarantee":"test_deprecated_prettyForm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_deprecated_prettyForm_correct","statement":"Path(test_deprecated_prettyForm(x), test_deprecated_prettyForm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03a8820e4f99e5bd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_deprecated_prettyForm","kind":"function","src_hash":"040a331abeecd864","in":{"base":"Any"},"out":{"base":"Any","pred":"xstr(1) == '1' and p.unicode == p.s == 's'"},"spec":{"lhs":"test_deprecated_prettyForm()","rhs":"<unspecified:test_deprecated_prettyForm>","over":{"base":"Any"},"name":"test_deprecated_prettyForm_correct"},"guarantee":"test_deprecated_prettyForm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_deprecated_prettyForm_correct","statement":"Path(test_deprecated_prettyForm(x), test_deprecated_prettyForm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03a8820e4f99e5bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_prettyForm():
     with warns_deprecated_sympy():
         from sympy.printing.pretty.pretty_symbology import xstr
@@ -9721,16 +10874,24 @@ def test_deprecated_prettyForm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_center(), test_center produces the expected output) over Any ║
+# ║ Path(test_center(), center('1', 2) == '1 ' and center('1', 3) == ' 1 ' and center('1', 3, '-') == '-1-' and center('1', 5, '-') == '--1--') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_center : Any → {Any | center('1', 2) == '1 ' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  center('1', 2) == '1 '                         ║
+# ║   ensures:  center('1', 3) == ' 1 '                        ║
+# ║   ensures:  center('1', 3, '-') == '-1-'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_center : Any → {Any | result satisfies: center('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e02ada1b784e77d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cba13e3944fd6f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_center","kind":"function","src_hash":"d731441a4b985f8a","in":{"base":"Any"},"out":{"base":"Any","pred":"center('1', 2) == '1 ' and center('1', 3) == ' 1 ' and center('1', 3, '-') == '-1-' and center('1', 5, '-') == '--1--'"},"spec":{"lhs":"test_center()","rhs":"test_center produces the expected output","over":{"base":"Any"},"name":"test_center_correct"},"guarantee":"test_center produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_center_correct","statement":"Path(test_center(x), test_center produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e02ada1b784e77d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.tests.test_pretty.test_center","kind":"function","src_hash":"d731441a4b985f8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: center('1', 2) == '1 ' and center('1', 3) == ' 1 ' and center('1', 3, '-') == '-1-' and center('1', 5, '-') == '--1--'"},"spec":{"lhs":"test_center()","rhs":"center('1', 2) == '1 ' and center('1', 3) == ' 1 ' and center('1', 3, '-') == '-1-' and center('1', 5, '-') == '--1--'","over":{"base":"Any"},"name":"test_center_correct"},"guarantee":"center('1', 2) == '1 '; center('1', 3) == ' 1 '; center('1', 3, '-') == '-1-'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.tests.test_pretty.test_center_correct","statement":"Path(test_center(x), center('1', 2) == '1 '; center('1', 3) == ' 1 '; center('1', 3, '-') == '-1-')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cba13e3944fd6f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["center('1', 2) == '1 '","center('1', 3) == ' 1 '","center('1', 3, '-') == '-1-'","center('1', 5, '-') == '--1--'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_center():
     assert center('1', 2) == '1 '
     assert center('1', 3) == ' 1 '

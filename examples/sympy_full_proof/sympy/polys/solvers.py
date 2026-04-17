@@ -33,16 +33,22 @@ from sympy.polys.domainmatrix import DomainMatrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PolyNonlinearError(), correctly constructs a PolyNonlinearError instance) over Any ║
+# ║ Path(PolyNonlinearError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PolyNonlinearError : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PolyNonlinearError : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c31a461a20a933d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.PolyNonlinearError","kind":"class","src_hash":"695f906218e65ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolyNonlinearError()","rhs":"correctly constructs a PolyNonlinearError instance","over":{"base":"Any"},"name":"PolyNonlinearError_correct"},"guarantee":"correctly constructs a PolyNonlinearError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c31a461a20a933d9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.PolyNonlinearError","kind":"class","src_hash":"695f906218e65ce7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"PolyNonlinearError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"PolyNonlinearError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c31a461a20a933d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function PolyNonlinearError not found in source"]}}
 class PolyNonlinearError(Exception):
     """Raised by solve_lin_sys for nonlinear equations"""
     pass
@@ -51,14 +57,20 @@ class PolyNonlinearError(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RawMatrix instance) preserved by RawMatrix(*args) over {Any | isinstance(val, (int, Integer)) and isinstance(val, Rational)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MutableDenseMatrix)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RawMatrix : {Any | isinstance(val, (int, Integer)) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d78e2d56519408e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.RawMatrix","kind":"class","src_hash":"7b8791c6150265a1","in":{"base":"Any","pred":"isinstance(val, (int, Integer)) and isinstance(val, Rational)"},"out":{"base":"Any"},"spec":{"lhs":"RawMatrix(*args)","rhs":"correctly constructs a RawMatrix instance","over":{"base":"Any","pred":"isinstance(val, (int, Integer)) and isinstance(val, Rational)"},"name":"RawMatrix_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RawMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d78e2d56519408e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.RawMatrix","kind":"class","src_hash":"7b8791c6150265a1","in":{"base":"Any","pred":"isinstance(val, (int, Integer)) and isinstance(val, Rational)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MutableDenseMatrix)"},"spec":{"lhs":"RawMatrix(*args)","rhs":"correctly constructs a RawMatrix instance","over":{"base":"Any","pred":"isinstance(val, (int, Integer)) and isinstance(val, Rational)"},"name":"RawMatrix_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MutableDenseMatrix); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d78e2d56519408e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MutableDenseMatrix)"],"invariants":["hasattr(self, 'ring')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function RawMatrix not found in source"]}}
 class RawMatrix(MutableDenseMatrix):
     """
     .. deprecated:: 1.9
@@ -73,16 +85,22 @@ class RawMatrix(MutableDenseMatrix):
     _sympify = staticmethod(lambda x, *args, **kwargs: x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3470145082b793db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.RawMatrix.__init__","kind":"method","src_hash":"bcab3c59fb7bb4d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3470145082b793db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.RawMatrix.__init__","kind":"method","src_hash":"bcab3c59fb7bb4d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3470145082b793db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.rows"],"writes":["self.ring","self[*]"],"raises":["TypeError"]},"state_contract":{"modifies":["self.ring","self[*]"],"old_bindings":{"old_self_ring":"self.ring","old_self_star":"self[*]"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         sympy_deprecation_warning(
             """
@@ -122,16 +140,24 @@ class RawMatrix(MutableDenseMatrix):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eqs_to_matrix(eqs), get matrix from linear equations in dict format) over Any ║
+# ║ Path(eqs_to_matrix(eqs_coeffs, eqs_rhs, gens), DomainMatrix(rows, (nrows, ncols), domain)) over {Any | hasattr(domain, 'zero') and hasattr(domain, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eqs_to_matrix : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   requires: hasattr(domain, 'convert')                     ║
+# ║   returns:  DomainMatrix(rows, (nrows, ncols), domain)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eqs_to_matrix : {Any | hasattr(domain, 'zero') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3bec0f548b14767  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b8788da40ccd1ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.eqs_to_matrix","kind":"function","src_hash":"fae672a8b153ce9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_to_matrix(eqs)","rhs":"get matrix from linear equations in dict format","over":{"base":"Any"},"name":"eqs_to_matrix_correct"},"guarantee":"get matrix from linear equations in dict format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers.eqs_to_matrix_correct","statement":"Path(eqs_to_matrix(x), get matrix from linear equations in dict format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3bec0f548b14767"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.eqs_to_matrix","kind":"function","src_hash":"fae672a8b153ce9b","in":{"base":"Any","pred":"hasattr(domain, 'zero') and hasattr(domain, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"eqs_to_matrix(eqs_coeffs, eqs_rhs, gens)","rhs":"DomainMatrix(rows, (nrows, ncols), domain)","over":{"base":"Any","pred":"hasattr(domain, 'zero') and hasattr(domain, 'convert')"},"name":"eqs_to_matrix_correct"},"guarantee":"returns DomainMatrix(rows, (nrows, ncols), domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers.eqs_to_matrix_correct","statement":"Path(eqs_to_matrix(x), returns DomainMatrix(rows, (nrows, ncols), domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8788da40ccd1ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'zero')","hasattr(domain, 'convert')"],"returns_expr":"DomainMatrix(rows, (nrows, ncols), domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["domain.convert","domain.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain):
     """Get matrix from linear equations in dict format.
 
@@ -191,16 +217,22 @@ def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympy_eqs_to_ring(eqs), convert a system of equations from expr to a polyring) over Any ║
+# ║ Path(sympy_eqs_to_ring(eqs, symbols), (eqs_K, K.to_domain())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (eqs_K, K.to_domain())                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_eqs_to_ring : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54bd83cec69f9c6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e47a45558e281885  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.sympy_eqs_to_ring","kind":"function","src_hash":"4a141970cba0c0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_eqs_to_ring(eqs)","rhs":"convert a system of equations from expr to a polyring","over":{"base":"Any"},"name":"sympy_eqs_to_ring_correct"},"guarantee":"convert a system of equations from expr to a polyring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers.sympy_eqs_to_ring_correct","statement":"Path(sympy_eqs_to_ring(x), convert a system of equations from expr to a polyring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54bd83cec69f9c6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.sympy_eqs_to_ring","kind":"function","src_hash":"4a141970cba0c0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_eqs_to_ring(eqs, symbols)","rhs":"(eqs_K, K.to_domain())","over":{"base":"Any"},"name":"sympy_eqs_to_ring_correct"},"guarantee":"returns (eqs_K, K.to_domain())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers.sympy_eqs_to_ring_correct","statement":"Path(sympy_eqs_to_ring(x), returns (eqs_K, K.to_domain()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e47a45558e281885","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(eqs_K, K.to_domain())","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sympy_eqs_to_ring(eqs, symbols):
     """Convert a system of equations from Expr to a PolyRing
 
@@ -257,16 +289,27 @@ def sympy_eqs_to_ring(eqs, symbols):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_lin_sys(eqs), solve a system of linear equations from a polynomialring) over Any ║
+# ║ Path(solve_lin_sys(eqs, ring, _raw), len(eq_dict) == old_len_eq_dict - 1 and len(eqs_coeffs) == old_len_eqs_coeffs + 1 and len(eqs_rhs) == old_len_eqs_rhs + 1) over {Any | ring.domain.is_Field and hasattr(ring, 'domain') and hasattr(ring, 'one') and hasattr(ring, 'gens') and len(eq_dict) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_lin_sys : Any → {Any | ring.domain.is_Field}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: ring.domain.is_Field                           ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'one')                           ║
+# ║   ensures:  len(eq_dict) == old_len_eq_dict - 1            ║
+# ║   ensures:  len(eqs_coeffs) == old_len_eqs_coeffs + 1      ║
+# ║   ensures:  len(eqs_rhs) == old_len_eqs_rhs + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_lin_sys : {Any | ring.domain.is_Field and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38752e647e52c3bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d05ce282773619d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.solve_lin_sys","kind":"function","src_hash":"97f359efe9f1e90f","in":{"base":"Any"},"out":{"base":"Any","pred":"ring.domain.is_Field"},"spec":{"lhs":"solve_lin_sys(eqs)","rhs":"solve a system of linear equations from a polynomialring","over":{"base":"Any"},"name":"solve_lin_sys_correct"},"guarantee":"solve a system of linear equations from a polynomialring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers.solve_lin_sys_correct","statement":"Path(solve_lin_sys(x), solve a system of linear equations from a polynomialring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38752e647e52c3bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers.solve_lin_sys","kind":"function","src_hash":"97f359efe9f1e90f","in":{"base":"Any","pred":"ring.domain.is_Field and hasattr(ring, 'domain') and hasattr(ring, 'one') and hasattr(ring, 'gens') and len(eq_dict) > 0"},"out":{"base":"Any","pred":"result satisfies: len(eq_dict) == old_len_eq_dict - 1 and len(eqs_coeffs) == old_len_eqs_coeffs + 1 and len(eqs_rhs) == old_len_eqs_rhs + 1"},"spec":{"lhs":"solve_lin_sys(eqs, ring, _raw)","rhs":"len(eq_dict) == old_len_eq_dict - 1 and len(eqs_coeffs) == old_len_eqs_coeffs + 1 and len(eqs_rhs) == old_len_eqs_rhs + 1","over":{"base":"Any","pred":"ring.domain.is_Field and hasattr(ring, 'domain') and hasattr(ring, 'one') and hasattr(ring, 'gens') and len(eq_dict) > 0"},"name":"solve_lin_sys_correct"},"guarantee":"len(eq_dict) == old_len_eq_dict - 1; len(eqs_coeffs) == old_len_eqs_coeffs + 1; len(eqs_rhs) == old_len_eqs_rhs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers.solve_lin_sys_correct","statement":"Path(solve_lin_sys(x), len(eq_dict) == old_len_eq_dict - 1; len(eqs_coeffs) == old_len_eqs_coeffs + 1; len(eqs_rhs) == old_len_eqs_rhs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d05ce282773619d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["ring.domain.is_Field","hasattr(ring, 'domain')","hasattr(ring, 'one')","hasattr(ring, 'gens')","len(eq_dict) > 0"],"ensures":["len(eq_dict) == old_len_eq_dict - 1","len(eqs_coeffs) == old_len_eqs_coeffs + 1","len(eqs_rhs) == old_len_eqs_rhs + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ring.domain","ring.gens","ring.one"],"calls_mutating":["eq_dict.pop","eqs_coeffs.append","eqs_rhs.append"],"raises":["PolyNonlinearError"]},"state_contract":{"modifies":["eq_dict.*","eqs_coeffs.*","eqs_rhs.*"],"old_bindings":{"old_len_eq_dict":"len(eq_dict)","old_len_eqs_coeffs":"len(eqs_coeffs)","old_len_eqs_rhs":"len(eqs_rhs)"},"pre_requires":["len(eq_dict) > 0"],"post_ensures":["len(eq_dict) == old_len_eq_dict - 1","len(eqs_coeffs) == old_len_eqs_coeffs + 1","len(eqs_rhs) == old_len_eqs_rhs + 1"],"exceptional_post":{"PolyNonlinearError":["isinstance(raised, PolyNonlinearError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def solve_lin_sys(eqs, ring, _raw=True):
     """Solve a system of linear equations from a PolynomialRing
 
@@ -385,16 +428,23 @@ def solve_lin_sys(eqs, ring, _raw=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_lin_sys(eqs), solve a linear system from dict of polynomialring coefficients) over Any ║
+# ║ Path(_solve_lin_sys(eqs_coeffs, eqs_rhs, ring), <unspecified:_solve_lin_sys>) over {Any | hasattr(ring, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_lin_sys : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'gens')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_lin_sys : {Any | hasattr(ring, 'gens')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce573954abc0516b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers._solve_lin_sys","kind":"function","src_hash":"7bc434776d54576c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_lin_sys(eqs)","rhs":"solve a linear system from dict of polynomialring coefficients","over":{"base":"Any"},"name":"_solve_lin_sys_correct"},"guarantee":"solve a linear system from dict of polynomialring coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers._solve_lin_sys_correct","statement":"Path(_solve_lin_sys(x), solve a linear system from dict of polynomialring coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce573954abc0516b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers._solve_lin_sys","kind":"function","src_hash":"7bc434776d54576c","in":{"base":"Any","pred":"hasattr(ring, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_lin_sys(eqs_coeffs, eqs_rhs, ring)","rhs":"<unspecified:_solve_lin_sys>","over":{"base":"Any","pred":"hasattr(ring, 'gens')"},"name":"_solve_lin_sys_correct"},"guarantee":"solve a linear system from dict of polynomialring coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers._solve_lin_sys_correct","statement":"Path(_solve_lin_sys(x), solve a linear system from dict of polynomialring coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce573954abc0516b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'gens')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _solve_lin_sys(eqs_coeffs, eqs_rhs, ring):
     """Solve a linear system from dict of PolynomialRing coefficients
 
@@ -457,16 +507,25 @@ def _solve_lin_sys(eqs_coeffs, eqs_rhs, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_lin_sys_component(eqs), solve a linear system from dict of polynomialring coefficients) over Any ║
+# ║ Path(_solve_lin_sys_component(eqs_coeffs, eqs_rhs, ring), <unspecified:_solve_lin_sys_component>) over {Any | hasattr(ring, 'gens') and hasattr(ring, 'domain') and hasattr(ring, 'ground_new') and hasattr(ring, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_lin_sys_component : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'gens')                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'ground_new')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_lin_sys_component : {Any | hasattr(ring, 'gens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e45ddad426722f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.solvers._solve_lin_sys_component","kind":"function","src_hash":"c4f4224c744c0444","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_lin_sys_component(eqs)","rhs":"solve a linear system from dict of polynomialring coefficients","over":{"base":"Any"},"name":"_solve_lin_sys_component_correct"},"guarantee":"solve a linear system from dict of polynomialring coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers._solve_lin_sys_component_correct","statement":"Path(_solve_lin_sys_component(x), solve a linear system from dict of polynomialring coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e45ddad426722f5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.solvers._solve_lin_sys_component","kind":"function","src_hash":"c4f4224c744c0444","in":{"base":"Any","pred":"hasattr(ring, 'gens') and hasattr(ring, 'domain') and hasattr(ring, 'ground_new') and hasattr(ring, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_lin_sys_component(eqs_coeffs, eqs_rhs, ring)","rhs":"<unspecified:_solve_lin_sys_component>","over":{"base":"Any","pred":"hasattr(ring, 'gens') and hasattr(ring, 'domain') and hasattr(ring, 'ground_new') and hasattr(ring, 'ring')"},"name":"_solve_lin_sys_component_correct"},"guarantee":"solve a linear system from dict of polynomialring coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.solvers._solve_lin_sys_component_correct","statement":"Path(_solve_lin_sys_component(x), solve a linear system from dict of polynomialring coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e45ddad426722f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'gens')","hasattr(ring, 'domain')","hasattr(ring, 'ground_new')","hasattr(ring, 'ring')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _solve_lin_sys_component(eqs_coeffs, eqs_rhs, ring):
     """Solve a linear system from dict of PolynomialRing coefficients
 

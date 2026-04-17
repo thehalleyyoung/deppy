@@ -32,7 +32,12 @@ E = MatrixSymbol('E', m, n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over {Any | isinstance(Inverse(Inverse(C)), Inverse)} ║
+# ║ Path(test_inverse(), Inverse(C).args == (C, S.NegativeOne) and Inverse(C).shape == (n, n) and Inverse(A * E).shape == (n, n) and Inverse(E * A).shape == (m, m) and Inverse(C).inverse() == C and Inverse(Inverse(C)).doit() == C and isinstance(Inverse(Inverse(C)), Inverse) and Inverse(*Inverse(E * A).args) == Inverse(E * A) and C.inverse().inverse() == C and C.inverse() * C == Identity(C.rows) and Identity(n).inverse() == Identity(n) and (3 * Identity(n)).inverse() == Identity(n) / 3 and (C * D).inverse() == D.I * C.I and isinstance((A * E).inverse(), Inverse) and Inverse(C * D).doit(inv_expand=False) == Inverse(C * D) and Inverse(eye(3)).doit() == eye(3) and Inverse(eye(3)).doit(deep=False) == eye(3) and OneMatrix(1, 1).I == Identity(1) and isinstance(OneMatrix(n, n).I, Inverse)) over {Any | isinstance(Inverse(Inverse(C)), Inverse)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Inverse(C).args == (C, S.NegativeOne)          ║
+# ║   ensures:  Inverse(C).shape == (n, n)                     ║
+# ║   ensures:  Inverse(A * E).shape == (n, n)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_inverse : {Any | isinstance(Inverse(Inverse(C)),...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -44,9 +49,12 @@ E = MatrixSymbol('E', m, n)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1f095e9c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_inverse","kind":"function","src_hash":"c512408be44bba24","in":{"base":"Any","pred":"isinstance(Inverse(Inverse(C)), Inverse)"},"out":{"base":"Any","pred":"Inverse(C).args == (C, S.NegativeOne) and Inverse(C).shape == (n, n) and Inverse(A * E).shape == (n, n) and Inverse(E * A).shape == (m, m) and Inverse(C).inverse() == C and Inverse(Inverse(C)).doit() == C and isinstance(Inverse(Inverse(C)), Inverse) and Inverse(*Inverse(E * A).args) == Inverse(E * A) and C.inverse().inverse() == C and C.inverse() * C == Identity(C.rows) and Identity(n).inverse() == Identity(n) and (3 * Identity(n)).inverse() == Identity(n) / 3 and (C * D).inverse() == D.I * C.I and isinstance((A * E).inverse(), Inverse) and Inverse(C * D).doit(inv_expand=False) == Inverse(C * D) and Inverse(eye(3)).doit() == eye(3) and Inverse(eye(3)).doit(deep=False) == eye(3) and OneMatrix(1, 1).I == Identity(1) and isinstance(OneMatrix(n, n).I, Inverse)"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any","pred":"isinstance(Inverse(Inverse(C)), Inverse)"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[{"name":"Inverse","pred":"isinstance(Inverse(Inverse(C)), Inverse)","path":{"lhs":"test_inverse(x)","rhs":"test_inverse produces the expected output","over":{"base":"Inverse","pred":"isinstance(Inverse(Inverse(C)), Inverse)"},"name":"test_inverse_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_inverse_Inverse_correct","statement":"test_inverse satisfies spec on Inverse inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1f095e9c479b5b37"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_inverse","kind":"function","src_hash":"c512408be44bba24","in":{"base":"Any","pred":"isinstance(Inverse(Inverse(C)), Inverse)"},"out":{"base":"Any","pred":"result satisfies: Inverse(C).args == (C, S.NegativeOne) and Inverse(C).shape == (n, n) and Inverse(A * E).shape == (n, n) and Inverse(E * A).shape == (m, m) and Inverse(C).inverse() == C and Inverse(Inverse(C)).doit() == C and isinstance(Inverse(Inverse(C)), Inverse) and Inverse(*Inverse(E * A).args) == Inverse(E * A) and C.inverse().inverse() == C and C.inverse() * C == Identity(C.rows) and Identity(n).inverse() == Identity(n) and (3 * Identity(n)).inverse() == Identity(n) / 3 and (C * D).inverse() == D.I * C.I and isinstance((A * E).inverse(), Inverse) and Inverse(C * D).doit(inv_expand=False) == Inverse(C * D) and Inverse(eye(3)).doit() == eye(3) and Inverse(eye(3)).doit(deep=False) == eye(3) and OneMatrix(1, 1).I == Identity(1) and isinstance(OneMatrix(n, n).I, Inverse)"},"spec":{"lhs":"test_inverse()","rhs":"Inverse(C).args == (C, S.NegativeOne) and Inverse(C).shape == (n, n) and Inverse(A * E).shape == (n, n) and Inverse(E * A).shape == (m, m) and Inverse(C).inverse() == C and Inverse(Inverse(C)).doit() == C and isinstance(Inverse(Inverse(C)), Inverse) and Inverse(*Inverse(E * A).args) == Inverse(E * A) and C.inverse().inverse() == C and C.inverse() * C == Identity(C.rows) and Identity(n).inverse() == Identity(n) and (3 * Identity(n)).inverse() == Identity(n) / 3 and (C * D).inverse() == D.I * C.I and isinstance((A * E).inverse(), Inverse) and Inverse(C * D).doit(inv_expand=False) == Inverse(C * D) and Inverse(eye(3)).doit() == eye(3) and Inverse(eye(3)).doit(deep=False) == eye(3) and OneMatrix(1, 1).I == Identity(1) and isinstance(OneMatrix(n, n).I, Inverse)","over":{"base":"Any","pred":"isinstance(Inverse(Inverse(C)), Inverse)"},"name":"test_inverse_correct"},"guarantee":"Inverse(C).args == (C, S.NegativeOne); Inverse(C).shape == (n, n); Inverse(A * E).shape == (n, n)","fibers":[{"name":"Inverse","pred":"isinstance(Inverse(Inverse(C)), Inverse)","path":{"lhs":"test_inverse(x)","rhs":"Inverse(C).args == (C, S.NegativeOne); Inverse(C).shape == (n, n); Inverse(A * E).shape == (n, n)","over":{"base":"Inverse","pred":"isinstance(Inverse(Inverse(C)), Inverse)"},"name":"test_inverse_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_inverse_Inverse_correct","statement":"test_inverse satisfies spec on Inverse inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1f095e9c479b5b37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Inverse(C).args == (C, S.NegativeOne)","Inverse(C).shape == (n, n)","Inverse(A * E).shape == (n, n)","Inverse(E * A).shape == (m, m)","Inverse(C).inverse() == C","Inverse(Inverse(C)).doit() == C","isinstance(Inverse(Inverse(C)), Inverse)","Inverse(*Inverse(E * A).args) == Inverse(E * A)","C.inverse().inverse() == C","C.inverse() * C == Identity(C.rows)","Identity(n).inverse() == Identity(n)","(3 * Identity(n)).inverse() == Identity(n) / 3","(C * D).inverse() == D.I * C.I","isinstance((A * E).inverse(), Inverse)","Inverse(C * D).doit(inv_expand=False) == Inverse(C * D)","Inverse(eye(3)).doit() == eye(3)","Inverse(eye(3)).doit(deep=False) == eye(3)","OneMatrix(1, 1).I == Identity(1)","isinstance(OneMatrix(n, n).I, Inverse)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":true}}
 def test_inverse():
     assert Inverse(C).args == (C, S.NegativeOne)
     assert Inverse(C).shape == (n, n)
@@ -78,78 +86,110 @@ def test_inverse():
     assert isinstance(OneMatrix(n, n).I, Inverse)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse_non_invertible(), test_inverse_non_invertible produces the expected output) over Any ║
+# ║ Path(test_inverse_non_invertible(), <unspecified:test_inverse_non_invertible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_inverse_non_invertible : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d54ddeed04ebc8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_inverse_non_invertible","kind":"function","src_hash":"f54b833e3da218f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse_non_invertible()","rhs":"test_inverse_non_invertible produces the expected output","over":{"base":"Any"},"name":"test_inverse_non_invertible_correct"},"guarantee":"test_inverse_non_invertible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_inverse_non_invertible_correct","statement":"Path(test_inverse_non_invertible(x), test_inverse_non_invertible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d54ddeed04ebc8f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_inverse_non_invertible","kind":"function","src_hash":"f54b833e3da218f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse_non_invertible()","rhs":"<unspecified:test_inverse_non_invertible>","over":{"base":"Any"},"name":"test_inverse_non_invertible_correct"},"guarantee":"test_inverse_non_invertible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_inverse_non_invertible_correct","statement":"Path(test_inverse_non_invertible(x), test_inverse_non_invertible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d54ddeed04ebc8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inverse_non_invertible():
     raises(NonInvertibleMatrixError, lambda: ZeroMatrix(n, n).I)
     raises(NonInvertibleMatrixError, lambda: OneMatrix(2, 2).I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_refine(), test_refine produces the expected output) over Any ║
+# ║ Path(test_refine(), refine(C.I, Q.orthogonal(C)) == C.T) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_refine : Any → {Any | refine(C.I, Q.orthogonal(C...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(C.I, Q.orthogonal(C)) == C.T            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_refine : Any → {Any | result satisfies: refine(C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9539ff3acb04c52a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f77745ab2b788f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_refine","kind":"function","src_hash":"ef7c2d888b247e4d","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(C.I, Q.orthogonal(C)) == C.T"},"spec":{"lhs":"test_refine()","rhs":"test_refine produces the expected output","over":{"base":"Any"},"name":"test_refine_correct"},"guarantee":"test_refine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_refine_correct","statement":"Path(test_refine(x), test_refine produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9539ff3acb04c52a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_refine","kind":"function","src_hash":"ef7c2d888b247e4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(C.I, Q.orthogonal(C)) == C.T"},"spec":{"lhs":"test_refine()","rhs":"refine(C.I, Q.orthogonal(C)) == C.T","over":{"base":"Any"},"name":"test_refine_correct"},"guarantee":"refine(C.I, Q.orthogonal(C)) == C.T","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_refine_correct","statement":"Path(test_refine(x), refine(C.I, Q.orthogonal(C)) == C.T)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f77745ab2b788f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(C.I, Q.orthogonal(C)) == C.T"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_refine():
     assert refine(C.I, Q.orthogonal(C)) == C.T
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse_matpow_canonicalization(), test_inverse_matpow_canonicalization produces the expected output) over Any ║
+# ║ Path(test_inverse_matpow_canonicalization(), Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse_matpow_canonicalization : Any → {Any | I...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Inverse(MatPow(A, 3)).doit() == MatPow(In...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse_matpow_canonicalization : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db7d001bc14e09c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33aea1e78843f73b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_inverse_matpow_canonicalization","kind":"function","src_hash":"71c5afa53c5cff42","in":{"base":"Any"},"out":{"base":"Any","pred":"Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()"},"spec":{"lhs":"test_inverse_matpow_canonicalization()","rhs":"test_inverse_matpow_canonicalization produces the expected output","over":{"base":"Any"},"name":"test_inverse_matpow_canonicalization_correct"},"guarantee":"test_inverse_matpow_canonicalization produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_inverse_matpow_canonicalization_correct","statement":"Path(test_inverse_matpow_canonicalization(x), test_inverse_matpow_canonicalization produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db7d001bc14e09c6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_inverse_matpow_canonicalization","kind":"function","src_hash":"71c5afa53c5cff42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()"},"spec":{"lhs":"test_inverse_matpow_canonicalization()","rhs":"Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()","over":{"base":"Any"},"name":"test_inverse_matpow_canonicalization_correct"},"guarantee":"Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_inverse_matpow_canonicalization_correct","statement":"Path(test_inverse_matpow_canonicalization(x), Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33aea1e78843f73b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inverse_matpow_canonicalization():
     A = MatrixSymbol('A', 3, 3)
     assert Inverse(MatPow(A, 3)).doit() == MatPow(Inverse(A), 3).doit()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonsquare_error(), test_nonsquare_error produces the expected output) over Any ║
+# ║ Path(test_nonsquare_error(), <unspecified:test_nonsquare_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonsquare_error : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b7e64b17dfde211  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_nonsquare_error","kind":"function","src_hash":"f7ca3a207843dfc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonsquare_error()","rhs":"test_nonsquare_error produces the expected output","over":{"base":"Any"},"name":"test_nonsquare_error_correct"},"guarantee":"test_nonsquare_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_nonsquare_error_correct","statement":"Path(test_nonsquare_error(x), test_nonsquare_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7e64b17dfde211"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_nonsquare_error","kind":"function","src_hash":"f7ca3a207843dfc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonsquare_error()","rhs":"<unspecified:test_nonsquare_error>","over":{"base":"Any"},"name":"test_nonsquare_error_correct"},"guarantee":"test_nonsquare_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_nonsquare_error_correct","statement":"Path(test_nonsquare_error(x), test_nonsquare_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7e64b17dfde211","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_nonsquare_error():
     A = MatrixSymbol('A', 3, 4)
     raises(NonSquareMatrixError, lambda: Inverse(A))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_adjoint_trnaspose_conjugate(), test_adjoint_trnaspose_conjugate produces the expected output) over Any ║
+# ║ Path(test_adjoint_trnaspose_conjugate(), A.transpose().inverse() == A.inverse().transpose() and A.conjugate().inverse() == A.inverse().conjugate() and A.adjoint().inverse() == A.inverse().adjoint()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_adjoint_trnaspose_conjugate : Any → {Any | A.tra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.transpose().inverse() == A.inverse().tr...   ║
+# ║   ensures:  A.conjugate().inverse() == A.inverse().co...   ║
+# ║   ensures:  A.adjoint().inverse() == A.inverse().adjo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_adjoint_trnaspose_conjugate : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cc7898e525b9561  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 847e115b6089f367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_adjoint_trnaspose_conjugate","kind":"function","src_hash":"3cd6de3a3987c562","in":{"base":"Any"},"out":{"base":"Any","pred":"A.transpose().inverse() == A.inverse().transpose() and A.conjugate().inverse() == A.inverse().conjugate() and A.adjoint().inverse() == A.inverse().adjoint()"},"spec":{"lhs":"test_adjoint_trnaspose_conjugate()","rhs":"test_adjoint_trnaspose_conjugate produces the expected output","over":{"base":"Any"},"name":"test_adjoint_trnaspose_conjugate_correct"},"guarantee":"test_adjoint_trnaspose_conjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_adjoint_trnaspose_conjugate_correct","statement":"Path(test_adjoint_trnaspose_conjugate(x), test_adjoint_trnaspose_conjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cc7898e525b9561"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_inverse.test_adjoint_trnaspose_conjugate","kind":"function","src_hash":"3cd6de3a3987c562","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.transpose().inverse() == A.inverse().transpose() and A.conjugate().inverse() == A.inverse().conjugate() and A.adjoint().inverse() == A.inverse().adjoint()"},"spec":{"lhs":"test_adjoint_trnaspose_conjugate()","rhs":"A.transpose().inverse() == A.inverse().transpose() and A.conjugate().inverse() == A.inverse().conjugate() and A.adjoint().inverse() == A.inverse().adjoint()","over":{"base":"Any"},"name":"test_adjoint_trnaspose_conjugate_correct"},"guarantee":"A.transpose().inverse() == A.inverse().transpose(); A.conjugate().inverse() == A.inverse().conjugate(); A.adjoint().inverse() == A.inverse().adjoint()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_inverse.test_adjoint_trnaspose_conjugate_correct","statement":"Path(test_adjoint_trnaspose_conjugate(x), A.transpose().inverse() == A.inverse().transpose(); A.conjugate().inverse() == A.inverse().conjugate(); A.adjoint().inverse() == A.inverse().adjoint())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"847e115b6089f367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.transpose().inverse() == A.inverse().transpose()","A.conjugate().inverse() == A.inverse().conjugate()","A.adjoint().inverse() == A.inverse().adjoint()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_adjoint_trnaspose_conjugate():
     A = MatrixSymbol('A', n, n)
     assert A.transpose().inverse() == A.inverse().transpose()

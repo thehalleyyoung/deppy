@@ -45,43 +45,66 @@ from ast import parse, NodeTransformer, Call, Name, Load, \
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Transform instance) preserved by Transform(*args) over {Any | isinstance(node.value, int) and isinstance(node.value, float) and isinstance(name_obj, (Basic, type))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NodeTransformer)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Transform : {Any | isinstance(node.value, int) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a61b2c30b7becc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform","kind":"class","src_hash":"92440b6915160e4b","in":{"base":"Any","pred":"isinstance(node.value, int) and isinstance(node.value, float) and isinstance(name_obj, (Basic, type))"},"out":{"base":"Any"},"spec":{"lhs":"Transform(*args)","rhs":"correctly constructs a Transform instance","over":{"base":"Any","pred":"isinstance(node.value, int) and isinstance(node.value, float) and isinstance(name_obj, (Basic, type))"},"name":"Transform_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Transform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'local_dict') and hasattr(self, 'global_dict')","kind":"class","induction":"structural on local_dict, global_dict"}],"methods_preserving":["__init__","visit_Constant","visit_Name","visit_Lambda"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a61b2c30b7becc"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform","kind":"class","src_hash":"92440b6915160e4b","in":{"base":"Any","pred":"isinstance(node.value, int) and isinstance(node.value, float) and isinstance(name_obj, (Basic, type))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NodeTransformer)"},"spec":{"lhs":"Transform(*args)","rhs":"correctly constructs a Transform instance","over":{"base":"Any","pred":"isinstance(node.value, int) and isinstance(node.value, float) and isinstance(name_obj, (Basic, type))"},"name":"Transform_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, NodeTransformer); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'local_dict') and hasattr(self, 'global_dict')","kind":"class","induction":"structural on local_dict, global_dict"}],"methods_preserving":["__init__","visit_Constant","visit_Name","visit_Lambda"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a61b2c30b7becc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NodeTransformer)"],"invariants":["hasattr(self, 'local_dict')","hasattr(self, 'global_dict')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Transform not found in source"]}}
 class Transform(NodeTransformer):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(loc), initializes the instance correctly) over Any ║
+# ║ Path(__init__(local_dict, global_dict), self.local_dict == local_dict and self.global_dict == global_dict) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.local_dict == local_dict                  ║
+# ║   ensures:  self.global_dict == global_dict                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.local_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 547b97a13e78306d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.__init__","kind":"method","src_hash":"3f5507841b1dfecf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(loc)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"547b97a13e78306d"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.__init__","kind":"method","src_hash":"3f5507841b1dfecf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.local_dict == local_dict and self.global_dict == global_dict"},"spec":{"lhs":"__init__(local_dict, global_dict)","rhs":"self.local_dict == local_dict and self.global_dict == global_dict","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.local_dict == local_dict; self.global_dict == global_dict","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"547b97a13e78306d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.local_dict == local_dict","self.global_dict == global_dict"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, local_dict, global_dict):
         NodeTransformer.__init__(self)
         self.local_dict = local_dict
         self.global_dict = global_dict
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_Constant(nod), id) over Any                     ║
+# ║ Path(visit_Constant(node), id) over {Any | hasattr(node, 'value')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_Constant : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(node, 'value')                         ║
+# ║   ensures:  result == (fix_missing_locations(Call(fun...   ║
+# ║   ensures:  result == fix_missing_locations(Call(func...   ║
+# ║   fiber[case_0]: isinstance(node.value, int) => fix_m...   ║
+# ║   fiber[case_1]: isinstance(node.value, float) => fix...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_Constant : {Any | hasattr(node, 'value')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b01122b27470fe6d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.visit_Constant","kind":"method","src_hash":"ab2cec0f880659cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_Constant(nod)","rhs":"visit_Constant produces the expected output","over":{"base":"Any"},"name":"visit_Constant_correct","kind":"composition"},"guarantee":"visit_Constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fix_missing_locations","by":"library_axiom"},{"fn":"Call","by":"library_axiom"},{"fn":"Name","by":"library_axiom"},{"fn":"Load","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b01122b27470fe6d"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.visit_Constant","kind":"method","src_hash":"ab2cec0f880659cd","in":{"base":"Any","pred":"hasattr(node, 'value')"},"out":{"base":"Any","pred":"result satisfies: result == (fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) if isinstance(node.value, int) else fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))) and result == fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) or result == fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))"},"spec":{"lhs":"visit_Constant(node)","rhs":"result == (fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) if isinstance(node.value, int) else fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))) and result == fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) or result == fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))","over":{"base":"Any","pred":"hasattr(node, 'value')"},"name":"visit_Constant_correct","kind":"composition"},"guarantee":"result == (fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) if isinstance(node.value, int) else fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))); result == fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) or result == fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[])); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fix_missing_locations","by":"library_axiom"},{"fn":"Call","by":"library_axiom"},{"fn":"Name","by":"library_axiom"},{"fn":"Load","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b01122b27470fe6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(node, 'value')"],"ensures":["result == (fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) if isinstance(node.value, int) else fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[])))","result == fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[])) or result == fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))"],"fibers":[{"name":"case_0","guard":"isinstance(node.value, int)","ensures":["result == fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[]))"],"decidability":"structural","returns_expr":"fix_missing_locations(Call(func=Name('Integer', Load()), args=[node], keywords=[]))"},{"name":"case_1","guard":"isinstance(node.value, float)","ensures":["result == fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))"],"decidability":"structural","returns_expr":"fix_missing_locations(Call(func=Name('Float', Load()), args=[node], keywords=[]))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["node.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_Constant(self, node):
         if isinstance(node.value, int):
             return fix_missing_locations(Call(func=Name('Integer', Load()),
@@ -92,16 +115,25 @@ class Transform(NodeTransformer):
         return node
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_Name(nod), visit_Name produces the expected output) over Any ║
+# ║ Path(visit_Name(node), <unspecified:visit_Name>) over {Any | hasattr(node, 'id')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_Name : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(node, 'id')                            ║
+# ║   fiber[case_0]: node.id in self.local_dict => node        ║
+# ║   fiber[case_1]: node.id in self.global_dict               ║
+# ║   fiber[case_2]: node.id in ['True', 'False'] => node      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_Name : {Any | hasattr(node, 'id')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d3cc872ecbe31b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f769837dd8c0a017  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.visit_Name","kind":"method","src_hash":"a8a2e871e62e0e4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_Name(nod)","rhs":"visit_Name produces the expected output","over":{"base":"Any"},"name":"visit_Name_correct"},"guarantee":"visit_Name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.ast_parser.Transform.visit_Name_correct","statement":"Path(visit_Name(x), visit_Name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3cc872ecbe31b1"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.visit_Name","kind":"method","src_hash":"a8a2e871e62e0e4b","in":{"base":"Any","pred":"hasattr(node, 'id')"},"out":{"base":"Any"},"spec":{"lhs":"visit_Name(node)","rhs":"<unspecified:visit_Name>","over":{"base":"Any","pred":"hasattr(node, 'id')"},"name":"visit_Name_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.ast_parser.Transform.visit_Name_correct","statement":"Path(visit_Name(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f769837dd8c0a017","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(node, 'id')"],"fibers":[{"name":"case_0","guard":"node.id in self.local_dict","ensures":["result == node"],"decidability":"library","returns_expr":"node"},{"name":"case_1","guard":"node.id in self.global_dict","ensures":[],"decidability":"library"},{"name":"case_2","guard":"node.id in ['True', 'False']","ensures":["result == node"],"decidability":"library","returns_expr":"node"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["node.id","self.global_dict","self.local_dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_Name(self, node):
         if node.id in self.local_dict:
             return node
@@ -116,16 +148,24 @@ class Transform(NodeTransformer):
                 args=[Constant(node.id)], keywords=[]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_Lambda(nod), visit_Lambda produces the expected output) over Any ║
+# ║ Path(visit_Lambda(node), fix_missing_locations(n)) over {Any | hasattr(node, 'body') and hasattr(node, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_Lambda : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(node, 'body')                          ║
+# ║   requires: hasattr(node, 'args')                          ║
+# ║   returns:  fix_missing_locations(n)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_Lambda : {Any | hasattr(node, 'body') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 071020957b03fd21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94ebc3f9fa2d4959  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.visit_Lambda","kind":"method","src_hash":"a0f31fb4aa1fbb59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_Lambda(nod)","rhs":"visit_Lambda produces the expected output","over":{"base":"Any"},"name":"visit_Lambda_correct"},"guarantee":"visit_Lambda produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.ast_parser.Transform.visit_Lambda_correct","statement":"Path(visit_Lambda(x), visit_Lambda produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"071020957b03fd21"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.Transform.visit_Lambda","kind":"method","src_hash":"a0f31fb4aa1fbb59","in":{"base":"Any","pred":"hasattr(node, 'body') and hasattr(node, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"visit_Lambda(node)","rhs":"fix_missing_locations(n)","over":{"base":"Any","pred":"hasattr(node, 'body') and hasattr(node, 'args')"},"name":"visit_Lambda_correct"},"guarantee":"returns fix_missing_locations(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.ast_parser.Transform.visit_Lambda_correct","statement":"Path(visit_Lambda(x), returns fix_missing_locations(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94ebc3f9fa2d4959","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(node, 'body')","hasattr(node, 'args')"],"returns_expr":"fix_missing_locations(n)","pure":false,"effects":{"effect_type":"reads_state","reads":["node.args","node.body","self.visit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_Lambda(self, node):
         args = [self.visit(arg) for arg in node.args.args]
         body = self.visit(node.body)
@@ -134,16 +174,23 @@ class Transform(NodeTransformer):
         return fix_missing_locations(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_expr(s, ), converts the string "s" to a sympy expression, in local_dict) over Any ║
+# ║ Path(parse_expr(s, local_dict), eval(e, global_dict, local_dict)) over {Any | hasattr(s, 'strip')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parse_expr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'strip')                            ║
+# ║   returns:  eval(e, global_dict, local_dict)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parse_expr : {Any | hasattr(s, 'strip')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa56d30b233aac38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64a3ac6a5efaece3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.parse_expr","kind":"function","src_hash":"76b2426566c281ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_expr(s, )","rhs":"converts the string \"s\" to a sympy expression, in local_dict","over":{"base":"Any"},"name":"parse_expr_correct"},"guarantee":"converts the string \"s\" to a sympy expression, in local_dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.ast_parser.parse_expr_correct","statement":"Path(parse_expr(x), converts the string \"s\" to a sympy expression, in local_dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa56d30b233aac38"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.ast_parser.parse_expr","kind":"function","src_hash":"76b2426566c281ac","in":{"base":"Any","pred":"hasattr(s, 'strip')"},"out":{"base":"Any"},"spec":{"lhs":"parse_expr(s, local_dict)","rhs":"eval(e, global_dict, local_dict)","over":{"base":"Any","pred":"hasattr(s, 'strip')"},"name":"parse_expr_correct"},"guarantee":"returns eval(e, global_dict, local_dict)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.ast_parser.parse_expr_correct","statement":"Path(parse_expr(x), returns eval(e, global_dict, local_dict))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64a3ac6a5efaece3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'strip')"],"returns_expr":"eval(e, global_dict, local_dict)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.strip"],"raises":["SympifyError"],"catches":["SyntaxError"]},"state_contract":{"exceptional_post":{"SympifyError":["isinstance(raised, SympifyError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def parse_expr(s, local_dict):
     """
     Converts the string "s" to a SymPy expression, in local_dict.

@@ -35,16 +35,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tschirnhausen_transformation(), test_tschirnhausen_transformation produces the expected output) over Any ║
+# ║ Path(test_tschirnhausen_transformation(), <unspecified:test_tschirnhausen_transformation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tschirnhausen_transformation : Any → {Any | U.de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75d1acad3a7d9c8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_tschirnhausen_transformation","kind":"function","src_hash":"67d86b0275fa4656","in":{"base":"Any"},"out":{"base":"Any","pred":"U.degree() == T.degree() and U.is_monic and U.is_irreducible and field_isomorphism(K.ext, L.ext) is not None"},"spec":{"lhs":"test_tschirnhausen_transformation()","rhs":"test_tschirnhausen_transformation produces the expected output","over":{"base":"Any"},"name":"test_tschirnhausen_transformation_correct"},"guarantee":"test_tschirnhausen_transformation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_tschirnhausen_transformation_correct","statement":"Path(test_tschirnhausen_transformation(x), test_tschirnhausen_transformation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75d1acad3a7d9c8e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_tschirnhausen_transformation","kind":"function","src_hash":"67d86b0275fa4656","in":{"base":"Any"},"out":{"base":"Any","pred":"U.degree() == T.degree() and U.is_monic and U.is_irreducible and field_isomorphism(K.ext, L.ext) is not None"},"spec":{"lhs":"test_tschirnhausen_transformation()","rhs":"<unspecified:test_tschirnhausen_transformation>","over":{"base":"Any"},"name":"test_tschirnhausen_transformation_correct"},"guarantee":"test_tschirnhausen_transformation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_tschirnhausen_transformation_correct","statement":"Path(test_tschirnhausen_transformation(x), test_tschirnhausen_transformation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75d1acad3a7d9c8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_tschirnhausen_transformation():
     for T in [
         Poly(x**2 - 2),
@@ -116,16 +122,22 @@ test_polys_by_deg = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_galois_group(), try all the test polys) over Any ║
+# ║ Path(test_galois_group(), <unspecified:test_galois_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_galois_group : Any → {Any | galois_group(T, by_n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ba9a375022a9b3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group","kind":"function","src_hash":"af2d8ad2b6c521bf","in":{"base":"Any"},"out":{"base":"Any","pred":"galois_group(T, by_name=True) == (G, alt)"},"spec":{"lhs":"test_galois_group()","rhs":"try all the test polys","over":{"base":"Any"},"name":"test_galois_group_correct"},"guarantee":"try all the test polys","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_correct","statement":"Path(test_galois_group(x), try all the test polys)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba9a375022a9b3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group","kind":"function","src_hash":"af2d8ad2b6c521bf","in":{"base":"Any"},"out":{"base":"Any","pred":"galois_group(T, by_name=True) == (G, alt)"},"spec":{"lhs":"test_galois_group()","rhs":"<unspecified:test_galois_group>","over":{"base":"Any"},"name":"test_galois_group_correct"},"guarantee":"try all the test polys","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_correct","statement":"Path(test_galois_group(x), try all the test polys)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba9a375022a9b3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_galois_group():
     """
     Try all the test polys.
@@ -137,16 +149,22 @@ def test_galois_group():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_galois_group_degree_out_of_bounds(), test_galois_group_degree_out_of_bounds produces the expected output) over Any ║
+# ║ Path(test_galois_group_degree_out_of_bounds(), <unspecified:test_galois_group_degree_out_of_bounds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_galois_group_degree_out_of_bounds : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b9a989eb9f6ba31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_degree_out_of_bounds","kind":"function","src_hash":"7be5f64c1c304a92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_galois_group_degree_out_of_bounds()","rhs":"test_galois_group_degree_out_of_bounds produces the expected output","over":{"base":"Any"},"name":"test_galois_group_degree_out_of_bounds_correct"},"guarantee":"test_galois_group_degree_out_of_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_degree_out_of_bounds_correct","statement":"Path(test_galois_group_degree_out_of_bounds(x), test_galois_group_degree_out_of_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b9a989eb9f6ba31"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_degree_out_of_bounds","kind":"function","src_hash":"7be5f64c1c304a92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_galois_group_degree_out_of_bounds()","rhs":"<unspecified:test_galois_group_degree_out_of_bounds>","over":{"base":"Any"},"name":"test_galois_group_degree_out_of_bounds_correct"},"guarantee":"test_galois_group_degree_out_of_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_degree_out_of_bounds_correct","statement":"Path(test_galois_group_degree_out_of_bounds(x), test_galois_group_degree_out_of_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b9a989eb9f6ba31","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_galois_group_degree_out_of_bounds():
     raises(ValueError, lambda: galois_group(Poly(0, x)))
     raises(ValueError, lambda: galois_group(Poly(1, x)))
@@ -154,16 +172,22 @@ def test_galois_group_degree_out_of_bounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_galois_group_not_by_name(), check at least one polynomial of each supported degree, to see that conversion from name to group works) over Any ║
+# ║ Path(test_galois_group_not_by_name(), <unspecified:test_galois_group_not_by_name>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_galois_group_not_by_name : Any → {Any | G == G_n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d3135ff281b4ffd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_by_name","kind":"function","src_hash":"49f40ed2b6ace53f","in":{"base":"Any"},"out":{"base":"Any","pred":"G == G_name.get_perm_group()"},"spec":{"lhs":"test_galois_group_not_by_name()","rhs":"check at least one polynomial of each supported degree, to see that conversion from name to group works","over":{"base":"Any"},"name":"test_galois_group_not_by_name_correct"},"guarantee":"check at least one polynomial of each supported degree, to see that conversion from name to group works","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_by_name_correct","statement":"Path(test_galois_group_not_by_name(x), check at least one polynomial of each supported degree, to see that conversion from name to group works)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3135ff281b4ffd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_by_name","kind":"function","src_hash":"49f40ed2b6ace53f","in":{"base":"Any"},"out":{"base":"Any","pred":"G == G_name.get_perm_group()"},"spec":{"lhs":"test_galois_group_not_by_name()","rhs":"<unspecified:test_galois_group_not_by_name>","over":{"base":"Any"},"name":"test_galois_group_not_by_name_correct"},"guarantee":"check at least one polynomial of each supported degree, to see that conversion from name to group works","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_by_name_correct","statement":"Path(test_galois_group_not_by_name(x), check at least one polynomial of each supported degree, to see that conversion from name to group works)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3135ff281b4ffd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_galois_group_not_by_name():
     """
     Check at least one polynomial of each supported degree, to see that
@@ -176,16 +200,22 @@ def test_galois_group_not_by_name():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_galois_group_not_monic_over_ZZ(), check that we can work with polys that are not monic over zz) over Any ║
+# ║ Path(test_galois_group_not_monic_over_ZZ(), <unspecified:test_galois_group_not_monic_over_ZZ>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_galois_group_not_monic_over_ZZ : Any → {Any | ga...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acffa668c0fbad77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_monic_over_ZZ","kind":"function","src_hash":"be68fb0acae76251","in":{"base":"Any"},"out":{"base":"Any","pred":"galois_group(T / 2, by_name=True) == (G, alt)"},"spec":{"lhs":"test_galois_group_not_monic_over_ZZ()","rhs":"check that we can work with polys that are not monic over zz","over":{"base":"Any"},"name":"test_galois_group_not_monic_over_ZZ_correct"},"guarantee":"check that we can work with polys that are not monic over zz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_monic_over_ZZ_correct","statement":"Path(test_galois_group_not_monic_over_ZZ(x), check that we can work with polys that are not monic over zz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acffa668c0fbad77"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_monic_over_ZZ","kind":"function","src_hash":"be68fb0acae76251","in":{"base":"Any"},"out":{"base":"Any","pred":"galois_group(T / 2, by_name=True) == (G, alt)"},"spec":{"lhs":"test_galois_group_not_monic_over_ZZ()","rhs":"<unspecified:test_galois_group_not_monic_over_ZZ>","over":{"base":"Any"},"name":"test_galois_group_not_monic_over_ZZ_correct"},"guarantee":"check that we can work with polys that are not monic over zz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_galois_group_not_monic_over_ZZ_correct","statement":"Path(test_galois_group_not_monic_over_ZZ(x), check that we can work with polys that are not monic over zz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acffa668c0fbad77","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_galois_group_not_monic_over_ZZ():
     """
     Check that we can work with polys that are not monic over ZZ.
@@ -196,48 +226,67 @@ def test_galois_group_not_monic_over_ZZ():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__galois_group_degree_4_root_approx(), test__galois_group_degree_4_root_approx produces the expected output) over Any ║
+# ║ Path(test__galois_group_degree_4_root_approx(), <unspecified:test__galois_group_degree_4_root_approx>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test__galois_group_degree_4_root_approx : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99c487045f25a879  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_4_root_approx","kind":"function","src_hash":"66c1657531ae73fe","in":{"base":"Any"},"out":{"base":"Any","pred":"_galois_group_degree_4_root_approx(Poly(T)) == (G, alt)"},"spec":{"lhs":"test__galois_group_degree_4_root_approx()","rhs":"test__galois_group_degree_4_root_approx produces the expected output","over":{"base":"Any"},"name":"test__galois_group_degree_4_root_approx_correct"},"guarantee":"test__galois_group_degree_4_root_approx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_4_root_approx_correct","statement":"Path(test__galois_group_degree_4_root_approx(x), test__galois_group_degree_4_root_approx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c487045f25a879"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_4_root_approx","kind":"function","src_hash":"66c1657531ae73fe","in":{"base":"Any"},"out":{"base":"Any","pred":"_galois_group_degree_4_root_approx(Poly(T)) == (G, alt)"},"spec":{"lhs":"test__galois_group_degree_4_root_approx()","rhs":"<unspecified:test__galois_group_degree_4_root_approx>","over":{"base":"Any"},"name":"test__galois_group_degree_4_root_approx_correct"},"guarantee":"test__galois_group_degree_4_root_approx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_4_root_approx_correct","statement":"Path(test__galois_group_degree_4_root_approx(x), test__galois_group_degree_4_root_approx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c487045f25a879","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test__galois_group_degree_4_root_approx():
     for T, G, alt in test_polys_by_deg[4]:
         assert _galois_group_degree_4_root_approx(Poly(T)) == (G, alt)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__galois_group_degree_5_hybrid(), test__galois_group_degree_5_hybrid produces the expected output) over Any ║
+# ║ Path(test__galois_group_degree_5_hybrid(), <unspecified:test__galois_group_degree_5_hybrid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test__galois_group_degree_5_hybrid : Any → {Any | _ga...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc2d7a5492e9e20b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_5_hybrid","kind":"function","src_hash":"533726ebc225ca09","in":{"base":"Any"},"out":{"base":"Any","pred":"_galois_group_degree_5_hybrid(Poly(T)) == (G, alt)"},"spec":{"lhs":"test__galois_group_degree_5_hybrid()","rhs":"test__galois_group_degree_5_hybrid produces the expected output","over":{"base":"Any"},"name":"test__galois_group_degree_5_hybrid_correct"},"guarantee":"test__galois_group_degree_5_hybrid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_5_hybrid_correct","statement":"Path(test__galois_group_degree_5_hybrid(x), test__galois_group_degree_5_hybrid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2d7a5492e9e20b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_5_hybrid","kind":"function","src_hash":"533726ebc225ca09","in":{"base":"Any"},"out":{"base":"Any","pred":"_galois_group_degree_5_hybrid(Poly(T)) == (G, alt)"},"spec":{"lhs":"test__galois_group_degree_5_hybrid()","rhs":"<unspecified:test__galois_group_degree_5_hybrid>","over":{"base":"Any"},"name":"test__galois_group_degree_5_hybrid_correct"},"guarantee":"test__galois_group_degree_5_hybrid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test__galois_group_degree_5_hybrid_correct","statement":"Path(test__galois_group_degree_5_hybrid(x), test__galois_group_degree_5_hybrid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2d7a5492e9e20b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test__galois_group_degree_5_hybrid():
     for T, G, alt in test_polys_by_deg[5]:
         assert _galois_group_degree_5_hybrid(Poly(T)) == (G, alt)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AlgebraicField_galois_group(), test_AlgebraicField_galois_group produces the expected output) over Any ║
+# ║ Path(test_AlgebraicField_galois_group(), G == S4TransitiveSubgroups.V and G == S4TransitiveSubgroups.D4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AlgebraicField_galois_group : Any → {Any | G == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  G == S4TransitiveSubgroups.V                   ║
+# ║   ensures:  G == S4TransitiveSubgroups.D4                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AlgebraicField_galois_group : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2984a257eaa1b26d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3c934db019c2ba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_AlgebraicField_galois_group","kind":"function","src_hash":"f063b478d406aa8a","in":{"base":"Any"},"out":{"base":"Any","pred":"G == S4TransitiveSubgroups.V and G == S4TransitiveSubgroups.D4"},"spec":{"lhs":"test_AlgebraicField_galois_group()","rhs":"test_AlgebraicField_galois_group produces the expected output","over":{"base":"Any"},"name":"test_AlgebraicField_galois_group_correct"},"guarantee":"test_AlgebraicField_galois_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_AlgebraicField_galois_group_correct","statement":"Path(test_AlgebraicField_galois_group(x), test_AlgebraicField_galois_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2984a257eaa1b26d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_galoisgroups.test_AlgebraicField_galois_group","kind":"function","src_hash":"f063b478d406aa8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: G == S4TransitiveSubgroups.V and G == S4TransitiveSubgroups.D4"},"spec":{"lhs":"test_AlgebraicField_galois_group()","rhs":"G == S4TransitiveSubgroups.V and G == S4TransitiveSubgroups.D4","over":{"base":"Any"},"name":"test_AlgebraicField_galois_group_correct"},"guarantee":"G == S4TransitiveSubgroups.V; G == S4TransitiveSubgroups.D4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_galoisgroups.test_AlgebraicField_galois_group_correct","statement":"Path(test_AlgebraicField_galois_group(x), G == S4TransitiveSubgroups.V; G == S4TransitiveSubgroups.D4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3c934db019c2ba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["G == S4TransitiveSubgroups.V","G == S4TransitiveSubgroups.D4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_AlgebraicField_galois_group():
     k = QQ.alg_field_from_poly(Poly(x**4 + 1))
     G, _ = k.galois_group(by_name=True)

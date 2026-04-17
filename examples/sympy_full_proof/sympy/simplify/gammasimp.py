@@ -25,9 +25,15 @@ from sympy.utilities.iterables import sift, uniq
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gammasimp(exp), simplify expressions with gamma functions) over {Any | isinstance(i, gamma)} ║
+# ║ Path(gammasimp(expr), <unspecified:gammasimp>) over {Any | isinstance(i, gamma) and hasattr(expr, 'rewrite') and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(expr, 'as_dummy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gammasimp : {Any | isinstance(i, gamma)} → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gammasimp : {Any | isinstance(i, gamma) and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   gamma: {isinstance(i, gamma)} → library_axiom            ║
@@ -37,9 +43,12 @@ from sympy.utilities.iterables import sift, uniq
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f27cc0b4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp.gammasimp","kind":"function","src_hash":"9668fc09f8159c21","in":{"base":"Any","pred":"isinstance(i, gamma)"},"out":{"base":"Any"},"spec":{"lhs":"gammasimp(exp)","rhs":"simplify expressions with gamma functions","over":{"base":"Any","pred":"isinstance(i, gamma)"},"name":"gammasimp_correct"},"guarantee":"simplify expressions with gamma functions","fibers":[{"name":"gamma","pred":"isinstance(i, gamma)","path":{"lhs":"gammasimp(x)","rhs":"simplify expressions with gamma functions","over":{"base":"gamma","pred":"isinstance(i, gamma)"},"name":"gammasimp_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.gammasimp.gammasimp_gamma_correct","statement":"gammasimp satisfies spec on gamma inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f27cc0b4a044e0a8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp.gammasimp","kind":"function","src_hash":"9668fc09f8159c21","in":{"base":"Any","pred":"isinstance(i, gamma) and hasattr(expr, 'rewrite') and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(expr, 'as_dummy')"},"out":{"base":"Any"},"spec":{"lhs":"gammasimp(expr)","rhs":"<unspecified:gammasimp>","over":{"base":"Any","pred":"isinstance(i, gamma) and hasattr(expr, 'rewrite') and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(expr, 'as_dummy')"},"name":"gammasimp_correct"},"guarantee":"simplify expressions with gamma functions","fibers":[{"name":"gamma","pred":"isinstance(i, gamma)","path":{"lhs":"gammasimp(x)","rhs":"simplify expressions with gamma functions","over":{"base":"gamma","pred":"isinstance(i, gamma)"},"name":"gammasimp_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.gammasimp.gammasimp_gamma_correct","statement":"gammasimp satisfies spec on gamma inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f27cc0b4a044e0a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'rewrite')","hasattr(expr, 'atoms')","hasattr(expr, 'xreplace')","hasattr(expr, 'as_dummy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_dummy","expr.atoms","expr.rewrite","expr.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def gammasimp(expr):
     r"""
     Simplify expressions with gamma functions.
@@ -115,9 +124,15 @@ def gammasimp(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gammasimp(exp), helper function for gammasimp and combsimp) over {Any | isinstance(x, gamma)} ║
+# ║ Path(_gammasimp(expr, as_comb), <unspecified:_gammasimp>) over {Any | isinstance(x, gamma) and hasattr(expr, 'replace') and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func') and hasattr(expr, 'args_cnc') and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gammasimp : {Any | isinstance(x, gamma)} → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gammasimp : {Any | isinstance(x, gamma) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   gamma: {isinstance(x, gamma)} → library_axiom            ║
@@ -127,9 +142,12 @@ def gammasimp(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 5.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 927c2933...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp._gammasimp","kind":"function","src_hash":"d26cd5fa2d0570ee","in":{"base":"Any","pred":"isinstance(x, gamma)"},"out":{"base":"Any"},"spec":{"lhs":"_gammasimp(exp)","rhs":"helper function for gammasimp and combsimp","over":{"base":"Any","pred":"isinstance(x, gamma)"},"name":"_gammasimp_correct"},"guarantee":"helper function for gammasimp and combsimp","fibers":[{"name":"gamma","pred":"isinstance(x, gamma)","path":{"lhs":"_gammasimp(x)","rhs":"helper function for gammasimp and combsimp","over":{"base":"gamma","pred":"isinstance(x, gamma)"},"name":"_gammasimp_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.gammasimp._gammasimp_gamma_correct","statement":"_gammasimp satisfies spec on gamma inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"927c29330ac92c44"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp._gammasimp","kind":"function","src_hash":"d26cd5fa2d0570ee","in":{"base":"Any","pred":"isinstance(x, gamma) and hasattr(expr, 'replace') and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func') and hasattr(expr, 'args_cnc') and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_gammasimp(expr, as_comb)","rhs":"<unspecified:_gammasimp>","over":{"base":"Any","pred":"isinstance(x, gamma) and hasattr(expr, 'replace') and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func') and hasattr(expr, 'args_cnc') and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'atoms')"},"name":"_gammasimp_correct"},"guarantee":"helper function for gammasimp and combsimp","fibers":[{"name":"gamma","pred":"isinstance(x, gamma)","path":{"lhs":"_gammasimp(x)","rhs":"helper function for gammasimp and combsimp","over":{"base":"gamma","pred":"isinstance(x, gamma)"},"name":"_gammasimp_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.gammasimp._gammasimp_gamma_correct","statement":"_gammasimp satisfies spec on gamma inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"927c29330ac92c44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'replace')","hasattr(expr, 'is_Atom')","hasattr(expr, 'is_Mul')","hasattr(expr, 'func')","hasattr(expr, 'args_cnc')","hasattr(expr, 'args')","hasattr(expr, 'free_symbols')","hasattr(expr, 'atoms')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, gamma)', 'isinstance(b, gamma)', 'T1 != T2 or (not S1.intersection(S2) and (S1 != set() or S2 != set()))', 'y != g', 'level >= 2', 'expr != was', 'run is None', 'ipass == 0 and (not gamma_factor(nd))', 'xx.count(gamma) < was', 'y != g - 1', 'level == 1', 'a == 0 and (b > 0 or c > 0)', 'n > 0', 'expr == was', 'n < 0', 'level == 3', 'level == 0', 'level == 2', 'one.p == 1 and one.q != 1'}, fibers={'gamma'})"]}}
 def _gammasimp(expr, as_comb):
     """
     Helper function for gammasimp and combsimp.
@@ -512,27 +530,42 @@ def _gammasimp(expr, as_comb):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_rf(*args), correctly constructs a _rf instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rf : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27570005300b6e66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp._rf","kind":"class","src_hash":"c1ee55bf28b67539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rf(*args)","rhs":"correctly constructs a _rf instance","over":{"base":"Any"},"name":"_rf_class_invariant"},"guarantee":"correctly constructs a _rf instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27570005300b6e66"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp._rf","kind":"class","src_hash":"c1ee55bf28b67539","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"_rf(*args)","rhs":"correctly constructs a _rf instance","over":{"base":"Any"},"name":"_rf_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27570005300b6e66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function _rf not found in source"]}}
 class _rf(Function):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, a, b), <unspecified:eval>) over {Any | hasattr(b, 'is_Integer') and hasattr(b, 'is_Add') and hasattr(a, 'is_Add') and hasattr(b, 'as_coeff_Add') and hasattr(a, 'as_coeff_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(b, 'is_Integer')                       ║
+# ║   requires: hasattr(b, 'is_Add')                           ║
+# ║   requires: hasattr(a, 'is_Add')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(b, 'is_Integer') and hasattr(b,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7462aae14b240b83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp._rf.eval","kind":"classmethod","src_hash":"2df3946bf3d9ec23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.gammasimp._rf.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7462aae14b240b83"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.gammasimp._rf.eval","kind":"classmethod","src_hash":"2df3946bf3d9ec23","in":{"base":"Any","pred":"hasattr(b, 'is_Integer') and hasattr(b, 'is_Add') and hasattr(a, 'is_Add') and hasattr(b, 'as_coeff_Add') and hasattr(a, 'as_coeff_Add')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, b)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(b, 'is_Integer') and hasattr(b, 'is_Add') and hasattr(a, 'is_Add') and hasattr(b, 'as_coeff_Add') and hasattr(a, 'as_coeff_Add')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.gammasimp._rf.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7462aae14b240b83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(b, 'is_Integer')","hasattr(b, 'is_Add')","hasattr(a, 'is_Add')","hasattr(b, 'as_coeff_Add')","hasattr(a, 'as_coeff_Add')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.as_coeff_Add","a.is_Add","b.as_coeff_Add","b.is_Add","b.is_Integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, b):
         if b.is_Integer:
             if not b:

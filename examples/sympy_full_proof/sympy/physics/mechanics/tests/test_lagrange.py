@@ -28,16 +28,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_coordinates(), test_invalid_coordinates produces the expected output) over Any ║
+# ║ Path(test_invalid_coordinates(), <unspecified:test_invalid_coordinates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_coordinates : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e6d650307dc7255  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_invalid_coordinates","kind":"function","src_hash":"22816133b4b861d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_coordinates()","rhs":"test_invalid_coordinates produces the expected output","over":{"base":"Any"},"name":"test_invalid_coordinates_correct"},"guarantee":"test_invalid_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_invalid_coordinates_correct","statement":"Path(test_invalid_coordinates(x), test_invalid_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e6d650307dc7255"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_invalid_coordinates","kind":"function","src_hash":"22816133b4b861d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_coordinates()","rhs":"<unspecified:test_invalid_coordinates>","over":{"base":"Any"},"name":"test_invalid_coordinates_correct"},"guarantee":"test_invalid_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_invalid_coordinates_correct","statement":"Path(test_invalid_coordinates(x), test_invalid_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e6d650307dc7255","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_invalid_coordinates():
     # Simple pendulum, but use symbol instead of dynamicsymbol
     l, m, g = symbols('l m g')
@@ -52,16 +58,22 @@ def test_invalid_coordinates():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_disc_on_an_incline_plane(), test_disc_on_an_incline_plane produces the expected output) over Any ║
+# ║ Path(test_disc_on_an_incline_plane(), rhs[2] == 2 * g * sin(alpha) / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_disc_on_an_incline_plane : Any → {Any | rhs[2] =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rhs[2] == 2 * g * sin(alpha) / 3               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_disc_on_an_incline_plane : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeaa92c615cd9683  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a02143b55ec78aeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_disc_on_an_incline_plane","kind":"function","src_hash":"d75be24faddce7bc","in":{"base":"Any"},"out":{"base":"Any","pred":"rhs[2] == 2 * g * sin(alpha) / 3"},"spec":{"lhs":"test_disc_on_an_incline_plane()","rhs":"test_disc_on_an_incline_plane produces the expected output","over":{"base":"Any"},"name":"test_disc_on_an_incline_plane_correct"},"guarantee":"test_disc_on_an_incline_plane produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_disc_on_an_incline_plane_correct","statement":"Path(test_disc_on_an_incline_plane(x), test_disc_on_an_incline_plane produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeaa92c615cd9683"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_disc_on_an_incline_plane","kind":"function","src_hash":"d75be24faddce7bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rhs[2] == 2 * g * sin(alpha) / 3"},"spec":{"lhs":"test_disc_on_an_incline_plane()","rhs":"rhs[2] == 2 * g * sin(alpha) / 3","over":{"base":"Any"},"name":"test_disc_on_an_incline_plane_correct"},"guarantee":"rhs[2] == 2 * g * sin(alpha) / 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_disc_on_an_incline_plane_correct","statement":"Path(test_disc_on_an_incline_plane(x), rhs[2] == 2 * g * sin(alpha) / 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02143b55ec78aeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rhs[2] == 2 * g * sin(alpha) / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_disc_on_an_incline_plane():
     # Disc rolling on an inclined plane
     # First the generalized coordinates are created. The mass center of the
@@ -111,16 +123,22 @@ def test_disc_on_an_incline_plane():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simp_pen(), test_simp_pen produces the expected output) over Any ║
+# ║ Path(test_simp_pen(), RHS[1] == -g * sin(q) / l) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simp_pen : Any → {Any | RHS[1] == -g * sin(q) / l}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RHS[1] == -g * sin(q) / l                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simp_pen : Any → {Any | result satisfies: RHS[1]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ded9c4c8fa57aa72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f319069beddf8ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_simp_pen","kind":"function","src_hash":"f90df879d93d0552","in":{"base":"Any"},"out":{"base":"Any","pred":"RHS[1] == -g * sin(q) / l"},"spec":{"lhs":"test_simp_pen()","rhs":"test_simp_pen produces the expected output","over":{"base":"Any"},"name":"test_simp_pen_correct"},"guarantee":"test_simp_pen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_simp_pen_correct","statement":"Path(test_simp_pen(x), test_simp_pen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ded9c4c8fa57aa72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_simp_pen","kind":"function","src_hash":"f90df879d93d0552","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RHS[1] == -g * sin(q) / l"},"spec":{"lhs":"test_simp_pen()","rhs":"RHS[1] == -g * sin(q) / l","over":{"base":"Any"},"name":"test_simp_pen_correct"},"guarantee":"RHS[1] == -g * sin(q) / l","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_simp_pen_correct","statement":"Path(test_simp_pen(x), RHS[1] == -g * sin(q) / l)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f319069beddf8ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RHS[1] == -g * sin(q) / l"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simp_pen():
     # This tests that the equations generated by LagrangesMethod are identical
     # to those obtained by hand calculations. The system under consideration is
@@ -163,16 +181,23 @@ def test_simp_pen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonminimal_pendulum(), test_nonminimal_pendulum produces the expected output) over Any ║
+# ║ Path(test_nonminimal_pendulum(), LM.eom == eom_sol and simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nonminimal_pendulum : Any → {Any | LM.eom == eom...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LM.eom == eom_sol                              ║
+# ║   ensures:  simplify(LM.solve_multipliers(sol_type='M...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nonminimal_pendulum : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb536409225a605d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58307542d7efe3d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_nonminimal_pendulum","kind":"function","src_hash":"74ce42ec45dd45d2","in":{"base":"Any"},"out":{"base":"Any","pred":"LM.eom == eom_sol and simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol)"},"spec":{"lhs":"test_nonminimal_pendulum()","rhs":"test_nonminimal_pendulum produces the expected output","over":{"base":"Any"},"name":"test_nonminimal_pendulum_correct"},"guarantee":"test_nonminimal_pendulum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_nonminimal_pendulum_correct","statement":"Path(test_nonminimal_pendulum(x), test_nonminimal_pendulum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb536409225a605d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_nonminimal_pendulum","kind":"function","src_hash":"74ce42ec45dd45d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LM.eom == eom_sol and simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol)"},"spec":{"lhs":"test_nonminimal_pendulum()","rhs":"LM.eom == eom_sol and simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol)","over":{"base":"Any"},"name":"test_nonminimal_pendulum_correct"},"guarantee":"LM.eom == eom_sol; simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_nonminimal_pendulum_correct","statement":"Path(test_nonminimal_pendulum(x), LM.eom == eom_sol; simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58307542d7efe3d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LM.eom == eom_sol","simplify(LM.solve_multipliers(sol_type='Matrix')) == simplify(lam_sol)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_nonminimal_pendulum():
     q1, q2 = dynamicsymbols('q1:3')
     q1d, q2d = dynamicsymbols('q1:3', level=1)
@@ -204,16 +229,24 @@ def test_nonminimal_pendulum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dub_pen(), test_dub_pen produces the expected output) over Any ║
+# ║ Path(test_dub_pen(), simplify(l * m * (2 * g * sin(q1) + l * sin(q1) * sin(q2) * q2dd + l * sin(q1) * cos(q2) * q2d ** 2 - l * sin(q2) * cos(q1) * q2d ** 2 + l * cos(q1) * cos(q2) * q2dd + 2 * l * q1dd) - lm.eom[0]) == 0 and simplify(l * m * (g * sin(q2) + l * sin(q1) * sin(q2) * q1dd - l * sin(q1) * cos(q2) * q1d ** 2 + l * sin(q2) * cos(q1) * q1d ** 2 + l * cos(q1) * cos(q2) * q1dd + l * q2dd) - lm.eom[1]) == 0 and lm.bodies == [ParP, ParR]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dub_pen : Any → {Any | lm.bodies == [ParP, ParR]}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(l * m * (2 * g * sin(q1) + l * s...   ║
+# ║   ensures:  simplify(l * m * (g * sin(q2) + l * sin(q...   ║
+# ║   ensures:  lm.bodies == [ParP, ParR]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dub_pen : Any → {Any | result satisfies: simplif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f291728d645e62e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a85893eb5facda3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_dub_pen","kind":"function","src_hash":"0bad85695c6540d1","in":{"base":"Any"},"out":{"base":"Any","pred":"lm.bodies == [ParP, ParR]"},"spec":{"lhs":"test_dub_pen()","rhs":"test_dub_pen produces the expected output","over":{"base":"Any"},"name":"test_dub_pen_correct"},"guarantee":"test_dub_pen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_dub_pen_correct","statement":"Path(test_dub_pen(x), test_dub_pen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f291728d645e62e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_dub_pen","kind":"function","src_hash":"0bad85695c6540d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(l * m * (2 * g * sin(q1) + l * sin(q1) * sin(q2) * q2dd + l * sin(q1) * cos(q2) * q2d ** 2 - l * sin(q2) * cos(q1) * q2d ** 2 + l * cos(q1) * cos(q2) * q2dd + 2 * l * q1dd) - lm.eom[0]) == 0 and simplify(l * m * (g * sin(q2) + l * sin(q1) * sin(q2) * q1dd - l * sin(q1) * cos(q2) * q1d ** 2 + l * sin(q2) * cos(q1) * q1d ** 2 + l * cos(q1) * cos(q2) * q1dd + l * q2dd) - lm.eom[1]) == 0 and lm.bodies == [ParP, ParR]"},"spec":{"lhs":"test_dub_pen()","rhs":"simplify(l * m * (2 * g * sin(q1) + l * sin(q1) * sin(q2) * q2dd + l * sin(q1) * cos(q2) * q2d ** 2 - l * sin(q2) * cos(q1) * q2d ** 2 + l * cos(q1) * cos(q2) * q2dd + 2 * l * q1dd) - lm.eom[0]) == 0 and simplify(l * m * (g * sin(q2) + l * sin(q1) * sin(q2) * q1dd - l * sin(q1) * cos(q2) * q1d ** 2 + l * sin(q2) * cos(q1) * q1d ** 2 + l * cos(q1) * cos(q2) * q1dd + l * q2dd) - lm.eom[1]) == 0 and lm.bodies == [ParP, ParR]","over":{"base":"Any"},"name":"test_dub_pen_correct"},"guarantee":"simplify(l * m * (2 * g * sin(q1) + l * sin(q1) * sin(q2) * q2dd + l * sin(q1) * cos(q2) * q2d ** 2 - l * sin(q2) * cos(q1) * q2d ** 2 + l * cos(q1) * cos(q2) * q2dd + 2 * l * q1dd) - lm.eom[0]) == 0; simplify(l * m * (g * sin(q2) + l * sin(q1) * sin(q2) * q1dd - l * sin(q1) * cos(q2) * q1d ** 2 + l * sin(q2) * cos(q1) * q1d ** 2 + l * cos(q1) * cos(q2) * q1dd + l * q2dd) - lm.eom[1]) == 0; lm.bodies == [ParP, ParR]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_dub_pen_correct","statement":"Path(test_dub_pen(x), simplify(l * m * (2 * g * sin(q1) + l * sin(q1) * sin(q2) * q2dd + l * sin(q1) * cos(q2) * q2d ** 2 - l * sin(q2) * cos(q1) * q2d ** 2 + l * cos(q1) * cos(q2) * q2dd + 2 * l * q1dd) - lm.eom[0]) == 0; simplify(l * m * (g * sin(q2) + l * sin(q1) * sin(q2) * q1dd - l * sin(q1) * cos(q2) * q1d ** 2 + l * sin(q2) * cos(q1) * q1d ** 2 + l * cos(q1) * cos(q2) * q1dd + l * q2dd) - lm.eom[1]) == 0; lm.bodies == [ParP, ParR])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a85893eb5facda3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(l * m * (2 * g * sin(q1) + l * sin(q1) * sin(q2) * q2dd + l * sin(q1) * cos(q2) * q2d ** 2 - l * sin(q2) * cos(q1) * q2d ** 2 + l * cos(q1) * cos(q2) * q2dd + 2 * l * q1dd) - lm.eom[0]) == 0","simplify(l * m * (g * sin(q2) + l * sin(q1) * sin(q2) * q1dd - l * sin(q1) * cos(q2) * q1d ** 2 + l * sin(q2) * cos(q1) * q1d ** 2 + l * cos(q1) * cos(q2) * q1dd + l * q2dd) - lm.eom[1]) == 0","lm.bodies == [ParP, ParR]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_dub_pen():
 
     # The system considered is the double pendulum. Like in the
@@ -264,16 +297,24 @@ def test_dub_pen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rolling_disc(), test_rolling_disc produces the expected output) over Any ║
+# ║ Path(test_rolling_disc(), l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0] and RHS[4].simplify() == (-8 * g * sin(q2(t)) + r * (5 * sin(2 * q2(t)) * Derivative(q1(t), t) + 12 * cos(q2(t)) * Derivative(q3(t), t)) * Derivative(q1(t), t)) / (10 * r) and RHS[5] == (-5 * cos(q2(t)) * Derivative(q1(t), t) + 6 * tan(q2(t)) * Derivative(q3(t), t) + 4 * Derivative(q1(t), t) / cos(q2(t))) * Derivative(q2(t), t)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rolling_disc : Any → {Any | l.mass_matrix[3:6] =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l.mass_matrix[3:6] == [0, 5 * m * r ** 2 ...   ║
+# ║   ensures:  RHS[4].simplify() == (-8 * g * sin(q2(t))...   ║
+# ║   ensures:  RHS[5] == (-5 * cos(q2(t)) * Derivative(q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rolling_disc : Any → {Any | result satisfies: l....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cf3b2582e1edd54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d691e4dc2f66b91a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_rolling_disc","kind":"function","src_hash":"300e25869d63ddc6","in":{"base":"Any"},"out":{"base":"Any","pred":"l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0]"},"spec":{"lhs":"test_rolling_disc()","rhs":"test_rolling_disc produces the expected output","over":{"base":"Any"},"name":"test_rolling_disc_correct"},"guarantee":"test_rolling_disc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_rolling_disc_correct","statement":"Path(test_rolling_disc(x), test_rolling_disc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf3b2582e1edd54"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange.test_rolling_disc","kind":"function","src_hash":"300e25869d63ddc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0] and RHS[4].simplify() == (-8 * g * sin(q2(t)) + r * (5 * sin(2 * q2(t)) * Derivative(q1(t), t) + 12 * cos(q2(t)) * Derivative(q3(t), t)) * Derivative(q1(t), t)) / (10 * r) and RHS[5] == (-5 * cos(q2(t)) * Derivative(q1(t), t) + 6 * tan(q2(t)) * Derivative(q3(t), t) + 4 * Derivative(q1(t), t) / cos(q2(t))) * Derivative(q2(t), t)"},"spec":{"lhs":"test_rolling_disc()","rhs":"l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0] and RHS[4].simplify() == (-8 * g * sin(q2(t)) + r * (5 * sin(2 * q2(t)) * Derivative(q1(t), t) + 12 * cos(q2(t)) * Derivative(q3(t), t)) * Derivative(q1(t), t)) / (10 * r) and RHS[5] == (-5 * cos(q2(t)) * Derivative(q1(t), t) + 6 * tan(q2(t)) * Derivative(q3(t), t) + 4 * Derivative(q1(t), t) / cos(q2(t))) * Derivative(q2(t), t)","over":{"base":"Any"},"name":"test_rolling_disc_correct"},"guarantee":"l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0]; RHS[4].simplify() == (-8 * g * sin(q2(t)) + r * (5 * sin(2 * q2(t)) * Derivative(q1(t), t) + 12 * cos(q2(t)) * Derivative(q3(t), t)) * Derivative(q1(t), t)) / (10 * r); RHS[5] == (-5 * cos(q2(t)) * Derivative(q1(t), t) + 6 * tan(q2(t)) * Derivative(q3(t), t) + 4 * Derivative(q1(t), t) / cos(q2(t))) * Derivative(q2(t), t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange.test_rolling_disc_correct","statement":"Path(test_rolling_disc(x), l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0]; RHS[4].simplify() == (-8 * g * sin(q2(t)) + r * (5 * sin(2 * q2(t)) * Derivative(q1(t), t) + 12 * cos(q2(t)) * Derivative(q3(t), t)) * Derivative(q1(t), t)) / (10 * r); RHS[5] == (-5 * cos(q2(t)) * Derivative(q1(t), t) + 6 * tan(q2(t)) * Derivative(q3(t), t) + 4 * Derivative(q1(t), t) / cos(q2(t))) * Derivative(q2(t), t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d691e4dc2f66b91a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l.mass_matrix[3:6] == [0, 5 * m * r ** 2 / 4, 0]","RHS[4].simplify() == (-8 * g * sin(q2(t)) + r * (5 * sin(2 * q2(t)) * Derivative(q1(t), t) + 12 * cos(q2(t)) * Derivative(q3(t), t)) * Derivative(q1(t), t)) / (10 * r)","RHS[5] == (-5 * cos(q2(t)) * Derivative(q1(t), t) + 6 * tan(q2(t)) * Derivative(q3(t), t) + 4 * Derivative(q1(t), t) / cos(q2(t))) * Derivative(q2(t), t)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_rolling_disc():
     # Rolling Disc Example
     # Here the rolling disc is formed from the contact point up, removing the

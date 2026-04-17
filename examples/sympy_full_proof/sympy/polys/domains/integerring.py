@@ -38,14 +38,22 @@ import math
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntegerRing(*args), correctly constructs a IntegerRing instance) over {Any | isinstance(other, IntegerRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ring)                         ║
+# ║   ensures:  isinstance(self, CharacteristicZero)           ║
+# ║   ensures:  isinstance(self, SimpleDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IntegerRing : {Any | isinstance(other, IntegerRing)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e5b6e756cc66efc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing","kind":"class","src_hash":"bd5c97e72ebfa00f","in":{"base":"Any","pred":"isinstance(other, IntegerRing)"},"out":{"base":"Any"},"spec":{"lhs":"IntegerRing(*args)","rhs":"correctly constructs a IntegerRing instance","over":{"base":"Any","pred":"isinstance(other, IntegerRing)"},"name":"IntegerRing_class_invariant"},"guarantee":"correctly constructs a IntegerRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e5b6e756cc66efc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing","kind":"class","src_hash":"bd5c97e72ebfa00f","in":{"base":"Any","pred":"isinstance(other, IntegerRing)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ring) and isinstance(self, CharacteristicZero) and isinstance(self, SimpleDomain)"},"spec":{"lhs":"IntegerRing(*args)","rhs":"correctly constructs a IntegerRing instance","over":{"base":"Any","pred":"isinstance(other, IntegerRing)"},"name":"IntegerRing_class_invariant"},"guarantee":"isinstance(self, Ring); isinstance(self, CharacteristicZero); isinstance(self, SimpleDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e5b6e756cc66efc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ring)","isinstance(self, CharacteristicZero)","isinstance(self, SimpleDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntegerRing not found in source"]}}
 class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
     r"""The domain ``ZZ`` representing the integers `\mathbb{Z}`.
 
@@ -77,30 +85,45 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
     has_assoc_Field = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e12de7ee5fcf719a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.__init__","kind":"method","src_hash":"ffe30260d60da202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e12de7ee5fcf719a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.__init__","kind":"method","src_hash":"ffe30260d60da202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e12de7ee5fcf719a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         """Allow instantiation of this domain. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (True if isinstance(other, IntegerRing) else NotImplemented) and result == True or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if isinstance(other, Inte...   ║
+# ║   ensures:  result == True or result == NotImplemented     ║
+# ║   fiber[IntegerRing]: isinstance(other, IntegerRing) ...   ║
+# ║   fiber[IntegerRing]: not (isinstance(other, IntegerR...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : Any → {Any | result satisfies: result == (Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65124ca2bdc7ff0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.__eq__","kind":"method","src_hash":"e696a621e1aac108","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65124ca2bdc7ff0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.__eq__","kind":"method","src_hash":"e696a621e1aac108","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if isinstance(other, IntegerRing) else NotImplemented) and result == True or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (True if isinstance(other, IntegerRing) else NotImplemented) and result == True or result == NotImplemented","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"result == (True if isinstance(other, IntegerRing) else NotImplemented); result == True or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65124ca2bdc7ff0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if isinstance(other, IntegerRing) else NotImplemented)","result == True or result == NotImplemented"],"fibers":[{"name":"IntegerRing","guard":"isinstance(other, IntegerRing)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"IntegerRing","guard":"not (isinstance(other, IntegerRing))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, IntegerRing):
@@ -109,46 +132,68 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash('ZZ')) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash('ZZ')                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84216b41d0fdd5a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.__hash__","kind":"method","src_hash":"d48de4c7eb4fcc08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84216b41d0fdd5a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.__hash__","kind":"method","src_hash":"d48de4c7eb4fcc08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash('ZZ')","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash('ZZ')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84216b41d0fdd5a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash('ZZ')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         """Compute a hash value for this domain. """
         return hash('ZZ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), SymPyInteger(int(a))) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymPyInteger(int(a))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ddae951b12cd8a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.to_sympy","kind":"method","src_hash":"eb0e9a0b72f7b9fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ddae951b12cd8a3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.to_sympy","kind":"method","src_hash":"eb0e9a0b72f7b9fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"SymPyInteger(int(a))","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns SymPyInteger(int(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ddae951b12cd8a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymPyInteger(int(a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return SymPyInteger(int(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert sympy's integer to ``dtype``) over Any ║
+# ║ Path(from_sympy(a), <unspecified:from_sympy>) over {Any | hasattr(a, 'is_Integer') and hasattr(a, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_Integer')                       ║
+# ║   requires: hasattr(a, 'p')                                ║
+# ║   fiber[case_0]: a.is_Integer => MPZ(a.p)                  ║
+# ║   fiber[case_1]: int_valued(a) => MPZ(int(a))              ║
+# ║   fiber[case_2]: not (a.is_Integer) and not (int_valu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(a, 'is_Integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1db876d35853917  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6787155092dc58cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_sympy","kind":"method","src_hash":"e1dc015422ceaf40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's integer to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's integer to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_sympy_correct","statement":"Path(from_sympy(x), convert sympy's integer to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1db876d35853917"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_sympy","kind":"method","src_hash":"e1dc015422ceaf40","in":{"base":"Any","pred":"hasattr(a, 'is_Integer') and hasattr(a, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"<unspecified:from_sympy>","over":{"base":"Any","pred":"hasattr(a, 'is_Integer') and hasattr(a, 'p')"},"name":"from_sympy_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_sympy_correct","statement":"Path(from_sympy(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6787155092dc58cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_Integer')","hasattr(a, 'p')"],"fibers":[{"name":"case_0","guard":"a.is_Integer","ensures":["result == MPZ(a.p)"],"decidability":"library","returns_expr":"MPZ(a.p)"},{"name":"case_1","guard":"int_valued(a)","ensures":["result == MPZ(int(a))"],"decidability":"library","returns_expr":"MPZ(int(a))"},{"name":"case_2","guard":"not (a.is_Integer) and not (int_valued(a))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.p"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's Integer to ``dtype``. """
         if a.is_Integer:
@@ -159,16 +204,22 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
             raise CoercionFailed("expected an integer, got %s" % a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), return the associated field of fractions :ref:`qq`) over Any ║
+# ║ Path(get_field(), <unspecified:get_field>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_field : Any → {Any | result satisfies: ref:`qq`}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbf5faa371f5796d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.get_field","kind":"method","src_hash":"b3a7a910d0a5d372","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ref:`qq`"},"spec":{"lhs":"get_field()","rhs":"return the associated field of fractions :ref:`qq`","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"return the associated field of fractions :ref:`qq`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.get_field_correct","statement":"Path(get_field(x), return the associated field of fractions :ref:`qq`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbf5faa371f5796d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.get_field","kind":"method","src_hash":"b3a7a910d0a5d372","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ref:`qq`"},"spec":{"lhs":"get_field()","rhs":"<unspecified:get_field>","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"return the associated field of fractions :ref:`qq`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.get_field_correct","statement":"Path(get_field(x), return the associated field of fractions :ref:`qq`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbf5faa371f5796d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         r"""Return the associated field of fractions :ref:`QQ`
 
@@ -191,16 +242,22 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
         return QQ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(algebraic_field(*ex), returns an algebraic field, i.e) over Any ║
+# ║ Path(algebraic_field(*extension, alias), self.get_field().algebraic_field(*extension, alias=alias)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get_field().algebraic_field(*extensi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ algebraic_field : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5624eaacdd9cd837           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.algebraic_field","kind":"method","src_hash":"8873d98ded7b260a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic_field(*ex)","rhs":"returns an algebraic field, i.e","over":{"base":"Any"},"name":"algebraic_field_correct"},"guarantee":"returns an algebraic field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5624eaacdd9cd837"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.algebraic_field","kind":"method","src_hash":"8873d98ded7b260a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic_field(*extension, alias)","rhs":"self.get_field().algebraic_field(*extension, alias=alias)","over":{"base":"Any"},"name":"algebraic_field_correct"},"guarantee":"returns self.get_field().algebraic_field(*extension, alias=alias)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5624eaacdd9cd837","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get_field().algebraic_field(*extension, alias=alias)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def algebraic_field(self, *extension, alias=None):
         r"""Returns an algebraic field, i.e. `\mathbb{Q}(\alpha, \ldots)`.
 
@@ -231,16 +288,25 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
         return self.get_field().algebraic_field(*extension, alias=alias)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(K1,), id) over Any                ║
+# ║ Path(from_AlgebraicField(K1, a, K0), id) over {Any | hasattr(a, 'is_ground') and hasattr(K1, 'convert') and hasattr(K0, 'dom') and hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_ground')                        ║
+# ║   requires: hasattr(K1, 'convert')                         ║
+# ║   requires: hasattr(K0, 'dom')                             ║
+# ║   returns:  K1.convert(a.LC(), K0.dom)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(a, 'is_ground') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bb298c2fb8b9672f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_AlgebraicField","kind":"method","src_hash":"00fb5518c890098b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1,)","rhs":"convert a :py:class:`~.anp` object to :ref:`zz`","over":{"base":"Any"},"name":"from_AlgebraicField_correct","kind":"composition"},"guarantee":"convert a :py:class:`~.anp` object to :ref:`zz`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb298c2fb8b9672f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_AlgebraicField","kind":"method","src_hash":"00fb5518c890098b","in":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(K1, 'convert') and hasattr(K0, 'dom') and hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1, a, K0)","rhs":"K1.convert(a.LC(), K0.dom)","over":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(K1, 'convert') and hasattr(K0, 'dom') and hasattr(a, 'LC')"},"name":"from_AlgebraicField_correct","kind":"composition"},"guarantee":"returns K1.convert(a.LC(), K0.dom)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb298c2fb8b9672f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_ground')","hasattr(K1, 'convert')","hasattr(K0, 'dom')","hasattr(a, 'LC')"],"returns_expr":"K1.convert(a.LC(), K0.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K1.convert","a.LC","a.is_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(K1, a, K0):
         """Convert a :py:class:`~.ANP` object to :ref:`ZZ`.
 
@@ -250,16 +316,22 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
             return K1.convert(a.LC(), K0.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(log(a, ), logarithm of *a* to the base *b*) over Any  ║
+# ║ Path(log(a, b), self.dtype(int(math.log(int(a), b)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(int(math.log(int(a), b)))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ log : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b97a1b7e030030bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.log","kind":"method","src_hash":"ce5d0cae88984731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"log(a, )","rhs":"logarithm of *a* to the base *b*","over":{"base":"Any"},"name":"log_correct"},"guarantee":"logarithm of *a* to the base *b*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b97a1b7e030030bb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.log","kind":"method","src_hash":"ce5d0cae88984731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"log(a, b)","rhs":"self.dtype(int(math.log(int(a), b)))","over":{"base":"Any"},"name":"log_correct"},"guarantee":"returns self.dtype(int(math.log(int(a), b)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b97a1b7e030030bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(int(math.log(int(a), b)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def log(self, a, b):
         r"""Logarithm of *a* to the base *b*.
 
@@ -293,154 +365,225 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
         return self.dtype(int(math.log(int(a), b)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FF(K1,), convert ``modularinteger(int)`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_FF(K1, a, K0), MPZ(K0.to_int(a))) over {Any | hasattr(K0, 'to_int')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FF : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_int')                          ║
+# ║   returns:  MPZ(K0.to_int(a))                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FF : {Any | hasattr(K0, 'to_int')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1da1b1bc7dc1aa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_FF","kind":"method","src_hash":"73d6becb1ba323c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FF(K1,)","rhs":"convert ``modularinteger(int)`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_FF_correct"},"guarantee":"convert ``modularinteger(int)`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1da1b1bc7dc1aa3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_FF","kind":"method","src_hash":"73d6becb1ba323c8","in":{"base":"Any","pred":"hasattr(K0, 'to_int')"},"out":{"base":"Any"},"spec":{"lhs":"from_FF(K1, a, K0)","rhs":"MPZ(K0.to_int(a))","over":{"base":"Any","pred":"hasattr(K0, 'to_int')"},"name":"from_FF_correct"},"guarantee":"returns MPZ(K0.to_int(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1da1b1bc7dc1aa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_int')"],"returns_expr":"MPZ(K0.to_int(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_int"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FF(K1, a, K0):
         """Convert ``ModularInteger(int)`` to GMPY's ``mpz``. """
         return MPZ(K0.to_int(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FF_python(K1,), convert ``modularinteger(int)`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_FF_python(K1, a, K0), MPZ(K0.to_int(a))) over {Any | hasattr(K0, 'to_int')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FF_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_int')                          ║
+# ║   returns:  MPZ(K0.to_int(a))                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FF_python : {Any | hasattr(K0, 'to_int')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44041f570111f233           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_FF_python","kind":"method","src_hash":"f0c9c4b90802c8d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_python(K1,)","rhs":"convert ``modularinteger(int)`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_FF_python_correct"},"guarantee":"convert ``modularinteger(int)`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44041f570111f233"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_FF_python","kind":"method","src_hash":"f0c9c4b90802c8d1","in":{"base":"Any","pred":"hasattr(K0, 'to_int')"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_python(K1, a, K0)","rhs":"MPZ(K0.to_int(a))","over":{"base":"Any","pred":"hasattr(K0, 'to_int')"},"name":"from_FF_python_correct"},"guarantee":"returns MPZ(K0.to_int(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44041f570111f233","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_int')"],"returns_expr":"MPZ(K0.to_int(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_int"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FF_python(K1, a, K0):
         """Convert ``ModularInteger(int)`` to GMPY's ``mpz``. """
         return MPZ(K0.to_int(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert python's ``int`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), MPZ(a)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPZ(a)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd4234c0754abc17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_ZZ","kind":"method","src_hash":"08a18ecd783e7152","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert python's ``int`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert python's ``int`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd4234c0754abc17"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_ZZ","kind":"method","src_hash":"08a18ecd783e7152","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"MPZ(a)","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"returns MPZ(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd4234c0754abc17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPZ(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert Python's ``int`` to GMPY's ``mpz``. """
         return MPZ(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert python's ``int`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), MPZ(a)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPZ(a)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_python : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce48a2116cb7a452           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_ZZ_python","kind":"method","src_hash":"fd002e0f4b711051","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert python's ``int`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert python's ``int`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce48a2116cb7a452"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_ZZ_python","kind":"method","src_hash":"fd002e0f4b711051","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"MPZ(a)","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"returns MPZ(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce48a2116cb7a452","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPZ(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert Python's ``int`` to GMPY's ``mpz``. """
         return MPZ(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), convert python's ``fraction`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_QQ(K1, a, K0), MPZ(a.numerator)) over {Any | hasattr(a, 'denominator') and hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  MPZ(a.numerator)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(a, 'denominator') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc5a1b7b811442a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 815fed40a920d3b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_QQ","kind":"method","src_hash":"367978aeece4a389","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert python's ``fraction`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"convert python's ``fraction`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_QQ_correct","statement":"Path(from_QQ(x), convert python's ``fraction`` to gmpy's ``mpz``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc5a1b7b811442a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_QQ","kind":"method","src_hash":"367978aeece4a389","in":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"MPZ(a.numerator)","over":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(a, 'numerator')"},"name":"from_QQ_correct"},"guarantee":"returns MPZ(a.numerator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_QQ_correct","statement":"Path(from_QQ(x), returns MPZ(a.numerator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"815fed40a920d3b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')","hasattr(a, 'numerator')"],"returns_expr":"MPZ(a.numerator)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0):
         """Convert Python's ``Fraction`` to GMPY's ``mpz``. """
         if a.denominator == 1:
             return MPZ(a.numerator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert python's ``fraction`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), MPZ(a.numerator)) over {Any | hasattr(a, 'denominator') and hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  MPZ(a.numerator)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(a, 'denominator') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffc2865843b79ab8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1be376b0b9c7c1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_QQ_python","kind":"method","src_hash":"651793effca4f400","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert python's ``fraction`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert python's ``fraction`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_QQ_python_correct","statement":"Path(from_QQ_python(x), convert python's ``fraction`` to gmpy's ``mpz``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffc2865843b79ab8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_QQ_python","kind":"method","src_hash":"651793effca4f400","in":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"MPZ(a.numerator)","over":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(a, 'numerator')"},"name":"from_QQ_python_correct"},"guarantee":"returns MPZ(a.numerator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_QQ_python_correct","statement":"Path(from_QQ_python(x), returns MPZ(a.numerator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1be376b0b9c7c1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')","hasattr(a, 'numerator')"],"returns_expr":"MPZ(a.numerator)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert Python's ``Fraction`` to GMPY's ``mpz``. """
         if a.denominator == 1:
             return MPZ(a.numerator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FF_gmpy(K1,), convert ``modularinteger(mpz)`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_FF_gmpy(K1, a, K0), MPZ(K0.to_int(a))) over {Any | hasattr(K0, 'to_int')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FF_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_int')                          ║
+# ║   returns:  MPZ(K0.to_int(a))                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FF_gmpy : {Any | hasattr(K0, 'to_int')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 026cc47d9250a277           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_FF_gmpy","kind":"method","src_hash":"3e237466399ef380","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_gmpy(K1,)","rhs":"convert ``modularinteger(mpz)`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_FF_gmpy_correct"},"guarantee":"convert ``modularinteger(mpz)`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"026cc47d9250a277"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_FF_gmpy","kind":"method","src_hash":"3e237466399ef380","in":{"base":"Any","pred":"hasattr(K0, 'to_int')"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_gmpy(K1, a, K0)","rhs":"MPZ(K0.to_int(a))","over":{"base":"Any","pred":"hasattr(K0, 'to_int')"},"name":"from_FF_gmpy_correct"},"guarantee":"returns MPZ(K0.to_int(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"026cc47d9250a277","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_int')"],"returns_expr":"MPZ(K0.to_int(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_int"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FF_gmpy(K1, a, K0):
         """Convert ``ModularInteger(mpz)`` to GMPY's ``mpz``. """
         return MPZ(K0.to_int(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert gmpy's ``mpz`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), a) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_gmpy : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37cd239bb13d4c10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_ZZ_gmpy","kind":"method","src_hash":"724bc3fad3618ef1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert gmpy's ``mpz`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert gmpy's ``mpz`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37cd239bb13d4c10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_ZZ_gmpy","kind":"method","src_hash":"724bc3fad3618ef1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"a","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37cd239bb13d4c10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert GMPY's ``mpz`` to GMPY's ``mpz``. """
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert gmpy ``mpq`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), a.numerator) over {Any | hasattr(a, 'denominator') and hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  a.numerator                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : {Any | hasattr(a, 'denominator') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21834fecde0fb423  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdcf4eaaba746e78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_QQ_gmpy","kind":"method","src_hash":"8bd51ab6c12351d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert gmpy ``mpq`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert gmpy ``mpq`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_QQ_gmpy_correct","statement":"Path(from_QQ_gmpy(x), convert gmpy ``mpq`` to gmpy's ``mpz``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21834fecde0fb423"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_QQ_gmpy","kind":"method","src_hash":"8bd51ab6c12351d9","in":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"a.numerator","over":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(a, 'numerator')"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns a.numerator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_QQ_gmpy_correct","statement":"Path(from_QQ_gmpy(x), returns a.numerator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdcf4eaaba746e78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')","hasattr(a, 'numerator')"],"returns_expr":"a.numerator","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert GMPY ``mpq`` to GMPY's ``mpz``. """
         if a.denominator == 1:
             return a.numerator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), id) over Any                     ║
+# ║ Path(from_RealField(K1, a, K0), id) over {Any | hasattr(K0, 'to_rational')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_rational')                     ║
+# ║   returns:  MPZ(int(p))                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K0, 'to_rational')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 34e7a5e81eabd5c3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_RealField","kind":"method","src_hash":"d3f535eea649b6dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert mpmath's ``mpf`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_RealField_correct","kind":"composition"},"guarantee":"convert mpmath's ``mpf`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MPZ","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e7a5e81eabd5c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_RealField","kind":"method","src_hash":"d3f535eea649b6dd","in":{"base":"Any","pred":"hasattr(K0, 'to_rational')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"MPZ(int(p))","over":{"base":"Any","pred":"hasattr(K0, 'to_rational')"},"name":"from_RealField_correct","kind":"composition"},"guarantee":"returns MPZ(int(p))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MPZ","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e7a5e81eabd5c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_rational')"],"returns_expr":"MPZ(int(p))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_rational"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert mpmath's ``mpf`` to GMPY's ``mpz``. """
         p, q = K0.to_rational(a)
@@ -452,47 +595,72 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
             return MPZ(int(p))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianIntegerRing(K1,), from_GaussianIntegerRing produces the expected output) over Any ║
+# ║ Path(from_GaussianIntegerRing(K1, a, K0), a.x) over {Any | hasattr(a, 'y') and hasattr(a, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianIntegerRing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   returns:  a.x                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianIntegerRing : {Any | hasattr(a, 'y') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e24a45fabde6415  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 809242f623dacf3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_GaussianIntegerRing","kind":"method","src_hash":"666b8f6821ee64b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1,)","rhs":"from_GaussianIntegerRing produces the expected output","over":{"base":"Any"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"from_GaussianIntegerRing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_GaussianIntegerRing_correct","statement":"Path(from_GaussianIntegerRing(x), from_GaussianIntegerRing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e24a45fabde6415"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_GaussianIntegerRing","kind":"method","src_hash":"666b8f6821ee64b4","in":{"base":"Any","pred":"hasattr(a, 'y') and hasattr(a, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1, a, K0)","rhs":"a.x","over":{"base":"Any","pred":"hasattr(a, 'y') and hasattr(a, 'x')"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"returns a.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_GaussianIntegerRing_correct","statement":"Path(from_GaussianIntegerRing(x), returns a.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"809242f623dacf3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'y')","hasattr(a, 'x')"],"returns_expr":"a.x","pure":false,"effects":{"effect_type":"reads_state","reads":["a.x","a.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianIntegerRing(K1, a, K0):
         if a.y == 0:
             return a.x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_EX(K1,), convert ``expression`` to gmpy's ``mpz``) over Any ║
+# ║ Path(from_EX(K1, a, K0), K1.from_sympy(a)) over {Any | hasattr(a, 'is_Integer') and hasattr(K1, 'from_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_EX : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_Integer')                       ║
+# ║   requires: hasattr(K1, 'from_sympy')                      ║
+# ║   returns:  K1.from_sympy(a)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_EX : {Any | hasattr(a, 'is_Integer') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5228300c78369a9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b05f465ba7342a15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_EX","kind":"method","src_hash":"dcef407dfe67719d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_EX(K1,)","rhs":"convert ``expression`` to gmpy's ``mpz``","over":{"base":"Any"},"name":"from_EX_correct"},"guarantee":"convert ``expression`` to gmpy's ``mpz``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_EX_correct","statement":"Path(from_EX(x), convert ``expression`` to gmpy's ``mpz``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5228300c78369a9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.from_EX","kind":"method","src_hash":"dcef407dfe67719d","in":{"base":"Any","pred":"hasattr(a, 'is_Integer') and hasattr(K1, 'from_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"from_EX(K1, a, K0)","rhs":"K1.from_sympy(a)","over":{"base":"Any","pred":"hasattr(a, 'is_Integer') and hasattr(K1, 'from_sympy')"},"name":"from_EX_correct"},"guarantee":"returns K1.from_sympy(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.from_EX_correct","statement":"Path(from_EX(x), returns K1.from_sympy(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b05f465ba7342a15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_Integer')","hasattr(K1, 'from_sympy')"],"returns_expr":"K1.from_sympy(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.from_sympy","a.is_Integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_EX(K1, a, K0):
         """Convert ``Expression`` to GMPY's ``mpz``. """
         if a.is_Integer:
             return K1.from_sympy(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcdex(a, ), compute extended gcd of ``a`` and ``b``) over Any ║
+# ║ Path(gcdex(a, b), result == ((s, t, h) if GROUND_TYPES == 'gmpy' else (h, s, t)) and result == (s, t, h) or result == (h, s, t)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcdex : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((s, t, h) if GROUND_TYPES == '...   ║
+# ║   ensures:  result == (s, t, h) or result == (h, s, t)     ║
+# ║   fiber[case_0]: GROUND_TYPES == 'gmpy' => (s, t, h)       ║
+# ║   fiber[case_1]: not (GROUND_TYPES == 'gmpy') => (h, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcdex : Any → {Any | result satisfies: result == ((s,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b18aaedf1c708dcf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bb8e7ae03f6e0d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.gcdex","kind":"method","src_hash":"afd7581c0ca2526f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, )","rhs":"compute extended gcd of ``a`` and ``b``","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"compute extended gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.gcdex_correct","statement":"Path(gcdex(x), compute extended gcd of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b18aaedf1c708dcf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.gcdex","kind":"method","src_hash":"afd7581c0ca2526f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((s, t, h) if GROUND_TYPES == 'gmpy' else (h, s, t)) and result == (s, t, h) or result == (h, s, t)"},"spec":{"lhs":"gcdex(a, b)","rhs":"result == ((s, t, h) if GROUND_TYPES == 'gmpy' else (h, s, t)) and result == (s, t, h) or result == (h, s, t)","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"result == ((s, t, h) if GROUND_TYPES == 'gmpy' else (h, s, t)); result == (s, t, h) or result == (h, s, t); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.gcdex_correct","statement":"Path(gcdex(x), result == ((s, t, h) if GROUND_TYPES == 'gmpy' else (h, s, t)); result == (s, t, h) or result == (h, s, t); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bb8e7ae03f6e0d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((s, t, h) if GROUND_TYPES == 'gmpy' else (h, s, t))","result == (s, t, h) or result == (h, s, t)"],"fibers":[{"name":"case_0","guard":"GROUND_TYPES == 'gmpy'","ensures":["result == (s, t, h)"],"decidability":"z3","returns_expr":"(s, t, h)"},{"name":"case_1","guard":"not (GROUND_TYPES == 'gmpy')","ensures":["result == (h, s, t)"],"decidability":"z3","returns_expr":"(h, s, t)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcdex(self, a, b):
         """Compute extended GCD of ``a`` and ``b``. """
         h, s, t = gcdex(a, b)
@@ -503,61 +671,85 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
             return h, s, t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(a, ), compute gcd of ``a`` and ``b``) over Any    ║
+# ║ Path(gcd(a, b), gcd(a, b)) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gcd(a, b)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 962c1e2564360def           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.gcd","kind":"method","src_hash":"257612e6cb3a27d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, )","rhs":"compute gcd of ``a`` and ``b``","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"compute gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"962c1e2564360def"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.gcd","kind":"method","src_hash":"257612e6cb3a27d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, b)","rhs":"gcd(a, b)","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns gcd(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"962c1e2564360def","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gcd(a, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, a, b):
         """Compute GCD of ``a`` and ``b``. """
         return gcd(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(a, ), compute lcm of ``a`` and ``b``) over Any    ║
+# ║ Path(lcm(a, b), lcm(a, b)) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lcm(a, b)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lcm : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56a259c39dd03f9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.lcm","kind":"method","src_hash":"2831db4a359fc12a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, )","rhs":"compute lcm of ``a`` and ``b``","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"compute lcm of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56a259c39dd03f9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.lcm","kind":"method","src_hash":"2831db4a359fc12a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, b)","rhs":"lcm(a, b)","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns lcm(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56a259c39dd03f9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lcm(a, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, a, b):
         """Compute LCM of ``a`` and ``b``. """
         return lcm(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt(a), compute square root of ``a``) over Any       ║
+# ║ Path(sqrt(a), sqrt(a)) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(a)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sqrt : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f57130e07398634           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.sqrt","kind":"method","src_hash":"7c6ef4c3a5e059d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt(a)","rhs":"compute square root of ``a``","over":{"base":"Any"},"name":"sqrt_correct"},"guarantee":"compute square root of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f57130e07398634"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.sqrt","kind":"method","src_hash":"7c6ef4c3a5e059d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt(a)","rhs":"sqrt(a)","over":{"base":"Any"},"name":"sqrt_correct"},"guarantee":"returns sqrt(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f57130e07398634","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sqrt(self, a):
         """Compute square root of ``a``. """
         return sqrt(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(a), return ``true`` if ``a`` is a square) over Any ║
+# ║ Path(is_square(a), is_square(a)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_square(a)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_square : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eec38fd5463092dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.is_square","kind":"method","src_hash":"59e4b638e33870d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"return ``true`` if ``a`` is a square","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"return ``true`` if ``a`` is a square","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eec38fd5463092dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.is_square","kind":"method","src_hash":"59e4b638e33870d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"is_square(a)","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns is_square(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eec38fd5463092dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_square(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_square(self, a):
         """Return ``True`` if ``a`` is a square.
 
@@ -569,16 +761,22 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
         return is_square(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exsqrt(a), non-negative square root of ``a`` if ``a`` is a square) over Any ║
+# ║ Path(exsqrt(a), <unspecified:exsqrt>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exsqrt : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce48f773237dcd21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.exsqrt","kind":"method","src_hash":"58d4fc1281d97d30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"non-negative square root of ``a`` if ``a`` is a square","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"non-negative square root of ``a`` if ``a`` is a square","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.exsqrt_correct","statement":"Path(exsqrt(x), non-negative square root of ``a`` if ``a`` is a square)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce48f773237dcd21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.exsqrt","kind":"method","src_hash":"58d4fc1281d97d30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"<unspecified:exsqrt>","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"non-negative square root of ``a`` if ``a`` is a square","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.integerring.IntegerRing.exsqrt_correct","statement":"Path(exsqrt(x), non-negative square root of ``a`` if ``a`` is a square)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce48f773237dcd21","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exsqrt(self, a):
         """Non-negative square root of ``a`` if ``a`` is a square.
 
@@ -594,16 +792,22 @@ class IntegerRing(Ring, CharacteristicZero, SimpleDomain):
         return root
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorial(a), compute factorial of ``a``) over Any    ║
+# ║ Path(factorial(a), factorial(a)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(a)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factorial : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ea7eef35c3fcbe4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.factorial","kind":"method","src_hash":"b4c466fbca7bdc66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"compute factorial of ``a``","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"compute factorial of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ea7eef35c3fcbe4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.integerring.IntegerRing.factorial","kind":"method","src_hash":"b4c466fbca7bdc66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"factorial(a)","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns factorial(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ea7eef35c3fcbe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def factorial(self, a):
         """Compute factorial of ``a``. """
         return factorial(a)

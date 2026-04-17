@@ -24,16 +24,24 @@ from sympy.testing.pytest import warns_deprecated_sympy
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parallel_axis_theorem(), test_parallel_axis_theorem produces the expected output) over Any ║
+# ║ Path(test_parallel_axis_theorem(), pat_matrix(1, 1, 1, 1) == mat1 and pat_matrix(2, 1, 1, 1) == 2 * mat1 and pat_matrix(1, 1, 0, 0) == mat2 and pat_matrix(2, 1, 0, 0) == 2 * mat2 and pat_matrix(1, 0, 1, 0) == mat3 and pat_matrix(2, 0, 1, 0) == 2 * mat3 and pat_matrix(1, 0, 0, 1) == mat4 and pat_matrix(2, 0, 0, 1) == 2 * mat4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parallel_axis_theorem : Any → {Any | pat_matrix(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pat_matrix(1, 1, 1, 1) == mat1                 ║
+# ║   ensures:  pat_matrix(2, 1, 1, 1) == 2 * mat1             ║
+# ║   ensures:  pat_matrix(1, 1, 0, 0) == mat2                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parallel_axis_theorem : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 819d166bbb27fef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b93fda618738513  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_parallel_axis_theorem","kind":"function","src_hash":"d40768c1e81d793b","in":{"base":"Any"},"out":{"base":"Any","pred":"pat_matrix(1, 1, 1, 1) == mat1 and pat_matrix(2, 1, 1, 1) == 2 * mat1 and pat_matrix(1, 1, 0, 0) == mat2 and pat_matrix(2, 1, 0, 0) == 2 * mat2 and pat_matrix(1, 0, 1, 0) == mat3 and pat_matrix(2, 0, 1, 0) == 2 * mat3 and pat_matrix(1, 0, 0, 1) == mat4 and pat_matrix(2, 0, 0, 1) == 2 * mat4"},"spec":{"lhs":"test_parallel_axis_theorem()","rhs":"test_parallel_axis_theorem produces the expected output","over":{"base":"Any"},"name":"test_parallel_axis_theorem_correct"},"guarantee":"test_parallel_axis_theorem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_parallel_axis_theorem_correct","statement":"Path(test_parallel_axis_theorem(x), test_parallel_axis_theorem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"819d166bbb27fef0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_parallel_axis_theorem","kind":"function","src_hash":"d40768c1e81d793b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pat_matrix(1, 1, 1, 1) == mat1 and pat_matrix(2, 1, 1, 1) == 2 * mat1 and pat_matrix(1, 1, 0, 0) == mat2 and pat_matrix(2, 1, 0, 0) == 2 * mat2 and pat_matrix(1, 0, 1, 0) == mat3 and pat_matrix(2, 0, 1, 0) == 2 * mat3 and pat_matrix(1, 0, 0, 1) == mat4 and pat_matrix(2, 0, 0, 1) == 2 * mat4"},"spec":{"lhs":"test_parallel_axis_theorem()","rhs":"pat_matrix(1, 1, 1, 1) == mat1 and pat_matrix(2, 1, 1, 1) == 2 * mat1 and pat_matrix(1, 1, 0, 0) == mat2 and pat_matrix(2, 1, 0, 0) == 2 * mat2 and pat_matrix(1, 0, 1, 0) == mat3 and pat_matrix(2, 0, 1, 0) == 2 * mat3 and pat_matrix(1, 0, 0, 1) == mat4 and pat_matrix(2, 0, 0, 1) == 2 * mat4","over":{"base":"Any"},"name":"test_parallel_axis_theorem_correct"},"guarantee":"pat_matrix(1, 1, 1, 1) == mat1; pat_matrix(2, 1, 1, 1) == 2 * mat1; pat_matrix(1, 1, 0, 0) == mat2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_parallel_axis_theorem_correct","statement":"Path(test_parallel_axis_theorem(x), pat_matrix(1, 1, 1, 1) == mat1; pat_matrix(2, 1, 1, 1) == 2 * mat1; pat_matrix(1, 1, 0, 0) == mat2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b93fda618738513","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pat_matrix(1, 1, 1, 1) == mat1","pat_matrix(2, 1, 1, 1) == 2 * mat1","pat_matrix(1, 1, 0, 0) == mat2","pat_matrix(2, 1, 0, 0) == 2 * mat2","pat_matrix(1, 0, 1, 0) == mat3","pat_matrix(2, 0, 1, 0) == 2 * mat3","pat_matrix(1, 0, 0, 1) == mat4","pat_matrix(2, 0, 0, 1) == 2 * mat4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_parallel_axis_theorem():
     # This tests the parallel axis theorem matrix by comparing to test
     # matrices.
@@ -60,16 +68,24 @@ def test_parallel_axis_theorem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pauli(), test_Pauli produces the expected output) over Any ║
+# ║ Path(test_Pauli(), sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == sigma3 * I and sigma3 * sigma1 == sigma2 * I and sigma2 * sigma3 == sigma1 * I and sigma1 * sigma1 == eye(2) and sigma2 * sigma2 == eye(2) and sigma3 * sigma3 == eye(2) and sigma1 * 2 * sigma1 == 2 * eye(2) and sigma1 * sigma3 * sigma1 == -sigma3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pauli : Any → {Any | sigma1 == sigma1 and sigma1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sigma1 == sigma1                               ║
+# ║   ensures:  sigma1 != sigma2                               ║
+# ║   ensures:  sigma1 * sigma2 == sigma3 * I                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pauli : Any → {Any | result satisfies: sigma1 ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2cc34dc78995e60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f7cd64e5c79e594  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_Pauli","kind":"function","src_hash":"9655063275c0bf0b","in":{"base":"Any"},"out":{"base":"Any","pred":"sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == sigma3 * I and sigma3 * sigma1 == sigma2 * I and sigma2 * sigma3 == sigma1 * I and sigma1 * sigma1 == eye(2) and sigma2 * sigma2 == eye(2) and sigma3 * sigma3 == eye(2) and sigma1 * 2 * sigma1 == 2 * eye(2) and sigma1 * sigma3 * sigma1 == -sigma3"},"spec":{"lhs":"test_Pauli()","rhs":"test_Pauli produces the expected output","over":{"base":"Any"},"name":"test_Pauli_correct"},"guarantee":"test_Pauli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_Pauli_correct","statement":"Path(test_Pauli(x), test_Pauli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2cc34dc78995e60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_Pauli","kind":"function","src_hash":"9655063275c0bf0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == sigma3 * I and sigma3 * sigma1 == sigma2 * I and sigma2 * sigma3 == sigma1 * I and sigma1 * sigma1 == eye(2) and sigma2 * sigma2 == eye(2) and sigma3 * sigma3 == eye(2) and sigma1 * 2 * sigma1 == 2 * eye(2) and sigma1 * sigma3 * sigma1 == -sigma3"},"spec":{"lhs":"test_Pauli()","rhs":"sigma1 == sigma1 and sigma1 != sigma2 and sigma1 * sigma2 == sigma3 * I and sigma3 * sigma1 == sigma2 * I and sigma2 * sigma3 == sigma1 * I and sigma1 * sigma1 == eye(2) and sigma2 * sigma2 == eye(2) and sigma3 * sigma3 == eye(2) and sigma1 * 2 * sigma1 == 2 * eye(2) and sigma1 * sigma3 * sigma1 == -sigma3","over":{"base":"Any"},"name":"test_Pauli_correct"},"guarantee":"sigma1 == sigma1; sigma1 != sigma2; sigma1 * sigma2 == sigma3 * I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_Pauli_correct","statement":"Path(test_Pauli(x), sigma1 == sigma1; sigma1 != sigma2; sigma1 * sigma2 == sigma3 * I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f7cd64e5c79e594","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sigma1 == sigma1","sigma1 != sigma2","sigma1 * sigma2 == sigma3 * I","sigma3 * sigma1 == sigma2 * I","sigma2 * sigma3 == sigma1 * I","sigma1 * sigma1 == eye(2)","sigma2 * sigma2 == eye(2)","sigma3 * sigma3 == eye(2)","sigma1 * 2 * sigma1 == 2 * eye(2)","sigma1 * sigma3 * sigma1 == -sigma3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Pauli():
     #this and the following test are testing both Pauli and Dirac matrices
     #and also that the general Matrix class works correctly in a real world
@@ -95,16 +111,24 @@ def test_Pauli():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dirac(), test_Dirac produces the expected output) over Any ║
+# ║ Path(test_Dirac(), gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I and gamma1 * gamma2 + gamma2 * gamma1 == zeros(4) and gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 != eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 == eye(4) * minkowski_tensor[2, 2] and mgamma(5, True) == mgamma(0, True) * mgamma(1, True) * mgamma(2, True) * mgamma(3, True) * I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dirac : Any → {Any | gamma5 == gamma0 * gamma1 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gamma5 == gamma0 * gamma1 * gamma2 * gamm...   ║
+# ║   ensures:  gamma1 * gamma2 + gamma2 * gamma1 == zero...   ║
+# ║   ensures:  gamma0 * gamma0 == eye(4) * minkowski_ten...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dirac : Any → {Any | result satisfies: gamma5 ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75a730438ca74b72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88cf1b5a4d089437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_Dirac","kind":"function","src_hash":"3edf31388ac7c1ab","in":{"base":"Any"},"out":{"base":"Any","pred":"gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I and gamma1 * gamma2 + gamma2 * gamma1 == zeros(4) and gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 != eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 == eye(4) * minkowski_tensor[2, 2]"},"spec":{"lhs":"test_Dirac()","rhs":"test_Dirac produces the expected output","over":{"base":"Any"},"name":"test_Dirac_correct"},"guarantee":"test_Dirac produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_Dirac_correct","statement":"Path(test_Dirac(x), test_Dirac produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75a730438ca74b72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_Dirac","kind":"function","src_hash":"3edf31388ac7c1ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I and gamma1 * gamma2 + gamma2 * gamma1 == zeros(4) and gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 != eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 == eye(4) * minkowski_tensor[2, 2] and mgamma(5, True) == mgamma(0, True) * mgamma(1, True) * mgamma(2, True) * mgamma(3, True) * I"},"spec":{"lhs":"test_Dirac()","rhs":"gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I and gamma1 * gamma2 + gamma2 * gamma1 == zeros(4) and gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 != eye(4) * minkowski_tensor[0, 0] and gamma2 * gamma2 == eye(4) * minkowski_tensor[2, 2] and mgamma(5, True) == mgamma(0, True) * mgamma(1, True) * mgamma(2, True) * mgamma(3, True) * I","over":{"base":"Any"},"name":"test_Dirac_correct"},"guarantee":"gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I; gamma1 * gamma2 + gamma2 * gamma1 == zeros(4); gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_Dirac_correct","statement":"Path(test_Dirac(x), gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I; gamma1 * gamma2 + gamma2 * gamma1 == zeros(4); gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88cf1b5a4d089437","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gamma5 == gamma0 * gamma1 * gamma2 * gamma3 * I","gamma1 * gamma2 + gamma2 * gamma1 == zeros(4)","gamma0 * gamma0 == eye(4) * minkowski_tensor[0, 0]","gamma2 * gamma2 != eye(4) * minkowski_tensor[0, 0]","gamma2 * gamma2 == eye(4) * minkowski_tensor[2, 2]","mgamma(5, True) == mgamma(0, True) * mgamma(1, True) * mgamma(2, True) * mgamma(3, True) * I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Dirac():
     gamma0 = mgamma(0)
     gamma1 = mgamma(1)
@@ -123,16 +147,22 @@ def test_Dirac():
         mgamma(0, True)*mgamma(1, True)*mgamma(2, True)*mgamma(3, True)*I
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mdft(), test_mdft produces the expected output) over Any ║
+# ║ Path(test_mdft(), <unspecified:test_mdft>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mdft : Any → {Any | mdft(1) == Matrix([[1]]) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a05523041c708633  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_mdft","kind":"function","src_hash":"f35cd4ec31dec82c","in":{"base":"Any"},"out":{"base":"Any","pred":"mdft(1) == Matrix([[1]]) and mdft(2) == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]])"},"spec":{"lhs":"test_mdft()","rhs":"test_mdft produces the expected output","over":{"base":"Any"},"name":"test_mdft_correct"},"guarantee":"test_mdft produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_mdft_correct","statement":"Path(test_mdft(x), test_mdft produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a05523041c708633"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_physics_matrices.test_mdft","kind":"function","src_hash":"f35cd4ec31dec82c","in":{"base":"Any"},"out":{"base":"Any","pred":"mdft(1) == Matrix([[1]]) and mdft(2) == 1 / sqrt(2) * Matrix([[1, 1], [1, -1]])"},"spec":{"lhs":"test_mdft()","rhs":"<unspecified:test_mdft>","over":{"base":"Any"},"name":"test_mdft_correct"},"guarantee":"test_mdft produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_physics_matrices.test_mdft_correct","statement":"Path(test_mdft(x), test_mdft produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a05523041c708633","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mdft():
     with warns_deprecated_sympy():
         assert mdft(1) == Matrix([[1]])

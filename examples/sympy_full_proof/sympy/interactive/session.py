@@ -46,16 +46,23 @@ just install the 'ipython' package and start isympy again.
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_message(ipy), create a banner for an interactive session) over Any ║
+# ║ Path(_make_message(ipython, quiet, source), <unspecified:_make_message>) over {Any | hasattr(source, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _make_message : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(source, 'split')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _make_message : {Any | hasattr(source, 'split')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 869fa9e6a8f31af2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session._make_message","kind":"function","src_hash":"9f5bc4f46c186393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_message(ipy)","rhs":"create a banner for an interactive session","over":{"base":"Any"},"name":"_make_message_correct"},"guarantee":"create a banner for an interactive session","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session._make_message_correct","statement":"Path(_make_message(x), create a banner for an interactive session)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"869fa9e6a8f31af2"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session._make_message","kind":"function","src_hash":"9f5bc4f46c186393","in":{"base":"Any","pred":"hasattr(source, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"_make_message(ipython, quiet, source)","rhs":"<unspecified:_make_message>","over":{"base":"Any","pred":"hasattr(source, 'split')"},"name":"_make_message_correct"},"guarantee":"create a banner for an interactive session","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session._make_message_correct","statement":"Path(_make_message(x), create a banner for an interactive session)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"869fa9e6a8f31af2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(source, 'split')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _make_message(ipython=True, quiet=False, source=None):
     """Create a banner for an interactive session. """
     from sympy import __version__ as sympy_version
@@ -111,16 +118,22 @@ def _make_message(ipython=True, quiet=False, source=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(int_to_Integer(s), wrap integer literals with integer) over Any ║
+# ║ Path(int_to_Integer(s), <unspecified:int_to_Integer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ int_to_Integer : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   tokenize.__module__                                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | a971aab4f07a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session.int_to_Integer","kind":"function","src_hash":"5a1b0772c4e334c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"int_to_Integer(s)","rhs":"wrap integer literals with integer","over":{"base":"Any"},"name":"int_to_Integer_correct"},"guarantee":"wrap integer literals with integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.int_to_Integer_correct","statement":"Path(int_to_Integer(x), wrap integer literals with integer)"},"assumes":[],"trust":["tokenize.__module__"],"compiled":true,"vhash":"a971aab4f07a7016"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session.int_to_Integer","kind":"function","src_hash":"5a1b0772c4e334c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"int_to_Integer(s)","rhs":"<unspecified:int_to_Integer>","over":{"base":"Any"},"name":"int_to_Integer_correct"},"guarantee":"wrap integer literals with integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.int_to_Integer_correct","statement":"Path(int_to_Integer(x), wrap integer literals with integer)"},"assumes":[],"trust":["tokenize.__module__"],"compiled":true,"vhash":"a971aab4f07a7016","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def int_to_Integer(s):
     """
     Wrap integer literals with Integer.
@@ -174,16 +187,23 @@ def int_to_Integer(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(enable_automatic_int_sympification(she), allow ipython to automatically convert integer literals to integer) over Any ║
+# ║ Path(enable_automatic_int_sympification(shell), old_run_cell(cell, *args, **kwargs)) over {Any | hasattr(shell, 'run_cell')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ enable_automatic_int_sympification : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(shell, 'run_cell')                     ║
+# ║   returns:  old_run_cell(cell, *args, **kwargs)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ enable_automatic_int_sympification : {Any | hasattr(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 836e142f0d476a2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08efeeaefdc6cf66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session.enable_automatic_int_sympification","kind":"function","src_hash":"dc204d3cac4e5c0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enable_automatic_int_sympification(she)","rhs":"allow ipython to automatically convert integer literals to integer","over":{"base":"Any"},"name":"enable_automatic_int_sympification_correct"},"guarantee":"allow ipython to automatically convert integer literals to integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.enable_automatic_int_sympification_correct","statement":"Path(enable_automatic_int_sympification(x), allow ipython to automatically convert integer literals to integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"836e142f0d476a2b"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session.enable_automatic_int_sympification","kind":"function","src_hash":"dc204d3cac4e5c0e","in":{"base":"Any","pred":"hasattr(shell, 'run_cell')"},"out":{"base":"Any"},"spec":{"lhs":"enable_automatic_int_sympification(shell)","rhs":"old_run_cell(cell, *args, **kwargs)","over":{"base":"Any","pred":"hasattr(shell, 'run_cell')"},"name":"enable_automatic_int_sympification_correct"},"guarantee":"returns old_run_cell(cell, *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.enable_automatic_int_sympification_correct","statement":"Path(enable_automatic_int_sympification(x), returns old_run_cell(cell, *args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08efeeaefdc6cf66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(shell, 'run_cell')"],"returns_expr":"old_run_cell(cell, *args, **kwargs)","pure":false,"effects":{"effect_type":"mutates_args","reads":["shell.run_cell"],"writes":["shell.run_cell"],"catches":["SyntaxError"]},"state_contract":{"modifies":["shell.run_cell"],"old_bindings":{"old_shell_run_cell":"shell.run_cell"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def enable_automatic_int_sympification(shell):
     """
     Allow IPython to automatically convert integer literals to Integer.
@@ -209,16 +229,23 @@ def enable_automatic_int_sympification(shell):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(enable_automatic_symbols(she), allow ipython to automatically create symbols (``isympy -a``)) over Any ║
+# ║ Path(enable_automatic_symbols(shell), None) over {Any | hasattr(shell, 'set_custom_exc')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ enable_automatic_symbols : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(shell, 'set_custom_exc')               ║
+# ║   returns:  None                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ enable_automatic_symbols : {Any | hasattr(shell, 'set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 109a11fe37e59a47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c4a786ff7fb2a9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session.enable_automatic_symbols","kind":"function","src_hash":"6024be7fdea51ef0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enable_automatic_symbols(she)","rhs":"allow ipython to automatically create symbols (``isympy -a``)","over":{"base":"Any"},"name":"enable_automatic_symbols_correct"},"guarantee":"allow ipython to automatically create symbols (``isympy -a``)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.enable_automatic_symbols_correct","statement":"Path(enable_automatic_symbols(x), allow ipython to automatically create symbols (``isympy -a``))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109a11fe37e59a47"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session.enable_automatic_symbols","kind":"function","src_hash":"6024be7fdea51ef0","in":{"base":"Any","pred":"hasattr(shell, 'set_custom_exc')"},"out":{"base":"Any"},"spec":{"lhs":"enable_automatic_symbols(shell)","rhs":"None","over":{"base":"Any","pred":"hasattr(shell, 'set_custom_exc')"},"name":"enable_automatic_symbols_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.enable_automatic_symbols_correct","statement":"Path(enable_automatic_symbols(x), returns None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4a786ff7fb2a9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(shell, 'set_custom_exc')"],"returns_expr":"None","pure":false,"effects":{"effect_type":"reads_state","reads":["shell.set_custom_exc"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def enable_automatic_symbols(shell):
     """Allow IPython to automatically create symbols (``isympy -a``). """
     # XXX: This should perhaps use tokenize, like int_to_Integer() above.
@@ -291,16 +318,25 @@ def enable_automatic_symbols(shell):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(init_ipython_session(she), construct new ipython session) over Any ║
+# ║ Path(init_ipython_session(shell, argv, auto_symbols), result == (shell if version_tuple(IPython.__version__) >= version_tuple('0.11') else make_IPython(argv)) and result == shell or result == make_IPython(argv)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ init_ipython_session : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (shell if version_tuple(IPython...   ║
+# ║   ensures:  result == shell or result == make_IPython...   ║
+# ║   fiber[case_0]: version_tuple(IPython.__version__) >...   ║
+# ║   fiber[case_1]: not (version_tuple(IPython.__version...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ init_ipython_session : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   IPython.__module__                                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | b046772ad02d...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8ecfecc8087b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session.init_ipython_session","kind":"function","src_hash":"b824d25943651027","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_ipython_session(she)","rhs":"construct new ipython session","over":{"base":"Any"},"name":"init_ipython_session_correct"},"guarantee":"construct new ipython session","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.init_ipython_session_correct","statement":"Path(init_ipython_session(x), construct new ipython session)"},"assumes":[],"trust":["IPython.__module__"],"compiled":true,"vhash":"b046772ad02d2d52"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session.init_ipython_session","kind":"function","src_hash":"b824d25943651027","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (shell if version_tuple(IPython.__version__) >= version_tuple('0.11') else make_IPython(argv)) and result == shell or result == make_IPython(argv)"},"spec":{"lhs":"init_ipython_session(shell, argv, auto_symbols)","rhs":"result == (shell if version_tuple(IPython.__version__) >= version_tuple('0.11') else make_IPython(argv)) and result == shell or result == make_IPython(argv)","over":{"base":"Any"},"name":"init_ipython_session_correct"},"guarantee":"result == (shell if version_tuple(IPython.__version__) >= version_tuple('0.11') else make_IPython(argv)); result == shell or result == make_IPython(argv); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.init_ipython_session_correct","statement":"Path(init_ipython_session(x), result == (shell if version_tuple(IPython.__version__) >= version_tuple('0.11') else make_IPython(argv)); result == shell or result == make_IPython(argv); 2-fiber decomposition)"},"assumes":[],"trust":["IPython.__module__"],"compiled":true,"vhash":"8ecfecc8087b5635","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (shell if version_tuple(IPython.__version__) >= version_tuple('0.11') else make_IPython(argv))","result == shell or result == make_IPython(argv)"],"fibers":[{"name":"case_0","guard":"version_tuple(IPython.__version__) >= version_tuple('0.11')","ensures":["result == shell"],"decidability":"z3","returns_expr":"shell"},{"name":"case_1","guard":"not (version_tuple(IPython.__version__) >= version_tuple('0.11'))","ensures":["result == make_IPython(argv)"],"decidability":"z3","returns_expr":"make_IPython(argv)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def init_ipython_session(shell=None, argv=[], auto_symbols=False, auto_int_to_Integer=False):
     """Construct new IPython session. """
     import IPython
@@ -335,7 +371,10 @@ def init_ipython_session(shell=None, argv=[], auto_symbols=False, auto_int_to_In
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(init_python_session(), construct new python session) over Any ║
+# ║ Path(init_python_session(), SymPyConsole()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymPyConsole()                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ init_python_session : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -345,9 +384,12 @@ def init_ipython_session(shell=None, argv=[], auto_symbols=False, auto_int_to_In
 # ║   readline.__module__                                      ║
 # ║   rlcompleter.__module__                                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 0070a273adce...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 562bd29dd0e5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session.init_python_session","kind":"function","src_hash":"03f5ced66b4eb870","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_python_session()","rhs":"construct new python session","over":{"base":"Any"},"name":"init_python_session_correct"},"guarantee":"construct new python session","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.init_python_session_correct","statement":"Path(init_python_session(x), construct new python session)"},"assumes":[],"trust":["atexit.__module__","code.__module__","readline.__module__","rlcompleter.__module__"],"compiled":true,"vhash":"0070a273adcefe67"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session.init_python_session","kind":"function","src_hash":"03f5ced66b4eb870","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_python_session()","rhs":"SymPyConsole()","over":{"base":"Any"},"name":"init_python_session_correct"},"guarantee":"returns SymPyConsole()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.init_python_session_correct","statement":"Path(init_python_session(x), returns SymPyConsole())"},"assumes":[],"trust":["atexit.__module__","code.__module__","readline.__module__","rlcompleter.__module__"],"compiled":true,"vhash":"562bd29dd0e53943","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymPyConsole()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def init_python_session():
     """Construct new Python session. """
     from code import InteractiveConsole
@@ -384,17 +426,24 @@ def init_python_session():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(init_session(ipy), initialize an embedded ipython or python session) over Any ║
+# ║ Path(init_session(ipython, pretty_print, order), <unspecified:init_session>) over {Any | not (auto_symbols and (not ipython or version_tuple(IPython.__version__) < version_tuple('0.11')))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ init_session : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (auto_symbols and (not ipython or ver...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ init_session : {Any | not (auto_symbols and (not ipyt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   IPython.__module__                                       ║
 # ║   atexit.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | dd3cad631329...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.session.init_session","kind":"function","src_hash":"96a5e9a869cca289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_session(ipy)","rhs":"initialize an embedded ipython or python session","over":{"base":"Any"},"name":"init_session_correct"},"guarantee":"initialize an embedded ipython or python session","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.init_session_correct","statement":"Path(init_session(x), initialize an embedded ipython or python session)"},"assumes":[],"trust":["IPython.__module__","atexit.__module__"],"compiled":true,"vhash":"dd3cad63132903de"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.session.init_session","kind":"function","src_hash":"96a5e9a869cca289","in":{"base":"Any","pred":"not (auto_symbols and (not ipython or version_tuple(IPython.__version__) < version_tuple('0.11')))"},"out":{"base":"Any"},"spec":{"lhs":"init_session(ipython, pretty_print, order)","rhs":"<unspecified:init_session>","over":{"base":"Any","pred":"not (auto_symbols and (not ipython or version_tuple(IPython.__version__) < version_tuple('0.11')))"},"name":"init_session_correct"},"guarantee":"initialize an embedded ipython or python session","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.session.init_session_correct","statement":"Path(init_session(x), initialize an embedded ipython or python session)"},"assumes":[],"trust":["IPython.__module__","atexit.__module__"],"compiled":true,"vhash":"dd3cad63132903de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (auto_symbols and (not ipython or version_tuple(IPython.__version__) < version_tuple('0.11')))"],"pure":false,"effects":{"effect_type":"io","raises":["RuntimeError"],"catches":["Exception","ImportError"],"io_operations":["print"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def init_session(ipython=None, pretty_print=True, order=None,
                  use_unicode=None, use_latex=None, quiet=False, auto_symbols=False,
                  auto_int_to_Integer=False, str_printer=None, pretty_printer=None,

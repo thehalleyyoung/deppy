@@ -28,16 +28,27 @@ import random
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trivial_gcd(f, ), compute the gcd of two polynomials in trivial cases, i.e) over Any ║
+# ║ Path(_trivial_gcd(f, g), <unspecified:_trivial_gcd>) over {Any | hasattr(f, 'ring') and hasattr(g, 'LC') and hasattr(f, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _trivial_gcd : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(g, 'LC')                               ║
+# ║   requires: hasattr(f, 'LC')                               ║
+# ║   fiber[case_0]: not (f or g) => (ring.zero, ring.zer...   ║
+# ║   fiber[case_1]: not f                                     ║
+# ║   fiber[case_2]: not g                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _trivial_gcd : {Any | hasattr(f, 'ring') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88c2f27dd94bda40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 973852a1ba3e7d55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._trivial_gcd","kind":"function","src_hash":"5970def0d92980ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trivial_gcd(f, )","rhs":"compute the gcd of two polynomials in trivial cases, i.e","over":{"base":"Any"},"name":"_trivial_gcd_correct"},"guarantee":"compute the gcd of two polynomials in trivial cases, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._trivial_gcd_correct","statement":"Path(_trivial_gcd(x), compute the gcd of two polynomials in trivial cases, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88c2f27dd94bda40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._trivial_gcd","kind":"function","src_hash":"5970def0d92980ce","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'LC') and hasattr(f, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"_trivial_gcd(f, g)","rhs":"<unspecified:_trivial_gcd>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'LC') and hasattr(f, 'LC')"},"name":"_trivial_gcd_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._trivial_gcd_correct","statement":"Path(_trivial_gcd(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"973852a1ba3e7d55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(g, 'LC')","hasattr(f, 'LC')"],"fibers":[{"name":"case_0","guard":"not (f or g)","ensures":["result == (ring.zero, ring.zero, ring.zero)"],"decidability":"library","returns_expr":"(ring.zero, ring.zero, ring.zero)"},{"name":"case_1","guard":"not f","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not g","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.ring","g.LC"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _trivial_gcd(f, g):
     """
     Compute the GCD of two polynomials in trivial cases, i.e. when one
@@ -61,16 +72,25 @@ def _trivial_gcd(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gf_gcd(fp,), id) over Any                            ║
+# ║ Path(_gf_gcd(fp, gp, p), id) over {Any | hasattr(fp, 'ring') and hasattr(gp, 'degree') and hasattr(gp, 'LC') and hasattr(fp, 'mul_ground') and hasattr(fp, 'LC') and hasattr(gp, 'mul_monom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gf_gcd : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fp, 'ring')                            ║
+# ║   requires: hasattr(gp, 'degree')                          ║
+# ║   requires: hasattr(gp, 'LC')                              ║
+# ║   returns:  fp.mul_ground(dom.invert(fp.LC, p)).trunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gf_gcd : {Any | hasattr(fp, 'ring') and hasattr(gp, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f4586539739bc85c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._gf_gcd","kind":"function","src_hash":"54c50613b56280aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_gcd(fp,)","rhs":"compute the gcd of two univariate polynomials in `\\mathbb{z}_p[x]`","over":{"base":"Any"},"name":"_gf_gcd_correct","kind":"composition"},"guarantee":"compute the gcd of two univariate polynomials in `\\mathbb{z}_p[x]`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mul_ground","by":"library_axiom"},{"fn":"invert","by":"library_axiom"},{"fn":"trunc_ground","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4586539739bc85c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._gf_gcd","kind":"function","src_hash":"54c50613b56280aa","in":{"base":"Any","pred":"hasattr(fp, 'ring') and hasattr(gp, 'degree') and hasattr(gp, 'LC') and hasattr(fp, 'mul_ground') and hasattr(fp, 'LC') and hasattr(gp, 'mul_monom')"},"out":{"base":"Any"},"spec":{"lhs":"_gf_gcd(fp, gp, p)","rhs":"fp.mul_ground(dom.invert(fp.LC, p)).trunc_ground(p)","over":{"base":"Any","pred":"hasattr(fp, 'ring') and hasattr(gp, 'degree') and hasattr(gp, 'LC') and hasattr(fp, 'mul_ground') and hasattr(fp, 'LC') and hasattr(gp, 'mul_monom')"},"name":"_gf_gcd_correct","kind":"composition"},"guarantee":"returns fp.mul_ground(dom.invert(fp.LC, p)).trunc_ground(p)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mul_ground","by":"library_axiom"},{"fn":"invert","by":"library_axiom"},{"fn":"trunc_ground","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4586539739bc85c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fp, 'ring')","hasattr(gp, 'degree')","hasattr(gp, 'LC')","hasattr(fp, 'mul_ground')","hasattr(fp, 'LC')","hasattr(gp, 'mul_monom')"],"returns_expr":"fp.mul_ground(dom.invert(fp.LC, p)).trunc_ground(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["fp.LC","fp.mul_ground","fp.ring","gp.LC","gp.degree","gp.mul_monom"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _gf_gcd(fp, gp, p):
     r"""
     Compute the GCD of two univariate polynomials in `\mathbb{Z}_p[x]`.
@@ -95,16 +115,25 @@ def _gf_gcd(fp, gp, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_degree_bound_univariate(f, ), compute an upper bound for the degree of the gcd of two univariate integer polynomials `f` and `g`) over Any ║
+# ║ Path(_degree_bound_univariate(f, g), <unspecified:_degree_bound_univariate>) over {Any | hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _degree_bound_univariate : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'LC')                               ║
+# ║   requires: hasattr(g, 'LC')                               ║
+# ║   requires: hasattr(f, 'trunc_ground')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _degree_bound_univariate : {Any | hasattr(f, 'LC') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faaabfd3e9c199d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._degree_bound_univariate","kind":"function","src_hash":"e5c56dc784fcd588","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_degree_bound_univariate(f, )","rhs":"compute an upper bound for the degree of the gcd of two univariate integer polynomials `f` and `g`","over":{"base":"Any"},"name":"_degree_bound_univariate_correct"},"guarantee":"compute an upper bound for the degree of the gcd of two univariate integer polynomials `f` and `g`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._degree_bound_univariate_correct","statement":"Path(_degree_bound_univariate(x), compute an upper bound for the degree of the gcd of two univariate integer polynomials `f` and `g`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faaabfd3e9c199d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._degree_bound_univariate","kind":"function","src_hash":"e5c56dc784fcd588","in":{"base":"Any","pred":"hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_degree_bound_univariate(f, g)","rhs":"<unspecified:_degree_bound_univariate>","over":{"base":"Any","pred":"hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'ring')"},"name":"_degree_bound_univariate_correct"},"guarantee":"compute an upper bound for the degree of the gcd of two univariate integer polynomials `f` and `g`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._degree_bound_univariate_correct","statement":"Path(_degree_bound_univariate(x), compute an upper bound for the degree of the gcd of two univariate integer polynomials `f` and `g`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faaabfd3e9c199d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'LC')","hasattr(g, 'LC')","hasattr(f, 'trunc_ground')","hasattr(g, 'trunc_ground')","hasattr(f, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.ring","f.trunc_ground","g.LC","g.trunc_ground"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _degree_bound_univariate(f, g):
     r"""
     Compute an upper bound for the degree of the GCD of two univariate
@@ -139,16 +168,25 @@ def _degree_bound_univariate(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_chinese_remainder_reconstruction_univariate(hp,), construct a polynomial `h_{pq}` in `\mathbb{z}_{p q}[x]` such that) over Any ║
+# ║ Path(_chinese_remainder_reconstruction_univariate(hp, hq, p), <unspecified:_chinese_remainder_reconstruction_univariate>) over {Any | hasattr(hp, 'degree') and hasattr(hp, 'ring') and hasattr(hp, 'coeff') and hasattr(hq, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _chinese_remainder_reconstruction_univariate : Any → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(hp, 'degree')                          ║
+# ║   requires: hasattr(hp, 'ring')                            ║
+# ║   requires: hasattr(hp, 'coeff')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _chinese_remainder_reconstruction_univariate : {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de728065417b647c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._chinese_remainder_reconstruction_univariate","kind":"function","src_hash":"5aa066d2a1ac62ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_chinese_remainder_reconstruction_univariate(hp,)","rhs":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x]` such that","over":{"base":"Any"},"name":"_chinese_remainder_reconstruction_univariate_correct"},"guarantee":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x]` such that","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._chinese_remainder_reconstruction_univariate_correct","statement":"Path(_chinese_remainder_reconstruction_univariate(x), construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x]` such that)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de728065417b647c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._chinese_remainder_reconstruction_univariate","kind":"function","src_hash":"5aa066d2a1ac62ab","in":{"base":"Any","pred":"hasattr(hp, 'degree') and hasattr(hp, 'ring') and hasattr(hp, 'coeff') and hasattr(hq, 'coeff')"},"out":{"base":"Any"},"spec":{"lhs":"_chinese_remainder_reconstruction_univariate(hp, hq, p)","rhs":"<unspecified:_chinese_remainder_reconstruction_univariate>","over":{"base":"Any","pred":"hasattr(hp, 'degree') and hasattr(hp, 'ring') and hasattr(hp, 'coeff') and hasattr(hq, 'coeff')"},"name":"_chinese_remainder_reconstruction_univariate_correct"},"guarantee":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x]` such that","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._chinese_remainder_reconstruction_univariate_correct","statement":"Path(_chinese_remainder_reconstruction_univariate(x), construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x]` such that)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de728065417b647c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(hp, 'degree')","hasattr(hp, 'ring')","hasattr(hp, 'coeff')","hasattr(hq, 'coeff')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["hp.coeff","hp.degree","hp.ring","hq.coeff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _chinese_remainder_reconstruction_univariate(hp, hq, p, q):
     r"""
     Construct a polynomial `h_{pq}` in `\mathbb{Z}_{p q}[x]` such that
@@ -215,16 +253,25 @@ def _chinese_remainder_reconstruction_univariate(hp, hq, p, q):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modgcd_univariate(f, ), computes the gcd of two polynomials in `\mathbb{z}[x]` using a modular algorithm) over Any ║
+# ║ Path(modgcd_univariate(f, g), <unspecified:modgcd_univariate>) over {Any | f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ modgcd_univariate : Any → {Any | f.ring == g.ring and...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: f.ring == g.ring and f.ring.domain.is_ZZ       ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'primitive')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ modgcd_univariate : {Any | f.ring == g.ring and f.rin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf715c90e08c9772  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.modgcd_univariate","kind":"function","src_hash":"3495b208ba6ab60e","in":{"base":"Any"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"modgcd_univariate(f, )","rhs":"computes the gcd of two polynomials in `\\mathbb{z}[x]` using a modular algorithm","over":{"base":"Any"},"name":"modgcd_univariate_correct"},"guarantee":"computes the gcd of two polynomials in `\\mathbb{z}[x]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.modgcd_univariate_correct","statement":"Path(modgcd_univariate(x), computes the gcd of two polynomials in `\\mathbb{z}[x]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf715c90e08c9772"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.modgcd_univariate","kind":"function","src_hash":"3495b208ba6ab60e","in":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"modgcd_univariate(f, g)","rhs":"<unspecified:modgcd_univariate>","over":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')"},"name":"modgcd_univariate_correct"},"guarantee":"computes the gcd of two polynomials in `\\mathbb{z}[x]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.modgcd_univariate_correct","statement":"Path(modgcd_univariate(x), computes the gcd of two polynomials in `\\mathbb{z}[x]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf715c90e08c9772","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["f.ring == g.ring and f.ring.domain.is_ZZ","hasattr(f, 'ring')","hasattr(f, 'primitive')","hasattr(g, 'primitive')","hasattr(f, 'LC')","hasattr(g, 'LC')","hasattr(g, 'ring')","hasattr(f, 'trunc_ground')","hasattr(g, 'trunc_ground')","hasattr(f, 'div')","hasattr(g, 'div')","hasattr(f, 'mul_ground')","hasattr(g, 'mul_ground')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.div","f.mul_ground","f.primitive","f.ring","f.trunc_ground","g.LC","g.div","g.mul_ground","g.primitive","g.ring","g.trunc_ground"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def modgcd_univariate(f, g):
     r"""
     Computes the GCD of two polynomials in `\mathbb{Z}[x]` using a modular
@@ -355,16 +402,25 @@ def modgcd_univariate(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primitive(f, ), id) over Any                         ║
+# ║ Path(_primitive(f, p), id) over {Any | hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(f, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _primitive : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   requires: hasattr(f, 'quo')                              ║
+# ║   returns:  (contf, f.quo(contf.set_ring(ring)))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _primitive : {Any | hasattr(f, 'ring') and hasattr(f,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f100f7837342e756   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._primitive","kind":"function","src_hash":"458971db9bafcd04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive(f, )","rhs":"compute the content and the primitive part of a polynomial in `\\mathbb{z}_p[x_0, \\ldots, x_{k-2}, y] \\cong \\mathbb{z}_p[y][x_0, \\ldots, x_{k-2}]`","over":{"base":"Any"},"name":"_primitive_correct","kind":"composition"},"guarantee":"compute the content and the primitive part of a polynomial in `\\mathbb{z}_p[x_0, \\ldots, x_{k-2}, y] \\cong \\mathbb{z}_p[y][x_0, \\ldots, x_{k-2}]`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"quo","by":"library_axiom"},{"fn":"set_ring","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f100f7837342e756"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._primitive","kind":"function","src_hash":"458971db9bafcd04","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(f, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"_primitive(f, p)","rhs":"(contf, f.quo(contf.set_ring(ring)))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(f, 'quo')"},"name":"_primitive_correct","kind":"composition"},"guarantee":"returns (contf, f.quo(contf.set_ring(ring)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"quo","by":"library_axiom"},{"fn":"set_ring","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f100f7837342e756","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'iterterms')","hasattr(f, 'quo')"],"returns_expr":"(contf, f.quo(contf.set_ring(ring)))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.quo","f.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _primitive(f, p):
     r"""
     Compute the content and the primitive part of a polynomial in
@@ -427,16 +483,24 @@ def _primitive(f, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_deg(f), compute the degree of a multivariate polynomial `f \in k[x_0, \ldots, x_{k-2}, y] \cong k[y][x_0, \ldots, x_{k-2}]`) over Any ║
+# ║ Path(_deg(f), <unspecified:_deg>) over {Any | hasattr(f, 'ring') and hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _deg : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _deg : {Any | hasattr(f, 'ring') and hasattr(f, 'iter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 617be4f039651297  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._deg","kind":"function","src_hash":"865d72838938a34f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deg(f)","rhs":"compute the degree of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`","over":{"base":"Any"},"name":"_deg_correct"},"guarantee":"compute the degree of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._deg_correct","statement":"Path(_deg(x), compute the degree of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"617be4f039651297"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._deg","kind":"function","src_hash":"865d72838938a34f","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"out":{"base":"Any"},"spec":{"lhs":"_deg(f)","rhs":"<unspecified:_deg>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"name":"_deg_correct"},"guarantee":"compute the degree of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._deg_correct","statement":"Path(_deg(x), compute the degree of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"617be4f039651297","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'itermonoms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms","f.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _deg(f):
     r"""
     Compute the degree of a multivariate polynomial
@@ -486,16 +550,24 @@ def _deg(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LC(f), compute the leading coefficient of a multivariate polynomial `f \in k[x_0, \ldots, x_{k-2}, y] \cong k[y][x_0, \ldots, x_{k-2}]`) over Any ║
+# ║ Path(_LC(f), <unspecified:_LC>) over {Any | hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LC : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LC : {Any | hasattr(f, 'ring') and hasattr(f, 'itert...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b8c3bd45bca95f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._LC","kind":"function","src_hash":"b0a4f21046a6e2bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LC(f)","rhs":"compute the leading coefficient of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`","over":{"base":"Any"},"name":"_LC_correct"},"guarantee":"compute the leading coefficient of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._LC_correct","statement":"Path(_LC(x), compute the leading coefficient of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b8c3bd45bca95f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._LC","kind":"function","src_hash":"b0a4f21046a6e2bf","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"_LC(f)","rhs":"<unspecified:_LC>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"_LC_correct"},"guarantee":"compute the leading coefficient of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._LC_correct","statement":"Path(_LC(x), compute the leading coefficient of a multivariate polynomial `f \\in k[x_0, \\ldots, x_{k-2}, y] \\cong k[y][x_0, \\ldots, x_{k-2}]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b8c3bd45bca95f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _LC(f):
     r"""
     Compute the leading coefficient of a multivariate polynomial
@@ -550,16 +622,24 @@ def _LC(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_swap(f, ), make the variable `x_i` the leading one in a multivariate polynomial `f`) over Any ║
+# ║ Path(_swap(f, i), <unspecified:_swap>) over {Any | hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _swap : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _swap : {Any | hasattr(f, 'ring') and hasattr(f, 'ite...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ffee246a31d3b17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._swap","kind":"function","src_hash":"32306d9c40ed5003","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_swap(f, )","rhs":"make the variable `x_i` the leading one in a multivariate polynomial `f`","over":{"base":"Any"},"name":"_swap_correct"},"guarantee":"make the variable `x_i` the leading one in a multivariate polynomial `f`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._swap_correct","statement":"Path(_swap(x), make the variable `x_i` the leading one in a multivariate polynomial `f`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ffee246a31d3b17"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._swap","kind":"function","src_hash":"32306d9c40ed5003","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"_swap(f, i)","rhs":"<unspecified:_swap>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"_swap_correct"},"guarantee":"make the variable `x_i` the leading one in a multivariate polynomial `f`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._swap_correct","statement":"Path(_swap(x), make the variable `x_i` the leading one in a multivariate polynomial `f`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ffee246a31d3b17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _swap(f, i):
     """
     Make the variable `x_i` the leading one in a multivariate polynomial `f`.
@@ -573,16 +653,25 @@ def _swap(f, i):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_degree_bound_bivariate(f, ), compute upper degree bounds for the gcd of two bivariate integer polynomials `f` and `g`) over Any ║
+# ║ Path(_degree_bound_bivariate(f, g), <unspecified:_degree_bound_bivariate>) over {Any | hasattr(f, 'ring') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _degree_bound_bivariate : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'LC')                               ║
+# ║   requires: hasattr(g, 'LC')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _degree_bound_bivariate : {Any | hasattr(f, 'ring') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 790424f8e7ca8a4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._degree_bound_bivariate","kind":"function","src_hash":"5987a6bbc64417e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_degree_bound_bivariate(f, )","rhs":"compute upper degree bounds for the gcd of two bivariate integer polynomials `f` and `g`","over":{"base":"Any"},"name":"_degree_bound_bivariate_correct"},"guarantee":"compute upper degree bounds for the gcd of two bivariate integer polynomials `f` and `g`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._degree_bound_bivariate_correct","statement":"Path(_degree_bound_bivariate(x), compute upper degree bounds for the gcd of two bivariate integer polynomials `f` and `g`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"790424f8e7ca8a4d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._degree_bound_bivariate","kind":"function","src_hash":"5987a6bbc64417e5","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground')"},"out":{"base":"Any"},"spec":{"lhs":"_degree_bound_bivariate(f, g)","rhs":"<unspecified:_degree_bound_bivariate>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground')"},"name":"_degree_bound_bivariate_correct"},"guarantee":"compute upper degree bounds for the gcd of two bivariate integer polynomials `f` and `g`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._degree_bound_bivariate_correct","statement":"Path(_degree_bound_bivariate(x), compute upper degree bounds for the gcd of two bivariate integer polynomials `f` and `g`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"790424f8e7ca8a4d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'LC')","hasattr(g, 'LC')","hasattr(f, 'trunc_ground')","hasattr(g, 'trunc_ground')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.ring","f.trunc_ground","g.LC","g.trunc_ground"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _degree_bound_bivariate(f, g):
     r"""
     Compute upper degree bounds for the GCD of two bivariate
@@ -659,7 +748,13 @@ def _degree_bound_bivariate(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_chinese_remainder_reconstruction_multivariate(hp,), construct a polynomial `h_{pq}` in `\mathbb{z}_{p q}[x_0, \ldots, x_{k-1}]` such that) over {Any | isinstance(hp.ring.domain, PolynomialRing)} ║
+# ║ Path(_chinese_remainder_reconstruction_multivariate(hp, hq, p), <unspecified:_chinese_remainder_reconstruction_multivariate>) over {Any | isinstance(hp.ring.domain, PolynomialRing) and hasattr(hp, 'ring') and hasattr(hp, 'monoms') and hasattr(hq, 'monoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(hp, 'ring')                            ║
+# ║   requires: hasattr(hp, 'monoms')                          ║
+# ║   requires: hasattr(hq, 'monoms')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _chinese_remainder_reconstruction_multivariate : {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -671,9 +766,12 @@ def _degree_bound_bivariate(f, g):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | af3fd168...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._chinese_remainder_reconstruction_multivariate","kind":"function","src_hash":"bddc8a978926cd77","in":{"base":"Any","pred":"isinstance(hp.ring.domain, PolynomialRing)"},"out":{"base":"Any"},"spec":{"lhs":"_chinese_remainder_reconstruction_multivariate(hp,)","rhs":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x_0, \\ldots, x_{k-1}]` such that","over":{"base":"Any","pred":"isinstance(hp.ring.domain, PolynomialRing)"},"name":"_chinese_remainder_reconstruction_multivariate_correct"},"guarantee":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x_0, \\ldots, x_{k-1}]` such that","fibers":[{"name":"PolynomialRing","pred":"isinstance(hp.ring.domain, PolynomialRing)","path":{"lhs":"_chinese_remainder_reconstruction_multivariate(x)","rhs":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x_0, \\ldots, x_{k-1}]` such that","over":{"base":"PolynomialRing","pred":"isinstance(hp.ring.domain, PolynomialRing)"},"name":"_chinese_remainder_reconstruction_multivariate_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._chinese_remainder_reconstruction_multivariate_PolynomialRing_correct","statement":"_chinese_remainder_reconstruction_multivariate satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"af3fd168a7dbb87d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._chinese_remainder_reconstruction_multivariate","kind":"function","src_hash":"bddc8a978926cd77","in":{"base":"Any","pred":"isinstance(hp.ring.domain, PolynomialRing) and hasattr(hp, 'ring') and hasattr(hp, 'monoms') and hasattr(hq, 'monoms')"},"out":{"base":"Any"},"spec":{"lhs":"_chinese_remainder_reconstruction_multivariate(hp, hq, p)","rhs":"<unspecified:_chinese_remainder_reconstruction_multivariate>","over":{"base":"Any","pred":"isinstance(hp.ring.domain, PolynomialRing) and hasattr(hp, 'ring') and hasattr(hp, 'monoms') and hasattr(hq, 'monoms')"},"name":"_chinese_remainder_reconstruction_multivariate_correct"},"guarantee":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x_0, \\ldots, x_{k-1}]` such that","fibers":[{"name":"PolynomialRing","pred":"isinstance(hp.ring.domain, PolynomialRing)","path":{"lhs":"_chinese_remainder_reconstruction_multivariate(x)","rhs":"construct a polynomial `h_{pq}` in `\\mathbb{z}_{p q}[x_0, \\ldots, x_{k-1}]` such that","over":{"base":"PolynomialRing","pred":"isinstance(hp.ring.domain, PolynomialRing)"},"name":"_chinese_remainder_reconstruction_multivariate_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._chinese_remainder_reconstruction_multivariate_PolynomialRing_correct","statement":"_chinese_remainder_reconstruction_multivariate satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"af3fd168a7dbb87d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(hp, 'ring')","hasattr(hp, 'monoms')","hasattr(hq, 'monoms')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(hp.ring.domain, PolynomialRing)'}, fibers={'PolynomialRing'})"]}}
 def _chinese_remainder_reconstruction_multivariate(hp, hq, p, q):
     r"""
     Construct a polynomial `h_{pq}` in
@@ -774,16 +872,25 @@ def _chinese_remainder_reconstruction_multivariate(hp, hq, p, q):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_interpolate_multivariate(eva), reconstruct a polynomial `h_p` in `\mathbb{z}_p[x_0, \ldots, x_{k-1}]` from a list of evaluation points in `\mathbb{z}_p` and a list of polynomials in `\mathbb{z}_p[x_0, \ldots, x_{i-1}, x_{i+1}, \ldo) over Any ║
+# ║ Path(_interpolate_multivariate(evalpoints, hpeval, ring), hp.trunc_ground(p)) over {Any | hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(ring, 'one') and hasattr(ring, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _interpolate_multivariate : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'one')                           ║
+# ║   returns:  hp.trunc_ground(p)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _interpolate_multivariate : {Any | hasattr(ring, 'zer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e39da59a799b39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fb2b9b4fe10afc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._interpolate_multivariate","kind":"function","src_hash":"160d207c045038d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_interpolate_multivariate(eva)","rhs":"reconstruct a polynomial `h_p` in `\\mathbb{z}_p[x_0, \\ldots, x_{k-1}]` from a list of evaluation points in `\\mathbb{z}_p` and a list of polynomials in `\\mathbb{z}_p[x_0, \\ldots, x_{i-1}, x_{i+1}, \\ldo","over":{"base":"Any"},"name":"_interpolate_multivariate_correct"},"guarantee":"reconstruct a polynomial `h_p` in `\\mathbb{z}_p[x_0, \\ldots, x_{k-1}]` from a list of evaluation points in `\\mathbb{z}_p` and a list of polynomials in `\\mathbb{z}_p[x_0, \\ldots, x_{i-1}, x_{i+1}, \\ldo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._interpolate_multivariate_correct","statement":"Path(_interpolate_multivariate(x), reconstruct a polynomial `h_p` in `\\mathbb{z}_p[x_0, \\ldots, x_{k-1}]` from a list of evaluation points in `\\mathbb{z}_p` and a list of polynomials in `\\mathbb{z}_p[x_0, \\ldots, x_{i-1}, x_{i+1}, \\ldo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e39da59a799b39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._interpolate_multivariate","kind":"function","src_hash":"160d207c045038d4","in":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(ring, 'one') and hasattr(ring, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"_interpolate_multivariate(evalpoints, hpeval, ring)","rhs":"hp.trunc_ground(p)","over":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(ring, 'one') and hasattr(ring, 'gens')"},"name":"_interpolate_multivariate_correct"},"guarantee":"returns hp.trunc_ground(p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._interpolate_multivariate_correct","statement":"Path(_interpolate_multivariate(x), returns hp.trunc_ground(p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fb2b9b4fe10afc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'zero')","hasattr(ring, 'domain')","hasattr(ring, 'one')","hasattr(ring, 'gens')"],"returns_expr":"hp.trunc_ground(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["ring.domain","ring.gens","ring.one","ring.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _interpolate_multivariate(evalpoints, hpeval, ring, i, p, ground=False):
     r"""
     Reconstruct a polynomial `h_p` in `\mathbb{Z}_p[x_0, \ldots, x_{k-1}]`
@@ -850,16 +957,25 @@ def _interpolate_multivariate(evalpoints, hpeval, ring, i, p, ground=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modgcd_bivariate(f, ), computes the gcd of two polynomials in `\mathbb{z}[x, y]` using a modular algorithm) over Any ║
+# ║ Path(modgcd_bivariate(f, g), <unspecified:modgcd_bivariate>) over {Any | f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ modgcd_bivariate : Any → {Any | f.ring == g.ring and ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: f.ring == g.ring and f.ring.domain.is_ZZ       ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'primitive')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ modgcd_bivariate : {Any | f.ring == g.ring and f.ring...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed493ee4d9a1c5b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.modgcd_bivariate","kind":"function","src_hash":"aa62f1425718c686","in":{"base":"Any"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"modgcd_bivariate(f, )","rhs":"computes the gcd of two polynomials in `\\mathbb{z}[x, y]` using a modular algorithm","over":{"base":"Any"},"name":"modgcd_bivariate_correct"},"guarantee":"computes the gcd of two polynomials in `\\mathbb{z}[x, y]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.modgcd_bivariate_correct","statement":"Path(modgcd_bivariate(x), computes the gcd of two polynomials in `\\mathbb{z}[x, y]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed493ee4d9a1c5b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.modgcd_bivariate","kind":"function","src_hash":"aa62f1425718c686","in":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"modgcd_bivariate(f, g)","rhs":"<unspecified:modgcd_bivariate>","over":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')"},"name":"modgcd_bivariate_correct"},"guarantee":"computes the gcd of two polynomials in `\\mathbb{z}[x, y]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.modgcd_bivariate_correct","statement":"Path(modgcd_bivariate(x), computes the gcd of two polynomials in `\\mathbb{z}[x, y]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed493ee4d9a1c5b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["f.ring == g.ring and f.ring.domain.is_ZZ","hasattr(f, 'ring')","hasattr(f, 'primitive')","hasattr(g, 'primitive')","hasattr(f, 'LC')","hasattr(g, 'LC')","hasattr(g, 'ring')","hasattr(f, 'trunc_ground')","hasattr(g, 'trunc_ground')","hasattr(f, 'div')","hasattr(g, 'div')","hasattr(f, 'mul_ground')","hasattr(g, 'mul_ground')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def modgcd_bivariate(f, g):
     r"""
     Computes the GCD of two polynomials in `\mathbb{Z}[x, y]` using a
@@ -1073,16 +1189,26 @@ def modgcd_bivariate(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_modgcd_multivariate_p(f, ), compute the gcd of two polynomials in `\mathbb{z}_p[x_0, \ldots, x_{k-1}]`) over Any ║
+# ║ Path(_modgcd_multivariate_p(f, g, p), len(evalpoints) == old_len_evalpoints + 1 and len(heval) == old_len_heval + 1) over {Any | hasattr(f, 'ring') and hasattr(f, 'degree') and hasattr(g, 'degree') and hasattr(f, 'evaluate') and hasattr(g, 'evaluate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _modgcd_multivariate_p : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'degree')                           ║
+# ║   requires: hasattr(g, 'degree')                           ║
+# ║   ensures:  len(evalpoints) == old_len_evalpoints + 1      ║
+# ║   ensures:  len(heval) == old_len_heval + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _modgcd_multivariate_p : {Any | hasattr(f, 'ring') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 389bc825037bc8d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a0846c7e961b8dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._modgcd_multivariate_p","kind":"function","src_hash":"8460fb23117e5fb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_modgcd_multivariate_p(f, )","rhs":"compute the gcd of two polynomials in `\\mathbb{z}_p[x_0, \\ldots, x_{k-1}]`","over":{"base":"Any"},"name":"_modgcd_multivariate_p_correct"},"guarantee":"compute the gcd of two polynomials in `\\mathbb{z}_p[x_0, \\ldots, x_{k-1}]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._modgcd_multivariate_p_correct","statement":"Path(_modgcd_multivariate_p(x), compute the gcd of two polynomials in `\\mathbb{z}_p[x_0, \\ldots, x_{k-1}]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389bc825037bc8d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._modgcd_multivariate_p","kind":"function","src_hash":"8460fb23117e5fb4","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'degree') and hasattr(g, 'degree') and hasattr(f, 'evaluate') and hasattr(g, 'evaluate')"},"out":{"base":"Any","pred":"result satisfies: len(evalpoints) == old_len_evalpoints + 1 and len(heval) == old_len_heval + 1"},"spec":{"lhs":"_modgcd_multivariate_p(f, g, p)","rhs":"len(evalpoints) == old_len_evalpoints + 1 and len(heval) == old_len_heval + 1","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'degree') and hasattr(g, 'degree') and hasattr(f, 'evaluate') and hasattr(g, 'evaluate')"},"name":"_modgcd_multivariate_p_correct"},"guarantee":"len(evalpoints) == old_len_evalpoints + 1; len(heval) == old_len_heval + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._modgcd_multivariate_p_correct","statement":"Path(_modgcd_multivariate_p(x), len(evalpoints) == old_len_evalpoints + 1; len(heval) == old_len_heval + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a0846c7e961b8dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'degree')","hasattr(g, 'degree')","hasattr(f, 'evaluate')","hasattr(g, 'evaluate')"],"ensures":["len(evalpoints) == old_len_evalpoints + 1","len(heval) == old_len_heval + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["f.degree","f.evaluate","f.ring","g.degree","g.evaluate"],"writes":["contbound[*]","degbound[*]"],"calls_mutating":["evalpoints.append","heval.append","points.remove"],"raises":["ModularGCDFailed"],"nondeterministic_sources":["random.sample"]},"state_contract":{"modifies":["contbound[*]","degbound[*]","evalpoints.*","heval.*","points.*"],"old_bindings":{"old_contbound_star":"contbound[*]","old_degbound_star":"degbound[*]","old_len_evalpoints":"len(evalpoints)","old_len_heval":"len(heval)"},"post_ensures":["len(evalpoints) == old_len_evalpoints + 1","len(heval) == old_len_heval + 1"],"exceptional_post":{"ModularGCDFailed":["isinstance(raised, ModularGCDFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _modgcd_multivariate_p(f, g, p, degbound, contbound):
     r"""
     Compute the GCD of two polynomials in
@@ -1237,16 +1363,25 @@ def _modgcd_multivariate_p(f, g, p, degbound, contbound):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modgcd_multivariate(f, ), compute the gcd of two polynomials in `\mathbb{z}[x_0, \ldots, x_{k-1}]` using a modular algorithm) over Any ║
+# ║ Path(modgcd_multivariate(f, g), <unspecified:modgcd_multivariate>) over {Any | f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'degrees') and hasattr(g, 'degrees')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ modgcd_multivariate : Any → {Any | f.ring == g.ring a...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: f.ring == g.ring and f.ring.domain.is_ZZ       ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'primitive')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ modgcd_multivariate : {Any | f.ring == g.ring and f.r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1983ece0c4dd881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.modgcd_multivariate","kind":"function","src_hash":"cfa01ee4be5e7e7d","in":{"base":"Any"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"modgcd_multivariate(f, )","rhs":"compute the gcd of two polynomials in `\\mathbb{z}[x_0, \\ldots, x_{k-1}]` using a modular algorithm","over":{"base":"Any"},"name":"modgcd_multivariate_correct"},"guarantee":"compute the gcd of two polynomials in `\\mathbb{z}[x_0, \\ldots, x_{k-1}]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.modgcd_multivariate_correct","statement":"Path(modgcd_multivariate(x), compute the gcd of two polynomials in `\\mathbb{z}[x_0, \\ldots, x_{k-1}]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1983ece0c4dd881"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.modgcd_multivariate","kind":"function","src_hash":"cfa01ee4be5e7e7d","in":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'degrees') and hasattr(g, 'degrees')"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"modgcd_multivariate(f, g)","rhs":"<unspecified:modgcd_multivariate>","over":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(g, 'ring') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'degrees') and hasattr(g, 'degrees')"},"name":"modgcd_multivariate_correct"},"guarantee":"compute the gcd of two polynomials in `\\mathbb{z}[x_0, \\ldots, x_{k-1}]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.modgcd_multivariate_correct","statement":"Path(modgcd_multivariate(x), compute the gcd of two polynomials in `\\mathbb{z}[x_0, \\ldots, x_{k-1}]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1983ece0c4dd881","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["f.ring == g.ring and f.ring.domain.is_ZZ","hasattr(f, 'ring')","hasattr(f, 'primitive')","hasattr(g, 'primitive')","hasattr(f, 'LC')","hasattr(g, 'LC')","hasattr(g, 'ring')","hasattr(f, 'trunc_ground')","hasattr(g, 'trunc_ground')","hasattr(f, 'div')","hasattr(g, 'div')","hasattr(f, 'degrees')","hasattr(g, 'degrees')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.degrees","f.div","f.primitive","f.ring","f.trunc_ground","g.LC","g.degrees","g.div","g.primitive","g.ring","g.trunc_ground"],"catches":["ModularGCDFailed"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def modgcd_multivariate(f, g):
     r"""
     Compute the GCD of two polynomials in `\mathbb{Z}[x_0, \ldots, x_{k-1}]`
@@ -1395,16 +1530,25 @@ def modgcd_multivariate(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gf_div(f, ), id) over Any                            ║
+# ║ Path(_gf_div(f, g, p), id) over {Any | hasattr(f, 'ring') and hasattr(f, 'to_dense') and hasattr(g, 'to_dense')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gf_div : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'to_dense')                         ║
+# ║   requires: hasattr(g, 'to_dense')                         ║
+# ║   returns:  (ring.from_dense(densequo), ring.from_den...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gf_div : {Any | hasattr(f, 'ring') and hasattr(f, 't...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8edd98058767ea64   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._gf_div","kind":"function","src_hash":"9d1334f728e75adc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_div(f, )","rhs":"compute `\\frac f g` modulo `p` for two univariate polynomials over `\\mathbb z_p`","over":{"base":"Any"},"name":"_gf_div_correct","kind":"composition"},"guarantee":"compute `\\frac f g` modulo `p` for two univariate polynomials over `\\mathbb z_p`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8edd98058767ea64"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._gf_div","kind":"function","src_hash":"9d1334f728e75adc","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'to_dense') and hasattr(g, 'to_dense')"},"out":{"base":"Any"},"spec":{"lhs":"_gf_div(f, g, p)","rhs":"(ring.from_dense(densequo), ring.from_dense(denserem))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'to_dense') and hasattr(g, 'to_dense')"},"name":"_gf_div_correct","kind":"composition"},"guarantee":"returns (ring.from_dense(densequo), ring.from_dense(denserem))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8edd98058767ea64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'to_dense')","hasattr(g, 'to_dense')"],"returns_expr":"(ring.from_dense(densequo), ring.from_dense(denserem))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring","f.to_dense","g.to_dense"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _gf_div(f, g, p):
     r"""
     Compute `\frac f g` modulo `p` for two univariate polynomials over
@@ -1416,16 +1560,24 @@ def _gf_div(f, g, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rational_function_reconstruction(c, ), reconstruct a rational function `\frac a b` in `\mathbb z_p(t)` from) over Any ║
+# ║ Path(_rational_function_reconstruction(c, p, m), <unspecified:_rational_function_reconstruction>) over {Any | hasattr(c, 'ring') and hasattr(m, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rational_function_reconstruction : Any → Any              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(c, 'ring')                             ║
+# ║   requires: hasattr(m, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rational_function_reconstruction : {Any | hasattr(c,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15847d6392d88835  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._rational_function_reconstruction","kind":"function","src_hash":"8af47c7f6d3cdfe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rational_function_reconstruction(c, )","rhs":"reconstruct a rational function `\\frac a b` in `\\mathbb z_p(t)` from","over":{"base":"Any"},"name":"_rational_function_reconstruction_correct"},"guarantee":"reconstruct a rational function `\\frac a b` in `\\mathbb z_p(t)` from","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._rational_function_reconstruction_correct","statement":"Path(_rational_function_reconstruction(x), reconstruct a rational function `\\frac a b` in `\\mathbb z_p(t)` from)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15847d6392d88835"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._rational_function_reconstruction","kind":"function","src_hash":"8af47c7f6d3cdfe9","in":{"base":"Any","pred":"hasattr(c, 'ring') and hasattr(m, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"_rational_function_reconstruction(c, p, m)","rhs":"<unspecified:_rational_function_reconstruction>","over":{"base":"Any","pred":"hasattr(c, 'ring') and hasattr(m, 'degree')"},"name":"_rational_function_reconstruction_correct"},"guarantee":"reconstruct a rational function `\\frac a b` in `\\mathbb z_p(t)` from","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._rational_function_reconstruction_correct","statement":"Path(_rational_function_reconstruction(x), reconstruct a rational function `\\frac a b` in `\\mathbb z_p(t)` from)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15847d6392d88835","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(c, 'ring')","hasattr(m, 'degree')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["c.ring","m.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _rational_function_reconstruction(c, p, m):
     r"""
     Reconstruct a rational function `\frac a b` in `\mathbb Z_p(t)` from
@@ -1493,16 +1645,25 @@ def _rational_function_reconstruction(c, p, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rational_reconstruction_func_coeffs(hm,), reconstruct every coefficient `c_h` of a polynomial `h` in `\mathbb z_p(t_k)[t_1, \ldots, t_{k-1}][x, z]` from the corresponding coefficient `c_{h_m}` of a polynomial `h_m` in `\mathbb z_p[t_1, \ldots) over Any ║
+# ║ Path(_rational_reconstruction_func_coeffs(hm, p, m), <unspecified:_rational_reconstruction_func_coeffs>) over {Any | hasattr(ring, 'zero') and hasattr(hm, 'iterterms') and hasattr(ring, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rational_reconstruction_func_coeffs : Any → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(hm, 'iterterms')                       ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rational_reconstruction_func_coeffs : {Any | hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b4fdf13d6f7642f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._rational_reconstruction_func_coeffs","kind":"function","src_hash":"b64854a9f151945c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rational_reconstruction_func_coeffs(hm,)","rhs":"reconstruct every coefficient `c_h` of a polynomial `h` in `\\mathbb z_p(t_k)[t_1, \\ldots, t_{k-1}][x, z]` from the corresponding coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z_p[t_1, \\ldots","over":{"base":"Any"},"name":"_rational_reconstruction_func_coeffs_correct"},"guarantee":"reconstruct every coefficient `c_h` of a polynomial `h` in `\\mathbb z_p(t_k)[t_1, \\ldots, t_{k-1}][x, z]` from the corresponding coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z_p[t_1, \\ldots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._rational_reconstruction_func_coeffs_correct","statement":"Path(_rational_reconstruction_func_coeffs(x), reconstruct every coefficient `c_h` of a polynomial `h` in `\\mathbb z_p(t_k)[t_1, \\ldots, t_{k-1}][x, z]` from the corresponding coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z_p[t_1, \\ldots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4fdf13d6f7642f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._rational_reconstruction_func_coeffs","kind":"function","src_hash":"b64854a9f151945c","in":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(hm, 'iterterms') and hasattr(ring, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_rational_reconstruction_func_coeffs(hm, p, m)","rhs":"<unspecified:_rational_reconstruction_func_coeffs>","over":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(hm, 'iterterms') and hasattr(ring, 'domain')"},"name":"_rational_reconstruction_func_coeffs_correct"},"guarantee":"reconstruct every coefficient `c_h` of a polynomial `h` in `\\mathbb z_p(t_k)[t_1, \\ldots, t_{k-1}][x, z]` from the corresponding coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z_p[t_1, \\ldots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._rational_reconstruction_func_coeffs_correct","statement":"Path(_rational_reconstruction_func_coeffs(x), reconstruct every coefficient `c_h` of a polynomial `h` in `\\mathbb z_p(t_k)[t_1, \\ldots, t_{k-1}][x, z]` from the corresponding coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z_p[t_1, \\ldots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4fdf13d6f7642f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'zero')","hasattr(hm, 'iterterms')","hasattr(ring, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["hm.iterterms","ring.domain","ring.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rational_reconstruction_func_coeffs(hm, p, m, ring, k):
     r"""
     Reconstruct every coefficient `c_h` of a polynomial `h` in
@@ -1574,16 +1735,25 @@ def _rational_reconstruction_func_coeffs(hm, p, m, ring, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gf_gcdex(f, ), id) over Any                          ║
+# ║ Path(_gf_gcdex(f, g, p), id) over {Any | hasattr(f, 'ring') and hasattr(f, 'to_dense') and hasattr(g, 'to_dense')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gf_gcdex : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'to_dense')                         ║
+# ║   requires: hasattr(g, 'to_dense')                         ║
+# ║   returns:  (ring.from_dense(s), ring.from_dense(t), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gf_gcdex : {Any | hasattr(f, 'ring') and hasattr(f, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 509d2ac33dc9c084   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._gf_gcdex","kind":"function","src_hash":"71ea027261773386","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gf_gcdex(f, )","rhs":"extended euclidean algorithm for two univariate polynomials over `\\mathbb z_p`","over":{"base":"Any"},"name":"_gf_gcdex_correct","kind":"composition"},"guarantee":"extended euclidean algorithm for two univariate polynomials over `\\mathbb z_p`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"509d2ac33dc9c084"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._gf_gcdex","kind":"function","src_hash":"71ea027261773386","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'to_dense') and hasattr(g, 'to_dense')"},"out":{"base":"Any"},"spec":{"lhs":"_gf_gcdex(f, g, p)","rhs":"(ring.from_dense(s), ring.from_dense(t), ring.from_dense(h))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'to_dense') and hasattr(g, 'to_dense')"},"name":"_gf_gcdex_correct","kind":"composition"},"guarantee":"returns (ring.from_dense(s), ring.from_dense(t), ring.from_dense(h))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"509d2ac33dc9c084","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'to_dense')","hasattr(g, 'to_dense')"],"returns_expr":"(ring.from_dense(s), ring.from_dense(t), ring.from_dense(h))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring","f.to_dense","g.to_dense"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _gf_gcdex(f, g, p):
     r"""
     Extended Euclidean Algorithm for two univariate polynomials over
@@ -1599,16 +1769,25 @@ def _gf_gcdex(f, g, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trunc(f, ), id) over Any                             ║
+# ║ Path(_trunc(f, minpoly, p), id) over {Any | hasattr(f, 'ring') and hasattr(minpoly, 'set_ring') and hasattr(f, 'trunc_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _trunc : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(minpoly, 'set_ring')                   ║
+# ║   requires: hasattr(f, 'trunc_ground')                     ║
+# ║   returns:  f.trunc_ground(p).rem([minpoly, p_]).trun...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _trunc : {Any | hasattr(f, 'ring') and hasattr(minpol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 23ba4ba9a5c66f38   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._trunc","kind":"function","src_hash":"0fd155c27de85875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trunc(f, )","rhs":"compute the reduced representation of a polynomial `f` in `\\mathbb z_p[z] / (\\check m_{\\alpha}(z))[x]`","over":{"base":"Any"},"name":"_trunc_correct","kind":"composition"},"guarantee":"compute the reduced representation of a polynomial `f` in `\\mathbb z_p[z] / (\\check m_{\\alpha}(z))[x]`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"trunc_ground","by":"library_axiom"},{"fn":"rem","by":"library_axiom"},{"fn":"trunc_ground","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23ba4ba9a5c66f38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._trunc","kind":"function","src_hash":"0fd155c27de85875","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(minpoly, 'set_ring') and hasattr(f, 'trunc_ground')"},"out":{"base":"Any"},"spec":{"lhs":"_trunc(f, minpoly, p)","rhs":"f.trunc_ground(p).rem([minpoly, p_]).trunc_ground(p)","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(minpoly, 'set_ring') and hasattr(f, 'trunc_ground')"},"name":"_trunc_correct","kind":"composition"},"guarantee":"returns f.trunc_ground(p).rem([minpoly, p_]).trunc_ground(p)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"trunc_ground","by":"library_axiom"},{"fn":"rem","by":"library_axiom"},{"fn":"trunc_ground","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23ba4ba9a5c66f38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(minpoly, 'set_ring')","hasattr(f, 'trunc_ground')"],"returns_expr":"f.trunc_ground(p).rem([minpoly, p_]).trunc_ground(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring","f.trunc_ground","minpoly.set_ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _trunc(f, minpoly, p):
     r"""
     Compute the reduced representation of a polynomial `f` in
@@ -1641,16 +1820,25 @@ def _trunc(f, minpoly, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_euclidean_algorithm(f, ), compute the monic gcd of two univariate polynomials in `\mathbb{z}_p[z]/(\check m_{\alpha}(z))[x]` with the euclidean algorithm) over Any ║
+# ║ Path(_euclidean_algorithm(f, g, minpoly), <unspecified:_euclidean_algorithm>) over {Any | hasattr(f, 'ring') and hasattr(g, 'degree') and hasattr(g, 'mul_monom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _euclidean_algorithm : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(g, 'degree')                           ║
+# ║   requires: hasattr(g, 'mul_monom')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _euclidean_algorithm : {Any | hasattr(f, 'ring') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a7be92fdef750ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._euclidean_algorithm","kind":"function","src_hash":"f8b722da9bf1372e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_euclidean_algorithm(f, )","rhs":"compute the monic gcd of two univariate polynomials in `\\mathbb{z}_p[z]/(\\check m_{\\alpha}(z))[x]` with the euclidean algorithm","over":{"base":"Any"},"name":"_euclidean_algorithm_correct"},"guarantee":"compute the monic gcd of two univariate polynomials in `\\mathbb{z}_p[z]/(\\check m_{\\alpha}(z))[x]` with the euclidean algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._euclidean_algorithm_correct","statement":"Path(_euclidean_algorithm(x), compute the monic gcd of two univariate polynomials in `\\mathbb{z}_p[z]/(\\check m_{\\alpha}(z))[x]` with the euclidean algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a7be92fdef750ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._euclidean_algorithm","kind":"function","src_hash":"f8b722da9bf1372e","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'degree') and hasattr(g, 'mul_monom')"},"out":{"base":"Any"},"spec":{"lhs":"_euclidean_algorithm(f, g, minpoly)","rhs":"<unspecified:_euclidean_algorithm>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'degree') and hasattr(g, 'mul_monom')"},"name":"_euclidean_algorithm_correct"},"guarantee":"compute the monic gcd of two univariate polynomials in `\\mathbb{z}_p[z]/(\\check m_{\\alpha}(z))[x]` with the euclidean algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._euclidean_algorithm_correct","statement":"Path(_euclidean_algorithm(x), compute the monic gcd of two univariate polynomials in `\\mathbb{z}_p[z]/(\\check m_{\\alpha}(z))[x]` with the euclidean algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a7be92fdef750ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(g, 'degree')","hasattr(g, 'mul_monom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring","g.degree","g.mul_monom"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _euclidean_algorithm(f, g, minpoly, p):
     r"""
     Compute the monic GCD of two univariate polynomials in
@@ -1708,16 +1896,25 @@ def _euclidean_algorithm(f, g, minpoly, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trial_division(f, ), check if `h` divides `f` in `\mathbb k[t_1, \ldots, t_k][z]/(m_{\alpha}(z))`, where `\mathbb k` is either `\mathbb q` or `\mathbb z_p`) over Any ║
+# ║ Path(_trial_division(f, h, minpoly), <unspecified:_trial_division>) over {Any | hasattr(f, 'ring') and hasattr(minpoly, 'LC') and hasattr(minpoly, 'set_ring') and hasattr(h, 'degree') and hasattr(minpoly, 'degree') and hasattr(h, 'mul_monom') and hasattr(minpoly, 'mul_monom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _trial_division : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(minpoly, 'LC')                         ║
+# ║   requires: hasattr(minpoly, 'set_ring')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _trial_division : {Any | hasattr(f, 'ring') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71b9440e9b0f1c98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._trial_division","kind":"function","src_hash":"57e8d5f3b73c87e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trial_division(f, )","rhs":"check if `h` divides `f` in `\\mathbb k[t_1, \\ldots, t_k][z]/(m_{\\alpha}(z))`, where `\\mathbb k` is either `\\mathbb q` or `\\mathbb z_p`","over":{"base":"Any"},"name":"_trial_division_correct"},"guarantee":"check if `h` divides `f` in `\\mathbb k[t_1, \\ldots, t_k][z]/(m_{\\alpha}(z))`, where `\\mathbb k` is either `\\mathbb q` or `\\mathbb z_p`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._trial_division_correct","statement":"Path(_trial_division(x), check if `h` divides `f` in `\\mathbb k[t_1, \\ldots, t_k][z]/(m_{\\alpha}(z))`, where `\\mathbb k` is either `\\mathbb q` or `\\mathbb z_p`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b9440e9b0f1c98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._trial_division","kind":"function","src_hash":"57e8d5f3b73c87e7","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(minpoly, 'LC') and hasattr(minpoly, 'set_ring') and hasattr(h, 'degree') and hasattr(minpoly, 'degree') and hasattr(h, 'mul_monom') and hasattr(minpoly, 'mul_monom')"},"out":{"base":"Any"},"spec":{"lhs":"_trial_division(f, h, minpoly)","rhs":"<unspecified:_trial_division>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(minpoly, 'LC') and hasattr(minpoly, 'set_ring') and hasattr(h, 'degree') and hasattr(minpoly, 'degree') and hasattr(h, 'mul_monom') and hasattr(minpoly, 'mul_monom')"},"name":"_trial_division_correct"},"guarantee":"check if `h` divides `f` in `\\mathbb k[t_1, \\ldots, t_k][z]/(m_{\\alpha}(z))`, where `\\mathbb k` is either `\\mathbb q` or `\\mathbb z_p`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._trial_division_correct","statement":"Path(_trial_division(x), check if `h` divides `f` in `\\mathbb k[t_1, \\ldots, t_k][z]/(m_{\\alpha}(z))`, where `\\mathbb k` is either `\\mathbb q` or `\\mathbb z_p`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b9440e9b0f1c98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(minpoly, 'LC')","hasattr(minpoly, 'set_ring')","hasattr(h, 'degree')","hasattr(minpoly, 'degree')","hasattr(h, 'mul_monom')","hasattr(minpoly, 'mul_monom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring","h.degree","h.mul_monom","minpoly.LC","minpoly.degree","minpoly.mul_monom","minpoly.set_ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _trial_division(f, h, minpoly, p=None):
     r"""
     Check if `h` divides `f` in
@@ -1788,16 +1985,24 @@ def _trial_division(f, h, minpoly, p=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_evaluate_ground(f, ), evaluate a polynomial `f` at `a` in the `i`-th variable of the ground domain) over Any ║
+# ║ Path(_evaluate_ground(f, i, a), <unspecified:_evaluate_ground>) over {Any | hasattr(f, 'iterterms') and hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _evaluate_ground : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _evaluate_ground : {Any | hasattr(f, 'iterterms') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1721b3616ca06389  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._evaluate_ground","kind":"function","src_hash":"a51b895a0154f486","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_evaluate_ground(f, )","rhs":"evaluate a polynomial `f` at `a` in the `i`-th variable of the ground domain","over":{"base":"Any"},"name":"_evaluate_ground_correct"},"guarantee":"evaluate a polynomial `f` at `a` in the `i`-th variable of the ground domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._evaluate_ground_correct","statement":"Path(_evaluate_ground(x), evaluate a polynomial `f` at `a` in the `i`-th variable of the ground domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1721b3616ca06389"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._evaluate_ground","kind":"function","src_hash":"a51b895a0154f486","in":{"base":"Any","pred":"hasattr(f, 'iterterms') and hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_evaluate_ground(f, i, a)","rhs":"<unspecified:_evaluate_ground>","over":{"base":"Any","pred":"hasattr(f, 'iterterms') and hasattr(f, 'ring')"},"name":"_evaluate_ground_correct"},"guarantee":"evaluate a polynomial `f` at `a` in the `i`-th variable of the ground domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._evaluate_ground_correct","statement":"Path(_evaluate_ground(x), evaluate a polynomial `f` at `a` in the `i`-th variable of the ground domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1721b3616ca06389","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'iterterms')","hasattr(f, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _evaluate_ground(f, i, a):
     r"""
     Evaluate a polynomial `f` at `a` in the `i`-th variable of the ground
@@ -1813,7 +2018,16 @@ def _evaluate_ground(f, i, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_func_field_modgcd_p(f, ), compute the gcd of two polynomials `f` and `g` in `\mathbb z_p(t_1, \ldots, t_k)[z]/(\check m_\alpha(z))[x]`) over {Any | isinstance(domain, PolynomialRing)} ║
+# ║ Path(_func_field_modgcd_p(f, g, minpoly), len(LMlist) == old_len_LMlist + 1 and len(evalpoints) == old_len_evalpoints + 1 and len(evalpoints_a) == old_len_evalpoints_a + 1 and len(heval) == old_len_heval + 1 and len(heval_a) == old_len_heval_a + 1) over {Any | isinstance(domain, PolynomialRing) and hasattr(f, 'ring') and hasattr(minpoly, 'LC')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(minpoly, 'LC')                         ║
+# ║   ensures:  len(LMlist) == old_len_LMlist + 1              ║
+# ║   ensures:  len(evalpoints) == old_len_evalpoints + 1      ║
+# ║   ensures:  len(evalpoints_a) == old_len_evalpoints_a...   ║
+# ║   fiber[PolynomialRing]: isinstance(domain, Polynomia...   ║
+# ║   fiber[PolynomialRing]: not (isinstance(domain, Poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _func_field_modgcd_p : {Any | isinstance(domain, Poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1825,9 +2039,12 @@ def _evaluate_ground(f, i, a):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bce6389b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._func_field_modgcd_p","kind":"function","src_hash":"725bbaa9edebd64b","in":{"base":"Any","pred":"isinstance(domain, PolynomialRing)"},"out":{"base":"Any"},"spec":{"lhs":"_func_field_modgcd_p(f, )","rhs":"compute the gcd of two polynomials `f` and `g` in `\\mathbb z_p(t_1, \\ldots, t_k)[z]/(\\check m_\\alpha(z))[x]`","over":{"base":"Any","pred":"isinstance(domain, PolynomialRing)"},"name":"_func_field_modgcd_p_correct"},"guarantee":"compute the gcd of two polynomials `f` and `g` in `\\mathbb z_p(t_1, \\ldots, t_k)[z]/(\\check m_\\alpha(z))[x]`","fibers":[{"name":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)","path":{"lhs":"_func_field_modgcd_p(x)","rhs":"compute the gcd of two polynomials `f` and `g` in `\\mathbb z_p(t_1, \\ldots, t_k)[z]/(\\check m_\\alpha(z))[x]`","over":{"base":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)"},"name":"_func_field_modgcd_p_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._func_field_modgcd_p_PolynomialRing_correct","statement":"_func_field_modgcd_p satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bce6389b81f4f1f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._func_field_modgcd_p","kind":"function","src_hash":"725bbaa9edebd64b","in":{"base":"Any","pred":"isinstance(domain, PolynomialRing) and hasattr(f, 'ring') and hasattr(minpoly, 'LC')"},"out":{"base":"Any","pred":"result satisfies: len(LMlist) == old_len_LMlist + 1 and len(evalpoints) == old_len_evalpoints + 1 and len(evalpoints_a) == old_len_evalpoints_a + 1 and len(heval) == old_len_heval + 1 and len(heval_a) == old_len_heval_a + 1"},"spec":{"lhs":"_func_field_modgcd_p(f, g, minpoly)","rhs":"len(LMlist) == old_len_LMlist + 1 and len(evalpoints) == old_len_evalpoints + 1 and len(evalpoints_a) == old_len_evalpoints_a + 1 and len(heval) == old_len_heval + 1 and len(heval_a) == old_len_heval_a + 1","over":{"base":"Any","pred":"isinstance(domain, PolynomialRing) and hasattr(f, 'ring') and hasattr(minpoly, 'LC')"},"name":"_func_field_modgcd_p_correct"},"guarantee":"len(LMlist) == old_len_LMlist + 1; len(evalpoints) == old_len_evalpoints + 1; len(evalpoints_a) == old_len_evalpoints_a + 1; 2-fiber decomposition","fibers":[{"name":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)","path":{"lhs":"_func_field_modgcd_p(x)","rhs":"len(LMlist) == old_len_LMlist + 1; len(evalpoints) == old_len_evalpoints + 1; len(evalpoints_a) == old_len_evalpoints_a + 1; 2-fiber decomposition","over":{"base":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)"},"name":"_func_field_modgcd_p_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._func_field_modgcd_p_PolynomialRing_correct","statement":"_func_field_modgcd_p satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bce6389b81f4f1f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(minpoly, 'LC')"],"ensures":["len(LMlist) == old_len_LMlist + 1","len(evalpoints) == old_len_evalpoints + 1","len(evalpoints_a) == old_len_evalpoints_a + 1","len(heval) == old_len_heval + 1","len(heval_a) == old_len_heval_a + 1"],"fibers":[{"name":"PolynomialRing","guard":"isinstance(domain, PolynomialRing)","ensures":[],"decidability":"structural"},{"name":"PolynomialRing","guard":"not (isinstance(domain, PolynomialRing))","ensures":["result == _euclidean_algorithm(f, g, minpoly, p)"],"decidability":"structural","returns_expr":"_euclidean_algorithm(f, g, minpoly, p)"}],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["f.ring","minpoly.LC"],"calls_mutating":["LMlist.append","evalpoints.append","evalpoints_a.append","heval.append","heval_a.append","points.remove"],"nondeterministic_sources":["random.sample"]},"state_contract":{"modifies":["LMlist.*","evalpoints.*","evalpoints_a.*","heval.*","heval_a.*","points.*"],"old_bindings":{"old_len_LMlist":"len(LMlist)","old_len_evalpoints":"len(evalpoints)","old_len_evalpoints_a":"len(evalpoints_a)","old_len_heval":"len(heval)","old_len_heval_a":"len(heval_a)"},"post_ensures":["len(LMlist) == old_len_LMlist + 1","len(evalpoints) == old_len_evalpoints + 1","len(evalpoints_a) == old_len_evalpoints_a + 1","len(heval) == old_len_heval + 1","len(heval_a) == old_len_heval_a + 1"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'monom[0] == LM[0] and coeff.LM > tuple(LM[1:])', 'ha is None', 'LMhb == LM', 'd > n', 'gammaa.rem([minpolya, gammaa.ring(p)]) == 0', 'k > 1', 'k == 1', 'h is None', 'ha == 1', 'isinstance(domain, PolynomialRing)'}, fibers={'PolynomialRing'})"]}}
 def _func_field_modgcd_p(f, g, minpoly, p):
     r"""
     Compute the GCD of two polynomials `f` and `g` in
@@ -1995,16 +2212,25 @@ def _func_field_modgcd_p(f, g, minpoly, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_integer_rational_reconstruction(c, ), reconstruct a rational number `\frac a b` from) over Any ║
+# ║ Path(_integer_rational_reconstruction(c, m, domain), <unspecified:_integer_rational_reconstruction>) over {Any | hasattr(domain, 'zero') and hasattr(domain, 'one') and hasattr(domain, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _integer_rational_reconstruction : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   requires: hasattr(domain, 'one')                         ║
+# ║   requires: hasattr(domain, 'get_field')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _integer_rational_reconstruction : {Any | hasattr(dom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d11ecf6f70fcf3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._integer_rational_reconstruction","kind":"function","src_hash":"ae0884b29827f0f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_integer_rational_reconstruction(c, )","rhs":"reconstruct a rational number `\\frac a b` from","over":{"base":"Any"},"name":"_integer_rational_reconstruction_correct"},"guarantee":"reconstruct a rational number `\\frac a b` from","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._integer_rational_reconstruction_correct","statement":"Path(_integer_rational_reconstruction(x), reconstruct a rational number `\\frac a b` from)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d11ecf6f70fcf3e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._integer_rational_reconstruction","kind":"function","src_hash":"ae0884b29827f0f0","in":{"base":"Any","pred":"hasattr(domain, 'zero') and hasattr(domain, 'one') and hasattr(domain, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"_integer_rational_reconstruction(c, m, domain)","rhs":"<unspecified:_integer_rational_reconstruction>","over":{"base":"Any","pred":"hasattr(domain, 'zero') and hasattr(domain, 'one') and hasattr(domain, 'get_field')"},"name":"_integer_rational_reconstruction_correct"},"guarantee":"reconstruct a rational number `\\frac a b` from","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._integer_rational_reconstruction_correct","statement":"Path(_integer_rational_reconstruction(x), reconstruct a rational number `\\frac a b` from)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d11ecf6f70fcf3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'zero')","hasattr(domain, 'one')","hasattr(domain, 'get_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.get_field","domain.one","domain.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _integer_rational_reconstruction(c, m, domain):
     r"""
     Reconstruct a rational number `\frac a b` from
@@ -2070,7 +2296,13 @@ def _integer_rational_reconstruction(c, m, domain):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rational_reconstruction_int_coeffs(hm,), reconstruct every rational coefficient `c_h` of a polynomial `h` in `\mathbb q[t_1, \ldots, t_k][x, z]` from the corresponding integer coefficient `c_{h_m}` of a polynomial `h_m` in `\mathbb z[t_1, \l) over {Any | isinstance(ring.domain, PolynomialRing)} ║
+# ║ Path(_rational_reconstruction_int_coeffs(hm, m, ring), <unspecified:_rational_reconstruction_int_coeffs>) over {Any | isinstance(ring.domain, PolynomialRing) and hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(hm, 'iterterms') and hasattr(hm, 'ring')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(hm, 'iterterms')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rational_reconstruction_int_coeffs : {Any | isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2082,9 +2314,12 @@ def _integer_rational_reconstruction(c, m, domain):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | acf1010c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._rational_reconstruction_int_coeffs","kind":"function","src_hash":"e0cbf8408362a6c4","in":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing)"},"out":{"base":"Any"},"spec":{"lhs":"_rational_reconstruction_int_coeffs(hm,)","rhs":"reconstruct every rational coefficient `c_h` of a polynomial `h` in `\\mathbb q[t_1, \\ldots, t_k][x, z]` from the corresponding integer coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z[t_1, \\l","over":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing)"},"name":"_rational_reconstruction_int_coeffs_correct"},"guarantee":"reconstruct every rational coefficient `c_h` of a polynomial `h` in `\\mathbb q[t_1, \\ldots, t_k][x, z]` from the corresponding integer coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z[t_1, \\l","fibers":[{"name":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)","path":{"lhs":"_rational_reconstruction_int_coeffs(x)","rhs":"reconstruct every rational coefficient `c_h` of a polynomial `h` in `\\mathbb q[t_1, \\ldots, t_k][x, z]` from the corresponding integer coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z[t_1, \\l","over":{"base":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)"},"name":"_rational_reconstruction_int_coeffs_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._rational_reconstruction_int_coeffs_PolynomialRing_correct","statement":"_rational_reconstruction_int_coeffs satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"acf1010c540989bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._rational_reconstruction_int_coeffs","kind":"function","src_hash":"e0cbf8408362a6c4","in":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing) and hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(hm, 'iterterms') and hasattr(hm, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_rational_reconstruction_int_coeffs(hm, m, ring)","rhs":"<unspecified:_rational_reconstruction_int_coeffs>","over":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing) and hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(hm, 'iterterms') and hasattr(hm, 'ring')"},"name":"_rational_reconstruction_int_coeffs_correct"},"guarantee":"reconstruct every rational coefficient `c_h` of a polynomial `h` in `\\mathbb q[t_1, \\ldots, t_k][x, z]` from the corresponding integer coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z[t_1, \\l","fibers":[{"name":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)","path":{"lhs":"_rational_reconstruction_int_coeffs(x)","rhs":"reconstruct every rational coefficient `c_h` of a polynomial `h` in `\\mathbb q[t_1, \\ldots, t_k][x, z]` from the corresponding integer coefficient `c_{h_m}` of a polynomial `h_m` in `\\mathbb z[t_1, \\l","over":{"base":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)"},"name":"_rational_reconstruction_int_coeffs_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._rational_reconstruction_int_coeffs_PolynomialRing_correct","statement":"_rational_reconstruction_int_coeffs satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"acf1010c540989bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'zero')","hasattr(ring, 'domain')","hasattr(hm, 'iterterms')","hasattr(hm, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["hm.iterterms","hm.ring","ring.domain","ring.zero"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(ring.domain, PolynomialRing)'}, fibers={'PolynomialRing'})"]}}
 def _rational_reconstruction_int_coeffs(hm, m, ring):
     r"""
     Reconstruct every rational coefficient `c_h` of a polynomial `h` in
@@ -2147,7 +2382,13 @@ def _rational_reconstruction_int_coeffs(hm, m, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_func_field_modgcd_m(f, ), compute the gcd of two polynomials in `\mathbb q(t_1, \ldots, t_k)[z]/(m_{\alpha}(z))[x]` using a modular algorithm) over {Any | isinstance(domain, PolynomialRing)} ║
+# ║ Path(_func_field_modgcd_m(f, g, minpoly), <unspecified:_func_field_modgcd_m>) over {Any | isinstance(domain, PolynomialRing) and hasattr(f, 'ring') and hasattr(minpoly, 'LC') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(minpoly, 'trunc_ground') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(minpoly, 'LC')                         ║
+# ║   requires: hasattr(f, 'primitive')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _func_field_modgcd_m : {Any | isinstance(domain, Poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2159,9 +2400,12 @@ def _rational_reconstruction_int_coeffs(hm, m, ring):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 52ca2ef9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._func_field_modgcd_m","kind":"function","src_hash":"1d29ab04ed1cf0c4","in":{"base":"Any","pred":"isinstance(domain, PolynomialRing)"},"out":{"base":"Any"},"spec":{"lhs":"_func_field_modgcd_m(f, )","rhs":"compute the gcd of two polynomials in `\\mathbb q(t_1, \\ldots, t_k)[z]/(m_{\\alpha}(z))[x]` using a modular algorithm","over":{"base":"Any","pred":"isinstance(domain, PolynomialRing)"},"name":"_func_field_modgcd_m_correct"},"guarantee":"compute the gcd of two polynomials in `\\mathbb q(t_1, \\ldots, t_k)[z]/(m_{\\alpha}(z))[x]` using a modular algorithm","fibers":[{"name":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)","path":{"lhs":"_func_field_modgcd_m(x)","rhs":"compute the gcd of two polynomials in `\\mathbb q(t_1, \\ldots, t_k)[z]/(m_{\\alpha}(z))[x]` using a modular algorithm","over":{"base":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)"},"name":"_func_field_modgcd_m_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._func_field_modgcd_m_PolynomialRing_correct","statement":"_func_field_modgcd_m satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"52ca2ef967eb0b7a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._func_field_modgcd_m","kind":"function","src_hash":"1d29ab04ed1cf0c4","in":{"base":"Any","pred":"isinstance(domain, PolynomialRing) and hasattr(f, 'ring') and hasattr(minpoly, 'LC') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(minpoly, 'trunc_ground') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')"},"out":{"base":"Any"},"spec":{"lhs":"_func_field_modgcd_m(f, g, minpoly)","rhs":"<unspecified:_func_field_modgcd_m>","over":{"base":"Any","pred":"isinstance(domain, PolynomialRing) and hasattr(f, 'ring') and hasattr(minpoly, 'LC') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'trunc_ground') and hasattr(g, 'trunc_ground') and hasattr(minpoly, 'trunc_ground') and hasattr(f, 'mul_ground') and hasattr(g, 'mul_ground')"},"name":"_func_field_modgcd_m_correct"},"guarantee":"compute the gcd of two polynomials in `\\mathbb q(t_1, \\ldots, t_k)[z]/(m_{\\alpha}(z))[x]` using a modular algorithm","fibers":[{"name":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)","path":{"lhs":"_func_field_modgcd_m(x)","rhs":"compute the gcd of two polynomials in `\\mathbb q(t_1, \\ldots, t_k)[z]/(m_{\\alpha}(z))[x]` using a modular algorithm","over":{"base":"PolynomialRing","pred":"isinstance(domain, PolynomialRing)"},"name":"_func_field_modgcd_m_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._func_field_modgcd_m_PolynomialRing_correct","statement":"_func_field_modgcd_m satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"52ca2ef967eb0b7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(minpoly, 'LC')","hasattr(f, 'primitive')","hasattr(g, 'primitive')","hasattr(f, 'trunc_ground')","hasattr(g, 'trunc_ground')","hasattr(minpoly, 'trunc_ground')","hasattr(f, 'mul_ground')","hasattr(g, 'mul_ground')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'monom[0] == LM[0] and coeff.LM > tuple(LM[1:])', 'gamma.trunc_ground(p) == 0', 'k == 0', 'hp is None', 'k > 0', 'LMhq == LM', 'hp == 1', 'hm is None', 'isinstance(domain, PolynomialRing)'}, fibers={'PolynomialRing'})"]}}
 def _func_field_modgcd_m(f, g, minpoly):
     r"""
     Compute the GCD of two polynomials in
@@ -2319,7 +2563,13 @@ def _func_field_modgcd_m(f, g, minpoly):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_ZZ_poly(f, ), compute an associate of a polynomial `f \in \mathbb q(\alpha)[x_0, \ldots, x_{n-1}]` in `\mathbb z[x_1, \ldots, x_{n-1}][z] / (\check m_{\alpha}(z))[x_0]`, where `\check m_{\alpha}(z) \in \mathbb z[z]) over {Any | isinstance(ring.domain, PolynomialRing)} ║
+# ║ Path(_to_ZZ_poly(f, ring), <unspecified:_to_ZZ_poly>) over {Any | isinstance(ring.domain, PolynomialRing) and hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(f, 'itercoeffs') and hasattr(f, 'iterterms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(f, 'itercoeffs')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_ZZ_poly : {Any | isinstance(ring.domain, Polynomi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2331,9 +2581,12 @@ def _func_field_modgcd_m(f, g, minpoly):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f9f053d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._to_ZZ_poly","kind":"function","src_hash":"a846d7eb23cd0943","in":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing)"},"out":{"base":"Any"},"spec":{"lhs":"_to_ZZ_poly(f, )","rhs":"compute an associate of a polynomial `f \\in \\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` in `\\mathbb z[x_1, \\ldots, x_{n-1}][z] / (\\check m_{\\alpha}(z))[x_0]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]","over":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing)"},"name":"_to_ZZ_poly_correct"},"guarantee":"compute an associate of a polynomial `f \\in \\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` in `\\mathbb z[x_1, \\ldots, x_{n-1}][z] / (\\check m_{\\alpha}(z))[x_0]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]","fibers":[{"name":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)","path":{"lhs":"_to_ZZ_poly(x)","rhs":"compute an associate of a polynomial `f \\in \\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` in `\\mathbb z[x_1, \\ldots, x_{n-1}][z] / (\\check m_{\\alpha}(z))[x_0]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]","over":{"base":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)"},"name":"_to_ZZ_poly_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._to_ZZ_poly_PolynomialRing_correct","statement":"_to_ZZ_poly satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f9f053d26033ca9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._to_ZZ_poly","kind":"function","src_hash":"a846d7eb23cd0943","in":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing) and hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(f, 'itercoeffs') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"_to_ZZ_poly(f, ring)","rhs":"<unspecified:_to_ZZ_poly>","over":{"base":"Any","pred":"isinstance(ring.domain, PolynomialRing) and hasattr(ring, 'zero') and hasattr(ring, 'domain') and hasattr(f, 'itercoeffs') and hasattr(f, 'iterterms')"},"name":"_to_ZZ_poly_correct"},"guarantee":"compute an associate of a polynomial `f \\in \\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` in `\\mathbb z[x_1, \\ldots, x_{n-1}][z] / (\\check m_{\\alpha}(z))[x_0]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]","fibers":[{"name":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)","path":{"lhs":"_to_ZZ_poly(x)","rhs":"compute an associate of a polynomial `f \\in \\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` in `\\mathbb z[x_1, \\ldots, x_{n-1}][z] / (\\check m_{\\alpha}(z))[x_0]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]","over":{"base":"PolynomialRing","pred":"isinstance(ring.domain, PolynomialRing)"},"name":"_to_ZZ_poly_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._to_ZZ_poly_PolynomialRing_correct","statement":"_to_ZZ_poly satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f9f053d26033ca9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'zero')","hasattr(ring, 'domain')","hasattr(f, 'itercoeffs')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itercoeffs","f.iterterms","ring.domain","ring.zero"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(ring.domain, PolynomialRing)'}, fibers={'PolynomialRing'})"]}}
 def _to_ZZ_poly(f, ring):
     r"""
     Compute an associate of a polynomial
@@ -2393,7 +2646,13 @@ def _to_ZZ_poly(f, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_ANP_poly(f, ), convert a polynomial `f \in \mathbb z[x_1, \ldots, x_{n-1}][z]/(\check m_{\alpha}(z))[x_0]` to a polynomial in `\mathbb q(\alpha)[x_0, \ldots, x_{n-1}]`, where `\check m_{\alpha}(z) \in \mathbb z[z]` ) over {Any | isinstance(f.ring.domain, PolynomialRing)} ║
+# ║ Path(_to_ANP_poly(f, ring), <unspecified:_to_ANP_poly>) over {Any | isinstance(f.ring.domain, PolynomialRing) and hasattr(ring, 'domain') and hasattr(ring, 'zero') and hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_ANP_poly : {Any | isinstance(f.ring.domain, Polyn...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2405,9 +2664,12 @@ def _to_ZZ_poly(f, ring):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c16c3685...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._to_ANP_poly","kind":"function","src_hash":"cd279a494c74c43d","in":{"base":"Any","pred":"isinstance(f.ring.domain, PolynomialRing)"},"out":{"base":"Any"},"spec":{"lhs":"_to_ANP_poly(f, )","rhs":"convert a polynomial `f \\in \\mathbb z[x_1, \\ldots, x_{n-1}][z]/(\\check m_{\\alpha}(z))[x_0]` to a polynomial in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]` ","over":{"base":"Any","pred":"isinstance(f.ring.domain, PolynomialRing)"},"name":"_to_ANP_poly_correct"},"guarantee":"convert a polynomial `f \\in \\mathbb z[x_1, \\ldots, x_{n-1}][z]/(\\check m_{\\alpha}(z))[x_0]` to a polynomial in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]` ","fibers":[{"name":"PolynomialRing","pred":"isinstance(f.ring.domain, PolynomialRing)","path":{"lhs":"_to_ANP_poly(x)","rhs":"convert a polynomial `f \\in \\mathbb z[x_1, \\ldots, x_{n-1}][z]/(\\check m_{\\alpha}(z))[x_0]` to a polynomial in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]` ","over":{"base":"PolynomialRing","pred":"isinstance(f.ring.domain, PolynomialRing)"},"name":"_to_ANP_poly_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._to_ANP_poly_PolynomialRing_correct","statement":"_to_ANP_poly satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c16c3685e151a03f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._to_ANP_poly","kind":"function","src_hash":"cd279a494c74c43d","in":{"base":"Any","pred":"isinstance(f.ring.domain, PolynomialRing) and hasattr(ring, 'domain') and hasattr(ring, 'zero') and hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"_to_ANP_poly(f, ring)","rhs":"<unspecified:_to_ANP_poly>","over":{"base":"Any","pred":"isinstance(f.ring.domain, PolynomialRing) and hasattr(ring, 'domain') and hasattr(ring, 'zero') and hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"_to_ANP_poly_correct"},"guarantee":"convert a polynomial `f \\in \\mathbb z[x_1, \\ldots, x_{n-1}][z]/(\\check m_{\\alpha}(z))[x_0]` to a polynomial in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]` ","fibers":[{"name":"PolynomialRing","pred":"isinstance(f.ring.domain, PolynomialRing)","path":{"lhs":"_to_ANP_poly(x)","rhs":"convert a polynomial `f \\in \\mathbb z[x_1, \\ldots, x_{n-1}][z]/(\\check m_{\\alpha}(z))[x_0]` to a polynomial in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]`, where `\\check m_{\\alpha}(z) \\in \\mathbb z[z]` ","over":{"base":"PolynomialRing","pred":"isinstance(f.ring.domain, PolynomialRing)"},"name":"_to_ANP_poly_PolynomialRing_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._to_ANP_poly_PolynomialRing_correct","statement":"_to_ANP_poly satisfies spec on PolynomialRing inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c16c3685e151a03f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'domain')","hasattr(ring, 'zero')","hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring","ring.domain","ring.zero"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(f.ring.domain, PolynomialRing)'}, fibers={'PolynomialRing'})"]}}
 def _to_ANP_poly(f, ring):
     r"""
     Convert a polynomial
@@ -2460,16 +2722,25 @@ def _to_ANP_poly(f, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_from_dense(min), change representation of the minimal polynomial from ``dmp`` to ``polyelement`` for a given ring) over Any ║
+# ║ Path(_minpoly_from_dense(minpoly, ring), <unspecified:_minpoly_from_dense>) over {Any | hasattr(ring, 'zero') and hasattr(minpoly, 'terms') and hasattr(ring, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_from_dense : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(minpoly, 'terms')                      ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_from_dense : {Any | hasattr(ring, 'zero') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76264cab62f9ecdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._minpoly_from_dense","kind":"function","src_hash":"78625f671a96a058","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_from_dense(min)","rhs":"change representation of the minimal polynomial from ``dmp`` to ``polyelement`` for a given ring","over":{"base":"Any"},"name":"_minpoly_from_dense_correct"},"guarantee":"change representation of the minimal polynomial from ``dmp`` to ``polyelement`` for a given ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._minpoly_from_dense_correct","statement":"Path(_minpoly_from_dense(x), change representation of the minimal polynomial from ``dmp`` to ``polyelement`` for a given ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76264cab62f9ecdf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._minpoly_from_dense","kind":"function","src_hash":"78625f671a96a058","in":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(minpoly, 'terms') and hasattr(ring, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_from_dense(minpoly, ring)","rhs":"<unspecified:_minpoly_from_dense>","over":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(minpoly, 'terms') and hasattr(ring, 'domain')"},"name":"_minpoly_from_dense_correct"},"guarantee":"change representation of the minimal polynomial from ``dmp`` to ``polyelement`` for a given ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._minpoly_from_dense_correct","statement":"Path(_minpoly_from_dense(x), change representation of the minimal polynomial from ``dmp`` to ``polyelement`` for a given ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76264cab62f9ecdf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'zero')","hasattr(minpoly, 'terms')","hasattr(ring, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["minpoly.terms","ring.domain","ring.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _minpoly_from_dense(minpoly, ring):
     r"""
     Change representation of the minimal polynomial from ``DMP`` to
@@ -2484,16 +2755,25 @@ def _minpoly_from_dense(minpoly, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primitive_in_x0(f), compute the content in `x_0` and the primitive part of a polynomial `f` in `\mathbb q(\alpha)[x_0, x_1, \ldots, x_{n-1}] \cong \mathbb q(\alpha)[x_1, \ldots, x_{n-1}][x_0]`) over Any ║
+# ║ Path(_primitive_in_x0(f), <unspecified:_primitive_in_x0>) over {Any | hasattr(f, 'ring') and hasattr(f, 'as_expr') and hasattr(f, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _primitive_in_x0 : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'as_expr')                          ║
+# ║   requires: hasattr(f, 'quo')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _primitive_in_x0 : {Any | hasattr(f, 'ring') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f79bc3c96ca648e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._primitive_in_x0","kind":"function","src_hash":"8dc598d34b1f81e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_in_x0(f)","rhs":"compute the content in `x_0` and the primitive part of a polynomial `f` in `\\mathbb q(\\alpha)[x_0, x_1, \\ldots, x_{n-1}] \\cong \\mathbb q(\\alpha)[x_1, \\ldots, x_{n-1}][x_0]`","over":{"base":"Any"},"name":"_primitive_in_x0_correct"},"guarantee":"compute the content in `x_0` and the primitive part of a polynomial `f` in `\\mathbb q(\\alpha)[x_0, x_1, \\ldots, x_{n-1}] \\cong \\mathbb q(\\alpha)[x_1, \\ldots, x_{n-1}][x_0]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._primitive_in_x0_correct","statement":"Path(_primitive_in_x0(x), compute the content in `x_0` and the primitive part of a polynomial `f` in `\\mathbb q(\\alpha)[x_0, x_1, \\ldots, x_{n-1}] \\cong \\mathbb q(\\alpha)[x_1, \\ldots, x_{n-1}][x_0]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f79bc3c96ca648e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd._primitive_in_x0","kind":"function","src_hash":"8dc598d34b1f81e7","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'as_expr') and hasattr(f, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_in_x0(f)","rhs":"<unspecified:_primitive_in_x0>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'as_expr') and hasattr(f, 'quo')"},"name":"_primitive_in_x0_correct"},"guarantee":"compute the content in `x_0` and the primitive part of a polynomial `f` in `\\mathbb q(\\alpha)[x_0, x_1, \\ldots, x_{n-1}] \\cong \\mathbb q(\\alpha)[x_1, \\ldots, x_{n-1}][x_0]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd._primitive_in_x0_correct","statement":"Path(_primitive_in_x0(x), compute the content in `x_0` and the primitive part of a polynomial `f` in `\\mathbb q(\\alpha)[x_0, x_1, \\ldots, x_{n-1}] \\cong \\mathbb q(\\alpha)[x_1, \\ldots, x_{n-1}][x_0]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f79bc3c96ca648e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'as_expr')","hasattr(f, 'quo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_expr","f.quo","f.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _primitive_in_x0(f):
     r"""
     Compute the content in `x_0` and the primitive part of a polynomial `f`
@@ -2516,16 +2796,25 @@ def _primitive_in_x0(f):
 
 # TODO: add support for algebraic function fields
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func_field_modgcd(f, ), compute the gcd of two polynomials `f` and `g` in `\mathbb q(\alpha)[x_0, \ldots, x_{n-1}]` using a modular algorithm) over Any ║
+# ║ Path(func_field_modgcd(f, g), ring == g.ring and domain.is_Algebraic) over {Any | hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'quo') and hasattr(g, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ func_field_modgcd : Any → {Any | ring == g.ring and d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(g, 'ring')                             ║
+# ║   requires: hasattr(f, 'quo')                              ║
+# ║   ensures:  ring == g.ring and domain.is_Algebraic         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ func_field_modgcd : {Any | hasattr(f, 'ring') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf4227b52c098ea4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57a731f0d5f362d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.func_field_modgcd","kind":"function","src_hash":"562b5df56b1ae17f","in":{"base":"Any"},"out":{"base":"Any","pred":"ring == g.ring and domain.is_Algebraic"},"spec":{"lhs":"func_field_modgcd(f, )","rhs":"compute the gcd of two polynomials `f` and `g` in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` using a modular algorithm","over":{"base":"Any"},"name":"func_field_modgcd_correct"},"guarantee":"compute the gcd of two polynomials `f` and `g` in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` using a modular algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.func_field_modgcd_correct","statement":"Path(func_field_modgcd(x), compute the gcd of two polynomials `f` and `g` in `\\mathbb q(\\alpha)[x_0, \\ldots, x_{n-1}]` using a modular algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4227b52c098ea4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.modulargcd.func_field_modgcd","kind":"function","src_hash":"562b5df56b1ae17f","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'quo') and hasattr(g, 'quo')"},"out":{"base":"Any","pred":"result satisfies: ring == g.ring and domain.is_Algebraic"},"spec":{"lhs":"func_field_modgcd(f, g)","rhs":"ring == g.ring and domain.is_Algebraic","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'quo') and hasattr(g, 'quo')"},"name":"func_field_modgcd_correct"},"guarantee":"ring == g.ring and domain.is_Algebraic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.modulargcd.func_field_modgcd_correct","statement":"Path(func_field_modgcd(x), ring == g.ring and domain.is_Algebraic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57a731f0d5f362d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(g, 'ring')","hasattr(f, 'quo')","hasattr(g, 'quo')"],"ensures":["ring == g.ring and domain.is_Algebraic"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.quo","f.ring","g.quo","g.ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def func_field_modgcd(f, g):
     r"""
     Compute the GCD of two polynomials `f` and `g` in

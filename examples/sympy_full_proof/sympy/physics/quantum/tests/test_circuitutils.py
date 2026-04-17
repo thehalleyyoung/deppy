@@ -29,32 +29,44 @@ from sympy.testing.pytest import slow
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(create_gate_sequence(qub), create_gate_sequence produces the expected output) over Any ║
+# ║ Path(create_gate_sequence(qubit), <unspecified:create_gate_sequence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ create_gate_sequence : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d8336f69780bbfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.create_gate_sequence","kind":"function","src_hash":"33ae24964a387b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_gate_sequence(qub)","rhs":"create_gate_sequence produces the expected output","over":{"base":"Any"},"name":"create_gate_sequence_correct"},"guarantee":"create_gate_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.create_gate_sequence_correct","statement":"Path(create_gate_sequence(x), create_gate_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8336f69780bbfa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.create_gate_sequence","kind":"function","src_hash":"33ae24964a387b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_gate_sequence(qubit)","rhs":"<unspecified:create_gate_sequence>","over":{"base":"Any"},"name":"create_gate_sequence_correct"},"guarantee":"create_gate_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.create_gate_sequence_correct","statement":"Path(create_gate_sequence(x), create_gate_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8336f69780bbfa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def create_gate_sequence(qubit=0):
     gates = (X(qubit), Y(qubit), Z(qubit), H(qubit))
     return gates
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kmp_table(), test_kmp_table produces the expected output) over Any ║
+# ║ Path(test_kmp_table(), expected_table == kmp_table(word)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kmp_table : Any → {Any | expected_table == kmp_t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expected_table == kmp_table(word)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kmp_table : Any → {Any | result satisfies: expec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0d265cebd77b12e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfa43d0eb6b7365e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_kmp_table","kind":"function","src_hash":"3638b6f24ca5e3c1","in":{"base":"Any"},"out":{"base":"Any","pred":"expected_table == kmp_table(word) and expected_table == kmp_table(word) and expected_table == kmp_table(word) and expected_table == kmp_table(word)"},"spec":{"lhs":"test_kmp_table()","rhs":"test_kmp_table produces the expected output","over":{"base":"Any"},"name":"test_kmp_table_correct"},"guarantee":"test_kmp_table produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_kmp_table_correct","statement":"Path(test_kmp_table(x), test_kmp_table produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d265cebd77b12e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_kmp_table","kind":"function","src_hash":"3638b6f24ca5e3c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expected_table == kmp_table(word)"},"spec":{"lhs":"test_kmp_table()","rhs":"expected_table == kmp_table(word)","over":{"base":"Any"},"name":"test_kmp_table_correct"},"guarantee":"expected_table == kmp_table(word)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_kmp_table_correct","statement":"Path(test_kmp_table(x), expected_table == kmp_table(word))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfa43d0eb6b7365e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expected_table == kmp_table(word)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_kmp_table():
     word = ('a', 'b', 'c', 'd', 'a', 'b', 'd')
     expected_table = [-1, 0, 0, 0, 0, 1, 2]
@@ -80,16 +92,24 @@ def test_kmp_table():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_subcircuit(), test_find_subcircuit produces the expected output) over Any ║
+# ║ Path(test_find_subcircuit(), find_subcircuit(circuit, (x,)) == 0 and find_subcircuit(circuit, (x1,)) == -1 and find_subcircuit(circuit, (y,)) == 1 and find_subcircuit(circuit, (h,)) == -1 and find_subcircuit(circuit, Mul(x, h)) == -1 and find_subcircuit(circuit, Mul(x, y, z)) == 0 and find_subcircuit(circuit, Mul(y, z)) == 1 and find_subcircuit(Mul(*circuit), (x, y, z, h)) == -1 and find_subcircuit(Mul(*circuit), (z, y, x)) == -1 and find_subcircuit(circuit, (x,), start=2, end=1) == -1 and find_subcircuit(Mul(*circuit), Mul(x, y, z)) == 2 and find_subcircuit(circuit, (x,), start=1) == 2 and find_subcircuit(circuit, (x, y), start=1, end=2) == -1 and find_subcircuit(Mul(*circuit), (x, y), start=1, end=3) == -1 and find_subcircuit(circuit, (x, y), start=1, end=4) == 2 and find_subcircuit(circuit, (x, y), start=2, end=4) == 2 and find_subcircuit(circuit, (x, y, z, h, y1)) == 11 and find_subcircuit(circuit, (x_i0, y_i0, z_i0)) == 2 and result == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_find_subcircuit : Any → {Any | find_subcircuit(c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_subcircuit(circuit, (x,)) == 0            ║
+# ║   ensures:  find_subcircuit(circuit, (x1,)) == -1          ║
+# ║   ensures:  find_subcircuit(circuit, (y,)) == 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_find_subcircuit : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d389ffb27d8f6d0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 452a9de266146144  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_find_subcircuit","kind":"function","src_hash":"5a5d6548f90d524f","in":{"base":"Any"},"out":{"base":"Any","pred":"find_subcircuit(circuit, (x,)) == 0 and find_subcircuit(circuit, (x1,)) == -1 and find_subcircuit(circuit, (y,)) == 1 and find_subcircuit(circuit, (h,)) == -1 and find_subcircuit(circuit, Mul(x, h)) == -1 and find_subcircuit(circuit, Mul(x, y, z)) == 0 and find_subcircuit(circuit, Mul(y, z)) == 1 and find_subcircuit(Mul(*circuit), (x, y, z, h)) == -1 and find_subcircuit(Mul(*circuit), (z, y, x)) == -1 and find_subcircuit(circuit, (x,), start=2, end=1) == -1 and find_subcircuit(Mul(*circuit), Mul(x, y, z)) == 2 and find_subcircuit(circuit, (x,), start=1) == 2 and find_subcircuit(circuit, (x, y), start=1, end=2) == -1 and find_subcircuit(Mul(*circuit), (x, y), start=1, end=3) == -1 and find_subcircuit(circuit, (x, y), start=1, end=4) == 2 and find_subcircuit(circuit, (x, y), start=2, end=4) == 2 and find_subcircuit(circuit, (x, y, z, h, y1)) == 11 and find_subcircuit(circuit, (x_i0, y_i0, z_i0)) == 2 and result == 0"},"spec":{"lhs":"test_find_subcircuit()","rhs":"test_find_subcircuit produces the expected output","over":{"base":"Any"},"name":"test_find_subcircuit_correct"},"guarantee":"test_find_subcircuit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_find_subcircuit_correct","statement":"Path(test_find_subcircuit(x), test_find_subcircuit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d389ffb27d8f6d0a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_find_subcircuit","kind":"function","src_hash":"5a5d6548f90d524f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_subcircuit(circuit, (x,)) == 0 and find_subcircuit(circuit, (x1,)) == -1 and find_subcircuit(circuit, (y,)) == 1 and find_subcircuit(circuit, (h,)) == -1 and find_subcircuit(circuit, Mul(x, h)) == -1 and find_subcircuit(circuit, Mul(x, y, z)) == 0 and find_subcircuit(circuit, Mul(y, z)) == 1 and find_subcircuit(Mul(*circuit), (x, y, z, h)) == -1 and find_subcircuit(Mul(*circuit), (z, y, x)) == -1 and find_subcircuit(circuit, (x,), start=2, end=1) == -1 and find_subcircuit(Mul(*circuit), Mul(x, y, z)) == 2 and find_subcircuit(circuit, (x,), start=1) == 2 and find_subcircuit(circuit, (x, y), start=1, end=2) == -1 and find_subcircuit(Mul(*circuit), (x, y), start=1, end=3) == -1 and find_subcircuit(circuit, (x, y), start=1, end=4) == 2 and find_subcircuit(circuit, (x, y), start=2, end=4) == 2 and find_subcircuit(circuit, (x, y, z, h, y1)) == 11 and find_subcircuit(circuit, (x_i0, y_i0, z_i0)) == 2 and result == 0"},"spec":{"lhs":"test_find_subcircuit()","rhs":"find_subcircuit(circuit, (x,)) == 0 and find_subcircuit(circuit, (x1,)) == -1 and find_subcircuit(circuit, (y,)) == 1 and find_subcircuit(circuit, (h,)) == -1 and find_subcircuit(circuit, Mul(x, h)) == -1 and find_subcircuit(circuit, Mul(x, y, z)) == 0 and find_subcircuit(circuit, Mul(y, z)) == 1 and find_subcircuit(Mul(*circuit), (x, y, z, h)) == -1 and find_subcircuit(Mul(*circuit), (z, y, x)) == -1 and find_subcircuit(circuit, (x,), start=2, end=1) == -1 and find_subcircuit(Mul(*circuit), Mul(x, y, z)) == 2 and find_subcircuit(circuit, (x,), start=1) == 2 and find_subcircuit(circuit, (x, y), start=1, end=2) == -1 and find_subcircuit(Mul(*circuit), (x, y), start=1, end=3) == -1 and find_subcircuit(circuit, (x, y), start=1, end=4) == 2 and find_subcircuit(circuit, (x, y), start=2, end=4) == 2 and find_subcircuit(circuit, (x, y, z, h, y1)) == 11 and find_subcircuit(circuit, (x_i0, y_i0, z_i0)) == 2 and result == 0","over":{"base":"Any"},"name":"test_find_subcircuit_correct"},"guarantee":"find_subcircuit(circuit, (x,)) == 0; find_subcircuit(circuit, (x1,)) == -1; find_subcircuit(circuit, (y,)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_find_subcircuit_correct","statement":"Path(test_find_subcircuit(x), find_subcircuit(circuit, (x,)) == 0; find_subcircuit(circuit, (x1,)) == -1; find_subcircuit(circuit, (y,)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"452a9de266146144","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_subcircuit(circuit, (x,)) == 0","find_subcircuit(circuit, (x1,)) == -1","find_subcircuit(circuit, (y,)) == 1","find_subcircuit(circuit, (h,)) == -1","find_subcircuit(circuit, Mul(x, h)) == -1","find_subcircuit(circuit, Mul(x, y, z)) == 0","find_subcircuit(circuit, Mul(y, z)) == 1","find_subcircuit(Mul(*circuit), (x, y, z, h)) == -1","find_subcircuit(Mul(*circuit), (z, y, x)) == -1","find_subcircuit(circuit, (x,), start=2, end=1) == -1","find_subcircuit(Mul(*circuit), Mul(x, y, z)) == 2","find_subcircuit(circuit, (x,), start=1) == 2","find_subcircuit(circuit, (x, y), start=1, end=2) == -1","find_subcircuit(Mul(*circuit), (x, y), start=1, end=3) == -1","find_subcircuit(circuit, (x, y), start=1, end=4) == 2","find_subcircuit(circuit, (x, y), start=2, end=4) == 2","find_subcircuit(circuit, (x, y, z, h, y1)) == 11","find_subcircuit(circuit, (x_i0, y_i0, z_i0)) == 2","result == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_find_subcircuit():
     x = X(0)
     y = Y(0)
@@ -139,16 +159,24 @@ def test_find_subcircuit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_replace_subcircuit(), test_replace_subcircuit produces the expected output) over Any ║
+# ║ Path(test_replace_subcircuit(), replace_subcircuit(circuit, Mul(*remove)) == (x,) and replace_subcircuit(circuit, remove + (x,)) == () and replace_subcircuit(circuit, remove, pos=1) == circuit and replace_subcircuit(circuit, remove, pos=0) == (x,) and replace_subcircuit(circuit, (x, x), pos=2) == (z, y) and replace_subcircuit(circuit, (h,)) == circuit and replace_subcircuit(Mul(*circuit), Mul(*remove)) == (x, y) and replace_subcircuit(circuit, remove) == (z,) and replace_subcircuit(circuit, Mul(*remove), pos=-1) == (h, cnot) and replace_subcircuit(circuit, remove) == circuit and replace_subcircuit(circuit, remove) == (x,) and actual == (x, h, x) and actual == (cnot, cgate_z, h, x, y, z) and actual == (x, y, h, cnot, cgate_z, z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_replace_subcircuit : Any → {Any | replace_subcir...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  replace_subcircuit(circuit, Mul(*remove))...   ║
+# ║   ensures:  replace_subcircuit(circuit, remove + (x,)...   ║
+# ║   ensures:  replace_subcircuit(circuit, remove, pos=1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_replace_subcircuit : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c79bf7f90c943bdd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5004a1ce0fe844c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_replace_subcircuit","kind":"function","src_hash":"01c9aa84a5d3c76d","in":{"base":"Any"},"out":{"base":"Any","pred":"replace_subcircuit(circuit, Mul(*remove)) == (x,) and replace_subcircuit(circuit, remove + (x,)) == () and replace_subcircuit(circuit, remove, pos=1) == circuit and replace_subcircuit(circuit, remove, pos=0) == (x,) and replace_subcircuit(circuit, (x, x), pos=2) == (z, y) and replace_subcircuit(circuit, (h,)) == circuit and replace_subcircuit(Mul(*circuit), Mul(*remove)) == (x, y) and replace_subcircuit(circuit, remove) == (z,) and replace_subcircuit(circuit, Mul(*remove), pos=-1) == (h, cnot) and replace_subcircuit(circuit, remove, pos=1) == circuit and replace_subcircuit(circuit, remove) == circuit and replace_subcircuit(circuit, remove) == (x,) and actual == (x, h, x) and actual == (cnot, cgate_z, h, x, y, z) and actual == (x, y, h, cnot, cgate_z, z)"},"spec":{"lhs":"test_replace_subcircuit()","rhs":"test_replace_subcircuit produces the expected output","over":{"base":"Any"},"name":"test_replace_subcircuit_correct"},"guarantee":"test_replace_subcircuit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_replace_subcircuit_correct","statement":"Path(test_replace_subcircuit(x), test_replace_subcircuit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79bf7f90c943bdd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_replace_subcircuit","kind":"function","src_hash":"01c9aa84a5d3c76d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: replace_subcircuit(circuit, Mul(*remove)) == (x,) and replace_subcircuit(circuit, remove + (x,)) == () and replace_subcircuit(circuit, remove, pos=1) == circuit and replace_subcircuit(circuit, remove, pos=0) == (x,) and replace_subcircuit(circuit, (x, x), pos=2) == (z, y) and replace_subcircuit(circuit, (h,)) == circuit and replace_subcircuit(Mul(*circuit), Mul(*remove)) == (x, y) and replace_subcircuit(circuit, remove) == (z,) and replace_subcircuit(circuit, Mul(*remove), pos=-1) == (h, cnot) and replace_subcircuit(circuit, remove) == circuit and replace_subcircuit(circuit, remove) == (x,) and actual == (x, h, x) and actual == (cnot, cgate_z, h, x, y, z) and actual == (x, y, h, cnot, cgate_z, z)"},"spec":{"lhs":"test_replace_subcircuit()","rhs":"replace_subcircuit(circuit, Mul(*remove)) == (x,) and replace_subcircuit(circuit, remove + (x,)) == () and replace_subcircuit(circuit, remove, pos=1) == circuit and replace_subcircuit(circuit, remove, pos=0) == (x,) and replace_subcircuit(circuit, (x, x), pos=2) == (z, y) and replace_subcircuit(circuit, (h,)) == circuit and replace_subcircuit(Mul(*circuit), Mul(*remove)) == (x, y) and replace_subcircuit(circuit, remove) == (z,) and replace_subcircuit(circuit, Mul(*remove), pos=-1) == (h, cnot) and replace_subcircuit(circuit, remove) == circuit and replace_subcircuit(circuit, remove) == (x,) and actual == (x, h, x) and actual == (cnot, cgate_z, h, x, y, z) and actual == (x, y, h, cnot, cgate_z, z)","over":{"base":"Any"},"name":"test_replace_subcircuit_correct"},"guarantee":"replace_subcircuit(circuit, Mul(*remove)) == (x,); replace_subcircuit(circuit, remove + (x,)) == (); replace_subcircuit(circuit, remove, pos=1) == circuit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_replace_subcircuit_correct","statement":"Path(test_replace_subcircuit(x), replace_subcircuit(circuit, Mul(*remove)) == (x,); replace_subcircuit(circuit, remove + (x,)) == (); replace_subcircuit(circuit, remove, pos=1) == circuit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5004a1ce0fe844c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["replace_subcircuit(circuit, Mul(*remove)) == (x,)","replace_subcircuit(circuit, remove + (x,)) == ()","replace_subcircuit(circuit, remove, pos=1) == circuit","replace_subcircuit(circuit, remove, pos=0) == (x,)","replace_subcircuit(circuit, (x, x), pos=2) == (z, y)","replace_subcircuit(circuit, (h,)) == circuit","replace_subcircuit(Mul(*circuit), Mul(*remove)) == (x, y)","replace_subcircuit(circuit, remove) == (z,)","replace_subcircuit(circuit, Mul(*remove), pos=-1) == (h, cnot)","replace_subcircuit(circuit, remove) == circuit","replace_subcircuit(circuit, remove) == (x,)","actual == (x, h, x)","actual == (cnot, cgate_z, h, x, y, z)","actual == (x, y, h, cnot, cgate_z, z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_replace_subcircuit():
     x = X(0)
     y = Y(0)
@@ -200,16 +228,24 @@ def test_replace_subcircuit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_to_symbolic_indices(), test_convert_to_symbolic_indices produces the expected output) over Any ║
+# ║ Path(test_convert_to_symbolic_indices(), actual == (X(i0),) and act_map == exp_map and actual == expected and exp_map == act_map) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_to_symbolic_indices : Any → {Any | actua...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  actual == (X(i0),)                             ║
+# ║   ensures:  act_map == exp_map                             ║
+# ║   ensures:  actual == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_to_symbolic_indices : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bef227d3c56e1f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c1d9a3e061768a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_symbolic_indices","kind":"function","src_hash":"386ce5265bb16187","in":{"base":"Any"},"out":{"base":"Any","pred":"actual == (X(i0),) and act_map == exp_map and actual == expected and exp_map == act_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map and actual == expected and act_map == exp_map"},"spec":{"lhs":"test_convert_to_symbolic_indices()","rhs":"test_convert_to_symbolic_indices produces the expected output","over":{"base":"Any"},"name":"test_convert_to_symbolic_indices_correct"},"guarantee":"test_convert_to_symbolic_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_symbolic_indices_correct","statement":"Path(test_convert_to_symbolic_indices(x), test_convert_to_symbolic_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bef227d3c56e1f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_symbolic_indices","kind":"function","src_hash":"386ce5265bb16187","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: actual == (X(i0),) and act_map == exp_map and actual == expected and exp_map == act_map"},"spec":{"lhs":"test_convert_to_symbolic_indices()","rhs":"actual == (X(i0),) and act_map == exp_map and actual == expected and exp_map == act_map","over":{"base":"Any"},"name":"test_convert_to_symbolic_indices_correct"},"guarantee":"actual == (X(i0),); act_map == exp_map; actual == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_symbolic_indices_correct","statement":"Path(test_convert_to_symbolic_indices(x), actual == (X(i0),); act_map == exp_map; actual == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c1d9a3e061768a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["actual == (X(i0),)","act_map == exp_map","actual == expected","exp_map == act_map"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":true}}
 def test_convert_to_symbolic_indices():
     (x, y, z, h) = create_gate_sequence()
 
@@ -337,16 +373,22 @@ def test_convert_to_symbolic_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_to_real_indices(), test_convert_to_real_indices produces the expected output) over Any ║
+# ║ Path(test_convert_to_real_indices(), actual == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_to_real_indices : Any → {Any | actual ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  actual == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_to_real_indices : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc4601423227017d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15692c1d0ae02afe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_real_indices","kind":"function","src_hash":"480d48709283739e","in":{"base":"Any"},"out":{"base":"Any","pred":"actual == expected and actual == expected and actual == expected and actual == expected and actual == expected and actual == expected and actual == expected"},"spec":{"lhs":"test_convert_to_real_indices()","rhs":"test_convert_to_real_indices produces the expected output","over":{"base":"Any"},"name":"test_convert_to_real_indices_correct"},"guarantee":"test_convert_to_real_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_real_indices_correct","statement":"Path(test_convert_to_real_indices(x), test_convert_to_real_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc4601423227017d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_real_indices","kind":"function","src_hash":"480d48709283739e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: actual == expected"},"spec":{"lhs":"test_convert_to_real_indices()","rhs":"actual == expected","over":{"base":"Any"},"name":"test_convert_to_real_indices_correct"},"guarantee":"actual == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_convert_to_real_indices_correct","statement":"Path(test_convert_to_real_indices(x), actual == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15692c1d0ae02afe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["actual == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_convert_to_real_indices():
     i0 = Symbol('i0')
     i1 = Symbol('i1')
@@ -413,16 +455,24 @@ def test_convert_to_real_indices():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random_reduce(), test_random_reduce produces the expected output) over Any ║
+# ║ Path(test_random_reduce(), random_reduce(circuit, []) == circuit and random_reduce(circuit, ids) == circuit and random_reduce(circuit, ids, seed=seq) == (x, y, h) and random_reduce(circuit, ids, seed=seq) == (x, x, y, y) and random_reduce(circuit, ids, seed=seq) == (y, y, z, z) and random_reduce(circuit, ids, seed=seq) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_random_reduce : Any → {Any | random_reduce(circu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  random_reduce(circuit, []) == circuit          ║
+# ║   ensures:  random_reduce(circuit, ids) == circuit         ║
+# ║   ensures:  random_reduce(circuit, ids, seed=seq) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_random_reduce : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b91b9d6190279a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 930ecd44a00c61ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_random_reduce","kind":"function","src_hash":"cd70195873992163","in":{"base":"Any"},"out":{"base":"Any","pred":"random_reduce(circuit, []) == circuit and random_reduce(circuit, ids) == circuit and random_reduce(circuit, ids, seed=seq) == (x, y, h) and random_reduce(circuit, ids, seed=seq) == (x, x, y, y) and random_reduce(circuit, ids, seed=seq) == (y, y, z, z) and random_reduce(circuit, ids, seed=seq) == expected and random_reduce(circuit, ids, seed=seq) == expected"},"spec":{"lhs":"test_random_reduce()","rhs":"test_random_reduce produces the expected output","over":{"base":"Any"},"name":"test_random_reduce_correct"},"guarantee":"test_random_reduce produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_random_reduce_correct","statement":"Path(test_random_reduce(x), test_random_reduce produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b91b9d6190279a9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_random_reduce","kind":"function","src_hash":"cd70195873992163","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: random_reduce(circuit, []) == circuit and random_reduce(circuit, ids) == circuit and random_reduce(circuit, ids, seed=seq) == (x, y, h) and random_reduce(circuit, ids, seed=seq) == (x, x, y, y) and random_reduce(circuit, ids, seed=seq) == (y, y, z, z) and random_reduce(circuit, ids, seed=seq) == expected"},"spec":{"lhs":"test_random_reduce()","rhs":"random_reduce(circuit, []) == circuit and random_reduce(circuit, ids) == circuit and random_reduce(circuit, ids, seed=seq) == (x, y, h) and random_reduce(circuit, ids, seed=seq) == (x, x, y, y) and random_reduce(circuit, ids, seed=seq) == (y, y, z, z) and random_reduce(circuit, ids, seed=seq) == expected","over":{"base":"Any"},"name":"test_random_reduce_correct"},"guarantee":"random_reduce(circuit, []) == circuit; random_reduce(circuit, ids) == circuit; random_reduce(circuit, ids, seed=seq) == (x, y, h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_random_reduce_correct","statement":"Path(test_random_reduce(x), random_reduce(circuit, []) == circuit; random_reduce(circuit, ids) == circuit; random_reduce(circuit, ids, seed=seq) == (x, y, h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"930ecd44a00c61ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["random_reduce(circuit, []) == circuit","random_reduce(circuit, ids) == circuit","random_reduce(circuit, ids, seed=seq) == (x, y, h)","random_reduce(circuit, ids, seed=seq) == (x, x, y, y)","random_reduce(circuit, ids, seed=seq) == (y, y, z, z)","random_reduce(circuit, ids, seed=seq) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_random_reduce():
     x = X(0)
     y = Y(0)
@@ -461,16 +511,23 @@ def test_random_reduce():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random_insert(), test_random_insert produces the expected output) over Any ║
+# ║ Path(test_random_insert(), actual == (x, x, y, y) and actual == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_random_insert : Any → {Any | actual == (x, x, y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  actual == (x, x, y, y)                         ║
+# ║   ensures:  actual == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_random_insert : Any → {Any | result satisfies: a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed83f39e9de54454  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 445bbe7655adb1b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_random_insert","kind":"function","src_hash":"e37f25d16c5f33b8","in":{"base":"Any"},"out":{"base":"Any","pred":"actual == (x, x, y, y) and actual == expected and actual == expected and actual == expected"},"spec":{"lhs":"test_random_insert()","rhs":"test_random_insert produces the expected output","over":{"base":"Any"},"name":"test_random_insert_correct"},"guarantee":"test_random_insert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_random_insert_correct","statement":"Path(test_random_insert(x), test_random_insert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed83f39e9de54454"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitutils.test_random_insert","kind":"function","src_hash":"e37f25d16c5f33b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: actual == (x, x, y, y) and actual == expected"},"spec":{"lhs":"test_random_insert()","rhs":"actual == (x, x, y, y) and actual == expected","over":{"base":"Any"},"name":"test_random_insert_correct"},"guarantee":"actual == (x, x, y, y); actual == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitutils.test_random_insert_correct","statement":"Path(test_random_insert(x), actual == (x, x, y, y); actual == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"445bbe7655adb1b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["actual == (x, x, y, y)","actual == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_random_insert():
     x = X(0)
     y = Y(0)

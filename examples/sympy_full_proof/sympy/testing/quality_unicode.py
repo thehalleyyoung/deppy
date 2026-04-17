@@ -79,16 +79,22 @@ unicode_strict_whitelist = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_this_file_encoding(fna), test helper function for unicode test) over Any ║
+# ║ Path(_test_this_file_encoding(fname, test_file, unicode_whitelist), <unspecified:_test_this_file_encoding>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_this_file_encoding : Any → {Any | False and False}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fe801caa7fe651b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.quality_unicode._test_this_file_encoding","kind":"function","src_hash":"0b3a8038407730c8","in":{"base":"Any"},"out":{"base":"Any","pred":"False and False"},"spec":{"lhs":"_test_this_file_encoding(fna)","rhs":"test helper function for unicode test","over":{"base":"Any"},"name":"_test_this_file_encoding_correct"},"guarantee":"test helper function for unicode test","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.quality_unicode._test_this_file_encoding_correct","statement":"Path(_test_this_file_encoding(x), test helper function for unicode test)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe801caa7fe651b"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.quality_unicode._test_this_file_encoding","kind":"function","src_hash":"0b3a8038407730c8","in":{"base":"Any"},"out":{"base":"Any","pred":"False and False"},"spec":{"lhs":"_test_this_file_encoding(fname, test_file, unicode_whitelist)","rhs":"<unspecified:_test_this_file_encoding>","over":{"base":"Any"},"name":"_test_this_file_encoding_correct"},"guarantee":"test helper function for unicode test","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.quality_unicode._test_this_file_encoding_correct","statement":"Path(_test_this_file_encoding(x), test helper function for unicode test)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe801caa7fe651b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _test_this_file_encoding(
     fname, test_file,
     unicode_whitelist=unicode_whitelist,

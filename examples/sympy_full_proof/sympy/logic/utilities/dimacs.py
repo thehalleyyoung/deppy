@@ -28,16 +28,23 @@ from pathlib import Path
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(load(s), loads a boolean expression from a string) over Any ║
+# ║ Path(load(s), And(*clauses)) over {Any | hasattr(s, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ load : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'split')                            ║
+# ║   returns:  And(*clauses)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ load : {Any | hasattr(s, 'split')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dffe4db36cf5a3e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25326da00462ae8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.utilities.dimacs.load","kind":"function","src_hash":"eedc73298088ef63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load(s)","rhs":"loads a boolean expression from a string","over":{"base":"Any"},"name":"load_correct"},"guarantee":"loads a boolean expression from a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.utilities.dimacs.load_correct","statement":"Path(load(x), loads a boolean expression from a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dffe4db36cf5a3e9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.utilities.dimacs.load","kind":"function","src_hash":"eedc73298088ef63","in":{"base":"Any","pred":"hasattr(s, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"load(s)","rhs":"And(*clauses)","over":{"base":"Any","pred":"hasattr(s, 'split')"},"name":"load_correct"},"guarantee":"returns And(*clauses)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.utilities.dimacs.load_correct","statement":"Path(load(x), returns And(*clauses))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25326da00462ae8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'split')"],"returns_expr":"And(*clauses)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def load(s):
     """Loads a boolean expression from a string.
 
@@ -92,16 +99,22 @@ def load(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(load_file(loc), loads a boolean expression from a file) over Any ║
+# ║ Path(load_file(location), load(s)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  load(s)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ load_file : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 542e18c6b4785d75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8097441d50ec208b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.utilities.dimacs.load_file","kind":"function","src_hash":"94a09c08c0ac715e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load_file(loc)","rhs":"loads a boolean expression from a file","over":{"base":"Any"},"name":"load_file_correct"},"guarantee":"loads a boolean expression from a file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.utilities.dimacs.load_file_correct","statement":"Path(load_file(x), loads a boolean expression from a file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"542e18c6b4785d75"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.utilities.dimacs.load_file","kind":"function","src_hash":"94a09c08c0ac715e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load_file(location)","rhs":"load(s)","over":{"base":"Any"},"name":"load_file_correct"},"guarantee":"returns load(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.utilities.dimacs.load_file_correct","statement":"Path(load_file(x), returns load(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8097441d50ec208b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"load(s)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def load_file(location):
     """Loads a boolean expression from a file."""
     s = Path(location).read_text()

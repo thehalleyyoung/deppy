@@ -61,16 +61,22 @@ f_t = sy.Function('f')(t)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theano_code_(exp), wrapper for theano_code that uses a new, empty cache by default) over Any ║
+# ║ Path(theano_code_(expr, **kwargs), theano_code(expr, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  theano_code(expr, **kwargs)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ theano_code_ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e805cf07e264f07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 123aa6b751b30771  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theano_code_","kind":"function","src_hash":"087099d218ff3f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"theano_code_(exp)","rhs":"wrapper for theano_code that uses a new, empty cache by default","over":{"base":"Any"},"name":"theano_code__correct"},"guarantee":"wrapper for theano_code that uses a new, empty cache by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theano_code__correct","statement":"Path(theano_code_(x), wrapper for theano_code that uses a new, empty cache by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e805cf07e264f07"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theano_code_","kind":"function","src_hash":"087099d218ff3f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"theano_code_(expr, **kwargs)","rhs":"theano_code(expr, **kwargs)","over":{"base":"Any"},"name":"theano_code__correct"},"guarantee":"returns theano_code(expr, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theano_code__correct","statement":"Path(theano_code_(x), returns theano_code(expr, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"123aa6b751b30771","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"theano_code(expr, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def theano_code_(expr, **kwargs):
     """ Wrapper for theano_code that uses a new, empty cache by default. """
     kwargs.setdefault('cache', {})
@@ -78,16 +84,22 @@ def theano_code_(expr, **kwargs):
         return theano_code(expr, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theano_function_(inp), wrapper for theano_function that uses a new, empty cache by default) over Any ║
+# ║ Path(theano_function_(inputs, outputs, **kwargs), theano_function(inputs, outputs, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  theano_function(inputs, outputs, **kwargs)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ theano_function_ : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c58adfaa7bbad2be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c01040e45c79daed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theano_function_","kind":"function","src_hash":"1d1fd0b832353a3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"theano_function_(inp)","rhs":"wrapper for theano_function that uses a new, empty cache by default","over":{"base":"Any"},"name":"theano_function__correct"},"guarantee":"wrapper for theano_function that uses a new, empty cache by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theano_function__correct","statement":"Path(theano_function_(x), wrapper for theano_function that uses a new, empty cache by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c58adfaa7bbad2be"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theano_function_","kind":"function","src_hash":"1d1fd0b832353a3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"theano_function_(inputs, outputs, **kwargs)","rhs":"theano_function(inputs, outputs, **kwargs)","over":{"base":"Any"},"name":"theano_function__correct"},"guarantee":"returns theano_function(inputs, outputs, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theano_function__correct","statement":"Path(theano_function_(x), returns theano_function(inputs, outputs, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c01040e45c79daed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"theano_function(inputs, outputs, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['inputs', 'outputs'], spec=['inputs', 'outputs', '**kwargs']"]}}
 def theano_function_(inputs, outputs, **kwargs):
     """ Wrapper for theano_function that uses a new, empty cache by default. """
     kwargs.setdefault('cache', {})
@@ -96,16 +108,22 @@ def theano_function_(inputs, outputs, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fgraph_of(*ex), transform sympy expressions into theano computation) over Any ║
+# ║ Path(fgraph_of(*exprs), theano.gof.FunctionGraph(ins, outs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  theano.gof.FunctionGraph(ins, outs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fgraph_of : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8320337331071e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e404985057fe59b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.fgraph_of","kind":"function","src_hash":"40763284f478293d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fgraph_of(*ex)","rhs":"transform sympy expressions into theano computation","over":{"base":"Any"},"name":"fgraph_of_correct"},"guarantee":"transform sympy expressions into theano computation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.fgraph_of_correct","statement":"Path(fgraph_of(x), transform sympy expressions into theano computation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8320337331071e9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.fgraph_of","kind":"function","src_hash":"40763284f478293d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fgraph_of(*exprs)","rhs":"theano.gof.FunctionGraph(ins, outs)","over":{"base":"Any"},"name":"fgraph_of_correct"},"guarantee":"returns theano.gof.FunctionGraph(ins, outs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.fgraph_of_correct","statement":"Path(fgraph_of(x), returns theano.gof.FunctionGraph(ins, outs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e404985057fe59b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"theano.gof.FunctionGraph(ins, outs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*exprs']"]}}
 def fgraph_of(*exprs):
     """ Transform SymPy expressions into Theano Computation.
 
@@ -125,16 +143,24 @@ def fgraph_of(*exprs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theano_simplify(fgr), simplify a theano computation) over Any ║
+# ║ Path(theano_simplify(fgraph), fgraph) over {Any | hasattr(fgraph, 'clone')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ theano_simplify : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fgraph, 'clone')                       ║
+# ║   ensures:  result == fgraph                               ║
+# ║   returns:  fgraph                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ theano_simplify : {Any | hasattr(fgraph, 'clone')} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eacf7f01a38ba046  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 555ffe4a6a5f7bf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theano_simplify","kind":"function","src_hash":"d2aeb1d9984f9630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"theano_simplify(fgr)","rhs":"simplify a theano computation","over":{"base":"Any"},"name":"theano_simplify_correct"},"guarantee":"simplify a theano computation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theano_simplify_correct","statement":"Path(theano_simplify(x), simplify a theano computation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eacf7f01a38ba046"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theano_simplify","kind":"function","src_hash":"d2aeb1d9984f9630","in":{"base":"Any","pred":"hasattr(fgraph, 'clone')"},"out":{"base":"Any","pred":"result satisfies: result == (fgraph)"},"spec":{"lhs":"theano_simplify(fgraph)","rhs":"fgraph","over":{"base":"Any","pred":"hasattr(fgraph, 'clone')"},"name":"theano_simplify_correct"},"guarantee":"returns fgraph; result == fgraph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theano_simplify_correct","statement":"Path(theano_simplify(x), returns fgraph; result == fgraph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"555ffe4a6a5f7bf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fgraph, 'clone')"],"ensures":["result == fgraph"],"returns_expr":"fgraph","pure":false,"effects":{"effect_type":"reads_state","reads":["fgraph.clone"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def theano_simplify(fgraph):
     """ Simplify a Theano Computation.
 
@@ -153,7 +179,10 @@ def theano_simplify(fgraph):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theq(a, ), test two theano objects for equality) over {Any | isinstance(a, numeric_types) and isinstance(a, (tuple, list))} ║
+# ║ Path(theq(a, b), <unspecified:theq>) over {Any | isinstance(a, numeric_types) and isinstance(a, (tuple, list))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ theq : {Any | isinstance(a, numeric_types) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -166,9 +195,12 @@ def theano_simplify(fgraph):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 88de6602...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theq","kind":"function","src_hash":"3b9939efe00e69a1","in":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"theq(a, )","rhs":"test two theano objects for equality","over":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"name":"theq_correct"},"guarantee":"test two theano objects for equality","fibers":[{"name":"numeric_types","pred":"isinstance(a, numeric_types)","path":{"lhs":"theq(x)","rhs":"test two theano objects for equality","over":{"base":"numeric_types","pred":"isinstance(a, numeric_types)"},"name":"theq_numeric_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theq_numeric_types_correct","statement":"theq satisfies spec on numeric_types inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(a, (tuple, list))","path":{"lhs":"theq(x)","rhs":"test two theano objects for equality","over":{"base":"(tuple","pred":"isinstance(a, (tuple, list))"},"name":"theq_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theq_(tuple_correct","statement":"theq satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"88de66029902dd02"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.theq","kind":"function","src_hash":"3b9939efe00e69a1","in":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"theq(a, b)","rhs":"<unspecified:theq>","over":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"name":"theq_correct"},"guarantee":"test two theano objects for equality","fibers":[{"name":"numeric_types","pred":"isinstance(a, numeric_types)","path":{"lhs":"theq(x)","rhs":"test two theano objects for equality","over":{"base":"numeric_types","pred":"isinstance(a, numeric_types)"},"name":"theq_numeric_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theq_numeric_types_correct","statement":"theq satisfies spec on numeric_types inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(a, (tuple, list))","path":{"lhs":"theq(x)","rhs":"test two theano objects for equality","over":{"base":"(tuple","pred":"isinstance(a, (tuple, list))"},"name":"theq_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.theq_(tuple_correct","statement":"theq satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"88de66029902dd02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"argstr == ''\", 'not (a_is_seq and b_is_seq) or type(a) != type(b)'}, fibers={'(tuple', 'numeric_types'})"]}}
 def theq(a, b):
     """ Test two Theano objects for equality.
 
@@ -218,16 +250,24 @@ def theq(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_example_symbols(), check that the example symbols in this module print to their theano equivalents, as many of the other tests depend on this) over Any ║
+# ║ Path(test_example_symbols(), theq(xt, theano_code_(x)) and theq(yt, theano_code_(y)) and theq(zt, theano_code_(z)) and theq(Xt, theano_code_(X)) and theq(Yt, theano_code_(Y)) and theq(Zt, theano_code_(Z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_example_symbols : Any → {Any | theq(xt, theano_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(xt, theano_code_(x))                      ║
+# ║   ensures:  theq(yt, theano_code_(y))                      ║
+# ║   ensures:  theq(zt, theano_code_(z))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_example_symbols : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9b26d494d8b0bcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0025a14de57a21f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_example_symbols","kind":"function","src_hash":"348412dabb4fcd2a","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(xt, theano_code_(x)) and theq(yt, theano_code_(y)) and theq(zt, theano_code_(z)) and theq(Xt, theano_code_(X)) and theq(Yt, theano_code_(Y)) and theq(Zt, theano_code_(Z))"},"spec":{"lhs":"test_example_symbols()","rhs":"check that the example symbols in this module print to their theano equivalents, as many of the other tests depend on this","over":{"base":"Any"},"name":"test_example_symbols_correct"},"guarantee":"check that the example symbols in this module print to their theano equivalents, as many of the other tests depend on this","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_example_symbols_correct","statement":"Path(test_example_symbols(x), check that the example symbols in this module print to their theano equivalents, as many of the other tests depend on this)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9b26d494d8b0bcd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_example_symbols","kind":"function","src_hash":"348412dabb4fcd2a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(xt, theano_code_(x)) and theq(yt, theano_code_(y)) and theq(zt, theano_code_(z)) and theq(Xt, theano_code_(X)) and theq(Yt, theano_code_(Y)) and theq(Zt, theano_code_(Z))"},"spec":{"lhs":"test_example_symbols()","rhs":"theq(xt, theano_code_(x)) and theq(yt, theano_code_(y)) and theq(zt, theano_code_(z)) and theq(Xt, theano_code_(X)) and theq(Yt, theano_code_(Y)) and theq(Zt, theano_code_(Z))","over":{"base":"Any"},"name":"test_example_symbols_correct"},"guarantee":"theq(xt, theano_code_(x)); theq(yt, theano_code_(y)); theq(zt, theano_code_(z))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_example_symbols_correct","statement":"Path(test_example_symbols(x), theq(xt, theano_code_(x)); theq(yt, theano_code_(y)); theq(zt, theano_code_(z)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0025a14de57a21f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(xt, theano_code_(x))","theq(yt, theano_code_(y))","theq(zt, theano_code_(z))","theq(Xt, theano_code_(X))","theq(Yt, theano_code_(Y))","theq(Zt, theano_code_(Z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_example_symbols():
     """
     Check that the example symbols in this module print to their Theano
@@ -242,7 +282,12 @@ def test_example_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbol(), test printing a symbol to a theano variable) over {Any | isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))} ║
+# ║ Path(test_Symbol(), isinstance(xx, (tt.TensorVariable, ts.ScalarVariable)) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name) over {Any | isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(xx, (tt.TensorVariable, ts.Sca...   ║
+# ║   ensures:  xx.broadcastable == ()                         ║
+# ║   ensures:  xx.name == x.name                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Symbol : {Any | isinstance(xx, (tt.TensorVariabl...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -254,9 +299,12 @@ def test_example_symbols():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 232c4eea...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Symbol","kind":"function","src_hash":"820960751c4705bb","in":{"base":"Any","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))"},"out":{"base":"Any","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable)) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name"},"spec":{"lhs":"test_Symbol()","rhs":"test printing a symbol to a theano variable","over":{"base":"Any","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))"},"name":"test_Symbol_correct"},"guarantee":"test printing a symbol to a theano variable","fibers":[{"name":"(tt_TensorVariable","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))","path":{"lhs":"test_Symbol(x)","rhs":"test printing a symbol to a theano variable","over":{"base":"(tt.TensorVariable","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))"},"name":"test_Symbol_(tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Symbol_(tt.TensorVariable_correct","statement":"test_Symbol satisfies spec on (tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"232c4eea182cc411"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Symbol","kind":"function","src_hash":"820960751c4705bb","in":{"base":"Any","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))"},"out":{"base":"Any","pred":"result satisfies: isinstance(xx, (tt.TensorVariable, ts.ScalarVariable)) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name"},"spec":{"lhs":"test_Symbol()","rhs":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable)) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name","over":{"base":"Any","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))"},"name":"test_Symbol_correct"},"guarantee":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable)); xx.broadcastable == (); xx.name == x.name","fibers":[{"name":"(tt_TensorVariable","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))","path":{"lhs":"test_Symbol(x)","rhs":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable)); xx.broadcastable == (); xx.name == x.name","over":{"base":"(tt.TensorVariable","pred":"isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))"},"name":"test_Symbol_(tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Symbol_(tt.TensorVariable_correct","statement":"test_Symbol satisfies spec on (tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"232c4eea182cc411","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(xx, (tt.TensorVariable, ts.ScalarVariable))","xx.broadcastable == ()","xx.name == x.name","xx2.broadcastable == (False,)","xx2.name == x.name"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_Symbol():
     """ Test printing a Symbol to a theano variable. """
     xx = theano_code_(x)
@@ -269,7 +317,11 @@ def test_Symbol():
     assert xx2.name == x.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol(), test printing a matrixsymbol to a theano variable) over {Any | isinstance(XX, tt.TensorVariable)} ║
+# ║ Path(test_MatrixSymbol(), isinstance(XX, tt.TensorVariable) and XX.broadcastable == (False, False)) over {Any | isinstance(XX, tt.TensorVariable)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(XX, tt.TensorVariable)              ║
+# ║   ensures:  XX.broadcastable == (False, False)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatrixSymbol : {Any | isinstance(XX, tt.TensorVa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -281,9 +333,12 @@ def test_Symbol():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 33d098f2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatrixSymbol","kind":"function","src_hash":"957d91adf3b53491","in":{"base":"Any","pred":"isinstance(XX, tt.TensorVariable)"},"out":{"base":"Any","pred":"isinstance(XX, tt.TensorVariable) and XX.broadcastable == (False, False)"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"test printing a matrixsymbol to a theano variable","over":{"base":"Any","pred":"isinstance(XX, tt.TensorVariable)"},"name":"test_MatrixSymbol_correct"},"guarantee":"test printing a matrixsymbol to a theano variable","fibers":[{"name":"tt_TensorVariable","pred":"isinstance(XX, tt.TensorVariable)","path":{"lhs":"test_MatrixSymbol(x)","rhs":"test printing a matrixsymbol to a theano variable","over":{"base":"tt.TensorVariable","pred":"isinstance(XX, tt.TensorVariable)"},"name":"test_MatrixSymbol_tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatrixSymbol_tt.TensorVariable_correct","statement":"test_MatrixSymbol satisfies spec on tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"33d098f2f199d996"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatrixSymbol","kind":"function","src_hash":"957d91adf3b53491","in":{"base":"Any","pred":"isinstance(XX, tt.TensorVariable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(XX, tt.TensorVariable) and XX.broadcastable == (False, False)"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"isinstance(XX, tt.TensorVariable) and XX.broadcastable == (False, False)","over":{"base":"Any","pred":"isinstance(XX, tt.TensorVariable)"},"name":"test_MatrixSymbol_correct"},"guarantee":"isinstance(XX, tt.TensorVariable); XX.broadcastable == (False, False)","fibers":[{"name":"tt_TensorVariable","pred":"isinstance(XX, tt.TensorVariable)","path":{"lhs":"test_MatrixSymbol(x)","rhs":"isinstance(XX, tt.TensorVariable); XX.broadcastable == (False, False)","over":{"base":"tt.TensorVariable","pred":"isinstance(XX, tt.TensorVariable)"},"name":"test_MatrixSymbol_tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatrixSymbol_tt.TensorVariable_correct","statement":"test_MatrixSymbol satisfies spec on tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"33d098f2f199d996","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(XX, tt.TensorVariable)","XX.broadcastable == (False, False)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def test_MatrixSymbol():
     """ Test printing a MatrixSymbol to a theano variable. """
     XX = theano_code_(X)
@@ -292,16 +347,22 @@ def test_MatrixSymbol():
 
 @SKIP  # TODO - this is currently not checked but should be implemented
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol_wrong_dims(), test matrixsymbol with invalid broadcastable) over Any ║
+# ║ Path(test_MatrixSymbol_wrong_dims(), <unspecified:test_MatrixSymbol_wrong_dims>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatrixSymbol_wrong_dims : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa09415b3b3a240  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatrixSymbol_wrong_dims","kind":"function","src_hash":"c3c491ac714cf1a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MatrixSymbol_wrong_dims()","rhs":"test matrixsymbol with invalid broadcastable","over":{"base":"Any"},"name":"test_MatrixSymbol_wrong_dims_correct"},"guarantee":"test matrixsymbol with invalid broadcastable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatrixSymbol_wrong_dims_correct","statement":"Path(test_MatrixSymbol_wrong_dims(x), test matrixsymbol with invalid broadcastable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa09415b3b3a240"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatrixSymbol_wrong_dims","kind":"function","src_hash":"c3c491ac714cf1a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MatrixSymbol_wrong_dims()","rhs":"<unspecified:test_MatrixSymbol_wrong_dims>","over":{"base":"Any"},"name":"test_MatrixSymbol_wrong_dims_correct"},"guarantee":"test matrixsymbol with invalid broadcastable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatrixSymbol_wrong_dims_correct","statement":"Path(test_MatrixSymbol_wrong_dims(x), test matrixsymbol with invalid broadcastable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa09415b3b3a240","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol_wrong_dims():
     """ Test MatrixSymbol with invalid broadcastable. """
     bcs = [(), (False,), (True,), (True, False), (False, True,), (True, True)]
@@ -310,7 +371,12 @@ def test_MatrixSymbol_wrong_dims():
             theano_code_(X, broadcastables={X: bc})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AppliedUndef(), test printing appliedundef instance, which works similarly to symbol) over {Any | isinstance(ftt, tt.TensorVariable)} ║
+# ║ Path(test_AppliedUndef(), isinstance(ftt, tt.TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t') over {Any | isinstance(ftt, tt.TensorVariable)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(ftt, tt.TensorVariable)             ║
+# ║   ensures:  ftt.broadcastable == ()                        ║
+# ║   ensures:  ftt.name == 'f_t'                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AppliedUndef : {Any | isinstance(ftt, tt.TensorV...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -322,9 +388,12 @@ def test_MatrixSymbol_wrong_dims():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6e46aac8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_AppliedUndef","kind":"function","src_hash":"f5f79ea021506a3d","in":{"base":"Any","pred":"isinstance(ftt, tt.TensorVariable)"},"out":{"base":"Any","pred":"isinstance(ftt, tt.TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t'"},"spec":{"lhs":"test_AppliedUndef()","rhs":"test printing appliedundef instance, which works similarly to symbol","over":{"base":"Any","pred":"isinstance(ftt, tt.TensorVariable)"},"name":"test_AppliedUndef_correct"},"guarantee":"test printing appliedundef instance, which works similarly to symbol","fibers":[{"name":"tt_TensorVariable","pred":"isinstance(ftt, tt.TensorVariable)","path":{"lhs":"test_AppliedUndef(x)","rhs":"test printing appliedundef instance, which works similarly to symbol","over":{"base":"tt.TensorVariable","pred":"isinstance(ftt, tt.TensorVariable)"},"name":"test_AppliedUndef_tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_AppliedUndef_tt.TensorVariable_correct","statement":"test_AppliedUndef satisfies spec on tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6e46aac8c02bf5ed"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_AppliedUndef","kind":"function","src_hash":"f5f79ea021506a3d","in":{"base":"Any","pred":"isinstance(ftt, tt.TensorVariable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(ftt, tt.TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t'"},"spec":{"lhs":"test_AppliedUndef()","rhs":"isinstance(ftt, tt.TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t'","over":{"base":"Any","pred":"isinstance(ftt, tt.TensorVariable)"},"name":"test_AppliedUndef_correct"},"guarantee":"isinstance(ftt, tt.TensorVariable); ftt.broadcastable == (); ftt.name == 'f_t'","fibers":[{"name":"tt_TensorVariable","pred":"isinstance(ftt, tt.TensorVariable)","path":{"lhs":"test_AppliedUndef(x)","rhs":"isinstance(ftt, tt.TensorVariable); ftt.broadcastable == (); ftt.name == 'f_t'","over":{"base":"tt.TensorVariable","pred":"isinstance(ftt, tt.TensorVariable)"},"name":"test_AppliedUndef_tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_AppliedUndef_tt.TensorVariable_correct","statement":"test_AppliedUndef satisfies spec on tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6e46aac8c02bf5ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(ftt, tt.TensorVariable)","ftt.broadcastable == ()","ftt.name == 'f_t'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":true}}
 def test_AppliedUndef():
     """ Test printing AppliedUndef instance, which works similarly to Symbol. """
     ftt = theano_code_(f_t)
@@ -334,47 +403,66 @@ def test_AppliedUndef():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add(), test_add produces the expected output) over Any ║
+# ║ Path(test_add(), comp.owner.op == theano.tensor.add) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add : Any → {Any | comp.owner.op == theano.tenso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  comp.owner.op == theano.tensor.add             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add : Any → {Any | result satisfies: comp.owner....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e4ef0c202518e38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea107401892225ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_add","kind":"function","src_hash":"9b7e07f5501a95e6","in":{"base":"Any"},"out":{"base":"Any","pred":"comp.owner.op == theano.tensor.add"},"spec":{"lhs":"test_add()","rhs":"test_add produces the expected output","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"test_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_add_correct","statement":"Path(test_add(x), test_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e4ef0c202518e38"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_add","kind":"function","src_hash":"9b7e07f5501a95e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: comp.owner.op == theano.tensor.add"},"spec":{"lhs":"test_add()","rhs":"comp.owner.op == theano.tensor.add","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"comp.owner.op == theano.tensor.add","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_add_correct","statement":"Path(test_add(x), comp.owner.op == theano.tensor.add)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea107401892225ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["comp.owner.op == theano.tensor.add"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_add():
     expr = x + y
     comp = theano_code_(expr)
     assert comp.owner.op == theano.tensor.add
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trig(), test_trig produces the expected output) over Any ║
+# ║ Path(test_trig(), theq(theano_code_(sy.sin(x)), tt.sin(xt)) and theq(theano_code_(sy.tan(x)), tt.tan(xt))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trig : Any → {Any | theq(theano_code_(sy.sin(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(theano_code_(sy.sin(x)), tt.sin(xt))      ║
+# ║   ensures:  theq(theano_code_(sy.tan(x)), tt.tan(xt))      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trig : Any → {Any | result satisfies: theq(thean...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db69ffada2d4bccd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ef59a0ce5d17042  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_trig","kind":"function","src_hash":"eee86dbda3d7d381","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(theano_code_(sy.sin(x)), tt.sin(xt)) and theq(theano_code_(sy.tan(x)), tt.tan(xt))"},"spec":{"lhs":"test_trig()","rhs":"test_trig produces the expected output","over":{"base":"Any"},"name":"test_trig_correct"},"guarantee":"test_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_trig_correct","statement":"Path(test_trig(x), test_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db69ffada2d4bccd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_trig","kind":"function","src_hash":"eee86dbda3d7d381","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(theano_code_(sy.sin(x)), tt.sin(xt)) and theq(theano_code_(sy.tan(x)), tt.tan(xt))"},"spec":{"lhs":"test_trig()","rhs":"theq(theano_code_(sy.sin(x)), tt.sin(xt)) and theq(theano_code_(sy.tan(x)), tt.tan(xt))","over":{"base":"Any"},"name":"test_trig_correct"},"guarantee":"theq(theano_code_(sy.sin(x)), tt.sin(xt)); theq(theano_code_(sy.tan(x)), tt.tan(xt))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_trig_correct","statement":"Path(test_trig(x), theq(theano_code_(sy.sin(x)), tt.sin(xt)); theq(theano_code_(sy.tan(x)), tt.tan(xt)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ef59a0ce5d17042","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(theano_code_(sy.sin(x)), tt.sin(xt))","theq(theano_code_(sy.tan(x)), tt.tan(xt))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trig():
     assert theq(theano_code_(sy.sin(x)), tt.sin(xt))
     assert theq(theano_code_(sy.tan(x)), tt.tan(xt))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_many(), test printing a complex expression with multiple symbols) over Any ║
+# ║ Path(test_many(), theq(comp, expected)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_many : Any → {Any | theq(comp, expected)}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(comp, expected)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_many : Any → {Any | result satisfies: theq(comp,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed429aa282dfcacc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82b55e120d7fdc9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_many","kind":"function","src_hash":"e10cfc561c74a976","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(comp, expected)"},"spec":{"lhs":"test_many()","rhs":"test printing a complex expression with multiple symbols","over":{"base":"Any"},"name":"test_many_correct"},"guarantee":"test printing a complex expression with multiple symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_many_correct","statement":"Path(test_many(x), test printing a complex expression with multiple symbols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed429aa282dfcacc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_many","kind":"function","src_hash":"e10cfc561c74a976","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(comp, expected)"},"spec":{"lhs":"test_many()","rhs":"theq(comp, expected)","over":{"base":"Any"},"name":"test_many_correct"},"guarantee":"theq(comp, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_many_correct","statement":"Path(test_many(x), theq(comp, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82b55e120d7fdc9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(comp, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_many():
     """ Test printing a complex expression with multiple symbols. """
     expr = sy.exp(x**2 + sy.cos(y)) * sy.log(2*z)
@@ -384,16 +472,24 @@ def test_many():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dtype(), test specifying specific data types through the dtype argument) over Any ║
+# ║ Path(test_dtype(), theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and theano_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dtype : Any → {Any | theano_code_(x, dtypes={x: ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theano_code_(x, dtypes={x: 'floatX'}).typ...   ║
+# ║   ensures:  theano_code_(x + 1, dtypes={x: 'float32'}...   ║
+# ║   ensures:  theano_code_(x + y, dtypes={x: 'float64',...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dtype : Any → {Any | result satisfies: theano_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27dc6428185ff675  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4381d01e1cbee040  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_dtype","kind":"function","src_hash":"012e9399bb6f84e4","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and theano_code_(x, dtypes={x: dtype}).type.dtype == dtype"},"spec":{"lhs":"test_dtype()","rhs":"test specifying specific data types through the dtype argument","over":{"base":"Any"},"name":"test_dtype_correct"},"guarantee":"test specifying specific data types through the dtype argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_dtype_correct","statement":"Path(test_dtype(x), test specifying specific data types through the dtype argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27dc6428185ff675"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_dtype","kind":"function","src_hash":"012e9399bb6f84e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and theano_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'"},"spec":{"lhs":"test_dtype()","rhs":"theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and theano_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'","over":{"base":"Any"},"name":"test_dtype_correct"},"guarantee":"theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64'); theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32'; theano_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_dtype_correct","statement":"Path(test_dtype(x), theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64'); theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32'; theano_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4381d01e1cbee040","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theano_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64')","theano_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32'","theano_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dtype():
     """ Test specifying specific data types through the dtype argument. """
     for dtype in ['float32', 'float64', 'int8', 'int16', 'int32', 'int64']:
@@ -408,16 +504,22 @@ def test_dtype():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_broadcastables(), test the "broadcastables" argument when printing symbol-like objects) over Any ║
+# ║ Path(test_broadcastables(), <unspecified:test_broadcastables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_broadcastables : Any → {Any | theano_code_(s, br...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62124e8ff066db2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_broadcastables","kind":"function","src_hash":"7606fef4918b1f79","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(s, broadcastables={s: bc}).broadcastable == bc"},"spec":{"lhs":"test_broadcastables()","rhs":"test the \"broadcastables\" argument when printing symbol-like objects","over":{"base":"Any"},"name":"test_broadcastables_correct"},"guarantee":"test the \"broadcastables\" argument when printing symbol-like objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_broadcastables_correct","statement":"Path(test_broadcastables(x), test the \"broadcastables\" argument when printing symbol-like objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62124e8ff066db2c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_broadcastables","kind":"function","src_hash":"7606fef4918b1f79","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(s, broadcastables={s: bc}).broadcastable == bc"},"spec":{"lhs":"test_broadcastables()","rhs":"<unspecified:test_broadcastables>","over":{"base":"Any"},"name":"test_broadcastables_correct"},"guarantee":"test the \"broadcastables\" argument when printing symbol-like objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_broadcastables_correct","statement":"Path(test_broadcastables(x), test the \"broadcastables\" argument when printing symbol-like objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62124e8ff066db2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_broadcastables():
     """ Test the "broadcastables" argument when printing symbol-like objects. """
 
@@ -429,16 +531,22 @@ def test_broadcastables():
     # TODO - matrix broadcasting?
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_broadcasting(), test "broadcastable" attribute after applying element-wise binary op) over Any ║
+# ║ Path(test_broadcasting(), <unspecified:test_broadcasting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_broadcasting : Any → {Any | comp.broadcastable =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c1c17b3c284f4e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_broadcasting","kind":"function","src_hash":"ee3bb64f159f0841","in":{"base":"Any"},"out":{"base":"Any","pred":"comp.broadcastable == bc3"},"spec":{"lhs":"test_broadcasting()","rhs":"test \"broadcastable\" attribute after applying element-wise binary op","over":{"base":"Any"},"name":"test_broadcasting_correct"},"guarantee":"test \"broadcastable\" attribute after applying element-wise binary op","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_broadcasting_correct","statement":"Path(test_broadcasting(x), test \"broadcastable\" attribute after applying element-wise binary op)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c1c17b3c284f4e2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_broadcasting","kind":"function","src_hash":"ee3bb64f159f0841","in":{"base":"Any"},"out":{"base":"Any","pred":"comp.broadcastable == bc3"},"spec":{"lhs":"test_broadcasting()","rhs":"<unspecified:test_broadcasting>","over":{"base":"Any"},"name":"test_broadcasting_correct"},"guarantee":"test \"broadcastable\" attribute after applying element-wise binary op","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_broadcasting_correct","statement":"Path(test_broadcasting(x), test \"broadcastable\" attribute after applying element-wise binary op)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c1c17b3c284f4e2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_broadcasting():
     """ Test "broadcastable" attribute after applying element-wise binary op. """
 
@@ -458,7 +566,11 @@ def test_broadcasting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatMul(), test_MatMul produces the expected output) over {Any | isinstance(expr_t.owner.op, tt.Dot)} ║
+# ║ Path(test_MatMul(), isinstance(expr_t.owner.op, tt.Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))) over {Any | isinstance(expr_t.owner.op, tt.Dot)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(expr_t.owner.op, tt.Dot)            ║
+# ║   ensures:  theq(expr_t, Xt.dot(Yt).dot(Zt))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatMul : {Any | isinstance(expr_t.owner.op, tt.D...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -470,9 +582,12 @@ def test_broadcasting():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e4ee09f0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatMul","kind":"function","src_hash":"bd69228e94dcdcdc","in":{"base":"Any","pred":"isinstance(expr_t.owner.op, tt.Dot)"},"out":{"base":"Any","pred":"isinstance(expr_t.owner.op, tt.Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))"},"spec":{"lhs":"test_MatMul()","rhs":"test_MatMul produces the expected output","over":{"base":"Any","pred":"isinstance(expr_t.owner.op, tt.Dot)"},"name":"test_MatMul_correct"},"guarantee":"test_MatMul produces the expected output","fibers":[{"name":"tt_Dot","pred":"isinstance(expr_t.owner.op, tt.Dot)","path":{"lhs":"test_MatMul(x)","rhs":"test_MatMul produces the expected output","over":{"base":"tt.Dot","pred":"isinstance(expr_t.owner.op, tt.Dot)"},"name":"test_MatMul_tt.Dot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatMul_tt.Dot_correct","statement":"test_MatMul satisfies spec on tt.Dot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e4ee09f02aed10e1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatMul","kind":"function","src_hash":"bd69228e94dcdcdc","in":{"base":"Any","pred":"isinstance(expr_t.owner.op, tt.Dot)"},"out":{"base":"Any","pred":"result satisfies: isinstance(expr_t.owner.op, tt.Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))"},"spec":{"lhs":"test_MatMul()","rhs":"isinstance(expr_t.owner.op, tt.Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))","over":{"base":"Any","pred":"isinstance(expr_t.owner.op, tt.Dot)"},"name":"test_MatMul_correct"},"guarantee":"isinstance(expr_t.owner.op, tt.Dot); theq(expr_t, Xt.dot(Yt).dot(Zt))","fibers":[{"name":"tt_Dot","pred":"isinstance(expr_t.owner.op, tt.Dot)","path":{"lhs":"test_MatMul(x)","rhs":"isinstance(expr_t.owner.op, tt.Dot); theq(expr_t, Xt.dot(Yt).dot(Zt))","over":{"base":"tt.Dot","pred":"isinstance(expr_t.owner.op, tt.Dot)"},"name":"test_MatMul_tt.Dot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatMul_tt.Dot_correct","statement":"test_MatMul satisfies spec on tt.Dot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e4ee09f02aed10e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(expr_t.owner.op, tt.Dot)","theq(expr_t, Xt.dot(Yt).dot(Zt))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":true}}
 def test_MatMul():
     expr = X*Y*Z
     expr_t = theano_code_(expr)
@@ -480,7 +595,10 @@ def test_MatMul():
     assert theq(expr_t, Xt.dot(Yt).dot(Zt))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Transpose(), test_Transpose produces the expected output) over {Any | isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)} ║
+# ║ Path(test_Transpose(), isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)) over {Any | isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(theano_code_(X.T).owner.op, tt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Transpose : {Any | isinstance(theano_code_(X.T)....   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -492,14 +610,20 @@ def test_MatMul():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f78511d8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Transpose","kind":"function","src_hash":"a29b3f989b551ac0","in":{"base":"Any","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"out":{"base":"Any","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"spec":{"lhs":"test_Transpose()","rhs":"test_Transpose produces the expected output","over":{"base":"Any","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"name":"test_Transpose_correct"},"guarantee":"test_Transpose produces the expected output","fibers":[{"name":"tt_DimShuffle","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)","path":{"lhs":"test_Transpose(x)","rhs":"test_Transpose produces the expected output","over":{"base":"tt.DimShuffle","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"name":"test_Transpose_tt.DimShuffle_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Transpose_tt.DimShuffle_correct","statement":"test_Transpose satisfies spec on tt.DimShuffle inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f78511d8efddb7e1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Transpose","kind":"function","src_hash":"a29b3f989b551ac0","in":{"base":"Any","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"out":{"base":"Any","pred":"result satisfies: isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"spec":{"lhs":"test_Transpose()","rhs":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)","over":{"base":"Any","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"name":"test_Transpose_correct"},"guarantee":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)","fibers":[{"name":"tt_DimShuffle","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)","path":{"lhs":"test_Transpose(x)","rhs":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)","over":{"base":"tt.DimShuffle","pred":"isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"},"name":"test_Transpose_tt.DimShuffle_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Transpose_tt.DimShuffle_correct","statement":"test_Transpose satisfies spec on tt.DimShuffle inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f78511d8efddb7e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def test_Transpose():
     assert isinstance(theano_code_(X.T).owner.op, tt.DimShuffle)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatAdd(), test_MatAdd produces the expected output) over {Any | isinstance(theano_code_(expr).owner.op, tt.Elemwise)} ║
+# ║ Path(test_MatAdd(), isinstance(theano_code_(expr).owner.op, tt.Elemwise)) over {Any | isinstance(theano_code_(expr).owner.op, tt.Elemwise)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(theano_code_(expr).owner.op, t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatAdd : {Any | isinstance(theano_code_(expr).ow...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -511,69 +635,97 @@ def test_Transpose():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4a4afacc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatAdd","kind":"function","src_hash":"bdaf0d6493e09757","in":{"base":"Any","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"out":{"base":"Any","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"spec":{"lhs":"test_MatAdd()","rhs":"test_MatAdd produces the expected output","over":{"base":"Any","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"name":"test_MatAdd_correct"},"guarantee":"test_MatAdd produces the expected output","fibers":[{"name":"tt_Elemwise","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)","path":{"lhs":"test_MatAdd(x)","rhs":"test_MatAdd produces the expected output","over":{"base":"tt.Elemwise","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"name":"test_MatAdd_tt.Elemwise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatAdd_tt.Elemwise_correct","statement":"test_MatAdd satisfies spec on tt.Elemwise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4a4afacc28916db9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatAdd","kind":"function","src_hash":"bdaf0d6493e09757","in":{"base":"Any","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"out":{"base":"Any","pred":"result satisfies: isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"spec":{"lhs":"test_MatAdd()","rhs":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)","over":{"base":"Any","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"name":"test_MatAdd_correct"},"guarantee":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)","fibers":[{"name":"tt_Elemwise","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)","path":{"lhs":"test_MatAdd(x)","rhs":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)","over":{"base":"tt.Elemwise","pred":"isinstance(theano_code_(expr).owner.op, tt.Elemwise)"},"name":"test_MatAdd_tt.Elemwise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatAdd_tt.Elemwise_correct","statement":"test_MatAdd satisfies spec on tt.Elemwise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4a4afacc28916db9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(theano_code_(expr).owner.op, tt.Elemwise)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def test_MatAdd():
     expr = X+Y+Z
     assert isinstance(theano_code_(expr).owner.op, tt.Elemwise)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rationals(), test_Rationals produces the expected output) over Any ║
+# ║ Path(test_Rationals(), theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3)) and theq(theano_code_(S.Half), tt.true_div(1, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Rationals : Any → {Any | theq(theano_code_(sy.In...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(theano_code_(sy.Integer(2) / 3), tt....   ║
+# ║   ensures:  theq(theano_code_(S.Half), tt.true_div(1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Rationals : Any → {Any | result satisfies: theq(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02dd26a3d9a8994e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6490ee046083f217  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Rationals","kind":"function","src_hash":"12b4aa95c205a168","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3)) and theq(theano_code_(S.Half), tt.true_div(1, 2))"},"spec":{"lhs":"test_Rationals()","rhs":"test_Rationals produces the expected output","over":{"base":"Any"},"name":"test_Rationals_correct"},"guarantee":"test_Rationals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Rationals_correct","statement":"Path(test_Rationals(x), test_Rationals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02dd26a3d9a8994e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Rationals","kind":"function","src_hash":"12b4aa95c205a168","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3)) and theq(theano_code_(S.Half), tt.true_div(1, 2))"},"spec":{"lhs":"test_Rationals()","rhs":"theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3)) and theq(theano_code_(S.Half), tt.true_div(1, 2))","over":{"base":"Any"},"name":"test_Rationals_correct"},"guarantee":"theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3)); theq(theano_code_(S.Half), tt.true_div(1, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Rationals_correct","statement":"Path(test_Rationals(x), theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3)); theq(theano_code_(S.Half), tt.true_div(1, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6490ee046083f217","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3))","theq(theano_code_(S.Half), tt.true_div(1, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Rationals():
     assert theq(theano_code_(sy.Integer(2) / 3), tt.true_div(2, 3))
     assert theq(theano_code_(S.Half), tt.true_div(1, 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integers(), test_Integers produces the expected output) over Any ║
+# ║ Path(test_Integers(), theano_code_(sy.Integer(3)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integers : Any → {Any | theano_code_(sy.Integer(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theano_code_(sy.Integer(3)) == 3               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integers : Any → {Any | result satisfies: theano...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f538a9fcc081c32e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e560a17d9e8bc521  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Integers","kind":"function","src_hash":"bc6f157add3571c3","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(sy.Integer(3)) == 3"},"spec":{"lhs":"test_Integers()","rhs":"test_Integers produces the expected output","over":{"base":"Any"},"name":"test_Integers_correct"},"guarantee":"test_Integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Integers_correct","statement":"Path(test_Integers(x), test_Integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f538a9fcc081c32e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Integers","kind":"function","src_hash":"bc6f157add3571c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theano_code_(sy.Integer(3)) == 3"},"spec":{"lhs":"test_Integers()","rhs":"theano_code_(sy.Integer(3)) == 3","over":{"base":"Any"},"name":"test_Integers_correct"},"guarantee":"theano_code_(sy.Integer(3)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Integers_correct","statement":"Path(test_Integers(x), theano_code_(sy.Integer(3)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e560a17d9e8bc521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theano_code_(sy.Integer(3)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Integers():
     assert theano_code_(sy.Integer(3)) == 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial(), test_factorial produces the expected output) over Any ║
+# ║ Path(test_factorial(), theano_code_(sy.factorial(n))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorial : Any → {Any | theano_code_(sy.factori...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theano_code_(sy.factorial(n))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorial : Any → {Any | result satisfies: thean...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d442f38c86f748f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8cf95b3836bb075  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_factorial","kind":"function","src_hash":"2a9e6ed6ab3420d6","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(sy.factorial(n))"},"spec":{"lhs":"test_factorial()","rhs":"test_factorial produces the expected output","over":{"base":"Any"},"name":"test_factorial_correct"},"guarantee":"test_factorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_factorial_correct","statement":"Path(test_factorial(x), test_factorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d442f38c86f748f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_factorial","kind":"function","src_hash":"2a9e6ed6ab3420d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theano_code_(sy.factorial(n))"},"spec":{"lhs":"test_factorial()","rhs":"theano_code_(sy.factorial(n))","over":{"base":"Any"},"name":"test_factorial_correct"},"guarantee":"theano_code_(sy.factorial(n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_factorial_correct","statement":"Path(test_factorial(x), theano_code_(sy.factorial(n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8cf95b3836bb075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theano_code_(sy.factorial(n))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_factorial():
     n = sy.Symbol('n')
     assert theano_code_(sy.factorial(n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative(), test_Derivative produces the expected output) over Any ║
+# ║ Path(test_Derivative(), theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))), simp(theano.grad(tt.sin(xt), xt)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Derivative : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(simp(theano_code_(sy.Derivative(sy.s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Derivative : Any → {Any | result satisfies: theq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f81246fa184a16a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c0c11e17775cacf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Derivative","kind":"function","src_hash":"a7d24efa0a1df0f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Derivative()","rhs":"test_Derivative produces the expected output","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"test_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Derivative_correct","statement":"Path(test_Derivative(x), test_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f81246fa184a16a2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Derivative","kind":"function","src_hash":"a7d24efa0a1df0f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))), simp(theano.grad(tt.sin(xt), xt)))"},"spec":{"lhs":"test_Derivative()","rhs":"theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))), simp(theano.grad(tt.sin(xt), xt)))","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))), simp(theano.grad(tt.sin(xt), xt)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Derivative_correct","statement":"Path(test_Derivative(x), theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))), simp(theano.grad(tt.sin(xt), xt))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c0c11e17775cacf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))), simp(theano.grad(tt.sin(xt), xt)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Derivative():
     simp = lambda expr: theano_simplify(fgraph_of(expr))
     assert theq(simp(theano_code_(sy.Derivative(sy.sin(x), x, evaluate=False))),
@@ -581,32 +733,45 @@ def test_Derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_simple(), test theano_function() with single output) over Any ║
+# ║ Path(test_theano_function_simple(), f(2, 3) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_theano_function_simple : Any → {Any | f(2, 3) == 5}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(2, 3) == 5                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_theano_function_simple : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1606b091baa5acec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a002196d525ac73f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_simple","kind":"function","src_hash":"91fb905d170db44b","in":{"base":"Any"},"out":{"base":"Any","pred":"f(2, 3) == 5"},"spec":{"lhs":"test_theano_function_simple()","rhs":"test theano_function() with single output","over":{"base":"Any"},"name":"test_theano_function_simple_correct"},"guarantee":"test theano_function() with single output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_simple_correct","statement":"Path(test_theano_function_simple(x), test theano_function() with single output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1606b091baa5acec"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_simple","kind":"function","src_hash":"91fb905d170db44b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(2, 3) == 5"},"spec":{"lhs":"test_theano_function_simple()","rhs":"f(2, 3) == 5","over":{"base":"Any"},"name":"test_theano_function_simple_correct"},"guarantee":"f(2, 3) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_simple_correct","statement":"Path(test_theano_function_simple(x), f(2, 3) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a002196d525ac73f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(2, 3) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_theano_function_simple():
     """ Test theano_function() with single output. """
     f = theano_function_([x, y], [x+y])
     assert f(2, 3) == 5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_multi(), test theano_function() with multiple outputs) over Any ║
+# ║ Path(test_theano_function_multi(), o1 == 5 and o2 == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_theano_function_multi : Any → {Any | o1 == 5 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  o1 == 5                                        ║
+# ║   ensures:  o2 == -1                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_theano_function_multi : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d69855c94fe57e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 589fd195e375a877  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_multi","kind":"function","src_hash":"13e947698bc3e718","in":{"base":"Any"},"out":{"base":"Any","pred":"o1 == 5 and o2 == -1"},"spec":{"lhs":"test_theano_function_multi()","rhs":"test theano_function() with multiple outputs","over":{"base":"Any"},"name":"test_theano_function_multi_correct"},"guarantee":"test theano_function() with multiple outputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_multi_correct","statement":"Path(test_theano_function_multi(x), test theano_function() with multiple outputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d69855c94fe57e3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_multi","kind":"function","src_hash":"13e947698bc3e718","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: o1 == 5 and o2 == -1"},"spec":{"lhs":"test_theano_function_multi()","rhs":"o1 == 5 and o2 == -1","over":{"base":"Any"},"name":"test_theano_function_multi_correct"},"guarantee":"o1 == 5; o2 == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_multi_correct","statement":"Path(test_theano_function_multi(x), o1 == 5; o2 == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"589fd195e375a877","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["o1 == 5","o2 == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_theano_function_multi():
     """ Test theano_function() with multiple outputs. """
     f = theano_function_([x, y], [x+y, x-y])
@@ -615,16 +780,23 @@ def test_theano_function_multi():
     assert o2 == -1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_numpy(), test theano_function() vs numpy implementation) over Any ║
+# ║ Path(test_theano_function_numpy(), np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_theano_function_numpy : Any → {Any | np.linalg.n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.linalg.norm(f([1, 2], [3, 4]) - np.asa...   ║
+# ║   ensures:  np.linalg.norm(f(xx, yy) - 3 * np.arange(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_theano_function_numpy : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99bf334f51c2701c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a66eddeb3e28e900  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_numpy","kind":"function","src_hash":"4af6977a8ee8683c","in":{"base":"Any"},"out":{"base":"Any","pred":"np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_theano_function_numpy()","rhs":"test theano_function() vs numpy implementation","over":{"base":"Any"},"name":"test_theano_function_numpy_correct"},"guarantee":"test theano_function() vs numpy implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_numpy_correct","statement":"Path(test_theano_function_numpy(x), test theano_function() vs numpy implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99bf334f51c2701c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_numpy","kind":"function","src_hash":"4af6977a8ee8683c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_theano_function_numpy()","rhs":"np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09","over":{"base":"Any"},"name":"test_theano_function_numpy_correct"},"guarantee":"np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_numpy_correct","statement":"Path(test_theano_function_numpy(x), np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a66eddeb3e28e900","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09","np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_theano_function_numpy():
     """ Test theano_function() vs Numpy implementation. """
     f = theano_function_([x, y], [x+y], dim=1,
@@ -639,7 +811,10 @@ def test_theano_function_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_matrix(), test_theano_function_matrix produces the expected output) over {Any | isinstance(f(1.0, 2.0, 3.0), type([]))} ║
+# ║ Path(test_theano_function_matrix(), isinstance(f(1.0, 2.0, 3.0), type([]))) over {Any | isinstance(f(1.0, 2.0, 3.0), type([]))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(f(1.0, 2.0, 3.0), type([]))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_theano_function_matrix : {Any | isinstance(f(1.0...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -651,9 +826,12 @@ def test_theano_function_numpy():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e4febcad...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_matrix","kind":"function","src_hash":"16ef796e1b631f00","in":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"out":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"spec":{"lhs":"test_theano_function_matrix()","rhs":"test_theano_function_matrix produces the expected output","over":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_theano_function_matrix_correct"},"guarantee":"test_theano_function_matrix produces the expected output","fibers":[{"name":"2_0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))","path":{"lhs":"test_theano_function_matrix(x)","rhs":"test_theano_function_matrix produces the expected output","over":{"base":"2.0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_theano_function_matrix_2.0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_matrix_2.0_correct","statement":"test_theano_function_matrix satisfies spec on 2.0 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e4febcad85c2883f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_matrix","kind":"function","src_hash":"16ef796e1b631f00","in":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"out":{"base":"Any","pred":"result satisfies: isinstance(f(1.0, 2.0, 3.0), type([]))"},"spec":{"lhs":"test_theano_function_matrix()","rhs":"isinstance(f(1.0, 2.0, 3.0), type([]))","over":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_theano_function_matrix_correct"},"guarantee":"isinstance(f(1.0, 2.0, 3.0), type([]))","fibers":[{"name":"2_0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))","path":{"lhs":"test_theano_function_matrix(x)","rhs":"isinstance(f(1.0, 2.0, 3.0), type([]))","over":{"base":"2.0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_theano_function_matrix_2.0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_matrix_2.0_correct","statement":"test_theano_function_matrix satisfies spec on 2.0 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e4febcad85c2883f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(f(1.0, 2.0, 3.0), type([]))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":true}}
 def test_theano_function_matrix():
     m = sy.Matrix([[x, y], [z, x + y + z]])
     expected = np.array([[1.0, 2.0], [3.0, 1.0 + 2.0 + 3.0]])
@@ -667,16 +845,24 @@ def test_theano_function_matrix():
     np.testing.assert_allclose(f(1.0, 2.0, 3.0)[1], expected)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dim_handling(), test_dim_handling produces the expected output) over Any ║
+# ║ Path(test_dim_handling(), dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dim_handling : Any → {Any | dim_handling([x], di...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dim_handling([x], dim=2) == {x: (False, F...   ║
+# ║   ensures:  dim_handling([x, y], dims={x: 1, y: 2}) =...   ║
+# ║   ensures:  dim_handling([x], broadcastables={x: (Fal...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dim_handling : Any → {Any | result satisfies: di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13346108003a3736  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 978cb4478cd4c134  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_dim_handling","kind":"function","src_hash":"a9c641a05c58dd2f","in":{"base":"Any"},"out":{"base":"Any","pred":"dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}"},"spec":{"lhs":"test_dim_handling()","rhs":"test_dim_handling produces the expected output","over":{"base":"Any"},"name":"test_dim_handling_correct"},"guarantee":"test_dim_handling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_dim_handling_correct","statement":"Path(test_dim_handling(x), test_dim_handling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13346108003a3736"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_dim_handling","kind":"function","src_hash":"a9c641a05c58dd2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}"},"spec":{"lhs":"test_dim_handling()","rhs":"dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}","over":{"base":"Any"},"name":"test_dim_handling_correct"},"guarantee":"dim_handling([x], dim=2) == {x: (False, False)}; dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)}; dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_dim_handling_correct","statement":"Path(test_dim_handling(x), dim_handling([x], dim=2) == {x: (False, False)}; dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)}; dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978cb4478cd4c134","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dim_handling([x], dim=2) == {x: (False, False)}","dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)}","dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dim_handling():
     assert dim_handling([x], dim=2) == {x: (False, False)}
     assert dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True),
@@ -684,16 +870,23 @@ def test_dim_handling():
     assert dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_kwargs(), test passing additional kwargs from theano_function() to theano.function()) over Any ║
+# ║ Path(test_theano_function_kwargs(), np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_theano_function_kwargs : Any → {Any | np.linalg....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.linalg.norm(f([1, 2], [3, 4], [0, 0]) ...   ║
+# ║   ensures:  np.linalg.norm(f(xx, yy, zz) - 3 * np.ara...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_theano_function_kwargs : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 73b650270df8...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | cd0ddbb30b37...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_kwargs","kind":"function","src_hash":"5819dbb4e820f936","in":{"base":"Any"},"out":{"base":"Any","pred":"np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_theano_function_kwargs()","rhs":"test passing additional kwargs from theano_function() to theano.function()","over":{"base":"Any"},"name":"test_theano_function_kwargs_correct"},"guarantee":"test passing additional kwargs from theano_function() to theano.function()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_kwargs_correct","statement":"Path(test_theano_function_kwargs(x), test passing additional kwargs from theano_function() to theano.function())"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"73b650270df8b784"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_kwargs","kind":"function","src_hash":"5819dbb4e820f936","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_theano_function_kwargs()","rhs":"np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09","over":{"base":"Any"},"name":"test_theano_function_kwargs_correct"},"guarantee":"np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_kwargs_correct","statement":"Path(test_theano_function_kwargs(x), np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"cd0ddbb30b374493","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09","np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_theano_function_kwargs():
     """
     Test passing additional kwargs from theano_function() to theano.function().
@@ -712,7 +905,10 @@ def test_theano_function_kwargs():
     assert np.linalg.norm(f(xx, yy, zz) - 3*np.arange(3)) < 1e-9
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_scalar(), test the "scalar" argument to theano_function()) over {Any | isinstance(f.theano_function, theano.compile.function_module.Function) and isinstance(out_values, list) and isinstance(value, np.number)} ║
+# ║ Path(test_theano_function_scalar(), <unspecified:test_theano_function_scalar>) over {Any | isinstance(f.theano_function, theano.compile.function_module.Function) and isinstance(out_values, list) and isinstance(value, np.number)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_theano_function_scalar : {Any | isinstance(f.the...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -727,9 +923,12 @@ def test_theano_function_kwargs():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 7.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | df0f18fb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_scalar","kind":"function","src_hash":"0d793b2414a7ac5e","in":{"base":"Any","pred":"isinstance(f.theano_function, theano.compile.function_module.Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"out":{"base":"Any","pred":"isinstance(f.theano_function, theano.compile.function_module.Function) and len(out_dims) == len(out_values) and isinstance(value, np.number) and isinstance(value, np.ndarray) and value.ndim == d"},"spec":{"lhs":"test_theano_function_scalar()","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"Any","pred":"isinstance(f.theano_function, theano.compile.function_module.Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"name":"test_theano_function_scalar_correct"},"guarantee":"test the \"scalar\" argument to theano_function()","fibers":[{"name":"theano_compile_function_module_Function","pred":"isinstance(f.theano_function, theano.compile.function_module.Function)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"theano.compile.function_module.Function","pred":"isinstance(f.theano_function, theano.compile.function_module.Function)"},"name":"test_theano_function_scalar_theano.compile.function_module.Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_theano.compile.function_module.Function_correct","statement":"test_theano_function_scalar satisfies spec on theano.compile.function_module.Function inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(out_values, list)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"list","pred":"isinstance(out_values, list)"},"name":"test_theano_function_scalar_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_list_correct","statement":"test_theano_function_scalar satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"np_number","pred":"isinstance(value, np.number)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"np.number","pred":"isinstance(value, np.number)"},"name":"test_theano_function_scalar_np.number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_np.number_correct","statement":"test_theano_function_scalar satisfies spec on np.number inputs"},"trust":"LIBRARY"},{"name":"np_ndarray","pred":"isinstance(value, np.ndarray)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"np.ndarray","pred":"isinstance(value, np.ndarray)"},"name":"test_theano_function_scalar_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_np.ndarray_correct","statement":"test_theano_function_scalar satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"df0f18fbdcf53dfd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_scalar","kind":"function","src_hash":"0d793b2414a7ac5e","in":{"base":"Any","pred":"isinstance(f.theano_function, theano.compile.function_module.Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"out":{"base":"Any","pred":"isinstance(f.theano_function, theano.compile.function_module.Function) and len(out_dims) == len(out_values) and isinstance(value, np.number) and isinstance(value, np.ndarray) and value.ndim == d"},"spec":{"lhs":"test_theano_function_scalar()","rhs":"<unspecified:test_theano_function_scalar>","over":{"base":"Any","pred":"isinstance(f.theano_function, theano.compile.function_module.Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"name":"test_theano_function_scalar_correct"},"guarantee":"test the \"scalar\" argument to theano_function()","fibers":[{"name":"theano_compile_function_module_Function","pred":"isinstance(f.theano_function, theano.compile.function_module.Function)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"theano.compile.function_module.Function","pred":"isinstance(f.theano_function, theano.compile.function_module.Function)"},"name":"test_theano_function_scalar_theano.compile.function_module.Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_theano.compile.function_module.Function_correct","statement":"test_theano_function_scalar satisfies spec on theano.compile.function_module.Function inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(out_values, list)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"list","pred":"isinstance(out_values, list)"},"name":"test_theano_function_scalar_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_list_correct","statement":"test_theano_function_scalar satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"np_number","pred":"isinstance(value, np.number)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"np.number","pred":"isinstance(value, np.number)"},"name":"test_theano_function_scalar_np.number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_np.number_correct","statement":"test_theano_function_scalar satisfies spec on np.number inputs"},"trust":"LIBRARY"},{"name":"np_ndarray","pred":"isinstance(value, np.ndarray)","path":{"lhs":"test_theano_function_scalar(x)","rhs":"test the \"scalar\" argument to theano_function()","over":{"base":"np.ndarray","pred":"isinstance(value, np.ndarray)"},"name":"test_theano_function_scalar_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_scalar_np.ndarray_correct","statement":"test_theano_function_scalar satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"df0f18fbdcf53dfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'scalar and d == 0', 'not isinstance(out_values, list)'}, fibers={'np_number', 'list', 'np_ndarray', 'theano_compile_function_module_Function'})"]}}
 def test_theano_function_scalar():
     """ Test the "scalar" argument to theano_function(). """
 
@@ -773,16 +972,22 @@ def test_theano_function_scalar():
                     assert value.ndim == d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_theano_function_bad_kwarg(), passing an unknown keyword argument to theano_function() should raise an exception) over Any ║
+# ║ Path(test_theano_function_bad_kwarg(), <unspecified:test_theano_function_bad_kwarg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_theano_function_bad_kwarg : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14c0f732c736f6a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_bad_kwarg","kind":"function","src_hash":"dadf21e2bcd62f06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_theano_function_bad_kwarg()","rhs":"passing an unknown keyword argument to theano_function() should raise an exception","over":{"base":"Any"},"name":"test_theano_function_bad_kwarg_correct"},"guarantee":"passing an unknown keyword argument to theano_function() should raise an exception","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_bad_kwarg_correct","statement":"Path(test_theano_function_bad_kwarg(x), passing an unknown keyword argument to theano_function() should raise an exception)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14c0f732c736f6a2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_theano_function_bad_kwarg","kind":"function","src_hash":"dadf21e2bcd62f06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_theano_function_bad_kwarg()","rhs":"<unspecified:test_theano_function_bad_kwarg>","over":{"base":"Any"},"name":"test_theano_function_bad_kwarg_correct"},"guarantee":"passing an unknown keyword argument to theano_function() should raise an exception","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_theano_function_bad_kwarg_correct","statement":"Path(test_theano_function_bad_kwarg(x), passing an unknown keyword argument to theano_function() should raise an exception)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14c0f732c736f6a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_theano_function_bad_kwarg():
     """
     Passing an unknown keyword argument to theano_function() should raise an
@@ -792,16 +997,24 @@ def test_theano_function_bad_kwarg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slice(), test_slice produces the expected output) over Any ║
+# ║ Path(test_slice(), theano_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slice : Any → {Any | theano_code_(slice(1, 2, 3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theano_code_(slice(1, 2, 3)) == slice(1, ...   ║
+# ║   ensures:  theq_slice(theano_code_(slice(x, y), dtyp...   ║
+# ║   ensures:  theq_slice(theano_code_(slice(1, x, 3), d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slice : Any → {Any | result satisfies: theano_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b211b4972be28cbe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5354f5774b4bed0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_slice","kind":"function","src_hash":"fc5637e916526707","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))"},"spec":{"lhs":"test_slice()","rhs":"test_slice produces the expected output","over":{"base":"Any"},"name":"test_slice_correct"},"guarantee":"test_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_slice_correct","statement":"Path(test_slice(x), test_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b211b4972be28cbe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_slice","kind":"function","src_hash":"fc5637e916526707","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theano_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))"},"spec":{"lhs":"test_slice()","rhs":"theano_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))","over":{"base":"Any"},"name":"test_slice_correct"},"guarantee":"theano_code_(slice(1, 2, 3)) == slice(1, 2, 3); theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)); theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_slice_correct","statement":"Path(test_slice(x), theano_code_(slice(1, 2, 3)) == slice(1, 2, 3); theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)); theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5354f5774b4bed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theano_code_(slice(1, 2, 3)) == slice(1, 2, 3)","theq_slice(theano_code_(slice(x, y), dtypes=dtypes), slice(xt, yt))","theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_slice():
     assert theano_code_(slice(1, 2, 3)) == slice(1, 2, 3)
 
@@ -821,16 +1034,24 @@ def test_slice():
     assert theq_slice(theano_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSlice(), test_MatrixSlice produces the expected output) over Any ║
+# ║ Path(test_MatrixSlice(), tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == theano_code_(X, cache=cache) and all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSlice : Any → {Any | tuple(Yt.owner.op.idx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tuple(Yt.owner.op.idx_list) == (slice(s, ...   ║
+# ║   ensures:  Yt.owner.inputs[0] == theano_code_(X, cac...   ║
+# ║   ensures:  all((Yt.owner.inputs[i].equals(Constant(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSlice : Any → {Any | result satisfies: tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   theano.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 44305479e3fe...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 2ab12c36521e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatrixSlice","kind":"function","src_hash":"7f6dee3fded5984c","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == theano_code_(X, cache=cache) and all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7)))"},"spec":{"lhs":"test_MatrixSlice()","rhs":"test_MatrixSlice produces the expected output","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"test_MatrixSlice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), test_MatrixSlice produces the expected output)"},"assumes":[],"trust":["theano.__module__"],"compiled":true,"vhash":"44305479e3fed73b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_MatrixSlice","kind":"function","src_hash":"7f6dee3fded5984c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == theano_code_(X, cache=cache) and all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7)))"},"spec":{"lhs":"test_MatrixSlice()","rhs":"tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == theano_code_(X, cache=cache) and all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7)))","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)); Yt.owner.inputs[0] == theano_code_(X, cache=cache); all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)); Yt.owner.inputs[0] == theano_code_(X, cache=cache); all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7))))"},"assumes":[],"trust":["theano.__module__"],"compiled":true,"vhash":"2ab12c36521ec998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s))","Yt.owner.inputs[0] == theano_code_(X, cache=cache)","all((Yt.owner.inputs[i].equals(Constant(s, i)) for i in range(1, 7)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixSlice():
     from theano import Constant
 
@@ -857,16 +1078,22 @@ def test_MatrixSlice():
     # assert Yt.owner.op.idx_list[0].stop == kt
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix(), test_BlockMatrix produces the expected output) over Any ║
+# ║ Path(test_BlockMatrix(), any((theq(Blockt, solution) for solution in solutions))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix : Any → {Any | any((theq(Blockt, sol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  any((theq(Blockt, solution) for solution ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix : Any → {Any | result satisfies: any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb3df198dcff1972  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a1e9b49dec04d9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_BlockMatrix","kind":"function","src_hash":"345b959653f3d841","in":{"base":"Any"},"out":{"base":"Any","pred":"any((theq(Blockt, solution) for solution in solutions))"},"spec":{"lhs":"test_BlockMatrix()","rhs":"test_BlockMatrix produces the expected output","over":{"base":"Any"},"name":"test_BlockMatrix_correct"},"guarantee":"test_BlockMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_BlockMatrix_correct","statement":"Path(test_BlockMatrix(x), test_BlockMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb3df198dcff1972"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_BlockMatrix","kind":"function","src_hash":"345b959653f3d841","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: any((theq(Blockt, solution) for solution in solutions))"},"spec":{"lhs":"test_BlockMatrix()","rhs":"any((theq(Blockt, solution) for solution in solutions))","over":{"base":"Any"},"name":"test_BlockMatrix_correct"},"guarantee":"any((theq(Blockt, solution) for solution in solutions))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_BlockMatrix_correct","statement":"Path(test_BlockMatrix(x), any((theq(Blockt, solution) for solution in solutions)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a1e9b49dec04d9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["any((theq(Blockt, solution) for solution in solutions))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix():
     n = sy.Symbol('n', integer=True)
     A, B, C, D = [sy.MatrixSymbol(name, n, n) for name in 'ABCD']
@@ -879,16 +1106,22 @@ def test_BlockMatrix():
 
 @SKIP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_Inverse_execution(), test_BlockMatrix_Inverse_execution produces the expected output) over Any ║
+# ║ Path(test_BlockMatrix_Inverse_execution(), np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix_Inverse_execution : Any → {Any | np....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.allclose(f(*ninputs), fblocked(*ninput...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix_Inverse_execution : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c16c63476f77c8e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2ccf175ffd80c78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_BlockMatrix_Inverse_execution","kind":"function","src_hash":"864de936cf22820c","in":{"base":"Any"},"out":{"base":"Any","pred":"np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)"},"spec":{"lhs":"test_BlockMatrix_Inverse_execution()","rhs":"test_BlockMatrix_Inverse_execution produces the expected output","over":{"base":"Any"},"name":"test_BlockMatrix_Inverse_execution_correct"},"guarantee":"test_BlockMatrix_Inverse_execution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_BlockMatrix_Inverse_execution_correct","statement":"Path(test_BlockMatrix_Inverse_execution(x), test_BlockMatrix_Inverse_execution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c16c63476f77c8e0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_BlockMatrix_Inverse_execution","kind":"function","src_hash":"864de936cf22820c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)"},"spec":{"lhs":"test_BlockMatrix_Inverse_execution()","rhs":"np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)","over":{"base":"Any"},"name":"test_BlockMatrix_Inverse_execution_correct"},"guarantee":"np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_BlockMatrix_Inverse_execution_correct","statement":"Path(test_BlockMatrix_Inverse_execution(x), np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2ccf175ffd80c78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix_Inverse_execution():
     k, n = 2, 4
     dtype = 'float32'
@@ -915,7 +1148,10 @@ def test_BlockMatrix_Inverse_execution():
     assert np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-5)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DenseMatrix(), test_DenseMatrix produces the expected output) over {Any | isinstance(tX, tt.TensorVariable)} ║
+# ║ Path(test_DenseMatrix(), <unspecified:test_DenseMatrix>) over {Any | isinstance(tX, tt.TensorVariable)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DenseMatrix : {Any | isinstance(tX, tt.TensorVar...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -927,9 +1163,12 @@ def test_BlockMatrix_Inverse_execution():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 64ad2e5e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_DenseMatrix","kind":"function","src_hash":"8ffc6b14945244e0","in":{"base":"Any","pred":"isinstance(tX, tt.TensorVariable)"},"out":{"base":"Any","pred":"isinstance(tX, tt.TensorVariable) and tX.owner.op == tt.join_"},"spec":{"lhs":"test_DenseMatrix()","rhs":"test_DenseMatrix produces the expected output","over":{"base":"Any","pred":"isinstance(tX, tt.TensorVariable)"},"name":"test_DenseMatrix_correct"},"guarantee":"test_DenseMatrix produces the expected output","fibers":[{"name":"tt_TensorVariable","pred":"isinstance(tX, tt.TensorVariable)","path":{"lhs":"test_DenseMatrix(x)","rhs":"test_DenseMatrix produces the expected output","over":{"base":"tt.TensorVariable","pred":"isinstance(tX, tt.TensorVariable)"},"name":"test_DenseMatrix_tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_DenseMatrix_tt.TensorVariable_correct","statement":"test_DenseMatrix satisfies spec on tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64ad2e5e657ce7c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_DenseMatrix","kind":"function","src_hash":"8ffc6b14945244e0","in":{"base":"Any","pred":"isinstance(tX, tt.TensorVariable)"},"out":{"base":"Any","pred":"isinstance(tX, tt.TensorVariable) and tX.owner.op == tt.join_"},"spec":{"lhs":"test_DenseMatrix()","rhs":"<unspecified:test_DenseMatrix>","over":{"base":"Any","pred":"isinstance(tX, tt.TensorVariable)"},"name":"test_DenseMatrix_correct"},"guarantee":"test_DenseMatrix produces the expected output","fibers":[{"name":"tt_TensorVariable","pred":"isinstance(tX, tt.TensorVariable)","path":{"lhs":"test_DenseMatrix(x)","rhs":"test_DenseMatrix produces the expected output","over":{"base":"tt.TensorVariable","pred":"isinstance(tX, tt.TensorVariable)"},"name":"test_DenseMatrix_tt.TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_DenseMatrix_tt.TensorVariable_correct","statement":"test_DenseMatrix satisfies spec on tt.TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64ad2e5e657ce7c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_DenseMatrix():
     t = sy.Symbol('theta')
     for MatrixType in [sy.Matrix, sy.ImmutableMatrix]:
@@ -940,16 +1179,22 @@ def test_DenseMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cache_basic(), test single symbol-like objects are cached when printed by themselves) over Any ║
+# ║ Path(test_cache_basic(), <unspecified:test_cache_basic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cache_basic : Any → {Any | theano_code_(s1, cach...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ed987bc7dc4fa0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_cache_basic","kind":"function","src_hash":"df20a54fb279d807","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(s1, cache=cache) is st and theano_code_(s1, cache={}) is not st and theano_code_(s2, cache=cache) is st"},"spec":{"lhs":"test_cache_basic()","rhs":"test single symbol-like objects are cached when printed by themselves","over":{"base":"Any"},"name":"test_cache_basic_correct"},"guarantee":"test single symbol-like objects are cached when printed by themselves","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_cache_basic_correct","statement":"Path(test_cache_basic(x), test single symbol-like objects are cached when printed by themselves)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ed987bc7dc4fa0f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_cache_basic","kind":"function","src_hash":"df20a54fb279d807","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code_(s1, cache=cache) is st and theano_code_(s1, cache={}) is not st and theano_code_(s2, cache=cache) is st"},"spec":{"lhs":"test_cache_basic()","rhs":"<unspecified:test_cache_basic>","over":{"base":"Any"},"name":"test_cache_basic_correct"},"guarantee":"test single symbol-like objects are cached when printed by themselves","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_cache_basic_correct","statement":"Path(test_cache_basic(x), test single symbol-like objects are cached when printed by themselves)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ed987bc7dc4fa0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cache_basic():
     """ Test single symbol-like objects are cached when printed by themselves. """
 
@@ -974,16 +1219,22 @@ def test_cache_basic():
         assert theano_code_(s2, cache=cache) is st
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_global_cache(), test use of the global cache) over Any ║
+# ║ Path(test_global_cache(), <unspecified:test_global_cache>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_global_cache : Any → {Any | theano_code(s) is st}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5754858103130e94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_global_cache","kind":"function","src_hash":"0641c76dce8bc609","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code(s) is st"},"spec":{"lhs":"test_global_cache()","rhs":"test use of the global cache","over":{"base":"Any"},"name":"test_global_cache_correct"},"guarantee":"test use of the global cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_global_cache_correct","statement":"Path(test_global_cache(x), test use of the global cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5754858103130e94"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_global_cache","kind":"function","src_hash":"0641c76dce8bc609","in":{"base":"Any"},"out":{"base":"Any","pred":"theano_code(s) is st"},"spec":{"lhs":"test_global_cache()","rhs":"<unspecified:test_global_cache>","over":{"base":"Any"},"name":"test_global_cache_correct"},"guarantee":"test use of the global cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_global_cache_correct","statement":"Path(test_global_cache(x), test use of the global cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5754858103130e94","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_global_cache():
     """ Test use of the global cache. """
     from sympy.printing.theanocode import global_cache
@@ -1003,16 +1254,22 @@ def test_global_cache():
         global_cache.update(backup)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cache_types_distinct(), test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name) over Any ║
+# ║ Path(test_cache_types_distinct(), len(set(map(id, printed.values()))) == len(symbols)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cache_types_distinct : Any → {Any | len(set(map(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(set(map(id, printed.values()))) == le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cache_types_distinct : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 121a78c2c3361573  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9aae460c29282e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_cache_types_distinct","kind":"function","src_hash":"9b483a1a9b4336be","in":{"base":"Any"},"out":{"base":"Any","pred":"len(set(map(id, printed.values()))) == len(symbols) and st not in printed.values() and theano_code(s, cache=cache) is st"},"spec":{"lhs":"test_cache_types_distinct()","rhs":"test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name","over":{"base":"Any"},"name":"test_cache_types_distinct_correct"},"guarantee":"test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_cache_types_distinct_correct","statement":"Path(test_cache_types_distinct(x), test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"121a78c2c3361573"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_cache_types_distinct","kind":"function","src_hash":"9b483a1a9b4336be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(set(map(id, printed.values()))) == len(symbols)"},"spec":{"lhs":"test_cache_types_distinct()","rhs":"len(set(map(id, printed.values()))) == len(symbols)","over":{"base":"Any"},"name":"test_cache_types_distinct_correct"},"guarantee":"len(set(map(id, printed.values()))) == len(symbols)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_cache_types_distinct_correct","statement":"Path(test_cache_types_distinct(x), len(set(map(id, printed.values()))) == len(symbols))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9aae460c29282e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(set(map(id, printed.values()))) == len(symbols)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cache_types_distinct():
     """
     Test that symbol-like objects of different types (Symbol, MatrixSymbol,
@@ -1038,16 +1295,23 @@ def test_cache_types_distinct():
             assert theano_code(s, cache=cache) is st
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbols_are_created_once(), test that a symbol is cached and reused when it appears in an expression more than once) over Any ║
+# ║ Path(test_symbols_are_created_once(), theq(comp, xt + xt) and not theq(comp, xt + theano_code_(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbols_are_created_once : Any → {Any | theq(com...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(comp, xt + xt)                            ║
+# ║   ensures:  not theq(comp, xt + theano_code_(x))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbols_are_created_once : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f1c6970c06ea03d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe50053d716ad3b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_symbols_are_created_once","kind":"function","src_hash":"0e9a3ae7517a5cd9","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(comp, xt + xt) and not theq(comp, xt + theano_code_(x))"},"spec":{"lhs":"test_symbols_are_created_once()","rhs":"test that a symbol is cached and reused when it appears in an expression more than once","over":{"base":"Any"},"name":"test_symbols_are_created_once_correct"},"guarantee":"test that a symbol is cached and reused when it appears in an expression more than once","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_symbols_are_created_once_correct","statement":"Path(test_symbols_are_created_once(x), test that a symbol is cached and reused when it appears in an expression more than once)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f1c6970c06ea03d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_symbols_are_created_once","kind":"function","src_hash":"0e9a3ae7517a5cd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(comp, xt + xt) and not theq(comp, xt + theano_code_(x))"},"spec":{"lhs":"test_symbols_are_created_once()","rhs":"theq(comp, xt + xt) and not theq(comp, xt + theano_code_(x))","over":{"base":"Any"},"name":"test_symbols_are_created_once_correct"},"guarantee":"theq(comp, xt + xt); not theq(comp, xt + theano_code_(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_symbols_are_created_once_correct","statement":"Path(test_symbols_are_created_once(x), theq(comp, xt + xt); not theq(comp, xt + theano_code_(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe50053d716ad3b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(comp, xt + xt)","not theq(comp, xt + theano_code_(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbols_are_created_once():
     """
     Test that a symbol is cached and reused when it appears in an expression
@@ -1060,7 +1324,10 @@ def test_symbols_are_created_once():
     assert not theq(comp, xt + theano_code_(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cache_complex(), test caching on a complicated expression with multiple symbols appearing multiple times) over {Any | isinstance(v, theano.gof.graph.Constant)} ║
+# ║ Path(test_cache_complex(), seen == symbol_names) over {Any | isinstance(v, theano.gof.graph.Constant)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  seen == symbol_names                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cache_complex : {Any | isinstance(v, theano.gof....   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1072,9 +1339,12 @@ def test_symbols_are_created_once():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 98b80781...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_cache_complex","kind":"function","src_hash":"226fbb60d5038906","in":{"base":"Any","pred":"isinstance(v, theano.gof.graph.Constant)"},"out":{"base":"Any","pred":"seen == symbol_names and v.name in symbol_names and v.name not in seen"},"spec":{"lhs":"test_cache_complex()","rhs":"test caching on a complicated expression with multiple symbols appearing multiple times","over":{"base":"Any","pred":"isinstance(v, theano.gof.graph.Constant)"},"name":"test_cache_complex_correct"},"guarantee":"test caching on a complicated expression with multiple symbols appearing multiple times","fibers":[{"name":"theano_gof_graph_Constant","pred":"isinstance(v, theano.gof.graph.Constant)","path":{"lhs":"test_cache_complex(x)","rhs":"test caching on a complicated expression with multiple symbols appearing multiple times","over":{"base":"theano.gof.graph.Constant","pred":"isinstance(v, theano.gof.graph.Constant)"},"name":"test_cache_complex_theano.gof.graph.Constant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_cache_complex_theano.gof.graph.Constant_correct","statement":"test_cache_complex satisfies spec on theano.gof.graph.Constant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98b80781b4cfbdca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_cache_complex","kind":"function","src_hash":"226fbb60d5038906","in":{"base":"Any","pred":"isinstance(v, theano.gof.graph.Constant)"},"out":{"base":"Any","pred":"result satisfies: seen == symbol_names"},"spec":{"lhs":"test_cache_complex()","rhs":"seen == symbol_names","over":{"base":"Any","pred":"isinstance(v, theano.gof.graph.Constant)"},"name":"test_cache_complex_correct"},"guarantee":"seen == symbol_names","fibers":[{"name":"theano_gof_graph_Constant","pred":"isinstance(v, theano.gof.graph.Constant)","path":{"lhs":"test_cache_complex(x)","rhs":"seen == symbol_names","over":{"base":"theano.gof.graph.Constant","pred":"isinstance(v, theano.gof.graph.Constant)"},"name":"test_cache_complex_theano.gof.graph.Constant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_cache_complex_theano.gof.graph.Constant_correct","statement":"test_cache_complex satisfies spec on theano.gof.graph.Constant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98b80781b4cfbdca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["seen == symbol_names"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'v.owner is None and (not isinstance(v, theano.gof.graph.Constant))'}, fibers={'theano_gof_graph_Constant'})"]}}
 def test_cache_complex():
     """
     Test caching on a complicated expression with multiple symbols appearing
@@ -1100,16 +1370,23 @@ def test_cache_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise(), test_Piecewise produces the expected output) over Any ║
+# ║ Path(test_Piecewise(), result.owner.op == tt.switch and theq(result, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Piecewise : Any → {Any | result.owner.op == tt.s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result.owner.op == tt.switch                   ║
+# ║   ensures:  theq(result, expected)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Piecewise : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 969d63dd5eb10b52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff84dff105ed7753  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Piecewise","kind":"function","src_hash":"f2aa2584ed697aea","in":{"base":"Any"},"out":{"base":"Any","pred":"result.owner.op == tt.switch and theq(result, expected) and theq(result, expected) and theq(result, expected)"},"spec":{"lhs":"test_Piecewise()","rhs":"test_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"969d63dd5eb10b52"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Piecewise","kind":"function","src_hash":"f2aa2584ed697aea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result.owner.op == tt.switch and theq(result, expected)"},"spec":{"lhs":"test_Piecewise()","rhs":"result.owner.op == tt.switch and theq(result, expected)","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"result.owner.op == tt.switch; theq(result, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Piecewise_correct","statement":"Path(test_Piecewise(x), result.owner.op == tt.switch; theq(result, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff84dff105ed7753","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result.owner.op == tt.switch","theq(result, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Piecewise():
     # A piecewise linear
     expr = sy.Piecewise((0, x<0), (x, x<2), (1, True))  # ___/III
@@ -1133,16 +1410,24 @@ def test_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relationals(), test_Relationals produces the expected output) over Any ║
+# ║ Path(test_Relationals(), theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt)) and theq(theano_code_(x > y), xt > yt) and theq(theano_code_(x < y), xt < yt) and theq(theano_code_(x >= y), xt >= yt) and theq(theano_code_(x <= y), xt <= yt)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relationals : Any → {Any | theq(theano_code_(sy....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(theano_code_(sy.Eq(x, y)), tt.eq(xt,...   ║
+# ║   ensures:  theq(theano_code_(x > y), xt > yt)             ║
+# ║   ensures:  theq(theano_code_(x < y), xt < yt)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relationals : Any → {Any | result satisfies: the...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19d0a5ed94a1fbbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7005a399442973a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Relationals","kind":"function","src_hash":"8cbe46eb5e04e26c","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt)) and theq(theano_code_(x > y), xt > yt) and theq(theano_code_(x < y), xt < yt) and theq(theano_code_(x >= y), xt >= yt) and theq(theano_code_(x <= y), xt <= yt)"},"spec":{"lhs":"test_Relationals()","rhs":"test_Relationals produces the expected output","over":{"base":"Any"},"name":"test_Relationals_correct"},"guarantee":"test_Relationals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Relationals_correct","statement":"Path(test_Relationals(x), test_Relationals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19d0a5ed94a1fbbf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Relationals","kind":"function","src_hash":"8cbe46eb5e04e26c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt)) and theq(theano_code_(x > y), xt > yt) and theq(theano_code_(x < y), xt < yt) and theq(theano_code_(x >= y), xt >= yt) and theq(theano_code_(x <= y), xt <= yt)"},"spec":{"lhs":"test_Relationals()","rhs":"theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt)) and theq(theano_code_(x > y), xt > yt) and theq(theano_code_(x < y), xt < yt) and theq(theano_code_(x >= y), xt >= yt) and theq(theano_code_(x <= y), xt <= yt)","over":{"base":"Any"},"name":"test_Relationals_correct"},"guarantee":"theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt)); theq(theano_code_(x > y), xt > yt); theq(theano_code_(x < y), xt < yt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Relationals_correct","statement":"Path(test_Relationals(x), theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt)); theq(theano_code_(x > y), xt > yt); theq(theano_code_(x < y), xt < yt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7005a399442973a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt))","theq(theano_code_(x > y), xt > yt)","theq(theano_code_(x < y), xt < yt)","theq(theano_code_(x >= y), xt >= yt)","theq(theano_code_(x <= y), xt <= yt)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relationals():
     assert theq(theano_code_(sy.Eq(x, y)), tt.eq(xt, yt))
     # assert theq(theano_code_(sy.Ne(x, y)), tt.neq(xt, yt))  # TODO - implement
@@ -1153,16 +1438,22 @@ def test_Relationals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complexfunctions(), test_complexfunctions produces the expected output) over Any ║
+# ║ Path(test_complexfunctions(), <unspecified:test_complexfunctions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_complexfunctions : Any → {Any | theq(theano_code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   theano.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8b5aa3496576...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_complexfunctions","kind":"function","src_hash":"df49593c4faa22d7","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(theano_code_(y * conjugate(x)), yt * xt.conj()) and theq(theano_code_((1 + 2j) * x), xt * (atv(1.0) + atv(2.0) * cplx(0, 1)))"},"spec":{"lhs":"test_complexfunctions()","rhs":"test_complexfunctions produces the expected output","over":{"base":"Any"},"name":"test_complexfunctions_correct"},"guarantee":"test_complexfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_complexfunctions_correct","statement":"Path(test_complexfunctions(x), test_complexfunctions produces the expected output)"},"assumes":[],"trust":["theano.__module__"],"compiled":true,"vhash":"8b5aa3496576f1df"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_complexfunctions","kind":"function","src_hash":"df49593c4faa22d7","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(theano_code_(y * conjugate(x)), yt * xt.conj()) and theq(theano_code_((1 + 2j) * x), xt * (atv(1.0) + atv(2.0) * cplx(0, 1)))"},"spec":{"lhs":"test_complexfunctions()","rhs":"<unspecified:test_complexfunctions>","over":{"base":"Any"},"name":"test_complexfunctions_correct"},"guarantee":"test_complexfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_complexfunctions_correct","statement":"Path(test_complexfunctions(x), test_complexfunctions produces the expected output)"},"assumes":[],"trust":["theano.__module__"],"compiled":true,"vhash":"8b5aa3496576f1df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_complexfunctions():
     with warns_deprecated_sympy():
         xt, yt = theano_code_(x, dtypes={x:'complex128'}), theano_code_(y, dtypes={y: 'complex128'})
@@ -1175,16 +1466,22 @@ def test_complexfunctions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constantfunctions(), test_constantfunctions produces the expected output) over Any ║
+# ║ Path(test_constantfunctions(), tf() == 1 + 1j) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constantfunctions : Any → {Any | tf() == 1 + 1j}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tf() == 1 + 1j                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constantfunctions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3be43299aade4f41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6b88b35f302162f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_constantfunctions","kind":"function","src_hash":"e66b33d6b0faf2e5","in":{"base":"Any"},"out":{"base":"Any","pred":"tf() == 1 + 1j"},"spec":{"lhs":"test_constantfunctions()","rhs":"test_constantfunctions produces the expected output","over":{"base":"Any"},"name":"test_constantfunctions_correct"},"guarantee":"test_constantfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_constantfunctions_correct","statement":"Path(test_constantfunctions(x), test_constantfunctions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be43299aade4f41"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_constantfunctions","kind":"function","src_hash":"e66b33d6b0faf2e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tf() == 1 + 1j"},"spec":{"lhs":"test_constantfunctions()","rhs":"tf() == 1 + 1j","over":{"base":"Any"},"name":"test_constantfunctions_correct"},"guarantee":"tf() == 1 + 1j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_constantfunctions_correct","statement":"Path(test_constantfunctions(x), tf() == 1 + 1j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b88b35f302162f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tf() == 1 + 1j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_constantfunctions():
     with warns_deprecated_sympy():
         tf = theano_function_([],[1+1j])
@@ -1192,16 +1489,22 @@ def test_constantfunctions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Exp1(), test that exp(1) prints without error and evaluates close to sympy's e) over Any ║
+# ║ Path(test_Exp1(), <unspecified:test_Exp1>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Exp1 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e00112b54a197a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Exp1","kind":"function","src_hash":"8eb01a0c9220c019","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Exp1()","rhs":"test that exp(1) prints without error and evaluates close to sympy's e","over":{"base":"Any"},"name":"test_Exp1_correct"},"guarantee":"test that exp(1) prints without error and evaluates close to sympy's e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Exp1_correct","statement":"Path(test_Exp1(x), test that exp(1) prints without error and evaluates close to sympy's e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e00112b54a197a2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_theanocode.test_Exp1","kind":"function","src_hash":"8eb01a0c9220c019","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Exp1()","rhs":"<unspecified:test_Exp1>","over":{"base":"Any"},"name":"test_Exp1_correct"},"guarantee":"test that exp(1) prints without error and evaluates close to sympy's e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_theanocode.test_Exp1_correct","statement":"Path(test_Exp1(x), test that exp(1) prints without error and evaluates close to sympy's e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e00112b54a197a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Exp1():
     """
     Test that exp(1) prints without error and evaluates close to SymPy's E

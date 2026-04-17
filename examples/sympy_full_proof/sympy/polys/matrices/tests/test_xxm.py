@@ -50,16 +50,22 @@ import pytest
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_constructors(), test the ddm, etc constructors) over Any ║
+# ║ Path(test_XXM_constructors(), <unspecified:test_XXM_constructors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XXM_constructors : Any → {Any | A.rows == 3 and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba0578121e4517f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_constructors","kind":"function","src_hash":"b2d21851f14167c0","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rows == 3 and A.cols == 2 and A.domain == ZZ and A.shape == (3, 2) and XDM(lol_0x0, (0, 0), ZZ).shape == (0, 0) and XDM(lol_0x2, (0, 2), ZZ).shape == (0, 2) and XDM(lol_2x0, (2, 0), ZZ).shape == (2, 0) and A.rows == 3 and A.cols == 2 and A.domain == ZZ and A.shape == (3, 2) and ZZ.of_type(A[0][0]) is True and DomainMatrix(dod, (3, 2), ZZ).rep == A and XDM(dod_0x0, (0, 0), ZZ).shape == (0, 0) and XDM(dod_0x2, (0, 2), ZZ).shape == (0, 2) and XDM(dod_2x0, (2, 0), ZZ).shape == (2, 0) and ZZ.of_type(A[0][0]) is True and ZZ.of_type(A.rep[0, 0]) is True and Adm.rep == A and Adm.rep.to_ddm() != A and Adm.rep.to_ddm() == A and Adm.rep != A and Adm.rep == A and Adm.rep.to_ddm() == A"},"spec":{"lhs":"test_XXM_constructors()","rhs":"test the ddm, etc constructors","over":{"base":"Any"},"name":"test_XXM_constructors_correct"},"guarantee":"test the ddm, etc constructors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_constructors_correct","statement":"Path(test_XXM_constructors(x), test the ddm, etc constructors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba0578121e4517f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_constructors","kind":"function","src_hash":"b2d21851f14167c0","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rows == 3 and A.cols == 2 and A.domain == ZZ and A.shape == (3, 2) and XDM(lol_0x0, (0, 0), ZZ).shape == (0, 0) and XDM(lol_0x2, (0, 2), ZZ).shape == (0, 2) and XDM(lol_2x0, (2, 0), ZZ).shape == (2, 0) and A.rows == 3 and A.cols == 2 and A.domain == ZZ and A.shape == (3, 2) and ZZ.of_type(A[0][0]) is True and DomainMatrix(dod, (3, 2), ZZ).rep == A and XDM(dod_0x0, (0, 0), ZZ).shape == (0, 0) and XDM(dod_0x2, (0, 2), ZZ).shape == (0, 2) and XDM(dod_2x0, (2, 0), ZZ).shape == (2, 0) and ZZ.of_type(A[0][0]) is True and ZZ.of_type(A.rep[0, 0]) is True and Adm.rep == A and Adm.rep.to_ddm() != A and Adm.rep.to_ddm() == A and Adm.rep != A and Adm.rep == A and Adm.rep.to_ddm() == A"},"spec":{"lhs":"test_XXM_constructors()","rhs":"<unspecified:test_XXM_constructors>","over":{"base":"Any"},"name":"test_XXM_constructors_correct"},"guarantee":"test the ddm, etc constructors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_constructors_correct","statement":"Path(test_XXM_constructors(x), test the ddm, etc constructors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba0578121e4517f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_XXM_constructors():
     """Test the DDM, etc constructors."""
 
@@ -152,16 +158,22 @@ def test_XXM_constructors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_eq(), test equality for ddm, sdm, dfm and domainmatrix) over Any ║
+# ║ Path(test_XXM_eq(), <unspecified:test_XXM_eq>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XXM_eq : Any → {Any | (A1 == A2) is False and (A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c96fb316f1bb4f64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_eq","kind":"function","src_hash":"8a0bb415da2b487b","in":{"base":"Any"},"out":{"base":"Any","pred":"(A1 == A2) is False and (A1 != A2) is True and (An == Am) is True and (An != Am) is False and (An == Am) is False and (An != Am) is True and (An == Am) is True and (An != Am) is False and (An == Am) is False and (An != Am) is True"},"spec":{"lhs":"test_XXM_eq()","rhs":"test equality for ddm, sdm, dfm and domainmatrix","over":{"base":"Any"},"name":"test_XXM_eq_correct"},"guarantee":"test equality for ddm, sdm, dfm and domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_eq_correct","statement":"Path(test_XXM_eq(x), test equality for ddm, sdm, dfm and domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96fb316f1bb4f64"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_eq","kind":"function","src_hash":"8a0bb415da2b487b","in":{"base":"Any"},"out":{"base":"Any","pred":"(A1 == A2) is False and (A1 != A2) is True and (An == Am) is True and (An != Am) is False and (An == Am) is False and (An != Am) is True and (An == Am) is True and (An != Am) is False and (An == Am) is False and (An != Am) is True"},"spec":{"lhs":"test_XXM_eq()","rhs":"<unspecified:test_XXM_eq>","over":{"base":"Any"},"name":"test_XXM_eq_correct"},"guarantee":"test equality for ddm, sdm, dfm and domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_eq_correct","statement":"Path(test_XXM_eq(x), test equality for ddm, sdm, dfm and domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96fb316f1bb4f64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_XXM_eq():
     """Test equality for DDM, SDM, DFM and DomainMatrix."""
 
@@ -217,7 +229,10 @@ def test_XXM_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_XXM(), test to_ddm etc) over {Any | isinstance(A, DFM)} ║
+# ║ Path(test_to_XXM(), <unspecified:test_to_XXM>) over {Any | isinstance(A, DFM)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_to_XXM : {Any | isinstance(A, DFM)} → {Any | A.t...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -229,9 +244,12 @@ def test_XXM_eq():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a8076da3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_to_XXM","kind":"function","src_hash":"b322b1d788577be8","in":{"base":"Any","pred":"isinstance(A, DFM)"},"out":{"base":"Any","pred":"A.to_ddm() == A_ddm and A.to_sdm() == A_sdm and A.to_dfm_or_ddm() == A_ddm and A.to_dfm() == A_dfm and A_K.to_dfm() == A_dfm_K and A_K.to_dfm_or_ddm() == A_dfm_K and A_K.to_dfm_or_ddm() == A_ddm.convert_to(K)"},"spec":{"lhs":"test_to_XXM()","rhs":"test to_ddm etc","over":{"base":"Any","pred":"isinstance(A, DFM)"},"name":"test_to_XXM_correct"},"guarantee":"test to_ddm etc","fibers":[{"name":"DFM","pred":"isinstance(A, DFM)","path":{"lhs":"test_to_XXM(x)","rhs":"test to_ddm etc","over":{"base":"DFM","pred":"isinstance(A, DFM)"},"name":"test_to_XXM_DFM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_to_XXM_DFM_correct","statement":"test_to_XXM satisfies spec on DFM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a8076da380dcaf02"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_to_XXM","kind":"function","src_hash":"b322b1d788577be8","in":{"base":"Any","pred":"isinstance(A, DFM)"},"out":{"base":"Any","pred":"A.to_ddm() == A_ddm and A.to_sdm() == A_sdm and A.to_dfm_or_ddm() == A_ddm and A.to_dfm() == A_dfm and A_K.to_dfm() == A_dfm_K and A_K.to_dfm_or_ddm() == A_dfm_K and A_K.to_dfm_or_ddm() == A_ddm.convert_to(K)"},"spec":{"lhs":"test_to_XXM()","rhs":"<unspecified:test_to_XXM>","over":{"base":"Any","pred":"isinstance(A, DFM)"},"name":"test_to_XXM_correct"},"guarantee":"test to_ddm etc","fibers":[{"name":"DFM","pred":"isinstance(A, DFM)","path":{"lhs":"test_to_XXM(x)","rhs":"test to_ddm etc","over":{"base":"DFM","pred":"isinstance(A, DFM)"},"name":"test_to_XXM_DFM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_to_XXM_DFM_correct","statement":"test_to_XXM satisfies spec on DFM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a8076da380dcaf02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"GROUND_TYPES == 'flint'\", \"GROUND_TYPES != 'flint'\", 'isinstance(A, DFM) and (not DFM._supports_domain(K))'}, fibers={'DFM'})"]}}
 def test_to_XXM():
     """Test to_ddm etc. for DDM, SDM, DFM and DomainMatrix."""
 
@@ -277,16 +295,22 @@ def test_to_XXM():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DFM_domains(), test which domains are supported by dfm) over Any ║
+# ║ Path(test_DFM_domains(), <unspecified:test_DFM_domains>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DFM_domains : Any → {Any | DFM._supports_domain(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   flint.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 0daeb2316fbc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_DFM_domains","kind":"function","src_hash":"105b192319dc9544","in":{"base":"Any"},"out":{"base":"Any","pred":"DFM._supports_domain(domain) is True and DFM._supports_domain(domain) is False and False and DFM._get_flint_func(domain) == flint_funcs[domain]"},"spec":{"lhs":"test_DFM_domains()","rhs":"test which domains are supported by dfm","over":{"base":"Any"},"name":"test_DFM_domains_correct"},"guarantee":"test which domains are supported by dfm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_DFM_domains_correct","statement":"Path(test_DFM_domains(x), test which domains are supported by dfm)"},"assumes":[],"trust":["flint.__module__"],"compiled":true,"vhash":"0daeb2316fbc9e61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_DFM_domains","kind":"function","src_hash":"105b192319dc9544","in":{"base":"Any"},"out":{"base":"Any","pred":"DFM._supports_domain(domain) is True and DFM._supports_domain(domain) is False and False and DFM._get_flint_func(domain) == flint_funcs[domain]"},"spec":{"lhs":"test_DFM_domains()","rhs":"<unspecified:test_DFM_domains>","over":{"base":"Any"},"name":"test_DFM_domains_correct"},"guarantee":"test which domains are supported by dfm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_DFM_domains_correct","statement":"Path(test_DFM_domains(x), test which domains are supported by dfm)"},"assumes":[],"trust":["flint.__module__"],"compiled":true,"vhash":"0daeb2316fbc9e61","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DFM_domains():
     """Test which domains are supported by DFM."""
 
@@ -330,16 +354,24 @@ def test_DFM_domains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_DM(lol), make a dm of type typ over k from lol) over Any ║
+# ║ Path(_DM(lol, typ, K), <unspecified:_DM>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: typ == 'DDM' => A.to_ddm()                ║
+# ║   fiber[case_1]: typ == 'SDM' => A.to_sdm()                ║
+# ║   fiber[case_2]: typ == 'DFM' => A.to_dfm()                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _DM : Any → {Any | False}                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42f90f4d88b84420  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ef94fdd85c23078  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._DM","kind":"function","src_hash":"44f052f70ae8e630","in":{"base":"Any"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_DM(lol)","rhs":"make a dm of type typ over k from lol","over":{"base":"Any"},"name":"_DM_correct"},"guarantee":"make a dm of type typ over k from lol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm._DM_correct","statement":"Path(_DM(x), make a dm of type typ over k from lol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42f90f4d88b84420"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._DM","kind":"function","src_hash":"44f052f70ae8e630","in":{"base":"Any"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_DM(lol, typ, K)","rhs":"<unspecified:_DM>","over":{"base":"Any"},"name":"_DM_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm._DM_correct","statement":"Path(_DM(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef94fdd85c23078","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"typ == 'DDM'","ensures":["result == A.to_ddm()"],"decidability":"z3","returns_expr":"A.to_ddm()"},{"name":"case_1","guard":"typ == 'SDM'","ensures":["result == A.to_sdm()"],"decidability":"z3","returns_expr":"A.to_sdm()"},{"name":"case_2","guard":"typ == 'DFM'","ensures":["result == A.to_dfm()"],"decidability":"z3","returns_expr":"A.to_dfm()"},{"name":"case_3","guard":"not (typ == 'DDM') and not (typ == 'SDM') and not (typ == 'DFM')","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _DM(lol, typ, K):
     """Make a DM of type typ over K from lol."""
     A = DM(lol, K)
@@ -357,176 +389,242 @@ def _DM(lol, typ, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_DMZ(lol), make a dm of type typ over zz from lol) over Any ║
+# ║ Path(_DMZ(lol, typ), _DM(lol, typ, ZZ)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DM(lol, typ, ZZ)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _DMZ : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a28ec0f3b49977a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._DMZ","kind":"function","src_hash":"0b690f684645421d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_DMZ(lol)","rhs":"make a dm of type typ over zz from lol","over":{"base":"Any"},"name":"_DMZ_correct"},"guarantee":"make a dm of type typ over zz from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a28ec0f3b49977a1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._DMZ","kind":"function","src_hash":"0b690f684645421d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_DMZ(lol, typ)","rhs":"_DM(lol, typ, ZZ)","over":{"base":"Any"},"name":"_DMZ_correct"},"guarantee":"returns _DM(lol, typ, ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a28ec0f3b49977a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DM(lol, typ, ZZ)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _DMZ(lol, typ):
     """Make a DM of type typ over ZZ from lol."""
     return _DM(lol, typ, ZZ)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_DMQ(lol), make a dm of type typ over qq from lol) over Any ║
+# ║ Path(_DMQ(lol, typ), _DM(lol, typ, QQ)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DM(lol, typ, QQ)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _DMQ : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d57c643b7d6fef5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._DMQ","kind":"function","src_hash":"83016df3dfac827b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_DMQ(lol)","rhs":"make a dm of type typ over qq from lol","over":{"base":"Any"},"name":"_DMQ_correct"},"guarantee":"make a dm of type typ over qq from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d57c643b7d6fef5a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._DMQ","kind":"function","src_hash":"83016df3dfac827b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_DMQ(lol, typ)","rhs":"_DM(lol, typ, QQ)","over":{"base":"Any"},"name":"_DMQ_correct"},"guarantee":"returns _DM(lol, typ, QQ)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d57c643b7d6fef5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DM(lol, typ, QQ)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _DMQ(lol, typ):
     """Make a DM of type typ over QQ from lol."""
     return _DM(lol, typ, QQ)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DM_ddm(lol), make a ddm over k from lol) over Any     ║
+# ║ Path(DM_ddm(lol, K), _DM(lol, 'DDM', K)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DM(lol, 'DDM', K)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DM_ddm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a312b6f215dbfbee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DM_ddm","kind":"function","src_hash":"efb8c04af8328fb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM_ddm(lol)","rhs":"make a ddm over k from lol","over":{"base":"Any"},"name":"DM_ddm_correct"},"guarantee":"make a ddm over k from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a312b6f215dbfbee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DM_ddm","kind":"function","src_hash":"efb8c04af8328fb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM_ddm(lol, K)","rhs":"_DM(lol, 'DDM', K)","over":{"base":"Any"},"name":"DM_ddm_correct"},"guarantee":"returns _DM(lol, 'DDM', K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a312b6f215dbfbee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DM(lol, 'DDM', K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DM_ddm(lol, K):
     """Make a DDM over K from lol."""
     return _DM(lol, 'DDM', K)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DM_sdm(lol), make a sdm over k from lol) over Any     ║
+# ║ Path(DM_sdm(lol, K), _DM(lol, 'SDM', K)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DM(lol, 'SDM', K)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DM_sdm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71322aaa3ca73fe6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DM_sdm","kind":"function","src_hash":"dbf8fa727811bab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM_sdm(lol)","rhs":"make a sdm over k from lol","over":{"base":"Any"},"name":"DM_sdm_correct"},"guarantee":"make a sdm over k from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71322aaa3ca73fe6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DM_sdm","kind":"function","src_hash":"dbf8fa727811bab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM_sdm(lol, K)","rhs":"_DM(lol, 'SDM', K)","over":{"base":"Any"},"name":"DM_sdm_correct"},"guarantee":"returns _DM(lol, 'SDM', K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71322aaa3ca73fe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DM(lol, 'SDM', K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DM_sdm(lol, K):
     """Make a SDM over K from lol."""
     return _DM(lol, 'SDM', K)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DM_dfm(lol), make a dfm over k from lol) over Any     ║
+# ║ Path(DM_dfm(lol, K), _DM(lol, 'DFM', K)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DM(lol, 'DFM', K)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DM_dfm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 962c107613feda17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DM_dfm","kind":"function","src_hash":"274c3f29682ef9e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM_dfm(lol)","rhs":"make a dfm over k from lol","over":{"base":"Any"},"name":"DM_dfm_correct"},"guarantee":"make a dfm over k from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"962c107613feda17"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DM_dfm","kind":"function","src_hash":"274c3f29682ef9e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM_dfm(lol, K)","rhs":"_DM(lol, 'DFM', K)","over":{"base":"Any"},"name":"DM_dfm_correct"},"guarantee":"returns _DM(lol, 'DFM', K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"962c107613feda17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DM(lol, 'DFM', K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DM_dfm(lol, K):
     """Make a DFM over K from lol."""
     return _DM(lol, 'DFM', K)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMZ_ddm(lol), make a ddm from lol) over Any           ║
+# ║ Path(DMZ_ddm(lol), _DMZ(lol, 'DDM')) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DMZ(lol, 'DDM')                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMZ_ddm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3019b7508633b550           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMZ_ddm","kind":"function","src_hash":"76c96531800fc75e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMZ_ddm(lol)","rhs":"make a ddm from lol","over":{"base":"Any"},"name":"DMZ_ddm_correct"},"guarantee":"make a ddm from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3019b7508633b550"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMZ_ddm","kind":"function","src_hash":"76c96531800fc75e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMZ_ddm(lol)","rhs":"_DMZ(lol, 'DDM')","over":{"base":"Any"},"name":"DMZ_ddm_correct"},"guarantee":"returns _DMZ(lol, 'DDM')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3019b7508633b550","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DMZ(lol, 'DDM')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMZ_ddm(lol):
     """Make a DDM from lol."""
     return _DMZ(lol, 'DDM')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMZ_sdm(lol), make a sdm from lol) over Any           ║
+# ║ Path(DMZ_sdm(lol), _DMZ(lol, 'SDM')) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DMZ(lol, 'SDM')                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMZ_sdm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d7b29f609f8e75a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMZ_sdm","kind":"function","src_hash":"9cf4ae5efd43fc06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMZ_sdm(lol)","rhs":"make a sdm from lol","over":{"base":"Any"},"name":"DMZ_sdm_correct"},"guarantee":"make a sdm from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7b29f609f8e75a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMZ_sdm","kind":"function","src_hash":"9cf4ae5efd43fc06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMZ_sdm(lol)","rhs":"_DMZ(lol, 'SDM')","over":{"base":"Any"},"name":"DMZ_sdm_correct"},"guarantee":"returns _DMZ(lol, 'SDM')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7b29f609f8e75a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DMZ(lol, 'SDM')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMZ_sdm(lol):
     """Make a SDM from lol."""
     return _DMZ(lol, 'SDM')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMZ_dfm(lol), make a dfm from lol) over Any           ║
+# ║ Path(DMZ_dfm(lol), _DMZ(lol, 'DFM')) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DMZ(lol, 'DFM')                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMZ_dfm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d431dbc9aa6d203b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMZ_dfm","kind":"function","src_hash":"6393bc945bc2d87c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMZ_dfm(lol)","rhs":"make a dfm from lol","over":{"base":"Any"},"name":"DMZ_dfm_correct"},"guarantee":"make a dfm from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d431dbc9aa6d203b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMZ_dfm","kind":"function","src_hash":"6393bc945bc2d87c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMZ_dfm(lol)","rhs":"_DMZ(lol, 'DFM')","over":{"base":"Any"},"name":"DMZ_dfm_correct"},"guarantee":"returns _DMZ(lol, 'DFM')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d431dbc9aa6d203b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DMZ(lol, 'DFM')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMZ_dfm(lol):
     """Make a DFM from lol."""
     return _DMZ(lol, 'DFM')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMQ_ddm(lol), make a ddm from lol) over Any           ║
+# ║ Path(DMQ_ddm(lol), _DMQ(lol, 'DDM')) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DMQ(lol, 'DDM')                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMQ_ddm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5343618e7a0ab879           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMQ_ddm","kind":"function","src_hash":"e4bce9d7655a99e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMQ_ddm(lol)","rhs":"make a ddm from lol","over":{"base":"Any"},"name":"DMQ_ddm_correct"},"guarantee":"make a ddm from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5343618e7a0ab879"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMQ_ddm","kind":"function","src_hash":"e4bce9d7655a99e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMQ_ddm(lol)","rhs":"_DMQ(lol, 'DDM')","over":{"base":"Any"},"name":"DMQ_ddm_correct"},"guarantee":"returns _DMQ(lol, 'DDM')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5343618e7a0ab879","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DMQ(lol, 'DDM')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMQ_ddm(lol):
     """Make a DDM from lol."""
     return _DMQ(lol, 'DDM')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMQ_sdm(lol), make a sdm from lol) over Any           ║
+# ║ Path(DMQ_sdm(lol), _DMQ(lol, 'SDM')) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DMQ(lol, 'SDM')                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMQ_sdm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8949c4abb6cbae6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMQ_sdm","kind":"function","src_hash":"7ac7c9e54f463e1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMQ_sdm(lol)","rhs":"make a sdm from lol","over":{"base":"Any"},"name":"DMQ_sdm_correct"},"guarantee":"make a sdm from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8949c4abb6cbae6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMQ_sdm","kind":"function","src_hash":"7ac7c9e54f463e1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMQ_sdm(lol)","rhs":"_DMQ(lol, 'SDM')","over":{"base":"Any"},"name":"DMQ_sdm_correct"},"guarantee":"returns _DMQ(lol, 'SDM')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8949c4abb6cbae6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DMQ(lol, 'SDM')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMQ_sdm(lol):
     """Make a SDM from lol."""
     return _DMQ(lol, 'SDM')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMQ_dfm(lol), make a dfm from lol) over Any           ║
+# ║ Path(DMQ_dfm(lol), _DMQ(lol, 'DFM')) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _DMQ(lol, 'DFM')                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMQ_dfm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b40afbfd011ae2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMQ_dfm","kind":"function","src_hash":"b0224a9e60cb07d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMQ_dfm(lol)","rhs":"make a dfm from lol","over":{"base":"Any"},"name":"DMQ_dfm_correct"},"guarantee":"make a dfm from lol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b40afbfd011ae2a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.DMQ_dfm","kind":"function","src_hash":"b0224a9e60cb07d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMQ_dfm(lol)","rhs":"_DMQ(lol, 'DFM')","over":{"base":"Any"},"name":"DMQ_dfm_correct"},"guarantee":"returns _DMQ(lol, 'DFM')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b40afbfd011ae2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_DMQ(lol, 'DFM')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMQ_dfm(lol):
     """Make a DFM from lol."""
     return _DMQ(lol, 'DFM')
@@ -539,16 +637,22 @@ DMQ_all = [DMQ_ddm, DMQ_sdm, DMQ_dfm]
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XDM_getitem(DM), test getitem for ddm, etc) over Any ║
+# ║ Path(test_XDM_getitem(DM), <unspecified:test_XDM_getitem>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XDM_getitem : Any → {Any | A.getitem(i, j) == ZZ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fb8fed4f9fb3434  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XDM_getitem","kind":"function","src_hash":"6f45bfdf4760bc42","in":{"base":"Any"},"out":{"base":"Any","pred":"A.getitem(i, j) == ZZ(lol[i][j])"},"spec":{"lhs":"test_XDM_getitem(DM)","rhs":"test getitem for ddm, etc","over":{"base":"Any"},"name":"test_XDM_getitem_correct"},"guarantee":"test getitem for ddm, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XDM_getitem_correct","statement":"Path(test_XDM_getitem(x), test getitem for ddm, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fb8fed4f9fb3434"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XDM_getitem","kind":"function","src_hash":"6f45bfdf4760bc42","in":{"base":"Any"},"out":{"base":"Any","pred":"A.getitem(i, j) == ZZ(lol[i][j])"},"spec":{"lhs":"test_XDM_getitem(DM)","rhs":"<unspecified:test_XDM_getitem>","over":{"base":"Any"},"name":"test_XDM_getitem_correct"},"guarantee":"test getitem for ddm, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XDM_getitem_correct","statement":"Path(test_XDM_getitem(x), test getitem for ddm, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fb8fed4f9fb3434","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XDM_getitem(DM):
     """Test getitem for DDM, etc."""
 
@@ -568,16 +672,24 @@ def test_XDM_getitem(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XDM_setitem(DM), test setitem for ddm, etc) over Any ║
+# ║ Path(test_XDM_setitem(DM), A == DM([[6, 1, 2], [3, 4, 5]]) and A == DM([[6, 7, 2], [3, 4, 5]]) and A == DM([[6, 7, 8], [3, 4, 5]]) and A == DM([[6, 7, 9], [3, 4, 5]]) and A == DM([[6, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [14, 4, 5]]) and A == DM([[11, 10, 9], [14, 15, 5]]) and A == DM([[11, 10, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 0]]) and A == DM([[11, 17, 9], [14, 0, 0]]) and A == DM([[11, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 0], [0, 0, 0]]) and A == DM([[0, 0, 0], [0, 0, 0]]) and A == DM([[1, 0, 0], [0, 0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XDM_setitem : Any → {Any | A == DM([[6, 1, 2], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == DM([[6, 1, 2], [3, 4, 5]])                ║
+# ║   ensures:  A == DM([[6, 7, 2], [3, 4, 5]])                ║
+# ║   ensures:  A == DM([[6, 7, 8], [3, 4, 5]])                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XDM_setitem : Any → {Any | result satisfies: A =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbc9737eaf02dafb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c18a15c0c58f2591  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XDM_setitem","kind":"function","src_hash":"4c76713ae5621473","in":{"base":"Any"},"out":{"base":"Any","pred":"A == DM([[6, 1, 2], [3, 4, 5]]) and A == DM([[6, 7, 2], [3, 4, 5]]) and A == DM([[6, 7, 8], [3, 4, 5]]) and A == DM([[6, 7, 9], [3, 4, 5]]) and A == DM([[6, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [14, 4, 5]]) and A == DM([[11, 10, 9], [14, 15, 5]]) and A == DM([[11, 10, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 0]]) and A == DM([[11, 17, 9], [14, 0, 0]]) and A == DM([[11, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 0], [0, 0, 0]]) and A == DM([[0, 17, 0], [0, 0, 0]]) and A == DM([[0, 0, 0], [0, 0, 0]]) and A == DM([[1, 0, 0], [0, 0, 0]])"},"spec":{"lhs":"test_XDM_setitem(DM)","rhs":"test setitem for ddm, etc","over":{"base":"Any"},"name":"test_XDM_setitem_correct"},"guarantee":"test setitem for ddm, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XDM_setitem_correct","statement":"Path(test_XDM_setitem(x), test setitem for ddm, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbc9737eaf02dafb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XDM_setitem","kind":"function","src_hash":"4c76713ae5621473","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == DM([[6, 1, 2], [3, 4, 5]]) and A == DM([[6, 7, 2], [3, 4, 5]]) and A == DM([[6, 7, 8], [3, 4, 5]]) and A == DM([[6, 7, 9], [3, 4, 5]]) and A == DM([[6, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [14, 4, 5]]) and A == DM([[11, 10, 9], [14, 15, 5]]) and A == DM([[11, 10, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 0]]) and A == DM([[11, 17, 9], [14, 0, 0]]) and A == DM([[11, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 0], [0, 0, 0]]) and A == DM([[0, 0, 0], [0, 0, 0]]) and A == DM([[1, 0, 0], [0, 0, 0]])"},"spec":{"lhs":"test_XDM_setitem(DM)","rhs":"A == DM([[6, 1, 2], [3, 4, 5]]) and A == DM([[6, 7, 2], [3, 4, 5]]) and A == DM([[6, 7, 8], [3, 4, 5]]) and A == DM([[6, 7, 9], [3, 4, 5]]) and A == DM([[6, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [3, 4, 5]]) and A == DM([[11, 10, 9], [14, 4, 5]]) and A == DM([[11, 10, 9], [14, 15, 5]]) and A == DM([[11, 10, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 5]]) and A == DM([[11, 17, 9], [14, 16, 0]]) and A == DM([[11, 17, 9], [14, 0, 0]]) and A == DM([[11, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 9], [0, 0, 0]]) and A == DM([[0, 17, 0], [0, 0, 0]]) and A == DM([[0, 0, 0], [0, 0, 0]]) and A == DM([[1, 0, 0], [0, 0, 0]])","over":{"base":"Any"},"name":"test_XDM_setitem_correct"},"guarantee":"A == DM([[6, 1, 2], [3, 4, 5]]); A == DM([[6, 7, 2], [3, 4, 5]]); A == DM([[6, 7, 8], [3, 4, 5]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XDM_setitem_correct","statement":"Path(test_XDM_setitem(x), A == DM([[6, 1, 2], [3, 4, 5]]); A == DM([[6, 7, 2], [3, 4, 5]]); A == DM([[6, 7, 8], [3, 4, 5]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c18a15c0c58f2591","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == DM([[6, 1, 2], [3, 4, 5]])","A == DM([[6, 7, 2], [3, 4, 5]])","A == DM([[6, 7, 8], [3, 4, 5]])","A == DM([[6, 7, 9], [3, 4, 5]])","A == DM([[6, 10, 9], [3, 4, 5]])","A == DM([[11, 10, 9], [3, 4, 5]])","A == DM([[11, 10, 9], [14, 4, 5]])","A == DM([[11, 10, 9], [14, 15, 5]])","A == DM([[11, 10, 9], [14, 16, 5]])","A == DM([[11, 17, 9], [14, 16, 5]])","A == DM([[11, 17, 9], [14, 16, 0]])","A == DM([[11, 17, 9], [14, 0, 0]])","A == DM([[11, 17, 9], [0, 0, 0]])","A == DM([[0, 17, 9], [0, 0, 0]])","A == DM([[0, 17, 0], [0, 0, 0]])","A == DM([[0, 0, 0], [0, 0, 0]])","A == DM([[1, 0, 0], [0, 0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_XDM_setitem(DM):
     """Test setitem for DDM, etc."""
 
@@ -645,28 +757,41 @@ def test_XDM_setitem(DM):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Sliced(), correctly constructs a _Sliced instance) over Any ║
+# ║ Path(_Sliced(), <unspecified:_Sliced>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Sliced : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 637bc335b47d8e75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._Sliced","kind":"class","src_hash":"17bf4b378b5a50c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Sliced()","rhs":"correctly constructs a _Sliced instance","over":{"base":"Any"},"name":"_Sliced_correct"},"guarantee":"correctly constructs a _Sliced instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"637bc335b47d8e75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._Sliced","kind":"class","src_hash":"17bf4b378b5a50c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Sliced()","rhs":"<unspecified:_Sliced>","over":{"base":"Any"},"name":"_Sliced_correct"},"guarantee":"correctly constructs a _Sliced instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"637bc335b47d8e75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function _Sliced not found in source"]}}
 class _Sliced:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ite), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(item), item) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == item                                 ║
+# ║   returns:  item                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87da9d1bf33579c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._Sliced.__getitem__","kind":"method","src_hash":"4e3e50c9b8c57b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ite)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87da9d1bf33579c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm._Sliced.__getitem__","kind":"method","src_hash":"4e3e50c9b8c57b73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (item)"},"spec":{"lhs":"__getitem__(item)","rhs":"item","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns item; result == item","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87da9d1bf33579c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == item"],"returns_expr":"item","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, item):
         return item
 
@@ -676,16 +801,24 @@ _slice = _Sliced()
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_extract_slice(DM), test_XXM_extract_slice produces the expected output) over Any ║
+# ║ Path(test_XXM_extract_slice(DM), A.extract_slice(*_slice[:, :]) == A and A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]]) and A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]]) and A.extract_slice(*_slice[1:, :-1]) == DM([[4, 5], [7, 8]]) and A.extract_slice(*_slice[1:, :-1:2]) == DM([[4], [7]]) and A.extract_slice(*_slice[:, ::2]) == DM([[1, 3], [4, 6], [7, 9]]) and A.extract_slice(*_slice[::2, :]) == DM([[1, 2, 3], [7, 8, 9]]) and A.extract_slice(*_slice[::2, ::2]) == DM([[1, 3], [7, 9]]) and A.extract_slice(*_slice[::2, ::-2]) == DM([[3, 1], [9, 7]]) and A.extract_slice(*_slice[::-2, ::2]) == DM([[7, 9], [1, 3]]) and A.extract_slice(*_slice[::-2, ::-2]) == DM([[9, 7], [3, 1]]) and A.extract_slice(*_slice[:, ::-1]) == DM([[3, 2, 1], [6, 5, 4], [9, 8, 7]]) and A.extract_slice(*_slice[::-1, :]) == DM([[7, 8, 9], [4, 5, 6], [1, 2, 3]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_extract_slice : Any → {Any | A.extract_slice...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.extract_slice(*_slice[:, :]) == A            ║
+# ║   ensures:  A.extract_slice(*_slice[1:, :]) == DM([[4...   ║
+# ║   ensures:  A.extract_slice(*_slice[1:, 1:]) == DM([[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_extract_slice : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce48be4dfdcbf340  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c18c2396bf73554d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract_slice","kind":"function","src_hash":"2598e6290da0efa7","in":{"base":"Any"},"out":{"base":"Any","pred":"A.extract_slice(*_slice[:, :]) == A and A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]]) and A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]]) and A.extract_slice(*_slice[1:, :-1]) == DM([[4, 5], [7, 8]]) and A.extract_slice(*_slice[1:, :-1:2]) == DM([[4], [7]]) and A.extract_slice(*_slice[:, ::2]) == DM([[1, 3], [4, 6], [7, 9]]) and A.extract_slice(*_slice[::2, :]) == DM([[1, 2, 3], [7, 8, 9]]) and A.extract_slice(*_slice[::2, ::2]) == DM([[1, 3], [7, 9]]) and A.extract_slice(*_slice[::2, ::-2]) == DM([[3, 1], [9, 7]]) and A.extract_slice(*_slice[::-2, ::2]) == DM([[7, 9], [1, 3]]) and A.extract_slice(*_slice[::-2, ::-2]) == DM([[9, 7], [3, 1]]) and A.extract_slice(*_slice[:, ::-1]) == DM([[3, 2, 1], [6, 5, 4], [9, 8, 7]]) and A.extract_slice(*_slice[::-1, :]) == DM([[7, 8, 9], [4, 5, 6], [1, 2, 3]])"},"spec":{"lhs":"test_XXM_extract_slice(DM)","rhs":"test_XXM_extract_slice produces the expected output","over":{"base":"Any"},"name":"test_XXM_extract_slice_correct"},"guarantee":"test_XXM_extract_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract_slice_correct","statement":"Path(test_XXM_extract_slice(x), test_XXM_extract_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce48be4dfdcbf340"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract_slice","kind":"function","src_hash":"2598e6290da0efa7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.extract_slice(*_slice[:, :]) == A and A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]]) and A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]]) and A.extract_slice(*_slice[1:, :-1]) == DM([[4, 5], [7, 8]]) and A.extract_slice(*_slice[1:, :-1:2]) == DM([[4], [7]]) and A.extract_slice(*_slice[:, ::2]) == DM([[1, 3], [4, 6], [7, 9]]) and A.extract_slice(*_slice[::2, :]) == DM([[1, 2, 3], [7, 8, 9]]) and A.extract_slice(*_slice[::2, ::2]) == DM([[1, 3], [7, 9]]) and A.extract_slice(*_slice[::2, ::-2]) == DM([[3, 1], [9, 7]]) and A.extract_slice(*_slice[::-2, ::2]) == DM([[7, 9], [1, 3]]) and A.extract_slice(*_slice[::-2, ::-2]) == DM([[9, 7], [3, 1]]) and A.extract_slice(*_slice[:, ::-1]) == DM([[3, 2, 1], [6, 5, 4], [9, 8, 7]]) and A.extract_slice(*_slice[::-1, :]) == DM([[7, 8, 9], [4, 5, 6], [1, 2, 3]])"},"spec":{"lhs":"test_XXM_extract_slice(DM)","rhs":"A.extract_slice(*_slice[:, :]) == A and A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]]) and A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]]) and A.extract_slice(*_slice[1:, :-1]) == DM([[4, 5], [7, 8]]) and A.extract_slice(*_slice[1:, :-1:2]) == DM([[4], [7]]) and A.extract_slice(*_slice[:, ::2]) == DM([[1, 3], [4, 6], [7, 9]]) and A.extract_slice(*_slice[::2, :]) == DM([[1, 2, 3], [7, 8, 9]]) and A.extract_slice(*_slice[::2, ::2]) == DM([[1, 3], [7, 9]]) and A.extract_slice(*_slice[::2, ::-2]) == DM([[3, 1], [9, 7]]) and A.extract_slice(*_slice[::-2, ::2]) == DM([[7, 9], [1, 3]]) and A.extract_slice(*_slice[::-2, ::-2]) == DM([[9, 7], [3, 1]]) and A.extract_slice(*_slice[:, ::-1]) == DM([[3, 2, 1], [6, 5, 4], [9, 8, 7]]) and A.extract_slice(*_slice[::-1, :]) == DM([[7, 8, 9], [4, 5, 6], [1, 2, 3]])","over":{"base":"Any"},"name":"test_XXM_extract_slice_correct"},"guarantee":"A.extract_slice(*_slice[:, :]) == A; A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]]); A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract_slice_correct","statement":"Path(test_XXM_extract_slice(x), A.extract_slice(*_slice[:, :]) == A; A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]]); A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c18c2396bf73554d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.extract_slice(*_slice[:, :]) == A","A.extract_slice(*_slice[1:, :]) == DM([[4, 5, 6], [7, 8, 9]])","A.extract_slice(*_slice[1:, 1:]) == DM([[5, 6], [8, 9]])","A.extract_slice(*_slice[1:, :-1]) == DM([[4, 5], [7, 8]])","A.extract_slice(*_slice[1:, :-1:2]) == DM([[4], [7]])","A.extract_slice(*_slice[:, ::2]) == DM([[1, 3], [4, 6], [7, 9]])","A.extract_slice(*_slice[::2, :]) == DM([[1, 2, 3], [7, 8, 9]])","A.extract_slice(*_slice[::2, ::2]) == DM([[1, 3], [7, 9]])","A.extract_slice(*_slice[::2, ::-2]) == DM([[3, 1], [9, 7]])","A.extract_slice(*_slice[::-2, ::2]) == DM([[7, 9], [1, 3]])","A.extract_slice(*_slice[::-2, ::-2]) == DM([[9, 7], [3, 1]])","A.extract_slice(*_slice[:, ::-1]) == DM([[3, 2, 1], [6, 5, 4], [9, 8, 7]])","A.extract_slice(*_slice[::-1, :]) == DM([[7, 8, 9], [4, 5, 6], [1, 2, 3]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_XXM_extract_slice(DM):
     A = DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     assert A.extract_slice(*_slice[:,:]) == A
@@ -705,16 +838,24 @@ def test_XXM_extract_slice(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_extract(DM), test_XXM_extract produces the expected output) over Any ║
+# ║ Path(test_XXM_extract(DM), A.extract([0, 1, 2], [0, 1, 2]) == A and A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]]) and A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]]) and A.extract([1, 2], [0, 2]) == DM([[4, 6], [7, 9]]) and A.extract([1, 2], [0]) == DM([[4], [7]]) and A.extract([1, 2], []) == DM([[1]]).zeros((2, 0), ZZ) and A.extract([], [0, 1, 2]) == DM([[1]]).zeros((0, 3), ZZ) and B.extract([1, 2], [1, 2]) == DM([[0, 0], [0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_extract : Any → {Any | A.extract([0, 1, 2], ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.extract([0, 1, 2], [0, 1, 2]) == A           ║
+# ║   ensures:  A.extract([1, 2], [1, 2]) == DM([[5, 6], ...   ║
+# ║   ensures:  A.extract([1, 2], [0, 1]) == DM([[4, 5], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_extract : Any → {Any | result satisfies: A.e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ca81c3fc13ff2f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e718926f6564ed84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract","kind":"function","src_hash":"549e2bcc277ed16b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.extract([0, 1, 2], [0, 1, 2]) == A and A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]]) and A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]]) and A.extract([1, 2], [0, 2]) == DM([[4, 6], [7, 9]]) and A.extract([1, 2], [0]) == DM([[4], [7]]) and A.extract([1, 2], []) == DM([[1]]).zeros((2, 0), ZZ) and A.extract([], [0, 1, 2]) == DM([[1]]).zeros((0, 3), ZZ) and B.extract([1, 2], [1, 2]) == DM([[0, 0], [0, 0]])"},"spec":{"lhs":"test_XXM_extract(DM)","rhs":"test_XXM_extract produces the expected output","over":{"base":"Any"},"name":"test_XXM_extract_correct"},"guarantee":"test_XXM_extract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract_correct","statement":"Path(test_XXM_extract(x), test_XXM_extract produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ca81c3fc13ff2f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract","kind":"function","src_hash":"549e2bcc277ed16b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.extract([0, 1, 2], [0, 1, 2]) == A and A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]]) and A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]]) and A.extract([1, 2], [0, 2]) == DM([[4, 6], [7, 9]]) and A.extract([1, 2], [0]) == DM([[4], [7]]) and A.extract([1, 2], []) == DM([[1]]).zeros((2, 0), ZZ) and A.extract([], [0, 1, 2]) == DM([[1]]).zeros((0, 3), ZZ) and B.extract([1, 2], [1, 2]) == DM([[0, 0], [0, 0]])"},"spec":{"lhs":"test_XXM_extract(DM)","rhs":"A.extract([0, 1, 2], [0, 1, 2]) == A and A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]]) and A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]]) and A.extract([1, 2], [0, 2]) == DM([[4, 6], [7, 9]]) and A.extract([1, 2], [0]) == DM([[4], [7]]) and A.extract([1, 2], []) == DM([[1]]).zeros((2, 0), ZZ) and A.extract([], [0, 1, 2]) == DM([[1]]).zeros((0, 3), ZZ) and B.extract([1, 2], [1, 2]) == DM([[0, 0], [0, 0]])","over":{"base":"Any"},"name":"test_XXM_extract_correct"},"guarantee":"A.extract([0, 1, 2], [0, 1, 2]) == A; A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]]); A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_extract_correct","statement":"Path(test_XXM_extract(x), A.extract([0, 1, 2], [0, 1, 2]) == A; A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]]); A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e718926f6564ed84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.extract([0, 1, 2], [0, 1, 2]) == A","A.extract([1, 2], [1, 2]) == DM([[5, 6], [8, 9]])","A.extract([1, 2], [0, 1]) == DM([[4, 5], [7, 8]])","A.extract([1, 2], [0, 2]) == DM([[4, 6], [7, 9]])","A.extract([1, 2], [0]) == DM([[4], [7]])","A.extract([1, 2], []) == DM([[1]]).zeros((2, 0), ZZ)","A.extract([], [0, 1, 2]) == DM([[1]]).zeros((0, 3), ZZ)","B.extract([1, 2], [1, 2]) == DM([[0, 0], [0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_XXM_extract(DM):
 
     A = DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -737,16 +878,24 @@ def test_XXM_extract(DM):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_str(), test_XXM_str produces the expected output) over Any ║
+# ║ Path(test_XXM_str(), str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]' and str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}' and repr(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_ddm()) == 'DDM([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_sdm()) == 'SDM({0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}, (3, 3), ZZ)' and str(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)' and str(B.to_ddm()) == '[[1, 2], [3, 0]]' and str(B.to_sdm()) == '{0: {0: 1, 1: 2}, 1: {0: 3}}' and repr(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_str : Any → {Any | str(A) == 'DomainMatrix([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(A) == 'DomainMatrix([[1, 2, 3], [4, 5...   ║
+# ║   ensures:  str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6]...   ║
+# ║   ensures:  str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_str : Any → {Any | result satisfies: str(A) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1543ff4d8d2fce18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ff045e36815018  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_str","kind":"function","src_hash":"785e34247acbb0c0","in":{"base":"Any"},"out":{"base":"Any","pred":"str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]' and repr(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_ddm()) == 'DDM([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and str(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)' and str(B.to_ddm()) == '[[1, 2], [3, 0]]' and str(B.to_sdm()) == '{0: {0: 1, 1: 2}, 1: {0: 3}}' and repr(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)' and repr(B.to_ddm()) == 'DDM([[1, 2], [3, 0]], (2, 2), ZZ)' and repr(B.to_sdm()) == 'SDM({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)' and repr(B.to_ddm()) == 'DDM([[mpz(1), mpz(2)], [mpz(3), mpz(0)]], (2, 2), ZZ)' and str(A.to_dfm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]' and str(B.to_dfm()) == '[[1, 2], [3, 0]]' and repr(A.to_dfm()) == 'DFM([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(B.to_dfm()) == 'DFM([[1, 2], [3, 0]], (2, 2), ZZ)'"},"spec":{"lhs":"test_XXM_str()","rhs":"test_XXM_str produces the expected output","over":{"base":"Any"},"name":"test_XXM_str_correct"},"guarantee":"test_XXM_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_str_correct","statement":"Path(test_XXM_str(x), test_XXM_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1543ff4d8d2fce18"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_str","kind":"function","src_hash":"785e34247acbb0c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]' and str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}' and repr(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_ddm()) == 'DDM([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_sdm()) == 'SDM({0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}, (3, 3), ZZ)' and str(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)' and str(B.to_ddm()) == '[[1, 2], [3, 0]]' and str(B.to_sdm()) == '{0: {0: 1, 1: 2}, 1: {0: 3}}' and repr(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)'"},"spec":{"lhs":"test_XXM_str()","rhs":"str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]' and str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}' and repr(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_ddm()) == 'DDM([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)' and repr(A.to_sdm()) == 'SDM({0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}, (3, 3), ZZ)' and str(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)' and str(B.to_ddm()) == '[[1, 2], [3, 0]]' and str(B.to_sdm()) == '{0: {0: 1, 1: 2}, 1: {0: 3}}' and repr(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)'","over":{"base":"Any"},"name":"test_XXM_str_correct"},"guarantee":"str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)'; str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]'; str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_str_correct","statement":"Path(test_XXM_str(x), str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)'; str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]'; str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ff045e36815018","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)'","str(A.to_ddm()) == '[[1, 2, 3], [4, 5, 6], [7, 8, 9]]'","str(A.to_sdm()) == '{0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}'","repr(A) == 'DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)'","repr(A.to_ddm()) == 'DDM([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)'","repr(A.to_sdm()) == 'SDM({0: {0: 1, 1: 2, 2: 3}, 1: {0: 4, 1: 5, 2: 6}, 2: {0: 7, 1: 8, 2: 9}}, (3, 3), ZZ)'","str(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)'","str(B.to_ddm()) == '[[1, 2], [3, 0]]'","str(B.to_sdm()) == '{0: {0: 1, 1: 2}, 1: {0: 3}}'","repr(B) == 'DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3}}, (2, 2), ZZ)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_XXM_str():
 
     A = DomainMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], (3, 3), ZZ)
@@ -803,16 +952,22 @@ def test_XXM_str():
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_from_list(DM), test_XXM_from_list produces the expected output) over Any ║
+# ║ Path(test_XXM_from_list(DM), T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_from_list : Any → {Any | T.from_list(lol_ZZ,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_from_list : Any → {Any | result satisfies: T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c96bf18633b78a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7d171da767d5cb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list","kind":"function","src_hash":"4383d9711bfc8e65","in":{"base":"Any"},"out":{"base":"Any","pred":"T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)"},"spec":{"lhs":"test_XXM_from_list(DM)","rhs":"test_XXM_from_list produces the expected output","over":{"base":"Any"},"name":"test_XXM_from_list_correct"},"guarantee":"test_XXM_from_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list_correct","statement":"Path(test_XXM_from_list(x), test_XXM_from_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c96bf18633b78a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list","kind":"function","src_hash":"4383d9711bfc8e65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)"},"spec":{"lhs":"test_XXM_from_list(DM)","rhs":"T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)","over":{"base":"Any"},"name":"test_XXM_from_list_correct"},"guarantee":"T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list_correct","statement":"Path(test_XXM_from_list(x), T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7d171da767d5cb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.from_list(lol_ZZ, (2, 3), ZZ) == DM(lol)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_XXM_from_list(DM):
     T = type(DM([[0]]))
 
@@ -826,16 +981,22 @@ def test_XXM_from_list(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_to_list(DM), test_XXM_to_list produces the expected output) over Any ║
+# ║ Path(test_XXM_to_list(DM), DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_to_list : Any → {Any | DM(lol).to_list() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_to_list : Any → {Any | result satisfies: DM(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 369c326b1a70d571  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c7fb40a223e0504  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list","kind":"function","src_hash":"d485533b6e7d9640","in":{"base":"Any"},"out":{"base":"Any","pred":"DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]"},"spec":{"lhs":"test_XXM_to_list(DM)","rhs":"test_XXM_to_list produces the expected output","over":{"base":"Any"},"name":"test_XXM_to_list_correct"},"guarantee":"test_XXM_to_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list_correct","statement":"Path(test_XXM_to_list(x), test_XXM_to_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"369c326b1a70d571"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list","kind":"function","src_hash":"d485533b6e7d9640","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]"},"spec":{"lhs":"test_XXM_to_list(DM)","rhs":"DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]","over":{"base":"Any"},"name":"test_XXM_to_list_correct"},"guarantee":"DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list_correct","statement":"Path(test_XXM_to_list(x), DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c7fb40a223e0504","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_to_list(DM):
     lol = [[1, 2, 4], [4, 5, 6]]
     assert DM(lol).to_list() == [[ZZ(1), ZZ(2), ZZ(4)], [ZZ(4), ZZ(5), ZZ(6)]]
@@ -843,16 +1004,22 @@ def test_XXM_to_list(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_to_list_flat(DM), test_XXM_to_list_flat produces the expected output) over Any ║
+# ║ Path(test_XXM_to_list_flat(DM), DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_to_list_flat : Any → {Any | DM(lol).to_list_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_to_list_flat : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad21633f85528c35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd6bf1c679d2dc9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list_flat","kind":"function","src_hash":"ee7d7a93e1ba55b9","in":{"base":"Any"},"out":{"base":"Any","pred":"DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]"},"spec":{"lhs":"test_XXM_to_list_flat(DM)","rhs":"test_XXM_to_list_flat produces the expected output","over":{"base":"Any"},"name":"test_XXM_to_list_flat_correct"},"guarantee":"test_XXM_to_list_flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list_flat_correct","statement":"Path(test_XXM_to_list_flat(x), test_XXM_to_list_flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad21633f85528c35"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list_flat","kind":"function","src_hash":"ee7d7a93e1ba55b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]"},"spec":{"lhs":"test_XXM_to_list_flat(DM)","rhs":"DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]","over":{"base":"Any"},"name":"test_XXM_to_list_flat_correct"},"guarantee":"DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_list_flat_correct","statement":"Path(test_XXM_to_list_flat(x), DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd6bf1c679d2dc9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_to_list_flat(DM):
     lol = [[1, 2, 4], [4, 5, 6]]
     assert DM(lol).to_list_flat() == [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]
@@ -860,16 +1027,22 @@ def test_XXM_to_list_flat(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_from_list_flat(DM), test_XXM_from_list_flat produces the expected output) over Any ║
+# ║ Path(test_XXM_from_list_flat(DM), T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_from_list_flat : Any → {Any | T.from_list_fl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.from_list_flat(flat, (2, 3), ZZ) == DM(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_from_list_flat : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 815086ec0143cdbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47eb6b291da9cc67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list_flat","kind":"function","src_hash":"4e4974aa0523d27a","in":{"base":"Any"},"out":{"base":"Any","pred":"T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_list_flat(DM)","rhs":"test_XXM_from_list_flat produces the expected output","over":{"base":"Any"},"name":"test_XXM_from_list_flat_correct"},"guarantee":"test_XXM_from_list_flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list_flat_correct","statement":"Path(test_XXM_from_list_flat(x), test_XXM_from_list_flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"815086ec0143cdbd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list_flat","kind":"function","src_hash":"4e4974aa0523d27a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_list_flat(DM)","rhs":"T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]])","over":{"base":"Any"},"name":"test_XXM_from_list_flat_correct"},"guarantee":"T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_list_flat_correct","statement":"Path(test_XXM_from_list_flat(x), T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47eb6b291da9cc67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.from_list_flat(flat, (2, 3), ZZ) == DM([[1, 2, 4], [4, 5, 6]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_from_list_flat(DM):
     T = type(DM([[0]]))
     flat = [ZZ(1), ZZ(2), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]
@@ -879,16 +1052,22 @@ def test_XXM_from_list_flat(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_to_flat_nz(DM), test_XXM_to_flat_nz produces the expected output) over Any ║
+# ║ Path(test_XXM_to_flat_nz(DM), M.to_flat_nz() == (elements, (indices, M.shape))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_to_flat_nz : Any → {Any | M.to_flat_nz() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.to_flat_nz() == (elements, (indices, M....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_to_flat_nz : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baaad49fab9f2fa3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b44cc08de336fb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_flat_nz","kind":"function","src_hash":"453e71f018ac2da5","in":{"base":"Any"},"out":{"base":"Any","pred":"M.to_flat_nz() == (elements, (indices, M.shape))"},"spec":{"lhs":"test_XXM_to_flat_nz(DM)","rhs":"test_XXM_to_flat_nz produces the expected output","over":{"base":"Any"},"name":"test_XXM_to_flat_nz_correct"},"guarantee":"test_XXM_to_flat_nz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_flat_nz_correct","statement":"Path(test_XXM_to_flat_nz(x), test_XXM_to_flat_nz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baaad49fab9f2fa3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_flat_nz","kind":"function","src_hash":"453e71f018ac2da5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.to_flat_nz() == (elements, (indices, M.shape))"},"spec":{"lhs":"test_XXM_to_flat_nz(DM)","rhs":"M.to_flat_nz() == (elements, (indices, M.shape))","over":{"base":"Any"},"name":"test_XXM_to_flat_nz_correct"},"guarantee":"M.to_flat_nz() == (elements, (indices, M.shape))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_flat_nz_correct","statement":"Path(test_XXM_to_flat_nz(x), M.to_flat_nz() == (elements, (indices, M.shape)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b44cc08de336fb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.to_flat_nz() == (elements, (indices, M.shape))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_to_flat_nz(DM):
     M = DM([[1, 2, 0], [0, 0, 0], [0, 0, 3]])
     elements = [ZZ(1), ZZ(2), ZZ(3)]
@@ -898,16 +1077,22 @@ def test_XXM_to_flat_nz(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_from_flat_nz(DM), test_XXM_from_flat_nz produces the expected output) over Any ║
+# ║ Path(test_XXM_from_flat_nz(DM), T.from_flat_nz(elements, data, ZZ) == result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_from_flat_nz : Any → {Any | T.from_flat_nz(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.from_flat_nz(elements, data, ZZ) == result   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_from_flat_nz : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10cea18f4633bf61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc434a4637b71965  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_flat_nz","kind":"function","src_hash":"e8d23637073c680b","in":{"base":"Any"},"out":{"base":"Any","pred":"T.from_flat_nz(elements, data, ZZ) == result"},"spec":{"lhs":"test_XXM_from_flat_nz(DM)","rhs":"test_XXM_from_flat_nz produces the expected output","over":{"base":"Any"},"name":"test_XXM_from_flat_nz_correct"},"guarantee":"test_XXM_from_flat_nz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_flat_nz_correct","statement":"Path(test_XXM_from_flat_nz(x), test_XXM_from_flat_nz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10cea18f4633bf61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_flat_nz","kind":"function","src_hash":"e8d23637073c680b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.from_flat_nz(elements, data, ZZ) == result"},"spec":{"lhs":"test_XXM_from_flat_nz(DM)","rhs":"T.from_flat_nz(elements, data, ZZ) == result","over":{"base":"Any"},"name":"test_XXM_from_flat_nz_correct"},"guarantee":"T.from_flat_nz(elements, data, ZZ) == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_flat_nz_correct","statement":"Path(test_XXM_from_flat_nz(x), T.from_flat_nz(elements, data, ZZ) == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc434a4637b71965","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.from_flat_nz(elements, data, ZZ) == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_XXM_from_flat_nz(DM):
     T = type(DM([[0]]))
     elements = [ZZ(1), ZZ(2), ZZ(3)]
@@ -920,16 +1105,22 @@ def test_XXM_from_flat_nz(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_to_dod(DM), test_XXM_to_dod produces the expected output) over Any ║
+# ║ Path(test_XXM_to_dod(DM), DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_to_dod : Any → {Any | DM([[1, 0, 4], [4, 5, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_to_dod : Any → {Any | result satisfies: DM([...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c41bb5499d624e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcf4207910fcd9fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dod","kind":"function","src_hash":"b6a4bc2bb70e394d","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod"},"spec":{"lhs":"test_XXM_to_dod(DM)","rhs":"test_XXM_to_dod produces the expected output","over":{"base":"Any"},"name":"test_XXM_to_dod_correct"},"guarantee":"test_XXM_to_dod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dod_correct","statement":"Path(test_XXM_to_dod(x), test_XXM_to_dod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c41bb5499d624e7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dod","kind":"function","src_hash":"b6a4bc2bb70e394d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod"},"spec":{"lhs":"test_XXM_to_dod(DM)","rhs":"DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod","over":{"base":"Any"},"name":"test_XXM_to_dod_correct"},"guarantee":"DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dod_correct","statement":"Path(test_XXM_to_dod(x), DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcf4207910fcd9fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_to_dod(DM):
     dod = {0: {0: ZZ(1), 2: ZZ(4)}, 1: {0: ZZ(4), 1: ZZ(5), 2: ZZ(6)}}
     assert DM([[1, 0, 4], [4, 5, 6]]).to_dod() == dod
@@ -937,16 +1128,22 @@ def test_XXM_to_dod(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_from_dod(DM), test_XXM_from_dod produces the expected output) over Any ║
+# ║ Path(test_XXM_from_dod(DM), T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_from_dod : Any → {Any | T.from_dod(dod, (2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_from_dod : Any → {Any | result satisfies: T....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdfc47afa33250eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd147bd4f790bdc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dod","kind":"function","src_hash":"03f0c101ece644f9","in":{"base":"Any"},"out":{"base":"Any","pred":"T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_dod(DM)","rhs":"test_XXM_from_dod produces the expected output","over":{"base":"Any"},"name":"test_XXM_from_dod_correct"},"guarantee":"test_XXM_from_dod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dod_correct","statement":"Path(test_XXM_from_dod(x), test_XXM_from_dod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdfc47afa33250eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dod","kind":"function","src_hash":"03f0c101ece644f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_dod(DM)","rhs":"T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])","over":{"base":"Any"},"name":"test_XXM_from_dod_correct"},"guarantee":"T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dod_correct","statement":"Path(test_XXM_from_dod(x), T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd147bd4f790bdc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.from_dod(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_from_dod(DM):
     T = type(DM([[0]]))
     dod = {0: {0: ZZ(1), 2: ZZ(4)}, 1: {0: ZZ(4), 1: ZZ(5), 2: ZZ(6)}}
@@ -955,16 +1152,22 @@ def test_XXM_from_dod(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_to_dok(DM), test_XXM_to_dok produces the expected output) over Any ║
+# ║ Path(test_XXM_to_dok(DM), DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_to_dok : Any → {Any | DM([[1, 0, 4], [4, 5, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_to_dok : Any → {Any | result satisfies: DM([...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3568f33482072512  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bcb1f37da2544ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dok","kind":"function","src_hash":"72144d9885500793","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod"},"spec":{"lhs":"test_XXM_to_dok(DM)","rhs":"test_XXM_to_dok produces the expected output","over":{"base":"Any"},"name":"test_XXM_to_dok_correct"},"guarantee":"test_XXM_to_dok produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dok_correct","statement":"Path(test_XXM_to_dok(x), test_XXM_to_dok produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3568f33482072512"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dok","kind":"function","src_hash":"72144d9885500793","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod"},"spec":{"lhs":"test_XXM_to_dok(DM)","rhs":"DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod","over":{"base":"Any"},"name":"test_XXM_to_dok_correct"},"guarantee":"DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_to_dok_correct","statement":"Path(test_XXM_to_dok(x), DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bcb1f37da2544ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DM([[1, 0, 4], [4, 5, 6]]).to_dok() == dod"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_to_dok(DM):
     dod = {(0, 0): ZZ(1), (0, 2): ZZ(4),
            (1, 0): ZZ(4), (1, 1): ZZ(5), (1, 2): ZZ(6)}
@@ -973,16 +1176,22 @@ def test_XXM_to_dok(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_from_dok(DM), test_XXM_from_dok produces the expected output) over Any ║
+# ║ Path(test_XXM_from_dok(DM), T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_from_dok : Any → {Any | T.from_dok(dod, (2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_from_dok : Any → {Any | result satisfies: T....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 086421999a6b0ca8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5967db2e12a9185  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dok","kind":"function","src_hash":"2d48eb6f1908623b","in":{"base":"Any"},"out":{"base":"Any","pred":"T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_dok(DM)","rhs":"test_XXM_from_dok produces the expected output","over":{"base":"Any"},"name":"test_XXM_from_dok_correct"},"guarantee":"test_XXM_from_dok produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dok_correct","statement":"Path(test_XXM_from_dok(x), test_XXM_from_dok produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"086421999a6b0ca8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dok","kind":"function","src_hash":"2d48eb6f1908623b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_dok(DM)","rhs":"T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])","over":{"base":"Any"},"name":"test_XXM_from_dok_correct"},"guarantee":"T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_dok_correct","statement":"Path(test_XXM_from_dok(x), T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5967db2e12a9185","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.from_dok(dod, (2, 3), ZZ) == DM([[1, 0, 4], [4, 5, 6]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_from_dok(DM):
     T = type(DM([[0]]))
     dod = {(0, 0): ZZ(1), (0, 2): ZZ(4),
@@ -992,16 +1201,22 @@ def test_XXM_from_dok(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_iter_values(DM), test_XXM_iter_values produces the expected output) over Any ║
+# ║ Path(test_XXM_iter_values(DM), sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_iter_values : Any → {Any | sorted(DM([[1, 0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_va...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_iter_values : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f62b75f40afe8287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 702409650030e149  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_values","kind":"function","src_hash":"d5a08f7b3a5ebf12","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values"},"spec":{"lhs":"test_XXM_iter_values(DM)","rhs":"test_XXM_iter_values produces the expected output","over":{"base":"Any"},"name":"test_XXM_iter_values_correct"},"guarantee":"test_XXM_iter_values produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_values_correct","statement":"Path(test_XXM_iter_values(x), test_XXM_iter_values produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f62b75f40afe8287"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_values","kind":"function","src_hash":"d5a08f7b3a5ebf12","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values"},"spec":{"lhs":"test_XXM_iter_values(DM)","rhs":"sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values","over":{"base":"Any"},"name":"test_XXM_iter_values_correct"},"guarantee":"sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_values_correct","statement":"Path(test_XXM_iter_values(x), sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702409650030e149","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_iter_values(DM):
     values = [ZZ(1), ZZ(4), ZZ(4), ZZ(5), ZZ(6)]
     assert sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_values()) == values
@@ -1009,16 +1224,22 @@ def test_XXM_iter_values(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_iter_items(DM), test_XXM_iter_items produces the expected output) over Any ║
+# ║ Path(test_XXM_iter_items(DM), sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_iter_items : Any → {Any | sorted(DM([[1, 0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_it...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_iter_items : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5142c35b6995c33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b833e08f71aa7c38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_items","kind":"function","src_hash":"3b1cf80c2faf67a9","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items"},"spec":{"lhs":"test_XXM_iter_items(DM)","rhs":"test_XXM_iter_items produces the expected output","over":{"base":"Any"},"name":"test_XXM_iter_items_correct"},"guarantee":"test_XXM_iter_items produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_items_correct","statement":"Path(test_XXM_iter_items(x), test_XXM_iter_items produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5142c35b6995c33"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_items","kind":"function","src_hash":"3b1cf80c2faf67a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items"},"spec":{"lhs":"test_XXM_iter_items(DM)","rhs":"sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items","over":{"base":"Any"},"name":"test_XXM_iter_items_correct"},"guarantee":"sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_iter_items_correct","statement":"Path(test_XXM_iter_items(x), sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b833e08f71aa7c38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted(DM([[1, 0, 4], [4, 5, 6]]).iter_items()) == items"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_iter_items(DM):
     items = [((0, 0), ZZ(1)), ((0, 2), ZZ(4)),
              ((1, 0), ZZ(4)), ((1, 1), ZZ(5)), ((1, 2), ZZ(6))]
@@ -1027,16 +1248,22 @@ def test_XXM_iter_items(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_from_ddm(DM), test_XXM_from_ddm produces the expected output) over Any ║
+# ║ Path(test_XXM_from_ddm(DM), T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_from_ddm : Any → {Any | T.from_ddm(ddm) == D...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_from_ddm : Any → {Any | result satisfies: T....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56f15d68610f6c8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0258d2e920f66f76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_ddm","kind":"function","src_hash":"861de89341b07bc9","in":{"base":"Any"},"out":{"base":"Any","pred":"T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_ddm(DM)","rhs":"test_XXM_from_ddm produces the expected output","over":{"base":"Any"},"name":"test_XXM_from_ddm_correct"},"guarantee":"test_XXM_from_ddm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_ddm_correct","statement":"Path(test_XXM_from_ddm(x), test_XXM_from_ddm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f15d68610f6c8d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_ddm","kind":"function","src_hash":"861de89341b07bc9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]])"},"spec":{"lhs":"test_XXM_from_ddm(DM)","rhs":"T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]])","over":{"base":"Any"},"name":"test_XXM_from_ddm_correct"},"guarantee":"T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_from_ddm_correct","statement":"Path(test_XXM_from_ddm(x), T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0258d2e920f66f76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.from_ddm(ddm) == DM([[1, 2, 4], [4, 5, 6]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_from_ddm(DM):
     T = type(DM([[0]]))
     ddm = DDM([[1, 2, 4], [4, 5, 6]], (2, 3), ZZ)
@@ -1045,16 +1272,22 @@ def test_XXM_from_ddm(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_zeros(DM), test_XXM_zeros produces the expected output) over Any ║
+# ║ Path(test_XXM_zeros(DM), T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_zeros : Any → {Any | T.zeros((2, 3), ZZ) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_zeros : Any → {Any | result satisfies: T.zer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27144b5943143d9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 325bdefacd8c74ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_zeros","kind":"function","src_hash":"873689573adb4362","in":{"base":"Any"},"out":{"base":"Any","pred":"T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])"},"spec":{"lhs":"test_XXM_zeros(DM)","rhs":"test_XXM_zeros produces the expected output","over":{"base":"Any"},"name":"test_XXM_zeros_correct"},"guarantee":"test_XXM_zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_zeros_correct","statement":"Path(test_XXM_zeros(x), test_XXM_zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27144b5943143d9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_zeros","kind":"function","src_hash":"873689573adb4362","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])"},"spec":{"lhs":"test_XXM_zeros(DM)","rhs":"T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])","over":{"base":"Any"},"name":"test_XXM_zeros_correct"},"guarantee":"T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_zeros_correct","statement":"Path(test_XXM_zeros(x), T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"325bdefacd8c74ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_zeros(DM):
     T = type(DM([[0]]))
     assert T.zeros((2, 3), ZZ) == DM([[0, 0, 0], [0, 0, 0]])
@@ -1062,16 +1295,22 @@ def test_XXM_zeros(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_ones(DM), test_XXM_ones produces the expected output) over Any ║
+# ║ Path(test_XXM_ones(DM), T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_ones : Any → {Any | T.ones((2, 3), ZZ) == DM...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_ones : Any → {Any | result satisfies: T.ones...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42facf3cd659ebf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf9465ecc28bed0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_ones","kind":"function","src_hash":"c1426f57d06b3338","in":{"base":"Any"},"out":{"base":"Any","pred":"T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])"},"spec":{"lhs":"test_XXM_ones(DM)","rhs":"test_XXM_ones produces the expected output","over":{"base":"Any"},"name":"test_XXM_ones_correct"},"guarantee":"test_XXM_ones produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_ones_correct","statement":"Path(test_XXM_ones(x), test_XXM_ones produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42facf3cd659ebf8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_ones","kind":"function","src_hash":"c1426f57d06b3338","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])"},"spec":{"lhs":"test_XXM_ones(DM)","rhs":"T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])","over":{"base":"Any"},"name":"test_XXM_ones_correct"},"guarantee":"T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_ones_correct","statement":"Path(test_XXM_ones(x), T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9465ecc28bed0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_ones(DM):
     T = type(DM([[0]]))
     assert T.ones((2, 3), ZZ) == DM([[1, 1, 1], [1, 1, 1]])
@@ -1079,16 +1318,23 @@ def test_XXM_ones(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_eye(DM), test_XXM_eye produces the expected output) over Any ║
+# ║ Path(test_XXM_eye(DM), T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_eye : Any → {Any | T.eye(3, ZZ) == DM([[1, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0],...   ║
+# ║   ensures:  T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_eye : Any → {Any | result satisfies: T.eye(3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18984f7c1f482d3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f9648298f81cd75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_eye","kind":"function","src_hash":"aef8129ea588496f","in":{"base":"Any"},"out":{"base":"Any","pred":"T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]])"},"spec":{"lhs":"test_XXM_eye(DM)","rhs":"test_XXM_eye produces the expected output","over":{"base":"Any"},"name":"test_XXM_eye_correct"},"guarantee":"test_XXM_eye produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_eye_correct","statement":"Path(test_XXM_eye(x), test_XXM_eye produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18984f7c1f482d3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_eye","kind":"function","src_hash":"aef8129ea588496f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]])"},"spec":{"lhs":"test_XXM_eye(DM)","rhs":"T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]])","over":{"base":"Any"},"name":"test_XXM_eye_correct"},"guarantee":"T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_eye_correct","statement":"Path(test_XXM_eye(x), T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f9648298f81cd75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]])","T.eye((3, 2), ZZ) == DM([[1, 0], [0, 1], [0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_eye(DM):
     T = type(DM([[0]]))
     assert T.eye(3, ZZ) == DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
@@ -1097,16 +1343,22 @@ def test_XXM_eye(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_diag(DM), test_XXM_diag produces the expected output) over Any ║
+# ║ Path(test_XXM_diag(DM), T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_diag : Any → {Any | T.diag([1, 2, 3], ZZ) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_diag : Any → {Any | result satisfies: T.diag...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 685f06affd65f9e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da3930cfbfb5c907  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_diag","kind":"function","src_hash":"1a21197d8d783b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])"},"spec":{"lhs":"test_XXM_diag(DM)","rhs":"test_XXM_diag produces the expected output","over":{"base":"Any"},"name":"test_XXM_diag_correct"},"guarantee":"test_XXM_diag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_diag_correct","statement":"Path(test_XXM_diag(x), test_XXM_diag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"685f06affd65f9e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_diag","kind":"function","src_hash":"1a21197d8d783b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])"},"spec":{"lhs":"test_XXM_diag(DM)","rhs":"T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])","over":{"base":"Any"},"name":"test_XXM_diag_correct"},"guarantee":"T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_diag_correct","statement":"Path(test_XXM_diag(x), T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3930cfbfb5c907","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_diag(DM):
     T = type(DM([[0]]))
     assert T.diag([1, 2, 3], ZZ) == DM([[1, 0, 0], [0, 2, 0], [0, 0, 3]])
@@ -1114,16 +1366,22 @@ def test_XXM_diag(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_transpose(DM), test_XXM_transpose produces the expected output) over Any ║
+# ║ Path(test_XXM_transpose(DM), A.transpose() == DM([[1, 4], [2, 5], [3, 6]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_transpose : Any → {Any | A.transpose() == DM...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.transpose() == DM([[1, 4], [2, 5], [3, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_transpose : Any → {Any | result satisfies: A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2393407f3c3358d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fa6acad4e2647e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_transpose","kind":"function","src_hash":"a568493c7a89f34f","in":{"base":"Any"},"out":{"base":"Any","pred":"A.transpose() == DM([[1, 4], [2, 5], [3, 6]])"},"spec":{"lhs":"test_XXM_transpose(DM)","rhs":"test_XXM_transpose produces the expected output","over":{"base":"Any"},"name":"test_XXM_transpose_correct"},"guarantee":"test_XXM_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_transpose_correct","statement":"Path(test_XXM_transpose(x), test_XXM_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2393407f3c3358d9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_transpose","kind":"function","src_hash":"a568493c7a89f34f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.transpose() == DM([[1, 4], [2, 5], [3, 6]])"},"spec":{"lhs":"test_XXM_transpose(DM)","rhs":"A.transpose() == DM([[1, 4], [2, 5], [3, 6]])","over":{"base":"Any"},"name":"test_XXM_transpose_correct"},"guarantee":"A.transpose() == DM([[1, 4], [2, 5], [3, 6]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_transpose_correct","statement":"Path(test_XXM_transpose(x), A.transpose() == DM([[1, 4], [2, 5], [3, 6]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fa6acad4e2647e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.transpose() == DM([[1, 4], [2, 5], [3, 6]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_transpose(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     assert A.transpose() == DM([[1, 4], [2, 5], [3, 6]])
@@ -1131,16 +1389,22 @@ def test_XXM_transpose(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_add(DM), test_XXM_add produces the expected output) over Any ║
+# ║ Path(test_XXM_add(DM), A.add(B) == C) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_add : Any → {Any | A.add(B) == C}                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.add(B) == C                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_add : Any → {Any | result satisfies: A.add(B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c58dc20eff099ce8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 234829105ba484da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_add","kind":"function","src_hash":"0c127c2f1a96d6a9","in":{"base":"Any"},"out":{"base":"Any","pred":"A.add(B) == C"},"spec":{"lhs":"test_XXM_add(DM)","rhs":"test_XXM_add produces the expected output","over":{"base":"Any"},"name":"test_XXM_add_correct"},"guarantee":"test_XXM_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_add_correct","statement":"Path(test_XXM_add(x), test_XXM_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c58dc20eff099ce8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_add","kind":"function","src_hash":"0c127c2f1a96d6a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.add(B) == C"},"spec":{"lhs":"test_XXM_add(DM)","rhs":"A.add(B) == C","over":{"base":"Any"},"name":"test_XXM_add_correct"},"guarantee":"A.add(B) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_add_correct","statement":"Path(test_XXM_add(x), A.add(B) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"234829105ba484da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.add(B) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_add(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[1, 2, 3], [4, 5, 6]])
@@ -1150,16 +1414,22 @@ def test_XXM_add(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_sub(DM), test_XXM_sub produces the expected output) over Any ║
+# ║ Path(test_XXM_sub(DM), A.sub(B) == C) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_sub : Any → {Any | A.sub(B) == C}                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.sub(B) == C                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_sub : Any → {Any | result satisfies: A.sub(B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c84fc568e1c46d58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9eef92ae736e6f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_sub","kind":"function","src_hash":"6b339df2a612e1a4","in":{"base":"Any"},"out":{"base":"Any","pred":"A.sub(B) == C"},"spec":{"lhs":"test_XXM_sub(DM)","rhs":"test_XXM_sub produces the expected output","over":{"base":"Any"},"name":"test_XXM_sub_correct"},"guarantee":"test_XXM_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_sub_correct","statement":"Path(test_XXM_sub(x), test_XXM_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c84fc568e1c46d58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_sub","kind":"function","src_hash":"6b339df2a612e1a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.sub(B) == C"},"spec":{"lhs":"test_XXM_sub(DM)","rhs":"A.sub(B) == C","over":{"base":"Any"},"name":"test_XXM_sub_correct"},"guarantee":"A.sub(B) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_sub_correct","statement":"Path(test_XXM_sub(x), A.sub(B) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9eef92ae736e6f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.sub(B) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_sub(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[1, 2, 3], [4, 5, 6]])
@@ -1169,16 +1439,23 @@ def test_XXM_sub(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_mul(DM), test_XXM_mul produces the expected output) over Any ║
+# ║ Path(test_XXM_mul(DM), A.mul(b) == DM([[2, 4, 6], [8, 10, 12]]) and A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_mul : Any → {Any | A.mul(b) == DM([[2, 4, 6]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.mul(b) == DM([[2, 4, 6], [8, 10, 12]])       ║
+# ║   ensures:  A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_mul : Any → {Any | result satisfies: A.mul(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a90326933bd66976  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4147646e68463b7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul","kind":"function","src_hash":"8ca5dbd3d7a0c9a4","in":{"base":"Any"},"out":{"base":"Any","pred":"A.mul(b) == DM([[2, 4, 6], [8, 10, 12]]) and A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])"},"spec":{"lhs":"test_XXM_mul(DM)","rhs":"test_XXM_mul produces the expected output","over":{"base":"Any"},"name":"test_XXM_mul_correct"},"guarantee":"test_XXM_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul_correct","statement":"Path(test_XXM_mul(x), test_XXM_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a90326933bd66976"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul","kind":"function","src_hash":"8ca5dbd3d7a0c9a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.mul(b) == DM([[2, 4, 6], [8, 10, 12]]) and A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])"},"spec":{"lhs":"test_XXM_mul(DM)","rhs":"A.mul(b) == DM([[2, 4, 6], [8, 10, 12]]) and A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])","over":{"base":"Any"},"name":"test_XXM_mul_correct"},"guarantee":"A.mul(b) == DM([[2, 4, 6], [8, 10, 12]]); A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul_correct","statement":"Path(test_XXM_mul(x), A.mul(b) == DM([[2, 4, 6], [8, 10, 12]]); A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4147646e68463b7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.mul(b) == DM([[2, 4, 6], [8, 10, 12]])","A.rmul(b) == DM([[2, 4, 6], [8, 10, 12]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_mul(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     b = ZZ(2)
@@ -1188,16 +1465,22 @@ def test_XXM_mul(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_matmul(DM), test_XXM_matmul produces the expected output) over Any ║
+# ║ Path(test_XXM_matmul(DM), A.matmul(B) == C) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_matmul : Any → {Any | A.matmul(B) == C}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.matmul(B) == C                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_matmul : Any → {Any | result satisfies: A.ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 516b4acf5f76b047  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4324a0740ec88b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_matmul","kind":"function","src_hash":"2306d375adb1570f","in":{"base":"Any"},"out":{"base":"Any","pred":"A.matmul(B) == C"},"spec":{"lhs":"test_XXM_matmul(DM)","rhs":"test_XXM_matmul produces the expected output","over":{"base":"Any"},"name":"test_XXM_matmul_correct"},"guarantee":"test_XXM_matmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_matmul_correct","statement":"Path(test_XXM_matmul(x), test_XXM_matmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"516b4acf5f76b047"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_matmul","kind":"function","src_hash":"2306d375adb1570f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.matmul(B) == C"},"spec":{"lhs":"test_XXM_matmul(DM)","rhs":"A.matmul(B) == C","over":{"base":"Any"},"name":"test_XXM_matmul_correct"},"guarantee":"A.matmul(B) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_matmul_correct","statement":"Path(test_XXM_matmul(x), A.matmul(B) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4324a0740ec88b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.matmul(B) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_matmul(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[1, 2], [3, 4], [5, 6]])
@@ -1207,16 +1490,22 @@ def test_XXM_matmul(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_mul_elementwise(DM), test_XXM_mul_elementwise produces the expected output) over Any ║
+# ║ Path(test_XXM_mul_elementwise(DM), A.mul_elementwise(B) == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_mul_elementwise : Any → {Any | A.mul_element...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.mul_elementwise(B) == C                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_mul_elementwise : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1c0c4a6f85407ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da3536574bd504b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul_elementwise","kind":"function","src_hash":"378c89da35b94796","in":{"base":"Any"},"out":{"base":"Any","pred":"A.mul_elementwise(B) == C"},"spec":{"lhs":"test_XXM_mul_elementwise(DM)","rhs":"test_XXM_mul_elementwise produces the expected output","over":{"base":"Any"},"name":"test_XXM_mul_elementwise_correct"},"guarantee":"test_XXM_mul_elementwise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul_elementwise_correct","statement":"Path(test_XXM_mul_elementwise(x), test_XXM_mul_elementwise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c0c4a6f85407ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul_elementwise","kind":"function","src_hash":"378c89da35b94796","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.mul_elementwise(B) == C"},"spec":{"lhs":"test_XXM_mul_elementwise(DM)","rhs":"A.mul_elementwise(B) == C","over":{"base":"Any"},"name":"test_XXM_mul_elementwise_correct"},"guarantee":"A.mul_elementwise(B) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_mul_elementwise_correct","statement":"Path(test_XXM_mul_elementwise(x), A.mul_elementwise(B) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3536574bd504b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.mul_elementwise(B) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_mul_elementwise(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[1, 2, 3], [4, 5, 6]])
@@ -1226,16 +1515,22 @@ def test_XXM_mul_elementwise(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_neg(DM), test_XXM_neg produces the expected output) over Any ║
+# ║ Path(test_XXM_neg(DM), A.neg() == C) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_neg : Any → {Any | A.neg() == C}                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.neg() == C                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_neg : Any → {Any | result satisfies: A.neg()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36594f10150c9fbb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67bf58227bc033fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_neg","kind":"function","src_hash":"b7439a523ca3088e","in":{"base":"Any"},"out":{"base":"Any","pred":"A.neg() == C"},"spec":{"lhs":"test_XXM_neg(DM)","rhs":"test_XXM_neg produces the expected output","over":{"base":"Any"},"name":"test_XXM_neg_correct"},"guarantee":"test_XXM_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_neg_correct","statement":"Path(test_XXM_neg(x), test_XXM_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36594f10150c9fbb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_neg","kind":"function","src_hash":"b7439a523ca3088e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.neg() == C"},"spec":{"lhs":"test_XXM_neg(DM)","rhs":"A.neg() == C","over":{"base":"Any"},"name":"test_XXM_neg_correct"},"guarantee":"A.neg() == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_neg_correct","statement":"Path(test_XXM_neg(x), A.neg() == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67bf58227bc033fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.neg() == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_neg(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     C = DM([[-1, -2, -3], [-4, -5, -6]])
@@ -1244,16 +1539,23 @@ def test_XXM_neg(DM):
 
 @pytest.mark.parametrize('DM', DM_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_convert_to(DM), test_XXM_convert_to produces the expected output) over Any ║
+# ║ Path(test_XXM_convert_to(DM), A.convert_to(QQ) == B and B.convert_to(ZZ) == A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_convert_to : Any → {Any | A.convert_to(QQ) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.convert_to(QQ) == B                          ║
+# ║   ensures:  B.convert_to(ZZ) == A                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_convert_to : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 021c05dc1a3be5dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 657e275f80453683  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_convert_to","kind":"function","src_hash":"f0d53c1f0aa8a9f9","in":{"base":"Any"},"out":{"base":"Any","pred":"A.convert_to(QQ) == B and B.convert_to(ZZ) == A"},"spec":{"lhs":"test_XXM_convert_to(DM)","rhs":"test_XXM_convert_to produces the expected output","over":{"base":"Any"},"name":"test_XXM_convert_to_correct"},"guarantee":"test_XXM_convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_convert_to_correct","statement":"Path(test_XXM_convert_to(x), test_XXM_convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"021c05dc1a3be5dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_convert_to","kind":"function","src_hash":"f0d53c1f0aa8a9f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.convert_to(QQ) == B and B.convert_to(ZZ) == A"},"spec":{"lhs":"test_XXM_convert_to(DM)","rhs":"A.convert_to(QQ) == B and B.convert_to(ZZ) == A","over":{"base":"Any"},"name":"test_XXM_convert_to_correct"},"guarantee":"A.convert_to(QQ) == B; B.convert_to(ZZ) == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_convert_to_correct","statement":"Path(test_XXM_convert_to(x), A.convert_to(QQ) == B; B.convert_to(ZZ) == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"657e275f80453683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.convert_to(QQ) == B","B.convert_to(ZZ) == A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_convert_to(DM):
     A = DM([[1, 2, 3], [4, 5, 6]], ZZ)
     B = DM([[1, 2, 3], [4, 5, 6]], QQ)
@@ -1263,16 +1565,22 @@ def test_XXM_convert_to(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_scc(DM), test_XXM_scc produces the expected output) over Any ║
+# ║ Path(test_XXM_scc(DM), A.scc() == [[0, 1], [2], [3, 5], [4]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_scc : Any → {Any | A.scc() == [[0, 1], [2], ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.scc() == [[0, 1], [2], [3, 5], [4]]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_scc : Any → {Any | result satisfies: A.scc()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2949103459a29e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b13cb34c21fd59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_scc","kind":"function","src_hash":"512cfa8ac3011cd5","in":{"base":"Any"},"out":{"base":"Any","pred":"A.scc() == [[0, 1], [2], [3, 5], [4]]"},"spec":{"lhs":"test_XXM_scc(DM)","rhs":"test_XXM_scc produces the expected output","over":{"base":"Any"},"name":"test_XXM_scc_correct"},"guarantee":"test_XXM_scc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_scc_correct","statement":"Path(test_XXM_scc(x), test_XXM_scc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2949103459a29e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_scc","kind":"function","src_hash":"512cfa8ac3011cd5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.scc() == [[0, 1], [2], [3, 5], [4]]"},"spec":{"lhs":"test_XXM_scc(DM)","rhs":"A.scc() == [[0, 1], [2], [3, 5], [4]]","over":{"base":"Any"},"name":"test_XXM_scc_correct"},"guarantee":"A.scc() == [[0, 1], [2], [3, 5], [4]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_scc_correct","statement":"Path(test_XXM_scc(x), A.scc() == [[0, 1], [2], [3, 5], [4]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b13cb34c21fd59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.scc() == [[0, 1], [2], [3, 5], [4]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_scc(DM):
     A = DM([
         [0, 1, 0, 0, 0, 0],
@@ -1286,16 +1594,23 @@ def test_XXM_scc(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_hstack(DM), test_XXM_hstack produces the expected output) over Any ║
+# ║ Path(test_XXM_hstack(DM), A.hstack(B) == C and A.hstack(B, C) == ABC) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_hstack : Any → {Any | A.hstack(B) == C and A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.hstack(B) == C                               ║
+# ║   ensures:  A.hstack(B, C) == ABC                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_hstack : Any → {Any | result satisfies: A.hs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf8367338f8cfedb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e521cd8a8906427  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_hstack","kind":"function","src_hash":"4044cfc1010d6beb","in":{"base":"Any"},"out":{"base":"Any","pred":"A.hstack(B) == C and A.hstack(B, C) == ABC"},"spec":{"lhs":"test_XXM_hstack(DM)","rhs":"test_XXM_hstack produces the expected output","over":{"base":"Any"},"name":"test_XXM_hstack_correct"},"guarantee":"test_XXM_hstack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_hstack_correct","statement":"Path(test_XXM_hstack(x), test_XXM_hstack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf8367338f8cfedb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_hstack","kind":"function","src_hash":"4044cfc1010d6beb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.hstack(B) == C and A.hstack(B, C) == ABC"},"spec":{"lhs":"test_XXM_hstack(DM)","rhs":"A.hstack(B) == C and A.hstack(B, C) == ABC","over":{"base":"Any"},"name":"test_XXM_hstack_correct"},"guarantee":"A.hstack(B) == C; A.hstack(B, C) == ABC","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_hstack_correct","statement":"Path(test_XXM_hstack(x), A.hstack(B) == C; A.hstack(B, C) == ABC)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e521cd8a8906427","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.hstack(B) == C","A.hstack(B, C) == ABC"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_XXM_hstack(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[7, 8], [9, 10]])
@@ -1308,16 +1623,23 @@ def test_XXM_hstack(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_vstack(DM), test_XXM_vstack produces the expected output) over Any ║
+# ║ Path(test_XXM_vstack(DM), A.vstack(B) == C and A.vstack(B, C) == ABC) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_vstack : Any → {Any | A.vstack(B) == C and A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.vstack(B) == C                               ║
+# ║   ensures:  A.vstack(B, C) == ABC                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_vstack : Any → {Any | result satisfies: A.vs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18b0f7c610972cdf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08c86aab878443fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_vstack","kind":"function","src_hash":"afef99c8e28c33fc","in":{"base":"Any"},"out":{"base":"Any","pred":"A.vstack(B) == C and A.vstack(B, C) == ABC"},"spec":{"lhs":"test_XXM_vstack(DM)","rhs":"test_XXM_vstack produces the expected output","over":{"base":"Any"},"name":"test_XXM_vstack_correct"},"guarantee":"test_XXM_vstack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_vstack_correct","statement":"Path(test_XXM_vstack(x), test_XXM_vstack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18b0f7c610972cdf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_vstack","kind":"function","src_hash":"afef99c8e28c33fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.vstack(B) == C and A.vstack(B, C) == ABC"},"spec":{"lhs":"test_XXM_vstack(DM)","rhs":"A.vstack(B) == C and A.vstack(B, C) == ABC","over":{"base":"Any"},"name":"test_XXM_vstack_correct"},"guarantee":"A.vstack(B) == C; A.vstack(B, C) == ABC","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_vstack_correct","statement":"Path(test_XXM_vstack(x), A.vstack(B) == C; A.vstack(B, C) == ABC)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08c86aab878443fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.vstack(B) == C","A.vstack(B, C) == ABC"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_XXM_vstack(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[7, 8, 9]])
@@ -1329,16 +1651,22 @@ def test_XXM_vstack(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_applyfunc(DM), test_XXM_applyfunc produces the expected output) over Any ║
+# ║ Path(test_XXM_applyfunc(DM), A.applyfunc(lambda x: 2 * x, ZZ) == B) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_applyfunc : Any → {Any | A.applyfunc(lambda ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.applyfunc(lambda x: 2 * x, ZZ) == B          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_applyfunc : Any → {Any | result satisfies: A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28d8f85269032323  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae4ab8692814b3a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_applyfunc","kind":"function","src_hash":"e69b1a5cb75f2bdd","in":{"base":"Any"},"out":{"base":"Any","pred":"A.applyfunc(lambda x: 2 * x, ZZ) == B"},"spec":{"lhs":"test_XXM_applyfunc(DM)","rhs":"test_XXM_applyfunc produces the expected output","over":{"base":"Any"},"name":"test_XXM_applyfunc_correct"},"guarantee":"test_XXM_applyfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_applyfunc_correct","statement":"Path(test_XXM_applyfunc(x), test_XXM_applyfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28d8f85269032323"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_applyfunc","kind":"function","src_hash":"e69b1a5cb75f2bdd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.applyfunc(lambda x: 2 * x, ZZ) == B"},"spec":{"lhs":"test_XXM_applyfunc(DM)","rhs":"A.applyfunc(lambda x: 2 * x, ZZ) == B","over":{"base":"Any"},"name":"test_XXM_applyfunc_correct"},"guarantee":"A.applyfunc(lambda x: 2 * x, ZZ) == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_applyfunc_correct","statement":"Path(test_XXM_applyfunc(x), A.applyfunc(lambda x: 2 * x, ZZ) == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4ab8692814b3a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.applyfunc(lambda x: 2 * x, ZZ) == B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_applyfunc(DM):
     A = DM([[1, 2, 3], [4, 5, 6]])
     B = DM([[2, 4, 6], [8, 10, 12]])
@@ -1347,16 +1675,25 @@ def test_XXM_applyfunc(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_is_upper(DM), test_XXM_is_upper produces the expected output) over Any ║
+# ║ Path(test_XXM_is_upper(DM), <unspecified:test_XXM_is_upper>) over {Any | DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True and DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False and DM([]).is_upper() is True and DM([[], []]).is_upper() is True} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_is_upper : Any → {Any | DM([[1, 2, 3], [0, 5...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: DM([[1, 2, 3], [0, 5, 6]]).is_upper() is ...   ║
+# ║   requires: DM([[1, 2, 3], [4, 5, 6]]).is_upper() is ...   ║
+# ║   requires: DM([]).is_upper() is True                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_is_upper : {Any | DM([[1, 2, 3], [0, 5, 6]])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a766f74097867e14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_upper","kind":"function","src_hash":"ab059518083e84e1","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True and DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False and DM([]).is_upper() is True and DM([[], []]).is_upper() is True"},"spec":{"lhs":"test_XXM_is_upper(DM)","rhs":"test_XXM_is_upper produces the expected output","over":{"base":"Any"},"name":"test_XXM_is_upper_correct"},"guarantee":"test_XXM_is_upper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_upper_correct","statement":"Path(test_XXM_is_upper(x), test_XXM_is_upper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a766f74097867e14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_upper","kind":"function","src_hash":"ab059518083e84e1","in":{"base":"Any","pred":"DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True and DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False and DM([]).is_upper() is True and DM([[], []]).is_upper() is True"},"out":{"base":"Any","pred":"DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True and DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False and DM([]).is_upper() is True and DM([[], []]).is_upper() is True"},"spec":{"lhs":"test_XXM_is_upper(DM)","rhs":"<unspecified:test_XXM_is_upper>","over":{"base":"Any","pred":"DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True and DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False and DM([]).is_upper() is True and DM([[], []]).is_upper() is True"},"name":"test_XXM_is_upper_correct"},"guarantee":"test_XXM_is_upper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_upper_correct","statement":"Path(test_XXM_is_upper(x), test_XXM_is_upper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a766f74097867e14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True","DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False","DM([]).is_upper() is True","DM([[], []]).is_upper() is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_is_upper(DM):
     assert DM([[1, 2, 3], [0, 5, 6]]).is_upper() is True
     assert DM([[1, 2, 3], [4, 5, 6]]).is_upper() is False
@@ -1366,16 +1703,24 @@ def test_XXM_is_upper(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_is_lower(DM), test_XXM_is_lower produces the expected output) over Any ║
+# ║ Path(test_XXM_is_lower(DM), <unspecified:test_XXM_is_lower>) over {Any | DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True and DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_is_lower : Any → {Any | DM([[1, 0, 0], [4, 5...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: DM([[1, 0, 0], [4, 5, 0]]).is_lower() is ...   ║
+# ║   requires: DM([[1, 2, 3], [4, 5, 6]]).is_lower() is ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_is_lower : {Any | DM([[1, 0, 0], [4, 5, 0]])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f73a4fd9534b9464  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_lower","kind":"function","src_hash":"952381fe7a010256","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True and DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False"},"spec":{"lhs":"test_XXM_is_lower(DM)","rhs":"test_XXM_is_lower produces the expected output","over":{"base":"Any"},"name":"test_XXM_is_lower_correct"},"guarantee":"test_XXM_is_lower produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_lower_correct","statement":"Path(test_XXM_is_lower(x), test_XXM_is_lower produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73a4fd9534b9464"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_lower","kind":"function","src_hash":"952381fe7a010256","in":{"base":"Any","pred":"DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True and DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False"},"out":{"base":"Any","pred":"DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True and DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False"},"spec":{"lhs":"test_XXM_is_lower(DM)","rhs":"<unspecified:test_XXM_is_lower>","over":{"base":"Any","pred":"DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True and DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False"},"name":"test_XXM_is_lower_correct"},"guarantee":"test_XXM_is_lower produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_lower_correct","statement":"Path(test_XXM_is_lower(x), test_XXM_is_lower produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73a4fd9534b9464","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True","DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_is_lower(DM):
     assert DM([[1, 0, 0], [4, 5, 0]]).is_lower() is True
     assert DM([[1, 2, 3], [4, 5, 6]]).is_lower() is False
@@ -1383,16 +1728,24 @@ def test_XXM_is_lower(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_is_diagonal(DM), test_XXM_is_diagonal produces the expected output) over Any ║
+# ║ Path(test_XXM_is_diagonal(DM), <unspecified:test_XXM_is_diagonal>) over {Any | DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True and DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_is_diagonal : Any → {Any | DM([[1, 0, 0], [0...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() ...   ║
+# ║   requires: DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_is_diagonal : {Any | DM([[1, 0, 0], [0, 5, 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e21a20a8b6cc370  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_diagonal","kind":"function","src_hash":"6db2a0e171e81516","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True and DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False"},"spec":{"lhs":"test_XXM_is_diagonal(DM)","rhs":"test_XXM_is_diagonal produces the expected output","over":{"base":"Any"},"name":"test_XXM_is_diagonal_correct"},"guarantee":"test_XXM_is_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_diagonal_correct","statement":"Path(test_XXM_is_diagonal(x), test_XXM_is_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e21a20a8b6cc370"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_diagonal","kind":"function","src_hash":"6db2a0e171e81516","in":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True and DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False"},"out":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True and DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False"},"spec":{"lhs":"test_XXM_is_diagonal(DM)","rhs":"<unspecified:test_XXM_is_diagonal>","over":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True and DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False"},"name":"test_XXM_is_diagonal_correct"},"guarantee":"test_XXM_is_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_diagonal_correct","statement":"Path(test_XXM_is_diagonal(x), test_XXM_is_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e21a20a8b6cc370","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True","DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_is_diagonal(DM):
     assert DM([[1, 0, 0], [0, 5, 0]]).is_diagonal() is True
     assert DM([[1, 2, 3], [4, 5, 6]]).is_diagonal() is False
@@ -1400,32 +1753,47 @@ def test_XXM_is_diagonal(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_diagonal(DM), test_XXM_diagonal produces the expected output) over Any ║
+# ║ Path(test_XXM_diagonal(DM), <unspecified:test_XXM_diagonal>) over {Any | DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_diagonal : Any → {Any | DM([[1, 0, 0], [0, 5...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: DM([[1, 0, 0], [0, 5, 0]]).diagonal() == ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_diagonal : {Any | DM([[1, 0, 0], [0, 5, 0]])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bff8ec849f5f7cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_diagonal","kind":"function","src_hash":"498358d9e5f0ba96","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]"},"spec":{"lhs":"test_XXM_diagonal(DM)","rhs":"test_XXM_diagonal produces the expected output","over":{"base":"Any"},"name":"test_XXM_diagonal_correct"},"guarantee":"test_XXM_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_diagonal_correct","statement":"Path(test_XXM_diagonal(x), test_XXM_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bff8ec849f5f7cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_diagonal","kind":"function","src_hash":"498358d9e5f0ba96","in":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]"},"out":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]"},"spec":{"lhs":"test_XXM_diagonal(DM)","rhs":"<unspecified:test_XXM_diagonal>","over":{"base":"Any","pred":"DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]"},"name":"test_XXM_diagonal_correct"},"guarantee":"test_XXM_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_diagonal_correct","statement":"Path(test_XXM_diagonal(x), test_XXM_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bff8ec849f5f7cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_XXM_diagonal(DM):
     assert DM([[1, 0, 0], [0, 5, 0]]).diagonal() == [1, 5]
 
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_is_zero_matrix(DM), test_XXM_is_zero_matrix produces the expected output) over Any ║
+# ║ Path(test_XXM_is_zero_matrix(DM), <unspecified:test_XXM_is_zero_matrix>) over {Any | DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True and DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_is_zero_matrix : Any → {Any | DM([[0, 0, 0],...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix...   ║
+# ║   requires: DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_is_zero_matrix : {Any | DM([[0, 0, 0], [0, 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e585b3354b9f8e00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_zero_matrix","kind":"function","src_hash":"33a9bec3eff5f369","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True and DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False"},"spec":{"lhs":"test_XXM_is_zero_matrix(DM)","rhs":"test_XXM_is_zero_matrix produces the expected output","over":{"base":"Any"},"name":"test_XXM_is_zero_matrix_correct"},"guarantee":"test_XXM_is_zero_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_zero_matrix_correct","statement":"Path(test_XXM_is_zero_matrix(x), test_XXM_is_zero_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e585b3354b9f8e00"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_zero_matrix","kind":"function","src_hash":"33a9bec3eff5f369","in":{"base":"Any","pred":"DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True and DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False"},"out":{"base":"Any","pred":"DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True and DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False"},"spec":{"lhs":"test_XXM_is_zero_matrix(DM)","rhs":"<unspecified:test_XXM_is_zero_matrix>","over":{"base":"Any","pred":"DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True and DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False"},"name":"test_XXM_is_zero_matrix_correct"},"guarantee":"test_XXM_is_zero_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_is_zero_matrix_correct","statement":"Path(test_XXM_is_zero_matrix(x), test_XXM_is_zero_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e585b3354b9f8e00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True","DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_is_zero_matrix(DM):
     assert DM([[0, 0, 0], [0, 0, 0]]).is_zero_matrix() is True
     assert DM([[1, 0, 0], [0, 0, 0]]).is_zero_matrix() is False
@@ -1433,16 +1801,24 @@ def test_XXM_is_zero_matrix(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_det_ZZ(DM), test_XXM_det_ZZ produces the expected output) over Any ║
+# ║ Path(test_XXM_det_ZZ(DM), <unspecified:test_XXM_det_ZZ>) over {Any | DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0 and DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_det_ZZ : Any → {Any | DM([[1, 2, 3], [4, 5, ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det...   ║
+# ║   requires: DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).de...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_det_ZZ : {Any | DM([[1, 2, 3], [4, 5, 6], [7...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d76487595f4c49cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_ZZ","kind":"function","src_hash":"d78fb2fc29b80330","in":{"base":"Any"},"out":{"base":"Any","pred":"DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0 and DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3"},"spec":{"lhs":"test_XXM_det_ZZ(DM)","rhs":"test_XXM_det_ZZ produces the expected output","over":{"base":"Any"},"name":"test_XXM_det_ZZ_correct"},"guarantee":"test_XXM_det_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_ZZ_correct","statement":"Path(test_XXM_det_ZZ(x), test_XXM_det_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d76487595f4c49cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_ZZ","kind":"function","src_hash":"d78fb2fc29b80330","in":{"base":"Any","pred":"DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0 and DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3"},"out":{"base":"Any","pred":"DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0 and DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3"},"spec":{"lhs":"test_XXM_det_ZZ(DM)","rhs":"<unspecified:test_XXM_det_ZZ>","over":{"base":"Any","pred":"DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0 and DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3"},"name":"test_XXM_det_ZZ_correct"},"guarantee":"test_XXM_det_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_ZZ_correct","statement":"Path(test_XXM_det_ZZ(x), test_XXM_det_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d76487595f4c49cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0","DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_det_ZZ(DM):
     assert DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).det() == 0
     assert DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]]).det() == -3
@@ -1450,16 +1826,22 @@ def test_XXM_det_ZZ(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_det_QQ(DM), test_XXM_det_QQ produces the expected output) over Any ║
+# ║ Path(test_XXM_det_QQ(DM), dM1.det() == QQ(-1, 10)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_det_QQ : Any → {Any | dM1.det() == QQ(-1, 10)}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.det() == QQ(-1, 10)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_det_QQ : Any → {Any | result satisfies: dM1....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dfec00a644ce5e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a96f9ab7759bb3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_QQ","kind":"function","src_hash":"ad22758c5fc778fc","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.det() == QQ(-1, 10)"},"spec":{"lhs":"test_XXM_det_QQ(DM)","rhs":"test_XXM_det_QQ produces the expected output","over":{"base":"Any"},"name":"test_XXM_det_QQ_correct"},"guarantee":"test_XXM_det_QQ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_QQ_correct","statement":"Path(test_XXM_det_QQ(x), test_XXM_det_QQ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dfec00a644ce5e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_QQ","kind":"function","src_hash":"ad22758c5fc778fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.det() == QQ(-1, 10)"},"spec":{"lhs":"test_XXM_det_QQ(DM)","rhs":"dM1.det() == QQ(-1, 10)","over":{"base":"Any"},"name":"test_XXM_det_QQ_correct"},"guarantee":"dM1.det() == QQ(-1, 10)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_det_QQ_correct","statement":"Path(test_XXM_det_QQ(x), dM1.det() == QQ(-1, 10))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a96f9ab7759bb3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.det() == QQ(-1, 10)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_det_QQ(DM):
     dM1 = DM([[(1,2), (2,3)], [(3,4), (4,5)]])
     assert dM1.det() == QQ(-1,10)
@@ -1467,16 +1849,23 @@ def test_XXM_det_QQ(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_inv_QQ(DM), test_XXM_inv_QQ produces the expected output) over Any ║
+# ║ Path(test_XXM_inv_QQ(DM), dM1.inv() == dM2 and dM1.matmul(dM2) == DM([[1, 0], [0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_inv_QQ : Any → {Any | dM1.inv() == dM2 and d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.inv() == dM2                               ║
+# ║   ensures:  dM1.matmul(dM2) == DM([[1, 0], [0, 1]])        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_inv_QQ : Any → {Any | result satisfies: dM1....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce0cba4fc17e6f0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ad273b3795f7bc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_QQ","kind":"function","src_hash":"b655e1a0e99a4974","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.inv() == dM2 and dM1.matmul(dM2) == DM([[1, 0], [0, 1]])"},"spec":{"lhs":"test_XXM_inv_QQ(DM)","rhs":"test_XXM_inv_QQ produces the expected output","over":{"base":"Any"},"name":"test_XXM_inv_QQ_correct"},"guarantee":"test_XXM_inv_QQ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_QQ_correct","statement":"Path(test_XXM_inv_QQ(x), test_XXM_inv_QQ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0cba4fc17e6f0e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_QQ","kind":"function","src_hash":"b655e1a0e99a4974","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.inv() == dM2 and dM1.matmul(dM2) == DM([[1, 0], [0, 1]])"},"spec":{"lhs":"test_XXM_inv_QQ(DM)","rhs":"dM1.inv() == dM2 and dM1.matmul(dM2) == DM([[1, 0], [0, 1]])","over":{"base":"Any"},"name":"test_XXM_inv_QQ_correct"},"guarantee":"dM1.inv() == dM2; dM1.matmul(dM2) == DM([[1, 0], [0, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_QQ_correct","statement":"Path(test_XXM_inv_QQ(x), dM1.inv() == dM2; dM1.matmul(dM2) == DM([[1, 0], [0, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ad273b3795f7bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.inv() == dM2","dM1.matmul(dM2) == DM([[1, 0], [0, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_XXM_inv_QQ(DM):
     dM1 = DM([[(1,2), (2,3)], [(3,4), (4,5)]])
     dM2 = DM([[(-8,1), (20,3)], [(15,2), (-5,1)]])
@@ -1492,16 +1881,22 @@ def test_XXM_inv_QQ(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_inv_ZZ(DM), test_XXM_inv_ZZ produces the expected output) over Any ║
+# ║ Path(test_XXM_inv_ZZ(DM), <unspecified:test_XXM_inv_ZZ>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XXM_inv_ZZ : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1818303d0b9098a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_ZZ","kind":"function","src_hash":"b7f25575292b30e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_XXM_inv_ZZ(DM)","rhs":"test_XXM_inv_ZZ produces the expected output","over":{"base":"Any"},"name":"test_XXM_inv_ZZ_correct"},"guarantee":"test_XXM_inv_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_ZZ_correct","statement":"Path(test_XXM_inv_ZZ(x), test_XXM_inv_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1818303d0b9098a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_ZZ","kind":"function","src_hash":"b7f25575292b30e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_XXM_inv_ZZ(DM)","rhs":"<unspecified:test_XXM_inv_ZZ>","over":{"base":"Any"},"name":"test_XXM_inv_ZZ_correct"},"guarantee":"test_XXM_inv_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_inv_ZZ_correct","statement":"Path(test_XXM_inv_ZZ(x), test_XXM_inv_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1818303d0b9098a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_inv_ZZ(DM):
     dM1 = DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]])
     # XXX: Maybe this should return a DM over QQ instead?
@@ -1511,16 +1906,22 @@ def test_XXM_inv_ZZ(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_charpoly_ZZ(DM), test_XXM_charpoly_ZZ produces the expected output) over Any ║
+# ║ Path(test_XXM_charpoly_ZZ(DM), dM1.charpoly() == [1, -16, -12, 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_charpoly_ZZ : Any → {Any | dM1.charpoly() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.charpoly() == [1, -16, -12, 3]             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_charpoly_ZZ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9ee94eb7b9f6f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f389fa8674dbcbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_ZZ","kind":"function","src_hash":"a209b9acf7e89c82","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.charpoly() == [1, -16, -12, 3]"},"spec":{"lhs":"test_XXM_charpoly_ZZ(DM)","rhs":"test_XXM_charpoly_ZZ produces the expected output","over":{"base":"Any"},"name":"test_XXM_charpoly_ZZ_correct"},"guarantee":"test_XXM_charpoly_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_ZZ_correct","statement":"Path(test_XXM_charpoly_ZZ(x), test_XXM_charpoly_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9ee94eb7b9f6f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_ZZ","kind":"function","src_hash":"a209b9acf7e89c82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.charpoly() == [1, -16, -12, 3]"},"spec":{"lhs":"test_XXM_charpoly_ZZ(DM)","rhs":"dM1.charpoly() == [1, -16, -12, 3]","over":{"base":"Any"},"name":"test_XXM_charpoly_ZZ_correct"},"guarantee":"dM1.charpoly() == [1, -16, -12, 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_ZZ_correct","statement":"Path(test_XXM_charpoly_ZZ(x), dM1.charpoly() == [1, -16, -12, 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f389fa8674dbcbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.charpoly() == [1, -16, -12, 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_charpoly_ZZ(DM):
     dM1 = DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]])
     assert dM1.charpoly() == [1, -16, -12, 3]
@@ -1528,16 +1929,22 @@ def test_XXM_charpoly_ZZ(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_charpoly_QQ(DM), test_XXM_charpoly_QQ produces the expected output) over Any ║
+# ║ Path(test_XXM_charpoly_QQ(DM), dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_charpoly_QQ : Any → {Any | dM1.charpoly() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.charpoly() == [QQ(1, 1), QQ(-13, 10),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_charpoly_QQ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6888281161da5d1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99a4e258ba08809d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_QQ","kind":"function","src_hash":"37d6b7aef76e9b67","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)]"},"spec":{"lhs":"test_XXM_charpoly_QQ(DM)","rhs":"test_XXM_charpoly_QQ produces the expected output","over":{"base":"Any"},"name":"test_XXM_charpoly_QQ_correct"},"guarantee":"test_XXM_charpoly_QQ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_QQ_correct","statement":"Path(test_XXM_charpoly_QQ(x), test_XXM_charpoly_QQ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6888281161da5d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_QQ","kind":"function","src_hash":"37d6b7aef76e9b67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)]"},"spec":{"lhs":"test_XXM_charpoly_QQ(DM)","rhs":"dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)]","over":{"base":"Any"},"name":"test_XXM_charpoly_QQ_correct"},"guarantee":"dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_charpoly_QQ_correct","statement":"Path(test_XXM_charpoly_QQ(x), dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a4e258ba08809d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.charpoly() == [QQ(1, 1), QQ(-13, 10), QQ(-1, 10)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_charpoly_QQ(DM):
     dM1 = DM([[(1,2), (2,3)], [(3,4), (4,5)]])
     assert dM1.charpoly() == [QQ(1,1), QQ(-13,10), QQ(-1,10)]
@@ -1545,16 +1952,22 @@ def test_XXM_charpoly_QQ(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_lu_solve_ZZ(DM), test_XXM_lu_solve_ZZ produces the expected output) over Any ║
+# ║ Path(test_XXM_lu_solve_ZZ(DM), <unspecified:test_XXM_lu_solve_ZZ>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XXM_lu_solve_ZZ : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 224181a266955418  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_ZZ","kind":"function","src_hash":"1325b57be4531b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_XXM_lu_solve_ZZ(DM)","rhs":"test_XXM_lu_solve_ZZ produces the expected output","over":{"base":"Any"},"name":"test_XXM_lu_solve_ZZ_correct"},"guarantee":"test_XXM_lu_solve_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_ZZ_correct","statement":"Path(test_XXM_lu_solve_ZZ(x), test_XXM_lu_solve_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"224181a266955418"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_ZZ","kind":"function","src_hash":"1325b57be4531b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_XXM_lu_solve_ZZ(DM)","rhs":"<unspecified:test_XXM_lu_solve_ZZ>","over":{"base":"Any"},"name":"test_XXM_lu_solve_ZZ_correct"},"guarantee":"test_XXM_lu_solve_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_ZZ_correct","statement":"Path(test_XXM_lu_solve_ZZ(x), test_XXM_lu_solve_ZZ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"224181a266955418","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_lu_solve_ZZ(DM):
     dM1 = DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]])
     dM2 = DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
@@ -1563,16 +1976,22 @@ def test_XXM_lu_solve_ZZ(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_lu_solve_QQ(DM), test_XXM_lu_solve_QQ produces the expected output) over Any ║
+# ║ Path(test_XXM_lu_solve_QQ(DM), dM1.lu_solve(dM2) == dM3 == dM1.inv()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_lu_solve_QQ : Any → {Any | dM1.lu_solve(dM2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.lu_solve(dM2) == dM3 == dM1.inv()          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_lu_solve_QQ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fb9b00d4db8dc21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 890270009f6691d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_QQ","kind":"function","src_hash":"0957bf78f75cec7a","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.lu_solve(dM2) == dM3 == dM1.inv()"},"spec":{"lhs":"test_XXM_lu_solve_QQ(DM)","rhs":"test_XXM_lu_solve_QQ produces the expected output","over":{"base":"Any"},"name":"test_XXM_lu_solve_QQ_correct"},"guarantee":"test_XXM_lu_solve_QQ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_QQ_correct","statement":"Path(test_XXM_lu_solve_QQ(x), test_XXM_lu_solve_QQ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb9b00d4db8dc21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_QQ","kind":"function","src_hash":"0957bf78f75cec7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.lu_solve(dM2) == dM3 == dM1.inv()"},"spec":{"lhs":"test_XXM_lu_solve_QQ(DM)","rhs":"dM1.lu_solve(dM2) == dM3 == dM1.inv()","over":{"base":"Any"},"name":"test_XXM_lu_solve_QQ_correct"},"guarantee":"dM1.lu_solve(dM2) == dM3 == dM1.inv()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_lu_solve_QQ_correct","statement":"Path(test_XXM_lu_solve_QQ(x), dM1.lu_solve(dM2) == dM3 == dM1.inv())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"890270009f6691d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.lu_solve(dM2) == dM3 == dM1.inv()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_XXM_lu_solve_QQ(DM):
     dM1 = DM([[1, 2, 3], [4, 5, 6], [7, 8, 10]])
     dM2 = DM([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
@@ -1586,16 +2005,22 @@ def test_XXM_lu_solve_QQ(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_nullspace_QQ(DM), test_XXM_nullspace_QQ produces the expected output) over Any ║
+# ║ Path(test_XXM_nullspace_QQ(DM), dM1.nullspace() == (DM([[1, -2, 1]]), [2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_nullspace_QQ : Any → {Any | dM1.nullspace() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.nullspace() == (DM([[1, -2, 1]]), [2])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_nullspace_QQ : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed96406ca57132ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 107f9517a54f1491  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_nullspace_QQ","kind":"function","src_hash":"8a2ec3495dc3353c","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.nullspace() == (DM([[1, -2, 1]]), [2])"},"spec":{"lhs":"test_XXM_nullspace_QQ(DM)","rhs":"test_XXM_nullspace_QQ produces the expected output","over":{"base":"Any"},"name":"test_XXM_nullspace_QQ_correct"},"guarantee":"test_XXM_nullspace_QQ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_nullspace_QQ_correct","statement":"Path(test_XXM_nullspace_QQ(x), test_XXM_nullspace_QQ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed96406ca57132ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_nullspace_QQ","kind":"function","src_hash":"8a2ec3495dc3353c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.nullspace() == (DM([[1, -2, 1]]), [2])"},"spec":{"lhs":"test_XXM_nullspace_QQ(DM)","rhs":"dM1.nullspace() == (DM([[1, -2, 1]]), [2])","over":{"base":"Any"},"name":"test_XXM_nullspace_QQ_correct"},"guarantee":"dM1.nullspace() == (DM([[1, -2, 1]]), [2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_nullspace_QQ_correct","statement":"Path(test_XXM_nullspace_QQ(x), dM1.nullspace() == (DM([[1, -2, 1]]), [2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"107f9517a54f1491","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.nullspace() == (DM([[1, -2, 1]]), [2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_nullspace_QQ(DM):
     dM1 = DM([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     # XXX: Change the signature to just return the nullspace. Possibly
@@ -1606,16 +2031,24 @@ def test_XXM_nullspace_QQ(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_lll(DM), test_XXM_lll produces the expected output) over Any ║
+# ║ Path(test_XXM_lll(DM), M.lll() == M_lll and M.lll_transform() == (M_lll, T) and T.matmul(M) == M_lll) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_lll : Any → {Any | M.lll() == M_lll and M.ll...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.lll() == M_lll                               ║
+# ║   ensures:  M.lll_transform() == (M_lll, T)                ║
+# ║   ensures:  T.matmul(M) == M_lll                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_lll : Any → {Any | result satisfies: M.lll()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9294f437c332b36b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b2f951862dbabd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_lll","kind":"function","src_hash":"d529beb3a405f43f","in":{"base":"Any"},"out":{"base":"Any","pred":"M.lll() == M_lll and M.lll_transform() == (M_lll, T) and T.matmul(M) == M_lll"},"spec":{"lhs":"test_XXM_lll(DM)","rhs":"test_XXM_lll produces the expected output","over":{"base":"Any"},"name":"test_XXM_lll_correct"},"guarantee":"test_XXM_lll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_lll_correct","statement":"Path(test_XXM_lll(x), test_XXM_lll produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9294f437c332b36b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_lll","kind":"function","src_hash":"d529beb3a405f43f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.lll() == M_lll and M.lll_transform() == (M_lll, T) and T.matmul(M) == M_lll"},"spec":{"lhs":"test_XXM_lll(DM)","rhs":"M.lll() == M_lll and M.lll_transform() == (M_lll, T) and T.matmul(M) == M_lll","over":{"base":"Any"},"name":"test_XXM_lll_correct"},"guarantee":"M.lll() == M_lll; M.lll_transform() == (M_lll, T); T.matmul(M) == M_lll","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_lll_correct","statement":"Path(test_XXM_lll(x), M.lll() == M_lll; M.lll_transform() == (M_lll, T); T.matmul(M) == M_lll)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b2f951862dbabd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.lll() == M_lll","M.lll_transform() == (M_lll, T)","T.matmul(M) == M_lll"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_lll(DM):
     M = DM([[1, 2, 3], [4, 5, 20]])
     M_lll = DM([[1, 2, 3], [-1, -5, 5]])
@@ -1627,16 +2060,24 @@ def test_XXM_lll(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_mixed_signs(DM), test_XXM_qr_mixed_signs produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_mixed_signs(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_mixed_signs : Any → {Any | Q.matmul(R) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_mixed_signs : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da7f6916f0d1f3d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29379ac43e9bd366  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_mixed_signs","kind":"function","src_hash":"ff6f57e88a541fd6","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_mixed_signs(DM)","rhs":"test_XXM_qr_mixed_signs produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_mixed_signs_correct"},"guarantee":"test_XXM_qr_mixed_signs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_mixed_signs_correct","statement":"Path(test_XXM_qr_mixed_signs(x), test_XXM_qr_mixed_signs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da7f6916f0d1f3d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_mixed_signs","kind":"function","src_hash":"ff6f57e88a541fd6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_mixed_signs(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_mixed_signs_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_mixed_signs_correct","statement":"Path(test_XXM_qr_mixed_signs(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29379ac43e9bd366","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_mixed_signs(DM):
     lol = [[QQ(1), QQ(-2)], [QQ(-3), QQ(4)]]
     A = DM(lol)
@@ -1648,16 +2089,24 @@ def test_XXM_qr_mixed_signs(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_large_matrix(DM), test_XXM_qr_large_matrix produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_large_matrix(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_large_matrix : Any → {Any | Q.matmul(R) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_large_matrix : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68bc87f085c50844  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1d14608fd57bca3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_large_matrix","kind":"function","src_hash":"2589b7622f8b8335","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_large_matrix(DM)","rhs":"test_XXM_qr_large_matrix produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_large_matrix_correct"},"guarantee":"test_XXM_qr_large_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_large_matrix_correct","statement":"Path(test_XXM_qr_large_matrix(x), test_XXM_qr_large_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bc87f085c50844"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_large_matrix","kind":"function","src_hash":"2589b7622f8b8335","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_large_matrix(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_large_matrix_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_large_matrix_correct","statement":"Path(test_XXM_qr_large_matrix(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1d14608fd57bca3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_large_matrix(DM):
     lol = [[QQ(i + j) for j in range(10)] for i in range(10)]
     A = DM(lol)
@@ -1669,16 +2118,24 @@ def test_XXM_qr_large_matrix(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_identity_matrix(DM), test_XXM_qr_identity_matrix produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_identity_matrix(DM), Q == A and R == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (3, 3) and R.shape == (3, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_identity_matrix : Any → {Any | Q == A and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q == A                                         ║
+# ║   ensures:  R == A                                         ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_identity_matrix : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9a0c4c701448117  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da7811833747c347  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_identity_matrix","kind":"function","src_hash":"549d60108d5e8cd3","in":{"base":"Any"},"out":{"base":"Any","pred":"Q == A and R == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (3, 3) and R.shape == (3, 3)"},"spec":{"lhs":"test_XXM_qr_identity_matrix(DM)","rhs":"test_XXM_qr_identity_matrix produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_identity_matrix_correct"},"guarantee":"test_XXM_qr_identity_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_identity_matrix_correct","statement":"Path(test_XXM_qr_identity_matrix(x), test_XXM_qr_identity_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9a0c4c701448117"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_identity_matrix","kind":"function","src_hash":"549d60108d5e8cd3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q == A and R == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (3, 3) and R.shape == (3, 3)"},"spec":{"lhs":"test_XXM_qr_identity_matrix(DM)","rhs":"Q == A and R == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (3, 3) and R.shape == (3, 3)","over":{"base":"Any"},"name":"test_XXM_qr_identity_matrix_correct"},"guarantee":"Q == A; R == A; Q.transpose().matmul(Q).is_diagonal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_identity_matrix_correct","statement":"Path(test_XXM_qr_identity_matrix(x), Q == A; R == A; Q.transpose().matmul(Q).is_diagonal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da7811833747c347","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q == A","R == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper","Q.shape == (3, 3)","R.shape == (3, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_identity_matrix(DM):
     T = type(DM([[0]]))
     A = T.eye(3, QQ)
@@ -1693,16 +2150,24 @@ def test_XXM_qr_identity_matrix(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_square_matrix(DM), test_XXM_qr_square_matrix produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_square_matrix(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_square_matrix : Any → {Any | Q.matmul(R) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_square_matrix : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e3c273574ac8f9a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9df176365f12585e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_square_matrix","kind":"function","src_hash":"9c728dbfb559f69e","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_square_matrix(DM)","rhs":"test_XXM_qr_square_matrix produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_square_matrix_correct"},"guarantee":"test_XXM_qr_square_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_square_matrix_correct","statement":"Path(test_XXM_qr_square_matrix(x), test_XXM_qr_square_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e3c273574ac8f9a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_square_matrix","kind":"function","src_hash":"9c728dbfb559f69e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_square_matrix(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_square_matrix_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_square_matrix_correct","statement":"Path(test_XXM_qr_square_matrix(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9df176365f12585e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_square_matrix(DM):
     lol = [[QQ(3), QQ(1)], [QQ(4), QQ(3)]]
     A = DM(lol)
@@ -1714,16 +2179,24 @@ def test_XXM_qr_square_matrix(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_matrix_with_zero_columns(DM), test_XXM_qr_matrix_with_zero_columns produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_matrix_with_zero_columns(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_matrix_with_zero_columns : Any → {Any | Q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_matrix_with_zero_columns : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 164793a2a66032b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6b9d9e51b7d5a54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_matrix_with_zero_columns","kind":"function","src_hash":"4264c5f86ad5e0fc","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_matrix_with_zero_columns(DM)","rhs":"test_XXM_qr_matrix_with_zero_columns produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_matrix_with_zero_columns_correct"},"guarantee":"test_XXM_qr_matrix_with_zero_columns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_matrix_with_zero_columns_correct","statement":"Path(test_XXM_qr_matrix_with_zero_columns(x), test_XXM_qr_matrix_with_zero_columns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"164793a2a66032b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_matrix_with_zero_columns","kind":"function","src_hash":"4264c5f86ad5e0fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_matrix_with_zero_columns(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_matrix_with_zero_columns_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_matrix_with_zero_columns_correct","statement":"Path(test_XXM_qr_matrix_with_zero_columns(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6b9d9e51b7d5a54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_matrix_with_zero_columns(DM):
     lol = [[QQ(3), QQ(0)], [QQ(4), QQ(0)]]
     A = DM(lol)
@@ -1735,16 +2208,24 @@ def test_XXM_qr_matrix_with_zero_columns(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_linearly_dependent_columns(DM), test_XXM_qr_linearly_dependent_columns produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_linearly_dependent_columns(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XXM_qr_linearly_dependent_columns : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2da1990f21a5303  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38232c5459289c4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_linearly_dependent_columns","kind":"function","src_hash":"856286c5b3648462","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_linearly_dependent_columns(DM)","rhs":"test_XXM_qr_linearly_dependent_columns produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_linearly_dependent_columns_correct"},"guarantee":"test_XXM_qr_linearly_dependent_columns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_linearly_dependent_columns_correct","statement":"Path(test_XXM_qr_linearly_dependent_columns(x), test_XXM_qr_linearly_dependent_columns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2da1990f21a5303"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_linearly_dependent_columns","kind":"function","src_hash":"856286c5b3648462","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_linearly_dependent_columns(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_linearly_dependent_columns_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_linearly_dependent_columns_correct","statement":"Path(test_XXM_qr_linearly_dependent_columns(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38232c5459289c4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_linearly_dependent_columns(DM):
     lol = [[QQ(1), QQ(2)], [QQ(2), QQ(4)]]
     A = DM(lol)
@@ -1756,16 +2237,22 @@ def test_XXM_qr_linearly_dependent_columns(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_non_field(DM), test_XXM_qr_non_field produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_non_field(DM), <unspecified:test_XXM_qr_non_field>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_XXM_qr_non_field : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0915167f4dd53214  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_non_field","kind":"function","src_hash":"63b959c90fc54cf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_XXM_qr_non_field(DM)","rhs":"test_XXM_qr_non_field produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_non_field_correct"},"guarantee":"test_XXM_qr_non_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_non_field_correct","statement":"Path(test_XXM_qr_non_field(x), test_XXM_qr_non_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0915167f4dd53214"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_non_field","kind":"function","src_hash":"63b959c90fc54cf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_XXM_qr_non_field(DM)","rhs":"<unspecified:test_XXM_qr_non_field>","over":{"base":"Any"},"name":"test_XXM_qr_non_field_correct"},"guarantee":"test_XXM_qr_non_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_non_field_correct","statement":"Path(test_XXM_qr_non_field(x), test_XXM_qr_non_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0915167f4dd53214","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_non_field(DM):
     lol = [[ZZ(3), ZZ(1)], [ZZ(4), ZZ(3)]]
     A = DM(lol)
@@ -1775,16 +2262,24 @@ def test_XXM_qr_non_field(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_field(DM), test_XXM_qr_field produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_field(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_field : Any → {Any | Q.matmul(R) == A and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_field : Any → {Any | result satisfies: Q....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 626fcd3f74649524  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 944eb6ca4146b8db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_field","kind":"function","src_hash":"67a8a8b03f3e7731","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_field(DM)","rhs":"test_XXM_qr_field produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_field_correct"},"guarantee":"test_XXM_qr_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_field_correct","statement":"Path(test_XXM_qr_field(x), test_XXM_qr_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"626fcd3f74649524"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_field","kind":"function","src_hash":"67a8a8b03f3e7731","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_field(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_field_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_field_correct","statement":"Path(test_XXM_qr_field(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"944eb6ca4146b8db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_field(DM):
     lol = [[QQ(3), QQ(1)], [QQ(4), QQ(3)]]
     A = DM(lol)
@@ -1796,16 +2291,24 @@ def test_XXM_qr_field(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_tall_matrix(DM), test_XXM_qr_tall_matrix produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_tall_matrix(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_tall_matrix : Any → {Any | Q.matmul(R) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_tall_matrix : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cb4b3d77b08320f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9a4b0e2f69065a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_tall_matrix","kind":"function","src_hash":"58a2f3150ca42842","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_tall_matrix(DM)","rhs":"test_XXM_qr_tall_matrix produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_tall_matrix_correct"},"guarantee":"test_XXM_qr_tall_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_tall_matrix_correct","statement":"Path(test_XXM_qr_tall_matrix(x), test_XXM_qr_tall_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cb4b3d77b08320f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_tall_matrix","kind":"function","src_hash":"58a2f3150ca42842","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_tall_matrix(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_tall_matrix_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_tall_matrix_correct","statement":"Path(test_XXM_qr_tall_matrix(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9a4b0e2f69065a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_tall_matrix(DM):
     lol = [[QQ(1), QQ(2)], [QQ(3), QQ(4)], [QQ(5), QQ(6)]]
     A = DM(lol)
@@ -1817,16 +2320,24 @@ def test_XXM_qr_tall_matrix(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_wide_matrix(DM), test_XXM_qr_wide_matrix produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_wide_matrix(DM), Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_wide_matrix : Any → {Any | Q.matmul(R) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R) == A                               ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_wide_matrix : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8babe46713794fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9448baf80707ca3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_wide_matrix","kind":"function","src_hash":"90ef2bed3fa95772","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_wide_matrix(DM)","rhs":"test_XXM_qr_wide_matrix produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_wide_matrix_correct"},"guarantee":"test_XXM_qr_wide_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_wide_matrix_correct","statement":"Path(test_XXM_qr_wide_matrix(x), test_XXM_qr_wide_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8babe46713794fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_wide_matrix","kind":"function","src_hash":"90ef2bed3fa95772","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper"},"spec":{"lhs":"test_XXM_qr_wide_matrix(DM)","rhs":"Q.matmul(R) == A and Q.transpose().matmul(Q).is_diagonal and R.is_upper","over":{"base":"Any"},"name":"test_XXM_qr_wide_matrix_correct"},"guarantee":"Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_wide_matrix_correct","statement":"Path(test_XXM_qr_wide_matrix(x), Q.matmul(R) == A; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9448baf80707ca3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R) == A","Q.transpose().matmul(Q).is_diagonal","R.is_upper"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_wide_matrix(DM):
     lol = [[QQ(1), QQ(2), QQ(3)], [QQ(4), QQ(5), QQ(6)]]
     A = DM(lol)
@@ -1838,16 +2349,24 @@ def test_XXM_qr_wide_matrix(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_empty_matrix_0x0(DM), test_XXM_qr_empty_matrix_0x0 produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_empty_matrix_0x0(DM), Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_empty_matrix_0x0 : Any → {Any | Q.matmul(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R).shape == A.shape                   ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_empty_matrix_0x0 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7098a2521dde45e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 122110109f0e881e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x0","kind":"function","src_hash":"1090d5640b26b6f0","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 0)"},"spec":{"lhs":"test_XXM_qr_empty_matrix_0x0(DM)","rhs":"test_XXM_qr_empty_matrix_0x0 produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_empty_matrix_0x0_correct"},"guarantee":"test_XXM_qr_empty_matrix_0x0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x0_correct","statement":"Path(test_XXM_qr_empty_matrix_0x0(x), test_XXM_qr_empty_matrix_0x0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7098a2521dde45e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x0","kind":"function","src_hash":"1090d5640b26b6f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 0)"},"spec":{"lhs":"test_XXM_qr_empty_matrix_0x0(DM)","rhs":"Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 0)","over":{"base":"Any"},"name":"test_XXM_qr_empty_matrix_0x0_correct"},"guarantee":"Q.matmul(R).shape == A.shape; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x0_correct","statement":"Path(test_XXM_qr_empty_matrix_0x0(x), Q.matmul(R).shape == A.shape; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"122110109f0e881e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R).shape == A.shape","Q.transpose().matmul(Q).is_diagonal","R.is_upper","Q.shape == (0, 0)","R.shape == (0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_empty_matrix_0x0(DM):
     T = type(DM([[0]]))
     A = T.zeros((0, 0), QQ)
@@ -1861,16 +2380,24 @@ def test_XXM_qr_empty_matrix_0x0(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_empty_matrix_2x0(DM), test_XXM_qr_empty_matrix_2x0 produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_empty_matrix_2x0(DM), Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (2, 0) and R.shape == (0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_empty_matrix_2x0 : Any → {Any | Q.matmul(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R).shape == A.shape                   ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_empty_matrix_2x0 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8167e973bd558a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2daa810305e598bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_2x0","kind":"function","src_hash":"55aa08b2d37c3d5f","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (2, 0) and R.shape == (0, 0)"},"spec":{"lhs":"test_XXM_qr_empty_matrix_2x0(DM)","rhs":"test_XXM_qr_empty_matrix_2x0 produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_empty_matrix_2x0_correct"},"guarantee":"test_XXM_qr_empty_matrix_2x0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_2x0_correct","statement":"Path(test_XXM_qr_empty_matrix_2x0(x), test_XXM_qr_empty_matrix_2x0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8167e973bd558a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_2x0","kind":"function","src_hash":"55aa08b2d37c3d5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (2, 0) and R.shape == (0, 0)"},"spec":{"lhs":"test_XXM_qr_empty_matrix_2x0(DM)","rhs":"Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (2, 0) and R.shape == (0, 0)","over":{"base":"Any"},"name":"test_XXM_qr_empty_matrix_2x0_correct"},"guarantee":"Q.matmul(R).shape == A.shape; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_2x0_correct","statement":"Path(test_XXM_qr_empty_matrix_2x0(x), Q.matmul(R).shape == A.shape; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2daa810305e598bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R).shape == A.shape","Q.transpose().matmul(Q).is_diagonal","R.is_upper","Q.shape == (2, 0)","R.shape == (0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_empty_matrix_2x0(DM):
     T = type(DM([[0]]))
     A = T.zeros((2, 0), QQ)
@@ -1884,16 +2411,24 @@ def test_XXM_qr_empty_matrix_2x0(DM):
 
 @pytest.mark.parametrize('DM', DMQ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_qr_empty_matrix_0x2(DM), test_XXM_qr_empty_matrix_0x2 produces the expected output) over Any ║
+# ║ Path(test_XXM_qr_empty_matrix_0x2(DM), Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_qr_empty_matrix_0x2 : Any → {Any | Q.matmul(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.matmul(R).shape == A.shape                   ║
+# ║   ensures:  Q.transpose().matmul(Q).is_diagonal            ║
+# ║   ensures:  R.is_upper                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_qr_empty_matrix_0x2 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f22a3f4d6e0eef33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f567c7f7e744e62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x2","kind":"function","src_hash":"c7b465197de473f1","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 2)"},"spec":{"lhs":"test_XXM_qr_empty_matrix_0x2(DM)","rhs":"test_XXM_qr_empty_matrix_0x2 produces the expected output","over":{"base":"Any"},"name":"test_XXM_qr_empty_matrix_0x2_correct"},"guarantee":"test_XXM_qr_empty_matrix_0x2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x2_correct","statement":"Path(test_XXM_qr_empty_matrix_0x2(x), test_XXM_qr_empty_matrix_0x2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22a3f4d6e0eef33"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x2","kind":"function","src_hash":"c7b465197de473f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 2)"},"spec":{"lhs":"test_XXM_qr_empty_matrix_0x2(DM)","rhs":"Q.matmul(R).shape == A.shape and Q.transpose().matmul(Q).is_diagonal and R.is_upper and Q.shape == (0, 0) and R.shape == (0, 2)","over":{"base":"Any"},"name":"test_XXM_qr_empty_matrix_0x2_correct"},"guarantee":"Q.matmul(R).shape == A.shape; Q.transpose().matmul(Q).is_diagonal; R.is_upper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_qr_empty_matrix_0x2_correct","statement":"Path(test_XXM_qr_empty_matrix_0x2(x), Q.matmul(R).shape == A.shape; Q.transpose().matmul(Q).is_diagonal; R.is_upper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f567c7f7e744e62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.matmul(R).shape == A.shape","Q.transpose().matmul(Q).is_diagonal","R.is_upper","Q.shape == (0, 0)","R.shape == (0, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_XXM_qr_empty_matrix_0x2(DM):
     T = type(DM([[0]]))
     A = T.zeros((0, 2), QQ)
@@ -1907,16 +2442,24 @@ def test_XXM_qr_empty_matrix_0x2(DM):
 
 @pytest.mark.parametrize('DM', DMZ_all)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_XXM_fflu(DM), test_XXM_fflu produces the expected output) over Any ║
+# ║ Path(test_XXM_fflu(DM), P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]]) and L == DM([[1, 0], [3, -2]]) and D == DM([[1, 0], [0, -2]]) and U == DM([[1, 2], [0, -2]]) and L_field.matmul(D_field.inv()).matmul(U_field) == P_field.matmul(A_field)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_XXM_fflu : Any → {Any | P.shape == A.shape and L...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.shape == A.shape                             ║
+# ║   ensures:  L.shape == A.shape                             ║
+# ║   ensures:  D.shape == A.shape                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_XXM_fflu : Any → {Any | result satisfies: P.shap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ece6923c05067cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b76818f481e5263  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_fflu","kind":"function","src_hash":"97348534dd749894","in":{"base":"Any"},"out":{"base":"Any","pred":"P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]]) and L == DM([[1, 0], [3, -2]]) and D == DM([[1, 0], [0, -2]]) and U == DM([[1, 2], [0, -2]]) and L_field.matmul(D_field.inv()).matmul(U_field) == P_field.matmul(A_field)"},"spec":{"lhs":"test_XXM_fflu(DM)","rhs":"test_XXM_fflu produces the expected output","over":{"base":"Any"},"name":"test_XXM_fflu_correct"},"guarantee":"test_XXM_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_fflu_correct","statement":"Path(test_XXM_fflu(x), test_XXM_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ece6923c05067cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_xxm.test_XXM_fflu","kind":"function","src_hash":"97348534dd749894","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]]) and L == DM([[1, 0], [3, -2]]) and D == DM([[1, 0], [0, -2]]) and U == DM([[1, 2], [0, -2]]) and L_field.matmul(D_field.inv()).matmul(U_field) == P_field.matmul(A_field)"},"spec":{"lhs":"test_XXM_fflu(DM)","rhs":"P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]]) and L == DM([[1, 0], [3, -2]]) and D == DM([[1, 0], [0, -2]]) and U == DM([[1, 2], [0, -2]]) and L_field.matmul(D_field.inv()).matmul(U_field) == P_field.matmul(A_field)","over":{"base":"Any"},"name":"test_XXM_fflu_correct"},"guarantee":"P.shape == A.shape; L.shape == A.shape; D.shape == A.shape","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_xxm.test_XXM_fflu_correct","statement":"Path(test_XXM_fflu(x), P.shape == A.shape; L.shape == A.shape; D.shape == A.shape)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b76818f481e5263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.shape == A.shape","L.shape == A.shape","D.shape == A.shape","U.shape == A.shape","P == DM([[1, 0], [0, 1]])","L == DM([[1, 0], [3, -2]])","D == DM([[1, 0], [0, -2]])","U == DM([[1, 2], [0, -2]])","L_field.matmul(D_field.inv()).matmul(U_field) == P_field.matmul(A_field)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_XXM_fflu(DM):
     A = DM([[1, 2], [3, 4]])
     P, L, D, U = A.fflu()

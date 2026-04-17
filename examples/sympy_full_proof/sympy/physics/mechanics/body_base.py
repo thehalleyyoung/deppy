@@ -25,27 +25,42 @@ __all__ = ['BodyBase']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a BodyBase instance) preserved by BodyBase(*args) over {Any | isinstance(name, str) and isinstance(point, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BodyBase : {Any | isinstance(name, str) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4eb7f4f747509fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase","kind":"class","src_hash":"5c54e4b8fb550812","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"BodyBase(*args)","rhs":"correctly constructs a BodyBase instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(point, Point)"},"name":"BodyBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a BodyBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_name') and hasattr(self, 'mass') and hasattr(self, 'masscenter') and hasattr(self, 'potential_energy') and hasattr(self, 'points')","kind":"class","induction":"structural on _name, mass, masscenter, potential_energy"}],"methods_preserving":["__init__","__str__","__repr__","name","masscenter","masscenter","mass","mass","potential_energy","potential_energy","kinetic_energy","linear_momentum","angular_momentum","parallel_axis"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4eb7f4f747509fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase","kind":"class","src_hash":"5c54e4b8fb550812","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(point, Point)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"BodyBase(*args)","rhs":"correctly constructs a BodyBase instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(point, Point)"},"name":"BodyBase_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ABC); preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_name') and hasattr(self, 'mass') and hasattr(self, 'masscenter') and hasattr(self, 'potential_energy') and hasattr(self, 'points')","kind":"class","induction":"structural on _name, mass, masscenter, potential_energy"}],"methods_preserving":["__init__","__str__","__repr__","name","masscenter","masscenter","mass","mass","potential_energy","potential_energy","kinetic_energy","linear_momentum","angular_momentum","parallel_axis"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4eb7f4f747509fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"],"invariants":["hasattr(self, '_name')","hasattr(self, 'mass')","hasattr(self, 'masscenter')","hasattr(self, 'potential_energy')","hasattr(self, 'points')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function BodyBase not found in source"]}}
 class BodyBase(ABC):
     """Abstract class for body type objects."""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, masscenter, mass), self._name == name and self.mass == mass and self.masscenter == masscenter) over {Any | isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   ensures:  self._name == name                             ║
+# ║   ensures:  self.mass == mass                              ║
+# ║   ensures:  self.masscenter == masscenter                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(name, str)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84898165af22f426           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.__init__","kind":"method","src_hash":"74bfc776991f03d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84898165af22f426"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.__init__","kind":"method","src_hash":"74bfc776991f03d8","in":{"base":"Any","pred":"isinstance(name, str)"},"out":{"base":"Any","pred":"result satisfies: self._name == name and self.mass == mass and self.masscenter == masscenter"},"spec":{"lhs":"__init__(name, masscenter, mass)","rhs":"self._name == name and self.mass == mass and self.masscenter == masscenter","over":{"base":"Any","pred":"isinstance(name, str)"},"name":"__init___correct"},"guarantee":"self._name == name; self.mass == mass; self.masscenter == masscenter","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84898165af22f426","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(name, str)"],"ensures":["self._name == name","self.mass == mass","self.masscenter == masscenter"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self._name","self.mass","self.masscenter","self.points","self.potential_energy"],"raises":["TypeError"]},"state_contract":{"modifies":["self._name","self.mass","self.masscenter","self.points","self.potential_energy"],"old_bindings":{"old_self__name":"self._name","old_self_mass":"self.mass","old_self_masscenter":"self.masscenter","old_self_points":"self.points","old_self_potential_energy":"self.potential_energy"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, masscenter=None, mass=None):
         # Note: If frame=None, no auto-generated frame is created, because a
         # Particle does not need to have a frame by default.
@@ -62,78 +77,109 @@ class BodyBase(ABC):
         self.points = []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.name) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.name                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca29e79b1a914467           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.__str__","kind":"method","src_hash":"647e5b0992b60e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca29e79b1a914467"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.__str__","kind":"method","src_hash":"647e5b0992b60e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.name","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca29e79b1a914467","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, mass={repr(self.mass)})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({repr(self.na...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b6a59ef8b75d203           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.__repr__","kind":"method","src_hash":"4f56419b0c7eb37d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b6a59ef8b75d203"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.__repr__","kind":"method","src_hash":"4f56419b0c7eb37d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, mass={repr(self.mass)})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, mass={repr(self.mass)})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b6a59ef8b75d203","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, mass={repr(self.mass)})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.mass","self.masscenter","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (f'{self.__class__.__name__}({repr(self.name)}, masscenter='
                 f'{repr(self.masscenter)}, mass={repr(self.mass)})')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b90706ae53bcb72c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.name","kind":"property","src_hash":"f50cea25400e0ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b90706ae53bcb72c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.name","kind":"property","src_hash":"f50cea25400e0ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b90706ae53bcb72c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         """The name of the body."""
         return self._name
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(masscenter(), returns the masscenter attribute) over Any ║
+# ║ Path(masscenter(), self._masscenter) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._masscenter                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ masscenter : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a36072a9d49edcf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.masscenter","kind":"property","src_hash":"3d27377c84d0dcf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"masscenter()","rhs":"returns the masscenter attribute","over":{"base":"Any"},"name":"masscenter_correct"},"guarantee":"returns the masscenter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a36072a9d49edcf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.masscenter","kind":"property","src_hash":"3d27377c84d0dcf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"masscenter()","rhs":"self._masscenter","over":{"base":"Any"},"name":"masscenter_correct"},"guarantee":"returns self._masscenter","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a36072a9d49edcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._masscenter","pure":false,"effects":{"effect_type":"reads_state","reads":["self._masscenter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def masscenter(self):
         """The body's center of mass."""
         return self._masscenter
 
     @masscenter.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(masscenter(poi), masscenter produces the expected output) over Any ║
+# ║ Path(masscenter(point), <unspecified:masscenter>) over {Any | isinstance(point, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ masscenter : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(point, Point)                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ masscenter : {Any | isinstance(point, Point)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05d0498e7461a099  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.masscenter","kind":"method","src_hash":"3066dbca09d624e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"masscenter(poi)","rhs":"masscenter produces the expected output","over":{"base":"Any"},"name":"masscenter_correct"},"guarantee":"masscenter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.body_base.BodyBase.masscenter_correct","statement":"Path(masscenter(x), masscenter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05d0498e7461a099"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.masscenter","kind":"method","src_hash":"3066dbca09d624e0","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"masscenter(point)","rhs":"<unspecified:masscenter>","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"masscenter_correct"},"guarantee":"masscenter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.body_base.BodyBase.masscenter_correct","statement":"Path(masscenter(x), masscenter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05d0498e7461a099","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(point, Point)"],"pure":false,"effects":{"effect_type":"mutates_self","writes":["self._masscenter"],"raises":["TypeError"]},"state_contract":{"modifies":["self._masscenter"],"old_bindings":{"old_self__masscenter":"self._masscenter"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def masscenter(self, point):
         if not isinstance(point, Point):
             raise TypeError("The body's center of mass must be a Point object.")
@@ -141,47 +187,65 @@ class BodyBase(ABC):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass(), returns the mass attribute) over Any          ║
+# ║ Path(mass(), self._mass) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._mass                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df85dfa6dc256f6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.mass","kind":"property","src_hash":"6956dc8adb4ff02d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass()","rhs":"returns the mass attribute","over":{"base":"Any"},"name":"mass_correct"},"guarantee":"returns the mass attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df85dfa6dc256f6d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.mass","kind":"property","src_hash":"6956dc8adb4ff02d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass()","rhs":"self._mass","over":{"base":"Any"},"name":"mass_correct"},"guarantee":"returns self._mass","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df85dfa6dc256f6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._mass","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mass"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass(self):
         """The body's mass."""
         return self._mass
 
     @mass.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass(mas), mass produces the expected output) over Any ║
+# ║ Path(mass(mass), <unspecified:mass>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59b0208f7c82d904  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.mass","kind":"method","src_hash":"f7898413d1c85a7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass(mas)","rhs":"mass produces the expected output","over":{"base":"Any"},"name":"mass_correct"},"guarantee":"mass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.body_base.BodyBase.mass_correct","statement":"Path(mass(x), mass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59b0208f7c82d904"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.mass","kind":"method","src_hash":"f7898413d1c85a7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass(mass)","rhs":"<unspecified:mass>","over":{"base":"Any"},"name":"mass_correct"},"guarantee":"mass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.body_base.BodyBase.mass_correct","statement":"Path(mass(x), mass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59b0208f7c82d904","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._mass"]},"state_contract":{"modifies":["self._mass"],"old_bindings":{"old_self__mass":"self._mass"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass(self, mass):
         self._mass = sympify(mass)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(potential_energy(), returns the potential_energy attribute) over Any ║
+# ║ Path(potential_energy(), self._potential_energy) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._potential_energy                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ potential_energy : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 938bd0e3e0f3fe48           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.potential_energy","kind":"property","src_hash":"80665b74068302f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"potential_energy()","rhs":"returns the potential_energy attribute","over":{"base":"Any"},"name":"potential_energy_correct"},"guarantee":"returns the potential_energy attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"938bd0e3e0f3fe48"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.potential_energy","kind":"property","src_hash":"80665b74068302f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"potential_energy()","rhs":"self._potential_energy","over":{"base":"Any"},"name":"potential_energy_correct"},"guarantee":"returns self._potential_energy","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"938bd0e3e0f3fe48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._potential_energy","pure":false,"effects":{"effect_type":"reads_state","reads":["self._potential_energy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def potential_energy(self):
         """The potential energy of the body.
 
@@ -202,75 +266,105 @@ class BodyBase(ABC):
 
     @potential_energy.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(potential_energy(sca), potential_energy produces the expected output) over Any ║
+# ║ Path(potential_energy(scalar), <unspecified:potential_energy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ potential_energy : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2c0a0b0f69fd9c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.potential_energy","kind":"method","src_hash":"ace0645f9471ed8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"potential_energy(sca)","rhs":"potential_energy produces the expected output","over":{"base":"Any"},"name":"potential_energy_correct"},"guarantee":"potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.body_base.BodyBase.potential_energy_correct","statement":"Path(potential_energy(x), potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c0a0b0f69fd9c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.potential_energy","kind":"method","src_hash":"ace0645f9471ed8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"potential_energy(scalar)","rhs":"<unspecified:potential_energy>","over":{"base":"Any"},"name":"potential_energy_correct"},"guarantee":"potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.body_base.BodyBase.potential_energy_correct","statement":"Path(potential_energy(x), potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c0a0b0f69fd9c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._potential_energy"]},"state_contract":{"modifies":["self._potential_energy"],"old_bindings":{"old_self__potential_energy":"self._potential_energy"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def potential_energy(self, scalar):
         self._potential_energy = sympify(scalar)
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kinetic_energy(fra), kinetic_energy produces the expected output) over Any ║
+# ║ Path(kinetic_energy(frame), <unspecified:kinetic_energy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kinetic_energy : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b135eaad70b8f066           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.kinetic_energy","kind":"method","src_hash":"64424c72a894d795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(fra)","rhs":"kinetic_energy produces the expected output","over":{"base":"Any"},"name":"kinetic_energy_correct"},"guarantee":"kinetic_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b135eaad70b8f066"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.kinetic_energy","kind":"method","src_hash":"64424c72a894d795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(frame)","rhs":"<unspecified:kinetic_energy>","over":{"base":"Any"},"name":"kinetic_energy_correct"},"guarantee":"kinetic_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b135eaad70b8f066","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kinetic_energy(self, frame):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_momentum(fra), linear_momentum produces the expected output) over Any ║
+# ║ Path(linear_momentum(frame), <unspecified:linear_momentum>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_momentum : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1d77586160bcb6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.linear_momentum","kind":"method","src_hash":"b745d19224a2e626","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(fra)","rhs":"linear_momentum produces the expected output","over":{"base":"Any"},"name":"linear_momentum_correct"},"guarantee":"linear_momentum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1d77586160bcb6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.linear_momentum","kind":"method","src_hash":"b745d19224a2e626","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(frame)","rhs":"<unspecified:linear_momentum>","over":{"base":"Any"},"name":"linear_momentum_correct"},"guarantee":"linear_momentum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1d77586160bcb6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linear_momentum(self, frame):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angular_momentum(poi), angular_momentum produces the expected output) over Any ║
+# ║ Path(angular_momentum(point, frame), <unspecified:angular_momentum>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angular_momentum : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dfebb0b8426bec0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.angular_momentum","kind":"method","src_hash":"6c9b302343ded95f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(poi)","rhs":"angular_momentum produces the expected output","over":{"base":"Any"},"name":"angular_momentum_correct"},"guarantee":"angular_momentum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dfebb0b8426bec0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.angular_momentum","kind":"method","src_hash":"6c9b302343ded95f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(point, frame)","rhs":"<unspecified:angular_momentum>","over":{"base":"Any"},"name":"angular_momentum_correct"},"guarantee":"angular_momentum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dfebb0b8426bec0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angular_momentum(self, point, frame):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel_axis(poi), parallel_axis produces the expected output) over Any ║
+# ║ Path(parallel_axis(point, frame), <unspecified:parallel_axis>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parallel_axis : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9989275d67eb45ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.parallel_axis","kind":"method","src_hash":"578fca2ae83bf94d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_axis(poi)","rhs":"parallel_axis produces the expected output","over":{"base":"Any"},"name":"parallel_axis_correct"},"guarantee":"parallel_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9989275d67eb45ff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.body_base.BodyBase.parallel_axis","kind":"method","src_hash":"578fca2ae83bf94d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_axis(point, frame)","rhs":"<unspecified:parallel_axis>","over":{"base":"Any"},"name":"parallel_axis_correct"},"guarantee":"parallel_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9989275d67eb45ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parallel_axis(self, point, frame):
         pass

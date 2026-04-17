@@ -21,16 +21,22 @@ from sympy.multipledispatch import Dispatcher
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CommutativePredicate(), correctly constructs a CommutativePredicate instance) over Any ║
+# ║ Path(CommutativePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CommutativePredicate : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CommutativePredicate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b3ec8bcd4b36f25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.common.CommutativePredicate","kind":"class","src_hash":"cd39749e293b2c68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CommutativePredicate()","rhs":"correctly constructs a CommutativePredicate instance","over":{"base":"Any"},"name":"CommutativePredicate_correct"},"guarantee":"correctly constructs a CommutativePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b3ec8bcd4b36f25"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.common.CommutativePredicate","kind":"class","src_hash":"cd39749e293b2c68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"CommutativePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"CommutativePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b3ec8bcd4b36f25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CommutativePredicate not found in source"]}}
 class CommutativePredicate(Predicate):
     """
     Commutative predicate.
@@ -52,14 +58,20 @@ binrelpreds = {Eq: Q.eq, Ne: Q.ne, Gt: Q.gt, Lt: Q.lt, Ge: Q.ge, Le: Q.le}
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IsTruePredicate(*args), correctly constructs a IsTruePredicate instance) over {Any | isinstance(arg, AppliedPredicate)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IsTruePredicate : {Any | isinstance(arg, AppliedPredi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9734c75d505bb65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.common.IsTruePredicate","kind":"class","src_hash":"82c71d8ee920abd9","in":{"base":"Any","pred":"isinstance(arg, AppliedPredicate)"},"out":{"base":"Any"},"spec":{"lhs":"IsTruePredicate(*args)","rhs":"correctly constructs a IsTruePredicate instance","over":{"base":"Any","pred":"isinstance(arg, AppliedPredicate)"},"name":"IsTruePredicate_class_invariant"},"guarantee":"correctly constructs a IsTruePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9734c75d505bb65"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.common.IsTruePredicate","kind":"class","src_hash":"82c71d8ee920abd9","in":{"base":"Any","pred":"isinstance(arg, AppliedPredicate)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"IsTruePredicate(*args)","rhs":"correctly constructs a IsTruePredicate instance","over":{"base":"Any","pred":"isinstance(arg, AppliedPredicate)"},"name":"IsTruePredicate_class_invariant"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9734c75d505bb65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function IsTruePredicate not found in source"]}}
 class IsTruePredicate(Predicate):
     """
     Generic predicate.
@@ -110,16 +122,23 @@ class IsTruePredicate(Predicate):
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(arg), correctly applies the callable) over Any ║
+# ║ Path(__call__(arg), <unspecified:__call__>) over {Any | hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(arg, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f483ea2afa23d848           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.common.IsTruePredicate.__call__","kind":"method","src_hash":"cbf73b680d275748","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(arg)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f483ea2afa23d848"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.common.IsTruePredicate.__call__","kind":"method","src_hash":"cbf73b680d275748","in":{"base":"Any","pred":"hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(arg)","rhs":"<unspecified:__call__>","over":{"base":"Any","pred":"hasattr(arg, 'args')"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f483ea2afa23d848","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, arg):
         # No need to wrap another predicate
         if isinstance(arg, AppliedPredicate):

@@ -22,15 +22,21 @@ x, y = symbols('x,y')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Ynm_xy(), timeit_Ynm_xy produces the expected output) over Any ║
+# ║ Path(timeit_Ynm_xy(), <unspecified:timeit_Ynm_xy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Ynm_xy : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d55197e28282311a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.benchmarks.bench_special.timeit_Ynm_xy","kind":"function","src_hash":"e32e5ac2632087da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Ynm_xy()","rhs":"timeit_Ynm_xy produces the expected output","over":{"base":"Any"},"name":"timeit_Ynm_xy_correct"},"guarantee":"timeit_Ynm_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.benchmarks.bench_special.timeit_Ynm_xy_correct","statement":"Path(timeit_Ynm_xy(x), timeit_Ynm_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d55197e28282311a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.benchmarks.bench_special.timeit_Ynm_xy","kind":"function","src_hash":"e32e5ac2632087da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Ynm_xy()","rhs":"<unspecified:timeit_Ynm_xy>","over":{"base":"Any"},"name":"timeit_Ynm_xy_correct"},"guarantee":"timeit_Ynm_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.benchmarks.bench_special.timeit_Ynm_xy_correct","statement":"Path(timeit_Ynm_xy(x), timeit_Ynm_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d55197e28282311a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Ynm_xy():
     Ynm(1, 1, x, y)

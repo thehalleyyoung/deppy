@@ -33,16 +33,22 @@ x, y, z = symbols('x, y, z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_2d(), test_plot_2d produces the expected output) over Any ║
+# ║ Path(test_plot_2d(), <unspecified:test_plot_2d>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_2d : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ecc805dfb01becb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d","kind":"function","src_hash":"ff6c28a5449b1ed5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d()","rhs":"test_plot_2d produces the expected output","over":{"base":"Any"},"name":"test_plot_2d_correct"},"guarantee":"test_plot_2d produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_correct","statement":"Path(test_plot_2d(x), test_plot_2d produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ecc805dfb01becb"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d","kind":"function","src_hash":"ff6c28a5449b1ed5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d()","rhs":"<unspecified:test_plot_2d>","over":{"base":"Any"},"name":"test_plot_2d_correct"},"guarantee":"test_plot_2d produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_correct","statement":"Path(test_plot_2d(x), test_plot_2d produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ecc805dfb01becb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_2d():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(x, [x, -5, 5, 4], visible=False)
@@ -50,16 +56,22 @@ def test_plot_2d():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_2d_discontinuous(), test_plot_2d_discontinuous produces the expected output) over Any ║
+# ║ Path(test_plot_2d_discontinuous(), <unspecified:test_plot_2d_discontinuous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_2d_discontinuous : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce1c950c0370af0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_discontinuous","kind":"function","src_hash":"5bd38e8a63a2350f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d_discontinuous()","rhs":"test_plot_2d_discontinuous produces the expected output","over":{"base":"Any"},"name":"test_plot_2d_discontinuous_correct"},"guarantee":"test_plot_2d_discontinuous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_discontinuous_correct","statement":"Path(test_plot_2d_discontinuous(x), test_plot_2d_discontinuous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce1c950c0370af0d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_discontinuous","kind":"function","src_hash":"5bd38e8a63a2350f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d_discontinuous()","rhs":"<unspecified:test_plot_2d_discontinuous>","over":{"base":"Any"},"name":"test_plot_2d_discontinuous_correct"},"guarantee":"test_plot_2d_discontinuous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_discontinuous_correct","statement":"Path(test_plot_2d_discontinuous(x), test_plot_2d_discontinuous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce1c950c0370af0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_2d_discontinuous():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(1/x, [x, -1, 1, 2], visible=False)
@@ -67,16 +79,22 @@ def test_plot_2d_discontinuous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_3d(), test_plot_3d produces the expected output) over Any ║
+# ║ Path(test_plot_3d(), <unspecified:test_plot_3d>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_3d : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9dedeb5eb157e90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d","kind":"function","src_hash":"20e5bdff4e1c7465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d()","rhs":"test_plot_3d produces the expected output","over":{"base":"Any"},"name":"test_plot_3d_correct"},"guarantee":"test_plot_3d produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_correct","statement":"Path(test_plot_3d(x), test_plot_3d produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9dedeb5eb157e90"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d","kind":"function","src_hash":"20e5bdff4e1c7465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d()","rhs":"<unspecified:test_plot_3d>","over":{"base":"Any"},"name":"test_plot_3d_correct"},"guarantee":"test_plot_3d produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_correct","statement":"Path(test_plot_3d(x), test_plot_3d produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9dedeb5eb157e90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_3d():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(x*y, [x, -5, 5, 5], [y, -5, 5, 5], visible=False)
@@ -84,16 +102,22 @@ def test_plot_3d():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_3d_discontinuous(), test_plot_3d_discontinuous produces the expected output) over Any ║
+# ║ Path(test_plot_3d_discontinuous(), <unspecified:test_plot_3d_discontinuous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_3d_discontinuous : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 803f8ac06d6a1bd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_discontinuous","kind":"function","src_hash":"9963e4202f2110dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_discontinuous()","rhs":"test_plot_3d_discontinuous produces the expected output","over":{"base":"Any"},"name":"test_plot_3d_discontinuous_correct"},"guarantee":"test_plot_3d_discontinuous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_discontinuous_correct","statement":"Path(test_plot_3d_discontinuous(x), test_plot_3d_discontinuous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"803f8ac06d6a1bd0"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_discontinuous","kind":"function","src_hash":"9963e4202f2110dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_discontinuous()","rhs":"<unspecified:test_plot_3d_discontinuous>","over":{"base":"Any"},"name":"test_plot_3d_discontinuous_correct"},"guarantee":"test_plot_3d_discontinuous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_discontinuous_correct","statement":"Path(test_plot_3d_discontinuous(x), test_plot_3d_discontinuous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"803f8ac06d6a1bd0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_3d_discontinuous():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(1/x, [x, -3, 3, 6], [y, -1, 1, 1], visible=False)
@@ -101,16 +125,22 @@ def test_plot_3d_discontinuous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_2d_polar(), test_plot_2d_polar produces the expected output) over Any ║
+# ║ Path(test_plot_2d_polar(), <unspecified:test_plot_2d_polar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_2d_polar : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da4aea495538b8a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_polar","kind":"function","src_hash":"57e8da395295da11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d_polar()","rhs":"test_plot_2d_polar produces the expected output","over":{"base":"Any"},"name":"test_plot_2d_polar_correct"},"guarantee":"test_plot_2d_polar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_polar_correct","statement":"Path(test_plot_2d_polar(x), test_plot_2d_polar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da4aea495538b8a9"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_polar","kind":"function","src_hash":"57e8da395295da11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d_polar()","rhs":"<unspecified:test_plot_2d_polar>","over":{"base":"Any"},"name":"test_plot_2d_polar_correct"},"guarantee":"test_plot_2d_polar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_polar_correct","statement":"Path(test_plot_2d_polar(x), test_plot_2d_polar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da4aea495538b8a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_2d_polar():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(1/x, [x, -1, 1, 4], 'mode=polar', visible=False)
@@ -118,16 +148,22 @@ def test_plot_2d_polar():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_3d_cylinder(), test_plot_3d_cylinder produces the expected output) over Any ║
+# ║ Path(test_plot_3d_cylinder(), <unspecified:test_plot_3d_cylinder>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_3d_cylinder : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b5b31d6d820e38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_cylinder","kind":"function","src_hash":"b832f4a9280d7620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_cylinder()","rhs":"test_plot_3d_cylinder produces the expected output","over":{"base":"Any"},"name":"test_plot_3d_cylinder_correct"},"guarantee":"test_plot_3d_cylinder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_cylinder_correct","statement":"Path(test_plot_3d_cylinder(x), test_plot_3d_cylinder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b5b31d6d820e38"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_cylinder","kind":"function","src_hash":"b832f4a9280d7620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_cylinder()","rhs":"<unspecified:test_plot_3d_cylinder>","over":{"base":"Any"},"name":"test_plot_3d_cylinder_correct"},"guarantee":"test_plot_3d_cylinder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_cylinder_correct","statement":"Path(test_plot_3d_cylinder(x), test_plot_3d_cylinder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b5b31d6d820e38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_3d_cylinder():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(
@@ -137,16 +173,22 @@ def test_plot_3d_cylinder():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_3d_spherical(), test_plot_3d_spherical produces the expected output) over Any ║
+# ║ Path(test_plot_3d_spherical(), <unspecified:test_plot_3d_spherical>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_3d_spherical : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7105f96fa0f418d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_spherical","kind":"function","src_hash":"3424cdf6c3333c73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_spherical()","rhs":"test_plot_3d_spherical produces the expected output","over":{"base":"Any"},"name":"test_plot_3d_spherical_correct"},"guarantee":"test_plot_3d_spherical produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_spherical_correct","statement":"Path(test_plot_3d_spherical(x), test_plot_3d_spherical produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7105f96fa0f418d3"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_spherical","kind":"function","src_hash":"3424cdf6c3333c73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_spherical()","rhs":"<unspecified:test_plot_3d_spherical>","over":{"base":"Any"},"name":"test_plot_3d_spherical_correct"},"guarantee":"test_plot_3d_spherical produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_spherical_correct","statement":"Path(test_plot_3d_spherical(x), test_plot_3d_spherical produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7105f96fa0f418d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_3d_spherical():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(
@@ -157,16 +199,22 @@ def test_plot_3d_spherical():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_2d_parametric(), test_plot_2d_parametric produces the expected output) over Any ║
+# ║ Path(test_plot_2d_parametric(), <unspecified:test_plot_2d_parametric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_2d_parametric : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a87294be086ae48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_parametric","kind":"function","src_hash":"dfaf0063facd93aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d_parametric()","rhs":"test_plot_2d_parametric produces the expected output","over":{"base":"Any"},"name":"test_plot_2d_parametric_correct"},"guarantee":"test_plot_2d_parametric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_parametric_correct","statement":"Path(test_plot_2d_parametric(x), test_plot_2d_parametric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a87294be086ae48"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_parametric","kind":"function","src_hash":"dfaf0063facd93aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_2d_parametric()","rhs":"<unspecified:test_plot_2d_parametric>","over":{"base":"Any"},"name":"test_plot_2d_parametric_correct"},"guarantee":"test_plot_2d_parametric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_2d_parametric_correct","statement":"Path(test_plot_2d_parametric(x), test_plot_2d_parametric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a87294be086ae48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_2d_parametric():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(sin(x), cos(x), [x, 0, 6.282, 4], visible=False)
@@ -174,16 +222,22 @@ def test_plot_2d_parametric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_3d_parametric(), test_plot_3d_parametric produces the expected output) over Any ║
+# ║ Path(test_plot_3d_parametric(), <unspecified:test_plot_3d_parametric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_3d_parametric : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 396c230c0765ff4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_parametric","kind":"function","src_hash":"d6c1ba439c3a1e21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_parametric()","rhs":"test_plot_3d_parametric produces the expected output","over":{"base":"Any"},"name":"test_plot_3d_parametric_correct"},"guarantee":"test_plot_3d_parametric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_parametric_correct","statement":"Path(test_plot_3d_parametric(x), test_plot_3d_parametric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"396c230c0765ff4d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_parametric","kind":"function","src_hash":"d6c1ba439c3a1e21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_3d_parametric()","rhs":"<unspecified:test_plot_3d_parametric>","over":{"base":"Any"},"name":"test_plot_3d_parametric_correct"},"guarantee":"test_plot_3d_parametric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_3d_parametric_correct","statement":"Path(test_plot_3d_parametric(x), test_plot_3d_parametric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"396c230c0765ff4d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_3d_parametric():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(sin(x), cos(x), x/5.0, [x, 0, 6.282, 4], visible=False)
@@ -191,16 +245,22 @@ def test_plot_3d_parametric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_plot_log(), internal helper behaves correctly) over Any ║
+# ║ Path(_test_plot_log(), <unspecified:_test_plot_log>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_plot_log : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc485ea11c9fe7ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting._test_plot_log","kind":"function","src_hash":"9c75cacb307e9c88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_plot_log()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_plot_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting._test_plot_log_correct","statement":"Path(_test_plot_log(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc485ea11c9fe7ed"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting._test_plot_log","kind":"function","src_hash":"9c75cacb307e9c88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_plot_log()","rhs":"<unspecified:_test_plot_log>","over":{"base":"Any"},"name":"_test_plot_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting._test_plot_log_correct","statement":"Path(_test_plot_log(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc485ea11c9fe7ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_plot_log():
     from sympy.plotting.pygletplot import PygletPlot
     p = PygletPlot(log(x), [x, 0, 6.282, 4], 'mode=polar', visible=False)
@@ -208,16 +268,22 @@ def _test_plot_log():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_integral(), test_plot_integral produces the expected output) over Any ║
+# ║ Path(test_plot_integral(), <unspecified:test_plot_integral>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_integral : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe8f7609d164a908  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_integral","kind":"function","src_hash":"7ffe0a2f68728781","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_integral()","rhs":"test_plot_integral produces the expected output","over":{"base":"Any"},"name":"test_plot_integral_correct"},"guarantee":"test_plot_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_integral_correct","statement":"Path(test_plot_integral(x), test_plot_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe8f7609d164a908"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.tests.test_plotting.test_plot_integral","kind":"function","src_hash":"7ffe0a2f68728781","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_integral()","rhs":"<unspecified:test_plot_integral>","over":{"base":"Any"},"name":"test_plot_integral_correct"},"guarantee":"test_plot_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.tests.test_plotting.test_plot_integral_correct","statement":"Path(test_plot_integral(x), test_plot_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe8f7609d164a908","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_integral():
     # Make sure it doesn't treat x as an independent variable
     from sympy.plotting.pygletplot import PygletPlot

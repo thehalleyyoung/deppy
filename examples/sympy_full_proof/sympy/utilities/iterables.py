@@ -35,16 +35,22 @@ from sympy.utilities.decorator import deprecated
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_palindromic(s, ), id) over Any                     ║
+# ║ Path(is_palindromic(s, i, j), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((s[i + k] == s[j - 1 - k] for k in ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_palindromic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0ac2966cf8107c91   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.is_palindromic","kind":"function","src_hash":"9b47fee4b8171d36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_palindromic(s, )","rhs":"return true if the sequence is the same from left to right as it is from right to left in the whole sequence (default) or in the python slice ``s[i: j]``; else false","over":{"base":"Any"},"name":"is_palindromic_correct","kind":"composition"},"guarantee":"return true if the sequence is the same from left to right as it is from right to left in the whole sequence (default) or in the python slice ``s[i: j]``; else false","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ac2966cf8107c91"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.is_palindromic","kind":"function","src_hash":"9b47fee4b8171d36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_palindromic(s, i, j)","rhs":"all((s[i + k] == s[j - 1 - k] for k in range(m)))","over":{"base":"Any"},"name":"is_palindromic_correct","kind":"composition"},"guarantee":"returns all((s[i + k] == s[j - 1 - k] for k in range(m)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ac2966cf8107c91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((s[i + k] == s[j - 1 - k] for k in range(m)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_palindromic(s, i=0, j=None):
     """
     Return True if the sequence is the same from left to right as it
@@ -83,7 +89,10 @@ def is_palindromic(s, i=0, j=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(ite), recursively denest iterable containers) over {Any | isinstance(x, cls) and isinstance(el, NDimArray)} ║
+# ║ Path(flatten(iterable, levels, cls), len(result) == old_len_result + 1) over {Any | isinstance(x, cls) and isinstance(el, NDimArray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatten : {Any | isinstance(x, cls) and isinstance(el...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -96,9 +105,12 @@ def is_palindromic(s, i=0, j=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4bee30c2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.flatten","kind":"function","src_hash":"a8c6a477eb72a6ff","in":{"base":"Any","pred":"isinstance(x, cls) and isinstance(el, NDimArray)"},"out":{"base":"Any"},"spec":{"lhs":"flatten(ite)","rhs":"recursively denest iterable containers","over":{"base":"Any","pred":"isinstance(x, cls) and isinstance(el, NDimArray)"},"name":"flatten_correct"},"guarantee":"recursively denest iterable containers","fibers":[{"name":"cls","pred":"isinstance(x, cls)","path":{"lhs":"flatten(x)","rhs":"recursively denest iterable containers","over":{"base":"cls","pred":"isinstance(x, cls)"},"name":"flatten_cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.flatten_cls_correct","statement":"flatten satisfies spec on cls inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(el, NDimArray)","path":{"lhs":"flatten(x)","rhs":"recursively denest iterable containers","over":{"base":"NDimArray","pred":"isinstance(el, NDimArray)"},"name":"flatten_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.flatten_NDimArray_correct","statement":"flatten satisfies spec on NDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4bee30c2b10f4b03"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.flatten","kind":"function","src_hash":"a8c6a477eb72a6ff","in":{"base":"Any","pred":"isinstance(x, cls) and isinstance(el, NDimArray)"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"flatten(iterable, levels, cls)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any","pred":"isinstance(x, cls) and isinstance(el, NDimArray)"},"name":"flatten_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[{"name":"cls","pred":"isinstance(x, cls)","path":{"lhs":"flatten(x)","rhs":"len(result) == old_len_result + 1","over":{"base":"cls","pred":"isinstance(x, cls)"},"name":"flatten_cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.flatten_cls_correct","statement":"flatten satisfies spec on cls inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(el, NDimArray)","path":{"lhs":"flatten(x)","rhs":"len(result) == old_len_result + 1","over":{"base":"NDimArray","pred":"isinstance(el, NDimArray)"},"name":"flatten_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.flatten_NDimArray_correct","statement":"flatten satisfies spec on NDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4bee30c2b10f4b03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.append","result.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'cls is None', 'levels > 0', \"hasattr(el, 'args') and (not isinstance(el, NDimArray))\"}, fibers={'NDimArray', 'cls'})"]}}
 def flatten(iterable, levels=None, cls=None):  # noqa: F811
     """
     Recursively denest iterable containers.
@@ -166,16 +178,23 @@ def flatten(iterable, levels=None, cls=None):  # noqa: F811
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unflatten(ite), id) over Any                          ║
+# ║ Path(unflatten(iter, n), id) over {Any | not (n < 1 or len(iter) % n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unflatten : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 1 or len(iter) % n)                   ║
+# ║   returns:  list(zip(*(iter[i::n] for i in range(n))))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unflatten : {Any | not (n < 1 or len(iter) % n)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ee834cb33757852e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.unflatten","kind":"function","src_hash":"0e55f191275e6ecf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unflatten(ite)","rhs":"group ``iter`` into tuples of length ``n``","over":{"base":"Any"},"name":"unflatten_correct","kind":"composition"},"guarantee":"group ``iter`` into tuples of length ``n``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee834cb33757852e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.unflatten","kind":"function","src_hash":"0e55f191275e6ecf","in":{"base":"Any","pred":"not (n < 1 or len(iter) % n)"},"out":{"base":"Any"},"spec":{"lhs":"unflatten(iter, n)","rhs":"list(zip(*(iter[i::n] for i in range(n))))","over":{"base":"Any","pred":"not (n < 1 or len(iter) % n)"},"name":"unflatten_correct","kind":"composition"},"guarantee":"returns list(zip(*(iter[i::n] for i in range(n))))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee834cb33757852e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 1 or len(iter) % n)"],"returns_expr":"list(zip(*(iter[i::n] for i in range(n))))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def unflatten(iter, n=2):
     """Group ``iter`` into tuples of length ``n``. Raise an error if
     the length of ``iter`` is not a multiple of ``n``.
@@ -186,9 +205,14 @@ def unflatten(iter, n=2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reshape(seq), reshape the sequence according to the template in ``how``) over {Any | isinstance(hi, int)} ║
+# ║ Path(reshape(seq, how), type(seq)(rv)) over {Any | isinstance(hi, int) and not (m < 0 or rem)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reshape : {Any | isinstance(hi, int)} → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m < 0 or rem)                             ║
+# ║   ensures:  len(_rv) == old_len__rv + 1                    ║
+# ║   returns:  type(seq)(rv)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reshape : {Any | isinstance(hi, int) and not (m < 0 o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   int: {isinstance(hi, int)} → library_axiom               ║
@@ -198,9 +222,12 @@ def unflatten(iter, n=2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ff523966...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.reshape","kind":"function","src_hash":"7189f61d97594902","in":{"base":"Any","pred":"isinstance(hi, int)"},"out":{"base":"Any"},"spec":{"lhs":"reshape(seq)","rhs":"reshape the sequence according to the template in ``how``","over":{"base":"Any","pred":"isinstance(hi, int)"},"name":"reshape_correct"},"guarantee":"reshape the sequence according to the template in ``how``","fibers":[{"name":"int","pred":"isinstance(hi, int)","path":{"lhs":"reshape(x)","rhs":"reshape the sequence according to the template in ``how``","over":{"base":"int","pred":"isinstance(hi, int)"},"name":"reshape_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.reshape_int_correct","statement":"reshape satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ff523966ec1ee321"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.reshape","kind":"function","src_hash":"7189f61d97594902","in":{"base":"Any","pred":"isinstance(hi, int) and not (m < 0 or rem)"},"out":{"base":"Any","pred":"result satisfies: result == (type(seq)(rv))"},"spec":{"lhs":"reshape(seq, how)","rhs":"type(seq)(rv)","over":{"base":"Any","pred":"isinstance(hi, int) and not (m < 0 or rem)"},"name":"reshape_correct"},"guarantee":"returns type(seq)(rv); len(_rv) == old_len__rv + 1","fibers":[{"name":"int","pred":"isinstance(hi, int)","path":{"lhs":"reshape(x)","rhs":"returns type(seq)(rv); len(_rv) == old_len__rv + 1","over":{"base":"int","pred":"isinstance(hi, int)"},"name":"reshape_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.reshape_int_correct","statement":"reshape satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ff523966ec1ee321","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m < 0 or rem)"],"ensures":["len(_rv) == old_len__rv + 1"],"returns_expr":"type(seq)(rv)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["_rv.append","_rv.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["_rv.*"],"old_bindings":{"old_len__rv":"len(_rv)"},"post_ensures":["len(_rv) == old_len__rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(hi, int)', 'm < 0 or rem'}, fibers={'int'})"]}}
 def reshape(seq, how):
     """Reshape the sequence according to the template in ``how``.
 
@@ -262,16 +289,22 @@ def reshape(seq, how):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(group(seq), id) over Any                              ║
+# ║ Path(group(seq, multiple), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ group : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3960c3bea5d31c40   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.group","kind":"function","src_hash":"44651d45e7afe70c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"group(seq)","rhs":"splits a sequence into a list of lists of equal, adjacent elements","over":{"base":"Any"},"name":"group_correct","kind":"composition"},"guarantee":"splits a sequence into a list of lists of equal, adjacent elements","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"groupby","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3960c3bea5d31c40"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.group","kind":"function","src_hash":"44651d45e7afe70c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"group(seq, multiple)","rhs":"<unspecified:group>","over":{"base":"Any"},"name":"group_correct","kind":"composition"},"guarantee":"splits a sequence into a list of lists of equal, adjacent elements","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"groupby","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3960c3bea5d31c40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def group(seq, multiple=True):
     """
     Splits a sequence into a list of lists of equal, adjacent elements.
@@ -300,16 +333,22 @@ def group(seq, multiple=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_iproduct2(ite), cartesian product of two possibly infinite iterables) over Any ║
+# ║ Path(_iproduct2(iterable1, iterable2), <unspecified:_iproduct2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _iproduct2 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94b0bb6fcbfed651  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._iproduct2","kind":"function","src_hash":"155d5fbbdf3d3dea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iproduct2(ite)","rhs":"cartesian product of two possibly infinite iterables","over":{"base":"Any"},"name":"_iproduct2_correct"},"guarantee":"cartesian product of two possibly infinite iterables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._iproduct2_correct","statement":"Path(_iproduct2(x), cartesian product of two possibly infinite iterables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b0bb6fcbfed651"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._iproduct2","kind":"function","src_hash":"155d5fbbdf3d3dea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iproduct2(iterable1, iterable2)","rhs":"<unspecified:_iproduct2>","over":{"base":"Any"},"name":"_iproduct2_correct"},"guarantee":"cartesian product of two possibly infinite iterables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._iproduct2_correct","statement":"Path(_iproduct2(x), cartesian product of two possibly infinite iterables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b0bb6fcbfed651","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _iproduct2(iterable1, iterable2):
     '''Cartesian product of two possibly infinite iterables'''
 
@@ -338,16 +377,22 @@ def _iproduct2(iterable1, iterable2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iproduct(*it), cartesian product of iterables) over Any ║
+# ║ Path(iproduct(*iterables), # HINT: iproduct may be idempotent: iproduct(iproduct(x)) == iproduct(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ iproduct : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: iproduct may be idempotent: iprod...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ iproduct : Any → {Any | result satisfies: # HINT: ipr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75ecfd2940032274  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7a3885f19a66088  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.iproduct","kind":"function","src_hash":"09463e9e0ca66404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iproduct(*it)","rhs":"cartesian product of iterables","over":{"base":"Any"},"name":"iproduct_correct"},"guarantee":"cartesian product of iterables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.iproduct_correct","statement":"Path(iproduct(x), cartesian product of iterables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75ecfd2940032274"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.iproduct","kind":"function","src_hash":"09463e9e0ca66404","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: iproduct may be idempotent: iproduct(iproduct(x)) == iproduct(x)"},"spec":{"lhs":"iproduct(*iterables)","rhs":"# HINT: iproduct may be idempotent: iproduct(iproduct(x)) == iproduct(x)","over":{"base":"Any"},"name":"iproduct_correct"},"guarantee":"# HINT: iproduct may be idempotent: iproduct(iproduct(x)) == iproduct(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.iproduct_correct","statement":"Path(iproduct(x), # HINT: iproduct may be idempotent: iproduct(iproduct(x)) == iproduct(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7a3885f19a66088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: iproduct may be idempotent: iproduct(iproduct(x)) == iproduct(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*iterables']"]}}
 def iproduct(*iterables):
     '''
     Cartesian product of iterables.
@@ -391,16 +436,22 @@ def iproduct(*iterables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset(seq), return the hashable sequence in multiset form with values being the multiplicity of the item in the sequence) over Any ║
+# ║ Path(multiset(seq), dict(Counter(seq).items())) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(Counter(seq).items())                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiset : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 867cc11fa6536c6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset","kind":"function","src_hash":"e643906b7b6e9317","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset(seq)","rhs":"return the hashable sequence in multiset form with values being the multiplicity of the item in the sequence","over":{"base":"Any"},"name":"multiset_correct"},"guarantee":"return the hashable sequence in multiset form with values being the multiplicity of the item in the sequence","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"867cc11fa6536c6b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset","kind":"function","src_hash":"e643906b7b6e9317","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset(seq)","rhs":"dict(Counter(seq).items())","over":{"base":"Any"},"name":"multiset_correct"},"guarantee":"returns dict(Counter(seq).items())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"867cc11fa6536c6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(Counter(seq).items())","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def multiset(seq):
     """Return the hashable sequence in multiset form with values being the
     multiplicity of the item in the sequence.
@@ -424,16 +475,24 @@ def multiset(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ibin(n, ), id) over Any                               ║
+# ║ Path(ibin(n, bits, str), id) over {Any | not (n < 0) and hasattr(n, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ibin : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   requires: hasattr(n, 'bit_length')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ibin : {Any | not (n < 0) and hasattr(n, 'bit_length'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2001f099aaf9e3fa   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.ibin","kind":"function","src_hash":"3155fb7d50a3b7de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ibin(n, )","rhs":"return a list of length ``bits`` corresponding to the binary value of ``n`` with small bits to the right (last)","over":{"base":"Any"},"name":"ibin_correct","kind":"composition"},"guarantee":"return a list of length ``bits`` corresponding to the binary value of ``n`` with small bits to the right (last)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bin","by":"library_axiom"},{"fn":"rjust","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2001f099aaf9e3fa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.ibin","kind":"function","src_hash":"3155fb7d50a3b7de","in":{"base":"Any","pred":"not (n < 0) and hasattr(n, 'bit_length')"},"out":{"base":"Any"},"spec":{"lhs":"ibin(n, bits, str)","rhs":"<unspecified:ibin>","over":{"base":"Any","pred":"not (n < 0) and hasattr(n, 'bit_length')"},"name":"ibin_correct","kind":"composition"},"guarantee":"return a list of length ``bits`` corresponding to the binary value of ``n`` with small bits to the right (last)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bin","by":"library_axiom"},{"fn":"rjust","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2001f099aaf9e3fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 0)","hasattr(n, 'bit_length')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.bit_length"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def ibin(n, bits=None, str=False):
     """Return a list of length ``bits`` corresponding to the binary value
     of ``n`` with small bits to the right (last). If bits is omitted, the
@@ -507,16 +566,26 @@ def ibin(n, bits=None, str=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variations(seq), returns an iterator over the n-sized variations of ``seq`` (size n). ``repetition`` controls whether items in ``seq`` can appear more than once;) over Any ║
+# ║ Path(variations(seq, n, repetition), result == (permutations(seq, n) if not repetition else iter(((),)) if n == 0 else product(seq, repeat=n)) and result == permutations(seq, n) or result == iter(((),)) or result == product(seq, repeat=n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ variations : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (permutations(seq, n) if not re...   ║
+# ║   ensures:  result == permutations(seq, n) or result ...   ║
+# ║   fiber[case_0]: not repetition => permutations(seq, n)    ║
+# ║   fiber[zero_or_none]: n == 0 => iter(((),))               ║
+# ║   fiber[zero_or_none]: not (not repetition) and not (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ variations : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcbed29e6e377e63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d49f962c993918cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.variations","kind":"function","src_hash":"4ea905de4ee249f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variations(seq)","rhs":"returns an iterator over the n-sized variations of ``seq`` (size n). ``repetition`` controls whether items in ``seq`` can appear more than once;","over":{"base":"Any"},"name":"variations_correct"},"guarantee":"returns an iterator over the n-sized variations of ``seq`` (size n). ``repetition`` controls whether items in ``seq`` can appear more than once;","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.variations_correct","statement":"Path(variations(x), returns an iterator over the n-sized variations of ``seq`` (size n). ``repetition`` controls whether items in ``seq`` can appear more than once;)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcbed29e6e377e63"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.variations","kind":"function","src_hash":"4ea905de4ee249f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (permutations(seq, n) if not repetition else iter(((),)) if n == 0 else product(seq, repeat=n)) and result == permutations(seq, n) or result == iter(((),)) or result == product(seq, repeat=n)"},"spec":{"lhs":"variations(seq, n, repetition)","rhs":"result == (permutations(seq, n) if not repetition else iter(((),)) if n == 0 else product(seq, repeat=n)) and result == permutations(seq, n) or result == iter(((),)) or result == product(seq, repeat=n)","over":{"base":"Any"},"name":"variations_correct"},"guarantee":"result == (permutations(seq, n) if not repetition else iter(((),)) if n == 0 else product(seq, repeat=n)); result == permutations(seq, n) or result == iter(((),)) or result == product(seq, repeat=n); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.variations_correct","statement":"Path(variations(x), result == (permutations(seq, n) if not repetition else iter(((),)) if n == 0 else product(seq, repeat=n)); result == permutations(seq, n) or result == iter(((),)) or result == product(seq, repeat=n); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d49f962c993918cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (permutations(seq, n) if not repetition else iter(((),)) if n == 0 else product(seq, repeat=n))","result == permutations(seq, n) or result == iter(((),)) or result == product(seq, repeat=n)"],"fibers":[{"name":"case_0","guard":"not repetition","ensures":["result == permutations(seq, n)"],"decidability":"library","returns_expr":"permutations(seq, n)"},{"name":"zero_or_none","guard":"n == 0","ensures":["result == iter(((),))"],"decidability":"z3","returns_expr":"iter(((),))"},{"name":"zero_or_none","guard":"not (not repetition) and not (n == 0)","ensures":["result == product(seq, repeat=n)"],"decidability":"z3","returns_expr":"product(seq, repeat=n)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def variations(seq, n, repetition=False):
     r"""Returns an iterator over the n-sized variations of ``seq`` (size N).
     ``repetition`` controls whether items in ``seq`` can appear more than once;
@@ -565,16 +634,24 @@ def variations(seq, n, repetition=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subsets(seq), generates all `k`-subsets (combinations) from an `n`-element set, ``seq``) over Any ║
+# ║ Path(subsets(seq, k, repetition), <unspecified:subsets>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: k is None                           ║
+# ║   fiber[case_1]: not repetition => combinations(seq, k)    ║
+# ║   fiber[zero_or_none]: not (k is None) and not (not r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subsets : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4494a969a56d98c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1eb34d957a9b6df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.subsets","kind":"function","src_hash":"b50f2f73a778c378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subsets(seq)","rhs":"generates all `k`-subsets (combinations) from an `n`-element set, ``seq``","over":{"base":"Any"},"name":"subsets_correct"},"guarantee":"generates all `k`-subsets (combinations) from an `n`-element set, ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.subsets_correct","statement":"Path(subsets(x), generates all `k`-subsets (combinations) from an `n`-element set, ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4494a969a56d98c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.subsets","kind":"function","src_hash":"b50f2f73a778c378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subsets(seq, k, repetition)","rhs":"<unspecified:subsets>","over":{"base":"Any"},"name":"subsets_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.subsets_correct","statement":"Path(subsets(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1eb34d957a9b6df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"k is None","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"not repetition","ensures":["result == combinations(seq, k)"],"decidability":"library","returns_expr":"combinations(seq, k)"},{"name":"zero_or_none","guard":"not (k is None) and not (not repetition)","ensures":["result == combinations_with_replacement(seq, k)"],"decidability":"structural","returns_expr":"combinations_with_replacement(seq, k)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def subsets(seq, k=None, repetition=False):
     r"""Generates all `k`-subsets (combinations) from an `n`-element set, ``seq``.
 
@@ -632,16 +709,22 @@ def subsets(seq, k=None, repetition=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(filter_symbols(ite), only yield elements from `iterator` that do not occur in `exclude`) over Any ║
+# ║ Path(filter_symbols(iterator, exclude), <unspecified:filter_symbols>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ filter_symbols : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce3a425cb588ea87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.filter_symbols","kind":"function","src_hash":"2d90d83d93040035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"filter_symbols(ite)","rhs":"only yield elements from `iterator` that do not occur in `exclude`","over":{"base":"Any"},"name":"filter_symbols_correct"},"guarantee":"only yield elements from `iterator` that do not occur in `exclude`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.filter_symbols_correct","statement":"Path(filter_symbols(x), only yield elements from `iterator` that do not occur in `exclude`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3a425cb588ea87"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.filter_symbols","kind":"function","src_hash":"2d90d83d93040035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"filter_symbols(iterator, exclude)","rhs":"<unspecified:filter_symbols>","over":{"base":"Any"},"name":"filter_symbols_correct"},"guarantee":"only yield elements from `iterator` that do not occur in `exclude`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.filter_symbols_correct","statement":"Path(filter_symbols(x), only yield elements from `iterator` that do not occur in `exclude`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3a425cb588ea87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def filter_symbols(iterator, exclude):
     """
     Only yield elements from `iterator` that do not occur in `exclude`.
@@ -667,16 +750,22 @@ def filter_symbols(iterator, exclude):
             yield s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numbered_symbols(pre), generate an infinite stream of symbols consisting of a prefix and increasing subscripts provided that they do not occur in ``exclude``) over Any ║
+# ║ Path(numbered_symbols(prefix, cls, start), <unspecified:numbered_symbols>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ numbered_symbols : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52dc96c1ebac6881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.numbered_symbols","kind":"function","src_hash":"c03f4a5b68816576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numbered_symbols(pre)","rhs":"generate an infinite stream of symbols consisting of a prefix and increasing subscripts provided that they do not occur in ``exclude``","over":{"base":"Any"},"name":"numbered_symbols_correct"},"guarantee":"generate an infinite stream of symbols consisting of a prefix and increasing subscripts provided that they do not occur in ``exclude``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.numbered_symbols_correct","statement":"Path(numbered_symbols(x), generate an infinite stream of symbols consisting of a prefix and increasing subscripts provided that they do not occur in ``exclude``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52dc96c1ebac6881"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.numbered_symbols","kind":"function","src_hash":"c03f4a5b68816576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numbered_symbols(prefix, cls, start)","rhs":"<unspecified:numbered_symbols>","over":{"base":"Any"},"name":"numbered_symbols_correct"},"guarantee":"generate an infinite stream of symbols consisting of a prefix and increasing subscripts provided that they do not occur in ``exclude``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.numbered_symbols_correct","statement":"Path(numbered_symbols(x), generate an infinite stream of symbols consisting of a prefix and increasing subscripts provided that they do not occur in ``exclude``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52dc96c1ebac6881","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['prefix', 'cls', 'start', 'exclude'], spec=['prefix', 'cls', 'start', 'exclude', '*args', '**assumptions']"]}}
 def numbered_symbols(prefix='x', cls=None, start=0, exclude=(), *args, **assumptions):
     """
     Generate an infinite stream of Symbols consisting of a prefix and
@@ -724,16 +813,22 @@ def numbered_symbols(prefix='x', cls=None, start=0, exclude=(), *args, **assumpt
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(capture(fun), return the printed output of func()) over Any ║
+# ║ Path(capture(func), file.getvalue()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  file.getvalue()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ capture : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b72d147d60e6107  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa5782abbd1d9906  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.capture","kind":"function","src_hash":"cb8ca56e67e4b62e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"capture(fun)","rhs":"return the printed output of func()","over":{"base":"Any"},"name":"capture_correct"},"guarantee":"return the printed output of func()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.capture_correct","statement":"Path(capture(x), return the printed output of func())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b72d147d60e6107"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.capture","kind":"function","src_hash":"cb8ca56e67e4b62e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"capture(func)","rhs":"file.getvalue()","over":{"base":"Any"},"name":"capture_correct"},"guarantee":"returns file.getvalue()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.capture_correct","statement":"Path(capture(x), returns file.getvalue())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa5782abbd1d9906","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"file.getvalue()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def capture(func):
     """Return the printed output of func().
 
@@ -765,16 +860,22 @@ def capture(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sift(seq), sift the sequence, ``seq`` according to ``keyfunc``) over Any ║
+# ║ Path(sift(seq, keyfunc, binary), <unspecified:sift>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sift : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2407aae44529483  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.sift","kind":"function","src_hash":"b6653639c79b259a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sift(seq)","rhs":"sift the sequence, ``seq`` according to ``keyfunc``","over":{"base":"Any"},"name":"sift_correct"},"guarantee":"sift the sequence, ``seq`` according to ``keyfunc``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.sift_correct","statement":"Path(sift(x), sift the sequence, ``seq`` according to ``keyfunc``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2407aae44529483"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.sift","kind":"function","src_hash":"b6653639c79b259a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sift(seq, keyfunc, binary)","rhs":"<unspecified:sift>","over":{"base":"Any"},"name":"sift_correct"},"guarantee":"sift the sequence, ``seq`` according to ``keyfunc``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.sift_correct","statement":"Path(sift(x), sift the sequence, ``seq`` according to ``keyfunc``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2407aae44529483","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sift(seq, keyfunc, binary=False):
     """
     Sift the sequence, ``seq`` according to ``keyfunc``.
@@ -863,32 +964,44 @@ def sift(seq, keyfunc, binary=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(take(ite), return ``n`` items from ``iter`` iterator) over Any ║
+# ║ Path(take(iter, n), [value for _, value in zip(range(n), iter)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [value for _, value in zip(range(n), iter)]    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ take : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05b29759b2b1501a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.take","kind":"function","src_hash":"b70f5ed4f4c4cd94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"take(ite)","rhs":"return ``n`` items from ``iter`` iterator","over":{"base":"Any"},"name":"take_correct"},"guarantee":"return ``n`` items from ``iter`` iterator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b29759b2b1501a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.take","kind":"function","src_hash":"b70f5ed4f4c4cd94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"take(iter, n)","rhs":"[value for _, value in zip(range(n), iter)]","over":{"base":"Any"},"name":"take_correct"},"guarantee":"returns [value for _, value in zip(range(n), iter)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b29759b2b1501a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[value for _, value in zip(range(n), iter)]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def take(iter, n):
     """Return ``n`` items from ``iter`` iterator. """
     return [ value for _, value in zip(range(n), iter) ]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict_merge(*di), merge dictionaries into a single dictionary) over Any ║
+# ║ Path(dict_merge(*dicts), <unspecified:dict_merge>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict_merge : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a78ea291aacf142  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.dict_merge","kind":"function","src_hash":"267829e262cf1066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict_merge(*di)","rhs":"merge dictionaries into a single dictionary","over":{"base":"Any"},"name":"dict_merge_correct"},"guarantee":"merge dictionaries into a single dictionary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.dict_merge_correct","statement":"Path(dict_merge(x), merge dictionaries into a single dictionary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a78ea291aacf142"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.dict_merge","kind":"function","src_hash":"267829e262cf1066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict_merge(*dicts)","rhs":"<unspecified:dict_merge>","over":{"base":"Any"},"name":"dict_merge_correct"},"guarantee":"merge dictionaries into a single dictionary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.dict_merge_correct","statement":"Path(dict_merge(x), merge dictionaries into a single dictionary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a78ea291aacf142","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*dicts']"]}}
 def dict_merge(*dicts):
     """Merge dictionaries into a single dictionary. """
     merged = {}
@@ -900,16 +1013,25 @@ def dict_merge(*dicts):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(common_prefix(*se), return the subsequence that is a common start of sequences in ``seqs``) over Any ║
+# ║ Path(common_prefix(*seqs), result == ([] if not all(seqs) else seqs[0]) and result == [] or result == seqs[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ common_prefix : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([] if not all(seqs) else seqs[0])   ║
+# ║   ensures:  result == [] or result == seqs[0]              ║
+# ║   fiber[case_0]: not all(seqs) => []                       ║
+# ║   fiber[case_1]: len(seqs) == 1 => seqs[0]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ common_prefix : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dd01e481e1af0a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74465cb435799998  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.common_prefix","kind":"function","src_hash":"f437774827845223","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"common_prefix(*se)","rhs":"return the subsequence that is a common start of sequences in ``seqs``","over":{"base":"Any"},"name":"common_prefix_correct"},"guarantee":"return the subsequence that is a common start of sequences in ``seqs``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.common_prefix_correct","statement":"Path(common_prefix(x), return the subsequence that is a common start of sequences in ``seqs``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dd01e481e1af0a9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.common_prefix","kind":"function","src_hash":"f437774827845223","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([] if not all(seqs) else seqs[0]) and result == [] or result == seqs[0]"},"spec":{"lhs":"common_prefix(*seqs)","rhs":"result == ([] if not all(seqs) else seqs[0]) and result == [] or result == seqs[0]","over":{"base":"Any"},"name":"common_prefix_correct"},"guarantee":"result == ([] if not all(seqs) else seqs[0]); result == [] or result == seqs[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.common_prefix_correct","statement":"Path(common_prefix(x), result == ([] if not all(seqs) else seqs[0]); result == [] or result == seqs[0]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74465cb435799998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([] if not all(seqs) else seqs[0])","result == [] or result == seqs[0]"],"fibers":[{"name":"case_0","guard":"not all(seqs)","ensures":["result == []"],"decidability":"library","returns_expr":"[]"},{"name":"case_1","guard":"len(seqs) == 1","ensures":["result == seqs[0]"],"decidability":"z3","returns_expr":"seqs[0]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*seqs']"]}}
 def common_prefix(*seqs):
     """Return the subsequence that is a common start of sequences in ``seqs``.
 
@@ -937,16 +1059,25 @@ def common_prefix(*seqs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(common_suffix(*se), return the subsequence that is a common ending of sequences in ``seqs``) over Any ║
+# ║ Path(common_suffix(*seqs), result == ([] if not all(seqs) else seqs[0]) and result == [] or result == seqs[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ common_suffix : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([] if not all(seqs) else seqs[0])   ║
+# ║   ensures:  result == [] or result == seqs[0]              ║
+# ║   fiber[case_0]: not all(seqs) => []                       ║
+# ║   fiber[case_1]: len(seqs) == 1 => seqs[0]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ common_suffix : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59747cfd92208e42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23f5c954759797d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.common_suffix","kind":"function","src_hash":"620a19783349e76d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"common_suffix(*se)","rhs":"return the subsequence that is a common ending of sequences in ``seqs``","over":{"base":"Any"},"name":"common_suffix_correct"},"guarantee":"return the subsequence that is a common ending of sequences in ``seqs``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.common_suffix_correct","statement":"Path(common_suffix(x), return the subsequence that is a common ending of sequences in ``seqs``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59747cfd92208e42"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.common_suffix","kind":"function","src_hash":"620a19783349e76d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([] if not all(seqs) else seqs[0]) and result == [] or result == seqs[0]"},"spec":{"lhs":"common_suffix(*seqs)","rhs":"result == ([] if not all(seqs) else seqs[0]) and result == [] or result == seqs[0]","over":{"base":"Any"},"name":"common_suffix_correct"},"guarantee":"result == ([] if not all(seqs) else seqs[0]); result == [] or result == seqs[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.common_suffix_correct","statement":"Path(common_suffix(x), result == ([] if not all(seqs) else seqs[0]); result == [] or result == seqs[0]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f5c954759797d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([] if not all(seqs) else seqs[0])","result == [] or result == seqs[0]"],"fibers":[{"name":"case_0","guard":"not all(seqs)","ensures":["result == []"],"decidability":"library","returns_expr":"[]"},{"name":"case_1","guard":"len(seqs) == 1","ensures":["result == seqs[0]"],"decidability":"z3","returns_expr":"seqs[0]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*seqs']"]}}
 def common_suffix(*seqs):
     """Return the subsequence that is a common ending of sequences in ``seqs``.
 
@@ -978,16 +1109,22 @@ def common_suffix(*seqs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prefixes(seq), generate all prefixes of a sequence) over Any ║
+# ║ Path(prefixes(seq), <unspecified:prefixes>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prefixes : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fbd0a54be49ec84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.prefixes","kind":"function","src_hash":"5314372d0be1a4b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prefixes(seq)","rhs":"generate all prefixes of a sequence","over":{"base":"Any"},"name":"prefixes_correct"},"guarantee":"generate all prefixes of a sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.prefixes_correct","statement":"Path(prefixes(x), generate all prefixes of a sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fbd0a54be49ec84"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.prefixes","kind":"function","src_hash":"5314372d0be1a4b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prefixes(seq)","rhs":"<unspecified:prefixes>","over":{"base":"Any"},"name":"prefixes_correct"},"guarantee":"generate all prefixes of a sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.prefixes_correct","statement":"Path(prefixes(x), generate all prefixes of a sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fbd0a54be49ec84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def prefixes(seq):
     """
     Generate all prefixes of a sequence.
@@ -1008,16 +1145,22 @@ def prefixes(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postfixes(seq), generate all postfixes of a sequence) over Any ║
+# ║ Path(postfixes(seq), <unspecified:postfixes>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ postfixes : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94a62dd05593be0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.postfixes","kind":"function","src_hash":"90d86c3de2017826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postfixes(seq)","rhs":"generate all postfixes of a sequence","over":{"base":"Any"},"name":"postfixes_correct"},"guarantee":"generate all postfixes of a sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.postfixes_correct","statement":"Path(postfixes(x), generate all postfixes of a sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a62dd05593be0b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.postfixes","kind":"function","src_hash":"90d86c3de2017826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postfixes(seq)","rhs":"<unspecified:postfixes>","over":{"base":"Any"},"name":"postfixes_correct"},"guarantee":"generate all postfixes of a sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.postfixes_correct","statement":"Path(postfixes(x), generate all postfixes of a sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a62dd05593be0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def postfixes(seq):
     """
     Generate all postfixes of a sequence.
@@ -1038,16 +1181,25 @@ def postfixes(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(topological_sort(gra), topological sort of graph's vertices) over Any ║
+# ║ Path(topological_sort(graph, key), len(L) == old_len_L + 1 and len(S) == old_len_S + 1 and len(S) == old_len_S - 1) over {Any | len(S) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ topological_sort : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(S) > 0                                     ║
+# ║   ensures:  len(L) == old_len_L + 1                        ║
+# ║   ensures:  len(S) == old_len_S + 1                        ║
+# ║   ensures:  len(S) == old_len_S - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ topological_sort : {Any | len(S) > 0} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70f61b50785be17b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c9c02752972964a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.topological_sort","kind":"function","src_hash":"cb1725ece7a50ed3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"topological_sort(gra)","rhs":"topological sort of graph's vertices","over":{"base":"Any"},"name":"topological_sort_correct"},"guarantee":"topological sort of graph's vertices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.topological_sort_correct","statement":"Path(topological_sort(x), topological sort of graph's vertices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70f61b50785be17b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.topological_sort","kind":"function","src_hash":"cb1725ece7a50ed3","in":{"base":"Any","pred":"len(S) > 0"},"out":{"base":"Any","pred":"result satisfies: len(L) == old_len_L + 1 and len(S) == old_len_S + 1 and len(S) == old_len_S - 1"},"spec":{"lhs":"topological_sort(graph, key)","rhs":"len(L) == old_len_L + 1 and len(S) == old_len_S + 1 and len(S) == old_len_S - 1","over":{"base":"Any","pred":"len(S) > 0"},"name":"topological_sort_correct"},"guarantee":"len(L) == old_len_L + 1; len(S) == old_len_S + 1; len(S) == old_len_S - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.topological_sort_correct","statement":"Path(topological_sort(x), len(L) == old_len_L + 1; len(S) == old_len_S + 1; len(S) == old_len_S - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c9c02752972964a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(S) > 0"],"ensures":["len(L) == old_len_L + 1","len(S) == old_len_S + 1","len(S) == old_len_S - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["E.remove","L.append","S.append","S.difference_update","S.insert","S.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["E.*","L.*","S.*"],"old_bindings":{"old_len_L":"len(L)","old_len_S":"len(S)"},"pre_requires":["len(S) > 0"],"post_ensures":["len(L) == old_len_L + 1","len(S) == old_len_S + 1","len(S) == old_len_S - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def topological_sort(graph, key=None):
     r"""
     Topological sort of graph's vertices.
@@ -1163,16 +1315,22 @@ def topological_sort(graph, key=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strongly_connected_components(G), strongly connected components of a directed graph in reverse topological order) over Any ║
+# ║ Path(strongly_connected_components(G), _strongly_connected_components(V, Gmap)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _strongly_connected_components(V, Gmap)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strongly_connected_components : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31b960e9dcb1dca9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b7def6a7cad4644  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.strongly_connected_components","kind":"function","src_hash":"39ec1138878d5c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strongly_connected_components(G)","rhs":"strongly connected components of a directed graph in reverse topological order","over":{"base":"Any"},"name":"strongly_connected_components_correct"},"guarantee":"strongly connected components of a directed graph in reverse topological order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.strongly_connected_components_correct","statement":"Path(strongly_connected_components(x), strongly connected components of a directed graph in reverse topological order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31b960e9dcb1dca9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.strongly_connected_components","kind":"function","src_hash":"39ec1138878d5c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strongly_connected_components(G)","rhs":"_strongly_connected_components(V, Gmap)","over":{"base":"Any"},"name":"strongly_connected_components_correct"},"guarantee":"returns _strongly_connected_components(V, Gmap)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.strongly_connected_components_correct","statement":"Path(strongly_connected_components(x), returns _strongly_connected_components(V, Gmap))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b7def6a7cad4644","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_strongly_connected_components(V, Gmap)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def strongly_connected_components(G):
     r"""
     Strongly connected components of a directed graph in reverse topological
@@ -1263,16 +1421,22 @@ def strongly_connected_components(G):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_strongly_connected_components(V, ), more efficient internal routine for strongly_connected_components) over Any ║
+# ║ Path(_strongly_connected_components(V, Gmap), <unspecified:_strongly_connected_components>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _strongly_connected_components : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd84af660f010a70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._strongly_connected_components","kind":"function","src_hash":"20de5bf21d017b03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strongly_connected_components(V, )","rhs":"more efficient internal routine for strongly_connected_components","over":{"base":"Any"},"name":"_strongly_connected_components_correct"},"guarantee":"more efficient internal routine for strongly_connected_components","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._strongly_connected_components_correct","statement":"Path(_strongly_connected_components(x), more efficient internal routine for strongly_connected_components)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd84af660f010a70"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._strongly_connected_components","kind":"function","src_hash":"20de5bf21d017b03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strongly_connected_components(V, Gmap)","rhs":"<unspecified:_strongly_connected_components>","over":{"base":"Any"},"name":"_strongly_connected_components_correct"},"guarantee":"more efficient internal routine for strongly_connected_components","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._strongly_connected_components_correct","statement":"Path(_strongly_connected_components(x), more efficient internal routine for strongly_connected_components)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd84af660f010a70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _strongly_connected_components(V, Gmap):
     """More efficient internal routine for strongly_connected_components"""
     #
@@ -1339,16 +1503,22 @@ def _strongly_connected_components(V, Gmap):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(connected_components(G), connected components of an undirected graph or weakly connected components of a directed graph) over Any ║
+# ║ Path(connected_components(G), strongly_connected_components((V, E_undirected))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  strongly_connected_components((V, E_undir...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ connected_components : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a2e1ad21e2b970a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4434d1d260dc65b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.connected_components","kind":"function","src_hash":"2400e6d1c2f95fcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"connected_components(G)","rhs":"connected components of an undirected graph or weakly connected components of a directed graph","over":{"base":"Any"},"name":"connected_components_correct"},"guarantee":"connected components of an undirected graph or weakly connected components of a directed graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.connected_components_correct","statement":"Path(connected_components(x), connected components of an undirected graph or weakly connected components of a directed graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a2e1ad21e2b970a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.connected_components","kind":"function","src_hash":"2400e6d1c2f95fcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"connected_components(G)","rhs":"strongly_connected_components((V, E_undirected))","over":{"base":"Any"},"name":"connected_components_correct"},"guarantee":"returns strongly_connected_components((V, E_undirected))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.connected_components_correct","statement":"Path(connected_components(x), returns strongly_connected_components((V, E_undirected)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4434d1d260dc65b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"strongly_connected_components((V, E_undirected))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def connected_components(G):
     r"""
     Connected components of an undirected graph or weakly connected components
@@ -1428,16 +1598,22 @@ def connected_components(G):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate_left(x, ), left rotates a list x by the number of steps specified in y) over Any ║
+# ║ Path(rotate_left(x, y), <unspecified:rotate_left>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate_left : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7454dfe09075125  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.rotate_left","kind":"function","src_hash":"92f71f1201a6ee83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate_left(x, )","rhs":"left rotates a list x by the number of steps specified in y","over":{"base":"Any"},"name":"rotate_left_correct"},"guarantee":"left rotates a list x by the number of steps specified in y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.rotate_left_correct","statement":"Path(rotate_left(x), left rotates a list x by the number of steps specified in y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7454dfe09075125"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.rotate_left","kind":"function","src_hash":"92f71f1201a6ee83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate_left(x, y)","rhs":"<unspecified:rotate_left>","over":{"base":"Any"},"name":"rotate_left_correct"},"guarantee":"left rotates a list x by the number of steps specified in y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.rotate_left_correct","statement":"Path(rotate_left(x), left rotates a list x by the number of steps specified in y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7454dfe09075125","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rotate_left(x, y):
     """
     Left rotates a list x by the number of steps specified
@@ -1458,16 +1634,22 @@ def rotate_left(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate_right(x, ), right rotates a list x by the number of steps specified in y) over Any ║
+# ║ Path(rotate_right(x, y), <unspecified:rotate_right>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate_right : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f54f9bf3704b716  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.rotate_right","kind":"function","src_hash":"82eeff7fb8b808f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate_right(x, )","rhs":"right rotates a list x by the number of steps specified in y","over":{"base":"Any"},"name":"rotate_right_correct"},"guarantee":"right rotates a list x by the number of steps specified in y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.rotate_right_correct","statement":"Path(rotate_right(x), right rotates a list x by the number of steps specified in y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f54f9bf3704b716"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.rotate_right","kind":"function","src_hash":"82eeff7fb8b808f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate_right(x, y)","rhs":"<unspecified:rotate_right>","over":{"base":"Any"},"name":"rotate_right_correct"},"guarantee":"right rotates a list x by the number of steps specified in y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.rotate_right_correct","statement":"Path(rotate_right(x), right rotates a list x by the number of steps specified in y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f54f9bf3704b716","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rotate_right(x, y):
     """
     Right rotates a list x by the number of steps specified
@@ -1488,16 +1670,22 @@ def rotate_right(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(least_rotation(x, ), returns the number of steps of left rotation required to obtain lexicographically minimal string/list/tuple, etc) over Any ║
+# ║ Path(least_rotation(x, key), <unspecified:least_rotation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ least_rotation : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4be11ad23dfaa4aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.least_rotation","kind":"function","src_hash":"ca68e52e060b2f56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"least_rotation(x, )","rhs":"returns the number of steps of left rotation required to obtain lexicographically minimal string/list/tuple, etc","over":{"base":"Any"},"name":"least_rotation_correct"},"guarantee":"returns the number of steps of left rotation required to obtain lexicographically minimal string/list/tuple, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.least_rotation_correct","statement":"Path(least_rotation(x), returns the number of steps of left rotation required to obtain lexicographically minimal string/list/tuple, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4be11ad23dfaa4aa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.least_rotation","kind":"function","src_hash":"ca68e52e060b2f56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"least_rotation(x, key)","rhs":"<unspecified:least_rotation>","over":{"base":"Any"},"name":"least_rotation_correct"},"guarantee":"returns the number of steps of left rotation required to obtain lexicographically minimal string/list/tuple, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.least_rotation_correct","statement":"Path(least_rotation(x), returns the number of steps of left rotation required to obtain lexicographically minimal string/list/tuple, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4be11ad23dfaa4aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def least_rotation(x, key=None):
     '''
     Returns the number of steps of left rotation required to
@@ -1541,9 +1729,13 @@ def least_rotation(x, key=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset_combinations(m, ), return the unique combinations of size ``n`` from multiset ``m``) over {Any | isinstance(m, dict)} ║
+# ║ Path(multiset_combinations(m, n, g), # HINT: multiset_combinations may be idempotent: multiset_combinations(multiset_combinations(x)) == multiset_combinations(x)) over {Any | isinstance(m, dict) and hasattr(m, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiset_combinations : {Any | isinstance(m, dict)} →...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'values')                           ║
+# ║   ensures:  # HINT: multiset_combinations may be idem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiset_combinations : {Any | isinstance(m, dict) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(m, dict)} → library_axiom              ║
@@ -1553,9 +1745,12 @@ def least_rotation(x, key=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a2b76417...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_combinations","kind":"function","src_hash":"2ec1a68fb9fb6e2b","in":{"base":"Any","pred":"isinstance(m, dict)"},"out":{"base":"Any"},"spec":{"lhs":"multiset_combinations(m, )","rhs":"return the unique combinations of size ``n`` from multiset ``m``","over":{"base":"Any","pred":"isinstance(m, dict)"},"name":"multiset_combinations_correct"},"guarantee":"return the unique combinations of size ``n`` from multiset ``m``","fibers":[{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"multiset_combinations(x)","rhs":"return the unique combinations of size ``n`` from multiset ``m``","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"multiset_combinations_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_combinations_dict_correct","statement":"multiset_combinations satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a2b764173a6b594e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_combinations","kind":"function","src_hash":"2ec1a68fb9fb6e2b","in":{"base":"Any","pred":"isinstance(m, dict) and hasattr(m, 'values')"},"out":{"base":"Any","pred":"result satisfies: # HINT: multiset_combinations may be idempotent: multiset_combinations(multiset_combinations(x)) == multiset_combinations(x)"},"spec":{"lhs":"multiset_combinations(m, n, g)","rhs":"# HINT: multiset_combinations may be idempotent: multiset_combinations(multiset_combinations(x)) == multiset_combinations(x)","over":{"base":"Any","pred":"isinstance(m, dict) and hasattr(m, 'values')"},"name":"multiset_combinations_correct"},"guarantee":"# HINT: multiset_combinations may be idempotent: multiset_combinations(multiset_combinations(x)) == multiset_combinations(x)","fibers":[{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"multiset_combinations(x)","rhs":"# HINT: multiset_combinations may be idempotent: multiset_combinations(multiset_combinations(x)) == multiset_combinations(x)","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"multiset_combinations_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_combinations_dict_correct","statement":"multiset_combinations satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a2b764173a6b594e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'values')"],"ensures":["# HINT: multiset_combinations may be idempotent: multiset_combinations(multiset_combinations(x)) == multiset_combinations(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.values"],"raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'v >= n', 'any((as_int(v) < 0 for v in m.values()))', 'n > N or not n', 'isinstance(m, dict)', 'g is None', 'n > N', 'len(rv) == n'}, fibers={'dict'})"]}}
 def multiset_combinations(m, n, g=None):
     """
     Return the unique combinations of size ``n`` from multiset ``m``.
@@ -1620,9 +1815,13 @@ def multiset_combinations(m, n, g=None):
                         yield rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset_permutations(m, ), return the unique permutations of multiset ``m``) over {Any | isinstance(m, dict)} ║
+# ║ Path(multiset_permutations(m, size, g), # HINT: multiset_permutations may be idempotent: multiset_permutations(multiset_permutations(x)) == multiset_permutations(x)) over {Any | isinstance(m, dict) and hasattr(m, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiset_permutations : {Any | isinstance(m, dict)} →...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'values')                           ║
+# ║   ensures:  # HINT: multiset_permutations may be idem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiset_permutations : {Any | isinstance(m, dict) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(m, dict)} → library_axiom              ║
@@ -1632,9 +1831,12 @@ def multiset_combinations(m, n, g=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 97c9a409...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_permutations","kind":"function","src_hash":"c3549e68df9cfe12","in":{"base":"Any","pred":"isinstance(m, dict)"},"out":{"base":"Any"},"spec":{"lhs":"multiset_permutations(m, )","rhs":"return the unique permutations of multiset ``m``","over":{"base":"Any","pred":"isinstance(m, dict)"},"name":"multiset_permutations_correct"},"guarantee":"return the unique permutations of multiset ``m``","fibers":[{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"multiset_permutations(x)","rhs":"return the unique permutations of multiset ``m``","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"multiset_permutations_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_permutations_dict_correct","statement":"multiset_permutations satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"97c9a4092e18d8e4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_permutations","kind":"function","src_hash":"c3549e68df9cfe12","in":{"base":"Any","pred":"isinstance(m, dict) and hasattr(m, 'values')"},"out":{"base":"Any","pred":"result satisfies: # HINT: multiset_permutations may be idempotent: multiset_permutations(multiset_permutations(x)) == multiset_permutations(x)"},"spec":{"lhs":"multiset_permutations(m, size, g)","rhs":"# HINT: multiset_permutations may be idempotent: multiset_permutations(multiset_permutations(x)) == multiset_permutations(x)","over":{"base":"Any","pred":"isinstance(m, dict) and hasattr(m, 'values')"},"name":"multiset_permutations_correct"},"guarantee":"# HINT: multiset_permutations may be idempotent: multiset_permutations(multiset_permutations(x)) == multiset_permutations(x)","fibers":[{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"multiset_permutations(x)","rhs":"# HINT: multiset_permutations may be idempotent: multiset_permutations(multiset_permutations(x)) == multiset_permutations(x)","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"multiset_permutations_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_permutations_dict_correct","statement":"multiset_permutations satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"97c9a4092e18d8e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'values')"],"ensures":["# HINT: multiset_permutations may be idempotent: multiset_permutations(multiset_permutations(x)) == multiset_permutations(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.values"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'any((as_int(v) < 0 for v in m.values()))', 'size == 1', 'isinstance(m, dict)', 'g is None', 'all((v == 1 for k, v in do))', 'not do or (size is not None and (size > SUM or size < 1))', 'not do and size is None or size == 0', 'len(do) == 1'}, fibers={'dict'})"]}}
 def multiset_permutations(m, size=None, g=None):
     """
     Return the unique permutations of multiset ``m``.
@@ -1688,7 +1890,10 @@ def multiset_permutations(m, size=None, g=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_partition(seq), return the partition of seq as specified by the partition vector) over {Any | isinstance(vector, int)} ║
+# ║ Path(_partition(seq, vector, m), <unspecified:_partition>) over {Any | isinstance(vector, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _partition : {Any | isinstance(vector, int)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1700,9 +1905,12 @@ def multiset_permutations(m, size=None, g=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f777dc3c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._partition","kind":"function","src_hash":"a9ff9ae3b606a518","in":{"base":"Any","pred":"isinstance(vector, int)"},"out":{"base":"Any"},"spec":{"lhs":"_partition(seq)","rhs":"return the partition of seq as specified by the partition vector","over":{"base":"Any","pred":"isinstance(vector, int)"},"name":"_partition_correct"},"guarantee":"return the partition of seq as specified by the partition vector","fibers":[{"name":"int","pred":"isinstance(vector, int)","path":{"lhs":"_partition(x)","rhs":"return the partition of seq as specified by the partition vector","over":{"base":"int","pred":"isinstance(vector, int)"},"name":"_partition_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._partition_int_correct","statement":"_partition satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f777dc3c6ba3ac05"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._partition","kind":"function","src_hash":"a9ff9ae3b606a518","in":{"base":"Any","pred":"isinstance(vector, int)"},"out":{"base":"Any"},"spec":{"lhs":"_partition(seq, vector, m)","rhs":"<unspecified:_partition>","over":{"base":"Any","pred":"isinstance(vector, int)"},"name":"_partition_correct"},"guarantee":"return the partition of seq as specified by the partition vector","fibers":[{"name":"int","pred":"isinstance(vector, int)","path":{"lhs":"_partition(x)","rhs":"return the partition of seq as specified by the partition vector","over":{"base":"int","pred":"isinstance(vector, int)"},"name":"_partition_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._partition_int_correct","statement":"_partition satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f777dc3c6ba3ac05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(vector, int)', 'm is None'}, fibers={'int'})"]}}
 def _partition(seq, vector, m=None):
     """
     Return the partition of seq as specified by the partition vector.
@@ -1742,16 +1950,22 @@ def _partition(seq, vector, m=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_partitions(n), cycle through all partitions of n elements, yielding the current number of partitions, ``m``, and a mutable list, ``q`` such that ``element[i]`` is in part ``q[i]`` of the partition) over Any ║
+# ║ Path(_set_partitions(n), <unspecified:_set_partitions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_partitions : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5caf5772ec482b61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._set_partitions","kind":"function","src_hash":"f4805cd29bf3fc58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_partitions(n)","rhs":"cycle through all partitions of n elements, yielding the current number of partitions, ``m``, and a mutable list, ``q`` such that ``element[i]`` is in part ``q[i]`` of the partition","over":{"base":"Any"},"name":"_set_partitions_correct"},"guarantee":"cycle through all partitions of n elements, yielding the current number of partitions, ``m``, and a mutable list, ``q`` such that ``element[i]`` is in part ``q[i]`` of the partition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._set_partitions_correct","statement":"Path(_set_partitions(x), cycle through all partitions of n elements, yielding the current number of partitions, ``m``, and a mutable list, ``q`` such that ``element[i]`` is in part ``q[i]`` of the partition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5caf5772ec482b61"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._set_partitions","kind":"function","src_hash":"f4805cd29bf3fc58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_partitions(n)","rhs":"<unspecified:_set_partitions>","over":{"base":"Any"},"name":"_set_partitions_correct"},"guarantee":"cycle through all partitions of n elements, yielding the current number of partitions, ``m``, and a mutable list, ``q`` such that ``element[i]`` is in part ``q[i]`` of the partition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._set_partitions_correct","statement":"Path(_set_partitions(x), cycle through all partitions of n elements, yielding the current number of partitions, ``m``, and a mutable list, ``q`` such that ``element[i]`` is in part ``q[i]`` of the partition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5caf5772ec482b61","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _set_partitions(n):
     """Cycle through all partitions of n elements, yielding the
     current number of partitions, ``m``, and a mutable list, ``q``
@@ -1832,7 +2046,10 @@ def _set_partitions(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset_partitions(mul), return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned) over {Any | isinstance(multiset, int) and isinstance(multiset, str)} ║
+# ║ Path(multiset_partitions(multiset, m), <unspecified:multiset_partitions>) over {Any | isinstance(multiset, int) and isinstance(multiset, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiset_partitions : {Any | isinstance(multiset, int...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1845,9 +2062,12 @@ def _set_partitions(n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | adb54202...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_partitions","kind":"function","src_hash":"fe3600aec9c01b13","in":{"base":"Any","pred":"isinstance(multiset, int) and isinstance(multiset, str)"},"out":{"base":"Any"},"spec":{"lhs":"multiset_partitions(mul)","rhs":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","over":{"base":"Any","pred":"isinstance(multiset, int) and isinstance(multiset, str)"},"name":"multiset_partitions_correct"},"guarantee":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","fibers":[{"name":"int","pred":"isinstance(multiset, int)","path":{"lhs":"multiset_partitions(x)","rhs":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","over":{"base":"int","pred":"isinstance(multiset, int)"},"name":"multiset_partitions_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_partitions_int_correct","statement":"multiset_partitions satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(multiset, str)","path":{"lhs":"multiset_partitions(x)","rhs":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","over":{"base":"str","pred":"isinstance(multiset, str)"},"name":"multiset_partitions_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_partitions_str_correct","statement":"multiset_partitions satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"adb54202adeee0df"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_partitions","kind":"function","src_hash":"fe3600aec9c01b13","in":{"base":"Any","pred":"isinstance(multiset, int) and isinstance(multiset, str)"},"out":{"base":"Any"},"spec":{"lhs":"multiset_partitions(multiset, m)","rhs":"<unspecified:multiset_partitions>","over":{"base":"Any","pred":"isinstance(multiset, int) and isinstance(multiset, str)"},"name":"multiset_partitions_correct"},"guarantee":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","fibers":[{"name":"int","pred":"isinstance(multiset, int)","path":{"lhs":"multiset_partitions(x)","rhs":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","over":{"base":"int","pred":"isinstance(multiset, int)"},"name":"multiset_partitions_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_partitions_int_correct","statement":"multiset_partitions satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(multiset, str)","path":{"lhs":"multiset_partitions(x)","rhs":"return unique partitions of the given multiset (in list form). if ``m`` is none, all multisets will be returned, otherwise only partitions with ``m`` parts will be returned","over":{"base":"str","pred":"isinstance(multiset, str)"},"name":"multiset_partitions_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_partitions_str_correct","statement":"multiset_partitions satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"adb54202adeee0df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'m and m > n', 'm == 1', 'm is None or size == m', 'len(multiset) == 1 and isinstance(multiset, str)', 'isinstance(multiset, int)', 'len(elements) < len(multiset)', 'm is None or nc == m'}, fibers={'int', 'str'})"]}}
 def multiset_partitions(multiset, m=None):
     """
     Return unique partitions of the given multiset (in list form).
@@ -2007,16 +2227,22 @@ def multiset_partitions(multiset, m=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partitions(n, ), generate all partitions of positive integer, n) over Any ║
+# ║ Path(partitions(n, m, k), <unspecified:partitions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ partitions : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd6e67b9f07d1fef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.partitions","kind":"function","src_hash":"9f21a63c9d2c4716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partitions(n, )","rhs":"generate all partitions of positive integer, n","over":{"base":"Any"},"name":"partitions_correct"},"guarantee":"generate all partitions of positive integer, n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.partitions_correct","statement":"Path(partitions(x), generate all partitions of positive integer, n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd6e67b9f07d1fef"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.partitions","kind":"function","src_hash":"9f21a63c9d2c4716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partitions(n, m, k)","rhs":"<unspecified:partitions>","over":{"base":"Any"},"name":"partitions_correct"},"guarantee":"generate all partitions of positive integer, n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.partitions_correct","statement":"Path(partitions(x), generate all partitions of positive integer, n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd6e67b9f07d1fef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def partitions(n, m=None, k=None, size=False):
     """Generate all partitions of positive integer, n.
 
@@ -2150,16 +2376,22 @@ def partitions(n, m=None, k=None, size=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ordered_partitions(n, ), generates ordered partitions of integer *n*) over Any ║
+# ║ Path(ordered_partitions(n, m, sort), # HINT: ordered_partitions may be idempotent: ordered_partitions(ordered_partitions(x)) == ordered_partitions(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ordered_partitions : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: ordered_partitions may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ordered_partitions : Any → {Any | result satisfies: #...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 521eee89a41ed3cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 888cc488b13741ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.ordered_partitions","kind":"function","src_hash":"99df6f80acaee76a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordered_partitions(n, )","rhs":"generates ordered partitions of integer *n*","over":{"base":"Any"},"name":"ordered_partitions_correct"},"guarantee":"generates ordered partitions of integer *n*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.ordered_partitions_correct","statement":"Path(ordered_partitions(x), generates ordered partitions of integer *n*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"521eee89a41ed3cf"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.ordered_partitions","kind":"function","src_hash":"99df6f80acaee76a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: ordered_partitions may be idempotent: ordered_partitions(ordered_partitions(x)) == ordered_partitions(x)"},"spec":{"lhs":"ordered_partitions(n, m, sort)","rhs":"# HINT: ordered_partitions may be idempotent: ordered_partitions(ordered_partitions(x)) == ordered_partitions(x)","over":{"base":"Any"},"name":"ordered_partitions_correct"},"guarantee":"# HINT: ordered_partitions may be idempotent: ordered_partitions(ordered_partitions(x)) == ordered_partitions(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.ordered_partitions_correct","statement":"Path(ordered_partitions(x), # HINT: ordered_partitions may be idempotent: ordered_partitions(ordered_partitions(x)) == ordered_partitions(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"888cc488b13741ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: ordered_partitions may be idempotent: ordered_partitions(ordered_partitions(x)) == ordered_partitions(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def ordered_partitions(n, m=None, sort=True):
     """Generates ordered partitions of integer *n*.
 
@@ -2297,16 +2529,22 @@ def ordered_partitions(n, m=None, sort=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_partitions(n), generates the binary partition of *n*) over Any ║
+# ║ Path(binary_partitions(n), <unspecified:binary_partitions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_partitions : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6907ecd8bd4e0afa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.binary_partitions","kind":"function","src_hash":"7e7c0f5408971978","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_partitions(n)","rhs":"generates the binary partition of *n*","over":{"base":"Any"},"name":"binary_partitions_correct"},"guarantee":"generates the binary partition of *n*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.binary_partitions_correct","statement":"Path(binary_partitions(x), generates the binary partition of *n*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6907ecd8bd4e0afa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.binary_partitions","kind":"function","src_hash":"7e7c0f5408971978","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_partitions(n)","rhs":"<unspecified:binary_partitions>","over":{"base":"Any"},"name":"binary_partitions_correct"},"guarantee":"generates the binary partition of *n*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.binary_partitions_correct","statement":"Path(binary_partitions(x), generates the binary partition of *n*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6907ecd8bd4e0afa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def binary_partitions(n):
     """
     Generates the binary partition of *n*.
@@ -2366,7 +2604,10 @@ def binary_partitions(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_dups(seq), return true if there are any duplicate elements in ``seq``) over {Any | isinstance(seq, (dict, set, Dict, Set))} ║
+# ║ Path(has_dups(seq), <unspecified:has_dups>) over {Any | isinstance(seq, (dict, set, Dict, Set))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_dups : {Any | isinstance(seq, (dict, set, Dict, S...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2378,9 +2619,12 @@ def binary_partitions(n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cb0887e7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.has_dups","kind":"function","src_hash":"7a1c8710cff4ba8a","in":{"base":"Any","pred":"isinstance(seq, (dict, set, Dict, Set))"},"out":{"base":"Any"},"spec":{"lhs":"has_dups(seq)","rhs":"return true if there are any duplicate elements in ``seq``","over":{"base":"Any","pred":"isinstance(seq, (dict, set, Dict, Set))"},"name":"has_dups_correct"},"guarantee":"return true if there are any duplicate elements in ``seq``","fibers":[{"name":"(dict","pred":"isinstance(seq, (dict, set, Dict, Set))","path":{"lhs":"has_dups(x)","rhs":"return true if there are any duplicate elements in ``seq``","over":{"base":"(dict","pred":"isinstance(seq, (dict, set, Dict, Set))"},"name":"has_dups_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.has_dups_(dict_correct","statement":"has_dups satisfies spec on (dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cb0887e7abe6a5c9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.has_dups","kind":"function","src_hash":"7a1c8710cff4ba8a","in":{"base":"Any","pred":"isinstance(seq, (dict, set, Dict, Set))"},"out":{"base":"Any"},"spec":{"lhs":"has_dups(seq)","rhs":"<unspecified:has_dups>","over":{"base":"Any","pred":"isinstance(seq, (dict, set, Dict, Set))"},"name":"has_dups_correct"},"guarantee":"return true if there are any duplicate elements in ``seq``","fibers":[{"name":"(dict","pred":"isinstance(seq, (dict, set, Dict, Set))","path":{"lhs":"has_dups(x)","rhs":"return true if there are any duplicate elements in ``seq``","over":{"base":"(dict","pred":"isinstance(seq, (dict, set, Dict, Set))"},"name":"has_dups_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.has_dups_(dict_correct","statement":"has_dups satisfies spec on (dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cb0887e7abe6a5c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(seq, (dict, set, Dict, Set))'}, fibers={'(dict'})"]}}
 def has_dups(seq):
     """Return True if there are any duplicate elements in ``seq``.
 
@@ -2407,16 +2651,22 @@ def has_dups(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_variety(seq), return true if there are any different elements in ``seq``) over Any ║
+# ║ Path(has_variety(seq), <unspecified:has_variety>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_variety : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae5e9c719d450f49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.has_variety","kind":"function","src_hash":"9fa7ba1d5a865005","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_variety(seq)","rhs":"return true if there are any different elements in ``seq``","over":{"base":"Any"},"name":"has_variety_correct"},"guarantee":"return true if there are any different elements in ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.has_variety_correct","statement":"Path(has_variety(x), return true if there are any different elements in ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae5e9c719d450f49"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.has_variety","kind":"function","src_hash":"9fa7ba1d5a865005","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_variety(seq)","rhs":"<unspecified:has_variety>","over":{"base":"Any"},"name":"has_variety_correct"},"guarantee":"return true if there are any different elements in ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.has_variety_correct","statement":"Path(has_variety(x), return true if there are any different elements in ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae5e9c719d450f49","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def has_variety(seq):
     """Return True if there are any different elements in ``seq``.
 
@@ -2440,16 +2690,23 @@ def has_variety(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uniq(seq), yield unique elements from ``seq`` as an iterator) over Any ║
+# ║ Path(uniq(seq, result), len(result) == old_len_result + 1) over {Any | hasattr(result, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ uniq : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(result, 'append')                      ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ uniq : {Any | hasattr(result, 'append')} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b45acdec35a3563  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0da8bb212be5bf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.uniq","kind":"function","src_hash":"897fc54640c9d0a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uniq(seq)","rhs":"yield unique elements from ``seq`` as an iterator","over":{"base":"Any"},"name":"uniq_correct"},"guarantee":"yield unique elements from ``seq`` as an iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.uniq_correct","statement":"Path(uniq(x), yield unique elements from ``seq`` as an iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b45acdec35a3563"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.uniq","kind":"function","src_hash":"897fc54640c9d0a3","in":{"base":"Any","pred":"hasattr(result, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"uniq(seq, result)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any","pred":"hasattr(result, 'append')"},"name":"uniq_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.uniq_correct","statement":"Path(uniq(x), len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0da8bb212be5bf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(result, 'append')"],"ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["result.append"],"calls_mutating":["result.append","seen.add"],"raises":["RuntimeError"],"catches":["TypeError"]},"state_contract":{"modifies":["result.*","seen.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def uniq(seq, result=None):
     """
     Yield unique elements from ``seq`` as an iterator. The second
@@ -2505,16 +2762,23 @@ def uniq(seq, result=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_bell(n), return permutations of [0, 1, ..., n - 1] such that each permutation differs from the last by the exchange of a single pair of neighbors. the ``n!`` permutations are returned as an iterator) over Any ║
+# ║ Path(generate_bell(n), <unspecified:generate_bell>) over {Any | not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ generate_bell : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ generate_bell : {Any | not (n < 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46c9963cc89c71f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_bell","kind":"function","src_hash":"5fa8fd867f3a0610","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_bell(n)","rhs":"return permutations of [0, 1, ..., n - 1] such that each permutation differs from the last by the exchange of a single pair of neighbors. the ``n!`` permutations are returned as an iterator","over":{"base":"Any"},"name":"generate_bell_correct"},"guarantee":"return permutations of [0, 1, ..., n - 1] such that each permutation differs from the last by the exchange of a single pair of neighbors. the ``n!`` permutations are returned as an iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_bell_correct","statement":"Path(generate_bell(x), return permutations of [0, 1, ..., n - 1] such that each permutation differs from the last by the exchange of a single pair of neighbors. the ``n!`` permutations are returned as an iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c9963cc89c71f5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_bell","kind":"function","src_hash":"5fa8fd867f3a0610","in":{"base":"Any","pred":"not (n < 1)"},"out":{"base":"Any"},"spec":{"lhs":"generate_bell(n)","rhs":"<unspecified:generate_bell>","over":{"base":"Any","pred":"not (n < 1)"},"name":"generate_bell_correct"},"guarantee":"return permutations of [0, 1, ..., n - 1] such that each permutation differs from the last by the exchange of a single pair of neighbors. the ``n!`` permutations are returned as an iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_bell_correct","statement":"Path(generate_bell(x), return permutations of [0, 1, ..., n - 1] such that each permutation differs from the last by the exchange of a single pair of neighbors. the ``n!`` permutations are returned as an iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c9963cc89c71f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def generate_bell(n):
     """Return permutations of [0, 1, ..., n - 1] such that each permutation
     differs from the last by the exchange of a single pair of neighbors.
@@ -2623,16 +2887,22 @@ def generate_bell(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_involutions(n), generates involutions) over Any ║
+# ║ Path(generate_involutions(n), <unspecified:generate_involutions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_involutions : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 094ec8d2f09ce437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_involutions","kind":"function","src_hash":"91a2dccf88cd36be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_involutions(n)","rhs":"generates involutions","over":{"base":"Any"},"name":"generate_involutions_correct"},"guarantee":"generates involutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_involutions_correct","statement":"Path(generate_involutions(x), generates involutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"094ec8d2f09ce437"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_involutions","kind":"function","src_hash":"91a2dccf88cd36be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_involutions(n)","rhs":"<unspecified:generate_involutions>","over":{"base":"Any"},"name":"generate_involutions_correct"},"guarantee":"generates involutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_involutions_correct","statement":"Path(generate_involutions(x), generates involutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"094ec8d2f09ce437","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def generate_involutions(n):
     """
     Generates involutions.
@@ -2671,16 +2941,22 @@ def generate_involutions(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset_derangements(s), generate derangements of the elements of s *in place*) over Any ║
+# ║ Path(multiset_derangements(s), [i for i in range(n) if rv[i] is None and s[i] != v]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [i for i in range(n) if rv[i] is None and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiset_derangements : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07df7ee52e3fa8b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4c66ed8acfd6dee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_derangements","kind":"function","src_hash":"be3670136acfdbfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset_derangements(s)","rhs":"generate derangements of the elements of s *in place*","over":{"base":"Any"},"name":"multiset_derangements_correct"},"guarantee":"generate derangements of the elements of s *in place*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_derangements_correct","statement":"Path(multiset_derangements(x), generate derangements of the elements of s *in place*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07df7ee52e3fa8b2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.multiset_derangements","kind":"function","src_hash":"be3670136acfdbfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset_derangements(s)","rhs":"[i for i in range(n) if rv[i] is None and s[i] != v]","over":{"base":"Any"},"name":"multiset_derangements_correct"},"guarantee":"returns [i for i in range(n) if rv[i] is None and s[i] != v]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.multiset_derangements_correct","statement":"Path(multiset_derangements(x), returns [i for i in range(n) if rv[i] is None and s[i] != v])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4c66ed8acfd6dee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[i for i in range(n) if rv[i] is None and s[i] != v]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def multiset_derangements(s):
     """Generate derangements of the elements of s *in place*.
 
@@ -2871,16 +3147,23 @@ def multiset_derangements(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_derangement(t, ), return a list of elements in which none are in the same positions as they were originally) over Any ║
+# ║ Path(random_derangement(t, choice, strict), len(rv) == old_len_rv - 1) over {Any | len(rv) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ random_derangement : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(rv) > 0                                    ║
+# ║   ensures:  len(rv) == old_len_rv - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ random_derangement : {Any | len(rv) > 0} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   secrets.__module__                                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | cb3c6aa56429...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 3a9c56ac9497...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.random_derangement","kind":"function","src_hash":"1c5a1a5e4d1a1ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_derangement(t, )","rhs":"return a list of elements in which none are in the same positions as they were originally","over":{"base":"Any"},"name":"random_derangement_correct"},"guarantee":"return a list of elements in which none are in the same positions as they were originally","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.random_derangement_correct","statement":"Path(random_derangement(x), return a list of elements in which none are in the same positions as they were originally)"},"assumes":[],"trust":["secrets.__module__"],"compiled":true,"vhash":"cb3c6aa564298221"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.random_derangement","kind":"function","src_hash":"1c5a1a5e4d1a1ce7","in":{"base":"Any","pred":"len(rv) > 0"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv - 1"},"spec":{"lhs":"random_derangement(t, choice, strict)","rhs":"len(rv) == old_len_rv - 1","over":{"base":"Any","pred":"len(rv) > 0"},"name":"random_derangement_correct"},"guarantee":"len(rv) == old_len_rv - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.random_derangement_correct","statement":"Path(random_derangement(x), len(rv) == old_len_rv - 1)"},"assumes":[],"trust":["secrets.__module__"],"compiled":true,"vhash":"3a9c56ac949741fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(rv) > 0"],"ensures":["len(rv) == old_len_rv - 1"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["rv.insert","rv.pop"],"raises":["ValueError"],"nondeterministic_sources":["choice","shuffle"]},"state_contract":{"modifies":["rv.*"],"old_bindings":{"old_len_rv":"len(rv)"},"pre_requires":["len(rv) > 0"],"post_ensures":["len(rv) == old_len_rv - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def random_derangement(t, choice=None, strict=True):
     """Return a list of elements in which none are in the same positions
     as they were originally. If an element fills more than half of the positions
@@ -2979,16 +3262,22 @@ def random_derangement(t, choice=None, strict=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_derangements(s), yield derangements of items in ``s`` which are assumed to contain no repeated elements) over Any ║
+# ║ Path(_set_derangements(s), <unspecified:_set_derangements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_derangements : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 932da9e3a735073c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._set_derangements","kind":"function","src_hash":"20757c2b569635cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_derangements(s)","rhs":"yield derangements of items in ``s`` which are assumed to contain no repeated elements","over":{"base":"Any"},"name":"_set_derangements_correct"},"guarantee":"yield derangements of items in ``s`` which are assumed to contain no repeated elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._set_derangements_correct","statement":"Path(_set_derangements(x), yield derangements of items in ``s`` which are assumed to contain no repeated elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"932da9e3a735073c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables._set_derangements","kind":"function","src_hash":"20757c2b569635cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_derangements(s)","rhs":"<unspecified:_set_derangements>","over":{"base":"Any"},"name":"_set_derangements_correct"},"guarantee":"yield derangements of items in ``s`` which are assumed to contain no repeated elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables._set_derangements_correct","statement":"Path(_set_derangements(x), yield derangements of items in ``s`` which are assumed to contain no repeated elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"932da9e3a735073c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _set_derangements(s):
     """
     yield derangements of items in ``s`` which are assumed to contain
@@ -3009,16 +3298,22 @@ def _set_derangements(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_derangements(s), return unique derangements of the elements of iterable ``s``) over Any ║
+# ║ Path(generate_derangements(s), <unspecified:generate_derangements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_derangements : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e206ecbc430fcf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_derangements","kind":"function","src_hash":"05b5c6d4de47f3e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_derangements(s)","rhs":"return unique derangements of the elements of iterable ``s``","over":{"base":"Any"},"name":"generate_derangements_correct"},"guarantee":"return unique derangements of the elements of iterable ``s``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_derangements_correct","statement":"Path(generate_derangements(x), return unique derangements of the elements of iterable ``s``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e206ecbc430fcf5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_derangements","kind":"function","src_hash":"05b5c6d4de47f3e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_derangements(s)","rhs":"<unspecified:generate_derangements>","over":{"base":"Any"},"name":"generate_derangements_correct"},"guarantee":"return unique derangements of the elements of iterable ``s``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_derangements_correct","statement":"Path(generate_derangements(x), return unique derangements of the elements of iterable ``s``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e206ecbc430fcf5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def generate_derangements(s):
     """
     Return unique derangements of the elements of iterable ``s``.
@@ -3048,16 +3343,22 @@ def generate_derangements(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(necklaces(n, ), a routine to generate necklaces that may (free=true) or may not (free=false) be turned over to be viewed) over Any ║
+# ║ Path(necklaces(n, k, free), <unspecified:necklaces>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ necklaces : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecd1cae25db5e024  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.necklaces","kind":"function","src_hash":"e6dee93c83b2f1c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"necklaces(n, )","rhs":"a routine to generate necklaces that may (free=true) or may not (free=false) be turned over to be viewed","over":{"base":"Any"},"name":"necklaces_correct"},"guarantee":"a routine to generate necklaces that may (free=true) or may not (free=false) be turned over to be viewed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.necklaces_correct","statement":"Path(necklaces(x), a routine to generate necklaces that may (free=true) or may not (free=false) be turned over to be viewed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecd1cae25db5e024"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.necklaces","kind":"function","src_hash":"e6dee93c83b2f1c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"necklaces(n, k, free)","rhs":"<unspecified:necklaces>","over":{"base":"Any"},"name":"necklaces_correct"},"guarantee":"a routine to generate necklaces that may (free=true) or may not (free=false) be turned over to be viewed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.necklaces_correct","statement":"Path(necklaces(x), a routine to generate necklaces that may (free=true) or may not (free=false) be turned over to be viewed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecd1cae25db5e024","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def necklaces(n, k, free=False):
     """
     A routine to generate necklaces that may (free=True) or may not
@@ -3125,32 +3426,44 @@ def necklaces(n, k, free=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bracelets(n, ), wrapper to necklaces to return a free (unrestricted) necklace) over Any ║
+# ║ Path(bracelets(n, k), necklaces(n, k, free=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  necklaces(n, k, free=True)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bracelets : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64bcf51996c4a7dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.bracelets","kind":"function","src_hash":"24cbfd2b1926463a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bracelets(n, )","rhs":"wrapper to necklaces to return a free (unrestricted) necklace","over":{"base":"Any"},"name":"bracelets_correct"},"guarantee":"wrapper to necklaces to return a free (unrestricted) necklace","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64bcf51996c4a7dd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.bracelets","kind":"function","src_hash":"24cbfd2b1926463a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bracelets(n, k)","rhs":"necklaces(n, k, free=True)","over":{"base":"Any"},"name":"bracelets_correct"},"guarantee":"returns necklaces(n, k, free=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64bcf51996c4a7dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"necklaces(n, k, free=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def bracelets(n, k):
     """Wrapper to necklaces to return a free (unrestricted) necklace."""
     return necklaces(n, k, free=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_oriented_forest(n), this algorithm generates oriented forests) over Any ║
+# ║ Path(generate_oriented_forest(n), <unspecified:generate_oriented_forest>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_oriented_forest : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2875cd71a9722b55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_oriented_forest","kind":"function","src_hash":"141d75be4d9cf86c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_oriented_forest(n)","rhs":"this algorithm generates oriented forests","over":{"base":"Any"},"name":"generate_oriented_forest_correct"},"guarantee":"this algorithm generates oriented forests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_oriented_forest_correct","statement":"Path(generate_oriented_forest(x), this algorithm generates oriented forests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2875cd71a9722b55"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.generate_oriented_forest","kind":"function","src_hash":"141d75be4d9cf86c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_oriented_forest(n)","rhs":"<unspecified:generate_oriented_forest>","over":{"base":"Any"},"name":"generate_oriented_forest_correct"},"guarantee":"this algorithm generates oriented forests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.generate_oriented_forest_correct","statement":"Path(generate_oriented_forest(x), this algorithm generates oriented forests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2875cd71a9722b55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def generate_oriented_forest(n):
     """
     This algorithm generates oriented forests.
@@ -3198,7 +3511,10 @@ def generate_oriented_forest(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minlex(seq), return the rotation of the sequence in which the lexically smallest elements appear first, e.g) over {Any | isinstance(seq, str)} ║
+# ║ Path(minlex(seq, directed, key), tuple(best) if not isinstance(seq, str) else best) over {Any | isinstance(seq, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(best) if not isinstance(seq, str) e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minlex : {Any | isinstance(seq, str)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3210,9 +3526,12 @@ def generate_oriented_forest(n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7d4aea8e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.minlex","kind":"function","src_hash":"7363a9cb37b98159","in":{"base":"Any","pred":"isinstance(seq, str)"},"out":{"base":"Any"},"spec":{"lhs":"minlex(seq)","rhs":"return the rotation of the sequence in which the lexically smallest elements appear first, e.g","over":{"base":"Any","pred":"isinstance(seq, str)"},"name":"minlex_correct"},"guarantee":"return the rotation of the sequence in which the lexically smallest elements appear first, e.g","fibers":[{"name":"str","pred":"isinstance(seq, str)","path":{"lhs":"minlex(x)","rhs":"return the rotation of the sequence in which the lexically smallest elements appear first, e.g","over":{"base":"str","pred":"isinstance(seq, str)"},"name":"minlex_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.minlex_str_correct","statement":"minlex satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d4aea8e59c54361"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.minlex","kind":"function","src_hash":"7363a9cb37b98159","in":{"base":"Any","pred":"isinstance(seq, str)"},"out":{"base":"Any"},"spec":{"lhs":"minlex(seq, directed, key)","rhs":"tuple(best) if not isinstance(seq, str) else best","over":{"base":"Any","pred":"isinstance(seq, str)"},"name":"minlex_correct"},"guarantee":"returns tuple(best) if not isinstance(seq, str) else best","fibers":[{"name":"str","pred":"isinstance(seq, str)","path":{"lhs":"minlex(x)","rhs":"returns tuple(best) if not isinstance(seq, str) else best","over":{"base":"str","pred":"isinstance(seq, str)"},"name":"minlex_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.minlex_str_correct","statement":"minlex satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d4aea8e59c54361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(best) if not isinstance(seq, str) else best","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'key is None'}, fibers={'str'})"]}}
 def minlex(seq, directed=True, key=None):
     r"""
     Return the rotation of the sequence in which the lexically smallest
@@ -3261,16 +3580,22 @@ def minlex(seq, directed=True, key=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runs(seq), group the sequence into lists in which successive elements all compare the same with the comparison operator, ``op``: op(seq[i + 1], seq[i]) is true from all elements in a run) over Any ║
+# ║ Path(runs(seq, op), <unspecified:runs>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ runs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 217c2652da009142  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.runs","kind":"function","src_hash":"4b6c7895e140517c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runs(seq)","rhs":"group the sequence into lists in which successive elements all compare the same with the comparison operator, ``op``: op(seq[i + 1], seq[i]) is true from all elements in a run","over":{"base":"Any"},"name":"runs_correct"},"guarantee":"group the sequence into lists in which successive elements all compare the same with the comparison operator, ``op``: op(seq[i + 1], seq[i]) is true from all elements in a run","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.runs_correct","statement":"Path(runs(x), group the sequence into lists in which successive elements all compare the same with the comparison operator, ``op``: op(seq[i + 1], seq[i]) is true from all elements in a run)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217c2652da009142"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.runs","kind":"function","src_hash":"4b6c7895e140517c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runs(seq, op)","rhs":"<unspecified:runs>","over":{"base":"Any"},"name":"runs_correct"},"guarantee":"group the sequence into lists in which successive elements all compare the same with the comparison operator, ``op``: op(seq[i + 1], seq[i]) is true from all elements in a run","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.runs_correct","statement":"Path(runs(x), group the sequence into lists in which successive elements all compare the same with the comparison operator, ``op``: op(seq[i + 1], seq[i]) is true from all elements in a run)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217c2652da009142","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def runs(seq, op=gt):
     """Group the sequence into lists in which successive elements
     all compare the same with the comparison operator, ``op``:
@@ -3311,14 +3636,20 @@ def runs(seq, op=gt):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(sequence_partitions(), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sequence_partitions : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: sequence_partitions may be idempo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sequence_partitions : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 19a920a671adf5d6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.sequence_partitions","kind":"function","src_hash":"9b36241539c25dc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sequence_partitions()","rhs":"returns the partition of sequence $l$ into $n$ bins","over":{"base":"Any"},"name":"sequence_partitions_correct","kind":"composition"},"guarantee":"returns the partition of sequence $l$ into $n$ bins","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19a920a671adf5d6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.sequence_partitions","kind":"function","src_hash":"9b36241539c25dc4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: sequence_partitions may be idempotent: sequence_partitions(sequence_partitions(x)) == sequence_partitions(x)"},"spec":{"lhs":"sequence_partitions()","rhs":"# HINT: sequence_partitions may be idempotent: sequence_partitions(sequence_partitions(x)) == sequence_partitions(x)","over":{"base":"Any"},"name":"sequence_partitions_correct","kind":"composition"},"guarantee":"# HINT: sequence_partitions may be idempotent: sequence_partitions(sequence_partitions(x)) == sequence_partitions(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19a920a671adf5d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: sequence_partitions may be idempotent: sequence_partitions(sequence_partitions(x)) == sequence_partitions(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sequence_partitions(l, n, /):
     r"""Returns the partition of sequence $l$ into $n$ bins
 
@@ -3381,16 +3712,22 @@ def sequence_partitions(l, n, /):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sequence_partitions_empty(), returns the partition of sequence $l$ into $n$ bins with empty sequence) over Any ║
+# ║ Path(sequence_partitions_empty(), # HINT: sequence_partitions_empty may be idempotent: sequence_partitions_empty(sequence_partitions_empty(x)) == sequence_partitions_empty(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sequence_partitions_empty : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: sequence_partitions_empty may be ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sequence_partitions_empty : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8180f1de0c217d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c57d654fa6be76a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.sequence_partitions_empty","kind":"function","src_hash":"260822b0fcfeac43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sequence_partitions_empty()","rhs":"returns the partition of sequence $l$ into $n$ bins with empty sequence","over":{"base":"Any"},"name":"sequence_partitions_empty_correct"},"guarantee":"returns the partition of sequence $l$ into $n$ bins with empty sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.sequence_partitions_empty_correct","statement":"Path(sequence_partitions_empty(x), returns the partition of sequence $l$ into $n$ bins with empty sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8180f1de0c217d6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.sequence_partitions_empty","kind":"function","src_hash":"260822b0fcfeac43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: sequence_partitions_empty may be idempotent: sequence_partitions_empty(sequence_partitions_empty(x)) == sequence_partitions_empty(x)"},"spec":{"lhs":"sequence_partitions_empty()","rhs":"# HINT: sequence_partitions_empty may be idempotent: sequence_partitions_empty(sequence_partitions_empty(x)) == sequence_partitions_empty(x)","over":{"base":"Any"},"name":"sequence_partitions_empty_correct"},"guarantee":"# HINT: sequence_partitions_empty may be idempotent: sequence_partitions_empty(sequence_partitions_empty(x)) == sequence_partitions_empty(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.sequence_partitions_empty_correct","statement":"Path(sequence_partitions_empty(x), # HINT: sequence_partitions_empty may be idempotent: sequence_partitions_empty(sequence_partitions_empty(x)) == sequence_partitions_empty(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c57d654fa6be76a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: sequence_partitions_empty may be idempotent: sequence_partitions_empty(sequence_partitions_empty(x)) == sequence_partitions_empty(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sequence_partitions_empty(l, n, /):
     r"""Returns the partition of sequence $l$ into $n$ bins with
     empty sequence
@@ -3455,16 +3792,22 @@ def sequence_partitions_empty(l, n, /):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kbins(l, ), return sequence ``l`` partitioned into ``k`` bins) over Any ║
+# ║ Path(kbins(l, k, ordered), len(rv) == old_len_rv + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kbins : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kbins : Any → {Any | result satisfies: len(rv) == old...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69cadfd0101986d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b46a976f70d6d793  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.kbins","kind":"function","src_hash":"bf2a512382ae1f1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kbins(l, )","rhs":"return sequence ``l`` partitioned into ``k`` bins","over":{"base":"Any"},"name":"kbins_correct"},"guarantee":"return sequence ``l`` partitioned into ``k`` bins","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.kbins_correct","statement":"Path(kbins(x), return sequence ``l`` partitioned into ``k`` bins)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69cadfd0101986d7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.kbins","kind":"function","src_hash":"bf2a512382ae1f1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv + 1"},"spec":{"lhs":"kbins(l, k, ordered)","rhs":"len(rv) == old_len_rv + 1","over":{"base":"Any"},"name":"kbins_correct"},"guarantee":"len(rv) == old_len_rv + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.kbins_correct","statement":"Path(kbins(x), len(rv) == old_len_rv + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b46a976f70d6d793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(rv) == old_len_rv + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["rv.append"],"raises":["ValueError"]},"state_contract":{"modifies":["rv.*"],"old_bindings":{"old_len_rv":"len(rv)"},"post_ensures":["len(rv) == old_len_rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def kbins(l, k, ordered=None):
     """
     Return sequence ``l`` partitioned into ``k`` bins.
@@ -3578,16 +3921,23 @@ def kbins(l, k, ordered=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permute_signs(t), return iterator in which the signs of non-zero elements of t are permuted) over Any ║
+# ║ Path(permute_signs(t), <unspecified:permute_signs>) over {Any | hasattr(t, 'count')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ permute_signs : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(t, 'count')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ permute_signs : {Any | hasattr(t, 'count')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2189504b940f7f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.permute_signs","kind":"function","src_hash":"3dcaba9590a2f112","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permute_signs(t)","rhs":"return iterator in which the signs of non-zero elements of t are permuted","over":{"base":"Any"},"name":"permute_signs_correct"},"guarantee":"return iterator in which the signs of non-zero elements of t are permuted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.permute_signs_correct","statement":"Path(permute_signs(x), return iterator in which the signs of non-zero elements of t are permuted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2189504b940f7f3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.permute_signs","kind":"function","src_hash":"3dcaba9590a2f112","in":{"base":"Any","pred":"hasattr(t, 'count')"},"out":{"base":"Any"},"spec":{"lhs":"permute_signs(t)","rhs":"<unspecified:permute_signs>","over":{"base":"Any","pred":"hasattr(t, 'count')"},"name":"permute_signs_correct"},"guarantee":"return iterator in which the signs of non-zero elements of t are permuted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.permute_signs_correct","statement":"Path(permute_signs(x), return iterator in which the signs of non-zero elements of t are permuted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2189504b940f7f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(t, 'count')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def permute_signs(t):
     """Return iterator in which the signs of non-zero elements
     of t are permuted.
@@ -3607,14 +3957,20 @@ def permute_signs(t):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(signed_permutations(t), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (type(t)(i) for j in multiset_permutation...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ signed_permutations : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 051fe3bb1d31c5b2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.signed_permutations","kind":"function","src_hash":"a1de19213104cf28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"signed_permutations(t)","rhs":"return iterator in which the signs of non-zero elements of t and the order of the elements are permuted and all returned values are unique","over":{"base":"Any"},"name":"signed_permutations_correct","kind":"composition"},"guarantee":"return iterator in which the signs of non-zero elements of t and the order of the elements are permuted and all returned values are unique","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"t","by":"library_axiom"},{"fn":"multiset_permutations","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"051fe3bb1d31c5b2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.signed_permutations","kind":"function","src_hash":"a1de19213104cf28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"signed_permutations(t)","rhs":"(type(t)(i) for j in multiset_permutations(t) for i in permute_signs(j))","over":{"base":"Any"},"name":"signed_permutations_correct","kind":"composition"},"guarantee":"returns (type(t)(i) for j in multiset_permutations(t) for i in permute_signs(j))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"t","by":"library_axiom"},{"fn":"multiset_permutations","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"051fe3bb1d31c5b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(type(t)(i) for j in multiset_permutations(t) for i in permute_signs(j))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def signed_permutations(t):
     """Return iterator in which the signs of non-zero elements
     of t and the order of the elements are permuted and all
@@ -3636,16 +3992,22 @@ def signed_permutations(t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotations(s, ), return a generator giving the items in s as list where each subsequent list has the items rotated to the left (default) or right (``dir=-1``) relative to the previous list) over Any ║
+# ║ Path(rotations(s, dir), <unspecified:rotations>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotations : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 885cd9c770b66ed4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.rotations","kind":"function","src_hash":"0fff9f7d379aee45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotations(s, )","rhs":"return a generator giving the items in s as list where each subsequent list has the items rotated to the left (default) or right (``dir=-1``) relative to the previous list","over":{"base":"Any"},"name":"rotations_correct"},"guarantee":"return a generator giving the items in s as list where each subsequent list has the items rotated to the left (default) or right (``dir=-1``) relative to the previous list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.rotations_correct","statement":"Path(rotations(x), return a generator giving the items in s as list where each subsequent list has the items rotated to the left (default) or right (``dir=-1``) relative to the previous list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"885cd9c770b66ed4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.rotations","kind":"function","src_hash":"0fff9f7d379aee45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotations(s, dir)","rhs":"<unspecified:rotations>","over":{"base":"Any"},"name":"rotations_correct"},"guarantee":"return a generator giving the items in s as list where each subsequent list has the items rotated to the left (default) or right (``dir=-1``) relative to the previous list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.rotations_correct","statement":"Path(rotations(x), return a generator giving the items in s as list where each subsequent list has the items rotated to the left (default) or right (``dir=-1``) relative to the previous list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"885cd9c770b66ed4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rotations(s, dir=1):
     """Return a generator giving the items in s as list where
     each subsequent list has the items rotated to the left (default)
@@ -3667,16 +4029,22 @@ def rotations(s, dir=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roundrobin(*it), roundrobin recipe taken from itertools documentation: https://docs.python.org/3/library/itertools.html#itertools-recipes) over Any ║
+# ║ Path(roundrobin(*iterables), <unspecified:roundrobin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ roundrobin : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67cee944950f19e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.roundrobin","kind":"function","src_hash":"a94d939f370d9bf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roundrobin(*it)","rhs":"roundrobin recipe taken from itertools documentation: https://docs.python.org/3/library/itertools.html#itertools-recipes","over":{"base":"Any"},"name":"roundrobin_correct"},"guarantee":"roundrobin recipe taken from itertools documentation: https://docs.python.org/3/library/itertools.html#itertools-recipes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.roundrobin_correct","statement":"Path(roundrobin(x), roundrobin recipe taken from itertools documentation: https://docs.python.org/3/library/itertools.html#itertools-recipes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cee944950f19e3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.roundrobin","kind":"function","src_hash":"a94d939f370d9bf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roundrobin(*iterables)","rhs":"<unspecified:roundrobin>","over":{"base":"Any"},"name":"roundrobin_correct"},"guarantee":"roundrobin recipe taken from itertools documentation: https://docs.python.org/3/library/itertools.html#itertools-recipes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.roundrobin_correct","statement":"Path(roundrobin(x), roundrobin recipe taken from itertools documentation: https://docs.python.org/3/library/itertools.html#itertools-recipes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cee944950f19e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*iterables']"]}}
 def roundrobin(*iterables):
     """roundrobin recipe taken from itertools documentation:
     https://docs.python.org/3/library/itertools.html#itertools-recipes
@@ -3699,16 +4067,22 @@ def roundrobin(*iterables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NotIterable(), correctly constructs a NotIterable instance) over Any ║
+# ║ Path(NotIterable(), <unspecified:NotIterable>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ NotIterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c1384c362a9d000           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.NotIterable","kind":"class","src_hash":"fac93ca444aa2948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotIterable()","rhs":"correctly constructs a NotIterable instance","over":{"base":"Any"},"name":"NotIterable_correct"},"guarantee":"correctly constructs a NotIterable instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c1384c362a9d000"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.NotIterable","kind":"class","src_hash":"fac93ca444aa2948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotIterable()","rhs":"<unspecified:NotIterable>","over":{"base":"Any"},"name":"NotIterable_correct"},"guarantee":"correctly constructs a NotIterable instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c1384c362a9d000","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NotIterable not found in source"]}}
 class NotIterable:
     """
     Use this as mixin when creating a class which is not supposed to
@@ -3720,9 +4094,13 @@ class NotIterable:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterable(i, ), return a boolean indicating whether ``i`` is sympy iterable. true also indicates that the iterator is finite, e.g) over {Any | isinstance(i, exclude)} ║
+# ║ Path(iterable(i, exclude), <unspecified:iterable>) over {Any | isinstance(i, exclude) and hasattr(i, '_iterable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ iterable : {Any | isinstance(i, exclude)} → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(i, '_iterable')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ iterable : {Any | isinstance(i, exclude) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   exclude: {isinstance(i, exclude)} → library_axiom        ║
@@ -3732,9 +4110,12 @@ class NotIterable:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f81b1f78...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.iterable","kind":"function","src_hash":"88f90cf10f76ac42","in":{"base":"Any","pred":"isinstance(i, exclude)"},"out":{"base":"Any"},"spec":{"lhs":"iterable(i, )","rhs":"return a boolean indicating whether ``i`` is sympy iterable. true also indicates that the iterator is finite, e.g","over":{"base":"Any","pred":"isinstance(i, exclude)"},"name":"iterable_correct"},"guarantee":"return a boolean indicating whether ``i`` is sympy iterable. true also indicates that the iterator is finite, e.g","fibers":[{"name":"exclude","pred":"isinstance(i, exclude)","path":{"lhs":"iterable(x)","rhs":"return a boolean indicating whether ``i`` is sympy iterable. true also indicates that the iterator is finite, e.g","over":{"base":"exclude","pred":"isinstance(i, exclude)"},"name":"iterable_exclude_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.iterable_exclude_correct","statement":"iterable satisfies spec on exclude inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f81b1f78450695fe"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.iterable","kind":"function","src_hash":"88f90cf10f76ac42","in":{"base":"Any","pred":"isinstance(i, exclude) and hasattr(i, '_iterable')"},"out":{"base":"Any"},"spec":{"lhs":"iterable(i, exclude)","rhs":"<unspecified:iterable>","over":{"base":"Any","pred":"isinstance(i, exclude) and hasattr(i, '_iterable')"},"name":"iterable_correct"},"guarantee":"return a boolean indicating whether ``i`` is sympy iterable. true also indicates that the iterator is finite, e.g","fibers":[{"name":"exclude","pred":"isinstance(i, exclude)","path":{"lhs":"iterable(x)","rhs":"return a boolean indicating whether ``i`` is sympy iterable. true also indicates that the iterator is finite, e.g","over":{"base":"exclude","pred":"isinstance(i, exclude)"},"name":"iterable_exclude_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.iterable_exclude_correct","statement":"iterable satisfies spec on exclude inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f81b1f78450695fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(i, '_iterable')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["i._iterable"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def iterable(i, exclude=(str, dict, NotIterable)):
     """
     Return a boolean indicating whether ``i`` is SymPy iterable.
@@ -3794,7 +4175,10 @@ def iterable(i, exclude=(str, dict, NotIterable)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_sequence(i, ), return a boolean indicating whether ``i`` is a sequence in the sympy sense) over {Any | isinstance(i, include)} ║
+# ║ Path(is_sequence(i, include), hasattr(i, '__getitem__') and iterable(i) or (bool(include) and isinstance(i, include))) over {Any | isinstance(i, include)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hasattr(i, '__getitem__') and iterable(i)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_sequence : {Any | isinstance(i, include)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3806,9 +4190,12 @@ def iterable(i, exclude=(str, dict, NotIterable)):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c056f520...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.is_sequence","kind":"function","src_hash":"8d19ac4bf8797c1b","in":{"base":"Any","pred":"isinstance(i, include)"},"out":{"base":"Any"},"spec":{"lhs":"is_sequence(i, )","rhs":"return a boolean indicating whether ``i`` is a sequence in the sympy sense","over":{"base":"Any","pred":"isinstance(i, include)"},"name":"is_sequence_correct"},"guarantee":"return a boolean indicating whether ``i`` is a sequence in the sympy sense","fibers":[{"name":"include","pred":"isinstance(i, include)","path":{"lhs":"is_sequence(x)","rhs":"return a boolean indicating whether ``i`` is a sequence in the sympy sense","over":{"base":"include","pred":"isinstance(i, include)"},"name":"is_sequence_include_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.is_sequence_include_correct","statement":"is_sequence satisfies spec on include inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c056f52057621d86"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.is_sequence","kind":"function","src_hash":"8d19ac4bf8797c1b","in":{"base":"Any","pred":"isinstance(i, include)"},"out":{"base":"Any"},"spec":{"lhs":"is_sequence(i, include)","rhs":"hasattr(i, '__getitem__') and iterable(i) or (bool(include) and isinstance(i, include))","over":{"base":"Any","pred":"isinstance(i, include)"},"name":"is_sequence_correct"},"guarantee":"returns hasattr(i, '__getitem__') and iterable(i) or (bool(include) and isinstance(i, include))","fibers":[{"name":"include","pred":"isinstance(i, include)","path":{"lhs":"is_sequence(x)","rhs":"returns hasattr(i, '__getitem__') and iterable(i) or (bool(include) and isinstance(i, include))","over":{"base":"include","pred":"isinstance(i, include)"},"name":"is_sequence_include_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.is_sequence_include_correct","statement":"is_sequence satisfies spec on include inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c056f52057621d86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hasattr(i, '__getitem__') and iterable(i) or (bool(include) and isinstance(i, include))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def is_sequence(i, include=None):
     """
     Return a boolean indicating whether ``i`` is a sequence in the SymPy
@@ -3861,16 +4248,22 @@ def is_sequence(i, include=None):
     deprecated_since_version="1.10",
     active_deprecations_target="deprecated-traversal-functions-moved")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(postorder_traversal(nod), postorder_traversal produces the expected output) over Any ║
+# ║ Path(postorder_traversal(node, keys), _postorder_traversal(node, keys=keys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _postorder_traversal(node, keys=keys)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ postorder_traversal : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13529a143d9f9c33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c0b2c2629868c34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.postorder_traversal","kind":"function","src_hash":"d650638202a5e9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postorder_traversal(nod)","rhs":"postorder_traversal produces the expected output","over":{"base":"Any"},"name":"postorder_traversal_correct"},"guarantee":"postorder_traversal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.postorder_traversal_correct","statement":"Path(postorder_traversal(x), postorder_traversal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13529a143d9f9c33"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.postorder_traversal","kind":"function","src_hash":"d650638202a5e9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"postorder_traversal(node, keys)","rhs":"_postorder_traversal(node, keys=keys)","over":{"base":"Any"},"name":"postorder_traversal_correct"},"guarantee":"returns _postorder_traversal(node, keys=keys)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.postorder_traversal_correct","statement":"Path(postorder_traversal(x), returns _postorder_traversal(node, keys=keys))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c0b2c2629868c34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_postorder_traversal(node, keys=keys)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def postorder_traversal(node, keys=None):
     from sympy.core.traversal import postorder_traversal as _postorder_traversal
     return _postorder_traversal(node, keys=keys)
@@ -3889,16 +4282,22 @@ def postorder_traversal(node, keys=None):
     deprecated_since_version="1.10",
     active_deprecations_target="deprecated-traversal-functions-moved")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interactive_traversal(exp), interactive_traversal produces the expected output) over Any ║
+# ║ Path(interactive_traversal(expr), _interactive_traversal(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _interactive_traversal(expr)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interactive_traversal : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de9717896b4e3bcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3745475d44a0daaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.interactive_traversal","kind":"function","src_hash":"18813a2c3aa31786","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interactive_traversal(exp)","rhs":"interactive_traversal produces the expected output","over":{"base":"Any"},"name":"interactive_traversal_correct"},"guarantee":"interactive_traversal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.interactive_traversal_correct","statement":"Path(interactive_traversal(x), interactive_traversal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9717896b4e3bcc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.interactive_traversal","kind":"function","src_hash":"18813a2c3aa31786","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interactive_traversal(expr)","rhs":"_interactive_traversal(expr)","over":{"base":"Any"},"name":"interactive_traversal_correct"},"guarantee":"returns _interactive_traversal(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.interactive_traversal_correct","statement":"Path(interactive_traversal(x), returns _interactive_traversal(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3745475d44a0daaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_interactive_traversal(expr)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def interactive_traversal(expr):
     from sympy.interactive.traversal import interactive_traversal as _interactive_traversal
     return _interactive_traversal(expr)
@@ -3913,16 +4312,22 @@ def interactive_traversal(expr):
 active_deprecations_target="deprecated-sympy-core-compatibility",
 )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_sort_key(*ar), default_sort_key produces the expected output) over Any ║
+# ║ Path(default_sort_key(*args, **kwargs), _default_sort_key(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _default_sort_key(*args, **kwargs)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_sort_key : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dc69182d014f98c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e147623d90206e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.default_sort_key","kind":"function","src_hash":"ceb7a02f11c1c23c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_sort_key(*ar)","rhs":"default_sort_key produces the expected output","over":{"base":"Any"},"name":"default_sort_key_correct"},"guarantee":"default_sort_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.default_sort_key_correct","statement":"Path(default_sort_key(x), default_sort_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc69182d014f98c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.default_sort_key","kind":"function","src_hash":"ceb7a02f11c1c23c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_sort_key(*args, **kwargs)","rhs":"_default_sort_key(*args, **kwargs)","over":{"base":"Any"},"name":"default_sort_key_correct"},"guarantee":"returns _default_sort_key(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.default_sort_key_correct","statement":"Path(default_sort_key(x), returns _default_sort_key(*args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e147623d90206e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_default_sort_key(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def default_sort_key(*args, **kwargs):
     from sympy import default_sort_key as _default_sort_key
     return _default_sort_key(*args, **kwargs)
@@ -3937,16 +4342,22 @@ def default_sort_key(*args, **kwargs):
 active_deprecations_target="deprecated-sympy-core-compatibility",
 )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ordered(*ar), ordered produces the expected output) over Any ║
+# ║ Path(ordered(*args, **kwargs), _ordered(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _ordered(*args, **kwargs)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ordered : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f16e135d3bd8ebc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ce39f14232ceecc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.ordered","kind":"function","src_hash":"25e9b122ea052115","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordered(*ar)","rhs":"ordered produces the expected output","over":{"base":"Any"},"name":"ordered_correct"},"guarantee":"ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.ordered_correct","statement":"Path(ordered(x), ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f16e135d3bd8ebc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.iterables.ordered","kind":"function","src_hash":"25e9b122ea052115","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordered(*args, **kwargs)","rhs":"_ordered(*args, **kwargs)","over":{"base":"Any"},"name":"ordered_correct"},"guarantee":"returns _ordered(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.iterables.ordered_correct","statement":"Path(ordered(x), returns _ordered(*args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ce39f14232ceecc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_ordered(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def ordered(*args, **kwargs):
     from sympy import ordered as _ordered
     return _ordered(*args, **kwargs)

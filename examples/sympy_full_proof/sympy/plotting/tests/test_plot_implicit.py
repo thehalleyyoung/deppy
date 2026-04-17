@@ -35,31 +35,43 @@ import os
 unset_show()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tmp_file(dir), tmp_file produces the expected output) over Any ║
+# ║ Path(tmp_file(dir, name), NamedTemporaryFile(suffix='.png', dir=dir, delete=False).name) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NamedTemporaryFile(suffix='.png', dir=dir...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tmp_file : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b37bf1a9eb83afe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2217c423113a77bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.tmp_file","kind":"function","src_hash":"67df9da4a6eb9d69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tmp_file(dir)","rhs":"tmp_file produces the expected output","over":{"base":"Any"},"name":"tmp_file_correct"},"guarantee":"tmp_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.tmp_file_correct","statement":"Path(tmp_file(x), tmp_file produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b37bf1a9eb83afe"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.tmp_file","kind":"function","src_hash":"67df9da4a6eb9d69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tmp_file(dir, name)","rhs":"NamedTemporaryFile(suffix='.png', dir=dir, delete=False).name","over":{"base":"Any"},"name":"tmp_file_correct"},"guarantee":"returns NamedTemporaryFile(suffix='.png', dir=dir, delete=False).name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.tmp_file_correct","statement":"Path(tmp_file(x), returns NamedTemporaryFile(suffix='.png', dir=dir, delete=False).name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2217c423113a77bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NamedTemporaryFile(suffix='.png', dir=dir, delete=False).name","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def tmp_file(dir=None, name=''):
     return NamedTemporaryFile(
     suffix='.png', dir=dir, delete=False).name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_and_save(exp), plot_and_save produces the expected output) over Any ║
+# ║ Path(plot_and_save(expr, *args, name), <unspecified:plot_and_save>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_and_save : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37ff0e561704480b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.plot_and_save","kind":"function","src_hash":"777d96fe05e9d1e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_and_save(exp)","rhs":"plot_and_save produces the expected output","over":{"base":"Any"},"name":"plot_and_save_correct"},"guarantee":"plot_and_save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.plot_and_save_correct","statement":"Path(plot_and_save(x), plot_and_save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ff0e561704480b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.plot_and_save","kind":"function","src_hash":"777d96fe05e9d1e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_and_save(expr, *args, name)","rhs":"<unspecified:plot_and_save>","over":{"base":"Any"},"name":"plot_and_save_correct"},"guarantee":"plot_and_save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.plot_and_save_correct","statement":"Path(plot_and_save(x), plot_and_save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ff0e561704480b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*args', 'name', 'dir', '**kwargs']"]}}
 def plot_and_save(expr, *args, name='', dir=None, **kwargs):
     p = plot_implicit(expr, *args, **kwargs)
     p.save(tmp_file(dir=dir, name=name))
@@ -67,16 +79,22 @@ def plot_and_save(expr, *args, name='', dir=None, **kwargs):
     p._backend.close()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_implicit_tests(nam), plot_implicit_tests produces the expected output) over Any ║
+# ║ Path(plot_implicit_tests(name), <unspecified:plot_implicit_tests>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_implicit_tests : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2164bd792a9d5a70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.plot_implicit_tests","kind":"function","src_hash":"ee016001d316fb5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_implicit_tests(nam)","rhs":"plot_implicit_tests produces the expected output","over":{"base":"Any"},"name":"plot_implicit_tests_correct"},"guarantee":"plot_implicit_tests produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.plot_implicit_tests_correct","statement":"Path(plot_implicit_tests(x), plot_implicit_tests produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2164bd792a9d5a70"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.plot_implicit_tests","kind":"function","src_hash":"ee016001d316fb5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_implicit_tests(name)","rhs":"<unspecified:plot_implicit_tests>","over":{"base":"Any"},"name":"plot_implicit_tests_correct"},"guarantee":"plot_implicit_tests produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.plot_implicit_tests_correct","statement":"Path(plot_implicit_tests(x), plot_implicit_tests produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2164bd792a9d5a70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def plot_implicit_tests(name):
     temp_dir = mkdtemp()
     TmpFileManager.tmp_folder(temp_dir)
@@ -115,16 +133,22 @@ def plot_implicit_tests(name):
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_adaptive_meshing(), test_no_adaptive_meshing produces the expected output) over Any ║
+# ║ Path(test_no_adaptive_meshing(), <unspecified:test_no_adaptive_meshing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_adaptive_meshing : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a7acfbdb05e0868  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_no_adaptive_meshing","kind":"function","src_hash":"60084170a3b594af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_adaptive_meshing()","rhs":"test_no_adaptive_meshing produces the expected output","over":{"base":"Any"},"name":"test_no_adaptive_meshing_correct"},"guarantee":"test_no_adaptive_meshing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_no_adaptive_meshing_correct","statement":"Path(test_no_adaptive_meshing(x), test_no_adaptive_meshing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7acfbdb05e0868"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_no_adaptive_meshing","kind":"function","src_hash":"60084170a3b594af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_adaptive_meshing()","rhs":"<unspecified:test_no_adaptive_meshing>","over":{"base":"Any"},"name":"test_no_adaptive_meshing_correct"},"guarantee":"test_no_adaptive_meshing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_no_adaptive_meshing_correct","statement":"Path(test_no_adaptive_meshing(x), test_no_adaptive_meshing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7acfbdb05e0868","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_no_adaptive_meshing():
     matplotlib = import_module('matplotlib', min_module_version='1.1.0', catch=(RuntimeError,))
     if matplotlib:
@@ -145,16 +169,23 @@ def test_no_adaptive_meshing():
     else:
         skip("Matplotlib not the default backend")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_line_color(), test_line_color produces the expected output) over Any ║
+# ║ Path(test_line_color(), p._series[0].line_color == 'green' and p._series[0].line_color == 'r') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_line_color : Any → {Any | p._series[0].line_colo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._series[0].line_color == 'green'             ║
+# ║   ensures:  p._series[0].line_color == 'r'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_line_color : Any → {Any | result satisfies: p._s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f77f499179bf8147  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ae8761f00f1885e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_line_color","kind":"function","src_hash":"2d431f787d57aec0","in":{"base":"Any"},"out":{"base":"Any","pred":"p._series[0].line_color == 'green' and p._series[0].line_color == 'r'"},"spec":{"lhs":"test_line_color()","rhs":"test_line_color produces the expected output","over":{"base":"Any"},"name":"test_line_color_correct"},"guarantee":"test_line_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_line_color_correct","statement":"Path(test_line_color(x), test_line_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f77f499179bf8147"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_line_color","kind":"function","src_hash":"2d431f787d57aec0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._series[0].line_color == 'green' and p._series[0].line_color == 'r'"},"spec":{"lhs":"test_line_color()","rhs":"p._series[0].line_color == 'green' and p._series[0].line_color == 'r'","over":{"base":"Any"},"name":"test_line_color_correct"},"guarantee":"p._series[0].line_color == 'green'; p._series[0].line_color == 'r'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_line_color_correct","statement":"Path(test_line_color(x), p._series[0].line_color == 'green'; p._series[0].line_color == 'r')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ae8761f00f1885e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._series[0].line_color == 'green'","p._series[0].line_color == 'r'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_line_color():
     x, y = symbols('x, y')
     p = plot_implicit(x**2 + y**2 - 1, line_color="green", show=False)
@@ -163,16 +194,22 @@ def test_line_color():
     assert p._series[0].line_color == "r"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matplotlib(), test_matplotlib produces the expected output) over Any ║
+# ║ Path(test_matplotlib(), <unspecified:test_matplotlib>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matplotlib : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4d24f4c889aff5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_matplotlib","kind":"function","src_hash":"ad95fd7c135f83d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matplotlib()","rhs":"test_matplotlib produces the expected output","over":{"base":"Any"},"name":"test_matplotlib_correct"},"guarantee":"test_matplotlib produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_matplotlib_correct","statement":"Path(test_matplotlib(x), test_matplotlib produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4d24f4c889aff5b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_matplotlib","kind":"function","src_hash":"ad95fd7c135f83d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matplotlib()","rhs":"<unspecified:test_matplotlib>","over":{"base":"Any"},"name":"test_matplotlib_correct"},"guarantee":"test_matplotlib produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_matplotlib_correct","statement":"Path(test_matplotlib(x), test_matplotlib produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4d24f4c889aff5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matplotlib():
     matplotlib = import_module('matplotlib', min_module_version='1.1.0', catch=(RuntimeError,))
     if matplotlib:
@@ -186,16 +223,22 @@ def test_matplotlib():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_region_and(), test_region_and produces the expected output) over Any ║
+# ║ Path(test_region_and(), <unspecified:test_region_and>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_region_and : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   matplotlib.__module__                                    ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 42ff8df75c54...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_region_and","kind":"function","src_hash":"35b1c2bdecdff63b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_region_and()","rhs":"test_region_and produces the expected output","over":{"base":"Any"},"name":"test_region_and_correct"},"guarantee":"test_region_and produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_region_and_correct","statement":"Path(test_region_and(x), test_region_and produces the expected output)"},"assumes":[],"trust":["matplotlib.__module__"],"compiled":true,"vhash":"42ff8df75c54e8cd"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot_implicit.test_region_and","kind":"function","src_hash":"35b1c2bdecdff63b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_region_and()","rhs":"<unspecified:test_region_and>","over":{"base":"Any"},"name":"test_region_and_correct"},"guarantee":"test_region_and produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot_implicit.test_region_and_correct","statement":"Path(test_region_and(x), test_region_and produces the expected output)"},"assumes":[],"trust":["matplotlib.__module__"],"compiled":true,"vhash":"42ff8df75c54e8cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_region_and():
     matplotlib = import_module('matplotlib', min_module_version='1.1.0', catch=(RuntimeError,))
     if not matplotlib:

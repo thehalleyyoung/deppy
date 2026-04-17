@@ -736,8 +736,9 @@ def _strip_eq_wrapper(term, result_var: str):
     - eq($pN, EXPR) → EXPR
     - is($pN, EXPR) → EXPR  (for None/True/False)
     - case(guard, eq($pN, A), eq($pN, B)) → case(guard, A, B)
+    - case(guard, eq($pN, A), True) → A  (vacuous false branch)
     """
-    from .denotation import OOp, OCase, OVar
+    from .denotation import OOp, OCase, OVar, OLit
 
     if isinstance(term, OOp):
         if term.name in ('eq', 'is') and len(term.args) == 2:
@@ -755,6 +756,16 @@ def _strip_eq_wrapper(term, result_var: str):
             # Guard must not reference result_var
             if result_var not in term.test.canon():
                 return OCase(term.test, t_strip, f_strip)
+        # case(guard, eq($pN, A), True) → A
+        # When false branch is vacuous (True), the spec is only constraining
+        # the result when guard holds. Stripping to A gives a STRONGER check
+        # (proving prog ≡ A on all inputs, not just guard-true inputs), which
+        # is sound: if prog ≡ A then spec(inputs, prog(inputs)) = True.
+        if t_strip is not None and f_strip is None:
+            fb = term.false_branch
+            if isinstance(fb, OLit) and fb.value is True:
+                if result_var not in term.test.canon():
+                    return t_strip
     return None
 
 

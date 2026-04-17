@@ -26,16 +26,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_coordinates(), test_invalid_coordinates produces the expected output) over Any ║
+# ║ Path(test_invalid_coordinates(), <unspecified:test_invalid_coordinates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_coordinates : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab5884bdfb2ab24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_invalid_coordinates","kind":"function","src_hash":"a8411b396f841bfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_coordinates()","rhs":"test_invalid_coordinates produces the expected output","over":{"base":"Any"},"name":"test_invalid_coordinates_correct"},"guarantee":"test_invalid_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_invalid_coordinates_correct","statement":"Path(test_invalid_coordinates(x), test_invalid_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab5884bdfb2ab24"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_invalid_coordinates","kind":"function","src_hash":"a8411b396f841bfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_coordinates()","rhs":"<unspecified:test_invalid_coordinates>","over":{"base":"Any"},"name":"test_invalid_coordinates_correct"},"guarantee":"test_invalid_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_invalid_coordinates_correct","statement":"Path(test_invalid_coordinates(x), test_invalid_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab5884bdfb2ab24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_invalid_coordinates():
     # Simple pendulum, but use symbols instead of dynamicsymbols
     l, m, g = symbols('l m g')
@@ -51,16 +57,24 @@ def test_invalid_coordinates():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_one_dof(), test_one_dof produces the expected output) over Any ║
+# ║ Path(test_one_dof(), KM.bodies == BL and KM.loads == FL and expand(rhs[0]) == expand(-(q * k + u * c) / m) and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1) and KM.linearize(A_and_B=True)[0] == Matrix([[0, 1], [-k / m, -c / m]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_one_dof : Any → {Any | KM.bodies == BL and KM.lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KM.bodies == BL                                ║
+# ║   ensures:  KM.loads == FL                                 ║
+# ║   ensures:  expand(rhs[0]) == expand(-(q * k + u * c)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_one_dof : Any → {Any | result satisfies: KM.bodi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc84013e347feb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b86962709c438e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_one_dof","kind":"function","src_hash":"bc817548f83de1fa","in":{"base":"Any"},"out":{"base":"Any","pred":"KM.bodies == BL and KM.loads == FL and expand(rhs[0]) == expand(-(q * k + u * c) / m) and KM.linearize(A_and_B=True)[0] == Matrix([[0, 1], [-k / m, -c / m]])"},"spec":{"lhs":"test_one_dof()","rhs":"test_one_dof produces the expected output","over":{"base":"Any"},"name":"test_one_dof_correct"},"guarantee":"test_one_dof produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_one_dof_correct","statement":"Path(test_one_dof(x), test_one_dof produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc84013e347feb8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_one_dof","kind":"function","src_hash":"bc817548f83de1fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KM.bodies == BL and KM.loads == FL and expand(rhs[0]) == expand(-(q * k + u * c) / m) and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1) and KM.linearize(A_and_B=True)[0] == Matrix([[0, 1], [-k / m, -c / m]])"},"spec":{"lhs":"test_one_dof()","rhs":"KM.bodies == BL and KM.loads == FL and expand(rhs[0]) == expand(-(q * k + u * c) / m) and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1) and KM.linearize(A_and_B=True)[0] == Matrix([[0, 1], [-k / m, -c / m]])","over":{"base":"Any"},"name":"test_one_dof_correct"},"guarantee":"KM.bodies == BL; KM.loads == FL; expand(rhs[0]) == expand(-(q * k + u * c) / m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_one_dof_correct","statement":"Path(test_one_dof(x), KM.bodies == BL; KM.loads == FL; expand(rhs[0]) == expand(-(q * k + u * c) / m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b86962709c438e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KM.bodies == BL","KM.loads == FL","expand(rhs[0]) == expand(-(q * k + u * c) / m)","simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1)","KM.linearize(A_and_B=True)[0] == Matrix([[0, 1], [-k / m, -c / m]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_one_dof():
     # This is for a 1 dof spring-mass-damper case.
     # It is described in more detail in the KanesMethod docstring.
@@ -94,16 +108,24 @@ def test_one_dof():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_dof(), test_two_dof produces the expected output) over Any ║
+# ║ Path(test_two_dof(), expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m) and KM.explicit_kinematics and KM.mass_matrix_kin == eye(2) and KM.mass_matrix_kin == Matrix([[S(1) / 2, 0], [0, 2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_two_dof : Any → {Any | expand(rhs[0]) == expand(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand(rhs[0]) == expand((-k1 * q1 - c1 *...   ║
+# ║   ensures:  expand(rhs[1]) == expand((k1 * q1 + c1 * ...   ║
+# ║   ensures:  KM.explicit_kinematics                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_two_dof : Any → {Any | result satisfies: expand(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8ee51fd64ffd29e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e87496681d72e29f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_two_dof","kind":"function","src_hash":"07985cb000a20375","in":{"base":"Any"},"out":{"base":"Any","pred":"expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m) and KM.explicit_kinematics and KM.mass_matrix_kin == eye(2) and KM.mass_matrix_kin == Matrix([[S(1) / 2, 0], [0, 2]])"},"spec":{"lhs":"test_two_dof()","rhs":"test_two_dof produces the expected output","over":{"base":"Any"},"name":"test_two_dof_correct"},"guarantee":"test_two_dof produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_two_dof_correct","statement":"Path(test_two_dof(x), test_two_dof produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8ee51fd64ffd29e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_two_dof","kind":"function","src_hash":"07985cb000a20375","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m) and KM.explicit_kinematics and KM.mass_matrix_kin == eye(2) and KM.mass_matrix_kin == Matrix([[S(1) / 2, 0], [0, 2]])"},"spec":{"lhs":"test_two_dof()","rhs":"expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m) and KM.explicit_kinematics and KM.mass_matrix_kin == eye(2) and KM.mass_matrix_kin == Matrix([[S(1) / 2, 0], [0, 2]])","over":{"base":"Any"},"name":"test_two_dof_correct"},"guarantee":"expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m); expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m); KM.explicit_kinematics","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_two_dof_correct","statement":"Path(test_two_dof(x), expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m); expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m); KM.explicit_kinematics)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e87496681d72e29f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m)","expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)","KM.explicit_kinematics","KM.mass_matrix_kin == eye(2)","KM.mass_matrix_kin == Matrix([[S(1) / 2, 0], [0, 2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_two_dof():
     # This is for a 2 d.o.f., 2 particle spring-mass-damper.
     # The first coordinate is the displacement of the first particle, and the
@@ -163,16 +185,23 @@ def test_two_dof():
                                            u_ind=[u1, u2], kd_eqs=kd))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pend(), test_pend produces the expected output) over Any ║
+# ║ Path(test_pend(), expand(rhs[0]) == expand(-g / l * sin(q)) and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pend : Any → {Any | expand(rhs[0]) == expand(-g ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand(rhs[0]) == expand(-g / l * sin(q))      ║
+# ║   ensures:  simplify(KM.rhs() - KM.mass_matrix_full.L...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pend : Any → {Any | result satisfies: expand(rhs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7138f5bbf8c9949a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52f10430c96dad4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_pend","kind":"function","src_hash":"4c8a6db222b40408","in":{"base":"Any"},"out":{"base":"Any","pred":"expand(rhs[0]) == expand(-g / l * sin(q))"},"spec":{"lhs":"test_pend()","rhs":"test_pend produces the expected output","over":{"base":"Any"},"name":"test_pend_correct"},"guarantee":"test_pend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_pend_correct","statement":"Path(test_pend(x), test_pend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7138f5bbf8c9949a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_pend","kind":"function","src_hash":"4c8a6db222b40408","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand(rhs[0]) == expand(-g / l * sin(q)) and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1)"},"spec":{"lhs":"test_pend()","rhs":"expand(rhs[0]) == expand(-g / l * sin(q)) and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1)","over":{"base":"Any"},"name":"test_pend_correct"},"guarantee":"expand(rhs[0]) == expand(-g / l * sin(q)); simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_pend_correct","statement":"Path(test_pend(x), expand(rhs[0]) == expand(-g / l * sin(q)); simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52f10430c96dad4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand(rhs[0]) == expand(-g / l * sin(q))","simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(2, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pend():
     q, u = dynamicsymbols('q u')
     qd, ud = dynamicsymbols('q u', 1)
@@ -198,16 +227,24 @@ def test_pend():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rolling_disc(), test_rolling_disc produces the expected output) over Any ║
+# ║ Path(test_rolling_disc(), rhs.expand() == Matrix([(6 * u2 * u3 * r - u3 ** 2 * r * tan(q2) + 4 * g * sin(q2)) / (5 * r), -2 * u1 * u3 / 3, u1 * (-2 * u2 + u3 * tan(q2))]).expand() and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(6, 1) and sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rolling_disc : Any → {Any | sympy.sympify(A_upri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rhs.expand() == Matrix([(6 * u2 * u3 * r ...   ║
+# ║   ensures:  simplify(KM.rhs() - KM.mass_matrix_full.L...   ║
+# ║   ensures:  sympy.sympify(A_upright.subs({u2: 1 / sqr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rolling_disc : Any → {Any | result satisfies: rh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf3c62311d1dbe50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75158e51333a0f50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_rolling_disc","kind":"function","src_hash":"a307fa7819f20648","in":{"base":"Any"},"out":{"base":"Any","pred":"sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6}"},"spec":{"lhs":"test_rolling_disc()","rhs":"test_rolling_disc produces the expected output","over":{"base":"Any"},"name":"test_rolling_disc_correct"},"guarantee":"test_rolling_disc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_rolling_disc_correct","statement":"Path(test_rolling_disc(x), test_rolling_disc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf3c62311d1dbe50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_rolling_disc","kind":"function","src_hash":"a307fa7819f20648","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rhs.expand() == Matrix([(6 * u2 * u3 * r - u3 ** 2 * r * tan(q2) + 4 * g * sin(q2)) / (5 * r), -2 * u1 * u3 / 3, u1 * (-2 * u2 + u3 * tan(q2))]).expand() and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(6, 1) and sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6}"},"spec":{"lhs":"test_rolling_disc()","rhs":"rhs.expand() == Matrix([(6 * u2 * u3 * r - u3 ** 2 * r * tan(q2) + 4 * g * sin(q2)) / (5 * r), -2 * u1 * u3 / 3, u1 * (-2 * u2 + u3 * tan(q2))]).expand() and simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(6, 1) and sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6}","over":{"base":"Any"},"name":"test_rolling_disc_correct"},"guarantee":"rhs.expand() == Matrix([(6 * u2 * u3 * r - u3 ** 2 * r * tan(q2) + 4 * g * sin(q2)) / (5 * r), -2 * u1 * u3 / 3, u1 * (-2 * u2 + u3 * tan(q2))]).expand(); simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(6, 1); sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_rolling_disc_correct","statement":"Path(test_rolling_disc(x), rhs.expand() == Matrix([(6 * u2 * u3 * r - u3 ** 2 * r * tan(q2) + 4 * g * sin(q2)) / (5 * r), -2 * u1 * u3 / 3, u1 * (-2 * u2 + u3 * tan(q2))]).expand(); simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(6, 1); sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75158e51333a0f50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rhs.expand() == Matrix([(6 * u2 * u3 * r - u3 ** 2 * r * tan(q2) + 4 * g * sin(q2)) / (5 * r), -2 * u1 * u3 / 3, u1 * (-2 * u2 + u3 * tan(q2))]).expand()","simplify(KM.rhs() - KM.mass_matrix_full.LUsolve(KM.forcing_full)) == zeros(6, 1)","sympy.sympify(A_upright.subs({u2: 1 / sqrt(3)})).eigenvals() == {S.Zero: 6}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_rolling_disc():
     # Rolling Disc Example
     # Here the rolling disc is formed from the contact point up, removing the
@@ -283,16 +320,23 @@ def test_rolling_disc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aux(), test_aux produces the expected output) over Any ║
+# ║ Path(test_aux(), (fr - fr2).expand() == Matrix([0, 0, 0, 0, 0]) and (frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aux : Any → {Any | (fr - fr2).expand() == Matrix...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (fr - fr2).expand() == Matrix([0, 0, 0, 0...   ║
+# ║   ensures:  (frstar - frstar2).expand() == Matrix([0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aux : Any → {Any | result satisfies: (fr - fr2)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de3324f3dfa67a28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ab2cd8a3486a002  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_aux","kind":"function","src_hash":"bedf6a4042e7a7f1","in":{"base":"Any"},"out":{"base":"Any","pred":"(fr - fr2).expand() == Matrix([0, 0, 0, 0, 0]) and (frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0])"},"spec":{"lhs":"test_aux()","rhs":"test_aux produces the expected output","over":{"base":"Any"},"name":"test_aux_correct"},"guarantee":"test_aux produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_aux_correct","statement":"Path(test_aux(x), test_aux produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de3324f3dfa67a28"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_aux","kind":"function","src_hash":"bedf6a4042e7a7f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (fr - fr2).expand() == Matrix([0, 0, 0, 0, 0]) and (frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0])"},"spec":{"lhs":"test_aux()","rhs":"(fr - fr2).expand() == Matrix([0, 0, 0, 0, 0]) and (frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0])","over":{"base":"Any"},"name":"test_aux_correct"},"guarantee":"(fr - fr2).expand() == Matrix([0, 0, 0, 0, 0]); (frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_aux_correct","statement":"Path(test_aux(x), (fr - fr2).expand() == Matrix([0, 0, 0, 0, 0]); (frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ab2cd8a3486a002","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(fr - fr2).expand() == Matrix([0, 0, 0, 0, 0])","(frstar - frstar2).expand() == Matrix([0, 0, 0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_aux():
     # Same as above, except we have 2 auxiliary speeds for the ground contact
     # point, which is known to be zero. In one case, we go through then
@@ -346,16 +390,22 @@ def test_aux():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parallel_axis(), test_parallel_axis produces the expected output) over Any ║
+# ║ Path(test_parallel_axis(), mm[3, 3] == Iz) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parallel_axis : Any → {Any | mm[3, 3] == Iz}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mm[3, 3] == Iz                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parallel_axis : Any → {Any | result satisfies: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46debd9477e912e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53788656b83a74ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_parallel_axis","kind":"function","src_hash":"07ad73f39e146080","in":{"base":"Any"},"out":{"base":"Any","pred":"mm[3, 3] == Iz"},"spec":{"lhs":"test_parallel_axis()","rhs":"test_parallel_axis produces the expected output","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"test_parallel_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), test_parallel_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46debd9477e912e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_parallel_axis","kind":"function","src_hash":"07ad73f39e146080","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mm[3, 3] == Iz"},"spec":{"lhs":"test_parallel_axis()","rhs":"mm[3, 3] == Iz","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"mm[3, 3] == Iz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), mm[3, 3] == Iz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53788656b83a74ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mm[3, 3] == Iz"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_parallel_axis():
     # This is for a 2 dof inverted pendulum on a cart.
     # This tests the parallel axis code in KanesMethod. The inertia of the
@@ -413,16 +463,24 @@ def test_parallel_axis():
     assert mm[3, 3] == Iz
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input_format(), test_input_format produces the expected output) over Any ║
+# ║ Path(test_input_format(), KM.kanes_equations(BL)[0] == Matrix([0]) and KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, [])[0] == Matrix([0]) and KM.kanes_equations()[0] == Matrix([-c * u - k * q]) and expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input_format : Any → {Any | KM.kanes_equations(B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KM.kanes_equations(BL)[0] == Matrix([0])       ║
+# ║   ensures:  KM.kanes_equations(bodies=BL, loads=None)...   ║
+# ║   ensures:  KM.kanes_equations(BL, loads=None)[0] == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input_format : Any → {Any | result satisfies: KM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e01c2cd28ab2df82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68c0225c663c4a60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_input_format","kind":"function","src_hash":"8d63c79ddac89f81","in":{"base":"Any"},"out":{"base":"Any","pred":"KM.kanes_equations(BL)[0] == Matrix([0]) and KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL)[0] == Matrix([0]) and KM.kanes_equations(BL, [])[0] == Matrix([0]) and KM.kanes_equations()[0] == Matrix([-c * u - k * q]) and expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)"},"spec":{"lhs":"test_input_format()","rhs":"test_input_format produces the expected output","over":{"base":"Any"},"name":"test_input_format_correct"},"guarantee":"test_input_format produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_input_format_correct","statement":"Path(test_input_format(x), test_input_format produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e01c2cd28ab2df82"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_input_format","kind":"function","src_hash":"8d63c79ddac89f81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KM.kanes_equations(BL)[0] == Matrix([0]) and KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, [])[0] == Matrix([0]) and KM.kanes_equations()[0] == Matrix([-c * u - k * q]) and expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)"},"spec":{"lhs":"test_input_format()","rhs":"KM.kanes_equations(BL)[0] == Matrix([0]) and KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, loads=None)[0] == Matrix([0]) and KM.kanes_equations(BL, [])[0] == Matrix([0]) and KM.kanes_equations()[0] == Matrix([-c * u - k * q]) and expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)","over":{"base":"Any"},"name":"test_input_format_correct"},"guarantee":"KM.kanes_equations(BL)[0] == Matrix([0]); KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0]); KM.kanes_equations(BL, loads=None)[0] == Matrix([0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_input_format_correct","statement":"Path(test_input_format(x), KM.kanes_equations(BL)[0] == Matrix([0]); KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0]); KM.kanes_equations(BL, loads=None)[0] == Matrix([0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68c0225c663c4a60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KM.kanes_equations(BL)[0] == Matrix([0])","KM.kanes_equations(bodies=BL, loads=None)[0] == Matrix([0])","KM.kanes_equations(BL, loads=None)[0] == Matrix([0])","KM.kanes_equations(BL, [])[0] == Matrix([0])","KM.kanes_equations()[0] == Matrix([-c * u - k * q])","expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m)","expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_input_format():
     # 1 dof problem from test_one_dof
     q, u = dynamicsymbols('q u')
@@ -485,16 +543,24 @@ def test_input_format():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_implicit_kinematics(), test_implicit_kinematics produces the expected output) over Any ║
+# ║ Path(test_implicit_kinematics(), n_ops_implicit / n_ops_explicit < 0.05 and mass_matrix_kin_implicit * KM.q.diff() - forcing_kin_implicit == Matrix(kinematic_eqs) and lhs_candidate == forcing_kin_implicit) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_implicit_kinematics : Any → {Any | n_ops_implici...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  n_ops_implicit / n_ops_explicit < 0.05         ║
+# ║   ensures:  mass_matrix_kin_implicit * KM.q.diff() - ...   ║
+# ║   ensures:  lhs_candidate == forcing_kin_implicit          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_implicit_kinematics : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4afcf72438d2f8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93a5b34a254e49d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_implicit_kinematics","kind":"function","src_hash":"54ff28f603129ff3","in":{"base":"Any"},"out":{"base":"Any","pred":"n_ops_implicit / n_ops_explicit < 0.05 and lhs_candidate == forcing_kin_implicit"},"spec":{"lhs":"test_implicit_kinematics()","rhs":"test_implicit_kinematics produces the expected output","over":{"base":"Any"},"name":"test_implicit_kinematics_correct"},"guarantee":"test_implicit_kinematics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_implicit_kinematics_correct","statement":"Path(test_implicit_kinematics(x), test_implicit_kinematics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4afcf72438d2f8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_implicit_kinematics","kind":"function","src_hash":"54ff28f603129ff3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: n_ops_implicit / n_ops_explicit < 0.05 and mass_matrix_kin_implicit * KM.q.diff() - forcing_kin_implicit == Matrix(kinematic_eqs) and lhs_candidate == forcing_kin_implicit"},"spec":{"lhs":"test_implicit_kinematics()","rhs":"n_ops_implicit / n_ops_explicit < 0.05 and mass_matrix_kin_implicit * KM.q.diff() - forcing_kin_implicit == Matrix(kinematic_eqs) and lhs_candidate == forcing_kin_implicit","over":{"base":"Any"},"name":"test_implicit_kinematics_correct"},"guarantee":"n_ops_implicit / n_ops_explicit < 0.05; mass_matrix_kin_implicit * KM.q.diff() - forcing_kin_implicit == Matrix(kinematic_eqs); lhs_candidate == forcing_kin_implicit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_implicit_kinematics_correct","statement":"Path(test_implicit_kinematics(x), n_ops_implicit / n_ops_explicit < 0.05; mass_matrix_kin_implicit * KM.q.diff() - forcing_kin_implicit == Matrix(kinematic_eqs); lhs_candidate == forcing_kin_implicit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93a5b34a254e49d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["n_ops_implicit / n_ops_explicit < 0.05","mass_matrix_kin_implicit * KM.q.diff() - forcing_kin_implicit == Matrix(kinematic_eqs)","lhs_candidate == forcing_kin_implicit"],"pure":false,"effects":{"effect_type":"reads_state","raises":["e"],"catches":["Exception"]},"state_contract":{"exceptional_post":{"e":["isinstance(raised, e)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_implicit_kinematics():
     # Test that implicit kinematics can handle complicated
     # equations that explicit form struggles with
@@ -643,16 +709,24 @@ def test_implicit_kinematics():
     assert lhs_candidate == forcing_kin_implicit
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24887(), test_issue_24887 produces the expected output) over Any ║
+# ║ Path(test_issue_24887(), find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3}) and simplify(kane.mass_matrix - expected_md) == zeros(3, 3) and simplify(kane.forcing - expected_fd) == zeros(3, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24887 : Any → {Any | find_dynamicsymbols(k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_dynamicsymbols(kane.forcing).issubse...   ║
+# ║   ensures:  simplify(kane.mass_matrix - expected_md) ...   ║
+# ║   ensures:  simplify(kane.forcing - expected_fd) == z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24887 : Any → {Any | result satisfies: fin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc06d862d4ff8913  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 923e5991c0202e4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_issue_24887","kind":"function","src_hash":"d678c68da2ff1e3b","in":{"base":"Any"},"out":{"base":"Any","pred":"find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3}) and simplify(kane.mass_matrix - expected_md) == zeros(3, 3) and simplify(kane.forcing - expected_fd) == zeros(3, 1)"},"spec":{"lhs":"test_issue_24887()","rhs":"test_issue_24887 produces the expected output","over":{"base":"Any"},"name":"test_issue_24887_correct"},"guarantee":"test_issue_24887 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_issue_24887_correct","statement":"Path(test_issue_24887(x), test_issue_24887 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc06d862d4ff8913"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane.test_issue_24887","kind":"function","src_hash":"d678c68da2ff1e3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3}) and simplify(kane.mass_matrix - expected_md) == zeros(3, 3) and simplify(kane.forcing - expected_fd) == zeros(3, 1)"},"spec":{"lhs":"test_issue_24887()","rhs":"find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3}) and simplify(kane.mass_matrix - expected_md) == zeros(3, 3) and simplify(kane.forcing - expected_fd) == zeros(3, 1)","over":{"base":"Any"},"name":"test_issue_24887_correct"},"guarantee":"find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3}); simplify(kane.mass_matrix - expected_md) == zeros(3, 3); simplify(kane.forcing - expected_fd) == zeros(3, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane.test_issue_24887_correct","statement":"Path(test_issue_24887(x), find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3}); simplify(kane.mass_matrix - expected_md) == zeros(3, 3); simplify(kane.forcing - expected_fd) == zeros(3, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"923e5991c0202e4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_dynamicsymbols(kane.forcing).issubset({q1, q2, q3, u1, u2, u3})","simplify(kane.mass_matrix - expected_md) == zeros(3, 3)","simplify(kane.forcing - expected_fd) == zeros(3, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_24887():
     # Spherical pendulum
     g, l, m, c = symbols('g l m c')

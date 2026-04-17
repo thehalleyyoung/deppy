@@ -145,16 +145,22 @@ from sympy.core.numbers import Rational, oo
 from sympy.matrices.dense import Matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnhandledInput(), correctly constructs a UnhandledInput instance) over Any ║
+# ║ Path(UnhandledInput(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnhandledInput : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnhandledInput : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b70d01bf4237907b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.UnhandledInput","kind":"class","src_hash":"e0d2773a8c636698","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnhandledInput()","rhs":"correctly constructs a UnhandledInput instance","over":{"base":"Any"},"name":"UnhandledInput_correct"},"guarantee":"correctly constructs a UnhandledInput instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b70d01bf4237907b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.UnhandledInput","kind":"class","src_hash":"e0d2773a8c636698","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"UnhandledInput()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"UnhandledInput_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b70d01bf4237907b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function UnhandledInput not found in source"]}}
 class UnhandledInput(Exception):
     """
     Raised while creating an LRASolver if non-linearity
@@ -170,14 +176,19 @@ HANDLE_NEGATION = True
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LRASolver instance) preserved by LRASolver(*args) over {Any | isinstance(prop, Predicate) and isinstance(prop, AppliedPredicate) and isinstance(a, Rational)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LRASolver : {Any | isinstance(prop, Predicate) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33b036bef5ad75a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver","kind":"class","src_hash":"30064c89aa7eb75a","in":{"base":"Any","pred":"isinstance(prop, Predicate) and isinstance(prop, AppliedPredicate) and isinstance(a, Rational)"},"out":{"base":"Any","pred":"all((len(syms) > 0 for syms in fs)) and M[i, j] != 0 and A.shape == (m, n) and A[:, n - m:] == -eye(m) and prop.function in ALLOWED_PRED and var_coeff != 0 and self.result[0] != False and (xi.lower[1] >= 0) is True and (ci[1] <= 0) is True and all((abs(val) < 10 ** (-10) for val in M * X)) and self.result[0] != False and (xi.upper[1] <= 0) is True and (ci[1] >= 0) is True and all((abs(val) < 10 ** (-10) for val in M * X)) and len(term.free_symbols) > 0 and all((x.upper[1] <= 0 for x in self.all_var)) and all((x.lower[1] >= 0 for x in self.all_var)) and prop.function == Q.eq and all((abs(val) < 10 ** (-10) for val in M * X))"},"spec":{"lhs":"LRASolver(*args)","rhs":"correctly constructs a LRASolver instance","over":{"base":"Any","pred":"isinstance(prop, Predicate) and isinstance(prop, AppliedPredicate) and isinstance(a, Rational)"},"name":"LRASolver_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LRASolver instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'run_checks') and hasattr(self, 's_subs') and hasattr(self, 'enc_to_boundary') and hasattr(self, 'boundary_to_enc') and hasattr(self, 'A') and hasattr(self, 'slack') and hasattr(self, 'nonslack') and hasattr(self, 'all_var')","kind":"class","induction":"structural on run_checks, s_subs, enc_to_boundary, boundary_to_enc"}],"methods_preserving":["__init__","reset_bounds","assert_lit","_assert_upper","_assert_lower","_update","check","_pivot_and_update"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33b036bef5ad75a6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver","kind":"class","src_hash":"30064c89aa7eb75a","in":{"base":"Any","pred":"isinstance(prop, Predicate) and isinstance(prop, AppliedPredicate) and isinstance(a, Rational)"},"out":{"base":"Any","pred":"all((len(syms) > 0 for syms in fs)) and M[i, j] != 0 and A.shape == (m, n) and A[:, n - m:] == -eye(m) and prop.function in ALLOWED_PRED and var_coeff != 0 and self.result[0] != False and (xi.lower[1] >= 0) is True and (ci[1] <= 0) is True and all((abs(val) < 10 ** (-10) for val in M * X)) and self.result[0] != False and (xi.upper[1] <= 0) is True and (ci[1] >= 0) is True and all((abs(val) < 10 ** (-10) for val in M * X)) and len(term.free_symbols) > 0 and all((x.upper[1] <= 0 for x in self.all_var)) and all((x.lower[1] >= 0 for x in self.all_var)) and prop.function == Q.eq and all((abs(val) < 10 ** (-10) for val in M * X))"},"spec":{"lhs":"LRASolver(*args)","rhs":"correctly constructs a LRASolver instance","over":{"base":"Any","pred":"isinstance(prop, Predicate) and isinstance(prop, AppliedPredicate) and isinstance(a, Rational)"},"name":"LRASolver_class_invariant","kind":"invariant"},"guarantee":"preserves 11 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'run_checks') and hasattr(self, 's_subs') and hasattr(self, 'enc_to_boundary') and hasattr(self, 'boundary_to_enc') and hasattr(self, 'A') and hasattr(self, 'slack') and hasattr(self, 'nonslack') and hasattr(self, 'all_var')","kind":"class","induction":"structural on run_checks, s_subs, enc_to_boundary, boundary_to_enc"}],"methods_preserving":["__init__","reset_bounds","assert_lit","_assert_upper","_assert_lower","_update","check","_pivot_and_update"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33b036bef5ad75a6","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'run_checks')","hasattr(self, 's_subs')","hasattr(self, 'enc_to_boundary')","hasattr(self, 'boundary_to_enc')","hasattr(self, 'A')","hasattr(self, 'slack')","hasattr(self, 'nonslack')","hasattr(self, 'all_var')","hasattr(self, 'slack_set')","hasattr(self, 'is_sat')","hasattr(self, 'result')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function LRASolver not found in source"]}}
 class LRASolver():
     """
     Linear Arithmetic Solver for DPLL(T) implemented with an algorithm based on
@@ -192,16 +203,27 @@ class LRASolver():
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(A, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(A, slack_variables, nonslack_variables), self.s_subs == s_subs and self.enc_to_boundary == enc_to_boundary and self.A == A and self.slack == slack_variables and self.nonslack == nonslack_variables) over {Any | not (any((not isinstance(a, Rational) for a in A))) and not (any((not isinstance(b.bound, Rational) for b in enc_to_boundary.values()))) and hasattr(A, 'shape') and hasattr(enc_to_boundary, 'items') and hasattr(enc_to_boundary, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (any((not isinstance(a, Rational) for...   ║
+# ║   requires: not (any((not isinstance(b.bound, Rationa...   ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   ensures:  self.s_subs == s_subs                          ║
+# ║   ensures:  self.enc_to_boundary == enc_to_boundary        ║
+# ║   ensures:  self.A == A                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (any((not isinstance(a, Rationa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b529f1d9fb86cc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.__init__","kind":"method","src_hash":"cc6a1d9f5024b348","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(A, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b529f1d9fb86cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.__init__","kind":"method","src_hash":"cc6a1d9f5024b348","in":{"base":"Any","pred":"not (any((not isinstance(a, Rational) for a in A))) and not (any((not isinstance(b.bound, Rational) for b in enc_to_boundary.values()))) and hasattr(A, 'shape') and hasattr(enc_to_boundary, 'items') and hasattr(enc_to_boundary, 'values')"},"out":{"base":"Any","pred":"result satisfies: self.s_subs == s_subs and self.enc_to_boundary == enc_to_boundary and self.A == A and self.slack == slack_variables and self.nonslack == nonslack_variables"},"spec":{"lhs":"__init__(A, slack_variables, nonslack_variables)","rhs":"self.s_subs == s_subs and self.enc_to_boundary == enc_to_boundary and self.A == A and self.slack == slack_variables and self.nonslack == nonslack_variables","over":{"base":"Any","pred":"not (any((not isinstance(a, Rational) for a in A))) and not (any((not isinstance(b.bound, Rational) for b in enc_to_boundary.values()))) and hasattr(A, 'shape') and hasattr(enc_to_boundary, 'items') and hasattr(enc_to_boundary, 'values')"},"name":"__init___correct"},"guarantee":"self.s_subs == s_subs; self.enc_to_boundary == enc_to_boundary; self.A == A","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b529f1d9fb86cc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (any((not isinstance(a, Rational) for a in A)))","not (any((not isinstance(b.bound, Rational) for b in enc_to_boundary.values())))","hasattr(A, 'shape')","hasattr(enc_to_boundary, 'items')","hasattr(enc_to_boundary, 'values')"],"ensures":["self.s_subs == s_subs","self.enc_to_boundary == enc_to_boundary","self.A == A","self.slack == slack_variables","self.nonslack == nonslack_variables"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.shape","enc_to_boundary.items","enc_to_boundary.values","self.run_checks"],"writes":["self.A","self.all_var","self.boundary_to_enc","self.enc_to_boundary","self.is_sat","self.nonslack","self.result","self.run_checks","self.s_subs","self.slack","self.slack_set"],"raises":["UnhandledInput"]},"state_contract":{"modifies":["self.A","self.all_var","self.boundary_to_enc","self.enc_to_boundary","self.is_sat","self.nonslack","self.result","self.run_checks","self.s_subs","self.slack","self.slack_set"],"old_bindings":{"old_self_A":"self.A","old_self_all_var":"self.all_var","old_self_boundary_to_enc":"self.boundary_to_enc","old_self_enc_to_boundary":"self.enc_to_boundary","old_self_is_sat":"self.is_sat","old_self_nonslack":"self.nonslack","old_self_result":"self.result","old_self_run_checks":"self.run_checks","old_self_s_subs":"self.s_subs","old_self_slack":"self.slack","old_self_slack_set":"self.slack_set"},"exceptional_post":{"UnhandledInput":["isinstance(raised, UnhandledInput)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, A, slack_variables, nonslack_variables, enc_to_boundary, s_subs, testing_mode):
         """
         Use the "from_encoded_cnf" method to create a new LRASolver.
@@ -233,16 +255,26 @@ class LRASolver():
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_encoded_cnf(enc), creates an lrasolver from an encodedcnf object and a list of conflict clauses for propositions that can be simplified to true or false) over Any ║
+# ║ Path(from_encoded_cnf(encoded_cnf, testing_mode), (LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts)) over {Any | hasattr(encoded_cnf, 'encoding')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_encoded_cnf : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(encoded_cnf, 'encoding')               ║
+# ║   ensures:  all((len(syms) > 0 for syms in fs))            ║
+# ║   ensures:  len(A) == old_len_A + 1                        ║
+# ║   ensures:  len(basic) == old_len_basic + 1                ║
+# ║   returns:  (LRASolver(A, basic, nonbasic, encoding, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_encoded_cnf : {Any | hasattr(encoded_cnf, 'encod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0fb78d73dfb9e71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dde642272cbb88a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.from_encoded_cnf","kind":"staticmethod","src_hash":"708e08de1f2c04a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_encoded_cnf(enc)","rhs":"creates an lrasolver from an encodedcnf object and a list of conflict clauses for propositions that can be simplified to true or false","over":{"base":"Any"},"name":"from_encoded_cnf_correct"},"guarantee":"creates an lrasolver from an encodedcnf object and a list of conflict clauses for propositions that can be simplified to true or false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.from_encoded_cnf_correct","statement":"Path(from_encoded_cnf(x), creates an lrasolver from an encodedcnf object and a list of conflict clauses for propositions that can be simplified to true or false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0fb78d73dfb9e71"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.from_encoded_cnf","kind":"staticmethod","src_hash":"708e08de1f2c04a3","in":{"base":"Any","pred":"hasattr(encoded_cnf, 'encoding')"},"out":{"base":"Any","pred":"result satisfies: result == ((LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts))"},"spec":{"lhs":"from_encoded_cnf(encoded_cnf, testing_mode)","rhs":"(LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts)","over":{"base":"Any","pred":"hasattr(encoded_cnf, 'encoding')"},"name":"from_encoded_cnf_correct"},"guarantee":"returns (LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts); all((len(syms) > 0 for syms in fs)); len(A) == old_len_A + 1; len(basic) == old_len_basic + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.from_encoded_cnf_correct","statement":"Path(from_encoded_cnf(x), returns (LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts); all((len(syms) > 0 for syms in fs)); len(A) == old_len_A + 1; len(basic) == old_len_basic + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dde642272cbb88a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(encoded_cnf, 'encoding')"],"ensures":["all((len(syms) > 0 for syms in fs))","len(A) == old_len_A + 1","len(basic) == old_len_basic + 1","len(conflicts) == old_len_conflicts + 1","len(nonbasic) == old_len_nonbasic + 1"],"returns_expr":"(LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts)","pure":false,"effects":{"effect_type":"reads_state","reads":["encoded_cnf.encoding"],"calls_mutating":["A.append","basic.append","conflicts.append","nonbasic.append"],"raises":["UnhandledInput","ValueError"]},"state_contract":{"modifies":["A.*","basic.*","conflicts.*","nonbasic.*"],"old_bindings":{"old_len_A":"len(A)","old_len_basic":"len(basic)","old_len_conflicts":"len(conflicts)","old_len_nonbasic":"len(nonbasic)"},"post_ensures":["len(A) == old_len_A + 1","len(basic) == old_len_basic + 1","len(conflicts) == old_len_conflicts + 1","len(nonbasic) == old_len_nonbasic + 1"],"exceptional_post":{"UnhandledInput":["isinstance(raised, UnhandledInput)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_encoded_cnf(encoded_cnf, testing_mode=False):
         """
         Creates an LRASolver from an EncodedCNF object
@@ -417,16 +449,22 @@ class LRASolver():
         return LRASolver(A, basic, nonbasic, encoding, s_subs, testing_mode), conflicts
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reset_bounds(), resets the state of the lrasolver to before anything was asserted) over Any ║
+# ║ Path(reset_bounds(), <unspecified:reset_bounds>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reset_bounds : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e49d4541c4561f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.reset_bounds","kind":"method","src_hash":"f95dd2679d9b512b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset_bounds()","rhs":"resets the state of the lrasolver to before anything was asserted","over":{"base":"Any"},"name":"reset_bounds_correct"},"guarantee":"resets the state of the lrasolver to before anything was asserted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.reset_bounds_correct","statement":"Path(reset_bounds(x), resets the state of the lrasolver to before anything was asserted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e49d4541c4561f8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.reset_bounds","kind":"method","src_hash":"f95dd2679d9b512b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset_bounds()","rhs":"<unspecified:reset_bounds>","over":{"base":"Any"},"name":"reset_bounds_correct"},"guarantee":"resets the state of the lrasolver to before anything was asserted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.reset_bounds_correct","statement":"Path(reset_bounds(x), resets the state of the lrasolver to before anything was asserted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e49d4541c4561f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.all_var"],"writes":["self.result"]},"state_contract":{"modifies":["self.result"],"old_bindings":{"old_self_result":"self.result"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reset_bounds(self):
         """
         Resets the state of the LRASolver to before
@@ -443,16 +481,22 @@ class LRASolver():
             var.assign = LRARational(0, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assert_lit(enc), assert a literal representing a constraint and update the internal state accordingly) over Any ║
+# ║ Path(assert_lit(enc_constraint), <unspecified:assert_lit>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assert_lit : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bef6438c9e0be88a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.assert_lit","kind":"method","src_hash":"ae7d0af1afea5c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assert_lit(enc)","rhs":"assert a literal representing a constraint and update the internal state accordingly","over":{"base":"Any"},"name":"assert_lit_correct"},"guarantee":"assert a literal representing a constraint and update the internal state accordingly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.assert_lit_correct","statement":"Path(assert_lit(x), assert a literal representing a constraint and update the internal state accordingly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bef6438c9e0be88a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.assert_lit","kind":"method","src_hash":"ae7d0af1afea5c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assert_lit(enc_constraint)","rhs":"<unspecified:assert_lit>","over":{"base":"Any"},"name":"assert_lit_correct"},"guarantee":"assert a literal representing a constraint and update the internal state accordingly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.assert_lit_correct","statement":"Path(assert_lit(x), assert a literal representing a constraint and update the internal state accordingly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bef6438c9e0be88a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._assert_lower","self._assert_upper","self.enc_to_boundary","self.is_sat","self.slack_set"],"writes":["self.is_sat"]},"state_contract":{"modifies":["self.is_sat"],"old_bindings":{"old_self_is_sat":"self.is_sat"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def assert_lit(self, enc_constraint):
         """
         Assert a literal representing a constraint
@@ -517,16 +561,25 @@ class LRASolver():
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_assert_upper(xi,), adjusts the upper bound on variable xi if the new upper bound is more limiting) over Any ║
+# ║ Path(_assert_upper(xi, ci, from_equality), <unspecified:_assert_upper>) over {Any | hasattr(xi, 'upper') and hasattr(xi, 'upper_from_eq') and hasattr(xi, 'upper_from_neg') and hasattr(xi, 'lower') and hasattr(xi, 'assign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _assert_upper : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(xi, 'upper')                           ║
+# ║   requires: hasattr(xi, 'upper_from_eq')                   ║
+# ║   requires: hasattr(xi, 'upper_from_neg')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _assert_upper : {Any | hasattr(xi, 'upper') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e254dfe3e673e1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._assert_upper","kind":"method","src_hash":"a0ff86c11a4eda0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_assert_upper(xi,)","rhs":"adjusts the upper bound on variable xi if the new upper bound is more limiting","over":{"base":"Any"},"name":"_assert_upper_correct"},"guarantee":"adjusts the upper bound on variable xi if the new upper bound is more limiting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._assert_upper_correct","statement":"Path(_assert_upper(x), adjusts the upper bound on variable xi if the new upper bound is more limiting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e254dfe3e673e1b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._assert_upper","kind":"method","src_hash":"a0ff86c11a4eda0b","in":{"base":"Any","pred":"hasattr(xi, 'upper') and hasattr(xi, 'upper_from_eq') and hasattr(xi, 'upper_from_neg') and hasattr(xi, 'lower') and hasattr(xi, 'assign')"},"out":{"base":"Any"},"spec":{"lhs":"_assert_upper(xi, ci, from_equality)","rhs":"<unspecified:_assert_upper>","over":{"base":"Any","pred":"hasattr(xi, 'upper') and hasattr(xi, 'upper_from_eq') and hasattr(xi, 'upper_from_neg') and hasattr(xi, 'lower') and hasattr(xi, 'assign')"},"name":"_assert_upper_correct"},"guarantee":"adjusts the upper bound on variable xi if the new upper bound is more limiting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._assert_upper_correct","statement":"Path(_assert_upper(x), adjusts the upper bound on variable xi if the new upper bound is more limiting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e254dfe3e673e1b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(xi, 'upper')","hasattr(xi, 'upper_from_eq')","hasattr(xi, 'upper_from_neg')","hasattr(xi, 'lower')","hasattr(xi, 'assign')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.A","self._update","self.all_var","self.boundary_to_enc","self.nonslack","self.result","self.run_checks","xi.assign","xi.lower","xi.upper"],"writes":["self.result","xi.upper","xi.upper_from_eq","xi.upper_from_neg"]},"state_contract":{"modifies":["self.result","xi.upper","xi.upper_from_eq","xi.upper_from_neg"],"old_bindings":{"old_self_result":"self.result","old_xi_upper":"xi.upper","old_xi_upper_from_eq":"xi.upper_from_eq","old_xi_upper_from_neg":"xi.upper_from_neg"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _assert_upper(self, xi, ci, from_equality=False, from_neg=False):
         """
         Adjusts the upper bound on variable xi if the new upper bound is
@@ -570,16 +623,25 @@ class LRASolver():
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_assert_lower(xi,), adjusts the lower bound on variable xi if the new lower bound is more limiting) over Any ║
+# ║ Path(_assert_lower(xi, ci, from_equality), <unspecified:_assert_lower>) over {Any | hasattr(xi, 'lower') and hasattr(xi, 'lower_from_eq') and hasattr(xi, 'lower_from_neg') and hasattr(xi, 'upper') and hasattr(xi, 'assign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _assert_lower : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(xi, 'lower')                           ║
+# ║   requires: hasattr(xi, 'lower_from_eq')                   ║
+# ║   requires: hasattr(xi, 'lower_from_neg')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _assert_lower : {Any | hasattr(xi, 'lower') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1a6a27bdd98bac4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._assert_lower","kind":"method","src_hash":"08c38d68374dff89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_assert_lower(xi,)","rhs":"adjusts the lower bound on variable xi if the new lower bound is more limiting","over":{"base":"Any"},"name":"_assert_lower_correct"},"guarantee":"adjusts the lower bound on variable xi if the new lower bound is more limiting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._assert_lower_correct","statement":"Path(_assert_lower(x), adjusts the lower bound on variable xi if the new lower bound is more limiting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1a6a27bdd98bac4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._assert_lower","kind":"method","src_hash":"08c38d68374dff89","in":{"base":"Any","pred":"hasattr(xi, 'lower') and hasattr(xi, 'lower_from_eq') and hasattr(xi, 'lower_from_neg') and hasattr(xi, 'upper') and hasattr(xi, 'assign')"},"out":{"base":"Any"},"spec":{"lhs":"_assert_lower(xi, ci, from_equality)","rhs":"<unspecified:_assert_lower>","over":{"base":"Any","pred":"hasattr(xi, 'lower') and hasattr(xi, 'lower_from_eq') and hasattr(xi, 'lower_from_neg') and hasattr(xi, 'upper') and hasattr(xi, 'assign')"},"name":"_assert_lower_correct"},"guarantee":"adjusts the lower bound on variable xi if the new lower bound is more limiting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._assert_lower_correct","statement":"Path(_assert_lower(x), adjusts the lower bound on variable xi if the new lower bound is more limiting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1a6a27bdd98bac4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(xi, 'lower')","hasattr(xi, 'lower_from_eq')","hasattr(xi, 'lower_from_neg')","hasattr(xi, 'upper')","hasattr(xi, 'assign')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.A","self._update","self.all_var","self.boundary_to_enc","self.nonslack","self.result","self.run_checks","xi.assign","xi.lower","xi.upper"],"writes":["self.result","xi.lower","xi.lower_from_eq","xi.lower_from_neg"]},"state_contract":{"modifies":["self.result","xi.lower","xi.lower_from_eq","xi.lower_from_neg"],"old_bindings":{"old_self_result":"self.result","old_xi_lower":"xi.lower","old_xi_lower_from_eq":"xi.lower_from_eq","old_xi_lower_from_neg":"xi.lower_from_neg"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _assert_lower(self, xi, ci, from_equality=False, from_neg=False):
         """
         Adjusts the lower bound on variable xi if the new lower bound is
@@ -623,16 +685,24 @@ class LRASolver():
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_update(xi,), updates all slack variables that have equations that contain variable xi so that they stay satisfied given xi is equal to v) over Any ║
+# ║ Path(_update(xi, v), <unspecified:_update>) over {Any | hasattr(xi, 'col_idx') and hasattr(xi, 'assign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _update : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(xi, 'col_idx')                         ║
+# ║   requires: hasattr(xi, 'assign')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _update : {Any | hasattr(xi, 'col_idx') and hasattr(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1b5b60b4c88c8f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._update","kind":"method","src_hash":"124f38a5d213a657","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_update(xi,)","rhs":"updates all slack variables that have equations that contain variable xi so that they stay satisfied given xi is equal to v","over":{"base":"Any"},"name":"_update_correct"},"guarantee":"updates all slack variables that have equations that contain variable xi so that they stay satisfied given xi is equal to v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._update_correct","statement":"Path(_update(x), updates all slack variables that have equations that contain variable xi so that they stay satisfied given xi is equal to v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1b5b60b4c88c8f9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._update","kind":"method","src_hash":"124f38a5d213a657","in":{"base":"Any","pred":"hasattr(xi, 'col_idx') and hasattr(xi, 'assign')"},"out":{"base":"Any"},"spec":{"lhs":"_update(xi, v)","rhs":"<unspecified:_update>","over":{"base":"Any","pred":"hasattr(xi, 'col_idx') and hasattr(xi, 'assign')"},"name":"_update_correct"},"guarantee":"updates all slack variables that have equations that contain variable xi so that they stay satisfied given xi is equal to v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._update_correct","statement":"Path(_update(x), updates all slack variables that have equations that contain variable xi so that they stay satisfied given xi is equal to v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1b5b60b4c88c8f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(xi, 'col_idx')","hasattr(xi, 'assign')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.A","self.slack","xi.assign","xi.col_idx"],"writes":["xi.assign"]},"state_contract":{"modifies":["xi.assign"],"old_bindings":{"old_xi_assign":"xi.assign"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _update(self, xi, v):
         """
         Updates all slack variables that have equations that contain
@@ -645,16 +715,22 @@ class LRASolver():
         xi.assign = v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(), searches for an assignment that satisfies all constraints or determines that no such assignment exists and gives a minimal conflict clause that "explains" why the constraints are unsatisfiable) over Any ║
+# ║ Path(check(), <unspecified:check>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1641df1ec6263689  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.check","kind":"method","src_hash":"384b56262afbe729","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check()","rhs":"searches for an assignment that satisfies all constraints or determines that no such assignment exists and gives a minimal conflict clause that \"explains\" why the constraints are unsatisfiable","over":{"base":"Any"},"name":"check_correct"},"guarantee":"searches for an assignment that satisfies all constraints or determines that no such assignment exists and gives a minimal conflict clause that \"explains\" why the constraints are unsatisfiable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.check_correct","statement":"Path(check(x), searches for an assignment that satisfies all constraints or determines that no such assignment exists and gives a minimal conflict clause that \"explains\" why the constraints are unsatisfiable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1641df1ec6263689"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver.check","kind":"method","src_hash":"384b56262afbe729","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check()","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"searches for an assignment that satisfies all constraints or determines that no such assignment exists and gives a minimal conflict clause that \"explains\" why the constraints are unsatisfiable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver.check_correct","statement":"Path(check(x), searches for an assignment that satisfies all constraints or determines that no such assignment exists and gives a minimal conflict clause that \"explains\" why the constraints are unsatisfiable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1641df1ec6263689","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(self):
         """
         Searches for an assignment that satisfies all constraints
@@ -748,16 +824,26 @@ class LRASolver():
                 M = self._pivot_and_update(M, basic, nonbasic, xi, xj, xi.upper)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pivot_and_update(M, ), pivots basic variable xi with nonbasic variable xj, and sets value of xi to v and adjusts the values of all basic variables to keep equations satisfied) over Any ║
+# ║ Path(_pivot_and_update(M, basic, nonbasic), self._pivot(M, i, j)) over {Any | hasattr(xi, 'assign') and hasattr(xj, 'assign') and hasattr(xj, 'col_idx') and hasattr(nonbasic, 'add') and hasattr(nonbasic, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pivot_and_update : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(xi, 'assign')                          ║
+# ║   requires: hasattr(xj, 'assign')                          ║
+# ║   requires: hasattr(xj, 'col_idx')                         ║
+# ║   ensures:  M[i, j] != 0                                   ║
+# ║   returns:  self._pivot(M, i, j)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pivot_and_update : {Any | hasattr(xi, 'assign') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae74a74516db0714  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6564f71f3a8260e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._pivot_and_update","kind":"method","src_hash":"eec37e75708ca2a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pivot_and_update(M, )","rhs":"pivots basic variable xi with nonbasic variable xj, and sets value of xi to v and adjusts the values of all basic variables to keep equations satisfied","over":{"base":"Any"},"name":"_pivot_and_update_correct"},"guarantee":"pivots basic variable xi with nonbasic variable xj, and sets value of xi to v and adjusts the values of all basic variables to keep equations satisfied","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._pivot_and_update_correct","statement":"Path(_pivot_and_update(x), pivots basic variable xi with nonbasic variable xj, and sets value of xi to v and adjusts the values of all basic variables to keep equations satisfied)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae74a74516db0714"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._pivot_and_update","kind":"method","src_hash":"eec37e75708ca2a0","in":{"base":"Any","pred":"hasattr(xi, 'assign') and hasattr(xj, 'assign') and hasattr(xj, 'col_idx') and hasattr(nonbasic, 'add') and hasattr(nonbasic, 'remove')"},"out":{"base":"Any","pred":"result satisfies: result == (self._pivot(M, i, j))"},"spec":{"lhs":"_pivot_and_update(M, basic, nonbasic)","rhs":"self._pivot(M, i, j)","over":{"base":"Any","pred":"hasattr(xi, 'assign') and hasattr(xj, 'assign') and hasattr(xj, 'col_idx') and hasattr(nonbasic, 'add') and hasattr(nonbasic, 'remove')"},"name":"_pivot_and_update_correct"},"guarantee":"returns self._pivot(M, i, j); M[i, j] != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._pivot_and_update_correct","statement":"Path(_pivot_and_update(x), returns self._pivot(M, i, j); M[i, j] != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6564f71f3a8260e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(xi, 'assign')","hasattr(xj, 'assign')","hasattr(xj, 'col_idx')","hasattr(nonbasic, 'add')","hasattr(nonbasic, 'remove')"],"ensures":["M[i, j] != 0"],"returns_expr":"self._pivot(M, i, j)","pure":false,"effects":{"effect_type":"mutates_args","reads":["nonbasic.add","nonbasic.remove","self._pivot","xi.assign","xj.assign","xj.col_idx"],"writes":["basic[*]","xi.assign","xj.assign"],"calls_mutating":["nonbasic.add","nonbasic.remove"]},"state_contract":{"modifies":["basic[*]","nonbasic.*","xi.assign","xj.assign"],"old_bindings":{"old_basic_star":"basic[*]","old_xi_assign":"xi.assign","old_xj_assign":"xj.assign"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pivot_and_update(self, M, basic, nonbasic, xi, xj, v):
         """
         Pivots basic variable xi with nonbasic variable xj,
@@ -783,16 +869,25 @@ class LRASolver():
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pivot(M, ), performs a pivot operation about entry i, j of m by performing a series of row operations on a copy of m and returning the result. the original m is left unmodified) over Any ║
+# ║ Path(_pivot(M, i, j), <unspecified:_pivot>) over {Any | not (Mij == 0) and hasattr(M, 'copy') and hasattr(M, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pivot : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (Mij == 0)                                 ║
+# ║   requires: hasattr(M, 'copy')                             ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pivot : {Any | not (Mij == 0) and hasattr(M, 'copy')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bceb6f1900e8395  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._pivot","kind":"staticmethod","src_hash":"9c0ec90304b3e29a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pivot(M, )","rhs":"performs a pivot operation about entry i, j of m by performing a series of row operations on a copy of m and returning the result. the original m is left unmodified","over":{"base":"Any"},"name":"_pivot_correct"},"guarantee":"performs a pivot operation about entry i, j of m by performing a series of row operations on a copy of m and returning the result. the original m is left unmodified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._pivot_correct","statement":"Path(_pivot(x), performs a pivot operation about entry i, j of m by performing a series of row operations on a copy of m and returning the result. the original m is left unmodified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bceb6f1900e8395"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRASolver._pivot","kind":"staticmethod","src_hash":"9c0ec90304b3e29a","in":{"base":"Any","pred":"not (Mij == 0) and hasattr(M, 'copy') and hasattr(M, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_pivot(M, i, j)","rhs":"<unspecified:_pivot>","over":{"base":"Any","pred":"not (Mij == 0) and hasattr(M, 'copy') and hasattr(M, 'shape')"},"name":"_pivot_correct"},"guarantee":"performs a pivot operation about entry i, j of m by performing a series of row operations on a copy of m and returning the result. the original m is left unmodified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.LRASolver._pivot_correct","statement":"Path(_pivot(x), performs a pivot operation about entry i, j of m by performing a series of row operations on a copy of m and returning the result. the original m is left unmodified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bceb6f1900e8395","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (Mij == 0)","hasattr(M, 'copy')","hasattr(M, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.copy","M.shape"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pivot(M, i, j):
         """
         Performs a pivot operation about entry i, j of M by performing
@@ -847,7 +942,11 @@ class LRASolver():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sep_const_coeff(exp), example =======) over {Any | isinstance(expr, Add) and isinstance(expr, Mul)} ║
+# ║ Path(_sep_const_coeff(expr), <unspecified:_sep_const_coeff>) over {Any | isinstance(expr, Add) and isinstance(expr, Mul) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sep_const_coeff : {Any | isinstance(expr, Add) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -860,9 +959,12 @@ class LRASolver():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2dcb5b87...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._sep_const_coeff","kind":"function","src_hash":"b5e45e3ddb098231","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"_sep_const_coeff(exp)","rhs":"example =======","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul)"},"name":"_sep_const_coeff_correct"},"guarantee":"example =======","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_sep_const_coeff(x)","rhs":"example =======","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_sep_const_coeff_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._sep_const_coeff_Add_correct","statement":"_sep_const_coeff satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"_sep_const_coeff(x)","rhs":"example =======","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"_sep_const_coeff_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._sep_const_coeff_Mul_correct","statement":"_sep_const_coeff satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2dcb5b87972e2922"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._sep_const_coeff","kind":"function","src_hash":"b5e45e3ddb098231","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_sep_const_coeff(expr)","rhs":"<unspecified:_sep_const_coeff>","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and hasattr(expr, 'args')"},"name":"_sep_const_coeff_correct"},"guarantee":"example =======","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_sep_const_coeff(x)","rhs":"example =======","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_sep_const_coeff_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._sep_const_coeff_Add_correct","statement":"_sep_const_coeff satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"_sep_const_coeff(x)","rhs":"example =======","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"_sep_const_coeff_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._sep_const_coeff_Mul_correct","statement":"_sep_const_coeff satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2dcb5b87972e2922","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(c.free_symbols) == 0', 'isinstance(expr, Mul)', 'isinstance(expr, Add)'}, fibers={'Add', 'Mul'})"]}}
 def _sep_const_coeff(expr):
     """
     Example
@@ -894,9 +996,13 @@ def _sep_const_coeff(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_list_terms(exp), internal helper behaves correctly) over {Any | isinstance(expr, Add)} ║
+# ║ Path(_list_terms(expr), <unspecified:_list_terms>) over {Any | isinstance(expr, Add) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _list_terms : {Any | isinstance(expr, Add)} → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _list_terms : {Any | isinstance(expr, Add) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Add: {isinstance(expr, Add)} → library_axiom             ║
@@ -906,9 +1012,12 @@ def _sep_const_coeff(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3d9028ab...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._list_terms","kind":"function","src_hash":"c0b43708d257b939","in":{"base":"Any","pred":"isinstance(expr, Add)"},"out":{"base":"Any"},"spec":{"lhs":"_list_terms(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Add)"},"name":"_list_terms_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_list_terms(x)","rhs":"internal helper behaves correctly","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_list_terms_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._list_terms_Add_correct","statement":"_list_terms satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3d9028abd76a9848"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._list_terms","kind":"function","src_hash":"c0b43708d257b939","in":{"base":"Any","pred":"isinstance(expr, Add) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_list_terms(expr)","rhs":"<unspecified:_list_terms>","over":{"base":"Any","pred":"isinstance(expr, Add) and hasattr(expr, 'args')"},"name":"_list_terms_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_list_terms(x)","rhs":"internal helper behaves correctly","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_list_terms_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._list_terms_Add_correct","statement":"_list_terms satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3d9028abd76a9848","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Add)'}, fibers={'Add'})"]}}
 def _list_terms(expr):
     if not isinstance(expr, Add):
         return [expr]
@@ -917,9 +1026,13 @@ def _list_terms(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sep_const_terms(exp), example =======) over {Any | isinstance(expr, Add)} ║
+# ║ Path(_sep_const_terms(expr), (sum(var), sum(const))) over {Any | isinstance(expr, Add) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sep_const_terms : {Any | isinstance(expr, Add)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  (sum(var), sum(const))                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sep_const_terms : {Any | isinstance(expr, Add) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Add: {isinstance(expr, Add)} → library_axiom             ║
@@ -929,9 +1042,12 @@ def _list_terms(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b305967c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._sep_const_terms","kind":"function","src_hash":"754bb4705fec312b","in":{"base":"Any","pred":"isinstance(expr, Add)"},"out":{"base":"Any"},"spec":{"lhs":"_sep_const_terms(exp)","rhs":"example =======","over":{"base":"Any","pred":"isinstance(expr, Add)"},"name":"_sep_const_terms_correct"},"guarantee":"example =======","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_sep_const_terms(x)","rhs":"example =======","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_sep_const_terms_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._sep_const_terms_Add_correct","statement":"_sep_const_terms satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b305967c268fe5a6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._sep_const_terms","kind":"function","src_hash":"754bb4705fec312b","in":{"base":"Any","pred":"isinstance(expr, Add) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_sep_const_terms(expr)","rhs":"(sum(var), sum(const))","over":{"base":"Any","pred":"isinstance(expr, Add) and hasattr(expr, 'args')"},"name":"_sep_const_terms_correct"},"guarantee":"returns (sum(var), sum(const))","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_sep_const_terms(x)","rhs":"returns (sum(var), sum(const))","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_sep_const_terms_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._sep_const_terms_Add_correct","statement":"_sep_const_terms satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b305967c268fe5a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"(sum(var), sum(const))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Add)', 'len(t.free_symbols) == 0'}, fibers={'Add'})"]}}
 def _sep_const_terms(expr):
     """
     Example
@@ -957,16 +1073,25 @@ def _sep_const_terms(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_binrel(bin), simplify binary relation to true / false if possible) over Any ║
+# ║ Path(_eval_binrel(binrel), <unspecified:_eval_binrel>) over {Any | hasattr(binrel, 'function') and hasattr(binrel, 'lhs') and hasattr(binrel, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_binrel : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(binrel, 'function')                    ║
+# ║   requires: hasattr(binrel, 'lhs')                         ║
+# ║   requires: hasattr(binrel, 'rhs')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_binrel : {Any | hasattr(binrel, 'function') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ccfbdd57fd0e532  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._eval_binrel","kind":"function","src_hash":"f9557c47c6917b57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_binrel(bin)","rhs":"simplify binary relation to true / false if possible","over":{"base":"Any"},"name":"_eval_binrel_correct"},"guarantee":"simplify binary relation to true / false if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._eval_binrel_correct","statement":"Path(_eval_binrel(x), simplify binary relation to true / false if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ccfbdd57fd0e532"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory._eval_binrel","kind":"function","src_hash":"f9557c47c6917b57","in":{"base":"Any","pred":"hasattr(binrel, 'function') and hasattr(binrel, 'lhs') and hasattr(binrel, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_binrel(binrel)","rhs":"<unspecified:_eval_binrel>","over":{"base":"Any","pred":"hasattr(binrel, 'function') and hasattr(binrel, 'lhs') and hasattr(binrel, 'rhs')"},"name":"_eval_binrel_correct"},"guarantee":"simplify binary relation to true / false if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory._eval_binrel_correct","statement":"Path(_eval_binrel(x), simplify binary relation to true / false if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ccfbdd57fd0e532","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(binrel, 'function')","hasattr(binrel, 'lhs')","hasattr(binrel, 'rhs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["binrel.function","binrel.lhs","binrel.rhs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _eval_binrel(binrel):
     """
     Simplify binary relation to True / False if possible.
@@ -995,30 +1120,44 @@ def _eval_binrel(binrel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Boundary instance) preserved by Boundary(*args) over {Any | isinstance(const, tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Boundary : {Any | isinstance(const, tuple)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d6f8104ff6dd543  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary","kind":"class","src_hash":"ff411e88e7b72557","in":{"base":"Any","pred":"isinstance(const, tuple)"},"out":{"base":"Any","pred":"self.strict is not None and equality in [True, False] and s == strict"},"spec":{"lhs":"Boundary(*args)","rhs":"correctly constructs a Boundary instance","over":{"base":"Any","pred":"isinstance(const, tuple)"},"name":"Boundary_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Boundary instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'var') and hasattr(self, 'bound') and hasattr(self, 'strict') and hasattr(self, 'bound') and hasattr(self, 'strict') and hasattr(self, 'upper') and hasattr(self, 'equality') and hasattr(self, 'strict')","kind":"class","induction":"structural on var, bound, strict, bound"}],"methods_preserving":["__init__","get_negated","get_inequality","__repr__","__eq__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6f8104ff6dd543"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary","kind":"class","src_hash":"ff411e88e7b72557","in":{"base":"Any","pred":"isinstance(const, tuple)"},"out":{"base":"Any","pred":"self.strict is not None and equality in [True, False] and s == strict"},"spec":{"lhs":"Boundary(*args)","rhs":"correctly constructs a Boundary instance","over":{"base":"Any","pred":"isinstance(const, tuple)"},"name":"Boundary_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'var') and hasattr(self, 'bound') and hasattr(self, 'strict') and hasattr(self, 'bound') and hasattr(self, 'strict') and hasattr(self, 'upper') and hasattr(self, 'equality') and hasattr(self, 'strict')","kind":"class","induction":"structural on var, bound, strict, bound"}],"methods_preserving":["__init__","get_negated","get_inequality","__repr__","__eq__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6f8104ff6dd543","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'var')","hasattr(self, 'upper')","hasattr(self, 'equality')","hasattr(self, 'strict')","hasattr(self, 'bound')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Boundary not found in source"]}}
 class Boundary:
     """
     Represents an upper or lower bound or an equality between a symbol
     and some constant.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(var), initializes the instance correctly) over Any ║
+# ║ Path(__init__(var, const, upper), self.var == var and self.equality == equality and self.strict == strict and self.bound == const) over {Any | self.strict is not None} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.strict is not None                        ║
+# ║   ensures:  self.var == var                                ║
+# ║   ensures:  self.equality == equality                      ║
+# ║   ensures:  self.strict == strict                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | self.strict is not None} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 88c1e35bd67064b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__init__","kind":"method","src_hash":"d09cbe2bd94ac654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(var)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88c1e35bd67064b6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__init__","kind":"method","src_hash":"d09cbe2bd94ac654","in":{"base":"Any","pred":"self.strict is not None"},"out":{"base":"Any","pred":"result satisfies: self.var == var and self.equality == equality and self.strict == strict and self.bound == const"},"spec":{"lhs":"__init__(var, const, upper)","rhs":"self.var == var and self.equality == equality and self.strict == strict and self.bound == const","over":{"base":"Any","pred":"self.strict is not None"},"name":"__init___correct"},"guarantee":"self.var == var; self.equality == equality; self.strict == strict","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88c1e35bd67064b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.strict is not None"],"ensures":["self.var == var","self.equality == equality","self.strict == strict","self.bound == const"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, var, const, upper, equality, strict=None):
         if not equality in [True, False]:
             assert equality in [True, False]
@@ -1041,16 +1180,25 @@ class Boundary:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_upper(var), from_upper produces the expected output) over Any ║
+# ║ Path(from_upper(var), (b, neg)) over {Any | hasattr(var, 'upper_from_neg') and hasattr(var, 'upper_from_eq') and hasattr(var, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_upper : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(var, 'upper_from_neg')                 ║
+# ║   requires: hasattr(var, 'upper_from_eq')                  ║
+# ║   requires: hasattr(var, 'upper')                          ║
+# ║   returns:  (b, neg)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_upper : {Any | hasattr(var, 'upper_from_neg') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2578cd6ca6629ffc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c8d3710a9d83be1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.from_upper","kind":"staticmethod","src_hash":"609891740eaf7676","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_upper(var)","rhs":"from_upper produces the expected output","over":{"base":"Any"},"name":"from_upper_correct"},"guarantee":"from_upper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.Boundary.from_upper_correct","statement":"Path(from_upper(x), from_upper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2578cd6ca6629ffc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.from_upper","kind":"staticmethod","src_hash":"609891740eaf7676","in":{"base":"Any","pred":"hasattr(var, 'upper_from_neg') and hasattr(var, 'upper_from_eq') and hasattr(var, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"from_upper(var)","rhs":"(b, neg)","over":{"base":"Any","pred":"hasattr(var, 'upper_from_neg') and hasattr(var, 'upper_from_eq') and hasattr(var, 'upper')"},"name":"from_upper_correct"},"guarantee":"returns (b, neg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.Boundary.from_upper_correct","statement":"Path(from_upper(x), returns (b, neg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c8d3710a9d83be1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(var, 'upper_from_neg')","hasattr(var, 'upper_from_eq')","hasattr(var, 'upper')"],"returns_expr":"(b, neg)","pure":false,"effects":{"effect_type":"reads_state","reads":["var.upper","var.upper_from_eq","var.upper_from_neg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_upper(var):
         neg = -1 if var.upper_from_neg else 1
         b = Boundary(var, var.upper[0], True, var.upper_from_eq, var.upper[1] != 0)
@@ -1060,16 +1208,25 @@ class Boundary:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_lower(var), from_lower produces the expected output) over Any ║
+# ║ Path(from_lower(var), (b, neg)) over {Any | hasattr(var, 'lower_from_neg') and hasattr(var, 'lower_from_eq') and hasattr(var, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_lower : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(var, 'lower_from_neg')                 ║
+# ║   requires: hasattr(var, 'lower_from_eq')                  ║
+# ║   requires: hasattr(var, 'lower')                          ║
+# ║   returns:  (b, neg)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_lower : {Any | hasattr(var, 'lower_from_neg') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5178a1c291f423c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbb4442d659a1efe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.from_lower","kind":"staticmethod","src_hash":"744e4f926fe03d8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_lower(var)","rhs":"from_lower produces the expected output","over":{"base":"Any"},"name":"from_lower_correct"},"guarantee":"from_lower produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.Boundary.from_lower_correct","statement":"Path(from_lower(x), from_lower produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5178a1c291f423c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.from_lower","kind":"staticmethod","src_hash":"744e4f926fe03d8f","in":{"base":"Any","pred":"hasattr(var, 'lower_from_neg') and hasattr(var, 'lower_from_eq') and hasattr(var, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"from_lower(var)","rhs":"(b, neg)","over":{"base":"Any","pred":"hasattr(var, 'lower_from_neg') and hasattr(var, 'lower_from_eq') and hasattr(var, 'lower')"},"name":"from_lower_correct"},"guarantee":"returns (b, neg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.Boundary.from_lower_correct","statement":"Path(from_lower(x), returns (b, neg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbb4442d659a1efe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(var, 'lower_from_neg')","hasattr(var, 'lower_from_eq')","hasattr(var, 'lower')"],"returns_expr":"(b, neg)","pure":false,"effects":{"effect_type":"reads_state","reads":["var.lower","var.lower_from_eq","var.lower_from_neg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_lower(var):
         neg = -1 if var.lower_from_neg else 1
         b = Boundary(var, var.lower[0], False, var.lower_from_eq, var.lower[1] != 0)
@@ -1078,30 +1235,45 @@ class Boundary:
         return b, neg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_negated(), get_negated produces the expected output) over Any ║
+# ║ Path(get_negated(), Boundary(self.var, self.bound, not self.upper, self.equality, not self.strict)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Boundary(self.var, self.bound, not self.u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_negated : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5595fdf98d00511           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.get_negated","kind":"method","src_hash":"b7007c57b0562518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_negated()","rhs":"get_negated produces the expected output","over":{"base":"Any"},"name":"get_negated_correct"},"guarantee":"get_negated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5595fdf98d00511"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.get_negated","kind":"method","src_hash":"b7007c57b0562518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_negated()","rhs":"Boundary(self.var, self.bound, not self.upper, self.equality, not self.strict)","over":{"base":"Any"},"name":"get_negated_correct"},"guarantee":"returns Boundary(self.var, self.bound, not self.upper, self.equality, not self.strict)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5595fdf98d00511","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Boundary(self.var, self.bound, not self.upper, self.equality, not self.strict)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bound","self.equality","self.strict","self.upper","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_negated(self):
         return Boundary(self.var, self.bound, not self.upper, self.equality, not self.strict)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_inequality(), get_inequality produces the expected output) over Any ║
+# ║ Path(get_inequality(), result == (Eq(self.var.var, self.bound) if self.equality else self.var.var < self.bound if self.upper and self.strict else self.var.var > self.bound if not self.upper and self.strict else self.var.var <= self.bound if self.upper else self.var.var >= self.bound)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_inequality : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Eq(self.var.var, self.bound) i...   ║
+# ║   fiber[case_0]: self.equality => Eq(self.var.var, se...   ║
+# ║   fiber[case_1]: self.upper and self.strict => self.v...   ║
+# ║   fiber[case_2]: not self.upper and self.strict => se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_inequality : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5275c79c0c7c8a44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52af7aeb7b123abc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.get_inequality","kind":"method","src_hash":"db99483f47bb3af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_inequality()","rhs":"get_inequality produces the expected output","over":{"base":"Any"},"name":"get_inequality_correct"},"guarantee":"get_inequality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.Boundary.get_inequality_correct","statement":"Path(get_inequality(x), get_inequality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5275c79c0c7c8a44"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.get_inequality","kind":"method","src_hash":"db99483f47bb3af4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Eq(self.var.var, self.bound) if self.equality else self.var.var < self.bound if self.upper and self.strict else self.var.var > self.bound if not self.upper and self.strict else self.var.var <= self.bound if self.upper else self.var.var >= self.bound)"},"spec":{"lhs":"get_inequality()","rhs":"result == (Eq(self.var.var, self.bound) if self.equality else self.var.var < self.bound if self.upper and self.strict else self.var.var > self.bound if not self.upper and self.strict else self.var.var <= self.bound if self.upper else self.var.var >= self.bound)","over":{"base":"Any"},"name":"get_inequality_correct"},"guarantee":"result == (Eq(self.var.var, self.bound) if self.equality else self.var.var < self.bound if self.upper and self.strict else self.var.var > self.bound if not self.upper and self.strict else self.var.var <= self.bound if self.upper else self.var.var >= self.bound); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.lra_theory.Boundary.get_inequality_correct","statement":"Path(get_inequality(x), result == (Eq(self.var.var, self.bound) if self.equality else self.var.var < self.bound if self.upper and self.strict else self.var.var > self.bound if not self.upper and self.strict else self.var.var <= self.bound if self.upper else self.var.var >= self.bound); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52af7aeb7b123abc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Eq(self.var.var, self.bound) if self.equality else self.var.var < self.bound if self.upper and self.strict else self.var.var > self.bound if not self.upper and self.strict else self.var.var <= self.bound if self.upper else self.var.var >= self.bound)"],"fibers":[{"name":"case_0","guard":"self.equality","ensures":["result == Eq(self.var.var, self.bound)"],"decidability":"library","returns_expr":"Eq(self.var.var, self.bound)"},{"name":"case_1","guard":"self.upper and self.strict","ensures":["result == self.var.var < self.bound"],"decidability":"library","returns_expr":"self.var.var < self.bound"},{"name":"case_2","guard":"not self.upper and self.strict","ensures":["result == self.var.var > self.bound"],"decidability":"library","returns_expr":"self.var.var > self.bound"},{"name":"case_3","guard":"self.upper","ensures":["result == self.var.var <= self.bound"],"decidability":"library","returns_expr":"self.var.var <= self.bound"},{"name":"case_4","guard":"not (self.equality) and not (self.upper and self.strict) and not (not self.upper and self.strict) and not (self.upper)","ensures":["result == self.var.var >= self.bound"],"decidability":"library","returns_expr":"self.var.var >= self.bound"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.bound","self.equality","self.strict","self.upper","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_inequality(self):
         if self.equality:
             return Eq(self.var.var, self.bound)
@@ -1115,45 +1287,66 @@ class Boundary:
             return self.var.var >= self.bound
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr('Boundary(' + repr(self.get_inequality()) + ')')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr('Boundary(' + repr(self.get_inequali...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fe523ed92c03012           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__repr__","kind":"method","src_hash":"f2c28470ce25ec08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fe523ed92c03012"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__repr__","kind":"method","src_hash":"f2c28470ce25ec08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr('Boundary(' + repr(self.get_inequality()) + ')')","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr('Boundary(' + repr(self.get_inequality()) + ')')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fe523ed92c03012","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr('Boundary(' + repr(self.get_inequality()) + ')')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_inequality"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr("Boundary(" + repr(self.get_inequality()) + ")")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), (self.var, self.bound, self.strict, self.upper, self.equality) == other) over {Any | hasattr(other, 'var') and hasattr(other, 'bound') and hasattr(other, 'strict') and hasattr(other, 'upper') and hasattr(other, 'equality')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   requires: hasattr(other, 'bound')                        ║
+# ║   requires: hasattr(other, 'strict')                       ║
+# ║   returns:  (self.var, self.bound, self.strict, self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'var') and hasattr(oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44aa22a4d5780e01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__eq__","kind":"method","src_hash":"6b6d6cfdae326d48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44aa22a4d5780e01"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__eq__","kind":"method","src_hash":"6b6d6cfdae326d48","in":{"base":"Any","pred":"hasattr(other, 'var') and hasattr(other, 'bound') and hasattr(other, 'strict') and hasattr(other, 'upper') and hasattr(other, 'equality')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"(self.var, self.bound, self.strict, self.upper, self.equality) == other","over":{"base":"Any","pred":"hasattr(other, 'var') and hasattr(other, 'bound') and hasattr(other, 'strict') and hasattr(other, 'upper') and hasattr(other, 'equality')"},"name":"__eq___correct"},"guarantee":"returns (self.var, self.bound, self.strict, self.upper, self.equality) == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44aa22a4d5780e01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'var')","hasattr(other, 'bound')","hasattr(other, 'strict')","hasattr(other, 'upper')","hasattr(other, 'equality')"],"returns_expr":"(self.var, self.bound, self.strict, self.upper, self.equality) == other","pure":false,"effects":{"effect_type":"reads_state","reads":["other.bound","other.equality","other.strict","other.upper","other.var","self.bound","self.equality","self.strict","self.upper","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         other = (other.var, other.bound, other.strict, other.upper, other.equality)
         return (self.var, self.bound, self.strict, self.upper, self.equality) == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.var, self.bound, self.strict, self.upper, self.equality))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.var, self.bound, self.strict, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98340782f23ac339           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__hash__","kind":"method","src_hash":"2277e60a4d93661b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98340782f23ac339"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.Boundary.__hash__","kind":"method","src_hash":"2277e60a4d93661b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.var, self.bound, self.strict, self.upper, self.equality))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.var, self.bound, self.strict, self.upper, self.equality))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98340782f23ac339","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.var, self.bound, self.strict, self.upper, self.equality))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bound","self.equality","self.strict","self.upper","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.var, self.bound, self.strict, self.upper, self.equality))
 
@@ -1161,143 +1354,208 @@ class Boundary:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LRARational instance) preserved by LRARational(*args) over {Any | isinstance(other, LRARational)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LRARational : {Any | isinstance(other, LRARational)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf9f6e03c295d5d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational","kind":"class","src_hash":"3bf529a3767a44d0","in":{"base":"Any","pred":"isinstance(other, LRARational)"},"out":{"base":"Any","pred":"not isinstance(other, LRARational)"},"spec":{"lhs":"LRARational(*args)","rhs":"correctly constructs a LRARational instance","over":{"base":"Any","pred":"isinstance(other, LRARational)"},"name":"LRARational_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LRARational instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'value')","kind":"class","induction":"structural on value"}],"methods_preserving":["__init__","__lt__","__le__","__eq__","__add__","__sub__","__mul__","__getitem__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9f6e03c295d5d3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational","kind":"class","src_hash":"3bf529a3767a44d0","in":{"base":"Any","pred":"isinstance(other, LRARational)"},"out":{"base":"Any","pred":"not isinstance(other, LRARational)"},"spec":{"lhs":"LRARational(*args)","rhs":"correctly constructs a LRARational instance","over":{"base":"Any","pred":"isinstance(other, LRARational)"},"name":"LRARational_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'value')","kind":"class","induction":"structural on value"}],"methods_preserving":["__init__","__lt__","__le__","__eq__","__add__","__sub__","__mul__","__getitem__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9f6e03c295d5d3","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'value')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function LRARational not found in source"]}}
 class LRARational():
     """
     Represents a rational plus or minus some amount
     of arbitrary small deltas.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rat), initializes the instance correctly) over Any ║
+# ║ Path(__init__(rational, delta), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 555b766f3a980355           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__init__","kind":"method","src_hash":"73337ee4ac3a11b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rat)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555b766f3a980355"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__init__","kind":"method","src_hash":"73337ee4ac3a11b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rational, delta)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555b766f3a980355","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, rational, delta):
         self.value = (rational, delta)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), self.value < other.value) over {Any | hasattr(other, 'value')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'value')                        ║
+# ║   returns:  self.value < other.value                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'value')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c04dee02243fcf3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__lt__","kind":"method","src_hash":"1f3be6a29029d073","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c04dee02243fcf3b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__lt__","kind":"method","src_hash":"1f3be6a29029d073","in":{"base":"Any","pred":"hasattr(other, 'value')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"self.value < other.value","over":{"base":"Any","pred":"hasattr(other, 'value')"},"name":"__lt___correct"},"guarantee":"returns self.value < other.value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c04dee02243fcf3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'value')"],"returns_expr":"self.value < other.value","pure":false,"effects":{"effect_type":"reads_state","reads":["other.value","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         return self.value < other.value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), self.value <= other.value) over {Any | hasattr(other, 'value')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'value')                        ║
+# ║   returns:  self.value <= other.value                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'value')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2570b972dd29e66a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__le__","kind":"method","src_hash":"64240767668c8ea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2570b972dd29e66a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__le__","kind":"method","src_hash":"64240767668c8ea3","in":{"base":"Any","pred":"hasattr(other, 'value')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"self.value <= other.value","over":{"base":"Any","pred":"hasattr(other, 'value')"},"name":"__le___correct"},"guarantee":"returns self.value <= other.value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2570b972dd29e66a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'value')"],"returns_expr":"self.value <= other.value","pure":false,"effects":{"effect_type":"reads_state","reads":["other.value","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         return self.value <= other.value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self.value == other.value) over {Any | hasattr(other, 'value')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'value')                        ║
+# ║   returns:  self.value == other.value                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'value')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6adabb378c289fa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__eq__","kind":"method","src_hash":"3482cb70b4e18265","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6adabb378c289fa3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__eq__","kind":"method","src_hash":"3482cb70b4e18265","in":{"base":"Any","pred":"hasattr(other, 'value')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self.value == other.value","over":{"base":"Any","pred":"hasattr(other, 'value')"},"name":"__eq___correct"},"guarantee":"returns self.value == other.value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6adabb378c289fa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'value')"],"returns_expr":"self.value == other.value","pure":false,"effects":{"effect_type":"reads_state","reads":["other.value","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return self.value == other.value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), LRARational(self.value[0] + other.value[0], self.value[1] + other.value[1])) over {Any | hasattr(other, 'value')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'value')                        ║
+# ║   returns:  LRARational(self.value[0] + other.value[0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'value')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36616f48beb7c550           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__add__","kind":"method","src_hash":"6ff1cd3636e5b046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36616f48beb7c550"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__add__","kind":"method","src_hash":"6ff1cd3636e5b046","in":{"base":"Any","pred":"hasattr(other, 'value')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"LRARational(self.value[0] + other.value[0], self.value[1] + other.value[1])","over":{"base":"Any","pred":"hasattr(other, 'value')"},"name":"__add___correct"},"guarantee":"returns LRARational(self.value[0] + other.value[0], self.value[1] + other.value[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36616f48beb7c550","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'value')"],"returns_expr":"LRARational(self.value[0] + other.value[0], self.value[1] + other.value[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["other.value","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return LRARational(self.value[0] + other.value[0], self.value[1] + other.value[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), LRARational(self.value[0] - other.value[0], self.value[1] - other.value[1])) over {Any | hasattr(other, 'value')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'value')                        ║
+# ║   returns:  LRARational(self.value[0] - other.value[0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'value')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33f41ee7fe81c2e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__sub__","kind":"method","src_hash":"6135217b10b5aee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33f41ee7fe81c2e7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__sub__","kind":"method","src_hash":"6135217b10b5aee4","in":{"base":"Any","pred":"hasattr(other, 'value')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"LRARational(self.value[0] - other.value[0], self.value[1] - other.value[1])","over":{"base":"Any","pred":"hasattr(other, 'value')"},"name":"__sub___correct"},"guarantee":"returns LRARational(self.value[0] - other.value[0], self.value[1] - other.value[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33f41ee7fe81c2e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'value')"],"returns_expr":"LRARational(self.value[0] - other.value[0], self.value[1] - other.value[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["other.value","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return LRARational(self.value[0] - other.value[0], self.value[1] - other.value[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), LRARational(self.value[0] * other, self.value[1] * other)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not isinstance(other, LRARational)             ║
+# ║   returns:  LRARational(self.value[0] * other, self.v...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : Any → {Any | result satisfies: result == (L...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1441298debac6580           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__mul__","kind":"method","src_hash":"44b267bd3a2ecf09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1441298debac6580"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__mul__","kind":"method","src_hash":"44b267bd3a2ecf09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (LRARational(self.value[0] * other, self.value[1] * other))"},"spec":{"lhs":"__mul__(other)","rhs":"LRARational(self.value[0] * other, self.value[1] * other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns LRARational(self.value[0] * other, self.value[1] * other); not isinstance(other, LRARational)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1441298debac6580","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not isinstance(other, LRARational)"],"returns_expr":"LRARational(self.value[0] * other, self.value[1] * other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         assert not isinstance(other, LRARational)
         return LRARational(self.value[0] * other, self.value[1] * other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), self.value[index]) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.value[index]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c461c7f8b222f791           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__getitem__","kind":"method","src_hash":"7c951d65baa7e4e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c461c7f8b222f791"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__getitem__","kind":"method","src_hash":"7c951d65baa7e4e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"self.value[index]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.value[index]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c461c7f8b222f791","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.value[index]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         return self.value[index]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.value)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.value)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8120ddaed1a665c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__repr__","kind":"method","src_hash":"b1852c3cc180b398","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8120ddaed1a665c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRARational.__repr__","kind":"method","src_hash":"b1852c3cc180b398","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.value)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8120ddaed1a665c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.value)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.value)
 
@@ -1305,30 +1563,41 @@ class LRARational():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LRAVariable instance) preserved by LRAVariable(*args) over {Any | isinstance(other, LRAVariable)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LRAVariable : {Any | isinstance(other, LRAVariable)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 702e453ae5f0ae30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable","kind":"class","src_hash":"3b9856a1aef6f826","in":{"base":"Any","pred":"isinstance(other, LRAVariable)"},"out":{"base":"Any"},"spec":{"lhs":"LRAVariable(*args)","rhs":"correctly constructs a LRAVariable instance","over":{"base":"Any","pred":"isinstance(other, LRAVariable)"},"name":"LRAVariable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LRAVariable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'upper') and hasattr(self, 'upper_from_eq') and hasattr(self, 'upper_from_neg') and hasattr(self, 'lower') and hasattr(self, 'lower_from_eq') and hasattr(self, 'lower_from_neg') and hasattr(self, 'assign') and hasattr(self, 'var')","kind":"class","induction":"structural on upper, upper_from_eq, upper_from_neg, lower"}],"methods_preserving":["__init__","__repr__","__eq__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702e453ae5f0ae30"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable","kind":"class","src_hash":"3b9856a1aef6f826","in":{"base":"Any","pred":"isinstance(other, LRAVariable)"},"out":{"base":"Any"},"spec":{"lhs":"LRAVariable(*args)","rhs":"correctly constructs a LRAVariable instance","over":{"base":"Any","pred":"isinstance(other, LRAVariable)"},"name":"LRAVariable_class_invariant","kind":"invariant"},"guarantee":"preserves 9 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'upper') and hasattr(self, 'upper_from_eq') and hasattr(self, 'upper_from_neg') and hasattr(self, 'lower') and hasattr(self, 'lower_from_eq') and hasattr(self, 'lower_from_neg') and hasattr(self, 'assign') and hasattr(self, 'var')","kind":"class","induction":"structural on upper, upper_from_eq, upper_from_neg, lower"}],"methods_preserving":["__init__","__repr__","__eq__","__hash__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702e453ae5f0ae30","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'upper')","hasattr(self, 'upper_from_eq')","hasattr(self, 'upper_from_neg')","hasattr(self, 'lower')","hasattr(self, 'lower_from_eq')","hasattr(self, 'lower_from_neg')","hasattr(self, 'assign')","hasattr(self, 'var')","hasattr(self, 'col_idx')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LRAVariable not found in source"]}}
 class LRAVariable():
     """
     Object to keep track of upper and lower bounds
     on `self.var`.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(var), initializes the instance correctly) over Any ║
+# ║ Path(__init__(var), self.var == var) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.var == var                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.var ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 026aa3f2aada7ba3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__init__","kind":"method","src_hash":"e129bebabf937bf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(var)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"026aa3f2aada7ba3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__init__","kind":"method","src_hash":"e129bebabf937bf5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.var == var"},"spec":{"lhs":"__init__(var)","rhs":"self.var == var","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.var == var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"026aa3f2aada7ba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.var == var"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, var):
         self.upper = LRARational(float("inf"), 0)
         self.upper_from_eq = False
@@ -1341,45 +1610,64 @@ class LRAVariable():
         self.col_idx = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.var)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.var)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94c21ec7b808f325           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__repr__","kind":"method","src_hash":"69c5278ba677214a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c21ec7b808f325"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__repr__","kind":"method","src_hash":"69c5278ba677214a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.var)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c21ec7b808f325","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'var')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'var')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6256f7e28fc6fd96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__eq__","kind":"method","src_hash":"3998d7d0c31828ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6256f7e28fc6fd96"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__eq__","kind":"method","src_hash":"3998d7d0c31828ad","in":{"base":"Any","pred":"hasattr(other, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'var')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6256f7e28fc6fd96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'var')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.var","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, LRAVariable):
             return False
         return other.var == self.var
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(self.var)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(self.var)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e4e777eecf033f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__hash__","kind":"method","src_hash":"ca6af3c2b0cf6a43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e4e777eecf033f0"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.lra_theory.LRAVariable.__hash__","kind":"method","src_hash":"ca6af3c2b0cf6a43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(self.var)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e4e777eecf033f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(self.var)

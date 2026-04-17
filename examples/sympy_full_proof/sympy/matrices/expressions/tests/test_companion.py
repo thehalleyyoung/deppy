@@ -24,16 +24,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_creation(), test_creation produces the expected output) over Any ║
+# ║ Path(test_creation(), unchanged(CompanionMatrix, Poly([1, 2, 3], x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_creation : Any → {Any | unchanged(CompanionMatri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(CompanionMatrix, Poly([1, 2, 3]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_creation : Any → {Any | result satisfies: unchan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf37244dda4ba98b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e30d38a1a8790383  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_creation","kind":"function","src_hash":"dcd8fe58d3cfba4e","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(CompanionMatrix, Poly([1, 2, 3], x))"},"spec":{"lhs":"test_creation()","rhs":"test_creation produces the expected output","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"test_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_creation_correct","statement":"Path(test_creation(x), test_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf37244dda4ba98b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_creation","kind":"function","src_hash":"dcd8fe58d3cfba4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(CompanionMatrix, Poly([1, 2, 3], x))"},"spec":{"lhs":"test_creation()","rhs":"unchanged(CompanionMatrix, Poly([1, 2, 3], x))","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"unchanged(CompanionMatrix, Poly([1, 2, 3], x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_creation_correct","statement":"Path(test_creation(x), unchanged(CompanionMatrix, Poly([1, 2, 3], x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e30d38a1a8790383","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(CompanionMatrix, Poly([1, 2, 3], x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_creation():
     x = Symbol('x')
     y = Symbol('y')
@@ -45,16 +51,24 @@ def test_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_shape(), test_shape produces the expected output) over Any ║
+# ║ Path(test_shape(), CompanionMatrix(Poly([1, c0], x)).shape == (1, 1) and CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2) and CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_shape : Any → {Any | CompanionMatrix(Poly([1, c0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CompanionMatrix(Poly([1, c0], x)).shape =...   ║
+# ║   ensures:  CompanionMatrix(Poly([1, c1, c0], x)).sha...   ║
+# ║   ensures:  CompanionMatrix(Poly([1, c2, c1, c0], x))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_shape : Any → {Any | result satisfies: Companion...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d9d910c39165d51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07626ae6cd28b42a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_shape","kind":"function","src_hash":"5bbb5625fafd0cbd","in":{"base":"Any"},"out":{"base":"Any","pred":"CompanionMatrix(Poly([1, c0], x)).shape == (1, 1) and CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2) and CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3)"},"spec":{"lhs":"test_shape()","rhs":"test_shape produces the expected output","over":{"base":"Any"},"name":"test_shape_correct"},"guarantee":"test_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_shape_correct","statement":"Path(test_shape(x), test_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d9d910c39165d51"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_shape","kind":"function","src_hash":"5bbb5625fafd0cbd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: CompanionMatrix(Poly([1, c0], x)).shape == (1, 1) and CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2) and CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3)"},"spec":{"lhs":"test_shape()","rhs":"CompanionMatrix(Poly([1, c0], x)).shape == (1, 1) and CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2) and CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3)","over":{"base":"Any"},"name":"test_shape_correct"},"guarantee":"CompanionMatrix(Poly([1, c0], x)).shape == (1, 1); CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2); CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_shape_correct","statement":"Path(test_shape(x), CompanionMatrix(Poly([1, c0], x)).shape == (1, 1); CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2); CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07626ae6cd28b42a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CompanionMatrix(Poly([1, c0], x)).shape == (1, 1)","CompanionMatrix(Poly([1, c1, c0], x)).shape == (2, 2)","CompanionMatrix(Poly([1, c2, c1, c0], x)).shape == (3, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_shape():
     c0, c1, c2 = symbols('c0:3')
     x = Symbol('x')
@@ -64,16 +78,24 @@ def test_shape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_entry(), test_entry produces the expected output) over Any ║
+# ║ Path(test_entry(), A[0, 0] == 0 and A[1, 0] == 1 and A[1, 1] == 0 and A[2, 1] == 1 and A[0, 2] == -c0 and A[1, 2] == -c1 and A[2, 2] == -c2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_entry : Any → {Any | A[0, 0] == 0 and A[1, 0] ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[0, 0] == 0                                   ║
+# ║   ensures:  A[1, 0] == 1                                   ║
+# ║   ensures:  A[1, 1] == 0                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_entry : Any → {Any | result satisfies: A[0, 0] =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e1e0f3451590364  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb14270a29c36ace  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_entry","kind":"function","src_hash":"288ea7136eefe9d0","in":{"base":"Any"},"out":{"base":"Any","pred":"A[0, 0] == 0 and A[1, 0] == 1 and A[1, 1] == 0 and A[2, 1] == 1 and A[0, 2] == -c0 and A[1, 2] == -c1 and A[2, 2] == -c2"},"spec":{"lhs":"test_entry()","rhs":"test_entry produces the expected output","over":{"base":"Any"},"name":"test_entry_correct"},"guarantee":"test_entry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_entry_correct","statement":"Path(test_entry(x), test_entry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e1e0f3451590364"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_entry","kind":"function","src_hash":"288ea7136eefe9d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[0, 0] == 0 and A[1, 0] == 1 and A[1, 1] == 0 and A[2, 1] == 1 and A[0, 2] == -c0 and A[1, 2] == -c1 and A[2, 2] == -c2"},"spec":{"lhs":"test_entry()","rhs":"A[0, 0] == 0 and A[1, 0] == 1 and A[1, 1] == 0 and A[2, 1] == 1 and A[0, 2] == -c0 and A[1, 2] == -c1 and A[2, 2] == -c2","over":{"base":"Any"},"name":"test_entry_correct"},"guarantee":"A[0, 0] == 0; A[1, 0] == 1; A[1, 1] == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_entry_correct","statement":"Path(test_entry(x), A[0, 0] == 0; A[1, 0] == 1; A[1, 1] == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb14270a29c36ace","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[0, 0] == 0","A[1, 0] == 1","A[1, 1] == 0","A[2, 1] == 1","A[0, 2] == -c0","A[1, 2] == -c1","A[2, 2] == -c2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_entry():
     c0, c1, c2 = symbols('c0:3')
     x = Symbol('x')
@@ -88,16 +110,24 @@ def test_entry():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_explicit(), test_as_explicit produces the expected output) over Any ║
+# ║ Path(test_as_explicit(), CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0]) and CompanionMatrix(Poly([1, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, -c0], [1, -c1]]) and CompanionMatrix(Poly([1, c2, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, 0, -c0], [1, 0, -c1], [0, 1, -c2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_explicit : Any → {Any | CompanionMatrix(Poly(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CompanionMatrix(Poly([1, c0], x)).as_expl...   ║
+# ║   ensures:  CompanionMatrix(Poly([1, c1, c0], x)).as_...   ║
+# ║   ensures:  CompanionMatrix(Poly([1, c2, c1, c0], x))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_explicit : Any → {Any | result satisfies: Com...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da63e8fcce3062d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db858f90b1671daa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_as_explicit","kind":"function","src_hash":"2ef2b6f953819ad7","in":{"base":"Any"},"out":{"base":"Any","pred":"CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0])"},"spec":{"lhs":"test_as_explicit()","rhs":"test_as_explicit produces the expected output","over":{"base":"Any"},"name":"test_as_explicit_correct"},"guarantee":"test_as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_as_explicit_correct","statement":"Path(test_as_explicit(x), test_as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da63e8fcce3062d4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_companion.test_as_explicit","kind":"function","src_hash":"2ef2b6f953819ad7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0]) and CompanionMatrix(Poly([1, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, -c0], [1, -c1]]) and CompanionMatrix(Poly([1, c2, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, 0, -c0], [1, 0, -c1], [0, 1, -c2]])"},"spec":{"lhs":"test_as_explicit()","rhs":"CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0]) and CompanionMatrix(Poly([1, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, -c0], [1, -c1]]) and CompanionMatrix(Poly([1, c2, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, 0, -c0], [1, 0, -c1], [0, 1, -c2]])","over":{"base":"Any"},"name":"test_as_explicit_correct"},"guarantee":"CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0]); CompanionMatrix(Poly([1, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, -c0], [1, -c1]]); CompanionMatrix(Poly([1, c2, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, 0, -c0], [1, 0, -c1], [0, 1, -c2]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_companion.test_as_explicit_correct","statement":"Path(test_as_explicit(x), CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0]); CompanionMatrix(Poly([1, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, -c0], [1, -c1]]); CompanionMatrix(Poly([1, c2, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, 0, -c0], [1, 0, -c1], [0, 1, -c2]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db858f90b1671daa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CompanionMatrix(Poly([1, c0], x)).as_explicit() == ImmutableDenseMatrix([-c0])","CompanionMatrix(Poly([1, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, -c0], [1, -c1]])","CompanionMatrix(Poly([1, c2, c1, c0], x)).as_explicit() == ImmutableDenseMatrix([[0, 0, -c0], [1, 0, -c1], [0, 1, -c2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_as_explicit():
     c0, c1, c2 = symbols('c0:3')
     x = Symbol('x')

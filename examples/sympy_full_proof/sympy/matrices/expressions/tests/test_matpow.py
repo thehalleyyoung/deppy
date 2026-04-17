@@ -35,16 +35,24 @@ E = MatrixSymbol('E', m, n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_entry_matrix(), test_entry_matrix produces the expected output) over Any ║
+# ║ Path(test_entry_matrix(), MatPow(X, 0)[0, 0] == 1 and MatPow(X, 0)[0, 1] == 0 and MatPow(X, 1)[0, 0] == 1 and MatPow(X, 1)[0, 1] == 2 and MatPow(X, 2)[0, 0] == 7) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_entry_matrix : Any → {Any | MatPow(X, 0)[0, 0] =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(X, 0)[0, 0] == 1                        ║
+# ║   ensures:  MatPow(X, 0)[0, 1] == 0                        ║
+# ║   ensures:  MatPow(X, 1)[0, 0] == 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_entry_matrix : Any → {Any | result satisfies: Ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76d7662548e326e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40cc07d5e589346f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_entry_matrix","kind":"function","src_hash":"49d6d63325d78e7a","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(X, 0)[0, 0] == 1 and MatPow(X, 0)[0, 1] == 0 and MatPow(X, 1)[0, 0] == 1 and MatPow(X, 1)[0, 1] == 2 and MatPow(X, 2)[0, 0] == 7"},"spec":{"lhs":"test_entry_matrix()","rhs":"test_entry_matrix produces the expected output","over":{"base":"Any"},"name":"test_entry_matrix_correct"},"guarantee":"test_entry_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_entry_matrix_correct","statement":"Path(test_entry_matrix(x), test_entry_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76d7662548e326e0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_entry_matrix","kind":"function","src_hash":"49d6d63325d78e7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(X, 0)[0, 0] == 1 and MatPow(X, 0)[0, 1] == 0 and MatPow(X, 1)[0, 0] == 1 and MatPow(X, 1)[0, 1] == 2 and MatPow(X, 2)[0, 0] == 7"},"spec":{"lhs":"test_entry_matrix()","rhs":"MatPow(X, 0)[0, 0] == 1 and MatPow(X, 0)[0, 1] == 0 and MatPow(X, 1)[0, 0] == 1 and MatPow(X, 1)[0, 1] == 2 and MatPow(X, 2)[0, 0] == 7","over":{"base":"Any"},"name":"test_entry_matrix_correct"},"guarantee":"MatPow(X, 0)[0, 0] == 1; MatPow(X, 0)[0, 1] == 0; MatPow(X, 1)[0, 0] == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_entry_matrix_correct","statement":"Path(test_entry_matrix(x), MatPow(X, 0)[0, 0] == 1; MatPow(X, 0)[0, 1] == 0; MatPow(X, 1)[0, 0] == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40cc07d5e589346f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(X, 0)[0, 0] == 1","MatPow(X, 0)[0, 1] == 0","MatPow(X, 1)[0, 0] == 1","MatPow(X, 1)[0, 1] == 2","MatPow(X, 2)[0, 0] == 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_entry_matrix():
     X = ImmutableMatrix([[1, 2], [3, 4]])
     assert MatPow(X, 0)[0, 0] == 1
@@ -55,7 +63,12 @@ def test_entry_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_entry_symbol(), test_entry_symbol produces the expected output) over {Any | isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)} ║
+# ║ Path(test_entry_symbol(), MatPow(C, 0)[0, 0] == 1 and MatPow(C, 0)[0, 1] == 0 and MatPow(C, 1)[0, 0] == C[0, 0] and isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)) over {Any | isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(C, 0)[0, 0] == 1                        ║
+# ║   ensures:  MatPow(C, 0)[0, 1] == 0                        ║
+# ║   ensures:  MatPow(C, 1)[0, 0] == C[0, 0]                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_entry_symbol : {Any | isinstance(MatPow(C, 2)[0,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -68,9 +81,12 @@ def test_entry_matrix():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6406bbc0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_entry_symbol","kind":"function","src_hash":"2c0ac1dc5dda26d8","in":{"base":"Any","pred":"isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"out":{"base":"Any","pred":"MatPow(C, 0)[0, 0] == 1 and MatPow(C, 0)[0, 1] == 0 and MatPow(C, 1)[0, 0] == C[0, 0] and isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"spec":{"lhs":"test_entry_symbol()","rhs":"test_entry_symbol produces the expected output","over":{"base":"Any","pred":"isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"name":"test_entry_symbol_correct"},"guarantee":"test_entry_symbol produces the expected output","fibers":[{"name":"2)[0","pred":"isinstance(MatPow(C, 2)[0, 0], Sum)","path":{"lhs":"test_entry_symbol(x)","rhs":"test_entry_symbol produces the expected output","over":{"base":"2)[0","pred":"isinstance(MatPow(C, 2)[0, 0], Sum)"},"name":"test_entry_symbol_2)[0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_entry_symbol_2)[0_correct","statement":"test_entry_symbol satisfies spec on 2)[0 inputs"},"trust":"LIBRARY"},{"name":"n)[0","pred":"isinstance(MatPow(C, n)[0, 0], MatrixElement)","path":{"lhs":"test_entry_symbol(x)","rhs":"test_entry_symbol produces the expected output","over":{"base":"n)[0","pred":"isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"name":"test_entry_symbol_n)[0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_entry_symbol_n)[0_correct","statement":"test_entry_symbol satisfies spec on n)[0 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6406bbc06172fca9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_entry_symbol","kind":"function","src_hash":"2c0ac1dc5dda26d8","in":{"base":"Any","pred":"isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"out":{"base":"Any","pred":"result satisfies: MatPow(C, 0)[0, 0] == 1 and MatPow(C, 0)[0, 1] == 0 and MatPow(C, 1)[0, 0] == C[0, 0] and isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"spec":{"lhs":"test_entry_symbol()","rhs":"MatPow(C, 0)[0, 0] == 1 and MatPow(C, 0)[0, 1] == 0 and MatPow(C, 1)[0, 0] == C[0, 0] and isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)","over":{"base":"Any","pred":"isinstance(MatPow(C, 2)[0, 0], Sum) and isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"name":"test_entry_symbol_correct"},"guarantee":"MatPow(C, 0)[0, 0] == 1; MatPow(C, 0)[0, 1] == 0; MatPow(C, 1)[0, 0] == C[0, 0]","fibers":[{"name":"2)[0","pred":"isinstance(MatPow(C, 2)[0, 0], Sum)","path":{"lhs":"test_entry_symbol(x)","rhs":"MatPow(C, 0)[0, 0] == 1; MatPow(C, 0)[0, 1] == 0; MatPow(C, 1)[0, 0] == C[0, 0]","over":{"base":"2)[0","pred":"isinstance(MatPow(C, 2)[0, 0], Sum)"},"name":"test_entry_symbol_2)[0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_entry_symbol_2)[0_correct","statement":"test_entry_symbol satisfies spec on 2)[0 inputs"},"trust":"LIBRARY"},{"name":"n)[0","pred":"isinstance(MatPow(C, n)[0, 0], MatrixElement)","path":{"lhs":"test_entry_symbol(x)","rhs":"MatPow(C, 0)[0, 0] == 1; MatPow(C, 0)[0, 1] == 0; MatPow(C, 1)[0, 0] == C[0, 0]","over":{"base":"n)[0","pred":"isinstance(MatPow(C, n)[0, 0], MatrixElement)"},"name":"test_entry_symbol_n)[0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_entry_symbol_n)[0_correct","statement":"test_entry_symbol satisfies spec on n)[0 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6406bbc06172fca9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(C, 0)[0, 0] == 1","MatPow(C, 0)[0, 1] == 0","MatPow(C, 1)[0, 0] == C[0, 0]","isinstance(MatPow(C, 2)[0, 0], Sum)","isinstance(MatPow(C, n)[0, 0], MatrixElement)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_entry_symbol():
     from sympy.concrete import Sum
     assert MatPow(C, 0)[0, 0] == 1
@@ -81,16 +97,24 @@ def test_entry_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_explicit_symbol(), test_as_explicit_symbol produces the expected output) over Any ║
+# ║ Path(test_as_explicit_symbol(), MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).as_explicit() == X.as_explicit() and MatPow(X, 2).as_explicit() == X.as_explicit() ** 2 and MatPow(X, n).as_explicit() == ImmutableMatrix([[(X ** n)[0, 0], (X ** n)[0, 1]], [(X ** n)[1, 0], (X ** n)[1, 1]]]) and expr.as_explicit() == Matrix([[sqrt(a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0] + a[2, 0] * b[2, 0])]]) and expr.as_explicit() == Matrix([[c[0, 0] * m], [c[1, 0] * m], [c[2, 0] * m]]) and expr.as_explicit() == expected and expr.as_explicit() == X.as_explicit() ** m) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_explicit_symbol : Any → {Any | MatPow(X, 0).a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(X, 0).as_explicit() == ImmutableMa...   ║
+# ║   ensures:  MatPow(X, 1).as_explicit() == X.as_explic...   ║
+# ║   ensures:  MatPow(X, 2).as_explicit() == X.as_explic...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_explicit_symbol : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e05ec806acd5801  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 335a1f8a7b2fc595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_symbol","kind":"function","src_hash":"b8cc6c21e73ea9c4","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).as_explicit() == X.as_explicit() and MatPow(X, 2).as_explicit() == X.as_explicit() ** 2 and expr.as_explicit() == Matrix([[c[0, 0] * m], [c[1, 0] * m], [c[2, 0] * m]]) and expr.as_explicit() == expected and expr.as_explicit() == expected and expr.as_explicit() == X.as_explicit() ** m"},"spec":{"lhs":"test_as_explicit_symbol()","rhs":"test_as_explicit_symbol produces the expected output","over":{"base":"Any"},"name":"test_as_explicit_symbol_correct"},"guarantee":"test_as_explicit_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_symbol_correct","statement":"Path(test_as_explicit_symbol(x), test_as_explicit_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e05ec806acd5801"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_symbol","kind":"function","src_hash":"b8cc6c21e73ea9c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).as_explicit() == X.as_explicit() and MatPow(X, 2).as_explicit() == X.as_explicit() ** 2 and MatPow(X, n).as_explicit() == ImmutableMatrix([[(X ** n)[0, 0], (X ** n)[0, 1]], [(X ** n)[1, 0], (X ** n)[1, 1]]]) and expr.as_explicit() == Matrix([[sqrt(a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0] + a[2, 0] * b[2, 0])]]) and expr.as_explicit() == Matrix([[c[0, 0] * m], [c[1, 0] * m], [c[2, 0] * m]]) and expr.as_explicit() == expected and expr.as_explicit() == X.as_explicit() ** m"},"spec":{"lhs":"test_as_explicit_symbol()","rhs":"MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).as_explicit() == X.as_explicit() and MatPow(X, 2).as_explicit() == X.as_explicit() ** 2 and MatPow(X, n).as_explicit() == ImmutableMatrix([[(X ** n)[0, 0], (X ** n)[0, 1]], [(X ** n)[1, 0], (X ** n)[1, 1]]]) and expr.as_explicit() == Matrix([[sqrt(a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0] + a[2, 0] * b[2, 0])]]) and expr.as_explicit() == Matrix([[c[0, 0] * m], [c[1, 0] * m], [c[2, 0] * m]]) and expr.as_explicit() == expected and expr.as_explicit() == X.as_explicit() ** m","over":{"base":"Any"},"name":"test_as_explicit_symbol_correct"},"guarantee":"MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2)); MatPow(X, 1).as_explicit() == X.as_explicit(); MatPow(X, 2).as_explicit() == X.as_explicit() ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_symbol_correct","statement":"Path(test_as_explicit_symbol(x), MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2)); MatPow(X, 1).as_explicit() == X.as_explicit(); MatPow(X, 2).as_explicit() == X.as_explicit() ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"335a1f8a7b2fc595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2))","MatPow(X, 1).as_explicit() == X.as_explicit()","MatPow(X, 2).as_explicit() == X.as_explicit() ** 2","MatPow(X, n).as_explicit() == ImmutableMatrix([[(X ** n)[0, 0], (X ** n)[0, 1]], [(X ** n)[1, 0], (X ** n)[1, 1]]])","expr.as_explicit() == Matrix([[sqrt(a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0] + a[2, 0] * b[2, 0])]])","expr.as_explicit() == Matrix([[c[0, 0] * m], [c[1, 0] * m], [c[2, 0] * m]])","expr.as_explicit() == expected","expr.as_explicit() == X.as_explicit() ** m"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_as_explicit_symbol():
     X = MatrixSymbol('X', 2, 2)
     assert MatPow(X, 0).as_explicit() == ImmutableMatrix(Identity(2))
@@ -127,16 +151,24 @@ def test_as_explicit_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_explicit_matrix(), test_as_explicit_matrix produces the expected output) over Any ║
+# ║ Path(test_as_explicit_matrix(), MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(A, 1).as_explicit() == A and MatPow(A, 2).as_explicit() == A ** 2 and MatPow(A, -1).as_explicit() == A.inv() and MatPow(A, -2).as_explicit() == A.inv() ** 2 and MatPow(A, S.Half).as_explicit() == A ** S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_explicit_matrix : Any → {Any | MatPow(A, 0).a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(A, 0).as_explicit() == ImmutableMa...   ║
+# ║   ensures:  MatPow(A, 1).as_explicit() == A                ║
+# ║   ensures:  MatPow(A, 2).as_explicit() == A ** 2           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_explicit_matrix : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4825f2bca1314ea8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbfb3052adbb75aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_matrix","kind":"function","src_hash":"a667a8ad39a9b650","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(A, 1).as_explicit() == A and MatPow(A, 2).as_explicit() == A ** 2 and MatPow(A, -1).as_explicit() == A.inv() and MatPow(A, -2).as_explicit() == A.inv() ** 2 and MatPow(A, S.Half).as_explicit() == A ** S.Half"},"spec":{"lhs":"test_as_explicit_matrix()","rhs":"test_as_explicit_matrix produces the expected output","over":{"base":"Any"},"name":"test_as_explicit_matrix_correct"},"guarantee":"test_as_explicit_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_matrix_correct","statement":"Path(test_as_explicit_matrix(x), test_as_explicit_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4825f2bca1314ea8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_matrix","kind":"function","src_hash":"a667a8ad39a9b650","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(A, 1).as_explicit() == A and MatPow(A, 2).as_explicit() == A ** 2 and MatPow(A, -1).as_explicit() == A.inv() and MatPow(A, -2).as_explicit() == A.inv() ** 2 and MatPow(A, S.Half).as_explicit() == A ** S.Half"},"spec":{"lhs":"test_as_explicit_matrix()","rhs":"MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2)) and MatPow(A, 1).as_explicit() == A and MatPow(A, 2).as_explicit() == A ** 2 and MatPow(A, -1).as_explicit() == A.inv() and MatPow(A, -2).as_explicit() == A.inv() ** 2 and MatPow(A, S.Half).as_explicit() == A ** S.Half","over":{"base":"Any"},"name":"test_as_explicit_matrix_correct"},"guarantee":"MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2)); MatPow(A, 1).as_explicit() == A; MatPow(A, 2).as_explicit() == A ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_as_explicit_matrix_correct","statement":"Path(test_as_explicit_matrix(x), MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2)); MatPow(A, 1).as_explicit() == A; MatPow(A, 2).as_explicit() == A ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbfb3052adbb75aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2))","MatPow(A, 1).as_explicit() == A","MatPow(A, 2).as_explicit() == A ** 2","MatPow(A, -1).as_explicit() == A.inv()","MatPow(A, -2).as_explicit() == A.inv() ** 2","MatPow(A, S.Half).as_explicit() == A ** S.Half"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_as_explicit_matrix():
     A = ImmutableMatrix([[1, 2], [3, 4]])
     assert MatPow(A, 0).as_explicit() == ImmutableMatrix(Identity(2))
@@ -150,16 +182,24 @@ def test_as_explicit_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_symbol(), test_doit_symbol produces the expected output) over Any ║
+# ║ Path(test_doit_symbol(), MatPow(C, 0).doit() == Identity(n) and MatPow(C, 1).doit() == C and MatPow(C, -1).doit() == C.I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_symbol : Any → {Any | MatPow(C, 0).doit() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(C, 0).doit() == Identity(n)             ║
+# ║   ensures:  MatPow(C, 1).doit() == C                       ║
+# ║   ensures:  MatPow(C, -1).doit() == C.I                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_symbol : Any → {Any | result satisfies: Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c3795b1a4c21cac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b07989e57c76852  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_symbol","kind":"function","src_hash":"3a9dc4ad94bee5a9","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(C, 0).doit() == Identity(n) and MatPow(C, 1).doit() == C and MatPow(C, -1).doit() == C.I and MatPow(C, r).doit() == MatPow(C, r)"},"spec":{"lhs":"test_doit_symbol()","rhs":"test_doit_symbol produces the expected output","over":{"base":"Any"},"name":"test_doit_symbol_correct"},"guarantee":"test_doit_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_symbol_correct","statement":"Path(test_doit_symbol(x), test_doit_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c3795b1a4c21cac"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_symbol","kind":"function","src_hash":"3a9dc4ad94bee5a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(C, 0).doit() == Identity(n) and MatPow(C, 1).doit() == C and MatPow(C, -1).doit() == C.I"},"spec":{"lhs":"test_doit_symbol()","rhs":"MatPow(C, 0).doit() == Identity(n) and MatPow(C, 1).doit() == C and MatPow(C, -1).doit() == C.I","over":{"base":"Any"},"name":"test_doit_symbol_correct"},"guarantee":"MatPow(C, 0).doit() == Identity(n); MatPow(C, 1).doit() == C; MatPow(C, -1).doit() == C.I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_symbol_correct","statement":"Path(test_doit_symbol(x), MatPow(C, 0).doit() == Identity(n); MatPow(C, 1).doit() == C; MatPow(C, -1).doit() == C.I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b07989e57c76852","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(C, 0).doit() == Identity(n)","MatPow(C, 1).doit() == C","MatPow(C, -1).doit() == C.I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_doit_symbol():
     assert MatPow(C, 0).doit() == Identity(n)
     assert MatPow(C, 1).doit() == C
@@ -169,16 +209,24 @@ def test_doit_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_matrix(), test_doit_matrix produces the expected output) over Any ║
+# ║ Path(test_doit_matrix(), MatPow(X, 0).doit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).doit() == X and MatPow(X, 2).doit() == X ** 2 and MatPow(X, -1).doit() == X.inv() and MatPow(X, -2).doit() == X.inv() ** 2 and MatPow(ImmutableMatrix([4]), S.Half).doit() == ImmutableMatrix([2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_matrix : Any → {Any | MatPow(X, 0).doit() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(X, 0).doit() == ImmutableMatrix(Id...   ║
+# ║   ensures:  MatPow(X, 1).doit() == X                       ║
+# ║   ensures:  MatPow(X, 2).doit() == X ** 2                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_matrix : Any → {Any | result satisfies: Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 282b234930f886e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9828c851c92ddfc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_matrix","kind":"function","src_hash":"8df7de7dba7cc965","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(X, 0).doit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).doit() == X and MatPow(X, 2).doit() == X ** 2 and MatPow(X, -1).doit() == X.inv() and MatPow(X, -2).doit() == X.inv() ** 2 and MatPow(ImmutableMatrix([4]), S.Half).doit() == ImmutableMatrix([2])"},"spec":{"lhs":"test_doit_matrix()","rhs":"test_doit_matrix produces the expected output","over":{"base":"Any"},"name":"test_doit_matrix_correct"},"guarantee":"test_doit_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_matrix_correct","statement":"Path(test_doit_matrix(x), test_doit_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"282b234930f886e4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_matrix","kind":"function","src_hash":"8df7de7dba7cc965","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(X, 0).doit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).doit() == X and MatPow(X, 2).doit() == X ** 2 and MatPow(X, -1).doit() == X.inv() and MatPow(X, -2).doit() == X.inv() ** 2 and MatPow(ImmutableMatrix([4]), S.Half).doit() == ImmutableMatrix([2])"},"spec":{"lhs":"test_doit_matrix()","rhs":"MatPow(X, 0).doit() == ImmutableMatrix(Identity(2)) and MatPow(X, 1).doit() == X and MatPow(X, 2).doit() == X ** 2 and MatPow(X, -1).doit() == X.inv() and MatPow(X, -2).doit() == X.inv() ** 2 and MatPow(ImmutableMatrix([4]), S.Half).doit() == ImmutableMatrix([2])","over":{"base":"Any"},"name":"test_doit_matrix_correct"},"guarantee":"MatPow(X, 0).doit() == ImmutableMatrix(Identity(2)); MatPow(X, 1).doit() == X; MatPow(X, 2).doit() == X ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_matrix_correct","statement":"Path(test_doit_matrix(x), MatPow(X, 0).doit() == ImmutableMatrix(Identity(2)); MatPow(X, 1).doit() == X; MatPow(X, 2).doit() == X ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9828c851c92ddfc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(X, 0).doit() == ImmutableMatrix(Identity(2))","MatPow(X, 1).doit() == X","MatPow(X, 2).doit() == X ** 2","MatPow(X, -1).doit() == X.inv()","MatPow(X, -2).doit() == X.inv() ** 2","MatPow(ImmutableMatrix([4]), S.Half).doit() == ImmutableMatrix([2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_doit_matrix():
     X = ImmutableMatrix([[1, 2], [3, 4]])
     assert MatPow(X, 0).doit() == ImmutableMatrix(Identity(2))
@@ -194,16 +242,22 @@ def test_doit_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonsquare(), test_nonsquare produces the expected output) over Any ║
+# ║ Path(test_nonsquare(), <unspecified:test_nonsquare>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonsquare : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38dd610b7fbf0c9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_nonsquare","kind":"function","src_hash":"c5d2b3d3075959a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonsquare()","rhs":"test_nonsquare produces the expected output","over":{"base":"Any"},"name":"test_nonsquare_correct"},"guarantee":"test_nonsquare produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_nonsquare_correct","statement":"Path(test_nonsquare(x), test_nonsquare produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38dd610b7fbf0c9f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_nonsquare","kind":"function","src_hash":"c5d2b3d3075959a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonsquare()","rhs":"<unspecified:test_nonsquare>","over":{"base":"Any"},"name":"test_nonsquare_correct"},"guarantee":"test_nonsquare produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_nonsquare_correct","statement":"Path(test_nonsquare(x), test_nonsquare produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38dd610b7fbf0c9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nonsquare():
     A = MatrixSymbol('A', 2, 3)
     B = ImmutableMatrix([[1, 2, 3], [4, 5, 6]])
@@ -213,32 +267,45 @@ def test_nonsquare():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_equals_pow(), test_doit_equals_pow produces the expected output) over Any ║
+# ║ Path(test_doit_equals_pow(), MatPow(X, n).doit() == X ** n == X) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_equals_pow : Any → {Any | MatPow(X, n).doit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(X, n).doit() == X ** n == X             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_equals_pow : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffc45a83ee6c841c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c389393d72ea76ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_equals_pow","kind":"function","src_hash":"fa21ebcf2233dbfe","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(X, n).doit() == X ** n == X"},"spec":{"lhs":"test_doit_equals_pow()","rhs":"test_doit_equals_pow produces the expected output","over":{"base":"Any"},"name":"test_doit_equals_pow_correct"},"guarantee":"test_doit_equals_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_equals_pow_correct","statement":"Path(test_doit_equals_pow(x), test_doit_equals_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffc45a83ee6c841c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_equals_pow","kind":"function","src_hash":"fa21ebcf2233dbfe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(X, n).doit() == X ** n == X"},"spec":{"lhs":"test_doit_equals_pow()","rhs":"MatPow(X, n).doit() == X ** n == X","over":{"base":"Any"},"name":"test_doit_equals_pow_correct"},"guarantee":"MatPow(X, n).doit() == X ** n == X","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_equals_pow_correct","statement":"Path(test_doit_equals_pow(x), MatPow(X, n).doit() == X ** n == X)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c389393d72ea76ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(X, n).doit() == X ** n == X"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_doit_equals_pow(): #17179
     X = ImmutableMatrix ([[1,0],[0,1]])
     assert MatPow(X, n).doit() == X**n == X
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_nested_MatrixExpr(), test_doit_nested_MatrixExpr produces the expected output) over Any ║
+# ║ Path(test_doit_nested_MatrixExpr(), MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2 and MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_nested_MatrixExpr : Any → {Any | MatPow(Mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(MatMul(X, Y), 2).doit() == (X * Y)...   ║
+# ║   ensures:  MatPow(MatAdd(X, Y), 2).doit() == (X + Y)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_nested_MatrixExpr : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a06a168a2c4df5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b9d8f957d7910c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_nested_MatrixExpr","kind":"function","src_hash":"0fd5b2ac55f74456","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2 and MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2"},"spec":{"lhs":"test_doit_nested_MatrixExpr()","rhs":"test_doit_nested_MatrixExpr produces the expected output","over":{"base":"Any"},"name":"test_doit_nested_MatrixExpr_correct"},"guarantee":"test_doit_nested_MatrixExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_nested_MatrixExpr_correct","statement":"Path(test_doit_nested_MatrixExpr(x), test_doit_nested_MatrixExpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a06a168a2c4df5d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_doit_nested_MatrixExpr","kind":"function","src_hash":"0fd5b2ac55f74456","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2 and MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2"},"spec":{"lhs":"test_doit_nested_MatrixExpr()","rhs":"MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2 and MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2","over":{"base":"Any"},"name":"test_doit_nested_MatrixExpr_correct"},"guarantee":"MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2; MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_doit_nested_MatrixExpr_correct","statement":"Path(test_doit_nested_MatrixExpr(x), MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2; MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b9d8f957d7910c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(MatMul(X, Y), 2).doit() == (X * Y) ** 2","MatPow(MatAdd(X, Y), 2).doit() == (X + Y) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_doit_nested_MatrixExpr():
     X = ImmutableMatrix([[1, 2], [3, 4]])
     Y = ImmutableMatrix([[2, 3], [4, 5]])
@@ -247,16 +314,24 @@ def test_doit_nested_MatrixExpr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_identity_power(), test_identity_power produces the expected output) over Any ║
+# ║ Path(test_identity_power(), MatPow(k, 4).doit() == k and MatPow(k, n).doit() == k and MatPow(k, -3).doit() == k and MatPow(k, 0).doit() == k and MatPow(l, n).doit() == l and MatPow(l, -1).doit() == l and MatPow(l, 0).doit() == l) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_identity_power : Any → {Any | MatPow(k, 4).doit(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(k, 4).doit() == k                       ║
+# ║   ensures:  MatPow(k, n).doit() == k                       ║
+# ║   ensures:  MatPow(k, -3).doit() == k                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_identity_power : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b54ecd1fda44027  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62d5eab0da38a687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_identity_power","kind":"function","src_hash":"596e359f75d7ab1c","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(k, 4).doit() == k and MatPow(k, n).doit() == k and MatPow(k, -3).doit() == k and MatPow(k, 0).doit() == k and MatPow(l, n).doit() == l and MatPow(l, -1).doit() == l and MatPow(l, 0).doit() == l"},"spec":{"lhs":"test_identity_power()","rhs":"test_identity_power produces the expected output","over":{"base":"Any"},"name":"test_identity_power_correct"},"guarantee":"test_identity_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_identity_power_correct","statement":"Path(test_identity_power(x), test_identity_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b54ecd1fda44027"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_identity_power","kind":"function","src_hash":"596e359f75d7ab1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(k, 4).doit() == k and MatPow(k, n).doit() == k and MatPow(k, -3).doit() == k and MatPow(k, 0).doit() == k and MatPow(l, n).doit() == l and MatPow(l, -1).doit() == l and MatPow(l, 0).doit() == l"},"spec":{"lhs":"test_identity_power()","rhs":"MatPow(k, 4).doit() == k and MatPow(k, n).doit() == k and MatPow(k, -3).doit() == k and MatPow(k, 0).doit() == k and MatPow(l, n).doit() == l and MatPow(l, -1).doit() == l and MatPow(l, 0).doit() == l","over":{"base":"Any"},"name":"test_identity_power_correct"},"guarantee":"MatPow(k, 4).doit() == k; MatPow(k, n).doit() == k; MatPow(k, -3).doit() == k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_identity_power_correct","statement":"Path(test_identity_power(x), MatPow(k, 4).doit() == k; MatPow(k, n).doit() == k; MatPow(k, -3).doit() == k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62d5eab0da38a687","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(k, 4).doit() == k","MatPow(k, n).doit() == k","MatPow(k, -3).doit() == k","MatPow(k, 0).doit() == k","MatPow(l, n).doit() == l","MatPow(l, -1).doit() == l","MatPow(l, 0).doit() == l"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_identity_power():
     k = Identity(n)
     assert MatPow(k, 4).doit() == k
@@ -270,16 +345,24 @@ def test_identity_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zero_power(), test_zero_power produces the expected output) over Any ║
+# ║ Path(test_zero_power(), MatPow(z1, 3).doit() == z1 and MatPow(z1, 0).doit() == Identity(n) and MatPow(z1, n).doit() == z1 and MatPow(z2, n).doit() == z2 and MatPow(z2, 2).doit() == z2 and MatPow(z2, 0).doit() == Identity(4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zero_power : Any → {Any | MatPow(z1, 3).doit() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatPow(z1, 3).doit() == z1                     ║
+# ║   ensures:  MatPow(z1, 0).doit() == Identity(n)            ║
+# ║   ensures:  MatPow(z1, n).doit() == z1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zero_power : Any → {Any | result satisfies: MatP...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8b944fc99030733  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08bb83e8b0e339a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_zero_power","kind":"function","src_hash":"260a8b55bb7854f2","in":{"base":"Any"},"out":{"base":"Any","pred":"MatPow(z1, 3).doit() == z1 and MatPow(z1, 0).doit() == Identity(n) and MatPow(z1, n).doit() == z1 and MatPow(z2, n).doit() == z2 and MatPow(z2, 2).doit() == z2 and MatPow(z2, 0).doit() == Identity(4)"},"spec":{"lhs":"test_zero_power()","rhs":"test_zero_power produces the expected output","over":{"base":"Any"},"name":"test_zero_power_correct"},"guarantee":"test_zero_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_zero_power_correct","statement":"Path(test_zero_power(x), test_zero_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8b944fc99030733"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_zero_power","kind":"function","src_hash":"260a8b55bb7854f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatPow(z1, 3).doit() == z1 and MatPow(z1, 0).doit() == Identity(n) and MatPow(z1, n).doit() == z1 and MatPow(z2, n).doit() == z2 and MatPow(z2, 2).doit() == z2 and MatPow(z2, 0).doit() == Identity(4)"},"spec":{"lhs":"test_zero_power()","rhs":"MatPow(z1, 3).doit() == z1 and MatPow(z1, 0).doit() == Identity(n) and MatPow(z1, n).doit() == z1 and MatPow(z2, n).doit() == z2 and MatPow(z2, 2).doit() == z2 and MatPow(z2, 0).doit() == Identity(4)","over":{"base":"Any"},"name":"test_zero_power_correct"},"guarantee":"MatPow(z1, 3).doit() == z1; MatPow(z1, 0).doit() == Identity(n); MatPow(z1, n).doit() == z1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_zero_power_correct","statement":"Path(test_zero_power(x), MatPow(z1, 3).doit() == z1; MatPow(z1, 0).doit() == Identity(n); MatPow(z1, n).doit() == z1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08bb83e8b0e339a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatPow(z1, 3).doit() == z1","MatPow(z1, 0).doit() == Identity(n)","MatPow(z1, n).doit() == z1","MatPow(z2, n).doit() == z2","MatPow(z2, 2).doit() == z2","MatPow(z2, 0).doit() == Identity(4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_zero_power():
     z1 = ZeroMatrix(n, n)
     assert MatPow(z1, 3).doit() == z1
@@ -296,16 +379,24 @@ def test_zero_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_OneMatrix_power(), test_OneMatrix_power produces the expected output) over Any ║
+# ║ Path(test_OneMatrix_power(), o ** 0 == Identity(3) and o ** 1 == o and o * o == o ** 2 == 3 * o and o * o * o == o ** 3 == 9 * o and o * o == o ** 2 == n * o and powsimp(o ** (n - 1) * o) == o ** n == n ** (n - 1) * o) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_OneMatrix_power : Any → {Any | o ** 0 == Identit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  o ** 0 == Identity(3)                          ║
+# ║   ensures:  o ** 1 == o                                    ║
+# ║   ensures:  o * o == o ** 2 == 3 * o                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_OneMatrix_power : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee5ea876fa0c5a83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f2ac783cdf70966  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_OneMatrix_power","kind":"function","src_hash":"84dc6de5192bac84","in":{"base":"Any"},"out":{"base":"Any","pred":"o ** 0 == Identity(3) and o ** 1 == o and o * o == o ** 2 == 3 * o and o * o * o == o ** 3 == 9 * o and o * o == o ** 2 == n * o and powsimp(o ** (n - 1) * o) == o ** n == n ** (n - 1) * o"},"spec":{"lhs":"test_OneMatrix_power()","rhs":"test_OneMatrix_power produces the expected output","over":{"base":"Any"},"name":"test_OneMatrix_power_correct"},"guarantee":"test_OneMatrix_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_OneMatrix_power_correct","statement":"Path(test_OneMatrix_power(x), test_OneMatrix_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee5ea876fa0c5a83"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_OneMatrix_power","kind":"function","src_hash":"84dc6de5192bac84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: o ** 0 == Identity(3) and o ** 1 == o and o * o == o ** 2 == 3 * o and o * o * o == o ** 3 == 9 * o and o * o == o ** 2 == n * o and powsimp(o ** (n - 1) * o) == o ** n == n ** (n - 1) * o"},"spec":{"lhs":"test_OneMatrix_power()","rhs":"o ** 0 == Identity(3) and o ** 1 == o and o * o == o ** 2 == 3 * o and o * o * o == o ** 3 == 9 * o and o * o == o ** 2 == n * o and powsimp(o ** (n - 1) * o) == o ** n == n ** (n - 1) * o","over":{"base":"Any"},"name":"test_OneMatrix_power_correct"},"guarantee":"o ** 0 == Identity(3); o ** 1 == o; o * o == o ** 2 == 3 * o","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_OneMatrix_power_correct","statement":"Path(test_OneMatrix_power(x), o ** 0 == Identity(3); o ** 1 == o; o * o == o ** 2 == 3 * o)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f2ac783cdf70966","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["o ** 0 == Identity(3)","o ** 1 == o","o * o == o ** 2 == 3 * o","o * o * o == o ** 3 == 9 * o","o * o == o ** 2 == n * o","powsimp(o ** (n - 1) * o) == o ** n == n ** (n - 1) * o"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_OneMatrix_power():
     o = OneMatrix(3, 3)
     assert o ** 0 == Identity(3)
@@ -320,16 +411,24 @@ def test_OneMatrix_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transpose_power(), test_transpose_power produces the expected output) over Any ║
+# ║ Path(test_transpose_power(), (C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5 and ((C * D).T ** 5).T == (C * D) ** 5 and C.T.I.T ** 7 == C ** (-7) and (C.T ** l).T ** k == C ** (l * k) and ((E.T * A.T) ** 5).T == (A * E) ** 5 and ((A * E).T ** 5).T ** 7 == (A * E) ** 35 and TP(TP(C ** 2 * D ** 3) ** 5).doit() == (C ** 2 * D ** 3) ** 5 and ((D * C) ** (-5)).T ** (-5) == ((D * C) ** 25).T and (((D * C) ** l).T ** k).T == (D * C) ** (l * k)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transpose_power : Any → {Any | (C * D).T ** 5 ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (C * D).T ** 5 == ((C * D) ** 5).T == (D....   ║
+# ║   ensures:  ((C * D).T ** 5).T == (C * D) ** 5             ║
+# ║   ensures:  C.T.I.T ** 7 == C ** (-7)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transpose_power : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18ebba70f624a03b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03d03239c67f03f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_transpose_power","kind":"function","src_hash":"948ee4d370140901","in":{"base":"Any"},"out":{"base":"Any","pred":"(C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5 and ((C * D).T ** 5).T == (C * D) ** 5 and C.T.I.T ** 7 == C ** (-7) and (C.T ** l).T ** k == C ** (l * k) and ((E.T * A.T) ** 5).T == (A * E) ** 5 and ((A * E).T ** 5).T ** 7 == (A * E) ** 35 and TP(TP(C ** 2 * D ** 3) ** 5).doit() == (C ** 2 * D ** 3) ** 5 and ((D * C) ** (-5)).T ** (-5) == ((D * C) ** 25).T and (((D * C) ** l).T ** k).T == (D * C) ** (l * k)"},"spec":{"lhs":"test_transpose_power()","rhs":"test_transpose_power produces the expected output","over":{"base":"Any"},"name":"test_transpose_power_correct"},"guarantee":"test_transpose_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_transpose_power_correct","statement":"Path(test_transpose_power(x), test_transpose_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18ebba70f624a03b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_transpose_power","kind":"function","src_hash":"948ee4d370140901","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5 and ((C * D).T ** 5).T == (C * D) ** 5 and C.T.I.T ** 7 == C ** (-7) and (C.T ** l).T ** k == C ** (l * k) and ((E.T * A.T) ** 5).T == (A * E) ** 5 and ((A * E).T ** 5).T ** 7 == (A * E) ** 35 and TP(TP(C ** 2 * D ** 3) ** 5).doit() == (C ** 2 * D ** 3) ** 5 and ((D * C) ** (-5)).T ** (-5) == ((D * C) ** 25).T and (((D * C) ** l).T ** k).T == (D * C) ** (l * k)"},"spec":{"lhs":"test_transpose_power()","rhs":"(C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5 and ((C * D).T ** 5).T == (C * D) ** 5 and C.T.I.T ** 7 == C ** (-7) and (C.T ** l).T ** k == C ** (l * k) and ((E.T * A.T) ** 5).T == (A * E) ** 5 and ((A * E).T ** 5).T ** 7 == (A * E) ** 35 and TP(TP(C ** 2 * D ** 3) ** 5).doit() == (C ** 2 * D ** 3) ** 5 and ((D * C) ** (-5)).T ** (-5) == ((D * C) ** 25).T and (((D * C) ** l).T ** k).T == (D * C) ** (l * k)","over":{"base":"Any"},"name":"test_transpose_power_correct"},"guarantee":"(C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5; ((C * D).T ** 5).T == (C * D) ** 5; C.T.I.T ** 7 == C ** (-7)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_transpose_power_correct","statement":"Path(test_transpose_power(x), (C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5; ((C * D).T ** 5).T == (C * D) ** 5; C.T.I.T ** 7 == C ** (-7))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03d03239c67f03f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(C * D).T ** 5 == ((C * D) ** 5).T == (D.T * C.T) ** 5","((C * D).T ** 5).T == (C * D) ** 5","C.T.I.T ** 7 == C ** (-7)","(C.T ** l).T ** k == C ** (l * k)","((E.T * A.T) ** 5).T == (A * E) ** 5","((A * E).T ** 5).T ** 7 == (A * E) ** 35","TP(TP(C ** 2 * D ** 3) ** 5).doit() == (C ** 2 * D ** 3) ** 5","((D * C) ** (-5)).T ** (-5) == ((D * C) ** 25).T","(((D * C) ** l).T ** k).T == (D * C) ** (l * k)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_transpose_power():
     from sympy.matrices.expressions.transpose import Transpose as TP
 
@@ -348,16 +447,24 @@ def test_transpose_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Inverse(), test_Inverse produces the expected output) over Any ║
+# ║ Path(test_Inverse(), Inverse(MatPow(C, 0)).doit() == Identity(n) and Inverse(MatPow(C, 1)).doit() == Inverse(C) and Inverse(MatPow(C, 2)).doit() == MatPow(C, -2) and Inverse(MatPow(C, -1)).doit() == C and MatPow(Inverse(C), 0).doit() == Identity(n) and MatPow(Inverse(C), 1).doit() == Inverse(C) and MatPow(Inverse(C), 2).doit() == MatPow(C, -2) and MatPow(Inverse(C), -1).doit() == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Inverse : Any → {Any | Inverse(MatPow(C, 0)).doi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Inverse(MatPow(C, 0)).doit() == Identity(n)    ║
+# ║   ensures:  Inverse(MatPow(C, 1)).doit() == Inverse(C)     ║
+# ║   ensures:  Inverse(MatPow(C, 2)).doit() == MatPow(C,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Inverse : Any → {Any | result satisfies: Inverse...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6661b63970ea0dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51ca2e152c83cebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_Inverse","kind":"function","src_hash":"6add94a7981580c9","in":{"base":"Any"},"out":{"base":"Any","pred":"Inverse(MatPow(C, 0)).doit() == Identity(n) and Inverse(MatPow(C, 1)).doit() == Inverse(C) and Inverse(MatPow(C, 2)).doit() == MatPow(C, -2) and Inverse(MatPow(C, -1)).doit() == C and MatPow(Inverse(C), 0).doit() == Identity(n) and MatPow(Inverse(C), 1).doit() == Inverse(C) and MatPow(Inverse(C), 2).doit() == MatPow(C, -2) and MatPow(Inverse(C), -1).doit() == C"},"spec":{"lhs":"test_Inverse()","rhs":"test_Inverse produces the expected output","over":{"base":"Any"},"name":"test_Inverse_correct"},"guarantee":"test_Inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_Inverse_correct","statement":"Path(test_Inverse(x), test_Inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6661b63970ea0dd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_Inverse","kind":"function","src_hash":"6add94a7981580c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Inverse(MatPow(C, 0)).doit() == Identity(n) and Inverse(MatPow(C, 1)).doit() == Inverse(C) and Inverse(MatPow(C, 2)).doit() == MatPow(C, -2) and Inverse(MatPow(C, -1)).doit() == C and MatPow(Inverse(C), 0).doit() == Identity(n) and MatPow(Inverse(C), 1).doit() == Inverse(C) and MatPow(Inverse(C), 2).doit() == MatPow(C, -2) and MatPow(Inverse(C), -1).doit() == C"},"spec":{"lhs":"test_Inverse()","rhs":"Inverse(MatPow(C, 0)).doit() == Identity(n) and Inverse(MatPow(C, 1)).doit() == Inverse(C) and Inverse(MatPow(C, 2)).doit() == MatPow(C, -2) and Inverse(MatPow(C, -1)).doit() == C and MatPow(Inverse(C), 0).doit() == Identity(n) and MatPow(Inverse(C), 1).doit() == Inverse(C) and MatPow(Inverse(C), 2).doit() == MatPow(C, -2) and MatPow(Inverse(C), -1).doit() == C","over":{"base":"Any"},"name":"test_Inverse_correct"},"guarantee":"Inverse(MatPow(C, 0)).doit() == Identity(n); Inverse(MatPow(C, 1)).doit() == Inverse(C); Inverse(MatPow(C, 2)).doit() == MatPow(C, -2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_Inverse_correct","statement":"Path(test_Inverse(x), Inverse(MatPow(C, 0)).doit() == Identity(n); Inverse(MatPow(C, 1)).doit() == Inverse(C); Inverse(MatPow(C, 2)).doit() == MatPow(C, -2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51ca2e152c83cebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Inverse(MatPow(C, 0)).doit() == Identity(n)","Inverse(MatPow(C, 1)).doit() == Inverse(C)","Inverse(MatPow(C, 2)).doit() == MatPow(C, -2)","Inverse(MatPow(C, -1)).doit() == C","MatPow(Inverse(C), 0).doit() == Identity(n)","MatPow(Inverse(C), 1).doit() == Inverse(C)","MatPow(Inverse(C), 2).doit() == MatPow(C, -2)","MatPow(Inverse(C), -1).doit() == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Inverse():
     assert Inverse(MatPow(C, 0)).doit() == Identity(n)
     assert Inverse(MatPow(C, 1)).doit() == Inverse(C)
@@ -371,16 +478,24 @@ def test_Inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_combine_powers(), test_combine_powers produces the expected output) over Any ║
+# ║ Path(test_combine_powers(), (C ** 1) ** 1 == C and (C ** 2) ** 3 == MatPow(C, 6) and (C ** (-2)) ** (-3) == MatPow(C, 6) and (C ** (-1)) ** (-1) == C and (((C ** 2) ** 3) ** 4) ** 5 == MatPow(C, 120) and (C ** n) ** n == C ** n ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_combine_powers : Any → {Any | (C ** 1) ** 1 == C...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (C ** 1) ** 1 == C                             ║
+# ║   ensures:  (C ** 2) ** 3 == MatPow(C, 6)                  ║
+# ║   ensures:  (C ** (-2)) ** (-3) == MatPow(C, 6)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_combine_powers : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b6fbef3c9f215df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0626554e737eec21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_combine_powers","kind":"function","src_hash":"b676ee0187d23449","in":{"base":"Any"},"out":{"base":"Any","pred":"(C ** 1) ** 1 == C and (C ** 2) ** 3 == MatPow(C, 6) and (C ** (-2)) ** (-3) == MatPow(C, 6) and (C ** (-1)) ** (-1) == C and (((C ** 2) ** 3) ** 4) ** 5 == MatPow(C, 120) and (C ** n) ** n == C ** n ** 2"},"spec":{"lhs":"test_combine_powers()","rhs":"test_combine_powers produces the expected output","over":{"base":"Any"},"name":"test_combine_powers_correct"},"guarantee":"test_combine_powers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_combine_powers_correct","statement":"Path(test_combine_powers(x), test_combine_powers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b6fbef3c9f215df"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_combine_powers","kind":"function","src_hash":"b676ee0187d23449","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (C ** 1) ** 1 == C and (C ** 2) ** 3 == MatPow(C, 6) and (C ** (-2)) ** (-3) == MatPow(C, 6) and (C ** (-1)) ** (-1) == C and (((C ** 2) ** 3) ** 4) ** 5 == MatPow(C, 120) and (C ** n) ** n == C ** n ** 2"},"spec":{"lhs":"test_combine_powers()","rhs":"(C ** 1) ** 1 == C and (C ** 2) ** 3 == MatPow(C, 6) and (C ** (-2)) ** (-3) == MatPow(C, 6) and (C ** (-1)) ** (-1) == C and (((C ** 2) ** 3) ** 4) ** 5 == MatPow(C, 120) and (C ** n) ** n == C ** n ** 2","over":{"base":"Any"},"name":"test_combine_powers_correct"},"guarantee":"(C ** 1) ** 1 == C; (C ** 2) ** 3 == MatPow(C, 6); (C ** (-2)) ** (-3) == MatPow(C, 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_combine_powers_correct","statement":"Path(test_combine_powers(x), (C ** 1) ** 1 == C; (C ** 2) ** 3 == MatPow(C, 6); (C ** (-2)) ** (-3) == MatPow(C, 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0626554e737eec21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(C ** 1) ** 1 == C","(C ** 2) ** 3 == MatPow(C, 6)","(C ** (-2)) ** (-3) == MatPow(C, 6)","(C ** (-1)) ** (-1) == C","(((C ** 2) ** 3) ** 4) ** 5 == MatPow(C, 120)","(C ** n) ** n == C ** n ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_combine_powers():
     assert (C ** 1) ** 1 == C
     assert (C ** 2) ** 3 == MatPow(C, 6)
@@ -391,16 +506,24 @@ def test_combine_powers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unchanged(), test_unchanged produces the expected output) over Any ║
+# ║ Path(test_unchanged(), unchanged(MatPow, C, 0) and unchanged(MatPow, C, 1) and unchanged(MatPow, Inverse(C), -1) and unchanged(Inverse, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, 1), 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unchanged : Any → {Any | unchanged(MatPow, C, 0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(MatPow, C, 0)                        ║
+# ║   ensures:  unchanged(MatPow, C, 1)                        ║
+# ║   ensures:  unchanged(MatPow, Inverse(C), -1)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unchanged : Any → {Any | result satisfies: uncha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8784c8e30d70580  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c34e58468166b07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_unchanged","kind":"function","src_hash":"07b0ddf04e71ec3c","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(MatPow, C, 0) and unchanged(MatPow, C, 1) and unchanged(MatPow, Inverse(C), -1) and unchanged(Inverse, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, 1), 1)"},"spec":{"lhs":"test_unchanged()","rhs":"test_unchanged produces the expected output","over":{"base":"Any"},"name":"test_unchanged_correct"},"guarantee":"test_unchanged produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_unchanged_correct","statement":"Path(test_unchanged(x), test_unchanged produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8784c8e30d70580"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_unchanged","kind":"function","src_hash":"07b0ddf04e71ec3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(MatPow, C, 0) and unchanged(MatPow, C, 1) and unchanged(MatPow, Inverse(C), -1) and unchanged(Inverse, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, 1), 1)"},"spec":{"lhs":"test_unchanged()","rhs":"unchanged(MatPow, C, 0) and unchanged(MatPow, C, 1) and unchanged(MatPow, Inverse(C), -1) and unchanged(Inverse, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, -1), -1) and unchanged(MatPow, MatPow(C, 1), 1)","over":{"base":"Any"},"name":"test_unchanged_correct"},"guarantee":"unchanged(MatPow, C, 0); unchanged(MatPow, C, 1); unchanged(MatPow, Inverse(C), -1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_unchanged_correct","statement":"Path(test_unchanged(x), unchanged(MatPow, C, 0); unchanged(MatPow, C, 1); unchanged(MatPow, Inverse(C), -1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c34e58468166b07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(MatPow, C, 0)","unchanged(MatPow, C, 1)","unchanged(MatPow, Inverse(C), -1)","unchanged(Inverse, MatPow(C, -1), -1)","unchanged(MatPow, MatPow(C, -1), -1)","unchanged(MatPow, MatPow(C, 1), 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unchanged():
     assert unchanged(MatPow, C, 0)
     assert unchanged(MatPow, C, 1)
@@ -411,16 +534,22 @@ def test_unchanged():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_exponentiation(), test_no_exponentiation produces the expected output) over Any ║
+# ║ Path(test_no_exponentiation(), <unspecified:test_no_exponentiation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_exponentiation : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3e5944369ed0dc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_no_exponentiation","kind":"function","src_hash":"7b596f6b8f152f09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_exponentiation()","rhs":"test_no_exponentiation produces the expected output","over":{"base":"Any"},"name":"test_no_exponentiation_correct"},"guarantee":"test_no_exponentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_no_exponentiation_correct","statement":"Path(test_no_exponentiation(x), test_no_exponentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e5944369ed0dc3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_matpow.test_no_exponentiation","kind":"function","src_hash":"7b596f6b8f152f09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_exponentiation()","rhs":"<unspecified:test_no_exponentiation>","over":{"base":"Any"},"name":"test_no_exponentiation_correct"},"guarantee":"test_no_exponentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_matpow.test_no_exponentiation_correct","statement":"Path(test_no_exponentiation(x), test_no_exponentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e5944369ed0dc3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_no_exponentiation():
     # if this passes, Pow.as_numer_denom should recognize
     # MatAdd as exponent

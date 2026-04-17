@@ -25,16 +25,22 @@ from .util import new
 
 # Functions that create rules
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rm_id(isi), create a rule to remove identities) over Any ║
+# ║ Path(rm_id(isid, new), <unspecified:rm_id>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rm_id : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2883011957c8a9d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.rm_id","kind":"function","src_hash":"7c633e0bf55902e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rm_id(isi)","rhs":"create a rule to remove identities","over":{"base":"Any"},"name":"rm_id_correct"},"guarantee":"create a rule to remove identities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.rm_id_correct","statement":"Path(rm_id(x), create a rule to remove identities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2883011957c8a9d5"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.rm_id","kind":"function","src_hash":"7c633e0bf55902e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rm_id(isid, new)","rhs":"<unspecified:rm_id>","over":{"base":"Any"},"name":"rm_id_correct"},"guarantee":"create a rule to remove identities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.rm_id_correct","statement":"Path(rm_id(x), create a rule to remove identities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2883011957c8a9d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rm_id(isid, new=new):
     """ Create a rule to remove identities.
 
@@ -69,16 +75,22 @@ def rm_id(isid, new=new):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(glom(key), id) over Any                               ║
+# ║ Path(glom(key, count, combine), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ glom : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 31e838c1635ea98e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.glom","kind":"function","src_hash":"bb2e3e496aa449c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"glom(key)","rhs":"create a rule to conglomerate identical args","over":{"base":"Any"},"name":"glom_correct","kind":"composition"},"guarantee":"create a rule to conglomerate identical args","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"type","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31e838c1635ea98e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.glom","kind":"function","src_hash":"bb2e3e496aa449c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"glom(key, count, combine)","rhs":"<unspecified:glom>","over":{"base":"Any"},"name":"glom_correct","kind":"composition"},"guarantee":"create a rule to conglomerate identical args","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"type","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31e838c1635ea98e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def glom(key, count, combine):
     """ Create a rule to conglomerate identical args.
 
@@ -120,16 +132,22 @@ def glom(key, count, combine):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sort(key), id) over Any                               ║
+# ║ Path(sort(key, new), id) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sort : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 11d0127401d1b3a1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.sort","kind":"function","src_hash":"0fea44679d675ae4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort(key)","rhs":"create a rule to sort by a key function","over":{"base":"Any"},"name":"sort_correct","kind":"composition"},"guarantee":"create a rule to sort by a key function","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"sorted","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11d0127401d1b3a1"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.sort","kind":"function","src_hash":"0fea44679d675ae4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort(key, new)","rhs":"<unspecified:sort>","over":{"base":"Any"},"name":"sort_correct","kind":"composition"},"guarantee":"create a rule to sort by a key function","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"sorted","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11d0127401d1b3a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sort(key, new=new):
     """ Create a rule to sort by a key function.
 
@@ -149,7 +167,10 @@ def sort(key, new=new):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribute(A, ), turns an a containing bs into a b of as) over {Any | isinstance(arg, B)} ║
+# ║ Path(distribute(A, B), <unspecified:distribute>) over {Any | isinstance(arg, B)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribute : {Any | isinstance(arg, B)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -161,9 +182,12 @@ def sort(key, new=new):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3ed1a0bc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.distribute","kind":"function","src_hash":"9a9332f2483eeaa3","in":{"base":"Any","pred":"isinstance(arg, B)"},"out":{"base":"Any"},"spec":{"lhs":"distribute(A, )","rhs":"turns an a containing bs into a b of as","over":{"base":"Any","pred":"isinstance(arg, B)"},"name":"distribute_correct"},"guarantee":"turns an a containing bs into a b of as","fibers":[{"name":"B","pred":"isinstance(arg, B)","path":{"lhs":"distribute(x)","rhs":"turns an a containing bs into a b of as","over":{"base":"B","pred":"isinstance(arg, B)"},"name":"distribute_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.distribute_B_correct","statement":"distribute satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ed1a0bcc02faad1"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.distribute","kind":"function","src_hash":"9a9332f2483eeaa3","in":{"base":"Any","pred":"isinstance(arg, B)"},"out":{"base":"Any"},"spec":{"lhs":"distribute(A, B)","rhs":"<unspecified:distribute>","over":{"base":"Any","pred":"isinstance(arg, B)"},"name":"distribute_correct"},"guarantee":"turns an a containing bs into a b of as","fibers":[{"name":"B","pred":"isinstance(arg, B)","path":{"lhs":"distribute(x)","rhs":"turns an a containing bs into a b of as","over":{"base":"B","pred":"isinstance(arg, B)"},"name":"distribute_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.distribute_B_correct","statement":"distribute satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ed1a0bcc02faad1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, B)'}, fibers={'B'})"]}}
 def distribute(A, B):
     """ Turns an A containing Bs into a B of As
 
@@ -190,16 +214,22 @@ def distribute(A, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(a, ), replace expressions exactly) over Any      ║
+# ║ Path(subs(a, b), <unspecified:subs>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b989bd1e42ab0aa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.subs","kind":"function","src_hash":"dc2b180c1b622c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(a, )","rhs":"replace expressions exactly","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"replace expressions exactly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.subs_correct","statement":"Path(subs(x), replace expressions exactly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b989bd1e42ab0aa2"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.subs","kind":"function","src_hash":"dc2b180c1b622c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(a, b)","rhs":"<unspecified:subs>","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"replace expressions exactly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.subs_correct","statement":"Path(subs(x), replace expressions exactly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b989bd1e42ab0aa2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def subs(a, b):
     """ Replace expressions exactly """
     def subs_rl(expr):
@@ -212,16 +242,26 @@ def subs(a, b):
 
 # Functions that are rules
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unpack(exp), rule to unpack singleton args) over Any  ║
+# ║ Path(unpack(expr), result == (expr.args[0] if len(expr.args) == 1 else expr) and result == expr.args[0] or result == expr) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unpack : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (expr.args[0] if len(expr.args)...   ║
+# ║   ensures:  result == expr.args[0] or result == expr       ║
+# ║   fiber[case_0]: len(expr.args) == 1 => expr.args[0]       ║
+# ║   fiber[case_1]: not (len(expr.args) == 1) => expr         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unpack : {Any | hasattr(expr, 'args')} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 288928ab67a0a8bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d399cef01bb84199  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.unpack","kind":"function","src_hash":"77034c243f01f8a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unpack(exp)","rhs":"rule to unpack singleton args","over":{"base":"Any"},"name":"unpack_correct"},"guarantee":"rule to unpack singleton args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.unpack_correct","statement":"Path(unpack(x), rule to unpack singleton args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"288928ab67a0a8bb"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.unpack","kind":"function","src_hash":"77034c243f01f8a4","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (expr.args[0] if len(expr.args) == 1 else expr) and result == expr.args[0] or result == expr"},"spec":{"lhs":"unpack(expr)","rhs":"result == (expr.args[0] if len(expr.args) == 1 else expr) and result == expr.args[0] or result == expr","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"unpack_correct"},"guarantee":"result == (expr.args[0] if len(expr.args) == 1 else expr); result == expr.args[0] or result == expr; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.unpack_correct","statement":"Path(unpack(x), result == (expr.args[0] if len(expr.args) == 1 else expr); result == expr.args[0] or result == expr; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d399cef01bb84199","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["result == (expr.args[0] if len(expr.args) == 1 else expr)","result == expr.args[0] or result == expr"],"fibers":[{"name":"case_0","guard":"len(expr.args) == 1","ensures":["result == expr.args[0]"],"decidability":"z3","returns_expr":"expr.args[0]"},{"name":"case_1","guard":"not (len(expr.args) == 1)","ensures":["result == expr"],"decidability":"z3","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def unpack(expr):
     """ Rule to unpack singleton args
 
@@ -237,16 +277,23 @@ def unpack(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(exp), flatten t(a, b, t(c, d), t2(e)) to t(a, b, c, d, t2(e))) over Any ║
+# ║ Path(flatten(expr, new), new(expr.__class__, *args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ flatten : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  new(expr.__class__, *args)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ flatten : {Any | hasattr(expr, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54def20c8fb7d2ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92412de165b7df44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.flatten","kind":"function","src_hash":"e4b021ac39403763","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(exp)","rhs":"flatten t(a, b, t(c, d), t2(e)) to t(a, b, c, d, t2(e))","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"flatten t(a, b, t(c, d), t2(e)) to t(a, b, c, d, t2(e))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.flatten_correct","statement":"Path(flatten(x), flatten t(a, b, t(c, d), t2(e)) to t(a, b, c, d, t2(e)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54def20c8fb7d2ee"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.flatten","kind":"function","src_hash":"e4b021ac39403763","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"flatten(expr, new)","rhs":"new(expr.__class__, *args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"flatten_correct"},"guarantee":"returns new(expr.__class__, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.flatten_correct","statement":"Path(flatten(x), returns new(expr.__class__, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92412de165b7df44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"new(expr.__class__, *args)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def flatten(expr, new=new):
     """ Flatten T(a, b, T(c, d), T2(e)) to T(a, b, c, d, T2(e)) """
     cls = expr.__class__
@@ -260,16 +307,28 @@ def flatten(expr, new=new):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rebuild(exp), rebuild a sympy tree) over Any          ║
+# ║ Path(rebuild(expr), result == (expr if expr.is_Atom else expr.func(*list(map(rebuild, expr.args)))) and result == expr or result == expr.func(*list(map(rebuild, expr.args)))) over {Any | hasattr(expr, 'is_Atom') and hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rebuild : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (expr if expr.is_Atom else expr...   ║
+# ║   ensures:  result == expr or result == expr.func(*li...   ║
+# ║   fiber[case_0]: expr.is_Atom => expr                      ║
+# ║   fiber[case_1]: not (expr.is_Atom) => expr.func(*lis...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rebuild : {Any | hasattr(expr, 'is_Atom') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 439308dc54e4cc0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1f69fb717043a4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.rebuild","kind":"function","src_hash":"5c2a825a1c116ff0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rebuild(exp)","rhs":"rebuild a sympy tree","over":{"base":"Any"},"name":"rebuild_correct"},"guarantee":"rebuild a sympy tree","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.rebuild_correct","statement":"Path(rebuild(x), rebuild a sympy tree)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"439308dc54e4cc0e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.rl.rebuild","kind":"function","src_hash":"5c2a825a1c116ff0","in":{"base":"Any","pred":"hasattr(expr, 'is_Atom') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (expr if expr.is_Atom else expr.func(*list(map(rebuild, expr.args)))) and result == expr or result == expr.func(*list(map(rebuild, expr.args)))"},"spec":{"lhs":"rebuild(expr)","rhs":"result == (expr if expr.is_Atom else expr.func(*list(map(rebuild, expr.args)))) and result == expr or result == expr.func(*list(map(rebuild, expr.args)))","over":{"base":"Any","pred":"hasattr(expr, 'is_Atom') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"rebuild_correct"},"guarantee":"result == (expr if expr.is_Atom else expr.func(*list(map(rebuild, expr.args)))); result == expr or result == expr.func(*list(map(rebuild, expr.args))); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.rl.rebuild_correct","statement":"Path(rebuild(x), result == (expr if expr.is_Atom else expr.func(*list(map(rebuild, expr.args)))); result == expr or result == expr.func(*list(map(rebuild, expr.args))); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1f69fb717043a4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'func')","hasattr(expr, 'args')"],"ensures":["result == (expr if expr.is_Atom else expr.func(*list(map(rebuild, expr.args))))","result == expr or result == expr.func(*list(map(rebuild, expr.args)))"],"fibers":[{"name":"case_0","guard":"expr.is_Atom","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"},{"name":"case_1","guard":"not (expr.is_Atom)","ensures":["result == expr.func(*list(map(rebuild, expr.args)))"],"decidability":"library","returns_expr":"expr.func(*list(map(rebuild, expr.args)))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func","expr.is_Atom"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rebuild(expr):
     """ Rebuild a SymPy tree.
 

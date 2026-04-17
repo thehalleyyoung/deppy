@@ -93,16 +93,22 @@ _Factlist = [1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calc_factlist(nn), function calculates a list of precomputed factorials in order to massively accelerate future calculations of the various coefficients) over Any ║
+# ║ Path(_calc_factlist(nn), _Factlist[:int(nn) + 1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _Factlist[:int(nn) + 1]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calc_factlist : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6aae0862928c6078  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa72a20add61b066  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner._calc_factlist","kind":"function","src_hash":"db4238df933fe131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calc_factlist(nn)","rhs":"function calculates a list of precomputed factorials in order to massively accelerate future calculations of the various coefficients","over":{"base":"Any"},"name":"_calc_factlist_correct"},"guarantee":"function calculates a list of precomputed factorials in order to massively accelerate future calculations of the various coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._calc_factlist_correct","statement":"Path(_calc_factlist(x), function calculates a list of precomputed factorials in order to massively accelerate future calculations of the various coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aae0862928c6078"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner._calc_factlist","kind":"function","src_hash":"db4238df933fe131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calc_factlist(nn)","rhs":"_Factlist[:int(nn) + 1]","over":{"base":"Any"},"name":"_calc_factlist_correct"},"guarantee":"returns _Factlist[:int(nn) + 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._calc_factlist_correct","statement":"Path(_calc_factlist(x), returns _Factlist[:int(nn) + 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa72a20add61b066","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_Factlist[:int(nn) + 1]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _calc_factlist(nn):
     r"""
     Function calculates a list of precomputed factorials in order to
@@ -137,7 +143,15 @@ def _calc_factlist(nn):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_int_or_halfint(val), return python int unless value is half-int (then return float)) over {Any | isinstance(value, int) and isinstance(value, Rational) and isinstance(value, Float)} ║
+# ║ Path(_int_or_halfint(value), <unspecified:_int_or_halfint>) over {Any | isinstance(value, int) and isinstance(value, Rational) and isinstance(value, Float) and hasattr(value, 'is_integer') and hasattr(value, 'q') and hasattr(value, 'p')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(value, 'is_integer')                   ║
+# ║   requires: hasattr(value, 'q')                            ║
+# ║   requires: hasattr(value, 'p')                            ║
+# ║   fiber[int]: isinstance(value, int) => value              ║
+# ║   fiber[case_1]: type(value) is float                      ║
+# ║   fiber[Rational]: isinstance(value, Rational)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _int_or_halfint : {Any | isinstance(value, int) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -151,9 +165,12 @@ def _calc_factlist(nn):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 3.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 241a9cd2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner._int_or_halfint","kind":"function","src_hash":"dc622edd2a4ce99b","in":{"base":"Any","pred":"isinstance(value, int) and isinstance(value, Rational) and isinstance(value, Float)"},"out":{"base":"Any"},"spec":{"lhs":"_int_or_halfint(val)","rhs":"return python int unless value is half-int (then return float)","over":{"base":"Any","pred":"isinstance(value, int) and isinstance(value, Rational) and isinstance(value, Float)"},"name":"_int_or_halfint_correct"},"guarantee":"return python int unless value is half-int (then return float)","fibers":[{"name":"int","pred":"isinstance(value, int)","path":{"lhs":"_int_or_halfint(x)","rhs":"return python int unless value is half-int (then return float)","over":{"base":"int","pred":"isinstance(value, int)"},"name":"_int_or_halfint_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._int_or_halfint_int_correct","statement":"_int_or_halfint satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"Rational","pred":"isinstance(value, Rational)","path":{"lhs":"_int_or_halfint(x)","rhs":"return python int unless value is half-int (then return float)","over":{"base":"Rational","pred":"isinstance(value, Rational)"},"name":"_int_or_halfint_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._int_or_halfint_Rational_correct","statement":"_int_or_halfint satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Float","pred":"isinstance(value, Float)","path":{"lhs":"_int_or_halfint(x)","rhs":"return python int unless value is half-int (then return float)","over":{"base":"Float","pred":"isinstance(value, Float)"},"name":"_int_or_halfint_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._int_or_halfint_Float_correct","statement":"_int_or_halfint satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"241a9cd25837b363"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner._int_or_halfint","kind":"function","src_hash":"dc622edd2a4ce99b","in":{"base":"Any","pred":"isinstance(value, int) and isinstance(value, Rational) and isinstance(value, Float) and hasattr(value, 'is_integer') and hasattr(value, 'q') and hasattr(value, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_int_or_halfint(value)","rhs":"<unspecified:_int_or_halfint>","over":{"base":"Any","pred":"isinstance(value, int) and isinstance(value, Rational) and isinstance(value, Float) and hasattr(value, 'is_integer') and hasattr(value, 'q') and hasattr(value, 'p')"},"name":"_int_or_halfint_correct"},"guarantee":"4-fiber decomposition","fibers":[{"name":"int","pred":"isinstance(value, int)","path":{"lhs":"_int_or_halfint(x)","rhs":"4-fiber decomposition","over":{"base":"int","pred":"isinstance(value, int)"},"name":"_int_or_halfint_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._int_or_halfint_int_correct","statement":"_int_or_halfint satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"Rational","pred":"isinstance(value, Rational)","path":{"lhs":"_int_or_halfint(x)","rhs":"4-fiber decomposition","over":{"base":"Rational","pred":"isinstance(value, Rational)"},"name":"_int_or_halfint_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._int_or_halfint_Rational_correct","statement":"_int_or_halfint satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Float","pred":"isinstance(value, Float)","path":{"lhs":"_int_or_halfint(x)","rhs":"4-fiber decomposition","over":{"base":"Float","pred":"isinstance(value, Float)"},"name":"_int_or_halfint_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._int_or_halfint_Float_correct","statement":"_int_or_halfint satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"241a9cd25837b363","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(value, 'is_integer')","hasattr(value, 'q')","hasattr(value, 'p')"],"fibers":[{"name":"int","guard":"isinstance(value, int)","ensures":["result == value"],"decidability":"structural","returns_expr":"value"},{"name":"case_1","guard":"type(value) is float","ensures":[],"decidability":"library"},{"name":"Rational","guard":"isinstance(value, Rational)","ensures":[],"decidability":"structural"},{"name":"Float","guard":"isinstance(value, Float)","ensures":["result == _int_or_halfint(float(value))"],"decidability":"structural","returns_expr":"_int_or_halfint(float(value))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["value.is_integer","value.p","value.q"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'value.q == 2', 'isinstance(value, Float)', 'value.q == 1', 'isinstance(value, int)', 'isinstance(value, Rational)'}, fibers={'Float', 'int', 'Rational'})"]}}
 def _int_or_halfint(value):
     """return Python int unless value is half-int (then return float)"""
     if isinstance(value, int):
@@ -174,16 +191,22 @@ def _int_or_halfint(value):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wigner_3j(j_1), calculate the wigner 3j symbol `\operatorname{wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`) over Any ║
+# ║ Path(wigner_3j(j_1, j_2, j_3), <unspecified:wigner_3j>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wigner_3j : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4730254fe0e38a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_3j","kind":"function","src_hash":"e8e9b1c6ea596718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_3j(j_1)","rhs":"calculate the wigner 3j symbol `\\operatorname{wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`","over":{"base":"Any"},"name":"wigner_3j_correct"},"guarantee":"calculate the wigner 3j symbol `\\operatorname{wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_3j_correct","statement":"Path(wigner_3j(x), calculate the wigner 3j symbol `\\operatorname{wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4730254fe0e38a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_3j","kind":"function","src_hash":"e8e9b1c6ea596718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_3j(j_1, j_2, j_3)","rhs":"<unspecified:wigner_3j>","over":{"base":"Any"},"name":"wigner_3j_correct"},"guarantee":"calculate the wigner 3j symbol `\\operatorname{wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_3j_correct","statement":"Path(wigner_3j(x), calculate the wigner 3j symbol `\\operatorname{wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4730254fe0e38a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def wigner_3j(j_1, j_2, j_3, m_1, m_2, m_3):
     r"""
     Calculate the Wigner 3j symbol `\operatorname{Wigner3j}(j_1,j_2,j_3,m_1,m_2,m_3)`.
@@ -332,16 +355,22 @@ def wigner_3j(j_1, j_2, j_3, m_1, m_2, m_3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clebsch_gordan(j_1), calculates the clebsch-gordan coefficient. `\left\langle j_1 m_1 \; j_2 m_2 | j_3 m_3 \right\rangle`) over Any ║
+# ║ Path(clebsch_gordan(j_1, j_2, j_3), (-1) ** (j_1 - j_2 + m_3) * sqrt(2 * j_3 + 1) * w) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-1) ** (j_1 - j_2 + m_3) * sqrt(2 * j_3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clebsch_gordan : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d1692ed4f31c7e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dff3a7729b97a3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.clebsch_gordan","kind":"function","src_hash":"60aa2f8873b3597b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clebsch_gordan(j_1)","rhs":"calculates the clebsch-gordan coefficient. `\\left\\langle j_1 m_1 \\; j_2 m_2 | j_3 m_3 \\right\\rangle`","over":{"base":"Any"},"name":"clebsch_gordan_correct"},"guarantee":"calculates the clebsch-gordan coefficient. `\\left\\langle j_1 m_1 \\; j_2 m_2 | j_3 m_3 \\right\\rangle`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.clebsch_gordan_correct","statement":"Path(clebsch_gordan(x), calculates the clebsch-gordan coefficient. `\\left\\langle j_1 m_1 \\; j_2 m_2 | j_3 m_3 \\right\\rangle`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1692ed4f31c7e5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.clebsch_gordan","kind":"function","src_hash":"60aa2f8873b3597b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clebsch_gordan(j_1, j_2, j_3)","rhs":"(-1) ** (j_1 - j_2 + m_3) * sqrt(2 * j_3 + 1) * w","over":{"base":"Any"},"name":"clebsch_gordan_correct"},"guarantee":"returns (-1) ** (j_1 - j_2 + m_3) * sqrt(2 * j_3 + 1) * w","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.clebsch_gordan_correct","statement":"Path(clebsch_gordan(x), returns (-1) ** (j_1 - j_2 + m_3) * sqrt(2 * j_3 + 1) * w)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dff3a7729b97a3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-1) ** (j_1 - j_2 + m_3) * sqrt(2 * j_3 + 1) * w","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def clebsch_gordan(j_1, j_2, j_3, m_1, m_2, m_3):
     r"""
     Calculates the Clebsch-Gordan coefficient.
@@ -405,16 +434,25 @@ def clebsch_gordan(j_1, j_2, j_3, m_1, m_2, m_3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_big_delta_coeff(aa,), calculates the delta coefficient of the 3 angular momenta for racah symbols) over Any ║
+# ║ Path(_big_delta_coeff(aa, bb, cc), <unspecified:_big_delta_coeff>) over {Any | int_valued(aa + bb - cc) and int_valued(aa + cc - bb) and int_valued(bb + cc - aa)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _big_delta_coeff : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: int_valued(aa + bb - cc)                       ║
+# ║   requires: int_valued(aa + cc - bb)                       ║
+# ║   requires: int_valued(bb + cc - aa)                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _big_delta_coeff : {Any | int_valued(aa + bb - cc) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e497c43662044ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner._big_delta_coeff","kind":"function","src_hash":"6f50915f3e22e63b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_big_delta_coeff(aa,)","rhs":"calculates the delta coefficient of the 3 angular momenta for racah symbols","over":{"base":"Any"},"name":"_big_delta_coeff_correct"},"guarantee":"calculates the delta coefficient of the 3 angular momenta for racah symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._big_delta_coeff_correct","statement":"Path(_big_delta_coeff(x), calculates the delta coefficient of the 3 angular momenta for racah symbols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e497c43662044ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner._big_delta_coeff","kind":"function","src_hash":"6f50915f3e22e63b","in":{"base":"Any","pred":"int_valued(aa + bb - cc) and int_valued(aa + cc - bb) and int_valued(bb + cc - aa)"},"out":{"base":"Any"},"spec":{"lhs":"_big_delta_coeff(aa, bb, cc)","rhs":"<unspecified:_big_delta_coeff>","over":{"base":"Any","pred":"int_valued(aa + bb - cc) and int_valued(aa + cc - bb) and int_valued(bb + cc - aa)"},"name":"_big_delta_coeff_correct"},"guarantee":"calculates the delta coefficient of the 3 angular momenta for racah symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner._big_delta_coeff_correct","statement":"Path(_big_delta_coeff(x), calculates the delta coefficient of the 3 angular momenta for racah symbols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e497c43662044ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["int_valued(aa + bb - cc)","int_valued(aa + cc - bb)","int_valued(bb + cc - aa)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _big_delta_coeff(aa, bb, cc, prec=None):
     r"""
     Calculates the Delta coefficient of the 3 angular momenta for
@@ -476,16 +514,22 @@ def _big_delta_coeff(aa, bb, cc, prec=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(racah(aa,), calculate the racah symbol `w(a,b,c,d;e,f)`) over Any ║
+# ║ Path(racah(aa, bb, cc), <unspecified:racah>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ racah : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88f83ec332b98794  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.racah","kind":"function","src_hash":"f120d94d44cdba2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"racah(aa,)","rhs":"calculate the racah symbol `w(a,b,c,d;e,f)`","over":{"base":"Any"},"name":"racah_correct"},"guarantee":"calculate the racah symbol `w(a,b,c,d;e,f)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.racah_correct","statement":"Path(racah(x), calculate the racah symbol `w(a,b,c,d;e,f)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f83ec332b98794"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.racah","kind":"function","src_hash":"f120d94d44cdba2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"racah(aa, bb, cc)","rhs":"<unspecified:racah>","over":{"base":"Any"},"name":"racah_correct"},"guarantee":"calculate the racah symbol `w(a,b,c,d;e,f)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.racah_correct","statement":"Path(racah(x), calculate the racah symbol `w(a,b,c,d;e,f)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f83ec332b98794","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def racah(aa, bb, cc, dd, ee, ff, prec=None):
     r"""
     Calculate the Racah symbol `W(a,b,c,d;e,f)`.
@@ -568,16 +612,22 @@ def racah(aa, bb, cc, dd, ee, ff, prec=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wigner_6j(j_1), calculate the wigner 6j symbol `\operatorname{wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`) over Any ║
+# ║ Path(wigner_6j(j_1, j_2, j_3), <unspecified:wigner_6j>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wigner_6j : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e8d15b9505fea6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_6j","kind":"function","src_hash":"990e7d77ad805cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_6j(j_1)","rhs":"calculate the wigner 6j symbol `\\operatorname{wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`","over":{"base":"Any"},"name":"wigner_6j_correct"},"guarantee":"calculate the wigner 6j symbol `\\operatorname{wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_6j_correct","statement":"Path(wigner_6j(x), calculate the wigner 6j symbol `\\operatorname{wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8d15b9505fea6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_6j","kind":"function","src_hash":"990e7d77ad805cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_6j(j_1, j_2, j_3)","rhs":"<unspecified:wigner_6j>","over":{"base":"Any"},"name":"wigner_6j_correct"},"guarantee":"calculate the wigner 6j symbol `\\operatorname{wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_6j_correct","statement":"Path(wigner_6j(x), calculate the wigner 6j symbol `\\operatorname{wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8d15b9505fea6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def wigner_6j(j_1, j_2, j_3, j_4, j_5, j_6, prec=None):
     r"""
     Calculate the Wigner 6j symbol `\operatorname{Wigner6j}(j_1,j_2,j_3,j_4,j_5,j_6)`.
@@ -680,16 +730,22 @@ def wigner_6j(j_1, j_2, j_3, j_4, j_5, j_6, prec=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wigner_9j(j_1), calculate the wigner 9j symbol `\operatorname{wigner9j}(j_1,j_2,j_3,j_4,j_5,j_6,j_7,j_8,j_9)`) over Any ║
+# ║ Path(wigner_9j(j_1, j_2, j_3), <unspecified:wigner_9j>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wigner_9j : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9590b3da9d1d71bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_9j","kind":"function","src_hash":"fe0504013a972a2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_9j(j_1)","rhs":"calculate the wigner 9j symbol `\\operatorname{wigner9j}(j_1,j_2,j_3,j_4,j_5,j_6,j_7,j_8,j_9)`","over":{"base":"Any"},"name":"wigner_9j_correct"},"guarantee":"calculate the wigner 9j symbol `\\operatorname{wigner9j}(j_1,j_2,j_3,j_4,j_5,j_6,j_7,j_8,j_9)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_9j_correct","statement":"Path(wigner_9j(x), calculate the wigner 9j symbol `\\operatorname{wigner9j}(j_1,j_2,j_3,j_4,j_5,j_6,j_7,j_8,j_9)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9590b3da9d1d71bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_9j","kind":"function","src_hash":"fe0504013a972a2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_9j(j_1, j_2, j_3)","rhs":"<unspecified:wigner_9j>","over":{"base":"Any"},"name":"wigner_9j_correct"},"guarantee":"calculate the wigner 9j symbol `\\operatorname{wigner9j}(j_1,j_2,j_3,j_4,j_5,j_6,j_7,j_8,j_9)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_9j_correct","statement":"Path(wigner_9j(x), calculate the wigner 9j symbol `\\operatorname{wigner9j}(j_1,j_2,j_3,j_4,j_5,j_6,j_7,j_8,j_9)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9590b3da9d1d71bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def wigner_9j(j_1, j_2, j_3, j_4, j_5, j_6, j_7, j_8, j_9, prec=None):
     r"""
     Calculate the Wigner 9j symbol
@@ -755,16 +811,22 @@ def wigner_9j(j_1, j_2, j_3, j_4, j_5, j_6, j_7, j_8, j_9, prec=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gaunt(l_1), calculate the gaunt coefficient) over Any ║
+# ║ Path(gaunt(l_1, l_2, l_3), <unspecified:gaunt>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gaunt : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1ffc5b6a2c107cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.gaunt","kind":"function","src_hash":"cdec0f0d117c1cd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gaunt(l_1)","rhs":"calculate the gaunt coefficient","over":{"base":"Any"},"name":"gaunt_correct"},"guarantee":"calculate the gaunt coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.gaunt_correct","statement":"Path(gaunt(x), calculate the gaunt coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ffc5b6a2c107cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.gaunt","kind":"function","src_hash":"cdec0f0d117c1cd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gaunt(l_1, l_2, l_3)","rhs":"<unspecified:gaunt>","over":{"base":"Any"},"name":"gaunt_correct"},"guarantee":"calculate the gaunt coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.gaunt_correct","statement":"Path(gaunt(x), calculate the gaunt coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ffc5b6a2c107cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def gaunt(l_1, l_2, l_3, m_1, m_2, m_3, prec=None):
     r"""
     Calculate the Gaunt coefficient.
@@ -916,16 +978,22 @@ def gaunt(l_1, l_2, l_3, m_1, m_2, m_3, prec=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(real_gaunt(l_1), calculate the real gaunt coefficient) over Any ║
+# ║ Path(real_gaunt(l_1, l_2, l_3), <unspecified:real_gaunt>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ real_gaunt : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb2f5a79d68e84e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.real_gaunt","kind":"function","src_hash":"6cdbfbc07bcf610b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_gaunt(l_1)","rhs":"calculate the real gaunt coefficient","over":{"base":"Any"},"name":"real_gaunt_correct"},"guarantee":"calculate the real gaunt coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.real_gaunt_correct","statement":"Path(real_gaunt(x), calculate the real gaunt coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb2f5a79d68e84e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.real_gaunt","kind":"function","src_hash":"6cdbfbc07bcf610b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_gaunt(l_1, l_2, l_3)","rhs":"<unspecified:real_gaunt>","over":{"base":"Any"},"name":"real_gaunt_correct"},"guarantee":"calculate the real gaunt coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.real_gaunt_correct","statement":"Path(real_gaunt(x), calculate the real gaunt coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb2f5a79d68e84e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def real_gaunt(l_1, l_2, l_3, mu_1, mu_2, mu_3, prec=None):
     r"""
     Calculate the real Gaunt coefficient.
@@ -1083,27 +1151,42 @@ def real_gaunt(l_1, l_2, l_3, mu_1, mu_2, mu_3, prec=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Wigner3j(*args), correctly constructs a Wigner3j instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Wigner3j : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Wigner3j : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caf328268fcf013b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.Wigner3j","kind":"class","src_hash":"912e47d99524f1e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Wigner3j(*args)","rhs":"correctly constructs a Wigner3j instance","over":{"base":"Any"},"name":"Wigner3j_class_invariant"},"guarantee":"correctly constructs a Wigner3j instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf328268fcf013b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.Wigner3j","kind":"class","src_hash":"912e47d99524f1e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"Wigner3j(*args)","rhs":"correctly constructs a Wigner3j instance","over":{"base":"Any"},"name":"Wigner3j_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf328268fcf013b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Wigner3j not found in source"]}}
 class Wigner3j(Function):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), result == (wigner_3j(*self.args) if all((obj.is_number for obj in self.args)) else self) and result == wigner_3j(*self.args) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (wigner_3j(*self.args) if all((...   ║
+# ║   ensures:  result == wigner_3j(*self.args) or result...   ║
+# ║   fiber[case_0]: all((obj.is_number for obj in self.a...   ║
+# ║   fiber[case_1]: not (all((obj.is_number for obj in s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: result == (wign...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f159bc70c45192cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a5c9441ed7780f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.Wigner3j.doit","kind":"method","src_hash":"9996492baef833d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.Wigner3j.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f159bc70c45192cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.Wigner3j.doit","kind":"method","src_hash":"9996492baef833d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (wigner_3j(*self.args) if all((obj.is_number for obj in self.args)) else self) and result == wigner_3j(*self.args) or result == self"},"spec":{"lhs":"doit(**hints)","rhs":"result == (wigner_3j(*self.args) if all((obj.is_number for obj in self.args)) else self) and result == wigner_3j(*self.args) or result == self","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"result == (wigner_3j(*self.args) if all((obj.is_number for obj in self.args)) else self); result == wigner_3j(*self.args) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.Wigner3j.doit_correct","statement":"Path(doit(x), result == (wigner_3j(*self.args) if all((obj.is_number for obj in self.args)) else self); result == wigner_3j(*self.args) or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a5c9441ed7780f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (wigner_3j(*self.args) if all((obj.is_number for obj in self.args)) else self)","result == wigner_3j(*self.args) or result == self"],"fibers":[{"name":"case_0","guard":"all((obj.is_number for obj in self.args))","ensures":["result == wigner_3j(*self.args)"],"decidability":"library","returns_expr":"wigner_3j(*self.args)"},{"name":"case_1","guard":"not (all((obj.is_number for obj in self.args)))","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if all(obj.is_number for obj in self.args):
             return wigner_3j(*self.args)
@@ -1111,16 +1194,22 @@ class Wigner3j(Function):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot_rot_grad_Ynm(j, ), returns dot product of rotational gradients of spherical harmonics) over Any ║
+# ║ Path(dot_rot_grad_Ynm(j, p, l), <unspecified:dot_rot_grad_Ynm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dot_rot_grad_Ynm : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e14ac01e6ae6acfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.dot_rot_grad_Ynm","kind":"function","src_hash":"a6a37ca531644fd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot_rot_grad_Ynm(j, )","rhs":"returns dot product of rotational gradients of spherical harmonics","over":{"base":"Any"},"name":"dot_rot_grad_Ynm_correct"},"guarantee":"returns dot product of rotational gradients of spherical harmonics","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.dot_rot_grad_Ynm_correct","statement":"Path(dot_rot_grad_Ynm(x), returns dot product of rotational gradients of spherical harmonics)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e14ac01e6ae6acfc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.dot_rot_grad_Ynm","kind":"function","src_hash":"a6a37ca531644fd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot_rot_grad_Ynm(j, p, l)","rhs":"<unspecified:dot_rot_grad_Ynm>","over":{"base":"Any"},"name":"dot_rot_grad_Ynm_correct"},"guarantee":"returns dot product of rotational gradients of spherical harmonics","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.dot_rot_grad_Ynm_correct","statement":"Path(dot_rot_grad_Ynm(x), returns dot product of rotational gradients of spherical harmonics)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e14ac01e6ae6acfc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dot_rot_grad_Ynm(j, p, l, m, theta, phi):
     r"""
     Returns dot product of rotational gradients of spherical harmonics.
@@ -1170,16 +1259,22 @@ def dot_rot_grad_Ynm(j, p, l, m, theta, phi):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wigner_d_small(J, ), return the small wigner d matrix for angular momentum j) over Any ║
+# ║ Path(wigner_d_small(J, beta), ImmutableMatrix(d)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableMatrix(d)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wigner_d_small : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2db7ea461ddf611d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce10d5d808480c31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_d_small","kind":"function","src_hash":"82c750592b2e6ccf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_d_small(J, )","rhs":"return the small wigner d matrix for angular momentum j","over":{"base":"Any"},"name":"wigner_d_small_correct"},"guarantee":"return the small wigner d matrix for angular momentum j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_d_small_correct","statement":"Path(wigner_d_small(x), return the small wigner d matrix for angular momentum j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2db7ea461ddf611d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_d_small","kind":"function","src_hash":"82c750592b2e6ccf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_d_small(J, beta)","rhs":"ImmutableMatrix(d)","over":{"base":"Any"},"name":"wigner_d_small_correct"},"guarantee":"returns ImmutableMatrix(d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_d_small_correct","statement":"Path(wigner_d_small(x), returns ImmutableMatrix(d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce10d5d808480c31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableMatrix(d)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def wigner_d_small(J, beta):
     """Return the small Wigner d matrix for angular momentum J.
 
@@ -1325,16 +1420,22 @@ def wigner_d_small(J, beta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wigner_d(J, ), return the wigner d matrix for angular momentum j) over Any ║
+# ║ Path(wigner_d(J, alpha, beta), ImmutableMatrix(D)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableMatrix(D)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wigner_d : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e10a8473b4e8e9d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e14b691cd1eccb50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_d","kind":"function","src_hash":"d6905f93fa9a74be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_d(J, )","rhs":"return the wigner d matrix for angular momentum j","over":{"base":"Any"},"name":"wigner_d_correct"},"guarantee":"return the wigner d matrix for angular momentum j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_d_correct","statement":"Path(wigner_d(x), return the wigner d matrix for angular momentum j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e10a8473b4e8e9d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.wigner.wigner_d","kind":"function","src_hash":"d6905f93fa9a74be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wigner_d(J, alpha, beta)","rhs":"ImmutableMatrix(D)","over":{"base":"Any"},"name":"wigner_d_correct"},"guarantee":"returns ImmutableMatrix(D)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.wigner.wigner_d_correct","statement":"Path(wigner_d(x), returns ImmutableMatrix(D))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e14b691cd1eccb50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableMatrix(D)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def wigner_d(J, alpha, beta, gamma):
     """Return the Wigner D matrix for angular momentum J.
 

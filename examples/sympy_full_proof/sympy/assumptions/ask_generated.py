@@ -26,16 +26,22 @@ from sympy.core.cache import cacheit
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_all_known_facts(), known facts between unary predicates as cnf clauses) over Any ║
+# ║ Path(get_all_known_facts(), <unspecified:get_all_known_facts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_all_known_facts : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ba2167f3be51ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_all_known_facts","kind":"function","src_hash":"714357e3230bec0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_known_facts()","rhs":"known facts between unary predicates as cnf clauses","over":{"base":"Any"},"name":"get_all_known_facts_correct"},"guarantee":"known facts between unary predicates as cnf clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_all_known_facts_correct","statement":"Path(get_all_known_facts(x), known facts between unary predicates as cnf clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ba2167f3be51ca"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_all_known_facts","kind":"function","src_hash":"714357e3230bec0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_known_facts()","rhs":"<unspecified:get_all_known_facts>","over":{"base":"Any"},"name":"get_all_known_facts_correct"},"guarantee":"known facts between unary predicates as cnf clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_all_known_facts_correct","statement":"Path(get_all_known_facts(x), known facts between unary predicates as cnf clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ba2167f3be51ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":true}}
 def get_all_known_facts():
     """
     Known facts between unary predicates as CNF clauses.
@@ -116,16 +122,22 @@ def get_all_known_facts():
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_all_known_matrix_facts(), known facts between unary predicates for matrices as cnf clauses) over Any ║
+# ║ Path(get_all_known_matrix_facts(), <unspecified:get_all_known_matrix_facts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_all_known_matrix_facts : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1da14461dcd1eca1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_all_known_matrix_facts","kind":"function","src_hash":"83017a2b4f831c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_known_matrix_facts()","rhs":"known facts between unary predicates for matrices as cnf clauses","over":{"base":"Any"},"name":"get_all_known_matrix_facts_correct"},"guarantee":"known facts between unary predicates for matrices as cnf clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_all_known_matrix_facts_correct","statement":"Path(get_all_known_matrix_facts(x), known facts between unary predicates for matrices as cnf clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1da14461dcd1eca1"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_all_known_matrix_facts","kind":"function","src_hash":"83017a2b4f831c7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_known_matrix_facts()","rhs":"<unspecified:get_all_known_matrix_facts>","over":{"base":"Any"},"name":"get_all_known_matrix_facts_correct"},"guarantee":"known facts between unary predicates for matrices as cnf clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_all_known_matrix_facts_correct","statement":"Path(get_all_known_matrix_facts(x), known facts between unary predicates for matrices as cnf clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1da14461dcd1eca1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def get_all_known_matrix_facts():
     """
     Known facts between unary predicates for matrices as CNF clauses.
@@ -159,16 +171,22 @@ def get_all_known_matrix_facts():
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_all_known_number_facts(), known facts between unary predicates for numbers as cnf clauses) over Any ║
+# ║ Path(get_all_known_number_facts(), <unspecified:get_all_known_number_facts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_all_known_number_facts : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d94498cbc03c871  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_all_known_number_facts","kind":"function","src_hash":"4956df2aed172c9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_known_number_facts()","rhs":"known facts between unary predicates for numbers as cnf clauses","over":{"base":"Any"},"name":"get_all_known_number_facts_correct"},"guarantee":"known facts between unary predicates for numbers as cnf clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_all_known_number_facts_correct","statement":"Path(get_all_known_number_facts(x), known facts between unary predicates for numbers as cnf clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d94498cbc03c871"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_all_known_number_facts","kind":"function","src_hash":"4956df2aed172c9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_known_number_facts()","rhs":"<unspecified:get_all_known_number_facts>","over":{"base":"Any"},"name":"get_all_known_number_facts_correct"},"guarantee":"known facts between unary predicates for numbers as cnf clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_all_known_number_facts_correct","statement":"Path(get_all_known_number_facts(x), known facts between unary predicates for numbers as cnf clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d94498cbc03c871","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def get_all_known_number_facts():
     """
     Known facts between unary predicates for numbers as CNF clauses.
@@ -225,16 +243,22 @@ def get_all_known_number_facts():
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_known_facts_dict(), logical relations between unary predicates as dictionary) over Any ║
+# ║ Path(get_known_facts_dict(), <unspecified:get_known_facts_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_known_facts_dict : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e9a964c288484f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_known_facts_dict","kind":"function","src_hash":"02eeb7882960eaa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_known_facts_dict()","rhs":"logical relations between unary predicates as dictionary","over":{"base":"Any"},"name":"get_known_facts_dict_correct"},"guarantee":"logical relations between unary predicates as dictionary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_known_facts_dict_correct","statement":"Path(get_known_facts_dict(x), logical relations between unary predicates as dictionary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e9a964c288484f3"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask_generated.get_known_facts_dict","kind":"function","src_hash":"02eeb7882960eaa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_known_facts_dict()","rhs":"<unspecified:get_known_facts_dict>","over":{"base":"Any"},"name":"get_known_facts_dict_correct"},"guarantee":"logical relations between unary predicates as dictionary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask_generated.get_known_facts_dict_correct","statement":"Path(get_known_facts_dict(x), logical relations between unary predicates as dictionary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e9a964c288484f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":true}}
 def get_known_facts_dict():
     """
     Logical relations between unary predicates as dictionary.

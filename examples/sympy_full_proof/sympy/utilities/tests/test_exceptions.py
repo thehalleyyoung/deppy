@@ -21,16 +21,22 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 # Only test exceptions here because the other cases are tested in the
 # warns_deprecated_sympy tests
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sympy_deprecation_warning(), test_sympy_deprecation_warning produces the expected output) over Any ║
+# ║ Path(test_sympy_deprecation_warning(), <unspecified:test_sympy_deprecation_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sympy_deprecation_warning : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c865c50a144127e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_exceptions.test_sympy_deprecation_warning","kind":"function","src_hash":"c84c74f002506f1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sympy_deprecation_warning()","rhs":"test_sympy_deprecation_warning produces the expected output","over":{"base":"Any"},"name":"test_sympy_deprecation_warning_correct"},"guarantee":"test_sympy_deprecation_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_exceptions.test_sympy_deprecation_warning_correct","statement":"Path(test_sympy_deprecation_warning(x), test_sympy_deprecation_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c865c50a144127e6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_exceptions.test_sympy_deprecation_warning","kind":"function","src_hash":"c84c74f002506f1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sympy_deprecation_warning()","rhs":"<unspecified:test_sympy_deprecation_warning>","over":{"base":"Any"},"name":"test_sympy_deprecation_warning_correct"},"guarantee":"test_sympy_deprecation_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_exceptions.test_sympy_deprecation_warning_correct","statement":"Path(test_sympy_deprecation_warning(x), test_sympy_deprecation_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c865c50a144127e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sympy_deprecation_warning():
     raises(TypeError, lambda: sympy_deprecation_warning('test',
                                                         deprecated_since_version=1.10,

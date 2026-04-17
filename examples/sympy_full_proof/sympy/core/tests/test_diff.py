@@ -33,16 +33,24 @@ from sympy.testing.pytest import raises
 from sympy.abc import a, b, c, x, y, z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff(), test_diff produces the expected output) over Any ║
+# ║ Path(test_diff(), Rational(1, 3).diff(x) is S.Zero and I.diff(x) is S.Zero and pi.diff(x) is S.Zero and x.diff(x, 0) == x and (x ** 2).diff(x, 2, x) == 0 and (x ** 2).diff((x, 2), x) == 0 and (x ** 2).diff((x, 1), x) == 2 and (x ** 2).diff((x, 1), (x, 1)) == 2 and (x ** 2).diff((x, 2)) == 2 and (x ** 2).diff(x, y, 0) == 2 * x and (x ** 2).diff(x, (y, 0)) == 2 * x and (x ** 2).diff(x, y) == 0 and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 and e.diff(b).diff(a) == Rational(1) and e.diff(a) == b + c and e.diff(b) == a and e.diff(c, 6) == Rational(0) and e.diff(c, 5) == Rational(120) and e.diff(c) == 2 * c and e.diff(c) == a * b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff : Any → {Any | Rational(1, 3).diff(x) is S....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Rational(1, 3).diff(x) is S.Zero               ║
+# ║   ensures:  I.diff(x) is S.Zero                            ║
+# ║   ensures:  pi.diff(x) is S.Zero                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff : Any → {Any | result satisfies: Rational(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 385bc132999860e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65363fc83cf28b2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff","kind":"function","src_hash":"d478003bdf8edb5b","in":{"base":"Any"},"out":{"base":"Any","pred":"Rational(1, 3).diff(x) is S.Zero and I.diff(x) is S.Zero and pi.diff(x) is S.Zero and x.diff(x, 0) == x and (x ** 2).diff(x, 2, x) == 0 and (x ** 2).diff((x, 2), x) == 0 and (x ** 2).diff((x, 1), x) == 2 and (x ** 2).diff((x, 1), (x, 1)) == 2 and (x ** 2).diff((x, 2)) == 2 and (x ** 2).diff(x, y, 0) == 2 * x and (x ** 2).diff(x, (y, 0)) == 2 * x and (x ** 2).diff(x, y) == 0 and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 and e.diff(b).diff(a) == Rational(1) and e.diff(a) == b + c and e.diff(b) == a and e.diff(b).diff(a) == Rational(1) and e.diff(c, 6) == Rational(0) and e.diff(c, 5) == Rational(120) and e.diff(c) == 2 * c and e.diff(c) == a * b"},"spec":{"lhs":"test_diff()","rhs":"test_diff produces the expected output","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"test_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff_correct","statement":"Path(test_diff(x), test_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"385bc132999860e1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff","kind":"function","src_hash":"d478003bdf8edb5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Rational(1, 3).diff(x) is S.Zero and I.diff(x) is S.Zero and pi.diff(x) is S.Zero and x.diff(x, 0) == x and (x ** 2).diff(x, 2, x) == 0 and (x ** 2).diff((x, 2), x) == 0 and (x ** 2).diff((x, 1), x) == 2 and (x ** 2).diff((x, 1), (x, 1)) == 2 and (x ** 2).diff((x, 2)) == 2 and (x ** 2).diff(x, y, 0) == 2 * x and (x ** 2).diff(x, (y, 0)) == 2 * x and (x ** 2).diff(x, y) == 0 and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 and e.diff(b).diff(a) == Rational(1) and e.diff(a) == b + c and e.diff(b) == a and e.diff(c, 6) == Rational(0) and e.diff(c, 5) == Rational(120) and e.diff(c) == 2 * c and e.diff(c) == a * b"},"spec":{"lhs":"test_diff()","rhs":"Rational(1, 3).diff(x) is S.Zero and I.diff(x) is S.Zero and pi.diff(x) is S.Zero and x.diff(x, 0) == x and (x ** 2).diff(x, 2, x) == 0 and (x ** 2).diff((x, 2), x) == 0 and (x ** 2).diff((x, 1), x) == 2 and (x ** 2).diff((x, 1), (x, 1)) == 2 and (x ** 2).diff((x, 2)) == 2 and (x ** 2).diff(x, y, 0) == 2 * x and (x ** 2).diff(x, (y, 0)) == 2 * x and (x ** 2).diff(x, y) == 0 and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 and e.diff(b).diff(a) == Rational(1) and e.diff(a) == b + c and e.diff(b) == a and e.diff(c, 6) == Rational(0) and e.diff(c, 5) == Rational(120) and e.diff(c) == 2 * c and e.diff(c) == a * b","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"Rational(1, 3).diff(x) is S.Zero; I.diff(x) is S.Zero; pi.diff(x) is S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff_correct","statement":"Path(test_diff(x), Rational(1, 3).diff(x) is S.Zero; I.diff(x) is S.Zero; pi.diff(x) is S.Zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65363fc83cf28b2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Rational(1, 3).diff(x) is S.Zero","I.diff(x) is S.Zero","pi.diff(x) is S.Zero","x.diff(x, 0) == x","(x ** 2).diff(x, 2, x) == 0","(x ** 2).diff((x, 2), x) == 0","(x ** 2).diff((x, 1), x) == 2","(x ** 2).diff((x, 1), (x, 1)) == 2","(x ** 2).diff((x, 2)) == 2","(x ** 2).diff(x, y, 0) == 2 * x","(x ** 2).diff(x, (y, 0)) == 2 * x","(x ** 2).diff(x, y) == 0","e.diff(a) == b","e.diff(b) == a + 5 * b ** 4","e.diff(b).diff(a) == Rational(1)","e.diff(a) == b + c","e.diff(b) == a","e.diff(c, 6) == Rational(0)","e.diff(c, 5) == Rational(120)","e.diff(c) == 2 * c","e.diff(c) == a * b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_diff():
     assert Rational(1, 3).diff(x) is S.Zero
     assert I.diff(x) is S.Zero
@@ -77,16 +85,24 @@ def test_diff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff2(), test_diff2 produces the expected output) over Any ║
+# ║ Path(test_diff2(), e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x) and e.diff(x).expand() == x ** 3 * cos(x) and e.diff(x) == 3 * (x + 1) ** 2 and e.diff(x) == (x + 1) ** 3 + 3 * x * (x + 1) ** 2 and e.diff(x) == 2 * exp(x ** 2) + 4 * x ** 2 * exp(x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff2 : Any → {Any | e == 3 * (-2 + x ** 2) * co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == 3 * (-2 + x ** 2) * cos(x) + x * (-6...   ║
+# ║   ensures:  e.diff(x).expand() == x ** 3 * cos(x)          ║
+# ║   ensures:  e.diff(x) == 3 * (x + 1) ** 2                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff2 : Any → {Any | result satisfies: e == 3 * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00349437fb50008b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ca614db885c1082  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff2","kind":"function","src_hash":"eee0ef9e3bc2d7e9","in":{"base":"Any"},"out":{"base":"Any","pred":"e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x) and e.diff(x).expand() == x ** 3 * cos(x) and e.diff(x) == 3 * (x + 1) ** 2 and e.diff(x) == (x + 1) ** 3 + 3 * x * (x + 1) ** 2 and e.diff(x) == 2 * exp(x ** 2) + 4 * x ** 2 * exp(x ** 2)"},"spec":{"lhs":"test_diff2()","rhs":"test_diff2 produces the expected output","over":{"base":"Any"},"name":"test_diff2_correct"},"guarantee":"test_diff2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff2_correct","statement":"Path(test_diff2(x), test_diff2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00349437fb50008b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff2","kind":"function","src_hash":"eee0ef9e3bc2d7e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x) and e.diff(x).expand() == x ** 3 * cos(x) and e.diff(x) == 3 * (x + 1) ** 2 and e.diff(x) == (x + 1) ** 3 + 3 * x * (x + 1) ** 2 and e.diff(x) == 2 * exp(x ** 2) + 4 * x ** 2 * exp(x ** 2)"},"spec":{"lhs":"test_diff2()","rhs":"e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x) and e.diff(x).expand() == x ** 3 * cos(x) and e.diff(x) == 3 * (x + 1) ** 2 and e.diff(x) == (x + 1) ** 3 + 3 * x * (x + 1) ** 2 and e.diff(x) == 2 * exp(x ** 2) + 4 * x ** 2 * exp(x ** 2)","over":{"base":"Any"},"name":"test_diff2_correct"},"guarantee":"e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x); e.diff(x).expand() == x ** 3 * cos(x); e.diff(x) == 3 * (x + 1) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff2_correct","statement":"Path(test_diff2(x), e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x); e.diff(x).expand() == x ** 3 * cos(x); e.diff(x) == 3 * (x + 1) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ca614db885c1082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == 3 * (-2 + x ** 2) * cos(x) + x * (-6 + x ** 2) * sin(x)","e.diff(x).expand() == x ** 3 * cos(x)","e.diff(x) == 3 * (x + 1) ** 2","e.diff(x) == (x + 1) ** 3 + 3 * x * (x + 1) ** 2","e.diff(x) == 2 * exp(x ** 2) + 4 * x ** 2 * exp(x ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_diff2():
     n3 = Rational(3)
     n2 = Rational(2)
@@ -105,16 +121,24 @@ def test_diff2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff3(), test_diff3 produces the expected output) over Any ║
+# ║ Path(test_diff3(), e == a * b + sin(b ** 5) and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 * cos(b ** 5) and e == tan(c) and e.diff(c) in [cos(c) ** (-2), 1 + sin(c) ** 2 / cos(c) ** 2, 1 + tan(c) ** 2] and e == -c + c * log(c) and e.diff(c) == log(c) and e == log(sin(c)) and e.diff(c) in [sin(c) ** (-1) * cos(c), cot(c)] and e == 2 ** a * log(Rational(2)) ** (-1) and e.diff(a) == 2 ** a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff3 : Any → {Any | e == a * b + sin(b ** 5) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == a * b + sin(b ** 5)                       ║
+# ║   ensures:  e.diff(a) == b                                 ║
+# ║   ensures:  e.diff(b) == a + 5 * b ** 4 * cos(b ** 5)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff3 : Any → {Any | result satisfies: e == a * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00b44015bfc23202  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39e6e058edc7f068  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff3","kind":"function","src_hash":"eab26902728a1564","in":{"base":"Any"},"out":{"base":"Any","pred":"e == a * b + sin(b ** 5) and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 * cos(b ** 5) and e == tan(c) and e.diff(c) in [cos(c) ** (-2), 1 + sin(c) ** 2 / cos(c) ** 2, 1 + tan(c) ** 2] and e == -c + c * log(c) and e.diff(c) == log(c) and e == log(sin(c)) and e.diff(c) in [sin(c) ** (-1) * cos(c), cot(c)] and e == 2 ** a * log(Rational(2)) ** (-1) and e.diff(a) == 2 ** a"},"spec":{"lhs":"test_diff3()","rhs":"test_diff3 produces the expected output","over":{"base":"Any"},"name":"test_diff3_correct"},"guarantee":"test_diff3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff3_correct","statement":"Path(test_diff3(x), test_diff3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00b44015bfc23202"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff3","kind":"function","src_hash":"eab26902728a1564","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == a * b + sin(b ** 5) and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 * cos(b ** 5) and e == tan(c) and e.diff(c) in [cos(c) ** (-2), 1 + sin(c) ** 2 / cos(c) ** 2, 1 + tan(c) ** 2] and e == -c + c * log(c) and e.diff(c) == log(c) and e == log(sin(c)) and e.diff(c) in [sin(c) ** (-1) * cos(c), cot(c)] and e == 2 ** a * log(Rational(2)) ** (-1) and e.diff(a) == 2 ** a"},"spec":{"lhs":"test_diff3()","rhs":"e == a * b + sin(b ** 5) and e.diff(a) == b and e.diff(b) == a + 5 * b ** 4 * cos(b ** 5) and e == tan(c) and e.diff(c) in [cos(c) ** (-2), 1 + sin(c) ** 2 / cos(c) ** 2, 1 + tan(c) ** 2] and e == -c + c * log(c) and e.diff(c) == log(c) and e == log(sin(c)) and e.diff(c) in [sin(c) ** (-1) * cos(c), cot(c)] and e == 2 ** a * log(Rational(2)) ** (-1) and e.diff(a) == 2 ** a","over":{"base":"Any"},"name":"test_diff3_correct"},"guarantee":"e == a * b + sin(b ** 5); e.diff(a) == b; e.diff(b) == a + 5 * b ** 4 * cos(b ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff3_correct","statement":"Path(test_diff3(x), e == a * b + sin(b ** 5); e.diff(a) == b; e.diff(b) == a + 5 * b ** 4 * cos(b ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39e6e058edc7f068","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == a * b + sin(b ** 5)","e.diff(a) == b","e.diff(b) == a + 5 * b ** 4 * cos(b ** 5)","e == tan(c)","e.diff(c) in [cos(c) ** (-2), 1 + sin(c) ** 2 / cos(c) ** 2, 1 + tan(c) ** 2]","e == -c + c * log(c)","e.diff(c) == log(c)","e == log(sin(c))","e.diff(c) in [sin(c) ** (-1) * cos(c), cot(c)]","e == 2 ** a * log(Rational(2)) ** (-1)","e.diff(a) == 2 ** a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_diff3():
     p = Rational(5)
     e = a*b + sin(b**p)
@@ -136,16 +160,25 @@ def test_diff3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff_no_eval_derivative(), test_diff_no_eval_derivative produces the expected output) over Any ║
+# ║ Path(test_diff_no_eval_derivative(), Expr.__new__(cls, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff_no_eval_derivative : Any → {Any | My(x).dif...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  My(x).diff(x).func is Derivative               ║
+# ║   ensures:  My(x).diff(x, 3).func is Derivative            ║
+# ║   ensures:  re(x).diff(x, 2) == Derivative(re(x), (x,...   ║
+# ║   returns:  Expr.__new__(cls, x)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff_no_eval_derivative : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2db52c95bfb78d88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11d7c8f815571b7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff_no_eval_derivative","kind":"function","src_hash":"e339b882c150f61e","in":{"base":"Any"},"out":{"base":"Any","pred":"My(x).diff(x).func is Derivative and My(x).diff(x, 3).func is Derivative and re(x).diff(x, 2) == Derivative(re(x), (x, 2)) and My(x).diff(y) == 0"},"spec":{"lhs":"test_diff_no_eval_derivative()","rhs":"test_diff_no_eval_derivative produces the expected output","over":{"base":"Any"},"name":"test_diff_no_eval_derivative_correct"},"guarantee":"test_diff_no_eval_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff_no_eval_derivative_correct","statement":"Path(test_diff_no_eval_derivative(x), test_diff_no_eval_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2db52c95bfb78d88"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff_no_eval_derivative","kind":"function","src_hash":"e339b882c150f61e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Expr.__new__(cls, x))"},"spec":{"lhs":"test_diff_no_eval_derivative()","rhs":"Expr.__new__(cls, x)","over":{"base":"Any"},"name":"test_diff_no_eval_derivative_correct"},"guarantee":"returns Expr.__new__(cls, x); My(x).diff(x).func is Derivative; My(x).diff(x, 3).func is Derivative; re(x).diff(x, 2) == Derivative(re(x), (x, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff_no_eval_derivative_correct","statement":"Path(test_diff_no_eval_derivative(x), returns Expr.__new__(cls, x); My(x).diff(x).func is Derivative; My(x).diff(x, 3).func is Derivative; re(x).diff(x, 2) == Derivative(re(x), (x, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11d7c8f815571b7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["My(x).diff(x).func is Derivative","My(x).diff(x, 3).func is Derivative","re(x).diff(x, 2) == Derivative(re(x), (x, 2))","diff(NDimArray([re(x), im(x)]), (x, 2)) == NDimArray([Derivative(re(x), (x, 2)), Derivative(im(x), (x, 2))])","My(x).diff(y) == 0"],"returns_expr":"Expr.__new__(cls, x)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_diff_no_eval_derivative():
     class My(Expr):
         def __new__(cls, x):
@@ -162,32 +195,45 @@ def test_diff_no_eval_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_speed(), test_speed produces the expected output) over Any ║
+# ║ Path(test_speed(), x.diff(x, 10 ** 8) == 0) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_speed : Any → {Any | x.diff(x, 10 ** 8) == 0}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.diff(x, 10 ** 8) == 0                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_speed : Any → {Any | result satisfies: x.diff(x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bbbf5a5ae698149  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5017e14fe2ac56bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_speed","kind":"function","src_hash":"b95482cafc049066","in":{"base":"Any"},"out":{"base":"Any","pred":"x.diff(x, 10 ** 8) == 0"},"spec":{"lhs":"test_speed()","rhs":"test_speed produces the expected output","over":{"base":"Any"},"name":"test_speed_correct"},"guarantee":"test_speed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_speed_correct","statement":"Path(test_speed(x), test_speed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bbbf5a5ae698149"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_speed","kind":"function","src_hash":"b95482cafc049066","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.diff(x, 10 ** 8) == 0"},"spec":{"lhs":"test_speed()","rhs":"x.diff(x, 10 ** 8) == 0","over":{"base":"Any"},"name":"test_speed_correct"},"guarantee":"x.diff(x, 10 ** 8) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_speed_correct","statement":"Path(test_speed(x), x.diff(x, 10 ** 8) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5017e14fe2ac56bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.diff(x, 10 ** 8) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_speed():
     # this should return in 0.0s. If it takes forever, it's wrong.
     assert x.diff(x, 10**8) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deriv_noncommutative(), test_deriv_noncommutative produces the expected output) over Any ║
+# ║ Path(test_deriv_noncommutative(), A * f(x) * A == f(x) * A ** 2 and A * f(x).diff(x) * A == f(x).diff(x) * A ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deriv_noncommutative : Any → {Any | A * f(x) * A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A * f(x) * A == f(x) * A ** 2                  ║
+# ║   ensures:  A * f(x).diff(x) * A == f(x).diff(x) * A ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deriv_noncommutative : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2056b9cdaeb84a67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0274abd85a9da4a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_deriv_noncommutative","kind":"function","src_hash":"a972f750fdbcb5be","in":{"base":"Any"},"out":{"base":"Any","pred":"A * f(x) * A == f(x) * A ** 2 and A * f(x).diff(x) * A == f(x).diff(x) * A ** 2"},"spec":{"lhs":"test_deriv_noncommutative()","rhs":"test_deriv_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_deriv_noncommutative_correct"},"guarantee":"test_deriv_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_deriv_noncommutative_correct","statement":"Path(test_deriv_noncommutative(x), test_deriv_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2056b9cdaeb84a67"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_deriv_noncommutative","kind":"function","src_hash":"a972f750fdbcb5be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A * f(x) * A == f(x) * A ** 2 and A * f(x).diff(x) * A == f(x).diff(x) * A ** 2"},"spec":{"lhs":"test_deriv_noncommutative()","rhs":"A * f(x) * A == f(x) * A ** 2 and A * f(x).diff(x) * A == f(x).diff(x) * A ** 2","over":{"base":"Any"},"name":"test_deriv_noncommutative_correct"},"guarantee":"A * f(x) * A == f(x) * A ** 2; A * f(x).diff(x) * A == f(x).diff(x) * A ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_deriv_noncommutative_correct","statement":"Path(test_deriv_noncommutative(x), A * f(x) * A == f(x) * A ** 2; A * f(x).diff(x) * A == f(x).diff(x) * A ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0274abd85a9da4a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A * f(x) * A == f(x) * A ** 2","A * f(x).diff(x) * A == f(x).diff(x) * A ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deriv_noncommutative():
     A = Symbol("A", commutative=False)
     f = Function("f")
@@ -196,7 +242,12 @@ def test_deriv_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff_nth_derivative(), test_diff_nth_derivative produces the expected output) over {Any | isinstance(mul_diff, Sum)} ║
+# ║ Path(test_diff_nth_derivative(), expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n)) and expr.subs(n, 1).doit() == cos(x) and expr.subs(n, 2).doit() == -sin(x) and expr2.subs(Derivative(f(x), x), y) == Derivative(y, x) and expr3 == Derivative(f(x), (x, n)) and diff(x, (x, n)) == Piecewise((x, Eq(n, 0)), (1, Eq(n, 1)), (0, True)) and diff(2 * x, (x, n)).dummy_eq(Sum(Piecewise((2 * x * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 0)), (2 * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 1)), (0, True)), (y, 0, n))) and isinstance(mul_diff, Sum) and isinstance(dex, Sum) and (cos(x) * sin(y)).diff([[x, y, z]]) == NDimArray([-sin(x) * sin(y), cos(x) * cos(y), 0])) over {Any | isinstance(mul_diff, Sum)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.subs(sin(x), cos(-x)) == Derivative(...   ║
+# ║   ensures:  expr.subs(n, 1).doit() == cos(x)               ║
+# ║   ensures:  expr.subs(n, 2).doit() == -sin(x)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_diff_nth_derivative : {Any | isinstance(mul_diff...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -208,9 +259,12 @@ def test_deriv_noncommutative():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 60f8e450...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff_nth_derivative","kind":"function","src_hash":"44acf0639b78c756","in":{"base":"Any","pred":"isinstance(mul_diff, Sum)"},"out":{"base":"Any","pred":"expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n)) and expr.subs(n, 1).doit() == cos(x) and expr.subs(n, 2).doit() == -sin(x) and expr2.subs(Derivative(f(x), x), y) == Derivative(y, x) and expr3 == Derivative(f(x), (x, n)) and diff(x, (x, n)) == Piecewise((x, Eq(n, 0)), (1, Eq(n, 1)), (0, True)) and isinstance(mul_diff, Sum) and isinstance(dex, Sum) and mul_diff.subs(n, i).doit() == exprm.diff((x, i)).expand() and dex.subs(n, i).doit().expand() == exprm2.diff((x, i)).expand()"},"spec":{"lhs":"test_diff_nth_derivative()","rhs":"test_diff_nth_derivative produces the expected output","over":{"base":"Any","pred":"isinstance(mul_diff, Sum)"},"name":"test_diff_nth_derivative_correct"},"guarantee":"test_diff_nth_derivative produces the expected output","fibers":[{"name":"Sum","pred":"isinstance(mul_diff, Sum)","path":{"lhs":"test_diff_nth_derivative(x)","rhs":"test_diff_nth_derivative produces the expected output","over":{"base":"Sum","pred":"isinstance(mul_diff, Sum)"},"name":"test_diff_nth_derivative_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff_nth_derivative_Sum_correct","statement":"test_diff_nth_derivative satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"60f8e450d1722a25"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_diff_nth_derivative","kind":"function","src_hash":"44acf0639b78c756","in":{"base":"Any","pred":"isinstance(mul_diff, Sum)"},"out":{"base":"Any","pred":"result satisfies: expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n)) and expr.subs(n, 1).doit() == cos(x) and expr.subs(n, 2).doit() == -sin(x) and expr2.subs(Derivative(f(x), x), y) == Derivative(y, x) and expr3 == Derivative(f(x), (x, n)) and diff(x, (x, n)) == Piecewise((x, Eq(n, 0)), (1, Eq(n, 1)), (0, True)) and diff(2 * x, (x, n)).dummy_eq(Sum(Piecewise((2 * x * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 0)), (2 * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 1)), (0, True)), (y, 0, n))) and isinstance(mul_diff, Sum) and isinstance(dex, Sum) and (cos(x) * sin(y)).diff([[x, y, z]]) == NDimArray([-sin(x) * sin(y), cos(x) * cos(y), 0])"},"spec":{"lhs":"test_diff_nth_derivative()","rhs":"expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n)) and expr.subs(n, 1).doit() == cos(x) and expr.subs(n, 2).doit() == -sin(x) and expr2.subs(Derivative(f(x), x), y) == Derivative(y, x) and expr3 == Derivative(f(x), (x, n)) and diff(x, (x, n)) == Piecewise((x, Eq(n, 0)), (1, Eq(n, 1)), (0, True)) and diff(2 * x, (x, n)).dummy_eq(Sum(Piecewise((2 * x * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 0)), (2 * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 1)), (0, True)), (y, 0, n))) and isinstance(mul_diff, Sum) and isinstance(dex, Sum) and (cos(x) * sin(y)).diff([[x, y, z]]) == NDimArray([-sin(x) * sin(y), cos(x) * cos(y), 0])","over":{"base":"Any","pred":"isinstance(mul_diff, Sum)"},"name":"test_diff_nth_derivative_correct"},"guarantee":"expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n)); expr.subs(n, 1).doit() == cos(x); expr.subs(n, 2).doit() == -sin(x)","fibers":[{"name":"Sum","pred":"isinstance(mul_diff, Sum)","path":{"lhs":"test_diff_nth_derivative(x)","rhs":"expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n)); expr.subs(n, 1).doit() == cos(x); expr.subs(n, 2).doit() == -sin(x)","over":{"base":"Sum","pred":"isinstance(mul_diff, Sum)"},"name":"test_diff_nth_derivative_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_diff_nth_derivative_Sum_correct","statement":"test_diff_nth_derivative satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"60f8e450d1722a25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.subs(sin(x), cos(-x)) == Derivative(cos(-x), (x, n))","expr.subs(n, 1).doit() == cos(x)","expr.subs(n, 2).doit() == -sin(x)","expr2.subs(Derivative(f(x), x), y) == Derivative(y, x)","expr3 == Derivative(f(x), (x, n))","diff(x, (x, n)) == Piecewise((x, Eq(n, 0)), (1, Eq(n, 1)), (0, True))","diff(2 * x, (x, n)).dummy_eq(Sum(Piecewise((2 * x * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 0)), (2 * factorial(n) / (factorial(y) * factorial(-y + n)), Eq(y, 0) & Eq(Max(0, -y + n), 1)), (0, True)), (y, 0, n)))","isinstance(mul_diff, Sum)","isinstance(dex, Sum)","(cos(x) * sin(y)).diff([[x, y, z]]) == NDimArray([-sin(x) * sin(y), cos(x) * cos(y), 0])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":true}}
 def test_diff_nth_derivative():
     f =  Function("f")
     n = Symbol("n", integer=True)
@@ -253,16 +307,23 @@ def test_diff_nth_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16160(), test_issue_16160 produces the expected output) over Any ║
+# ║ Path(test_issue_16160(), Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2) and Derivative(1 + x ** 3, (x, x)).subs(x, 0) == Derivative(1 + y ** 3, (y, 0)).subs(y, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16160 : Any → {Any | Derivative(x ** 3, (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Derivative(x ** 3, (x, x)).subs(x, 2) == ...   ║
+# ║   ensures:  Derivative(1 + x ** 3, (x, x)).subs(x, 0)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16160 : Any → {Any | result satisfies: Der...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12d5196a65641ea1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce02559ae697f229  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_issue_16160","kind":"function","src_hash":"f17ec83f91714133","in":{"base":"Any"},"out":{"base":"Any","pred":"Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2)"},"spec":{"lhs":"test_issue_16160()","rhs":"test_issue_16160 produces the expected output","over":{"base":"Any"},"name":"test_issue_16160_correct"},"guarantee":"test_issue_16160 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_issue_16160_correct","statement":"Path(test_issue_16160(x), test_issue_16160 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12d5196a65641ea1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_diff.test_issue_16160","kind":"function","src_hash":"f17ec83f91714133","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2) and Derivative(1 + x ** 3, (x, x)).subs(x, 0) == Derivative(1 + y ** 3, (y, 0)).subs(y, 0)"},"spec":{"lhs":"test_issue_16160()","rhs":"Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2) and Derivative(1 + x ** 3, (x, x)).subs(x, 0) == Derivative(1 + y ** 3, (y, 0)).subs(y, 0)","over":{"base":"Any"},"name":"test_issue_16160_correct"},"guarantee":"Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2); Derivative(1 + x ** 3, (x, x)).subs(x, 0) == Derivative(1 + y ** 3, (y, 0)).subs(y, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_diff.test_issue_16160_correct","statement":"Path(test_issue_16160(x), Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2); Derivative(1 + x ** 3, (x, x)).subs(x, 0) == Derivative(1 + y ** 3, (y, 0)).subs(y, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce02559ae697f229","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Derivative(x ** 3, (x, x)).subs(x, 2) == Subs(Derivative(x ** 3, (x, 2)), x, 2)","Derivative(1 + x ** 3, (x, x)).subs(x, 0) == Derivative(1 + y ** 3, (y, 0)).subs(y, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_16160():
     assert Derivative(x**3, (x, x)).subs(x, 2) == Subs(
         Derivative(x**3, (x, 2)), x, 2)

@@ -35,76 +35,109 @@ _set_pow = Dispatcher('_set_pow')
 
 @_set_pow.register(Basic, Basic)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78ef77af06b53cf8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78ef77af06b53cf8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78ef77af06b53cf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return None
 
 @_set_pow.register(Set, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), ImageSet(Lambda((_x, _y), _x ** _y), x, y)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImageSet(Lambda((_x, _y), _x ** _y), x, y)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c1d32609b85e058           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"489f5d01bdafe1f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c1d32609b85e058"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"489f5d01bdafe1f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"ImageSet(Lambda((_x, _y), _x ** _y), x, y)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns ImageSet(Lambda((_x, _y), _x ** _y), x, y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c1d32609b85e058","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImageSet(Lambda((_x, _y), _x ** _y), x, y)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return ImageSet(Lambda((_x, _y), (_x ** _y)), x, y)
 
 @_set_pow.register(Expr, Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), x ** y) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x ** y                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8525d4f2abc5972d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"aefb170d53bc9782","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8525d4f2abc5972d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"aefb170d53bc9782","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"x ** y","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns x ** y","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8525d4f2abc5972d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x ** y","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return x**y
 
 @_set_pow.register(Interval, Zero)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, z), FiniteSet(S.One)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(S.One)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a6453a67adf27c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"c8c43712096c4cfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6453a67adf27c9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"c8c43712096c4cfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, z)","rhs":"FiniteSet(S.One)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns FiniteSet(S.One)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6453a67adf27c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(S.One)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, z):
     return FiniteSet(S.One)
 
 @_set_pow.register(Interval, Integer)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), powers in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic) over Any ║
+# ║ Path(_(x, exponent), <unspecified:_>) over {Any | hasattr(exponent, 'is_odd') and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(exponent, 'is_negative') and hasattr(exponent, 'is_even')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(exponent, 'is_odd')                    ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(exponent, 'is_odd') and hasattr(x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36438ad15e5551f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"dbb2df6622c60284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"powers in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","over":{"base":"Any"},"name":"__correct"},"guarantee":"powers in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.power.__correct","statement":"Path(_(x), powers in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36438ad15e5551f2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"dbb2df6622c60284","in":{"base":"Any","pred":"hasattr(exponent, 'is_odd') and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(exponent, 'is_negative') and hasattr(exponent, 'is_even')"},"out":{"base":"Any"},"spec":{"lhs":"_(x, exponent)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(exponent, 'is_odd') and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(exponent, 'is_negative') and hasattr(exponent, 'is_even')"},"name":"__correct"},"guarantee":"powers in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.power.__correct","statement":"Path(_(x), powers in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36438ad15e5551f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(exponent, 'is_odd')","hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'left_open')","hasattr(x, 'right_open')","hasattr(exponent, 'is_negative')","hasattr(exponent, 'is_even')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["exponent.is_even","exponent.is_negative","exponent.is_odd","x.end","x.left_open","x.right_open","x.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _(x, exponent):
     """
     Powers in interval arithmetic
@@ -154,16 +187,28 @@ def _(x, exponent):
 
 @_set_pow.register(Interval, Infinity)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(b, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(b, e), result == (Interval(0, oo) if b.start.is_nonnegative else Interval(-oo, oo) if b.end.is_negative else Interval(-oo, oo)) and result == Interval(0, oo) or result == Interval(-oo, oo)) over {Any | hasattr(b, 'start') and hasattr(b, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'start')                            ║
+# ║   requires: hasattr(b, 'end')                              ║
+# ║   ensures:  result == (Interval(0, oo) if b.start.is_...   ║
+# ║   ensures:  result == Interval(0, oo) or result == In...   ║
+# ║   fiber[case_0]: b.start.is_nonnegative => Interval(0...   ║
+# ║   fiber[case_1]: b.end.is_negative => Interval(-oo, oo)    ║
+# ║   fiber[case_2]: not (b.start.is_nonnegative) and not...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(b, 'start') and hasattr(b, 'end')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd72c6966db210fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 517838f03f072c4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"6d8b5f8557d382af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(b, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.power.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd72c6966db210fb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"6d8b5f8557d382af","in":{"base":"Any","pred":"hasattr(b, 'start') and hasattr(b, 'end')"},"out":{"base":"Any","pred":"result satisfies: result == (Interval(0, oo) if b.start.is_nonnegative else Interval(-oo, oo) if b.end.is_negative else Interval(-oo, oo)) and result == Interval(0, oo) or result == Interval(-oo, oo)"},"spec":{"lhs":"_(b, e)","rhs":"result == (Interval(0, oo) if b.start.is_nonnegative else Interval(-oo, oo) if b.end.is_negative else Interval(-oo, oo)) and result == Interval(0, oo) or result == Interval(-oo, oo)","over":{"base":"Any","pred":"hasattr(b, 'start') and hasattr(b, 'end')"},"name":"__correct"},"guarantee":"result == (Interval(0, oo) if b.start.is_nonnegative else Interval(-oo, oo) if b.end.is_negative else Interval(-oo, oo)); result == Interval(0, oo) or result == Interval(-oo, oo); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.power.__correct","statement":"Path(_(x), result == (Interval(0, oo) if b.start.is_nonnegative else Interval(-oo, oo) if b.end.is_negative else Interval(-oo, oo)); result == Interval(0, oo) or result == Interval(-oo, oo); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517838f03f072c4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'start')","hasattr(b, 'end')"],"ensures":["result == (Interval(0, oo) if b.start.is_nonnegative else Interval(-oo, oo) if b.end.is_negative else Interval(-oo, oo))","result == Interval(0, oo) or result == Interval(-oo, oo)"],"fibers":[{"name":"case_0","guard":"b.start.is_nonnegative","ensures":["result == Interval(0, oo)"],"decidability":"library","returns_expr":"Interval(0, oo)"},{"name":"case_1","guard":"b.end.is_negative","ensures":["result == Interval(-oo, oo)"],"decidability":"library","returns_expr":"Interval(-oo, oo)"},{"name":"case_2","guard":"not (b.start.is_nonnegative) and not (b.end.is_negative)","ensures":["result == Interval(-oo, oo)"],"decidability":"library","returns_expr":"Interval(-oo, oo)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["b.end","b.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(b, e):
     # TODO: add logic for open intervals?
     if b.start.is_nonnegative:
@@ -187,15 +232,21 @@ def _(b, e):
 
 @_set_pow.register(Interval, NegativeInfinity)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(b, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(b, e), _set_pow(set_div(S.One, b), oo)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _set_pow(set_div(S.One, b), oo)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f072ec146fe8c04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"64a4f0404ca4bb29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(b, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f072ec146fe8c04"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.power._","kind":"function","src_hash":"64a4f0404ca4bb29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(b, e)","rhs":"_set_pow(set_div(S.One, b), oo)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns _set_pow(set_div(S.One, b), oo)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f072ec146fe8c04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_set_pow(set_div(S.One, b), oo)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(b, e):
     return _set_pow(set_div(S.One, b), oo)

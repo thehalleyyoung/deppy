@@ -1056,16 +1056,22 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_c(sou), function for converting a c source code) over Any ║
+# ║ Path(parse_c(source), <unspecified:parse_c>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parse_c : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc848883c68f0f04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.c.c_parser.parse_c","kind":"function","src_hash":"64956ab1b5d2873f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_c(sou)","rhs":"function for converting a c source code","over":{"base":"Any"},"name":"parse_c_correct"},"guarantee":"function for converting a c source code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.c.c_parser.parse_c_correct","statement":"Path(parse_c(x), function for converting a c source code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc848883c68f0f04"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.c.c_parser.parse_c","kind":"function","src_hash":"64956ab1b5d2873f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_c(source)","rhs":"<unspecified:parse_c>","over":{"base":"Any"},"name":"parse_c_correct"},"guarantee":"function for converting a c source code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.c.c_parser.parse_c_correct","statement":"Path(parse_c(x), function for converting a c source code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc848883c68f0f04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def parse_c(source):
     """Function for converting a C source code
 

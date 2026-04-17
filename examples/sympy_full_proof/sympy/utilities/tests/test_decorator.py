@@ -28,16 +28,24 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_threaded(), test_threaded produces the expected output) over Any ║
+# ║ Path(test_threaded(), function(Matrix([[x, y], [1, x]]), 1, 2) == Matrix([[2 * x + 3, 2 * y + 3], [5, 2 * x + 3]]) and function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3) and function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3] and function((x, y), 1, 2) == (2 * x + 3, 2 * y + 3) and function({x, y}, 1, 2) == {2 * x + 3, 2 * y + 3} and function(x + y, 2) == x ** 2 + y ** 2 and function(x, 2) == x ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_threaded : Any → {Any | function(Eq(x, y), 1, 2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  function(Matrix([[x, y], [1, x]]), 1, 2) ...   ║
+# ║   ensures:  function(Eq(x, y), 1, 2) == Eq(2 * x + 3,...   ║
+# ║   ensures:  function([x, y], 1, 2) == [2 * x + 3, 2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_threaded : Any → {Any | result satisfies: functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aa0dc5fb2922842  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e783aeec558f6a31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_threaded","kind":"function","src_hash":"ea42666640f6b433","in":{"base":"Any"},"out":{"base":"Any","pred":"function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3) and function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3] and function((x, y), 1, 2) == (2 * x + 3, 2 * y + 3) and function({x, y}, 1, 2) == {2 * x + 3, 2 * y + 3} and function(x + y, 2) == x ** 2 + y ** 2 and function(x, 2) == x ** 2"},"spec":{"lhs":"test_threaded()","rhs":"test_threaded produces the expected output","over":{"base":"Any"},"name":"test_threaded_correct"},"guarantee":"test_threaded produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_threaded_correct","statement":"Path(test_threaded(x), test_threaded produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aa0dc5fb2922842"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_threaded","kind":"function","src_hash":"ea42666640f6b433","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: function(Matrix([[x, y], [1, x]]), 1, 2) == Matrix([[2 * x + 3, 2 * y + 3], [5, 2 * x + 3]]) and function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3) and function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3] and function((x, y), 1, 2) == (2 * x + 3, 2 * y + 3) and function({x, y}, 1, 2) == {2 * x + 3, 2 * y + 3} and function(x + y, 2) == x ** 2 + y ** 2 and function(x, 2) == x ** 2"},"spec":{"lhs":"test_threaded()","rhs":"function(Matrix([[x, y], [1, x]]), 1, 2) == Matrix([[2 * x + 3, 2 * y + 3], [5, 2 * x + 3]]) and function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3) and function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3] and function((x, y), 1, 2) == (2 * x + 3, 2 * y + 3) and function({x, y}, 1, 2) == {2 * x + 3, 2 * y + 3} and function(x + y, 2) == x ** 2 + y ** 2 and function(x, 2) == x ** 2","over":{"base":"Any"},"name":"test_threaded_correct"},"guarantee":"function(Matrix([[x, y], [1, x]]), 1, 2) == Matrix([[2 * x + 3, 2 * y + 3], [5, 2 * x + 3]]); function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3); function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_threaded_correct","statement":"Path(test_threaded(x), function(Matrix([[x, y], [1, x]]), 1, 2) == Matrix([[2 * x + 3, 2 * y + 3], [5, 2 * x + 3]]); function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3); function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e783aeec558f6a31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["function(Matrix([[x, y], [1, x]]), 1, 2) == Matrix([[2 * x + 3, 2 * y + 3], [5, 2 * x + 3]])","function(Eq(x, y), 1, 2) == Eq(2 * x + 3, 2 * y + 3)","function([x, y], 1, 2) == [2 * x + 3, 2 * y + 3]","function((x, y), 1, 2) == (2 * x + 3, 2 * y + 3)","function({x, y}, 1, 2) == {2 * x + 3, 2 * y + 3}","function(x + y, 2) == x ** 2 + y ** 2","function(x, 2) == x ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_threaded():
     @threaded
     def function(expr, *args):
@@ -62,16 +70,23 @@ def test_threaded():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xthreaded(), test_xthreaded produces the expected output) over Any ║
+# ║ Path(test_xthreaded(), expr ** n) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_xthreaded : Any → {Any | function(x + y, 2) == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  function(x + y, 2) == (x + y) ** 2             ║
+# ║   returns:  expr ** n                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_xthreaded : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bcf0dc77eaf285d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69ddacb55260b209  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_xthreaded","kind":"function","src_hash":"fa363e063080b535","in":{"base":"Any"},"out":{"base":"Any","pred":"function(x + y, 2) == (x + y) ** 2"},"spec":{"lhs":"test_xthreaded()","rhs":"test_xthreaded produces the expected output","over":{"base":"Any"},"name":"test_xthreaded_correct"},"guarantee":"test_xthreaded produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_xthreaded_correct","statement":"Path(test_xthreaded(x), test_xthreaded produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bcf0dc77eaf285d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_xthreaded","kind":"function","src_hash":"fa363e063080b535","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr ** n)"},"spec":{"lhs":"test_xthreaded()","rhs":"expr ** n","over":{"base":"Any"},"name":"test_xthreaded_correct"},"guarantee":"returns expr ** n; function(x + y, 2) == (x + y) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_xthreaded_correct","statement":"Path(test_xthreaded(x), returns expr ** n; function(x + y, 2) == (x + y) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ddacb55260b209","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["function(x + y, 2) == (x + y) ** 2"],"returns_expr":"expr ** n","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_xthreaded():
     @xthreaded
     def function(expr, n):
@@ -81,16 +96,24 @@ def test_xthreaded():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wraps(), test_wraps produces the expected output) over Any ║
+# ║ Path(test_wraps(), new_my_func.__name__ == 'my_func' and new_my_func.__doc__ == 'My function. ' and hasattr(new_my_func, 'is_my_func') and new_my_func.is_my_func is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_wraps : Any → {Any | new_my_func.__name__ == 'my...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  new_my_func.__name__ == 'my_func'              ║
+# ║   ensures:  new_my_func.__doc__ == 'My function. '         ║
+# ║   ensures:  hasattr(new_my_func, 'is_my_func')             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_wraps : Any → {Any | result satisfies: new_my_fu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c96af6ace2200ca8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1c4671c29b82de1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_wraps","kind":"function","src_hash":"e1680e4651b003b8","in":{"base":"Any"},"out":{"base":"Any","pred":"new_my_func.__name__ == 'my_func' and new_my_func.__doc__ == 'My function. ' and hasattr(new_my_func, 'is_my_func') and new_my_func.is_my_func is True"},"spec":{"lhs":"test_wraps()","rhs":"test_wraps produces the expected output","over":{"base":"Any"},"name":"test_wraps_correct"},"guarantee":"test_wraps produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_wraps_correct","statement":"Path(test_wraps(x), test_wraps produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96af6ace2200ca8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_wraps","kind":"function","src_hash":"e1680e4651b003b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: new_my_func.__name__ == 'my_func' and new_my_func.__doc__ == 'My function. ' and hasattr(new_my_func, 'is_my_func') and new_my_func.is_my_func is True"},"spec":{"lhs":"test_wraps()","rhs":"new_my_func.__name__ == 'my_func' and new_my_func.__doc__ == 'My function. ' and hasattr(new_my_func, 'is_my_func') and new_my_func.is_my_func is True","over":{"base":"Any"},"name":"test_wraps_correct"},"guarantee":"new_my_func.__name__ == 'my_func'; new_my_func.__doc__ == 'My function. '; hasattr(new_my_func, 'is_my_func')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_wraps_correct","statement":"Path(test_wraps(x), new_my_func.__name__ == 'my_func'; new_my_func.__doc__ == 'My function. '; hasattr(new_my_func, 'is_my_func'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1c4671c29b82de1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["new_my_func.__name__ == 'my_func'","new_my_func.__doc__ == 'My function. '","hasattr(new_my_func, 'is_my_func')","new_my_func.is_my_func is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_wraps():
     def my_func(x):
         """My function. """
@@ -107,16 +130,23 @@ def test_wraps():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_memoize_property(), test_memoize_property produces the expected output) over Any ║
+# ║ Path(test_memoize_property(), Basic()) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_memoize_property : Any → {Any | obj1 is obj2}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  obj1 is obj2                                   ║
+# ║   returns:  Basic()                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_memoize_property : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b4100150cbcaf8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24860731084cf474  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_memoize_property","kind":"function","src_hash":"12f68ea6d1f4a618","in":{"base":"Any"},"out":{"base":"Any","pred":"obj1 is obj2"},"spec":{"lhs":"test_memoize_property()","rhs":"test_memoize_property produces the expected output","over":{"base":"Any"},"name":"test_memoize_property_correct"},"guarantee":"test_memoize_property produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_memoize_property_correct","statement":"Path(test_memoize_property(x), test_memoize_property produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b4100150cbcaf8b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_memoize_property","kind":"function","src_hash":"12f68ea6d1f4a618","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Basic())"},"spec":{"lhs":"test_memoize_property()","rhs":"Basic()","over":{"base":"Any"},"name":"test_memoize_property_correct"},"guarantee":"returns Basic(); obj1 is obj2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_memoize_property_correct","statement":"Path(test_memoize_property(x), returns Basic(); obj1 is obj2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24860731084cf474","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["obj1 is obj2"],"returns_expr":"Basic()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_memoize_property():
     class TestMemoize(Basic):
         @memoize_property
@@ -129,7 +159,10 @@ def test_memoize_property():
     assert obj1 is obj2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated(), test_deprecated produces the expected output) over {Any | isinstance(deprecated_class(), deprecated_class)} ║
+# ║ Path(test_deprecated(), <unspecified:test_deprecated>) over {Any | isinstance(deprecated_class(), deprecated_class)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated : {Any | isinstance(deprecated_class(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -141,9 +174,12 @@ def test_memoize_property():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b69ff0be...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_deprecated","kind":"function","src_hash":"7df7bec02b5aabe1","in":{"base":"Any","pred":"isinstance(deprecated_class(), deprecated_class)"},"out":{"base":"Any","pred":"deprecated_function(1) == 1 and isinstance(deprecated_class(), deprecated_class) and deprecated_class_new(1) == 1 and deprecated_class_init(1).arg == 1 and deprecated_class_new_init(0) == 0 and deprecated_class_new_init(1).arg == 1"},"spec":{"lhs":"test_deprecated()","rhs":"test_deprecated produces the expected output","over":{"base":"Any","pred":"isinstance(deprecated_class(), deprecated_class)"},"name":"test_deprecated_correct"},"guarantee":"test_deprecated produces the expected output","fibers":[{"name":"deprecated_class","pred":"isinstance(deprecated_class(), deprecated_class)","path":{"lhs":"test_deprecated(x)","rhs":"test_deprecated produces the expected output","over":{"base":"deprecated_class","pred":"isinstance(deprecated_class(), deprecated_class)"},"name":"test_deprecated_deprecated_class_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_deprecated_deprecated_class_correct","statement":"test_deprecated satisfies spec on deprecated_class inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b69ff0be033799d1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_decorator.test_deprecated","kind":"function","src_hash":"7df7bec02b5aabe1","in":{"base":"Any","pred":"isinstance(deprecated_class(), deprecated_class)"},"out":{"base":"Any","pred":"deprecated_function(1) == 1 and isinstance(deprecated_class(), deprecated_class) and deprecated_class_new(1) == 1 and deprecated_class_init(1).arg == 1 and deprecated_class_new_init(0) == 0 and deprecated_class_new_init(1).arg == 1"},"spec":{"lhs":"test_deprecated()","rhs":"<unspecified:test_deprecated>","over":{"base":"Any","pred":"isinstance(deprecated_class(), deprecated_class)"},"name":"test_deprecated_correct"},"guarantee":"test_deprecated produces the expected output","fibers":[{"name":"deprecated_class","pred":"isinstance(deprecated_class(), deprecated_class)","path":{"lhs":"test_deprecated(x)","rhs":"test_deprecated produces the expected output","over":{"base":"deprecated_class","pred":"isinstance(deprecated_class(), deprecated_class)"},"name":"test_deprecated_deprecated_class_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_decorator.test_deprecated_deprecated_class_correct","statement":"test_deprecated satisfies spec on deprecated_class inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b69ff0be033799d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'arg == 0'}, fibers={'deprecated_class'})"]}}
 def test_deprecated():
     @deprecated('deprecated_function is deprecated',
                 deprecated_since_version='1.10',

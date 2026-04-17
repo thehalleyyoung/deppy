@@ -46,56 +46,80 @@ Avec = Matrix([[1], [I]])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AKet(*args), correctly constructs a AKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AKet : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AKet : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeb2c9ee436cc266  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet","kind":"class","src_hash":"5eb6f25903b389b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AKet(*args)","rhs":"correctly constructs a AKet instance","over":{"base":"Any"},"name":"AKet_class_invariant"},"guarantee":"correctly constructs a AKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb2c9ee436cc266"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet","kind":"class","src_hash":"5eb6f25903b389b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ket)"},"spec":{"lhs":"AKet(*args)","rhs":"correctly constructs a AKet instance","over":{"base":"Any"},"name":"AKet_class_invariant"},"guarantee":"isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb2c9ee436cc266","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AKet not found in source"]}}
 class AKet(Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1edcb81cb0e5ecbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet.dual_class","kind":"classmethod","src_hash":"567e38edfab8b9ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1edcb81cb0e5ecbd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet.dual_class","kind":"classmethod","src_hash":"567e38edfab8b9ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1edcb81cb0e5ecbd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return ABra
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_AOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_AOp(None, **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58358d4b9bccd205           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet._represent_default_basis","kind":"method","src_hash":"71673c136a3bd0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58358d4b9bccd205"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet._represent_default_basis","kind":"method","src_hash":"71673c136a3bd0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_AOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_AOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58358d4b9bccd205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_AOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_AOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_AOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_AOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_AOp(basis, **options), <unspecified:_represent_AOp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_AOp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13118b9299cf71b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet._represent_AOp","kind":"method","src_hash":"760f08e70147bb07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_AOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_AOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13118b9299cf71b8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AKet._represent_AOp","kind":"method","src_hash":"760f08e70147bb07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_AOp(basis, **options)","rhs":"<unspecified:_represent_AOp>","over":{"base":"Any"},"name":"_represent_AOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13118b9299cf71b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_AOp(self, basis, **options):
         return Avec
 
@@ -103,28 +127,40 @@ class AKet(Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ABra(*args), correctly constructs a ABra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ABra : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ABra : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c14a7c9b12a462a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.ABra","kind":"class","src_hash":"81d67fb6350d9e74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ABra(*args)","rhs":"correctly constructs a ABra instance","over":{"base":"Any"},"name":"ABra_class_invariant"},"guarantee":"correctly constructs a ABra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c14a7c9b12a462a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.ABra","kind":"class","src_hash":"81d67fb6350d9e74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Bra)"},"spec":{"lhs":"ABra(*args)","rhs":"correctly constructs a ABra instance","over":{"base":"Any"},"name":"ABra_class_invariant"},"guarantee":"isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c14a7c9b12a462a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function ABra not found in source"]}}
 class ABra(Bra):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c03a9865508c40bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.ABra.dual_class","kind":"classmethod","src_hash":"7f9b658bb63e2ac0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c03a9865508c40bd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.ABra.dual_class","kind":"classmethod","src_hash":"7f9b658bb63e2ac0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c03a9865508c40bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return AKet
 
@@ -132,41 +168,59 @@ class ABra(Bra):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AOp(*args), correctly constructs a AOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AOp : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AOp : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4ef70b58bad039c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AOp","kind":"class","src_hash":"6a2ff0ff0886328c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AOp(*args)","rhs":"correctly constructs a AOp instance","over":{"base":"Any"},"name":"AOp_class_invariant"},"guarantee":"correctly constructs a AOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ef70b58bad039c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AOp","kind":"class","src_hash":"6a2ff0ff0886328c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"AOp(*args)","rhs":"correctly constructs a AOp instance","over":{"base":"Any"},"name":"AOp_class_invariant"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ef70b58bad039c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AOp not found in source"]}}
 class AOp(Operator):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_AOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_AOp(None, **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6df34f1c8f027c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AOp._represent_default_basis","kind":"method","src_hash":"71673c136a3bd0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6df34f1c8f027c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AOp._represent_default_basis","kind":"method","src_hash":"71673c136a3bd0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_AOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_AOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6df34f1c8f027c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_AOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_AOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_AOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_AOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_AOp(basis, **options), <unspecified:_represent_AOp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_AOp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28959d9e9c5336ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AOp._represent_AOp","kind":"method","src_hash":"5c07c922d1d80580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_AOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_AOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28959d9e9c5336ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.AOp._represent_AOp","kind":"method","src_hash":"5c07c922d1d80580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_AOp(basis, **options)","rhs":"<unspecified:_represent_AOp>","over":{"base":"Any"},"name":"_represent_AOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28959d9e9c5336ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_AOp(self, basis, **options):
         return Amat
 
@@ -174,41 +228,59 @@ class AOp(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BOp(*args), correctly constructs a BOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BOp : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BOp : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65b2c0387e7e1a40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.BOp","kind":"class","src_hash":"e28de204b72e807e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BOp(*args)","rhs":"correctly constructs a BOp instance","over":{"base":"Any"},"name":"BOp_class_invariant"},"guarantee":"correctly constructs a BOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65b2c0387e7e1a40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.BOp","kind":"class","src_hash":"e28de204b72e807e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"BOp(*args)","rhs":"correctly constructs a BOp instance","over":{"base":"Any"},"name":"BOp_class_invariant"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65b2c0387e7e1a40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function BOp not found in source"]}}
 class BOp(Operator):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_AOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_AOp(None, **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b94dfcd1e1d8b150           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.BOp._represent_default_basis","kind":"method","src_hash":"71673c136a3bd0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b94dfcd1e1d8b150"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.BOp._represent_default_basis","kind":"method","src_hash":"71673c136a3bd0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_AOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_AOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b94dfcd1e1d8b150","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_AOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_AOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_AOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_AOp(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_AOp(basis, **options), <unspecified:_represent_AOp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_AOp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9ea98b5c1de0656           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.BOp._represent_AOp","kind":"method","src_hash":"448fa0d534e7b6af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_AOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_AOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9ea98b5c1de0656"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.BOp._represent_AOp","kind":"method","src_hash":"448fa0d534e7b6af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_AOp(basis, **options)","rhs":"<unspecified:_represent_AOp>","over":{"base":"Any"},"name":"_represent_AOp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9ea98b5c1de0656","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_AOp(self, basis, **options):
         return Bmat
 
@@ -246,16 +318,22 @@ _tests = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_format_sympy(), test_format_sympy produces the expected output) over Any ║
+# ║ Path(test_format_sympy(), <unspecified:test_format_sympy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_format_sympy : Any → {Any | lhs == rhs}               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cb6147fbc1f4417  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_format_sympy","kind":"function","src_hash":"e022f2787f5c4168","in":{"base":"Any"},"out":{"base":"Any","pred":"lhs == rhs"},"spec":{"lhs":"test_format_sympy()","rhs":"test_format_sympy produces the expected output","over":{"base":"Any"},"name":"test_format_sympy_correct"},"guarantee":"test_format_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_format_sympy_correct","statement":"Path(test_format_sympy(x), test_format_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cb6147fbc1f4417"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_format_sympy","kind":"function","src_hash":"e022f2787f5c4168","in":{"base":"Any"},"out":{"base":"Any","pred":"lhs == rhs"},"spec":{"lhs":"test_format_sympy()","rhs":"<unspecified:test_format_sympy>","over":{"base":"Any"},"name":"test_format_sympy_correct"},"guarantee":"test_format_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_format_sympy_correct","statement":"Path(test_format_sympy(x), test_format_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cb6147fbc1f4417","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_format_sympy():
     for test in _tests:
         lhs = represent(test[0], basis=A, format='sympy')
@@ -264,16 +342,24 @@ def test_format_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar_sympy(), test_scalar_sympy produces the expected output) over Any ║
+# ║ Path(test_scalar_sympy(), represent(Integer(1)) == Integer(1) and represent(Float(1.0)) == Float(1.0) and represent(1.0 + I) == 1.0 + I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar_sympy : Any → {Any | represent(Integer(1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(Integer(1)) == Integer(1)            ║
+# ║   ensures:  represent(Float(1.0)) == Float(1.0)            ║
+# ║   ensures:  represent(1.0 + I) == 1.0 + I                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar_sympy : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a20d2c762a5eb94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c459d8dd09f0a69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_scalar_sympy","kind":"function","src_hash":"a2c23e2a457a8b47","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(Integer(1)) == Integer(1) and represent(Float(1.0)) == Float(1.0) and represent(1.0 + I) == 1.0 + I"},"spec":{"lhs":"test_scalar_sympy()","rhs":"test_scalar_sympy produces the expected output","over":{"base":"Any"},"name":"test_scalar_sympy_correct"},"guarantee":"test_scalar_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_scalar_sympy_correct","statement":"Path(test_scalar_sympy(x), test_scalar_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a20d2c762a5eb94"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_scalar_sympy","kind":"function","src_hash":"a2c23e2a457a8b47","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(Integer(1)) == Integer(1) and represent(Float(1.0)) == Float(1.0) and represent(1.0 + I) == 1.0 + I"},"spec":{"lhs":"test_scalar_sympy()","rhs":"represent(Integer(1)) == Integer(1) and represent(Float(1.0)) == Float(1.0) and represent(1.0 + I) == 1.0 + I","over":{"base":"Any"},"name":"test_scalar_sympy_correct"},"guarantee":"represent(Integer(1)) == Integer(1); represent(Float(1.0)) == Float(1.0); represent(1.0 + I) == 1.0 + I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_scalar_sympy_correct","statement":"Path(test_scalar_sympy(x), represent(Integer(1)) == Integer(1); represent(Float(1.0)) == Float(1.0); represent(1.0 + I) == 1.0 + I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c459d8dd09f0a69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(Integer(1)) == Integer(1)","represent(Float(1.0)) == Float(1.0)","represent(1.0 + I) == 1.0 + I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scalar_sympy():
     assert represent(Integer(1)) == Integer(1)
     assert represent(Float(1.0)) == Float(1.0)
@@ -284,7 +370,10 @@ np = import_module('numpy')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_format_numpy(), test_format_numpy produces the expected output) over {Any | isinstance(lhs, numpy_ndarray)} ║
+# ║ Path(test_format_numpy(), <unspecified:test_format_numpy>) over {Any | isinstance(lhs, numpy_ndarray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_format_numpy : {Any | isinstance(lhs, numpy_ndar...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -296,9 +385,12 @@ np = import_module('numpy')
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ca76625b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_format_numpy","kind":"function","src_hash":"c0d561e7d9e31c08","in":{"base":"Any","pred":"isinstance(lhs, numpy_ndarray)"},"out":{"base":"Any","pred":"(lhs == rhs).all() and lhs == rhs"},"spec":{"lhs":"test_format_numpy()","rhs":"test_format_numpy produces the expected output","over":{"base":"Any","pred":"isinstance(lhs, numpy_ndarray)"},"name":"test_format_numpy_correct"},"guarantee":"test_format_numpy produces the expected output","fibers":[{"name":"numpy_ndarray","pred":"isinstance(lhs, numpy_ndarray)","path":{"lhs":"test_format_numpy(x)","rhs":"test_format_numpy produces the expected output","over":{"base":"numpy_ndarray","pred":"isinstance(lhs, numpy_ndarray)"},"name":"test_format_numpy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_format_numpy_numpy_ndarray_correct","statement":"test_format_numpy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca76625bdfec4c71"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_format_numpy","kind":"function","src_hash":"c0d561e7d9e31c08","in":{"base":"Any","pred":"isinstance(lhs, numpy_ndarray)"},"out":{"base":"Any","pred":"(lhs == rhs).all() and lhs == rhs"},"spec":{"lhs":"test_format_numpy()","rhs":"<unspecified:test_format_numpy>","over":{"base":"Any","pred":"isinstance(lhs, numpy_ndarray)"},"name":"test_format_numpy_correct"},"guarantee":"test_format_numpy produces the expected output","fibers":[{"name":"numpy_ndarray","pred":"isinstance(lhs, numpy_ndarray)","path":{"lhs":"test_format_numpy(x)","rhs":"test_format_numpy produces the expected output","over":{"base":"numpy_ndarray","pred":"isinstance(lhs, numpy_ndarray)"},"name":"test_format_numpy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_format_numpy_numpy_ndarray_correct","statement":"test_format_numpy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca76625bdfec4c71","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(lhs, numpy_ndarray)'}, fibers={'numpy_ndarray'})"]}}
 def test_format_numpy():
     if not np:
         skip("numpy not installed.")
@@ -313,16 +405,24 @@ def test_format_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar_numpy(), test_scalar_numpy produces the expected output) over Any ║
+# ║ Path(test_scalar_numpy(), represent(Integer(1), format='numpy') == 1 and represent(Float(1.0), format='numpy') == 1.0 and represent(1.0 + I, format='numpy') == 1.0 + 1j) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar_numpy : Any → {Any | represent(Integer(1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(Integer(1), format='numpy') == 1     ║
+# ║   ensures:  represent(Float(1.0), format='numpy') == 1.0   ║
+# ║   ensures:  represent(1.0 + I, format='numpy') == 1.0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar_numpy : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9182d85e8de126f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65a78e558d8edab3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_scalar_numpy","kind":"function","src_hash":"803045d7c8c48b4e","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(Integer(1), format='numpy') == 1 and represent(Float(1.0), format='numpy') == 1.0 and represent(1.0 + I, format='numpy') == 1.0 + 1j"},"spec":{"lhs":"test_scalar_numpy()","rhs":"test_scalar_numpy produces the expected output","over":{"base":"Any"},"name":"test_scalar_numpy_correct"},"guarantee":"test_scalar_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_scalar_numpy_correct","statement":"Path(test_scalar_numpy(x), test_scalar_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9182d85e8de126f7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_scalar_numpy","kind":"function","src_hash":"803045d7c8c48b4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(Integer(1), format='numpy') == 1 and represent(Float(1.0), format='numpy') == 1.0 and represent(1.0 + I, format='numpy') == 1.0 + 1j"},"spec":{"lhs":"test_scalar_numpy()","rhs":"represent(Integer(1), format='numpy') == 1 and represent(Float(1.0), format='numpy') == 1.0 and represent(1.0 + I, format='numpy') == 1.0 + 1j","over":{"base":"Any"},"name":"test_scalar_numpy_correct"},"guarantee":"represent(Integer(1), format='numpy') == 1; represent(Float(1.0), format='numpy') == 1.0; represent(1.0 + I, format='numpy') == 1.0 + 1j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_scalar_numpy_correct","statement":"Path(test_scalar_numpy(x), represent(Integer(1), format='numpy') == 1; represent(Float(1.0), format='numpy') == 1.0; represent(1.0 + I, format='numpy') == 1.0 + 1j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65a78e558d8edab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(Integer(1), format='numpy') == 1","represent(Float(1.0), format='numpy') == 1.0","represent(1.0 + I, format='numpy') == 1.0 + 1j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scalar_numpy():
     if not np:
         skip("numpy not installed.")
@@ -336,7 +436,10 @@ scipy = import_module('scipy', import_kwargs={'fromlist': ['sparse']})
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_format_scipy_sparse(), test_format_scipy_sparse produces the expected output) over {Any | isinstance(lhs, scipy_sparse_matrix)} ║
+# ║ Path(test_format_scipy_sparse(), <unspecified:test_format_scipy_sparse>) over {Any | isinstance(lhs, scipy_sparse_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_format_scipy_sparse : {Any | isinstance(lhs, sci...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -348,9 +451,12 @@ scipy = import_module('scipy', import_kwargs={'fromlist': ['sparse']})
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c16457d7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_format_scipy_sparse","kind":"function","src_hash":"11f8285a07db56df","in":{"base":"Any","pred":"isinstance(lhs, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"np.linalg.norm((lhs - rhs).todense()) == 0.0 and lhs == rhs"},"spec":{"lhs":"test_format_scipy_sparse()","rhs":"test_format_scipy_sparse produces the expected output","over":{"base":"Any","pred":"isinstance(lhs, scipy_sparse_matrix)"},"name":"test_format_scipy_sparse_correct"},"guarantee":"test_format_scipy_sparse produces the expected output","fibers":[{"name":"scipy_sparse_matrix","pred":"isinstance(lhs, scipy_sparse_matrix)","path":{"lhs":"test_format_scipy_sparse(x)","rhs":"test_format_scipy_sparse produces the expected output","over":{"base":"scipy_sparse_matrix","pred":"isinstance(lhs, scipy_sparse_matrix)"},"name":"test_format_scipy_sparse_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_format_scipy_sparse_scipy_sparse_matrix_correct","statement":"test_format_scipy_sparse satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c16457d7498bb19b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_format_scipy_sparse","kind":"function","src_hash":"11f8285a07db56df","in":{"base":"Any","pred":"isinstance(lhs, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"np.linalg.norm((lhs - rhs).todense()) == 0.0 and lhs == rhs"},"spec":{"lhs":"test_format_scipy_sparse()","rhs":"<unspecified:test_format_scipy_sparse>","over":{"base":"Any","pred":"isinstance(lhs, scipy_sparse_matrix)"},"name":"test_format_scipy_sparse_correct"},"guarantee":"test_format_scipy_sparse produces the expected output","fibers":[{"name":"scipy_sparse_matrix","pred":"isinstance(lhs, scipy_sparse_matrix)","path":{"lhs":"test_format_scipy_sparse(x)","rhs":"test_format_scipy_sparse produces the expected output","over":{"base":"scipy_sparse_matrix","pred":"isinstance(lhs, scipy_sparse_matrix)"},"name":"test_format_scipy_sparse_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_format_scipy_sparse_scipy_sparse_matrix_correct","statement":"test_format_scipy_sparse satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c16457d7498bb19b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(lhs, scipy_sparse_matrix)'}, fibers={'scipy_sparse_matrix'})"]}}
 def test_format_scipy_sparse():
     if not np:
         skip("numpy not installed.")
@@ -367,16 +473,24 @@ def test_format_scipy_sparse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar_scipy_sparse(), test_scalar_scipy_sparse produces the expected output) over Any ║
+# ║ Path(test_scalar_scipy_sparse(), represent(Integer(1), format='scipy.sparse') == 1 and represent(Float(1.0), format='scipy.sparse') == 1.0 and represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar_scipy_sparse : Any → {Any | represent(Int...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(Integer(1), format='scipy.spars...   ║
+# ║   ensures:  represent(Float(1.0), format='scipy.spars...   ║
+# ║   ensures:  represent(1.0 + I, format='scipy.sparse')...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar_scipy_sparse : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a706a09b70f7aaf6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11b84e516fc3b733  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_scalar_scipy_sparse","kind":"function","src_hash":"e3926d8f966ab683","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(Integer(1), format='scipy.sparse') == 1 and represent(Float(1.0), format='scipy.sparse') == 1.0 and represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j"},"spec":{"lhs":"test_scalar_scipy_sparse()","rhs":"test_scalar_scipy_sparse produces the expected output","over":{"base":"Any"},"name":"test_scalar_scipy_sparse_correct"},"guarantee":"test_scalar_scipy_sparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_scalar_scipy_sparse_correct","statement":"Path(test_scalar_scipy_sparse(x), test_scalar_scipy_sparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a706a09b70f7aaf6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_scalar_scipy_sparse","kind":"function","src_hash":"e3926d8f966ab683","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(Integer(1), format='scipy.sparse') == 1 and represent(Float(1.0), format='scipy.sparse') == 1.0 and represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j"},"spec":{"lhs":"test_scalar_scipy_sparse()","rhs":"represent(Integer(1), format='scipy.sparse') == 1 and represent(Float(1.0), format='scipy.sparse') == 1.0 and represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j","over":{"base":"Any"},"name":"test_scalar_scipy_sparse_correct"},"guarantee":"represent(Integer(1), format='scipy.sparse') == 1; represent(Float(1.0), format='scipy.sparse') == 1.0; represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_scalar_scipy_sparse_correct","statement":"Path(test_scalar_scipy_sparse(x), represent(Integer(1), format='scipy.sparse') == 1; represent(Float(1.0), format='scipy.sparse') == 1.0; represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11b84e516fc3b733","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(Integer(1), format='scipy.sparse') == 1","represent(Float(1.0), format='scipy.sparse') == 1.0","represent(1.0 + I, format='scipy.sparse') == 1.0 + 1j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scalar_scipy_sparse():
     if not np:
         skip("numpy not installed.")
@@ -393,16 +507,23 @@ x_op = XOp('X')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_innerprod_represent(), test_innerprod_represent produces the expected output) over Any ║
+# ║ Path(test_innerprod_represent(), rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit() and rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_innerprod_represent : Any → {Any | rep_innerprod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rep_innerproduct(x_ket) == InnerProduct(X...   ║
+# ║   ensures:  rep_innerproduct(x_bra) == InnerProduct(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_innerprod_represent : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc31e6905b7a57f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df719e0d02da4509  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_innerprod_represent","kind":"function","src_hash":"69cdedcb9f37c1f3","in":{"base":"Any"},"out":{"base":"Any","pred":"rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit() and rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit()"},"spec":{"lhs":"test_innerprod_represent()","rhs":"test_innerprod_represent produces the expected output","over":{"base":"Any"},"name":"test_innerprod_represent_correct"},"guarantee":"test_innerprod_represent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_innerprod_represent_correct","statement":"Path(test_innerprod_represent(x), test_innerprod_represent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc31e6905b7a57f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_innerprod_represent","kind":"function","src_hash":"69cdedcb9f37c1f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit() and rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit()"},"spec":{"lhs":"test_innerprod_represent()","rhs":"rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit() and rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit()","over":{"base":"Any"},"name":"test_innerprod_represent_correct"},"guarantee":"rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit(); rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_innerprod_represent_correct","statement":"Path(test_innerprod_represent(x), rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit(); rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df719e0d02da4509","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rep_innerproduct(x_ket) == InnerProduct(XBra('x_1'), x_ket).doit()","rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet('x_1')).doit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_innerprod_represent():
     assert rep_innerproduct(x_ket) == InnerProduct(XBra("x_1"), x_ket).doit()
     assert rep_innerproduct(x_bra) == InnerProduct(x_bra, XKet("x_1")).doit()
@@ -410,16 +531,22 @@ def test_innerprod_represent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operator_represent(), test_operator_represent produces the expected output) over Any ║
+# ║ Path(test_operator_represent(), rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operator_represent : Any → {Any | rep_expectatio...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rep_expectation(x_op) == qapply(basis_ket...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operator_represent : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f9cd0176da6dbe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f509ebbd53ab2e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_operator_represent","kind":"function","src_hash":"ffecb19f416434ef","in":{"base":"Any"},"out":{"base":"Any","pred":"rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0])"},"spec":{"lhs":"test_operator_represent()","rhs":"test_operator_represent produces the expected output","over":{"base":"Any"},"name":"test_operator_represent_correct"},"guarantee":"test_operator_represent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_operator_represent_correct","statement":"Path(test_operator_represent(x), test_operator_represent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f9cd0176da6dbe4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_operator_represent","kind":"function","src_hash":"ffecb19f416434ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0])"},"spec":{"lhs":"test_operator_represent()","rhs":"rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0])","over":{"base":"Any"},"name":"test_operator_represent_correct"},"guarantee":"rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_operator_represent_correct","statement":"Path(test_operator_represent(x), rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f509ebbd53ab2e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rep_expectation(x_op) == qapply(basis_kets[1].dual * x_op * basis_kets[0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_operator_represent():
     basis_kets = enumerate_states(operators_to_state(x_op), 1, 2)
     assert rep_expectation(
@@ -427,16 +554,23 @@ def test_operator_represent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_enumerate_states(), test_enumerate_states produces the expected output) over Any ║
+# ║ Path(test_enumerate_states(), enumerate_states(test, 1, 1) == [XKet('foo_1')] and enumerate_states(test, [1, 2, 4]) == [XKet('foo_1'), XKet('foo_2'), XKet('foo_4')]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_enumerate_states : Any → {Any | enumerate_states...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  enumerate_states(test, 1, 1) == [XKet('fo...   ║
+# ║   ensures:  enumerate_states(test, [1, 2, 4]) == [XKe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_enumerate_states : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43a4efe64635eabe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a9de7c6248928f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_enumerate_states","kind":"function","src_hash":"322c433009cdef70","in":{"base":"Any"},"out":{"base":"Any","pred":"enumerate_states(test, 1, 1) == [XKet('foo_1')]"},"spec":{"lhs":"test_enumerate_states()","rhs":"test_enumerate_states produces the expected output","over":{"base":"Any"},"name":"test_enumerate_states_correct"},"guarantee":"test_enumerate_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_enumerate_states_correct","statement":"Path(test_enumerate_states(x), test_enumerate_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43a4efe64635eabe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_represent.test_enumerate_states","kind":"function","src_hash":"322c433009cdef70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: enumerate_states(test, 1, 1) == [XKet('foo_1')] and enumerate_states(test, [1, 2, 4]) == [XKet('foo_1'), XKet('foo_2'), XKet('foo_4')]"},"spec":{"lhs":"test_enumerate_states()","rhs":"enumerate_states(test, 1, 1) == [XKet('foo_1')] and enumerate_states(test, [1, 2, 4]) == [XKet('foo_1'), XKet('foo_2'), XKet('foo_4')]","over":{"base":"Any"},"name":"test_enumerate_states_correct"},"guarantee":"enumerate_states(test, 1, 1) == [XKet('foo_1')]; enumerate_states(test, [1, 2, 4]) == [XKet('foo_1'), XKet('foo_2'), XKet('foo_4')]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_represent.test_enumerate_states_correct","statement":"Path(test_enumerate_states(x), enumerate_states(test, 1, 1) == [XKet('foo_1')]; enumerate_states(test, [1, 2, 4]) == [XKet('foo_1'), XKet('foo_2'), XKet('foo_4')])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a9de7c6248928f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["enumerate_states(test, 1, 1) == [XKet('foo_1')]","enumerate_states(test, [1, 2, 4]) == [XKet('foo_1'), XKet('foo_2'), XKet('foo_4')]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_enumerate_states():
     test = XKet("foo")
     assert enumerate_states(test, 1, 1) == [XKet("foo_1")]

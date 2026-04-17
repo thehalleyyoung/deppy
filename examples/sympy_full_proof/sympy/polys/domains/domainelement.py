@@ -22,16 +22,22 @@ from sympy.utilities import public
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DomainElement(), correctly constructs a DomainElement instance) over Any ║
+# ║ Path(DomainElement(), <unspecified:DomainElement>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DomainElement : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4aad8f53c6600db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.domainelement.DomainElement","kind":"class","src_hash":"4271e58225c65c93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DomainElement()","rhs":"correctly constructs a DomainElement instance","over":{"base":"Any"},"name":"DomainElement_correct"},"guarantee":"correctly constructs a DomainElement instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4aad8f53c6600db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.domainelement.DomainElement","kind":"class","src_hash":"4271e58225c65c93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DomainElement()","rhs":"<unspecified:DomainElement>","over":{"base":"Any"},"name":"DomainElement_correct"},"guarantee":"correctly constructs a DomainElement instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4aad8f53c6600db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function DomainElement not found in source"]}}
 class DomainElement:
     """
     Represents an element of a domain.
@@ -43,16 +49,22 @@ class DomainElement:
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), get the domain associated with ``self``) over Any ║
+# ║ Path(parent(), <unspecified:parent>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01e1e2394e1c58f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.domainelement.DomainElement.parent","kind":"method","src_hash":"04449ca7326e3a9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"get the domain associated with ``self``","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"get the domain associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01e1e2394e1c58f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.domainelement.DomainElement.parent","kind":"method","src_hash":"04449ca7326e3a9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"<unspecified:parent>","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"get the domain associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01e1e2394e1c58f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         """Get the domain associated with ``self``
 

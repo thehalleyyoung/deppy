@@ -20,16 +20,22 @@
 from sympy.utilities.timeutils import timed
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_timed(), test_timed produces the expected output) over Any ║
+# ║ Path(test_timed(), result[0] == 100000 and result[3] == 'ns') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_timed : Any → {Any | result[0] == 100000 and res...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 100000 and result[3] == 'ns'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_timed : Any → {Any | result satisfies: result[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f1f44ff800d8f86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 189072a6f8aafe27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_timeutils.test_timed","kind":"function","src_hash":"4ab91c75ad78752c","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 100000 and result[3] == 'ns' and result[0] == 100000 and result[3] == 'ns'"},"spec":{"lhs":"test_timed()","rhs":"test_timed produces the expected output","over":{"base":"Any"},"name":"test_timed_correct"},"guarantee":"test_timed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_timeutils.test_timed_correct","statement":"Path(test_timed(x), test_timed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f1f44ff800d8f86"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_timeutils.test_timed","kind":"function","src_hash":"4ab91c75ad78752c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 100000 and result[3] == 'ns'"},"spec":{"lhs":"test_timed()","rhs":"result[0] == 100000 and result[3] == 'ns'","over":{"base":"Any"},"name":"test_timed_correct"},"guarantee":"result[0] == 100000 and result[3] == 'ns'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_timeutils.test_timed_correct","statement":"Path(test_timed(x), result[0] == 100000 and result[3] == 'ns')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"189072a6f8aafe27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 100000 and result[3] == 'ns'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_timed():
     result = timed(lambda: 1 + 1, limit=100000)
     assert result[0] == 100000 and result[3] == "ns", str(result)

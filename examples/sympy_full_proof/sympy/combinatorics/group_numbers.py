@@ -23,16 +23,25 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_nilpotent_number(fac), check whether `n` is a nilpotent number. note that ``factors`` is a prime factorization of `n`) over dict ║
+# ║ Path(_is_nilpotent_number(factors), isinstance(result, bool)) over {dict | isinstance(factors, dict) and hasattr(factors, 'keys') and hasattr(factors, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_nilpotent_number : dict → bool                         ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(factors, dict)                      ║
+# ║   requires: hasattr(factors, 'keys')                       ║
+# ║   requires: hasattr(factors, 'items')                      ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_nilpotent_number : {dict | isinstance(factors, di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c6366b19c94f40b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b96772002cd38cc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers._is_nilpotent_number","kind":"function","src_hash":"c7aef9b1af33726f","in":{"base":"dict"},"out":{"base":"bool"},"spec":{"lhs":"_is_nilpotent_number(fac)","rhs":"check whether `n` is a nilpotent number. note that ``factors`` is a prime factorization of `n`","over":{"base":"dict"},"name":"_is_nilpotent_number_correct"},"guarantee":"check whether `n` is a nilpotent number. note that ``factors`` is a prime factorization of `n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_numbers._is_nilpotent_number_correct","statement":"Path(_is_nilpotent_number(x), check whether `n` is a nilpotent number. note that ``factors`` is a prime factorization of `n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c6366b19c94f40b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers._is_nilpotent_number","kind":"function","src_hash":"c7aef9b1af33726f","in":{"base":"dict","pred":"isinstance(factors, dict) and hasattr(factors, 'keys') and hasattr(factors, 'items')"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"_is_nilpotent_number(factors)","rhs":"isinstance(result, bool)","over":{"base":"dict","pred":"isinstance(factors, dict) and hasattr(factors, 'keys') and hasattr(factors, 'items')"},"name":"_is_nilpotent_number_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_numbers._is_nilpotent_number_correct","statement":"Path(_is_nilpotent_number(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b96772002cd38cc5","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(factors, dict)","hasattr(factors, 'keys')","hasattr(factors, 'items')"],"ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["factors.items","factors.keys"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_nilpotent_number(factors: dict) -> bool:
     """ Check whether `n` is a nilpotent number.
     Note that ``factors`` is a prime factorization of `n`.
@@ -52,16 +61,24 @@ def _is_nilpotent_number(factors: dict) -> bool:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nilpotent_number(n), id) over Any                  ║
+# ║ Path(is_nilpotent_number(n), id) over {Any | not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nilpotent_number : Any → bool                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  _is_nilpotent_number(factorint(n))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nilpotent_number : {Any | not (n <= 0)} → {bool | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 234724bc7e15bbee   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.is_nilpotent_number","kind":"function","src_hash":"bd56b37b31611658","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"is_nilpotent_number(n)","rhs":"check whether `n` is a nilpotent number","over":{"base":"Any"},"name":"is_nilpotent_number_correct","kind":"composition"},"guarantee":"check whether `n` is a nilpotent number","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_is_nilpotent_number","by":"library_axiom"},{"fn":"factorint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"234724bc7e15bbee"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.is_nilpotent_number","kind":"function","src_hash":"bd56b37b31611658","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"bool","pred":"result satisfies: result == (_is_nilpotent_number(factorint(n)))"},"spec":{"lhs":"is_nilpotent_number(n)","rhs":"_is_nilpotent_number(factorint(n))","over":{"base":"Any","pred":"not (n <= 0)"},"name":"is_nilpotent_number_correct","kind":"composition"},"guarantee":"returns _is_nilpotent_number(factorint(n)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_is_nilpotent_number","by":"library_axiom"},{"fn":"factorint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"234724bc7e15bbee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"ensures":["isinstance(result, bool)"],"returns_expr":"_is_nilpotent_number(factorint(n))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_nilpotent_number(n) -> bool:
     """
     Check whether `n` is a nilpotent number. A number `n` is said to be
@@ -93,16 +110,24 @@ def is_nilpotent_number(n) -> bool:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_abelian_number(n), id) over Any                    ║
+# ║ Path(is_abelian_number(n), id) over {Any | not (n <= 0)}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_abelian_number : Any → bool                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  all((e < 3 for e in factors.values())) an...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_abelian_number : {Any | not (n <= 0)} → {bool | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 76cf1719ce1cf676   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.is_abelian_number","kind":"function","src_hash":"bb0f557d31d053db","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"is_abelian_number(n)","rhs":"check whether `n` is an abelian number","over":{"base":"Any"},"name":"is_abelian_number_correct","kind":"composition"},"guarantee":"check whether `n` is an abelian number","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"values","by":"library_axiom"},{"fn":"_is_nilpotent_number","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76cf1719ce1cf676"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.is_abelian_number","kind":"function","src_hash":"bb0f557d31d053db","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"bool","pred":"result satisfies: result == (all((e < 3 for e in factors.values())) and _is_nilpotent_number(factors))"},"spec":{"lhs":"is_abelian_number(n)","rhs":"all((e < 3 for e in factors.values())) and _is_nilpotent_number(factors)","over":{"base":"Any","pred":"not (n <= 0)"},"name":"is_abelian_number_correct","kind":"composition"},"guarantee":"returns all((e < 3 for e in factors.values())) and _is_nilpotent_number(factors); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"values","by":"library_axiom"},{"fn":"_is_nilpotent_number","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76cf1719ce1cf676","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"ensures":["isinstance(result, bool)"],"returns_expr":"all((e < 3 for e in factors.values())) and _is_nilpotent_number(factors)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_abelian_number(n) -> bool:
     """
     Check whether `n` is an abelian number. A number `n` is said to be abelian
@@ -137,16 +162,24 @@ def is_abelian_number(n) -> bool:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cyclic_number(n), id) over Any                     ║
+# ║ Path(is_cyclic_number(n), id) over {Any | not (n <= 0)}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_cyclic_number : Any → bool                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  all((e == 1 for e in factors.values())) a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_cyclic_number : {Any | not (n <= 0)} → {bool | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3c1728559a100989   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.is_cyclic_number","kind":"function","src_hash":"9b3c0892b0c5a9c4","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"is_cyclic_number(n)","rhs":"check whether `n` is a cyclic number","over":{"base":"Any"},"name":"is_cyclic_number_correct","kind":"composition"},"guarantee":"check whether `n` is a cyclic number","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"values","by":"library_axiom"},{"fn":"_is_nilpotent_number","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c1728559a100989"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.is_cyclic_number","kind":"function","src_hash":"9b3c0892b0c5a9c4","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"bool","pred":"result satisfies: result == (all((e == 1 for e in factors.values())) and _is_nilpotent_number(factors))"},"spec":{"lhs":"is_cyclic_number(n)","rhs":"all((e == 1 for e in factors.values())) and _is_nilpotent_number(factors)","over":{"base":"Any","pred":"not (n <= 0)"},"name":"is_cyclic_number_correct","kind":"composition"},"guarantee":"returns all((e == 1 for e in factors.values())) and _is_nilpotent_number(factors); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"values","by":"library_axiom"},{"fn":"_is_nilpotent_number","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c1728559a100989","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"ensures":["isinstance(result, bool)"],"returns_expr":"all((e == 1 for e in factors.values())) and _is_nilpotent_number(factors)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_cyclic_number(n) -> bool:
     """
     Check whether `n` is a cyclic number. A number `n` is said to be cyclic
@@ -181,16 +214,22 @@ def is_cyclic_number(n) -> bool:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_holder_formula(pri), number of groups of order `n`. where `n` is squarefree and its prime factors are ``prime_factors``. i.e., ``n == math.prod(prime_factors)``) over Any ║
+# ║ Path(_holder_formula(prime_factors), <unspecified:_holder_formula>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _holder_formula : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a20227bb6c613624  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers._holder_formula","kind":"function","src_hash":"1bd809eecf00fbbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_holder_formula(pri)","rhs":"number of groups of order `n`. where `n` is squarefree and its prime factors are ``prime_factors``. i.e., ``n == math.prod(prime_factors)``","over":{"base":"Any"},"name":"_holder_formula_correct"},"guarantee":"number of groups of order `n`. where `n` is squarefree and its prime factors are ``prime_factors``. i.e., ``n == math.prod(prime_factors)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_numbers._holder_formula_correct","statement":"Path(_holder_formula(x), number of groups of order `n`. where `n` is squarefree and its prime factors are ``prime_factors``. i.e., ``n == math.prod(prime_factors)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20227bb6c613624"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers._holder_formula","kind":"function","src_hash":"1bd809eecf00fbbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_holder_formula(prime_factors)","rhs":"<unspecified:_holder_formula>","over":{"base":"Any"},"name":"_holder_formula_correct"},"guarantee":"number of groups of order `n`. where `n` is squarefree and its prime factors are ``prime_factors``. i.e., ``n == math.prod(prime_factors)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_numbers._holder_formula_correct","statement":"Path(_holder_formula(x), number of groups of order `n`. where `n` is squarefree and its prime factors are ``prime_factors``. i.e., ``n == math.prod(prime_factors)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20227bb6c613624","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _holder_formula(prime_factors):
     r""" Number of groups of order `n`.
     where `n` is squarefree and its prime factors are ``prime_factors``.
@@ -272,16 +311,23 @@ def _holder_formula(prime_factors):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(groups_count(n), number of groups of order `n`. in [1]_, ``gnu(n)`` is given, so we follow this notation here as well) over Any ║
+# ║ Path(groups_count(n), <unspecified:groups_count>) over {Any | not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ groups_count : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ groups_count : {Any | not (n <= 0)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3827d636275d4839  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.groups_count","kind":"function","src_hash":"1dc854e265767b04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"groups_count(n)","rhs":"number of groups of order `n`. in [1]_, ``gnu(n)`` is given, so we follow this notation here as well","over":{"base":"Any"},"name":"groups_count_correct"},"guarantee":"number of groups of order `n`. in [1]_, ``gnu(n)`` is given, so we follow this notation here as well","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_numbers.groups_count_correct","statement":"Path(groups_count(x), number of groups of order `n`. in [1]_, ``gnu(n)`` is given, so we follow this notation here as well)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3827d636275d4839"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.group_numbers.groups_count","kind":"function","src_hash":"1dc854e265767b04","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"Any"},"spec":{"lhs":"groups_count(n)","rhs":"<unspecified:groups_count>","over":{"base":"Any","pred":"not (n <= 0)"},"name":"groups_count_correct"},"guarantee":"number of groups of order `n`. in [1]_, ``gnu(n)`` is given, so we follow this notation here as well","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.group_numbers.groups_count_correct","statement":"Path(groups_count(x), number of groups of order `n`. in [1]_, ``gnu(n)`` is given, so we follow this notation here as well)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3827d636275d4839","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n <= 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def groups_count(n):
     r""" Number of groups of order `n`.
     In [1]_, ``gnu(n)`` is given, so we follow this notation here as well.

@@ -56,16 +56,25 @@ from sympy.integrals.risch import (gcdex_diophantine, frac_in, derivation,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order_at(a, ), computes the order of a at p, with respect to t) over Any ║
+# ║ Path(order_at(a, p, t), <unspecified:order_at>) over {Any | hasattr(a, 'is_zero') and hasattr(a, 'rem') and hasattr(a, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ order_at : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_zero')                          ║
+# ║   requires: hasattr(a, 'rem')                              ║
+# ║   requires: hasattr(a, 'as_poly')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ order_at : {Any | hasattr(a, 'is_zero') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7d37b937e32e070  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.order_at","kind":"function","src_hash":"8127760d6a318f1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order_at(a, )","rhs":"computes the order of a at p, with respect to t","over":{"base":"Any"},"name":"order_at_correct"},"guarantee":"computes the order of a at p, with respect to t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.order_at_correct","statement":"Path(order_at(x), computes the order of a at p, with respect to t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7d37b937e32e070"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.order_at","kind":"function","src_hash":"8127760d6a318f1e","in":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(a, 'rem') and hasattr(a, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"order_at(a, p, t)","rhs":"<unspecified:order_at>","over":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(a, 'rem') and hasattr(a, 'as_poly')"},"name":"order_at_correct"},"guarantee":"computes the order of a at p, with respect to t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.order_at_correct","statement":"Path(order_at(x), computes the order of a at p, with respect to t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7d37b937e32e070","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_zero')","hasattr(a, 'rem')","hasattr(a, 'as_poly')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def order_at(a, p, t):
     """
     Computes the order of a at p, with respect to t.
@@ -110,16 +119,25 @@ def order_at(a, p, t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order_at_oo(a, ), computes the order of a/d at oo (infinity), with respect to t) over Any ║
+# ║ Path(order_at_oo(a, d, t), <unspecified:order_at_oo>) over {Any | hasattr(a, 'is_zero') and hasattr(d, 'degree') and hasattr(a, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ order_at_oo : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_zero')                          ║
+# ║   requires: hasattr(d, 'degree')                           ║
+# ║   requires: hasattr(a, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ order_at_oo : {Any | hasattr(a, 'is_zero') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a1f6c083293d4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.order_at_oo","kind":"function","src_hash":"e4bff5bd60a2cf9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order_at_oo(a, )","rhs":"computes the order of a/d at oo (infinity), with respect to t","over":{"base":"Any"},"name":"order_at_oo_correct"},"guarantee":"computes the order of a/d at oo (infinity), with respect to t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.order_at_oo_correct","statement":"Path(order_at_oo(x), computes the order of a/d at oo (infinity), with respect to t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a1f6c083293d4f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.order_at_oo","kind":"function","src_hash":"e4bff5bd60a2cf9e","in":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(d, 'degree') and hasattr(a, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"order_at_oo(a, d, t)","rhs":"<unspecified:order_at_oo>","over":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(d, 'degree') and hasattr(a, 'degree')"},"name":"order_at_oo_correct"},"guarantee":"computes the order of a/d at oo (infinity), with respect to t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.order_at_oo_correct","statement":"Path(order_at_oo(x), computes the order of a/d at oo (infinity), with respect to t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a1f6c083293d4f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_zero')","hasattr(d, 'degree')","hasattr(a, 'degree')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.degree","a.is_zero","d.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def order_at_oo(a, d, t):
     """
     Computes the order of a/d at oo (infinity), with respect to t.
@@ -133,16 +151,25 @@ def order_at_oo(a, d, t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(weak_normalizer(a, ), weak normalization) over Any    ║
+# ║ Path(weak_normalizer(a, d, DE), <unspecified:weak_normalizer>) over {Any | hasattr(DE, 't') and hasattr(a, 'as_poly') and hasattr(d, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ weak_normalizer : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(a, 'as_poly')                          ║
+# ║   requires: hasattr(d, 'quo')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ weak_normalizer : {Any | hasattr(DE, 't') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 408c884cb9672994  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.weak_normalizer","kind":"function","src_hash":"015b87becc171496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"weak_normalizer(a, )","rhs":"weak normalization","over":{"base":"Any"},"name":"weak_normalizer_correct"},"guarantee":"weak normalization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.weak_normalizer_correct","statement":"Path(weak_normalizer(x), weak normalization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408c884cb9672994"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.weak_normalizer","kind":"function","src_hash":"015b87becc171496","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(a, 'as_poly') and hasattr(d, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"weak_normalizer(a, d, DE)","rhs":"<unspecified:weak_normalizer>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(a, 'as_poly') and hasattr(d, 'quo')"},"name":"weak_normalizer_correct"},"guarantee":"weak normalization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.weak_normalizer_correct","statement":"Path(weak_normalizer(x), weak normalization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408c884cb9672994","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(a, 'as_poly')","hasattr(d, 'quo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","a.as_poly","d.quo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def weak_normalizer(a, d, DE, z=None):
     """
     Weak normalization.
@@ -195,16 +222,23 @@ def weak_normalizer(a, d, DE, z=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal_denom(fa,), normal part of the denominator) over Any ║
+# ║ Path(normal_denom(fa, fd, ga), (a, (ba, bd), (ca, cd), h)) over {Any | hasattr(DE, 't')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ normal_denom : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   returns:  (a, (ba, bd), (ca, cd), h)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ normal_denom : {Any | hasattr(DE, 't')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f917403fd59e996d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8ecdea5141764a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.normal_denom","kind":"function","src_hash":"d213a6d511bc4756","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_denom(fa,)","rhs":"normal part of the denominator","over":{"base":"Any"},"name":"normal_denom_correct"},"guarantee":"normal part of the denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.normal_denom_correct","statement":"Path(normal_denom(x), normal part of the denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f917403fd59e996d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.normal_denom","kind":"function","src_hash":"d213a6d511bc4756","in":{"base":"Any","pred":"hasattr(DE, 't')"},"out":{"base":"Any"},"spec":{"lhs":"normal_denom(fa, fd, ga)","rhs":"(a, (ba, bd), (ca, cd), h)","over":{"base":"Any","pred":"hasattr(DE, 't')"},"name":"normal_denom_correct"},"guarantee":"returns (a, (ba, bd), (ca, cd), h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.normal_denom_correct","statement":"Path(normal_denom(x), returns (a, (ba, bd), (ca, cd), h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8ecdea5141764a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')"],"returns_expr":"(a, (ba, bd), (ca, cd), h)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t"],"raises":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def normal_denom(fa, fd, ga, gd, DE):
     """
     Normal part of the denominator.
@@ -243,16 +277,25 @@ def normal_denom(fa, fd, ga, gd, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(special_denom(a, ), special part of the denominator) over Any ║
+# ║ Path(special_denom(a, ba, bd), <unspecified:special_denom>) over {Any | hasattr(ba, 'to_field') and hasattr(ca, 'to_field') and hasattr(a, 'eval') and hasattr(bd, 'eval') and hasattr(ba, 'eval')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ special_denom : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ba, 'to_field')                        ║
+# ║   requires: hasattr(ca, 'to_field')                        ║
+# ║   requires: hasattr(a, 'eval')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ special_denom : {Any | hasattr(ba, 'to_field') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3ef31a5698a0634  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.special_denom","kind":"function","src_hash":"9a89f48a9e37d955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"special_denom(a, )","rhs":"special part of the denominator","over":{"base":"Any"},"name":"special_denom_correct"},"guarantee":"special part of the denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.special_denom_correct","statement":"Path(special_denom(x), special part of the denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3ef31a5698a0634"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.special_denom","kind":"function","src_hash":"9a89f48a9e37d955","in":{"base":"Any","pred":"hasattr(ba, 'to_field') and hasattr(ca, 'to_field') and hasattr(a, 'eval') and hasattr(bd, 'eval') and hasattr(ba, 'eval')"},"out":{"base":"Any"},"spec":{"lhs":"special_denom(a, ba, bd)","rhs":"<unspecified:special_denom>","over":{"base":"Any","pred":"hasattr(ba, 'to_field') and hasattr(ca, 'to_field') and hasattr(a, 'eval') and hasattr(bd, 'eval') and hasattr(ba, 'eval')"},"name":"special_denom_correct"},"guarantee":"special part of the denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.special_denom_correct","statement":"Path(special_denom(x), special part of the denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3ef31a5698a0634","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ba, 'to_field')","hasattr(ca, 'to_field')","hasattr(a, 'eval')","hasattr(bd, 'eval')","hasattr(ba, 'eval')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.d","DE.t","a.eval","ba.eval","ba.to_field","bd.eval","ca.to_field"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def special_denom(a, ba, bd, ca, cd, DE, case='auto'):
     """
     Special part of the denominator.
@@ -338,16 +381,25 @@ def special_denom(a, ba, bd, ca, cd, DE, case='auto'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bound_degree(a, ), bound on polynomial solutions) over Any ║
+# ║ Path(bound_degree(a, b, cQ), <unspecified:bound_degree>) over {Any | hasattr(DE, 'case') and hasattr(a, 'degree') and hasattr(DE, 't') and hasattr(b, 'degree') and hasattr(cQ, 'degree') and hasattr(DE, 'd') and hasattr(DE, 'T') and hasattr(DE, 'level') and hasattr(a, 'as_poly') and hasattr(b, 'as_poly') and hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bound_degree : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   requires: hasattr(a, 'degree')                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bound_degree : {Any | hasattr(DE, 'case') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 672d2593bc267412  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.bound_degree","kind":"function","src_hash":"d497fc0a6d0b2736","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_degree(a, )","rhs":"bound on polynomial solutions","over":{"base":"Any"},"name":"bound_degree_correct"},"guarantee":"bound on polynomial solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.bound_degree_correct","statement":"Path(bound_degree(x), bound on polynomial solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"672d2593bc267412"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.bound_degree","kind":"function","src_hash":"d497fc0a6d0b2736","in":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(a, 'degree') and hasattr(DE, 't') and hasattr(b, 'degree') and hasattr(cQ, 'degree') and hasattr(DE, 'd') and hasattr(DE, 'T') and hasattr(DE, 'level') and hasattr(a, 'as_poly') and hasattr(b, 'as_poly') and hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"bound_degree(a, b, cQ)","rhs":"<unspecified:bound_degree>","over":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(a, 'degree') and hasattr(DE, 't') and hasattr(b, 'degree') and hasattr(cQ, 'degree') and hasattr(DE, 'd') and hasattr(DE, 'T') and hasattr(DE, 'level') and hasattr(a, 'as_poly') and hasattr(b, 'as_poly') and hasattr(a, 'LC')"},"name":"bound_degree_correct"},"guarantee":"bound on polynomial solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.bound_degree_correct","statement":"Path(bound_degree(x), bound on polynomial solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"672d2593bc267412","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 'case')","hasattr(a, 'degree')","hasattr(DE, 't')","hasattr(b, 'degree')","hasattr(cQ, 'degree')","hasattr(DE, 'd')","hasattr(DE, 'T')","hasattr(DE, 'level')","hasattr(a, 'as_poly')","hasattr(b, 'as_poly')","hasattr(a, 'LC')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.case","DE.d","DE.level","DE.t","a.LC","a.as_poly","a.degree","b.as_poly","b.degree","cQ.degree"],"raises":["ValueError"],"catches":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def bound_degree(a, b, cQ, DE, case='auto', parametric=False):
     """
     Bound on polynomial solutions.
@@ -468,16 +520,25 @@ def bound_degree(a, b, cQ, DE, case='auto', parametric=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spde(a, ), rothstein's special polynomial differential equation algorithm) over Any ║
+# ║ Path(spde(a, b, c), <unspecified:spde>) over {Any | hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(a, 'gcd') and hasattr(a, 'degree') and hasattr(a, 'quo') and hasattr(b, 'quo') and hasattr(c, 'quo') and hasattr(c, 'rem') and hasattr(b, 'to_field') and hasattr(c, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ spde : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(c, 'is_zero')                          ║
+# ║   requires: hasattr(a, 'gcd')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ spde : {Any | hasattr(DE, 't') and hasattr(c, 'is_zer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bc2dde225e8b5ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.spde","kind":"function","src_hash":"9fc530ef460591b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spde(a, )","rhs":"rothstein's special polynomial differential equation algorithm","over":{"base":"Any"},"name":"spde_correct"},"guarantee":"rothstein's special polynomial differential equation algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.spde_correct","statement":"Path(spde(x), rothstein's special polynomial differential equation algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc2dde225e8b5ae"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.spde","kind":"function","src_hash":"9fc530ef460591b6","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(a, 'gcd') and hasattr(a, 'degree') and hasattr(a, 'quo') and hasattr(b, 'quo') and hasattr(c, 'quo') and hasattr(c, 'rem') and hasattr(b, 'to_field') and hasattr(c, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"spde(a, b, c)","rhs":"<unspecified:spde>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(a, 'gcd') and hasattr(a, 'degree') and hasattr(a, 'quo') and hasattr(b, 'quo') and hasattr(c, 'quo') and hasattr(c, 'rem') and hasattr(b, 'to_field') and hasattr(c, 'to_field')"},"name":"spde_correct"},"guarantee":"rothstein's special polynomial differential equation algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.spde_correct","statement":"Path(spde(x), rothstein's special polynomial differential equation algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc2dde225e8b5ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(c, 'is_zero')","hasattr(a, 'gcd')","hasattr(a, 'degree')","hasattr(a, 'quo')","hasattr(b, 'quo')","hasattr(c, 'quo')","hasattr(c, 'rem')","hasattr(b, 'to_field')","hasattr(c, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","a.degree","a.gcd","a.quo","b.quo","b.to_field","c.is_zero","c.quo","c.rem","c.to_field"],"raises":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def spde(a, b, c, n, DE):
     """
     Rothstein's Special Polynomial Differential Equation algorithm.
@@ -526,16 +587,25 @@ def spde(a, b, c, n, DE):
         alpha *= a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(no_cancel_b_large(b, ), poly risch differential equation - no cancellation: deg(b) large enough) over Any ║
+# ║ Path(no_cancel_b_large(b, c, n), <unspecified:no_cancel_b_large>) over {Any | hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(c, 'degree') and hasattr(b, 'degree') and hasattr(c, 'as_poly') and hasattr(b, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ no_cancel_b_large : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(c, 'is_zero')                          ║
+# ║   requires: hasattr(c, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ no_cancel_b_large : {Any | hasattr(DE, 't') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 305c9dd6a12034a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.no_cancel_b_large","kind":"function","src_hash":"3839e00502606512","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"no_cancel_b_large(b, )","rhs":"poly risch differential equation - no cancellation: deg(b) large enough","over":{"base":"Any"},"name":"no_cancel_b_large_correct"},"guarantee":"poly risch differential equation - no cancellation: deg(b) large enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.no_cancel_b_large_correct","statement":"Path(no_cancel_b_large(x), poly risch differential equation - no cancellation: deg(b) large enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305c9dd6a12034a6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.no_cancel_b_large","kind":"function","src_hash":"3839e00502606512","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(c, 'degree') and hasattr(b, 'degree') and hasattr(c, 'as_poly') and hasattr(b, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"no_cancel_b_large(b, c, n)","rhs":"<unspecified:no_cancel_b_large>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(c, 'degree') and hasattr(b, 'degree') and hasattr(c, 'as_poly') and hasattr(b, 'as_poly')"},"name":"no_cancel_b_large_correct"},"guarantee":"poly risch differential equation - no cancellation: deg(b) large enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.no_cancel_b_large_correct","statement":"Path(no_cancel_b_large(x), poly risch differential equation - no cancellation: deg(b) large enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305c9dd6a12034a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(c, 'is_zero')","hasattr(c, 'degree')","hasattr(b, 'degree')","hasattr(c, 'as_poly')","hasattr(b, 'as_poly')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","b.as_poly","b.degree","c.as_poly","c.degree","c.is_zero"],"raises":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def no_cancel_b_large(b, c, n, DE):
     """
     Poly Risch Differential Equation - No cancellation: deg(b) large enough.
@@ -567,16 +637,25 @@ def no_cancel_b_large(b, c, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(no_cancel_b_small(b, ), poly risch differential equation - no cancellation: deg(b) small enough) over Any ║
+# ║ Path(no_cancel_b_small(b, c, n), <unspecified:no_cancel_b_small>) over {Any | hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(b, 'degree') and hasattr(c, 'degree') and hasattr(b, 'as_poly') and hasattr(c, 'as_poly') and hasattr(DE, 'd') and hasattr(DE, 'T') and hasattr(DE, 'level')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ no_cancel_b_small : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(c, 'is_zero')                          ║
+# ║   requires: hasattr(b, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ no_cancel_b_small : {Any | hasattr(DE, 't') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b52e853a376b448d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.no_cancel_b_small","kind":"function","src_hash":"7ef9725c53eaa841","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"no_cancel_b_small(b, )","rhs":"poly risch differential equation - no cancellation: deg(b) small enough","over":{"base":"Any"},"name":"no_cancel_b_small_correct"},"guarantee":"poly risch differential equation - no cancellation: deg(b) small enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.no_cancel_b_small_correct","statement":"Path(no_cancel_b_small(x), poly risch differential equation - no cancellation: deg(b) small enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52e853a376b448d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.no_cancel_b_small","kind":"function","src_hash":"7ef9725c53eaa841","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(b, 'degree') and hasattr(c, 'degree') and hasattr(b, 'as_poly') and hasattr(c, 'as_poly') and hasattr(DE, 'd') and hasattr(DE, 'T') and hasattr(DE, 'level')"},"out":{"base":"Any"},"spec":{"lhs":"no_cancel_b_small(b, c, n)","rhs":"<unspecified:no_cancel_b_small>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(b, 'degree') and hasattr(c, 'degree') and hasattr(b, 'as_poly') and hasattr(c, 'as_poly') and hasattr(DE, 'd') and hasattr(DE, 'T') and hasattr(DE, 'level')"},"name":"no_cancel_b_small_correct"},"guarantee":"poly risch differential equation - no cancellation: deg(b) small enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.no_cancel_b_small_correct","statement":"Path(no_cancel_b_small(x), poly risch differential equation - no cancellation: deg(b) small enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52e853a376b448d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(c, 'is_zero')","hasattr(b, 'degree')","hasattr(c, 'degree')","hasattr(b, 'as_poly')","hasattr(c, 'as_poly')","hasattr(DE, 'd')","hasattr(DE, 'T')","hasattr(DE, 'level')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.d","DE.level","DE.t","b.as_poly","b.degree","c.as_poly","c.degree","c.is_zero"],"raises":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def no_cancel_b_small(b, c, n, DE):
     """
     Poly Risch Differential Equation - No cancellation: deg(b) small enough.
@@ -625,16 +704,25 @@ def no_cancel_b_small(b, c, n, DE):
 
 # TODO: better name for this function
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(no_cancel_equal(b, ), poly risch differential equation - no cancellation: deg(b) == deg(d) - 1) over Any ║
+# ║ Path(no_cancel_equal(b, c, n), <unspecified:no_cancel_equal>) over {Any | hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(c, 'degree') and hasattr(b, 'as_poly') and hasattr(DE, 'd') and hasattr(c, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ no_cancel_equal : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(c, 'is_zero')                          ║
+# ║   requires: hasattr(c, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ no_cancel_equal : {Any | hasattr(DE, 't') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fe71174fe679aad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.no_cancel_equal","kind":"function","src_hash":"8ae9727c48b1fe71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"no_cancel_equal(b, )","rhs":"poly risch differential equation - no cancellation: deg(b) == deg(d) - 1","over":{"base":"Any"},"name":"no_cancel_equal_correct"},"guarantee":"poly risch differential equation - no cancellation: deg(b) == deg(d) - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.no_cancel_equal_correct","statement":"Path(no_cancel_equal(x), poly risch differential equation - no cancellation: deg(b) == deg(d) - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fe71174fe679aad"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.no_cancel_equal","kind":"function","src_hash":"8ae9727c48b1fe71","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(c, 'degree') and hasattr(b, 'as_poly') and hasattr(DE, 'd') and hasattr(c, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"no_cancel_equal(b, c, n)","rhs":"<unspecified:no_cancel_equal>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(c, 'is_zero') and hasattr(c, 'degree') and hasattr(b, 'as_poly') and hasattr(DE, 'd') and hasattr(c, 'as_poly')"},"name":"no_cancel_equal_correct"},"guarantee":"poly risch differential equation - no cancellation: deg(b) == deg(d) - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.no_cancel_equal_correct","statement":"Path(no_cancel_equal(x), poly risch differential equation - no cancellation: deg(b) == deg(d) - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fe71174fe679aad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(c, 'is_zero')","hasattr(c, 'degree')","hasattr(b, 'as_poly')","hasattr(DE, 'd')","hasattr(c, 'as_poly')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.d","DE.t","b.as_poly","c.as_poly","c.degree","c.is_zero"],"raises":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def no_cancel_equal(b, c, n, DE):
     """
     Poly Risch Differential Equation - No cancellation: deg(b) == deg(D) - 1
@@ -683,16 +771,25 @@ def no_cancel_equal(b, c, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cancel_primitive(b, ), poly risch differential equation - cancellation: primitive case) over Any ║
+# ║ Path(cancel_primitive(b, c, n), <unspecified:cancel_primitive>) over {Any | not (n < c.degree(DE.t)) and hasattr(c, 'is_zero') and hasattr(DE, 't') and hasattr(c, 'degree') and hasattr(c, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cancel_primitive : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < c.degree(DE.t))                       ║
+# ║   requires: hasattr(c, 'is_zero')                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cancel_primitive : {Any | not (n < c.degree(DE.t)) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a7562a52ea40a64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.cancel_primitive","kind":"function","src_hash":"9787ecb68446980a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cancel_primitive(b, )","rhs":"poly risch differential equation - cancellation: primitive case","over":{"base":"Any"},"name":"cancel_primitive_correct"},"guarantee":"poly risch differential equation - cancellation: primitive case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.cancel_primitive_correct","statement":"Path(cancel_primitive(x), poly risch differential equation - cancellation: primitive case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a7562a52ea40a64"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.cancel_primitive","kind":"function","src_hash":"9787ecb68446980a","in":{"base":"Any","pred":"not (n < c.degree(DE.t)) and hasattr(c, 'is_zero') and hasattr(DE, 't') and hasattr(c, 'degree') and hasattr(c, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"cancel_primitive(b, c, n)","rhs":"<unspecified:cancel_primitive>","over":{"base":"Any","pred":"not (n < c.degree(DE.t)) and hasattr(c, 'is_zero') and hasattr(DE, 't') and hasattr(c, 'degree') and hasattr(c, 'LC')"},"name":"cancel_primitive_correct"},"guarantee":"poly risch differential equation - cancellation: primitive case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.cancel_primitive_correct","statement":"Path(cancel_primitive(x), poly risch differential equation - cancellation: primitive case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a7562a52ea40a64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < c.degree(DE.t))","hasattr(c, 'is_zero')","hasattr(DE, 't')","hasattr(c, 'degree')","hasattr(c, 'LC')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","c.LC","c.degree","c.is_zero"],"raises":["NonElementaryIntegralException","NotImplementedError"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def cancel_primitive(b, c, n, DE):
     """
     Poly Risch Differential Equation - Cancellation: Primitive case.
@@ -744,16 +841,25 @@ def cancel_primitive(b, c, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cancel_exp(b, ), poly risch differential equation - cancellation: hyperexponential case) over Any ║
+# ║ Path(cancel_exp(b, c, n), <unspecified:cancel_exp>) over {Any | not (n < c.degree(DE.t)) and hasattr(c, 'is_zero') and hasattr(DE, 't') and hasattr(c, 'degree') and hasattr(b, 'as_expr') and hasattr(DE, 'd') and hasattr(c, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cancel_exp : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < c.degree(DE.t))                       ║
+# ║   requires: hasattr(c, 'is_zero')                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cancel_exp : {Any | not (n < c.degree(DE.t)) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fb19ed5f2d0710f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.cancel_exp","kind":"function","src_hash":"e1e031b61731a969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cancel_exp(b, )","rhs":"poly risch differential equation - cancellation: hyperexponential case","over":{"base":"Any"},"name":"cancel_exp_correct"},"guarantee":"poly risch differential equation - cancellation: hyperexponential case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.cancel_exp_correct","statement":"Path(cancel_exp(x), poly risch differential equation - cancellation: hyperexponential case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb19ed5f2d0710f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.cancel_exp","kind":"function","src_hash":"e1e031b61731a969","in":{"base":"Any","pred":"not (n < c.degree(DE.t)) and hasattr(c, 'is_zero') and hasattr(DE, 't') and hasattr(c, 'degree') and hasattr(b, 'as_expr') and hasattr(DE, 'd') and hasattr(c, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"cancel_exp(b, c, n)","rhs":"<unspecified:cancel_exp>","over":{"base":"Any","pred":"not (n < c.degree(DE.t)) and hasattr(c, 'is_zero') and hasattr(DE, 't') and hasattr(c, 'degree') and hasattr(b, 'as_expr') and hasattr(DE, 'd') and hasattr(c, 'LC')"},"name":"cancel_exp_correct"},"guarantee":"poly risch differential equation - cancellation: hyperexponential case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.cancel_exp_correct","statement":"Path(cancel_exp(x), poly risch differential equation - cancellation: hyperexponential case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb19ed5f2d0710f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < c.degree(DE.t))","hasattr(c, 'is_zero')","hasattr(DE, 't')","hasattr(c, 'degree')","hasattr(b, 'as_expr')","hasattr(DE, 'd')","hasattr(c, 'LC')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.d","DE.t","b.as_expr","c.LC","c.degree","c.is_zero"],"raises":["NonElementaryIntegralException","NotImplementedError"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def cancel_exp(b, c, n, DE):
     """
     Poly Risch Differential Equation - Cancellation: Hyperexponential case.
@@ -815,9 +921,17 @@ def cancel_exp(b, c, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_poly_rde(b, ), solve a polynomial risch differential equation with degree bound ``n``) over {Any | isinstance(R, Poly)} ║
+# ║ Path(solve_poly_rde(b, cQ, n), <unspecified:solve_poly_rde>) over {Any | isinstance(R, Poly) and hasattr(b, 'is_zero') and hasattr(DE, 'case') and hasattr(b, 'degree') and hasattr(DE, 't') and hasattr(DE, 'd') and hasattr(b, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_poly_rde : {Any | isinstance(R, Poly)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'is_zero')                          ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   requires: hasattr(b, 'degree')                           ║
+# ║   fiber[case_0]: not b.is_zero and (DE.case == 'base'...   ║
+# ║   fiber[case_1]: (b.is_zero or b.degree(DE.t) < DE.d....   ║
+# ║   fiber[case_2]: DE.d.degree(DE.t) >= 2 and b.degree(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_poly_rde : {Any | isinstance(R, Poly) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Poly: {isinstance(R, Poly)} → library_axiom              ║
@@ -827,9 +941,12 @@ def cancel_exp(b, c, n, DE):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4b5c3489...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.solve_poly_rde","kind":"function","src_hash":"6315164495dc2e8f","in":{"base":"Any","pred":"isinstance(R, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_rde(b, )","rhs":"solve a polynomial risch differential equation with degree bound ``n``","over":{"base":"Any","pred":"isinstance(R, Poly)"},"name":"solve_poly_rde_correct"},"guarantee":"solve a polynomial risch differential equation with degree bound ``n``","fibers":[{"name":"Poly","pred":"isinstance(R, Poly)","path":{"lhs":"solve_poly_rde(x)","rhs":"solve a polynomial risch differential equation with degree bound ``n``","over":{"base":"Poly","pred":"isinstance(R, Poly)"},"name":"solve_poly_rde_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.solve_poly_rde_Poly_correct","statement":"solve_poly_rde satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4b5c3489db625392"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.solve_poly_rde","kind":"function","src_hash":"6315164495dc2e8f","in":{"base":"Any","pred":"isinstance(R, Poly) and hasattr(b, 'is_zero') and hasattr(DE, 'case') and hasattr(b, 'degree') and hasattr(DE, 't') and hasattr(DE, 'd') and hasattr(b, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_rde(b, cQ, n)","rhs":"<unspecified:solve_poly_rde>","over":{"base":"Any","pred":"isinstance(R, Poly) and hasattr(b, 'is_zero') and hasattr(DE, 'case') and hasattr(b, 'degree') and hasattr(DE, 't') and hasattr(DE, 'd') and hasattr(b, 'as_poly')"},"name":"solve_poly_rde_correct"},"guarantee":"4-fiber decomposition","fibers":[{"name":"Poly","pred":"isinstance(R, Poly)","path":{"lhs":"solve_poly_rde(x)","rhs":"4-fiber decomposition","over":{"base":"Poly","pred":"isinstance(R, Poly)"},"name":"solve_poly_rde_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.solve_poly_rde_Poly_correct","statement":"solve_poly_rde satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4b5c3489db625392","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'is_zero')","hasattr(DE, 'case')","hasattr(b, 'degree')","hasattr(DE, 't')","hasattr(DE, 'd')","hasattr(b, 'as_poly')"],"fibers":[{"name":"case_0","guard":"not b.is_zero and (DE.case == 'base' or b.degree(DE.t) > max(0, DE.d.degree(DE.t) - 1))","ensures":["result == no_cancel_b_large(b, cQ, n, DE)"],"decidability":"z3","returns_expr":"no_cancel_b_large(b, cQ, n, DE)"},{"name":"case_1","guard":"(b.is_zero or b.degree(DE.t) < DE.d.degree(DE.t) - 1) and (DE.case == 'base' or DE.d.degree(DE.t) >= 2)","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"DE.d.degree(DE.t) >= 2 and b.degree(DE.t) == DE.d.degree(DE.t) - 1 and (n > -b.as_poly(DE.t).LC() / DE.d.as_poly(DE.t).LC())","ensures":[],"decidability":"z3"},{"name":"case_3","guard":"not (not b.is_zero and (DE.case == 'base' or b.degree(DE.t) > max(0, DE.d.degree(DE.t) - 1))) and not ((b.is_zero or b.degree(DE.t) < DE.d.degree(DE.t) - 1) and (DE.case == 'base' or DE.d.degree(DE.t) >= 2)) and not (DE.d.degree(DE.t) >= 2 and b.degree(DE.t) == DE.d.degree(DE.t) - 1 and (n > -b.as_poly(DE.t).LC() / DE.d.as_poly(DE.t).LC()))","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.d","DE.t","b.as_poly","b.degree","b.is_zero"],"raises":["NotImplementedError","TypeError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'b0 is None', \"DE.case == 'primitive'\", 'DE.d.degree(DE.t) >= 2 and b.degree(DE.t) == DE.d.degree(DE.t) - 1 and (n > -b.as_poly(DE.t).LC() / DE.d.as_poly(DE.t).LC())', \"DE.case == 'exp'\", \"not b.is_zero and (DE.case == 'base' or b.degree(DE.t) > max(0, DE.d.degree(DE.t) - 1))\", \"(b.is_zero or b.degree(DE.t) < DE.d.degree(DE.t) - 1) and (DE.case == 'base' or DE.d.degree(DE.t) >= 2)\", 'isinstance(R, Poly)', 'c0 is None'}, fibers={'Poly'})"]}}
 def solve_poly_rde(b, cQ, n, DE, parametric=False):
     """
     Solve a Polynomial Risch Differential Equation with degree bound ``n``.
@@ -924,16 +1041,22 @@ def solve_poly_rde(b, cQ, n, DE, parametric=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rischDE(fa,), solve a risch differential equation: dy + f*y == g) over Any ║
+# ║ Path(rischDE(fa, fd, ga), (alpha * y + beta, hn * hs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (alpha * y + beta, hn * hs)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rischDE : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90449940ccbb1bf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9a3d7dcb8f3e9fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.rischDE","kind":"function","src_hash":"03196ed5e141b1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rischDE(fa,)","rhs":"solve a risch differential equation: dy + f*y == g","over":{"base":"Any"},"name":"rischDE_correct"},"guarantee":"solve a risch differential equation: dy + f*y == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.rischDE_correct","statement":"Path(rischDE(x), solve a risch differential equation: dy + f*y == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90449940ccbb1bf9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rde.rischDE","kind":"function","src_hash":"03196ed5e141b1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rischDE(fa, fd, ga)","rhs":"(alpha * y + beta, hn * hs)","over":{"base":"Any"},"name":"rischDE_correct"},"guarantee":"returns (alpha * y + beta, hn * hs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rde.rischDE_correct","statement":"Path(rischDE(x), returns (alpha * y + beta, hn * hs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9a3d7dcb8f3e9fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(alpha * y + beta, hn * hs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rischDE(fa, fd, ga, gd, DE):
     """
     Solve a Risch Differential Equation: Dy + f*y == g.

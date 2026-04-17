@@ -20,16 +20,22 @@ from .compilation import compile_run_strings
 from .util import CompilerNotFoundError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_fortran(), has_fortran produces the expected output) over Any ║
+# ║ Path(has_fortran(), has_fortran.result) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  has_fortran.result                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_fortran : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd95707a87be7e37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7477df1765472c93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.availability.has_fortran","kind":"function","src_hash":"0758f67968382d50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_fortran()","rhs":"has_fortran produces the expected output","over":{"base":"Any"},"name":"has_fortran_correct"},"guarantee":"has_fortran produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.availability.has_fortran_correct","statement":"Path(has_fortran(x), has_fortran produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd95707a87be7e37"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.availability.has_fortran","kind":"function","src_hash":"0758f67968382d50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_fortran()","rhs":"has_fortran.result","over":{"base":"Any"},"name":"has_fortran_correct"},"guarantee":"returns has_fortran.result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.availability.has_fortran_correct","statement":"Path(has_fortran(x), returns has_fortran.result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7477df1765472c93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"has_fortran.result","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["CompilerNotFoundError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def has_fortran():
     if not hasattr(has_fortran, 'result'):
         try:
@@ -55,16 +61,22 @@ def has_fortran():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_c(), has_c produces the expected output) over Any ║
+# ║ Path(has_c(), has_c.result) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  has_c.result                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_c : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8750435cf08b6598  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adf429dfef2307db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.availability.has_c","kind":"function","src_hash":"7e96fe5bcf25d996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_c()","rhs":"has_c produces the expected output","over":{"base":"Any"},"name":"has_c_correct"},"guarantee":"has_c produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.availability.has_c_correct","statement":"Path(has_c(x), has_c produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8750435cf08b6598"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.availability.has_c","kind":"function","src_hash":"7e96fe5bcf25d996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_c()","rhs":"has_c.result","over":{"base":"Any"},"name":"has_c_correct"},"guarantee":"returns has_c.result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.availability.has_c_correct","statement":"Path(has_c(x), returns has_c.result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf429dfef2307db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"has_c.result","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["CompilerNotFoundError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def has_c():
     if not hasattr(has_c, 'result'):
         try:
@@ -92,16 +104,22 @@ def has_c():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_cxx(), has_cxx produces the expected output) over Any ║
+# ║ Path(has_cxx(), has_cxx.result) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  has_cxx.result                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_cxx : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eca9a04ac4a3b0d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f63801cf7e48d976  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.availability.has_cxx","kind":"function","src_hash":"581ec791f41f2892","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_cxx()","rhs":"has_cxx produces the expected output","over":{"base":"Any"},"name":"has_cxx_correct"},"guarantee":"has_cxx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.availability.has_cxx_correct","statement":"Path(has_cxx(x), has_cxx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eca9a04ac4a3b0d4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.availability.has_cxx","kind":"function","src_hash":"581ec791f41f2892","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_cxx()","rhs":"has_cxx.result","over":{"base":"Any"},"name":"has_cxx_correct"},"guarantee":"returns has_cxx.result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.availability.has_cxx_correct","statement":"Path(has_cxx(x), returns has_cxx.result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f63801cf7e48d976","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"has_cxx.result","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["CompilerNotFoundError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def has_cxx():
     if not hasattr(has_cxx, 'result'):
         try:

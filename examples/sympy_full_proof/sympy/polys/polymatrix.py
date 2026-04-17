@@ -30,14 +30,20 @@ from sympy.polys.matrices.domainscalar import DomainScalar
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MutablePolyDenseMatrix(*args), correctly constructs a MutablePolyDenseMatrix instance) over {Any | isinstance(key, slice) and isinstance(other, type(self)) and isinstance(other, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MutablePolyDenseMatrix : {Any | isinstance(key, slice...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2c6fe60cb77798a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix","kind":"class","src_hash":"dd6a235209926b37","in":{"base":"Any","pred":"isinstance(key, slice) and isinstance(other, type(self)) and isinstance(other, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"MutablePolyDenseMatrix(*args)","rhs":"correctly constructs a MutablePolyDenseMatrix instance","over":{"base":"Any","pred":"isinstance(key, slice) and isinstance(other, type(self)) and isinstance(other, Expr)"},"name":"MutablePolyDenseMatrix_class_invariant"},"guarantee":"correctly constructs a MutablePolyDenseMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2c6fe60cb77798a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix","kind":"class","src_hash":"dd6a235209926b37","in":{"base":"Any","pred":"isinstance(key, slice) and isinstance(other, type(self)) and isinstance(other, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"MutablePolyDenseMatrix(*args)","rhs":"correctly constructs a MutablePolyDenseMatrix instance","over":{"base":"Any","pred":"isinstance(key, slice) and isinstance(other, type(self)) and isinstance(other, Expr)"},"name":"MutablePolyDenseMatrix_class_invariant"},"guarantee":"correctly constructs a MutablePolyDenseMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2c6fe60cb77798a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MutablePolyDenseMatrix not found in source"]}}
 class MutablePolyDenseMatrix:
     """
     A mutable matrix of objects from poly module or to operate with them.
@@ -74,16 +80,22 @@ class MutablePolyDenseMatrix:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, ring), cls.from_list(rows, cols, items, gens, ring)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_list(rows, cols, items, gens, ring)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69d480227b1e212d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__new__","kind":"method","src_hash":"f2aaefa179941546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69d480227b1e212d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__new__","kind":"method","src_hash":"f2aaefa179941546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, ring)","rhs":"cls.from_list(rows, cols, items, gens, ring)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls.from_list(rows, cols, items, gens, ring)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69d480227b1e212d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_list(rows, cols, items, gens, ring)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_list"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, ring=None):
 
         if not args:
@@ -123,16 +135,22 @@ class MutablePolyDenseMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list(cls), from_list produces the expected output) over Any ║
+# ║ Path(from_list(cls, rows, cols), cls.from_dm(dm)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_dm(dm)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_list : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c9d68834a199bbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dd1b994dab45457  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_list","kind":"classmethod","src_hash":"45222c3b4d24ab5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(cls)","rhs":"from_list produces the expected output","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"from_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_list_correct","statement":"Path(from_list(x), from_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c9d68834a199bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_list","kind":"classmethod","src_hash":"45222c3b4d24ab5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(cls, rows, cols)","rhs":"cls.from_dm(dm)","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"returns cls.from_dm(dm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_list_correct","statement":"Path(from_list(x), returns cls.from_dm(dm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dd1b994dab45457","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_dm(dm)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_dm","ring.domain","ring.from_sympy","ring.ring","ring.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list(cls, rows, cols, items, gens, ring):
 
         # items can be Expr, Poly, or a mix of Expr and Poly
@@ -174,16 +192,24 @@ class MutablePolyDenseMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dm(cls), from_dm produces the expected output) over Any ║
+# ║ Path(from_dm(cls, dm), <unspecified:from_dm>) over {Any | hasattr(dm, 'domain') and hasattr(dm, 'to_sparse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dm : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dm, 'domain')                          ║
+# ║   requires: hasattr(dm, 'to_sparse')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dm : {Any | hasattr(dm, 'domain') and hasattr(dm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 047a083c302beb69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_dm","kind":"classmethod","src_hash":"915042ef4459186f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dm(cls)","rhs":"from_dm produces the expected output","over":{"base":"Any"},"name":"from_dm_correct"},"guarantee":"from_dm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_dm_correct","statement":"Path(from_dm(x), from_dm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"047a083c302beb69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_dm","kind":"classmethod","src_hash":"915042ef4459186f","in":{"base":"Any","pred":"hasattr(dm, 'domain') and hasattr(dm, 'to_sparse')"},"out":{"base":"Any"},"spec":{"lhs":"from_dm(cls, dm)","rhs":"<unspecified:from_dm>","over":{"base":"Any","pred":"hasattr(dm, 'domain') and hasattr(dm, 'to_sparse')"},"name":"from_dm_correct"},"guarantee":"from_dm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_dm_correct","statement":"Path(from_dm(x), from_dm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"047a083c302beb69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dm, 'domain')","hasattr(dm, 'to_sparse')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dm.domain","dm.to_sparse"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dm(cls, dm):
         obj = super().__new__(cls)
         dm = dm.to_sparse()
@@ -195,59 +221,88 @@ class MutablePolyDenseMatrix:
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_Matrix(), to_Matrix produces the expected output) over Any ║
+# ║ Path(to_Matrix(), self._dm.to_Matrix()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dm.to_Matrix()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_Matrix : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20a9f29c6266d79a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.to_Matrix","kind":"method","src_hash":"ae8cd0aa575322b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_Matrix()","rhs":"to_Matrix produces the expected output","over":{"base":"Any"},"name":"to_Matrix_correct"},"guarantee":"to_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a9f29c6266d79a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.to_Matrix","kind":"method","src_hash":"ae8cd0aa575322b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_Matrix()","rhs":"self._dm.to_Matrix()","over":{"base":"Any"},"name":"to_Matrix_correct"},"guarantee":"returns self._dm.to_Matrix()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a9f29c6266d79a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dm.to_Matrix()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_Matrix(self):
         return self._dm.to_Matrix()
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_Matrix(cls), from_Matrix produces the expected output) over Any ║
+# ║ Path(from_Matrix(cls, other, *gens), cls(*other.shape, other.flat(), *gens, ring=ring)) over {Any | hasattr(other, 'shape') and hasattr(other, 'flat')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_Matrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   requires: hasattr(other, 'flat')                         ║
+# ║   returns:  cls(*other.shape, other.flat(), *gens, ri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_Matrix : {Any | hasattr(other, 'shape') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0dc09cca8bcb20bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_Matrix","kind":"classmethod","src_hash":"5d55ac273ab5fe2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls)","rhs":"from_Matrix produces the expected output","over":{"base":"Any"},"name":"from_Matrix_correct"},"guarantee":"from_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dc09cca8bcb20bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.from_Matrix","kind":"classmethod","src_hash":"5d55ac273ab5fe2a","in":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, 'flat')"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls, other, *gens)","rhs":"cls(*other.shape, other.flat(), *gens, ring=ring)","over":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, 'flat')"},"name":"from_Matrix_correct"},"guarantee":"returns cls(*other.shape, other.flat(), *gens, ring=ring)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dc09cca8bcb20bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'shape')","hasattr(other, 'flat')"],"returns_expr":"cls(*other.shape, other.flat(), *gens, ring=ring)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.flat","other.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_Matrix(cls, other, *gens, ring=None):
         return cls(*other.shape, other.flat(), *gens, ring=ring)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_gens(gen), set_gens produces the expected output) over Any ║
+# ║ Path(set_gens(gens), self.from_Matrix(self.to_Matrix(), gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_Matrix(self.to_Matrix(), gens)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_gens : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f07f045b2bab69b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.set_gens","kind":"method","src_hash":"cbc0a7c7244d2cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_gens(gen)","rhs":"set_gens produces the expected output","over":{"base":"Any"},"name":"set_gens_correct"},"guarantee":"set_gens produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f07f045b2bab69b2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.set_gens","kind":"method","src_hash":"cbc0a7c7244d2cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_gens(gens)","rhs":"self.from_Matrix(self.to_Matrix(), gens)","over":{"base":"Any"},"name":"set_gens_correct"},"guarantee":"returns self.from_Matrix(self.to_Matrix(), gens)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f07f045b2bab69b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_Matrix(self.to_Matrix(), gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_Matrix","self.to_Matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_gens(self, gens):
         return self.from_Matrix(self.to_Matrix(), gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), result == ('Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' if self.rows * self.cols else f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})') and result == 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' or result == f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('Poly' + repr(self.to_Matrix()...   ║
+# ║   ensures:  result == 'Poly' + repr(self.to_Matrix())...   ║
+# ║   fiber[case_0]: self.rows * self.cols => 'Poly' + re...   ║
+# ║   fiber[case_1]: not (self.rows * self.cols) => f'Pol...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a83be20d695cc776           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__repr__","kind":"method","src_hash":"fa2d086b2817fc70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a83be20d695cc776"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__repr__","kind":"method","src_hash":"fa2d086b2817fc70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' if self.rows * self.cols else f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})') and result == 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' or result == f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'"},"spec":{"lhs":"__repr__()","rhs":"result == ('Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' if self.rows * self.cols else f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})') and result == 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' or result == f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"result == ('Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' if self.rows * self.cols else f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'); result == 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' or result == f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a83be20d695cc776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' if self.rows * self.cols else f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})')","result == 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})' or result == f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'"],"fibers":[{"name":"case_0","guard":"self.rows * self.cols","ensures":["result == 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})'"],"decidability":"library","returns_expr":"'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})'"},{"name":"case_1","guard":"not (self.rows * self.cols)","ensures":["result == f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'"],"decidability":"library","returns_expr":"f'PolyMatrix({self.rows}, {self.cols}, [], ring={self.ring})'"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.ring","self.rows","self.to_Matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         if self.rows * self.cols:
             return 'Poly' + repr(self.to_Matrix())[:-1] + f', ring={self.ring})'
@@ -256,74 +311,107 @@ class MutablePolyDenseMatrix:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._dm.shape) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dm.shape                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2588268ccfc96de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.shape","kind":"property","src_hash":"477da994cdbbdc42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2588268ccfc96de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.shape","kind":"property","src_hash":"477da994cdbbdc42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._dm.shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._dm.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2588268ccfc96de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dm.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._dm.shape
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rows(), returns the rows attribute) over Any          ║
+# ║ Path(rows(), self.shape[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.shape[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rows : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d9545d683db0512           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rows","kind":"property","src_hash":"e4961a199b2ba695","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rows()","rhs":"returns the rows attribute","over":{"base":"Any"},"name":"rows_correct"},"guarantee":"returns the rows attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d9545d683db0512"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rows","kind":"property","src_hash":"e4961a199b2ba695","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rows()","rhs":"self.shape[0]","over":{"base":"Any"},"name":"rows_correct"},"guarantee":"returns self.shape[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d9545d683db0512","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.shape[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rows(self):
         return self.shape[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cols(), returns the cols attribute) over Any          ║
+# ║ Path(cols(), self.shape[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.shape[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cols : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee85e2e3e30fcbc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.cols","kind":"property","src_hash":"6135db297ff001cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cols()","rhs":"returns the cols attribute","over":{"base":"Any"},"name":"cols_correct"},"guarantee":"returns the cols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee85e2e3e30fcbc4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.cols","kind":"property","src_hash":"6135db297ff001cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cols()","rhs":"self.shape[1]","over":{"base":"Any"},"name":"cols_correct"},"guarantee":"returns self.shape[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee85e2e3e30fcbc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.shape[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cols(self):
         return self.shape[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), self.rows * self.cols) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rows * self.cols                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 481806aa93983d66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__len__","kind":"method","src_hash":"9172bbcca34d6f24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"481806aa93983d66"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__len__","kind":"method","src_hash":"9172bbcca34d6f24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"self.rows * self.cols","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns self.rows * self.cols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"481806aa93983d66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rows * self.cols","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return self.rows * self.cols
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), result == ([to_poly(item) for item in items] if isinstance(key, slice) else to_poly(e.element)) and result == [to_poly(item) for item in items] or result == to_poly(e.element)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([to_poly(item) for item in ite...   ║
+# ║   ensures:  result == [to_poly(item) for item in item...   ║
+# ║   fiber[slice]: isinstance(key, slice) => [to_poly(it...   ║
+# ║   fiber[int]: isinstance(key, int) => to_poly(e.element)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ee9f9e6c19f0acc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__getitem__","kind":"method","src_hash":"3fed626143166eef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ee9f9e6c19f0acc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__getitem__","kind":"method","src_hash":"3fed626143166eef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([to_poly(item) for item in items] if isinstance(key, slice) else to_poly(e.element)) and result == [to_poly(item) for item in items] or result == to_poly(e.element)"},"spec":{"lhs":"__getitem__(key)","rhs":"result == ([to_poly(item) for item in items] if isinstance(key, slice) else to_poly(e.element)) and result == [to_poly(item) for item in items] or result == to_poly(e.element)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"result == ([to_poly(item) for item in items] if isinstance(key, slice) else to_poly(e.element)); result == [to_poly(item) for item in items] or result == to_poly(e.element); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ee9f9e6c19f0acc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([to_poly(item) for item in items] if isinstance(key, slice) else to_poly(e.element))","result == [to_poly(item) for item in items] or result == to_poly(e.element)"],"fibers":[{"name":"slice","guard":"isinstance(key, slice)","ensures":["result == [to_poly(item) for item in items]"],"decidability":"structural","returns_expr":"[to_poly(item) for item in items]"},{"name":"int","guard":"isinstance(key, int)","ensures":["result == to_poly(e.element)"],"decidability":"structural","returns_expr":"to_poly(e.element)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm","self.cols","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
 
         def to_poly(v):
@@ -348,64 +436,93 @@ class MutablePolyDenseMatrix:
             return self.from_dm(dm[i, j])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, '_dm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_dm')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, '_dm')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3086ecf4aaa1b5a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__eq__","kind":"method","src_hash":"5aa2d758f315395b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3086ecf4aaa1b5a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__eq__","kind":"method","src_hash":"5aa2d758f315395b","in":{"base":"Any","pred":"hasattr(other, '_dm')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, '_dm')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3086ecf4aaa1b5a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_dm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._dm","self._dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(self, type(other)):
             return NotImplemented
         return self._dm == other._dm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, '_dm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_dm')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, '_dm')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e8b3ddec2565cd6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__add__","kind":"method","src_hash":"6364eda2a4fd3f75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e8b3ddec2565cd6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__add__","kind":"method","src_hash":"6364eda2a4fd3f75","in":{"base":"Any","pred":"hasattr(other, '_dm')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, '_dm')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e8b3ddec2565cd6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_dm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._dm","self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, type(self)):
             return self.from_dm(self._dm + other._dm)
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over {Any | hasattr(other, '_dm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_dm')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, '_dm')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4ea16bc79db5039           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__sub__","kind":"method","src_hash":"10fa1ac22edfcf0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4ea16bc79db5039"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__sub__","kind":"method","src_hash":"10fa1ac22edfcf0b","in":{"base":"Any","pred":"hasattr(other, '_dm')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(other, '_dm')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4ea16bc79db5039","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_dm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._dm","self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         if isinstance(other, type(self)):
             return self.from_dm(self._dm - other._dm)
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, '_dm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_dm')                          ║
+# ║   fiber[case_0]: isinstance(other, type(self)) => sel...   ║
+# ║   fiber[int]: isinstance(other, int)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, '_dm')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bdce12b690698cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__mul__","kind":"method","src_hash":"c73f61e1d340a220","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bdce12b690698cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__mul__","kind":"method","src_hash":"c73f61e1d340a220","in":{"base":"Any","pred":"hasattr(other, '_dm')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, '_dm')"},"name":"__mul___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bdce12b690698cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_dm')"],"fibers":[{"name":"case_0","guard":"isinstance(other, type(self))","ensures":["result == self.from_dm(self._dm * other._dm)"],"decidability":"structural","returns_expr":"self.from_dm(self._dm * other._dm)"},{"name":"int","guard":"isinstance(other, int)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._dm","self._dm","self.from_dm","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if isinstance(other, type(self)):
             return self.from_dm(self._dm * other._dm)
@@ -421,16 +538,22 @@ class MutablePolyDenseMatrix:
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), <unspecified:__rmul__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39c49ad854deba3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__rmul__","kind":"method","src_hash":"94580dadc48d268a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39c49ad854deba3f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__rmul__","kind":"method","src_hash":"94580dadc48d268a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"<unspecified:__rmul__>","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39c49ad854deba3f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         if isinstance(other, int):
             other = _sympify(other)
@@ -440,16 +563,23 @@ class MutablePolyDenseMatrix:
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'as_expr')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'as_expr')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99689e861ef86aef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__truediv__","kind":"method","src_hash":"145b09498494edb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99689e861ef86aef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__truediv__","kind":"method","src_hash":"145b09498494edb6","in":{"base":"Any","pred":"hasattr(other, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'as_expr')"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99689e861ef86aef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'as_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.as_expr","self._dm","self.domain","self.from_dm","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
 
         if isinstance(other, Poly):
@@ -466,119 +596,170 @@ class MutablePolyDenseMatrix:
         return self.from_dm(dm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.from_dm(-self._dm)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dm(-self._dm)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4870e3460befa38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__neg__","kind":"method","src_hash":"ec1161e6627fe964","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4870e3460befa38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.__neg__","kind":"method","src_hash":"ec1161e6627fe964","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.from_dm(-self._dm)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.from_dm(-self._dm)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4870e3460befa38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dm(-self._dm)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.from_dm(-self._dm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(), transpose produces the expected output) over Any ║
+# ║ Path(transpose(), self.from_dm(self._dm.transpose())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dm(self._dm.transpose())             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d2a90ec0f0450155           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.transpose","kind":"method","src_hash":"40f5c1b85b4aec93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"transpose produces the expected output","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2a90ec0f0450155"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.transpose","kind":"method","src_hash":"40f5c1b85b4aec93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"self.from_dm(self._dm.transpose())","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns self.from_dm(self._dm.transpose())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2a90ec0f0450155","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dm(self._dm.transpose())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpose(self):
         return self.from_dm(self._dm.transpose())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_join(oth), row_join produces the expected output) over Any ║
+# ║ Path(row_join(other), self.from_dm(dm)) over {Any | hasattr(other, '_dm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ row_join : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_dm')                          ║
+# ║   returns:  self.from_dm(dm)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ row_join : {Any | hasattr(other, '_dm')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 642964348b052b4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddfbe8aa29e39d67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.row_join","kind":"method","src_hash":"8764007cdb92fb28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_join(oth)","rhs":"row_join produces the expected output","over":{"base":"Any"},"name":"row_join_correct"},"guarantee":"row_join produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.row_join_correct","statement":"Path(row_join(x), row_join produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"642964348b052b4f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.row_join","kind":"method","src_hash":"8764007cdb92fb28","in":{"base":"Any","pred":"hasattr(other, '_dm')"},"out":{"base":"Any"},"spec":{"lhs":"row_join(other)","rhs":"self.from_dm(dm)","over":{"base":"Any","pred":"hasattr(other, '_dm')"},"name":"row_join_correct"},"guarantee":"returns self.from_dm(dm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.row_join_correct","statement":"Path(row_join(x), returns self.from_dm(dm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddfbe8aa29e39d67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_dm')"],"returns_expr":"self.from_dm(dm)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._dm","self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_join(self, other):
         dm = DomainMatrix.hstack(self._dm, other._dm)
         return self.from_dm(dm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(col_join(oth), col_join produces the expected output) over Any ║
+# ║ Path(col_join(other), self.from_dm(dm)) over {Any | hasattr(other, '_dm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ col_join : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_dm')                          ║
+# ║   returns:  self.from_dm(dm)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ col_join : {Any | hasattr(other, '_dm')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03023c0fdf9f6592  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 101fa8fc98898d83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.col_join","kind":"method","src_hash":"14457a584fccd603","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_join(oth)","rhs":"col_join produces the expected output","over":{"base":"Any"},"name":"col_join_correct"},"guarantee":"col_join produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.col_join_correct","statement":"Path(col_join(x), col_join produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03023c0fdf9f6592"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.col_join","kind":"method","src_hash":"14457a584fccd603","in":{"base":"Any","pred":"hasattr(other, '_dm')"},"out":{"base":"Any"},"spec":{"lhs":"col_join(other)","rhs":"self.from_dm(dm)","over":{"base":"Any","pred":"hasattr(other, '_dm')"},"name":"col_join_correct"},"guarantee":"returns self.from_dm(dm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.col_join_correct","statement":"Path(col_join(x), returns self.from_dm(dm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"101fa8fc98898d83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_dm')"],"returns_expr":"self.from_dm(dm)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._dm","self._dm","self.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def col_join(self, other):
         dm = DomainMatrix.vstack(self._dm, other._dm)
         return self.from_dm(dm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applyfunc(fun), applyfunc produces the expected output) over Any ║
+# ║ Path(applyfunc(func), self.from_Matrix(M, self.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_Matrix(M, self.gens)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ applyfunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 085529e217f6cb2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5693725753cb1e1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.applyfunc","kind":"method","src_hash":"62aa420ab95bc13f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(fun)","rhs":"applyfunc produces the expected output","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"applyfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.applyfunc_correct","statement":"Path(applyfunc(x), applyfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"085529e217f6cb2c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.applyfunc","kind":"method","src_hash":"62aa420ab95bc13f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(func)","rhs":"self.from_Matrix(M, self.gens)","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"returns self.from_Matrix(M, self.gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.applyfunc_correct","statement":"Path(applyfunc(x), returns self.from_Matrix(M, self.gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5693725753cb1e1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_Matrix(M, self.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_Matrix","self.gens","self.to_Matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, func):
         M = self.to_Matrix().applyfunc(func)
         return self.from_Matrix(M, self.gens)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eye(cls), eye produces the expected output) over Any  ║
+# ║ Path(eye(cls, n, gens), cls.from_dm(DomainMatrix.eye(n, QQ[gens]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_dm(DomainMatrix.eye(n, QQ[gens]))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eye : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9cd629cff2d57cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.eye","kind":"classmethod","src_hash":"b94b08f95954359a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(cls)","rhs":"eye produces the expected output","over":{"base":"Any"},"name":"eye_correct"},"guarantee":"eye produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9cd629cff2d57cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.eye","kind":"classmethod","src_hash":"b94b08f95954359a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(cls, n, gens)","rhs":"cls.from_dm(DomainMatrix.eye(n, QQ[gens]))","over":{"base":"Any"},"name":"eye_correct"},"guarantee":"returns cls.from_dm(DomainMatrix.eye(n, QQ[gens]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9cd629cff2d57cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_dm(DomainMatrix.eye(n, QQ[gens]))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eye(cls, n, gens):
         return cls.from_dm(DomainMatrix.eye(n, QQ[gens]))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(cls), zeros produces the expected output) over Any ║
+# ║ Path(zeros(cls, m, n), cls.from_dm(DomainMatrix.zeros((m, n), QQ[gens]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_dm(DomainMatrix.zeros((m, n), QQ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa0b40a5cb617dc8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.zeros","kind":"classmethod","src_hash":"817f8be6c1bcbd52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls)","rhs":"zeros produces the expected output","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa0b40a5cb617dc8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.zeros","kind":"classmethod","src_hash":"817f8be6c1bcbd52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls, m, n)","rhs":"cls.from_dm(DomainMatrix.zeros((m, n), QQ[gens]))","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns cls.from_dm(DomainMatrix.zeros((m, n), QQ[gens]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa0b40a5cb617dc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_dm(DomainMatrix.zeros((m, n), QQ[gens]))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_dm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeros(cls, m, n, gens):
         return cls.from_dm(DomainMatrix.zeros((m, n), QQ[gens]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref(sim), rref produces the expected output) over Any ║
+# ║ Path(rref(simplify, normalize_last), (self.from_dm(dm_rref), pivots)) over {Any | self.domain.is_Field and all((p.is_ground for p in self))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rref : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.domain.is_Field and all((p.is_ground...   ║
+# ║   returns:  (self.from_dm(dm_rref), pivots)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rref : {Any | self.domain.is_Field and all((p.is_grou...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aac795852589dd62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d653028062ccbe4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rref","kind":"method","src_hash":"3bc3875713af91dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref(sim)","rhs":"rref produces the expected output","over":{"base":"Any"},"name":"rref_correct"},"guarantee":"rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rref_correct","statement":"Path(rref(x), rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac795852589dd62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rref","kind":"method","src_hash":"3bc3875713af91dc","in":{"base":"Any","pred":"self.domain.is_Field and all((p.is_ground for p in self))"},"out":{"base":"Any"},"spec":{"lhs":"rref(simplify, normalize_last)","rhs":"(self.from_dm(dm_rref), pivots)","over":{"base":"Any","pred":"self.domain.is_Field and all((p.is_ground for p in self))"},"name":"rref_correct"},"guarantee":"returns (self.from_dm(dm_rref), pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rref_correct","statement":"Path(rref(x), returns (self.from_dm(dm_rref), pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d653028062ccbe4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.domain.is_Field and all((p.is_ground for p in self))"],"returns_expr":"(self.from_dm(dm_rref), pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm","self.domain","self.from_dm"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref(self, simplify='ignore', normalize_last='ignore'):
         # If this is K[x] then computes RREF in ground field K.
         if not (self.domain.is_Field and all(p.is_ground for p in self)):
@@ -590,16 +771,23 @@ class MutablePolyDenseMatrix:
         return self.from_dm(dm_rref), pivots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nullspace(), nullspace produces the expected output) over Any ║
+# ║ Path(nullspace(), [self.from_dm(dmvec) for dmvec in dm_basis]) over {Any | self.domain.is_Field and all((p.is_ground for p in self))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nullspace : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.domain.is_Field and all((p.is_ground...   ║
+# ║   returns:  [self.from_dm(dmvec) for dmvec in dm_basis]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nullspace : {Any | self.domain.is_Field and all((p.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aec04953d97055a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84b796d6228a5aeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.nullspace","kind":"method","src_hash":"2833eb0544d776ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace()","rhs":"nullspace produces the expected output","over":{"base":"Any"},"name":"nullspace_correct"},"guarantee":"nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.nullspace_correct","statement":"Path(nullspace(x), nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aec04953d97055a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.nullspace","kind":"method","src_hash":"2833eb0544d776ff","in":{"base":"Any","pred":"self.domain.is_Field and all((p.is_ground for p in self))"},"out":{"base":"Any"},"spec":{"lhs":"nullspace()","rhs":"[self.from_dm(dmvec) for dmvec in dm_basis]","over":{"base":"Any","pred":"self.domain.is_Field and all((p.is_ground for p in self))"},"name":"nullspace_correct"},"guarantee":"returns [self.from_dm(dmvec) for dmvec in dm_basis]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polymatrix.MutablePolyDenseMatrix.nullspace_correct","statement":"Path(nullspace(x), returns [self.from_dm(dmvec) for dmvec in dm_basis])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84b796d6228a5aeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.domain.is_Field and all((p.is_ground for p in self))"],"returns_expr":"[self.from_dm(dmvec) for dmvec in dm_basis]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dm","self.domain","self.from_dm","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nullspace(self):
         # If this is K[x] then computes nullspace in ground field K.
         if not (self.domain.is_Field and all(p.is_ground for p in self)):
@@ -612,16 +800,22 @@ class MutablePolyDenseMatrix:
         return [self.from_dm(dmvec) for dmvec in dm_basis]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), rank produces the expected output) over Any   ║
+# ║ Path(rank(), self.cols - len(self.nullspace())) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.cols - len(self.nullspace())              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c5128c722692172           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rank","kind":"method","src_hash":"b91090e90cd9dab3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"rank produces the expected output","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"rank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c5128c722692172"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polymatrix.MutablePolyDenseMatrix.rank","kind":"method","src_hash":"b91090e90cd9dab3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self.cols - len(self.nullspace())","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self.cols - len(self.nullspace())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c5128c722692172","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.cols - len(self.nullspace())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.nullspace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         return self.cols - len(self.nullspace())
 

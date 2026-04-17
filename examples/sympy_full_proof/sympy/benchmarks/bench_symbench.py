@@ -31,14 +31,20 @@ from timeit import default_timer as clock
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(bench_R1(), id) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(Integer(1) / 3) * z ** 2 + I / 3          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R1 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 143420e9a629d864   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R1","kind":"function","src_hash":"beed3c1ddadb892f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R1()","rhs":"real(f(f(f(f(f(f(f(f(f(f(i/2)))))))))))","over":{"base":"Any"},"name":"bench_R1_correct","kind":"composition"},"guarantee":"real(f(f(f(f(f(f(f(f(f(f(i/2)))))))))))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Integer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143420e9a629d864"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R1","kind":"function","src_hash":"beed3c1ddadb892f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R1()","rhs":"sqrt(Integer(1) / 3) * z ** 2 + I / 3","over":{"base":"Any"},"name":"bench_R1_correct","kind":"composition"},"guarantee":"returns sqrt(Integer(1) / 3) * z ** 2 + I / 3","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Integer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143420e9a629d864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(Integer(1) / 3) * z ** 2 + I / 3","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R1():
     "real(f(f(f(f(f(f(f(f(f(f(i/2)))))))))))"
     def f(z):
@@ -47,16 +53,22 @@ def bench_R1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R2(), hermite polynomial hermite(15, y)) over Any ║
+# ║ Path(bench_R2(), <unspecified:bench_R2>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R2 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 709d79a9d9011ab2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R2","kind":"function","src_hash":"b4e54166e7283331","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R2()","rhs":"hermite polynomial hermite(15, y)","over":{"base":"Any"},"name":"bench_R2_correct"},"guarantee":"hermite polynomial hermite(15, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R2_correct","statement":"Path(bench_R2(x), hermite polynomial hermite(15, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709d79a9d9011ab2"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R2","kind":"function","src_hash":"b4e54166e7283331","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R2()","rhs":"<unspecified:bench_R2>","over":{"base":"Any"},"name":"bench_R2_correct"},"guarantee":"hermite polynomial hermite(15, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R2_correct","statement":"Path(bench_R2(x), hermite polynomial hermite(15, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709d79a9d9011ab2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R2():
     "Hermite polynomial hermite(15, y)"
     def hermite(n, y):
@@ -70,16 +82,22 @@ def bench_R2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R3(), a = [bool(f==f) for _ in range(10)]) over Any ║
+# ║ Path(bench_R3(), <unspecified:bench_R3>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R3 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7b8a83159781051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R3","kind":"function","src_hash":"83cbacfe6a95ff11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R3()","rhs":"a = [bool(f==f) for _ in range(10)]","over":{"base":"Any"},"name":"bench_R3_correct"},"guarantee":"a = [bool(f==f) for _ in range(10)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R3_correct","statement":"Path(bench_R3(x), a = [bool(f==f) for _ in range(10)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7b8a83159781051"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R3","kind":"function","src_hash":"83cbacfe6a95ff11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R3()","rhs":"<unspecified:bench_R3>","over":{"base":"Any"},"name":"bench_R3_correct"},"guarantee":"a = [bool(f==f) for _ in range(10)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R3_correct","statement":"Path(bench_R3(x), a = [bool(f==f) for _ in range(10)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7b8a83159781051","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_R3():
     "a = [bool(f==f) for _ in range(10)]"
     f = x + y + z
@@ -87,32 +105,44 @@ def bench_R3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R4(), bench_R4 produces the expected output) over Any ║
+# ║ Path(bench_R4(), <unspecified:bench_R4>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R4 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fad039625a0724bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R4","kind":"function","src_hash":"7c427d4625201aa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R4()","rhs":"bench_R4 produces the expected output","over":{"base":"Any"},"name":"bench_R4_correct"},"guarantee":"bench_R4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fad039625a0724bd"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R4","kind":"function","src_hash":"7c427d4625201aa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R4()","rhs":"<unspecified:bench_R4>","over":{"base":"Any"},"name":"bench_R4_correct"},"guarantee":"bench_R4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fad039625a0724bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def bench_R4():
     # we don't have Tuples
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R5(), blowup(l, 8); l=uniq(l)) over Any         ║
+# ║ Path(bench_R5(), <unspecified:bench_R5>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R5 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb613b74d214a9a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R5","kind":"function","src_hash":"a90b8968eccb1052","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R5()","rhs":"blowup(l, 8); l=uniq(l)","over":{"base":"Any"},"name":"bench_R5_correct"},"guarantee":"blowup(l, 8); l=uniq(l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R5_correct","statement":"Path(bench_R5(x), blowup(l, 8); l=uniq(l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb613b74d214a9a5"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R5","kind":"function","src_hash":"a90b8968eccb1052","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R5()","rhs":"<unspecified:bench_R5>","over":{"base":"Any"},"name":"bench_R5_correct"},"guarantee":"blowup(l, 8); l=uniq(l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R5_correct","statement":"Path(bench_R5(x), blowup(l, 8); l=uniq(l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb613b74d214a9a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R5():
     "blowup(L, 8); L=uniq(L)"
     def blowup(L, n):
@@ -128,32 +158,44 @@ def bench_R5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R6(), sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100))) over Any ║
+# ║ Path(bench_R6(), <unspecified:bench_R6>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R6 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 209faf0eb32499f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R6","kind":"function","src_hash":"cf56e9048e8ca5b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R6()","rhs":"sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100))","over":{"base":"Any"},"name":"bench_R6_correct"},"guarantee":"sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R6_correct","statement":"Path(bench_R6(x), sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"209faf0eb32499f7"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R6","kind":"function","src_hash":"cf56e9048e8ca5b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R6()","rhs":"<unspecified:bench_R6>","over":{"base":"Any"},"name":"bench_R6_correct"},"guarantee":"sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R6_correct","statement":"Path(bench_R6(x), sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"209faf0eb32499f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R6():
     "sum(simplify((x+sin(i))/x+(x-sin(i))/x) for i in range(100))"
     sum(simplify((x + sin(i))/x + (x - sin(i))/x) for i in range(100))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R7(), [f.subs(x, random()) for _ in range(10**4)]) over Any ║
+# ║ Path(bench_R7(), <unspecified:bench_R7>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R7 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87f696b8bc78f106  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R7","kind":"function","src_hash":"0ff1f3077fa2a171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R7()","rhs":"[f.subs(x, random()) for _ in range(10**4)]","over":{"base":"Any"},"name":"bench_R7_correct"},"guarantee":"[f.subs(x, random()) for _ in range(10**4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R7_correct","statement":"Path(bench_R7(x), [f.subs(x, random()) for _ in range(10**4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87f696b8bc78f106"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R7","kind":"function","src_hash":"0ff1f3077fa2a171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R7()","rhs":"<unspecified:bench_R7>","over":{"base":"Any"},"name":"bench_R7_correct"},"guarantee":"[f.subs(x, random()) for _ in range(10**4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R7_correct","statement":"Path(bench_R7(x), [f.subs(x, random()) for _ in range(10**4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87f696b8bc78f106","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R7():
     "[f.subs(x, random()) for _ in range(10**4)]"
     f = x**24 + 34*x**12 + 45*x**3 + 9*x**18 + 34*x**10 + 32*x**21
@@ -161,16 +203,22 @@ def bench_R7():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R8(), right(x^2,0,5,10^4)) over Any             ║
+# ║ Path(bench_R8(), est * Deltax) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  est * Deltax                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R8 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e22673aa6c535d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0d3825453645b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R8","kind":"function","src_hash":"8145b619e54f90c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R8()","rhs":"right(x^2,0,5,10^4)","over":{"base":"Any"},"name":"bench_R8_correct"},"guarantee":"right(x^2,0,5,10^4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R8_correct","statement":"Path(bench_R8(x), right(x^2,0,5,10^4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e22673aa6c535d1"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R8","kind":"function","src_hash":"8145b619e54f90c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R8()","rhs":"est * Deltax","over":{"base":"Any"},"name":"bench_R8_correct"},"guarantee":"returns est * Deltax","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R8_correct","statement":"Path(bench_R8(x), returns est * Deltax)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0d3825453645b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"est * Deltax","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R8():
     "right(x^2,0,5,10^4)"
     def right(f, a, b, n):
@@ -190,32 +238,44 @@ def bench_R8():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bench_R9(), factor(x^20 - pi^5*y^20)) over Any       ║
+# ║ Path(_bench_R9(), <unspecified:_bench_R9>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _bench_R9 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11e33e6c0b7ae6fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench._bench_R9","kind":"function","src_hash":"94f9b7ecff0e59e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bench_R9()","rhs":"factor(x^20 - pi^5*y^20)","over":{"base":"Any"},"name":"_bench_R9_correct"},"guarantee":"factor(x^20 - pi^5*y^20)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench._bench_R9_correct","statement":"Path(_bench_R9(x), factor(x^20 - pi^5*y^20))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11e33e6c0b7ae6fa"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench._bench_R9","kind":"function","src_hash":"94f9b7ecff0e59e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bench_R9()","rhs":"<unspecified:_bench_R9>","over":{"base":"Any"},"name":"_bench_R9_correct"},"guarantee":"factor(x^20 - pi^5*y^20)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench._bench_R9_correct","statement":"Path(_bench_R9(x), factor(x^20 - pi^5*y^20))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11e33e6c0b7ae6fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _bench_R9():
     "factor(x^20 - pi^5*y^20)"
     factor(x**20 - pi**5*y**20)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R10(), v = [-pi,-pi+1/10..,pi]) over Any        ║
+# ║ Path(bench_R10(), v[:-1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  v[:-1]                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R10 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19b2aa72c63d597d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6785601fd7e0dca3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R10","kind":"function","src_hash":"3a98c2fd84a2fa5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R10()","rhs":"v = [-pi,-pi+1/10..,pi]","over":{"base":"Any"},"name":"bench_R10_correct"},"guarantee":"v = [-pi,-pi+1/10..,pi]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R10_correct","statement":"Path(bench_R10(x), v = [-pi,-pi+1/10..,pi])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b2aa72c63d597d"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R10","kind":"function","src_hash":"3a98c2fd84a2fa5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R10()","rhs":"v[:-1]","over":{"base":"Any"},"name":"bench_R10_correct"},"guarantee":"returns v[:-1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R10_correct","statement":"Path(bench_R10(x), returns v[:-1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6785601fd7e0dca3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"v[:-1]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_R10():
     "v = [-pi,-pi+1/10..,pi]"
     def srange(min, max, step):
@@ -227,32 +287,44 @@ def bench_R10():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_R11(), a = [random() + random()*i for w in [0..1000]]) over Any ║
+# ║ Path(bench_R11(), <unspecified:bench_R11>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_R11 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ed659863a23ff87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R11","kind":"function","src_hash":"777ba1eb9cb936f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R11()","rhs":"a = [random() + random()*i for w in [0..1000]]","over":{"base":"Any"},"name":"bench_R11_correct"},"guarantee":"a = [random() + random()*i for w in [0..1000]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R11_correct","statement":"Path(bench_R11(x), a = [random() + random()*i for w in [0..1000]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ed659863a23ff87"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_R11","kind":"function","src_hash":"777ba1eb9cb936f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_R11()","rhs":"<unspecified:bench_R11>","over":{"base":"Any"},"name":"bench_R11_correct"},"guarantee":"a = [random() + random()*i for w in [0..1000]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_R11_correct","statement":"Path(bench_R11(x), a = [random() + random()*i for w in [0..1000]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ed659863a23ff87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_R11():
     "a = [random() + random()*I for w in [0..1000]]"
     [random() + random()*I for w in range(1000)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_S1(), e=(x+y+z+1)**7;f=e*(e+1);f.expand()) over Any ║
+# ║ Path(bench_S1(), <unspecified:bench_S1>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_S1 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39c31eaabc884deb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_S1","kind":"function","src_hash":"64164a75837ac1eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_S1()","rhs":"e=(x+y+z+1)**7;f=e*(e+1);f.expand()","over":{"base":"Any"},"name":"bench_S1_correct"},"guarantee":"e=(x+y+z+1)**7;f=e*(e+1);f.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_S1_correct","statement":"Path(bench_S1(x), e=(x+y+z+1)**7;f=e*(e+1);f.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c31eaabc884deb"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_symbench.bench_S1","kind":"function","src_hash":"64164a75837ac1eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_S1()","rhs":"<unspecified:bench_S1>","over":{"base":"Any"},"name":"bench_S1_correct"},"guarantee":"e=(x+y+z+1)**7;f=e*(e+1);f.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_symbench.bench_S1_correct","statement":"Path(bench_S1(x), e=(x+y+z+1)**7;f=e*(e+1);f.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c31eaabc884deb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bench_S1():
     "e=(x+y+z+1)**7;f=e*(e+1);f.expand()"
     e = (x + y + z + 1)**7

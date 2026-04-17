@@ -22,16 +22,22 @@ import subprocess
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_gtk(x, ), print to gtkmathview, a gtk widget capable of rendering mathml) over Any ║
+# ║ Path(print_gtk(x, start_viewer), <unspecified:print_gtk>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_gtk : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e02052181a7eefc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.gtk.print_gtk","kind":"function","src_hash":"8a00b41f38294251","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_gtk(x, )","rhs":"print to gtkmathview, a gtk widget capable of rendering mathml","over":{"base":"Any"},"name":"print_gtk_correct"},"guarantee":"print to gtkmathview, a gtk widget capable of rendering mathml","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.gtk.print_gtk_correct","statement":"Path(print_gtk(x), print to gtkmathview, a gtk widget capable of rendering mathml)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e02052181a7eefc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.gtk.print_gtk","kind":"function","src_hash":"8a00b41f38294251","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_gtk(x, start_viewer)","rhs":"<unspecified:print_gtk>","over":{"base":"Any"},"name":"print_gtk_correct"},"guarantee":"print to gtkmathview, a gtk widget capable of rendering mathml","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.gtk.print_gtk_correct","statement":"Path(print_gtk(x), print to gtkmathview, a gtk widget capable of rendering mathml)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e02052181a7eefc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["file.flush","file.write"],"io_operations":["file.flush","file.write"]},"state_contract":{"modifies":["file.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def print_gtk(x, start_viewer=True):
     """Print to Gtkmathview, a gtk widget capable of rendering MathML.
 

@@ -18,47 +18,65 @@
 from .utils import _toposort, groupby
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(AmbiguityWarning(), correctly constructs a AmbiguityWarning instance) over Any ║
+# ║ Path(AmbiguityWarning(), isinstance(self, Warning)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AmbiguityWarning : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Warning)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AmbiguityWarning : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b61688e0c52583c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.AmbiguityWarning","kind":"class","src_hash":"bc131f268de64d11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AmbiguityWarning()","rhs":"correctly constructs a AmbiguityWarning instance","over":{"base":"Any"},"name":"AmbiguityWarning_correct"},"guarantee":"correctly constructs a AmbiguityWarning instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b61688e0c52583c"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.AmbiguityWarning","kind":"class","src_hash":"bc131f268de64d11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Warning)"},"spec":{"lhs":"AmbiguityWarning()","rhs":"isinstance(self, Warning)","over":{"base":"Any"},"name":"AmbiguityWarning_correct"},"guarantee":"isinstance(self, Warning)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b61688e0c52583c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Warning)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function AmbiguityWarning not found in source"]}}
 class AmbiguityWarning(Warning):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(supercedes(a, ), a is consistent and strictly more specific than b) over Any ║
+# ║ Path(supercedes(a, b), len(a) == len(b) and all(map(issubclass, a, b))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(a) == len(b) and all(map(issubclass, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ supercedes : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 758f3f2bc8cc40a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.supercedes","kind":"function","src_hash":"bd0b74781a2495be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supercedes(a, )","rhs":"a is consistent and strictly more specific than b","over":{"base":"Any"},"name":"supercedes_correct"},"guarantee":"a is consistent and strictly more specific than b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"758f3f2bc8cc40a7"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.supercedes","kind":"function","src_hash":"bd0b74781a2495be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supercedes(a, b)","rhs":"len(a) == len(b) and all(map(issubclass, a, b))","over":{"base":"Any"},"name":"supercedes_correct"},"guarantee":"returns len(a) == len(b) and all(map(issubclass, a, b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"758f3f2bc8cc40a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(a) == len(b) and all(map(issubclass, a, b))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def supercedes(a, b):
     """ A is consistent and strictly more specific than B """
     return len(a) == len(b) and all(map(issubclass, a, b))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(consistent(a, ), id) over Any                         ║
+# ║ Path(consistent(a, b), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(a) == len(b) and all((issubclass(aa, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ consistent : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7982d07ed252e2fb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.consistent","kind":"function","src_hash":"8c8bf0bfda25ff90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"consistent(a, )","rhs":"it is possible for an argument list to satisfy both a and b","over":{"base":"Any"},"name":"consistent_correct","kind":"composition"},"guarantee":"it is possible for an argument list to satisfy both a and b","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7982d07ed252e2fb"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.consistent","kind":"function","src_hash":"8c8bf0bfda25ff90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"consistent(a, b)","rhs":"len(a) == len(b) and all((issubclass(aa, bb) or issubclass(bb, aa) for aa, bb in zip(a, b)))","over":{"base":"Any"},"name":"consistent_correct","kind":"composition"},"guarantee":"returns len(a) == len(b) and all((issubclass(aa, bb) or issubclass(bb, aa) for aa, bb in zip(a, b)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7982d07ed252e2fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(a) == len(b) and all((issubclass(aa, bb) or issubclass(bb, aa) for aa, bb in zip(a, b)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def consistent(a, b):
     """ It is possible for an argument list to satisfy both A and B """
     return (len(a) == len(b) and
@@ -67,32 +85,44 @@ def consistent(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambiguous(a, ), a is consistent with b but neither is strictly more specific) over Any ║
+# ║ Path(ambiguous(a, b), consistent(a, b) and (not (supercedes(a, b) or supercedes(b, a)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  consistent(a, b) and (not (supercedes(a, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambiguous : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28d839a21b079588           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.ambiguous","kind":"function","src_hash":"ba4877abf9078105","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambiguous(a, )","rhs":"a is consistent with b but neither is strictly more specific","over":{"base":"Any"},"name":"ambiguous_correct"},"guarantee":"a is consistent with b but neither is strictly more specific","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28d839a21b079588"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.ambiguous","kind":"function","src_hash":"ba4877abf9078105","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambiguous(a, b)","rhs":"consistent(a, b) and (not (supercedes(a, b) or supercedes(b, a)))","over":{"base":"Any"},"name":"ambiguous_correct"},"guarantee":"returns consistent(a, b) and (not (supercedes(a, b) or supercedes(b, a)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28d839a21b079588","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"consistent(a, b) and (not (supercedes(a, b) or supercedes(b, a)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def ambiguous(a, b):
     """ A is consistent with B but neither is strictly more specific """
     return consistent(a, b) and not (supercedes(a, b) or supercedes(b, a))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambiguities(sig), all signature pairs such that a is ambiguous with b) over Any ║
+# ║ Path(ambiguities(signatures), {(a, b) for a in signatures for b in signatures if hash(a) < hash(b) and ambiguous(a, b) and (not any((supercedes(c, a) and supercedes(c, b) for c in signatures)))}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {(a, b) for a in signatures for b in sign...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambiguities : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 753581b6a3642e03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce2a0d106a38a7d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.ambiguities","kind":"function","src_hash":"eb440dfd8e9bc2d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambiguities(sig)","rhs":"all signature pairs such that a is ambiguous with b","over":{"base":"Any"},"name":"ambiguities_correct"},"guarantee":"all signature pairs such that a is ambiguous with b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.conflict.ambiguities_correct","statement":"Path(ambiguities(x), all signature pairs such that a is ambiguous with b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"753581b6a3642e03"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.ambiguities","kind":"function","src_hash":"eb440dfd8e9bc2d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambiguities(signatures)","rhs":"{(a, b) for a in signatures for b in signatures if hash(a) < hash(b) and ambiguous(a, b) and (not any((supercedes(c, a) and supercedes(c, b) for c in signatures)))}","over":{"base":"Any"},"name":"ambiguities_correct"},"guarantee":"returns {(a, b) for a in signatures for b in signatures if hash(a) < hash(b) and ambiguous(a, b) and (not any((supercedes(c, a) and supercedes(c, b) for c in signatures)))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.conflict.ambiguities_correct","statement":"Path(ambiguities(x), returns {(a, b) for a in signatures for b in signatures if hash(a) < hash(b) and ambiguous(a, b) and (not any((supercedes(c, a) and supercedes(c, b) for c in signatures)))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce2a0d106a38a7d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{(a, b) for a in signatures for b in signatures if hash(a) < hash(b) and ambiguous(a, b) and (not any((supercedes(c, a) and supercedes(c, b) for c in signatures)))}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ambiguities(signatures):
     """ All signature pairs such that A is ambiguous with B """
     signatures = list(map(tuple, signatures))
@@ -104,16 +134,23 @@ def ambiguities(signatures):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(super_signature(sig), id) over Any                    ║
+# ║ Path(super_signature(signatures), id) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ super_signature : Any → {Any | all((len(s) == n for s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((len(s) == n for s in signatures))         ║
+# ║   returns:  [max([type.mro(sig[i]) for sig in signatu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ super_signature : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3ccf1221b52aab0e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.super_signature","kind":"function","src_hash":"1d1bc86ba2aca476","in":{"base":"Any"},"out":{"base":"Any","pred":"all((len(s) == n for s in signatures))"},"spec":{"lhs":"super_signature(sig)","rhs":"a signature that would break ambiguities","over":{"base":"Any"},"name":"super_signature_correct","kind":"composition"},"guarantee":"a signature that would break ambiguities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"max","by":"library_axiom"},{"fn":"mro","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ccf1221b52aab0e"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.super_signature","kind":"function","src_hash":"1d1bc86ba2aca476","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([max([type.mro(sig[i]) for sig in signatures], key=len)[0] for i in range(n)])"},"spec":{"lhs":"super_signature(signatures)","rhs":"[max([type.mro(sig[i]) for sig in signatures], key=len)[0] for i in range(n)]","over":{"base":"Any"},"name":"super_signature_correct","kind":"composition"},"guarantee":"returns [max([type.mro(sig[i]) for sig in signatures], key=len)[0] for i in range(n)]; all((len(s) == n for s in signatures))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"max","by":"library_axiom"},{"fn":"mro","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ccf1221b52aab0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((len(s) == n for s in signatures))"],"returns_expr":"[max([type.mro(sig[i]) for sig in signatures], key=len)[0] for i in range(n)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def super_signature(signatures):
     """ A signature that would break ambiguities """
     n = len(signatures[0])
@@ -124,16 +161,22 @@ def super_signature(signatures):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(edge(a, ), id) over Any                               ║
+# ║ Path(edge(a, b, tie_breaker), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ edge : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a6856072343f68d1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.edge","kind":"function","src_hash":"058d0f74c0a70531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"edge(a, )","rhs":"a should be checked before b","over":{"base":"Any"},"name":"edge_correct","kind":"composition"},"guarantee":"a should be checked before b","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tie_breaker","by":"library_axiom"},{"fn":"tie_breaker","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6856072343f68d1"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.edge","kind":"function","src_hash":"058d0f74c0a70531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"edge(a, b, tie_breaker)","rhs":"<unspecified:edge>","over":{"base":"Any"},"name":"edge_correct","kind":"composition"},"guarantee":"a should be checked before b","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tie_breaker","by":"library_axiom"},{"fn":"tie_breaker","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6856072343f68d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def edge(a, b, tie_breaker=hash):
     """ A should be checked before B
 
@@ -148,16 +191,22 @@ def edge(a, b, tie_breaker=hash):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ordering(sig), a sane ordering of signatures to check, first to last) over Any ║
+# ║ Path(ordering(signatures), _toposort(edges)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _toposort(edges)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ordering : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d1c868fb2dc4652  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f8703562a940969  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.ordering","kind":"function","src_hash":"5258f4640a7b92c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordering(sig)","rhs":"a sane ordering of signatures to check, first to last","over":{"base":"Any"},"name":"ordering_correct"},"guarantee":"a sane ordering of signatures to check, first to last","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.conflict.ordering_correct","statement":"Path(ordering(x), a sane ordering of signatures to check, first to last)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d1c868fb2dc4652"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.conflict.ordering","kind":"function","src_hash":"5258f4640a7b92c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ordering(signatures)","rhs":"_toposort(edges)","over":{"base":"Any"},"name":"ordering_correct"},"guarantee":"returns _toposort(edges)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.conflict.ordering_correct","statement":"Path(ordering(x), returns _toposort(edges))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8703562a940969","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_toposort(edges)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ordering(signatures):
     """ A sane ordering of signatures to check, first to last
 

@@ -35,16 +35,22 @@ from sympy.testing.tmpfiles import TmpFileManager
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_string(dum), wrapper for dump_fn) over Any        ║
+# ║ Path(get_string(dump_fn, routines, prefix), <unspecified:get_string>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_string : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c7b68b6378bc48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.get_string","kind":"function","src_hash":"e213e5c351af986c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_string(dum)","rhs":"wrapper for dump_fn","over":{"base":"Any"},"name":"get_string_correct"},"guarantee":"wrapper for dump_fn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.get_string_correct","statement":"Path(get_string(x), wrapper for dump_fn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c7b68b6378bc48"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.get_string","kind":"function","src_hash":"e213e5c351af986c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_string(dump_fn, routines, prefix)","rhs":"<unspecified:get_string>","over":{"base":"Any"},"name":"get_string_correct"},"guarantee":"wrapper for dump_fn","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.get_string_correct","statement":"Path(get_string(x), wrapper for dump_fn)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c7b68b6378bc48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["output.close"],"io_operations":["output.close"]},"state_contract":{"modifies":["output.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['dump_fn', 'routines', 'prefix'], spec=['dump_fn', 'routines', 'prefix', '**kwargs']"]}}
 def get_string(dump_fn, routines, prefix="file", **kwargs):
     """Wrapper for dump_fn. dump_fn writes its results to a stream object and
        this wrapper returns the contents of that stream as a string. This
@@ -61,16 +67,22 @@ def get_string(dump_fn, routines, prefix="file", **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cython_wrapper_scalar_function(), test_cython_wrapper_scalar_function produces the expected output) over Any ║
+# ║ Path(test_cython_wrapper_scalar_function(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cython_wrapper_scalar_function : Any → {Any | so...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cython_wrapper_scalar_function : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31a94282a7372b3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a2e958a494d9540  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_scalar_function","kind":"function","src_hash":"40230cb3e415a4aa","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_cython_wrapper_scalar_function()","rhs":"test_cython_wrapper_scalar_function produces the expected output","over":{"base":"Any"},"name":"test_cython_wrapper_scalar_function_correct"},"guarantee":"test_cython_wrapper_scalar_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_scalar_function_correct","statement":"Path(test_cython_wrapper_scalar_function(x), test_cython_wrapper_scalar_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31a94282a7372b3a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_scalar_function","kind":"function","src_hash":"40230cb3e415a4aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_cython_wrapper_scalar_function()","rhs":"source == expected","over":{"base":"Any"},"name":"test_cython_wrapper_scalar_function_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_scalar_function_correct","statement":"Path(test_cython_wrapper_scalar_function(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a2e958a494d9540","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cython_wrapper_scalar_function():
     x, y, z = symbols('x,y,z')
     expr = (x + y)*z
@@ -89,16 +101,22 @@ def test_cython_wrapper_scalar_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cython_wrapper_outarg(), test_cython_wrapper_outarg produces the expected output) over Any ║
+# ║ Path(test_cython_wrapper_outarg(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cython_wrapper_outarg : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cython_wrapper_outarg : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7bbc30ad75028d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c24f4241ef936a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_outarg","kind":"function","src_hash":"7cb57ebde1e637d0","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_cython_wrapper_outarg()","rhs":"test_cython_wrapper_outarg produces the expected output","over":{"base":"Any"},"name":"test_cython_wrapper_outarg_correct"},"guarantee":"test_cython_wrapper_outarg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_outarg_correct","statement":"Path(test_cython_wrapper_outarg(x), test_cython_wrapper_outarg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7bbc30ad75028d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_outarg","kind":"function","src_hash":"7cb57ebde1e637d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_cython_wrapper_outarg()","rhs":"source == expected","over":{"base":"Any"},"name":"test_cython_wrapper_outarg_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_outarg_correct","statement":"Path(test_cython_wrapper_outarg(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c24f4241ef936a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cython_wrapper_outarg():
     from sympy.core.relational import Equality
     x, y, z = symbols('x,y,z')
@@ -119,16 +137,22 @@ def test_cython_wrapper_outarg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cython_wrapper_inoutarg(), test_cython_wrapper_inoutarg produces the expected output) over Any ║
+# ║ Path(test_cython_wrapper_inoutarg(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cython_wrapper_inoutarg : Any → {Any | source ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cython_wrapper_inoutarg : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f69a34f610f47460  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cb5db0b8a7a3494  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_inoutarg","kind":"function","src_hash":"acb681b3af89f05c","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_cython_wrapper_inoutarg()","rhs":"test_cython_wrapper_inoutarg produces the expected output","over":{"base":"Any"},"name":"test_cython_wrapper_inoutarg_correct"},"guarantee":"test_cython_wrapper_inoutarg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_inoutarg_correct","statement":"Path(test_cython_wrapper_inoutarg(x), test_cython_wrapper_inoutarg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f69a34f610f47460"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_inoutarg","kind":"function","src_hash":"acb681b3af89f05c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_cython_wrapper_inoutarg()","rhs":"source == expected","over":{"base":"Any"},"name":"test_cython_wrapper_inoutarg_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_inoutarg_correct","statement":"Path(test_cython_wrapper_inoutarg(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cb5db0b8a7a3494","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cython_wrapper_inoutarg():
     from sympy.core.relational import Equality
     x, y, z = symbols('x,y,z')
@@ -147,16 +171,22 @@ def test_cython_wrapper_inoutarg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cython_wrapper_compile_flags(), test_cython_wrapper_compile_flags produces the expected output) over Any ║
+# ║ Path(test_cython_wrapper_compile_flags(), setup_text == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cython_wrapper_compile_flags : Any → {Any | setu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  setup_text == expected                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cython_wrapper_compile_flags : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4213dc0b3c0f2cb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68763966e80b2895  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_compile_flags","kind":"function","src_hash":"e612abe9858edad8","in":{"base":"Any"},"out":{"base":"Any","pred":"setup_text == expected and setup_text == expected and setup_text == expected"},"spec":{"lhs":"test_cython_wrapper_compile_flags()","rhs":"test_cython_wrapper_compile_flags produces the expected output","over":{"base":"Any"},"name":"test_cython_wrapper_compile_flags_correct"},"guarantee":"test_cython_wrapper_compile_flags produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_compile_flags_correct","statement":"Path(test_cython_wrapper_compile_flags(x), test_cython_wrapper_compile_flags produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4213dc0b3c0f2cb0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_compile_flags","kind":"function","src_hash":"e612abe9858edad8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: setup_text == expected"},"spec":{"lhs":"test_cython_wrapper_compile_flags()","rhs":"setup_text == expected","over":{"base":"Any"},"name":"test_cython_wrapper_compile_flags_correct"},"guarantee":"setup_text == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_compile_flags_correct","statement":"Path(test_cython_wrapper_compile_flags(x), setup_text == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68763966e80b2895","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["setup_text == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_cython_wrapper_compile_flags():
     from sympy.core.relational import Equality
     x, y, z = symbols('x,y,z')
@@ -244,16 +274,22 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
     TmpFileManager.cleanup()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cython_wrapper_unique_dummyvars(), test_cython_wrapper_unique_dummyvars produces the expected output) over Any ║
+# ║ Path(test_cython_wrapper_unique_dummyvars(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cython_wrapper_unique_dummyvars : Any → {Any | s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cython_wrapper_unique_dummyvars : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e76f6f398c6b9acb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdb1697f9f36c71c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_unique_dummyvars","kind":"function","src_hash":"de4aaec541a17d50","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_cython_wrapper_unique_dummyvars()","rhs":"test_cython_wrapper_unique_dummyvars produces the expected output","over":{"base":"Any"},"name":"test_cython_wrapper_unique_dummyvars_correct"},"guarantee":"test_cython_wrapper_unique_dummyvars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_unique_dummyvars_correct","statement":"Path(test_cython_wrapper_unique_dummyvars(x), test_cython_wrapper_unique_dummyvars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e76f6f398c6b9acb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_unique_dummyvars","kind":"function","src_hash":"de4aaec541a17d50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_cython_wrapper_unique_dummyvars()","rhs":"source == expected","over":{"base":"Any"},"name":"test_cython_wrapper_unique_dummyvars_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_cython_wrapper_unique_dummyvars_correct","statement":"Path(test_cython_wrapper_unique_dummyvars(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdb1697f9f36c71c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cython_wrapper_unique_dummyvars():
     from sympy.core.relational import Equality
     from sympy.core.symbol import Dummy
@@ -276,16 +312,24 @@ def test_cython_wrapper_unique_dummyvars():
     assert source == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_dummy(), test_autowrap_dummy produces the expected output) over Any ║
+# ║ Path(test_autowrap_dummy(), f() == str(x + y) and f.args == 'x, y' and f.returns == 'nameless' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'x, y, z') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_autowrap_dummy : Any → {Any | f() == str(x + y) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f() == str(x + y)                              ║
+# ║   ensures:  f.args == 'x, y'                               ║
+# ║   ensures:  f.returns == 'nameless'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_autowrap_dummy : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c8fae5e5613e5cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2478f9524d583ef2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_dummy","kind":"function","src_hash":"c1fa297310d256af","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == str(x + y) and f.args == 'x, y' and f.returns == 'nameless' and f() == str(x + y) and f.args == 'x, y' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'x, y, z' and f.returns == 'z'"},"spec":{"lhs":"test_autowrap_dummy()","rhs":"test_autowrap_dummy produces the expected output","over":{"base":"Any"},"name":"test_autowrap_dummy_correct"},"guarantee":"test_autowrap_dummy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_dummy_correct","statement":"Path(test_autowrap_dummy(x), test_autowrap_dummy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c8fae5e5613e5cf"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_dummy","kind":"function","src_hash":"c1fa297310d256af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f() == str(x + y) and f.args == 'x, y' and f.returns == 'nameless' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'x, y, z'"},"spec":{"lhs":"test_autowrap_dummy()","rhs":"f() == str(x + y) and f.args == 'x, y' and f.returns == 'nameless' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'x, y, z'","over":{"base":"Any"},"name":"test_autowrap_dummy_correct"},"guarantee":"f() == str(x + y); f.args == 'x, y'; f.returns == 'nameless'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_dummy_correct","statement":"Path(test_autowrap_dummy(x), f() == str(x + y); f.args == 'x, y'; f.returns == 'nameless')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2478f9524d583ef2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f() == str(x + y)","f.args == 'x, y'","f.returns == 'nameless'","f.returns == 'z'","f() == str(x + y + z)","f.args == 'x, y, z'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_autowrap_dummy():
     x, y, z = symbols('x y z')
 
@@ -306,16 +350,24 @@ def test_autowrap_dummy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_args(), test_autowrap_args produces the expected output) over Any ║
+# ║ Path(test_autowrap_args(), f() == str(x + y) and f.args == 'y, x' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'y, x, z') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_autowrap_args : Any → {Any | f() == str(x + y) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f() == str(x + y)                              ║
+# ║   ensures:  f.args == 'y, x'                               ║
+# ║   ensures:  f.returns == 'z'                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_autowrap_args : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1c810ae34663c2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eb1392a51906711  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_args","kind":"function","src_hash":"54d28f7bb57cab53","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == str(x + y) and f.args == 'y, x' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'y, x, z' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'y, x, z' and f.returns == 'z'"},"spec":{"lhs":"test_autowrap_args()","rhs":"test_autowrap_args produces the expected output","over":{"base":"Any"},"name":"test_autowrap_args_correct"},"guarantee":"test_autowrap_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_args_correct","statement":"Path(test_autowrap_args(x), test_autowrap_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1c810ae34663c2f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_args","kind":"function","src_hash":"54d28f7bb57cab53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f() == str(x + y) and f.args == 'y, x' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'y, x, z'"},"spec":{"lhs":"test_autowrap_args()","rhs":"f() == str(x + y) and f.args == 'y, x' and f.returns == 'z' and f() == str(x + y + z) and f.args == 'y, x, z'","over":{"base":"Any"},"name":"test_autowrap_args_correct"},"guarantee":"f() == str(x + y); f.args == 'y, x'; f.returns == 'z'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_args_correct","statement":"Path(test_autowrap_args(x), f() == str(x + y); f.args == 'y, x'; f.returns == 'z')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eb1392a51906711","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f() == str(x + y)","f.args == 'y, x'","f.returns == 'z'","f() == str(x + y + z)","f.args == 'y, x, z'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_autowrap_args():
     x, y, z = symbols('x y z')
 
@@ -339,16 +391,23 @@ def test_autowrap_args():
     assert f.returns == "z"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_store_files(), test_autowrap_store_files produces the expected output) over Any ║
+# ║ Path(test_autowrap_store_files(), f() == str(x + y) and os.access(tmp, os.F_OK)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_autowrap_store_files : Any → {Any | f() == str(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f() == str(x + y)                              ║
+# ║   ensures:  os.access(tmp, os.F_OK)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_autowrap_store_files : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6992d8f2f8a2b4cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af6e1fd42a8623c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files","kind":"function","src_hash":"cbb35c1dc01de702","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == str(x + y) and os.access(tmp, os.F_OK)"},"spec":{"lhs":"test_autowrap_store_files()","rhs":"test_autowrap_store_files produces the expected output","over":{"base":"Any"},"name":"test_autowrap_store_files_correct"},"guarantee":"test_autowrap_store_files produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files_correct","statement":"Path(test_autowrap_store_files(x), test_autowrap_store_files produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6992d8f2f8a2b4cb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files","kind":"function","src_hash":"cbb35c1dc01de702","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f() == str(x + y) and os.access(tmp, os.F_OK)"},"spec":{"lhs":"test_autowrap_store_files()","rhs":"f() == str(x + y) and os.access(tmp, os.F_OK)","over":{"base":"Any"},"name":"test_autowrap_store_files_correct"},"guarantee":"f() == str(x + y); os.access(tmp, os.F_OK)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files_correct","statement":"Path(test_autowrap_store_files(x), f() == str(x + y); os.access(tmp, os.F_OK))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6e1fd42a8623c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f() == str(x + y)","os.access(tmp, os.F_OK)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_autowrap_store_files():
     x, y = symbols('x y')
     tmp = tempfile.mkdtemp()
@@ -361,16 +420,22 @@ def test_autowrap_store_files():
     TmpFileManager.cleanup()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autowrap_store_files_issue_gh12939(), test_autowrap_store_files_issue_gh12939 produces the expected output) over Any ║
+# ║ Path(test_autowrap_store_files_issue_gh12939(), <unspecified:test_autowrap_store_files_issue_gh12939>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autowrap_store_files_issue_gh12939 : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c87e5c21eb613e18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files_issue_gh12939","kind":"function","src_hash":"c43f56bc32c7a72b","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == str(x + y) and os.access(tmp, os.F_OK)"},"spec":{"lhs":"test_autowrap_store_files_issue_gh12939()","rhs":"test_autowrap_store_files_issue_gh12939 produces the expected output","over":{"base":"Any"},"name":"test_autowrap_store_files_issue_gh12939_correct"},"guarantee":"test_autowrap_store_files_issue_gh12939 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files_issue_gh12939_correct","statement":"Path(test_autowrap_store_files_issue_gh12939(x), test_autowrap_store_files_issue_gh12939 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c87e5c21eb613e18"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files_issue_gh12939","kind":"function","src_hash":"c43f56bc32c7a72b","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == str(x + y) and os.access(tmp, os.F_OK)"},"spec":{"lhs":"test_autowrap_store_files_issue_gh12939()","rhs":"<unspecified:test_autowrap_store_files_issue_gh12939>","over":{"base":"Any"},"name":"test_autowrap_store_files_issue_gh12939_correct"},"guarantee":"test_autowrap_store_files_issue_gh12939 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_autowrap_store_files_issue_gh12939_correct","statement":"Path(test_autowrap_store_files_issue_gh12939(x), test_autowrap_store_files_issue_gh12939 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c87e5c21eb613e18","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_autowrap_store_files_issue_gh12939():
     x, y = symbols('x y')
     tmp = './tmp'
@@ -387,16 +452,22 @@ def test_autowrap_store_files_issue_gh12939():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binary_function(), test_binary_function produces the expected output) over Any ║
+# ║ Path(test_binary_function(), f._imp_() == str(x + y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binary_function : Any → {Any | f._imp_() == str(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f._imp_() == str(x + y)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binary_function : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7947c090d01db8d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a77309d0500907f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_binary_function","kind":"function","src_hash":"b02df0f8fcd98e5d","in":{"base":"Any"},"out":{"base":"Any","pred":"f._imp_() == str(x + y)"},"spec":{"lhs":"test_binary_function()","rhs":"test_binary_function produces the expected output","over":{"base":"Any"},"name":"test_binary_function_correct"},"guarantee":"test_binary_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_binary_function_correct","statement":"Path(test_binary_function(x), test_binary_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7947c090d01db8d7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_binary_function","kind":"function","src_hash":"b02df0f8fcd98e5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f._imp_() == str(x + y)"},"spec":{"lhs":"test_binary_function()","rhs":"f._imp_() == str(x + y)","over":{"base":"Any"},"name":"test_binary_function_correct"},"guarantee":"f._imp_() == str(x + y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_binary_function_correct","statement":"Path(test_binary_function(x), f._imp_() == str(x + y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a77309d0500907f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f._imp_() == str(x + y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_binary_function():
     x, y = symbols('x y')
     f = binary_function('f', x + y, backend='dummy')
@@ -404,16 +475,22 @@ def test_binary_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ufuncify_source(), test_ufuncify_source produces the expected output) over Any ║
+# ║ Path(test_ufuncify_source(), source == expected) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ufuncify_source : Any → {Any | source == expected}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ufuncify_source : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 568adefba54fe26d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 141aed512fb49d9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_ufuncify_source","kind":"function","src_hash":"f221c4a6b32b07df","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_ufuncify_source()","rhs":"test_ufuncify_source produces the expected output","over":{"base":"Any"},"name":"test_ufuncify_source_correct"},"guarantee":"test_ufuncify_source produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_ufuncify_source_correct","statement":"Path(test_ufuncify_source(x), test_ufuncify_source produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"568adefba54fe26d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_ufuncify_source","kind":"function","src_hash":"f221c4a6b32b07df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_ufuncify_source()","rhs":"source == expected","over":{"base":"Any"},"name":"test_ufuncify_source_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_ufuncify_source_correct","statement":"Path(test_ufuncify_source(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"141aed512fb49d9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ufuncify_source():
     x, y, z = symbols('x,y,z')
     code_wrapper = UfuncifyCodeWrapper(C99CodeGen("ufuncify"))
@@ -511,16 +588,22 @@ PyMODINIT_FUNC initwrapper_module_%(num)s(void)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ufuncify_source_multioutput(), test_ufuncify_source_multioutput produces the expected output) over Any ║
+# ║ Path(test_ufuncify_source_multioutput(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ufuncify_source_multioutput : Any → {Any | sourc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ufuncify_source_multioutput : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64cef3e098374206  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8d51d3312864788  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_ufuncify_source_multioutput","kind":"function","src_hash":"a98441e90ab8851c","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_ufuncify_source_multioutput()","rhs":"test_ufuncify_source_multioutput produces the expected output","over":{"base":"Any"},"name":"test_ufuncify_source_multioutput_correct"},"guarantee":"test_ufuncify_source_multioutput produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_ufuncify_source_multioutput_correct","statement":"Path(test_ufuncify_source_multioutput(x), test_ufuncify_source_multioutput produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64cef3e098374206"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_autowrap.test_ufuncify_source_multioutput","kind":"function","src_hash":"a98441e90ab8851c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_ufuncify_source_multioutput()","rhs":"source == expected","over":{"base":"Any"},"name":"test_ufuncify_source_multioutput_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_autowrap.test_ufuncify_source_multioutput_correct","statement":"Path(test_ufuncify_source_multioutput(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8d51d3312864788","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ufuncify_source_multioutput():
     x, y, z = symbols('x,y,z')
     var_symbols = (x, y, z)

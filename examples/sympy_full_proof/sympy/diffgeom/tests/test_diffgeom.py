@@ -32,16 +32,24 @@ TP = TensorProduct
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coordsys_transform(), test_coordsys_transform produces the expected output) over Any ║
+# ║ Path(test_coordsys_transform(), R2_rs.transform(R2_pq) == Matrix([[-s], [r]]) and C2.transform(C1) == Matrix([c / 2, d / 3]) and C1.transform(C3) == Matrix([6 * a, 6 * b]) and C3.transform(C1) == Matrix([e / 6, f / 6]) and C3.transform(C2) == Matrix([e / 3, f / 2]) and C2.transform(C1) == Matrix([c / 2, (d - 1) / 3]) and C1.transform(C3) == Matrix([-2 * a - 2, (3 * b + 1) / 2]) and C3.transform(C1) == Matrix([-e / 2 - 1, (2 * f - 1) / 3]) and C3.transform(C2) == Matrix([-e - 2, 2 * f])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_coordsys_transform : Any → {Any | R2_rs.transfor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R2_rs.transform(R2_pq) == Matrix([[-s], [...   ║
+# ║   ensures:  C2.transform(C1) == Matrix([c / 2, d / 3])     ║
+# ║   ensures:  C1.transform(C3) == Matrix([6 * a, 6 * b])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_coordsys_transform : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e57281037bdab041  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ac33d8ab15158ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_coordsys_transform","kind":"function","src_hash":"661064c083dc20b4","in":{"base":"Any"},"out":{"base":"Any","pred":"R2_rs.transform(R2_pq) == Matrix([[-s], [r]]) and C2.transform(C1) == Matrix([c / 2, d / 3]) and C1.transform(C3) == Matrix([6 * a, 6 * b]) and C3.transform(C1) == Matrix([e / 6, f / 6]) and C3.transform(C2) == Matrix([e / 3, f / 2]) and C2.transform(C1) == Matrix([c / 2, (d - 1) / 3]) and C1.transform(C3) == Matrix([-2 * a - 2, (3 * b + 1) / 2]) and C3.transform(C1) == Matrix([-e / 2 - 1, (2 * f - 1) / 3]) and C3.transform(C2) == Matrix([-e - 2, 2 * f]) and C2.transform(C1) == Matrix([c / 2, (d - 1) / 3]) and C1.transform(C3) == Matrix([-2 * a - 2, (3 * b + 1) / 2]) and C3.transform(C1) == Matrix([-e / 2 - 1, (2 * f - 1) / 3]) and C3.transform(C2) == Matrix([-e - 2, 2 * f])"},"spec":{"lhs":"test_coordsys_transform()","rhs":"test_coordsys_transform produces the expected output","over":{"base":"Any"},"name":"test_coordsys_transform_correct"},"guarantee":"test_coordsys_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_coordsys_transform_correct","statement":"Path(test_coordsys_transform(x), test_coordsys_transform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e57281037bdab041"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_coordsys_transform","kind":"function","src_hash":"661064c083dc20b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R2_rs.transform(R2_pq) == Matrix([[-s], [r]]) and C2.transform(C1) == Matrix([c / 2, d / 3]) and C1.transform(C3) == Matrix([6 * a, 6 * b]) and C3.transform(C1) == Matrix([e / 6, f / 6]) and C3.transform(C2) == Matrix([e / 3, f / 2]) and C2.transform(C1) == Matrix([c / 2, (d - 1) / 3]) and C1.transform(C3) == Matrix([-2 * a - 2, (3 * b + 1) / 2]) and C3.transform(C1) == Matrix([-e / 2 - 1, (2 * f - 1) / 3]) and C3.transform(C2) == Matrix([-e - 2, 2 * f])"},"spec":{"lhs":"test_coordsys_transform()","rhs":"R2_rs.transform(R2_pq) == Matrix([[-s], [r]]) and C2.transform(C1) == Matrix([c / 2, d / 3]) and C1.transform(C3) == Matrix([6 * a, 6 * b]) and C3.transform(C1) == Matrix([e / 6, f / 6]) and C3.transform(C2) == Matrix([e / 3, f / 2]) and C2.transform(C1) == Matrix([c / 2, (d - 1) / 3]) and C1.transform(C3) == Matrix([-2 * a - 2, (3 * b + 1) / 2]) and C3.transform(C1) == Matrix([-e / 2 - 1, (2 * f - 1) / 3]) and C3.transform(C2) == Matrix([-e - 2, 2 * f])","over":{"base":"Any"},"name":"test_coordsys_transform_correct"},"guarantee":"R2_rs.transform(R2_pq) == Matrix([[-s], [r]]); C2.transform(C1) == Matrix([c / 2, d / 3]); C1.transform(C3) == Matrix([6 * a, 6 * b])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_coordsys_transform_correct","statement":"Path(test_coordsys_transform(x), R2_rs.transform(R2_pq) == Matrix([[-s], [r]]); C2.transform(C1) == Matrix([c / 2, d / 3]); C1.transform(C3) == Matrix([6 * a, 6 * b]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ac33d8ab15158ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R2_rs.transform(R2_pq) == Matrix([[-s], [r]])","C2.transform(C1) == Matrix([c / 2, d / 3])","C1.transform(C3) == Matrix([6 * a, 6 * b])","C3.transform(C1) == Matrix([e / 6, f / 6])","C3.transform(C2) == Matrix([e / 3, f / 2])","C2.transform(C1) == Matrix([c / 2, (d - 1) / 3])","C1.transform(C3) == Matrix([-2 * a - 2, (3 * b + 1) / 2])","C3.transform(C1) == Matrix([-e / 2 - 1, (2 * f - 1) / 3])","C3.transform(C2) == Matrix([-e - 2, 2 * f])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_coordsys_transform():
     # test inverse transforms
     p, q, r, s = symbols('p q r s')
@@ -115,16 +123,24 @@ def test_coordsys_transform():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_R2(), test_R2 produces the expected output) over Any ║
+# ║ Path(test_R2(), (R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0 and trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0 and trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0 and m == R2_p.transform(R2_r, R2_r.transform(R2_p, m)).applyfunc(simplify)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_R2 : Any → {Any | (R2.r ** 2 - R2.x ** 2 - R2.y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall...   ║
+# ║   ensures:  trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y **...   ║
+# ║   ensures:  trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_R2 : Any → {Any | result satisfies: (R2.r ** 2 -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1696cf72ebc69406  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 539082e9823b234a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_R2","kind":"function","src_hash":"771a4a96de51abf2","in":{"base":"Any"},"out":{"base":"Any","pred":"(R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0 and trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0 and trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0 and m == R2_p.transform(R2_r, R2_r.transform(R2_p, m)).applyfunc(simplify)"},"spec":{"lhs":"test_R2()","rhs":"test_R2 produces the expected output","over":{"base":"Any"},"name":"test_R2_correct"},"guarantee":"test_R2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_R2_correct","statement":"Path(test_R2(x), test_R2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1696cf72ebc69406"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_R2","kind":"function","src_hash":"771a4a96de51abf2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0 and trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0 and trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0 and m == R2_p.transform(R2_r, R2_r.transform(R2_p, m)).applyfunc(simplify)"},"spec":{"lhs":"test_R2()","rhs":"(R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0 and trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0 and trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0 and m == R2_p.transform(R2_r, R2_r.transform(R2_p, m)).applyfunc(simplify)","over":{"base":"Any"},"name":"test_R2_correct"},"guarantee":"(R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0; trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0; trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_R2_correct","statement":"Path(test_R2(x), (R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0; trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0; trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"539082e9823b234a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_r) == 0","trigsimp((R2.r ** 2 - R2.x ** 2 - R2.y ** 2).rcall(point_p)) == 0","trigsimp(R2.e_r(R2.x ** 2 + R2.y ** 2).rcall(point_p).doit()) == 2 * r0","m == R2_p.transform(R2_r, R2_r.transform(R2_p, m)).applyfunc(simplify)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_R2():
     x0, y0, r0, theta0 = symbols('x0, y0, r0, theta0', real=True)
     point_r = R2_r.point([x0, y0])
@@ -149,16 +165,24 @@ def test_R2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_R3(), test_R3 produces the expected output) over Any ║
+# ║ Path(test_R3(), m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify) and m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify) and m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_R3 : Any → {Any | m == R3_c.transform(R3_r, R3_r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m == R3_c.transform(R3_r, R3_r.transform(...   ║
+# ║   ensures:  m == R3_s.transform(R3_r, R3_r.transform(...   ║
+# ║   ensures:  m == R3_s.transform(R3_c, R3_c.transform(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_R3 : Any → {Any | result satisfies: m == R3_c.tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796747144f3ba725  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76e007d5424afff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_R3","kind":"function","src_hash":"43929f197b817d66","in":{"base":"Any"},"out":{"base":"Any","pred":"m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify) and m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify) and m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify)"},"spec":{"lhs":"test_R3()","rhs":"test_R3 produces the expected output","over":{"base":"Any"},"name":"test_R3_correct"},"guarantee":"test_R3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_R3_correct","statement":"Path(test_R3(x), test_R3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796747144f3ba725"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_R3","kind":"function","src_hash":"43929f197b817d66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify) and m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify) and m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify)"},"spec":{"lhs":"test_R3()","rhs":"m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify) and m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify) and m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify)","over":{"base":"Any"},"name":"test_R3_correct"},"guarantee":"m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify); m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify); m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_R3_correct","statement":"Path(test_R3(x), m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify); m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify); m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76e007d5424afff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m == R3_c.transform(R3_r, R3_r.transform(R3_c, m)).applyfunc(simplify)","m == R3_s.transform(R3_r, R3_r.transform(R3_s, m)).applyfunc(simplify)","m == R3_s.transform(R3_c, R3_c.transform(R3_s, m)).applyfunc(simplify)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_R3():
     a, b, c = symbols('a b c', positive=True)
     m = Matrix([[a], [b], [c]])
@@ -185,16 +209,22 @@ def test_R3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CoordinateSymbol(), test_CoordinateSymbol produces the expected output) over Any ║
+# ║ Path(test_CoordinateSymbol(), y.rewrite(R2_p) == r * sin(theta)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CoordinateSymbol : Any → {Any | y.rewrite(R2_p) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  y.rewrite(R2_p) == r * sin(theta)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CoordinateSymbol : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa90062a647a1759  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd38ed1e1d1ce800  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_CoordinateSymbol","kind":"function","src_hash":"414cc6e4b922475a","in":{"base":"Any"},"out":{"base":"Any","pred":"y.rewrite(R2_p) == r * sin(theta)"},"spec":{"lhs":"test_CoordinateSymbol()","rhs":"test_CoordinateSymbol produces the expected output","over":{"base":"Any"},"name":"test_CoordinateSymbol_correct"},"guarantee":"test_CoordinateSymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_CoordinateSymbol_correct","statement":"Path(test_CoordinateSymbol(x), test_CoordinateSymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa90062a647a1759"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_CoordinateSymbol","kind":"function","src_hash":"414cc6e4b922475a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: y.rewrite(R2_p) == r * sin(theta)"},"spec":{"lhs":"test_CoordinateSymbol()","rhs":"y.rewrite(R2_p) == r * sin(theta)","over":{"base":"Any"},"name":"test_CoordinateSymbol_correct"},"guarantee":"y.rewrite(R2_p) == r * sin(theta)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_CoordinateSymbol_correct","statement":"Path(test_CoordinateSymbol(x), y.rewrite(R2_p) == r * sin(theta))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd38ed1e1d1ce800","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["y.rewrite(R2_p) == r * sin(theta)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CoordinateSymbol():
     x, y = R2_r.symbols
     r, theta = R2_p.symbols
@@ -202,16 +232,24 @@ def test_CoordinateSymbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point(), test_point produces the expected output) over Any ║
+# ║ Path(test_point(), p.free_symbols == {x, y} and p.coords(R2_r) == p.coords() == Matrix([x, y]) and p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point : Any → {Any | p.free_symbols == {x, y} an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.free_symbols == {x, y}                       ║
+# ║   ensures:  p.coords(R2_r) == p.coords() == Matrix([x...   ║
+# ║   ensures:  p.coords(R2_p) == Matrix([sqrt(x ** 2 + y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point : Any → {Any | result satisfies: p.free_sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f42ddb68369828a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7193e0f4698c48bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_point","kind":"function","src_hash":"870ffeb30a950858","in":{"base":"Any"},"out":{"base":"Any","pred":"p.free_symbols == {x, y} and p.coords(R2_r) == p.coords() == Matrix([x, y]) and p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)])"},"spec":{"lhs":"test_point()","rhs":"test_point produces the expected output","over":{"base":"Any"},"name":"test_point_correct"},"guarantee":"test_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_point_correct","statement":"Path(test_point(x), test_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f42ddb68369828a"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_point","kind":"function","src_hash":"870ffeb30a950858","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.free_symbols == {x, y} and p.coords(R2_r) == p.coords() == Matrix([x, y]) and p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)])"},"spec":{"lhs":"test_point()","rhs":"p.free_symbols == {x, y} and p.coords(R2_r) == p.coords() == Matrix([x, y]) and p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)])","over":{"base":"Any"},"name":"test_point_correct"},"guarantee":"p.free_symbols == {x, y}; p.coords(R2_r) == p.coords() == Matrix([x, y]); p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_point_correct","statement":"Path(test_point(x), p.free_symbols == {x, y}; p.coords(R2_r) == p.coords() == Matrix([x, y]); p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7193e0f4698c48bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.free_symbols == {x, y}","p.coords(R2_r) == p.coords() == Matrix([x, y])","p.coords(R2_p) == Matrix([sqrt(x ** 2 + y ** 2), atan2(y, x)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_point():
     x, y = symbols('x, y')
     p = R2_r.point([x, y])
@@ -221,16 +259,24 @@ def test_point():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutator(), test_commutator produces the expected output) over Any ║
+# ║ Path(test_commutator(), Commutator(R2.e_x, R2.e_y) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y and c(R2.x) == R2.y * (R2.x ** 2 + R2.y ** 2) ** (-1) * sin(R2.theta)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutator : Any → {Any | Commutator(R2.e_x, R2....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(R2.e_x, R2.e_y) == 0                ║
+# ║   ensures:  Commutator(R2.x * R2.e_x, R2.x * R2.e_x) ...   ║
+# ║   ensures:  Commutator(R2.x * R2.e_x, R2.x * R2.e_y) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutator : Any → {Any | result satisfies: Comm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9510224e5d3d7d44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b4c2d4cbc3b129  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_commutator","kind":"function","src_hash":"8517406324f32f77","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(R2.e_x, R2.e_y) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y and c(R2.x) == R2.y * (R2.x ** 2 + R2.y ** 2) ** (-1) * sin(R2.theta)"},"spec":{"lhs":"test_commutator()","rhs":"test_commutator produces the expected output","over":{"base":"Any"},"name":"test_commutator_correct"},"guarantee":"test_commutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_commutator_correct","statement":"Path(test_commutator(x), test_commutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9510224e5d3d7d44"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_commutator","kind":"function","src_hash":"8517406324f32f77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(R2.e_x, R2.e_y) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y and c(R2.x) == R2.y * (R2.x ** 2 + R2.y ** 2) ** (-1) * sin(R2.theta)"},"spec":{"lhs":"test_commutator()","rhs":"Commutator(R2.e_x, R2.e_y) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0 and Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y and c(R2.x) == R2.y * (R2.x ** 2 + R2.y ** 2) ** (-1) * sin(R2.theta)","over":{"base":"Any"},"name":"test_commutator_correct"},"guarantee":"Commutator(R2.e_x, R2.e_y) == 0; Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0; Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_commutator_correct","statement":"Path(test_commutator(x), Commutator(R2.e_x, R2.e_y) == 0; Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0; Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b4c2d4cbc3b129","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(R2.e_x, R2.e_y) == 0","Commutator(R2.x * R2.e_x, R2.x * R2.e_x) == 0","Commutator(R2.x * R2.e_x, R2.x * R2.e_y) == R2.x * R2.e_y","c(R2.x) == R2.y * (R2.x ** 2 + R2.y ** 2) ** (-1) * sin(R2.theta)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutator():
     assert Commutator(R2.e_x, R2.e_y) == 0
     assert Commutator(R2.x*R2.e_x, R2.x*R2.e_x) == 0
@@ -240,16 +286,24 @@ def test_commutator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differential(), test_differential produces the expected output) over Any ║
+# ║ Path(test_differential(), xdy.rcall(None) == xdy and dxdy(R2.e_x, R2.e_y) == 1 and dxdy(R2.e_x, R2.x * R2.e_y) == R2.x and Differential(dxdy) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differential : Any → {Any | xdy.rcall(None) == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  xdy.rcall(None) == xdy                         ║
+# ║   ensures:  dxdy(R2.e_x, R2.e_y) == 1                      ║
+# ║   ensures:  dxdy(R2.e_x, R2.x * R2.e_y) == R2.x            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differential : Any → {Any | result satisfies: xd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f47e39bc432c455  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00a3a4ac721f9313  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_differential","kind":"function","src_hash":"78bd2324eb93b7c1","in":{"base":"Any"},"out":{"base":"Any","pred":"xdy.rcall(None) == xdy and dxdy(R2.e_x, R2.e_y) == 1 and dxdy(R2.e_x, R2.x * R2.e_y) == R2.x and Differential(dxdy) == 0"},"spec":{"lhs":"test_differential()","rhs":"test_differential produces the expected output","over":{"base":"Any"},"name":"test_differential_correct"},"guarantee":"test_differential produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_differential_correct","statement":"Path(test_differential(x), test_differential produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f47e39bc432c455"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_differential","kind":"function","src_hash":"78bd2324eb93b7c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: xdy.rcall(None) == xdy and dxdy(R2.e_x, R2.e_y) == 1 and dxdy(R2.e_x, R2.x * R2.e_y) == R2.x and Differential(dxdy) == 0"},"spec":{"lhs":"test_differential()","rhs":"xdy.rcall(None) == xdy and dxdy(R2.e_x, R2.e_y) == 1 and dxdy(R2.e_x, R2.x * R2.e_y) == R2.x and Differential(dxdy) == 0","over":{"base":"Any"},"name":"test_differential_correct"},"guarantee":"xdy.rcall(None) == xdy; dxdy(R2.e_x, R2.e_y) == 1; dxdy(R2.e_x, R2.x * R2.e_y) == R2.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_differential_correct","statement":"Path(test_differential(x), xdy.rcall(None) == xdy; dxdy(R2.e_x, R2.e_y) == 1; dxdy(R2.e_x, R2.x * R2.e_y) == R2.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a3a4ac721f9313","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["xdy.rcall(None) == xdy","dxdy(R2.e_x, R2.e_y) == 1","dxdy(R2.e_x, R2.x * R2.e_y) == R2.x","Differential(dxdy) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_differential():
     xdy = R2.x*R2.dy
     dxdy = Differential(xdy)
@@ -260,16 +314,24 @@ def test_differential():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_products(), test_products produces the expected output) over Any ║
+# ║ Path(test_products(), TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx and TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy and TensorProduct(R2.dx, R2.dy)(R2.e_x) == R2.dy and TensorProduct(R2.x, R2.dx) == R2.x * R2.dx and TensorProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == R2.e_x(R2.x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.e_x, R2.e_y)(None, R2.y) == R2.e_x and TensorProduct(R2.e_x, R2.e_y)(R2.x, None) == R2.e_y and TensorProduct(R2.e_x, R2.e_y)(R2.x) == R2.e_y and TensorProduct(R2.x, R2.e_x) == R2.x * R2.e_x and TensorProduct(R2.dx, R2.e_y)(R2.e_x, R2.y) == R2.dx(R2.e_x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.dx, R2.e_y)(None, R2.y) == R2.dx and TensorProduct(R2.dx, R2.e_y)(R2.e_x, None) == R2.e_y and TensorProduct(R2.dx, R2.e_y)(R2.e_x) == R2.e_y and TensorProduct(R2.e_x, R2.dy)(R2.x, R2.e_y) == R2.e_x(R2.x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.e_x, R2.dy)(None, R2.e_y) == R2.e_x and TensorProduct(R2.e_x, R2.dy)(R2.x, None) == R2.dy and TensorProduct(R2.e_x, R2.dy)(R2.x) == R2.dy and TensorProduct(R2.e_y, R2.e_x)(R2.x ** 2 + R2.y ** 2, R2.x ** 2 + R2.y ** 2) == 4 * R2.x * R2.y and WedgeProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == 1 and WedgeProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_products : Any → {Any | TensorProduct(R2.dx, R2....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_...   ║
+# ║   ensures:  TensorProduct(R2.dx, R2.dy)(None, R2.e_y)...   ║
+# ║   ensures:  TensorProduct(R2.dx, R2.dy)(R2.e_x, None)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_products : Any → {Any | result satisfies: Tensor...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1286609c0a8e8075  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a08cfacbe8b322a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_products","kind":"function","src_hash":"44d6692b10105966","in":{"base":"Any"},"out":{"base":"Any","pred":"TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx and TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy and TensorProduct(R2.dx, R2.dy)(R2.e_x) == R2.dy and TensorProduct(R2.x, R2.dx) == R2.x * R2.dx and TensorProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == R2.e_x(R2.x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.e_x, R2.e_y)(None, R2.y) == R2.e_x and TensorProduct(R2.e_x, R2.e_y)(R2.x, None) == R2.e_y and TensorProduct(R2.e_x, R2.e_y)(R2.x) == R2.e_y and TensorProduct(R2.x, R2.e_x) == R2.x * R2.e_x and TensorProduct(R2.dx, R2.e_y)(R2.e_x, R2.y) == R2.dx(R2.e_x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.dx, R2.e_y)(None, R2.y) == R2.dx and TensorProduct(R2.dx, R2.e_y)(R2.e_x, None) == R2.e_y and TensorProduct(R2.dx, R2.e_y)(R2.e_x) == R2.e_y and TensorProduct(R2.x, R2.e_x) == R2.x * R2.e_x and TensorProduct(R2.e_x, R2.dy)(R2.x, R2.e_y) == R2.e_x(R2.x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.e_x, R2.dy)(None, R2.e_y) == R2.e_x and TensorProduct(R2.e_x, R2.dy)(R2.x, None) == R2.dy and TensorProduct(R2.e_x, R2.dy)(R2.x) == R2.dy and WedgeProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == 1 and WedgeProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == 1"},"spec":{"lhs":"test_products()","rhs":"test_products produces the expected output","over":{"base":"Any"},"name":"test_products_correct"},"guarantee":"test_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_products_correct","statement":"Path(test_products(x), test_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1286609c0a8e8075"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_products","kind":"function","src_hash":"44d6692b10105966","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx and TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy and TensorProduct(R2.dx, R2.dy)(R2.e_x) == R2.dy and TensorProduct(R2.x, R2.dx) == R2.x * R2.dx and TensorProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == R2.e_x(R2.x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.e_x, R2.e_y)(None, R2.y) == R2.e_x and TensorProduct(R2.e_x, R2.e_y)(R2.x, None) == R2.e_y and TensorProduct(R2.e_x, R2.e_y)(R2.x) == R2.e_y and TensorProduct(R2.x, R2.e_x) == R2.x * R2.e_x and TensorProduct(R2.dx, R2.e_y)(R2.e_x, R2.y) == R2.dx(R2.e_x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.dx, R2.e_y)(None, R2.y) == R2.dx and TensorProduct(R2.dx, R2.e_y)(R2.e_x, None) == R2.e_y and TensorProduct(R2.dx, R2.e_y)(R2.e_x) == R2.e_y and TensorProduct(R2.e_x, R2.dy)(R2.x, R2.e_y) == R2.e_x(R2.x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.e_x, R2.dy)(None, R2.e_y) == R2.e_x and TensorProduct(R2.e_x, R2.dy)(R2.x, None) == R2.dy and TensorProduct(R2.e_x, R2.dy)(R2.x) == R2.dy and TensorProduct(R2.e_y, R2.e_x)(R2.x ** 2 + R2.y ** 2, R2.x ** 2 + R2.y ** 2) == 4 * R2.x * R2.y and WedgeProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == 1 and WedgeProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == 1"},"spec":{"lhs":"test_products()","rhs":"TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx and TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy and TensorProduct(R2.dx, R2.dy)(R2.e_x) == R2.dy and TensorProduct(R2.x, R2.dx) == R2.x * R2.dx and TensorProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == R2.e_x(R2.x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.e_x, R2.e_y)(None, R2.y) == R2.e_x and TensorProduct(R2.e_x, R2.e_y)(R2.x, None) == R2.e_y and TensorProduct(R2.e_x, R2.e_y)(R2.x) == R2.e_y and TensorProduct(R2.x, R2.e_x) == R2.x * R2.e_x and TensorProduct(R2.dx, R2.e_y)(R2.e_x, R2.y) == R2.dx(R2.e_x) * R2.e_y(R2.y) == 1 and TensorProduct(R2.dx, R2.e_y)(None, R2.y) == R2.dx and TensorProduct(R2.dx, R2.e_y)(R2.e_x, None) == R2.e_y and TensorProduct(R2.dx, R2.e_y)(R2.e_x) == R2.e_y and TensorProduct(R2.e_x, R2.dy)(R2.x, R2.e_y) == R2.e_x(R2.x) * R2.dy(R2.e_y) == 1 and TensorProduct(R2.e_x, R2.dy)(None, R2.e_y) == R2.e_x and TensorProduct(R2.e_x, R2.dy)(R2.x, None) == R2.dy and TensorProduct(R2.e_x, R2.dy)(R2.x) == R2.dy and TensorProduct(R2.e_y, R2.e_x)(R2.x ** 2 + R2.y ** 2, R2.x ** 2 + R2.y ** 2) == 4 * R2.x * R2.y and WedgeProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == 1 and WedgeProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == 1","over":{"base":"Any"},"name":"test_products_correct"},"guarantee":"TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x) * R2.dy(R2.e_y) == 1; TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx; TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_products_correct","statement":"Path(test_products(x), TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x) * R2.dy(R2.e_y) == 1; TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx; TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a08cfacbe8b322a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x) * R2.dy(R2.e_y) == 1","TensorProduct(R2.dx, R2.dy)(None, R2.e_y) == R2.dx","TensorProduct(R2.dx, R2.dy)(R2.e_x, None) == R2.dy","TensorProduct(R2.dx, R2.dy)(R2.e_x) == R2.dy","TensorProduct(R2.x, R2.dx) == R2.x * R2.dx","TensorProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == R2.e_x(R2.x) * R2.e_y(R2.y) == 1","TensorProduct(R2.e_x, R2.e_y)(None, R2.y) == R2.e_x","TensorProduct(R2.e_x, R2.e_y)(R2.x, None) == R2.e_y","TensorProduct(R2.e_x, R2.e_y)(R2.x) == R2.e_y","TensorProduct(R2.x, R2.e_x) == R2.x * R2.e_x","TensorProduct(R2.dx, R2.e_y)(R2.e_x, R2.y) == R2.dx(R2.e_x) * R2.e_y(R2.y) == 1","TensorProduct(R2.dx, R2.e_y)(None, R2.y) == R2.dx","TensorProduct(R2.dx, R2.e_y)(R2.e_x, None) == R2.e_y","TensorProduct(R2.dx, R2.e_y)(R2.e_x) == R2.e_y","TensorProduct(R2.e_x, R2.dy)(R2.x, R2.e_y) == R2.e_x(R2.x) * R2.dy(R2.e_y) == 1","TensorProduct(R2.e_x, R2.dy)(None, R2.e_y) == R2.e_x","TensorProduct(R2.e_x, R2.dy)(R2.x, None) == R2.dy","TensorProduct(R2.e_x, R2.dy)(R2.x) == R2.dy","TensorProduct(R2.e_y, R2.e_x)(R2.x ** 2 + R2.y ** 2, R2.x ** 2 + R2.y ** 2) == 4 * R2.x * R2.y","WedgeProduct(R2.dx, R2.dy)(R2.e_x, R2.e_y) == 1","WedgeProduct(R2.e_x, R2.e_y)(R2.x, R2.y) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_products():
     assert TensorProduct(
         R2.dx, R2.dy)(R2.e_x, R2.e_y) == R2.dx(R2.e_x)*R2.dy(R2.e_y) == 1
@@ -301,16 +363,24 @@ def test_products():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lie_derivative(), test_lie_derivative produces the expected output) over Any ║
+# ║ Path(test_lie_derivative(), LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0 and LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1 and LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0 and LieDerivative(R2.e_x, R2.e_r) == Commutator(R2.e_x, R2.e_r) and LieDerivative(R2.e_x + R2.e_y, R2.x) == 1 and LieDerivative(R2.e_x, TensorProduct(R2.dx, R2.dy))(R2.e_x, R2.e_y) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lie_derivative : Any → {Any | LieDerivative(R2.e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LieDerivative(R2.e_x, R2.y) == R2.e_x(R2....   ║
+# ║   ensures:  LieDerivative(R2.e_x, R2.x) == R2.e_x(R2....   ║
+# ║   ensures:  LieDerivative(R2.e_x, R2.e_x) == Commutat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lie_derivative : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8b20672f9b0d1d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 014db5ca6890e69f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_lie_derivative","kind":"function","src_hash":"c8a3b728746cc62b","in":{"base":"Any"},"out":{"base":"Any","pred":"LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0 and LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1 and LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0 and LieDerivative(R2.e_x, R2.e_r) == Commutator(R2.e_x, R2.e_r) and LieDerivative(R2.e_x + R2.e_y, R2.x) == 1 and LieDerivative(R2.e_x, TensorProduct(R2.dx, R2.dy))(R2.e_x, R2.e_y) == 0"},"spec":{"lhs":"test_lie_derivative()","rhs":"test_lie_derivative produces the expected output","over":{"base":"Any"},"name":"test_lie_derivative_correct"},"guarantee":"test_lie_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_lie_derivative_correct","statement":"Path(test_lie_derivative(x), test_lie_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8b20672f9b0d1d9"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_lie_derivative","kind":"function","src_hash":"c8a3b728746cc62b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0 and LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1 and LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0 and LieDerivative(R2.e_x, R2.e_r) == Commutator(R2.e_x, R2.e_r) and LieDerivative(R2.e_x + R2.e_y, R2.x) == 1 and LieDerivative(R2.e_x, TensorProduct(R2.dx, R2.dy))(R2.e_x, R2.e_y) == 0"},"spec":{"lhs":"test_lie_derivative()","rhs":"LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0 and LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1 and LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0 and LieDerivative(R2.e_x, R2.e_r) == Commutator(R2.e_x, R2.e_r) and LieDerivative(R2.e_x + R2.e_y, R2.x) == 1 and LieDerivative(R2.e_x, TensorProduct(R2.dx, R2.dy))(R2.e_x, R2.e_y) == 0","over":{"base":"Any"},"name":"test_lie_derivative_correct"},"guarantee":"LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0; LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1; LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_lie_derivative_correct","statement":"Path(test_lie_derivative(x), LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0; LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1; LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"014db5ca6890e69f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0","LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1","LieDerivative(R2.e_x, R2.e_x) == Commutator(R2.e_x, R2.e_x) == 0","LieDerivative(R2.e_x, R2.e_r) == Commutator(R2.e_x, R2.e_r)","LieDerivative(R2.e_x + R2.e_y, R2.x) == 1","LieDerivative(R2.e_x, TensorProduct(R2.dx, R2.dy))(R2.e_x, R2.e_y) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lie_derivative():
     assert LieDerivative(R2.e_x, R2.y) == R2.e_x(R2.y) == 0
     assert LieDerivative(R2.e_x, R2.x) == R2.e_x(R2.x) == 1
@@ -323,16 +393,24 @@ def test_lie_derivative():
 
 @nocache_fail
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_covar_deriv(), test_covar_deriv produces the expected output) over Any ║
+# ║ Path(test_covar_deriv(), cvd(R2.x) == 1 and cvd(R2.x * R2.e_x) == R2.e_x and cvd(R2.x) == R2.x and cvd(R2.x * R2.e_x) == R2.x * R2.e_x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_covar_deriv : Any → {Any | cvd(R2.x) == 1 and cv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cvd(R2.x) == 1                                 ║
+# ║   ensures:  cvd(R2.x * R2.e_x) == R2.e_x                   ║
+# ║   ensures:  cvd(R2.x) == R2.x                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_covar_deriv : Any → {Any | result satisfies: cvd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5ea26535cad9160  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e27267a5e69353f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_covar_deriv","kind":"function","src_hash":"338f85e31df6c5a5","in":{"base":"Any"},"out":{"base":"Any","pred":"cvd(R2.x) == 1 and cvd(R2.x * R2.e_x) == R2.e_x and cvd(R2.x) == R2.x and cvd(R2.x * R2.e_x) == R2.x * R2.e_x"},"spec":{"lhs":"test_covar_deriv()","rhs":"test_covar_deriv produces the expected output","over":{"base":"Any"},"name":"test_covar_deriv_correct"},"guarantee":"test_covar_deriv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_covar_deriv_correct","statement":"Path(test_covar_deriv(x), test_covar_deriv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ea26535cad9160"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_covar_deriv","kind":"function","src_hash":"338f85e31df6c5a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cvd(R2.x) == 1 and cvd(R2.x * R2.e_x) == R2.e_x and cvd(R2.x) == R2.x and cvd(R2.x * R2.e_x) == R2.x * R2.e_x"},"spec":{"lhs":"test_covar_deriv()","rhs":"cvd(R2.x) == 1 and cvd(R2.x * R2.e_x) == R2.e_x and cvd(R2.x) == R2.x and cvd(R2.x * R2.e_x) == R2.x * R2.e_x","over":{"base":"Any"},"name":"test_covar_deriv_correct"},"guarantee":"cvd(R2.x) == 1; cvd(R2.x * R2.e_x) == R2.e_x; cvd(R2.x) == R2.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_covar_deriv_correct","statement":"Path(test_covar_deriv(x), cvd(R2.x) == 1; cvd(R2.x * R2.e_x) == R2.e_x; cvd(R2.x) == R2.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e27267a5e69353f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cvd(R2.x) == 1","cvd(R2.x * R2.e_x) == R2.e_x","cvd(R2.x) == R2.x","cvd(R2.x * R2.e_x) == R2.x * R2.e_x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_covar_deriv():
     ch = metric_to_Christoffel_2nd(TP(R2.dx, R2.dx) + TP(R2.dy, R2.dy))
     cvd = BaseCovarDerivativeOp(R2_r, 0, ch)
@@ -345,16 +423,24 @@ def test_covar_deriv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intcurve_diffequ(), test_intcurve_diffequ produces the expected output) over Any ║
+# ║ Path(test_intcurve_diffequ(), str(equations) == '[f_1(t) + Derivative(f_0(t), t), -f_0(t) + Derivative(f_1(t), t)]' and str(init_cond) == '[f_0(0) - 1, f_1(0)]' and str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intcurve_diffequ : Any → {Any | str(init_cond) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(equations) == '[f_1(t) + Derivative(f...   ║
+# ║   ensures:  str(init_cond) == '[f_0(0) - 1, f_1(0)]'       ║
+# ║   ensures:  str(equations) == '[Derivative(f_0(t), t)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intcurve_diffequ : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9924405ea2e07acb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74ebb5868012e1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_intcurve_diffequ","kind":"function","src_hash":"0930c1a04b30bc27","in":{"base":"Any"},"out":{"base":"Any","pred":"str(init_cond) == '[f_0(0) - 1, f_1(0)]' and str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]' and str(init_cond) == '[f_0(0) - 1, f_1(0)]'"},"spec":{"lhs":"test_intcurve_diffequ()","rhs":"test_intcurve_diffequ produces the expected output","over":{"base":"Any"},"name":"test_intcurve_diffequ_correct"},"guarantee":"test_intcurve_diffequ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_intcurve_diffequ_correct","statement":"Path(test_intcurve_diffequ(x), test_intcurve_diffequ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9924405ea2e07acb"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_intcurve_diffequ","kind":"function","src_hash":"0930c1a04b30bc27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(equations) == '[f_1(t) + Derivative(f_0(t), t), -f_0(t) + Derivative(f_1(t), t)]' and str(init_cond) == '[f_0(0) - 1, f_1(0)]' and str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]'"},"spec":{"lhs":"test_intcurve_diffequ()","rhs":"str(equations) == '[f_1(t) + Derivative(f_0(t), t), -f_0(t) + Derivative(f_1(t), t)]' and str(init_cond) == '[f_0(0) - 1, f_1(0)]' and str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]'","over":{"base":"Any"},"name":"test_intcurve_diffequ_correct"},"guarantee":"str(equations) == '[f_1(t) + Derivative(f_0(t), t), -f_0(t) + Derivative(f_1(t), t)]'; str(init_cond) == '[f_0(0) - 1, f_1(0)]'; str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_intcurve_diffequ_correct","statement":"Path(test_intcurve_diffequ(x), str(equations) == '[f_1(t) + Derivative(f_0(t), t), -f_0(t) + Derivative(f_1(t), t)]'; str(init_cond) == '[f_0(0) - 1, f_1(0)]'; str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74ebb5868012e1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(equations) == '[f_1(t) + Derivative(f_0(t), t), -f_0(t) + Derivative(f_1(t), t)]'","str(init_cond) == '[f_0(0) - 1, f_1(0)]'","str(equations) == '[Derivative(f_0(t), t), Derivative(f_1(t), t) - 1]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_intcurve_diffequ():
     t = symbols('t')
     start_point = R2_r.point([1, 0])
@@ -369,16 +455,24 @@ def test_intcurve_diffequ():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_helpers_and_coordinate_dependent(), test_helpers_and_coordinate_dependent produces the expected output) over Any ║
+# ║ Path(test_helpers_and_coordinate_dependent(), covariant_order(one_form) == 1 and covariant_order(two_form) == 2 and covariant_order(three_form) == 3 and covariant_order(two_form + metric) == 2 and covariant_order(two_form + metric_ambig) == 2 and covariant_order(two_form + twoform_not_sym) == 2 and covariant_order(two_form + twoform_not_TP) == 2 and contravariant_order(one_vector) == 1 and contravariant_order(two_vector) == 2 and contravariant_order(three_vector) == 3 and contravariant_order(two_vector + two_wp) == 2 and twoform_to_matrix(metric) == Matrix([[1, 0], [0, 1]]) and twoform_to_matrix(twoform_not_sym) == Matrix([[1, 0], [1, 0]]) and twoform_to_matrix(twoform_not_TP) == Matrix([[0, -1], [1, 0]])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  covariant_order(one_form) == 1                 ║
+# ║   ensures:  covariant_order(two_form) == 2                 ║
+# ║   ensures:  covariant_order(three_form) == 3               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_helpers_and_coordinate_dependent : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50763c0831984f2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05e3e0ca86fea3aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_helpers_and_coordinate_dependent","kind":"function","src_hash":"82ffd99e4df25c86","in":{"base":"Any"},"out":{"base":"Any","pred":"covariant_order(one_form) == 1 and covariant_order(two_form) == 2 and covariant_order(three_form) == 3 and covariant_order(two_form + metric) == 2 and covariant_order(two_form + metric_ambig) == 2 and covariant_order(two_form + twoform_not_sym) == 2 and covariant_order(two_form + twoform_not_TP) == 2 and contravariant_order(one_vector) == 1 and contravariant_order(two_vector) == 2 and contravariant_order(three_vector) == 3 and contravariant_order(two_vector + two_wp) == 2 and twoform_to_matrix(metric) == Matrix([[1, 0], [0, 1]]) and twoform_to_matrix(twoform_not_sym) == Matrix([[1, 0], [1, 0]]) and twoform_to_matrix(twoform_not_TP) == Matrix([[0, -1], [1, 0]])"},"spec":{"lhs":"test_helpers_and_coordinate_dependent()","rhs":"test_helpers_and_coordinate_dependent produces the expected output","over":{"base":"Any"},"name":"test_helpers_and_coordinate_dependent_correct"},"guarantee":"test_helpers_and_coordinate_dependent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_helpers_and_coordinate_dependent_correct","statement":"Path(test_helpers_and_coordinate_dependent(x), test_helpers_and_coordinate_dependent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50763c0831984f2f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_helpers_and_coordinate_dependent","kind":"function","src_hash":"82ffd99e4df25c86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: covariant_order(one_form) == 1 and covariant_order(two_form) == 2 and covariant_order(three_form) == 3 and covariant_order(two_form + metric) == 2 and covariant_order(two_form + metric_ambig) == 2 and covariant_order(two_form + twoform_not_sym) == 2 and covariant_order(two_form + twoform_not_TP) == 2 and contravariant_order(one_vector) == 1 and contravariant_order(two_vector) == 2 and contravariant_order(three_vector) == 3 and contravariant_order(two_vector + two_wp) == 2 and twoform_to_matrix(metric) == Matrix([[1, 0], [0, 1]]) and twoform_to_matrix(twoform_not_sym) == Matrix([[1, 0], [1, 0]]) and twoform_to_matrix(twoform_not_TP) == Matrix([[0, -1], [1, 0]])"},"spec":{"lhs":"test_helpers_and_coordinate_dependent()","rhs":"covariant_order(one_form) == 1 and covariant_order(two_form) == 2 and covariant_order(three_form) == 3 and covariant_order(two_form + metric) == 2 and covariant_order(two_form + metric_ambig) == 2 and covariant_order(two_form + twoform_not_sym) == 2 and covariant_order(two_form + twoform_not_TP) == 2 and contravariant_order(one_vector) == 1 and contravariant_order(two_vector) == 2 and contravariant_order(three_vector) == 3 and contravariant_order(two_vector + two_wp) == 2 and twoform_to_matrix(metric) == Matrix([[1, 0], [0, 1]]) and twoform_to_matrix(twoform_not_sym) == Matrix([[1, 0], [1, 0]]) and twoform_to_matrix(twoform_not_TP) == Matrix([[0, -1], [1, 0]])","over":{"base":"Any"},"name":"test_helpers_and_coordinate_dependent_correct"},"guarantee":"covariant_order(one_form) == 1; covariant_order(two_form) == 2; covariant_order(three_form) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_helpers_and_coordinate_dependent_correct","statement":"Path(test_helpers_and_coordinate_dependent(x), covariant_order(one_form) == 1; covariant_order(two_form) == 2; covariant_order(three_form) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05e3e0ca86fea3aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["covariant_order(one_form) == 1","covariant_order(two_form) == 2","covariant_order(three_form) == 3","covariant_order(two_form + metric) == 2","covariant_order(two_form + metric_ambig) == 2","covariant_order(two_form + twoform_not_sym) == 2","covariant_order(two_form + twoform_not_TP) == 2","contravariant_order(one_vector) == 1","contravariant_order(two_vector) == 2","contravariant_order(three_vector) == 3","contravariant_order(two_vector + two_wp) == 2","twoform_to_matrix(metric) == Matrix([[1, 0], [0, 1]])","twoform_to_matrix(twoform_not_sym) == Matrix([[1, 0], [1, 0]])","twoform_to_matrix(twoform_not_TP) == Matrix([[0, -1], [1, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_helpers_and_coordinate_dependent():
     one_form = R2.dr + R2.dx
     two_form = Differential(R2.x*R2.dr + R2.r*R2.dx)
@@ -429,16 +523,22 @@ def test_helpers_and_coordinate_dependent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_correct_arguments(), test_correct_arguments produces the expected output) over Any ║
+# ║ Path(test_correct_arguments(), <unspecified:test_correct_arguments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_correct_arguments : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47211d03f975242f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_correct_arguments","kind":"function","src_hash":"da98b53849643dfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_correct_arguments()","rhs":"test_correct_arguments produces the expected output","over":{"base":"Any"},"name":"test_correct_arguments_correct"},"guarantee":"test_correct_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_correct_arguments_correct","statement":"Path(test_correct_arguments(x), test_correct_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47211d03f975242f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_correct_arguments","kind":"function","src_hash":"da98b53849643dfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_correct_arguments()","rhs":"<unspecified:test_correct_arguments>","over":{"base":"Any"},"name":"test_correct_arguments_correct"},"guarantee":"test_correct_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_correct_arguments_correct","statement":"Path(test_correct_arguments(x), test_correct_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47211d03f975242f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_correct_arguments():
     raises(ValueError, lambda: R2.e_x(R2.e_x))
     raises(ValueError, lambda: R2.e_x(R2.dx))
@@ -470,16 +570,24 @@ def test_correct_arguments():
     raises(ValueError, lambda: covariant_order(R2.dx*R2.dy))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify(), test_simplify produces the expected output) over Any ║
+# ║ Path(test_simplify(), simplify(x) == x and simplify(x * y) == x * y and simplify(dx * dy) == dx * dy and simplify(ex * ey) == ex * ey and (1 - x) * dx / (1 - x) ** 2 == dx / (1 - x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify : Any → {Any | simplify(x) == x and sim...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(x) == x                               ║
+# ║   ensures:  simplify(x * y) == x * y                       ║
+# ║   ensures:  simplify(dx * dy) == dx * dy                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify : Any → {Any | result satisfies: simpli...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 949328790ea40ad1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30aebb2c6ce6974a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_simplify","kind":"function","src_hash":"cb6edd09afbecaac","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(x) == x and simplify(x * y) == x * y and simplify(dx * dy) == dx * dy and simplify(ex * ey) == ex * ey and (1 - x) * dx / (1 - x) ** 2 == dx / (1 - x)"},"spec":{"lhs":"test_simplify()","rhs":"test_simplify produces the expected output","over":{"base":"Any"},"name":"test_simplify_correct"},"guarantee":"test_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_simplify_correct","statement":"Path(test_simplify(x), test_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"949328790ea40ad1"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_simplify","kind":"function","src_hash":"cb6edd09afbecaac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(x) == x and simplify(x * y) == x * y and simplify(dx * dy) == dx * dy and simplify(ex * ey) == ex * ey and (1 - x) * dx / (1 - x) ** 2 == dx / (1 - x)"},"spec":{"lhs":"test_simplify()","rhs":"simplify(x) == x and simplify(x * y) == x * y and simplify(dx * dy) == dx * dy and simplify(ex * ey) == ex * ey and (1 - x) * dx / (1 - x) ** 2 == dx / (1 - x)","over":{"base":"Any"},"name":"test_simplify_correct"},"guarantee":"simplify(x) == x; simplify(x * y) == x * y; simplify(dx * dy) == dx * dy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_simplify_correct","statement":"Path(test_simplify(x), simplify(x) == x; simplify(x * y) == x * y; simplify(dx * dy) == dx * dy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30aebb2c6ce6974a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(x) == x","simplify(x * y) == x * y","simplify(dx * dy) == dx * dy","simplify(ex * ey) == ex * ey","(1 - x) * dx / (1 - x) ** 2 == dx / (1 - x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify():
     x, y = R2_r.coord_functions()
     dx, dy = R2_r.base_oneforms()
@@ -492,16 +600,22 @@ def test_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17917(), test_issue_17917 produces the expected output) over Any ║
+# ║ Path(test_issue_17917(), LieDerivative(X, Y).expand() == R2.x ** 2 * R2.e_x - 3 * R2.y ** 2 * R2.e_x - R2.x * R2.y * R2.e_y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17917 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LieDerivative(X, Y).expand() == R2.x ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17917 : Any → {Any | result satisfies: Lie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03c3b5966a28936d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a132d69bb33f9445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_issue_17917","kind":"function","src_hash":"d9f0a53f444b9012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17917()","rhs":"test_issue_17917 produces the expected output","over":{"base":"Any"},"name":"test_issue_17917_correct"},"guarantee":"test_issue_17917 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_issue_17917_correct","statement":"Path(test_issue_17917(x), test_issue_17917 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03c3b5966a28936d"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_issue_17917","kind":"function","src_hash":"d9f0a53f444b9012","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LieDerivative(X, Y).expand() == R2.x ** 2 * R2.e_x - 3 * R2.y ** 2 * R2.e_x - R2.x * R2.y * R2.e_y"},"spec":{"lhs":"test_issue_17917()","rhs":"LieDerivative(X, Y).expand() == R2.x ** 2 * R2.e_x - 3 * R2.y ** 2 * R2.e_x - R2.x * R2.y * R2.e_y","over":{"base":"Any"},"name":"test_issue_17917_correct"},"guarantee":"LieDerivative(X, Y).expand() == R2.x ** 2 * R2.e_x - 3 * R2.y ** 2 * R2.e_x - R2.x * R2.y * R2.e_y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_issue_17917_correct","statement":"Path(test_issue_17917(x), LieDerivative(X, Y).expand() == R2.x ** 2 * R2.e_x - 3 * R2.y ** 2 * R2.e_x - R2.x * R2.y * R2.e_y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a132d69bb33f9445","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LieDerivative(X, Y).expand() == R2.x ** 2 * R2.e_x - 3 * R2.y ** 2 * R2.e_x - R2.x * R2.y * R2.e_y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17917():
     X = R2.x*R2.e_x - R2.y*R2.e_y
     Y = (R2.x**2 + R2.y**2)*R2.e_x - R2.x*R2.y*R2.e_y
@@ -509,16 +623,22 @@ def test_issue_17917():
         R2.x**2*R2.e_x - 3*R2.y**2*R2.e_x - R2.x*R2.y*R2.e_y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecations(), test_deprecations produces the expected output) over Any ║
+# ║ Path(test_deprecations(), <unspecified:test_deprecations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecations : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e68fb40772a3741  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_deprecations","kind":"function","src_hash":"645a5db5f3ad2682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecations()","rhs":"test_deprecations produces the expected output","over":{"base":"Any"},"name":"test_deprecations_correct"},"guarantee":"test_deprecations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_deprecations_correct","statement":"Path(test_deprecations(x), test_deprecations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e68fb40772a3741"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_diffgeom.test_deprecations","kind":"function","src_hash":"645a5db5f3ad2682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecations()","rhs":"<unspecified:test_deprecations>","over":{"base":"Any"},"name":"test_deprecations_correct"},"guarantee":"test_deprecations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_diffgeom.test_deprecations_correct","statement":"Path(test_deprecations(x), test_deprecations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e68fb40772a3741","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecations():
     m = Manifold('M', 2)
     p = Patch('P', m)

@@ -20,16 +20,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_crt(), test_crt produces the expected output) over Any ║
+# ║ Path(test_crt(), crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_crt : Any → {Any | crt([656, 350], [811, 133], s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  crt([656, 350], [811, 133], symmetric=Tru...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_crt : Any → {Any | result satisfies: crt([656, 3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a98c2900fb5be90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | babe6f50ec0ccec8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_modular.test_crt","kind":"function","src_hash":"b1568332280d51c9","in":{"base":"Any"},"out":{"base":"Any","pred":"crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800) and crt(m, v, symmetric)[0] == r and crt2(m, v, mm, e, s, symmetric) == (r, mm)"},"spec":{"lhs":"test_crt()","rhs":"test_crt produces the expected output","over":{"base":"Any"},"name":"test_crt_correct"},"guarantee":"test_crt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_modular.test_crt_correct","statement":"Path(test_crt(x), test_crt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a98c2900fb5be90"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_modular.test_crt","kind":"function","src_hash":"b1568332280d51c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800)"},"spec":{"lhs":"test_crt()","rhs":"crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800)","over":{"base":"Any"},"name":"test_crt_correct"},"guarantee":"crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_modular.test_crt_correct","statement":"Path(test_crt(x), crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"babe6f50ec0ccec8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["crt([656, 350], [811, 133], symmetric=True) == (-56917, 114800)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_crt():
     def mcrt(m, v, r, symmetric=False):
         assert crt(m, v, symmetric)[0] == r
@@ -46,16 +52,24 @@ def test_crt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_modular(), test_modular produces the expected output) over Any ║
+# ║ Path(test_modular(), solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140) and solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None and solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, -15], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, 1, -15], [13, 7, 7, 17]))) is None and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 7, 17]))) == (835, 1547) and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip([-10, 2, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip((1, 1, 2), (3, 2, 4)))) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_modular : Any → {Any | solve_congruence(*list(zi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_congruence(*list(zip([3, 4, 2], [12...   ║
+# ║   ensures:  solve_congruence(*list(zip([3, 4, 2], [12...   ║
+# ║   ensures:  solve_congruence(*list(zip([3, 4, 2], [13...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_modular : Any → {Any | result satisfies: solve_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f794f3cddb016a5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efd15b4e0bbca652  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_modular.test_modular","kind":"function","src_hash":"e63d41145e1b00f5","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140) and solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None and solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, -15], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, 1, -15], [13, 7, 7, 17]))) is None and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 7, 17]))) == (835, 1547) and solve_congruence(*list(zip([-10, 2, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip((1, 1, 2), (3, 2, 4)))) is None"},"spec":{"lhs":"test_modular()","rhs":"test_modular produces the expected output","over":{"base":"Any"},"name":"test_modular_correct"},"guarantee":"test_modular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_modular.test_modular_correct","statement":"Path(test_modular(x), test_modular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f794f3cddb016a5c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_modular.test_modular","kind":"function","src_hash":"e63d41145e1b00f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140) and solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None and solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, -15], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, 1, -15], [13, 7, 7, 17]))) is None and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 7, 17]))) == (835, 1547) and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip([-10, 2, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip((1, 1, 2), (3, 2, 4)))) is None"},"spec":{"lhs":"test_modular()","rhs":"solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140) and solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None and solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, -15], [13, 7, 17]))) == (172, 1547) and solve_congruence(*list(zip([-10, -3, 1, -15], [13, 7, 7, 17]))) is None and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 7, 17]))) == (835, 1547) and solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip([-10, 2, 2, -15], [13, 7, 14, 17]))) == (2382, 3094) and solve_congruence(*list(zip((1, 1, 2), (3, 2, 4)))) is None","over":{"base":"Any"},"name":"test_modular_correct"},"guarantee":"solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140); solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None; solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_modular.test_modular_correct","statement":"Path(test_modular(x), solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140); solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None; solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efd15b4e0bbca652","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140)","solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None","solve_congruence(*list(zip([3, 4, 2], [13, 7, 17]))) == (172, 1547)","solve_congruence(*list(zip([-10, -3, -15], [13, 7, 17]))) == (172, 1547)","solve_congruence(*list(zip([-10, -3, 1, -15], [13, 7, 7, 17]))) is None","solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 7, 17]))) == (835, 1547)","solve_congruence(*list(zip([-10, -5, 2, -15], [13, 7, 14, 17]))) == (2382, 3094)","solve_congruence(*list(zip([-10, 2, 2, -15], [13, 7, 14, 17]))) == (2382, 3094)","solve_congruence(*list(zip((1, 1, 2), (3, 2, 4)))) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_modular():
     assert solve_congruence(*list(zip([3, 4, 2], [12, 35, 17]))) == (1719, 7140)
     assert solve_congruence(*list(zip([3, 4, 2], [12, 6, 17]))) is None

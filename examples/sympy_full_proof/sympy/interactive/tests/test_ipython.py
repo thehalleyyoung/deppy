@@ -44,16 +44,24 @@ if not ipython:
 # session. See the discussion in issue #15149.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_automatic_symbols(), test_automatic_symbols produces the expected output) over Any ║
+# ║ Path(test_automatic_symbols(), symbol not in app.user_ns and app.user_ns['a'] == Symbol and symbol in app.user_ns and 'all' not in app.user_ns and app.user_ns['a'] is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_automatic_symbols : Any → {Any | symbol not in a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  symbol not in app.user_ns                      ║
+# ║   ensures:  app.user_ns['a'] == Symbol                     ║
+# ║   ensures:  symbol in app.user_ns                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_automatic_symbols : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6badb546a973cb30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3e06844155954b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_automatic_symbols","kind":"function","src_hash":"86c07e025c6920b5","in":{"base":"Any"},"out":{"base":"Any","pred":"symbol not in app.user_ns and symbol not in app.user_ns and app.user_ns['a'] == Symbol and symbol in app.user_ns and 'all' not in app.user_ns and app.user_ns['a'] is True and app.user_ns['a'] is True"},"spec":{"lhs":"test_automatic_symbols()","rhs":"test_automatic_symbols produces the expected output","over":{"base":"Any"},"name":"test_automatic_symbols_correct"},"guarantee":"test_automatic_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_automatic_symbols_correct","statement":"Path(test_automatic_symbols(x), test_automatic_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6badb546a973cb30"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_automatic_symbols","kind":"function","src_hash":"86c07e025c6920b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: symbol not in app.user_ns and app.user_ns['a'] == Symbol and symbol in app.user_ns and 'all' not in app.user_ns and app.user_ns['a'] is True"},"spec":{"lhs":"test_automatic_symbols()","rhs":"symbol not in app.user_ns and app.user_ns['a'] == Symbol and symbol in app.user_ns and 'all' not in app.user_ns and app.user_ns['a'] is True","over":{"base":"Any"},"name":"test_automatic_symbols_correct"},"guarantee":"symbol not in app.user_ns; app.user_ns['a'] == Symbol; symbol in app.user_ns","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_automatic_symbols_correct","statement":"Path(test_automatic_symbols(x), symbol not in app.user_ns; app.user_ns['a'] == Symbol; symbol in app.user_ns)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e06844155954b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["symbol not in app.user_ns","app.user_ns['a'] == Symbol","symbol in app.user_ns","'all' not in app.user_ns","app.user_ns['a'] is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_automatic_symbols():
     # NOTE: Because of the way the hook works, you have to use run_cell(code,
     # True).  This means that the code must have no Out, or it will be printed
@@ -84,7 +92,12 @@ def test_automatic_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_int_to_Integer(), test_int_to_Integer produces the expected output) over {Any | isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer)} ║
+# ║ Path(test_int_to_Integer(), isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer) and app.user_ns['a'] == Rational(1, 2)) over {Any | isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(app.user_ns['a'], int)              ║
+# ║   ensures:  isinstance(app.user_ns['a'], Rational)         ║
+# ║   ensures:  isinstance(app.user_ns['a'], Integer)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_int_to_Integer : {Any | isinstance(app.user_ns['...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -98,9 +111,12 @@ def test_automatic_symbols():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 0.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 979f898e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_int_to_Integer","kind":"function","src_hash":"52096b33b53e8281","in":{"base":"Any","pred":"isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer)"},"out":{"base":"Any","pred":"isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer) and isinstance(app.user_ns['a'], int) and app.user_ns['a'] == Rational(1, 2)"},"spec":{"lhs":"test_int_to_Integer()","rhs":"test_int_to_Integer produces the expected output","over":{"base":"Any","pred":"isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer)"},"name":"test_int_to_Integer_correct"},"guarantee":"test_int_to_Integer produces the expected output","fibers":[{"name":"int","pred":"isinstance(app.user_ns['a'], int)","path":{"lhs":"test_int_to_Integer(x)","rhs":"test_int_to_Integer produces the expected output","over":{"base":"int","pred":"isinstance(app.user_ns['a'], int)"},"name":"test_int_to_Integer_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_int_to_Integer_int_correct","statement":"test_int_to_Integer satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"Rational","pred":"isinstance(app.user_ns['a'], Rational)","path":{"lhs":"test_int_to_Integer(x)","rhs":"test_int_to_Integer produces the expected output","over":{"base":"Rational","pred":"isinstance(app.user_ns['a'], Rational)"},"name":"test_int_to_Integer_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_int_to_Integer_Rational_correct","statement":"test_int_to_Integer satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(app.user_ns['a'], Integer)","path":{"lhs":"test_int_to_Integer(x)","rhs":"test_int_to_Integer produces the expected output","over":{"base":"Integer","pred":"isinstance(app.user_ns['a'], Integer)"},"name":"test_int_to_Integer_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_int_to_Integer_Integer_correct","statement":"test_int_to_Integer satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"979f898e4078695e"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_int_to_Integer","kind":"function","src_hash":"52096b33b53e8281","in":{"base":"Any","pred":"isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer)"},"out":{"base":"Any","pred":"result satisfies: isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer) and app.user_ns['a'] == Rational(1, 2)"},"spec":{"lhs":"test_int_to_Integer()","rhs":"isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer) and app.user_ns['a'] == Rational(1, 2)","over":{"base":"Any","pred":"isinstance(app.user_ns['a'], int) and isinstance(app.user_ns['a'], Rational) and isinstance(app.user_ns['a'], Integer)"},"name":"test_int_to_Integer_correct"},"guarantee":"isinstance(app.user_ns['a'], int); isinstance(app.user_ns['a'], Rational); isinstance(app.user_ns['a'], Integer)","fibers":[{"name":"int","pred":"isinstance(app.user_ns['a'], int)","path":{"lhs":"test_int_to_Integer(x)","rhs":"isinstance(app.user_ns['a'], int); isinstance(app.user_ns['a'], Rational); isinstance(app.user_ns['a'], Integer)","over":{"base":"int","pred":"isinstance(app.user_ns['a'], int)"},"name":"test_int_to_Integer_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_int_to_Integer_int_correct","statement":"test_int_to_Integer satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"Rational","pred":"isinstance(app.user_ns['a'], Rational)","path":{"lhs":"test_int_to_Integer(x)","rhs":"isinstance(app.user_ns['a'], int); isinstance(app.user_ns['a'], Rational); isinstance(app.user_ns['a'], Integer)","over":{"base":"Rational","pred":"isinstance(app.user_ns['a'], Rational)"},"name":"test_int_to_Integer_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_int_to_Integer_Rational_correct","statement":"test_int_to_Integer satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(app.user_ns['a'], Integer)","path":{"lhs":"test_int_to_Integer(x)","rhs":"isinstance(app.user_ns['a'], int); isinstance(app.user_ns['a'], Rational); isinstance(app.user_ns['a'], Integer)","over":{"base":"Integer","pred":"isinstance(app.user_ns['a'], Integer)"},"name":"test_int_to_Integer_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_int_to_Integer_Integer_correct","statement":"test_int_to_Integer satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"979f898e4078695e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(app.user_ns['a'], int)","isinstance(app.user_ns['a'], Rational)","isinstance(app.user_ns['a'], Integer)","app.user_ns['a'] == Rational(1, 2)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":true}}
 def test_int_to_Integer():
     # XXX: Warning, don't test with == here.  0.5 == Rational(1, 2) is True!
     app = init_ipython_session()
@@ -122,16 +138,22 @@ def test_int_to_Integer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ipythonprinting(), test_ipythonprinting produces the expected output) over Any ║
+# ║ Path(test_ipythonprinting(), <unspecified:test_ipythonprinting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ipythonprinting : Any → {Any | app.user_ns['a'][...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b91fa066c1048417  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_ipythonprinting","kind":"function","src_hash":"4da8a8ee5e8a2f09","in":{"base":"Any"},"out":{"base":"Any","pred":"app.user_ns['a']['text/plain'] == 'pi' and app.user_ns['a2']['text/plain'] == 'pi**2' and app.user_ns['a'][0]['text/plain'] == 'pi' and app.user_ns['a2'][0]['text/plain'] == 'pi**2' and app.user_ns['a']['text/plain'] in ('\u03c0', 'pi') and app.user_ns['a2']['text/plain'] in (' 2\\n\u03c0 ', '  2\\npi ') and app.user_ns['a'][0]['text/plain'] in ('\u03c0', 'pi') and app.user_ns['a2'][0]['text/plain'] in (' 2\\n\u03c0 ', '  2\\npi ')"},"spec":{"lhs":"test_ipythonprinting()","rhs":"test_ipythonprinting produces the expected output","over":{"base":"Any"},"name":"test_ipythonprinting_correct"},"guarantee":"test_ipythonprinting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_ipythonprinting_correct","statement":"Path(test_ipythonprinting(x), test_ipythonprinting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b91fa066c1048417"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_ipythonprinting","kind":"function","src_hash":"4da8a8ee5e8a2f09","in":{"base":"Any"},"out":{"base":"Any","pred":"app.user_ns['a']['text/plain'] == 'pi' and app.user_ns['a2']['text/plain'] == 'pi**2' and app.user_ns['a'][0]['text/plain'] == 'pi' and app.user_ns['a2'][0]['text/plain'] == 'pi**2' and app.user_ns['a']['text/plain'] in ('\u03c0', 'pi') and app.user_ns['a2']['text/plain'] in (' 2\\n\u03c0 ', '  2\\npi ') and app.user_ns['a'][0]['text/plain'] in ('\u03c0', 'pi') and app.user_ns['a2'][0]['text/plain'] in (' 2\\n\u03c0 ', '  2\\npi ')"},"spec":{"lhs":"test_ipythonprinting()","rhs":"<unspecified:test_ipythonprinting>","over":{"base":"Any"},"name":"test_ipythonprinting_correct"},"guarantee":"test_ipythonprinting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_ipythonprinting_correct","statement":"Path(test_ipythonprinting(x), test_ipythonprinting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b91fa066c1048417","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_ipythonprinting():
     # Initialize and setup IPython session
     app = init_ipython_session()
@@ -167,16 +189,24 @@ def test_ipythonprinting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_builtin_option(), test_print_builtin_option produces the expected output) over Any ║
+# ║ Path(test_print_builtin_option(), text in ('{pi: 3.14, n_i: 3}', '{nᵢ: 3, π: 3.14}', '{n_i: 3, pi: 3.14}', '{π: 3.14, nᵢ: 3}') and latex == '$\\displaystyle \\left\\{ n_{i} : 3, \\  \\pi : 3.14\\right\\}$' and latex == '$\\displaystyle \\left( \\LaTeX,\\right)$' and text in ('{pi: 3.14, n_i: 3}', '{n_i: 3, pi: 3.14}')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_builtin_option : Any → {Any | latex == '$\...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  text in ('{pi: 3.14, n_i: 3}', '{nᵢ: 3, π...   ║
+# ║   ensures:  latex == '$\\displaystyle \\left\\{ n_{i}...   ║
+# ║   ensures:  latex == '$\\displaystyle \\left( \\LaTeX...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_builtin_option : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d23c8874f2daf122  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdb6af54ff3fcd7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_print_builtin_option","kind":"function","src_hash":"2cceb4f8dcb1baf8","in":{"base":"Any"},"out":{"base":"Any","pred":"latex == '$\\\\displaystyle \\\\left\\\\{ n_{i} : 3, \\\\  \\\\pi : 3.14\\\\right\\\\}$' and latex == '$\\\\displaystyle \\\\left( \\\\LaTeX,\\\\right)$' and text in ('{pi: 3.14, n_i: 3}', '{n_i: 3, pi: 3.14}')"},"spec":{"lhs":"test_print_builtin_option()","rhs":"test_print_builtin_option produces the expected output","over":{"base":"Any"},"name":"test_print_builtin_option_correct"},"guarantee":"test_print_builtin_option produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_print_builtin_option_correct","statement":"Path(test_print_builtin_option(x), test_print_builtin_option produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d23c8874f2daf122"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_print_builtin_option","kind":"function","src_hash":"2cceb4f8dcb1baf8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: text in ('{pi: 3.14, n_i: 3}', '{n\u1d62: 3, \u03c0: 3.14}', '{n_i: 3, pi: 3.14}', '{\u03c0: 3.14, n\u1d62: 3}') and latex == '$\\\\displaystyle \\\\left\\\\{ n_{i} : 3, \\\\  \\\\pi : 3.14\\\\right\\\\}$' and latex == '$\\\\displaystyle \\\\left( \\\\LaTeX,\\\\right)$' and text in ('{pi: 3.14, n_i: 3}', '{n_i: 3, pi: 3.14}')"},"spec":{"lhs":"test_print_builtin_option()","rhs":"text in ('{pi: 3.14, n_i: 3}', '{n\u1d62: 3, \u03c0: 3.14}', '{n_i: 3, pi: 3.14}', '{\u03c0: 3.14, n\u1d62: 3}') and latex == '$\\\\displaystyle \\\\left\\\\{ n_{i} : 3, \\\\  \\\\pi : 3.14\\\\right\\\\}$' and latex == '$\\\\displaystyle \\\\left( \\\\LaTeX,\\\\right)$' and text in ('{pi: 3.14, n_i: 3}', '{n_i: 3, pi: 3.14}')","over":{"base":"Any"},"name":"test_print_builtin_option_correct"},"guarantee":"text in ('{pi: 3.14, n_i: 3}', '{n\u1d62: 3, \u03c0: 3.14}', '{n_i: 3, pi: 3.14}', '{\u03c0: 3.14, n\u1d62: 3}'); latex == '$\\\\displaystyle \\\\left\\\\{ n_{i} : 3, \\\\  \\\\pi : 3.14\\\\right\\\\}$'; latex == '$\\\\displaystyle \\\\left( \\\\LaTeX,\\\\right)$'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_print_builtin_option_correct","statement":"Path(test_print_builtin_option(x), text in ('{pi: 3.14, n_i: 3}', '{n\u1d62: 3, \u03c0: 3.14}', '{n_i: 3, pi: 3.14}', '{\u03c0: 3.14, n\u1d62: 3}'); latex == '$\\\\displaystyle \\\\left\\\\{ n_{i} : 3, \\\\  \\\\pi : 3.14\\\\right\\\\}$'; latex == '$\\\\displaystyle \\\\left( \\\\LaTeX,\\\\right)$')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdb6af54ff3fcd7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["text in ('{pi: 3.14, n_i: 3}', '{n\u1d62: 3, \u03c0: 3.14}', '{n_i: 3, pi: 3.14}', '{\u03c0: 3.14, n\u1d62: 3}')","latex == '$\\\\displaystyle \\\\left\\\\{ n_{i} : 3, \\\\  \\\\pi : 3.14\\\\right\\\\}$'","latex == '$\\\\displaystyle \\\\left( \\\\LaTeX,\\\\right)$'","text in ('{pi: 3.14, n_i: 3}', '{n_i: 3, pi: 3.14}')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_print_builtin_option():
     # Initialize and setup IPython session
     app = init_ipython_session()
@@ -252,16 +282,22 @@ def test_print_builtin_option():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_builtin_containers(), test_builtin_containers produces the expected output) over Any ║
+# ║ Path(test_builtin_containers(), <unspecified:test_builtin_containers>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_builtin_containers : Any → {Any | app.user_ns['a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84eab0e120005425  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_builtin_containers","kind":"function","src_hash":"866f7ecc294f9ad5","in":{"base":"Any"},"out":{"base":"Any","pred":"app.user_ns['a']['text/plain'] == '(True, False)' and 'text/latex' not in app.user_ns['a'] and app.user_ns['b']['text/plain'][:10] == 'sys.flags(' and 'text/latex' not in app.user_ns['b'] and app.user_ns['c']['text/plain'] == ' [1]  \\n([ ],)\\n [2]  ' and app.user_ns['a'][0]['text/plain'] == '(True, False)' and 'text/latex' not in app.user_ns['a'][0] and app.user_ns['b'][0]['text/plain'][:10] == 'sys.flags(' and 'text/latex' not in app.user_ns['b'][0] and app.user_ns['c'][0]['text/plain'] == ' [1]  \\n([ ],)\\n [2]  '"},"spec":{"lhs":"test_builtin_containers()","rhs":"test_builtin_containers produces the expected output","over":{"base":"Any"},"name":"test_builtin_containers_correct"},"guarantee":"test_builtin_containers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_builtin_containers_correct","statement":"Path(test_builtin_containers(x), test_builtin_containers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84eab0e120005425"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_builtin_containers","kind":"function","src_hash":"866f7ecc294f9ad5","in":{"base":"Any"},"out":{"base":"Any","pred":"app.user_ns['a']['text/plain'] == '(True, False)' and 'text/latex' not in app.user_ns['a'] and app.user_ns['b']['text/plain'][:10] == 'sys.flags(' and 'text/latex' not in app.user_ns['b'] and app.user_ns['c']['text/plain'] == ' [1]  \\n([ ],)\\n [2]  ' and app.user_ns['a'][0]['text/plain'] == '(True, False)' and 'text/latex' not in app.user_ns['a'][0] and app.user_ns['b'][0]['text/plain'][:10] == 'sys.flags(' and 'text/latex' not in app.user_ns['b'][0] and app.user_ns['c'][0]['text/plain'] == ' [1]  \\n([ ],)\\n [2]  '"},"spec":{"lhs":"test_builtin_containers()","rhs":"<unspecified:test_builtin_containers>","over":{"base":"Any"},"name":"test_builtin_containers_correct"},"guarantee":"test_builtin_containers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_builtin_containers_correct","statement":"Path(test_builtin_containers(x), test_builtin_containers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84eab0e120005425","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_builtin_containers():
     # Initialize and setup IPython session
     app = init_ipython_session()
@@ -304,16 +340,22 @@ def test_builtin_containers():
         assert app.user_ns['c'][0]['text/latex'] == '$\\displaystyle \\left( \\left[\\begin{matrix}1\\\\2\\end{matrix}\\right],\\right)$'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matplotlib_bad_latex(), test_matplotlib_bad_latex produces the expected output) over Any ║
+# ║ Path(test_matplotlib_bad_latex(), <unspecified:test_matplotlib_bad_latex>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matplotlib_bad_latex : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3bb4b039b39f2c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_matplotlib_bad_latex","kind":"function","src_hash":"562114bfa6ca3833","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matplotlib_bad_latex()","rhs":"test_matplotlib_bad_latex produces the expected output","over":{"base":"Any"},"name":"test_matplotlib_bad_latex_correct"},"guarantee":"test_matplotlib_bad_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_matplotlib_bad_latex_correct","statement":"Path(test_matplotlib_bad_latex(x), test_matplotlib_bad_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3bb4b039b39f2c3"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_matplotlib_bad_latex","kind":"function","src_hash":"562114bfa6ca3833","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_matplotlib_bad_latex()","rhs":"<unspecified:test_matplotlib_bad_latex>","over":{"base":"Any"},"name":"test_matplotlib_bad_latex_correct"},"guarantee":"test_matplotlib_bad_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_ipython.test_matplotlib_bad_latex_correct","statement":"Path(test_matplotlib_bad_latex(x), test_matplotlib_bad_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3bb4b039b39f2c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matplotlib_bad_latex():
     # Initialize and setup IPython session
     app = init_ipython_session()
@@ -346,14 +388,20 @@ def test_matplotlib_bad_latex():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_override_repr_latex(), id) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_override_repr_latex : Any → {Any | latex == 'Hel...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  latex == 'Hello $\\displaystyle s$ world'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_override_repr_latex : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 50fa3db22b448f3d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_override_repr_latex","kind":"function","src_hash":"384ca123af62566c","in":{"base":"Any"},"out":{"base":"Any","pred":"latex == 'Hello $\\\\displaystyle s$ world'"},"spec":{"lhs":"test_override_repr_latex()","rhs":"test_override_repr_latex produces the expected output","over":{"base":"Any"},"name":"test_override_repr_latex_correct","kind":"composition"},"guarantee":"test_override_repr_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_repr_latex_","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50fa3db22b448f3d"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_ipython.test_override_repr_latex","kind":"function","src_hash":"384ca123af62566c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: latex == 'Hello $\\\\displaystyle s$ world'"},"spec":{"lhs":"test_override_repr_latex()","rhs":"latex == 'Hello $\\\\displaystyle s$ world'","over":{"base":"Any"},"name":"test_override_repr_latex_correct","kind":"composition"},"guarantee":"latex == 'Hello $\\\\displaystyle s$ world'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_repr_latex_","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50fa3db22b448f3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["latex == 'Hello $\\\\displaystyle s$ world'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_override_repr_latex():
     # Initialize and setup IPython session
     app = init_ipython_session()

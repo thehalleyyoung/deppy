@@ -25,16 +25,22 @@ import unicodedata
 unicode_warnings = ''
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(U(nam), get a unicode character by name or, none if not found) over Any ║
+# ║ Path(U(name), <unspecified:U>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ U : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b338b35ca9f0689  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.U","kind":"function","src_hash":"8803cbeeb08b1b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"U(nam)","rhs":"get a unicode character by name or, none if not found","over":{"base":"Any"},"name":"U_correct"},"guarantee":"get a unicode character by name or, none if not found","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.U_correct","statement":"Path(U(x), get a unicode character by name or, none if not found)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b338b35ca9f0689"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.U","kind":"function","src_hash":"8803cbeeb08b1b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"U(name)","rhs":"<unspecified:U>","over":{"base":"Any"},"name":"U_correct"},"guarantee":"get a unicode character by name or, none if not found","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.U_correct","statement":"Path(U(x), get a unicode character by name or, none if not found)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b338b35ca9f0689","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","catches":["KeyError"],"globals_read":["unicode_warnings"],"globals_written":["unicode_warnings"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def U(name):
     """
     Get a unicode character by name or, None if not found.
@@ -67,16 +73,22 @@ _use_unicode = False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty_use_unicode(fla), set whether pretty-printer should use unicode by default) over Any ║
+# ║ Path(pretty_use_unicode(flag), <unspecified:pretty_use_unicode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty_use_unicode : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffb98dafdd7aa4a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_use_unicode","kind":"function","src_hash":"8f86d3b54a690d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_use_unicode(fla)","rhs":"set whether pretty-printer should use unicode by default","over":{"base":"Any"},"name":"pretty_use_unicode_correct"},"guarantee":"set whether pretty-printer should use unicode by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_use_unicode_correct","statement":"Path(pretty_use_unicode(x), set whether pretty-printer should use unicode by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffb98dafdd7aa4a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_use_unicode","kind":"function","src_hash":"8f86d3b54a690d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_use_unicode(flag)","rhs":"<unspecified:pretty_use_unicode>","over":{"base":"Any"},"name":"pretty_use_unicode_correct"},"guarantee":"set whether pretty-printer should use unicode by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_use_unicode_correct","statement":"Path(pretty_use_unicode(x), set whether pretty-printer should use unicode by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffb98dafdd7aa4a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["_use_unicode","unicode_warnings"],"globals_written":["_use_unicode","unicode_warnings"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pretty_use_unicode(flag=None):
     """Set whether pretty-printer should use unicode by default"""
     global _use_unicode, unicode_warnings
@@ -94,16 +106,22 @@ def pretty_use_unicode(flag=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty_try_use_unicode(), see if unicode output is available and leverage it if possible) over Any ║
+# ║ Path(pretty_try_use_unicode(), <unspecified:pretty_try_use_unicode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty_try_use_unicode : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6814e7bf173b912  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_try_use_unicode","kind":"function","src_hash":"0dfca16d03ff65c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_try_use_unicode()","rhs":"see if unicode output is available and leverage it if possible","over":{"base":"Any"},"name":"pretty_try_use_unicode_correct"},"guarantee":"see if unicode output is available and leverage it if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_try_use_unicode_correct","statement":"Path(pretty_try_use_unicode(x), see if unicode output is available and leverage it if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6814e7bf173b912"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_try_use_unicode","kind":"function","src_hash":"0dfca16d03ff65c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_try_use_unicode()","rhs":"<unspecified:pretty_try_use_unicode>","over":{"base":"Any"},"name":"pretty_try_use_unicode_correct"},"guarantee":"see if unicode output is available and leverage it if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_try_use_unicode_correct","statement":"Path(pretty_try_use_unicode(x), see if unicode output is available and leverage it if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6814e7bf173b912","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pretty_try_use_unicode():
     """See if unicode output is available and leverage it if possible"""
 
@@ -136,16 +154,22 @@ def pretty_try_use_unicode():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xstr(*ar), xstr produces the expected output) over Any ║
+# ║ Path(xstr(*args), str(*args)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(*args)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xstr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 731e678a05641c82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 162d0795430fa159  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.xstr","kind":"function","src_hash":"668dadc4516c1286","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xstr(*ar)","rhs":"xstr produces the expected output","over":{"base":"Any"},"name":"xstr_correct"},"guarantee":"xstr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.xstr_correct","statement":"Path(xstr(x), xstr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"731e678a05641c82"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.xstr","kind":"function","src_hash":"668dadc4516c1286","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xstr(*args)","rhs":"str(*args)","over":{"base":"Any"},"name":"xstr_correct"},"guarantee":"returns str(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.xstr_correct","statement":"Path(xstr(x), returns str(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"162d0795430fa159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def xstr(*args):
     sympy_deprecation_warning(
         """
@@ -383,9 +407,13 @@ _xobj_ascii = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xobj(sym), construct spatial object of given length) over {Any | isinstance(vinfo, tuple)} ║
+# ║ Path(xobj(symb, length), <unspecified:xobj>) over {Any | isinstance(vinfo, tuple) and not (length <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ xobj : {Any | isinstance(vinfo, tuple)} → {Any | resu...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (length <= 0)                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ xobj : {Any | isinstance(vinfo, tuple) and not (lengt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(vinfo, tuple)} → library_axiom        ║
@@ -395,9 +423,12 @@ _xobj_ascii = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f25f5bfe...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.xobj","kind":"function","src_hash":"7170d82a0e83c16f","in":{"base":"Any","pred":"isinstance(vinfo, tuple)"},"out":{"base":"Any","pred":"result satisfies: [] of equal-length strings"},"spec":{"lhs":"xobj(sym)","rhs":"construct spatial object of given length","over":{"base":"Any","pred":"isinstance(vinfo, tuple)"},"name":"xobj_correct"},"guarantee":"construct spatial object of given length","fibers":[{"name":"tuple","pred":"isinstance(vinfo, tuple)","path":{"lhs":"xobj(x)","rhs":"construct spatial object of given length","over":{"base":"tuple","pred":"isinstance(vinfo, tuple)"},"name":"xobj_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.xobj_tuple_correct","statement":"xobj satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f25f5bfe7b7776f8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.xobj","kind":"function","src_hash":"7170d82a0e83c16f","in":{"base":"Any","pred":"isinstance(vinfo, tuple) and not (length <= 0)"},"out":{"base":"Any","pred":"result satisfies: [] of equal-length strings"},"spec":{"lhs":"xobj(symb, length)","rhs":"<unspecified:xobj>","over":{"base":"Any","pred":"isinstance(vinfo, tuple) and not (length <= 0)"},"name":"xobj_correct"},"guarantee":"construct spatial object of given length","fibers":[{"name":"tuple","pred":"isinstance(vinfo, tuple)","path":{"lhs":"xobj(x)","rhs":"construct spatial object of given length","over":{"base":"tuple","pred":"isinstance(vinfo, tuple)"},"name":"xobj_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.xobj_tuple_correct","statement":"xobj satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f25f5bfe7b7776f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (length <= 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["IndexError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'length <= 0', 'length % 2 == 0', 'not isinstance(vinfo, tuple)', 'top is None', 'isinstance(vinfo[0], tuple)', 'bot is None', 'length == 1', 'c1 is None'}, fibers={'tuple'})"]}}
 def xobj(symb, length):
     """Construct spatial object of given length.
 
@@ -467,16 +498,22 @@ def xobj(symb, length):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vobj(sym), construct vertical object of a given height) over Any ║
+# ║ Path(vobj(symb, height), '\n'.join(xobj(symb, height))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n'.join(xobj(symb, height))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vobj : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe7e95a7c11bfdb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.vobj","kind":"function","src_hash":"6d39048178752a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vobj(sym)","rhs":"construct vertical object of a given height","over":{"base":"Any"},"name":"vobj_correct"},"guarantee":"construct vertical object of a given height","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe7e95a7c11bfdb3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.vobj","kind":"function","src_hash":"6d39048178752a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vobj(symb, height)","rhs":"'\\n'.join(xobj(symb, height))","over":{"base":"Any"},"name":"vobj_correct"},"guarantee":"returns '\\n'.join(xobj(symb, height))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe7e95a7c11bfdb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n'.join(xobj(symb, height))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def vobj(symb, height):
     """Construct vertical object of a given height
 
@@ -486,16 +523,22 @@ def vobj(symb, height):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hobj(sym), construct horizontal object of a given width) over Any ║
+# ║ Path(hobj(symb, width), ''.join(xobj(symb, width))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ''.join(xobj(symb, width))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hobj : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbe636b61b333025           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.hobj","kind":"function","src_hash":"5777cd6e8a189e1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hobj(sym)","rhs":"construct horizontal object of a given width","over":{"base":"Any"},"name":"hobj_correct"},"guarantee":"construct horizontal object of a given width","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbe636b61b333025"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.hobj","kind":"function","src_hash":"5777cd6e8a189e1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hobj(symb, width)","rhs":"''.join(xobj(symb, width))","over":{"base":"Any"},"name":"hobj_correct"},"guarantee":"returns ''.join(xobj(symb, width))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbe636b61b333025","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"''.join(xobj(symb, width))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def hobj(symb, width):
     """Construct horizontal object of a given width
 
@@ -564,16 +607,25 @@ _xsym = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xsym(sym), get symbology for a 'character') over Any  ║
+# ║ Path(xsym(sym), result == (op[1] if _use_unicode else op[0]) and result == op[1] or result == op[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ xsym : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (op[1] if _use_unicode else op[0])   ║
+# ║   ensures:  result == op[1] or result == op[0]             ║
+# ║   fiber[case_0]: _use_unicode => op[1]                     ║
+# ║   fiber[case_1]: not (_use_unicode) => op[0]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ xsym : Any → {Any | result satisfies: result == (op[1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6482521dc01b4faa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 692d68ee7407d42f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.xsym","kind":"function","src_hash":"206f2a2bfdeb5850","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xsym(sym)","rhs":"get symbology for a 'character'","over":{"base":"Any"},"name":"xsym_correct"},"guarantee":"get symbology for a 'character'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.xsym_correct","statement":"Path(xsym(x), get symbology for a 'character')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6482521dc01b4faa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.xsym","kind":"function","src_hash":"206f2a2bfdeb5850","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (op[1] if _use_unicode else op[0]) and result == op[1] or result == op[0]"},"spec":{"lhs":"xsym(sym)","rhs":"result == (op[1] if _use_unicode else op[0]) and result == op[1] or result == op[0]","over":{"base":"Any"},"name":"xsym_correct"},"guarantee":"result == (op[1] if _use_unicode else op[0]); result == op[1] or result == op[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.xsym_correct","statement":"Path(xsym(x), result == (op[1] if _use_unicode else op[0]); result == op[1] or result == op[0]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692d68ee7407d42f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (op[1] if _use_unicode else op[0])","result == op[1] or result == op[0]"],"fibers":[{"name":"case_0","guard":"_use_unicode","ensures":["result == op[1]"],"decidability":"library","returns_expr":"op[1]"},{"name":"case_1","guard":"not (_use_unicode)","ensures":["result == op[0]"],"decidability":"library","returns_expr":"op[0]"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def xsym(sym):
     """get symbology for a 'character'"""
     op = _xsym[sym]
@@ -644,16 +696,23 @@ atoms_table = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty_atom(ato), return pretty representation of an atom) over Any ║
+# ║ Path(pretty_atom(atom_name, default, printer), <unspecified:pretty_atom>) over {Any | hasattr(printer, '_settings')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pretty_atom : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_settings')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pretty_atom : {Any | hasattr(printer, '_settings')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a489c216e869c3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_atom","kind":"function","src_hash":"e6f276995cb510a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_atom(ato)","rhs":"return pretty representation of an atom","over":{"base":"Any"},"name":"pretty_atom_correct"},"guarantee":"return pretty representation of an atom","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_atom_correct","statement":"Path(pretty_atom(x), return pretty representation of an atom)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a489c216e869c3b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_atom","kind":"function","src_hash":"e6f276995cb510a3","in":{"base":"Any","pred":"hasattr(printer, '_settings')"},"out":{"base":"Any"},"spec":{"lhs":"pretty_atom(atom_name, default, printer)","rhs":"<unspecified:pretty_atom>","over":{"base":"Any","pred":"hasattr(printer, '_settings')"},"name":"pretty_atom_correct"},"guarantee":"return pretty representation of an atom","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_atom_correct","statement":"Path(pretty_atom(x), return pretty representation of an atom)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a489c216e869c3b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_settings')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._settings"],"raises":["KeyError"]},"state_contract":{"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pretty_atom(atom_name, default=None, printer=None):
     """return pretty representation of an atom"""
     if _use_unicode:
@@ -669,16 +728,22 @@ def pretty_atom(atom_name, default=None, printer=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty_symbol(sym), return pretty representation of a symbol) over Any ║
+# ║ Path(pretty_symbol(symb_name, bold_name), <unspecified:pretty_symbol>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty_symbol : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ca19e95c170262f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_symbol","kind":"function","src_hash":"b289188d4f76357f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_symbol(sym)","rhs":"return pretty representation of a symbol","over":{"base":"Any"},"name":"pretty_symbol_correct"},"guarantee":"return pretty representation of a symbol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_symbol_correct","statement":"Path(pretty_symbol(x), return pretty representation of a symbol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ca19e95c170262f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.pretty_symbol","kind":"function","src_hash":"b289188d4f76357f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_symbol(symb_name, bold_name)","rhs":"<unspecified:pretty_symbol>","over":{"base":"Any"},"name":"pretty_symbol_correct"},"guarantee":"return pretty representation of a symbol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.pretty_symbol_correct","statement":"Path(pretty_symbol(x), return pretty representation of a symbol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ca19e95c170262f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def pretty_symbol(symb_name, bold_name=False):
     """return pretty representation of a symbol"""
     # let's split symb_name into symbol + index
@@ -741,16 +806,25 @@ def pretty_symbol(symb_name, bold_name=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(annotated(let), return a stylised drawing of the letter ``letter``, together with information on how to put annotations (super- and subscripts to the left and to the right) on it) over Any ║
+# ║ Path(annotated(letter), result == (ucode_pics[letter] if _use_unicode else ascii_pics[letter]) and result == ucode_pics[letter] or result == ascii_pics[letter]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ annotated : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (ucode_pics[letter] if _use_uni...   ║
+# ║   ensures:  result == ucode_pics[letter] or result ==...   ║
+# ║   fiber[case_0]: _use_unicode => ucode_pics[letter]        ║
+# ║   fiber[case_1]: not (_use_unicode) => ascii_pics[let...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ annotated : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5b4905ce159e743  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 776799eacfe0e221  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.annotated","kind":"function","src_hash":"20d0764943c91e20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"annotated(let)","rhs":"return a stylised drawing of the letter ``letter``, together with information on how to put annotations (super- and subscripts to the left and to the right) on it","over":{"base":"Any"},"name":"annotated_correct"},"guarantee":"return a stylised drawing of the letter ``letter``, together with information on how to put annotations (super- and subscripts to the left and to the right) on it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.annotated_correct","statement":"Path(annotated(x), return a stylised drawing of the letter ``letter``, together with information on how to put annotations (super- and subscripts to the left and to the right) on it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5b4905ce159e743"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.annotated","kind":"function","src_hash":"20d0764943c91e20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ucode_pics[letter] if _use_unicode else ascii_pics[letter]) and result == ucode_pics[letter] or result == ascii_pics[letter]"},"spec":{"lhs":"annotated(letter)","rhs":"result == (ucode_pics[letter] if _use_unicode else ascii_pics[letter]) and result == ucode_pics[letter] or result == ascii_pics[letter]","over":{"base":"Any"},"name":"annotated_correct"},"guarantee":"result == (ucode_pics[letter] if _use_unicode else ascii_pics[letter]); result == ucode_pics[letter] or result == ascii_pics[letter]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.annotated_correct","statement":"Path(annotated(x), result == (ucode_pics[letter] if _use_unicode else ascii_pics[letter]); result == ucode_pics[letter] or result == ascii_pics[letter]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"776799eacfe0e221","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (ucode_pics[letter] if _use_unicode else ascii_pics[letter])","result == ucode_pics[letter] or result == ascii_pics[letter]"],"fibers":[{"name":"case_0","guard":"_use_unicode","ensures":["result == ucode_pics[letter]"],"decidability":"library","returns_expr":"ucode_pics[letter]"},{"name":"case_1","guard":"not (_use_unicode)","ensures":["result == ascii_pics[letter]"],"decidability":"library","returns_expr":"ascii_pics[letter]"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def annotated(letter):
     """
     Return a stylised drawing of the letter ``letter``, together with
@@ -782,16 +856,22 @@ _remove_combining = dict.fromkeys(list(range(ord('\N{COMBINING GRAVE ACCENT}'), 
                             + list(range(ord('\N{COMBINING LEFT HARPOON ABOVE}'), ord('\N{COMBINING ASTERISK ABOVE}'))))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_combining(sym), check whether symbol is a unicode modifier) over Any ║
+# ║ Path(is_combining(sym), ord(sym) in _remove_combining) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ord(sym) in _remove_combining                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_combining : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 825a81dd0e9ad4a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.is_combining","kind":"function","src_hash":"ae4c0e8e5458611c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_combining(sym)","rhs":"check whether symbol is a unicode modifier","over":{"base":"Any"},"name":"is_combining_correct"},"guarantee":"check whether symbol is a unicode modifier","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"825a81dd0e9ad4a6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.is_combining","kind":"function","src_hash":"ae4c0e8e5458611c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_combining(sym)","rhs":"ord(sym) in _remove_combining","over":{"base":"Any"},"name":"is_combining_correct"},"guarantee":"returns ord(sym) in _remove_combining","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"825a81dd0e9ad4a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ord(sym) in _remove_combining","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_combining(sym):
     """Check whether symbol is a unicode modifier. """
 
@@ -799,16 +879,22 @@ def is_combining(sym):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center_accent(str), returns a string with accent inserted on the middle character) over Any ║
+# ║ Path(center_accent(string, accent), firstpart + accent + secondpart) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  firstpart + accent + secondpart                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center_accent : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83d0ca00adde00aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85f647d9dd00169b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.center_accent","kind":"function","src_hash":"9e5c7a61e500559e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center_accent(str)","rhs":"returns a string with accent inserted on the middle character","over":{"base":"Any"},"name":"center_accent_correct"},"guarantee":"returns a string with accent inserted on the middle character","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.center_accent_correct","statement":"Path(center_accent(x), returns a string with accent inserted on the middle character)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83d0ca00adde00aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.center_accent","kind":"function","src_hash":"9e5c7a61e500559e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center_accent(string, accent)","rhs":"firstpart + accent + secondpart","over":{"base":"Any"},"name":"center_accent_correct"},"guarantee":"returns firstpart + accent + secondpart","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.center_accent_correct","statement":"Path(center_accent(x), returns firstpart + accent + secondpart)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85f647d9dd00169b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"firstpart + accent + secondpart","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def center_accent(string, accent):
     """
     Returns a string with accent inserted on the middle character. Useful to
@@ -839,16 +925,23 @@ def center_accent(string, accent):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_width(lin), unicode combining symbols (modifiers) are not ever displayed as separate symbols and thus should not be counted) over Any ║
+# ║ Path(line_width(line), len(line.translate(_remove_combining))) over {Any | hasattr(line, 'translate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ line_width : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(line, 'translate')                     ║
+# ║   returns:  len(line.translate(_remove_combining))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ line_width : {Any | hasattr(line, 'translate')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bac3581d1a354e31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.line_width","kind":"function","src_hash":"5b59d2af4de85c81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_width(lin)","rhs":"unicode combining symbols (modifiers) are not ever displayed as separate symbols and thus should not be counted","over":{"base":"Any"},"name":"line_width_correct"},"guarantee":"unicode combining symbols (modifiers) are not ever displayed as separate symbols and thus should not be counted","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bac3581d1a354e31"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.line_width","kind":"function","src_hash":"5b59d2af4de85c81","in":{"base":"Any","pred":"hasattr(line, 'translate')"},"out":{"base":"Any"},"spec":{"lhs":"line_width(line)","rhs":"len(line.translate(_remove_combining))","over":{"base":"Any","pred":"hasattr(line, 'translate')"},"name":"line_width_correct"},"guarantee":"returns len(line.translate(_remove_combining))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bac3581d1a354e31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(line, 'translate')"],"returns_expr":"len(line.translate(_remove_combining))","pure":false,"effects":{"effect_type":"reads_state","reads":["line.translate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def line_width(line):
     """Unicode combining symbols (modifiers) are not ever displayed as
     separate symbols and thus should not be counted
@@ -857,16 +950,22 @@ def line_width(line):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_subscriptable_in_unicode(sub), checks whether a string is subscriptable in unicode or not) over Any ║
+# ║ Path(is_subscriptable_in_unicode(subscript), all((character in sub for character in subscript))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((character in sub for character in su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_subscriptable_in_unicode : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c9062eec672a001           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.is_subscriptable_in_unicode","kind":"function","src_hash":"99b164ccd8c4508f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subscriptable_in_unicode(sub)","rhs":"checks whether a string is subscriptable in unicode or not","over":{"base":"Any"},"name":"is_subscriptable_in_unicode_correct"},"guarantee":"checks whether a string is subscriptable in unicode or not","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c9062eec672a001"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.is_subscriptable_in_unicode","kind":"function","src_hash":"99b164ccd8c4508f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subscriptable_in_unicode(subscript)","rhs":"all((character in sub for character in subscript))","over":{"base":"Any"},"name":"is_subscriptable_in_unicode_correct"},"guarantee":"returns all((character in sub for character in subscript))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c9062eec672a001","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((character in sub for character in subscript))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_subscriptable_in_unicode(subscript):
     """
     Checks whether a string is subscriptable in unicode or not.
@@ -890,16 +989,23 @@ def is_subscriptable_in_unicode(subscript):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center_pad(wst), return the padding strings necessary to center a string of wstring characters wide in a wtarget wide space) over Any ║
+# ║ Path(center_pad(wstring, wtarget, fillchar), (left, right)) over {Any | not (wstring > wtarget)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ center_pad : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (wstring > wtarget)                        ║
+# ║   returns:  (left, right)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ center_pad : {Any | not (wstring > wtarget)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a103547dcdbbd962  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e37ac0c4357fbb82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.center_pad","kind":"function","src_hash":"048f2d1449eb4852","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center_pad(wst)","rhs":"return the padding strings necessary to center a string of wstring characters wide in a wtarget wide space","over":{"base":"Any"},"name":"center_pad_correct"},"guarantee":"return the padding strings necessary to center a string of wstring characters wide in a wtarget wide space","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.center_pad_correct","statement":"Path(center_pad(x), return the padding strings necessary to center a string of wstring characters wide in a wtarget wide space)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a103547dcdbbd962"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.center_pad","kind":"function","src_hash":"048f2d1449eb4852","in":{"base":"Any","pred":"not (wstring > wtarget)"},"out":{"base":"Any"},"spec":{"lhs":"center_pad(wstring, wtarget, fillchar)","rhs":"(left, right)","over":{"base":"Any","pred":"not (wstring > wtarget)"},"name":"center_pad_correct"},"guarantee":"returns (left, right)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.center_pad_correct","statement":"Path(center_pad(x), returns (left, right))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37ac0c4357fbb82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (wstring > wtarget)"],"returns_expr":"(left, right)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def center_pad(wstring, wtarget, fillchar=' '):
     """
     Return the padding strings necessary to center a string of
@@ -922,16 +1028,22 @@ def center_pad(wstring, wtarget, fillchar=' '):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(str), return a centered string of length determined by `line_width` that uses `fillchar` for padding) over Any ║
+# ║ Path(center(string, width, fillchar), ''.join([left, string, right])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ''.join([left, string, right])                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7275e2de2d6d139  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6676b0ab4776aa90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.center","kind":"function","src_hash":"f7e313b83769e498","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center(str)","rhs":"return a centered string of length determined by `line_width` that uses `fillchar` for padding","over":{"base":"Any"},"name":"center_correct"},"guarantee":"return a centered string of length determined by `line_width` that uses `fillchar` for padding","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.center_correct","statement":"Path(center(x), return a centered string of length determined by `line_width` that uses `fillchar` for padding)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7275e2de2d6d139"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty_symbology.center","kind":"function","src_hash":"f7e313b83769e498","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center(string, width, fillchar)","rhs":"''.join([left, string, right])","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns ''.join([left, string, right])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty_symbology.center_correct","statement":"Path(center(x), returns ''.join([left, string, right]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6676b0ab4776aa90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"''.join([left, string, right])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def center(string, width, fillchar=' '):
     """Return a centered string of length determined by `line_width`
     that uses `fillchar` for padding.

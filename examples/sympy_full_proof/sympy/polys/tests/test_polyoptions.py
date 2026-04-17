@@ -35,16 +35,24 @@ from sympy.abc import x, y, z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Options_clone(), test_Options_clone produces the expected output) over Any ║
+# ║ Path(test_Options_clone(), opt.gens == (x, y, z) and opt.domain == ZZ and ('order' in opt) is False and new_opt.gens == (x, y) and new_opt.domain == ZZ and ('order' in new_opt) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Options_clone : Any → {Any | opt.gens == (x, y, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt.gens == (x, y, z)                          ║
+# ║   ensures:  opt.domain == ZZ                               ║
+# ║   ensures:  ('order' in opt) is False                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Options_clone : Any → {Any | result satisfies: o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d6d50321d0aca80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20c3e81a59e5ce64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Options_clone","kind":"function","src_hash":"cff20d19d0417af2","in":{"base":"Any"},"out":{"base":"Any","pred":"opt.gens == (x, y, z) and opt.domain == ZZ and ('order' in opt) is False and opt.gens == (x, y, z) and opt.domain == ZZ and ('order' in opt) is False and new_opt.gens == (x, y) and new_opt.domain == ZZ and ('order' in new_opt) is True"},"spec":{"lhs":"test_Options_clone()","rhs":"test_Options_clone produces the expected output","over":{"base":"Any"},"name":"test_Options_clone_correct"},"guarantee":"test_Options_clone produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Options_clone_correct","statement":"Path(test_Options_clone(x), test_Options_clone produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d6d50321d0aca80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Options_clone","kind":"function","src_hash":"cff20d19d0417af2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt.gens == (x, y, z) and opt.domain == ZZ and ('order' in opt) is False and new_opt.gens == (x, y) and new_opt.domain == ZZ and ('order' in new_opt) is True"},"spec":{"lhs":"test_Options_clone()","rhs":"opt.gens == (x, y, z) and opt.domain == ZZ and ('order' in opt) is False and new_opt.gens == (x, y) and new_opt.domain == ZZ and ('order' in new_opt) is True","over":{"base":"Any"},"name":"test_Options_clone_correct"},"guarantee":"opt.gens == (x, y, z); opt.domain == ZZ; ('order' in opt) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Options_clone_correct","statement":"Path(test_Options_clone(x), opt.gens == (x, y, z); opt.domain == ZZ; ('order' in opt) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20c3e81a59e5ce64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt.gens == (x, y, z)","opt.domain == ZZ","('order' in opt) is False","new_opt.gens == (x, y)","new_opt.domain == ZZ","('order' in new_opt) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Options_clone():
     opt = Options((x, y, z), {'domain': 'ZZ'})
 
@@ -64,16 +72,24 @@ def test_Options_clone():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Expand_preprocess(), test_Expand_preprocess produces the expected output) over Any ║
+# ║ Path(test_Expand_preprocess(), Expand.preprocess(False) is False and Expand.preprocess(True) is True and Expand.preprocess(0) is False and Expand.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Expand_preprocess : Any → {Any | Expand.preproce...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Expand.preprocess(False) is False              ║
+# ║   ensures:  Expand.preprocess(True) is True                ║
+# ║   ensures:  Expand.preprocess(0) is False                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Expand_preprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e37ec7d39a3facaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31010fc3e1610f50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Expand_preprocess","kind":"function","src_hash":"76eab79f7255157f","in":{"base":"Any"},"out":{"base":"Any","pred":"Expand.preprocess(False) is False and Expand.preprocess(True) is True and Expand.preprocess(0) is False and Expand.preprocess(1) is True"},"spec":{"lhs":"test_Expand_preprocess()","rhs":"test_Expand_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Expand_preprocess_correct"},"guarantee":"test_Expand_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Expand_preprocess_correct","statement":"Path(test_Expand_preprocess(x), test_Expand_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37ec7d39a3facaf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Expand_preprocess","kind":"function","src_hash":"76eab79f7255157f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Expand.preprocess(False) is False and Expand.preprocess(True) is True and Expand.preprocess(0) is False and Expand.preprocess(1) is True"},"spec":{"lhs":"test_Expand_preprocess()","rhs":"Expand.preprocess(False) is False and Expand.preprocess(True) is True and Expand.preprocess(0) is False and Expand.preprocess(1) is True","over":{"base":"Any"},"name":"test_Expand_preprocess_correct"},"guarantee":"Expand.preprocess(False) is False; Expand.preprocess(True) is True; Expand.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Expand_preprocess_correct","statement":"Path(test_Expand_preprocess(x), Expand.preprocess(False) is False; Expand.preprocess(True) is True; Expand.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31010fc3e1610f50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Expand.preprocess(False) is False","Expand.preprocess(True) is True","Expand.preprocess(0) is False","Expand.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Expand_preprocess():
     assert Expand.preprocess(False) is False
     assert Expand.preprocess(True) is True
@@ -85,16 +101,22 @@ def test_Expand_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Expand_postprocess(), test_Expand_postprocess produces the expected output) over Any ║
+# ║ Path(test_Expand_postprocess(), opt == {'expand': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Expand_postprocess : Any → {Any | opt == {'expan...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'expand': True}                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Expand_postprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9914a899cb2d786f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b92ce89e0c28ddf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Expand_postprocess","kind":"function","src_hash":"024a966c4df4bad3","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'expand': True}"},"spec":{"lhs":"test_Expand_postprocess()","rhs":"test_Expand_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Expand_postprocess_correct"},"guarantee":"test_Expand_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Expand_postprocess_correct","statement":"Path(test_Expand_postprocess(x), test_Expand_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9914a899cb2d786f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Expand_postprocess","kind":"function","src_hash":"024a966c4df4bad3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'expand': True}"},"spec":{"lhs":"test_Expand_postprocess()","rhs":"opt == {'expand': True}","over":{"base":"Any"},"name":"test_Expand_postprocess_correct"},"guarantee":"opt == {'expand': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Expand_postprocess_correct","statement":"Path(test_Expand_postprocess(x), opt == {'expand': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b92ce89e0c28ddf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'expand': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Expand_postprocess():
     opt = {'expand': True}
     Expand.postprocess(opt)
@@ -103,16 +125,24 @@ def test_Expand_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Gens_preprocess(), test_Gens_preprocess produces the expected output) over Any ║
+# ║ Path(test_Gens_preprocess(), Gens.preprocess((None,)) == () and Gens.preprocess((x, y, z)) == (x, y, z) and Gens.preprocess(((x, y, z),)) == (x, y, z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Gens_preprocess : Any → {Any | Gens.preprocess((...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Gens.preprocess((None,)) == ()                 ║
+# ║   ensures:  Gens.preprocess((x, y, z)) == (x, y, z)        ║
+# ║   ensures:  Gens.preprocess(((x, y, z),)) == (x, y, z)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Gens_preprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67d8fe69348c485c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07ca17bd323a25da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gens_preprocess","kind":"function","src_hash":"97533137e94fda76","in":{"base":"Any"},"out":{"base":"Any","pred":"Gens.preprocess((None,)) == () and Gens.preprocess((x, y, z)) == (x, y, z) and Gens.preprocess(((x, y, z),)) == (x, y, z)"},"spec":{"lhs":"test_Gens_preprocess()","rhs":"test_Gens_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Gens_preprocess_correct"},"guarantee":"test_Gens_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gens_preprocess_correct","statement":"Path(test_Gens_preprocess(x), test_Gens_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67d8fe69348c485c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gens_preprocess","kind":"function","src_hash":"97533137e94fda76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Gens.preprocess((None,)) == () and Gens.preprocess((x, y, z)) == (x, y, z) and Gens.preprocess(((x, y, z),)) == (x, y, z)"},"spec":{"lhs":"test_Gens_preprocess()","rhs":"Gens.preprocess((None,)) == () and Gens.preprocess((x, y, z)) == (x, y, z) and Gens.preprocess(((x, y, z),)) == (x, y, z)","over":{"base":"Any"},"name":"test_Gens_preprocess_correct"},"guarantee":"Gens.preprocess((None,)) == (); Gens.preprocess((x, y, z)) == (x, y, z); Gens.preprocess(((x, y, z),)) == (x, y, z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gens_preprocess_correct","statement":"Path(test_Gens_preprocess(x), Gens.preprocess((None,)) == (); Gens.preprocess((x, y, z)) == (x, y, z); Gens.preprocess(((x, y, z),)) == (x, y, z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ca17bd323a25da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Gens.preprocess((None,)) == ()","Gens.preprocess((x, y, z)) == (x, y, z)","Gens.preprocess(((x, y, z),)) == (x, y, z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Gens_preprocess():
     assert Gens.preprocess((None,)) == ()
     assert Gens.preprocess((x, y, z)) == (x, y, z)
@@ -125,16 +155,22 @@ def test_Gens_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Gens_postprocess(), test_Gens_postprocess produces the expected output) over Any ║
+# ║ Path(test_Gens_postprocess(), opt == {'gens': (x, y)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Gens_postprocess : Any → {Any | opt == {'gens': ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'gens': (x, y)}                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Gens_postprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7541c7819da813a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 642e7bec76035730  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gens_postprocess","kind":"function","src_hash":"580d31934d1c6f8e","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'gens': (x, y)}"},"spec":{"lhs":"test_Gens_postprocess()","rhs":"test_Gens_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Gens_postprocess_correct"},"guarantee":"test_Gens_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gens_postprocess_correct","statement":"Path(test_Gens_postprocess(x), test_Gens_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7541c7819da813a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gens_postprocess","kind":"function","src_hash":"580d31934d1c6f8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'gens': (x, y)}"},"spec":{"lhs":"test_Gens_postprocess()","rhs":"opt == {'gens': (x, y)}","over":{"base":"Any"},"name":"test_Gens_postprocess_correct"},"guarantee":"opt == {'gens': (x, y)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gens_postprocess_correct","statement":"Path(test_Gens_postprocess(x), opt == {'gens': (x, y)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"642e7bec76035730","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'gens': (x, y)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Gens_postprocess():
     opt = {'gens': (x, y)}
     Gens.postprocess(opt)
@@ -143,16 +179,24 @@ def test_Gens_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Wrt_preprocess(), test_Wrt_preprocess produces the expected output) over Any ║
+# ║ Path(test_Wrt_preprocess(), Wrt.preprocess(x) == ['x'] and Wrt.preprocess('') == [] and Wrt.preprocess(' ') == [] and Wrt.preprocess('x,y') == ['x', 'y'] and Wrt.preprocess('x y') == ['x', 'y'] and Wrt.preprocess('x, y') == ['x', 'y'] and Wrt.preprocess('x , y') == ['x', 'y'] and Wrt.preprocess(' x, y') == ['x', 'y'] and Wrt.preprocess(' x,  y') == ['x', 'y'] and Wrt.preprocess([x, y]) == ['x', 'y']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Wrt_preprocess : Any → {Any | Wrt.preprocess(x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Wrt.preprocess(x) == ['x']                     ║
+# ║   ensures:  Wrt.preprocess('') == []                       ║
+# ║   ensures:  Wrt.preprocess(' ') == []                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Wrt_preprocess : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56c3744a89fc3fd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d596de42290f4c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Wrt_preprocess","kind":"function","src_hash":"37ba5878b3c8ace2","in":{"base":"Any"},"out":{"base":"Any","pred":"Wrt.preprocess(x) == ['x'] and Wrt.preprocess('') == [] and Wrt.preprocess(' ') == [] and Wrt.preprocess('x,y') == ['x', 'y'] and Wrt.preprocess('x y') == ['x', 'y'] and Wrt.preprocess('x, y') == ['x', 'y'] and Wrt.preprocess('x , y') == ['x', 'y'] and Wrt.preprocess(' x, y') == ['x', 'y'] and Wrt.preprocess(' x,  y') == ['x', 'y'] and Wrt.preprocess([x, y]) == ['x', 'y']"},"spec":{"lhs":"test_Wrt_preprocess()","rhs":"test_Wrt_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Wrt_preprocess_correct"},"guarantee":"test_Wrt_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Wrt_preprocess_correct","statement":"Path(test_Wrt_preprocess(x), test_Wrt_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56c3744a89fc3fd6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Wrt_preprocess","kind":"function","src_hash":"37ba5878b3c8ace2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Wrt.preprocess(x) == ['x'] and Wrt.preprocess('') == [] and Wrt.preprocess(' ') == [] and Wrt.preprocess('x,y') == ['x', 'y'] and Wrt.preprocess('x y') == ['x', 'y'] and Wrt.preprocess('x, y') == ['x', 'y'] and Wrt.preprocess('x , y') == ['x', 'y'] and Wrt.preprocess(' x, y') == ['x', 'y'] and Wrt.preprocess(' x,  y') == ['x', 'y'] and Wrt.preprocess([x, y]) == ['x', 'y']"},"spec":{"lhs":"test_Wrt_preprocess()","rhs":"Wrt.preprocess(x) == ['x'] and Wrt.preprocess('') == [] and Wrt.preprocess(' ') == [] and Wrt.preprocess('x,y') == ['x', 'y'] and Wrt.preprocess('x y') == ['x', 'y'] and Wrt.preprocess('x, y') == ['x', 'y'] and Wrt.preprocess('x , y') == ['x', 'y'] and Wrt.preprocess(' x, y') == ['x', 'y'] and Wrt.preprocess(' x,  y') == ['x', 'y'] and Wrt.preprocess([x, y]) == ['x', 'y']","over":{"base":"Any"},"name":"test_Wrt_preprocess_correct"},"guarantee":"Wrt.preprocess(x) == ['x']; Wrt.preprocess('') == []; Wrt.preprocess(' ') == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Wrt_preprocess_correct","statement":"Path(test_Wrt_preprocess(x), Wrt.preprocess(x) == ['x']; Wrt.preprocess('') == []; Wrt.preprocess(' ') == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d596de42290f4c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Wrt.preprocess(x) == ['x']","Wrt.preprocess('') == []","Wrt.preprocess(' ') == []","Wrt.preprocess('x,y') == ['x', 'y']","Wrt.preprocess('x y') == ['x', 'y']","Wrt.preprocess('x, y') == ['x', 'y']","Wrt.preprocess('x , y') == ['x', 'y']","Wrt.preprocess(' x, y') == ['x', 'y']","Wrt.preprocess(' x,  y') == ['x', 'y']","Wrt.preprocess([x, y]) == ['x', 'y']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Wrt_preprocess():
     assert Wrt.preprocess(x) == ['x']
     assert Wrt.preprocess('') == []
@@ -170,16 +214,22 @@ def test_Wrt_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Wrt_postprocess(), test_Wrt_postprocess produces the expected output) over Any ║
+# ║ Path(test_Wrt_postprocess(), opt == {'wrt': ['x']}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Wrt_postprocess : Any → {Any | opt == {'wrt': ['...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'wrt': ['x']}                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Wrt_postprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcac6e228dda708c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c4e91bdb10d36c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Wrt_postprocess","kind":"function","src_hash":"966587cee1974ab8","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'wrt': ['x']}"},"spec":{"lhs":"test_Wrt_postprocess()","rhs":"test_Wrt_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Wrt_postprocess_correct"},"guarantee":"test_Wrt_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Wrt_postprocess_correct","statement":"Path(test_Wrt_postprocess(x), test_Wrt_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcac6e228dda708c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Wrt_postprocess","kind":"function","src_hash":"966587cee1974ab8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'wrt': ['x']}"},"spec":{"lhs":"test_Wrt_postprocess()","rhs":"opt == {'wrt': ['x']}","over":{"base":"Any"},"name":"test_Wrt_postprocess_correct"},"guarantee":"opt == {'wrt': ['x']}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Wrt_postprocess_correct","statement":"Path(test_Wrt_postprocess(x), opt == {'wrt': ['x']})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c4e91bdb10d36c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'wrt': ['x']}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Wrt_postprocess():
     opt = {'wrt': ['x']}
     Wrt.postprocess(opt)
@@ -188,16 +238,24 @@ def test_Wrt_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sort_preprocess(), test_Sort_preprocess produces the expected output) over Any ║
+# ║ Path(test_Sort_preprocess(), Sort.preprocess([x, y, z]) == ['x', 'y', 'z'] and Sort.preprocess((x, y, z)) == ['x', 'y', 'z'] and Sort.preprocess('x > y > z') == ['x', 'y', 'z'] and Sort.preprocess('x>y>z') == ['x', 'y', 'z']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sort_preprocess : Any → {Any | Sort.preprocess([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Sort.preprocess([x, y, z]) == ['x', 'y', ...   ║
+# ║   ensures:  Sort.preprocess((x, y, z)) == ['x', 'y', ...   ║
+# ║   ensures:  Sort.preprocess('x > y > z') == ['x', 'y'...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sort_preprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6df9b21206d939b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0d82feee9220f0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Sort_preprocess","kind":"function","src_hash":"d6292f5c17fbce0a","in":{"base":"Any"},"out":{"base":"Any","pred":"Sort.preprocess([x, y, z]) == ['x', 'y', 'z'] and Sort.preprocess((x, y, z)) == ['x', 'y', 'z'] and Sort.preprocess('x > y > z') == ['x', 'y', 'z'] and Sort.preprocess('x>y>z') == ['x', 'y', 'z']"},"spec":{"lhs":"test_Sort_preprocess()","rhs":"test_Sort_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Sort_preprocess_correct"},"guarantee":"test_Sort_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Sort_preprocess_correct","statement":"Path(test_Sort_preprocess(x), test_Sort_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6df9b21206d939b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Sort_preprocess","kind":"function","src_hash":"d6292f5c17fbce0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Sort.preprocess([x, y, z]) == ['x', 'y', 'z'] and Sort.preprocess((x, y, z)) == ['x', 'y', 'z'] and Sort.preprocess('x > y > z') == ['x', 'y', 'z'] and Sort.preprocess('x>y>z') == ['x', 'y', 'z']"},"spec":{"lhs":"test_Sort_preprocess()","rhs":"Sort.preprocess([x, y, z]) == ['x', 'y', 'z'] and Sort.preprocess((x, y, z)) == ['x', 'y', 'z'] and Sort.preprocess('x > y > z') == ['x', 'y', 'z'] and Sort.preprocess('x>y>z') == ['x', 'y', 'z']","over":{"base":"Any"},"name":"test_Sort_preprocess_correct"},"guarantee":"Sort.preprocess([x, y, z]) == ['x', 'y', 'z']; Sort.preprocess((x, y, z)) == ['x', 'y', 'z']; Sort.preprocess('x > y > z') == ['x', 'y', 'z']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Sort_preprocess_correct","statement":"Path(test_Sort_preprocess(x), Sort.preprocess([x, y, z]) == ['x', 'y', 'z']; Sort.preprocess((x, y, z)) == ['x', 'y', 'z']; Sort.preprocess('x > y > z') == ['x', 'y', 'z'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0d82feee9220f0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Sort.preprocess([x, y, z]) == ['x', 'y', 'z']","Sort.preprocess((x, y, z)) == ['x', 'y', 'z']","Sort.preprocess('x > y > z') == ['x', 'y', 'z']","Sort.preprocess('x>y>z') == ['x', 'y', 'z']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Sort_preprocess():
     assert Sort.preprocess([x, y, z]) == ['x', 'y', 'z']
     assert Sort.preprocess((x, y, z)) == ['x', 'y', 'z']
@@ -210,16 +268,22 @@ def test_Sort_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sort_postprocess(), test_Sort_postprocess produces the expected output) over Any ║
+# ║ Path(test_Sort_postprocess(), opt == {'sort': 'x > y'}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sort_postprocess : Any → {Any | opt == {'sort': ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'sort': 'x > y'}                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sort_postprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 379494674dc60b4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 894fd1884206acbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Sort_postprocess","kind":"function","src_hash":"1b31ef5e461dd667","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'sort': 'x > y'}"},"spec":{"lhs":"test_Sort_postprocess()","rhs":"test_Sort_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Sort_postprocess_correct"},"guarantee":"test_Sort_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Sort_postprocess_correct","statement":"Path(test_Sort_postprocess(x), test_Sort_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"379494674dc60b4f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Sort_postprocess","kind":"function","src_hash":"1b31ef5e461dd667","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'sort': 'x > y'}"},"spec":{"lhs":"test_Sort_postprocess()","rhs":"opt == {'sort': 'x > y'}","over":{"base":"Any"},"name":"test_Sort_postprocess_correct"},"guarantee":"opt == {'sort': 'x > y'}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Sort_postprocess_correct","statement":"Path(test_Sort_postprocess(x), opt == {'sort': 'x > y'})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"894fd1884206acbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'sort': 'x > y'}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Sort_postprocess():
     opt = {'sort': 'x > y'}
     Sort.postprocess(opt)
@@ -228,31 +292,43 @@ def test_Sort_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Order_preprocess(), test_Order_preprocess produces the expected output) over Any ║
+# ║ Path(test_Order_preprocess(), Order.preprocess('lex') == lex) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Order_preprocess : Any → {Any | Order.preprocess...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order.preprocess('lex') == lex                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Order_preprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87fe37e88cb29cd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd83a7e7ed751e50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Order_preprocess","kind":"function","src_hash":"f4656845846ac6c4","in":{"base":"Any"},"out":{"base":"Any","pred":"Order.preprocess('lex') == lex"},"spec":{"lhs":"test_Order_preprocess()","rhs":"test_Order_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Order_preprocess_correct"},"guarantee":"test_Order_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Order_preprocess_correct","statement":"Path(test_Order_preprocess(x), test_Order_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87fe37e88cb29cd7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Order_preprocess","kind":"function","src_hash":"f4656845846ac6c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order.preprocess('lex') == lex"},"spec":{"lhs":"test_Order_preprocess()","rhs":"Order.preprocess('lex') == lex","over":{"base":"Any"},"name":"test_Order_preprocess_correct"},"guarantee":"Order.preprocess('lex') == lex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Order_preprocess_correct","statement":"Path(test_Order_preprocess(x), Order.preprocess('lex') == lex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd83a7e7ed751e50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order.preprocess('lex') == lex"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Order_preprocess():
     assert Order.preprocess('lex') == lex
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Order_postprocess(), test_Order_postprocess produces the expected output) over Any ║
+# ║ Path(test_Order_postprocess(), opt == {'order': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Order_postprocess : Any → {Any | opt == {'order'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'order': True}                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Order_postprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b90256fce538728  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bb0a511da4c2e7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Order_postprocess","kind":"function","src_hash":"9c86f86823242c58","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'order': True}"},"spec":{"lhs":"test_Order_postprocess()","rhs":"test_Order_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Order_postprocess_correct"},"guarantee":"test_Order_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Order_postprocess_correct","statement":"Path(test_Order_postprocess(x), test_Order_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b90256fce538728"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Order_postprocess","kind":"function","src_hash":"9c86f86823242c58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'order': True}"},"spec":{"lhs":"test_Order_postprocess()","rhs":"opt == {'order': True}","over":{"base":"Any"},"name":"test_Order_postprocess_correct"},"guarantee":"opt == {'order': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Order_postprocess_correct","statement":"Path(test_Order_postprocess(x), opt == {'order': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb0a511da4c2e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'order': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Order_postprocess():
     opt = {'order': True}
     Order.postprocess(opt)
@@ -261,16 +337,24 @@ def test_Order_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Field_preprocess(), test_Field_preprocess produces the expected output) over Any ║
+# ║ Path(test_Field_preprocess(), Field.preprocess(False) is False and Field.preprocess(True) is True and Field.preprocess(0) is False and Field.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Field_preprocess : Any → {Any | Field.preprocess...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Field.preprocess(False) is False               ║
+# ║   ensures:  Field.preprocess(True) is True                 ║
+# ║   ensures:  Field.preprocess(0) is False                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Field_preprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93e65280b23886a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a29d39a5e2ae50f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Field_preprocess","kind":"function","src_hash":"e23796fc82dfb7af","in":{"base":"Any"},"out":{"base":"Any","pred":"Field.preprocess(False) is False and Field.preprocess(True) is True and Field.preprocess(0) is False and Field.preprocess(1) is True"},"spec":{"lhs":"test_Field_preprocess()","rhs":"test_Field_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Field_preprocess_correct"},"guarantee":"test_Field_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Field_preprocess_correct","statement":"Path(test_Field_preprocess(x), test_Field_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93e65280b23886a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Field_preprocess","kind":"function","src_hash":"e23796fc82dfb7af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Field.preprocess(False) is False and Field.preprocess(True) is True and Field.preprocess(0) is False and Field.preprocess(1) is True"},"spec":{"lhs":"test_Field_preprocess()","rhs":"Field.preprocess(False) is False and Field.preprocess(True) is True and Field.preprocess(0) is False and Field.preprocess(1) is True","over":{"base":"Any"},"name":"test_Field_preprocess_correct"},"guarantee":"Field.preprocess(False) is False; Field.preprocess(True) is True; Field.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Field_preprocess_correct","statement":"Path(test_Field_preprocess(x), Field.preprocess(False) is False; Field.preprocess(True) is True; Field.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a29d39a5e2ae50f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Field.preprocess(False) is False","Field.preprocess(True) is True","Field.preprocess(0) is False","Field.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Field_preprocess():
     assert Field.preprocess(False) is False
     assert Field.preprocess(True) is True
@@ -282,16 +366,22 @@ def test_Field_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Field_postprocess(), test_Field_postprocess produces the expected output) over Any ║
+# ║ Path(test_Field_postprocess(), opt == {'field': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Field_postprocess : Any → {Any | opt == {'field'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'field': True}                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Field_postprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f674c0e01d7612fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c72e763482f4ec0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Field_postprocess","kind":"function","src_hash":"7880a335d083e262","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'field': True}"},"spec":{"lhs":"test_Field_postprocess()","rhs":"test_Field_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Field_postprocess_correct"},"guarantee":"test_Field_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Field_postprocess_correct","statement":"Path(test_Field_postprocess(x), test_Field_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f674c0e01d7612fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Field_postprocess","kind":"function","src_hash":"7880a335d083e262","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'field': True}"},"spec":{"lhs":"test_Field_postprocess()","rhs":"opt == {'field': True}","over":{"base":"Any"},"name":"test_Field_postprocess_correct"},"guarantee":"opt == {'field': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Field_postprocess_correct","statement":"Path(test_Field_postprocess(x), opt == {'field': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72e763482f4ec0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'field': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Field_postprocess():
     opt = {'field': True}
     Field.postprocess(opt)
@@ -300,16 +390,24 @@ def test_Field_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Greedy_preprocess(), test_Greedy_preprocess produces the expected output) over Any ║
+# ║ Path(test_Greedy_preprocess(), Greedy.preprocess(False) is False and Greedy.preprocess(True) is True and Greedy.preprocess(0) is False and Greedy.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Greedy_preprocess : Any → {Any | Greedy.preproce...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Greedy.preprocess(False) is False              ║
+# ║   ensures:  Greedy.preprocess(True) is True                ║
+# ║   ensures:  Greedy.preprocess(0) is False                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Greedy_preprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c026db00a56af20f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c17e3b30072bb7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Greedy_preprocess","kind":"function","src_hash":"27b3398175b262bf","in":{"base":"Any"},"out":{"base":"Any","pred":"Greedy.preprocess(False) is False and Greedy.preprocess(True) is True and Greedy.preprocess(0) is False and Greedy.preprocess(1) is True"},"spec":{"lhs":"test_Greedy_preprocess()","rhs":"test_Greedy_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Greedy_preprocess_correct"},"guarantee":"test_Greedy_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Greedy_preprocess_correct","statement":"Path(test_Greedy_preprocess(x), test_Greedy_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c026db00a56af20f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Greedy_preprocess","kind":"function","src_hash":"27b3398175b262bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Greedy.preprocess(False) is False and Greedy.preprocess(True) is True and Greedy.preprocess(0) is False and Greedy.preprocess(1) is True"},"spec":{"lhs":"test_Greedy_preprocess()","rhs":"Greedy.preprocess(False) is False and Greedy.preprocess(True) is True and Greedy.preprocess(0) is False and Greedy.preprocess(1) is True","over":{"base":"Any"},"name":"test_Greedy_preprocess_correct"},"guarantee":"Greedy.preprocess(False) is False; Greedy.preprocess(True) is True; Greedy.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Greedy_preprocess_correct","statement":"Path(test_Greedy_preprocess(x), Greedy.preprocess(False) is False; Greedy.preprocess(True) is True; Greedy.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c17e3b30072bb7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Greedy.preprocess(False) is False","Greedy.preprocess(True) is True","Greedy.preprocess(0) is False","Greedy.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Greedy_preprocess():
     assert Greedy.preprocess(False) is False
     assert Greedy.preprocess(True) is True
@@ -321,16 +419,22 @@ def test_Greedy_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Greedy_postprocess(), test_Greedy_postprocess produces the expected output) over Any ║
+# ║ Path(test_Greedy_postprocess(), opt == {'greedy': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Greedy_postprocess : Any → {Any | opt == {'greed...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'greedy': True}                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Greedy_postprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39358f654067b130  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13239019cd4852f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Greedy_postprocess","kind":"function","src_hash":"21c2cb0ee68be460","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'greedy': True}"},"spec":{"lhs":"test_Greedy_postprocess()","rhs":"test_Greedy_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Greedy_postprocess_correct"},"guarantee":"test_Greedy_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Greedy_postprocess_correct","statement":"Path(test_Greedy_postprocess(x), test_Greedy_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39358f654067b130"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Greedy_postprocess","kind":"function","src_hash":"21c2cb0ee68be460","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'greedy': True}"},"spec":{"lhs":"test_Greedy_postprocess()","rhs":"opt == {'greedy': True}","over":{"base":"Any"},"name":"test_Greedy_postprocess_correct"},"guarantee":"opt == {'greedy': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Greedy_postprocess_correct","statement":"Path(test_Greedy_postprocess(x), opt == {'greedy': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13239019cd4852f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'greedy': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Greedy_postprocess():
     opt = {'greedy': True}
     Greedy.postprocess(opt)
@@ -339,16 +443,24 @@ def test_Greedy_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Domain_preprocess(), test_Domain_preprocess produces the expected output) over Any ║
+# ║ Path(test_Domain_preprocess(), Domain.preprocess(ZZ) == ZZ and Domain.preprocess(QQ) == QQ and Domain.preprocess(EX) == EX and Domain.preprocess(FF(2)) == FF(2) and Domain.preprocess(ZZ[x, y]) == ZZ[x, y] and Domain.preprocess('Z') == ZZ and Domain.preprocess('Q') == QQ and Domain.preprocess('ZZ') == ZZ and Domain.preprocess('QQ') == QQ and Domain.preprocess('EX') == EX and Domain.preprocess('FF(23)') == FF(23) and Domain.preprocess('GF(23)') == GF(23) and Domain.preprocess('Z[x]') == ZZ[x] and Domain.preprocess('Q[x]') == QQ[x] and Domain.preprocess('R[x]') == RR[x] and Domain.preprocess('C[x]') == CC[x] and Domain.preprocess('ZZ[x]') == ZZ[x] and Domain.preprocess('QQ[x]') == QQ[x] and Domain.preprocess('RR[x]') == RR[x] and Domain.preprocess('CC[x]') == CC[x] and Domain.preprocess('Z[x,y]') == ZZ[x, y] and Domain.preprocess('Q[x,y]') == QQ[x, y] and Domain.preprocess('R[x,y]') == RR[x, y] and Domain.preprocess('C[x,y]') == CC[x, y] and Domain.preprocess('ZZ[x,y]') == ZZ[x, y] and Domain.preprocess('QQ[x,y]') == QQ[x, y] and Domain.preprocess('RR[x,y]') == RR[x, y] and Domain.preprocess('CC[x,y]') == CC[x, y] and Domain.preprocess('Z(x)') == ZZ.frac_field(x) and Domain.preprocess('Q(x)') == QQ.frac_field(x) and Domain.preprocess('ZZ(x)') == ZZ.frac_field(x) and Domain.preprocess('QQ(x)') == QQ.frac_field(x) and Domain.preprocess('Z(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('Q(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('ZZ(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('QQ(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('Q<I>') == QQ.algebraic_field(I) and Domain.preprocess('QQ<I>') == QQ.algebraic_field(I) and Domain.preprocess('Q<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I) and Domain.preprocess('QQ<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Domain_preprocess : Any → {Any | Domain.preproce...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Domain.preprocess(ZZ) == ZZ                    ║
+# ║   ensures:  Domain.preprocess(QQ) == QQ                    ║
+# ║   ensures:  Domain.preprocess(EX) == EX                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Domain_preprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 822509247d13debb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8c153c4f997f863  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Domain_preprocess","kind":"function","src_hash":"8ab224750393bd19","in":{"base":"Any"},"out":{"base":"Any","pred":"Domain.preprocess(ZZ) == ZZ and Domain.preprocess(QQ) == QQ and Domain.preprocess(EX) == EX and Domain.preprocess(FF(2)) == FF(2) and Domain.preprocess(ZZ[x, y]) == ZZ[x, y] and Domain.preprocess('Z') == ZZ and Domain.preprocess('Q') == QQ and Domain.preprocess('ZZ') == ZZ and Domain.preprocess('QQ') == QQ and Domain.preprocess('EX') == EX and Domain.preprocess('FF(23)') == FF(23) and Domain.preprocess('GF(23)') == GF(23) and Domain.preprocess('Z[x]') == ZZ[x] and Domain.preprocess('Q[x]') == QQ[x] and Domain.preprocess('R[x]') == RR[x] and Domain.preprocess('C[x]') == CC[x] and Domain.preprocess('ZZ[x]') == ZZ[x] and Domain.preprocess('QQ[x]') == QQ[x] and Domain.preprocess('RR[x]') == RR[x] and Domain.preprocess('CC[x]') == CC[x] and Domain.preprocess('Z[x,y]') == ZZ[x, y] and Domain.preprocess('Q[x,y]') == QQ[x, y] and Domain.preprocess('R[x,y]') == RR[x, y] and Domain.preprocess('C[x,y]') == CC[x, y] and Domain.preprocess('ZZ[x,y]') == ZZ[x, y] and Domain.preprocess('QQ[x,y]') == QQ[x, y] and Domain.preprocess('RR[x,y]') == RR[x, y] and Domain.preprocess('CC[x,y]') == CC[x, y] and Domain.preprocess('Z(x)') == ZZ.frac_field(x) and Domain.preprocess('Q(x)') == QQ.frac_field(x) and Domain.preprocess('ZZ(x)') == ZZ.frac_field(x) and Domain.preprocess('QQ(x)') == QQ.frac_field(x) and Domain.preprocess('Z(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('Q(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('ZZ(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('QQ(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('Q<I>') == QQ.algebraic_field(I) and Domain.preprocess('QQ<I>') == QQ.algebraic_field(I) and Domain.preprocess('Q<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I) and Domain.preprocess('QQ<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I)"},"spec":{"lhs":"test_Domain_preprocess()","rhs":"test_Domain_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Domain_preprocess_correct"},"guarantee":"test_Domain_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Domain_preprocess_correct","statement":"Path(test_Domain_preprocess(x), test_Domain_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822509247d13debb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Domain_preprocess","kind":"function","src_hash":"8ab224750393bd19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Domain.preprocess(ZZ) == ZZ and Domain.preprocess(QQ) == QQ and Domain.preprocess(EX) == EX and Domain.preprocess(FF(2)) == FF(2) and Domain.preprocess(ZZ[x, y]) == ZZ[x, y] and Domain.preprocess('Z') == ZZ and Domain.preprocess('Q') == QQ and Domain.preprocess('ZZ') == ZZ and Domain.preprocess('QQ') == QQ and Domain.preprocess('EX') == EX and Domain.preprocess('FF(23)') == FF(23) and Domain.preprocess('GF(23)') == GF(23) and Domain.preprocess('Z[x]') == ZZ[x] and Domain.preprocess('Q[x]') == QQ[x] and Domain.preprocess('R[x]') == RR[x] and Domain.preprocess('C[x]') == CC[x] and Domain.preprocess('ZZ[x]') == ZZ[x] and Domain.preprocess('QQ[x]') == QQ[x] and Domain.preprocess('RR[x]') == RR[x] and Domain.preprocess('CC[x]') == CC[x] and Domain.preprocess('Z[x,y]') == ZZ[x, y] and Domain.preprocess('Q[x,y]') == QQ[x, y] and Domain.preprocess('R[x,y]') == RR[x, y] and Domain.preprocess('C[x,y]') == CC[x, y] and Domain.preprocess('ZZ[x,y]') == ZZ[x, y] and Domain.preprocess('QQ[x,y]') == QQ[x, y] and Domain.preprocess('RR[x,y]') == RR[x, y] and Domain.preprocess('CC[x,y]') == CC[x, y] and Domain.preprocess('Z(x)') == ZZ.frac_field(x) and Domain.preprocess('Q(x)') == QQ.frac_field(x) and Domain.preprocess('ZZ(x)') == ZZ.frac_field(x) and Domain.preprocess('QQ(x)') == QQ.frac_field(x) and Domain.preprocess('Z(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('Q(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('ZZ(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('QQ(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('Q<I>') == QQ.algebraic_field(I) and Domain.preprocess('QQ<I>') == QQ.algebraic_field(I) and Domain.preprocess('Q<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I) and Domain.preprocess('QQ<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I)"},"spec":{"lhs":"test_Domain_preprocess()","rhs":"Domain.preprocess(ZZ) == ZZ and Domain.preprocess(QQ) == QQ and Domain.preprocess(EX) == EX and Domain.preprocess(FF(2)) == FF(2) and Domain.preprocess(ZZ[x, y]) == ZZ[x, y] and Domain.preprocess('Z') == ZZ and Domain.preprocess('Q') == QQ and Domain.preprocess('ZZ') == ZZ and Domain.preprocess('QQ') == QQ and Domain.preprocess('EX') == EX and Domain.preprocess('FF(23)') == FF(23) and Domain.preprocess('GF(23)') == GF(23) and Domain.preprocess('Z[x]') == ZZ[x] and Domain.preprocess('Q[x]') == QQ[x] and Domain.preprocess('R[x]') == RR[x] and Domain.preprocess('C[x]') == CC[x] and Domain.preprocess('ZZ[x]') == ZZ[x] and Domain.preprocess('QQ[x]') == QQ[x] and Domain.preprocess('RR[x]') == RR[x] and Domain.preprocess('CC[x]') == CC[x] and Domain.preprocess('Z[x,y]') == ZZ[x, y] and Domain.preprocess('Q[x,y]') == QQ[x, y] and Domain.preprocess('R[x,y]') == RR[x, y] and Domain.preprocess('C[x,y]') == CC[x, y] and Domain.preprocess('ZZ[x,y]') == ZZ[x, y] and Domain.preprocess('QQ[x,y]') == QQ[x, y] and Domain.preprocess('RR[x,y]') == RR[x, y] and Domain.preprocess('CC[x,y]') == CC[x, y] and Domain.preprocess('Z(x)') == ZZ.frac_field(x) and Domain.preprocess('Q(x)') == QQ.frac_field(x) and Domain.preprocess('ZZ(x)') == ZZ.frac_field(x) and Domain.preprocess('QQ(x)') == QQ.frac_field(x) and Domain.preprocess('Z(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('Q(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('ZZ(x,y)') == ZZ.frac_field(x, y) and Domain.preprocess('QQ(x,y)') == QQ.frac_field(x, y) and Domain.preprocess('Q<I>') == QQ.algebraic_field(I) and Domain.preprocess('QQ<I>') == QQ.algebraic_field(I) and Domain.preprocess('Q<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I) and Domain.preprocess('QQ<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I)","over":{"base":"Any"},"name":"test_Domain_preprocess_correct"},"guarantee":"Domain.preprocess(ZZ) == ZZ; Domain.preprocess(QQ) == QQ; Domain.preprocess(EX) == EX","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Domain_preprocess_correct","statement":"Path(test_Domain_preprocess(x), Domain.preprocess(ZZ) == ZZ; Domain.preprocess(QQ) == QQ; Domain.preprocess(EX) == EX)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c153c4f997f863","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Domain.preprocess(ZZ) == ZZ","Domain.preprocess(QQ) == QQ","Domain.preprocess(EX) == EX","Domain.preprocess(FF(2)) == FF(2)","Domain.preprocess(ZZ[x, y]) == ZZ[x, y]","Domain.preprocess('Z') == ZZ","Domain.preprocess('Q') == QQ","Domain.preprocess('ZZ') == ZZ","Domain.preprocess('QQ') == QQ","Domain.preprocess('EX') == EX","Domain.preprocess('FF(23)') == FF(23)","Domain.preprocess('GF(23)') == GF(23)","Domain.preprocess('Z[x]') == ZZ[x]","Domain.preprocess('Q[x]') == QQ[x]","Domain.preprocess('R[x]') == RR[x]","Domain.preprocess('C[x]') == CC[x]","Domain.preprocess('ZZ[x]') == ZZ[x]","Domain.preprocess('QQ[x]') == QQ[x]","Domain.preprocess('RR[x]') == RR[x]","Domain.preprocess('CC[x]') == CC[x]","Domain.preprocess('Z[x,y]') == ZZ[x, y]","Domain.preprocess('Q[x,y]') == QQ[x, y]","Domain.preprocess('R[x,y]') == RR[x, y]","Domain.preprocess('C[x,y]') == CC[x, y]","Domain.preprocess('ZZ[x,y]') == ZZ[x, y]","Domain.preprocess('QQ[x,y]') == QQ[x, y]","Domain.preprocess('RR[x,y]') == RR[x, y]","Domain.preprocess('CC[x,y]') == CC[x, y]","Domain.preprocess('Z(x)') == ZZ.frac_field(x)","Domain.preprocess('Q(x)') == QQ.frac_field(x)","Domain.preprocess('ZZ(x)') == ZZ.frac_field(x)","Domain.preprocess('QQ(x)') == QQ.frac_field(x)","Domain.preprocess('Z(x,y)') == ZZ.frac_field(x, y)","Domain.preprocess('Q(x,y)') == QQ.frac_field(x, y)","Domain.preprocess('ZZ(x,y)') == ZZ.frac_field(x, y)","Domain.preprocess('QQ(x,y)') == QQ.frac_field(x, y)","Domain.preprocess('Q<I>') == QQ.algebraic_field(I)","Domain.preprocess('QQ<I>') == QQ.algebraic_field(I)","Domain.preprocess('Q<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I)","Domain.preprocess('QQ<sqrt(2), I>') == QQ.algebraic_field(sqrt(2), I)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_Domain_preprocess():
     assert Domain.preprocess(ZZ) == ZZ
     assert Domain.preprocess(QQ) == QQ
@@ -414,16 +526,22 @@ def test_Domain_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Domain_postprocess(), test_Domain_postprocess produces the expected output) over Any ║
+# ║ Path(test_Domain_postprocess(), <unspecified:test_Domain_postprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Domain_postprocess : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb0cf71d8a7f741c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Domain_postprocess","kind":"function","src_hash":"9c21cc681e7f3a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Domain_postprocess()","rhs":"test_Domain_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Domain_postprocess_correct"},"guarantee":"test_Domain_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Domain_postprocess_correct","statement":"Path(test_Domain_postprocess(x), test_Domain_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0cf71d8a7f741c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Domain_postprocess","kind":"function","src_hash":"9c21cc681e7f3a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Domain_postprocess()","rhs":"<unspecified:test_Domain_postprocess>","over":{"base":"Any"},"name":"test_Domain_postprocess_correct"},"guarantee":"test_Domain_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Domain_postprocess_correct","statement":"Path(test_Domain_postprocess(x), test_Domain_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0cf71d8a7f741c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Domain_postprocess():
     raises(GeneratorsError, lambda: Domain.postprocess({'gens': (x, y),
            'domain': ZZ[y, z]}))
@@ -434,16 +552,24 @@ def test_Domain_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Split_preprocess(), test_Split_preprocess produces the expected output) over Any ║
+# ║ Path(test_Split_preprocess(), Split.preprocess(False) is False and Split.preprocess(True) is True and Split.preprocess(0) is False and Split.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Split_preprocess : Any → {Any | Split.preprocess...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Split.preprocess(False) is False               ║
+# ║   ensures:  Split.preprocess(True) is True                 ║
+# ║   ensures:  Split.preprocess(0) is False                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Split_preprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | debc64ccd86c2ab6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdc4ae154b38a673  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Split_preprocess","kind":"function","src_hash":"5da49367cbc691a7","in":{"base":"Any"},"out":{"base":"Any","pred":"Split.preprocess(False) is False and Split.preprocess(True) is True and Split.preprocess(0) is False and Split.preprocess(1) is True"},"spec":{"lhs":"test_Split_preprocess()","rhs":"test_Split_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Split_preprocess_correct"},"guarantee":"test_Split_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Split_preprocess_correct","statement":"Path(test_Split_preprocess(x), test_Split_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"debc64ccd86c2ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Split_preprocess","kind":"function","src_hash":"5da49367cbc691a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Split.preprocess(False) is False and Split.preprocess(True) is True and Split.preprocess(0) is False and Split.preprocess(1) is True"},"spec":{"lhs":"test_Split_preprocess()","rhs":"Split.preprocess(False) is False and Split.preprocess(True) is True and Split.preprocess(0) is False and Split.preprocess(1) is True","over":{"base":"Any"},"name":"test_Split_preprocess_correct"},"guarantee":"Split.preprocess(False) is False; Split.preprocess(True) is True; Split.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Split_preprocess_correct","statement":"Path(test_Split_preprocess(x), Split.preprocess(False) is False; Split.preprocess(True) is True; Split.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdc4ae154b38a673","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Split.preprocess(False) is False","Split.preprocess(True) is True","Split.preprocess(0) is False","Split.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Split_preprocess():
     assert Split.preprocess(False) is False
     assert Split.preprocess(True) is True
@@ -455,31 +581,45 @@ def test_Split_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Split_postprocess(), test_Split_postprocess produces the expected output) over Any ║
+# ║ Path(test_Split_postprocess(), <unspecified:test_Split_postprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Split_postprocess : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 714d51ab6f1dee19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Split_postprocess","kind":"function","src_hash":"5413eb03b5520ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Split_postprocess()","rhs":"test_Split_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Split_postprocess_correct"},"guarantee":"test_Split_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Split_postprocess_correct","statement":"Path(test_Split_postprocess(x), test_Split_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"714d51ab6f1dee19"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Split_postprocess","kind":"function","src_hash":"5413eb03b5520ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Split_postprocess()","rhs":"<unspecified:test_Split_postprocess>","over":{"base":"Any"},"name":"test_Split_postprocess_correct"},"guarantee":"test_Split_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Split_postprocess_correct","statement":"Path(test_Split_postprocess(x), test_Split_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"714d51ab6f1dee19","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Split_postprocess():
     raises(NotImplementedError, lambda: Split.postprocess({'split': True}))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Gaussian_preprocess(), test_Gaussian_preprocess produces the expected output) over Any ║
+# ║ Path(test_Gaussian_preprocess(), Gaussian.preprocess(False) is False and Gaussian.preprocess(True) is True and Gaussian.preprocess(0) is False and Gaussian.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Gaussian_preprocess : Any → {Any | Gaussian.prep...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Gaussian.preprocess(False) is False            ║
+# ║   ensures:  Gaussian.preprocess(True) is True              ║
+# ║   ensures:  Gaussian.preprocess(0) is False                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Gaussian_preprocess : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91b9c71a08e3aa7e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9af69200b7fa7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gaussian_preprocess","kind":"function","src_hash":"8d8df4189dc24722","in":{"base":"Any"},"out":{"base":"Any","pred":"Gaussian.preprocess(False) is False and Gaussian.preprocess(True) is True and Gaussian.preprocess(0) is False and Gaussian.preprocess(1) is True"},"spec":{"lhs":"test_Gaussian_preprocess()","rhs":"test_Gaussian_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Gaussian_preprocess_correct"},"guarantee":"test_Gaussian_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gaussian_preprocess_correct","statement":"Path(test_Gaussian_preprocess(x), test_Gaussian_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91b9c71a08e3aa7e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gaussian_preprocess","kind":"function","src_hash":"8d8df4189dc24722","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Gaussian.preprocess(False) is False and Gaussian.preprocess(True) is True and Gaussian.preprocess(0) is False and Gaussian.preprocess(1) is True"},"spec":{"lhs":"test_Gaussian_preprocess()","rhs":"Gaussian.preprocess(False) is False and Gaussian.preprocess(True) is True and Gaussian.preprocess(0) is False and Gaussian.preprocess(1) is True","over":{"base":"Any"},"name":"test_Gaussian_preprocess_correct"},"guarantee":"Gaussian.preprocess(False) is False; Gaussian.preprocess(True) is True; Gaussian.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gaussian_preprocess_correct","statement":"Path(test_Gaussian_preprocess(x), Gaussian.preprocess(False) is False; Gaussian.preprocess(True) is True; Gaussian.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9af69200b7fa7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Gaussian.preprocess(False) is False","Gaussian.preprocess(True) is True","Gaussian.preprocess(0) is False","Gaussian.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Gaussian_preprocess():
     assert Gaussian.preprocess(False) is False
     assert Gaussian.preprocess(True) is True
@@ -491,16 +631,22 @@ def test_Gaussian_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Gaussian_postprocess(), test_Gaussian_postprocess produces the expected output) over Any ║
+# ║ Path(test_Gaussian_postprocess(), opt == {'gaussian': True, 'domain': QQ_I}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Gaussian_postprocess : Any → {Any | opt == {'gau...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'gaussian': True, 'domain': QQ_I}      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Gaussian_postprocess : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb86b92435de683d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 144397eb17f508a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gaussian_postprocess","kind":"function","src_hash":"e2f563844df4032f","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'gaussian': True, 'domain': QQ_I}"},"spec":{"lhs":"test_Gaussian_postprocess()","rhs":"test_Gaussian_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Gaussian_postprocess_correct"},"guarantee":"test_Gaussian_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gaussian_postprocess_correct","statement":"Path(test_Gaussian_postprocess(x), test_Gaussian_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb86b92435de683d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gaussian_postprocess","kind":"function","src_hash":"e2f563844df4032f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'gaussian': True, 'domain': QQ_I}"},"spec":{"lhs":"test_Gaussian_postprocess()","rhs":"opt == {'gaussian': True, 'domain': QQ_I}","over":{"base":"Any"},"name":"test_Gaussian_postprocess_correct"},"guarantee":"opt == {'gaussian': True, 'domain': QQ_I}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gaussian_postprocess_correct","statement":"Path(test_Gaussian_postprocess(x), opt == {'gaussian': True, 'domain': QQ_I})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"144397eb17f508a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'gaussian': True, 'domain': QQ_I}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Gaussian_postprocess():
     opt = {'gaussian': True}
     Gaussian.postprocess(opt)
@@ -512,16 +658,24 @@ def test_Gaussian_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Extension_preprocess(), test_Extension_preprocess produces the expected output) over Any ║
+# ║ Path(test_Extension_preprocess(), Extension.preprocess(True) is True and Extension.preprocess(1) is True and Extension.preprocess([]) is None and Extension.preprocess(sqrt(2)) == {sqrt(2)} and Extension.preprocess([sqrt(2)]) == {sqrt(2)} and Extension.preprocess([sqrt(2), I]) == {sqrt(2), I}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Extension_preprocess : Any → {Any | Extension.pr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Extension.preprocess(True) is True             ║
+# ║   ensures:  Extension.preprocess(1) is True                ║
+# ║   ensures:  Extension.preprocess([]) is None               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Extension_preprocess : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79eb6d1b41aba8d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86661ac6dae32f0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Extension_preprocess","kind":"function","src_hash":"7c1c7290da69e789","in":{"base":"Any"},"out":{"base":"Any","pred":"Extension.preprocess(True) is True and Extension.preprocess(1) is True and Extension.preprocess([]) is None and Extension.preprocess(sqrt(2)) == {sqrt(2)} and Extension.preprocess([sqrt(2)]) == {sqrt(2)} and Extension.preprocess([sqrt(2), I]) == {sqrt(2), I}"},"spec":{"lhs":"test_Extension_preprocess()","rhs":"test_Extension_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Extension_preprocess_correct"},"guarantee":"test_Extension_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Extension_preprocess_correct","statement":"Path(test_Extension_preprocess(x), test_Extension_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79eb6d1b41aba8d7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Extension_preprocess","kind":"function","src_hash":"7c1c7290da69e789","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Extension.preprocess(True) is True and Extension.preprocess(1) is True and Extension.preprocess([]) is None and Extension.preprocess(sqrt(2)) == {sqrt(2)} and Extension.preprocess([sqrt(2)]) == {sqrt(2)} and Extension.preprocess([sqrt(2), I]) == {sqrt(2), I}"},"spec":{"lhs":"test_Extension_preprocess()","rhs":"Extension.preprocess(True) is True and Extension.preprocess(1) is True and Extension.preprocess([]) is None and Extension.preprocess(sqrt(2)) == {sqrt(2)} and Extension.preprocess([sqrt(2)]) == {sqrt(2)} and Extension.preprocess([sqrt(2), I]) == {sqrt(2), I}","over":{"base":"Any"},"name":"test_Extension_preprocess_correct"},"guarantee":"Extension.preprocess(True) is True; Extension.preprocess(1) is True; Extension.preprocess([]) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Extension_preprocess_correct","statement":"Path(test_Extension_preprocess(x), Extension.preprocess(True) is True; Extension.preprocess(1) is True; Extension.preprocess([]) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86661ac6dae32f0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Extension.preprocess(True) is True","Extension.preprocess(1) is True","Extension.preprocess([]) is None","Extension.preprocess(sqrt(2)) == {sqrt(2)}","Extension.preprocess([sqrt(2)]) == {sqrt(2)}","Extension.preprocess([sqrt(2), I]) == {sqrt(2), I}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Extension_preprocess():
     assert Extension.preprocess(True) is True
     assert Extension.preprocess(1) is True
@@ -538,16 +692,23 @@ def test_Extension_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Extension_postprocess(), test_Extension_postprocess produces the expected output) over Any ║
+# ║ Path(test_Extension_postprocess(), opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))} and opt == {'extension': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Extension_postprocess : Any → {Any | opt == {'ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'extension': {sqrt(2)}, 'domain':...   ║
+# ║   ensures:  opt == {'extension': True}                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Extension_postprocess : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37f92fde5a008a2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 744e72e3ce039118  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Extension_postprocess","kind":"function","src_hash":"8ca1f1f3e5c88d82","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))} and opt == {'extension': True}"},"spec":{"lhs":"test_Extension_postprocess()","rhs":"test_Extension_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Extension_postprocess_correct"},"guarantee":"test_Extension_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Extension_postprocess_correct","statement":"Path(test_Extension_postprocess(x), test_Extension_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37f92fde5a008a2b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Extension_postprocess","kind":"function","src_hash":"8ca1f1f3e5c88d82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))} and opt == {'extension': True}"},"spec":{"lhs":"test_Extension_postprocess()","rhs":"opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))} and opt == {'extension': True}","over":{"base":"Any"},"name":"test_Extension_postprocess_correct"},"guarantee":"opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))}; opt == {'extension': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Extension_postprocess_correct","statement":"Path(test_Extension_postprocess(x), opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))}; opt == {'extension': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"744e72e3ce039118","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'extension': {sqrt(2)}, 'domain': QQ.algebraic_field(sqrt(2))}","opt == {'extension': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Extension_postprocess():
     opt = {'extension': {sqrt(2)}}
     Extension.postprocess(opt)
@@ -564,16 +725,23 @@ def test_Extension_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Modulus_preprocess(), test_Modulus_preprocess produces the expected output) over Any ║
+# ║ Path(test_Modulus_preprocess(), Modulus.preprocess(23) == 23 and Modulus.preprocess(Integer(23)) == 23) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Modulus_preprocess : Any → {Any | Modulus.prepro...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Modulus.preprocess(23) == 23                   ║
+# ║   ensures:  Modulus.preprocess(Integer(23)) == 23          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Modulus_preprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fa962ac85619337  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33f16da110583ea9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Modulus_preprocess","kind":"function","src_hash":"02c7d82cf1d302b7","in":{"base":"Any"},"out":{"base":"Any","pred":"Modulus.preprocess(23) == 23 and Modulus.preprocess(Integer(23)) == 23"},"spec":{"lhs":"test_Modulus_preprocess()","rhs":"test_Modulus_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Modulus_preprocess_correct"},"guarantee":"test_Modulus_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Modulus_preprocess_correct","statement":"Path(test_Modulus_preprocess(x), test_Modulus_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fa962ac85619337"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Modulus_preprocess","kind":"function","src_hash":"02c7d82cf1d302b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Modulus.preprocess(23) == 23 and Modulus.preprocess(Integer(23)) == 23"},"spec":{"lhs":"test_Modulus_preprocess()","rhs":"Modulus.preprocess(23) == 23 and Modulus.preprocess(Integer(23)) == 23","over":{"base":"Any"},"name":"test_Modulus_preprocess_correct"},"guarantee":"Modulus.preprocess(23) == 23; Modulus.preprocess(Integer(23)) == 23","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Modulus_preprocess_correct","statement":"Path(test_Modulus_preprocess(x), Modulus.preprocess(23) == 23; Modulus.preprocess(Integer(23)) == 23)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33f16da110583ea9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Modulus.preprocess(23) == 23","Modulus.preprocess(Integer(23)) == 23"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Modulus_preprocess():
     assert Modulus.preprocess(23) == 23
     assert Modulus.preprocess(Integer(23)) == 23
@@ -583,16 +751,23 @@ def test_Modulus_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Modulus_postprocess(), test_Modulus_postprocess produces the expected output) over Any ║
+# ║ Path(test_Modulus_postprocess(), opt == {'modulus': 5, 'domain': FF(5)} and opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Modulus_postprocess : Any → {Any | opt == {'modu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'modulus': 5, 'domain': FF(5)}         ║
+# ║   ensures:  opt == {'modulus': 5, 'domain': FF(5, Fal...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Modulus_postprocess : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3628c2c31639860  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7edaf2ff2f8f23e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Modulus_postprocess","kind":"function","src_hash":"2c1453b383a3e0f1","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'modulus': 5, 'domain': FF(5)} and opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False}"},"spec":{"lhs":"test_Modulus_postprocess()","rhs":"test_Modulus_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Modulus_postprocess_correct"},"guarantee":"test_Modulus_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Modulus_postprocess_correct","statement":"Path(test_Modulus_postprocess(x), test_Modulus_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3628c2c31639860"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Modulus_postprocess","kind":"function","src_hash":"2c1453b383a3e0f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'modulus': 5, 'domain': FF(5)} and opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False}"},"spec":{"lhs":"test_Modulus_postprocess()","rhs":"opt == {'modulus': 5, 'domain': FF(5)} and opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False}","over":{"base":"Any"},"name":"test_Modulus_postprocess_correct"},"guarantee":"opt == {'modulus': 5, 'domain': FF(5)}; opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Modulus_postprocess_correct","statement":"Path(test_Modulus_postprocess(x), opt == {'modulus': 5, 'domain': FF(5)}; opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7edaf2ff2f8f23e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'modulus': 5, 'domain': FF(5)}","opt == {'modulus': 5, 'domain': FF(5, False), 'symmetric': False}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Modulus_postprocess():
     opt = {'modulus': 5}
     Modulus.postprocess(opt)
@@ -613,16 +788,24 @@ def test_Modulus_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symmetric_preprocess(), test_Symmetric_preprocess produces the expected output) over Any ║
+# ║ Path(test_Symmetric_preprocess(), Symmetric.preprocess(False) is False and Symmetric.preprocess(True) is True and Symmetric.preprocess(0) is False and Symmetric.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Symmetric_preprocess : Any → {Any | Symmetric.pr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Symmetric.preprocess(False) is False           ║
+# ║   ensures:  Symmetric.preprocess(True) is True             ║
+# ║   ensures:  Symmetric.preprocess(0) is False               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Symmetric_preprocess : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dd7465fa0fca419  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a948e3abf0c49ae4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symmetric_preprocess","kind":"function","src_hash":"45354410e1bbe452","in":{"base":"Any"},"out":{"base":"Any","pred":"Symmetric.preprocess(False) is False and Symmetric.preprocess(True) is True and Symmetric.preprocess(0) is False and Symmetric.preprocess(1) is True"},"spec":{"lhs":"test_Symmetric_preprocess()","rhs":"test_Symmetric_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Symmetric_preprocess_correct"},"guarantee":"test_Symmetric_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symmetric_preprocess_correct","statement":"Path(test_Symmetric_preprocess(x), test_Symmetric_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dd7465fa0fca419"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symmetric_preprocess","kind":"function","src_hash":"45354410e1bbe452","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Symmetric.preprocess(False) is False and Symmetric.preprocess(True) is True and Symmetric.preprocess(0) is False and Symmetric.preprocess(1) is True"},"spec":{"lhs":"test_Symmetric_preprocess()","rhs":"Symmetric.preprocess(False) is False and Symmetric.preprocess(True) is True and Symmetric.preprocess(0) is False and Symmetric.preprocess(1) is True","over":{"base":"Any"},"name":"test_Symmetric_preprocess_correct"},"guarantee":"Symmetric.preprocess(False) is False; Symmetric.preprocess(True) is True; Symmetric.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symmetric_preprocess_correct","statement":"Path(test_Symmetric_preprocess(x), Symmetric.preprocess(False) is False; Symmetric.preprocess(True) is True; Symmetric.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a948e3abf0c49ae4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Symmetric.preprocess(False) is False","Symmetric.preprocess(True) is True","Symmetric.preprocess(0) is False","Symmetric.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Symmetric_preprocess():
     assert Symmetric.preprocess(False) is False
     assert Symmetric.preprocess(True) is True
@@ -634,16 +817,22 @@ def test_Symmetric_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symmetric_postprocess(), test_Symmetric_postprocess produces the expected output) over Any ║
+# ║ Path(test_Symmetric_postprocess(), opt == {'symmetric': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Symmetric_postprocess : Any → {Any | opt == {'sy...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'symmetric': True}                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Symmetric_postprocess : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60c9e722a9f07384  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 287147dce5b9a514  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symmetric_postprocess","kind":"function","src_hash":"5659e7ffc25a0a7e","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'symmetric': True}"},"spec":{"lhs":"test_Symmetric_postprocess()","rhs":"test_Symmetric_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Symmetric_postprocess_correct"},"guarantee":"test_Symmetric_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symmetric_postprocess_correct","statement":"Path(test_Symmetric_postprocess(x), test_Symmetric_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60c9e722a9f07384"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symmetric_postprocess","kind":"function","src_hash":"5659e7ffc25a0a7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'symmetric': True}"},"spec":{"lhs":"test_Symmetric_postprocess()","rhs":"opt == {'symmetric': True}","over":{"base":"Any"},"name":"test_Symmetric_postprocess_correct"},"guarantee":"opt == {'symmetric': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symmetric_postprocess_correct","statement":"Path(test_Symmetric_postprocess(x), opt == {'symmetric': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"287147dce5b9a514","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'symmetric': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Symmetric_postprocess():
     opt = {'symmetric': True}
     Symmetric.postprocess(opt)
@@ -652,16 +841,24 @@ def test_Symmetric_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Strict_preprocess(), test_Strict_preprocess produces the expected output) over Any ║
+# ║ Path(test_Strict_preprocess(), Strict.preprocess(False) is False and Strict.preprocess(True) is True and Strict.preprocess(0) is False and Strict.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Strict_preprocess : Any → {Any | Strict.preproce...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Strict.preprocess(False) is False              ║
+# ║   ensures:  Strict.preprocess(True) is True                ║
+# ║   ensures:  Strict.preprocess(0) is False                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Strict_preprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88ff10eba513f9ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31831c65aaefc157  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Strict_preprocess","kind":"function","src_hash":"210ce3871b5acd4d","in":{"base":"Any"},"out":{"base":"Any","pred":"Strict.preprocess(False) is False and Strict.preprocess(True) is True and Strict.preprocess(0) is False and Strict.preprocess(1) is True"},"spec":{"lhs":"test_Strict_preprocess()","rhs":"test_Strict_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Strict_preprocess_correct"},"guarantee":"test_Strict_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Strict_preprocess_correct","statement":"Path(test_Strict_preprocess(x), test_Strict_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ff10eba513f9ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Strict_preprocess","kind":"function","src_hash":"210ce3871b5acd4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Strict.preprocess(False) is False and Strict.preprocess(True) is True and Strict.preprocess(0) is False and Strict.preprocess(1) is True"},"spec":{"lhs":"test_Strict_preprocess()","rhs":"Strict.preprocess(False) is False and Strict.preprocess(True) is True and Strict.preprocess(0) is False and Strict.preprocess(1) is True","over":{"base":"Any"},"name":"test_Strict_preprocess_correct"},"guarantee":"Strict.preprocess(False) is False; Strict.preprocess(True) is True; Strict.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Strict_preprocess_correct","statement":"Path(test_Strict_preprocess(x), Strict.preprocess(False) is False; Strict.preprocess(True) is True; Strict.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31831c65aaefc157","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Strict.preprocess(False) is False","Strict.preprocess(True) is True","Strict.preprocess(0) is False","Strict.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Strict_preprocess():
     assert Strict.preprocess(False) is False
     assert Strict.preprocess(True) is True
@@ -673,16 +870,22 @@ def test_Strict_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Strict_postprocess(), test_Strict_postprocess produces the expected output) over Any ║
+# ║ Path(test_Strict_postprocess(), opt == {'strict': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Strict_postprocess : Any → {Any | opt == {'stric...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'strict': True}                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Strict_postprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d5ffe96101e2aee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bedab693b5196aab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Strict_postprocess","kind":"function","src_hash":"06e232eab39b6b0d","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'strict': True}"},"spec":{"lhs":"test_Strict_postprocess()","rhs":"test_Strict_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Strict_postprocess_correct"},"guarantee":"test_Strict_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Strict_postprocess_correct","statement":"Path(test_Strict_postprocess(x), test_Strict_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d5ffe96101e2aee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Strict_postprocess","kind":"function","src_hash":"06e232eab39b6b0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'strict': True}"},"spec":{"lhs":"test_Strict_postprocess()","rhs":"opt == {'strict': True}","over":{"base":"Any"},"name":"test_Strict_postprocess_correct"},"guarantee":"opt == {'strict': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Strict_postprocess_correct","statement":"Path(test_Strict_postprocess(x), opt == {'strict': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bedab693b5196aab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'strict': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Strict_postprocess():
     opt = {'strict': True}
     Strict.postprocess(opt)
@@ -691,16 +894,24 @@ def test_Strict_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Auto_preprocess(), test_Auto_preprocess produces the expected output) over Any ║
+# ║ Path(test_Auto_preprocess(), Auto.preprocess(False) is False and Auto.preprocess(True) is True and Auto.preprocess(0) is False and Auto.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Auto_preprocess : Any → {Any | Auto.preprocess(F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Auto.preprocess(False) is False                ║
+# ║   ensures:  Auto.preprocess(True) is True                  ║
+# ║   ensures:  Auto.preprocess(0) is False                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Auto_preprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8a7c8f144f80cda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b11dd88ee4e68da6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Auto_preprocess","kind":"function","src_hash":"95b8a008fb70660b","in":{"base":"Any"},"out":{"base":"Any","pred":"Auto.preprocess(False) is False and Auto.preprocess(True) is True and Auto.preprocess(0) is False and Auto.preprocess(1) is True"},"spec":{"lhs":"test_Auto_preprocess()","rhs":"test_Auto_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Auto_preprocess_correct"},"guarantee":"test_Auto_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Auto_preprocess_correct","statement":"Path(test_Auto_preprocess(x), test_Auto_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8a7c8f144f80cda"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Auto_preprocess","kind":"function","src_hash":"95b8a008fb70660b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Auto.preprocess(False) is False and Auto.preprocess(True) is True and Auto.preprocess(0) is False and Auto.preprocess(1) is True"},"spec":{"lhs":"test_Auto_preprocess()","rhs":"Auto.preprocess(False) is False and Auto.preprocess(True) is True and Auto.preprocess(0) is False and Auto.preprocess(1) is True","over":{"base":"Any"},"name":"test_Auto_preprocess_correct"},"guarantee":"Auto.preprocess(False) is False; Auto.preprocess(True) is True; Auto.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Auto_preprocess_correct","statement":"Path(test_Auto_preprocess(x), Auto.preprocess(False) is False; Auto.preprocess(True) is True; Auto.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11dd88ee4e68da6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Auto.preprocess(False) is False","Auto.preprocess(True) is True","Auto.preprocess(0) is False","Auto.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Auto_preprocess():
     assert Auto.preprocess(False) is False
     assert Auto.preprocess(True) is True
@@ -712,16 +923,22 @@ def test_Auto_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Auto_postprocess(), test_Auto_postprocess produces the expected output) over Any ║
+# ║ Path(test_Auto_postprocess(), opt == {'auto': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Auto_postprocess : Any → {Any | opt == {'auto': ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'auto': True}                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Auto_postprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a38f9b2adc24ca23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42a17e2ad28b059b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Auto_postprocess","kind":"function","src_hash":"437bb94006fba668","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'auto': True}"},"spec":{"lhs":"test_Auto_postprocess()","rhs":"test_Auto_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Auto_postprocess_correct"},"guarantee":"test_Auto_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Auto_postprocess_correct","statement":"Path(test_Auto_postprocess(x), test_Auto_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a38f9b2adc24ca23"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Auto_postprocess","kind":"function","src_hash":"437bb94006fba668","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'auto': True}"},"spec":{"lhs":"test_Auto_postprocess()","rhs":"opt == {'auto': True}","over":{"base":"Any"},"name":"test_Auto_postprocess_correct"},"guarantee":"opt == {'auto': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Auto_postprocess_correct","statement":"Path(test_Auto_postprocess(x), opt == {'auto': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42a17e2ad28b059b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'auto': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Auto_postprocess():
     opt = {'auto': True}
     Auto.postprocess(opt)
@@ -730,16 +947,24 @@ def test_Auto_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Frac_preprocess(), test_Frac_preprocess produces the expected output) over Any ║
+# ║ Path(test_Frac_preprocess(), Frac.preprocess(False) is False and Frac.preprocess(True) is True and Frac.preprocess(0) is False and Frac.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Frac_preprocess : Any → {Any | Frac.preprocess(F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Frac.preprocess(False) is False                ║
+# ║   ensures:  Frac.preprocess(True) is True                  ║
+# ║   ensures:  Frac.preprocess(0) is False                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Frac_preprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 376a3dced54c7b05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec2569880fa8faaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Frac_preprocess","kind":"function","src_hash":"96f3449f58e95d54","in":{"base":"Any"},"out":{"base":"Any","pred":"Frac.preprocess(False) is False and Frac.preprocess(True) is True and Frac.preprocess(0) is False and Frac.preprocess(1) is True"},"spec":{"lhs":"test_Frac_preprocess()","rhs":"test_Frac_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Frac_preprocess_correct"},"guarantee":"test_Frac_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Frac_preprocess_correct","statement":"Path(test_Frac_preprocess(x), test_Frac_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"376a3dced54c7b05"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Frac_preprocess","kind":"function","src_hash":"96f3449f58e95d54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Frac.preprocess(False) is False and Frac.preprocess(True) is True and Frac.preprocess(0) is False and Frac.preprocess(1) is True"},"spec":{"lhs":"test_Frac_preprocess()","rhs":"Frac.preprocess(False) is False and Frac.preprocess(True) is True and Frac.preprocess(0) is False and Frac.preprocess(1) is True","over":{"base":"Any"},"name":"test_Frac_preprocess_correct"},"guarantee":"Frac.preprocess(False) is False; Frac.preprocess(True) is True; Frac.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Frac_preprocess_correct","statement":"Path(test_Frac_preprocess(x), Frac.preprocess(False) is False; Frac.preprocess(True) is True; Frac.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec2569880fa8faaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Frac.preprocess(False) is False","Frac.preprocess(True) is True","Frac.preprocess(0) is False","Frac.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Frac_preprocess():
     assert Frac.preprocess(False) is False
     assert Frac.preprocess(True) is True
@@ -751,16 +976,22 @@ def test_Frac_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Frac_postprocess(), test_Frac_postprocess produces the expected output) over Any ║
+# ║ Path(test_Frac_postprocess(), opt == {'frac': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Frac_postprocess : Any → {Any | opt == {'frac': ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'frac': True}                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Frac_postprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a775dc4e4d0ca94a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d10d1fd2c4eea6ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Frac_postprocess","kind":"function","src_hash":"a20690a3cdf7df80","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'frac': True}"},"spec":{"lhs":"test_Frac_postprocess()","rhs":"test_Frac_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Frac_postprocess_correct"},"guarantee":"test_Frac_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Frac_postprocess_correct","statement":"Path(test_Frac_postprocess(x), test_Frac_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a775dc4e4d0ca94a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Frac_postprocess","kind":"function","src_hash":"a20690a3cdf7df80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'frac': True}"},"spec":{"lhs":"test_Frac_postprocess()","rhs":"opt == {'frac': True}","over":{"base":"Any"},"name":"test_Frac_postprocess_correct"},"guarantee":"opt == {'frac': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Frac_postprocess_correct","statement":"Path(test_Frac_postprocess(x), opt == {'frac': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d10d1fd2c4eea6ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'frac': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Frac_postprocess():
     opt = {'frac': True}
     Frac.postprocess(opt)
@@ -769,16 +1000,24 @@ def test_Frac_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Formal_preprocess(), test_Formal_preprocess produces the expected output) over Any ║
+# ║ Path(test_Formal_preprocess(), Formal.preprocess(False) is False and Formal.preprocess(True) is True and Formal.preprocess(0) is False and Formal.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Formal_preprocess : Any → {Any | Formal.preproce...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Formal.preprocess(False) is False              ║
+# ║   ensures:  Formal.preprocess(True) is True                ║
+# ║   ensures:  Formal.preprocess(0) is False                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Formal_preprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46197d8e29d68f1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1059d39d01ce75a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Formal_preprocess","kind":"function","src_hash":"2fee43d89c697533","in":{"base":"Any"},"out":{"base":"Any","pred":"Formal.preprocess(False) is False and Formal.preprocess(True) is True and Formal.preprocess(0) is False and Formal.preprocess(1) is True"},"spec":{"lhs":"test_Formal_preprocess()","rhs":"test_Formal_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Formal_preprocess_correct"},"guarantee":"test_Formal_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Formal_preprocess_correct","statement":"Path(test_Formal_preprocess(x), test_Formal_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46197d8e29d68f1e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Formal_preprocess","kind":"function","src_hash":"2fee43d89c697533","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Formal.preprocess(False) is False and Formal.preprocess(True) is True and Formal.preprocess(0) is False and Formal.preprocess(1) is True"},"spec":{"lhs":"test_Formal_preprocess()","rhs":"Formal.preprocess(False) is False and Formal.preprocess(True) is True and Formal.preprocess(0) is False and Formal.preprocess(1) is True","over":{"base":"Any"},"name":"test_Formal_preprocess_correct"},"guarantee":"Formal.preprocess(False) is False; Formal.preprocess(True) is True; Formal.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Formal_preprocess_correct","statement":"Path(test_Formal_preprocess(x), Formal.preprocess(False) is False; Formal.preprocess(True) is True; Formal.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1059d39d01ce75a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Formal.preprocess(False) is False","Formal.preprocess(True) is True","Formal.preprocess(0) is False","Formal.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Formal_preprocess():
     assert Formal.preprocess(False) is False
     assert Formal.preprocess(True) is True
@@ -790,16 +1029,22 @@ def test_Formal_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Formal_postprocess(), test_Formal_postprocess produces the expected output) over Any ║
+# ║ Path(test_Formal_postprocess(), opt == {'formal': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Formal_postprocess : Any → {Any | opt == {'forma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'formal': True}                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Formal_postprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 366f4293efd4f09f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4518246929946309  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Formal_postprocess","kind":"function","src_hash":"c35a472a666ec8e7","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'formal': True}"},"spec":{"lhs":"test_Formal_postprocess()","rhs":"test_Formal_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Formal_postprocess_correct"},"guarantee":"test_Formal_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Formal_postprocess_correct","statement":"Path(test_Formal_postprocess(x), test_Formal_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"366f4293efd4f09f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Formal_postprocess","kind":"function","src_hash":"c35a472a666ec8e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'formal': True}"},"spec":{"lhs":"test_Formal_postprocess()","rhs":"opt == {'formal': True}","over":{"base":"Any"},"name":"test_Formal_postprocess_correct"},"guarantee":"opt == {'formal': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Formal_postprocess_correct","statement":"Path(test_Formal_postprocess(x), opt == {'formal': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4518246929946309","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'formal': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Formal_postprocess():
     opt = {'formal': True}
     Formal.postprocess(opt)
@@ -808,16 +1053,24 @@ def test_Formal_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Polys_preprocess(), test_Polys_preprocess produces the expected output) over Any ║
+# ║ Path(test_Polys_preprocess(), Polys.preprocess(False) is False and Polys.preprocess(True) is True and Polys.preprocess(0) is False and Polys.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Polys_preprocess : Any → {Any | Polys.preprocess...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Polys.preprocess(False) is False               ║
+# ║   ensures:  Polys.preprocess(True) is True                 ║
+# ║   ensures:  Polys.preprocess(0) is False                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Polys_preprocess : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 397e13d29c466c00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ccb8f2f0333870f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Polys_preprocess","kind":"function","src_hash":"094470bc986a952f","in":{"base":"Any"},"out":{"base":"Any","pred":"Polys.preprocess(False) is False and Polys.preprocess(True) is True and Polys.preprocess(0) is False and Polys.preprocess(1) is True"},"spec":{"lhs":"test_Polys_preprocess()","rhs":"test_Polys_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Polys_preprocess_correct"},"guarantee":"test_Polys_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Polys_preprocess_correct","statement":"Path(test_Polys_preprocess(x), test_Polys_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"397e13d29c466c00"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Polys_preprocess","kind":"function","src_hash":"094470bc986a952f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Polys.preprocess(False) is False and Polys.preprocess(True) is True and Polys.preprocess(0) is False and Polys.preprocess(1) is True"},"spec":{"lhs":"test_Polys_preprocess()","rhs":"Polys.preprocess(False) is False and Polys.preprocess(True) is True and Polys.preprocess(0) is False and Polys.preprocess(1) is True","over":{"base":"Any"},"name":"test_Polys_preprocess_correct"},"guarantee":"Polys.preprocess(False) is False; Polys.preprocess(True) is True; Polys.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Polys_preprocess_correct","statement":"Path(test_Polys_preprocess(x), Polys.preprocess(False) is False; Polys.preprocess(True) is True; Polys.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ccb8f2f0333870f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Polys.preprocess(False) is False","Polys.preprocess(True) is True","Polys.preprocess(0) is False","Polys.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Polys_preprocess():
     assert Polys.preprocess(False) is False
     assert Polys.preprocess(True) is True
@@ -829,16 +1082,22 @@ def test_Polys_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Polys_postprocess(), test_Polys_postprocess produces the expected output) over Any ║
+# ║ Path(test_Polys_postprocess(), opt == {'polys': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Polys_postprocess : Any → {Any | opt == {'polys'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'polys': True}                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Polys_postprocess : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0f36c540f4e82e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eb3e456c43846d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Polys_postprocess","kind":"function","src_hash":"d72680c820adca38","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'polys': True}"},"spec":{"lhs":"test_Polys_postprocess()","rhs":"test_Polys_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Polys_postprocess_correct"},"guarantee":"test_Polys_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Polys_postprocess_correct","statement":"Path(test_Polys_postprocess(x), test_Polys_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0f36c540f4e82e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Polys_postprocess","kind":"function","src_hash":"d72680c820adca38","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'polys': True}"},"spec":{"lhs":"test_Polys_postprocess()","rhs":"opt == {'polys': True}","over":{"base":"Any"},"name":"test_Polys_postprocess_correct"},"guarantee":"opt == {'polys': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Polys_postprocess_correct","statement":"Path(test_Polys_postprocess(x), opt == {'polys': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eb3e456c43846d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'polys': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Polys_postprocess():
     opt = {'polys': True}
     Polys.postprocess(opt)
@@ -847,16 +1106,24 @@ def test_Polys_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Include_preprocess(), test_Include_preprocess produces the expected output) over Any ║
+# ║ Path(test_Include_preprocess(), Include.preprocess(False) is False and Include.preprocess(True) is True and Include.preprocess(0) is False and Include.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Include_preprocess : Any → {Any | Include.prepro...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Include.preprocess(False) is False             ║
+# ║   ensures:  Include.preprocess(True) is True               ║
+# ║   ensures:  Include.preprocess(0) is False                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Include_preprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0380aefb69923f6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53ee5b1364d60f6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Include_preprocess","kind":"function","src_hash":"d82fc24d3e4483c9","in":{"base":"Any"},"out":{"base":"Any","pred":"Include.preprocess(False) is False and Include.preprocess(True) is True and Include.preprocess(0) is False and Include.preprocess(1) is True"},"spec":{"lhs":"test_Include_preprocess()","rhs":"test_Include_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Include_preprocess_correct"},"guarantee":"test_Include_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Include_preprocess_correct","statement":"Path(test_Include_preprocess(x), test_Include_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0380aefb69923f6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Include_preprocess","kind":"function","src_hash":"d82fc24d3e4483c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Include.preprocess(False) is False and Include.preprocess(True) is True and Include.preprocess(0) is False and Include.preprocess(1) is True"},"spec":{"lhs":"test_Include_preprocess()","rhs":"Include.preprocess(False) is False and Include.preprocess(True) is True and Include.preprocess(0) is False and Include.preprocess(1) is True","over":{"base":"Any"},"name":"test_Include_preprocess_correct"},"guarantee":"Include.preprocess(False) is False; Include.preprocess(True) is True; Include.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Include_preprocess_correct","statement":"Path(test_Include_preprocess(x), Include.preprocess(False) is False; Include.preprocess(True) is True; Include.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ee5b1364d60f6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Include.preprocess(False) is False","Include.preprocess(True) is True","Include.preprocess(0) is False","Include.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Include_preprocess():
     assert Include.preprocess(False) is False
     assert Include.preprocess(True) is True
@@ -868,16 +1135,22 @@ def test_Include_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Include_postprocess(), test_Include_postprocess produces the expected output) over Any ║
+# ║ Path(test_Include_postprocess(), opt == {'include': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Include_postprocess : Any → {Any | opt == {'incl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'include': True}                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Include_postprocess : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf5f22c27ebdcd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54861ac3f5ae837d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Include_postprocess","kind":"function","src_hash":"d806267389972d3e","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'include': True}"},"spec":{"lhs":"test_Include_postprocess()","rhs":"test_Include_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Include_postprocess_correct"},"guarantee":"test_Include_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Include_postprocess_correct","statement":"Path(test_Include_postprocess(x), test_Include_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf5f22c27ebdcd0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Include_postprocess","kind":"function","src_hash":"d806267389972d3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'include': True}"},"spec":{"lhs":"test_Include_postprocess()","rhs":"opt == {'include': True}","over":{"base":"Any"},"name":"test_Include_postprocess_correct"},"guarantee":"opt == {'include': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Include_postprocess_correct","statement":"Path(test_Include_postprocess(x), opt == {'include': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54861ac3f5ae837d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'include': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Include_postprocess():
     opt = {'include': True}
     Include.postprocess(opt)
@@ -886,16 +1159,24 @@ def test_Include_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_All_preprocess(), test_All_preprocess produces the expected output) over Any ║
+# ║ Path(test_All_preprocess(), All.preprocess(False) is False and All.preprocess(True) is True and All.preprocess(0) is False and All.preprocess(1) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_All_preprocess : Any → {Any | All.preprocess(Fal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  All.preprocess(False) is False                 ║
+# ║   ensures:  All.preprocess(True) is True                   ║
+# ║   ensures:  All.preprocess(0) is False                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_All_preprocess : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d9b4ec93b2f2e74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 743344ce86faf758  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_All_preprocess","kind":"function","src_hash":"83020d5cc8fd9ee5","in":{"base":"Any"},"out":{"base":"Any","pred":"All.preprocess(False) is False and All.preprocess(True) is True and All.preprocess(0) is False and All.preprocess(1) is True"},"spec":{"lhs":"test_All_preprocess()","rhs":"test_All_preprocess produces the expected output","over":{"base":"Any"},"name":"test_All_preprocess_correct"},"guarantee":"test_All_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_All_preprocess_correct","statement":"Path(test_All_preprocess(x), test_All_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d9b4ec93b2f2e74"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_All_preprocess","kind":"function","src_hash":"83020d5cc8fd9ee5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: All.preprocess(False) is False and All.preprocess(True) is True and All.preprocess(0) is False and All.preprocess(1) is True"},"spec":{"lhs":"test_All_preprocess()","rhs":"All.preprocess(False) is False and All.preprocess(True) is True and All.preprocess(0) is False and All.preprocess(1) is True","over":{"base":"Any"},"name":"test_All_preprocess_correct"},"guarantee":"All.preprocess(False) is False; All.preprocess(True) is True; All.preprocess(0) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_All_preprocess_correct","statement":"Path(test_All_preprocess(x), All.preprocess(False) is False; All.preprocess(True) is True; All.preprocess(0) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"743344ce86faf758","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["All.preprocess(False) is False","All.preprocess(True) is True","All.preprocess(0) is False","All.preprocess(1) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_All_preprocess():
     assert All.preprocess(False) is False
     assert All.preprocess(True) is True
@@ -907,16 +1188,22 @@ def test_All_preprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_All_postprocess(), test_All_postprocess produces the expected output) over Any ║
+# ║ Path(test_All_postprocess(), opt == {'all': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_All_postprocess : Any → {Any | opt == {'all': Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'all': True}                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_All_postprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2646b8d77645d25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47003737fd933885  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_All_postprocess","kind":"function","src_hash":"d940e1720575d540","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'all': True}"},"spec":{"lhs":"test_All_postprocess()","rhs":"test_All_postprocess produces the expected output","over":{"base":"Any"},"name":"test_All_postprocess_correct"},"guarantee":"test_All_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_All_postprocess_correct","statement":"Path(test_All_postprocess(x), test_All_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2646b8d77645d25"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_All_postprocess","kind":"function","src_hash":"d940e1720575d540","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'all': True}"},"spec":{"lhs":"test_All_postprocess()","rhs":"opt == {'all': True}","over":{"base":"Any"},"name":"test_All_postprocess_correct"},"guarantee":"opt == {'all': True}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_All_postprocess_correct","statement":"Path(test_All_postprocess(x), opt == {'all': True})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47003737fd933885","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'all': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_All_postprocess():
     opt = {'all': True}
     All.postprocess(opt)
@@ -925,16 +1212,22 @@ def test_All_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Gen_postprocess(), test_Gen_postprocess produces the expected output) over Any ║
+# ║ Path(test_Gen_postprocess(), opt == {'gen': x}) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Gen_postprocess : Any → {Any | opt == {'gen': x}}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'gen': x}                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Gen_postprocess : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0827014aebd0b8e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0fdb32174a7b4fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gen_postprocess","kind":"function","src_hash":"e62eba08a1ec967c","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'gen': x}"},"spec":{"lhs":"test_Gen_postprocess()","rhs":"test_Gen_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Gen_postprocess_correct"},"guarantee":"test_Gen_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gen_postprocess_correct","statement":"Path(test_Gen_postprocess(x), test_Gen_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0827014aebd0b8e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Gen_postprocess","kind":"function","src_hash":"e62eba08a1ec967c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'gen': x}"},"spec":{"lhs":"test_Gen_postprocess()","rhs":"opt == {'gen': x}","over":{"base":"Any"},"name":"test_Gen_postprocess_correct"},"guarantee":"opt == {'gen': x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Gen_postprocess_correct","statement":"Path(test_Gen_postprocess(x), opt == {'gen': x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0fdb32174a7b4fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'gen': x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Gen_postprocess():
     opt = {'gen': x}
     Gen.postprocess(opt)
@@ -943,31 +1236,43 @@ def test_Gen_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbols_preprocess(), test_Symbols_preprocess produces the expected output) over Any ║
+# ║ Path(test_Symbols_preprocess(), <unspecified:test_Symbols_preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Symbols_preprocess : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 735e9d376534f028  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symbols_preprocess","kind":"function","src_hash":"d1cf627c129a549f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Symbols_preprocess()","rhs":"test_Symbols_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Symbols_preprocess_correct"},"guarantee":"test_Symbols_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symbols_preprocess_correct","statement":"Path(test_Symbols_preprocess(x), test_Symbols_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735e9d376534f028"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symbols_preprocess","kind":"function","src_hash":"d1cf627c129a549f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Symbols_preprocess()","rhs":"<unspecified:test_Symbols_preprocess>","over":{"base":"Any"},"name":"test_Symbols_preprocess_correct"},"guarantee":"test_Symbols_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symbols_preprocess_correct","statement":"Path(test_Symbols_preprocess(x), test_Symbols_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735e9d376534f028","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Symbols_preprocess():
     raises(OptionError, lambda: Symbols.preprocess(x))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbols_postprocess(), test_Symbols_postprocess produces the expected output) over Any ║
+# ║ Path(test_Symbols_postprocess(), opt == {'symbols': [x, y, z]}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Symbols_postprocess : Any → {Any | opt == {'symb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'symbols': [x, y, z]}                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Symbols_postprocess : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88c9081822a07530  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2a95529229e31fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symbols_postprocess","kind":"function","src_hash":"045119cd3ec5e3ea","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'symbols': [x, y, z]}"},"spec":{"lhs":"test_Symbols_postprocess()","rhs":"test_Symbols_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Symbols_postprocess_correct"},"guarantee":"test_Symbols_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symbols_postprocess_correct","statement":"Path(test_Symbols_postprocess(x), test_Symbols_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88c9081822a07530"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Symbols_postprocess","kind":"function","src_hash":"045119cd3ec5e3ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'symbols': [x, y, z]}"},"spec":{"lhs":"test_Symbols_postprocess()","rhs":"opt == {'symbols': [x, y, z]}","over":{"base":"Any"},"name":"test_Symbols_postprocess_correct"},"guarantee":"opt == {'symbols': [x, y, z]}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Symbols_postprocess_correct","statement":"Path(test_Symbols_postprocess(x), opt == {'symbols': [x, y, z]})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2a95529229e31fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'symbols': [x, y, z]}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Symbols_postprocess():
     opt = {'symbols': [x, y, z]}
     Symbols.postprocess(opt)
@@ -976,31 +1281,43 @@ def test_Symbols_postprocess():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Method_preprocess(), test_Method_preprocess produces the expected output) over Any ║
+# ║ Path(test_Method_preprocess(), <unspecified:test_Method_preprocess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Method_preprocess : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23b633e5e97fb1d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Method_preprocess","kind":"function","src_hash":"95f929575d961d17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Method_preprocess()","rhs":"test_Method_preprocess produces the expected output","over":{"base":"Any"},"name":"test_Method_preprocess_correct"},"guarantee":"test_Method_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Method_preprocess_correct","statement":"Path(test_Method_preprocess(x), test_Method_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23b633e5e97fb1d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Method_preprocess","kind":"function","src_hash":"95f929575d961d17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Method_preprocess()","rhs":"<unspecified:test_Method_preprocess>","over":{"base":"Any"},"name":"test_Method_preprocess_correct"},"guarantee":"test_Method_preprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Method_preprocess_correct","statement":"Path(test_Method_preprocess(x), test_Method_preprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23b633e5e97fb1d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Method_preprocess():
     raises(OptionError, lambda: Method.preprocess(10))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Method_postprocess(), test_Method_postprocess produces the expected output) over Any ║
+# ║ Path(test_Method_postprocess(), opt == {'method': 'f5b'}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Method_postprocess : Any → {Any | opt == {'metho...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt == {'method': 'f5b'}                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Method_postprocess : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c99b016317a8fd96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f4c00ff89f6fa99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Method_postprocess","kind":"function","src_hash":"fbadcd22853c4f50","in":{"base":"Any"},"out":{"base":"Any","pred":"opt == {'method': 'f5b'}"},"spec":{"lhs":"test_Method_postprocess()","rhs":"test_Method_postprocess produces the expected output","over":{"base":"Any"},"name":"test_Method_postprocess_correct"},"guarantee":"test_Method_postprocess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Method_postprocess_correct","statement":"Path(test_Method_postprocess(x), test_Method_postprocess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c99b016317a8fd96"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyoptions.test_Method_postprocess","kind":"function","src_hash":"fbadcd22853c4f50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt == {'method': 'f5b'}"},"spec":{"lhs":"test_Method_postprocess()","rhs":"opt == {'method': 'f5b'}","over":{"base":"Any"},"name":"test_Method_postprocess_correct"},"guarantee":"opt == {'method': 'f5b'}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyoptions.test_Method_postprocess_correct","statement":"Path(test_Method_postprocess(x), opt == {'method': 'f5b'})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f4c00ff89f6fa99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt == {'method': 'f5b'}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Method_postprocess():
     opt = {'method': 'f5b'}
     Method.postprocess(opt)

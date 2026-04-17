@@ -22,16 +22,26 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(digits(n, ), return a list of the digits of ``n`` in base ``b``) over Any ║
+# ║ Path(digits(n, b, digits), len(y) == old_len_y + 1 and len(y) == old_len_y) over {Any | not (b < 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ digits : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (b < 2)                                    ║
+# ║   ensures:  len(y) == old_len_y + 1                        ║
+# ║   ensures:  len(y) == old_len_y                            ║
+# ║   fiber[case_0]: b < 2                                     ║
+# ║   fiber[case_1]: not (b < 2) => y                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ digits : {Any | not (b < 2)} → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d233ec83e613ad0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 824e9e42d2a4e947  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.digits","kind":"function","src_hash":"ee503e60d26fad29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"digits(n, )","rhs":"return a list of the digits of ``n`` in base ``b``","over":{"base":"Any"},"name":"digits_correct"},"guarantee":"return a list of the digits of ``n`` in base ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.digits.digits_correct","statement":"Path(digits(x), return a list of the digits of ``n`` in base ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d233ec83e613ad0"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.digits","kind":"function","src_hash":"ee503e60d26fad29","in":{"base":"Any","pred":"not (b < 2)"},"out":{"base":"Any","pred":"result satisfies: len(y) == old_len_y + 1 and len(y) == old_len_y"},"spec":{"lhs":"digits(n, b, digits)","rhs":"len(y) == old_len_y + 1 and len(y) == old_len_y","over":{"base":"Any","pred":"not (b < 2)"},"name":"digits_correct"},"guarantee":"len(y) == old_len_y + 1; len(y) == old_len_y; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.digits.digits_correct","statement":"Path(digits(x), len(y) == old_len_y + 1; len(y) == old_len_y; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"824e9e42d2a4e947","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (b < 2)"],"ensures":["len(y) == old_len_y + 1","len(y) == old_len_y"],"fibers":[{"name":"case_0","guard":"b < 2","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (b < 2)","ensures":["result == y"],"decidability":"z3","returns_expr":"y"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["y.append","y.reverse"],"raises":["ValueError"]},"state_contract":{"modifies":["y.*"],"old_bindings":{"old_len_y":"len(y)"},"post_ensures":["len(y) == old_len_y + 1","len(y) == old_len_y"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def digits(n, b=10, digits=None):
     """
     Return a list of the digits of ``n`` in base ``b``. The first
@@ -101,16 +111,22 @@ def digits(n, b=10, digits=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(count_digits(n, ), return a dictionary whose keys are the digits of ``n`` in the given base, ``b``, with keys indicating the digits appearing in the number and values indicating how many times that digit appeared) over Any ║
+# ║ Path(count_digits(n, b), <unspecified:count_digits>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ count_digits : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1e02ea1a224616d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.count_digits","kind":"function","src_hash":"237081152af5a3c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"count_digits(n, )","rhs":"return a dictionary whose keys are the digits of ``n`` in the given base, ``b``, with keys indicating the digits appearing in the number and values indicating how many times that digit appeared","over":{"base":"Any"},"name":"count_digits_correct"},"guarantee":"return a dictionary whose keys are the digits of ``n`` in the given base, ``b``, with keys indicating the digits appearing in the number and values indicating how many times that digit appeared","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.digits.count_digits_correct","statement":"Path(count_digits(x), return a dictionary whose keys are the digits of ``n`` in the given base, ``b``, with keys indicating the digits appearing in the number and values indicating how many times that digit appeared)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1e02ea1a224616d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.count_digits","kind":"function","src_hash":"237081152af5a3c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"count_digits(n, b)","rhs":"<unspecified:count_digits>","over":{"base":"Any"},"name":"count_digits_correct"},"guarantee":"return a dictionary whose keys are the digits of ``n`` in the given base, ``b``, with keys indicating the digits appearing in the number and values indicating how many times that digit appeared","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.digits.count_digits_correct","statement":"Path(count_digits(x), return a dictionary whose keys are the digits of ``n`` in the given base, ``b``, with keys indicating the digits appearing in the number and values indicating how many times that digit appeared)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1e02ea1a224616d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def count_digits(n, b=10):
     """
     Return a dictionary whose keys are the digits of ``n`` in the
@@ -156,16 +172,22 @@ def count_digits(n, b=10):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_palindromic(n, ), return true if ``n`` is the same when read from left to right or right to left in the given base, ``b``) over Any ║
+# ║ Path(is_palindromic(n, b), _palindromic(digits(n, b), 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _palindromic(digits(n, b), 1)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_palindromic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6b428c185cbab5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.is_palindromic","kind":"function","src_hash":"51a794469cc14cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_palindromic(n, )","rhs":"return true if ``n`` is the same when read from left to right or right to left in the given base, ``b``","over":{"base":"Any"},"name":"is_palindromic_correct"},"guarantee":"return true if ``n`` is the same when read from left to right or right to left in the given base, ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b428c185cbab5d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.digits.is_palindromic","kind":"function","src_hash":"51a794469cc14cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_palindromic(n, b)","rhs":"_palindromic(digits(n, b), 1)","over":{"base":"Any"},"name":"is_palindromic_correct"},"guarantee":"returns _palindromic(digits(n, b), 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b428c185cbab5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_palindromic(digits(n, b), 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_palindromic(n, b=10):
     """return True if ``n`` is the same when read from left to right
     or right to left in the given base, ``b``.

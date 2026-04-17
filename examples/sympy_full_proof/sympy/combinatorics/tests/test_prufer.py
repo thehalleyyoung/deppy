@@ -20,16 +20,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prufer(), test_prufer produces the expected output) over Any ║
+# ║ Path(test_prufer(), Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5 and Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5 and a.rank == 0 and a.nodes == 5 and a.prufer_repr == [0, 0, 0] and a.rank == 924 and a.nodes == 6 and a.tree_repr == [[2, 4], [1, 4], [1, 3], [0, 5], [0, 4]] and a.prufer_repr == [4, 1, 4, 0] and Prufer.edges([0, 1, 2, 3], [1, 4, 5], [1, 4, 6]) == ([[0, 1], [1, 2], [1, 4], [2, 3], [4, 5], [4, 6]], 7) and Prufer([0] * 4).size == Prufer([6] * 4).size == 1296 and Prufer(tree).tree_repr == tree_lists and sorted(Prufer(set(tree)).tree_repr) == sorted(tree_lists) and Prufer(*Prufer.edges([1, 2], [3, 4])).prufer_repr == [1, 3] and b.tree_repr == [[0, 2], [0, 1], [1, 3]] and b.rank == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prufer : Any → {Any | Prufer([[0, 1], [0, 2], [0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], ...   ║
+# ║   ensures:  Prufer([[0, 1], [0, 2], [0, 3], [0, 4]])....   ║
+# ║   ensures:  a.rank == 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prufer : Any → {Any | result satisfies: Prufer([...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2125ddfbd9a6d74b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66b417c02b4a98c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_prufer.test_prufer","kind":"function","src_hash":"5fdba502c56f1717","in":{"base":"Any"},"out":{"base":"Any","pred":"Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5 and Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5 and a.rank == 0 and a.nodes == 5 and a.prufer_repr == [0, 0, 0] and a.rank == 924 and a.nodes == 6 and a.tree_repr == [[2, 4], [1, 4], [1, 3], [0, 5], [0, 4]] and a.prufer_repr == [4, 1, 4, 0] and Prufer([0] * 4).size == Prufer([6] * 4).size == 1296 and Prufer(tree).tree_repr == tree_lists and sorted(Prufer(set(tree)).tree_repr) == sorted(tree_lists) and Prufer(*Prufer.edges([1, 2], [3, 4])).prufer_repr == [1, 3] and b.tree_repr == [[0, 2], [0, 1], [1, 3]] and b.rank == 1"},"spec":{"lhs":"test_prufer()","rhs":"test_prufer produces the expected output","over":{"base":"Any"},"name":"test_prufer_correct"},"guarantee":"test_prufer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_prufer.test_prufer_correct","statement":"Path(test_prufer(x), test_prufer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2125ddfbd9a6d74b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_prufer.test_prufer","kind":"function","src_hash":"5fdba502c56f1717","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5 and Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5 and a.rank == 0 and a.nodes == 5 and a.prufer_repr == [0, 0, 0] and a.rank == 924 and a.nodes == 6 and a.tree_repr == [[2, 4], [1, 4], [1, 3], [0, 5], [0, 4]] and a.prufer_repr == [4, 1, 4, 0] and Prufer.edges([0, 1, 2, 3], [1, 4, 5], [1, 4, 6]) == ([[0, 1], [1, 2], [1, 4], [2, 3], [4, 5], [4, 6]], 7) and Prufer([0] * 4).size == Prufer([6] * 4).size == 1296 and Prufer(tree).tree_repr == tree_lists and sorted(Prufer(set(tree)).tree_repr) == sorted(tree_lists) and Prufer(*Prufer.edges([1, 2], [3, 4])).prufer_repr == [1, 3] and b.tree_repr == [[0, 2], [0, 1], [1, 3]] and b.rank == 1"},"spec":{"lhs":"test_prufer()","rhs":"Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5 and Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5 and a.rank == 0 and a.nodes == 5 and a.prufer_repr == [0, 0, 0] and a.rank == 924 and a.nodes == 6 and a.tree_repr == [[2, 4], [1, 4], [1, 3], [0, 5], [0, 4]] and a.prufer_repr == [4, 1, 4, 0] and Prufer.edges([0, 1, 2, 3], [1, 4, 5], [1, 4, 6]) == ([[0, 1], [1, 2], [1, 4], [2, 3], [4, 5], [4, 6]], 7) and Prufer([0] * 4).size == Prufer([6] * 4).size == 1296 and Prufer(tree).tree_repr == tree_lists and sorted(Prufer(set(tree)).tree_repr) == sorted(tree_lists) and Prufer(*Prufer.edges([1, 2], [3, 4])).prufer_repr == [1, 3] and b.tree_repr == [[0, 2], [0, 1], [1, 3]] and b.rank == 1","over":{"base":"Any"},"name":"test_prufer_correct"},"guarantee":"Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5; Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5; a.rank == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_prufer.test_prufer_correct","statement":"Path(test_prufer(x), Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5; Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5; a.rank == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66b417c02b4a98c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5","Prufer([[0, 1], [0, 2], [0, 3], [0, 4]]).nodes == 5","a.rank == 0","a.nodes == 5","a.prufer_repr == [0, 0, 0]","a.rank == 924","a.nodes == 6","a.tree_repr == [[2, 4], [1, 4], [1, 3], [0, 5], [0, 4]]","a.prufer_repr == [4, 1, 4, 0]","Prufer.edges([0, 1, 2, 3], [1, 4, 5], [1, 4, 6]) == ([[0, 1], [1, 2], [1, 4], [2, 3], [4, 5], [4, 6]], 7)","Prufer([0] * 4).size == Prufer([6] * 4).size == 1296","Prufer(tree).tree_repr == tree_lists","sorted(Prufer(set(tree)).tree_repr) == sorted(tree_lists)","Prufer(*Prufer.edges([1, 2], [3, 4])).prufer_repr == [1, 3]","b.tree_repr == [[0, 2], [0, 1], [1, 3]]","b.rank == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_prufer():
     # number of nodes is optional
     assert Prufer([[0, 1], [0, 2], [0, 3], [0, 4]], 5).nodes == 5
@@ -71,16 +79,22 @@ def test_prufer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_round_trip(), test_round_trip produces the expected output) over Any ║
+# ║ Path(test_round_trip(), <unspecified:test_round_trip>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_round_trip : Any → {Any | t.prufer_repr == b and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e9223ca2c74ba4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_prufer.test_round_trip","kind":"function","src_hash":"daa6a364c52f66f7","in":{"base":"Any"},"out":{"base":"Any","pred":"t.prufer_repr == b and sorted(Prufer(b).tree_repr) == a and Prufer.unrank(t.rank, n).prufer_repr == b"},"spec":{"lhs":"test_round_trip()","rhs":"test_round_trip produces the expected output","over":{"base":"Any"},"name":"test_round_trip_correct"},"guarantee":"test_round_trip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_prufer.test_round_trip_correct","statement":"Path(test_round_trip(x), test_round_trip produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e9223ca2c74ba4c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_prufer.test_round_trip","kind":"function","src_hash":"daa6a364c52f66f7","in":{"base":"Any"},"out":{"base":"Any","pred":"t.prufer_repr == b and sorted(Prufer(b).tree_repr) == a and Prufer.unrank(t.rank, n).prufer_repr == b"},"spec":{"lhs":"test_round_trip()","rhs":"<unspecified:test_round_trip>","over":{"base":"Any"},"name":"test_round_trip_correct"},"guarantee":"test_round_trip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_prufer.test_round_trip_correct","statement":"Path(test_round_trip(x), test_round_trip produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e9223ca2c74ba4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_round_trip():
     def doit(t, b):
         e, n = Prufer.edges(*t)

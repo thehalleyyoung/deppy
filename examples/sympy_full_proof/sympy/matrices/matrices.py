@@ -64,211 +64,301 @@ __doctest_requires__ = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixDeterminant(*args), correctly constructs a MatrixDeterminant instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixDeterminant : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixCommon)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixDeterminant : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25bd485a74c82a11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant","kind":"class","src_hash":"ab33c3f47b7c8b1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixDeterminant(*args)","rhs":"correctly constructs a MatrixDeterminant instance","over":{"base":"Any"},"name":"MatrixDeterminant_class_invariant"},"guarantee":"correctly constructs a MatrixDeterminant instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25bd485a74c82a11"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant","kind":"class","src_hash":"ab33c3f47b7c8b1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixCommon)"},"spec":{"lhs":"MatrixDeterminant(*args)","rhs":"correctly constructs a MatrixDeterminant instance","over":{"base":"Any"},"name":"MatrixDeterminant_class_invariant"},"guarantee":"isinstance(self, MatrixCommon)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25bd485a74c82a11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixCommon)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixDeterminant not found in source"]}}
 class MatrixDeterminant(MatrixCommon):
     """Provides basic matrix determinant operations. Should not be instantiated
     directly. See ``determinant.py`` for their implementations."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_det_bareiss(isz), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_det_bareiss(iszerofunc), _det_bareiss(self, iszerofunc=iszerofunc)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det_bareiss(self, iszerofunc=iszerofunc)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_det_bareiss : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 497e94e56cfdf9b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_bareiss","kind":"method","src_hash":"6a358d6769033514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_bareiss(isz)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_det_bareiss_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"497e94e56cfdf9b2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_bareiss","kind":"method","src_hash":"6a358d6769033514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_bareiss(iszerofunc)","rhs":"_det_bareiss(self, iszerofunc=iszerofunc)","over":{"base":"Any"},"name":"_eval_det_bareiss_correct"},"guarantee":"returns _det_bareiss(self, iszerofunc=iszerofunc)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"497e94e56cfdf9b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det_bareiss(self, iszerofunc=iszerofunc)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_det_bareiss(self, iszerofunc=_is_zero_after_expand_mul):
         return _det_bareiss(self, iszerofunc=iszerofunc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_det_berkowitz(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_det_berkowitz(), _det_berkowitz(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det_berkowitz(self)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_det_berkowitz : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5617b18e9e99736c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_berkowitz","kind":"method","src_hash":"c368722274f32d58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_berkowitz()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_det_berkowitz_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5617b18e9e99736c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_berkowitz","kind":"method","src_hash":"c368722274f32d58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_berkowitz()","rhs":"_det_berkowitz(self)","over":{"base":"Any"},"name":"_eval_det_berkowitz_correct"},"guarantee":"returns _det_berkowitz(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5617b18e9e99736c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det_berkowitz(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_det_berkowitz(self):
         return _det_berkowitz(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_det_lu(isz), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_det_lu(iszerofunc, simpfunc), _det_LU(self, iszerofunc=iszerofunc, simpfunc=simpfunc)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det_LU(self, iszerofunc=iszerofunc, simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_det_lu : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f69d10f4db64df75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_lu","kind":"method","src_hash":"dc613974a36916d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_lu(isz)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_det_lu_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f69d10f4db64df75"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_lu","kind":"method","src_hash":"dc613974a36916d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_lu(iszerofunc, simpfunc)","rhs":"_det_LU(self, iszerofunc=iszerofunc, simpfunc=simpfunc)","over":{"base":"Any"},"name":"_eval_det_lu_correct"},"guarantee":"returns _det_LU(self, iszerofunc=iszerofunc, simpfunc=simpfunc)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f69d10f4db64df75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det_LU(self, iszerofunc=iszerofunc, simpfunc=simpfunc)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_det_lu(self, iszerofunc=_iszero, simpfunc=None):
         return _det_LU(self, iszerofunc=iszerofunc, simpfunc=simpfunc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_det_bird(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_det_bird(), _det_bird(self)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det_bird(self)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_det_bird : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61255c174bfbbfd6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_bird","kind":"method","src_hash":"6813b69393c4f064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_bird()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_det_bird_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61255c174bfbbfd6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_bird","kind":"method","src_hash":"6813b69393c4f064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_bird()","rhs":"_det_bird(self)","over":{"base":"Any"},"name":"_eval_det_bird_correct"},"guarantee":"returns _det_bird(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61255c174bfbbfd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det_bird(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_det_bird(self):
         return _det_bird(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_det_laplace(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_det_laplace(), _det_laplace(self)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det_laplace(self)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_det_laplace : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ea7cdb86d52f7e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_laplace","kind":"method","src_hash":"a0a5af6aa4d21576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_laplace()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_det_laplace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ea7cdb86d52f7e9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_det_laplace","kind":"method","src_hash":"a0a5af6aa4d21576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_det_laplace()","rhs":"_det_laplace(self)","over":{"base":"Any"},"name":"_eval_det_laplace_correct"},"guarantee":"returns _det_laplace(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ea7cdb86d52f7e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det_laplace(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_det_laplace(self):
         return _det_laplace(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_determinant(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_determinant(), _det(self)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det(self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3e25e760cef9f70           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_determinant","kind":"method","src_hash":"476a001272833638","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3e25e760cef9f70"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant._eval_determinant","kind":"method","src_hash":"476a001272833638","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"_det(self)","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"returns _det(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3e25e760cef9f70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self): # for expressions.determinant.Determinant
         return _det(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(adjugate(met), adjugate produces the expected output) over Any ║
+# ║ Path(adjugate(method), _adjugate(self, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _adjugate(self, method=method)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ adjugate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b93295df8e6dcea9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.adjugate","kind":"method","src_hash":"7c46a447d8ef2451","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjugate(met)","rhs":"adjugate produces the expected output","over":{"base":"Any"},"name":"adjugate_correct"},"guarantee":"adjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b93295df8e6dcea9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.adjugate","kind":"method","src_hash":"7c46a447d8ef2451","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjugate(method)","rhs":"_adjugate(self, method=method)","over":{"base":"Any"},"name":"adjugate_correct"},"guarantee":"returns _adjugate(self, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b93295df8e6dcea9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_adjugate(self, method=method)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def adjugate(self, method="berkowitz"):
         return _adjugate(self, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly(x, ), charpoly produces the expected output) over Any ║
+# ║ Path(charpoly(x, simplify), _charpoly(self, x=x, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _charpoly(self, x=x, simplify=simplify)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ charpoly : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2482ec68d72b6c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.charpoly","kind":"method","src_hash":"d2547164d5065184","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly(x, )","rhs":"charpoly produces the expected output","over":{"base":"Any"},"name":"charpoly_correct"},"guarantee":"charpoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2482ec68d72b6c6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.charpoly","kind":"method","src_hash":"d2547164d5065184","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly(x, simplify)","rhs":"_charpoly(self, x=x, simplify=simplify)","over":{"base":"Any"},"name":"charpoly_correct"},"guarantee":"returns _charpoly(self, x=x, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2482ec68d72b6c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_charpoly(self, x=x, simplify=simplify)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly(self, x='lambda', simplify=_simplify):
         return _charpoly(self, x=x, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cofactor(i, ), cofactor produces the expected output) over Any ║
+# ║ Path(cofactor(i, j, method), _cofactor(self, i, j, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _cofactor(self, i, j, method=method)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cofactor : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 821b7b5f9a22f1d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.cofactor","kind":"method","src_hash":"38cb9e10ea1c2efe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactor(i, )","rhs":"cofactor produces the expected output","over":{"base":"Any"},"name":"cofactor_correct"},"guarantee":"cofactor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"821b7b5f9a22f1d8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.cofactor","kind":"method","src_hash":"38cb9e10ea1c2efe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactor(i, j, method)","rhs":"_cofactor(self, i, j, method=method)","over":{"base":"Any"},"name":"cofactor_correct"},"guarantee":"returns _cofactor(self, i, j, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"821b7b5f9a22f1d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_cofactor(self, i, j, method=method)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cofactor(self, i, j, method="berkowitz"):
         return _cofactor(self, i, j, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cofactor_matrix(met), cofactor_matrix produces the expected output) over Any ║
+# ║ Path(cofactor_matrix(method), _cofactor_matrix(self, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _cofactor_matrix(self, method=method)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cofactor_matrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d408754b99c5f6b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.cofactor_matrix","kind":"method","src_hash":"a04d1e61d61cc76b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactor_matrix(met)","rhs":"cofactor_matrix produces the expected output","over":{"base":"Any"},"name":"cofactor_matrix_correct"},"guarantee":"cofactor_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d408754b99c5f6b2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.cofactor_matrix","kind":"method","src_hash":"a04d1e61d61cc76b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactor_matrix(method)","rhs":"_cofactor_matrix(self, method=method)","over":{"base":"Any"},"name":"cofactor_matrix_correct"},"guarantee":"returns _cofactor_matrix(self, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d408754b99c5f6b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_cofactor_matrix(self, method=method)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cofactor_matrix(self, method="berkowitz"):
         return _cofactor_matrix(self, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(det(met), det produces the expected output) over Any  ║
+# ║ Path(det(method, iszerofunc), _det(self, method=method, iszerofunc=iszerofunc)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det(self, method=method, iszerofunc=isze...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ det : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1133e87384b91a3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.det","kind":"method","src_hash":"14193009497c6795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det(met)","rhs":"det produces the expected output","over":{"base":"Any"},"name":"det_correct"},"guarantee":"det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1133e87384b91a3f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.det","kind":"method","src_hash":"14193009497c6795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det(method, iszerofunc)","rhs":"_det(self, method=method, iszerofunc=iszerofunc)","over":{"base":"Any"},"name":"det_correct"},"guarantee":"returns _det(self, method=method, iszerofunc=iszerofunc)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1133e87384b91a3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det(self, method=method, iszerofunc=iszerofunc)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def det(self, method="bareiss", iszerofunc=None):
         return _det(self, method=method, iszerofunc=iszerofunc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(per(), per produces the expected output) over Any     ║
+# ║ Path(per(), _per(self)) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _per(self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ per : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfc06afe5a455bc3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.per","kind":"method","src_hash":"87f3b0439be89f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"per()","rhs":"per produces the expected output","over":{"base":"Any"},"name":"per_correct"},"guarantee":"per produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfc06afe5a455bc3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.per","kind":"method","src_hash":"87f3b0439be89f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"per()","rhs":"_per(self)","over":{"base":"Any"},"name":"per_correct"},"guarantee":"returns _per(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfc06afe5a455bc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_per(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def per(self):
         return _per(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minor(i, ), minor produces the expected output) over Any ║
+# ║ Path(minor(i, j, method), _minor(self, i, j, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _minor(self, i, j, method=method)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minor : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5efe0fee1ddf26c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.minor","kind":"method","src_hash":"052fbe83833d0282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minor(i, )","rhs":"minor produces the expected output","over":{"base":"Any"},"name":"minor_correct"},"guarantee":"minor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5efe0fee1ddf26c2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.minor","kind":"method","src_hash":"052fbe83833d0282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minor(i, j, method)","rhs":"_minor(self, i, j, method=method)","over":{"base":"Any"},"name":"minor_correct"},"guarantee":"returns _minor(self, i, j, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5efe0fee1ddf26c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_minor(self, i, j, method=method)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minor(self, i, j, method="berkowitz"):
         return _minor(self, i, j, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minor_submatrix(i, ), minor_submatrix produces the expected output) over Any ║
+# ║ Path(minor_submatrix(i, j), _minor_submatrix(self, i, j)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _minor_submatrix(self, i, j)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minor_submatrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edd458f2ee32b480           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.minor_submatrix","kind":"method","src_hash":"059a95e6a6fc3599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minor_submatrix(i, )","rhs":"minor_submatrix produces the expected output","over":{"base":"Any"},"name":"minor_submatrix_correct"},"guarantee":"minor_submatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edd458f2ee32b480"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeterminant.minor_submatrix","kind":"method","src_hash":"059a95e6a6fc3599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minor_submatrix(i, j)","rhs":"_minor_submatrix(self, i, j)","over":{"base":"Any"},"name":"minor_submatrix_correct"},"guarantee":"returns _minor_submatrix(self, i, j)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edd458f2ee32b480","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_minor_submatrix(self, i, j)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minor_submatrix(self, i, j):
         return _minor_submatrix(self, i, j)
 
@@ -293,73 +383,104 @@ class MatrixDeterminant(MatrixCommon):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MatrixReductions instance) preserved by MatrixReductions(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixReductions : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixDeterminant)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixReductions : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ccb012755580824  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions","kind":"class","src_hash":"cb7f303299364080","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixReductions(*args)","rhs":"correctly constructs a MatrixReductions instance","over":{"base":"Any"},"name":"MatrixReductions_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MatrixReductions instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_echelon","pred":"self.is_echelon","kind":"class"}],"methods_preserving":["echelon_form","is_echelon","rank","rref_rhs","rref","_normalize_op_args","_eval_col_op_multiply_col_by_const","_eval_col_op_swap","_eval_col_op_add_multiple_to_other_col","_eval_row_op_swap","_eval_row_op_multiply_row_by_const","_eval_row_op_add_multiple_to_other_row","elementary_col_op","elementary_row_op"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ccb012755580824"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions","kind":"class","src_hash":"cb7f303299364080","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixDeterminant)"},"spec":{"lhs":"MatrixReductions(*args)","rhs":"correctly constructs a MatrixReductions instance","over":{"base":"Any"},"name":"MatrixReductions_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MatrixDeterminant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_echelon","pred":"self.is_echelon","kind":"class"}],"methods_preserving":["echelon_form","is_echelon","rank","rref_rhs","rref","_normalize_op_args","_eval_col_op_multiply_col_by_const","_eval_col_op_swap","_eval_col_op_add_multiple_to_other_col","_eval_row_op_swap","_eval_row_op_multiply_row_by_const","_eval_row_op_add_multiple_to_other_row","elementary_col_op","elementary_row_op"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ccb012755580824","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixDeterminant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixReductions not found in source"]}}
 class MatrixReductions(MatrixDeterminant):
     """Provides basic matrix row/column operations. Should not be instantiated
     directly. See ``reductions.py`` for some of their implementations."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(echelon_form(isz), echelon_form produces the expected output) over Any ║
+# ║ Path(echelon_form(iszerofunc, simplify, with_pivots), _echelon_form(self, iszerofunc=iszerofunc, simplify=simplify, with_pivots=with_pivots)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _echelon_form(self, iszerofunc=iszerofunc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ echelon_form : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c23472de72d1241  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088bc8f0d3ec096a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.echelon_form","kind":"method","src_hash":"c5624efcd3776683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"echelon_form(isz)","rhs":"echelon_form produces the expected output","over":{"base":"Any"},"name":"echelon_form_correct"},"guarantee":"echelon_form produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.echelon_form_correct","statement":"Path(echelon_form(x), echelon_form produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c23472de72d1241"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.echelon_form","kind":"method","src_hash":"c5624efcd3776683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"echelon_form(iszerofunc, simplify, with_pivots)","rhs":"_echelon_form(self, iszerofunc=iszerofunc, simplify=simplify, with_pivots=with_pivots)","over":{"base":"Any"},"name":"echelon_form_correct"},"guarantee":"returns _echelon_form(self, iszerofunc=iszerofunc, simplify=simplify, with_pivots=with_pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.echelon_form_correct","statement":"Path(echelon_form(x), returns _echelon_form(self, iszerofunc=iszerofunc, simplify=simplify, with_pivots=with_pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088bc8f0d3ec096a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_echelon_form(self, iszerofunc=iszerofunc, simplify=simplify, with_pivots=with_pivots)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def echelon_form(self, iszerofunc=_iszero, simplify=False, with_pivots=False):
         return _echelon_form(self, iszerofunc=iszerofunc, simplify=simplify,
                 with_pivots=with_pivots)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_echelon(), returns the is_echelon attribute) over Any ║
+# ║ Path(is_echelon(), _is_echelon(self)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_echelon(self)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_echelon : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee2358c98c8c3b12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.is_echelon","kind":"property","src_hash":"b57b9f3b22e3df63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_echelon()","rhs":"returns the is_echelon attribute","over":{"base":"Any"},"name":"is_echelon_correct"},"guarantee":"returns the is_echelon attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee2358c98c8c3b12"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.is_echelon","kind":"property","src_hash":"b57b9f3b22e3df63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_echelon()","rhs":"_is_echelon(self)","over":{"base":"Any"},"name":"is_echelon_correct"},"guarantee":"returns _is_echelon(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee2358c98c8c3b12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_echelon(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_echelon(self):
         return _is_echelon(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(isz), rank produces the expected output) over Any ║
+# ║ Path(rank(iszerofunc, simplify), _rank(self, iszerofunc=iszerofunc, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _rank(self, iszerofunc=iszerofunc, simpli...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d84a38935c554190           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.rank","kind":"method","src_hash":"485bf7f1a31407cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank(isz)","rhs":"rank produces the expected output","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"rank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d84a38935c554190"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.rank","kind":"method","src_hash":"485bf7f1a31407cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank(iszerofunc, simplify)","rhs":"_rank(self, iszerofunc=iszerofunc, simplify=simplify)","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns _rank(self, iszerofunc=iszerofunc, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d84a38935c554190","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_rank(self, iszerofunc=iszerofunc, simplify=simplify)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self, iszerofunc=_iszero, simplify=False):
         return _rank(self, iszerofunc=iszerofunc, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref_rhs(rhs), return reduced row-echelon form of matrix, matrix showing rhs after reduction steps) over Any ║
+# ║ Path(rref_rhs(rhs), (r[:, :self.cols], r[:, -rhs.cols:])) over {Any | hasattr(rhs, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rref_rhs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rhs, 'cols')                           ║
+# ║   returns:  (r[:, :self.cols], r[:, -rhs.cols:])           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rref_rhs : {Any | hasattr(rhs, 'cols')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bc2fda1807de1ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 123d368f61bceada  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.rref_rhs","kind":"method","src_hash":"992fd176a56e2651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref_rhs(rhs)","rhs":"return reduced row-echelon form of matrix, matrix showing rhs after reduction steps","over":{"base":"Any"},"name":"rref_rhs_correct"},"guarantee":"return reduced row-echelon form of matrix, matrix showing rhs after reduction steps","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.rref_rhs_correct","statement":"Path(rref_rhs(x), return reduced row-echelon form of matrix, matrix showing rhs after reduction steps)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bc2fda1807de1ff"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.rref_rhs","kind":"method","src_hash":"992fd176a56e2651","in":{"base":"Any","pred":"hasattr(rhs, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"rref_rhs(rhs)","rhs":"(r[:, :self.cols], r[:, -rhs.cols:])","over":{"base":"Any","pred":"hasattr(rhs, 'cols')"},"name":"rref_rhs_correct"},"guarantee":"returns (r[:, :self.cols], r[:, -rhs.cols:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.rref_rhs_correct","statement":"Path(rref_rhs(x), returns (r[:, :self.cols], r[:, -rhs.cols:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"123d368f61bceada","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rhs, 'cols')"],"returns_expr":"(r[:, :self.cols], r[:, -rhs.cols:])","pure":false,"effects":{"effect_type":"reads_state","reads":["rhs.cols","self.cols","self.eye","self.hstack","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref_rhs(self, rhs):
         """Return reduced row-echelon form of matrix, matrix showing
         rhs after reduction steps. ``rhs`` must have the same number
@@ -381,16 +502,22 @@ class MatrixReductions(MatrixDeterminant):
         return r[:, :self.cols], r[:, -rhs.cols:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref(isz), rref produces the expected output) over Any ║
+# ║ Path(rref(iszerofunc, simplify, pivots), _rref(self, iszerofunc=iszerofunc, simplify=simplify, pivots=pivots, normalize_last=normalize_last)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _rref(self, iszerofunc=iszerofunc, simpli...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rref : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8041867e9d4e6a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8108212db3e61d98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.rref","kind":"method","src_hash":"0530380c87b91a83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref(isz)","rhs":"rref produces the expected output","over":{"base":"Any"},"name":"rref_correct"},"guarantee":"rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.rref_correct","statement":"Path(rref(x), rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8041867e9d4e6a3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.rref","kind":"method","src_hash":"0530380c87b91a83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref(iszerofunc, simplify, pivots)","rhs":"_rref(self, iszerofunc=iszerofunc, simplify=simplify, pivots=pivots, normalize_last=normalize_last)","over":{"base":"Any"},"name":"rref_correct"},"guarantee":"returns _rref(self, iszerofunc=iszerofunc, simplify=simplify, pivots=pivots, normalize_last=normalize_last)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.rref_correct","statement":"Path(rref(x), returns _rref(self, iszerofunc=iszerofunc, simplify=simplify, pivots=pivots, normalize_last=normalize_last))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8108212db3e61d98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_rref(self, iszerofunc=iszerofunc, simplify=simplify, pivots=pivots, normalize_last=normalize_last)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref(self, iszerofunc=_iszero, simplify=False, pivots=True,
             normalize_last=True):
         return _rref(self, iszerofunc=iszerofunc, simplify=simplify,
@@ -402,16 +529,23 @@ class MatrixReductions(MatrixDeterminant):
     rref.__doc__         = _rref.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_normalize_op_args(op,), validate the arguments for a row/column operation) over Any ║
+# ║ Path(_normalize_op_args(op, col, k), (op, col, k, col1, col2)) over {Any | not (op not in ['n->kn', 'n<->m', 'n->n+km'])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _normalize_op_args : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (op not in ['n->kn', 'n<->m', 'n->n+k...   ║
+# ║   returns:  (op, col, k, col1, col2)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _normalize_op_args : {Any | not (op not in ['n->kn', ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d40ecab539269bed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67735f9d67cae5d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._normalize_op_args","kind":"method","src_hash":"bc6c943ae4ec6eed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_normalize_op_args(op,)","rhs":"validate the arguments for a row/column operation","over":{"base":"Any"},"name":"_normalize_op_args_correct"},"guarantee":"validate the arguments for a row/column operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._normalize_op_args_correct","statement":"Path(_normalize_op_args(x), validate the arguments for a row/column operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d40ecab539269bed"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._normalize_op_args","kind":"method","src_hash":"bc6c943ae4ec6eed","in":{"base":"Any","pred":"not (op not in ['n->kn', 'n<->m', 'n->n+km'])"},"out":{"base":"Any"},"spec":{"lhs":"_normalize_op_args(op, col, k)","rhs":"(op, col, k, col1, col2)","over":{"base":"Any","pred":"not (op not in ['n->kn', 'n<->m', 'n->n+km'])"},"name":"_normalize_op_args_correct"},"guarantee":"returns (op, col, k, col1, col2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._normalize_op_args_correct","statement":"Path(_normalize_op_args(x), returns (op, col, k, col1, col2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67735f9d67cae5d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (op not in ['n->kn', 'n<->m', 'n->n+km'])"],"returns_expr":"(op, col, k, col1, col2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.rows"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _normalize_op_args(self, op, col, k, col1, col2, error_str="col"):
         """Validate the arguments for a row/column operation.  ``error_str``
         can be one of "row" or "col" depending on the arguments being parsed."""
@@ -468,16 +602,22 @@ class MatrixReductions(MatrixDeterminant):
         return op, col, k, col1, col2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_col_op_multiply_col_by_const(col), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_col_op_multiply_col_by_const(col, k), <unspecified:_eval_col_op_multiply_col_by_const>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_col_op_multiply_col_by_const : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31cbb27298adae7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_col_op_multiply_col_by_const","kind":"method","src_hash":"8654ff1ddad7f925","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_op_multiply_col_by_const(col)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_col_op_multiply_col_by_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_col_op_multiply_col_by_const_correct","statement":"Path(_eval_col_op_multiply_col_by_const(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31cbb27298adae7c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_col_op_multiply_col_by_const","kind":"method","src_hash":"8654ff1ddad7f925","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_op_multiply_col_by_const(col, k)","rhs":"<unspecified:_eval_col_op_multiply_col_by_const>","over":{"base":"Any"},"name":"_eval_col_op_multiply_col_by_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_col_op_multiply_col_by_const_correct","statement":"Path(_eval_col_op_multiply_col_by_const(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31cbb27298adae7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_col_op_multiply_col_by_const(self, col, k):
         def entry(i, j):
             if j == col:
@@ -486,16 +626,22 @@ class MatrixReductions(MatrixDeterminant):
         return self._new(self.rows, self.cols, entry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_col_op_swap(col), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_col_op_swap(col1, col2), <unspecified:_eval_col_op_swap>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_col_op_swap : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6e1f4d521250b94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_col_op_swap","kind":"method","src_hash":"aa5262f9ee15833a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_op_swap(col)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_col_op_swap_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_col_op_swap_correct","statement":"Path(_eval_col_op_swap(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e1f4d521250b94"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_col_op_swap","kind":"method","src_hash":"aa5262f9ee15833a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_op_swap(col1, col2)","rhs":"<unspecified:_eval_col_op_swap>","over":{"base":"Any"},"name":"_eval_col_op_swap_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_col_op_swap_correct","statement":"Path(_eval_col_op_swap(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e1f4d521250b94","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_col_op_swap(self, col1, col2):
         def entry(i, j):
             if j == col1:
@@ -506,16 +652,22 @@ class MatrixReductions(MatrixDeterminant):
         return self._new(self.rows, self.cols, entry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_col_op_add_multiple_to_other_col(col), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_col_op_add_multiple_to_other_col(col, k, col2), <unspecified:_eval_col_op_add_multiple_to_other_col>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_col_op_add_multiple_to_other_col : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee208480d9f3b21e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_col_op_add_multiple_to_other_col","kind":"method","src_hash":"cd6995dee456ac44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_op_add_multiple_to_other_col(col)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_col_op_add_multiple_to_other_col_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_col_op_add_multiple_to_other_col_correct","statement":"Path(_eval_col_op_add_multiple_to_other_col(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee208480d9f3b21e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_col_op_add_multiple_to_other_col","kind":"method","src_hash":"cd6995dee456ac44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_op_add_multiple_to_other_col(col, k, col2)","rhs":"<unspecified:_eval_col_op_add_multiple_to_other_col>","over":{"base":"Any"},"name":"_eval_col_op_add_multiple_to_other_col_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_col_op_add_multiple_to_other_col_correct","statement":"Path(_eval_col_op_add_multiple_to_other_col(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee208480d9f3b21e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_col_op_add_multiple_to_other_col(self, col, k, col2):
         def entry(i, j):
             if j == col:
@@ -524,16 +676,22 @@ class MatrixReductions(MatrixDeterminant):
         return self._new(self.rows, self.cols, entry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_row_op_swap(row), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_row_op_swap(row1, row2), <unspecified:_eval_row_op_swap>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_row_op_swap : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f5883566ce397f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_row_op_swap","kind":"method","src_hash":"aca1e244d575a3a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_op_swap(row)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_row_op_swap_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_row_op_swap_correct","statement":"Path(_eval_row_op_swap(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f5883566ce397f5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_row_op_swap","kind":"method","src_hash":"aca1e244d575a3a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_op_swap(row1, row2)","rhs":"<unspecified:_eval_row_op_swap>","over":{"base":"Any"},"name":"_eval_row_op_swap_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_row_op_swap_correct","statement":"Path(_eval_row_op_swap(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f5883566ce397f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_row_op_swap(self, row1, row2):
         def entry(i, j):
             if i == row1:
@@ -544,16 +702,22 @@ class MatrixReductions(MatrixDeterminant):
         return self._new(self.rows, self.cols, entry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_row_op_multiply_row_by_const(row), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_row_op_multiply_row_by_const(row, k), <unspecified:_eval_row_op_multiply_row_by_const>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_row_op_multiply_row_by_const : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eff15af91d43a94f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_row_op_multiply_row_by_const","kind":"method","src_hash":"4e57210e9e6adb87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_op_multiply_row_by_const(row)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_row_op_multiply_row_by_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_row_op_multiply_row_by_const_correct","statement":"Path(_eval_row_op_multiply_row_by_const(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eff15af91d43a94f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_row_op_multiply_row_by_const","kind":"method","src_hash":"4e57210e9e6adb87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_op_multiply_row_by_const(row, k)","rhs":"<unspecified:_eval_row_op_multiply_row_by_const>","over":{"base":"Any"},"name":"_eval_row_op_multiply_row_by_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_row_op_multiply_row_by_const_correct","statement":"Path(_eval_row_op_multiply_row_by_const(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eff15af91d43a94f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_row_op_multiply_row_by_const(self, row, k):
         def entry(i, j):
             if i == row:
@@ -562,16 +726,22 @@ class MatrixReductions(MatrixDeterminant):
         return self._new(self.rows, self.cols, entry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_row_op_add_multiple_to_other_row(row), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_row_op_add_multiple_to_other_row(row, k, row2), <unspecified:_eval_row_op_add_multiple_to_other_row>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_row_op_add_multiple_to_other_row : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05f62df25f23f42a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_row_op_add_multiple_to_other_row","kind":"method","src_hash":"0e25baf234823cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_op_add_multiple_to_other_row(row)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_row_op_add_multiple_to_other_row_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_row_op_add_multiple_to_other_row_correct","statement":"Path(_eval_row_op_add_multiple_to_other_row(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05f62df25f23f42a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions._eval_row_op_add_multiple_to_other_row","kind":"method","src_hash":"0e25baf234823cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_op_add_multiple_to_other_row(row, k, row2)","rhs":"<unspecified:_eval_row_op_add_multiple_to_other_row>","over":{"base":"Any"},"name":"_eval_row_op_add_multiple_to_other_row_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions._eval_row_op_add_multiple_to_other_row_correct","statement":"Path(_eval_row_op_add_multiple_to_other_row(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05f62df25f23f42a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_row_op_add_multiple_to_other_row(self, row, k, row2):
         def entry(i, j):
             if i == row:
@@ -580,16 +750,22 @@ class MatrixReductions(MatrixDeterminant):
         return self._new(self.rows, self.cols, entry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elementary_col_op(op,), performs the elementary column operation `op`) over Any ║
+# ║ Path(elementary_col_op(op, col, k), <unspecified:elementary_col_op>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elementary_col_op : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 303cbba1f3388c95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.elementary_col_op","kind":"method","src_hash":"23d622b0f701f56c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elementary_col_op(op,)","rhs":"performs the elementary column operation `op`","over":{"base":"Any"},"name":"elementary_col_op_correct"},"guarantee":"performs the elementary column operation `op`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.elementary_col_op_correct","statement":"Path(elementary_col_op(x), performs the elementary column operation `op`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303cbba1f3388c95"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.elementary_col_op","kind":"method","src_hash":"23d622b0f701f56c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elementary_col_op(op, col, k)","rhs":"<unspecified:elementary_col_op>","over":{"base":"Any"},"name":"elementary_col_op_correct"},"guarantee":"performs the elementary column operation `op`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.elementary_col_op_correct","statement":"Path(elementary_col_op(x), performs the elementary column operation `op`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303cbba1f3388c95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_col_op_add_multiple_to_other_col","self._eval_col_op_multiply_col_by_const","self._eval_col_op_swap","self._normalize_op_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elementary_col_op(self, op="n->kn", col=None, k=None, col1=None, col2=None):
         """Performs the elementary column operation `op`.
 
@@ -621,16 +797,22 @@ class MatrixReductions(MatrixDeterminant):
             return self._eval_col_op_add_multiple_to_other_col(col, k, col2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elementary_row_op(op,), performs the elementary row operation `op`) over Any ║
+# ║ Path(elementary_row_op(op, row, k), <unspecified:elementary_row_op>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elementary_row_op : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45dd7bc599f79258  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.elementary_row_op","kind":"method","src_hash":"9d1820aed4d3602d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elementary_row_op(op,)","rhs":"performs the elementary row operation `op`","over":{"base":"Any"},"name":"elementary_row_op_correct"},"guarantee":"performs the elementary row operation `op`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.elementary_row_op_correct","statement":"Path(elementary_row_op(x), performs the elementary row operation `op`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45dd7bc599f79258"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixReductions.elementary_row_op","kind":"method","src_hash":"9d1820aed4d3602d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elementary_row_op(op, row, k)","rhs":"<unspecified:elementary_row_op>","over":{"base":"Any"},"name":"elementary_row_op_correct"},"guarantee":"performs the elementary row operation `op`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixReductions.elementary_row_op_correct","statement":"Path(elementary_row_op(x), performs the elementary row operation `op`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45dd7bc599f79258","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_row_op_add_multiple_to_other_row","self._eval_row_op_multiply_row_by_const","self._eval_row_op_swap","self._normalize_op_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elementary_row_op(self, op="n->kn", row=None, k=None, row1=None, row2=None):
         """Performs the elementary row operation `op`.
 
@@ -665,58 +847,82 @@ class MatrixReductions(MatrixDeterminant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixSubspaces(*args), correctly constructs a MatrixSubspaces instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixSubspaces : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixReductions)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixSubspaces : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d79f080ad97dba0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces","kind":"class","src_hash":"04bf53617d5bfb0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixSubspaces(*args)","rhs":"correctly constructs a MatrixSubspaces instance","over":{"base":"Any"},"name":"MatrixSubspaces_class_invariant"},"guarantee":"correctly constructs a MatrixSubspaces instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d79f080ad97dba0a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces","kind":"class","src_hash":"04bf53617d5bfb0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixReductions)"},"spec":{"lhs":"MatrixSubspaces(*args)","rhs":"correctly constructs a MatrixSubspaces instance","over":{"base":"Any"},"name":"MatrixSubspaces_class_invariant"},"guarantee":"isinstance(self, MatrixReductions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d79f080ad97dba0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixReductions)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixSubspaces not found in source"]}}
 class MatrixSubspaces(MatrixReductions):
     """Provides methods relating to the fundamental subspaces of a matrix.
     Should not be instantiated directly. See ``subspaces.py`` for their
     implementations."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(columnspace(sim), columnspace produces the expected output) over Any ║
+# ║ Path(columnspace(simplify), _columnspace(self, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _columnspace(self, simplify=simplify)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ columnspace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5487ad71af1a167           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.columnspace","kind":"method","src_hash":"25757017e4ae0387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"columnspace(sim)","rhs":"columnspace produces the expected output","over":{"base":"Any"},"name":"columnspace_correct"},"guarantee":"columnspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5487ad71af1a167"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.columnspace","kind":"method","src_hash":"25757017e4ae0387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"columnspace(simplify)","rhs":"_columnspace(self, simplify=simplify)","over":{"base":"Any"},"name":"columnspace_correct"},"guarantee":"returns _columnspace(self, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5487ad71af1a167","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_columnspace(self, simplify=simplify)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def columnspace(self, simplify=False):
         return _columnspace(self, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nullspace(sim), nullspace produces the expected output) over Any ║
+# ║ Path(nullspace(simplify, iszerofunc), _nullspace(self, simplify=simplify, iszerofunc=iszerofunc)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _nullspace(self, simplify=simplify, iszer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nullspace : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50c0672db7667685           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.nullspace","kind":"method","src_hash":"4d499177c5caaaee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace(sim)","rhs":"nullspace produces the expected output","over":{"base":"Any"},"name":"nullspace_correct"},"guarantee":"nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50c0672db7667685"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.nullspace","kind":"method","src_hash":"4d499177c5caaaee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace(simplify, iszerofunc)","rhs":"_nullspace(self, simplify=simplify, iszerofunc=iszerofunc)","over":{"base":"Any"},"name":"nullspace_correct"},"guarantee":"returns _nullspace(self, simplify=simplify, iszerofunc=iszerofunc)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50c0672db7667685","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_nullspace(self, simplify=simplify, iszerofunc=iszerofunc)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nullspace(self, simplify=False, iszerofunc=_iszero):
         return _nullspace(self, simplify=simplify, iszerofunc=iszerofunc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rowspace(sim), rowspace produces the expected output) over Any ║
+# ║ Path(rowspace(simplify), _rowspace(self, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _rowspace(self, simplify=simplify)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rowspace : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df2b37b167a2146d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.rowspace","kind":"method","src_hash":"239f100af212127a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowspace(sim)","rhs":"rowspace produces the expected output","over":{"base":"Any"},"name":"rowspace_correct"},"guarantee":"rowspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df2b37b167a2146d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.rowspace","kind":"method","src_hash":"239f100af212127a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowspace(simplify)","rhs":"_rowspace(self, simplify=simplify)","over":{"base":"Any"},"name":"rowspace_correct"},"guarantee":"returns _rowspace(self, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df2b37b167a2146d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_rowspace(self, simplify=simplify)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rowspace(self, simplify=False):
         return _rowspace(self, simplify=simplify)
 
@@ -724,16 +930,22 @@ class MatrixSubspaces(MatrixReductions):
     # assignment of __doc__ since that does not work for already wrapped
     # classmethods in Python 3.6.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthogonalize(cls), orthogonalize produces the expected output) over Any ║
+# ║ Path(orthogonalize(cls, *vecs, **kwargs), _orthogonalize(cls, *vecs, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _orthogonalize(cls, *vecs, **kwargs)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orthogonalize : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 921efd3489ec287e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.orthogonalize","kind":"method","src_hash":"b8cec6d4eef37708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonalize(cls)","rhs":"orthogonalize produces the expected output","over":{"base":"Any"},"name":"orthogonalize_correct"},"guarantee":"orthogonalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"921efd3489ec287e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixSubspaces.orthogonalize","kind":"method","src_hash":"b8cec6d4eef37708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonalize(cls, *vecs, **kwargs)","rhs":"_orthogonalize(cls, *vecs, **kwargs)","over":{"base":"Any"},"name":"orthogonalize_correct"},"guarantee":"returns _orthogonalize(cls, *vecs, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"921efd3489ec287e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_orthogonalize(cls, *vecs, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orthogonalize(cls, *vecs, **kwargs):
         return _orthogonalize(cls, *vecs, **kwargs)
 
@@ -748,219 +960,309 @@ class MatrixSubspaces(MatrixReductions):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MatrixEigen instance) preserved by MatrixEigen(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixEigen : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixSubspaces)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixEigen : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d3a0d35e60caa1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen","kind":"class","src_hash":"ffb7cc1733d8418a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixEigen(*args)","rhs":"correctly constructs a MatrixEigen instance","over":{"base":"Any"},"name":"MatrixEigen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MatrixEigen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_positive_definite","pred":"self.is_positive_definite","kind":"class"},{"name":"is_positive_semidefinite","pred":"self.is_positive_semidefinite","kind":"class"},{"name":"is_negative_definite","pred":"self.is_negative_definite","kind":"class"},{"name":"is_negative_semidefinite","pred":"self.is_negative_semidefinite","kind":"class"},{"name":"is_indefinite","pred":"self.is_indefinite","kind":"class"}],"methods_preserving":["eigenvals","eigenvects","is_diagonalizable","diagonalize","bidiagonalize","bidiagonal_decomposition","is_positive_definite","is_positive_semidefinite","is_negative_definite","is_negative_semidefinite","is_indefinite","jordan_form","left_eigenvects","singular_values"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d3a0d35e60caa1e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen","kind":"class","src_hash":"ffb7cc1733d8418a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixSubspaces)"},"spec":{"lhs":"MatrixEigen(*args)","rhs":"correctly constructs a MatrixEigen instance","over":{"base":"Any"},"name":"MatrixEigen_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MatrixSubspaces)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_positive_definite","pred":"self.is_positive_definite","kind":"class"},{"name":"is_positive_semidefinite","pred":"self.is_positive_semidefinite","kind":"class"},{"name":"is_negative_definite","pred":"self.is_negative_definite","kind":"class"},{"name":"is_negative_semidefinite","pred":"self.is_negative_semidefinite","kind":"class"},{"name":"is_indefinite","pred":"self.is_indefinite","kind":"class"}],"methods_preserving":["eigenvals","eigenvects","is_diagonalizable","diagonalize","bidiagonalize","bidiagonal_decomposition","is_positive_definite","is_positive_semidefinite","is_negative_definite","is_negative_semidefinite","is_indefinite","jordan_form","left_eigenvects","singular_values"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d3a0d35e60caa1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixSubspaces)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixEigen not found in source"]}}
 class MatrixEigen(MatrixSubspaces):
     """Provides basic matrix eigenvalue/vector operations.
     Should not be instantiated directly. See ``eigen.py`` for their
     implementations."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eigenvals(err), eigenvals produces the expected output) over Any ║
+# ║ Path(eigenvals(error_when_incomplete, **flags), _eigenvals(self, error_when_incomplete=error_when_incomplete, **flags)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _eigenvals(self, error_when_incomplete=er...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eigenvals : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93f5b56bd5eec50a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.eigenvals","kind":"method","src_hash":"aa03c4e991e76069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eigenvals(err)","rhs":"eigenvals produces the expected output","over":{"base":"Any"},"name":"eigenvals_correct"},"guarantee":"eigenvals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93f5b56bd5eec50a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.eigenvals","kind":"method","src_hash":"aa03c4e991e76069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eigenvals(error_when_incomplete, **flags)","rhs":"_eigenvals(self, error_when_incomplete=error_when_incomplete, **flags)","over":{"base":"Any"},"name":"eigenvals_correct"},"guarantee":"returns _eigenvals(self, error_when_incomplete=error_when_incomplete, **flags)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93f5b56bd5eec50a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_eigenvals(self, error_when_incomplete=error_when_incomplete, **flags)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eigenvals(self, error_when_incomplete=True, **flags):
         return _eigenvals(self, error_when_incomplete=error_when_incomplete, **flags)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eigenvects(err), eigenvects produces the expected output) over Any ║
+# ║ Path(eigenvects(error_when_incomplete, iszerofunc, **flags), _eigenvects(self, error_when_incomplete=error_when_incomplete, iszerofunc=iszerofunc, **flags)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _eigenvects(self, error_when_incomplete=e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eigenvects : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f357a09ccef505  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 040c3792965c34aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.eigenvects","kind":"method","src_hash":"c7fb7e995ba9b970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eigenvects(err)","rhs":"eigenvects produces the expected output","over":{"base":"Any"},"name":"eigenvects_correct"},"guarantee":"eigenvects produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixEigen.eigenvects_correct","statement":"Path(eigenvects(x), eigenvects produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f357a09ccef505"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.eigenvects","kind":"method","src_hash":"c7fb7e995ba9b970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eigenvects(error_when_incomplete, iszerofunc, **flags)","rhs":"_eigenvects(self, error_when_incomplete=error_when_incomplete, iszerofunc=iszerofunc, **flags)","over":{"base":"Any"},"name":"eigenvects_correct"},"guarantee":"returns _eigenvects(self, error_when_incomplete=error_when_incomplete, iszerofunc=iszerofunc, **flags)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixEigen.eigenvects_correct","statement":"Path(eigenvects(x), returns _eigenvects(self, error_when_incomplete=error_when_incomplete, iszerofunc=iszerofunc, **flags))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"040c3792965c34aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_eigenvects(self, error_when_incomplete=error_when_incomplete, iszerofunc=iszerofunc, **flags)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eigenvects(self, error_when_incomplete=True, iszerofunc=_iszero, **flags):
         return _eigenvects(self, error_when_incomplete=error_when_incomplete,
                 iszerofunc=iszerofunc, **flags)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_diagonalizable(rea), is_diagonalizable produces the expected output) over Any ║
+# ║ Path(is_diagonalizable(reals_only, **kwargs), _is_diagonalizable(self, reals_only=reals_only, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_diagonalizable(self, reals_only=reals...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_diagonalizable : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 222444bd306db062           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_diagonalizable","kind":"method","src_hash":"9e2f747a1972390d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_diagonalizable(rea)","rhs":"is_diagonalizable produces the expected output","over":{"base":"Any"},"name":"is_diagonalizable_correct"},"guarantee":"is_diagonalizable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"222444bd306db062"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_diagonalizable","kind":"method","src_hash":"9e2f747a1972390d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_diagonalizable(reals_only, **kwargs)","rhs":"_is_diagonalizable(self, reals_only=reals_only, **kwargs)","over":{"base":"Any"},"name":"is_diagonalizable_correct"},"guarantee":"returns _is_diagonalizable(self, reals_only=reals_only, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"222444bd306db062","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_diagonalizable(self, reals_only=reals_only, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_diagonalizable(self, reals_only=False, **kwargs):
         return _is_diagonalizable(self, reals_only=reals_only, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diagonalize(rea), diagonalize produces the expected output) over Any ║
+# ║ Path(diagonalize(reals_only, sort, normalize), _diagonalize(self, reals_only=reals_only, sort=sort, normalize=normalize)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _diagonalize(self, reals_only=reals_only,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diagonalize : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b6aaa8b8d6ce9a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6304c99c31772f1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.diagonalize","kind":"method","src_hash":"7ef04d879336ddaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonalize(rea)","rhs":"diagonalize produces the expected output","over":{"base":"Any"},"name":"diagonalize_correct"},"guarantee":"diagonalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixEigen.diagonalize_correct","statement":"Path(diagonalize(x), diagonalize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b6aaa8b8d6ce9a5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.diagonalize","kind":"method","src_hash":"7ef04d879336ddaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonalize(reals_only, sort, normalize)","rhs":"_diagonalize(self, reals_only=reals_only, sort=sort, normalize=normalize)","over":{"base":"Any"},"name":"diagonalize_correct"},"guarantee":"returns _diagonalize(self, reals_only=reals_only, sort=sort, normalize=normalize)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixEigen.diagonalize_correct","statement":"Path(diagonalize(x), returns _diagonalize(self, reals_only=reals_only, sort=sort, normalize=normalize))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6304c99c31772f1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_diagonalize(self, reals_only=reals_only, sort=sort, normalize=normalize)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diagonalize(self, reals_only=False, sort=False, normalize=False):
         return _diagonalize(self, reals_only=reals_only, sort=sort,
                 normalize=normalize)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bidiagonalize(upp), bidiagonalize produces the expected output) over Any ║
+# ║ Path(bidiagonalize(upper), _bidiagonalize(self, upper=upper)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _bidiagonalize(self, upper=upper)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bidiagonalize : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95472001e7b2183f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.bidiagonalize","kind":"method","src_hash":"605be5d30eb453ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bidiagonalize(upp)","rhs":"bidiagonalize produces the expected output","over":{"base":"Any"},"name":"bidiagonalize_correct"},"guarantee":"bidiagonalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95472001e7b2183f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.bidiagonalize","kind":"method","src_hash":"605be5d30eb453ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bidiagonalize(upper)","rhs":"_bidiagonalize(self, upper=upper)","over":{"base":"Any"},"name":"bidiagonalize_correct"},"guarantee":"returns _bidiagonalize(self, upper=upper)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95472001e7b2183f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_bidiagonalize(self, upper=upper)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bidiagonalize(self, upper=True):
         return _bidiagonalize(self, upper=upper)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bidiagonal_decomposition(upp), bidiagonal_decomposition produces the expected output) over Any ║
+# ║ Path(bidiagonal_decomposition(upper), _bidiagonal_decomposition(self, upper=upper)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _bidiagonal_decomposition(self, upper=upper)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bidiagonal_decomposition : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97e1c1dc74c51353           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.bidiagonal_decomposition","kind":"method","src_hash":"ca808daa495fa14f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bidiagonal_decomposition(upp)","rhs":"bidiagonal_decomposition produces the expected output","over":{"base":"Any"},"name":"bidiagonal_decomposition_correct"},"guarantee":"bidiagonal_decomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97e1c1dc74c51353"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.bidiagonal_decomposition","kind":"method","src_hash":"ca808daa495fa14f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bidiagonal_decomposition(upper)","rhs":"_bidiagonal_decomposition(self, upper=upper)","over":{"base":"Any"},"name":"bidiagonal_decomposition_correct"},"guarantee":"returns _bidiagonal_decomposition(self, upper=upper)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97e1c1dc74c51353","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_bidiagonal_decomposition(self, upper=upper)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bidiagonal_decomposition(self, upper=True):
         return _bidiagonal_decomposition(self, upper=upper)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive_definite(), returns the is_positive_definite attribute) over Any ║
+# ║ Path(is_positive_definite(), _is_positive_definite(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_positive_definite(self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_positive_definite : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da4f5136fa728e63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_positive_definite","kind":"property","src_hash":"974be1f254643b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive_definite()","rhs":"returns the is_positive_definite attribute","over":{"base":"Any"},"name":"is_positive_definite_correct"},"guarantee":"returns the is_positive_definite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da4f5136fa728e63"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_positive_definite","kind":"property","src_hash":"974be1f254643b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive_definite()","rhs":"_is_positive_definite(self)","over":{"base":"Any"},"name":"is_positive_definite_correct"},"guarantee":"returns _is_positive_definite(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da4f5136fa728e63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_positive_definite(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive_definite(self):
         return _is_positive_definite(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive_semidefinite(), returns the is_positive_semidefinite attribute) over Any ║
+# ║ Path(is_positive_semidefinite(), _is_positive_semidefinite(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_positive_semidefinite(self)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_positive_semidefinite : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a398c9b4e1c22cdf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_positive_semidefinite","kind":"property","src_hash":"49c00dc4394b3ff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive_semidefinite()","rhs":"returns the is_positive_semidefinite attribute","over":{"base":"Any"},"name":"is_positive_semidefinite_correct"},"guarantee":"returns the is_positive_semidefinite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a398c9b4e1c22cdf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_positive_semidefinite","kind":"property","src_hash":"49c00dc4394b3ff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive_semidefinite()","rhs":"_is_positive_semidefinite(self)","over":{"base":"Any"},"name":"is_positive_semidefinite_correct"},"guarantee":"returns _is_positive_semidefinite(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a398c9b4e1c22cdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_positive_semidefinite(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive_semidefinite(self):
         return _is_positive_semidefinite(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative_definite(), returns the is_negative_definite attribute) over Any ║
+# ║ Path(is_negative_definite(), _is_negative_definite(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_negative_definite(self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_negative_definite : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00dacc72d6dfb3df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_negative_definite","kind":"property","src_hash":"97bc65d6c5f73c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative_definite()","rhs":"returns the is_negative_definite attribute","over":{"base":"Any"},"name":"is_negative_definite_correct"},"guarantee":"returns the is_negative_definite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00dacc72d6dfb3df"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_negative_definite","kind":"property","src_hash":"97bc65d6c5f73c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative_definite()","rhs":"_is_negative_definite(self)","over":{"base":"Any"},"name":"is_negative_definite_correct"},"guarantee":"returns _is_negative_definite(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00dacc72d6dfb3df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_negative_definite(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative_definite(self):
         return _is_negative_definite(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative_semidefinite(), returns the is_negative_semidefinite attribute) over Any ║
+# ║ Path(is_negative_semidefinite(), _is_negative_semidefinite(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_negative_semidefinite(self)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_negative_semidefinite : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7011694d80d27efb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_negative_semidefinite","kind":"property","src_hash":"ae0574774f498c6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative_semidefinite()","rhs":"returns the is_negative_semidefinite attribute","over":{"base":"Any"},"name":"is_negative_semidefinite_correct"},"guarantee":"returns the is_negative_semidefinite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7011694d80d27efb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_negative_semidefinite","kind":"property","src_hash":"ae0574774f498c6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative_semidefinite()","rhs":"_is_negative_semidefinite(self)","over":{"base":"Any"},"name":"is_negative_semidefinite_correct"},"guarantee":"returns _is_negative_semidefinite(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7011694d80d27efb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_negative_semidefinite(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative_semidefinite(self):
         return _is_negative_semidefinite(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_indefinite(), returns the is_indefinite attribute) over Any ║
+# ║ Path(is_indefinite(), _is_indefinite(self)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_indefinite(self)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_indefinite : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93f71287d44eb6a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_indefinite","kind":"property","src_hash":"a09fd719ba5b3f43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_indefinite()","rhs":"returns the is_indefinite attribute","over":{"base":"Any"},"name":"is_indefinite_correct"},"guarantee":"returns the is_indefinite attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93f71287d44eb6a9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.is_indefinite","kind":"property","src_hash":"a09fd719ba5b3f43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_indefinite()","rhs":"_is_indefinite(self)","over":{"base":"Any"},"name":"is_indefinite_correct"},"guarantee":"returns _is_indefinite(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93f71287d44eb6a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_indefinite(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_indefinite(self):
         return _is_indefinite(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jordan_form(cal), jordan_form produces the expected output) over Any ║
+# ║ Path(jordan_form(calc_transform, **kwargs), _jordan_form(self, calc_transform=calc_transform, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _jordan_form(self, calc_transform=calc_tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jordan_form : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 694e4fddf9722fc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.jordan_form","kind":"method","src_hash":"8655188b81c24e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_form(cal)","rhs":"jordan_form produces the expected output","over":{"base":"Any"},"name":"jordan_form_correct"},"guarantee":"jordan_form produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"694e4fddf9722fc5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.jordan_form","kind":"method","src_hash":"8655188b81c24e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_form(calc_transform, **kwargs)","rhs":"_jordan_form(self, calc_transform=calc_transform, **kwargs)","over":{"base":"Any"},"name":"jordan_form_correct"},"guarantee":"returns _jordan_form(self, calc_transform=calc_transform, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"694e4fddf9722fc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_jordan_form(self, calc_transform=calc_transform, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jordan_form(self, calc_transform=True, **kwargs):
         return _jordan_form(self, calc_transform=calc_transform, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left_eigenvects(**f), left_eigenvects produces the expected output) over Any ║
+# ║ Path(left_eigenvects(**flags), _left_eigenvects(self, **flags)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _left_eigenvects(self, **flags)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left_eigenvects : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0ec08ad6514444c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.left_eigenvects","kind":"method","src_hash":"e5949de0a625a84b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_eigenvects(**f)","rhs":"left_eigenvects produces the expected output","over":{"base":"Any"},"name":"left_eigenvects_correct"},"guarantee":"left_eigenvects produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0ec08ad6514444c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.left_eigenvects","kind":"method","src_hash":"e5949de0a625a84b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_eigenvects(**flags)","rhs":"_left_eigenvects(self, **flags)","over":{"base":"Any"},"name":"left_eigenvects_correct"},"guarantee":"returns _left_eigenvects(self, **flags)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0ec08ad6514444c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_left_eigenvects(self, **flags)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def left_eigenvects(self, **flags):
         return _left_eigenvects(self, **flags)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(singular_values(), singular_values produces the expected output) over Any ║
+# ║ Path(singular_values(), _singular_values(self)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _singular_values(self)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ singular_values : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 193619f742612962           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.singular_values","kind":"method","src_hash":"1ac1a2eb01ed81ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singular_values()","rhs":"singular_values produces the expected output","over":{"base":"Any"},"name":"singular_values_correct"},"guarantee":"singular_values produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"193619f742612962"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixEigen.singular_values","kind":"method","src_hash":"1ac1a2eb01ed81ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singular_values()","rhs":"_singular_values(self)","over":{"base":"Any"},"name":"singular_values_correct"},"guarantee":"returns _singular_values(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"193619f742612962","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_singular_values(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def singular_values(self):
         return _singular_values(self)
 
@@ -983,28 +1285,40 @@ class MatrixEigen(MatrixSubspaces):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixCalculus(*args), correctly constructs a MatrixCalculus instance) over {Any | isinstance(X, MatrixBase) and isinstance(self, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixCommon)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixCalculus : {Any | isinstance(X, MatrixBase) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ea517faf5cd96fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus","kind":"class","src_hash":"853c95be302c43ec","in":{"base":"Any","pred":"isinstance(X, MatrixBase) and isinstance(self, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixCalculus(*args)","rhs":"correctly constructs a MatrixCalculus instance","over":{"base":"Any","pred":"isinstance(X, MatrixBase) and isinstance(self, Basic)"},"name":"MatrixCalculus_class_invariant"},"guarantee":"correctly constructs a MatrixCalculus instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea517faf5cd96fc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus","kind":"class","src_hash":"853c95be302c43ec","in":{"base":"Any","pred":"isinstance(X, MatrixBase) and isinstance(self, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixCommon)"},"spec":{"lhs":"MatrixCalculus(*args)","rhs":"correctly constructs a MatrixCalculus instance","over":{"base":"Any","pred":"isinstance(X, MatrixBase) and isinstance(self, Basic)"},"name":"MatrixCalculus_class_invariant"},"guarantee":"isinstance(self, MatrixCommon)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea517faf5cd96fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixCommon)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixCalculus not found in source"]}}
 class MatrixCalculus(MatrixCommon):
     """Provides calculus-related matrix operations."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(*ar), calculate the derivative of each element in the matrix) over Any ║
+# ║ Path(diff(*args, evaluate, **kwargs), <unspecified:diff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diff : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55d5f605c2d1cc50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.diff","kind":"method","src_hash":"3dbe20b537deb65f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*ar)","rhs":"calculate the derivative of each element in the matrix","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"calculate the derivative of each element in the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixCalculus.diff_correct","statement":"Path(diff(x), calculate the derivative of each element in the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d5f605c2d1cc50"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.diff","kind":"method","src_hash":"3dbe20b537deb65f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*args, evaluate, **kwargs)","rhs":"<unspecified:diff>","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"calculate the derivative of each element in the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixCalculus.diff_correct","statement":"Path(diff(x), calculate the derivative of each element in the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d5f605c2d1cc50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, *args, evaluate=True, **kwargs):
         """Calculate the derivative of each element in the matrix.
 
@@ -1034,30 +1348,42 @@ class MatrixCalculus(MatrixCommon):
         return deriv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(arg), self.applyfunc(lambda x: x.diff(arg))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.applyfunc(lambda x: x.diff(arg))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa7b225db86c41ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus._eval_derivative","kind":"method","src_hash":"467e82989094615d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa7b225db86c41ff"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus._eval_derivative","kind":"method","src_hash":"467e82989094615d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(arg)","rhs":"self.applyfunc(lambda x: x.diff(arg))","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.applyfunc(lambda x: x.diff(arg))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa7b225db86c41ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.applyfunc(lambda x: x.diff(arg))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.applyfunc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, arg):
         return self.applyfunc(lambda x: x.diff(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(*ar), integrate each element of the matrix) over Any ║
+# ║ Path(integrate(*args, **kwargs), self.applyfunc(lambda x: x.integrate(*args, **kwargs))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.applyfunc(lambda x: x.integrate(*arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integrate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52dd63a5993fa0eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.integrate","kind":"method","src_hash":"b67adfeac18bf076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*ar)","rhs":"integrate each element of the matrix","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"integrate each element of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52dd63a5993fa0eb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.integrate","kind":"method","src_hash":"b67adfeac18bf076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*args, **kwargs)","rhs":"self.applyfunc(lambda x: x.integrate(*args, **kwargs))","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"returns self.applyfunc(lambda x: x.integrate(*args, **kwargs))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52dd63a5993fa0eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.applyfunc(lambda x: x.integrate(*args, **kwargs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.applyfunc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integrate(self, *args, **kwargs):
         """Integrate each element of the matrix.  ``args`` will
         be passed to the ``integrate`` function.
@@ -1086,16 +1412,23 @@ class MatrixCalculus(MatrixCommon):
         return self.applyfunc(lambda x: x.integrate(*args, **kwargs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jacobian(X), id) over Any                             ║
+# ║ Path(jacobian(X), id) over {Any | hasattr(X, 'shape')}     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ jacobian : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(X, 'shape')                            ║
+# ║   returns:  self._new(m, n, lambda j, i: self[j].diff...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ jacobian : {Any | hasattr(X, 'shape')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d0a3e3a5db9852e9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.jacobian","kind":"method","src_hash":"a6a92bf2421fb182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobian(X)","rhs":"calculates the jacobian matrix (derivative of a vector-valued function)","over":{"base":"Any"},"name":"jacobian_correct","kind":"composition"},"guarantee":"calculates the jacobian matrix (derivative of a vector-valued function)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_new","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a3e3a5db9852e9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.jacobian","kind":"method","src_hash":"a6a92bf2421fb182","in":{"base":"Any","pred":"hasattr(X, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"jacobian(X)","rhs":"self._new(m, n, lambda j, i: self[j].diff(X[i]))","over":{"base":"Any","pred":"hasattr(X, 'shape')"},"name":"jacobian_correct","kind":"composition"},"guarantee":"returns self._new(m, n, lambda j, i: self[j].diff(X[i]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_new","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a3e3a5db9852e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(X, 'shape')"],"returns_expr":"self._new(m, n, lambda j, i: self[j].diff(X[i]))","pure":false,"effects":{"effect_type":"reads_state","reads":["X.shape","self._new","self.shape"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jacobian(self, X):
         """Calculates the Jacobian matrix (derivative of a vector-valued function).
 
@@ -1154,16 +1487,22 @@ class MatrixCalculus(MatrixCommon):
         return self._new(m, n, lambda j, i: self[j].diff(X[i]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limit(*ar), calculate the limit of each element in the matrix. ``args`` will be passed to the ``limit`` function) over Any ║
+# ║ Path(limit(*args), self.applyfunc(lambda x: x.limit(*args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.applyfunc(lambda x: x.limit(*args))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limit : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c055e2c1fd7e9746           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.limit","kind":"method","src_hash":"a875e98bf9d30bff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limit(*ar)","rhs":"calculate the limit of each element in the matrix. ``args`` will be passed to the ``limit`` function","over":{"base":"Any"},"name":"limit_correct"},"guarantee":"calculate the limit of each element in the matrix. ``args`` will be passed to the ``limit`` function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c055e2c1fd7e9746"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixCalculus.limit","kind":"method","src_hash":"a875e98bf9d30bff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limit(*args)","rhs":"self.applyfunc(lambda x: x.limit(*args))","over":{"base":"Any"},"name":"limit_correct"},"guarantee":"returns self.applyfunc(lambda x: x.limit(*args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c055e2c1fd7e9746","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.applyfunc(lambda x: x.limit(*args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.applyfunc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limit(self, *args):
         """Calculate the limit of each element in the matrix.
         ``args`` will be passed to the ``limit`` function.
@@ -1192,41 +1531,59 @@ class MatrixCalculus(MatrixCommon):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixDeprecated(*args), correctly constructs a MatrixDeprecated instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixDeprecated : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixCommon)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixDeprecated : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3413157b50fb1060  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated","kind":"class","src_hash":"25115f8d6e4877b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixDeprecated(*args)","rhs":"correctly constructs a MatrixDeprecated instance","over":{"base":"Any"},"name":"MatrixDeprecated_class_invariant"},"guarantee":"correctly constructs a MatrixDeprecated instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3413157b50fb1060"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated","kind":"class","src_hash":"25115f8d6e4877b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixCommon)"},"spec":{"lhs":"MatrixDeprecated(*args)","rhs":"correctly constructs a MatrixDeprecated instance","over":{"base":"Any"},"name":"MatrixDeprecated_class_invariant"},"guarantee":"isinstance(self, MatrixCommon)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3413157b50fb1060","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixCommon)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixDeprecated not found in source"]}}
 class MatrixDeprecated(MatrixCommon):
     """A class to house deprecated matrix methods."""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(berkowitz_charpoly(x, ), berkowitz_charpoly produces the expected output) over Any ║
+# ║ Path(berkowitz_charpoly(x, simplify), self.charpoly(x=x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.charpoly(x=x)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ berkowitz_charpoly : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 857cf61801a8dbf5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_charpoly","kind":"method","src_hash":"b9e3489303555cb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_charpoly(x, )","rhs":"berkowitz_charpoly produces the expected output","over":{"base":"Any"},"name":"berkowitz_charpoly_correct"},"guarantee":"berkowitz_charpoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"857cf61801a8dbf5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_charpoly","kind":"method","src_hash":"b9e3489303555cb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_charpoly(x, simplify)","rhs":"self.charpoly(x=x)","over":{"base":"Any"},"name":"berkowitz_charpoly_correct"},"guarantee":"returns self.charpoly(x=x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"857cf61801a8dbf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.charpoly(x=x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.charpoly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def berkowitz_charpoly(self, x=Dummy('lambda'), simplify=_simplify):
         return self.charpoly(x=x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(berkowitz_det(), computes determinant using berkowitz method) over Any ║
+# ║ Path(berkowitz_det(), self.det(method='berkowitz')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.det(method='berkowitz')                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ berkowitz_det : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6b59c4b782c1fe4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_det","kind":"method","src_hash":"5a6699298b52a703","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_det()","rhs":"computes determinant using berkowitz method","over":{"base":"Any"},"name":"berkowitz_det_correct"},"guarantee":"computes determinant using berkowitz method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6b59c4b782c1fe4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_det","kind":"method","src_hash":"5a6699298b52a703","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_det()","rhs":"self.det(method='berkowitz')","over":{"base":"Any"},"name":"berkowitz_det_correct"},"guarantee":"returns self.det(method='berkowitz')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6b59c4b782c1fe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.det(method='berkowitz')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.det"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def berkowitz_det(self):
         """Computes determinant using Berkowitz method.
 
@@ -1239,16 +1596,22 @@ class MatrixDeprecated(MatrixCommon):
         return self.det(method='berkowitz')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(berkowitz_eigenvals(**f), computes eigenvalues of a matrix using berkowitz method) over Any ║
+# ║ Path(berkowitz_eigenvals(**flags), self.eigenvals(**flags)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.eigenvals(**flags)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ berkowitz_eigenvals : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2d174128e3a7101           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_eigenvals","kind":"method","src_hash":"cfd3c219efb7c299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_eigenvals(**f)","rhs":"computes eigenvalues of a matrix using berkowitz method","over":{"base":"Any"},"name":"berkowitz_eigenvals_correct"},"guarantee":"computes eigenvalues of a matrix using berkowitz method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2d174128e3a7101"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_eigenvals","kind":"method","src_hash":"cfd3c219efb7c299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_eigenvals(**flags)","rhs":"self.eigenvals(**flags)","over":{"base":"Any"},"name":"berkowitz_eigenvals_correct"},"guarantee":"returns self.eigenvals(**flags)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2d174128e3a7101","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.eigenvals(**flags)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eigenvals"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def berkowitz_eigenvals(self, **flags):
         """Computes eigenvalues of a Matrix using Berkowitz method.
 
@@ -1260,16 +1623,22 @@ class MatrixDeprecated(MatrixCommon):
         return self.eigenvals(**flags)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(berkowitz_minors(), computes principal minors using berkowitz method) over Any ║
+# ║ Path(berkowitz_minors(), tuple(minors)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(minors)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ berkowitz_minors : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d9454660f91dc93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbf20379621c1c01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_minors","kind":"method","src_hash":"3e74a82081940917","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_minors()","rhs":"computes principal minors using berkowitz method","over":{"base":"Any"},"name":"berkowitz_minors_correct"},"guarantee":"computes principal minors using berkowitz method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_minors_correct","statement":"Path(berkowitz_minors(x), computes principal minors using berkowitz method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d9454660f91dc93"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_minors","kind":"method","src_hash":"3e74a82081940917","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz_minors()","rhs":"tuple(minors)","over":{"base":"Any"},"name":"berkowitz_minors_correct"},"guarantee":"returns tuple(minors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_minors_correct","statement":"Path(berkowitz_minors(x), returns tuple(minors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbf20379621c1c01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(minors)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def berkowitz_minors(self):
         """Computes principal minors using Berkowitz method.
 
@@ -1287,16 +1656,24 @@ class MatrixDeprecated(MatrixCommon):
         return tuple(minors)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(berkowitz(), berkowitz produces the expected output) over Any ║
+# ║ Path(berkowitz(), len(items) == old_len_items + 1 and len(polys) == old_len_polys + 1) over {Any | self.is_square} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ berkowitz : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_square                                 ║
+# ║   ensures:  len(items) == old_len_items + 1                ║
+# ║   ensures:  len(polys) == old_len_polys + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ berkowitz : {Any | self.is_square} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cd6f7843d5fe2b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aa16d88a5b235ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz","kind":"method","src_hash":"4768736d70df765e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"berkowitz()","rhs":"berkowitz produces the expected output","over":{"base":"Any"},"name":"berkowitz_correct"},"guarantee":"berkowitz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_correct","statement":"Path(berkowitz(x), berkowitz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cd6f7843d5fe2b9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.berkowitz","kind":"method","src_hash":"4768736d70df765e","in":{"base":"Any","pred":"self.is_square"},"out":{"base":"Any","pred":"result satisfies: len(items) == old_len_items + 1 and len(polys) == old_len_polys + 1"},"spec":{"lhs":"berkowitz()","rhs":"len(items) == old_len_items + 1 and len(polys) == old_len_polys + 1","over":{"base":"Any","pred":"self.is_square"},"name":"berkowitz_correct"},"guarantee":"len(items) == old_len_items + 1; len(polys) == old_len_polys + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixDeprecated.berkowitz_correct","statement":"Path(berkowitz(x), len(items) == old_len_items + 1; len(polys) == old_len_polys + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aa16d88a5b235ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_square"],"ensures":["len(items) == old_len_items + 1","len(polys) == old_len_polys + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.is_square","self.one","self.rows"],"calls_mutating":["items.append","polys.append"],"raises":["NonSquareMatrixError"]},"state_contract":{"modifies":["items.*","polys.*"],"old_bindings":{"old_len_items":"len(items)","old_len_polys":"len(polys)"},"post_ensures":["len(items) == old_len_items + 1","len(polys) == old_len_polys + 1"],"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def berkowitz(self):
         from sympy.matrices import zeros
         berk = ((1,),)
@@ -1338,44 +1715,62 @@ class MatrixDeprecated(MatrixCommon):
         return berk + tuple(map(tuple, polys))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cofactorMatrix(met), cofactorMatrix produces the expected output) over Any ║
+# ║ Path(cofactorMatrix(method), self.cofactor_matrix(method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.cofactor_matrix(method=method)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cofactorMatrix : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 797de2784d7f6b42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.cofactorMatrix","kind":"method","src_hash":"6afea07be3349567","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactorMatrix(met)","rhs":"cofactorMatrix produces the expected output","over":{"base":"Any"},"name":"cofactorMatrix_correct"},"guarantee":"cofactorMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"797de2784d7f6b42"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.cofactorMatrix","kind":"method","src_hash":"6afea07be3349567","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactorMatrix(method)","rhs":"self.cofactor_matrix(method=method)","over":{"base":"Any"},"name":"cofactorMatrix_correct"},"guarantee":"returns self.cofactor_matrix(method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"797de2784d7f6b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.cofactor_matrix(method=method)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cofactor_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cofactorMatrix(self, method="berkowitz"):
         return self.cofactor_matrix(method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(det_bareis(), det_bareis produces the expected output) over Any ║
+# ║ Path(det_bareis(), _det_bareiss(self)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _det_bareiss(self)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ det_bareis : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4a78cd4d32b5849           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.det_bareis","kind":"method","src_hash":"a9df9f66b736d3f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det_bareis()","rhs":"det_bareis produces the expected output","over":{"base":"Any"},"name":"det_bareis_correct"},"guarantee":"det_bareis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4a78cd4d32b5849"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.det_bareis","kind":"method","src_hash":"a9df9f66b736d3f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det_bareis()","rhs":"_det_bareiss(self)","over":{"base":"Any"},"name":"det_bareis_correct"},"guarantee":"returns _det_bareiss(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4a78cd4d32b5849","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_det_bareiss(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def det_bareis(self):
         return _det_bareiss(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(det_LU_decomposition(), compute matrix determinant using lu decomposition) over Any ║
+# ║ Path(det_LU_decomposition(), self.det(method='lu')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.det(method='lu')                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ det_LU_decomposition : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2e3eefbbc8be1f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.det_LU_decomposition","kind":"method","src_hash":"747ef71325110f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det_LU_decomposition()","rhs":"compute matrix determinant using lu decomposition","over":{"base":"Any"},"name":"det_LU_decomposition_correct"},"guarantee":"compute matrix determinant using lu decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2e3eefbbc8be1f9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.det_LU_decomposition","kind":"method","src_hash":"747ef71325110f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det_LU_decomposition()","rhs":"self.det(method='lu')","over":{"base":"Any"},"name":"det_LU_decomposition_correct"},"guarantee":"returns self.det(method='lu')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2e3eefbbc8be1f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.det(method='lu')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.det"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def det_LU_decomposition(self):
         """Compute matrix determinant using LU decomposition.
 
@@ -1398,88 +1793,124 @@ class MatrixDeprecated(MatrixCommon):
         return self.det(method='lu')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jordan_cell(eig), jordan_cell produces the expected output) over Any ║
+# ║ Path(jordan_cell(eigenval, n), self.jordan_block(size=n, eigenvalue=eigenval)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.jordan_block(size=n, eigenvalue=eige...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jordan_cell : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61f43bb6e82d797d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.jordan_cell","kind":"method","src_hash":"dd9b09cf70be64ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_cell(eig)","rhs":"jordan_cell produces the expected output","over":{"base":"Any"},"name":"jordan_cell_correct"},"guarantee":"jordan_cell produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61f43bb6e82d797d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.jordan_cell","kind":"method","src_hash":"dd9b09cf70be64ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_cell(eigenval, n)","rhs":"self.jordan_block(size=n, eigenvalue=eigenval)","over":{"base":"Any"},"name":"jordan_cell_correct"},"guarantee":"returns self.jordan_block(size=n, eigenvalue=eigenval)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61f43bb6e82d797d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.jordan_block(size=n, eigenvalue=eigenval)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.jordan_block"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jordan_cell(self, eigenval, n):
         return self.jordan_block(size=n, eigenvalue=eigenval)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jordan_cells(cal), jordan_cells produces the expected output) over Any ║
+# ║ Path(jordan_cells(calc_transformation), (P, J.get_diag_blocks())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (P, J.get_diag_blocks())                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jordan_cells : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75b354ae976de994  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e82ff908231abd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.jordan_cells","kind":"method","src_hash":"79b9639728b1a581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_cells(cal)","rhs":"jordan_cells produces the expected output","over":{"base":"Any"},"name":"jordan_cells_correct"},"guarantee":"jordan_cells produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixDeprecated.jordan_cells_correct","statement":"Path(jordan_cells(x), jordan_cells produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b354ae976de994"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.jordan_cells","kind":"method","src_hash":"79b9639728b1a581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jordan_cells(calc_transformation)","rhs":"(P, J.get_diag_blocks())","over":{"base":"Any"},"name":"jordan_cells_correct"},"guarantee":"returns (P, J.get_diag_blocks())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.matrices.MatrixDeprecated.jordan_cells_correct","statement":"Path(jordan_cells(x), returns (P, J.get_diag_blocks()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e82ff908231abd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(P, J.get_diag_blocks())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.jordan_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jordan_cells(self, calc_transformation=True):
         P, J = self.jordan_form()
         return P, J.get_diag_blocks()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minorEntry(i, ), minorEntry produces the expected output) over Any ║
+# ║ Path(minorEntry(i, j, method), self.minor(i, j, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.minor(i, j, method=method)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minorEntry : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a87daf23b609d9d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.minorEntry","kind":"method","src_hash":"af7405746091ceb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minorEntry(i, )","rhs":"minorEntry produces the expected output","over":{"base":"Any"},"name":"minorEntry_correct"},"guarantee":"minorEntry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a87daf23b609d9d0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.minorEntry","kind":"method","src_hash":"af7405746091ceb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minorEntry(i, j, method)","rhs":"self.minor(i, j, method=method)","over":{"base":"Any"},"name":"minorEntry_correct"},"guarantee":"returns self.minor(i, j, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a87daf23b609d9d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.minor(i, j, method=method)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.minor"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minorEntry(self, i, j, method="berkowitz"):
         return self.minor(i, j, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minorMatrix(i, ), minorMatrix produces the expected output) over Any ║
+# ║ Path(minorMatrix(i, j), self.minor_submatrix(i, j)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.minor_submatrix(i, j)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minorMatrix : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d71cb285072ddef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.minorMatrix","kind":"method","src_hash":"6a3b5d00e5dec7b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minorMatrix(i, )","rhs":"minorMatrix produces the expected output","over":{"base":"Any"},"name":"minorMatrix_correct"},"guarantee":"minorMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d71cb285072ddef"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.minorMatrix","kind":"method","src_hash":"6a3b5d00e5dec7b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minorMatrix(i, j)","rhs":"self.minor_submatrix(i, j)","over":{"base":"Any"},"name":"minorMatrix_correct"},"guarantee":"returns self.minor_submatrix(i, j)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d71cb285072ddef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.minor_submatrix(i, j)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.minor_submatrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minorMatrix(self, i, j):
         return self.minor_submatrix(i, j)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permuteBkwd(per), permute the rows of the matrix with the given permutation in reverse) over Any ║
+# ║ Path(permuteBkwd(perm), self.permute_rows(perm, direction='backward')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.permute_rows(perm, direction='backwa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permuteBkwd : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 762a996cc87b1316           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.permuteBkwd","kind":"method","src_hash":"1e9c7c614466784e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permuteBkwd(per)","rhs":"permute the rows of the matrix with the given permutation in reverse","over":{"base":"Any"},"name":"permuteBkwd_correct"},"guarantee":"permute the rows of the matrix with the given permutation in reverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"762a996cc87b1316"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.permuteBkwd","kind":"method","src_hash":"1e9c7c614466784e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permuteBkwd(perm)","rhs":"self.permute_rows(perm, direction='backward')","over":{"base":"Any"},"name":"permuteBkwd_correct"},"guarantee":"returns self.permute_rows(perm, direction='backward')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"762a996cc87b1316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.permute_rows(perm, direction='backward')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.permute_rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def permuteBkwd(self, perm):
         """Permute the rows of the matrix with the given permutation in reverse."""
         return self.permute_rows(perm, direction='backward')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permuteFwd(per), permute the rows of the matrix with the given permutation) over Any ║
+# ║ Path(permuteFwd(perm), self.permute_rows(perm, direction='forward')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.permute_rows(perm, direction='forward')   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permuteFwd : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f991d93c1e603250           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.permuteFwd","kind":"method","src_hash":"94c8848d0c097bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permuteFwd(per)","rhs":"permute the rows of the matrix with the given permutation","over":{"base":"Any"},"name":"permuteFwd_correct"},"guarantee":"permute the rows of the matrix with the given permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f991d93c1e603250"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.matrices.MatrixDeprecated.permuteFwd","kind":"method","src_hash":"94c8848d0c097bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permuteFwd(perm)","rhs":"self.permute_rows(perm, direction='forward')","over":{"base":"Any"},"name":"permuteFwd_correct"},"guarantee":"returns self.permute_rows(perm, direction='forward')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f991d93c1e603250","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.permute_rows(perm, direction='forward')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.permute_rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def permuteFwd(self, perm):
         """Permute the rows of the matrix with the given permutation."""
         return self.permute_rows(perm, direction='forward')

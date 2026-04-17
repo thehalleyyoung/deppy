@@ -26,14 +26,19 @@ __all__ = ['Point']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Point instance) preserved by Point(*args) over {Any | isinstance(other, Point) and isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Point : {Any | isinstance(other, Point) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 188106321896b2de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point","kind":"class","src_hash":"1fec2180aeb3dabc","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(name, str)"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(name, str)"},"name":"Point_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Point instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, '_pos_dict') and hasattr(self, '_vel_dict') and hasattr(self, '_acc_dict') and hasattr(self, '_pdlist')","kind":"class","induction":"structural on name, _pos_dict, _vel_dict, _acc_dict"}],"methods_preserving":["__init__","__str__","_check_point","_pdict_list","a1pt_theory","a2pt_theory","acc","locatenew","pos_from","set_acc","set_pos","set_vel","v1pt_theory","v2pt_theory","vel","partial_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"188106321896b2de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point","kind":"class","src_hash":"1fec2180aeb3dabc","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(name, str)"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(name, str)"},"name":"Point_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, '_pos_dict') and hasattr(self, '_vel_dict') and hasattr(self, '_acc_dict') and hasattr(self, '_pdlist')","kind":"class","induction":"structural on name, _pos_dict, _vel_dict, _acc_dict"}],"methods_preserving":["__init__","__str__","_check_point","_pdict_list","a1pt_theory","a2pt_theory","acc","locatenew","pos_from","set_acc","set_pos","set_vel","v1pt_theory","v2pt_theory","vel","partial_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"188106321896b2de","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'name')","hasattr(self, '_pos_dict')","hasattr(self, '_vel_dict')","hasattr(self, '_acc_dict')","hasattr(self, '_pdlist')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point not found in source"]}}
 class Point:
     """This object represents a point in a dynamic system.
 
@@ -81,16 +86,22 @@ class Point:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name), self.name == name) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.name == name                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.name =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23adfe9dd5f012a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.__init__","kind":"method","src_hash":"761b4d94f568f50d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23adfe9dd5f012a9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.__init__","kind":"method","src_hash":"761b4d94f568f50d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.name == name"},"spec":{"lhs":"__init__(name)","rhs":"self.name == name","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.name == name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23adfe9dd5f012a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.name == name"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name):
         """Initialization of a Point object. """
         self.name = name
@@ -100,47 +111,69 @@ class Point:
         self._pdlist = [self._pos_dict, self._vel_dict, self._acc_dict]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.name) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.name                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30a04d2e33584ea4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.__str__","kind":"method","src_hash":"647e5b0992b60e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30a04d2e33584ea4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.__str__","kind":"method","src_hash":"647e5b0992b60e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.name","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30a04d2e33584ea4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.name
 
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_point(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_check_point(other), <unspecified:_check_point>) over {Any | isinstance(other, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_point : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, Point)                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_point : {Any | isinstance(other, Point)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecc5045f590ef393  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point._check_point","kind":"method","src_hash":"493176a95cee831d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_point(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_point_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point._check_point_correct","statement":"Path(_check_point(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecc5045f590ef393"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point._check_point","kind":"method","src_hash":"493176a95cee831d","in":{"base":"Any","pred":"isinstance(other, Point)"},"out":{"base":"Any"},"spec":{"lhs":"_check_point(other)","rhs":"<unspecified:_check_point>","over":{"base":"Any","pred":"isinstance(other, Point)"},"name":"_check_point_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point._check_point_correct","statement":"Path(_check_point(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecc5045f590ef393","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, Point)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_point(self, other):
         if not isinstance(other, Point):
             raise TypeError('A Point must be supplied')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pdict_list(oth), returns a list of points that gives the shortest path with respect to position, velocity, or acceleration from this point to the provided point) over Any ║
+# ║ Path(_pdict_list(other, num), outlist[0]) over {Any | hasattr(other, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pdict_list : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'name')                         ║
+# ║   ensures:  len(outlist) == old_len_outlist + 1            ║
+# ║   ensures:  len(outlist) == old_len_outlist                ║
+# ║   returns:  outlist[0]                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pdict_list : {Any | hasattr(other, 'name')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c67295911317bec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff9c47ae4f935fa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point._pdict_list","kind":"method","src_hash":"df68cc32d589f153","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pdict_list(oth)","rhs":"returns a list of points that gives the shortest path with respect to position, velocity, or acceleration from this point to the provided point","over":{"base":"Any"},"name":"_pdict_list_correct"},"guarantee":"returns a list of points that gives the shortest path with respect to position, velocity, or acceleration from this point to the provided point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point._pdict_list_correct","statement":"Path(_pdict_list(x), returns a list of points that gives the shortest path with respect to position, velocity, or acceleration from this point to the provided point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c67295911317bec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point._pdict_list","kind":"method","src_hash":"df68cc32d589f153","in":{"base":"Any","pred":"hasattr(other, 'name')"},"out":{"base":"Any","pred":"result satisfies: result == (outlist[0])"},"spec":{"lhs":"_pdict_list(other, num)","rhs":"outlist[0]","over":{"base":"Any","pred":"hasattr(other, 'name')"},"name":"_pdict_list_correct"},"guarantee":"returns outlist[0]; len(outlist) == old_len_outlist + 1; len(outlist) == old_len_outlist","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point._pdict_list_correct","statement":"Path(_pdict_list(x), returns outlist[0]; len(outlist) == old_len_outlist + 1; len(outlist) == old_len_outlist)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff9c47ae4f935fa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'name')"],"ensures":["len(outlist) == old_len_outlist + 1","len(outlist) == old_len_outlist"],"returns_expr":"outlist[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["other.name","self.name"],"calls_mutating":["outlist.append","outlist.remove","outlist.sort"],"raises":["ValueError"]},"state_contract":{"modifies":["outlist.*"],"old_bindings":{"old_len_outlist":"len(outlist)"},"post_ensures":["len(outlist) == old_len_outlist + 1","len(outlist) == old_len_outlist"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pdict_list(self, other, num):
         """Returns a list of points that gives the shortest path with respect
         to position, velocity, or acceleration from this point to the provided
@@ -189,16 +222,25 @@ class Point:
                          ' and ' + self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a1pt_theory(oth), sets the acceleration of this point with the 1-point theory) over Any ║
+# ║ Path(a1pt_theory(otherpoint, outframe, interframe), self.acc(outframe)) over {Any | hasattr(otherpoint, 'acc') and hasattr(interframe, 'ang_vel_in') and hasattr(interframe, 'ang_acc_in')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ a1pt_theory : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(otherpoint, 'acc')                     ║
+# ║   requires: hasattr(interframe, 'ang_vel_in')              ║
+# ║   requires: hasattr(interframe, 'ang_acc_in')              ║
+# ║   returns:  self.acc(outframe)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ a1pt_theory : {Any | hasattr(otherpoint, 'acc') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d6f4e314c0c8ebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41535feea1a81023  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.a1pt_theory","kind":"method","src_hash":"e7c5a00a572ff178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a1pt_theory(oth)","rhs":"sets the acceleration of this point with the 1-point theory","over":{"base":"Any"},"name":"a1pt_theory_correct"},"guarantee":"sets the acceleration of this point with the 1-point theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.a1pt_theory_correct","statement":"Path(a1pt_theory(x), sets the acceleration of this point with the 1-point theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d6f4e314c0c8ebe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.a1pt_theory","kind":"method","src_hash":"e7c5a00a572ff178","in":{"base":"Any","pred":"hasattr(otherpoint, 'acc') and hasattr(interframe, 'ang_vel_in') and hasattr(interframe, 'ang_acc_in')"},"out":{"base":"Any"},"spec":{"lhs":"a1pt_theory(otherpoint, outframe, interframe)","rhs":"self.acc(outframe)","over":{"base":"Any","pred":"hasattr(otherpoint, 'acc') and hasattr(interframe, 'ang_vel_in') and hasattr(interframe, 'ang_acc_in')"},"name":"a1pt_theory_correct"},"guarantee":"returns self.acc(outframe)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.a1pt_theory_correct","statement":"Path(a1pt_theory(x), returns self.acc(outframe))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41535feea1a81023","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(otherpoint, 'acc')","hasattr(interframe, 'ang_vel_in')","hasattr(interframe, 'ang_acc_in')"],"returns_expr":"self.acc(outframe)","pure":false,"effects":{"effect_type":"reads_state","reads":["interframe.ang_acc_in","interframe.ang_vel_in","otherpoint.acc","self._check_point","self.acc","self.pos_from","self.set_acc","self.vel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a1pt_theory(self, otherpoint, outframe, interframe):
         """Sets the acceleration of this point with the 1-point theory.
 
@@ -257,16 +299,25 @@ class Point:
         return self.acc(outframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a2pt_theory(oth), sets the acceleration of this point with the 2-point theory) over Any ║
+# ║ Path(a2pt_theory(otherpoint, outframe, fixedframe), self.acc(outframe)) over {Any | hasattr(otherpoint, 'acc') and hasattr(fixedframe, 'ang_vel_in') and hasattr(fixedframe, 'ang_acc_in')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ a2pt_theory : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(otherpoint, 'acc')                     ║
+# ║   requires: hasattr(fixedframe, 'ang_vel_in')              ║
+# ║   requires: hasattr(fixedframe, 'ang_acc_in')              ║
+# ║   returns:  self.acc(outframe)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ a2pt_theory : {Any | hasattr(otherpoint, 'acc') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 487b51b4c5aead2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c7aef4a878a39b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.a2pt_theory","kind":"method","src_hash":"5314b376086d78b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a2pt_theory(oth)","rhs":"sets the acceleration of this point with the 2-point theory","over":{"base":"Any"},"name":"a2pt_theory_correct"},"guarantee":"sets the acceleration of this point with the 2-point theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.a2pt_theory_correct","statement":"Path(a2pt_theory(x), sets the acceleration of this point with the 2-point theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"487b51b4c5aead2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.a2pt_theory","kind":"method","src_hash":"5314b376086d78b2","in":{"base":"Any","pred":"hasattr(otherpoint, 'acc') and hasattr(fixedframe, 'ang_vel_in') and hasattr(fixedframe, 'ang_acc_in')"},"out":{"base":"Any"},"spec":{"lhs":"a2pt_theory(otherpoint, outframe, fixedframe)","rhs":"self.acc(outframe)","over":{"base":"Any","pred":"hasattr(otherpoint, 'acc') and hasattr(fixedframe, 'ang_vel_in') and hasattr(fixedframe, 'ang_acc_in')"},"name":"a2pt_theory_correct"},"guarantee":"returns self.acc(outframe)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.a2pt_theory_correct","statement":"Path(a2pt_theory(x), returns self.acc(outframe))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7aef4a878a39b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(otherpoint, 'acc')","hasattr(fixedframe, 'ang_vel_in')","hasattr(fixedframe, 'ang_acc_in')"],"returns_expr":"self.acc(outframe)","pure":false,"effects":{"effect_type":"reads_state","reads":["fixedframe.ang_acc_in","fixedframe.ang_vel_in","otherpoint.acc","self._check_point","self.acc","self.pos_from","self.set_acc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a2pt_theory(self, otherpoint, outframe, fixedframe):
         """Sets the acceleration of this point with the 2-point theory.
 
@@ -317,16 +368,22 @@ class Point:
         return self.acc(outframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(acc(fra), the acceleration vector of this point in a referenceframe) over Any ║
+# ║ Path(acc(frame), <unspecified:acc>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ acc : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 694679c76b26b8d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.acc","kind":"method","src_hash":"ea1c694edb662c5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"acc(fra)","rhs":"the acceleration vector of this point in a referenceframe","over":{"base":"Any"},"name":"acc_correct"},"guarantee":"the acceleration vector of this point in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.acc_correct","statement":"Path(acc(x), the acceleration vector of this point in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"694679c76b26b8d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.acc","kind":"method","src_hash":"ea1c694edb662c5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"acc(frame)","rhs":"<unspecified:acc>","over":{"base":"Any"},"name":"acc_correct"},"guarantee":"the acceleration vector of this point in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.acc_correct","statement":"Path(acc(x), the acceleration vector of this point in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"694679c76b26b8d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._acc_dict","self._vel_dict","self.vel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def acc(self, frame):
         """The acceleration Vector of this Point in a ReferenceFrame.
 
@@ -358,16 +415,23 @@ class Point:
         return self._acc_dict[frame]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(locatenew(nam), creates a new point with a position defined from this point) over Any ║
+# ║ Path(locatenew(name, value), <unspecified:locatenew>) over {Any | isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ locatenew : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ locatenew : {Any | isinstance(name, str)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 901cc6f85cf61f2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.locatenew","kind":"method","src_hash":"fd884fa2e6a590a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"locatenew(nam)","rhs":"creates a new point with a position defined from this point","over":{"base":"Any"},"name":"locatenew_correct"},"guarantee":"creates a new point with a position defined from this point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.locatenew_correct","statement":"Path(locatenew(x), creates a new point with a position defined from this point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"901cc6f85cf61f2d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.locatenew","kind":"method","src_hash":"fd884fa2e6a590a6","in":{"base":"Any","pred":"isinstance(name, str)"},"out":{"base":"Any"},"spec":{"lhs":"locatenew(name, value)","rhs":"<unspecified:locatenew>","over":{"base":"Any","pred":"isinstance(name, str)"},"name":"locatenew_correct"},"guarantee":"creates a new point with a position defined from this point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.locatenew_correct","statement":"Path(locatenew(x), creates a new point with a position defined from this point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"901cc6f85cf61f2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(name, str)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.set_pos"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def locatenew(self, name, value):
         """Creates a new point with a position defined from this point.
 
@@ -400,16 +464,22 @@ class Point:
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pos_from(oth), returns a vector distance between this point and the other point) over Any ║
+# ║ Path(pos_from(otherpoint), <unspecified:pos_from>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pos_from : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2aae52a8035d552  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.pos_from","kind":"method","src_hash":"c0550efad2befb46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pos_from(oth)","rhs":"returns a vector distance between this point and the other point","over":{"base":"Any"},"name":"pos_from_correct"},"guarantee":"returns a vector distance between this point and the other point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.pos_from_correct","statement":"Path(pos_from(x), returns a vector distance between this point and the other point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2aae52a8035d552"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.pos_from","kind":"method","src_hash":"c0550efad2befb46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pos_from(otherpoint)","rhs":"<unspecified:pos_from>","over":{"base":"Any"},"name":"pos_from_correct"},"guarantee":"returns a vector distance between this point and the other point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.pos_from_correct","statement":"Path(pos_from(x), returns a vector distance between this point and the other point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2aae52a8035d552","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._pdict_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pos_from(self, otherpoint):
         """Returns a Vector distance between this Point and the other Point.
 
@@ -439,16 +509,22 @@ class Point:
         return outvec
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_acc(fra), used to set the acceleration of this point in a referenceframe) over Any ║
+# ║ Path(set_acc(frame, value), <unspecified:set_acc>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_acc : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a36e48e41b5b66cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.set_acc","kind":"method","src_hash":"f6699c96f43fe02e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_acc(fra)","rhs":"used to set the acceleration of this point in a referenceframe","over":{"base":"Any"},"name":"set_acc_correct"},"guarantee":"used to set the acceleration of this point in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.set_acc_correct","statement":"Path(set_acc(x), used to set the acceleration of this point in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a36e48e41b5b66cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.set_acc","kind":"method","src_hash":"f6699c96f43fe02e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_acc(frame, value)","rhs":"<unspecified:set_acc>","over":{"base":"Any"},"name":"set_acc_correct"},"guarantee":"used to set the acceleration of this point in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.set_acc_correct","statement":"Path(set_acc(x), used to set the acceleration of this point in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a36e48e41b5b66cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._acc_dict"],"calls_mutating":["self._acc_dict.update"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_acc(self, frame, value):
         """Used to set the acceleration of this Point in a ReferenceFrame.
 
@@ -479,16 +555,23 @@ class Point:
         self._acc_dict.update({frame: value})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_pos(oth), used to set the position of this point w.r.t) over Any ║
+# ║ Path(set_pos(otherpoint, value), <unspecified:set_pos>) over {Any | hasattr(otherpoint, '_pos_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_pos : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(otherpoint, '_pos_dict')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_pos : {Any | hasattr(otherpoint, '_pos_dict')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c525cfddce6bf01c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.set_pos","kind":"method","src_hash":"8240c75bfebbba0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_pos(oth)","rhs":"used to set the position of this point w.r.t","over":{"base":"Any"},"name":"set_pos_correct"},"guarantee":"used to set the position of this point w.r.t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.set_pos_correct","statement":"Path(set_pos(x), used to set the position of this point w.r.t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c525cfddce6bf01c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.set_pos","kind":"method","src_hash":"8240c75bfebbba0a","in":{"base":"Any","pred":"hasattr(otherpoint, '_pos_dict')"},"out":{"base":"Any"},"spec":{"lhs":"set_pos(otherpoint, value)","rhs":"<unspecified:set_pos>","over":{"base":"Any","pred":"hasattr(otherpoint, '_pos_dict')"},"name":"set_pos_correct"},"guarantee":"used to set the position of this point w.r.t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.set_pos_correct","statement":"Path(set_pos(x), used to set the position of this point w.r.t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c525cfddce6bf01c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(otherpoint, '_pos_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["otherpoint._pos_dict","self._check_point","self._pos_dict"],"calls_mutating":["otherpoint._pos_dict.update","self._pos_dict.update"]},"state_contract":{"modifies":["otherpoint.*","self.*"],"old_bindings":{"old_len_otherpoint":"len(otherpoint)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_pos(self, otherpoint, value):
         """Used to set the position of this point w.r.t. another point.
 
@@ -521,16 +604,22 @@ class Point:
         otherpoint._pos_dict.update({self: -value})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_vel(fra), sets the velocity vector of this point in a referenceframe) over Any ║
+# ║ Path(set_vel(frame, value), <unspecified:set_vel>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_vel : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df3c4910d9bd635d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.set_vel","kind":"method","src_hash":"c94a9de6f3f60165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_vel(fra)","rhs":"sets the velocity vector of this point in a referenceframe","over":{"base":"Any"},"name":"set_vel_correct"},"guarantee":"sets the velocity vector of this point in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.set_vel_correct","statement":"Path(set_vel(x), sets the velocity vector of this point in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df3c4910d9bd635d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.set_vel","kind":"method","src_hash":"c94a9de6f3f60165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_vel(frame, value)","rhs":"<unspecified:set_vel>","over":{"base":"Any"},"name":"set_vel_correct"},"guarantee":"sets the velocity vector of this point in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.set_vel_correct","statement":"Path(set_vel(x), sets the velocity vector of this point in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df3c4910d9bd635d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._vel_dict"],"calls_mutating":["self._vel_dict.update"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_vel(self, frame, value):
         """Sets the velocity Vector of this Point in a ReferenceFrame.
 
@@ -561,16 +650,24 @@ class Point:
         self._vel_dict.update({frame: value})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v1pt_theory(oth), sets the velocity of this point with the 1-point theory) over Any ║
+# ║ Path(v1pt_theory(otherpoint, outframe, interframe), self.vel(outframe)) over {Any | hasattr(otherpoint, 'vel') and hasattr(interframe, 'ang_vel_in')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ v1pt_theory : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(otherpoint, 'vel')                     ║
+# ║   requires: hasattr(interframe, 'ang_vel_in')              ║
+# ║   returns:  self.vel(outframe)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ v1pt_theory : {Any | hasattr(otherpoint, 'vel') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca4850555d5c46ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 973fc3c9470e956a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.v1pt_theory","kind":"method","src_hash":"00d3f8aeb6eee929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v1pt_theory(oth)","rhs":"sets the velocity of this point with the 1-point theory","over":{"base":"Any"},"name":"v1pt_theory_correct"},"guarantee":"sets the velocity of this point with the 1-point theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.v1pt_theory_correct","statement":"Path(v1pt_theory(x), sets the velocity of this point with the 1-point theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca4850555d5c46ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.v1pt_theory","kind":"method","src_hash":"00d3f8aeb6eee929","in":{"base":"Any","pred":"hasattr(otherpoint, 'vel') and hasattr(interframe, 'ang_vel_in')"},"out":{"base":"Any"},"spec":{"lhs":"v1pt_theory(otherpoint, outframe, interframe)","rhs":"self.vel(outframe)","over":{"base":"Any","pred":"hasattr(otherpoint, 'vel') and hasattr(interframe, 'ang_vel_in')"},"name":"v1pt_theory_correct"},"guarantee":"returns self.vel(outframe)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.v1pt_theory_correct","statement":"Path(v1pt_theory(x), returns self.vel(outframe))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"973fc3c9470e956a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(otherpoint, 'vel')","hasattr(interframe, 'ang_vel_in')"],"returns_expr":"self.vel(outframe)","pure":false,"effects":{"effect_type":"reads_state","reads":["interframe.ang_vel_in","otherpoint.vel","self._check_point","self.pos_from","self.set_vel","self.vel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v1pt_theory(self, otherpoint, outframe, interframe):
         """Sets the velocity of this point with the 1-point theory.
 
@@ -625,16 +722,24 @@ class Point:
         return self.vel(outframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v2pt_theory(oth), sets the velocity of this point with the 2-point theory) over Any ║
+# ║ Path(v2pt_theory(otherpoint, outframe, fixedframe), self.vel(outframe)) over {Any | hasattr(otherpoint, 'vel') and hasattr(fixedframe, 'ang_vel_in')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ v2pt_theory : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(otherpoint, 'vel')                     ║
+# ║   requires: hasattr(fixedframe, 'ang_vel_in')              ║
+# ║   returns:  self.vel(outframe)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ v2pt_theory : {Any | hasattr(otherpoint, 'vel') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84ebeee4e597d51a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4034f82530e085c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.v2pt_theory","kind":"method","src_hash":"0bc50ed760235432","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v2pt_theory(oth)","rhs":"sets the velocity of this point with the 2-point theory","over":{"base":"Any"},"name":"v2pt_theory_correct"},"guarantee":"sets the velocity of this point with the 2-point theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.v2pt_theory_correct","statement":"Path(v2pt_theory(x), sets the velocity of this point with the 2-point theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84ebeee4e597d51a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.v2pt_theory","kind":"method","src_hash":"0bc50ed760235432","in":{"base":"Any","pred":"hasattr(otherpoint, 'vel') and hasattr(fixedframe, 'ang_vel_in')"},"out":{"base":"Any"},"spec":{"lhs":"v2pt_theory(otherpoint, outframe, fixedframe)","rhs":"self.vel(outframe)","over":{"base":"Any","pred":"hasattr(otherpoint, 'vel') and hasattr(fixedframe, 'ang_vel_in')"},"name":"v2pt_theory_correct"},"guarantee":"returns self.vel(outframe)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.v2pt_theory_correct","statement":"Path(v2pt_theory(x), returns self.vel(outframe))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4034f82530e085c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(otherpoint, 'vel')","hasattr(fixedframe, 'ang_vel_in')"],"returns_expr":"self.vel(outframe)","pure":false,"effects":{"effect_type":"reads_state","reads":["fixedframe.ang_vel_in","otherpoint.vel","self._check_point","self.pos_from","self.set_vel","self.vel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v2pt_theory(self, otherpoint, outframe, fixedframe):
         """Sets the velocity of this point with the 2-point theory.
 
@@ -683,16 +788,26 @@ class Point:
         return self.vel(outframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vel(fra), the velocity vector of this point in the referenceframe) over Any ║
+# ║ Path(vel(frame), len(candidate_neighbor) == old_len_candidate_neighbor + 1 and len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1 and len(visited) == old_len_visited + 1) over {Any | hasattr(frame, 'name') and len(queue) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ vel : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(frame, 'name')                         ║
+# ║   requires: len(queue) > 0                                 ║
+# ║   ensures:  len(candidate_neighbor) == old_len_candid...   ║
+# ║   ensures:  len(queue) == old_len_queue + 1                ║
+# ║   ensures:  len(queue) == old_len_queue - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ vel : {Any | hasattr(frame, 'name') and len(queue) > ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d00626ec59bb8276  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77339bc32e2255cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.vel","kind":"method","src_hash":"e2ea90380daacc1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vel(fra)","rhs":"the velocity vector of this point in the referenceframe","over":{"base":"Any"},"name":"vel_correct"},"guarantee":"the velocity vector of this point in the referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.vel_correct","statement":"Path(vel(x), the velocity vector of this point in the referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d00626ec59bb8276"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.vel","kind":"method","src_hash":"e2ea90380daacc1a","in":{"base":"Any","pred":"hasattr(frame, 'name') and len(queue) > 0"},"out":{"base":"Any","pred":"result satisfies: len(candidate_neighbor) == old_len_candidate_neighbor + 1 and len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1 and len(visited) == old_len_visited + 1"},"spec":{"lhs":"vel(frame)","rhs":"len(candidate_neighbor) == old_len_candidate_neighbor + 1 and len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1 and len(visited) == old_len_visited + 1","over":{"base":"Any","pred":"hasattr(frame, 'name') and len(queue) > 0"},"name":"vel_correct"},"guarantee":"len(candidate_neighbor) == old_len_candidate_neighbor + 1; len(queue) == old_len_queue + 1; len(queue) == old_len_queue - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.vel_correct","statement":"Path(vel(x), len(candidate_neighbor) == old_len_candidate_neighbor + 1; len(queue) == old_len_queue + 1; len(queue) == old_len_queue - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77339bc32e2255cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(frame, 'name')","len(queue) > 0"],"ensures":["len(candidate_neighbor) == old_len_candidate_neighbor + 1","len(queue) == old_len_queue + 1","len(queue) == old_len_queue - 1","len(visited) == old_len_visited + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["frame.name","self._vel_dict","self.name","self.pos_from","self.set_vel"],"calls_mutating":["candidate_neighbor.append","queue.append","queue.pop","visited.append"],"raises":["ValueError"],"catches":["KeyError","ValueError"]},"state_contract":{"modifies":["candidate_neighbor.*","queue.*","visited.*"],"old_bindings":{"old_len_candidate_neighbor":"len(candidate_neighbor)","old_len_queue":"len(queue)","old_len_visited":"len(visited)"},"pre_requires":["len(queue) > 0"],"post_ensures":["len(candidate_neighbor) == old_len_candidate_neighbor + 1","len(queue) == old_len_queue + 1","len(queue) == old_len_queue - 1","len(visited) == old_len_visited + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vel(self, frame):
         """The velocity Vector of this Point in the ReferenceFrame.
 
@@ -783,16 +898,25 @@ class Point:
         return self._vel_dict[frame]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partial_velocity(fra), returns the partial velocities of the linear velocity vector of this point in the given frame with respect to one or more provided generalized speeds) over Any ║
+# ║ Path(partial_velocity(frame, *gen_speeds), result == (partials[0] if len(partials) == 1 else tuple(partials)) and result == partials[0] or result == tuple(partials)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ partial_velocity : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (partials[0] if len(partials) =...   ║
+# ║   ensures:  result == partials[0] or result == tuple(...   ║
+# ║   fiber[case_0]: len(partials) == 1 => partials[0]         ║
+# ║   fiber[case_1]: not (len(partials) == 1) => tuple(pa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ partial_velocity : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2903542039ec0ceb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d065bb16f738c507  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.partial_velocity","kind":"method","src_hash":"3807bf326e690833","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partial_velocity(fra)","rhs":"returns the partial velocities of the linear velocity vector of this point in the given frame with respect to one or more provided generalized speeds","over":{"base":"Any"},"name":"partial_velocity_correct"},"guarantee":"returns the partial velocities of the linear velocity vector of this point in the given frame with respect to one or more provided generalized speeds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.partial_velocity_correct","statement":"Path(partial_velocity(x), returns the partial velocities of the linear velocity vector of this point in the given frame with respect to one or more provided generalized speeds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2903542039ec0ceb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.point.Point.partial_velocity","kind":"method","src_hash":"3807bf326e690833","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (partials[0] if len(partials) == 1 else tuple(partials)) and result == partials[0] or result == tuple(partials)"},"spec":{"lhs":"partial_velocity(frame, *gen_speeds)","rhs":"result == (partials[0] if len(partials) == 1 else tuple(partials)) and result == partials[0] or result == tuple(partials)","over":{"base":"Any"},"name":"partial_velocity_correct"},"guarantee":"result == (partials[0] if len(partials) == 1 else tuple(partials)); result == partials[0] or result == tuple(partials); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.point.Point.partial_velocity_correct","statement":"Path(partial_velocity(x), result == (partials[0] if len(partials) == 1 else tuple(partials)); result == partials[0] or result == tuple(partials); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d065bb16f738c507","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (partials[0] if len(partials) == 1 else tuple(partials))","result == partials[0] or result == tuple(partials)"],"fibers":[{"name":"case_0","guard":"len(partials) == 1","ensures":["result == partials[0]"],"decidability":"z3","returns_expr":"partials[0]"},{"name":"case_1","guard":"not (len(partials) == 1)","ensures":["result == tuple(partials)"],"decidability":"z3","returns_expr":"tuple(partials)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.vel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def partial_velocity(self, frame, *gen_speeds):
         """Returns the partial velocities of the linear velocity vector of this
         point in the given frame with respect to one or more provided

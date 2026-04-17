@@ -114,16 +114,23 @@ _PYTHON_FLINT_VERSION_NEEDED = ["0.6", "0.7", "0.8", "0.9", "0.10"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flint_version_okay(fli), internal helper behaves correctly) over Any ║
+# ║ Path(_flint_version_okay(flint_version), flint_ver in _PYTHON_FLINT_VERSION_NEEDED) over {Any | hasattr(flint_version, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _flint_version_okay : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(flint_version, 'split')                ║
+# ║   returns:  flint_ver in _PYTHON_FLINT_VERSION_NEEDED      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _flint_version_okay : {Any | hasattr(flint_version, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e600c65ca0f4794  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dd5579fd86109cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.gmpy._flint_version_okay","kind":"function","src_hash":"052551f47b80aa03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flint_version_okay(fli)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_flint_version_okay_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.gmpy._flint_version_okay_correct","statement":"Path(_flint_version_okay(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e600c65ca0f4794"}
+# @cctt_verify {"v":2,"sym":"sympy.external.gmpy._flint_version_okay","kind":"function","src_hash":"052551f47b80aa03","in":{"base":"Any","pred":"hasattr(flint_version, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"_flint_version_okay(flint_version)","rhs":"flint_ver in _PYTHON_FLINT_VERSION_NEEDED","over":{"base":"Any","pred":"hasattr(flint_version, 'split')"},"name":"_flint_version_okay_correct"},"guarantee":"returns flint_ver in _PYTHON_FLINT_VERSION_NEEDED","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.gmpy._flint_version_okay_correct","statement":"Path(_flint_version_okay(x), returns flint_ver in _PYTHON_FLINT_VERSION_NEEDED)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dd5579fd86109cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(flint_version, 'split')"],"returns_expr":"flint_ver in _PYTHON_FLINT_VERSION_NEEDED","pure":false,"effects":{"effect_type":"reads_state","reads":["flint_version.split"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _flint_version_okay(flint_version):
     major, minor = flint_version.split('.')[:2]
     flint_ver = f'{major}.{minor}'
@@ -136,16 +143,22 @@ _GMPY2_MIN_VERSION = '2.0.0'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_flint(sym), internal helper behaves correctly) over Any ║
+# ║ Path(_get_flint(sympy_ground_types), <unspecified:_get_flint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_flint : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   flint.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 3116b317249c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.gmpy._get_flint","kind":"function","src_hash":"806f0e8a2218c59f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_flint(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_flint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.gmpy._get_flint_correct","statement":"Path(_get_flint(x), internal helper behaves correctly)"},"assumes":[],"trust":["flint.__module__"],"compiled":true,"vhash":"3116b317249c0834"}
+# @cctt_verify {"v":2,"sym":"sympy.external.gmpy._get_flint","kind":"function","src_hash":"806f0e8a2218c59f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_flint(sympy_ground_types)","rhs":"<unspecified:_get_flint>","over":{"base":"Any"},"name":"_get_flint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.gmpy._get_flint_correct","statement":"Path(_get_flint(x), internal helper behaves correctly)"},"assumes":[],"trust":["flint.__module__"],"compiled":true,"vhash":"3116b317249c0834","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_flint(sympy_ground_types):
     if sympy_ground_types not in ('auto', 'flint'):
         return None
@@ -172,16 +185,22 @@ def _get_flint(sympy_ground_types):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_gmpy2(sym), internal helper behaves correctly) over Any ║
+# ║ Path(_get_gmpy2(sympy_ground_types), <unspecified:_get_gmpy2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_gmpy2 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05a35761c3c97855  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.gmpy._get_gmpy2","kind":"function","src_hash":"2562264406bc1a61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_gmpy2(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_gmpy2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.gmpy._get_gmpy2_correct","statement":"Path(_get_gmpy2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05a35761c3c97855"}
+# @cctt_verify {"v":2,"sym":"sympy.external.gmpy._get_gmpy2","kind":"function","src_hash":"2562264406bc1a61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_gmpy2(sympy_ground_types)","rhs":"<unspecified:_get_gmpy2>","over":{"base":"Any"},"name":"_get_gmpy2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.gmpy._get_gmpy2_correct","statement":"Path(_get_gmpy2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05a35761c3c97855","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_gmpy2(sympy_ground_types):
     if sympy_ground_types not in ('auto', 'gmpy', 'gmpy2'):
         return None

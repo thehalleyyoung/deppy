@@ -49,7 +49,13 @@ if matplotlib:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_system(sys), function to check whether the dynamical system passed for plots is compatible or not) over {Any | isinstance(system, SISOLinearTimeInvariant)} ║
+# ║ Path(_check_system(system), <unspecified:_check_system>) over {Any | isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and not (len_free_symbols > 1) and not (sys.has(exp)) and hasattr(system, 'to_expr')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(system, SISOLinearTimeInvariant)    ║
+# ║   requires: not (len_free_symbols > 1)                     ║
+# ║   requires: not (sys.has(exp))                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_system : {Any | isinstance(system, SISOLinearT...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -61,9 +67,12 @@ if matplotlib:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ff1f5c7e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots._check_system","kind":"function","src_hash":"91b4bed73c99b30a","in":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"_check_system(sys)","rhs":"function to check whether the dynamical system passed for plots is compatible or not","over":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"_check_system_correct"},"guarantee":"function to check whether the dynamical system passed for plots is compatible or not","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)","path":{"lhs":"_check_system(x)","rhs":"function to check whether the dynamical system passed for plots is compatible or not","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"_check_system_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots._check_system_SISOLinearTimeInvariant_correct","statement":"_check_system satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ff1f5c7e37b4de4e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots._check_system","kind":"function","src_hash":"91b4bed73c99b30a","in":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and not (len_free_symbols > 1) and not (sys.has(exp)) and hasattr(system, 'to_expr')"},"out":{"base":"Any"},"spec":{"lhs":"_check_system(system)","rhs":"<unspecified:_check_system>","over":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and not (len_free_symbols > 1) and not (sys.has(exp)) and hasattr(system, 'to_expr')"},"name":"_check_system_correct"},"guarantee":"function to check whether the dynamical system passed for plots is compatible or not","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)","path":{"lhs":"_check_system(x)","rhs":"function to check whether the dynamical system passed for plots is compatible or not","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"_check_system_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots._check_system_SISOLinearTimeInvariant_correct","statement":"_check_system satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ff1f5c7e37b4de4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(system, SISOLinearTimeInvariant)","not (len_free_symbols > 1)","not (sys.has(exp))","hasattr(system, 'to_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(system, SISOLinearTimeInvariant)', 'len_free_symbols > 1'}, fibers={'SISOLinearTimeInvariant'})"]}}
 def _check_system(system):
     """Function to check whether the dynamical system passed for plots is
     compatible or not."""
@@ -82,16 +91,25 @@ def _check_system(system):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_poly_roots(pol), id) over Any                        ║
+# ║ Path(_poly_roots(poly), id) over {Any | hasattr(poly, 'domain') and hasattr(poly, 'nroots') and hasattr(poly, 'all_roots')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _poly_roots : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'domain')                        ║
+# ║   requires: hasattr(poly, 'nroots')                        ║
+# ║   requires: hasattr(poly, 'all_roots')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _poly_roots : {Any | hasattr(poly, 'domain') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a123d6753ebb0788   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots._poly_roots","kind":"function","src_hash":"32cb68e84d28296d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_poly_roots(pol)","rhs":"function to get the roots of a polynomial","over":{"base":"Any"},"name":"_poly_roots_correct","kind":"composition"},"guarantee":"function to get the roots of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"complex","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a123d6753ebb0788"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots._poly_roots","kind":"function","src_hash":"32cb68e84d28296d","in":{"base":"Any","pred":"hasattr(poly, 'domain') and hasattr(poly, 'nroots') and hasattr(poly, 'all_roots')"},"out":{"base":"Any"},"spec":{"lhs":"_poly_roots(poly)","rhs":"<unspecified:_poly_roots>","over":{"base":"Any","pred":"hasattr(poly, 'domain') and hasattr(poly, 'nroots') and hasattr(poly, 'all_roots')"},"name":"_poly_roots_correct","kind":"composition"},"guarantee":"function to get the roots of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"complex","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a123d6753ebb0788","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'domain')","hasattr(poly, 'nroots')","hasattr(poly, 'all_roots')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.all_roots","poly.domain","poly.nroots"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _poly_roots(poly):
     """Function to get the roots of a polynomial."""
     def _eval(l):
@@ -104,16 +122,25 @@ def _poly_roots(poly):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pole_zero_numerical_data(sys), id) over Any           ║
+# ║ Path(pole_zero_numerical_data(system), id) over {Any | hasattr(system, 'doit') and hasattr(system, 'num') and hasattr(system, 'var') and hasattr(system, 'den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pole_zero_numerical_data : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(system, 'doit')                        ║
+# ║   requires: hasattr(system, 'num')                         ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   returns:  (_poly_roots(num_poly), _poly_roots(den_p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pole_zero_numerical_data : {Any | hasattr(system, 'do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b86c906ff57eeb01   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.pole_zero_numerical_data","kind":"function","src_hash":"9b5daf972bb25edd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pole_zero_numerical_data(sys)","rhs":"returns the numerical data of poles and zeros of the system. it is internally used by ``pole_zero_plot`` to get the data for plotting poles and zeros","over":{"base":"Any"},"name":"pole_zero_numerical_data_correct","kind":"composition"},"guarantee":"returns the numerical data of poles and zeros of the system. it is internally used by ``pole_zero_plot`` to get the data for plotting poles and zeros","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_poly_roots","by":"library_axiom"},{"fn":"_poly_roots","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b86c906ff57eeb01"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.pole_zero_numerical_data","kind":"function","src_hash":"9b5daf972bb25edd","in":{"base":"Any","pred":"hasattr(system, 'doit') and hasattr(system, 'num') and hasattr(system, 'var') and hasattr(system, 'den')"},"out":{"base":"Any"},"spec":{"lhs":"pole_zero_numerical_data(system)","rhs":"(_poly_roots(num_poly), _poly_roots(den_poly))","over":{"base":"Any","pred":"hasattr(system, 'doit') and hasattr(system, 'num') and hasattr(system, 'var') and hasattr(system, 'den')"},"name":"pole_zero_numerical_data_correct","kind":"composition"},"guarantee":"returns (_poly_roots(num_poly), _poly_roots(den_poly))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_poly_roots","by":"library_axiom"},{"fn":"_poly_roots","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b86c906ff57eeb01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(system, 'doit')","hasattr(system, 'num')","hasattr(system, 'var')","hasattr(system, 'den')"],"returns_expr":"(_poly_roots(num_poly), _poly_roots(den_poly))","pure":false,"effects":{"effect_type":"reads_state","reads":["system.den","system.doit","system.num","system.var"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pole_zero_numerical_data(system):
     """
     Returns the numerical data of poles and zeros of the system.
@@ -174,16 +201,22 @@ def pole_zero_numerical_data(system):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pole_zero_plot(sys), returns the pole-zero plot (also known as pz plot or pz map) of a system) over Any ║
+# ║ Path(pole_zero_plot(system, pole_color, pole_markersize), <unspecified:pole_zero_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pole_zero_plot : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce68710f3d6a2476  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.pole_zero_plot","kind":"function","src_hash":"f8dfa4e3ee115554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pole_zero_plot(sys)","rhs":"returns the pole-zero plot (also known as pz plot or pz map) of a system","over":{"base":"Any"},"name":"pole_zero_plot_correct"},"guarantee":"returns the pole-zero plot (also known as pz plot or pz map) of a system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.pole_zero_plot_correct","statement":"Path(pole_zero_plot(x), returns the pole-zero plot (also known as pz plot or pz map) of a system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce68710f3d6a2476"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.pole_zero_plot","kind":"function","src_hash":"f8dfa4e3ee115554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pole_zero_plot(system, pole_color, pole_markersize)","rhs":"<unspecified:pole_zero_plot>","over":{"base":"Any"},"name":"pole_zero_plot_correct"},"guarantee":"returns the pole-zero plot (also known as pz plot or pz map) of a system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.pole_zero_plot_correct","statement":"Path(pole_zero_plot(x), returns the pole-zero plot (also known as pz plot or pz map) of a system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce68710f3d6a2476","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'pole_color', 'pole_markersize', 'zero_color', 'zero_markersize', 'grid', 'show_axes', 'show'], spec=['system', 'pole_color', 'pole_markersize', 'zero_color', 'zero_markersize', 'grid', 'show_axes', 'show', '**kwargs']"]}}
 def pole_zero_plot(system, pole_color='blue', pole_markersize=10,
     zero_color='orange', zero_markersize=7, grid=True, show_axes=True,
     show=True, **kwargs):
@@ -276,16 +309,25 @@ def pole_zero_plot(system, pole_color='blue', pole_markersize=10,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(step_response_numerical_data(sys), returns the numerical values of the points in the step response plot of a siso continuous-time system) over Any ║
+# ║ Path(step_response_numerical_data(system, prec, lower_limit), LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()) over {Any | not (lower_limit < 0) and hasattr(system, 'var') and hasattr(system, 'to_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ step_response_numerical_data : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (lower_limit < 0)                          ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   returns:  LineOver1DRangeSeries(_y, (_x, lower_limi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ step_response_numerical_data : {Any | not (lower_limi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14b2037830ff3ae9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a47f22869b9a80d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.step_response_numerical_data","kind":"function","src_hash":"83deec0ba195b0c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"step_response_numerical_data(sys)","rhs":"returns the numerical values of the points in the step response plot of a siso continuous-time system","over":{"base":"Any"},"name":"step_response_numerical_data_correct"},"guarantee":"returns the numerical values of the points in the step response plot of a siso continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.step_response_numerical_data_correct","statement":"Path(step_response_numerical_data(x), returns the numerical values of the points in the step response plot of a siso continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14b2037830ff3ae9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.step_response_numerical_data","kind":"function","src_hash":"83deec0ba195b0c0","in":{"base":"Any","pred":"not (lower_limit < 0) and hasattr(system, 'var') and hasattr(system, 'to_expr')"},"out":{"base":"Any"},"spec":{"lhs":"step_response_numerical_data(system, prec, lower_limit)","rhs":"LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","over":{"base":"Any","pred":"not (lower_limit < 0) and hasattr(system, 'var') and hasattr(system, 'to_expr')"},"name":"step_response_numerical_data_correct"},"guarantee":"returns LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.step_response_numerical_data_correct","statement":"Path(step_response_numerical_data(x), returns LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a47f22869b9a80d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (lower_limit < 0)","hasattr(system, 'var')","hasattr(system, 'to_expr')"],"returns_expr":"LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'prec', 'lower_limit', 'upper_limit'], spec=['system', 'prec', 'lower_limit', 'upper_limit', '**kwargs']"]}}
 def step_response_numerical_data(system, prec=8, lower_limit=0,
     upper_limit=10, **kwargs):
     """
@@ -365,16 +407,22 @@ def step_response_numerical_data(system, prec=8, lower_limit=0,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(step_response_plot(sys), returns the unit step response of a continuous-time system) over Any ║
+# ║ Path(step_response_plot(system, color, prec), <unspecified:step_response_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ step_response_plot : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 658ca966df178747  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.step_response_plot","kind":"function","src_hash":"581ecfd4a7f48466","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"step_response_plot(sys)","rhs":"returns the unit step response of a continuous-time system","over":{"base":"Any"},"name":"step_response_plot_correct"},"guarantee":"returns the unit step response of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.step_response_plot_correct","statement":"Path(step_response_plot(x), returns the unit step response of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"658ca966df178747"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.step_response_plot","kind":"function","src_hash":"581ecfd4a7f48466","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"step_response_plot(system, color, prec)","rhs":"<unspecified:step_response_plot>","over":{"base":"Any"},"name":"step_response_plot_correct"},"guarantee":"returns the unit step response of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.step_response_plot_correct","statement":"Path(step_response_plot(x), returns the unit step response of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"658ca966df178747","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'color', 'prec', 'lower_limit', 'upper_limit', 'show_axes', 'grid', 'show'], spec=['system', 'color', 'prec', 'lower_limit', 'upper_limit', 'show_axes', 'grid', 'show', '**kwargs']"]}}
 def step_response_plot(system, color='b', prec=8, lower_limit=0,
     upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
     r"""
@@ -449,16 +497,25 @@ def step_response_plot(system, color='b', prec=8, lower_limit=0,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(impulse_response_numerical_data(sys), returns the numerical values of the points in the impulse response plot of a siso continuous-time system) over Any ║
+# ║ Path(impulse_response_numerical_data(system, prec, lower_limit), LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()) over {Any | not (lower_limit < 0) and hasattr(system, 'to_expr') and hasattr(system, 'var')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ impulse_response_numerical_data : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (lower_limit < 0)                          ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   returns:  LineOver1DRangeSeries(_y, (_x, lower_limi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ impulse_response_numerical_data : {Any | not (lower_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91459aaf5f6da7c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | becc7849876eff31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.impulse_response_numerical_data","kind":"function","src_hash":"a388fd4238986e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"impulse_response_numerical_data(sys)","rhs":"returns the numerical values of the points in the impulse response plot of a siso continuous-time system","over":{"base":"Any"},"name":"impulse_response_numerical_data_correct"},"guarantee":"returns the numerical values of the points in the impulse response plot of a siso continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.impulse_response_numerical_data_correct","statement":"Path(impulse_response_numerical_data(x), returns the numerical values of the points in the impulse response plot of a siso continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91459aaf5f6da7c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.impulse_response_numerical_data","kind":"function","src_hash":"a388fd4238986e96","in":{"base":"Any","pred":"not (lower_limit < 0) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"impulse_response_numerical_data(system, prec, lower_limit)","rhs":"LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","over":{"base":"Any","pred":"not (lower_limit < 0) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"name":"impulse_response_numerical_data_correct"},"guarantee":"returns LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.impulse_response_numerical_data_correct","statement":"Path(impulse_response_numerical_data(x), returns LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"becc7849876eff31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (lower_limit < 0)","hasattr(system, 'to_expr')","hasattr(system, 'var')"],"returns_expr":"LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'prec', 'lower_limit', 'upper_limit'], spec=['system', 'prec', 'lower_limit', 'upper_limit', '**kwargs']"]}}
 def impulse_response_numerical_data(system, prec=8, lower_limit=0,
     upper_limit=10, **kwargs):
     """
@@ -538,16 +595,22 @@ def impulse_response_numerical_data(system, prec=8, lower_limit=0,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(impulse_response_plot(sys), returns the unit impulse response (input is the dirac-delta function) of a continuous-time system) over Any ║
+# ║ Path(impulse_response_plot(system, color, prec), <unspecified:impulse_response_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ impulse_response_plot : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9992b6c251eff51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.impulse_response_plot","kind":"function","src_hash":"99a3e73e686ec998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"impulse_response_plot(sys)","rhs":"returns the unit impulse response (input is the dirac-delta function) of a continuous-time system","over":{"base":"Any"},"name":"impulse_response_plot_correct"},"guarantee":"returns the unit impulse response (input is the dirac-delta function) of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.impulse_response_plot_correct","statement":"Path(impulse_response_plot(x), returns the unit impulse response (input is the dirac-delta function) of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9992b6c251eff51"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.impulse_response_plot","kind":"function","src_hash":"99a3e73e686ec998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"impulse_response_plot(system, color, prec)","rhs":"<unspecified:impulse_response_plot>","over":{"base":"Any"},"name":"impulse_response_plot_correct"},"guarantee":"returns the unit impulse response (input is the dirac-delta function) of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.impulse_response_plot_correct","statement":"Path(impulse_response_plot(x), returns the unit impulse response (input is the dirac-delta function) of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9992b6c251eff51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'color', 'prec', 'lower_limit', 'upper_limit', 'show_axes', 'grid', 'show'], spec=['system', 'color', 'prec', 'lower_limit', 'upper_limit', 'show_axes', 'grid', 'show', '**kwargs']"]}}
 def impulse_response_plot(system, color='b', prec=8, lower_limit=0,
     upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
     r"""
@@ -622,16 +685,25 @@ def impulse_response_plot(system, color='b', prec=8, lower_limit=0,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ramp_response_numerical_data(sys), returns the numerical values of the points in the ramp response plot of a siso continuous-time system) over Any ║
+# ║ Path(ramp_response_numerical_data(system, slope, prec), LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()) over {Any | not (slope < 0) and not (lower_limit < 0) and hasattr(system, 'var') and hasattr(system, 'to_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ramp_response_numerical_data : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (slope < 0)                                ║
+# ║   requires: not (lower_limit < 0)                          ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   returns:  LineOver1DRangeSeries(_y, (_x, lower_limi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ramp_response_numerical_data : {Any | not (slope < 0)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d174a0a1b6d2aff8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25f17cc2acecbb8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.ramp_response_numerical_data","kind":"function","src_hash":"ce257d097ba5a3b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ramp_response_numerical_data(sys)","rhs":"returns the numerical values of the points in the ramp response plot of a siso continuous-time system","over":{"base":"Any"},"name":"ramp_response_numerical_data_correct"},"guarantee":"returns the numerical values of the points in the ramp response plot of a siso continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.ramp_response_numerical_data_correct","statement":"Path(ramp_response_numerical_data(x), returns the numerical values of the points in the ramp response plot of a siso continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d174a0a1b6d2aff8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.ramp_response_numerical_data","kind":"function","src_hash":"ce257d097ba5a3b5","in":{"base":"Any","pred":"not (slope < 0) and not (lower_limit < 0) and hasattr(system, 'var') and hasattr(system, 'to_expr')"},"out":{"base":"Any"},"spec":{"lhs":"ramp_response_numerical_data(system, slope, prec)","rhs":"LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","over":{"base":"Any","pred":"not (slope < 0) and not (lower_limit < 0) and hasattr(system, 'var') and hasattr(system, 'to_expr')"},"name":"ramp_response_numerical_data_correct"},"guarantee":"returns LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.ramp_response_numerical_data_correct","statement":"Path(ramp_response_numerical_data(x), returns LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25f17cc2acecbb8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (slope < 0)","not (lower_limit < 0)","hasattr(system, 'var')","hasattr(system, 'to_expr')"],"returns_expr":"LineOver1DRangeSeries(_y, (_x, lower_limit, upper_limit), **kwargs).get_points()","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'slope', 'prec', 'lower_limit', 'upper_limit'], spec=['system', 'slope', 'prec', 'lower_limit', 'upper_limit', '**kwargs']"]}}
 def ramp_response_numerical_data(system, slope=1, prec=8,
     lower_limit=0, upper_limit=10, **kwargs):
     """
@@ -718,16 +790,22 @@ def ramp_response_numerical_data(system, slope=1, prec=8,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ramp_response_plot(sys), returns the ramp response of a continuous-time system) over Any ║
+# ║ Path(ramp_response_plot(system, slope, color), <unspecified:ramp_response_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ramp_response_plot : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34745cb7d60520c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.ramp_response_plot","kind":"function","src_hash":"7c6fa9fc83dab0f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ramp_response_plot(sys)","rhs":"returns the ramp response of a continuous-time system","over":{"base":"Any"},"name":"ramp_response_plot_correct"},"guarantee":"returns the ramp response of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.ramp_response_plot_correct","statement":"Path(ramp_response_plot(x), returns the ramp response of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34745cb7d60520c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.ramp_response_plot","kind":"function","src_hash":"7c6fa9fc83dab0f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ramp_response_plot(system, slope, color)","rhs":"<unspecified:ramp_response_plot>","over":{"base":"Any"},"name":"ramp_response_plot_correct"},"guarantee":"returns the ramp response of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.ramp_response_plot_correct","statement":"Path(ramp_response_plot(x), returns the ramp response of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34745cb7d60520c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'slope', 'color', 'prec', 'lower_limit', 'upper_limit', 'show_axes', 'grid', 'show'], spec=['system', 'slope', 'color', 'prec', 'lower_limit', 'upper_limit', 'show_axes', 'grid', 'show', '**kwargs']"]}}
 def ramp_response_plot(system, slope=1, color='b', prec=8, lower_limit=0,
     upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
     r"""
@@ -808,16 +886,25 @@ def ramp_response_plot(system, slope=1, color='b', prec=8, lower_limit=0,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bode_magnitude_numerical_data(sys), returns the numerical data of the bode magnitude plot of the system. it is internally used by ``bode_magnitude_plot`` to get the data for plotting bode magnitude plot) over Any ║
+# ║ Path(bode_magnitude_numerical_data(system, initial_exp, final_exp), (x, y)) over {Any | not (freq_unit not in freq_units) and hasattr(system, 'to_expr') and hasattr(system, 'var')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bode_magnitude_numerical_data : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (freq_unit not in freq_units)              ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   returns:  (x, y)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bode_magnitude_numerical_data : {Any | not (freq_unit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c5af4f17bbbba21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89a19ed613c94a78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_magnitude_numerical_data","kind":"function","src_hash":"c0d8641f8b2e33d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_magnitude_numerical_data(sys)","rhs":"returns the numerical data of the bode magnitude plot of the system. it is internally used by ``bode_magnitude_plot`` to get the data for plotting bode magnitude plot","over":{"base":"Any"},"name":"bode_magnitude_numerical_data_correct"},"guarantee":"returns the numerical data of the bode magnitude plot of the system. it is internally used by ``bode_magnitude_plot`` to get the data for plotting bode magnitude plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_magnitude_numerical_data_correct","statement":"Path(bode_magnitude_numerical_data(x), returns the numerical data of the bode magnitude plot of the system. it is internally used by ``bode_magnitude_plot`` to get the data for plotting bode magnitude plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c5af4f17bbbba21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_magnitude_numerical_data","kind":"function","src_hash":"c0d8641f8b2e33d8","in":{"base":"Any","pred":"not (freq_unit not in freq_units) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"bode_magnitude_numerical_data(system, initial_exp, final_exp)","rhs":"(x, y)","over":{"base":"Any","pred":"not (freq_unit not in freq_units) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"name":"bode_magnitude_numerical_data_correct"},"guarantee":"returns (x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_magnitude_numerical_data_correct","statement":"Path(bode_magnitude_numerical_data(x), returns (x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89a19ed613c94a78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (freq_unit not in freq_units)","hasattr(system, 'to_expr')","hasattr(system, 'var')"],"returns_expr":"(x, y)","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_exp', 'final_exp', 'freq_unit'], spec=['system', 'initial_exp', 'final_exp', 'freq_unit', '**kwargs']"]}}
 def bode_magnitude_numerical_data(system, initial_exp=-5, final_exp=5, freq_unit='rad/sec', **kwargs):
     """
     Returns the numerical data of the Bode magnitude plot of the system.
@@ -899,16 +986,22 @@ def bode_magnitude_numerical_data(system, initial_exp=-5, final_exp=5, freq_unit
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bode_magnitude_plot(sys), returns the bode magnitude plot of a continuous-time system) over Any ║
+# ║ Path(bode_magnitude_plot(system, initial_exp, final_exp), <unspecified:bode_magnitude_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bode_magnitude_plot : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 917d6d5c3296ad48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_magnitude_plot","kind":"function","src_hash":"6863ed2d374f43f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_magnitude_plot(sys)","rhs":"returns the bode magnitude plot of a continuous-time system","over":{"base":"Any"},"name":"bode_magnitude_plot_correct"},"guarantee":"returns the bode magnitude plot of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_magnitude_plot_correct","statement":"Path(bode_magnitude_plot(x), returns the bode magnitude plot of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"917d6d5c3296ad48"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_magnitude_plot","kind":"function","src_hash":"6863ed2d374f43f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_magnitude_plot(system, initial_exp, final_exp)","rhs":"<unspecified:bode_magnitude_plot>","over":{"base":"Any"},"name":"bode_magnitude_plot_correct"},"guarantee":"returns the bode magnitude plot of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_magnitude_plot_correct","statement":"Path(bode_magnitude_plot(x), returns the bode magnitude plot of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"917d6d5c3296ad48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_exp', 'final_exp', 'color', 'show_axes', 'grid', 'show', 'freq_unit'], spec=['system', 'initial_exp', 'final_exp', 'color', 'show_axes', 'grid', 'show', 'freq_unit', '**kwargs']"]}}
 def bode_magnitude_plot(system, initial_exp=-5, final_exp=5,
     color='b', show_axes=False, grid=True, show=True, freq_unit='rad/sec', **kwargs):
     r"""
@@ -939,16 +1032,25 @@ def bode_magnitude_plot(system, initial_exp=-5, final_exp=5,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bode_phase_numerical_data(sys), returns the numerical data of the bode phase plot of the system. it is internally used by ``bode_phase_plot`` to get the data for plotting bode phase plot) over Any ║
+# ║ Path(bode_phase_numerical_data(system, initial_exp, final_exp), (x, y)) over {Any | not (freq_unit not in freq_units) and hasattr(system, 'to_expr') and hasattr(system, 'var')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bode_phase_numerical_data : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (freq_unit not in freq_units)              ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   returns:  (x, y)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bode_phase_numerical_data : {Any | not (freq_unit not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d24175ec76529c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c6410b9e58b70ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_phase_numerical_data","kind":"function","src_hash":"7394c0610119c778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_phase_numerical_data(sys)","rhs":"returns the numerical data of the bode phase plot of the system. it is internally used by ``bode_phase_plot`` to get the data for plotting bode phase plot","over":{"base":"Any"},"name":"bode_phase_numerical_data_correct"},"guarantee":"returns the numerical data of the bode phase plot of the system. it is internally used by ``bode_phase_plot`` to get the data for plotting bode phase plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_phase_numerical_data_correct","statement":"Path(bode_phase_numerical_data(x), returns the numerical data of the bode phase plot of the system. it is internally used by ``bode_phase_plot`` to get the data for plotting bode phase plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d24175ec76529c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_phase_numerical_data","kind":"function","src_hash":"7394c0610119c778","in":{"base":"Any","pred":"not (freq_unit not in freq_units) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"bode_phase_numerical_data(system, initial_exp, final_exp)","rhs":"(x, y)","over":{"base":"Any","pred":"not (freq_unit not in freq_units) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"name":"bode_phase_numerical_data_correct"},"guarantee":"returns (x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_phase_numerical_data_correct","statement":"Path(bode_phase_numerical_data(x), returns (x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c6410b9e58b70ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (freq_unit not in freq_units)","hasattr(system, 'to_expr')","hasattr(system, 'var')"],"returns_expr":"(x, y)","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_exp', 'final_exp', 'freq_unit', 'phase_unit', 'phase_unwrap'], spec=['system', 'initial_exp', 'final_exp', 'freq_unit', 'phase_unit', 'phase_unwrap', '**kwargs']"]}}
 def bode_phase_numerical_data(system, initial_exp=-5, final_exp=5, freq_unit='rad/sec', phase_unit='rad', phase_unwrap = True, **kwargs):
     """
     Returns the numerical data of the Bode phase plot of the system.
@@ -1055,16 +1157,22 @@ def bode_phase_numerical_data(system, initial_exp=-5, final_exp=5, freq_unit='ra
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bode_phase_plot(sys), returns the bode phase plot of a continuous-time system) over Any ║
+# ║ Path(bode_phase_plot(system, initial_exp, final_exp), <unspecified:bode_phase_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bode_phase_plot : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8079a44689d03b80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_phase_plot","kind":"function","src_hash":"812d0febe1f2c74c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_phase_plot(sys)","rhs":"returns the bode phase plot of a continuous-time system","over":{"base":"Any"},"name":"bode_phase_plot_correct"},"guarantee":"returns the bode phase plot of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_phase_plot_correct","statement":"Path(bode_phase_plot(x), returns the bode phase plot of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8079a44689d03b80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_phase_plot","kind":"function","src_hash":"812d0febe1f2c74c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_phase_plot(system, initial_exp, final_exp)","rhs":"<unspecified:bode_phase_plot>","over":{"base":"Any"},"name":"bode_phase_plot_correct"},"guarantee":"returns the bode phase plot of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_phase_plot_correct","statement":"Path(bode_phase_plot(x), returns the bode phase plot of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8079a44689d03b80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_exp', 'final_exp', 'color', 'show_axes', 'grid', 'show', 'freq_unit', 'phase_unit', 'phase_unwrap'], spec=['system', 'initial_exp', 'final_exp', 'color', 'show_axes', 'grid', 'show', 'freq_unit', 'phase_unit', 'phase_unwrap', '**kwargs']"]}}
 def bode_phase_plot(system, initial_exp=-5, final_exp=5,
     color='b', show_axes=False, grid=True, show=True, freq_unit='rad/sec', phase_unit='rad', phase_unwrap=True, **kwargs):
     r"""
@@ -1094,16 +1202,22 @@ def bode_phase_plot(system, initial_exp=-5, final_exp=5,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bode_plot(sys), returns the bode phase and magnitude plots of a continuous-time system) over Any ║
+# ║ Path(bode_plot(system, initial_exp, final_exp), <unspecified:bode_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bode_plot : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6598e5db0791abff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_plot","kind":"function","src_hash":"0b76d63c3cb62f07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_plot(sys)","rhs":"returns the bode phase and magnitude plots of a continuous-time system","over":{"base":"Any"},"name":"bode_plot_correct"},"guarantee":"returns the bode phase and magnitude plots of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_plot_correct","statement":"Path(bode_plot(x), returns the bode phase and magnitude plots of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6598e5db0791abff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.bode_plot","kind":"function","src_hash":"0b76d63c3cb62f07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bode_plot(system, initial_exp, final_exp)","rhs":"<unspecified:bode_plot>","over":{"base":"Any"},"name":"bode_plot_correct"},"guarantee":"returns the bode phase and magnitude plots of a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.bode_plot_correct","statement":"Path(bode_plot(x), returns the bode phase and magnitude plots of a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6598e5db0791abff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_exp', 'final_exp', 'grid', 'show_axes', 'show', 'freq_unit', 'phase_unit', 'phase_unwrap'], spec=['system', 'initial_exp', 'final_exp', 'grid', 'show_axes', 'show', 'freq_unit', 'phase_unit', 'phase_unwrap', '**kwargs']"]}}
 def bode_plot(system, initial_exp=-5, final_exp=5,
     grid=True, show_axes=False, show=True, freq_unit='rad/sec', phase_unit='rad', phase_unwrap=True, **kwargs):
     r"""
@@ -1172,16 +1286,24 @@ def bode_plot(system, initial_exp=-5, final_exp=5,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nyquist_plot_expr(sys), function to get the expression for nyquist plot) over Any ║
+# ║ Path(nyquist_plot_expr(system), (real_expr, imag_expr, w)) over {Any | hasattr(system, 'var') and hasattr(system, 'to_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nyquist_plot_expr : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   returns:  (real_expr, imag_expr, w)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nyquist_plot_expr : {Any | hasattr(system, 'var') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0e4be69a42374d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 254e176cf1e26194  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nyquist_plot_expr","kind":"function","src_hash":"dcfae6f816b2030f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nyquist_plot_expr(sys)","rhs":"function to get the expression for nyquist plot","over":{"base":"Any"},"name":"nyquist_plot_expr_correct"},"guarantee":"function to get the expression for nyquist plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nyquist_plot_expr_correct","statement":"Path(nyquist_plot_expr(x), function to get the expression for nyquist plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0e4be69a42374d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nyquist_plot_expr","kind":"function","src_hash":"dcfae6f816b2030f","in":{"base":"Any","pred":"hasattr(system, 'var') and hasattr(system, 'to_expr')"},"out":{"base":"Any"},"spec":{"lhs":"nyquist_plot_expr(system)","rhs":"(real_expr, imag_expr, w)","over":{"base":"Any","pred":"hasattr(system, 'var') and hasattr(system, 'to_expr')"},"name":"nyquist_plot_expr_correct"},"guarantee":"returns (real_expr, imag_expr, w)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nyquist_plot_expr_correct","statement":"Path(nyquist_plot_expr(x), returns (real_expr, imag_expr, w))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254e176cf1e26194","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(system, 'var')","hasattr(system, 'to_expr')"],"returns_expr":"(real_expr, imag_expr, w)","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def nyquist_plot_expr(system):
     """Function to get the expression for Nyquist plot."""
     s = system.var
@@ -1196,16 +1318,24 @@ def nyquist_plot_expr(system):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nichols_plot_expr(sys), function to get the expression for nichols plot) over Any ║
+# ║ Path(nichols_plot_expr(system), (mag_dB_expr, phase_deg_expr, w)) over {Any | hasattr(system, 'var') and hasattr(system, 'to_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nichols_plot_expr : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   returns:  (mag_dB_expr, phase_deg_expr, w)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nichols_plot_expr : {Any | hasattr(system, 'var') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c549f76219e7d8a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3218c378ca47b23d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nichols_plot_expr","kind":"function","src_hash":"3c0eabad2eee5173","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nichols_plot_expr(sys)","rhs":"function to get the expression for nichols plot","over":{"base":"Any"},"name":"nichols_plot_expr_correct"},"guarantee":"function to get the expression for nichols plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nichols_plot_expr_correct","statement":"Path(nichols_plot_expr(x), function to get the expression for nichols plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c549f76219e7d8a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nichols_plot_expr","kind":"function","src_hash":"3c0eabad2eee5173","in":{"base":"Any","pred":"hasattr(system, 'var') and hasattr(system, 'to_expr')"},"out":{"base":"Any"},"spec":{"lhs":"nichols_plot_expr(system)","rhs":"(mag_dB_expr, phase_deg_expr, w)","over":{"base":"Any","pred":"hasattr(system, 'var') and hasattr(system, 'to_expr')"},"name":"nichols_plot_expr_correct"},"guarantee":"returns (mag_dB_expr, phase_deg_expr, w)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nichols_plot_expr_correct","statement":"Path(nichols_plot_expr(x), returns (mag_dB_expr, phase_deg_expr, w))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3218c378ca47b23d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(system, 'var')","hasattr(system, 'to_expr')"],"returns_expr":"(mag_dB_expr, phase_deg_expr, w)","pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def nichols_plot_expr(system):
     """Function to get the expression for Nichols plot."""
     s = system.var
@@ -1220,16 +1350,22 @@ def nichols_plot_expr(system):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nyquist_plot(sys), generates the nyquist plot for a continuous-time system) over Any ║
+# ║ Path(nyquist_plot(system, initial_omega, final_omega), <unspecified:nyquist_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nyquist_plot : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f301ebbba7fc6b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nyquist_plot","kind":"function","src_hash":"be6b952c50b5dd41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nyquist_plot(sys)","rhs":"generates the nyquist plot for a continuous-time system","over":{"base":"Any"},"name":"nyquist_plot_correct"},"guarantee":"generates the nyquist plot for a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nyquist_plot_correct","statement":"Path(nyquist_plot(x), generates the nyquist plot for a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f301ebbba7fc6b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nyquist_plot","kind":"function","src_hash":"be6b952c50b5dd41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nyquist_plot(system, initial_omega, final_omega)","rhs":"<unspecified:nyquist_plot>","over":{"base":"Any"},"name":"nyquist_plot_correct"},"guarantee":"generates the nyquist plot for a continuous-time system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nyquist_plot_correct","statement":"Path(nyquist_plot(x), generates the nyquist plot for a continuous-time system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f301ebbba7fc6b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_omega', 'final_omega', 'show', 'color'], spec=['system', 'initial_omega', 'final_omega', 'show', 'color', '**kwargs']"]}}
 def nyquist_plot(system, initial_omega=0.01, final_omega=100, show=True,
                 color='b', **kwargs):
     r"""
@@ -1295,16 +1431,22 @@ def nyquist_plot(system, initial_omega=0.01, final_omega=100, show=True,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nichols_plot(sys), generates the nichols plot for a lti system) over Any ║
+# ║ Path(nichols_plot(system, initial_omega, final_omega), <unspecified:nichols_plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nichols_plot : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb9840455b5d376  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nichols_plot","kind":"function","src_hash":"decac5125c268acc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nichols_plot(sys)","rhs":"generates the nichols plot for a lti system","over":{"base":"Any"},"name":"nichols_plot_correct"},"guarantee":"generates the nichols plot for a lti system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nichols_plot_correct","statement":"Path(nichols_plot(x), generates the nichols plot for a lti system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb9840455b5d376"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.control_plots.nichols_plot","kind":"function","src_hash":"decac5125c268acc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nichols_plot(system, initial_omega, final_omega)","rhs":"<unspecified:nichols_plot>","over":{"base":"Any"},"name":"nichols_plot_correct"},"guarantee":"generates the nichols plot for a lti system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.control_plots.nichols_plot_correct","statement":"Path(nichols_plot(x), generates the nichols plot for a lti system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb9840455b5d376","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['system', 'initial_omega', 'final_omega', 'show', 'color'], spec=['system', 'initial_omega', 'final_omega', 'show', 'color', '**kwargs']"]}}
 def nichols_plot(system, initial_omega=0.01, final_omega=100, show=True, color='b', **kwargs):
     r"""
     Generates the Nichols plot for a LTI system.

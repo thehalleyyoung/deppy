@@ -33,16 +33,26 @@ AutolevListener = getattr(autolevlistener, 'AutolevListener', None)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strfunc(z), strfunc produces the expected output) over Any ║
+# ║ Path(strfunc(z), result == ('' if z == 0 else '_d' if z == 1 else '_' + 'd' * z) and result == '' or result == '_d' or result == '_' + 'd' * z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ strfunc : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('' if z == 0 else '_d' if z ==...   ║
+# ║   ensures:  result == '' or result == '_d' or result ...   ║
+# ║   fiber[zero_or_none]: z == 0 => ''                        ║
+# ║   fiber[case_1]: z == 1 => '_d'                            ║
+# ║   fiber[zero_or_none]: not (z == 0) and not (z == 1) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ strfunc : Any → {Any | result satisfies: result == ('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d66526e6d17bc126  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41aac123a470ba54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.strfunc","kind":"function","src_hash":"bdcd87df0827eef9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strfunc(z)","rhs":"strfunc produces the expected output","over":{"base":"Any"},"name":"strfunc_correct"},"guarantee":"strfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.strfunc_correct","statement":"Path(strfunc(x), strfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d66526e6d17bc126"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.strfunc","kind":"function","src_hash":"bdcd87df0827eef9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('' if z == 0 else '_d' if z == 1 else '_' + 'd' * z) and result == '' or result == '_d' or result == '_' + 'd' * z"},"spec":{"lhs":"strfunc(z)","rhs":"result == ('' if z == 0 else '_d' if z == 1 else '_' + 'd' * z) and result == '' or result == '_d' or result == '_' + 'd' * z","over":{"base":"Any"},"name":"strfunc_correct"},"guarantee":"result == ('' if z == 0 else '_d' if z == 1 else '_' + 'd' * z); result == '' or result == '_d' or result == '_' + 'd' * z; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.strfunc_correct","statement":"Path(strfunc(x), result == ('' if z == 0 else '_d' if z == 1 else '_' + 'd' * z); result == '' or result == '_d' or result == '_' + 'd' * z; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41aac123a470ba54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('' if z == 0 else '_d' if z == 1 else '_' + 'd' * z)","result == '' or result == '_d' or result == '_' + 'd' * z"],"fibers":[{"name":"zero_or_none","guard":"z == 0","ensures":["result == ''"],"decidability":"z3","returns_expr":"''"},{"name":"case_1","guard":"z == 1","ensures":["result == '_d'"],"decidability":"z3","returns_expr":"'_d'"},{"name":"zero_or_none","guard":"not (z == 0) and not (z == 1)","ensures":["result == '_' + 'd' * z"],"decidability":"z3","returns_expr":"'_' + 'd' * z"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def strfunc(z):
     if z == 0:
         return ""
@@ -52,16 +62,22 @@ def strfunc(z):
         return "_" + "d" * z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(declare_phy_entities(ctx), declare_phy_entities produces the expected output) over Any ║
+# ║ Path(declare_phy_entities(ctx, phy_type, i), <unspecified:declare_phy_entities>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ declare_phy_entities : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c637dc92c08ed7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_phy_entities","kind":"function","src_hash":"b1e85e9565d08f7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"declare_phy_entities(ctx)","rhs":"declare_phy_entities produces the expected output","over":{"base":"Any"},"name":"declare_phy_entities_correct"},"guarantee":"declare_phy_entities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_phy_entities_correct","statement":"Path(declare_phy_entities(x), declare_phy_entities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c637dc92c08ed7f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_phy_entities","kind":"function","src_hash":"b1e85e9565d08f7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"declare_phy_entities(ctx, phy_type, i)","rhs":"<unspecified:declare_phy_entities>","over":{"base":"Any"},"name":"declare_phy_entities_correct"},"guarantee":"declare_phy_entities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_phy_entities_correct","statement":"Path(declare_phy_entities(x), declare_phy_entities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c637dc92c08ed7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def declare_phy_entities(self, ctx, phy_type, i, j=None):
     if phy_type in ("frame", "newtonian"):
         declare_frames(self, ctx, i, j)
@@ -73,16 +89,25 @@ def declare_phy_entities(self, ctx, phy_type, i, j=None):
         declare_bodies(self, ctx, i, j)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(declare_frames(ctx), declare_frames produces the expected output) over Any ║
+# ║ Path(declare_frames(ctx, i, j), <unspecified:declare_frames>) over {Any | hasattr(ctx, 'getText') and hasattr(ctx, 'parentCtx') and hasattr(ctx, 'ID')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ declare_frames : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, 'getText')                        ║
+# ║   requires: hasattr(ctx, 'parentCtx')                      ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ declare_frames : {Any | hasattr(ctx, 'getText') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cb08ba8d2165643  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_frames","kind":"function","src_hash":"b0086254b4326699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"declare_frames(ctx)","rhs":"declare_frames produces the expected output","over":{"base":"Any"},"name":"declare_frames_correct"},"guarantee":"declare_frames produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_frames_correct","statement":"Path(declare_frames(x), declare_frames produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb08ba8d2165643"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_frames","kind":"function","src_hash":"b0086254b4326699","in":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'parentCtx') and hasattr(ctx, 'ID')"},"out":{"base":"Any"},"spec":{"lhs":"declare_frames(ctx, i, j)","rhs":"<unspecified:declare_frames>","over":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'parentCtx') and hasattr(ctx, 'ID')"},"name":"declare_frames_correct"},"guarantee":"declare_frames produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_frames_correct","statement":"Path(declare_frames(x), declare_frames produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb08ba8d2165643","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, 'getText')","hasattr(ctx, 'parentCtx')","hasattr(ctx, 'ID')"],"pure":false,"effects":{"effect_type":"io","reads":["ctx.ID","ctx.getText","ctx.parentCtx","self.getValue","self.symbol_table","self.symbol_table2","self.type2","self.write"],"writes":["self.newtonian"],"calls_mutating":["self.symbol_table.update","self.symbol_table2.update","self.type2.update","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self.newtonian"],"old_bindings":{"old_self_newtonian":"self.newtonian"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def declare_frames(self, ctx, i, j=None):
     if "{" in ctx.getText():
         if j:
@@ -105,16 +130,24 @@ def declare_frames(self, ctx, i, j=None):
     self.write(name2 + " = " + "_me.ReferenceFrame('" + name1 + "')\n")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(declare_points(ctx), declare_points produces the expected output) over Any ║
+# ║ Path(declare_points(ctx, i, j), <unspecified:declare_points>) over {Any | hasattr(ctx, 'getText') and hasattr(ctx, 'ID')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ declare_points : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, 'getText')                        ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ declare_points : {Any | hasattr(ctx, 'getText') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6911e66126de007  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_points","kind":"function","src_hash":"d778cbda98d4e4fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"declare_points(ctx)","rhs":"declare_points produces the expected output","over":{"base":"Any"},"name":"declare_points_correct"},"guarantee":"declare_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_points_correct","statement":"Path(declare_points(x), declare_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6911e66126de007"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_points","kind":"function","src_hash":"d778cbda98d4e4fb","in":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'ID')"},"out":{"base":"Any"},"spec":{"lhs":"declare_points(ctx, i, j)","rhs":"<unspecified:declare_points>","over":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'ID')"},"name":"declare_points_correct"},"guarantee":"declare_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_points_correct","statement":"Path(declare_points(x), declare_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6911e66126de007","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, 'getText')","hasattr(ctx, 'ID')"],"pure":false,"effects":{"effect_type":"io","reads":["ctx.ID","ctx.getText","self.symbol_table2","self.type2","self.write"],"calls_mutating":["self.symbol_table2.update","self.type2.update","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def declare_points(self, ctx, i, j=None):
     if "{" in ctx.getText():
         if j:
@@ -131,16 +164,24 @@ def declare_points(self, ctx, i, j=None):
     self.write(name2 + " = " + "_me.Point('" + name1 + "')\n")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(declare_particles(ctx), declare_particles produces the expected output) over Any ║
+# ║ Path(declare_particles(ctx, i, j), <unspecified:declare_particles>) over {Any | hasattr(ctx, 'getText') and hasattr(ctx, 'ID')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ declare_particles : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, 'getText')                        ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ declare_particles : {Any | hasattr(ctx, 'getText') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 902c8812f44e9c6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_particles","kind":"function","src_hash":"81935b7e0d6767dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"declare_particles(ctx)","rhs":"declare_particles produces the expected output","over":{"base":"Any"},"name":"declare_particles_correct"},"guarantee":"declare_particles produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_particles_correct","statement":"Path(declare_particles(x), declare_particles produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"902c8812f44e9c6f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_particles","kind":"function","src_hash":"81935b7e0d6767dc","in":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'ID')"},"out":{"base":"Any"},"spec":{"lhs":"declare_particles(ctx, i, j)","rhs":"<unspecified:declare_particles>","over":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'ID')"},"name":"declare_particles_correct"},"guarantee":"declare_particles produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_particles_correct","statement":"Path(declare_particles(x), declare_particles produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"902c8812f44e9c6f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, 'getText')","hasattr(ctx, 'ID')"],"pure":false,"effects":{"effect_type":"io","reads":["ctx.ID","ctx.getText","self.bodies","self.symbol_table2","self.type2","self.write"],"calls_mutating":["self.bodies.update","self.symbol_table2.update","self.type2.update","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def declare_particles(self, ctx, i, j=None):
     if "{" in ctx.getText():
         if j:
@@ -159,16 +200,24 @@ def declare_particles(self, ctx, i, j=None):
                 name1 + "_pt" + "'), " + "_sm.Symbol('m'))\n")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(declare_bodies(ctx), declare_bodies produces the expected output) over Any ║
+# ║ Path(declare_bodies(ctx, i, j), <unspecified:declare_bodies>) over {Any | hasattr(ctx, 'getText') and hasattr(ctx, 'ID')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ declare_bodies : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ctx, 'getText')                        ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ declare_bodies : {Any | hasattr(ctx, 'getText') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0526258296ef6dfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_bodies","kind":"function","src_hash":"a2022f3b900ec3d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"declare_bodies(ctx)","rhs":"declare_bodies produces the expected output","over":{"base":"Any"},"name":"declare_bodies_correct"},"guarantee":"declare_bodies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_bodies_correct","statement":"Path(declare_bodies(x), declare_bodies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0526258296ef6dfd"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.declare_bodies","kind":"function","src_hash":"a2022f3b900ec3d9","in":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'ID')"},"out":{"base":"Any"},"spec":{"lhs":"declare_bodies(ctx, i, j)","rhs":"<unspecified:declare_bodies>","over":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'ID')"},"name":"declare_bodies_correct"},"guarantee":"declare_bodies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.declare_bodies_correct","statement":"Path(declare_bodies(x), declare_bodies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0526258296ef6dfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ctx, 'getText')","hasattr(ctx, 'ID')"],"pure":false,"effects":{"effect_type":"io","reads":["ctx.ID","ctx.getText","self.bodies","self.newtonian","self.symbol_table","self.symbol_table2","self.type2","self.write"],"calls_mutating":["self.bodies.update","self.symbol_table.update","self.symbol_table2.update","self.type2.update","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def declare_bodies(self, ctx, i, j=None):
     if "{" in ctx.getText():
         if j:
@@ -203,16 +252,23 @@ def declare_bodies(self, ctx, i, j=None):
                 ".x," + refFrame + ".x)," + masscenter + "))\n")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia_func(v1,), inertia_func produces the expected output) over Any ║
+# ║ Path(inertia_func(v1, v2, l), len(l) == old_len_l + 1) over {Any | hasattr(l, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inertia_func : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(l, 'append')                           ║
+# ║   ensures:  len(l) == old_len_l + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inertia_func : {Any | hasattr(l, 'append')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c72ad851094c4605  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e2afe3ffb293606  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.inertia_func","kind":"function","src_hash":"8481d0d08539c70c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia_func(v1,)","rhs":"inertia_func produces the expected output","over":{"base":"Any"},"name":"inertia_func_correct"},"guarantee":"inertia_func produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.inertia_func_correct","statement":"Path(inertia_func(x), inertia_func produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72ad851094c4605"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.inertia_func","kind":"function","src_hash":"8481d0d08539c70c","in":{"base":"Any","pred":"hasattr(l, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(l) == old_len_l + 1"},"spec":{"lhs":"inertia_func(v1, v2, l)","rhs":"len(l) == old_len_l + 1","over":{"base":"Any","pred":"hasattr(l, 'append')"},"name":"inertia_func_correct"},"guarantee":"len(l) == old_len_l + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.inertia_func_correct","statement":"Path(inertia_func(x), len(l) == old_len_l + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e2afe3ffb293606","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(l, 'append')"],"ensures":["len(l) == old_len_l + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["l.append","self.bodies","self.inertia_point","self.symbol_table2","self.type2"],"calls_mutating":["l.append"]},"state_contract":{"modifies":["l.*"],"old_bindings":{"old_len_l":"len(l)"},"post_ensures":["len(l) == old_len_l + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def inertia_func(self, v1, v2, l, frame):
 
     if self.type2[v1] == "particle":
@@ -260,16 +316,25 @@ def inertia_func(self, v1, v2, l, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(processConstants(ctx), processConstants produces the expected output) over Any ║
+# ║ Path(processConstants(ctx), len(self) == old_len_self + 1) over {Any | hasattr(ctx, 'getText') and hasattr(ctx, 'getChildCount') and hasattr(ctx, 'ID') and hasattr(ctx, 'getChild') and hasattr(ctx, 'INT')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ processConstants : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, 'getText')                        ║
+# ║   requires: hasattr(ctx, 'getChildCount')                  ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ processConstants : {Any | hasattr(ctx, 'getText') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dfd171a980715e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2ea0b526cbd260b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.processConstants","kind":"function","src_hash":"b21d6dc9457be04c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"processConstants(ctx)","rhs":"processConstants produces the expected output","over":{"base":"Any"},"name":"processConstants_correct"},"guarantee":"processConstants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.processConstants_correct","statement":"Path(processConstants(x), processConstants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dfd171a980715e8"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.processConstants","kind":"function","src_hash":"b21d6dc9457be04c","in":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'getChildCount') and hasattr(ctx, 'ID') and hasattr(ctx, 'getChild') and hasattr(ctx, 'INT')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"processConstants(ctx)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'getChildCount') and hasattr(ctx, 'ID') and hasattr(ctx, 'getChild') and hasattr(ctx, 'INT')"},"name":"processConstants_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.processConstants_correct","statement":"Path(processConstants(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ea0b526cbd260b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, 'getText')","hasattr(ctx, 'getChildCount')","hasattr(ctx, 'ID')","hasattr(ctx, 'getChild')","hasattr(ctx, 'INT')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["ctx.ID","ctx.INT","ctx.getChild","ctx.getChildCount","ctx.getText","self.getValue","self.sign","self.symbol_table","self.type","self.var_list","self.write"],"calls_mutating":["self.symbol_table.update","self.type.update","self.var_list.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def processConstants(self, ctx):
     # Process constant declarations of the type: Constants F = 3, g = 9.81
     name = ctx.ID().getText().lower()
@@ -343,16 +408,22 @@ def processConstants(self, ctx):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(writeConstants(ctx), writeConstants produces the expected output) over Any ║
+# ║ Path(writeConstants(ctx), <unspecified:writeConstants>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ writeConstants : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4691228463ad76de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.writeConstants","kind":"function","src_hash":"0b04e8948456ccff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"writeConstants(ctx)","rhs":"writeConstants produces the expected output","over":{"base":"Any"},"name":"writeConstants_correct"},"guarantee":"writeConstants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.writeConstants_correct","statement":"Path(writeConstants(x), writeConstants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4691228463ad76de"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.writeConstants","kind":"function","src_hash":"0b04e8948456ccff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"writeConstants(ctx)","rhs":"<unspecified:writeConstants>","over":{"base":"Any"},"name":"writeConstants_correct"},"guarantee":"writeConstants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.writeConstants_correct","statement":"Path(writeConstants(x), writeConstants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4691228463ad76de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.settings","self.sign","self.var_list","self.write"],"writes":["self.var_list"],"calls_mutating":["self.write"],"catches":["Exception"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self.var_list"],"old_bindings":{"old_self_var_list":"self.var_list"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def writeConstants(self, ctx):
     l1 = list(filter(lambda x: self.sign[x] == "o", self.var_list))
     l2 = list(filter(lambda x: self.sign[x] == "+", self.var_list))
@@ -381,16 +452,25 @@ def writeConstants(self, ctx):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(processVariables(ctx), processVariables produces the expected output) over Any ║
+# ║ Path(processVariables(ctx), len(self) == old_len_self + 1) over {Any | hasattr(ctx, 'getText') and hasattr(ctx, 'getChildCount') and hasattr(ctx, 'ID') and hasattr(ctx, 'parentCtx') and hasattr(ctx, 'expr') and hasattr(ctx, 'INT')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ processVariables : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, 'getText')                        ║
+# ║   requires: hasattr(ctx, 'getChildCount')                  ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ processVariables : {Any | hasattr(ctx, 'getText') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d18bbf569ee21cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f95a2dea136557d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.processVariables","kind":"function","src_hash":"61ceabe9c9473686","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"processVariables(ctx)","rhs":"processVariables produces the expected output","over":{"base":"Any"},"name":"processVariables_correct"},"guarantee":"processVariables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.processVariables_correct","statement":"Path(processVariables(x), processVariables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d18bbf569ee21cb"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.processVariables","kind":"function","src_hash":"61ceabe9c9473686","in":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'getChildCount') and hasattr(ctx, 'ID') and hasattr(ctx, 'parentCtx') and hasattr(ctx, 'expr') and hasattr(ctx, 'INT')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"processVariables(ctx)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(ctx, 'getText') and hasattr(ctx, 'getChildCount') and hasattr(ctx, 'ID') and hasattr(ctx, 'parentCtx') and hasattr(ctx, 'expr') and hasattr(ctx, 'INT')"},"name":"processVariables_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.processVariables_correct","statement":"Path(processVariables(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f95a2dea136557d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, 'getText')","hasattr(ctx, 'getChildCount')","hasattr(ctx, 'ID')","hasattr(ctx, 'parentCtx')","hasattr(ctx, 'expr')","hasattr(ctx, 'INT')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["ctx.ID","ctx.INT","ctx.expr","ctx.getChildCount","ctx.getText","ctx.parentCtx","self.getValue","self.maxDegree","self.sign","self.symbol_table","self.type","self.var_list","self.write"],"writes":["self.maxDegree"],"calls_mutating":["self.sign.update","self.symbol_table.update","self.type.update","self.var_list.append","self.write"],"catches":["Exception"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self.maxDegree"],"old_bindings":{"old_self_maxDegree":"self.maxDegree","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.7,"verdict_class":"assumed","binding":true}}
 def processVariables(self, ctx):
     # Specified F = x*N1> + y*N2>
     name = ctx.ID().getText().lower()
@@ -485,16 +565,22 @@ def processVariables(self, ctx):
                     self.sign.update({name + str(i): 0})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(writeVariables(ctx), writeVariables produces the expected output) over Any ║
+# ║ Path(writeVariables(ctx), len(l) == old_len_l + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ writeVariables : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(l) == old_len_l + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ writeVariables : Any → {Any | result satisfies: len(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d29410d40f2c766  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed8536b9744e6f46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.writeVariables","kind":"function","src_hash":"bd62db708c3ab1ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"writeVariables(ctx)","rhs":"writeVariables produces the expected output","over":{"base":"Any"},"name":"writeVariables_correct"},"guarantee":"writeVariables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.writeVariables_correct","statement":"Path(writeVariables(x), writeVariables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d29410d40f2c766"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.writeVariables","kind":"function","src_hash":"bd62db708c3ab1ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(l) == old_len_l + 1"},"spec":{"lhs":"writeVariables(ctx)","rhs":"len(l) == old_len_l + 1","over":{"base":"Any"},"name":"writeVariables_correct"},"guarantee":"len(l) == old_len_l + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.writeVariables_correct","statement":"Path(writeVariables(x), len(l) == old_len_l + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed8536b9744e6f46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(l) == old_len_l + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self.maxDegree","self.sign","self.var_list","self.write"],"writes":["self.maxDegree","self.var_list"],"calls_mutating":["l.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["l.*","self.*","self.maxDegree","self.var_list"],"old_bindings":{"old_self_maxDegree":"self.maxDegree","old_self_var_list":"self.var_list","old_len_l":"len(l)"},"post_ensures":["len(l) == old_len_l + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def writeVariables(self, ctx):
     #print(self.sign)
     #print(self.symbol_table)
@@ -522,16 +608,23 @@ def writeVariables(self, ctx):
     self.var_list = []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(processImaginary(ctx), processImaginary produces the expected output) over Any ║
+# ║ Path(processImaginary(ctx), len(self) == old_len_self + 1) over {Any | hasattr(ctx, 'ID')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ processImaginary : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ctx, 'ID')                             ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ processImaginary : {Any | hasattr(ctx, 'ID')} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36796e005cf9c206  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0e772cd24b7cb61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.processImaginary","kind":"function","src_hash":"f1bad1126451dede","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"processImaginary(ctx)","rhs":"processImaginary produces the expected output","over":{"base":"Any"},"name":"processImaginary_correct"},"guarantee":"processImaginary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.processImaginary_correct","statement":"Path(processImaginary(x), processImaginary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36796e005cf9c206"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.processImaginary","kind":"function","src_hash":"f1bad1126451dede","in":{"base":"Any","pred":"hasattr(ctx, 'ID')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"processImaginary(ctx)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(ctx, 'ID')"},"name":"processImaginary_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.processImaginary_correct","statement":"Path(processImaginary(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0e772cd24b7cb61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ctx, 'ID')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["ctx.ID","self.symbol_table","self.type","self.var_list"],"calls_mutating":["self.var_list.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def processImaginary(self, ctx):
     name = ctx.ID().getText().lower()
     self.symbol_table[name] = name
@@ -540,16 +633,22 @@ def processImaginary(self, ctx):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(writeImaginary(ctx), writeImaginary produces the expected output) over Any ║
+# ║ Path(writeImaginary(ctx), <unspecified:writeImaginary>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ writeImaginary : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ea95e5d6ad97e89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.writeImaginary","kind":"function","src_hash":"794a1501f317d5e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"writeImaginary(ctx)","rhs":"writeImaginary produces the expected output","over":{"base":"Any"},"name":"writeImaginary_correct"},"guarantee":"writeImaginary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.writeImaginary_correct","statement":"Path(writeImaginary(x), writeImaginary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ea95e5d6ad97e89"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._listener_autolev_antlr.writeImaginary","kind":"function","src_hash":"794a1501f317d5e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"writeImaginary(ctx)","rhs":"<unspecified:writeImaginary>","over":{"base":"Any"},"name":"writeImaginary_correct"},"guarantee":"writeImaginary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._listener_autolev_antlr.writeImaginary_correct","statement":"Path(writeImaginary(x), writeImaginary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ea95e5d6ad97e89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.var_list","self.write"],"writes":["self.var_list"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self.var_list"],"old_bindings":{"old_self_var_list":"self.var_list"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def writeImaginary(self, ctx):
     a = ", ".join(self.var_list) + " = " + "_sm.symbols(" + "'" + \
         " ".join(self.var_list) + "')\n"

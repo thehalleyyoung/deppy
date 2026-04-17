@@ -47,16 +47,23 @@ from sympy import SYMPY_DEBUG
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR0(rv), simplification of rational polynomials, trying to simplify the expression, e.g) over Any ║
+# ║ Path(TR0(rv), rv.normal().factor().expand()) over {Any | hasattr(rv, 'normal')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR0 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'normal')                          ║
+# ║   returns:  rv.normal().factor().expand()                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR0 : {Any | hasattr(rv, 'normal')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7126a05caec4214b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR0","kind":"function","src_hash":"982f9f93212daab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR0(rv)","rhs":"simplification of rational polynomials, trying to simplify the expression, e.g","over":{"base":"Any"},"name":"TR0_correct"},"guarantee":"simplification of rational polynomials, trying to simplify the expression, e.g","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7126a05caec4214b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR0","kind":"function","src_hash":"982f9f93212daab1","in":{"base":"Any","pred":"hasattr(rv, 'normal')"},"out":{"base":"Any"},"spec":{"lhs":"TR0(rv)","rhs":"rv.normal().factor().expand()","over":{"base":"Any","pred":"hasattr(rv, 'normal')"},"name":"TR0_correct"},"guarantee":"returns rv.normal().factor().expand()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7126a05caec4214b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'normal')"],"returns_expr":"rv.normal().factor().expand()","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.normal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def TR0(rv):
     """Simplification of rational polynomials, trying to simplify
     the expression, e.g. combine things like 3*x + 2*x, etc....
@@ -67,7 +74,11 @@ def TR0(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR1(rv), replace sec, csc with 1/cos, 1/sin) over {Any | isinstance(rv, sec) and isinstance(rv, csc)} ║
+# ║ Path(TR1(rv), <unspecified:TR1>) over {Any | isinstance(rv, sec) and isinstance(rv, csc) and hasattr(rv, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR1 : {Any | isinstance(rv, sec) and isinstance(rv, c...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -80,9 +91,12 @@ def TR0(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ed734d74...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR1","kind":"function","src_hash":"413d1530016deebe","in":{"base":"Any","pred":"isinstance(rv, sec) and isinstance(rv, csc)"},"out":{"base":"Any"},"spec":{"lhs":"TR1(rv)","rhs":"replace sec, csc with 1/cos, 1/sin","over":{"base":"Any","pred":"isinstance(rv, sec) and isinstance(rv, csc)"},"name":"TR1_correct"},"guarantee":"replace sec, csc with 1/cos, 1/sin","fibers":[{"name":"sec","pred":"isinstance(rv, sec)","path":{"lhs":"TR1(x)","rhs":"replace sec, csc with 1/cos, 1/sin","over":{"base":"sec","pred":"isinstance(rv, sec)"},"name":"TR1_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR1_sec_correct","statement":"TR1 satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(rv, csc)","path":{"lhs":"TR1(x)","rhs":"replace sec, csc with 1/cos, 1/sin","over":{"base":"csc","pred":"isinstance(rv, csc)"},"name":"TR1_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR1_csc_correct","statement":"TR1 satisfies spec on csc inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed734d747d40b102"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR1","kind":"function","src_hash":"413d1530016deebe","in":{"base":"Any","pred":"isinstance(rv, sec) and isinstance(rv, csc) and hasattr(rv, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"TR1(rv)","rhs":"<unspecified:TR1>","over":{"base":"Any","pred":"isinstance(rv, sec) and isinstance(rv, csc) and hasattr(rv, 'args')"},"name":"TR1_correct"},"guarantee":"replace sec, csc with 1/cos, 1/sin","fibers":[{"name":"sec","pred":"isinstance(rv, sec)","path":{"lhs":"TR1(x)","rhs":"replace sec, csc with 1/cos, 1/sin","over":{"base":"sec","pred":"isinstance(rv, sec)"},"name":"TR1_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR1_sec_correct","statement":"TR1 satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(rv, csc)","path":{"lhs":"TR1(x)","rhs":"replace sec, csc with 1/cos, 1/sin","over":{"base":"csc","pred":"isinstance(rv, csc)"},"name":"TR1_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR1_csc_correct","statement":"TR1 satisfies spec on csc inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed734d747d40b102","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rv, sec)', 'isinstance(rv, csc)'}, fibers={'csc', 'sec'})"]}}
 def TR1(rv):
     """Replace sec, csc with 1/cos, 1/sin
 
@@ -108,7 +122,11 @@ def TR1(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR2(rv), replace tan and cot with sin/cos and cos/sin) over {Any | isinstance(rv, tan) and isinstance(rv, cot)} ║
+# ║ Path(TR2(rv), <unspecified:TR2>) over {Any | isinstance(rv, tan) and isinstance(rv, cot) and hasattr(rv, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR2 : {Any | isinstance(rv, tan) and isinstance(rv, c...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -121,9 +139,12 @@ def TR1(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f1bef872...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR2","kind":"function","src_hash":"0b86f3c4ae408126","in":{"base":"Any","pred":"isinstance(rv, tan) and isinstance(rv, cot)"},"out":{"base":"Any"},"spec":{"lhs":"TR2(rv)","rhs":"replace tan and cot with sin/cos and cos/sin","over":{"base":"Any","pred":"isinstance(rv, tan) and isinstance(rv, cot)"},"name":"TR2_correct"},"guarantee":"replace tan and cot with sin/cos and cos/sin","fibers":[{"name":"tan","pred":"isinstance(rv, tan)","path":{"lhs":"TR2(x)","rhs":"replace tan and cot with sin/cos and cos/sin","over":{"base":"tan","pred":"isinstance(rv, tan)"},"name":"TR2_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2_tan_correct","statement":"TR2 satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(rv, cot)","path":{"lhs":"TR2(x)","rhs":"replace tan and cot with sin/cos and cos/sin","over":{"base":"cot","pred":"isinstance(rv, cot)"},"name":"TR2_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2_cot_correct","statement":"TR2 satisfies spec on cot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f1bef8726c92721a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR2","kind":"function","src_hash":"0b86f3c4ae408126","in":{"base":"Any","pred":"isinstance(rv, tan) and isinstance(rv, cot) and hasattr(rv, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"TR2(rv)","rhs":"<unspecified:TR2>","over":{"base":"Any","pred":"isinstance(rv, tan) and isinstance(rv, cot) and hasattr(rv, 'args')"},"name":"TR2_correct"},"guarantee":"replace tan and cot with sin/cos and cos/sin","fibers":[{"name":"tan","pred":"isinstance(rv, tan)","path":{"lhs":"TR2(x)","rhs":"replace tan and cot with sin/cos and cos/sin","over":{"base":"tan","pred":"isinstance(rv, tan)"},"name":"TR2_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2_tan_correct","statement":"TR2 satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(rv, cot)","path":{"lhs":"TR2(x)","rhs":"replace tan and cot with sin/cos and cos/sin","over":{"base":"cot","pred":"isinstance(rv, cot)"},"name":"TR2_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2_cot_correct","statement":"TR2 satisfies spec on cot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f1bef8726c92721a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rv, tan)', 'isinstance(rv, cot)'}, fibers={'cot', 'tan'})"]}}
 def TR2(rv):
     """Replace tan and cot with sin/cos and cos/sin
 
@@ -155,7 +176,12 @@ def TR2(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR2i(rv,), converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true) over {Any | isinstance(k, sin) and isinstance(k, cos)} ║
+# ║ Path(TR2i(rv, half), <unspecified:TR2i>) over {Any | isinstance(k, sin) and isinstance(k, cos) and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'is_Mul')                          ║
+# ║   requires: hasattr(rv, 'as_numer_denom')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR2i : {Any | isinstance(k, sin) and isinstance(k, co...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -168,9 +194,12 @@ def TR2(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 3.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f8d3187a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR2i","kind":"function","src_hash":"ded62cee09bffd8b","in":{"base":"Any","pred":"isinstance(k, sin) and isinstance(k, cos)"},"out":{"base":"Any"},"spec":{"lhs":"TR2i(rv,)","rhs":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","over":{"base":"Any","pred":"isinstance(k, sin) and isinstance(k, cos)"},"name":"TR2i_correct"},"guarantee":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","fibers":[{"name":"sin","pred":"isinstance(k, sin)","path":{"lhs":"TR2i(x)","rhs":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","over":{"base":"sin","pred":"isinstance(k, sin)"},"name":"TR2i_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2i_sin_correct","statement":"TR2i satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(k, cos)","path":{"lhs":"TR2i(x)","rhs":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","over":{"base":"cos","pred":"isinstance(k, cos)"},"name":"TR2i_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2i_cos_correct","statement":"TR2i satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f8d3187a0470ccf8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR2i","kind":"function","src_hash":"ded62cee09bffd8b","in":{"base":"Any","pred":"isinstance(k, sin) and isinstance(k, cos) and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"TR2i(rv, half)","rhs":"<unspecified:TR2i>","over":{"base":"Any","pred":"isinstance(k, sin) and isinstance(k, cos) and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')"},"name":"TR2i_correct"},"guarantee":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","fibers":[{"name":"sin","pred":"isinstance(k, sin)","path":{"lhs":"TR2i(x)","rhs":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","over":{"base":"sin","pred":"isinstance(k, sin)"},"name":"TR2i_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2i_sin_correct","statement":"TR2i satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(k, cos)","path":{"lhs":"TR2i(x)","rhs":"converts ratios involving sin and cos as follows:: sin(x)/cos(x) -> tan(x) sin(x)/(cos(x) + 1) -> tan(x/2) if half=true","over":{"base":"cos","pred":"isinstance(k, cos)"},"name":"TR2i_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR2i_cos_correct","statement":"TR2i satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f8d3187a0470ccf8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'is_Mul')","hasattr(rv, 'as_numer_denom')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'half and k.is_Add and (k.args[0] is S.One) and isinstance(k.args[1], cos)', 'k.is_Add and len(k.args) > 1', 'a in d and d[a] == n[k]', 'a1 in d and d[a1] == n[k]', 'isinstance(k, sin)', 'a in d and d[a] == n[k] and (d[a].is_integer or a.is_positive)', 'knew != k', 'isinstance(k, cos)'}, fibers={'sin', 'cos'})"]}}
 def TR2i(rv, half=False):
     """Converts ratios involving sin and cos as follows::
         sin(x)/cos(x) -> tan(x)
@@ -288,9 +317,15 @@ def TR2i(rv, half=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR3(rv), induced formula: example sin(-a) = -sin(a)) over {Any | isinstance(rv, TrigonometricFunction)} ║
+# ║ Path(TR3(rv), <unspecified:TR3>) over {Any | isinstance(rv, TrigonometricFunction) and hasattr(rv, 'replace') and hasattr(rv, 'func') and hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR3 : {Any | isinstance(rv, TrigonometricFunction)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'replace')                         ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR3 : {Any | isinstance(rv, TrigonometricFunction) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   TrigonometricFunction: {isinstance(rv, Trigonometri...   ║
@@ -300,9 +335,12 @@ def TR2i(rv, half=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cb1c032f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR3","kind":"function","src_hash":"f445a53264708d33","in":{"base":"Any","pred":"isinstance(rv, TrigonometricFunction)"},"out":{"base":"Any"},"spec":{"lhs":"TR3(rv)","rhs":"induced formula: example sin(-a) = -sin(a)","over":{"base":"Any","pred":"isinstance(rv, TrigonometricFunction)"},"name":"TR3_correct"},"guarantee":"induced formula: example sin(-a) = -sin(a)","fibers":[{"name":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)","path":{"lhs":"TR3(x)","rhs":"induced formula: example sin(-a) = -sin(a)","over":{"base":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)"},"name":"TR3_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR3_TrigonometricFunction_correct","statement":"TR3 satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cb1c032fe302e68d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR3","kind":"function","src_hash":"f445a53264708d33","in":{"base":"Any","pred":"isinstance(rv, TrigonometricFunction) and hasattr(rv, 'replace') and hasattr(rv, 'func') and hasattr(rv, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"TR3(rv)","rhs":"<unspecified:TR3>","over":{"base":"Any","pred":"isinstance(rv, TrigonometricFunction) and hasattr(rv, 'replace') and hasattr(rv, 'func') and hasattr(rv, 'args')"},"name":"TR3_correct"},"guarantee":"induced formula: example sin(-a) = -sin(a)","fibers":[{"name":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)","path":{"lhs":"TR3(x)","rhs":"induced formula: example sin(-a) = -sin(a)","over":{"base":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)"},"name":"TR3_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR3_TrigonometricFunction_correct","statement":"TR3 satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cb1c032fe302e68d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'replace')","hasattr(rv, 'func')","hasattr(rv, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args","rv.func","rv.replace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(rv, TrigonometricFunction)'}, fibers={'TrigonometricFunction'})"]}}
 def TR3(rv):
     """Induced formula: example sin(-a) = -sin(a)
 
@@ -353,9 +391,13 @@ def TR3(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR4(rv), identify values of special angles) over {Any | isinstance(x, TrigonometricFunction)} ║
+# ║ Path(TR4(rv), rv.replace(lambda x: isinstance(x, TrigonometricFunction) and (r := (x.args[0] / pi)).is_Rational and (r.q in (1, 2, 3, 4, 6)), lambda x: x.func(x.args[0].func(*x.args[0].args)))) over {Any | isinstance(x, TrigonometricFunction) and hasattr(rv, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR4 : {Any | isinstance(x, TrigonometricFunction)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'replace')                         ║
+# ║   returns:  rv.replace(lambda x: isinstance(x, Trigon...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR4 : {Any | isinstance(x, TrigonometricFunction) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   TrigonometricFunction: {isinstance(x, Trigonometric...   ║
@@ -365,9 +407,12 @@ def TR3(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 086b0b79...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR4","kind":"function","src_hash":"ae0d409d808a0581","in":{"base":"Any","pred":"isinstance(x, TrigonometricFunction)"},"out":{"base":"Any"},"spec":{"lhs":"TR4(rv)","rhs":"identify values of special angles","over":{"base":"Any","pred":"isinstance(x, TrigonometricFunction)"},"name":"TR4_correct"},"guarantee":"identify values of special angles","fibers":[{"name":"TrigonometricFunction","pred":"isinstance(x, TrigonometricFunction)","path":{"lhs":"TR4(x)","rhs":"identify values of special angles","over":{"base":"TrigonometricFunction","pred":"isinstance(x, TrigonometricFunction)"},"name":"TR4_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR4_TrigonometricFunction_correct","statement":"TR4 satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"086b0b79270a814c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR4","kind":"function","src_hash":"ae0d409d808a0581","in":{"base":"Any","pred":"isinstance(x, TrigonometricFunction) and hasattr(rv, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"TR4(rv)","rhs":"rv.replace(lambda x: isinstance(x, TrigonometricFunction) and (r := (x.args[0] / pi)).is_Rational and (r.q in (1, 2, 3, 4, 6)), lambda x: x.func(x.args[0].func(*x.args[0].args)))","over":{"base":"Any","pred":"isinstance(x, TrigonometricFunction) and hasattr(rv, 'replace')"},"name":"TR4_correct"},"guarantee":"returns rv.replace(lambda x: isinstance(x, TrigonometricFunction) and (r := (x.args[0] / pi)).is_Rational and (r.q in (1, 2, 3, 4, 6)), lambda x: x.func(x.args[0].func(*x.args[0].args)))","fibers":[{"name":"TrigonometricFunction","pred":"isinstance(x, TrigonometricFunction)","path":{"lhs":"TR4(x)","rhs":"returns rv.replace(lambda x: isinstance(x, TrigonometricFunction) and (r := (x.args[0] / pi)).is_Rational and (r.q in (1, 2, 3, 4, 6)), lambda x: x.func(x.args[0].func(*x.args[0].args)))","over":{"base":"TrigonometricFunction","pred":"isinstance(x, TrigonometricFunction)"},"name":"TR4_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR4_TrigonometricFunction_correct","statement":"TR4 satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"086b0b79270a814c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'replace')"],"returns_expr":"rv.replace(lambda x: isinstance(x, TrigonometricFunction) and (r := (x.args[0] / pi)).is_Rational and (r.q in (1, 2, 3, 4, 6)), lambda x: x.func(x.args[0].func(*x.args[0].args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.replace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def TR4(rv):
     """Identify values of special angles.
 
@@ -401,16 +446,25 @@ def TR4(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_TR56(rv,), helper for tr5 and tr6 to replace f**2 with h(g**2)) over Any ║
+# ║ Path(_TR56(rv, f, g), <unspecified:_TR56>) over {Any | hasattr(rv, 'exp') and hasattr(rv, 'is_Pow') and hasattr(rv, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _TR56 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'exp')                             ║
+# ║   requires: hasattr(rv, 'is_Pow')                          ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _TR56 : {Any | hasattr(rv, 'exp') and hasattr(rv, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85fadb269a6e78cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._TR56","kind":"function","src_hash":"601591fd5c2e78f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_TR56(rv,)","rhs":"helper for tr5 and tr6 to replace f**2 with h(g**2)","over":{"base":"Any"},"name":"_TR56_correct"},"guarantee":"helper for tr5 and tr6 to replace f**2 with h(g**2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._TR56_correct","statement":"Path(_TR56(x), helper for tr5 and tr6 to replace f**2 with h(g**2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85fadb269a6e78cc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._TR56","kind":"function","src_hash":"601591fd5c2e78f7","in":{"base":"Any","pred":"hasattr(rv, 'exp') and hasattr(rv, 'is_Pow') and hasattr(rv, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_TR56(rv, f, g)","rhs":"<unspecified:_TR56>","over":{"base":"Any","pred":"hasattr(rv, 'exp') and hasattr(rv, 'is_Pow') and hasattr(rv, 'base')"},"name":"_TR56_correct"},"guarantee":"helper for tr5 and tr6 to replace f**2 with h(g**2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._TR56_correct","statement":"Path(_TR56(x), helper for tr5 and tr6 to replace f**2 with h(g**2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85fadb269a6e78cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'exp')","hasattr(rv, 'is_Pow')","hasattr(rv, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.base","rv.exp","rv.is_Pow"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _TR56(rv, f, g, h, max, pow):
     """Helper for TR5 and TR6 to replace f**2 with h(g**2)
 
@@ -476,16 +530,22 @@ def _TR56(rv, f, g, h, max, pow):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR5(rv,), replacement of sin**2 with 1 - cos(x)**2) over Any ║
+# ║ Path(TR5(rv, max, pow), _TR56(rv, sin, cos, lambda x: 1 - x, max=max, pow=pow)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _TR56(rv, sin, cos, lambda x: 1 - x, max=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR5 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b68965d4def063a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR5","kind":"function","src_hash":"2c741bd2b73db3aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR5(rv,)","rhs":"replacement of sin**2 with 1 - cos(x)**2","over":{"base":"Any"},"name":"TR5_correct"},"guarantee":"replacement of sin**2 with 1 - cos(x)**2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b68965d4def063a0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR5","kind":"function","src_hash":"2c741bd2b73db3aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR5(rv, max, pow)","rhs":"_TR56(rv, sin, cos, lambda x: 1 - x, max=max, pow=pow)","over":{"base":"Any"},"name":"TR5_correct"},"guarantee":"returns _TR56(rv, sin, cos, lambda x: 1 - x, max=max, pow=pow)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b68965d4def063a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_TR56(rv, sin, cos, lambda x: 1 - x, max=max, pow=pow)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def TR5(rv, max=4, pow=False):
     """Replacement of sin**2 with 1 - cos(x)**2.
 
@@ -508,16 +568,22 @@ def TR5(rv, max=4, pow=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR6(rv,), replacement of cos**2 with 1 - sin(x)**2) over Any ║
+# ║ Path(TR6(rv, max, pow), _TR56(rv, cos, sin, lambda x: 1 - x, max=max, pow=pow)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _TR56(rv, cos, sin, lambda x: 1 - x, max=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR6 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 832835aa570d6a93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR6","kind":"function","src_hash":"4e476ad64c292aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR6(rv,)","rhs":"replacement of cos**2 with 1 - sin(x)**2","over":{"base":"Any"},"name":"TR6_correct"},"guarantee":"replacement of cos**2 with 1 - sin(x)**2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"832835aa570d6a93"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR6","kind":"function","src_hash":"4e476ad64c292aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR6(rv, max, pow)","rhs":"_TR56(rv, cos, sin, lambda x: 1 - x, max=max, pow=pow)","over":{"base":"Any"},"name":"TR6_correct"},"guarantee":"returns _TR56(rv, cos, sin, lambda x: 1 - x, max=max, pow=pow)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"832835aa570d6a93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_TR56(rv, cos, sin, lambda x: 1 - x, max=max, pow=pow)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def TR6(rv, max=4, pow=False):
     """Replacement of cos**2 with 1 - sin(x)**2.
 
@@ -540,16 +606,25 @@ def TR6(rv, max=4, pow=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR7(rv), lowering the degree of cos(x)**2) over Any   ║
+# ║ Path(TR7(rv), <unspecified:TR7>) over {Any | hasattr(rv, 'is_Pow') and hasattr(rv, 'exp') and hasattr(rv, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR7 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'is_Pow')                          ║
+# ║   requires: hasattr(rv, 'exp')                             ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR7 : {Any | hasattr(rv, 'is_Pow') and hasattr(rv, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccc59df1f2a1de44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR7","kind":"function","src_hash":"9878370fd869a269","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR7(rv)","rhs":"lowering the degree of cos(x)**2","over":{"base":"Any"},"name":"TR7_correct"},"guarantee":"lowering the degree of cos(x)**2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR7_correct","statement":"Path(TR7(x), lowering the degree of cos(x)**2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccc59df1f2a1de44"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR7","kind":"function","src_hash":"9878370fd869a269","in":{"base":"Any","pred":"hasattr(rv, 'is_Pow') and hasattr(rv, 'exp') and hasattr(rv, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"TR7(rv)","rhs":"<unspecified:TR7>","over":{"base":"Any","pred":"hasattr(rv, 'is_Pow') and hasattr(rv, 'exp') and hasattr(rv, 'base')"},"name":"TR7_correct"},"guarantee":"lowering the degree of cos(x)**2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR7_correct","statement":"Path(TR7(x), lowering the degree of cos(x)**2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccc59df1f2a1de44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'is_Pow')","hasattr(rv, 'exp')","hasattr(rv, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.base","rv.exp","rv.is_Pow"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def TR7(rv):
     """Lowering the degree of cos(x)**2.
 
@@ -575,16 +650,25 @@ def TR7(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR8(rv,), converting products of ``cos`` and/or ``sin`` to a sum or difference of ``cos`` and or ``sin`` terms) over Any ║
+# ║ Path(TR8(rv, first), # HINT: TR8 may be idempotent: TR8(TR8(x)) == TR8(x)) over {Any | hasattr(rv, 'is_Mul') and hasattr(rv, 'is_Pow') and hasattr(rv, 'as_numer_denom') and hasattr(rv, 'base') and hasattr(rv, 'exp') and hasattr(rv, 'args') and hasattr(rv, 'as_coeff_Mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR8 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'is_Mul')                          ║
+# ║   requires: hasattr(rv, 'is_Pow')                          ║
+# ║   requires: hasattr(rv, 'as_numer_denom')                  ║
+# ║   ensures:  # HINT: TR8 may be idempotent: TR8(TR8(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR8 : {Any | hasattr(rv, 'is_Mul') and hasattr(rv, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d6d868a4d67e4d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ab7c1a08e0b553  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR8","kind":"function","src_hash":"9ac5d72aa0b5ce00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR8(rv,)","rhs":"converting products of ``cos`` and/or ``sin`` to a sum or difference of ``cos`` and or ``sin`` terms","over":{"base":"Any"},"name":"TR8_correct"},"guarantee":"converting products of ``cos`` and/or ``sin`` to a sum or difference of ``cos`` and or ``sin`` terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR8_correct","statement":"Path(TR8(x), converting products of ``cos`` and/or ``sin`` to a sum or difference of ``cos`` and or ``sin`` terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d6d868a4d67e4d1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR8","kind":"function","src_hash":"9ac5d72aa0b5ce00","in":{"base":"Any","pred":"hasattr(rv, 'is_Mul') and hasattr(rv, 'is_Pow') and hasattr(rv, 'as_numer_denom') and hasattr(rv, 'base') and hasattr(rv, 'exp') and hasattr(rv, 'args') and hasattr(rv, 'as_coeff_Mul')"},"out":{"base":"Any","pred":"result satisfies: # HINT: TR8 may be idempotent: TR8(TR8(x)) == TR8(x)"},"spec":{"lhs":"TR8(rv, first)","rhs":"# HINT: TR8 may be idempotent: TR8(TR8(x)) == TR8(x)","over":{"base":"Any","pred":"hasattr(rv, 'is_Mul') and hasattr(rv, 'is_Pow') and hasattr(rv, 'as_numer_denom') and hasattr(rv, 'base') and hasattr(rv, 'exp') and hasattr(rv, 'args') and hasattr(rv, 'as_coeff_Mul')"},"name":"TR8_correct"},"guarantee":"# HINT: TR8 may be idempotent: TR8(TR8(x)) == TR8(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR8_correct","statement":"Path(TR8(x), # HINT: TR8 may be idempotent: TR8(TR8(x)) == TR8(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ab7c1a08e0b553","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'is_Mul')","hasattr(rv, 'is_Pow')","hasattr(rv, 'as_numer_denom')","hasattr(rv, 'base')","hasattr(rv, 'exp')","hasattr(rv, 'args')","hasattr(rv, 'as_coeff_Mul')"],"ensures":["# HINT: TR8 may be idempotent: TR8(TR8(x)) == TR8(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def TR8(rv, first=True):
     """Converting products of ``cos`` and/or ``sin`` to a sum or
     difference of ``cos`` and or ``sin`` terms.
@@ -661,16 +745,24 @@ def TR8(rv, first=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR9(rv), sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``) over Any ║
+# ║ Path(TR9(rv), <unspecified:TR9>) over {Any | hasattr(rv, 'is_Add') and hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR9 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'is_Add')                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR9 : {Any | hasattr(rv, 'is_Add') and hasattr(rv, 'a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b628868bcc1632ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR9","kind":"function","src_hash":"17a71b4f665bd8b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR9(rv)","rhs":"sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``","over":{"base":"Any"},"name":"TR9_correct"},"guarantee":"sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR9_correct","statement":"Path(TR9(x), sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b628868bcc1632ac"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR9","kind":"function","src_hash":"17a71b4f665bd8b4","in":{"base":"Any","pred":"hasattr(rv, 'is_Add') and hasattr(rv, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"TR9(rv)","rhs":"<unspecified:TR9>","over":{"base":"Any","pred":"hasattr(rv, 'is_Add') and hasattr(rv, 'args')"},"name":"TR9_correct"},"guarantee":"sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR9_correct","statement":"Path(TR9(x), sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b628868bcc1632ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'is_Add')","hasattr(rv, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args","rv.is_Add"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def TR9(rv):
     """Sum of ``cos`` or ``sin`` terms as a product of ``cos`` or ``sin``.
 
@@ -766,16 +858,24 @@ def TR9(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR10(rv,), separate sums in ``cos`` and ``sin``) over Any ║
+# ║ Path(TR10(rv, first), # HINT: TR10 may be idempotent: TR10(TR10(x)) == TR10(x)) over {Any | hasattr(rv, 'func') and hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR10 : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ensures:  # HINT: TR10 may be idempotent: TR10(TR10...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR10 : {Any | hasattr(rv, 'func') and hasattr(rv, 'ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3b3e07048bd75f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54150225c1257e3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR10","kind":"function","src_hash":"3079ec6fc12d0795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR10(rv,)","rhs":"separate sums in ``cos`` and ``sin``","over":{"base":"Any"},"name":"TR10_correct"},"guarantee":"separate sums in ``cos`` and ``sin``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR10_correct","statement":"Path(TR10(x), separate sums in ``cos`` and ``sin``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3b3e07048bd75f0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR10","kind":"function","src_hash":"3079ec6fc12d0795","in":{"base":"Any","pred":"hasattr(rv, 'func') and hasattr(rv, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: TR10 may be idempotent: TR10(TR10(x)) == TR10(x)"},"spec":{"lhs":"TR10(rv, first)","rhs":"# HINT: TR10 may be idempotent: TR10(TR10(x)) == TR10(x)","over":{"base":"Any","pred":"hasattr(rv, 'func') and hasattr(rv, 'args')"},"name":"TR10_correct"},"guarantee":"# HINT: TR10 may be idempotent: TR10(TR10(x)) == TR10(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR10_correct","statement":"Path(TR10(x), # HINT: TR10 may be idempotent: TR10(TR10(x)) == TR10(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54150225c1257e3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'func')","hasattr(rv, 'args')"],"ensures":["# HINT: TR10 may be idempotent: TR10(TR10(x)) == TR10(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def TR10(rv, first=True):
     """Separate sums in ``cos`` and ``sin``.
 
@@ -825,16 +925,24 @@ def TR10(rv, first=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR10i(rv), sum of products to function of sum) over Any ║
+# ║ Path(TR10i(rv), <unspecified:TR10i>) over {Any | hasattr(rv, 'is_Add') and hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR10i : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'is_Add')                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR10i : {Any | hasattr(rv, 'is_Add') and hasattr(rv, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e296ea33f1b590f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR10i","kind":"function","src_hash":"4554e71961231902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR10i(rv)","rhs":"sum of products to function of sum","over":{"base":"Any"},"name":"TR10i_correct"},"guarantee":"sum of products to function of sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR10i_correct","statement":"Path(TR10i(x), sum of products to function of sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e296ea33f1b590f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR10i","kind":"function","src_hash":"4554e71961231902","in":{"base":"Any","pred":"hasattr(rv, 'is_Add') and hasattr(rv, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"TR10i(rv)","rhs":"<unspecified:TR10i>","over":{"base":"Any","pred":"hasattr(rv, 'is_Add') and hasattr(rv, 'args')"},"name":"TR10i_correct"},"guarantee":"sum of products to function of sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR10i_correct","statement":"Path(TR10i(x), sum of products to function of sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e296ea33f1b590f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'is_Add')","hasattr(rv, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def TR10i(rv):
     """Sum of products to function of sum.
 
@@ -964,16 +1072,24 @@ def TR10i(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR11(rv,), function of double angle to product) over Any ║
+# ║ Path(TR11(rv, base), # HINT: TR11 may be idempotent: TR11(TR11(x)) == TR11(x)) over {Any | hasattr(rv, 'func') and hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR11 : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ensures:  # HINT: TR11 may be idempotent: TR11(TR11...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR11 : {Any | hasattr(rv, 'func') and hasattr(rv, 'ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 120fb3b482c5d448  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d78c22d0ee76c3ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR11","kind":"function","src_hash":"d2e70c6be8a072a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR11(rv,)","rhs":"function of double angle to product","over":{"base":"Any"},"name":"TR11_correct"},"guarantee":"function of double angle to product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR11_correct","statement":"Path(TR11(x), function of double angle to product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"120fb3b482c5d448"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR11","kind":"function","src_hash":"d2e70c6be8a072a6","in":{"base":"Any","pred":"hasattr(rv, 'func') and hasattr(rv, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: TR11 may be idempotent: TR11(TR11(x)) == TR11(x)"},"spec":{"lhs":"TR11(rv, base)","rhs":"# HINT: TR11 may be idempotent: TR11(TR11(x)) == TR11(x)","over":{"base":"Any","pred":"hasattr(rv, 'func') and hasattr(rv, 'args')"},"name":"TR11_correct"},"guarantee":"# HINT: TR11 may be idempotent: TR11(TR11(x)) == TR11(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR11_correct","statement":"Path(TR11(x), # HINT: TR11 may be idempotent: TR11(TR11(x)) == TR11(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d78c22d0ee76c3ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'func')","hasattr(rv, 'args')"],"ensures":["# HINT: TR11 may be idempotent: TR11(TR11(x)) == TR11(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args","rv.func"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def TR11(rv, base=None):
     """Function of double angle to product. The ``base`` argument can be used
     to indicate what is the un-doubled argument, e.g. if 3*pi/7 is the base
@@ -1055,9 +1171,13 @@ def TR11(rv, base=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_TR11(rv), helper for tr11 to find half-arguments for sin in factors of num/den that appear in cos or sin factors in the den/num) over {Any | isinstance(rv, Expr)} ║
+# ║ Path(_TR11(rv), <unspecified:_TR11>) over {Any | isinstance(rv, Expr) and hasattr(rv, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _TR11 : {Any | isinstance(rv, Expr)} → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'as_numer_denom')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _TR11 : {Any | isinstance(rv, Expr) and hasattr(rv, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(rv, Expr)} → library_axiom             ║
@@ -1067,9 +1187,12 @@ def TR11(rv, base=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ece5c3c1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._TR11","kind":"function","src_hash":"06463cd65a571f76","in":{"base":"Any","pred":"isinstance(rv, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_TR11(rv)","rhs":"helper for tr11 to find half-arguments for sin in factors of num/den that appear in cos or sin factors in the den/num","over":{"base":"Any","pred":"isinstance(rv, Expr)"},"name":"_TR11_correct"},"guarantee":"helper for tr11 to find half-arguments for sin in factors of num/den that appear in cos or sin factors in the den/num","fibers":[{"name":"Expr","pred":"isinstance(rv, Expr)","path":{"lhs":"_TR11(x)","rhs":"helper for tr11 to find half-arguments for sin in factors of num/den that appear in cos or sin factors in the den/num","over":{"base":"Expr","pred":"isinstance(rv, Expr)"},"name":"_TR11_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._TR11_Expr_correct","statement":"_TR11 satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ece5c3c18668966a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._TR11","kind":"function","src_hash":"06463cd65a571f76","in":{"base":"Any","pred":"isinstance(rv, Expr) and hasattr(rv, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"_TR11(rv)","rhs":"<unspecified:_TR11>","over":{"base":"Any","pred":"isinstance(rv, Expr) and hasattr(rv, 'as_numer_denom')"},"name":"_TR11_correct"},"guarantee":"helper for tr11 to find half-arguments for sin in factors of num/den that appear in cos or sin factors in the den/num","fibers":[{"name":"Expr","pred":"isinstance(rv, Expr)","path":{"lhs":"_TR11(x)","rhs":"helper for tr11 to find half-arguments for sin in factors of num/den that appear in cos or sin factors in the den/num","over":{"base":"Expr","pred":"isinstance(rv, Expr)"},"name":"_TR11_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._TR11_Expr_correct","statement":"_TR11 satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ece5c3c18668966a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.as_numer_denom"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(rv, Expr)', 'e.is_Integer and e > 0'}, fibers={'Expr'})"]}}
 def _TR11(rv):
     """
     Helper for TR11 to find half-arguments for sin in factors of
@@ -1132,16 +1255,24 @@ def _TR11(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR12(rv,), separate sums in ``tan``) over Any         ║
+# ║ Path(TR12(rv, first), # HINT: TR12 may be idempotent: TR12(TR12(x)) == TR12(x)) over {Any | hasattr(rv, 'args') and hasattr(rv, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR12 : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   ensures:  # HINT: TR12 may be idempotent: TR12(TR12...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR12 : {Any | hasattr(rv, 'args') and hasattr(rv, 'fu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e288893f2e77ddd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5ab2e4453b38d36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR12","kind":"function","src_hash":"e583af9614a46070","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR12(rv,)","rhs":"separate sums in ``tan``","over":{"base":"Any"},"name":"TR12_correct"},"guarantee":"separate sums in ``tan``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR12_correct","statement":"Path(TR12(x), separate sums in ``tan``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e288893f2e77ddd1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR12","kind":"function","src_hash":"e583af9614a46070","in":{"base":"Any","pred":"hasattr(rv, 'args') and hasattr(rv, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: TR12 may be idempotent: TR12(TR12(x)) == TR12(x)"},"spec":{"lhs":"TR12(rv, first)","rhs":"# HINT: TR12 may be idempotent: TR12(TR12(x)) == TR12(x)","over":{"base":"Any","pred":"hasattr(rv, 'args') and hasattr(rv, 'func')"},"name":"TR12_correct"},"guarantee":"# HINT: TR12 may be idempotent: TR12(TR12(x)) == TR12(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR12_correct","statement":"Path(TR12(x), # HINT: TR12 may be idempotent: TR12(TR12(x)) == TR12(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5ab2e4453b38d36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'args')","hasattr(rv, 'func')"],"ensures":["# HINT: TR12 may be idempotent: TR12(TR12(x)) == TR12(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def TR12(rv, first=True):
     """Separate sums in ``tan``.
 
@@ -1178,9 +1309,15 @@ def TR12(rv, first=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR12i(rv), combine tan arguments as (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y)) over {Any | isinstance(a, tan)} ║
+# ║ Path(TR12i(rv), <unspecified:TR12i>) over {Any | isinstance(a, tan) and hasattr(rv, 'as_numer_denom') and hasattr(rv, 'is_Add') and hasattr(rv, 'is_Mul') and hasattr(rv, 'is_Pow')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR12i : {Any | isinstance(a, tan)} → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'as_numer_denom')                  ║
+# ║   requires: hasattr(rv, 'is_Add')                          ║
+# ║   requires: hasattr(rv, 'is_Mul')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR12i : {Any | isinstance(a, tan) and hasattr(rv, 'as...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tan: {isinstance(a, tan)} → library_axiom                ║
@@ -1190,9 +1327,12 @@ def TR12(rv, first=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 489396e2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR12i","kind":"function","src_hash":"435690301236b324","in":{"base":"Any","pred":"isinstance(a, tan)"},"out":{"base":"Any"},"spec":{"lhs":"TR12i(rv)","rhs":"combine tan arguments as (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y)","over":{"base":"Any","pred":"isinstance(a, tan)"},"name":"TR12i_correct"},"guarantee":"combine tan arguments as (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y)","fibers":[{"name":"tan","pred":"isinstance(a, tan)","path":{"lhs":"TR12i(x)","rhs":"combine tan arguments as (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y)","over":{"base":"tan","pred":"isinstance(a, tan)"},"name":"TR12i_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR12i_tan_correct","statement":"TR12i satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"489396e25a8792cc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR12i","kind":"function","src_hash":"435690301236b324","in":{"base":"Any","pred":"isinstance(a, tan) and hasattr(rv, 'as_numer_denom') and hasattr(rv, 'is_Add') and hasattr(rv, 'is_Mul') and hasattr(rv, 'is_Pow')"},"out":{"base":"Any"},"spec":{"lhs":"TR12i(rv)","rhs":"<unspecified:TR12i>","over":{"base":"Any","pred":"isinstance(a, tan) and hasattr(rv, 'as_numer_denom') and hasattr(rv, 'is_Add') and hasattr(rv, 'is_Mul') and hasattr(rv, 'is_Pow')"},"name":"TR12i_correct"},"guarantee":"combine tan arguments as (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y)","fibers":[{"name":"tan","pred":"isinstance(a, tan)","path":{"lhs":"TR12i(x)","rhs":"combine tan arguments as (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y)","over":{"base":"tan","pred":"isinstance(a, tan)"},"name":"TR12i_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR12i_tan_correct","statement":"TR12i satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"489396e25a8792cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'as_numer_denom')","hasattr(rv, 'is_Add')","hasattr(rv, 'is_Mul')","hasattr(rv, 'is_Pow')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'s is S.NegativeOne and f.is_Mul and (len(f.args) == 2) and all((isinstance(fi, tan) for fi in f.args))', 'isinstance(a, tan) and isinstance(b, tan)', 'ni.is_Add and len(ni.args) == 2'}, fibers={'tan'})"]}}
 def TR12i(rv):
     """Combine tan arguments as
     (tan(y) + tan(x))/(tan(x)*tan(y) - 1) -> -tan(x + y).
@@ -1317,16 +1457,23 @@ def TR12i(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR13(rv), change products of ``tan`` or ``cot``) over Any ║
+# ║ Path(TR13(rv), <unspecified:TR13>) over {Any | hasattr(rv, 'is_Mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR13 : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'is_Mul')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR13 : {Any | hasattr(rv, 'is_Mul')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7e253e7300332f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR13","kind":"function","src_hash":"7617e51f6efab9f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TR13(rv)","rhs":"change products of ``tan`` or ``cot``","over":{"base":"Any"},"name":"TR13_correct"},"guarantee":"change products of ``tan`` or ``cot``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR13_correct","statement":"Path(TR13(x), change products of ``tan`` or ``cot``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7e253e7300332f0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR13","kind":"function","src_hash":"7617e51f6efab9f3","in":{"base":"Any","pred":"hasattr(rv, 'is_Mul')"},"out":{"base":"Any"},"spec":{"lhs":"TR13(rv)","rhs":"<unspecified:TR13>","over":{"base":"Any","pred":"hasattr(rv, 'is_Mul')"},"name":"TR13_correct"},"guarantee":"change products of ``tan`` or ``cot``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR13_correct","statement":"Path(TR13(x), change products of ``tan`` or ``cot``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7e253e7300332f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'is_Mul')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def TR13(rv):
     """Change products of ``tan`` or ``cot``.
 
@@ -1375,9 +1522,15 @@ def TR13(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TRmorrie(rv), returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))) over {Any | isinstance(b, cos)} ║
+# ║ Path(TRmorrie(rv), <unspecified:TRmorrie>) over {Any | isinstance(b, cos) and hasattr(rv, 'args') and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TRmorrie : {Any | isinstance(b, cos)} → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   requires: hasattr(rv, 'is_Mul')                          ║
+# ║   requires: hasattr(rv, 'as_numer_denom')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TRmorrie : {Any | isinstance(b, cos) and hasattr(rv, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   cos: {isinstance(b, cos)} → library_axiom                ║
@@ -1387,9 +1540,12 @@ def TR13(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 32d2d047...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TRmorrie","kind":"function","src_hash":"49d207d5eff66966","in":{"base":"Any","pred":"isinstance(b, cos)"},"out":{"base":"Any"},"spec":{"lhs":"TRmorrie(rv)","rhs":"returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))","over":{"base":"Any","pred":"isinstance(b, cos)"},"name":"TRmorrie_correct"},"guarantee":"returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))","fibers":[{"name":"cos","pred":"isinstance(b, cos)","path":{"lhs":"TRmorrie(x)","rhs":"returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))","over":{"base":"cos","pred":"isinstance(b, cos)"},"name":"TRmorrie_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRmorrie_cos_correct","statement":"TRmorrie satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32d2d0471a6f35c3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TRmorrie","kind":"function","src_hash":"49d207d5eff66966","in":{"base":"Any","pred":"isinstance(b, cos) and hasattr(rv, 'args') and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"TRmorrie(rv)","rhs":"<unspecified:TRmorrie>","over":{"base":"Any","pred":"isinstance(b, cos) and hasattr(rv, 'args') and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')"},"name":"TRmorrie_correct"},"guarantee":"returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))","fibers":[{"name":"cos","pred":"isinstance(b, cos)","path":{"lhs":"TRmorrie(x)","rhs":"returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))","over":{"base":"cos","pred":"isinstance(b, cos)"},"name":"TRmorrie_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRmorrie_cos_correct","statement":"TRmorrie satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32d2d0471a6f35c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'args')","hasattr(rv, 'is_Mul')","hasattr(rv, 'as_numer_denom')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'e.is_Integer and isinstance(b, cos)', 'k > 1'}, fibers={'cos'})"]}}
 def TRmorrie(rv):
     """Returns cos(x)*cos(2*x)*...*cos(2**(k-1)*x) -> sin(2**k*x)/(2**k*sin(x))
 
@@ -1510,9 +1666,15 @@ def TRmorrie(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR14(rv,), convert factored powers of sin and cos identities into simpler expressions) over {Any | isinstance(A[f], cos)} ║
+# ║ Path(TR14(rv, first), # HINT: TR14 may be idempotent: TR14(TR14(x)) == TR14(x)) over {Any | isinstance(A[f], cos) and hasattr(rv, 'args') and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR14 : {Any | isinstance(A[f], cos)} → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   requires: hasattr(rv, 'is_Mul')                          ║
+# ║   requires: hasattr(rv, 'as_numer_denom')                  ║
+# ║   ensures:  # HINT: TR14 may be idempotent: TR14(TR14...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR14 : {Any | isinstance(A[f], cos) and hasattr(rv, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   cos: {isinstance(A[f], cos)} → library_axiom             ║
@@ -1522,9 +1684,12 @@ def TRmorrie(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8fa70958...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR14","kind":"function","src_hash":"25ea75768ce27f1a","in":{"base":"Any","pred":"isinstance(A[f], cos)"},"out":{"base":"Any"},"spec":{"lhs":"TR14(rv,)","rhs":"convert factored powers of sin and cos identities into simpler expressions","over":{"base":"Any","pred":"isinstance(A[f], cos)"},"name":"TR14_correct"},"guarantee":"convert factored powers of sin and cos identities into simpler expressions","fibers":[{"name":"cos","pred":"isinstance(A[f], cos)","path":{"lhs":"TR14(x)","rhs":"convert factored powers of sin and cos identities into simpler expressions","over":{"base":"cos","pred":"isinstance(A[f], cos)"},"name":"TR14_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR14_cos_correct","statement":"TR14 satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8fa709588ed5de23"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR14","kind":"function","src_hash":"25ea75768ce27f1a","in":{"base":"Any","pred":"isinstance(A[f], cos) and hasattr(rv, 'args') and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')"},"out":{"base":"Any","pred":"result satisfies: # HINT: TR14 may be idempotent: TR14(TR14(x)) == TR14(x)"},"spec":{"lhs":"TR14(rv, first)","rhs":"# HINT: TR14 may be idempotent: TR14(TR14(x)) == TR14(x)","over":{"base":"Any","pred":"isinstance(A[f], cos) and hasattr(rv, 'args') and hasattr(rv, 'is_Mul') and hasattr(rv, 'as_numer_denom')"},"name":"TR14_correct"},"guarantee":"# HINT: TR14 may be idempotent: TR14(TR14(x)) == TR14(x)","fibers":[{"name":"cos","pred":"isinstance(A[f], cos)","path":{"lhs":"TR14(x)","rhs":"# HINT: TR14 may be idempotent: TR14(TR14(x)) == TR14(x)","over":{"base":"cos","pred":"isinstance(A[f], cos)"},"name":"TR14_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR14_cos_correct","statement":"TR14 satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8fa709588ed5de23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'args')","hasattr(rv, 'is_Mul')","hasattr(rv, 'as_numer_denom')"],"ensures":["# HINT: TR14 may be idempotent: TR14(TR14(x)) == TR14(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'A[f] == B[f]', 'A[si] != B[si]', 'A[e] == B[e]', 'newn != n or newd != d', 'len(other) != nother', 'A[e] != take', 'B[e] != take', 'isinstance(A[f], cos)'}, fibers={'cos'})"]}}
 def TR14(rv, first=True):
     """Convert factored powers of sin and cos identities into simpler
     expressions.
@@ -1647,7 +1812,12 @@ def TR14(rv, first=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR15(rv,), convert sin(x)**-2 to 1 + cot(x)**2) over {Any | isinstance(rv, Pow) and isinstance(rv.base, sin)} ║
+# ║ Path(TR15(rv, max, pow), # HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)) over {Any | isinstance(rv, Pow) and isinstance(rv.base, sin) and hasattr(rv, 'exp') and hasattr(rv, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'exp')                             ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   ensures:  # HINT: TR15 may be idempotent: TR15(TR15...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR15 : {Any | isinstance(rv, Pow) and isinstance(rv.b...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1660,9 +1830,12 @@ def TR14(rv, first=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b5e39298...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR15","kind":"function","src_hash":"8217d5919944e171","in":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, sin)"},"out":{"base":"Any"},"spec":{"lhs":"TR15(rv,)","rhs":"convert sin(x)**-2 to 1 + cot(x)**2","over":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, sin)"},"name":"TR15_correct"},"guarantee":"convert sin(x)**-2 to 1 + cot(x)**2","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR15(x)","rhs":"convert sin(x)**-2 to 1 + cot(x)**2","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR15_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR15_Pow_correct","statement":"TR15 satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(rv.base, sin)","path":{"lhs":"TR15(x)","rhs":"convert sin(x)**-2 to 1 + cot(x)**2","over":{"base":"sin","pred":"isinstance(rv.base, sin)"},"name":"TR15_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR15_sin_correct","statement":"TR15 satisfies spec on sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5e39298b038067a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR15","kind":"function","src_hash":"8217d5919944e171","in":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, sin) and hasattr(rv, 'exp') and hasattr(rv, 'base')"},"out":{"base":"Any","pred":"result satisfies: # HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)"},"spec":{"lhs":"TR15(rv, max, pow)","rhs":"# HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)","over":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, sin) and hasattr(rv, 'exp') and hasattr(rv, 'base')"},"name":"TR15_correct"},"guarantee":"# HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR15(x)","rhs":"# HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR15_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR15_Pow_correct","statement":"TR15 satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(rv.base, sin)","path":{"lhs":"TR15(x)","rhs":"# HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)","over":{"base":"sin","pred":"isinstance(rv.base, sin)"},"name":"TR15_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR15_sin_correct","statement":"TR15 satisfies spec on sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5e39298b038067a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'exp')","hasattr(rv, 'base')"],"ensures":["# HINT: TR15 may be idempotent: TR15(TR15(x)) == TR15(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.base","rv.exp"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (isinstance(rv, Pow) and isinstance(rv.base, sin))', 'a != ia', 'e % 2 == 1'}, fibers={'sin', 'Pow'})"]}}
 def TR15(rv, max=4, pow=False):
     """Convert sin(x)**-2 to 1 + cot(x)**2.
 
@@ -1697,7 +1870,12 @@ def TR15(rv, max=4, pow=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR16(rv,), convert cos(x)**-2 to 1 + tan(x)**2) over {Any | isinstance(rv, Pow) and isinstance(rv.base, cos)} ║
+# ║ Path(TR16(rv, max, pow), <unspecified:TR16>) over {Any | isinstance(rv, Pow) and isinstance(rv.base, cos) and hasattr(rv, 'exp') and hasattr(rv, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'exp')                             ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR16 : {Any | isinstance(rv, Pow) and isinstance(rv.b...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1710,9 +1888,12 @@ def TR15(rv, max=4, pow=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 911e3a29...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR16","kind":"function","src_hash":"593d7d956d4295d4","in":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, cos)"},"out":{"base":"Any"},"spec":{"lhs":"TR16(rv,)","rhs":"convert cos(x)**-2 to 1 + tan(x)**2","over":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, cos)"},"name":"TR16_correct"},"guarantee":"convert cos(x)**-2 to 1 + tan(x)**2","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR16(x)","rhs":"convert cos(x)**-2 to 1 + tan(x)**2","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR16_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR16_Pow_correct","statement":"TR16 satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(rv.base, cos)","path":{"lhs":"TR16(x)","rhs":"convert cos(x)**-2 to 1 + tan(x)**2","over":{"base":"cos","pred":"isinstance(rv.base, cos)"},"name":"TR16_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR16_cos_correct","statement":"TR16 satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"911e3a29bb944206"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR16","kind":"function","src_hash":"593d7d956d4295d4","in":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, cos) and hasattr(rv, 'exp') and hasattr(rv, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"TR16(rv, max, pow)","rhs":"<unspecified:TR16>","over":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, cos) and hasattr(rv, 'exp') and hasattr(rv, 'base')"},"name":"TR16_correct"},"guarantee":"convert cos(x)**-2 to 1 + tan(x)**2","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR16(x)","rhs":"convert cos(x)**-2 to 1 + tan(x)**2","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR16_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR16_Pow_correct","statement":"TR16 satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(rv.base, cos)","path":{"lhs":"TR16(x)","rhs":"convert cos(x)**-2 to 1 + tan(x)**2","over":{"base":"cos","pred":"isinstance(rv.base, cos)"},"name":"TR16_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR16_cos_correct","statement":"TR16 satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"911e3a29bb944206","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'exp')","hasattr(rv, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.base","rv.exp"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'a != ia', 'not (isinstance(rv, Pow) and isinstance(rv.base, cos))', 'e % 2 == 1'}, fibers={'cos', 'Pow'})"]}}
 def TR16(rv, max=4, pow=False):
     """Convert cos(x)**-2 to 1 + tan(x)**2.
 
@@ -1747,7 +1928,12 @@ def TR16(rv, max=4, pow=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR111(rv), convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec) over {Any | isinstance(rv.base, tan) and isinstance(rv.base, sin) and isinstance(rv, Pow)} ║
+# ║ Path(TR111(rv), <unspecified:TR111>) over {Any | isinstance(rv.base, tan) and isinstance(rv.base, sin) and isinstance(rv, Pow) and hasattr(rv, 'base') and hasattr(rv, 'exp')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   requires: hasattr(rv, 'exp')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TR111 : {Any | isinstance(rv.base, tan) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1762,9 +1948,12 @@ def TR16(rv, max=4, pow=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?4 ✗7 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 075a430e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR111","kind":"function","src_hash":"ea29d12c39069c48","in":{"base":"Any","pred":"isinstance(rv.base, tan) and isinstance(rv.base, sin) and isinstance(rv, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"TR111(rv)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"Any","pred":"isinstance(rv.base, tan) and isinstance(rv.base, sin) and isinstance(rv, Pow)"},"name":"TR111_correct"},"guarantee":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","fibers":[{"name":"tan","pred":"isinstance(rv.base, tan)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"tan","pred":"isinstance(rv.base, tan)"},"name":"TR111_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_tan_correct","statement":"TR111 satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(rv.base, sin)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"sin","pred":"isinstance(rv.base, sin)"},"name":"TR111_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_sin_correct","statement":"TR111 satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR111_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_Pow_correct","statement":"TR111 satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(rv.base, cos)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"cos","pred":"isinstance(rv.base, cos)"},"name":"TR111_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_cos_correct","statement":"TR111 satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"075a430ec6ad6e21"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR111","kind":"function","src_hash":"ea29d12c39069c48","in":{"base":"Any","pred":"isinstance(rv.base, tan) and isinstance(rv.base, sin) and isinstance(rv, Pow) and hasattr(rv, 'base') and hasattr(rv, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"TR111(rv)","rhs":"<unspecified:TR111>","over":{"base":"Any","pred":"isinstance(rv.base, tan) and isinstance(rv.base, sin) and isinstance(rv, Pow) and hasattr(rv, 'base') and hasattr(rv, 'exp')"},"name":"TR111_correct"},"guarantee":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","fibers":[{"name":"tan","pred":"isinstance(rv.base, tan)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"tan","pred":"isinstance(rv.base, tan)"},"name":"TR111_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_tan_correct","statement":"TR111 satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(rv.base, sin)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"sin","pred":"isinstance(rv.base, sin)"},"name":"TR111_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_sin_correct","statement":"TR111 satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR111_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_Pow_correct","statement":"TR111 satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(rv.base, cos)","path":{"lhs":"TR111(x)","rhs":"convert f(x)**-i to g(x)**i where either ``i`` is an integer or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec","over":{"base":"cos","pred":"isinstance(rv.base, cos)"},"name":"TR111_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR111_cos_correct","statement":"TR111 satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"075a430ec6ad6e21","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'base')","hasattr(rv, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.base","rv.exp"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":1,"n_assumed":4,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rv.base, cos)', 'not (isinstance(rv, Pow) and (rv.base.is_positive or (rv.exp.is_integer and rv.exp.is_negative)))', 'isinstance(rv.base, tan)', 'isinstance(rv.base, sin)'}, fibers={'sin', 'cos', 'tan', 'Pow'})"]}}
 def TR111(rv):
     """Convert f(x)**-i to g(x)**i where either ``i`` is an integer
     or the base is positive and f, g are: tan, cot; sin, csc; or cos, sec.
@@ -1798,9 +1987,13 @@ def TR111(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TR22(rv,), convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1) over {Any | isinstance(rv, Pow)} ║
+# ║ Path(TR22(rv, max, pow), <unspecified:TR22>) over {Any | isinstance(rv, Pow) and hasattr(rv, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TR22 : {Any | isinstance(rv, Pow)} → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TR22 : {Any | isinstance(rv, Pow) and hasattr(rv, 'ba...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Pow: {isinstance(rv, Pow)} → library_axiom               ║
@@ -1810,9 +2003,12 @@ def TR111(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 58e65541...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR22","kind":"function","src_hash":"76cc44071e98488d","in":{"base":"Any","pred":"isinstance(rv, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"TR22(rv,)","rhs":"convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1","over":{"base":"Any","pred":"isinstance(rv, Pow)"},"name":"TR22_correct"},"guarantee":"convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR22(x)","rhs":"convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR22_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR22_Pow_correct","statement":"TR22 satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"58e6554140117e77"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TR22","kind":"function","src_hash":"76cc44071e98488d","in":{"base":"Any","pred":"isinstance(rv, Pow) and hasattr(rv, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"TR22(rv, max, pow)","rhs":"<unspecified:TR22>","over":{"base":"Any","pred":"isinstance(rv, Pow) and hasattr(rv, 'base')"},"name":"TR22_correct"},"guarantee":"convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TR22(x)","rhs":"convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TR22_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TR22_Pow_correct","statement":"TR22 satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"58e6554140117e77","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.base"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (isinstance(rv, Pow) and rv.base.func in (cot, tan))'}, fibers={'Pow'})"]}}
 def TR22(rv, max=4, pow=False):
     """Convert tan(x)**2 to sec(x)**2 - 1 and cot(x)**2 to csc(x)**2 - 1.
 
@@ -1843,7 +2039,12 @@ def TR22(rv, max=4, pow=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TRpower(rv), convert sin(x)**n and cos(x)**n with positive n to sums) over {Any | isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)) and isinstance(b, cos)} ║
+# ║ Path(TRpower(rv), <unspecified:TRpower>) over {Any | isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)) and isinstance(b, cos) and hasattr(rv, 'as_base_exp') and hasattr(rv, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'as_base_exp')                     ║
+# ║   requires: hasattr(rv, 'base')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ TRpower : {Any | isinstance(rv, Pow) and isinstance(r...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1858,9 +2059,12 @@ def TR22(rv, max=4, pow=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 8.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f4c3b332...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TRpower","kind":"function","src_hash":"45bea20b8562196a","in":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)) and isinstance(b, cos)"},"out":{"base":"Any"},"spec":{"lhs":"TRpower(rv)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)) and isinstance(b, cos)"},"name":"TRpower_correct"},"guarantee":"convert sin(x)**n and cos(x)**n with positive n to sums","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TRpower_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_Pow_correct","statement":"TRpower satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"(sin","pred":"isinstance(rv.base, (sin, cos))","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"(sin","pred":"isinstance(rv.base, (sin, cos))"},"name":"TRpower_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_(sin_correct","statement":"TRpower satisfies spec on (sin inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(b, cos)","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"cos","pred":"isinstance(b, cos)"},"name":"TRpower_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_cos_correct","statement":"TRpower satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(b, sin)","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"sin","pred":"isinstance(b, sin)"},"name":"TRpower_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_sin_correct","statement":"TRpower satisfies spec on sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f4c3b332363217e1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.TRpower","kind":"function","src_hash":"45bea20b8562196a","in":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)) and isinstance(b, cos) and hasattr(rv, 'as_base_exp') and hasattr(rv, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"TRpower(rv)","rhs":"<unspecified:TRpower>","over":{"base":"Any","pred":"isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)) and isinstance(b, cos) and hasattr(rv, 'as_base_exp') and hasattr(rv, 'base')"},"name":"TRpower_correct"},"guarantee":"convert sin(x)**n and cos(x)**n with positive n to sums","fibers":[{"name":"Pow","pred":"isinstance(rv, Pow)","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"Pow","pred":"isinstance(rv, Pow)"},"name":"TRpower_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_Pow_correct","statement":"TRpower satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"(sin","pred":"isinstance(rv.base, (sin, cos))","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"(sin","pred":"isinstance(rv.base, (sin, cos))"},"name":"TRpower_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_(sin_correct","statement":"TRpower satisfies spec on (sin inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(b, cos)","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"cos","pred":"isinstance(b, cos)"},"name":"TRpower_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_cos_correct","statement":"TRpower satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(b, sin)","path":{"lhs":"TRpower(x)","rhs":"convert sin(x)**n and cos(x)**n with positive n to sums","over":{"base":"sin","pred":"isinstance(b, sin)"},"name":"TRpower_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.TRpower_sin_correct","statement":"TRpower satisfies spec on sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f4c3b332363217e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'as_base_exp')","hasattr(rv, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.as_base_exp","rv.base"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (isinstance(rv, Pow) and isinstance(rv.base, (sin, cos)))', 'n.is_even and isinstance(b, sin)', 'n.is_odd and isinstance(b, sin)', 'n.is_even and isinstance(b, cos)', 'n.is_odd and isinstance(b, cos)'}, fibers={'sin', 'cos', 'Pow', '(sin'})"]}}
 def TRpower(rv):
     """Convert sin(x)**n and cos(x)**n with positive n to sums.
 
@@ -1908,16 +2112,23 @@ def TRpower(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(L(rv), return count of trigonometric functions in expression) over Any ║
+# ║ Path(L(rv), S(rv.count(TrigonometricFunction))) over {Any | hasattr(rv, 'count')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ L : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'count')                           ║
+# ║   returns:  S(rv.count(TrigonometricFunction))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ L : {Any | hasattr(rv, 'count')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45503ef9f84f76f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.L","kind":"function","src_hash":"7a250237afc1f36c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"L(rv)","rhs":"return count of trigonometric functions in expression","over":{"base":"Any"},"name":"L_correct"},"guarantee":"return count of trigonometric functions in expression","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45503ef9f84f76f3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.L","kind":"function","src_hash":"7a250237afc1f36c","in":{"base":"Any","pred":"hasattr(rv, 'count')"},"out":{"base":"Any"},"spec":{"lhs":"L(rv)","rhs":"S(rv.count(TrigonometricFunction))","over":{"base":"Any","pred":"hasattr(rv, 'count')"},"name":"L_correct"},"guarantee":"returns S(rv.count(TrigonometricFunction))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45503ef9f84f76f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'count')"],"returns_expr":"S(rv.count(TrigonometricFunction))","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.count"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def L(rv):
     """Return count of trigonometric functions in expression.
 
@@ -1971,9 +2182,15 @@ RL2 = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fu(rv,), attempt to simplify expression by using transformation rules given in the algorithm by fu et al) over {Any | isinstance(rv, Expr)} ║
+# ║ Path(fu(rv, measure), # HINT: fu may be idempotent: fu(fu(x)) == fu(x)) over {Any | isinstance(rv, Expr) and hasattr(rv, 'has') and hasattr(rv, 'func') and hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fu : {Any | isinstance(rv, Expr)} → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'has')                             ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ensures:  # HINT: fu may be idempotent: fu(fu(x)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fu : {Any | isinstance(rv, Expr) and hasattr(rv, 'has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(rv, Expr)} → library_axiom             ║
@@ -1983,9 +2200,12 @@ RL2 = [
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 85ee11f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.fu","kind":"function","src_hash":"0ed6091df0bef5a9","in":{"base":"Any","pred":"isinstance(rv, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"fu(rv,)","rhs":"attempt to simplify expression by using transformation rules given in the algorithm by fu et al","over":{"base":"Any","pred":"isinstance(rv, Expr)"},"name":"fu_correct"},"guarantee":"attempt to simplify expression by using transformation rules given in the algorithm by fu et al","fibers":[{"name":"Expr","pred":"isinstance(rv, Expr)","path":{"lhs":"fu(x)","rhs":"attempt to simplify expression by using transformation rules given in the algorithm by fu et al","over":{"base":"Expr","pred":"isinstance(rv, Expr)"},"name":"fu_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.fu_Expr_correct","statement":"fu satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"85ee11f7ce9cef5d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.fu","kind":"function","src_hash":"0ed6091df0bef5a9","in":{"base":"Any","pred":"isinstance(rv, Expr) and hasattr(rv, 'has') and hasattr(rv, 'func') and hasattr(rv, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: fu may be idempotent: fu(fu(x)) == fu(x)"},"spec":{"lhs":"fu(rv, measure)","rhs":"# HINT: fu may be idempotent: fu(fu(x)) == fu(x)","over":{"base":"Any","pred":"isinstance(rv, Expr) and hasattr(rv, 'has') and hasattr(rv, 'func') and hasattr(rv, 'args')"},"name":"fu_correct"},"guarantee":"# HINT: fu may be idempotent: fu(fu(x)) == fu(x)","fibers":[{"name":"Expr","pred":"isinstance(rv, Expr)","path":{"lhs":"fu(x)","rhs":"# HINT: fu may be idempotent: fu(fu(x)) == fu(x)","over":{"base":"Expr","pred":"isinstance(rv, Expr)"},"name":"fu_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.fu_Expr_correct","statement":"fu satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"85ee11f7ce9cef5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'has')","hasattr(rv, 'func')","hasattr(rv, 'args')"],"ensures":["# HINT: fu may be idempotent: fu(fu(x)) == fu(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args","rv.func","rv.has"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(rv, Expr)', 'measure(rv1) < measure(rv)'}, fibers={'Expr'})"]}}
 def fu(rv, measure=lambda x: (L(x), x.count_ops())):
     """Attempt to simplify expression by using transformation rules given
     in the algorithm by Fu et al.
@@ -2078,16 +2298,23 @@ def fu(rv, measure=lambda x: (L(x), x.count_ops())):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_common_addends(rv,), apply ``do`` to addends of ``rv`` that (if ``key1=true``) share at least a common absolute value of their coefficient and the value of ``key2`` when applied to the argument) over Any ║
+# ║ Path(process_common_addends(rv, do, key2), len(args) == old_len_args + 1) over {Any | hasattr(rv, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ process_common_addends : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ process_common_addends : {Any | hasattr(rv, 'args')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42fbfbcbf0e90de7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37d6128190396ced  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.process_common_addends","kind":"function","src_hash":"476639e71fff6bfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_common_addends(rv,)","rhs":"apply ``do`` to addends of ``rv`` that (if ``key1=true``) share at least a common absolute value of their coefficient and the value of ``key2`` when applied to the argument","over":{"base":"Any"},"name":"process_common_addends_correct"},"guarantee":"apply ``do`` to addends of ``rv`` that (if ``key1=true``) share at least a common absolute value of their coefficient and the value of ``key2`` when applied to the argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.process_common_addends_correct","statement":"Path(process_common_addends(x), apply ``do`` to addends of ``rv`` that (if ``key1=true``) share at least a common absolute value of their coefficient and the value of ``key2`` when applied to the argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42fbfbcbf0e90de7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.process_common_addends","kind":"function","src_hash":"476639e71fff6bfc","in":{"base":"Any","pred":"hasattr(rv, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1"},"spec":{"lhs":"process_common_addends(rv, do, key2)","rhs":"len(args) == old_len_args + 1","over":{"base":"Any","pred":"hasattr(rv, 'args')"},"name":"process_common_addends_correct"},"guarantee":"len(args) == old_len_args + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.process_common_addends_correct","statement":"Path(process_common_addends(x), len(args) == old_len_args + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d6128190396ced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'args')"],"ensures":["len(args) == old_len_args + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args"],"calls_mutating":["args.append"],"raises":["ValueError"]},"state_contract":{"modifies":["args.*"],"old_bindings":{"old_len_args":"len(args)"},"post_ensures":["len(args) == old_len_args + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def process_common_addends(rv, do, key2=None, key1=True):
     """Apply ``do`` to addends of ``rv`` that (if ``key1=True``) share at least
     a common absolute value of their coefficient and the value of ``key2`` when
@@ -2139,54 +2366,78 @@ FU = dict(list(zip(fufuncs, list(map(locals().get, fufuncs)))))
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ROOT2(), internal helper behaves correctly) over Any ║
+# ║ Path(_ROOT2(), sqrt(2)) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ROOT2 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cc5520f5b1c35dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._ROOT2","kind":"function","src_hash":"16cb2ef131aaba44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ROOT2()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ROOT2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cc5520f5b1c35dd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._ROOT2","kind":"function","src_hash":"16cb2ef131aaba44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ROOT2()","rhs":"sqrt(2)","over":{"base":"Any"},"name":"_ROOT2_correct"},"guarantee":"returns sqrt(2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cc5520f5b1c35dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _ROOT2():
     return sqrt(2)
 
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ROOT3(), internal helper behaves correctly) over Any ║
+# ║ Path(_ROOT3(), sqrt(3)) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(3)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ROOT3 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66a5d6551ea86f51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._ROOT3","kind":"function","src_hash":"f882f6ee75816ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ROOT3()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ROOT3_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66a5d6551ea86f51"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._ROOT3","kind":"function","src_hash":"f882f6ee75816ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ROOT3()","rhs":"sqrt(3)","over":{"base":"Any"},"name":"_ROOT3_correct"},"guarantee":"returns sqrt(3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66a5d6551ea86f51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _ROOT3():
     return sqrt(3)
 
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_invROOT3(), internal helper behaves correctly) over Any ║
+# ║ Path(_invROOT3(), 1 / sqrt(3)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sqrt(3)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _invROOT3 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84c599784bcf0384           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._invROOT3","kind":"function","src_hash":"3954e3683f057c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_invROOT3()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_invROOT3_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84c599784bcf0384"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._invROOT3","kind":"function","src_hash":"3954e3683f057c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_invROOT3()","rhs":"1 / sqrt(3)","over":{"base":"Any"},"name":"_invROOT3_correct"},"guarantee":"returns 1 / sqrt(3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84c599784bcf0384","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sqrt(3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _invROOT3():
     return 1/sqrt(3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_split(a, ), return the gcd, s1, s2, a1, a2, bool where) over {Any | isinstance(a, cos) and isinstance(ca, sin) and isinstance(c, s.func)} ║
+# ║ Path(trig_split(a, b, two), <unspecified:trig_split>) over {Any | isinstance(a, cos) and isinstance(ca, sin) and isinstance(c, s.func) and hasattr(a, 'normal') and hasattr(a, 'is_Mul') and hasattr(a, 'gcd') and hasattr(a, 'as_coeff_Mul') and hasattr(a, 'args') and hasattr(a, 'is_Pow') and hasattr(a, 'exp') and hasattr(b, 'is_Pow') and hasattr(b, 'exp')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'normal')                           ║
+# ║   requires: hasattr(a, 'is_Mul')                           ║
+# ║   requires: hasattr(a, 'gcd')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_split : {Any | isinstance(a, cos) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2202,9 +2453,12 @@ def _invROOT3():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?5 ✗10 VCs | 31.2ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 84c06f18...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.trig_split","kind":"function","src_hash":"87191ed9505245e2","in":{"base":"Any","pred":"isinstance(a, cos) and isinstance(ca, sin) and isinstance(c, s.func)"},"out":{"base":"Any"},"spec":{"lhs":"trig_split(a, )","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"Any","pred":"isinstance(a, cos) and isinstance(ca, sin) and isinstance(c, s.func)"},"name":"trig_split_correct"},"guarantee":"return the gcd, s1, s2, a1, a2, bool where","fibers":[{"name":"cos","pred":"isinstance(a, cos)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"cos","pred":"isinstance(a, cos)"},"name":"trig_split_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_cos_correct","statement":"trig_split satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(ca, sin)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"sin","pred":"isinstance(ca, sin)"},"name":"trig_split_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_sin_correct","statement":"trig_split satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"s_func","pred":"isinstance(c, s.func)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"s.func","pred":"isinstance(c, s.func)"},"name":"trig_split_s.func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_s.func_correct","statement":"trig_split satisfies spec on s.func inputs"},"trust":"LIBRARY"},{"name":"sa_func","pred":"isinstance(ca, sa.func)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"sa.func","pred":"isinstance(ca, sa.func)"},"name":"trig_split_sa.func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_sa.func_correct","statement":"trig_split satisfies spec on sa.func inputs"},"trust":"LIBRARY"},{"name":"sb_func","pred":"isinstance(cb, sb.func)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"sb.func","pred":"isinstance(cb, sb.func)"},"name":"trig_split_sb.func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_sb.func_correct","statement":"trig_split satisfies spec on sb.func inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"84c06f180cf2272a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.trig_split","kind":"function","src_hash":"87191ed9505245e2","in":{"base":"Any","pred":"isinstance(a, cos) and isinstance(ca, sin) and isinstance(c, s.func) and hasattr(a, 'normal') and hasattr(a, 'is_Mul') and hasattr(a, 'gcd') and hasattr(a, 'as_coeff_Mul') and hasattr(a, 'args') and hasattr(a, 'is_Pow') and hasattr(a, 'exp') and hasattr(b, 'is_Pow') and hasattr(b, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"trig_split(a, b, two)","rhs":"<unspecified:trig_split>","over":{"base":"Any","pred":"isinstance(a, cos) and isinstance(ca, sin) and isinstance(c, s.func) and hasattr(a, 'normal') and hasattr(a, 'is_Mul') and hasattr(a, 'gcd') and hasattr(a, 'as_coeff_Mul') and hasattr(a, 'args') and hasattr(a, 'is_Pow') and hasattr(a, 'exp') and hasattr(b, 'is_Pow') and hasattr(b, 'exp')"},"name":"trig_split_correct"},"guarantee":"return the gcd, s1, s2, a1, a2, bool where","fibers":[{"name":"cos","pred":"isinstance(a, cos)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"cos","pred":"isinstance(a, cos)"},"name":"trig_split_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_cos_correct","statement":"trig_split satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(ca, sin)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"sin","pred":"isinstance(ca, sin)"},"name":"trig_split_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_sin_correct","statement":"trig_split satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"s_func","pred":"isinstance(c, s.func)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"s.func","pred":"isinstance(c, s.func)"},"name":"trig_split_s.func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_s.func_correct","statement":"trig_split satisfies spec on s.func inputs"},"trust":"LIBRARY"},{"name":"sa_func","pred":"isinstance(ca, sa.func)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"sa.func","pred":"isinstance(ca, sa.func)"},"name":"trig_split_sa.func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_sa.func_correct","statement":"trig_split satisfies spec on sa.func inputs"},"trust":"LIBRARY"},{"name":"sb_func","pred":"isinstance(cb, sb.func)","path":{"lhs":"trig_split(x)","rhs":"return the gcd, s1, s2, a1, a2, bool where","over":{"base":"sb.func","pred":"isinstance(cb, sb.func)"},"name":"trig_split_sb.func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.trig_split_sb.func_correct","statement":"trig_split satisfies spec on sb.func inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"84c06f180cf2272a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'normal')","hasattr(a, 'is_Mul')","hasattr(a, 'gcd')","hasattr(a, 'as_coeff_Mul')","hasattr(a, 'args')","hasattr(a, 'is_Pow')","hasattr(a, 'exp')","hasattr(b, 'is_Pow')","hasattr(b, 'exp')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":2,"n_assumed":5,"n_failed":10,"trust_level":"LIBRARY_ASSUMED","compile_ms":31.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(ca, sa.func) is not isinstance(cb, sb.func)', 'ca and sa or (cb and sb) or (two and (ca is None and sa is None or (cb is None and sb is None)))', 'c.args != s.args', 'isinstance(b, cos)', 'isinstance(b, sin)', 'not ca and cb or (ca and isinstance(ca, sin))', 'isinstance(a, cos)', 'c is None and s is None', 'coa / cob == _ROOT3()', 'isinstance(a, sin)', 'coa / cob == _invROOT3()', 'm is None', 'not isinstance(c, s.func)', 'len(a.args) > 2 or not two'}, fibers={'sin', 'sb_func', 'cos', 'sa_func', 's_func'})"]}}
 def trig_split(a, b, two=False):
     """Return the gcd, s1, s2, a1, a2, bool where
 
@@ -2384,16 +2638,24 @@ def trig_split(a, b, two=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_f_sign_1(e), if ``e`` is a sum that can be written as ``g*(a + s)`` where ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does not have a leading negative coefficient) over Any ║
+# ║ Path(as_f_sign_1(e), <unspecified:as_f_sign_1>) over {Any | hasattr(e, 'args') and hasattr(e, 'is_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_f_sign_1 : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   requires: hasattr(e, 'is_Add')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_f_sign_1 : {Any | hasattr(e, 'args') and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db4d1a18fc58b4db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.as_f_sign_1","kind":"function","src_hash":"9000d0e2b49c25ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_f_sign_1(e)","rhs":"if ``e`` is a sum that can be written as ``g*(a + s)`` where ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does not have a leading negative coefficient","over":{"base":"Any"},"name":"as_f_sign_1_correct"},"guarantee":"if ``e`` is a sum that can be written as ``g*(a + s)`` where ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does not have a leading negative coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.as_f_sign_1_correct","statement":"Path(as_f_sign_1(x), if ``e`` is a sum that can be written as ``g*(a + s)`` where ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does not have a leading negative coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4d1a18fc58b4db"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.as_f_sign_1","kind":"function","src_hash":"9000d0e2b49c25ee","in":{"base":"Any","pred":"hasattr(e, 'args') and hasattr(e, 'is_Add')"},"out":{"base":"Any"},"spec":{"lhs":"as_f_sign_1(e)","rhs":"<unspecified:as_f_sign_1>","over":{"base":"Any","pred":"hasattr(e, 'args') and hasattr(e, 'is_Add')"},"name":"as_f_sign_1_correct"},"guarantee":"if ``e`` is a sum that can be written as ``g*(a + s)`` where ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does not have a leading negative coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.as_f_sign_1_correct","statement":"Path(as_f_sign_1(x), if ``e`` is a sum that can be written as ``g*(a + s)`` where ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does not have a leading negative coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4d1a18fc58b4db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')","hasattr(e, 'is_Add')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.is_Add"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def as_f_sign_1(e):
     """If ``e`` is a sum that can be written as ``g*(a + s)`` where
     ``s`` is ``+/-1``, return ``g``, ``a``, and ``s`` where ``a`` does
@@ -2452,7 +2714,10 @@ def as_f_sign_1(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_osborne(e, ), replace all hyperbolic functions with trig functions using the osborne rule) over {Any | isinstance(rv, sinh) and isinstance(rv, HyperbolicFunction) and isinstance(rv, cosh)} ║
+# ║ Path(_osborne(e, d), <unspecified:_osborne>) over {Any | isinstance(rv, sinh) and isinstance(rv, HyperbolicFunction) and isinstance(rv, cosh)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _osborne : {Any | isinstance(rv, sinh) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2468,9 +2733,12 @@ def as_f_sign_1(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓22 ?7 ✗1 VCs | 11.3ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c0ed9171...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._osborne","kind":"function","src_hash":"633ca0133448b7e8","in":{"base":"Any","pred":"isinstance(rv, sinh) and isinstance(rv, HyperbolicFunction) and isinstance(rv, cosh)"},"out":{"base":"Any"},"spec":{"lhs":"_osborne(e, )","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"Any","pred":"isinstance(rv, sinh) and isinstance(rv, HyperbolicFunction) and isinstance(rv, cosh)"},"name":"_osborne_correct"},"guarantee":"replace all hyperbolic functions with trig functions using the osborne rule","fibers":[{"name":"sinh","pred":"isinstance(rv, sinh)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"sinh","pred":"isinstance(rv, sinh)"},"name":"_osborne_sinh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_sinh_correct","statement":"_osborne satisfies spec on sinh inputs"},"trust":"LIBRARY"},{"name":"HyperbolicFunction","pred":"isinstance(rv, HyperbolicFunction)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"HyperbolicFunction","pred":"isinstance(rv, HyperbolicFunction)"},"name":"_osborne_HyperbolicFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_HyperbolicFunction_correct","statement":"_osborne satisfies spec on HyperbolicFunction inputs"},"trust":"LIBRARY"},{"name":"cosh","pred":"isinstance(rv, cosh)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"cosh","pred":"isinstance(rv, cosh)"},"name":"_osborne_cosh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_cosh_correct","statement":"_osborne satisfies spec on cosh inputs"},"trust":"LIBRARY"},{"name":"tanh","pred":"isinstance(rv, tanh)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"tanh","pred":"isinstance(rv, tanh)"},"name":"_osborne_tanh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_tanh_correct","statement":"_osborne satisfies spec on tanh inputs"},"trust":"LIBRARY"},{"name":"coth","pred":"isinstance(rv, coth)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"coth","pred":"isinstance(rv, coth)"},"name":"_osborne_coth_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_coth_correct","statement":"_osborne satisfies spec on coth inputs"},"trust":"LIBRARY"},{"name":"sech","pred":"isinstance(rv, sech)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"sech","pred":"isinstance(rv, sech)"},"name":"_osborne_sech_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_sech_correct","statement":"_osborne satisfies spec on sech inputs"},"trust":"LIBRARY"},{"name":"csch","pred":"isinstance(rv, csch)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"csch","pred":"isinstance(rv, csch)"},"name":"_osborne_csch_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_csch_correct","statement":"_osborne satisfies spec on csch inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c0ed9171eab4f7e0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._osborne","kind":"function","src_hash":"633ca0133448b7e8","in":{"base":"Any","pred":"isinstance(rv, sinh) and isinstance(rv, HyperbolicFunction) and isinstance(rv, cosh)"},"out":{"base":"Any"},"spec":{"lhs":"_osborne(e, d)","rhs":"<unspecified:_osborne>","over":{"base":"Any","pred":"isinstance(rv, sinh) and isinstance(rv, HyperbolicFunction) and isinstance(rv, cosh)"},"name":"_osborne_correct"},"guarantee":"replace all hyperbolic functions with trig functions using the osborne rule","fibers":[{"name":"sinh","pred":"isinstance(rv, sinh)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"sinh","pred":"isinstance(rv, sinh)"},"name":"_osborne_sinh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_sinh_correct","statement":"_osborne satisfies spec on sinh inputs"},"trust":"LIBRARY"},{"name":"HyperbolicFunction","pred":"isinstance(rv, HyperbolicFunction)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"HyperbolicFunction","pred":"isinstance(rv, HyperbolicFunction)"},"name":"_osborne_HyperbolicFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_HyperbolicFunction_correct","statement":"_osborne satisfies spec on HyperbolicFunction inputs"},"trust":"LIBRARY"},{"name":"cosh","pred":"isinstance(rv, cosh)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"cosh","pred":"isinstance(rv, cosh)"},"name":"_osborne_cosh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_cosh_correct","statement":"_osborne satisfies spec on cosh inputs"},"trust":"LIBRARY"},{"name":"tanh","pred":"isinstance(rv, tanh)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"tanh","pred":"isinstance(rv, tanh)"},"name":"_osborne_tanh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_tanh_correct","statement":"_osborne satisfies spec on tanh inputs"},"trust":"LIBRARY"},{"name":"coth","pred":"isinstance(rv, coth)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"coth","pred":"isinstance(rv, coth)"},"name":"_osborne_coth_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_coth_correct","statement":"_osborne satisfies spec on coth inputs"},"trust":"LIBRARY"},{"name":"sech","pred":"isinstance(rv, sech)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"sech","pred":"isinstance(rv, sech)"},"name":"_osborne_sech_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_sech_correct","statement":"_osborne satisfies spec on sech inputs"},"trust":"LIBRARY"},{"name":"csch","pred":"isinstance(rv, csch)","path":{"lhs":"_osborne(x)","rhs":"replace all hyperbolic functions with trig functions using the osborne rule","over":{"base":"csch","pred":"isinstance(rv, csch)"},"name":"_osborne_csch_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osborne_csch_correct","statement":"_osborne satisfies spec on csch inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c0ed9171eab4f7e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":30,"n_verified":22,"n_assumed":7,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rv, cosh)', 'not isinstance(rv, HyperbolicFunction)', 'isinstance(rv, csch)', 'isinstance(rv, coth)', 'isinstance(rv, tanh)', 'isinstance(rv, sinh)', 'isinstance(rv, sech)'}, fibers={'tanh', 'cosh', 'sinh', 'sech', 'coth', 'csch', 'HyperbolicFunction'})"]}}
 def _osborne(e, d):
     """Replace all hyperbolic functions with trig functions using
     the Osborne rule.
@@ -2512,7 +2780,10 @@ def _osborne(e, d):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_osbornei(e, ), replace all trig functions with hyperbolic functions using the osborne rule) over {Any | isinstance(rv, sin) and isinstance(rv, TrigonometricFunction) and isinstance(rv, cos)} ║
+# ║ Path(_osbornei(e, d), <unspecified:_osbornei>) over {Any | isinstance(rv, sin) and isinstance(rv, TrigonometricFunction) and isinstance(rv, cos)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _osbornei : {Any | isinstance(rv, sin) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2528,9 +2799,12 @@ def _osborne(e, d):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓22 ?7 ✗1 VCs | 10.7ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bbb64166...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._osbornei","kind":"function","src_hash":"a5f3651c48b5e139","in":{"base":"Any","pred":"isinstance(rv, sin) and isinstance(rv, TrigonometricFunction) and isinstance(rv, cos)"},"out":{"base":"Any"},"spec":{"lhs":"_osbornei(e, )","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"Any","pred":"isinstance(rv, sin) and isinstance(rv, TrigonometricFunction) and isinstance(rv, cos)"},"name":"_osbornei_correct"},"guarantee":"replace all trig functions with hyperbolic functions using the osborne rule","fibers":[{"name":"sin","pred":"isinstance(rv, sin)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"sin","pred":"isinstance(rv, sin)"},"name":"_osbornei_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_sin_correct","statement":"_osbornei satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)"},"name":"_osbornei_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_TrigonometricFunction_correct","statement":"_osbornei satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(rv, cos)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"cos","pred":"isinstance(rv, cos)"},"name":"_osbornei_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_cos_correct","statement":"_osbornei satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"tan","pred":"isinstance(rv, tan)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"tan","pred":"isinstance(rv, tan)"},"name":"_osbornei_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_tan_correct","statement":"_osbornei satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(rv, cot)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"cot","pred":"isinstance(rv, cot)"},"name":"_osbornei_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_cot_correct","statement":"_osbornei satisfies spec on cot inputs"},"trust":"LIBRARY"},{"name":"sec","pred":"isinstance(rv, sec)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"sec","pred":"isinstance(rv, sec)"},"name":"_osbornei_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_sec_correct","statement":"_osbornei satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(rv, csc)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"csc","pred":"isinstance(rv, csc)"},"name":"_osbornei_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_csc_correct","statement":"_osbornei satisfies spec on csc inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bbb641668d9631c5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu._osbornei","kind":"function","src_hash":"a5f3651c48b5e139","in":{"base":"Any","pred":"isinstance(rv, sin) and isinstance(rv, TrigonometricFunction) and isinstance(rv, cos)"},"out":{"base":"Any"},"spec":{"lhs":"_osbornei(e, d)","rhs":"<unspecified:_osbornei>","over":{"base":"Any","pred":"isinstance(rv, sin) and isinstance(rv, TrigonometricFunction) and isinstance(rv, cos)"},"name":"_osbornei_correct"},"guarantee":"replace all trig functions with hyperbolic functions using the osborne rule","fibers":[{"name":"sin","pred":"isinstance(rv, sin)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"sin","pred":"isinstance(rv, sin)"},"name":"_osbornei_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_sin_correct","statement":"_osbornei satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"TrigonometricFunction","pred":"isinstance(rv, TrigonometricFunction)"},"name":"_osbornei_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_TrigonometricFunction_correct","statement":"_osbornei satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(rv, cos)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"cos","pred":"isinstance(rv, cos)"},"name":"_osbornei_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_cos_correct","statement":"_osbornei satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"tan","pred":"isinstance(rv, tan)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"tan","pred":"isinstance(rv, tan)"},"name":"_osbornei_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_tan_correct","statement":"_osbornei satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(rv, cot)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"cot","pred":"isinstance(rv, cot)"},"name":"_osbornei_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_cot_correct","statement":"_osbornei satisfies spec on cot inputs"},"trust":"LIBRARY"},{"name":"sec","pred":"isinstance(rv, sec)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"sec","pred":"isinstance(rv, sec)"},"name":"_osbornei_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_sec_correct","statement":"_osbornei satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(rv, csc)","path":{"lhs":"_osbornei(x)","rhs":"replace all trig functions with hyperbolic functions using the osborne rule","over":{"base":"csc","pred":"isinstance(rv, csc)"},"name":"_osbornei_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu._osbornei_csc_correct","statement":"_osbornei satisfies spec on csc inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bbb641668d9631c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":30,"n_verified":22,"n_assumed":7,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":10.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rv, cot)', 'isinstance(rv, tan)', 'isinstance(rv, sec)', 'isinstance(rv, sin)', 'not isinstance(rv, TrigonometricFunction)', 'isinstance(rv, csc)', 'isinstance(rv, cos)'}, fibers={'sin', 'csc', 'cos', 'cot', 'tan', 'TrigonometricFunction', 'sec'})"]}}
 def _osbornei(e, d):
     """Replace all trig functions with hyperbolic functions using
     the Osborne rule.
@@ -2571,16 +2845,24 @@ def _osbornei(e, d):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyper_as_trig(rv), id) over Any                       ║
+# ║ Path(hyper_as_trig(rv), id) over {Any | hasattr(rv, 'atoms') and hasattr(rv, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hyper_as_trig : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rv, 'atoms')                           ║
+# ║   requires: hasattr(rv, 'xreplace')                        ║
+# ║   returns:  (_osborne(masked, d), lambda x: collect(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hyper_as_trig : {Any | hasattr(rv, 'atoms') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6d3e8f79bcdaf029   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.hyper_as_trig","kind":"function","src_hash":"23b2679911bac06c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyper_as_trig(rv)","rhs":"return an expression containing hyperbolic functions in terms of trigonometric functions","over":{"base":"Any"},"name":"hyper_as_trig_correct","kind":"composition"},"guarantee":"return an expression containing hyperbolic functions in terms of trigonometric functions","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_osborne","by":"library_axiom"},{"fn":"collect","by":"library_axiom"},{"fn":"signsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d3e8f79bcdaf029"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.hyper_as_trig","kind":"function","src_hash":"23b2679911bac06c","in":{"base":"Any","pred":"hasattr(rv, 'atoms') and hasattr(rv, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"hyper_as_trig(rv)","rhs":"(_osborne(masked, d), lambda x: collect(signsimp(_osbornei(x, d).xreplace(dict(reps))), S.ImaginaryUnit))","over":{"base":"Any","pred":"hasattr(rv, 'atoms') and hasattr(rv, 'xreplace')"},"name":"hyper_as_trig_correct","kind":"composition"},"guarantee":"returns (_osborne(masked, d), lambda x: collect(signsimp(_osbornei(x, d).xreplace(dict(reps))), S.ImaginaryUnit))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_osborne","by":"library_axiom"},{"fn":"collect","by":"library_axiom"},{"fn":"signsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d3e8f79bcdaf029","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rv, 'atoms')","hasattr(rv, 'xreplace')"],"returns_expr":"(_osborne(masked, d), lambda x: collect(signsimp(_osbornei(x, d).xreplace(dict(reps))), S.ImaginaryUnit))","pure":false,"effects":{"effect_type":"reads_state","reads":["rv.atoms","rv.xreplace"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def hyper_as_trig(rv):
     """Return an expression containing hyperbolic functions in terms
     of trigonometric functions. Any trigonometric functions initially
@@ -2625,16 +2907,26 @@ def hyper_as_trig(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sincos_to_sum(exp), convert products and powers of sin and cos to sums) over Any ║
+# ║ Path(sincos_to_sum(expr), result == (expr if not expr.has(cos, sin) else TR8(expand_mul(TRpower(expr)))) and result == expr or result == TR8(expand_mul(TRpower(expr)))) over {Any | hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sincos_to_sum : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  result == (expr if not expr.has(cos, sin)...   ║
+# ║   ensures:  result == expr or result == TR8(expand_mu...   ║
+# ║   fiber[case_0]: not expr.has(cos, sin) => expr            ║
+# ║   fiber[case_1]: not (not expr.has(cos, sin)) => TR8(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sincos_to_sum : {Any | hasattr(expr, 'has')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16e767bf8fee8c27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1b0d80efa0ff324  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.sincos_to_sum","kind":"function","src_hash":"08538207173ccefd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sincos_to_sum(exp)","rhs":"convert products and powers of sin and cos to sums","over":{"base":"Any"},"name":"sincos_to_sum_correct"},"guarantee":"convert products and powers of sin and cos to sums","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.sincos_to_sum_correct","statement":"Path(sincos_to_sum(x), convert products and powers of sin and cos to sums)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16e767bf8fee8c27"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.fu.sincos_to_sum","kind":"function","src_hash":"08538207173ccefd","in":{"base":"Any","pred":"hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: result == (expr if not expr.has(cos, sin) else TR8(expand_mul(TRpower(expr)))) and result == expr or result == TR8(expand_mul(TRpower(expr)))"},"spec":{"lhs":"sincos_to_sum(expr)","rhs":"result == (expr if not expr.has(cos, sin) else TR8(expand_mul(TRpower(expr)))) and result == expr or result == TR8(expand_mul(TRpower(expr)))","over":{"base":"Any","pred":"hasattr(expr, 'has')"},"name":"sincos_to_sum_correct"},"guarantee":"result == (expr if not expr.has(cos, sin) else TR8(expand_mul(TRpower(expr)))); result == expr or result == TR8(expand_mul(TRpower(expr))); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.fu.sincos_to_sum_correct","statement":"Path(sincos_to_sum(x), result == (expr if not expr.has(cos, sin) else TR8(expand_mul(TRpower(expr)))); result == expr or result == TR8(expand_mul(TRpower(expr))); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1b0d80efa0ff324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')"],"ensures":["result == (expr if not expr.has(cos, sin) else TR8(expand_mul(TRpower(expr))))","result == expr or result == TR8(expand_mul(TRpower(expr)))"],"fibers":[{"name":"case_0","guard":"not expr.has(cos, sin)","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"},{"name":"case_1","guard":"not (not expr.has(cos, sin))","ensures":["result == TR8(expand_mul(TRpower(expr)))"],"decidability":"library","returns_expr":"TR8(expand_mul(TRpower(expr)))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sincos_to_sum(expr):
     """Convert products and powers of sin and cos to sums.
 

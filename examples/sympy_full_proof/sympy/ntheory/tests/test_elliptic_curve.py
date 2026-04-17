@@ -19,16 +19,24 @@ from sympy.ntheory.elliptic_curve import EllipticCurve
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_elliptic_curve(), test_elliptic_curve produces the expected output) over Any ║
+# ║ Path(test_elliptic_curve(), r.x == 1 and r.y == -3 and r.x == 35 and r.y == 207 and r.x == 37 and r.y == 225 and EllipticCurve(-1, 9).discriminant == -34928 and EllipticCurve(-2731, -55146, 1, 0, 1).discriminant == 25088 and len(EllipticCurve(0, 1).torsion_points()) == 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_elliptic_curve : Any → {Any | r.x == 1 and r.y =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r.x == 1 and r.y == -3                         ║
+# ║   ensures:  r.x == 35 and r.y == 207                       ║
+# ║   ensures:  r.x == 37 and r.y == 225                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_elliptic_curve : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b86e742d03733fe1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 337e0c43e4dfd2a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_elliptic_curve.test_elliptic_curve","kind":"function","src_hash":"d5cc4d9d80f36e9a","in":{"base":"Any"},"out":{"base":"Any","pred":"r.x == 1 and r.y == -3 and r.x == 35 and r.y == 207 and r.x == 37 and r.y == 225 and EllipticCurve(-1, 9).discriminant == -34928 and EllipticCurve(-2731, -55146, 1, 0, 1).discriminant == 25088 and len(EllipticCurve(0, 1).torsion_points()) == 6"},"spec":{"lhs":"test_elliptic_curve()","rhs":"test_elliptic_curve produces the expected output","over":{"base":"Any"},"name":"test_elliptic_curve_correct"},"guarantee":"test_elliptic_curve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_elliptic_curve.test_elliptic_curve_correct","statement":"Path(test_elliptic_curve(x), test_elliptic_curve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b86e742d03733fe1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_elliptic_curve.test_elliptic_curve","kind":"function","src_hash":"d5cc4d9d80f36e9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r.x == 1 and r.y == -3 and r.x == 35 and r.y == 207 and r.x == 37 and r.y == 225 and EllipticCurve(-1, 9).discriminant == -34928 and EllipticCurve(-2731, -55146, 1, 0, 1).discriminant == 25088 and len(EllipticCurve(0, 1).torsion_points()) == 6"},"spec":{"lhs":"test_elliptic_curve()","rhs":"r.x == 1 and r.y == -3 and r.x == 35 and r.y == 207 and r.x == 37 and r.y == 225 and EllipticCurve(-1, 9).discriminant == -34928 and EllipticCurve(-2731, -55146, 1, 0, 1).discriminant == 25088 and len(EllipticCurve(0, 1).torsion_points()) == 6","over":{"base":"Any"},"name":"test_elliptic_curve_correct"},"guarantee":"r.x == 1 and r.y == -3; r.x == 35 and r.y == 207; r.x == 37 and r.y == 225","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_elliptic_curve.test_elliptic_curve_correct","statement":"Path(test_elliptic_curve(x), r.x == 1 and r.y == -3; r.x == 35 and r.y == 207; r.x == 37 and r.y == 225)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"337e0c43e4dfd2a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r.x == 1 and r.y == -3","r.x == 35 and r.y == 207","r.x == 37 and r.y == 225","EllipticCurve(-1, 9).discriminant == -34928","EllipticCurve(-2731, -55146, 1, 0, 1).discriminant == 25088","len(EllipticCurve(0, 1).torsion_points()) == 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_elliptic_curve():
     # Point addition and multiplication
     e3 = EllipticCurve(-1, 9)

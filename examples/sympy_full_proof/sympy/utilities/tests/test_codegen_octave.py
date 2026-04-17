@@ -31,16 +31,22 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_m_code(), test_empty_m_code produces the expected output) over Any ║
+# ║ Path(test_empty_m_code(), source == '') over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_empty_m_code : Any → {Any | source == ''}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == ''                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_empty_m_code : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85efd40f354fa50d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e2670e05c4565e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_empty_m_code","kind":"function","src_hash":"309fc165161aab90","in":{"base":"Any"},"out":{"base":"Any","pred":"source == ''"},"spec":{"lhs":"test_empty_m_code()","rhs":"test_empty_m_code produces the expected output","over":{"base":"Any"},"name":"test_empty_m_code_correct"},"guarantee":"test_empty_m_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_empty_m_code_correct","statement":"Path(test_empty_m_code(x), test_empty_m_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85efd40f354fa50d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_empty_m_code","kind":"function","src_hash":"309fc165161aab90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == ''"},"spec":{"lhs":"test_empty_m_code()","rhs":"source == ''","over":{"base":"Any"},"name":"test_empty_m_code_correct"},"guarantee":"source == ''","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_empty_m_code_correct","statement":"Path(test_empty_m_code(x), source == '')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e2670e05c4565e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == ''"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_empty_m_code():
     code_gen = OctaveCodeGen()
     output = StringIO()
@@ -50,16 +56,23 @@ def test_empty_m_code():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_simple_code(), test_m_simple_code produces the expected output) over Any ║
+# ║ Path(test_m_simple_code(), result[0] == 'test.m' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_simple_code : Any → {Any | result[0] == 'test....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'test.m'                          ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_simple_code : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1992cbf1a04cf60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 176078d58446cc9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code","kind":"function","src_hash":"8cb19f95e1756602","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'test.m' and source == expected"},"spec":{"lhs":"test_m_simple_code()","rhs":"test_m_simple_code produces the expected output","over":{"base":"Any"},"name":"test_m_simple_code_correct"},"guarantee":"test_m_simple_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_correct","statement":"Path(test_m_simple_code(x), test_m_simple_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1992cbf1a04cf60"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code","kind":"function","src_hash":"8cb19f95e1756602","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'test.m' and source == expected"},"spec":{"lhs":"test_m_simple_code()","rhs":"result[0] == 'test.m' and source == expected","over":{"base":"Any"},"name":"test_m_simple_code_correct"},"guarantee":"result[0] == 'test.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_correct","statement":"Path(test_m_simple_code(x), result[0] == 'test.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"176078d58446cc9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'test.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_simple_code():
     name_expr = ("test", (x + y)*z)
     result, = codegen(name_expr, "Octave", header=False, empty=False)
@@ -74,16 +87,23 @@ def test_m_simple_code():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_simple_code_with_header(), test_m_simple_code_with_header produces the expected output) over Any ║
+# ║ Path(test_m_simple_code_with_header(), result[0] == 'test.m' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_simple_code_with_header : Any → {Any | result[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'test.m'                          ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_simple_code_with_header : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7694ff4511d4123  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5385efa1e2554e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_with_header","kind":"function","src_hash":"d9b6ebc984498038","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'test.m' and source == expected"},"spec":{"lhs":"test_m_simple_code_with_header()","rhs":"test_m_simple_code_with_header produces the expected output","over":{"base":"Any"},"name":"test_m_simple_code_with_header_correct"},"guarantee":"test_m_simple_code_with_header produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_with_header_correct","statement":"Path(test_m_simple_code_with_header(x), test_m_simple_code_with_header produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7694ff4511d4123"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_with_header","kind":"function","src_hash":"d9b6ebc984498038","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'test.m' and source == expected"},"spec":{"lhs":"test_m_simple_code_with_header()","rhs":"result[0] == 'test.m' and source == expected","over":{"base":"Any"},"name":"test_m_simple_code_with_header_correct"},"guarantee":"result[0] == 'test.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_with_header_correct","statement":"Path(test_m_simple_code_with_header(x), result[0] == 'test.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5385efa1e2554e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'test.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_simple_code_with_header():
     name_expr = ("test", (x + y)*z)
     result, = codegen(name_expr, "Octave", header=True, empty=False)
@@ -104,16 +124,22 @@ def test_m_simple_code_with_header():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_simple_code_nameout(), test_m_simple_code_nameout produces the expected output) over Any ║
+# ║ Path(test_m_simple_code_nameout(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_simple_code_nameout : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_simple_code_nameout : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a528c2ba5e5385  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edb74ca9f7ae9d22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_nameout","kind":"function","src_hash":"4be2e97fb1c5c562","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_simple_code_nameout()","rhs":"test_m_simple_code_nameout produces the expected output","over":{"base":"Any"},"name":"test_m_simple_code_nameout_correct"},"guarantee":"test_m_simple_code_nameout produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_nameout_correct","statement":"Path(test_m_simple_code_nameout(x), test_m_simple_code_nameout produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a528c2ba5e5385"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_nameout","kind":"function","src_hash":"4be2e97fb1c5c562","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_simple_code_nameout()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_simple_code_nameout_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_simple_code_nameout_correct","statement":"Path(test_m_simple_code_nameout(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb74ca9f7ae9d22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_simple_code_nameout():
     expr = Equality(z, (x + y))
     name_expr = ("test", expr)
@@ -128,16 +154,22 @@ def test_m_simple_code_nameout():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_numbersymbol(), test_m_numbersymbol produces the expected output) over Any ║
+# ║ Path(test_m_numbersymbol(), source == expected) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_numbersymbol : Any → {Any | source == expected}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_numbersymbol : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57a57f854773305e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4da83278a5a1d3c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol","kind":"function","src_hash":"c6857caa7c469633","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_numbersymbol()","rhs":"test_m_numbersymbol produces the expected output","over":{"base":"Any"},"name":"test_m_numbersymbol_correct"},"guarantee":"test_m_numbersymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol_correct","statement":"Path(test_m_numbersymbol(x), test_m_numbersymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57a57f854773305e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol","kind":"function","src_hash":"c6857caa7c469633","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_numbersymbol()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_numbersymbol_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol_correct","statement":"Path(test_m_numbersymbol(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4da83278a5a1d3c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_numbersymbol():
     name_expr = ("test", pi**Catalan)
     result, = codegen(name_expr, "Octave", header=False, empty=False)
@@ -152,16 +184,22 @@ def test_m_numbersymbol():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_numbersymbol_no_inline(), test_m_numbersymbol_no_inline produces the expected output) over Any ║
+# ║ Path(test_m_numbersymbol_no_inline(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_numbersymbol_no_inline : Any → {Any | source =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_numbersymbol_no_inline : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af31f184a68d08b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 166d0c0f0faf4ca8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol_no_inline","kind":"function","src_hash":"9e88e41922255b20","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_numbersymbol_no_inline()","rhs":"test_m_numbersymbol_no_inline produces the expected output","over":{"base":"Any"},"name":"test_m_numbersymbol_no_inline_correct"},"guarantee":"test_m_numbersymbol_no_inline produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol_no_inline_correct","statement":"Path(test_m_numbersymbol_no_inline(x), test_m_numbersymbol_no_inline produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af31f184a68d08b7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol_no_inline","kind":"function","src_hash":"9e88e41922255b20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_numbersymbol_no_inline()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_numbersymbol_no_inline_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_numbersymbol_no_inline_correct","statement":"Path(test_m_numbersymbol_no_inline(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"166d0c0f0faf4ca8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_numbersymbol_no_inline():
     # FIXME: how to pass inline=False to the OctaveCodePrinter?
     name_expr = ("test", [pi**Catalan, EulerGamma])
@@ -180,16 +218,22 @@ def test_m_numbersymbol_no_inline():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_code_argument_order(), test_m_code_argument_order produces the expected output) over Any ║
+# ║ Path(test_m_code_argument_order(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_code_argument_order : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_code_argument_order : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68dd5631d3cd4374  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c90bdd91fdcb077b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_code_argument_order","kind":"function","src_hash":"b95e32cf7463287f","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_code_argument_order()","rhs":"test_m_code_argument_order produces the expected output","over":{"base":"Any"},"name":"test_m_code_argument_order_correct"},"guarantee":"test_m_code_argument_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_code_argument_order_correct","statement":"Path(test_m_code_argument_order(x), test_m_code_argument_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68dd5631d3cd4374"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_code_argument_order","kind":"function","src_hash":"b95e32cf7463287f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_code_argument_order()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_code_argument_order_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_code_argument_order_correct","statement":"Path(test_m_code_argument_order(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c90bdd91fdcb077b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_code_argument_order():
     expr = x + y
     routine = make_routine("test", expr, argument_sequence=[z, x, y], language="octave")
@@ -206,16 +250,22 @@ def test_m_code_argument_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_results_m(), test_multiple_results_m produces the expected output) over Any ║
+# ║ Path(test_multiple_results_m(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_results_m : Any → {Any | source == expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_results_m : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b05059036c9e4eab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee30120cddcd20db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_multiple_results_m","kind":"function","src_hash":"14381398467dbf6a","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_multiple_results_m()","rhs":"test_multiple_results_m produces the expected output","over":{"base":"Any"},"name":"test_multiple_results_m_correct"},"guarantee":"test_multiple_results_m produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_multiple_results_m_correct","statement":"Path(test_multiple_results_m(x), test_multiple_results_m produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b05059036c9e4eab"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_multiple_results_m","kind":"function","src_hash":"14381398467dbf6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_multiple_results_m()","rhs":"source == expected","over":{"base":"Any"},"name":"test_multiple_results_m_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_multiple_results_m_correct","statement":"Path(test_multiple_results_m(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee30120cddcd20db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiple_results_m():
     # Here the output order is the input order
     expr1 = (x + y)*z
@@ -233,16 +283,22 @@ def test_multiple_results_m():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_results_named_unordered(), test_results_named_unordered produces the expected output) over Any ║
+# ║ Path(test_results_named_unordered(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_results_named_unordered : Any → {Any | source ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_results_named_unordered : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b6d3b987fdded4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1fe4fe15214be65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_results_named_unordered","kind":"function","src_hash":"1211bc9c657c0edb","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_results_named_unordered()","rhs":"test_results_named_unordered produces the expected output","over":{"base":"Any"},"name":"test_results_named_unordered_correct"},"guarantee":"test_results_named_unordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_results_named_unordered_correct","statement":"Path(test_results_named_unordered(x), test_results_named_unordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b6d3b987fdded4f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_results_named_unordered","kind":"function","src_hash":"1211bc9c657c0edb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_results_named_unordered()","rhs":"source == expected","over":{"base":"Any"},"name":"test_results_named_unordered_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_results_named_unordered_correct","statement":"Path(test_results_named_unordered(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1fe4fe15214be65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_results_named_unordered():
     # Here output order is based on name_expr
     A, B, C = symbols('A,B,C')
@@ -263,16 +319,23 @@ def test_results_named_unordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_results_named_ordered(), test_results_named_ordered produces the expected output) over Any ║
+# ║ Path(test_results_named_ordered(), result[0][0] == 'test.m' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_results_named_ordered : Any → {Any | result[0][0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'test.m'                       ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_results_named_ordered : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2015650ad639a901  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3b9d1a85f3cd29a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_results_named_ordered","kind":"function","src_hash":"c55847e1814891d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'test.m' and source == expected"},"spec":{"lhs":"test_results_named_ordered()","rhs":"test_results_named_ordered produces the expected output","over":{"base":"Any"},"name":"test_results_named_ordered_correct"},"guarantee":"test_results_named_ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_results_named_ordered_correct","statement":"Path(test_results_named_ordered(x), test_results_named_ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2015650ad639a901"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_results_named_ordered","kind":"function","src_hash":"c55847e1814891d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'test.m' and source == expected"},"spec":{"lhs":"test_results_named_ordered()","rhs":"result[0][0] == 'test.m' and source == expected","over":{"base":"Any"},"name":"test_results_named_ordered_correct"},"guarantee":"result[0][0] == 'test.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_results_named_ordered_correct","statement":"Path(test_results_named_ordered(x), result[0][0] == 'test.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b9d1a85f3cd29a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'test.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_results_named_ordered():
     A, B, C = symbols('A,B,C')
     expr1 = Equality(C, (x + y)*z)
@@ -294,16 +357,23 @@ def test_results_named_ordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complicated_m_codegen(), test_complicated_m_codegen produces the expected output) over Any ║
+# ║ Path(test_complicated_m_codegen(), result[0][0] == 'testlong.m' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complicated_m_codegen : Any → {Any | result[0][0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'testlong.m'                   ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complicated_m_codegen : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0ae6ce5394190a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fbfe7a0ca77c380  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_complicated_m_codegen","kind":"function","src_hash":"5f23ea66bfe6ab3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'testlong.m' and source == expected"},"spec":{"lhs":"test_complicated_m_codegen()","rhs":"test_complicated_m_codegen produces the expected output","over":{"base":"Any"},"name":"test_complicated_m_codegen_correct"},"guarantee":"test_complicated_m_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_complicated_m_codegen_correct","statement":"Path(test_complicated_m_codegen(x), test_complicated_m_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0ae6ce5394190a4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_complicated_m_codegen","kind":"function","src_hash":"5f23ea66bfe6ab3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'testlong.m' and source == expected"},"spec":{"lhs":"test_complicated_m_codegen()","rhs":"result[0][0] == 'testlong.m' and source == expected","over":{"base":"Any"},"name":"test_complicated_m_codegen_correct"},"guarantee":"result[0][0] == 'testlong.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_complicated_m_codegen_correct","statement":"Path(test_complicated_m_codegen(x), result[0][0] == 'testlong.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fbfe7a0ca77c380","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'testlong.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_complicated_m_codegen():
     from sympy.functions.elementary.trigonometric import (cos, sin, tan)
     name_expr = ("testlong",
@@ -325,16 +395,23 @@ def test_complicated_m_codegen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_output_arg_mixed_unordered(), test_m_output_arg_mixed_unordered produces the expected output) over Any ║
+# ║ Path(test_m_output_arg_mixed_unordered(), result[0] == 'foo.m' and source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'foo.m'                           ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_m_output_arg_mixed_unordered : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d783d18ed6d2226  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c68fc0f35e35c8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_output_arg_mixed_unordered","kind":"function","src_hash":"768d68d85a1cbb22","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'foo.m' and source == expected"},"spec":{"lhs":"test_m_output_arg_mixed_unordered()","rhs":"test_m_output_arg_mixed_unordered produces the expected output","over":{"base":"Any"},"name":"test_m_output_arg_mixed_unordered_correct"},"guarantee":"test_m_output_arg_mixed_unordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_output_arg_mixed_unordered_correct","statement":"Path(test_m_output_arg_mixed_unordered(x), test_m_output_arg_mixed_unordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d783d18ed6d2226"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_output_arg_mixed_unordered","kind":"function","src_hash":"768d68d85a1cbb22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'foo.m' and source == expected"},"spec":{"lhs":"test_m_output_arg_mixed_unordered()","rhs":"result[0] == 'foo.m' and source == expected","over":{"base":"Any"},"name":"test_m_output_arg_mixed_unordered_correct"},"guarantee":"result[0] == 'foo.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_output_arg_mixed_unordered_correct","statement":"Path(test_m_output_arg_mixed_unordered(x), result[0] == 'foo.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c68fc0f35e35c8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'foo.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_output_arg_mixed_unordered():
     # named outputs are alphabetical, unnamed output appear in the given order
     from sympy.functions.elementary.trigonometric import (cos, sin)
@@ -355,16 +432,22 @@ def test_m_output_arg_mixed_unordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_piecewise_(), test_m_piecewise_ produces the expected output) over Any ║
+# ║ Path(test_m_piecewise_(), source == expected) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_piecewise_ : Any → {Any | source == expected}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_piecewise_ : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8a85ae97874a494  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75c08b8e739e5fe4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise_","kind":"function","src_hash":"33f8c68272352712","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_piecewise_()","rhs":"test_m_piecewise_ produces the expected output","over":{"base":"Any"},"name":"test_m_piecewise__correct"},"guarantee":"test_m_piecewise_ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise__correct","statement":"Path(test_m_piecewise_(x), test_m_piecewise_ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a85ae97874a494"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise_","kind":"function","src_hash":"33f8c68272352712","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_piecewise_()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_piecewise__correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise__correct","statement":"Path(test_m_piecewise_(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75c08b8e739e5fe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_piecewise_():
     pw = Piecewise((0, x < -1), (x**2, x <= 1), (-x+2, x > 1), (1, True), evaluate=False)
     name_expr = ("pwtest", pw)
@@ -382,16 +465,22 @@ def test_m_piecewise_():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_piecewise_no_inline(), test_m_piecewise_no_inline produces the expected output) over Any ║
+# ║ Path(test_m_piecewise_no_inline(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_piecewise_no_inline : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_piecewise_no_inline : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ad87cae36365a52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5f717cc5d8c893c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise_no_inline","kind":"function","src_hash":"b8d2d2c7258183b6","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_piecewise_no_inline()","rhs":"test_m_piecewise_no_inline produces the expected output","over":{"base":"Any"},"name":"test_m_piecewise_no_inline_correct"},"guarantee":"test_m_piecewise_no_inline produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise_no_inline_correct","statement":"Path(test_m_piecewise_no_inline(x), test_m_piecewise_no_inline produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad87cae36365a52"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise_no_inline","kind":"function","src_hash":"b8d2d2c7258183b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_piecewise_no_inline()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_piecewise_no_inline_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_piecewise_no_inline_correct","statement":"Path(test_m_piecewise_no_inline(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5f717cc5d8c893c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_piecewise_no_inline():
     # FIXME: how to pass inline=False to the OctaveCodePrinter?
     pw = Piecewise((0, x < -1), (x**2, x <= 1), (-x+2, x > 1), (1, True))
@@ -416,16 +505,23 @@ def test_m_piecewise_no_inline():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_multifcns_per_file(), test_m_multifcns_per_file produces the expected output) over Any ║
+# ║ Path(test_m_multifcns_per_file(), result[0][0] == 'foo.m' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_multifcns_per_file : Any → {Any | result[0][0]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'foo.m'                        ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_multifcns_per_file : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13b173525693f556  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8af93dda401a0f85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file","kind":"function","src_hash":"0c6c8f612ec071ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'foo.m' and source == expected"},"spec":{"lhs":"test_m_multifcns_per_file()","rhs":"test_m_multifcns_per_file produces the expected output","over":{"base":"Any"},"name":"test_m_multifcns_per_file_correct"},"guarantee":"test_m_multifcns_per_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file_correct","statement":"Path(test_m_multifcns_per_file(x), test_m_multifcns_per_file produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13b173525693f556"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file","kind":"function","src_hash":"0c6c8f612ec071ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'foo.m' and source == expected"},"spec":{"lhs":"test_m_multifcns_per_file()","rhs":"result[0][0] == 'foo.m' and source == expected","over":{"base":"Any"},"name":"test_m_multifcns_per_file_correct"},"guarantee":"result[0][0] == 'foo.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file_correct","statement":"Path(test_m_multifcns_per_file(x), result[0][0] == 'foo.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8af93dda401a0f85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'foo.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_multifcns_per_file():
     name_expr = [ ("foo", [2*x, 3*y]), ("bar", [y**2, 4*y]) ]
     result = codegen(name_expr, "Octave", header=False, empty=False)
@@ -445,16 +541,23 @@ def test_m_multifcns_per_file():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_multifcns_per_file_w_header(), test_m_multifcns_per_file_w_header produces the expected output) over Any ║
+# ║ Path(test_m_multifcns_per_file_w_header(), result[0][0] == 'foo.m' and source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'foo.m'                        ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_m_multifcns_per_file_w_header : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f85b62c5ed6bd5d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3f2dc93fe820075  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file_w_header","kind":"function","src_hash":"dfdd8100283cea8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'foo.m' and source == expected"},"spec":{"lhs":"test_m_multifcns_per_file_w_header()","rhs":"test_m_multifcns_per_file_w_header produces the expected output","over":{"base":"Any"},"name":"test_m_multifcns_per_file_w_header_correct"},"guarantee":"test_m_multifcns_per_file_w_header produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file_w_header_correct","statement":"Path(test_m_multifcns_per_file_w_header(x), test_m_multifcns_per_file_w_header produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f85b62c5ed6bd5d7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file_w_header","kind":"function","src_hash":"dfdd8100283cea8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'foo.m' and source == expected"},"spec":{"lhs":"test_m_multifcns_per_file_w_header()","rhs":"result[0][0] == 'foo.m' and source == expected","over":{"base":"Any"},"name":"test_m_multifcns_per_file_w_header_correct"},"guarantee":"result[0][0] == 'foo.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_multifcns_per_file_w_header_correct","statement":"Path(test_m_multifcns_per_file_w_header(x), result[0][0] == 'foo.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3f2dc93fe820075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'foo.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_multifcns_per_file_w_header():
     name_expr = [ ("foo", [2*x, 3*y]), ("bar", [y**2, 4*y]) ]
     result = codegen(name_expr, "Octave", header=True, empty=False)
@@ -480,16 +583,22 @@ def test_m_multifcns_per_file_w_header():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_filename_match_first_fcn(), test_m_filename_match_first_fcn produces the expected output) over Any ║
+# ║ Path(test_m_filename_match_first_fcn(), <unspecified:test_m_filename_match_first_fcn>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_m_filename_match_first_fcn : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6caae298e5339ae0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_filename_match_first_fcn","kind":"function","src_hash":"9fcb743fbd89484e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_m_filename_match_first_fcn()","rhs":"test_m_filename_match_first_fcn produces the expected output","over":{"base":"Any"},"name":"test_m_filename_match_first_fcn_correct"},"guarantee":"test_m_filename_match_first_fcn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_filename_match_first_fcn_correct","statement":"Path(test_m_filename_match_first_fcn(x), test_m_filename_match_first_fcn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6caae298e5339ae0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_filename_match_first_fcn","kind":"function","src_hash":"9fcb743fbd89484e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_m_filename_match_first_fcn()","rhs":"<unspecified:test_m_filename_match_first_fcn>","over":{"base":"Any"},"name":"test_m_filename_match_first_fcn_correct"},"guarantee":"test_m_filename_match_first_fcn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_filename_match_first_fcn_correct","statement":"Path(test_m_filename_match_first_fcn(x), test_m_filename_match_first_fcn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6caae298e5339ae0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_filename_match_first_fcn():
     name_expr = [ ("foo", [2*x, 3*y]), ("bar", [y**2, 4*y]) ]
     raises(ValueError, lambda: codegen(name_expr,
@@ -497,16 +606,23 @@ def test_m_filename_match_first_fcn():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrix_named(), test_m_matrix_named produces the expected output) over Any ║
+# ║ Path(test_m_matrix_named(), result[0][0] == 'test.m' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrix_named : Any → {Any | result[0][0] == 't...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'test.m'                       ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrix_named : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 823be1eb841f6287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31b40f1feacb3b64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named","kind":"function","src_hash":"6dc56af3ccde9da8","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'test.m' and source == expected"},"spec":{"lhs":"test_m_matrix_named()","rhs":"test_m_matrix_named produces the expected output","over":{"base":"Any"},"name":"test_m_matrix_named_correct"},"guarantee":"test_m_matrix_named produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named_correct","statement":"Path(test_m_matrix_named(x), test_m_matrix_named produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"823be1eb841f6287"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named","kind":"function","src_hash":"6dc56af3ccde9da8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'test.m' and source == expected"},"spec":{"lhs":"test_m_matrix_named()","rhs":"result[0][0] == 'test.m' and source == expected","over":{"base":"Any"},"name":"test_m_matrix_named_correct"},"guarantee":"result[0][0] == 'test.m'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named_correct","statement":"Path(test_m_matrix_named(x), result[0][0] == 'test.m'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31b40f1feacb3b64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'test.m'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrix_named():
     e2 = Matrix([[x, 2*y, pi*z]])
     name_expr = ("test", Equality(MatrixSymbol('myout1', 1, 3), e2))
@@ -522,16 +638,22 @@ def test_m_matrix_named():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrix_named_matsym(), test_m_matrix_named_matsym produces the expected output) over Any ║
+# ║ Path(test_m_matrix_named_matsym(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrix_named_matsym : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrix_named_matsym : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbf2a96e11370b53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf246de8858dd236  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named_matsym","kind":"function","src_hash":"e6f6ce387999b388","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrix_named_matsym()","rhs":"test_m_matrix_named_matsym produces the expected output","over":{"base":"Any"},"name":"test_m_matrix_named_matsym_correct"},"guarantee":"test_m_matrix_named_matsym produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named_matsym_correct","statement":"Path(test_m_matrix_named_matsym(x), test_m_matrix_named_matsym produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbf2a96e11370b53"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named_matsym","kind":"function","src_hash":"e6f6ce387999b388","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrix_named_matsym()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrix_named_matsym_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_named_matsym_correct","statement":"Path(test_m_matrix_named_matsym(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf246de8858dd236","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrix_named_matsym():
     myout1 = MatrixSymbol('myout1', 1, 3)
     e2 = Matrix([[x, 2*y, pi*z]])
@@ -547,16 +669,22 @@ def test_m_matrix_named_matsym():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrix_output_autoname(), test_m_matrix_output_autoname produces the expected output) over Any ║
+# ║ Path(test_m_matrix_output_autoname(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrix_output_autoname : Any → {Any | source =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrix_output_autoname : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 668b1346e7632623  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 983cf1baa39da605  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname","kind":"function","src_hash":"118917e506bdeeac","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrix_output_autoname()","rhs":"test_m_matrix_output_autoname produces the expected output","over":{"base":"Any"},"name":"test_m_matrix_output_autoname_correct"},"guarantee":"test_m_matrix_output_autoname produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname_correct","statement":"Path(test_m_matrix_output_autoname(x), test_m_matrix_output_autoname produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"668b1346e7632623"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname","kind":"function","src_hash":"118917e506bdeeac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrix_output_autoname()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrix_output_autoname_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname_correct","statement":"Path(test_m_matrix_output_autoname(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"983cf1baa39da605","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrix_output_autoname():
     expr = Matrix([[x, x+y, 3]])
     name_expr = ("test", expr)
@@ -571,16 +699,22 @@ def test_m_matrix_output_autoname():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrix_output_autoname_2(), test_m_matrix_output_autoname_2 produces the expected output) over Any ║
+# ║ Path(test_m_matrix_output_autoname_2(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrix_output_autoname_2 : Any → {Any | source...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrix_output_autoname_2 : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff33e1ab41659128  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eb78216779cca44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname_2","kind":"function","src_hash":"6666fb16e0de2d97","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrix_output_autoname_2()","rhs":"test_m_matrix_output_autoname_2 produces the expected output","over":{"base":"Any"},"name":"test_m_matrix_output_autoname_2_correct"},"guarantee":"test_m_matrix_output_autoname_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname_2_correct","statement":"Path(test_m_matrix_output_autoname_2(x), test_m_matrix_output_autoname_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff33e1ab41659128"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname_2","kind":"function","src_hash":"6666fb16e0de2d97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrix_output_autoname_2()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrix_output_autoname_2_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrix_output_autoname_2_correct","statement":"Path(test_m_matrix_output_autoname_2(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eb78216779cca44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrix_output_autoname_2():
     e1 = (x + y)
     e2 = Matrix([[2*x, 2*y, 2*z]])
@@ -601,16 +735,22 @@ def test_m_matrix_output_autoname_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_results_matrix_named_ordered(), test_m_results_matrix_named_ordered produces the expected output) over Any ║
+# ║ Path(test_m_results_matrix_named_ordered(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_results_matrix_named_ordered : Any → {Any | so...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_results_matrix_named_ordered : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61ae76aa15c00ab0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b22dbef63f622b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_results_matrix_named_ordered","kind":"function","src_hash":"ecb3aa327958d6b3","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_results_matrix_named_ordered()","rhs":"test_m_results_matrix_named_ordered produces the expected output","over":{"base":"Any"},"name":"test_m_results_matrix_named_ordered_correct"},"guarantee":"test_m_results_matrix_named_ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_results_matrix_named_ordered_correct","statement":"Path(test_m_results_matrix_named_ordered(x), test_m_results_matrix_named_ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61ae76aa15c00ab0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_results_matrix_named_ordered","kind":"function","src_hash":"ecb3aa327958d6b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_results_matrix_named_ordered()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_results_matrix_named_ordered_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_results_matrix_named_ordered_correct","statement":"Path(test_m_results_matrix_named_ordered(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b22dbef63f622b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_m_results_matrix_named_ordered():
     B, C = symbols('B,C')
     A = MatrixSymbol('A', 1, 3)
@@ -632,16 +772,22 @@ def test_m_results_matrix_named_ordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrixsymbol_slice(), test_m_matrixsymbol_slice produces the expected output) over Any ║
+# ║ Path(test_m_matrixsymbol_slice(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrixsymbol_slice : Any → {Any | source == ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrixsymbol_slice : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a07f958ef99ad434  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e57929f873af64c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice","kind":"function","src_hash":"daa1bde86ccc5769","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice()","rhs":"test_m_matrixsymbol_slice produces the expected output","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice_correct"},"guarantee":"test_m_matrixsymbol_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice_correct","statement":"Path(test_m_matrixsymbol_slice(x), test_m_matrixsymbol_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a07f958ef99ad434"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice","kind":"function","src_hash":"daa1bde86ccc5769","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice_correct","statement":"Path(test_m_matrixsymbol_slice(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e57929f873af64c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrixsymbol_slice():
     A = MatrixSymbol('A', 2, 3)
     B = MatrixSymbol('B', 1, 3)
@@ -663,16 +809,22 @@ def test_m_matrixsymbol_slice():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrixsymbol_slice2(), test_m_matrixsymbol_slice2 produces the expected output) over Any ║
+# ║ Path(test_m_matrixsymbol_slice2(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrixsymbol_slice2 : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrixsymbol_slice2 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f129d5587262a60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7a02a490dc3cc4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice2","kind":"function","src_hash":"07d97567145eb0ba","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice2()","rhs":"test_m_matrixsymbol_slice2 produces the expected output","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice2_correct"},"guarantee":"test_m_matrixsymbol_slice2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice2_correct","statement":"Path(test_m_matrixsymbol_slice2(x), test_m_matrixsymbol_slice2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f129d5587262a60"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice2","kind":"function","src_hash":"07d97567145eb0ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice2()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice2_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice2_correct","statement":"Path(test_m_matrixsymbol_slice2(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7a02a490dc3cc4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrixsymbol_slice2():
     A = MatrixSymbol('A', 3, 4)
     B = MatrixSymbol('B', 2, 2)
@@ -691,16 +843,22 @@ def test_m_matrixsymbol_slice2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrixsymbol_slice3(), test_m_matrixsymbol_slice3 produces the expected output) over Any ║
+# ║ Path(test_m_matrixsymbol_slice3(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrixsymbol_slice3 : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrixsymbol_slice3 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23dd6e702dc10f07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b8e798484255e1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice3","kind":"function","src_hash":"b5877ae2a47b83e1","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice3()","rhs":"test_m_matrixsymbol_slice3 produces the expected output","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice3_correct"},"guarantee":"test_m_matrixsymbol_slice3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice3_correct","statement":"Path(test_m_matrixsymbol_slice3(x), test_m_matrixsymbol_slice3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23dd6e702dc10f07"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice3","kind":"function","src_hash":"b5877ae2a47b83e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice3()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice3_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice3_correct","statement":"Path(test_m_matrixsymbol_slice3(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8e798484255e1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrixsymbol_slice3():
     A = MatrixSymbol('A', 8, 7)
     B = MatrixSymbol('B', 2, 2)
@@ -719,16 +877,22 @@ def test_m_matrixsymbol_slice3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_matrixsymbol_slice_autoname(), test_m_matrixsymbol_slice_autoname produces the expected output) over Any ║
+# ║ Path(test_m_matrixsymbol_slice_autoname(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_matrixsymbol_slice_autoname : Any → {Any | sou...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_matrixsymbol_slice_autoname : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7633a9ca4195b857  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f4698dc08c831b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice_autoname","kind":"function","src_hash":"89fca4946e5825cf","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice_autoname()","rhs":"test_m_matrixsymbol_slice_autoname produces the expected output","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice_autoname_correct"},"guarantee":"test_m_matrixsymbol_slice_autoname produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice_autoname_correct","statement":"Path(test_m_matrixsymbol_slice_autoname(x), test_m_matrixsymbol_slice_autoname produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7633a9ca4195b857"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice_autoname","kind":"function","src_hash":"89fca4946e5825cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_matrixsymbol_slice_autoname()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_matrixsymbol_slice_autoname_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_matrixsymbol_slice_autoname_correct","statement":"Path(test_m_matrixsymbol_slice_autoname(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f4698dc08c831b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_matrixsymbol_slice_autoname():
     A = MatrixSymbol('A', 2, 3)
     B = MatrixSymbol('B', 1, 3)
@@ -747,16 +911,22 @@ def test_m_matrixsymbol_slice_autoname():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_loops(), test_m_loops produces the expected output) over Any ║
+# ║ Path(test_m_loops(), source == expected % {'rhs': 'A(%s, %s).*x(j)' % (i, j)} or source == expected % {'rhs': 'x(j).*A(%s, %s)' % (i, j)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_loops : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected % {'rhs': 'A(%s, %s).*...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_loops : Any → {Any | result satisfies: source ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ac7e35d8f346149  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d9e9a84f2e2f075  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_loops","kind":"function","src_hash":"f4543e9aeea2ebf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_m_loops()","rhs":"test_m_loops produces the expected output","over":{"base":"Any"},"name":"test_m_loops_correct"},"guarantee":"test_m_loops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_loops_correct","statement":"Path(test_m_loops(x), test_m_loops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ac7e35d8f346149"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_loops","kind":"function","src_hash":"f4543e9aeea2ebf0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected % {'rhs': 'A(%s, %s).*x(j)' % (i, j)} or source == expected % {'rhs': 'x(j).*A(%s, %s)' % (i, j)}"},"spec":{"lhs":"test_m_loops()","rhs":"source == expected % {'rhs': 'A(%s, %s).*x(j)' % (i, j)} or source == expected % {'rhs': 'x(j).*A(%s, %s)' % (i, j)}","over":{"base":"Any"},"name":"test_m_loops_correct"},"guarantee":"source == expected % {'rhs': 'A(%s, %s).*x(j)' % (i, j)} or source == expected % {'rhs': 'x(j).*A(%s, %s)' % (i, j)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_loops_correct","statement":"Path(test_m_loops(x), source == expected % {'rhs': 'A(%s, %s).*x(j)' % (i, j)} or source == expected % {'rhs': 'x(j).*A(%s, %s)' % (i, j)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d9e9a84f2e2f075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected % {'rhs': 'A(%s, %s).*x(j)' % (i, j)} or source == expected % {'rhs': 'x(j).*A(%s, %s)' % (i, j)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_m_loops():
     # Note: an Octave programmer would probably vectorize this across one or
     # more dimensions.  Also, size(A) would be used rather than passing in m
@@ -790,16 +960,22 @@ def test_m_loops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_tensor_loops_multiple_contractions(), test_m_tensor_loops_multiple_contractions produces the expected output) over Any ║
+# ║ Path(test_m_tensor_loops_multiple_contractions(), source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_m_tensor_loops_multiple_contractions : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83cb30ed9b200b8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ca2105ded120b6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_tensor_loops_multiple_contractions","kind":"function","src_hash":"db94df24ae3e2a80","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_tensor_loops_multiple_contractions()","rhs":"test_m_tensor_loops_multiple_contractions produces the expected output","over":{"base":"Any"},"name":"test_m_tensor_loops_multiple_contractions_correct"},"guarantee":"test_m_tensor_loops_multiple_contractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_tensor_loops_multiple_contractions_correct","statement":"Path(test_m_tensor_loops_multiple_contractions(x), test_m_tensor_loops_multiple_contractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83cb30ed9b200b8c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_tensor_loops_multiple_contractions","kind":"function","src_hash":"db94df24ae3e2a80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_tensor_loops_multiple_contractions()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_tensor_loops_multiple_contractions_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_tensor_loops_multiple_contractions_correct","statement":"Path(test_m_tensor_loops_multiple_contractions(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ca2105ded120b6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_m_tensor_loops_multiple_contractions():
     # see comments in previous test about vectorizing
     from sympy.tensor import IndexedBase, Idx
@@ -835,16 +1011,22 @@ def test_m_tensor_loops_multiple_contractions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_InOutArgument(), test_m_InOutArgument produces the expected output) over Any ║
+# ║ Path(test_m_InOutArgument(), source == expected) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_InOutArgument : Any → {Any | source == expected}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_InOutArgument : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f57bff4ca73d9a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7c6573b2ff300fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument","kind":"function","src_hash":"8e4e4f482875e5de","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_InOutArgument()","rhs":"test_m_InOutArgument produces the expected output","over":{"base":"Any"},"name":"test_m_InOutArgument_correct"},"guarantee":"test_m_InOutArgument produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument_correct","statement":"Path(test_m_InOutArgument(x), test_m_InOutArgument produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f57bff4ca73d9a6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument","kind":"function","src_hash":"8e4e4f482875e5de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_InOutArgument()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_InOutArgument_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument_correct","statement":"Path(test_m_InOutArgument(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c6573b2ff300fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_InOutArgument():
     expr = Equality(x, x**2)
     name_expr = ("mysqr", expr)
@@ -859,16 +1041,22 @@ def test_m_InOutArgument():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_InOutArgument_order(), test_m_InOutArgument_order produces the expected output) over Any ║
+# ║ Path(test_m_InOutArgument_order(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_InOutArgument_order : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_InOutArgument_order : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84c4b8d72a3a9f50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1380d2f665b73d1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument_order","kind":"function","src_hash":"f26b8032d9842823","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected and source == expected"},"spec":{"lhs":"test_m_InOutArgument_order()","rhs":"test_m_InOutArgument_order produces the expected output","over":{"base":"Any"},"name":"test_m_InOutArgument_order_correct"},"guarantee":"test_m_InOutArgument_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument_order_correct","statement":"Path(test_m_InOutArgument_order(x), test_m_InOutArgument_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84c4b8d72a3a9f50"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument_order","kind":"function","src_hash":"f26b8032d9842823","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_InOutArgument_order()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_InOutArgument_order_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_InOutArgument_order_correct","statement":"Path(test_m_InOutArgument_order(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1380d2f665b73d1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_InOutArgument_order():
     # can specify the order as (x, y)
     expr = Equality(x, x**2 + y)
@@ -896,16 +1084,22 @@ def test_m_InOutArgument_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_m_not_supported(), test_m_not_supported produces the expected output) over Any ║
+# ║ Path(test_m_not_supported(), source == expected) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_m_not_supported : Any → {Any | source == expected}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_m_not_supported : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82d121a8abedccff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 939f06307211418f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_not_supported","kind":"function","src_hash":"64b20f38ae6c415a","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_m_not_supported()","rhs":"test_m_not_supported produces the expected output","over":{"base":"Any"},"name":"test_m_not_supported_correct"},"guarantee":"test_m_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_not_supported_correct","statement":"Path(test_m_not_supported(x), test_m_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82d121a8abedccff"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_m_not_supported","kind":"function","src_hash":"64b20f38ae6c415a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_m_not_supported()","rhs":"source == expected","over":{"base":"Any"},"name":"test_m_not_supported_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_m_not_supported_correct","statement":"Path(test_m_not_supported(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"939f06307211418f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_m_not_supported():
     f = Function('f')
     name_expr = ("test", [f(x).diff(x), S.ComplexInfinity])
@@ -923,16 +1117,22 @@ def test_m_not_supported():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_global_vars_octave(), test_global_vars_octave produces the expected output) over Any ║
+# ║ Path(test_global_vars_octave(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_global_vars_octave : Any → {Any | source == expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_global_vars_octave : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfbedc8e636ebcae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33e5f41637f4c4e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_global_vars_octave","kind":"function","src_hash":"3afacfb168e82bed","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected and source == expected"},"spec":{"lhs":"test_global_vars_octave()","rhs":"test_global_vars_octave produces the expected output","over":{"base":"Any"},"name":"test_global_vars_octave_correct"},"guarantee":"test_global_vars_octave produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_global_vars_octave_correct","statement":"Path(test_global_vars_octave(x), test_global_vars_octave produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfbedc8e636ebcae"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_octave.test_global_vars_octave","kind":"function","src_hash":"3afacfb168e82bed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_global_vars_octave()","rhs":"source == expected","over":{"base":"Any"},"name":"test_global_vars_octave_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_octave.test_global_vars_octave_correct","statement":"Path(test_global_vars_octave(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33e5f41637f4c4e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_global_vars_octave():
     x, y, z, t = symbols("x y z t")
     result = codegen(('f', x*y), "Octave", header=False, empty=False,

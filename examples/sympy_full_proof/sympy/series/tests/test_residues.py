@@ -30,16 +30,24 @@ from sympy.abc import x, z, a, s, k
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic1(), test_basic1 produces the expected output) over Any ║
+# ║ Path(test_basic1(), residue(1 / x, x, 0) == 1 and residue(-2 / x, x, 0) == -2 and residue(81 / x, x, 0) == 81 and residue(1 / x ** 2, x, 0) == 0 and residue(0, x, 0) == 0 and residue(5, x, 0) == 0 and residue(x, x, 0) == 0 and residue(x ** 2, x, 0) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic1 : Any → {Any | residue(1 / x, x, 0) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(1 / x, x, 0) == 1                      ║
+# ║   ensures:  residue(-2 / x, x, 0) == -2                    ║
+# ║   ensures:  residue(81 / x, x, 0) == 81                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic1 : Any → {Any | result satisfies: residue(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70146a8e0083ed31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 891a31aa4265b799  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_basic1","kind":"function","src_hash":"731b5672d68d8a7e","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(1 / x, x, 0) == 1 and residue(-2 / x, x, 0) == -2 and residue(81 / x, x, 0) == 81 and residue(1 / x ** 2, x, 0) == 0 and residue(0, x, 0) == 0 and residue(5, x, 0) == 0 and residue(x, x, 0) == 0 and residue(x ** 2, x, 0) == 0"},"spec":{"lhs":"test_basic1()","rhs":"test_basic1 produces the expected output","over":{"base":"Any"},"name":"test_basic1_correct"},"guarantee":"test_basic1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_basic1_correct","statement":"Path(test_basic1(x), test_basic1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70146a8e0083ed31"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_basic1","kind":"function","src_hash":"731b5672d68d8a7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(1 / x, x, 0) == 1 and residue(-2 / x, x, 0) == -2 and residue(81 / x, x, 0) == 81 and residue(1 / x ** 2, x, 0) == 0 and residue(0, x, 0) == 0 and residue(5, x, 0) == 0 and residue(x, x, 0) == 0 and residue(x ** 2, x, 0) == 0"},"spec":{"lhs":"test_basic1()","rhs":"residue(1 / x, x, 0) == 1 and residue(-2 / x, x, 0) == -2 and residue(81 / x, x, 0) == 81 and residue(1 / x ** 2, x, 0) == 0 and residue(0, x, 0) == 0 and residue(5, x, 0) == 0 and residue(x, x, 0) == 0 and residue(x ** 2, x, 0) == 0","over":{"base":"Any"},"name":"test_basic1_correct"},"guarantee":"residue(1 / x, x, 0) == 1; residue(-2 / x, x, 0) == -2; residue(81 / x, x, 0) == 81","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_basic1_correct","statement":"Path(test_basic1(x), residue(1 / x, x, 0) == 1; residue(-2 / x, x, 0) == -2; residue(81 / x, x, 0) == 81)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"891a31aa4265b799","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(1 / x, x, 0) == 1","residue(-2 / x, x, 0) == -2","residue(81 / x, x, 0) == 81","residue(1 / x ** 2, x, 0) == 0","residue(0, x, 0) == 0","residue(5, x, 0) == 0","residue(x, x, 0) == 0","residue(x ** 2, x, 0) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic1():
     assert residue(1/x, x, 0) == 1
     assert residue(-2/x, x, 0) == -2
@@ -52,16 +60,24 @@ def test_basic1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic2(), test_basic2 produces the expected output) over Any ║
+# ║ Path(test_basic2(), residue(1 / x, x, 1) == 0 and residue(-2 / x, x, 1) == 0 and residue(81 / x, x, -1) == 0 and residue(1 / x ** 2, x, 1) == 0 and residue(0, x, 1) == 0 and residue(5, x, 1) == 0 and residue(x, x, 1) == 0 and residue(x ** 2, x, 5) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic2 : Any → {Any | residue(1 / x, x, 1) == 0 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(1 / x, x, 1) == 0                      ║
+# ║   ensures:  residue(-2 / x, x, 1) == 0                     ║
+# ║   ensures:  residue(81 / x, x, -1) == 0                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic2 : Any → {Any | result satisfies: residue(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 032af0fe8b633fc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69ca98ef0d22424c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_basic2","kind":"function","src_hash":"9a92d9040d93b6a8","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(1 / x, x, 1) == 0 and residue(-2 / x, x, 1) == 0 and residue(81 / x, x, -1) == 0 and residue(1 / x ** 2, x, 1) == 0 and residue(0, x, 1) == 0 and residue(5, x, 1) == 0 and residue(x, x, 1) == 0 and residue(x ** 2, x, 5) == 0"},"spec":{"lhs":"test_basic2()","rhs":"test_basic2 produces the expected output","over":{"base":"Any"},"name":"test_basic2_correct"},"guarantee":"test_basic2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_basic2_correct","statement":"Path(test_basic2(x), test_basic2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"032af0fe8b633fc4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_basic2","kind":"function","src_hash":"9a92d9040d93b6a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(1 / x, x, 1) == 0 and residue(-2 / x, x, 1) == 0 and residue(81 / x, x, -1) == 0 and residue(1 / x ** 2, x, 1) == 0 and residue(0, x, 1) == 0 and residue(5, x, 1) == 0 and residue(x, x, 1) == 0 and residue(x ** 2, x, 5) == 0"},"spec":{"lhs":"test_basic2()","rhs":"residue(1 / x, x, 1) == 0 and residue(-2 / x, x, 1) == 0 and residue(81 / x, x, -1) == 0 and residue(1 / x ** 2, x, 1) == 0 and residue(0, x, 1) == 0 and residue(5, x, 1) == 0 and residue(x, x, 1) == 0 and residue(x ** 2, x, 5) == 0","over":{"base":"Any"},"name":"test_basic2_correct"},"guarantee":"residue(1 / x, x, 1) == 0; residue(-2 / x, x, 1) == 0; residue(81 / x, x, -1) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_basic2_correct","statement":"Path(test_basic2(x), residue(1 / x, x, 1) == 0; residue(-2 / x, x, 1) == 0; residue(81 / x, x, -1) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ca98ef0d22424c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(1 / x, x, 1) == 0","residue(-2 / x, x, 1) == 0","residue(81 / x, x, -1) == 0","residue(1 / x ** 2, x, 1) == 0","residue(0, x, 1) == 0","residue(5, x, 1) == 0","residue(x, x, 1) == 0","residue(x ** 2, x, 5) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic2():
     assert residue(1/x, x, 1) == 0
     assert residue(-2/x, x, 1) == 0
@@ -74,32 +90,46 @@ def test_basic2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f(), test_f produces the expected output) over Any ║
+# ║ Path(test_f(), residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f : Any → {Any | residue(f(x) / x ** 5, x, 0) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(f(x) / x ** 5, x, 0) == f(x).diff...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f : Any → {Any | result satisfies: residue(f(x) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13757a83f51c4983  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15c118771da5f07f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_f","kind":"function","src_hash":"724c39769ae2cf26","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24"},"spec":{"lhs":"test_f()","rhs":"test_f produces the expected output","over":{"base":"Any"},"name":"test_f_correct"},"guarantee":"test_f produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_f_correct","statement":"Path(test_f(x), test_f produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13757a83f51c4983"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_f","kind":"function","src_hash":"724c39769ae2cf26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24"},"spec":{"lhs":"test_f()","rhs":"residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24","over":{"base":"Any"},"name":"test_f_correct"},"guarantee":"residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_f_correct","statement":"Path(test_f(x), residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c118771da5f07f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(f(x) / x ** 5, x, 0) == f(x).diff(x, 4).subs(x, 0) / 24"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_f():
     f = Function("f")
     assert residue(f(x)/x**5, x, 0) == f(x).diff(x, 4).subs(x, 0)/24
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_functions(), test_functions produces the expected output) over Any ║
+# ║ Path(test_functions(), residue(1 / sin(x), x, 0) == 1 and residue(2 / sin(x), x, 0) == 2 and residue(1 / sin(x) ** 2, x, 0) == 0 and residue(1 / sin(x) ** 5, x, 0) == Rational(3, 8)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_functions : Any → {Any | residue(1 / sin(x), x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(1 / sin(x), x, 0) == 1                 ║
+# ║   ensures:  residue(2 / sin(x), x, 0) == 2                 ║
+# ║   ensures:  residue(1 / sin(x) ** 2, x, 0) == 0            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_functions : Any → {Any | result satisfies: resid...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c4dd05ef1bec0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84cc76e144f20baa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_functions","kind":"function","src_hash":"67e5d0db9d4687f4","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(1 / sin(x), x, 0) == 1 and residue(2 / sin(x), x, 0) == 2 and residue(1 / sin(x) ** 2, x, 0) == 0 and residue(1 / sin(x) ** 5, x, 0) == Rational(3, 8)"},"spec":{"lhs":"test_functions()","rhs":"test_functions produces the expected output","over":{"base":"Any"},"name":"test_functions_correct"},"guarantee":"test_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_functions_correct","statement":"Path(test_functions(x), test_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c4dd05ef1bec0c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_functions","kind":"function","src_hash":"67e5d0db9d4687f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(1 / sin(x), x, 0) == 1 and residue(2 / sin(x), x, 0) == 2 and residue(1 / sin(x) ** 2, x, 0) == 0 and residue(1 / sin(x) ** 5, x, 0) == Rational(3, 8)"},"spec":{"lhs":"test_functions()","rhs":"residue(1 / sin(x), x, 0) == 1 and residue(2 / sin(x), x, 0) == 2 and residue(1 / sin(x) ** 2, x, 0) == 0 and residue(1 / sin(x) ** 5, x, 0) == Rational(3, 8)","over":{"base":"Any"},"name":"test_functions_correct"},"guarantee":"residue(1 / sin(x), x, 0) == 1; residue(2 / sin(x), x, 0) == 2; residue(1 / sin(x) ** 2, x, 0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_functions_correct","statement":"Path(test_functions(x), residue(1 / sin(x), x, 0) == 1; residue(2 / sin(x), x, 0) == 2; residue(1 / sin(x) ** 2, x, 0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84cc76e144f20baa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(1 / sin(x), x, 0) == 1","residue(2 / sin(x), x, 0) == 2","residue(1 / sin(x) ** 2, x, 0) == 0","residue(1 / sin(x) ** 5, x, 0) == Rational(3, 8)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_functions():
     assert residue(1/sin(x), x, 0) == 1
     assert residue(2/sin(x), x, 0) == 2
@@ -108,16 +138,24 @@ def test_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expressions(), test_expressions produces the expected output) over Any ║
+# ║ Path(test_expressions(), residue(1 / (x + 1), x, 0) == 0 and residue(1 / (x + 1), x, -1) == 1 and residue(1 / (x ** 2 + 1), x, -1) == 0 and residue(1 / (x ** 2 + 1), x, I) == -I / 2 and residue(1 / (x ** 2 + 1), x, -I) == I / 2 and residue(1 / (x ** 4 + 1), x, 0) == 0 and residue(1 / (x ** 4 + 1), x, exp(I * pi / 4)).equals(-(Rational(1, 4) + I / 4) / sqrt(2)) and residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / 4 / a ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expressions : Any → {Any | residue(1 / (x + 1), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(1 / (x + 1), x, 0) == 0                ║
+# ║   ensures:  residue(1 / (x + 1), x, -1) == 1               ║
+# ║   ensures:  residue(1 / (x ** 2 + 1), x, -1) == 0          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expressions : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45cc95bb2547b5da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b10ed4da8def3208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_expressions","kind":"function","src_hash":"e821c8cdf97f5bcb","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(1 / (x + 1), x, 0) == 0 and residue(1 / (x + 1), x, -1) == 1 and residue(1 / (x ** 2 + 1), x, -1) == 0 and residue(1 / (x ** 2 + 1), x, I) == -I / 2 and residue(1 / (x ** 2 + 1), x, -I) == I / 2 and residue(1 / (x ** 4 + 1), x, 0) == 0 and residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / 4 / a ** 3"},"spec":{"lhs":"test_expressions()","rhs":"test_expressions produces the expected output","over":{"base":"Any"},"name":"test_expressions_correct"},"guarantee":"test_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_expressions_correct","statement":"Path(test_expressions(x), test_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45cc95bb2547b5da"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_expressions","kind":"function","src_hash":"e821c8cdf97f5bcb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(1 / (x + 1), x, 0) == 0 and residue(1 / (x + 1), x, -1) == 1 and residue(1 / (x ** 2 + 1), x, -1) == 0 and residue(1 / (x ** 2 + 1), x, I) == -I / 2 and residue(1 / (x ** 2 + 1), x, -I) == I / 2 and residue(1 / (x ** 4 + 1), x, 0) == 0 and residue(1 / (x ** 4 + 1), x, exp(I * pi / 4)).equals(-(Rational(1, 4) + I / 4) / sqrt(2)) and residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / 4 / a ** 3"},"spec":{"lhs":"test_expressions()","rhs":"residue(1 / (x + 1), x, 0) == 0 and residue(1 / (x + 1), x, -1) == 1 and residue(1 / (x ** 2 + 1), x, -1) == 0 and residue(1 / (x ** 2 + 1), x, I) == -I / 2 and residue(1 / (x ** 2 + 1), x, -I) == I / 2 and residue(1 / (x ** 4 + 1), x, 0) == 0 and residue(1 / (x ** 4 + 1), x, exp(I * pi / 4)).equals(-(Rational(1, 4) + I / 4) / sqrt(2)) and residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / 4 / a ** 3","over":{"base":"Any"},"name":"test_expressions_correct"},"guarantee":"residue(1 / (x + 1), x, 0) == 0; residue(1 / (x + 1), x, -1) == 1; residue(1 / (x ** 2 + 1), x, -1) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_expressions_correct","statement":"Path(test_expressions(x), residue(1 / (x + 1), x, 0) == 0; residue(1 / (x + 1), x, -1) == 1; residue(1 / (x ** 2 + 1), x, -1) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b10ed4da8def3208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(1 / (x + 1), x, 0) == 0","residue(1 / (x + 1), x, -1) == 1","residue(1 / (x ** 2 + 1), x, -1) == 0","residue(1 / (x ** 2 + 1), x, I) == -I / 2","residue(1 / (x ** 2 + 1), x, -I) == I / 2","residue(1 / (x ** 4 + 1), x, 0) == 0","residue(1 / (x ** 4 + 1), x, exp(I * pi / 4)).equals(-(Rational(1, 4) + I / 4) / sqrt(2))","residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / 4 / a ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_expressions():
     assert residue(1/(x + 1), x, 0) == 0
     assert residue(1/(x + 1), x, -1) == 1
@@ -131,16 +169,22 @@ def test_expressions():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expressions_failing(), test_expressions_failing produces the expected output) over Any ║
+# ║ Path(test_expressions_failing(), residue(exp(z) / (z - pi * I / 4 * a) ** n, z, I * pi * a) == exp(I * pi * a / 4) / factorial(n - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expressions_failing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(exp(z) / (z - pi * I / 4 * a) ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expressions_failing : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50d14c7b48d5e536  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7f8d570ccb3aca2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_expressions_failing","kind":"function","src_hash":"1c9d5cb539c37274","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expressions_failing()","rhs":"test_expressions_failing produces the expected output","over":{"base":"Any"},"name":"test_expressions_failing_correct"},"guarantee":"test_expressions_failing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_expressions_failing_correct","statement":"Path(test_expressions_failing(x), test_expressions_failing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50d14c7b48d5e536"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_expressions_failing","kind":"function","src_hash":"1c9d5cb539c37274","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(exp(z) / (z - pi * I / 4 * a) ** n, z, I * pi * a) == exp(I * pi * a / 4) / factorial(n - 1)"},"spec":{"lhs":"test_expressions_failing()","rhs":"residue(exp(z) / (z - pi * I / 4 * a) ** n, z, I * pi * a) == exp(I * pi * a / 4) / factorial(n - 1)","over":{"base":"Any"},"name":"test_expressions_failing_correct"},"guarantee":"residue(exp(z) / (z - pi * I / 4 * a) ** n, z, I * pi * a) == exp(I * pi * a / 4) / factorial(n - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_expressions_failing_correct","statement":"Path(test_expressions_failing(x), residue(exp(z) / (z - pi * I / 4 * a) ** n, z, I * pi * a) == exp(I * pi * a / 4) / factorial(n - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7f8d570ccb3aca2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(exp(z) / (z - pi * I / 4 * a) ** n, z, I * pi * a) == exp(I * pi * a / 4) / factorial(n - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expressions_failing():
     n = Symbol('n', integer=True, positive=True)
     assert residue(exp(z)/(z - pi*I/4*a)**n, z, I*pi*a) == \
@@ -148,47 +192,67 @@ def test_expressions_failing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NotImplemented(), test_NotImplemented produces the expected output) over Any ║
+# ║ Path(test_NotImplemented(), <unspecified:test_NotImplemented>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_NotImplemented : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb1b208b7fef379a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_NotImplemented","kind":"function","src_hash":"bbef3c77ec24471b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_NotImplemented()","rhs":"test_NotImplemented produces the expected output","over":{"base":"Any"},"name":"test_NotImplemented_correct"},"guarantee":"test_NotImplemented produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_NotImplemented_correct","statement":"Path(test_NotImplemented(x), test_NotImplemented produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb1b208b7fef379a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_NotImplemented","kind":"function","src_hash":"bbef3c77ec24471b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_NotImplemented()","rhs":"<unspecified:test_NotImplemented>","over":{"base":"Any"},"name":"test_NotImplemented_correct"},"guarantee":"test_NotImplemented produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_NotImplemented_correct","statement":"Path(test_NotImplemented(x), test_NotImplemented produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb1b208b7fef379a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_NotImplemented():
     raises(NotImplementedError, lambda: residue(exp(1/z), z, 0))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug(), test_bug produces the expected output) over Any ║
+# ║ Path(test_bug(), residue(2 ** z * (s + z) * (1 - s - z) / z ** 2, z, 0) == 1 + s * log(2) - s ** 2 * log(2) - 2 * s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(2 ** z * (s + z) * (1 - s - z) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug : Any → {Any | result satisfies: residue(2 *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de071e140f23c0df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d7b1045d4e58d61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_bug","kind":"function","src_hash":"d31c2dbb9647ec4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bug()","rhs":"test_bug produces the expected output","over":{"base":"Any"},"name":"test_bug_correct"},"guarantee":"test_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_bug_correct","statement":"Path(test_bug(x), test_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de071e140f23c0df"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_bug","kind":"function","src_hash":"d31c2dbb9647ec4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(2 ** z * (s + z) * (1 - s - z) / z ** 2, z, 0) == 1 + s * log(2) - s ** 2 * log(2) - 2 * s"},"spec":{"lhs":"test_bug()","rhs":"residue(2 ** z * (s + z) * (1 - s - z) / z ** 2, z, 0) == 1 + s * log(2) - s ** 2 * log(2) - 2 * s","over":{"base":"Any"},"name":"test_bug_correct"},"guarantee":"residue(2 ** z * (s + z) * (1 - s - z) / z ** 2, z, 0) == 1 + s * log(2) - s ** 2 * log(2) - 2 * s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_bug_correct","statement":"Path(test_bug(x), residue(2 ** z * (s + z) * (1 - s - z) / z ** 2, z, 0) == 1 + s * log(2) - s ** 2 * log(2) - 2 * s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7b1045d4e58d61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(2 ** z * (s + z) * (1 - s - z) / z ** 2, z, 0) == 1 + s * log(2) - s ** 2 * log(2) - 2 * s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bug():
     assert residue(2**(z)*(s + z)*(1 - s - z)/z**2, z, 0) == \
         1 + s*log(2) - s**2*log(2) - 2*s
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5654(), test_issue_5654 produces the expected output) over Any ║
+# ║ Path(test_issue_5654(), residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3) and residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1) and residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5654 : Any → {Any | residue(1 / (x ** 2 + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(1 / (x ** 2 + a ** 2) ** 2, x, a ...   ║
+# ║   ensures:  residue(1 / s * 1 / (z - exp(s)), s, 0) =...   ║
+# ║   ensures:  residue((1 + k) / s * 1 / (z - exp(s)), s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5654 : Any → {Any | result satisfies: resi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21cbd7060321e483  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fbe8a5411228b59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_5654","kind":"function","src_hash":"8c4546fbb26b0288","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3) and residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1) and residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1)"},"spec":{"lhs":"test_issue_5654()","rhs":"test_issue_5654 produces the expected output","over":{"base":"Any"},"name":"test_issue_5654_correct"},"guarantee":"test_issue_5654 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_5654_correct","statement":"Path(test_issue_5654(x), test_issue_5654 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21cbd7060321e483"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_5654","kind":"function","src_hash":"8c4546fbb26b0288","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3) and residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1) and residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1)"},"spec":{"lhs":"test_issue_5654()","rhs":"residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3) and residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1) and residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1)","over":{"base":"Any"},"name":"test_issue_5654_correct"},"guarantee":"residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3); residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1); residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_5654_correct","statement":"Path(test_issue_5654(x), residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3); residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1); residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fbe8a5411228b59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(1 / (x ** 2 + a ** 2) ** 2, x, a * I) == -I / (4 * a ** 3)","residue(1 / s * 1 / (z - exp(s)), s, 0) == 1 / (z - 1)","residue((1 + k) / s * 1 / (z - exp(s)), s, 0) == k / (z - 1) + 1 / (z - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5654():
     assert residue(1/(x**2 + a**2)**2, x, a*I) == -I/(4*a**3)
     assert residue(1/s*1/(z - exp(s)), s, 0) == 1/(z - 1)
@@ -196,46 +260,64 @@ def test_issue_5654():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6499(), test_issue_6499 produces the expected output) over Any ║
+# ║ Path(test_issue_6499(), residue(1 / (exp(z) - 1), z, 0) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6499 : Any → {Any | residue(1 / (exp(z) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(1 / (exp(z) - 1), z, 0) == 1           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6499 : Any → {Any | result satisfies: resi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ffe3230f1878142  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4063b34e2b05e2b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_6499","kind":"function","src_hash":"1d008efbb42d7e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(1 / (exp(z) - 1), z, 0) == 1"},"spec":{"lhs":"test_issue_6499()","rhs":"test_issue_6499 produces the expected output","over":{"base":"Any"},"name":"test_issue_6499_correct"},"guarantee":"test_issue_6499 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_6499_correct","statement":"Path(test_issue_6499(x), test_issue_6499 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ffe3230f1878142"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_6499","kind":"function","src_hash":"1d008efbb42d7e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(1 / (exp(z) - 1), z, 0) == 1"},"spec":{"lhs":"test_issue_6499()","rhs":"residue(1 / (exp(z) - 1), z, 0) == 1","over":{"base":"Any"},"name":"test_issue_6499_correct"},"guarantee":"residue(1 / (exp(z) - 1), z, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_6499_correct","statement":"Path(test_issue_6499(x), residue(1 / (exp(z) - 1), z, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4063b34e2b05e2b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(1 / (exp(z) - 1), z, 0) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_6499():
     assert residue(1/(exp(z) - 1), z, 0) == 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14037(), test_issue_14037 produces the expected output) over Any ║
+# ║ Path(test_issue_14037(), residue(sin(x ** 50) / x ** 51, x, 0) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14037 : Any → {Any | residue(sin(x ** 50) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(sin(x ** 50) / x ** 51, x, 0) == 1     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14037 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7819857e009070c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3bea62a9002524c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_14037","kind":"function","src_hash":"3b71b9cfcd0a4ce4","in":{"base":"Any"},"out":{"base":"Any","pred":"residue(sin(x ** 50) / x ** 51, x, 0) == 1"},"spec":{"lhs":"test_issue_14037()","rhs":"test_issue_14037 produces the expected output","over":{"base":"Any"},"name":"test_issue_14037_correct"},"guarantee":"test_issue_14037 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_14037_correct","statement":"Path(test_issue_14037(x), test_issue_14037 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7819857e009070c4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_14037","kind":"function","src_hash":"3b71b9cfcd0a4ce4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(sin(x ** 50) / x ** 51, x, 0) == 1"},"spec":{"lhs":"test_issue_14037()","rhs":"residue(sin(x ** 50) / x ** 51, x, 0) == 1","over":{"base":"Any"},"name":"test_issue_14037_correct"},"guarantee":"residue(sin(x ** 50) / x ** 51, x, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_14037_correct","statement":"Path(test_issue_14037(x), residue(sin(x ** 50) / x ** 51, x, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3bea62a9002524c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(sin(x ** 50) / x ** 51, x, 0) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_14037():
     assert residue(sin(x**50)/x**51, x, 0) == 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21176(), test_issue_21176 produces the expected output) over Any ║
+# ║ Path(test_issue_21176(), residue(f, x, -sqrt(2) / 2 - sqrt(2) * I / 2).cancel().together(deep=True) == sqrt(2) * (1 - I) / (8 * tan(sqrt(2) * pi * (1 + I) / 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21176 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  residue(f, x, -sqrt(2) / 2 - sqrt(2) * I ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21176 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78a6269b2f2d570c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7b07767f7512d00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_21176","kind":"function","src_hash":"e804383ae1c030af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_21176()","rhs":"test_issue_21176 produces the expected output","over":{"base":"Any"},"name":"test_issue_21176_correct"},"guarantee":"test_issue_21176 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_21176_correct","statement":"Path(test_issue_21176(x), test_issue_21176 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a6269b2f2d570c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_21176","kind":"function","src_hash":"e804383ae1c030af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: residue(f, x, -sqrt(2) / 2 - sqrt(2) * I / 2).cancel().together(deep=True) == sqrt(2) * (1 - I) / (8 * tan(sqrt(2) * pi * (1 + I) / 2))"},"spec":{"lhs":"test_issue_21176()","rhs":"residue(f, x, -sqrt(2) / 2 - sqrt(2) * I / 2).cancel().together(deep=True) == sqrt(2) * (1 - I) / (8 * tan(sqrt(2) * pi * (1 + I) / 2))","over":{"base":"Any"},"name":"test_issue_21176_correct"},"guarantee":"residue(f, x, -sqrt(2) / 2 - sqrt(2) * I / 2).cancel().together(deep=True) == sqrt(2) * (1 - I) / (8 * tan(sqrt(2) * pi * (1 + I) / 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_21176_correct","statement":"Path(test_issue_21176(x), residue(f, x, -sqrt(2) / 2 - sqrt(2) * I / 2).cancel().together(deep=True) == sqrt(2) * (1 - I) / (8 * tan(sqrt(2) * pi * (1 + I) / 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7b07767f7512d00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["residue(f, x, -sqrt(2) / 2 - sqrt(2) * I / 2).cancel().together(deep=True) == sqrt(2) * (1 - I) / (8 * tan(sqrt(2) * pi * (1 + I) / 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21176():
     f = x**2*cot(pi*x)/(x**4 + 1)
     assert residue(f, x, -sqrt(2)/2 - sqrt(2)*I/2).cancel().together(deep=True)\
@@ -243,16 +325,23 @@ def test_issue_21176():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21177(), test_issue_21177 produces the expected output) over Any ║
+# ║ Path(test_issue_21177(), a == r and (b - a).cancel() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21177 : Any → {Any | a == r and (b - a).ca...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == r                                         ║
+# ║   ensures:  (b - a).cancel() == 0                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21177 : Any → {Any | result satisfies: a =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 623b20a3d79a764c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 106c721fa7874ad6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_21177","kind":"function","src_hash":"247493d5de2243df","in":{"base":"Any"},"out":{"base":"Any","pred":"a == r and (b - a).cancel() == 0"},"spec":{"lhs":"test_issue_21177()","rhs":"test_issue_21177 produces the expected output","over":{"base":"Any"},"name":"test_issue_21177_correct"},"guarantee":"test_issue_21177 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_21177_correct","statement":"Path(test_issue_21177(x), test_issue_21177 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"623b20a3d79a764c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_residues.test_issue_21177","kind":"function","src_hash":"247493d5de2243df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == r and (b - a).cancel() == 0"},"spec":{"lhs":"test_issue_21177()","rhs":"a == r and (b - a).cancel() == 0","over":{"base":"Any"},"name":"test_issue_21177_correct"},"guarantee":"a == r; (b - a).cancel() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_residues.test_issue_21177_correct","statement":"Path(test_issue_21177(x), a == r; (b - a).cancel() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"106c721fa7874ad6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == r","(b - a).cancel() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21177():
     r = -sqrt(3)*tanh(sqrt(3)*pi/2)/3
     a = residue(cot(pi*x)/((x - 1)*(x - 2) + 1), x, S(3)/2 - sqrt(3)*I/2)

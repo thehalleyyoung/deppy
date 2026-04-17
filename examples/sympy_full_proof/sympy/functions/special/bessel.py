@@ -53,14 +53,20 @@ from mpmath import mp, workprec
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BesselBase(*args), correctly constructs a BesselBase instance) over {Any | isinstance(self, (besselj, besseli, hn1, hn2, jn, yn))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BesselBase : {Any | isinstance(self, (besselj, bessel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91359d1020a8cb8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase","kind":"class","src_hash":"b9b846f271effafe","in":{"base":"Any","pred":"isinstance(self, (besselj, besseli, hn1, hn2, jn, yn))"},"out":{"base":"Any"},"spec":{"lhs":"BesselBase(*args)","rhs":"correctly constructs a BesselBase instance","over":{"base":"Any","pred":"isinstance(self, (besselj, besseli, hn1, hn2, jn, yn))"},"name":"BesselBase_class_invariant"},"guarantee":"correctly constructs a BesselBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91359d1020a8cb8f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase","kind":"class","src_hash":"b9b846f271effafe","in":{"base":"Any","pred":"isinstance(self, (besselj, besseli, hn1, hn2, jn, yn))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"BesselBase(*args)","rhs":"correctly constructs a BesselBase instance","over":{"base":"Any","pred":"isinstance(self, (besselj, besseli, hn1, hn2, jn, yn))"},"name":"BesselBase_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91359d1020a8cb8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function BesselBase not found in source"]}}
 class BesselBase(DefinedFunction):
     """
     Abstract base class for Bessel-type functions.
@@ -79,62 +85,87 @@ class BesselBase(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), returns the order attribute) over Any        ║
+# ║ Path(order(), self.args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 817cc276246ffc79           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.order","kind":"property","src_hash":"b8b42f8ceafdda86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"returns the order attribute","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"817cc276246ffc79"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.order","kind":"property","src_hash":"b8b42f8ceafdda86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"self.args[0]","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"817cc276246ffc79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """ The order of the Bessel-type function. """
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(argument(), returns the argument attribute) over Any  ║
+# ║ Path(argument(), self.args[1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ argument : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd13a2e3d2208263           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.argument","kind":"property","src_hash":"5fbcf017b27e8094","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"argument()","rhs":"returns the argument attribute","over":{"base":"Any"},"name":"argument_correct"},"guarantee":"returns the argument attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd13a2e3d2208263"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.argument","kind":"property","src_hash":"5fbcf017b27e8094","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"argument()","rhs":"self.args[1]","over":{"base":"Any"},"name":"argument_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd13a2e3d2208263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def argument(self):
         """ The argument of the Bessel-type function. """
         return self.args[1]
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, nu, z), <unspecified:eval>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5948bb744191cb45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.eval","kind":"classmethod","src_hash":"70224dbd6b3613be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5948bb744191cb45"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.eval","kind":"classmethod","src_hash":"70224dbd6b3613be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, nu, z)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5948bb744191cb45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, nu, z):
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), self._b / 2 * self.__class__(self.order - 1, self.argument) - self._a / 2 * self.__class__(self.order + 1, self.argument)) over {Any | not (argindex != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex != 2)                            ║
+# ║   returns:  self._b / 2 * self.__class__(self.order -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex != 2)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68bb6b131b44241a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d782ca7bbcca857  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.fdiff","kind":"method","src_hash":"81a28864cbf9a136","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.BesselBase.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bb6b131b44241a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase.fdiff","kind":"method","src_hash":"81a28864cbf9a136","in":{"base":"Any","pred":"not (argindex != 2)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"self._b / 2 * self.__class__(self.order - 1, self.argument) - self._a / 2 * self.__class__(self.order + 1, self.argument)","over":{"base":"Any","pred":"not (argindex != 2)"},"name":"fdiff_correct"},"guarantee":"returns self._b / 2 * self.__class__(self.order - 1, self.argument) - self._a / 2 * self.__class__(self.order + 1, self.argument)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.BesselBase.fdiff_correct","statement":"Path(fdiff(x), returns self._b / 2 * self.__class__(self.order - 1, self.argument) - self._a / 2 * self.__class__(self.order + 1, self.argument))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d782ca7bbcca857","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex != 2)"],"returns_expr":"self._b / 2 * self.__class__(self.order - 1, self.argument) - self._a / 2 * self.__class__(self.order + 1, self.argument)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._a","self._b","self.argument","self.order"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex != 2:
             raise ArgumentIndexError(self, argindex)
@@ -144,30 +175,42 @@ class BesselBase(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.order.conjugate(), z....   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1983b1a370d664a6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_conjugate","kind":"method","src_hash":"b4989ef9f0f567ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1983b1a370d664a6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_conjugate","kind":"method","src_hash":"b4989ef9f0f567ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.__class__(self.order.conjugate(), z.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.__class__(self.order.conjugate(), z.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1983b1a370d664a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.order.conjugate(), z.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z = self.argument
         if z.is_extended_negative is False:
             return self.__class__(self.order.conjugate(), z.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_meromorphic(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_meromorphic(x, a), <unspecified:_eval_is_meromorphic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_meromorphic : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28b2721c5e8cad79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_is_meromorphic","kind":"method","src_hash":"41d22e3569eec40f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.BesselBase._eval_is_meromorphic_correct","statement":"Path(_eval_is_meromorphic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b2721c5e8cad79"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_is_meromorphic","kind":"method","src_hash":"41d22e3569eec40f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, a)","rhs":"<unspecified:_eval_is_meromorphic>","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.BesselBase._eval_is_meromorphic_correct","statement":"Path(_eval_is_meromorphic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b2721c5e8cad79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_meromorphic(self, x, a):
         nu, z = self.order, self.argument
 
@@ -182,16 +225,22 @@ class BesselBase(DefinedFunction):
         return fuzzy_not(fuzzy_or([z0.is_zero, z0.is_infinite]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 57eee97d48958883   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_expand_func","kind":"method","src_hash":"0305023484c38f3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"f","by":"library_axiom"},{"fn":"_eval_expand_func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57eee97d48958883"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_expand_func","kind":"method","src_hash":"0305023484c38f3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"f","by":"library_axiom"},{"fn":"_eval_expand_func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57eee97d48958883","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._a","self._b","self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         nu, z, f = self.order, self.argument, self.__class__
         if nu.is_real:
@@ -204,16 +253,22 @@ class BesselBase(DefinedFunction):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), besselsimp(self)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  besselsimp(self)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba661cc89dad7fc7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb8dbbf89d73726e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_simplify","kind":"method","src_hash":"d536e7d9988fa71c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.BesselBase._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba661cc89dad7fc7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.BesselBase._eval_simplify","kind":"method","src_hash":"d536e7d9988fa71c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"besselsimp(self)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns besselsimp(self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.BesselBase._eval_simplify_correct","statement":"Path(_eval_simplify(x), returns besselsimp(self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb8dbbf89d73726e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"besselsimp(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.simplify.simplify import besselsimp
         return besselsimp(self)
@@ -222,14 +277,20 @@ class BesselBase(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(besselj(*args), correctly constructs a besselj instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ besselj : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ besselj : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ae6791be7a383ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj","kind":"class","src_hash":"55057284dc962670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"besselj(*args)","rhs":"correctly constructs a besselj instance","over":{"base":"Any"},"name":"besselj_class_invariant"},"guarantee":"correctly constructs a besselj instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae6791be7a383ef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj","kind":"class","src_hash":"55057284dc962670","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"besselj(*args)","rhs":"correctly constructs a besselj instance","over":{"base":"Any"},"name":"besselj_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae6791be7a383ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function besselj not found in source"]}}
 class besselj(BesselBase):
     r"""
     Bessel function of the first kind.
@@ -304,16 +365,25 @@ class besselj(BesselBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, nu, z), <unspecified:eval>) over {Any | hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(z, 'could_extract_minus_sign') and hasattr(nu, 'could_extract_minus_sign') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'extract_branch_factor') and hasattr(nu, 'is_imaginary')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   requires: hasattr(nu, 'is_zero')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_zero') and hasattr(nu, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8658850b889b6d5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj.eval","kind":"classmethod","src_hash":"6e3b2e5aa0069e18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8658850b889b6d5a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj.eval","kind":"classmethod","src_hash":"6e3b2e5aa0069e18","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(z, 'could_extract_minus_sign') and hasattr(nu, 'could_extract_minus_sign') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'extract_branch_factor') and hasattr(nu, 'is_imaginary')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, nu, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(z, 'could_extract_minus_sign') and hasattr(nu, 'could_extract_minus_sign') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'extract_branch_factor') and hasattr(nu, 'is_imaginary')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8658850b889b6d5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(nu, 'is_integer')","hasattr(nu, 'is_zero')","hasattr(z, 'could_extract_minus_sign')","hasattr(nu, 'could_extract_minus_sign')","hasattr(z, 'extract_multiplicatively')","hasattr(z, 'extract_branch_factor')","hasattr(nu, 'is_imaginary')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["nu.could_extract_minus_sign","nu.is_imaginary","nu.is_integer","nu.is_zero","z.could_extract_minus_sign","z.extract_branch_factor","z.extract_multiplicatively","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
@@ -350,59 +420,87 @@ class besselj(BesselBase):
             return besselj(nnu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besseli(nu, z, **kwargs), exp(I * pi * nu / 2) * besseli(nu, polar_lift(-I) * z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(I * pi * nu / 2) * besseli(nu, polar_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besseli : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e15b8938fcee97e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_rewrite_as_besseli","kind":"method","src_hash":"a2bfb690093573b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e15b8938fcee97e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_rewrite_as_besseli","kind":"method","src_hash":"a2bfb690093573b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(nu, z, **kwargs)","rhs":"exp(I * pi * nu / 2) * besseli(nu, polar_lift(-I) * z)","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct"},"guarantee":"returns exp(I * pi * nu / 2) * besseli(nu, polar_lift(-I) * z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e15b8938fcee97e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(I * pi * nu / 2) * besseli(nu, polar_lift(-I) * z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, nu, z, **kwargs):
         return exp(I*pi*nu/2)*besseli(nu, polar_lift(-I)*z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bessely(nu,), id) over Any           ║
+# ║ Path(_eval_rewrite_as_bessely(nu, z, **kwargs), id) over {Any | hasattr(nu, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_bessely : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   returns:  csc(pi * nu) * bessely(-nu, z) - cot(pi *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_bessely : {Any | hasattr(nu, 'is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3ac6b6a642467818   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_rewrite_as_bessely","kind":"method","src_hash":"1c5d258170de0464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"csc","by":"library_axiom"},{"fn":"bessely","by":"library_axiom"},{"fn":"cot","by":"library_axiom"},{"fn":"bessely","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ac6b6a642467818"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_rewrite_as_bessely","kind":"method","src_hash":"1c5d258170de0464","in":{"base":"Any","pred":"hasattr(nu, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu, z, **kwargs)","rhs":"csc(pi * nu) * bessely(-nu, z) - cot(pi * nu) * bessely(nu, z)","over":{"base":"Any","pred":"hasattr(nu, 'is_integer')"},"name":"_eval_rewrite_as_bessely_correct","kind":"composition"},"guarantee":"returns csc(pi * nu) * bessely(-nu, z) - cot(pi * nu) * bessely(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"csc","by":"library_axiom"},{"fn":"bessely","by":"library_axiom"},{"fn":"cot","by":"library_axiom"},{"fn":"bessely","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ac6b6a642467818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(nu, 'is_integer')"],"returns_expr":"csc(pi * nu) * bessely(-nu, z) - cot(pi * nu) * bessely(nu, z)","pure":false,"effects":{"effect_type":"reads_state","reads":["nu.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bessely(self, nu, z, **kwargs):
         if nu.is_integer is False:
             return csc(pi*nu)*bessely(-nu, z) - cot(pi*nu)*bessely(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_jn(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_jn(nu, z, **kwargs), sqrt(2 * z / pi) * jn(nu - S.Half, self.argument)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2 * z / pi) * jn(nu - S.Half, self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_jn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9584614523fe0cd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_rewrite_as_jn","kind":"method","src_hash":"4cba807b1db30568","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9584614523fe0cd7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_rewrite_as_jn","kind":"method","src_hash":"4cba807b1db30568","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu, z, **kwargs)","rhs":"sqrt(2 * z / pi) * jn(nu - S.Half, self.argument)","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"returns sqrt(2 * z / pi) * jn(nu - S.Half, self.argument)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9584614523fe0cd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2 * z / pi) * jn(nu - S.Half, self.argument)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_jn(self, nu, z, **kwargs):
         return sqrt(2*z/pi)*jn(nu - S.Half, self.argument)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self) and result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (arg ** nu / (2 ** nu * gamma(n...   ║
+# ║   ensures:  result == arg ** nu / (2 ** nu * gamma(nu...   ║
+# ║   fiber[case_0]: e.is_positive => arg ** nu / (2 ** n...   ║
+# ║   fiber[case_1]: e.is_negative => self                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25a68770a2098eef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8dc93ce5c234860  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_as_leading_term","kind":"method","src_hash":"c91cf5eebe5d1bed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25a68770a2098eef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_as_leading_term","kind":"method","src_hash":"c91cf5eebe5d1bed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self) and result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self) and result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self); result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self); result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8dc93ce5c234860","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self)","result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self"],"fibers":[{"name":"case_0","guard":"e.is_positive","ensures":["result == arg ** nu / (2 ** nu * gamma(nu + 1))"],"decidability":"library","returns_expr":"arg ** nu / (2 ** nu * gamma(nu + 1))"},{"name":"case_1","guard":"e.is_negative","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         nu, z = self.args
         try:
@@ -425,32 +523,44 @@ class besselj(BesselBase):
         return super(besselj, self)._eval_as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acf7f5f878345db4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e51c70a9c1239d7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_is_extended_real","kind":"method","src_hash":"7303a153a98f4e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acf7f5f878345db4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_is_extended_real","kind":"method","src_hash":"7303a153a98f4e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51c70a9c1239d7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         nu, z = self.args
         if nu.is_integer and z.is_extended_real:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec2e500298e5f96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_nseries","kind":"method","src_hash":"a582d598fa597ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec2e500298e5f96"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselj._eval_nseries","kind":"method","src_hash":"a582d598fa597ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselj._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec2e500298e5f96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         # Refer https://functions.wolfram.com/Bessel-TypeFunctions/BesselJ/06/01/04/01/01/0003/
         # for more information on nseries expansion of besselj function.
@@ -486,14 +596,20 @@ class besselj(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(bessely(*args), correctly constructs a bessely instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bessely : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bessely : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fcf85588230da37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely","kind":"class","src_hash":"347d399c45ec30f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bessely(*args)","rhs":"correctly constructs a bessely instance","over":{"base":"Any"},"name":"bessely_class_invariant"},"guarantee":"correctly constructs a bessely instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fcf85588230da37"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely","kind":"class","src_hash":"347d399c45ec30f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"bessely(*args)","rhs":"correctly constructs a bessely instance","over":{"base":"Any"},"name":"bessely_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fcf85588230da37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function bessely not found in source"]}}
 class bessely(BesselBase):
     r"""
     Bessel function of the second kind.
@@ -540,16 +656,25 @@ class bessely(BesselBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, nu, z), <unspecified:eval>) over {Any | hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(nu, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   requires: hasattr(nu, 'is_zero')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_zero') and hasattr(nu, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b265146bb3354921  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely.eval","kind":"classmethod","src_hash":"4a80c4d01005b2a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b265146bb3354921"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely.eval","kind":"classmethod","src_hash":"4a80c4d01005b2a8","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(nu, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, nu, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(nu, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b265146bb3354921","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(nu, 'is_integer')","hasattr(nu, 'is_zero')","hasattr(nu, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["nu.could_extract_minus_sign","nu.is_integer","nu.is_zero","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
@@ -570,61 +695,89 @@ class bessely(BesselBase):
                 return S.NegativeOne**(-nu)*bessely(-nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(nu,), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(nu, z, **kwargs), id) over {Any | hasattr(nu, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besselj : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   returns:  csc(pi * nu) * (cos(pi * nu) * besselj(nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besselj : {Any | hasattr(nu, 'is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 38de26319db223a5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_rewrite_as_besselj","kind":"method","src_hash":"9f5b1bc3a4edec1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"csc","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38de26319db223a5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_rewrite_as_besselj","kind":"method","src_hash":"9f5b1bc3a4edec1a","in":{"base":"Any","pred":"hasattr(nu, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu, z, **kwargs)","rhs":"csc(pi * nu) * (cos(pi * nu) * besselj(nu, z) - besselj(-nu, z))","over":{"base":"Any","pred":"hasattr(nu, 'is_integer')"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns csc(pi * nu) * (cos(pi * nu) * besselj(nu, z) - besselj(-nu, z))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"csc","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38de26319db223a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(nu, 'is_integer')"],"returns_expr":"csc(pi * nu) * (cos(pi * nu) * besselj(nu, z) - besselj(-nu, z))","pure":false,"effects":{"effect_type":"reads_state","reads":["nu.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, nu, z, **kwargs):
         if nu.is_integer is False:
             return csc(pi*nu)*(cos(pi*nu)*besselj(nu, z) - besselj(-nu, z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besseli(nu, z, **kwargs), aj.rewrite(besseli)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  aj.rewrite(besseli)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besseli : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c62893845871423  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c865b44920d5dad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_rewrite_as_besseli","kind":"method","src_hash":"7ab1fc7540ea0fc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_rewrite_as_besseli_correct","statement":"Path(_eval_rewrite_as_besseli(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c62893845871423"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_rewrite_as_besseli","kind":"method","src_hash":"7ab1fc7540ea0fc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(nu, z, **kwargs)","rhs":"aj.rewrite(besseli)","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct"},"guarantee":"returns aj.rewrite(besseli)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_rewrite_as_besseli_correct","statement":"Path(_eval_rewrite_as_besseli(x), returns aj.rewrite(besseli))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c865b44920d5dad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"aj.rewrite(besseli)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_besselj","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, nu, z, **kwargs):
         aj = self._eval_rewrite_as_besselj(*self.args)
         if aj:
             return aj.rewrite(besseli)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_yn(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_yn(nu, z, **kwargs), sqrt(2 * z / pi) * yn(nu - S.Half, self.argument)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2 * z / pi) * yn(nu - S.Half, self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_yn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b36590e16dbeffb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_rewrite_as_yn","kind":"method","src_hash":"1d4c48f60ed8a149","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b36590e16dbeffb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_rewrite_as_yn","kind":"method","src_hash":"1d4c48f60ed8a149","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu, z, **kwargs)","rhs":"sqrt(2 * z / pi) * yn(nu - S.Half, self.argument)","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct"},"guarantee":"returns sqrt(2 * z / pi) * yn(nu - S.Half, self.argument)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b36590e16dbeffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2 * z / pi) * yn(nu - S.Half, self.argument)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_yn(self, nu, z, **kwargs):
         return sqrt(2*z/pi) * yn(nu - S.Half, self.argument)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (arg if e.is_positive else self) and result == arg or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (arg if e.is_positive else self)     ║
+# ║   ensures:  result == arg or result == self                ║
+# ║   fiber[case_0]: e.is_positive => arg                      ║
+# ║   fiber[case_1]: e.is_negative => self                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f4183c08dd326ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e3c4f0e594e10b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_as_leading_term","kind":"method","src_hash":"af09efb41da5d121","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f4183c08dd326ad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_as_leading_term","kind":"method","src_hash":"af09efb41da5d121","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (arg if e.is_positive else self) and result == arg or result == self"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (arg if e.is_positive else self) and result == arg or result == self","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (arg if e.is_positive else self); result == arg or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (arg if e.is_positive else self); result == arg or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e3c4f0e594e10b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (arg if e.is_positive else self)","result == arg or result == self"],"fibers":[{"name":"case_0","guard":"e.is_positive","ensures":["result == arg"],"decidability":"library","returns_expr":"arg"},{"name":"case_1","guard":"e.is_negative","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         nu, z = self.args
         try:
@@ -651,32 +804,44 @@ class bessely(BesselBase):
         return super(bessely, self)._eval_as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7314b4db2d1d01aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97932090bce0fb6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_is_extended_real","kind":"method","src_hash":"a395cfede54416df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7314b4db2d1d01aa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_is_extended_real","kind":"method","src_hash":"a395cfede54416df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97932090bce0fb6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         nu, z = self.args
         if nu.is_integer and z.is_positive:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5034a330ee80709  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_nseries","kind":"method","src_hash":"0c135357aa9f623d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5034a330ee80709"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.bessely._eval_nseries","kind":"method","src_hash":"0c135357aa9f623d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.bessely._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5034a330ee80709","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         # Refer https://functions.wolfram.com/Bessel-TypeFunctions/BesselY/06/01/04/01/02/0008/
         # for more information on nseries expansion of bessely function.
@@ -730,14 +895,20 @@ class bessely(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(besseli(*args), correctly constructs a besseli instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ besseli : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ besseli : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5123445d84b4db94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli","kind":"class","src_hash":"53052b593dc69773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"besseli(*args)","rhs":"correctly constructs a besseli instance","over":{"base":"Any"},"name":"besseli_class_invariant"},"guarantee":"correctly constructs a besseli instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5123445d84b4db94"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli","kind":"class","src_hash":"53052b593dc69773","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"besseli(*args)","rhs":"correctly constructs a besseli instance","over":{"base":"Any"},"name":"besseli_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5123445d84b4db94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function besseli not found in source"]}}
 class besseli(BesselBase):
     r"""
     Modified Bessel function of the first kind.
@@ -783,16 +954,25 @@ class besseli(BesselBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, nu, z), <unspecified:eval>) over {Any | hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(z, 'could_extract_minus_sign') and hasattr(nu, 'could_extract_minus_sign') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'extract_branch_factor') and hasattr(nu, 'is_imaginary')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   requires: hasattr(nu, 'is_zero')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_zero') and hasattr(nu, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04815da4a4635bb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli.eval","kind":"classmethod","src_hash":"1d5a90b2e0dd4db7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04815da4a4635bb8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli.eval","kind":"classmethod","src_hash":"1d5a90b2e0dd4db7","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(z, 'could_extract_minus_sign') and hasattr(nu, 'could_extract_minus_sign') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'extract_branch_factor') and hasattr(nu, 'is_imaginary')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, nu, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(z, 'could_extract_minus_sign') and hasattr(nu, 'could_extract_minus_sign') and hasattr(z, 'extract_multiplicatively') and hasattr(z, 'extract_branch_factor') and hasattr(nu, 'is_imaginary')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04815da4a4635bb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(nu, 'is_integer')","hasattr(nu, 'is_zero')","hasattr(z, 'could_extract_minus_sign')","hasattr(nu, 'could_extract_minus_sign')","hasattr(z, 'extract_multiplicatively')","hasattr(z, 'extract_branch_factor')","hasattr(nu, 'is_imaginary')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["nu.could_extract_minus_sign","nu.is_imaginary","nu.is_integer","nu.is_zero","z.could_extract_minus_sign","z.extract_branch_factor","z.extract_multiplicatively","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
@@ -833,91 +1013,131 @@ class besseli(BesselBase):
             return besseli(nnu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(nu,), id) over Any         ║
+# ║ Path(_eval_rewrite_as_tractable(nu, z, limitvar), id) over {Any | hasattr(z, 'is_extended_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_tractable : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(z, 'is_extended_real')                 ║
+# ║   returns:  exp(z) * _besseli(nu, z)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_tractable : {Any | hasattr(z, 'is_ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5776fd4a47f567d6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_tractable","kind":"method","src_hash":"37ad72270c445ec3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"_besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5776fd4a47f567d6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_tractable","kind":"method","src_hash":"37ad72270c445ec3","in":{"base":"Any","pred":"hasattr(z, 'is_extended_real')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(nu, z, limitvar)","rhs":"exp(z) * _besseli(nu, z)","over":{"base":"Any","pred":"hasattr(z, 'is_extended_real')"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"returns exp(z) * _besseli(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"_besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5776fd4a47f567d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(z, 'is_extended_real')"],"returns_expr":"exp(z) * _besseli(nu, z)","pure":false,"effects":{"effect_type":"reads_state","reads":["z.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, nu, z, limitvar=None, **kwargs):
         if z.is_extended_real:
             return exp(z)*_besseli(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besselj(nu, z, **kwargs), exp(-I * pi * nu / 2) * besselj(nu, polar_lift(I) * z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(-I * pi * nu / 2) * besselj(nu, polar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a81b367858852b31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_besselj","kind":"method","src_hash":"f940bfac3610eb04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a81b367858852b31"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_besselj","kind":"method","src_hash":"f940bfac3610eb04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu, z, **kwargs)","rhs":"exp(-I * pi * nu / 2) * besselj(nu, polar_lift(I) * z)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"returns exp(-I * pi * nu / 2) * besselj(nu, polar_lift(I) * z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a81b367858852b31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(-I * pi * nu / 2) * besselj(nu, polar_lift(I) * z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, nu, z, **kwargs):
         return exp(-I*pi*nu/2)*besselj(nu, polar_lift(I)*z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bessely(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_bessely(nu, z, **kwargs), aj.rewrite(bessely)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  aj.rewrite(bessely)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_bessely : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20424fa0d4227008  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db5ff4e3bea5aa0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_bessely","kind":"method","src_hash":"f77c134b1f076801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_rewrite_as_bessely_correct","statement":"Path(_eval_rewrite_as_bessely(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20424fa0d4227008"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_bessely","kind":"method","src_hash":"f77c134b1f076801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu, z, **kwargs)","rhs":"aj.rewrite(bessely)","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"returns aj.rewrite(bessely)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_rewrite_as_bessely_correct","statement":"Path(_eval_rewrite_as_bessely(x), returns aj.rewrite(bessely))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db5ff4e3bea5aa0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"aj.rewrite(bessely)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_besselj","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bessely(self, nu, z, **kwargs):
         aj = self._eval_rewrite_as_besselj(*self.args)
         if aj:
             return aj.rewrite(bessely)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_jn(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_jn(nu, z, **kwargs), self._eval_rewrite_as_besselj(*self.args).rewrite(jn)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_besselj(*self.args)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_jn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0a98413bdceb2d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_jn","kind":"method","src_hash":"8a55baeed3b80ffb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0a98413bdceb2d6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_rewrite_as_jn","kind":"method","src_hash":"8a55baeed3b80ffb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu, z, **kwargs)","rhs":"self._eval_rewrite_as_besselj(*self.args).rewrite(jn)","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"returns self._eval_rewrite_as_besselj(*self.args).rewrite(jn)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0a98413bdceb2d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_besselj(*self.args).rewrite(jn)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_besselj","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_jn(self, nu, z, **kwargs):
         return self._eval_rewrite_as_besselj(*self.args).rewrite(jn)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a2b81b0839f0711  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ada6eaca555ed5e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_is_extended_real","kind":"method","src_hash":"7303a153a98f4e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a2b81b0839f0711"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_is_extended_real","kind":"method","src_hash":"7303a153a98f4e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ada6eaca555ed5e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         nu, z = self.args
         if nu.is_integer and z.is_extended_real:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self) and result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (arg ** nu / (2 ** nu * gamma(n...   ║
+# ║   ensures:  result == arg ** nu / (2 ** nu * gamma(nu...   ║
+# ║   fiber[case_0]: e.is_positive => arg ** nu / (2 ** n...   ║
+# ║   fiber[case_1]: e.is_negative => self                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3776b172bcf5c115  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d523f38559176c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_as_leading_term","kind":"method","src_hash":"6d3bf4a7544f4917","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3776b172bcf5c115"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_as_leading_term","kind":"method","src_hash":"6d3bf4a7544f4917","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self) and result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self) and result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self); result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self); result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d523f38559176c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (arg ** nu / (2 ** nu * gamma(nu + 1)) if e.is_positive else self)","result == arg ** nu / (2 ** nu * gamma(nu + 1)) or result == self"],"fibers":[{"name":"case_0","guard":"e.is_positive","ensures":["result == arg ** nu / (2 ** nu * gamma(nu + 1))"],"decidability":"library","returns_expr":"arg ** nu / (2 ** nu * gamma(nu + 1))"},{"name":"case_1","guard":"e.is_negative","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         nu, z = self.args
         try:
@@ -940,16 +1160,22 @@ class besseli(BesselBase):
         return super(besseli, self)._eval_as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8458fb6d64e8ac23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_nseries","kind":"method","src_hash":"e1e0bca154b0c13b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8458fb6d64e8ac23"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_nseries","kind":"method","src_hash":"e1e0bca154b0c13b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besseli._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8458fb6d64e8ac23","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         # Refer https://functions.wolfram.com/Bessel-TypeFunctions/BesselI/06/01/04/01/01/0003/
         # for more information on nseries expansion of besseli function.
@@ -982,16 +1208,22 @@ class besseli(BesselBase):
         return super(besseli, self)._eval_nseries(x, n, logx, cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2abcb7b843bf2e42   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_aseries","kind":"method","src_hash":"fe75d28b70029c4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2abcb7b843bf2e42"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besseli._eval_aseries","kind":"method","src_hash":"fe75d28b70029c4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2abcb7b843bf2e42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.functions.combinatorial.factorials import RisingFactorial
         from sympy.series.order import Order
@@ -1009,14 +1241,20 @@ class besseli(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(besselk(*args), correctly constructs a besselk instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ besselk : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ besselk : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a2744cff448d4de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk","kind":"class","src_hash":"7988467c663dd32e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"besselk(*args)","rhs":"correctly constructs a besselk instance","over":{"base":"Any"},"name":"besselk_class_invariant"},"guarantee":"correctly constructs a besselk instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a2744cff448d4de"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk","kind":"class","src_hash":"7988467c663dd32e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"besselk(*args)","rhs":"correctly constructs a besselk instance","over":{"base":"Any"},"name":"besselk_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a2744cff448d4de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function besselk not found in source"]}}
 class besselk(BesselBase):
     r"""
     Modified Bessel function of the second kind.
@@ -1060,16 +1298,25 @@ class besselk(BesselBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, nu, z), <unspecified:eval>) over {Any | hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(nu, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   requires: hasattr(nu, 'is_zero')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_zero') and hasattr(nu, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7575575b8f281ba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk.eval","kind":"classmethod","src_hash":"b11ea088c42eff3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7575575b8f281ba3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk.eval","kind":"classmethod","src_hash":"b11ea088c42eff3c","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(nu, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, nu, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_zero') and hasattr(nu, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7575575b8f281ba3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(nu, 'is_integer')","hasattr(nu, 'is_zero')","hasattr(nu, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["nu.could_extract_minus_sign","nu.is_integer","nu.is_zero","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
@@ -1086,110 +1333,158 @@ class besselk(BesselBase):
                 return besselk(-nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(nu,), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besseli(nu, z, **kwargs), id) over {Any | hasattr(nu, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besseli : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   returns:  pi * csc(pi * nu) * (besseli(-nu, z) - be...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besseli : {Any | hasattr(nu, 'is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 589cf6cfc4e716d4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_besseli","kind":"method","src_hash":"61f4ca43a3411868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"csc","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"589cf6cfc4e716d4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_besseli","kind":"method","src_hash":"61f4ca43a3411868","in":{"base":"Any","pred":"hasattr(nu, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(nu, z, **kwargs)","rhs":"pi * csc(pi * nu) * (besseli(-nu, z) - besseli(nu, z)) / 2","over":{"base":"Any","pred":"hasattr(nu, 'is_integer')"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"returns pi * csc(pi * nu) * (besseli(-nu, z) - besseli(nu, z)) / 2","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"csc","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"589cf6cfc4e716d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(nu, 'is_integer')"],"returns_expr":"pi * csc(pi * nu) * (besseli(-nu, z) - besseli(nu, z)) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["nu.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, nu, z, **kwargs):
         if nu.is_integer is False:
             return pi*csc(pi*nu)*(besseli(-nu, z) - besseli(nu, z))/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besselj(nu, z, **kwargs), ai.rewrite(besselj)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ai.rewrite(besselj)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eccde16006ba5cfd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a84e57fbfd445d93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_besselj","kind":"method","src_hash":"cfd09671f1f4bc37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_rewrite_as_besselj_correct","statement":"Path(_eval_rewrite_as_besselj(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eccde16006ba5cfd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_besselj","kind":"method","src_hash":"cfd09671f1f4bc37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu, z, **kwargs)","rhs":"ai.rewrite(besselj)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"returns ai.rewrite(besselj)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_rewrite_as_besselj_correct","statement":"Path(_eval_rewrite_as_besselj(x), returns ai.rewrite(besselj))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a84e57fbfd445d93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ai.rewrite(besselj)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_besseli","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, nu, z, **kwargs):
         ai = self._eval_rewrite_as_besseli(*self.args)
         if ai:
             return ai.rewrite(besselj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bessely(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_bessely(nu, z, **kwargs), aj.rewrite(bessely)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  aj.rewrite(bessely)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_bessely : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0495e5a0b127f731  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38058b5e3f3d535f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_bessely","kind":"method","src_hash":"f77c134b1f076801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_rewrite_as_bessely_correct","statement":"Path(_eval_rewrite_as_bessely(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0495e5a0b127f731"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_bessely","kind":"method","src_hash":"f77c134b1f076801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu, z, **kwargs)","rhs":"aj.rewrite(bessely)","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"returns aj.rewrite(bessely)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_rewrite_as_bessely_correct","statement":"Path(_eval_rewrite_as_bessely(x), returns aj.rewrite(bessely))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38058b5e3f3d535f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"aj.rewrite(bessely)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_besselj","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bessely(self, nu, z, **kwargs):
         aj = self._eval_rewrite_as_besselj(*self.args)
         if aj:
             return aj.rewrite(bessely)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_yn(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_yn(nu, z, **kwargs), ay.rewrite(yn)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ay.rewrite(yn)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_yn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51deba0bcb93786a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6895ff95473a683  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_yn","kind":"method","src_hash":"149283d005d76b1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_rewrite_as_yn_correct","statement":"Path(_eval_rewrite_as_yn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51deba0bcb93786a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_yn","kind":"method","src_hash":"149283d005d76b1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu, z, **kwargs)","rhs":"ay.rewrite(yn)","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct"},"guarantee":"returns ay.rewrite(yn)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_rewrite_as_yn_correct","statement":"Path(_eval_rewrite_as_yn(x), returns ay.rewrite(yn))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6895ff95473a683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ay.rewrite(yn)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_bessely","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_yn(self, nu, z, **kwargs):
         ay = self._eval_rewrite_as_bessely(*self.args)
         if ay:
             return ay.rewrite(yn)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 079abb7c0f85dc9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1283e6b7710fddd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_is_extended_real","kind":"method","src_hash":"a395cfede54416df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"079abb7c0f85dc9e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_is_extended_real","kind":"method","src_hash":"a395cfede54416df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1283e6b7710fddd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         nu, z = self.args
         if nu.is_integer and z.is_positive:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(nu,), id) over Any         ║
+# ║ Path(_eval_rewrite_as_tractable(nu, z, limitvar), id) over {Any | hasattr(z, 'is_extended_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_tractable : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(z, 'is_extended_real')                 ║
+# ║   returns:  exp(-z) * _besselk(nu, z)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_tractable : {Any | hasattr(z, 'is_ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 35842d265acc5131   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_tractable","kind":"method","src_hash":"1bdd73e4e8050b9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"_besselk","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35842d265acc5131"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_rewrite_as_tractable","kind":"method","src_hash":"1bdd73e4e8050b9c","in":{"base":"Any","pred":"hasattr(z, 'is_extended_real')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(nu, z, limitvar)","rhs":"exp(-z) * _besselk(nu, z)","over":{"base":"Any","pred":"hasattr(z, 'is_extended_real')"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"returns exp(-z) * _besselk(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"_besselk","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35842d265acc5131","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(z, 'is_extended_real')"],"returns_expr":"exp(-z) * _besselk(nu, z)","pure":false,"effects":{"effect_type":"reads_state","reads":["z.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, nu, z, limitvar=None, **kwargs):
         if z.is_extended_real:
             return exp(-z)*_besselk(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (term.as_leading_term(x, logx=logx) if e.is_positive else sqrt(pi) * exp(-arg) / sqrt(2 * arg) if e.is_negative else self.func(nu, arg)) and result == term.as_leading_term(x, logx=logx) or result == sqrt(pi) * exp(-arg) / sqrt(2 * arg) or result == self.func(nu, arg)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (term.as_leading_term(x, logx=l...   ║
+# ║   ensures:  result == term.as_leading_term(x, logx=lo...   ║
+# ║   fiber[case_0]: e.is_positive => term.as_leading_ter...   ║
+# ║   fiber[case_1]: e.is_negative => sqrt(pi) * exp(-arg...   ║
+# ║   fiber[case_2]: not (e.is_positive) and not (e.is_ne...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8f0672076082eb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5119269c28ce9cc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_as_leading_term","kind":"method","src_hash":"ee5a421450230e68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8f0672076082eb8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_as_leading_term","kind":"method","src_hash":"ee5a421450230e68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (term.as_leading_term(x, logx=logx) if e.is_positive else sqrt(pi) * exp(-arg) / sqrt(2 * arg) if e.is_negative else self.func(nu, arg)) and result == term.as_leading_term(x, logx=logx) or result == sqrt(pi) * exp(-arg) / sqrt(2 * arg) or result == self.func(nu, arg)"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (term.as_leading_term(x, logx=logx) if e.is_positive else sqrt(pi) * exp(-arg) / sqrt(2 * arg) if e.is_negative else self.func(nu, arg)) and result == term.as_leading_term(x, logx=logx) or result == sqrt(pi) * exp(-arg) / sqrt(2 * arg) or result == self.func(nu, arg)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (term.as_leading_term(x, logx=logx) if e.is_positive else sqrt(pi) * exp(-arg) / sqrt(2 * arg) if e.is_negative else self.func(nu, arg)); result == term.as_leading_term(x, logx=logx) or result == sqrt(pi) * exp(-arg) / sqrt(2 * arg) or result == self.func(nu, arg); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (term.as_leading_term(x, logx=logx) if e.is_positive else sqrt(pi) * exp(-arg) / sqrt(2 * arg) if e.is_negative else self.func(nu, arg)); result == term.as_leading_term(x, logx=logx) or result == sqrt(pi) * exp(-arg) / sqrt(2 * arg) or result == self.func(nu, arg); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5119269c28ce9cc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (term.as_leading_term(x, logx=logx) if e.is_positive else sqrt(pi) * exp(-arg) / sqrt(2 * arg) if e.is_negative else self.func(nu, arg))","result == term.as_leading_term(x, logx=logx) or result == sqrt(pi) * exp(-arg) / sqrt(2 * arg) or result == self.func(nu, arg)"],"fibers":[{"name":"case_0","guard":"e.is_positive","ensures":["result == term.as_leading_term(x, logx=logx)"],"decidability":"library","returns_expr":"term.as_leading_term(x, logx=logx)"},{"name":"case_1","guard":"e.is_negative","ensures":["result == sqrt(pi) * exp(-arg) / sqrt(2 * arg)"],"decidability":"library","returns_expr":"sqrt(pi) * exp(-arg) / sqrt(2 * arg)"},{"name":"case_2","guard":"not (e.is_positive) and not (e.is_negative)","ensures":["result == self.func(nu, arg)"],"decidability":"library","returns_expr":"self.func(nu, arg)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         nu, z = self.args
         try:
@@ -1216,16 +1511,24 @@ class besselk(BesselBase):
             return self.func(nu, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), len(a) == old_len_a + 1 and len(b) == old_len_b + 1 and len(c) == old_len_c + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(a) == old_len_a + 1                        ║
+# ║   ensures:  len(b) == old_len_b + 1                        ║
+# ║   ensures:  len(c) == old_len_c + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : Any → {Any | result satisfies: len(a)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 418230538cb53b46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5851239188edcd15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_nseries","kind":"method","src_hash":"bf326d113ee30ead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"418230538cb53b46"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_nseries","kind":"method","src_hash":"bf326d113ee30ead","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(a) == old_len_a + 1 and len(b) == old_len_b + 1 and len(c) == old_len_c + 1"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"len(a) == old_len_a + 1 and len(b) == old_len_b + 1 and len(c) == old_len_c + 1","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"len(a) == old_len_a + 1; len(b) == old_len_b + 1; len(c) == old_len_c + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.besselk._eval_nseries_correct","statement":"Path(_eval_nseries(x), len(a) == old_len_a + 1; len(b) == old_len_b + 1; len(c) == old_len_c + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5851239188edcd15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(a) == old_len_a + 1","len(b) == old_len_b + 1","len(c) == old_len_c + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"calls_mutating":["a.append","b.append","c.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["a.*","b.*","c.*"],"old_bindings":{"old_len_a":"len(a)","old_len_b":"len(b)","old_len_c":"len(c)"},"post_ensures":["len(a) == old_len_a + 1","len(b) == old_len_b + 1","len(c) == old_len_c + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         from sympy.series.order import Order
         nu, z = self.args
@@ -1296,16 +1599,22 @@ class besselk(BesselBase):
         return super(besselk, self)._eval_nseries(x, n, logx, cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5c2aed179e523017   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_aseries","kind":"method","src_hash":"ef340fd0f29ae082","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c2aed179e523017"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.besselk._eval_aseries","kind":"method","src_hash":"ef340fd0f29ae082","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c2aed179e523017","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.functions.combinatorial.factorials import RisingFactorial
         from sympy.series.order import Order
@@ -1323,14 +1632,20 @@ class besselk(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(hankel1(*args), correctly constructs a hankel1 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hankel1 : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hankel1 : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da714e91687afdf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel1","kind":"class","src_hash":"e12a27672edfbfa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hankel1(*args)","rhs":"correctly constructs a hankel1 instance","over":{"base":"Any"},"name":"hankel1_class_invariant"},"guarantee":"correctly constructs a hankel1 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da714e91687afdf2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel1","kind":"class","src_hash":"e12a27672edfbfa5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"hankel1(*args)","rhs":"correctly constructs a hankel1 instance","over":{"base":"Any"},"name":"hankel1_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da714e91687afdf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function hankel1 not found in source"]}}
 class hankel1(BesselBase):
     r"""
     Hankel function of the first kind.
@@ -1374,14 +1689,20 @@ class hankel1(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hankel2(self.order.conjugate(), z.conjuga...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5efe12a7f5b73071   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel1._eval_conjugate","kind":"method","src_hash":"a10818786dfba5a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hankel2","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5efe12a7f5b73071"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel1._eval_conjugate","kind":"method","src_hash":"a10818786dfba5a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"hankel2(self.order.conjugate(), z.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns hankel2(self.order.conjugate(), z.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hankel2","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5efe12a7f5b73071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hankel2(self.order.conjugate(), z.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z = self.argument
         if z.is_extended_negative is False:
@@ -1391,14 +1712,20 @@ class hankel1(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(hankel2(*args), correctly constructs a hankel2 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hankel2 : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hankel2 : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8d2d58abfcd5954  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel2","kind":"class","src_hash":"66f4f04a4341f877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hankel2(*args)","rhs":"correctly constructs a hankel2 instance","over":{"base":"Any"},"name":"hankel2_class_invariant"},"guarantee":"correctly constructs a hankel2 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8d2d58abfcd5954"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel2","kind":"class","src_hash":"66f4f04a4341f877","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"hankel2(*args)","rhs":"correctly constructs a hankel2 instance","over":{"base":"Any"},"name":"hankel2_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8d2d58abfcd5954","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function hankel2 not found in source"]}}
 class hankel2(BesselBase):
     r"""
     Hankel function of the second kind.
@@ -1443,14 +1770,20 @@ class hankel2(BesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hankel1(self.order.conjugate(), z.conjuga...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 062918ca65a3a4d2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel2._eval_conjugate","kind":"method","src_hash":"13c1e39dd72cd4e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hankel1","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062918ca65a3a4d2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hankel2._eval_conjugate","kind":"method","src_hash":"13c1e39dd72cd4e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"hankel1(self.order.conjugate(), z.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns hankel1(self.order.conjugate(), z.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hankel1","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062918ca65a3a4d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hankel1(self.order.conjugate(), z.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z = self.argument
         if z.is_extended_negative is False:
@@ -1458,16 +1791,22 @@ class hankel2(BesselBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assume_integer_order(fn), assume_integer_order produces the expected output) over Any ║
+# ║ Path(assume_integer_order(fn), <unspecified:assume_integer_order>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assume_integer_order : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19b4051385e45084  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.assume_integer_order","kind":"function","src_hash":"ca4f6498c8bad9c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assume_integer_order(fn)","rhs":"assume_integer_order produces the expected output","over":{"base":"Any"},"name":"assume_integer_order_correct"},"guarantee":"assume_integer_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.assume_integer_order_correct","statement":"Path(assume_integer_order(x), assume_integer_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b4051385e45084"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.assume_integer_order","kind":"function","src_hash":"ca4f6498c8bad9c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assume_integer_order(fn)","rhs":"<unspecified:assume_integer_order>","over":{"base":"Any"},"name":"assume_integer_order_correct"},"guarantee":"assume_integer_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.assume_integer_order_correct","statement":"Path(assume_integer_order(x), assume_integer_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b4051385e45084","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def assume_integer_order(fn):
     @wraps(fn)
     def g(self, nu, z):
@@ -1479,14 +1818,20 @@ def assume_integer_order(fn):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SphericalBesselBase(*args), correctly constructs a SphericalBesselBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SphericalBesselBase : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BesselBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SphericalBesselBase : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69919f6800c67e28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase","kind":"class","src_hash":"6cabe0583a343aff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SphericalBesselBase(*args)","rhs":"correctly constructs a SphericalBesselBase instance","over":{"base":"Any"},"name":"SphericalBesselBase_class_invariant"},"guarantee":"correctly constructs a SphericalBesselBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69919f6800c67e28"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase","kind":"class","src_hash":"6cabe0583a343aff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BesselBase)"},"spec":{"lhs":"SphericalBesselBase(*args)","rhs":"correctly constructs a SphericalBesselBase instance","over":{"base":"Any"},"name":"SphericalBesselBase_class_invariant"},"guarantee":"isinstance(self, BesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69919f6800c67e28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SphericalBesselBase not found in source"]}}
 class SphericalBesselBase(BesselBase):
     """
     Base class for spherical Bessel functions.
@@ -1500,47 +1845,66 @@ class SphericalBesselBase(BesselBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand(**h), expand self into a polynomial) over Any ║
+# ║ Path(_expand(**hints), <unspecified:_expand>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aec4c8b0c839661a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase._expand","kind":"method","src_hash":"d9cf3f95bb82505e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**h)","rhs":"expand self into a polynomial","over":{"base":"Any"},"name":"_expand_correct"},"guarantee":"expand self into a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aec4c8b0c839661a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase._expand","kind":"method","src_hash":"d9cf3f95bb82505e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**hints)","rhs":"<unspecified:_expand>","over":{"base":"Any"},"name":"_expand_correct"},"guarantee":"expand self into a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aec4c8b0c839661a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand(self, **hints):
         """ Expand self into a polynomial. Nu is guaranteed to be Integer. """
         raise NotImplementedError('expansion')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_func(**hints), <unspecified:_eval_expand_func>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bed0c68c6f600130  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase._eval_expand_func","kind":"method","src_hash":"215de9156820b898","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.SphericalBesselBase._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed0c68c6f600130"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase._eval_expand_func","kind":"method","src_hash":"215de9156820b898","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.SphericalBesselBase._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed0c68c6f600130","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expand","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         if self.order.is_Integer:
             return self._expand(**hints)
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), self.__class__(self.order - 1, self.argument) - self * (self.order + 1) / self.argument) over {Any | not (argindex != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex != 2)                            ║
+# ║   returns:  self.__class__(self.order - 1, self.argum...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex != 2)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b77bdca5e83c141  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00ce4cd52cdeb4f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase.fdiff","kind":"method","src_hash":"c0eaf9f41de212f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.SphericalBesselBase.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b77bdca5e83c141"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalBesselBase.fdiff","kind":"method","src_hash":"c0eaf9f41de212f6","in":{"base":"Any","pred":"not (argindex != 2)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"self.__class__(self.order - 1, self.argument) - self * (self.order + 1) / self.argument","over":{"base":"Any","pred":"not (argindex != 2)"},"name":"fdiff_correct"},"guarantee":"returns self.__class__(self.order - 1, self.argument) - self * (self.order + 1) / self.argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.SphericalBesselBase.fdiff_correct","statement":"Path(fdiff(x), returns self.__class__(self.order - 1, self.argument) - self * (self.order + 1) / self.argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00ce4cd52cdeb4f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex != 2)"],"returns_expr":"self.__class__(self.order - 1, self.argument) - self * (self.order + 1) / self.argument","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.argument","self.order"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex != 2:
             raise ArgumentIndexError(self, argindex)
@@ -1549,32 +1913,44 @@ class SphericalBesselBase(BesselBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_jn(n, ), id) over Any                                ║
+# ║ Path(_jn(n, z), id) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  spherical_bessel_fn(n, z) * sin(z) + S.Ne...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _jn : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 187ddf85f6265171   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._jn","kind":"function","src_hash":"452aa99e152b4c96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_jn(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_jn_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"spherical_bessel_fn","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187ddf85f6265171"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._jn","kind":"function","src_hash":"452aa99e152b4c96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_jn(n, z)","rhs":"spherical_bessel_fn(n, z) * sin(z) + S.NegativeOne ** (n + 1) * spherical_bessel_fn(-n - 1, z) * cos(z)","over":{"base":"Any"},"name":"_jn_correct","kind":"composition"},"guarantee":"returns spherical_bessel_fn(n, z) * sin(z) + S.NegativeOne ** (n + 1) * spherical_bessel_fn(-n - 1, z) * cos(z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"spherical_bessel_fn","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187ddf85f6265171","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"spherical_bessel_fn(n, z) * sin(z) + S.NegativeOne ** (n + 1) * spherical_bessel_fn(-n - 1, z) * cos(z)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _jn(n, z):
     return (spherical_bessel_fn(n, z)*sin(z) +
             S.NegativeOne**(n + 1)*spherical_bessel_fn(-n - 1, z)*cos(z))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_yn(n, ), id) over Any                                ║
+# ║ Path(_yn(n, z), id) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** (n + 1) * spherical_bess...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _yn : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d36a522e43b30361   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._yn","kind":"function","src_hash":"0327f9e27794f1b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_yn(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_yn_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"spherical_bessel_fn","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d36a522e43b30361"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._yn","kind":"function","src_hash":"0327f9e27794f1b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_yn(n, z)","rhs":"S.NegativeOne ** (n + 1) * spherical_bessel_fn(-n - 1, z) * sin(z) - spherical_bessel_fn(n, z) * cos(z)","over":{"base":"Any"},"name":"_yn_correct","kind":"composition"},"guarantee":"returns S.NegativeOne ** (n + 1) * spherical_bessel_fn(-n - 1, z) * sin(z) - spherical_bessel_fn(n, z) * cos(z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"spherical_bessel_fn","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d36a522e43b30361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** (n + 1) * spherical_bessel_fn(-n - 1, z) * sin(z) - spherical_bessel_fn(n, z) * cos(z)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _yn(n, z):
     # (-1)**(n + 1) * _jn(-n - 1, z)
     return (S.NegativeOne**(n + 1) * spherical_bessel_fn(-n - 1, z)*sin(z) -
@@ -1584,14 +1960,20 @@ def _yn(n, z):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(jn(*args), correctly constructs a jn instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ jn : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SphericalBesselBase)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ jn : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8ff329e41dc6482  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn","kind":"class","src_hash":"ea8caacc7ff6dc8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jn(*args)","rhs":"correctly constructs a jn instance","over":{"base":"Any"},"name":"jn_class_invariant"},"guarantee":"correctly constructs a jn instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8ff329e41dc6482"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn","kind":"class","src_hash":"ea8caacc7ff6dc8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SphericalBesselBase)"},"spec":{"lhs":"jn(*args)","rhs":"correctly constructs a jn instance","over":{"base":"Any"},"name":"jn_class_invariant"},"guarantee":"isinstance(self, SphericalBesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8ff329e41dc6482","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SphericalBesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function jn not found in source"]}}
 class jn(SphericalBesselBase):
     r"""
     Spherical Bessel function of the first kind.
@@ -1652,16 +2034,25 @@ class jn(SphericalBesselBase):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, nu, z), <unspecified:eval>) over {Any | hasattr(z, 'is_zero') and hasattr(nu, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(nu, 'is_zero')                         ║
+# ║   requires: hasattr(nu, 'is_integer')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_zero') and hasattr(nu, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27b01a0d60b212a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn.eval","kind":"classmethod","src_hash":"93b29b8747dc304f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.jn.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27b01a0d60b212a1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn.eval","kind":"classmethod","src_hash":"93b29b8747dc304f","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, nu, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(nu, 'is_zero') and hasattr(nu, 'is_integer') and hasattr(nu, 'is_positive')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.jn.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27b01a0d60b212a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(nu, 'is_zero')","hasattr(nu, 'is_integer')","hasattr(nu, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["nu.is_integer","nu.is_positive","nu.is_zero","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
@@ -1675,72 +2066,102 @@ class jn(SphericalBesselBase):
             return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besselj(nu, z, **kwargs), sqrt(pi / (2 * z)) * besselj(nu + S.Half, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi / (2 * z)) * besselj(nu + S.Half, z)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f77da33e40c4f9f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_rewrite_as_besselj","kind":"method","src_hash":"ee7041fdeb5b5e58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f77da33e40c4f9f4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_rewrite_as_besselj","kind":"method","src_hash":"ee7041fdeb5b5e58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu, z, **kwargs)","rhs":"sqrt(pi / (2 * z)) * besselj(nu + S.Half, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"returns sqrt(pi / (2 * z)) * besselj(nu + S.Half, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f77da33e40c4f9f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi / (2 * z)) * besselj(nu + S.Half, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, nu, z, **kwargs):
         return sqrt(pi/(2*z)) * besselj(nu + S.Half, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bessely(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_bessely(nu, z, **kwargs), S.NegativeOne ** nu * sqrt(pi / (2 * z)) * bessely(-nu - S.Half, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** nu * sqrt(pi / (2 * z)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_bessely : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af0fa7392d01eea8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_rewrite_as_bessely","kind":"method","src_hash":"de50a1b5fa177aad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af0fa7392d01eea8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_rewrite_as_bessely","kind":"method","src_hash":"de50a1b5fa177aad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu, z, **kwargs)","rhs":"S.NegativeOne ** nu * sqrt(pi / (2 * z)) * bessely(-nu - S.Half, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"returns S.NegativeOne ** nu * sqrt(pi / (2 * z)) * bessely(-nu - S.Half, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af0fa7392d01eea8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** nu * sqrt(pi / (2 * z)) * bessely(-nu - S.Half, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bessely(self, nu, z, **kwargs):
         return S.NegativeOne**nu * sqrt(pi/(2*z)) * bessely(-nu - S.Half, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_yn(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_yn(nu, z, **kwargs), S.NegativeOne ** nu * yn(-nu - 1, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** nu * yn(-nu - 1, z)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_yn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1b6c9900bebb65c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_rewrite_as_yn","kind":"method","src_hash":"ab7ef0a35942afd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1b6c9900bebb65c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_rewrite_as_yn","kind":"method","src_hash":"ab7ef0a35942afd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu, z, **kwargs)","rhs":"S.NegativeOne ** nu * yn(-nu - 1, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct"},"guarantee":"returns S.NegativeOne ** nu * yn(-nu - 1, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1b6c9900bebb65c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** nu * yn(-nu - 1, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_yn(self, nu, z, **kwargs):
         return S.NegativeOne**(nu) * yn(-nu - 1, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_expand(**hints), _jn(self.order, self.argument)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _jn(self.order, self.argument)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60f5f21a6118d99c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._expand","kind":"method","src_hash":"84f0c4a2a37cbda7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60f5f21a6118d99c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._expand","kind":"method","src_hash":"84f0c4a2a37cbda7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**hints)","rhs":"_jn(self.order, self.argument)","over":{"base":"Any"},"name":"_expand_correct"},"guarantee":"returns _jn(self.order, self.argument)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60f5f21a6118d99c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_jn(self.order, self.argument)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand(self, **hints):
         return _jn(self.order, self.argument)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(besselj)._eval_evalf(prec)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c9f9c833eb6626bb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_evalf","kind":"method","src_hash":"bbe2b603ff841a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9f9c833eb6626bb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn._eval_evalf","kind":"method","src_hash":"bbe2b603ff841a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.rewrite(besselj)._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.rewrite(besselj)._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9f9c833eb6626bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(besselj)._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.order","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if self.order.is_Integer:
             return self.rewrite(besselj)._eval_evalf(prec)
@@ -1749,14 +2170,20 @@ class jn(SphericalBesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(yn(*args), correctly constructs a yn instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ yn : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SphericalBesselBase)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ yn : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 317781dbf267555d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn","kind":"class","src_hash":"4e48fe1c04265cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yn(*args)","rhs":"correctly constructs a yn instance","over":{"base":"Any"},"name":"yn_class_invariant"},"guarantee":"correctly constructs a yn instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"317781dbf267555d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn","kind":"class","src_hash":"4e48fe1c04265cdf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SphericalBesselBase)"},"spec":{"lhs":"yn(*args)","rhs":"correctly constructs a yn instance","over":{"base":"Any"},"name":"yn_class_invariant"},"guarantee":"isinstance(self, SphericalBesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"317781dbf267555d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SphericalBesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function yn not found in source"]}}
 class yn(SphericalBesselBase):
     r"""
     Spherical Bessel function of the second kind.
@@ -1806,73 +2233,103 @@ class yn(SphericalBesselBase):
     """
     @assume_integer_order
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besselj(nu, z, **kwargs), S.NegativeOne ** (nu + 1) * sqrt(pi / (2 * z)) * besselj(-nu - S.Half, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** (nu + 1) * sqrt(pi / (2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49aa6977b84bcd5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_rewrite_as_besselj","kind":"method","src_hash":"b86ec595d273a4c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49aa6977b84bcd5b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_rewrite_as_besselj","kind":"method","src_hash":"b86ec595d273a4c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu, z, **kwargs)","rhs":"S.NegativeOne ** (nu + 1) * sqrt(pi / (2 * z)) * besselj(-nu - S.Half, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"returns S.NegativeOne ** (nu + 1) * sqrt(pi / (2 * z)) * besselj(-nu - S.Half, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49aa6977b84bcd5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** (nu + 1) * sqrt(pi / (2 * z)) * besselj(-nu - S.Half, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, nu, z, **kwargs):
         return S.NegativeOne**(nu+1) * sqrt(pi/(2*z)) * besselj(-nu - S.Half, z)
 
     @assume_integer_order
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bessely(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_bessely(nu, z, **kwargs), sqrt(pi / (2 * z)) * bessely(nu + S.Half, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi / (2 * z)) * bessely(nu + S.Half, z)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_bessely : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa38031e4bcbbd6a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_rewrite_as_bessely","kind":"method","src_hash":"b2125d487c97caf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa38031e4bcbbd6a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_rewrite_as_bessely","kind":"method","src_hash":"b2125d487c97caf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu, z, **kwargs)","rhs":"sqrt(pi / (2 * z)) * bessely(nu + S.Half, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct"},"guarantee":"returns sqrt(pi / (2 * z)) * bessely(nu + S.Half, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa38031e4bcbbd6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi / (2 * z)) * bessely(nu + S.Half, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bessely(self, nu, z, **kwargs):
         return sqrt(pi/(2*z)) * bessely(nu + S.Half, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_jn(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_jn(nu, z, **kwargs), S.NegativeOne ** (nu + 1) * jn(-nu - 1, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** (nu + 1) * jn(-nu - 1, z)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_jn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e02b56127345507           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_rewrite_as_jn","kind":"method","src_hash":"e4d8283f00adfdf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e02b56127345507"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_rewrite_as_jn","kind":"method","src_hash":"e4d8283f00adfdf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu, z, **kwargs)","rhs":"S.NegativeOne ** (nu + 1) * jn(-nu - 1, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"returns S.NegativeOne ** (nu + 1) * jn(-nu - 1, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e02b56127345507","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** (nu + 1) * jn(-nu - 1, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_jn(self, nu, z, **kwargs):
         return S.NegativeOne**(nu + 1) * jn(-nu - 1, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_expand(**hints), _yn(self.order, self.argument)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _yn(self.order, self.argument)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9d1a37e74951b2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._expand","kind":"method","src_hash":"d32a1bfa9d21cbb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9d1a37e74951b2f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._expand","kind":"method","src_hash":"d32a1bfa9d21cbb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**hints)","rhs":"_yn(self.order, self.argument)","over":{"base":"Any"},"name":"_expand_correct"},"guarantee":"returns _yn(self.order, self.argument)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9d1a37e74951b2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_yn(self.order, self.argument)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand(self, **hints):
         return _yn(self.order, self.argument)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(bessely)._eval_evalf(prec)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a1fabe7780767735   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_evalf","kind":"method","src_hash":"6cb5522c59079183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1fabe7780767735"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.yn._eval_evalf","kind":"method","src_hash":"6cb5522c59079183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.rewrite(bessely)._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.rewrite(bessely)._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1fabe7780767735","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(bessely)._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.order","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if self.order.is_Integer:
             return self.rewrite(bessely)._eval_evalf(prec)
@@ -1881,28 +2338,40 @@ class yn(SphericalBesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SphericalHankelBase(*args), correctly constructs a SphericalHankelBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SphericalHankelBase : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SphericalBesselBase)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SphericalHankelBase : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 877c67abb6fe4189  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase","kind":"class","src_hash":"9ac1c908246e1ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SphericalHankelBase(*args)","rhs":"correctly constructs a SphericalHankelBase instance","over":{"base":"Any"},"name":"SphericalHankelBase_class_invariant"},"guarantee":"correctly constructs a SphericalHankelBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"877c67abb6fe4189"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase","kind":"class","src_hash":"9ac1c908246e1ff7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SphericalBesselBase)"},"spec":{"lhs":"SphericalHankelBase(*args)","rhs":"correctly constructs a SphericalHankelBase instance","over":{"base":"Any"},"name":"SphericalHankelBase_class_invariant"},"guarantee":"isinstance(self, SphericalBesselBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"877c67abb6fe4189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SphericalBesselBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SphericalHankelBase not found in source"]}}
 class SphericalHankelBase(SphericalBesselBase):
 
     @assume_integer_order
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(nu,), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(nu, z, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi / (2 * z)) * (besselj(nu + S.Half...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 748298907cba26a6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_besselj","kind":"method","src_hash":"6be0e76fdf37898b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"748298907cba26a6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_besselj","kind":"method","src_hash":"6be0e76fdf37898b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(nu, z, **kwargs)","rhs":"sqrt(pi / (2 * z)) * (besselj(nu + S.Half, z) + hks * I * S.NegativeOne ** (nu + 1) * besselj(-nu - S.Half, z))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns sqrt(pi / (2 * z)) * (besselj(nu + S.Half, z) + hks * I * S.NegativeOne ** (nu + 1) * besselj(-nu - S.Half, z))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"748298907cba26a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi / (2 * z)) * (besselj(nu + S.Half, z) + hks * I * S.NegativeOne ** (nu + 1) * besselj(-nu - S.Half, z))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hankel_kind_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, nu, z, **kwargs):
         # jn +- I*yn
         # jn as beeselj: sqrt(pi/(2*z)) * besselj(nu + S.Half, z)
@@ -1913,16 +2382,22 @@ class SphericalHankelBase(SphericalBesselBase):
 
     @assume_integer_order
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bessely(nu,), id) over Any           ║
+# ║ Path(_eval_rewrite_as_bessely(nu, z, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi / (2 * z)) * (S.NegativeOne ** nu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_bessely : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 75180e63bb0e3794   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_bessely","kind":"method","src_hash":"78f7c7f50a1595a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"bessely","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75180e63bb0e3794"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_bessely","kind":"method","src_hash":"78f7c7f50a1595a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bessely(nu, z, **kwargs)","rhs":"sqrt(pi / (2 * z)) * (S.NegativeOne ** nu * bessely(-nu - S.Half, z) + hks * I * bessely(nu + S.Half, z))","over":{"base":"Any"},"name":"_eval_rewrite_as_bessely_correct","kind":"composition"},"guarantee":"returns sqrt(pi / (2 * z)) * (S.NegativeOne ** nu * bessely(-nu - S.Half, z) + hks * I * bessely(nu + S.Half, z))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"bessely","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75180e63bb0e3794","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi / (2 * z)) * (S.NegativeOne ** nu * bessely(-nu - S.Half, z) + hks * I * bessely(nu + S.Half, z))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hankel_kind_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bessely(self, nu, z, **kwargs):
         # jn +- I*yn
         # jn as bessely: (-1)**nu * sqrt(pi/(2*z)) * bessely(-nu - S.Half, z)
@@ -1932,46 +2407,67 @@ class SphericalHankelBase(SphericalBesselBase):
                                hks*I*bessely(nu + S.Half, z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_yn(nu,), id) over Any                ║
+# ║ Path(_eval_rewrite_as_yn(nu, z, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  jn(nu, z).rewrite(yn) + hks * I * yn(nu, z)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_yn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d64744ea5f71eab0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_yn","kind":"method","src_hash":"f9ecede4b9d34eb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"jn","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"yn","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d64744ea5f71eab0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_yn","kind":"method","src_hash":"f9ecede4b9d34eb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_yn(nu, z, **kwargs)","rhs":"jn(nu, z).rewrite(yn) + hks * I * yn(nu, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_yn_correct","kind":"composition"},"guarantee":"returns jn(nu, z).rewrite(yn) + hks * I * yn(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"jn","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"yn","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d64744ea5f71eab0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"jn(nu, z).rewrite(yn) + hks * I * yn(nu, z)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hankel_kind_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_yn(self, nu, z, **kwargs):
         hks = self._hankel_kind_sign
         return jn(nu, z).rewrite(yn) + hks*I*yn(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_jn(nu,), id) over Any                ║
+# ║ Path(_eval_rewrite_as_jn(nu, z, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  jn(nu, z) + hks * I * yn(nu, z).rewrite(jn)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_jn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 49679c8c33ed0c55   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_jn","kind":"method","src_hash":"fdb60d02c63bf48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"jn","by":"library_axiom"},{"fn":"yn","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49679c8c33ed0c55"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_rewrite_as_jn","kind":"method","src_hash":"fdb60d02c63bf48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(nu, z, **kwargs)","rhs":"jn(nu, z) + hks * I * yn(nu, z).rewrite(jn)","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct","kind":"composition"},"guarantee":"returns jn(nu, z) + hks * I * yn(nu, z).rewrite(jn)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"jn","by":"library_axiom"},{"fn":"yn","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49679c8c33ed0c55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"jn(nu, z) + hks * I * yn(nu, z).rewrite(jn)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hankel_kind_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_jn(self, nu, z, **kwargs):
         hks = self._hankel_kind_sign
         return jn(nu, z) + hks*I*yn(nu, z).rewrite(jn)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_func(**hints), result == (self._expand(**hints) if self.order.is_Integer else jn(nu, z) + hks * I * yn(nu, z)) and result == self._expand(**hints) or result == jn(nu, z) + hks * I * yn(nu, z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_expand_func : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._expand(**hints) if self....   ║
+# ║   ensures:  result == self._expand(**hints) or result...   ║
+# ║   fiber[case_0]: self.order.is_Integer => self._expan...   ║
+# ║   fiber[case_1]: not (self.order.is_Integer) => jn(nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_expand_func : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e637c0c36212a40d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e93390906c48e83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_expand_func","kind":"method","src_hash":"c1ed3a0156aadf35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.SphericalHankelBase._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e637c0c36212a40d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_expand_func","kind":"method","src_hash":"c1ed3a0156aadf35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._expand(**hints) if self.order.is_Integer else jn(nu, z) + hks * I * yn(nu, z)) and result == self._expand(**hints) or result == jn(nu, z) + hks * I * yn(nu, z)"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"result == (self._expand(**hints) if self.order.is_Integer else jn(nu, z) + hks * I * yn(nu, z)) and result == self._expand(**hints) or result == jn(nu, z) + hks * I * yn(nu, z)","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"result == (self._expand(**hints) if self.order.is_Integer else jn(nu, z) + hks * I * yn(nu, z)); result == self._expand(**hints) or result == jn(nu, z) + hks * I * yn(nu, z); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.SphericalHankelBase._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), result == (self._expand(**hints) if self.order.is_Integer else jn(nu, z) + hks * I * yn(nu, z)); result == self._expand(**hints) or result == jn(nu, z) + hks * I * yn(nu, z); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e93390906c48e83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._expand(**hints) if self.order.is_Integer else jn(nu, z) + hks * I * yn(nu, z))","result == self._expand(**hints) or result == jn(nu, z) + hks * I * yn(nu, z)"],"fibers":[{"name":"case_0","guard":"self.order.is_Integer","ensures":["result == self._expand(**hints)"],"decidability":"library","returns_expr":"self._expand(**hints)"},{"name":"case_1","guard":"not (self.order.is_Integer)","ensures":["result == jn(nu, z) + hks * I * yn(nu, z)"],"decidability":"library","returns_expr":"jn(nu, z) + hks * I * yn(nu, z)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._expand","self._hankel_kind_sign","self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         if self.order.is_Integer:
             return self._expand(**hints)
@@ -1982,16 +2478,22 @@ class SphericalHankelBase(SphericalBesselBase):
             return jn(nu, z) + hks*I*yn(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand(**h), id) over Any                            ║
+# ║ Path(_expand(**hints), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_jn(n, z) + hks * I * _yn(n, z)).expand()     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | aaa273ee31caa4f2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._expand","kind":"method","src_hash":"6a5ba1a7a09367ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fn","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa273ee31caa4f2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._expand","kind":"method","src_hash":"6a5ba1a7a09367ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand(**hints)","rhs":"(_jn(n, z) + hks * I * _yn(n, z)).expand()","over":{"base":"Any"},"name":"_expand_correct","kind":"composition"},"guarantee":"returns (_jn(n, z) + hks * I * _yn(n, z)).expand()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fn","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa273ee31caa4f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_jn(n, z) + hks * I * _yn(n, z)).expand()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hankel_kind_sign","self.argument","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand(self, **hints):
         n = self.order
         z = self.argument
@@ -2008,16 +2510,22 @@ class SphericalHankelBase(SphericalBesselBase):
         return (_jn(n, z) + hks*I*_yn(n, z)).expand()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(besselj)._eval_evalf(prec)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3aa26028e3b49be8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_evalf","kind":"method","src_hash":"bbe2b603ff841a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aa26028e3b49be8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.SphericalHankelBase._eval_evalf","kind":"method","src_hash":"bbe2b603ff841a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.rewrite(besselj)._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.rewrite(besselj)._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aa26028e3b49be8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(besselj)._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.order","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if self.order.is_Integer:
             return self.rewrite(besselj)._eval_evalf(prec)
@@ -2026,14 +2534,20 @@ class SphericalHankelBase(SphericalBesselBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(hn1(*args), correctly constructs a hn1 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hn1 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SphericalHankelBase)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hn1 : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 929476d248bc0fc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn1","kind":"class","src_hash":"28bdffc6fb48786b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hn1(*args)","rhs":"correctly constructs a hn1 instance","over":{"base":"Any"},"name":"hn1_class_invariant"},"guarantee":"correctly constructs a hn1 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"929476d248bc0fc8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn1","kind":"class","src_hash":"28bdffc6fb48786b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SphericalHankelBase)"},"spec":{"lhs":"hn1(*args)","rhs":"correctly constructs a hn1 instance","over":{"base":"Any"},"name":"hn1_class_invariant"},"guarantee":"isinstance(self, SphericalHankelBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"929476d248bc0fc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SphericalHankelBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function hn1 not found in source"]}}
 class hn1(SphericalHankelBase):
     r"""
     Spherical Hankel function of the first kind.
@@ -2087,16 +2601,22 @@ class hn1(SphericalHankelBase):
 
     @assume_integer_order
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hankel1(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hankel1(nu, z, **kwargs), sqrt(pi / (2 * z)) * hankel1(nu, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi / (2 * z)) * hankel1(nu, z)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hankel1 : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68b794fb57317a91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn1._eval_rewrite_as_hankel1","kind":"method","src_hash":"fdf800e14c123100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hankel1(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hankel1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68b794fb57317a91"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn1._eval_rewrite_as_hankel1","kind":"method","src_hash":"fdf800e14c123100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hankel1(nu, z, **kwargs)","rhs":"sqrt(pi / (2 * z)) * hankel1(nu, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_hankel1_correct"},"guarantee":"returns sqrt(pi / (2 * z)) * hankel1(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68b794fb57317a91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi / (2 * z)) * hankel1(nu, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hankel1(self, nu, z, **kwargs):
         return sqrt(pi/(2*z))*hankel1(nu, z)
 
@@ -2104,14 +2624,20 @@ class hn1(SphericalHankelBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(hn2(*args), correctly constructs a hn2 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hn2 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SphericalHankelBase)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hn2 : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cea78970eb890fad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn2","kind":"class","src_hash":"af3d4fcd2a3a79dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hn2(*args)","rhs":"correctly constructs a hn2 instance","over":{"base":"Any"},"name":"hn2_class_invariant"},"guarantee":"correctly constructs a hn2 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cea78970eb890fad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn2","kind":"class","src_hash":"af3d4fcd2a3a79dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SphericalHankelBase)"},"spec":{"lhs":"hn2(*args)","rhs":"correctly constructs a hn2 instance","over":{"base":"Any"},"name":"hn2_class_invariant"},"guarantee":"isinstance(self, SphericalHankelBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cea78970eb890fad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SphericalHankelBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function hn2 not found in source"]}}
 class hn2(SphericalHankelBase):
     r"""
     Spherical Hankel function of the second kind.
@@ -2165,32 +2691,47 @@ class hn2(SphericalHankelBase):
 
     @assume_integer_order
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hankel2(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hankel2(nu, z, **kwargs), sqrt(pi / (2 * z)) * hankel2(nu, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi / (2 * z)) * hankel2(nu, z)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hankel2 : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9ac32cfbcecd5a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn2._eval_rewrite_as_hankel2","kind":"method","src_hash":"c1259672b0fad025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hankel2(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hankel2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9ac32cfbcecd5a5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.hn2._eval_rewrite_as_hankel2","kind":"method","src_hash":"c1259672b0fad025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hankel2(nu, z, **kwargs)","rhs":"sqrt(pi / (2 * z)) * hankel2(nu, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_hankel2_correct"},"guarantee":"returns sqrt(pi / (2 * z)) * hankel2(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9ac32cfbcecd5a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi / (2 * z)) * hankel2(nu, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hankel2(self, nu, z, **kwargs):
         return sqrt(pi/(2*z))*hankel2(nu, z)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jn_zeros(n, ), zeros of the spherical bessel function of the first kind) over Any ║
+# ║ Path(jn_zeros(n, k, method), len(roots) == old_len_roots + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ jn_zeros : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(roots) == old_len_roots + 1                ║
+# ║   fiber[case_0]: method == 'sympy' => [Expr._from_mpm...   ║
+# ║   fiber[case_1]: method == 'scipy'                         ║
+# ║   fiber[case_2]: not (method == 'sympy') and not (met...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ jn_zeros : Any → {Any | result satisfies: len(roots) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ║   scipy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 33be5884c92e...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 4938110feabb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn_zeros","kind":"function","src_hash":"28766ec56cd12cfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jn_zeros(n, )","rhs":"zeros of the spherical bessel function of the first kind","over":{"base":"Any"},"name":"jn_zeros_correct"},"guarantee":"zeros of the spherical bessel function of the first kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.jn_zeros_correct","statement":"Path(jn_zeros(x), zeros of the spherical bessel function of the first kind)"},"assumes":[],"trust":["mpmath.__module__","scipy.__module__"],"compiled":true,"vhash":"33be5884c92ec821"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.jn_zeros","kind":"function","src_hash":"28766ec56cd12cfb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(roots) == old_len_roots + 1"},"spec":{"lhs":"jn_zeros(n, k, method)","rhs":"len(roots) == old_len_roots + 1","over":{"base":"Any"},"name":"jn_zeros_correct"},"guarantee":"len(roots) == old_len_roots + 1; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.jn_zeros_correct","statement":"Path(jn_zeros(x), len(roots) == old_len_roots + 1; 3-fiber decomposition)"},"assumes":[],"trust":["mpmath.__module__","scipy.__module__"],"compiled":true,"vhash":"4938110feabb7b82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(roots) == old_len_roots + 1"],"fibers":[{"name":"case_0","guard":"method == 'sympy'","ensures":["result == [Expr._from_mpmath(besseljzero(S(n + 0.5)._to_mpmath(prec), int(l)), prec) for l in range(1, k + 1)]"],"decidability":"z3","returns_expr":"[Expr._from_mpmath(besseljzero(S(n + 0.5)._to_mpmath(prec), int(l)), prec) for l in range(1, k + 1)]"},{"name":"case_1","guard":"method == 'scipy'","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"not (method == 'sympy') and not (method == 'scipy')","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["roots.append"],"raises":["NotImplementedError"],"catches":["ImportError"]},"state_contract":{"modifies":["roots.*"],"old_bindings":{"old_len_roots":"len(roots)"},"post_ensures":["len(roots) == old_len_roots + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def jn_zeros(n, k, method="sympy", dps=15):
     """
     Zeros of the spherical Bessel function of the first kind.
@@ -2278,14 +2819,20 @@ def jn_zeros(n, k, method="sympy", dps=15):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AiryBase(*args), correctly constructs a AiryBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AiryBase : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AiryBase : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceb1e2e4d33a58e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase","kind":"class","src_hash":"18104fb89bf6fcd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AiryBase(*args)","rhs":"correctly constructs a AiryBase instance","over":{"base":"Any"},"name":"AiryBase_class_invariant"},"guarantee":"correctly constructs a AiryBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceb1e2e4d33a58e7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase","kind":"class","src_hash":"18104fb89bf6fcd1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"AiryBase(*args)","rhs":"correctly constructs a AiryBase instance","over":{"base":"Any"},"name":"AiryBase_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceb1e2e4d33a58e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function AiryBase not found in source"]}}
 class AiryBase(DefinedFunction):
     """
     Abstract base class for Airy functions.
@@ -2295,44 +2842,62 @@ class AiryBase(DefinedFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f42c0c1bbed5dcec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f42c0c1bbed5dcec"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f42c0c1bbed5dcec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self.args[0].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0da2f2c8615c775a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase._eval_is_extended_real","kind":"method","src_hash":"f2959ee62bc56d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0da2f2c8615c775a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase._eval_is_extended_real","kind":"method","src_hash":"f2959ee62bc56d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self.args[0].is_extended_real","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self.args[0].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0da2f2c8615c775a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         return self.args[0].is_extended_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), as_real_imag produces the expected output) over Any ║
+# ║ Path(as_real_imag(deep, **hints), (u, v)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (u, v)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04eeedcd96c147ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a3a5d696cbe1717  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase.as_real_imag","kind":"method","src_hash":"b3dbeb57389fff5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.AiryBase.as_real_imag_correct","statement":"Path(as_real_imag(x), as_real_imag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04eeedcd96c147ff"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase.as_real_imag","kind":"method","src_hash":"b3dbeb57389fff5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"(u, v)","over":{"base":"Any"},"name":"as_real_imag_correct"},"guarantee":"returns (u, v)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.AiryBase.as_real_imag_correct","statement":"Path(as_real_imag(x), returns (u, v))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a3a5d696cbe1717","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(u, v)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         z = self.args[0]
         zc = z.conjugate()
@@ -2342,16 +2907,22 @@ class AiryBase(DefinedFunction):
         return u, v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_complex(dee), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_complex(deep, **hints), re_part + im_part * I) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  re_part + im_part * I                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_complex : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98e8dc4a2f0438c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65fb234e3f3d10a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase._eval_expand_complex","kind":"method","src_hash":"f0ffb80d8a8d1c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_complex(dee)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.AiryBase._eval_expand_complex_correct","statement":"Path(_eval_expand_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98e8dc4a2f0438c1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.AiryBase._eval_expand_complex","kind":"method","src_hash":"f0ffb80d8a8d1c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_complex(deep, **hints)","rhs":"re_part + im_part * I","over":{"base":"Any"},"name":"_eval_expand_complex_correct"},"guarantee":"returns re_part + im_part * I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.AiryBase._eval_expand_complex_correct","statement":"Path(_eval_expand_complex(x), returns re_part + im_part * I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65fb234e3f3d10a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"re_part + im_part * I","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_real_imag"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_complex(self, deep=True, **hints):
         re_part, im_part = self.as_real_imag(deep=deep, **hints)
         return re_part + im_part*I
@@ -2360,14 +2931,20 @@ class AiryBase(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(airyai(*args), correctly constructs a airyai instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ airyai : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AiryBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ airyai : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a84d970463fc7efa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai","kind":"class","src_hash":"79392d6ca3ce39c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"airyai(*args)","rhs":"correctly constructs a airyai instance","over":{"base":"Any"},"name":"airyai_class_invariant"},"guarantee":"correctly constructs a airyai instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a84d970463fc7efa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai","kind":"class","src_hash":"79392d6ca3ce39c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AiryBase)"},"spec":{"lhs":"airyai(*args)","rhs":"correctly constructs a airyai instance","over":{"base":"Any"},"name":"airyai_class_invariant"},"guarantee":"isinstance(self, AiryBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a84d970463fc7efa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AiryBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function airyai not found in source"]}}
 class airyai(AiryBase):
     r"""
     The Airy function $\operatorname{Ai}$ of the first kind.
@@ -2462,16 +3039,24 @@ class airyai(AiryBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6886ea873c0152b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai.eval","kind":"classmethod","src_hash":"46eb34037f80e8d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyai.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6886ea873c0152b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai.eval","kind":"classmethod","src_hash":"46eb34037f80e8d3","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyai.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6886ea873c0152b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Number","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -2486,16 +3071,23 @@ class airyai(AiryBase):
             return S.One / (3**Rational(2, 3) * gamma(Rational(2, 3)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => airyaiprime(self.ar...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b89c7357ea0a3e86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de6612abaa875ef8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai.fdiff","kind":"method","src_hash":"522fa2fb29d5c2df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyai.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b89c7357ea0a3e86"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai.fdiff","kind":"method","src_hash":"522fa2fb29d5c2df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyai.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de6612abaa875ef8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == airyaiprime(self.args[0])"],"decidability":"z3","returns_expr":"airyaiprime(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return airyaiprime(self.args[0])
@@ -2505,16 +3097,23 @@ class airyai(AiryBase):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[negative]: n < 0 => S.Zero                         ║
+# ║   fiber[negative]: not (n < 0)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ad90ae840f1dbba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd98fd827ad56add  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai.taylor_term","kind":"staticmethod","src_hash":"8edb9ae679867f30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyai.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ad90ae840f1dbba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai.taylor_term","kind":"staticmethod","src_hash":"8edb9ae679867f30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyai.taylor_term_correct","statement":"Path(taylor_term(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd98fd827ad56add","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"negative","guard":"n < 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0:
             return S.Zero
@@ -2529,16 +3128,22 @@ class airyai(AiryBase):
                         factorial(n) * (cbrt(3)*x)**n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(z, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ot * sqrt(-z) * (besselj(-ot, tt * a) + b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 97d0816f58ff038a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_rewrite_as_besselj","kind":"method","src_hash":"b8604634465f088c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d0816f58ff038a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_rewrite_as_besselj","kind":"method","src_hash":"b8604634465f088c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, **kwargs)","rhs":"ot * sqrt(-z) * (besselj(-ot, tt * a) + besselj(ot, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns ot * sqrt(-z) * (besselj(-ot, tt * a) + besselj(ot, tt * a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d0816f58ff038a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ot * sqrt(-z) * (besselj(-ot, tt * a) + besselj(ot, tt * a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, z, **kwargs):
         ot = Rational(1, 3)
         tt = Rational(2, 3)
@@ -2547,16 +3152,25 @@ class airyai(AiryBase):
             return ot*sqrt(-z) * (besselj(-ot, tt*a) + besselj(ot, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besseli(z, **kwargs), id) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besseli : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (ot * sqrt(z) * (besseli(-ot, t...   ║
+# ║   ensures:  result == ot * sqrt(z) * (besseli(-ot, tt...   ║
+# ║   fiber[case_0]: re(z).is_positive => ot * sqrt(z) * ...   ║
+# ║   fiber[case_1]: not (re(z).is_positive) => ot * (Pow...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besseli : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a216541abdec4335   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_rewrite_as_besseli","kind":"method","src_hash":"c6c0e932652d15e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a216541abdec4335"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_rewrite_as_besseli","kind":"method","src_hash":"c6c0e932652d15e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) if re(z).is_positive else ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))) and result == ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) or result == ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, **kwargs)","rhs":"result == (ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) if re(z).is_positive else ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))) and result == ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) or result == ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"result == (ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) if re(z).is_positive else ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))); result == ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) or result == ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a216541abdec4335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) if re(z).is_positive else ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a)))","result == ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a)) or result == ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))"],"fibers":[{"name":"case_0","guard":"re(z).is_positive","ensures":["result == ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a))"],"decidability":"library","returns_expr":"ot * sqrt(z) * (besseli(-ot, tt * a) - besseli(ot, tt * a))"},{"name":"case_1","guard":"not (re(z).is_positive)","ensures":["result == ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))"],"decidability":"library","returns_expr":"ot * (Pow(a, ot) * besseli(-ot, tt * a) - z * Pow(a, -ot) * besseli(ot, tt * a))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, z, **kwargs):
         ot = Rational(1, 3)
         tt = Rational(2, 3)
@@ -2567,32 +3181,44 @@ class airyai(AiryBase):
             return ot*(Pow(a, ot)*besseli(-ot, tt*a) - z*Pow(a, -ot)*besseli(ot, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(z, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_hyper(z, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pf1 * hyper([], [Rational(2, 3)], z ** 3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5024ba61ca199395   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_rewrite_as_hyper","kind":"method","src_hash":"a4b073e1db010a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5024ba61ca199395"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_rewrite_as_hyper","kind":"method","src_hash":"a4b073e1db010a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, **kwargs)","rhs":"pf1 * hyper([], [Rational(2, 3)], z ** 3 / 9) - pf2 * hyper([], [Rational(4, 3)], z ** 3 / 9)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"returns pf1 * hyper([], [Rational(2, 3)], z ** 3 / 9) - pf2 * hyper([], [Rational(4, 3)], z ** 3 / 9)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5024ba61ca199395","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pf1 * hyper([], [Rational(2, 3)], z ** 3 / 9) - pf2 * hyper([], [Rational(4, 3)], z ** 3 / 9)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, z, **kwargs):
         pf1 = S.One / (3**Rational(2, 3)*gamma(Rational(2, 3)))
         pf2 = z / (root(3, 3)*gamma(Rational(1, 3)))
         return pf1 * hyper([], [Rational(2, 3)], z**3/9) - pf2 * hyper([], [Rational(4, 3)], z**3/9)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Half * ((pf + S.One) * airyai(newarg) -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9a1253ef2f62f70f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_expand_func","kind":"method","src_hash":"3ffec35199a9f311","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"airyai","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"airybi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a1253ef2f62f70f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyai._eval_expand_func","kind":"method","src_hash":"3ffec35199a9f311","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"S.Half * ((pf + S.One) * airyai(newarg) - (pf - S.One) / sqrt(3) * airybi(newarg))","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns S.Half * ((pf + S.One) * airyai(newarg) - (pf - S.One) / sqrt(3) * airybi(newarg))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"airyai","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"airybi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a1253ef2f62f70f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Half * ((pf + S.One) * airyai(newarg) - (pf - S.One) / sqrt(3) * airybi(newarg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         arg = self.args[0]
         symbs = arg.free_symbols
@@ -2620,14 +3246,20 @@ class airyai(AiryBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(airybi(*args), correctly constructs a airybi instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ airybi : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AiryBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ airybi : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c97f732690ccc179  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi","kind":"class","src_hash":"7383df52638fb566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"airybi(*args)","rhs":"correctly constructs a airybi instance","over":{"base":"Any"},"name":"airybi_class_invariant"},"guarantee":"correctly constructs a airybi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97f732690ccc179"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi","kind":"class","src_hash":"7383df52638fb566","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AiryBase)"},"spec":{"lhs":"airybi(*args)","rhs":"correctly constructs a airybi instance","over":{"base":"Any"},"name":"airybi_class_invariant"},"guarantee":"isinstance(self, AiryBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97f732690ccc179","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AiryBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function airybi not found in source"]}}
 class airybi(AiryBase):
     r"""
     The Airy function $\operatorname{Bi}$ of the second kind.
@@ -2724,16 +3356,24 @@ class airybi(AiryBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d894289584514bd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi.eval","kind":"classmethod","src_hash":"556be68e3f4dc47b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d894289584514bd5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi.eval","kind":"classmethod","src_hash":"556be68e3f4dc47b","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d894289584514bd5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Number","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -2749,16 +3389,23 @@ class airybi(AiryBase):
             return S.One / (3**Rational(1, 6) * gamma(Rational(2, 3)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => airybiprime(self.ar...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccc9ce777167a83c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a80ad0e0809da67e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi.fdiff","kind":"method","src_hash":"6e7c1fa7c22a0249","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybi.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccc9ce777167a83c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi.fdiff","kind":"method","src_hash":"6e7c1fa7c22a0249","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybi.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a80ad0e0809da67e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == airybiprime(self.args[0])"],"decidability":"z3","returns_expr":"airybiprime(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return airybiprime(self.args[0])
@@ -2768,16 +3415,23 @@ class airybi(AiryBase):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[negative]: n < 0 => S.Zero                         ║
+# ║   fiber[negative]: not (n < 0)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10ccc573d852aab8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95a7c28ff1d9288e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi.taylor_term","kind":"staticmethod","src_hash":"b416a6fb9d395bdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybi.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10ccc573d852aab8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi.taylor_term","kind":"staticmethod","src_hash":"b416a6fb9d395bdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybi.taylor_term_correct","statement":"Path(taylor_term(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95a7c28ff1d9288e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"negative","guard":"n < 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0:
             return S.Zero
@@ -2792,16 +3446,22 @@ class airybi(AiryBase):
                         factorial(n) * (cbrt(3)*x)**n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(z, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(-z / 3) * (besselj(-ot, tt * a) - be...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d0c9c1023db8bff2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_rewrite_as_besselj","kind":"method","src_hash":"f530eaa9584aa785","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c9c1023db8bff2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_rewrite_as_besselj","kind":"method","src_hash":"f530eaa9584aa785","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, **kwargs)","rhs":"sqrt(-z / 3) * (besselj(-ot, tt * a) - besselj(ot, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns sqrt(-z / 3) * (besselj(-ot, tt * a) - besselj(ot, tt * a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c9c1023db8bff2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(-z / 3) * (besselj(-ot, tt * a) - besselj(ot, tt * a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, z, **kwargs):
         ot = Rational(1, 3)
         tt = Rational(2, 3)
@@ -2810,16 +3470,25 @@ class airybi(AiryBase):
             return sqrt(-z/3) * (besselj(-ot, tt*a) - besselj(ot, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besseli(z, **kwargs), id) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besseli : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (sqrt(z) / sqrt(3) * (besseli(-...   ║
+# ║   ensures:  result == sqrt(z) / sqrt(3) * (besseli(-o...   ║
+# ║   fiber[case_0]: re(z).is_positive => sqrt(z) / sqrt(...   ║
+# ║   fiber[case_1]: not (re(z).is_positive) => sqrt(ot) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besseli : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cab95b126e36593d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_rewrite_as_besseli","kind":"method","src_hash":"27fdb76ab828c270","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab95b126e36593d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_rewrite_as_besseli","kind":"method","src_hash":"27fdb76ab828c270","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))) and result == sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) or result == sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, **kwargs)","rhs":"result == (sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))) and result == sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) or result == sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"result == (sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))); result == sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) or result == sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab95b126e36593d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a)))","result == sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a)) or result == sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))"],"fibers":[{"name":"case_0","guard":"re(z).is_positive","ensures":["result == sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a))"],"decidability":"library","returns_expr":"sqrt(z) / sqrt(3) * (besseli(-ot, tt * a) + besseli(ot, tt * a))"},{"name":"case_1","guard":"not (re(z).is_positive)","ensures":["result == sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))"],"decidability":"library","returns_expr":"sqrt(ot) * (b * besseli(-ot, tt * a) + z * c * besseli(ot, tt * a))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, z, **kwargs):
         ot = Rational(1, 3)
         tt = Rational(2, 3)
@@ -2832,32 +3501,44 @@ class airybi(AiryBase):
             return sqrt(ot)*(b*besseli(-ot, tt*a) + z*c*besseli(ot, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(z, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_hyper(z, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pf1 * hyper([], [Rational(2, 3)], z ** 3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 57f6351065b38537   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_rewrite_as_hyper","kind":"method","src_hash":"7614d4bae557413e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57f6351065b38537"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_rewrite_as_hyper","kind":"method","src_hash":"7614d4bae557413e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, **kwargs)","rhs":"pf1 * hyper([], [Rational(2, 3)], z ** 3 / 9) + pf2 * hyper([], [Rational(4, 3)], z ** 3 / 9)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"returns pf1 * hyper([], [Rational(2, 3)], z ** 3 / 9) + pf2 * hyper([], [Rational(4, 3)], z ** 3 / 9)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57f6351065b38537","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pf1 * hyper([], [Rational(2, 3)], z ** 3 / 9) + pf2 * hyper([], [Rational(4, 3)], z ** 3 / 9)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, z, **kwargs):
         pf1 = S.One / (root(3, 6)*gamma(Rational(2, 3)))
         pf2 = z*root(3, 6) / gamma(Rational(1, 3))
         return pf1 * hyper([], [Rational(2, 3)], z**3/9) + pf2 * hyper([], [Rational(4, 3)], z**3/9)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Half * (sqrt(3) * (S.One - pf) * airyai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e25c4dd160b4ccde   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_expand_func","kind":"method","src_hash":"e70f650f30701622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"airyai","by":"library_axiom"},{"fn":"airybi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25c4dd160b4ccde"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybi._eval_expand_func","kind":"method","src_hash":"e70f650f30701622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"S.Half * (sqrt(3) * (S.One - pf) * airyai(newarg) + (S.One + pf) * airybi(newarg))","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns S.Half * (sqrt(3) * (S.One - pf) * airyai(newarg) + (S.One + pf) * airybi(newarg))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"airyai","by":"library_axiom"},{"fn":"airybi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25c4dd160b4ccde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Half * (sqrt(3) * (S.One - pf) * airyai(newarg) + (S.One + pf) * airybi(newarg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         arg = self.args[0]
         symbs = arg.free_symbols
@@ -2885,14 +3566,20 @@ class airybi(AiryBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(airyaiprime(*args), correctly constructs a airyaiprime instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ airyaiprime : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AiryBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ airyaiprime : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 861d9fe73934db72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime","kind":"class","src_hash":"34b38a01cefca405","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"airyaiprime(*args)","rhs":"correctly constructs a airyaiprime instance","over":{"base":"Any"},"name":"airyaiprime_class_invariant"},"guarantee":"correctly constructs a airyaiprime instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"861d9fe73934db72"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime","kind":"class","src_hash":"34b38a01cefca405","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AiryBase)"},"spec":{"lhs":"airyaiprime(*args)","rhs":"correctly constructs a airyaiprime instance","over":{"base":"Any"},"name":"airyaiprime_class_invariant"},"guarantee":"isinstance(self, AiryBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"861d9fe73934db72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AiryBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function airyaiprime not found in source"]}}
 class airyaiprime(AiryBase):
     r"""
     The derivative $\operatorname{Ai}^\prime$ of the Airy function of the first
@@ -2980,16 +3667,24 @@ class airyaiprime(AiryBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb89d32f4859b7fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime.eval","kind":"classmethod","src_hash":"8dbad89c3052c683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyaiprime.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb89d32f4859b7fe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime.eval","kind":"classmethod","src_hash":"8dbad89c3052c683","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyaiprime.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb89d32f4859b7fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Number","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -3001,16 +3696,23 @@ class airyaiprime(AiryBase):
             return S.NegativeOne / (3**Rational(1, 3) * gamma(Rational(1, 3)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => self.args[0] * airy...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f37bf4671489d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16e7118261139ac3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime.fdiff","kind":"method","src_hash":"ad3e058ad968d28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyaiprime.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f37bf4671489d2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime.fdiff","kind":"method","src_hash":"ad3e058ad968d28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyaiprime.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16e7118261139ac3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == self.args[0] * airyai(self.args[0])"],"decidability":"z3","returns_expr":"self.args[0] * airyai(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return self.args[0]*airyai(self.args[0])
@@ -3018,16 +3720,22 @@ class airyaiprime(AiryBase):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), Expr._from_mpmath(res, prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr._from_mpmath(res, prec)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff673110d296d770  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caa9b0253fb43bc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_evalf","kind":"method","src_hash":"af4b2384992d6775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyaiprime._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff673110d296d770"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_evalf","kind":"method","src_hash":"af4b2384992d6775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Expr._from_mpmath(res, prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Expr._from_mpmath(res, prec)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airyaiprime._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Expr._from_mpmath(res, prec))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caa9b0253fb43bc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr._from_mpmath(res, prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         z = self.args[0]._to_mpmath(prec)
         with workprec(prec):
@@ -3035,16 +3743,22 @@ class airyaiprime(AiryBase):
         return Expr._from_mpmath(res, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(z, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  z / 3 * (besselj(-tt, tt * a) - besselj(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 932fadaafab8ea84   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_rewrite_as_besselj","kind":"method","src_hash":"b2edf3be2b2619f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"932fadaafab8ea84"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_rewrite_as_besselj","kind":"method","src_hash":"b2edf3be2b2619f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, **kwargs)","rhs":"z / 3 * (besselj(-tt, tt * a) - besselj(tt, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns z / 3 * (besselj(-tt, tt * a) - besselj(tt, tt * a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"932fadaafab8ea84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"z / 3 * (besselj(-tt, tt * a) - besselj(tt, tt * a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, z, **kwargs):
         tt = Rational(2, 3)
         a = Pow(-z, Rational(3, 2))
@@ -3052,16 +3766,25 @@ class airyaiprime(AiryBase):
             return z/3 * (besselj(-tt, tt*a) - besselj(tt, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besseli(z, **kwargs), id) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besseli : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (z / 3 * (besseli(tt, a) - bess...   ║
+# ║   ensures:  result == z / 3 * (besseli(tt, a) - besse...   ║
+# ║   fiber[case_0]: re(z).is_positive => z / 3 * (bessel...   ║
+# ║   fiber[case_1]: not (re(z).is_positive) => ot * (z *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besseli : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9d23dc966cc4549e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_rewrite_as_besseli","kind":"method","src_hash":"5f511a5f723b6fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d23dc966cc4549e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_rewrite_as_besseli","kind":"method","src_hash":"5f511a5f723b6fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (z / 3 * (besseli(tt, a) - besseli(-tt, a)) if re(z).is_positive else ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))) and result == z / 3 * (besseli(tt, a) - besseli(-tt, a)) or result == ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, **kwargs)","rhs":"result == (z / 3 * (besseli(tt, a) - besseli(-tt, a)) if re(z).is_positive else ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))) and result == z / 3 * (besseli(tt, a) - besseli(-tt, a)) or result == ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"result == (z / 3 * (besseli(tt, a) - besseli(-tt, a)) if re(z).is_positive else ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))); result == z / 3 * (besseli(tt, a) - besseli(-tt, a)) or result == ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d23dc966cc4549e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (z / 3 * (besseli(tt, a) - besseli(-tt, a)) if re(z).is_positive else ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a)))","result == z / 3 * (besseli(tt, a) - besseli(-tt, a)) or result == ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))"],"fibers":[{"name":"case_0","guard":"re(z).is_positive","ensures":["result == z / 3 * (besseli(tt, a) - besseli(-tt, a))"],"decidability":"library","returns_expr":"z / 3 * (besseli(tt, a) - besseli(-tt, a))"},{"name":"case_1","guard":"not (re(z).is_positive)","ensures":["result == ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))"],"decidability":"library","returns_expr":"ot * (z ** 2 * c * besseli(tt, tt * a) - b * besseli(-ot, tt * a))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, z, **kwargs):
         ot = Rational(1, 3)
         tt = Rational(2, 3)
@@ -3075,32 +3798,44 @@ class airyaiprime(AiryBase):
             return ot * (z**2*c*besseli(tt, tt*a) - b*besseli(-ot, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(z, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_hyper(z, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pf1 * hyper([], [Rational(5, 3)], z ** 3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 544402a4eb491cdf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_rewrite_as_hyper","kind":"method","src_hash":"e10176aada3d134c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"544402a4eb491cdf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_rewrite_as_hyper","kind":"method","src_hash":"e10176aada3d134c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, **kwargs)","rhs":"pf1 * hyper([], [Rational(5, 3)], z ** 3 / 9) - pf2 * hyper([], [Rational(1, 3)], z ** 3 / 9)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"returns pf1 * hyper([], [Rational(5, 3)], z ** 3 / 9) - pf2 * hyper([], [Rational(1, 3)], z ** 3 / 9)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"544402a4eb491cdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pf1 * hyper([], [Rational(5, 3)], z ** 3 / 9) - pf2 * hyper([], [Rational(1, 3)], z ** 3 / 9)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, z, **kwargs):
         pf1 = z**2 / (2*3**Rational(2, 3)*gamma(Rational(2, 3)))
         pf2 = 1 / (root(3, 3)*gamma(Rational(1, 3)))
         return pf1 * hyper([], [Rational(5, 3)], z**3/9) - pf2 * hyper([], [Rational(1, 3)], z**3/9)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Half * ((pf + S.One) * airyaiprime(newa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4b99b0735f2e7e97   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_expand_func","kind":"method","src_hash":"16d6eb58dbd7a379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"airyaiprime","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"airybiprime","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b99b0735f2e7e97"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airyaiprime._eval_expand_func","kind":"method","src_hash":"16d6eb58dbd7a379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"S.Half * ((pf + S.One) * airyaiprime(newarg) + (pf - S.One) / sqrt(3) * airybiprime(newarg))","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns S.Half * ((pf + S.One) * airyaiprime(newarg) + (pf - S.One) / sqrt(3) * airybiprime(newarg))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"airyaiprime","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"airybiprime","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b99b0735f2e7e97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Half * ((pf + S.One) * airyaiprime(newarg) + (pf - S.One) / sqrt(3) * airybiprime(newarg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         arg = self.args[0]
         symbs = arg.free_symbols
@@ -3130,14 +3865,20 @@ class airyaiprime(AiryBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(airybiprime(*args), correctly constructs a airybiprime instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ airybiprime : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AiryBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ airybiprime : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56bd222da6a79e03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime","kind":"class","src_hash":"fcbadcdaddedbbbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"airybiprime(*args)","rhs":"correctly constructs a airybiprime instance","over":{"base":"Any"},"name":"airybiprime_class_invariant"},"guarantee":"correctly constructs a airybiprime instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56bd222da6a79e03"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime","kind":"class","src_hash":"fcbadcdaddedbbbe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AiryBase)"},"spec":{"lhs":"airybiprime(*args)","rhs":"correctly constructs a airybiprime instance","over":{"base":"Any"},"name":"airybiprime_class_invariant"},"guarantee":"isinstance(self, AiryBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56bd222da6a79e03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AiryBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function airybiprime not found in source"]}}
 class airybiprime(AiryBase):
     r"""
     The derivative $\operatorname{Bi}^\prime$ of the Airy function of the first
@@ -3227,16 +3968,24 @@ class airybiprime(AiryBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f03423e94bad62f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime.eval","kind":"classmethod","src_hash":"fa13499e571df45f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybiprime.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f03423e94bad62f4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime.eval","kind":"classmethod","src_hash":"fa13499e571df45f","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybiprime.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f03423e94bad62f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Number","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -3253,16 +4002,23 @@ class airybiprime(AiryBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => self.args[0] * airy...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dfde03fd769cf33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5772135b9664a83b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime.fdiff","kind":"method","src_hash":"3be7ad38cab44f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybiprime.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dfde03fd769cf33"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime.fdiff","kind":"method","src_hash":"3be7ad38cab44f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybiprime.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5772135b9664a83b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == self.args[0] * airybi(self.args[0])"],"decidability":"z3","returns_expr":"self.args[0] * airybi(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return self.args[0]*airybi(self.args[0])
@@ -3270,16 +4026,22 @@ class airybiprime(AiryBase):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), Expr._from_mpmath(res, prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr._from_mpmath(res, prec)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1d2d06f99adc56c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a940636a15220ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_evalf","kind":"method","src_hash":"7a9953db070510d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybiprime._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1d2d06f99adc56c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_evalf","kind":"method","src_hash":"7a9953db070510d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Expr._from_mpmath(res, prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Expr._from_mpmath(res, prec)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.airybiprime._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Expr._from_mpmath(res, prec))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a940636a15220ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr._from_mpmath(res, prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         z = self.args[0]._to_mpmath(prec)
         with workprec(prec):
@@ -3287,16 +4049,22 @@ class airybiprime(AiryBase):
         return Expr._from_mpmath(res, prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(z, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -z / sqrt(3) * (besselj(-tt, a) + besselj...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b4fc6a76dcbcb876   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_rewrite_as_besselj","kind":"method","src_hash":"42f6c55f6b2b355d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4fc6a76dcbcb876"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_rewrite_as_besselj","kind":"method","src_hash":"42f6c55f6b2b355d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(z, **kwargs)","rhs":"-z / sqrt(3) * (besselj(-tt, a) + besselj(tt, a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns -z / sqrt(3) * (besselj(-tt, a) + besselj(tt, a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4fc6a76dcbcb876","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-z / sqrt(3) * (besselj(-tt, a) + besselj(tt, a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, z, **kwargs):
         tt = Rational(2, 3)
         a = tt * Pow(-z, Rational(3, 2))
@@ -3304,16 +4072,25 @@ class airybiprime(AiryBase):
             return -z/sqrt(3) * (besselj(-tt, a) + besselj(tt, a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(z, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besseli(z, **kwargs), id) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besseli : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (z / sqrt(3) * (besseli(-tt, a)...   ║
+# ║   ensures:  result == z / sqrt(3) * (besseli(-tt, a) ...   ║
+# ║   fiber[case_0]: re(z).is_positive => z / sqrt(3) * (...   ║
+# ║   fiber[case_1]: not (re(z).is_positive) => sqrt(ot) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besseli : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4168527ddad027b6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_rewrite_as_besseli","kind":"method","src_hash":"f3793ef6de3cd8b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4168527ddad027b6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_rewrite_as_besseli","kind":"method","src_hash":"f3793ef6de3cd8b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))) and result == z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) or result == sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))"},"spec":{"lhs":"_eval_rewrite_as_besseli(z, **kwargs)","rhs":"result == (z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))) and result == z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) or result == sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"result == (z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))); result == z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) or result == sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4168527ddad027b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) if re(z).is_positive else sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a)))","result == z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a)) or result == sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))"],"fibers":[{"name":"case_0","guard":"re(z).is_positive","ensures":["result == z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a))"],"decidability":"library","returns_expr":"z / sqrt(3) * (besseli(-tt, a) + besseli(tt, a))"},{"name":"case_1","guard":"not (re(z).is_positive)","ensures":["result == sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))"],"decidability":"library","returns_expr":"sqrt(ot) * (b * besseli(-tt, tt * a) + z ** 2 * c * besseli(tt, tt * a))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, z, **kwargs):
         ot = Rational(1, 3)
         tt = Rational(2, 3)
@@ -3327,32 +4104,44 @@ class airybiprime(AiryBase):
             return sqrt(ot) * (b*besseli(-tt, tt*a) + z**2*c*besseli(tt, tt*a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(z, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_hyper(z, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pf1 * hyper([], [Rational(5, 3)], z ** 3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bb04fed3cd2d4315   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_rewrite_as_hyper","kind":"method","src_hash":"cbc3dc486b233e91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb04fed3cd2d4315"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_rewrite_as_hyper","kind":"method","src_hash":"cbc3dc486b233e91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(z, **kwargs)","rhs":"pf1 * hyper([], [Rational(5, 3)], z ** 3 / 9) + pf2 * hyper([], [Rational(1, 3)], z ** 3 / 9)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"returns pf1 * hyper([], [Rational(5, 3)], z ** 3 / 9) + pf2 * hyper([], [Rational(1, 3)], z ** 3 / 9)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb04fed3cd2d4315","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pf1 * hyper([], [Rational(5, 3)], z ** 3 / 9) + pf2 * hyper([], [Rational(1, 3)], z ** 3 / 9)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, z, **kwargs):
         pf1 = z**2 / (2*root(3, 6)*gamma(Rational(2, 3)))
         pf2 = root(3, 6) / gamma(Rational(1, 3))
         return pf1 * hyper([], [Rational(5, 3)], z**3/9) + pf2 * hyper([], [Rational(1, 3)], z**3/9)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Half * (sqrt(3) * (pf - S.One) * airyai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 665b7df6686f40cd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_expand_func","kind":"method","src_hash":"b416aaadff6f1ae1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"airyaiprime","by":"library_axiom"},{"fn":"airybiprime","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"665b7df6686f40cd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.airybiprime._eval_expand_func","kind":"method","src_hash":"b416aaadff6f1ae1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"S.Half * (sqrt(3) * (pf - S.One) * airyaiprime(newarg) + (pf + S.One) * airybiprime(newarg))","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns S.Half * (sqrt(3) * (pf - S.One) * airyaiprime(newarg) + (pf + S.One) * airybiprime(newarg))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"airyaiprime","by":"library_axiom"},{"fn":"airybiprime","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"665b7df6686f40cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Half * (sqrt(3) * (pf - S.One) * airyaiprime(newarg) + (pf + S.One) * airybiprime(newarg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         arg = self.args[0]
         symbs = arg.free_symbols
@@ -3382,14 +4171,20 @@ class airybiprime(AiryBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(marcumq(*args), correctly constructs a marcumq instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ marcumq : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ marcumq : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 227ccfce64a3b7a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq","kind":"class","src_hash":"7f82cb00737ddfbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"marcumq(*args)","rhs":"correctly constructs a marcumq instance","over":{"base":"Any"},"name":"marcumq_class_invariant"},"guarantee":"correctly constructs a marcumq instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"227ccfce64a3b7a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq","kind":"class","src_hash":"7f82cb00737ddfbd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"marcumq(*args)","rhs":"correctly constructs a marcumq instance","over":{"base":"Any"},"name":"marcumq_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"227ccfce64a3b7a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function marcumq not found in source"]}}
 class marcumq(DefinedFunction):
     r"""
     The Marcum Q-function.
@@ -3441,16 +4236,25 @@ class marcumq(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, m, a), <unspecified:eval>) over {Any | hasattr(a, 'is_zero') and hasattr(m, 'is_zero') and hasattr(b, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   requires: hasattr(b, 'is_zero')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(a, 'is_zero') and hasattr(m, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a027640ba55c61ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq.eval","kind":"classmethod","src_hash":"05ff3366d194f49e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.marcumq.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a027640ba55c61ce"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq.eval","kind":"classmethod","src_hash":"05ff3366d194f49e","in":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(m, 'is_zero') and hasattr(b, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, m, a)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(m, 'is_zero') and hasattr(b, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.marcumq.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a027640ba55c61ce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_zero')","hasattr(m, 'is_zero')","hasattr(b, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_zero","b.is_zero","m.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, m, a, b):
         if a is S.Zero:
             if m is S.Zero and b is S.Zero:
@@ -3475,16 +4279,24 @@ class marcumq(DefinedFunction):
             return 1 - 1 / exp(a**2*S.Half)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 2 => a * (-marcumq(m, a,...   ║
+# ║   fiber[case_1]: argindex == 3 => -b ** m / a ** (m -...   ║
+# ║   fiber[case_2]: not (argindex == 2) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 37034da932d3060e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq.fdiff","kind":"method","src_hash":"3abcf7b6be4ca0a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"marcumq","by":"library_axiom"},{"fn":"marcumq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37034da932d3060e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq.fdiff","kind":"method","src_hash":"3abcf7b6be4ca0a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"marcumq","by":"library_axiom"},{"fn":"marcumq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37034da932d3060e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 2","ensures":["result == a * (-marcumq(m, a, b) + marcumq(1 + m, a, b))"],"decidability":"z3","returns_expr":"a * (-marcumq(m, a, b) + marcumq(1 + m, a, b))"},{"name":"case_1","guard":"argindex == 3","ensures":["result == -b ** m / a ** (m - 1) * exp(-(a ** 2 + b ** 2) / 2) * besseli(m - 1, a * b)"],"decidability":"z3","returns_expr":"-b ** m / a ** (m - 1) * exp(-(a ** 2 + b ** 2) / 2) * besseli(m - 1, a * b)"},{"name":"case_2","guard":"not (argindex == 2) and not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         m, a, b = self.args
         if argindex == 2:
@@ -3495,16 +4307,22 @@ class marcumq(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(m, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Integral(m, a, b), a ** (1 - m) * Integral(x ** m * exp(-(x ** 2 + a ** 2) / 2) * besseli(m - 1, a * x), [x, b, S.Infinity])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a ** (1 - m) * Integral(x ** m * exp(-(x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb6b87876f186b54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9edb2585e68ac475  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_Integral","kind":"method","src_hash":"ff165aa4ae5c226d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(m, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb6b87876f186b54"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_Integral","kind":"method","src_hash":"ff165aa4ae5c226d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(m, a, b)","rhs":"a ** (1 - m) * Integral(x ** m * exp(-(x ** 2 + a ** 2) / 2) * besseli(m - 1, a * x), [x, b, S.Infinity])","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"returns a ** (1 - m) * Integral(x ** m * exp(-(x ** 2 + a ** 2) / 2) * besseli(m - 1, a * x), [x, b, S.Infinity])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), returns a ** (1 - m) * Integral(x ** m * exp(-(x ** 2 + a ** 2) / 2) * besseli(m - 1, a * x), [x, b, S.Infinity]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9edb2585e68ac475","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a ** (1 - m) * Integral(x ** m * exp(-(x ** 2 + a ** 2) / 2) * besseli(m - 1, a * x), [x, b, S.Infinity])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, m, a, b, **kwargs):
         from sympy.integrals.integrals import Integral
         x = kwargs.get('x', Dummy(uniquely_named_symbol('x').name))
@@ -3512,32 +4330,45 @@ class marcumq(DefinedFunction):
                Integral(x**m * exp(-(x**2 + a**2)/2) * besseli(m-1, a*x), [x, b, S.Infinity])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(m, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(m, a, b), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(-(a ** 2 + b ** 2) / 2) * Sum((a / b)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 258333e73cfaec28   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_Sum","kind":"method","src_hash":"0d5bc12c7b2080ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(m, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"258333e73cfaec28"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_Sum","kind":"method","src_hash":"0d5bc12c7b2080ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(m, a, b)","rhs":"exp(-(a ** 2 + b ** 2) / 2) * Sum((a / b) ** k * besseli(k, a * b), [k, 1 - m, S.Infinity])","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns exp(-(a ** 2 + b ** 2) / 2) * Sum((a / b) ** k * besseli(k, a * b), [k, 1 - m, S.Infinity])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"258333e73cfaec28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(-(a ** 2 + b ** 2) / 2) * Sum((a / b) ** k * besseli(k, a * b), [k, 1 - m, S.Infinity])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, m, a, b, **kwargs):
         from sympy.concrete.summations import Sum
         k = kwargs.get('k', Dummy('k'))
         return exp(-(a**2 + b**2) / 2) * Sum((a/b)**k * besseli(k, a*b), [k, 1-m, S.Infinity])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besseli(m, ), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besseli(m, a, b), id) over {Any | hasattr(m, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_besseli : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_besseli : {Any | hasattr(m, 'is_Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3b7db143ecadd1cc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_besseli","kind":"method","src_hash":"c09de8a19daa4d9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(m, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b7db143ecadd1cc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_rewrite_as_besseli","kind":"method","src_hash":"c09de8a19daa4d9d","in":{"base":"Any","pred":"hasattr(m, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besseli(m, a, b)","rhs":"<unspecified:_eval_rewrite_as_besseli>","over":{"base":"Any","pred":"hasattr(m, 'is_Integer')"},"name":"_eval_rewrite_as_besseli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"besseli","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b7db143ecadd1cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_Integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besseli(self, m, a, b, **kwargs):
         if a == b:
             if m == 1:
@@ -3547,16 +4378,22 @@ class marcumq(DefinedFunction):
                 return S.Half + exp(-a**2) * besseli(0, a**2) / 2 + exp(-a**2) * s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e266439531a2c2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2feabc87ad4f700a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_is_zero","kind":"method","src_hash":"25df14b931655218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.marcumq._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e266439531a2c2f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel.marcumq._eval_is_zero","kind":"method","src_hash":"25df14b931655218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel.marcumq._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2feabc87ad4f700a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         if all(arg.is_zero for arg in self.args):
             return True
@@ -3564,14 +4401,20 @@ class marcumq(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_besseli(*args), correctly constructs a _besseli instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _besseli : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _besseli : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c72bcc375a5be03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli","kind":"class","src_hash":"830293cb884c8e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_besseli(*args)","rhs":"correctly constructs a _besseli instance","over":{"base":"Any"},"name":"_besseli_class_invariant"},"guarantee":"correctly constructs a _besseli instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c72bcc375a5be03"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli","kind":"class","src_hash":"830293cb884c8e97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"_besseli(*args)","rhs":"correctly constructs a _besseli instance","over":{"base":"Any"},"name":"_besseli_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c72bcc375a5be03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function _besseli not found in source"]}}
 class _besseli(DefinedFunction):
     """
     Helper function to make the $\\mathrm{besseli}(nu, z)$
@@ -3580,16 +4423,22 @@ class _besseli(DefinedFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 81c11a508e186bf7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli._eval_aseries","kind":"method","src_hash":"e860a4e6e2a8b773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"},{"fn":"Order","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c11a508e186bf7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli._eval_aseries","kind":"method","src_hash":"e860a4e6e2a8b773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"},{"fn":"Order","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c11a508e186bf7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.functions.combinatorial.factorials import RisingFactorial
         from sympy.series.order import Order
@@ -3604,30 +4453,42 @@ class _besseli(DefinedFunction):
         return super()._eval_aseries(n, args0, x, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_intractable(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_intractable(nu, z, **kwargs), exp(-z) * besseli(nu, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(-z) * besseli(nu, z)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_intractable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 895c0b6aaebacdc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli._eval_rewrite_as_intractable","kind":"method","src_hash":"28ac6364a4fc6adc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_intractable(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_intractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"895c0b6aaebacdc4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli._eval_rewrite_as_intractable","kind":"method","src_hash":"28ac6364a4fc6adc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_intractable(nu, z, **kwargs)","rhs":"exp(-z) * besseli(nu, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_intractable_correct"},"guarantee":"returns exp(-z) * besseli(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"895c0b6aaebacdc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(-z) * besseli(nu, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_intractable(self, nu, z, **kwargs):
         return exp(-z)*besseli(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 254d1ab1c0e2bffe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli._eval_nseries","kind":"method","src_hash":"f9568705dc5cf93f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel._besseli._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254d1ab1c0e2bffe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besseli._eval_nseries","kind":"method","src_hash":"f9568705dc5cf93f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel._besseli._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254d1ab1c0e2bffe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_intractable","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         x0 = self.args[0].limit(x, 0)
         if x0.is_zero:
@@ -3639,14 +4500,20 @@ class _besseli(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_besselk(*args), correctly constructs a _besselk instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _besselk : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _besselk : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11a3cfa38a22d898  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk","kind":"class","src_hash":"48a86aacfe219fb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_besselk(*args)","rhs":"correctly constructs a _besselk instance","over":{"base":"Any"},"name":"_besselk_class_invariant"},"guarantee":"correctly constructs a _besselk instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11a3cfa38a22d898"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk","kind":"class","src_hash":"48a86aacfe219fb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"_besselk(*args)","rhs":"correctly constructs a _besselk instance","over":{"base":"Any"},"name":"_besselk_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11a3cfa38a22d898","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function _besselk not found in source"]}}
 class _besselk(DefinedFunction):
     """
     Helper function to make the $\\mathrm{besselk}(nu, z)$
@@ -3655,16 +4522,22 @@ class _besselk(DefinedFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_aseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d7e2b2a29d9a31d2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk._eval_aseries","kind":"method","src_hash":"a4245e62fc2aae9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"},{"fn":"Order","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7e2b2a29d9a31d2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk._eval_aseries","kind":"method","src_hash":"a4245e62fc2aae9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"<unspecified:_eval_aseries>","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"Add","by":"library_axiom"},{"fn":"Order","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7e2b2a29d9a31d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         from sympy.functions.combinatorial.factorials import RisingFactorial
         from sympy.series.order import Order
@@ -3679,30 +4552,42 @@ class _besselk(DefinedFunction):
         return super()._eval_aseries(n, args0, x, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_intractable(nu,), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_intractable(nu, z, **kwargs), exp(z) * besselk(nu, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(z) * besselk(nu, z)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_intractable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9388637812f02401           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk._eval_rewrite_as_intractable","kind":"method","src_hash":"d6be6cdf17064213","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_intractable(nu,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_intractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9388637812f02401"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk._eval_rewrite_as_intractable","kind":"method","src_hash":"d6be6cdf17064213","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_intractable(nu, z, **kwargs)","rhs":"exp(z) * besselk(nu, z)","over":{"base":"Any"},"name":"_eval_rewrite_as_intractable_correct"},"guarantee":"returns exp(z) * besselk(nu, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9388637812f02401","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(z) * besselk(nu, z)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_intractable(self,nu, z, **kwargs):
         return exp(z)*besselk(nu, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d513a92132e75b0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk._eval_nseries","kind":"method","src_hash":"f9568705dc5cf93f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel._besselk._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d513a92132e75b0c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.bessel._besselk._eval_nseries","kind":"method","src_hash":"f9568705dc5cf93f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.bessel._besselk._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d513a92132e75b0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_intractable","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         x0 = self.args[0].limit(x, 0)
         if x0.is_zero:

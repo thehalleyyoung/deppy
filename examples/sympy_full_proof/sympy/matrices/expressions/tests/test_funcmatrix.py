@@ -24,16 +24,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_funcmatrix_creation(), test_funcmatrix_creation produces the expected output) over Any ║
+# ║ Path(test_funcmatrix_creation(), FunctionMatrix(2, 2, Lambda((i, j), 0)) and FunctionMatrix(0, 0, Lambda((i, j), 0)) and FunctionMatrix(2, 2, 'lambda i, j: 0') == FunctionMatrix(2, 2, Lambda((i, j), 0)) and m.as_explicit() == Identity(2).as_explicit() and m.args[2].dummy_eq(Lambda((i, j), KroneckerDelta(i, j))) and FunctionMatrix(n, n, Lambda((i, j), 0))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_funcmatrix_creation : Any → {Any | FunctionMatri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FunctionMatrix(2, 2, Lambda((i, j), 0))        ║
+# ║   ensures:  FunctionMatrix(0, 0, Lambda((i, j), 0))        ║
+# ║   ensures:  FunctionMatrix(2, 2, 'lambda i, j: 0') ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_funcmatrix_creation : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 825d3a2e0a2f6b8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5b5ba0d1bf738eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix_creation","kind":"function","src_hash":"b0cac6ae5c94d74a","in":{"base":"Any"},"out":{"base":"Any","pred":"FunctionMatrix(2, 2, Lambda((i, j), 0)) and FunctionMatrix(0, 0, Lambda((i, j), 0)) and m.as_explicit() == Identity(2).as_explicit() and m.args[2].dummy_eq(Lambda((i, j), KroneckerDelta(i, j))) and FunctionMatrix(n, n, Lambda((i, j), 0))"},"spec":{"lhs":"test_funcmatrix_creation()","rhs":"test_funcmatrix_creation produces the expected output","over":{"base":"Any"},"name":"test_funcmatrix_creation_correct"},"guarantee":"test_funcmatrix_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix_creation_correct","statement":"Path(test_funcmatrix_creation(x), test_funcmatrix_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"825d3a2e0a2f6b8b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix_creation","kind":"function","src_hash":"b0cac6ae5c94d74a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FunctionMatrix(2, 2, Lambda((i, j), 0)) and FunctionMatrix(0, 0, Lambda((i, j), 0)) and FunctionMatrix(2, 2, 'lambda i, j: 0') == FunctionMatrix(2, 2, Lambda((i, j), 0)) and m.as_explicit() == Identity(2).as_explicit() and m.args[2].dummy_eq(Lambda((i, j), KroneckerDelta(i, j))) and FunctionMatrix(n, n, Lambda((i, j), 0))"},"spec":{"lhs":"test_funcmatrix_creation()","rhs":"FunctionMatrix(2, 2, Lambda((i, j), 0)) and FunctionMatrix(0, 0, Lambda((i, j), 0)) and FunctionMatrix(2, 2, 'lambda i, j: 0') == FunctionMatrix(2, 2, Lambda((i, j), 0)) and m.as_explicit() == Identity(2).as_explicit() and m.args[2].dummy_eq(Lambda((i, j), KroneckerDelta(i, j))) and FunctionMatrix(n, n, Lambda((i, j), 0))","over":{"base":"Any"},"name":"test_funcmatrix_creation_correct"},"guarantee":"FunctionMatrix(2, 2, Lambda((i, j), 0)); FunctionMatrix(0, 0, Lambda((i, j), 0)); FunctionMatrix(2, 2, 'lambda i, j: 0') == FunctionMatrix(2, 2, Lambda((i, j), 0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix_creation_correct","statement":"Path(test_funcmatrix_creation(x), FunctionMatrix(2, 2, Lambda((i, j), 0)); FunctionMatrix(0, 0, Lambda((i, j), 0)); FunctionMatrix(2, 2, 'lambda i, j: 0') == FunctionMatrix(2, 2, Lambda((i, j), 0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5b5ba0d1bf738eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FunctionMatrix(2, 2, Lambda((i, j), 0))","FunctionMatrix(0, 0, Lambda((i, j), 0))","FunctionMatrix(2, 2, 'lambda i, j: 0') == FunctionMatrix(2, 2, Lambda((i, j), 0))","m.as_explicit() == Identity(2).as_explicit()","m.args[2].dummy_eq(Lambda((i, j), KroneckerDelta(i, j)))","FunctionMatrix(n, n, Lambda((i, j), 0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_funcmatrix_creation():
     i, j, k = symbols('i j k')
     assert FunctionMatrix(2, 2, Lambda((i, j), 0))
@@ -67,7 +75,12 @@ def test_funcmatrix_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_funcmatrix(), test_funcmatrix produces the expected output) over {Any | isinstance(X * X + X, MatrixExpr)} ║
+# ║ Path(test_funcmatrix(), X[1, 1] == 0 and X[1, 2] == -1 and X.shape == (3, 3) and X.rows == X.cols == 3 and Matrix(X) == Matrix(3, 3, lambda i, j: i - j) and isinstance(X * X + X, MatrixExpr)) over {Any | isinstance(X * X + X, MatrixExpr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X[1, 1] == 0                                   ║
+# ║   ensures:  X[1, 2] == -1                                  ║
+# ║   ensures:  X.shape == (3, 3)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_funcmatrix : {Any | isinstance(X * X + X, Matrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -79,9 +92,12 @@ def test_funcmatrix_creation():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fe4274ba...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix","kind":"function","src_hash":"90a3c312809c43fa","in":{"base":"Any","pred":"isinstance(X * X + X, MatrixExpr)"},"out":{"base":"Any","pred":"X[1, 1] == 0 and X[1, 2] == -1 and X.shape == (3, 3) and X.rows == X.cols == 3 and Matrix(X) == Matrix(3, 3, lambda i, j: i - j) and isinstance(X * X + X, MatrixExpr)"},"spec":{"lhs":"test_funcmatrix()","rhs":"test_funcmatrix produces the expected output","over":{"base":"Any","pred":"isinstance(X * X + X, MatrixExpr)"},"name":"test_funcmatrix_correct"},"guarantee":"test_funcmatrix produces the expected output","fibers":[{"name":"MatrixExpr","pred":"isinstance(X * X + X, MatrixExpr)","path":{"lhs":"test_funcmatrix(x)","rhs":"test_funcmatrix produces the expected output","over":{"base":"MatrixExpr","pred":"isinstance(X * X + X, MatrixExpr)"},"name":"test_funcmatrix_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix_MatrixExpr_correct","statement":"test_funcmatrix satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fe4274baab4bfa7d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix","kind":"function","src_hash":"90a3c312809c43fa","in":{"base":"Any","pred":"isinstance(X * X + X, MatrixExpr)"},"out":{"base":"Any","pred":"result satisfies: X[1, 1] == 0 and X[1, 2] == -1 and X.shape == (3, 3) and X.rows == X.cols == 3 and Matrix(X) == Matrix(3, 3, lambda i, j: i - j) and isinstance(X * X + X, MatrixExpr)"},"spec":{"lhs":"test_funcmatrix()","rhs":"X[1, 1] == 0 and X[1, 2] == -1 and X.shape == (3, 3) and X.rows == X.cols == 3 and Matrix(X) == Matrix(3, 3, lambda i, j: i - j) and isinstance(X * X + X, MatrixExpr)","over":{"base":"Any","pred":"isinstance(X * X + X, MatrixExpr)"},"name":"test_funcmatrix_correct"},"guarantee":"X[1, 1] == 0; X[1, 2] == -1; X.shape == (3, 3)","fibers":[{"name":"MatrixExpr","pred":"isinstance(X * X + X, MatrixExpr)","path":{"lhs":"test_funcmatrix(x)","rhs":"X[1, 1] == 0; X[1, 2] == -1; X.shape == (3, 3)","over":{"base":"MatrixExpr","pred":"isinstance(X * X + X, MatrixExpr)"},"name":"test_funcmatrix_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_funcmatrix.test_funcmatrix_MatrixExpr_correct","statement":"test_funcmatrix satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fe4274baab4bfa7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X[1, 1] == 0","X[1, 2] == -1","X.shape == (3, 3)","X.rows == X.cols == 3","Matrix(X) == Matrix(3, 3, lambda i, j: i - j)","isinstance(X * X + X, MatrixExpr)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_funcmatrix():
     i, j = symbols('i,j')
     X = FunctionMatrix(3, 3, Lambda((i, j), i - j))
@@ -94,16 +110,22 @@ def test_funcmatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_replace_issue(), test_replace_issue produces the expected output) over Any ║
+# ║ Path(test_replace_issue(), X.replace(lambda x: True, lambda x: x) == X) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_replace_issue : Any → {Any | X.replace(lambda x:...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.replace(lambda x: True, lambda x: x) == X    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_replace_issue : Any → {Any | result satisfies: X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41343a666431edf6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82b5a951fe0ff4f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_funcmatrix.test_replace_issue","kind":"function","src_hash":"dd19266d8a0811a3","in":{"base":"Any"},"out":{"base":"Any","pred":"X.replace(lambda x: True, lambda x: x) == X"},"spec":{"lhs":"test_replace_issue()","rhs":"test_replace_issue produces the expected output","over":{"base":"Any"},"name":"test_replace_issue_correct"},"guarantee":"test_replace_issue produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_funcmatrix.test_replace_issue_correct","statement":"Path(test_replace_issue(x), test_replace_issue produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41343a666431edf6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_funcmatrix.test_replace_issue","kind":"function","src_hash":"dd19266d8a0811a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.replace(lambda x: True, lambda x: x) == X"},"spec":{"lhs":"test_replace_issue()","rhs":"X.replace(lambda x: True, lambda x: x) == X","over":{"base":"Any"},"name":"test_replace_issue_correct"},"guarantee":"X.replace(lambda x: True, lambda x: x) == X","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_funcmatrix.test_replace_issue_correct","statement":"Path(test_replace_issue(x), X.replace(lambda x: True, lambda x: x) == X)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82b5a951fe0ff4f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.replace(lambda x: True, lambda x: x) == X"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_replace_issue():
     X = FunctionMatrix(3, 3, KroneckerDelta)
     assert X.replace(lambda x: True, lambda x: x) == X

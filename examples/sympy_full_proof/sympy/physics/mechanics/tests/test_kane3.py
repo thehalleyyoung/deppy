@@ -28,16 +28,22 @@ from sympy.testing.pytest import slow
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bicycle(), test_bicycle produces the expected output) over Any ║
+# ║ Path(test_bicycle(), <unspecified:test_bicycle>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_bicycle : Any → {Any | all((abs(x) < eps for x i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d20af6225c04bcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane3.test_bicycle","kind":"function","src_hash":"084d5faed58ad8be","in":{"base":"Any"},"out":{"base":"Any","pred":"all((abs(x) < eps for x in error))"},"spec":{"lhs":"test_bicycle()","rhs":"test_bicycle produces the expected output","over":{"base":"Any"},"name":"test_bicycle_correct"},"guarantee":"test_bicycle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane3.test_bicycle_correct","statement":"Path(test_bicycle(x), test_bicycle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d20af6225c04bcb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane3.test_bicycle","kind":"function","src_hash":"084d5faed58ad8be","in":{"base":"Any"},"out":{"base":"Any","pred":"all((abs(x) < eps for x in error))"},"spec":{"lhs":"test_bicycle()","rhs":"<unspecified:test_bicycle>","over":{"base":"Any"},"name":"test_bicycle_correct"},"guarantee":"test_bicycle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane3.test_bicycle_correct","statement":"Path(test_bicycle(x), test_bicycle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d20af6225c04bcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":true}}
 def test_bicycle():
     # Code to get equations of motion for a bicycle modeled as in:
     # J.P Meijaard, Jim M Papadopoulos, Andy Ruina and A.L Schwab. Linearized

@@ -57,22 +57,31 @@ IMMUTABLE = (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMs(ite), DMs produces the expected output) over Any  ║
+# ║ Path(DMs(items, domain), DM(items, domain).to_sparse()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DM(items, domain).to_sparse()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c407415245976290           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_domains.DMs","kind":"function","src_hash":"31ef7340016e92c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMs(ite)","rhs":"DMs produces the expected output","over":{"base":"Any"},"name":"DMs_correct"},"guarantee":"DMs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c407415245976290"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_domains.DMs","kind":"function","src_hash":"31ef7340016e92c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DMs(items, domain)","rhs":"DM(items, domain).to_sparse()","over":{"base":"Any"},"name":"DMs_correct"},"guarantee":"returns DM(items, domain).to_sparse()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c407415245976290","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DM(items, domain).to_sparse()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DMs(items, domain):
     return DM(items, domain).to_sparse()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_rep_domain(), test_Matrix_rep_domain produces the expected output) over {Any | isinstance(M, IMMUTABLE)} ║
+# ║ Path(test_Matrix_rep_domain(), Mat._fromrep(dM)._rep.domain == K) over {Any | isinstance(M, IMMUTABLE)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Mat._fromrep(dM)._rep.domain == K              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Matrix_rep_domain : {Any | isinstance(M, IMMUTAB...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -84,9 +93,12 @@ def DMs(items, domain):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7399664c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_domains.test_Matrix_rep_domain","kind":"function","src_hash":"2dac41f522b3e6db","in":{"base":"Any","pred":"isinstance(M, IMMUTABLE)"},"out":{"base":"Any","pred":"Mat._fromrep(dM)._rep.domain == K and M._rep == DMs([[1, 2], [3, 4]], ZZ) and (M / 2)._rep == DMs([[(1, 2), 1], [(3, 2), 2]], QQ) and M._rep == DMs([[(1, 2), 2], [3, 4]], QQ) and Mat._fromrep(dM)._rep == dM and M._rep == DMs([[x, 2], [3, 4]], EXRAW) and M._rep == DMs([[x, 2], [3, 4]], EXRAW)"},"spec":{"lhs":"test_Matrix_rep_domain()","rhs":"test_Matrix_rep_domain produces the expected output","over":{"base":"Any","pred":"isinstance(M, IMMUTABLE)"},"name":"test_Matrix_rep_domain_correct"},"guarantee":"test_Matrix_rep_domain produces the expected output","fibers":[{"name":"IMMUTABLE","pred":"isinstance(M, IMMUTABLE)","path":{"lhs":"test_Matrix_rep_domain(x)","rhs":"test_Matrix_rep_domain produces the expected output","over":{"base":"IMMUTABLE","pred":"isinstance(M, IMMUTABLE)"},"name":"test_Matrix_rep_domain_IMMUTABLE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_domains.test_Matrix_rep_domain_IMMUTABLE_correct","statement":"test_Matrix_rep_domain satisfies spec on IMMUTABLE inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7399664c25dd631a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_domains.test_Matrix_rep_domain","kind":"function","src_hash":"2dac41f522b3e6db","in":{"base":"Any","pred":"isinstance(M, IMMUTABLE)"},"out":{"base":"Any","pred":"result satisfies: Mat._fromrep(dM)._rep.domain == K"},"spec":{"lhs":"test_Matrix_rep_domain()","rhs":"Mat._fromrep(dM)._rep.domain == K","over":{"base":"Any","pred":"isinstance(M, IMMUTABLE)"},"name":"test_Matrix_rep_domain_correct"},"guarantee":"Mat._fromrep(dM)._rep.domain == K","fibers":[{"name":"IMMUTABLE","pred":"isinstance(M, IMMUTABLE)","path":{"lhs":"test_Matrix_rep_domain(x)","rhs":"Mat._fromrep(dM)._rep.domain == K","over":{"base":"IMMUTABLE","pred":"isinstance(M, IMMUTABLE)"},"name":"test_Matrix_rep_domain_IMMUTABLE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_domains.test_Matrix_rep_domain_IMMUTABLE_correct","statement":"test_Matrix_rep_domain satisfies spec on IMMUTABLE inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7399664c25dd631a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Mat._fromrep(dM)._rep.domain == K"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(M, IMMUTABLE)'}, fibers={'IMMUTABLE'})"]}}
 def test_Matrix_rep_domain():
 
     for Mat in MATRIX_TYPES:
@@ -120,16 +132,24 @@ def test_Matrix_rep_domain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_to_DM(), test_Matrix_to_DM produces the expected output) over Any ║
+# ║ Path(test_Matrix_to_DM(), M.to_DM() == DMs([[1, 2], [3, 4]], ZZ) and M.to_DM() is not M._rep and M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ[x]) == DMs([[1, 2], [3, 4]], QQ[x]) and M.to_DM(domain=GF(3)) == DMs([[1, 2], [0, 1]], GF(3)) and M._rep.domain == EXRAW and M.to_DM() == DMs([[QQ(1, 2), 2], [3, 4]], QQ) and M.to_DM() == DMs([[x, 2], [3, 4]], ZZ[x]) and M.to_DM(field=True) == DMs([[x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1 / x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1, sqrt(2)], [3, 4]], EXRAW) and M.to_DM(extension=True) == M_K.to_sparse()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_to_DM : Any → {Any | M.to_DM() == DMs([[1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.to_DM() == DMs([[1, 2], [3, 4]], ZZ)         ║
+# ║   ensures:  M.to_DM() is not M._rep                        ║
+# ║   ensures:  M.to_DM(field=True) == DMs([[1, 2], [3, 4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_to_DM : Any → {Any | result satisfies: M....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e85c8981bb037e64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96db6a1bdba1b286  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_domains.test_Matrix_to_DM","kind":"function","src_hash":"7edfb94eeeda1dd0","in":{"base":"Any"},"out":{"base":"Any","pred":"M.to_DM() == DMs([[1, 2], [3, 4]], ZZ) and M.to_DM() is not M._rep and M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ[x]) == DMs([[1, 2], [3, 4]], QQ[x]) and M.to_DM(domain=GF(3)) == DMs([[1, 2], [0, 1]], GF(3)) and M._rep.domain == EXRAW and M.to_DM() == DMs([[1, 2], [3, 4]], ZZ) and M.to_DM() == DMs([[QQ(1, 2), 2], [3, 4]], QQ) and M.to_DM() == DMs([[x, 2], [3, 4]], ZZ[x]) and M.to_DM(field=True) == DMs([[x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1 / x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1, sqrt(2)], [3, 4]], EXRAW) and M.to_DM(extension=True) == M_K.to_sparse()"},"spec":{"lhs":"test_Matrix_to_DM()","rhs":"test_Matrix_to_DM produces the expected output","over":{"base":"Any"},"name":"test_Matrix_to_DM_correct"},"guarantee":"test_Matrix_to_DM produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_domains.test_Matrix_to_DM_correct","statement":"Path(test_Matrix_to_DM(x), test_Matrix_to_DM produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e85c8981bb037e64"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_domains.test_Matrix_to_DM","kind":"function","src_hash":"7edfb94eeeda1dd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.to_DM() == DMs([[1, 2], [3, 4]], ZZ) and M.to_DM() is not M._rep and M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ[x]) == DMs([[1, 2], [3, 4]], QQ[x]) and M.to_DM(domain=GF(3)) == DMs([[1, 2], [0, 1]], GF(3)) and M._rep.domain == EXRAW and M.to_DM() == DMs([[QQ(1, 2), 2], [3, 4]], QQ) and M.to_DM() == DMs([[x, 2], [3, 4]], ZZ[x]) and M.to_DM(field=True) == DMs([[x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1 / x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1, sqrt(2)], [3, 4]], EXRAW) and M.to_DM(extension=True) == M_K.to_sparse()"},"spec":{"lhs":"test_Matrix_to_DM()","rhs":"M.to_DM() == DMs([[1, 2], [3, 4]], ZZ) and M.to_DM() is not M._rep and M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ) == DMs([[1, 2], [3, 4]], QQ) and M.to_DM(domain=QQ[x]) == DMs([[1, 2], [3, 4]], QQ[x]) and M.to_DM(domain=GF(3)) == DMs([[1, 2], [0, 1]], GF(3)) and M._rep.domain == EXRAW and M.to_DM() == DMs([[QQ(1, 2), 2], [3, 4]], QQ) and M.to_DM() == DMs([[x, 2], [3, 4]], ZZ[x]) and M.to_DM(field=True) == DMs([[x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1 / x, 2], [3, 4]], ZZ.frac_field(x)) and M.to_DM() == DMs([[1, sqrt(2)], [3, 4]], EXRAW) and M.to_DM(extension=True) == M_K.to_sparse()","over":{"base":"Any"},"name":"test_Matrix_to_DM_correct"},"guarantee":"M.to_DM() == DMs([[1, 2], [3, 4]], ZZ); M.to_DM() is not M._rep; M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_domains.test_Matrix_to_DM_correct","statement":"Path(test_Matrix_to_DM(x), M.to_DM() == DMs([[1, 2], [3, 4]], ZZ); M.to_DM() is not M._rep; M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96db6a1bdba1b286","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.to_DM() == DMs([[1, 2], [3, 4]], ZZ)","M.to_DM() is not M._rep","M.to_DM(field=True) == DMs([[1, 2], [3, 4]], QQ)","M.to_DM(domain=QQ) == DMs([[1, 2], [3, 4]], QQ)","M.to_DM(domain=QQ[x]) == DMs([[1, 2], [3, 4]], QQ[x])","M.to_DM(domain=GF(3)) == DMs([[1, 2], [0, 1]], GF(3))","M._rep.domain == EXRAW","M.to_DM() == DMs([[QQ(1, 2), 2], [3, 4]], QQ)","M.to_DM() == DMs([[x, 2], [3, 4]], ZZ[x])","M.to_DM(field=True) == DMs([[x, 2], [3, 4]], ZZ.frac_field(x))","M.to_DM() == DMs([[1 / x, 2], [3, 4]], ZZ.frac_field(x))","M.to_DM() == DMs([[1, sqrt(2)], [3, 4]], EXRAW)","M.to_DM(extension=True) == M_K.to_sparse()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_Matrix_to_DM():
 
     M = Matrix([[1, 2], [3, 4]])

@@ -26,14 +26,19 @@ from types import FunctionType
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a TableForm instance) preserved by TableForm(*args) over {Any | isinstance(data, Matrix) and isinstance(f, FunctionType)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TableForm : {Any | isinstance(data, Matrix) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1729a08e6d044bcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm","kind":"class","src_hash":"15f6f97d692a521e","in":{"base":"Any","pred":"isinstance(data, Matrix) and isinstance(f, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"TableForm(*args)","rhs":"correctly constructs a TableForm instance","over":{"base":"Any","pred":"isinstance(data, Matrix) and isinstance(f, FunctionType)"},"name":"TableForm_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a TableForm instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_w') and hasattr(self, '_h') and hasattr(self, '_lines') and hasattr(self, '_headings') and hasattr(self, '_head_align') and hasattr(self, '_alignments') and hasattr(self, '_column_formats') and hasattr(self, '_wipe_zeros')","kind":"class","induction":"structural on _w, _h, _lines, _headings"}],"methods_preserving":["__init__","__repr__","__str__","as_matrix","as_str","as_latex","_sympystr","_latex"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1729a08e6d044bcf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm","kind":"class","src_hash":"15f6f97d692a521e","in":{"base":"Any","pred":"isinstance(data, Matrix) and isinstance(f, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"TableForm(*args)","rhs":"correctly constructs a TableForm instance","over":{"base":"Any","pred":"isinstance(data, Matrix) and isinstance(f, FunctionType)"},"name":"TableForm_class_invariant","kind":"invariant"},"guarantee":"preserves 8 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_w') and hasattr(self, '_h') and hasattr(self, '_lines') and hasattr(self, '_headings') and hasattr(self, '_head_align') and hasattr(self, '_alignments') and hasattr(self, '_column_formats') and hasattr(self, '_wipe_zeros')","kind":"class","induction":"structural on _w, _h, _lines, _headings"}],"methods_preserving":["__init__","__repr__","__str__","as_matrix","as_str","as_latex","_sympystr","_latex"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1729a08e6d044bcf","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_w')","hasattr(self, '_h')","hasattr(self, '_lines')","hasattr(self, '_headings')","hasattr(self, '_head_align')","hasattr(self, '_alignments')","hasattr(self, '_column_formats')","hasattr(self, '_wipe_zeros')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function TableForm not found in source"]}}
 class TableForm:
     r"""
     Create a nice table representation of data.
@@ -61,16 +66,23 @@ class TableForm:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dat), initializes the instance correctly) over Any ║
+# ║ Path(__init__(data, **kwarg), len(_alignments) == old_len__alignments + 1) over {Any | hasattr(data, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(data, 'tolist')                        ║
+# ║   ensures:  len(_alignments) == old_len__alignments + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(data, 'tolist')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7968efa8992fca28           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.__init__","kind":"method","src_hash":"37d5e12787931125","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dat)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7968efa8992fca28"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.__init__","kind":"method","src_hash":"37d5e12787931125","in":{"base":"Any","pred":"hasattr(data, 'tolist')"},"out":{"base":"Any","pred":"result satisfies: len(_alignments) == old_len__alignments + 1"},"spec":{"lhs":"__init__(data, **kwarg)","rhs":"len(_alignments) == old_len__alignments + 1","over":{"base":"Any","pred":"hasattr(data, 'tolist')"},"name":"__init___correct"},"guarantee":"len(_alignments) == old_len__alignments + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7968efa8992fca28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(data, 'tolist')"],"ensures":["len(_alignments) == old_len__alignments + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["data.tolist"],"writes":["data[*]","self._alignments","self._column_formats","self._h","self._head_align","self._headings","self._lines","self._w","self._wipe_zeros"],"calls_mutating":["_alignments.append","line.extend"],"raises":["ValueError"],"catches":["SympifyError"]},"state_contract":{"modifies":["_alignments.*","data[*]","line.*","self._alignments","self._column_formats","self._h","self._head_align","self._headings","self._lines","self._w","self._wipe_zeros"],"old_bindings":{"old_data_star":"data[*]","old_self__alignments":"self._alignments","old_self__column_formats":"self._column_formats","old_self__h":"self._h","old_self__head_align":"self._head_align","old_self__headings":"self._headings","old_self__lines":"self._lines","old_self__w":"self._w","old_self__wipe_zeros":"self._wipe_zeros","old_len__alignments":"len(_alignments)","old_len_line":"len(line)"},"post_ensures":["len(_alignments) == old_len__alignments + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, data, **kwarg):
         """
         Creates a TableForm.
@@ -240,46 +252,64 @@ class TableForm:
         self._wipe_zeros = _wipe_zeros
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), sstr(self, order=None)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sstr(self, order=None)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 972348bdb0c26d8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.__repr__","kind":"method","src_hash":"e8954f23f09d1281","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"972348bdb0c26d8c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.__repr__","kind":"method","src_hash":"e8954f23f09d1281","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"sstr(self, order=None)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns sstr(self, order=None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"972348bdb0c26d8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(self, order=None)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         from .str import sstr
         return sstr(self, order=None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), sstr(self, order=None)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sstr(self, order=None)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb34729ae8257893           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.__str__","kind":"method","src_hash":"8e64bb1518240751","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb34729ae8257893"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.__str__","kind":"method","src_hash":"8e64bb1518240751","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"sstr(self, order=None)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns sstr(self, order=None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb34729ae8257893","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(self, order=None)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         from .str import sstr
         return sstr(self, order=None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_matrix(), returns the data of the table in matrix form) over Any ║
+# ║ Path(as_matrix(), Matrix(self._lines)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(self._lines)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_matrix : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c35b5c904199d418  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf047c3fe7c6af8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.as_matrix","kind":"method","src_hash":"4d0674de53acab38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_matrix()","rhs":"returns the data of the table in matrix form","over":{"base":"Any"},"name":"as_matrix_correct"},"guarantee":"returns the data of the table in matrix form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm.as_matrix_correct","statement":"Path(as_matrix(x), returns the data of the table in matrix form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c35b5c904199d418"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.as_matrix","kind":"method","src_hash":"4d0674de53acab38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_matrix()","rhs":"Matrix(self._lines)","over":{"base":"Any"},"name":"as_matrix_correct"},"guarantee":"returns Matrix(self._lines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm.as_matrix_correct","statement":"Path(as_matrix(x), returns Matrix(self._lines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf047c3fe7c6af8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(self._lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._lines"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_matrix(self):
         """Returns the data of the table in Matrix form.
 
@@ -304,46 +334,64 @@ class TableForm:
         return Matrix(self._lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_str(), as_str produces the expected output) over Any ║
+# ║ Path(as_str(), str(self)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_str : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05c2307383cff2a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.as_str","kind":"method","src_hash":"a35b7f328ba61b2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_str()","rhs":"as_str produces the expected output","over":{"base":"Any"},"name":"as_str_correct"},"guarantee":"as_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05c2307383cff2a1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.as_str","kind":"method","src_hash":"a35b7f328ba61b2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_str()","rhs":"str(self)","over":{"base":"Any"},"name":"as_str_correct"},"guarantee":"returns str(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05c2307383cff2a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_str(self):
         # XXX obsolete ?
         return str(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_latex(), as_latex produces the expected output) over Any ║
+# ║ Path(as_latex(), latex(self)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  latex(self)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_latex : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c06a355231c8cca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e3a64389ba5e31a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.as_latex","kind":"method","src_hash":"9cd9ea76db0345cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_latex()","rhs":"as_latex produces the expected output","over":{"base":"Any"},"name":"as_latex_correct"},"guarantee":"as_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm.as_latex_correct","statement":"Path(as_latex(x), as_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c06a355231c8cca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm.as_latex","kind":"method","src_hash":"9cd9ea76db0345cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_latex()","rhs":"latex(self)","over":{"base":"Any"},"name":"as_latex_correct"},"guarantee":"returns latex(self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm.as_latex_correct","statement":"Path(as_latex(x), returns latex(self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3a64389ba5e31a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"latex(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_latex(self):
         from .latex import latex
         return latex(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(p), returns the string representation of 'self') over Any ║
+# ║ Path(_sympystr(p), <unspecified:_sympystr>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ce42256f242c919  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm._sympystr","kind":"method","src_hash":"ce8424eea97e535f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"returns the string representation of 'self'","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns the string representation of 'self'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm._sympystr_correct","statement":"Path(_sympystr(x), returns the string representation of 'self')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ce42256f242c919"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm._sympystr","kind":"method","src_hash":"ce8424eea97e535f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"<unspecified:_sympystr>","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns the string representation of 'self'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm._sympystr_correct","statement":"Path(_sympystr(x), returns the string representation of 'self')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ce42256f242c919","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, p):
         """
         Returns the string representation of 'self'.
@@ -420,16 +468,23 @@ class TableForm:
         return ''.join(s)[:-1]  # don't include trailing newline
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), returns the string representation of 'self') over Any ║
+# ║ Path(_latex(printer), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 524d4e088911ba7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm._latex","kind":"method","src_hash":"c5df48c95c397ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"returns the string representation of 'self'","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"returns the string representation of 'self'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm._latex_correct","statement":"Path(_latex(x), returns the string representation of 'self')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"524d4e088911ba7b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tableform.TableForm._latex","kind":"method","src_hash":"c5df48c95c397ac3","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns the string representation of 'self'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tableform.TableForm._latex_correct","statement":"Path(_latex(x), returns the string representation of 'self')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"524d4e088911ba7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         """
         Returns the string representation of 'self'.

@@ -25,14 +25,20 @@ from sympy.integrals.integrals import Integral
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IndexedIntegral(*args), correctly constructs a IndexedIntegral instance) over {Any | isinstance(i, (tuple, list, Tuple)) and isinstance(v, Indexed)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Integral)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IndexedIntegral : {Any | isinstance(i, (tuple, list, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a990260d5a388db6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral","kind":"class","src_hash":"a70621f6dce0c3fc","in":{"base":"Any","pred":"isinstance(i, (tuple, list, Tuple)) and isinstance(v, Indexed)"},"out":{"base":"Any"},"spec":{"lhs":"IndexedIntegral(*args)","rhs":"correctly constructs a IndexedIntegral instance","over":{"base":"Any","pred":"isinstance(i, (tuple, list, Tuple)) and isinstance(v, Indexed)"},"name":"IndexedIntegral_class_invariant"},"guarantee":"correctly constructs a IndexedIntegral instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a990260d5a388db6"}
+# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral","kind":"class","src_hash":"a70621f6dce0c3fc","in":{"base":"Any","pred":"isinstance(i, (tuple, list, Tuple)) and isinstance(v, Indexed)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Integral)"},"spec":{"lhs":"IndexedIntegral(*args)","rhs":"correctly constructs a IndexedIntegral instance","over":{"base":"Any","pred":"isinstance(i, (tuple, list, Tuple)) and isinstance(v, Indexed)"},"name":"IndexedIntegral_class_invariant"},"guarantee":"isinstance(self, Integral)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a990260d5a388db6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Integral)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function IndexedIntegral not found in source"]}}
 class IndexedIntegral(Integral):
     """
     Experimental class to test integration by indexed variables.
@@ -67,16 +73,23 @@ class IndexedIntegral(Integral):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, *limits), <unspecified:__new__>) over {Any | hasattr(function, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(function, 'xreplace')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(function, 'xreplace')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 025fef94136e38da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral.__new__","kind":"method","src_hash":"98d38a7aa0699aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"025fef94136e38da"}
+# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral.__new__","kind":"method","src_hash":"98d38a7aa0699aa0","in":{"base":"Any","pred":"hasattr(function, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, *limits)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(function, 'xreplace')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"025fef94136e38da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(function, 'xreplace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["function.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *limits, **assumptions):
         repl, limits = IndexedIntegral._indexed_process_limits(limits)
         function = sympify(function)
@@ -87,32 +100,44 @@ class IndexedIntegral(Integral):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(), doit produces the expected output) over Any   ║
+# ║ Path(doit(), res.xreplace(self._indexed_reverse_repl)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  res.xreplace(self._indexed_reverse_repl)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76979734af561dc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f66d4e0fc6affb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral.doit","kind":"method","src_hash":"1f82b927a1d75de6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit()","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sandbox.indexed_integrals.IndexedIntegral.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76979734af561dc4"}
+# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral.doit","kind":"method","src_hash":"1f82b927a1d75de6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit()","rhs":"res.xreplace(self._indexed_reverse_repl)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns res.xreplace(self._indexed_reverse_repl)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sandbox.indexed_integrals.IndexedIntegral.doit_correct","statement":"Path(doit(x), returns res.xreplace(self._indexed_reverse_repl))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f66d4e0fc6affb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"res.xreplace(self._indexed_reverse_repl)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._indexed_reverse_repl"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self):
         res = super().doit()
         return res.xreplace(self._indexed_reverse_repl)
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indexed_process_limits(lim), internal helper behaves correctly) over Any ║
+# ║ Path(_indexed_process_limits(limits), (repl, newlimits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (repl, newlimits)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indexed_process_limits : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d3bbae833257299  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad54f3cdf8481907  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral._indexed_process_limits","kind":"staticmethod","src_hash":"f12233b4cc7002c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indexed_process_limits(lim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indexed_process_limits_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sandbox.indexed_integrals.IndexedIntegral._indexed_process_limits_correct","statement":"Path(_indexed_process_limits(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d3bbae833257299"}
+# @cctt_verify {"v":2,"sym":"sympy.sandbox.indexed_integrals.IndexedIntegral._indexed_process_limits","kind":"staticmethod","src_hash":"f12233b4cc7002c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indexed_process_limits(limits)","rhs":"(repl, newlimits)","over":{"base":"Any"},"name":"_indexed_process_limits_correct"},"guarantee":"returns (repl, newlimits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sandbox.indexed_integrals.IndexedIntegral._indexed_process_limits_correct","statement":"Path(_indexed_process_limits(x), returns (repl, newlimits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad54f3cdf8481907","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(repl, newlimits)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indexed_process_limits(limits):
         repl = {}
         newlimits = []

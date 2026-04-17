@@ -30,16 +30,24 @@ from sympy.testing.matrices import allclose
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LUdecomp(), test_LUdecomp produces the expected output) over Any ║
+# ║ Path(test_LUdecomp(), L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(4) and (L * U).permute_rows(p, 'backward') - testmat == zeros(4, 3) and (L * U).permute_rows(p, 'backward') - testmat == zeros(3) and (L * U).permute_rows(p, 'backward') - M == zeros(3) and mL.is_lower is True and mL.is_upper is False and mU.is_lower is False and mU.is_upper is True and P * M == L * Dee.inv() * U) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LUdecomp : Any → {Any | L.is_lower and U.is_uppe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L.is_lower                                     ║
+# ║   ensures:  U.is_upper                                     ║
+# ║   ensures:  (L * U).permute_rows(p, 'backward') - tes...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LUdecomp : Any → {Any | result satisfies: L.is_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2462224a1e0f0db7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a8df8fdf386f15d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LUdecomp","kind":"function","src_hash":"de1f51898a0a92dc","in":{"base":"Any"},"out":{"base":"Any","pred":"L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(4) and L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(4) and L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(4, 3) and L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(3) and L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - M == zeros(3) and mL.is_lower is True and mL.is_upper is False and mU.is_lower is False and mU.is_upper is True and P * M == L * Dee.inv() * U and P * M == L * Dee.inv() * U and P * M == L * Dee.inv() * U"},"spec":{"lhs":"test_LUdecomp()","rhs":"test_LUdecomp produces the expected output","over":{"base":"Any"},"name":"test_LUdecomp_correct"},"guarantee":"test_LUdecomp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LUdecomp_correct","statement":"Path(test_LUdecomp(x), test_LUdecomp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2462224a1e0f0db7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LUdecomp","kind":"function","src_hash":"de1f51898a0a92dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(4) and (L * U).permute_rows(p, 'backward') - testmat == zeros(4, 3) and (L * U).permute_rows(p, 'backward') - testmat == zeros(3) and (L * U).permute_rows(p, 'backward') - M == zeros(3) and mL.is_lower is True and mL.is_upper is False and mU.is_lower is False and mU.is_upper is True and P * M == L * Dee.inv() * U"},"spec":{"lhs":"test_LUdecomp()","rhs":"L.is_lower and U.is_upper and (L * U).permute_rows(p, 'backward') - testmat == zeros(4) and (L * U).permute_rows(p, 'backward') - testmat == zeros(4, 3) and (L * U).permute_rows(p, 'backward') - testmat == zeros(3) and (L * U).permute_rows(p, 'backward') - M == zeros(3) and mL.is_lower is True and mL.is_upper is False and mU.is_lower is False and mU.is_upper is True and P * M == L * Dee.inv() * U","over":{"base":"Any"},"name":"test_LUdecomp_correct"},"guarantee":"L.is_lower; U.is_upper; (L * U).permute_rows(p, 'backward') - testmat == zeros(4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LUdecomp_correct","statement":"Path(test_LUdecomp(x), L.is_lower; U.is_upper; (L * U).permute_rows(p, 'backward') - testmat == zeros(4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a8df8fdf386f15d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L.is_lower","U.is_upper","(L * U).permute_rows(p, 'backward') - testmat == zeros(4)","(L * U).permute_rows(p, 'backward') - testmat == zeros(4, 3)","(L * U).permute_rows(p, 'backward') - testmat == zeros(3)","(L * U).permute_rows(p, 'backward') - M == zeros(3)","mL.is_lower is True","mL.is_upper is False","mU.is_lower is False","mU.is_upper is True","P * M == L * Dee.inv() * U"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_LUdecomp():
     testmat = Matrix([[0, 2, 5, 3],
                       [3, 3, 7, 4],
@@ -126,16 +134,24 @@ def test_LUdecomp():
     raises(ValueError, lambda : M.LUdecomposition_Simple(rankcheck=True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_singular_value_decompositionD(), test_singular_value_decompositionD produces the expected output) over Any ║
+# ║ Path(test_singular_value_decompositionD(), U * S * V.T == A and U.T * U == eye(U.cols) and V.T * V == eye(V.cols) and U * S * V.T == B and U * S * V.T == C and simplify(U.T * U) == eye(U.cols) and simplify(V.T * V) == eye(V.cols) and simplify(U * S * V.T) == D) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_singular_value_decompositionD : Any → {Any | U *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  U * S * V.T == A                               ║
+# ║   ensures:  U.T * U == eye(U.cols)                         ║
+# ║   ensures:  V.T * V == eye(V.cols)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_singular_value_decompositionD : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 744a401f835c3b3b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc7ecf1b94c2c5ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_singular_value_decompositionD","kind":"function","src_hash":"ad8fa356a2bc2504","in":{"base":"Any"},"out":{"base":"Any","pred":"U * S * V.T == A and U.T * U == eye(U.cols) and V.T * V == eye(V.cols) and U * S * V.T == B and U.T * U == eye(U.cols) and V.T * V == eye(V.cols) and U * S * V.T == C and U.T * U == eye(U.cols) and V.T * V == eye(V.cols) and simplify(U.T * U) == eye(U.cols) and simplify(V.T * V) == eye(V.cols) and simplify(U * S * V.T) == D"},"spec":{"lhs":"test_singular_value_decompositionD()","rhs":"test_singular_value_decompositionD produces the expected output","over":{"base":"Any"},"name":"test_singular_value_decompositionD_correct"},"guarantee":"test_singular_value_decompositionD produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_singular_value_decompositionD_correct","statement":"Path(test_singular_value_decompositionD(x), test_singular_value_decompositionD produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"744a401f835c3b3b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_singular_value_decompositionD","kind":"function","src_hash":"ad8fa356a2bc2504","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: U * S * V.T == A and U.T * U == eye(U.cols) and V.T * V == eye(V.cols) and U * S * V.T == B and U * S * V.T == C and simplify(U.T * U) == eye(U.cols) and simplify(V.T * V) == eye(V.cols) and simplify(U * S * V.T) == D"},"spec":{"lhs":"test_singular_value_decompositionD()","rhs":"U * S * V.T == A and U.T * U == eye(U.cols) and V.T * V == eye(V.cols) and U * S * V.T == B and U * S * V.T == C and simplify(U.T * U) == eye(U.cols) and simplify(V.T * V) == eye(V.cols) and simplify(U * S * V.T) == D","over":{"base":"Any"},"name":"test_singular_value_decompositionD_correct"},"guarantee":"U * S * V.T == A; U.T * U == eye(U.cols); V.T * V == eye(V.cols)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_singular_value_decompositionD_correct","statement":"Path(test_singular_value_decompositionD(x), U * S * V.T == A; U.T * U == eye(U.cols); V.T * V == eye(V.cols))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc7ecf1b94c2c5ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["U * S * V.T == A","U.T * U == eye(U.cols)","V.T * V == eye(V.cols)","U * S * V.T == B","U * S * V.T == C","simplify(U.T * U) == eye(U.cols)","simplify(V.T * V) == eye(V.cols)","simplify(U * S * V.T) == D"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_singular_value_decompositionD():
     A = Matrix([[1, 2], [2, 1]])
     U, S, V = A.singular_value_decomposition()
@@ -171,16 +187,24 @@ def test_singular_value_decompositionD():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QR(), test_QR produces the expected output) over Any ║
+# ║ Path(test_QR(), Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (R(1) / 5) ** R(-1, 2)], [2 * 5 ** R(-1, 2), -R(1) / 5 * (R(1) / 5) ** R(-1, 2)]]) and S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]]) and Q * S == A and Q.T * Q == eye(2) and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q == Matrix([x / Abs(x)]) and R == Matrix([Abs(x)]) and Q == x / Abs(x) * Matrix([[1, 0], [0, 1]]) and R == Abs(x) * Matrix([[1, 0], [0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QR : Any → {Any | S == Matrix([[5 ** R(1, 2), 8 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (...   ║
+# ║   ensures:  S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1...   ║
+# ║   ensures:  Q * S == A                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QR : Any → {Any | result satisfies: Q == Matrix(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 893f184cd458eef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7c8d08086132b83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR","kind":"function","src_hash":"1313f5568c5ea7df","in":{"base":"Any"},"out":{"base":"Any","pred":"S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]]) and Q * S == A and Q.T * Q == eye(2) and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q == Matrix([x / Abs(x)]) and R == Matrix([Abs(x)]) and Q == x / Abs(x) * Matrix([[1, 0], [0, 1]]) and R == Abs(x) * Matrix([[1, 0], [0, 1]])"},"spec":{"lhs":"test_QR()","rhs":"test_QR produces the expected output","over":{"base":"Any"},"name":"test_QR_correct"},"guarantee":"test_QR produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_correct","statement":"Path(test_QR(x), test_QR produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893f184cd458eef0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR","kind":"function","src_hash":"1313f5568c5ea7df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (R(1) / 5) ** R(-1, 2)], [2 * 5 ** R(-1, 2), -R(1) / 5 * (R(1) / 5) ** R(-1, 2)]]) and S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]]) and Q * S == A and Q.T * Q == eye(2) and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q == Matrix([x / Abs(x)]) and R == Matrix([Abs(x)]) and Q == x / Abs(x) * Matrix([[1, 0], [0, 1]]) and R == Abs(x) * Matrix([[1, 0], [0, 1]])"},"spec":{"lhs":"test_QR()","rhs":"Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (R(1) / 5) ** R(-1, 2)], [2 * 5 ** R(-1, 2), -R(1) / 5 * (R(1) / 5) ** R(-1, 2)]]) and S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]]) and Q * S == A and Q.T * Q == eye(2) and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q == Matrix([x / Abs(x)]) and R == Matrix([Abs(x)]) and Q == x / Abs(x) * Matrix([[1, 0], [0, 1]]) and R == Abs(x) * Matrix([[1, 0], [0, 1]])","over":{"base":"Any"},"name":"test_QR_correct"},"guarantee":"Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (R(1) / 5) ** R(-1, 2)], [2 * 5 ** R(-1, 2), -R(1) / 5 * (R(1) / 5) ** R(-1, 2)]]); S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]]); Q * S == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_correct","statement":"Path(test_QR(x), Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (R(1) / 5) ** R(-1, 2)], [2 * 5 ** R(-1, 2), -R(1) / 5 * (R(1) / 5) ** R(-1, 2)]]); S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]]); Q * S == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7c8d08086132b83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q == Matrix([[5 ** R(-1, 2), R(2) / 5 * (R(1) / 5) ** R(-1, 2)], [2 * 5 ** R(-1, 2), -R(1) / 5 * (R(1) / 5) ** R(-1, 2)]])","S == Matrix([[5 ** R(1, 2), 8 * 5 ** R(-1, 2)], [0, (R(1) / 5) ** R(1, 2)]])","Q * S == A","Q.T * Q == eye(2)","Q.T * Q == eye(Q.cols)","R.is_upper","A == Q * R","Q == Matrix([x / Abs(x)])","R == Matrix([Abs(x)])","Q == x / Abs(x) * Matrix([[1, 0], [0, 1]])","R == Abs(x) * Matrix([[1, 0], [0, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_QR():
     A = Matrix([[1, 2], [2, 3]])
     Q, S = A.QRdecomposition()
@@ -217,16 +241,24 @@ def test_QR():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QR_non_square(), test_QR_non_square produces the expected output) over Any ║
+# ║ Path(test_QR_non_square(), Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QR_non_square : Any → {Any | Q.T * Q == eye(Q.co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.T * Q == eye(Q.cols)                         ║
+# ║   ensures:  R.is_upper                                     ║
+# ║   ensures:  A == Q * R                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QR_non_square : Any → {Any | result satisfies: Q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5a21181cd4d1b65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1df1e46e4aaef0b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR_non_square","kind":"function","src_hash":"59c10601ec93c07d","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R"},"spec":{"lhs":"test_QR_non_square()","rhs":"test_QR_non_square produces the expected output","over":{"base":"Any"},"name":"test_QR_non_square_correct"},"guarantee":"test_QR_non_square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_non_square_correct","statement":"Path(test_QR_non_square(x), test_QR_non_square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5a21181cd4d1b65"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR_non_square","kind":"function","src_hash":"59c10601ec93c07d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R"},"spec":{"lhs":"test_QR_non_square()","rhs":"Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R","over":{"base":"Any"},"name":"test_QR_non_square_correct"},"guarantee":"Q.T * Q == eye(Q.cols); R.is_upper; A == Q * R","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_non_square_correct","statement":"Path(test_QR_non_square(x), Q.T * Q == eye(Q.cols); R.is_upper; A == Q * R)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1df1e46e4aaef0b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.T * Q == eye(Q.cols)","R.is_upper","A == Q * R"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_QR_non_square():
     # Narrow (cols < rows) matrices
     A = Matrix([[9, 0, 26], [12, 0, -7], [0, 4, 4], [0, -3, -3]])
@@ -267,16 +299,24 @@ def test_QR_non_square():
     assert A == Q*R
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QR_trivial(), test_QR_trivial produces the expected output) over Any ║
+# ║ Path(test_QR_trivial(), Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QR_trivial : Any → {Any | Q.T * Q == eye(Q.cols)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.T * Q == eye(Q.cols)                         ║
+# ║   ensures:  R.is_upper                                     ║
+# ║   ensures:  A == Q * R                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QR_trivial : Any → {Any | result satisfies: Q.T ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b13e395d87f16ea0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32dc7adae213f45c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR_trivial","kind":"function","src_hash":"398ec5d985bb828d","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R and Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R"},"spec":{"lhs":"test_QR_trivial()","rhs":"test_QR_trivial produces the expected output","over":{"base":"Any"},"name":"test_QR_trivial_correct"},"guarantee":"test_QR_trivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_trivial_correct","statement":"Path(test_QR_trivial(x), test_QR_trivial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b13e395d87f16ea0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR_trivial","kind":"function","src_hash":"398ec5d985bb828d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R"},"spec":{"lhs":"test_QR_trivial()","rhs":"Q.T * Q == eye(Q.cols) and R.is_upper and A == Q * R","over":{"base":"Any"},"name":"test_QR_trivial_correct"},"guarantee":"Q.T * Q == eye(Q.cols); R.is_upper; A == Q * R","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_trivial_correct","statement":"Path(test_QR_trivial(x), Q.T * Q == eye(Q.cols); R.is_upper; A == Q * R)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32dc7adae213f45c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.T * Q == eye(Q.cols)","R.is_upper","A == Q * R"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_QR_trivial():
     # Rank deficient matrices
     A = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -349,16 +389,24 @@ def test_QR_trivial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QR_float(), test_QR_float produces the expected output) over Any ║
+# ║ Path(test_QR_float(), allclose(Q * R, A) and allclose(Q * Q.T, Matrix.eye(2)) and allclose(Q.T * Q, Matrix.eye(2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QR_float : Any → {Any | allclose(Q * R, A) and a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  allclose(Q * R, A)                             ║
+# ║   ensures:  allclose(Q * Q.T, Matrix.eye(2))               ║
+# ║   ensures:  allclose(Q.T * Q, Matrix.eye(2))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QR_float : Any → {Any | result satisfies: allclo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6d5903e5945d1f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bf05b45c85904b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR_float","kind":"function","src_hash":"40fdf2cc01a0cdfb","in":{"base":"Any"},"out":{"base":"Any","pred":"allclose(Q * R, A) and allclose(Q * Q.T, Matrix.eye(2)) and allclose(Q.T * Q, Matrix.eye(2)) and allclose(Q * R, A) and allclose(Q * Q.T, Matrix.eye(2)) and allclose(Q.T * Q, Matrix.eye(2))"},"spec":{"lhs":"test_QR_float()","rhs":"test_QR_float produces the expected output","over":{"base":"Any"},"name":"test_QR_float_correct"},"guarantee":"test_QR_float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_float_correct","statement":"Path(test_QR_float(x), test_QR_float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6d5903e5945d1f3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_QR_float","kind":"function","src_hash":"40fdf2cc01a0cdfb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: allclose(Q * R, A) and allclose(Q * Q.T, Matrix.eye(2)) and allclose(Q.T * Q, Matrix.eye(2))"},"spec":{"lhs":"test_QR_float()","rhs":"allclose(Q * R, A) and allclose(Q * Q.T, Matrix.eye(2)) and allclose(Q.T * Q, Matrix.eye(2))","over":{"base":"Any"},"name":"test_QR_float_correct"},"guarantee":"allclose(Q * R, A); allclose(Q * Q.T, Matrix.eye(2)); allclose(Q.T * Q, Matrix.eye(2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_QR_float_correct","statement":"Path(test_QR_float(x), allclose(Q * R, A); allclose(Q * Q.T, Matrix.eye(2)); allclose(Q.T * Q, Matrix.eye(2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bf05b45c85904b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["allclose(Q * R, A)","allclose(Q * Q.T, Matrix.eye(2))","allclose(Q.T * Q, Matrix.eye(2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_QR_float():
     A = Matrix([[1, 1], [1, 1.01]])
     Q, R = A.QRdecomposition()
@@ -374,16 +422,23 @@ def test_QR_float():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LUdecomposition_Simple_iszerofunc(), test_LUdecomposition_Simple_iszerofunc produces the expected output) over Any ║
+# ║ Path(test_LUdecomposition_Simple_iszerofunc(), <unspecified:test_LUdecomposition_Simple_iszerofunc>) over {Any | False} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LUdecomposition_Simple_iszerofunc : Any → {Any |...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: False                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LUdecomposition_Simple_iszerofunc : {Any | False...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ce4c69d370b57f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_Simple_iszerofunc","kind":"function","src_hash":"4a294eb13a0649bf","in":{"base":"Any"},"out":{"base":"Any","pred":"False and magic_string == err.args[0]"},"spec":{"lhs":"test_LUdecomposition_Simple_iszerofunc()","rhs":"test_LUdecomposition_Simple_iszerofunc produces the expected output","over":{"base":"Any"},"name":"test_LUdecomposition_Simple_iszerofunc_correct"},"guarantee":"test_LUdecomposition_Simple_iszerofunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_Simple_iszerofunc_correct","statement":"Path(test_LUdecomposition_Simple_iszerofunc(x), test_LUdecomposition_Simple_iszerofunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce4c69d370b57f1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_Simple_iszerofunc","kind":"function","src_hash":"4a294eb13a0649bf","in":{"base":"Any","pred":"False"},"out":{"base":"Any","pred":"False and magic_string == err.args[0]"},"spec":{"lhs":"test_LUdecomposition_Simple_iszerofunc()","rhs":"<unspecified:test_LUdecomposition_Simple_iszerofunc>","over":{"base":"Any","pred":"False"},"name":"test_LUdecomposition_Simple_iszerofunc_correct"},"guarantee":"test_LUdecomposition_Simple_iszerofunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_Simple_iszerofunc_correct","statement":"Path(test_LUdecomposition_Simple_iszerofunc(x), test_LUdecomposition_Simple_iszerofunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce4c69d370b57f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["False"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_LUdecomposition_Simple_iszerofunc():
     # Test if callable passed to matrices.LUdecomposition_Simple() as iszerofunc keyword argument is used inside
     # matrices.LUdecomposition_Simple()
@@ -400,16 +455,23 @@ def test_LUdecomposition_Simple_iszerofunc():
     assert False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LUdecomposition_iszerofunc(), test_LUdecomposition_iszerofunc produces the expected output) over Any ║
+# ║ Path(test_LUdecomposition_iszerofunc(), <unspecified:test_LUdecomposition_iszerofunc>) over {Any | False} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LUdecomposition_iszerofunc : Any → {Any | False ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: False                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LUdecomposition_iszerofunc : {Any | False} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7640e7781dd8f7ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_iszerofunc","kind":"function","src_hash":"251b9ee4a8951b11","in":{"base":"Any"},"out":{"base":"Any","pred":"False and magic_string == err.args[0]"},"spec":{"lhs":"test_LUdecomposition_iszerofunc()","rhs":"test_LUdecomposition_iszerofunc produces the expected output","over":{"base":"Any"},"name":"test_LUdecomposition_iszerofunc_correct"},"guarantee":"test_LUdecomposition_iszerofunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_iszerofunc_correct","statement":"Path(test_LUdecomposition_iszerofunc(x), test_LUdecomposition_iszerofunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7640e7781dd8f7ef"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_iszerofunc","kind":"function","src_hash":"251b9ee4a8951b11","in":{"base":"Any","pred":"False"},"out":{"base":"Any","pred":"False and magic_string == err.args[0]"},"spec":{"lhs":"test_LUdecomposition_iszerofunc()","rhs":"<unspecified:test_LUdecomposition_iszerofunc>","over":{"base":"Any","pred":"False"},"name":"test_LUdecomposition_iszerofunc_correct"},"guarantee":"test_LUdecomposition_iszerofunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LUdecomposition_iszerofunc_correct","statement":"Path(test_LUdecomposition_iszerofunc(x), test_LUdecomposition_iszerofunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7640e7781dd8f7ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["False"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_LUdecomposition_iszerofunc():
     # Test if callable passed to matrices.LUdecomposition() as iszerofunc keyword argument is used inside
     # matrices.LUdecomposition_Simple()
@@ -426,16 +488,24 @@ def test_LUdecomposition_iszerofunc():
     assert False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LDLdecomposition(), test_LDLdecomposition produces the expected output) over Any ║
+# ║ Path(test_LDLdecomposition(), L * D * L.T == A and L.is_lower and L == Matrix([[1, 0, 0], [Rational(3, 5), 1, 0], [Rational(-1, 5), Rational(1, 3), 1]]) and D.is_diagonal() and D == Matrix([[25, 0, 0], [0, 9, 0], [0, 0, 9]]) and expand_mul(L * D * L.H) == A and L.expand() == Matrix([[1, 0, 0], [I / 2, 1, 0], [S.Half - I / 2, 0, 1]]) and D.expand() == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9))) and L == Matrix(((1, 0, 0), (I / 2, 1, 0), (S.Half - I / 2, 0, 1))) and D == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LDLdecomposition : Any → {Any | L * D * L.T == A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L * D * L.T == A                               ║
+# ║   ensures:  L.is_lower                                     ║
+# ║   ensures:  L == Matrix([[1, 0, 0], [Rational(3, 5), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LDLdecomposition : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9ae3338f9251fd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d0468fcf50195b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LDLdecomposition","kind":"function","src_hash":"ab468a88e2d70238","in":{"base":"Any"},"out":{"base":"Any","pred":"L * D * L.T == A and L * D * L.T == A and L.is_lower and D.is_diagonal() and D == Matrix([[25, 0, 0], [0, 9, 0], [0, 0, 9]]) and expand_mul(L * D * L.H) == A and L.expand() == Matrix([[1, 0, 0], [I / 2, 1, 0], [S.Half - I / 2, 0, 1]]) and D.expand() == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9))) and L * D * L.T == A and L * D * L.T == A and L.is_lower and D.is_diagonal() and D == Matrix([[25, 0, 0], [0, 9, 0], [0, 0, 9]]) and expand_mul(L * D * L.H) == A and L == Matrix(((1, 0, 0), (I / 2, 1, 0), (S.Half - I / 2, 0, 1))) and D == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))"},"spec":{"lhs":"test_LDLdecomposition()","rhs":"test_LDLdecomposition produces the expected output","over":{"base":"Any"},"name":"test_LDLdecomposition_correct"},"guarantee":"test_LDLdecomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LDLdecomposition_correct","statement":"Path(test_LDLdecomposition(x), test_LDLdecomposition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9ae3338f9251fd4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_LDLdecomposition","kind":"function","src_hash":"ab468a88e2d70238","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L * D * L.T == A and L.is_lower and L == Matrix([[1, 0, 0], [Rational(3, 5), 1, 0], [Rational(-1, 5), Rational(1, 3), 1]]) and D.is_diagonal() and D == Matrix([[25, 0, 0], [0, 9, 0], [0, 0, 9]]) and expand_mul(L * D * L.H) == A and L.expand() == Matrix([[1, 0, 0], [I / 2, 1, 0], [S.Half - I / 2, 0, 1]]) and D.expand() == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9))) and L == Matrix(((1, 0, 0), (I / 2, 1, 0), (S.Half - I / 2, 0, 1))) and D == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))"},"spec":{"lhs":"test_LDLdecomposition()","rhs":"L * D * L.T == A and L.is_lower and L == Matrix([[1, 0, 0], [Rational(3, 5), 1, 0], [Rational(-1, 5), Rational(1, 3), 1]]) and D.is_diagonal() and D == Matrix([[25, 0, 0], [0, 9, 0], [0, 0, 9]]) and expand_mul(L * D * L.H) == A and L.expand() == Matrix([[1, 0, 0], [I / 2, 1, 0], [S.Half - I / 2, 0, 1]]) and D.expand() == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9))) and L == Matrix(((1, 0, 0), (I / 2, 1, 0), (S.Half - I / 2, 0, 1))) and D == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))","over":{"base":"Any"},"name":"test_LDLdecomposition_correct"},"guarantee":"L * D * L.T == A; L.is_lower; L == Matrix([[1, 0, 0], [Rational(3, 5), 1, 0], [Rational(-1, 5), Rational(1, 3), 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_LDLdecomposition_correct","statement":"Path(test_LDLdecomposition(x), L * D * L.T == A; L.is_lower; L == Matrix([[1, 0, 0], [Rational(3, 5), 1, 0], [Rational(-1, 5), Rational(1, 3), 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d0468fcf50195b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L * D * L.T == A","L.is_lower","L == Matrix([[1, 0, 0], [Rational(3, 5), 1, 0], [Rational(-1, 5), Rational(1, 3), 1]])","D.is_diagonal()","D == Matrix([[25, 0, 0], [0, 9, 0], [0, 0, 9]])","expand_mul(L * D * L.H) == A","L.expand() == Matrix([[1, 0, 0], [I / 2, 1, 0], [S.Half - I / 2, 0, 1]])","D.expand() == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))","L == Matrix(((1, 0, 0), (I / 2, 1, 0), (S.Half - I / 2, 0, 1)))","D == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_LDLdecomposition():
     raises(NonSquareMatrixError, lambda: Matrix((1, 2)).LDLdecomposition())
     raises(ValueError, lambda: Matrix(((1, 2), (3, 4))).LDLdecomposition())
@@ -480,16 +550,22 @@ def test_LDLdecomposition():
     assert D == Matrix(((4, 0, 0), (0, 1, 0), (0, 0, 9)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pinv_succeeds_with_rank_decomposition_method(), test_pinv_succeeds_with_rank_decomposition_method produces the expected output) over Any ║
+# ║ Path(test_pinv_succeeds_with_rank_decomposition_method(), <unspecified:test_pinv_succeeds_with_rank_decomposition_method>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pinv_succeeds_with_rank_decomposition_method : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 571beec9654a063e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_pinv_succeeds_with_rank_decomposition_method","kind":"function","src_hash":"e02b150972e88f44","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(AAp * A) == A and simplify(ApA * A_pinv) == A_pinv and AAp.H == AAp and ApA.H == ApA"},"spec":{"lhs":"test_pinv_succeeds_with_rank_decomposition_method()","rhs":"test_pinv_succeeds_with_rank_decomposition_method produces the expected output","over":{"base":"Any"},"name":"test_pinv_succeeds_with_rank_decomposition_method_correct"},"guarantee":"test_pinv_succeeds_with_rank_decomposition_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_pinv_succeeds_with_rank_decomposition_method_correct","statement":"Path(test_pinv_succeeds_with_rank_decomposition_method(x), test_pinv_succeeds_with_rank_decomposition_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571beec9654a063e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_pinv_succeeds_with_rank_decomposition_method","kind":"function","src_hash":"e02b150972e88f44","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(AAp * A) == A and simplify(ApA * A_pinv) == A_pinv and AAp.H == AAp and ApA.H == ApA"},"spec":{"lhs":"test_pinv_succeeds_with_rank_decomposition_method()","rhs":"<unspecified:test_pinv_succeeds_with_rank_decomposition_method>","over":{"base":"Any"},"name":"test_pinv_succeeds_with_rank_decomposition_method_correct"},"guarantee":"test_pinv_succeeds_with_rank_decomposition_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_pinv_succeeds_with_rank_decomposition_method_correct","statement":"Path(test_pinv_succeeds_with_rank_decomposition_method(x), test_pinv_succeeds_with_rank_decomposition_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571beec9654a063e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pinv_succeeds_with_rank_decomposition_method():
     # Test rank decomposition method of pseudoinverse succeeding
     As = [Matrix([
@@ -509,16 +585,24 @@ def test_pinv_succeeds_with_rank_decomposition_method():
         assert ApA.H == ApA
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rank_decomposition(), test_rank_decomposition produces the expected output) over Any ║
+# ║ Path(test_rank_decomposition(), f.is_echelon and c.cols == f.rows == a.rank() and c * f == a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rank_decomposition : Any → {Any | f.is_echelon a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.is_echelon                                   ║
+# ║   ensures:  c.cols == f.rows == a.rank()                   ║
+# ║   ensures:  c * f == a                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rank_decomposition : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1148ce4b42670969  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4c6169860e3305d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_rank_decomposition","kind":"function","src_hash":"14598b80b1081c1a","in":{"base":"Any"},"out":{"base":"Any","pred":"f.is_echelon and c.cols == f.rows == a.rank() and c * f == a and f.is_echelon and c.cols == f.rows == a.rank() and c * f == a and f.is_echelon and c.cols == f.rows == a.rank() and c * f == a and f.is_echelon and c.cols == f.rows == a.rank() and c * f == a"},"spec":{"lhs":"test_rank_decomposition()","rhs":"test_rank_decomposition produces the expected output","over":{"base":"Any"},"name":"test_rank_decomposition_correct"},"guarantee":"test_rank_decomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_rank_decomposition_correct","statement":"Path(test_rank_decomposition(x), test_rank_decomposition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1148ce4b42670969"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_rank_decomposition","kind":"function","src_hash":"14598b80b1081c1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.is_echelon and c.cols == f.rows == a.rank() and c * f == a"},"spec":{"lhs":"test_rank_decomposition()","rhs":"f.is_echelon and c.cols == f.rows == a.rank() and c * f == a","over":{"base":"Any"},"name":"test_rank_decomposition_correct"},"guarantee":"f.is_echelon; c.cols == f.rows == a.rank(); c * f == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_rank_decomposition_correct","statement":"Path(test_rank_decomposition(x), f.is_echelon; c.cols == f.rows == a.rank(); c * f == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c6169860e3305d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.is_echelon","c.cols == f.rows == a.rank()","c * f == a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_rank_decomposition():
     a = Matrix(0, 0, [])
     c, f = a.rank_decomposition()
@@ -551,16 +635,24 @@ def test_rank_decomposition():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_upper_hessenberg_decomposition(), test_upper_hessenberg_decomposition produces the expected output) over Any ║
+# ║ Path(test_upper_hessenberg_decomposition(), simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == A and simplify(P * H * P.H) == B and simplify(P * H * P.H) == C and simplify(P * H * P.H) == D and simplify(P * H * P.H) == E) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_upper_hessenberg_decomposition : Any → {Any | si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(P * P.H) == eye(P.cols)               ║
+# ║   ensures:  simplify(P.H * P) == eye(P.cols)               ║
+# ║   ensures:  H.is_upper_hessenberg                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_upper_hessenberg_decomposition : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b12b4138f84e024  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e038d2c41e2e74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_upper_hessenberg_decomposition","kind":"function","src_hash":"001bad82a89c5cd7","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == A and simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == B and simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == C and simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == D and simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == E"},"spec":{"lhs":"test_upper_hessenberg_decomposition()","rhs":"test_upper_hessenberg_decomposition produces the expected output","over":{"base":"Any"},"name":"test_upper_hessenberg_decomposition_correct"},"guarantee":"test_upper_hessenberg_decomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_upper_hessenberg_decomposition_correct","statement":"Path(test_upper_hessenberg_decomposition(x), test_upper_hessenberg_decomposition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b12b4138f84e024"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_decompositions.test_upper_hessenberg_decomposition","kind":"function","src_hash":"001bad82a89c5cd7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == A and simplify(P * H * P.H) == B and simplify(P * H * P.H) == C and simplify(P * H * P.H) == D and simplify(P * H * P.H) == E"},"spec":{"lhs":"test_upper_hessenberg_decomposition()","rhs":"simplify(P * P.H) == eye(P.cols) and simplify(P.H * P) == eye(P.cols) and H.is_upper_hessenberg and simplify(P * H * P.H) == A and simplify(P * H * P.H) == B and simplify(P * H * P.H) == C and simplify(P * H * P.H) == D and simplify(P * H * P.H) == E","over":{"base":"Any"},"name":"test_upper_hessenberg_decomposition_correct"},"guarantee":"simplify(P * P.H) == eye(P.cols); simplify(P.H * P) == eye(P.cols); H.is_upper_hessenberg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_decompositions.test_upper_hessenberg_decomposition_correct","statement":"Path(test_upper_hessenberg_decomposition(x), simplify(P * P.H) == eye(P.cols); simplify(P.H * P) == eye(P.cols); H.is_upper_hessenberg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e038d2c41e2e74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(P * P.H) == eye(P.cols)","simplify(P.H * P) == eye(P.cols)","H.is_upper_hessenberg","simplify(P * H * P.H) == A","simplify(P * H * P.H) == B","simplify(P * H * P.H) == C","simplify(P * H * P.H) == D","simplify(P * H * P.H) == E"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_upper_hessenberg_decomposition():
     A = Matrix([
         [1, 0, sqrt(3)],

@@ -26,16 +26,22 @@ if antlr4:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_import(), test_no_import produces the expected output) over Any ║
+# ║ Path(test_no_import(), <unspecified:test_no_import>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_import : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fd33af1502c5970  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_deps.test_no_import","kind":"function","src_hash":"105192d3055e5ccd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_import()","rhs":"test_no_import produces the expected output","over":{"base":"Any"},"name":"test_no_import_correct"},"guarantee":"test_no_import produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_deps.test_no_import_correct","statement":"Path(test_no_import(x), test_no_import produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd33af1502c5970"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_deps.test_no_import","kind":"function","src_hash":"105192d3055e5ccd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_no_import()","rhs":"<unspecified:test_no_import>","over":{"base":"Any"},"name":"test_no_import_correct"},"guarantee":"test_no_import produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_deps.test_no_import_correct","statement":"Path(test_no_import(x), test_no_import produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd33af1502c5970","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_no_import():
     from sympy.parsing.latex import parse_latex
 

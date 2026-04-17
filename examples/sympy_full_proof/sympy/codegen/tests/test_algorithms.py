@@ -36,16 +36,22 @@ cython = import_module('cython')
 wurlitzer = import_module('wurlitzer')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_newtons_method(), test_newtons_method produces the expected output) over Any ║
+# ║ Path(test_newtons_method(), algo.has(Assignment(dx, -expr / expr.diff(x)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_newtons_method : Any → {Any | algo.has(Assignmen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  algo.has(Assignment(dx, -expr / expr.diff...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_newtons_method : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9e3dc7e0ee754ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b434684143dd629b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method","kind":"function","src_hash":"2ba7ea0806a20007","in":{"base":"Any"},"out":{"base":"Any","pred":"algo.has(Assignment(dx, -expr / expr.diff(x)))"},"spec":{"lhs":"test_newtons_method()","rhs":"test_newtons_method produces the expected output","over":{"base":"Any"},"name":"test_newtons_method_correct"},"guarantee":"test_newtons_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_correct","statement":"Path(test_newtons_method(x), test_newtons_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9e3dc7e0ee754ea"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method","kind":"function","src_hash":"2ba7ea0806a20007","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: algo.has(Assignment(dx, -expr / expr.diff(x)))"},"spec":{"lhs":"test_newtons_method()","rhs":"algo.has(Assignment(dx, -expr / expr.diff(x)))","over":{"base":"Any"},"name":"test_newtons_method_correct"},"guarantee":"algo.has(Assignment(dx, -expr / expr.diff(x)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_correct","statement":"Path(test_newtons_method(x), algo.has(Assignment(dx, -expr / expr.diff(x))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b434684143dd629b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["algo.has(Assignment(dx, -expr / expr.diff(x)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_newtons_method():
     x, dx, atol = symbols('x dx atol')
     expr = cos(x) - x**3
@@ -55,16 +61,22 @@ def test_newtons_method():
 
 @may_xfail
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_newtons_method_function__ccode(), test_newtons_method_function__ccode produces the expected output) over Any ║
+# ║ Path(test_newtons_method_function__ccode(), <unspecified:test_newtons_method_function__ccode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_newtons_method_function__ccode : Any → {Any | ab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 592063998bb75e97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode","kind":"function","src_hash":"0cbd4e1cf3e6e7de","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(mod.py_newton(0.5) - 0.865474033102) < 1e-12"},"spec":{"lhs":"test_newtons_method_function__ccode()","rhs":"test_newtons_method_function__ccode produces the expected output","over":{"base":"Any"},"name":"test_newtons_method_function__ccode_correct"},"guarantee":"test_newtons_method_function__ccode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode_correct","statement":"Path(test_newtons_method_function__ccode(x), test_newtons_method_function__ccode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"592063998bb75e97"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode","kind":"function","src_hash":"0cbd4e1cf3e6e7de","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(mod.py_newton(0.5) - 0.865474033102) < 1e-12"},"spec":{"lhs":"test_newtons_method_function__ccode()","rhs":"<unspecified:test_newtons_method_function__ccode>","over":{"base":"Any"},"name":"test_newtons_method_function__ccode_correct"},"guarantee":"test_newtons_method_function__ccode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode_correct","statement":"Path(test_newtons_method_function__ccode(x), test_newtons_method_function__ccode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"592063998bb75e97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_newtons_method_function__ccode():
     x = Symbol('x', real=True)
     expr = cos(x) - x**3
@@ -90,16 +102,22 @@ def test_newtons_method_function__ccode():
 
 @may_xfail
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_newtons_method_function__fcode(), test_newtons_method_function__fcode produces the expected output) over Any ║
+# ║ Path(test_newtons_method_function__fcode(), <unspecified:test_newtons_method_function__fcode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_newtons_method_function__fcode : Any → {Any | ab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f6001968c750d64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__fcode","kind":"function","src_hash":"73811fbedf44d734","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(mod.py_newton(0.5) - 0.865474033102) < 1e-12"},"spec":{"lhs":"test_newtons_method_function__fcode()","rhs":"test_newtons_method_function__fcode produces the expected output","over":{"base":"Any"},"name":"test_newtons_method_function__fcode_correct"},"guarantee":"test_newtons_method_function__fcode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__fcode_correct","statement":"Path(test_newtons_method_function__fcode(x), test_newtons_method_function__fcode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6001968c750d64"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__fcode","kind":"function","src_hash":"73811fbedf44d734","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(mod.py_newton(0.5) - 0.865474033102) < 1e-12"},"spec":{"lhs":"test_newtons_method_function__fcode()","rhs":"<unspecified:test_newtons_method_function__fcode>","over":{"base":"Any"},"name":"test_newtons_method_function__fcode_correct"},"guarantee":"test_newtons_method_function__fcode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__fcode_correct","statement":"Path(test_newtons_method_function__fcode(x), test_newtons_method_function__fcode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6001968c750d64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_newtons_method_function__fcode():
     x = Symbol('x', real=True)
     expr = cos(x) - x**3
@@ -123,16 +141,22 @@ def test_newtons_method_function__fcode():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_newtons_method_function__pycode(), test_newtons_method_function__pycode produces the expected output) over Any ║
+# ║ Path(test_newtons_method_function__pycode(), abs(res - 0.865474033102) < 1e-12) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_newtons_method_function__pycode : Any → {Any | a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(res - 0.865474033102) < 1e-12              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_newtons_method_function__pycode : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 291f57450647a15c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aad870bcae06a13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__pycode","kind":"function","src_hash":"b411ddd44385661b","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(res - 0.865474033102) < 1e-12"},"spec":{"lhs":"test_newtons_method_function__pycode()","rhs":"test_newtons_method_function__pycode produces the expected output","over":{"base":"Any"},"name":"test_newtons_method_function__pycode_correct"},"guarantee":"test_newtons_method_function__pycode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__pycode_correct","statement":"Path(test_newtons_method_function__pycode(x), test_newtons_method_function__pycode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"291f57450647a15c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__pycode","kind":"function","src_hash":"b411ddd44385661b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(res - 0.865474033102) < 1e-12"},"spec":{"lhs":"test_newtons_method_function__pycode()","rhs":"abs(res - 0.865474033102) < 1e-12","over":{"base":"Any"},"name":"test_newtons_method_function__pycode_correct"},"guarantee":"abs(res - 0.865474033102) < 1e-12","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__pycode_correct","statement":"Path(test_newtons_method_function__pycode(x), abs(res - 0.865474033102) < 1e-12)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aad870bcae06a13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(res - 0.865474033102) < 1e-12"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_newtons_method_function__pycode():
     x = Symbol('x', real=True)
     expr = cos(x) - x**3
@@ -147,16 +171,22 @@ def test_newtons_method_function__pycode():
 @may_xfail
 @skip_under_pyodide("Emscripten does not support process spawning")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_newtons_method_function__ccode_parameters(), test_newtons_method_function__ccode_parameters produces the expected output) over Any ║
+# ║ Path(test_newtons_method_function__ccode_parameters(), <unspecified:test_newtons_method_function__ccode_parameters>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_newtons_method_function__ccode_parameters : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 399eea7bb6012f37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode_parameters","kind":"function","src_hash":"11b4ca544f4cffc6","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(result - 0.865474033102) < 1e-12 and err == ''"},"spec":{"lhs":"test_newtons_method_function__ccode_parameters()","rhs":"test_newtons_method_function__ccode_parameters produces the expected output","over":{"base":"Any"},"name":"test_newtons_method_function__ccode_parameters_correct"},"guarantee":"test_newtons_method_function__ccode_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode_parameters_correct","statement":"Path(test_newtons_method_function__ccode_parameters(x), test_newtons_method_function__ccode_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"399eea7bb6012f37"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode_parameters","kind":"function","src_hash":"11b4ca544f4cffc6","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(result - 0.865474033102) < 1e-12 and err == ''"},"spec":{"lhs":"test_newtons_method_function__ccode_parameters()","rhs":"<unspecified:test_newtons_method_function__ccode_parameters>","over":{"base":"Any"},"name":"test_newtons_method_function__ccode_parameters_correct"},"guarantee":"test_newtons_method_function__ccode_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__ccode_parameters_correct","statement":"Path(test_newtons_method_function__ccode_parameters(x), test_newtons_method_function__ccode_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"399eea7bb6012f37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_newtons_method_function__ccode_parameters():
     args = x, A, k, p = symbols('x A k p')
     expr = A*cos(k*x) - p*x**3
@@ -209,14 +239,20 @@ x=     0.86547 d_x=  3.6902e-17
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_newtons_method_function__rtol_cse_nan(), id) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Min(Max(low, expr), high)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ test_newtons_method_function__rtol_cse_nan : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae4845e829ebfb1b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__rtol_cse_nan","kind":"function","src_hash":"6ae900d825c31166","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(result - ref) < req"},"spec":{"lhs":"test_newtons_method_function__rtol_cse_nan()","rhs":"test_newtons_method_function__rtol_cse_nan produces the expected output","over":{"base":"Any"},"name":"test_newtons_method_function__rtol_cse_nan_correct","kind":"composition"},"guarantee":"test_newtons_method_function__rtol_cse_nan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Min","by":"library_axiom"},{"fn":"Max","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4845e829ebfb1b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_algorithms.test_newtons_method_function__rtol_cse_nan","kind":"function","src_hash":"6ae900d825c31166","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(result - ref) < req"},"spec":{"lhs":"test_newtons_method_function__rtol_cse_nan()","rhs":"Min(Max(low, expr), high)","over":{"base":"Any"},"name":"test_newtons_method_function__rtol_cse_nan_correct","kind":"composition"},"guarantee":"returns Min(Max(low, expr), high)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Min","by":"library_axiom"},{"fn":"Max","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4845e829ebfb1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Min(Max(low, expr), high)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_newtons_method_function__rtol_cse_nan():
     a, b, c, N_geo, N_tot = symbols('a b c N_geo N_tot', real=True, nonnegative=True)
     i = Symbol('i', integer=True, nonnegative=True)

@@ -48,16 +48,24 @@ from sympy.core.symbol import Dummy
 from sympy.functions.elementary.piecewise import Piecewise
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_where(), test_where produces the expected output) over Any ║
+# ║ Path(test_where(), where(Z ** 2 <= 1).set == Interval(-1, 1) and where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol) and where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5)) and len(where(X < 3).set) == 2 and 1 in where(X < 3).set and where(And(X ** 2 <= 1, X >= 0)).set == Interval(0, 1) and XX.pspace.domain.set == Interval(0, 1) and XX.pspace.domain.as_boolean() == And(0 <= X.symbol, X.symbol ** 2 <= 1, -oo < X.symbol, X.symbol < oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_where : Any → {Any | where(Z ** 2 <= 1).set == I...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  where(Z ** 2 <= 1).set == Interval(-1, 1)      ║
+# ║   ensures:  where(Z ** 2 <= 1).as_boolean() == Interv...   ║
+# ║   ensures:  where(And(X > Y, Y > 4)).as_boolean() == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_where : Any → {Any | result satisfies: where(Z *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5b6bb654df62b55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df31de167a68cf92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_where","kind":"function","src_hash":"36ec55a2a67b6e2e","in":{"base":"Any"},"out":{"base":"Any","pred":"where(Z ** 2 <= 1).set == Interval(-1, 1) and where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol) and where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5)) and len(where(X < 3).set) == 2 and 1 in where(X < 3).set and where(And(X ** 2 <= 1, X >= 0)).set == Interval(0, 1) and XX.pspace.domain.set == Interval(0, 1)"},"spec":{"lhs":"test_where()","rhs":"test_where produces the expected output","over":{"base":"Any"},"name":"test_where_correct"},"guarantee":"test_where produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_where_correct","statement":"Path(test_where(x), test_where produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5b6bb654df62b55"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_where","kind":"function","src_hash":"36ec55a2a67b6e2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: where(Z ** 2 <= 1).set == Interval(-1, 1) and where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol) and where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5)) and len(where(X < 3).set) == 2 and 1 in where(X < 3).set and where(And(X ** 2 <= 1, X >= 0)).set == Interval(0, 1) and XX.pspace.domain.set == Interval(0, 1) and XX.pspace.domain.as_boolean() == And(0 <= X.symbol, X.symbol ** 2 <= 1, -oo < X.symbol, X.symbol < oo)"},"spec":{"lhs":"test_where()","rhs":"where(Z ** 2 <= 1).set == Interval(-1, 1) and where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol) and where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5)) and len(where(X < 3).set) == 2 and 1 in where(X < 3).set and where(And(X ** 2 <= 1, X >= 0)).set == Interval(0, 1) and XX.pspace.domain.set == Interval(0, 1) and XX.pspace.domain.as_boolean() == And(0 <= X.symbol, X.symbol ** 2 <= 1, -oo < X.symbol, X.symbol < oo)","over":{"base":"Any"},"name":"test_where_correct"},"guarantee":"where(Z ** 2 <= 1).set == Interval(-1, 1); where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol); where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_where_correct","statement":"Path(test_where(x), where(Z ** 2 <= 1).set == Interval(-1, 1); where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol); where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df31de167a68cf92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["where(Z ** 2 <= 1).set == Interval(-1, 1)","where(Z ** 2 <= 1).as_boolean() == Interval(-1, 1).as_relational(Z.symbol)","where(And(X > Y, Y > 4)).as_boolean() == And(Eq(X.symbol, 6), Eq(Y.symbol, 5))","len(where(X < 3).set) == 2","1 in where(X < 3).set","where(And(X ** 2 <= 1, X >= 0)).set == Interval(0, 1)","XX.pspace.domain.set == Interval(0, 1)","XX.pspace.domain.as_boolean() == And(0 <= X.symbol, X.symbol ** 2 <= 1, -oo < X.symbol, X.symbol < oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_where():
     X, Y = Die('X'), Die('Y')
     Z = Normal('Z', 0, 1)
@@ -82,16 +90,24 @@ def test_where():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random_symbols(), test_random_symbols produces the expected output) over Any ║
+# ║ Path(test_random_symbols(), set(random_symbols(2 * X + 1)) == {X} and set(random_symbols(2 * X + Y)) == {X, Y} and set(random_symbols(2 * X + Y.symbol)) == {X} and set(random_symbols(2)) == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_random_symbols : Any → {Any | set(random_symbols...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(random_symbols(2 * X + 1)) == {X}          ║
+# ║   ensures:  set(random_symbols(2 * X + Y)) == {X, Y}       ║
+# ║   ensures:  set(random_symbols(2 * X + Y.symbol)) == {X}   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_random_symbols : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a78e13de0a7ab86c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecfb49691827f4d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_random_symbols","kind":"function","src_hash":"6e8a76b13a41c1b1","in":{"base":"Any"},"out":{"base":"Any","pred":"set(random_symbols(2 * X + 1)) == {X} and set(random_symbols(2 * X + Y)) == {X, Y} and set(random_symbols(2 * X + Y.symbol)) == {X} and set(random_symbols(2)) == set()"},"spec":{"lhs":"test_random_symbols()","rhs":"test_random_symbols produces the expected output","over":{"base":"Any"},"name":"test_random_symbols_correct"},"guarantee":"test_random_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_random_symbols_correct","statement":"Path(test_random_symbols(x), test_random_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a78e13de0a7ab86c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_random_symbols","kind":"function","src_hash":"6e8a76b13a41c1b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(random_symbols(2 * X + 1)) == {X} and set(random_symbols(2 * X + Y)) == {X, Y} and set(random_symbols(2 * X + Y.symbol)) == {X} and set(random_symbols(2)) == set()"},"spec":{"lhs":"test_random_symbols()","rhs":"set(random_symbols(2 * X + 1)) == {X} and set(random_symbols(2 * X + Y)) == {X, Y} and set(random_symbols(2 * X + Y.symbol)) == {X} and set(random_symbols(2)) == set()","over":{"base":"Any"},"name":"test_random_symbols_correct"},"guarantee":"set(random_symbols(2 * X + 1)) == {X}; set(random_symbols(2 * X + Y)) == {X, Y}; set(random_symbols(2 * X + Y.symbol)) == {X}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_random_symbols_correct","statement":"Path(test_random_symbols(x), set(random_symbols(2 * X + 1)) == {X}; set(random_symbols(2 * X + Y)) == {X, Y}; set(random_symbols(2 * X + Y.symbol)) == {X})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecfb49691827f4d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(random_symbols(2 * X + 1)) == {X}","set(random_symbols(2 * X + Y)) == {X, Y}","set(random_symbols(2 * X + Y.symbol)) == {X}","set(random_symbols(2)) == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_random_symbols():
     X, Y = Normal('X', 0, 1), Normal('Y', 0, 1)
 
@@ -102,16 +118,24 @@ def test_random_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_characteristic_function(), test_characteristic_function produces the expected output) over Any ║
+# ║ Path(test_characteristic_function(), characteristic_function(X).dummy_eq(P) and characteristic_function(Y).dummy_eq(Q) and characteristic_function(Z).dummy_eq(R)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_characteristic_function : Any → {Any | character...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  characteristic_function(X).dummy_eq(P)         ║
+# ║   ensures:  characteristic_function(Y).dummy_eq(Q)         ║
+# ║   ensures:  characteristic_function(Z).dummy_eq(R)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_characteristic_function : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6588049a4c6b7c85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48c51d2498a3684e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_characteristic_function","kind":"function","src_hash":"316159c855143436","in":{"base":"Any"},"out":{"base":"Any","pred":"characteristic_function(X).dummy_eq(P) and characteristic_function(Y).dummy_eq(Q) and characteristic_function(Z).dummy_eq(R)"},"spec":{"lhs":"test_characteristic_function()","rhs":"test_characteristic_function produces the expected output","over":{"base":"Any"},"name":"test_characteristic_function_correct"},"guarantee":"test_characteristic_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_characteristic_function_correct","statement":"Path(test_characteristic_function(x), test_characteristic_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6588049a4c6b7c85"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_characteristic_function","kind":"function","src_hash":"316159c855143436","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: characteristic_function(X).dummy_eq(P) and characteristic_function(Y).dummy_eq(Q) and characteristic_function(Z).dummy_eq(R)"},"spec":{"lhs":"test_characteristic_function()","rhs":"characteristic_function(X).dummy_eq(P) and characteristic_function(Y).dummy_eq(Q) and characteristic_function(Z).dummy_eq(R)","over":{"base":"Any"},"name":"test_characteristic_function_correct"},"guarantee":"characteristic_function(X).dummy_eq(P); characteristic_function(Y).dummy_eq(Q); characteristic_function(Z).dummy_eq(R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_characteristic_function_correct","statement":"Path(test_characteristic_function(x), characteristic_function(X).dummy_eq(P); characteristic_function(Y).dummy_eq(Q); characteristic_function(Z).dummy_eq(R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48c51d2498a3684e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["characteristic_function(X).dummy_eq(P)","characteristic_function(Y).dummy_eq(Q)","characteristic_function(Z).dummy_eq(R)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_characteristic_function():
     #  Imports I from sympy
     from sympy.core.numbers import I
@@ -130,16 +154,24 @@ def test_characteristic_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_moment_generating_function(), test_moment_generating_function produces the expected output) over Any ║
+# ║ Path(test_moment_generating_function(), moment_generating_function(X).dummy_eq(P) and moment_generating_function(Y).dummy_eq(Q) and moment_generating_function(Z).dummy_eq(R)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_moment_generating_function : Any → {Any | moment...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  moment_generating_function(X).dummy_eq(P)      ║
+# ║   ensures:  moment_generating_function(Y).dummy_eq(Q)      ║
+# ║   ensures:  moment_generating_function(Z).dummy_eq(R)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_moment_generating_function : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30a840665cdbf570  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b944986accff195f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_moment_generating_function","kind":"function","src_hash":"ffbdc52079fbc838","in":{"base":"Any"},"out":{"base":"Any","pred":"moment_generating_function(X).dummy_eq(P) and moment_generating_function(Y).dummy_eq(Q) and moment_generating_function(Z).dummy_eq(R)"},"spec":{"lhs":"test_moment_generating_function()","rhs":"test_moment_generating_function produces the expected output","over":{"base":"Any"},"name":"test_moment_generating_function_correct"},"guarantee":"test_moment_generating_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_moment_generating_function_correct","statement":"Path(test_moment_generating_function(x), test_moment_generating_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30a840665cdbf570"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_moment_generating_function","kind":"function","src_hash":"ffbdc52079fbc838","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: moment_generating_function(X).dummy_eq(P) and moment_generating_function(Y).dummy_eq(Q) and moment_generating_function(Z).dummy_eq(R)"},"spec":{"lhs":"test_moment_generating_function()","rhs":"moment_generating_function(X).dummy_eq(P) and moment_generating_function(Y).dummy_eq(Q) and moment_generating_function(Z).dummy_eq(R)","over":{"base":"Any"},"name":"test_moment_generating_function_correct"},"guarantee":"moment_generating_function(X).dummy_eq(P); moment_generating_function(Y).dummy_eq(Q); moment_generating_function(Z).dummy_eq(R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_moment_generating_function_correct","statement":"Path(test_moment_generating_function(x), moment_generating_function(X).dummy_eq(P); moment_generating_function(Y).dummy_eq(Q); moment_generating_function(Z).dummy_eq(R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b944986accff195f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["moment_generating_function(X).dummy_eq(P)","moment_generating_function(Y).dummy_eq(Q)","moment_generating_function(Z).dummy_eq(R)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_moment_generating_function():
 
     X = Normal('X',0,1)
@@ -156,16 +188,24 @@ def test_moment_generating_function():
     assert moment_generating_function(Z).dummy_eq(R)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_iter(), test_sample_iter produces the expected output) over Any ║
+# ║ Path(test_sample_iter(), is_iterator(iterator) and is_iterator(iterator2) and is_iterator(iterator3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sample_iter : Any → {Any | is_iterator(iterator)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_iterator(iterator)                          ║
+# ║   ensures:  is_iterator(iterator2)                         ║
+# ║   ensures:  is_iterator(iterator3)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sample_iter : Any → {Any | result satisfies: is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad808bb9bf1babbb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69cb592cd48559a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_sample_iter","kind":"function","src_hash":"d3218b2c637974a5","in":{"base":"Any"},"out":{"base":"Any","pred":"is_iterator(iterator) and is_iterator(iterator2) and is_iterator(iterator3)"},"spec":{"lhs":"test_sample_iter()","rhs":"test_sample_iter produces the expected output","over":{"base":"Any"},"name":"test_sample_iter_correct"},"guarantee":"test_sample_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_sample_iter_correct","statement":"Path(test_sample_iter(x), test_sample_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad808bb9bf1babbb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_sample_iter","kind":"function","src_hash":"d3218b2c637974a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_iterator(iterator) and is_iterator(iterator2) and is_iterator(iterator3)"},"spec":{"lhs":"test_sample_iter()","rhs":"is_iterator(iterator) and is_iterator(iterator2) and is_iterator(iterator3)","over":{"base":"Any"},"name":"test_sample_iter_correct"},"guarantee":"is_iterator(iterator); is_iterator(iterator2); is_iterator(iterator3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_sample_iter_correct","statement":"Path(test_sample_iter(x), is_iterator(iterator); is_iterator(iterator2); is_iterator(iterator3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69cb592cd48559a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_iterator(iterator)","is_iterator(iterator2)","is_iterator(iterator3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_iter():
 
     X = Normal('X',0,1)
@@ -200,16 +240,24 @@ def test_sample_iter():
     assert is_iterator(iterator3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pspace(), test_pspace produces the expected output) over Any ║
+# ║ Path(test_pspace(), pspace(X) == X.pspace and pspace(2 * X + 1) == X.pspace and pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pspace : Any → {Any | pspace(X) == X.pspace and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pspace(X) == X.pspace                          ║
+# ║   ensures:  pspace(2 * X + 1) == X.pspace                  ║
+# ║   ensures:  pspace(2 * X + Y) == IndependentProductPS...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pspace : Any → {Any | result satisfies: pspace(X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c4a843b0b3d2f84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fe904eb2a72e28b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_pspace","kind":"function","src_hash":"38c06f0985af646e","in":{"base":"Any"},"out":{"base":"Any","pred":"pspace(X) == X.pspace and pspace(2 * X + 1) == X.pspace and pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)"},"spec":{"lhs":"test_pspace()","rhs":"test_pspace produces the expected output","over":{"base":"Any"},"name":"test_pspace_correct"},"guarantee":"test_pspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_pspace_correct","statement":"Path(test_pspace(x), test_pspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c4a843b0b3d2f84"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_pspace","kind":"function","src_hash":"38c06f0985af646e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pspace(X) == X.pspace and pspace(2 * X + 1) == X.pspace and pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)"},"spec":{"lhs":"test_pspace()","rhs":"pspace(X) == X.pspace and pspace(2 * X + 1) == X.pspace and pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)","over":{"base":"Any"},"name":"test_pspace_correct"},"guarantee":"pspace(X) == X.pspace; pspace(2 * X + 1) == X.pspace; pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_pspace_correct","statement":"Path(test_pspace(x), pspace(X) == X.pspace; pspace(2 * X + 1) == X.pspace; pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fe904eb2a72e28b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pspace(X) == X.pspace","pspace(2 * X + 1) == X.pspace","pspace(2 * X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pspace():
     X, Y = Normal('X', 0, 1), Normal('Y', 0, 1)
     x = Symbol('x')
@@ -221,16 +269,22 @@ def test_pspace():
     assert pspace(2*X + Y) == IndependentProductPSpace(Y.pspace, X.pspace)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rs_swap(), test_rs_swap produces the expected output) over Any ║
+# ║ Path(test_rs_swap(), expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rs_swap : Any → {Any | expr.subs(rs_swap((X, Y),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.subs(rs_swap((X, Y), (YY, XX))) == 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rs_swap : Any → {Any | result satisfies: expr.su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acbbd926a5beba32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4556305e764e1331  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_rs_swap","kind":"function","src_hash":"dd4b230982f9f60d","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY"},"spec":{"lhs":"test_rs_swap()","rhs":"test_rs_swap produces the expected output","over":{"base":"Any"},"name":"test_rs_swap_correct"},"guarantee":"test_rs_swap produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_rs_swap_correct","statement":"Path(test_rs_swap(x), test_rs_swap produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acbbd926a5beba32"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_rs_swap","kind":"function","src_hash":"dd4b230982f9f60d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY"},"spec":{"lhs":"test_rs_swap()","rhs":"expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY","over":{"base":"Any"},"name":"test_rs_swap_correct"},"guarantee":"expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_rs_swap_correct","statement":"Path(test_rs_swap(x), expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4556305e764e1331","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.subs(rs_swap((X, Y), (YY, XX))) == 2 * XX + YY"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rs_swap():
     X = Normal('x', 0, 1)
     Y = Exponential('y', 1)
@@ -243,16 +297,24 @@ def test_rs_swap():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RandomSymbol(), test_RandomSymbol produces the expected output) over Any ║
+# ║ Path(test_RandomSymbol(), X.symbol == Y.symbol and X != Y and X.name == X.symbol.name) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RandomSymbol : Any → {Any | X.symbol == Y.symbol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.symbol == Y.symbol                           ║
+# ║   ensures:  X != Y                                         ║
+# ║   ensures:  X.name == X.symbol.name                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RandomSymbol : Any → {Any | result satisfies: X....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e666db6cb213416  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f99f550252299d4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_RandomSymbol","kind":"function","src_hash":"3d4f65e428aa84b8","in":{"base":"Any"},"out":{"base":"Any","pred":"X.symbol == Y.symbol and X != Y and X.name == X.symbol.name"},"spec":{"lhs":"test_RandomSymbol()","rhs":"test_RandomSymbol produces the expected output","over":{"base":"Any"},"name":"test_RandomSymbol_correct"},"guarantee":"test_RandomSymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_RandomSymbol_correct","statement":"Path(test_RandomSymbol(x), test_RandomSymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e666db6cb213416"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_RandomSymbol","kind":"function","src_hash":"3d4f65e428aa84b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.symbol == Y.symbol and X != Y and X.name == X.symbol.name"},"spec":{"lhs":"test_RandomSymbol()","rhs":"X.symbol == Y.symbol and X != Y and X.name == X.symbol.name","over":{"base":"Any"},"name":"test_RandomSymbol_correct"},"guarantee":"X.symbol == Y.symbol; X != Y; X.name == X.symbol.name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_RandomSymbol_correct","statement":"Path(test_RandomSymbol(x), X.symbol == Y.symbol; X != Y; X.name == X.symbol.name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f99f550252299d4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.symbol == Y.symbol","X != Y","X.name == X.symbol.name"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RandomSymbol():
 
     X = Normal('x', 0, 1)
@@ -267,47 +329,65 @@ def test_RandomSymbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RandomSymbol_diff(), test_RandomSymbol_diff produces the expected output) over Any ║
+# ║ Path(test_RandomSymbol_diff(), (2 * X).diff(X)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RandomSymbol_diff : Any → {Any | (2 * X).diff(X)}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * X).diff(X)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RandomSymbol_diff : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 794491caf51cfa29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da4a38e399bda793  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_RandomSymbol_diff","kind":"function","src_hash":"d8d09c0925ae89f2","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * X).diff(X)"},"spec":{"lhs":"test_RandomSymbol_diff()","rhs":"test_RandomSymbol_diff produces the expected output","over":{"base":"Any"},"name":"test_RandomSymbol_diff_correct"},"guarantee":"test_RandomSymbol_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_RandomSymbol_diff_correct","statement":"Path(test_RandomSymbol_diff(x), test_RandomSymbol_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"794491caf51cfa29"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_RandomSymbol_diff","kind":"function","src_hash":"d8d09c0925ae89f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * X).diff(X)"},"spec":{"lhs":"test_RandomSymbol_diff()","rhs":"(2 * X).diff(X)","over":{"base":"Any"},"name":"test_RandomSymbol_diff_correct"},"guarantee":"(2 * X).diff(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_RandomSymbol_diff_correct","statement":"Path(test_RandomSymbol_diff(x), (2 * X).diff(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da4a38e399bda793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * X).diff(X)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_RandomSymbol_diff():
     X = Normal('x', 0, 1)
     assert (2*X).diff(X)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random_symbol_no_pspace(), test_random_symbol_no_pspace produces the expected output) over Any ║
+# ║ Path(test_random_symbol_no_pspace(), x.pspace == PSpace()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_random_symbol_no_pspace : Any → {Any | x.pspace ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.pspace == PSpace()                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_random_symbol_no_pspace : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ba7da3e0487992d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32dd6a8e42b58341  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_random_symbol_no_pspace","kind":"function","src_hash":"de22757c7da5ce8f","in":{"base":"Any"},"out":{"base":"Any","pred":"x.pspace == PSpace()"},"spec":{"lhs":"test_random_symbol_no_pspace()","rhs":"test_random_symbol_no_pspace produces the expected output","over":{"base":"Any"},"name":"test_random_symbol_no_pspace_correct"},"guarantee":"test_random_symbol_no_pspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_random_symbol_no_pspace_correct","statement":"Path(test_random_symbol_no_pspace(x), test_random_symbol_no_pspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba7da3e0487992d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_random_symbol_no_pspace","kind":"function","src_hash":"de22757c7da5ce8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.pspace == PSpace()"},"spec":{"lhs":"test_random_symbol_no_pspace()","rhs":"x.pspace == PSpace()","over":{"base":"Any"},"name":"test_random_symbol_no_pspace_correct"},"guarantee":"x.pspace == PSpace()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_random_symbol_no_pspace_correct","statement":"Path(test_random_symbol_no_pspace(x), x.pspace == PSpace())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32dd6a8e42b58341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.pspace == PSpace()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_random_symbol_no_pspace():
     x = RandomSymbol(Symbol('x'))
     assert x.pspace == PSpace()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_overlap(), test_overlap produces the expected output) over Any ║
+# ║ Path(test_overlap(), <unspecified:test_overlap>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_overlap : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65613e976080c81f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_overlap","kind":"function","src_hash":"5ace300e540e096d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_overlap()","rhs":"test_overlap produces the expected output","over":{"base":"Any"},"name":"test_overlap_correct"},"guarantee":"test_overlap produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_overlap_correct","statement":"Path(test_overlap(x), test_overlap produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65613e976080c81f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_overlap","kind":"function","src_hash":"5ace300e540e096d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_overlap()","rhs":"<unspecified:test_overlap>","over":{"base":"Any"},"name":"test_overlap_correct"},"guarantee":"test_overlap produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_overlap_correct","statement":"Path(test_overlap(x), test_overlap produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65613e976080c81f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_overlap():
     X = Normal('x', 0, 1)
     Y = Normal('x', 0, 2)
@@ -316,16 +396,23 @@ def test_overlap():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IndependentProductPSpace(), test_IndependentProductPSpace produces the expected output) over Any ║
+# ║ Path(test_IndependentProductPSpace(), pspace(X + Y) == IndependentProductPSpace(px, py) and pspace(X + Y) == IndependentProductPSpace(py, px)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IndependentProductPSpace : Any → {Any | pspace(X...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pspace(X + Y) == IndependentProductPSpace...   ║
+# ║   ensures:  pspace(X + Y) == IndependentProductPSpace...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IndependentProductPSpace : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64a5a58fdc37e9c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0046930cc824f44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_IndependentProductPSpace","kind":"function","src_hash":"06dcbd2e219a6e32","in":{"base":"Any"},"out":{"base":"Any","pred":"pspace(X + Y) == IndependentProductPSpace(px, py) and pspace(X + Y) == IndependentProductPSpace(py, px)"},"spec":{"lhs":"test_IndependentProductPSpace()","rhs":"test_IndependentProductPSpace produces the expected output","over":{"base":"Any"},"name":"test_IndependentProductPSpace_correct"},"guarantee":"test_IndependentProductPSpace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_IndependentProductPSpace_correct","statement":"Path(test_IndependentProductPSpace(x), test_IndependentProductPSpace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64a5a58fdc37e9c9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_IndependentProductPSpace","kind":"function","src_hash":"06dcbd2e219a6e32","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pspace(X + Y) == IndependentProductPSpace(px, py) and pspace(X + Y) == IndependentProductPSpace(py, px)"},"spec":{"lhs":"test_IndependentProductPSpace()","rhs":"pspace(X + Y) == IndependentProductPSpace(px, py) and pspace(X + Y) == IndependentProductPSpace(py, px)","over":{"base":"Any"},"name":"test_IndependentProductPSpace_correct"},"guarantee":"pspace(X + Y) == IndependentProductPSpace(px, py); pspace(X + Y) == IndependentProductPSpace(py, px)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_IndependentProductPSpace_correct","statement":"Path(test_IndependentProductPSpace(x), pspace(X + Y) == IndependentProductPSpace(px, py); pspace(X + Y) == IndependentProductPSpace(py, px))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0046930cc824f44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pspace(X + Y) == IndependentProductPSpace(px, py)","pspace(X + Y) == IndependentProductPSpace(py, px)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IndependentProductPSpace():
     X = Normal('X', 0, 1)
     Y = Normal('Y', 0, 1)
@@ -336,31 +423,45 @@ def test_IndependentProductPSpace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_E(), test_E produces the expected output) over Any ║
+# ║ Path(test_E(), E(5) == 5) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_E : Any → {Any | E(5) == 5}                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(5) == 5                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_E : Any → {Any | result satisfies: E(5) == 5}         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7772f6f03ec7935  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9392c40cd778be04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_E","kind":"function","src_hash":"34ab358a6ec53b50","in":{"base":"Any"},"out":{"base":"Any","pred":"E(5) == 5"},"spec":{"lhs":"test_E()","rhs":"test_E produces the expected output","over":{"base":"Any"},"name":"test_E_correct"},"guarantee":"test_E produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_E_correct","statement":"Path(test_E(x), test_E produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7772f6f03ec7935"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_E","kind":"function","src_hash":"34ab358a6ec53b50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(5) == 5"},"spec":{"lhs":"test_E()","rhs":"E(5) == 5","over":{"base":"Any"},"name":"test_E_correct"},"guarantee":"E(5) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_E_correct","statement":"Path(test_E(x), E(5) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9392c40cd778be04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(5) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_E():
     assert E(5) == 5
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_H(), test_H produces the expected output) over Any ║
+# ║ Path(test_H(), H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2 and H(D, D > 2) == log(2) and comp(H(G).evalf().round(2), 1.39)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_H : Any → {Any | H(X, X > 0) == -log(2) / 2 + S....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  H(X, X > 0) == -log(2) / 2 + S.Half + log...   ║
+# ║   ensures:  H(D, D > 2) == log(2)                          ║
+# ║   ensures:  comp(H(G).evalf().round(2), 1.39)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_H : Any → {Any | result satisfies: H(X, X > 0) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00620c88cf554102  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2742d30c5231bf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_H","kind":"function","src_hash":"fb92e9fb5c118c30","in":{"base":"Any"},"out":{"base":"Any","pred":"H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2 and H(D, D > 2) == log(2) and comp(H(G).evalf().round(2), 1.39)"},"spec":{"lhs":"test_H()","rhs":"test_H produces the expected output","over":{"base":"Any"},"name":"test_H_correct"},"guarantee":"test_H produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_H_correct","statement":"Path(test_H(x), test_H produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00620c88cf554102"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_H","kind":"function","src_hash":"fb92e9fb5c118c30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2 and H(D, D > 2) == log(2) and comp(H(G).evalf().round(2), 1.39)"},"spec":{"lhs":"test_H()","rhs":"H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2 and H(D, D > 2) == log(2) and comp(H(G).evalf().round(2), 1.39)","over":{"base":"Any"},"name":"test_H_correct"},"guarantee":"H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2; H(D, D > 2) == log(2); comp(H(G).evalf().round(2), 1.39)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_H_correct","statement":"Path(test_H(x), H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2; H(D, D > 2) == log(2); comp(H(G).evalf().round(2), 1.39))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2742d30c5231bf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["H(X, X > 0) == -log(2) / 2 + S.Half + log(pi) / 2","H(D, D > 2) == log(2)","comp(H(G).evalf().round(2), 1.39)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_H():
     X = Normal('X', 0, 1)
     D = Die('D', sides = 4)
@@ -371,7 +472,12 @@ def test_H():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sample(), test_Sample produces the expected output) over {Any | isinstance(sample(X + Y), float) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64)} ║
+# ║ Path(test_Sample(), sample(X) in [1, 2, 3, 4, 5, 6] and isinstance(sample(X + Y), float) and P(X + Y > 0, Y < 0, numsamples=10).is_number and E(X + Y, numsamples=10).is_number and E(X ** 2 + Y, numsamples=10).is_number and E((X + Y) ** 2, numsamples=10).is_number and variance(X + Y, numsamples=10).is_number and P(sin(Y) <= 1, numsamples=10) == 1.0 and P(sin(Y) <= 1, cos(Y) < 1, numsamples=10) == 1.0 and all((i in range(1, 7) for i in density(X, numsamples=10))) and all((i in range(4, 7) for i in density(X, X > 3, numsamples=10))) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64) and isinstance(sample(X, size=2), numpy.ndarray)) over {Any | isinstance(sample(X + Y), float) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sample(X) in [1, 2, 3, 4, 5, 6]                ║
+# ║   ensures:  isinstance(sample(X + Y), float)               ║
+# ║   ensures:  P(X + Y > 0, Y < 0, numsamples=10).is_number   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Sample : {Any | isinstance(sample(X + Y), float)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -386,9 +492,12 @@ def test_H():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 17.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9c2301e5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_Sample","kind":"function","src_hash":"c83e4cb11099aebb","in":{"base":"Any","pred":"isinstance(sample(X + Y), float) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64)"},"out":{"base":"Any","pred":"sample(X) in [1, 2, 3, 4, 5, 6] and isinstance(sample(X + Y), float) and P(X + Y > 0, Y < 0, numsamples=10).is_number and E(X + Y, numsamples=10).is_number and E(X ** 2 + Y, numsamples=10).is_number and E((X + Y) ** 2, numsamples=10).is_number and variance(X + Y, numsamples=10).is_number and P(sin(Y) <= 1, numsamples=10) == 1.0 and P(sin(Y) <= 1, cos(Y) < 1, numsamples=10) == 1.0 and all((i in range(1, 7) for i in density(X, numsamples=10))) and all((i in range(4, 7) for i in density(X, X > 3, numsamples=10))) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64) and isinstance(sample(X, size=2), numpy.ndarray)"},"spec":{"lhs":"test_Sample()","rhs":"test_Sample produces the expected output","over":{"base":"Any","pred":"isinstance(sample(X + Y), float) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64)"},"name":"test_Sample_correct"},"guarantee":"test_Sample produces the expected output","fibers":[{"name":"float","pred":"isinstance(sample(X + Y), float)","path":{"lhs":"test_Sample(x)","rhs":"test_Sample produces the expected output","over":{"base":"float","pred":"isinstance(sample(X + Y), float)"},"name":"test_Sample_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_float_correct","statement":"test_Sample satisfies spec on float inputs"},"trust":"LIBRARY"},{"name":"(numpy_int32","pred":"isinstance(sample(X), (numpy.int32, numpy.int64))","path":{"lhs":"test_Sample(x)","rhs":"test_Sample produces the expected output","over":{"base":"(numpy.int32","pred":"isinstance(sample(X), (numpy.int32, numpy.int64))"},"name":"test_Sample_(numpy.int32_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_(numpy.int32_correct","statement":"test_Sample satisfies spec on (numpy.int32 inputs"},"trust":"LIBRARY"},{"name":"numpy_float64","pred":"isinstance(sample(Y), numpy.float64)","path":{"lhs":"test_Sample(x)","rhs":"test_Sample produces the expected output","over":{"base":"numpy.float64","pred":"isinstance(sample(Y), numpy.float64)"},"name":"test_Sample_numpy.float64_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_numpy.float64_correct","statement":"test_Sample satisfies spec on numpy.float64 inputs"},"trust":"LIBRARY"},{"name":"size=2","pred":"isinstance(sample(X, size=2), numpy.ndarray)","path":{"lhs":"test_Sample(x)","rhs":"test_Sample produces the expected output","over":{"base":"size=2","pred":"isinstance(sample(X, size=2), numpy.ndarray)"},"name":"test_Sample_size=2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_size=2_correct","statement":"test_Sample satisfies spec on size=2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c2301e59ff36cd0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_Sample","kind":"function","src_hash":"c83e4cb11099aebb","in":{"base":"Any","pred":"isinstance(sample(X + Y), float) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64)"},"out":{"base":"Any","pred":"result satisfies: sample(X) in [1, 2, 3, 4, 5, 6] and isinstance(sample(X + Y), float) and P(X + Y > 0, Y < 0, numsamples=10).is_number and E(X + Y, numsamples=10).is_number and E(X ** 2 + Y, numsamples=10).is_number and E((X + Y) ** 2, numsamples=10).is_number and variance(X + Y, numsamples=10).is_number and P(sin(Y) <= 1, numsamples=10) == 1.0 and P(sin(Y) <= 1, cos(Y) < 1, numsamples=10) == 1.0 and all((i in range(1, 7) for i in density(X, numsamples=10))) and all((i in range(4, 7) for i in density(X, X > 3, numsamples=10))) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64) and isinstance(sample(X, size=2), numpy.ndarray)"},"spec":{"lhs":"test_Sample()","rhs":"sample(X) in [1, 2, 3, 4, 5, 6] and isinstance(sample(X + Y), float) and P(X + Y > 0, Y < 0, numsamples=10).is_number and E(X + Y, numsamples=10).is_number and E(X ** 2 + Y, numsamples=10).is_number and E((X + Y) ** 2, numsamples=10).is_number and variance(X + Y, numsamples=10).is_number and P(sin(Y) <= 1, numsamples=10) == 1.0 and P(sin(Y) <= 1, cos(Y) < 1, numsamples=10) == 1.0 and all((i in range(1, 7) for i in density(X, numsamples=10))) and all((i in range(4, 7) for i in density(X, X > 3, numsamples=10))) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64) and isinstance(sample(X, size=2), numpy.ndarray)","over":{"base":"Any","pred":"isinstance(sample(X + Y), float) and isinstance(sample(X), (numpy.int32, numpy.int64)) and isinstance(sample(Y), numpy.float64)"},"name":"test_Sample_correct"},"guarantee":"sample(X) in [1, 2, 3, 4, 5, 6]; isinstance(sample(X + Y), float); P(X + Y > 0, Y < 0, numsamples=10).is_number","fibers":[{"name":"float","pred":"isinstance(sample(X + Y), float)","path":{"lhs":"test_Sample(x)","rhs":"sample(X) in [1, 2, 3, 4, 5, 6]; isinstance(sample(X + Y), float); P(X + Y > 0, Y < 0, numsamples=10).is_number","over":{"base":"float","pred":"isinstance(sample(X + Y), float)"},"name":"test_Sample_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_float_correct","statement":"test_Sample satisfies spec on float inputs"},"trust":"LIBRARY"},{"name":"(numpy_int32","pred":"isinstance(sample(X), (numpy.int32, numpy.int64))","path":{"lhs":"test_Sample(x)","rhs":"sample(X) in [1, 2, 3, 4, 5, 6]; isinstance(sample(X + Y), float); P(X + Y > 0, Y < 0, numsamples=10).is_number","over":{"base":"(numpy.int32","pred":"isinstance(sample(X), (numpy.int32, numpy.int64))"},"name":"test_Sample_(numpy.int32_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_(numpy.int32_correct","statement":"test_Sample satisfies spec on (numpy.int32 inputs"},"trust":"LIBRARY"},{"name":"numpy_float64","pred":"isinstance(sample(Y), numpy.float64)","path":{"lhs":"test_Sample(x)","rhs":"sample(X) in [1, 2, 3, 4, 5, 6]; isinstance(sample(X + Y), float); P(X + Y > 0, Y < 0, numsamples=10).is_number","over":{"base":"numpy.float64","pred":"isinstance(sample(Y), numpy.float64)"},"name":"test_Sample_numpy.float64_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_numpy.float64_correct","statement":"test_Sample satisfies spec on numpy.float64 inputs"},"trust":"LIBRARY"},{"name":"size=2","pred":"isinstance(sample(X, size=2), numpy.ndarray)","path":{"lhs":"test_Sample(x)","rhs":"sample(X) in [1, 2, 3, 4, 5, 6]; isinstance(sample(X + Y), float); P(X + Y > 0, Y < 0, numsamples=10).is_number","over":{"base":"size=2","pred":"isinstance(sample(X, size=2), numpy.ndarray)"},"name":"test_Sample_size=2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Sample_size=2_correct","statement":"test_Sample satisfies spec on size=2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c2301e59ff36cd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sample(X) in [1, 2, 3, 4, 5, 6]","isinstance(sample(X + Y), float)","P(X + Y > 0, Y < 0, numsamples=10).is_number","E(X + Y, numsamples=10).is_number","E(X ** 2 + Y, numsamples=10).is_number","E((X + Y) ** 2, numsamples=10).is_number","variance(X + Y, numsamples=10).is_number","P(sin(Y) <= 1, numsamples=10) == 1.0","P(sin(Y) <= 1, cos(Y) < 1, numsamples=10) == 1.0","all((i in range(1, 7) for i in density(X, numsamples=10)))","all((i in range(4, 7) for i in density(X, X > 3, numsamples=10)))","isinstance(sample(X), (numpy.int32, numpy.int64))","isinstance(sample(Y), numpy.float64)","isinstance(sample(X, size=2), numpy.ndarray)"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":17.1,"verdict_class":"failed","binding":true}}
 def test_Sample():
     X = Die('X', 6)
     Y = Normal('Y', 0, 1)
@@ -427,16 +536,22 @@ def test_Sample():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_samplingE(), test_samplingE produces the expected output) over Any ║
+# ║ Path(test_samplingE(), E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_samplingE : Any → {Any | E(Sum(1 / z ** Y, (z, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, num...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_samplingE : Any → {Any | result satisfies: E(Sum...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77d194092c9be216  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 693365cbfc264f5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_samplingE","kind":"function","src_hash":"e732864623c91fe5","in":{"base":"Any"},"out":{"base":"Any","pred":"E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number"},"spec":{"lhs":"test_samplingE()","rhs":"test_samplingE produces the expected output","over":{"base":"Any"},"name":"test_samplingE_correct"},"guarantee":"test_samplingE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_samplingE_correct","statement":"Path(test_samplingE(x), test_samplingE produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77d194092c9be216"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_samplingE","kind":"function","src_hash":"e732864623c91fe5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number"},"spec":{"lhs":"test_samplingE()","rhs":"E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number","over":{"base":"Any"},"name":"test_samplingE_correct"},"guarantee":"E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_samplingE_correct","statement":"Path(test_samplingE(x), E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"693365cbfc264f5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(Sum(1 / z ** Y, (z, 1, oo)), Y > 2, numsamples=3).is_number"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_samplingE():
     scipy = import_module('scipy')
     if not scipy:
@@ -447,16 +562,22 @@ def test_samplingE():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_given(), test_given produces the expected output) over Any ║
+# ║ Path(test_given(), X == A == B) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_given : Any → {Any | X == A == B}                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X == A == B                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_given : Any → {Any | result satisfies: X == A == B}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a7ec173ec1dd1b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | deb7351721e592a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_given","kind":"function","src_hash":"6089898cddbed319","in":{"base":"Any"},"out":{"base":"Any","pred":"X == A == B"},"spec":{"lhs":"test_given()","rhs":"test_given produces the expected output","over":{"base":"Any"},"name":"test_given_correct"},"guarantee":"test_given produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_given_correct","statement":"Path(test_given(x), test_given produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a7ec173ec1dd1b1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_given","kind":"function","src_hash":"6089898cddbed319","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X == A == B"},"spec":{"lhs":"test_given()","rhs":"X == A == B","over":{"base":"Any"},"name":"test_given_correct"},"guarantee":"X == A == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_given_correct","statement":"Path(test_given(x), X == A == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deb7351721e592a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X == A == B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_given():
     X = Normal('X', 0, 1)
     Y = Normal('Y', 0, 1)
@@ -467,16 +588,24 @@ def test_given():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial_moment(), test_factorial_moment produces the expected output) over Any ║
+# ║ Path(test_factorial_moment(), factorial_moment(X, 2) == 4 and factorial_moment(Y, 2) == S.Half and factorial_moment(Z, 2) == Rational(1, 3) and factorial_moment(Y, l) == y ** 2 * FallingFactorial(2, l) + 2 * y * (1 - y) * FallingFactorial(1, l) + (1 - y) ** 2 * FallingFactorial(0, l) and factorial_moment(Z, l) == 7 * FallingFactorial(0, l) / 15 + 7 * FallingFactorial(1, l) / 15 + FallingFactorial(2, l) / 15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorial_moment : Any → {Any | factorial_moment...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  factorial_moment(X, 2) == 4                    ║
+# ║   ensures:  factorial_moment(Y, 2) == S.Half               ║
+# ║   ensures:  factorial_moment(Z, 2) == Rational(1, 3)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorial_moment : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efbfe37590333acd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 564efe72e64ed81a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_factorial_moment","kind":"function","src_hash":"23efc1390f241010","in":{"base":"Any"},"out":{"base":"Any","pred":"factorial_moment(X, 2) == 4 and factorial_moment(Y, 2) == S.Half and factorial_moment(Z, 2) == Rational(1, 3)"},"spec":{"lhs":"test_factorial_moment()","rhs":"test_factorial_moment produces the expected output","over":{"base":"Any"},"name":"test_factorial_moment_correct"},"guarantee":"test_factorial_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_factorial_moment_correct","statement":"Path(test_factorial_moment(x), test_factorial_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efbfe37590333acd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_factorial_moment","kind":"function","src_hash":"23efc1390f241010","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: factorial_moment(X, 2) == 4 and factorial_moment(Y, 2) == S.Half and factorial_moment(Z, 2) == Rational(1, 3) and factorial_moment(Y, l) == y ** 2 * FallingFactorial(2, l) + 2 * y * (1 - y) * FallingFactorial(1, l) + (1 - y) ** 2 * FallingFactorial(0, l) and factorial_moment(Z, l) == 7 * FallingFactorial(0, l) / 15 + 7 * FallingFactorial(1, l) / 15 + FallingFactorial(2, l) / 15"},"spec":{"lhs":"test_factorial_moment()","rhs":"factorial_moment(X, 2) == 4 and factorial_moment(Y, 2) == S.Half and factorial_moment(Z, 2) == Rational(1, 3) and factorial_moment(Y, l) == y ** 2 * FallingFactorial(2, l) + 2 * y * (1 - y) * FallingFactorial(1, l) + (1 - y) ** 2 * FallingFactorial(0, l) and factorial_moment(Z, l) == 7 * FallingFactorial(0, l) / 15 + 7 * FallingFactorial(1, l) / 15 + FallingFactorial(2, l) / 15","over":{"base":"Any"},"name":"test_factorial_moment_correct"},"guarantee":"factorial_moment(X, 2) == 4; factorial_moment(Y, 2) == S.Half; factorial_moment(Z, 2) == Rational(1, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_factorial_moment_correct","statement":"Path(test_factorial_moment(x), factorial_moment(X, 2) == 4; factorial_moment(Y, 2) == S.Half; factorial_moment(Z, 2) == Rational(1, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"564efe72e64ed81a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["factorial_moment(X, 2) == 4","factorial_moment(Y, 2) == S.Half","factorial_moment(Z, 2) == Rational(1, 3)","factorial_moment(Y, l) == y ** 2 * FallingFactorial(2, l) + 2 * y * (1 - y) * FallingFactorial(1, l) + (1 - y) ** 2 * FallingFactorial(0, l)","factorial_moment(Z, l) == 7 * FallingFactorial(0, l) / 15 + 7 * FallingFactorial(1, l) / 15 + FallingFactorial(2, l) / 15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_factorial_moment():
     X = Poisson('X', 2)
     Y = Binomial('Y', 2, S.Half)
@@ -496,16 +625,24 @@ def test_factorial_moment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dependence(), test_dependence produces the expected output) over Any ║
+# ║ Path(test_dependence(), independent(X, 2 * Y) and not dependent(X, 2 * Y) and independent(X, Y) and dependent(X, 2 * X) and dependent(XX, YY)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dependence : Any → {Any | independent(X, 2 * Y) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  independent(X, 2 * Y)                          ║
+# ║   ensures:  not dependent(X, 2 * Y)                        ║
+# ║   ensures:  independent(X, Y)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dependence : Any → {Any | result satisfies: inde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c68e39d924a9cc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a7f0043f86238c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_dependence","kind":"function","src_hash":"7a3efc68767743d0","in":{"base":"Any"},"out":{"base":"Any","pred":"independent(X, 2 * Y) and not dependent(X, 2 * Y) and independent(X, Y) and dependent(X, 2 * X) and dependent(XX, YY)"},"spec":{"lhs":"test_dependence()","rhs":"test_dependence produces the expected output","over":{"base":"Any"},"name":"test_dependence_correct"},"guarantee":"test_dependence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_dependence_correct","statement":"Path(test_dependence(x), test_dependence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c68e39d924a9cc0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_dependence","kind":"function","src_hash":"7a3efc68767743d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: independent(X, 2 * Y) and not dependent(X, 2 * Y) and independent(X, Y) and dependent(X, 2 * X) and dependent(XX, YY)"},"spec":{"lhs":"test_dependence()","rhs":"independent(X, 2 * Y) and not dependent(X, 2 * Y) and independent(X, Y) and dependent(X, 2 * X) and dependent(XX, YY)","over":{"base":"Any"},"name":"test_dependence_correct"},"guarantee":"independent(X, 2 * Y); not dependent(X, 2 * Y); independent(X, Y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_dependence_correct","statement":"Path(test_dependence(x), independent(X, 2 * Y); not dependent(X, 2 * Y); independent(X, Y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a7f0043f86238c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["independent(X, 2 * Y)","not dependent(X, 2 * Y)","independent(X, Y)","dependent(X, 2 * X)","dependent(XX, YY)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dependence():
     X, Y = Die('X'), Die('Y')
     assert independent(X, 2*Y)
@@ -520,16 +657,23 @@ def test_dependence():
     assert dependent(XX, YY)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dependent_finite(), test_dependent_finite produces the expected output) over Any ║
+# ║ Path(test_dependent_finite(), dependent(X, Y + X) and dependent(XX, YY)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dependent_finite : Any → {Any | dependent(X, Y +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dependent(X, Y + X)                            ║
+# ║   ensures:  dependent(XX, YY)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dependent_finite : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dae1b188634961e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 038f0f3d76ce9ab1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_dependent_finite","kind":"function","src_hash":"86335a28092bcb3b","in":{"base":"Any"},"out":{"base":"Any","pred":"dependent(X, Y + X) and dependent(XX, YY)"},"spec":{"lhs":"test_dependent_finite()","rhs":"test_dependent_finite produces the expected output","over":{"base":"Any"},"name":"test_dependent_finite_correct"},"guarantee":"test_dependent_finite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_dependent_finite_correct","statement":"Path(test_dependent_finite(x), test_dependent_finite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae1b188634961e5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_dependent_finite","kind":"function","src_hash":"86335a28092bcb3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dependent(X, Y + X) and dependent(XX, YY)"},"spec":{"lhs":"test_dependent_finite()","rhs":"dependent(X, Y + X) and dependent(XX, YY)","over":{"base":"Any"},"name":"test_dependent_finite_correct"},"guarantee":"dependent(X, Y + X); dependent(XX, YY)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_dependent_finite_correct","statement":"Path(test_dependent_finite(x), dependent(X, Y + X); dependent(XX, YY))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"038f0f3d76ce9ab1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dependent(X, Y + X)","dependent(XX, YY)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dependent_finite():
     X, Y = Die('X'), Die('Y')
     # Dependence testing requires symbolic conditions which currently break
@@ -541,16 +685,22 @@ def test_dependent_finite():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_normality(), test_normality produces the expected output) over Any ║
+# ║ Path(test_normality(), integrate(dens(x), (x, -oo, oo)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_normality : Any → {Any | integrate(dens(x), (x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(dens(x), (x, -oo, oo)) == 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_normality : Any → {Any | result satisfies: integ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a43a44f03579deb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03e7f97223a250c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_normality","kind":"function","src_hash":"7ad0c9e486cc8e2e","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(dens(x), (x, -oo, oo)) == 1"},"spec":{"lhs":"test_normality()","rhs":"test_normality produces the expected output","over":{"base":"Any"},"name":"test_normality_correct"},"guarantee":"test_normality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_normality_correct","statement":"Path(test_normality(x), test_normality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a43a44f03579deb3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_normality","kind":"function","src_hash":"7ad0c9e486cc8e2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(dens(x), (x, -oo, oo)) == 1"},"spec":{"lhs":"test_normality()","rhs":"integrate(dens(x), (x, -oo, oo)) == 1","over":{"base":"Any"},"name":"test_normality_correct"},"guarantee":"integrate(dens(x), (x, -oo, oo)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_normality_correct","statement":"Path(test_normality(x), integrate(dens(x), (x, -oo, oo)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e7f97223a250c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(dens(x), (x, -oo, oo)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_normality():
     X, Y = Normal('X', 0, 1), Normal('Y', 0, 1)
     x = Symbol('x', real=True)
@@ -561,32 +711,45 @@ def test_normality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Density(), test_Density produces the expected output) over Any ║
+# ║ Path(test_Density(), d.doit() == density(X)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Density : Any → {Any | d.doit() == density(X)}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d.doit() == density(X)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Density : Any → {Any | result satisfies: d.doit(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a77a9da96b36942  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c8cad2450393d8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_Density","kind":"function","src_hash":"acd74aa721d79cd7","in":{"base":"Any"},"out":{"base":"Any","pred":"d.doit() == density(X)"},"spec":{"lhs":"test_Density()","rhs":"test_Density produces the expected output","over":{"base":"Any"},"name":"test_Density_correct"},"guarantee":"test_Density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Density_correct","statement":"Path(test_Density(x), test_Density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a77a9da96b36942"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_Density","kind":"function","src_hash":"acd74aa721d79cd7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d.doit() == density(X)"},"spec":{"lhs":"test_Density()","rhs":"d.doit() == density(X)","over":{"base":"Any"},"name":"test_Density_correct"},"guarantee":"d.doit() == density(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_Density_correct","statement":"Path(test_Density(x), d.doit() == density(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c8cad2450393d8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d.doit() == density(X)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Density():
     X = Die('X', 6)
     d = Density(X)
     assert d.doit() == density(X)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NamedArgsMixin(), test_NamedArgsMixin produces the expected output) over Any ║
+# ║ Path(test_NamedArgsMixin(), a.foo == 1 and a.bar == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NamedArgsMixin : Any → {Any | a.foo == 1 and a.b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.foo == 1                                     ║
+# ║   ensures:  a.bar == 2                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NamedArgsMixin : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb03c55fc3488046  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9c190f589c8a948  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_NamedArgsMixin","kind":"function","src_hash":"cbd55bab59ae7a69","in":{"base":"Any"},"out":{"base":"Any","pred":"a.foo == 1 and a.bar == 2"},"spec":{"lhs":"test_NamedArgsMixin()","rhs":"test_NamedArgsMixin produces the expected output","over":{"base":"Any"},"name":"test_NamedArgsMixin_correct"},"guarantee":"test_NamedArgsMixin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_NamedArgsMixin_correct","statement":"Path(test_NamedArgsMixin(x), test_NamedArgsMixin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb03c55fc3488046"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_NamedArgsMixin","kind":"function","src_hash":"cbd55bab59ae7a69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.foo == 1 and a.bar == 2"},"spec":{"lhs":"test_NamedArgsMixin()","rhs":"a.foo == 1 and a.bar == 2","over":{"base":"Any"},"name":"test_NamedArgsMixin_correct"},"guarantee":"a.foo == 1; a.bar == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_NamedArgsMixin_correct","statement":"Path(test_NamedArgsMixin(x), a.foo == 1; a.bar == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9c190f589c8a948","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.foo == 1","a.bar == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_NamedArgsMixin():
     class Foo(Basic, NamedArgsMixin):
         _argnames = 'foo', 'bar'
@@ -604,31 +767,46 @@ def test_NamedArgsMixin():
     raises(AttributeError, lambda: Bar(S(1), S(2)).foo)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_density_constant(), test_density_constant produces the expected output) over Any ║
+# ║ Path(test_density_constant(), density(3)(2) == 0 and density(3)(3) == DiracDelta(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_density_constant : Any → {Any | density(3)(2) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(3)(2) == 0                             ║
+# ║   ensures:  density(3)(3) == DiracDelta(0)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_density_constant : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b14505b517401a8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d5ab561dffd8517  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_density_constant","kind":"function","src_hash":"11f8fc05b5994b0d","in":{"base":"Any"},"out":{"base":"Any","pred":"density(3)(2) == 0 and density(3)(3) == DiracDelta(0)"},"spec":{"lhs":"test_density_constant()","rhs":"test_density_constant produces the expected output","over":{"base":"Any"},"name":"test_density_constant_correct"},"guarantee":"test_density_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_density_constant_correct","statement":"Path(test_density_constant(x), test_density_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b14505b517401a8b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_density_constant","kind":"function","src_hash":"11f8fc05b5994b0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(3)(2) == 0 and density(3)(3) == DiracDelta(0)"},"spec":{"lhs":"test_density_constant()","rhs":"density(3)(2) == 0 and density(3)(3) == DiracDelta(0)","over":{"base":"Any"},"name":"test_density_constant_correct"},"guarantee":"density(3)(2) == 0; density(3)(3) == DiracDelta(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_density_constant_correct","statement":"Path(test_density_constant(x), density(3)(2) == 0; density(3)(3) == DiracDelta(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d5ab561dffd8517","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(3)(2) == 0","density(3)(3) == DiracDelta(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_density_constant():
     assert density(3)(2) == 0
     assert density(3)(3) == DiracDelta(0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmoment_constant(), test_cmoment_constant produces the expected output) over Any ║
+# ║ Path(test_cmoment_constant(), variance(3) == 0 and cmoment(3, 3) == 0 and cmoment(3, 4) == 0 and variance(x) == 0 and cmoment(x, 15) == 0 and cmoment(x, 0) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmoment_constant : Any → {Any | variance(3) == 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  variance(3) == 0                               ║
+# ║   ensures:  cmoment(3, 3) == 0                             ║
+# ║   ensures:  cmoment(3, 4) == 0                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmoment_constant : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29fa1454411a6a83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edd10bd812044fe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_cmoment_constant","kind":"function","src_hash":"33b3a2f24153e2dc","in":{"base":"Any"},"out":{"base":"Any","pred":"variance(3) == 0 and cmoment(3, 3) == 0 and cmoment(3, 4) == 0 and variance(x) == 0 and cmoment(x, 15) == 0 and cmoment(x, 0) == 1"},"spec":{"lhs":"test_cmoment_constant()","rhs":"test_cmoment_constant produces the expected output","over":{"base":"Any"},"name":"test_cmoment_constant_correct"},"guarantee":"test_cmoment_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_cmoment_constant_correct","statement":"Path(test_cmoment_constant(x), test_cmoment_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29fa1454411a6a83"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_cmoment_constant","kind":"function","src_hash":"33b3a2f24153e2dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: variance(3) == 0 and cmoment(3, 3) == 0 and cmoment(3, 4) == 0 and variance(x) == 0 and cmoment(x, 15) == 0 and cmoment(x, 0) == 1"},"spec":{"lhs":"test_cmoment_constant()","rhs":"variance(3) == 0 and cmoment(3, 3) == 0 and cmoment(3, 4) == 0 and variance(x) == 0 and cmoment(x, 15) == 0 and cmoment(x, 0) == 1","over":{"base":"Any"},"name":"test_cmoment_constant_correct"},"guarantee":"variance(3) == 0; cmoment(3, 3) == 0; cmoment(3, 4) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_cmoment_constant_correct","statement":"Path(test_cmoment_constant(x), variance(3) == 0; cmoment(3, 3) == 0; cmoment(3, 4) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edd10bd812044fe3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["variance(3) == 0","cmoment(3, 3) == 0","cmoment(3, 4) == 0","variance(x) == 0","cmoment(x, 15) == 0","cmoment(x, 0) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmoment_constant():
     assert variance(3) == 0
     assert cmoment(3, 3) == 0
@@ -639,16 +817,24 @@ def test_cmoment_constant():
     assert cmoment(x, 0) == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_moment_constant(), test_moment_constant produces the expected output) over Any ║
+# ║ Path(test_moment_constant(), moment(3, 0) == 1 and moment(3, 1) == 3 and moment(3, 2) == 9 and moment(x, 2) == x ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_moment_constant : Any → {Any | moment(3, 0) == 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  moment(3, 0) == 1                              ║
+# ║   ensures:  moment(3, 1) == 3                              ║
+# ║   ensures:  moment(3, 2) == 9                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_moment_constant : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7adb1aacb5c74987  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 879fd6a9dfeaba47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_moment_constant","kind":"function","src_hash":"732b97f03acff744","in":{"base":"Any"},"out":{"base":"Any","pred":"moment(3, 0) == 1 and moment(3, 1) == 3 and moment(3, 2) == 9 and moment(x, 2) == x ** 2"},"spec":{"lhs":"test_moment_constant()","rhs":"test_moment_constant produces the expected output","over":{"base":"Any"},"name":"test_moment_constant_correct"},"guarantee":"test_moment_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_moment_constant_correct","statement":"Path(test_moment_constant(x), test_moment_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7adb1aacb5c74987"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_moment_constant","kind":"function","src_hash":"732b97f03acff744","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: moment(3, 0) == 1 and moment(3, 1) == 3 and moment(3, 2) == 9 and moment(x, 2) == x ** 2"},"spec":{"lhs":"test_moment_constant()","rhs":"moment(3, 0) == 1 and moment(3, 1) == 3 and moment(3, 2) == 9 and moment(x, 2) == x ** 2","over":{"base":"Any"},"name":"test_moment_constant_correct"},"guarantee":"moment(3, 0) == 1; moment(3, 1) == 3; moment(3, 2) == 9","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_moment_constant_correct","statement":"Path(test_moment_constant(x), moment(3, 0) == 1; moment(3, 1) == 3; moment(3, 2) == 9)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"879fd6a9dfeaba47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["moment(3, 0) == 1","moment(3, 1) == 3","moment(3, 2) == 9","moment(x, 2) == x ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_moment_constant():
     assert moment(3, 0) == 1
     assert moment(3, 1) == 3
@@ -657,48 +843,69 @@ def test_moment_constant():
     assert moment(x, 2) == x**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_median_constant(), test_median_constant produces the expected output) over Any ║
+# ║ Path(test_median_constant(), median(3) == 3 and median(x) == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_median_constant : Any → {Any | median(3) == 3 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  median(3) == 3                                 ║
+# ║   ensures:  median(x) == x                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_median_constant : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 185a2d9d6619cf22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fac88f1d0d2a6c9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_median_constant","kind":"function","src_hash":"6791f2687953a239","in":{"base":"Any"},"out":{"base":"Any","pred":"median(3) == 3 and median(x) == x"},"spec":{"lhs":"test_median_constant()","rhs":"test_median_constant produces the expected output","over":{"base":"Any"},"name":"test_median_constant_correct"},"guarantee":"test_median_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_median_constant_correct","statement":"Path(test_median_constant(x), test_median_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"185a2d9d6619cf22"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_median_constant","kind":"function","src_hash":"6791f2687953a239","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: median(3) == 3 and median(x) == x"},"spec":{"lhs":"test_median_constant()","rhs":"median(3) == 3 and median(x) == x","over":{"base":"Any"},"name":"test_median_constant_correct"},"guarantee":"median(3) == 3; median(x) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_median_constant_correct","statement":"Path(test_median_constant(x), median(3) == 3; median(x) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac88f1d0d2a6c9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["median(3) == 3","median(x) == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_median_constant():
     assert median(3) == 3
     x = Symbol('x')
     assert median(x) == x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_real(), test_real produces the expected output) over Any ║
+# ║ Path(test_real(), x.is_real) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_real : Any → {Any | x.is_real}                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.is_real                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_real : Any → {Any | result satisfies: x.is_real}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 633847d7ff2be6bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d766d1d68325acab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_real","kind":"function","src_hash":"043dd03a12512e95","in":{"base":"Any"},"out":{"base":"Any","pred":"x.is_real"},"spec":{"lhs":"test_real()","rhs":"test_real produces the expected output","over":{"base":"Any"},"name":"test_real_correct"},"guarantee":"test_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_real_correct","statement":"Path(test_real(x), test_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"633847d7ff2be6bf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_real","kind":"function","src_hash":"043dd03a12512e95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.is_real"},"spec":{"lhs":"test_real()","rhs":"x.is_real","over":{"base":"Any"},"name":"test_real_correct"},"guarantee":"x.is_real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_real_correct","statement":"Path(test_real(x), x.is_real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d766d1d68325acab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.is_real"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_real():
     x = Normal('x', 0, 1)
     assert x.is_real
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10052(), test_issue_10052 produces the expected output) over Any ║
+# ║ Path(test_issue_10052(), P(X < oo) == 1 and P(X > oo) == 0 and P(X < 2, X > oo) == 0 and P(X < oo, X > oo) == 0 and P(X < oo, X > 2) == 1 and P(X < 3, X == 2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10052 : Any → {Any | P(X < oo) == 1 and P(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(X < oo) == 1                                 ║
+# ║   ensures:  P(X > oo) == 0                                 ║
+# ║   ensures:  P(X < 2, X > oo) == 0                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10052 : Any → {Any | result satisfies: P(X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 549dec3d4d93c04a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aa60735b87a4380  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_10052","kind":"function","src_hash":"e439ecd0282a8744","in":{"base":"Any"},"out":{"base":"Any","pred":"P(X < oo) == 1 and P(X > oo) == 0 and P(X < 2, X > oo) == 0 and P(X < oo, X > oo) == 0 and P(X < oo, X > 2) == 1 and P(X < 3, X == 2) == 0"},"spec":{"lhs":"test_issue_10052()","rhs":"test_issue_10052 produces the expected output","over":{"base":"Any"},"name":"test_issue_10052_correct"},"guarantee":"test_issue_10052 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_10052_correct","statement":"Path(test_issue_10052(x), test_issue_10052 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"549dec3d4d93c04a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_10052","kind":"function","src_hash":"e439ecd0282a8744","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(X < oo) == 1 and P(X > oo) == 0 and P(X < 2, X > oo) == 0 and P(X < oo, X > oo) == 0 and P(X < oo, X > 2) == 1 and P(X < 3, X == 2) == 0"},"spec":{"lhs":"test_issue_10052()","rhs":"P(X < oo) == 1 and P(X > oo) == 0 and P(X < 2, X > oo) == 0 and P(X < oo, X > oo) == 0 and P(X < oo, X > 2) == 1 and P(X < 3, X == 2) == 0","over":{"base":"Any"},"name":"test_issue_10052_correct"},"guarantee":"P(X < oo) == 1; P(X > oo) == 0; P(X < 2, X > oo) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_10052_correct","statement":"Path(test_issue_10052(x), P(X < oo) == 1; P(X > oo) == 0; P(X < 2, X > oo) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aa60735b87a4380","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(X < oo) == 1","P(X > oo) == 0","P(X < 2, X > oo) == 0","P(X < oo, X > oo) == 0","P(X < oo, X > 2) == 1","P(X < 3, X == 2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_10052():
     X = Exponential('X', 3)
     assert P(X < oo) == 1
@@ -711,16 +918,23 @@ def test_issue_10052():
     raises(ValueError, lambda: P(X < 1, 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11934(), test_issue_11934 produces the expected output) over Any ║
+# ║ Path(test_issue_11934(), E(X) == 0.5 and P(X >= 2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11934 : Any → {Any | E(X) == 0.5 and P(X >...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(X) == 0.5                                    ║
+# ║   ensures:  P(X >= 2) == 0                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11934 : Any → {Any | result satisfies: E(X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3892901c0f8b0a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e406d3d6a0b67e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_11934","kind":"function","src_hash":"14c494489c46edd1","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == 0.5 and P(X >= 2) == 0"},"spec":{"lhs":"test_issue_11934()","rhs":"test_issue_11934 produces the expected output","over":{"base":"Any"},"name":"test_issue_11934_correct"},"guarantee":"test_issue_11934 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_11934_correct","statement":"Path(test_issue_11934(x), test_issue_11934 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3892901c0f8b0a4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_11934","kind":"function","src_hash":"14c494489c46edd1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(X) == 0.5 and P(X >= 2) == 0"},"spec":{"lhs":"test_issue_11934()","rhs":"E(X) == 0.5 and P(X >= 2) == 0","over":{"base":"Any"},"name":"test_issue_11934_correct"},"guarantee":"E(X) == 0.5; P(X >= 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_11934_correct","statement":"Path(test_issue_11934(x), E(X) == 0.5; P(X >= 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e406d3d6a0b67e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(X) == 0.5","P(X >= 2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11934():
     density = {0: .5, 1: .5}
     X = FiniteRV('X', density)
@@ -728,16 +942,24 @@ def test_issue_11934():
     assert P( X>= 2) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8129(), test_issue_8129 produces the expected output) over Any ║
+# ║ Path(test_issue_8129(), P(X >= X) == 1 and P(X > X) == 0 and P(X > X + 1) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8129 : Any → {Any | P(X >= X) == 1 and P(X...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(X >= X) == 1                                 ║
+# ║   ensures:  P(X > X) == 0                                  ║
+# ║   ensures:  P(X > X + 1) == 0                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8129 : Any → {Any | result satisfies: P(X ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6291f0a66b31a00f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 170baebd37845d87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_8129","kind":"function","src_hash":"a24a5e25f0c7e5d6","in":{"base":"Any"},"out":{"base":"Any","pred":"P(X >= X) == 1 and P(X > X) == 0 and P(X > X + 1) == 0"},"spec":{"lhs":"test_issue_8129()","rhs":"test_issue_8129 produces the expected output","over":{"base":"Any"},"name":"test_issue_8129_correct"},"guarantee":"test_issue_8129 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_8129_correct","statement":"Path(test_issue_8129(x), test_issue_8129 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6291f0a66b31a00f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_8129","kind":"function","src_hash":"a24a5e25f0c7e5d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(X >= X) == 1 and P(X > X) == 0 and P(X > X + 1) == 0"},"spec":{"lhs":"test_issue_8129()","rhs":"P(X >= X) == 1 and P(X > X) == 0 and P(X > X + 1) == 0","over":{"base":"Any"},"name":"test_issue_8129_correct"},"guarantee":"P(X >= X) == 1; P(X > X) == 0; P(X > X + 1) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_8129_correct","statement":"Path(test_issue_8129(x), P(X >= X) == 1; P(X > X) == 0; P(X > X + 1) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"170baebd37845d87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(X >= X) == 1","P(X > X) == 0","P(X > X + 1) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8129():
     X = Exponential('X', 4)
     assert P(X >= X) == 1
@@ -745,16 +967,24 @@ def test_issue_8129():
     assert P(X > X+1) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12237(), test_issue_12237 produces the expected output) over Any ║
+# ║ Path(test_issue_12237(), W == P(X + Y > 0, X) and U == BernoulliDistribution(S.Half, S.Zero, S.One) and V == S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12237 : Any → {Any | W == P(X + Y > 0, X) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  W == P(X + Y > 0, X)                           ║
+# ║   ensures:  U == BernoulliDistribution(S.Half, S.Zero...   ║
+# ║   ensures:  V == S.Half                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12237 : Any → {Any | result satisfies: W =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 459b7d63562080d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35aec7c7305f7f7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_12237","kind":"function","src_hash":"4141f8d96ffd5c33","in":{"base":"Any"},"out":{"base":"Any","pred":"W == P(X + Y > 0, X) and U == BernoulliDistribution(S.Half, S.Zero, S.One) and V == S.Half"},"spec":{"lhs":"test_issue_12237()","rhs":"test_issue_12237 produces the expected output","over":{"base":"Any"},"name":"test_issue_12237_correct"},"guarantee":"test_issue_12237 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_12237_correct","statement":"Path(test_issue_12237(x), test_issue_12237 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"459b7d63562080d7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_12237","kind":"function","src_hash":"4141f8d96ffd5c33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: W == P(X + Y > 0, X) and U == BernoulliDistribution(S.Half, S.Zero, S.One) and V == S.Half"},"spec":{"lhs":"test_issue_12237()","rhs":"W == P(X + Y > 0, X) and U == BernoulliDistribution(S.Half, S.Zero, S.One) and V == S.Half","over":{"base":"Any"},"name":"test_issue_12237_correct"},"guarantee":"W == P(X + Y > 0, X); U == BernoulliDistribution(S.Half, S.Zero, S.One); V == S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_12237_correct","statement":"Path(test_issue_12237(x), W == P(X + Y > 0, X); U == BernoulliDistribution(S.Half, S.Zero, S.One); V == S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35aec7c7305f7f7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["W == P(X + Y > 0, X)","U == BernoulliDistribution(S.Half, S.Zero, S.One)","V == S.Half"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12237():
     X = Normal('X', 0, 1)
     Y = Normal('Y', 0, 1)
@@ -766,16 +996,24 @@ def test_issue_12237():
     assert V == S.Half
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_random(), test_is_random produces the expected output) over Any ║
+# ║ Path(test_is_random(), not is_random(a) and not is_random(a + b) and not is_random(a * b) and not is_random(Matrix([a ** 2, b ** 2])) and is_random(X) and is_random(X ** 2 + Y) and is_random(Y + b ** 2) and is_random(Y > 5) and is_random(B[3] < 1) and is_random(G) and is_random(X * Y * B[1]) and is_random(Matrix([[X, B[2]], [G, Y]])) and is_random(Eq(X, 4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_random : Any → {Any | not is_random(a) and no...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_random(a)                               ║
+# ║   ensures:  not is_random(a + b)                           ║
+# ║   ensures:  not is_random(a * b)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_random : Any → {Any | result satisfies: not i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 247d19ee2459d64c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0abda8daf028ec5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_is_random","kind":"function","src_hash":"191ac2bf2cd8070d","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_random(a) and not is_random(a + b) and not is_random(a * b) and not is_random(Matrix([a ** 2, b ** 2])) and is_random(X) and is_random(X ** 2 + Y) and is_random(Y + b ** 2) and is_random(Y > 5) and is_random(B[3] < 1) and is_random(G) and is_random(X * Y * B[1]) and is_random(Matrix([[X, B[2]], [G, Y]])) and is_random(Eq(X, 4))"},"spec":{"lhs":"test_is_random()","rhs":"test_is_random produces the expected output","over":{"base":"Any"},"name":"test_is_random_correct"},"guarantee":"test_is_random produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_is_random_correct","statement":"Path(test_is_random(x), test_is_random produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247d19ee2459d64c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_is_random","kind":"function","src_hash":"191ac2bf2cd8070d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_random(a) and not is_random(a + b) and not is_random(a * b) and not is_random(Matrix([a ** 2, b ** 2])) and is_random(X) and is_random(X ** 2 + Y) and is_random(Y + b ** 2) and is_random(Y > 5) and is_random(B[3] < 1) and is_random(G) and is_random(X * Y * B[1]) and is_random(Matrix([[X, B[2]], [G, Y]])) and is_random(Eq(X, 4))"},"spec":{"lhs":"test_is_random()","rhs":"not is_random(a) and not is_random(a + b) and not is_random(a * b) and not is_random(Matrix([a ** 2, b ** 2])) and is_random(X) and is_random(X ** 2 + Y) and is_random(Y + b ** 2) and is_random(Y > 5) and is_random(B[3] < 1) and is_random(G) and is_random(X * Y * B[1]) and is_random(Matrix([[X, B[2]], [G, Y]])) and is_random(Eq(X, 4))","over":{"base":"Any"},"name":"test_is_random_correct"},"guarantee":"not is_random(a); not is_random(a + b); not is_random(a * b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_is_random_correct","statement":"Path(test_is_random(x), not is_random(a); not is_random(a + b); not is_random(a * b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0abda8daf028ec5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_random(a)","not is_random(a + b)","not is_random(a * b)","not is_random(Matrix([a ** 2, b ** 2]))","is_random(X)","is_random(X ** 2 + Y)","is_random(Y + b ** 2)","is_random(Y > 5)","is_random(B[3] < 1)","is_random(G)","is_random(X * Y * B[1])","is_random(Matrix([[X, B[2]], [G, Y]]))","is_random(Eq(X, 4))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_random():
     X = Normal('X', 0, 1)
     Y = Normal('Y', 0, 1)
@@ -797,16 +1035,24 @@ def test_is_random():
     assert is_random(Eq(X, 4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12283(), test_issue_12283 produces the expected output) over Any ║
+# ║ Path(test_issue_12283(), pspace(Z) == PSpace() and pspace(RI) == PSpace() and pspace(X) == PSpace() and E(X) == Expectation(X) and P(Y > 3) == Probability(Y > 3) and variance(X) == Variance(X) and variance(RI) == Variance(RI) and covariance(X, Y) == Covariance(X, Y) and covariance(W, Z) == Covariance(W, Z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12283 : Any → {Any | pspace(Z) == PSpace()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pspace(Z) == PSpace()                          ║
+# ║   ensures:  pspace(RI) == PSpace()                         ║
+# ║   ensures:  pspace(X) == PSpace()                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12283 : Any → {Any | result satisfies: psp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0038fa5db3e214b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8573fd25f10940f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_12283","kind":"function","src_hash":"cdfa643c28fc1708","in":{"base":"Any"},"out":{"base":"Any","pred":"pspace(Z) == PSpace() and pspace(RI) == PSpace() and pspace(X) == PSpace() and E(X) == Expectation(X) and P(Y > 3) == Probability(Y > 3) and variance(X) == Variance(X) and variance(RI) == Variance(RI) and covariance(X, Y) == Covariance(X, Y) and covariance(W, Z) == Covariance(W, Z)"},"spec":{"lhs":"test_issue_12283()","rhs":"test_issue_12283 produces the expected output","over":{"base":"Any"},"name":"test_issue_12283_correct"},"guarantee":"test_issue_12283 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_12283_correct","statement":"Path(test_issue_12283(x), test_issue_12283 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0038fa5db3e214b1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_12283","kind":"function","src_hash":"cdfa643c28fc1708","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pspace(Z) == PSpace() and pspace(RI) == PSpace() and pspace(X) == PSpace() and E(X) == Expectation(X) and P(Y > 3) == Probability(Y > 3) and variance(X) == Variance(X) and variance(RI) == Variance(RI) and covariance(X, Y) == Covariance(X, Y) and covariance(W, Z) == Covariance(W, Z)"},"spec":{"lhs":"test_issue_12283()","rhs":"pspace(Z) == PSpace() and pspace(RI) == PSpace() and pspace(X) == PSpace() and E(X) == Expectation(X) and P(Y > 3) == Probability(Y > 3) and variance(X) == Variance(X) and variance(RI) == Variance(RI) and covariance(X, Y) == Covariance(X, Y) and covariance(W, Z) == Covariance(W, Z)","over":{"base":"Any"},"name":"test_issue_12283_correct"},"guarantee":"pspace(Z) == PSpace(); pspace(RI) == PSpace(); pspace(X) == PSpace()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_12283_correct","statement":"Path(test_issue_12283(x), pspace(Z) == PSpace(); pspace(RI) == PSpace(); pspace(X) == PSpace())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8573fd25f10940f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pspace(Z) == PSpace()","pspace(RI) == PSpace()","pspace(X) == PSpace()","E(X) == Expectation(X)","P(Y > 3) == Probability(Y > 3)","variance(X) == Variance(X)","variance(RI) == Variance(RI)","covariance(X, Y) == Covariance(X, Y)","covariance(W, Z) == Covariance(W, Z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_12283():
     x = symbols('x')
     X = RandomSymbol(x)
@@ -825,16 +1071,24 @@ def test_issue_12283():
     assert covariance(W, Z) == Covariance(W, Z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6810(), test_issue_6810 produces the expected output) over Any ║
+# ║ Path(test_issue_6810(), P(Eq(X, 2)) == S(1) / 6 and P(Eq(Y, 0)) == 0 and P(Or(X > 2, X < 3)) == 1 and P(And(X > 3, X > 2)) == S(1) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6810 : Any → {Any | P(Eq(X, 2)) == S(1) / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(Eq(X, 2)) == S(1) / 6                        ║
+# ║   ensures:  P(Eq(Y, 0)) == 0                               ║
+# ║   ensures:  P(Or(X > 2, X < 3)) == 1                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6810 : Any → {Any | result satisfies: P(Eq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc363ad97af4a386  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0277ca5884887036  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_6810","kind":"function","src_hash":"ebd066ad66e451a2","in":{"base":"Any"},"out":{"base":"Any","pred":"P(Eq(X, 2)) == S(1) / 6 and P(Eq(Y, 0)) == 0 and P(Or(X > 2, X < 3)) == 1 and P(And(X > 3, X > 2)) == S(1) / 2"},"spec":{"lhs":"test_issue_6810()","rhs":"test_issue_6810 produces the expected output","over":{"base":"Any"},"name":"test_issue_6810_correct"},"guarantee":"test_issue_6810 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_6810_correct","statement":"Path(test_issue_6810(x), test_issue_6810 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc363ad97af4a386"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_6810","kind":"function","src_hash":"ebd066ad66e451a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(Eq(X, 2)) == S(1) / 6 and P(Eq(Y, 0)) == 0 and P(Or(X > 2, X < 3)) == 1 and P(And(X > 3, X > 2)) == S(1) / 2"},"spec":{"lhs":"test_issue_6810()","rhs":"P(Eq(X, 2)) == S(1) / 6 and P(Eq(Y, 0)) == 0 and P(Or(X > 2, X < 3)) == 1 and P(And(X > 3, X > 2)) == S(1) / 2","over":{"base":"Any"},"name":"test_issue_6810_correct"},"guarantee":"P(Eq(X, 2)) == S(1) / 6; P(Eq(Y, 0)) == 0; P(Or(X > 2, X < 3)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_6810_correct","statement":"Path(test_issue_6810(x), P(Eq(X, 2)) == S(1) / 6; P(Eq(Y, 0)) == 0; P(Or(X > 2, X < 3)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0277ca5884887036","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(Eq(X, 2)) == S(1) / 6","P(Eq(Y, 0)) == 0","P(Or(X > 2, X < 3)) == 1","P(And(X > 3, X > 2)) == S(1) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6810():
     X = Die('X', 6)
     Y = Normal('Y', 0, 1)
@@ -844,16 +1098,22 @@ def test_issue_6810():
     assert P(And(X > 3, X > 2)) == S(1)/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20286(), test_issue_20286 produces the expected output) over Any ║
+# ║ Path(test_issue_20286(), eq.dummy_eq(H(B))) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20286 : Any → {Any | eq.dummy_eq(H(B))}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.dummy_eq(H(B))                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20286 : Any → {Any | result satisfies: eq....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e7e09eac496787d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24ed0e21eb3f6723  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_20286","kind":"function","src_hash":"225901fde95c86fc","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.dummy_eq(H(B))"},"spec":{"lhs":"test_issue_20286()","rhs":"test_issue_20286 produces the expected output","over":{"base":"Any"},"name":"test_issue_20286_correct"},"guarantee":"test_issue_20286 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_20286_correct","statement":"Path(test_issue_20286(x), test_issue_20286 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e7e09eac496787d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_rv.test_issue_20286","kind":"function","src_hash":"225901fde95c86fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.dummy_eq(H(B))"},"spec":{"lhs":"test_issue_20286()","rhs":"eq.dummy_eq(H(B))","over":{"base":"Any"},"name":"test_issue_20286_correct"},"guarantee":"eq.dummy_eq(H(B))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_rv.test_issue_20286_correct","statement":"Path(test_issue_20286(x), eq.dummy_eq(H(B)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24ed0e21eb3f6723","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.dummy_eq(H(B))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_20286():
     n, p = symbols('n p')
     B = Binomial('B', n, p)

@@ -18,16 +18,24 @@
 from sympy.liealgebras.cartan_type import CartanType, Standard_Cartan
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Standard_Cartan(), test_Standard_Cartan produces the expected output) over Any ║
+# ║ Path(test_Standard_Cartan(), c.rank() == 4 and c.series == 'A' and m.rank() == 2 and m.series == 'A' and b.rank() == 12 and b.series == 'B') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Standard_Cartan : Any → {Any | c.rank() == 4 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.rank() == 4                                  ║
+# ║   ensures:  c.series == 'A'                                ║
+# ║   ensures:  m.rank() == 2                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Standard_Cartan : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43fa346b76fdf88c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8116748ef92a4e46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_cartan_type.test_Standard_Cartan","kind":"function","src_hash":"7608f112bc5806ae","in":{"base":"Any"},"out":{"base":"Any","pred":"c.rank() == 4 and c.series == 'A' and m.rank() == 2 and m.series == 'A' and b.rank() == 12 and b.series == 'B'"},"spec":{"lhs":"test_Standard_Cartan()","rhs":"test_Standard_Cartan produces the expected output","over":{"base":"Any"},"name":"test_Standard_Cartan_correct"},"guarantee":"test_Standard_Cartan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_cartan_type.test_Standard_Cartan_correct","statement":"Path(test_Standard_Cartan(x), test_Standard_Cartan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43fa346b76fdf88c"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_cartan_type.test_Standard_Cartan","kind":"function","src_hash":"7608f112bc5806ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.rank() == 4 and c.series == 'A' and m.rank() == 2 and m.series == 'A' and b.rank() == 12 and b.series == 'B'"},"spec":{"lhs":"test_Standard_Cartan()","rhs":"c.rank() == 4 and c.series == 'A' and m.rank() == 2 and m.series == 'A' and b.rank() == 12 and b.series == 'B'","over":{"base":"Any"},"name":"test_Standard_Cartan_correct"},"guarantee":"c.rank() == 4; c.series == 'A'; m.rank() == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_cartan_type.test_Standard_Cartan_correct","statement":"Path(test_Standard_Cartan(x), c.rank() == 4; c.series == 'A'; m.rank() == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8116748ef92a4e46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.rank() == 4","c.series == 'A'","m.rank() == 2","m.series == 'A'","b.rank() == 12","b.series == 'B'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Standard_Cartan():
     c = CartanType("A4")
     assert c.rank() == 4

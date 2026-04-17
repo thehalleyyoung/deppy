@@ -50,28 +50,42 @@ N = ReferenceFrame('N')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestWrappingSphere(*args), correctly constructs a TestWrappingSphere instance) over {Any | isinstance(sphere, WrappingSphere)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestWrappingSphere : {Any | isinstance(sphere, Wrappi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3285cf631517af0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere","kind":"class","src_hash":"704595cd1d9d7c22","in":{"base":"Any","pred":"isinstance(sphere, WrappingSphere)"},"out":{"base":"Any","pred":"isinstance(sphere, WrappingSphere) and hasattr(sphere, 'radius') and sphere.radius == r and hasattr(sphere, 'point') and sphere.point == pO and simplify(Eq(sphere.geodesic_length(p1, p2), expected)) and sphere.geodesic_end_vectors(p1, p2) == expected"},"spec":{"lhs":"TestWrappingSphere(*args)","rhs":"correctly constructs a TestWrappingSphere instance","over":{"base":"Any","pred":"isinstance(sphere, WrappingSphere)"},"name":"TestWrappingSphere_class_invariant"},"guarantee":"correctly constructs a TestWrappingSphere instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3285cf631517af0c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere","kind":"class","src_hash":"704595cd1d9d7c22","in":{"base":"Any","pred":"isinstance(sphere, WrappingSphere)"},"out":{"base":"Any","pred":"isinstance(sphere, WrappingSphere) and hasattr(sphere, 'radius') and sphere.radius == r and hasattr(sphere, 'point') and sphere.point == pO and simplify(Eq(sphere.geodesic_length(p1, p2), expected)) and sphere.geodesic_end_vectors(p1, p2) == expected"},"spec":{"lhs":"TestWrappingSphere(*args)","rhs":"correctly constructs a TestWrappingSphere instance","over":{"base":"Any","pred":"isinstance(sphere, WrappingSphere)"},"name":"TestWrappingSphere_class_invariant"},"guarantee":"correctly constructs a TestWrappingSphere instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3285cf631517af0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestWrappingSphere not found in source"]}}
 class TestWrappingSphere:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_constructor(), test_valid_constructor produces the expected output) over Any ║
+# ║ Path(test_valid_constructor(), isinstance(sphere, WrappingSphere) and hasattr(sphere, 'radius') and sphere.radius == r and hasattr(sphere, 'point') and sphere.point == pO) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_constructor : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(sphere, WrappingSphere)             ║
+# ║   ensures:  hasattr(sphere, 'radius')                      ║
+# ║   ensures:  sphere.radius == r                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_constructor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac1e48f00c01f40a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 561f777370326f2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_valid_constructor","kind":"staticmethod","src_hash":"28c869f6efc3c919","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_constructor()","rhs":"test_valid_constructor produces the expected output","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"test_valid_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), test_valid_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac1e48f00c01f40a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_valid_constructor","kind":"staticmethod","src_hash":"28c869f6efc3c919","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(sphere, WrappingSphere) and hasattr(sphere, 'radius') and sphere.radius == r and hasattr(sphere, 'point') and sphere.point == pO"},"spec":{"lhs":"test_valid_constructor()","rhs":"isinstance(sphere, WrappingSphere) and hasattr(sphere, 'radius') and sphere.radius == r and hasattr(sphere, 'point') and sphere.point == pO","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"isinstance(sphere, WrappingSphere); hasattr(sphere, 'radius'); sphere.radius == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), isinstance(sphere, WrappingSphere); hasattr(sphere, 'radius'); sphere.radius == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"561f777370326f2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(sphere, WrappingSphere)","hasattr(sphere, 'radius')","sphere.radius == r","hasattr(sphere, 'point')","sphere.point == pO"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_constructor():
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -85,16 +99,22 @@ class TestWrappingSphere:
     @staticmethod
     @pytest.mark.parametrize('position', [S.Zero, Integer(2)*r*N.x])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_length_point_not_on_surface_invalid(pos), test_geodesic_length_point_not_on_surface_invalid produces the expected output) over Any ║
+# ║ Path(test_geodesic_length_point_not_on_surface_invalid(position), <unspecified:test_geodesic_length_point_not_on_surface_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geodesic_length_point_not_on_surface_invalid : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fc9c0225b573484  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length_point_not_on_surface_invalid","kind":"staticmethod","src_hash":"44a80d8d2873f7e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_length_point_not_on_surface_invalid(pos)","rhs":"test_geodesic_length_point_not_on_surface_invalid produces the expected output","over":{"base":"Any"},"name":"test_geodesic_length_point_not_on_surface_invalid_correct"},"guarantee":"test_geodesic_length_point_not_on_surface_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length_point_not_on_surface_invalid_correct","statement":"Path(test_geodesic_length_point_not_on_surface_invalid(x), test_geodesic_length_point_not_on_surface_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc9c0225b573484"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length_point_not_on_surface_invalid","kind":"staticmethod","src_hash":"44a80d8d2873f7e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_length_point_not_on_surface_invalid(position)","rhs":"<unspecified:test_geodesic_length_point_not_on_surface_invalid>","over":{"base":"Any"},"name":"test_geodesic_length_point_not_on_surface_invalid_correct"},"guarantee":"test_geodesic_length_point_not_on_surface_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length_point_not_on_surface_invalid_correct","statement":"Path(test_geodesic_length_point_not_on_surface_invalid(x), test_geodesic_length_point_not_on_surface_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc9c0225b573484","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_length_point_not_on_surface_invalid(position):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -126,16 +146,22 @@ class TestWrappingSphere:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_length(pos), test_geodesic_length produces the expected output) over Any ║
+# ║ Path(test_geodesic_length(position_1, position_2, expected), simplify(Eq(sphere.geodesic_length(p1, p2), expected))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_geodesic_length : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(Eq(sphere.geodesic_length(p1, p2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_geodesic_length : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d919af5ec8a83b10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b3f9300b201b298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length","kind":"staticmethod","src_hash":"ba7cdbab52b85851","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_length(pos)","rhs":"test_geodesic_length produces the expected output","over":{"base":"Any"},"name":"test_geodesic_length_correct"},"guarantee":"test_geodesic_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length_correct","statement":"Path(test_geodesic_length(x), test_geodesic_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d919af5ec8a83b10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length","kind":"staticmethod","src_hash":"ba7cdbab52b85851","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(Eq(sphere.geodesic_length(p1, p2), expected))"},"spec":{"lhs":"test_geodesic_length(position_1, position_2, expected)","rhs":"simplify(Eq(sphere.geodesic_length(p1, p2), expected))","over":{"base":"Any"},"name":"test_geodesic_length_correct"},"guarantee":"simplify(Eq(sphere.geodesic_length(p1, p2), expected))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_length_correct","statement":"Path(test_geodesic_length(x), simplify(Eq(sphere.geodesic_length(p1, p2), expected)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b3f9300b201b298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(Eq(sphere.geodesic_length(p1, p2), expected))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_length(position_1, position_2, expected):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -175,16 +201,22 @@ class TestWrappingSphere:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_end_vectors(pos), test_geodesic_end_vectors produces the expected output) over Any ║
+# ║ Path(test_geodesic_end_vectors(position_1, position_2, vector_1), sphere.geodesic_end_vectors(p1, p2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_geodesic_end_vectors : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sphere.geodesic_end_vectors(p1, p2) == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_geodesic_end_vectors : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36cd0088752223fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b11920621a29802  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors","kind":"staticmethod","src_hash":"87de9ac9cbf945db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors(pos)","rhs":"test_geodesic_end_vectors produces the expected output","over":{"base":"Any"},"name":"test_geodesic_end_vectors_correct"},"guarantee":"test_geodesic_end_vectors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_correct","statement":"Path(test_geodesic_end_vectors(x), test_geodesic_end_vectors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36cd0088752223fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors","kind":"staticmethod","src_hash":"87de9ac9cbf945db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sphere.geodesic_end_vectors(p1, p2) == expected"},"spec":{"lhs":"test_geodesic_end_vectors(position_1, position_2, vector_1)","rhs":"sphere.geodesic_end_vectors(p1, p2) == expected","over":{"base":"Any"},"name":"test_geodesic_end_vectors_correct"},"guarantee":"sphere.geodesic_end_vectors(p1, p2) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_correct","statement":"Path(test_geodesic_end_vectors(x), sphere.geodesic_end_vectors(p1, p2) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b11920621a29802","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sphere.geodesic_end_vectors(p1, p2) == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_end_vectors(position_1, position_2, vector_1, vector_2):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -205,16 +237,22 @@ class TestWrappingSphere:
         [r * N.x, r * cos(q) * N.x + r * sin(q) * N.y]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_end_vectors_invalid_coincident(pos), test_geodesic_end_vectors_invalid_coincident produces the expected output) over Any ║
+# ║ Path(test_geodesic_end_vectors_invalid_coincident(position), <unspecified:test_geodesic_end_vectors_invalid_coincident>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geodesic_end_vectors_invalid_coincident : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa84422b3782619d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_coincident","kind":"staticmethod","src_hash":"4120714b27f51bc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors_invalid_coincident(pos)","rhs":"test_geodesic_end_vectors_invalid_coincident produces the expected output","over":{"base":"Any"},"name":"test_geodesic_end_vectors_invalid_coincident_correct"},"guarantee":"test_geodesic_end_vectors_invalid_coincident produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_coincident_correct","statement":"Path(test_geodesic_end_vectors_invalid_coincident(x), test_geodesic_end_vectors_invalid_coincident produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa84422b3782619d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_coincident","kind":"staticmethod","src_hash":"4120714b27f51bc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors_invalid_coincident(position)","rhs":"<unspecified:test_geodesic_end_vectors_invalid_coincident>","over":{"base":"Any"},"name":"test_geodesic_end_vectors_invalid_coincident_correct"},"guarantee":"test_geodesic_end_vectors_invalid_coincident produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_coincident_correct","statement":"Path(test_geodesic_end_vectors_invalid_coincident(x), test_geodesic_end_vectors_invalid_coincident produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa84422b3782619d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_end_vectors_invalid_coincident(position):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -241,16 +279,22 @@ class TestWrappingSphere:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_end_vectors_invalid_diametrically_opposite(pos), test_geodesic_end_vectors_invalid_diametrically_opposite produces the expected output) over Any ║
+# ║ Path(test_geodesic_end_vectors_invalid_diametrically_opposite(position_1, position_2), <unspecified:test_geodesic_end_vectors_invalid_diametrically_opposite>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geodesic_end_vectors_invalid_diametrically_oppos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffe4d3c9a1b2b48a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_diametrically_opposite","kind":"staticmethod","src_hash":"dd3838a9e3c9f489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors_invalid_diametrically_opposite(pos)","rhs":"test_geodesic_end_vectors_invalid_diametrically_opposite produces the expected output","over":{"base":"Any"},"name":"test_geodesic_end_vectors_invalid_diametrically_opposite_correct"},"guarantee":"test_geodesic_end_vectors_invalid_diametrically_opposite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_diametrically_opposite_correct","statement":"Path(test_geodesic_end_vectors_invalid_diametrically_opposite(x), test_geodesic_end_vectors_invalid_diametrically_opposite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffe4d3c9a1b2b48a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_diametrically_opposite","kind":"staticmethod","src_hash":"dd3838a9e3c9f489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors_invalid_diametrically_opposite(position_1, position_2)","rhs":"<unspecified:test_geodesic_end_vectors_invalid_diametrically_opposite>","over":{"base":"Any"},"name":"test_geodesic_end_vectors_invalid_diametrically_opposite_correct"},"guarantee":"test_geodesic_end_vectors_invalid_diametrically_opposite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingSphere.test_geodesic_end_vectors_invalid_diametrically_opposite_correct","statement":"Path(test_geodesic_end_vectors_invalid_diametrically_opposite(x), test_geodesic_end_vectors_invalid_diametrically_opposite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffe4d3c9a1b2b48a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_end_vectors_invalid_diametrically_opposite(
         position_1,
         position_2,
@@ -271,28 +315,42 @@ class TestWrappingSphere:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestWrappingCylinder(*args), correctly constructs a TestWrappingCylinder instance) over {Any | isinstance(cylinder, WrappingCylinder)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestWrappingCylinder : {Any | isinstance(cylinder, Wr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 207d3a58d5dceeb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder","kind":"class","src_hash":"62f077afa0ab0c53","in":{"base":"Any","pred":"isinstance(cylinder, WrappingCylinder)"},"out":{"base":"Any","pred":"isinstance(cylinder, WrappingCylinder) and hasattr(cylinder, 'radius') and cylinder.radius == r and hasattr(cylinder, 'point') and cylinder.point == pO and hasattr(cylinder, 'axis') and cylinder.axis == N.x and cylinder.point_on_surface(p1) is expected and simplify(Eq(cylinder.geodesic_length(p1, p2), expected)) and end_vectors == expected"},"spec":{"lhs":"TestWrappingCylinder(*args)","rhs":"correctly constructs a TestWrappingCylinder instance","over":{"base":"Any","pred":"isinstance(cylinder, WrappingCylinder)"},"name":"TestWrappingCylinder_class_invariant"},"guarantee":"correctly constructs a TestWrappingCylinder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207d3a58d5dceeb1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder","kind":"class","src_hash":"62f077afa0ab0c53","in":{"base":"Any","pred":"isinstance(cylinder, WrappingCylinder)"},"out":{"base":"Any","pred":"isinstance(cylinder, WrappingCylinder) and hasattr(cylinder, 'radius') and cylinder.radius == r and hasattr(cylinder, 'point') and cylinder.point == pO and hasattr(cylinder, 'axis') and cylinder.axis == N.x and cylinder.point_on_surface(p1) is expected and simplify(Eq(cylinder.geodesic_length(p1, p2), expected)) and end_vectors == expected"},"spec":{"lhs":"TestWrappingCylinder(*args)","rhs":"correctly constructs a TestWrappingCylinder instance","over":{"base":"Any","pred":"isinstance(cylinder, WrappingCylinder)"},"name":"TestWrappingCylinder_class_invariant"},"guarantee":"correctly constructs a TestWrappingCylinder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207d3a58d5dceeb1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestWrappingCylinder not found in source"]}}
 class TestWrappingCylinder:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_constructor(), test_valid_constructor produces the expected output) over Any ║
+# ║ Path(test_valid_constructor(), isinstance(cylinder, WrappingCylinder) and hasattr(cylinder, 'radius') and cylinder.radius == r and hasattr(cylinder, 'point') and cylinder.point == pO and hasattr(cylinder, 'axis') and cylinder.axis == N.x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_constructor : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(cylinder, WrappingCylinder)         ║
+# ║   ensures:  hasattr(cylinder, 'radius')                    ║
+# ║   ensures:  cylinder.radius == r                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_constructor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 396027bd4fa03154  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38aa9ce03943a6ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_valid_constructor","kind":"staticmethod","src_hash":"bdad94e1c1e31269","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_constructor()","rhs":"test_valid_constructor produces the expected output","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"test_valid_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), test_valid_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"396027bd4fa03154"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_valid_constructor","kind":"staticmethod","src_hash":"bdad94e1c1e31269","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(cylinder, WrappingCylinder) and hasattr(cylinder, 'radius') and cylinder.radius == r and hasattr(cylinder, 'point') and cylinder.point == pO and hasattr(cylinder, 'axis') and cylinder.axis == N.x"},"spec":{"lhs":"test_valid_constructor()","rhs":"isinstance(cylinder, WrappingCylinder) and hasattr(cylinder, 'radius') and cylinder.radius == r and hasattr(cylinder, 'point') and cylinder.point == pO and hasattr(cylinder, 'axis') and cylinder.axis == N.x","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"isinstance(cylinder, WrappingCylinder); hasattr(cylinder, 'radius'); cylinder.radius == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), isinstance(cylinder, WrappingCylinder); hasattr(cylinder, 'radius'); cylinder.radius == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38aa9ce03943a6ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(cylinder, WrappingCylinder)","hasattr(cylinder, 'radius')","cylinder.radius == r","hasattr(cylinder, 'point')","cylinder.point == pO","hasattr(cylinder, 'axis')","cylinder.axis == N.x"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_constructor():
         N = ReferenceFrame('N')
         r = Symbol('r', positive=True)
@@ -322,16 +380,22 @@ class TestWrappingCylinder:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_is_on_surface(pos), test_point_is_on_surface produces the expected output) over Any ║
+# ║ Path(test_point_is_on_surface(position, expected), cylinder.point_on_surface(p1) is expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_is_on_surface : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cylinder.point_on_surface(p1) is expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_is_on_surface : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 351db321188598c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da4923bdd504dcd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_point_is_on_surface","kind":"staticmethod","src_hash":"d193cdf5a285fadd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_point_is_on_surface(pos)","rhs":"test_point_is_on_surface produces the expected output","over":{"base":"Any"},"name":"test_point_is_on_surface_correct"},"guarantee":"test_point_is_on_surface produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_point_is_on_surface_correct","statement":"Path(test_point_is_on_surface(x), test_point_is_on_surface produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"351db321188598c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_point_is_on_surface","kind":"staticmethod","src_hash":"d193cdf5a285fadd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cylinder.point_on_surface(p1) is expected"},"spec":{"lhs":"test_point_is_on_surface(position, expected)","rhs":"cylinder.point_on_surface(p1) is expected","over":{"base":"Any"},"name":"test_point_is_on_surface_correct"},"guarantee":"cylinder.point_on_surface(p1) is expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_point_is_on_surface_correct","statement":"Path(test_point_is_on_surface(x), cylinder.point_on_surface(p1) is expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da4923bdd504dcd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cylinder.point_on_surface(p1) is expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_point_is_on_surface(position, expected):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -345,16 +409,22 @@ class TestWrappingCylinder:
     @staticmethod
     @pytest.mark.parametrize('position', [S.Zero, Integer(2)*r*N.y])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_length_point_not_on_surface_invalid(pos), test_geodesic_length_point_not_on_surface_invalid produces the expected output) over Any ║
+# ║ Path(test_geodesic_length_point_not_on_surface_invalid(position), <unspecified:test_geodesic_length_point_not_on_surface_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geodesic_length_point_not_on_surface_invalid : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbda91d3bd1436ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length_point_not_on_surface_invalid","kind":"staticmethod","src_hash":"a0f5c0e460c69519","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_length_point_not_on_surface_invalid(pos)","rhs":"test_geodesic_length_point_not_on_surface_invalid produces the expected output","over":{"base":"Any"},"name":"test_geodesic_length_point_not_on_surface_invalid_correct"},"guarantee":"test_geodesic_length_point_not_on_surface_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length_point_not_on_surface_invalid_correct","statement":"Path(test_geodesic_length_point_not_on_surface_invalid(x), test_geodesic_length_point_not_on_surface_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbda91d3bd1436ed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length_point_not_on_surface_invalid","kind":"staticmethod","src_hash":"a0f5c0e460c69519","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_length_point_not_on_surface_invalid(position)","rhs":"<unspecified:test_geodesic_length_point_not_on_surface_invalid>","over":{"base":"Any"},"name":"test_geodesic_length_point_not_on_surface_invalid_correct"},"guarantee":"test_geodesic_length_point_not_on_surface_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length_point_not_on_surface_invalid_correct","statement":"Path(test_geodesic_length_point_not_on_surface_invalid(x), test_geodesic_length_point_not_on_surface_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbda91d3bd1436ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_length_point_not_on_surface_invalid(position):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -390,16 +460,22 @@ class TestWrappingCylinder:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_length(axi), test_geodesic_length produces the expected output) over Any ║
+# ║ Path(test_geodesic_length(axis, position_1, position_2), simplify(Eq(cylinder.geodesic_length(p1, p2), expected))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_geodesic_length : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(Eq(cylinder.geodesic_length(p1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_geodesic_length : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e4d04c69afba362  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71c379e1c2fcb813  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length","kind":"staticmethod","src_hash":"81095b09ede22e7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_length(axi)","rhs":"test_geodesic_length produces the expected output","over":{"base":"Any"},"name":"test_geodesic_length_correct"},"guarantee":"test_geodesic_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length_correct","statement":"Path(test_geodesic_length(x), test_geodesic_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e4d04c69afba362"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length","kind":"staticmethod","src_hash":"81095b09ede22e7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(Eq(cylinder.geodesic_length(p1, p2), expected))"},"spec":{"lhs":"test_geodesic_length(axis, position_1, position_2)","rhs":"simplify(Eq(cylinder.geodesic_length(p1, p2), expected))","over":{"base":"Any"},"name":"test_geodesic_length_correct"},"guarantee":"simplify(Eq(cylinder.geodesic_length(p1, p2), expected))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_length_correct","statement":"Path(test_geodesic_length(x), simplify(Eq(cylinder.geodesic_length(p1, p2), expected)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71c379e1c2fcb813","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(Eq(cylinder.geodesic_length(p1, p2), expected))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_length(axis, position_1, position_2, expected):
         r = Symbol('r', positive=True)
         pO = Point('pO')
@@ -467,16 +543,22 @@ class TestWrappingCylinder:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_end_vectors(axi), test_geodesic_end_vectors produces the expected output) over Any ║
+# ║ Path(test_geodesic_end_vectors(axis, position_1, position_2), end_vectors == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_geodesic_end_vectors : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  end_vectors == expected                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_geodesic_end_vectors : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e824bb4c1cd2f54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af45ca7c0fcbe004  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors","kind":"staticmethod","src_hash":"e417eab8859e2ebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors(axi)","rhs":"test_geodesic_end_vectors produces the expected output","over":{"base":"Any"},"name":"test_geodesic_end_vectors_correct"},"guarantee":"test_geodesic_end_vectors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors_correct","statement":"Path(test_geodesic_end_vectors(x), test_geodesic_end_vectors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e824bb4c1cd2f54"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors","kind":"staticmethod","src_hash":"e417eab8859e2ebd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: end_vectors == expected"},"spec":{"lhs":"test_geodesic_end_vectors(axis, position_1, position_2)","rhs":"end_vectors == expected","over":{"base":"Any"},"name":"test_geodesic_end_vectors_correct"},"guarantee":"end_vectors == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors_correct","statement":"Path(test_geodesic_end_vectors(x), end_vectors == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af45ca7c0fcbe004","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["end_vectors == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_end_vectors(
         axis,
         position_1,
@@ -510,16 +592,22 @@ class TestWrappingCylinder:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geodesic_end_vectors_invalid_coincident(axi), test_geodesic_end_vectors_invalid_coincident produces the expected output) over Any ║
+# ║ Path(test_geodesic_end_vectors_invalid_coincident(axis, position), <unspecified:test_geodesic_end_vectors_invalid_coincident>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geodesic_end_vectors_invalid_coincident : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b28f3a7ad89241dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors_invalid_coincident","kind":"staticmethod","src_hash":"20ea26ec3b1f1329","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors_invalid_coincident(axi)","rhs":"test_geodesic_end_vectors_invalid_coincident produces the expected output","over":{"base":"Any"},"name":"test_geodesic_end_vectors_invalid_coincident_correct"},"guarantee":"test_geodesic_end_vectors_invalid_coincident produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors_invalid_coincident_correct","statement":"Path(test_geodesic_end_vectors_invalid_coincident(x), test_geodesic_end_vectors_invalid_coincident produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b28f3a7ad89241dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors_invalid_coincident","kind":"staticmethod","src_hash":"20ea26ec3b1f1329","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geodesic_end_vectors_invalid_coincident(axis, position)","rhs":"<unspecified:test_geodesic_end_vectors_invalid_coincident>","over":{"base":"Any"},"name":"test_geodesic_end_vectors_invalid_coincident_correct"},"guarantee":"test_geodesic_end_vectors_invalid_coincident produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_wrapping_geometry.TestWrappingCylinder.test_geodesic_end_vectors_invalid_coincident_correct","statement":"Path(test_geodesic_end_vectors_invalid_coincident(x), test_geodesic_end_vectors_invalid_coincident produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b28f3a7ad89241dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geodesic_end_vectors_invalid_coincident(axis, position):
         r = Symbol('r', positive=True)
         pO = Point('pO')

@@ -34,14 +34,20 @@ illegal = [LatticeOp]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(sympy_associative(op), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  any((issubclass(op, aop) for aop in assoc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_associative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e7b96248033dc912   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.sympy_associative","kind":"function","src_hash":"d4407fe1b2c55aeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_associative(op)","rhs":"sympy_associative produces the expected output","over":{"base":"Any"},"name":"sympy_associative_correct","kind":"composition"},"guarantee":"sympy_associative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"issubclass","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7b96248033dc912"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.sympy_associative","kind":"function","src_hash":"d4407fe1b2c55aeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_associative(op)","rhs":"any((issubclass(op, aop) for aop in assoc_ops))","over":{"base":"Any"},"name":"sympy_associative_correct","kind":"composition"},"guarantee":"returns any((issubclass(op, aop) for aop in assoc_ops))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"issubclass","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7b96248033dc912","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"any((issubclass(op, aop) for aop in assoc_ops))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sympy_associative(op):
     assoc_ops = (AssocOp, MatAdd, MatMul, Union, Intersection, FiniteSet)
     return any(issubclass(op, aop) for aop in assoc_ops)
@@ -49,36 +55,54 @@ def sympy_associative(op):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(sympy_commutative(op), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  any((issubclass(op, cop) for cop in comm_...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_commutative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ada1eea04d3053d1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.sympy_commutative","kind":"function","src_hash":"5385f8928e1e0c59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_commutative(op)","rhs":"sympy_commutative produces the expected output","over":{"base":"Any"},"name":"sympy_commutative_correct","kind":"composition"},"guarantee":"sympy_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"issubclass","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ada1eea04d3053d1"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.sympy_commutative","kind":"function","src_hash":"5385f8928e1e0c59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_commutative(op)","rhs":"any((issubclass(op, cop) for cop in comm_ops))","over":{"base":"Any"},"name":"sympy_commutative_correct","kind":"composition"},"guarantee":"returns any((issubclass(op, cop) for cop in comm_ops))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"issubclass","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ada1eea04d3053d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"any((issubclass(op, cop) for cop in comm_ops))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sympy_commutative(op):
     comm_ops = (Add, MatAdd, Union, Intersection, FiniteSet)
     return any(issubclass(op, cop) for cop in comm_ops)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_associative(x), is_associative produces the expected output) over {Any | isinstance(x, Compound)} ║
+# ║ Path(is_associative(x), isinstance(x, Compound) and sympy_associative(x.op)) over {Any | isinstance(x, Compound) and hasattr(x, 'op')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_associative : {Any | isinstance(x, Compound)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'op')                               ║
+# ║   returns:  isinstance(x, Compound) and sympy_associa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_associative : {Any | isinstance(x, Compound) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19ef3e57b6659b52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.is_associative","kind":"function","src_hash":"2c1881e8466a96e9","in":{"base":"Any","pred":"isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"is_associative(x)","rhs":"is_associative produces the expected output","over":{"base":"Any","pred":"isinstance(x, Compound)"},"name":"is_associative_correct"},"guarantee":"is_associative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19ef3e57b6659b52"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.is_associative","kind":"function","src_hash":"2c1881e8466a96e9","in":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op')"},"out":{"base":"Any"},"spec":{"lhs":"is_associative(x)","rhs":"isinstance(x, Compound) and sympy_associative(x.op)","over":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op')"},"name":"is_associative_correct"},"guarantee":"returns isinstance(x, Compound) and sympy_associative(x.op)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19ef3e57b6659b52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'op')"],"returns_expr":"isinstance(x, Compound) and sympy_associative(x.op)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_associative(x):
     return isinstance(x, Compound) and sympy_associative(x.op)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_commutative(x), is_commutative produces the expected output) over {Any | isinstance(x, Compound)} ║
+# ║ Path(is_commutative(x), <unspecified:is_commutative>) over {Any | isinstance(x, Compound) and hasattr(x, 'op') and hasattr(x, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_commutative : {Any | isinstance(x, Compound)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'op')                               ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_commutative : {Any | isinstance(x, Compound) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Compound: {isinstance(x, Compound)} → library_axiom      ║
@@ -88,9 +112,12 @@ def is_associative(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e18cb2f1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.is_commutative","kind":"function","src_hash":"25e9534977090b87","in":{"base":"Any","pred":"isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative(x)","rhs":"is_commutative produces the expected output","over":{"base":"Any","pred":"isinstance(x, Compound)"},"name":"is_commutative_correct"},"guarantee":"is_commutative produces the expected output","fibers":[{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"is_commutative(x)","rhs":"is_commutative produces the expected output","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"is_commutative_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.is_commutative_Compound_correct","statement":"is_commutative satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e18cb2f113851947"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.is_commutative","kind":"function","src_hash":"25e9534977090b87","in":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op') and hasattr(x, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative(x)","rhs":"<unspecified:is_commutative>","over":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op') and hasattr(x, 'args')"},"name":"is_commutative_correct"},"guarantee":"is_commutative produces the expected output","fibers":[{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"is_commutative(x)","rhs":"is_commutative produces the expected output","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"is_commutative_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.is_commutative_Compound_correct","statement":"is_commutative satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e18cb2f113851947","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'op')","hasattr(x, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.args","x.op"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(x, Compound)'}, fibers={'Compound'})"]}}
 def is_commutative(x):
     if not isinstance(x, Compound):
         return False
@@ -100,7 +127,10 @@ def is_commutative(x):
         return all(construct(arg).is_commutative for arg in x.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mk_matchtype(typ), mk_matchtype produces the expected output) over {Any | isinstance(x, typ) and isinstance(x, Compound)} ║
+# ║ Path(mk_matchtype(typ), <unspecified:mk_matchtype>) over {Any | isinstance(x, typ) and isinstance(x, Compound)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mk_matchtype : {Any | isinstance(x, typ) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -113,9 +143,12 @@ def is_commutative(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0793ec62...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.mk_matchtype","kind":"function","src_hash":"27a20821a5f191cc","in":{"base":"Any","pred":"isinstance(x, typ) and isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"mk_matchtype(typ)","rhs":"mk_matchtype produces the expected output","over":{"base":"Any","pred":"isinstance(x, typ) and isinstance(x, Compound)"},"name":"mk_matchtype_correct"},"guarantee":"mk_matchtype produces the expected output","fibers":[{"name":"typ","pred":"isinstance(x, typ)","path":{"lhs":"mk_matchtype(x)","rhs":"mk_matchtype produces the expected output","over":{"base":"typ","pred":"isinstance(x, typ)"},"name":"mk_matchtype_typ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.mk_matchtype_typ_correct","statement":"mk_matchtype satisfies spec on typ inputs"},"trust":"LIBRARY"},{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"mk_matchtype(x)","rhs":"mk_matchtype produces the expected output","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"mk_matchtype_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.mk_matchtype_Compound_correct","statement":"mk_matchtype satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0793ec628b622d83"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.mk_matchtype","kind":"function","src_hash":"27a20821a5f191cc","in":{"base":"Any","pred":"isinstance(x, typ) and isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"mk_matchtype(typ)","rhs":"<unspecified:mk_matchtype>","over":{"base":"Any","pred":"isinstance(x, typ) and isinstance(x, Compound)"},"name":"mk_matchtype_correct"},"guarantee":"mk_matchtype produces the expected output","fibers":[{"name":"typ","pred":"isinstance(x, typ)","path":{"lhs":"mk_matchtype(x)","rhs":"mk_matchtype produces the expected output","over":{"base":"typ","pred":"isinstance(x, typ)"},"name":"mk_matchtype_typ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.mk_matchtype_typ_correct","statement":"mk_matchtype satisfies spec on typ inputs"},"trust":"LIBRARY"},{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"mk_matchtype(x)","rhs":"mk_matchtype produces the expected output","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"mk_matchtype_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.mk_matchtype_Compound_correct","statement":"mk_matchtype satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0793ec628b622d83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def mk_matchtype(typ):
     def matchtype(x):
         return (isinstance(x, typ) or
@@ -123,7 +156,12 @@ def mk_matchtype(typ):
     return matchtype
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deconstruct(s, ), turn a sympy object into a compound) over {Any | isinstance(s, (Variable, CondVariable)) and isinstance(s, Basic)} ║
+# ║ Path(deconstruct(s, variables), # HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)) over {Any | isinstance(s, (Variable, CondVariable)) and isinstance(s, Basic) and hasattr(s, 'is_Atom') and hasattr(s, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'is_Atom')                          ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   ensures:  # HINT: deconstruct may be idempotent: de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deconstruct : {Any | isinstance(s, (Variable, CondVar...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -136,9 +174,12 @@ def mk_matchtype(typ):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cd2313bb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.deconstruct","kind":"function","src_hash":"93ee2ac000fdb46b","in":{"base":"Any","pred":"isinstance(s, (Variable, CondVariable)) and isinstance(s, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"deconstruct(s, )","rhs":"turn a sympy object into a compound","over":{"base":"Any","pred":"isinstance(s, (Variable, CondVariable)) and isinstance(s, Basic)"},"name":"deconstruct_correct"},"guarantee":"turn a sympy object into a compound","fibers":[{"name":"(Variable","pred":"isinstance(s, (Variable, CondVariable))","path":{"lhs":"deconstruct(x)","rhs":"turn a sympy object into a compound","over":{"base":"(Variable","pred":"isinstance(s, (Variable, CondVariable))"},"name":"deconstruct_(Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.deconstruct_(Variable_correct","statement":"deconstruct satisfies spec on (Variable inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(s, Basic)","path":{"lhs":"deconstruct(x)","rhs":"turn a sympy object into a compound","over":{"base":"Basic","pred":"isinstance(s, Basic)"},"name":"deconstruct_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.deconstruct_Basic_correct","statement":"deconstruct satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd2313bb1c5fe998"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.deconstruct","kind":"function","src_hash":"93ee2ac000fdb46b","in":{"base":"Any","pred":"isinstance(s, (Variable, CondVariable)) and isinstance(s, Basic) and hasattr(s, 'is_Atom') and hasattr(s, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)"},"spec":{"lhs":"deconstruct(s, variables)","rhs":"# HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)","over":{"base":"Any","pred":"isinstance(s, (Variable, CondVariable)) and isinstance(s, Basic) and hasattr(s, 'is_Atom') and hasattr(s, 'args')"},"name":"deconstruct_correct"},"guarantee":"# HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)","fibers":[{"name":"(Variable","pred":"isinstance(s, (Variable, CondVariable))","path":{"lhs":"deconstruct(x)","rhs":"# HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)","over":{"base":"(Variable","pred":"isinstance(s, (Variable, CondVariable))"},"name":"deconstruct_(Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.deconstruct_(Variable_correct","statement":"deconstruct satisfies spec on (Variable inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(s, Basic)","path":{"lhs":"deconstruct(x)","rhs":"# HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)","over":{"base":"Basic","pred":"isinstance(s, Basic)"},"name":"deconstruct_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.deconstruct_Basic_correct","statement":"deconstruct satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd2313bb1c5fe998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'is_Atom')","hasattr(s, 'args')"],"ensures":["# HINT: deconstruct may be idempotent: deconstruct(deconstruct(x)) == deconstruct(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","s.__class__","s.args","s.is_Atom"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(s, Basic) or s.is_Atom', 'isinstance(s, (Variable, CondVariable))'}, fibers={'(Variable', 'Basic'})"]}}
 def deconstruct(s, variables=()):
     """ Turn a SymPy object into a Compound """
     if s in variables:
@@ -151,7 +192,13 @@ def deconstruct(s, variables=()):
                     tuple(deconstruct(arg, variables) for arg in s.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(construct(t), turn a compound into a sympy object) over {Any | isinstance(t, (Variable, CondVariable)) and isinstance(t, Compound)} ║
+# ║ Path(construct(t), <unspecified:construct>) over {Any | isinstance(t, (Variable, CondVariable)) and isinstance(t, Compound) and hasattr(t, 'arg') and hasattr(t, 'op') and hasattr(t, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(t, 'arg')                              ║
+# ║   requires: hasattr(t, 'op')                               ║
+# ║   requires: hasattr(t, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ construct : {Any | isinstance(t, (Variable, CondVaria...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -164,9 +211,12 @@ def deconstruct(s, variables=()):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 440d9497...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.construct","kind":"function","src_hash":"02a5d3208b264281","in":{"base":"Any","pred":"isinstance(t, (Variable, CondVariable)) and isinstance(t, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"construct(t)","rhs":"turn a compound into a sympy object","over":{"base":"Any","pred":"isinstance(t, (Variable, CondVariable)) and isinstance(t, Compound)"},"name":"construct_correct"},"guarantee":"turn a compound into a sympy object","fibers":[{"name":"(Variable","pred":"isinstance(t, (Variable, CondVariable))","path":{"lhs":"construct(x)","rhs":"turn a compound into a sympy object","over":{"base":"(Variable","pred":"isinstance(t, (Variable, CondVariable))"},"name":"construct_(Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.construct_(Variable_correct","statement":"construct satisfies spec on (Variable inputs"},"trust":"LIBRARY"},{"name":"Compound","pred":"isinstance(t, Compound)","path":{"lhs":"construct(x)","rhs":"turn a compound into a sympy object","over":{"base":"Compound","pred":"isinstance(t, Compound)"},"name":"construct_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.construct_Compound_correct","statement":"construct satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"440d94972061712b"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.construct","kind":"function","src_hash":"02a5d3208b264281","in":{"base":"Any","pred":"isinstance(t, (Variable, CondVariable)) and isinstance(t, Compound) and hasattr(t, 'arg') and hasattr(t, 'op') and hasattr(t, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"construct(t)","rhs":"<unspecified:construct>","over":{"base":"Any","pred":"isinstance(t, (Variable, CondVariable)) and isinstance(t, Compound) and hasattr(t, 'arg') and hasattr(t, 'op') and hasattr(t, 'args')"},"name":"construct_correct"},"guarantee":"turn a compound into a sympy object","fibers":[{"name":"(Variable","pred":"isinstance(t, (Variable, CondVariable))","path":{"lhs":"construct(x)","rhs":"turn a compound into a sympy object","over":{"base":"(Variable","pred":"isinstance(t, (Variable, CondVariable))"},"name":"construct_(Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.construct_(Variable_correct","statement":"construct satisfies spec on (Variable inputs"},"trust":"LIBRARY"},{"name":"Compound","pred":"isinstance(t, Compound)","path":{"lhs":"construct(x)","rhs":"turn a compound into a sympy object","over":{"base":"Compound","pred":"isinstance(t, Compound)"},"name":"construct_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.construct_Compound_correct","statement":"construct satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"440d94972061712b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(t, 'arg')","hasattr(t, 'op')","hasattr(t, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["t.arg","t.args","t.op"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(t, (Variable, CondVariable))', 'not isinstance(t, Compound)'}, fibers={'(Variable', 'Compound'})"]}}
 def construct(t):
     """ Turn a Compound into a SymPy object """
     if isinstance(t, (Variable, CondVariable)):
@@ -181,16 +231,22 @@ def construct(t):
         return t.op(*map(construct, t.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rebuild(s), rebuild a sympy expression) over Any      ║
+# ║ Path(rebuild(s), construct(deconstruct(s))) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  construct(deconstruct(s))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rebuild : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 945ca62ce722631b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.rebuild","kind":"function","src_hash":"a8d6ce43e1ec974c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rebuild(s)","rhs":"rebuild a sympy expression","over":{"base":"Any"},"name":"rebuild_correct"},"guarantee":"rebuild a sympy expression","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"945ca62ce722631b"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.rebuild","kind":"function","src_hash":"a8d6ce43e1ec974c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rebuild(s)","rhs":"construct(deconstruct(s))","over":{"base":"Any"},"name":"rebuild_correct"},"guarantee":"returns construct(deconstruct(s))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"945ca62ce722631b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"construct(deconstruct(s))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rebuild(s):
     """ Rebuild a SymPy expression.
 
@@ -199,16 +255,23 @@ def rebuild(s):
     return construct(deconstruct(s))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify(x, ), structural unification of two expressions/patterns) over Any ║
+# ║ Path(unify(x, y, s), <unspecified:unify>) over {Any | hasattr(s, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unify : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'items')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unify : {Any | hasattr(s, 'items')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8153c02b48784341  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.unify","kind":"function","src_hash":"78fdc82dbb1a1b2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(x, )","rhs":"structural unification of two expressions/patterns","over":{"base":"Any"},"name":"unify_correct"},"guarantee":"structural unification of two expressions/patterns","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.unify_correct","statement":"Path(unify(x), structural unification of two expressions/patterns)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8153c02b48784341"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.usympy.unify","kind":"function","src_hash":"78fdc82dbb1a1b2a","in":{"base":"Any","pred":"hasattr(s, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"unify(x, y, s)","rhs":"<unspecified:unify>","over":{"base":"Any","pred":"hasattr(s, 'items')"},"name":"unify_correct"},"guarantee":"structural unification of two expressions/patterns","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.usympy.unify_correct","statement":"Path(unify(x), structural unification of two expressions/patterns)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8153c02b48784341","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['x', 'y', 's', 'variables'], spec=['x', 'y', 's', 'variables', '**kwargs']"]}}
 def unify(x, y, s=None, variables=(), **kwargs):
     """ Structural unification of two expressions/patterns.
 

@@ -31,91 +31,131 @@ x, y = symbols("x,y")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Add(), test_Add produces the expected output) over Any ║
+# ║ Path(test_Add(), precedence(x + y) == PRECEDENCE['Add'] and precedence(x * y + 1) == PRECEDENCE['Add']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Add : Any → {Any | precedence(x + y) == PRECEDEN...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(x + y) == PRECEDENCE['Add']         ║
+# ║   ensures:  precedence(x * y + 1) == PRECEDENCE['Add']     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Add : Any → {Any | result satisfies: precedence(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c9b0785c2019a18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67bd630d99c83f9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Add","kind":"function","src_hash":"37338449e1f0449d","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(x + y) == PRECEDENCE['Add'] and precedence(x * y + 1) == PRECEDENCE['Add']"},"spec":{"lhs":"test_Add()","rhs":"test_Add produces the expected output","over":{"base":"Any"},"name":"test_Add_correct"},"guarantee":"test_Add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Add_correct","statement":"Path(test_Add(x), test_Add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c9b0785c2019a18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Add","kind":"function","src_hash":"37338449e1f0449d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(x + y) == PRECEDENCE['Add'] and precedence(x * y + 1) == PRECEDENCE['Add']"},"spec":{"lhs":"test_Add()","rhs":"precedence(x + y) == PRECEDENCE['Add'] and precedence(x * y + 1) == PRECEDENCE['Add']","over":{"base":"Any"},"name":"test_Add_correct"},"guarantee":"precedence(x + y) == PRECEDENCE['Add']; precedence(x * y + 1) == PRECEDENCE['Add']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Add_correct","statement":"Path(test_Add(x), precedence(x + y) == PRECEDENCE['Add']; precedence(x * y + 1) == PRECEDENCE['Add'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67bd630d99c83f9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(x + y) == PRECEDENCE['Add']","precedence(x * y + 1) == PRECEDENCE['Add']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Add():
     assert precedence(x + y) == PRECEDENCE["Add"]
     assert precedence(x*y + 1) == PRECEDENCE["Add"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function(), test_Function produces the expected output) over Any ║
+# ║ Path(test_Function(), precedence(sin(x)) == PRECEDENCE['Func']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function : Any → {Any | precedence(sin(x)) == PR...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(sin(x)) == PRECEDENCE['Func']       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function : Any → {Any | result satisfies: preced...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 769b9bd8570b7061  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7bea03ff3b89cbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Function","kind":"function","src_hash":"903894646bd6e482","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(sin(x)) == PRECEDENCE['Func']"},"spec":{"lhs":"test_Function()","rhs":"test_Function produces the expected output","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"769b9bd8570b7061"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Function","kind":"function","src_hash":"903894646bd6e482","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(sin(x)) == PRECEDENCE['Func']"},"spec":{"lhs":"test_Function()","rhs":"precedence(sin(x)) == PRECEDENCE['Func']","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"precedence(sin(x)) == PRECEDENCE['Func']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Function_correct","statement":"Path(test_Function(x), precedence(sin(x)) == PRECEDENCE['Func'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7bea03ff3b89cbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(sin(x)) == PRECEDENCE['Func']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Function():
     assert precedence(sin(x)) == PRECEDENCE["Func"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative(), test_Derivative produces the expected output) over Any ║
+# ║ Path(test_Derivative(), precedence(Derivative(x, y)) == PRECEDENCE['Atom']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Derivative : Any → {Any | precedence(Derivative(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Derivative(x, y)) == PRECEDENC...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Derivative : Any → {Any | result satisfies: prec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 075e5e0e2e1dd2c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e725889221dc91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Derivative","kind":"function","src_hash":"4ef0ab96c617e05a","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Derivative(x, y)) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Derivative()","rhs":"test_Derivative produces the expected output","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"test_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Derivative_correct","statement":"Path(test_Derivative(x), test_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"075e5e0e2e1dd2c7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Derivative","kind":"function","src_hash":"4ef0ab96c617e05a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Derivative(x, y)) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Derivative()","rhs":"precedence(Derivative(x, y)) == PRECEDENCE['Atom']","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"precedence(Derivative(x, y)) == PRECEDENCE['Atom']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Derivative_correct","statement":"Path(test_Derivative(x), precedence(Derivative(x, y)) == PRECEDENCE['Atom'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e725889221dc91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Derivative(x, y)) == PRECEDENCE['Atom']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Derivative():
     assert precedence(Derivative(x, y)) == PRECEDENCE["Atom"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integral(), test_Integral produces the expected output) over Any ║
+# ║ Path(test_Integral(), precedence(Integral(x, y)) == PRECEDENCE['Atom']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integral : Any → {Any | precedence(Integral(x, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Integral(x, y)) == PRECEDENCE[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integral : Any → {Any | result satisfies: preced...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5809a549a674609e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49bca2cfbe1e96e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Integral","kind":"function","src_hash":"63071c0c38cf185a","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Integral(x, y)) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Integral()","rhs":"test_Integral produces the expected output","over":{"base":"Any"},"name":"test_Integral_correct"},"guarantee":"test_Integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Integral_correct","statement":"Path(test_Integral(x), test_Integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5809a549a674609e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Integral","kind":"function","src_hash":"63071c0c38cf185a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Integral(x, y)) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Integral()","rhs":"precedence(Integral(x, y)) == PRECEDENCE['Atom']","over":{"base":"Any"},"name":"test_Integral_correct"},"guarantee":"precedence(Integral(x, y)) == PRECEDENCE['Atom']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Integral_correct","statement":"Path(test_Integral(x), precedence(Integral(x, y)) == PRECEDENCE['Atom'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49bca2cfbe1e96e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Integral(x, y)) == PRECEDENCE['Atom']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Integral():
     assert precedence(Integral(x, y)) == PRECEDENCE["Atom"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mul(), test_Mul produces the expected output) over Any ║
+# ║ Path(test_Mul(), precedence(x * y) == PRECEDENCE['Mul'] and precedence(-x * y) == PRECEDENCE['Add']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mul : Any → {Any | precedence(x * y) == PRECEDEN...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(x * y) == PRECEDENCE['Mul']         ║
+# ║   ensures:  precedence(-x * y) == PRECEDENCE['Add']        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mul : Any → {Any | result satisfies: precedence(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf81ce9b1bc8f3e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 496c7d203433df33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Mul","kind":"function","src_hash":"9a6ce15dc527ea53","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(x * y) == PRECEDENCE['Mul'] and precedence(-x * y) == PRECEDENCE['Add']"},"spec":{"lhs":"test_Mul()","rhs":"test_Mul produces the expected output","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"test_Mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Mul_correct","statement":"Path(test_Mul(x), test_Mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf81ce9b1bc8f3e5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Mul","kind":"function","src_hash":"9a6ce15dc527ea53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(x * y) == PRECEDENCE['Mul'] and precedence(-x * y) == PRECEDENCE['Add']"},"spec":{"lhs":"test_Mul()","rhs":"precedence(x * y) == PRECEDENCE['Mul'] and precedence(-x * y) == PRECEDENCE['Add']","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"precedence(x * y) == PRECEDENCE['Mul']; precedence(-x * y) == PRECEDENCE['Add']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Mul_correct","statement":"Path(test_Mul(x), precedence(x * y) == PRECEDENCE['Mul']; precedence(-x * y) == PRECEDENCE['Add'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496c7d203433df33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(x * y) == PRECEDENCE['Mul']","precedence(-x * y) == PRECEDENCE['Add']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Mul():
     assert precedence(x*y) == PRECEDENCE["Mul"]
     assert precedence(-x*y) == PRECEDENCE["Add"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Number(), test_Number produces the expected output) over Any ║
+# ║ Path(test_Number(), precedence(Integer(0)) == PRECEDENCE['Atom'] and precedence(Integer(1)) == PRECEDENCE['Atom'] and precedence(Integer(-1)) == PRECEDENCE['Add'] and precedence(Integer(10)) == PRECEDENCE['Atom'] and precedence(Rational(5, 2)) == PRECEDENCE['Mul'] and precedence(Rational(-5, 2)) == PRECEDENCE['Add'] and precedence(Float(5)) == PRECEDENCE['Atom'] and precedence(Float(-5)) == PRECEDENCE['Add'] and precedence(oo) == PRECEDENCE['Atom'] and precedence(-oo) == PRECEDENCE['Add']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Number : Any → {Any | precedence(Integer(0)) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Integer(0)) == PRECEDENCE['Atom']   ║
+# ║   ensures:  precedence(Integer(1)) == PRECEDENCE['Atom']   ║
+# ║   ensures:  precedence(Integer(-1)) == PRECEDENCE['Add']   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Number : Any → {Any | result satisfies: preceden...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b8d0704c103ef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba8b2b65e99af6bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Number","kind":"function","src_hash":"666a777804166d6c","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Integer(0)) == PRECEDENCE['Atom'] and precedence(Integer(1)) == PRECEDENCE['Atom'] and precedence(Integer(-1)) == PRECEDENCE['Add'] and precedence(Integer(10)) == PRECEDENCE['Atom'] and precedence(Rational(5, 2)) == PRECEDENCE['Mul'] and precedence(Rational(-5, 2)) == PRECEDENCE['Add'] and precedence(Float(5)) == PRECEDENCE['Atom'] and precedence(Float(-5)) == PRECEDENCE['Add'] and precedence(oo) == PRECEDENCE['Atom'] and precedence(-oo) == PRECEDENCE['Add']"},"spec":{"lhs":"test_Number()","rhs":"test_Number produces the expected output","over":{"base":"Any"},"name":"test_Number_correct"},"guarantee":"test_Number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Number_correct","statement":"Path(test_Number(x), test_Number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b8d0704c103ef0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Number","kind":"function","src_hash":"666a777804166d6c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Integer(0)) == PRECEDENCE['Atom'] and precedence(Integer(1)) == PRECEDENCE['Atom'] and precedence(Integer(-1)) == PRECEDENCE['Add'] and precedence(Integer(10)) == PRECEDENCE['Atom'] and precedence(Rational(5, 2)) == PRECEDENCE['Mul'] and precedence(Rational(-5, 2)) == PRECEDENCE['Add'] and precedence(Float(5)) == PRECEDENCE['Atom'] and precedence(Float(-5)) == PRECEDENCE['Add'] and precedence(oo) == PRECEDENCE['Atom'] and precedence(-oo) == PRECEDENCE['Add']"},"spec":{"lhs":"test_Number()","rhs":"precedence(Integer(0)) == PRECEDENCE['Atom'] and precedence(Integer(1)) == PRECEDENCE['Atom'] and precedence(Integer(-1)) == PRECEDENCE['Add'] and precedence(Integer(10)) == PRECEDENCE['Atom'] and precedence(Rational(5, 2)) == PRECEDENCE['Mul'] and precedence(Rational(-5, 2)) == PRECEDENCE['Add'] and precedence(Float(5)) == PRECEDENCE['Atom'] and precedence(Float(-5)) == PRECEDENCE['Add'] and precedence(oo) == PRECEDENCE['Atom'] and precedence(-oo) == PRECEDENCE['Add']","over":{"base":"Any"},"name":"test_Number_correct"},"guarantee":"precedence(Integer(0)) == PRECEDENCE['Atom']; precedence(Integer(1)) == PRECEDENCE['Atom']; precedence(Integer(-1)) == PRECEDENCE['Add']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Number_correct","statement":"Path(test_Number(x), precedence(Integer(0)) == PRECEDENCE['Atom']; precedence(Integer(1)) == PRECEDENCE['Atom']; precedence(Integer(-1)) == PRECEDENCE['Add'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba8b2b65e99af6bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Integer(0)) == PRECEDENCE['Atom']","precedence(Integer(1)) == PRECEDENCE['Atom']","precedence(Integer(-1)) == PRECEDENCE['Add']","precedence(Integer(10)) == PRECEDENCE['Atom']","precedence(Rational(5, 2)) == PRECEDENCE['Mul']","precedence(Rational(-5, 2)) == PRECEDENCE['Add']","precedence(Float(5)) == PRECEDENCE['Atom']","precedence(Float(-5)) == PRECEDENCE['Add']","precedence(oo) == PRECEDENCE['Atom']","precedence(-oo) == PRECEDENCE['Add']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Number():
     assert precedence(Integer(0)) == PRECEDENCE["Atom"]
     assert precedence(Integer(1)) == PRECEDENCE["Atom"]
@@ -130,31 +170,45 @@ def test_Number():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Order(), test_Order produces the expected output) over Any ║
+# ║ Path(test_Order(), precedence(Order(x)) == PRECEDENCE['Atom']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Order : Any → {Any | precedence(Order(x)) == PRE...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Order(x)) == PRECEDENCE['Atom']     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Order : Any → {Any | result satisfies: precedenc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03480b53e8d96411  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b77ab61ff5f16fc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Order","kind":"function","src_hash":"010cce5de1b9445c","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Order(x)) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Order()","rhs":"test_Order produces the expected output","over":{"base":"Any"},"name":"test_Order_correct"},"guarantee":"test_Order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Order_correct","statement":"Path(test_Order(x), test_Order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03480b53e8d96411"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Order","kind":"function","src_hash":"010cce5de1b9445c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Order(x)) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Order()","rhs":"precedence(Order(x)) == PRECEDENCE['Atom']","over":{"base":"Any"},"name":"test_Order_correct"},"guarantee":"precedence(Order(x)) == PRECEDENCE['Atom']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Order_correct","statement":"Path(test_Order(x), precedence(Order(x)) == PRECEDENCE['Atom'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b77ab61ff5f16fc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Order(x)) == PRECEDENCE['Atom']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Order():
     assert precedence(Order(x)) == PRECEDENCE["Atom"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pow(), test_Pow produces the expected output) over Any ║
+# ║ Path(test_Pow(), precedence(x ** y) == PRECEDENCE['Pow'] and precedence(-x ** y) == PRECEDENCE['Add'] and precedence(x ** (-y)) == PRECEDENCE['Pow']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pow : Any → {Any | precedence(x ** y) == PRECEDE...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(x ** y) == PRECEDENCE['Pow']        ║
+# ║   ensures:  precedence(-x ** y) == PRECEDENCE['Add']       ║
+# ║   ensures:  precedence(x ** (-y)) == PRECEDENCE['Pow']     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pow : Any → {Any | result satisfies: precedence(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c37462549205b41a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b327d2acafd7ceef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Pow","kind":"function","src_hash":"2de35e9f0486cddc","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(x ** y) == PRECEDENCE['Pow'] and precedence(-x ** y) == PRECEDENCE['Add'] and precedence(x ** (-y)) == PRECEDENCE['Pow']"},"spec":{"lhs":"test_Pow()","rhs":"test_Pow produces the expected output","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"test_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Pow_correct","statement":"Path(test_Pow(x), test_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37462549205b41a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Pow","kind":"function","src_hash":"2de35e9f0486cddc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(x ** y) == PRECEDENCE['Pow'] and precedence(-x ** y) == PRECEDENCE['Add'] and precedence(x ** (-y)) == PRECEDENCE['Pow']"},"spec":{"lhs":"test_Pow()","rhs":"precedence(x ** y) == PRECEDENCE['Pow'] and precedence(-x ** y) == PRECEDENCE['Add'] and precedence(x ** (-y)) == PRECEDENCE['Pow']","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"precedence(x ** y) == PRECEDENCE['Pow']; precedence(-x ** y) == PRECEDENCE['Add']; precedence(x ** (-y)) == PRECEDENCE['Pow']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Pow_correct","statement":"Path(test_Pow(x), precedence(x ** y) == PRECEDENCE['Pow']; precedence(-x ** y) == PRECEDENCE['Add']; precedence(x ** (-y)) == PRECEDENCE['Pow'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b327d2acafd7ceef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(x ** y) == PRECEDENCE['Pow']","precedence(-x ** y) == PRECEDENCE['Add']","precedence(x ** (-y)) == PRECEDENCE['Pow']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Pow():
     assert precedence(x**y) == PRECEDENCE["Pow"]
     assert precedence(-x**y) == PRECEDENCE["Add"]
@@ -162,76 +216,108 @@ def test_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Product(), test_Product produces the expected output) over Any ║
+# ║ Path(test_Product(), precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Product : Any → {Any | precedence(Product(x, (x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Product(x, (x, y, y + 1))) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Product : Any → {Any | result satisfies: precede...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbd59d16bf91ef8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6331cb1cbc5bfcc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Product","kind":"function","src_hash":"3e7ec5ef20418819","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Product()","rhs":"test_Product produces the expected output","over":{"base":"Any"},"name":"test_Product_correct"},"guarantee":"test_Product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Product_correct","statement":"Path(test_Product(x), test_Product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd59d16bf91ef8d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Product","kind":"function","src_hash":"3e7ec5ef20418819","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Product()","rhs":"precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom']","over":{"base":"Any"},"name":"test_Product_correct"},"guarantee":"precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Product_correct","statement":"Path(test_Product(x), precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6331cb1cbc5bfcc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Product(x, (x, y, y + 1))) == PRECEDENCE['Atom']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Product():
     assert precedence(Product(x, (x, y, y + 1))) == PRECEDENCE["Atom"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relational : Any → {Any | precedence(Rel(x + y, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Rel(x + y, y, '<')) == PRECEDE...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relational : Any → {Any | result satisfies: prec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 841eb2d9e48dc2e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfdf0203fcee3a39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Relational","kind":"function","src_hash":"d01868c1adf149fd","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational']"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"841eb2d9e48dc2e6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Relational","kind":"function","src_hash":"d01868c1adf149fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational']"},"spec":{"lhs":"test_Relational()","rhs":"precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational']","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Relational_correct","statement":"Path(test_Relational(x), precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfdf0203fcee3a39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Rel(x + y, y, '<')) == PRECEDENCE['Relational']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     assert precedence(Rel(x + y, y, "<")) == PRECEDENCE["Relational"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sum(), test_Sum produces the expected output) over Any ║
+# ║ Path(test_Sum(), precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sum : Any → {Any | precedence(Sum(x, (x, y, y + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(Sum(x, (x, y, y + 1))) == PREC...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sum : Any → {Any | result satisfies: precedence(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d343ea6cf7412b1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3301e573c47c1256  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Sum","kind":"function","src_hash":"feb69d7055a17ff0","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Sum()","rhs":"test_Sum produces the expected output","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"test_Sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Sum_correct","statement":"Path(test_Sum(x), test_Sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d343ea6cf7412b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Sum","kind":"function","src_hash":"feb69d7055a17ff0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Sum()","rhs":"precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom']","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Sum_correct","statement":"Path(test_Sum(x), precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3301e573c47c1256","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE['Atom']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Sum():
     assert precedence(Sum(x, (x, y, y + 1))) == PRECEDENCE["Atom"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbol(), test_Symbol produces the expected output) over Any ║
+# ║ Path(test_Symbol(), precedence(x) == PRECEDENCE['Atom']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Symbol : Any → {Any | precedence(x) == PRECEDENC...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(x) == PRECEDENCE['Atom']            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Symbol : Any → {Any | result satisfies: preceden...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eb6d6c3a2d47bf6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3f8b2fd827513a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Symbol","kind":"function","src_hash":"784b8021e3addbd4","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(x) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Symbol()","rhs":"test_Symbol produces the expected output","over":{"base":"Any"},"name":"test_Symbol_correct"},"guarantee":"test_Symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Symbol_correct","statement":"Path(test_Symbol(x), test_Symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eb6d6c3a2d47bf6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_Symbol","kind":"function","src_hash":"784b8021e3addbd4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(x) == PRECEDENCE['Atom']"},"spec":{"lhs":"test_Symbol()","rhs":"precedence(x) == PRECEDENCE['Atom']","over":{"base":"Any"},"name":"test_Symbol_correct"},"guarantee":"precedence(x) == PRECEDENCE['Atom']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_Symbol_correct","statement":"Path(test_Symbol(x), precedence(x) == PRECEDENCE['Atom'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f8b2fd827513a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(x) == PRECEDENCE['Atom']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Symbol():
     assert precedence(x) == PRECEDENCE["Atom"]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_And_Or(), test_And_Or produces the expected output) over Any ║
+# ║ Path(test_And_Or(), precedence(x & y) > precedence(x | y) and precedence(~y) > precedence(x & y) and precedence(x + y) > precedence(x | y) and precedence(x + y) > precedence(x & y) and precedence(x * y) > precedence(x | y) and precedence(x * y) > precedence(x & y) and precedence(~y) > precedence(x * y) and precedence(~y) > precedence(x - y) and precedence(x & y) == PRECEDENCE['And'] and precedence(x | y) == PRECEDENCE['Or'] and precedence(~y) == PRECEDENCE['Not']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_And_Or : Any → {Any | precedence(x & y) > preced...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  precedence(x & y) > precedence(x | y)          ║
+# ║   ensures:  precedence(~y) > precedence(x & y)             ║
+# ║   ensures:  precedence(x + y) > precedence(x | y)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_And_Or : Any → {Any | result satisfies: preceden...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f05a5fcbdf2e5ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b483b309f1157355  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_And_Or","kind":"function","src_hash":"5d172148b75776c5","in":{"base":"Any"},"out":{"base":"Any","pred":"precedence(x & y) > precedence(x | y) and precedence(~y) > precedence(x & y) and precedence(x + y) > precedence(x | y) and precedence(x + y) > precedence(x & y) and precedence(x * y) > precedence(x | y) and precedence(x * y) > precedence(x & y) and precedence(~y) > precedence(x * y) and precedence(~y) > precedence(x - y) and precedence(x & y) == PRECEDENCE['And'] and precedence(x | y) == PRECEDENCE['Or'] and precedence(~y) == PRECEDENCE['Not']"},"spec":{"lhs":"test_And_Or()","rhs":"test_And_Or produces the expected output","over":{"base":"Any"},"name":"test_And_Or_correct"},"guarantee":"test_And_Or produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_And_Or_correct","statement":"Path(test_And_Or(x), test_And_Or produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f05a5fcbdf2e5ad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_And_Or","kind":"function","src_hash":"5d172148b75776c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: precedence(x & y) > precedence(x | y) and precedence(~y) > precedence(x & y) and precedence(x + y) > precedence(x | y) and precedence(x + y) > precedence(x & y) and precedence(x * y) > precedence(x | y) and precedence(x * y) > precedence(x & y) and precedence(~y) > precedence(x * y) and precedence(~y) > precedence(x - y) and precedence(x & y) == PRECEDENCE['And'] and precedence(x | y) == PRECEDENCE['Or'] and precedence(~y) == PRECEDENCE['Not']"},"spec":{"lhs":"test_And_Or()","rhs":"precedence(x & y) > precedence(x | y) and precedence(~y) > precedence(x & y) and precedence(x + y) > precedence(x | y) and precedence(x + y) > precedence(x & y) and precedence(x * y) > precedence(x | y) and precedence(x * y) > precedence(x & y) and precedence(~y) > precedence(x * y) and precedence(~y) > precedence(x - y) and precedence(x & y) == PRECEDENCE['And'] and precedence(x | y) == PRECEDENCE['Or'] and precedence(~y) == PRECEDENCE['Not']","over":{"base":"Any"},"name":"test_And_Or_correct"},"guarantee":"precedence(x & y) > precedence(x | y); precedence(~y) > precedence(x & y); precedence(x + y) > precedence(x | y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_precedence.test_And_Or_correct","statement":"Path(test_And_Or(x), precedence(x & y) > precedence(x | y); precedence(~y) > precedence(x & y); precedence(x + y) > precedence(x | y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b483b309f1157355","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["precedence(x & y) > precedence(x | y)","precedence(~y) > precedence(x & y)","precedence(x + y) > precedence(x | y)","precedence(x + y) > precedence(x & y)","precedence(x * y) > precedence(x | y)","precedence(x * y) > precedence(x & y)","precedence(~y) > precedence(x * y)","precedence(~y) > precedence(x - y)","precedence(x & y) == PRECEDENCE['And']","precedence(x | y) == PRECEDENCE['Or']","precedence(~y) == PRECEDENCE['Not']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_And_Or():
     # precedence relations between logical operators, ...
     assert precedence(x & y) > precedence(x | y)
@@ -252,14 +338,20 @@ def test_And_Or():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_custom_function_precedence_comparison(), id) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ test_custom_function_precedence_comparison : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 109f78e7ac4b6515   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_custom_function_precedence_comparison","kind":"function","src_hash":"ec33bca6eecf4b42","in":{"base":"Any"},"out":{"base":"Any","pred":"str(expr1) == '2*(x F y)' and str(expr2) == '-2*(x F y)' and str(expr1) == '2*x F y' and str(expr2) == '-2*x F y'"},"spec":{"lhs":"test_custom_function_precedence_comparison()","rhs":"test cases for custom functions with different precedence values, specifically handling: 1","over":{"base":"Any"},"name":"test_custom_function_precedence_comparison_correct","kind":"composition"},"guarantee":"test cases for custom functions with different precedence values, specifically handling: 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109f78e7ac4b6515"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_precedence.test_custom_function_precedence_comparison","kind":"function","src_hash":"ec33bca6eecf4b42","in":{"base":"Any"},"out":{"base":"Any","pred":"str(expr1) == '2*(x F y)' and str(expr2) == '-2*(x F y)' and str(expr1) == '2*x F y' and str(expr2) == '-2*x F y'"},"spec":{"lhs":"test_custom_function_precedence_comparison()","rhs":"<unspecified:test_custom_function_precedence_comparison>","over":{"base":"Any"},"name":"test_custom_function_precedence_comparison_correct","kind":"composition"},"guarantee":"test cases for custom functions with different precedence values, specifically handling: 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109f78e7ac4b6515","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_custom_function_precedence_comparison():
     """
     Test cases for custom functions with different precedence values,

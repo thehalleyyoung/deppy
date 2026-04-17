@@ -39,41 +39,59 @@ ua = dynamicsymbols('ua:3')  # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestSystemBase(*args), correctly constructs a TestSystemBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestSystemBase : Any → {Any | 'q_ind' in exclude or s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b39116e3e3d6e0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase","kind":"class","src_hash":"f1630a5b07d60400","in":{"base":"Any"},"out":{"base":"Any","pred":"'q_ind' in exclude or self.system.q_ind[:] == q[:3] and 'q_dep' in exclude or self.system.q_dep[:] == [q[3]] and 'q' in exclude or self.system.q[:] == q[:4] and 'u_ind' in exclude or self.system.u_ind[:] == u[:2] and 'u_dep' in exclude or self.system.u_dep[:] == u[2:4] and 'u' in exclude or self.system.u[:] == u[:4] and 'u_aux' in exclude or self.system.u_aux[:] == ua[:2] and 'bodies' in exclude or self.system.bodies == tuple(self.bodies) and 'joints' in exclude or self.system.joints == tuple(self.joints) and self.system.eom_method is None and getattr(self.system, attr)[:] == [] and getattr(self.system, attr) == ()"},"spec":{"lhs":"TestSystemBase(*args)","rhs":"correctly constructs a TestSystemBase instance","over":{"base":"Any"},"name":"TestSystemBase_class_invariant"},"guarantee":"correctly constructs a TestSystemBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b39116e3e3d6e0c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase","kind":"class","src_hash":"f1630a5b07d60400","in":{"base":"Any"},"out":{"base":"Any","pred":"'q_ind' in exclude or self.system.q_ind[:] == q[:3] and 'q_dep' in exclude or self.system.q_dep[:] == [q[3]] and 'q' in exclude or self.system.q[:] == q[:4] and 'u_ind' in exclude or self.system.u_ind[:] == u[:2] and 'u_dep' in exclude or self.system.u_dep[:] == u[2:4] and 'u' in exclude or self.system.u[:] == u[:4] and 'u_aux' in exclude or self.system.u_aux[:] == ua[:2] and 'bodies' in exclude or self.system.bodies == tuple(self.bodies) and 'joints' in exclude or self.system.joints == tuple(self.joints) and self.system.eom_method is None and getattr(self.system, attr)[:] == [] and getattr(self.system, attr) == ()"},"spec":{"lhs":"TestSystemBase(*args)","rhs":"correctly constructs a TestSystemBase instance","over":{"base":"Any"},"name":"TestSystemBase_class_invariant"},"guarantee":"correctly constructs a TestSystemBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b39116e3e3d6e0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestSystemBase not found in source"]}}
 class TestSystemBase:
     @pytest.fixture()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_empty_system_setup(), internal helper behaves correctly) over Any ║
+# ║ Path(_empty_system_setup(), <unspecified:_empty_system_setup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _empty_system_setup : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f4b7e1599e98e85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_setup","kind":"method","src_hash":"d322c3150eaf6cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_empty_system_setup()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_empty_system_setup_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_setup_correct","statement":"Path(_empty_system_setup(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4b7e1599e98e85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_setup","kind":"method","src_hash":"d322c3150eaf6cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_empty_system_setup()","rhs":"<unspecified:_empty_system_setup>","over":{"base":"Any"},"name":"_empty_system_setup_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_setup_correct","statement":"Path(_empty_system_setup(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4b7e1599e98e85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.system"]},"state_contract":{"modifies":["self.system"],"old_bindings":{"old_self_system":"self.system"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _empty_system_setup(self):
         self.system = System(ReferenceFrame('frame'), Point('fixed_point'))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_empty_system_check(exc), internal helper behaves correctly) over Any ║
+# ║ Path(_empty_system_check(exclude), <unspecified:_empty_system_check>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _empty_system_check : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68ac8d1923fcd5b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_check","kind":"method","src_hash":"ff5c039174148c67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_empty_system_check(exc)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_empty_system_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_check_correct","statement":"Path(_empty_system_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68ac8d1923fcd5b6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_check","kind":"method","src_hash":"ff5c039174148c67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_empty_system_check(exclude)","rhs":"<unspecified:_empty_system_check>","over":{"base":"Any"},"name":"_empty_system_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._empty_system_check_correct","statement":"Path(_empty_system_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68ac8d1923fcd5b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _empty_system_check(self, exclude=()):
         matrices = ('q_ind', 'q_dep', 'q', 'u_ind', 'u_dep', 'u', 'u_aux',
                     'kdes', 'holonomic_constraints', 'nonholonomic_constraints')
@@ -88,16 +106,22 @@ class TestSystemBase:
             assert self.system.eom_method is None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_filled_system(wit), internal helper behaves correctly) over Any ║
+# ║ Path(_create_filled_system(with_speeds), <unspecified:_create_filled_system>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_filled_system : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1034eea870604638  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._create_filled_system","kind":"method","src_hash":"5cc19513647d4660","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_filled_system(wit)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_filled_system_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._create_filled_system_correct","statement":"Path(_create_filled_system(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1034eea870604638"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._create_filled_system","kind":"method","src_hash":"5cc19513647d4660","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_filled_system(with_speeds)","rhs":"<unspecified:_create_filled_system>","over":{"base":"Any"},"name":"_create_filled_system_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._create_filled_system_correct","statement":"Path(_create_filled_system(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1034eea870604638","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.bodies","self.joints","self.system"],"writes":["self.bodies","self.hc","self.joints","self.kdes","self.nhc","self.system","self.vc"]},"state_contract":{"modifies":["self.bodies","self.hc","self.joints","self.kdes","self.nhc","self.system","self.vc"],"old_bindings":{"old_self_bodies":"self.bodies","old_self_hc":"self.hc","old_self_joints":"self.joints","old_self_kdes":"self.kdes","old_self_nhc":"self.nhc","old_self_system":"self.system","old_self_vc":"self.vc"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_filled_system(self, with_speeds=True):
         self.system = System(ReferenceFrame('frame'), Point('fixed_point'))
         u = dynamicsymbols('u:6') if with_speeds else qd
@@ -126,45 +150,65 @@ class TestSystemBase:
 
     @pytest.fixture()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_filled_system_setup(), internal helper behaves correctly) over Any ║
+# ║ Path(_filled_system_setup(), <unspecified:_filled_system_setup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _filled_system_setup : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d9ce24f3eaad372  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup","kind":"method","src_hash":"588f656e1744bdbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_filled_system_setup()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_filled_system_setup_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup_correct","statement":"Path(_filled_system_setup(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d9ce24f3eaad372"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup","kind":"method","src_hash":"588f656e1744bdbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_filled_system_setup()","rhs":"<unspecified:_filled_system_setup>","over":{"base":"Any"},"name":"_filled_system_setup_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup_correct","statement":"Path(_filled_system_setup(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d9ce24f3eaad372","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_filled_system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _filled_system_setup(self):
         self._create_filled_system(with_speeds=True)
 
     @pytest.fixture()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_filled_system_setup_no_speeds(), internal helper behaves correctly) over Any ║
+# ║ Path(_filled_system_setup_no_speeds(), <unspecified:_filled_system_setup_no_speeds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _filled_system_setup_no_speeds : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e37ee8abdaeff1da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup_no_speeds","kind":"method","src_hash":"c587d52bcaee7245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_filled_system_setup_no_speeds()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_filled_system_setup_no_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup_no_speeds_correct","statement":"Path(_filled_system_setup_no_speeds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37ee8abdaeff1da"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup_no_speeds","kind":"method","src_hash":"c587d52bcaee7245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_filled_system_setup_no_speeds()","rhs":"<unspecified:_filled_system_setup_no_speeds>","over":{"base":"Any"},"name":"_filled_system_setup_no_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_setup_no_speeds_correct","statement":"Path(_filled_system_setup_no_speeds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37ee8abdaeff1da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_filled_system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _filled_system_setup_no_speeds(self):
         self._create_filled_system(with_speeds=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_filled_system_check(exc), internal helper behaves correctly) over Any ║
+# ║ Path(_filled_system_check(exclude), 'q_ind' in exclude or self.system.q_ind[:] == q[:3] and 'q_dep' in exclude or self.system.q_dep[:] == [q[3]] and 'q' in exclude or self.system.q[:] == q[:4] and 'u_ind' in exclude or self.system.u_ind[:] == u[:2] and 'u_dep' in exclude or self.system.u_dep[:] == u[2:4] and 'u' in exclude or self.system.u[:] == u[:4] and 'u_aux' in exclude or self.system.u_aux[:] == ua[:2] and 'kdes' in exclude or self.system.kdes[:] == [ui - qdi for ui, qdi in zip(u[:4], qd[:4])] and 'holonomic_constraints' in exclude or self.system.holonomic_constraints[:] == [q[2] - q[0] + q[1]] and 'nonholonomic_constraints' in exclude or self.system.nonholonomic_constraints[:] == [u[3] - qd[1] + u[2]] and 'velocity_constraints' in exclude or self.system.velocity_constraints[:] == [qd[2] - qd[0] + qd[1], u[3] - qd[1] + u[2]] and 'bodies' in exclude or self.system.bodies == tuple(self.bodies) and 'joints' in exclude or self.system.joints == tuple(self.joints)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _filled_system_check : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  'q_ind' in exclude or self.system.q_ind[:...   ║
+# ║   ensures:  'q_dep' in exclude or self.system.q_dep[:...   ║
+# ║   ensures:  'q' in exclude or self.system.q[:] == q[:4]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _filled_system_check : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72445d56baa358f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64d89dd7c54ce6fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_check","kind":"method","src_hash":"f2c00c513a7137c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_filled_system_check(exc)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_filled_system_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_check_correct","statement":"Path(_filled_system_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72445d56baa358f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_check","kind":"method","src_hash":"f2c00c513a7137c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 'q_ind' in exclude or self.system.q_ind[:] == q[:3] and 'q_dep' in exclude or self.system.q_dep[:] == [q[3]] and 'q' in exclude or self.system.q[:] == q[:4] and 'u_ind' in exclude or self.system.u_ind[:] == u[:2] and 'u_dep' in exclude or self.system.u_dep[:] == u[2:4] and 'u' in exclude or self.system.u[:] == u[:4] and 'u_aux' in exclude or self.system.u_aux[:] == ua[:2] and 'kdes' in exclude or self.system.kdes[:] == [ui - qdi for ui, qdi in zip(u[:4], qd[:4])] and 'holonomic_constraints' in exclude or self.system.holonomic_constraints[:] == [q[2] - q[0] + q[1]] and 'nonholonomic_constraints' in exclude or self.system.nonholonomic_constraints[:] == [u[3] - qd[1] + u[2]] and 'velocity_constraints' in exclude or self.system.velocity_constraints[:] == [qd[2] - qd[0] + qd[1], u[3] - qd[1] + u[2]] and 'bodies' in exclude or self.system.bodies == tuple(self.bodies) and 'joints' in exclude or self.system.joints == tuple(self.joints)"},"spec":{"lhs":"_filled_system_check(exclude)","rhs":"'q_ind' in exclude or self.system.q_ind[:] == q[:3] and 'q_dep' in exclude or self.system.q_dep[:] == [q[3]] and 'q' in exclude or self.system.q[:] == q[:4] and 'u_ind' in exclude or self.system.u_ind[:] == u[:2] and 'u_dep' in exclude or self.system.u_dep[:] == u[2:4] and 'u' in exclude or self.system.u[:] == u[:4] and 'u_aux' in exclude or self.system.u_aux[:] == ua[:2] and 'kdes' in exclude or self.system.kdes[:] == [ui - qdi for ui, qdi in zip(u[:4], qd[:4])] and 'holonomic_constraints' in exclude or self.system.holonomic_constraints[:] == [q[2] - q[0] + q[1]] and 'nonholonomic_constraints' in exclude or self.system.nonholonomic_constraints[:] == [u[3] - qd[1] + u[2]] and 'velocity_constraints' in exclude or self.system.velocity_constraints[:] == [qd[2] - qd[0] + qd[1], u[3] - qd[1] + u[2]] and 'bodies' in exclude or self.system.bodies == tuple(self.bodies) and 'joints' in exclude or self.system.joints == tuple(self.joints)","over":{"base":"Any"},"name":"_filled_system_check_correct"},"guarantee":"'q_ind' in exclude or self.system.q_ind[:] == q[:3]; 'q_dep' in exclude or self.system.q_dep[:] == [q[3]]; 'q' in exclude or self.system.q[:] == q[:4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._filled_system_check_correct","statement":"Path(_filled_system_check(x), 'q_ind' in exclude or self.system.q_ind[:] == q[:3]; 'q_dep' in exclude or self.system.q_dep[:] == [q[3]]; 'q' in exclude or self.system.q[:] == q[:4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d89dd7c54ce6fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["'q_ind' in exclude or self.system.q_ind[:] == q[:3]","'q_dep' in exclude or self.system.q_dep[:] == [q[3]]","'q' in exclude or self.system.q[:] == q[:4]","'u_ind' in exclude or self.system.u_ind[:] == u[:2]","'u_dep' in exclude or self.system.u_dep[:] == u[2:4]","'u' in exclude or self.system.u[:] == u[:4]","'u_aux' in exclude or self.system.u_aux[:] == ua[:2]","'kdes' in exclude or self.system.kdes[:] == [ui - qdi for ui, qdi in zip(u[:4], qd[:4])]","'holonomic_constraints' in exclude or self.system.holonomic_constraints[:] == [q[2] - q[0] + q[1]]","'nonholonomic_constraints' in exclude or self.system.nonholonomic_constraints[:] == [u[3] - qd[1] + u[2]]","'velocity_constraints' in exclude or self.system.velocity_constraints[:] == [qd[2] - qd[0] + qd[1], u[3] - qd[1] + u[2]]","'bodies' in exclude or self.system.bodies == tuple(self.bodies)","'joints' in exclude or self.system.joints == tuple(self.joints)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.bodies","self.joints","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _filled_system_check(self, exclude=()):
         assert 'q_ind' in exclude or self.system.q_ind[:] == q[:3]
         assert 'q_dep' in exclude or self.system.q_dep[:] == [q[3]]
@@ -190,16 +234,22 @@ class TestSystemBase:
 
     @pytest.fixture()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_moving_point_mass(_em), internal helper behaves correctly) over Any ║
+# ║ Path(_moving_point_mass(_empty_system_setup), <unspecified:_moving_point_mass>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _moving_point_mass : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba96fc83fdebffba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._moving_point_mass","kind":"method","src_hash":"7bf4efcc29f28998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_moving_point_mass(_em)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_moving_point_mass_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._moving_point_mass_correct","statement":"Path(_moving_point_mass(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba96fc83fdebffba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._moving_point_mass","kind":"method","src_hash":"7bf4efcc29f28998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_moving_point_mass(_empty_system_setup)","rhs":"<unspecified:_moving_point_mass>","over":{"base":"Any"},"name":"_moving_point_mass_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemBase._moving_point_mass_correct","statement":"Path(_moving_point_mass(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba96fc83fdebffba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _moving_point_mass(self, _empty_system_setup):
         self.system.q_ind = q[0]
         self.system.u_ind = u[0]
@@ -212,41 +262,59 @@ class TestSystemBase:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestSystem(*args), correctly constructs a TestSystem instance) over {Any | isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.eom_method, MyMethod)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TestSystemBase)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestSystem : {Any | isinstance(self.system.q_ind, Imm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2deb879cf38772c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem","kind":"class","src_hash":"03be0712243daa9c","in":{"base":"Any","pred":"isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.eom_method, MyMethod)"},"out":{"base":"Any","pred":"isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.q_dep, ImmutableMatrix) and isinstance(self.system.q, ImmutableMatrix) and isinstance(self.system.u_ind, ImmutableMatrix) and isinstance(self.system.u_dep, ImmutableMatrix) and isinstance(self.system.u, ImmutableMatrix) and isinstance(self.system.kdes, ImmutableMatrix) and isinstance(self.system.holonomic_constraints, ImmutableMatrix) and isinstance(self.system.nonholonomic_constraints, ImmutableMatrix) and self.system.fixed_point == rb.masscenter and self.system.frame == rb.frame and self.system.q_ind[:] == exp_q_ind and self.system.q_dep[:] == exp_q_dep and self.system.q[:] == exp_q and self.system.q_ind[:] == exp_q_ind and self.system.q_dep[:] == exp_q_dep and self.system.q[:] == exp_q and self.system.u_ind[:] == exp_u_ind and self.system.u_dep[:] == exp_u_dep and self.system.u[:] == exp_u and self.system.u_ind[:] == exp_u_ind and self.system.u_dep[:] == exp_u_dep and self.system.u[:] == exp_u and self.system.u_aux[:] == exp_u_aux and self.system.u_aux[:] == exp_u_aux and list(getattr(self.system, prop)[:]) == [] and list(getattr(self.system, prop)[:]) == list(args) and self.system.kdes[:] == exp_kdes and self.system.kdes[:] == exp_kdes and self.system.holonomic_constraints[:] == exp_con and self.system.velocity_constraints[:] == exp_vel_con and self.system.holonomic_constraints[:] == exp_con and self.system.velocity_constraints[:] == exp_vel_con and self.system.nonholonomic_constraints[:] == exp_con and self.system.velocity_constraints[:] == exp_vel_con and self.system.nonholonomic_constraints[:] == exp_con and self.system.velocity_constraints[:] == exp_vel_con and self.system.velocity_constraints[:] == expected and self.system.velocity_constraints[:] == [qd[3] - qd[2]] and self.system.bodies == (*self.bodies, rb1, p1) and self.system.bodies == (*self.bodies, rb1, p1, p2) and self.system.bodies == () and self.system.bodies == (p2,) and self.system.bodies == (p2,) and system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x)) and system.loads == ((A, A.x),) and system.loads == ((A, A.x),) and system.actuators == (act1,) and system.loads == () and system.actuators == (act2,) and system.joints == (J1,) and system.bodies == (rb1, rb2) and system.q_ind == ImmutableMatrix([q1]) and system.u_ind == ImmutableMatrix([u1]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t)]) and system.joints == (J1, J3) and system.bodies == (rb1, rb2, rb4, rb3) and system.q_ind == ImmutableMatrix([q1, q3]) and system.u_ind == ImmutableMatrix([u1, u3]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t)]) and system.joints == (J1, J3, J2) and system.bodies == (rb1, rb2, rb4, rb3) and system.q_ind == ImmutableMatrix([q1, q3, q2]) and system.u_ind == ImmutableMatrix([u1, u3, u2]) and system.joints == (J1, J3, J2, J_lag) and system.bodies == (rb1, rb2, rb4, rb3, rb5) and system.q_ind == ImmutableMatrix([q1, q3, q2, q4]) and system.u_ind == ImmutableMatrix([u1, u3, u2, q4.diff(t)]) and system.q_dep[:] == [] and system.u_dep[:] == [] and self.system.joints == self.joints[1:] and isinstance(self.system.eom_method, MyMethod) and self.system.mass_matrix_full == expected and self.system.mass_matrix_full == mm and self.system.forcing_full == gm and self.system.fixed_point.name == 'inertial_point' and self.system.fixed_point == fixed_point and self.system.frame.name == 'inertial_frame' and self.system.frame == frame and joint is None and joint == self.joints[joint_index] and body is None and body == self.bodies[body_index]"},"spec":{"lhs":"TestSystem(*args)","rhs":"correctly constructs a TestSystem instance","over":{"base":"Any","pred":"isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.eom_method, MyMethod)"},"name":"TestSystem_class_invariant"},"guarantee":"correctly constructs a TestSystem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2deb879cf38772c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem","kind":"class","src_hash":"03be0712243daa9c","in":{"base":"Any","pred":"isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.eom_method, MyMethod)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TestSystemBase)"},"spec":{"lhs":"TestSystem(*args)","rhs":"correctly constructs a TestSystem instance","over":{"base":"Any","pred":"isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.eom_method, MyMethod)"},"name":"TestSystem_class_invariant"},"guarantee":"isinstance(self, TestSystemBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2deb879cf38772c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TestSystemBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestSystem not found in source"]}}
 class TestSystem(TestSystemBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_system(_em), test_empty_system produces the expected output) over Any ║
+# ║ Path(test_empty_system(_empty_system_setup), <unspecified:test_empty_system>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_empty_system : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8de6b2509925f0fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_empty_system","kind":"method","src_hash":"c850cfbc256301cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_empty_system(_em)","rhs":"test_empty_system produces the expected output","over":{"base":"Any"},"name":"test_empty_system_correct"},"guarantee":"test_empty_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_empty_system_correct","statement":"Path(test_empty_system(x), test_empty_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8de6b2509925f0fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_empty_system","kind":"method","src_hash":"c850cfbc256301cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_empty_system(_empty_system_setup)","rhs":"<unspecified:test_empty_system>","over":{"base":"Any"},"name":"test_empty_system_correct"},"guarantee":"test_empty_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_empty_system_correct","statement":"Path(test_empty_system(x), test_empty_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8de6b2509925f0fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._empty_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_empty_system(self, _empty_system_setup):
         self._empty_system_check()
         self.system.validate_system()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_filled_system(_fi), test_filled_system produces the expected output) over Any ║
+# ║ Path(test_filled_system(_filled_system_setup), <unspecified:test_filled_system>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_filled_system : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fc22a87bea59aca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_filled_system","kind":"method","src_hash":"9268378b11b78586","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_filled_system(_fi)","rhs":"test_filled_system produces the expected output","over":{"base":"Any"},"name":"test_filled_system_correct"},"guarantee":"test_filled_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_filled_system_correct","statement":"Path(test_filled_system(x), test_filled_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fc22a87bea59aca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_filled_system","kind":"method","src_hash":"9268378b11b78586","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_filled_system(_filled_system_setup)","rhs":"<unspecified:test_filled_system>","over":{"base":"Any"},"name":"test_filled_system_correct"},"guarantee":"test_filled_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_filled_system_correct","statement":"Path(test_filled_system(x), test_filled_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fc22a87bea59aca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_filled_system(self, _filled_system_setup):
         self._filled_system_check()
         self.system.validate_system()
@@ -254,16 +322,24 @@ class TestSystem(TestSystemBase):
     @pytest.mark.parametrize('frame', [None, ReferenceFrame('frame')])
     @pytest.mark.parametrize('fixed_point', [None, Point('fixed_point')])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_init(fra), test_init produces the expected output) over Any ║
+# ║ Path(test_init(frame, fixed_point), isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.q_dep, ImmutableMatrix) and isinstance(self.system.q, ImmutableMatrix) and isinstance(self.system.u_ind, ImmutableMatrix) and isinstance(self.system.u_dep, ImmutableMatrix) and isinstance(self.system.u, ImmutableMatrix) and isinstance(self.system.kdes, ImmutableMatrix) and isinstance(self.system.holonomic_constraints, ImmutableMatrix) and isinstance(self.system.nonholonomic_constraints, ImmutableMatrix)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_init : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self.system.q_ind, ImmutableMa...   ║
+# ║   ensures:  isinstance(self.system.q_dep, ImmutableMa...   ║
+# ║   ensures:  isinstance(self.system.q, ImmutableMatrix)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_init : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bce93946bf66f517  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb109085f2bab3f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_init","kind":"method","src_hash":"3566141324bc7c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_init(fra)","rhs":"test_init produces the expected output","over":{"base":"Any"},"name":"test_init_correct"},"guarantee":"test_init produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_init_correct","statement":"Path(test_init(x), test_init produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce93946bf66f517"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_init","kind":"method","src_hash":"3566141324bc7c46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.q_dep, ImmutableMatrix) and isinstance(self.system.q, ImmutableMatrix) and isinstance(self.system.u_ind, ImmutableMatrix) and isinstance(self.system.u_dep, ImmutableMatrix) and isinstance(self.system.u, ImmutableMatrix) and isinstance(self.system.kdes, ImmutableMatrix) and isinstance(self.system.holonomic_constraints, ImmutableMatrix) and isinstance(self.system.nonholonomic_constraints, ImmutableMatrix)"},"spec":{"lhs":"test_init(frame, fixed_point)","rhs":"isinstance(self.system.q_ind, ImmutableMatrix) and isinstance(self.system.q_dep, ImmutableMatrix) and isinstance(self.system.q, ImmutableMatrix) and isinstance(self.system.u_ind, ImmutableMatrix) and isinstance(self.system.u_dep, ImmutableMatrix) and isinstance(self.system.u, ImmutableMatrix) and isinstance(self.system.kdes, ImmutableMatrix) and isinstance(self.system.holonomic_constraints, ImmutableMatrix) and isinstance(self.system.nonholonomic_constraints, ImmutableMatrix)","over":{"base":"Any"},"name":"test_init_correct"},"guarantee":"isinstance(self.system.q_ind, ImmutableMatrix); isinstance(self.system.q_dep, ImmutableMatrix); isinstance(self.system.q, ImmutableMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_init_correct","statement":"Path(test_init(x), isinstance(self.system.q_ind, ImmutableMatrix); isinstance(self.system.q_dep, ImmutableMatrix); isinstance(self.system.q, ImmutableMatrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb109085f2bab3f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self.system.q_ind, ImmutableMatrix)","isinstance(self.system.q_dep, ImmutableMatrix)","isinstance(self.system.q, ImmutableMatrix)","isinstance(self.system.u_ind, ImmutableMatrix)","isinstance(self.system.u_dep, ImmutableMatrix)","isinstance(self.system.u, ImmutableMatrix)","isinstance(self.system.kdes, ImmutableMatrix)","isinstance(self.system.holonomic_constraints, ImmutableMatrix)","isinstance(self.system.nonholonomic_constraints, ImmutableMatrix)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._empty_system_check","self.system"],"writes":["self.system"]},"state_contract":{"modifies":["self.system"],"old_bindings":{"old_self_system":"self.system"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_init(self, frame, fixed_point):
         if fixed_point is None and frame is None:
             self.system = System()
@@ -289,16 +365,23 @@ class TestSystem(TestSystemBase):
         assert isinstance(self.system.nonholonomic_constraints, ImmutableMatrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_from_newtonian_rigid_body(), test_from_newtonian_rigid_body produces the expected output) over Any ║
+# ║ Path(test_from_newtonian_rigid_body(), self.system.fixed_point == rb.masscenter and self.system.frame == rb.frame) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_from_newtonian_rigid_body : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.system.fixed_point == rb.masscenter       ║
+# ║   ensures:  self.system.frame == rb.frame                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_from_newtonian_rigid_body : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a236acff3b8399ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb38638b2104a8ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_rigid_body","kind":"method","src_hash":"e3994c3c3cd76212","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_from_newtonian_rigid_body()","rhs":"test_from_newtonian_rigid_body produces the expected output","over":{"base":"Any"},"name":"test_from_newtonian_rigid_body_correct"},"guarantee":"test_from_newtonian_rigid_body produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_rigid_body_correct","statement":"Path(test_from_newtonian_rigid_body(x), test_from_newtonian_rigid_body produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a236acff3b8399ba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_rigid_body","kind":"method","src_hash":"e3994c3c3cd76212","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.system.fixed_point == rb.masscenter and self.system.frame == rb.frame"},"spec":{"lhs":"test_from_newtonian_rigid_body()","rhs":"self.system.fixed_point == rb.masscenter and self.system.frame == rb.frame","over":{"base":"Any"},"name":"test_from_newtonian_rigid_body_correct"},"guarantee":"self.system.fixed_point == rb.masscenter; self.system.frame == rb.frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_rigid_body_correct","statement":"Path(test_from_newtonian_rigid_body(x), self.system.fixed_point == rb.masscenter; self.system.frame == rb.frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb38638b2104a8ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.system.fixed_point == rb.masscenter","self.system.frame == rb.frame"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._empty_system_check","self.system"],"writes":["self.system"]},"state_contract":{"modifies":["self.system"],"old_bindings":{"old_self_system":"self.system"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_from_newtonian_rigid_body(self):
         rb = RigidBody('body')
         self.system = System.from_newtonian(rb)
@@ -308,16 +391,22 @@ class TestSystem(TestSystemBase):
         self.system.bodies = (rb,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_from_newtonian_particle(), test_from_newtonian_particle produces the expected output) over Any ║
+# ║ Path(test_from_newtonian_particle(), <unspecified:test_from_newtonian_particle>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_from_newtonian_particle : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d8f671827e879c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_particle","kind":"method","src_hash":"54c8e0af4a8063fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_from_newtonian_particle()","rhs":"test_from_newtonian_particle produces the expected output","over":{"base":"Any"},"name":"test_from_newtonian_particle_correct"},"guarantee":"test_from_newtonian_particle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_particle_correct","statement":"Path(test_from_newtonian_particle(x), test_from_newtonian_particle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d8f671827e879c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_particle","kind":"method","src_hash":"54c8e0af4a8063fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_from_newtonian_particle()","rhs":"<unspecified:test_from_newtonian_particle>","over":{"base":"Any"},"name":"test_from_newtonian_particle_correct"},"guarantee":"test_from_newtonian_particle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_from_newtonian_particle_correct","statement":"Path(test_from_newtonian_particle(x), test_from_newtonian_particle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d8f671827e879c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_from_newtonian_particle(self):
         pt = Particle('particle')
         with pytest.raises(TypeError):
@@ -331,16 +420,24 @@ class TestSystem(TestSystemBase):
          [q[0], q[2], q[1]]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coordinates(_em), test_coordinates produces the expected output) over Any ║
+# ║ Path(test_coordinates(_empty_system_setup, args, kwargs), self.system.q[:] == exp_q) over {Any | self.system.q_ind[:] == exp_q_ind and self.system.q_dep[:] == exp_q_dep} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_coordinates : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.system.q_ind[:] == exp_q_ind              ║
+# ║   requires: self.system.q_dep[:] == exp_q_dep              ║
+# ║   ensures:  self.system.q[:] == exp_q                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_coordinates : {Any | self.system.q_ind[:] == exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d63b10dfe6412bcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 191dc93c1d6b5706  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates","kind":"method","src_hash":"8ee65ec5e66de5ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_coordinates(_em)","rhs":"test_coordinates produces the expected output","over":{"base":"Any"},"name":"test_coordinates_correct"},"guarantee":"test_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates_correct","statement":"Path(test_coordinates(x), test_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d63b10dfe6412bcb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates","kind":"method","src_hash":"8ee65ec5e66de5ec","in":{"base":"Any","pred":"self.system.q_ind[:] == exp_q_ind and self.system.q_dep[:] == exp_q_dep"},"out":{"base":"Any","pred":"result satisfies: self.system.q[:] == exp_q"},"spec":{"lhs":"test_coordinates(_empty_system_setup, args, kwargs)","rhs":"self.system.q[:] == exp_q","over":{"base":"Any","pred":"self.system.q_ind[:] == exp_q_ind and self.system.q_dep[:] == exp_q_dep"},"name":"test_coordinates_correct"},"guarantee":"self.system.q[:] == exp_q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates_correct","statement":"Path(test_coordinates(x), self.system.q[:] == exp_q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"191dc93c1d6b5706","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.system.q_ind[:] == exp_q_ind","self.system.q_dep[:] == exp_q_dep"],"ensures":["self.system.q[:] == exp_q"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._empty_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_coordinates(self, _empty_system_setup, args, kwargs,
                          exp_q_ind, exp_q_dep, exp_q):
         # Test add_coordinates
@@ -367,16 +464,22 @@ class TestSystem(TestSystemBase):
         ((symbols('a'), q[5]), {}),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coordinates_speeds_invalid(_fi), test_coordinates_speeds_invalid produces the expected output) over Any ║
+# ║ Path(test_coordinates_speeds_invalid(_filled_system_setup, func, args), <unspecified:test_coordinates_speeds_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_coordinates_speeds_invalid : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4c75904b8c4c921  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates_speeds_invalid","kind":"method","src_hash":"a97fa9014bc175bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_coordinates_speeds_invalid(_fi)","rhs":"test_coordinates_speeds_invalid produces the expected output","over":{"base":"Any"},"name":"test_coordinates_speeds_invalid_correct"},"guarantee":"test_coordinates_speeds_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates_speeds_invalid_correct","statement":"Path(test_coordinates_speeds_invalid(x), test_coordinates_speeds_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c75904b8c4c921"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates_speeds_invalid","kind":"method","src_hash":"a97fa9014bc175bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_coordinates_speeds_invalid(_filled_system_setup, func, args)","rhs":"<unspecified:test_coordinates_speeds_invalid>","over":{"base":"Any"},"name":"test_coordinates_speeds_invalid_correct"},"guarantee":"test_coordinates_speeds_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_coordinates_speeds_invalid_correct","statement":"Path(test_coordinates_speeds_invalid(x), test_coordinates_speeds_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c75904b8c4c921","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_coordinates_speeds_invalid(self, _filled_system_setup, func, args,
                                         kwargs):
         with pytest.raises(ValueError):
@@ -391,16 +494,24 @@ class TestSystem(TestSystemBase):
          [u[0], u[2], u[1]]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_speeds(_em), test_speeds produces the expected output) over Any ║
+# ║ Path(test_speeds(_empty_system_setup, args, kwargs), self.system.u[:] == exp_u) over {Any | self.system.u_ind[:] == exp_u_ind and self.system.u_dep[:] == exp_u_dep} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_speeds : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.system.u_ind[:] == exp_u_ind              ║
+# ║   requires: self.system.u_dep[:] == exp_u_dep              ║
+# ║   ensures:  self.system.u[:] == exp_u                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_speeds : {Any | self.system.u_ind[:] == exp_u_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7eb478961cb5603  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd6f7a4241064a21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_speeds","kind":"method","src_hash":"34008df344e8bbeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_speeds(_em)","rhs":"test_speeds produces the expected output","over":{"base":"Any"},"name":"test_speeds_correct"},"guarantee":"test_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_speeds_correct","statement":"Path(test_speeds(x), test_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7eb478961cb5603"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_speeds","kind":"method","src_hash":"34008df344e8bbeb","in":{"base":"Any","pred":"self.system.u_ind[:] == exp_u_ind and self.system.u_dep[:] == exp_u_dep"},"out":{"base":"Any","pred":"result satisfies: self.system.u[:] == exp_u"},"spec":{"lhs":"test_speeds(_empty_system_setup, args, kwargs)","rhs":"self.system.u[:] == exp_u","over":{"base":"Any","pred":"self.system.u_ind[:] == exp_u_ind and self.system.u_dep[:] == exp_u_dep"},"name":"test_speeds_correct"},"guarantee":"self.system.u[:] == exp_u","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_speeds_correct","statement":"Path(test_speeds(x), self.system.u[:] == exp_u)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd6f7a4241064a21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.system.u_ind[:] == exp_u_ind","self.system.u_dep[:] == exp_u_dep"],"ensures":["self.system.u[:] == exp_u"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._empty_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_speeds(self, _empty_system_setup, args, kwargs, exp_u_ind,
                     exp_u_dep, exp_u):
         # Test add_speeds
@@ -421,16 +532,23 @@ class TestSystem(TestSystemBase):
         (ua[:3], {}, ua[:3]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auxiliary_speeds(_em), test_auxiliary_speeds produces the expected output) over Any ║
+# ║ Path(test_auxiliary_speeds(_empty_system_setup, args, kwargs), <unspecified:test_auxiliary_speeds>) over {Any | self.system.u_aux[:] == exp_u_aux} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auxiliary_speeds : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.system.u_aux[:] == exp_u_aux              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auxiliary_speeds : {Any | self.system.u_aux[:] =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9c8c852760984d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_speeds","kind":"method","src_hash":"5582571b9893261a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auxiliary_speeds(_em)","rhs":"test_auxiliary_speeds produces the expected output","over":{"base":"Any"},"name":"test_auxiliary_speeds_correct"},"guarantee":"test_auxiliary_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_speeds_correct","statement":"Path(test_auxiliary_speeds(x), test_auxiliary_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9c8c852760984d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_speeds","kind":"method","src_hash":"5582571b9893261a","in":{"base":"Any","pred":"self.system.u_aux[:] == exp_u_aux"},"out":{"base":"Any"},"spec":{"lhs":"test_auxiliary_speeds(_empty_system_setup, args, kwargs)","rhs":"<unspecified:test_auxiliary_speeds>","over":{"base":"Any","pred":"self.system.u_aux[:] == exp_u_aux"},"name":"test_auxiliary_speeds_correct"},"guarantee":"test_auxiliary_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_speeds_correct","statement":"Path(test_auxiliary_speeds(x), test_auxiliary_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9c8c852760984d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.system.u_aux[:] == exp_u_aux"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._empty_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_auxiliary_speeds(self, _empty_system_setup, args, kwargs,
                               exp_u_aux):
         # Test add_speeds
@@ -449,16 +567,22 @@ class TestSystem(TestSystemBase):
         ((symbols('a'), ua[2]), {}),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auxiliary_invalid(_fi), test_auxiliary_invalid produces the expected output) over Any ║
+# ║ Path(test_auxiliary_invalid(_filled_system_setup, args, kwargs), <unspecified:test_auxiliary_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auxiliary_invalid : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dedb2be2f981803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_invalid","kind":"method","src_hash":"ea7c73f6a7c4c424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auxiliary_invalid(_fi)","rhs":"test_auxiliary_invalid produces the expected output","over":{"base":"Any"},"name":"test_auxiliary_invalid_correct"},"guarantee":"test_auxiliary_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_invalid_correct","statement":"Path(test_auxiliary_invalid(x), test_auxiliary_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dedb2be2f981803"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_invalid","kind":"method","src_hash":"ea7c73f6a7c4c424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auxiliary_invalid(_filled_system_setup, args, kwargs)","rhs":"<unspecified:test_auxiliary_invalid>","over":{"base":"Any"},"name":"test_auxiliary_invalid_correct"},"guarantee":"test_auxiliary_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_auxiliary_invalid_correct","statement":"Path(test_auxiliary_invalid(x), test_auxiliary_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dedb2be2f981803","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_auxiliary_invalid(self, _filled_system_setup, args, kwargs):
         with pytest.raises(ValueError):
             self.system.add_auxiliary_speeds(*args, **kwargs)
@@ -481,16 +605,23 @@ class TestSystem(TestSystemBase):
             symbols('T'), ReferenceFrame('N').x, ReferenceFrame('A')),), {}),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_after_reset(_fi), test_add_after_reset produces the expected output) over Any ║
+# ║ Path(test_add_after_reset(_filled_system_setup, prop, add_func), list(getattr(self.system, prop)[:]) == [] and list(getattr(self.system, prop)[:]) == list(args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_after_reset : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(getattr(self.system, prop)[:]) == []      ║
+# ║   ensures:  list(getattr(self.system, prop)[:]) == li...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_after_reset : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3033adb0f137d4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae8626e68216ca6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_after_reset","kind":"method","src_hash":"8d6be068251cf20c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_add_after_reset(_fi)","rhs":"test_add_after_reset produces the expected output","over":{"base":"Any"},"name":"test_add_after_reset_correct"},"guarantee":"test_add_after_reset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_after_reset_correct","statement":"Path(test_add_after_reset(x), test_add_after_reset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3033adb0f137d4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_after_reset","kind":"method","src_hash":"8d6be068251cf20c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(getattr(self.system, prop)[:]) == [] and list(getattr(self.system, prop)[:]) == list(args)"},"spec":{"lhs":"test_add_after_reset(_filled_system_setup, prop, add_func)","rhs":"list(getattr(self.system, prop)[:]) == [] and list(getattr(self.system, prop)[:]) == list(args)","over":{"base":"Any"},"name":"test_add_after_reset_correct"},"guarantee":"list(getattr(self.system, prop)[:]) == []; list(getattr(self.system, prop)[:]) == list(args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_after_reset_correct","statement":"Path(test_add_after_reset(x), list(getattr(self.system, prop)[:]) == []; list(getattr(self.system, prop)[:]) == list(args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8626e68216ca6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(getattr(self.system, prop)[:]) == []","list(getattr(self.system, prop)[:]) == list(args)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_add_after_reset(self, _filled_system_setup, prop, add_func, args,
                              kwargs):
         setattr(self.system, prop, ())
@@ -517,16 +648,22 @@ class TestSystem(TestSystemBase):
         ('actuators', 'add_actuators', symbols('a'), TypeError),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_type_error(_fi), test_type_error produces the expected output) over Any ║
+# ║ Path(test_type_error(_filled_system_setup, prop, add_func), <unspecified:test_type_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_type_error : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 490ebe580caf3569  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_type_error","kind":"method","src_hash":"7b15e203a9cc8a04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_type_error(_fi)","rhs":"test_type_error produces the expected output","over":{"base":"Any"},"name":"test_type_error_correct"},"guarantee":"test_type_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_type_error_correct","statement":"Path(test_type_error(x), test_type_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"490ebe580caf3569"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_type_error","kind":"method","src_hash":"7b15e203a9cc8a04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_type_error(_filled_system_setup, prop, add_func)","rhs":"<unspecified:test_type_error>","over":{"base":"Any"},"name":"test_type_error_correct"},"guarantee":"test_type_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_type_error_correct","statement":"Path(test_type_error(x), test_type_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"490ebe580caf3569","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_type_error(self, _filled_system_setup, prop, add_func, value,
                         error):
         with pytest.raises(error):
@@ -541,16 +678,23 @@ class TestSystem(TestSystemBase):
          [ui - qdi for ui, qdi in zip(u[:6], qd[:6])]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kdes(_fi), test_kdes produces the expected output) over Any ║
+# ║ Path(test_kdes(_filled_system_setup, args, kwargs), <unspecified:test_kdes>) over {Any | self.system.kdes[:] == exp_kdes} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kdes : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.system.kdes[:] == exp_kdes                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kdes : {Any | self.system.kdes[:] == exp_kdes} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd5129faa546ea9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes","kind":"method","src_hash":"fc8e33ccb0d167e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kdes(_fi)","rhs":"test_kdes produces the expected output","over":{"base":"Any"},"name":"test_kdes_correct"},"guarantee":"test_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes_correct","statement":"Path(test_kdes(x), test_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd5129faa546ea9c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes","kind":"method","src_hash":"fc8e33ccb0d167e7","in":{"base":"Any","pred":"self.system.kdes[:] == exp_kdes"},"out":{"base":"Any"},"spec":{"lhs":"test_kdes(_filled_system_setup, args, kwargs)","rhs":"<unspecified:test_kdes>","over":{"base":"Any","pred":"self.system.kdes[:] == exp_kdes"},"name":"test_kdes_correct"},"guarantee":"test_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes_correct","statement":"Path(test_kdes(x), test_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd5129faa546ea9c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.system.kdes[:] == exp_kdes"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_kdes(self, _filled_system_setup, args, kwargs, exp_kdes):
         # Test add_speeds
         self.system.add_kdes(*args, **kwargs)
@@ -567,16 +711,22 @@ class TestSystem(TestSystemBase):
         (([u[0] - u[0], u[4] - qd[4]]), {}),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kdes_invalid(_fi), test_kdes_invalid produces the expected output) over Any ║
+# ║ Path(test_kdes_invalid(_filled_system_setup, args, kwargs), <unspecified:test_kdes_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_kdes_invalid : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15683558b59306b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes_invalid","kind":"method","src_hash":"1b4ec1d4dad518f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kdes_invalid(_fi)","rhs":"test_kdes_invalid produces the expected output","over":{"base":"Any"},"name":"test_kdes_invalid_correct"},"guarantee":"test_kdes_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes_invalid_correct","statement":"Path(test_kdes_invalid(x), test_kdes_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15683558b59306b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes_invalid","kind":"method","src_hash":"1b4ec1d4dad518f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kdes_invalid(_filled_system_setup, args, kwargs)","rhs":"<unspecified:test_kdes_invalid>","over":{"base":"Any"},"name":"test_kdes_invalid_correct"},"guarantee":"test_kdes_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_kdes_invalid_correct","statement":"Path(test_kdes_invalid(x), test_kdes_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15683558b59306b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_kdes_invalid(self, _filled_system_setup, args, kwargs):
         with pytest.raises(ValueError):
             self.system.add_kdes(*args, **kwargs)
@@ -588,16 +738,23 @@ class TestSystem(TestSystemBase):
          [q[2] - q[0] + q[1], q[4] - q[5], q[5] + q[3]]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_holonomic_constraints(_fi), test_holonomic_constraints produces the expected output) over Any ║
+# ║ Path(test_holonomic_constraints(_filled_system_setup, args, kwargs), self.system.velocity_constraints[:] == exp_vel_con) over {Any | self.system.holonomic_constraints[:] == exp_con} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_holonomic_constraints : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.system.holonomic_constraints[:] == e...   ║
+# ║   ensures:  self.system.velocity_constraints[:] == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_holonomic_constraints : {Any | self.system.holon...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 143f682013f868c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56f2e88ffc8dd6ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints","kind":"method","src_hash":"ef1625ec1a755f34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_holonomic_constraints(_fi)","rhs":"test_holonomic_constraints produces the expected output","over":{"base":"Any"},"name":"test_holonomic_constraints_correct"},"guarantee":"test_holonomic_constraints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints_correct","statement":"Path(test_holonomic_constraints(x), test_holonomic_constraints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143f682013f868c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints","kind":"method","src_hash":"ef1625ec1a755f34","in":{"base":"Any","pred":"self.system.holonomic_constraints[:] == exp_con"},"out":{"base":"Any","pred":"result satisfies: self.system.velocity_constraints[:] == exp_vel_con"},"spec":{"lhs":"test_holonomic_constraints(_filled_system_setup, args, kwargs)","rhs":"self.system.velocity_constraints[:] == exp_vel_con","over":{"base":"Any","pred":"self.system.holonomic_constraints[:] == exp_con"},"name":"test_holonomic_constraints_correct"},"guarantee":"self.system.velocity_constraints[:] == exp_vel_con","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints_correct","statement":"Path(test_holonomic_constraints(x), self.system.velocity_constraints[:] == exp_vel_con)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f2e88ffc8dd6ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.system.holonomic_constraints[:] == exp_con"],"ensures":["self.system.velocity_constraints[:] == exp_vel_con"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.nhc","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_holonomic_constraints(self, _filled_system_setup, args, kwargs,
                                    exp_con):
         exclude = ('holonomic_constraints', 'velocity_constraints')
@@ -619,16 +776,22 @@ class TestSystem(TestSystemBase):
         ((q[0] - q[0], q[4] - q[3]), {}),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_holonomic_constraints_invalid(_fi), test_holonomic_constraints_invalid produces the expected output) over Any ║
+# ║ Path(test_holonomic_constraints_invalid(_filled_system_setup, args, kwargs), <unspecified:test_holonomic_constraints_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_holonomic_constraints_invalid : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fea12f66abdd1534  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints_invalid","kind":"method","src_hash":"81c239f05abb2a57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_holonomic_constraints_invalid(_fi)","rhs":"test_holonomic_constraints_invalid produces the expected output","over":{"base":"Any"},"name":"test_holonomic_constraints_invalid_correct"},"guarantee":"test_holonomic_constraints_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints_invalid_correct","statement":"Path(test_holonomic_constraints_invalid(x), test_holonomic_constraints_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fea12f66abdd1534"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints_invalid","kind":"method","src_hash":"81c239f05abb2a57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_holonomic_constraints_invalid(_filled_system_setup, args, kwargs)","rhs":"<unspecified:test_holonomic_constraints_invalid>","over":{"base":"Any"},"name":"test_holonomic_constraints_invalid_correct"},"guarantee":"test_holonomic_constraints_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_holonomic_constraints_invalid_correct","statement":"Path(test_holonomic_constraints_invalid(x), test_holonomic_constraints_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fea12f66abdd1534","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_holonomic_constraints_invalid(self, _filled_system_setup, args,
                                            kwargs):
         with pytest.raises(ValueError):
@@ -641,16 +804,23 @@ class TestSystem(TestSystemBase):
          [u[3] - qd[1] + u[2], u[4] - u[5], u[5] + u[3]]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonholonomic_constraints(_fi), test_nonholonomic_constraints produces the expected output) over Any ║
+# ║ Path(test_nonholonomic_constraints(_filled_system_setup, args, kwargs), self.system.velocity_constraints[:] == exp_vel_con) over {Any | self.system.nonholonomic_constraints[:] == exp_con} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nonholonomic_constraints : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.system.nonholonomic_constraints[:] =...   ║
+# ║   ensures:  self.system.velocity_constraints[:] == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nonholonomic_constraints : {Any | self.system.no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 470a03f29250f19f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acd93f34165480c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints","kind":"method","src_hash":"c22e6a8689833a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonholonomic_constraints(_fi)","rhs":"test_nonholonomic_constraints produces the expected output","over":{"base":"Any"},"name":"test_nonholonomic_constraints_correct"},"guarantee":"test_nonholonomic_constraints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints_correct","statement":"Path(test_nonholonomic_constraints(x), test_nonholonomic_constraints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"470a03f29250f19f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints","kind":"method","src_hash":"c22e6a8689833a18","in":{"base":"Any","pred":"self.system.nonholonomic_constraints[:] == exp_con"},"out":{"base":"Any","pred":"result satisfies: self.system.velocity_constraints[:] == exp_vel_con"},"spec":{"lhs":"test_nonholonomic_constraints(_filled_system_setup, args, kwargs)","rhs":"self.system.velocity_constraints[:] == exp_vel_con","over":{"base":"Any","pred":"self.system.nonholonomic_constraints[:] == exp_con"},"name":"test_nonholonomic_constraints_correct"},"guarantee":"self.system.velocity_constraints[:] == exp_vel_con","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints_correct","statement":"Path(test_nonholonomic_constraints(x), self.system.velocity_constraints[:] == exp_vel_con)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acd93f34165480c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.system.nonholonomic_constraints[:] == exp_con"],"ensures":["self.system.velocity_constraints[:] == exp_vel_con"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.hc","self.system","self.vc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_nonholonomic_constraints(self, _filled_system_setup, args, kwargs,
                                       exp_con):
         exclude = ('nonholonomic_constraints', 'velocity_constraints')
@@ -673,16 +843,22 @@ class TestSystem(TestSystemBase):
         (([u[0] - u[0], u[4] - u[3]]), {}),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonholonomic_constraints_invalid(_fi), test_nonholonomic_constraints_invalid produces the expected output) over Any ║
+# ║ Path(test_nonholonomic_constraints_invalid(_filled_system_setup, args, kwargs), <unspecified:test_nonholonomic_constraints_invalid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonholonomic_constraints_invalid : Any → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b171ea9a5f5d1ac6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints_invalid","kind":"method","src_hash":"52863f13aaa73eed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonholonomic_constraints_invalid(_fi)","rhs":"test_nonholonomic_constraints_invalid produces the expected output","over":{"base":"Any"},"name":"test_nonholonomic_constraints_invalid_correct"},"guarantee":"test_nonholonomic_constraints_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints_invalid_correct","statement":"Path(test_nonholonomic_constraints_invalid(x), test_nonholonomic_constraints_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b171ea9a5f5d1ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints_invalid","kind":"method","src_hash":"52863f13aaa73eed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonholonomic_constraints_invalid(_filled_system_setup, args, kwargs)","rhs":"<unspecified:test_nonholonomic_constraints_invalid>","over":{"base":"Any"},"name":"test_nonholonomic_constraints_invalid_correct"},"guarantee":"test_nonholonomic_constraints_invalid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_nonholonomic_constraints_invalid_correct","statement":"Path(test_nonholonomic_constraints_invalid(x), test_nonholonomic_constraints_invalid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b171ea9a5f5d1ac6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_nonholonomic_constraints_invalid(self, _filled_system_setup, args,
                                               kwargs):
         with pytest.raises(ValueError):
@@ -695,16 +871,23 @@ class TestSystem(TestSystemBase):
         ([qd[2] + qd[1], u[2] - u[1]], [qd[2] + qd[1], u[2] - u[1]]),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_velocity_constraints_overwrite(_fi), test_velocity_constraints_overwrite produces the expected output) over Any ║
+# ║ Path(test_velocity_constraints_overwrite(_filled_system_setup, constraints, expected), <unspecified:test_velocity_constraints_overwrite>) over {Any | self.system.velocity_constraints[:] == expected} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_velocity_constraints_overwrite : Any → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.system.velocity_constraints[:] == ex...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_velocity_constraints_overwrite : {Any | self.sys...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16365012f6d1ed2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_overwrite","kind":"method","src_hash":"d7c85144ab0df05e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_velocity_constraints_overwrite(_fi)","rhs":"test_velocity_constraints_overwrite produces the expected output","over":{"base":"Any"},"name":"test_velocity_constraints_overwrite_correct"},"guarantee":"test_velocity_constraints_overwrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_overwrite_correct","statement":"Path(test_velocity_constraints_overwrite(x), test_velocity_constraints_overwrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16365012f6d1ed2b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_overwrite","kind":"method","src_hash":"d7c85144ab0df05e","in":{"base":"Any","pred":"self.system.velocity_constraints[:] == expected"},"out":{"base":"Any"},"spec":{"lhs":"test_velocity_constraints_overwrite(_filled_system_setup, constraints, expected)","rhs":"<unspecified:test_velocity_constraints_overwrite>","over":{"base":"Any","pred":"self.system.velocity_constraints[:] == expected"},"name":"test_velocity_constraints_overwrite_correct"},"guarantee":"test_velocity_constraints_overwrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_overwrite_correct","statement":"Path(test_velocity_constraints_overwrite(x), test_velocity_constraints_overwrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16365012f6d1ed2b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.system.velocity_constraints[:] == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_velocity_constraints_overwrite(self, _filled_system_setup,
                                             constraints, expected):
         self.system.velocity_constraints = constraints
@@ -712,16 +895,22 @@ class TestSystem(TestSystemBase):
         assert self.system.velocity_constraints[:] == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_velocity_constraints_back_to_auto(_fi), test_velocity_constraints_back_to_auto produces the expected output) over Any ║
+# ║ Path(test_velocity_constraints_back_to_auto(_filled_system_setup), self.system.velocity_constraints[:] == [qd[3] - qd[2]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_velocity_constraints_back_to_auto : Any → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.system.velocity_constraints[:] == [q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_velocity_constraints_back_to_auto : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e41373cb8e2bbd50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81ee9890ab10eec2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_back_to_auto","kind":"method","src_hash":"8051f044d1e59807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_velocity_constraints_back_to_auto(_fi)","rhs":"test_velocity_constraints_back_to_auto produces the expected output","over":{"base":"Any"},"name":"test_velocity_constraints_back_to_auto_correct"},"guarantee":"test_velocity_constraints_back_to_auto produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_back_to_auto_correct","statement":"Path(test_velocity_constraints_back_to_auto(x), test_velocity_constraints_back_to_auto produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e41373cb8e2bbd50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_back_to_auto","kind":"method","src_hash":"8051f044d1e59807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.system.velocity_constraints[:] == [qd[3] - qd[2]]"},"spec":{"lhs":"test_velocity_constraints_back_to_auto(_filled_system_setup)","rhs":"self.system.velocity_constraints[:] == [qd[3] - qd[2]]","over":{"base":"Any"},"name":"test_velocity_constraints_back_to_auto_correct"},"guarantee":"self.system.velocity_constraints[:] == [qd[3] - qd[2]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_velocity_constraints_back_to_auto_correct","statement":"Path(test_velocity_constraints_back_to_auto(x), self.system.velocity_constraints[:] == [qd[3] - qd[2]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81ee9890ab10eec2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.system.velocity_constraints[:] == [qd[3] - qd[2]]"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_velocity_constraints_back_to_auto(self, _filled_system_setup):
         self.system.velocity_constraints = qd[3] - qd[2]
         self._filled_system_check(exclude=('velocity_constraints',))
@@ -730,16 +919,25 @@ class TestSystem(TestSystemBase):
         self._filled_system_check()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bodies(_fi), test_bodies produces the expected output) over Any ║
+# ║ Path(test_bodies(_filled_system_setup), self.system.bodies == (*self.bodies, rb1, p1) and self.system.bodies == (*self.bodies, rb1, p1, p2) and self.system.bodies == (p2,)) over {Any | self.system.bodies == ()} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bodies : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.system.bodies == ()                       ║
+# ║   ensures:  self.system.bodies == (*self.bodies, rb1,...   ║
+# ║   ensures:  self.system.bodies == (*self.bodies, rb1,...   ║
+# ║   ensures:  self.system.bodies == (p2,)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bodies : {Any | self.system.bodies == ()} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfd274446f1be1c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 124467907ff79ae6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_bodies","kind":"method","src_hash":"7b93f27e039e8175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bodies(_fi)","rhs":"test_bodies produces the expected output","over":{"base":"Any"},"name":"test_bodies_correct"},"guarantee":"test_bodies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_bodies_correct","statement":"Path(test_bodies(x), test_bodies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfd274446f1be1c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_bodies","kind":"method","src_hash":"7b93f27e039e8175","in":{"base":"Any","pred":"self.system.bodies == ()"},"out":{"base":"Any","pred":"result satisfies: self.system.bodies == (*self.bodies, rb1, p1) and self.system.bodies == (*self.bodies, rb1, p1, p2) and self.system.bodies == (p2,)"},"spec":{"lhs":"test_bodies(_filled_system_setup)","rhs":"self.system.bodies == (*self.bodies, rb1, p1) and self.system.bodies == (*self.bodies, rb1, p1, p2) and self.system.bodies == (p2,)","over":{"base":"Any","pred":"self.system.bodies == ()"},"name":"test_bodies_correct"},"guarantee":"self.system.bodies == (*self.bodies, rb1, p1); self.system.bodies == (*self.bodies, rb1, p1, p2); self.system.bodies == (p2,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_bodies_correct","statement":"Path(test_bodies(x), self.system.bodies == (*self.bodies, rb1, p1); self.system.bodies == (*self.bodies, rb1, p1, p2); self.system.bodies == (p2,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"124467907ff79ae6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.system.bodies == ()"],"ensures":["self.system.bodies == (*self.bodies, rb1, p1)","self.system.bodies == (*self.bodies, rb1, p1, p2)","self.system.bodies == (p2,)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.bodies","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_bodies(self, _filled_system_setup):
         rb1, rb2 = RigidBody('rb1'), RigidBody('rb2')
         p1, p2 = Particle('p1'), Particle('p2')
@@ -759,16 +957,23 @@ class TestSystem(TestSystemBase):
         assert self.system.bodies == (p2,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_loads(), test_add_loads produces the expected output) over Any ║
+# ║ Path(test_add_loads(), system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x)) and system.loads == ((A, A.x),)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_loads : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  system.loads == ((N, N.x), (mc1, A.x), (m...   ║
+# ║   ensures:  system.loads == ((A, A.x),)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_loads : Any → {Any | result satisfies: syste...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c37fb07e2587651  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b542d69dec7fdd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_loads","kind":"method","src_hash":"012bc9f811db452f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_add_loads()","rhs":"test_add_loads produces the expected output","over":{"base":"Any"},"name":"test_add_loads_correct"},"guarantee":"test_add_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_loads_correct","statement":"Path(test_add_loads(x), test_add_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c37fb07e2587651"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_loads","kind":"method","src_hash":"012bc9f811db452f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x)) and system.loads == ((A, A.x),)"},"spec":{"lhs":"test_add_loads()","rhs":"system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x)) and system.loads == ((A, A.x),)","over":{"base":"Any"},"name":"test_add_loads_correct"},"guarantee":"system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x)); system.loads == ((A, A.x),)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_loads_correct","statement":"Path(test_add_loads(x), system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x)); system.loads == ((A, A.x),))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b542d69dec7fdd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["system.loads == ((N, N.x), (mc1, A.x), (mc1, A.x))","system.loads == ((A, A.x),)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_add_loads(self):
         system = System()
         N, A = ReferenceFrame('N'), ReferenceFrame('A')
@@ -785,16 +990,24 @@ class TestSystem(TestSystemBase):
         assert system.loads == ((A, A.x),)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_actuators(), test_add_actuators produces the expected output) over Any ║
+# ║ Path(test_add_actuators(), system.actuators == (act1,) and system.loads == () and system.actuators == (act2,)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_actuators : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  system.actuators == (act1,)                    ║
+# ║   ensures:  system.loads == ()                             ║
+# ║   ensures:  system.actuators == (act2,)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_actuators : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb3eafa263c4425f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b7857aac6314a3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_actuators","kind":"method","src_hash":"2ccae02f32b9f32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_add_actuators()","rhs":"test_add_actuators produces the expected output","over":{"base":"Any"},"name":"test_add_actuators_correct"},"guarantee":"test_add_actuators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_actuators_correct","statement":"Path(test_add_actuators(x), test_add_actuators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb3eafa263c4425f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_actuators","kind":"method","src_hash":"2ccae02f32b9f32c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: system.actuators == (act1,) and system.loads == () and system.actuators == (act2,)"},"spec":{"lhs":"test_add_actuators()","rhs":"system.actuators == (act1,) and system.loads == () and system.actuators == (act2,)","over":{"base":"Any"},"name":"test_add_actuators_correct"},"guarantee":"system.actuators == (act1,); system.loads == (); system.actuators == (act2,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_actuators_correct","statement":"Path(test_add_actuators(x), system.actuators == (act1,); system.loads == (); system.actuators == (act2,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b7857aac6314a3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["system.actuators == (act1,)","system.loads == ()","system.actuators == (act2,)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_add_actuators(self):
         system = System()
         N, A = ReferenceFrame('N'), ReferenceFrame('A')
@@ -807,16 +1020,24 @@ class TestSystem(TestSystemBase):
         assert system.actuators == (act2,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_joints(), test_add_joints produces the expected output) over Any ║
+# ║ Path(test_add_joints(), system.joints == (J1,) and system.bodies == (rb1, rb2) and system.q_ind == ImmutableMatrix([q1]) and system.u_ind == ImmutableMatrix([u1]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t)]) and system.joints == (J1, J3) and system.bodies == (rb1, rb2, rb4, rb3) and system.q_ind == ImmutableMatrix([q1, q3]) and system.u_ind == ImmutableMatrix([u1, u3]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t)]) and system.joints == (J1, J3, J2) and system.q_ind == ImmutableMatrix([q1, q3, q2]) and system.u_ind == ImmutableMatrix([u1, u3, u2]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t), -(u2 - q2.diff(t))]) and system.joints == (J1, J3, J2, J_lag) and system.bodies == (rb1, rb2, rb4, rb3, rb5) and system.q_ind == ImmutableMatrix([q1, q3, q2, q4]) and system.u_ind == ImmutableMatrix([u1, u3, u2, q4.diff(t)]) and system.q_dep[:] == [] and system.u_dep[:] == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_joints : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  system.joints == (J1,)                         ║
+# ║   ensures:  system.bodies == (rb1, rb2)                    ║
+# ║   ensures:  system.q_ind == ImmutableMatrix([q1])          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_joints : Any → {Any | result satisfies: syst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61cc56d57f64a12d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95cec16478fa8488  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_joints","kind":"method","src_hash":"d7bce26bb12eb314","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_add_joints()","rhs":"test_add_joints produces the expected output","over":{"base":"Any"},"name":"test_add_joints_correct"},"guarantee":"test_add_joints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_joints_correct","statement":"Path(test_add_joints(x), test_add_joints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61cc56d57f64a12d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_joints","kind":"method","src_hash":"d7bce26bb12eb314","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: system.joints == (J1,) and system.bodies == (rb1, rb2) and system.q_ind == ImmutableMatrix([q1]) and system.u_ind == ImmutableMatrix([u1]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t)]) and system.joints == (J1, J3) and system.bodies == (rb1, rb2, rb4, rb3) and system.q_ind == ImmutableMatrix([q1, q3]) and system.u_ind == ImmutableMatrix([u1, u3]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t)]) and system.joints == (J1, J3, J2) and system.q_ind == ImmutableMatrix([q1, q3, q2]) and system.u_ind == ImmutableMatrix([u1, u3, u2]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t), -(u2 - q2.diff(t))]) and system.joints == (J1, J3, J2, J_lag) and system.bodies == (rb1, rb2, rb4, rb3, rb5) and system.q_ind == ImmutableMatrix([q1, q3, q2, q4]) and system.u_ind == ImmutableMatrix([u1, u3, u2, q4.diff(t)]) and system.q_dep[:] == [] and system.u_dep[:] == []"},"spec":{"lhs":"test_add_joints()","rhs":"system.joints == (J1,) and system.bodies == (rb1, rb2) and system.q_ind == ImmutableMatrix([q1]) and system.u_ind == ImmutableMatrix([u1]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t)]) and system.joints == (J1, J3) and system.bodies == (rb1, rb2, rb4, rb3) and system.q_ind == ImmutableMatrix([q1, q3]) and system.u_ind == ImmutableMatrix([u1, u3]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t)]) and system.joints == (J1, J3, J2) and system.q_ind == ImmutableMatrix([q1, q3, q2]) and system.u_ind == ImmutableMatrix([u1, u3, u2]) and system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t), -(u2 - q2.diff(t))]) and system.joints == (J1, J3, J2, J_lag) and system.bodies == (rb1, rb2, rb4, rb3, rb5) and system.q_ind == ImmutableMatrix([q1, q3, q2, q4]) and system.u_ind == ImmutableMatrix([u1, u3, u2, q4.diff(t)]) and system.q_dep[:] == [] and system.u_dep[:] == []","over":{"base":"Any"},"name":"test_add_joints_correct"},"guarantee":"system.joints == (J1,); system.bodies == (rb1, rb2); system.q_ind == ImmutableMatrix([q1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_add_joints_correct","statement":"Path(test_add_joints(x), system.joints == (J1,); system.bodies == (rb1, rb2); system.q_ind == ImmutableMatrix([q1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95cec16478fa8488","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["system.joints == (J1,)","system.bodies == (rb1, rb2)","system.q_ind == ImmutableMatrix([q1])","system.u_ind == ImmutableMatrix([u1])","system.kdes == ImmutableMatrix([u1 - q1.diff(t)])","system.joints == (J1, J3)","system.bodies == (rb1, rb2, rb4, rb3)","system.q_ind == ImmutableMatrix([q1, q3])","system.u_ind == ImmutableMatrix([u1, u3])","system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t)])","system.joints == (J1, J3, J2)","system.q_ind == ImmutableMatrix([q1, q3, q2])","system.u_ind == ImmutableMatrix([u1, u3, u2])","system.kdes == ImmutableMatrix([u1 - q1.diff(t), u3 - q3.diff(t), -(u2 - q2.diff(t))])","system.joints == (J1, J3, J2, J_lag)","system.bodies == (rb1, rb2, rb4, rb3, rb5)","system.q_ind == ImmutableMatrix([q1, q3, q2, q4])","system.u_ind == ImmutableMatrix([u1, u3, u2, q4.diff(t)])","system.q_dep[:] == []","system.u_dep[:] == []"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_add_joints(self):
         q1, q2, q3, q4, u1, u2, u3 = dynamicsymbols('q1:5 u1:4')
         rb1, rb2, rb3, rb4, rb5 = symbols('rb1:6', cls=RigidBody)
@@ -862,16 +1083,23 @@ class TestSystem(TestSystemBase):
         pytest.raises(TypeError, lambda: system.add_joints(rb1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_joints_setter(_fi), test_joints_setter produces the expected output) over Any ║
+# ║ Path(test_joints_setter(_filled_system_setup), <unspecified:test_joints_setter>) over {Any | self.system.joints == self.joints[1:]} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_joints_setter : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.system.joints == self.joints[1:]          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_joints_setter : {Any | self.system.joints == sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee953cdee1849dd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_joints_setter","kind":"method","src_hash":"e7c3f82a3b6ee77d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_joints_setter(_fi)","rhs":"test_joints_setter produces the expected output","over":{"base":"Any"},"name":"test_joints_setter_correct"},"guarantee":"test_joints_setter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_joints_setter_correct","statement":"Path(test_joints_setter(x), test_joints_setter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee953cdee1849dd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_joints_setter","kind":"method","src_hash":"e7c3f82a3b6ee77d","in":{"base":"Any","pred":"self.system.joints == self.joints[1:]"},"out":{"base":"Any"},"spec":{"lhs":"test_joints_setter(_filled_system_setup)","rhs":"<unspecified:test_joints_setter>","over":{"base":"Any","pred":"self.system.joints == self.joints[1:]"},"name":"test_joints_setter_correct"},"guarantee":"test_joints_setter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_joints_setter_correct","statement":"Path(test_joints_setter(x), test_joints_setter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee953cdee1849dd7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.system.joints == self.joints[1:]"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filled_system_check","self.joints","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_joints_setter(self, _filled_system_setup):
         self.system.joints = self.joints[1:]
         assert self.system.joints == self.joints[1:]
@@ -887,16 +1115,22 @@ class TestSystem(TestSystemBase):
         ('not_existing', None),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_joint(_fi), test_get_joint produces the expected output) over Any ║
+# ║ Path(test_get_joint(_filled_system_setup, name, joint_index), <unspecified:test_get_joint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_get_joint : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 126192540b7e4836  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_joint","kind":"method","src_hash":"1dadf5cdc3a66424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_get_joint(_fi)","rhs":"test_get_joint produces the expected output","over":{"base":"Any"},"name":"test_get_joint_correct"},"guarantee":"test_get_joint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_joint_correct","statement":"Path(test_get_joint(x), test_get_joint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"126192540b7e4836"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_joint","kind":"method","src_hash":"1dadf5cdc3a66424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_get_joint(_filled_system_setup, name, joint_index)","rhs":"<unspecified:test_get_joint>","over":{"base":"Any"},"name":"test_get_joint_correct"},"guarantee":"test_get_joint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_joint_correct","statement":"Path(test_get_joint(x), test_get_joint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"126192540b7e4836","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.joints","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_get_joint(self, _filled_system_setup, name, joint_index):
         joint = self.system.get_joint(name)
         if joint_index is None:
@@ -910,16 +1144,22 @@ class TestSystem(TestSystemBase):
         ('not_existing', None),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_body(_fi), test_get_body produces the expected output) over Any ║
+# ║ Path(test_get_body(_filled_system_setup, name, body_index), <unspecified:test_get_body>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_get_body : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14659804b5b928a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_body","kind":"method","src_hash":"6070331339e77759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_get_body(_fi)","rhs":"test_get_body produces the expected output","over":{"base":"Any"},"name":"test_get_body_correct"},"guarantee":"test_get_body produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_body_correct","statement":"Path(test_get_body(x), test_get_body produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14659804b5b928a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_body","kind":"method","src_hash":"6070331339e77759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_get_body(_filled_system_setup, name, body_index)","rhs":"<unspecified:test_get_body>","over":{"base":"Any"},"name":"test_get_body_correct"},"guarantee":"test_get_body produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_get_body_correct","statement":"Path(test_get_body(x), test_get_body produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14659804b5b928a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bodies","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_get_body(self, _filled_system_setup, name, body_index):
         body = self.system.get_body(name)
         if body_index is None:
@@ -929,16 +1169,22 @@ class TestSystem(TestSystemBase):
 
     @pytest.mark.parametrize('eom_method', [KanesMethod, LagrangesMethod])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_form_eoms_calls_subclass(_mo), test_form_eoms_calls_subclass produces the expected output) over Any ║
+# ║ Path(test_form_eoms_calls_subclass(_moving_point_mass, eom_method), isinstance(self.system.eom_method, MyMethod)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_form_eoms_calls_subclass : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self.system.eom_method, MyMethod)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_form_eoms_calls_subclass : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1a2e0918c1e8492  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7e60ba93660708a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_calls_subclass","kind":"method","src_hash":"f87a154e9c1234e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_form_eoms_calls_subclass(_mo)","rhs":"test_form_eoms_calls_subclass produces the expected output","over":{"base":"Any"},"name":"test_form_eoms_calls_subclass_correct"},"guarantee":"test_form_eoms_calls_subclass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_calls_subclass_correct","statement":"Path(test_form_eoms_calls_subclass(x), test_form_eoms_calls_subclass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1a2e0918c1e8492"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_calls_subclass","kind":"method","src_hash":"f87a154e9c1234e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self.system.eom_method, MyMethod)"},"spec":{"lhs":"test_form_eoms_calls_subclass(_moving_point_mass, eom_method)","rhs":"isinstance(self.system.eom_method, MyMethod)","over":{"base":"Any"},"name":"test_form_eoms_calls_subclass_correct"},"guarantee":"isinstance(self.system.eom_method, MyMethod)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_calls_subclass_correct","statement":"Path(test_form_eoms_calls_subclass(x), isinstance(self.system.eom_method, MyMethod))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7e60ba93660708a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self.system.eom_method, MyMethod)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_form_eoms_calls_subclass(self, _moving_point_mass, eom_method):
         class MyMethod(eom_method):
             pass
@@ -952,16 +1198,23 @@ class TestSystem(TestSystemBase):
                                                          [0, symbols('m')]])),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_system_kane_form_eoms_kwargs(_mo), test_system_kane_form_eoms_kwargs produces the expected output) over Any ║
+# ║ Path(test_system_kane_form_eoms_kwargs(_moving_point_mass, kwargs, expected), <unspecified:test_system_kane_form_eoms_kwargs>) over {Any | self.system.mass_matrix_full == expected} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_system_kane_form_eoms_kwargs : Any → Any              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.system.mass_matrix_full == expected       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_system_kane_form_eoms_kwargs : {Any | self.syste...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a500380932b0676e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_kane_form_eoms_kwargs","kind":"method","src_hash":"fd5a0d15350bc148","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_system_kane_form_eoms_kwargs(_mo)","rhs":"test_system_kane_form_eoms_kwargs produces the expected output","over":{"base":"Any"},"name":"test_system_kane_form_eoms_kwargs_correct"},"guarantee":"test_system_kane_form_eoms_kwargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_kane_form_eoms_kwargs_correct","statement":"Path(test_system_kane_form_eoms_kwargs(x), test_system_kane_form_eoms_kwargs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a500380932b0676e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_kane_form_eoms_kwargs","kind":"method","src_hash":"fd5a0d15350bc148","in":{"base":"Any","pred":"self.system.mass_matrix_full == expected"},"out":{"base":"Any"},"spec":{"lhs":"test_system_kane_form_eoms_kwargs(_moving_point_mass, kwargs, expected)","rhs":"<unspecified:test_system_kane_form_eoms_kwargs>","over":{"base":"Any","pred":"self.system.mass_matrix_full == expected"},"name":"test_system_kane_form_eoms_kwargs_correct"},"guarantee":"test_system_kane_form_eoms_kwargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_kane_form_eoms_kwargs_correct","statement":"Path(test_system_kane_form_eoms_kwargs(x), test_system_kane_form_eoms_kwargs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a500380932b0676e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.system.mass_matrix_full == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_system_kane_form_eoms_kwargs(self, _moving_point_mass, kwargs,
                                           expected):
         self.system.form_eoms(**kwargs)
@@ -972,16 +1225,24 @@ class TestSystem(TestSystemBase):
          ImmutableMatrix([q[0].diff(t), 0])),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_system_lagrange_form_eoms_kwargs(_mo), test_system_lagrange_form_eoms_kwargs produces the expected output) over Any ║
+# ║ Path(test_system_lagrange_form_eoms_kwargs(_moving_point_mass, kwargs, mm), <unspecified:test_system_lagrange_form_eoms_kwargs>) over {Any | self.system.mass_matrix_full == mm and self.system.forcing_full == gm} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_system_lagrange_form_eoms_kwargs : Any → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.system.mass_matrix_full == mm             ║
+# ║   requires: self.system.forcing_full == gm                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_system_lagrange_form_eoms_kwargs : {Any | self.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d984c66a42541a7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_lagrange_form_eoms_kwargs","kind":"method","src_hash":"774b4fa36bce9933","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_system_lagrange_form_eoms_kwargs(_mo)","rhs":"test_system_lagrange_form_eoms_kwargs produces the expected output","over":{"base":"Any"},"name":"test_system_lagrange_form_eoms_kwargs_correct"},"guarantee":"test_system_lagrange_form_eoms_kwargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_lagrange_form_eoms_kwargs_correct","statement":"Path(test_system_lagrange_form_eoms_kwargs(x), test_system_lagrange_form_eoms_kwargs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d984c66a42541a7f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_lagrange_form_eoms_kwargs","kind":"method","src_hash":"774b4fa36bce9933","in":{"base":"Any","pred":"self.system.mass_matrix_full == mm and self.system.forcing_full == gm"},"out":{"base":"Any"},"spec":{"lhs":"test_system_lagrange_form_eoms_kwargs(_moving_point_mass, kwargs, mm)","rhs":"<unspecified:test_system_lagrange_form_eoms_kwargs>","over":{"base":"Any","pred":"self.system.mass_matrix_full == mm and self.system.forcing_full == gm"},"name":"test_system_lagrange_form_eoms_kwargs_correct"},"guarantee":"test_system_lagrange_form_eoms_kwargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_system_lagrange_form_eoms_kwargs_correct","statement":"Path(test_system_lagrange_form_eoms_kwargs(x), test_system_lagrange_form_eoms_kwargs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d984c66a42541a7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.system.mass_matrix_full == mm","self.system.forcing_full == gm"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_system_lagrange_form_eoms_kwargs(self, _moving_point_mass, kwargs,
                                               mm, gm):
         self.system.form_eoms(eom_method=LagrangesMethod, **kwargs)
@@ -997,16 +1258,22 @@ class TestSystem(TestSystemBase):
         (LagrangesMethod, {'Lagrangian': 1}, ValueError),
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_form_eoms_kwargs_errors(_em), test_form_eoms_kwargs_errors produces the expected output) over Any ║
+# ║ Path(test_form_eoms_kwargs_errors(_empty_system_setup, eom_method, kwargs), <unspecified:test_form_eoms_kwargs_errors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_form_eoms_kwargs_errors : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e34bdc58a77e92b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_kwargs_errors","kind":"method","src_hash":"1fa808faaa4649df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_form_eoms_kwargs_errors(_em)","rhs":"test_form_eoms_kwargs_errors produces the expected output","over":{"base":"Any"},"name":"test_form_eoms_kwargs_errors_correct"},"guarantee":"test_form_eoms_kwargs_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_kwargs_errors_correct","statement":"Path(test_form_eoms_kwargs_errors(x), test_form_eoms_kwargs_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e34bdc58a77e92b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_kwargs_errors","kind":"method","src_hash":"1fa808faaa4649df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_form_eoms_kwargs_errors(_empty_system_setup, eom_method, kwargs)","rhs":"<unspecified:test_form_eoms_kwargs_errors>","over":{"base":"Any"},"name":"test_form_eoms_kwargs_errors_correct"},"guarantee":"test_form_eoms_kwargs_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystem.test_form_eoms_kwargs_errors_correct","statement":"Path(test_form_eoms_kwargs_errors(x), test_form_eoms_kwargs_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e34bdc58a77e92b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_form_eoms_kwargs_errors(self, _empty_system_setup, eom_method,
                                      kwargs, error):
         self.system.q_ind = q[0]
@@ -1020,30 +1287,42 @@ class TestSystem(TestSystemBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestValidateSystem(*args), correctly constructs a TestValidateSystem instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TestValidateSystem : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TestSystemBase)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TestValidateSystem : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bba37ab73198c455  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem","kind":"class","src_hash":"ee910441093c235a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TestValidateSystem(*args)","rhs":"correctly constructs a TestValidateSystem instance","over":{"base":"Any"},"name":"TestValidateSystem_class_invariant"},"guarantee":"correctly constructs a TestValidateSystem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bba37ab73198c455"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem","kind":"class","src_hash":"ee910441093c235a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TestSystemBase)"},"spec":{"lhs":"TestValidateSystem(*args)","rhs":"correctly constructs a TestValidateSystem instance","over":{"base":"Any"},"name":"TestValidateSystem_class_invariant"},"guarantee":"isinstance(self, TestSystemBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bba37ab73198c455","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TestSystemBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestValidateSystem not found in source"]}}
 class TestValidateSystem(TestSystemBase):
     @pytest.mark.parametrize('valid_method, invalid_method, with_speeds', [
         (KanesMethod, LagrangesMethod, True),
         (LagrangesMethod, KanesMethod, False)
     ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_only_valid(val), test_only_valid produces the expected output) over Any ║
+# ║ Path(test_only_valid(valid_method, invalid_method, with_speeds), <unspecified:test_only_valid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_only_valid : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc979953b4a9efc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_only_valid","kind":"method","src_hash":"25751a54f7ad6425","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_only_valid(val)","rhs":"test_only_valid produces the expected output","over":{"base":"Any"},"name":"test_only_valid_correct"},"guarantee":"test_only_valid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_only_valid_correct","statement":"Path(test_only_valid(x), test_only_valid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc979953b4a9efc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_only_valid","kind":"method","src_hash":"25751a54f7ad6425","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_only_valid(valid_method, invalid_method, with_speeds)","rhs":"<unspecified:test_only_valid>","over":{"base":"Any"},"name":"test_only_valid_correct"},"guarantee":"test_only_valid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_only_valid_correct","statement":"Path(test_only_valid(x), test_only_valid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc979953b4a9efc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_filled_system","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_only_valid(self, valid_method, invalid_method, with_speeds):
         self._create_filled_system(with_speeds=with_speeds)
         self.system.validate_system(valid_method)
@@ -1054,16 +1333,22 @@ class TestValidateSystem(TestSystemBase):
     @pytest.mark.parametrize('method, with_speeds', [
         (KanesMethod, True), (LagrangesMethod, False)])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_missing_joint_coordinate(met), test_missing_joint_coordinate produces the expected output) over Any ║
+# ║ Path(test_missing_joint_coordinate(method, with_speeds), <unspecified:test_missing_joint_coordinate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_missing_joint_coordinate : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f4cf675a4986556  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_coordinate","kind":"method","src_hash":"ed0517343db824e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_joint_coordinate(met)","rhs":"test_missing_joint_coordinate produces the expected output","over":{"base":"Any"},"name":"test_missing_joint_coordinate_correct"},"guarantee":"test_missing_joint_coordinate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_coordinate_correct","statement":"Path(test_missing_joint_coordinate(x), test_missing_joint_coordinate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4cf675a4986556"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_coordinate","kind":"method","src_hash":"ed0517343db824e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_joint_coordinate(method, with_speeds)","rhs":"<unspecified:test_missing_joint_coordinate>","over":{"base":"Any"},"name":"test_missing_joint_coordinate_correct"},"guarantee":"test_missing_joint_coordinate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_coordinate_correct","statement":"Path(test_missing_joint_coordinate(x), test_missing_joint_coordinate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4cf675a4986556","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_filled_system","self.kdes","self.q_ind","self.system","self.u_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_missing_joint_coordinate(self, method, with_speeds):
         self._create_filled_system(with_speeds=with_speeds)
         self.system.q_ind = self.q_ind[1:]
@@ -1072,16 +1357,22 @@ class TestValidateSystem(TestSystemBase):
         pytest.raises(ValueError, lambda: self.system.validate_system(method))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_missing_joint_speed(_fi), test_missing_joint_speed produces the expected output) over Any ║
+# ║ Path(test_missing_joint_speed(_filled_system_setup), <unspecified:test_missing_joint_speed>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_missing_joint_speed : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2468602b951e793b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_speed","kind":"method","src_hash":"e2c42d3200e59d80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_joint_speed(_fi)","rhs":"test_missing_joint_speed produces the expected output","over":{"base":"Any"},"name":"test_missing_joint_speed_correct"},"guarantee":"test_missing_joint_speed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_speed_correct","statement":"Path(test_missing_joint_speed(x), test_missing_joint_speed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2468602b951e793b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_speed","kind":"method","src_hash":"e2c42d3200e59d80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_joint_speed(_filled_system_setup)","rhs":"<unspecified:test_missing_joint_speed>","over":{"base":"Any"},"name":"test_missing_joint_speed_correct"},"guarantee":"test_missing_joint_speed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_speed_correct","statement":"Path(test_missing_joint_speed(x), test_missing_joint_speed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2468602b951e793b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kdes","self.q_ind","self.system","self.u_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_missing_joint_speed(self, _filled_system_setup):
         self.system.q_ind = self.q_ind[:-1]
         self.system.u_ind = self.u_ind[1:]
@@ -1089,31 +1380,43 @@ class TestValidateSystem(TestSystemBase):
         pytest.raises(ValueError, lambda: self.system.validate_system())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_missing_joint_kdes(_fi), test_missing_joint_kdes produces the expected output) over Any ║
+# ║ Path(test_missing_joint_kdes(_filled_system_setup), <unspecified:test_missing_joint_kdes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_missing_joint_kdes : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e808dae80fd89bf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_kdes","kind":"method","src_hash":"db2c1ca87623ae68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_joint_kdes(_fi)","rhs":"test_missing_joint_kdes produces the expected output","over":{"base":"Any"},"name":"test_missing_joint_kdes_correct"},"guarantee":"test_missing_joint_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_kdes_correct","statement":"Path(test_missing_joint_kdes(x), test_missing_joint_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e808dae80fd89bf1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_kdes","kind":"method","src_hash":"db2c1ca87623ae68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_joint_kdes(_filled_system_setup)","rhs":"<unspecified:test_missing_joint_kdes>","over":{"base":"Any"},"name":"test_missing_joint_kdes_correct"},"guarantee":"test_missing_joint_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_joint_kdes_correct","statement":"Path(test_missing_joint_kdes(x), test_missing_joint_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e808dae80fd89bf1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kdes","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_missing_joint_kdes(self, _filled_system_setup):
         self.system.kdes = self.kdes[1:]
         pytest.raises(ValueError, lambda: self.system.validate_system())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negative_joint_kdes(_fi), test_negative_joint_kdes produces the expected output) over Any ║
+# ║ Path(test_negative_joint_kdes(_filled_system_setup), <unspecified:test_negative_joint_kdes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_negative_joint_kdes : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be5e4ad21f0cb352  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_negative_joint_kdes","kind":"method","src_hash":"2e093f9769574c70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_negative_joint_kdes(_fi)","rhs":"test_negative_joint_kdes produces the expected output","over":{"base":"Any"},"name":"test_negative_joint_kdes_correct"},"guarantee":"test_negative_joint_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_negative_joint_kdes_correct","statement":"Path(test_negative_joint_kdes(x), test_negative_joint_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be5e4ad21f0cb352"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_negative_joint_kdes","kind":"method","src_hash":"2e093f9769574c70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_negative_joint_kdes(_filled_system_setup)","rhs":"<unspecified:test_negative_joint_kdes>","over":{"base":"Any"},"name":"test_negative_joint_kdes_correct"},"guarantee":"test_negative_joint_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_negative_joint_kdes_correct","statement":"Path(test_negative_joint_kdes(x), test_negative_joint_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be5e4ad21f0cb352","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kdes","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_negative_joint_kdes(self, _filled_system_setup):
         self.system.kdes = [-self.kdes[0]] + self.kdes[1:]
         self.system.validate_system()
@@ -1121,16 +1424,22 @@ class TestValidateSystem(TestSystemBase):
     @pytest.mark.parametrize('method, with_speeds', [
         (KanesMethod, True), (LagrangesMethod, False)])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_missing_holonomic_constraint(met), test_missing_holonomic_constraint produces the expected output) over Any ║
+# ║ Path(test_missing_holonomic_constraint(method, with_speeds), <unspecified:test_missing_holonomic_constraint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_missing_holonomic_constraint : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b91a691ac5ad6f78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_holonomic_constraint","kind":"method","src_hash":"0c7f96b9ae9071c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_holonomic_constraint(met)","rhs":"test_missing_holonomic_constraint produces the expected output","over":{"base":"Any"},"name":"test_missing_holonomic_constraint_correct"},"guarantee":"test_missing_holonomic_constraint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_holonomic_constraint_correct","statement":"Path(test_missing_holonomic_constraint(x), test_missing_holonomic_constraint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b91a691ac5ad6f78"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_holonomic_constraint","kind":"method","src_hash":"0c7f96b9ae9071c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_holonomic_constraint(method, with_speeds)","rhs":"<unspecified:test_missing_holonomic_constraint>","over":{"base":"Any"},"name":"test_missing_holonomic_constraint_correct"},"guarantee":"test_missing_holonomic_constraint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_holonomic_constraint_correct","statement":"Path(test_missing_holonomic_constraint(x), test_missing_holonomic_constraint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b91a691ac5ad6f78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_filled_system","self.nhc","self.q_dep","self.q_ind","self.system","self.u_dep","self.u_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_missing_holonomic_constraint(self, method, with_speeds):
         self._create_filled_system(with_speeds=with_speeds)
         self.system.holonomic_constraints = []
@@ -1142,16 +1451,22 @@ class TestValidateSystem(TestSystemBase):
         self.system.validate_system(method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_missing_nonholonomic_constraint(_fi), test_missing_nonholonomic_constraint produces the expected output) over Any ║
+# ║ Path(test_missing_nonholonomic_constraint(_filled_system_setup), <unspecified:test_missing_nonholonomic_constraint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_missing_nonholonomic_constraint : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7655511854d78858  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_nonholonomic_constraint","kind":"method","src_hash":"d7b46b98dac8fa85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_nonholonomic_constraint(_fi)","rhs":"test_missing_nonholonomic_constraint produces the expected output","over":{"base":"Any"},"name":"test_missing_nonholonomic_constraint_correct"},"guarantee":"test_missing_nonholonomic_constraint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_nonholonomic_constraint_correct","statement":"Path(test_missing_nonholonomic_constraint(x), test_missing_nonholonomic_constraint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7655511854d78858"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_nonholonomic_constraint","kind":"method","src_hash":"d7b46b98dac8fa85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_missing_nonholonomic_constraint(_filled_system_setup)","rhs":"<unspecified:test_missing_nonholonomic_constraint>","over":{"base":"Any"},"name":"test_missing_nonholonomic_constraint_correct"},"guarantee":"test_missing_nonholonomic_constraint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_missing_nonholonomic_constraint_correct","statement":"Path(test_missing_nonholonomic_constraint(x), test_missing_nonholonomic_constraint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7655511854d78858","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.system","self.u_dep","self.u_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_missing_nonholonomic_constraint(self, _filled_system_setup):
         self.system.nonholonomic_constraints = []
         pytest.raises(ValueError, lambda: self.system.validate_system())
@@ -1160,16 +1475,22 @@ class TestValidateSystem(TestSystemBase):
         self.system.validate_system()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_number_of_coordinates_speeds(_fi), test_number_of_coordinates_speeds produces the expected output) over Any ║
+# ║ Path(test_number_of_coordinates_speeds(_filled_system_setup), <unspecified:test_number_of_coordinates_speeds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_number_of_coordinates_speeds : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b275f6bcdcba4ec2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_coordinates_speeds","kind":"method","src_hash":"d206ef8622bb32f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_number_of_coordinates_speeds(_fi)","rhs":"test_number_of_coordinates_speeds produces the expected output","over":{"base":"Any"},"name":"test_number_of_coordinates_speeds_correct"},"guarantee":"test_number_of_coordinates_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_coordinates_speeds_correct","statement":"Path(test_number_of_coordinates_speeds(x), test_number_of_coordinates_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b275f6bcdcba4ec2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_coordinates_speeds","kind":"method","src_hash":"d206ef8622bb32f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_number_of_coordinates_speeds(_filled_system_setup)","rhs":"<unspecified:test_number_of_coordinates_speeds>","over":{"base":"Any"},"name":"test_number_of_coordinates_speeds_correct"},"guarantee":"test_number_of_coordinates_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_coordinates_speeds_correct","statement":"Path(test_number_of_coordinates_speeds(x), test_number_of_coordinates_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b275f6bcdcba4ec2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kdes","self.q_ind","self.system","self.u_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_number_of_coordinates_speeds(self, _filled_system_setup):
         # Test more speeds than coordinates
         self.system.u_ind = self.u_ind + [u[5]]
@@ -1182,16 +1503,22 @@ class TestValidateSystem(TestSystemBase):
         pytest.raises(ValueError, lambda: self.system.validate_system())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_number_of_kdes(_fi), test_number_of_kdes produces the expected output) over Any ║
+# ║ Path(test_number_of_kdes(_filled_system_setup), <unspecified:test_number_of_kdes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_number_of_kdes : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | effaba726179b708  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_kdes","kind":"method","src_hash":"884fbcf34dbd83dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_number_of_kdes(_fi)","rhs":"test_number_of_kdes produces the expected output","over":{"base":"Any"},"name":"test_number_of_kdes_correct"},"guarantee":"test_number_of_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_kdes_correct","statement":"Path(test_number_of_kdes(x), test_number_of_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"effaba726179b708"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_kdes","kind":"method","src_hash":"884fbcf34dbd83dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_number_of_kdes(_filled_system_setup)","rhs":"<unspecified:test_number_of_kdes>","over":{"base":"Any"},"name":"test_number_of_kdes_correct"},"guarantee":"test_number_of_kdes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_number_of_kdes_correct","statement":"Path(test_number_of_kdes(x), test_number_of_kdes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"effaba726179b708","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kdes","self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_number_of_kdes(self, _filled_system_setup):
         # Test wrong number of kdes
         self.system.kdes = self.kdes[:-1]
@@ -1200,31 +1527,43 @@ class TestValidateSystem(TestSystemBase):
         pytest.raises(ValueError, lambda: self.system.validate_system())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_duplicates(_fi), test_duplicates produces the expected output) over Any ║
+# ║ Path(test_duplicates(_filled_system_setup), <unspecified:test_duplicates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_duplicates : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4ced0048dd4e95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_duplicates","kind":"method","src_hash":"a7cb31361df3ab27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_duplicates(_fi)","rhs":"test_duplicates produces the expected output","over":{"base":"Any"},"name":"test_duplicates_correct"},"guarantee":"test_duplicates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_duplicates_correct","statement":"Path(test_duplicates(x), test_duplicates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4ced0048dd4e95"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_duplicates","kind":"method","src_hash":"a7cb31361df3ab27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_duplicates(_filled_system_setup)","rhs":"<unspecified:test_duplicates>","over":{"base":"Any"},"name":"test_duplicates_correct"},"guarantee":"test_duplicates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_duplicates_correct","statement":"Path(test_duplicates(x), test_duplicates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4ced0048dd4e95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_duplicates(self, _filled_system_setup):
         # This is basically a redundant feature, which should never fail
         self.system.validate_system(check_duplicates=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_speeds_in_lagrange(_fi), test_speeds_in_lagrange produces the expected output) over Any ║
+# ║ Path(test_speeds_in_lagrange(_filled_system_setup_no_speeds), <unspecified:test_speeds_in_lagrange>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_speeds_in_lagrange : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a49f339c69c13668  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_speeds_in_lagrange","kind":"method","src_hash":"ec969564af1ea151","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_speeds_in_lagrange(_fi)","rhs":"test_speeds_in_lagrange produces the expected output","over":{"base":"Any"},"name":"test_speeds_in_lagrange_correct"},"guarantee":"test_speeds_in_lagrange produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_speeds_in_lagrange_correct","statement":"Path(test_speeds_in_lagrange(x), test_speeds_in_lagrange produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49f339c69c13668"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_speeds_in_lagrange","kind":"method","src_hash":"ec969564af1ea151","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_speeds_in_lagrange(_filled_system_setup_no_speeds)","rhs":"<unspecified:test_speeds_in_lagrange>","over":{"base":"Any"},"name":"test_speeds_in_lagrange_correct"},"guarantee":"test_speeds_in_lagrange produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestValidateSystem.test_speeds_in_lagrange_correct","statement":"Path(test_speeds_in_lagrange(x), test_speeds_in_lagrange produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49f339c69c13668","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.system","self.u_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_speeds_in_lagrange(self, _filled_system_setup_no_speeds):
         self.system.u_ind = u[:len(self.u_ind)]
         with pytest.raises(ValueError):
@@ -1246,26 +1585,40 @@ class TestValidateSystem(TestSystemBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestSystemExamples(*args), correctly constructs a TestSystemExamples instance) over {Any | isinstance(system.eom_method, KanesMethod) and isinstance(system.eom_method, LagrangesMethod)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestSystemExamples : {Any | isinstance(system.eom_met...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad5851364ccdecf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples","kind":"class","src_hash":"b80e1c871ead3573","in":{"base":"Any","pred":"isinstance(system.eom_method, KanesMethod) and isinstance(system.eom_method, LagrangesMethod)"},"out":{"base":"Any","pred":"system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and isinstance(system.eom_method, KanesMethod) and system.eom_method is None and simplify(upd_sol - upd_expected) == 0 and isinstance(system.eom_method, KanesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 2) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(4, 4) and simplify(system.forcing_full - gm) == zeros(4, 1) and system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and system.eom_method is None and simplify(qpdd_sol - qpdd_expected) == 0 and isinstance(system.eom_method, LagrangesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 3) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(5, 5) and simplify(system.forcing_full - gm) == zeros(5, 1) and simplify(system.mass_matrix - Md) == zeros(1, 1) and simplify(system.forcing - gd) == zeros(1, 1) and simplify(system.mass_matrix_full - Mm) == zeros(2, 2) and simplify(system.forcing_full - gm) == zeros(2, 1) and simplify(system.eom_method.auxiliary_eqs - aux_eqs) == zeros(1, 1)"},"spec":{"lhs":"TestSystemExamples(*args)","rhs":"correctly constructs a TestSystemExamples instance","over":{"base":"Any","pred":"isinstance(system.eom_method, KanesMethod) and isinstance(system.eom_method, LagrangesMethod)"},"name":"TestSystemExamples_class_invariant"},"guarantee":"correctly constructs a TestSystemExamples instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad5851364ccdecf5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples","kind":"class","src_hash":"b80e1c871ead3573","in":{"base":"Any","pred":"isinstance(system.eom_method, KanesMethod) and isinstance(system.eom_method, LagrangesMethod)"},"out":{"base":"Any","pred":"system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and isinstance(system.eom_method, KanesMethod) and system.eom_method is None and simplify(upd_sol - upd_expected) == 0 and isinstance(system.eom_method, KanesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 2) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(4, 4) and simplify(system.forcing_full - gm) == zeros(4, 1) and system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and system.eom_method is None and simplify(qpdd_sol - qpdd_expected) == 0 and isinstance(system.eom_method, LagrangesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 3) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(5, 5) and simplify(system.forcing_full - gm) == zeros(5, 1) and simplify(system.mass_matrix - Md) == zeros(1, 1) and simplify(system.forcing - gd) == zeros(1, 1) and simplify(system.mass_matrix_full - Mm) == zeros(2, 2) and simplify(system.forcing_full - gm) == zeros(2, 1) and simplify(system.eom_method.auxiliary_eqs - aux_eqs) == zeros(1, 1)"},"spec":{"lhs":"TestSystemExamples(*args)","rhs":"correctly constructs a TestSystemExamples instance","over":{"base":"Any","pred":"isinstance(system.eom_method, KanesMethod) and isinstance(system.eom_method, LagrangesMethod)"},"name":"TestSystemExamples_class_invariant"},"guarantee":"correctly constructs a TestSystemExamples instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad5851364ccdecf5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestSystemExamples not found in source"]}}
 class TestSystemExamples:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cart_pendulum_kanes(), test_cart_pendulum_kanes produces the expected output) over Any ║
+# ║ Path(test_cart_pendulum_kanes(), system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and isinstance(system.eom_method, KanesMethod) and simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2) and simplify(system.forcing - ImmutableMatrix([[mp * l * up ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1) and system.eom_method is None and simplify(upd_sol - upd_expected) == 0 and simplify(system.mass_matrix - Md) == zeros(2, 2) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(4, 4) and simplify(system.forcing_full - gm) == zeros(4, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cart_pendulum_kanes : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  system.bodies == (rail,)                       ║
+# ║   ensures:  system.frame == rail.frame                     ║
+# ║   ensures:  system.fixed_point == rail.masscenter          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cart_pendulum_kanes : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d9d1615aa8b152a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37cbe9be9698825b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_kanes","kind":"method","src_hash":"aa327a5b6a2e6487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cart_pendulum_kanes()","rhs":"test_cart_pendulum_kanes produces the expected output","over":{"base":"Any"},"name":"test_cart_pendulum_kanes_correct"},"guarantee":"test_cart_pendulum_kanes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_kanes_correct","statement":"Path(test_cart_pendulum_kanes(x), test_cart_pendulum_kanes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d9d1615aa8b152a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_kanes","kind":"method","src_hash":"aa327a5b6a2e6487","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and isinstance(system.eom_method, KanesMethod) and simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2) and simplify(system.forcing - ImmutableMatrix([[mp * l * up ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1) and system.eom_method is None and simplify(upd_sol - upd_expected) == 0 and simplify(system.mass_matrix - Md) == zeros(2, 2) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(4, 4) and simplify(system.forcing_full - gm) == zeros(4, 1)"},"spec":{"lhs":"test_cart_pendulum_kanes()","rhs":"system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and isinstance(system.eom_method, KanesMethod) and simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2) and simplify(system.forcing - ImmutableMatrix([[mp * l * up ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1) and system.eom_method is None and simplify(upd_sol - upd_expected) == 0 and simplify(system.mass_matrix - Md) == zeros(2, 2) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(4, 4) and simplify(system.forcing_full - gm) == zeros(4, 1)","over":{"base":"Any"},"name":"test_cart_pendulum_kanes_correct"},"guarantee":"system.bodies == (rail,); system.frame == rail.frame; system.fixed_point == rail.masscenter","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_kanes_correct","statement":"Path(test_cart_pendulum_kanes(x), system.bodies == (rail,); system.frame == rail.frame; system.fixed_point == rail.masscenter)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37cbe9be9698825b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["system.bodies == (rail,)","system.frame == rail.frame","system.fixed_point == rail.masscenter","system.joints == (slider, pin)","system.get_joint('slider') == slider","system.get_body('bob') == bob","isinstance(system.eom_method, KanesMethod)","simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2)","simplify(system.forcing - ImmutableMatrix([[mp * l * up ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1)","system.eom_method is None","simplify(upd_sol - upd_expected) == 0","simplify(system.mass_matrix - Md) == zeros(2, 2)","simplify(system.forcing - gd) == zeros(2, 1)","simplify(system.mass_matrix_full - Mm) == zeros(4, 4)","simplify(system.forcing_full - gm) == zeros(4, 1)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_cart_pendulum_kanes(self):
         # This example is the same as in the top documentation of System
         # Added a spring to the cart
@@ -1336,16 +1689,24 @@ class TestSystemExamples:
         assert simplify(system.forcing_full - gm) == zeros(4, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cart_pendulum_lagrange(), test_cart_pendulum_lagrange produces the expected output) over Any ║
+# ║ Path(test_cart_pendulum_lagrange(), system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2) and simplify(system.forcing - ImmutableMatrix([[mp * l * qpd ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1) and system.eom_method is None and simplify(qpdd_sol - qpdd_expected) == 0 and isinstance(system.eom_method, LagrangesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 3) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(5, 5) and simplify(system.forcing_full - gm) == zeros(5, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cart_pendulum_lagrange : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  system.bodies == (rail,)                       ║
+# ║   ensures:  system.frame == rail.frame                     ║
+# ║   ensures:  system.fixed_point == rail.masscenter          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cart_pendulum_lagrange : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b499f1edc1a67f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e67ca1d5a6409c47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_lagrange","kind":"method","src_hash":"a681c8e85712e74a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cart_pendulum_lagrange()","rhs":"test_cart_pendulum_lagrange produces the expected output","over":{"base":"Any"},"name":"test_cart_pendulum_lagrange_correct"},"guarantee":"test_cart_pendulum_lagrange produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_lagrange_correct","statement":"Path(test_cart_pendulum_lagrange(x), test_cart_pendulum_lagrange produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b499f1edc1a67f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_lagrange","kind":"method","src_hash":"a681c8e85712e74a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2) and simplify(system.forcing - ImmutableMatrix([[mp * l * qpd ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1) and system.eom_method is None and simplify(qpdd_sol - qpdd_expected) == 0 and isinstance(system.eom_method, LagrangesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 3) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(5, 5) and simplify(system.forcing_full - gm) == zeros(5, 1)"},"spec":{"lhs":"test_cart_pendulum_lagrange()","rhs":"system.bodies == (rail,) and system.frame == rail.frame and system.fixed_point == rail.masscenter and system.joints == (slider, pin) and system.get_joint('slider') == slider and system.get_body('bob') == bob and simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2) and simplify(system.forcing - ImmutableMatrix([[mp * l * qpd ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1) and system.eom_method is None and simplify(qpdd_sol - qpdd_expected) == 0 and isinstance(system.eom_method, LagrangesMethod) and simplify(system.mass_matrix - Md) == zeros(2, 3) and simplify(system.forcing - gd) == zeros(2, 1) and simplify(system.mass_matrix_full - Mm) == zeros(5, 5) and simplify(system.forcing_full - gm) == zeros(5, 1)","over":{"base":"Any"},"name":"test_cart_pendulum_lagrange_correct"},"guarantee":"system.bodies == (rail,); system.frame == rail.frame; system.fixed_point == rail.masscenter","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_cart_pendulum_lagrange_correct","statement":"Path(test_cart_pendulum_lagrange(x), system.bodies == (rail,); system.frame == rail.frame; system.fixed_point == rail.masscenter)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e67ca1d5a6409c47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["system.bodies == (rail,)","system.frame == rail.frame","system.fixed_point == rail.masscenter","system.joints == (slider, pin)","system.get_joint('slider') == slider","system.get_body('bob') == bob","simplify(system.mass_matrix - ImmutableMatrix([[mp + mc, mp * l * cos(qp)], [mp * l * cos(qp), mp * l ** 2]])) == zeros(2, 2)","simplify(system.forcing - ImmutableMatrix([[mp * l * qpd ** 2 * sin(qp) + F], [-mp * g * l * sin(qp) + k * qp]])) == zeros(2, 1)","system.eom_method is None","simplify(qpdd_sol - qpdd_expected) == 0","isinstance(system.eom_method, LagrangesMethod)","simplify(system.mass_matrix - Md) == zeros(2, 3)","simplify(system.forcing - gd) == zeros(2, 1)","simplify(system.mass_matrix_full - Mm) == zeros(5, 5)","simplify(system.forcing_full - gm) == zeros(5, 1)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_cart_pendulum_lagrange(self):
         # Lagrange version of test_cart_pendulus_kanes
         # Added a spring to the cart
@@ -1418,16 +1779,24 @@ class TestSystemExamples:
         assert simplify(system.forcing_full - gm) == zeros(5, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_box_on_ground(), test_box_on_ground produces the expected output) over Any ║
+# ║ Path(test_box_on_ground(), simplify(system.mass_matrix - Md) == zeros(1, 1) and simplify(system.forcing - gd) == zeros(1, 1) and simplify(system.mass_matrix_full - Mm) == zeros(2, 2) and simplify(system.forcing_full - gm) == zeros(2, 1) and simplify(system.eom_method.auxiliary_eqs - aux_eqs) == zeros(1, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_box_on_ground : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(system.mass_matrix - Md) == zero...   ║
+# ║   ensures:  simplify(system.forcing - gd) == zeros(1, 1)   ║
+# ║   ensures:  simplify(system.mass_matrix_full - Mm) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_box_on_ground : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e353858e413df3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2b458dedcba5351  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_box_on_ground","kind":"method","src_hash":"61a71926558d5aeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_box_on_ground()","rhs":"test_box_on_ground produces the expected output","over":{"base":"Any"},"name":"test_box_on_ground_correct"},"guarantee":"test_box_on_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_box_on_ground_correct","statement":"Path(test_box_on_ground(x), test_box_on_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e353858e413df3a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_box_on_ground","kind":"method","src_hash":"61a71926558d5aeb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(system.mass_matrix - Md) == zeros(1, 1) and simplify(system.forcing - gd) == zeros(1, 1) and simplify(system.mass_matrix_full - Mm) == zeros(2, 2) and simplify(system.forcing_full - gm) == zeros(2, 1) and simplify(system.eom_method.auxiliary_eqs - aux_eqs) == zeros(1, 1)"},"spec":{"lhs":"test_box_on_ground()","rhs":"simplify(system.mass_matrix - Md) == zeros(1, 1) and simplify(system.forcing - gd) == zeros(1, 1) and simplify(system.mass_matrix_full - Mm) == zeros(2, 2) and simplify(system.forcing_full - gm) == zeros(2, 1) and simplify(system.eom_method.auxiliary_eqs - aux_eqs) == zeros(1, 1)","over":{"base":"Any"},"name":"test_box_on_ground_correct"},"guarantee":"simplify(system.mass_matrix - Md) == zeros(1, 1); simplify(system.forcing - gd) == zeros(1, 1); simplify(system.mass_matrix_full - Mm) == zeros(2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_system_class.TestSystemExamples.test_box_on_ground_correct","statement":"Path(test_box_on_ground(x), simplify(system.mass_matrix - Md) == zeros(1, 1); simplify(system.forcing - gd) == zeros(1, 1); simplify(system.mass_matrix_full - Mm) == zeros(2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2b458dedcba5351","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(system.mass_matrix - Md) == zeros(1, 1)","simplify(system.forcing - gd) == zeros(1, 1)","simplify(system.mass_matrix_full - Mm) == zeros(2, 2)","simplify(system.forcing_full - gm) == zeros(2, 1)","simplify(system.eom_method.auxiliary_eqs - aux_eqs) == zeros(1, 1)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_box_on_ground(self):
         # Particle sliding on ground with friction. The applied force is assumed
         # to be positive and to be higher than the friction force.

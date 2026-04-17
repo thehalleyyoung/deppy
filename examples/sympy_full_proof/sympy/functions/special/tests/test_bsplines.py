@@ -28,16 +28,22 @@ x, y = symbols('x,y')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_degree_0(), test_basic_degree_0 produces the expected output) over Any ║
+# ║ Path(test_basic_degree_0(), <unspecified:test_basic_degree_0>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_basic_degree_0 : Any → {Any | splines[i] == Piec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2836e4075d9c395  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_0","kind":"function","src_hash":"29a8802857c2d453","in":{"base":"Any"},"out":{"base":"Any","pred":"splines[i] == Piecewise((1, Interval(i, i + 1).contains(x)), (0, True))"},"spec":{"lhs":"test_basic_degree_0()","rhs":"test_basic_degree_0 produces the expected output","over":{"base":"Any"},"name":"test_basic_degree_0_correct"},"guarantee":"test_basic_degree_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_0_correct","statement":"Path(test_basic_degree_0(x), test_basic_degree_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2836e4075d9c395"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_0","kind":"function","src_hash":"29a8802857c2d453","in":{"base":"Any"},"out":{"base":"Any","pred":"splines[i] == Piecewise((1, Interval(i, i + 1).contains(x)), (0, True))"},"spec":{"lhs":"test_basic_degree_0()","rhs":"<unspecified:test_basic_degree_0>","over":{"base":"Any"},"name":"test_basic_degree_0_correct"},"guarantee":"test_basic_degree_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_0_correct","statement":"Path(test_basic_degree_0(x), test_basic_degree_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2836e4075d9c395","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_degree_0():
     d = 0
     knots = range(5)
@@ -48,16 +54,24 @@ def test_basic_degree_0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_degree_1(), test_basic_degree_1 produces the expected output) over Any ║
+# ║ Path(test_basic_degree_1(), splines[0] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)) and splines[1] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[2] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_degree_1 : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  splines[0] == Piecewise((x, Interval(0, 1...   ║
+# ║   ensures:  splines[1] == Piecewise((-1 + x, Interval...   ║
+# ║   ensures:  splines[2] == Piecewise((-2 + x, Interval...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_degree_1 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40c50955a9bf22ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2486e41de50c83e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_1","kind":"function","src_hash":"0ff1c00e3d7f124c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_basic_degree_1()","rhs":"test_basic_degree_1 produces the expected output","over":{"base":"Any"},"name":"test_basic_degree_1_correct"},"guarantee":"test_basic_degree_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_1_correct","statement":"Path(test_basic_degree_1(x), test_basic_degree_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40c50955a9bf22ca"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_1","kind":"function","src_hash":"0ff1c00e3d7f124c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: splines[0] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)) and splines[1] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[2] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True))"},"spec":{"lhs":"test_basic_degree_1()","rhs":"splines[0] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)) and splines[1] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[2] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True))","over":{"base":"Any"},"name":"test_basic_degree_1_correct"},"guarantee":"splines[0] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)); splines[1] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (3 - x, Interval(2, 3).contains(x)), (0, True)); splines[2] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_1_correct","statement":"Path(test_basic_degree_1(x), splines[0] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)); splines[1] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (3 - x, Interval(2, 3).contains(x)), (0, True)); splines[2] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2486e41de50c83e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["splines[0] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True))","splines[1] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (3 - x, Interval(2, 3).contains(x)), (0, True))","splines[2] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_basic_degree_1():
     d = 1
     knots = range(5)
@@ -74,16 +88,23 @@ def test_basic_degree_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_degree_2(), test_basic_degree_2 produces the expected output) over Any ║
+# ║ Path(test_basic_degree_2(), splines[0] == b0 and splines[1] == b1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_degree_2 : Any → {Any | splines[0] == b0 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  splines[0] == b0                               ║
+# ║   ensures:  splines[1] == b1                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_degree_2 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b26ce61dda2bae46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a84f0beb978e9d27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_2","kind":"function","src_hash":"b1dd2a6205303e4e","in":{"base":"Any"},"out":{"base":"Any","pred":"splines[0] == b0 and splines[1] == b1"},"spec":{"lhs":"test_basic_degree_2()","rhs":"test_basic_degree_2 produces the expected output","over":{"base":"Any"},"name":"test_basic_degree_2_correct"},"guarantee":"test_basic_degree_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_2_correct","statement":"Path(test_basic_degree_2(x), test_basic_degree_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b26ce61dda2bae46"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_2","kind":"function","src_hash":"b1dd2a6205303e4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: splines[0] == b0 and splines[1] == b1"},"spec":{"lhs":"test_basic_degree_2()","rhs":"splines[0] == b0 and splines[1] == b1","over":{"base":"Any"},"name":"test_basic_degree_2_correct"},"guarantee":"splines[0] == b0; splines[1] == b1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_2_correct","statement":"Path(test_basic_degree_2(x), splines[0] == b0; splines[1] == b1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a84f0beb978e9d27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["splines[0] == b0","splines[1] == b1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_basic_degree_2():
     d = 2
     knots = range(5)
@@ -101,16 +122,22 @@ def test_basic_degree_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_degree_3(), test_basic_degree_3 produces the expected output) over Any ║
+# ║ Path(test_basic_degree_3(), splines[0] == b0) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_degree_3 : Any → {Any | splines[0] == b0}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  splines[0] == b0                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_degree_3 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1876e2260462a1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a2cfed22c7fca2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_3","kind":"function","src_hash":"a2994eceac118ff8","in":{"base":"Any"},"out":{"base":"Any","pred":"splines[0] == b0"},"spec":{"lhs":"test_basic_degree_3()","rhs":"test_basic_degree_3 produces the expected output","over":{"base":"Any"},"name":"test_basic_degree_3_correct"},"guarantee":"test_basic_degree_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_3_correct","statement":"Path(test_basic_degree_3(x), test_basic_degree_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1876e2260462a1c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_basic_degree_3","kind":"function","src_hash":"a2994eceac118ff8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: splines[0] == b0"},"spec":{"lhs":"test_basic_degree_3()","rhs":"splines[0] == b0","over":{"base":"Any"},"name":"test_basic_degree_3_correct"},"guarantee":"splines[0] == b0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_basic_degree_3_correct","statement":"Path(test_basic_degree_3(x), splines[0] == b0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a2cfed22c7fca2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["splines[0] == b0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_basic_degree_3():
     d = 3
     knots = range(5)
@@ -126,16 +153,24 @@ def test_basic_degree_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repeated_degree_1(), test_repeated_degree_1 produces the expected output) over Any ║
+# ║ Path(test_repeated_degree_1(), splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True)) and splines[1] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)) and splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True)) and splines[3] == Piecewise((3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[4] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True)) and splines[5] == Piecewise((-3 + x, Interval(3, 4).contains(x)), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repeated_degree_1 : Any → {Any | splines[0] == P...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  splines[0] == Piecewise((1 - x, Interval(...   ║
+# ║   ensures:  splines[1] == Piecewise((x, Interval(0, 1...   ║
+# ║   ensures:  splines[2] == Piecewise((-1 + x, Interval...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repeated_degree_1 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb48201732f2e5a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83b0d0fc4913e2bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_1","kind":"function","src_hash":"f60b1d24d27a4a0d","in":{"base":"Any"},"out":{"base":"Any","pred":"splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True)) and splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True)) and splines[3] == Piecewise((3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[5] == Piecewise((-3 + x, Interval(3, 4).contains(x)), (0, True))"},"spec":{"lhs":"test_repeated_degree_1()","rhs":"test_repeated_degree_1 produces the expected output","over":{"base":"Any"},"name":"test_repeated_degree_1_correct"},"guarantee":"test_repeated_degree_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_1_correct","statement":"Path(test_repeated_degree_1(x), test_repeated_degree_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb48201732f2e5a4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_1","kind":"function","src_hash":"f60b1d24d27a4a0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True)) and splines[1] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)) and splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True)) and splines[3] == Piecewise((3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[4] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True)) and splines[5] == Piecewise((-3 + x, Interval(3, 4).contains(x)), (0, True))"},"spec":{"lhs":"test_repeated_degree_1()","rhs":"splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True)) and splines[1] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)) and splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True)) and splines[3] == Piecewise((3 - x, Interval(2, 3).contains(x)), (0, True)) and splines[4] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True)) and splines[5] == Piecewise((-3 + x, Interval(3, 4).contains(x)), (0, True))","over":{"base":"Any"},"name":"test_repeated_degree_1_correct"},"guarantee":"splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True)); splines[1] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)); splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_1_correct","statement":"Path(test_repeated_degree_1(x), splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True)); splines[1] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True)); splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83b0d0fc4913e2bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["splines[0] == Piecewise((1 - x, Interval(0, 1).contains(x)), (0, True))","splines[1] == Piecewise((x, Interval(0, 1).contains(x)), (2 - x, Interval(1, 2).contains(x)), (0, True))","splines[2] == Piecewise((-1 + x, Interval(1, 2).contains(x)), (0, True))","splines[3] == Piecewise((3 - x, Interval(2, 3).contains(x)), (0, True))","splines[4] == Piecewise((-2 + x, Interval(2, 3).contains(x)), (4 - x, Interval(3, 4).contains(x)), (0, True))","splines[5] == Piecewise((-3 + x, Interval(3, 4).contains(x)), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_repeated_degree_1():
     d = 1
     knots = [0, 0, 1, 2, 2, 3, 4, 4]
@@ -157,16 +192,24 @@ def test_repeated_degree_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repeated_degree_2(), test_repeated_degree_2 produces the expected output) over Any ║
+# ║ Path(test_repeated_degree_2(), splines[0] == Piecewise((-3 * x ** 2 / 2 + 2 * x, And(x <= 1, x >= 0)), (x ** 2 / 2 - 2 * x + 2, And(x <= 2, x >= 1)), (0, True)) and splines[1] == Piecewise((x ** 2 / 2, And(x <= 1, x >= 0)), (-3 * x ** 2 / 2 + 4 * x - 2, And(x <= 2, x >= 1)), (0, True)) and splines[2] == Piecewise((x ** 2 - 2 * x + 1, And(x <= 2, x >= 1)), (x ** 2 - 6 * x + 9, And(x <= 3, x >= 2)), (0, True)) and splines[3] == Piecewise((-3 * x ** 2 / 2 + 8 * x - 10, And(x <= 3, x >= 2)), (x ** 2 / 2 - 4 * x + 8, And(x <= 4, x >= 3)), (0, True)) and splines[4] == Piecewise((x ** 2 / 2 - 2 * x + 2, And(x <= 3, x >= 2)), (-3 * x ** 2 / 2 + 10 * x - 16, And(x <= 4, x >= 3)), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repeated_degree_2 : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  splines[0] == Piecewise((-3 * x ** 2 / 2 ...   ║
+# ║   ensures:  splines[1] == Piecewise((x ** 2 / 2, And(...   ║
+# ║   ensures:  splines[2] == Piecewise((x ** 2 - 2 * x +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repeated_degree_2 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 066d4e36d8b9d2aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 643d656fedd0e4aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_2","kind":"function","src_hash":"1901e0edc01147b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repeated_degree_2()","rhs":"test_repeated_degree_2 produces the expected output","over":{"base":"Any"},"name":"test_repeated_degree_2_correct"},"guarantee":"test_repeated_degree_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_2_correct","statement":"Path(test_repeated_degree_2(x), test_repeated_degree_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"066d4e36d8b9d2aa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_2","kind":"function","src_hash":"1901e0edc01147b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: splines[0] == Piecewise((-3 * x ** 2 / 2 + 2 * x, And(x <= 1, x >= 0)), (x ** 2 / 2 - 2 * x + 2, And(x <= 2, x >= 1)), (0, True)) and splines[1] == Piecewise((x ** 2 / 2, And(x <= 1, x >= 0)), (-3 * x ** 2 / 2 + 4 * x - 2, And(x <= 2, x >= 1)), (0, True)) and splines[2] == Piecewise((x ** 2 - 2 * x + 1, And(x <= 2, x >= 1)), (x ** 2 - 6 * x + 9, And(x <= 3, x >= 2)), (0, True)) and splines[3] == Piecewise((-3 * x ** 2 / 2 + 8 * x - 10, And(x <= 3, x >= 2)), (x ** 2 / 2 - 4 * x + 8, And(x <= 4, x >= 3)), (0, True)) and splines[4] == Piecewise((x ** 2 / 2 - 2 * x + 2, And(x <= 3, x >= 2)), (-3 * x ** 2 / 2 + 10 * x - 16, And(x <= 4, x >= 3)), (0, True))"},"spec":{"lhs":"test_repeated_degree_2()","rhs":"splines[0] == Piecewise((-3 * x ** 2 / 2 + 2 * x, And(x <= 1, x >= 0)), (x ** 2 / 2 - 2 * x + 2, And(x <= 2, x >= 1)), (0, True)) and splines[1] == Piecewise((x ** 2 / 2, And(x <= 1, x >= 0)), (-3 * x ** 2 / 2 + 4 * x - 2, And(x <= 2, x >= 1)), (0, True)) and splines[2] == Piecewise((x ** 2 - 2 * x + 1, And(x <= 2, x >= 1)), (x ** 2 - 6 * x + 9, And(x <= 3, x >= 2)), (0, True)) and splines[3] == Piecewise((-3 * x ** 2 / 2 + 8 * x - 10, And(x <= 3, x >= 2)), (x ** 2 / 2 - 4 * x + 8, And(x <= 4, x >= 3)), (0, True)) and splines[4] == Piecewise((x ** 2 / 2 - 2 * x + 2, And(x <= 3, x >= 2)), (-3 * x ** 2 / 2 + 10 * x - 16, And(x <= 4, x >= 3)), (0, True))","over":{"base":"Any"},"name":"test_repeated_degree_2_correct"},"guarantee":"splines[0] == Piecewise((-3 * x ** 2 / 2 + 2 * x, And(x <= 1, x >= 0)), (x ** 2 / 2 - 2 * x + 2, And(x <= 2, x >= 1)), (0, True)); splines[1] == Piecewise((x ** 2 / 2, And(x <= 1, x >= 0)), (-3 * x ** 2 / 2 + 4 * x - 2, And(x <= 2, x >= 1)), (0, True)); splines[2] == Piecewise((x ** 2 - 2 * x + 1, And(x <= 2, x >= 1)), (x ** 2 - 6 * x + 9, And(x <= 3, x >= 2)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_repeated_degree_2_correct","statement":"Path(test_repeated_degree_2(x), splines[0] == Piecewise((-3 * x ** 2 / 2 + 2 * x, And(x <= 1, x >= 0)), (x ** 2 / 2 - 2 * x + 2, And(x <= 2, x >= 1)), (0, True)); splines[1] == Piecewise((x ** 2 / 2, And(x <= 1, x >= 0)), (-3 * x ** 2 / 2 + 4 * x - 2, And(x <= 2, x >= 1)), (0, True)); splines[2] == Piecewise((x ** 2 - 2 * x + 1, And(x <= 2, x >= 1)), (x ** 2 - 6 * x + 9, And(x <= 3, x >= 2)), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"643d656fedd0e4aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["splines[0] == Piecewise((-3 * x ** 2 / 2 + 2 * x, And(x <= 1, x >= 0)), (x ** 2 / 2 - 2 * x + 2, And(x <= 2, x >= 1)), (0, True))","splines[1] == Piecewise((x ** 2 / 2, And(x <= 1, x >= 0)), (-3 * x ** 2 / 2 + 4 * x - 2, And(x <= 2, x >= 1)), (0, True))","splines[2] == Piecewise((x ** 2 - 2 * x + 1, And(x <= 2, x >= 1)), (x ** 2 - 6 * x + 9, And(x <= 3, x >= 2)), (0, True))","splines[3] == Piecewise((-3 * x ** 2 / 2 + 8 * x - 10, And(x <= 3, x >= 2)), (x ** 2 / 2 - 4 * x + 8, And(x <= 4, x >= 3)), (0, True))","splines[4] == Piecewise((x ** 2 / 2 - 2 * x + 2, And(x <= 3, x >= 2)), (-3 * x ** 2 / 2 + 10 * x - 16, And(x <= 4, x >= 3)), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_repeated_degree_2():
     d = 2
     knots = [0, 0, 1, 2, 2, 3, 4, 4]
@@ -192,16 +235,22 @@ def test_repeated_degree_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_10_points_degree_1(), test_10_points_degree_1 produces the expected output) over Any ║
+# ║ Path(test_10_points_degree_1(), spline == Piecewise((x * Rational(8, 7) - Rational(30, 7), (x >= -5) & (x <= 2)), (4 * x - 10, (x >= 2) & (x <= 3)), (2 * x - 4, (x >= 3) & (x <= 4)), (x, (x >= 4) & (x <= 7)), (-x / 2 + Rational(21, 2), (x >= 7) & (x <= 9)), (14 * x - 120, (x >= 9) & (x <= 10)), (x * Rational(5, 4) + Rational(15, 2), (x >= 10) & (x <= 30)), (-26 * x + 825, (x >= 30) & (x <= 31)), (2 * x - 43, (x >= 31) & (x <= 34)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_10_points_degree_1 : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  spline == Piecewise((x * Rational(8, 7) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_10_points_degree_1 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 880932b55ac0e7bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ea366370020850c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_10_points_degree_1","kind":"function","src_hash":"97dca99319f4b09c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_10_points_degree_1()","rhs":"test_10_points_degree_1 produces the expected output","over":{"base":"Any"},"name":"test_10_points_degree_1_correct"},"guarantee":"test_10_points_degree_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_10_points_degree_1_correct","statement":"Path(test_10_points_degree_1(x), test_10_points_degree_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880932b55ac0e7bb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_10_points_degree_1","kind":"function","src_hash":"97dca99319f4b09c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: spline == Piecewise((x * Rational(8, 7) - Rational(30, 7), (x >= -5) & (x <= 2)), (4 * x - 10, (x >= 2) & (x <= 3)), (2 * x - 4, (x >= 3) & (x <= 4)), (x, (x >= 4) & (x <= 7)), (-x / 2 + Rational(21, 2), (x >= 7) & (x <= 9)), (14 * x - 120, (x >= 9) & (x <= 10)), (x * Rational(5, 4) + Rational(15, 2), (x >= 10) & (x <= 30)), (-26 * x + 825, (x >= 30) & (x <= 31)), (2 * x - 43, (x >= 31) & (x <= 34)))"},"spec":{"lhs":"test_10_points_degree_1()","rhs":"spline == Piecewise((x * Rational(8, 7) - Rational(30, 7), (x >= -5) & (x <= 2)), (4 * x - 10, (x >= 2) & (x <= 3)), (2 * x - 4, (x >= 3) & (x <= 4)), (x, (x >= 4) & (x <= 7)), (-x / 2 + Rational(21, 2), (x >= 7) & (x <= 9)), (14 * x - 120, (x >= 9) & (x <= 10)), (x * Rational(5, 4) + Rational(15, 2), (x >= 10) & (x <= 30)), (-26 * x + 825, (x >= 30) & (x <= 31)), (2 * x - 43, (x >= 31) & (x <= 34)))","over":{"base":"Any"},"name":"test_10_points_degree_1_correct"},"guarantee":"spline == Piecewise((x * Rational(8, 7) - Rational(30, 7), (x >= -5) & (x <= 2)), (4 * x - 10, (x >= 2) & (x <= 3)), (2 * x - 4, (x >= 3) & (x <= 4)), (x, (x >= 4) & (x <= 7)), (-x / 2 + Rational(21, 2), (x >= 7) & (x <= 9)), (14 * x - 120, (x >= 9) & (x <= 10)), (x * Rational(5, 4) + Rational(15, 2), (x >= 10) & (x <= 30)), (-26 * x + 825, (x >= 30) & (x <= 31)), (2 * x - 43, (x >= 31) & (x <= 34)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_10_points_degree_1_correct","statement":"Path(test_10_points_degree_1(x), spline == Piecewise((x * Rational(8, 7) - Rational(30, 7), (x >= -5) & (x <= 2)), (4 * x - 10, (x >= 2) & (x <= 3)), (2 * x - 4, (x >= 3) & (x <= 4)), (x, (x >= 4) & (x <= 7)), (-x / 2 + Rational(21, 2), (x >= 7) & (x <= 9)), (14 * x - 120, (x >= 9) & (x <= 10)), (x * Rational(5, 4) + Rational(15, 2), (x >= 10) & (x <= 30)), (-26 * x + 825, (x >= 30) & (x <= 31)), (2 * x - 43, (x >= 31) & (x <= 34))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ea366370020850c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["spline == Piecewise((x * Rational(8, 7) - Rational(30, 7), (x >= -5) & (x <= 2)), (4 * x - 10, (x >= 2) & (x <= 3)), (2 * x - 4, (x >= 3) & (x <= 4)), (x, (x >= 4) & (x <= 7)), (-x / 2 + Rational(21, 2), (x >= 7) & (x <= 9)), (14 * x - 120, (x >= 9) & (x <= 10)), (x * Rational(5, 4) + Rational(15, 2), (x >= 10) & (x <= 30)), (-26 * x + 825, (x >= 30) & (x <= 31)), (2 * x - 43, (x >= 31) & (x <= 34)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_10_points_degree_1():
     d = 1
     X = [-5, 2, 3, 4, 7, 9, 10, 30, 31, 34]
@@ -216,16 +265,22 @@ def test_10_points_degree_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_3_points_degree_2(), test_3_points_degree_2 produces the expected output) over Any ║
+# ║ Path(test_3_points_degree_2(), spline == Piecewise((505 * x ** 2 / 2574 - x * Rational(4921, 2574) - Rational(1931, 429), (x >= -3) & (x <= 19)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_3_points_degree_2 : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  spline == Piecewise((505 * x ** 2 / 2574 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_3_points_degree_2 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd7f51bb56605255  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 542be8cc21c52099  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_3_points_degree_2","kind":"function","src_hash":"33b0e170d3478b1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_3_points_degree_2()","rhs":"test_3_points_degree_2 produces the expected output","over":{"base":"Any"},"name":"test_3_points_degree_2_correct"},"guarantee":"test_3_points_degree_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_3_points_degree_2_correct","statement":"Path(test_3_points_degree_2(x), test_3_points_degree_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd7f51bb56605255"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_3_points_degree_2","kind":"function","src_hash":"33b0e170d3478b1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: spline == Piecewise((505 * x ** 2 / 2574 - x * Rational(4921, 2574) - Rational(1931, 429), (x >= -3) & (x <= 19)))"},"spec":{"lhs":"test_3_points_degree_2()","rhs":"spline == Piecewise((505 * x ** 2 / 2574 - x * Rational(4921, 2574) - Rational(1931, 429), (x >= -3) & (x <= 19)))","over":{"base":"Any"},"name":"test_3_points_degree_2_correct"},"guarantee":"spline == Piecewise((505 * x ** 2 / 2574 - x * Rational(4921, 2574) - Rational(1931, 429), (x >= -3) & (x <= 19)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_3_points_degree_2_correct","statement":"Path(test_3_points_degree_2(x), spline == Piecewise((505 * x ** 2 / 2574 - x * Rational(4921, 2574) - Rational(1931, 429), (x >= -3) & (x <= 19))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"542be8cc21c52099","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["spline == Piecewise((505 * x ** 2 / 2574 - x * Rational(4921, 2574) - Rational(1931, 429), (x >= -3) & (x <= 19)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_3_points_degree_2():
     d = 2
     X = [-3, 10, 19]
@@ -236,16 +291,22 @@ def test_3_points_degree_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_5_points_degree_2(), test_5_points_degree_2 produces the expected output) over Any ║
+# ║ Path(test_5_points_degree_2(), spline == Piecewise((4 * x ** 2 / 329 + x * Rational(1007, 1645) + Rational(1196, 1645), (x >= -3) & (x <= 3)), (2701 * x ** 2 / 1645 - x * Rational(15079, 1645) + Rational(5065, 329), (x >= 3) & (x <= Rational(9, 2))), (-1319 * x ** 2 / 1645 + x * Rational(21101, 1645) - Rational(11216, 329), (x >= Rational(9, 2)) & (x <= 10)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_5_points_degree_2 : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  spline == Piecewise((4 * x ** 2 / 329 + x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_5_points_degree_2 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b10f4e9a353f34c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7c4f924a66de5b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_5_points_degree_2","kind":"function","src_hash":"30eb2b2253296e3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_5_points_degree_2()","rhs":"test_5_points_degree_2 produces the expected output","over":{"base":"Any"},"name":"test_5_points_degree_2_correct"},"guarantee":"test_5_points_degree_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_5_points_degree_2_correct","statement":"Path(test_5_points_degree_2(x), test_5_points_degree_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b10f4e9a353f34c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_5_points_degree_2","kind":"function","src_hash":"30eb2b2253296e3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: spline == Piecewise((4 * x ** 2 / 329 + x * Rational(1007, 1645) + Rational(1196, 1645), (x >= -3) & (x <= 3)), (2701 * x ** 2 / 1645 - x * Rational(15079, 1645) + Rational(5065, 329), (x >= 3) & (x <= Rational(9, 2))), (-1319 * x ** 2 / 1645 + x * Rational(21101, 1645) - Rational(11216, 329), (x >= Rational(9, 2)) & (x <= 10)))"},"spec":{"lhs":"test_5_points_degree_2()","rhs":"spline == Piecewise((4 * x ** 2 / 329 + x * Rational(1007, 1645) + Rational(1196, 1645), (x >= -3) & (x <= 3)), (2701 * x ** 2 / 1645 - x * Rational(15079, 1645) + Rational(5065, 329), (x >= 3) & (x <= Rational(9, 2))), (-1319 * x ** 2 / 1645 + x * Rational(21101, 1645) - Rational(11216, 329), (x >= Rational(9, 2)) & (x <= 10)))","over":{"base":"Any"},"name":"test_5_points_degree_2_correct"},"guarantee":"spline == Piecewise((4 * x ** 2 / 329 + x * Rational(1007, 1645) + Rational(1196, 1645), (x >= -3) & (x <= 3)), (2701 * x ** 2 / 1645 - x * Rational(15079, 1645) + Rational(5065, 329), (x >= 3) & (x <= Rational(9, 2))), (-1319 * x ** 2 / 1645 + x * Rational(21101, 1645) - Rational(11216, 329), (x >= Rational(9, 2)) & (x <= 10)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_5_points_degree_2_correct","statement":"Path(test_5_points_degree_2(x), spline == Piecewise((4 * x ** 2 / 329 + x * Rational(1007, 1645) + Rational(1196, 1645), (x >= -3) & (x <= 3)), (2701 * x ** 2 / 1645 - x * Rational(15079, 1645) + Rational(5065, 329), (x >= 3) & (x <= Rational(9, 2))), (-1319 * x ** 2 / 1645 + x * Rational(21101, 1645) - Rational(11216, 329), (x >= Rational(9, 2)) & (x <= 10))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7c4f924a66de5b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["spline == Piecewise((4 * x ** 2 / 329 + x * Rational(1007, 1645) + Rational(1196, 1645), (x >= -3) & (x <= 3)), (2701 * x ** 2 / 1645 - x * Rational(15079, 1645) + Rational(5065, 329), (x >= 3) & (x <= Rational(9, 2))), (-1319 * x ** 2 / 1645 + x * Rational(21101, 1645) - Rational(11216, 329), (x >= Rational(9, 2)) & (x <= 10)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_5_points_degree_2():
     d = 2
     X = [-3, 2, 4, 5, 10]
@@ -259,16 +320,22 @@ def test_5_points_degree_2():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_6_points_degree_3(), test_6_points_degree_3 produces the expected output) over Any ║
+# ║ Path(test_6_points_degree_3(), spline == Piecewise((6058 * x ** 3 / 5301 - 18427 * x ** 2 / 5301 + x * Rational(12622, 5301) + 3, (x >= -1) & (x <= 2)), (-8327 * x ** 3 / 5301 + 67883 * x ** 2 / 5301 - x * Rational(159998, 5301) + Rational(43661, 1767), (x >= 2) & (x <= 3)), (5414 * x ** 3 / 47709 - 1386 * x ** 2 / 589 + x * Rational(4267, 279) - Rational(12232, 589), (x >= 3) & (x <= 12)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_6_points_degree_3 : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  spline == Piecewise((6058 * x ** 3 / 5301...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_6_points_degree_3 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d51af34443f5ef0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91b10331a0d66be3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_6_points_degree_3","kind":"function","src_hash":"720b5381f3973981","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_6_points_degree_3()","rhs":"test_6_points_degree_3 produces the expected output","over":{"base":"Any"},"name":"test_6_points_degree_3_correct"},"guarantee":"test_6_points_degree_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_6_points_degree_3_correct","statement":"Path(test_6_points_degree_3(x), test_6_points_degree_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d51af34443f5ef0a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_6_points_degree_3","kind":"function","src_hash":"720b5381f3973981","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: spline == Piecewise((6058 * x ** 3 / 5301 - 18427 * x ** 2 / 5301 + x * Rational(12622, 5301) + 3, (x >= -1) & (x <= 2)), (-8327 * x ** 3 / 5301 + 67883 * x ** 2 / 5301 - x * Rational(159998, 5301) + Rational(43661, 1767), (x >= 2) & (x <= 3)), (5414 * x ** 3 / 47709 - 1386 * x ** 2 / 589 + x * Rational(4267, 279) - Rational(12232, 589), (x >= 3) & (x <= 12)))"},"spec":{"lhs":"test_6_points_degree_3()","rhs":"spline == Piecewise((6058 * x ** 3 / 5301 - 18427 * x ** 2 / 5301 + x * Rational(12622, 5301) + 3, (x >= -1) & (x <= 2)), (-8327 * x ** 3 / 5301 + 67883 * x ** 2 / 5301 - x * Rational(159998, 5301) + Rational(43661, 1767), (x >= 2) & (x <= 3)), (5414 * x ** 3 / 47709 - 1386 * x ** 2 / 589 + x * Rational(4267, 279) - Rational(12232, 589), (x >= 3) & (x <= 12)))","over":{"base":"Any"},"name":"test_6_points_degree_3_correct"},"guarantee":"spline == Piecewise((6058 * x ** 3 / 5301 - 18427 * x ** 2 / 5301 + x * Rational(12622, 5301) + 3, (x >= -1) & (x <= 2)), (-8327 * x ** 3 / 5301 + 67883 * x ** 2 / 5301 - x * Rational(159998, 5301) + Rational(43661, 1767), (x >= 2) & (x <= 3)), (5414 * x ** 3 / 47709 - 1386 * x ** 2 / 589 + x * Rational(4267, 279) - Rational(12232, 589), (x >= 3) & (x <= 12)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_6_points_degree_3_correct","statement":"Path(test_6_points_degree_3(x), spline == Piecewise((6058 * x ** 3 / 5301 - 18427 * x ** 2 / 5301 + x * Rational(12622, 5301) + 3, (x >= -1) & (x <= 2)), (-8327 * x ** 3 / 5301 + 67883 * x ** 2 / 5301 - x * Rational(159998, 5301) + Rational(43661, 1767), (x >= 2) & (x <= 3)), (5414 * x ** 3 / 47709 - 1386 * x ** 2 / 589 + x * Rational(4267, 279) - Rational(12232, 589), (x >= 3) & (x <= 12))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91b10331a0d66be3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["spline == Piecewise((6058 * x ** 3 / 5301 - 18427 * x ** 2 / 5301 + x * Rational(12622, 5301) + 3, (x >= -1) & (x <= 2)), (-8327 * x ** 3 / 5301 + 67883 * x ** 2 / 5301 - x * Rational(159998, 5301) + Rational(43661, 1767), (x >= 2) & (x <= 3)), (5414 * x ** 3 / 47709 - 1386 * x ** 2 / 589 + x * Rational(4267, 279) - Rational(12232, 589), (x >= 3) & (x <= 12)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_6_points_degree_3():
     d = 3
     X = [-1, 0, 2, 3, 9, 12]
@@ -281,16 +348,23 @@ def test_6_points_degree_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19262(), test_issue_19262 produces the expected output) over Any ║
+# ║ Path(test_issue_19262(), basis[0].subs(x, y) == basis2[0] and interpolating_spline(1, x, [Delta * i for i in [1, 2, 4, 7]], [3, 6, 5, 7]) == Piecewise((3 * x / Delta, (Delta <= x) & (x <= 2 * Delta)), (7 - x / (2 * Delta), (x >= 2 * Delta) & (x <= 4 * Delta)), (Rational(7, 3) + 2 * x / (3 * Delta), (x >= 4 * Delta) & (x <= 7 * Delta)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19262 : Any → {Any | basis[0].subs(x, y) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  basis[0].subs(x, y) == basis2[0]               ║
+# ║   ensures:  interpolating_spline(1, x, [Delta * i for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19262 : Any → {Any | result satisfies: bas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d10ca4dc28feb578  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d56daac02f8fe437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_issue_19262","kind":"function","src_hash":"3dc5b6d0af20b132","in":{"base":"Any"},"out":{"base":"Any","pred":"basis[0].subs(x, y) == basis2[0]"},"spec":{"lhs":"test_issue_19262()","rhs":"test_issue_19262 produces the expected output","over":{"base":"Any"},"name":"test_issue_19262_correct"},"guarantee":"test_issue_19262 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_issue_19262_correct","statement":"Path(test_issue_19262(x), test_issue_19262 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d10ca4dc28feb578"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_bsplines.test_issue_19262","kind":"function","src_hash":"3dc5b6d0af20b132","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: basis[0].subs(x, y) == basis2[0] and interpolating_spline(1, x, [Delta * i for i in [1, 2, 4, 7]], [3, 6, 5, 7]) == Piecewise((3 * x / Delta, (Delta <= x) & (x <= 2 * Delta)), (7 - x / (2 * Delta), (x >= 2 * Delta) & (x <= 4 * Delta)), (Rational(7, 3) + 2 * x / (3 * Delta), (x >= 4 * Delta) & (x <= 7 * Delta)))"},"spec":{"lhs":"test_issue_19262()","rhs":"basis[0].subs(x, y) == basis2[0] and interpolating_spline(1, x, [Delta * i for i in [1, 2, 4, 7]], [3, 6, 5, 7]) == Piecewise((3 * x / Delta, (Delta <= x) & (x <= 2 * Delta)), (7 - x / (2 * Delta), (x >= 2 * Delta) & (x <= 4 * Delta)), (Rational(7, 3) + 2 * x / (3 * Delta), (x >= 4 * Delta) & (x <= 7 * Delta)))","over":{"base":"Any"},"name":"test_issue_19262_correct"},"guarantee":"basis[0].subs(x, y) == basis2[0]; interpolating_spline(1, x, [Delta * i for i in [1, 2, 4, 7]], [3, 6, 5, 7]) == Piecewise((3 * x / Delta, (Delta <= x) & (x <= 2 * Delta)), (7 - x / (2 * Delta), (x >= 2 * Delta) & (x <= 4 * Delta)), (Rational(7, 3) + 2 * x / (3 * Delta), (x >= 4 * Delta) & (x <= 7 * Delta)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_bsplines.test_issue_19262_correct","statement":"Path(test_issue_19262(x), basis[0].subs(x, y) == basis2[0]; interpolating_spline(1, x, [Delta * i for i in [1, 2, 4, 7]], [3, 6, 5, 7]) == Piecewise((3 * x / Delta, (Delta <= x) & (x <= 2 * Delta)), (7 - x / (2 * Delta), (x >= 2 * Delta) & (x <= 4 * Delta)), (Rational(7, 3) + 2 * x / (3 * Delta), (x >= 4 * Delta) & (x <= 7 * Delta))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d56daac02f8fe437","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["basis[0].subs(x, y) == basis2[0]","interpolating_spline(1, x, [Delta * i for i in [1, 2, 4, 7]], [3, 6, 5, 7]) == Piecewise((3 * x / Delta, (Delta <= x) & (x <= 2 * Delta)), (7 - x / (2 * Delta), (x >= 2 * Delta) & (x <= 4 * Delta)), (Rational(7, 3) + 2 * x / (3 * Delta), (x >= 4 * Delta) & (x <= 7 * Delta)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_19262():
     Delta = symbols('Delta', positive=True)
     knots = [i*Delta for i in range(4)]

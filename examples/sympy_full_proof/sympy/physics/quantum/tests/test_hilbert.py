@@ -28,7 +28,12 @@ from sympy.sets.sets import Interval
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hilbert_space(), test_hilbert_space produces the expected output) over {Any | isinstance(hs, HilbertSpace)} ║
+# ║ Path(test_hilbert_space(), isinstance(hs, HilbertSpace) and sstr(hs) == 'H' and srepr(hs) == 'HilbertSpace()') over {Any | isinstance(hs, HilbertSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(hs, HilbertSpace)                   ║
+# ║   ensures:  sstr(hs) == 'H'                                ║
+# ║   ensures:  srepr(hs) == 'HilbertSpace()'                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hilbert_space : {Any | isinstance(hs, HilbertSpa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -40,9 +45,12 @@ from sympy.sets.sets import Interval
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b7aa073b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_hilbert_space","kind":"function","src_hash":"7d8f64548546be00","in":{"base":"Any","pred":"isinstance(hs, HilbertSpace)"},"out":{"base":"Any","pred":"isinstance(hs, HilbertSpace) and sstr(hs) == 'H' and srepr(hs) == 'HilbertSpace()'"},"spec":{"lhs":"test_hilbert_space()","rhs":"test_hilbert_space produces the expected output","over":{"base":"Any","pred":"isinstance(hs, HilbertSpace)"},"name":"test_hilbert_space_correct"},"guarantee":"test_hilbert_space produces the expected output","fibers":[{"name":"HilbertSpace","pred":"isinstance(hs, HilbertSpace)","path":{"lhs":"test_hilbert_space(x)","rhs":"test_hilbert_space produces the expected output","over":{"base":"HilbertSpace","pred":"isinstance(hs, HilbertSpace)"},"name":"test_hilbert_space_HilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_hilbert_space_HilbertSpace_correct","statement":"test_hilbert_space satisfies spec on HilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b7aa073bdef8f812"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_hilbert_space","kind":"function","src_hash":"7d8f64548546be00","in":{"base":"Any","pred":"isinstance(hs, HilbertSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(hs, HilbertSpace) and sstr(hs) == 'H' and srepr(hs) == 'HilbertSpace()'"},"spec":{"lhs":"test_hilbert_space()","rhs":"isinstance(hs, HilbertSpace) and sstr(hs) == 'H' and srepr(hs) == 'HilbertSpace()'","over":{"base":"Any","pred":"isinstance(hs, HilbertSpace)"},"name":"test_hilbert_space_correct"},"guarantee":"isinstance(hs, HilbertSpace); sstr(hs) == 'H'; srepr(hs) == 'HilbertSpace()'","fibers":[{"name":"HilbertSpace","pred":"isinstance(hs, HilbertSpace)","path":{"lhs":"test_hilbert_space(x)","rhs":"isinstance(hs, HilbertSpace); sstr(hs) == 'H'; srepr(hs) == 'HilbertSpace()'","over":{"base":"HilbertSpace","pred":"isinstance(hs, HilbertSpace)"},"name":"test_hilbert_space_HilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_hilbert_space_HilbertSpace_correct","statement":"test_hilbert_space satisfies spec on HilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b7aa073bdef8f812","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(hs, HilbertSpace)","sstr(hs) == 'H'","srepr(hs) == 'HilbertSpace()'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_hilbert_space():
     hs = HilbertSpace()
     assert isinstance(hs, HilbertSpace)
@@ -51,7 +59,12 @@ def test_hilbert_space():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complex_space(), test_complex_space produces the expected output) over {Any | isinstance(c1, ComplexSpace)} ║
+# ║ Path(test_complex_space(), isinstance(c1, ComplexSpace) and c1.dimension == 2 and sstr(c1) == 'C(2)' and srepr(c1) == 'ComplexSpace(Integer(2))' and isinstance(c2, ComplexSpace) and c2.dimension == n and sstr(c2) == 'C(n)' and srepr(c2) == "ComplexSpace(Symbol('n'))" and c2.subs(n, 2) == ComplexSpace(2)) over {Any | isinstance(c1, ComplexSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(c1, ComplexSpace)                   ║
+# ║   ensures:  c1.dimension == 2                              ║
+# ║   ensures:  sstr(c1) == 'C(2)'                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_complex_space : {Any | isinstance(c1, ComplexSpa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -63,9 +76,12 @@ def test_hilbert_space():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0c2e6a5d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_complex_space","kind":"function","src_hash":"cf90aed4fc1a14ab","in":{"base":"Any","pred":"isinstance(c1, ComplexSpace)"},"out":{"base":"Any","pred":"isinstance(c1, ComplexSpace) and c1.dimension == 2 and sstr(c1) == 'C(2)' and srepr(c1) == 'ComplexSpace(Integer(2))' and isinstance(c2, ComplexSpace) and c2.dimension == n and sstr(c2) == 'C(n)' and srepr(c2) == \"ComplexSpace(Symbol('n'))\" and c2.subs(n, 2) == ComplexSpace(2)"},"spec":{"lhs":"test_complex_space()","rhs":"test_complex_space produces the expected output","over":{"base":"Any","pred":"isinstance(c1, ComplexSpace)"},"name":"test_complex_space_correct"},"guarantee":"test_complex_space produces the expected output","fibers":[{"name":"ComplexSpace","pred":"isinstance(c1, ComplexSpace)","path":{"lhs":"test_complex_space(x)","rhs":"test_complex_space produces the expected output","over":{"base":"ComplexSpace","pred":"isinstance(c1, ComplexSpace)"},"name":"test_complex_space_ComplexSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_complex_space_ComplexSpace_correct","statement":"test_complex_space satisfies spec on ComplexSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0c2e6a5da6b9f0c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_complex_space","kind":"function","src_hash":"cf90aed4fc1a14ab","in":{"base":"Any","pred":"isinstance(c1, ComplexSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(c1, ComplexSpace) and c1.dimension == 2 and sstr(c1) == 'C(2)' and srepr(c1) == 'ComplexSpace(Integer(2))' and isinstance(c2, ComplexSpace) and c2.dimension == n and sstr(c2) == 'C(n)' and srepr(c2) == \"ComplexSpace(Symbol('n'))\" and c2.subs(n, 2) == ComplexSpace(2)"},"spec":{"lhs":"test_complex_space()","rhs":"isinstance(c1, ComplexSpace) and c1.dimension == 2 and sstr(c1) == 'C(2)' and srepr(c1) == 'ComplexSpace(Integer(2))' and isinstance(c2, ComplexSpace) and c2.dimension == n and sstr(c2) == 'C(n)' and srepr(c2) == \"ComplexSpace(Symbol('n'))\" and c2.subs(n, 2) == ComplexSpace(2)","over":{"base":"Any","pred":"isinstance(c1, ComplexSpace)"},"name":"test_complex_space_correct"},"guarantee":"isinstance(c1, ComplexSpace); c1.dimension == 2; sstr(c1) == 'C(2)'","fibers":[{"name":"ComplexSpace","pred":"isinstance(c1, ComplexSpace)","path":{"lhs":"test_complex_space(x)","rhs":"isinstance(c1, ComplexSpace); c1.dimension == 2; sstr(c1) == 'C(2)'","over":{"base":"ComplexSpace","pred":"isinstance(c1, ComplexSpace)"},"name":"test_complex_space_ComplexSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_complex_space_ComplexSpace_correct","statement":"test_complex_space satisfies spec on ComplexSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0c2e6a5da6b9f0c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(c1, ComplexSpace)","c1.dimension == 2","sstr(c1) == 'C(2)'","srepr(c1) == 'ComplexSpace(Integer(2))'","isinstance(c2, ComplexSpace)","c2.dimension == n","sstr(c2) == 'C(n)'","srepr(c2) == \"ComplexSpace(Symbol('n'))\"","c2.subs(n, 2) == ComplexSpace(2)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_complex_space():
     c1 = ComplexSpace(2)
     assert isinstance(c1, ComplexSpace)
@@ -83,9 +99,14 @@ def test_complex_space():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_L2(), test_L2 produces the expected output) over {Any | isinstance(b1, L2)} ║
+# ║ Path(test_L2(), isinstance(b1, L2) and b1.dimension is oo and b1.interval == Interval(-oo, 1) and b2.dimension is oo and b2.interval == Interval(x, y) and b2.subs(x, -1) == L2(Interval(-1, y))) over {Any | isinstance(b1, L2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_L2 : {Any | isinstance(b1, L2)} → {Any | isinsta...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(b1, L2)                             ║
+# ║   ensures:  b1.dimension is oo                             ║
+# ║   ensures:  b1.interval == Interval(-oo, 1)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_L2 : {Any | isinstance(b1, L2)} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   L2: {isinstance(b1, L2)} → library_axiom                 ║
@@ -95,9 +116,12 @@ def test_complex_space():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ac9728c6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_L2","kind":"function","src_hash":"4045c67d4925126e","in":{"base":"Any","pred":"isinstance(b1, L2)"},"out":{"base":"Any","pred":"isinstance(b1, L2) and b1.dimension is oo and b1.interval == Interval(-oo, 1) and b2.dimension is oo and b2.interval == Interval(x, y) and b2.subs(x, -1) == L2(Interval(-1, y))"},"spec":{"lhs":"test_L2()","rhs":"test_L2 produces the expected output","over":{"base":"Any","pred":"isinstance(b1, L2)"},"name":"test_L2_correct"},"guarantee":"test_L2 produces the expected output","fibers":[{"name":"L2","pred":"isinstance(b1, L2)","path":{"lhs":"test_L2(x)","rhs":"test_L2 produces the expected output","over":{"base":"L2","pred":"isinstance(b1, L2)"},"name":"test_L2_L2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_L2_L2_correct","statement":"test_L2 satisfies spec on L2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac9728c6e00f25eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_L2","kind":"function","src_hash":"4045c67d4925126e","in":{"base":"Any","pred":"isinstance(b1, L2)"},"out":{"base":"Any","pred":"result satisfies: isinstance(b1, L2) and b1.dimension is oo and b1.interval == Interval(-oo, 1) and b2.dimension is oo and b2.interval == Interval(x, y) and b2.subs(x, -1) == L2(Interval(-1, y))"},"spec":{"lhs":"test_L2()","rhs":"isinstance(b1, L2) and b1.dimension is oo and b1.interval == Interval(-oo, 1) and b2.dimension is oo and b2.interval == Interval(x, y) and b2.subs(x, -1) == L2(Interval(-1, y))","over":{"base":"Any","pred":"isinstance(b1, L2)"},"name":"test_L2_correct"},"guarantee":"isinstance(b1, L2); b1.dimension is oo; b1.interval == Interval(-oo, 1)","fibers":[{"name":"L2","pred":"isinstance(b1, L2)","path":{"lhs":"test_L2(x)","rhs":"isinstance(b1, L2); b1.dimension is oo; b1.interval == Interval(-oo, 1)","over":{"base":"L2","pred":"isinstance(b1, L2)"},"name":"test_L2_L2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_L2_L2_correct","statement":"test_L2 satisfies spec on L2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac9728c6e00f25eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(b1, L2)","b1.dimension is oo","b1.interval == Interval(-oo, 1)","b2.dimension is oo","b2.interval == Interval(x, y)","b2.subs(x, -1) == L2(Interval(-1, y))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_L2():
     b1 = L2(Interval(-oo, 1))
     assert isinstance(b1, L2)
@@ -113,7 +137,12 @@ def test_L2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fock_space(), test_fock_space produces the expected output) over {Any | isinstance(f1, FockSpace)} ║
+# ║ Path(test_fock_space(), isinstance(f1, FockSpace) and f1.dimension is oo and f1 == f2) over {Any | isinstance(f1, FockSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(f1, FockSpace)                      ║
+# ║   ensures:  f1.dimension is oo                             ║
+# ║   ensures:  f1 == f2                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_fock_space : {Any | isinstance(f1, FockSpace)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -125,9 +154,12 @@ def test_L2():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b7d3cc4c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_fock_space","kind":"function","src_hash":"a869b6a236b6e3bf","in":{"base":"Any","pred":"isinstance(f1, FockSpace)"},"out":{"base":"Any","pred":"isinstance(f1, FockSpace) and f1.dimension is oo and f1 == f2"},"spec":{"lhs":"test_fock_space()","rhs":"test_fock_space produces the expected output","over":{"base":"Any","pred":"isinstance(f1, FockSpace)"},"name":"test_fock_space_correct"},"guarantee":"test_fock_space produces the expected output","fibers":[{"name":"FockSpace","pred":"isinstance(f1, FockSpace)","path":{"lhs":"test_fock_space(x)","rhs":"test_fock_space produces the expected output","over":{"base":"FockSpace","pred":"isinstance(f1, FockSpace)"},"name":"test_fock_space_FockSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_fock_space_FockSpace_correct","statement":"test_fock_space satisfies spec on FockSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b7d3cc4c3f20e73b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_fock_space","kind":"function","src_hash":"a869b6a236b6e3bf","in":{"base":"Any","pred":"isinstance(f1, FockSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(f1, FockSpace) and f1.dimension is oo and f1 == f2"},"spec":{"lhs":"test_fock_space()","rhs":"isinstance(f1, FockSpace) and f1.dimension is oo and f1 == f2","over":{"base":"Any","pred":"isinstance(f1, FockSpace)"},"name":"test_fock_space_correct"},"guarantee":"isinstance(f1, FockSpace); f1.dimension is oo; f1 == f2","fibers":[{"name":"FockSpace","pred":"isinstance(f1, FockSpace)","path":{"lhs":"test_fock_space(x)","rhs":"isinstance(f1, FockSpace); f1.dimension is oo; f1 == f2","over":{"base":"FockSpace","pred":"isinstance(f1, FockSpace)"},"name":"test_fock_space_FockSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_fock_space_FockSpace_correct","statement":"test_fock_space satisfies spec on FockSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b7d3cc4c3f20e73b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(f1, FockSpace)","f1.dimension is oo","f1 == f2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":true}}
 def test_fock_space():
     f1 = FockSpace()
     f2 = FockSpace()
@@ -137,7 +169,12 @@ def test_fock_space():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product(), test_tensor_product produces the expected output) over {Any | isinstance(h, TensorProductHilbertSpace) and isinstance(h, TensorPowerHilbertSpace)} ║
+# ║ Path(test_tensor_product(), isinstance(h, TensorProductHilbertSpace) and h.dimension == 2 * n and h.spaces == (hs1, hs2) and isinstance(h, TensorPowerHilbertSpace) and h.base == hs2 and h.exp == 2 and h.dimension == n ** 2 and h.dimension is oo) over {Any | isinstance(h, TensorProductHilbertSpace) and isinstance(h, TensorPowerHilbertSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(h, TensorProductHilbertSpace)       ║
+# ║   ensures:  h.dimension == 2 * n                           ║
+# ║   ensures:  h.spaces == (hs1, hs2)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensor_product : {Any | isinstance(h, TensorProd...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -150,9 +187,12 @@ def test_fock_space():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 15b2515f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_tensor_product","kind":"function","src_hash":"0bc688d27926c2b8","in":{"base":"Any","pred":"isinstance(h, TensorProductHilbertSpace) and isinstance(h, TensorPowerHilbertSpace)"},"out":{"base":"Any","pred":"isinstance(h, TensorProductHilbertSpace) and h.dimension == 2 * n and h.spaces == (hs1, hs2) and isinstance(h, TensorPowerHilbertSpace) and h.base == hs2 and h.exp == 2 and h.dimension == n ** 2 and h.dimension is oo"},"spec":{"lhs":"test_tensor_product()","rhs":"test_tensor_product produces the expected output","over":{"base":"Any","pred":"isinstance(h, TensorProductHilbertSpace) and isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_product_correct"},"guarantee":"test_tensor_product produces the expected output","fibers":[{"name":"TensorProductHilbertSpace","pred":"isinstance(h, TensorProductHilbertSpace)","path":{"lhs":"test_tensor_product(x)","rhs":"test_tensor_product produces the expected output","over":{"base":"TensorProductHilbertSpace","pred":"isinstance(h, TensorProductHilbertSpace)"},"name":"test_tensor_product_TensorProductHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_tensor_product_TensorProductHilbertSpace_correct","statement":"test_tensor_product satisfies spec on TensorProductHilbertSpace inputs"},"trust":"LIBRARY"},{"name":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)","path":{"lhs":"test_tensor_product(x)","rhs":"test_tensor_product produces the expected output","over":{"base":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_product_TensorPowerHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_tensor_product_TensorPowerHilbertSpace_correct","statement":"test_tensor_product satisfies spec on TensorPowerHilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15b2515f20334896"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_tensor_product","kind":"function","src_hash":"0bc688d27926c2b8","in":{"base":"Any","pred":"isinstance(h, TensorProductHilbertSpace) and isinstance(h, TensorPowerHilbertSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(h, TensorProductHilbertSpace) and h.dimension == 2 * n and h.spaces == (hs1, hs2) and isinstance(h, TensorPowerHilbertSpace) and h.base == hs2 and h.exp == 2 and h.dimension == n ** 2 and h.dimension is oo"},"spec":{"lhs":"test_tensor_product()","rhs":"isinstance(h, TensorProductHilbertSpace) and h.dimension == 2 * n and h.spaces == (hs1, hs2) and isinstance(h, TensorPowerHilbertSpace) and h.base == hs2 and h.exp == 2 and h.dimension == n ** 2 and h.dimension is oo","over":{"base":"Any","pred":"isinstance(h, TensorProductHilbertSpace) and isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_product_correct"},"guarantee":"isinstance(h, TensorProductHilbertSpace); h.dimension == 2 * n; h.spaces == (hs1, hs2)","fibers":[{"name":"TensorProductHilbertSpace","pred":"isinstance(h, TensorProductHilbertSpace)","path":{"lhs":"test_tensor_product(x)","rhs":"isinstance(h, TensorProductHilbertSpace); h.dimension == 2 * n; h.spaces == (hs1, hs2)","over":{"base":"TensorProductHilbertSpace","pred":"isinstance(h, TensorProductHilbertSpace)"},"name":"test_tensor_product_TensorProductHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_tensor_product_TensorProductHilbertSpace_correct","statement":"test_tensor_product satisfies spec on TensorProductHilbertSpace inputs"},"trust":"LIBRARY"},{"name":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)","path":{"lhs":"test_tensor_product(x)","rhs":"isinstance(h, TensorProductHilbertSpace); h.dimension == 2 * n; h.spaces == (hs1, hs2)","over":{"base":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_product_TensorPowerHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_tensor_product_TensorPowerHilbertSpace_correct","statement":"test_tensor_product satisfies spec on TensorPowerHilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15b2515f20334896","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(h, TensorProductHilbertSpace)","h.dimension == 2 * n","h.spaces == (hs1, hs2)","isinstance(h, TensorPowerHilbertSpace)","h.base == hs2","h.exp == 2","h.dimension == n ** 2","h.dimension is oo"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":true}}
 def test_tensor_product():
     n = Symbol('n')
     hs1 = ComplexSpace(2)
@@ -175,7 +215,12 @@ def test_tensor_product():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_power(), test_tensor_power produces the expected output) over {Any | isinstance(h, TensorPowerHilbertSpace)} ║
+# ║ Path(test_tensor_power(), isinstance(h, TensorPowerHilbertSpace) and h.base == hs1 and h.exp == 2 and h.dimension == 4 and h.base == hs2 and h.exp == 3 and h.dimension == n ** 3) over {Any | isinstance(h, TensorPowerHilbertSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(h, TensorPowerHilbertSpace)         ║
+# ║   ensures:  h.base == hs1                                  ║
+# ║   ensures:  h.exp == 2                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensor_power : {Any | isinstance(h, TensorPowerH...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -187,9 +232,12 @@ def test_tensor_product():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c9e57179...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_tensor_power","kind":"function","src_hash":"67b24c53682a1a90","in":{"base":"Any","pred":"isinstance(h, TensorPowerHilbertSpace)"},"out":{"base":"Any","pred":"isinstance(h, TensorPowerHilbertSpace) and h.base == hs1 and h.exp == 2 and h.dimension == 4 and isinstance(h, TensorPowerHilbertSpace) and h.base == hs2 and h.exp == 3 and h.dimension == n ** 3"},"spec":{"lhs":"test_tensor_power()","rhs":"test_tensor_power produces the expected output","over":{"base":"Any","pred":"isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_power_correct"},"guarantee":"test_tensor_power produces the expected output","fibers":[{"name":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)","path":{"lhs":"test_tensor_power(x)","rhs":"test_tensor_power produces the expected output","over":{"base":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_power_TensorPowerHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_tensor_power_TensorPowerHilbertSpace_correct","statement":"test_tensor_power satisfies spec on TensorPowerHilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9e57179d12fc3ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_tensor_power","kind":"function","src_hash":"67b24c53682a1a90","in":{"base":"Any","pred":"isinstance(h, TensorPowerHilbertSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(h, TensorPowerHilbertSpace) and h.base == hs1 and h.exp == 2 and h.dimension == 4 and h.base == hs2 and h.exp == 3 and h.dimension == n ** 3"},"spec":{"lhs":"test_tensor_power()","rhs":"isinstance(h, TensorPowerHilbertSpace) and h.base == hs1 and h.exp == 2 and h.dimension == 4 and h.base == hs2 and h.exp == 3 and h.dimension == n ** 3","over":{"base":"Any","pred":"isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_power_correct"},"guarantee":"isinstance(h, TensorPowerHilbertSpace); h.base == hs1; h.exp == 2","fibers":[{"name":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)","path":{"lhs":"test_tensor_power(x)","rhs":"isinstance(h, TensorPowerHilbertSpace); h.base == hs1; h.exp == 2","over":{"base":"TensorPowerHilbertSpace","pred":"isinstance(h, TensorPowerHilbertSpace)"},"name":"test_tensor_power_TensorPowerHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_tensor_power_TensorPowerHilbertSpace_correct","statement":"test_tensor_power satisfies spec on TensorPowerHilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9e57179d12fc3ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(h, TensorPowerHilbertSpace)","h.base == hs1","h.exp == 2","h.dimension == 4","h.base == hs2","h.exp == 3","h.dimension == n ** 3"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_tensor_power():
     n = Symbol('n')
     hs1 = ComplexSpace(2)
@@ -209,7 +257,12 @@ def test_tensor_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_direct_sum(), test_direct_sum produces the expected output) over {Any | isinstance(h, DirectSumHilbertSpace)} ║
+# ║ Path(test_direct_sum(), isinstance(h, DirectSumHilbertSpace) and h.dimension == 2 + n and h.spaces == (hs1, hs2) and h.dimension is oo and h.spaces == (hs1, f, hs2)) over {Any | isinstance(h, DirectSumHilbertSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(h, DirectSumHilbertSpace)           ║
+# ║   ensures:  h.dimension == 2 + n                           ║
+# ║   ensures:  h.spaces == (hs1, hs2)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_direct_sum : {Any | isinstance(h, DirectSumHilbe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -221,9 +274,12 @@ def test_tensor_power():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4d8eb2fb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_direct_sum","kind":"function","src_hash":"31569db2e4a58f21","in":{"base":"Any","pred":"isinstance(h, DirectSumHilbertSpace)"},"out":{"base":"Any","pred":"isinstance(h, DirectSumHilbertSpace) and h.dimension == 2 + n and h.spaces == (hs1, hs2) and h.dimension is oo and h.spaces == (hs1, f, hs2)"},"spec":{"lhs":"test_direct_sum()","rhs":"test_direct_sum produces the expected output","over":{"base":"Any","pred":"isinstance(h, DirectSumHilbertSpace)"},"name":"test_direct_sum_correct"},"guarantee":"test_direct_sum produces the expected output","fibers":[{"name":"DirectSumHilbertSpace","pred":"isinstance(h, DirectSumHilbertSpace)","path":{"lhs":"test_direct_sum(x)","rhs":"test_direct_sum produces the expected output","over":{"base":"DirectSumHilbertSpace","pred":"isinstance(h, DirectSumHilbertSpace)"},"name":"test_direct_sum_DirectSumHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_direct_sum_DirectSumHilbertSpace_correct","statement":"test_direct_sum satisfies spec on DirectSumHilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4d8eb2fba4f3d474"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_hilbert.test_direct_sum","kind":"function","src_hash":"31569db2e4a58f21","in":{"base":"Any","pred":"isinstance(h, DirectSumHilbertSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(h, DirectSumHilbertSpace) and h.dimension == 2 + n and h.spaces == (hs1, hs2) and h.dimension is oo and h.spaces == (hs1, f, hs2)"},"spec":{"lhs":"test_direct_sum()","rhs":"isinstance(h, DirectSumHilbertSpace) and h.dimension == 2 + n and h.spaces == (hs1, hs2) and h.dimension is oo and h.spaces == (hs1, f, hs2)","over":{"base":"Any","pred":"isinstance(h, DirectSumHilbertSpace)"},"name":"test_direct_sum_correct"},"guarantee":"isinstance(h, DirectSumHilbertSpace); h.dimension == 2 + n; h.spaces == (hs1, hs2)","fibers":[{"name":"DirectSumHilbertSpace","pred":"isinstance(h, DirectSumHilbertSpace)","path":{"lhs":"test_direct_sum(x)","rhs":"isinstance(h, DirectSumHilbertSpace); h.dimension == 2 + n; h.spaces == (hs1, hs2)","over":{"base":"DirectSumHilbertSpace","pred":"isinstance(h, DirectSumHilbertSpace)"},"name":"test_direct_sum_DirectSumHilbertSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_hilbert.test_direct_sum_DirectSumHilbertSpace_correct","statement":"test_direct_sum satisfies spec on DirectSumHilbertSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4d8eb2fba4f3d474","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(h, DirectSumHilbertSpace)","h.dimension == 2 + n","h.spaces == (hs1, hs2)","h.dimension is oo","h.spaces == (hs1, f, hs2)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_direct_sum():
     n = Symbol('n')
     hs1 = ComplexSpace(2)

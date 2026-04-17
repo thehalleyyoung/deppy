@@ -22,16 +22,24 @@ from sympy.functions import hyper
 from sympy.simplify.hyperexpand import Hyper_Function
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_attrs(), test_attrs produces the expected output) over Any ║
+# ║ Path(test_attrs(), f.ap == Tuple(2, a) and f.bq == Tuple(b) and f.args == (Tuple(2, a), Tuple(b)) and f.sizes == (2, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_attrs : Any → {Any | f.ap == Tuple(2, a) and f.b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.ap == Tuple(2, a)                            ║
+# ║   ensures:  f.bq == Tuple(b)                               ║
+# ║   ensures:  f.args == (Tuple(2, a), Tuple(b))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_attrs : Any → {Any | result satisfies: f.ap == T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 660da871d87d9c79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44c0180cc3d44d6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_attrs","kind":"function","src_hash":"cafd15a7d84aebc1","in":{"base":"Any"},"out":{"base":"Any","pred":"f.ap == Tuple(2, a) and f.bq == Tuple(b) and f.args == (Tuple(2, a), Tuple(b)) and f.sizes == (2, 1)"},"spec":{"lhs":"test_attrs()","rhs":"test_attrs produces the expected output","over":{"base":"Any"},"name":"test_attrs_correct"},"guarantee":"test_attrs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_attrs_correct","statement":"Path(test_attrs(x), test_attrs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"660da871d87d9c79"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_attrs","kind":"function","src_hash":"cafd15a7d84aebc1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.ap == Tuple(2, a) and f.bq == Tuple(b) and f.args == (Tuple(2, a), Tuple(b)) and f.sizes == (2, 1)"},"spec":{"lhs":"test_attrs()","rhs":"f.ap == Tuple(2, a) and f.bq == Tuple(b) and f.args == (Tuple(2, a), Tuple(b)) and f.sizes == (2, 1)","over":{"base":"Any"},"name":"test_attrs_correct"},"guarantee":"f.ap == Tuple(2, a); f.bq == Tuple(b); f.args == (Tuple(2, a), Tuple(b))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_attrs_correct","statement":"Path(test_attrs(x), f.ap == Tuple(2, a); f.bq == Tuple(b); f.args == (Tuple(2, a), Tuple(b)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44c0180cc3d44d6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.ap == Tuple(2, a)","f.bq == Tuple(b)","f.args == (Tuple(2, a), Tuple(b))","f.sizes == (2, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_attrs():
     a, b = symbols('a, b', cls=Dummy)
     f = Hyper_Function([2, a], [b])
@@ -41,32 +49,46 @@ def test_attrs():
     assert f.sizes == (2, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_call(), test_call produces the expected output) over Any ║
+# ║ Path(test_call(), f(x) == hyper([2, a], [b], x)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_call : Any → {Any | f(x) == hyper([2, a], [b], x)}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(x) == hyper([2, a], [b], x)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_call : Any → {Any | result satisfies: f(x) == hy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75b3710951d5fe8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfc94b01c9b1d074  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_call","kind":"function","src_hash":"4cbb4a4e15945344","in":{"base":"Any"},"out":{"base":"Any","pred":"f(x) == hyper([2, a], [b], x)"},"spec":{"lhs":"test_call()","rhs":"test_call produces the expected output","over":{"base":"Any"},"name":"test_call_correct"},"guarantee":"test_call produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_call_correct","statement":"Path(test_call(x), test_call produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b3710951d5fe8f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_call","kind":"function","src_hash":"4cbb4a4e15945344","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(x) == hyper([2, a], [b], x)"},"spec":{"lhs":"test_call()","rhs":"f(x) == hyper([2, a], [b], x)","over":{"base":"Any"},"name":"test_call_correct"},"guarantee":"f(x) == hyper([2, a], [b], x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_call_correct","statement":"Path(test_call(x), f(x) == hyper([2, a], [b], x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfc94b01c9b1d074","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(x) == hyper([2, a], [b], x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_call():
     a, b, x = symbols('a, b, x', cls=Dummy)
     f = Hyper_Function([2, a], [b])
     assert f(x) == hyper([2, a], [b], x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_has(), test_has produces the expected output) over Any ║
+# ║ Path(test_has(), f.has(a) and f.has(Tuple(b)) and not f.has(c)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_has : Any → {Any | f.has(a) and f.has(Tuple(b)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.has(a)                                       ║
+# ║   ensures:  f.has(Tuple(b))                                ║
+# ║   ensures:  not f.has(c)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_has : Any → {Any | result satisfies: f.has(a) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eb22de4a381a9ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62ac2647165bb732  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_has","kind":"function","src_hash":"604f0c56f8da877a","in":{"base":"Any"},"out":{"base":"Any","pred":"f.has(a) and f.has(Tuple(b)) and not f.has(c)"},"spec":{"lhs":"test_has()","rhs":"test_has produces the expected output","over":{"base":"Any"},"name":"test_has_correct"},"guarantee":"test_has produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_has_correct","statement":"Path(test_has(x), test_has produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eb22de4a381a9ce"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_has","kind":"function","src_hash":"604f0c56f8da877a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.has(a) and f.has(Tuple(b)) and not f.has(c)"},"spec":{"lhs":"test_has()","rhs":"f.has(a) and f.has(Tuple(b)) and not f.has(c)","over":{"base":"Any"},"name":"test_has_correct"},"guarantee":"f.has(a); f.has(Tuple(b)); not f.has(c)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_has_correct","statement":"Path(test_has(x), f.has(a); f.has(Tuple(b)); not f.has(c))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62ac2647165bb732","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.has(a)","f.has(Tuple(b))","not f.has(c)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_has():
     a, b, c = symbols('a, b, c', cls=Dummy)
     f = Hyper_Function([2, -a], [b])
@@ -75,16 +97,24 @@ def test_has():
     assert not f.has(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eq(), test_eq produces the expected output) over Any ║
+# ║ Path(test_eq(), Hyper_Function([1], []) == Hyper_Function([1], []) and (Hyper_Function([1], []) != Hyper_Function([1], [])) is False and Hyper_Function([1], []) != Hyper_Function([2], []) and Hyper_Function([1], []) != Hyper_Function([1, 2], []) and Hyper_Function([1], []) != Hyper_Function([1], [2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eq : Any → {Any | Hyper_Function([1], []) == Hyp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Hyper_Function([1], []) == Hyper_Function...   ║
+# ║   ensures:  (Hyper_Function([1], []) != Hyper_Functio...   ║
+# ║   ensures:  Hyper_Function([1], []) != Hyper_Function...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eq : Any → {Any | result satisfies: Hyper_Functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfccf97270078dab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00a319693e27a519  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_eq","kind":"function","src_hash":"b9dc450b8c7ea80d","in":{"base":"Any"},"out":{"base":"Any","pred":"Hyper_Function([1], []) == Hyper_Function([1], []) and (Hyper_Function([1], []) != Hyper_Function([1], [])) is False and Hyper_Function([1], []) != Hyper_Function([2], []) and Hyper_Function([1], []) != Hyper_Function([1, 2], []) and Hyper_Function([1], []) != Hyper_Function([1], [2])"},"spec":{"lhs":"test_eq()","rhs":"test_eq produces the expected output","over":{"base":"Any"},"name":"test_eq_correct"},"guarantee":"test_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_eq_correct","statement":"Path(test_eq(x), test_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfccf97270078dab"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_eq","kind":"function","src_hash":"b9dc450b8c7ea80d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Hyper_Function([1], []) == Hyper_Function([1], []) and (Hyper_Function([1], []) != Hyper_Function([1], [])) is False and Hyper_Function([1], []) != Hyper_Function([2], []) and Hyper_Function([1], []) != Hyper_Function([1, 2], []) and Hyper_Function([1], []) != Hyper_Function([1], [2])"},"spec":{"lhs":"test_eq()","rhs":"Hyper_Function([1], []) == Hyper_Function([1], []) and (Hyper_Function([1], []) != Hyper_Function([1], [])) is False and Hyper_Function([1], []) != Hyper_Function([2], []) and Hyper_Function([1], []) != Hyper_Function([1, 2], []) and Hyper_Function([1], []) != Hyper_Function([1], [2])","over":{"base":"Any"},"name":"test_eq_correct"},"guarantee":"Hyper_Function([1], []) == Hyper_Function([1], []); (Hyper_Function([1], []) != Hyper_Function([1], [])) is False; Hyper_Function([1], []) != Hyper_Function([2], [])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_eq_correct","statement":"Path(test_eq(x), Hyper_Function([1], []) == Hyper_Function([1], []); (Hyper_Function([1], []) != Hyper_Function([1], [])) is False; Hyper_Function([1], []) != Hyper_Function([2], []))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a319693e27a519","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Hyper_Function([1], []) == Hyper_Function([1], [])","(Hyper_Function([1], []) != Hyper_Function([1], [])) is False","Hyper_Function([1], []) != Hyper_Function([2], [])","Hyper_Function([1], []) != Hyper_Function([1, 2], [])","Hyper_Function([1], []) != Hyper_Function([1], [2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_eq():
     assert Hyper_Function([1], []) == Hyper_Function([1], [])
     assert (Hyper_Function([1], []) != Hyper_Function([1], [])) is False
@@ -93,16 +123,24 @@ def test_eq():
     assert Hyper_Function([1], []) != Hyper_Function([1], [2])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gamma(), test_gamma produces the expected output) over Any ║
+# ║ Path(test_gamma(), Hyper_Function([2, 3], [-1]).gamma == 0 and Hyper_Function([-2, -3], [-1]).gamma == 2 and Hyper_Function([-1, n, 1], []).gamma == 1 and Hyper_Function([-1, -n, 1], []).gamma == 1 and Hyper_Function([-1, p, 1], []).gamma == 1 and Hyper_Function([-1, -p, 1], []).gamma == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gamma : Any → {Any | Hyper_Function([2, 3], [-1]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Hyper_Function([2, 3], [-1]).gamma == 0        ║
+# ║   ensures:  Hyper_Function([-2, -3], [-1]).gamma == 2      ║
+# ║   ensures:  Hyper_Function([-1, n, 1], []).gamma == 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gamma : Any → {Any | result satisfies: Hyper_Fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80f643e9d5bc7963  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf3f27fc2dba688b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_gamma","kind":"function","src_hash":"d7b5eab8ab3f89f6","in":{"base":"Any"},"out":{"base":"Any","pred":"Hyper_Function([2, 3], [-1]).gamma == 0 and Hyper_Function([-2, -3], [-1]).gamma == 2 and Hyper_Function([-1, n, 1], []).gamma == 1 and Hyper_Function([-1, -n, 1], []).gamma == 1 and Hyper_Function([-1, p, 1], []).gamma == 1 and Hyper_Function([-1, -p, 1], []).gamma == 2"},"spec":{"lhs":"test_gamma()","rhs":"test_gamma produces the expected output","over":{"base":"Any"},"name":"test_gamma_correct"},"guarantee":"test_gamma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_gamma_correct","statement":"Path(test_gamma(x), test_gamma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f643e9d5bc7963"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_gamma","kind":"function","src_hash":"d7b5eab8ab3f89f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Hyper_Function([2, 3], [-1]).gamma == 0 and Hyper_Function([-2, -3], [-1]).gamma == 2 and Hyper_Function([-1, n, 1], []).gamma == 1 and Hyper_Function([-1, -n, 1], []).gamma == 1 and Hyper_Function([-1, p, 1], []).gamma == 1 and Hyper_Function([-1, -p, 1], []).gamma == 2"},"spec":{"lhs":"test_gamma()","rhs":"Hyper_Function([2, 3], [-1]).gamma == 0 and Hyper_Function([-2, -3], [-1]).gamma == 2 and Hyper_Function([-1, n, 1], []).gamma == 1 and Hyper_Function([-1, -n, 1], []).gamma == 1 and Hyper_Function([-1, p, 1], []).gamma == 1 and Hyper_Function([-1, -p, 1], []).gamma == 2","over":{"base":"Any"},"name":"test_gamma_correct"},"guarantee":"Hyper_Function([2, 3], [-1]).gamma == 0; Hyper_Function([-2, -3], [-1]).gamma == 2; Hyper_Function([-1, n, 1], []).gamma == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_gamma_correct","statement":"Path(test_gamma(x), Hyper_Function([2, 3], [-1]).gamma == 0; Hyper_Function([-2, -3], [-1]).gamma == 2; Hyper_Function([-1, n, 1], []).gamma == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf3f27fc2dba688b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Hyper_Function([2, 3], [-1]).gamma == 0","Hyper_Function([-2, -3], [-1]).gamma == 2","Hyper_Function([-1, n, 1], []).gamma == 1","Hyper_Function([-1, -n, 1], []).gamma == 1","Hyper_Function([-1, p, 1], []).gamma == 1","Hyper_Function([-1, -p, 1], []).gamma == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gamma():
     assert Hyper_Function([2, 3], [-1]).gamma == 0
     assert Hyper_Function([-2, -3], [-1]).gamma == 2
@@ -114,16 +152,24 @@ def test_gamma():
     assert Hyper_Function([-1, -p, 1], []).gamma == 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_suitable_origin(), test_suitable_origin produces the expected output) over Any ║
+# ║ Path(test_suitable_origin(), Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True and Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False and Hyper_Function((S.Half,), (0,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (-1, 1))._is_suitable_origin() is False and Hyper_Function((S.Half, 0), (1,))._is_suitable_origin() is False and Hyper_Function((S.Half, 1), (2, Rational(-2, 3)))._is_suitable_origin() is True and Hyper_Function((S.Half, 1), (2, Rational(-2, 3), Rational(3, 2)))._is_suitable_origin() is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_suitable_origin : Any → {Any | Hyper_Function((S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Hyper_Function((S.Half,), (Rational(3, 2)...   ║
+# ║   ensures:  Hyper_Function((S.Half,), (S.Half,))._is_...   ║
+# ║   ensures:  Hyper_Function((S.Half,), (Rational(-1, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_suitable_origin : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e407b17a00fd2f4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d65531d3347bcea3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_suitable_origin","kind":"function","src_hash":"955c97f61bfc8264","in":{"base":"Any"},"out":{"base":"Any","pred":"Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True and Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False and Hyper_Function((S.Half,), (0,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (-1, 1))._is_suitable_origin() is False and Hyper_Function((S.Half, 0), (1,))._is_suitable_origin() is False and Hyper_Function((S.Half, 1), (2, Rational(-2, 3)))._is_suitable_origin() is True"},"spec":{"lhs":"test_suitable_origin()","rhs":"test_suitable_origin produces the expected output","over":{"base":"Any"},"name":"test_suitable_origin_correct"},"guarantee":"test_suitable_origin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_suitable_origin_correct","statement":"Path(test_suitable_origin(x), test_suitable_origin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e407b17a00fd2f4a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_function.test_suitable_origin","kind":"function","src_hash":"955c97f61bfc8264","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True and Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False and Hyper_Function((S.Half,), (0,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (-1, 1))._is_suitable_origin() is False and Hyper_Function((S.Half, 0), (1,))._is_suitable_origin() is False and Hyper_Function((S.Half, 1), (2, Rational(-2, 3)))._is_suitable_origin() is True and Hyper_Function((S.Half, 1), (2, Rational(-2, 3), Rational(3, 2)))._is_suitable_origin() is True"},"spec":{"lhs":"test_suitable_origin()","rhs":"Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True and Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False and Hyper_Function((S.Half,), (0,))._is_suitable_origin() is False and Hyper_Function((S.Half,), (-1, 1))._is_suitable_origin() is False and Hyper_Function((S.Half, 0), (1,))._is_suitable_origin() is False and Hyper_Function((S.Half, 1), (2, Rational(-2, 3)))._is_suitable_origin() is True and Hyper_Function((S.Half, 1), (2, Rational(-2, 3), Rational(3, 2)))._is_suitable_origin() is True","over":{"base":"Any"},"name":"test_suitable_origin_correct"},"guarantee":"Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True; Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False; Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_function.test_suitable_origin_correct","statement":"Path(test_suitable_origin(x), Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True; Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False; Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65531d3347bcea3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True","Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False","Hyper_Function((S.Half,), (Rational(-1, 2),))._is_suitable_origin() is False","Hyper_Function((S.Half,), (0,))._is_suitable_origin() is False","Hyper_Function((S.Half,), (-1, 1))._is_suitable_origin() is False","Hyper_Function((S.Half, 0), (1,))._is_suitable_origin() is False","Hyper_Function((S.Half, 1), (2, Rational(-2, 3)))._is_suitable_origin() is True","Hyper_Function((S.Half, 1), (2, Rational(-2, 3), Rational(3, 2)))._is_suitable_origin() is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_suitable_origin():
     assert Hyper_Function((S.Half,), (Rational(3, 2),))._is_suitable_origin() is True
     assert Hyper_Function((S.Half,), (S.Half,))._is_suitable_origin() is False

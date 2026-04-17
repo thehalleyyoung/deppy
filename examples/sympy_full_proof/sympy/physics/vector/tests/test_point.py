@@ -20,16 +20,24 @@ from sympy.testing.pytest import raises, ignore_warnings
 import warnings
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_v1pt_theorys(), test_point_v1pt_theorys produces the expected output) over Any ║
+# ║ Path(test_point_v1pt_theorys(), P.v1pt_theory(O, N, B) == qd * B.y and P.v1pt_theory(O, N, B) == N.x + qd * B.y and P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_v1pt_theorys : Any → {Any | P.v1pt_theory(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.v1pt_theory(O, N, B) == qd * B.y             ║
+# ║   ensures:  P.v1pt_theory(O, N, B) == N.x + qd * B.y       ║
+# ║   ensures:  P.v1pt_theory(O, N, B) == B.z + N.x + qd ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_v1pt_theorys : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3412072960d5869d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afa6e440a4de01e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_v1pt_theorys","kind":"function","src_hash":"11a66067f132eed3","in":{"base":"Any"},"out":{"base":"Any","pred":"P.v1pt_theory(O, N, B) == qd * B.y and P.v1pt_theory(O, N, B) == N.x + qd * B.y and P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y"},"spec":{"lhs":"test_point_v1pt_theorys()","rhs":"test_point_v1pt_theorys produces the expected output","over":{"base":"Any"},"name":"test_point_v1pt_theorys_correct"},"guarantee":"test_point_v1pt_theorys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_v1pt_theorys_correct","statement":"Path(test_point_v1pt_theorys(x), test_point_v1pt_theorys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3412072960d5869d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_v1pt_theorys","kind":"function","src_hash":"11a66067f132eed3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.v1pt_theory(O, N, B) == qd * B.y and P.v1pt_theory(O, N, B) == N.x + qd * B.y and P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y"},"spec":{"lhs":"test_point_v1pt_theorys()","rhs":"P.v1pt_theory(O, N, B) == qd * B.y and P.v1pt_theory(O, N, B) == N.x + qd * B.y and P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y","over":{"base":"Any"},"name":"test_point_v1pt_theorys_correct"},"guarantee":"P.v1pt_theory(O, N, B) == qd * B.y; P.v1pt_theory(O, N, B) == N.x + qd * B.y; P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_v1pt_theorys_correct","statement":"Path(test_point_v1pt_theorys(x), P.v1pt_theory(O, N, B) == qd * B.y; P.v1pt_theory(O, N, B) == N.x + qd * B.y; P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa6e440a4de01e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.v1pt_theory(O, N, B) == qd * B.y","P.v1pt_theory(O, N, B) == N.x + qd * B.y","P.v1pt_theory(O, N, B) == B.z + N.x + qd * B.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_point_v1pt_theorys():
     q, q2 = dynamicsymbols('q q2')
     qd, q2d = dynamicsymbols('q q2', 1)
@@ -49,16 +57,24 @@ def test_point_v1pt_theorys():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_a1pt_theorys(), test_point_a1pt_theorys produces the expected output) over Any ║
+# ║ Path(test_point_a1pt_theorys(), P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y and P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z and P.a1pt_theory(O, N, B) == (q2dd - qd ** 2) * B.x + (q2d * qd + qdd) * B.y + q2dd * B.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_a1pt_theorys : Any → {Any | P.a1pt_theory(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.a1pt_theory(O, N, B) == -qd ** 2 * B.x ...   ║
+# ║   ensures:  P.a1pt_theory(O, N, B) == -qd ** 2 * B.x ...   ║
+# ║   ensures:  P.a1pt_theory(O, N, B) == (q2dd - qd ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_a1pt_theorys : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 164b006c36ca76b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd2944f43a66c01e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_a1pt_theorys","kind":"function","src_hash":"feda2424fe6f013e","in":{"base":"Any"},"out":{"base":"Any","pred":"P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y and P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z"},"spec":{"lhs":"test_point_a1pt_theorys()","rhs":"test_point_a1pt_theorys produces the expected output","over":{"base":"Any"},"name":"test_point_a1pt_theorys_correct"},"guarantee":"test_point_a1pt_theorys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_a1pt_theorys_correct","statement":"Path(test_point_a1pt_theorys(x), test_point_a1pt_theorys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"164b006c36ca76b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_a1pt_theorys","kind":"function","src_hash":"feda2424fe6f013e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y and P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z and P.a1pt_theory(O, N, B) == (q2dd - qd ** 2) * B.x + (q2d * qd + qdd) * B.y + q2dd * B.z"},"spec":{"lhs":"test_point_a1pt_theorys()","rhs":"P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y and P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z and P.a1pt_theory(O, N, B) == (q2dd - qd ** 2) * B.x + (q2d * qd + qdd) * B.y + q2dd * B.z","over":{"base":"Any"},"name":"test_point_a1pt_theorys_correct"},"guarantee":"P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y; P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z; P.a1pt_theory(O, N, B) == (q2dd - qd ** 2) * B.x + (q2d * qd + qdd) * B.y + q2dd * B.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_a1pt_theorys_correct","statement":"Path(test_point_a1pt_theorys(x), P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y; P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z; P.a1pt_theory(O, N, B) == (q2dd - qd ** 2) * B.x + (q2d * qd + qdd) * B.y + q2dd * B.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd2944f43a66c01e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y","P.a1pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y + q2dd * B.z","P.a1pt_theory(O, N, B) == (q2dd - qd ** 2) * B.x + (q2d * qd + qdd) * B.y + q2dd * B.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_point_a1pt_theorys():
     q, q2 = dynamicsymbols('q q2')
     qd, q2d = dynamicsymbols('q q2', 1)
@@ -79,16 +95,24 @@ def test_point_a1pt_theorys():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_v2pt_theorys(), test_point_v2pt_theorys produces the expected output) over Any ║
+# ║ Path(test_point_v2pt_theorys(), P.v2pt_theory(O, N, B) == 0 and P.v2pt_theory(O, N, B) == qd * B.z ^ B.x and P.v2pt_theory(O, N, B) == N.x + qd * B.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_v2pt_theorys : Any → {Any | P.v2pt_theory(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.v2pt_theory(O, N, B) == 0                    ║
+# ║   ensures:  P.v2pt_theory(O, N, B) == qd * B.z ^ B.x       ║
+# ║   ensures:  P.v2pt_theory(O, N, B) == N.x + qd * B.y       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_v2pt_theorys : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dee37e503f2f7785  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3d1fb61f0768b1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_v2pt_theorys","kind":"function","src_hash":"89fa3d162663b32e","in":{"base":"Any"},"out":{"base":"Any","pred":"P.v2pt_theory(O, N, B) == 0 and P.v2pt_theory(O, N, B) == qd * B.z ^ B.x and P.v2pt_theory(O, N, B) == N.x + qd * B.y"},"spec":{"lhs":"test_point_v2pt_theorys()","rhs":"test_point_v2pt_theorys produces the expected output","over":{"base":"Any"},"name":"test_point_v2pt_theorys_correct"},"guarantee":"test_point_v2pt_theorys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_v2pt_theorys_correct","statement":"Path(test_point_v2pt_theorys(x), test_point_v2pt_theorys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dee37e503f2f7785"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_v2pt_theorys","kind":"function","src_hash":"89fa3d162663b32e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.v2pt_theory(O, N, B) == 0 and P.v2pt_theory(O, N, B) == qd * B.z ^ B.x and P.v2pt_theory(O, N, B) == N.x + qd * B.y"},"spec":{"lhs":"test_point_v2pt_theorys()","rhs":"P.v2pt_theory(O, N, B) == 0 and P.v2pt_theory(O, N, B) == qd * B.z ^ B.x and P.v2pt_theory(O, N, B) == N.x + qd * B.y","over":{"base":"Any"},"name":"test_point_v2pt_theorys_correct"},"guarantee":"P.v2pt_theory(O, N, B) == 0; P.v2pt_theory(O, N, B) == qd * B.z ^ B.x; P.v2pt_theory(O, N, B) == N.x + qd * B.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_v2pt_theorys_correct","statement":"Path(test_point_v2pt_theorys(x), P.v2pt_theory(O, N, B) == 0; P.v2pt_theory(O, N, B) == qd * B.z ^ B.x; P.v2pt_theory(O, N, B) == N.x + qd * B.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3d1fb61f0768b1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.v2pt_theory(O, N, B) == 0","P.v2pt_theory(O, N, B) == qd * B.z ^ B.x","P.v2pt_theory(O, N, B) == N.x + qd * B.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_point_v2pt_theorys():
     q = dynamicsymbols('q')
     qd = dynamicsymbols('q', 1)
@@ -105,16 +129,23 @@ def test_point_v2pt_theorys():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_a2pt_theorys(), test_point_a2pt_theorys produces the expected output) over Any ║
+# ║ Path(test_point_a2pt_theorys(), P.a2pt_theory(O, N, B) == 0 and P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_a2pt_theorys : Any → {Any | P.a2pt_theory(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.a2pt_theory(O, N, B) == 0                    ║
+# ║   ensures:  P.a2pt_theory(O, N, B) == -qd ** 2 * B.x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_a2pt_theorys : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ad1f96274155d5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c895af1e1e2cde9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_a2pt_theorys","kind":"function","src_hash":"c791b2aa7a14f335","in":{"base":"Any"},"out":{"base":"Any","pred":"P.a2pt_theory(O, N, B) == 0 and P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y"},"spec":{"lhs":"test_point_a2pt_theorys()","rhs":"test_point_a2pt_theorys produces the expected output","over":{"base":"Any"},"name":"test_point_a2pt_theorys_correct"},"guarantee":"test_point_a2pt_theorys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_a2pt_theorys_correct","statement":"Path(test_point_a2pt_theorys(x), test_point_a2pt_theorys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ad1f96274155d5c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_a2pt_theorys","kind":"function","src_hash":"c791b2aa7a14f335","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.a2pt_theory(O, N, B) == 0 and P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y"},"spec":{"lhs":"test_point_a2pt_theorys()","rhs":"P.a2pt_theory(O, N, B) == 0 and P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y","over":{"base":"Any"},"name":"test_point_a2pt_theorys_correct"},"guarantee":"P.a2pt_theory(O, N, B) == 0; P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_a2pt_theorys_correct","statement":"Path(test_point_a2pt_theorys(x), P.a2pt_theory(O, N, B) == 0; P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c895af1e1e2cde9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.a2pt_theory(O, N, B) == 0","P.a2pt_theory(O, N, B) == -qd ** 2 * B.x + qdd * B.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_point_a2pt_theorys():
     q = dynamicsymbols('q')
     qd = dynamicsymbols('q', 1)
@@ -130,16 +161,24 @@ def test_point_a2pt_theorys():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_funcs(), test_point_funcs produces the expected output) over Any ║
+# ║ Path(test_point_funcs(), P.pos_from(O) == q * B.x + q2 * B.y and P.vel(B) == qd * B.x + q2d * B.y and O.vel(N) == 0 and P.a1pt_theory(O, N, B) == (-25 * q + qdd) * B.x + q2dd * B.y + -10 * qd * B.z and O.vel(N) == 5 * N.x and P.a2pt_theory(O, N, B) == -10 * qd ** 2 * B.x + 10 * qdd * B.y and P.v1pt_theory(O, N, B) == qd * B.x + q2d * B.y - 5 * q * B.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_funcs : Any → {Any | P.pos_from(O) == q * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.pos_from(O) == q * B.x + q2 * B.y            ║
+# ║   ensures:  P.vel(B) == qd * B.x + q2d * B.y               ║
+# ║   ensures:  O.vel(N) == 0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_funcs : Any → {Any | result satisfies: P.p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be825ca238b96d31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67ac5b96a4b8abdb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_funcs","kind":"function","src_hash":"968e950e7f2cb962","in":{"base":"Any"},"out":{"base":"Any","pred":"P.pos_from(O) == q * B.x + q2 * B.y and P.vel(B) == qd * B.x + q2d * B.y and O.vel(N) == 0 and P.a1pt_theory(O, N, B) == (-25 * q + qdd) * B.x + q2dd * B.y + -10 * qd * B.z and O.vel(N) == 5 * N.x and P.a2pt_theory(O, N, B) == -10 * qd ** 2 * B.x + 10 * qdd * B.y and P.v1pt_theory(O, N, B) == qd * B.x + q2d * B.y - 5 * q * B.z"},"spec":{"lhs":"test_point_funcs()","rhs":"test_point_funcs produces the expected output","over":{"base":"Any"},"name":"test_point_funcs_correct"},"guarantee":"test_point_funcs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_funcs_correct","statement":"Path(test_point_funcs(x), test_point_funcs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be825ca238b96d31"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_funcs","kind":"function","src_hash":"968e950e7f2cb962","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.pos_from(O) == q * B.x + q2 * B.y and P.vel(B) == qd * B.x + q2d * B.y and O.vel(N) == 0 and P.a1pt_theory(O, N, B) == (-25 * q + qdd) * B.x + q2dd * B.y + -10 * qd * B.z and O.vel(N) == 5 * N.x and P.a2pt_theory(O, N, B) == -10 * qd ** 2 * B.x + 10 * qdd * B.y and P.v1pt_theory(O, N, B) == qd * B.x + q2d * B.y - 5 * q * B.z"},"spec":{"lhs":"test_point_funcs()","rhs":"P.pos_from(O) == q * B.x + q2 * B.y and P.vel(B) == qd * B.x + q2d * B.y and O.vel(N) == 0 and P.a1pt_theory(O, N, B) == (-25 * q + qdd) * B.x + q2dd * B.y + -10 * qd * B.z and O.vel(N) == 5 * N.x and P.a2pt_theory(O, N, B) == -10 * qd ** 2 * B.x + 10 * qdd * B.y and P.v1pt_theory(O, N, B) == qd * B.x + q2d * B.y - 5 * q * B.z","over":{"base":"Any"},"name":"test_point_funcs_correct"},"guarantee":"P.pos_from(O) == q * B.x + q2 * B.y; P.vel(B) == qd * B.x + q2d * B.y; O.vel(N) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_funcs_correct","statement":"Path(test_point_funcs(x), P.pos_from(O) == q * B.x + q2 * B.y; P.vel(B) == qd * B.x + q2d * B.y; O.vel(N) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67ac5b96a4b8abdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.pos_from(O) == q * B.x + q2 * B.y","P.vel(B) == qd * B.x + q2d * B.y","O.vel(N) == 0","P.a1pt_theory(O, N, B) == (-25 * q + qdd) * B.x + q2dd * B.y + -10 * qd * B.z","O.vel(N) == 5 * N.x","P.a2pt_theory(O, N, B) == -10 * qd ** 2 * B.x + 10 * qdd * B.y","P.v1pt_theory(O, N, B) == qd * B.x + q2d * B.y - 5 * q * B.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_point_funcs():
     q, q2 = dynamicsymbols('q q2')
     qd, q2d = dynamicsymbols('q q2', 1)
@@ -173,16 +212,24 @@ def test_point_funcs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_pos(), test_point_pos produces the expected output) over Any ║
+# ║ Path(test_point_pos(), P.pos_from(O) == 10 * N.x + 5 * B.x and Q.pos_from(P) == 10 * N.y + 5 * B.y and Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y and O.pos_from(Q) == -10 * N.x - 10 * N.y - 5 * B.x - 5 * B.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_pos : Any → {Any | P.pos_from(O) == 10 * N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.pos_from(O) == 10 * N.x + 5 * B.x            ║
+# ║   ensures:  Q.pos_from(P) == 10 * N.y + 5 * B.y            ║
+# ║   ensures:  Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_pos : Any → {Any | result satisfies: P.pos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b8d1d7466deb51c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f149b2cea324ec16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_pos","kind":"function","src_hash":"b6ccdea6e854e0e7","in":{"base":"Any"},"out":{"base":"Any","pred":"P.pos_from(O) == 10 * N.x + 5 * B.x and Q.pos_from(P) == 10 * N.y + 5 * B.y and Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y and O.pos_from(Q) == -10 * N.x - 10 * N.y - 5 * B.x - 5 * B.y"},"spec":{"lhs":"test_point_pos()","rhs":"test_point_pos produces the expected output","over":{"base":"Any"},"name":"test_point_pos_correct"},"guarantee":"test_point_pos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_pos_correct","statement":"Path(test_point_pos(x), test_point_pos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b8d1d7466deb51c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_pos","kind":"function","src_hash":"b6ccdea6e854e0e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.pos_from(O) == 10 * N.x + 5 * B.x and Q.pos_from(P) == 10 * N.y + 5 * B.y and Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y and O.pos_from(Q) == -10 * N.x - 10 * N.y - 5 * B.x - 5 * B.y"},"spec":{"lhs":"test_point_pos()","rhs":"P.pos_from(O) == 10 * N.x + 5 * B.x and Q.pos_from(P) == 10 * N.y + 5 * B.y and Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y and O.pos_from(Q) == -10 * N.x - 10 * N.y - 5 * B.x - 5 * B.y","over":{"base":"Any"},"name":"test_point_pos_correct"},"guarantee":"P.pos_from(O) == 10 * N.x + 5 * B.x; Q.pos_from(P) == 10 * N.y + 5 * B.y; Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_pos_correct","statement":"Path(test_point_pos(x), P.pos_from(O) == 10 * N.x + 5 * B.x; Q.pos_from(P) == 10 * N.y + 5 * B.y; Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f149b2cea324ec16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.pos_from(O) == 10 * N.x + 5 * B.x","Q.pos_from(P) == 10 * N.y + 5 * B.y","Q.pos_from(O) == 10 * N.x + 10 * N.y + 5 * B.x + 5 * B.y","O.pos_from(Q) == -10 * N.x - 10 * N.y - 5 * B.x - 5 * B.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_point_pos():
     q = dynamicsymbols('q')
     N = ReferenceFrame('N')
@@ -196,16 +243,23 @@ def test_point_pos():
     assert O.pos_from(Q) == -10 * N.x - 10 * N.y - 5 * B.x - 5 * B.y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_partial_velocity(), test_point_partial_velocity produces the expected output) over Any ║
+# ║ Path(test_point_partial_velocity(), p.partial_velocity(N, u1) == A.x and p.partial_velocity(N, u1, u2) == (A.x, N.y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_partial_velocity : Any → {Any | p.partial_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.partial_velocity(N, u1) == A.x               ║
+# ║   ensures:  p.partial_velocity(N, u1, u2) == (A.x, N.y)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_partial_velocity : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4048f2a2a0e66deb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba554b93b521f2cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_partial_velocity","kind":"function","src_hash":"21e50bc792f733dc","in":{"base":"Any"},"out":{"base":"Any","pred":"p.partial_velocity(N, u1) == A.x and p.partial_velocity(N, u1, u2) == (A.x, N.y)"},"spec":{"lhs":"test_point_partial_velocity()","rhs":"test_point_partial_velocity produces the expected output","over":{"base":"Any"},"name":"test_point_partial_velocity_correct"},"guarantee":"test_point_partial_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_partial_velocity_correct","statement":"Path(test_point_partial_velocity(x), test_point_partial_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4048f2a2a0e66deb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_partial_velocity","kind":"function","src_hash":"21e50bc792f733dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.partial_velocity(N, u1) == A.x and p.partial_velocity(N, u1, u2) == (A.x, N.y)"},"spec":{"lhs":"test_point_partial_velocity()","rhs":"p.partial_velocity(N, u1) == A.x and p.partial_velocity(N, u1, u2) == (A.x, N.y)","over":{"base":"Any"},"name":"test_point_partial_velocity_correct"},"guarantee":"p.partial_velocity(N, u1) == A.x; p.partial_velocity(N, u1, u2) == (A.x, N.y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_partial_velocity_correct","statement":"Path(test_point_partial_velocity(x), p.partial_velocity(N, u1) == A.x; p.partial_velocity(N, u1, u2) == (A.x, N.y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba554b93b521f2cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.partial_velocity(N, u1) == A.x","p.partial_velocity(N, u1, u2) == (A.x, N.y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_point_partial_velocity():
 
     N = ReferenceFrame('N')
@@ -222,16 +276,22 @@ def test_point_partial_velocity():
     raises(ValueError, lambda: p.partial_velocity(A, u1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_vel(), test_point_vel produces the expected output) over Any ║
+# ║ Path(test_point_vel(), O.vel(N) == q2 * N.y) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_vel : Any → {Any | O.vel(N) == q2 * N.y}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O.vel(N) == q2 * N.y                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_vel : Any → {Any | result satisfies: O.vel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 101f9d7f9be9c9fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9e5e387318c93b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_vel","kind":"function","src_hash":"4e1c4575ba57e928","in":{"base":"Any"},"out":{"base":"Any","pred":"O.vel(N) == q2 * N.y"},"spec":{"lhs":"test_point_vel()","rhs":"test_point_vel produces the expected output","over":{"base":"Any"},"name":"test_point_vel_correct"},"guarantee":"test_point_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_vel_correct","statement":"Path(test_point_vel(x), test_point_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"101f9d7f9be9c9fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_point_vel","kind":"function","src_hash":"4e1c4575ba57e928","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O.vel(N) == q2 * N.y"},"spec":{"lhs":"test_point_vel()","rhs":"O.vel(N) == q2 * N.y","over":{"base":"Any"},"name":"test_point_vel_correct"},"guarantee":"O.vel(N) == q2 * N.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_point_vel_correct","statement":"Path(test_point_vel(x), O.vel(N) == q2 * N.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9e5e387318c93b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O.vel(N) == q2 * N.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_point_vel(): #Basic functionality
     q1, q2 = dynamicsymbols('q1 q2')
     N = ReferenceFrame('N')
@@ -245,16 +305,22 @@ def test_point_vel(): #Basic functionality
     raises(ValueError , lambda : O.vel(B)) #Velocity of O is not defined in B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_vel(), test_auto_point_vel produces the expected output) over Any ║
+# ║ Path(test_auto_point_vel(), Q.vel(N) == q1.diff(t) * N.x + q2 * N.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_point_vel : Any → {Any | Q.vel(N) == q1.dif...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.vel(N) == q1.diff(t) * N.x + q2 * N.y        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_point_vel : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ac39c59b2614c0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 403ad19f36a486f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel","kind":"function","src_hash":"b74cde958b009dd3","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.vel(N) == q1.diff(t) * N.x + q2 * N.y"},"spec":{"lhs":"test_auto_point_vel()","rhs":"test_auto_point_vel produces the expected output","over":{"base":"Any"},"name":"test_auto_point_vel_correct"},"guarantee":"test_auto_point_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_correct","statement":"Path(test_auto_point_vel(x), test_auto_point_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ac39c59b2614c0f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel","kind":"function","src_hash":"b74cde958b009dd3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.vel(N) == q1.diff(t) * N.x + q2 * N.y"},"spec":{"lhs":"test_auto_point_vel()","rhs":"Q.vel(N) == q1.diff(t) * N.x + q2 * N.y","over":{"base":"Any"},"name":"test_auto_point_vel_correct"},"guarantee":"Q.vel(N) == q1.diff(t) * N.x + q2 * N.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_correct","statement":"Path(test_auto_point_vel(x), Q.vel(N) == q1.diff(t) * N.x + q2 * N.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"403ad19f36a486f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.vel(N) == q1.diff(t) * N.x + q2 * N.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_point_vel():
     t = dynamicsymbols._t
     q1, q2 = dynamicsymbols('q1 q2')
@@ -274,16 +340,22 @@ def test_auto_point_vel():
     raises(ValueError, lambda: P2.vel(N)) # Velocity of O not defined in N
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_vel_multiple_point_path(), test_auto_point_vel_multiple_point_path produces the expected output) over Any ║
+# ║ Path(test_auto_point_vel_multiple_point_path(), P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_point_vel_multiple_point_path : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c6c725111bf9b6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd36fbe18f2587c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_point_path","kind":"function","src_hash":"713834b01ac08baf","in":{"base":"Any"},"out":{"base":"Any","pred":"P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z"},"spec":{"lhs":"test_auto_point_vel_multiple_point_path()","rhs":"test_auto_point_vel_multiple_point_path produces the expected output","over":{"base":"Any"},"name":"test_auto_point_vel_multiple_point_path_correct"},"guarantee":"test_auto_point_vel_multiple_point_path produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_point_path_correct","statement":"Path(test_auto_point_vel_multiple_point_path(x), test_auto_point_vel_multiple_point_path produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c6c725111bf9b6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_point_path","kind":"function","src_hash":"713834b01ac08baf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z"},"spec":{"lhs":"test_auto_point_vel_multiple_point_path()","rhs":"P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z","over":{"base":"Any"},"name":"test_auto_point_vel_multiple_point_path_correct"},"guarantee":"P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_point_path_correct","statement":"Path(test_auto_point_vel_multiple_point_path(x), P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd36fbe18f2587c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_point_vel_multiple_point_path():
     t = dynamicsymbols._t
     q1, q2 = dynamicsymbols('q1 q2')
@@ -300,16 +372,24 @@ def test_auto_point_vel_multiple_point_path():
     assert P3.vel(B) == 10 * q1.diff(t) * B.y + (q1 + q1.diff(t)) * B.z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_vel_dont_overwrite(), test_auto_vel_dont_overwrite produces the expected output) over Any ║
+# ║ Path(test_auto_vel_dont_overwrite(), P1.vel(N) == q2.diff(t) * N.y + u1 * N.x and P.vel(N) == u1 * N.x and P1.vel(N) == u1 * N.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_vel_dont_overwrite : Any → {Any | P1.vel(N)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P1.vel(N) == q2.diff(t) * N.y + u1 * N.x       ║
+# ║   ensures:  P.vel(N) == u1 * N.x                           ║
+# ║   ensures:  P1.vel(N) == u1 * N.z                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_vel_dont_overwrite : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700c98f6d4a3be6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b4568278f709f25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_dont_overwrite","kind":"function","src_hash":"eb774e66cf3080c2","in":{"base":"Any"},"out":{"base":"Any","pred":"P1.vel(N) == q2.diff(t) * N.y + u1 * N.x and P.vel(N) == u1 * N.x and P1.vel(N) == u1 * N.z"},"spec":{"lhs":"test_auto_vel_dont_overwrite()","rhs":"test_auto_vel_dont_overwrite produces the expected output","over":{"base":"Any"},"name":"test_auto_vel_dont_overwrite_correct"},"guarantee":"test_auto_vel_dont_overwrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_dont_overwrite_correct","statement":"Path(test_auto_vel_dont_overwrite(x), test_auto_vel_dont_overwrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700c98f6d4a3be6e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_dont_overwrite","kind":"function","src_hash":"eb774e66cf3080c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P1.vel(N) == q2.diff(t) * N.y + u1 * N.x and P.vel(N) == u1 * N.x and P1.vel(N) == u1 * N.z"},"spec":{"lhs":"test_auto_vel_dont_overwrite()","rhs":"P1.vel(N) == q2.diff(t) * N.y + u1 * N.x and P.vel(N) == u1 * N.x and P1.vel(N) == u1 * N.z","over":{"base":"Any"},"name":"test_auto_vel_dont_overwrite_correct"},"guarantee":"P1.vel(N) == q2.diff(t) * N.y + u1 * N.x; P.vel(N) == u1 * N.x; P1.vel(N) == u1 * N.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_dont_overwrite_correct","statement":"Path(test_auto_vel_dont_overwrite(x), P1.vel(N) == q2.diff(t) * N.y + u1 * N.x; P.vel(N) == u1 * N.x; P1.vel(N) == u1 * N.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b4568278f709f25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P1.vel(N) == q2.diff(t) * N.y + u1 * N.x","P.vel(N) == u1 * N.x","P1.vel(N) == u1 * N.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_vel_dont_overwrite():
     t = dynamicsymbols._t
     q1, q2, u1 = dynamicsymbols('q1, q2, u1')
@@ -324,16 +404,22 @@ def test_auto_vel_dont_overwrite():
     assert P1.vel(N) == u1 * N.z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector(), test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector produces the expected output) over Any ║
+# ║ Path(test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector(), <unspecified:test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_point_vel_if_tree_has_vel_but_inappropriate...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 058779a5c826a0ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector","kind":"function","src_hash":"a17357cae148f123","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector()","rhs":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector produces the expected output","over":{"base":"Any"},"name":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector_correct"},"guarantee":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector_correct","statement":"Path(test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector(x), test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"058779a5c826a0ff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector","kind":"function","src_hash":"a17357cae148f123","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector()","rhs":"<unspecified:test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector>","over":{"base":"Any"},"name":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector_correct"},"guarantee":"test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector_correct","statement":"Path(test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector(x), test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"058779a5c826a0ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector():
     q1, q2 = dynamicsymbols('q1 q2')
     B = ReferenceFrame('B')
@@ -346,16 +432,22 @@ def test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector():
     raises(ValueError, lambda : P1.vel(S)) # P.vel(S) not defined
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_vel_shortest_path(), test_auto_point_vel_shortest_path produces the expected output) over Any ║
+# ║ Path(test_auto_point_vel_shortest_path(), <unspecified:test_auto_point_vel_shortest_path>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_point_vel_shortest_path : Any → {Any | P4.v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1ff3f2e5d673ebc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_shortest_path","kind":"function","src_hash":"40c9b2298c29f790","in":{"base":"Any"},"out":{"base":"Any","pred":"P4.vel(B) == q1.diff(t) * B.x + u2 * B.y + 2 * q2.diff(t) * B.z"},"spec":{"lhs":"test_auto_point_vel_shortest_path()","rhs":"test_auto_point_vel_shortest_path produces the expected output","over":{"base":"Any"},"name":"test_auto_point_vel_shortest_path_correct"},"guarantee":"test_auto_point_vel_shortest_path produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_shortest_path_correct","statement":"Path(test_auto_point_vel_shortest_path(x), test_auto_point_vel_shortest_path produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1ff3f2e5d673ebc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_shortest_path","kind":"function","src_hash":"40c9b2298c29f790","in":{"base":"Any"},"out":{"base":"Any","pred":"P4.vel(B) == q1.diff(t) * B.x + u2 * B.y + 2 * q2.diff(t) * B.z"},"spec":{"lhs":"test_auto_point_vel_shortest_path()","rhs":"<unspecified:test_auto_point_vel_shortest_path>","over":{"base":"Any"},"name":"test_auto_point_vel_shortest_path_correct"},"guarantee":"test_auto_point_vel_shortest_path produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_shortest_path_correct","statement":"Path(test_auto_point_vel_shortest_path(x), test_auto_point_vel_shortest_path produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1ff3f2e5d673ebc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_auto_point_vel_shortest_path():
     t = dynamicsymbols._t
     q1, q2, u1, u2 = dynamicsymbols('q1 q2 u1 u2')
@@ -382,16 +474,22 @@ def test_auto_point_vel_shortest_path():
             assert P4.vel(B) == q1.diff(t) * B.x + u2 * B.y + 2 * q2.diff(t) * B.z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_vel_connected_frames(), test_auto_point_vel_connected_frames produces the expected output) over Any ║
+# ║ Path(test_auto_point_vel_connected_frames(), P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_point_vel_connected_frames : Any → {Any | P...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.vel(N) == (u + q1.diff(t)) * N.x + q2.d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_point_vel_connected_frames : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa15124719ceb4de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e6e3757c1212fe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_connected_frames","kind":"function","src_hash":"34c5e09584d852e1","in":{"base":"Any"},"out":{"base":"Any","pred":"P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z"},"spec":{"lhs":"test_auto_point_vel_connected_frames()","rhs":"test_auto_point_vel_connected_frames produces the expected output","over":{"base":"Any"},"name":"test_auto_point_vel_connected_frames_correct"},"guarantee":"test_auto_point_vel_connected_frames produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_connected_frames_correct","statement":"Path(test_auto_point_vel_connected_frames(x), test_auto_point_vel_connected_frames produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa15124719ceb4de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_connected_frames","kind":"function","src_hash":"34c5e09584d852e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z"},"spec":{"lhs":"test_auto_point_vel_connected_frames()","rhs":"P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z","over":{"base":"Any"},"name":"test_auto_point_vel_connected_frames_correct"},"guarantee":"P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_connected_frames_correct","statement":"Path(test_auto_point_vel_connected_frames(x), P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e6e3757c1212fe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_point_vel_connected_frames():
     t = dynamicsymbols._t
     q, q1, q2, u = dynamicsymbols('q q1 q2 u')
@@ -406,16 +504,22 @@ def test_auto_point_vel_connected_frames():
     assert P.vel(N) == (u + q1.diff(t)) * N.x + q2.diff(t) * B.y - q2 * q.diff(t) * B.z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_vel_multiple_paths_warning_arises(), test_auto_point_vel_multiple_paths_warning_arises produces the expected output) over Any ║
+# ║ Path(test_auto_point_vel_multiple_paths_warning_arises(), <unspecified:test_auto_point_vel_multiple_paths_warning_arises>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_point_vel_multiple_paths_warning_arises : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94e509c8e6dc229c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_paths_warning_arises","kind":"function","src_hash":"55cb4fbc814a4a6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auto_point_vel_multiple_paths_warning_arises()","rhs":"test_auto_point_vel_multiple_paths_warning_arises produces the expected output","over":{"base":"Any"},"name":"test_auto_point_vel_multiple_paths_warning_arises_correct"},"guarantee":"test_auto_point_vel_multiple_paths_warning_arises produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_paths_warning_arises_correct","statement":"Path(test_auto_point_vel_multiple_paths_warning_arises(x), test_auto_point_vel_multiple_paths_warning_arises produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94e509c8e6dc229c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_paths_warning_arises","kind":"function","src_hash":"55cb4fbc814a4a6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auto_point_vel_multiple_paths_warning_arises()","rhs":"<unspecified:test_auto_point_vel_multiple_paths_warning_arises>","over":{"base":"Any"},"name":"test_auto_point_vel_multiple_paths_warning_arises_correct"},"guarantee":"test_auto_point_vel_multiple_paths_warning_arises produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_vel_multiple_paths_warning_arises_correct","statement":"Path(test_auto_point_vel_multiple_paths_warning_arises(x), test_auto_point_vel_multiple_paths_warning_arises produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94e509c8e6dc229c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_point_vel_multiple_paths_warning_arises():
     q, u = dynamicsymbols('q u')
     N = ReferenceFrame('N')
@@ -434,16 +538,22 @@ def test_auto_point_vel_multiple_paths_warning_arises():
         raises(UserWarning ,lambda: O.vel(N))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_vel_cyclic_warning_arises(), test_auto_vel_cyclic_warning_arises produces the expected output) over Any ║
+# ║ Path(test_auto_vel_cyclic_warning_arises(), <unspecified:test_auto_vel_cyclic_warning_arises>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_vel_cyclic_warning_arises : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba64c0a517cb18a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_arises","kind":"function","src_hash":"22827a659b3a502a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auto_vel_cyclic_warning_arises()","rhs":"test_auto_vel_cyclic_warning_arises produces the expected output","over":{"base":"Any"},"name":"test_auto_vel_cyclic_warning_arises_correct"},"guarantee":"test_auto_vel_cyclic_warning_arises produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_arises_correct","statement":"Path(test_auto_vel_cyclic_warning_arises(x), test_auto_vel_cyclic_warning_arises produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba64c0a517cb18a7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_arises","kind":"function","src_hash":"22827a659b3a502a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_auto_vel_cyclic_warning_arises()","rhs":"<unspecified:test_auto_vel_cyclic_warning_arises>","over":{"base":"Any"},"name":"test_auto_vel_cyclic_warning_arises_correct"},"guarantee":"test_auto_vel_cyclic_warning_arises produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_arises_correct","statement":"Path(test_auto_vel_cyclic_warning_arises(x), test_auto_vel_cyclic_warning_arises produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba64c0a517cb18a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_vel_cyclic_warning_arises():
     P = Point('P')
     P1 = Point('P1')
@@ -460,16 +570,22 @@ def test_auto_vel_cyclic_warning_arises():
         raises(UserWarning ,lambda: P2.vel(N))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_vel_cyclic_warning_msg(), test_auto_vel_cyclic_warning_msg produces the expected output) over Any ║
+# ║ Path(test_auto_vel_cyclic_warning_msg(), <unspecified:test_auto_vel_cyclic_warning_msg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_vel_cyclic_warning_msg : Any → {Any | issub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ac19d18f4f87e58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_msg","kind":"function","src_hash":"02a80c04f5cde6a0","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w[-1].category, UserWarning)"},"spec":{"lhs":"test_auto_vel_cyclic_warning_msg()","rhs":"test_auto_vel_cyclic_warning_msg produces the expected output","over":{"base":"Any"},"name":"test_auto_vel_cyclic_warning_msg_correct"},"guarantee":"test_auto_vel_cyclic_warning_msg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_msg_correct","statement":"Path(test_auto_vel_cyclic_warning_msg(x), test_auto_vel_cyclic_warning_msg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac19d18f4f87e58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_msg","kind":"function","src_hash":"02a80c04f5cde6a0","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w[-1].category, UserWarning)"},"spec":{"lhs":"test_auto_vel_cyclic_warning_msg()","rhs":"<unspecified:test_auto_vel_cyclic_warning_msg>","over":{"base":"Any"},"name":"test_auto_vel_cyclic_warning_msg_correct"},"guarantee":"test_auto_vel_cyclic_warning_msg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_cyclic_warning_msg_correct","statement":"Path(test_auto_vel_cyclic_warning_msg(x), test_auto_vel_cyclic_warning_msg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac19d18f4f87e58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_vel_cyclic_warning_msg():
     P = Point('P')
     P1 = Point('P1')
@@ -489,16 +605,22 @@ def test_auto_vel_cyclic_warning_msg():
         assert 'Kinematic loops are defined among the positions of points. This is likely not desired and may cause errors in your calculations.' in msg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_vel_multiple_path_warning_msg(), test_auto_vel_multiple_path_warning_msg produces the expected output) over Any ║
+# ║ Path(test_auto_vel_multiple_path_warning_msg(), <unspecified:test_auto_vel_multiple_path_warning_msg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_auto_vel_multiple_path_warning_msg : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce904d666560ed8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_multiple_path_warning_msg","kind":"function","src_hash":"eb39ea528fb8fc89","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w[-1].category, UserWarning) and 'Velocity' in msg and 'automatically calculated based on point' in msg"},"spec":{"lhs":"test_auto_vel_multiple_path_warning_msg()","rhs":"test_auto_vel_multiple_path_warning_msg produces the expected output","over":{"base":"Any"},"name":"test_auto_vel_multiple_path_warning_msg_correct"},"guarantee":"test_auto_vel_multiple_path_warning_msg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_multiple_path_warning_msg_correct","statement":"Path(test_auto_vel_multiple_path_warning_msg(x), test_auto_vel_multiple_path_warning_msg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce904d666560ed8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_multiple_path_warning_msg","kind":"function","src_hash":"eb39ea528fb8fc89","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w[-1].category, UserWarning) and 'Velocity' in msg and 'automatically calculated based on point' in msg"},"spec":{"lhs":"test_auto_vel_multiple_path_warning_msg()","rhs":"<unspecified:test_auto_vel_multiple_path_warning_msg>","over":{"base":"Any"},"name":"test_auto_vel_multiple_path_warning_msg_correct"},"guarantee":"test_auto_vel_multiple_path_warning_msg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_multiple_path_warning_msg_correct","statement":"Path(test_auto_vel_multiple_path_warning_msg(x), test_auto_vel_multiple_path_warning_msg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce904d666560ed8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_auto_vel_multiple_path_warning_msg():
     N = ReferenceFrame('N')
     O = Point('O')
@@ -518,16 +640,22 @@ def test_auto_vel_multiple_path_warning_msg():
         assert 'Velocities from these points are not necessarily the same. This may cause errors in your calculations.' in msg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_vel_derivative(), test_auto_vel_derivative produces the expected output) over Any ║
+# ║ Path(test_auto_vel_derivative(), Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_vel_derivative : Any → {Any | Cm.vel(A) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_vel_derivative : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa142bdf0eaaecee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 520fbe47cd13d108  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_derivative","kind":"function","src_hash":"5e9809168aa1cdf7","in":{"base":"Any"},"out":{"base":"Any","pred":"Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y and Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y"},"spec":{"lhs":"test_auto_vel_derivative()","rhs":"test_auto_vel_derivative produces the expected output","over":{"base":"Any"},"name":"test_auto_vel_derivative_correct"},"guarantee":"test_auto_vel_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_derivative_correct","statement":"Path(test_auto_vel_derivative(x), test_auto_vel_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa142bdf0eaaecee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_vel_derivative","kind":"function","src_hash":"5e9809168aa1cdf7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y"},"spec":{"lhs":"test_auto_vel_derivative()","rhs":"Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y","over":{"base":"Any"},"name":"test_auto_vel_derivative_correct"},"guarantee":"Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_vel_derivative_correct","statement":"Path(test_auto_vel_derivative(x), Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"520fbe47cd13d108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Cm.vel(A) == u1 * B.y + (u1 + u2) * C.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_auto_vel_derivative():
     q1, q2 = dynamicsymbols('q1:3')
     u1, u2 = dynamicsymbols('u1:3', 1)
@@ -555,16 +683,22 @@ def test_auto_vel_derivative():
     assert Cm.vel(A) == (u1 * B.y + (u1 + u2) * C.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_acc_zero_vel(), test_auto_point_acc_zero_vel produces the expected output) over Any ║
+# ║ Path(test_auto_point_acc_zero_vel(), O.acc(N) == 0 * N.x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_point_acc_zero_vel : Any → {Any | O.acc(N) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O.acc(N) == 0 * N.x                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_point_acc_zero_vel : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b282f5ff64ce730  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75f4f6ff20d7ebf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_acc_zero_vel","kind":"function","src_hash":"02de33a2d4812c58","in":{"base":"Any"},"out":{"base":"Any","pred":"O.acc(N) == 0 * N.x"},"spec":{"lhs":"test_auto_point_acc_zero_vel()","rhs":"test_auto_point_acc_zero_vel produces the expected output","over":{"base":"Any"},"name":"test_auto_point_acc_zero_vel_correct"},"guarantee":"test_auto_point_acc_zero_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_acc_zero_vel_correct","statement":"Path(test_auto_point_acc_zero_vel(x), test_auto_point_acc_zero_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b282f5ff64ce730"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_acc_zero_vel","kind":"function","src_hash":"02de33a2d4812c58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O.acc(N) == 0 * N.x"},"spec":{"lhs":"test_auto_point_acc_zero_vel()","rhs":"O.acc(N) == 0 * N.x","over":{"base":"Any"},"name":"test_auto_point_acc_zero_vel_correct"},"guarantee":"O.acc(N) == 0 * N.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_acc_zero_vel_correct","statement":"Path(test_auto_point_acc_zero_vel(x), O.acc(N) == 0 * N.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f4f6ff20d7ebf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O.acc(N) == 0 * N.x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_auto_point_acc_zero_vel():
     N = ReferenceFrame('N')
     O = Point('O')
@@ -572,16 +706,22 @@ def test_auto_point_acc_zero_vel():
     assert O.acc(N) == 0 * N.x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_point_acc_compute_vel(), test_auto_point_acc_compute_vel produces the expected output) over Any ║
+# ║ Path(test_auto_point_acc_compute_vel(), P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_point_acc_compute_vel : Any → {Any | P.acc(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_point_acc_compute_vel : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 405d33b1bfb24b99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92a1e075ead786e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_acc_compute_vel","kind":"function","src_hash":"7b507ab9460a6a64","in":{"base":"Any"},"out":{"base":"Any","pred":"P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y"},"spec":{"lhs":"test_auto_point_acc_compute_vel()","rhs":"test_auto_point_acc_compute_vel produces the expected output","over":{"base":"Any"},"name":"test_auto_point_acc_compute_vel_correct"},"guarantee":"test_auto_point_acc_compute_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_acc_compute_vel_correct","statement":"Path(test_auto_point_acc_compute_vel(x), test_auto_point_acc_compute_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"405d33b1bfb24b99"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_point_acc_compute_vel","kind":"function","src_hash":"7b507ab9460a6a64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y"},"spec":{"lhs":"test_auto_point_acc_compute_vel()","rhs":"P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y","over":{"base":"Any"},"name":"test_auto_point_acc_compute_vel_correct"},"guarantee":"P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_point_acc_compute_vel_correct","statement":"Path(test_auto_point_acc_compute_vel(x), P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92a1e075ead786e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_auto_point_acc_compute_vel():
     t = dynamicsymbols._t
     q1 = dynamicsymbols('q1')
@@ -596,16 +736,23 @@ def test_auto_point_acc_compute_vel():
     assert P.acc(N) == -q1.diff(t) ** 2 * A.x + q1.diff(t, 2) * A.y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_auto_acc_derivative(), test_auto_acc_derivative produces the expected output) over Any ║
+# ║ Path(test_auto_acc_derivative(), Cm.acc(A) == check and Cm.a2pt_theory(Bm, A, C) == check) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_auto_acc_derivative : Any → {Any | Cm.acc(A) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Cm.acc(A) == check                             ║
+# ║   ensures:  Cm.a2pt_theory(Bm, A, C) == check              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_auto_acc_derivative : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0aba886d4b9edf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | badfcbdc22dd2940  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_acc_derivative","kind":"function","src_hash":"81d6984663a00b59","in":{"base":"Any"},"out":{"base":"Any","pred":"Cm.acc(A) == check and Cm.a2pt_theory(Bm, A, C) == check"},"spec":{"lhs":"test_auto_acc_derivative()","rhs":"test_auto_acc_derivative produces the expected output","over":{"base":"Any"},"name":"test_auto_acc_derivative_correct"},"guarantee":"test_auto_acc_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_acc_derivative_correct","statement":"Path(test_auto_acc_derivative(x), test_auto_acc_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0aba886d4b9edf8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_point.test_auto_acc_derivative","kind":"function","src_hash":"81d6984663a00b59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Cm.acc(A) == check and Cm.a2pt_theory(Bm, A, C) == check"},"spec":{"lhs":"test_auto_acc_derivative()","rhs":"Cm.acc(A) == check and Cm.a2pt_theory(Bm, A, C) == check","over":{"base":"Any"},"name":"test_auto_acc_derivative_correct"},"guarantee":"Cm.acc(A) == check; Cm.a2pt_theory(Bm, A, C) == check","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_point.test_auto_acc_derivative_correct","statement":"Path(test_auto_acc_derivative(x), Cm.acc(A) == check; Cm.a2pt_theory(Bm, A, C) == check)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"badfcbdc22dd2940","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Cm.acc(A) == check","Cm.a2pt_theory(Bm, A, C) == check"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_auto_acc_derivative():
     # Tests whether the Point.acc method gives the correct acceleration of the
     # end point of two linkages in series, while getting minimal information.

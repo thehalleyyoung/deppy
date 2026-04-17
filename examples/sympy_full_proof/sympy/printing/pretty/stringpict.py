@@ -39,14 +39,19 @@ _GLOBAL_WRAP_LINE = None
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a stringPict instance) preserved by stringPict(*args) over {Any | isinstance(o, str) and isinstance(o, stringPict)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ stringPict : {Any | isinstance(o, str) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 077ee2a9cf4c7ec1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict","kind":"class","src_hash":"56b1ae489f4bd2c9","in":{"base":"Any","pred":"isinstance(o, str) and isinstance(o, stringPict)"},"out":{"base":"Any"},"spec":{"lhs":"stringPict(*args)","rhs":"correctly constructs a stringPict instance","over":{"base":"Any","pred":"isinstance(o, str) and isinstance(o, stringPict)"},"name":"stringPict_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a stringPict instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 's') and hasattr(self, 'picture') and hasattr(self, 'baseline') and hasattr(self, 'binding')","kind":"class","induction":"structural on s, picture, baseline, binding"}],"methods_preserving":["__init__","height","width","right","left","below","above","parens","leftslash","root","render","terminal_width","__eq__","__hash__","__str__","__repr__","__getitem__","__len__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"077ee2a9cf4c7ec1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict","kind":"class","src_hash":"56b1ae489f4bd2c9","in":{"base":"Any","pred":"isinstance(o, str) and isinstance(o, stringPict)"},"out":{"base":"Any"},"spec":{"lhs":"stringPict(*args)","rhs":"correctly constructs a stringPict instance","over":{"base":"Any","pred":"isinstance(o, str) and isinstance(o, stringPict)"},"name":"stringPict_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 's') and hasattr(self, 'picture') and hasattr(self, 'baseline') and hasattr(self, 'binding')","kind":"class","induction":"structural on s, picture, baseline, binding"}],"methods_preserving":["__init__","height","width","right","left","below","above","parens","leftslash","root","render","terminal_width","__eq__","__hash__","__str__","__repr__","__getitem__","__len__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"077ee2a9cf4c7ec1","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 's')","hasattr(self, 'picture')","hasattr(self, 'baseline')","hasattr(self, 'binding')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function stringPict not found in source"]}}
 class stringPict:
     """An ASCII picture.
     The pictures are represented as a list of equal length strings.
@@ -55,16 +60,24 @@ class stringPict:
     LINE = 'line'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(s, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(s, baseline), self.s == s and self.baseline == baseline) over {Any | hasattr(s, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'splitlines')                       ║
+# ║   ensures:  self.s == s                                    ║
+# ║   ensures:  self.baseline == baseline                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(s, 'splitlines')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63d30b30b12bb4d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__init__","kind":"method","src_hash":"f694d76947b45918","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(s, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63d30b30b12bb4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__init__","kind":"method","src_hash":"f694d76947b45918","in":{"base":"Any","pred":"hasattr(s, 'splitlines')"},"out":{"base":"Any","pred":"result satisfies: self.s == s and self.baseline == baseline"},"spec":{"lhs":"__init__(s, baseline)","rhs":"self.s == s and self.baseline == baseline","over":{"base":"Any","pred":"hasattr(s, 'splitlines')"},"name":"__init___correct"},"guarantee":"self.s == s; self.baseline == baseline","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63d30b30b12bb4d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'splitlines')"],"ensures":["self.s == s","self.baseline == baseline"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, s, baseline=0):
         """Initialize from string.
         Multiline strings are centered.
@@ -78,16 +91,22 @@ class stringPict:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equalLengths(lin), equalLengths produces the expected output) over Any ║
+# ║ Path(equalLengths(lines), <unspecified:equalLengths>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equalLengths : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9682817d44f293f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.equalLengths","kind":"staticmethod","src_hash":"8d750dfebd936012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equalLengths(lin)","rhs":"equalLengths produces the expected output","over":{"base":"Any"},"name":"equalLengths_correct"},"guarantee":"equalLengths produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.equalLengths_correct","statement":"Path(equalLengths(x), equalLengths produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9682817d44f293f6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.equalLengths","kind":"staticmethod","src_hash":"8d750dfebd936012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equalLengths(lines)","rhs":"<unspecified:equalLengths>","over":{"base":"Any"},"name":"equalLengths_correct"},"guarantee":"equalLengths produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.equalLengths_correct","statement":"Path(equalLengths(x), equalLengths produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9682817d44f293f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equalLengths(lines):
         # empty lines
         if not lines:
@@ -97,47 +116,65 @@ class stringPict:
         return [center(line, width) for line in lines]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(height(), the height of the picture in characters) over Any ║
+# ║ Path(height(), len(self.picture)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.picture)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ height : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ef95f1696326b56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.height","kind":"method","src_hash":"c006099cec3f16d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"the height of the picture in characters","over":{"base":"Any"},"name":"height_correct"},"guarantee":"the height of the picture in characters","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ef95f1696326b56"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.height","kind":"method","src_hash":"c006099cec3f16d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"len(self.picture)","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns len(self.picture)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ef95f1696326b56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.picture)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def height(self):
         """The height of the picture in characters."""
         return len(self.picture)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(width(), the width of the picture in characters) over Any ║
+# ║ Path(width(), line_width(self.picture[0])) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  line_width(self.picture[0])                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ width : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6bc597949d0688bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.width","kind":"method","src_hash":"b69444784ad5761c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"the width of the picture in characters","over":{"base":"Any"},"name":"width_correct"},"guarantee":"the width of the picture in characters","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc597949d0688bd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.width","kind":"method","src_hash":"b69444784ad5761c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"line_width(self.picture[0])","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns line_width(self.picture[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc597949d0688bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"line_width(self.picture[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def width(self):
         """The width of the picture in characters."""
         return line_width(self.picture[0])
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next(*ar), put a string of stringpicts next to each other. returns string, baseline arguments for stringpict) over Any ║
+# ║ Path(next(*args), ('\n'.join(result), newBaseline)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('\n'.join(result), newBaseline)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b889cc24b4822ac9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 474fc2c4f22a138f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.next","kind":"staticmethod","src_hash":"3bba4e7d4d410e08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next(*ar)","rhs":"put a string of stringpicts next to each other. returns string, baseline arguments for stringpict","over":{"base":"Any"},"name":"next_correct"},"guarantee":"put a string of stringpicts next to each other. returns string, baseline arguments for stringpict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.next_correct","statement":"Path(next(x), put a string of stringpicts next to each other. returns string, baseline arguments for stringpict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b889cc24b4822ac9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.next","kind":"staticmethod","src_hash":"3bba4e7d4d410e08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next(*args)","rhs":"('\\n'.join(result), newBaseline)","over":{"base":"Any"},"name":"next_correct"},"guarantee":"returns ('\\n'.join(result), newBaseline)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.next_correct","statement":"Path(next(x), returns ('\\n'.join(result), newBaseline))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"474fc2c4f22a138f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('\\n'.join(result), newBaseline)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next(*args):
         """Put a string of stringPicts next to each other.
         Returns string, baseline arguments for stringPict.
@@ -170,16 +207,22 @@ class stringPict:
         return '\n'.join(result), newBaseline
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(right(*ar), put pictures next to this one. returns string, baseline arguments for stringpict. (multiline) strings are allowed, and are given a baseline of 0) over Any ║
+# ║ Path(right(*args), stringPict.next(self, *args)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  stringPict.next(self, *args)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ right : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b9688a2ca3050e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.right","kind":"method","src_hash":"c6869f711e4b51fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right(*ar)","rhs":"put pictures next to this one. returns string, baseline arguments for stringpict. (multiline) strings are allowed, and are given a baseline of 0","over":{"base":"Any"},"name":"right_correct"},"guarantee":"put pictures next to this one. returns string, baseline arguments for stringpict. (multiline) strings are allowed, and are given a baseline of 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b9688a2ca3050e9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.right","kind":"method","src_hash":"c6869f711e4b51fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right(*args)","rhs":"stringPict.next(self, *args)","over":{"base":"Any"},"name":"right_correct"},"guarantee":"returns stringPict.next(self, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b9688a2ca3050e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"stringPict.next(self, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def right(self, *args):
         r"""Put pictures next to this one.
         Returns string, baseline arguments for stringPict.
@@ -198,16 +241,22 @@ class stringPict:
         return stringPict.next(self, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left(*ar), put pictures (left to right) at left. returns string, baseline arguments for stringpict) over Any ║
+# ║ Path(left(*args), stringPict.next(*args + (self,))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  stringPict.next(*args + (self,))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f221dcbb3f82e26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.left","kind":"method","src_hash":"3d214ff713e90e00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left(*ar)","rhs":"put pictures (left to right) at left. returns string, baseline arguments for stringpict","over":{"base":"Any"},"name":"left_correct"},"guarantee":"put pictures (left to right) at left. returns string, baseline arguments for stringpict","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f221dcbb3f82e26"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.left","kind":"method","src_hash":"3d214ff713e90e00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left(*args)","rhs":"stringPict.next(*args + (self,))","over":{"base":"Any"},"name":"left_correct"},"guarantee":"returns stringPict.next(*args + (self,))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f221dcbb3f82e26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"stringPict.next(*args + (self,))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def left(self, *args):
         """Put pictures (left to right) at left.
         Returns string, baseline arguments for stringPict.
@@ -216,16 +265,22 @@ class stringPict:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stack(*ar), put pictures on top of each other, from top to bottom. returns string, baseline arguments for stringpict. the baseline is the baseline of the second picture. everything is centered. baseline is the ba) over Any ║
+# ║ Path(stack(*args), ('\n'.join(newPicture), newBaseline)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('\n'.join(newPicture), newBaseline)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stack : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ed7dcb89e839c65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a91c6cdce5328da5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.stack","kind":"staticmethod","src_hash":"5330324e0eda6821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stack(*ar)","rhs":"put pictures on top of each other, from top to bottom. returns string, baseline arguments for stringpict. the baseline is the baseline of the second picture. everything is centered. baseline is the ba","over":{"base":"Any"},"name":"stack_correct"},"guarantee":"put pictures on top of each other, from top to bottom. returns string, baseline arguments for stringpict. the baseline is the baseline of the second picture. everything is centered. baseline is the ba","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.stack_correct","statement":"Path(stack(x), put pictures on top of each other, from top to bottom. returns string, baseline arguments for stringpict. the baseline is the baseline of the second picture. everything is centered. baseline is the ba)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ed7dcb89e839c65"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.stack","kind":"staticmethod","src_hash":"5330324e0eda6821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stack(*args)","rhs":"('\\n'.join(newPicture), newBaseline)","over":{"base":"Any"},"name":"stack_correct"},"guarantee":"returns ('\\n'.join(newPicture), newBaseline)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.stack_correct","statement":"Path(stack(x), returns ('\\n'.join(newPicture), newBaseline))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a91c6cdce5328da5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('\\n'.join(newPicture), newBaseline)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stack(*args):
         """Put pictures on top of each other,
         from top to bottom.
@@ -262,16 +317,22 @@ class stringPict:
         return '\n'.join(newPicture), newBaseline
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(below(*ar), put pictures under this picture. returns string, baseline arguments for stringpict. baseline is baseline of top picture) over Any ║
+# ║ Path(below(*args), (s, self.baseline)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (s, self.baseline)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ below : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49c37c7dab36aa6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d077e627541a612e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.below","kind":"method","src_hash":"819400df0b91ba3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"below(*ar)","rhs":"put pictures under this picture. returns string, baseline arguments for stringpict. baseline is baseline of top picture","over":{"base":"Any"},"name":"below_correct"},"guarantee":"put pictures under this picture. returns string, baseline arguments for stringpict. baseline is baseline of top picture","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.below_correct","statement":"Path(below(x), put pictures under this picture. returns string, baseline arguments for stringpict. baseline is baseline of top picture)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49c37c7dab36aa6c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.below","kind":"method","src_hash":"819400df0b91ba3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"below(*args)","rhs":"(s, self.baseline)","over":{"base":"Any"},"name":"below_correct"},"guarantee":"returns (s, self.baseline)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.below_correct","statement":"Path(below(x), returns (s, self.baseline))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d077e627541a612e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(s, self.baseline)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.baseline"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def below(self, *args):
         """Put pictures under this picture.
         Returns string, baseline arguments for stringPict.
@@ -292,16 +353,22 @@ class stringPict:
         return s, self.baseline
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(above(*ar), put pictures above this picture. returns string, baseline arguments for stringpict. baseline is baseline of bottom picture) over Any ║
+# ║ Path(above(*args), (string, baseline)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (string, baseline)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ above : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 840c2eb24226e945  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97d8ea4e15ff6ccf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.above","kind":"method","src_hash":"39fc64cc15e9b285","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"above(*ar)","rhs":"put pictures above this picture. returns string, baseline arguments for stringpict. baseline is baseline of bottom picture","over":{"base":"Any"},"name":"above_correct"},"guarantee":"put pictures above this picture. returns string, baseline arguments for stringpict. baseline is baseline of bottom picture","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.above_correct","statement":"Path(above(x), put pictures above this picture. returns string, baseline arguments for stringpict. baseline is baseline of bottom picture)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"840c2eb24226e945"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.above","kind":"method","src_hash":"39fc64cc15e9b285","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"above(*args)","rhs":"(string, baseline)","over":{"base":"Any"},"name":"above_correct"},"guarantee":"returns (string, baseline)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.above_correct","statement":"Path(above(x), returns (string, baseline))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d8ea4e15ff6ccf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(string, baseline)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.baseline","self.height"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def above(self, *args):
         """Put pictures above this picture.
         Returns string, baseline arguments for stringPict.
@@ -312,16 +379,22 @@ class stringPict:
         return string, baseline
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parens(lef), put parentheses around self. returns string, baseline arguments for stringpict) over Any ║
+# ║ Path(parens(left, right, ifascii_nougly), ('\n'.join(res.picture), res.baseline)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('\n'.join(res.picture), res.baseline)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parens : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d48c6d7c6afec324  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69f97aa78edacbfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.parens","kind":"method","src_hash":"7594b594b2416de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parens(lef)","rhs":"put parentheses around self. returns string, baseline arguments for stringpict","over":{"base":"Any"},"name":"parens_correct"},"guarantee":"put parentheses around self. returns string, baseline arguments for stringpict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.parens_correct","statement":"Path(parens(x), put parentheses around self. returns string, baseline arguments for stringpict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d48c6d7c6afec324"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.parens","kind":"method","src_hash":"7594b594b2416de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parens(left, right, ifascii_nougly)","rhs":"('\\n'.join(res.picture), res.baseline)","over":{"base":"Any"},"name":"parens_correct"},"guarantee":"returns ('\\n'.join(res.picture), res.baseline)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.parens_correct","statement":"Path(parens(x), returns ('\\n'.join(res.picture), res.baseline))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69f97aa78edacbfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('\\n'.join(res.picture), res.baseline)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.baseline","self.height"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parens(self, left='(', right=')', ifascii_nougly=False):
         """Put parentheses around self.
         Returns string, baseline arguments for stringPict.
@@ -351,14 +424,20 @@ class stringPict:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(leftslash(), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.left(stringPict(slash, height // 2))      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ leftslash : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2171eda5a65df8cf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.leftslash","kind":"method","src_hash":"c56b37e2822362bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leftslash()","rhs":"precede object by a slash of the proper size","over":{"base":"Any"},"name":"leftslash_correct","kind":"composition"},"guarantee":"precede object by a slash of the proper size","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"left","by":"library_axiom"},{"fn":"stringPict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2171eda5a65df8cf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.leftslash","kind":"method","src_hash":"c56b37e2822362bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leftslash()","rhs":"self.left(stringPict(slash, height // 2))","over":{"base":"Any"},"name":"leftslash_correct","kind":"composition"},"guarantee":"returns self.left(stringPict(slash, height // 2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"left","by":"library_axiom"},{"fn":"stringPict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2171eda5a65df8cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.left(stringPict(slash, height // 2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.baseline","self.height","self.left"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def leftslash(self):
         """Precede object by a slash of the proper size.
         """
@@ -373,16 +452,23 @@ class stringPict:
         return self.left(stringPict(slash, height//2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(root(n), produce a nice root symbol. produces ugly results for big n inserts) over Any ║
+# ║ Path(root(n), result.left(root)) over {Any | hasattr(n, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ root : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'width')                            ║
+# ║   returns:  result.left(root)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ root : {Any | hasattr(n, 'width')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a625b3dd1002a1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2226dcdde3263dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.root","kind":"method","src_hash":"559f2090c5755b72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root(n)","rhs":"produce a nice root symbol. produces ugly results for big n inserts","over":{"base":"Any"},"name":"root_correct"},"guarantee":"produce a nice root symbol. produces ugly results for big n inserts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.root_correct","statement":"Path(root(x), produce a nice root symbol. produces ugly results for big n inserts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a625b3dd1002a1a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.root","kind":"method","src_hash":"559f2090c5755b72","in":{"base":"Any","pred":"hasattr(n, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"root(n)","rhs":"result.left(root)","over":{"base":"Any","pred":"hasattr(n, 'width')"},"name":"root_correct"},"guarantee":"returns result.left(root)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.root_correct","statement":"Path(root(x), returns result.left(root))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2226dcdde3263dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'width')"],"returns_expr":"result.left(root)","pure":false,"effects":{"effect_type":"reads_state","reads":["n.width","self.above","self.height","self.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def root(self, n=None):
         """Produce a nice root symbol.
         Produces ugly results for big n inserts.
@@ -418,16 +504,22 @@ class stringPict:
         return result.left(root)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(render(*ar), return the string form of self) over Any ║
+# ║ Path(render(*args, **kwargs), <unspecified:render>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ render : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f0019a14c57189e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.render","kind":"method","src_hash":"75e581a50e94962e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render(*ar)","rhs":"return the string form of self","over":{"base":"Any"},"name":"render_correct"},"guarantee":"return the string form of self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.render_correct","statement":"Path(render(x), return the string form of self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f0019a14c57189e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.render","kind":"method","src_hash":"75e581a50e94962e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render(*args, **kwargs)","rhs":"<unspecified:render>","over":{"base":"Any"},"name":"render_correct"},"guarantee":"return the string form of self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.render_correct","statement":"Path(render(x), return the string form of self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f0019a14c57189e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.picture","self.terminal_width","self.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def render(self, * args, **kwargs):
         """Return the string form of self.
 
@@ -505,16 +597,22 @@ class stringPict:
         return "\n\n".join(pictures)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(terminal_width(), return the terminal width if possible, otherwise return 0) over Any ║
+# ║ Path(terminal_width(), size.columns) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  size.columns                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ terminal_width : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc401089208cfca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24f8fe3e88f967f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.terminal_width","kind":"method","src_hash":"e83a81b914f3f7c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"terminal_width()","rhs":"return the terminal width if possible, otherwise return 0","over":{"base":"Any"},"name":"terminal_width_correct"},"guarantee":"return the terminal width if possible, otherwise return 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.terminal_width_correct","statement":"Path(terminal_width(x), return the terminal width if possible, otherwise return 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc401089208cfca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.terminal_width","kind":"method","src_hash":"e83a81b914f3f7c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"terminal_width()","rhs":"size.columns","over":{"base":"Any"},"name":"terminal_width_correct"},"guarantee":"returns size.columns","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.stringpict.stringPict.terminal_width_correct","statement":"Path(terminal_width(x), returns size.columns)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24f8fe3e88f967f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"size.columns","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def terminal_width(self):
         """Return the terminal width if possible, otherwise return 0.
         """
@@ -522,16 +620,26 @@ class stringPict:
         return size.columns
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(o), correctly determines equality) over Any    ║
+# ║ Path(__eq__(o), result == ('\n'.join(self.picture) == o if isinstance(o, str) else o.picture == self.picture) and result == '\n'.join(self.picture) == o or result == o.picture == self.picture) over {Any | hasattr(o, 'picture')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'picture')                          ║
+# ║   ensures:  result == ('\n'.join(self.picture) == o i...   ║
+# ║   ensures:  result == '\n'.join(self.picture) == o or...   ║
+# ║   fiber[str]: isinstance(o, str) => '\n'.join(self.pi...   ║
+# ║   fiber[stringPict]: isinstance(o, stringPict) => o.p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(o, 'picture')} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 213b27a58ec410c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__eq__","kind":"method","src_hash":"79e0aed50521e319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(o)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"213b27a58ec410c2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__eq__","kind":"method","src_hash":"79e0aed50521e319","in":{"base":"Any","pred":"hasattr(o, 'picture')"},"out":{"base":"Any","pred":"result satisfies: result == ('\\n'.join(self.picture) == o if isinstance(o, str) else o.picture == self.picture) and result == '\\n'.join(self.picture) == o or result == o.picture == self.picture"},"spec":{"lhs":"__eq__(o)","rhs":"result == ('\\n'.join(self.picture) == o if isinstance(o, str) else o.picture == self.picture) and result == '\\n'.join(self.picture) == o or result == o.picture == self.picture","over":{"base":"Any","pred":"hasattr(o, 'picture')"},"name":"__eq___correct"},"guarantee":"result == ('\\n'.join(self.picture) == o if isinstance(o, str) else o.picture == self.picture); result == '\\n'.join(self.picture) == o or result == o.picture == self.picture; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"213b27a58ec410c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'picture')"],"ensures":["result == ('\\n'.join(self.picture) == o if isinstance(o, str) else o.picture == self.picture)","result == '\\n'.join(self.picture) == o or result == o.picture == self.picture"],"fibers":[{"name":"str","guard":"isinstance(o, str)","ensures":["result == '\\n'.join(self.picture) == o"],"decidability":"structural","returns_expr":"'\\n'.join(self.picture) == o"},{"name":"stringPict","guard":"isinstance(o, stringPict)","ensures":["result == o.picture == self.picture"],"decidability":"structural","returns_expr":"o.picture == self.picture"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.picture","self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, o):
         if isinstance(o, str):
             return '\n'.join(self.picture) == o
@@ -540,72 +648,102 @@ class stringPict:
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), super().__hash__()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__hash__()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98d0f03861cf43e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98d0f03861cf43e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"super().__hash__()","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns super().__hash__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98d0f03861cf43e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__hash__()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return super().__hash__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '\n'.join(self.picture)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n'.join(self.picture)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d995d1cc0667ae0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__str__","kind":"method","src_hash":"8d9d6ecfcd2b4ee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d995d1cc0667ae0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__str__","kind":"method","src_hash":"8d9d6ecfcd2b4ee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'\\n'.join(self.picture)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '\\n'.join(self.picture)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d995d1cc0667ae0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n'.join(self.picture)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '\n'.join(self.picture)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'stringPict(%r,%d)' % ('\n'.join(self.picture), self.baseline)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'stringPict(%r,%d)' % ('\n'.join(self.pic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1612515cae25b554           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__repr__","kind":"method","src_hash":"6eb4b7534906ae8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1612515cae25b554"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__repr__","kind":"method","src_hash":"6eb4b7534906ae8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'stringPict(%r,%d)' % ('\\n'.join(self.picture), self.baseline)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'stringPict(%r,%d)' % ('\\n'.join(self.picture), self.baseline)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1612515cae25b554","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'stringPict(%r,%d)' % ('\\n'.join(self.picture), self.baseline)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.baseline","self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "stringPict(%r,%d)" % ('\n'.join(self.picture), self.baseline)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), self.picture[index]) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.picture[index]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d1c0e15cd3319b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__getitem__","kind":"method","src_hash":"220adea5f8c4ba33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d1c0e15cd3319b9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__getitem__","kind":"method","src_hash":"220adea5f8c4ba33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"self.picture[index]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.picture[index]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d1c0e15cd3319b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.picture[index]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         return self.picture[index]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.s)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.s)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d9384f7c1ecb49c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__len__","kind":"method","src_hash":"56b1f4fd5ad18f2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d9384f7c1ecb49c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.stringPict.__len__","kind":"method","src_hash":"56b1f4fd5ad18f2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.s)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.s)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d9384f7c1ecb49c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.s)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.s)
 
@@ -613,14 +751,20 @@ class stringPict:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a prettyForm instance) preserved by prettyForm(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prettyForm : Any → {Any | len(args) == 1}                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, stringPict)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prettyForm : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b918c90905e7806b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm","kind":"class","src_hash":"8bc195a9e9477cc1","in":{"base":"Any"},"out":{"base":"Any","pred":"len(args) == 1"},"spec":{"lhs":"prettyForm(*args)","rhs":"correctly constructs a prettyForm instance","over":{"base":"Any"},"name":"prettyForm_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a prettyForm instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'binding') and hasattr(self, '_unicode')","kind":"class","induction":"structural on binding, _unicode"}],"methods_preserving":["__init__","unicode","__add__","__truediv__","__mul__","__repr__","__pow__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b918c90905e7806b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm","kind":"class","src_hash":"8bc195a9e9477cc1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, stringPict)"},"spec":{"lhs":"prettyForm(*args)","rhs":"correctly constructs a prettyForm instance","over":{"base":"Any"},"name":"prettyForm_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, stringPict); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'binding') and hasattr(self, '_unicode')","kind":"class","induction":"structural on binding, _unicode"}],"methods_preserving":["__init__","unicode","__add__","__truediv__","__mul__","__repr__","__pow__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b918c90905e7806b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, stringPict)"],"invariants":["hasattr(self, 'binding')","hasattr(self, '_unicode')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function prettyForm not found in source"]}}
 class prettyForm(stringPict):
     """
     Extension of the stringPict class that knows about basic math applications,
@@ -642,16 +786,22 @@ class prettyForm(stringPict):
     ATOM, FUNC, DIV, POW, MUL, ADD, NEG, OPEN = range(8)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(s, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(s, baseline, binding), self.binding == binding) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.binding == binding                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.bindin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 53915df856b60341           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__init__","kind":"method","src_hash":"719240460226bdec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(s, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53915df856b60341"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__init__","kind":"method","src_hash":"719240460226bdec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.binding == binding"},"spec":{"lhs":"__init__(s, baseline, binding)","rhs":"self.binding == binding","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.binding == binding","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53915df856b60341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.binding == binding"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, s, baseline=0, binding=0, unicode=None):
         """Initialize from stringPict and binding power."""
         stringPict.__init__(self, s, baseline)
@@ -668,16 +818,22 @@ class prettyForm(stringPict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unicode(), returns the unicode attribute) over Any    ║
+# ║ Path(unicode(), self._unicode) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._unicode                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unicode : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14182b095c85565f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.unicode","kind":"property","src_hash":"ccdf8b6e8946f345","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unicode()","rhs":"returns the unicode attribute","over":{"base":"Any"},"name":"unicode_correct"},"guarantee":"returns the unicode attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14182b095c85565f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.unicode","kind":"property","src_hash":"ccdf8b6e8946f345","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unicode()","rhs":"self._unicode","over":{"base":"Any"},"name":"unicode_correct"},"guarantee":"returns self._unicode","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14182b095c85565f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._unicode","pure":false,"effects":{"effect_type":"reads_state","reads":["self._unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unicode(self):
         sympy_deprecation_warning(
             """
@@ -691,16 +847,22 @@ class prettyForm(stringPict):
     # Note: code to handle subtraction is in _print_Add
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(*ot), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(*others), prettyForm(*stringPict.next(*result), binding=prettyForm.ADD)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(*stringPict.next(*result), bin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b57345e3a716a12d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__add__","kind":"method","src_hash":"b998e88e201ddb23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(*ot)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b57345e3a716a12d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__add__","kind":"method","src_hash":"b998e88e201ddb23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(*others)","rhs":"prettyForm(*stringPict.next(*result), binding=prettyForm.ADD)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns prettyForm(*stringPict.next(*result), binding=prettyForm.ADD)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b57345e3a716a12d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(*stringPict.next(*result), binding=prettyForm.ADD)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, *others):
         """Make a pretty addition.
         Addition of negative numbers is simplified.
@@ -720,16 +882,25 @@ class prettyForm(stringPict):
         return prettyForm(binding=prettyForm.ADD, *stringPict.next(*result))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(den), make a pretty division; stacked or slashed) over Any ║
+# ║ Path(__truediv__(den, slashed), prettyForm(*stringPict.stack(num, stringPict.LINE, den), binding=prettyForm.DIV)) over {Any | not (slashed) and hasattr(den, 'binding') and hasattr(den, 'parens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (slashed)                                  ║
+# ║   requires: hasattr(den, 'binding')                        ║
+# ║   requires: hasattr(den, 'parens')                         ║
+# ║   returns:  prettyForm(*stringPict.stack(num, stringP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | not (slashed) and hasattr(den, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef0c715d256b1833           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__truediv__","kind":"method","src_hash":"cee95864feeef376","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(den)","rhs":"make a pretty division; stacked or slashed","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"make a pretty division; stacked or slashed","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef0c715d256b1833"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__truediv__","kind":"method","src_hash":"cee95864feeef376","in":{"base":"Any","pred":"not (slashed) and hasattr(den, 'binding') and hasattr(den, 'parens')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(den, slashed)","rhs":"prettyForm(*stringPict.stack(num, stringPict.LINE, den), binding=prettyForm.DIV)","over":{"base":"Any","pred":"not (slashed) and hasattr(den, 'binding') and hasattr(den, 'parens')"},"name":"__truediv___correct"},"guarantee":"returns prettyForm(*stringPict.stack(num, stringPict.LINE, den), binding=prettyForm.DIV)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef0c715d256b1833","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (slashed)","hasattr(den, 'binding')","hasattr(den, 'parens')"],"returns_expr":"prettyForm(*stringPict.stack(num, stringPict.LINE, den), binding=prettyForm.DIV)","pure":false,"effects":{"effect_type":"reads_state","reads":["den.binding","den.parens"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, den, slashed=False):
         """Make a pretty division; stacked or slashed.
         """
@@ -750,16 +921,22 @@ class prettyForm(stringPict):
             den))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(*ot), returns the product) over Any           ║
+# ║ Path(__mul__(*others), <unspecified:__mul__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 752bdb4c6e53acb8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__mul__","kind":"method","src_hash":"3474a48e44fa2ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(*ot)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"752bdb4c6e53acb8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__mul__","kind":"method","src_hash":"3474a48e44fa2ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(*others)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"752bdb4c6e53acb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, *others):
         """Make a pretty multiplication.
         Parentheses are needed around +, - and neg.
@@ -804,16 +981,22 @@ class prettyForm(stringPict):
         return prettyForm(binding=bin, *stringPict.next(*result))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'prettyForm(%r,%d,%d)' % ('\n'.join(self.picture), self.baseline, self.binding)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'prettyForm(%r,%d,%d)' % ('\n'.join(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 325e5cef7ae04268           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__repr__","kind":"method","src_hash":"f33d8ef0d7536553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"325e5cef7ae04268"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__repr__","kind":"method","src_hash":"f33d8ef0d7536553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'prettyForm(%r,%d,%d)' % ('\\n'.join(self.picture), self.baseline, self.binding)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'prettyForm(%r,%d,%d)' % ('\\n'.join(self.picture), self.baseline, self.binding)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"325e5cef7ae04268","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'prettyForm(%r,%d,%d)' % ('\\n'.join(self.picture), self.baseline, self.binding)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.baseline","self.binding","self.picture"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "prettyForm(%r,%d,%d)" % (
             '\n'.join(self.picture),
@@ -821,16 +1004,25 @@ class prettyForm(stringPict):
             self.binding)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(b), make a pretty power) over Any             ║
+# ║ Path(__pow__(b), <unspecified:__pow__>) over {Any | hasattr(b, 'binding') and hasattr(b, 'baseline') and hasattr(b, 'height') and hasattr(b, 'parens') and hasattr(b, 'left') and hasattr(b, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(b, 'binding')                          ║
+# ║   requires: hasattr(b, 'baseline')                         ║
+# ║   requires: hasattr(b, 'height')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | hasattr(b, 'binding') and hasattr(b,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d91a850ce23128c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__pow__","kind":"method","src_hash":"16a440ceeaddbe29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(b)","rhs":"make a pretty power","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"make a pretty power","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d91a850ce23128c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.__pow__","kind":"method","src_hash":"16a440ceeaddbe29","in":{"base":"Any","pred":"hasattr(b, 'binding') and hasattr(b, 'baseline') and hasattr(b, 'height') and hasattr(b, 'parens') and hasattr(b, 'left') and hasattr(b, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(b)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"hasattr(b, 'binding') and hasattr(b, 'baseline') and hasattr(b, 'height') and hasattr(b, 'parens') and hasattr(b, 'left') and hasattr(b, 'width')"},"name":"__pow___correct"},"guarantee":"make a pretty power","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d91a850ce23128c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(b, 'binding')","hasattr(b, 'baseline')","hasattr(b, 'height')","hasattr(b, 'parens')","hasattr(b, 'left')","hasattr(b, 'width')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["b.binding","b.height","b.left","b.parens","b.width"],"writes":["b.baseline"]},"state_contract":{"modifies":["b.baseline"],"old_bindings":{"old_b_baseline":"b.baseline"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, b):
         """Make a pretty power.
         """
@@ -865,16 +1057,22 @@ class prettyForm(stringPict):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply(fun), id) over Any                              ║
+# ║ Path(apply(function, *args), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0edae9e7f15ae0b5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.apply","kind":"staticmethod","src_hash":"69915c621949c469","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply(fun)","rhs":"functions of one or more variables","over":{"base":"Any"},"name":"apply_correct","kind":"composition"},"guarantee":"functions of one or more variables","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"left","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0edae9e7f15ae0b5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.stringpict.prettyForm.apply","kind":"staticmethod","src_hash":"69915c621949c469","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply(function, *args)","rhs":"<unspecified:apply>","over":{"base":"Any"},"name":"apply_correct","kind":"composition"},"guarantee":"functions of one or more variables","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"left","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0edae9e7f15ae0b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply(function, *args):
         """Functions of one or more variables.
         """

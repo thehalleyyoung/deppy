@@ -20,16 +20,23 @@ from sympy.core.cache import cacheit, cached_property, lazy_function
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cacheit_doc(), test_cacheit_doc produces the expected output) over Any ║
+# ║ Path(test_cacheit_doc(), testfn.__doc__ == 'test docstring' and testfn.__name__ == 'testfn') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cacheit_doc : Any → {Any | testfn.__doc__ == 'te...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  testfn.__doc__ == 'test docstring'             ║
+# ║   ensures:  testfn.__name__ == 'testfn'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cacheit_doc : Any → {Any | result satisfies: tes...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e561fce2a88f5682  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faac456ecafafe7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cacheit_doc","kind":"function","src_hash":"f220320af6e03420","in":{"base":"Any"},"out":{"base":"Any","pred":"testfn.__doc__ == 'test docstring' and testfn.__name__ == 'testfn'"},"spec":{"lhs":"test_cacheit_doc()","rhs":"test_cacheit_doc produces the expected output","over":{"base":"Any"},"name":"test_cacheit_doc_correct"},"guarantee":"test_cacheit_doc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cacheit_doc_correct","statement":"Path(test_cacheit_doc(x), test_cacheit_doc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e561fce2a88f5682"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cacheit_doc","kind":"function","src_hash":"f220320af6e03420","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: testfn.__doc__ == 'test docstring' and testfn.__name__ == 'testfn'"},"spec":{"lhs":"test_cacheit_doc()","rhs":"testfn.__doc__ == 'test docstring' and testfn.__name__ == 'testfn'","over":{"base":"Any"},"name":"test_cacheit_doc_correct"},"guarantee":"testfn.__doc__ == 'test docstring'; testfn.__name__ == 'testfn'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cacheit_doc_correct","statement":"Path(test_cacheit_doc(x), testfn.__doc__ == 'test docstring'; testfn.__name__ == 'testfn')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faac456ecafafe7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["testfn.__doc__ == 'test docstring'","testfn.__name__ == 'testfn'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_cacheit_doc():
     @cacheit
     def testfn():
@@ -40,16 +47,24 @@ def test_cacheit_doc():
     assert testfn.__name__ == "testfn"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cacheit_unhashable(), test_cacheit_unhashable produces the expected output) over Any ║
+# ║ Path(test_cacheit_unhashable(), testit(1) == 1 and testit(a) == {} and testit(a) == {1: 2}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cacheit_unhashable : Any → {Any | testit(1) == 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  testit(1) == 1                                 ║
+# ║   ensures:  testit(a) == {}                                ║
+# ║   ensures:  testit(a) == {1: 2}                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cacheit_unhashable : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 210e0f23637f0090  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeb5309356d5cf98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cacheit_unhashable","kind":"function","src_hash":"70f33d25fda0f917","in":{"base":"Any"},"out":{"base":"Any","pred":"testit(1) == 1 and testit(1) == 1 and testit(a) == {} and testit(a) == {1: 2}"},"spec":{"lhs":"test_cacheit_unhashable()","rhs":"test_cacheit_unhashable produces the expected output","over":{"base":"Any"},"name":"test_cacheit_unhashable_correct"},"guarantee":"test_cacheit_unhashable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cacheit_unhashable_correct","statement":"Path(test_cacheit_unhashable(x), test_cacheit_unhashable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"210e0f23637f0090"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cacheit_unhashable","kind":"function","src_hash":"70f33d25fda0f917","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: testit(1) == 1 and testit(a) == {} and testit(a) == {1: 2}"},"spec":{"lhs":"test_cacheit_unhashable()","rhs":"testit(1) == 1 and testit(a) == {} and testit(a) == {1: 2}","over":{"base":"Any"},"name":"test_cacheit_unhashable_correct"},"guarantee":"testit(1) == 1; testit(a) == {}; testit(a) == {1: 2}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cacheit_unhashable_correct","statement":"Path(test_cacheit_unhashable(x), testit(1) == 1; testit(a) == {}; testit(a) == {1: 2})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb5309356d5cf98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["testit(1) == 1","testit(a) == {}","testit(a) == {1: 2}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cacheit_unhashable():
     @cacheit
     def testit(x):
@@ -63,16 +78,24 @@ def test_cacheit_unhashable():
     assert testit(a) == {1: 2}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cachit_exception(), test_cachit_exception produces the expected output) over Any ║
+# ║ Path(test_cachit_exception(), len(a) == 1 and len(a) == old_len_a + 1 and len(a) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cachit_exception : Any → {Any | len(a) == 1 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(a) == 1                                    ║
+# ║   ensures:  len(a) == old_len_a + 1                        ║
+# ║   ensures:  len(a) == 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cachit_exception : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 511e5ffd52b1f524  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3db29a9a7e8af555  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cachit_exception","kind":"function","src_hash":"7feb219765300dfe","in":{"base":"Any"},"out":{"base":"Any","pred":"len(a) == 1 and len(a) == 1 and len(a) == 1 and len(a) == 1"},"spec":{"lhs":"test_cachit_exception()","rhs":"test_cachit_exception produces the expected output","over":{"base":"Any"},"name":"test_cachit_exception_correct"},"guarantee":"test_cachit_exception produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cachit_exception_correct","statement":"Path(test_cachit_exception(x), test_cachit_exception produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"511e5ffd52b1f524"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cachit_exception","kind":"function","src_hash":"7feb219765300dfe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(a) == 1 and len(a) == old_len_a + 1 and len(a) == 0"},"spec":{"lhs":"test_cachit_exception()","rhs":"len(a) == 1 and len(a) == old_len_a + 1 and len(a) == 0","over":{"base":"Any"},"name":"test_cachit_exception_correct"},"guarantee":"len(a) == 1; len(a) == old_len_a + 1; len(a) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cachit_exception_correct","statement":"Path(test_cachit_exception(x), len(a) == 1; len(a) == old_len_a + 1; len(a) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3db29a9a7e8af555","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(a) == 1","len(a) == old_len_a + 1","len(a) == 0"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["a.append","a.clear"],"raises":["TypeError"]},"state_contract":{"modifies":["a.*"],"old_bindings":{"old_len_a":"len(a)"},"post_ensures":["len(a) == old_len_a + 1","len(a) == 0"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cachit_exception():
     # Make sure the cache doesn't call functions multiple times when they
     # raise TypeError
@@ -107,16 +130,25 @@ def test_cachit_exception():
     assert len(a) == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cached_property(), test_cached_property produces the expected output) over Any ║
+# ║ Path(test_cached_property(), self.value) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cached_property : Any → {Any | a.calls == 0 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.calls == 0                                   ║
+# ║   ensures:  a.prop == 2                                    ║
+# ║   ensures:  a.calls == 1                                   ║
+# ║   returns:  self.value                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cached_property : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ae36489f9aba085  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42af3a083d092247  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cached_property","kind":"function","src_hash":"4626c50045bfa4e0","in":{"base":"Any"},"out":{"base":"Any","pred":"a.calls == 0 and a.prop == 2 and a.calls == 1 and a.prop == 2 and a.calls == 1 and b.prop == None"},"spec":{"lhs":"test_cached_property()","rhs":"test_cached_property produces the expected output","over":{"base":"Any"},"name":"test_cached_property_correct"},"guarantee":"test_cached_property produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cached_property_correct","statement":"Path(test_cached_property(x), test_cached_property produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ae36489f9aba085"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_cached_property","kind":"function","src_hash":"4626c50045bfa4e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.value)"},"spec":{"lhs":"test_cached_property()","rhs":"self.value","over":{"base":"Any"},"name":"test_cached_property_correct"},"guarantee":"returns self.value; a.calls == 0; a.prop == 2; a.calls == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_cached_property_correct","statement":"Path(test_cached_property(x), returns self.value; a.calls == 0; a.prop == 2; a.calls == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42af3a083d092247","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.calls == 0","a.prop == 2","a.calls == 1","b.prop == None"],"returns_expr":"self.value","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cached_property():
     class A:
         def __init__(self, value):
@@ -139,16 +171,24 @@ def test_cached_property():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lazy_function(), test_lazy_function produces the expected output) over Any ║
+# ║ Path(test_lazy_function(), lazy(b'') == b'' and module_name in sys.modules and function_name in str(lazy) and 'LazyFunction' in repr_lazy and function_name in repr_lazy) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lazy_function : Any → {Any | lazy(b'') == b'' an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lazy(b'') == b''                               ║
+# ║   ensures:  module_name in sys.modules                     ║
+# ║   ensures:  function_name in str(lazy)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lazy_function : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96f2d39e717afcb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e408a2817860dd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_lazy_function","kind":"function","src_hash":"c1104932859dab84","in":{"base":"Any"},"out":{"base":"Any","pred":"lazy(b'') == b'' and module_name in sys.modules and function_name in str(lazy) and 'LazyFunction' in repr_lazy and function_name in repr_lazy"},"spec":{"lhs":"test_lazy_function()","rhs":"test_lazy_function produces the expected output","over":{"base":"Any"},"name":"test_lazy_function_correct"},"guarantee":"test_lazy_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_lazy_function_correct","statement":"Path(test_lazy_function(x), test_lazy_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96f2d39e717afcb6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_cache.test_lazy_function","kind":"function","src_hash":"c1104932859dab84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lazy(b'') == b'' and module_name in sys.modules and function_name in str(lazy) and 'LazyFunction' in repr_lazy and function_name in repr_lazy"},"spec":{"lhs":"test_lazy_function()","rhs":"lazy(b'') == b'' and module_name in sys.modules and function_name in str(lazy) and 'LazyFunction' in repr_lazy and function_name in repr_lazy","over":{"base":"Any"},"name":"test_lazy_function_correct"},"guarantee":"lazy(b'') == b''; module_name in sys.modules; function_name in str(lazy)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_cache.test_lazy_function_correct","statement":"Path(test_lazy_function(x), lazy(b'') == b''; module_name in sys.modules; function_name in str(lazy))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e408a2817860dd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lazy(b'') == b''","module_name in sys.modules","function_name in str(lazy)","'LazyFunction' in repr_lazy","function_name in repr_lazy"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lazy_function():
     module_name='xmlrpc.client'
     function_name = 'gzip_decode'

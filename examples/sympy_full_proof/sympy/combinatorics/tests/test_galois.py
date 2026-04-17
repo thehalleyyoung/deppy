@@ -28,16 +28,24 @@ from sympy.combinatorics.named_groups import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_four_group(), test_four_group produces the expected output) over Any ║
+# ║ Path(test_four_group(), G.is_subgroup(A4) and G.degree == 4 and G.is_transitive() and G.order() == 4 and not G.is_cyclic) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_four_group : Any → {Any | G.is_subgroup(A4) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  G.is_subgroup(A4)                              ║
+# ║   ensures:  G.degree == 4                                  ║
+# ║   ensures:  G.is_transitive()                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_four_group : Any → {Any | result satisfies: G.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5962fd835430303d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b1acd71ba807fed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.test_four_group","kind":"function","src_hash":"b37e8eb0d9e2b037","in":{"base":"Any"},"out":{"base":"Any","pred":"G.is_subgroup(A4) and G.degree == 4 and G.is_transitive() and G.order() == 4 and not G.is_cyclic"},"spec":{"lhs":"test_four_group()","rhs":"test_four_group produces the expected output","over":{"base":"Any"},"name":"test_four_group_correct"},"guarantee":"test_four_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.test_four_group_correct","statement":"Path(test_four_group(x), test_four_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5962fd835430303d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.test_four_group","kind":"function","src_hash":"b37e8eb0d9e2b037","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: G.is_subgroup(A4) and G.degree == 4 and G.is_transitive() and G.order() == 4 and not G.is_cyclic"},"spec":{"lhs":"test_four_group()","rhs":"G.is_subgroup(A4) and G.degree == 4 and G.is_transitive() and G.order() == 4 and not G.is_cyclic","over":{"base":"Any"},"name":"test_four_group_correct"},"guarantee":"G.is_subgroup(A4); G.degree == 4; G.is_transitive()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.test_four_group_correct","statement":"Path(test_four_group(x), G.is_subgroup(A4); G.degree == 4; G.is_transitive())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b1acd71ba807fed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["G.is_subgroup(A4)","G.degree == 4","G.is_transitive()","G.order() == 4","not G.is_cyclic"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_four_group():
     G = S4TransitiveSubgroups.V.get_perm_group()
     A4 = AlternatingGroup(4)
@@ -49,16 +57,24 @@ def test_four_group():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_M20(), test_M20 produces the expected output) over Any ║
+# ║ Path(test_M20(), G.is_subgroup(S5) and not G.is_subgroup(A5) and G.degree == 5 and G.is_transitive() and G.order() == 20) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_M20 : Any → {Any | G.is_subgroup(S5) and not G.i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  G.is_subgroup(S5)                              ║
+# ║   ensures:  not G.is_subgroup(A5)                          ║
+# ║   ensures:  G.degree == 5                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_M20 : Any → {Any | result satisfies: G.is_subgro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68a1520dddcdc858  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10dbd40b2d1680ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.test_M20","kind":"function","src_hash":"2351949e3652056f","in":{"base":"Any"},"out":{"base":"Any","pred":"G.is_subgroup(S5) and not G.is_subgroup(A5) and G.degree == 5 and G.is_transitive() and G.order() == 20"},"spec":{"lhs":"test_M20()","rhs":"test_M20 produces the expected output","over":{"base":"Any"},"name":"test_M20_correct"},"guarantee":"test_M20 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.test_M20_correct","statement":"Path(test_M20(x), test_M20 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68a1520dddcdc858"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.test_M20","kind":"function","src_hash":"2351949e3652056f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: G.is_subgroup(S5) and not G.is_subgroup(A5) and G.degree == 5 and G.is_transitive() and G.order() == 20"},"spec":{"lhs":"test_M20()","rhs":"G.is_subgroup(S5) and not G.is_subgroup(A5) and G.degree == 5 and G.is_transitive() and G.order() == 20","over":{"base":"Any"},"name":"test_M20_correct"},"guarantee":"G.is_subgroup(S5); not G.is_subgroup(A5); G.degree == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.test_M20_correct","statement":"Path(test_M20(x), G.is_subgroup(S5); not G.is_subgroup(A5); G.degree == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10dbd40b2d1680ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["G.is_subgroup(S5)","not G.is_subgroup(A5)","G.degree == 5","G.is_transitive()","G.order() == 20"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_M20():
     G = S5TransitiveSubgroups.M20.get_perm_group()
     S5 = SymmetricGroup(5)
@@ -80,16 +96,23 @@ if INCLUDE_SEARCH_REPS:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_versions_of_S6_subgroup(nam), get_versions_of_S6_subgroup produces the expected output) over Any ║
+# ║ Path(get_versions_of_S6_subgroup(name), <unspecified:get_versions_of_S6_subgroup>) over {Any | hasattr(name, 'get_perm_group')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_versions_of_S6_subgroup : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(name, 'get_perm_group')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_versions_of_S6_subgroup : {Any | hasattr(name, 'g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a457d3af0806aba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.get_versions_of_S6_subgroup","kind":"function","src_hash":"0240d8ab6f387ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_versions_of_S6_subgroup(nam)","rhs":"get_versions_of_S6_subgroup produces the expected output","over":{"base":"Any"},"name":"get_versions_of_S6_subgroup_correct"},"guarantee":"get_versions_of_S6_subgroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.get_versions_of_S6_subgroup_correct","statement":"Path(get_versions_of_S6_subgroup(x), get_versions_of_S6_subgroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a457d3af0806aba3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.get_versions_of_S6_subgroup","kind":"function","src_hash":"0240d8ab6f387ce7","in":{"base":"Any","pred":"hasattr(name, 'get_perm_group')"},"out":{"base":"Any"},"spec":{"lhs":"get_versions_of_S6_subgroup(name)","rhs":"<unspecified:get_versions_of_S6_subgroup>","over":{"base":"Any","pred":"hasattr(name, 'get_perm_group')"},"name":"get_versions_of_S6_subgroup_correct"},"guarantee":"get_versions_of_S6_subgroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.get_versions_of_S6_subgroup_correct","statement":"Path(get_versions_of_S6_subgroup(x), get_versions_of_S6_subgroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a457d3af0806aba3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(name, 'get_perm_group')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_versions_of_S6_subgroup(name):
     vers = [name.get_perm_group()]
     if INCLUDE_SEARCH_REPS:
@@ -98,16 +121,22 @@ def get_versions_of_S6_subgroup(name):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_S6_transitive_subgroups(), test enough characteristics to distinguish all 16 transitive subgroups) over Any ║
+# ║ Path(test_S6_transitive_subgroups(), <unspecified:test_S6_transitive_subgroups>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_S6_transitive_subgroups : Any → {Any | G.is_tran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 647cba5bda39a15c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.test_S6_transitive_subgroups","kind":"function","src_hash":"1bf47fe5326d8d0e","in":{"base":"Any"},"out":{"base":"Any","pred":"G.is_transitive() and G.degree == 6 and G.is_subgroup(A6) is alt and G.order() == order and is_isomorphic(G, is_isom) and not is_isomorphic(G, not_isom)"},"spec":{"lhs":"test_S6_transitive_subgroups()","rhs":"test enough characteristics to distinguish all 16 transitive subgroups","over":{"base":"Any"},"name":"test_S6_transitive_subgroups_correct"},"guarantee":"test enough characteristics to distinguish all 16 transitive subgroups","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.test_S6_transitive_subgroups_correct","statement":"Path(test_S6_transitive_subgroups(x), test enough characteristics to distinguish all 16 transitive subgroups)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"647cba5bda39a15c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_galois.test_S6_transitive_subgroups","kind":"function","src_hash":"1bf47fe5326d8d0e","in":{"base":"Any"},"out":{"base":"Any","pred":"G.is_transitive() and G.degree == 6 and G.is_subgroup(A6) is alt and G.order() == order and is_isomorphic(G, is_isom) and not is_isomorphic(G, not_isom)"},"spec":{"lhs":"test_S6_transitive_subgroups()","rhs":"<unspecified:test_S6_transitive_subgroups>","over":{"base":"Any"},"name":"test_S6_transitive_subgroups_correct"},"guarantee":"test enough characteristics to distinguish all 16 transitive subgroups","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_galois.test_S6_transitive_subgroups_correct","statement":"Path(test_S6_transitive_subgroups(x), test enough characteristics to distinguish all 16 transitive subgroups)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"647cba5bda39a15c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_S6_transitive_subgroups():
     """
     Test enough characteristics to distinguish all 16 transitive subgroups.

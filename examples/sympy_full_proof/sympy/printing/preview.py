@@ -34,16 +34,22 @@ __doctest_requires__ = {('preview',): ['pyglet']}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_output_no_window(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_check_output_no_window(*args, **kwargs), check_output(*args, creationflags=creation_flag, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  check_output(*args, creationflags=creatio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_output_no_window : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc3c49a1105706ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bffd7ff6eb94685  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.preview._check_output_no_window","kind":"function","src_hash":"659b57c0cabaeb62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_output_no_window(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_output_no_window_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview._check_output_no_window_correct","statement":"Path(_check_output_no_window(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc3c49a1105706ef"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.preview._check_output_no_window","kind":"function","src_hash":"659b57c0cabaeb62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_output_no_window(*args, **kwargs)","rhs":"check_output(*args, creationflags=creation_flag, **kwargs)","over":{"base":"Any"},"name":"_check_output_no_window_correct"},"guarantee":"returns check_output(*args, creationflags=creation_flag, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview._check_output_no_window_correct","statement":"Path(_check_output_no_window(x), returns check_output(*args, creationflags=creation_flag, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bffd7ff6eb94685","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"check_output(*args, creationflags=creation_flag, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def _check_output_no_window(*args, **kwargs):
     # Avoid showing a cmd.exe window when running this
     # on Windows
@@ -55,7 +61,10 @@ def _check_output_no_window(*args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(system_default_viewer(fna), open fname with the default system viewer) over Any ║
+# ║ Path(system_default_viewer(fname, fmt), <unspecified:system_default_viewer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ system_default_viewer : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -63,9 +72,12 @@ def _check_output_no_window(*args, **kwargs):
 # ║   platform.__module__                                      ║
 # ║   subprocess.__module__                                    ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | d76ec2ccb3d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.preview.system_default_viewer","kind":"function","src_hash":"203f4ab13fc09e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"system_default_viewer(fna)","rhs":"open fname with the default system viewer","over":{"base":"Any"},"name":"system_default_viewer_correct"},"guarantee":"open fname with the default system viewer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview.system_default_viewer_correct","statement":"Path(system_default_viewer(x), open fname with the default system viewer)"},"assumes":[],"trust":["platform.__module__","subprocess.__module__"],"compiled":true,"vhash":"d76ec2ccb3d299ac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.preview.system_default_viewer","kind":"function","src_hash":"203f4ab13fc09e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"system_default_viewer(fname, fmt)","rhs":"<unspecified:system_default_viewer>","over":{"base":"Any"},"name":"system_default_viewer_correct"},"guarantee":"open fname with the default system viewer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview.system_default_viewer_correct","statement":"Path(system_default_viewer(x), open fname with the default system viewer)"},"assumes":[],"trust":["platform.__module__","subprocess.__module__"],"compiled":true,"vhash":"d76ec2ccb3d299ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["open"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def system_default_viewer(fname, fmt):
     """ Open fname with the default system viewer.
 
@@ -92,16 +104,22 @@ def system_default_viewer(fname, fmt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pyglet_viewer(fna), pyglet_viewer produces the expected output) over Any ║
+# ║ Path(pyglet_viewer(fname, fmt), <unspecified:pyglet_viewer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pyglet_viewer : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   pyglet.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 0e3e2511bd9e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.preview.pyglet_viewer","kind":"function","src_hash":"850c24af07fe0f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pyglet_viewer(fna)","rhs":"pyglet_viewer produces the expected output","over":{"base":"Any"},"name":"pyglet_viewer_correct"},"guarantee":"pyglet_viewer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview.pyglet_viewer_correct","statement":"Path(pyglet_viewer(x), pyglet_viewer produces the expected output)"},"assumes":[],"trust":["pyglet.__module__"],"compiled":true,"vhash":"0e3e2511bd9e90a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.preview.pyglet_viewer","kind":"function","src_hash":"850c24af07fe0f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pyglet_viewer(fname, fmt)","rhs":"<unspecified:pyglet_viewer>","over":{"base":"Any"},"name":"pyglet_viewer_correct"},"guarantee":"pyglet_viewer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview.pyglet_viewer_correct","statement":"Path(pyglet_viewer(x), pyglet_viewer produces the expected output)"},"assumes":[],"trust":["pyglet.__module__"],"compiled":true,"vhash":"0e3e2511bd9e90a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["win.close"],"raises":["ImportError","ValueError"],"catches":["ImageDecodeException","ImportError","KeyboardInterrupt"],"io_operations":["win.close"]},"state_contract":{"modifies":["win.*"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def pyglet_viewer(fname, fmt):
     try:
         from pyglet import window, image, gl
@@ -161,7 +179,10 @@ def pyglet_viewer(fname, fmt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_latex_main(exp), generate string of a latex document rendering ``expr``) over {Any | isinstance(expr, str) and isinstance(fontsize, int)} ║
+# ║ Path(_get_latex_main(expr, preamble, packages), preamble + '\n' + latex_string + '\n\n' + '\\end{document}') over {Any | isinstance(expr, str) and isinstance(fontsize, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  preamble + '\n' + latex_string + '\n\n' +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_latex_main : {Any | isinstance(expr, str) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -174,9 +195,12 @@ def pyglet_viewer(fname, fmt):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3661be13...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.preview._get_latex_main","kind":"function","src_hash":"e37d499eb1b540ed","in":{"base":"Any","pred":"isinstance(expr, str) and isinstance(fontsize, int)"},"out":{"base":"Any"},"spec":{"lhs":"_get_latex_main(exp)","rhs":"generate string of a latex document rendering ``expr``","over":{"base":"Any","pred":"isinstance(expr, str) and isinstance(fontsize, int)"},"name":"_get_latex_main_correct"},"guarantee":"generate string of a latex document rendering ``expr``","fibers":[{"name":"str","pred":"isinstance(expr, str)","path":{"lhs":"_get_latex_main(x)","rhs":"generate string of a latex document rendering ``expr``","over":{"base":"str","pred":"isinstance(expr, str)"},"name":"_get_latex_main_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview._get_latex_main_str_correct","statement":"_get_latex_main satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(fontsize, int)","path":{"lhs":"_get_latex_main(x)","rhs":"generate string of a latex document rendering ``expr``","over":{"base":"int","pred":"isinstance(fontsize, int)"},"name":"_get_latex_main_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview._get_latex_main_int_correct","statement":"_get_latex_main satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3661be1351c84955"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.preview._get_latex_main","kind":"function","src_hash":"e37d499eb1b540ed","in":{"base":"Any","pred":"isinstance(expr, str) and isinstance(fontsize, int)"},"out":{"base":"Any"},"spec":{"lhs":"_get_latex_main(expr, preamble, packages)","rhs":"preamble + '\\n' + latex_string + '\\n\\n' + '\\\\end{document}'","over":{"base":"Any","pred":"isinstance(expr, str) and isinstance(fontsize, int)"},"name":"_get_latex_main_correct"},"guarantee":"returns preamble + '\\n' + latex_string + '\\n\\n' + '\\\\end{document}'","fibers":[{"name":"str","pred":"isinstance(expr, str)","path":{"lhs":"_get_latex_main(x)","rhs":"returns preamble + '\\n' + latex_string + '\\n\\n' + '\\\\end{document}'","over":{"base":"str","pred":"isinstance(expr, str)"},"name":"_get_latex_main_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview._get_latex_main_str_correct","statement":"_get_latex_main satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(fontsize, int)","path":{"lhs":"_get_latex_main(x)","rhs":"returns preamble + '\\n' + latex_string + '\\n\\n' + '\\\\end{document}'","over":{"base":"int","pred":"isinstance(fontsize, int)"},"name":"_get_latex_main_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview._get_latex_main_int_correct","statement":"_get_latex_main satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3661be1351c84955","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"preamble + '\\n' + latex_string + '\\n\\n' + '\\\\end{document}'","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', 'preamble', 'packages', 'extra_preamble', 'euler', 'fontsize', '**latex_settings']","Poor branch-fiber coverage: 0% (branches={'isinstance(expr, str)', 'isinstance(fontsize, int)', 'preamble is None'}, fibers={'int', 'str'})"]}}
 def _get_latex_main(expr, *, preamble=None, packages=(), extra_preamble=None,
                     euler=True, fontsize=None, **latex_settings):
     """
@@ -219,16 +243,22 @@ def _get_latex_main(expr, *, preamble=None, packages=(), extra_preamble=None,
 @doctest_depends_on(exe=('latex', 'dvipng'), modules=('pyglet',),
             disable_viewers=('evince', 'gimp', 'superior-dvi-viewer'))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preview(exp), view expression or latex markup in png, dvi, postscript or pdf form) over Any ║
+# ║ Path(preview(expr, output, viewer), <unspecified:preview>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preview : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   pyglet.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 391b5353e8f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.preview.preview","kind":"function","src_hash":"65d9df8c0d9583d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preview(exp)","rhs":"view expression or latex markup in png, dvi, postscript or pdf form","over":{"base":"Any"},"name":"preview_correct"},"guarantee":"view expression or latex markup in png, dvi, postscript or pdf form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview.preview_correct","statement":"Path(preview(x), view expression or latex markup in png, dvi, postscript or pdf form)"},"assumes":[],"trust":["pyglet.__module__"],"compiled":true,"vhash":"391b5353e8f7ce41"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.preview.preview","kind":"function","src_hash":"65d9df8c0d9583d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preview(expr, output, viewer)","rhs":"<unspecified:preview>","over":{"base":"Any"},"name":"preview_correct"},"guarantee":"view expression or latex markup in png, dvi, postscript or pdf form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.preview.preview_correct","statement":"Path(preview(x), view expression or latex markup in png, dvi, postscript or pdf form)"},"assumes":[],"trust":["pyglet.__module__"],"compiled":true,"vhash":"391b5353e8f7ce41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["outputbuffer.write"],"calls_mutating":["cmd.extend","outputbuffer.write"],"raises":["OSError","RuntimeError","ValueError"],"catches":["CalledProcessError","ImportError","KeyError"],"io_operations":["outputbuffer.write"]},"state_contract":{"modifies":["cmd.*","outputbuffer.*"],"old_bindings":{"old_len_cmd":"len(cmd)"},"exceptional_post":{"OSError":["isinstance(raised, OSError)"],"RuntimeError":["isinstance(raised, RuntimeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'output', 'viewer', 'euler', 'packages', 'filename', 'outputbuffer', 'preamble', 'dvioptions', 'outputTexFile', 'extra_preamble', 'fontsize'], spec=['expr', 'output', 'viewer', 'euler', 'packages', 'filename', 'outputbuffer', 'preamble', 'dvioptions', 'outputTexFile', 'extra_preamble', 'fontsize', '**latex_settings']"]}}
 def preview(expr, output='png', viewer=None, euler=True, packages=(),
             filename=None, outputbuffer=None, preamble=None, dvioptions=None,
             outputTexFile=None, extra_preamble=None, fontsize=None,

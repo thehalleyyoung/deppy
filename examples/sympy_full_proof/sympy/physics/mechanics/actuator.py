@@ -41,14 +41,20 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ActuatorBase(*args), correctly constructs a ActuatorBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ActuatorBase : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ActuatorBase : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60ca68a5c49dac89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase","kind":"class","src_hash":"aab98404a02cc2c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ActuatorBase(*args)","rhs":"correctly constructs a ActuatorBase instance","over":{"base":"Any"},"name":"ActuatorBase_class_invariant"},"guarantee":"correctly constructs a ActuatorBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60ca68a5c49dac89"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase","kind":"class","src_hash":"aab98404a02cc2c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"ActuatorBase(*args)","rhs":"correctly constructs a ActuatorBase instance","over":{"base":"Any"},"name":"ActuatorBase_class_invariant"},"guarantee":"isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60ca68a5c49dac89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ActuatorBase not found in source"]}}
 class ActuatorBase(ABC):
     """Abstract base class for all actuator classes to inherit from.
 
@@ -61,32 +67,44 @@ class ActuatorBase(ABC):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ff7b7b93e1985d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase.__init__","kind":"method","src_hash":"cb9380c215af6197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ff7b7b93e1985d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase.__init__","kind":"method","src_hash":"cb9380c215af6197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ff7b7b93e1985d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         """Initializer for ``ActuatorBase``."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(), <unspecified:to_loads>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a9f4fd12a272953           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase.to_loads","kind":"method","src_hash":"47e900f68451ff1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads()","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a9f4fd12a272953"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase.to_loads","kind":"method","src_hash":"47e900f68451ff1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads()","rhs":"<unspecified:to_loads>","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a9f4fd12a272953","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self):
         """Loads required by the equations of motion method classes.
 
@@ -106,16 +124,22 @@ class ActuatorBase(ABC):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}()') over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}()'                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3677b43cedbcba6f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase.__repr__","kind":"method","src_hash":"7bb4e722e21ecd18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3677b43cedbcba6f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ActuatorBase.__repr__","kind":"method","src_hash":"7bb4e722e21ecd18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}()'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}()'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3677b43cedbcba6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}()'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Default representation of an actuator."""
         return f'{self.__class__.__name__}()'
@@ -124,14 +148,20 @@ class ActuatorBase(ABC):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ForceActuator instance) preserved by ForceActuator(*args) over {Any | isinstance(pathway, PathwayBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ActuatorBase)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ForceActuator : {Any | isinstance(pathway, PathwayBas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 757218c02ab75427  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator","kind":"class","src_hash":"90b5f8bc0d0b3bf9","in":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"out":{"base":"Any"},"spec":{"lhs":"ForceActuator(*args)","rhs":"correctly constructs a ForceActuator instance","over":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"name":"ForceActuator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ForceActuator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'force') and hasattr(self, 'pathway')","kind":"class","induction":"structural on force, pathway"}],"methods_preserving":["__init__","force","force","pathway","pathway","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"757218c02ab75427"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator","kind":"class","src_hash":"90b5f8bc0d0b3bf9","in":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ActuatorBase)"},"spec":{"lhs":"ForceActuator(*args)","rhs":"correctly constructs a ForceActuator instance","over":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"name":"ForceActuator_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ActuatorBase); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'force') and hasattr(self, 'pathway')","kind":"class","induction":"structural on force, pathway"}],"methods_preserving":["__init__","force","force","pathway","pathway","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"757218c02ab75427","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ActuatorBase)"],"invariants":["hasattr(self, 'force')","hasattr(self, 'pathway')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ForceActuator not found in source"]}}
 class ForceActuator(ActuatorBase):
     """Force-producing actuator.
 
@@ -201,16 +231,23 @@ class ForceActuator(ActuatorBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(for), initializes the instance correctly) over Any ║
+# ║ Path(__init__(force, pathway), self.force == force and self.pathway == pathway) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.force == force                            ║
+# ║   ensures:  self.pathway == pathway                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.force ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17f561e016c734c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.__init__","kind":"method","src_hash":"28148311b892074d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(for)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17f561e016c734c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.__init__","kind":"method","src_hash":"28148311b892074d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.force == force and self.pathway == pathway"},"spec":{"lhs":"__init__(force, pathway)","rhs":"self.force == force and self.pathway == pathway","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.force == force; self.pathway == pathway","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17f561e016c734c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.force == force","self.pathway == pathway"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, force, pathway):
         """Initializer for ``ForceActuator``.
 
@@ -230,32 +267,44 @@ class ForceActuator(ActuatorBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(), returns the force attribute) over Any        ║
+# ║ Path(force(), self._force) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._force                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fcf1d08157151d4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.force","kind":"property","src_hash":"ab2e1a914bd6f627","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"returns the force attribute","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns the force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcf1d08157151d4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.force","kind":"property","src_hash":"ab2e1a914bd6f627","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"self._force","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns self._force","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcf1d08157151d4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._force","pure":false,"effects":{"effect_type":"reads_state","reads":["self._force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self):
         """The magnitude of the force produced by the actuator."""
         return self._force
 
     @force.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(for), force produces the expected output) over Any ║
+# ║ Path(force(force), <unspecified:force>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6438d692ea7025a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.force","kind":"method","src_hash":"558d3ab37f2e02ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(for)","rhs":"force produces the expected output","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.ForceActuator.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6438d692ea7025a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.force","kind":"method","src_hash":"558d3ab37f2e02ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(force)","rhs":"<unspecified:force>","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.ForceActuator.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6438d692ea7025a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._force"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._force"],"old_bindings":{"old_self__force":"self._force"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self, force):
         if hasattr(self, '_force'):
             msg = (
@@ -267,32 +316,44 @@ class ForceActuator(ActuatorBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pathway(), returns the pathway attribute) over Any    ║
+# ║ Path(pathway(), self._pathway) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._pathway                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pathway : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68084ab326ea492e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.pathway","kind":"property","src_hash":"7389d7650dae7d52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway()","rhs":"returns the pathway attribute","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"returns the pathway attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68084ab326ea492e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.pathway","kind":"property","src_hash":"7389d7650dae7d52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway()","rhs":"self._pathway","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"returns self._pathway","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68084ab326ea492e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._pathway","pure":false,"effects":{"effect_type":"reads_state","reads":["self._pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pathway(self):
         """The ``Pathway`` defining the actuator's line of action."""
         return self._pathway
 
     @pathway.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pathway(pat), pathway produces the expected output) over Any ║
+# ║ Path(pathway(pathway), <unspecified:pathway>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pathway : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c5bc4a18f834ac1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.pathway","kind":"method","src_hash":"89b1b3648f242927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway(pat)","rhs":"pathway produces the expected output","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"pathway produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.ForceActuator.pathway_correct","statement":"Path(pathway(x), pathway produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c5bc4a18f834ac1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.pathway","kind":"method","src_hash":"89b1b3648f242927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway(pathway)","rhs":"<unspecified:pathway>","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"pathway produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.ForceActuator.pathway_correct","statement":"Path(pathway(x), pathway produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c5bc4a18f834ac1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._pathway"],"raises":["AttributeError","TypeError"]},"state_contract":{"modifies":["self._pathway"],"old_bindings":{"old_self__pathway":"self._pathway"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pathway(self, pathway):
         if hasattr(self, '_pathway'):
             msg = (
@@ -309,16 +370,22 @@ class ForceActuator(ActuatorBase):
         self._pathway = pathway
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(), self.pathway.to_loads(self.force)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pathway.to_loads(self.force)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c20acddd993e9a76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.to_loads","kind":"method","src_hash":"7e012d9ba9e30f51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads()","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c20acddd993e9a76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.to_loads","kind":"method","src_hash":"7e012d9ba9e30f51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads()","rhs":"self.pathway.to_loads(self.force)","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"returns self.pathway.to_loads(self.force)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c20acddd993e9a76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pathway.to_loads(self.force)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.force","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self):
         """Loads required by the equations of motion method classes.
 
@@ -394,16 +461,22 @@ class ForceActuator(ActuatorBase):
         return self.pathway.to_loads(self.force)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self.force}, {self.pathway})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self.force},...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d7164ba53f20231           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.__repr__","kind":"method","src_hash":"fe23a79118e28d0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d7164ba53f20231"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.ForceActuator.__repr__","kind":"method","src_hash":"fe23a79118e28d0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self.force}, {self.pathway})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self.force}, {self.pathway})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d7164ba53f20231","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self.force}, {self.pathway})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.force","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``ForceActuator``."""
         return f'{self.__class__.__name__}({self.force}, {self.pathway})'
@@ -412,14 +485,20 @@ class ForceActuator(ActuatorBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LinearSpring instance) preserved by LinearSpring(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LinearSpring : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ForceActuator)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LinearSpring : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 919e305ec5a4089c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring","kind":"class","src_hash":"98d3262859f14131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LinearSpring(*args)","rhs":"correctly constructs a LinearSpring instance","over":{"base":"Any"},"name":"LinearSpring_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LinearSpring instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'stiffness') and hasattr(self, 'pathway') and hasattr(self, 'equilibrium_length')","kind":"class","induction":"structural on stiffness, pathway, equilibrium_length"}],"methods_preserving":["__init__","force","force","stiffness","stiffness","equilibrium_length","equilibrium_length","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"919e305ec5a4089c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring","kind":"class","src_hash":"98d3262859f14131","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ForceActuator)"},"spec":{"lhs":"LinearSpring(*args)","rhs":"correctly constructs a LinearSpring instance","over":{"base":"Any"},"name":"LinearSpring_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ForceActuator); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'stiffness') and hasattr(self, 'pathway') and hasattr(self, 'equilibrium_length')","kind":"class","induction":"structural on stiffness, pathway, equilibrium_length"}],"methods_preserving":["__init__","force","force","stiffness","stiffness","equilibrium_length","equilibrium_length","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"919e305ec5a4089c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ForceActuator)"],"invariants":["hasattr(self, 'stiffness')","hasattr(self, 'pathway')","hasattr(self, 'equilibrium_length')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearSpring not found in source"]}}
 class LinearSpring(ForceActuator):
     """A spring with its spring force as a linear function of its length.
 
@@ -526,16 +605,24 @@ class LinearSpring(ForceActuator):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sti), initializes the instance correctly) over Any ║
+# ║ Path(__init__(stiffness, pathway, equilibrium_length), self.stiffness == stiffness and self.pathway == pathway and self.equilibrium_length == equilibrium_length) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.stiffness == stiffness                    ║
+# ║   ensures:  self.pathway == pathway                        ║
+# ║   ensures:  self.equilibrium_length == equilibrium_le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.stiffn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74c87b1293c7f370           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.__init__","kind":"method","src_hash":"e93e1f502ddb7c19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sti)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74c87b1293c7f370"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.__init__","kind":"method","src_hash":"e93e1f502ddb7c19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.stiffness == stiffness and self.pathway == pathway and self.equilibrium_length == equilibrium_length"},"spec":{"lhs":"__init__(stiffness, pathway, equilibrium_length)","rhs":"self.stiffness == stiffness and self.pathway == pathway and self.equilibrium_length == equilibrium_length","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.stiffness == stiffness; self.pathway == pathway; self.equilibrium_length == equilibrium_length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74c87b1293c7f370","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.stiffness == stiffness","self.pathway == pathway","self.equilibrium_length == equilibrium_length"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, stiffness, pathway, equilibrium_length=S.Zero):
         """Initializer for ``LinearSpring``.
 
@@ -559,63 +646,87 @@ class LinearSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(), returns the force attribute) over Any        ║
+# ║ Path(force(), -self.stiffness * (self.pathway.length - self.equilibrium_length)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self.stiffness * (self.pathway.length - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5667b1027c5067aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.force","kind":"property","src_hash":"b52c39bf3b56e5fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"returns the force attribute","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns the force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5667b1027c5067aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.force","kind":"property","src_hash":"b52c39bf3b56e5fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"-self.stiffness * (self.pathway.length - self.equilibrium_length)","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns -self.stiffness * (self.pathway.length - self.equilibrium_length)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5667b1027c5067aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self.stiffness * (self.pathway.length - self.equilibrium_length)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.equilibrium_length","self.pathway","self.stiffness"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self):
         """The spring force produced by the linear spring."""
         return -self.stiffness*(self.pathway.length - self.equilibrium_length)
 
     @force.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(for), force produces the expected output) over Any ║
+# ║ Path(force(force), <unspecified:force>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06fef66336b2bbb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.force","kind":"method","src_hash":"556b953e185456b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(for)","rhs":"force produces the expected output","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearSpring.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06fef66336b2bbb6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.force","kind":"method","src_hash":"556b953e185456b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(force)","rhs":"<unspecified:force>","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearSpring.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06fef66336b2bbb6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self, force):
         raise AttributeError('Can\'t set computed attribute `force`.')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stiffness(), returns the stiffness attribute) over Any ║
+# ║ Path(stiffness(), self._stiffness) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._stiffness                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stiffness : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c47679c6be2269c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.stiffness","kind":"property","src_hash":"100de3af73325e7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stiffness()","rhs":"returns the stiffness attribute","over":{"base":"Any"},"name":"stiffness_correct"},"guarantee":"returns the stiffness attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c47679c6be2269c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.stiffness","kind":"property","src_hash":"100de3af73325e7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stiffness()","rhs":"self._stiffness","over":{"base":"Any"},"name":"stiffness_correct"},"guarantee":"returns self._stiffness","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c47679c6be2269c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._stiffness","pure":false,"effects":{"effect_type":"reads_state","reads":["self._stiffness"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stiffness(self):
         """The spring constant for the linear spring."""
         return self._stiffness
 
     @stiffness.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stiffness(sti), stiffness produces the expected output) over Any ║
+# ║ Path(stiffness(stiffness), <unspecified:stiffness>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stiffness : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04e906b6a95bc02a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.stiffness","kind":"method","src_hash":"dc4b98a1cfefbd48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stiffness(sti)","rhs":"stiffness produces the expected output","over":{"base":"Any"},"name":"stiffness_correct"},"guarantee":"stiffness produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearSpring.stiffness_correct","statement":"Path(stiffness(x), stiffness produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e906b6a95bc02a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.stiffness","kind":"method","src_hash":"dc4b98a1cfefbd48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stiffness(stiffness)","rhs":"<unspecified:stiffness>","over":{"base":"Any"},"name":"stiffness_correct"},"guarantee":"stiffness produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearSpring.stiffness_correct","statement":"Path(stiffness(x), stiffness produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e906b6a95bc02a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._stiffness"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._stiffness"],"old_bindings":{"old_self__stiffness":"self._stiffness"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stiffness(self, stiffness):
         if hasattr(self, '_stiffness'):
             msg = (
@@ -627,32 +738,44 @@ class LinearSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equilibrium_length(), returns the equilibrium_length attribute) over Any ║
+# ║ Path(equilibrium_length(), self._equilibrium_length) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._equilibrium_length                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equilibrium_length : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1be8691c6cdbf72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.equilibrium_length","kind":"property","src_hash":"ba120affbc359731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length()","rhs":"returns the equilibrium_length attribute","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"returns the equilibrium_length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1be8691c6cdbf72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.equilibrium_length","kind":"property","src_hash":"ba120affbc359731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length()","rhs":"self._equilibrium_length","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"returns self._equilibrium_length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1be8691c6cdbf72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._equilibrium_length","pure":false,"effects":{"effect_type":"reads_state","reads":["self._equilibrium_length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equilibrium_length(self):
         """The length of the spring at which it produces no force."""
         return self._equilibrium_length
 
     @equilibrium_length.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equilibrium_length(equ), equilibrium_length produces the expected output) over Any ║
+# ║ Path(equilibrium_length(equilibrium_length), <unspecified:equilibrium_length>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equilibrium_length : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee16bb5ca965015b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.equilibrium_length","kind":"method","src_hash":"4414d316f91f542f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length(equ)","rhs":"equilibrium_length produces the expected output","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"equilibrium_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearSpring.equilibrium_length_correct","statement":"Path(equilibrium_length(x), equilibrium_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee16bb5ca965015b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.equilibrium_length","kind":"method","src_hash":"4414d316f91f542f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length(equilibrium_length)","rhs":"<unspecified:equilibrium_length>","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"equilibrium_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearSpring.equilibrium_length_correct","statement":"Path(equilibrium_length(x), equilibrium_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee16bb5ca965015b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._equilibrium_length"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._equilibrium_length"],"old_bindings":{"old_self__equilibrium_length":"self._equilibrium_length"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equilibrium_length(self, equilibrium_length):
         if hasattr(self, '_equilibrium_length'):
             msg = (
@@ -663,16 +786,22 @@ class LinearSpring(ForceActuator):
         self._equilibrium_length = sympify(equilibrium_length, strict=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 876016292dd36be1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.__repr__","kind":"method","src_hash":"1d0ca776c56befc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"876016292dd36be1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearSpring.__repr__","kind":"method","src_hash":"1d0ca776c56befc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"876016292dd36be1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.equilibrium_length","self.pathway","self.stiffness"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``LinearSpring``."""
         string = f'{self.__class__.__name__}({self.stiffness}, {self.pathway}'
@@ -686,14 +815,20 @@ class LinearSpring(ForceActuator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LinearDamper instance) preserved by LinearDamper(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LinearDamper : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ForceActuator)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LinearDamper : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f28702071d19b55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper","kind":"class","src_hash":"8a13670f5b2131d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LinearDamper(*args)","rhs":"correctly constructs a LinearDamper instance","over":{"base":"Any"},"name":"LinearDamper_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LinearDamper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'damping') and hasattr(self, 'pathway')","kind":"class","induction":"structural on damping, pathway"}],"methods_preserving":["__init__","force","force","damping","damping","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f28702071d19b55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper","kind":"class","src_hash":"8a13670f5b2131d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ForceActuator)"},"spec":{"lhs":"LinearDamper(*args)","rhs":"correctly constructs a LinearDamper instance","over":{"base":"Any"},"name":"LinearDamper_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ForceActuator); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'damping') and hasattr(self, 'pathway')","kind":"class","induction":"structural on damping, pathway"}],"methods_preserving":["__init__","force","force","damping","damping","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f28702071d19b55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ForceActuator)"],"invariants":["hasattr(self, 'damping')","hasattr(self, 'pathway')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearDamper not found in source"]}}
 class LinearDamper(ForceActuator):
     """A damper whose force is a linear function of its extension velocity.
 
@@ -790,16 +925,23 @@ class LinearDamper(ForceActuator):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(damping, pathway), self.damping == damping and self.pathway == pathway) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.damping == damping                        ║
+# ║   ensures:  self.pathway == pathway                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.dampin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1ca49e4adb31d86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.__init__","kind":"method","src_hash":"63e925f68049af91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1ca49e4adb31d86"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.__init__","kind":"method","src_hash":"63e925f68049af91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.damping == damping and self.pathway == pathway"},"spec":{"lhs":"__init__(damping, pathway)","rhs":"self.damping == damping and self.pathway == pathway","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.damping == damping; self.pathway == pathway","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1ca49e4adb31d86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.damping == damping","self.pathway == pathway"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, damping, pathway):
         """Initializer for ``LinearDamper``.
 
@@ -818,63 +960,87 @@ class LinearDamper(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(), returns the force attribute) over Any        ║
+# ║ Path(force(), -self.damping * self.pathway.extension_velocity) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self.damping * self.pathway.extension_ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4fb92baf1cf96ab4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.force","kind":"property","src_hash":"c9fffb6d78dc331c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"returns the force attribute","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns the force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fb92baf1cf96ab4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.force","kind":"property","src_hash":"c9fffb6d78dc331c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"-self.damping * self.pathway.extension_velocity","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns -self.damping * self.pathway.extension_velocity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fb92baf1cf96ab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self.damping * self.pathway.extension_velocity","pure":false,"effects":{"effect_type":"reads_state","reads":["self.damping","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self):
         """The damping force produced by the linear damper."""
         return -self.damping*self.pathway.extension_velocity
 
     @force.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(for), force produces the expected output) over Any ║
+# ║ Path(force(force), <unspecified:force>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee57f4c15daf28a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.force","kind":"method","src_hash":"556b953e185456b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(for)","rhs":"force produces the expected output","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearDamper.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee57f4c15daf28a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.force","kind":"method","src_hash":"556b953e185456b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(force)","rhs":"<unspecified:force>","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearDamper.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee57f4c15daf28a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self, force):
         raise AttributeError('Can\'t set computed attribute `force`.')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(damping(), returns the damping attribute) over Any    ║
+# ║ Path(damping(), self._damping) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._damping                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ damping : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b92e50cf0c306128           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.damping","kind":"property","src_hash":"0f153b26289daa33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"damping()","rhs":"returns the damping attribute","over":{"base":"Any"},"name":"damping_correct"},"guarantee":"returns the damping attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b92e50cf0c306128"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.damping","kind":"property","src_hash":"0f153b26289daa33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"damping()","rhs":"self._damping","over":{"base":"Any"},"name":"damping_correct"},"guarantee":"returns self._damping","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b92e50cf0c306128","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._damping","pure":false,"effects":{"effect_type":"reads_state","reads":["self._damping"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def damping(self):
         """The damping constant for the linear damper."""
         return self._damping
 
     @damping.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(damping(dam), damping produces the expected output) over Any ║
+# ║ Path(damping(damping), <unspecified:damping>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ damping : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 218510c49f7099d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.damping","kind":"method","src_hash":"5dcacbee8f8b7485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"damping(dam)","rhs":"damping produces the expected output","over":{"base":"Any"},"name":"damping_correct"},"guarantee":"damping produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearDamper.damping_correct","statement":"Path(damping(x), damping produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"218510c49f7099d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.damping","kind":"method","src_hash":"5dcacbee8f8b7485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"damping(damping)","rhs":"<unspecified:damping>","over":{"base":"Any"},"name":"damping_correct"},"guarantee":"damping produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.LinearDamper.damping_correct","statement":"Path(damping(x), damping produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"218510c49f7099d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._damping"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._damping"],"old_bindings":{"old_self__damping":"self._damping"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def damping(self, damping):
         if hasattr(self, '_damping'):
             msg = (
@@ -885,16 +1051,22 @@ class LinearDamper(ForceActuator):
         self._damping = sympify(damping, strict=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self.damping}, {self.pathway})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self.damping...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d2ff447b1d2f7559           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.__repr__","kind":"method","src_hash":"64404ebcfa2ed4e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2ff447b1d2f7559"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.LinearDamper.__repr__","kind":"method","src_hash":"64404ebcfa2ed4e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self.damping}, {self.pathway})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self.damping}, {self.pathway})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2ff447b1d2f7559","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self.damping}, {self.pathway})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.damping","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``LinearDamper``."""
         return f'{self.__class__.__name__}({self.damping}, {self.pathway})'
@@ -903,14 +1075,20 @@ class LinearDamper(ForceActuator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a TorqueActuator instance) preserved by TorqueActuator(*args) over {Any | isinstance(target_frame, RigidBody) and isinstance(pin_joint, PinJoint) and isinstance(axis, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ActuatorBase)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TorqueActuator : {Any | isinstance(target_frame, Rigi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a50204cea256ff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator","kind":"class","src_hash":"d59d1d9123dbdc1f","in":{"base":"Any","pred":"isinstance(target_frame, RigidBody) and isinstance(pin_joint, PinJoint) and isinstance(axis, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"TorqueActuator(*args)","rhs":"correctly constructs a TorqueActuator instance","over":{"base":"Any","pred":"isinstance(target_frame, RigidBody) and isinstance(pin_joint, PinJoint) and isinstance(axis, Vector)"},"name":"TorqueActuator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a TorqueActuator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'torque') and hasattr(self, 'axis') and hasattr(self, 'target_frame') and hasattr(self, 'reaction_frame')","kind":"class","induction":"structural on torque, axis, target_frame, reaction_frame"}],"methods_preserving":["__init__","torque","torque","axis","axis","target_frame","target_frame","reaction_frame","reaction_frame","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a50204cea256ff6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator","kind":"class","src_hash":"d59d1d9123dbdc1f","in":{"base":"Any","pred":"isinstance(target_frame, RigidBody) and isinstance(pin_joint, PinJoint) and isinstance(axis, Vector)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ActuatorBase)"},"spec":{"lhs":"TorqueActuator(*args)","rhs":"correctly constructs a TorqueActuator instance","over":{"base":"Any","pred":"isinstance(target_frame, RigidBody) and isinstance(pin_joint, PinJoint) and isinstance(axis, Vector)"},"name":"TorqueActuator_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ActuatorBase); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'torque') and hasattr(self, 'axis') and hasattr(self, 'target_frame') and hasattr(self, 'reaction_frame')","kind":"class","induction":"structural on torque, axis, target_frame, reaction_frame"}],"methods_preserving":["__init__","torque","torque","axis","axis","target_frame","target_frame","reaction_frame","reaction_frame","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a50204cea256ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ActuatorBase)"],"invariants":["hasattr(self, 'torque')","hasattr(self, 'axis')","hasattr(self, 'target_frame')","hasattr(self, 'reaction_frame')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function TorqueActuator not found in source"]}}
 class TorqueActuator(ActuatorBase):
     """Torque-producing actuator.
 
@@ -962,16 +1140,24 @@ class TorqueActuator(ActuatorBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(tor), initializes the instance correctly) over Any ║
+# ║ Path(__init__(torque, axis, target_frame), self.torque == torque and self.axis == axis and self.target_frame == target_frame and self.reaction_frame == reaction_frame) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.torque == torque                          ║
+# ║   ensures:  self.axis == axis                              ║
+# ║   ensures:  self.target_frame == target_frame              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.torque...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4203901a2112db9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.__init__","kind":"method","src_hash":"4e35bff55a25e2e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(tor)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4203901a2112db9e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.__init__","kind":"method","src_hash":"4e35bff55a25e2e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.torque == torque and self.axis == axis and self.target_frame == target_frame and self.reaction_frame == reaction_frame"},"spec":{"lhs":"__init__(torque, axis, target_frame)","rhs":"self.torque == torque and self.axis == axis and self.target_frame == target_frame and self.reaction_frame == reaction_frame","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.torque == torque; self.axis == axis; self.target_frame == target_frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4203901a2112db9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.torque == torque","self.axis == axis","self.target_frame == target_frame","self.reaction_frame == reaction_frame"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, torque, axis, target_frame, reaction_frame=None):
         """Initializer for ``TorqueActuator``.
 
@@ -998,16 +1184,25 @@ class TorqueActuator(ActuatorBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(at_pin_joint(cls), alternate constructor to instantiate from a ``pinjoint`` instance) over Any ║
+# ║ Path(at_pin_joint(cls, torque, pin_joint), cls(torque, pin_joint.joint_axis, pin_joint.child_interframe, pin_joint.parent_interframe)) over {Any | hasattr(pin_joint, 'joint_axis') and hasattr(pin_joint, 'child_interframe') and hasattr(pin_joint, 'parent_interframe')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ at_pin_joint : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(pin_joint, 'joint_axis')               ║
+# ║   requires: hasattr(pin_joint, 'child_interframe')         ║
+# ║   requires: hasattr(pin_joint, 'parent_interframe')        ║
+# ║   returns:  cls(torque, pin_joint.joint_axis, pin_joi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ at_pin_joint : {Any | hasattr(pin_joint, 'joint_axis'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a67bf6542a3205f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 788acfc3d450fe10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.at_pin_joint","kind":"classmethod","src_hash":"3d1032e4cb7fb451","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"at_pin_joint(cls)","rhs":"alternate constructor to instantiate from a ``pinjoint`` instance","over":{"base":"Any"},"name":"at_pin_joint_correct"},"guarantee":"alternate constructor to instantiate from a ``pinjoint`` instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.at_pin_joint_correct","statement":"Path(at_pin_joint(x), alternate constructor to instantiate from a ``pinjoint`` instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a67bf6542a3205f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.at_pin_joint","kind":"classmethod","src_hash":"3d1032e4cb7fb451","in":{"base":"Any","pred":"hasattr(pin_joint, 'joint_axis') and hasattr(pin_joint, 'child_interframe') and hasattr(pin_joint, 'parent_interframe')"},"out":{"base":"Any"},"spec":{"lhs":"at_pin_joint(cls, torque, pin_joint)","rhs":"cls(torque, pin_joint.joint_axis, pin_joint.child_interframe, pin_joint.parent_interframe)","over":{"base":"Any","pred":"hasattr(pin_joint, 'joint_axis') and hasattr(pin_joint, 'child_interframe') and hasattr(pin_joint, 'parent_interframe')"},"name":"at_pin_joint_correct"},"guarantee":"returns cls(torque, pin_joint.joint_axis, pin_joint.child_interframe, pin_joint.parent_interframe)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.at_pin_joint_correct","statement":"Path(at_pin_joint(x), returns cls(torque, pin_joint.joint_axis, pin_joint.child_interframe, pin_joint.parent_interframe))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"788acfc3d450fe10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(pin_joint, 'joint_axis')","hasattr(pin_joint, 'child_interframe')","hasattr(pin_joint, 'parent_interframe')"],"returns_expr":"cls(torque, pin_joint.joint_axis, pin_joint.child_interframe, pin_joint.parent_interframe)","pure":false,"effects":{"effect_type":"reads_state","reads":["pin_joint.child_interframe","pin_joint.joint_axis","pin_joint.parent_interframe"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def at_pin_joint(cls, torque, pin_joint):
         """Alternate constructor to instantiate from a ``PinJoint`` instance.
 
@@ -1080,32 +1275,44 @@ class TorqueActuator(ActuatorBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(torque(), returns the torque attribute) over Any      ║
+# ║ Path(torque(), self._torque) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._torque                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ torque : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7aff4988dd888482           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.torque","kind":"property","src_hash":"3b215760893ce07b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torque()","rhs":"returns the torque attribute","over":{"base":"Any"},"name":"torque_correct"},"guarantee":"returns the torque attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aff4988dd888482"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.torque","kind":"property","src_hash":"3b215760893ce07b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torque()","rhs":"self._torque","over":{"base":"Any"},"name":"torque_correct"},"guarantee":"returns self._torque","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aff4988dd888482","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._torque","pure":false,"effects":{"effect_type":"reads_state","reads":["self._torque"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def torque(self):
         """The magnitude of the torque produced by the actuator."""
         return self._torque
 
     @torque.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(torque(tor), torque produces the expected output) over Any ║
+# ║ Path(torque(torque), <unspecified:torque>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ torque : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bac4be4db4f1ad1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.torque","kind":"method","src_hash":"688c2f2c610734a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torque(tor)","rhs":"torque produces the expected output","over":{"base":"Any"},"name":"torque_correct"},"guarantee":"torque produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.torque_correct","statement":"Path(torque(x), torque produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bac4be4db4f1ad1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.torque","kind":"method","src_hash":"688c2f2c610734a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torque(torque)","rhs":"<unspecified:torque>","over":{"base":"Any"},"name":"torque_correct"},"guarantee":"torque produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.torque_correct","statement":"Path(torque(x), torque produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bac4be4db4f1ad1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._torque"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._torque"],"old_bindings":{"old_self__torque":"self._torque"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def torque(self, torque):
         if hasattr(self, '_torque'):
             msg = (
@@ -1117,32 +1324,44 @@ class TorqueActuator(ActuatorBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis(), returns the axis attribute) over Any          ║
+# ║ Path(axis(), self._axis) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._axis                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axis : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66acc2029bf19b97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.axis","kind":"property","src_hash":"925079e2c2f7f7b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"returns the axis attribute","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns the axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66acc2029bf19b97"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.axis","kind":"property","src_hash":"925079e2c2f7f7b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"self._axis","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns self._axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66acc2029bf19b97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis(self):
         """The axis about which the torque acts."""
         return self._axis
 
     @axis.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis(axi), axis produces the expected output) over Any ║
+# ║ Path(axis(axis), <unspecified:axis>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axis : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce0c72831cbcaf10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.axis","kind":"method","src_hash":"7eed49650fd203d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis(axi)","rhs":"axis produces the expected output","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.axis_correct","statement":"Path(axis(x), axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0c72831cbcaf10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.axis","kind":"method","src_hash":"7eed49650fd203d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis(axis)","rhs":"<unspecified:axis>","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.axis_correct","statement":"Path(axis(x), axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0c72831cbcaf10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._axis"],"raises":["AttributeError","TypeError"]},"state_contract":{"modifies":["self._axis"],"old_bindings":{"old_self__axis":"self._axis"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis(self, axis):
         if hasattr(self, '_axis'):
             msg = (
@@ -1160,32 +1379,45 @@ class TorqueActuator(ActuatorBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(target_frame(), returns the target_frame attribute) over Any ║
+# ║ Path(target_frame(), self._target_frame) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._target_frame                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ target_frame : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d505eba44c265ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.target_frame","kind":"property","src_hash":"1d011e9151f4491c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"target_frame()","rhs":"returns the target_frame attribute","over":{"base":"Any"},"name":"target_frame_correct"},"guarantee":"returns the target_frame attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d505eba44c265ea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.target_frame","kind":"property","src_hash":"1d011e9151f4491c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"target_frame()","rhs":"self._target_frame","over":{"base":"Any"},"name":"target_frame_correct"},"guarantee":"returns self._target_frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d505eba44c265ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._target_frame","pure":false,"effects":{"effect_type":"reads_state","reads":["self._target_frame"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def target_frame(self):
         """The primary reference frames on which the torque will act."""
         return self._target_frame
 
     @target_frame.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(target_frame(tar), target_frame produces the expected output) over Any ║
+# ║ Path(target_frame(target_frame), <unspecified:target_frame>) over {Any | hasattr(target_frame, 'frame')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ target_frame : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(target_frame, 'frame')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ target_frame : {Any | hasattr(target_frame, 'frame')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 628ee8c412477cb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.target_frame","kind":"method","src_hash":"25f5547cfc601d4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"target_frame(tar)","rhs":"target_frame produces the expected output","over":{"base":"Any"},"name":"target_frame_correct"},"guarantee":"target_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.target_frame_correct","statement":"Path(target_frame(x), target_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628ee8c412477cb9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.target_frame","kind":"method","src_hash":"25f5547cfc601d4f","in":{"base":"Any","pred":"hasattr(target_frame, 'frame')"},"out":{"base":"Any"},"spec":{"lhs":"target_frame(target_frame)","rhs":"<unspecified:target_frame>","over":{"base":"Any","pred":"hasattr(target_frame, 'frame')"},"name":"target_frame_correct"},"guarantee":"target_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.target_frame_correct","statement":"Path(target_frame(x), target_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628ee8c412477cb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(target_frame, 'frame')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["target_frame.frame"],"writes":["self._target_frame"],"raises":["AttributeError","TypeError"]},"state_contract":{"modifies":["self._target_frame"],"old_bindings":{"old_self__target_frame":"self._target_frame"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def target_frame(self, target_frame):
         if hasattr(self, '_target_frame'):
             msg = (
@@ -1205,32 +1437,45 @@ class TorqueActuator(ActuatorBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reaction_frame(), returns the reaction_frame attribute) over Any ║
+# ║ Path(reaction_frame(), self._reaction_frame) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reaction_frame                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reaction_frame : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0db0f2da0ac5f215           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.reaction_frame","kind":"property","src_hash":"daa29e1a3f2bca9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_frame()","rhs":"returns the reaction_frame attribute","over":{"base":"Any"},"name":"reaction_frame_correct"},"guarantee":"returns the reaction_frame attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0db0f2da0ac5f215"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.reaction_frame","kind":"property","src_hash":"daa29e1a3f2bca9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_frame()","rhs":"self._reaction_frame","over":{"base":"Any"},"name":"reaction_frame_correct"},"guarantee":"returns self._reaction_frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0db0f2da0ac5f215","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reaction_frame","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reaction_frame"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reaction_frame(self):
         """The primary reference frames on which the torque will act."""
         return self._reaction_frame
 
     @reaction_frame.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reaction_frame(rea), reaction_frame produces the expected output) over Any ║
+# ║ Path(reaction_frame(reaction_frame), <unspecified:reaction_frame>) over {Any | hasattr(reaction_frame, 'frame')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reaction_frame : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(reaction_frame, 'frame')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reaction_frame : {Any | hasattr(reaction_frame, 'fram...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f7e1066ca227b45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.reaction_frame","kind":"method","src_hash":"7635c1f10db23de6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_frame(rea)","rhs":"reaction_frame produces the expected output","over":{"base":"Any"},"name":"reaction_frame_correct"},"guarantee":"reaction_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.reaction_frame_correct","statement":"Path(reaction_frame(x), reaction_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f7e1066ca227b45"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.reaction_frame","kind":"method","src_hash":"7635c1f10db23de6","in":{"base":"Any","pred":"hasattr(reaction_frame, 'frame')"},"out":{"base":"Any"},"spec":{"lhs":"reaction_frame(reaction_frame)","rhs":"<unspecified:reaction_frame>","over":{"base":"Any","pred":"hasattr(reaction_frame, 'frame')"},"name":"reaction_frame_correct"},"guarantee":"reaction_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.reaction_frame_correct","statement":"Path(reaction_frame(x), reaction_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f7e1066ca227b45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(reaction_frame, 'frame')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["reaction_frame.frame"],"writes":["self._reaction_frame"],"raises":["AttributeError","TypeError"]},"state_contract":{"modifies":["self._reaction_frame"],"old_bindings":{"old_self__reaction_frame":"self._reaction_frame"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reaction_frame(self, reaction_frame):
         if hasattr(self, '_reaction_frame'):
             msg = (
@@ -1252,16 +1497,22 @@ class TorqueActuator(ActuatorBase):
         self._reaction_frame = reaction_frame
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(), <unspecified:to_loads>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd900f29cde436c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.to_loads","kind":"method","src_hash":"288b9825319f0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads()","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd900f29cde436c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.to_loads","kind":"method","src_hash":"288b9825319f0b1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads()","rhs":"<unspecified:to_loads>","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.TorqueActuator.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd900f29cde436c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self):
         """Loads required by the equations of motion method classes.
 
@@ -1322,16 +1573,22 @@ class TorqueActuator(ActuatorBase):
         return loads
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f42ea84f14752196           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.__repr__","kind":"method","src_hash":"c569a9f40d8827c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f42ea84f14752196"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.TorqueActuator.__repr__","kind":"method","src_hash":"c569a9f40d8827c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f42ea84f14752196","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.axis","self.reaction_frame","self.target_frame","self.torque"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``TorqueActuator``."""
         string = (
@@ -1348,14 +1605,20 @@ class TorqueActuator(ActuatorBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DuffingSpring instance) preserved by DuffingSpring(*args) over {Any | isinstance(pathway, PathwayBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ForceActuator)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DuffingSpring : {Any | isinstance(pathway, PathwayBas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a1b9b0786353d8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring","kind":"class","src_hash":"2e35fbc5dbbffb06","in":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"out":{"base":"Any"},"spec":{"lhs":"DuffingSpring(*args)","rhs":"correctly constructs a DuffingSpring instance","over":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"name":"DuffingSpring_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DuffingSpring instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'linear_stiffness') and hasattr(self, 'nonlinear_stiffness') and hasattr(self, 'equilibrium_length') and hasattr(self, '_pathway')","kind":"class","induction":"structural on linear_stiffness, nonlinear_stiffness, equilibrium_length, _pathway"}],"methods_preserving":["__init__","linear_stiffness","linear_stiffness","nonlinear_stiffness","nonlinear_stiffness","pathway","pathway","equilibrium_length","equilibrium_length","force","force","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a1b9b0786353d8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring","kind":"class","src_hash":"2e35fbc5dbbffb06","in":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ForceActuator)"},"spec":{"lhs":"DuffingSpring(*args)","rhs":"correctly constructs a DuffingSpring instance","over":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"name":"DuffingSpring_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ForceActuator); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'linear_stiffness') and hasattr(self, 'nonlinear_stiffness') and hasattr(self, 'equilibrium_length') and hasattr(self, '_pathway')","kind":"class","induction":"structural on linear_stiffness, nonlinear_stiffness, equilibrium_length, _pathway"}],"methods_preserving":["__init__","linear_stiffness","linear_stiffness","nonlinear_stiffness","nonlinear_stiffness","pathway","pathway","equilibrium_length","equilibrium_length","force","force","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a1b9b0786353d8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ForceActuator)"],"invariants":["hasattr(self, 'linear_stiffness')","hasattr(self, 'nonlinear_stiffness')","hasattr(self, 'equilibrium_length')","hasattr(self, '_pathway')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function DuffingSpring not found in source"]}}
 class DuffingSpring(ForceActuator):
     """A nonlinear spring based on the Duffing equation.
 
@@ -1380,16 +1643,23 @@ class DuffingSpring(ForceActuator):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(lin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(linear_stiffness, nonlinear_stiffness, pathway), self._pathway == pathway) over {Any | isinstance(pathway, PathwayBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(pathway, PathwayBase)               ║
+# ║   ensures:  self._pathway == pathway                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(pathway, PathwayBase)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f93454edd1d59a75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.__init__","kind":"method","src_hash":"c8a14ded4c6663d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(lin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f93454edd1d59a75"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.__init__","kind":"method","src_hash":"c8a14ded4c6663d0","in":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"out":{"base":"Any","pred":"result satisfies: self._pathway == pathway"},"spec":{"lhs":"__init__(linear_stiffness, nonlinear_stiffness, pathway)","rhs":"self._pathway == pathway","over":{"base":"Any","pred":"isinstance(pathway, PathwayBase)"},"name":"__init___correct"},"guarantee":"self._pathway == pathway","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f93454edd1d59a75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(pathway, PathwayBase)"],"ensures":["self._pathway == pathway"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self._pathway","self.equilibrium_length","self.linear_stiffness","self.nonlinear_stiffness"],"raises":["TypeError"]},"state_contract":{"modifies":["self._pathway","self.equilibrium_length","self.linear_stiffness","self.nonlinear_stiffness"],"old_bindings":{"old_self__pathway":"self._pathway","old_self_equilibrium_length":"self.equilibrium_length","old_self_linear_stiffness":"self.linear_stiffness","old_self_nonlinear_stiffness":"self.nonlinear_stiffness"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, linear_stiffness, nonlinear_stiffness, pathway, equilibrium_length=S.Zero):
         self.linear_stiffness = sympify(linear_stiffness, strict=True)
         self.nonlinear_stiffness = sympify(nonlinear_stiffness, strict=True)
@@ -1401,31 +1671,43 @@ class DuffingSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_stiffness(), returns the linear_stiffness attribute) over Any ║
+# ║ Path(linear_stiffness(), self._linear_stiffness) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._linear_stiffness                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_stiffness : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0820225fcde1521           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.linear_stiffness","kind":"property","src_hash":"aa9d71f278049aca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_stiffness()","rhs":"returns the linear_stiffness attribute","over":{"base":"Any"},"name":"linear_stiffness_correct"},"guarantee":"returns the linear_stiffness attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0820225fcde1521"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.linear_stiffness","kind":"property","src_hash":"aa9d71f278049aca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_stiffness()","rhs":"self._linear_stiffness","over":{"base":"Any"},"name":"linear_stiffness_correct"},"guarantee":"returns self._linear_stiffness","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0820225fcde1521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._linear_stiffness","pure":false,"effects":{"effect_type":"reads_state","reads":["self._linear_stiffness"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linear_stiffness(self):
         return self._linear_stiffness
 
     @linear_stiffness.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_stiffness(lin), linear_stiffness produces the expected output) over Any ║
+# ║ Path(linear_stiffness(linear_stiffness), <unspecified:linear_stiffness>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_stiffness : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebbb80c15e9221c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.linear_stiffness","kind":"method","src_hash":"18ce7966b07f183d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_stiffness(lin)","rhs":"linear_stiffness produces the expected output","over":{"base":"Any"},"name":"linear_stiffness_correct"},"guarantee":"linear_stiffness produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.linear_stiffness_correct","statement":"Path(linear_stiffness(x), linear_stiffness produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebbb80c15e9221c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.linear_stiffness","kind":"method","src_hash":"18ce7966b07f183d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_stiffness(linear_stiffness)","rhs":"<unspecified:linear_stiffness>","over":{"base":"Any"},"name":"linear_stiffness_correct"},"guarantee":"linear_stiffness produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.linear_stiffness_correct","statement":"Path(linear_stiffness(x), linear_stiffness produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebbb80c15e9221c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._linear_stiffness"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._linear_stiffness"],"old_bindings":{"old_self__linear_stiffness":"self._linear_stiffness"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linear_stiffness(self, linear_stiffness):
         if hasattr(self, '_linear_stiffness'):
             msg = (
@@ -1437,31 +1719,43 @@ class DuffingSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nonlinear_stiffness(), returns the nonlinear_stiffness attribute) over Any ║
+# ║ Path(nonlinear_stiffness(), self._nonlinear_stiffness) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._nonlinear_stiffness                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nonlinear_stiffness : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b868e46052837fa7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.nonlinear_stiffness","kind":"property","src_hash":"3cf053eb2dba4cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonlinear_stiffness()","rhs":"returns the nonlinear_stiffness attribute","over":{"base":"Any"},"name":"nonlinear_stiffness_correct"},"guarantee":"returns the nonlinear_stiffness attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b868e46052837fa7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.nonlinear_stiffness","kind":"property","src_hash":"3cf053eb2dba4cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonlinear_stiffness()","rhs":"self._nonlinear_stiffness","over":{"base":"Any"},"name":"nonlinear_stiffness_correct"},"guarantee":"returns self._nonlinear_stiffness","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b868e46052837fa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._nonlinear_stiffness","pure":false,"effects":{"effect_type":"reads_state","reads":["self._nonlinear_stiffness"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nonlinear_stiffness(self):
         return self._nonlinear_stiffness
 
     @nonlinear_stiffness.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nonlinear_stiffness(non), nonlinear_stiffness produces the expected output) over Any ║
+# ║ Path(nonlinear_stiffness(nonlinear_stiffness), <unspecified:nonlinear_stiffness>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nonlinear_stiffness : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6a1690032422ce1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.nonlinear_stiffness","kind":"method","src_hash":"fe46cf4ab75779ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonlinear_stiffness(non)","rhs":"nonlinear_stiffness produces the expected output","over":{"base":"Any"},"name":"nonlinear_stiffness_correct"},"guarantee":"nonlinear_stiffness produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.nonlinear_stiffness_correct","statement":"Path(nonlinear_stiffness(x), nonlinear_stiffness produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6a1690032422ce1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.nonlinear_stiffness","kind":"method","src_hash":"fe46cf4ab75779ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonlinear_stiffness(nonlinear_stiffness)","rhs":"<unspecified:nonlinear_stiffness>","over":{"base":"Any"},"name":"nonlinear_stiffness_correct"},"guarantee":"nonlinear_stiffness produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.nonlinear_stiffness_correct","statement":"Path(nonlinear_stiffness(x), nonlinear_stiffness produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6a1690032422ce1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._nonlinear_stiffness"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._nonlinear_stiffness"],"old_bindings":{"old_self__nonlinear_stiffness":"self._nonlinear_stiffness"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nonlinear_stiffness(self, nonlinear_stiffness):
         if hasattr(self, '_nonlinear_stiffness'):
             msg = (
@@ -1473,31 +1767,43 @@ class DuffingSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pathway(), returns the pathway attribute) over Any    ║
+# ║ Path(pathway(), self._pathway) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._pathway                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pathway : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9883283712dd24b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.pathway","kind":"property","src_hash":"55fb4c79d802d5a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway()","rhs":"returns the pathway attribute","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"returns the pathway attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9883283712dd24b0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.pathway","kind":"property","src_hash":"55fb4c79d802d5a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway()","rhs":"self._pathway","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"returns self._pathway","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9883283712dd24b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._pathway","pure":false,"effects":{"effect_type":"reads_state","reads":["self._pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pathway(self):
         return self._pathway
 
     @pathway.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pathway(pat), pathway produces the expected output) over Any ║
+# ║ Path(pathway(pathway), <unspecified:pathway>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pathway : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc7e028fcf83848c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.pathway","kind":"method","src_hash":"89b1b3648f242927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway(pat)","rhs":"pathway produces the expected output","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"pathway produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.pathway_correct","statement":"Path(pathway(x), pathway produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc7e028fcf83848c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.pathway","kind":"method","src_hash":"89b1b3648f242927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pathway(pathway)","rhs":"<unspecified:pathway>","over":{"base":"Any"},"name":"pathway_correct"},"guarantee":"pathway produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.pathway_correct","statement":"Path(pathway(x), pathway produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc7e028fcf83848c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._pathway"],"raises":["AttributeError","TypeError"]},"state_contract":{"modifies":["self._pathway"],"old_bindings":{"old_self__pathway":"self._pathway"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pathway(self, pathway):
         if hasattr(self, '_pathway'):
             msg = (
@@ -1515,31 +1821,43 @@ class DuffingSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equilibrium_length(), returns the equilibrium_length attribute) over Any ║
+# ║ Path(equilibrium_length(), self._equilibrium_length) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._equilibrium_length                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equilibrium_length : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36cb28401e5650c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.equilibrium_length","kind":"property","src_hash":"cd50d0ce217fe99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length()","rhs":"returns the equilibrium_length attribute","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"returns the equilibrium_length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36cb28401e5650c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.equilibrium_length","kind":"property","src_hash":"cd50d0ce217fe99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length()","rhs":"self._equilibrium_length","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"returns self._equilibrium_length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36cb28401e5650c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._equilibrium_length","pure":false,"effects":{"effect_type":"reads_state","reads":["self._equilibrium_length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equilibrium_length(self):
         return self._equilibrium_length
 
     @equilibrium_length.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equilibrium_length(equ), equilibrium_length produces the expected output) over Any ║
+# ║ Path(equilibrium_length(equilibrium_length), <unspecified:equilibrium_length>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equilibrium_length : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f22e0b1bc42696e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.equilibrium_length","kind":"method","src_hash":"4414d316f91f542f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length(equ)","rhs":"equilibrium_length produces the expected output","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"equilibrium_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.equilibrium_length_correct","statement":"Path(equilibrium_length(x), equilibrium_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22e0b1bc42696e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.equilibrium_length","kind":"method","src_hash":"4414d316f91f542f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equilibrium_length(equilibrium_length)","rhs":"<unspecified:equilibrium_length>","over":{"base":"Any"},"name":"equilibrium_length_correct"},"guarantee":"equilibrium_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.equilibrium_length_correct","statement":"Path(equilibrium_length(x), equilibrium_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22e0b1bc42696e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._equilibrium_length"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._equilibrium_length"],"old_bindings":{"old_self__equilibrium_length":"self._equilibrium_length"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equilibrium_length(self, equilibrium_length):
         if hasattr(self, '_equilibrium_length'):
             msg = (
@@ -1551,16 +1869,22 @@ class DuffingSpring(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(), returns the force attribute) over Any        ║
+# ║ Path(force(), -self.linear_stiffness * displacement - self.nonlinear_stiffness * displacement ** 3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self.linear_stiffness * displacement - s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80864c1058bc2d7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.force","kind":"property","src_hash":"900d0c788836439d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"returns the force attribute","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns the force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80864c1058bc2d7f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.force","kind":"property","src_hash":"900d0c788836439d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"-self.linear_stiffness * displacement - self.nonlinear_stiffness * displacement ** 3","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns -self.linear_stiffness * displacement - self.nonlinear_stiffness * displacement ** 3","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80864c1058bc2d7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self.linear_stiffness * displacement - self.nonlinear_stiffness * displacement ** 3","pure":false,"effects":{"effect_type":"reads_state","reads":["self.equilibrium_length","self.linear_stiffness","self.nonlinear_stiffness","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self):
         """The force produced by the Duffing spring."""
         displacement = self.pathway.length - self.equilibrium_length
@@ -1568,16 +1892,22 @@ class DuffingSpring(ForceActuator):
 
     @force.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(for), force produces the expected output) over Any ║
+# ║ Path(force(force), <unspecified:force>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ba8162af86f09bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.force","kind":"method","src_hash":"558d3ab37f2e02ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(for)","rhs":"force produces the expected output","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba8162af86f09bb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.force","kind":"method","src_hash":"558d3ab37f2e02ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(force)","rhs":"<unspecified:force>","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.DuffingSpring.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba8162af86f09bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._force"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._force"],"old_bindings":{"old_self__force":"self._force"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self, force):
         if hasattr(self, '_force'):
             msg = (
@@ -1588,16 +1918,22 @@ class DuffingSpring(ForceActuator):
         self._force = sympify(force, strict=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self.linear_stiffness}, {self.nonlinear_stiffness}, {self.pathway}, equilibrium_length={self.equilibrium_length})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self.linear_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f05d235120216019           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.__repr__","kind":"method","src_hash":"4894e8cf6a5a6bb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f05d235120216019"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.DuffingSpring.__repr__","kind":"method","src_hash":"4894e8cf6a5a6bb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self.linear_stiffness}, {self.nonlinear_stiffness}, {self.pathway}, equilibrium_length={self.equilibrium_length})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self.linear_stiffness}, {self.nonlinear_stiffness}, {self.pathway}, equilibrium_length={self.equilibrium_length})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f05d235120216019","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self.linear_stiffness}, {self.nonlinear_stiffness}, {self.pathway}, equilibrium_length={self.equilibrium_length})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.equilibrium_length","self.linear_stiffness","self.nonlinear_stiffness","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (f"{self.__class__.__name__}("
                 f"{self.linear_stiffness}, {self.nonlinear_stiffness}, {self.pathway}, "
@@ -1606,14 +1942,20 @@ class DuffingSpring(ForceActuator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CoulombKineticFriction instance) preserved by CoulombKineticFriction(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CoulombKineticFriction : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ForceActuator)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CoulombKineticFriction : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc4e47e04b22c294  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction","kind":"class","src_hash":"e46726f8acf3bf42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CoulombKineticFriction(*args)","rhs":"correctly constructs a CoulombKineticFriction instance","over":{"base":"Any"},"name":"CoulombKineticFriction_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CoulombKineticFriction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_mu_k') and hasattr(self, '_mu_s') and hasattr(self, '_f_n') and hasattr(self, '_sigma') and hasattr(self, '_v_s') and hasattr(self, 'pathway')","kind":"class","induction":"structural on _mu_k, _mu_s, _f_n, _sigma"}],"methods_preserving":["__init__","mu_k","mu_s","f_n","sigma","v_s","force","force","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc4e47e04b22c294"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction","kind":"class","src_hash":"e46726f8acf3bf42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ForceActuator)"},"spec":{"lhs":"CoulombKineticFriction(*args)","rhs":"correctly constructs a CoulombKineticFriction instance","over":{"base":"Any"},"name":"CoulombKineticFriction_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ForceActuator); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_mu_k') and hasattr(self, '_mu_s') and hasattr(self, '_f_n') and hasattr(self, '_sigma') and hasattr(self, '_v_s') and hasattr(self, 'pathway')","kind":"class","induction":"structural on _mu_k, _mu_s, _f_n, _sigma"}],"methods_preserving":["__init__","mu_k","mu_s","f_n","sigma","v_s","force","force","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc4e47e04b22c294","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ForceActuator)"],"invariants":["hasattr(self, '_mu_k')","hasattr(self, '_mu_s')","hasattr(self, '_f_n')","hasattr(self, '_sigma')","hasattr(self, '_v_s')","hasattr(self, 'pathway')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function CoulombKineticFriction not found in source"]}}
 class CoulombKineticFriction(ForceActuator):
     r"""Coulomb kinetic friction with Stribeck and viscous effects.
 
@@ -1718,16 +2060,22 @@ class CoulombKineticFriction(ForceActuator):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mu_), initializes the instance correctly) over Any ║
+# ║ Path(__init__(mu_k, f_n, pathway), self.pathway == pathway) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pathway == pathway                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.pathwa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4425f4df96aeed3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.__init__","kind":"method","src_hash":"53f9f71e8d4ddd84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mu_)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4425f4df96aeed3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.__init__","kind":"method","src_hash":"53f9f71e8d4ddd84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pathway == pathway"},"spec":{"lhs":"__init__(mu_k, f_n, pathway)","rhs":"self.pathway == pathway","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.pathway == pathway","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4425f4df96aeed3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pathway == pathway"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, mu_k, f_n, pathway, *, v_s=None, sigma=None, mu_s=None):
         self._mu_k = sympify(mu_k, strict=True) if mu_k is not None else 1
         self._mu_s = sympify(mu_s, strict=True) if mu_s is not None else self._mu_k
@@ -1738,96 +2086,132 @@ class CoulombKineticFriction(ForceActuator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mu_k(), returns the mu_k attribute) over Any          ║
+# ║ Path(mu_k(), self._mu_k) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._mu_k                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mu_k : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8dd2b5b762c346fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.mu_k","kind":"property","src_hash":"b6ca9b1de01cb2d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mu_k()","rhs":"returns the mu_k attribute","over":{"base":"Any"},"name":"mu_k_correct"},"guarantee":"returns the mu_k attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8dd2b5b762c346fd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.mu_k","kind":"property","src_hash":"b6ca9b1de01cb2d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mu_k()","rhs":"self._mu_k","over":{"base":"Any"},"name":"mu_k_correct"},"guarantee":"returns self._mu_k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8dd2b5b762c346fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._mu_k","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mu_k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mu_k(self):
         """The coefficient of kinetic friction."""
         return self._mu_k
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mu_s(), returns the mu_s attribute) over Any          ║
+# ║ Path(mu_s(), self._mu_s) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._mu_s                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mu_s : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 892df87d78fe30fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.mu_s","kind":"property","src_hash":"dc70cde00142056d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mu_s()","rhs":"returns the mu_s attribute","over":{"base":"Any"},"name":"mu_s_correct"},"guarantee":"returns the mu_s attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"892df87d78fe30fd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.mu_s","kind":"property","src_hash":"dc70cde00142056d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mu_s()","rhs":"self._mu_s","over":{"base":"Any"},"name":"mu_s_correct"},"guarantee":"returns self._mu_s","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"892df87d78fe30fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._mu_s","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mu_s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mu_s(self):
         """The coefficient of static friction."""
         return self._mu_s
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(f_n(), returns the f_n attribute) over Any            ║
+# ║ Path(f_n(), self._f_n) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._f_n                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ f_n : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fb80a90ff199cb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.f_n","kind":"property","src_hash":"5131a11579ac86eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f_n()","rhs":"returns the f_n attribute","over":{"base":"Any"},"name":"f_n_correct"},"guarantee":"returns the f_n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fb80a90ff199cb9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.f_n","kind":"property","src_hash":"5131a11579ac86eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f_n()","rhs":"self._f_n","over":{"base":"Any"},"name":"f_n_correct"},"guarantee":"returns self._f_n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fb80a90ff199cb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._f_n","pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def f_n(self):
         """The normal force between the surfaces."""
         return self._f_n
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sigma(), returns the sigma attribute) over Any        ║
+# ║ Path(sigma(), self._sigma) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._sigma                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sigma : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20a706963266c7d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.sigma","kind":"property","src_hash":"8cb36a51f4d2b11c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sigma()","rhs":"returns the sigma attribute","over":{"base":"Any"},"name":"sigma_correct"},"guarantee":"returns the sigma attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a706963266c7d1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.sigma","kind":"property","src_hash":"8cb36a51f4d2b11c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sigma()","rhs":"self._sigma","over":{"base":"Any"},"name":"sigma_correct"},"guarantee":"returns self._sigma","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a706963266c7d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._sigma","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sigma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sigma(self):
         """The viscous friction coefficient."""
         return self._sigma
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v_s(), returns the v_s attribute) over Any            ║
+# ║ Path(v_s(), self._v_s) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._v_s                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ v_s : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca018cfc89cf003f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.v_s","kind":"property","src_hash":"c7936d4c5e9c9831","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v_s()","rhs":"returns the v_s attribute","over":{"base":"Any"},"name":"v_s_correct"},"guarantee":"returns the v_s attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca018cfc89cf003f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.v_s","kind":"property","src_hash":"c7936d4c5e9c9831","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v_s()","rhs":"self._v_s","over":{"base":"Any"},"name":"v_s_correct"},"guarantee":"returns self._v_s","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca018cfc89cf003f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._v_s","pure":false,"effects":{"effect_type":"reads_state","reads":["self._v_s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v_s(self):
         """The Stribeck friction coefficient."""
         return self._v_s
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(), returns the force attribute) over Any        ║
+# ║ Path(force(), (f_c + stribeck_term) * -sign(v) - viscous_term) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (f_c + stribeck_term) * -sign(v) - viscou...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6903fe3a9e7eefd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.force","kind":"property","src_hash":"be87101d72fbd279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"returns the force attribute","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns the force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6903fe3a9e7eefd3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.force","kind":"property","src_hash":"be87101d72fbd279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force()","rhs":"(f_c + stribeck_term) * -sign(v) - viscous_term","over":{"base":"Any"},"name":"force_correct"},"guarantee":"returns (f_c + stribeck_term) * -sign(v) - viscous_term","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6903fe3a9e7eefd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(f_c + stribeck_term) * -sign(v) - viscous_term","pure":false,"effects":{"effect_type":"reads_state","reads":["self.f_n","self.mu_k","self.mu_s","self.pathway","self.sigma","self.v_s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self):
         v = self.pathway.extension_velocity
         f_c = self.mu_k * self.f_n
@@ -1838,30 +2222,42 @@ class CoulombKineticFriction(ForceActuator):
 
     @force.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(force(for), force produces the expected output) over Any ║
+# ║ Path(force(force), <unspecified:force>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ force : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 980a7bbd0ca4b502  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.force","kind":"method","src_hash":"556b953e185456b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(for)","rhs":"force produces the expected output","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.CoulombKineticFriction.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"980a7bbd0ca4b502"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.force","kind":"method","src_hash":"556b953e185456b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"force(force)","rhs":"<unspecified:force>","over":{"base":"Any"},"name":"force_correct"},"guarantee":"force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.actuator.CoulombKineticFriction.force_correct","statement":"Path(force(x), force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"980a7bbd0ca4b502","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def force(self, force):
         raise AttributeError('Can\'t set computed attribute `force`.')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self._mu_k}, {self._mu_s} {self._f_n}, {self.pathway}, {self._v_s}, {self._sigma})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self._mu_k},...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4be157189ee3fedb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.__repr__","kind":"method","src_hash":"1e56763580d0e584","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4be157189ee3fedb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.actuator.CoulombKineticFriction.__repr__","kind":"method","src_hash":"1e56763580d0e584","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self._mu_k}, {self._mu_s} {self._f_n}, {self.pathway}, {self._v_s}, {self._sigma})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self._mu_k}, {self._mu_s} {self._f_n}, {self.pathway}, {self._v_s}, {self._sigma})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4be157189ee3fedb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self._mu_k}, {self._mu_s} {self._f_n}, {self.pathway}, {self._v_s}, {self._sigma})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._f_n","self._mu_k","self._mu_s","self._sigma","self._v_s","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (f'{self.__class__.__name__}({self._mu_k}, {self._mu_s} '
                 f'{self._f_n}, {self.pathway}, {self._v_s}, '

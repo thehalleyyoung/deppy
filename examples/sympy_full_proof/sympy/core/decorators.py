@@ -38,16 +38,22 @@ if TYPE_CHECKING:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympifyit(arg), decorator to smartly _sympify function arguments) over Any ║
+# ║ Path(_sympifyit(arg, retval), isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympifyit : Any → Callable[[Callable[[T1, T2], T3]],...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Callable[[Callable[[T1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympifyit : Any → {Callable[[Callable[[T1, T2], T3]]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76212b06d7d3944f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f26add5c48b74fea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators._sympifyit","kind":"function","src_hash":"faf9a551e772485d","in":{"base":"Any"},"out":{"base":"Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]"},"spec":{"lhs":"_sympifyit(arg)","rhs":"decorator to smartly _sympify function arguments","over":{"base":"Any"},"name":"_sympifyit_correct"},"guarantee":"decorator to smartly _sympify function arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators._sympifyit_correct","statement":"Path(_sympifyit(x), decorator to smartly _sympify function arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76212b06d7d3944f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators._sympifyit","kind":"function","src_hash":"faf9a551e772485d","in":{"base":"Any"},"out":{"base":"Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]","pred":"result satisfies: isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])"},"spec":{"lhs":"_sympifyit(arg, retval)","rhs":"isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])","over":{"base":"Any"},"name":"_sympifyit_correct"},"guarantee":"isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators._sympifyit_correct","statement":"Path(_sympifyit(x), isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f26add5c48b74fea","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sympifyit(arg, retval=None) -> Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]:
     """
     decorator to smartly _sympify function arguments
@@ -78,16 +84,25 @@ def _sympifyit(arg, retval=None) -> Callable[[Callable[[T1, T2], T3]], Callable[
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sympifyit(fun), decorator to _sympify `arg` argument for function `func`) over Any ║
+# ║ Path(__sympifyit(func, arg, retval), <unspecified:__sympifyit>) over {Any | func.__code__.co_varnames[1] == arg and func.__code__.co_argcount and hasattr(func, '__code__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sympifyit : Any → {Any | func.__code__.co_varnames[...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: func.__code__.co_varnames[1] == arg            ║
+# ║   requires: func.__code__.co_argcount                      ║
+# ║   requires: hasattr(func, '__code__')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sympifyit : {Any | func.__code__.co_varnames[1] == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30d1dc6b59433afa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators.__sympifyit","kind":"function","src_hash":"29f6fcd0b8ff1848","in":{"base":"Any"},"out":{"base":"Any","pred":"func.__code__.co_varnames[1] == arg"},"spec":{"lhs":"__sympifyit(fun)","rhs":"decorator to _sympify `arg` argument for function `func`","over":{"base":"Any"},"name":"__sympifyit_correct"},"guarantee":"decorator to _sympify `arg` argument for function `func`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30d1dc6b59433afa"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators.__sympifyit","kind":"function","src_hash":"29f6fcd0b8ff1848","in":{"base":"Any","pred":"func.__code__.co_varnames[1] == arg and func.__code__.co_argcount and hasattr(func, '__code__')"},"out":{"base":"Any","pred":"func.__code__.co_varnames[1] == arg"},"spec":{"lhs":"__sympifyit(func, arg, retval)","rhs":"<unspecified:__sympifyit>","over":{"base":"Any","pred":"func.__code__.co_varnames[1] == arg and func.__code__.co_argcount and hasattr(func, '__code__')"},"name":"__sympifyit_correct"},"guarantee":"decorator to _sympify `arg` argument for function `func`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30d1dc6b59433afa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["func.__code__.co_varnames[1] == arg","func.__code__.co_argcount","hasattr(func, '__code__')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.__code__"],"raises":["LookupError"],"catches":["SympifyError"]},"state_contract":{"exceptional_post":{"LookupError":["isinstance(raised, LookupError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.2,"verdict_class":"failed","binding":true}}
 def __sympifyit(func, arg, retval=None):
     """Decorator to _sympify `arg` argument for function `func`.
 
@@ -120,16 +135,23 @@ def __sympifyit(func, arg, retval=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(call_highest_priority(met), a decorator for binary special methods to handle _op_priority) over str ║
+# ║ Path(call_highest_priority(method_name), isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])) over {str | isinstance(method_name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ call_highest_priority : str → Callable[[Callable[[T1,...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(method_name, str)                   ║
+# ║   ensures:  isinstance(result, Callable[[Callable[[T1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ call_highest_priority : {str | isinstance(method_name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a1222eca9b95ef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4e414950d03bf37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators.call_highest_priority","kind":"function","src_hash":"bc6ed226c67b89c5","in":{"base":"str"},"out":{"base":"Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]"},"spec":{"lhs":"call_highest_priority(met)","rhs":"a decorator for binary special methods to handle _op_priority","over":{"base":"str"},"name":"call_highest_priority_correct"},"guarantee":"a decorator for binary special methods to handle _op_priority","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators.call_highest_priority_correct","statement":"Path(call_highest_priority(x), a decorator for binary special methods to handle _op_priority)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a1222eca9b95ef0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators.call_highest_priority","kind":"function","src_hash":"bc6ed226c67b89c5","in":{"base":"str","pred":"isinstance(method_name, str)"},"out":{"base":"Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]","pred":"result satisfies: isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])"},"spec":{"lhs":"call_highest_priority(method_name)","rhs":"isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])","over":{"base":"str","pred":"isinstance(method_name, str)"},"name":"call_highest_priority_correct"},"guarantee":"isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators.call_highest_priority_correct","statement":"Path(call_highest_priority(x), isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4e414950d03bf37","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(method_name, str)"],"ensures":["isinstance(result, Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def call_highest_priority(method_name: str
     ) -> Callable[[Callable[[T1, T2], T3]], Callable[[T1, T2], T3]]:
     """A decorator for binary special methods to handle _op_priority.
@@ -171,7 +193,11 @@ def call_highest_priority(method_name: str
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify_method_args(cls), decorator for a class with methods that sympify arguments) over {type[T1] | isinstance(obj, _SympifyWrapper)} ║
+# ║ Path(sympify_method_args(cls), cls) over {type[T1] | isinstance(obj, _SympifyWrapper)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == cls                                  ║
+# ║   returns:  cls                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympify_method_args : {type[T1] | isinstance(obj, _Sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -183,9 +209,12 @@ def call_highest_priority(method_name: str
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 045adf56...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators.sympify_method_args","kind":"function","src_hash":"0b0e3caf17b2a169","in":{"base":"type[T1]","pred":"isinstance(obj, _SympifyWrapper)"},"out":{"base":"type[T1]"},"spec":{"lhs":"sympify_method_args(cls)","rhs":"decorator for a class with methods that sympify arguments","over":{"base":"type[T1]","pred":"isinstance(obj, _SympifyWrapper)"},"name":"sympify_method_args_correct"},"guarantee":"decorator for a class with methods that sympify arguments","fibers":[{"name":"_SympifyWrapper","pred":"isinstance(obj, _SympifyWrapper)","path":{"lhs":"sympify_method_args(x)","rhs":"decorator for a class with methods that sympify arguments","over":{"base":"_SympifyWrapper","pred":"isinstance(obj, _SympifyWrapper)"},"name":"sympify_method_args__SympifyWrapper_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators.sympify_method_args__SympifyWrapper_correct","statement":"sympify_method_args satisfies spec on _SympifyWrapper inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"045adf569524f7a4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators.sympify_method_args","kind":"function","src_hash":"0b0e3caf17b2a169","in":{"base":"type[T1]","pred":"isinstance(obj, _SympifyWrapper)"},"out":{"base":"type[T1]","pred":"result satisfies: result == (cls)"},"spec":{"lhs":"sympify_method_args(cls)","rhs":"cls","over":{"base":"type[T1]","pred":"isinstance(obj, _SympifyWrapper)"},"name":"sympify_method_args_correct"},"guarantee":"returns cls; result == cls","fibers":[{"name":"_SympifyWrapper","pred":"isinstance(obj, _SympifyWrapper)","path":{"lhs":"sympify_method_args(x)","rhs":"returns cls; result == cls","over":{"base":"_SympifyWrapper","pred":"isinstance(obj, _SympifyWrapper)"},"name":"sympify_method_args__SympifyWrapper_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators.sympify_method_args__SympifyWrapper_correct","statement":"sympify_method_args satisfies spec on _SympifyWrapper inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"045adf569524f7a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == cls"],"returns_expr":"cls","pure":false,"effects":{"effect_type":"mutates_args","reads":["*.__dict__","cls.__dict__"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(obj, _SympifyWrapper)'}, fibers={'_SympifyWrapper'})"]}}
 def sympify_method_args(cls: type[T1]) -> type[T1]:
     '''Decorator for a class with methods that sympify arguments.
 
@@ -260,16 +289,22 @@ def sympify_method_args(cls: type[T1]) -> type[T1]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympify_return(*ar), function/method decorator to sympify arguments automatically) over Any ║
+# ║ Path(sympify_return(*args), <unspecified:sympify_return>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympify_return : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 305b4ce84316270d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators.sympify_return","kind":"function","src_hash":"50e6a29d7731e0d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympify_return(*ar)","rhs":"function/method decorator to sympify arguments automatically","over":{"base":"Any"},"name":"sympify_return_correct"},"guarantee":"function/method decorator to sympify arguments automatically","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators.sympify_return_correct","statement":"Path(sympify_return(x), function/method decorator to sympify arguments automatically)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305b4ce84316270d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators.sympify_return","kind":"function","src_hash":"50e6a29d7731e0d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympify_return(*args)","rhs":"<unspecified:sympify_return>","over":{"base":"Any"},"name":"sympify_return_correct"},"guarantee":"function/method decorator to sympify arguments automatically","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators.sympify_return_correct","statement":"Path(sympify_return(x), function/method decorator to sympify arguments automatically)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305b4ce84316270d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def sympify_return(*args):
     '''Function/method decorator to sympify arguments automatically
 
@@ -284,43 +319,61 @@ def sympify_return(*args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _SympifyWrapper instance) preserved by _SympifyWrapper(*args) over {Any | isinstance(other, expectedcls)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _SympifyWrapper : {Any | isinstance(other, expectedcl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 187d78335ede6197  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators._SympifyWrapper","kind":"class","src_hash":"9af9292139d657db","in":{"base":"Any","pred":"isinstance(other, expectedcls)"},"out":{"base":"Any"},"spec":{"lhs":"_SympifyWrapper(*args)","rhs":"correctly constructs a _SympifyWrapper instance","over":{"base":"Any","pred":"isinstance(other, expectedcls)"},"name":"_SympifyWrapper_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _SympifyWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'args')","kind":"class","induction":"structural on func, args"}],"methods_preserving":["__init__","make_wrapped","_func"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187d78335ede6197"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators._SympifyWrapper","kind":"class","src_hash":"9af9292139d657db","in":{"base":"Any","pred":"isinstance(other, expectedcls)"},"out":{"base":"Any"},"spec":{"lhs":"_SympifyWrapper(*args)","rhs":"correctly constructs a _SympifyWrapper instance","over":{"base":"Any","pred":"isinstance(other, expectedcls)"},"name":"_SympifyWrapper_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'args')","kind":"class","induction":"structural on func, args"}],"methods_preserving":["__init__","make_wrapped","_func"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187d78335ede6197","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'func')","hasattr(self, 'args')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _SympifyWrapper not found in source"]}}
 class _SympifyWrapper:
     '''Internal class used by sympify_return and sympify_method_args'''
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(func, args), self.func == func and self.args == args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.func == func                              ║
+# ║   ensures:  self.args == args                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.func =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f31a80003332a471           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators._SympifyWrapper.__init__","kind":"method","src_hash":"f9b54aad654bc1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f31a80003332a471"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators._SympifyWrapper.__init__","kind":"method","src_hash":"f9b54aad654bc1a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.func == func and self.args == args"},"spec":{"lhs":"__init__(func, args)","rhs":"self.func == func and self.args == args","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.func == func; self.args == args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f31a80003332a471","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.func == func","self.args == args"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, func, args):
         self.func = func
         self.args = args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_wrapped(cls), make_wrapped produces the expected output) over Any ║
+# ║ Path(make_wrapped(cls), <unspecified:make_wrapped>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_wrapped : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7ae829f00ab510d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.decorators._SympifyWrapper.make_wrapped","kind":"method","src_hash":"08d41e47971f11b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_wrapped(cls)","rhs":"make_wrapped produces the expected output","over":{"base":"Any"},"name":"make_wrapped_correct"},"guarantee":"make_wrapped produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators._SympifyWrapper.make_wrapped_correct","statement":"Path(make_wrapped(x), make_wrapped produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7ae829f00ab510d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.decorators._SympifyWrapper.make_wrapped","kind":"method","src_hash":"08d41e47971f11b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_wrapped(cls)","rhs":"<unspecified:make_wrapped>","over":{"base":"Any"},"name":"make_wrapped_correct"},"guarantee":"make_wrapped produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.decorators._SympifyWrapper.make_wrapped_correct","statement":"Path(make_wrapped(x), make_wrapped produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7ae829f00ab510d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__","self.args","self.func"],"raises":["RuntimeError"],"catches":["SympifyError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_wrapped(self, cls):
         func = self.func
         parameters, retval = self.args

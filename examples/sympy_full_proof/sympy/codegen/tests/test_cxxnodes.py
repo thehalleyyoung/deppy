@@ -23,16 +23,23 @@ from sympy.printing.codeprinter import cxxcode
 x = Symbol('x')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_using(), test_using produces the expected output) over Any ║
+# ║ Path(test_using(), cxxcode(u1) == 'using std::vector' and cxxcode(u2) == 'using vec = std::vector') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_using : Any → {Any | cxxcode(u1) == 'using std::...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cxxcode(u1) == 'using std::vector'             ║
+# ║   ensures:  cxxcode(u2) == 'using vec = std::vector'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_using : Any → {Any | result satisfies: cxxcode(u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c851869502d0a33c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25ad1632cfe66acb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cxxnodes.test_using","kind":"function","src_hash":"206d53fe7249d8d5","in":{"base":"Any"},"out":{"base":"Any","pred":"cxxcode(u1) == 'using std::vector' and cxxcode(u2) == 'using vec = std::vector'"},"spec":{"lhs":"test_using()","rhs":"test_using produces the expected output","over":{"base":"Any"},"name":"test_using_correct"},"guarantee":"test_using produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cxxnodes.test_using_correct","statement":"Path(test_using(x), test_using produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c851869502d0a33c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cxxnodes.test_using","kind":"function","src_hash":"206d53fe7249d8d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cxxcode(u1) == 'using std::vector' and cxxcode(u2) == 'using vec = std::vector'"},"spec":{"lhs":"test_using()","rhs":"cxxcode(u1) == 'using std::vector' and cxxcode(u2) == 'using vec = std::vector'","over":{"base":"Any"},"name":"test_using_correct"},"guarantee":"cxxcode(u1) == 'using std::vector'; cxxcode(u2) == 'using vec = std::vector'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cxxnodes.test_using_correct","statement":"Path(test_using(x), cxxcode(u1) == 'using std::vector'; cxxcode(u2) == 'using vec = std::vector')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25ad1632cfe66acb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cxxcode(u1) == 'using std::vector'","cxxcode(u2) == 'using vec = std::vector'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_using():
     v = Type('std::vector')
     u1 = using(v)

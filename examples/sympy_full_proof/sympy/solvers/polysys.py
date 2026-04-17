@@ -50,31 +50,43 @@ from sympy.core.relational import Eq
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SolveFailed(), correctly constructs a SolveFailed instance) over Any ║
+# ║ Path(SolveFailed(), isinstance(self, Exception)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SolveFailed : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SolveFailed : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae93b873b9f33b0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.SolveFailed","kind":"class","src_hash":"64a38fc5adb8a2b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SolveFailed()","rhs":"correctly constructs a SolveFailed instance","over":{"base":"Any"},"name":"SolveFailed_correct"},"guarantee":"correctly constructs a SolveFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae93b873b9f33b0a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.SolveFailed","kind":"class","src_hash":"64a38fc5adb8a2b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"SolveFailed()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"SolveFailed_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae93b873b9f33b0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SolveFailed not found in source"]}}
 class SolveFailed(Exception):
     """Raised when solver's conditions were not met. """
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_poly_system(seq), return a list of solutions for the system of polynomial equations or else none) over Any ║
+# ║ Path(solve_poly_system(seq, *gens, strict), <unspecified:solve_poly_system>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_poly_system : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c644e00498e6494a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_poly_system","kind":"function","src_hash":"4ddcbba44d9953d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_system(seq)","rhs":"return a list of solutions for the system of polynomial equations or else none","over":{"base":"Any"},"name":"solve_poly_system_correct"},"guarantee":"return a list of solutions for the system of polynomial equations or else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_poly_system_correct","statement":"Path(solve_poly_system(x), return a list of solutions for the system of polynomial equations or else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c644e00498e6494a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_poly_system","kind":"function","src_hash":"4ddcbba44d9953d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_poly_system(seq, *gens, strict)","rhs":"<unspecified:solve_poly_system>","over":{"base":"Any"},"name":"solve_poly_system_correct"},"guarantee":"return a list of solutions for the system of polynomial equations or else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_poly_system_correct","statement":"Path(solve_poly_system(x), return a list of solutions for the system of polynomial equations or else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c644e00498e6494a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ComputationFailed"],"catches":["PolificationFailed","SolveFailed"]},"state_contract":{"exceptional_post":{"ComputationFailed":["isinstance(raised, ComputationFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['seq'], spec=['seq', '*gens', 'strict', '**args']"]}}
 def solve_poly_system(seq, *gens, strict=False, **args):
     """
     Return a list of solutions for the system of polynomial equations
@@ -138,16 +150,24 @@ def solve_poly_system(seq, *gens, strict=False, **args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_biquadratic(f, ), solve a system of two bivariate quadratic polynomial equations) over Any ║
+# ║ Path(solve_biquadratic(f, g, opt), <unspecified:solve_biquadratic>) over {Any | not (len(G) != 2) and hasattr(opt, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_biquadratic : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(G) != 2)                              ║
+# ║   requires: hasattr(opt, 'gens')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_biquadratic : {Any | not (len(G) != 2) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdca50b5ef0f683b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_biquadratic","kind":"function","src_hash":"0e02577df06352ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_biquadratic(f, )","rhs":"solve a system of two bivariate quadratic polynomial equations","over":{"base":"Any"},"name":"solve_biquadratic_correct"},"guarantee":"solve a system of two bivariate quadratic polynomial equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_biquadratic_correct","statement":"Path(solve_biquadratic(x), solve a system of two bivariate quadratic polynomial equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdca50b5ef0f683b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_biquadratic","kind":"function","src_hash":"0e02577df06352ff","in":{"base":"Any","pred":"not (len(G) != 2) and hasattr(opt, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"solve_biquadratic(f, g, opt)","rhs":"<unspecified:solve_biquadratic>","over":{"base":"Any","pred":"not (len(G) != 2) and hasattr(opt, 'gens')"},"name":"solve_biquadratic_correct"},"guarantee":"solve a system of two bivariate quadratic polynomial equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_biquadratic_correct","statement":"Path(solve_biquadratic(x), solve a system of two bivariate quadratic polynomial equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdca50b5ef0f683b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(G) != 2)","hasattr(opt, 'gens')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["opt.gens"],"raises":["SolveFailed"]},"state_contract":{"exceptional_post":{"SolveFailed":["isinstance(raised, SolveFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def solve_biquadratic(f, g, opt):
     """Solve a system of two bivariate quadratic polynomial equations.
 
@@ -216,16 +236,26 @@ def solve_biquadratic(f, g, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_generic(pol), solve a generic system of polynomial equations) over Any ║
+# ║ Path(solve_generic(polys, opt, strict), len(new_system) == old_len_new_system + 1 and len(solutions) == old_len_solutions + 1 and len(univariate) == old_len_univariate - 1) over {Any | hasattr(opt, 'gens') and len(univariate) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_generic : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(opt, 'gens')                           ║
+# ║   requires: len(univariate) > 0                            ║
+# ║   ensures:  len(new_system) == old_len_new_system + 1      ║
+# ║   ensures:  len(solutions) == old_len_solutions + 1        ║
+# ║   ensures:  len(univariate) == old_len_univariate - 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_generic : {Any | hasattr(opt, 'gens') and len(u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afca5115a448a16f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 708ce328afff2547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_generic","kind":"function","src_hash":"1b8447678ef3b5ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_generic(pol)","rhs":"solve a generic system of polynomial equations","over":{"base":"Any"},"name":"solve_generic_correct"},"guarantee":"solve a generic system of polynomial equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_generic_correct","statement":"Path(solve_generic(x), solve a generic system of polynomial equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afca5115a448a16f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_generic","kind":"function","src_hash":"1b8447678ef3b5ba","in":{"base":"Any","pred":"hasattr(opt, 'gens') and len(univariate) > 0"},"out":{"base":"Any","pred":"result satisfies: len(new_system) == old_len_new_system + 1 and len(solutions) == old_len_solutions + 1 and len(univariate) == old_len_univariate - 1"},"spec":{"lhs":"solve_generic(polys, opt, strict)","rhs":"len(new_system) == old_len_new_system + 1 and len(solutions) == old_len_solutions + 1 and len(univariate) == old_len_univariate - 1","over":{"base":"Any","pred":"hasattr(opt, 'gens') and len(univariate) > 0"},"name":"solve_generic_correct"},"guarantee":"len(new_system) == old_len_new_system + 1; len(solutions) == old_len_solutions + 1; len(univariate) == old_len_univariate - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_generic_correct","statement":"Path(solve_generic(x), len(new_system) == old_len_new_system + 1; len(solutions) == old_len_solutions + 1; len(univariate) == old_len_univariate - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"708ce328afff2547","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(opt, 'gens')","len(univariate) > 0"],"ensures":["len(new_system) == old_len_new_system + 1","len(solutions) == old_len_solutions + 1","len(univariate) == old_len_univariate - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["opt.gens"],"calls_mutating":["new_system.append","solutions.append","univariate.pop"],"raises":["NotImplementedError"],"catches":["CoercionFailed"]},"state_contract":{"modifies":["new_system.*","solutions.*","univariate.*"],"old_bindings":{"old_len_new_system":"len(new_system)","old_len_solutions":"len(solutions)","old_len_univariate":"len(univariate)"},"pre_requires":["len(univariate) > 0"],"post_ensures":["len(new_system) == old_len_new_system + 1","len(solutions) == old_len_solutions + 1","len(univariate) == old_len_univariate - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def solve_generic(polys, opt, strict=False):
     """
     Solve a generic system of polynomial equations.
@@ -420,16 +450,22 @@ def solve_generic(polys, opt, strict=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_triangulated(pol), solve a polynomial system using gianni-kalkbrenner algorithm) over Any ║
+# ║ Path(solve_triangulated(polys, *gens, **args), <unspecified:solve_triangulated>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_triangulated : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67f293b378af6420  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_triangulated","kind":"function","src_hash":"40af3cc93e7fffa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_triangulated(pol)","rhs":"solve a polynomial system using gianni-kalkbrenner algorithm","over":{"base":"Any"},"name":"solve_triangulated_correct"},"guarantee":"solve a polynomial system using gianni-kalkbrenner algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_triangulated_correct","statement":"Path(solve_triangulated(x), solve a polynomial system using gianni-kalkbrenner algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67f293b378af6420"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.solve_triangulated","kind":"function","src_hash":"40af3cc93e7fffa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_triangulated(polys, *gens, **args)","rhs":"<unspecified:solve_triangulated>","over":{"base":"Any"},"name":"solve_triangulated_correct"},"guarantee":"solve a polynomial system using gianni-kalkbrenner algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.solve_triangulated_correct","statement":"Path(solve_triangulated(x), solve a polynomial system using gianni-kalkbrenner algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67f293b378af6420","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['polys'], spec=['polys', '*gens', '**args']"]}}
 def solve_triangulated(polys, *gens, **args):
     """
     Solve a polynomial system using Gianni-Kalkbrenner algorithm.
@@ -547,16 +583,25 @@ def solve_triangulated(polys, *gens, **args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_system(eqs), factorizes a system of polynomial equations into irreducible subsystems) over Sequence[Expr | complex] ║
+# ║ Path(factor_system(eqs, gens, **kwargs), isinstance(result, list) and all(isinstance(x, list[Expr) for x in result)) over {Sequence[Expr | complex] | isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factor_system : Sequence[Expr | complex] → list[list[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(eqs, Sequence[Expr | complex])      ║
+# ║   requires: isinstance(gens, Sequence[Expr])               ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[Expr) for x in res...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factor_system : {Sequence[Expr | complex] | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e66a5691acc95efa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 168648f51761d6d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system","kind":"function","src_hash":"72584daeeb84db6b","in":{"base":"Sequence[Expr | complex]"},"out":{"base":"list[list[Expr]]"},"spec":{"lhs":"factor_system(eqs)","rhs":"factorizes a system of polynomial equations into irreducible subsystems","over":{"base":"Sequence[Expr | complex]"},"name":"factor_system_correct"},"guarantee":"factorizes a system of polynomial equations into irreducible subsystems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.factor_system_correct","statement":"Path(factor_system(x), factorizes a system of polynomial equations into irreducible subsystems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e66a5691acc95efa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system","kind":"function","src_hash":"72584daeeb84db6b","in":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"out":{"base":"list[list[Expr]]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, list[Expr) for x in result)"},"spec":{"lhs":"factor_system(eqs, gens, **kwargs)","rhs":"isinstance(result, list) and all(isinstance(x, list[Expr) for x in result)","over":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"name":"factor_system_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, list[Expr) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.factor_system_correct","statement":"Path(factor_system(x), isinstance(result, list); all(isinstance(x, list[Expr) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"168648f51761d6d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(eqs, Sequence[Expr | complex])","isinstance(gens, Sequence[Expr])"],"ensures":["isinstance(result, list)","all(isinstance(x, list[Expr) for x in result)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['eqs', 'gens'], spec=['eqs', 'gens', '**kwargs']"]}}
 def factor_system(eqs: Sequence[Expr | complex], gens: Sequence[Expr] = (), **kwargs: Any) -> list[list[Expr]]:
     """
     Factorizes a system of polynomial equations into
@@ -648,32 +693,49 @@ def factor_system(eqs: Sequence[Expr | complex], gens: Sequence[Expr] = (), **kw
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_degenerate(sys), helper function to check if a system is degenerate) over list[Poly] ║
+# ║ Path(_is_degenerate(system), any((p.is_ground for p in system))) over {list[Poly] | isinstance(system, list[Poly])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_degenerate : list[Poly] → bool                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(system, list[Poly])                 ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  any((p.is_ground for p in system))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_degenerate : {list[Poly] | isinstance(system, lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb2bbe2afe3c7c89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._is_degenerate","kind":"function","src_hash":"785c4049baf90b76","in":{"base":"list[Poly]"},"out":{"base":"bool"},"spec":{"lhs":"_is_degenerate(sys)","rhs":"helper function to check if a system is degenerate","over":{"base":"list[Poly]"},"name":"_is_degenerate_correct"},"guarantee":"helper function to check if a system is degenerate","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb2bbe2afe3c7c89"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._is_degenerate","kind":"function","src_hash":"785c4049baf90b76","in":{"base":"list[Poly]","pred":"isinstance(system, list[Poly])"},"out":{"base":"bool","pred":"result satisfies: result == (any((p.is_ground for p in system)))"},"spec":{"lhs":"_is_degenerate(system)","rhs":"any((p.is_ground for p in system))","over":{"base":"list[Poly]","pred":"isinstance(system, list[Poly])"},"name":"_is_degenerate_correct"},"guarantee":"returns any((p.is_ground for p in system)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb2bbe2afe3c7c89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(system, list[Poly])"],"ensures":["isinstance(result, bool)"],"returns_expr":"any((p.is_ground for p in system))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _is_degenerate(system: list[Poly]) -> bool:
     """Helper function to check if a system is degenerate"""
     return any(p.is_ground for p in system)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_system_bool(eqs), id) over Sequence[Expr | complex] ║
+# ║ Path(factor_system_bool(eqs, gens, **kwargs), id) over {Sequence[Expr | complex] | isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factor_system_bool : Sequence[Expr | complex] → Boolean    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(eqs, Sequence[Expr | complex])      ║
+# ║   requires: isinstance(gens, Sequence[Expr])               ║
+# ║   ensures:  isinstance(result, Boolean)                    ║
+# ║   returns:  Or(*[And(*[Eq(eq, 0) for eq in sys]) for ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factor_system_bool : {Sequence[Expr | complex] | isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 485315d2de6a402e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system_bool","kind":"function","src_hash":"109a9637ff5eebbd","in":{"base":"Sequence[Expr | complex]"},"out":{"base":"Boolean"},"spec":{"lhs":"factor_system_bool(eqs)","rhs":"factorizes a system of polynomial equations into irreducible dnf","over":{"base":"Sequence[Expr | complex]"},"name":"factor_system_bool_correct","kind":"composition"},"guarantee":"factorizes a system of polynomial equations into irreducible dnf","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"And","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"485315d2de6a402e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system_bool","kind":"function","src_hash":"109a9637ff5eebbd","in":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"out":{"base":"Boolean","pred":"result satisfies: result == (Or(*[And(*[Eq(eq, 0) for eq in sys]) for sys in systems]))"},"spec":{"lhs":"factor_system_bool(eqs, gens, **kwargs)","rhs":"Or(*[And(*[Eq(eq, 0) for eq in sys]) for sys in systems])","over":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"name":"factor_system_bool_correct","kind":"composition"},"guarantee":"returns Or(*[And(*[Eq(eq, 0) for eq in sys]) for sys in systems]); isinstance(result, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"And","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"485315d2de6a402e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(eqs, Sequence[Expr | complex])","isinstance(gens, Sequence[Expr])"],"ensures":["isinstance(result, Boolean)"],"returns_expr":"Or(*[And(*[Eq(eq, 0) for eq in sys]) for sys in systems])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['eqs', 'gens'], spec=['eqs', 'gens', '**kwargs']"]}}
 def factor_system_bool(eqs: Sequence[Expr | complex], gens: Sequence[Expr] = (), **kwargs: Any) -> Boolean:
     """
     Factorizes a system of polynomial equations into irreducible DNF.
@@ -744,16 +806,25 @@ def factor_system_bool(eqs: Sequence[Expr | complex], gens: Sequence[Expr] = (),
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_system_cond(eqs), factorizes a polynomial system into irreducible components and returns both generic and degenerate solutions) over Sequence[Expr | complex] ║
+# ║ Path(factor_system_cond(eqs, gens, **kwargs), isinstance(result, list) and all(isinstance(x, list[Expr) for x in result)) over {Sequence[Expr | complex] | isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factor_system_cond : Sequence[Expr | complex] → list[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(eqs, Sequence[Expr | complex])      ║
+# ║   requires: isinstance(gens, Sequence[Expr])               ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[Expr) for x in res...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factor_system_cond : {Sequence[Expr | complex] | isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99f427b88e16baa1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b4a0a333a61428  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system_cond","kind":"function","src_hash":"d44394f8dd3c45dd","in":{"base":"Sequence[Expr | complex]"},"out":{"base":"list[list[Expr]]"},"spec":{"lhs":"factor_system_cond(eqs)","rhs":"factorizes a polynomial system into irreducible components and returns both generic and degenerate solutions","over":{"base":"Sequence[Expr | complex]"},"name":"factor_system_cond_correct"},"guarantee":"factorizes a polynomial system into irreducible components and returns both generic and degenerate solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.factor_system_cond_correct","statement":"Path(factor_system_cond(x), factorizes a polynomial system into irreducible components and returns both generic and degenerate solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99f427b88e16baa1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system_cond","kind":"function","src_hash":"d44394f8dd3c45dd","in":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"out":{"base":"list[list[Expr]]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, list[Expr) for x in result)"},"spec":{"lhs":"factor_system_cond(eqs, gens, **kwargs)","rhs":"isinstance(result, list) and all(isinstance(x, list[Expr) for x in result)","over":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"name":"factor_system_cond_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, list[Expr) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.factor_system_cond_correct","statement":"Path(factor_system_cond(x), isinstance(result, list); all(isinstance(x, list[Expr) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b4a0a333a61428","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(eqs, Sequence[Expr | complex])","isinstance(gens, Sequence[Expr])"],"ensures":["isinstance(result, list)","all(isinstance(x, list[Expr) for x in result)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['eqs', 'gens'], spec=['eqs', 'gens', '**kwargs']"]}}
 def factor_system_cond(eqs: Sequence[Expr | complex], gens: Sequence[Expr] = (), **kwargs: Any) -> list[list[Expr]]:
     """
     Factorizes a polynomial system into irreducible components and returns
@@ -811,16 +882,25 @@ def factor_system_cond(eqs: Sequence[Expr | complex], gens: Sequence[Expr] = (),
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_factor_system_poly_from_expr(eqs), convert expressions to polynomials and factor the system) over Sequence[Expr | complex] ║
+# ║ Path(_factor_system_poly_from_expr(eqs, gens, **kwargs), isinstance(result, list) and all(isinstance(x, list[Poly) for x in result)) over {Sequence[Expr | complex] | isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _factor_system_poly_from_expr : Sequence[Expr | compl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(eqs, Sequence[Expr | complex])      ║
+# ║   requires: isinstance(gens, Sequence[Expr])               ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[Poly) for x in res...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _factor_system_poly_from_expr : {Sequence[Expr | comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ce7a18841ecac0d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49ed2e10ca8f95fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._factor_system_poly_from_expr","kind":"function","src_hash":"4deaefbea0729fe3","in":{"base":"Sequence[Expr | complex]"},"out":{"base":"list[list[Poly]]","pred":"opts['domain'].is_Numerical"},"spec":{"lhs":"_factor_system_poly_from_expr(eqs)","rhs":"convert expressions to polynomials and factor the system","over":{"base":"Sequence[Expr | complex]"},"name":"_factor_system_poly_from_expr_correct"},"guarantee":"convert expressions to polynomials and factor the system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._factor_system_poly_from_expr_correct","statement":"Path(_factor_system_poly_from_expr(x), convert expressions to polynomials and factor the system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ce7a18841ecac0d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._factor_system_poly_from_expr","kind":"function","src_hash":"4deaefbea0729fe3","in":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"out":{"base":"list[list[Poly]]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, list[Poly) for x in result)"},"spec":{"lhs":"_factor_system_poly_from_expr(eqs, gens, **kwargs)","rhs":"isinstance(result, list) and all(isinstance(x, list[Poly) for x in result)","over":{"base":"Sequence[Expr | complex]","pred":"isinstance(eqs, Sequence[Expr | complex]) and isinstance(gens, Sequence[Expr])"},"name":"_factor_system_poly_from_expr_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, list[Poly) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._factor_system_poly_from_expr_correct","statement":"Path(_factor_system_poly_from_expr(x), isinstance(result, list); all(isinstance(x, list[Poly) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49ed2e10ca8f95fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(eqs, Sequence[Expr | complex])","isinstance(gens, Sequence[Expr])"],"ensures":["isinstance(result, list)","all(isinstance(x, list[Poly) for x in result)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['eqs', 'gens'], spec=['eqs', 'gens', '**kwargs']"]}}
 def _factor_system_poly_from_expr(
         eqs: Sequence[Expr | complex], gens: Sequence[Expr], **kwargs: Any
 ) -> list[list[Poly]]:
@@ -847,7 +927,15 @@ def _factor_system_poly_from_expr(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_system_poly(pol), factors a system of polynomial equations into irreducible subsystems) over {list[Poly] | isinstance(poly, Poly)} ║
+# ║ Path(factor_system_poly(polys), isinstance(result, list) and all(isinstance(x, list[Poly) for x in result) and len(factor_sets) == old_len_factor_sets + 1 and len(factors) == old_len_factors + 1) over {list[Poly] | isinstance(poly, Poly) and isinstance(polys, list[Poly]) and all((isinstance(poly, Poly) for poly in polys)) and all((poly.domain == base_domain and poly.gens == base_gens for poly in polys[1:]))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(polys, list[Poly])                  ║
+# ║   requires: all((isinstance(poly, Poly) for poly in p...   ║
+# ║   requires: all((poly.domain == base_domain and poly....   ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[Poly) for x in res...   ║
+# ║   ensures:  len(factor_sets) == old_len_factor_sets + 1    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factor_system_poly : {list[Poly] | isinstance(poly, P...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -859,9 +947,12 @@ def _factor_system_poly_from_expr(
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 32c47370...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system_poly","kind":"function","src_hash":"33f47138eb32b2ee","in":{"base":"list[Poly]","pred":"isinstance(poly, Poly)"},"out":{"base":"list[list[Poly]]"},"spec":{"lhs":"factor_system_poly(pol)","rhs":"factors a system of polynomial equations into irreducible subsystems","over":{"base":"list[Poly]","pred":"isinstance(poly, Poly)"},"name":"factor_system_poly_correct"},"guarantee":"factors a system of polynomial equations into irreducible subsystems","fibers":[{"name":"Poly","pred":"isinstance(poly, Poly)","path":{"lhs":"factor_system_poly(x)","rhs":"factors a system of polynomial equations into irreducible subsystems","over":{"base":"Poly","pred":"isinstance(poly, Poly)"},"name":"factor_system_poly_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.factor_system_poly_Poly_correct","statement":"factor_system_poly satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32c47370d5a4c71c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys.factor_system_poly","kind":"function","src_hash":"33f47138eb32b2ee","in":{"base":"list[Poly]","pred":"isinstance(poly, Poly) and isinstance(polys, list[Poly]) and all((isinstance(poly, Poly) for poly in polys)) and all((poly.domain == base_domain and poly.gens == base_gens for poly in polys[1:]))"},"out":{"base":"list[list[Poly]]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, list[Poly) for x in result) and len(factor_sets) == old_len_factor_sets + 1 and len(factors) == old_len_factors + 1"},"spec":{"lhs":"factor_system_poly(polys)","rhs":"isinstance(result, list) and all(isinstance(x, list[Poly) for x in result) and len(factor_sets) == old_len_factor_sets + 1 and len(factors) == old_len_factors + 1","over":{"base":"list[Poly]","pred":"isinstance(poly, Poly) and isinstance(polys, list[Poly]) and all((isinstance(poly, Poly) for poly in polys)) and all((poly.domain == base_domain and poly.gens == base_gens for poly in polys[1:]))"},"name":"factor_system_poly_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, list[Poly) for x in result); len(factor_sets) == old_len_factor_sets + 1","fibers":[{"name":"Poly","pred":"isinstance(poly, Poly)","path":{"lhs":"factor_system_poly(x)","rhs":"isinstance(result, list); all(isinstance(x, list[Poly) for x in result); len(factor_sets) == old_len_factor_sets + 1","over":{"base":"Poly","pred":"isinstance(poly, Poly)"},"name":"factor_system_poly_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys.factor_system_poly_Poly_correct","statement":"factor_system_poly satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32c47370d5a4c71c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(polys, list[Poly])","all((isinstance(poly, Poly) for poly in polys))","all((poly.domain == base_domain and poly.gens == base_gens for poly in polys[1:]))"],"ensures":["isinstance(result, list)","all(isinstance(x, list[Poly) for x in result)","len(factor_sets) == old_len_factor_sets + 1","len(factors) == old_len_factors + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["factor_sets.append","factors.append"],"raises":["DomainError","TypeError"]},"state_contract":{"modifies":["factor_sets.*","factors.*"],"old_bindings":{"old_len_factor_sets":"len(factor_sets)","old_len_factors":"len(factors)"},"post_ensures":["len(factor_sets) == old_len_factor_sets + 1","len(factors) == old_len_factors + 1"],"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not all((isinstance(poly, Poly) for poly in polys))', 'not all((poly.domain == base_domain and poly.gens == base_gens for poly in polys[1:]))'}, fibers={'Poly'})"]}}
 def factor_system_poly(polys: list[Poly]) -> list[list[Poly]]:
     """
     Factors a system of polynomial equations into irreducible subsystems
@@ -952,16 +1043,23 @@ def factor_system_poly(polys: list[Poly]) -> list[list[Poly]]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_factor_sets_slow(eqs), helper to find the minimal set of factorised subsystems that is equivalent to the original system) over list[list] ║
+# ║ Path(_factor_sets_slow(eqs), isinstance(result, set)) over {list[list] | isinstance(eqs, list[list])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _factor_sets_slow : list[list] → set[frozenset]            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(eqs, list[list])                    ║
+# ║   ensures:  isinstance(result, set)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _factor_sets_slow : {list[list] | isinstance(eqs, lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6133ffe6c1d6b5cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b06705ccbcf5b28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._factor_sets_slow","kind":"function","src_hash":"3a37b4fbee484b64","in":{"base":"list[list]"},"out":{"base":"set[frozenset]"},"spec":{"lhs":"_factor_sets_slow(eqs)","rhs":"helper to find the minimal set of factorised subsystems that is equivalent to the original system","over":{"base":"list[list]"},"name":"_factor_sets_slow_correct"},"guarantee":"helper to find the minimal set of factorised subsystems that is equivalent to the original system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._factor_sets_slow_correct","statement":"Path(_factor_sets_slow(x), helper to find the minimal set of factorised subsystems that is equivalent to the original system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6133ffe6c1d6b5cc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._factor_sets_slow","kind":"function","src_hash":"3a37b4fbee484b64","in":{"base":"list[list]","pred":"isinstance(eqs, list[list])"},"out":{"base":"set[frozenset]","pred":"result satisfies: isinstance(result, set)"},"spec":{"lhs":"_factor_sets_slow(eqs)","rhs":"isinstance(result, set)","over":{"base":"list[list]","pred":"isinstance(eqs, list[list])"},"name":"_factor_sets_slow_correct"},"guarantee":"isinstance(result, set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._factor_sets_slow_correct","statement":"Path(_factor_sets_slow(x), isinstance(result, set))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b06705ccbcf5b28","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(eqs, list[list])"],"ensures":["isinstance(result, set)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _factor_sets_slow(eqs: list[list]) -> set[frozenset]:
     """
     Helper to find the minimal set of factorised subsystems that is
@@ -976,16 +1074,23 @@ def _factor_sets_slow(eqs: list[list]) -> set[frozenset]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_factor_sets(eqs), helper that builds factor combinations) over list[list] ║
+# ║ Path(_factor_sets(eqs), isinstance(result, set)) over {list[list] | isinstance(eqs, list[list])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _factor_sets : list[list] → set[frozenset]                 ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(eqs, list[list])                    ║
+# ║   ensures:  isinstance(result, set)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _factor_sets : {list[list] | isinstance(eqs, list[lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3b4c275be4bbc2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b206adb55776da9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._factor_sets","kind":"function","src_hash":"a5282fb8d0e4fada","in":{"base":"list[list]"},"out":{"base":"set[frozenset]"},"spec":{"lhs":"_factor_sets(eqs)","rhs":"helper that builds factor combinations","over":{"base":"list[list]"},"name":"_factor_sets_correct"},"guarantee":"helper that builds factor combinations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._factor_sets_correct","statement":"Path(_factor_sets(x), helper that builds factor combinations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3b4c275be4bbc2c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._factor_sets","kind":"function","src_hash":"a5282fb8d0e4fada","in":{"base":"list[list]","pred":"isinstance(eqs, list[list])"},"out":{"base":"set[frozenset]","pred":"result satisfies: isinstance(result, set)"},"spec":{"lhs":"_factor_sets(eqs)","rhs":"isinstance(result, set)","over":{"base":"list[list]","pred":"isinstance(eqs, list[list])"},"name":"_factor_sets_correct"},"guarantee":"isinstance(result, set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._factor_sets_correct","statement":"Path(_factor_sets(x), isinstance(result, set))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b206adb55776da9","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(eqs, list[list])"],"ensures":["isinstance(result, set)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _factor_sets(eqs: list[list]) -> set[frozenset]:
     """
     Helper that builds factor combinations.
@@ -1020,16 +1125,25 @@ def _factor_sets(eqs: list[list]) -> set[frozenset]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sort_systems(sys), sorts a list of lists of polynomials) over Iterable[Iterable[Poly]] ║
+# ║ Path(_sort_systems(systems), sorted(systems_list, key=_sys_sort_key, reverse=True)) over {Iterable[Iterable[Poly]] | isinstance(systems, Iterable[Iterable[Poly]])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sort_systems : Iterable[Iterable[Poly]] → list[list[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(systems, Iterable[Iterable[Pol...   ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[Poly) for x in res...   ║
+# ║   returns:  sorted(systems_list, key=_sys_sort_key, r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sort_systems : {Iterable[Iterable[Poly]] | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a74cea8de958d562  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc503ce46f144edb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._sort_systems","kind":"function","src_hash":"71863264886bd8f1","in":{"base":"Iterable[Iterable[Poly]]"},"out":{"base":"list[list[Poly]]"},"spec":{"lhs":"_sort_systems(sys)","rhs":"sorts a list of lists of polynomials","over":{"base":"Iterable[Iterable[Poly]]"},"name":"_sort_systems_correct"},"guarantee":"sorts a list of lists of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._sort_systems_correct","statement":"Path(_sort_systems(x), sorts a list of lists of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a74cea8de958d562"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._sort_systems","kind":"function","src_hash":"71863264886bd8f1","in":{"base":"Iterable[Iterable[Poly]]","pred":"isinstance(systems, Iterable[Iterable[Poly]])"},"out":{"base":"list[list[Poly]]","pred":"result satisfies: result == (sorted(systems_list, key=_sys_sort_key, reverse=True))"},"spec":{"lhs":"_sort_systems(systems)","rhs":"sorted(systems_list, key=_sys_sort_key, reverse=True)","over":{"base":"Iterable[Iterable[Poly]]","pred":"isinstance(systems, Iterable[Iterable[Poly]])"},"name":"_sort_systems_correct"},"guarantee":"returns sorted(systems_list, key=_sys_sort_key, reverse=True); isinstance(result, list); all(isinstance(x, list[Poly) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.polysys._sort_systems_correct","statement":"Path(_sort_systems(x), returns sorted(systems_list, key=_sys_sort_key, reverse=True); isinstance(result, list); all(isinstance(x, list[Poly) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc503ce46f144edb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(systems, Iterable[Iterable[Poly]])"],"ensures":["isinstance(result, list)","all(isinstance(x, list[Poly) for x in result)"],"returns_expr":"sorted(systems_list, key=_sys_sort_key, reverse=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sort_systems(systems: Iterable[Iterable[Poly]]) -> list[list[Poly]]:
     """Sorts a list of lists of polynomials"""
     systems_list = [sorted(s, key=_poly_sort_key, reverse=True) for s in systems]
@@ -1037,16 +1151,25 @@ def _sort_systems(systems: Iterable[Iterable[Poly]]) -> list[list[Poly]]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_poly_sort_key(pol), id) over Any                     ║
+# ║ Path(_poly_sort_key(poly), id) over {Any | hasattr(poly, 'domain') and hasattr(poly, 'set_domain') and hasattr(poly, 'degree_list') and hasattr(poly, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _poly_sort_key : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(poly, 'domain')                        ║
+# ║   requires: hasattr(poly, 'set_domain')                    ║
+# ║   requires: hasattr(poly, 'degree_list')                   ║
+# ║   returns:  (poly.degree_list(), poly.rep.to_list())       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _poly_sort_key : {Any | hasattr(poly, 'domain') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9fcbbe53f61331cc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._poly_sort_key","kind":"function","src_hash":"ecc15c633e9a76fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_poly_sort_key(pol)","rhs":"sort key for polynomials","over":{"base":"Any"},"name":"_poly_sort_key_correct","kind":"composition"},"guarantee":"sort key for polynomials","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"degree_list","by":"library_axiom"},{"fn":"to_list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fcbbe53f61331cc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._poly_sort_key","kind":"function","src_hash":"ecc15c633e9a76fb","in":{"base":"Any","pred":"hasattr(poly, 'domain') and hasattr(poly, 'set_domain') and hasattr(poly, 'degree_list') and hasattr(poly, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_poly_sort_key(poly)","rhs":"(poly.degree_list(), poly.rep.to_list())","over":{"base":"Any","pred":"hasattr(poly, 'domain') and hasattr(poly, 'set_domain') and hasattr(poly, 'degree_list') and hasattr(poly, 'rep')"},"name":"_poly_sort_key_correct","kind":"composition"},"guarantee":"returns (poly.degree_list(), poly.rep.to_list())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"degree_list","by":"library_axiom"},{"fn":"to_list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fcbbe53f61331cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(poly, 'domain')","hasattr(poly, 'set_domain')","hasattr(poly, 'degree_list')","hasattr(poly, 'rep')"],"returns_expr":"(poly.degree_list(), poly.rep.to_list())","pure":false,"effects":{"effect_type":"reads_state","reads":["poly.degree_list","poly.domain","poly.rep","poly.set_domain"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _poly_sort_key(poly):
     """Sort key for polynomials"""
     if poly.domain.is_FF:
@@ -1055,16 +1178,22 @@ def _poly_sort_key(poly):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sys_sort_key(sys), sort key for lists of polynomials) over Any ║
+# ║ Path(_sys_sort_key(sys), list(zip(*map(_poly_sort_key, sys)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(zip(*map(_poly_sort_key, sys)))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sys_sort_key : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c621d459168f583           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._sys_sort_key","kind":"function","src_hash":"8706d44c18be2fff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sys_sort_key(sys)","rhs":"sort key for lists of polynomials","over":{"base":"Any"},"name":"_sys_sort_key_correct"},"guarantee":"sort key for lists of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c621d459168f583"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.polysys._sys_sort_key","kind":"function","src_hash":"8706d44c18be2fff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sys_sort_key(sys)","rhs":"list(zip(*map(_poly_sort_key, sys)))","over":{"base":"Any"},"name":"_sys_sort_key_correct"},"guarantee":"returns list(zip(*map(_poly_sort_key, sys)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c621d459168f583","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(zip(*map(_poly_sort_key, sys)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _sys_sort_key(sys):
     """Sort key for lists of polynomials"""
     return list(zip(*map(_poly_sort_key, sys)))

@@ -33,16 +33,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zero_matrix_creation(), test_zero_matrix_creation produces the expected output) over Any ║
+# ║ Path(test_zero_matrix_creation(), unchanged(ZeroMatrix, 2, 2) and unchanged(ZeroMatrix, 0, 0) and unchanged(ZeroMatrix, n, n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zero_matrix_creation : Any → {Any | unchanged(Ze...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(ZeroMatrix, 2, 2)                    ║
+# ║   ensures:  unchanged(ZeroMatrix, 0, 0)                    ║
+# ║   ensures:  unchanged(ZeroMatrix, n, n)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zero_matrix_creation : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3eae6f900f2c660e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1ee341774718e6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_zero_matrix_creation","kind":"function","src_hash":"d5b5ea1c937a97d2","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(ZeroMatrix, 2, 2) and unchanged(ZeroMatrix, 0, 0) and unchanged(ZeroMatrix, n, n)"},"spec":{"lhs":"test_zero_matrix_creation()","rhs":"test_zero_matrix_creation produces the expected output","over":{"base":"Any"},"name":"test_zero_matrix_creation_correct"},"guarantee":"test_zero_matrix_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_zero_matrix_creation_correct","statement":"Path(test_zero_matrix_creation(x), test_zero_matrix_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3eae6f900f2c660e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_zero_matrix_creation","kind":"function","src_hash":"d5b5ea1c937a97d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(ZeroMatrix, 2, 2) and unchanged(ZeroMatrix, 0, 0) and unchanged(ZeroMatrix, n, n)"},"spec":{"lhs":"test_zero_matrix_creation()","rhs":"unchanged(ZeroMatrix, 2, 2) and unchanged(ZeroMatrix, 0, 0) and unchanged(ZeroMatrix, n, n)","over":{"base":"Any"},"name":"test_zero_matrix_creation_correct"},"guarantee":"unchanged(ZeroMatrix, 2, 2); unchanged(ZeroMatrix, 0, 0); unchanged(ZeroMatrix, n, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_zero_matrix_creation_correct","statement":"Path(test_zero_matrix_creation(x), unchanged(ZeroMatrix, 2, 2); unchanged(ZeroMatrix, 0, 0); unchanged(ZeroMatrix, n, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ee341774718e6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(ZeroMatrix, 2, 2)","unchanged(ZeroMatrix, 0, 0)","unchanged(ZeroMatrix, n, n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_zero_matrix_creation():
     assert unchanged(ZeroMatrix, 2, 2)
     assert unchanged(ZeroMatrix, 0, 0)
@@ -62,16 +70,24 @@ def test_zero_matrix_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generic_zero_matrix(), test_generic_zero_matrix produces the expected output) over Any ║
+# ║ Path(test_generic_zero_matrix(), z == z and z != A and A != z and z.is_ZeroMatrix and MatAdd() == z and MatAdd(z, A) == MatAdd(A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generic_zero_matrix : Any → {Any | z == z and z ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  z == z                                         ║
+# ║   ensures:  z != A                                         ║
+# ║   ensures:  A != z                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generic_zero_matrix : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67d7debb7fd16338  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83e8f86d8b9ca0fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_generic_zero_matrix","kind":"function","src_hash":"9a501775a10cce0c","in":{"base":"Any"},"out":{"base":"Any","pred":"z == z and z != A and A != z and z.is_ZeroMatrix and MatAdd() == z and MatAdd(z, A) == MatAdd(A)"},"spec":{"lhs":"test_generic_zero_matrix()","rhs":"test_generic_zero_matrix produces the expected output","over":{"base":"Any"},"name":"test_generic_zero_matrix_correct"},"guarantee":"test_generic_zero_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_generic_zero_matrix_correct","statement":"Path(test_generic_zero_matrix(x), test_generic_zero_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67d7debb7fd16338"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_generic_zero_matrix","kind":"function","src_hash":"9a501775a10cce0c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: z == z and z != A and A != z and z.is_ZeroMatrix and MatAdd() == z and MatAdd(z, A) == MatAdd(A)"},"spec":{"lhs":"test_generic_zero_matrix()","rhs":"z == z and z != A and A != z and z.is_ZeroMatrix and MatAdd() == z and MatAdd(z, A) == MatAdd(A)","over":{"base":"Any"},"name":"test_generic_zero_matrix_correct"},"guarantee":"z == z; z != A; A != z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_generic_zero_matrix_correct","statement":"Path(test_generic_zero_matrix(x), z == z; z != A; A != z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e8f86d8b9ca0fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["z == z","z != A","A != z","z.is_ZeroMatrix","MatAdd() == z","MatAdd(z, A) == MatAdd(A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_generic_zero_matrix():
     z = GenericZeroMatrix()
     n = symbols('n', integer=True)
@@ -94,16 +110,24 @@ def test_generic_zero_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_identity_matrix_creation(), test_identity_matrix_creation produces the expected output) over Any ║
+# ║ Path(test_identity_matrix_creation(), Identity(2) and Identity(0) and Identity(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_identity_matrix_creation : Any → {Any | Identity...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Identity(2)                                    ║
+# ║   ensures:  Identity(0)                                    ║
+# ║   ensures:  Identity(n)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_identity_matrix_creation : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcebee8a8db6b11b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4383b3befed19776  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_identity_matrix_creation","kind":"function","src_hash":"bc197dc4e6eb0309","in":{"base":"Any"},"out":{"base":"Any","pred":"Identity(2) and Identity(0) and Identity(n)"},"spec":{"lhs":"test_identity_matrix_creation()","rhs":"test_identity_matrix_creation produces the expected output","over":{"base":"Any"},"name":"test_identity_matrix_creation_correct"},"guarantee":"test_identity_matrix_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_identity_matrix_creation_correct","statement":"Path(test_identity_matrix_creation(x), test_identity_matrix_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcebee8a8db6b11b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_identity_matrix_creation","kind":"function","src_hash":"bc197dc4e6eb0309","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Identity(2) and Identity(0) and Identity(n)"},"spec":{"lhs":"test_identity_matrix_creation()","rhs":"Identity(2) and Identity(0) and Identity(n)","over":{"base":"Any"},"name":"test_identity_matrix_creation_correct"},"guarantee":"Identity(2); Identity(0); Identity(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_identity_matrix_creation_correct","statement":"Path(test_identity_matrix_creation(x), Identity(2); Identity(0); Identity(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4383b3befed19776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Identity(2)","Identity(0)","Identity(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_identity_matrix_creation():
     assert Identity(2)
     assert Identity(0)
@@ -120,16 +144,24 @@ def test_identity_matrix_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generic_identity(), test_generic_identity produces the expected output) over Any ║
+# ║ Path(test_generic_identity(), I == I and I != A and A != I and I.is_Identity and I ** (-1) == I and MatMul() == I and MatMul(I, A) == MatMul(A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generic_identity : Any → {Any | I == I and I != ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I == I                                         ║
+# ║   ensures:  I != A                                         ║
+# ║   ensures:  A != I                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generic_identity : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 233af688523f421b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39336e023819c636  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_generic_identity","kind":"function","src_hash":"8836dee895623c4b","in":{"base":"Any"},"out":{"base":"Any","pred":"I == I and I != A and A != I and I.is_Identity and I ** (-1) == I and MatMul() == I and MatMul(I, A) == MatMul(A)"},"spec":{"lhs":"test_generic_identity()","rhs":"test_generic_identity produces the expected output","over":{"base":"Any"},"name":"test_generic_identity_correct"},"guarantee":"test_generic_identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_generic_identity_correct","statement":"Path(test_generic_identity(x), test_generic_identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233af688523f421b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_generic_identity","kind":"function","src_hash":"8836dee895623c4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I == I and I != A and A != I and I.is_Identity and I ** (-1) == I and MatMul() == I and MatMul(I, A) == MatMul(A)"},"spec":{"lhs":"test_generic_identity()","rhs":"I == I and I != A and A != I and I.is_Identity and I ** (-1) == I and MatMul() == I and MatMul(I, A) == MatMul(A)","over":{"base":"Any"},"name":"test_generic_identity_correct"},"guarantee":"I == I; I != A; A != I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_generic_identity_correct","statement":"Path(test_generic_identity(x), I == I; I != A; A != I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39336e023819c636","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I == I","I != A","A != I","I.is_Identity","I ** (-1) == I","MatMul() == I","MatMul(I, A) == MatMul(A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_generic_identity():
     I = GenericIdentity()
     n = symbols('n', integer=True)
@@ -153,16 +185,24 @@ def test_generic_identity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_one_matrix_creation(), test_one_matrix_creation produces the expected output) over Any ║
+# ║ Path(test_one_matrix_creation(), OneMatrix(2, 2) and OneMatrix(0, 0) and Eq(OneMatrix(1, 1), Identity(1)) and OneMatrix(n, n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_one_matrix_creation : Any → {Any | OneMatrix(2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  OneMatrix(2, 2)                                ║
+# ║   ensures:  OneMatrix(0, 0)                                ║
+# ║   ensures:  Eq(OneMatrix(1, 1), Identity(1))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_one_matrix_creation : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72bff24c2880240e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 382ac0c90f74384d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_one_matrix_creation","kind":"function","src_hash":"8e42ec0ec4b67f81","in":{"base":"Any"},"out":{"base":"Any","pred":"OneMatrix(2, 2) and OneMatrix(0, 0) and Eq(OneMatrix(1, 1), Identity(1)) and OneMatrix(n, n)"},"spec":{"lhs":"test_one_matrix_creation()","rhs":"test_one_matrix_creation produces the expected output","over":{"base":"Any"},"name":"test_one_matrix_creation_correct"},"guarantee":"test_one_matrix_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_one_matrix_creation_correct","statement":"Path(test_one_matrix_creation(x), test_one_matrix_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72bff24c2880240e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_one_matrix_creation","kind":"function","src_hash":"8e42ec0ec4b67f81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: OneMatrix(2, 2) and OneMatrix(0, 0) and Eq(OneMatrix(1, 1), Identity(1)) and OneMatrix(n, n)"},"spec":{"lhs":"test_one_matrix_creation()","rhs":"OneMatrix(2, 2) and OneMatrix(0, 0) and Eq(OneMatrix(1, 1), Identity(1)) and OneMatrix(n, n)","over":{"base":"Any"},"name":"test_one_matrix_creation_correct"},"guarantee":"OneMatrix(2, 2); OneMatrix(0, 0); Eq(OneMatrix(1, 1), Identity(1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_one_matrix_creation_correct","statement":"Path(test_one_matrix_creation(x), OneMatrix(2, 2); OneMatrix(0, 0); Eq(OneMatrix(1, 1), Identity(1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"382ac0c90f74384d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["OneMatrix(2, 2)","OneMatrix(0, 0)","Eq(OneMatrix(1, 1), Identity(1))","OneMatrix(n, n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_one_matrix_creation():
     assert OneMatrix(2, 2)
     assert OneMatrix(0, 0)
@@ -183,16 +223,24 @@ def test_one_matrix_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ZeroMatrix(), test_ZeroMatrix produces the expected output) over Any ║
+# ║ Path(test_ZeroMatrix(), A + Z == A and A * Z.T == ZeroMatrix(n, n) and Z * A.T == ZeroMatrix(n, n) and A - A == ZeroMatrix(*A.shape) and Z and Z.transpose() == ZeroMatrix(m, n) and Z.conjugate() == Z and Z.adjoint() == ZeroMatrix(m, n) and re(Z) == Z and im(Z) == Z and ZeroMatrix(n, n) ** 0 == Identity(n) and ZeroMatrix(3, 3).as_explicit() == ImmutableDenseMatrix.zeros(3, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ZeroMatrix : Any → {Any | A + Z == A and A * Z.T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A + Z == A                                     ║
+# ║   ensures:  A * Z.T == ZeroMatrix(n, n)                    ║
+# ║   ensures:  Z * A.T == ZeroMatrix(n, n)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ZeroMatrix : Any → {Any | result satisfies: A + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e299feb22df0717b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fd82ed112ba04e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix","kind":"function","src_hash":"4f1ff49e5bef6bd2","in":{"base":"Any"},"out":{"base":"Any","pred":"A + Z == A and A * Z.T == ZeroMatrix(n, n) and Z * A.T == ZeroMatrix(n, n) and A - A == ZeroMatrix(*A.shape) and Z and Z.transpose() == ZeroMatrix(m, n) and Z.conjugate() == Z and Z.adjoint() == ZeroMatrix(m, n) and re(Z) == Z and im(Z) == Z and ZeroMatrix(n, n) ** 0 == Identity(n) and ZeroMatrix(3, 3).as_explicit() == ImmutableDenseMatrix.zeros(3, 3)"},"spec":{"lhs":"test_ZeroMatrix()","rhs":"test_ZeroMatrix produces the expected output","over":{"base":"Any"},"name":"test_ZeroMatrix_correct"},"guarantee":"test_ZeroMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_correct","statement":"Path(test_ZeroMatrix(x), test_ZeroMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e299feb22df0717b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix","kind":"function","src_hash":"4f1ff49e5bef6bd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A + Z == A and A * Z.T == ZeroMatrix(n, n) and Z * A.T == ZeroMatrix(n, n) and A - A == ZeroMatrix(*A.shape) and Z and Z.transpose() == ZeroMatrix(m, n) and Z.conjugate() == Z and Z.adjoint() == ZeroMatrix(m, n) and re(Z) == Z and im(Z) == Z and ZeroMatrix(n, n) ** 0 == Identity(n) and ZeroMatrix(3, 3).as_explicit() == ImmutableDenseMatrix.zeros(3, 3)"},"spec":{"lhs":"test_ZeroMatrix()","rhs":"A + Z == A and A * Z.T == ZeroMatrix(n, n) and Z * A.T == ZeroMatrix(n, n) and A - A == ZeroMatrix(*A.shape) and Z and Z.transpose() == ZeroMatrix(m, n) and Z.conjugate() == Z and Z.adjoint() == ZeroMatrix(m, n) and re(Z) == Z and im(Z) == Z and ZeroMatrix(n, n) ** 0 == Identity(n) and ZeroMatrix(3, 3).as_explicit() == ImmutableDenseMatrix.zeros(3, 3)","over":{"base":"Any"},"name":"test_ZeroMatrix_correct"},"guarantee":"A + Z == A; A * Z.T == ZeroMatrix(n, n); Z * A.T == ZeroMatrix(n, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_correct","statement":"Path(test_ZeroMatrix(x), A + Z == A; A * Z.T == ZeroMatrix(n, n); Z * A.T == ZeroMatrix(n, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fd82ed112ba04e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A + Z == A","A * Z.T == ZeroMatrix(n, n)","Z * A.T == ZeroMatrix(n, n)","A - A == ZeroMatrix(*A.shape)","Z","Z.transpose() == ZeroMatrix(m, n)","Z.conjugate() == Z","Z.adjoint() == ZeroMatrix(m, n)","re(Z) == Z","im(Z) == Z","ZeroMatrix(n, n) ** 0 == Identity(n)","ZeroMatrix(3, 3).as_explicit() == ImmutableDenseMatrix.zeros(3, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ZeroMatrix():
     n, m = symbols('n m', integer=True)
     A = MatrixSymbol('A', n, m)
@@ -216,7 +264,12 @@ def test_ZeroMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ZeroMatrix_doit(), test_ZeroMatrix_doit produces the expected output) over {Any | isinstance(Znn.rows, Add) and isinstance(Znn.doit().rows, Mul)} ║
+# ║ Path(test_ZeroMatrix_doit(), isinstance(Znn.rows, Add) and Znn.doit() == ZeroMatrix(2 * n, n) and isinstance(Znn.doit().rows, Mul)) over {Any | isinstance(Znn.rows, Add) and isinstance(Znn.doit().rows, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Znn.rows, Add)                      ║
+# ║   ensures:  Znn.doit() == ZeroMatrix(2 * n, n)             ║
+# ║   ensures:  isinstance(Znn.doit().rows, Mul)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ZeroMatrix_doit : {Any | isinstance(Znn.rows, Ad...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -229,9 +282,12 @@ def test_ZeroMatrix():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cc418fc8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_doit","kind":"function","src_hash":"771e6e1ccf1d1199","in":{"base":"Any","pred":"isinstance(Znn.rows, Add) and isinstance(Znn.doit().rows, Mul)"},"out":{"base":"Any","pred":"isinstance(Znn.rows, Add) and Znn.doit() == ZeroMatrix(2 * n, n) and isinstance(Znn.doit().rows, Mul)"},"spec":{"lhs":"test_ZeroMatrix_doit()","rhs":"test_ZeroMatrix_doit produces the expected output","over":{"base":"Any","pred":"isinstance(Znn.rows, Add) and isinstance(Znn.doit().rows, Mul)"},"name":"test_ZeroMatrix_doit_correct"},"guarantee":"test_ZeroMatrix_doit produces the expected output","fibers":[{"name":"Add","pred":"isinstance(Znn.rows, Add)","path":{"lhs":"test_ZeroMatrix_doit(x)","rhs":"test_ZeroMatrix_doit produces the expected output","over":{"base":"Add","pred":"isinstance(Znn.rows, Add)"},"name":"test_ZeroMatrix_doit_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_doit_Add_correct","statement":"test_ZeroMatrix_doit satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(Znn.doit().rows, Mul)","path":{"lhs":"test_ZeroMatrix_doit(x)","rhs":"test_ZeroMatrix_doit produces the expected output","over":{"base":"Mul","pred":"isinstance(Znn.doit().rows, Mul)"},"name":"test_ZeroMatrix_doit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_doit_Mul_correct","statement":"test_ZeroMatrix_doit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cc418fc80e30fb05"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_doit","kind":"function","src_hash":"771e6e1ccf1d1199","in":{"base":"Any","pred":"isinstance(Znn.rows, Add) and isinstance(Znn.doit().rows, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Znn.rows, Add) and Znn.doit() == ZeroMatrix(2 * n, n) and isinstance(Znn.doit().rows, Mul)"},"spec":{"lhs":"test_ZeroMatrix_doit()","rhs":"isinstance(Znn.rows, Add) and Znn.doit() == ZeroMatrix(2 * n, n) and isinstance(Znn.doit().rows, Mul)","over":{"base":"Any","pred":"isinstance(Znn.rows, Add) and isinstance(Znn.doit().rows, Mul)"},"name":"test_ZeroMatrix_doit_correct"},"guarantee":"isinstance(Znn.rows, Add); Znn.doit() == ZeroMatrix(2 * n, n); isinstance(Znn.doit().rows, Mul)","fibers":[{"name":"Add","pred":"isinstance(Znn.rows, Add)","path":{"lhs":"test_ZeroMatrix_doit(x)","rhs":"isinstance(Znn.rows, Add); Znn.doit() == ZeroMatrix(2 * n, n); isinstance(Znn.doit().rows, Mul)","over":{"base":"Add","pred":"isinstance(Znn.rows, Add)"},"name":"test_ZeroMatrix_doit_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_doit_Add_correct","statement":"test_ZeroMatrix_doit satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(Znn.doit().rows, Mul)","path":{"lhs":"test_ZeroMatrix_doit(x)","rhs":"isinstance(Znn.rows, Add); Znn.doit() == ZeroMatrix(2 * n, n); isinstance(Znn.doit().rows, Mul)","over":{"base":"Mul","pred":"isinstance(Znn.doit().rows, Mul)"},"name":"test_ZeroMatrix_doit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_ZeroMatrix_doit_Mul_correct","statement":"test_ZeroMatrix_doit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cc418fc80e30fb05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Znn.rows, Add)","Znn.doit() == ZeroMatrix(2 * n, n)","isinstance(Znn.doit().rows, Mul)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_ZeroMatrix_doit():
     n = symbols('n', integer=True)
     Znn = ZeroMatrix(Add(n, n, evaluate=False), n)
@@ -241,7 +297,12 @@ def test_ZeroMatrix_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_OneMatrix(), test_OneMatrix produces the expected output) over {Any | isinstance(A + U, Add)} ║
+# ║ Path(test_OneMatrix(), U.shape == (n, m) and isinstance(A + U, Add) and U.transpose() == OneMatrix(m, n) and U.conjugate() == U and U.adjoint() == OneMatrix(m, n) and re(U) == U and im(U) == ZeroMatrix(n, m) and OneMatrix(n, n) ** 0 == Identity(n) and U[1, 2] == 1 and U.as_explicit() == ImmutableDenseMatrix.ones(2, 3)) over {Any | isinstance(A + U, Add)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  U.shape == (n, m)                              ║
+# ║   ensures:  isinstance(A + U, Add)                         ║
+# ║   ensures:  U.transpose() == OneMatrix(m, n)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_OneMatrix : {Any | isinstance(A + U, Add)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -253,9 +314,12 @@ def test_ZeroMatrix_doit():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e30ac69e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_OneMatrix","kind":"function","src_hash":"2d26133e32fa3a54","in":{"base":"Any","pred":"isinstance(A + U, Add)"},"out":{"base":"Any","pred":"U.shape == (n, m) and isinstance(A + U, Add) and U.transpose() == OneMatrix(m, n) and U.conjugate() == U and U.adjoint() == OneMatrix(m, n) and re(U) == U and im(U) == ZeroMatrix(n, m) and OneMatrix(n, n) ** 0 == Identity(n) and U[1, 2] == 1 and U.as_explicit() == ImmutableDenseMatrix.ones(2, 3)"},"spec":{"lhs":"test_OneMatrix()","rhs":"test_OneMatrix produces the expected output","over":{"base":"Any","pred":"isinstance(A + U, Add)"},"name":"test_OneMatrix_correct"},"guarantee":"test_OneMatrix produces the expected output","fibers":[{"name":"Add","pred":"isinstance(A + U, Add)","path":{"lhs":"test_OneMatrix(x)","rhs":"test_OneMatrix produces the expected output","over":{"base":"Add","pred":"isinstance(A + U, Add)"},"name":"test_OneMatrix_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_Add_correct","statement":"test_OneMatrix satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e30ac69e32c886e9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_OneMatrix","kind":"function","src_hash":"2d26133e32fa3a54","in":{"base":"Any","pred":"isinstance(A + U, Add)"},"out":{"base":"Any","pred":"result satisfies: U.shape == (n, m) and isinstance(A + U, Add) and U.transpose() == OneMatrix(m, n) and U.conjugate() == U and U.adjoint() == OneMatrix(m, n) and re(U) == U and im(U) == ZeroMatrix(n, m) and OneMatrix(n, n) ** 0 == Identity(n) and U[1, 2] == 1 and U.as_explicit() == ImmutableDenseMatrix.ones(2, 3)"},"spec":{"lhs":"test_OneMatrix()","rhs":"U.shape == (n, m) and isinstance(A + U, Add) and U.transpose() == OneMatrix(m, n) and U.conjugate() == U and U.adjoint() == OneMatrix(m, n) and re(U) == U and im(U) == ZeroMatrix(n, m) and OneMatrix(n, n) ** 0 == Identity(n) and U[1, 2] == 1 and U.as_explicit() == ImmutableDenseMatrix.ones(2, 3)","over":{"base":"Any","pred":"isinstance(A + U, Add)"},"name":"test_OneMatrix_correct"},"guarantee":"U.shape == (n, m); isinstance(A + U, Add); U.transpose() == OneMatrix(m, n)","fibers":[{"name":"Add","pred":"isinstance(A + U, Add)","path":{"lhs":"test_OneMatrix(x)","rhs":"U.shape == (n, m); isinstance(A + U, Add); U.transpose() == OneMatrix(m, n)","over":{"base":"Add","pred":"isinstance(A + U, Add)"},"name":"test_OneMatrix_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_Add_correct","statement":"test_OneMatrix satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e30ac69e32c886e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["U.shape == (n, m)","isinstance(A + U, Add)","U.transpose() == OneMatrix(m, n)","U.conjugate() == U","U.adjoint() == OneMatrix(m, n)","re(U) == U","im(U) == ZeroMatrix(n, m)","OneMatrix(n, n) ** 0 == Identity(n)","U[1, 2] == 1","U.as_explicit() == ImmutableDenseMatrix.ones(2, 3)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_OneMatrix():
     n, m = symbols('n m', integer=True)
     A = MatrixSymbol('A', n, m)
@@ -279,7 +343,12 @@ def test_OneMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_OneMatrix_doit(), test_OneMatrix_doit produces the expected output) over {Any | isinstance(Unn.rows, Add) and isinstance(Unn.doit().rows, Mul)} ║
+# ║ Path(test_OneMatrix_doit(), isinstance(Unn.rows, Add) and Unn.doit() == OneMatrix(2 * n, n) and isinstance(Unn.doit().rows, Mul)) over {Any | isinstance(Unn.rows, Add) and isinstance(Unn.doit().rows, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Unn.rows, Add)                      ║
+# ║   ensures:  Unn.doit() == OneMatrix(2 * n, n)              ║
+# ║   ensures:  isinstance(Unn.doit().rows, Mul)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_OneMatrix_doit : {Any | isinstance(Unn.rows, Add...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -292,9 +361,12 @@ def test_OneMatrix():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 348261e3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_doit","kind":"function","src_hash":"efa889197ebde10a","in":{"base":"Any","pred":"isinstance(Unn.rows, Add) and isinstance(Unn.doit().rows, Mul)"},"out":{"base":"Any","pred":"isinstance(Unn.rows, Add) and Unn.doit() == OneMatrix(2 * n, n) and isinstance(Unn.doit().rows, Mul)"},"spec":{"lhs":"test_OneMatrix_doit()","rhs":"test_OneMatrix_doit produces the expected output","over":{"base":"Any","pred":"isinstance(Unn.rows, Add) and isinstance(Unn.doit().rows, Mul)"},"name":"test_OneMatrix_doit_correct"},"guarantee":"test_OneMatrix_doit produces the expected output","fibers":[{"name":"Add","pred":"isinstance(Unn.rows, Add)","path":{"lhs":"test_OneMatrix_doit(x)","rhs":"test_OneMatrix_doit produces the expected output","over":{"base":"Add","pred":"isinstance(Unn.rows, Add)"},"name":"test_OneMatrix_doit_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_doit_Add_correct","statement":"test_OneMatrix_doit satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(Unn.doit().rows, Mul)","path":{"lhs":"test_OneMatrix_doit(x)","rhs":"test_OneMatrix_doit produces the expected output","over":{"base":"Mul","pred":"isinstance(Unn.doit().rows, Mul)"},"name":"test_OneMatrix_doit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_doit_Mul_correct","statement":"test_OneMatrix_doit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"348261e3b96f65f5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_doit","kind":"function","src_hash":"efa889197ebde10a","in":{"base":"Any","pred":"isinstance(Unn.rows, Add) and isinstance(Unn.doit().rows, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Unn.rows, Add) and Unn.doit() == OneMatrix(2 * n, n) and isinstance(Unn.doit().rows, Mul)"},"spec":{"lhs":"test_OneMatrix_doit()","rhs":"isinstance(Unn.rows, Add) and Unn.doit() == OneMatrix(2 * n, n) and isinstance(Unn.doit().rows, Mul)","over":{"base":"Any","pred":"isinstance(Unn.rows, Add) and isinstance(Unn.doit().rows, Mul)"},"name":"test_OneMatrix_doit_correct"},"guarantee":"isinstance(Unn.rows, Add); Unn.doit() == OneMatrix(2 * n, n); isinstance(Unn.doit().rows, Mul)","fibers":[{"name":"Add","pred":"isinstance(Unn.rows, Add)","path":{"lhs":"test_OneMatrix_doit(x)","rhs":"isinstance(Unn.rows, Add); Unn.doit() == OneMatrix(2 * n, n); isinstance(Unn.doit().rows, Mul)","over":{"base":"Add","pred":"isinstance(Unn.rows, Add)"},"name":"test_OneMatrix_doit_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_doit_Add_correct","statement":"test_OneMatrix_doit satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(Unn.doit().rows, Mul)","path":{"lhs":"test_OneMatrix_doit(x)","rhs":"isinstance(Unn.rows, Add); Unn.doit() == OneMatrix(2 * n, n); isinstance(Unn.doit().rows, Mul)","over":{"base":"Mul","pred":"isinstance(Unn.doit().rows, Mul)"},"name":"test_OneMatrix_doit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_doit_Mul_correct","statement":"test_OneMatrix_doit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"348261e3b96f65f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Unn.rows, Add)","Unn.doit() == OneMatrix(2 * n, n)","isinstance(Unn.doit().rows, Mul)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":true}}
 def test_OneMatrix_doit():
     n = symbols('n', integer=True)
     Unn = OneMatrix(Add(n, n, evaluate=False), n)
@@ -304,16 +376,24 @@ def test_OneMatrix_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_OneMatrix_mul(), test_OneMatrix_mul produces the expected output) over Any ║
+# ║ Path(test_OneMatrix_mul(), OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m and w * OneMatrix(1, 1) == w and OneMatrix(1, 1) * w.T == w.T) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_OneMatrix_mul : Any → {Any | OneMatrix(n, m) * O...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  OneMatrix(n, m) * OneMatrix(m, k) == OneM...   ║
+# ║   ensures:  w * OneMatrix(1, 1) == w                       ║
+# ║   ensures:  OneMatrix(1, 1) * w.T == w.T                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_OneMatrix_mul : Any → {Any | result satisfies: O...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b382dbd6722e4ec1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 138d312401324ab0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_mul","kind":"function","src_hash":"700a1d290cd7a43c","in":{"base":"Any"},"out":{"base":"Any","pred":"OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m and w * OneMatrix(1, 1) == w and OneMatrix(1, 1) * w.T == w.T"},"spec":{"lhs":"test_OneMatrix_mul()","rhs":"test_OneMatrix_mul produces the expected output","over":{"base":"Any"},"name":"test_OneMatrix_mul_correct"},"guarantee":"test_OneMatrix_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_mul_correct","statement":"Path(test_OneMatrix_mul(x), test_OneMatrix_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b382dbd6722e4ec1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_mul","kind":"function","src_hash":"700a1d290cd7a43c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m and w * OneMatrix(1, 1) == w and OneMatrix(1, 1) * w.T == w.T"},"spec":{"lhs":"test_OneMatrix_mul()","rhs":"OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m and w * OneMatrix(1, 1) == w and OneMatrix(1, 1) * w.T == w.T","over":{"base":"Any"},"name":"test_OneMatrix_mul_correct"},"guarantee":"OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m; w * OneMatrix(1, 1) == w; OneMatrix(1, 1) * w.T == w.T","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_OneMatrix_mul_correct","statement":"Path(test_OneMatrix_mul(x), OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m; w * OneMatrix(1, 1) == w; OneMatrix(1, 1) * w.T == w.T)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"138d312401324ab0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["OneMatrix(n, m) * OneMatrix(m, k) == OneMatrix(n, k) * m","w * OneMatrix(1, 1) == w","OneMatrix(1, 1) * w.T == w.T"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_OneMatrix_mul():
     n, m, k = symbols('n m k', integer=True)
     w = MatrixSymbol('w', n, 1)
@@ -323,16 +403,24 @@ def test_OneMatrix_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Identity(), test_Identity produces the expected output) over Any ║
+# ║ Path(test_Identity(), A * Im == A and In * A == A and In.transpose() == In and In.inverse() == In and In.conjugate() == In and In.adjoint() == In and re(In) == In and im(In) == ZeroMatrix(n, n) and In[i, j] != 0 and Sum(In[i, j], (i, 0, n - 1), (j, 0, n - 1)).subs(n, 3).doit() == 3 and Sum(Sum(In[i, j], (i, 0, n - 1)), (j, 0, n - 1)).subs(n, 3).doit() == 3 and expr.doit() == 1 and expr.doit().dummy_eq(Piecewise((1, (j >= 0) & (j <= n - 2)), (0, True))) and expr.doit().dummy_eq(Piecewise((1, (j >= 1) & (j <= n - 1)), (0, True))) and Identity(3).as_explicit() == ImmutableDenseMatrix.eye(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Identity : Any → {Any | A * Im == A and In * A =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A * Im == A                                    ║
+# ║   ensures:  In * A == A                                    ║
+# ║   ensures:  In.transpose() == In                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Identity : Any → {Any | result satisfies: A * Im...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee82fd0e480d3a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56fa08d29d7b2c8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_Identity","kind":"function","src_hash":"65fa46cc1bbafac9","in":{"base":"Any"},"out":{"base":"Any","pred":"A * Im == A and In * A == A and In.transpose() == In and In.inverse() == In and In.conjugate() == In and In.adjoint() == In and re(In) == In and im(In) == ZeroMatrix(n, n) and In[i, j] != 0 and Sum(In[i, j], (i, 0, n - 1), (j, 0, n - 1)).subs(n, 3).doit() == 3 and Sum(Sum(In[i, j], (i, 0, n - 1)), (j, 0, n - 1)).subs(n, 3).doit() == 3 and expr.doit() == 1 and expr.doit().dummy_eq(Piecewise((1, (j >= 0) & (j <= n - 2)), (0, True))) and expr.doit().dummy_eq(Piecewise((1, (j >= 1) & (j <= n - 1)), (0, True))) and Identity(3).as_explicit() == ImmutableDenseMatrix.eye(3)"},"spec":{"lhs":"test_Identity()","rhs":"test_Identity produces the expected output","over":{"base":"Any"},"name":"test_Identity_correct"},"guarantee":"test_Identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_Identity_correct","statement":"Path(test_Identity(x), test_Identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee82fd0e480d3a1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_Identity","kind":"function","src_hash":"65fa46cc1bbafac9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A * Im == A and In * A == A and In.transpose() == In and In.inverse() == In and In.conjugate() == In and In.adjoint() == In and re(In) == In and im(In) == ZeroMatrix(n, n) and In[i, j] != 0 and Sum(In[i, j], (i, 0, n - 1), (j, 0, n - 1)).subs(n, 3).doit() == 3 and Sum(Sum(In[i, j], (i, 0, n - 1)), (j, 0, n - 1)).subs(n, 3).doit() == 3 and expr.doit() == 1 and expr.doit().dummy_eq(Piecewise((1, (j >= 0) & (j <= n - 2)), (0, True))) and expr.doit().dummy_eq(Piecewise((1, (j >= 1) & (j <= n - 1)), (0, True))) and Identity(3).as_explicit() == ImmutableDenseMatrix.eye(3)"},"spec":{"lhs":"test_Identity()","rhs":"A * Im == A and In * A == A and In.transpose() == In and In.inverse() == In and In.conjugate() == In and In.adjoint() == In and re(In) == In and im(In) == ZeroMatrix(n, n) and In[i, j] != 0 and Sum(In[i, j], (i, 0, n - 1), (j, 0, n - 1)).subs(n, 3).doit() == 3 and Sum(Sum(In[i, j], (i, 0, n - 1)), (j, 0, n - 1)).subs(n, 3).doit() == 3 and expr.doit() == 1 and expr.doit().dummy_eq(Piecewise((1, (j >= 0) & (j <= n - 2)), (0, True))) and expr.doit().dummy_eq(Piecewise((1, (j >= 1) & (j <= n - 1)), (0, True))) and Identity(3).as_explicit() == ImmutableDenseMatrix.eye(3)","over":{"base":"Any"},"name":"test_Identity_correct"},"guarantee":"A * Im == A; In * A == A; In.transpose() == In","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_Identity_correct","statement":"Path(test_Identity(x), A * Im == A; In * A == A; In.transpose() == In)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56fa08d29d7b2c8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A * Im == A","In * A == A","In.transpose() == In","In.inverse() == In","In.conjugate() == In","In.adjoint() == In","re(In) == In","im(In) == ZeroMatrix(n, n)","In[i, j] != 0","Sum(In[i, j], (i, 0, n - 1), (j, 0, n - 1)).subs(n, 3).doit() == 3","Sum(Sum(In[i, j], (i, 0, n - 1)), (j, 0, n - 1)).subs(n, 3).doit() == 3","expr.doit() == 1","expr.doit().dummy_eq(Piecewise((1, (j >= 0) & (j <= n - 2)), (0, True)))","expr.doit().dummy_eq(Piecewise((1, (j >= 1) & (j <= n - 1)), (0, True)))","Identity(3).as_explicit() == ImmutableDenseMatrix.eye(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Identity():
     n, m = symbols('n m', integer=True)
     A = MatrixSymbol('A', n, m)
@@ -376,7 +464,12 @@ def test_Identity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Identity_doit(), test_Identity_doit produces the expected output) over {Any | isinstance(Inn.rows, Add) and isinstance(Inn.doit().rows, Mul)} ║
+# ║ Path(test_Identity_doit(), isinstance(Inn.rows, Add) and Inn.doit() == Identity(2 * n) and isinstance(Inn.doit().rows, Mul)) over {Any | isinstance(Inn.rows, Add) and isinstance(Inn.doit().rows, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Inn.rows, Add)                      ║
+# ║   ensures:  Inn.doit() == Identity(2 * n)                  ║
+# ║   ensures:  isinstance(Inn.doit().rows, Mul)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Identity_doit : {Any | isinstance(Inn.rows, Add)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -389,9 +482,12 @@ def test_Identity():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 14560f02...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_Identity_doit","kind":"function","src_hash":"3bb7de14501ae1e2","in":{"base":"Any","pred":"isinstance(Inn.rows, Add) and isinstance(Inn.doit().rows, Mul)"},"out":{"base":"Any","pred":"isinstance(Inn.rows, Add) and Inn.doit() == Identity(2 * n) and isinstance(Inn.doit().rows, Mul)"},"spec":{"lhs":"test_Identity_doit()","rhs":"test_Identity_doit produces the expected output","over":{"base":"Any","pred":"isinstance(Inn.rows, Add) and isinstance(Inn.doit().rows, Mul)"},"name":"test_Identity_doit_correct"},"guarantee":"test_Identity_doit produces the expected output","fibers":[{"name":"Add","pred":"isinstance(Inn.rows, Add)","path":{"lhs":"test_Identity_doit(x)","rhs":"test_Identity_doit produces the expected output","over":{"base":"Add","pred":"isinstance(Inn.rows, Add)"},"name":"test_Identity_doit_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_Identity_doit_Add_correct","statement":"test_Identity_doit satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(Inn.doit().rows, Mul)","path":{"lhs":"test_Identity_doit(x)","rhs":"test_Identity_doit produces the expected output","over":{"base":"Mul","pred":"isinstance(Inn.doit().rows, Mul)"},"name":"test_Identity_doit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_Identity_doit_Mul_correct","statement":"test_Identity_doit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"14560f021fcb4a05"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_special.test_Identity_doit","kind":"function","src_hash":"3bb7de14501ae1e2","in":{"base":"Any","pred":"isinstance(Inn.rows, Add) and isinstance(Inn.doit().rows, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Inn.rows, Add) and Inn.doit() == Identity(2 * n) and isinstance(Inn.doit().rows, Mul)"},"spec":{"lhs":"test_Identity_doit()","rhs":"isinstance(Inn.rows, Add) and Inn.doit() == Identity(2 * n) and isinstance(Inn.doit().rows, Mul)","over":{"base":"Any","pred":"isinstance(Inn.rows, Add) and isinstance(Inn.doit().rows, Mul)"},"name":"test_Identity_doit_correct"},"guarantee":"isinstance(Inn.rows, Add); Inn.doit() == Identity(2 * n); isinstance(Inn.doit().rows, Mul)","fibers":[{"name":"Add","pred":"isinstance(Inn.rows, Add)","path":{"lhs":"test_Identity_doit(x)","rhs":"isinstance(Inn.rows, Add); Inn.doit() == Identity(2 * n); isinstance(Inn.doit().rows, Mul)","over":{"base":"Add","pred":"isinstance(Inn.rows, Add)"},"name":"test_Identity_doit_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_Identity_doit_Add_correct","statement":"test_Identity_doit satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(Inn.doit().rows, Mul)","path":{"lhs":"test_Identity_doit(x)","rhs":"isinstance(Inn.rows, Add); Inn.doit() == Identity(2 * n); isinstance(Inn.doit().rows, Mul)","over":{"base":"Mul","pred":"isinstance(Inn.doit().rows, Mul)"},"name":"test_Identity_doit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_special.test_Identity_doit_Mul_correct","statement":"test_Identity_doit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"14560f021fcb4a05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Inn.rows, Add)","Inn.doit() == Identity(2 * n)","isinstance(Inn.doit().rows, Mul)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_Identity_doit():
     n = symbols('n', integer=True)
     Inn = Identity(Add(n, n, evaluate=False))

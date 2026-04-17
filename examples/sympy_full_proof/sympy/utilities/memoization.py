@@ -19,16 +19,22 @@ from functools import wraps
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(recurrence_memo(ini), memo decorator for sequences defined by recurrence) over Any ║
+# ║ Path(recurrence_memo(initial), <unspecified:recurrence_memo>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ recurrence_memo : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25b224dfee988707  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.memoization.recurrence_memo","kind":"function","src_hash":"fbdaed51c2a08787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recurrence_memo(ini)","rhs":"memo decorator for sequences defined by recurrence","over":{"base":"Any"},"name":"recurrence_memo_correct"},"guarantee":"memo decorator for sequences defined by recurrence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.memoization.recurrence_memo_correct","statement":"Path(recurrence_memo(x), memo decorator for sequences defined by recurrence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25b224dfee988707"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.memoization.recurrence_memo","kind":"function","src_hash":"fbdaed51c2a08787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recurrence_memo(initial)","rhs":"<unspecified:recurrence_memo>","over":{"base":"Any"},"name":"recurrence_memo_correct"},"guarantee":"memo decorator for sequences defined by recurrence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.memoization.recurrence_memo_correct","statement":"Path(recurrence_memo(x), memo decorator for sequences defined by recurrence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25b224dfee988707","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def recurrence_memo(initial):
     """
     Memo decorator for sequences defined by recurrence
@@ -68,16 +74,22 @@ def recurrence_memo(initial):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assoc_recurrence_memo(bas), memo decorator for associated sequences defined by recurrence starting from base) over Any ║
+# ║ Path(assoc_recurrence_memo(base_seq), <unspecified:assoc_recurrence_memo>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assoc_recurrence_memo : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b9901bde9362a8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.memoization.assoc_recurrence_memo","kind":"function","src_hash":"70e45375659e4f24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assoc_recurrence_memo(bas)","rhs":"memo decorator for associated sequences defined by recurrence starting from base","over":{"base":"Any"},"name":"assoc_recurrence_memo_correct"},"guarantee":"memo decorator for associated sequences defined by recurrence starting from base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.memoization.assoc_recurrence_memo_correct","statement":"Path(assoc_recurrence_memo(x), memo decorator for associated sequences defined by recurrence starting from base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9901bde9362a8e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.memoization.assoc_recurrence_memo","kind":"function","src_hash":"70e45375659e4f24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assoc_recurrence_memo(base_seq)","rhs":"<unspecified:assoc_recurrence_memo>","over":{"base":"Any"},"name":"assoc_recurrence_memo_correct"},"guarantee":"memo decorator for associated sequences defined by recurrence starting from base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.memoization.assoc_recurrence_memo_correct","statement":"Path(assoc_recurrence_memo(x), memo decorator for associated sequences defined by recurrence starting from base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9901bde9362a8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def assoc_recurrence_memo(base_seq):
     """
     Memo decorator for associated sequences defined by recurrence starting from base

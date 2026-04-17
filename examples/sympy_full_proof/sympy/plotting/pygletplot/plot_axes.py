@@ -28,27 +28,40 @@ from sympy.utilities.iterables import is_sequence
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotAxes instance) preserved by PlotAxes(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotAxes : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotObject)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotAxes : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aecd9f0ffd5fe91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes","kind":"class","src_hash":"1d487e7e50ee451c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotAxes(*args)","rhs":"correctly constructs a PlotAxes instance","over":{"base":"Any"},"name":"PlotAxes_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotAxes instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_render_object') and hasattr(self, '_render_object') and hasattr(self, '_render_object') and hasattr(self, '_stride') and hasattr(self, '_stride') and hasattr(self, '_tick_length') and hasattr(self, '_origin') and hasattr(self, 'visible')","kind":"class","induction":"structural on _render_object, _render_object, _render_object, _stride"}],"methods_preserving":["__init__","reset_resources","reset_bounding_box","draw","adjust_bounds","_recalculate_axis_ticks","toggle_visible","toggle_colors"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aecd9f0ffd5fe91"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes","kind":"class","src_hash":"1d487e7e50ee451c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotObject)"},"spec":{"lhs":"PlotAxes(*args)","rhs":"correctly constructs a PlotAxes instance","over":{"base":"Any"},"name":"PlotAxes_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, PlotObject); preserves 11 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_render_object') and hasattr(self, '_render_object') and hasattr(self, '_render_object') and hasattr(self, '_stride') and hasattr(self, '_stride') and hasattr(self, '_tick_length') and hasattr(self, '_origin') and hasattr(self, 'visible')","kind":"class","induction":"structural on _render_object, _render_object, _render_object, _stride"}],"methods_preserving":["__init__","reset_resources","reset_bounding_box","draw","adjust_bounds","_recalculate_axis_ticks","toggle_visible","toggle_colors"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aecd9f0ffd5fe91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotObject)"],"invariants":["hasattr(self, '_tick_length')","hasattr(self, '_origin')","hasattr(self, 'visible')","hasattr(self, '_overlay')","hasattr(self, '_colored')","hasattr(self, '_label_axes')","hasattr(self, '_label_ticks')","hasattr(self, 'font_face')","hasattr(self, 'font_size')","hasattr(self, '_render_object')","hasattr(self, '_stride')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotAxes not found in source"]}}
 class PlotAxes(PlotObject):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, style, none), <unspecified:__init__>) over {Any | hasattr(style, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(style, 'lower')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(style, 'lower')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 680a23fcc31b4f67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.__init__","kind":"method","src_hash":"e585775091e08fa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"680a23fcc31b4f67"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.__init__","kind":"method","src_hash":"e585775091e08fa0","in":{"base":"Any","pred":"hasattr(style, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, style, none)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(style, 'lower')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"680a23fcc31b4f67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(style, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.reset_bounding_box","self.reset_resources"],"writes":["self._colored","self._label_axes","self._label_ticks","self._origin","self._overlay","self._render_object","self._stride","self._tick_length","self.font_face","self.font_size","self.visible"],"raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"modifies":["self._colored","self._label_axes","self._label_ticks","self._origin","self._overlay","self._render_object","self._stride","self._tick_length","self.font_face","self.font_size","self.visible"],"old_bindings":{"old_self__colored":"self._colored","old_self__label_axes":"self._label_axes","old_self__label_ticks":"self._label_ticks","old_self__origin":"self._origin","old_self__overlay":"self._overlay","old_self__render_object":"self._render_object","old_self__stride":"self._stride","old_self__tick_length":"self._tick_length","old_self_font_face":"self.font_face","old_self_font_size":"self.font_size","old_self_visible":"self.visible"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args,
             style='', none=None, frame=None, box=None, ordinate=None,
             stride=0.25,
@@ -120,45 +133,63 @@ class PlotAxes(PlotObject):
         self.reset_resources()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reset_resources(), reset_resources produces the expected output) over Any ║
+# ║ Path(reset_resources(), <unspecified:reset_resources>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reset_resources : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae3a957dcc88cf30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_resources","kind":"method","src_hash":"9627fa4314a5df9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset_resources()","rhs":"reset_resources produces the expected output","over":{"base":"Any"},"name":"reset_resources_correct"},"guarantee":"reset_resources produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_resources_correct","statement":"Path(reset_resources(x), reset_resources produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae3a957dcc88cf30"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_resources","kind":"method","src_hash":"9627fa4314a5df9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset_resources()","rhs":"<unspecified:reset_resources>","over":{"base":"Any"},"name":"reset_resources_correct"},"guarantee":"reset_resources produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_resources_correct","statement":"Path(reset_resources(x), reset_resources produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae3a957dcc88cf30","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.label_font"]},"state_contract":{"modifies":["self.label_font"],"old_bindings":{"old_self_label_font":"self.label_font"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reset_resources(self):
         self.label_font = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reset_bounding_box(), reset_bounding_box produces the expected output) over Any ║
+# ║ Path(reset_bounding_box(), <unspecified:reset_bounding_box>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reset_bounding_box : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d08de2f82b2194d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_bounding_box","kind":"method","src_hash":"b4f36c35ea20a0c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset_bounding_box()","rhs":"reset_bounding_box produces the expected output","over":{"base":"Any"},"name":"reset_bounding_box_correct"},"guarantee":"reset_bounding_box produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_bounding_box_correct","statement":"Path(reset_bounding_box(x), reset_bounding_box produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d08de2f82b2194d7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_bounding_box","kind":"method","src_hash":"b4f36c35ea20a0c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset_bounding_box()","rhs":"<unspecified:reset_bounding_box>","over":{"base":"Any"},"name":"reset_bounding_box_correct"},"guarantee":"reset_bounding_box produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.reset_bounding_box_correct","statement":"Path(reset_bounding_box(x), reset_bounding_box produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d08de2f82b2194d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._axis_ticks","self._bounding_box"]},"state_contract":{"modifies":["self._axis_ticks","self._bounding_box"],"old_bindings":{"old_self__axis_ticks":"self._axis_ticks","old_self__bounding_box":"self._bounding_box"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reset_bounding_box(self):
         self._bounding_box = [[None, None], [None, None], [None, None]]
         self._axis_ticks = [[], [], []]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), draw produces the expected output) over Any   ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6350d40b5978a64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.draw","kind":"method","src_hash":"daade4acce682399","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"draw produces the expected output","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6350d40b5978a64"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.draw","kind":"method","src_hash":"daade4acce682399","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6350d40b5978a64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._overlay","self._render_object"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         if self._render_object:
             pgl.glPushAttrib(pgl.GL_ENABLE_BIT | pgl.GL_POLYGON_BIT | pgl.GL_DEPTH_BUFFER_BIT)
@@ -168,16 +199,22 @@ class PlotAxes(PlotObject):
             pgl.glPopAttrib()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(adjust_bounds(chi), adjust_bounds produces the expected output) over Any ║
+# ║ Path(adjust_bounds(child_bounds), <unspecified:adjust_bounds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ adjust_bounds : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1016345e69986cc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.adjust_bounds","kind":"method","src_hash":"441b2144cb9b0aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjust_bounds(chi)","rhs":"adjust_bounds produces the expected output","over":{"base":"Any"},"name":"adjust_bounds_correct"},"guarantee":"adjust_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.adjust_bounds_correct","statement":"Path(adjust_bounds(x), adjust_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1016345e69986cc8"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.adjust_bounds","kind":"method","src_hash":"441b2144cb9b0aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjust_bounds(child_bounds)","rhs":"<unspecified:adjust_bounds>","over":{"base":"Any"},"name":"adjust_bounds_correct"},"guarantee":"adjust_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.adjust_bounds_correct","statement":"Path(adjust_bounds(x), adjust_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1016345e69986cc8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._bounding_box","self._recalculate_axis_ticks"],"writes":["self._bounding_box"]},"state_contract":{"modifies":["self._bounding_box"],"old_bindings":{"old_self__bounding_box":"self._bounding_box"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def adjust_bounds(self, child_bounds):
         b = self._bounding_box
         c = child_bounds
@@ -190,16 +227,22 @@ class PlotAxes(PlotObject):
             self._recalculate_axis_ticks(i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_recalculate_axis_ticks(axi), internal helper behaves correctly) over Any ║
+# ║ Path(_recalculate_axis_ticks(axis), <unspecified:_recalculate_axis_ticks>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _recalculate_axis_ticks : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3895dbbedcba7678  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes._recalculate_axis_ticks","kind":"method","src_hash":"1811f93e784fcfd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_recalculate_axis_ticks(axi)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_recalculate_axis_ticks_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes._recalculate_axis_ticks_correct","statement":"Path(_recalculate_axis_ticks(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3895dbbedcba7678"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes._recalculate_axis_ticks","kind":"method","src_hash":"1811f93e784fcfd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_recalculate_axis_ticks(axis)","rhs":"<unspecified:_recalculate_axis_ticks>","over":{"base":"Any"},"name":"_recalculate_axis_ticks_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes._recalculate_axis_ticks_correct","statement":"Path(_recalculate_axis_ticks(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3895dbbedcba7678","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axis_ticks","self._bounding_box","self._stride"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _recalculate_axis_ticks(self, axis):
         b = self._bounding_box
         if b[axis][0] is None or b[axis][1] is None:
@@ -209,30 +252,42 @@ class PlotAxes(PlotObject):
                                                    self._stride[axis])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(toggle_visible(), toggle_visible produces the expected output) over Any ║
+# ║ Path(toggle_visible(), <unspecified:toggle_visible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ toggle_visible : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eccfb33a80a3e966  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_visible","kind":"method","src_hash":"4e6c829b0bfa1c88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"toggle_visible()","rhs":"toggle_visible produces the expected output","over":{"base":"Any"},"name":"toggle_visible_correct"},"guarantee":"toggle_visible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_visible_correct","statement":"Path(toggle_visible(x), toggle_visible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eccfb33a80a3e966"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_visible","kind":"method","src_hash":"4e6c829b0bfa1c88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"toggle_visible()","rhs":"<unspecified:toggle_visible>","over":{"base":"Any"},"name":"toggle_visible_correct"},"guarantee":"toggle_visible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_visible_correct","statement":"Path(toggle_visible(x), toggle_visible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eccfb33a80a3e966","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.visible"],"writes":["self.visible"]},"state_contract":{"modifies":["self.visible"],"old_bindings":{"old_self_visible":"self.visible"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def toggle_visible(self):
         self.visible = not self.visible
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(toggle_colors(), toggle_colors produces the expected output) over Any ║
+# ║ Path(toggle_colors(), <unspecified:toggle_colors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ toggle_colors : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c76dd79cca915de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_colors","kind":"method","src_hash":"109f674dcd2ebd10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"toggle_colors()","rhs":"toggle_colors produces the expected output","over":{"base":"Any"},"name":"toggle_colors_correct"},"guarantee":"toggle_colors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_colors_correct","statement":"Path(toggle_colors(x), toggle_colors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c76dd79cca915de"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_colors","kind":"method","src_hash":"109f674dcd2ebd10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"toggle_colors()","rhs":"<unspecified:toggle_colors>","over":{"base":"Any"},"name":"toggle_colors_correct"},"guarantee":"toggle_colors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxes.toggle_colors_correct","statement":"Path(toggle_colors(x), toggle_colors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c76dd79cca915de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._colored"],"writes":["self._colored"]},"state_contract":{"modifies":["self._colored"],"old_bindings":{"old_self__colored":"self._colored"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def toggle_colors(self):
         self._colored = not self._colored
 
@@ -240,41 +295,59 @@ class PlotAxes(PlotObject):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotAxesBase instance) preserved by PlotAxesBase(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotAxesBase : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotObject)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotAxesBase : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c95b120f1f7117e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase","kind":"class","src_hash":"63516e0cc0b98db9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotAxesBase(*args)","rhs":"correctly constructs a PlotAxesBase instance","over":{"base":"Any"},"name":"PlotAxesBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotAxesBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_p')","kind":"class","induction":"structural on _p"}],"methods_preserving":["__init__","draw","draw_background","draw_axis","draw_text","draw_line"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c95b120f1f7117e2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase","kind":"class","src_hash":"63516e0cc0b98db9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotObject)"},"spec":{"lhs":"PlotAxesBase(*args)","rhs":"correctly constructs a PlotAxesBase instance","over":{"base":"Any"},"name":"PlotAxesBase_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, PlotObject); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_p')","kind":"class","induction":"structural on _p"}],"methods_preserving":["__init__","draw","draw_background","draw_axis","draw_text","draw_line"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c95b120f1f7117e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotObject)"],"invariants":["hasattr(self, '_p')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotAxesBase not found in source"]}}
 class PlotAxesBase(PlotObject):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(par), initializes the instance correctly) over Any ║
+# ║ Path(__init__(parent_axes), self._p == parent_axes) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._p == parent_axes                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._p == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 883499864360864f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.__init__","kind":"method","src_hash":"77f485abb73603b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(par)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"883499864360864f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.__init__","kind":"method","src_hash":"77f485abb73603b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._p == parent_axes"},"spec":{"lhs":"__init__(parent_axes)","rhs":"self._p == parent_axes","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._p == parent_axes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"883499864360864f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._p == parent_axes"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, parent_axes):
         self._p = parent_axes
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), draw produces the expected output) over Any   ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12082c7f652d25be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw","kind":"method","src_hash":"7280ec8918339093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"draw produces the expected output","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12082c7f652d25be"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw","kind":"method","src_hash":"7280ec8918339093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12082c7f652d25be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._p","self.draw_axis","self.draw_background"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         color = [([0.2, 0.1, 0.3], [0.2, 0.1, 0.3], [0.2, 0.1, 0.3]),
                  ([0.9, 0.3, 0.5], [0.5, 1.0, 0.5], [0.3, 0.3, 0.9])][self._p._colored]
@@ -284,44 +357,62 @@ class PlotAxesBase(PlotObject):
         self.draw_axis(0, color[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_background(col), draw_background produces the expected output) over Any ║
+# ║ Path(draw_background(color), <unspecified:draw_background>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_background : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aad1d8d824ba2a16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_background","kind":"method","src_hash":"0af18011165e3716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_background(col)","rhs":"draw_background produces the expected output","over":{"base":"Any"},"name":"draw_background_correct"},"guarantee":"draw_background produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_background_correct","statement":"Path(draw_background(x), draw_background produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad1d8d824ba2a16"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_background","kind":"method","src_hash":"0af18011165e3716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_background(color)","rhs":"<unspecified:draw_background>","over":{"base":"Any"},"name":"draw_background_correct"},"guarantee":"draw_background produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_background_correct","statement":"Path(draw_background(x), draw_background produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad1d8d824ba2a16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_background(self, color):
         pass  # optional
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_axis(axi), draw_axis produces the expected output) over Any ║
+# ║ Path(draw_axis(axis, color), <unspecified:draw_axis>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_axis : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0638b73b3cc3a37           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_axis","kind":"method","src_hash":"474055cb8686bbfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis(axi)","rhs":"draw_axis produces the expected output","over":{"base":"Any"},"name":"draw_axis_correct"},"guarantee":"draw_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0638b73b3cc3a37"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_axis","kind":"method","src_hash":"474055cb8686bbfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis(axis, color)","rhs":"<unspecified:draw_axis>","over":{"base":"Any"},"name":"draw_axis_correct"},"guarantee":"draw_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0638b73b3cc3a37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_axis(self, axis, color):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_text(tex), draw_text produces the expected output) over Any ║
+# ║ Path(draw_text(text, position, color), <unspecified:draw_text>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_text : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6444eb668865640d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_text","kind":"method","src_hash":"e0df7872de9370aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_text(tex)","rhs":"draw_text produces the expected output","over":{"base":"Any"},"name":"draw_text_correct"},"guarantee":"draw_text produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_text_correct","statement":"Path(draw_text(x), draw_text produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6444eb668865640d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_text","kind":"method","src_hash":"e0df7872de9370aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_text(text, position, color)","rhs":"<unspecified:draw_text>","over":{"base":"Any"},"name":"draw_text_correct"},"guarantee":"draw_text produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_text_correct","statement":"Path(draw_text(x), draw_text produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6444eb668865640d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_text(self, text, position, color, scale=1.0):
         if len(color) == 3:
             color = (color[0], color[1], color[2], 1.0)
@@ -346,16 +437,22 @@ class PlotAxesBase(PlotObject):
         pgl.glPopMatrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_line(v, ), draw_line produces the expected output) over Any ║
+# ║ Path(draw_line(v, color), <unspecified:draw_line>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_line : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c4d1e34a5bf39d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_line","kind":"method","src_hash":"ec66ccfb3df0bfc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_line(v, )","rhs":"draw_line produces the expected output","over":{"base":"Any"},"name":"draw_line_correct"},"guarantee":"draw_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_line_correct","statement":"Path(draw_line(x), draw_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4d1e34a5bf39d8"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_line","kind":"method","src_hash":"ec66ccfb3df0bfc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_line(v, color)","rhs":"<unspecified:draw_line>","over":{"base":"Any"},"name":"draw_line_correct"},"guarantee":"draw_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesBase.draw_line_correct","statement":"Path(draw_line(x), draw_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4d1e34a5bf39d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_line(self, v, color):
         o = self._p._origin
         pgl.glBegin(pgl.GL_LINES)
@@ -368,41 +465,59 @@ class PlotAxesBase(PlotObject):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PlotAxesOrdinate(*args), correctly constructs a PlotAxesOrdinate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotAxesOrdinate : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotAxesBase)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotAxesOrdinate : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21e2d5581b18c621  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate","kind":"class","src_hash":"cbb550671372cf3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotAxesOrdinate(*args)","rhs":"correctly constructs a PlotAxesOrdinate instance","over":{"base":"Any"},"name":"PlotAxesOrdinate_class_invariant"},"guarantee":"correctly constructs a PlotAxesOrdinate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21e2d5581b18c621"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate","kind":"class","src_hash":"cbb550671372cf3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotAxesBase)"},"spec":{"lhs":"PlotAxesOrdinate(*args)","rhs":"correctly constructs a PlotAxesOrdinate instance","over":{"base":"Any"},"name":"PlotAxesOrdinate_class_invariant"},"guarantee":"isinstance(self, PlotAxesBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21e2d5581b18c621","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotAxesBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotAxesOrdinate not found in source"]}}
 class PlotAxesOrdinate(PlotAxesBase):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(par), initializes the instance correctly) over Any ║
+# ║ Path(__init__(parent_axes), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a45689845c02f34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.__init__","kind":"method","src_hash":"98cca173da9cd6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(par)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a45689845c02f34"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.__init__","kind":"method","src_hash":"98cca173da9cd6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(parent_axes)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a45689845c02f34","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, parent_axes):
         super().__init__(parent_axes)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_axis(axi), draw_axis produces the expected output) over Any ║
+# ║ Path(draw_axis(axis, color), <unspecified:draw_axis>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_axis : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcdeb58d82c6b9c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis","kind":"method","src_hash":"27e4358ae8c894c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis(axi)","rhs":"draw_axis produces the expected output","over":{"base":"Any"},"name":"draw_axis_correct"},"guarantee":"draw_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_correct","statement":"Path(draw_axis(x), draw_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcdeb58d82c6b9c8"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis","kind":"method","src_hash":"27e4358ae8c894c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis(axis, color)","rhs":"<unspecified:draw_axis>","over":{"base":"Any"},"name":"draw_axis_correct"},"guarantee":"draw_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_correct","statement":"Path(draw_axis(x), draw_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcdeb58d82c6b9c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._p","self.draw_axis_line","self.draw_tick_line"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_axis(self, axis, color):
         ticks = self._p._axis_ticks[axis]
         radius = self._p._tick_length / 2.0
@@ -430,16 +545,22 @@ class PlotAxesOrdinate(PlotAxesBase):
         self.draw_axis_line(axis, color, ticks[0], ticks[-1], labels_visible)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_axis_line(axi), draw_axis_line produces the expected output) over Any ║
+# ║ Path(draw_axis_line(axis, color, a_min), <unspecified:draw_axis_line>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_axis_line : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d507cd97f065ef7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line","kind":"method","src_hash":"be84bdb41d6c0dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis_line(axi)","rhs":"draw_axis_line produces the expected output","over":{"base":"Any"},"name":"draw_axis_line_correct"},"guarantee":"draw_axis_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line_correct","statement":"Path(draw_axis_line(x), draw_axis_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d507cd97f065ef7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line","kind":"method","src_hash":"be84bdb41d6c0dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis_line(axis, color, a_min)","rhs":"<unspecified:draw_axis_line>","over":{"base":"Any"},"name":"draw_axis_line_correct"},"guarantee":"draw_axis_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line_correct","statement":"Path(draw_axis_line(x), draw_axis_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d507cd97f065ef7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.draw_axis_line_labels","self.draw_line"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_axis_line(self, axis, color, a_min, a_max, labels_visible):
         axis_line = [[0, 0, 0], [0, 0, 0]]
         axis_line[0][axis], axis_line[1][axis] = a_min, a_max
@@ -448,16 +569,22 @@ class PlotAxesOrdinate(PlotAxesBase):
             self.draw_axis_line_labels(axis, color, axis_line)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_axis_line_labels(axi), draw_axis_line_labels produces the expected output) over Any ║
+# ║ Path(draw_axis_line_labels(axis, color, axis_line), <unspecified:draw_axis_line_labels>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_axis_line_labels : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c041be31ce4c3282  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line_labels","kind":"method","src_hash":"abd112b8a1ab0f1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis_line_labels(axi)","rhs":"draw_axis_line_labels produces the expected output","over":{"base":"Any"},"name":"draw_axis_line_labels_correct"},"guarantee":"draw_axis_line_labels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line_labels_correct","statement":"Path(draw_axis_line_labels(x), draw_axis_line_labels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c041be31ce4c3282"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line_labels","kind":"method","src_hash":"abd112b8a1ab0f1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis_line_labels(axis, color, axis_line)","rhs":"<unspecified:draw_axis_line_labels>","over":{"base":"Any"},"name":"draw_axis_line_labels_correct"},"guarantee":"draw_axis_line_labels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_axis_line_labels_correct","statement":"Path(draw_axis_line_labels(x), draw_axis_line_labels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c041be31ce4c3282","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._p","self.draw_text"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_axis_line_labels(self, axis, color, axis_line):
         if not self._p._label_axes:
             return
@@ -469,16 +596,22 @@ class PlotAxesOrdinate(PlotAxesBase):
         self.draw_text("+" + a_str, axis_labels[1], color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_tick_line(axi), draw_tick_line produces the expected output) over Any ║
+# ║ Path(draw_tick_line(axis, color, radius), <unspecified:draw_tick_line>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_tick_line : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8642a90ffaa2c7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line","kind":"method","src_hash":"aa5ac3886f22f279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_tick_line(axi)","rhs":"draw_tick_line produces the expected output","over":{"base":"Any"},"name":"draw_tick_line_correct"},"guarantee":"draw_tick_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line_correct","statement":"Path(draw_tick_line(x), draw_tick_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8642a90ffaa2c7a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line","kind":"method","src_hash":"aa5ac3886f22f279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_tick_line(axis, color, radius)","rhs":"<unspecified:draw_tick_line>","over":{"base":"Any"},"name":"draw_tick_line_correct"},"guarantee":"draw_tick_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line_correct","statement":"Path(draw_tick_line(x), draw_tick_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8642a90ffaa2c7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.draw_line","self.draw_tick_line_label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_tick_line(self, axis, color, radius, tick, labels_visible):
         tick_axis = {0: 1, 1: 0, 2: 1}[axis]
         tick_line = [[0, 0, 0], [0, 0, 0]]
@@ -489,16 +622,22 @@ class PlotAxesOrdinate(PlotAxesBase):
             self.draw_tick_line_label(axis, color, radius, tick)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_tick_line_label(axi), draw_tick_line_label produces the expected output) over Any ║
+# ║ Path(draw_tick_line_label(axis, color, radius), <unspecified:draw_tick_line_label>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_tick_line_label : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e570e9d41b388b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line_label","kind":"method","src_hash":"5ef800510604d933","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_tick_line_label(axi)","rhs":"draw_tick_line_label produces the expected output","over":{"base":"Any"},"name":"draw_tick_line_label_correct"},"guarantee":"draw_tick_line_label produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line_label_correct","statement":"Path(draw_tick_line_label(x), draw_tick_line_label produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e570e9d41b388b8"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line_label","kind":"method","src_hash":"5ef800510604d933","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_tick_line_label(axis, color, radius)","rhs":"<unspecified:draw_tick_line_label>","over":{"base":"Any"},"name":"draw_tick_line_label_correct"},"guarantee":"draw_tick_line_label produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_axes.PlotAxesOrdinate.draw_tick_line_label_correct","statement":"Path(draw_tick_line_label(x), draw_tick_line_label produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e570e9d41b388b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._p","self.draw_text"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_tick_line_label(self, axis, color, radius, tick):
         if not self._p._label_axes:
             return
@@ -512,54 +651,78 @@ class PlotAxesOrdinate(PlotAxesBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PlotAxesFrame(*args), correctly constructs a PlotAxesFrame instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotAxesFrame : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotAxesBase)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotAxesFrame : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8fdb736c3880bdc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame","kind":"class","src_hash":"0713f22af4f65a27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotAxesFrame(*args)","rhs":"correctly constructs a PlotAxesFrame instance","over":{"base":"Any"},"name":"PlotAxesFrame_class_invariant"},"guarantee":"correctly constructs a PlotAxesFrame instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8fdb736c3880bdc"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame","kind":"class","src_hash":"0713f22af4f65a27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotAxesBase)"},"spec":{"lhs":"PlotAxesFrame(*args)","rhs":"correctly constructs a PlotAxesFrame instance","over":{"base":"Any"},"name":"PlotAxesFrame_class_invariant"},"guarantee":"isinstance(self, PlotAxesBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8fdb736c3880bdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotAxesBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotAxesFrame not found in source"]}}
 class PlotAxesFrame(PlotAxesBase):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(par), initializes the instance correctly) over Any ║
+# ║ Path(__init__(parent_axes), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f2f9d4288cac935           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame.__init__","kind":"method","src_hash":"98cca173da9cd6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(par)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f2f9d4288cac935"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame.__init__","kind":"method","src_hash":"98cca173da9cd6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(parent_axes)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f2f9d4288cac935","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, parent_axes):
         super().__init__(parent_axes)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_background(col), draw_background produces the expected output) over Any ║
+# ║ Path(draw_background(color), <unspecified:draw_background>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_background : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91f1fcbe836430dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame.draw_background","kind":"method","src_hash":"0526a66cdaa2ed35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_background(col)","rhs":"draw_background produces the expected output","over":{"base":"Any"},"name":"draw_background_correct"},"guarantee":"draw_background produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91f1fcbe836430dd"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame.draw_background","kind":"method","src_hash":"0526a66cdaa2ed35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_background(color)","rhs":"<unspecified:draw_background>","over":{"base":"Any"},"name":"draw_background_correct"},"guarantee":"draw_background produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91f1fcbe836430dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_background(self, color):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_axis(axi), draw_axis produces the expected output) over Any ║
+# ║ Path(draw_axis(axis, color), <unspecified:draw_axis>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_axis : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cf912a5f837cd3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame.draw_axis","kind":"method","src_hash":"474055cb8686bbfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis(axi)","rhs":"draw_axis produces the expected output","over":{"base":"Any"},"name":"draw_axis_correct"},"guarantee":"draw_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cf912a5f837cd3a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_axes.PlotAxesFrame.draw_axis","kind":"method","src_hash":"474055cb8686bbfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_axis(axis, color)","rhs":"<unspecified:draw_axis>","over":{"base":"Any"},"name":"draw_axis_correct"},"guarantee":"draw_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cf912a5f837cd3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_axis(self, axis, color):
         raise NotImplementedError()

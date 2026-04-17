@@ -28,14 +28,20 @@ from textwrap import dedent
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymPyDeprecationWarning instance) preserved by SymPyDeprecationWarning(*args) over {Any | isinstance(deprecated_since_version, str) and isinstance(other, SymPyDeprecationWarning)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DeprecationWarning)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SymPyDeprecationWarning : {Any | isinstance(deprecate...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff522e4ce1ca12a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning","kind":"class","src_hash":"99a0b08047f16578","in":{"base":"Any","pred":"isinstance(deprecated_since_version, str) and isinstance(other, SymPyDeprecationWarning)"},"out":{"base":"Any"},"spec":{"lhs":"SymPyDeprecationWarning(*args)","rhs":"correctly constructs a SymPyDeprecationWarning instance","over":{"base":"Any","pred":"isinstance(deprecated_since_version, str) and isinstance(other, SymPyDeprecationWarning)"},"name":"SymPyDeprecationWarning_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymPyDeprecationWarning instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'message') and hasattr(self, 'deprecated_since_version') and hasattr(self, 'active_deprecations_target') and hasattr(self, 'full_message')","kind":"class","induction":"structural on message, deprecated_since_version, active_deprecations_target, full_message"}],"methods_preserving":["__init__","__str__","__repr__","__eq__","__reduce__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff522e4ce1ca12a9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning","kind":"class","src_hash":"99a0b08047f16578","in":{"base":"Any","pred":"isinstance(deprecated_since_version, str) and isinstance(other, SymPyDeprecationWarning)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DeprecationWarning)"},"spec":{"lhs":"SymPyDeprecationWarning(*args)","rhs":"correctly constructs a SymPyDeprecationWarning instance","over":{"base":"Any","pred":"isinstance(deprecated_since_version, str) and isinstance(other, SymPyDeprecationWarning)"},"name":"SymPyDeprecationWarning_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DeprecationWarning); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'message') and hasattr(self, 'deprecated_since_version') and hasattr(self, 'active_deprecations_target') and hasattr(self, 'full_message')","kind":"class","induction":"structural on message, deprecated_since_version, active_deprecations_target, full_message"}],"methods_preserving":["__init__","__str__","__repr__","__eq__","__reduce__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff522e4ce1ca12a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DeprecationWarning)"],"invariants":["hasattr(self, 'message')","hasattr(self, 'deprecated_since_version')","hasattr(self, 'active_deprecations_target')","hasattr(self, 'full_message')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyDeprecationWarning not found in source"]}}
 class SymPyDeprecationWarning(DeprecationWarning):
     r"""
     A warning for deprecated features of SymPy.
@@ -79,16 +85,22 @@ class SymPyDeprecationWarning(DeprecationWarning):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mes), initializes the instance correctly) over Any ║
+# ║ Path(__init__(message, deprecated_since_version, active_deprecations_target), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0e17c4036610ded           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__init__","kind":"method","src_hash":"522a7d19b9e5032f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mes)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0e17c4036610ded"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__init__","kind":"method","src_hash":"522a7d19b9e5032f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(message, deprecated_since_version, active_deprecations_target)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0e17c4036610ded","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, message, *, deprecated_since_version, active_deprecations_target):
 
         super().__init__(message, deprecated_since_version,
@@ -113,44 +125,63 @@ will be removed in a future version of SymPy.
 """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.full_message) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.full_message                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 071aedd24f1e03da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__str__","kind":"method","src_hash":"00a8d38a91689268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"071aedd24f1e03da"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__str__","kind":"method","src_hash":"00a8d38a91689268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.full_message","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.full_message","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"071aedd24f1e03da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.full_message","pure":false,"effects":{"effect_type":"reads_state","reads":["self.full_message"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.full_message
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self.message!r}, deprecated_since_version={self.deprecated_since_version!r}, active_deprecations_target={self.active_deprecations_target!r})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self.message...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df2f56ed67eb2dd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__repr__","kind":"method","src_hash":"2d96c62d7827bb82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df2f56ed67eb2dd9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__repr__","kind":"method","src_hash":"2d96c62d7827bb82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self.message!r}, deprecated_since_version={self.deprecated_since_version!r}, active_deprecations_target={self.active_deprecations_target!r})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self.message!r}, deprecated_since_version={self.deprecated_since_version!r}, active_deprecations_target={self.active_deprecations_target!r})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df2f56ed67eb2dd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self.message!r}, deprecated_since_version={self.deprecated_since_version!r}, active_deprecations_target={self.active_deprecations_target!r})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.active_deprecations_target","self.deprecated_since_version","self.message"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return f"{self.__class__.__name__}({self.message!r}, deprecated_since_version={self.deprecated_since_version!r}, active_deprecations_target={self.active_deprecations_target!r})"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, SymPyDeprecationWarning) and self.args == other.args) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  isinstance(other, SymPyDeprecationWarning...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 221315924157d3bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__eq__","kind":"method","src_hash":"2557cba47a43156e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"221315924157d3bd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__eq__","kind":"method","src_hash":"2557cba47a43156e","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, SymPyDeprecationWarning) and self.args == other.args","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, SymPyDeprecationWarning) and self.args == other.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"221315924157d3bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"isinstance(other, SymPyDeprecationWarning) and self.args == other.args","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return isinstance(other, SymPyDeprecationWarning) and self.args == other.args
 
@@ -159,31 +190,43 @@ will be removed in a future version of SymPy.
     # arguments.
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, message, deprecated_since_version), cls(message, deprecated_since_version=deprecated_since_version, active_deprecations_target=active_deprecations_target)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(message, deprecated_since_version=dep...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3410fac006f09340  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf016c92c7d74c13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning._new","kind":"classmethod","src_hash":"3cf9d62ddb8061e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.exceptions.SymPyDeprecationWarning._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3410fac006f09340"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning._new","kind":"classmethod","src_hash":"3cf9d62ddb8061e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, message, deprecated_since_version)","rhs":"cls(message, deprecated_since_version=deprecated_since_version, active_deprecations_target=active_deprecations_target)","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"returns cls(message, deprecated_since_version=deprecated_since_version, active_deprecations_target=active_deprecations_target)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.exceptions.SymPyDeprecationWarning._new_correct","statement":"Path(_new(x), returns cls(message, deprecated_since_version=deprecated_since_version, active_deprecations_target=active_deprecations_target))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf016c92c7d74c13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(message, deprecated_since_version=deprecated_since_version, active_deprecations_target=active_deprecations_target)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, message, deprecated_since_version,
               active_deprecations_target):
         return cls(message, deprecated_since_version=deprecated_since_version, active_deprecations_target=active_deprecations_target)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__reduce__(), internal helper behaves correctly) over Any ║
+# ║ Path(__reduce__(), (self._new, (self.message, self.deprecated_since_version, self.active_deprecations_target))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self._new, (self.message, self.deprecate...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __reduce__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08e536d2f2a8cf44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__reduce__","kind":"method","src_hash":"f50d1f4879095cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__reduce__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__reduce___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08e536d2f2a8cf44"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.SymPyDeprecationWarning.__reduce__","kind":"method","src_hash":"f50d1f4879095cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__reduce__()","rhs":"(self._new, (self.message, self.deprecated_since_version, self.active_deprecations_target))","over":{"base":"Any"},"name":"__reduce___correct"},"guarantee":"returns (self._new, (self.message, self.deprecated_since_version, self.active_deprecations_target))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08e536d2f2a8cf44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self._new, (self.message, self.deprecated_since_version, self.active_deprecations_target))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.active_deprecations_target","self.deprecated_since_version","self.message"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __reduce__(self):
         return (self._new, (self.message, self.deprecated_since_version, self.active_deprecations_target))
 
@@ -191,16 +234,22 @@ will be removed in a future version of SymPy.
 warnings.simplefilter("once", SymPyDeprecationWarning)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympy_deprecation_warning(mes), warn that a feature is deprecated in sympy) over Any ║
+# ║ Path(sympy_deprecation_warning(message, deprecated_since_version, active_deprecations_target), <unspecified:sympy_deprecation_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sympy_deprecation_warning : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d1ec8b492c511ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.sympy_deprecation_warning","kind":"function","src_hash":"caf5972fde9d7d96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_deprecation_warning(mes)","rhs":"warn that a feature is deprecated in sympy","over":{"base":"Any"},"name":"sympy_deprecation_warning_correct"},"guarantee":"warn that a feature is deprecated in sympy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.exceptions.sympy_deprecation_warning_correct","statement":"Path(sympy_deprecation_warning(x), warn that a feature is deprecated in sympy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d1ec8b492c511ef"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.sympy_deprecation_warning","kind":"function","src_hash":"caf5972fde9d7d96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympy_deprecation_warning(message, deprecated_since_version, active_deprecations_target)","rhs":"<unspecified:sympy_deprecation_warning>","over":{"base":"Any"},"name":"sympy_deprecation_warning_correct"},"guarantee":"warn that a feature is deprecated in sympy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.exceptions.sympy_deprecation_warning_correct","statement":"Path(sympy_deprecation_warning(x), warn that a feature is deprecated in sympy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d1ec8b492c511ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['message'], spec=['message', 'deprecated_since_version', 'active_deprecations_target', 'stacklevel']"]}}
 def sympy_deprecation_warning(message, *, deprecated_since_version,
                               active_deprecations_target, stacklevel=3):
     r'''
@@ -314,16 +363,22 @@ def sympy_deprecation_warning(message, *, deprecated_since_version,
 
 @contextlib.contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ignore_warnings(war), context manager to suppress warnings during tests) over Any ║
+# ║ Path(ignore_warnings(warningcls), <unspecified:ignore_warnings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ignore_warnings : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 541ec2ebb8a4f84b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.ignore_warnings","kind":"function","src_hash":"2b7da7eaa3c7592b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ignore_warnings(war)","rhs":"context manager to suppress warnings during tests","over":{"base":"Any"},"name":"ignore_warnings_correct"},"guarantee":"context manager to suppress warnings during tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.exceptions.ignore_warnings_correct","statement":"Path(ignore_warnings(x), context manager to suppress warnings during tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"541ec2ebb8a4f84b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.exceptions.ignore_warnings","kind":"function","src_hash":"2b7da7eaa3c7592b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ignore_warnings(warningcls)","rhs":"<unspecified:ignore_warnings>","over":{"base":"Any"},"name":"ignore_warnings_correct"},"guarantee":"context manager to suppress warnings during tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.exceptions.ignore_warnings_correct","statement":"Path(ignore_warnings(x), context manager to suppress warnings during tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"541ec2ebb8a4f84b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ignore_warnings(warningcls):
     '''
     Context manager to suppress warnings during tests.

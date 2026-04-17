@@ -64,14 +64,19 @@ if np and matplotlib:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CircuitPlot instance) preserved by CircuitPlot(*args) over {Any | isinstance(self.circuit, Mul) and isinstance(g, (CGate, CGateS)) and isinstance(self.circuit, Gate)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CircuitPlot : {Any | isinstance(self.circuit, Mul) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 737dcd53a779c75e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot","kind":"class","src_hash":"6ff560ebded70874","in":{"base":"Any","pred":"isinstance(self.circuit, Mul) and isinstance(g, (CGate, CGateS)) and isinstance(self.circuit, Gate)"},"out":{"base":"Any"},"spec":{"lhs":"CircuitPlot(*args)","rhs":"correctly constructs a CircuitPlot instance","over":{"base":"Any","pred":"isinstance(self.circuit, Mul) and isinstance(g, (CGate, CGateS)) and isinstance(self.circuit, Gate)"},"name":"CircuitPlot_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CircuitPlot instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'circuit') and hasattr(self, 'ngates') and hasattr(self, 'nqubits')","kind":"class","induction":"structural on circuit, ngates, nqubits"}],"methods_preserving":["__init__","update","_create_grid","_create_figure","_plot_wires","_plot_measured_wires","_gates","_plot_gates","_measurements","_finish","one_qubit_box","two_qubit_box","control_line","control_point","not_point","swap_point"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"737dcd53a779c75e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot","kind":"class","src_hash":"6ff560ebded70874","in":{"base":"Any","pred":"isinstance(self.circuit, Mul) and isinstance(g, (CGate, CGateS)) and isinstance(self.circuit, Gate)"},"out":{"base":"Any"},"spec":{"lhs":"CircuitPlot(*args)","rhs":"correctly constructs a CircuitPlot instance","over":{"base":"Any","pred":"isinstance(self.circuit, Mul) and isinstance(g, (CGate, CGateS)) and isinstance(self.circuit, Gate)"},"name":"CircuitPlot_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'circuit') and hasattr(self, 'ngates') and hasattr(self, 'nqubits')","kind":"class","induction":"structural on circuit, ngates, nqubits"}],"methods_preserving":["__init__","update","_create_grid","_create_figure","_plot_wires","_plot_measured_wires","_gates","_plot_gates","_measurements","_finish","one_qubit_box","two_qubit_box","control_line","control_point","not_point","swap_point"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"737dcd53a779c75e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'circuit')","hasattr(self, 'ngates')","hasattr(self, 'nqubits')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function CircuitPlot not found in source"]}}
 class CircuitPlot:
     """A class for managing a circuit plot."""
 
@@ -86,16 +91,24 @@ class CircuitPlot:
     label_buffer = 0.5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(c, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(c, nqubits, **kwargs), self.circuit == c and self.nqubits == nqubits) over {Any | not (not np or not matplotlib)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not np or not matplotlib)                 ║
+# ║   ensures:  self.circuit == c                              ║
+# ║   ensures:  self.nqubits == nqubits                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (not np or not matplotlib)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf2afff14c80713e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.__init__","kind":"method","src_hash":"96467ae60125b510","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(c, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf2afff14c80713e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.__init__","kind":"method","src_hash":"96467ae60125b510","in":{"base":"Any","pred":"not (not np or not matplotlib)"},"out":{"base":"Any","pred":"result satisfies: self.circuit == c and self.nqubits == nqubits"},"spec":{"lhs":"__init__(c, nqubits, **kwargs)","rhs":"self.circuit == c and self.nqubits == nqubits","over":{"base":"Any","pred":"not (not np or not matplotlib)"},"name":"__init___correct"},"guarantee":"self.circuit == c; self.nqubits == nqubits","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf2afff14c80713e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not np or not matplotlib)"],"ensures":["self.circuit == c","self.nqubits == nqubits"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._create_figure","self._create_grid","self._finish","self._plot_gates","self._plot_wires","self.circuit","self.update"],"writes":["self.circuit","self.ngates","self.nqubits"],"calls_mutating":["self.update"],"raises":["ImportError"]},"state_contract":{"modifies":["self.*","self.circuit","self.ngates","self.nqubits"],"old_bindings":{"old_self_circuit":"self.circuit","old_self_ngates":"self.ngates","old_self_nqubits":"self.nqubits"},"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, c, nqubits, **kwargs):
         if not np or not matplotlib:
             raise ImportError('numpy or matplotlib not available.')
@@ -110,31 +123,43 @@ class CircuitPlot:
         self._finish()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update(kwa), load the kwargs into the instance dict) over Any ║
+# ║ Path(update(kwargs), <unspecified:update>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16fc135461cc0001  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.update","kind":"method","src_hash":"6774b6be6c6c81a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(kwa)","rhs":"load the kwargs into the instance dict","over":{"base":"Any"},"name":"update_correct"},"guarantee":"load the kwargs into the instance dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.update_correct","statement":"Path(update(x), load the kwargs into the instance dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16fc135461cc0001"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.update","kind":"method","src_hash":"6774b6be6c6c81a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(kwargs)","rhs":"<unspecified:update>","over":{"base":"Any"},"name":"update_correct"},"guarantee":"load the kwargs into the instance dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.update_correct","statement":"Path(update(x), load the kwargs into the instance dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16fc135461cc0001","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["*.__dict__","self.__dict__"],"calls_mutating":["self.__dict__.update"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update(self, kwargs):
         """Load the kwargs into the instance dict."""
         self.__dict__.update(kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_grid(), create the grid of wires) over Any    ║
+# ║ Path(_create_grid(), <unspecified:_create_grid>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_grid : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f05c0cc858cb8a40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._create_grid","kind":"method","src_hash":"80a49d5cada53468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_grid()","rhs":"create the grid of wires","over":{"base":"Any"},"name":"_create_grid_correct"},"guarantee":"create the grid of wires","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._create_grid_correct","statement":"Path(_create_grid(x), create the grid of wires)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f05c0cc858cb8a40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._create_grid","kind":"method","src_hash":"80a49d5cada53468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_grid()","rhs":"<unspecified:_create_grid>","over":{"base":"Any"},"name":"_create_grid_correct"},"guarantee":"create the grid of wires","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._create_grid_correct","statement":"Path(_create_grid(x), create the grid of wires)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f05c0cc858cb8a40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ngates","self.nqubits","self.scale"],"writes":["self._gate_grid","self._wire_grid"]},"state_contract":{"modifies":["self._gate_grid","self._wire_grid"],"old_bindings":{"old_self__gate_grid":"self._gate_grid","old_self__wire_grid":"self._wire_grid"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_grid(self):
         """Create the grid of wires."""
         scale = self.scale
@@ -144,16 +169,22 @@ class CircuitPlot:
         self._gate_grid = gate_grid
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_figure(), create the main matplotlib figure) over Any ║
+# ║ Path(_create_figure(), <unspecified:_create_figure>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_figure : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d155bca80dd23f9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._create_figure","kind":"method","src_hash":"ae4ee72c802c84a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_figure()","rhs":"create the main matplotlib figure","over":{"base":"Any"},"name":"_create_figure_correct"},"guarantee":"create the main matplotlib figure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._create_figure_correct","statement":"Path(_create_figure(x), create the main matplotlib figure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d155bca80dd23f9b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._create_figure","kind":"method","src_hash":"ae4ee72c802c84a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_figure()","rhs":"<unspecified:_create_figure>","over":{"base":"Any"},"name":"_create_figure_correct"},"guarantee":"create the main matplotlib figure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._create_figure_correct","statement":"Path(_create_figure(x), create the main matplotlib figure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d155bca80dd23f9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._figure","self._gate_grid","self._wire_grid","self.ngates","self.nqubits","self.scale"],"writes":["self._axes","self._figure"]},"state_contract":{"modifies":["self._axes","self._figure"],"old_bindings":{"old_self__axes":"self._axes","old_self__figure":"self._figure"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_figure(self):
         """Create the main matplotlib figure."""
         self._figure = pyplot.figure(
@@ -173,16 +204,22 @@ class CircuitPlot:
         self._axes = ax
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_wires(), plot the wires of the circuit diagram) over Any ║
+# ║ Path(_plot_wires(), <unspecified:_plot_wires>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_wires : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed8be701245fb14c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_wires","kind":"method","src_hash":"c6346f655ff1079a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_wires()","rhs":"plot the wires of the circuit diagram","over":{"base":"Any"},"name":"_plot_wires_correct"},"guarantee":"plot the wires of the circuit diagram","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_wires_correct","statement":"Path(_plot_wires(x), plot the wires of the circuit diagram)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed8be701245fb14c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_wires","kind":"method","src_hash":"c6346f655ff1079a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_wires()","rhs":"<unspecified:_plot_wires>","over":{"base":"Any"},"name":"_plot_wires_correct"},"guarantee":"plot the wires of the circuit diagram","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_wires_correct","statement":"Path(_plot_wires(x), plot the wires of the circuit diagram)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed8be701245fb14c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._plot_measured_wires","self._wire_grid","self.fontsize","self.inits","self.label_buffer","self.labels","self.linewidth","self.nqubits","self.scale"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_wires(self):
         """Plot the wires of the circuit diagram."""
         xstart = self._gate_grid[0]
@@ -207,16 +244,22 @@ class CircuitPlot:
         self._plot_measured_wires()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_measured_wires(), internal helper behaves correctly) over Any ║
+# ║ Path(_plot_measured_wires(), <unspecified:_plot_measured_wires>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_measured_wires : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a60bce30ff724378  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_measured_wires","kind":"method","src_hash":"d2f4aa91d3e5b3f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_measured_wires()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_plot_measured_wires_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_measured_wires_correct","statement":"Path(_plot_measured_wires(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a60bce30ff724378"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_measured_wires","kind":"method","src_hash":"d2f4aa91d3e5b3f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_measured_wires()","rhs":"<unspecified:_plot_measured_wires>","over":{"base":"Any"},"name":"_plot_measured_wires_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_measured_wires_correct","statement":"Path(_plot_measured_wires(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a60bce30ff724378","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._gates","self._measurements","self._wire_grid","self.linewidth","self.scale"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_measured_wires(self):
         ismeasured = self._measurements()
         xstop = self._gate_grid[-1]
@@ -247,16 +290,22 @@ class CircuitPlot:
                             )
                         self._axes.add_line(line)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gates(), create a list of all gates in the circuit plot) over Any ║
+# ║ Path(_gates(), <unspecified:_gates>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gates : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f6dcf54040077e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._gates","kind":"method","src_hash":"40b019d4edc6b72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gates()","rhs":"create a list of all gates in the circuit plot","over":{"base":"Any"},"name":"_gates_correct"},"guarantee":"create a list of all gates in the circuit plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._gates_correct","statement":"Path(_gates(x), create a list of all gates in the circuit plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6dcf54040077e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._gates","kind":"method","src_hash":"40b019d4edc6b72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gates()","rhs":"<unspecified:_gates>","over":{"base":"Any"},"name":"_gates_correct"},"guarantee":"create a list of all gates in the circuit plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._gates_correct","statement":"Path(_gates(x), create a list of all gates in the circuit plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6dcf54040077e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gates(self):
         """Create a list of all gates in the circuit plot."""
         gates = []
@@ -269,32 +318,44 @@ class CircuitPlot:
         return gates
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_gates(), iterate through the gates and plot each of them) over Any ║
+# ║ Path(_plot_gates(), <unspecified:_plot_gates>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_gates : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f27cc0426d7dbdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_gates","kind":"method","src_hash":"744cfede641bfdd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_gates()","rhs":"iterate through the gates and plot each of them","over":{"base":"Any"},"name":"_plot_gates_correct"},"guarantee":"iterate through the gates and plot each of them","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_gates_correct","statement":"Path(_plot_gates(x), iterate through the gates and plot each of them)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f27cc0426d7dbdf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_gates","kind":"method","src_hash":"744cfede641bfdd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_gates()","rhs":"<unspecified:_plot_gates>","over":{"base":"Any"},"name":"_plot_gates_correct"},"guarantee":"iterate through the gates and plot each of them","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._plot_gates_correct","statement":"Path(_plot_gates(x), iterate through the gates and plot each of them)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f27cc0426d7dbdf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._gates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_gates(self):
         """Iterate through the gates and plot each of them."""
         for i, gate in enumerate(self._gates()):
             gate.plot_gate(self, i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measurements(), return a dict ``{i:j}`` where i is the index of the wire that has been measured, and j is the gate where the wire is measured) over Any ║
+# ║ Path(_measurements(), <unspecified:_measurements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measurements : Any → {Any | result satisfies: j}`` w...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aecfd893fb3dfd32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._measurements","kind":"method","src_hash":"d0f54418e8eeab4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: j}`` where i is the index of the wire that has"},"spec":{"lhs":"_measurements()","rhs":"return a dict ``{i:j}`` where i is the index of the wire that has been measured, and j is the gate where the wire is measured","over":{"base":"Any"},"name":"_measurements_correct"},"guarantee":"return a dict ``{i:j}`` where i is the index of the wire that has been measured, and j is the gate where the wire is measured","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._measurements_correct","statement":"Path(_measurements(x), return a dict ``{i:j}`` where i is the index of the wire that has been measured, and j is the gate where the wire is measured)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aecfd893fb3dfd32"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._measurements","kind":"method","src_hash":"d0f54418e8eeab4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: j}`` where i is the index of the wire that has"},"spec":{"lhs":"_measurements()","rhs":"<unspecified:_measurements>","over":{"base":"Any"},"name":"_measurements_correct"},"guarantee":"return a dict ``{i:j}`` where i is the index of the wire that has been measured, and j is the gate where the wire is measured","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._measurements_correct","statement":"Path(_measurements(x), return a dict ``{i:j}`` where i is the index of the wire that has been measured, and j is the gate where the wire is measured)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aecfd893fb3dfd32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._gates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measurements(self):
         """Return a dict ``{i:j}`` where i is the index of the wire that has
         been measured, and j is the gate where the wire is measured.
@@ -311,32 +372,44 @@ class CircuitPlot:
         return ismeasured
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_finish(), internal helper behaves correctly) over Any ║
+# ║ Path(_finish(), <unspecified:_finish>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _finish : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 041ac23f5cf28501  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._finish","kind":"method","src_hash":"3ec1bfec965460ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_finish()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_finish_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._finish_correct","statement":"Path(_finish(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041ac23f5cf28501"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot._finish","kind":"method","src_hash":"3ec1bfec965460ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_finish()","rhs":"<unspecified:_finish>","over":{"base":"Any"},"name":"_finish_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot._finish_correct","statement":"Path(_finish(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041ac23f5cf28501","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._figure"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _finish(self):
         # Disable clipping to make panning work well for large circuits.
         for o in self._figure.findobj():
             o.set_clip_on(False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(one_qubit_box(t, ), draw a box for a single qubit gate) over Any ║
+# ║ Path(one_qubit_box(t, gate_idx, wire_idx), <unspecified:one_qubit_box>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ one_qubit_box : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef0a5ea8009ad5c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.one_qubit_box","kind":"method","src_hash":"7adb74c71137b52d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one_qubit_box(t, )","rhs":"draw a box for a single qubit gate","over":{"base":"Any"},"name":"one_qubit_box_correct"},"guarantee":"draw a box for a single qubit gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.one_qubit_box_correct","statement":"Path(one_qubit_box(x), draw a box for a single qubit gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef0a5ea8009ad5c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.one_qubit_box","kind":"method","src_hash":"7adb74c71137b52d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one_qubit_box(t, gate_idx, wire_idx)","rhs":"<unspecified:one_qubit_box>","over":{"base":"Any"},"name":"one_qubit_box_correct"},"guarantee":"draw a box for a single qubit gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.one_qubit_box_correct","statement":"Path(one_qubit_box(x), draw a box for a single qubit gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef0a5ea8009ad5c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._wire_grid","self.fontsize","self.linewidth"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def one_qubit_box(self, t, gate_idx, wire_idx):
         """Draw a box for a single qubit gate."""
         x = self._gate_grid[gate_idx]
@@ -351,16 +424,22 @@ class CircuitPlot:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(two_qubit_box(t, ), draw a box for a two qubit gate) over Any ║
+# ║ Path(two_qubit_box(t, gate_idx, wire_idx), <unspecified:two_qubit_box>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ two_qubit_box : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46af210b30d16da3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.two_qubit_box","kind":"method","src_hash":"25bc2a3f9dc7cece","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"two_qubit_box(t, )","rhs":"draw a box for a two qubit gate","over":{"base":"Any"},"name":"two_qubit_box_correct"},"guarantee":"draw a box for a two qubit gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.two_qubit_box_correct","statement":"Path(two_qubit_box(x), draw a box for a two qubit gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46af210b30d16da3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.two_qubit_box","kind":"method","src_hash":"25bc2a3f9dc7cece","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"two_qubit_box(t, gate_idx, wire_idx)","rhs":"<unspecified:two_qubit_box>","over":{"base":"Any"},"name":"two_qubit_box_correct"},"guarantee":"draw a box for a two qubit gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.two_qubit_box_correct","statement":"Path(two_qubit_box(x), draw a box for a two qubit gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46af210b30d16da3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._gate_grid","self._wire_grid"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def two_qubit_box(self, t, gate_idx, wire_idx):
         """Draw a box for a two qubit gate. Does not work yet.
         """
@@ -379,16 +458,22 @@ class CircuitPlot:
         # )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(control_line(gat), draw a vertical control line) over Any ║
+# ║ Path(control_line(gate_idx, min_wire, max_wire), <unspecified:control_line>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ control_line : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c3fbb14af4e7d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.control_line","kind":"method","src_hash":"d50769b3977ca0f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"control_line(gat)","rhs":"draw a vertical control line","over":{"base":"Any"},"name":"control_line_correct"},"guarantee":"draw a vertical control line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.control_line_correct","statement":"Path(control_line(x), draw a vertical control line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c3fbb14af4e7d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.control_line","kind":"method","src_hash":"d50769b3977ca0f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"control_line(gate_idx, min_wire, max_wire)","rhs":"<unspecified:control_line>","over":{"base":"Any"},"name":"control_line_correct"},"guarantee":"draw a vertical control line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.control_line_correct","statement":"Path(control_line(x), draw a vertical control line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c3fbb14af4e7d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._wire_grid","self.linewidth"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def control_line(self, gate_idx, min_wire, max_wire):
         """Draw a vertical control line."""
         xdata = (self._gate_grid[gate_idx], self._gate_grid[gate_idx])
@@ -401,16 +486,22 @@ class CircuitPlot:
         self._axes.add_line(line)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(control_point(gat), draw a control point) over Any    ║
+# ║ Path(control_point(gate_idx, wire_idx), <unspecified:control_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ control_point : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a5d531b6e186e03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.control_point","kind":"method","src_hash":"9cfa89dff128fe3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"control_point(gat)","rhs":"draw a control point","over":{"base":"Any"},"name":"control_point_correct"},"guarantee":"draw a control point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.control_point_correct","statement":"Path(control_point(x), draw a control point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5d531b6e186e03"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.control_point","kind":"method","src_hash":"9cfa89dff128fe3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"control_point(gate_idx, wire_idx)","rhs":"<unspecified:control_point>","over":{"base":"Any"},"name":"control_point_correct"},"guarantee":"draw a control point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.control_point_correct","statement":"Path(control_point(x), draw a control point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5d531b6e186e03","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._wire_grid","self.control_radius","self.linewidth","self.scale"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def control_point(self, gate_idx, wire_idx):
         """Draw a control point."""
         x = self._gate_grid[gate_idx]
@@ -427,16 +518,22 @@ class CircuitPlot:
         self._axes.add_patch(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(not_point(gat), draw a not gates as the circle with plus in the middle) over Any ║
+# ║ Path(not_point(gate_idx, wire_idx), <unspecified:not_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ not_point : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60e74ea4c9cdef87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.not_point","kind":"method","src_hash":"6ffffc3806e1ca2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"not_point(gat)","rhs":"draw a not gates as the circle with plus in the middle","over":{"base":"Any"},"name":"not_point_correct"},"guarantee":"draw a not gates as the circle with plus in the middle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.not_point_correct","statement":"Path(not_point(x), draw a not gates as the circle with plus in the middle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60e74ea4c9cdef87"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.not_point","kind":"method","src_hash":"6ffffc3806e1ca2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"not_point(gate_idx, wire_idx)","rhs":"<unspecified:not_point>","over":{"base":"Any"},"name":"not_point_correct"},"guarantee":"draw a not gates as the circle with plus in the middle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.not_point_correct","statement":"Path(not_point(x), draw a not gates as the circle with plus in the middle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60e74ea4c9cdef87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._wire_grid","self.linewidth","self.not_radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def not_point(self, gate_idx, wire_idx):
         """Draw a NOT gates as the circle with plus in the middle."""
         x = self._gate_grid[gate_idx]
@@ -459,16 +556,22 @@ class CircuitPlot:
         self._axes.add_line(l)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(swap_point(gat), draw a swap point as a cross) over Any ║
+# ║ Path(swap_point(gate_idx, wire_idx), <unspecified:swap_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ swap_point : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de4540e8c41ab894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.swap_point","kind":"method","src_hash":"c723190b1fabdcf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"swap_point(gat)","rhs":"draw a swap point as a cross","over":{"base":"Any"},"name":"swap_point_correct"},"guarantee":"draw a swap point as a cross","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.swap_point_correct","statement":"Path(swap_point(x), draw a swap point as a cross)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de4540e8c41ab894"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CircuitPlot.swap_point","kind":"method","src_hash":"c723190b1fabdcf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"swap_point(gate_idx, wire_idx)","rhs":"<unspecified:swap_point>","over":{"base":"Any"},"name":"swap_point_correct"},"guarantee":"draw a swap point as a cross","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.CircuitPlot.swap_point_correct","statement":"Path(swap_point(x), draw a swap point as a cross)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de4540e8c41ab894","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axes","self._gate_grid","self._wire_grid","self.linewidth","self.swap_delta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def swap_point(self, gate_idx, wire_idx):
         """Draw a swap point as a cross."""
         x = self._gate_grid[gate_idx]
@@ -490,16 +593,22 @@ class CircuitPlot:
         self._axes.add_line(l2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circuit_plot(c, ), draw the circuit diagram for the circuit with nqubits) over Any ║
+# ║ Path(circuit_plot(c, nqubits, **kwargs), CircuitPlot(c, nqubits, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CircuitPlot(c, nqubits, **kwargs)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circuit_plot : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26d1152f02dddb50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.circuit_plot","kind":"function","src_hash":"91ce63de867e2cd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circuit_plot(c, )","rhs":"draw the circuit diagram for the circuit with nqubits","over":{"base":"Any"},"name":"circuit_plot_correct"},"guarantee":"draw the circuit diagram for the circuit with nqubits","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26d1152f02dddb50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.circuit_plot","kind":"function","src_hash":"91ce63de867e2cd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circuit_plot(c, nqubits, **kwargs)","rhs":"CircuitPlot(c, nqubits, **kwargs)","over":{"base":"Any"},"name":"circuit_plot_correct"},"guarantee":"returns CircuitPlot(c, nqubits, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26d1152f02dddb50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CircuitPlot(c, nqubits, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['c', 'nqubits'], spec=['c', 'nqubits', '**kwargs']"]}}
 def circuit_plot(c, nqubits, **kwargs):
     """Draw the circuit diagram for the circuit with nqubits.
 
@@ -515,16 +624,23 @@ def circuit_plot(c, nqubits, **kwargs):
     return CircuitPlot(c, nqubits, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(render_label(lab), slightly more flexible way to render labels) over Any ║
+# ║ Path(render_label(label, inits), <unspecified:render_label>) over {Any | hasattr(inits, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ render_label : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(inits, 'get')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ render_label : {Any | hasattr(inits, 'get')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7e8270d409225ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.render_label","kind":"function","src_hash":"42804c5dad4a546c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render_label(lab)","rhs":"slightly more flexible way to render labels","over":{"base":"Any"},"name":"render_label_correct"},"guarantee":"slightly more flexible way to render labels","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.render_label_correct","statement":"Path(render_label(x), slightly more flexible way to render labels)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7e8270d409225ba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.render_label","kind":"function","src_hash":"42804c5dad4a546c","in":{"base":"Any","pred":"hasattr(inits, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"render_label(label, inits)","rhs":"<unspecified:render_label>","over":{"base":"Any","pred":"hasattr(inits, 'get')"},"name":"render_label_correct"},"guarantee":"slightly more flexible way to render labels","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitplot.render_label_correct","statement":"Path(render_label(x), slightly more flexible way to render labels)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7e8270d409225ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(inits, 'get')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["inits.get"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def render_label(label, inits={}):
     """Slightly more flexible way to render labels.
 
@@ -540,16 +656,22 @@ def render_label(label, inits={}):
     return r'$\left|%s\right\rangle$' % label
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(labeller(n, ), autogenerate labels for wires of quantum circuits) over Any ║
+# ║ Path(labeller(n, symbol), ['%s_%d' % (symbol, n - i - 1) for i in range(n)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['%s_%d' % (symbol, n - i - 1) for i in r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ labeller : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6692ed3ae59c4a8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.labeller","kind":"function","src_hash":"eb60069344bdd9bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"labeller(n, )","rhs":"autogenerate labels for wires of quantum circuits","over":{"base":"Any"},"name":"labeller_correct"},"guarantee":"autogenerate labels for wires of quantum circuits","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6692ed3ae59c4a8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.labeller","kind":"function","src_hash":"eb60069344bdd9bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"labeller(n, symbol)","rhs":"['%s_%d' % (symbol, n - i - 1) for i in range(n)]","over":{"base":"Any"},"name":"labeller_correct"},"guarantee":"returns ['%s_%d' % (symbol, n - i - 1) for i in range(n)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6692ed3ae59c4a8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['%s_%d' % (symbol, n - i - 1) for i in range(n)]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def labeller(n, symbol='q'):
     """Autogenerate labels for wires of quantum circuits.
 
@@ -570,16 +692,22 @@ def labeller(n, symbol='q'):
     return ['%s_%d' % (symbol,n-i-1) for i in range(n)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Mz(), correctly constructs a Mz instance) over Any    ║
+# ║ Path(Mz(), isinstance(self, OneQubitGate)) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Mz : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OneQubitGate)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Mz : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 24f8fb25cebc755b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.Mz","kind":"class","src_hash":"cb88db4ef28f95bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Mz()","rhs":"correctly constructs a Mz instance","over":{"base":"Any"},"name":"Mz_correct"},"guarantee":"correctly constructs a Mz instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24f8fb25cebc755b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.Mz","kind":"class","src_hash":"cb88db4ef28f95bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OneQubitGate)"},"spec":{"lhs":"Mz()","rhs":"isinstance(self, OneQubitGate)","over":{"base":"Any"},"name":"Mz_correct"},"guarantee":"isinstance(self, OneQubitGate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24f8fb25cebc755b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OneQubitGate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Mz not found in source"]}}
 class Mz(OneQubitGate):
     """Mock-up of a z measurement gate.
 
@@ -591,16 +719,22 @@ class Mz(OneQubitGate):
     gate_name_latex='M_z'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Mx(), correctly constructs a Mx instance) over Any    ║
+# ║ Path(Mx(), isinstance(self, OneQubitGate)) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Mx : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OneQubitGate)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Mx : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fef52ab0f9a40520           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.Mx","kind":"class","src_hash":"7ef53c1435666855","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Mx()","rhs":"correctly constructs a Mx instance","over":{"base":"Any"},"name":"Mx_correct"},"guarantee":"correctly constructs a Mx instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fef52ab0f9a40520"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.Mx","kind":"class","src_hash":"7ef53c1435666855","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OneQubitGate)"},"spec":{"lhs":"Mx()","rhs":"isinstance(self, OneQubitGate)","over":{"base":"Any"},"name":"Mx_correct"},"guarantee":"isinstance(self, OneQubitGate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fef52ab0f9a40520","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OneQubitGate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Mx not found in source"]}}
 class Mx(OneQubitGate):
     """Mock-up of an x measurement gate.
 
@@ -614,26 +748,38 @@ class Mx(OneQubitGate):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CreateOneQubitGate(*args), correctly constructs a CreateOneQubitGate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CreateOneQubitGate : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CreateOneQubitGate : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d055bfec1df7fb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CreateOneQubitGate","kind":"class","src_hash":"999c4ff082de05e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CreateOneQubitGate(*args)","rhs":"correctly constructs a CreateOneQubitGate instance","over":{"base":"Any"},"name":"CreateOneQubitGate_class_invariant"},"guarantee":"correctly constructs a CreateOneQubitGate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d055bfec1df7fb0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CreateOneQubitGate","kind":"class","src_hash":"999c4ff082de05e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, type)"},"spec":{"lhs":"CreateOneQubitGate(*args)","rhs":"correctly constructs a CreateOneQubitGate instance","over":{"base":"Any"},"name":"CreateOneQubitGate_class_invariant"},"guarantee":"isinstance(self, type)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d055bfec1df7fb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CreateOneQubitGate not found in source"]}}
 class CreateOneQubitGate(type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(mcl), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(mcl, name, latexname), type(name + 'Gate', (OneQubitGate,), {'gate_name': name, 'gate_name_latex': latexname})) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(name + 'Gate', (OneQubitGate,), {'ga...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad374e4e1299f394           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CreateOneQubitGate.__new__","kind":"method","src_hash":"4d1aa50abb9c96a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(mcl)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad374e4e1299f394"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CreateOneQubitGate.__new__","kind":"method","src_hash":"4d1aa50abb9c96a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(mcl, name, latexname)","rhs":"type(name + 'Gate', (OneQubitGate,), {'gate_name': name, 'gate_name_latex': latexname})","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns type(name + 'Gate', (OneQubitGate,), {'gate_name': name, 'gate_name_latex': latexname})","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad374e4e1299f394","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(name + 'Gate', (OneQubitGate,), {'gate_name': name, 'gate_name_latex': latexname})","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(mcl, name, latexname=None):
         if not latexname:
             latexname = name
@@ -641,16 +787,22 @@ class CreateOneQubitGate(type):
             {'gate_name': name, 'gate_name_latex': latexname})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CreateCGate(nam), id) over Any                        ║
+# ║ Path(CreateCGate(name, latexname), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CreateCGate : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b7efec0d181e8569   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CreateCGate","kind":"function","src_hash":"caced087098fc6f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CreateCGate(nam)","rhs":"use a lexical closure to make a controlled gate","over":{"base":"Any"},"name":"CreateCGate_correct","kind":"composition"},"guarantee":"use a lexical closure to make a controlled gate","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"CGate","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"onequbitgate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7efec0d181e8569"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitplot.CreateCGate","kind":"function","src_hash":"caced087098fc6f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CreateCGate(name, latexname)","rhs":"<unspecified:CreateCGate>","over":{"base":"Any"},"name":"CreateCGate_correct","kind":"composition"},"guarantee":"use a lexical closure to make a controlled gate","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"CGate","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"onequbitgate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7efec0d181e8569","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def CreateCGate(name, latexname=None):
     """Use a lexical closure to make a controlled gate.
     """

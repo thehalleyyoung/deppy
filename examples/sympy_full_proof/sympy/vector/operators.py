@@ -26,7 +26,10 @@ from sympy.core.mul import Mul
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_coord_systems(exp), internal helper behaves correctly) over {Any | isinstance(i, CoordSys3D)} ║
+# ║ Path(_get_coord_systems(expr), frozenset(ret)) over {Any | isinstance(i, CoordSys3D)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  frozenset(ret)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_coord_systems : {Any | isinstance(i, CoordSys3D)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -38,9 +41,12 @@ from sympy.core.mul import Mul
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a3b23bf9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators._get_coord_systems","kind":"function","src_hash":"3865d14b4217a8c3","in":{"base":"Any","pred":"isinstance(i, CoordSys3D)"},"out":{"base":"Any"},"spec":{"lhs":"_get_coord_systems(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(i, CoordSys3D)"},"name":"_get_coord_systems_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"CoordSys3D","pred":"isinstance(i, CoordSys3D)","path":{"lhs":"_get_coord_systems(x)","rhs":"internal helper behaves correctly","over":{"base":"CoordSys3D","pred":"isinstance(i, CoordSys3D)"},"name":"_get_coord_systems_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators._get_coord_systems_CoordSys3D_correct","statement":"_get_coord_systems satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a3b23bf90623d237"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators._get_coord_systems","kind":"function","src_hash":"3865d14b4217a8c3","in":{"base":"Any","pred":"isinstance(i, CoordSys3D)"},"out":{"base":"Any"},"spec":{"lhs":"_get_coord_systems(expr)","rhs":"frozenset(ret)","over":{"base":"Any","pred":"isinstance(i, CoordSys3D)"},"name":"_get_coord_systems_correct"},"guarantee":"returns frozenset(ret)","fibers":[{"name":"CoordSys3D","pred":"isinstance(i, CoordSys3D)","path":{"lhs":"_get_coord_systems(x)","rhs":"returns frozenset(ret)","over":{"base":"CoordSys3D","pred":"isinstance(i, CoordSys3D)"},"name":"_get_coord_systems_CoordSys3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators._get_coord_systems_CoordSys3D_correct","statement":"_get_coord_systems satisfies spec on CoordSys3D inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a3b23bf90623d237","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"frozenset(ret)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(i, CoordSys3D)'}, fibers={'CoordSys3D'})"]}}
 def _get_coord_systems(expr):
     g = preorder_traversal(expr)
     ret = set()
@@ -52,16 +58,23 @@ def _get_coord_systems(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_split_mul_args_wrt_coordsys(exp), id) over Any       ║
+# ║ Path(_split_mul_args_wrt_coordsys(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _split_mul_args_wrt_coordsys : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  list(d.values())                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _split_mul_args_wrt_coordsys : {Any | hasattr(expr, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d56d39774f8f34a3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators._split_mul_args_wrt_coordsys","kind":"function","src_hash":"289ed6f2f918be45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_split_mul_args_wrt_coordsys(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_split_mul_args_wrt_coordsys_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d56d39774f8f34a3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators._split_mul_args_wrt_coordsys","kind":"function","src_hash":"289ed6f2f918be45","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_split_mul_args_wrt_coordsys(expr)","rhs":"list(d.values())","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_split_mul_args_wrt_coordsys_correct","kind":"composition"},"guarantee":"returns list(d.values())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d56d39774f8f34a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"list(d.values())","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _split_mul_args_wrt_coordsys(expr):
     d = collections.defaultdict(lambda: S.One)
     for i in expr.args:
@@ -72,14 +85,20 @@ def _split_mul_args_wrt_coordsys(expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Gradient(*args), correctly constructs a Gradient instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Gradient : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Gradient : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b0764d28c9ec15d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Gradient","kind":"class","src_hash":"b71c96e873a70d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Gradient(*args)","rhs":"correctly constructs a Gradient instance","over":{"base":"Any"},"name":"Gradient_class_invariant"},"guarantee":"correctly constructs a Gradient instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b0764d28c9ec15d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Gradient","kind":"class","src_hash":"b71c96e873a70d05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Gradient(*args)","rhs":"correctly constructs a Gradient instance","over":{"base":"Any"},"name":"Gradient_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b0764d28c9ec15d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Gradient not found in source"]}}
 class Gradient(Expr):
     """
     Represents unevaluated Gradient.
@@ -96,16 +115,22 @@ class Gradient(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5203a7a47ba75d66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Gradient.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5203a7a47ba75d66"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Gradient.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5203a7a47ba75d66","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr):
         expr = sympify(expr)
         obj = Expr.__new__(cls, expr)
@@ -113,16 +138,22 @@ class Gradient(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), gradient(self._expr, doit=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gradient(self._expr, doit=True)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66236f2208decc75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Gradient.doit","kind":"method","src_hash":"80516217a430b575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66236f2208decc75"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Gradient.doit","kind":"method","src_hash":"80516217a430b575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"gradient(self._expr, doit=True)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns gradient(self._expr, doit=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66236f2208decc75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gradient(self._expr, doit=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return gradient(self._expr, doit=True)
 
@@ -130,14 +161,20 @@ class Gradient(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Divergence(*args), correctly constructs a Divergence instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Divergence : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Divergence : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36f0d8f1e0e518ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Divergence","kind":"class","src_hash":"5d453e612c2b7353","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Divergence(*args)","rhs":"correctly constructs a Divergence instance","over":{"base":"Any"},"name":"Divergence_class_invariant"},"guarantee":"correctly constructs a Divergence instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36f0d8f1e0e518ac"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Divergence","kind":"class","src_hash":"5d453e612c2b7353","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Divergence(*args)","rhs":"correctly constructs a Divergence instance","over":{"base":"Any"},"name":"Divergence_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36f0d8f1e0e518ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Divergence not found in source"]}}
 class Divergence(Expr):
     """
     Represents unevaluated Divergence.
@@ -154,16 +191,22 @@ class Divergence(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 366963315e898d12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Divergence.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"366963315e898d12"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Divergence.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"366963315e898d12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr):
         expr = sympify(expr)
         obj = Expr.__new__(cls, expr)
@@ -171,16 +214,22 @@ class Divergence(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), divergence(self._expr, doit=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  divergence(self._expr, doit=True)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad614d42c632f53a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Divergence.doit","kind":"method","src_hash":"d3642757ea77e86d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad614d42c632f53a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Divergence.doit","kind":"method","src_hash":"d3642757ea77e86d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"divergence(self._expr, doit=True)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns divergence(self._expr, doit=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad614d42c632f53a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"divergence(self._expr, doit=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return divergence(self._expr, doit=True)
 
@@ -188,14 +237,20 @@ class Divergence(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Curl(*args), correctly constructs a Curl instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Curl : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Curl : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 010e83c288024f31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Curl","kind":"class","src_hash":"ea344169dc7c690b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Curl(*args)","rhs":"correctly constructs a Curl instance","over":{"base":"Any"},"name":"Curl_class_invariant"},"guarantee":"correctly constructs a Curl instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010e83c288024f31"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Curl","kind":"class","src_hash":"ea344169dc7c690b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Curl(*args)","rhs":"correctly constructs a Curl instance","over":{"base":"Any"},"name":"Curl_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010e83c288024f31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Curl not found in source"]}}
 class Curl(Expr):
     """
     Represents unevaluated Curl.
@@ -212,16 +267,22 @@ class Curl(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 192292f4820a51dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Curl.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"192292f4820a51dc"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Curl.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"192292f4820a51dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr):
         expr = sympify(expr)
         obj = Expr.__new__(cls, expr)
@@ -229,22 +290,35 @@ class Curl(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), curl(self._expr, doit=True)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  curl(self._expr, doit=True)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 703f5703610b7588           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Curl.doit","kind":"method","src_hash":"2f46ce6a995c5048","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"703f5703610b7588"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Curl.doit","kind":"method","src_hash":"2f46ce6a995c5048","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"curl(self._expr, doit=True)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns curl(self._expr, doit=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"703f5703610b7588","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"curl(self._expr, doit=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return curl(self._expr, doit=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(curl(vec), returns the curl of a vector field computed wrt the base scalars of the given coordinate system) over {Any | isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and isinstance(vect, (Cross, Curl, Gradient))} ║
+# ║ Path(curl(vect, doit), <unspecified:curl>) over {Any | isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and isinstance(vect, (Cross, Curl, Gradient)) and hasattr(vect, 'dot') and hasattr(vect, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(vect, 'dot')                           ║
+# ║   requires: hasattr(vect, 'args')                          ║
+# ║   fiber[zero_or_none]: len(coord_sys) == 0 => Vector....   ║
+# ║   fiber[case_1]: len(coord_sys) == 1 => outvec             ║
+# ║   fiber[case_2]: isinstance(vect, (Add, VectorAdd)) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ curl : {Any | isinstance(vect, (Add, VectorAdd)) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -259,9 +333,12 @@ class Curl(Expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?4 ✗4 VCs | 11.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5fc85f09...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.curl","kind":"function","src_hash":"9c9b53ec1e33a319","in":{"base":"Any","pred":"isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and isinstance(vect, (Cross, Curl, Gradient))"},"out":{"base":"Any"},"spec":{"lhs":"curl(vec)","rhs":"returns the curl of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"Any","pred":"isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and isinstance(vect, (Cross, Curl, Gradient))"},"name":"curl_correct"},"guarantee":"returns the curl of a vector field computed wrt the base scalars of the given coordinate system","fibers":[{"name":"(Add","pred":"isinstance(vect, (Add, VectorAdd))","path":{"lhs":"curl(x)","rhs":"returns the curl of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Add","pred":"isinstance(vect, (Add, VectorAdd))"},"name":"curl_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Add_correct","statement":"curl satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))","path":{"lhs":"curl(x)","rhs":"returns the curl of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))"},"name":"curl_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Mul_correct","statement":"curl satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))","path":{"lhs":"curl(x)","rhs":"returns the curl of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))"},"name":"curl_(Cross_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Cross_correct","statement":"curl satisfies spec on (Cross inputs"},"trust":"LIBRARY"},{"name":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))","path":{"lhs":"curl(x)","rhs":"returns the curl of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))"},"name":"curl_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Vector_correct","statement":"curl satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5fc85f09e8cdb262"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.curl","kind":"function","src_hash":"9c9b53ec1e33a319","in":{"base":"Any","pred":"isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and isinstance(vect, (Cross, Curl, Gradient)) and hasattr(vect, 'dot') and hasattr(vect, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"curl(vect, doit)","rhs":"<unspecified:curl>","over":{"base":"Any","pred":"isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and isinstance(vect, (Cross, Curl, Gradient)) and hasattr(vect, 'dot') and hasattr(vect, 'args')"},"name":"curl_correct"},"guarantee":"6-fiber decomposition","fibers":[{"name":"(Add","pred":"isinstance(vect, (Add, VectorAdd))","path":{"lhs":"curl(x)","rhs":"6-fiber decomposition","over":{"base":"(Add","pred":"isinstance(vect, (Add, VectorAdd))"},"name":"curl_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Add_correct","statement":"curl satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))","path":{"lhs":"curl(x)","rhs":"6-fiber decomposition","over":{"base":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))"},"name":"curl_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Mul_correct","statement":"curl satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))","path":{"lhs":"curl(x)","rhs":"6-fiber decomposition","over":{"base":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))"},"name":"curl_(Cross_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Cross_correct","statement":"curl satisfies spec on (Cross inputs"},"trust":"LIBRARY"},{"name":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))","path":{"lhs":"curl(x)","rhs":"6-fiber decomposition","over":{"base":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))"},"name":"curl_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.curl_(Vector_correct","statement":"curl satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5fc85f09e8cdb262","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(vect, 'dot')","hasattr(vect, 'args')"],"fibers":[{"name":"zero_or_none","guard":"len(coord_sys) == 0","ensures":["result == Vector.zero"],"decidability":"z3","returns_expr":"Vector.zero"},{"name":"case_1","guard":"len(coord_sys) == 1","ensures":["result == outvec"],"decidability":"z3","returns_expr":"outvec"},{"name":"case_2","guard":"isinstance(vect, (Add, VectorAdd))","ensures":["result == VectorAdd.fromiter((curl(i, doit=doit) for i in args))"],"decidability":"structural","returns_expr":"VectorAdd.fromiter((curl(i, doit=doit) for i in args))"},{"name":"case_3","guard":"isinstance(vect, (Mul, VectorMul))","ensures":["result == res"],"decidability":"structural","returns_expr":"res"},{"name":"case_4","guard":"isinstance(vect, (Cross, Curl, Gradient))","ensures":["result == Curl(vect)"],"decidability":"structural","returns_expr":"Curl(vect)"},{"name":"zero_or_none","guard":"not (len(coord_sys) == 0) and not (len(coord_sys) == 1) and not (isinstance(vect, (Add, VectorAdd))) and not (isinstance(vect, (Mul, VectorMul))) and not (isinstance(vect, (Cross, Curl, Gradient)))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["vect.args","vect.dot"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":4,"n_assumed":4,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(vect, (Add, VectorAdd))', 'len(coord_sys) == 1', 'isinstance(vect, (Cross, Curl, Gradient))', 'isinstance(vect, (Mul, VectorMul))', 'len(coord_sys) == 0'}, fibers={'(Mul', '(Add', '(Cross', '(Vector'})"]}}
 def curl(vect, doit=True):
     """
     Returns the curl of a vector field computed wrt the base scalars
@@ -338,7 +415,14 @@ def curl(vect, doit=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divergence(vec), returns the divergence of a vector field computed wrt the base scalars of the given coordinate system) over {Any | isinstance(vect, (Cross, Curl, Gradient)) and isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul))} ║
+# ║ Path(divergence(vect, doit), <unspecified:divergence>) over {Any | isinstance(vect, (Cross, Curl, Gradient)) and isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and hasattr(vect, 'dot') and hasattr(vect, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(vect, 'dot')                           ║
+# ║   requires: hasattr(vect, 'args')                          ║
+# ║   fiber[zero_or_none]: len(coord_sys) == 0 => S.Zero       ║
+# ║   fiber[case_1]: len(coord_sys) == 1 => res                ║
+# ║   fiber[case_2]: isinstance(vect, (Add, VectorAdd)) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divergence : {Any | isinstance(vect, (Cross, Curl, Gr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -353,9 +437,12 @@ def curl(vect, doit=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?4 ✗4 VCs | 12.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fcadb22d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.divergence","kind":"function","src_hash":"cfc9ad2940afdcc1","in":{"base":"Any","pred":"isinstance(vect, (Cross, Curl, Gradient)) and isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul))"},"out":{"base":"Any"},"spec":{"lhs":"divergence(vec)","rhs":"returns the divergence of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"Any","pred":"isinstance(vect, (Cross, Curl, Gradient)) and isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul))"},"name":"divergence_correct"},"guarantee":"returns the divergence of a vector field computed wrt the base scalars of the given coordinate system","fibers":[{"name":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))","path":{"lhs":"divergence(x)","rhs":"returns the divergence of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))"},"name":"divergence_(Cross_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Cross_correct","statement":"divergence satisfies spec on (Cross inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(vect, (Add, VectorAdd))","path":{"lhs":"divergence(x)","rhs":"returns the divergence of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Add","pred":"isinstance(vect, (Add, VectorAdd))"},"name":"divergence_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Add_correct","statement":"divergence satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))","path":{"lhs":"divergence(x)","rhs":"returns the divergence of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))"},"name":"divergence_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Mul_correct","statement":"divergence satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))","path":{"lhs":"divergence(x)","rhs":"returns the divergence of a vector field computed wrt the base scalars of the given coordinate system","over":{"base":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))"},"name":"divergence_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Vector_correct","statement":"divergence satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fcadb22d92a94c37"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.divergence","kind":"function","src_hash":"cfc9ad2940afdcc1","in":{"base":"Any","pred":"isinstance(vect, (Cross, Curl, Gradient)) and isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and hasattr(vect, 'dot') and hasattr(vect, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"divergence(vect, doit)","rhs":"<unspecified:divergence>","over":{"base":"Any","pred":"isinstance(vect, (Cross, Curl, Gradient)) and isinstance(vect, (Add, VectorAdd)) and isinstance(vect, (Mul, VectorMul)) and hasattr(vect, 'dot') and hasattr(vect, 'args')"},"name":"divergence_correct"},"guarantee":"6-fiber decomposition","fibers":[{"name":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))","path":{"lhs":"divergence(x)","rhs":"6-fiber decomposition","over":{"base":"(Cross","pred":"isinstance(vect, (Cross, Curl, Gradient))"},"name":"divergence_(Cross_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Cross_correct","statement":"divergence satisfies spec on (Cross inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(vect, (Add, VectorAdd))","path":{"lhs":"divergence(x)","rhs":"6-fiber decomposition","over":{"base":"(Add","pred":"isinstance(vect, (Add, VectorAdd))"},"name":"divergence_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Add_correct","statement":"divergence satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))","path":{"lhs":"divergence(x)","rhs":"6-fiber decomposition","over":{"base":"(Mul","pred":"isinstance(vect, (Mul, VectorMul))"},"name":"divergence_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Mul_correct","statement":"divergence satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))","path":{"lhs":"divergence(x)","rhs":"6-fiber decomposition","over":{"base":"(Vector","pred":"isinstance(i, (Vector, Cross, Gradient))"},"name":"divergence_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.divergence_(Vector_correct","statement":"divergence satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fcadb22d92a94c37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(vect, 'dot')","hasattr(vect, 'args')"],"fibers":[{"name":"zero_or_none","guard":"len(coord_sys) == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_1","guard":"len(coord_sys) == 1","ensures":["result == res"],"decidability":"z3","returns_expr":"res"},{"name":"case_2","guard":"isinstance(vect, (Add, VectorAdd))","ensures":["result == Add.fromiter((divergence(i, doit=doit) for i in vect.args))"],"decidability":"structural","returns_expr":"Add.fromiter((divergence(i, doit=doit) for i in vect.args))"},{"name":"case_3","guard":"isinstance(vect, (Mul, VectorMul))","ensures":["result == res"],"decidability":"structural","returns_expr":"res"},{"name":"case_4","guard":"isinstance(vect, (Cross, Curl, Gradient))","ensures":["result == Divergence(vect)"],"decidability":"structural","returns_expr":"Divergence(vect)"},{"name":"zero_or_none","guard":"not (len(coord_sys) == 0) and not (len(coord_sys) == 1) and not (isinstance(vect, (Add, VectorAdd))) and not (isinstance(vect, (Mul, VectorMul))) and not (isinstance(vect, (Cross, Curl, Gradient)))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["vect.args","vect.dot"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":4,"n_assumed":4,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":12.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(vect, (Add, VectorAdd))', 'len(coord_sys) == 1', 'isinstance(vect, (Cross, Curl, Gradient))', 'isinstance(vect, (Mul, VectorMul))', 'len(coord_sys) == 0'}, fibers={'(Cross', '(Add', '(Mul', '(Vector'})"]}}
 def divergence(vect, doit=True):
     """
     Returns the divergence of a vector field computed wrt the base
@@ -424,7 +511,15 @@ def divergence(vect, doit=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gradient(sca), returns the vector gradient of a scalar field computed wrt the base scalars of the given coordinate system) over {Any | isinstance(scalar_field, (Add, VectorAdd)) and isinstance(scalar_field, (Mul, VectorMul))} ║
+# ║ Path(gradient(scalar_field, doit), result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field)) and result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field)) over {Any | isinstance(scalar_field, (Add, VectorAdd)) and isinstance(scalar_field, (Mul, VectorMul)) and hasattr(scalar_field, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(scalar_field, 'args')                  ║
+# ║   ensures:  result == (Vector.zero if len(coord_sys) ...   ║
+# ║   ensures:  result == Vector.zero or result == vx * i...   ║
+# ║   fiber[zero_or_none]: len(coord_sys) == 0 => Vector....   ║
+# ║   fiber[case_1]: len(coord_sys) == 1 => vx * i + vy *...   ║
+# ║   fiber[zero_or_none]: not (len(coord_sys) == 0) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gradient : {Any | isinstance(scalar_field, (Add, Vect...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -437,9 +532,12 @@ def divergence(vect, doit=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9f807da4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.gradient","kind":"function","src_hash":"d16e5c9de3199c7a","in":{"base":"Any","pred":"isinstance(scalar_field, (Add, VectorAdd)) and isinstance(scalar_field, (Mul, VectorMul))"},"out":{"base":"Any"},"spec":{"lhs":"gradient(sca)","rhs":"returns the vector gradient of a scalar field computed wrt the base scalars of the given coordinate system","over":{"base":"Any","pred":"isinstance(scalar_field, (Add, VectorAdd)) and isinstance(scalar_field, (Mul, VectorMul))"},"name":"gradient_correct"},"guarantee":"returns the vector gradient of a scalar field computed wrt the base scalars of the given coordinate system","fibers":[{"name":"(Add","pred":"isinstance(scalar_field, (Add, VectorAdd))","path":{"lhs":"gradient(x)","rhs":"returns the vector gradient of a scalar field computed wrt the base scalars of the given coordinate system","over":{"base":"(Add","pred":"isinstance(scalar_field, (Add, VectorAdd))"},"name":"gradient_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.gradient_(Add_correct","statement":"gradient satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(scalar_field, (Mul, VectorMul))","path":{"lhs":"gradient(x)","rhs":"returns the vector gradient of a scalar field computed wrt the base scalars of the given coordinate system","over":{"base":"(Mul","pred":"isinstance(scalar_field, (Mul, VectorMul))"},"name":"gradient_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.gradient_(Mul_correct","statement":"gradient satisfies spec on (Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9f807da413e499f8"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.gradient","kind":"function","src_hash":"d16e5c9de3199c7a","in":{"base":"Any","pred":"isinstance(scalar_field, (Add, VectorAdd)) and isinstance(scalar_field, (Mul, VectorMul)) and hasattr(scalar_field, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field)) and result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field)"},"spec":{"lhs":"gradient(scalar_field, doit)","rhs":"result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field)) and result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field)","over":{"base":"Any","pred":"isinstance(scalar_field, (Add, VectorAdd)) and isinstance(scalar_field, (Mul, VectorMul)) and hasattr(scalar_field, 'args')"},"name":"gradient_correct"},"guarantee":"result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field)); result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field); 3-fiber decomposition","fibers":[{"name":"(Add","pred":"isinstance(scalar_field, (Add, VectorAdd))","path":{"lhs":"gradient(x)","rhs":"result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field)); result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field); 3-fiber decomposition","over":{"base":"(Add","pred":"isinstance(scalar_field, (Add, VectorAdd))"},"name":"gradient_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.gradient_(Add_correct","statement":"gradient satisfies spec on (Add inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(scalar_field, (Mul, VectorMul))","path":{"lhs":"gradient(x)","rhs":"result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field)); result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field); 3-fiber decomposition","over":{"base":"(Mul","pred":"isinstance(scalar_field, (Mul, VectorMul))"},"name":"gradient_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.gradient_(Mul_correct","statement":"gradient satisfies spec on (Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9f807da413e499f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(scalar_field, 'args')"],"ensures":["result == (Vector.zero if len(coord_sys) == 0 else vx * i + vy * j + vz * k if len(coord_sys) == 1 else Gradient(scalar_field))","result == Vector.zero or result == vx * i + vy * j + vz * k or result == Gradient(scalar_field)"],"fibers":[{"name":"zero_or_none","guard":"len(coord_sys) == 0","ensures":["result == Vector.zero"],"decidability":"z3","returns_expr":"Vector.zero"},{"name":"case_1","guard":"len(coord_sys) == 1","ensures":["result == vx * i + vy * j + vz * k"],"decidability":"z3","returns_expr":"vx * i + vy * j + vz * k"},{"name":"zero_or_none","guard":"not (len(coord_sys) == 0) and not (len(coord_sys) == 1)","ensures":["result == Gradient(scalar_field)"],"decidability":"z3","returns_expr":"Gradient(scalar_field)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["scalar_field.args"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(coord_sys) == 1', 'isinstance(scalar_field, (Mul, VectorMul))', 'len(coord_sys) == 0', 'isinstance(scalar_field, (Add, VectorAdd))'}, fibers={'(Mul', '(Add'})"]}}
 def gradient(scalar_field, doit=True):
     """
     Returns the vector gradient of a scalar field computed wrt the
@@ -497,14 +595,20 @@ def gradient(scalar_field, doit=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Laplacian(*args), correctly constructs a Laplacian instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Laplacian : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Laplacian : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04bada77ea7a6a6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Laplacian","kind":"class","src_hash":"e41e4ade8e6ac0bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Laplacian(*args)","rhs":"correctly constructs a Laplacian instance","over":{"base":"Any"},"name":"Laplacian_class_invariant"},"guarantee":"correctly constructs a Laplacian instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04bada77ea7a6a6c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Laplacian","kind":"class","src_hash":"e41e4ade8e6ac0bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Laplacian(*args)","rhs":"correctly constructs a Laplacian instance","over":{"base":"Any"},"name":"Laplacian_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04bada77ea7a6a6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Laplacian not found in source"]}}
 class Laplacian(Expr):
     """
     Represents unevaluated Laplacian.
@@ -521,16 +625,22 @@ class Laplacian(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da9519bc3f3449ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Laplacian.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da9519bc3f3449ee"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Laplacian.__new__","kind":"method","src_hash":"780e72514ee8d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da9519bc3f3449ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr):
         expr = sympify(expr)
         obj = Expr.__new__(cls, expr)
@@ -538,32 +648,45 @@ class Laplacian(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), laplacian(self._expr)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  laplacian(self._expr)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffbffe51c3b31c6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72b5aef14c8a5993  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Laplacian.doit","kind":"method","src_hash":"48cdf02edb4a6af3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.Laplacian.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffbffe51c3b31c6e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators.Laplacian.doit","kind":"method","src_hash":"48cdf02edb4a6af3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"laplacian(self._expr)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns laplacian(self._expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators.Laplacian.doit_correct","statement":"Path(doit(x), returns laplacian(self._expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72b5aef14c8a5993","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"laplacian(self._expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         from sympy.vector.functions import laplacian
         return laplacian(self._expr)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diff_conditional(exp), first re-expresses expr in the system that base_scalar belongs to. if base_scalar appears in the re-expressed form, differentiates it wrt base_scalar. else, returns 0) over Any ║
+# ║ Path(_diff_conditional(expr, base_scalar, coeff_1), Derivative(arg, base_scalar) if arg else S.Zero) over {Any | hasattr(base_scalar, 'system')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _diff_conditional : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(base_scalar, 'system')                 ║
+# ║   returns:  Derivative(arg, base_scalar) if arg else ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _diff_conditional : {Any | hasattr(base_scalar, 'syst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fff2bb95170498c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a66909590730143  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.operators._diff_conditional","kind":"function","src_hash":"68928f4eed1399ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diff_conditional(exp)","rhs":"first re-expresses expr in the system that base_scalar belongs to. if base_scalar appears in the re-expressed form, differentiates it wrt base_scalar. else, returns 0","over":{"base":"Any"},"name":"_diff_conditional_correct"},"guarantee":"first re-expresses expr in the system that base_scalar belongs to. if base_scalar appears in the re-expressed form, differentiates it wrt base_scalar. else, returns 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators._diff_conditional_correct","statement":"Path(_diff_conditional(x), first re-expresses expr in the system that base_scalar belongs to. if base_scalar appears in the re-expressed form, differentiates it wrt base_scalar. else, returns 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fff2bb95170498c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.operators._diff_conditional","kind":"function","src_hash":"68928f4eed1399ab","in":{"base":"Any","pred":"hasattr(base_scalar, 'system')"},"out":{"base":"Any"},"spec":{"lhs":"_diff_conditional(expr, base_scalar, coeff_1)","rhs":"Derivative(arg, base_scalar) if arg else S.Zero","over":{"base":"Any","pred":"hasattr(base_scalar, 'system')"},"name":"_diff_conditional_correct"},"guarantee":"returns Derivative(arg, base_scalar) if arg else S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.operators._diff_conditional_correct","statement":"Path(_diff_conditional(x), returns Derivative(arg, base_scalar) if arg else S.Zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a66909590730143","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(base_scalar, 'system')"],"returns_expr":"Derivative(arg, base_scalar) if arg else S.Zero","pure":false,"effects":{"effect_type":"reads_state","reads":["base_scalar.system"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _diff_conditional(expr, base_scalar, coeff_1, coeff_2):
     """
     First re-expresses expr in the system that base_scalar belongs to.

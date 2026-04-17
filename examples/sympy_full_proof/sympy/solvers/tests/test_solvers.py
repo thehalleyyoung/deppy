@@ -62,31 +62,45 @@ from sympy.abc import a, b, c, d, e, k, h, p, x, y, z, t, q, m, R
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NS(e, ), NS produces the expected output) over Any    ║
+# ║ Path(NS(e, n, **options), sstr(sympify(e).evalf(n, **options), full_prec=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sstr(sympify(e).evalf(n, **options), full...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ NS : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03f29af80fac31ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.NS","kind":"function","src_hash":"cf3ab3db3798664a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NS(e, )","rhs":"NS produces the expected output","over":{"base":"Any"},"name":"NS_correct"},"guarantee":"NS produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03f29af80fac31ca"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.NS","kind":"function","src_hash":"cf3ab3db3798664a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NS(e, n, **options)","rhs":"sstr(sympify(e).evalf(n, **options), full_prec=True)","over":{"base":"Any"},"name":"NS_correct"},"guarantee":"returns sstr(sympify(e).evalf(n, **options), full_prec=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03f29af80fac31ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(sympify(e).evalf(n, **options), full_prec=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['e', 'n'], spec=['e', 'n', '**options']"]}}
 def NS(e, n=15, **options):
     return sstr(sympify(e).evalf(n, **options), full_prec=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_swap_back(), test_swap_back produces the expected output) over Any ║
+# ║ Path(test_swap_back(), solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3} and solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}] and solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}] and solve([f(1) - 2, x + 2], dict=True) == [{x: -2, f(1): 2}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_swap_back : Any → {Any | solve([fx + y - 2, fx -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([fx + y - 2, fx - gx - 5], fx, y, g...   ║
+# ║   ensures:  solve(fx + gx * x - 2, [fx, gx], dict=Tru...   ║
+# ║   ensures:  solve(fx + gx ** 2 * x - y, [fx, gx], dic...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_swap_back : Any → {Any | result satisfies: solve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be744b8dcc7591d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef3a378493cc6e97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_swap_back","kind":"function","src_hash":"ec09ee251d1d7f26","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3} and solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}] and solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}] and solve([f(1) - 2, x + 2], dict=True) == [{x: -2, f(1): 2}]"},"spec":{"lhs":"test_swap_back()","rhs":"test_swap_back produces the expected output","over":{"base":"Any"},"name":"test_swap_back_correct"},"guarantee":"test_swap_back produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_swap_back_correct","statement":"Path(test_swap_back(x), test_swap_back produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be744b8dcc7591d3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_swap_back","kind":"function","src_hash":"ec09ee251d1d7f26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3} and solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}] and solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}] and solve([f(1) - 2, x + 2], dict=True) == [{x: -2, f(1): 2}]"},"spec":{"lhs":"test_swap_back()","rhs":"solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3} and solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}] and solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}] and solve([f(1) - 2, x + 2], dict=True) == [{x: -2, f(1): 2}]","over":{"base":"Any"},"name":"test_swap_back_correct"},"guarantee":"solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3}; solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}]; solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_swap_back_correct","statement":"Path(test_swap_back(x), solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3}; solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}]; solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef3a378493cc6e97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([fx + y - 2, fx - gx - 5], fx, y, gx) == {fx: gx + 5, y: -gx - 3}","solve(fx + gx * x - 2, [fx, gx], dict=True) == [{fx: 2, gx: 0}]","solve(fx + gx ** 2 * x - y, [fx, gx], dict=True) == [{fx: y, gx: 0}]","solve([f(1) - 2, x + 2], dict=True) == [{x: -2, f(1): 2}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_swap_back():
     f, g = map(Function, 'fg')
     fx, gx = f(x), g(x)
@@ -98,16 +112,22 @@ def test_swap_back():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(guess_solve_strategy(eq,), guess_solve_strategy produces the expected output) over Any ║
+# ║ Path(guess_solve_strategy(eq, symbol), <unspecified:guess_solve_strategy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ guess_solve_strategy : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a064759387dba5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.guess_solve_strategy","kind":"function","src_hash":"543bdcec8efc2977","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess_solve_strategy(eq,)","rhs":"guess_solve_strategy produces the expected output","over":{"base":"Any"},"name":"guess_solve_strategy_correct"},"guarantee":"guess_solve_strategy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.guess_solve_strategy_correct","statement":"Path(guess_solve_strategy(x), guess_solve_strategy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a064759387dba5a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.guess_solve_strategy","kind":"function","src_hash":"543bdcec8efc2977","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess_solve_strategy(eq, symbol)","rhs":"<unspecified:guess_solve_strategy>","over":{"base":"Any"},"name":"guess_solve_strategy_correct"},"guarantee":"guess_solve_strategy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.guess_solve_strategy_correct","statement":"Path(guess_solve_strategy(x), guess_solve_strategy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a064759387dba5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def guess_solve_strategy(eq, symbol):
     try:
         solve(eq, symbol)
@@ -117,16 +137,24 @@ def guess_solve_strategy(eq, symbol):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess_poly(), test_guess_poly produces the expected output) over Any ║
+# ║ Path(test_guess_poly(), guess_solve_strategy(S(4), x) and guess_solve_strategy(x, x) and guess_solve_strategy(x + a, x) and guess_solve_strategy(2 * x, x) and guess_solve_strategy(x + sqrt(2), x) and guess_solve_strategy(x + 2 ** Rational(1, 4), x) and guess_solve_strategy(x ** 2 + 1, x) and guess_solve_strategy(x ** 2 - 1, x) and guess_solve_strategy(x * y + y, x) and guess_solve_strategy(x * exp(y) + y, x) and guess_solve_strategy((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_guess_poly : Any → {Any | guess_solve_strategy(S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  guess_solve_strategy(S(4), x)                  ║
+# ║   ensures:  guess_solve_strategy(x, x)                     ║
+# ║   ensures:  guess_solve_strategy(x + a, x)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_guess_poly : Any → {Any | result satisfies: gues...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67908fc44ed6bf8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c28d059e5e9f3cea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_poly","kind":"function","src_hash":"d61ee8fd6aadb39e","in":{"base":"Any"},"out":{"base":"Any","pred":"guess_solve_strategy(S(4), x) and guess_solve_strategy(x, x) and guess_solve_strategy(x + a, x) and guess_solve_strategy(2 * x, x) and guess_solve_strategy(x + sqrt(2), x) and guess_solve_strategy(x + 2 ** Rational(1, 4), x) and guess_solve_strategy(x ** 2 + 1, x) and guess_solve_strategy(x ** 2 - 1, x) and guess_solve_strategy(x * y + y, x) and guess_solve_strategy(x * exp(y) + y, x) and guess_solve_strategy((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x)"},"spec":{"lhs":"test_guess_poly()","rhs":"test_guess_poly produces the expected output","over":{"base":"Any"},"name":"test_guess_poly_correct"},"guarantee":"test_guess_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_poly_correct","statement":"Path(test_guess_poly(x), test_guess_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67908fc44ed6bf8d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_poly","kind":"function","src_hash":"d61ee8fd6aadb39e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: guess_solve_strategy(S(4), x) and guess_solve_strategy(x, x) and guess_solve_strategy(x + a, x) and guess_solve_strategy(2 * x, x) and guess_solve_strategy(x + sqrt(2), x) and guess_solve_strategy(x + 2 ** Rational(1, 4), x) and guess_solve_strategy(x ** 2 + 1, x) and guess_solve_strategy(x ** 2 - 1, x) and guess_solve_strategy(x * y + y, x) and guess_solve_strategy(x * exp(y) + y, x) and guess_solve_strategy((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x)"},"spec":{"lhs":"test_guess_poly()","rhs":"guess_solve_strategy(S(4), x) and guess_solve_strategy(x, x) and guess_solve_strategy(x + a, x) and guess_solve_strategy(2 * x, x) and guess_solve_strategy(x + sqrt(2), x) and guess_solve_strategy(x + 2 ** Rational(1, 4), x) and guess_solve_strategy(x ** 2 + 1, x) and guess_solve_strategy(x ** 2 - 1, x) and guess_solve_strategy(x * y + y, x) and guess_solve_strategy(x * exp(y) + y, x) and guess_solve_strategy((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x)","over":{"base":"Any"},"name":"test_guess_poly_correct"},"guarantee":"guess_solve_strategy(S(4), x); guess_solve_strategy(x, x); guess_solve_strategy(x + a, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_poly_correct","statement":"Path(test_guess_poly(x), guess_solve_strategy(S(4), x); guess_solve_strategy(x, x); guess_solve_strategy(x + a, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c28d059e5e9f3cea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["guess_solve_strategy(S(4), x)","guess_solve_strategy(x, x)","guess_solve_strategy(x + a, x)","guess_solve_strategy(2 * x, x)","guess_solve_strategy(x + sqrt(2), x)","guess_solve_strategy(x + 2 ** Rational(1, 4), x)","guess_solve_strategy(x ** 2 + 1, x)","guess_solve_strategy(x ** 2 - 1, x)","guess_solve_strategy(x * y + y, x)","guess_solve_strategy(x * exp(y) + y, x)","guess_solve_strategy((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_guess_poly():
     # polynomial equations
     assert guess_solve_strategy( S(4), x )  # == GS_POLY
@@ -144,16 +172,24 @@ def test_guess_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess_poly_cv(), test_guess_poly_cv produces the expected output) over Any ║
+# ║ Path(test_guess_poly_cv(), guess_solve_strategy(sqrt(x) + 1, x) and guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x) and guess_solve_strategy(4 * x * (1 - sqrt(x)), x) and guess_solve_strategy(x + 1 / x + y, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_guess_poly_cv : Any → {Any | guess_solve_strateg...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  guess_solve_strategy(sqrt(x) + 1, x)           ║
+# ║   ensures:  guess_solve_strategy(x ** Rational(1, 3) ...   ║
+# ║   ensures:  guess_solve_strategy(4 * x * (1 - sqrt(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_guess_poly_cv : Any → {Any | result satisfies: g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2bf79028f793a5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0044d926c9a3f12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_poly_cv","kind":"function","src_hash":"237a748201961b54","in":{"base":"Any"},"out":{"base":"Any","pred":"guess_solve_strategy(sqrt(x) + 1, x) and guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x) and guess_solve_strategy(4 * x * (1 - sqrt(x)), x) and guess_solve_strategy(x + 1 / x + y, x)"},"spec":{"lhs":"test_guess_poly_cv()","rhs":"test_guess_poly_cv produces the expected output","over":{"base":"Any"},"name":"test_guess_poly_cv_correct"},"guarantee":"test_guess_poly_cv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_poly_cv_correct","statement":"Path(test_guess_poly_cv(x), test_guess_poly_cv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2bf79028f793a5d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_poly_cv","kind":"function","src_hash":"237a748201961b54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: guess_solve_strategy(sqrt(x) + 1, x) and guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x) and guess_solve_strategy(4 * x * (1 - sqrt(x)), x) and guess_solve_strategy(x + 1 / x + y, x)"},"spec":{"lhs":"test_guess_poly_cv()","rhs":"guess_solve_strategy(sqrt(x) + 1, x) and guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x) and guess_solve_strategy(4 * x * (1 - sqrt(x)), x) and guess_solve_strategy(x + 1 / x + y, x)","over":{"base":"Any"},"name":"test_guess_poly_cv_correct"},"guarantee":"guess_solve_strategy(sqrt(x) + 1, x); guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x); guess_solve_strategy(4 * x * (1 - sqrt(x)), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_poly_cv_correct","statement":"Path(test_guess_poly_cv(x), guess_solve_strategy(sqrt(x) + 1, x); guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x); guess_solve_strategy(4 * x * (1 - sqrt(x)), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0044d926c9a3f12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["guess_solve_strategy(sqrt(x) + 1, x)","guess_solve_strategy(x ** Rational(1, 3) + sqrt(x) + 1, x)","guess_solve_strategy(4 * x * (1 - sqrt(x)), x)","guess_solve_strategy(x + 1 / x + y, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_guess_poly_cv():
     # polynomial equations via a change of variable
     assert guess_solve_strategy( sqrt(x) + 1, x )  # == GS_POLY_CV_1
@@ -166,16 +202,22 @@ def test_guess_poly_cv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess_rational_cv(), test_guess_rational_cv produces the expected output) over Any ║
+# ║ Path(test_guess_rational_cv(), <unspecified:test_guess_rational_cv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_guess_rational_cv : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2dc10d33568404b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_rational_cv","kind":"function","src_hash":"4c91f962de16ea03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_guess_rational_cv()","rhs":"test_guess_rational_cv produces the expected output","over":{"base":"Any"},"name":"test_guess_rational_cv_correct"},"guarantee":"test_guess_rational_cv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_rational_cv_correct","statement":"Path(test_guess_rational_cv(x), test_guess_rational_cv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2dc10d33568404b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_rational_cv","kind":"function","src_hash":"4c91f962de16ea03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_guess_rational_cv()","rhs":"<unspecified:test_guess_rational_cv>","over":{"base":"Any"},"name":"test_guess_rational_cv_correct"},"guarantee":"test_guess_rational_cv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_rational_cv_correct","statement":"Path(test_guess_rational_cv(x), test_guess_rational_cv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2dc10d33568404b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected EOF while parsing (<unknown>, line 8)"]}}
 def test_guess_rational_cv():
     # rational functions
     assert guess_solve_strategy( (x + 1)/(x**2 + 2), x)  # == GS_RATIONAL
@@ -188,16 +230,24 @@ def test_guess_rational_cv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess_transcendental(), test_guess_transcendental produces the expected output) over Any ║
+# ║ Path(test_guess_transcendental(), guess_solve_strategy(exp(x) + 1, x) and guess_solve_strategy(2 * cos(x) - y, x) and guess_solve_strategy(exp(x) + exp(-x) - y, x) and guess_solve_strategy(3 ** x - 10, x) and guess_solve_strategy(-3 ** x + 10, x) and guess_solve_strategy(a * x ** b - y, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_guess_transcendental : Any → {Any | guess_solve_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  guess_solve_strategy(exp(x) + 1, x)            ║
+# ║   ensures:  guess_solve_strategy(2 * cos(x) - y, x)        ║
+# ║   ensures:  guess_solve_strategy(exp(x) + exp(-x) - y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_guess_transcendental : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 475a8267b334e8e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9990c7a464a79f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_transcendental","kind":"function","src_hash":"a1bb1a947dc9eb0c","in":{"base":"Any"},"out":{"base":"Any","pred":"guess_solve_strategy(exp(x) + 1, x) and guess_solve_strategy(2 * cos(x) - y, x) and guess_solve_strategy(exp(x) + exp(-x) - y, x) and guess_solve_strategy(3 ** x - 10, x) and guess_solve_strategy(-3 ** x + 10, x) and guess_solve_strategy(a * x ** b - y, x)"},"spec":{"lhs":"test_guess_transcendental()","rhs":"test_guess_transcendental produces the expected output","over":{"base":"Any"},"name":"test_guess_transcendental_correct"},"guarantee":"test_guess_transcendental produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_transcendental_correct","statement":"Path(test_guess_transcendental(x), test_guess_transcendental produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"475a8267b334e8e3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_guess_transcendental","kind":"function","src_hash":"a1bb1a947dc9eb0c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: guess_solve_strategy(exp(x) + 1, x) and guess_solve_strategy(2 * cos(x) - y, x) and guess_solve_strategy(exp(x) + exp(-x) - y, x) and guess_solve_strategy(3 ** x - 10, x) and guess_solve_strategy(-3 ** x + 10, x) and guess_solve_strategy(a * x ** b - y, x)"},"spec":{"lhs":"test_guess_transcendental()","rhs":"guess_solve_strategy(exp(x) + 1, x) and guess_solve_strategy(2 * cos(x) - y, x) and guess_solve_strategy(exp(x) + exp(-x) - y, x) and guess_solve_strategy(3 ** x - 10, x) and guess_solve_strategy(-3 ** x + 10, x) and guess_solve_strategy(a * x ** b - y, x)","over":{"base":"Any"},"name":"test_guess_transcendental_correct"},"guarantee":"guess_solve_strategy(exp(x) + 1, x); guess_solve_strategy(2 * cos(x) - y, x); guess_solve_strategy(exp(x) + exp(-x) - y, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_guess_transcendental_correct","statement":"Path(test_guess_transcendental(x), guess_solve_strategy(exp(x) + 1, x); guess_solve_strategy(2 * cos(x) - y, x); guess_solve_strategy(exp(x) + exp(-x) - y, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9990c7a464a79f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["guess_solve_strategy(exp(x) + 1, x)","guess_solve_strategy(2 * cos(x) - y, x)","guess_solve_strategy(exp(x) + exp(-x) - y, x)","guess_solve_strategy(3 ** x - 10, x)","guess_solve_strategy(-3 ** x + 10, x)","guess_solve_strategy(a * x ** b - y, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_guess_transcendental():
     #transcendental functions
     assert guess_solve_strategy( exp(x) + 1, x )  # == GS_TRANSCENDENTAL
@@ -211,16 +261,24 @@ def test_guess_transcendental():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_args(), test_solve_args produces the expected output) over Any ║
+# ║ Path(test_solve_args(), all((solve(container(eqs), x, y) == ans for container in (tuple, list, set, frozenset))) and solve(Tuple(*eqs), x, y) == ans and set(solve(x ** 2 - 4)) == {S(2), -S(2)} and solve([x + y - 3, x - y - 5]) == {x: 4, y: -1} and solve(x - exp(x), x, implicit=True) == [exp(x)] and solve(42) == solve(42, x) == [] and solve([1, 2]) == [] and solve([sqrt(2)], [x]) == [] and solve(x, x, exclude=[y, y]) == [0] and solve(y - 3, {y}) == [3] and solve(y - 3, {x, y}) == [{y: 3}] and solve(x + y - 3, [x, y]) == [(3 - y, y)] and solve(x + y - 3, [x, y], dict=True) == [{x: 3 - y}] and solve(x + y - 3) == [{x: 3 - y}] and solve(a + b * x - 2, [a, b]) == {a: 2, b: 0} and solve((a + b) * x + b - c, [a, b]) == {a: -c, b: c} and sol == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(eq, [h, p, k], dict=True) == [sol] and solve(eq, [h, p, k], set=True) == ([h, p, k], {(-b / (2 * a), 1 / (4 * a), (4 * a * c - b ** 2) / (4 * a))}) and solve(eq, [h, p, k], exclude=[a, b, c], simplify=False) == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(*args) == [((b ** 2 - b * x - 2) / x, b)] and solve(a * x + b ** 2 / (x + 4) - 3 * x - 4 / x, a, b, dict=True) == [{a: (-b ** 2 * x + 3 * x ** 3 + 12 * x ** 2 + 4 * x + 16) / (x ** 2 * (x + 4))}] and solve(1 / (1 / x - y + exp(y))) == [] and solve([y, exp(x) + x]) == [{x: -LambertW(1), y: 0}] and solve((exp(x) - x, exp(y) - y)) == [{x: -LambertW(-1), y: -LambertW(-1)}] and solve([y, exp(x) + x], x, y) == [(-LambertW(1), 0)] and solve(x ** 2 - pi, pi) == [x ** 2] and solve([], [x]) == [] and solve((x ** 2 - 4, y - 2), x, y) == [(-2, 2), (2, 2)] and solve((x ** 2 - 4, y - 2), y, x) == [(2, -2), (2, 2)] and solve((x ** 2 - 4 + z, y - 2 - z), a, z, y, x, set=True) == ([a, z, y, x], {(a, z, z + 2, -sqrt(4 - z)), (a, z, z + 2, sqrt(4 - z))}) and solve([(x + y) ** 2 - 4, x + y - 2]) == [{x: -y + 2}] and solve((x + y - 2, 2 * x + 2 * y - 4)) == {x: -y + 2} and solve(Eq(x ** 2, 0.0)) == [0.0] and solve([True, Eq(x, 0)], [x], dict=True) == [{x: 0}] and solve([Eq(x, x), Eq(x, 0), Eq(x, x + 1)], [x], dict=True) == [] and not solve([Eq(x, x + 1), x < 2], x) and solve([Eq(x, 0), x + 1 < 2]) == Eq(x, 0) and solve([Eq(x, x), Eq(x, x + 1)], x) == [] and solve(True, x) == [] and solve([x - 1, False], [x], set=True) == ([], set()) and solve([-y * (x + y - 1) / 2, (y - 1) / x / y + 1 / y], set=True, check=False) == ([x, y], {(1 - y, y), (x, 0)}) and list(solve((y - 1, x - sqrt(3) * z)).keys()) == [x, y] and solve([x - 1, x], (y, x), set=True) == ([y, x], set()) and solve([x - 1, x], {y, x}, set=True) == ([x, y], set())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_args : Any → {Any | solve(Tuple(*eqs), x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((solve(container(eqs), x, y) == ans f...   ║
+# ║   ensures:  solve(Tuple(*eqs), x, y) == ans                ║
+# ║   ensures:  set(solve(x ** 2 - 4)) == {S(2), -S(2)}        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_args : Any → {Any | result satisfies: all(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28dd48a16cb32299  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85f277aacd0795fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_args","kind":"function","src_hash":"4d9c8dc27e77d932","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(Tuple(*eqs), x, y) == ans and set(solve(x ** 2 - 4)) == {S(2), -S(2)} and solve([x + y - 3, x - y - 5]) == {x: 4, y: -1} and solve(x - exp(x), x, implicit=True) == [exp(x)] and solve(42) == solve(42, x) == [] and solve([1, 2]) == [] and solve([sqrt(2)], [x]) == [] and solve(x, x, exclude=[y, y]) == [0] and solve(x, x, exclude=[y, y]) == [0] and solve(y - 3, {y}) == [3] and solve(y - 3, {x, y}) == [{y: 3}] and solve(x + y - 3, [x, y]) == [(3 - y, y)] and solve(x + y - 3, [x, y], dict=True) == [{x: 3 - y}] and solve(x + y - 3) == [{x: 3 - y}] and solve(a + b * x - 2, [a, b]) == {a: 2, b: 0} and solve((a + b) * x + b - c, [a, b]) == {a: -c, b: c} and sol == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(eq, [h, p, k], dict=True) == [sol] and solve(*args) == [((b ** 2 - b * x - 2) / x, b)] and solve(1 / (1 / x - y + exp(y))) == [] and solve([y, exp(x) + x]) == [{x: -LambertW(1), y: 0}] and solve((exp(x) - x, exp(y) - y)) == [{x: -LambertW(-1), y: -LambertW(-1)}] and solve([y, exp(x) + x], x, y) == [(-LambertW(1), 0)] and solve(x ** 2 - pi, pi) == [x ** 2] and solve([], [x]) == [] and solve((x ** 2 - 4, y - 2), x, y) == [(-2, 2), (2, 2)] and solve((x ** 2 - 4, y - 2), y, x) == [(2, -2), (2, 2)] and solve([(x + y) ** 2 - 4, x + y - 2]) == [{x: -y + 2}] and solve((x + y - 2, 2 * x + 2 * y - 4)) == {x: -y + 2} and solve(Eq(x ** 2, 0.0)) == [0.0] and solve([True, Eq(x, 0)], [x], dict=True) == [{x: 0}] and solve([Eq(x, x), Eq(x, 0), Eq(x, x + 1)], [x], dict=True) == [] and not solve([Eq(x, x + 1), x < 2], x) and solve([Eq(x, 0), x + 1 < 2]) == Eq(x, 0) and solve([Eq(x, x), Eq(x, x + 1)], x) == [] and solve(True, x) == [] and solve([x - 1, False], [x], set=True) == ([], set()) and list(solve((y - 1, x - sqrt(3) * z)).keys()) == [x, y] and solve([x - 1, x], (y, x), set=True) == ([y, x], set()) and solve([x - 1, x], {y, x}, set=True) == ([x, y], set())"},"spec":{"lhs":"test_solve_args()","rhs":"test_solve_args produces the expected output","over":{"base":"Any"},"name":"test_solve_args_correct"},"guarantee":"test_solve_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_args_correct","statement":"Path(test_solve_args(x), test_solve_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28dd48a16cb32299"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_args","kind":"function","src_hash":"4d9c8dc27e77d932","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((solve(container(eqs), x, y) == ans for container in (tuple, list, set, frozenset))) and solve(Tuple(*eqs), x, y) == ans and set(solve(x ** 2 - 4)) == {S(2), -S(2)} and solve([x + y - 3, x - y - 5]) == {x: 4, y: -1} and solve(x - exp(x), x, implicit=True) == [exp(x)] and solve(42) == solve(42, x) == [] and solve([1, 2]) == [] and solve([sqrt(2)], [x]) == [] and solve(x, x, exclude=[y, y]) == [0] and solve(y - 3, {y}) == [3] and solve(y - 3, {x, y}) == [{y: 3}] and solve(x + y - 3, [x, y]) == [(3 - y, y)] and solve(x + y - 3, [x, y], dict=True) == [{x: 3 - y}] and solve(x + y - 3) == [{x: 3 - y}] and solve(a + b * x - 2, [a, b]) == {a: 2, b: 0} and solve((a + b) * x + b - c, [a, b]) == {a: -c, b: c} and sol == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(eq, [h, p, k], dict=True) == [sol] and solve(eq, [h, p, k], set=True) == ([h, p, k], {(-b / (2 * a), 1 / (4 * a), (4 * a * c - b ** 2) / (4 * a))}) and solve(eq, [h, p, k], exclude=[a, b, c], simplify=False) == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(*args) == [((b ** 2 - b * x - 2) / x, b)] and solve(a * x + b ** 2 / (x + 4) - 3 * x - 4 / x, a, b, dict=True) == [{a: (-b ** 2 * x + 3 * x ** 3 + 12 * x ** 2 + 4 * x + 16) / (x ** 2 * (x + 4))}] and solve(1 / (1 / x - y + exp(y))) == [] and solve([y, exp(x) + x]) == [{x: -LambertW(1), y: 0}] and solve((exp(x) - x, exp(y) - y)) == [{x: -LambertW(-1), y: -LambertW(-1)}] and solve([y, exp(x) + x], x, y) == [(-LambertW(1), 0)] and solve(x ** 2 - pi, pi) == [x ** 2] and solve([], [x]) == [] and solve((x ** 2 - 4, y - 2), x, y) == [(-2, 2), (2, 2)] and solve((x ** 2 - 4, y - 2), y, x) == [(2, -2), (2, 2)] and solve((x ** 2 - 4 + z, y - 2 - z), a, z, y, x, set=True) == ([a, z, y, x], {(a, z, z + 2, -sqrt(4 - z)), (a, z, z + 2, sqrt(4 - z))}) and solve([(x + y) ** 2 - 4, x + y - 2]) == [{x: -y + 2}] and solve((x + y - 2, 2 * x + 2 * y - 4)) == {x: -y + 2} and solve(Eq(x ** 2, 0.0)) == [0.0] and solve([True, Eq(x, 0)], [x], dict=True) == [{x: 0}] and solve([Eq(x, x), Eq(x, 0), Eq(x, x + 1)], [x], dict=True) == [] and not solve([Eq(x, x + 1), x < 2], x) and solve([Eq(x, 0), x + 1 < 2]) == Eq(x, 0) and solve([Eq(x, x), Eq(x, x + 1)], x) == [] and solve(True, x) == [] and solve([x - 1, False], [x], set=True) == ([], set()) and solve([-y * (x + y - 1) / 2, (y - 1) / x / y + 1 / y], set=True, check=False) == ([x, y], {(1 - y, y), (x, 0)}) and list(solve((y - 1, x - sqrt(3) * z)).keys()) == [x, y] and solve([x - 1, x], (y, x), set=True) == ([y, x], set()) and solve([x - 1, x], {y, x}, set=True) == ([x, y], set())"},"spec":{"lhs":"test_solve_args()","rhs":"all((solve(container(eqs), x, y) == ans for container in (tuple, list, set, frozenset))) and solve(Tuple(*eqs), x, y) == ans and set(solve(x ** 2 - 4)) == {S(2), -S(2)} and solve([x + y - 3, x - y - 5]) == {x: 4, y: -1} and solve(x - exp(x), x, implicit=True) == [exp(x)] and solve(42) == solve(42, x) == [] and solve([1, 2]) == [] and solve([sqrt(2)], [x]) == [] and solve(x, x, exclude=[y, y]) == [0] and solve(y - 3, {y}) == [3] and solve(y - 3, {x, y}) == [{y: 3}] and solve(x + y - 3, [x, y]) == [(3 - y, y)] and solve(x + y - 3, [x, y], dict=True) == [{x: 3 - y}] and solve(x + y - 3) == [{x: 3 - y}] and solve(a + b * x - 2, [a, b]) == {a: 2, b: 0} and solve((a + b) * x + b - c, [a, b]) == {a: -c, b: c} and sol == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(eq, [h, p, k], dict=True) == [sol] and solve(eq, [h, p, k], set=True) == ([h, p, k], {(-b / (2 * a), 1 / (4 * a), (4 * a * c - b ** 2) / (4 * a))}) and solve(eq, [h, p, k], exclude=[a, b, c], simplify=False) == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)} and solve(*args) == [((b ** 2 - b * x - 2) / x, b)] and solve(a * x + b ** 2 / (x + 4) - 3 * x - 4 / x, a, b, dict=True) == [{a: (-b ** 2 * x + 3 * x ** 3 + 12 * x ** 2 + 4 * x + 16) / (x ** 2 * (x + 4))}] and solve(1 / (1 / x - y + exp(y))) == [] and solve([y, exp(x) + x]) == [{x: -LambertW(1), y: 0}] and solve((exp(x) - x, exp(y) - y)) == [{x: -LambertW(-1), y: -LambertW(-1)}] and solve([y, exp(x) + x], x, y) == [(-LambertW(1), 0)] and solve(x ** 2 - pi, pi) == [x ** 2] and solve([], [x]) == [] and solve((x ** 2 - 4, y - 2), x, y) == [(-2, 2), (2, 2)] and solve((x ** 2 - 4, y - 2), y, x) == [(2, -2), (2, 2)] and solve((x ** 2 - 4 + z, y - 2 - z), a, z, y, x, set=True) == ([a, z, y, x], {(a, z, z + 2, -sqrt(4 - z)), (a, z, z + 2, sqrt(4 - z))}) and solve([(x + y) ** 2 - 4, x + y - 2]) == [{x: -y + 2}] and solve((x + y - 2, 2 * x + 2 * y - 4)) == {x: -y + 2} and solve(Eq(x ** 2, 0.0)) == [0.0] and solve([True, Eq(x, 0)], [x], dict=True) == [{x: 0}] and solve([Eq(x, x), Eq(x, 0), Eq(x, x + 1)], [x], dict=True) == [] and not solve([Eq(x, x + 1), x < 2], x) and solve([Eq(x, 0), x + 1 < 2]) == Eq(x, 0) and solve([Eq(x, x), Eq(x, x + 1)], x) == [] and solve(True, x) == [] and solve([x - 1, False], [x], set=True) == ([], set()) and solve([-y * (x + y - 1) / 2, (y - 1) / x / y + 1 / y], set=True, check=False) == ([x, y], {(1 - y, y), (x, 0)}) and list(solve((y - 1, x - sqrt(3) * z)).keys()) == [x, y] and solve([x - 1, x], (y, x), set=True) == ([y, x], set()) and solve([x - 1, x], {y, x}, set=True) == ([x, y], set())","over":{"base":"Any"},"name":"test_solve_args_correct"},"guarantee":"all((solve(container(eqs), x, y) == ans for container in (tuple, list, set, frozenset))); solve(Tuple(*eqs), x, y) == ans; set(solve(x ** 2 - 4)) == {S(2), -S(2)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_args_correct","statement":"Path(test_solve_args(x), all((solve(container(eqs), x, y) == ans for container in (tuple, list, set, frozenset))); solve(Tuple(*eqs), x, y) == ans; set(solve(x ** 2 - 4)) == {S(2), -S(2)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85f277aacd0795fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((solve(container(eqs), x, y) == ans for container in (tuple, list, set, frozenset)))","solve(Tuple(*eqs), x, y) == ans","set(solve(x ** 2 - 4)) == {S(2), -S(2)}","solve([x + y - 3, x - y - 5]) == {x: 4, y: -1}","solve(x - exp(x), x, implicit=True) == [exp(x)]","solve(42) == solve(42, x) == []","solve([1, 2]) == []","solve([sqrt(2)], [x]) == []","solve(x, x, exclude=[y, y]) == [0]","solve(y - 3, {y}) == [3]","solve(y - 3, {x, y}) == [{y: 3}]","solve(x + y - 3, [x, y]) == [(3 - y, y)]","solve(x + y - 3, [x, y], dict=True) == [{x: 3 - y}]","solve(x + y - 3) == [{x: 3 - y}]","solve(a + b * x - 2, [a, b]) == {a: 2, b: 0}","solve((a + b) * x + b - c, [a, b]) == {a: -c, b: c}","sol == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)}","solve(eq, [h, p, k], dict=True) == [sol]","solve(eq, [h, p, k], set=True) == ([h, p, k], {(-b / (2 * a), 1 / (4 * a), (4 * a * c - b ** 2) / (4 * a))})","solve(eq, [h, p, k], exclude=[a, b, c], simplify=False) == {h: -b / (2 * a), k: (4 * a * c - b ** 2) / (4 * a), p: 1 / (4 * a)}","solve(*args) == [((b ** 2 - b * x - 2) / x, b)]","solve(a * x + b ** 2 / (x + 4) - 3 * x - 4 / x, a, b, dict=True) == [{a: (-b ** 2 * x + 3 * x ** 3 + 12 * x ** 2 + 4 * x + 16) / (x ** 2 * (x + 4))}]","solve(1 / (1 / x - y + exp(y))) == []","solve([y, exp(x) + x]) == [{x: -LambertW(1), y: 0}]","solve((exp(x) - x, exp(y) - y)) == [{x: -LambertW(-1), y: -LambertW(-1)}]","solve([y, exp(x) + x], x, y) == [(-LambertW(1), 0)]","solve(x ** 2 - pi, pi) == [x ** 2]","solve([], [x]) == []","solve((x ** 2 - 4, y - 2), x, y) == [(-2, 2), (2, 2)]","solve((x ** 2 - 4, y - 2), y, x) == [(2, -2), (2, 2)]","solve((x ** 2 - 4 + z, y - 2 - z), a, z, y, x, set=True) == ([a, z, y, x], {(a, z, z + 2, -sqrt(4 - z)), (a, z, z + 2, sqrt(4 - z))})","solve([(x + y) ** 2 - 4, x + y - 2]) == [{x: -y + 2}]","solve((x + y - 2, 2 * x + 2 * y - 4)) == {x: -y + 2}","solve(Eq(x ** 2, 0.0)) == [0.0]","solve([True, Eq(x, 0)], [x], dict=True) == [{x: 0}]","solve([Eq(x, x), Eq(x, 0), Eq(x, x + 1)], [x], dict=True) == []","not solve([Eq(x, x + 1), x < 2], x)","solve([Eq(x, 0), x + 1 < 2]) == Eq(x, 0)","solve([Eq(x, x), Eq(x, x + 1)], x) == []","solve(True, x) == []","solve([x - 1, False], [x], set=True) == ([], set())","solve([-y * (x + y - 1) / 2, (y - 1) / x / y + 1 / y], set=True, check=False) == ([x, y], {(1 - y, y), (x, 0)})","list(solve((y - 1, x - sqrt(3) * z)).keys()) == [x, y]","solve([x - 1, x], (y, x), set=True) == ([y, x], set())","solve([x - 1, x], {y, x}, set=True) == ([x, y], set())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":true}}
 def test_solve_args():
     # equation container, issue 5113
     ans = {x: -3, y: 1}
@@ -326,16 +384,24 @@ def test_solve_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_polynomial1(), test_solve_polynomial1 produces the expected output) over Any ║
+# ║ Path(test_solve_polynomial1(), solve(3 * x - 2, x) == [Rational(2, 3)] and solve(Eq(3 * x, 2), x) == [Rational(2, 3)] and set(solve(x ** 2 - 1, x)) == {-S.One, S.One} and set(solve(Eq(x ** 2, 1), x)) == {-S.One, S.One} and solve(x - y ** 3, x) == [y ** 3] and solve(x - y ** 3, y) == [rx, -rx / 2 - sqrt(3) * I * rx / 2, -rx / 2 + sqrt(3) * I * rx / 2] and solve([a11 * x + a12 * y - b1, a21 * x + a22 * y - b2], x, y) == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)} and solve((x - y, x + y), x, y) == solution and solve((x - y, x + y), (x, y)) == solution and solve((x - y, x + y), [x, y]) == solution and set(solve(x ** 3 - 15 * x - 4, x)) == {-2 + 3 ** S.Half, S(4), -2 - 3 ** S.Half} and set(solve((x ** 2 - 1) ** 2 - a, x)) == {sqrt(1 + sqrt(a)), -sqrt(1 + sqrt(a)), sqrt(1 - sqrt(a)), -sqrt(1 - sqrt(a))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_polynomial1 : Any → {Any | solve(3 * x - 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(3 * x - 2, x) == [Rational(2, 3)]        ║
+# ║   ensures:  solve(Eq(3 * x, 2), x) == [Rational(2, 3)]     ║
+# ║   ensures:  set(solve(x ** 2 - 1, x)) == {-S.One, S.One}   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_polynomial1 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48be2c4e74f80fcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63804d40b53a142d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial1","kind":"function","src_hash":"849c78d65a049fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(3 * x - 2, x) == [Rational(2, 3)] and solve(Eq(3 * x, 2), x) == [Rational(2, 3)] and set(solve(x ** 2 - 1, x)) == {-S.One, S.One} and set(solve(Eq(x ** 2, 1), x)) == {-S.One, S.One} and solve(x - y ** 3, x) == [y ** 3] and solve((x - y, x + y), x, y) == solution and solve((x - y, x + y), (x, y)) == solution and solve((x - y, x + y), [x, y]) == solution"},"spec":{"lhs":"test_solve_polynomial1()","rhs":"test_solve_polynomial1 produces the expected output","over":{"base":"Any"},"name":"test_solve_polynomial1_correct"},"guarantee":"test_solve_polynomial1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial1_correct","statement":"Path(test_solve_polynomial1(x), test_solve_polynomial1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48be2c4e74f80fcc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial1","kind":"function","src_hash":"849c78d65a049fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(3 * x - 2, x) == [Rational(2, 3)] and solve(Eq(3 * x, 2), x) == [Rational(2, 3)] and set(solve(x ** 2 - 1, x)) == {-S.One, S.One} and set(solve(Eq(x ** 2, 1), x)) == {-S.One, S.One} and solve(x - y ** 3, x) == [y ** 3] and solve(x - y ** 3, y) == [rx, -rx / 2 - sqrt(3) * I * rx / 2, -rx / 2 + sqrt(3) * I * rx / 2] and solve([a11 * x + a12 * y - b1, a21 * x + a22 * y - b2], x, y) == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)} and solve((x - y, x + y), x, y) == solution and solve((x - y, x + y), (x, y)) == solution and solve((x - y, x + y), [x, y]) == solution and set(solve(x ** 3 - 15 * x - 4, x)) == {-2 + 3 ** S.Half, S(4), -2 - 3 ** S.Half} and set(solve((x ** 2 - 1) ** 2 - a, x)) == {sqrt(1 + sqrt(a)), -sqrt(1 + sqrt(a)), sqrt(1 - sqrt(a)), -sqrt(1 - sqrt(a))}"},"spec":{"lhs":"test_solve_polynomial1()","rhs":"solve(3 * x - 2, x) == [Rational(2, 3)] and solve(Eq(3 * x, 2), x) == [Rational(2, 3)] and set(solve(x ** 2 - 1, x)) == {-S.One, S.One} and set(solve(Eq(x ** 2, 1), x)) == {-S.One, S.One} and solve(x - y ** 3, x) == [y ** 3] and solve(x - y ** 3, y) == [rx, -rx / 2 - sqrt(3) * I * rx / 2, -rx / 2 + sqrt(3) * I * rx / 2] and solve([a11 * x + a12 * y - b1, a21 * x + a22 * y - b2], x, y) == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)} and solve((x - y, x + y), x, y) == solution and solve((x - y, x + y), (x, y)) == solution and solve((x - y, x + y), [x, y]) == solution and set(solve(x ** 3 - 15 * x - 4, x)) == {-2 + 3 ** S.Half, S(4), -2 - 3 ** S.Half} and set(solve((x ** 2 - 1) ** 2 - a, x)) == {sqrt(1 + sqrt(a)), -sqrt(1 + sqrt(a)), sqrt(1 - sqrt(a)), -sqrt(1 - sqrt(a))}","over":{"base":"Any"},"name":"test_solve_polynomial1_correct"},"guarantee":"solve(3 * x - 2, x) == [Rational(2, 3)]; solve(Eq(3 * x, 2), x) == [Rational(2, 3)]; set(solve(x ** 2 - 1, x)) == {-S.One, S.One}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial1_correct","statement":"Path(test_solve_polynomial1(x), solve(3 * x - 2, x) == [Rational(2, 3)]; solve(Eq(3 * x, 2), x) == [Rational(2, 3)]; set(solve(x ** 2 - 1, x)) == {-S.One, S.One})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63804d40b53a142d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(3 * x - 2, x) == [Rational(2, 3)]","solve(Eq(3 * x, 2), x) == [Rational(2, 3)]","set(solve(x ** 2 - 1, x)) == {-S.One, S.One}","set(solve(Eq(x ** 2, 1), x)) == {-S.One, S.One}","solve(x - y ** 3, x) == [y ** 3]","solve(x - y ** 3, y) == [rx, -rx / 2 - sqrt(3) * I * rx / 2, -rx / 2 + sqrt(3) * I * rx / 2]","solve([a11 * x + a12 * y - b1, a21 * x + a22 * y - b2], x, y) == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)}","solve((x - y, x + y), x, y) == solution","solve((x - y, x + y), (x, y)) == solution","solve((x - y, x + y), [x, y]) == solution","set(solve(x ** 3 - 15 * x - 4, x)) == {-2 + 3 ** S.Half, S(4), -2 - 3 ** S.Half}","set(solve((x ** 2 - 1) ** 2 - a, x)) == {sqrt(1 + sqrt(a)), -sqrt(1 + sqrt(a)), sqrt(1 - sqrt(a)), -sqrt(1 - sqrt(a))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_solve_polynomial1():
     assert solve(3*x - 2, x) == [Rational(2, 3)]
     assert solve(Eq(3*x, 2), x) == [Rational(2, 3)]
@@ -373,31 +439,45 @@ def test_solve_polynomial1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_polynomial2(), test_solve_polynomial2 produces the expected output) over Any ║
+# ║ Path(test_solve_polynomial2(), solve(4, x) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_polynomial2 : Any → {Any | solve(4, x) == []}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(4, x) == []                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_polynomial2 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ebe443a221e077e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1c3cf376e12e14e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial2","kind":"function","src_hash":"c35d69931450304f","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(4, x) == []"},"spec":{"lhs":"test_solve_polynomial2()","rhs":"test_solve_polynomial2 produces the expected output","over":{"base":"Any"},"name":"test_solve_polynomial2_correct"},"guarantee":"test_solve_polynomial2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial2_correct","statement":"Path(test_solve_polynomial2(x), test_solve_polynomial2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ebe443a221e077e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial2","kind":"function","src_hash":"c35d69931450304f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(4, x) == []"},"spec":{"lhs":"test_solve_polynomial2()","rhs":"solve(4, x) == []","over":{"base":"Any"},"name":"test_solve_polynomial2_correct"},"guarantee":"solve(4, x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial2_correct","statement":"Path(test_solve_polynomial2(x), solve(4, x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c3cf376e12e14e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(4, x) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_solve_polynomial2():
     assert solve(4, x) == []
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_polynomial_cv_1a(), test for solving on equations that can be converted to a polynomial equation using the change of variable y -> x**rational(p, q)) over Any ║
+# ║ Path(test_solve_polynomial_cv_1a(), solve(sqrt(x) - 1, x) == [1] and solve(sqrt(x) - 2, x) == [4] and solve(x ** Rational(1, 4) - 2, x) == [16] and solve(x ** Rational(1, 3) - 3, x) == [27] and solve(sqrt(x) + x ** Rational(1, 3) + x ** Rational(1, 4), x) == [0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_polynomial_cv_1a : Any → {Any | solve(sqrt...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(x) - 1, x) == [1]                   ║
+# ║   ensures:  solve(sqrt(x) - 2, x) == [4]                   ║
+# ║   ensures:  solve(x ** Rational(1, 4) - 2, x) == [16]      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_polynomial_cv_1a : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da3d1ef109cb5b1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 450b5c78dab0c4ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1a","kind":"function","src_hash":"3eff1d87ce21b5b5","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sqrt(x) - 1, x) == [1] and solve(sqrt(x) - 2, x) == [4] and solve(x ** Rational(1, 4) - 2, x) == [16] and solve(x ** Rational(1, 3) - 3, x) == [27] and solve(sqrt(x) + x ** Rational(1, 3) + x ** Rational(1, 4), x) == [0]"},"spec":{"lhs":"test_solve_polynomial_cv_1a()","rhs":"test for solving on equations that can be converted to a polynomial equation using the change of variable y -> x**rational(p, q)","over":{"base":"Any"},"name":"test_solve_polynomial_cv_1a_correct"},"guarantee":"test for solving on equations that can be converted to a polynomial equation using the change of variable y -> x**rational(p, q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1a_correct","statement":"Path(test_solve_polynomial_cv_1a(x), test for solving on equations that can be converted to a polynomial equation using the change of variable y -> x**rational(p, q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3d1ef109cb5b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1a","kind":"function","src_hash":"3eff1d87ce21b5b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(x) - 1, x) == [1] and solve(sqrt(x) - 2, x) == [4] and solve(x ** Rational(1, 4) - 2, x) == [16] and solve(x ** Rational(1, 3) - 3, x) == [27] and solve(sqrt(x) + x ** Rational(1, 3) + x ** Rational(1, 4), x) == [0]"},"spec":{"lhs":"test_solve_polynomial_cv_1a()","rhs":"solve(sqrt(x) - 1, x) == [1] and solve(sqrt(x) - 2, x) == [4] and solve(x ** Rational(1, 4) - 2, x) == [16] and solve(x ** Rational(1, 3) - 3, x) == [27] and solve(sqrt(x) + x ** Rational(1, 3) + x ** Rational(1, 4), x) == [0]","over":{"base":"Any"},"name":"test_solve_polynomial_cv_1a_correct"},"guarantee":"solve(sqrt(x) - 1, x) == [1]; solve(sqrt(x) - 2, x) == [4]; solve(x ** Rational(1, 4) - 2, x) == [16]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1a_correct","statement":"Path(test_solve_polynomial_cv_1a(x), solve(sqrt(x) - 1, x) == [1]; solve(sqrt(x) - 2, x) == [4]; solve(x ** Rational(1, 4) - 2, x) == [16])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"450b5c78dab0c4ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(x) - 1, x) == [1]","solve(sqrt(x) - 2, x) == [4]","solve(x ** Rational(1, 4) - 2, x) == [16]","solve(x ** Rational(1, 3) - 3, x) == [27]","solve(sqrt(x) + x ** Rational(1, 3) + x ** Rational(1, 4), x) == [0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_polynomial_cv_1a():
     """
     Test for solving on equations that can be converted to a polynomial equation
@@ -411,32 +491,45 @@ def test_solve_polynomial_cv_1a():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_polynomial_cv_1b(), test_solve_polynomial_cv_1b produces the expected output) over Any ║
+# ║ Path(test_solve_polynomial_cv_1b(), set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2} and set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_polynomial_cv_1b : Any → {Any | set(solve(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve(4 * x * (1 - a * sqrt(x)), x)) ...   ║
+# ║   ensures:  set(solve(x * (root(x, 3) - 3), x)) == {S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_polynomial_cv_1b : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba8542adbe461de2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 998885f6efe13c45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1b","kind":"function","src_hash":"1e1ca89a0cdf779e","in":{"base":"Any"},"out":{"base":"Any","pred":"set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2} and set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)}"},"spec":{"lhs":"test_solve_polynomial_cv_1b()","rhs":"test_solve_polynomial_cv_1b produces the expected output","over":{"base":"Any"},"name":"test_solve_polynomial_cv_1b_correct"},"guarantee":"test_solve_polynomial_cv_1b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1b_correct","statement":"Path(test_solve_polynomial_cv_1b(x), test_solve_polynomial_cv_1b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba8542adbe461de2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1b","kind":"function","src_hash":"1e1ca89a0cdf779e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2} and set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)}"},"spec":{"lhs":"test_solve_polynomial_cv_1b()","rhs":"set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2} and set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)}","over":{"base":"Any"},"name":"test_solve_polynomial_cv_1b_correct"},"guarantee":"set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2}; set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_1b_correct","statement":"Path(test_solve_polynomial_cv_1b(x), set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2}; set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"998885f6efe13c45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve(4 * x * (1 - a * sqrt(x)), x)) == {S.Zero, 1 / a ** 2}","set(solve(x * (root(x, 3) - 3), x)) == {S.Zero, S(27)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_polynomial_cv_1b():
     assert set(solve(4*x*(1 - a*sqrt(x)), x)) == {S.Zero, 1/a**2}
     assert set(solve(x*(root(x, 3) - 3), x)) == {S.Zero, S(27)}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_polynomial_cv_2(), test for solving on equations that can be converted to a polynomial equation multiplying both sides of the equation by x**m) over Any ║
+# ║ Path(test_solve_polynomial_cv_2(), solve(x + 1 / x - 1, x) in [[S.Half + I * sqrt(3) / 2, S.Half - I * sqrt(3) / 2], [S.Half - I * sqrt(3) / 2, S.Half + I * sqrt(3) / 2]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_polynomial_cv_2 : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x + 1 / x - 1, x) in [[S.Half + I *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_polynomial_cv_2 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5387415f7a3fad01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f666dd467bd84484  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_2","kind":"function","src_hash":"0c81542aa3ad341b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_polynomial_cv_2()","rhs":"test for solving on equations that can be converted to a polynomial equation multiplying both sides of the equation by x**m","over":{"base":"Any"},"name":"test_solve_polynomial_cv_2_correct"},"guarantee":"test for solving on equations that can be converted to a polynomial equation multiplying both sides of the equation by x**m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_2_correct","statement":"Path(test_solve_polynomial_cv_2(x), test for solving on equations that can be converted to a polynomial equation multiplying both sides of the equation by x**m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5387415f7a3fad01"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_2","kind":"function","src_hash":"0c81542aa3ad341b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x + 1 / x - 1, x) in [[S.Half + I * sqrt(3) / 2, S.Half - I * sqrt(3) / 2], [S.Half - I * sqrt(3) / 2, S.Half + I * sqrt(3) / 2]]"},"spec":{"lhs":"test_solve_polynomial_cv_2()","rhs":"solve(x + 1 / x - 1, x) in [[S.Half + I * sqrt(3) / 2, S.Half - I * sqrt(3) / 2], [S.Half - I * sqrt(3) / 2, S.Half + I * sqrt(3) / 2]]","over":{"base":"Any"},"name":"test_solve_polynomial_cv_2_correct"},"guarantee":"solve(x + 1 / x - 1, x) in [[S.Half + I * sqrt(3) / 2, S.Half - I * sqrt(3) / 2], [S.Half - I * sqrt(3) / 2, S.Half + I * sqrt(3) / 2]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_polynomial_cv_2_correct","statement":"Path(test_solve_polynomial_cv_2(x), solve(x + 1 / x - 1, x) in [[S.Half + I * sqrt(3) / 2, S.Half - I * sqrt(3) / 2], [S.Half - I * sqrt(3) / 2, S.Half + I * sqrt(3) / 2]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f666dd467bd84484","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x + 1 / x - 1, x) in [[S.Half + I * sqrt(3) / 2, S.Half - I * sqrt(3) / 2], [S.Half - I * sqrt(3) / 2, S.Half + I * sqrt(3) / 2]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_polynomial_cv_2():
     """
     Test for solving on equations that can be converted to a polynomial equation
@@ -448,16 +541,22 @@ def test_solve_polynomial_cv_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quintics_1(), test_quintics_1 produces the expected output) over Any ║
+# ║ Path(test_quintics_1(), nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0], exponent=False) == CRootOf(x ** 5 + 3 * x ** 3 + 7, 0).n()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quintics_1 : Any → {Any | tn(res, 0) and r.func ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quintics_1 : Any → {Any | result satisfies: nflo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfdd8b07f98c7233  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 415faf5e991d388c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_quintics_1","kind":"function","src_hash":"85b61aeaeee2d29a","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(res, 0) and r.func == CRootOf"},"spec":{"lhs":"test_quintics_1()","rhs":"test_quintics_1 produces the expected output","over":{"base":"Any"},"name":"test_quintics_1_correct"},"guarantee":"test_quintics_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_quintics_1_correct","statement":"Path(test_quintics_1(x), test_quintics_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfdd8b07f98c7233"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_quintics_1","kind":"function","src_hash":"85b61aeaeee2d29a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0], exponent=False) == CRootOf(x ** 5 + 3 * x ** 3 + 7, 0).n()"},"spec":{"lhs":"test_quintics_1()","rhs":"nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0], exponent=False) == CRootOf(x ** 5 + 3 * x ** 3 + 7, 0).n()","over":{"base":"Any"},"name":"test_quintics_1_correct"},"guarantee":"nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0], exponent=False) == CRootOf(x ** 5 + 3 * x ** 3 + 7, 0).n()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_quintics_1_correct","statement":"Path(test_quintics_1(x), nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0], exponent=False) == CRootOf(x ** 5 + 3 * x ** 3 + 7, 0).n())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"415faf5e991d388c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nfloat(solve(x ** 5 + 3 * x ** 3 + 7)[0], exponent=False) == CRootOf(x ** 5 + 3 * x ** 3 + 7, 0).n()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_quintics_1():
     f = x**5 - 110*x**3 - 55*x**2 + 2310*x + 979
     s = solve(f, check=False)
@@ -482,16 +581,22 @@ def test_quintics_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quintics_2(), test_quintics_2 produces the expected output) over Any ║
+# ║ Path(test_quintics_2(), solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6) == [CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 0), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 1), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 2), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 3), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 4)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quintics_2 : Any → {Any | tn(res, 0) and r.func ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quintics_2 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff1671fcc6396237  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 896fd82a3218687d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_quintics_2","kind":"function","src_hash":"efc8e0f6117a4f6e","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(res, 0) and r.func == CRootOf"},"spec":{"lhs":"test_quintics_2()","rhs":"test_quintics_2 produces the expected output","over":{"base":"Any"},"name":"test_quintics_2_correct"},"guarantee":"test_quintics_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_quintics_2_correct","statement":"Path(test_quintics_2(x), test_quintics_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff1671fcc6396237"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_quintics_2","kind":"function","src_hash":"efc8e0f6117a4f6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6) == [CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 0), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 1), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 2), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 3), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 4)]"},"spec":{"lhs":"test_quintics_2()","rhs":"solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6) == [CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 0), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 1), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 2), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 3), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 4)]","over":{"base":"Any"},"name":"test_quintics_2_correct"},"guarantee":"solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6) == [CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 0), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 1), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 2), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 3), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_quintics_2_correct","statement":"Path(test_quintics_2(x), solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6) == [CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 0), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 1), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 2), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 3), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"896fd82a3218687d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6) == [CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 0), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 1), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 2), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 3), CRootOf(x ** 5 - 6 * x ** 3 - 6 * x ** 2 + x - 6, 4)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_quintics_2():
     f = x**5 + 15*x + 12
     s = solve(f, check=False)
@@ -512,23 +617,32 @@ def test_quintics_2():
         CRootOf(x**5 - 6*x**3 - 6*x**2 + x - 6, 4)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quintics_3(), test_quintics_3 produces the expected output) over Any ║
+# ║ Path(test_quintics_3(), solve(y) == solve(-y) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quintics_3 : Any → {Any | solve(y) == solve(-y) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(y) == solve(-y) == []                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quintics_3 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aac8b25221ca254  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afa84666d637b971  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_quintics_3","kind":"function","src_hash":"4e44b757b419a93c","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(y) == solve(-y) == []"},"spec":{"lhs":"test_quintics_3()","rhs":"test_quintics_3 produces the expected output","over":{"base":"Any"},"name":"test_quintics_3_correct"},"guarantee":"test_quintics_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_quintics_3_correct","statement":"Path(test_quintics_3(x), test_quintics_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aac8b25221ca254"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_quintics_3","kind":"function","src_hash":"4e44b757b419a93c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(y) == solve(-y) == []"},"spec":{"lhs":"test_quintics_3()","rhs":"solve(y) == solve(-y) == []","over":{"base":"Any"},"name":"test_quintics_3_correct"},"guarantee":"solve(y) == solve(-y) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_quintics_3_correct","statement":"Path(test_quintics_3(x), solve(y) == solve(-y) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa84666d637b971","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(y) == solve(-y) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quintics_3():
     y = x**5 + x**3 - 2**Rational(1, 3)
     assert solve(y) == solve(-y) == []
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_highorder_poly(), test_highorder_poly produces the expected output) over {Any | isinstance(i, CRootOf)} ║
+# ║ Path(test_highorder_poly(), all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6) over {Any | isinstance(i, CRootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((isinstance(i, CRootOf) for i in sol)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_highorder_poly : {Any | isinstance(i, CRootOf)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -540,9 +654,12 @@ def test_quintics_3():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 522d07ff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_highorder_poly","kind":"function","src_hash":"413c7f7d6eef029b","in":{"base":"Any","pred":"isinstance(i, CRootOf)"},"out":{"base":"Any","pred":"all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6"},"spec":{"lhs":"test_highorder_poly()","rhs":"test_highorder_poly produces the expected output","over":{"base":"Any","pred":"isinstance(i, CRootOf)"},"name":"test_highorder_poly_correct"},"guarantee":"test_highorder_poly produces the expected output","fibers":[{"name":"CRootOf","pred":"isinstance(i, CRootOf)","path":{"lhs":"test_highorder_poly(x)","rhs":"test_highorder_poly produces the expected output","over":{"base":"CRootOf","pred":"isinstance(i, CRootOf)"},"name":"test_highorder_poly_CRootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_highorder_poly_CRootOf_correct","statement":"test_highorder_poly satisfies spec on CRootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"522d07ff9924b537"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_highorder_poly","kind":"function","src_hash":"413c7f7d6eef029b","in":{"base":"Any","pred":"isinstance(i, CRootOf)"},"out":{"base":"Any","pred":"result satisfies: all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6"},"spec":{"lhs":"test_highorder_poly()","rhs":"all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6","over":{"base":"Any","pred":"isinstance(i, CRootOf)"},"name":"test_highorder_poly_correct"},"guarantee":"all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6","fibers":[{"name":"CRootOf","pred":"isinstance(i, CRootOf)","path":{"lhs":"test_highorder_poly(x)","rhs":"all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6","over":{"base":"CRootOf","pred":"isinstance(i, CRootOf)"},"name":"test_highorder_poly_CRootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_highorder_poly_CRootOf_correct","statement":"test_highorder_poly satisfies spec on CRootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"522d07ff9924b537","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((isinstance(i, CRootOf) for i in sol)) and len(sol) == 6"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_highorder_poly():
     # just testing that the uniq generator is unpacked
     sol = solve(x**6 - 2*x + 2)
@@ -550,48 +667,67 @@ def test_highorder_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_rational(), test solve for rational functions) over Any ║
+# ║ Path(test_solve_rational(), solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_rational : Any → {Any | solve((x - y ** 3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((x - y ** 3) / (y ** 2 * sqrt(1 - y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_rational : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4d6bc48b8781a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c3e071b81278ee3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_rational","kind":"function","src_hash":"137146a0988709f9","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3]"},"spec":{"lhs":"test_solve_rational()","rhs":"test solve for rational functions","over":{"base":"Any"},"name":"test_solve_rational_correct"},"guarantee":"test solve for rational functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_rational_correct","statement":"Path(test_solve_rational(x), test solve for rational functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4d6bc48b8781a4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_rational","kind":"function","src_hash":"137146a0988709f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3]"},"spec":{"lhs":"test_solve_rational()","rhs":"solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3]","over":{"base":"Any"},"name":"test_solve_rational_correct"},"guarantee":"solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_rational_correct","statement":"Path(test_solve_rational(x), solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c3e071b81278ee3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((x - y ** 3) / (y ** 2 * sqrt(1 - y ** 2)), x) == [y ** 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_rational():
     """Test solve for rational functions"""
     assert solve( ( x - y**3 )/( (y**2)*sqrt(1 - y**2) ), x) == [y**3]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_conjugate(), test solve for simple conjugate functions) over Any ║
+# ║ Path(test_solve_conjugate(), solve(conjugate(x) - 3 + I) == [3 + I]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_conjugate : Any → {Any | solve(conjugate(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(conjugate(x) - 3 + I) == [3 + I]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_conjugate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b10c5ee1cfa2dc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 423caa5da360950c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_conjugate","kind":"function","src_hash":"1f09bbfd2dd58c69","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(conjugate(x) - 3 + I) == [3 + I]"},"spec":{"lhs":"test_solve_conjugate()","rhs":"test solve for simple conjugate functions","over":{"base":"Any"},"name":"test_solve_conjugate_correct"},"guarantee":"test solve for simple conjugate functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_conjugate_correct","statement":"Path(test_solve_conjugate(x), test solve for simple conjugate functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b10c5ee1cfa2dc5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_conjugate","kind":"function","src_hash":"1f09bbfd2dd58c69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(conjugate(x) - 3 + I) == [3 + I]"},"spec":{"lhs":"test_solve_conjugate()","rhs":"solve(conjugate(x) - 3 + I) == [3 + I]","over":{"base":"Any"},"name":"test_solve_conjugate_correct"},"guarantee":"solve(conjugate(x) - 3 + I) == [3 + I]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_conjugate_correct","statement":"Path(test_solve_conjugate(x), solve(conjugate(x) - 3 + I) == [3 + I])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"423caa5da360950c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(conjugate(x) - 3 + I) == [3 + I]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_solve_conjugate():
     """Test solve for simple conjugate functions"""
     assert solve(conjugate(x) -3 + I) == [3 + I]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_nonlinear(), test_solve_nonlinear produces the expected output) over Any ║
+# ║ Path(test_solve_nonlinear(), solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: -x * sqrt(exp(x))}, {y: x * sqrt(exp(x))}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_nonlinear : Any → {Any | solve(x ** 2 - y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x ** 2 - y ** 2, x, y, dict=True) =...   ║
+# ║   ensures:  solve(x ** 2 - y ** 2 / exp(x), y, x, dic...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_nonlinear : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e112a3cb70edf3d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af7c89cd57879e18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_nonlinear","kind":"function","src_hash":"1aecf18674503edf","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}]"},"spec":{"lhs":"test_solve_nonlinear()","rhs":"test_solve_nonlinear produces the expected output","over":{"base":"Any"},"name":"test_solve_nonlinear_correct"},"guarantee":"test_solve_nonlinear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_nonlinear_correct","statement":"Path(test_solve_nonlinear(x), test_solve_nonlinear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e112a3cb70edf3d9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_nonlinear","kind":"function","src_hash":"1aecf18674503edf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: -x * sqrt(exp(x))}, {y: x * sqrt(exp(x))}]"},"spec":{"lhs":"test_solve_nonlinear()","rhs":"solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: -x * sqrt(exp(x))}, {y: x * sqrt(exp(x))}]","over":{"base":"Any"},"name":"test_solve_nonlinear_correct"},"guarantee":"solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}]; solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: -x * sqrt(exp(x))}, {y: x * sqrt(exp(x))}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_nonlinear_correct","statement":"Path(test_solve_nonlinear(x), solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}]; solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: -x * sqrt(exp(x))}, {y: x * sqrt(exp(x))}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af7c89cd57879e18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x ** 2 - y ** 2, x, y, dict=True) == [{x: -y}, {x: y}]","solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: -x * sqrt(exp(x))}, {y: x * sqrt(exp(x))}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_nonlinear():
     assert solve(x**2 - y**2, x, y, dict=True) == [{x: -y}, {x: y}]
     assert solve(x**2 - y**2/exp(x), y, x, dict=True) == [{y: -x*sqrt(exp(x))},
@@ -599,16 +735,23 @@ def test_solve_nonlinear():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8666(), test_issue_8666 produces the expected output) over Any ║
+# ║ Path(test_issue_8666(), solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == [] and solve(Eq(x + 1 / x, 1 / x), x) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8666 : Any → {Any | solve(Eq(x ** 2 - 1 / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1...   ║
+# ║   ensures:  solve(Eq(x + 1 / x, 1 / x), x) == []           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8666 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ae404fc3aad990e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64416b3fd87939df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_8666","kind":"function","src_hash":"20ebf532b5d83b47","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == [] and solve(Eq(x + 1 / x, 1 / x), x) == []"},"spec":{"lhs":"test_issue_8666()","rhs":"test_issue_8666 produces the expected output","over":{"base":"Any"},"name":"test_issue_8666_correct"},"guarantee":"test_issue_8666 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_8666_correct","statement":"Path(test_issue_8666(x), test_issue_8666 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ae404fc3aad990e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_8666","kind":"function","src_hash":"20ebf532b5d83b47","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == [] and solve(Eq(x + 1 / x, 1 / x), x) == []"},"spec":{"lhs":"test_issue_8666()","rhs":"solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == [] and solve(Eq(x + 1 / x, 1 / x), x) == []","over":{"base":"Any"},"name":"test_issue_8666_correct"},"guarantee":"solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == []; solve(Eq(x + 1 / x, 1 / x), x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_8666_correct","statement":"Path(test_issue_8666(x), solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == []; solve(Eq(x + 1 / x, 1 / x), x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64416b3fd87939df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(Eq(x ** 2 - 1 / (x ** 2 - 4), 4 - 1 / (x ** 2 - 4)), x) == []","solve(Eq(x + 1 / x, 1 / x), x) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8666():
     x = symbols('x')
     assert solve(Eq(x**2 - 1/(x**2 - 4), 4 - 1/(x**2 - 4)), x) == []
@@ -616,46 +759,64 @@ def test_issue_8666():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7228(), test_issue_7228 produces the expected output) over Any ║
+# ║ Path(test_issue_7228(), solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7228 : Any → {Any | solve(4 ** (2 * x ** 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7228 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9f5331c610c04f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b964836d0c22b536  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7228","kind":"function","src_hash":"1fd0833c68e03a0e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half]"},"spec":{"lhs":"test_issue_7228()","rhs":"test_issue_7228 produces the expected output","over":{"base":"Any"},"name":"test_issue_7228_correct"},"guarantee":"test_issue_7228 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7228_correct","statement":"Path(test_issue_7228(x), test_issue_7228 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9f5331c610c04f7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7228","kind":"function","src_hash":"1fd0833c68e03a0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half]"},"spec":{"lhs":"test_issue_7228()","rhs":"solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half]","over":{"base":"Any"},"name":"test_issue_7228_correct"},"guarantee":"solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7228_correct","statement":"Path(test_issue_7228(x), solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b964836d0c22b536","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(4 ** (2 * x ** 2 + 2 * x) - 8, x) == [Rational(-3, 2), S.Half]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7228():
     assert solve(4**(2*(x**2) + 2*x) - 8, x) == [Rational(-3, 2), S.Half]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7190(), test_issue_7190 produces the expected output) over Any ║
+# ║ Path(test_issue_7190(), solve(log(x - 3) + log(x + 3), x) == [sqrt(10)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7190 : Any → {Any | solve(log(x - 3) + log...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(log(x - 3) + log(x + 3), x) == [sqr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7190 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20c1159da7349aea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e60fc94cc1300051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7190","kind":"function","src_hash":"5f18f7e494e3d661","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(log(x - 3) + log(x + 3), x) == [sqrt(10)]"},"spec":{"lhs":"test_issue_7190()","rhs":"test_issue_7190 produces the expected output","over":{"base":"Any"},"name":"test_issue_7190_correct"},"guarantee":"test_issue_7190 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7190_correct","statement":"Path(test_issue_7190(x), test_issue_7190 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20c1159da7349aea"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7190","kind":"function","src_hash":"5f18f7e494e3d661","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(log(x - 3) + log(x + 3), x) == [sqrt(10)]"},"spec":{"lhs":"test_issue_7190()","rhs":"solve(log(x - 3) + log(x + 3), x) == [sqrt(10)]","over":{"base":"Any"},"name":"test_issue_7190_correct"},"guarantee":"solve(log(x - 3) + log(x + 3), x) == [sqrt(10)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7190_correct","statement":"Path(test_issue_7190(x), solve(log(x - 3) + log(x + 3), x) == [sqrt(10)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e60fc94cc1300051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(log(x - 3) + log(x + 3), x) == [sqrt(10)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7190():
     assert solve(log(x-3) + log(x+3), x) == [sqrt(10)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21004(), test_issue_21004 produces the expected output) over Any ║
+# ║ Path(test_issue_21004(), solve(f_diff, x) == []) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21004 : Any → {Any | solve(f_diff, x) == []}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(f_diff, x) == []                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21004 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 101ab0633316130d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0410bd388ca17fb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21004","kind":"function","src_hash":"4127cc975f7cd555","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(f_diff, x) == []"},"spec":{"lhs":"test_issue_21004()","rhs":"test_issue_21004 produces the expected output","over":{"base":"Any"},"name":"test_issue_21004_correct"},"guarantee":"test_issue_21004 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21004_correct","statement":"Path(test_issue_21004(x), test_issue_21004 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"101ab0633316130d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21004","kind":"function","src_hash":"4127cc975f7cd555","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(f_diff, x) == []"},"spec":{"lhs":"test_issue_21004()","rhs":"solve(f_diff, x) == []","over":{"base":"Any"},"name":"test_issue_21004_correct"},"guarantee":"solve(f_diff, x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21004_correct","statement":"Path(test_issue_21004(x), solve(f_diff, x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0410bd388ca17fb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(f_diff, x) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21004():
     x = symbols('x')
     f = x/sqrt(x**2+1)
@@ -664,16 +825,23 @@ def test_issue_21004():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24650(), test_issue_24650 produces the expected output) over Any ║
+# ║ Path(test_issue_24650(), r == [0] and r is True) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24650 : Any → {Any | r == [0] and r is True}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == [0]                                       ║
+# ║   ensures:  r is True                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24650 : Any → {Any | result satisfies: r =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89c9e97b458c79bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa5f24f76a5f0f50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24650","kind":"function","src_hash":"e0045beebcf51c3a","in":{"base":"Any"},"out":{"base":"Any","pred":"r == [0] and r is True"},"spec":{"lhs":"test_issue_24650()","rhs":"test_issue_24650 produces the expected output","over":{"base":"Any"},"name":"test_issue_24650_correct"},"guarantee":"test_issue_24650 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24650_correct","statement":"Path(test_issue_24650(x), test_issue_24650 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89c9e97b458c79bc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24650","kind":"function","src_hash":"e0045beebcf51c3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == [0] and r is True"},"spec":{"lhs":"test_issue_24650()","rhs":"r == [0] and r is True","over":{"base":"Any"},"name":"test_issue_24650_correct"},"guarantee":"r == [0]; r is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24650_correct","statement":"Path(test_issue_24650(x), r == [0]; r is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5f24f76a5f0f50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == [0]","r is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_24650():
     x = symbols('x')
     r = solve(Eq(Piecewise((x, Eq(x, 0) | (x > 1))), 0))
@@ -683,16 +851,24 @@ def test_issue_24650():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_system(), test_linear_system produces the expected output) over Any ║
+# ║ Path(test_linear_system(), solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == [] and solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == [] and solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == [] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == {x: -3, y: 1} and solve_linear_system(M, x, y, z, t) == {x: t * (-n - 1) / n, y: 0, z: t * (-n - 1) / n} and solve([x + y + z + t, -z - t], x, y, z, t) == {x: -y, z: -t}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_system : Any → {Any | solve([x - 1, x - y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([x - 1, x - y, x - 2 * y, y - 1], [...   ║
+# ║   ensures:  solve([x - 1, x - y, x - 2 * y, x - 1], [...   ║
+# ║   ensures:  solve([x - 1, x - 1, x - y, x - 2 * y], [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_system : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fbb81f7ad80962c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b735a9a0d1e6c96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system","kind":"function","src_hash":"96e0c8d783e228e3","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == [] and solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == [] and solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == [] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == {x: -3, y: 1} and solve([x + y + z + t, -z - t], x, y, z, t) == {x: -y, z: -t}"},"spec":{"lhs":"test_linear_system()","rhs":"test_linear_system produces the expected output","over":{"base":"Any"},"name":"test_linear_system_correct"},"guarantee":"test_linear_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_correct","statement":"Path(test_linear_system(x), test_linear_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fbb81f7ad80962c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system","kind":"function","src_hash":"96e0c8d783e228e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == [] and solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == [] and solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == [] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == {x: -3, y: 1} and solve_linear_system(M, x, y, z, t) == {x: t * (-n - 1) / n, y: 0, z: t * (-n - 1) / n} and solve([x + y + z + t, -z - t], x, y, z, t) == {x: -y, z: -t}"},"spec":{"lhs":"test_linear_system()","rhs":"solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == [] and solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == [] and solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == [] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == {x: -3, y: 1} and solve_linear_system(M, x, y, z, t) == {x: t * (-n - 1) / n, y: 0, z: t * (-n - 1) / n} and solve([x + y + z + t, -z - t], x, y, z, t) == {x: -y, z: -t}","over":{"base":"Any"},"name":"test_linear_system_correct"},"guarantee":"solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == []; solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == []; solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_correct","statement":"Path(test_linear_system(x), solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == []; solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == []; solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b735a9a0d1e6c96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([x - 1, x - y, x - 2 * y, y - 1], [x, y]) == []","solve([x - 1, x - y, x - 2 * y, x - 1], [x, y]) == []","solve([x - 1, x - 1, x - y, x - 2 * y], [x, y]) == []","solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == {x: -3, y: 1}","solve_linear_system(M, x, y, z, t) == {x: t * (-n - 1) / n, y: 0, z: t * (-n - 1) / n}","solve([x + y + z + t, -z - t], x, y, z, t) == {x: -y, z: -t}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_linear_system():
     x, y, z, t, n = symbols('x, y, z, t, n')
 
@@ -715,16 +891,22 @@ def test_linear_system():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_system_xfail(), test_linear_system_xfail produces the expected output) over Any ║
+# ║ Path(test_linear_system_xfail(), solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_system_xfail : Any → {Any | solve_linear_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_linear_system(M, x, y, z) == {x: 0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_system_xfail : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67c4684c0c1fb567  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a55b02a532cb3c72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_xfail","kind":"function","src_hash":"8a2b9320a01bb747","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0}"},"spec":{"lhs":"test_linear_system_xfail()","rhs":"test_linear_system_xfail produces the expected output","over":{"base":"Any"},"name":"test_linear_system_xfail_correct"},"guarantee":"test_linear_system_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_xfail_correct","statement":"Path(test_linear_system_xfail(x), test_linear_system_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67c4684c0c1fb567"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_xfail","kind":"function","src_hash":"8a2b9320a01bb747","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0}"},"spec":{"lhs":"test_linear_system_xfail()","rhs":"solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0}","over":{"base":"Any"},"name":"test_linear_system_xfail_correct"},"guarantee":"solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_xfail_correct","statement":"Path(test_linear_system_xfail(x), solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a55b02a532cb3c72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_linear_system(M, x, y, z) == {x: 0, y: -60.0, z: 160.0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_linear_system_xfail():
     # https://github.com/sympy/sympy/issues/6420
     M = Matrix([[0,    15.0, 10.0, 700.0],
@@ -736,16 +918,22 @@ def test_linear_system_xfail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_system_function(), test_linear_system_function produces the expected output) over Any ║
+# ║ Path(test_linear_system_function(), solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)], a(0, 0), a(0, 1), a(1, 0), a(1, 1)) == {a(1, 0): -a(1, 1), a(0, 0): -a(0, 1)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_system_function : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_system_function : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc9971bb1a2c1675  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f24aec3c2fabf722  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_function","kind":"function","src_hash":"0a00d3d59ee48da4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_system_function()","rhs":"test_linear_system_function produces the expected output","over":{"base":"Any"},"name":"test_linear_system_function_correct"},"guarantee":"test_linear_system_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_function_correct","statement":"Path(test_linear_system_function(x), test_linear_system_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc9971bb1a2c1675"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_function","kind":"function","src_hash":"0a00d3d59ee48da4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)], a(0, 0), a(0, 1), a(1, 0), a(1, 1)) == {a(1, 0): -a(1, 1), a(0, 0): -a(0, 1)}"},"spec":{"lhs":"test_linear_system_function()","rhs":"solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)], a(0, 0), a(0, 1), a(1, 0), a(1, 1)) == {a(1, 0): -a(1, 1), a(0, 0): -a(0, 1)}","over":{"base":"Any"},"name":"test_linear_system_function_correct"},"guarantee":"solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)], a(0, 0), a(0, 1), a(1, 0), a(1, 1)) == {a(1, 0): -a(1, 1), a(0, 0): -a(0, 1)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_function_correct","statement":"Path(test_linear_system_function(x), solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)], a(0, 0), a(0, 1), a(1, 0), a(1, 1)) == {a(1, 0): -a(1, 1), a(0, 0): -a(0, 1)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f24aec3c2fabf722","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)], a(0, 0), a(0, 1), a(1, 0), a(1, 1)) == {a(1, 0): -a(1, 1), a(0, 0): -a(0, 1)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_linear_system_function():
     a = Function('a')
     assert solve([a(0, 0) + a(0, 1) + a(1, 0) + a(1, 1), -a(1, 0) - a(1, 1)],
@@ -753,16 +941,22 @@ def test_linear_system_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_system_symbols_doesnt_hang_1(), test_linear_system_symbols_doesnt_hang_1 produces the expected output) over Any ║
+# ║ Path(test_linear_system_symbols_doesnt_hang_1(), (eqs, c)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (eqs, c)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_system_symbols_doesnt_hang_1 : Any → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4ce9d85a27a8e4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09242acb95e250f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_1","kind":"function","src_hash":"b3d9ce13bad32c85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_system_symbols_doesnt_hang_1()","rhs":"test_linear_system_symbols_doesnt_hang_1 produces the expected output","over":{"base":"Any"},"name":"test_linear_system_symbols_doesnt_hang_1_correct"},"guarantee":"test_linear_system_symbols_doesnt_hang_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_1_correct","statement":"Path(test_linear_system_symbols_doesnt_hang_1(x), test_linear_system_symbols_doesnt_hang_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ce9d85a27a8e4b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_1","kind":"function","src_hash":"b3d9ce13bad32c85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_system_symbols_doesnt_hang_1()","rhs":"(eqs, c)","over":{"base":"Any"},"name":"test_linear_system_symbols_doesnt_hang_1_correct"},"guarantee":"returns (eqs, c)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_1_correct","statement":"Path(test_linear_system_symbols_doesnt_hang_1(x), returns (eqs, c))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09242acb95e250f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(eqs, c)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_linear_system_symbols_doesnt_hang_1():
 
     def _mk_eqs(wy):
@@ -793,16 +987,22 @@ def test_linear_system_symbols_doesnt_hang_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_system_symbols_doesnt_hang_2(), test_linear_system_symbols_doesnt_hang_2 produces the expected output) over Any ║
+# ║ Path(test_linear_system_symbols_doesnt_hang_2(), solve(eqs, syms) == sol) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eqs, syms) == sol                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_system_symbols_doesnt_hang_2 : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6779a9afc157e3ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ec874e3afd938cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_2","kind":"function","src_hash":"8e90421b8d9134ee","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eqs, syms) == sol and solve(eqs, syms) == sol"},"spec":{"lhs":"test_linear_system_symbols_doesnt_hang_2()","rhs":"test_linear_system_symbols_doesnt_hang_2 produces the expected output","over":{"base":"Any"},"name":"test_linear_system_symbols_doesnt_hang_2_correct"},"guarantee":"test_linear_system_symbols_doesnt_hang_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_2_correct","statement":"Path(test_linear_system_symbols_doesnt_hang_2(x), test_linear_system_symbols_doesnt_hang_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6779a9afc157e3ab"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_2","kind":"function","src_hash":"8e90421b8d9134ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eqs, syms) == sol"},"spec":{"lhs":"test_linear_system_symbols_doesnt_hang_2()","rhs":"solve(eqs, syms) == sol","over":{"base":"Any"},"name":"test_linear_system_symbols_doesnt_hang_2_correct"},"guarantee":"solve(eqs, syms) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_system_symbols_doesnt_hang_2_correct","statement":"Path(test_linear_system_symbols_doesnt_hang_2(x), solve(eqs, syms) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec874e3afd938cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eqs, syms) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_linear_system_symbols_doesnt_hang_2():
 
     M = Matrix([
@@ -859,16 +1059,22 @@ def test_linear_system_symbols_doesnt_hang_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_systemLU(), test_linear_systemLU produces the expected output) over Any ║
+# ║ Path(test_linear_systemLU(), solve_linear_system_LU(M, [x, y, z]) == {z: -3 / (n ** 2 + 18 * n), x: 1 - 12 * n / (n ** 2 + 18 * n), y: 6 * n / (n ** 2 + 18 * n)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_systemLU : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_linear_system_LU(M, [x, y, z]) == {...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_systemLU : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e7b1ccfd10bfe14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c644cce3bdb890  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_systemLU","kind":"function","src_hash":"7c313f2b603b8de9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_systemLU()","rhs":"test_linear_systemLU produces the expected output","over":{"base":"Any"},"name":"test_linear_systemLU_correct"},"guarantee":"test_linear_systemLU produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_systemLU_correct","statement":"Path(test_linear_systemLU(x), test_linear_systemLU produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e7b1ccfd10bfe14"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_linear_systemLU","kind":"function","src_hash":"7c313f2b603b8de9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_linear_system_LU(M, [x, y, z]) == {z: -3 / (n ** 2 + 18 * n), x: 1 - 12 * n / (n ** 2 + 18 * n), y: 6 * n / (n ** 2 + 18 * n)}"},"spec":{"lhs":"test_linear_systemLU()","rhs":"solve_linear_system_LU(M, [x, y, z]) == {z: -3 / (n ** 2 + 18 * n), x: 1 - 12 * n / (n ** 2 + 18 * n), y: 6 * n / (n ** 2 + 18 * n)}","over":{"base":"Any"},"name":"test_linear_systemLU_correct"},"guarantee":"solve_linear_system_LU(M, [x, y, z]) == {z: -3 / (n ** 2 + 18 * n), x: 1 - 12 * n / (n ** 2 + 18 * n), y: 6 * n / (n ** 2 + 18 * n)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_linear_systemLU_correct","statement":"Path(test_linear_systemLU(x), solve_linear_system_LU(M, [x, y, z]) == {z: -3 / (n ** 2 + 18 * n), x: 1 - 12 * n / (n ** 2 + 18 * n), y: 6 * n / (n ** 2 + 18 * n)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c644cce3bdb890","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_linear_system_LU(M, [x, y, z]) == {z: -3 / (n ** 2 + 18 * n), x: 1 - 12 * n / (n ** 2 + 18 * n), y: 6 * n / (n ** 2 + 18 * n)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_linear_systemLU():
     n = Symbol('n')
 
@@ -884,16 +1090,24 @@ def test_linear_systemLU():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_transcendental(), test_solve_transcendental produces the expected output) over Any ║
+# ║ Path(test_solve_transcendental(), solve(exp(x) - 3, x) == [log(3)] and set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)} and solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)] and solve(2 * cos(x) - y, x) == [-acos(y / 2) + 2 * pi, acos(y / 2)] and solve(Eq(cos(x), sin(x)), x) == [pi / 4] and set(solve(exp(x) + exp(-x) - y, x)) in [{log(y / 2 - sqrt(y ** 2 - 4) / 2), log(y / 2 + sqrt(y ** 2 - 4) / 2)}, {log(y - sqrt(y ** 2 - 4)) - log(2), log(y + sqrt(y ** 2 - 4)) - log(2)}, {log(y / 2 - sqrt((y - 2) * (y + 2)) / 2), log(y / 2 + sqrt((y - 2) * (y + 2)) / 2)}] and solve(Eq(exp(x), 3), x) == [log(3)] and solve(log(x) - 3, x) == [exp(3)] and solve(sqrt(3 * x) - 4, x) == [Rational(16, 3)] and solve(3 ** (x + 2), x) == [] and solve(3 ** (2 - x), x) == [] and solve(x + 2 ** x, x) == [-LambertW(log(2)) / log(2)] and solve(2 * x + 5 + log(3 * x - 2), x) == [Rational(2, 3) + LambertW(2 * exp(Rational(-19, 3)) / 3) / 2] and solve(3 * x + log(4 * x), x) == [LambertW(Rational(3, 4)) / 3] and set(solve((2 * x + 8) * (8 + exp(x)), x)) == {S(-4), log(8) + pi * I} and len(ans) == 3 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(2 * log(3 * x + 4) - 3, x) == [(exp(Rational(3, 2)) - 4) / 3] and solve(exp(x) + 1, x) == [pi * I] and result == ans and solve(eq.expand(), x) == result and solve(z * cos(x) - y, x) == [-acos(y / z) + 2 * pi, acos(y / z)] and solve(z * cos(2 * x) - y, x) == [-acos(y / z) / 2 + pi, acos(y / z) / 2] and solve(z * cos(sin(x)) - y, x) == [pi - asin(acos(y / z)), asin(acos(y / z) - 2 * pi) + pi, -asin(acos(y / z) - 2 * pi), asin(acos(y / z))] and solve(z * cos(x), x) == [pi / 2, pi * Rational(3, 2)] and solve(y - b * x / (a + x), x) in [[-a * y / (y - b)], [a * y / (b - y)]] and solve(y - b * exp(a / x), x) == [a / log(y / b)] and solve(y - b / (1 + a * x), x) in [[(b - y) / (a * y)], [-((y - b) / (a * y))]] and solve(y - a * x ** b, x) == [(y / a) ** (1 / b)] and solve(z ** x - y, x) == [log(y) / log(z)] and solve(2 ** x - 10, x) == [1 + log(5) / log(2)] and solve(x * y) == [{x: 0}, {y: 0}] and solve([x * y]) == [{x: 0}, {y: 0}] and solve(x ** y - 1) == [{x: 1}, {y: 0}] and solve([x ** y - 1]) == [{x: 1}, {y: 0}] and solve(x * y * (x ** 2 - y ** 2)) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve([x * y * (x ** 2 - y ** 2)]) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve(exp(log(5) * x) - 2 ** x, x) == [0] and solve(exp(log(5) * x) - exp(log(2) * x), x) == [0] and solve(y * f(log(5) * x) - y * f(log(2) * x), x) == [0] and solve(f(x) - f(0), x) == [0] and solve(f(x) - f(2 - x), x) == [1] and solve(sin(sqrt(x))) == [0, pi ** 2] and str(solve(Eq(a, 0.5 - cos(pi * b) / 2), b)) == '[2.0 - 0.318309886183791*acos(1.0 - 2.0*a), 0.318309886183791*acos(1.0 - 2.0*a)]' and solve(y ** (1 / x) - z, x) == [log(y) / log(z)] and solve(cos(1000 * x) - S.Half) == [pi / 3000, pi / 600] and solve(cos(x - 1000 * y) - 1, x) == [1000 * y, 1000 * y + 2 * pi] and solve(cos(x + y + z) - 1, x) == [-y - z, -y - z + 2 * pi] and solve(sin(x + pi / 6)) == [-pi / 6, 5 * pi / 6]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_transcendental : Any → {Any | solve(exp(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(exp(x) - 3, x) == [log(3)]               ║
+# ║   ensures:  set(solve((a * x + b) * (exp(x) - 3), x))...   ║
+# ║   ensures:  solve(cos(x) - y, x) == [-acos(y) + 2 * p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_transcendental : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd4f74f8c5a29bb4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 616cf83fbdddd6af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_transcendental","kind":"function","src_hash":"46a2854d1482dbc6","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(exp(x) - 3, x) == [log(3)] and set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)} and solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)] and solve(2 * cos(x) - y, x) == [-acos(y / 2) + 2 * pi, acos(y / 2)] and solve(Eq(cos(x), sin(x)), x) == [pi / 4] and solve(exp(x) - 3, x) == [log(3)] and solve(Eq(exp(x), 3), x) == [log(3)] and solve(log(x) - 3, x) == [exp(3)] and solve(sqrt(3 * x) - 4, x) == [Rational(16, 3)] and solve(3 ** (x + 2), x) == [] and solve(3 ** (2 - x), x) == [] and solve(x + 2 ** x, x) == [-LambertW(log(2)) / log(2)] and solve(3 * x + log(4 * x), x) == [LambertW(Rational(3, 4)) / 3] and set(solve((2 * x + 8) * (8 + exp(x)), x)) == {S(-4), log(8) + pi * I} and len(ans) == 3 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(2 * log(3 * x + 4) - 3, x) == [(exp(Rational(3, 2)) - 4) / 3] and solve(exp(x) + 1, x) == [pi * I] and result == ans and solve(eq.expand(), x) == result and solve(z * cos(x) - y, x) == [-acos(y / z) + 2 * pi, acos(y / z)] and solve(z * cos(2 * x) - y, x) == [-acos(y / z) / 2 + pi, acos(y / z) / 2] and solve(z * cos(x), x) == [pi / 2, pi * Rational(3, 2)] and solve(y - b * x / (a + x), x) in [[-a * y / (y - b)], [a * y / (b - y)]] and solve(y - b * exp(a / x), x) == [a / log(y / b)] and solve(y - b / (1 + a * x), x) in [[(b - y) / (a * y)], [-((y - b) / (a * y))]] and solve(y - a * x ** b, x) == [(y / a) ** (1 / b)] and solve(z ** x - y, x) == [log(y) / log(z)] and solve(2 ** x - 10, x) == [1 + log(5) / log(2)] and solve(x * y) == [{x: 0}, {y: 0}] and solve([x * y]) == [{x: 0}, {y: 0}] and solve(x ** y - 1) == [{x: 1}, {y: 0}] and solve([x ** y - 1]) == [{x: 1}, {y: 0}] and solve(x * y * (x ** 2 - y ** 2)) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve([x * y * (x ** 2 - y ** 2)]) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve(exp(log(5) * x) - 2 ** x, x) == [0] and solve(exp(log(5) * x) - exp(log(2) * x), x) == [0] and solve(y * f(log(5) * x) - y * f(log(2) * x), x) == [0] and solve(f(x) - f(0), x) == [0] and solve(f(x) - f(2 - x), x) == [1] and solve(sin(sqrt(x))) == [0, pi ** 2] and solve(y ** (1 / x) - z, x) == [log(y) / log(z)] and solve(cos(1000 * x) - S.Half) == [pi / 3000, pi / 600] and solve(cos(x - 1000 * y) - 1, x) == [1000 * y, 1000 * y + 2 * pi] and solve(cos(x + y + z) - 1, x) == [-y - z, -y - z + 2 * pi] and solve(sin(x + pi / 6)) == [-pi / 6, 5 * pi / 6] and (sol[0][y] + sol[1][y]).is_Rational"},"spec":{"lhs":"test_solve_transcendental()","rhs":"test_solve_transcendental produces the expected output","over":{"base":"Any"},"name":"test_solve_transcendental_correct"},"guarantee":"test_solve_transcendental produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_transcendental_correct","statement":"Path(test_solve_transcendental(x), test_solve_transcendental produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd4f74f8c5a29bb4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_transcendental","kind":"function","src_hash":"46a2854d1482dbc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(exp(x) - 3, x) == [log(3)] and set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)} and solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)] and solve(2 * cos(x) - y, x) == [-acos(y / 2) + 2 * pi, acos(y / 2)] and solve(Eq(cos(x), sin(x)), x) == [pi / 4] and set(solve(exp(x) + exp(-x) - y, x)) in [{log(y / 2 - sqrt(y ** 2 - 4) / 2), log(y / 2 + sqrt(y ** 2 - 4) / 2)}, {log(y - sqrt(y ** 2 - 4)) - log(2), log(y + sqrt(y ** 2 - 4)) - log(2)}, {log(y / 2 - sqrt((y - 2) * (y + 2)) / 2), log(y / 2 + sqrt((y - 2) * (y + 2)) / 2)}] and solve(Eq(exp(x), 3), x) == [log(3)] and solve(log(x) - 3, x) == [exp(3)] and solve(sqrt(3 * x) - 4, x) == [Rational(16, 3)] and solve(3 ** (x + 2), x) == [] and solve(3 ** (2 - x), x) == [] and solve(x + 2 ** x, x) == [-LambertW(log(2)) / log(2)] and solve(2 * x + 5 + log(3 * x - 2), x) == [Rational(2, 3) + LambertW(2 * exp(Rational(-19, 3)) / 3) / 2] and solve(3 * x + log(4 * x), x) == [LambertW(Rational(3, 4)) / 3] and set(solve((2 * x + 8) * (8 + exp(x)), x)) == {S(-4), log(8) + pi * I} and len(ans) == 3 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(2 * log(3 * x + 4) - 3, x) == [(exp(Rational(3, 2)) - 4) / 3] and solve(exp(x) + 1, x) == [pi * I] and result == ans and solve(eq.expand(), x) == result and solve(z * cos(x) - y, x) == [-acos(y / z) + 2 * pi, acos(y / z)] and solve(z * cos(2 * x) - y, x) == [-acos(y / z) / 2 + pi, acos(y / z) / 2] and solve(z * cos(sin(x)) - y, x) == [pi - asin(acos(y / z)), asin(acos(y / z) - 2 * pi) + pi, -asin(acos(y / z) - 2 * pi), asin(acos(y / z))] and solve(z * cos(x), x) == [pi / 2, pi * Rational(3, 2)] and solve(y - b * x / (a + x), x) in [[-a * y / (y - b)], [a * y / (b - y)]] and solve(y - b * exp(a / x), x) == [a / log(y / b)] and solve(y - b / (1 + a * x), x) in [[(b - y) / (a * y)], [-((y - b) / (a * y))]] and solve(y - a * x ** b, x) == [(y / a) ** (1 / b)] and solve(z ** x - y, x) == [log(y) / log(z)] and solve(2 ** x - 10, x) == [1 + log(5) / log(2)] and solve(x * y) == [{x: 0}, {y: 0}] and solve([x * y]) == [{x: 0}, {y: 0}] and solve(x ** y - 1) == [{x: 1}, {y: 0}] and solve([x ** y - 1]) == [{x: 1}, {y: 0}] and solve(x * y * (x ** 2 - y ** 2)) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve([x * y * (x ** 2 - y ** 2)]) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve(exp(log(5) * x) - 2 ** x, x) == [0] and solve(exp(log(5) * x) - exp(log(2) * x), x) == [0] and solve(y * f(log(5) * x) - y * f(log(2) * x), x) == [0] and solve(f(x) - f(0), x) == [0] and solve(f(x) - f(2 - x), x) == [1] and solve(sin(sqrt(x))) == [0, pi ** 2] and str(solve(Eq(a, 0.5 - cos(pi * b) / 2), b)) == '[2.0 - 0.318309886183791*acos(1.0 - 2.0*a), 0.318309886183791*acos(1.0 - 2.0*a)]' and solve(y ** (1 / x) - z, x) == [log(y) / log(z)] and solve(cos(1000 * x) - S.Half) == [pi / 3000, pi / 600] and solve(cos(x - 1000 * y) - 1, x) == [1000 * y, 1000 * y + 2 * pi] and solve(cos(x + y + z) - 1, x) == [-y - z, -y - z + 2 * pi] and solve(sin(x + pi / 6)) == [-pi / 6, 5 * pi / 6]"},"spec":{"lhs":"test_solve_transcendental()","rhs":"solve(exp(x) - 3, x) == [log(3)] and set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)} and solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)] and solve(2 * cos(x) - y, x) == [-acos(y / 2) + 2 * pi, acos(y / 2)] and solve(Eq(cos(x), sin(x)), x) == [pi / 4] and set(solve(exp(x) + exp(-x) - y, x)) in [{log(y / 2 - sqrt(y ** 2 - 4) / 2), log(y / 2 + sqrt(y ** 2 - 4) / 2)}, {log(y - sqrt(y ** 2 - 4)) - log(2), log(y + sqrt(y ** 2 - 4)) - log(2)}, {log(y / 2 - sqrt((y - 2) * (y + 2)) / 2), log(y / 2 + sqrt((y - 2) * (y + 2)) / 2)}] and solve(Eq(exp(x), 3), x) == [log(3)] and solve(log(x) - 3, x) == [exp(3)] and solve(sqrt(3 * x) - 4, x) == [Rational(16, 3)] and solve(3 ** (x + 2), x) == [] and solve(3 ** (2 - x), x) == [] and solve(x + 2 ** x, x) == [-LambertW(log(2)) / log(2)] and solve(2 * x + 5 + log(3 * x - 2), x) == [Rational(2, 3) + LambertW(2 * exp(Rational(-19, 3)) / 3) / 2] and solve(3 * x + log(4 * x), x) == [LambertW(Rational(3, 4)) / 3] and set(solve((2 * x + 8) * (8 + exp(x)), x)) == {S(-4), log(8) + pi * I} and len(ans) == 3 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(2 * log(3 * x + 4) - 3, x) == [(exp(Rational(3, 2)) - 4) / 3] and solve(exp(x) + 1, x) == [pi * I] and result == ans and solve(eq.expand(), x) == result and solve(z * cos(x) - y, x) == [-acos(y / z) + 2 * pi, acos(y / z)] and solve(z * cos(2 * x) - y, x) == [-acos(y / z) / 2 + pi, acos(y / z) / 2] and solve(z * cos(sin(x)) - y, x) == [pi - asin(acos(y / z)), asin(acos(y / z) - 2 * pi) + pi, -asin(acos(y / z) - 2 * pi), asin(acos(y / z))] and solve(z * cos(x), x) == [pi / 2, pi * Rational(3, 2)] and solve(y - b * x / (a + x), x) in [[-a * y / (y - b)], [a * y / (b - y)]] and solve(y - b * exp(a / x), x) == [a / log(y / b)] and solve(y - b / (1 + a * x), x) in [[(b - y) / (a * y)], [-((y - b) / (a * y))]] and solve(y - a * x ** b, x) == [(y / a) ** (1 / b)] and solve(z ** x - y, x) == [log(y) / log(z)] and solve(2 ** x - 10, x) == [1 + log(5) / log(2)] and solve(x * y) == [{x: 0}, {y: 0}] and solve([x * y]) == [{x: 0}, {y: 0}] and solve(x ** y - 1) == [{x: 1}, {y: 0}] and solve([x ** y - 1]) == [{x: 1}, {y: 0}] and solve(x * y * (x ** 2 - y ** 2)) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve([x * y * (x ** 2 - y ** 2)]) == [{x: 0}, {x: -y}, {x: y}, {y: 0}] and solve(exp(log(5) * x) - 2 ** x, x) == [0] and solve(exp(log(5) * x) - exp(log(2) * x), x) == [0] and solve(y * f(log(5) * x) - y * f(log(2) * x), x) == [0] and solve(f(x) - f(0), x) == [0] and solve(f(x) - f(2 - x), x) == [1] and solve(sin(sqrt(x))) == [0, pi ** 2] and str(solve(Eq(a, 0.5 - cos(pi * b) / 2), b)) == '[2.0 - 0.318309886183791*acos(1.0 - 2.0*a), 0.318309886183791*acos(1.0 - 2.0*a)]' and solve(y ** (1 / x) - z, x) == [log(y) / log(z)] and solve(cos(1000 * x) - S.Half) == [pi / 3000, pi / 600] and solve(cos(x - 1000 * y) - 1, x) == [1000 * y, 1000 * y + 2 * pi] and solve(cos(x + y + z) - 1, x) == [-y - z, -y - z + 2 * pi] and solve(sin(x + pi / 6)) == [-pi / 6, 5 * pi / 6]","over":{"base":"Any"},"name":"test_solve_transcendental_correct"},"guarantee":"solve(exp(x) - 3, x) == [log(3)]; set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)}; solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_transcendental_correct","statement":"Path(test_solve_transcendental(x), solve(exp(x) - 3, x) == [log(3)]; set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)}; solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"616cf83fbdddd6af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(exp(x) - 3, x) == [log(3)]","set(solve((a * x + b) * (exp(x) - 3), x)) == {-b / a, log(3)}","solve(cos(x) - y, x) == [-acos(y) + 2 * pi, acos(y)]","solve(2 * cos(x) - y, x) == [-acos(y / 2) + 2 * pi, acos(y / 2)]","solve(Eq(cos(x), sin(x)), x) == [pi / 4]","set(solve(exp(x) + exp(-x) - y, x)) in [{log(y / 2 - sqrt(y ** 2 - 4) / 2), log(y / 2 + sqrt(y ** 2 - 4) / 2)}, {log(y - sqrt(y ** 2 - 4)) - log(2), log(y + sqrt(y ** 2 - 4)) - log(2)}, {log(y / 2 - sqrt((y - 2) * (y + 2)) / 2), log(y / 2 + sqrt((y - 2) * (y + 2)) / 2)}]","solve(Eq(exp(x), 3), x) == [log(3)]","solve(log(x) - 3, x) == [exp(3)]","solve(sqrt(3 * x) - 4, x) == [Rational(16, 3)]","solve(3 ** (x + 2), x) == []","solve(3 ** (2 - x), x) == []","solve(x + 2 ** x, x) == [-LambertW(log(2)) / log(2)]","solve(2 * x + 5 + log(3 * x - 2), x) == [Rational(2, 3) + LambertW(2 * exp(Rational(-19, 3)) / 3) / 2]","solve(3 * x + log(4 * x), x) == [LambertW(Rational(3, 4)) / 3]","set(solve((2 * x + 8) * (8 + exp(x)), x)) == {S(-4), log(8) + pi * I}","len(ans) == 3 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans))","solve(2 * log(3 * x + 4) - 3, x) == [(exp(Rational(3, 2)) - 4) / 3]","solve(exp(x) + 1, x) == [pi * I]","result == ans","solve(eq.expand(), x) == result","solve(z * cos(x) - y, x) == [-acos(y / z) + 2 * pi, acos(y / z)]","solve(z * cos(2 * x) - y, x) == [-acos(y / z) / 2 + pi, acos(y / z) / 2]","solve(z * cos(sin(x)) - y, x) == [pi - asin(acos(y / z)), asin(acos(y / z) - 2 * pi) + pi, -asin(acos(y / z) - 2 * pi), asin(acos(y / z))]","solve(z * cos(x), x) == [pi / 2, pi * Rational(3, 2)]","solve(y - b * x / (a + x), x) in [[-a * y / (y - b)], [a * y / (b - y)]]","solve(y - b * exp(a / x), x) == [a / log(y / b)]","solve(y - b / (1 + a * x), x) in [[(b - y) / (a * y)], [-((y - b) / (a * y))]]","solve(y - a * x ** b, x) == [(y / a) ** (1 / b)]","solve(z ** x - y, x) == [log(y) / log(z)]","solve(2 ** x - 10, x) == [1 + log(5) / log(2)]","solve(x * y) == [{x: 0}, {y: 0}]","solve([x * y]) == [{x: 0}, {y: 0}]","solve(x ** y - 1) == [{x: 1}, {y: 0}]","solve([x ** y - 1]) == [{x: 1}, {y: 0}]","solve(x * y * (x ** 2 - y ** 2)) == [{x: 0}, {x: -y}, {x: y}, {y: 0}]","solve([x * y * (x ** 2 - y ** 2)]) == [{x: 0}, {x: -y}, {x: y}, {y: 0}]","solve(exp(log(5) * x) - 2 ** x, x) == [0]","solve(exp(log(5) * x) - exp(log(2) * x), x) == [0]","solve(y * f(log(5) * x) - y * f(log(2) * x), x) == [0]","solve(f(x) - f(0), x) == [0]","solve(f(x) - f(2 - x), x) == [1]","solve(sin(sqrt(x))) == [0, pi ** 2]","str(solve(Eq(a, 0.5 - cos(pi * b) / 2), b)) == '[2.0 - 0.318309886183791*acos(1.0 - 2.0*a), 0.318309886183791*acos(1.0 - 2.0*a)]'","solve(y ** (1 / x) - z, x) == [log(y) / log(z)]","solve(cos(1000 * x) - S.Half) == [pi / 3000, pi / 600]","solve(cos(x - 1000 * y) - 1, x) == [1000 * y, 1000 * y + 2 * pi]","solve(cos(x + y + z) - 1, x) == [-y - z, -y - z + 2 * pi]","solve(sin(x + pi / 6)) == [-pi / 6, 5 * pi / 6]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":true}}
 def test_solve_transcendental():
     from sympy.abc import a, b
 
@@ -1025,16 +1239,24 @@ def test_solve_transcendental():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_for_functions_derivatives(), test_solve_for_functions_derivatives produces the expected output) over Any ║
+# ║ Path(test_solve_for_functions_derivatives(), soln == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)} and solve(x - 1, x) == [1] and solve(3 * x - 2, x) == [Rational(2, 3)] and soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x.diff(t): (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)} and solve(x.diff(t) - 1, x.diff(t)) == [1] and solve(3 * x.diff(t) - 2, x.diff(t)) == [Rational(2, 3)] and solve(eqns, {x, y}) == {x: Rational(1, 3), y: 2} and solve(F.diff(x), diff(f(x), x)) == [(-x + 2) / f(x)] and soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)} and soln == {f(x).diff(x, 2): S(1) / 2, f(x).diff(x): S(1) / 2} and soln == {f(x).diff(x, 2): 0, f(x).diff(x, 3): 1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_for_functions_derivatives : Any → {Any | s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  soln == {x: (a22 * b1 - a12 * b2) / (a11 ...   ║
+# ║   ensures:  solve(x - 1, x) == [1]                         ║
+# ║   ensures:  solve(3 * x - 2, x) == [Rational(2, 3)]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_for_functions_derivatives : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf7a1440beaa6fc6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8bb33ba451ec968  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_for_functions_derivatives","kind":"function","src_hash":"ba7d1e6f5aca1107","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x - 1, x) == [1] and solve(3 * x - 2, x) == [Rational(2, 3)] and solve(x.diff(t) - 1, x.diff(t)) == [1] and solve(3 * x.diff(t) - 2, x.diff(t)) == [Rational(2, 3)] and solve(eqns, {x, y}) == {x: Rational(1, 3), y: 2} and solve(F.diff(x), diff(f(x), x)) == [(-x + 2) / f(x)] and soln == {f(x).diff(x, 2): S(1) / 2, f(x).diff(x): S(1) / 2} and soln == {f(x).diff(x, 2): 0, f(x).diff(x, 3): 1}"},"spec":{"lhs":"test_solve_for_functions_derivatives()","rhs":"test_solve_for_functions_derivatives produces the expected output","over":{"base":"Any"},"name":"test_solve_for_functions_derivatives_correct"},"guarantee":"test_solve_for_functions_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_for_functions_derivatives_correct","statement":"Path(test_solve_for_functions_derivatives(x), test_solve_for_functions_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf7a1440beaa6fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_for_functions_derivatives","kind":"function","src_hash":"ba7d1e6f5aca1107","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: soln == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)} and solve(x - 1, x) == [1] and solve(3 * x - 2, x) == [Rational(2, 3)] and soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x.diff(t): (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)} and solve(x.diff(t) - 1, x.diff(t)) == [1] and solve(3 * x.diff(t) - 2, x.diff(t)) == [Rational(2, 3)] and solve(eqns, {x, y}) == {x: Rational(1, 3), y: 2} and solve(F.diff(x), diff(f(x), x)) == [(-x + 2) / f(x)] and soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)} and soln == {f(x).diff(x, 2): S(1) / 2, f(x).diff(x): S(1) / 2} and soln == {f(x).diff(x, 2): 0, f(x).diff(x, 3): 1}"},"spec":{"lhs":"test_solve_for_functions_derivatives()","rhs":"soln == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)} and solve(x - 1, x) == [1] and solve(3 * x - 2, x) == [Rational(2, 3)] and soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x.diff(t): (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)} and solve(x.diff(t) - 1, x.diff(t)) == [1] and solve(3 * x.diff(t) - 2, x.diff(t)) == [Rational(2, 3)] and solve(eqns, {x, y}) == {x: Rational(1, 3), y: 2} and solve(F.diff(x), diff(f(x), x)) == [(-x + 2) / f(x)] and soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)} and soln == {f(x).diff(x, 2): S(1) / 2, f(x).diff(x): S(1) / 2} and soln == {f(x).diff(x, 2): 0, f(x).diff(x, 3): 1}","over":{"base":"Any"},"name":"test_solve_for_functions_derivatives_correct"},"guarantee":"soln == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)}; solve(x - 1, x) == [1]; solve(3 * x - 2, x) == [Rational(2, 3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_for_functions_derivatives_correct","statement":"Path(test_solve_for_functions_derivatives(x), soln == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)}; solve(x - 1, x) == [1]; solve(3 * x - 2, x) == [Rational(2, 3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8bb33ba451ec968","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["soln == {x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21), y: (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21)}","solve(x - 1, x) == [1]","solve(3 * x - 2, x) == [Rational(2, 3)]","soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x.diff(t): (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)}","solve(x.diff(t) - 1, x.diff(t)) == [1]","solve(3 * x.diff(t) - 2, x.diff(t)) == [Rational(2, 3)]","solve(eqns, {x, y}) == {x: Rational(1, 3), y: 2}","solve(F.diff(x), diff(f(x), x)) == [(-x + 2) / f(x)]","soln == {y.diff(t): (a11 * b2 - a21 * b1) / (a11 * a22 - a12 * a21), x: (a22 * b1 - a12 * b2) / (a11 * a22 - a12 * a21)}","soln == {f(x).diff(x, 2): S(1) / 2, f(x).diff(x): S(1) / 2}","soln == {f(x).diff(x, 2): 0, f(x).diff(x, 3): 1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_solve_for_functions_derivatives():
     t = Symbol('t')
     x = Function('x')(t)
@@ -1087,16 +1309,22 @@ def test_solve_for_functions_derivatives():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3725(), test_issue_3725 produces the expected output) over Any ║
+# ║ Path(test_issue_3725(), solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3725 : Any → {Any | solve(e, f(x).diff(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(e, f(x).diff(x)) in [[(2 - x) / f(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3725 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dda6e95e37c229a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f053f92454be6f3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_3725","kind":"function","src_hash":"396962862ebe53c9","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]]"},"spec":{"lhs":"test_issue_3725()","rhs":"test_issue_3725 produces the expected output","over":{"base":"Any"},"name":"test_issue_3725_correct"},"guarantee":"test_issue_3725 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_3725_correct","statement":"Path(test_issue_3725(x), test_issue_3725 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dda6e95e37c229a2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_3725","kind":"function","src_hash":"396962862ebe53c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]]"},"spec":{"lhs":"test_issue_3725()","rhs":"solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]]","over":{"base":"Any"},"name":"test_issue_3725_correct"},"guarantee":"solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_3725_correct","statement":"Path(test_issue_3725(x), solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f053f92454be6f3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(e, f(x).diff(x)) in [[(2 - x) / f(x)], [-((x - 2) / f(x))]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3725():
     f = Function('f')
     F = x**2 + f(x)**2 - 4*x - 1
@@ -1105,16 +1333,24 @@ def test_issue_3725():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_Matrix(), test_solve_Matrix produces the expected output) over Any ║
+# ║ Path(test_solve_Matrix(), solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - B * A], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([A * C - C * A], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([A * B - B * A, A * C - C * A], [a, b, c, d]) == {a: d, b: 0, c: 0} and solve([Eq(A * B, B * A)], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([Eq(A * C, C * A)], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([Eq(A * B, B * A), Eq(A * C, C * A)], [a, b, c, d]) == {a: d, b: 0, c: 0}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_Matrix : Any → {Any | solve(A * B - C, [a,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(A * B - C, [a, b, c, d]) == {a: 1, ...   ║
+# ║   ensures:  solve([A * B - C], [a, b, c, d]) == {a: 1...   ║
+# ║   ensures:  solve(Eq(A * B, C), [a, b, c, d]) == {a: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_Matrix : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8daa17f804991574  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3c4eeebc6d91c65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_Matrix","kind":"function","src_hash":"7e588751a0905b7c","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - B * A], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([A * C - C * A], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([A * B - B * A, A * C - C * A], [a, b, c, d]) == {a: d, b: 0, c: 0} and solve([Eq(A * B, B * A)], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([Eq(A * C, C * A)], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([Eq(A * B, B * A), Eq(A * C, C * A)], [a, b, c, d]) == {a: d, b: 0, c: 0}"},"spec":{"lhs":"test_solve_Matrix()","rhs":"test_solve_Matrix produces the expected output","over":{"base":"Any"},"name":"test_solve_Matrix_correct"},"guarantee":"test_solve_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_Matrix_correct","statement":"Path(test_solve_Matrix(x), test_solve_Matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8daa17f804991574"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_Matrix","kind":"function","src_hash":"7e588751a0905b7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - B * A], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([A * C - C * A], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([A * B - B * A, A * C - C * A], [a, b, c, d]) == {a: d, b: 0, c: 0} and solve([Eq(A * B, B * A)], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([Eq(A * C, C * A)], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([Eq(A * B, B * A), Eq(A * C, C * A)], [a, b, c, d]) == {a: d, b: 0, c: 0}"},"spec":{"lhs":"test_solve_Matrix()","rhs":"solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1} and solve([A * B - B * A], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([A * C - C * A], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([A * B - B * A, A * C - C * A], [a, b, c, d]) == {a: d, b: 0, c: 0} and solve([Eq(A * B, B * A)], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c} and solve([Eq(A * C, C * A)], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c} and solve([Eq(A * B, B * A), Eq(A * C, C * A)], [a, b, c, d]) == {a: d, b: 0, c: 0}","over":{"base":"Any"},"name":"test_solve_Matrix_correct"},"guarantee":"solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}; solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}; solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_Matrix_correct","statement":"Path(test_solve_Matrix(x), solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}; solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}; solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c4eeebc6d91c65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(A * B - C, [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}","solve([A * B - C], [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}","solve(Eq(A * B, C), [a, b, c, d]) == {a: 1, b: Rational(-1, 3), c: 2, d: -1}","solve([A * B - B * A], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c}","solve([A * C - C * A], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c}","solve([A * B - B * A, A * C - C * A], [a, b, c, d]) == {a: d, b: 0, c: 0}","solve([Eq(A * B, B * A)], [a, b, c, d]) == {a: d, b: Rational(-2, 3) * c}","solve([Eq(A * C, C * A)], [a, b, c, d]) == {a: d - c, b: Rational(2, 3) * c}","solve([Eq(A * B, B * A), Eq(A * C, C * A)], [a, b, c, d]) == {a: d, b: 0, c: 0}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_solve_Matrix():
     # https://github.com/sympy/sympy/issues/3870
     a, b, c, d = symbols('a b c d')
@@ -1146,16 +1382,24 @@ def test_solve_Matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_linear(), test_solve_linear produces the expected output) over Any ║
+# ║ Path(test_solve_linear(), solve_linear(x, x) == (0, 1) and solve_linear(x, exclude=[x]) == (0, 1) and solve_linear(x, symbols=[w]) == (0, 1) and solve_linear(x, y - 2 * x) in [(x, y / 3), (y, 3 * x)] and solve_linear(x, y - 2 * x, exclude=[x]) == (y, 3 * x) and solve_linear(3 * x - y, 0) in [(x, y / 3), (y, 3 * x)] and solve_linear(3 * x - y, 0, [x]) == (x, y / 3) and solve_linear(3 * x - y, 0, [y]) == (y, 3 * x) and solve_linear(x ** 2 / y, 1) == (y, x ** 2) and solve_linear(w, x) in [(w, x), (x, w)] and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y) == (y, -2 - cos(x) ** 2 - sin(x) ** 2) and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y, symbols=[x]) == (0, 1) and solve_linear(Eq(x, 3)) == (x, 3) and solve_linear(1 / (1 / x - 2)) == (0, 0) and solve_linear((x + 1) * exp(-x), symbols=[x]) == (x, -1) and solve_linear((x + 1) * exp(x), symbols=[x]) == ((x + 1) * exp(x), 1) and solve_linear(x * exp(-x ** 2), symbols=[x]) == (x, 0) and solve_linear(0 ** x - 1) == (0 ** x - 1, 1) and solve_linear(1 + 1 / (x - 1)) == (x, 0) and solve_linear(eq) == (0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_linear : Any → {Any | solve_linear(x, x) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_linear(x, x) == (0, 1)                   ║
+# ║   ensures:  solve_linear(x, exclude=[x]) == (0, 1)         ║
+# ║   ensures:  solve_linear(x, symbols=[w]) == (0, 1)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_linear : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20017fa83a5b6f70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dd66036b490d95a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_linear","kind":"function","src_hash":"97ddb94680e004be","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_linear(x, x) == (0, 1) and solve_linear(x, exclude=[x]) == (0, 1) and solve_linear(x, symbols=[w]) == (0, 1) and solve_linear(x, y - 2 * x) in [(x, y / 3), (y, 3 * x)] and solve_linear(x, y - 2 * x, exclude=[x]) == (y, 3 * x) and solve_linear(3 * x - y, 0) in [(x, y / 3), (y, 3 * x)] and solve_linear(3 * x - y, 0, [x]) == (x, y / 3) and solve_linear(3 * x - y, 0, [y]) == (y, 3 * x) and solve_linear(x ** 2 / y, 1) == (y, x ** 2) and solve_linear(w, x) in [(w, x), (x, w)] and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y, symbols=[x]) == (0, 1) and solve_linear(Eq(x, 3)) == (x, 3) and solve_linear(1 / (1 / x - 2)) == (0, 0) and solve_linear((x + 1) * exp(-x), symbols=[x]) == (x, -1) and solve_linear((x + 1) * exp(x), symbols=[x]) == ((x + 1) * exp(x), 1) and solve_linear(x * exp(-x ** 2), symbols=[x]) == (x, 0) and solve_linear(0 ** x - 1) == (0 ** x - 1, 1) and solve_linear(1 + 1 / (x - 1)) == (x, 0) and solve_linear(eq) == (0, 1) and solve_linear(eq) == (0, 1)"},"spec":{"lhs":"test_solve_linear()","rhs":"test_solve_linear produces the expected output","over":{"base":"Any"},"name":"test_solve_linear_correct"},"guarantee":"test_solve_linear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_linear_correct","statement":"Path(test_solve_linear(x), test_solve_linear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20017fa83a5b6f70"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_linear","kind":"function","src_hash":"97ddb94680e004be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_linear(x, x) == (0, 1) and solve_linear(x, exclude=[x]) == (0, 1) and solve_linear(x, symbols=[w]) == (0, 1) and solve_linear(x, y - 2 * x) in [(x, y / 3), (y, 3 * x)] and solve_linear(x, y - 2 * x, exclude=[x]) == (y, 3 * x) and solve_linear(3 * x - y, 0) in [(x, y / 3), (y, 3 * x)] and solve_linear(3 * x - y, 0, [x]) == (x, y / 3) and solve_linear(3 * x - y, 0, [y]) == (y, 3 * x) and solve_linear(x ** 2 / y, 1) == (y, x ** 2) and solve_linear(w, x) in [(w, x), (x, w)] and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y) == (y, -2 - cos(x) ** 2 - sin(x) ** 2) and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y, symbols=[x]) == (0, 1) and solve_linear(Eq(x, 3)) == (x, 3) and solve_linear(1 / (1 / x - 2)) == (0, 0) and solve_linear((x + 1) * exp(-x), symbols=[x]) == (x, -1) and solve_linear((x + 1) * exp(x), symbols=[x]) == ((x + 1) * exp(x), 1) and solve_linear(x * exp(-x ** 2), symbols=[x]) == (x, 0) and solve_linear(0 ** x - 1) == (0 ** x - 1, 1) and solve_linear(1 + 1 / (x - 1)) == (x, 0) and solve_linear(eq) == (0, 1)"},"spec":{"lhs":"test_solve_linear()","rhs":"solve_linear(x, x) == (0, 1) and solve_linear(x, exclude=[x]) == (0, 1) and solve_linear(x, symbols=[w]) == (0, 1) and solve_linear(x, y - 2 * x) in [(x, y / 3), (y, 3 * x)] and solve_linear(x, y - 2 * x, exclude=[x]) == (y, 3 * x) and solve_linear(3 * x - y, 0) in [(x, y / 3), (y, 3 * x)] and solve_linear(3 * x - y, 0, [x]) == (x, y / 3) and solve_linear(3 * x - y, 0, [y]) == (y, 3 * x) and solve_linear(x ** 2 / y, 1) == (y, x ** 2) and solve_linear(w, x) in [(w, x), (x, w)] and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y) == (y, -2 - cos(x) ** 2 - sin(x) ** 2) and solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y, symbols=[x]) == (0, 1) and solve_linear(Eq(x, 3)) == (x, 3) and solve_linear(1 / (1 / x - 2)) == (0, 0) and solve_linear((x + 1) * exp(-x), symbols=[x]) == (x, -1) and solve_linear((x + 1) * exp(x), symbols=[x]) == ((x + 1) * exp(x), 1) and solve_linear(x * exp(-x ** 2), symbols=[x]) == (x, 0) and solve_linear(0 ** x - 1) == (0 ** x - 1, 1) and solve_linear(1 + 1 / (x - 1)) == (x, 0) and solve_linear(eq) == (0, 1)","over":{"base":"Any"},"name":"test_solve_linear_correct"},"guarantee":"solve_linear(x, x) == (0, 1); solve_linear(x, exclude=[x]) == (0, 1); solve_linear(x, symbols=[w]) == (0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_linear_correct","statement":"Path(test_solve_linear(x), solve_linear(x, x) == (0, 1); solve_linear(x, exclude=[x]) == (0, 1); solve_linear(x, symbols=[w]) == (0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dd66036b490d95a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_linear(x, x) == (0, 1)","solve_linear(x, exclude=[x]) == (0, 1)","solve_linear(x, symbols=[w]) == (0, 1)","solve_linear(x, y - 2 * x) in [(x, y / 3), (y, 3 * x)]","solve_linear(x, y - 2 * x, exclude=[x]) == (y, 3 * x)","solve_linear(3 * x - y, 0) in [(x, y / 3), (y, 3 * x)]","solve_linear(3 * x - y, 0, [x]) == (x, y / 3)","solve_linear(3 * x - y, 0, [y]) == (y, 3 * x)","solve_linear(x ** 2 / y, 1) == (y, x ** 2)","solve_linear(w, x) in [(w, x), (x, w)]","solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y) == (y, -2 - cos(x) ** 2 - sin(x) ** 2)","solve_linear(cos(x) ** 2 + sin(x) ** 2 + 2 + y, symbols=[x]) == (0, 1)","solve_linear(Eq(x, 3)) == (x, 3)","solve_linear(1 / (1 / x - 2)) == (0, 0)","solve_linear((x + 1) * exp(-x), symbols=[x]) == (x, -1)","solve_linear((x + 1) * exp(x), symbols=[x]) == ((x + 1) * exp(x), 1)","solve_linear(x * exp(-x ** 2), symbols=[x]) == (x, 0)","solve_linear(0 ** x - 1) == (0 ** x - 1, 1)","solve_linear(1 + 1 / (x - 1)) == (x, 0)","solve_linear(eq) == (0, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_solve_linear():
     w = Wild('w')
     assert solve_linear(x, x) == (0, 1)
@@ -1186,16 +1430,24 @@ def test_solve_linear():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_undetermined_coeffs(), test_solve_undetermined_coeffs produces the expected output) over Any ║
+# ║ Path(test_solve_undetermined_coeffs(), solve_undetermined_coeffs(a * x ** 2 + b * x ** 2 + b * x + 2 * c * x + c + 1, [a, b, c], x) == {a: -2, b: 2, c: -1} and solve_undetermined_coeffs(a / x + b / (x + 1) - (2 * x + 1) / (x ** 2 + x), [a, b], x) == {a: 1, b: 1} and solve_undetermined_coeffs(((c + 1) * a * x ** 2 + (c + 1) * b * x ** 2 + (c + 1) * b * x + (c + 1) * 2 * c * x + (c + 1) ** 2) / (c + 1), [a, b, c], x) == {a: -2, b: 2, c: -1} and solve_undetermined_coeffs(eq, coeffs) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, *syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(a * x + a - 2, [a]) == [] and solve_undetermined_coeffs(a ** 2 * x - 4 * x, [a]) == [{a: -2}, {a: 2}] and solve_undetermined_coeffs(0, [a]) == [] and solve_undetermined_coeffs(0, [a], dict=True) == [] and solve_undetermined_coeffs(0, [a], set=True) == ([], {}) and solve_undetermined_coeffs(1, [a]) == [] and solve_undetermined_coeffs(abeq, s, x) == {a: 2, b: 3} and solve_undetermined_coeffs(abeq, s, x, set=True) == ([a, b], {(2, 3)}) and solve_undetermined_coeffs(sin(a * x) - sin(2 * x), (a,)) is None and solve_undetermined_coeffs(a * x + b * x - 2 * x, (a, b)) == {a: 2 - b}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_undetermined_coeffs : Any → {Any | solve_u...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_undetermined_coeffs(a * x ** 2 + b ...   ║
+# ║   ensures:  solve_undetermined_coeffs(a / x + b / (x ...   ║
+# ║   ensures:  solve_undetermined_coeffs(((c + 1) * a * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_undetermined_coeffs : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d1d8a5f88fb75d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5da15c868bd0a01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs","kind":"function","src_hash":"585d0f84f6452235","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_undetermined_coeffs(eq, coeffs) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, *syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(a * x + a - 2, [a]) == [] and solve_undetermined_coeffs(a ** 2 * x - 4 * x, [a]) == [{a: -2}, {a: 2}] and solve_undetermined_coeffs(0, [a]) == [] and solve_undetermined_coeffs(0, [a], dict=True) == [] and solve_undetermined_coeffs(0, [a], set=True) == ([], {}) and solve_undetermined_coeffs(1, [a]) == [] and solve_undetermined_coeffs(abeq, s, x) == {a: 2, b: 3} and solve_undetermined_coeffs(abeq, s, x, set=True) == ([a, b], {(2, 3)}) and solve_undetermined_coeffs(sin(a * x) - sin(2 * x), (a,)) is None and solve_undetermined_coeffs(a * x + b * x - 2 * x, (a, b)) == {a: 2 - b}"},"spec":{"lhs":"test_solve_undetermined_coeffs()","rhs":"test_solve_undetermined_coeffs produces the expected output","over":{"base":"Any"},"name":"test_solve_undetermined_coeffs_correct"},"guarantee":"test_solve_undetermined_coeffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs_correct","statement":"Path(test_solve_undetermined_coeffs(x), test_solve_undetermined_coeffs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d1d8a5f88fb75d6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs","kind":"function","src_hash":"585d0f84f6452235","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_undetermined_coeffs(a * x ** 2 + b * x ** 2 + b * x + 2 * c * x + c + 1, [a, b, c], x) == {a: -2, b: 2, c: -1} and solve_undetermined_coeffs(a / x + b / (x + 1) - (2 * x + 1) / (x ** 2 + x), [a, b], x) == {a: 1, b: 1} and solve_undetermined_coeffs(((c + 1) * a * x ** 2 + (c + 1) * b * x ** 2 + (c + 1) * b * x + (c + 1) * 2 * c * x + (c + 1) ** 2) / (c + 1), [a, b, c], x) == {a: -2, b: 2, c: -1} and solve_undetermined_coeffs(eq, coeffs) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, *syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(a * x + a - 2, [a]) == [] and solve_undetermined_coeffs(a ** 2 * x - 4 * x, [a]) == [{a: -2}, {a: 2}] and solve_undetermined_coeffs(0, [a]) == [] and solve_undetermined_coeffs(0, [a], dict=True) == [] and solve_undetermined_coeffs(0, [a], set=True) == ([], {}) and solve_undetermined_coeffs(1, [a]) == [] and solve_undetermined_coeffs(abeq, s, x) == {a: 2, b: 3} and solve_undetermined_coeffs(abeq, s, x, set=True) == ([a, b], {(2, 3)}) and solve_undetermined_coeffs(sin(a * x) - sin(2 * x), (a,)) is None and solve_undetermined_coeffs(a * x + b * x - 2 * x, (a, b)) == {a: 2 - b}"},"spec":{"lhs":"test_solve_undetermined_coeffs()","rhs":"solve_undetermined_coeffs(a * x ** 2 + b * x ** 2 + b * x + 2 * c * x + c + 1, [a, b, c], x) == {a: -2, b: 2, c: -1} and solve_undetermined_coeffs(a / x + b / (x + 1) - (2 * x + 1) / (x ** 2 + x), [a, b], x) == {a: 1, b: 1} and solve_undetermined_coeffs(((c + 1) * a * x ** 2 + (c + 1) * b * x ** 2 + (c + 1) * b * x + (c + 1) * 2 * c * x + (c + 1) ** 2) / (c + 1), [a, b, c], x) == {a: -2, b: 2, c: -1} and solve_undetermined_coeffs(eq, coeffs) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(eq, coeffs, *syms) == {a: 1, b: 2, c: 3} and solve_undetermined_coeffs(a * x + a - 2, [a]) == [] and solve_undetermined_coeffs(a ** 2 * x - 4 * x, [a]) == [{a: -2}, {a: 2}] and solve_undetermined_coeffs(0, [a]) == [] and solve_undetermined_coeffs(0, [a], dict=True) == [] and solve_undetermined_coeffs(0, [a], set=True) == ([], {}) and solve_undetermined_coeffs(1, [a]) == [] and solve_undetermined_coeffs(abeq, s, x) == {a: 2, b: 3} and solve_undetermined_coeffs(abeq, s, x, set=True) == ([a, b], {(2, 3)}) and solve_undetermined_coeffs(sin(a * x) - sin(2 * x), (a,)) is None and solve_undetermined_coeffs(a * x + b * x - 2 * x, (a, b)) == {a: 2 - b}","over":{"base":"Any"},"name":"test_solve_undetermined_coeffs_correct"},"guarantee":"solve_undetermined_coeffs(a * x ** 2 + b * x ** 2 + b * x + 2 * c * x + c + 1, [a, b, c], x) == {a: -2, b: 2, c: -1}; solve_undetermined_coeffs(a / x + b / (x + 1) - (2 * x + 1) / (x ** 2 + x), [a, b], x) == {a: 1, b: 1}; solve_undetermined_coeffs(((c + 1) * a * x ** 2 + (c + 1) * b * x ** 2 + (c + 1) * b * x + (c + 1) * 2 * c * x + (c + 1) ** 2) / (c + 1), [a, b, c], x) == {a: -2, b: 2, c: -1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs_correct","statement":"Path(test_solve_undetermined_coeffs(x), solve_undetermined_coeffs(a * x ** 2 + b * x ** 2 + b * x + 2 * c * x + c + 1, [a, b, c], x) == {a: -2, b: 2, c: -1}; solve_undetermined_coeffs(a / x + b / (x + 1) - (2 * x + 1) / (x ** 2 + x), [a, b], x) == {a: 1, b: 1}; solve_undetermined_coeffs(((c + 1) * a * x ** 2 + (c + 1) * b * x ** 2 + (c + 1) * b * x + (c + 1) * 2 * c * x + (c + 1) ** 2) / (c + 1), [a, b, c], x) == {a: -2, b: 2, c: -1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5da15c868bd0a01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_undetermined_coeffs(a * x ** 2 + b * x ** 2 + b * x + 2 * c * x + c + 1, [a, b, c], x) == {a: -2, b: 2, c: -1}","solve_undetermined_coeffs(a / x + b / (x + 1) - (2 * x + 1) / (x ** 2 + x), [a, b], x) == {a: 1, b: 1}","solve_undetermined_coeffs(((c + 1) * a * x ** 2 + (c + 1) * b * x ** 2 + (c + 1) * b * x + (c + 1) * 2 * c * x + (c + 1) ** 2) / (c + 1), [a, b, c], x) == {a: -2, b: 2, c: -1}","solve_undetermined_coeffs(eq, coeffs) == {a: 1, b: 2, c: 3}","solve_undetermined_coeffs(eq, coeffs, syms) == {a: 1, b: 2, c: 3}","solve_undetermined_coeffs(eq, coeffs, *syms) == {a: 1, b: 2, c: 3}","solve_undetermined_coeffs(a * x + a - 2, [a]) == []","solve_undetermined_coeffs(a ** 2 * x - 4 * x, [a]) == [{a: -2}, {a: 2}]","solve_undetermined_coeffs(0, [a]) == []","solve_undetermined_coeffs(0, [a], dict=True) == []","solve_undetermined_coeffs(0, [a], set=True) == ([], {})","solve_undetermined_coeffs(1, [a]) == []","solve_undetermined_coeffs(abeq, s, x) == {a: 2, b: 3}","solve_undetermined_coeffs(abeq, s, x, set=True) == ([a, b], {(2, 3)})","solve_undetermined_coeffs(sin(a * x) - sin(2 * x), (a,)) is None","solve_undetermined_coeffs(a * x + b * x - 2 * x, (a, b)) == {a: 2 - b}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_solve_undetermined_coeffs():
     assert solve_undetermined_coeffs(
         a*x**2 + b*x**2 + b*x + 2*c*x + c + 1, [a, b, c], x
@@ -1237,16 +1489,24 @@ def test_solve_undetermined_coeffs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_inequalities(), test_solve_inequalities produces the expected output) over Any ║
+# ║ Path(test_solve_inequalities(), solve(x + 1 > 1) == sol and solve([x + 1 > 1]) == sol and solve([x + 1 > 1], x) == sol and solve([x + 1 > 1], [x]) == sol and solve(system) == And(Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))), Eq(0, 0)) and solve(system) == Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))) and solve((x - 3) / (x - 2) < 0, x) == And(Lt(2, x), Lt(x, 3)) and solve(x / (x + 1) > 1, x) == And(Lt(-oo, x), Lt(x, -1)) and solve(sin(x) > S.Half) == And(pi / 6 < x, x < pi * Rational(5, 6)) and solve(Eq(False, x < 1)) == (S.One <= x) & (x < oo) and solve(Eq(True, x < 1)) == (-oo < x) & (x < 1) and solve(Eq(x < 1, False)) == (S.One <= x) & (x < oo) and solve(Eq(x < 1, True)) == (-oo < x) & (x < 1) and solve(Eq(False, x)) == False and solve(Eq(0, x)) == [0] and solve(Eq(True, x)) == True and solve(Eq(1, x)) == [1] and solve(Eq(False, ~x)) == True and solve(Eq(True, ~x)) == False and solve(Ne(True, x)) == False and solve(Ne(1, x)) == (x > -oo) & (x < oo) & Ne(x, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_inequalities : Any → {Any | solve(x + 1 > ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x + 1 > 1) == sol                        ║
+# ║   ensures:  solve([x + 1 > 1]) == sol                      ║
+# ║   ensures:  solve([x + 1 > 1], x) == sol                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_inequalities : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b65b95dd9a0f3d16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ef6569f1d618ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_inequalities","kind":"function","src_hash":"68bca3ad5a1feab0","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x + 1 > 1) == sol and solve([x + 1 > 1]) == sol and solve([x + 1 > 1], x) == sol and solve([x + 1 > 1], [x]) == sol and solve((x - 3) / (x - 2) < 0, x) == And(Lt(2, x), Lt(x, 3)) and solve(x / (x + 1) > 1, x) == And(Lt(-oo, x), Lt(x, -1)) and solve(sin(x) > S.Half) == And(pi / 6 < x, x < pi * Rational(5, 6)) and solve(Eq(False, x < 1)) == (S.One <= x) & (x < oo) and solve(Eq(True, x < 1)) == (-oo < x) & (x < 1) and solve(Eq(x < 1, False)) == (S.One <= x) & (x < oo) and solve(Eq(x < 1, True)) == (-oo < x) & (x < 1) and solve(Eq(False, x)) == False and solve(Eq(0, x)) == [0] and solve(Eq(True, x)) == True and solve(Eq(1, x)) == [1] and solve(Eq(False, ~x)) == True and solve(Eq(True, ~x)) == False and solve(Ne(True, x)) == False and solve(Ne(1, x)) == (x > -oo) & (x < oo) & Ne(x, 1)"},"spec":{"lhs":"test_solve_inequalities()","rhs":"test_solve_inequalities produces the expected output","over":{"base":"Any"},"name":"test_solve_inequalities_correct"},"guarantee":"test_solve_inequalities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_inequalities_correct","statement":"Path(test_solve_inequalities(x), test_solve_inequalities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b65b95dd9a0f3d16"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_inequalities","kind":"function","src_hash":"68bca3ad5a1feab0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x + 1 > 1) == sol and solve([x + 1 > 1]) == sol and solve([x + 1 > 1], x) == sol and solve([x + 1 > 1], [x]) == sol and solve(system) == And(Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))), Eq(0, 0)) and solve(system) == Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))) and solve((x - 3) / (x - 2) < 0, x) == And(Lt(2, x), Lt(x, 3)) and solve(x / (x + 1) > 1, x) == And(Lt(-oo, x), Lt(x, -1)) and solve(sin(x) > S.Half) == And(pi / 6 < x, x < pi * Rational(5, 6)) and solve(Eq(False, x < 1)) == (S.One <= x) & (x < oo) and solve(Eq(True, x < 1)) == (-oo < x) & (x < 1) and solve(Eq(x < 1, False)) == (S.One <= x) & (x < oo) and solve(Eq(x < 1, True)) == (-oo < x) & (x < 1) and solve(Eq(False, x)) == False and solve(Eq(0, x)) == [0] and solve(Eq(True, x)) == True and solve(Eq(1, x)) == [1] and solve(Eq(False, ~x)) == True and solve(Eq(True, ~x)) == False and solve(Ne(True, x)) == False and solve(Ne(1, x)) == (x > -oo) & (x < oo) & Ne(x, 1)"},"spec":{"lhs":"test_solve_inequalities()","rhs":"solve(x + 1 > 1) == sol and solve([x + 1 > 1]) == sol and solve([x + 1 > 1], x) == sol and solve([x + 1 > 1], [x]) == sol and solve(system) == And(Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))), Eq(0, 0)) and solve(system) == Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))) and solve((x - 3) / (x - 2) < 0, x) == And(Lt(2, x), Lt(x, 3)) and solve(x / (x + 1) > 1, x) == And(Lt(-oo, x), Lt(x, -1)) and solve(sin(x) > S.Half) == And(pi / 6 < x, x < pi * Rational(5, 6)) and solve(Eq(False, x < 1)) == (S.One <= x) & (x < oo) and solve(Eq(True, x < 1)) == (-oo < x) & (x < 1) and solve(Eq(x < 1, False)) == (S.One <= x) & (x < oo) and solve(Eq(x < 1, True)) == (-oo < x) & (x < 1) and solve(Eq(False, x)) == False and solve(Eq(0, x)) == [0] and solve(Eq(True, x)) == True and solve(Eq(1, x)) == [1] and solve(Eq(False, ~x)) == True and solve(Eq(True, ~x)) == False and solve(Ne(True, x)) == False and solve(Ne(1, x)) == (x > -oo) & (x < oo) & Ne(x, 1)","over":{"base":"Any"},"name":"test_solve_inequalities_correct"},"guarantee":"solve(x + 1 > 1) == sol; solve([x + 1 > 1]) == sol; solve([x + 1 > 1], x) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_inequalities_correct","statement":"Path(test_solve_inequalities(x), solve(x + 1 > 1) == sol; solve([x + 1 > 1]) == sol; solve([x + 1 > 1], x) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ef6569f1d618ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x + 1 > 1) == sol","solve([x + 1 > 1]) == sol","solve([x + 1 > 1], x) == sol","solve([x + 1 > 1], [x]) == sol","solve(system) == And(Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2)))), Eq(0, 0))","solve(system) == Or(And(Lt(-sqrt(2), x), Lt(x, -1)), And(Lt(1, x), Lt(x, sqrt(2))))","solve((x - 3) / (x - 2) < 0, x) == And(Lt(2, x), Lt(x, 3))","solve(x / (x + 1) > 1, x) == And(Lt(-oo, x), Lt(x, -1))","solve(sin(x) > S.Half) == And(pi / 6 < x, x < pi * Rational(5, 6))","solve(Eq(False, x < 1)) == (S.One <= x) & (x < oo)","solve(Eq(True, x < 1)) == (-oo < x) & (x < 1)","solve(Eq(x < 1, False)) == (S.One <= x) & (x < oo)","solve(Eq(x < 1, True)) == (-oo < x) & (x < 1)","solve(Eq(False, x)) == False","solve(Eq(0, x)) == [0]","solve(Eq(True, x)) == True","solve(Eq(1, x)) == [1]","solve(Eq(False, ~x)) == True","solve(Eq(True, ~x)) == False","solve(Ne(True, x)) == False","solve(Ne(1, x)) == (x > -oo) & (x < oo) & Ne(x, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_solve_inequalities():
     x = Symbol('x')
     sol = And(S.Zero < x, x < oo)
@@ -1287,16 +1547,24 @@ def test_solve_inequalities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4793(), test_issue_4793 produces the expected output) over Any ║
+# ║ Path(test_issue_4793(), solve(1 / x) == [] and solve(x * (1 - 5 / x)) == [5] and solve(x + sqrt(x) - 2) == [1] and solve(-(1 + x) / (2 + x) ** 2 + 1 / (2 + x)) == [] and solve(-x ** 2 - 2 * x + (x + 1) ** 2 - 1) == [] and solve((x / (x + 1) + 3) ** (-2)) == [] and solve(x / sqrt(x ** 2 + 1), x) == [0] and solve(exp(x) - y, x) == [log(y)] and solve(exp(x)) == [] and solve(x ** 2 + x + sin(y) ** 2 + cos(y) ** 2 - 1, x) in [[0, -1], [-1, 0]] and len(ans) == 5 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(log(x ** 2) - y ** 2 / exp(x), x, y, set=True) == ([x, y], {(x, sqrt(exp(x) * log(x ** 2))), (x, -sqrt(exp(x) * log(x ** 2)))}) and solve(x ** 2 * z ** 2 - z ** 2 * y ** 2) == [{x: -y}, {x: y}, {z: 0}] and solve((x - 1) / (1 + 1 / (x - 1))) == [] and solve(x ** (y * z) - x, x) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4793 : Any → {Any | solve(1 / x) == [] and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(1 / x) == []                             ║
+# ║   ensures:  solve(x * (1 - 5 / x)) == [5]                  ║
+# ║   ensures:  solve(x + sqrt(x) - 2) == [1]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4793 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a95ff3afde7964f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56ce98d21cd00830  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4793","kind":"function","src_hash":"d7ff93fe99018736","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(1 / x) == [] and solve(x * (1 - 5 / x)) == [5] and solve(x + sqrt(x) - 2) == [1] and solve(-(1 + x) / (2 + x) ** 2 + 1 / (2 + x)) == [] and solve(-x ** 2 - 2 * x + (x + 1) ** 2 - 1) == [] and solve((x / (x + 1) + 3) ** (-2)) == [] and solve(x / sqrt(x ** 2 + 1), x) == [0] and solve(exp(x) - y, x) == [log(y)] and solve(exp(x)) == [] and solve(x ** 2 + x + sin(y) ** 2 + cos(y) ** 2 - 1, x) in [[0, -1], [-1, 0]] and len(ans) == 5 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(x ** 2 * z ** 2 - z ** 2 * y ** 2) == [{x: -y}, {x: y}, {z: 0}] and solve((x - 1) / (1 + 1 / (x - 1))) == [] and solve(x ** (y * z) - x, x) == [1]"},"spec":{"lhs":"test_issue_4793()","rhs":"test_issue_4793 produces the expected output","over":{"base":"Any"},"name":"test_issue_4793_correct"},"guarantee":"test_issue_4793 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4793_correct","statement":"Path(test_issue_4793(x), test_issue_4793 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a95ff3afde7964f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4793","kind":"function","src_hash":"d7ff93fe99018736","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(1 / x) == [] and solve(x * (1 - 5 / x)) == [5] and solve(x + sqrt(x) - 2) == [1] and solve(-(1 + x) / (2 + x) ** 2 + 1 / (2 + x)) == [] and solve(-x ** 2 - 2 * x + (x + 1) ** 2 - 1) == [] and solve((x / (x + 1) + 3) ** (-2)) == [] and solve(x / sqrt(x ** 2 + 1), x) == [0] and solve(exp(x) - y, x) == [log(y)] and solve(exp(x)) == [] and solve(x ** 2 + x + sin(y) ** 2 + cos(y) ** 2 - 1, x) in [[0, -1], [-1, 0]] and len(ans) == 5 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(log(x ** 2) - y ** 2 / exp(x), x, y, set=True) == ([x, y], {(x, sqrt(exp(x) * log(x ** 2))), (x, -sqrt(exp(x) * log(x ** 2)))}) and solve(x ** 2 * z ** 2 - z ** 2 * y ** 2) == [{x: -y}, {x: y}, {z: 0}] and solve((x - 1) / (1 + 1 / (x - 1))) == [] and solve(x ** (y * z) - x, x) == [1]"},"spec":{"lhs":"test_issue_4793()","rhs":"solve(1 / x) == [] and solve(x * (1 - 5 / x)) == [5] and solve(x + sqrt(x) - 2) == [1] and solve(-(1 + x) / (2 + x) ** 2 + 1 / (2 + x)) == [] and solve(-x ** 2 - 2 * x + (x + 1) ** 2 - 1) == [] and solve((x / (x + 1) + 3) ** (-2)) == [] and solve(x / sqrt(x ** 2 + 1), x) == [0] and solve(exp(x) - y, x) == [log(y)] and solve(exp(x)) == [] and solve(x ** 2 + x + sin(y) ** 2 + cos(y) ** 2 - 1, x) in [[0, -1], [-1, 0]] and len(ans) == 5 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans)) and solve(log(x ** 2) - y ** 2 / exp(x), x, y, set=True) == ([x, y], {(x, sqrt(exp(x) * log(x ** 2))), (x, -sqrt(exp(x) * log(x ** 2)))}) and solve(x ** 2 * z ** 2 - z ** 2 * y ** 2) == [{x: -y}, {x: y}, {z: 0}] and solve((x - 1) / (1 + 1 / (x - 1))) == [] and solve(x ** (y * z) - x, x) == [1]","over":{"base":"Any"},"name":"test_issue_4793_correct"},"guarantee":"solve(1 / x) == []; solve(x * (1 - 5 / x)) == [5]; solve(x + sqrt(x) - 2) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4793_correct","statement":"Path(test_issue_4793(x), solve(1 / x) == []; solve(x * (1 - 5 / x)) == [5]; solve(x + sqrt(x) - 2) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ce98d21cd00830","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(1 / x) == []","solve(x * (1 - 5 / x)) == [5]","solve(x + sqrt(x) - 2) == [1]","solve(-(1 + x) / (2 + x) ** 2 + 1 / (2 + x)) == []","solve(-x ** 2 - 2 * x + (x + 1) ** 2 - 1) == []","solve((x / (x + 1) + 3) ** (-2)) == []","solve(x / sqrt(x ** 2 + 1), x) == [0]","solve(exp(x) - y, x) == [log(y)]","solve(exp(x)) == []","solve(x ** 2 + x + sin(y) ** 2 + cos(y) ** 2 - 1, x) in [[0, -1], [-1, 0]]","len(ans) == 5 and all((eq.subs(x, a).n(chop=True) == 0 for a in ans))","solve(log(x ** 2) - y ** 2 / exp(x), x, y, set=True) == ([x, y], {(x, sqrt(exp(x) * log(x ** 2))), (x, -sqrt(exp(x) * log(x ** 2)))})","solve(x ** 2 * z ** 2 - z ** 2 * y ** 2) == [{x: -y}, {x: y}, {z: 0}]","solve((x - 1) / (1 + 1 / (x - 1))) == []","solve(x ** (y * z) - x, x) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_issue_4793():
     assert solve(1/x) == []
     assert solve(x*(1 - 5/x)) == [5]
@@ -1322,16 +1590,24 @@ def test_issue_4793():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PR1964(), test_PR1964 produces the expected output) over Any ║
+# ║ Path(test_PR1964(), solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0] and solve(sqrt(x - 1)) == [1] and solve(-3 * a / sqrt(x), x) == [] and solve(2 * x / (x + 2) - 1, x) == [2] and set(solve((x ** 2 / (7 - x)).diff(x))) == {S.Zero, S(14)} and solve((3 - 5 * x / f(x)) * f(x), f(x)) == [x * Rational(5, 3)] and solve(1 / root(5 + x, 5) - 9, x) == [Rational(-295244, 59049)] and solve(sqrt(x) + sqrt(sqrt(x)) - 4) == [(Rational(-1, 2) + sqrt(17) / 2) ** 4] and set(solve(Poly(sqrt(exp(x)) + sqrt(exp(-x)) - 4))) in [{log((-sqrt(3) + 2) ** 2), log((sqrt(3) + 2) ** 2)}, {2 * log(-sqrt(3) + 2), 2 * log(sqrt(3) + 2)}, {log(-4 * sqrt(3) + 7), log(4 * sqrt(3) + 7)}] and set(solve(Poly(exp(x) + exp(-x) - 4))) == {log(-sqrt(3) + 2), log(sqrt(3) + 2)} and set(solve(x ** y + x ** (2 * y) - 1, x)) == {(Rational(-1, 2) + sqrt(5) / 2) ** (1 / y), (Rational(-1, 2) - sqrt(5) / 2) ** (1 / y)} and solve(exp(x / y) * exp(-z / y) - 2, y) == [(x - z) / log(2)] and solve(x ** z * y ** z - 2, z) in [[log(2) / (log(x) + log(y))], [log(2) / log(x * y)]] and solve(exp(3 * x) - exp(3), x) in [[1, log(E * (Rational(-1, 2) - sqrt(3) * I / 2)), log(E * (Rational(-1, 2) + sqrt(3) * I / 2))], [1, log(-E / 2 - sqrt(3) * E * I / 2), log(-E / 2 + sqrt(3) * E * I / 2)]] and solve((1 / p + 1) ** (p + 1)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PR1964 : Any → {Any | solve(sqrt(x)) == solve(sq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0]   ║
+# ║   ensures:  solve(sqrt(x - 1)) == [1]                      ║
+# ║   ensures:  solve(-3 * a / sqrt(x), x) == []               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PR1964 : Any → {Any | result satisfies: solve(sq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eefb1a4c1ab1cd2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a1204b28c76f3f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_PR1964","kind":"function","src_hash":"c8d0263317f40da2","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0] and solve(sqrt(x - 1)) == [1] and solve(-3 * a / sqrt(x), x) == [] and solve(2 * x / (x + 2) - 1, x) == [2] and set(solve((x ** 2 / (7 - x)).diff(x))) == {S.Zero, S(14)} and solve((3 - 5 * x / f(x)) * f(x), f(x)) == [x * Rational(5, 3)] and solve(1 / root(5 + x, 5) - 9, x) == [Rational(-295244, 59049)] and solve(sqrt(x) + sqrt(sqrt(x)) - 4) == [(Rational(-1, 2) + sqrt(17) / 2) ** 4] and set(solve(Poly(exp(x) + exp(-x) - 4))) == {log(-sqrt(3) + 2), log(sqrt(3) + 2)} and solve(exp(x / y) * exp(-z / y) - 2, y) == [(x - z) / log(2)] and solve((1 / p + 1) ** (p + 1)) == []"},"spec":{"lhs":"test_PR1964()","rhs":"test_PR1964 produces the expected output","over":{"base":"Any"},"name":"test_PR1964_correct"},"guarantee":"test_PR1964 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_PR1964_correct","statement":"Path(test_PR1964(x), test_PR1964 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eefb1a4c1ab1cd2f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_PR1964","kind":"function","src_hash":"c8d0263317f40da2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0] and solve(sqrt(x - 1)) == [1] and solve(-3 * a / sqrt(x), x) == [] and solve(2 * x / (x + 2) - 1, x) == [2] and set(solve((x ** 2 / (7 - x)).diff(x))) == {S.Zero, S(14)} and solve((3 - 5 * x / f(x)) * f(x), f(x)) == [x * Rational(5, 3)] and solve(1 / root(5 + x, 5) - 9, x) == [Rational(-295244, 59049)] and solve(sqrt(x) + sqrt(sqrt(x)) - 4) == [(Rational(-1, 2) + sqrt(17) / 2) ** 4] and set(solve(Poly(sqrt(exp(x)) + sqrt(exp(-x)) - 4))) in [{log((-sqrt(3) + 2) ** 2), log((sqrt(3) + 2) ** 2)}, {2 * log(-sqrt(3) + 2), 2 * log(sqrt(3) + 2)}, {log(-4 * sqrt(3) + 7), log(4 * sqrt(3) + 7)}] and set(solve(Poly(exp(x) + exp(-x) - 4))) == {log(-sqrt(3) + 2), log(sqrt(3) + 2)} and set(solve(x ** y + x ** (2 * y) - 1, x)) == {(Rational(-1, 2) + sqrt(5) / 2) ** (1 / y), (Rational(-1, 2) - sqrt(5) / 2) ** (1 / y)} and solve(exp(x / y) * exp(-z / y) - 2, y) == [(x - z) / log(2)] and solve(x ** z * y ** z - 2, z) in [[log(2) / (log(x) + log(y))], [log(2) / log(x * y)]] and solve(exp(3 * x) - exp(3), x) in [[1, log(E * (Rational(-1, 2) - sqrt(3) * I / 2)), log(E * (Rational(-1, 2) + sqrt(3) * I / 2))], [1, log(-E / 2 - sqrt(3) * E * I / 2), log(-E / 2 + sqrt(3) * E * I / 2)]] and solve((1 / p + 1) ** (p + 1)) == []"},"spec":{"lhs":"test_PR1964()","rhs":"solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0] and solve(sqrt(x - 1)) == [1] and solve(-3 * a / sqrt(x), x) == [] and solve(2 * x / (x + 2) - 1, x) == [2] and set(solve((x ** 2 / (7 - x)).diff(x))) == {S.Zero, S(14)} and solve((3 - 5 * x / f(x)) * f(x), f(x)) == [x * Rational(5, 3)] and solve(1 / root(5 + x, 5) - 9, x) == [Rational(-295244, 59049)] and solve(sqrt(x) + sqrt(sqrt(x)) - 4) == [(Rational(-1, 2) + sqrt(17) / 2) ** 4] and set(solve(Poly(sqrt(exp(x)) + sqrt(exp(-x)) - 4))) in [{log((-sqrt(3) + 2) ** 2), log((sqrt(3) + 2) ** 2)}, {2 * log(-sqrt(3) + 2), 2 * log(sqrt(3) + 2)}, {log(-4 * sqrt(3) + 7), log(4 * sqrt(3) + 7)}] and set(solve(Poly(exp(x) + exp(-x) - 4))) == {log(-sqrt(3) + 2), log(sqrt(3) + 2)} and set(solve(x ** y + x ** (2 * y) - 1, x)) == {(Rational(-1, 2) + sqrt(5) / 2) ** (1 / y), (Rational(-1, 2) - sqrt(5) / 2) ** (1 / y)} and solve(exp(x / y) * exp(-z / y) - 2, y) == [(x - z) / log(2)] and solve(x ** z * y ** z - 2, z) in [[log(2) / (log(x) + log(y))], [log(2) / log(x * y)]] and solve(exp(3 * x) - exp(3), x) in [[1, log(E * (Rational(-1, 2) - sqrt(3) * I / 2)), log(E * (Rational(-1, 2) + sqrt(3) * I / 2))], [1, log(-E / 2 - sqrt(3) * E * I / 2), log(-E / 2 + sqrt(3) * E * I / 2)]] and solve((1 / p + 1) ** (p + 1)) == []","over":{"base":"Any"},"name":"test_PR1964_correct"},"guarantee":"solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0]; solve(sqrt(x - 1)) == [1]; solve(-3 * a / sqrt(x), x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_PR1964_correct","statement":"Path(test_PR1964(x), solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0]; solve(sqrt(x - 1)) == [1]; solve(-3 * a / sqrt(x), x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a1204b28c76f3f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(x)) == solve(sqrt(x ** 3)) == [0]","solve(sqrt(x - 1)) == [1]","solve(-3 * a / sqrt(x), x) == []","solve(2 * x / (x + 2) - 1, x) == [2]","set(solve((x ** 2 / (7 - x)).diff(x))) == {S.Zero, S(14)}","solve((3 - 5 * x / f(x)) * f(x), f(x)) == [x * Rational(5, 3)]","solve(1 / root(5 + x, 5) - 9, x) == [Rational(-295244, 59049)]","solve(sqrt(x) + sqrt(sqrt(x)) - 4) == [(Rational(-1, 2) + sqrt(17) / 2) ** 4]","set(solve(Poly(sqrt(exp(x)) + sqrt(exp(-x)) - 4))) in [{log((-sqrt(3) + 2) ** 2), log((sqrt(3) + 2) ** 2)}, {2 * log(-sqrt(3) + 2), 2 * log(sqrt(3) + 2)}, {log(-4 * sqrt(3) + 7), log(4 * sqrt(3) + 7)}]","set(solve(Poly(exp(x) + exp(-x) - 4))) == {log(-sqrt(3) + 2), log(sqrt(3) + 2)}","set(solve(x ** y + x ** (2 * y) - 1, x)) == {(Rational(-1, 2) + sqrt(5) / 2) ** (1 / y), (Rational(-1, 2) - sqrt(5) / 2) ** (1 / y)}","solve(exp(x / y) * exp(-z / y) - 2, y) == [(x - z) / log(2)]","solve(x ** z * y ** z - 2, z) in [[log(2) / (log(x) + log(y))], [log(2) / log(x * y)]]","solve(exp(3 * x) - exp(3), x) in [[1, log(E * (Rational(-1, 2) - sqrt(3) * I / 2)), log(E * (Rational(-1, 2) + sqrt(3) * I / 2))], [1, log(-E / 2 - sqrt(3) * E * I / 2), log(-E / 2 + sqrt(3) * E * I / 2)]]","solve((1 / p + 1) ** (p + 1)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_PR1964():
     # issue 5171
     assert solve(sqrt(x)) == solve(sqrt(x**3)) == [0]
@@ -1378,16 +1654,24 @@ def test_PR1964():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5197(), test_issue_5197 produces the expected output) over Any ║
+# ║ Path(test_issue_5197(), solve(x ** 2 + 1, x) == [] and solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == [] and solve([x + y, 2 - y ** 2], x, y) == [(sqrt(2), -sqrt(2))] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: x * exp(x / 2)}] and solve(z ** 2 * x ** 2 - z ** 2 * y ** 2 / exp(x), y, x, z, dict=True) == [{y: x * exp(x / 2)}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5197 : Any → {Any | solve(x ** 2 + 1, x) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x ** 2 + 1, x) == []                     ║
+# ║   ensures:  solve((n - 1) * (n + 2) * (2 * n - 1), n)...   ║
+# ║   ensures:  solve([x + 5 * y - 2, -3 * x + 6 * y - 15...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5197 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 940513ef1206cf66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a9cd47c87db6ba4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5197","kind":"function","src_hash":"55c17fb566655305","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x ** 2 + 1, x) == [] and solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == [] and solve([x + y, 2 - y ** 2], x, y) == [(sqrt(2), -sqrt(2))] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: x * exp(x / 2)}]"},"spec":{"lhs":"test_issue_5197()","rhs":"test_issue_5197 produces the expected output","over":{"base":"Any"},"name":"test_issue_5197_correct"},"guarantee":"test_issue_5197 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5197_correct","statement":"Path(test_issue_5197(x), test_issue_5197 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"940513ef1206cf66"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5197","kind":"function","src_hash":"55c17fb566655305","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x ** 2 + 1, x) == [] and solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == [] and solve([x + y, 2 - y ** 2], x, y) == [(sqrt(2), -sqrt(2))] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: x * exp(x / 2)}] and solve(z ** 2 * x ** 2 - z ** 2 * y ** 2 / exp(x), y, x, z, dict=True) == [{y: x * exp(x / 2)}]"},"spec":{"lhs":"test_issue_5197()","rhs":"solve(x ** 2 + 1, x) == [] and solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1] and solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == [] and solve([x + y, 2 - y ** 2], x, y) == [(sqrt(2), -sqrt(2))] and solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: x * exp(x / 2)}] and solve(z ** 2 * x ** 2 - z ** 2 * y ** 2 / exp(x), y, x, z, dict=True) == [{y: x * exp(x / 2)}]","over":{"base":"Any"},"name":"test_issue_5197_correct"},"guarantee":"solve(x ** 2 + 1, x) == []; solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1]; solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5197_correct","statement":"Path(test_issue_5197(x), solve(x ** 2 + 1, x) == []; solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1]; solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a9cd47c87db6ba4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x ** 2 + 1, x) == []","solve((n - 1) * (n + 2) * (2 * n - 1), n) == [1]","solve([x + 5 * y - 2, -3 * x + 6 * y - 15], x, y) == []","solve([x + y, 2 - y ** 2], x, y) == [(sqrt(2), -sqrt(2))]","solve(x ** 2 - y ** 2 / exp(x), y, x, dict=True) == [{y: x * exp(x / 2)}]","solve(z ** 2 * x ** 2 - z ** 2 * y ** 2 / exp(x), y, x, z, dict=True) == [{y: x * exp(x / 2)}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_5197():
     x = Symbol('x', real=True)
     assert solve(x**2 + 1, x) == []
@@ -1407,16 +1691,24 @@ def test_issue_5197():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_checking(), test_checking produces the expected output) over Any ║
+# ║ Path(test_checking(), set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)} and set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)} and solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == [] and solve(1 / (1 / x + 2)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_checking : Any → {Any | set(solve(x * (x - y / x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve(x * (x - y / x), x, check=False...   ║
+# ║   ensures:  set(solve(x * (x - y / x), x, check=True)...   ║
+# ║   ensures:  solve((1 / (1 / x + 2), 1 / (y - 3) - 1))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_checking : Any → {Any | result satisfies: set(so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e55d4d8a40b34626  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be005a03daf5e2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_checking","kind":"function","src_hash":"25daaf734d853cf7","in":{"base":"Any"},"out":{"base":"Any","pred":"set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)} and set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)} and solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == [] and solve(1 / (1 / x + 2)) == []"},"spec":{"lhs":"test_checking()","rhs":"test_checking produces the expected output","over":{"base":"Any"},"name":"test_checking_correct"},"guarantee":"test_checking produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_checking_correct","statement":"Path(test_checking(x), test_checking produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e55d4d8a40b34626"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_checking","kind":"function","src_hash":"25daaf734d853cf7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)} and set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)} and solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == [] and solve(1 / (1 / x + 2)) == []"},"spec":{"lhs":"test_checking()","rhs":"set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)} and set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)} and solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == [] and solve(1 / (1 / x + 2)) == []","over":{"base":"Any"},"name":"test_checking_correct"},"guarantee":"set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)}; set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)}; solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_checking_correct","statement":"Path(test_checking(x), set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)}; set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)}; solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be005a03daf5e2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve(x * (x - y / x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)}","set(solve(x * (x - y / x), x, check=True)) == {sqrt(y), -sqrt(y)}","solve((1 / (1 / x + 2), 1 / (y - 3) - 1)) == []","solve(1 / (1 / x + 2)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_checking():
     assert set(
         solve(x*(x - y/x), x, check=False)) == {sqrt(y), S.Zero, -sqrt(y)}
@@ -1428,16 +1720,24 @@ def test_checking():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4671_4463_4467(), test_issue_4671_4463_4467 produces the expected output) over Any ║
+# ║ Path(test_issue_4671_4463_4467(), solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)]) and solve((2 ** exp(y ** 2 / x) + 2) / (x ** 2 + 15), y) == [-sqrt(x * log(1 + I * pi / log(2))), sqrt(x * log(1 + I * pi / log(2)))] and solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)) == [log(x ** 2 / (C1 * x ** 2 + C2))] and solve(1 - log(a + 4 * x ** 2), x) in ([-sqrt(-a + E) / 2, sqrt(-a + E) / 2], [sqrt(-a + E) / 2, -sqrt(-a + E) / 2]) and solve(log(a ** (-3) - x ** 2) / a, x) in ([-sqrt(-1 + a ** (-3)), sqrt(-1 + a ** (-3))], [sqrt(-1 + a ** (-3)), -sqrt(-1 + a ** (-3))]) and solve((a ** 2 + 1) * (sin(a * x) + cos(a * x)), x) == [-pi / (4 * a)] and solve(3 - (sinh(a * x) + cosh(a * x)), x) == [log(3) / a] and set(solve(3 - (sinh(a * x) + cosh(a * x) ** 2), x)) == {log(-2 + sqrt(5)) / a, log(-sqrt(2) + 1) / a, log(-sqrt(5) - 2) / a, log(1 + sqrt(2)) / a} and solve(atan(x) - 1) == [tan(1)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4671_4463_4467 : Any → {Any | solve(sqrt(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5),...   ║
+# ║   ensures:  solve((2 ** exp(y ** 2 / x) + 2) / (x ** ...   ║
+# ║   ensures:  solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4671_4463_4467 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fc5c0b2d7dc74d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11202467bd56da36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4671_4463_4467","kind":"function","src_hash":"bff4378b55183f85","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)]) and solve((a ** 2 + 1) * (sin(a * x) + cos(a * x)), x) == [-pi / (4 * a)] and solve(3 - (sinh(a * x) + cosh(a * x)), x) == [log(3) / a] and solve(atan(x) - 1) == [tan(1)]"},"spec":{"lhs":"test_issue_4671_4463_4467()","rhs":"test_issue_4671_4463_4467 produces the expected output","over":{"base":"Any"},"name":"test_issue_4671_4463_4467_correct"},"guarantee":"test_issue_4671_4463_4467 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4671_4463_4467_correct","statement":"Path(test_issue_4671_4463_4467(x), test_issue_4671_4463_4467 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fc5c0b2d7dc74d0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4671_4463_4467","kind":"function","src_hash":"bff4378b55183f85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)]) and solve((2 ** exp(y ** 2 / x) + 2) / (x ** 2 + 15), y) == [-sqrt(x * log(1 + I * pi / log(2))), sqrt(x * log(1 + I * pi / log(2)))] and solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)) == [log(x ** 2 / (C1 * x ** 2 + C2))] and solve(1 - log(a + 4 * x ** 2), x) in ([-sqrt(-a + E) / 2, sqrt(-a + E) / 2], [sqrt(-a + E) / 2, -sqrt(-a + E) / 2]) and solve(log(a ** (-3) - x ** 2) / a, x) in ([-sqrt(-1 + a ** (-3)), sqrt(-1 + a ** (-3))], [sqrt(-1 + a ** (-3)), -sqrt(-1 + a ** (-3))]) and solve((a ** 2 + 1) * (sin(a * x) + cos(a * x)), x) == [-pi / (4 * a)] and solve(3 - (sinh(a * x) + cosh(a * x)), x) == [log(3) / a] and set(solve(3 - (sinh(a * x) + cosh(a * x) ** 2), x)) == {log(-2 + sqrt(5)) / a, log(-sqrt(2) + 1) / a, log(-sqrt(5) - 2) / a, log(1 + sqrt(2)) / a} and solve(atan(x) - 1) == [tan(1)]"},"spec":{"lhs":"test_issue_4671_4463_4467()","rhs":"solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)]) and solve((2 ** exp(y ** 2 / x) + 2) / (x ** 2 + 15), y) == [-sqrt(x * log(1 + I * pi / log(2))), sqrt(x * log(1 + I * pi / log(2)))] and solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)) == [log(x ** 2 / (C1 * x ** 2 + C2))] and solve(1 - log(a + 4 * x ** 2), x) in ([-sqrt(-a + E) / 2, sqrt(-a + E) / 2], [sqrt(-a + E) / 2, -sqrt(-a + E) / 2]) and solve(log(a ** (-3) - x ** 2) / a, x) in ([-sqrt(-1 + a ** (-3)), sqrt(-1 + a ** (-3))], [sqrt(-1 + a ** (-3)), -sqrt(-1 + a ** (-3))]) and solve((a ** 2 + 1) * (sin(a * x) + cos(a * x)), x) == [-pi / (4 * a)] and solve(3 - (sinh(a * x) + cosh(a * x)), x) == [log(3) / a] and set(solve(3 - (sinh(a * x) + cosh(a * x) ** 2), x)) == {log(-2 + sqrt(5)) / a, log(-sqrt(2) + 1) / a, log(-sqrt(5) - 2) / a, log(1 + sqrt(2)) / a} and solve(atan(x) - 1) == [tan(1)]","over":{"base":"Any"},"name":"test_issue_4671_4463_4467_correct"},"guarantee":"solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)]); solve((2 ** exp(y ** 2 / x) + 2) / (x ** 2 + 15), y) == [-sqrt(x * log(1 + I * pi / log(2))), sqrt(x * log(1 + I * pi / log(2)))]; solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)) == [log(x ** 2 / (C1 * x ** 2 + C2))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4671_4463_4467_correct","statement":"Path(test_issue_4671_4463_4467(x), solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)]); solve((2 ** exp(y ** 2 / x) + 2) / (x ** 2 + 15), y) == [-sqrt(x * log(1 + I * pi / log(2))), sqrt(x * log(1 + I * pi / log(2)))]; solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)) == [log(x ** 2 / (C1 * x ** 2 + C2))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11202467bd56da36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(x ** 2 - 1) - 2) in ([sqrt(5), -sqrt(5)], [-sqrt(5), sqrt(5)])","solve((2 ** exp(y ** 2 / x) + 2) / (x ** 2 + 15), y) == [-sqrt(x * log(1 + I * pi / log(2))), sqrt(x * log(1 + I * pi / log(2)))]","solve(C1 + C2 / x ** 2 - exp(-f(x)), f(x)) == [log(x ** 2 / (C1 * x ** 2 + C2))]","solve(1 - log(a + 4 * x ** 2), x) in ([-sqrt(-a + E) / 2, sqrt(-a + E) / 2], [sqrt(-a + E) / 2, -sqrt(-a + E) / 2])","solve(log(a ** (-3) - x ** 2) / a, x) in ([-sqrt(-1 + a ** (-3)), sqrt(-1 + a ** (-3))], [sqrt(-1 + a ** (-3)), -sqrt(-1 + a ** (-3))])","solve((a ** 2 + 1) * (sin(a * x) + cos(a * x)), x) == [-pi / (4 * a)]","solve(3 - (sinh(a * x) + cosh(a * x)), x) == [log(3) / a]","set(solve(3 - (sinh(a * x) + cosh(a * x) ** 2), x)) == {log(-2 + sqrt(5)) / a, log(-sqrt(2) + 1) / a, log(-sqrt(5) - 2) / a, log(1 + sqrt(2)) / a}","solve(atan(x) - 1) == [tan(1)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_issue_4671_4463_4467():
     assert solve(sqrt(x**2 - 1) - 2) in ([sqrt(5), -sqrt(5)],
                                            [-sqrt(5), sqrt(5)])
@@ -1468,16 +1768,24 @@ def test_issue_4671_4463_4467():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5132(), test_issue_5132 produces the expected output) over Any ║
+# ║ Path(test_issue_5132(), set(solve([r - x ** 2 - y ** 2, tan(t) - y / x], [x, y])) == {(-sqrt(r * cos(t) ** 2), -1 * sqrt(r * cos(t) ** 2) * tan(t)), (sqrt(r * cos(t) ** 2), sqrt(r * cos(t) ** 2) * tan(t))} and solve([exp(x) - sin(y), 1 / y - 3], [x, y]) == [(log(sin(Rational(1, 3))), Rational(1, 3))] and solve([exp(x) - sin(y), 1 / exp(y) - 3], [x, y]) == [(log(-sin(log(3))), -log(3))] and set(solve([exp(x) - sin(y), y ** 2 - 4], [x, y])) == {(log(-sin(2)), -S(2)), (log(sin(2)), S(2))} and solve(eqs, set=True) == ([y, z], {(-log(3), sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), -sqrt(-exp(2 * x) - sin(log(3))))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, sqrt(-exp(2 * x) + sin(y))), (x, -sqrt(-exp(2 * x) + sin(y)))}) and set(solve(eqs, x, y)) == {(log(-sqrt(-z ** 2 - sin(log(3)))), -log(3)), (log(-z ** 2 - sin(log(3))) / 2, -log(3))} and set(solve(eqs, y, z)) == {(-log(3), -sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), sqrt(-exp(2 * x) - sin(log(3))))} and solve(eqs, set=True) == ([y, z], {(-log(3), -exp(2 * x) - sin(log(3)))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, -exp(2 * x) + sin(y))}) and set(solve(eqs, x, y)) == {(log(-sqrt(-z - sin(log(3)))), -log(3)), (log(-z - sin(log(3))) / 2, -log(3))} and solve(eqs, z, y) == [(-exp(2 * x) - sin(log(3)), -log(3))] and solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), set=True) == ([x, y], {(S.One, S(3)), (S(3), S.One)}) and set(solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), x, y)) == {(S.One, S(3)), (S(3), S.One)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5132 : Any → {Any | solve(eqs, set=True) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve([r - x ** 2 - y ** 2, tan(t) - ...   ║
+# ║   ensures:  solve([exp(x) - sin(y), 1 / y - 3], [x, y...   ║
+# ║   ensures:  solve([exp(x) - sin(y), 1 / exp(y) - 3], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5132 : Any → {Any | result satisfies: set(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1a8236f32eb9d7e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4dff16936ab2698  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5132","kind":"function","src_hash":"8cee3871dfdfff22","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eqs, set=True) == ([y, z], {(-log(3), -exp(2 * x) - sin(log(3)))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, -exp(2 * x) + sin(y))}) and solve(eqs, z, y) == [(-exp(2 * x) - sin(log(3)), -log(3))]"},"spec":{"lhs":"test_issue_5132()","rhs":"test_issue_5132 produces the expected output","over":{"base":"Any"},"name":"test_issue_5132_correct"},"guarantee":"test_issue_5132 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5132_correct","statement":"Path(test_issue_5132(x), test_issue_5132 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1a8236f32eb9d7e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5132","kind":"function","src_hash":"8cee3871dfdfff22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve([r - x ** 2 - y ** 2, tan(t) - y / x], [x, y])) == {(-sqrt(r * cos(t) ** 2), -1 * sqrt(r * cos(t) ** 2) * tan(t)), (sqrt(r * cos(t) ** 2), sqrt(r * cos(t) ** 2) * tan(t))} and solve([exp(x) - sin(y), 1 / y - 3], [x, y]) == [(log(sin(Rational(1, 3))), Rational(1, 3))] and solve([exp(x) - sin(y), 1 / exp(y) - 3], [x, y]) == [(log(-sin(log(3))), -log(3))] and set(solve([exp(x) - sin(y), y ** 2 - 4], [x, y])) == {(log(-sin(2)), -S(2)), (log(sin(2)), S(2))} and solve(eqs, set=True) == ([y, z], {(-log(3), sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), -sqrt(-exp(2 * x) - sin(log(3))))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, sqrt(-exp(2 * x) + sin(y))), (x, -sqrt(-exp(2 * x) + sin(y)))}) and set(solve(eqs, x, y)) == {(log(-sqrt(-z ** 2 - sin(log(3)))), -log(3)), (log(-z ** 2 - sin(log(3))) / 2, -log(3))} and set(solve(eqs, y, z)) == {(-log(3), -sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), sqrt(-exp(2 * x) - sin(log(3))))} and solve(eqs, set=True) == ([y, z], {(-log(3), -exp(2 * x) - sin(log(3)))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, -exp(2 * x) + sin(y))}) and set(solve(eqs, x, y)) == {(log(-sqrt(-z - sin(log(3)))), -log(3)), (log(-z - sin(log(3))) / 2, -log(3))} and solve(eqs, z, y) == [(-exp(2 * x) - sin(log(3)), -log(3))] and solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), set=True) == ([x, y], {(S.One, S(3)), (S(3), S.One)}) and set(solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), x, y)) == {(S.One, S(3)), (S(3), S.One)}"},"spec":{"lhs":"test_issue_5132()","rhs":"set(solve([r - x ** 2 - y ** 2, tan(t) - y / x], [x, y])) == {(-sqrt(r * cos(t) ** 2), -1 * sqrt(r * cos(t) ** 2) * tan(t)), (sqrt(r * cos(t) ** 2), sqrt(r * cos(t) ** 2) * tan(t))} and solve([exp(x) - sin(y), 1 / y - 3], [x, y]) == [(log(sin(Rational(1, 3))), Rational(1, 3))] and solve([exp(x) - sin(y), 1 / exp(y) - 3], [x, y]) == [(log(-sin(log(3))), -log(3))] and set(solve([exp(x) - sin(y), y ** 2 - 4], [x, y])) == {(log(-sin(2)), -S(2)), (log(sin(2)), S(2))} and solve(eqs, set=True) == ([y, z], {(-log(3), sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), -sqrt(-exp(2 * x) - sin(log(3))))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, sqrt(-exp(2 * x) + sin(y))), (x, -sqrt(-exp(2 * x) + sin(y)))}) and set(solve(eqs, x, y)) == {(log(-sqrt(-z ** 2 - sin(log(3)))), -log(3)), (log(-z ** 2 - sin(log(3))) / 2, -log(3))} and set(solve(eqs, y, z)) == {(-log(3), -sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), sqrt(-exp(2 * x) - sin(log(3))))} and solve(eqs, set=True) == ([y, z], {(-log(3), -exp(2 * x) - sin(log(3)))}) and solve(eqs, x, z, set=True) == ([x, z], {(x, -exp(2 * x) + sin(y))}) and set(solve(eqs, x, y)) == {(log(-sqrt(-z - sin(log(3)))), -log(3)), (log(-z - sin(log(3))) / 2, -log(3))} and solve(eqs, z, y) == [(-exp(2 * x) - sin(log(3)), -log(3))] and solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), set=True) == ([x, y], {(S.One, S(3)), (S(3), S.One)}) and set(solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), x, y)) == {(S.One, S(3)), (S(3), S.One)}","over":{"base":"Any"},"name":"test_issue_5132_correct"},"guarantee":"set(solve([r - x ** 2 - y ** 2, tan(t) - y / x], [x, y])) == {(-sqrt(r * cos(t) ** 2), -1 * sqrt(r * cos(t) ** 2) * tan(t)), (sqrt(r * cos(t) ** 2), sqrt(r * cos(t) ** 2) * tan(t))}; solve([exp(x) - sin(y), 1 / y - 3], [x, y]) == [(log(sin(Rational(1, 3))), Rational(1, 3))]; solve([exp(x) - sin(y), 1 / exp(y) - 3], [x, y]) == [(log(-sin(log(3))), -log(3))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5132_correct","statement":"Path(test_issue_5132(x), set(solve([r - x ** 2 - y ** 2, tan(t) - y / x], [x, y])) == {(-sqrt(r * cos(t) ** 2), -1 * sqrt(r * cos(t) ** 2) * tan(t)), (sqrt(r * cos(t) ** 2), sqrt(r * cos(t) ** 2) * tan(t))}; solve([exp(x) - sin(y), 1 / y - 3], [x, y]) == [(log(sin(Rational(1, 3))), Rational(1, 3))]; solve([exp(x) - sin(y), 1 / exp(y) - 3], [x, y]) == [(log(-sin(log(3))), -log(3))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4dff16936ab2698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve([r - x ** 2 - y ** 2, tan(t) - y / x], [x, y])) == {(-sqrt(r * cos(t) ** 2), -1 * sqrt(r * cos(t) ** 2) * tan(t)), (sqrt(r * cos(t) ** 2), sqrt(r * cos(t) ** 2) * tan(t))}","solve([exp(x) - sin(y), 1 / y - 3], [x, y]) == [(log(sin(Rational(1, 3))), Rational(1, 3))]","solve([exp(x) - sin(y), 1 / exp(y) - 3], [x, y]) == [(log(-sin(log(3))), -log(3))]","set(solve([exp(x) - sin(y), y ** 2 - 4], [x, y])) == {(log(-sin(2)), -S(2)), (log(sin(2)), S(2))}","solve(eqs, set=True) == ([y, z], {(-log(3), sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), -sqrt(-exp(2 * x) - sin(log(3))))})","solve(eqs, x, z, set=True) == ([x, z], {(x, sqrt(-exp(2 * x) + sin(y))), (x, -sqrt(-exp(2 * x) + sin(y)))})","set(solve(eqs, x, y)) == {(log(-sqrt(-z ** 2 - sin(log(3)))), -log(3)), (log(-z ** 2 - sin(log(3))) / 2, -log(3))}","set(solve(eqs, y, z)) == {(-log(3), -sqrt(-exp(2 * x) - sin(log(3)))), (-log(3), sqrt(-exp(2 * x) - sin(log(3))))}","solve(eqs, set=True) == ([y, z], {(-log(3), -exp(2 * x) - sin(log(3)))})","solve(eqs, x, z, set=True) == ([x, z], {(x, -exp(2 * x) + sin(y))})","set(solve(eqs, x, y)) == {(log(-sqrt(-z - sin(log(3)))), -log(3)), (log(-z - sin(log(3))) / 2, -log(3))}","solve(eqs, z, y) == [(-exp(2 * x) - sin(log(3)), -log(3))]","solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), set=True) == ([x, y], {(S.One, S(3)), (S(3), S.One)})","set(solve((sqrt(x ** 2 + y ** 2) - sqrt(10), x + y - 4), x, y)) == {(S.One, S(3)), (S(3), S.One)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_issue_5132():
     r, t = symbols('r,t')
     assert set(solve([r - x**2 - y**2, tan(t) - y/x], [x, y])) == \
@@ -1523,16 +1831,23 @@ def test_issue_5132():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5335(), test_issue_5335 produces the expected output) over Any ║
+# ║ Path(test_issue_5335(), len(solve(eqs, sym, manual=True, minimal=True)) == 2 and len(solve(eqs, sym)) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5335 : Any → {Any | len(solve(eqs, sym, ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(eqs, sym, manual=True, minimal=...   ║
+# ║   ensures:  len(solve(eqs, sym)) == 2                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5335 : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd677c1c14e2182a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6e5f9446d8f52d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5335","kind":"function","src_hash":"aad269f463f7abb0","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(eqs, sym, manual=True, minimal=True)) == 2 and len(solve(eqs, sym)) == 2"},"spec":{"lhs":"test_issue_5335()","rhs":"test_issue_5335 produces the expected output","over":{"base":"Any"},"name":"test_issue_5335_correct"},"guarantee":"test_issue_5335 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5335_correct","statement":"Path(test_issue_5335(x), test_issue_5335 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd677c1c14e2182a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5335","kind":"function","src_hash":"aad269f463f7abb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(eqs, sym, manual=True, minimal=True)) == 2 and len(solve(eqs, sym)) == 2"},"spec":{"lhs":"test_issue_5335()","rhs":"len(solve(eqs, sym, manual=True, minimal=True)) == 2 and len(solve(eqs, sym)) == 2","over":{"base":"Any"},"name":"test_issue_5335_correct"},"guarantee":"len(solve(eqs, sym, manual=True, minimal=True)) == 2; len(solve(eqs, sym)) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5335_correct","statement":"Path(test_issue_5335(x), len(solve(eqs, sym, manual=True, minimal=True)) == 2; len(solve(eqs, sym)) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6e5f9446d8f52d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(eqs, sym, manual=True, minimal=True)) == 2","len(solve(eqs, sym)) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5335():
     lam, a0, conc = symbols('lam a0 conc')
     a = 0.005
@@ -1548,16 +1863,22 @@ def test_issue_5335():
 
 @SKIP("Hangs")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_issue_5335_float(), internal helper behaves correctly) over Any ║
+# ║ Path(_test_issue_5335_float(), len(solve(eqs, sym, rational=False)) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test_issue_5335_float : Any → {Any | len(solve(eqs, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(eqs, sym, rational=False)) == 2      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test_issue_5335_float : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2c830746291d3f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 266fc61c8bfb942a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers._test_issue_5335_float","kind":"function","src_hash":"e7b1078e12e22b84","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(eqs, sym, rational=False)) == 2"},"spec":{"lhs":"_test_issue_5335_float()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_issue_5335_float_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers._test_issue_5335_float_correct","statement":"Path(_test_issue_5335_float(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2c830746291d3f3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers._test_issue_5335_float","kind":"function","src_hash":"e7b1078e12e22b84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(eqs, sym, rational=False)) == 2"},"spec":{"lhs":"_test_issue_5335_float()","rhs":"len(solve(eqs, sym, rational=False)) == 2","over":{"base":"Any"},"name":"_test_issue_5335_float_correct"},"guarantee":"len(solve(eqs, sym, rational=False)) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers._test_issue_5335_float_correct","statement":"Path(_test_issue_5335_float(x), len(solve(eqs, sym, rational=False)) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"266fc61c8bfb942a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(eqs, sym, rational=False)) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_issue_5335_float():
     # gives ZeroDivisionError: polynomial division
     lam, a0, conc = symbols('lam a0 conc')
@@ -1571,32 +1892,44 @@ def _test_issue_5335_float():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5767(), test_issue_5767 produces the expected output) over Any ║
+# ║ Path(test_issue_5767(), set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5767 : Any → {Any | set(solve([x ** 2 + y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve([x ** 2 + y + 4], [x])) == {(-s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5767 : Any → {Any | result satisfies: set(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c40914d81e759049  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcbe48e192a5d6fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5767","kind":"function","src_hash":"c29622c1da7bbdd3","in":{"base":"Any"},"out":{"base":"Any","pred":"set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)}"},"spec":{"lhs":"test_issue_5767()","rhs":"test_issue_5767 produces the expected output","over":{"base":"Any"},"name":"test_issue_5767_correct"},"guarantee":"test_issue_5767 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5767_correct","statement":"Path(test_issue_5767(x), test_issue_5767 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c40914d81e759049"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5767","kind":"function","src_hash":"c29622c1da7bbdd3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)}"},"spec":{"lhs":"test_issue_5767()","rhs":"set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)}","over":{"base":"Any"},"name":"test_issue_5767_correct"},"guarantee":"set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5767_correct","statement":"Path(test_issue_5767(x), set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcbe48e192a5d6fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve([x ** 2 + y + 4], [x])) == {(-sqrt(-y - 4),), (sqrt(-y - 4),)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5767():
     assert set(solve([x**2 + y + 4], [x])) == \
         {(-sqrt(-y - 4),), (sqrt(-y - 4),)}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_example_24609(), internal helper behaves correctly) over Any ║
+# ║ Path(_make_example_24609(), (eq, expected, x)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (eq, expected, x)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _make_example_24609 : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3003a493b8f37c56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3439ab7b3a0352c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers._make_example_24609","kind":"function","src_hash":"2a0cb0077318d3b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_example_24609()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_make_example_24609_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers._make_example_24609_correct","statement":"Path(_make_example_24609(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3003a493b8f37c56"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers._make_example_24609","kind":"function","src_hash":"2a0cb0077318d3b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_example_24609()","rhs":"(eq, expected, x)","over":{"base":"Any"},"name":"_make_example_24609_correct"},"guarantee":"returns (eq, expected, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers._make_example_24609_correct","statement":"Path(_make_example_24609(x), returns (eq, expected, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3439ab7b3a0352c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(eq, expected, x)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _make_example_24609():
     D, R, H, B_g, V, D_c = symbols("D, R, H, B_g, V, D_c", real=True, positive=True)
     Sigma_f, Sigma_a, nu = symbols("Sigma_f, Sigma_a, nu", real=True, positive=True)
@@ -1611,16 +1944,23 @@ def _make_example_24609():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24609(), test_issue_24609 produces the expected output) over Any ║
+# ║ Path(test_issue_24609(), solve(eq, x, simplify=True) == [expected] and abs(solapprox - expected.n()) < 1e-14) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24609 : Any → {Any | solve(eq, x, simplify...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eq, x, simplify=True) == [expected]      ║
+# ║   ensures:  abs(solapprox - expected.n()) < 1e-14          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24609 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abf004050c226da1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c80af1b0454c93e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24609","kind":"function","src_hash":"81fa02becd7d1ce1","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eq, x, simplify=True) == [expected] and abs(solapprox - expected.n()) < 1e-14"},"spec":{"lhs":"test_issue_24609()","rhs":"test_issue_24609 produces the expected output","over":{"base":"Any"},"name":"test_issue_24609_correct"},"guarantee":"test_issue_24609 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24609_correct","statement":"Path(test_issue_24609(x), test_issue_24609 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abf004050c226da1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24609","kind":"function","src_hash":"81fa02becd7d1ce1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eq, x, simplify=True) == [expected] and abs(solapprox - expected.n()) < 1e-14"},"spec":{"lhs":"test_issue_24609()","rhs":"solve(eq, x, simplify=True) == [expected] and abs(solapprox - expected.n()) < 1e-14","over":{"base":"Any"},"name":"test_issue_24609_correct"},"guarantee":"solve(eq, x, simplify=True) == [expected]; abs(solapprox - expected.n()) < 1e-14","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24609_correct","statement":"Path(test_issue_24609(x), solve(eq, x, simplify=True) == [expected]; abs(solapprox - expected.n()) < 1e-14)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c80af1b0454c93e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eq, x, simplify=True) == [expected]","abs(solapprox - expected.n()) < 1e-14"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_24609():
     # https://github.com/sympy/sympy/issues/24609
     eq, expected, x = _make_example_24609()
@@ -1631,16 +1971,22 @@ def test_issue_24609():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24609_xfail(), test_issue_24609_xfail produces the expected output) over Any ║
+# ║ Path(test_issue_24609_xfail(), len(solve(eq, x)) == [expected]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24609_xfail : Any → {Any | len(solve(eq, x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(eq, x)) == [expected]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24609_xfail : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0686006d0a7b0967  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b86f750ea93db6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24609_xfail","kind":"function","src_hash":"2a7d41ed36f5affc","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(eq, x)) == [expected]"},"spec":{"lhs":"test_issue_24609_xfail()","rhs":"test_issue_24609_xfail produces the expected output","over":{"base":"Any"},"name":"test_issue_24609_xfail_correct"},"guarantee":"test_issue_24609_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24609_xfail_correct","statement":"Path(test_issue_24609_xfail(x), test_issue_24609_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0686006d0a7b0967"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24609_xfail","kind":"function","src_hash":"2a7d41ed36f5affc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(eq, x)) == [expected]"},"spec":{"lhs":"test_issue_24609_xfail()","rhs":"len(solve(eq, x)) == [expected]","over":{"base":"Any"},"name":"test_issue_24609_xfail_correct"},"guarantee":"len(solve(eq, x)) == [expected]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24609_xfail_correct","statement":"Path(test_issue_24609_xfail(x), len(solve(eq, x)) == [expected])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b86f750ea93db6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(eq, x)) == [expected]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_24609_xfail():
     #
     # This returns 5 solutions when it should be 1 (with x positive).
@@ -1662,16 +2008,24 @@ def test_issue_24609_xfail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polysys(), test_polysys produces the expected output) over Any ║
+# ║ Path(test_polysys(), set(solve([x ** 2 + 2 / y - 2, x + y - 3], [x, y])) == {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)), (1 - sqrt(5), 2 + sqrt(5))} and solve([x ** 2 + y - 2, x ** 2 + y]) == [] and solve([x ** 2 + y - 3, x - y - 4], (x, y)) != solve([x ** 2 + y - 3, x - y - 4], (y, x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polysys : Any → {Any | solve([x ** 2 + y - 2, x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve([x ** 2 + 2 / y - 2, x + y - 3]...   ║
+# ║   ensures:  solve([x ** 2 + y - 2, x ** 2 + y]) == []      ║
+# ║   ensures:  solve([x ** 2 + y - 3, x - y - 4], (x, y)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polysys : Any → {Any | result satisfies: set(sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1fc06a2f997da6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65494b50730e2ef8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_polysys","kind":"function","src_hash":"4f96c4369f36b9ba","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([x ** 2 + y - 2, x ** 2 + y]) == []"},"spec":{"lhs":"test_polysys()","rhs":"test_polysys produces the expected output","over":{"base":"Any"},"name":"test_polysys_correct"},"guarantee":"test_polysys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_polysys_correct","statement":"Path(test_polysys(x), test_polysys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1fc06a2f997da6f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_polysys","kind":"function","src_hash":"4f96c4369f36b9ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve([x ** 2 + 2 / y - 2, x + y - 3], [x, y])) == {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)), (1 - sqrt(5), 2 + sqrt(5))} and solve([x ** 2 + y - 2, x ** 2 + y]) == [] and solve([x ** 2 + y - 3, x - y - 4], (x, y)) != solve([x ** 2 + y - 3, x - y - 4], (y, x))"},"spec":{"lhs":"test_polysys()","rhs":"set(solve([x ** 2 + 2 / y - 2, x + y - 3], [x, y])) == {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)), (1 - sqrt(5), 2 + sqrt(5))} and solve([x ** 2 + y - 2, x ** 2 + y]) == [] and solve([x ** 2 + y - 3, x - y - 4], (x, y)) != solve([x ** 2 + y - 3, x - y - 4], (y, x))","over":{"base":"Any"},"name":"test_polysys_correct"},"guarantee":"set(solve([x ** 2 + 2 / y - 2, x + y - 3], [x, y])) == {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)), (1 - sqrt(5), 2 + sqrt(5))}; solve([x ** 2 + y - 2, x ** 2 + y]) == []; solve([x ** 2 + y - 3, x - y - 4], (x, y)) != solve([x ** 2 + y - 3, x - y - 4], (y, x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_polysys_correct","statement":"Path(test_polysys(x), set(solve([x ** 2 + 2 / y - 2, x + y - 3], [x, y])) == {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)), (1 - sqrt(5), 2 + sqrt(5))}; solve([x ** 2 + y - 2, x ** 2 + y]) == []; solve([x ** 2 + y - 3, x - y - 4], (x, y)) != solve([x ** 2 + y - 3, x - y - 4], (y, x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65494b50730e2ef8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve([x ** 2 + 2 / y - 2, x + y - 3], [x, y])) == {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)), (1 - sqrt(5), 2 + sqrt(5))}","solve([x ** 2 + y - 2, x ** 2 + y]) == []","solve([x ** 2 + y - 3, x - y - 4], (x, y)) != solve([x ** 2 + y - 3, x - y - 4], (y, x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polysys():
     assert set(solve([x**2 + 2/y - 2, x + y - 3], [x, y])) == \
         {(S.One, S(2)), (1 + sqrt(5), 2 - sqrt(5)),
@@ -1684,16 +2038,24 @@ def test_polysys():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unrad1(), test_unrad1 produces the expected output) over Any ║
+# ║ Path(test_unrad1(), unrad(1) is None and check(unrad(sqrt(x)), (x, [])) and check(unrad(sqrt(x) + 1), (x - 1, [])) and check(unrad(sqrt(x) + root(x, 3) + 2), (s ** 3 + s ** 2 + 2, [s, s ** 6 - x])) and check(unrad(sqrt(x) * root(x, 3) + 2), (x ** 5 - 64, [])) and check(unrad(sqrt(x) + (x + 1) ** Rational(1, 3)), (x ** 3 - (x + 1) ** 2, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(2 * x)), (-2 * sqrt(2) * x - 2 * x + 1, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + 2), (16 * x - 9, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(1 - x)), (5 * x ** 2 - 4 * x, [])) and check(unrad(a * sqrt(x) + b * sqrt(x) + c * sqrt(y) + d * sqrt(y)), ((a * sqrt(x) + b * sqrt(x)) ** 2 - (c * sqrt(y) + d * sqrt(y)) ** 2, [])) and check(unrad(sqrt(x) + sqrt(1 - x)), (2 * x - 1, [])) and check(unrad(sqrt(x) + sqrt(1 - x) - 3), (x ** 2 - x + 16, [])) and check(unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x)), (5 * x ** 2 - 2 * x + 1, [])) and unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - 3) in [(25 * x ** 4 + 376 * x ** 3 + 1256 * x ** 2 - 2272 * x + 784, []), (25 * x ** 8 - 476 * x ** 6 + 2534 * x ** 4 - 1468 * x ** 2 + 169, [])] and unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - sqrt(1 - 2 * x)) == (41 * x ** 4 + 40 * x ** 3 + 232 * x ** 2 - 160 * x + 16, []) and check(unrad(sqrt(x) + sqrt(x + 1)), (S.One, [])) and check(unrad(eq), (16 * x ** 2 - 9 * x, [])) and set(solve(eq, check=False)) == {S.Zero, Rational(9, 16)} and solve(eq) == [] and set(solve(sqrt(x) - sqrt(x + 1) + sqrt(1 - sqrt(x)))) == {S.Zero, Rational(9, 16)} and check(unrad(sqrt(x) + root(x + 1, 3) + 2 * sqrt(y), y), (S('2*sqrt(x)*(x + 1)**(1/3) + x - 4*y + (x + 1)**(2/3)'), [])) and check(unrad(sqrt(x / (1 - x)) + (x + 1) ** Rational(1, 3)), (x ** 5 - x ** 4 - x ** 3 + 2 * x ** 2 + x - 1, [])) and check(unrad(sqrt(x / (1 - x)) + 2 * sqrt(y), y), (4 * x * y + x - 4 * y, [])) and check(unrad(sqrt(x) * sqrt(1 - x) + 2, x), (x ** 2 - x + 4, [])) and solve(Eq(x, sqrt(x + 6))) == [3] and solve(Eq(x + sqrt(x - 4), 4)) == [4] and solve(Eq(1, x + sqrt(2 * x - 3))) == [] and set(solve(Eq(sqrt(5 * x + 6) - 2, x))) == {-S.One, S(2)} and set(solve(Eq(sqrt(2 * x - 1) - sqrt(x - 4), 2))) == {S(5), S(13)} and solve(Eq(sqrt(x + 7) + 2, sqrt(3 - x))) == [-6] and solve((2 * x - 5) ** Rational(1, 3) - 3) == [16] and set(solve(x + 1 - root(x ** 4 + 4 * x ** 3 - x, 4))) == {Rational(-1, 2), Rational(-1, 3)} and set(solve(sqrt(2 * x ** 2 - 7) - (3 - x))) == {-S(8), S(2)} and solve(sqrt(2 * x + 9) - sqrt(x + 1) - sqrt(x + 4)) == [0] and solve(sqrt(x + 4) + sqrt(2 * x - 1) - 3 * sqrt(x - 1)) == [5] and solve(sqrt(x) * sqrt(x - 7) - 12) == [16] and solve(sqrt(x - 3) + sqrt(x) - 3) == [4] and solve(sqrt(9 * x ** 2 + 4) - (3 * x + 2)) == [0] and solve(sqrt(x) - 2 - 5) == [49] and solve(sqrt(x - 3) - sqrt(x) - 3) == [] and solve(sqrt(x - 1) - x + 7) == [10] and solve(sqrt(x - 2) - 5) == [27] and solve(sqrt(17 * x - sqrt(x ** 2 - 5)) - 7) == [3] and solve(sqrt(x) - sqrt(x - 1) + sqrt(sqrt(x))) == [] and solve(p) == [] and solve(z) == [] and solve(z + 6 * I) == [Rational(-1, 11)] and solve(p + 6 * I) == [] and unrad(root(x + 1, 5) - root(x, 3)) == (-(x ** 5 - x ** 3 - 3 * x ** 2 - 3 * x - 1), []) and check(unrad(x + root(x, 3) + root(x, 3) ** 2 + sqrt(y), x), (s ** 3 + s ** 2 + s + sqrt(y), [s, s ** 3 - x])) and check(unrad(sqrt(x) + root(x, 3) + y), (s ** 3 + s ** 2 + y, [s, s ** 6 - x])) and solve(sqrt(x) + root(x, 3) - 2) == [1] and solve(sqrt(x + root(x, 3)) + root(x - y, 5), y) == [x + (x ** Rational(1, 3) + x) ** Rational(5, 2)] and check(unrad(sqrt(x) - root(x + 1, 3) * sqrt(x + 2) + 2), (s ** 10 + 8 * s ** 8 + 24 * s ** 6 - 12 * s ** 5 - 22 * s ** 4 - 160 * s ** 3 - 212 * s ** 2 - 192 * s - 56, [s, s ** 2 - x])) and unrad(e) == (2 * x + 1, []) and check(unrad(eq), (15625 * x ** 4 + 173000 * x ** 3 + 355600 * x ** 2 - 817920 * x + 331776, [])) and check(unrad(root(x, 4) + root(x, 4) ** 3 - 1), (s ** 3 + s - 1, [s, s ** 4 - x])) and check(unrad(root(x, 2) + root(x, 2) ** 3 - 1), (x ** 3 + 2 * x ** 2 + x - 1, [])) and unrad(x ** 0.5) is None and check(unrad(t + root(x + y, 5) + root(x + y, 5) ** 3), (s ** 3 + s + t, [s, s ** 5 - x - y])) and check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, y), (s ** 3 + s + x, [s, s ** 5 - x - y])) and check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, x), (s ** 5 + s ** 3 + s - y, [s, s ** 5 - x - y])) and check(unrad(root(x - 1, 3) + root(x + 1, 5) + root(2, 5)), (s ** 5 + 5 * 2 ** Rational(1, 5) * s ** 4 + s ** 3 + 10 * 2 ** Rational(2, 5) * s ** 3 + 10 * 2 ** Rational(3, 5) * s ** 2 + 5 * 2 ** Rational(4, 5) * s + 4, [s, s ** 3 - x + 1])) and solve(root(x, 3) + root(x, 5) - 2) == [1] and check(unrad(eq), ((5 * x - 4) * (3125 * x ** 3 + 37100 * x ** 2 + 100800 * x - 82944), [])) and solve(eq) == ans and check(unrad(sqrt(x + root(x + 1, 3)) - root(x + 1, 3) - 2), (s ** 3 - s ** 2 - 3 * s - 5, [s, s ** 3 - x - 1])) and check(unrad(e), (s ** 5 - 10 * s ** 4 + 39 * s ** 3 - 80 * s ** 2 + 80 * s - 30, [s, s ** 3 - x ** 2 - 1])) and check(unrad(e), (s ** 6 - 2 * s ** 5 - 7 * s ** 4 - 3 * s ** 3 + 26 * s ** 2 + 40 * s + 25, [s, s ** 3 - x - 1])) and check(unrad(e, _reverse=True), (s ** 6 - 14 * s ** 5 + 73 * s ** 4 - 187 * s ** 3 + 276 * s ** 2 - 228 * s + 89, [s, s ** 2 - x - sqrt(x + 1)])) and check(unrad(sqrt(x + sqrt(root(x, 3) - 1)) - root(x, 6) - 2), (s ** 12 - 2 * s ** 8 - 8 * s ** 7 - 8 * s ** 6 + s ** 4 + 8 * s ** 3 + 23 * s ** 2 + 32 * s + 17, [s, s ** 6 - x])) and unrad(root(cosh(x), 3) / x * root(x + 1, 5) - 1) == (-(x ** 15 - x ** 3 * cosh(x) ** 5 - 3 * x ** 2 * cosh(x) ** 5 - 3 * x * cosh(x) ** 5 - cosh(x) ** 5), []) and unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1')) is None and check(unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1'), x), (s ** (2 * y) + s + 1, [s, s ** 3 - x - y])) and unrad(x ** (S.Half / y) + y, x) == (x ** (1 / y) - y ** 2, []) and len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3 and solve(eq, y) == [2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 - sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 + sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3)] and check(unrad(eq), (3 * s ** 13 + 3 * s ** 11 + s ** 9 - 1, [s, s ** 15 - x])) and check(unrad(eq - 2), (3 * s ** 13 + 3 * s ** 11 + 6 * s ** 10 + s ** 9 + 12 * s ** 8 + 6 * s ** 6 + 12 * s ** 5 + 12 * s ** 3 + 7, [s, s ** 15 - x])) and check(unrad(root(x, 3) - root(x + 1, 4) / 2 + root(x + 2, 3)), (s * (4096 * s ** 9 + 960 * s ** 8 + 48 * s ** 7 - s ** 6 - 1728), [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) + root(x + 1, 4) - root(x + 2, 3) / 2), (343 * s ** 13 + 2904 * s ** 12 + 1344 * s ** 11 + 512 * s ** 10 - 1323 * s ** 9 - 3024 * s ** 8 - 1728 * s ** 7 + 1701 * s ** 5 + 216 * s ** 4 - 729 * s, [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3)), (729 * s ** 13 - 216 * s ** 12 + 1728 * s ** 11 - 512 * s ** 10 + 1701 * s ** 9 - 3024 * s ** 8 + 1344 * s ** 7 + 1323 * s ** 5 - 2904 * s ** 4 + 343 * s, [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3) - 2), (729 * s ** 13 + 1242 * s ** 12 + 18496 * s ** 10 + 129701 * s ** 9 + 388602 * s ** 8 + 453312 * s ** 7 - 612864 * s ** 6 - 3337173 * s ** 5 - 6332418 * s ** 4 - 7134912 * s ** 3 - 5064768 * s ** 2 - 2111913 * s - 398034, [s, s ** 4 - x - 1])) and len(ans) == 1 and NS(ans[0])[:4] == '0.73' and solve(sqrt(x + 1) + root(x, 3) - 2) == S('\n        [(-11/(9*(47/54 + sqrt(93)/6)**(1/3)) + 1/3 + (47/54 +\n        sqrt(93)/6)**(1/3))**3]') and solve(sqrt(sqrt(x + 1)) + x ** Rational(1, 3) - 2) == S('\n        [(-sqrt(-2*(-1/16 + sqrt(6913)/16)**(1/3) + 6/(-1/16 +\n        sqrt(6913)/16)**(1/3) + 17/2 + 121/(4*sqrt(-6/(-1/16 +\n        sqrt(6913)/16)**(1/3) + 2*(-1/16 + sqrt(6913)/16)**(1/3) + 17/4)))/2 +\n        sqrt(-6/(-1/16 + sqrt(6913)/16)**(1/3) + 2*(-1/16 +\n        sqrt(6913)/16)**(1/3) + 17/4)/2 + 9/4)**3]') and solve(sqrt(x) + root(sqrt(x) + 1, 3) - 2) == S('\n        [(-(81/2 + 3*sqrt(741)/2)**(1/3)/3 + (81/2 + 3*sqrt(741)/2)**(-1/3) +\n        2)**2]') and check(unrad(eq), (s * -(-s ** 6 + sqrt(3) * s ** 6 * I - 153 * 2 ** Rational(2, 3) * 3 ** Rational(1, 3) * s ** 4 + 51 * 12 ** Rational(1, 3) * s ** 4 - 102 * 2 ** Rational(2, 3) * 3 ** Rational(5, 6) * s ** 4 * I - 1620 * s ** 3 + 1620 * sqrt(3) * s ** 3 * I + 13872 * 18 ** Rational(1, 3) * s ** 2 - 471648 + 471648 * sqrt(3) * I), [s, s ** 3 - 306 * x - sqrt(3) * sqrt(31212 * x ** 2 - 165240 * x + 61484) + 810])) and check(unrad(eq), (s ** 15 + 3 * s ** 13 + 3 * s ** 11 + s ** 9 - y, [s, s ** 15 - x])) and check(unrad(eq), (s * y * (-s ** 12 - 3 * s ** 11 * y - 3 * s ** 10 * y ** 2 - s ** 9 * y ** 3 - 3 * s ** 8 * y ** 2 + 21 * s ** 7 * y ** 3 - 3 * s ** 6 * y ** 4 - 3 * s ** 4 * y ** 4 - 3 * s ** 3 * y ** 5 - y ** 6), [s, s ** 4 - x * y])) and check(unrad(eq), (-s ** 5 + s ** 3 - 3 ** (S(1) / 3) - (-1) ** (S(3) / 5) * 3 ** (S(1) / 5), [s, s ** 15 - x])) and unrad(s ** 2 - s ** 3) == (x ** 3 - 6 * x ** 2 + 9 * x - 4, []) and unrad((x / (x + 1) + 3) ** (-2), x) is None and solve(eq, y) == [x - 1] and unrad(eq) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unrad1 : Any → {Any | unrad(1) is None and check...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unrad(1) is None                               ║
+# ║   ensures:  check(unrad(sqrt(x)), (x, []))                 ║
+# ║   ensures:  check(unrad(sqrt(x) + 1), (x - 1, []))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unrad1 : Any → {Any | result satisfies: unrad(1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fb9c1bffd5b5f1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 6.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6061cb3908d27cea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_unrad1","kind":"function","src_hash":"654e76e8049f4a8d","in":{"base":"Any"},"out":{"base":"Any","pred":"unrad(1) is None and check(unrad(sqrt(x)), (x, [])) and check(unrad(sqrt(x) + 1), (x - 1, [])) and check(unrad(sqrt(x) + root(x, 3) + 2), (s ** 3 + s ** 2 + 2, [s, s ** 6 - x])) and check(unrad(sqrt(x) * root(x, 3) + 2), (x ** 5 - 64, [])) and check(unrad(sqrt(x) + (x + 1) ** Rational(1, 3)), (x ** 3 - (x + 1) ** 2, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + 2), (16 * x - 9, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(1 - x)), (5 * x ** 2 - 4 * x, [])) and check(unrad(sqrt(x) + sqrt(1 - x)), (2 * x - 1, [])) and check(unrad(sqrt(x) + sqrt(1 - x) - 3), (x ** 2 - x + 16, [])) and check(unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x)), (5 * x ** 2 - 2 * x + 1, [])) and check(unrad(sqrt(x) + sqrt(x + 1)), (S.One, [])) and check(unrad(eq), (16 * x ** 2 - 9 * x, [])) and set(solve(eq, check=False)) == {S.Zero, Rational(9, 16)} and solve(eq) == [] and check(unrad(sqrt(x / (1 - x)) + 2 * sqrt(y), y), (4 * x * y + x - 4 * y, [])) and check(unrad(sqrt(x) * sqrt(1 - x) + 2, x), (x ** 2 - x + 4, [])) and solve(Eq(x, sqrt(x + 6))) == [3] and solve(Eq(x + sqrt(x - 4), 4)) == [4] and solve(Eq(1, x + sqrt(2 * x - 3))) == [] and set(solve(Eq(sqrt(5 * x + 6) - 2, x))) == {-S.One, S(2)} and set(solve(Eq(sqrt(2 * x - 1) - sqrt(x - 4), 2))) == {S(5), S(13)} and solve(Eq(sqrt(x + 7) + 2, sqrt(3 - x))) == [-6] and solve((2 * x - 5) ** Rational(1, 3) - 3) == [16] and set(solve(sqrt(2 * x ** 2 - 7) - (3 - x))) == {-S(8), S(2)} and solve(sqrt(2 * x + 9) - sqrt(x + 1) - sqrt(x + 4)) == [0] and solve(sqrt(x + 4) + sqrt(2 * x - 1) - 3 * sqrt(x - 1)) == [5] and solve(sqrt(x) * sqrt(x - 7) - 12) == [16] and solve(sqrt(x - 3) + sqrt(x) - 3) == [4] and solve(sqrt(9 * x ** 2 + 4) - (3 * x + 2)) == [0] and solve(sqrt(x) - 2 - 5) == [49] and solve(sqrt(x - 3) - sqrt(x) - 3) == [] and solve(sqrt(x - 1) - x + 7) == [10] and solve(sqrt(x - 2) - 5) == [27] and solve(sqrt(17 * x - sqrt(x ** 2 - 5)) - 7) == [3] and solve(sqrt(x) - sqrt(x - 1) + sqrt(sqrt(x))) == [] and solve(p) == [] and solve(z) == [] and solve(z + 6 * I) == [Rational(-1, 11)] and solve(p + 6 * I) == [] and check(unrad(sqrt(x) + root(x, 3) + y), (s ** 3 + s ** 2 + y, [s, s ** 6 - x])) and solve(sqrt(x) + root(x, 3) - 2) == [1] and unrad(e) == (2 * x + 1, []) and unrad(x ** 0.5) is None and solve(root(x, 3) + root(x, 5) - 2) == [1] and solve(eq) == ans and unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1')) is None and unrad(x ** (S.Half / y) + y, x) == (x ** (1 / y) - y ** 2, []) and len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and check(unrad(eq), (3 * s ** 13 + 3 * s ** 11 + s ** 9 - 1, [s, s ** 15 - x])) and len(ans) == 1 and NS(ans[0])[:4] == '0.73' and solve(eq) == [] and unrad(s ** 2 - s ** 3) == (x ** 3 - 6 * x ** 2 + 9 * x - 4, []) and unrad((x / (x + 1) + 3) ** (-2), x) is None and solve(eq, y) == [x - 1] and unrad(eq) is None and bool(rv[1]) == bool(ans[1]) and None"},"spec":{"lhs":"test_unrad1()","rhs":"test_unrad1 produces the expected output","over":{"base":"Any"},"name":"test_unrad1_correct"},"guarantee":"test_unrad1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_unrad1_correct","statement":"Path(test_unrad1(x), test_unrad1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb9c1bffd5b5f1f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_unrad1","kind":"function","src_hash":"654e76e8049f4a8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unrad(1) is None and check(unrad(sqrt(x)), (x, [])) and check(unrad(sqrt(x) + 1), (x - 1, [])) and check(unrad(sqrt(x) + root(x, 3) + 2), (s ** 3 + s ** 2 + 2, [s, s ** 6 - x])) and check(unrad(sqrt(x) * root(x, 3) + 2), (x ** 5 - 64, [])) and check(unrad(sqrt(x) + (x + 1) ** Rational(1, 3)), (x ** 3 - (x + 1) ** 2, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(2 * x)), (-2 * sqrt(2) * x - 2 * x + 1, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + 2), (16 * x - 9, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(1 - x)), (5 * x ** 2 - 4 * x, [])) and check(unrad(a * sqrt(x) + b * sqrt(x) + c * sqrt(y) + d * sqrt(y)), ((a * sqrt(x) + b * sqrt(x)) ** 2 - (c * sqrt(y) + d * sqrt(y)) ** 2, [])) and check(unrad(sqrt(x) + sqrt(1 - x)), (2 * x - 1, [])) and check(unrad(sqrt(x) + sqrt(1 - x) - 3), (x ** 2 - x + 16, [])) and check(unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x)), (5 * x ** 2 - 2 * x + 1, [])) and unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - 3) in [(25 * x ** 4 + 376 * x ** 3 + 1256 * x ** 2 - 2272 * x + 784, []), (25 * x ** 8 - 476 * x ** 6 + 2534 * x ** 4 - 1468 * x ** 2 + 169, [])] and unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - sqrt(1 - 2 * x)) == (41 * x ** 4 + 40 * x ** 3 + 232 * x ** 2 - 160 * x + 16, []) and check(unrad(sqrt(x) + sqrt(x + 1)), (S.One, [])) and check(unrad(eq), (16 * x ** 2 - 9 * x, [])) and set(solve(eq, check=False)) == {S.Zero, Rational(9, 16)} and solve(eq) == [] and set(solve(sqrt(x) - sqrt(x + 1) + sqrt(1 - sqrt(x)))) == {S.Zero, Rational(9, 16)} and check(unrad(sqrt(x) + root(x + 1, 3) + 2 * sqrt(y), y), (S('2*sqrt(x)*(x + 1)**(1/3) + x - 4*y + (x + 1)**(2/3)'), [])) and check(unrad(sqrt(x / (1 - x)) + (x + 1) ** Rational(1, 3)), (x ** 5 - x ** 4 - x ** 3 + 2 * x ** 2 + x - 1, [])) and check(unrad(sqrt(x / (1 - x)) + 2 * sqrt(y), y), (4 * x * y + x - 4 * y, [])) and check(unrad(sqrt(x) * sqrt(1 - x) + 2, x), (x ** 2 - x + 4, [])) and solve(Eq(x, sqrt(x + 6))) == [3] and solve(Eq(x + sqrt(x - 4), 4)) == [4] and solve(Eq(1, x + sqrt(2 * x - 3))) == [] and set(solve(Eq(sqrt(5 * x + 6) - 2, x))) == {-S.One, S(2)} and set(solve(Eq(sqrt(2 * x - 1) - sqrt(x - 4), 2))) == {S(5), S(13)} and solve(Eq(sqrt(x + 7) + 2, sqrt(3 - x))) == [-6] and solve((2 * x - 5) ** Rational(1, 3) - 3) == [16] and set(solve(x + 1 - root(x ** 4 + 4 * x ** 3 - x, 4))) == {Rational(-1, 2), Rational(-1, 3)} and set(solve(sqrt(2 * x ** 2 - 7) - (3 - x))) == {-S(8), S(2)} and solve(sqrt(2 * x + 9) - sqrt(x + 1) - sqrt(x + 4)) == [0] and solve(sqrt(x + 4) + sqrt(2 * x - 1) - 3 * sqrt(x - 1)) == [5] and solve(sqrt(x) * sqrt(x - 7) - 12) == [16] and solve(sqrt(x - 3) + sqrt(x) - 3) == [4] and solve(sqrt(9 * x ** 2 + 4) - (3 * x + 2)) == [0] and solve(sqrt(x) - 2 - 5) == [49] and solve(sqrt(x - 3) - sqrt(x) - 3) == [] and solve(sqrt(x - 1) - x + 7) == [10] and solve(sqrt(x - 2) - 5) == [27] and solve(sqrt(17 * x - sqrt(x ** 2 - 5)) - 7) == [3] and solve(sqrt(x) - sqrt(x - 1) + sqrt(sqrt(x))) == [] and solve(p) == [] and solve(z) == [] and solve(z + 6 * I) == [Rational(-1, 11)] and solve(p + 6 * I) == [] and unrad(root(x + 1, 5) - root(x, 3)) == (-(x ** 5 - x ** 3 - 3 * x ** 2 - 3 * x - 1), []) and check(unrad(x + root(x, 3) + root(x, 3) ** 2 + sqrt(y), x), (s ** 3 + s ** 2 + s + sqrt(y), [s, s ** 3 - x])) and check(unrad(sqrt(x) + root(x, 3) + y), (s ** 3 + s ** 2 + y, [s, s ** 6 - x])) and solve(sqrt(x) + root(x, 3) - 2) == [1] and solve(sqrt(x + root(x, 3)) + root(x - y, 5), y) == [x + (x ** Rational(1, 3) + x) ** Rational(5, 2)] and check(unrad(sqrt(x) - root(x + 1, 3) * sqrt(x + 2) + 2), (s ** 10 + 8 * s ** 8 + 24 * s ** 6 - 12 * s ** 5 - 22 * s ** 4 - 160 * s ** 3 - 212 * s ** 2 - 192 * s - 56, [s, s ** 2 - x])) and unrad(e) == (2 * x + 1, []) and check(unrad(eq), (15625 * x ** 4 + 173000 * x ** 3 + 355600 * x ** 2 - 817920 * x + 331776, [])) and check(unrad(root(x, 4) + root(x, 4) ** 3 - 1), (s ** 3 + s - 1, [s, s ** 4 - x])) and check(unrad(root(x, 2) + root(x, 2) ** 3 - 1), (x ** 3 + 2 * x ** 2 + x - 1, [])) and unrad(x ** 0.5) is None and check(unrad(t + root(x + y, 5) + root(x + y, 5) ** 3), (s ** 3 + s + t, [s, s ** 5 - x - y])) and check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, y), (s ** 3 + s + x, [s, s ** 5 - x - y])) and check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, x), (s ** 5 + s ** 3 + s - y, [s, s ** 5 - x - y])) and check(unrad(root(x - 1, 3) + root(x + 1, 5) + root(2, 5)), (s ** 5 + 5 * 2 ** Rational(1, 5) * s ** 4 + s ** 3 + 10 * 2 ** Rational(2, 5) * s ** 3 + 10 * 2 ** Rational(3, 5) * s ** 2 + 5 * 2 ** Rational(4, 5) * s + 4, [s, s ** 3 - x + 1])) and solve(root(x, 3) + root(x, 5) - 2) == [1] and check(unrad(eq), ((5 * x - 4) * (3125 * x ** 3 + 37100 * x ** 2 + 100800 * x - 82944), [])) and solve(eq) == ans and check(unrad(sqrt(x + root(x + 1, 3)) - root(x + 1, 3) - 2), (s ** 3 - s ** 2 - 3 * s - 5, [s, s ** 3 - x - 1])) and check(unrad(e), (s ** 5 - 10 * s ** 4 + 39 * s ** 3 - 80 * s ** 2 + 80 * s - 30, [s, s ** 3 - x ** 2 - 1])) and check(unrad(e), (s ** 6 - 2 * s ** 5 - 7 * s ** 4 - 3 * s ** 3 + 26 * s ** 2 + 40 * s + 25, [s, s ** 3 - x - 1])) and check(unrad(e, _reverse=True), (s ** 6 - 14 * s ** 5 + 73 * s ** 4 - 187 * s ** 3 + 276 * s ** 2 - 228 * s + 89, [s, s ** 2 - x - sqrt(x + 1)])) and check(unrad(sqrt(x + sqrt(root(x, 3) - 1)) - root(x, 6) - 2), (s ** 12 - 2 * s ** 8 - 8 * s ** 7 - 8 * s ** 6 + s ** 4 + 8 * s ** 3 + 23 * s ** 2 + 32 * s + 17, [s, s ** 6 - x])) and unrad(root(cosh(x), 3) / x * root(x + 1, 5) - 1) == (-(x ** 15 - x ** 3 * cosh(x) ** 5 - 3 * x ** 2 * cosh(x) ** 5 - 3 * x * cosh(x) ** 5 - cosh(x) ** 5), []) and unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1')) is None and check(unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1'), x), (s ** (2 * y) + s + 1, [s, s ** 3 - x - y])) and unrad(x ** (S.Half / y) + y, x) == (x ** (1 / y) - y ** 2, []) and len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3 and solve(eq, y) == [2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 - sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 + sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3)] and check(unrad(eq), (3 * s ** 13 + 3 * s ** 11 + s ** 9 - 1, [s, s ** 15 - x])) and check(unrad(eq - 2), (3 * s ** 13 + 3 * s ** 11 + 6 * s ** 10 + s ** 9 + 12 * s ** 8 + 6 * s ** 6 + 12 * s ** 5 + 12 * s ** 3 + 7, [s, s ** 15 - x])) and check(unrad(root(x, 3) - root(x + 1, 4) / 2 + root(x + 2, 3)), (s * (4096 * s ** 9 + 960 * s ** 8 + 48 * s ** 7 - s ** 6 - 1728), [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) + root(x + 1, 4) - root(x + 2, 3) / 2), (343 * s ** 13 + 2904 * s ** 12 + 1344 * s ** 11 + 512 * s ** 10 - 1323 * s ** 9 - 3024 * s ** 8 - 1728 * s ** 7 + 1701 * s ** 5 + 216 * s ** 4 - 729 * s, [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3)), (729 * s ** 13 - 216 * s ** 12 + 1728 * s ** 11 - 512 * s ** 10 + 1701 * s ** 9 - 3024 * s ** 8 + 1344 * s ** 7 + 1323 * s ** 5 - 2904 * s ** 4 + 343 * s, [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3) - 2), (729 * s ** 13 + 1242 * s ** 12 + 18496 * s ** 10 + 129701 * s ** 9 + 388602 * s ** 8 + 453312 * s ** 7 - 612864 * s ** 6 - 3337173 * s ** 5 - 6332418 * s ** 4 - 7134912 * s ** 3 - 5064768 * s ** 2 - 2111913 * s - 398034, [s, s ** 4 - x - 1])) and len(ans) == 1 and NS(ans[0])[:4] == '0.73' and solve(sqrt(x + 1) + root(x, 3) - 2) == S('\\n        [(-11/(9*(47/54 + sqrt(93)/6)**(1/3)) + 1/3 + (47/54 +\\n        sqrt(93)/6)**(1/3))**3]') and solve(sqrt(sqrt(x + 1)) + x ** Rational(1, 3) - 2) == S('\\n        [(-sqrt(-2*(-1/16 + sqrt(6913)/16)**(1/3) + 6/(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 17/2 + 121/(4*sqrt(-6/(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 2*(-1/16 + sqrt(6913)/16)**(1/3) + 17/4)))/2 +\\n        sqrt(-6/(-1/16 + sqrt(6913)/16)**(1/3) + 2*(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 17/4)/2 + 9/4)**3]') and solve(sqrt(x) + root(sqrt(x) + 1, 3) - 2) == S('\\n        [(-(81/2 + 3*sqrt(741)/2)**(1/3)/3 + (81/2 + 3*sqrt(741)/2)**(-1/3) +\\n        2)**2]') and check(unrad(eq), (s * -(-s ** 6 + sqrt(3) * s ** 6 * I - 153 * 2 ** Rational(2, 3) * 3 ** Rational(1, 3) * s ** 4 + 51 * 12 ** Rational(1, 3) * s ** 4 - 102 * 2 ** Rational(2, 3) * 3 ** Rational(5, 6) * s ** 4 * I - 1620 * s ** 3 + 1620 * sqrt(3) * s ** 3 * I + 13872 * 18 ** Rational(1, 3) * s ** 2 - 471648 + 471648 * sqrt(3) * I), [s, s ** 3 - 306 * x - sqrt(3) * sqrt(31212 * x ** 2 - 165240 * x + 61484) + 810])) and check(unrad(eq), (s ** 15 + 3 * s ** 13 + 3 * s ** 11 + s ** 9 - y, [s, s ** 15 - x])) and check(unrad(eq), (s * y * (-s ** 12 - 3 * s ** 11 * y - 3 * s ** 10 * y ** 2 - s ** 9 * y ** 3 - 3 * s ** 8 * y ** 2 + 21 * s ** 7 * y ** 3 - 3 * s ** 6 * y ** 4 - 3 * s ** 4 * y ** 4 - 3 * s ** 3 * y ** 5 - y ** 6), [s, s ** 4 - x * y])) and check(unrad(eq), (-s ** 5 + s ** 3 - 3 ** (S(1) / 3) - (-1) ** (S(3) / 5) * 3 ** (S(1) / 5), [s, s ** 15 - x])) and unrad(s ** 2 - s ** 3) == (x ** 3 - 6 * x ** 2 + 9 * x - 4, []) and unrad((x / (x + 1) + 3) ** (-2), x) is None and solve(eq, y) == [x - 1] and unrad(eq) is None"},"spec":{"lhs":"test_unrad1()","rhs":"unrad(1) is None and check(unrad(sqrt(x)), (x, [])) and check(unrad(sqrt(x) + 1), (x - 1, [])) and check(unrad(sqrt(x) + root(x, 3) + 2), (s ** 3 + s ** 2 + 2, [s, s ** 6 - x])) and check(unrad(sqrt(x) * root(x, 3) + 2), (x ** 5 - 64, [])) and check(unrad(sqrt(x) + (x + 1) ** Rational(1, 3)), (x ** 3 - (x + 1) ** 2, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(2 * x)), (-2 * sqrt(2) * x - 2 * x + 1, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + 2), (16 * x - 9, [])) and check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(1 - x)), (5 * x ** 2 - 4 * x, [])) and check(unrad(a * sqrt(x) + b * sqrt(x) + c * sqrt(y) + d * sqrt(y)), ((a * sqrt(x) + b * sqrt(x)) ** 2 - (c * sqrt(y) + d * sqrt(y)) ** 2, [])) and check(unrad(sqrt(x) + sqrt(1 - x)), (2 * x - 1, [])) and check(unrad(sqrt(x) + sqrt(1 - x) - 3), (x ** 2 - x + 16, [])) and check(unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x)), (5 * x ** 2 - 2 * x + 1, [])) and unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - 3) in [(25 * x ** 4 + 376 * x ** 3 + 1256 * x ** 2 - 2272 * x + 784, []), (25 * x ** 8 - 476 * x ** 6 + 2534 * x ** 4 - 1468 * x ** 2 + 169, [])] and unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - sqrt(1 - 2 * x)) == (41 * x ** 4 + 40 * x ** 3 + 232 * x ** 2 - 160 * x + 16, []) and check(unrad(sqrt(x) + sqrt(x + 1)), (S.One, [])) and check(unrad(eq), (16 * x ** 2 - 9 * x, [])) and set(solve(eq, check=False)) == {S.Zero, Rational(9, 16)} and solve(eq) == [] and set(solve(sqrt(x) - sqrt(x + 1) + sqrt(1 - sqrt(x)))) == {S.Zero, Rational(9, 16)} and check(unrad(sqrt(x) + root(x + 1, 3) + 2 * sqrt(y), y), (S('2*sqrt(x)*(x + 1)**(1/3) + x - 4*y + (x + 1)**(2/3)'), [])) and check(unrad(sqrt(x / (1 - x)) + (x + 1) ** Rational(1, 3)), (x ** 5 - x ** 4 - x ** 3 + 2 * x ** 2 + x - 1, [])) and check(unrad(sqrt(x / (1 - x)) + 2 * sqrt(y), y), (4 * x * y + x - 4 * y, [])) and check(unrad(sqrt(x) * sqrt(1 - x) + 2, x), (x ** 2 - x + 4, [])) and solve(Eq(x, sqrt(x + 6))) == [3] and solve(Eq(x + sqrt(x - 4), 4)) == [4] and solve(Eq(1, x + sqrt(2 * x - 3))) == [] and set(solve(Eq(sqrt(5 * x + 6) - 2, x))) == {-S.One, S(2)} and set(solve(Eq(sqrt(2 * x - 1) - sqrt(x - 4), 2))) == {S(5), S(13)} and solve(Eq(sqrt(x + 7) + 2, sqrt(3 - x))) == [-6] and solve((2 * x - 5) ** Rational(1, 3) - 3) == [16] and set(solve(x + 1 - root(x ** 4 + 4 * x ** 3 - x, 4))) == {Rational(-1, 2), Rational(-1, 3)} and set(solve(sqrt(2 * x ** 2 - 7) - (3 - x))) == {-S(8), S(2)} and solve(sqrt(2 * x + 9) - sqrt(x + 1) - sqrt(x + 4)) == [0] and solve(sqrt(x + 4) + sqrt(2 * x - 1) - 3 * sqrt(x - 1)) == [5] and solve(sqrt(x) * sqrt(x - 7) - 12) == [16] and solve(sqrt(x - 3) + sqrt(x) - 3) == [4] and solve(sqrt(9 * x ** 2 + 4) - (3 * x + 2)) == [0] and solve(sqrt(x) - 2 - 5) == [49] and solve(sqrt(x - 3) - sqrt(x) - 3) == [] and solve(sqrt(x - 1) - x + 7) == [10] and solve(sqrt(x - 2) - 5) == [27] and solve(sqrt(17 * x - sqrt(x ** 2 - 5)) - 7) == [3] and solve(sqrt(x) - sqrt(x - 1) + sqrt(sqrt(x))) == [] and solve(p) == [] and solve(z) == [] and solve(z + 6 * I) == [Rational(-1, 11)] and solve(p + 6 * I) == [] and unrad(root(x + 1, 5) - root(x, 3)) == (-(x ** 5 - x ** 3 - 3 * x ** 2 - 3 * x - 1), []) and check(unrad(x + root(x, 3) + root(x, 3) ** 2 + sqrt(y), x), (s ** 3 + s ** 2 + s + sqrt(y), [s, s ** 3 - x])) and check(unrad(sqrt(x) + root(x, 3) + y), (s ** 3 + s ** 2 + y, [s, s ** 6 - x])) and solve(sqrt(x) + root(x, 3) - 2) == [1] and solve(sqrt(x + root(x, 3)) + root(x - y, 5), y) == [x + (x ** Rational(1, 3) + x) ** Rational(5, 2)] and check(unrad(sqrt(x) - root(x + 1, 3) * sqrt(x + 2) + 2), (s ** 10 + 8 * s ** 8 + 24 * s ** 6 - 12 * s ** 5 - 22 * s ** 4 - 160 * s ** 3 - 212 * s ** 2 - 192 * s - 56, [s, s ** 2 - x])) and unrad(e) == (2 * x + 1, []) and check(unrad(eq), (15625 * x ** 4 + 173000 * x ** 3 + 355600 * x ** 2 - 817920 * x + 331776, [])) and check(unrad(root(x, 4) + root(x, 4) ** 3 - 1), (s ** 3 + s - 1, [s, s ** 4 - x])) and check(unrad(root(x, 2) + root(x, 2) ** 3 - 1), (x ** 3 + 2 * x ** 2 + x - 1, [])) and unrad(x ** 0.5) is None and check(unrad(t + root(x + y, 5) + root(x + y, 5) ** 3), (s ** 3 + s + t, [s, s ** 5 - x - y])) and check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, y), (s ** 3 + s + x, [s, s ** 5 - x - y])) and check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, x), (s ** 5 + s ** 3 + s - y, [s, s ** 5 - x - y])) and check(unrad(root(x - 1, 3) + root(x + 1, 5) + root(2, 5)), (s ** 5 + 5 * 2 ** Rational(1, 5) * s ** 4 + s ** 3 + 10 * 2 ** Rational(2, 5) * s ** 3 + 10 * 2 ** Rational(3, 5) * s ** 2 + 5 * 2 ** Rational(4, 5) * s + 4, [s, s ** 3 - x + 1])) and solve(root(x, 3) + root(x, 5) - 2) == [1] and check(unrad(eq), ((5 * x - 4) * (3125 * x ** 3 + 37100 * x ** 2 + 100800 * x - 82944), [])) and solve(eq) == ans and check(unrad(sqrt(x + root(x + 1, 3)) - root(x + 1, 3) - 2), (s ** 3 - s ** 2 - 3 * s - 5, [s, s ** 3 - x - 1])) and check(unrad(e), (s ** 5 - 10 * s ** 4 + 39 * s ** 3 - 80 * s ** 2 + 80 * s - 30, [s, s ** 3 - x ** 2 - 1])) and check(unrad(e), (s ** 6 - 2 * s ** 5 - 7 * s ** 4 - 3 * s ** 3 + 26 * s ** 2 + 40 * s + 25, [s, s ** 3 - x - 1])) and check(unrad(e, _reverse=True), (s ** 6 - 14 * s ** 5 + 73 * s ** 4 - 187 * s ** 3 + 276 * s ** 2 - 228 * s + 89, [s, s ** 2 - x - sqrt(x + 1)])) and check(unrad(sqrt(x + sqrt(root(x, 3) - 1)) - root(x, 6) - 2), (s ** 12 - 2 * s ** 8 - 8 * s ** 7 - 8 * s ** 6 + s ** 4 + 8 * s ** 3 + 23 * s ** 2 + 32 * s + 17, [s, s ** 6 - x])) and unrad(root(cosh(x), 3) / x * root(x + 1, 5) - 1) == (-(x ** 15 - x ** 3 * cosh(x) ** 5 - 3 * x ** 2 * cosh(x) ** 5 - 3 * x * cosh(x) ** 5 - cosh(x) ** 5), []) and unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1')) is None and check(unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1'), x), (s ** (2 * y) + s + 1, [s, s ** 3 - x - y])) and unrad(x ** (S.Half / y) + y, x) == (x ** (1 / y) - y ** 2, []) and len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3 and solve(eq, y) == [2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 - sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 + sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3)] and check(unrad(eq), (3 * s ** 13 + 3 * s ** 11 + s ** 9 - 1, [s, s ** 15 - x])) and check(unrad(eq - 2), (3 * s ** 13 + 3 * s ** 11 + 6 * s ** 10 + s ** 9 + 12 * s ** 8 + 6 * s ** 6 + 12 * s ** 5 + 12 * s ** 3 + 7, [s, s ** 15 - x])) and check(unrad(root(x, 3) - root(x + 1, 4) / 2 + root(x + 2, 3)), (s * (4096 * s ** 9 + 960 * s ** 8 + 48 * s ** 7 - s ** 6 - 1728), [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) + root(x + 1, 4) - root(x + 2, 3) / 2), (343 * s ** 13 + 2904 * s ** 12 + 1344 * s ** 11 + 512 * s ** 10 - 1323 * s ** 9 - 3024 * s ** 8 - 1728 * s ** 7 + 1701 * s ** 5 + 216 * s ** 4 - 729 * s, [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3)), (729 * s ** 13 - 216 * s ** 12 + 1728 * s ** 11 - 512 * s ** 10 + 1701 * s ** 9 - 3024 * s ** 8 + 1344 * s ** 7 + 1323 * s ** 5 - 2904 * s ** 4 + 343 * s, [s, s ** 4 - x - 1])) and check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3) - 2), (729 * s ** 13 + 1242 * s ** 12 + 18496 * s ** 10 + 129701 * s ** 9 + 388602 * s ** 8 + 453312 * s ** 7 - 612864 * s ** 6 - 3337173 * s ** 5 - 6332418 * s ** 4 - 7134912 * s ** 3 - 5064768 * s ** 2 - 2111913 * s - 398034, [s, s ** 4 - x - 1])) and len(ans) == 1 and NS(ans[0])[:4] == '0.73' and solve(sqrt(x + 1) + root(x, 3) - 2) == S('\\n        [(-11/(9*(47/54 + sqrt(93)/6)**(1/3)) + 1/3 + (47/54 +\\n        sqrt(93)/6)**(1/3))**3]') and solve(sqrt(sqrt(x + 1)) + x ** Rational(1, 3) - 2) == S('\\n        [(-sqrt(-2*(-1/16 + sqrt(6913)/16)**(1/3) + 6/(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 17/2 + 121/(4*sqrt(-6/(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 2*(-1/16 + sqrt(6913)/16)**(1/3) + 17/4)))/2 +\\n        sqrt(-6/(-1/16 + sqrt(6913)/16)**(1/3) + 2*(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 17/4)/2 + 9/4)**3]') and solve(sqrt(x) + root(sqrt(x) + 1, 3) - 2) == S('\\n        [(-(81/2 + 3*sqrt(741)/2)**(1/3)/3 + (81/2 + 3*sqrt(741)/2)**(-1/3) +\\n        2)**2]') and check(unrad(eq), (s * -(-s ** 6 + sqrt(3) * s ** 6 * I - 153 * 2 ** Rational(2, 3) * 3 ** Rational(1, 3) * s ** 4 + 51 * 12 ** Rational(1, 3) * s ** 4 - 102 * 2 ** Rational(2, 3) * 3 ** Rational(5, 6) * s ** 4 * I - 1620 * s ** 3 + 1620 * sqrt(3) * s ** 3 * I + 13872 * 18 ** Rational(1, 3) * s ** 2 - 471648 + 471648 * sqrt(3) * I), [s, s ** 3 - 306 * x - sqrt(3) * sqrt(31212 * x ** 2 - 165240 * x + 61484) + 810])) and check(unrad(eq), (s ** 15 + 3 * s ** 13 + 3 * s ** 11 + s ** 9 - y, [s, s ** 15 - x])) and check(unrad(eq), (s * y * (-s ** 12 - 3 * s ** 11 * y - 3 * s ** 10 * y ** 2 - s ** 9 * y ** 3 - 3 * s ** 8 * y ** 2 + 21 * s ** 7 * y ** 3 - 3 * s ** 6 * y ** 4 - 3 * s ** 4 * y ** 4 - 3 * s ** 3 * y ** 5 - y ** 6), [s, s ** 4 - x * y])) and check(unrad(eq), (-s ** 5 + s ** 3 - 3 ** (S(1) / 3) - (-1) ** (S(3) / 5) * 3 ** (S(1) / 5), [s, s ** 15 - x])) and unrad(s ** 2 - s ** 3) == (x ** 3 - 6 * x ** 2 + 9 * x - 4, []) and unrad((x / (x + 1) + 3) ** (-2), x) is None and solve(eq, y) == [x - 1] and unrad(eq) is None","over":{"base":"Any"},"name":"test_unrad1_correct"},"guarantee":"unrad(1) is None; check(unrad(sqrt(x)), (x, [])); check(unrad(sqrt(x) + 1), (x - 1, []))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_unrad1_correct","statement":"Path(test_unrad1(x), unrad(1) is None; check(unrad(sqrt(x)), (x, [])); check(unrad(sqrt(x) + 1), (x - 1, [])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6061cb3908d27cea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unrad(1) is None","check(unrad(sqrt(x)), (x, []))","check(unrad(sqrt(x) + 1), (x - 1, []))","check(unrad(sqrt(x) + root(x, 3) + 2), (s ** 3 + s ** 2 + 2, [s, s ** 6 - x]))","check(unrad(sqrt(x) * root(x, 3) + 2), (x ** 5 - 64, []))","check(unrad(sqrt(x) + (x + 1) ** Rational(1, 3)), (x ** 3 - (x + 1) ** 2, []))","check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(2 * x)), (-2 * sqrt(2) * x - 2 * x + 1, []))","check(unrad(sqrt(x) + sqrt(x + 1) + 2), (16 * x - 9, []))","check(unrad(sqrt(x) + sqrt(x + 1) + sqrt(1 - x)), (5 * x ** 2 - 4 * x, []))","check(unrad(a * sqrt(x) + b * sqrt(x) + c * sqrt(y) + d * sqrt(y)), ((a * sqrt(x) + b * sqrt(x)) ** 2 - (c * sqrt(y) + d * sqrt(y)) ** 2, []))","check(unrad(sqrt(x) + sqrt(1 - x)), (2 * x - 1, []))","check(unrad(sqrt(x) + sqrt(1 - x) - 3), (x ** 2 - x + 16, []))","check(unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x)), (5 * x ** 2 - 2 * x + 1, []))","unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - 3) in [(25 * x ** 4 + 376 * x ** 3 + 1256 * x ** 2 - 2272 * x + 784, []), (25 * x ** 8 - 476 * x ** 6 + 2534 * x ** 4 - 1468 * x ** 2 + 169, [])]","unrad(sqrt(x) + sqrt(1 - x) + sqrt(2 + x) - sqrt(1 - 2 * x)) == (41 * x ** 4 + 40 * x ** 3 + 232 * x ** 2 - 160 * x + 16, [])","check(unrad(sqrt(x) + sqrt(x + 1)), (S.One, []))","check(unrad(eq), (16 * x ** 2 - 9 * x, []))","set(solve(eq, check=False)) == {S.Zero, Rational(9, 16)}","solve(eq) == []","set(solve(sqrt(x) - sqrt(x + 1) + sqrt(1 - sqrt(x)))) == {S.Zero, Rational(9, 16)}","check(unrad(sqrt(x) + root(x + 1, 3) + 2 * sqrt(y), y), (S('2*sqrt(x)*(x + 1)**(1/3) + x - 4*y + (x + 1)**(2/3)'), []))","check(unrad(sqrt(x / (1 - x)) + (x + 1) ** Rational(1, 3)), (x ** 5 - x ** 4 - x ** 3 + 2 * x ** 2 + x - 1, []))","check(unrad(sqrt(x / (1 - x)) + 2 * sqrt(y), y), (4 * x * y + x - 4 * y, []))","check(unrad(sqrt(x) * sqrt(1 - x) + 2, x), (x ** 2 - x + 4, []))","solve(Eq(x, sqrt(x + 6))) == [3]","solve(Eq(x + sqrt(x - 4), 4)) == [4]","solve(Eq(1, x + sqrt(2 * x - 3))) == []","set(solve(Eq(sqrt(5 * x + 6) - 2, x))) == {-S.One, S(2)}","set(solve(Eq(sqrt(2 * x - 1) - sqrt(x - 4), 2))) == {S(5), S(13)}","solve(Eq(sqrt(x + 7) + 2, sqrt(3 - x))) == [-6]","solve((2 * x - 5) ** Rational(1, 3) - 3) == [16]","set(solve(x + 1 - root(x ** 4 + 4 * x ** 3 - x, 4))) == {Rational(-1, 2), Rational(-1, 3)}","set(solve(sqrt(2 * x ** 2 - 7) - (3 - x))) == {-S(8), S(2)}","solve(sqrt(2 * x + 9) - sqrt(x + 1) - sqrt(x + 4)) == [0]","solve(sqrt(x + 4) + sqrt(2 * x - 1) - 3 * sqrt(x - 1)) == [5]","solve(sqrt(x) * sqrt(x - 7) - 12) == [16]","solve(sqrt(x - 3) + sqrt(x) - 3) == [4]","solve(sqrt(9 * x ** 2 + 4) - (3 * x + 2)) == [0]","solve(sqrt(x) - 2 - 5) == [49]","solve(sqrt(x - 3) - sqrt(x) - 3) == []","solve(sqrt(x - 1) - x + 7) == [10]","solve(sqrt(x - 2) - 5) == [27]","solve(sqrt(17 * x - sqrt(x ** 2 - 5)) - 7) == [3]","solve(sqrt(x) - sqrt(x - 1) + sqrt(sqrt(x))) == []","solve(p) == []","solve(z) == []","solve(z + 6 * I) == [Rational(-1, 11)]","solve(p + 6 * I) == []","unrad(root(x + 1, 5) - root(x, 3)) == (-(x ** 5 - x ** 3 - 3 * x ** 2 - 3 * x - 1), [])","check(unrad(x + root(x, 3) + root(x, 3) ** 2 + sqrt(y), x), (s ** 3 + s ** 2 + s + sqrt(y), [s, s ** 3 - x]))","check(unrad(sqrt(x) + root(x, 3) + y), (s ** 3 + s ** 2 + y, [s, s ** 6 - x]))","solve(sqrt(x) + root(x, 3) - 2) == [1]","solve(sqrt(x + root(x, 3)) + root(x - y, 5), y) == [x + (x ** Rational(1, 3) + x) ** Rational(5, 2)]","check(unrad(sqrt(x) - root(x + 1, 3) * sqrt(x + 2) + 2), (s ** 10 + 8 * s ** 8 + 24 * s ** 6 - 12 * s ** 5 - 22 * s ** 4 - 160 * s ** 3 - 212 * s ** 2 - 192 * s - 56, [s, s ** 2 - x]))","unrad(e) == (2 * x + 1, [])","check(unrad(eq), (15625 * x ** 4 + 173000 * x ** 3 + 355600 * x ** 2 - 817920 * x + 331776, []))","check(unrad(root(x, 4) + root(x, 4) ** 3 - 1), (s ** 3 + s - 1, [s, s ** 4 - x]))","check(unrad(root(x, 2) + root(x, 2) ** 3 - 1), (x ** 3 + 2 * x ** 2 + x - 1, []))","unrad(x ** 0.5) is None","check(unrad(t + root(x + y, 5) + root(x + y, 5) ** 3), (s ** 3 + s + t, [s, s ** 5 - x - y]))","check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, y), (s ** 3 + s + x, [s, s ** 5 - x - y]))","check(unrad(x + root(x + y, 5) + root(x + y, 5) ** 3, x), (s ** 5 + s ** 3 + s - y, [s, s ** 5 - x - y]))","check(unrad(root(x - 1, 3) + root(x + 1, 5) + root(2, 5)), (s ** 5 + 5 * 2 ** Rational(1, 5) * s ** 4 + s ** 3 + 10 * 2 ** Rational(2, 5) * s ** 3 + 10 * 2 ** Rational(3, 5) * s ** 2 + 5 * 2 ** Rational(4, 5) * s + 4, [s, s ** 3 - x + 1]))","solve(root(x, 3) + root(x, 5) - 2) == [1]","check(unrad(eq), ((5 * x - 4) * (3125 * x ** 3 + 37100 * x ** 2 + 100800 * x - 82944), []))","solve(eq) == ans","check(unrad(sqrt(x + root(x + 1, 3)) - root(x + 1, 3) - 2), (s ** 3 - s ** 2 - 3 * s - 5, [s, s ** 3 - x - 1]))","check(unrad(e), (s ** 5 - 10 * s ** 4 + 39 * s ** 3 - 80 * s ** 2 + 80 * s - 30, [s, s ** 3 - x ** 2 - 1]))","check(unrad(e), (s ** 6 - 2 * s ** 5 - 7 * s ** 4 - 3 * s ** 3 + 26 * s ** 2 + 40 * s + 25, [s, s ** 3 - x - 1]))","check(unrad(e, _reverse=True), (s ** 6 - 14 * s ** 5 + 73 * s ** 4 - 187 * s ** 3 + 276 * s ** 2 - 228 * s + 89, [s, s ** 2 - x - sqrt(x + 1)]))","check(unrad(sqrt(x + sqrt(root(x, 3) - 1)) - root(x, 6) - 2), (s ** 12 - 2 * s ** 8 - 8 * s ** 7 - 8 * s ** 6 + s ** 4 + 8 * s ** 3 + 23 * s ** 2 + 32 * s + 17, [s, s ** 6 - x]))","unrad(root(cosh(x), 3) / x * root(x + 1, 5) - 1) == (-(x ** 15 - x ** 3 * cosh(x) ** 5 - 3 * x ** 2 * cosh(x) ** 5 - 3 * x * cosh(x) ** 5 - cosh(x) ** 5), [])","unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1')) is None","check(unrad(S('(x+y)**(2*y/3) + (x+y)**(1/3) + 1'), x), (s ** (2 * y) + s + 1, [s, s ** 3 - x - y]))","unrad(x ** (S.Half / y) + y, x) == (x ** (1 / y) - y ** 2, [])","len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3","len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3","solve(eq, y) == [2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 - sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3) * (-S(1) / 2 + sqrt(3) * I / 2), 2 ** (S(2) / 3) * (27 * x + 27 * sqrt(x ** 2)) ** (S(1) / 3) * S(4) / 21 + (512 * x / 343 + S(512) / 343) ** (S(1) / 3)]","check(unrad(eq), (3 * s ** 13 + 3 * s ** 11 + s ** 9 - 1, [s, s ** 15 - x]))","check(unrad(eq - 2), (3 * s ** 13 + 3 * s ** 11 + 6 * s ** 10 + s ** 9 + 12 * s ** 8 + 6 * s ** 6 + 12 * s ** 5 + 12 * s ** 3 + 7, [s, s ** 15 - x]))","check(unrad(root(x, 3) - root(x + 1, 4) / 2 + root(x + 2, 3)), (s * (4096 * s ** 9 + 960 * s ** 8 + 48 * s ** 7 - s ** 6 - 1728), [s, s ** 4 - x - 1]))","check(unrad(root(x, 3) + root(x + 1, 4) - root(x + 2, 3) / 2), (343 * s ** 13 + 2904 * s ** 12 + 1344 * s ** 11 + 512 * s ** 10 - 1323 * s ** 9 - 3024 * s ** 8 - 1728 * s ** 7 + 1701 * s ** 5 + 216 * s ** 4 - 729 * s, [s, s ** 4 - x - 1]))","check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3)), (729 * s ** 13 - 216 * s ** 12 + 1728 * s ** 11 - 512 * s ** 10 + 1701 * s ** 9 - 3024 * s ** 8 + 1344 * s ** 7 + 1323 * s ** 5 - 2904 * s ** 4 + 343 * s, [s, s ** 4 - x - 1]))","check(unrad(root(x, 3) / 2 - root(x + 1, 4) + root(x + 2, 3) - 2), (729 * s ** 13 + 1242 * s ** 12 + 18496 * s ** 10 + 129701 * s ** 9 + 388602 * s ** 8 + 453312 * s ** 7 - 612864 * s ** 6 - 3337173 * s ** 5 - 6332418 * s ** 4 - 7134912 * s ** 3 - 5064768 * s ** 2 - 2111913 * s - 398034, [s, s ** 4 - x - 1]))","len(ans) == 1 and NS(ans[0])[:4] == '0.73'","solve(sqrt(x + 1) + root(x, 3) - 2) == S('\\n        [(-11/(9*(47/54 + sqrt(93)/6)**(1/3)) + 1/3 + (47/54 +\\n        sqrt(93)/6)**(1/3))**3]')","solve(sqrt(sqrt(x + 1)) + x ** Rational(1, 3) - 2) == S('\\n        [(-sqrt(-2*(-1/16 + sqrt(6913)/16)**(1/3) + 6/(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 17/2 + 121/(4*sqrt(-6/(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 2*(-1/16 + sqrt(6913)/16)**(1/3) + 17/4)))/2 +\\n        sqrt(-6/(-1/16 + sqrt(6913)/16)**(1/3) + 2*(-1/16 +\\n        sqrt(6913)/16)**(1/3) + 17/4)/2 + 9/4)**3]')","solve(sqrt(x) + root(sqrt(x) + 1, 3) - 2) == S('\\n        [(-(81/2 + 3*sqrt(741)/2)**(1/3)/3 + (81/2 + 3*sqrt(741)/2)**(-1/3) +\\n        2)**2]')","check(unrad(eq), (s * -(-s ** 6 + sqrt(3) * s ** 6 * I - 153 * 2 ** Rational(2, 3) * 3 ** Rational(1, 3) * s ** 4 + 51 * 12 ** Rational(1, 3) * s ** 4 - 102 * 2 ** Rational(2, 3) * 3 ** Rational(5, 6) * s ** 4 * I - 1620 * s ** 3 + 1620 * sqrt(3) * s ** 3 * I + 13872 * 18 ** Rational(1, 3) * s ** 2 - 471648 + 471648 * sqrt(3) * I), [s, s ** 3 - 306 * x - sqrt(3) * sqrt(31212 * x ** 2 - 165240 * x + 61484) + 810]))","check(unrad(eq), (s ** 15 + 3 * s ** 13 + 3 * s ** 11 + s ** 9 - y, [s, s ** 15 - x]))","check(unrad(eq), (s * y * (-s ** 12 - 3 * s ** 11 * y - 3 * s ** 10 * y ** 2 - s ** 9 * y ** 3 - 3 * s ** 8 * y ** 2 + 21 * s ** 7 * y ** 3 - 3 * s ** 6 * y ** 4 - 3 * s ** 4 * y ** 4 - 3 * s ** 3 * y ** 5 - y ** 6), [s, s ** 4 - x * y]))","check(unrad(eq), (-s ** 5 + s ** 3 - 3 ** (S(1) / 3) - (-1) ** (S(3) / 5) * 3 ** (S(1) / 5), [s, s ** 15 - x]))","unrad(s ** 2 - s ** 3) == (x ** 3 - 6 * x ** 2 + 9 * x - 4, [])","unrad((x / (x + 1) + 3) ** (-2), x) is None","solve(eq, y) == [x - 1]","unrad(eq) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.3,"verdict_class":"assumed","binding":true}}
 def test_unrad1():
     raises(NotImplementedError, lambda:
         unrad(sqrt(x) + sqrt(x + 1) + sqrt(1 - sqrt(x)) + 3))
@@ -2005,16 +2367,22 @@ def test_unrad1():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unrad_slow(), test_unrad_slow produces the expected output) over Any ║
+# ║ Path(test_unrad_slow(), solve(eq) == [S.Half]) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unrad_slow : Any → {Any | solve(eq) == [S.Half]}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eq) == [S.Half]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unrad_slow : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73c27b51f66cb27b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9efbf6e54c2a8af8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_unrad_slow","kind":"function","src_hash":"d312c8cc74f0127a","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eq) == [S.Half]"},"spec":{"lhs":"test_unrad_slow()","rhs":"test_unrad_slow produces the expected output","over":{"base":"Any"},"name":"test_unrad_slow_correct"},"guarantee":"test_unrad_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_unrad_slow_correct","statement":"Path(test_unrad_slow(x), test_unrad_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73c27b51f66cb27b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_unrad_slow","kind":"function","src_hash":"d312c8cc74f0127a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eq) == [S.Half]"},"spec":{"lhs":"test_unrad_slow()","rhs":"solve(eq) == [S.Half]","over":{"base":"Any"},"name":"test_unrad_slow_correct"},"guarantee":"solve(eq) == [S.Half]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_unrad_slow_correct","statement":"Path(test_unrad_slow(x), solve(eq) == [S.Half])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9efbf6e54c2a8af8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eq) == [S.Half]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unrad_slow():
     # this has roots with multiplicity > 1; there should be no
     # repeats in roots obtained, however
@@ -2024,16 +2392,23 @@ def test_unrad_slow():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unrad_fail(), test_unrad_fail produces the expected output) over Any ║
+# ║ Path(test_unrad_fail(), solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)] and solve(root(x + 1, 3) + root(x ** 2 - 2, 5) + 1) == [-1, -1 + CRootOf(x ** 5 + x ** 4 + 5 * x ** 3 + 8 * x ** 2 + 10 * x + 5, 0) ** 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unrad_fail : Any → {Any | solve(root(x ** 3 - 3 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - ...   ║
+# ║   ensures:  solve(root(x + 1, 3) + root(x ** 2 - 2, 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unrad_fail : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5cdf12505008200  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0d1c5582bbf0397  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_unrad_fail","kind":"function","src_hash":"a982a78535c4c6d4","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)]"},"spec":{"lhs":"test_unrad_fail()","rhs":"test_unrad_fail produces the expected output","over":{"base":"Any"},"name":"test_unrad_fail_correct"},"guarantee":"test_unrad_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_unrad_fail_correct","statement":"Path(test_unrad_fail(x), test_unrad_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5cdf12505008200"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_unrad_fail","kind":"function","src_hash":"a982a78535c4c6d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)] and solve(root(x + 1, 3) + root(x ** 2 - 2, 5) + 1) == [-1, -1 + CRootOf(x ** 5 + x ** 4 + 5 * x ** 3 + 8 * x ** 2 + 10 * x + 5, 0) ** 3]"},"spec":{"lhs":"test_unrad_fail()","rhs":"solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)] and solve(root(x + 1, 3) + root(x ** 2 - 2, 5) + 1) == [-1, -1 + CRootOf(x ** 5 + x ** 4 + 5 * x ** 3 + 8 * x ** 2 + 10 * x + 5, 0) ** 3]","over":{"base":"Any"},"name":"test_unrad_fail_correct"},"guarantee":"solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)]; solve(root(x + 1, 3) + root(x ** 2 - 2, 5) + 1) == [-1, -1 + CRootOf(x ** 5 + x ** 4 + 5 * x ** 3 + 8 * x ** 2 + 10 * x + 5, 0) ** 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_unrad_fail_correct","statement":"Path(test_unrad_fail(x), solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)]; solve(root(x + 1, 3) + root(x ** 2 - 2, 5) + 1) == [-1, -1 + CRootOf(x ** 5 + x ** 4 + 5 * x ** 3 + 8 * x ** 2 + 10 * x + 5, 0) ** 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0d1c5582bbf0397","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(root(x ** 3 - 3 * x ** 2, 3) + 1 - x) == [Rational(1, 3)]","solve(root(x + 1, 3) + root(x ** 2 - 2, 5) + 1) == [-1, -1 + CRootOf(x ** 5 + x ** 4 + 5 * x ** 3 + 8 * x ** 2 + 10 * x + 5, 0) ** 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_unrad_fail():
     # this only works if we check real_root(eq.subs(x, Rational(1, 3)))
     # but checksol doesn't work like that
@@ -2043,16 +2418,24 @@ def test_unrad_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_checksol(), test_checksol produces the expected output) over Any ║
+# ║ Path(test_checksol(), checksol(eq, dict_var_soln) == True and checksol(Eq(x, False), {x: False}) is True and checksol(Ne(x, False), {x: False}) is False and checksol(Eq(x < 1, True), {x: 0}) is True and checksol(Eq(x < 1, True), {x: 1}) is False and checksol(Eq(x < 1, False), {x: 1}) is True and checksol(Eq(x < 1, False), {x: 0}) is False and checksol(Eq(x + 1, x ** 2 + 1), {x: 1}) is True and checksol([x - 1, x ** 2 - 1], x, 1) is True and checksol([x - 1, x ** 2 - 2], x, 1) is False and checksol(Poly(x ** 2 - 1), x, 1) is True and checksol(0, {}) is True and checksol([1e-10, x - 2], x, 2) is False and checksol([0.5, 0, x], x, 0) is False and checksol(y, x, 2) is False and checksol(x + 1e-10, x, 0, numerical=True) is True and checksol(x + 1e-10, x, 0, numerical=False) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2)}) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2) + I * pi}) is False and checksol(1 / x ** 5, x, 1000) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_checksol : Any → {Any | checksol(eq, dict_var_so...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksol(eq, dict_var_soln) == True            ║
+# ║   ensures:  checksol(Eq(x, False), {x: False}) is True     ║
+# ║   ensures:  checksol(Ne(x, False), {x: False}) is False    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_checksol : Any → {Any | result satisfies: checks...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85012855853fe3a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eb562b01d6548af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_checksol","kind":"function","src_hash":"ff11f1ce475ec7b7","in":{"base":"Any"},"out":{"base":"Any","pred":"checksol(eq, dict_var_soln) == True and checksol(Eq(x, False), {x: False}) is True and checksol(Ne(x, False), {x: False}) is False and checksol(Eq(x < 1, True), {x: 0}) is True and checksol(Eq(x < 1, True), {x: 1}) is False and checksol(Eq(x < 1, False), {x: 1}) is True and checksol(Eq(x < 1, False), {x: 0}) is False and checksol(Eq(x + 1, x ** 2 + 1), {x: 1}) is True and checksol([x - 1, x ** 2 - 1], x, 1) is True and checksol([x - 1, x ** 2 - 2], x, 1) is False and checksol(Poly(x ** 2 - 1), x, 1) is True and checksol(0, {}) is True and checksol([1e-10, x - 2], x, 2) is False and checksol([0.5, 0, x], x, 0) is False and checksol(y, x, 2) is False and checksol(x + 1e-10, x, 0, numerical=True) is True and checksol(x + 1e-10, x, 0, numerical=False) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2)}) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2) + I * pi}) is False and checksol(1 / x ** 5, x, 1000) is False"},"spec":{"lhs":"test_checksol()","rhs":"test_checksol produces the expected output","over":{"base":"Any"},"name":"test_checksol_correct"},"guarantee":"test_checksol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_checksol_correct","statement":"Path(test_checksol(x), test_checksol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85012855853fe3a9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_checksol","kind":"function","src_hash":"ff11f1ce475ec7b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksol(eq, dict_var_soln) == True and checksol(Eq(x, False), {x: False}) is True and checksol(Ne(x, False), {x: False}) is False and checksol(Eq(x < 1, True), {x: 0}) is True and checksol(Eq(x < 1, True), {x: 1}) is False and checksol(Eq(x < 1, False), {x: 1}) is True and checksol(Eq(x < 1, False), {x: 0}) is False and checksol(Eq(x + 1, x ** 2 + 1), {x: 1}) is True and checksol([x - 1, x ** 2 - 1], x, 1) is True and checksol([x - 1, x ** 2 - 2], x, 1) is False and checksol(Poly(x ** 2 - 1), x, 1) is True and checksol(0, {}) is True and checksol([1e-10, x - 2], x, 2) is False and checksol([0.5, 0, x], x, 0) is False and checksol(y, x, 2) is False and checksol(x + 1e-10, x, 0, numerical=True) is True and checksol(x + 1e-10, x, 0, numerical=False) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2)}) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2) + I * pi}) is False and checksol(1 / x ** 5, x, 1000) is False"},"spec":{"lhs":"test_checksol()","rhs":"checksol(eq, dict_var_soln) == True and checksol(Eq(x, False), {x: False}) is True and checksol(Ne(x, False), {x: False}) is False and checksol(Eq(x < 1, True), {x: 0}) is True and checksol(Eq(x < 1, True), {x: 1}) is False and checksol(Eq(x < 1, False), {x: 1}) is True and checksol(Eq(x < 1, False), {x: 0}) is False and checksol(Eq(x + 1, x ** 2 + 1), {x: 1}) is True and checksol([x - 1, x ** 2 - 1], x, 1) is True and checksol([x - 1, x ** 2 - 2], x, 1) is False and checksol(Poly(x ** 2 - 1), x, 1) is True and checksol(0, {}) is True and checksol([1e-10, x - 2], x, 2) is False and checksol([0.5, 0, x], x, 0) is False and checksol(y, x, 2) is False and checksol(x + 1e-10, x, 0, numerical=True) is True and checksol(x + 1e-10, x, 0, numerical=False) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2)}) is False and checksol(exp(92 * x), {x: log(sqrt(2) / 2) + I * pi}) is False and checksol(1 / x ** 5, x, 1000) is False","over":{"base":"Any"},"name":"test_checksol_correct"},"guarantee":"checksol(eq, dict_var_soln) == True; checksol(Eq(x, False), {x: False}) is True; checksol(Ne(x, False), {x: False}) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_checksol_correct","statement":"Path(test_checksol(x), checksol(eq, dict_var_soln) == True; checksol(Eq(x, False), {x: False}) is True; checksol(Ne(x, False), {x: False}) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eb562b01d6548af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksol(eq, dict_var_soln) == True","checksol(Eq(x, False), {x: False}) is True","checksol(Ne(x, False), {x: False}) is False","checksol(Eq(x < 1, True), {x: 0}) is True","checksol(Eq(x < 1, True), {x: 1}) is False","checksol(Eq(x < 1, False), {x: 1}) is True","checksol(Eq(x < 1, False), {x: 0}) is False","checksol(Eq(x + 1, x ** 2 + 1), {x: 1}) is True","checksol([x - 1, x ** 2 - 1], x, 1) is True","checksol([x - 1, x ** 2 - 2], x, 1) is False","checksol(Poly(x ** 2 - 1), x, 1) is True","checksol(0, {}) is True","checksol([1e-10, x - 2], x, 2) is False","checksol([0.5, 0, x], x, 0) is False","checksol(y, x, 2) is False","checksol(x + 1e-10, x, 0, numerical=True) is True","checksol(x + 1e-10, x, 0, numerical=False) is False","checksol(exp(92 * x), {x: log(sqrt(2) / 2)}) is False","checksol(exp(92 * x), {x: log(sqrt(2) / 2) + I * pi}) is False","checksol(1 / x ** 5, x, 1000) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_checksol():
     x, y, r, t = symbols('x, y, r, t')
     eq = r - x**2 - y**2
@@ -2083,16 +2466,24 @@ def test_checksol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__invert(), test__invert produces the expected output) over Any ║
+# ║ Path(test__invert(), _invert(x - 2) == (2, x) and _invert(2) == (2, 0) and _invert(exp(1 / x) - 3, x) == (1 / log(3), x) and _invert(exp(1 / x + a / x) - 3, x) == ((a + 1) / log(3), x) and _invert(a, x) == (a, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__invert : Any → {Any | _invert(x - 2) == (2, x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _invert(x - 2) == (2, x)                       ║
+# ║   ensures:  _invert(2) == (2, 0)                           ║
+# ║   ensures:  _invert(exp(1 / x) - 3, x) == (1 / log(3)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__invert : Any → {Any | result satisfies: _invert...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb20ad0c886bc430  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c36f5f9132f976c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test__invert","kind":"function","src_hash":"d3f1aea52a72c7fe","in":{"base":"Any"},"out":{"base":"Any","pred":"_invert(x - 2) == (2, x) and _invert(2) == (2, 0) and _invert(exp(1 / x) - 3, x) == (1 / log(3), x) and _invert(exp(1 / x + a / x) - 3, x) == ((a + 1) / log(3), x) and _invert(a, x) == (a, 0)"},"spec":{"lhs":"test__invert()","rhs":"test__invert produces the expected output","over":{"base":"Any"},"name":"test__invert_correct"},"guarantee":"test__invert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test__invert_correct","statement":"Path(test__invert(x), test__invert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb20ad0c886bc430"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test__invert","kind":"function","src_hash":"d3f1aea52a72c7fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _invert(x - 2) == (2, x) and _invert(2) == (2, 0) and _invert(exp(1 / x) - 3, x) == (1 / log(3), x) and _invert(exp(1 / x + a / x) - 3, x) == ((a + 1) / log(3), x) and _invert(a, x) == (a, 0)"},"spec":{"lhs":"test__invert()","rhs":"_invert(x - 2) == (2, x) and _invert(2) == (2, 0) and _invert(exp(1 / x) - 3, x) == (1 / log(3), x) and _invert(exp(1 / x + a / x) - 3, x) == ((a + 1) / log(3), x) and _invert(a, x) == (a, 0)","over":{"base":"Any"},"name":"test__invert_correct"},"guarantee":"_invert(x - 2) == (2, x); _invert(2) == (2, 0); _invert(exp(1 / x) - 3, x) == (1 / log(3), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test__invert_correct","statement":"Path(test__invert(x), _invert(x - 2) == (2, x); _invert(2) == (2, 0); _invert(exp(1 / x) - 3, x) == (1 / log(3), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c36f5f9132f976c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_invert(x - 2) == (2, x)","_invert(2) == (2, 0)","_invert(exp(1 / x) - 3, x) == (1 / log(3), x)","_invert(exp(1 / x + a / x) - 3, x) == ((a + 1) / log(3), x)","_invert(a, x) == (a, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__invert():
     assert _invert(x - 2) == (2, x)
     assert _invert(2) == (2, 0)
@@ -2102,16 +2493,24 @@ def test__invert():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4463(), test_issue_4463 produces the expected output) over Any ║
+# ║ Path(test_issue_4463(), solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)] and solve(x ** x) == [] and solve(x ** x - 2) == [exp(LambertW(log(2)))] and solve(((x - 3) * (x - 2)) ** ((x - 3) * (x - 4))) == [2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4463 : Any → {Any | solve(-a * x + 2 * x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(-a * x + 2 * x * log(x), x) == [exp...   ║
+# ║   ensures:  solve(x ** x) == []                            ║
+# ║   ensures:  solve(x ** x - 2) == [exp(LambertW(log(2)))]   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4463 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ba177d680c12b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa83eb9fb07c2586  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4463","kind":"function","src_hash":"0db7f763220fbf33","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)] and solve(x ** x) == [] and solve(x ** x - 2) == [exp(LambertW(log(2)))] and solve(((x - 3) * (x - 2)) ** ((x - 3) * (x - 4))) == [2]"},"spec":{"lhs":"test_issue_4463()","rhs":"test_issue_4463 produces the expected output","over":{"base":"Any"},"name":"test_issue_4463_correct"},"guarantee":"test_issue_4463 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4463_correct","statement":"Path(test_issue_4463(x), test_issue_4463 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ba177d680c12b4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4463","kind":"function","src_hash":"0db7f763220fbf33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)] and solve(x ** x) == [] and solve(x ** x - 2) == [exp(LambertW(log(2)))] and solve(((x - 3) * (x - 2)) ** ((x - 3) * (x - 4))) == [2]"},"spec":{"lhs":"test_issue_4463()","rhs":"solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)] and solve(x ** x) == [] and solve(x ** x - 2) == [exp(LambertW(log(2)))] and solve(((x - 3) * (x - 2)) ** ((x - 3) * (x - 4))) == [2]","over":{"base":"Any"},"name":"test_issue_4463_correct"},"guarantee":"solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)]; solve(x ** x) == []; solve(x ** x - 2) == [exp(LambertW(log(2)))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4463_correct","statement":"Path(test_issue_4463(x), solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)]; solve(x ** x) == []; solve(x ** x - 2) == [exp(LambertW(log(2)))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa83eb9fb07c2586","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(-a * x + 2 * x * log(x), x) == [exp(a / 2)]","solve(x ** x) == []","solve(x ** x - 2) == [exp(LambertW(log(2)))]","solve(((x - 3) * (x - 2)) ** ((x - 3) * (x - 4))) == [2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4463():
     assert solve(-a*x + 2*x*log(x), x) == [exp(a/2)]
     assert solve(x**x) == []
@@ -2120,16 +2519,22 @@ def test_issue_4463():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5114_solvers(), test_issue_5114_solvers produces the expected output) over Any ║
+# ║ Path(test_issue_5114_solvers(), len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5114_solvers : Any → {Any | len(solve(eqs,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(eqs, syms, manual=True, check=F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5114_solvers : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf2602cb2537e58d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6267657c264f640e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5114_solvers","kind":"function","src_hash":"e8d688a9ab356c43","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1"},"spec":{"lhs":"test_issue_5114_solvers()","rhs":"test_issue_5114_solvers produces the expected output","over":{"base":"Any"},"name":"test_issue_5114_solvers_correct"},"guarantee":"test_issue_5114_solvers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5114_solvers_correct","statement":"Path(test_issue_5114_solvers(x), test_issue_5114_solvers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf2602cb2537e58d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5114_solvers","kind":"function","src_hash":"e8d688a9ab356c43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1"},"spec":{"lhs":"test_issue_5114_solvers()","rhs":"len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1","over":{"base":"Any"},"name":"test_issue_5114_solvers_correct"},"guarantee":"len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5114_solvers_correct","statement":"Path(test_issue_5114_solvers(x), len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6267657c264f640e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(eqs, syms, manual=True, check=False, simplify=False)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_5114_solvers():
     a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r = symbols('a:r')
 
@@ -2146,16 +2551,24 @@ def test_issue_5114_solvers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5849(), test_issue_5849 produces the expected output) over Any ║
+# ║ Path(test_issue_5849(), solve(e, *v, manual=True, check=False, dict=True) == ans and solve(e, *v, manual=True, check=False) == [tuple([a.get(i, i) for i in v]) for a in ans] and solve(e, *v, manual=True) == [] and solve(e, *v) == [] and [ei.subs(ans[0]) for ei in e] == [0, 0, I3 - I6, -I3 + I6, 0, 0, 0, 0, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5849 : Any → {Any | solve(e, *v, manual=Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(e, *v, manual=True, check=False, di...   ║
+# ║   ensures:  solve(e, *v, manual=True, check=False) ==...   ║
+# ║   ensures:  solve(e, *v, manual=True) == []                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5849 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | badcfba4e2197804  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44973caf56f95140  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5849","kind":"function","src_hash":"213288dcb94b21d0","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(e, *v, manual=True, check=False, dict=True) == ans and solve(e, *v, manual=True) == [] and solve(e, *v) == [] and [ei.subs(ans[0]) for ei in e] == [0, 0, I3 - I6, -I3 + I6, 0, 0, 0, 0, 0]"},"spec":{"lhs":"test_issue_5849()","rhs":"test_issue_5849 produces the expected output","over":{"base":"Any"},"name":"test_issue_5849_correct"},"guarantee":"test_issue_5849 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5849_correct","statement":"Path(test_issue_5849(x), test_issue_5849 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"badcfba4e2197804"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5849","kind":"function","src_hash":"213288dcb94b21d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(e, *v, manual=True, check=False, dict=True) == ans and solve(e, *v, manual=True, check=False) == [tuple([a.get(i, i) for i in v]) for a in ans] and solve(e, *v, manual=True) == [] and solve(e, *v) == [] and [ei.subs(ans[0]) for ei in e] == [0, 0, I3 - I6, -I3 + I6, 0, 0, 0, 0, 0]"},"spec":{"lhs":"test_issue_5849()","rhs":"solve(e, *v, manual=True, check=False, dict=True) == ans and solve(e, *v, manual=True, check=False) == [tuple([a.get(i, i) for i in v]) for a in ans] and solve(e, *v, manual=True) == [] and solve(e, *v) == [] and [ei.subs(ans[0]) for ei in e] == [0, 0, I3 - I6, -I3 + I6, 0, 0, 0, 0, 0]","over":{"base":"Any"},"name":"test_issue_5849_correct"},"guarantee":"solve(e, *v, manual=True, check=False, dict=True) == ans; solve(e, *v, manual=True, check=False) == [tuple([a.get(i, i) for i in v]) for a in ans]; solve(e, *v, manual=True) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5849_correct","statement":"Path(test_issue_5849(x), solve(e, *v, manual=True, check=False, dict=True) == ans; solve(e, *v, manual=True, check=False) == [tuple([a.get(i, i) for i in v]) for a in ans]; solve(e, *v, manual=True) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44973caf56f95140","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(e, *v, manual=True, check=False, dict=True) == ans","solve(e, *v, manual=True, check=False) == [tuple([a.get(i, i) for i in v]) for a in ans]","solve(e, *v, manual=True) == []","solve(e, *v) == []","[ei.subs(ans[0]) for ei in e] == [0, 0, I3 - I6, -I3 + I6, 0, 0, 0, 0, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_5849():
     #
     # XXX: This system does not have a solution for most values of the
@@ -2200,16 +2613,22 @@ def test_issue_5849():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5849_matrix(), same as test_issue_5849 but solved with the matrix solver) over Any ║
+# ║ Path(test_issue_5849_matrix(), solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5849_matrix : Any → {Any | solve(e, I1, I4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5849_matrix : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f11ceacc73929dda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a35ec89e8406d663  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5849_matrix","kind":"function","src_hash":"df1ec454e513e5cf","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == []"},"spec":{"lhs":"test_issue_5849_matrix()","rhs":"same as test_issue_5849 but solved with the matrix solver","over":{"base":"Any"},"name":"test_issue_5849_matrix_correct"},"guarantee":"same as test_issue_5849 but solved with the matrix solver","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5849_matrix_correct","statement":"Path(test_issue_5849_matrix(x), same as test_issue_5849 but solved with the matrix solver)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f11ceacc73929dda"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5849_matrix","kind":"function","src_hash":"df1ec454e513e5cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == []"},"spec":{"lhs":"test_issue_5849_matrix()","rhs":"solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == []","over":{"base":"Any"},"name":"test_issue_5849_matrix_correct"},"guarantee":"solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5849_matrix_correct","statement":"Path(test_issue_5849_matrix(x), solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a35ec89e8406d663","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(e, I1, I4, Q2, Q4, dI1, dI4, dQ2, dQ4) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5849_matrix():
     '''Same as test_issue_5849 but solved with the matrix solver.
 
@@ -2238,16 +2657,22 @@ def test_issue_5849_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21882(), test_issue_21882 produces the expected output) over Any ║
+# ║ Path(test_issue_21882(), got == answer) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21882 : Any → {Any | got == answer}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  got == answer                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21882 : Any → {Any | result satisfies: got...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cd2f2a776aae5aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cca894b102a868f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21882","kind":"function","src_hash":"6841506e5ef4598f","in":{"base":"Any"},"out":{"base":"Any","pred":"got == answer"},"spec":{"lhs":"test_issue_21882()","rhs":"test_issue_21882 produces the expected output","over":{"base":"Any"},"name":"test_issue_21882_correct"},"guarantee":"test_issue_21882 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21882_correct","statement":"Path(test_issue_21882(x), test_issue_21882 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cd2f2a776aae5aa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21882","kind":"function","src_hash":"6841506e5ef4598f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: got == answer"},"spec":{"lhs":"test_issue_21882()","rhs":"got == answer","over":{"base":"Any"},"name":"test_issue_21882_correct"},"guarantee":"got == answer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21882_correct","statement":"Path(test_issue_21882(x), got == answer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cca894b102a868f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["got == answer"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_21882():
 
     a, b, c, d, f, g, k = unknowns = symbols('a, b, c, d, f, g, k')
@@ -2275,16 +2700,24 @@ def test_issue_21882():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5901(), test_issue_5901 produces the expected output) over Any ║
+# ║ Path(test_issue_5901(), solve(f(x) + f(x).diff(x), f(x)) == [-D] and solve(f(x) - 3, f(x)) == [3] and solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D] and solve([f(x) - 3 * f(x).diff(x)], f(x)) == {f(x): 3 * D} and solve([f(x) - 3 * f(x).diff(x), f(x) ** 2 - y + 4], f(x), y) == [(3 * D, 9 * D ** 2 + 4)] and solve(-f(a) ** 2 * g(a) ** 2 + f(a) ** 2 * h(a) ** 2 + g(a).diff(a), h(a), g(a), set=True) == ([h(a), g(a)], {(-sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a)), (sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a))}) and solve(*args, set=True)[1] == {(-sqrt(2), sqrt(2)), (sqrt(2), -sqrt(2))} and solve(eqs, f(x), g(x), set=True) == ([f(x), g(x)], {(-sqrt(2 * D - 2), S(2)), (sqrt(2 * D - 2), S(2)), (-sqrt(2 * D + 2), -S(2)), (sqrt(2 * D + 2), -S(2))}) and solve_linear(f(x) + f(x).diff(x), symbols=[x]) == (f(x) + Derivative(f(x), x), 1) and solve_linear(f(x) + Integral(x, (x, y)), symbols=[x]) == (f(x) + Integral(x, (x, y)), 1) and solve_linear(f(x) + Integral(x, (x, y)) + x, symbols=[x]) == (x + f(x) + Integral(x, (x, y)), 1) and solve_linear(f(y) + Integral(x, (x, y)) + x, symbols=[x]) == (x, -f(y) - Integral(x, (x, y))) and solve_linear(x - f(x) / a + (f(x) - 1) / a, symbols=[x]) == (x, 1 / a) and solve_linear(x + Derivative(2 * x, x)) == (x, -2) and solve_linear(x + Integral(x, y), symbols=[x]) == (x, 0) and solve_linear(x + Integral(x, y) - 2, symbols=[x]) == (x, 2 / (y + 1)) and set(solve(x + exp(x) ** 2, exp(x))) == {-sqrt(-x), sqrt(-x)} and solve(x + exp(x), x, implicit=True) == [-exp(x)] and solve(cos(x) - sin(x), x, implicit=True) == [] and solve(x - sin(x), x, implicit=True) == [sin(x)] and solve(x ** 2 + x - 3, x, implicit=True) == [-x ** 2 + 3] and solve(x ** 2 + x - 3, x ** 2, implicit=True) == [-x + 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5901 : Any → {Any | solve(f(x) + f(x).diff...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(f(x) + f(x).diff(x), f(x)) == [-D]       ║
+# ║   ensures:  solve(f(x) - 3, f(x)) == [3]                   ║
+# ║   ensures:  solve(f(x) - 3 * f(x).diff(x), f(x)) == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5901 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0411aab5dec47ba5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10cc79a9671322b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5901","kind":"function","src_hash":"1bbf4a03f3482e38","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(f(x) + f(x).diff(x), f(x)) == [-D] and solve(f(x) - 3, f(x)) == [3] and solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D] and solve([f(x) - 3 * f(x).diff(x)], f(x)) == {f(x): 3 * D} and solve(*args, set=True)[1] == {(-sqrt(2), sqrt(2)), (sqrt(2), -sqrt(2))} and solve_linear(x - f(x) / a + (f(x) - 1) / a, symbols=[x]) == (x, 1 / a) and solve_linear(x + Derivative(2 * x, x)) == (x, -2) and solve_linear(x + Integral(x, y), symbols=[x]) == (x, 0) and solve_linear(x + Integral(x, y) - 2, symbols=[x]) == (x, 2 / (y + 1)) and set(solve(x + exp(x) ** 2, exp(x))) == {-sqrt(-x), sqrt(-x)} and solve(x + exp(x), x, implicit=True) == [-exp(x)] and solve(cos(x) - sin(x), x, implicit=True) == [] and solve(x - sin(x), x, implicit=True) == [sin(x)] and solve(x ** 2 + x - 3, x, implicit=True) == [-x ** 2 + 3] and solve(x ** 2 + x - 3, x ** 2, implicit=True) == [-x + 3]"},"spec":{"lhs":"test_issue_5901()","rhs":"test_issue_5901 produces the expected output","over":{"base":"Any"},"name":"test_issue_5901_correct"},"guarantee":"test_issue_5901 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5901_correct","statement":"Path(test_issue_5901(x), test_issue_5901 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0411aab5dec47ba5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5901","kind":"function","src_hash":"1bbf4a03f3482e38","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(f(x) + f(x).diff(x), f(x)) == [-D] and solve(f(x) - 3, f(x)) == [3] and solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D] and solve([f(x) - 3 * f(x).diff(x)], f(x)) == {f(x): 3 * D} and solve([f(x) - 3 * f(x).diff(x), f(x) ** 2 - y + 4], f(x), y) == [(3 * D, 9 * D ** 2 + 4)] and solve(-f(a) ** 2 * g(a) ** 2 + f(a) ** 2 * h(a) ** 2 + g(a).diff(a), h(a), g(a), set=True) == ([h(a), g(a)], {(-sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a)), (sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a))}) and solve(*args, set=True)[1] == {(-sqrt(2), sqrt(2)), (sqrt(2), -sqrt(2))} and solve(eqs, f(x), g(x), set=True) == ([f(x), g(x)], {(-sqrt(2 * D - 2), S(2)), (sqrt(2 * D - 2), S(2)), (-sqrt(2 * D + 2), -S(2)), (sqrt(2 * D + 2), -S(2))}) and solve_linear(f(x) + f(x).diff(x), symbols=[x]) == (f(x) + Derivative(f(x), x), 1) and solve_linear(f(x) + Integral(x, (x, y)), symbols=[x]) == (f(x) + Integral(x, (x, y)), 1) and solve_linear(f(x) + Integral(x, (x, y)) + x, symbols=[x]) == (x + f(x) + Integral(x, (x, y)), 1) and solve_linear(f(y) + Integral(x, (x, y)) + x, symbols=[x]) == (x, -f(y) - Integral(x, (x, y))) and solve_linear(x - f(x) / a + (f(x) - 1) / a, symbols=[x]) == (x, 1 / a) and solve_linear(x + Derivative(2 * x, x)) == (x, -2) and solve_linear(x + Integral(x, y), symbols=[x]) == (x, 0) and solve_linear(x + Integral(x, y) - 2, symbols=[x]) == (x, 2 / (y + 1)) and set(solve(x + exp(x) ** 2, exp(x))) == {-sqrt(-x), sqrt(-x)} and solve(x + exp(x), x, implicit=True) == [-exp(x)] and solve(cos(x) - sin(x), x, implicit=True) == [] and solve(x - sin(x), x, implicit=True) == [sin(x)] and solve(x ** 2 + x - 3, x, implicit=True) == [-x ** 2 + 3] and solve(x ** 2 + x - 3, x ** 2, implicit=True) == [-x + 3]"},"spec":{"lhs":"test_issue_5901()","rhs":"solve(f(x) + f(x).diff(x), f(x)) == [-D] and solve(f(x) - 3, f(x)) == [3] and solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D] and solve([f(x) - 3 * f(x).diff(x)], f(x)) == {f(x): 3 * D} and solve([f(x) - 3 * f(x).diff(x), f(x) ** 2 - y + 4], f(x), y) == [(3 * D, 9 * D ** 2 + 4)] and solve(-f(a) ** 2 * g(a) ** 2 + f(a) ** 2 * h(a) ** 2 + g(a).diff(a), h(a), g(a), set=True) == ([h(a), g(a)], {(-sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a)), (sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a))}) and solve(*args, set=True)[1] == {(-sqrt(2), sqrt(2)), (sqrt(2), -sqrt(2))} and solve(eqs, f(x), g(x), set=True) == ([f(x), g(x)], {(-sqrt(2 * D - 2), S(2)), (sqrt(2 * D - 2), S(2)), (-sqrt(2 * D + 2), -S(2)), (sqrt(2 * D + 2), -S(2))}) and solve_linear(f(x) + f(x).diff(x), symbols=[x]) == (f(x) + Derivative(f(x), x), 1) and solve_linear(f(x) + Integral(x, (x, y)), symbols=[x]) == (f(x) + Integral(x, (x, y)), 1) and solve_linear(f(x) + Integral(x, (x, y)) + x, symbols=[x]) == (x + f(x) + Integral(x, (x, y)), 1) and solve_linear(f(y) + Integral(x, (x, y)) + x, symbols=[x]) == (x, -f(y) - Integral(x, (x, y))) and solve_linear(x - f(x) / a + (f(x) - 1) / a, symbols=[x]) == (x, 1 / a) and solve_linear(x + Derivative(2 * x, x)) == (x, -2) and solve_linear(x + Integral(x, y), symbols=[x]) == (x, 0) and solve_linear(x + Integral(x, y) - 2, symbols=[x]) == (x, 2 / (y + 1)) and set(solve(x + exp(x) ** 2, exp(x))) == {-sqrt(-x), sqrt(-x)} and solve(x + exp(x), x, implicit=True) == [-exp(x)] and solve(cos(x) - sin(x), x, implicit=True) == [] and solve(x - sin(x), x, implicit=True) == [sin(x)] and solve(x ** 2 + x - 3, x, implicit=True) == [-x ** 2 + 3] and solve(x ** 2 + x - 3, x ** 2, implicit=True) == [-x + 3]","over":{"base":"Any"},"name":"test_issue_5901_correct"},"guarantee":"solve(f(x) + f(x).diff(x), f(x)) == [-D]; solve(f(x) - 3, f(x)) == [3]; solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5901_correct","statement":"Path(test_issue_5901(x), solve(f(x) + f(x).diff(x), f(x)) == [-D]; solve(f(x) - 3, f(x)) == [3]; solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10cc79a9671322b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(f(x) + f(x).diff(x), f(x)) == [-D]","solve(f(x) - 3, f(x)) == [3]","solve(f(x) - 3 * f(x).diff(x), f(x)) == [3 * D]","solve([f(x) - 3 * f(x).diff(x)], f(x)) == {f(x): 3 * D}","solve([f(x) - 3 * f(x).diff(x), f(x) ** 2 - y + 4], f(x), y) == [(3 * D, 9 * D ** 2 + 4)]","solve(-f(a) ** 2 * g(a) ** 2 + f(a) ** 2 * h(a) ** 2 + g(a).diff(a), h(a), g(a), set=True) == ([h(a), g(a)], {(-sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a)), (sqrt(f(a) ** 2 * g(a) ** 2 - G) / f(a), g(a))})","solve(*args, set=True)[1] == {(-sqrt(2), sqrt(2)), (sqrt(2), -sqrt(2))}","solve(eqs, f(x), g(x), set=True) == ([f(x), g(x)], {(-sqrt(2 * D - 2), S(2)), (sqrt(2 * D - 2), S(2)), (-sqrt(2 * D + 2), -S(2)), (sqrt(2 * D + 2), -S(2))})","solve_linear(f(x) + f(x).diff(x), symbols=[x]) == (f(x) + Derivative(f(x), x), 1)","solve_linear(f(x) + Integral(x, (x, y)), symbols=[x]) == (f(x) + Integral(x, (x, y)), 1)","solve_linear(f(x) + Integral(x, (x, y)) + x, symbols=[x]) == (x + f(x) + Integral(x, (x, y)), 1)","solve_linear(f(y) + Integral(x, (x, y)) + x, symbols=[x]) == (x, -f(y) - Integral(x, (x, y)))","solve_linear(x - f(x) / a + (f(x) - 1) / a, symbols=[x]) == (x, 1 / a)","solve_linear(x + Derivative(2 * x, x)) == (x, -2)","solve_linear(x + Integral(x, y), symbols=[x]) == (x, 0)","solve_linear(x + Integral(x, y) - 2, symbols=[x]) == (x, 2 / (y + 1))","set(solve(x + exp(x) ** 2, exp(x))) == {-sqrt(-x), sqrt(-x)}","solve(x + exp(x), x, implicit=True) == [-exp(x)]","solve(cos(x) - sin(x), x, implicit=True) == []","solve(x - sin(x), x, implicit=True) == [sin(x)]","solve(x ** 2 + x - 3, x, implicit=True) == [-x ** 2 + 3]","solve(x ** 2 + x - 3, x ** 2, implicit=True) == [-x + 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_issue_5901():
     f, g, h = map(Function, 'fgh')
     a = Symbol('a')
@@ -2354,16 +2787,23 @@ def test_issue_5901():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5912(), test_issue_5912 produces the expected output) over Any ║
+# ║ Path(test_issue_5912(), set(solve(x ** 2 - x - 0.1, rational=True)) == {S.Half + sqrt(35) / 10, -sqrt(35) / 10 + S.Half} and len(ans) == 2 and all((a.is_Number for a in ans))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5912 : Any → {Any | len(ans) == 2 and all(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve(x ** 2 - x - 0.1, rational=True...   ║
+# ║   ensures:  len(ans) == 2 and all((a.is_Number for a ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5912 : Any → {Any | result satisfies: set(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cf7b4b4f10f115d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 839d47e7c23a0464  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5912","kind":"function","src_hash":"bfab233f88c9781b","in":{"base":"Any"},"out":{"base":"Any","pred":"len(ans) == 2 and all((a.is_Number for a in ans)) and len(ans) == 2 and all((a.is_Number for a in ans))"},"spec":{"lhs":"test_issue_5912()","rhs":"test_issue_5912 produces the expected output","over":{"base":"Any"},"name":"test_issue_5912_correct"},"guarantee":"test_issue_5912 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5912_correct","statement":"Path(test_issue_5912(x), test_issue_5912 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cf7b4b4f10f115d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5912","kind":"function","src_hash":"bfab233f88c9781b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve(x ** 2 - x - 0.1, rational=True)) == {S.Half + sqrt(35) / 10, -sqrt(35) / 10 + S.Half} and len(ans) == 2 and all((a.is_Number for a in ans))"},"spec":{"lhs":"test_issue_5912()","rhs":"set(solve(x ** 2 - x - 0.1, rational=True)) == {S.Half + sqrt(35) / 10, -sqrt(35) / 10 + S.Half} and len(ans) == 2 and all((a.is_Number for a in ans))","over":{"base":"Any"},"name":"test_issue_5912_correct"},"guarantee":"set(solve(x ** 2 - x - 0.1, rational=True)) == {S.Half + sqrt(35) / 10, -sqrt(35) / 10 + S.Half}; len(ans) == 2 and all((a.is_Number for a in ans))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5912_correct","statement":"Path(test_issue_5912(x), set(solve(x ** 2 - x - 0.1, rational=True)) == {S.Half + sqrt(35) / 10, -sqrt(35) / 10 + S.Half}; len(ans) == 2 and all((a.is_Number for a in ans)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839d47e7c23a0464","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve(x ** 2 - x - 0.1, rational=True)) == {S.Half + sqrt(35) / 10, -sqrt(35) / 10 + S.Half}","len(ans) == 2 and all((a.is_Number for a in ans))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5912():
     assert set(solve(x**2 - x - 0.1, rational=True)) == \
         {S.Half + sqrt(35)/10, -sqrt(35)/10 + S.Half}
@@ -2376,14 +2816,23 @@ def test_issue_5912():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_float_handling(), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_float_handling : Any → {Any | solve(x - 0.5, rat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x - 0.5, rational=True)[0].is_Rational   ║
+# ║   ensures:  solve(x - 0.5, rational=False)[0].is_Float     ║
+# ║   ensures:  solve(x - S.Half, rational=False)[0].is_R...   ║
+# ║   returns:  len(e1.atoms(Float)) == len(e2.atoms(Float))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_float_handling : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9cbae23d248945d9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_float_handling","kind":"function","src_hash":"45a7179c137f359a","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x - 0.5, rational=True)[0].is_Rational and solve(x - 0.5, rational=False)[0].is_Float and solve(x - S.Half, rational=False)[0].is_Rational and solve(x - 0.5, rational=None)[0].is_Float and solve(x - S.Half, rational=None)[0].is_Rational and test(nfloat(1 + 2 * x), 1.0 + 2.0 * x) and test(k, 2 * x) and test(v[0], 1.0 + 2.0 * x) and test(nfloat(cos(2 * x)), cos(2.0 * x)) and test(nfloat(3 * x ** 2), 3.0 * x ** 2) and test(nfloat(3 * x ** 2, exponent=True), 3.0 * x ** 2.0) and test(nfloat(exp(2 * x)), exp(2.0 * x)) and test(nfloat(x / 3), x / 3.0) and solve(((0.7 + c) / tot - 0.6, (0.2 + z) / tot - 0.3, t / tot - 0.1)) == [] and type(ans) is contain and test(list(ans)[0], 1.0 + 2.0 * x)"},"spec":{"lhs":"test_float_handling()","rhs":"test_float_handling produces the expected output","over":{"base":"Any"},"name":"test_float_handling_correct","kind":"composition"},"guarantee":"test_float_handling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"atoms","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"atoms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cbae23d248945d9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_float_handling","kind":"function","src_hash":"45a7179c137f359a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (len(e1.atoms(Float)) == len(e2.atoms(Float)))"},"spec":{"lhs":"test_float_handling()","rhs":"len(e1.atoms(Float)) == len(e2.atoms(Float))","over":{"base":"Any"},"name":"test_float_handling_correct","kind":"composition"},"guarantee":"returns len(e1.atoms(Float)) == len(e2.atoms(Float)); solve(x - 0.5, rational=True)[0].is_Rational; solve(x - 0.5, rational=False)[0].is_Float; solve(x - S.Half, rational=False)[0].is_Rational","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"atoms","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"atoms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cbae23d248945d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x - 0.5, rational=True)[0].is_Rational","solve(x - 0.5, rational=False)[0].is_Float","solve(x - S.Half, rational=False)[0].is_Rational","solve(x - 0.5, rational=None)[0].is_Float","solve(x - S.Half, rational=None)[0].is_Rational","test(nfloat(1 + 2 * x), 1.0 + 2.0 * x)","test(k, 2 * x) and test(v[0], 1.0 + 2.0 * x)","test(nfloat(cos(2 * x)), cos(2.0 * x))","test(nfloat(3 * x ** 2), 3.0 * x ** 2)","test(nfloat(3 * x ** 2, exponent=True), 3.0 * x ** 2.0)","test(nfloat(exp(2 * x)), exp(2.0 * x))","test(nfloat(x / 3), x / 3.0)","test(nfloat(x ** 4 + 2 * x + cos(Rational(1, 3)) + 1), x ** 4 + 2.0 * x + 1.94495694631474)","solve(((0.7 + c) / tot - 0.6, (0.2 + z) / tot - 0.3, t / tot - 0.1)) == []"],"returns_expr":"len(e1.atoms(Float)) == len(e2.atoms(Float))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_float_handling():
     def test(e1, e2):
         return len(e1.atoms(Float)) == len(e2.atoms(Float))
@@ -2411,32 +2860,46 @@ def test_float_handling():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_assumptions(), test_check_assumptions produces the expected output) over Any ║
+# ║ Path(test_check_assumptions(), solve(x ** 2 - 1) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_check_assumptions : Any → {Any | solve(x ** 2 - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x ** 2 - 1) == [1]                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_check_assumptions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a9e31018136965a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b42bcee096fb6bcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_check_assumptions","kind":"function","src_hash":"1b7078a22f3e69b9","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x ** 2 - 1) == [1]"},"spec":{"lhs":"test_check_assumptions()","rhs":"test_check_assumptions produces the expected output","over":{"base":"Any"},"name":"test_check_assumptions_correct"},"guarantee":"test_check_assumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_check_assumptions_correct","statement":"Path(test_check_assumptions(x), test_check_assumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a9e31018136965a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_check_assumptions","kind":"function","src_hash":"1b7078a22f3e69b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x ** 2 - 1) == [1]"},"spec":{"lhs":"test_check_assumptions()","rhs":"solve(x ** 2 - 1) == [1]","over":{"base":"Any"},"name":"test_check_assumptions_correct"},"guarantee":"solve(x ** 2 - 1) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_check_assumptions_correct","statement":"Path(test_check_assumptions(x), solve(x ** 2 - 1) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b42bcee096fb6bcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x ** 2 - 1) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_check_assumptions():
     x = symbols('x', positive=True)
     assert solve(x**2 - 1) == [1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6056(), test_issue_6056 produces the expected output) over Any ║
+# ║ Path(test_issue_6056(), solve(tanh(x + 3) * tanh(x - 3) - 1) == [] and solve(tanh(x - 1) * tanh(x + 1) + 1) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)] and solve((tanh(x + 3) * tanh(x - 3) + 1) ** 2) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6056 : Any → {Any | solve(tanh(x + 3) * ta...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(tanh(x + 3) * tanh(x - 3) - 1) == []     ║
+# ║   ensures:  solve(tanh(x - 1) * tanh(x + 1) + 1) == [...   ║
+# ║   ensures:  solve((tanh(x + 3) * tanh(x - 3) + 1) ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6056 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69ce2f7630e921cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04aaaf2b156bc09d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6056","kind":"function","src_hash":"d69fa8a81fce0eff","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(tanh(x + 3) * tanh(x - 3) - 1) == []"},"spec":{"lhs":"test_issue_6056()","rhs":"test_issue_6056 produces the expected output","over":{"base":"Any"},"name":"test_issue_6056_correct"},"guarantee":"test_issue_6056 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6056_correct","statement":"Path(test_issue_6056(x), test_issue_6056 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ce2f7630e921cc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6056","kind":"function","src_hash":"d69fa8a81fce0eff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(tanh(x + 3) * tanh(x - 3) - 1) == [] and solve(tanh(x - 1) * tanh(x + 1) + 1) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)] and solve((tanh(x + 3) * tanh(x - 3) + 1) ** 2) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]"},"spec":{"lhs":"test_issue_6056()","rhs":"solve(tanh(x + 3) * tanh(x - 3) - 1) == [] and solve(tanh(x - 1) * tanh(x + 1) + 1) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)] and solve((tanh(x + 3) * tanh(x - 3) + 1) ** 2) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]","over":{"base":"Any"},"name":"test_issue_6056_correct"},"guarantee":"solve(tanh(x + 3) * tanh(x - 3) - 1) == []; solve(tanh(x - 1) * tanh(x + 1) + 1) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]; solve((tanh(x + 3) * tanh(x - 3) + 1) ** 2) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6056_correct","statement":"Path(test_issue_6056(x), solve(tanh(x + 3) * tanh(x - 3) - 1) == []; solve(tanh(x - 1) * tanh(x + 1) + 1) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]; solve((tanh(x + 3) * tanh(x - 3) + 1) ** 2) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04aaaf2b156bc09d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(tanh(x + 3) * tanh(x - 3) - 1) == []","solve(tanh(x - 1) * tanh(x + 1) + 1) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]","solve((tanh(x + 3) * tanh(x - 3) + 1) ** 2) == [I * pi * Rational(-3, 4), -I * pi / 4, I * pi / 4, I * pi * Rational(3, 4)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6056():
     assert solve(tanh(x + 3)*tanh(x - 3) - 1) == []
     assert solve(tanh(x - 1)*tanh(x + 1) + 1) == \
@@ -2446,16 +2909,23 @@ def test_issue_6056():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5673(), test_issue_5673 produces the expected output) over Any ║
+# ║ Path(test_issue_5673(), checksol(eq, x, 2) is True and checksol(eq, x, 2, numerical=False) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5673 : Any → {Any | checksol(eq, x, 2) is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksol(eq, x, 2) is True                     ║
+# ║   ensures:  checksol(eq, x, 2, numerical=False) is None    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5673 : Any → {Any | result satisfies: chec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc7fb01291d6b3b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1f38c6ca03927eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5673","kind":"function","src_hash":"3d7b10ce23389329","in":{"base":"Any"},"out":{"base":"Any","pred":"checksol(eq, x, 2) is True and checksol(eq, x, 2, numerical=False) is None"},"spec":{"lhs":"test_issue_5673()","rhs":"test_issue_5673 produces the expected output","over":{"base":"Any"},"name":"test_issue_5673_correct"},"guarantee":"test_issue_5673 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5673_correct","statement":"Path(test_issue_5673(x), test_issue_5673 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc7fb01291d6b3b9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5673","kind":"function","src_hash":"3d7b10ce23389329","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksol(eq, x, 2) is True and checksol(eq, x, 2, numerical=False) is None"},"spec":{"lhs":"test_issue_5673()","rhs":"checksol(eq, x, 2) is True and checksol(eq, x, 2, numerical=False) is None","over":{"base":"Any"},"name":"test_issue_5673_correct"},"guarantee":"checksol(eq, x, 2) is True; checksol(eq, x, 2, numerical=False) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5673_correct","statement":"Path(test_issue_5673(x), checksol(eq, x, 2) is True; checksol(eq, x, 2, numerical=False) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1f38c6ca03927eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksol(eq, x, 2) is True","checksol(eq, x, 2, numerical=False) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5673():
     eq = -x + exp(exp(LambertW(log(x)))*LambertW(log(x)))
     assert checksol(eq, x, 2) is True
@@ -2463,16 +2933,23 @@ def test_issue_5673():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exclude(), test_exclude produces the expected output) over Any ║
+# ║ Path(test_exclude(), solve(eqs, exclude=s * C * R) == [{Rf: Ri * (C * R * s + 1) ** 2 / (C * R * s), Vminus: Vplus, V1: 2 * Vplus + Vplus / (C * R * s), Vout: C * R * Vplus * s + 3 * Vplus + Vplus / (C * R * s)}, {Vplus: 0, Vminus: 0, V1: 0, Vout: 0}] and solve(eqs, exclude=[Vplus, s, C]) in [[{Vminus: Vplus, V1: Vout / 2 + Vplus / 2 + sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus - sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}, {Vminus: Vplus, V1: Vout / 2 + Vplus / 2 - sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus + sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}], [{Vminus: Vplus, Vout: (V1 ** 2 - V1 * Vplus - Vplus ** 2) / (V1 - 2 * Vplus), Rf: Ri * (V1 - Vplus) ** 2 / (Vplus * (V1 - 2 * Vplus)), R: Vplus / (C * s * (V1 - 2 * Vplus))}]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exclude : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eqs, exclude=s * C * R) == [{Rf: Ri...   ║
+# ║   ensures:  solve(eqs, exclude=[Vplus, s, C]) in [[{V...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exclude : Any → {Any | result satisfies: solve(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af13176eddb0b287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65d981c1c651cfad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_exclude","kind":"function","src_hash":"9b8d56a6d27100f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exclude()","rhs":"test_exclude produces the expected output","over":{"base":"Any"},"name":"test_exclude_correct"},"guarantee":"test_exclude produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_exclude_correct","statement":"Path(test_exclude(x), test_exclude produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af13176eddb0b287"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_exclude","kind":"function","src_hash":"9b8d56a6d27100f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eqs, exclude=s * C * R) == [{Rf: Ri * (C * R * s + 1) ** 2 / (C * R * s), Vminus: Vplus, V1: 2 * Vplus + Vplus / (C * R * s), Vout: C * R * Vplus * s + 3 * Vplus + Vplus / (C * R * s)}, {Vplus: 0, Vminus: 0, V1: 0, Vout: 0}] and solve(eqs, exclude=[Vplus, s, C]) in [[{Vminus: Vplus, V1: Vout / 2 + Vplus / 2 + sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus - sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}, {Vminus: Vplus, V1: Vout / 2 + Vplus / 2 - sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus + sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}], [{Vminus: Vplus, Vout: (V1 ** 2 - V1 * Vplus - Vplus ** 2) / (V1 - 2 * Vplus), Rf: Ri * (V1 - Vplus) ** 2 / (Vplus * (V1 - 2 * Vplus)), R: Vplus / (C * s * (V1 - 2 * Vplus))}]]"},"spec":{"lhs":"test_exclude()","rhs":"solve(eqs, exclude=s * C * R) == [{Rf: Ri * (C * R * s + 1) ** 2 / (C * R * s), Vminus: Vplus, V1: 2 * Vplus + Vplus / (C * R * s), Vout: C * R * Vplus * s + 3 * Vplus + Vplus / (C * R * s)}, {Vplus: 0, Vminus: 0, V1: 0, Vout: 0}] and solve(eqs, exclude=[Vplus, s, C]) in [[{Vminus: Vplus, V1: Vout / 2 + Vplus / 2 + sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus - sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}, {Vminus: Vplus, V1: Vout / 2 + Vplus / 2 - sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus + sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}], [{Vminus: Vplus, Vout: (V1 ** 2 - V1 * Vplus - Vplus ** 2) / (V1 - 2 * Vplus), Rf: Ri * (V1 - Vplus) ** 2 / (Vplus * (V1 - 2 * Vplus)), R: Vplus / (C * s * (V1 - 2 * Vplus))}]]","over":{"base":"Any"},"name":"test_exclude_correct"},"guarantee":"solve(eqs, exclude=s * C * R) == [{Rf: Ri * (C * R * s + 1) ** 2 / (C * R * s), Vminus: Vplus, V1: 2 * Vplus + Vplus / (C * R * s), Vout: C * R * Vplus * s + 3 * Vplus + Vplus / (C * R * s)}, {Vplus: 0, Vminus: 0, V1: 0, Vout: 0}]; solve(eqs, exclude=[Vplus, s, C]) in [[{Vminus: Vplus, V1: Vout / 2 + Vplus / 2 + sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus - sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}, {Vminus: Vplus, V1: Vout / 2 + Vplus / 2 - sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus + sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}], [{Vminus: Vplus, Vout: (V1 ** 2 - V1 * Vplus - Vplus ** 2) / (V1 - 2 * Vplus), Rf: Ri * (V1 - Vplus) ** 2 / (Vplus * (V1 - 2 * Vplus)), R: Vplus / (C * s * (V1 - 2 * Vplus))}]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_exclude_correct","statement":"Path(test_exclude(x), solve(eqs, exclude=s * C * R) == [{Rf: Ri * (C * R * s + 1) ** 2 / (C * R * s), Vminus: Vplus, V1: 2 * Vplus + Vplus / (C * R * s), Vout: C * R * Vplus * s + 3 * Vplus + Vplus / (C * R * s)}, {Vplus: 0, Vminus: 0, V1: 0, Vout: 0}]; solve(eqs, exclude=[Vplus, s, C]) in [[{Vminus: Vplus, V1: Vout / 2 + Vplus / 2 + sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus - sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}, {Vminus: Vplus, V1: Vout / 2 + Vplus / 2 - sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus + sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}], [{Vminus: Vplus, Vout: (V1 ** 2 - V1 * Vplus - Vplus ** 2) / (V1 - 2 * Vplus), Rf: Ri * (V1 - Vplus) ** 2 / (Vplus * (V1 - 2 * Vplus)), R: Vplus / (C * s * (V1 - 2 * Vplus))}]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65d981c1c651cfad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eqs, exclude=s * C * R) == [{Rf: Ri * (C * R * s + 1) ** 2 / (C * R * s), Vminus: Vplus, V1: 2 * Vplus + Vplus / (C * R * s), Vout: C * R * Vplus * s + 3 * Vplus + Vplus / (C * R * s)}, {Vplus: 0, Vminus: 0, V1: 0, Vout: 0}]","solve(eqs, exclude=[Vplus, s, C]) in [[{Vminus: Vplus, V1: Vout / 2 + Vplus / 2 + sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus - sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}, {Vminus: Vplus, V1: Vout / 2 + Vplus / 2 - sqrt((Vout - 5 * Vplus) * (Vout - Vplus)) / 2, R: (Vout - 3 * Vplus + sqrt(Vout ** 2 - 6 * Vout * Vplus + 5 * Vplus ** 2)) / (2 * C * Vplus * s), Rf: Ri * (Vout - Vplus) / Vplus}], [{Vminus: Vplus, Vout: (V1 ** 2 - V1 * Vplus - Vplus ** 2) / (V1 - 2 * Vplus), Rf: Ri * (V1 - Vplus) ** 2 / (Vplus * (V1 - 2 * Vplus)), R: Vplus / (C * s * (V1 - 2 * Vplus))}]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_exclude():
     R, C, Ri, Vout, V1, Vminus, Vplus, s = \
         symbols('R, C, Ri, Vout, V1, Vminus, Vplus, s')
@@ -2514,16 +2991,22 @@ def test_exclude():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_high_order_roots(), test_high_order_roots produces the expected output) over Any ║
+# ║ Path(test_high_order_roots(), set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_high_order_roots : Any → {Any | set(solve(s)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(solve(s)) == set(Poly(s * 4, domain='...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_high_order_roots : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeb0145b41fb2e72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abef3a438e171843  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_high_order_roots","kind":"function","src_hash":"bb4fa56cfdc9d6ff","in":{"base":"Any"},"out":{"base":"Any","pred":"set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots())"},"spec":{"lhs":"test_high_order_roots()","rhs":"test_high_order_roots produces the expected output","over":{"base":"Any"},"name":"test_high_order_roots_correct"},"guarantee":"test_high_order_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_high_order_roots_correct","statement":"Path(test_high_order_roots(x), test_high_order_roots produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb0145b41fb2e72"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_high_order_roots","kind":"function","src_hash":"bb4fa56cfdc9d6ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots())"},"spec":{"lhs":"test_high_order_roots()","rhs":"set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots())","over":{"base":"Any"},"name":"test_high_order_roots_correct"},"guarantee":"set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_high_order_roots_correct","statement":"Path(test_high_order_roots(x), set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abef3a438e171843","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(solve(s)) == set(Poly(s * 4, domain='ZZ').all_roots())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_high_order_roots():
     s = x**5 + 4*x**3 + 3*x**2 + Rational(7, 4)
     assert set(solve(s)) == set(Poly(s*4, domain='ZZ').all_roots())
@@ -2532,14 +3015,23 @@ def test_high_order_roots():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_minsolve_linear_system(), id) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_minsolve_linear_system : Any → {Any | solve([x +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([x + y - 5, 2 * x - y - 1], **pqt) ...   ║
+# ║   ensures:  solve([x + y - 5, 2 * x - y - 1], **pqf) ...   ║
+# ║   ensures:  count(solve([x + y + z, y + z + a + t], *...   ║
+# ║   returns:  len([x for x in dic.values() if x == 0])       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_minsolve_linear_system : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | afff46f5a9a36dc1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_minsolve_linear_system","kind":"function","src_hash":"beb9e9260836fdb1","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([x + y - 5, 2 * x - y - 1], **pqt) == {x: 2, y: 3} and solve([x + y - 5, 2 * x - y - 1], **pqf) == {x: 2, y: 3} and count(solve([x + y + z, y + z + a + t], **pqt)) == 3 and count(solve([x + y + z, y + z + a + t], **pqf)) == 3 and count(solve([x + y + z, y + z + a], **pqt)) == 1 and count(solve([x + y + z, y + z + a], **pqf)) == 2 and solve(eqs) == [] and solve(eqs, particular=True) == [] and all((v for v in solve([x + y + z, y + z + a]).values()))"},"spec":{"lhs":"test_minsolve_linear_system()","rhs":"test_minsolve_linear_system produces the expected output","over":{"base":"Any"},"name":"test_minsolve_linear_system_correct","kind":"composition"},"guarantee":"test_minsolve_linear_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afff46f5a9a36dc1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_minsolve_linear_system","kind":"function","src_hash":"beb9e9260836fdb1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (len([x for x in dic.values() if x == 0]))"},"spec":{"lhs":"test_minsolve_linear_system()","rhs":"len([x for x in dic.values() if x == 0])","over":{"base":"Any"},"name":"test_minsolve_linear_system_correct","kind":"composition"},"guarantee":"returns len([x for x in dic.values() if x == 0]); solve([x + y - 5, 2 * x - y - 1], **pqt) == {x: 2, y: 3}; solve([x + y - 5, 2 * x - y - 1], **pqf) == {x: 2, y: 3}; count(solve([x + y + z, y + z + a + t], **pqt)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afff46f5a9a36dc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([x + y - 5, 2 * x - y - 1], **pqt) == {x: 2, y: 3}","solve([x + y - 5, 2 * x - y - 1], **pqf) == {x: 2, y: 3}","count(solve([x + y + z, y + z + a + t], **pqt)) == 3","count(solve([x + y + z, y + z + a + t], **pqf)) == 3","count(solve([x + y + z, y + z + a], **pqt)) == 1","count(solve([x + y + z, y + z + a], **pqf)) == 2","solve(eqs) == []","solve(eqs, particular=True) == []","all((v for v in solve([x + y + z, y + z + a]).values()))"],"returns_expr":"len([x for x in dic.values() if x == 0])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_minsolve_linear_system():
     pqt = {"quick": True, "particular": True}
     pqf = {"quick": False, "particular": True}
@@ -2585,16 +3077,22 @@ def test_minsolve_linear_system():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_real_roots(), test_real_roots produces the expected output) over Any ║
+# ║ Path(test_real_roots(), len(solve(x ** 5 + x ** 3 + 1)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_real_roots : Any → {Any | len(solve(x ** 5 + x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(x ** 5 + x ** 3 + 1)) == 1           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_real_roots : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1efaa620e2be92b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7347391810551a8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_real_roots","kind":"function","src_hash":"6341c79bc40d314f","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(x ** 5 + x ** 3 + 1)) == 1"},"spec":{"lhs":"test_real_roots()","rhs":"test_real_roots produces the expected output","over":{"base":"Any"},"name":"test_real_roots_correct"},"guarantee":"test_real_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_real_roots_correct","statement":"Path(test_real_roots(x), test_real_roots produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1efaa620e2be92b1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_real_roots","kind":"function","src_hash":"6341c79bc40d314f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(x ** 5 + x ** 3 + 1)) == 1"},"spec":{"lhs":"test_real_roots()","rhs":"len(solve(x ** 5 + x ** 3 + 1)) == 1","over":{"base":"Any"},"name":"test_real_roots_correct"},"guarantee":"len(solve(x ** 5 + x ** 3 + 1)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_real_roots_correct","statement":"Path(test_real_roots(x), len(solve(x ** 5 + x ** 3 + 1)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7347391810551a8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(x ** 5 + x ** 3 + 1)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_real_roots():
     # cf. issue 6650
     x = Symbol('x', real=True)
@@ -2602,16 +3100,22 @@ def test_real_roots():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6528(), test_issue_6528 produces the expected output) over Any ║
+# ║ Path(test_issue_6528(), len(solve(eqs, y, x, check=False)) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6528 : Any → {Any | len(solve(eqs, y, x, c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(eqs, y, x, check=False)) == 4        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6528 : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e7753ccabc0d349  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d169de4e819d16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6528","kind":"function","src_hash":"3d8545bf26ac5418","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(eqs, y, x, check=False)) == 4"},"spec":{"lhs":"test_issue_6528()","rhs":"test_issue_6528 produces the expected output","over":{"base":"Any"},"name":"test_issue_6528_correct"},"guarantee":"test_issue_6528 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6528_correct","statement":"Path(test_issue_6528(x), test_issue_6528 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e7753ccabc0d349"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6528","kind":"function","src_hash":"3d8545bf26ac5418","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(eqs, y, x, check=False)) == 4"},"spec":{"lhs":"test_issue_6528()","rhs":"len(solve(eqs, y, x, check=False)) == 4","over":{"base":"Any"},"name":"test_issue_6528_correct"},"guarantee":"len(solve(eqs, y, x, check=False)) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6528_correct","statement":"Path(test_issue_6528(x), len(solve(eqs, y, x, check=False)) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d169de4e819d16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(eqs, y, x, check=False)) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6528():
     eqs = [
         327600995*x**2 - 37869137*x + 1809975124*y**2 - 9998905626,
@@ -2622,16 +3126,24 @@ def test_issue_6528():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_overdetermined(), test_overdetermined produces the expected output) over Any ║
+# ║ Path(test_overdetermined(), solve(eqs, x) == [(S.Half,)] and solve(eqs, x, manual=True) == [(S.Half,)] and solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_overdetermined : Any → {Any | solve(eqs, x) == [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eqs, x) == [(S.Half,)]                   ║
+# ║   ensures:  solve(eqs, x, manual=True) == [(S.Half,)]      ║
+# ║   ensures:  solve(eqs, x, manual=True, check=False) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_overdetermined : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1bc09bb19a81901  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46c3d37e64aac21f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_overdetermined","kind":"function","src_hash":"f20642c68179dc7e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eqs, x) == [(S.Half,)] and solve(eqs, x, manual=True) == [(S.Half,)] and solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)]"},"spec":{"lhs":"test_overdetermined()","rhs":"test_overdetermined produces the expected output","over":{"base":"Any"},"name":"test_overdetermined_correct"},"guarantee":"test_overdetermined produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_overdetermined_correct","statement":"Path(test_overdetermined(x), test_overdetermined produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1bc09bb19a81901"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_overdetermined","kind":"function","src_hash":"f20642c68179dc7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eqs, x) == [(S.Half,)] and solve(eqs, x, manual=True) == [(S.Half,)] and solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)]"},"spec":{"lhs":"test_overdetermined()","rhs":"solve(eqs, x) == [(S.Half,)] and solve(eqs, x, manual=True) == [(S.Half,)] and solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)]","over":{"base":"Any"},"name":"test_overdetermined_correct"},"guarantee":"solve(eqs, x) == [(S.Half,)]; solve(eqs, x, manual=True) == [(S.Half,)]; solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_overdetermined_correct","statement":"Path(test_overdetermined(x), solve(eqs, x) == [(S.Half,)]; solve(eqs, x, manual=True) == [(S.Half,)]; solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c3d37e64aac21f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eqs, x) == [(S.Half,)]","solve(eqs, x, manual=True) == [(S.Half,)]","solve(eqs, x, manual=True, check=False) == [(S.Half,), (S(3),)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_overdetermined():
     x = symbols('x', real=True)
     eqs = [Abs(4*x - 7) - 5, Abs(3 - 8*x) - 1]
@@ -2641,16 +3153,24 @@ def test_overdetermined():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6605(), test_issue_6605 produces the expected output) over Any ║
+# ║ Path(test_issue_6605(), solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)] and solve(5 ** (x / 2) - 2 ** (x / 3)) == [0] and solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6605 : Any → {Any | solve(4 ** (x / 2) - 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(4 ** (x / 2) - 2 ** (x / 3)) == [0,...   ║
+# ║   ensures:  solve(5 ** (x / 2) - 2 ** (x / 3)) == [0]      ║
+# ║   ensures:  solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6605 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0937dc466ac5d2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eadd2cd42f284e01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6605","kind":"function","src_hash":"0160d3d53b6b61bc","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)] and solve(5 ** (x / 2) - 2 ** (x / 3)) == [0] and solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b]"},"spec":{"lhs":"test_issue_6605()","rhs":"test_issue_6605 produces the expected output","over":{"base":"Any"},"name":"test_issue_6605_correct"},"guarantee":"test_issue_6605 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6605_correct","statement":"Path(test_issue_6605(x), test_issue_6605 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0937dc466ac5d2b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6605","kind":"function","src_hash":"0160d3d53b6b61bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)] and solve(5 ** (x / 2) - 2 ** (x / 3)) == [0] and solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b]"},"spec":{"lhs":"test_issue_6605()","rhs":"solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)] and solve(5 ** (x / 2) - 2 ** (x / 3)) == [0] and solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b]","over":{"base":"Any"},"name":"test_issue_6605_correct"},"guarantee":"solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)]; solve(5 ** (x / 2) - 2 ** (x / 3)) == [0]; solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6605_correct","statement":"Path(test_issue_6605(x), solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)]; solve(5 ** (x / 2) - 2 ** (x / 3)) == [0]; solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eadd2cd42f284e01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(4 ** (x / 2) - 2 ** (x / 3)) == [0, 3 * I * pi / log(2)]","solve(5 ** (x / 2) - 2 ** (x / 3)) == [0]","solve(5 ** (x / 2) - 2 ** (3 / x)) == [-b, b]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6605():
     x = symbols('x')
     assert solve(4**(x/2) - 2**(x/3)) == [0, 3*I*pi/log(2)]
@@ -2662,16 +3182,24 @@ def test_issue_6605():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__ispow(), test__ispow produces the expected output) over Any ║
+# ║ Path(test__ispow(), _ispow(x ** 2) and not _ispow(x) and not _ispow(True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__ispow : Any → {Any | _ispow(x ** 2) and not _is...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _ispow(x ** 2)                                 ║
+# ║   ensures:  not _ispow(x)                                  ║
+# ║   ensures:  not _ispow(True)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__ispow : Any → {Any | result satisfies: _ispow(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb7e7bee1243e979  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94ad9a567d5e1c7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test__ispow","kind":"function","src_hash":"27bf80205c1fbead","in":{"base":"Any"},"out":{"base":"Any","pred":"_ispow(x ** 2) and not _ispow(x) and not _ispow(True)"},"spec":{"lhs":"test__ispow()","rhs":"test__ispow produces the expected output","over":{"base":"Any"},"name":"test__ispow_correct"},"guarantee":"test__ispow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test__ispow_correct","statement":"Path(test__ispow(x), test__ispow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb7e7bee1243e979"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test__ispow","kind":"function","src_hash":"27bf80205c1fbead","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _ispow(x ** 2) and not _ispow(x) and not _ispow(True)"},"spec":{"lhs":"test__ispow()","rhs":"_ispow(x ** 2) and not _ispow(x) and not _ispow(True)","over":{"base":"Any"},"name":"test__ispow_correct"},"guarantee":"_ispow(x ** 2); not _ispow(x); not _ispow(True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test__ispow_correct","statement":"Path(test__ispow(x), _ispow(x ** 2); not _ispow(x); not _ispow(True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94ad9a567d5e1c7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_ispow(x ** 2)","not _ispow(x)","not _ispow(True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test__ispow():
     assert _ispow(x**2)
     assert not _ispow(x)
@@ -2679,16 +3207,22 @@ def test__ispow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6644(), test_issue_6644 produces the expected output) over Any ║
+# ║ Path(test_issue_6644(), len(sol) == 5) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6644 : Any → {Any | len(sol) == 5}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(sol) == 5                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6644 : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc44de33c82091f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edcd0432662e038f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6644","kind":"function","src_hash":"ecf222f0a16f1463","in":{"base":"Any"},"out":{"base":"Any","pred":"len(sol) == 5"},"spec":{"lhs":"test_issue_6644()","rhs":"test_issue_6644 produces the expected output","over":{"base":"Any"},"name":"test_issue_6644_correct"},"guarantee":"test_issue_6644 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6644_correct","statement":"Path(test_issue_6644(x), test_issue_6644 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc44de33c82091f5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6644","kind":"function","src_hash":"ecf222f0a16f1463","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(sol) == 5"},"spec":{"lhs":"test_issue_6644()","rhs":"len(sol) == 5","over":{"base":"Any"},"name":"test_issue_6644_correct"},"guarantee":"len(sol) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6644_correct","statement":"Path(test_issue_6644(x), len(sol) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edcd0432662e038f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(sol) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6644():
     eq = -sqrt((m - q)**2 + (-m/(2*q) + S.Half)**2) + sqrt((-m**2/2 - sqrt(
     4*m**4 - 4*m**2 + 8*m + 1)/4 - Rational(1, 4))**2 + (m**2/2 - m - sqrt(
@@ -2698,32 +3232,45 @@ def test_issue_6644():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6752(), test_issue_6752 produces the expected output) over Any ║
+# ║ Path(test_issue_6752(), solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)] and solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6752 : Any → {Any | solve([a ** 2 + a, a -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([a ** 2 + a, a - b], [a, b]) == [(-...   ║
+# ║   ensures:  solve([a ** 2 + a * c, a - b], [a, b]) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6752 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c180eee325e3c18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b3bee166badf0ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6752","kind":"function","src_hash":"ad318178b6567d7f","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)] and solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)]"},"spec":{"lhs":"test_issue_6752()","rhs":"test_issue_6752 produces the expected output","over":{"base":"Any"},"name":"test_issue_6752_correct"},"guarantee":"test_issue_6752 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6752_correct","statement":"Path(test_issue_6752(x), test_issue_6752 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c180eee325e3c18"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6752","kind":"function","src_hash":"ad318178b6567d7f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)] and solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)]"},"spec":{"lhs":"test_issue_6752()","rhs":"solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)] and solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)]","over":{"base":"Any"},"name":"test_issue_6752_correct"},"guarantee":"solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)]; solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6752_correct","statement":"Path(test_issue_6752(x), solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)]; solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b3bee166badf0ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([a ** 2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)]","solve([a ** 2 + a * c, a - b], [a, b]) == [(0, 0), (-c, -c)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6752():
     assert solve([a**2 + a, a - b], [a, b]) == [(-1, -1), (0, 0)]
     assert solve([a**2 + a*c, a - b], [a, b]) == [(0, 0), (-c, -c)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6792(), test_issue_6792 produces the expected output) over Any ║
+# ║ Path(test_issue_6792(), solve(x * (x - 1) ** 2 * (x + 1) * (x ** 6 - x + 1)) == [-1, 0, 1, CRootOf(x ** 6 - x + 1, 0), CRootOf(x ** 6 - x + 1, 1), CRootOf(x ** 6 - x + 1, 2), CRootOf(x ** 6 - x + 1, 3), CRootOf(x ** 6 - x + 1, 4), CRootOf(x ** 6 - x + 1, 5)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6792 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x * (x - 1) ** 2 * (x + 1) * (x ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6792 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d0b8469eba1075f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 341f4c2021e19cfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6792","kind":"function","src_hash":"bcd05f09b5f94392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_6792()","rhs":"test_issue_6792 produces the expected output","over":{"base":"Any"},"name":"test_issue_6792_correct"},"guarantee":"test_issue_6792 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6792_correct","statement":"Path(test_issue_6792(x), test_issue_6792 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d0b8469eba1075f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6792","kind":"function","src_hash":"bcd05f09b5f94392","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x * (x - 1) ** 2 * (x + 1) * (x ** 6 - x + 1)) == [-1, 0, 1, CRootOf(x ** 6 - x + 1, 0), CRootOf(x ** 6 - x + 1, 1), CRootOf(x ** 6 - x + 1, 2), CRootOf(x ** 6 - x + 1, 3), CRootOf(x ** 6 - x + 1, 4), CRootOf(x ** 6 - x + 1, 5)]"},"spec":{"lhs":"test_issue_6792()","rhs":"solve(x * (x - 1) ** 2 * (x + 1) * (x ** 6 - x + 1)) == [-1, 0, 1, CRootOf(x ** 6 - x + 1, 0), CRootOf(x ** 6 - x + 1, 1), CRootOf(x ** 6 - x + 1, 2), CRootOf(x ** 6 - x + 1, 3), CRootOf(x ** 6 - x + 1, 4), CRootOf(x ** 6 - x + 1, 5)]","over":{"base":"Any"},"name":"test_issue_6792_correct"},"guarantee":"solve(x * (x - 1) ** 2 * (x + 1) * (x ** 6 - x + 1)) == [-1, 0, 1, CRootOf(x ** 6 - x + 1, 0), CRootOf(x ** 6 - x + 1, 1), CRootOf(x ** 6 - x + 1, 2), CRootOf(x ** 6 - x + 1, 3), CRootOf(x ** 6 - x + 1, 4), CRootOf(x ** 6 - x + 1, 5)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6792_correct","statement":"Path(test_issue_6792(x), solve(x * (x - 1) ** 2 * (x + 1) * (x ** 6 - x + 1)) == [-1, 0, 1, CRootOf(x ** 6 - x + 1, 0), CRootOf(x ** 6 - x + 1, 1), CRootOf(x ** 6 - x + 1, 2), CRootOf(x ** 6 - x + 1, 3), CRootOf(x ** 6 - x + 1, 4), CRootOf(x ** 6 - x + 1, 5)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"341f4c2021e19cfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x * (x - 1) ** 2 * (x + 1) * (x ** 6 - x + 1)) == [-1, 0, 1, CRootOf(x ** 6 - x + 1, 0), CRootOf(x ** 6 - x + 1, 1), CRootOf(x ** 6 - x + 1, 2), CRootOf(x ** 6 - x + 1, 3), CRootOf(x ** 6 - x + 1, 4), CRootOf(x ** 6 - x + 1, 5)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6792():
     assert solve(x*(x - 1)**2*(x + 1)*(x**6 - x + 1)) == [
         -1, 0, 1, CRootOf(x**6 - x + 1, 0), CRootOf(x**6 - x + 1, 1),
@@ -2732,16 +3279,24 @@ def test_issue_6792():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issues_6819_6820_6821_6248_8692_25777_25779(), test_issues_6819_6820_6821_6248_8692_25777_25779 produces the expected output) over Any ║
+# ║ Path(test_issues_6819_6820_6821_6248_8692_25777_25779(), solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9] and solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)] and set(solve(abs(x - 7) - 8)) == {-S.One, S(15)} and solve(Eq(Abs(x + 1) + Abs(x ** 2 - 7), 9), x) == [Rational(-1, 2) + sqrt(61) / 2, -sqrt(69) / 2 + S.Half] and solve(2 * abs(x) - abs(x - 1)) == [-1, Rational(1, 3)] and solve(abs(x ** 3 + x + 2) / (x + 1)) == [] and solve(abs(x)) == [0] and solve(Eq(abs(x ** 2 - 2 * x), 4), x) == [1 - sqrt(5), 1 + sqrt(5)] and solve(abs(sqrt(nn))) == [0] and solve(Eq(Abs(4 + 1 / (4 * nz)), 0)) == [-Rational(1, 16)] and solve([re(x) - 1, im(x) - 2], x) == [{x: 1 + 2 * I, re(x): 1, im(x): 2}] and solve(eq) == solve(eq, x) and solve(abs(i) - 3) == [-3 * I, 3 * I] and solve(2 * x ** w - 4 * y ** w, w) == solve((x / y) ** w - 2, w) and solve(x + y * I + 3) == {y: 0, x: -3} and solve(x * (1 + I)) == [0] and solve(x + y * I + 3 + 2 * I) == {x: -2 * I, y: 3 * I} and solve(x + y + 3 + 2 * I) == {x: -3, y: -2 * I} and solve(f(x + 1) - f(2 * x - 1)) == [2] and solve(log(x + 1) - log(2 * x - 1)) == [2] and solve(2 ** x + 4 ** x) == [I * pi / log(2)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9]   ║
+# ║   ensures:  solve([abs(x) - 2, arg(x) - pi], x) == [(...   ║
+# ║   ensures:  set(solve(abs(x - 7) - 8)) == {-S.One, S(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issues_6819_6820_6821_6248_8692_25777_25779 : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf7dc72d7a562e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9bfbef3753804f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issues_6819_6820_6821_6248_8692_25777_25779","kind":"function","src_hash":"9f2f96ec79e0fc14","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9] and solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)] and set(solve(abs(x - 7) - 8)) == {-S.One, S(15)} and solve(2 * abs(x) - abs(x - 1)) == [-1, Rational(1, 3)] and solve(abs(x ** 3 + x + 2) / (x + 1)) == [] and solve(abs(x)) == [0] and solve(Eq(abs(x ** 2 - 2 * x), 4), x) == [1 - sqrt(5), 1 + sqrt(5)] and solve(abs(sqrt(nn))) == [0] and solve(Eq(Abs(4 + 1 / (4 * nz)), 0)) == [-Rational(1, 16)] and solve([re(x) - 1, im(x) - 2], x) == [{x: 1 + 2 * I, re(x): 1, im(x): 2}] and solve(eq) == solve(eq, x) and solve(abs(i) - 3) == [-3 * I, 3 * I] and solve(2 * x ** w - 4 * y ** w, w) == solve((x / y) ** w - 2, w) and solve(x + y * I + 3) == {y: 0, x: -3} and solve(x * (1 + I)) == [0] and solve(x + y * I + 3 + 2 * I) == {x: -2 * I, y: 3 * I} and solve(x + y + 3 + 2 * I) == {x: -3, y: -2 * I} and solve(f(x + 1) - f(2 * x - 1)) == [2] and solve(log(x + 1) - log(2 * x - 1)) == [2] and solve(2 ** x + 4 ** x) == [I * pi / log(2)]"},"spec":{"lhs":"test_issues_6819_6820_6821_6248_8692_25777_25779()","rhs":"test_issues_6819_6820_6821_6248_8692_25777_25779 produces the expected output","over":{"base":"Any"},"name":"test_issues_6819_6820_6821_6248_8692_25777_25779_correct"},"guarantee":"test_issues_6819_6820_6821_6248_8692_25777_25779 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issues_6819_6820_6821_6248_8692_25777_25779_correct","statement":"Path(test_issues_6819_6820_6821_6248_8692_25777_25779(x), test_issues_6819_6820_6821_6248_8692_25777_25779 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf7dc72d7a562e9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issues_6819_6820_6821_6248_8692_25777_25779","kind":"function","src_hash":"9f2f96ec79e0fc14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9] and solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)] and set(solve(abs(x - 7) - 8)) == {-S.One, S(15)} and solve(Eq(Abs(x + 1) + Abs(x ** 2 - 7), 9), x) == [Rational(-1, 2) + sqrt(61) / 2, -sqrt(69) / 2 + S.Half] and solve(2 * abs(x) - abs(x - 1)) == [-1, Rational(1, 3)] and solve(abs(x ** 3 + x + 2) / (x + 1)) == [] and solve(abs(x)) == [0] and solve(Eq(abs(x ** 2 - 2 * x), 4), x) == [1 - sqrt(5), 1 + sqrt(5)] and solve(abs(sqrt(nn))) == [0] and solve(Eq(Abs(4 + 1 / (4 * nz)), 0)) == [-Rational(1, 16)] and solve([re(x) - 1, im(x) - 2], x) == [{x: 1 + 2 * I, re(x): 1, im(x): 2}] and solve(eq) == solve(eq, x) and solve(abs(i) - 3) == [-3 * I, 3 * I] and solve(2 * x ** w - 4 * y ** w, w) == solve((x / y) ** w - 2, w) and solve(x + y * I + 3) == {y: 0, x: -3} and solve(x * (1 + I)) == [0] and solve(x + y * I + 3 + 2 * I) == {x: -2 * I, y: 3 * I} and solve(x + y + 3 + 2 * I) == {x: -3, y: -2 * I} and solve(f(x + 1) - f(2 * x - 1)) == [2] and solve(log(x + 1) - log(2 * x - 1)) == [2] and solve(2 ** x + 4 ** x) == [I * pi / log(2)]"},"spec":{"lhs":"test_issues_6819_6820_6821_6248_8692_25777_25779()","rhs":"solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9] and solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)] and set(solve(abs(x - 7) - 8)) == {-S.One, S(15)} and solve(Eq(Abs(x + 1) + Abs(x ** 2 - 7), 9), x) == [Rational(-1, 2) + sqrt(61) / 2, -sqrt(69) / 2 + S.Half] and solve(2 * abs(x) - abs(x - 1)) == [-1, Rational(1, 3)] and solve(abs(x ** 3 + x + 2) / (x + 1)) == [] and solve(abs(x)) == [0] and solve(Eq(abs(x ** 2 - 2 * x), 4), x) == [1 - sqrt(5), 1 + sqrt(5)] and solve(abs(sqrt(nn))) == [0] and solve(Eq(Abs(4 + 1 / (4 * nz)), 0)) == [-Rational(1, 16)] and solve([re(x) - 1, im(x) - 2], x) == [{x: 1 + 2 * I, re(x): 1, im(x): 2}] and solve(eq) == solve(eq, x) and solve(abs(i) - 3) == [-3 * I, 3 * I] and solve(2 * x ** w - 4 * y ** w, w) == solve((x / y) ** w - 2, w) and solve(x + y * I + 3) == {y: 0, x: -3} and solve(x * (1 + I)) == [0] and solve(x + y * I + 3 + 2 * I) == {x: -2 * I, y: 3 * I} and solve(x + y + 3 + 2 * I) == {x: -3, y: -2 * I} and solve(f(x + 1) - f(2 * x - 1)) == [2] and solve(log(x + 1) - log(2 * x - 1)) == [2] and solve(2 ** x + 4 ** x) == [I * pi / log(2)]","over":{"base":"Any"},"name":"test_issues_6819_6820_6821_6248_8692_25777_25779_correct"},"guarantee":"solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9]; solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)]; set(solve(abs(x - 7) - 8)) == {-S.One, S(15)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issues_6819_6820_6821_6248_8692_25777_25779_correct","statement":"Path(test_issues_6819_6820_6821_6248_8692_25777_25779(x), solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9]; solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)]; set(solve(abs(x - 7) - 8)) == {-S.One, S(15)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9bfbef3753804f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(abs(x + 3) - 2 * abs(x - 3)) == [1, 9]","solve([abs(x) - 2, arg(x) - pi], x) == [(-2,)]","set(solve(abs(x - 7) - 8)) == {-S.One, S(15)}","solve(Eq(Abs(x + 1) + Abs(x ** 2 - 7), 9), x) == [Rational(-1, 2) + sqrt(61) / 2, -sqrt(69) / 2 + S.Half]","solve(2 * abs(x) - abs(x - 1)) == [-1, Rational(1, 3)]","solve(abs(x ** 3 + x + 2) / (x + 1)) == []","solve(abs(x)) == [0]","solve(Eq(abs(x ** 2 - 2 * x), 4), x) == [1 - sqrt(5), 1 + sqrt(5)]","solve(abs(sqrt(nn))) == [0]","solve(Eq(Abs(4 + 1 / (4 * nz)), 0)) == [-Rational(1, 16)]","solve([re(x) - 1, im(x) - 2], x) == [{x: 1 + 2 * I, re(x): 1, im(x): 2}]","solve(eq) == solve(eq, x)","solve(abs(i) - 3) == [-3 * I, 3 * I]","solve(2 * x ** w - 4 * y ** w, w) == solve((x / y) ** w - 2, w)","solve(x + y * I + 3) == {y: 0, x: -3}","solve(x * (1 + I)) == [0]","solve(x + y * I + 3 + 2 * I) == {x: -2 * I, y: 3 * I}","solve(x + y + 3 + 2 * I) == {x: -3, y: -2 * I}","solve(f(x + 1) - f(2 * x - 1)) == [2]","solve(log(x + 1) - log(2 * x - 1)) == [2]","solve(2 ** x + 4 ** x) == [I * pi / log(2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_issues_6819_6820_6821_6248_8692_25777_25779():
     # issue 6821
     x, y = symbols('x y', real=True)
@@ -2803,16 +3358,24 @@ def test_issues_6819_6820_6821_6248_8692_25777_25779():
     assert solve(2**x + 4**x) == [I*pi/log(2)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17638(), test_issue_17638 produces the expected output) over Any ║
+# ║ Path(test_issue_17638(), solve((2 - exp(2 * x)) * exp(x) / (exp(2 * x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(2) / 2) and solve((2 - exp(2 * x) + 2) * exp(x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(4) / 2) and solve((exp(x) + 2 + x ** 2) * exp(2 * x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17638 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((2 - exp(2 * x)) * exp(x) / (exp(2 ...   ║
+# ║   ensures:  solve((2 - exp(2 * x) + 2) * exp(x + 2) /...   ║
+# ║   ensures:  solve((exp(x) + 2 + x ** 2) * exp(2 * x +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17638 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e6efa1da36ce862  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 536726940558990b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17638","kind":"function","src_hash":"2775ea94cdb54d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17638()","rhs":"test_issue_17638 produces the expected output","over":{"base":"Any"},"name":"test_issue_17638_correct"},"guarantee":"test_issue_17638 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17638_correct","statement":"Path(test_issue_17638(x), test_issue_17638 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e6efa1da36ce862"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17638","kind":"function","src_hash":"2775ea94cdb54d4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((2 - exp(2 * x)) * exp(x) / (exp(2 * x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(2) / 2) and solve((2 - exp(2 * x) + 2) * exp(x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(4) / 2) and solve((exp(x) + 2 + x ** 2) * exp(2 * x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < oo)"},"spec":{"lhs":"test_issue_17638()","rhs":"solve((2 - exp(2 * x)) * exp(x) / (exp(2 * x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(2) / 2) and solve((2 - exp(2 * x) + 2) * exp(x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(4) / 2) and solve((exp(x) + 2 + x ** 2) * exp(2 * x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < oo)","over":{"base":"Any"},"name":"test_issue_17638_correct"},"guarantee":"solve((2 - exp(2 * x)) * exp(x) / (exp(2 * x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(2) / 2); solve((2 - exp(2 * x) + 2) * exp(x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(4) / 2); solve((exp(x) + 2 + x ** 2) * exp(2 * x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17638_correct","statement":"Path(test_issue_17638(x), solve((2 - exp(2 * x)) * exp(x) / (exp(2 * x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(2) / 2); solve((2 - exp(2 * x) + 2) * exp(x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(4) / 2); solve((exp(x) + 2 + x ** 2) * exp(2 * x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"536726940558990b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((2 - exp(2 * x)) * exp(x) / (exp(2 * x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(2) / 2)","solve((2 - exp(2 * x) + 2) * exp(x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < log(4) / 2)","solve((exp(x) + 2 + x ** 2) * exp(2 * x + 2) / (exp(x) + 2) ** 2 > 0, x) == (-oo < x) & (x < oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17638():
 
     assert solve(((2-exp(2*x))*exp(x))/(exp(2*x)+2)**2 > 0, x) == (-oo < x) & (x < log(2)/2)
@@ -2822,16 +3385,22 @@ def test_issue_17638():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14607(), test_issue_14607 produces the expected output) over Any ║
+# ║ Path(test_issue_14607(), len(s) == 1) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14607 : Any → {Any | len(s) == 1 and s[0][...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(s) == 1                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14607 : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41d4610d1c27e330  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f3fd4708a86305  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14607","kind":"function","src_hash":"05f7ab76ef4ec5de","in":{"base":"Any"},"out":{"base":"Any","pred":"len(s) == 1 and s[0][var].simplify() == knownsolution[var].simplify()"},"spec":{"lhs":"test_issue_14607()","rhs":"test_issue_14607 produces the expected output","over":{"base":"Any"},"name":"test_issue_14607_correct"},"guarantee":"test_issue_14607 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14607_correct","statement":"Path(test_issue_14607(x), test_issue_14607 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41d4610d1c27e330"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14607","kind":"function","src_hash":"05f7ab76ef4ec5de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(s) == 1"},"spec":{"lhs":"test_issue_14607()","rhs":"len(s) == 1","over":{"base":"Any"},"name":"test_issue_14607_correct"},"guarantee":"len(s) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14607_correct","statement":"Path(test_issue_14607(x), len(s) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f3fd4708a86305","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(s) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_14607():
     # issue 14607
     s, tau_c, tau_1, tau_2, phi, K = symbols(
@@ -2862,16 +3431,24 @@ def test_issue_14607():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambert_multivariate(), test_lambert_multivariate produces the expected output) over Any ║
+# ║ Path(test_lambert_multivariate(), _filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)} and _lambert(x, x) == [] and solve((x ** 2 - 2 * x + 1).subs(x, log(x) + 3 * x)) == [LambertW(3 * S.Exp1) / 3] and solve((x ** 2 - 2 * x + 1).subs(x, (log(x) + 3 * x) ** 2 - 1)) == [LambertW(3 * exp(-sqrt(2))) / 3, LambertW(3 * exp(sqrt(2))) / 3] and solve((x ** 2 - 2 * x - 2).subs(x, log(x) + 3 * x)) == [LambertW(3 * exp(1 - sqrt(3))) / 3, LambertW(3 * exp(1 + sqrt(3))) / 3] and solve(eq) == [LambertW(3 * exp(-LambertW(3)))] and solve(x ** 3 - 3 ** x, x) == ans and set(solve(3 * log(x) - x * log(3))) == set(ans) and solve(LambertW(2 * x) - y, x) == [y * exp(y) / 2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambert_multivariate : Any → {Any | _filtered_ge...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _filtered_gens(Poly(x + 1 / x + exp(x) + ...   ║
+# ║   ensures:  _lambert(x, x) == []                           ║
+# ║   ensures:  solve((x ** 2 - 2 * x + 1).subs(x, log(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambert_multivariate : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c34a226f03f6d6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1afccde1bc7a5aa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_lambert_multivariate","kind":"function","src_hash":"d15283cb4fc2f5b5","in":{"base":"Any"},"out":{"base":"Any","pred":"_filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)} and _lambert(x, x) == [] and solve(eq) == [LambertW(3 * exp(-LambertW(3)))] and solve(x ** 3 - 3 ** x, x) == ans and set(solve(3 * log(x) - x * log(3))) == set(ans) and solve(LambertW(2 * x) - y, x) == [y * exp(y) / 2]"},"spec":{"lhs":"test_lambert_multivariate()","rhs":"test_lambert_multivariate produces the expected output","over":{"base":"Any"},"name":"test_lambert_multivariate_correct"},"guarantee":"test_lambert_multivariate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_lambert_multivariate_correct","statement":"Path(test_lambert_multivariate(x), test_lambert_multivariate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c34a226f03f6d6c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_lambert_multivariate","kind":"function","src_hash":"d15283cb4fc2f5b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)} and _lambert(x, x) == [] and solve((x ** 2 - 2 * x + 1).subs(x, log(x) + 3 * x)) == [LambertW(3 * S.Exp1) / 3] and solve((x ** 2 - 2 * x + 1).subs(x, (log(x) + 3 * x) ** 2 - 1)) == [LambertW(3 * exp(-sqrt(2))) / 3, LambertW(3 * exp(sqrt(2))) / 3] and solve((x ** 2 - 2 * x - 2).subs(x, log(x) + 3 * x)) == [LambertW(3 * exp(1 - sqrt(3))) / 3, LambertW(3 * exp(1 + sqrt(3))) / 3] and solve(eq) == [LambertW(3 * exp(-LambertW(3)))] and solve(x ** 3 - 3 ** x, x) == ans and set(solve(3 * log(x) - x * log(3))) == set(ans) and solve(LambertW(2 * x) - y, x) == [y * exp(y) / 2]"},"spec":{"lhs":"test_lambert_multivariate()","rhs":"_filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)} and _lambert(x, x) == [] and solve((x ** 2 - 2 * x + 1).subs(x, log(x) + 3 * x)) == [LambertW(3 * S.Exp1) / 3] and solve((x ** 2 - 2 * x + 1).subs(x, (log(x) + 3 * x) ** 2 - 1)) == [LambertW(3 * exp(-sqrt(2))) / 3, LambertW(3 * exp(sqrt(2))) / 3] and solve((x ** 2 - 2 * x - 2).subs(x, log(x) + 3 * x)) == [LambertW(3 * exp(1 - sqrt(3))) / 3, LambertW(3 * exp(1 + sqrt(3))) / 3] and solve(eq) == [LambertW(3 * exp(-LambertW(3)))] and solve(x ** 3 - 3 ** x, x) == ans and set(solve(3 * log(x) - x * log(3))) == set(ans) and solve(LambertW(2 * x) - y, x) == [y * exp(y) / 2]","over":{"base":"Any"},"name":"test_lambert_multivariate_correct"},"guarantee":"_filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)}; _lambert(x, x) == []; solve((x ** 2 - 2 * x + 1).subs(x, log(x) + 3 * x)) == [LambertW(3 * S.Exp1) / 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_lambert_multivariate_correct","statement":"Path(test_lambert_multivariate(x), _filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)}; _lambert(x, x) == []; solve((x ** 2 - 2 * x + 1).subs(x, log(x) + 3 * x)) == [LambertW(3 * S.Exp1) / 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1afccde1bc7a5aa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_filtered_gens(Poly(x + 1 / x + exp(x) + y), x) == {x, exp(x)}","_lambert(x, x) == []","solve((x ** 2 - 2 * x + 1).subs(x, log(x) + 3 * x)) == [LambertW(3 * S.Exp1) / 3]","solve((x ** 2 - 2 * x + 1).subs(x, (log(x) + 3 * x) ** 2 - 1)) == [LambertW(3 * exp(-sqrt(2))) / 3, LambertW(3 * exp(sqrt(2))) / 3]","solve((x ** 2 - 2 * x - 2).subs(x, log(x) + 3 * x)) == [LambertW(3 * exp(1 - sqrt(3))) / 3, LambertW(3 * exp(1 + sqrt(3))) / 3]","solve(eq) == [LambertW(3 * exp(-LambertW(3)))]","solve(x ** 3 - 3 ** x, x) == ans","set(solve(3 * log(x) - x * log(3))) == set(ans)","solve(LambertW(2 * x) - y, x) == [y * exp(y) / 2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_lambert_multivariate():
     from sympy.abc import x, y
     assert _filtered_gens(Poly(x + 1/x + exp(x) + y), x) == {x, exp(x)}
@@ -2893,16 +3470,23 @@ def test_lambert_multivariate():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_other_lambert(), test_other_lambert produces the expected output) over Any ║
+# ║ Path(test_other_lambert(), solve(3 * sin(x) - x * sin(3), x) == [3] and set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_other_lambert : Any → {Any | solve(3 * sin(x) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(3 * sin(x) - x * sin(3), x) == [3]       ║
+# ║   ensures:  set(solve(x ** a - a ** x), x) == {a, -a ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_other_lambert : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ca4446a4c550461  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6a6ab567f88f200  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_other_lambert","kind":"function","src_hash":"c933404b208eed0a","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(3 * sin(x) - x * sin(3), x) == [3] and set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)}"},"spec":{"lhs":"test_other_lambert()","rhs":"test_other_lambert produces the expected output","over":{"base":"Any"},"name":"test_other_lambert_correct"},"guarantee":"test_other_lambert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_other_lambert_correct","statement":"Path(test_other_lambert(x), test_other_lambert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ca4446a4c550461"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_other_lambert","kind":"function","src_hash":"c933404b208eed0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(3 * sin(x) - x * sin(3), x) == [3] and set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)}"},"spec":{"lhs":"test_other_lambert()","rhs":"solve(3 * sin(x) - x * sin(3), x) == [3] and set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)}","over":{"base":"Any"},"name":"test_other_lambert_correct"},"guarantee":"solve(3 * sin(x) - x * sin(3), x) == [3]; set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_other_lambert_correct","statement":"Path(test_other_lambert(x), solve(3 * sin(x) - x * sin(3), x) == [3]; set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a6ab567f88f200","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(3 * sin(x) - x * sin(3), x) == [3]","set(solve(x ** a - a ** x), x) == {a, -a * LambertW(-log(a) / a) / log(a)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_other_lambert():
     assert solve(3*sin(x) - x*sin(3), x) == [3]
     assert set(solve(x**a - a**x), x) == {
@@ -2911,16 +3495,24 @@ def test_other_lambert():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambert_bivariate(), test_lambert_bivariate produces the expected output) over Any ║
+# ║ Path(test_lambert_bivariate(), solve((x ** 2 + x) * exp(x ** 2 + x) - 1) == [Rational(-1, 2) + sqrt(1 + 4 * LambertW(1)) / 2, Rational(-1, 2) - sqrt(1 + 4 * LambertW(1)) / 2] and solve((x ** 2 + x) * exp((x ** 2 + x) * 2) - 1) == [Rational(-1, 2) + sqrt(1 + 2 * LambertW(2)) / 2, Rational(-1, 2) - sqrt(1 + 2 * LambertW(2)) / 2] and solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)] and solve((a / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) * sqrt(a) / 4), 4 * LambertW(sqrt(2) * sqrt(a) / 4)] and solve((1 / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) / 4), 4 * LambertW(sqrt(2) / 4), 4 * LambertW(-sqrt(2) / 4, -1)] and solve(x * log(x) + 3 * x + 1, x) == [exp(-3 + LambertW(-exp(3)))] and solve(-x ** 2 + 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and solve(x ** 2 - 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and len(ans) == 1 and ans[0].expand() == Rational(-5, 3) + LambertW(-10240 * root(2, 3) * log(2) / 3) / (5 * log(2)) and solve(5 * x - 1 + 3 * exp(2 - 7 * x), x) == [Rational(1, 5) + LambertW(-21 * exp(Rational(3, 5)) / 5) / 7] and solve((log(x) + x).subs(x, x ** 2 + 1)) == [-I * sqrt(-LambertW(1) + 1), sqrt(-1 + LambertW(1))] and ans == [x0 * log(x4 * (-x1 - 1)), x0 * log(x4 * (x1 - 1)), x0 * log(x3) / 3] and ans == [x0 * log(3 * x1 * x2) / 3, x0 * log(x5 * (x3 - x4)), x0 * log(x5 * (x3 + x4))] and _solve_lambert(eq, p, _filtered_gens(Poly(eq), p)) == [Rational(-3, 2) - LambertW(-4 * log(2)) / (2 * log(2))] and set(solve(3 ** cos(x) - cos(x) ** 3)) == {acos(3), acos(-3 * LambertW(-log(3) / 3) / log(3))} and solve(2 * log(x) - 2 * log(z) + log(z + log(x) + log(z)), x) == [exp(-z + LambertW(2 * z ** 4 * exp(2 * z)) / 2) / z] and ans == [6 * LambertW(x0 / 3), 6 * LambertW(x2 * (-x1 - 1)), 6 * LambertW(x2 * (x1 - 1))] and solve((1 / x + exp(x / 2)).diff(x, 2), x) == [6 * LambertW(Rational(-1, 3)), 6 * LambertW(Rational(1, 6) - sqrt(3) * I / 6), 6 * LambertW(Rational(1, 6) + sqrt(3) * I / 6), 6 * LambertW(Rational(-1, 3), -1)] and solve(x ** 2 - y ** 2 / exp(x), x, y, dict=True) == [{x: 2 * LambertW(-y / 2)}, {x: 2 * LambertW(y / 2)}] and solve((x ** 3) ** (x / 2) + pi / 2, x) == [exp(LambertW(-2 * log(2) / 3 + 2 * log(pi) / 3 + I * pi * Rational(2, 3)))] and solve(1 / log(sqrt(x) + 2) ** 2 - 1 / x) == [(LambertW(-exp(-2), -1) + 2) ** 2] and solve(1 / log(1 / sqrt(x) + 2) ** 2 - x) == [(LambertW(-exp(-2), -1) + 2) ** (-2)] and solve(1 / log(x ** 2 + 2) ** 2 - x ** (-4)) == [-I * sqrt(2 - LambertW(exp(2))), -I * sqrt(LambertW(-exp(-2)) + 2), sqrt(-2 - LambertW(-exp(-2))), sqrt(-2 + LambertW(exp(2))), -sqrt(-2 - LambertW(-exp(-2), -1)), sqrt(-2 - LambertW(-exp(-2), -1))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambert_bivariate : Any → {Any | solve(a / x + e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((x ** 2 + x) * exp(x ** 2 + x) - 1)...   ║
+# ║   ensures:  solve((x ** 2 + x) * exp((x ** 2 + x) * 2...   ║
+# ║   ensures:  solve(a / x + exp(x / 2), x) == [2 * Lamb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambert_bivariate : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 780e5992c4d93faf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86dd47d81e52c6e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_lambert_bivariate","kind":"function","src_hash":"5fe52f813c9b873e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)] and solve(x * log(x) + 3 * x + 1, x) == [exp(-3 + LambertW(-exp(3)))] and solve(-x ** 2 + 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and solve(x ** 2 - 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and ans == [x0 * log(x4 * (-x1 - 1)), x0 * log(x4 * (x1 - 1)), x0 * log(x3) / 3] and solve(1 / log(sqrt(x) + 2) ** 2 - 1 / x) == [(LambertW(-exp(-2), -1) + 2) ** 2]"},"spec":{"lhs":"test_lambert_bivariate()","rhs":"test_lambert_bivariate produces the expected output","over":{"base":"Any"},"name":"test_lambert_bivariate_correct"},"guarantee":"test_lambert_bivariate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_lambert_bivariate_correct","statement":"Path(test_lambert_bivariate(x), test_lambert_bivariate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"780e5992c4d93faf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_lambert_bivariate","kind":"function","src_hash":"5fe52f813c9b873e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((x ** 2 + x) * exp(x ** 2 + x) - 1) == [Rational(-1, 2) + sqrt(1 + 4 * LambertW(1)) / 2, Rational(-1, 2) - sqrt(1 + 4 * LambertW(1)) / 2] and solve((x ** 2 + x) * exp((x ** 2 + x) * 2) - 1) == [Rational(-1, 2) + sqrt(1 + 2 * LambertW(2)) / 2, Rational(-1, 2) - sqrt(1 + 2 * LambertW(2)) / 2] and solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)] and solve((a / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) * sqrt(a) / 4), 4 * LambertW(sqrt(2) * sqrt(a) / 4)] and solve((1 / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) / 4), 4 * LambertW(sqrt(2) / 4), 4 * LambertW(-sqrt(2) / 4, -1)] and solve(x * log(x) + 3 * x + 1, x) == [exp(-3 + LambertW(-exp(3)))] and solve(-x ** 2 + 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and solve(x ** 2 - 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and len(ans) == 1 and ans[0].expand() == Rational(-5, 3) + LambertW(-10240 * root(2, 3) * log(2) / 3) / (5 * log(2)) and solve(5 * x - 1 + 3 * exp(2 - 7 * x), x) == [Rational(1, 5) + LambertW(-21 * exp(Rational(3, 5)) / 5) / 7] and solve((log(x) + x).subs(x, x ** 2 + 1)) == [-I * sqrt(-LambertW(1) + 1), sqrt(-1 + LambertW(1))] and ans == [x0 * log(x4 * (-x1 - 1)), x0 * log(x4 * (x1 - 1)), x0 * log(x3) / 3] and ans == [x0 * log(3 * x1 * x2) / 3, x0 * log(x5 * (x3 - x4)), x0 * log(x5 * (x3 + x4))] and _solve_lambert(eq, p, _filtered_gens(Poly(eq), p)) == [Rational(-3, 2) - LambertW(-4 * log(2)) / (2 * log(2))] and set(solve(3 ** cos(x) - cos(x) ** 3)) == {acos(3), acos(-3 * LambertW(-log(3) / 3) / log(3))} and solve(2 * log(x) - 2 * log(z) + log(z + log(x) + log(z)), x) == [exp(-z + LambertW(2 * z ** 4 * exp(2 * z)) / 2) / z] and ans == [6 * LambertW(x0 / 3), 6 * LambertW(x2 * (-x1 - 1)), 6 * LambertW(x2 * (x1 - 1))] and solve((1 / x + exp(x / 2)).diff(x, 2), x) == [6 * LambertW(Rational(-1, 3)), 6 * LambertW(Rational(1, 6) - sqrt(3) * I / 6), 6 * LambertW(Rational(1, 6) + sqrt(3) * I / 6), 6 * LambertW(Rational(-1, 3), -1)] and solve(x ** 2 - y ** 2 / exp(x), x, y, dict=True) == [{x: 2 * LambertW(-y / 2)}, {x: 2 * LambertW(y / 2)}] and solve((x ** 3) ** (x / 2) + pi / 2, x) == [exp(LambertW(-2 * log(2) / 3 + 2 * log(pi) / 3 + I * pi * Rational(2, 3)))] and solve(1 / log(sqrt(x) + 2) ** 2 - 1 / x) == [(LambertW(-exp(-2), -1) + 2) ** 2] and solve(1 / log(1 / sqrt(x) + 2) ** 2 - x) == [(LambertW(-exp(-2), -1) + 2) ** (-2)] and solve(1 / log(x ** 2 + 2) ** 2 - x ** (-4)) == [-I * sqrt(2 - LambertW(exp(2))), -I * sqrt(LambertW(-exp(-2)) + 2), sqrt(-2 - LambertW(-exp(-2))), sqrt(-2 + LambertW(exp(2))), -sqrt(-2 - LambertW(-exp(-2), -1)), sqrt(-2 - LambertW(-exp(-2), -1))]"},"spec":{"lhs":"test_lambert_bivariate()","rhs":"solve((x ** 2 + x) * exp(x ** 2 + x) - 1) == [Rational(-1, 2) + sqrt(1 + 4 * LambertW(1)) / 2, Rational(-1, 2) - sqrt(1 + 4 * LambertW(1)) / 2] and solve((x ** 2 + x) * exp((x ** 2 + x) * 2) - 1) == [Rational(-1, 2) + sqrt(1 + 2 * LambertW(2)) / 2, Rational(-1, 2) - sqrt(1 + 2 * LambertW(2)) / 2] and solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)] and solve((a / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) * sqrt(a) / 4), 4 * LambertW(sqrt(2) * sqrt(a) / 4)] and solve((1 / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) / 4), 4 * LambertW(sqrt(2) / 4), 4 * LambertW(-sqrt(2) / 4, -1)] and solve(x * log(x) + 3 * x + 1, x) == [exp(-3 + LambertW(-exp(3)))] and solve(-x ** 2 + 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and solve(x ** 2 - 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)] and len(ans) == 1 and ans[0].expand() == Rational(-5, 3) + LambertW(-10240 * root(2, 3) * log(2) / 3) / (5 * log(2)) and solve(5 * x - 1 + 3 * exp(2 - 7 * x), x) == [Rational(1, 5) + LambertW(-21 * exp(Rational(3, 5)) / 5) / 7] and solve((log(x) + x).subs(x, x ** 2 + 1)) == [-I * sqrt(-LambertW(1) + 1), sqrt(-1 + LambertW(1))] and ans == [x0 * log(x4 * (-x1 - 1)), x0 * log(x4 * (x1 - 1)), x0 * log(x3) / 3] and ans == [x0 * log(3 * x1 * x2) / 3, x0 * log(x5 * (x3 - x4)), x0 * log(x5 * (x3 + x4))] and _solve_lambert(eq, p, _filtered_gens(Poly(eq), p)) == [Rational(-3, 2) - LambertW(-4 * log(2)) / (2 * log(2))] and set(solve(3 ** cos(x) - cos(x) ** 3)) == {acos(3), acos(-3 * LambertW(-log(3) / 3) / log(3))} and solve(2 * log(x) - 2 * log(z) + log(z + log(x) + log(z)), x) == [exp(-z + LambertW(2 * z ** 4 * exp(2 * z)) / 2) / z] and ans == [6 * LambertW(x0 / 3), 6 * LambertW(x2 * (-x1 - 1)), 6 * LambertW(x2 * (x1 - 1))] and solve((1 / x + exp(x / 2)).diff(x, 2), x) == [6 * LambertW(Rational(-1, 3)), 6 * LambertW(Rational(1, 6) - sqrt(3) * I / 6), 6 * LambertW(Rational(1, 6) + sqrt(3) * I / 6), 6 * LambertW(Rational(-1, 3), -1)] and solve(x ** 2 - y ** 2 / exp(x), x, y, dict=True) == [{x: 2 * LambertW(-y / 2)}, {x: 2 * LambertW(y / 2)}] and solve((x ** 3) ** (x / 2) + pi / 2, x) == [exp(LambertW(-2 * log(2) / 3 + 2 * log(pi) / 3 + I * pi * Rational(2, 3)))] and solve(1 / log(sqrt(x) + 2) ** 2 - 1 / x) == [(LambertW(-exp(-2), -1) + 2) ** 2] and solve(1 / log(1 / sqrt(x) + 2) ** 2 - x) == [(LambertW(-exp(-2), -1) + 2) ** (-2)] and solve(1 / log(x ** 2 + 2) ** 2 - x ** (-4)) == [-I * sqrt(2 - LambertW(exp(2))), -I * sqrt(LambertW(-exp(-2)) + 2), sqrt(-2 - LambertW(-exp(-2))), sqrt(-2 + LambertW(exp(2))), -sqrt(-2 - LambertW(-exp(-2), -1)), sqrt(-2 - LambertW(-exp(-2), -1))]","over":{"base":"Any"},"name":"test_lambert_bivariate_correct"},"guarantee":"solve((x ** 2 + x) * exp(x ** 2 + x) - 1) == [Rational(-1, 2) + sqrt(1 + 4 * LambertW(1)) / 2, Rational(-1, 2) - sqrt(1 + 4 * LambertW(1)) / 2]; solve((x ** 2 + x) * exp((x ** 2 + x) * 2) - 1) == [Rational(-1, 2) + sqrt(1 + 2 * LambertW(2)) / 2, Rational(-1, 2) - sqrt(1 + 2 * LambertW(2)) / 2]; solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_lambert_bivariate_correct","statement":"Path(test_lambert_bivariate(x), solve((x ** 2 + x) * exp(x ** 2 + x) - 1) == [Rational(-1, 2) + sqrt(1 + 4 * LambertW(1)) / 2, Rational(-1, 2) - sqrt(1 + 4 * LambertW(1)) / 2]; solve((x ** 2 + x) * exp((x ** 2 + x) * 2) - 1) == [Rational(-1, 2) + sqrt(1 + 2 * LambertW(2)) / 2, Rational(-1, 2) - sqrt(1 + 2 * LambertW(2)) / 2]; solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86dd47d81e52c6e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((x ** 2 + x) * exp(x ** 2 + x) - 1) == [Rational(-1, 2) + sqrt(1 + 4 * LambertW(1)) / 2, Rational(-1, 2) - sqrt(1 + 4 * LambertW(1)) / 2]","solve((x ** 2 + x) * exp((x ** 2 + x) * 2) - 1) == [Rational(-1, 2) + sqrt(1 + 2 * LambertW(2)) / 2, Rational(-1, 2) - sqrt(1 + 2 * LambertW(2)) / 2]","solve(a / x + exp(x / 2), x) == [2 * LambertW(-a / 2)]","solve((a / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) * sqrt(a) / 4), 4 * LambertW(sqrt(2) * sqrt(a) / 4)]","solve((1 / x + exp(x / 2)).diff(x), x) == [4 * LambertW(-sqrt(2) / 4), 4 * LambertW(sqrt(2) / 4), 4 * LambertW(-sqrt(2) / 4, -1)]","solve(x * log(x) + 3 * x + 1, x) == [exp(-3 + LambertW(-exp(3)))]","solve(-x ** 2 + 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)]","solve(x ** 2 - 2 ** x, x) == [2, 4, -2 * LambertW(log(2) / 2) / log(2)]","len(ans) == 1 and ans[0].expand() == Rational(-5, 3) + LambertW(-10240 * root(2, 3) * log(2) / 3) / (5 * log(2))","solve(5 * x - 1 + 3 * exp(2 - 7 * x), x) == [Rational(1, 5) + LambertW(-21 * exp(Rational(3, 5)) / 5) / 7]","solve((log(x) + x).subs(x, x ** 2 + 1)) == [-I * sqrt(-LambertW(1) + 1), sqrt(-1 + LambertW(1))]","ans == [x0 * log(x4 * (-x1 - 1)), x0 * log(x4 * (x1 - 1)), x0 * log(x3) / 3]","ans == [x0 * log(3 * x1 * x2) / 3, x0 * log(x5 * (x3 - x4)), x0 * log(x5 * (x3 + x4))]","_solve_lambert(eq, p, _filtered_gens(Poly(eq), p)) == [Rational(-3, 2) - LambertW(-4 * log(2)) / (2 * log(2))]","set(solve(3 ** cos(x) - cos(x) ** 3)) == {acos(3), acos(-3 * LambertW(-log(3) / 3) / log(3))}","solve(2 * log(x) - 2 * log(z) + log(z + log(x) + log(z)), x) == [exp(-z + LambertW(2 * z ** 4 * exp(2 * z)) / 2) / z]","ans == [6 * LambertW(x0 / 3), 6 * LambertW(x2 * (-x1 - 1)), 6 * LambertW(x2 * (x1 - 1))]","solve((1 / x + exp(x / 2)).diff(x, 2), x) == [6 * LambertW(Rational(-1, 3)), 6 * LambertW(Rational(1, 6) - sqrt(3) * I / 6), 6 * LambertW(Rational(1, 6) + sqrt(3) * I / 6), 6 * LambertW(Rational(-1, 3), -1)]","solve(x ** 2 - y ** 2 / exp(x), x, y, dict=True) == [{x: 2 * LambertW(-y / 2)}, {x: 2 * LambertW(y / 2)}]","solve((x ** 3) ** (x / 2) + pi / 2, x) == [exp(LambertW(-2 * log(2) / 3 + 2 * log(pi) / 3 + I * pi * Rational(2, 3)))]","solve(1 / log(sqrt(x) + 2) ** 2 - 1 / x) == [(LambertW(-exp(-2), -1) + 2) ** 2]","solve(1 / log(1 / sqrt(x) + 2) ** 2 - x) == [(LambertW(-exp(-2), -1) + 2) ** (-2)]","solve(1 / log(x ** 2 + 2) ** 2 - x ** (-4)) == [-I * sqrt(2 - LambertW(exp(2))), -I * sqrt(LambertW(-exp(-2)) + 2), sqrt(-2 - LambertW(-exp(-2))), sqrt(-2 + LambertW(exp(2))), -sqrt(-2 - LambertW(-exp(-2), -1)), sqrt(-2 - LambertW(-exp(-2), -1))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":true}}
 def test_lambert_bivariate():
     # tests passing current implementation
     assert solve((x**2 + x)*exp(x**2 + x) - 1) == [
@@ -3013,16 +3605,24 @@ def test_lambert_bivariate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_trig(), test_rewrite_trig produces the expected output) over Any ║
+# ║ Path(test_rewrite_trig(), solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi] and solve(sin(x) + sec(x)) == [-2 * atan(Rational(-1, 2) + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half + sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(3) * I / 2 + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2)] and solve(sinh(x) + tanh(x)) == [0, I * pi] and solve(2 * sin(x) - cos(x), x) == [atan(S.Half)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_trig : Any → {Any | solve(sin(x) + tan(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sin(x) + tan(x)) == [0, -pi, pi, 2 ...   ║
+# ║   ensures:  solve(sin(x) + sec(x)) == [-2 * atan(Rati...   ║
+# ║   ensures:  solve(sinh(x) + tanh(x)) == [0, I * pi]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_trig : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 198d7ef8eaa63cde  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcc8179336733d47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_rewrite_trig","kind":"function","src_hash":"c1b951dfaaad31c5","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi] and solve(sinh(x) + tanh(x)) == [0, I * pi] and solve(2 * sin(x) - cos(x), x) == [atan(S.Half)]"},"spec":{"lhs":"test_rewrite_trig()","rhs":"test_rewrite_trig produces the expected output","over":{"base":"Any"},"name":"test_rewrite_trig_correct"},"guarantee":"test_rewrite_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_rewrite_trig_correct","statement":"Path(test_rewrite_trig(x), test_rewrite_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"198d7ef8eaa63cde"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_rewrite_trig","kind":"function","src_hash":"c1b951dfaaad31c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi] and solve(sin(x) + sec(x)) == [-2 * atan(Rational(-1, 2) + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half + sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(3) * I / 2 + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2)] and solve(sinh(x) + tanh(x)) == [0, I * pi] and solve(2 * sin(x) - cos(x), x) == [atan(S.Half)]"},"spec":{"lhs":"test_rewrite_trig()","rhs":"solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi] and solve(sin(x) + sec(x)) == [-2 * atan(Rational(-1, 2) + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half + sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(3) * I / 2 + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2)] and solve(sinh(x) + tanh(x)) == [0, I * pi] and solve(2 * sin(x) - cos(x), x) == [atan(S.Half)]","over":{"base":"Any"},"name":"test_rewrite_trig_correct"},"guarantee":"solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi]; solve(sin(x) + sec(x)) == [-2 * atan(Rational(-1, 2) + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half + sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(3) * I / 2 + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2)]; solve(sinh(x) + tanh(x)) == [0, I * pi]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_rewrite_trig_correct","statement":"Path(test_rewrite_trig(x), solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi]; solve(sin(x) + sec(x)) == [-2 * atan(Rational(-1, 2) + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half + sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(3) * I / 2 + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2)]; solve(sinh(x) + tanh(x)) == [0, I * pi])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc8179336733d47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sin(x) + tan(x)) == [0, -pi, pi, 2 * pi]","solve(sin(x) + sec(x)) == [-2 * atan(Rational(-1, 2) + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half + sqrt(2) * sqrt(1 + sqrt(3) * I) / 2 + sqrt(3) * I / 2), 2 * atan(S.Half - sqrt(3) * I / 2 + sqrt(2) * sqrt(1 - sqrt(3) * I) / 2)]","solve(sinh(x) + tanh(x)) == [0, I * pi]","solve(2 * sin(x) - cos(x), x) == [atan(S.Half)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_rewrite_trig():
     assert solve(sin(x) + tan(x)) == [0, -pi, pi, 2*pi]
     assert solve(sin(x) + sec(x)) == [
@@ -3038,16 +3638,22 @@ def test_rewrite_trig():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_trigh(), test_rewrite_trigh produces the expected output) over Any ║
+# ║ Path(test_rewrite_trigh(), solve(sinh(x) + sech(x)) == [2 * atanh(Rational(-1, 2) + sqrt(5) / 2 - sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(Rational(-1, 2) + sqrt(5) / 2 + sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(-sqrt(5) / 2 - S.Half + sqrt(2 + 2 * sqrt(5)) / 2), 2 * atanh(-sqrt(2 + 2 * sqrt(5)) / 2 - sqrt(5) / 2 - S.Half)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_trigh : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sinh(x) + sech(x)) == [2 * atanh(Ra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_trigh : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15dfc2a41631d5bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 669781e3d3c73c8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_rewrite_trigh","kind":"function","src_hash":"4910965d20590d0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rewrite_trigh()","rhs":"test_rewrite_trigh produces the expected output","over":{"base":"Any"},"name":"test_rewrite_trigh_correct"},"guarantee":"test_rewrite_trigh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_rewrite_trigh_correct","statement":"Path(test_rewrite_trigh(x), test_rewrite_trigh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15dfc2a41631d5bd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_rewrite_trigh","kind":"function","src_hash":"4910965d20590d0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sinh(x) + sech(x)) == [2 * atanh(Rational(-1, 2) + sqrt(5) / 2 - sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(Rational(-1, 2) + sqrt(5) / 2 + sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(-sqrt(5) / 2 - S.Half + sqrt(2 + 2 * sqrt(5)) / 2), 2 * atanh(-sqrt(2 + 2 * sqrt(5)) / 2 - sqrt(5) / 2 - S.Half)]"},"spec":{"lhs":"test_rewrite_trigh()","rhs":"solve(sinh(x) + sech(x)) == [2 * atanh(Rational(-1, 2) + sqrt(5) / 2 - sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(Rational(-1, 2) + sqrt(5) / 2 + sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(-sqrt(5) / 2 - S.Half + sqrt(2 + 2 * sqrt(5)) / 2), 2 * atanh(-sqrt(2 + 2 * sqrt(5)) / 2 - sqrt(5) / 2 - S.Half)]","over":{"base":"Any"},"name":"test_rewrite_trigh_correct"},"guarantee":"solve(sinh(x) + sech(x)) == [2 * atanh(Rational(-1, 2) + sqrt(5) / 2 - sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(Rational(-1, 2) + sqrt(5) / 2 + sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(-sqrt(5) / 2 - S.Half + sqrt(2 + 2 * sqrt(5)) / 2), 2 * atanh(-sqrt(2 + 2 * sqrt(5)) / 2 - sqrt(5) / 2 - S.Half)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_rewrite_trigh_correct","statement":"Path(test_rewrite_trigh(x), solve(sinh(x) + sech(x)) == [2 * atanh(Rational(-1, 2) + sqrt(5) / 2 - sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(Rational(-1, 2) + sqrt(5) / 2 + sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(-sqrt(5) / 2 - S.Half + sqrt(2 + 2 * sqrt(5)) / 2), 2 * atanh(-sqrt(2 + 2 * sqrt(5)) / 2 - sqrt(5) / 2 - S.Half)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669781e3d3c73c8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sinh(x) + sech(x)) == [2 * atanh(Rational(-1, 2) + sqrt(5) / 2 - sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(Rational(-1, 2) + sqrt(5) / 2 + sqrt(-2 * sqrt(5) + 2) / 2), 2 * atanh(-sqrt(5) / 2 - S.Half + sqrt(2 + 2 * sqrt(5)) / 2), 2 * atanh(-sqrt(2 + 2 * sqrt(5)) / 2 - sqrt(5) / 2 - S.Half)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rewrite_trigh():
     # if this import passes then the test below should also pass
     from sympy.functions.elementary.hyperbolic import sech
@@ -3059,16 +3665,24 @@ def test_rewrite_trigh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_uselogcombine(), test_uselogcombine produces the expected output) over Any ║
+# ║ Path(test_uselogcombine(), solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))] and solve(log(x + 3) + log(1 + 3 / x) - 3) in [[-3 + sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 + exp(3) / 2, -sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 - 3 + exp(3) / 2], [-3 + sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2, -3 - sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2]] and solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_uselogcombine : Any → {Any | solve(eq, x, force=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eq, x, force=True) == [-sqrt(y * (y...   ║
+# ║   ensures:  solve(log(x + 3) + log(1 + 3 / x) - 3) in...   ║
+# ║   ensures:  solve(log(exp(2 * x) + 1) + log(-tanh(x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_uselogcombine : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df55577304997d55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed08eaeb3922daf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_uselogcombine","kind":"function","src_hash":"0a44cfa8faf70cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))] and solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == []"},"spec":{"lhs":"test_uselogcombine()","rhs":"test_uselogcombine produces the expected output","over":{"base":"Any"},"name":"test_uselogcombine_correct"},"guarantee":"test_uselogcombine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_uselogcombine_correct","statement":"Path(test_uselogcombine(x), test_uselogcombine produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df55577304997d55"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_uselogcombine","kind":"function","src_hash":"0a44cfa8faf70cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))] and solve(log(x + 3) + log(1 + 3 / x) - 3) in [[-3 + sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 + exp(3) / 2, -sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 - 3 + exp(3) / 2], [-3 + sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2, -3 - sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2]] and solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == []"},"spec":{"lhs":"test_uselogcombine()","rhs":"solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))] and solve(log(x + 3) + log(1 + 3 / x) - 3) in [[-3 + sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 + exp(3) / 2, -sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 - 3 + exp(3) / 2], [-3 + sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2, -3 - sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2]] and solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == []","over":{"base":"Any"},"name":"test_uselogcombine_correct"},"guarantee":"solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))]; solve(log(x + 3) + log(1 + 3 / x) - 3) in [[-3 + sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 + exp(3) / 2, -sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 - 3 + exp(3) / 2], [-3 + sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2, -3 - sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2]]; solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_uselogcombine_correct","statement":"Path(test_uselogcombine(x), solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))]; solve(log(x + 3) + log(1 + 3 / x) - 3) in [[-3 + sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 + exp(3) / 2, -sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 - 3 + exp(3) / 2], [-3 + sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2, -3 - sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2]]; solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed08eaeb3922daf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eq, x, force=True) == [-sqrt(y * (y - exp(z))), sqrt(y * (y - exp(z)))]","solve(log(x + 3) + log(1 + 3 / x) - 3) in [[-3 + sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 + exp(3) / 2, -sqrt(-12 + exp(3)) * exp(Rational(3, 2)) / 2 - 3 + exp(3) / 2], [-3 + sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2, -3 - sqrt(-36 + (-exp(3) + 6) ** 2) / 2 + exp(3) / 2]]","solve(log(exp(2 * x) + 1) + log(-tanh(x) + 1) - log(2)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_uselogcombine():
     eq = z - log(x) + log(y/(x*(-1 + y**2/x**2)))
     assert solve(eq, x, force=True) == [-sqrt(y*(y - exp(z))), sqrt(y*(y - exp(z)))]
@@ -3082,31 +3696,45 @@ def test_uselogcombine():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_atan2(), test_atan2 produces the expected output) over Any ║
+# ║ Path(test_atan2(), solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_atan2 : Any → {Any | solve(atan2(x, 2) - pi / 3,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(atan2(x, 2) - pi / 3, x) == [2 * sq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_atan2 : Any → {Any | result satisfies: solve(ata...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47562b88950857e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1c68d9383b7cd17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_atan2","kind":"function","src_hash":"1504470aca5817a9","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)]"},"spec":{"lhs":"test_atan2()","rhs":"test_atan2 produces the expected output","over":{"base":"Any"},"name":"test_atan2_correct"},"guarantee":"test_atan2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_atan2_correct","statement":"Path(test_atan2(x), test_atan2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47562b88950857e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_atan2","kind":"function","src_hash":"1504470aca5817a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)]"},"spec":{"lhs":"test_atan2()","rhs":"solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)]","over":{"base":"Any"},"name":"test_atan2_correct"},"guarantee":"solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_atan2_correct","statement":"Path(test_atan2(x), solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1c68d9383b7cd17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(atan2(x, 2) - pi / 3, x) == [2 * sqrt(3)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_atan2():
     assert solve(atan2(x, 2) - pi/3, x) == [2*sqrt(3)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_errorinverses(), test_errorinverses produces the expected output) over Any ║
+# ║ Path(test_errorinverses(), solve(erf(x) - y, x) == [erfinv(y)] and solve(erfinv(x) - y, x) == [erf(y)] and solve(erfc(x) - y, x) == [erfcinv(y)] and solve(erfcinv(x) - y, x) == [erfc(y)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_errorinverses : Any → {Any | solve(erf(x) - y, x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(erf(x) - y, x) == [erfinv(y)]            ║
+# ║   ensures:  solve(erfinv(x) - y, x) == [erf(y)]            ║
+# ║   ensures:  solve(erfc(x) - y, x) == [erfcinv(y)]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_errorinverses : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d68391b831a65d5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c286ae6a842a1c3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_errorinverses","kind":"function","src_hash":"a4c62a85794ce571","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(erf(x) - y, x) == [erfinv(y)] and solve(erfinv(x) - y, x) == [erf(y)] and solve(erfc(x) - y, x) == [erfcinv(y)] and solve(erfcinv(x) - y, x) == [erfc(y)]"},"spec":{"lhs":"test_errorinverses()","rhs":"test_errorinverses produces the expected output","over":{"base":"Any"},"name":"test_errorinverses_correct"},"guarantee":"test_errorinverses produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_errorinverses_correct","statement":"Path(test_errorinverses(x), test_errorinverses produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d68391b831a65d5b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_errorinverses","kind":"function","src_hash":"a4c62a85794ce571","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(erf(x) - y, x) == [erfinv(y)] and solve(erfinv(x) - y, x) == [erf(y)] and solve(erfc(x) - y, x) == [erfcinv(y)] and solve(erfcinv(x) - y, x) == [erfc(y)]"},"spec":{"lhs":"test_errorinverses()","rhs":"solve(erf(x) - y, x) == [erfinv(y)] and solve(erfinv(x) - y, x) == [erf(y)] and solve(erfc(x) - y, x) == [erfcinv(y)] and solve(erfcinv(x) - y, x) == [erfc(y)]","over":{"base":"Any"},"name":"test_errorinverses_correct"},"guarantee":"solve(erf(x) - y, x) == [erfinv(y)]; solve(erfinv(x) - y, x) == [erf(y)]; solve(erfc(x) - y, x) == [erfcinv(y)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_errorinverses_correct","statement":"Path(test_errorinverses(x), solve(erf(x) - y, x) == [erfinv(y)]; solve(erfinv(x) - y, x) == [erf(y)]; solve(erfc(x) - y, x) == [erfcinv(y)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c286ae6a842a1c3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(erf(x) - y, x) == [erfinv(y)]","solve(erfinv(x) - y, x) == [erf(y)]","solve(erfc(x) - y, x) == [erfcinv(y)]","solve(erfcinv(x) - y, x) == [erfc(y)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_errorinverses():
     assert solve(erf(x) - y, x) == [erfinv(y)]
     assert solve(erfinv(x) - y, x) == [erf(y)]
@@ -3115,16 +3743,22 @@ def test_errorinverses():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2725(), test_issue_2725 produces the expected output) over Any ║
+# ║ Path(test_issue_2725(), sol == {(Rational(5, 3) + (Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3) + 40 / (9 * ((Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3))),), (Rational(5, 3) + 40 / (9 * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3)) + (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3),)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2725 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == {(Rational(5, 3) + (Rational(-1, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2725 : Any → {Any | result satisfies: sol ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81fe993de4200f88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e0fbb395fe3ce5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_2725","kind":"function","src_hash":"d2e9ee9966afb514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_2725()","rhs":"test_issue_2725 produces the expected output","over":{"base":"Any"},"name":"test_issue_2725_correct"},"guarantee":"test_issue_2725 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_2725_correct","statement":"Path(test_issue_2725(x), test_issue_2725 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81fe993de4200f88"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_2725","kind":"function","src_hash":"d2e9ee9966afb514","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == {(Rational(5, 3) + (Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3) + 40 / (9 * ((Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3))),), (Rational(5, 3) + 40 / (9 * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3)) + (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3),)}"},"spec":{"lhs":"test_issue_2725()","rhs":"sol == {(Rational(5, 3) + (Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3) + 40 / (9 * ((Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3))),), (Rational(5, 3) + 40 / (9 * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3)) + (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3),)}","over":{"base":"Any"},"name":"test_issue_2725_correct"},"guarantee":"sol == {(Rational(5, 3) + (Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3) + 40 / (9 * ((Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3))),), (Rational(5, 3) + 40 / (9 * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3)) + (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3),)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_2725_correct","statement":"Path(test_issue_2725(x), sol == {(Rational(5, 3) + (Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3) + 40 / (9 * ((Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3))),), (Rational(5, 3) + 40 / (9 * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3)) + (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3),)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e0fbb395fe3ce5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == {(Rational(5, 3) + (Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3) + 40 / (9 * ((Rational(-1, 2) - sqrt(3) * I / 2) * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3))),), (Rational(5, 3) + 40 / (9 * (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3)) + (Rational(251, 27) + sqrt(111) * I / 9) ** Rational(1, 3),)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_2725():
     R = Symbol('R')
     eq = sqrt(2)*R*sqrt(1/(R + 1)) + (R + 1)*(sqrt(2)*sqrt(1/(R + 1)) - 1)
@@ -3136,16 +3770,22 @@ def test_issue_2725():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5114_6611(), test_issue_5114_6611 produces the expected output) over Any ║
+# ║ Path(test_issue_5114_6611(), sum((s.count_ops() for s in ans.values())) <= 3270) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5114_6611 : Any → {Any | sum((s.count_ops(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sum((s.count_ops() for s in ans.values())...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5114_6611 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 477c2be8f2506ba0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92a3cfdb3bbcc15a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5114_6611","kind":"function","src_hash":"deaae668d70686ee","in":{"base":"Any"},"out":{"base":"Any","pred":"sum((s.count_ops() for s in ans.values())) <= 3270"},"spec":{"lhs":"test_issue_5114_6611()","rhs":"test_issue_5114_6611 produces the expected output","over":{"base":"Any"},"name":"test_issue_5114_6611_correct"},"guarantee":"test_issue_5114_6611 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5114_6611_correct","statement":"Path(test_issue_5114_6611(x), test_issue_5114_6611 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"477c2be8f2506ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_5114_6611","kind":"function","src_hash":"deaae668d70686ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sum((s.count_ops() for s in ans.values())) <= 3270"},"spec":{"lhs":"test_issue_5114_6611()","rhs":"sum((s.count_ops() for s in ans.values())) <= 3270","over":{"base":"Any"},"name":"test_issue_5114_6611_correct"},"guarantee":"sum((s.count_ops() for s in ans.values())) <= 3270","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_5114_6611_correct","statement":"Path(test_issue_5114_6611(x), sum((s.count_ops() for s in ans.values())) <= 3270)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92a3cfdb3bbcc15a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sum((s.count_ops() for s in ans.values())) <= 3270"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_5114_6611():
     # See that it doesn't hang; this solves in about 2 seconds.
     # Also check that the solution is relatively small.
@@ -3164,16 +3804,23 @@ def test_issue_5114_6611():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_det_quick(), test_det_quick produces the expected output) over Any ║
+# ║ Path(test_det_quick(), m.det() == det_quick(m) and det_perm(s) == det_minor(s) == s.det()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_det_quick : Any → {Any | m.det() == det_quick(m)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m.det() == det_quick(m)                        ║
+# ║   ensures:  det_perm(s) == det_minor(s) == s.det()         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_det_quick : Any → {Any | result satisfies: m.det...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbad8984cc6805b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4a70a47b0700a0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_det_quick","kind":"function","src_hash":"074d829c6c94f221","in":{"base":"Any"},"out":{"base":"Any","pred":"m.det() == det_quick(m) and m.det() == det_quick(m) and m.det() == det_quick(m) and det_perm(s) == det_minor(s) == s.det()"},"spec":{"lhs":"test_det_quick()","rhs":"test_det_quick produces the expected output","over":{"base":"Any"},"name":"test_det_quick_correct"},"guarantee":"test_det_quick produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_det_quick_correct","statement":"Path(test_det_quick(x), test_det_quick produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbad8984cc6805b5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_det_quick","kind":"function","src_hash":"074d829c6c94f221","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m.det() == det_quick(m) and det_perm(s) == det_minor(s) == s.det()"},"spec":{"lhs":"test_det_quick()","rhs":"m.det() == det_quick(m) and det_perm(s) == det_minor(s) == s.det()","over":{"base":"Any"},"name":"test_det_quick_correct"},"guarantee":"m.det() == det_quick(m); det_perm(s) == det_minor(s) == s.det()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_det_quick_correct","statement":"Path(test_det_quick(x), m.det() == det_quick(m); det_perm(s) == det_minor(s) == s.det())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4a70a47b0700a0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m.det() == det_quick(m)","det_perm(s) == det_minor(s) == s.det()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_det_quick():
     m = Matrix(3, 3, symbols('a:9'))
     assert m.det() == det_quick(m)  # calls det_perm
@@ -3187,16 +3834,23 @@ def test_det_quick():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_real_imag_splitting(), test_real_imag_splitting produces the expected output) over Any ║
+# ║ Path(test_real_imag_splitting(), solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)] and solve(sqrt(a ** 2 + b ** 2) - 3, a) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_real_imag_splitting : Any → {Any | solve(sqrt(a ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-...   ║
+# ║   ensures:  solve(sqrt(a ** 2 + b ** 2) - 3, a) == []      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_real_imag_splitting : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ecd5411f2f2abf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee09487b0683856e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_real_imag_splitting","kind":"function","src_hash":"8ee2be1b0637503e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)] and solve(sqrt(a ** 2 + b ** 2) - 3, a) == []"},"spec":{"lhs":"test_real_imag_splitting()","rhs":"test_real_imag_splitting produces the expected output","over":{"base":"Any"},"name":"test_real_imag_splitting_correct"},"guarantee":"test_real_imag_splitting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_real_imag_splitting_correct","statement":"Path(test_real_imag_splitting(x), test_real_imag_splitting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ecd5411f2f2abf8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_real_imag_splitting","kind":"function","src_hash":"8ee2be1b0637503e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)] and solve(sqrt(a ** 2 + b ** 2) - 3, a) == []"},"spec":{"lhs":"test_real_imag_splitting()","rhs":"solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)] and solve(sqrt(a ** 2 + b ** 2) - 3, a) == []","over":{"base":"Any"},"name":"test_real_imag_splitting_correct"},"guarantee":"solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)]; solve(sqrt(a ** 2 + b ** 2) - 3, a) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_real_imag_splitting_correct","statement":"Path(test_real_imag_splitting(x), solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)]; solve(sqrt(a ** 2 + b ** 2) - 3, a) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee09487b0683856e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(a ** 2 + b ** 2) - 3, a) == [-sqrt(-b ** 2 + 9), sqrt(-b ** 2 + 9)]","solve(sqrt(a ** 2 + b ** 2) - 3, a) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_real_imag_splitting():
     a, b = symbols('a b', real=True)
     assert solve(sqrt(a**2 + b**2) - 3, a) == \
@@ -3206,47 +3860,65 @@ def test_real_imag_splitting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7110(), test_issue_7110 produces the expected output) over Any ║
+# ║ Path(test_issue_7110(), any((ask(Q.real(i)) for i in solve(y)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7110 : Any → {Any | any((ask(Q.real(i)) fo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  any((ask(Q.real(i)) for i in solve(y)))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7110 : Any → {Any | result satisfies: any(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17c7f0a7321858c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cf97f68a0839251  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7110","kind":"function","src_hash":"2099a95b9e33ad99","in":{"base":"Any"},"out":{"base":"Any","pred":"any((ask(Q.real(i)) for i in solve(y)))"},"spec":{"lhs":"test_issue_7110()","rhs":"test_issue_7110 produces the expected output","over":{"base":"Any"},"name":"test_issue_7110_correct"},"guarantee":"test_issue_7110 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7110_correct","statement":"Path(test_issue_7110(x), test_issue_7110 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17c7f0a7321858c0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7110","kind":"function","src_hash":"2099a95b9e33ad99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: any((ask(Q.real(i)) for i in solve(y)))"},"spec":{"lhs":"test_issue_7110()","rhs":"any((ask(Q.real(i)) for i in solve(y)))","over":{"base":"Any"},"name":"test_issue_7110_correct"},"guarantee":"any((ask(Q.real(i)) for i in solve(y)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7110_correct","statement":"Path(test_issue_7110(x), any((ask(Q.real(i)) for i in solve(y))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cf97f68a0839251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["any((ask(Q.real(i)) for i in solve(y)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7110():
     y = -2*x**3 + 4*x**2 - 2*x + 5
     assert any(ask(Q.real(i)) for i in solve(y))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_units(), test_units produces the expected output) over Any ║
+# ║ Path(test_units(), solve(1 / x - 1 / (2 * cm)) == [2 * cm]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_units : Any → {Any | solve(1 / x - 1 / (2 * cm))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(1 / x - 1 / (2 * cm)) == [2 * cm]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_units : Any → {Any | result satisfies: solve(1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adf49b73db3401d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57857a71b0175c99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_units","kind":"function","src_hash":"1d5cc45fa3ce83b5","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(1 / x - 1 / (2 * cm)) == [2 * cm]"},"spec":{"lhs":"test_units()","rhs":"test_units produces the expected output","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"test_units produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_units_correct","statement":"Path(test_units(x), test_units produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf49b73db3401d4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_units","kind":"function","src_hash":"1d5cc45fa3ce83b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(1 / x - 1 / (2 * cm)) == [2 * cm]"},"spec":{"lhs":"test_units()","rhs":"solve(1 / x - 1 / (2 * cm)) == [2 * cm]","over":{"base":"Any"},"name":"test_units_correct"},"guarantee":"solve(1 / x - 1 / (2 * cm)) == [2 * cm]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_units_correct","statement":"Path(test_units(x), solve(1 / x - 1 / (2 * cm)) == [2 * cm])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57857a71b0175c99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(1 / x - 1 / (2 * cm)) == [2 * cm]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_units():
     assert solve(1/x - 1/(2*cm)) == [2*cm]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7547(), test_issue_7547 produces the expected output) over Any ║
+# ║ Path(test_issue_7547(), str(sol) == str(Matrix([['4442890172.68209'], ['4289299466.1432'], ['70.5389666628177']]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7547 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(sol) == str(Matrix([['4442890172.6820...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7547 : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc9cd80c2ac37a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 548f9c0f2dc239c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7547","kind":"function","src_hash":"cf896bdc76842722","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7547()","rhs":"test_issue_7547 produces the expected output","over":{"base":"Any"},"name":"test_issue_7547_correct"},"guarantee":"test_issue_7547 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7547_correct","statement":"Path(test_issue_7547(x), test_issue_7547 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc9cd80c2ac37a9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7547","kind":"function","src_hash":"cf896bdc76842722","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(sol) == str(Matrix([['4442890172.68209'], ['4289299466.1432'], ['70.5389666628177']]))"},"spec":{"lhs":"test_issue_7547()","rhs":"str(sol) == str(Matrix([['4442890172.68209'], ['4289299466.1432'], ['70.5389666628177']]))","over":{"base":"Any"},"name":"test_issue_7547_correct"},"guarantee":"str(sol) == str(Matrix([['4442890172.68209'], ['4289299466.1432'], ['70.5389666628177']]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7547_correct","statement":"Path(test_issue_7547(x), str(sol) == str(Matrix([['4442890172.68209'], ['4289299466.1432'], ['70.5389666628177']])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"548f9c0f2dc239c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(sol) == str(Matrix([['4442890172.68209'], ['4289299466.1432'], ['70.5389666628177']]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_7547():
     A, B, V = symbols('A,B,V')
     eq1 = Eq(630.26*(V - 39.0)*V*(V + 39) - A + B, 0)
@@ -3260,32 +3932,46 @@ def test_issue_7547():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7895(), test_issue_7895 produces the expected output) over Any ║
+# ║ Path(test_issue_7895(), solve(sqrt(r) - 2) == [4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7895 : Any → {Any | solve(sqrt(r) - 2) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(r) - 2) == [4]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7895 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1d91eb8b5a76b25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e254c01b6b3e025c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7895","kind":"function","src_hash":"f57a164dbb13ac67","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sqrt(r) - 2) == [4]"},"spec":{"lhs":"test_issue_7895()","rhs":"test_issue_7895 produces the expected output","over":{"base":"Any"},"name":"test_issue_7895_correct"},"guarantee":"test_issue_7895 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7895_correct","statement":"Path(test_issue_7895(x), test_issue_7895 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1d91eb8b5a76b25"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7895","kind":"function","src_hash":"f57a164dbb13ac67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(r) - 2) == [4]"},"spec":{"lhs":"test_issue_7895()","rhs":"solve(sqrt(r) - 2) == [4]","over":{"base":"Any"},"name":"test_issue_7895_correct"},"guarantee":"solve(sqrt(r) - 2) == [4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7895_correct","statement":"Path(test_issue_7895(x), solve(sqrt(r) - 2) == [4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e254c01b6b3e025c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(r) - 2) == [4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_7895():
     r = symbols('r', real=True)
     assert solve(sqrt(r) - 2) == [4]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2777(), test_issue_2777 produces the expected output) over Any ║
+# ║ Path(test_issue_2777(), solve((e1, e2), (x, y)) == ans and solve((e1, e2 / (x - a)), (x, y)) == [] and solve((e1, e2), (x, y)) == [] and solve((e1, e2), (x, y), check=False) == ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2777 : Any → {Any | solve((e1, e2), (x, y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((e1, e2), (x, y)) == ans                 ║
+# ║   ensures:  solve((e1, e2 / (x - a)), (x, y)) == []        ║
+# ║   ensures:  solve((e1, e2), (x, y)) == []                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2777 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73426142bd2a0341  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1db699ae44175a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_2777","kind":"function","src_hash":"d5e9433b420e7af3","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((e1, e2), (x, y)) == ans and solve((e1, e2 / (x - a)), (x, y)) == [] and solve((e1, e2), (x, y)) == [] and solve((e1, e2), (x, y), check=False) == ans"},"spec":{"lhs":"test_issue_2777()","rhs":"test_issue_2777 produces the expected output","over":{"base":"Any"},"name":"test_issue_2777_correct"},"guarantee":"test_issue_2777 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_2777_correct","statement":"Path(test_issue_2777(x), test_issue_2777 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73426142bd2a0341"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_2777","kind":"function","src_hash":"d5e9433b420e7af3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((e1, e2), (x, y)) == ans and solve((e1, e2 / (x - a)), (x, y)) == [] and solve((e1, e2), (x, y)) == [] and solve((e1, e2), (x, y), check=False) == ans"},"spec":{"lhs":"test_issue_2777()","rhs":"solve((e1, e2), (x, y)) == ans and solve((e1, e2 / (x - a)), (x, y)) == [] and solve((e1, e2), (x, y)) == [] and solve((e1, e2), (x, y), check=False) == ans","over":{"base":"Any"},"name":"test_issue_2777_correct"},"guarantee":"solve((e1, e2), (x, y)) == ans; solve((e1, e2 / (x - a)), (x, y)) == []; solve((e1, e2), (x, y)) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_2777_correct","statement":"Path(test_issue_2777(x), solve((e1, e2), (x, y)) == ans; solve((e1, e2 / (x - a)), (x, y)) == []; solve((e1, e2), (x, y)) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1db699ae44175a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((e1, e2), (x, y)) == ans","solve((e1, e2 / (x - a)), (x, y)) == []","solve((e1, e2), (x, y)) == []","solve((e1, e2), (x, y), check=False) == ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_2777():
     # the equations represent two circles
     x, y = symbols('x y', real=True)
@@ -3301,32 +3987,44 @@ def test_issue_2777():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7322(), test_issue_7322 produces the expected output) over Any ║
+# ║ Path(test_issue_7322(), solve(x - number, x)[0] == number) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7322 : Any → {Any | solve(x - number, x)[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x - number, x)[0] == number              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7322 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d271a91d67cb1ccb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eb74278ee34bedd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7322","kind":"function","src_hash":"7487d6cca208e275","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x - number, x)[0] == number"},"spec":{"lhs":"test_issue_7322()","rhs":"test_issue_7322 produces the expected output","over":{"base":"Any"},"name":"test_issue_7322_correct"},"guarantee":"test_issue_7322 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7322_correct","statement":"Path(test_issue_7322(x), test_issue_7322 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d271a91d67cb1ccb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7322","kind":"function","src_hash":"7487d6cca208e275","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x - number, x)[0] == number"},"spec":{"lhs":"test_issue_7322()","rhs":"solve(x - number, x)[0] == number","over":{"base":"Any"},"name":"test_issue_7322_correct"},"guarantee":"solve(x - number, x)[0] == number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7322_correct","statement":"Path(test_issue_7322(x), solve(x - number, x)[0] == number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eb74278ee34bedd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x - number, x)[0] == number"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_7322():
     number = 5.62527e-35
     assert solve(x - number, x)[0] == number
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve(), test_nsolve produces the expected output) over Any ║
+# ║ Path(test_nsolve(), <unspecified:test_nsolve>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nsolve : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f3ee6c3db3d54a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_nsolve","kind":"function","src_hash":"357591728b63ca1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nsolve()","rhs":"test_nsolve produces the expected output","over":{"base":"Any"},"name":"test_nsolve_correct"},"guarantee":"test_nsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_nsolve_correct","statement":"Path(test_nsolve(x), test_nsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f3ee6c3db3d54a4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_nsolve","kind":"function","src_hash":"357591728b63ca1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nsolve()","rhs":"<unspecified:test_nsolve>","over":{"base":"Any"},"name":"test_nsolve_correct"},"guarantee":"test_nsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_nsolve_correct","statement":"Path(test_nsolve(x), test_nsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f3ee6c3db3d54a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nsolve():
     raises(ValueError, lambda: nsolve(x, (-1, 1), method='bisect'))
     raises(TypeError, lambda: nsolve((x - y + 3,x + y,z - y),(x,y,z),(-50,50)))
@@ -3336,16 +4034,24 @@ def test_nsolve():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_high_order_multivariate(), test_high_order_multivariate produces the expected output) over Any ║
+# ║ Path(test_high_order_multivariate(), len(solve(a * x ** 3 - x + 1, x)) == 3 and len(solve(a * x ** 4 - x + 1, x)) == 4 and solve(a * x ** 5 - x + 1, x) == [] and solve(d * (1 + 1 / d)) == [CRootOf(d + 1, i) for i in range(5)] and solve(d * (2 + 1 / d)) == [S.Half]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_high_order_multivariate : Any → {Any | len(solve...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(a * x ** 3 - x + 1, x)) == 3         ║
+# ║   ensures:  len(solve(a * x ** 4 - x + 1, x)) == 4         ║
+# ║   ensures:  solve(a * x ** 5 - x + 1, x) == []             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_high_order_multivariate : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a5034c4902e42cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ca5de898e7b3470  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_high_order_multivariate","kind":"function","src_hash":"4498cc6d90a6a4d5","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(a * x ** 3 - x + 1, x)) == 3 and len(solve(a * x ** 4 - x + 1, x)) == 4 and solve(a * x ** 5 - x + 1, x) == [] and solve(d * (1 + 1 / d)) == [CRootOf(d + 1, i) for i in range(5)] and solve(d * (2 + 1 / d)) == [S.Half]"},"spec":{"lhs":"test_high_order_multivariate()","rhs":"test_high_order_multivariate produces the expected output","over":{"base":"Any"},"name":"test_high_order_multivariate_correct"},"guarantee":"test_high_order_multivariate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_high_order_multivariate_correct","statement":"Path(test_high_order_multivariate(x), test_high_order_multivariate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a5034c4902e42cf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_high_order_multivariate","kind":"function","src_hash":"4498cc6d90a6a4d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(a * x ** 3 - x + 1, x)) == 3 and len(solve(a * x ** 4 - x + 1, x)) == 4 and solve(a * x ** 5 - x + 1, x) == [] and solve(d * (1 + 1 / d)) == [CRootOf(d + 1, i) for i in range(5)] and solve(d * (2 + 1 / d)) == [S.Half]"},"spec":{"lhs":"test_high_order_multivariate()","rhs":"len(solve(a * x ** 3 - x + 1, x)) == 3 and len(solve(a * x ** 4 - x + 1, x)) == 4 and solve(a * x ** 5 - x + 1, x) == [] and solve(d * (1 + 1 / d)) == [CRootOf(d + 1, i) for i in range(5)] and solve(d * (2 + 1 / d)) == [S.Half]","over":{"base":"Any"},"name":"test_high_order_multivariate_correct"},"guarantee":"len(solve(a * x ** 3 - x + 1, x)) == 3; len(solve(a * x ** 4 - x + 1, x)) == 4; solve(a * x ** 5 - x + 1, x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_high_order_multivariate_correct","statement":"Path(test_high_order_multivariate(x), len(solve(a * x ** 3 - x + 1, x)) == 3; len(solve(a * x ** 4 - x + 1, x)) == 4; solve(a * x ** 5 - x + 1, x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ca5de898e7b3470","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(a * x ** 3 - x + 1, x)) == 3","len(solve(a * x ** 4 - x + 1, x)) == 4","solve(a * x ** 5 - x + 1, x) == []","solve(d * (1 + 1 / d)) == [CRootOf(d + 1, i) for i in range(5)]","solve(d * (2 + 1 / d)) == [S.Half]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_high_order_multivariate():
     assert len(solve(a*x**3 - x + 1, x)) == 3
     assert len(solve(a*x**4 - x + 1, x)) == 4
@@ -3362,16 +4068,24 @@ def test_high_order_multivariate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_base_0_exp_0(), test_base_0_exp_0 produces the expected output) over Any ║
+# ║ Path(test_base_0_exp_0(), solve(0 ** x - 1) == [0] and solve(0 ** (x - 2) - 1) == [2] and solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_base_0_exp_0 : Any → {Any | solve(0 ** x - 1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(0 ** x - 1) == [0]                       ║
+# ║   ensures:  solve(0 ** (x - 2) - 1) == [2]                 ║
+# ║   ensures:  solve(S('x*(1/x**0 - x)', evaluate=False)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_base_0_exp_0 : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94bc6c13731a478c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f63655082082542  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_base_0_exp_0","kind":"function","src_hash":"739d1d4312af9d7a","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(0 ** x - 1) == [0] and solve(0 ** (x - 2) - 1) == [2] and solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1]"},"spec":{"lhs":"test_base_0_exp_0()","rhs":"test_base_0_exp_0 produces the expected output","over":{"base":"Any"},"name":"test_base_0_exp_0_correct"},"guarantee":"test_base_0_exp_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_base_0_exp_0_correct","statement":"Path(test_base_0_exp_0(x), test_base_0_exp_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94bc6c13731a478c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_base_0_exp_0","kind":"function","src_hash":"739d1d4312af9d7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(0 ** x - 1) == [0] and solve(0 ** (x - 2) - 1) == [2] and solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1]"},"spec":{"lhs":"test_base_0_exp_0()","rhs":"solve(0 ** x - 1) == [0] and solve(0 ** (x - 2) - 1) == [2] and solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1]","over":{"base":"Any"},"name":"test_base_0_exp_0_correct"},"guarantee":"solve(0 ** x - 1) == [0]; solve(0 ** (x - 2) - 1) == [2]; solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_base_0_exp_0_correct","statement":"Path(test_base_0_exp_0(x), solve(0 ** x - 1) == [0]; solve(0 ** (x - 2) - 1) == [2]; solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f63655082082542","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(0 ** x - 1) == [0]","solve(0 ** (x - 2) - 1) == [2]","solve(S('x*(1/x**0 - x)', evaluate=False)) == [0, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_base_0_exp_0():
     assert solve(0**x - 1) == [0]
     assert solve(0**(x - 2) - 1) == [2]
@@ -3380,16 +4094,24 @@ def test_base_0_exp_0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__simple_dens(), test__simple_dens produces the expected output) over Any ║
+# ║ Path(test__simple_dens(), _simple_dens(1 / x ** 0, [x]) == set() and _simple_dens(1 / x ** y, [x]) == {x ** y} and _simple_dens(1 / root(x, 3), [x]) == {x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__simple_dens : Any → {Any | _simple_dens(1 / x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _simple_dens(1 / x ** 0, [x]) == set()         ║
+# ║   ensures:  _simple_dens(1 / x ** y, [x]) == {x ** y}      ║
+# ║   ensures:  _simple_dens(1 / root(x, 3), [x]) == {x}       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__simple_dens : Any → {Any | result satisfies: _s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3406c99b3eeabf33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5860f43cacd1bb7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test__simple_dens","kind":"function","src_hash":"00cecfcb9e29a3ce","in":{"base":"Any"},"out":{"base":"Any","pred":"_simple_dens(1 / x ** 0, [x]) == set() and _simple_dens(1 / x ** y, [x]) == {x ** y} and _simple_dens(1 / root(x, 3), [x]) == {x}"},"spec":{"lhs":"test__simple_dens()","rhs":"test__simple_dens produces the expected output","over":{"base":"Any"},"name":"test__simple_dens_correct"},"guarantee":"test__simple_dens produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test__simple_dens_correct","statement":"Path(test__simple_dens(x), test__simple_dens produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3406c99b3eeabf33"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test__simple_dens","kind":"function","src_hash":"00cecfcb9e29a3ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _simple_dens(1 / x ** 0, [x]) == set() and _simple_dens(1 / x ** y, [x]) == {x ** y} and _simple_dens(1 / root(x, 3), [x]) == {x}"},"spec":{"lhs":"test__simple_dens()","rhs":"_simple_dens(1 / x ** 0, [x]) == set() and _simple_dens(1 / x ** y, [x]) == {x ** y} and _simple_dens(1 / root(x, 3), [x]) == {x}","over":{"base":"Any"},"name":"test__simple_dens_correct"},"guarantee":"_simple_dens(1 / x ** 0, [x]) == set(); _simple_dens(1 / x ** y, [x]) == {x ** y}; _simple_dens(1 / root(x, 3), [x]) == {x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test__simple_dens_correct","statement":"Path(test__simple_dens(x), _simple_dens(1 / x ** 0, [x]) == set(); _simple_dens(1 / x ** y, [x]) == {x ** y}; _simple_dens(1 / root(x, 3), [x]) == {x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5860f43cacd1bb7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_simple_dens(1 / x ** 0, [x]) == set()","_simple_dens(1 / x ** y, [x]) == {x ** y}","_simple_dens(1 / root(x, 3), [x]) == {x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__simple_dens():
     assert _simple_dens(1/x**0, [x]) == set()
     assert _simple_dens(1/x**y, [x]) == {x**y}
@@ -3397,16 +4119,23 @@ def test__simple_dens():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8755(), test_issue_8755 produces the expected output) over Any ║
+# ║ Path(test_issue_8755(), len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8755 : Any → {Any | len(solve(sqrt(y) * x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3   ║
+# ║   ensures:  len(solve(-512 * y ** 3 + 1344 * (x + 2) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8755 : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27713fea624d0397  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 139f52f8d68a2860  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_8755","kind":"function","src_hash":"c76167a275bc96d6","in":{"base":"Any"},"out":{"base":"Any","pred":"len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3"},"spec":{"lhs":"test_issue_8755()","rhs":"test_issue_8755 produces the expected output","over":{"base":"Any"},"name":"test_issue_8755_correct"},"guarantee":"test_issue_8755 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_8755_correct","statement":"Path(test_issue_8755(x), test_issue_8755 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27713fea624d0397"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_8755","kind":"function","src_hash":"c76167a275bc96d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3"},"spec":{"lhs":"test_issue_8755()","rhs":"len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3 and len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3","over":{"base":"Any"},"name":"test_issue_8755_correct"},"guarantee":"len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3; len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_8755_correct","statement":"Path(test_issue_8755(x), len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3; len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"139f52f8d68a2860","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(solve(sqrt(y) * x + x ** 3 - 1, x)) == 3","len(solve(-512 * y ** 3 + 1344 * (x + 2) ** Rational(1, 3) * y ** 2 - 1176 * (x + 2) ** Rational(2, 3) * y - 169 * x + 686, y, _unrad=False)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8755():
     # This tests two things: that if full unrad is attempted and fails
     # the solution should still be found; also it tests the use of
@@ -3418,16 +4147,22 @@ def test_issue_8755():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8828(), test_issue_8828 produces the expected output) over Any ║
+# ║ Path(test_issue_8828(), p == q == r) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8828 : Any → {Any | p == q == r}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q == r                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8828 : Any → {Any | result satisfies: p ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89ac78df635a245e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16c9652705a42800  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_8828","kind":"function","src_hash":"39f57cf63629c66c","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q == r"},"spec":{"lhs":"test_issue_8828()","rhs":"test_issue_8828 produces the expected output","over":{"base":"Any"},"name":"test_issue_8828_correct"},"guarantee":"test_issue_8828 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_8828_correct","statement":"Path(test_issue_8828(x), test_issue_8828 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89ac78df635a245e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_8828","kind":"function","src_hash":"39f57cf63629c66c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q == r"},"spec":{"lhs":"test_issue_8828()","rhs":"p == q == r","over":{"base":"Any"},"name":"test_issue_8828_correct"},"guarantee":"p == q == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_8828_correct","statement":"Path(test_issue_8828(x), p == q == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16c9652705a42800","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_8828():
     x1 = 0
     y1 = -620
@@ -3458,16 +4193,24 @@ def test_issue_8828():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2840_8155(), test_issue_2840_8155 produces the expected output) over Any ║
+# ║ Path(test_issue_2840_8155(), solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9] and solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450] and solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2840_8155 : Any → {Any | solve(sin(3 * x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sin(3 * x) + sin(6 * x)) == [0, -2 ...   ║
+# ║   ensures:  solve(sin(300 * x) + sin(600 * x)) == [0,...   ║
+# ║   ensures:  solve(2 * sin(x) - 2 * sin(2 * x)) == [0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2840_8155 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4698cfe8447fd5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63c4873351bfb11a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_2840_8155","kind":"function","src_hash":"89bd03a8c4bfac36","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9] and solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450] and solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3]"},"spec":{"lhs":"test_issue_2840_8155()","rhs":"test_issue_2840_8155 produces the expected output","over":{"base":"Any"},"name":"test_issue_2840_8155_correct"},"guarantee":"test_issue_2840_8155 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_2840_8155_correct","statement":"Path(test_issue_2840_8155(x), test_issue_2840_8155 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4698cfe8447fd5c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_2840_8155","kind":"function","src_hash":"89bd03a8c4bfac36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9] and solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450] and solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3]"},"spec":{"lhs":"test_issue_2840_8155()","rhs":"solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9] and solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450] and solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3]","over":{"base":"Any"},"name":"test_issue_2840_8155_correct"},"guarantee":"solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9]; solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450]; solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_2840_8155_correct","statement":"Path(test_issue_2840_8155(x), solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9]; solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450]; solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63c4873351bfb11a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sin(3 * x) + sin(6 * x)) == [0, -2 * pi / 9, 2 * pi / 9]","solve(sin(300 * x) + sin(600 * x)) == [0, -pi / 450, pi / 450]","solve(2 * sin(x) - 2 * sin(2 * x)) == [0, -pi / 3, pi / 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_2840_8155():
     # with parameter-free solutions (i.e. no `n`), we want to avoid
     # excessive periodic solutions
@@ -3477,31 +4220,45 @@ def test_issue_2840_8155():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9567(), test_issue_9567 produces the expected output) over Any ║
+# ║ Path(test_issue_9567(), solve(1 + 1 / (x - 1)) == [0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9567 : Any → {Any | solve(1 + 1 / (x - 1))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(1 + 1 / (x - 1)) == [0]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9567 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d634d2003d44925  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8d4af8184968b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_9567","kind":"function","src_hash":"e4cda18f37eb339f","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(1 + 1 / (x - 1)) == [0]"},"spec":{"lhs":"test_issue_9567()","rhs":"test_issue_9567 produces the expected output","over":{"base":"Any"},"name":"test_issue_9567_correct"},"guarantee":"test_issue_9567 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_9567_correct","statement":"Path(test_issue_9567(x), test_issue_9567 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d634d2003d44925"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_9567","kind":"function","src_hash":"e4cda18f37eb339f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(1 + 1 / (x - 1)) == [0]"},"spec":{"lhs":"test_issue_9567()","rhs":"solve(1 + 1 / (x - 1)) == [0]","over":{"base":"Any"},"name":"test_issue_9567_correct"},"guarantee":"solve(1 + 1 / (x - 1)) == [0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_9567_correct","statement":"Path(test_issue_9567(x), solve(1 + 1 / (x - 1)) == [0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8d4af8184968b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(1 + 1 / (x - 1)) == [0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_9567():
     assert solve(1 + 1/(x - 1)) == [0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11538(), test_issue_11538 produces the expected output) over Any ║
+# ║ Path(test_issue_11538(), solve(x + E) == [-E] and solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)] and solve(x ** 3 + 2 * E) == [-cbrt(2 * E), cbrt(2) * cbrt(E) / 2 - cbrt(2) * sqrt(3) * I * cbrt(E) / 2, cbrt(2) * cbrt(E) / 2 + cbrt(2) * sqrt(3) * I * cbrt(E) / 2] and solve([x + 4, y + E], x, y) == {x: -4, y: -E} and solve([x ** 2 + 4, y + E], x, y) == [(-2 * I, -E), (2 * I, -E)] and len(solve([e1, e2], x, y)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11538 : Any → {Any | solve(x + E) == [-E] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x + E) == [-E]                           ║
+# ║   ensures:  solve(x ** 2 + E) == [-I * sqrt(E), I * s...   ║
+# ║   ensures:  solve(x ** 3 + 2 * E) == [-cbrt(2 * E), c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11538 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ae92a34613a21fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d719952d8d67d61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_11538","kind":"function","src_hash":"db869a984b01101b","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x + E) == [-E] and solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)] and solve([x + 4, y + E], x, y) == {x: -4, y: -E} and solve([x ** 2 + 4, y + E], x, y) == [(-2 * I, -E), (2 * I, -E)] and len(solve([e1, e2], x, y)) == 3"},"spec":{"lhs":"test_issue_11538()","rhs":"test_issue_11538 produces the expected output","over":{"base":"Any"},"name":"test_issue_11538_correct"},"guarantee":"test_issue_11538 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_11538_correct","statement":"Path(test_issue_11538(x), test_issue_11538 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ae92a34613a21fd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_11538","kind":"function","src_hash":"db869a984b01101b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x + E) == [-E] and solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)] and solve(x ** 3 + 2 * E) == [-cbrt(2 * E), cbrt(2) * cbrt(E) / 2 - cbrt(2) * sqrt(3) * I * cbrt(E) / 2, cbrt(2) * cbrt(E) / 2 + cbrt(2) * sqrt(3) * I * cbrt(E) / 2] and solve([x + 4, y + E], x, y) == {x: -4, y: -E} and solve([x ** 2 + 4, y + E], x, y) == [(-2 * I, -E), (2 * I, -E)] and len(solve([e1, e2], x, y)) == 3"},"spec":{"lhs":"test_issue_11538()","rhs":"solve(x + E) == [-E] and solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)] and solve(x ** 3 + 2 * E) == [-cbrt(2 * E), cbrt(2) * cbrt(E) / 2 - cbrt(2) * sqrt(3) * I * cbrt(E) / 2, cbrt(2) * cbrt(E) / 2 + cbrt(2) * sqrt(3) * I * cbrt(E) / 2] and solve([x + 4, y + E], x, y) == {x: -4, y: -E} and solve([x ** 2 + 4, y + E], x, y) == [(-2 * I, -E), (2 * I, -E)] and len(solve([e1, e2], x, y)) == 3","over":{"base":"Any"},"name":"test_issue_11538_correct"},"guarantee":"solve(x + E) == [-E]; solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)]; solve(x ** 3 + 2 * E) == [-cbrt(2 * E), cbrt(2) * cbrt(E) / 2 - cbrt(2) * sqrt(3) * I * cbrt(E) / 2, cbrt(2) * cbrt(E) / 2 + cbrt(2) * sqrt(3) * I * cbrt(E) / 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_11538_correct","statement":"Path(test_issue_11538(x), solve(x + E) == [-E]; solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)]; solve(x ** 3 + 2 * E) == [-cbrt(2 * E), cbrt(2) * cbrt(E) / 2 - cbrt(2) * sqrt(3) * I * cbrt(E) / 2, cbrt(2) * cbrt(E) / 2 + cbrt(2) * sqrt(3) * I * cbrt(E) / 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d719952d8d67d61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x + E) == [-E]","solve(x ** 2 + E) == [-I * sqrt(E), I * sqrt(E)]","solve(x ** 3 + 2 * E) == [-cbrt(2 * E), cbrt(2) * cbrt(E) / 2 - cbrt(2) * sqrt(3) * I * cbrt(E) / 2, cbrt(2) * cbrt(E) / 2 + cbrt(2) * sqrt(3) * I * cbrt(E) / 2]","solve([x + 4, y + E], x, y) == {x: -4, y: -E}","solve([x ** 2 + 4, y + E], x, y) == [(-2 * I, -E), (2 * I, -E)]","len(solve([e1, e2], x, y)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_11538():
     assert solve(x + E) == [-E]
     assert solve(x**2 + E) == [-I*sqrt(E), I*sqrt(E)]
@@ -3520,16 +4277,22 @@ def test_issue_11538():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12114(), test_issue_12114 produces the expected output) over Any ║
+# ║ Path(test_issue_12114(), sol == [{a: -s, b: -s, c: -s, d: f, e: f, g: -1}, {a: s, b: s, c: s, d: f, e: f, g: -1}, {a: -s4 / 2 - s2 / 2, b: s4 / 2 - s2 / 2, c: s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}, {a: -s4 / 2 + s2 / 2, b: s4 / 2 + s2 / 2, c: -s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 - s2 / 2, b: -s4 / 2 - s2 / 2, c: s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 + s2 / 2, b: -s4 / 2 + s2 / 2, c: -s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12114 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == [{a: -s, b: -s, c: -s, d: f, e: f,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12114 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c1aaeb44766d1e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebc9badb14e6fcb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12114","kind":"function","src_hash":"d524eb7ab77829af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_12114()","rhs":"test_issue_12114 produces the expected output","over":{"base":"Any"},"name":"test_issue_12114_correct"},"guarantee":"test_issue_12114 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12114_correct","statement":"Path(test_issue_12114(x), test_issue_12114 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c1aaeb44766d1e3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12114","kind":"function","src_hash":"d524eb7ab77829af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == [{a: -s, b: -s, c: -s, d: f, e: f, g: -1}, {a: s, b: s, c: s, d: f, e: f, g: -1}, {a: -s4 / 2 - s2 / 2, b: s4 / 2 - s2 / 2, c: s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}, {a: -s4 / 2 + s2 / 2, b: s4 / 2 + s2 / 2, c: -s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 - s2 / 2, b: -s4 / 2 - s2 / 2, c: s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 + s2 / 2, b: -s4 / 2 + s2 / 2, c: -s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}]"},"spec":{"lhs":"test_issue_12114()","rhs":"sol == [{a: -s, b: -s, c: -s, d: f, e: f, g: -1}, {a: s, b: s, c: s, d: f, e: f, g: -1}, {a: -s4 / 2 - s2 / 2, b: s4 / 2 - s2 / 2, c: s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}, {a: -s4 / 2 + s2 / 2, b: s4 / 2 + s2 / 2, c: -s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 - s2 / 2, b: -s4 / 2 - s2 / 2, c: s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 + s2 / 2, b: -s4 / 2 + s2 / 2, c: -s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}]","over":{"base":"Any"},"name":"test_issue_12114_correct"},"guarantee":"sol == [{a: -s, b: -s, c: -s, d: f, e: f, g: -1}, {a: s, b: s, c: s, d: f, e: f, g: -1}, {a: -s4 / 2 - s2 / 2, b: s4 / 2 - s2 / 2, c: s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}, {a: -s4 / 2 + s2 / 2, b: s4 / 2 + s2 / 2, c: -s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 - s2 / 2, b: -s4 / 2 - s2 / 2, c: s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 + s2 / 2, b: -s4 / 2 + s2 / 2, c: -s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12114_correct","statement":"Path(test_issue_12114(x), sol == [{a: -s, b: -s, c: -s, d: f, e: f, g: -1}, {a: s, b: s, c: s, d: f, e: f, g: -1}, {a: -s4 / 2 - s2 / 2, b: s4 / 2 - s2 / 2, c: s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}, {a: -s4 / 2 + s2 / 2, b: s4 / 2 + s2 / 2, c: -s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 - s2 / 2, b: -s4 / 2 - s2 / 2, c: s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 + s2 / 2, b: -s4 / 2 + s2 / 2, c: -s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc9badb14e6fcb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == [{a: -s, b: -s, c: -s, d: f, e: f, g: -1}, {a: s, b: s, c: s, d: f, e: f, g: -1}, {a: -s4 / 2 - s2 / 2, b: s4 / 2 - s2 / 2, c: s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}, {a: -s4 / 2 + s2 / 2, b: s4 / 2 + s2 / 2, c: -s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 - s2 / 2, b: -s4 / 2 - s2 / 2, c: s2, d: -f / 2 - s3 / 2, e: -f / 2 + s5 / 2, g: 2}, {a: s4 / 2 + s2 / 2, b: -s4 / 2 + s2 / 2, c: -s2, d: -f / 2 + s3 / 2, e: -f / 2 - s5 / 2, g: 2}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_12114():
     a, b, c, d, e, f, g = symbols('a,b,c,d,e,f,g')
     terms = [1 + a*b + d*e, 1 + a*c + d*f, 1 + b*c + e*f,
@@ -3554,16 +4317,24 @@ def test_issue_12114():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inf(), test_inf produces the expected output) over Any ║
+# ║ Path(test_inf(), solve(1 - oo * x) == [] and solve(oo * x, x) == [] and solve(oo * x - oo, x) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inf : Any → {Any | solve(1 - oo * x) == [] and s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(1 - oo * x) == []                        ║
+# ║   ensures:  solve(oo * x, x) == []                         ║
+# ║   ensures:  solve(oo * x - oo, x) == []                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inf : Any → {Any | result satisfies: solve(1 - o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b161ca10f9e49813  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bda895beb073ad6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_inf","kind":"function","src_hash":"5a6c0a082212a051","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(1 - oo * x) == [] and solve(oo * x, x) == [] and solve(oo * x - oo, x) == []"},"spec":{"lhs":"test_inf()","rhs":"test_inf produces the expected output","over":{"base":"Any"},"name":"test_inf_correct"},"guarantee":"test_inf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_inf_correct","statement":"Path(test_inf(x), test_inf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b161ca10f9e49813"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_inf","kind":"function","src_hash":"5a6c0a082212a051","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(1 - oo * x) == [] and solve(oo * x, x) == [] and solve(oo * x - oo, x) == []"},"spec":{"lhs":"test_inf()","rhs":"solve(1 - oo * x) == [] and solve(oo * x, x) == [] and solve(oo * x - oo, x) == []","over":{"base":"Any"},"name":"test_inf_correct"},"guarantee":"solve(1 - oo * x) == []; solve(oo * x, x) == []; solve(oo * x - oo, x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_inf_correct","statement":"Path(test_inf(x), solve(1 - oo * x) == []; solve(oo * x, x) == []; solve(oo * x - oo, x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bda895beb073ad6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(1 - oo * x) == []","solve(oo * x, x) == []","solve(oo * x - oo, x) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inf():
     assert solve(1 - oo*x) == []
     assert solve(oo*x, x) == []
@@ -3571,16 +4342,22 @@ def test_inf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12448(), test_issue_12448 produces the expected output) over Any ║
+# ║ Path(test_issue_12448(), sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12448 : Any → {Any | sfun[fun[0]].xreplace...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sfun[fun[0]].xreplace(reps).count_ops() =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12448 : Any → {Any | result satisfies: sfu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42ca438f00a9ea64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26ee98773d9c3fc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12448","kind":"function","src_hash":"1f69f0b80a10a4c8","in":{"base":"Any"},"out":{"base":"Any","pred":"sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops()"},"spec":{"lhs":"test_issue_12448()","rhs":"test_issue_12448 produces the expected output","over":{"base":"Any"},"name":"test_issue_12448_correct"},"guarantee":"test_issue_12448 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12448_correct","statement":"Path(test_issue_12448(x), test_issue_12448 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42ca438f00a9ea64"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12448","kind":"function","src_hash":"1f69f0b80a10a4c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops()"},"spec":{"lhs":"test_issue_12448()","rhs":"sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops()","over":{"base":"Any"},"name":"test_issue_12448_correct"},"guarantee":"sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12448_correct","statement":"Path(test_issue_12448(x), sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26ee98773d9c3fc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sfun[fun[0]].xreplace(reps).count_ops() == ssym[sym[0]].count_ops()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_12448():
     f = Function('f')
     fun = [f(i) for i in range(15)]
@@ -3600,16 +4377,24 @@ def test_issue_12448():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_denoms(), test_denoms produces the expected output) over Any ║
+# ║ Path(test_denoms(), denoms(x / 2 + 1 / y) == {2, y} and denoms(x / 2 + 1 / y, y) == {y} and denoms(x / 2 + 1 / y, [y]) == {y} and denoms(1 / x + 1 / y + 1 / z, [x, y]) == {x, y} and denoms(1 / x + 1 / y + 1 / z, x, y) == {x, y} and denoms(1 / x + 1 / y + 1 / z, {x, y}) == {x, y}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_denoms : Any → {Any | denoms(x / 2 + 1 / y) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  denoms(x / 2 + 1 / y) == {2, y}                ║
+# ║   ensures:  denoms(x / 2 + 1 / y, y) == {y}                ║
+# ║   ensures:  denoms(x / 2 + 1 / y, [y]) == {y}              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_denoms : Any → {Any | result satisfies: denoms(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b07fb9e85c40d740  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b9f7a85cecd66a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_denoms","kind":"function","src_hash":"1a31c6480769da0f","in":{"base":"Any"},"out":{"base":"Any","pred":"denoms(x / 2 + 1 / y) == {2, y} and denoms(x / 2 + 1 / y, y) == {y} and denoms(x / 2 + 1 / y, [y]) == {y} and denoms(1 / x + 1 / y + 1 / z, [x, y]) == {x, y} and denoms(1 / x + 1 / y + 1 / z, x, y) == {x, y} and denoms(1 / x + 1 / y + 1 / z, {x, y}) == {x, y}"},"spec":{"lhs":"test_denoms()","rhs":"test_denoms produces the expected output","over":{"base":"Any"},"name":"test_denoms_correct"},"guarantee":"test_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_denoms_correct","statement":"Path(test_denoms(x), test_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b07fb9e85c40d740"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_denoms","kind":"function","src_hash":"1a31c6480769da0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: denoms(x / 2 + 1 / y) == {2, y} and denoms(x / 2 + 1 / y, y) == {y} and denoms(x / 2 + 1 / y, [y]) == {y} and denoms(1 / x + 1 / y + 1 / z, [x, y]) == {x, y} and denoms(1 / x + 1 / y + 1 / z, x, y) == {x, y} and denoms(1 / x + 1 / y + 1 / z, {x, y}) == {x, y}"},"spec":{"lhs":"test_denoms()","rhs":"denoms(x / 2 + 1 / y) == {2, y} and denoms(x / 2 + 1 / y, y) == {y} and denoms(x / 2 + 1 / y, [y]) == {y} and denoms(1 / x + 1 / y + 1 / z, [x, y]) == {x, y} and denoms(1 / x + 1 / y + 1 / z, x, y) == {x, y} and denoms(1 / x + 1 / y + 1 / z, {x, y}) == {x, y}","over":{"base":"Any"},"name":"test_denoms_correct"},"guarantee":"denoms(x / 2 + 1 / y) == {2, y}; denoms(x / 2 + 1 / y, y) == {y}; denoms(x / 2 + 1 / y, [y]) == {y}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_denoms_correct","statement":"Path(test_denoms(x), denoms(x / 2 + 1 / y) == {2, y}; denoms(x / 2 + 1 / y, y) == {y}; denoms(x / 2 + 1 / y, [y]) == {y})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b9f7a85cecd66a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["denoms(x / 2 + 1 / y) == {2, y}","denoms(x / 2 + 1 / y, y) == {y}","denoms(x / 2 + 1 / y, [y]) == {y}","denoms(1 / x + 1 / y + 1 / z, [x, y]) == {x, y}","denoms(1 / x + 1 / y + 1 / z, x, y) == {x, y}","denoms(1 / x + 1 / y + 1 / z, {x, y}) == {x, y}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_denoms():
     assert denoms(x/2 + 1/y) == {2, y}
     assert denoms(x/2 + 1/y, y) == {y}
@@ -3620,16 +4405,22 @@ def test_denoms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12476(), test_issue_12476 produces the expected output) over Any ║
+# ║ Path(test_issue_12476(), solve(eqns) == sols) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12476 : Any → {Any | solve(eqns) == sols}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eqns) == sols                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12476 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58af37fdc3dec008  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13d3e40d6cfd2b80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12476","kind":"function","src_hash":"f13af91992d81e58","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eqns) == sols"},"spec":{"lhs":"test_issue_12476()","rhs":"test_issue_12476 produces the expected output","over":{"base":"Any"},"name":"test_issue_12476_correct"},"guarantee":"test_issue_12476 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12476_correct","statement":"Path(test_issue_12476(x), test_issue_12476 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58af37fdc3dec008"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12476","kind":"function","src_hash":"f13af91992d81e58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eqns) == sols"},"spec":{"lhs":"test_issue_12476()","rhs":"solve(eqns) == sols","over":{"base":"Any"},"name":"test_issue_12476_correct"},"guarantee":"solve(eqns) == sols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12476_correct","statement":"Path(test_issue_12476(x), solve(eqns) == sols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13d3e40d6cfd2b80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eqns) == sols"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_issue_12476():
     x0, x1, x2, x3, x4, x5 = symbols('x0 x1 x2 x3 x4 x5')
     eqns = [x0**2 - x0, x0*x1 - x1, x0*x2 - x2, x0*x3 - x3, x0*x4 - x4, x0*x5 - x5,
@@ -3654,48 +4445,68 @@ def test_issue_12476():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13849(), test_issue_13849 produces the expected output) over Any ║
+# ║ Path(test_issue_13849(), solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13849 : Any → {Any | solve((t * (sqrt(5) +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((t * (sqrt(5) + sqrt(2)) - sqrt(2),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13849 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78a6020aa3b18a97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 005b3ce7acdd1739  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_13849","kind":"function","src_hash":"e6680ecc5dc9f944","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []"},"spec":{"lhs":"test_issue_13849()","rhs":"test_issue_13849 produces the expected output","over":{"base":"Any"},"name":"test_issue_13849_correct"},"guarantee":"test_issue_13849 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_13849_correct","statement":"Path(test_issue_13849(x), test_issue_13849 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a6020aa3b18a97"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_13849","kind":"function","src_hash":"e6680ecc5dc9f944","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []"},"spec":{"lhs":"test_issue_13849()","rhs":"solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []","over":{"base":"Any"},"name":"test_issue_13849_correct"},"guarantee":"solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_13849_correct","statement":"Path(test_issue_13849(x), solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"005b3ce7acdd1739","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((t * (sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13849():
     t = symbols('t')
     assert solve((t*(sqrt(5) + sqrt(2)) - sqrt(2), t), t) == []
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14860(), test_issue_14860 produces the expected output) over Any ║
+# ║ Path(test_issue_14860(), solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14860 : Any → {Any | solve(8 * kilo * newt...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(8 * kilo * newton + x + y, x) == [-...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14860 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eaaeee9e56d1f35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fbad065f188a7fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14860","kind":"function","src_hash":"03fb2742cc54f168","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y]"},"spec":{"lhs":"test_issue_14860()","rhs":"test_issue_14860 produces the expected output","over":{"base":"Any"},"name":"test_issue_14860_correct"},"guarantee":"test_issue_14860 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14860_correct","statement":"Path(test_issue_14860(x), test_issue_14860 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eaaeee9e56d1f35"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14860","kind":"function","src_hash":"03fb2742cc54f168","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y]"},"spec":{"lhs":"test_issue_14860()","rhs":"solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y]","over":{"base":"Any"},"name":"test_issue_14860_correct"},"guarantee":"solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14860_correct","statement":"Path(test_issue_14860(x), solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fbad065f188a7fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(8 * kilo * newton + x + y, x) == [-8000 * newton - y]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14860():
     from sympy.physics.units import newton, kilo
     assert solve(8*kilo*newton + x + y, x) == [-8000*newton - y]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14721(), test_issue_14721 produces the expected output) over Any ║
+# ║ Path(test_issue_14721(), solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h - 1) ** 2 / a ** 2, -1 + (-k + 1) ** 2 / b ** 2 + (-h + 1) ** 2 / a ** 2, h, k + 2], h, k, a, b) == [(0, -2, -b * sqrt(1 / (b ** 2 - 9)), b), (0, -2, b * sqrt(1 / (b ** 2 - 9)), b)] and solve([h, h / a + 1 / b ** 2 - 2, -h / 2 + 1 / b ** 2 - 2], a, h, b) == [(a, 0, -sqrt(2) / 2), (a, 0, sqrt(2) / 2)] and solve((a + b ** 2 - 1, a + b ** 2 - 2)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14721 : Any → {Any | solve((a + b ** 2 - 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h ...   ║
+# ║   ensures:  solve([h, h / a + 1 / b ** 2 - 2, -h / 2 ...   ║
+# ║   ensures:  solve((a + b ** 2 - 1, a + b ** 2 - 2)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14721 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39591ca180a8b98e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f521bd261f6c158d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14721","kind":"function","src_hash":"b167757ab06d95fe","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((a + b ** 2 - 1, a + b ** 2 - 2)) == []"},"spec":{"lhs":"test_issue_14721()","rhs":"test_issue_14721 produces the expected output","over":{"base":"Any"},"name":"test_issue_14721_correct"},"guarantee":"test_issue_14721 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14721_correct","statement":"Path(test_issue_14721(x), test_issue_14721 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39591ca180a8b98e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14721","kind":"function","src_hash":"b167757ab06d95fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h - 1) ** 2 / a ** 2, -1 + (-k + 1) ** 2 / b ** 2 + (-h + 1) ** 2 / a ** 2, h, k + 2], h, k, a, b) == [(0, -2, -b * sqrt(1 / (b ** 2 - 9)), b), (0, -2, b * sqrt(1 / (b ** 2 - 9)), b)] and solve([h, h / a + 1 / b ** 2 - 2, -h / 2 + 1 / b ** 2 - 2], a, h, b) == [(a, 0, -sqrt(2) / 2), (a, 0, sqrt(2) / 2)] and solve((a + b ** 2 - 1, a + b ** 2 - 2)) == []"},"spec":{"lhs":"test_issue_14721()","rhs":"solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h - 1) ** 2 / a ** 2, -1 + (-k + 1) ** 2 / b ** 2 + (-h + 1) ** 2 / a ** 2, h, k + 2], h, k, a, b) == [(0, -2, -b * sqrt(1 / (b ** 2 - 9)), b), (0, -2, b * sqrt(1 / (b ** 2 - 9)), b)] and solve([h, h / a + 1 / b ** 2 - 2, -h / 2 + 1 / b ** 2 - 2], a, h, b) == [(a, 0, -sqrt(2) / 2), (a, 0, sqrt(2) / 2)] and solve((a + b ** 2 - 1, a + b ** 2 - 2)) == []","over":{"base":"Any"},"name":"test_issue_14721_correct"},"guarantee":"solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h - 1) ** 2 / a ** 2, -1 + (-k + 1) ** 2 / b ** 2 + (-h + 1) ** 2 / a ** 2, h, k + 2], h, k, a, b) == [(0, -2, -b * sqrt(1 / (b ** 2 - 9)), b), (0, -2, b * sqrt(1 / (b ** 2 - 9)), b)]; solve([h, h / a + 1 / b ** 2 - 2, -h / 2 + 1 / b ** 2 - 2], a, h, b) == [(a, 0, -sqrt(2) / 2), (a, 0, sqrt(2) / 2)]; solve((a + b ** 2 - 1, a + b ** 2 - 2)) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14721_correct","statement":"Path(test_issue_14721(x), solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h - 1) ** 2 / a ** 2, -1 + (-k + 1) ** 2 / b ** 2 + (-h + 1) ** 2 / a ** 2, h, k + 2], h, k, a, b) == [(0, -2, -b * sqrt(1 / (b ** 2 - 9)), b), (0, -2, b * sqrt(1 / (b ** 2 - 9)), b)]; solve([h, h / a + 1 / b ** 2 - 2, -h / 2 + 1 / b ** 2 - 2], a, h, b) == [(a, 0, -sqrt(2) / 2), (a, 0, sqrt(2) / 2)]; solve((a + b ** 2 - 1, a + b ** 2 - 2)) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f521bd261f6c158d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([-1 + (-k + 1) ** 2 / b ** 2 + (-h - 1) ** 2 / a ** 2, -1 + (-k + 1) ** 2 / b ** 2 + (-h + 1) ** 2 / a ** 2, h, k + 2], h, k, a, b) == [(0, -2, -b * sqrt(1 / (b ** 2 - 9)), b), (0, -2, b * sqrt(1 / (b ** 2 - 9)), b)]","solve([h, h / a + 1 / b ** 2 - 2, -h / 2 + 1 / b ** 2 - 2], a, h, b) == [(a, 0, -sqrt(2) / 2), (a, 0, sqrt(2) / 2)]","solve((a + b ** 2 - 1, a + b ** 2 - 2)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_14721():
     k, h, a, b = symbols(':4')
     assert solve([
@@ -3711,16 +4522,22 @@ def test_issue_14721():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14779(), test_issue_14779 produces the expected output) over Any ║
+# ║ Path(test_issue_14779(), solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) + sqrt(x ** 4 - 130 * x ** 2 + 3969) - 96 * Abs(x) / x, x) == [sqrt(130)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14779 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14779 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42b2c17020830ab6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc91bda3a6363107  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14779","kind":"function","src_hash":"f8bf250641fc51b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_14779()","rhs":"test_issue_14779 produces the expected output","over":{"base":"Any"},"name":"test_issue_14779_correct"},"guarantee":"test_issue_14779 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14779_correct","statement":"Path(test_issue_14779(x), test_issue_14779 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42b2c17020830ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14779","kind":"function","src_hash":"f8bf250641fc51b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) + sqrt(x ** 4 - 130 * x ** 2 + 3969) - 96 * Abs(x) / x, x) == [sqrt(130)]"},"spec":{"lhs":"test_issue_14779()","rhs":"solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) + sqrt(x ** 4 - 130 * x ** 2 + 3969) - 96 * Abs(x) / x, x) == [sqrt(130)]","over":{"base":"Any"},"name":"test_issue_14779_correct"},"guarantee":"solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) + sqrt(x ** 4 - 130 * x ** 2 + 3969) - 96 * Abs(x) / x, x) == [sqrt(130)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14779_correct","statement":"Path(test_issue_14779(x), solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) + sqrt(x ** 4 - 130 * x ** 2 + 3969) - 96 * Abs(x) / x, x) == [sqrt(130)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc91bda3a6363107","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(sqrt(x ** 4 - 130 * x ** 2 + 1089) + sqrt(x ** 4 - 130 * x ** 2 + 3969) - 96 * Abs(x) / x, x) == [sqrt(130)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14779():
     x = symbols('x', real=True)
     assert solve(sqrt(x**4 - 130*x**2 + 1089) + sqrt(x**4 - 130*x**2
@@ -3728,16 +4545,24 @@ def test_issue_14779():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15307(), test_issue_15307 produces the expected output) over Any ║
+# ║ Path(test_issue_15307(), solve((y - 2, Mul(x + 3, x - 2, evaluate=False))) == [{x: -3, y: 2}, {x: 2, y: 2}] and solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2} and solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2} and solve([eq1, eq2]) == {x: 12, y: 75}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15307 : Any → {Any | solve((y - 2, Mul(3, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((y - 2, Mul(x + 3, x - 2, evaluate=...   ║
+# ║   ensures:  solve((y - 2, Mul(3, x - 2, evaluate=Fals...   ║
+# ║   ensures:  solve((y - 2, Add(x + 4, x - 2, evaluate=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15307 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5490ef2e6649d367  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 952e7a8df7949ba2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_15307","kind":"function","src_hash":"63884908b2374c1c","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2} and solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2} and solve([eq1, eq2]) == {x: 12, y: 75}"},"spec":{"lhs":"test_issue_15307()","rhs":"test_issue_15307 produces the expected output","over":{"base":"Any"},"name":"test_issue_15307_correct"},"guarantee":"test_issue_15307 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_15307_correct","statement":"Path(test_issue_15307(x), test_issue_15307 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5490ef2e6649d367"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_15307","kind":"function","src_hash":"63884908b2374c1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((y - 2, Mul(x + 3, x - 2, evaluate=False))) == [{x: -3, y: 2}, {x: 2, y: 2}] and solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2} and solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2} and solve([eq1, eq2]) == {x: 12, y: 75}"},"spec":{"lhs":"test_issue_15307()","rhs":"solve((y - 2, Mul(x + 3, x - 2, evaluate=False))) == [{x: -3, y: 2}, {x: 2, y: 2}] and solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2} and solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2} and solve([eq1, eq2]) == {x: 12, y: 75}","over":{"base":"Any"},"name":"test_issue_15307_correct"},"guarantee":"solve((y - 2, Mul(x + 3, x - 2, evaluate=False))) == [{x: -3, y: 2}, {x: 2, y: 2}]; solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2}; solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_15307_correct","statement":"Path(test_issue_15307(x), solve((y - 2, Mul(x + 3, x - 2, evaluate=False))) == [{x: -3, y: 2}, {x: 2, y: 2}]; solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2}; solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952e7a8df7949ba2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((y - 2, Mul(x + 3, x - 2, evaluate=False))) == [{x: -3, y: 2}, {x: 2, y: 2}]","solve((y - 2, Mul(3, x - 2, evaluate=False))) == {x: 2, y: 2}","solve((y - 2, Add(x + 4, x - 2, evaluate=False))) == {x: -1, y: 2}","solve([eq1, eq2]) == {x: 12, y: 75}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_15307():
     assert solve((y - 2, Mul(x + 3,x - 2, evaluate=False))) == \
         [{x: -3, y: 2}, {x: 2, y: 2}]
@@ -3751,16 +4576,24 @@ def test_issue_15307():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15415(), test_issue_15415 produces the expected output) over Any ║
+# ║ Path(test_issue_15415(), solve(x - 3, x) == [3] and solve([x - 3], x) == {x: 3} and solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x)], y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x), Eq(x, 1)], y) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15415 : Any → {Any | solve(x - 3, x) == [3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x - 3, x) == [3]                         ║
+# ║   ensures:  solve([x - 3], x) == {x: 3}                    ║
+# ║   ensures:  solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15415 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 031cb59dad3deddf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b88bad7f6916672b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_15415","kind":"function","src_hash":"12cb803753e0133a","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x - 3, x) == [3] and solve([x - 3], x) == {x: 3} and solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x)], y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x), Eq(x, 1)], y) == []"},"spec":{"lhs":"test_issue_15415()","rhs":"test_issue_15415 produces the expected output","over":{"base":"Any"},"name":"test_issue_15415_correct"},"guarantee":"test_issue_15415 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_15415_correct","statement":"Path(test_issue_15415(x), test_issue_15415 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"031cb59dad3deddf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_15415","kind":"function","src_hash":"12cb803753e0133a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x - 3, x) == [3] and solve([x - 3], x) == {x: 3} and solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x)], y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x), Eq(x, 1)], y) == []"},"spec":{"lhs":"test_issue_15415()","rhs":"solve(x - 3, x) == [3] and solve([x - 3], x) == {x: 3} and solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x)], y) == [] and solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x), Eq(x, 1)], y) == []","over":{"base":"Any"},"name":"test_issue_15415_correct"},"guarantee":"solve(x - 3, x) == [3]; solve([x - 3], x) == {x: 3}; solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_15415_correct","statement":"Path(test_issue_15415(x), solve(x - 3, x) == [3]; solve([x - 3], x) == {x: 3}; solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88bad7f6916672b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x - 3, x) == [3]","solve([x - 3], x) == {x: 3}","solve(Eq(y + 3 * x ** 2 / 2, y + 3 * x), y) == []","solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x)], y) == []","solve([Eq(y + 3 * x ** 2 / 2, y + 3 * x), Eq(x, 1)], y) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_15415():
     assert solve(x - 3, x) == [3]
     assert solve([x - 3], x) == {x:3}
@@ -3771,16 +4604,24 @@ def test_issue_15415():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15731(), test_issue_15731 produces the expected output) over Any ║
+# ║ Path(test_issue_15731(), solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2 - 13 * x + 42), 1)) == [2, 3, 4, 5, 6, 7] and solve(x ** (x + 4) - 4) == [-2] and solve((-x) ** (-x + 4) - 4) == [2] and solve((x ** 2 - 6) ** (x ** 2 - 2) - 4) == [-2, 2] and solve((x ** 2 - 2 * x - 1) ** (x ** 2 - 3) - 1 / (1 - 2 * sqrt(2))) == [sqrt(2)] and solve(x ** (x + S.Half) - 4 * sqrt(2)) == [S(2)] and solve((x ** 2 + 1) ** x - 25) == [2] and solve(x ** (2 / x) - 2) == [2, 4] and solve((x / 2) ** (2 / x) - sqrt(2)) == [4, 8] and solve(x ** (x + S.Half) - Rational(9, 4)) == [Rational(3, 2)] and solve((-sqrt(sqrt(2))) ** x - 2) == [4, log(2) / (log(2 ** Rational(1, 4)) + I * pi)] and solve(sqrt(2) ** x - sqrt(sqrt(2))) == [S.Half] and solve((-sqrt(2)) ** x + 2 * sqrt(2)) == [3, (3 * log(2) ** 2 + 4 * pi ** 2 - 4 * I * pi * log(2)) / (log(2) ** 2 + 4 * pi ** 2)] and solve(sqrt(2) ** x - 2 * sqrt(2)) == [3] and solve(I ** x + 1) == [2] and solve((1 + I) ** x - 2 * I) == [2] and solve((sqrt(2) + sqrt(3)) ** x - (2 * sqrt(6) + 5) ** Rational(1, 3)) == [Rational(2, 3)] and solve(b ** x - b ** 2, x) == [2] and solve(b ** x - 1 / b, x) == [-1] and solve(b ** x - b, x) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15731 : Any → {Any | solve(x ** (x + 4) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2...   ║
+# ║   ensures:  solve(x ** (x + 4) - 4) == [-2]                ║
+# ║   ensures:  solve((-x) ** (-x + 4) - 4) == [2]             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15731 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19a9f8e8744a2c63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13c2767f656d3d98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_15731","kind":"function","src_hash":"8068fbf43aa7b3ab","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x ** (x + 4) - 4) == [-2] and solve((-x) ** (-x + 4) - 4) == [2] and solve((x ** 2 - 6) ** (x ** 2 - 2) - 4) == [-2, 2] and solve(x ** (x + S.Half) - 4 * sqrt(2)) == [S(2)] and solve((x ** 2 + 1) ** x - 25) == [2] and solve(x ** (2 / x) - 2) == [2, 4] and solve((x / 2) ** (2 / x) - sqrt(2)) == [4, 8] and solve(x ** (x + S.Half) - Rational(9, 4)) == [Rational(3, 2)] and solve(sqrt(2) ** x - sqrt(sqrt(2))) == [S.Half] and solve(sqrt(2) ** x - 2 * sqrt(2)) == [3] and solve(I ** x + 1) == [2] and solve((1 + I) ** x - 2 * I) == [2] and solve(b ** x - b ** 2, x) == [2] and solve(b ** x - 1 / b, x) == [-1] and solve(b ** x - b, x) == [1] and solve(b ** x - b ** 2, x) == [2] and solve(b ** x - 1 / b, x) == [-1]"},"spec":{"lhs":"test_issue_15731()","rhs":"test_issue_15731 produces the expected output","over":{"base":"Any"},"name":"test_issue_15731_correct"},"guarantee":"test_issue_15731 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_15731_correct","statement":"Path(test_issue_15731(x), test_issue_15731 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19a9f8e8744a2c63"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_15731","kind":"function","src_hash":"8068fbf43aa7b3ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2 - 13 * x + 42), 1)) == [2, 3, 4, 5, 6, 7] and solve(x ** (x + 4) - 4) == [-2] and solve((-x) ** (-x + 4) - 4) == [2] and solve((x ** 2 - 6) ** (x ** 2 - 2) - 4) == [-2, 2] and solve((x ** 2 - 2 * x - 1) ** (x ** 2 - 3) - 1 / (1 - 2 * sqrt(2))) == [sqrt(2)] and solve(x ** (x + S.Half) - 4 * sqrt(2)) == [S(2)] and solve((x ** 2 + 1) ** x - 25) == [2] and solve(x ** (2 / x) - 2) == [2, 4] and solve((x / 2) ** (2 / x) - sqrt(2)) == [4, 8] and solve(x ** (x + S.Half) - Rational(9, 4)) == [Rational(3, 2)] and solve((-sqrt(sqrt(2))) ** x - 2) == [4, log(2) / (log(2 ** Rational(1, 4)) + I * pi)] and solve(sqrt(2) ** x - sqrt(sqrt(2))) == [S.Half] and solve((-sqrt(2)) ** x + 2 * sqrt(2)) == [3, (3 * log(2) ** 2 + 4 * pi ** 2 - 4 * I * pi * log(2)) / (log(2) ** 2 + 4 * pi ** 2)] and solve(sqrt(2) ** x - 2 * sqrt(2)) == [3] and solve(I ** x + 1) == [2] and solve((1 + I) ** x - 2 * I) == [2] and solve((sqrt(2) + sqrt(3)) ** x - (2 * sqrt(6) + 5) ** Rational(1, 3)) == [Rational(2, 3)] and solve(b ** x - b ** 2, x) == [2] and solve(b ** x - 1 / b, x) == [-1] and solve(b ** x - b, x) == [1]"},"spec":{"lhs":"test_issue_15731()","rhs":"solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2 - 13 * x + 42), 1)) == [2, 3, 4, 5, 6, 7] and solve(x ** (x + 4) - 4) == [-2] and solve((-x) ** (-x + 4) - 4) == [2] and solve((x ** 2 - 6) ** (x ** 2 - 2) - 4) == [-2, 2] and solve((x ** 2 - 2 * x - 1) ** (x ** 2 - 3) - 1 / (1 - 2 * sqrt(2))) == [sqrt(2)] and solve(x ** (x + S.Half) - 4 * sqrt(2)) == [S(2)] and solve((x ** 2 + 1) ** x - 25) == [2] and solve(x ** (2 / x) - 2) == [2, 4] and solve((x / 2) ** (2 / x) - sqrt(2)) == [4, 8] and solve(x ** (x + S.Half) - Rational(9, 4)) == [Rational(3, 2)] and solve((-sqrt(sqrt(2))) ** x - 2) == [4, log(2) / (log(2 ** Rational(1, 4)) + I * pi)] and solve(sqrt(2) ** x - sqrt(sqrt(2))) == [S.Half] and solve((-sqrt(2)) ** x + 2 * sqrt(2)) == [3, (3 * log(2) ** 2 + 4 * pi ** 2 - 4 * I * pi * log(2)) / (log(2) ** 2 + 4 * pi ** 2)] and solve(sqrt(2) ** x - 2 * sqrt(2)) == [3] and solve(I ** x + 1) == [2] and solve((1 + I) ** x - 2 * I) == [2] and solve((sqrt(2) + sqrt(3)) ** x - (2 * sqrt(6) + 5) ** Rational(1, 3)) == [Rational(2, 3)] and solve(b ** x - b ** 2, x) == [2] and solve(b ** x - 1 / b, x) == [-1] and solve(b ** x - b, x) == [1]","over":{"base":"Any"},"name":"test_issue_15731_correct"},"guarantee":"solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2 - 13 * x + 42), 1)) == [2, 3, 4, 5, 6, 7]; solve(x ** (x + 4) - 4) == [-2]; solve((-x) ** (-x + 4) - 4) == [2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_15731_correct","statement":"Path(test_issue_15731(x), solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2 - 13 * x + 42), 1)) == [2, 3, 4, 5, 6, 7]; solve(x ** (x + 4) - 4) == [-2]; solve((-x) ** (-x + 4) - 4) == [2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c2767f656d3d98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(Eq((x ** 2 - 7 * x + 11) ** (x ** 2 - 13 * x + 42), 1)) == [2, 3, 4, 5, 6, 7]","solve(x ** (x + 4) - 4) == [-2]","solve((-x) ** (-x + 4) - 4) == [2]","solve((x ** 2 - 6) ** (x ** 2 - 2) - 4) == [-2, 2]","solve((x ** 2 - 2 * x - 1) ** (x ** 2 - 3) - 1 / (1 - 2 * sqrt(2))) == [sqrt(2)]","solve(x ** (x + S.Half) - 4 * sqrt(2)) == [S(2)]","solve((x ** 2 + 1) ** x - 25) == [2]","solve(x ** (2 / x) - 2) == [2, 4]","solve((x / 2) ** (2 / x) - sqrt(2)) == [4, 8]","solve(x ** (x + S.Half) - Rational(9, 4)) == [Rational(3, 2)]","solve((-sqrt(sqrt(2))) ** x - 2) == [4, log(2) / (log(2 ** Rational(1, 4)) + I * pi)]","solve(sqrt(2) ** x - sqrt(sqrt(2))) == [S.Half]","solve((-sqrt(2)) ** x + 2 * sqrt(2)) == [3, (3 * log(2) ** 2 + 4 * pi ** 2 - 4 * I * pi * log(2)) / (log(2) ** 2 + 4 * pi ** 2)]","solve(sqrt(2) ** x - 2 * sqrt(2)) == [3]","solve(I ** x + 1) == [2]","solve((1 + I) ** x - 2 * I) == [2]","solve((sqrt(2) + sqrt(3)) ** x - (2 * sqrt(6) + 5) ** Rational(1, 3)) == [Rational(2, 3)]","solve(b ** x - b ** 2, x) == [2]","solve(b ** x - 1 / b, x) == [-1]","solve(b ** x - b, x) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_issue_15731():
     # f(x)**g(x)=c
     assert solve(Eq((x**2 - 7*x + 11)**(x**2 - 13*x + 42), 1)) == [2, 3, 4, 5, 6, 7]
@@ -3813,48 +4654,68 @@ def test_issue_15731():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10933(), test_issue_10933 produces the expected output) over Any ║
+# ║ Path(test_issue_10933(), solve(x ** 4 + y * (x + 0.1), x) and solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10933 : Any → {Any | solve(x ** 4 + y * (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(x ** 4 + y * (x + 0.1), x)               ║
+# ║   ensures:  solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10933 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e2ddcbff5b3a5fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d61e7f3ab70c17cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_10933","kind":"function","src_hash":"ec589afba0baa4c4","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(x ** 4 + y * (x + 0.1), x) and solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)"},"spec":{"lhs":"test_issue_10933()","rhs":"test_issue_10933 produces the expected output","over":{"base":"Any"},"name":"test_issue_10933_correct"},"guarantee":"test_issue_10933 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_10933_correct","statement":"Path(test_issue_10933(x), test_issue_10933 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e2ddcbff5b3a5fd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_10933","kind":"function","src_hash":"ec589afba0baa4c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(x ** 4 + y * (x + 0.1), x) and solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)"},"spec":{"lhs":"test_issue_10933()","rhs":"solve(x ** 4 + y * (x + 0.1), x) and solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)","over":{"base":"Any"},"name":"test_issue_10933_correct"},"guarantee":"solve(x ** 4 + y * (x + 0.1), x); solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_10933_correct","statement":"Path(test_issue_10933(x), solve(x ** 4 + y * (x + 0.1), x); solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d61e7f3ab70c17cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(x ** 4 + y * (x + 0.1), x)","solve(I * x ** 4 + x ** 3 + x ** 2 + 1.0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10933():
     assert solve(x**4 + y*(x + 0.1), x)  # doesn't fail
     assert solve(I*x**4 + x**3 + x**2 + 1.)  # doesn't fail
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Abs_handling(), test_Abs_handling produces the expected output) over Any ║
+# ║ Path(test_Abs_handling(), solve(abs(x / y), x) == [0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Abs_handling : Any → {Any | solve(abs(x / y), x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(abs(x / y), x) == [0]                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Abs_handling : Any → {Any | result satisfies: so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c5f8145e2906d38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da6b4ec73d55151c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_Abs_handling","kind":"function","src_hash":"5131b0c474464daa","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(abs(x / y), x) == [0]"},"spec":{"lhs":"test_Abs_handling()","rhs":"test_Abs_handling produces the expected output","over":{"base":"Any"},"name":"test_Abs_handling_correct"},"guarantee":"test_Abs_handling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_Abs_handling_correct","statement":"Path(test_Abs_handling(x), test_Abs_handling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c5f8145e2906d38"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_Abs_handling","kind":"function","src_hash":"5131b0c474464daa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(abs(x / y), x) == [0]"},"spec":{"lhs":"test_Abs_handling()","rhs":"solve(abs(x / y), x) == [0]","over":{"base":"Any"},"name":"test_Abs_handling_correct"},"guarantee":"solve(abs(x / y), x) == [0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_Abs_handling_correct","statement":"Path(test_Abs_handling(x), solve(abs(x / y), x) == [0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da6b4ec73d55151c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(abs(x / y), x) == [0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Abs_handling():
     x = symbols('x', real=True)
     assert solve(abs(x/y), x) == [0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7982(), test_issue_7982 produces the expected output) over Any ║
+# ║ Path(test_issue_7982(), solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false and solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x / 5 - 106 >= 0, x - 1 <= 0], [x]) is S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7982 : Any → {Any | solve([2 * x ** 2 + 5 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([2 * x ** 2 + 5 * x + 20 <= 0, x >=...   ║
+# ║   ensures:  solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7982 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58095184fe1f1e64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 529a371e9820424e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7982","kind":"function","src_hash":"339c49d90b3dd5cf","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false"},"spec":{"lhs":"test_issue_7982()","rhs":"test_issue_7982 produces the expected output","over":{"base":"Any"},"name":"test_issue_7982_correct"},"guarantee":"test_issue_7982 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7982_correct","statement":"Path(test_issue_7982(x), test_issue_7982 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58095184fe1f1e64"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_7982","kind":"function","src_hash":"339c49d90b3dd5cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false and solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x / 5 - 106 >= 0, x - 1 <= 0], [x]) is S.false"},"spec":{"lhs":"test_issue_7982()","rhs":"solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false and solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x / 5 - 106 >= 0, x - 1 <= 0], [x]) is S.false","over":{"base":"Any"},"name":"test_issue_7982_correct"},"guarantee":"solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false; solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x / 5 - 106 >= 0, x - 1 <= 0], [x]) is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_7982_correct","statement":"Path(test_issue_7982(x), solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false; solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x / 5 - 106 >= 0, x - 1 <= 0], [x]) is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"529a371e9820424e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([2 * x ** 2 + 5 * x + 20 <= 0, x >= 1.5], x) is S.false","solve([x ** 3 - 8.08 * x ** 2 - 56.48 * x / 5 - 106 >= 0, x - 1 <= 0], [x]) is S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7982():
     x = Symbol('x')
     # Test that no exception happens
@@ -3864,32 +4725,44 @@ def test_issue_7982():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14645(), test_issue_14645 produces the expected output) over Any ║
+# ║ Path(test_issue_14645(), solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14645 : Any → {Any | solve([x * y - x - y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([x * y - x - y, x * y - x - y], [x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14645 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e4e27d9db55d68a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f62ebe2c76e1752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14645","kind":"function","src_hash":"aa1c8a7e5cf5894f","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)]"},"spec":{"lhs":"test_issue_14645()","rhs":"test_issue_14645 produces the expected output","over":{"base":"Any"},"name":"test_issue_14645_correct"},"guarantee":"test_issue_14645 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14645_correct","statement":"Path(test_issue_14645(x), test_issue_14645 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e4e27d9db55d68a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_14645","kind":"function","src_hash":"aa1c8a7e5cf5894f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)]"},"spec":{"lhs":"test_issue_14645()","rhs":"solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)]","over":{"base":"Any"},"name":"test_issue_14645_correct"},"guarantee":"solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_14645_correct","statement":"Path(test_issue_14645(x), solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f62ebe2c76e1752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([x * y - x - y, x * y - x - y], [x, y]) == [(y / (y - 1), y)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14645():
     x, y = symbols('x y')
     assert solve([x*y - x - y, x*y - x - y], [x, y]) == [(y/(y - 1), y)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12024(), test_issue_12024 produces the expected output) over Any ║
+# ║ Path(test_issue_12024(), solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == [{y: Piecewise((0.0, x < 0.1), (x, True))}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12024 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(Piecewise((0.0, x < 0.1), (x, x >= ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12024 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85a5f9fc7c20f72b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d48e71978fba6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12024","kind":"function","src_hash":"1b435909f76b1822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_12024()","rhs":"test_issue_12024 produces the expected output","over":{"base":"Any"},"name":"test_issue_12024_correct"},"guarantee":"test_issue_12024 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12024_correct","statement":"Path(test_issue_12024(x), test_issue_12024 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85a5f9fc7c20f72b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_12024","kind":"function","src_hash":"1b435909f76b1822","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == [{y: Piecewise((0.0, x < 0.1), (x, True))}]"},"spec":{"lhs":"test_issue_12024()","rhs":"solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == [{y: Piecewise((0.0, x < 0.1), (x, True))}]","over":{"base":"Any"},"name":"test_issue_12024_correct"},"guarantee":"solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == [{y: Piecewise((0.0, x < 0.1), (x, True))}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_12024_correct","statement":"Path(test_issue_12024(x), solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == [{y: Piecewise((0.0, x < 0.1), (x, True))}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d48e71978fba6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == [{y: Piecewise((0.0, x < 0.1), (x, True))}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12024():
     x, y = symbols('x y')
     assert solve(Piecewise((0.0, x < 0.1), (x, x >= 0.1)) - y) == \
@@ -3897,16 +4770,23 @@ def test_issue_12024():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17452(), test_issue_17452 produces the expected output) over Any ║
+# ║ Path(test_issue_17452(), solve((7 ** x) ** x + pi, x) == [-sqrt(log(pi) + I * pi) / sqrt(log(7)), sqrt(log(pi) + I * pi) / sqrt(log(7))] and solve(x ** (x / 11) + pi / 11, x) == [exp(LambertW(-11 * log(11) + 11 * log(pi) + 11 * I * pi))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17452 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((7 ** x) ** x + pi, x) == [-sqrt(lo...   ║
+# ║   ensures:  solve(x ** (x / 11) + pi / 11, x) == [exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17452 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02b5d46713240baf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de89c73156031da6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17452","kind":"function","src_hash":"d95b6a23df51f30f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17452()","rhs":"test_issue_17452 produces the expected output","over":{"base":"Any"},"name":"test_issue_17452_correct"},"guarantee":"test_issue_17452 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17452_correct","statement":"Path(test_issue_17452(x), test_issue_17452 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02b5d46713240baf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17452","kind":"function","src_hash":"d95b6a23df51f30f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((7 ** x) ** x + pi, x) == [-sqrt(log(pi) + I * pi) / sqrt(log(7)), sqrt(log(pi) + I * pi) / sqrt(log(7))] and solve(x ** (x / 11) + pi / 11, x) == [exp(LambertW(-11 * log(11) + 11 * log(pi) + 11 * I * pi))]"},"spec":{"lhs":"test_issue_17452()","rhs":"solve((7 ** x) ** x + pi, x) == [-sqrt(log(pi) + I * pi) / sqrt(log(7)), sqrt(log(pi) + I * pi) / sqrt(log(7))] and solve(x ** (x / 11) + pi / 11, x) == [exp(LambertW(-11 * log(11) + 11 * log(pi) + 11 * I * pi))]","over":{"base":"Any"},"name":"test_issue_17452_correct"},"guarantee":"solve((7 ** x) ** x + pi, x) == [-sqrt(log(pi) + I * pi) / sqrt(log(7)), sqrt(log(pi) + I * pi) / sqrt(log(7))]; solve(x ** (x / 11) + pi / 11, x) == [exp(LambertW(-11 * log(11) + 11 * log(pi) + 11 * I * pi))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17452_correct","statement":"Path(test_issue_17452(x), solve((7 ** x) ** x + pi, x) == [-sqrt(log(pi) + I * pi) / sqrt(log(7)), sqrt(log(pi) + I * pi) / sqrt(log(7))]; solve(x ** (x / 11) + pi / 11, x) == [exp(LambertW(-11 * log(11) + 11 * log(pi) + 11 * I * pi))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de89c73156031da6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((7 ** x) ** x + pi, x) == [-sqrt(log(pi) + I * pi) / sqrt(log(7)), sqrt(log(pi) + I * pi) / sqrt(log(7))]","solve(x ** (x / 11) + pi / 11, x) == [exp(LambertW(-11 * log(11) + 11 * log(pi) + 11 * I * pi))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17452():
     assert solve((7**x)**x + pi, x) == [-sqrt(log(pi) + I*pi)/sqrt(log(7)),
                                         sqrt(log(pi) + I*pi)/sqrt(log(7))]
@@ -3914,63 +4794,89 @@ def test_issue_17452():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17799(), test_issue_17799 produces the expected output) over Any ║
+# ║ Path(test_issue_17799(), solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17799 : Any → {Any | solve(-erf(x ** (S(1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(-erf(x ** (S(1) / 3)) ** pi + I, x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17799 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0af76a7d46e6e90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54902435edeb6dc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17799","kind":"function","src_hash":"d0eab95cb7918005","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == []"},"spec":{"lhs":"test_issue_17799()","rhs":"test_issue_17799 produces the expected output","over":{"base":"Any"},"name":"test_issue_17799_correct"},"guarantee":"test_issue_17799 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17799_correct","statement":"Path(test_issue_17799(x), test_issue_17799 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0af76a7d46e6e90"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17799","kind":"function","src_hash":"d0eab95cb7918005","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == []"},"spec":{"lhs":"test_issue_17799()","rhs":"solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == []","over":{"base":"Any"},"name":"test_issue_17799_correct"},"guarantee":"solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17799_correct","statement":"Path(test_issue_17799(x), solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54902435edeb6dc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(-erf(x ** (S(1) / 3)) ** pi + I, x) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_17799():
     assert solve(-erf(x**(S(1)/3))**pi + I, x) == []
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17650(), test_issue_17650 produces the expected output) over Any ║
+# ║ Path(test_issue_17650(), solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17650 : Any → {Any | solve(abs(abs(x ** 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(abs(abs(x ** 2 - 1) - x) - x) == [1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17650 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b80c9b553b8ece4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52b1f1b54476e6ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17650","kind":"function","src_hash":"4911b5c897efc4b6","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]"},"spec":{"lhs":"test_issue_17650()","rhs":"test_issue_17650 produces the expected output","over":{"base":"Any"},"name":"test_issue_17650_correct"},"guarantee":"test_issue_17650 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17650_correct","statement":"Path(test_issue_17650(x), test_issue_17650 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b80c9b553b8ece4b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17650","kind":"function","src_hash":"4911b5c897efc4b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]"},"spec":{"lhs":"test_issue_17650()","rhs":"solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]","over":{"base":"Any"},"name":"test_issue_17650_correct"},"guarantee":"solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17650_correct","statement":"Path(test_issue_17650(x), solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52b1f1b54476e6ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(abs(abs(x ** 2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17650():
     x = Symbol('x', real=True)
     assert solve(abs(abs(x**2 - 1) - x) - x) == [1, -1 + sqrt(2), 1 + sqrt(2)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17882(), test_issue_17882 produces the expected output) over Any ║
+# ║ Path(test_issue_17882(), unrad(eq) is None) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17882 : Any → {Any | unrad(eq) is None}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unrad(eq) is None                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17882 : Any → {Any | result satisfies: unr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30a9cecfce89bc97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9775e3cf45065e48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17882","kind":"function","src_hash":"42ae4b0989d0a6e2","in":{"base":"Any"},"out":{"base":"Any","pred":"unrad(eq) is None"},"spec":{"lhs":"test_issue_17882()","rhs":"test_issue_17882 produces the expected output","over":{"base":"Any"},"name":"test_issue_17882_correct"},"guarantee":"test_issue_17882 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17882_correct","statement":"Path(test_issue_17882(x), test_issue_17882 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30a9cecfce89bc97"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17882","kind":"function","src_hash":"42ae4b0989d0a6e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unrad(eq) is None"},"spec":{"lhs":"test_issue_17882()","rhs":"unrad(eq) is None","over":{"base":"Any"},"name":"test_issue_17882_correct"},"guarantee":"unrad(eq) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17882_correct","statement":"Path(test_issue_17882(x), unrad(eq) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9775e3cf45065e48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unrad(eq) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17882():
     eq = -8*x**2/(9*(x**2 - 1)**(S(4)/3)) + 4/(3*(x**2 - 1)**(S(1)/3))
     assert unrad(eq) is None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17949(), test_issue_17949 produces the expected output) over Any ║
+# ║ Path(test_issue_17949(), solve(exp(+x + x ** 2), x) == [] and solve(exp(-x + x ** 2), x) == [] and solve(exp(+x - x ** 2), x) == [] and solve(exp(-x - x ** 2), x) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17949 : Any → {Any | solve(exp(+x + x ** 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(exp(+x + x ** 2), x) == []               ║
+# ║   ensures:  solve(exp(-x + x ** 2), x) == []               ║
+# ║   ensures:  solve(exp(+x - x ** 2), x) == []               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17949 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c46031a5a38cfee6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a90e55d9bd6087d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17949","kind":"function","src_hash":"e8b9fb2d3cfd3de7","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(exp(+x + x ** 2), x) == [] and solve(exp(-x + x ** 2), x) == [] and solve(exp(+x - x ** 2), x) == [] and solve(exp(-x - x ** 2), x) == []"},"spec":{"lhs":"test_issue_17949()","rhs":"test_issue_17949 produces the expected output","over":{"base":"Any"},"name":"test_issue_17949_correct"},"guarantee":"test_issue_17949 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17949_correct","statement":"Path(test_issue_17949(x), test_issue_17949 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c46031a5a38cfee6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17949","kind":"function","src_hash":"e8b9fb2d3cfd3de7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(exp(+x + x ** 2), x) == [] and solve(exp(-x + x ** 2), x) == [] and solve(exp(+x - x ** 2), x) == [] and solve(exp(-x - x ** 2), x) == []"},"spec":{"lhs":"test_issue_17949()","rhs":"solve(exp(+x + x ** 2), x) == [] and solve(exp(-x + x ** 2), x) == [] and solve(exp(+x - x ** 2), x) == [] and solve(exp(-x - x ** 2), x) == []","over":{"base":"Any"},"name":"test_issue_17949_correct"},"guarantee":"solve(exp(+x + x ** 2), x) == []; solve(exp(-x + x ** 2), x) == []; solve(exp(+x - x ** 2), x) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17949_correct","statement":"Path(test_issue_17949(x), solve(exp(+x + x ** 2), x) == []; solve(exp(-x + x ** 2), x) == []; solve(exp(+x - x ** 2), x) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a90e55d9bd6087d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(exp(+x + x ** 2), x) == []","solve(exp(-x + x ** 2), x) == []","solve(exp(+x - x ** 2), x) == []","solve(exp(-x - x ** 2), x) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17949():
     assert solve(exp(+x+x**2), x) == []
     assert solve(exp(-x+x**2), x) == []
@@ -3979,16 +4885,24 @@ def test_issue_17949():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10993(), test_issue_10993 produces the expected output) over Any ║
+# ║ Path(test_issue_10993(), solve(Eq(binomial(x, 2), 3)) == [-2, 3] and solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1] and solve(Eq(binomial(x, 2), 0)) == [0, 1] and solve(a + binomial(x, 3), a) == [-binomial(x, 3)] and solve(x - binomial(a, 3) + binomial(y, 2) + sin(a), x) == [-sin(a) + binomial(a, 3) - binomial(y, 2)] and solve(x + 1 - binomial(x + 1, 3), x) == [-2, -1, 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10993 : Any → {Any | solve(Eq(binomial(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(Eq(binomial(x, 2), 3)) == [-2, 3]        ║
+# ║   ensures:  solve(Eq(pow(x, 2) + binomial(x, 3), x)) ...   ║
+# ║   ensures:  solve(Eq(binomial(x, 2), 0)) == [0, 1]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10993 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 648a511b7ea7dcc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c06a6ab34b726d3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_10993","kind":"function","src_hash":"3b9f924d80f461cc","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(Eq(binomial(x, 2), 3)) == [-2, 3] and solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1] and solve(Eq(binomial(x, 2), 0)) == [0, 1] and solve(a + binomial(x, 3), a) == [-binomial(x, 3)] and solve(x + 1 - binomial(x + 1, 3), x) == [-2, -1, 3]"},"spec":{"lhs":"test_issue_10993()","rhs":"test_issue_10993 produces the expected output","over":{"base":"Any"},"name":"test_issue_10993_correct"},"guarantee":"test_issue_10993 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_10993_correct","statement":"Path(test_issue_10993(x), test_issue_10993 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"648a511b7ea7dcc5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_10993","kind":"function","src_hash":"3b9f924d80f461cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(Eq(binomial(x, 2), 3)) == [-2, 3] and solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1] and solve(Eq(binomial(x, 2), 0)) == [0, 1] and solve(a + binomial(x, 3), a) == [-binomial(x, 3)] and solve(x - binomial(a, 3) + binomial(y, 2) + sin(a), x) == [-sin(a) + binomial(a, 3) - binomial(y, 2)] and solve(x + 1 - binomial(x + 1, 3), x) == [-2, -1, 3]"},"spec":{"lhs":"test_issue_10993()","rhs":"solve(Eq(binomial(x, 2), 3)) == [-2, 3] and solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1] and solve(Eq(binomial(x, 2), 0)) == [0, 1] and solve(a + binomial(x, 3), a) == [-binomial(x, 3)] and solve(x - binomial(a, 3) + binomial(y, 2) + sin(a), x) == [-sin(a) + binomial(a, 3) - binomial(y, 2)] and solve(x + 1 - binomial(x + 1, 3), x) == [-2, -1, 3]","over":{"base":"Any"},"name":"test_issue_10993_correct"},"guarantee":"solve(Eq(binomial(x, 2), 3)) == [-2, 3]; solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1]; solve(Eq(binomial(x, 2), 0)) == [0, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_10993_correct","statement":"Path(test_issue_10993(x), solve(Eq(binomial(x, 2), 3)) == [-2, 3]; solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1]; solve(Eq(binomial(x, 2), 0)) == [0, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c06a6ab34b726d3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(Eq(binomial(x, 2), 3)) == [-2, 3]","solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1]","solve(Eq(binomial(x, 2), 0)) == [0, 1]","solve(a + binomial(x, 3), a) == [-binomial(x, 3)]","solve(x - binomial(a, 3) + binomial(y, 2) + sin(a), x) == [-sin(a) + binomial(a, 3) - binomial(y, 2)]","solve(x + 1 - binomial(x + 1, 3), x) == [-2, -1, 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_10993():
     assert solve(Eq(binomial(x, 2), 3)) == [-2, 3]
     assert solve(Eq(pow(x, 2) + binomial(x, 3), x)) == [-4, 0, 1]
@@ -3999,16 +4913,23 @@ def test_issue_10993():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11553(), test_issue_11553 produces the expected output) over Any ║
+# ║ Path(test_issue_11553(), solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio} and solve([eq1, eq3], x, y) == {x: -2 - TribonacciConstant, y: 1 + TribonacciConstant}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11553 : Any → {Any | solve([eq1, eq2], x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([eq1, eq2], x, y) == {x: -GoldenRat...   ║
+# ║   ensures:  solve([eq1, eq3], x, y) == {x: -2 - Tribo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11553 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a781fc56be8280f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6592462b9a5dacf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_11553","kind":"function","src_hash":"23aac8dec545a731","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio}"},"spec":{"lhs":"test_issue_11553()","rhs":"test_issue_11553 produces the expected output","over":{"base":"Any"},"name":"test_issue_11553_correct"},"guarantee":"test_issue_11553 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_11553_correct","statement":"Path(test_issue_11553(x), test_issue_11553 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a781fc56be8280f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_11553","kind":"function","src_hash":"23aac8dec545a731","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio} and solve([eq1, eq3], x, y) == {x: -2 - TribonacciConstant, y: 1 + TribonacciConstant}"},"spec":{"lhs":"test_issue_11553()","rhs":"solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio} and solve([eq1, eq3], x, y) == {x: -2 - TribonacciConstant, y: 1 + TribonacciConstant}","over":{"base":"Any"},"name":"test_issue_11553_correct"},"guarantee":"solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio}; solve([eq1, eq3], x, y) == {x: -2 - TribonacciConstant, y: 1 + TribonacciConstant}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_11553_correct","statement":"Path(test_issue_11553(x), solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio}; solve([eq1, eq3], x, y) == {x: -2 - TribonacciConstant, y: 1 + TribonacciConstant})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6592462b9a5dacf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([eq1, eq2], x, y) == {x: -GoldenRatio, y: -1 + GoldenRatio}","solve([eq1, eq3], x, y) == {x: -2 - TribonacciConstant, y: 1 + TribonacciConstant}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11553():
     eq1 = x + y + 1
     eq2 = x + GoldenRatio
@@ -4018,16 +4939,24 @@ def test_issue_11553():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19113_19102(), test_issue_19113_19102 produces the expected output) over Any ║
+# ║ Path(test_issue_19113_19102(), solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) == [atan(2 ** t), -atan(2 ** t * (1 - sqrt(3) * I) / 2), -atan(2 ** t * (1 + sqrt(3) * I) / 2)] and solve(cos(x) ** 2 + sin(x)) == [2 * atan(-h + sqrt(5) / 2 + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(h + sqrt(5) / 2 + sqrt(2) * sqrt(1 + sqrt(5)) / 2), -2 * atan(-sqrt(5) / 2 + h + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(-sqrt(2) * sqrt(1 + sqrt(5)) / 2 + h + sqrt(5) / 2)] and solve(3 * cos(x) - sin(x)) == [atan(3)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19113_19102 : Any → {Any | solve(3 * cos(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) ...   ║
+# ║   ensures:  solve(cos(x) ** 2 + sin(x)) == [2 * atan(...   ║
+# ║   ensures:  solve(3 * cos(x) - sin(x)) == [atan(3)]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19113_19102 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db52fdf064c5fdf3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00ef7aa9a073ba0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_19113_19102","kind":"function","src_hash":"2332b00139c97992","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(3 * cos(x) - sin(x)) == [atan(3)]"},"spec":{"lhs":"test_issue_19113_19102()","rhs":"test_issue_19113_19102 produces the expected output","over":{"base":"Any"},"name":"test_issue_19113_19102_correct"},"guarantee":"test_issue_19113_19102 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_19113_19102_correct","statement":"Path(test_issue_19113_19102(x), test_issue_19113_19102 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db52fdf064c5fdf3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_19113_19102","kind":"function","src_hash":"2332b00139c97992","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) == [atan(2 ** t), -atan(2 ** t * (1 - sqrt(3) * I) / 2), -atan(2 ** t * (1 + sqrt(3) * I) / 2)] and solve(cos(x) ** 2 + sin(x)) == [2 * atan(-h + sqrt(5) / 2 + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(h + sqrt(5) / 2 + sqrt(2) * sqrt(1 + sqrt(5)) / 2), -2 * atan(-sqrt(5) / 2 + h + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(-sqrt(2) * sqrt(1 + sqrt(5)) / 2 + h + sqrt(5) / 2)] and solve(3 * cos(x) - sin(x)) == [atan(3)]"},"spec":{"lhs":"test_issue_19113_19102()","rhs":"solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) == [atan(2 ** t), -atan(2 ** t * (1 - sqrt(3) * I) / 2), -atan(2 ** t * (1 + sqrt(3) * I) / 2)] and solve(cos(x) ** 2 + sin(x)) == [2 * atan(-h + sqrt(5) / 2 + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(h + sqrt(5) / 2 + sqrt(2) * sqrt(1 + sqrt(5)) / 2), -2 * atan(-sqrt(5) / 2 + h + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(-sqrt(2) * sqrt(1 + sqrt(5)) / 2 + h + sqrt(5) / 2)] and solve(3 * cos(x) - sin(x)) == [atan(3)]","over":{"base":"Any"},"name":"test_issue_19113_19102_correct"},"guarantee":"solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) == [atan(2 ** t), -atan(2 ** t * (1 - sqrt(3) * I) / 2), -atan(2 ** t * (1 + sqrt(3) * I) / 2)]; solve(cos(x) ** 2 + sin(x)) == [2 * atan(-h + sqrt(5) / 2 + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(h + sqrt(5) / 2 + sqrt(2) * sqrt(1 + sqrt(5)) / 2), -2 * atan(-sqrt(5) / 2 + h + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(-sqrt(2) * sqrt(1 + sqrt(5)) / 2 + h + sqrt(5) / 2)]; solve(3 * cos(x) - sin(x)) == [atan(3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_19113_19102_correct","statement":"Path(test_issue_19113_19102(x), solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) == [atan(2 ** t), -atan(2 ** t * (1 - sqrt(3) * I) / 2), -atan(2 ** t * (1 + sqrt(3) * I) / 2)]; solve(cos(x) ** 2 + sin(x)) == [2 * atan(-h + sqrt(5) / 2 + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(h + sqrt(5) / 2 + sqrt(2) * sqrt(1 + sqrt(5)) / 2), -2 * atan(-sqrt(5) / 2 + h + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(-sqrt(2) * sqrt(1 + sqrt(5)) / 2 + h + sqrt(5) / 2)]; solve(3 * cos(x) - sin(x)) == [atan(3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00ef7aa9a073ba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(4 * cos(x) ** 3 - 2 * sin(x) ** 3) == [atan(2 ** t), -atan(2 ** t * (1 - sqrt(3) * I) / 2), -atan(2 ** t * (1 + sqrt(3) * I) / 2)]","solve(cos(x) ** 2 + sin(x)) == [2 * atan(-h + sqrt(5) / 2 + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(h + sqrt(5) / 2 + sqrt(2) * sqrt(1 + sqrt(5)) / 2), -2 * atan(-sqrt(5) / 2 + h + sqrt(2) * sqrt(1 - sqrt(5)) / 2), -2 * atan(-sqrt(2) * sqrt(1 + sqrt(5)) / 2 + h + sqrt(5) / 2)]","solve(3 * cos(x) - sin(x)) == [atan(3)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_19113_19102():
     t = S(1)/3
     solve(cos(x)**5-sin(x)**5)
@@ -4044,16 +4973,22 @@ def test_issue_19113_19102():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19509(), test_issue_19509 produces the expected output) over Any ║
+# ║ Path(test_issue_19509(), solve(1 / (x - 1) ** 5 - 1) == [2, -d + a - sqrt(-b + c), -d + a + sqrt(-b + c), d + a - sqrt(-b - c), d + a + sqrt(-b - c)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19509 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(1 / (x - 1) ** 5 - 1) == [2, -d + a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19509 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0394ef97d7d825c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed78c4734b486f10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_19509","kind":"function","src_hash":"0dcf53ea587cdacb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_19509()","rhs":"test_issue_19509 produces the expected output","over":{"base":"Any"},"name":"test_issue_19509_correct"},"guarantee":"test_issue_19509 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_19509_correct","statement":"Path(test_issue_19509(x), test_issue_19509 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0394ef97d7d825c2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_19509","kind":"function","src_hash":"0dcf53ea587cdacb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(1 / (x - 1) ** 5 - 1) == [2, -d + a - sqrt(-b + c), -d + a + sqrt(-b + c), d + a - sqrt(-b - c), d + a + sqrt(-b - c)]"},"spec":{"lhs":"test_issue_19509()","rhs":"solve(1 / (x - 1) ** 5 - 1) == [2, -d + a - sqrt(-b + c), -d + a + sqrt(-b + c), d + a - sqrt(-b - c), d + a + sqrt(-b - c)]","over":{"base":"Any"},"name":"test_issue_19509_correct"},"guarantee":"solve(1 / (x - 1) ** 5 - 1) == [2, -d + a - sqrt(-b + c), -d + a + sqrt(-b + c), d + a - sqrt(-b - c), d + a + sqrt(-b - c)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_19509_correct","statement":"Path(test_issue_19509(x), solve(1 / (x - 1) ** 5 - 1) == [2, -d + a - sqrt(-b + c), -d + a + sqrt(-b + c), d + a - sqrt(-b - c), d + a + sqrt(-b - c)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed78c4734b486f10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(1 / (x - 1) ** 5 - 1) == [2, -d + a - sqrt(-b + c), -d + a + sqrt(-b + c), d + a - sqrt(-b - c), d + a + sqrt(-b - c)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19509():
     a = S(3)/4
     b = S(5)/8
@@ -4066,16 +5001,22 @@ def test_issue_19509():
         d + a + sqrt(-b - c)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20747(), test_issue_20747 produces the expected output) over Any ║
+# ║ Path(test_issue_20747(), solve(eq, HT) == sol) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20747 : Any → {Any | solve(eq, HT) == sol}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eq, HT) == sol                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20747 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0feed55a843ccafd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95d9bb2bcaab7e87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_20747","kind":"function","src_hash":"5e8dc6eeafd9101e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(eq, HT) == sol"},"spec":{"lhs":"test_issue_20747()","rhs":"test_issue_20747 produces the expected output","over":{"base":"Any"},"name":"test_issue_20747_correct"},"guarantee":"test_issue_20747 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_20747_correct","statement":"Path(test_issue_20747(x), test_issue_20747 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0feed55a843ccafd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_20747","kind":"function","src_hash":"5e8dc6eeafd9101e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eq, HT) == sol"},"spec":{"lhs":"test_issue_20747()","rhs":"solve(eq, HT) == sol","over":{"base":"Any"},"name":"test_issue_20747_correct"},"guarantee":"solve(eq, HT) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_20747_correct","statement":"Path(test_issue_20747(x), solve(eq, HT) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95d9bb2bcaab7e87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eq, HT) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_20747():
     THT, HT, DBH, dib, c0, c1, c2, c3, c4  = symbols('THT HT DBH dib c0 c1 c2 c3 c4')
     f = DBH*c3 + THT*c4 + c2
@@ -4088,16 +5029,24 @@ def test_issue_20747():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_27001(), test_issue_27001 produces the expected output) over Any ║
+# ║ Path(test_issue_27001(), solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}] and solve(eqs, s, dict=True) == sol and (g := solve(groebner(eqs, s), dict=True)) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_27001 : Any → {Any | solve((x, x ** 2), (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((x, x ** 2), (x, y, z), dict=True) ...   ║
+# ║   ensures:  solve(eqs, s, dict=True) == sol                ║
+# ║   ensures:  (g := solve(groebner(eqs, s), dict=True))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_27001 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d54667423baaefe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41568033c2b78fbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_27001","kind":"function","src_hash":"d6925534a381de45","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}] and solve(eqs, s, dict=True) == sol and (g := solve(groebner(eqs, s), dict=True)) == sol"},"spec":{"lhs":"test_issue_27001()","rhs":"test_issue_27001 produces the expected output","over":{"base":"Any"},"name":"test_issue_27001_correct"},"guarantee":"test_issue_27001 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_27001_correct","statement":"Path(test_issue_27001(x), test_issue_27001 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d54667423baaefe6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_27001","kind":"function","src_hash":"d6925534a381de45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}] and solve(eqs, s, dict=True) == sol and (g := solve(groebner(eqs, s), dict=True)) == sol"},"spec":{"lhs":"test_issue_27001()","rhs":"solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}] and solve(eqs, s, dict=True) == sol and (g := solve(groebner(eqs, s), dict=True)) == sol","over":{"base":"Any"},"name":"test_issue_27001_correct"},"guarantee":"solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}]; solve(eqs, s, dict=True) == sol; (g := solve(groebner(eqs, s), dict=True)) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_27001_correct","statement":"Path(test_issue_27001(x), solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}]; solve(eqs, s, dict=True) == sol; (g := solve(groebner(eqs, s), dict=True)) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41568033c2b78fbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((x, x ** 2), (x, y, z), dict=True) == [{x: 0}]","solve(eqs, s, dict=True) == sol","(g := solve(groebner(eqs, s), dict=True)) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_27001():
     assert solve((x, x**2), (x, y, z), dict=True) == [{x: 0}]
     s = a1, a2, a3, a4, a5 = symbols('a1:6')
@@ -4111,16 +5060,24 @@ def test_issue_27001():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20902(), test_issue_20902 produces the expected output) over Any ║
+# ║ Path(test_issue_20902(), solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3) and solve(f.subs({t: 3 * x + 3}).diff(x) > 0, x) == (S(-4) / 3 < x) & (x < S(-2) / 3) and solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20902 : Any → {Any | solve(f.subs({t: 3 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(f.subs({t: 3 * x + 2}).diff(x) > 0,...   ║
+# ║   ensures:  solve(f.subs({t: 3 * x + 3}).diff(x) > 0,...   ║
+# ║   ensures:  solve(f.subs({t: 3 * x + 4}).diff(x) > 0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20902 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d666278197efb2ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ab599f8192fe47d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_20902","kind":"function","src_hash":"8818196ba916568e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3) and solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1)) and solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3)"},"spec":{"lhs":"test_issue_20902()","rhs":"test_issue_20902 produces the expected output","over":{"base":"Any"},"name":"test_issue_20902_correct"},"guarantee":"test_issue_20902 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_20902_correct","statement":"Path(test_issue_20902(x), test_issue_20902 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d666278197efb2ab"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_20902","kind":"function","src_hash":"8818196ba916568e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3) and solve(f.subs({t: 3 * x + 3}).diff(x) > 0, x) == (S(-4) / 3 < x) & (x < S(-2) / 3) and solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1))"},"spec":{"lhs":"test_issue_20902()","rhs":"solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3) and solve(f.subs({t: 3 * x + 3}).diff(x) > 0, x) == (S(-4) / 3 < x) & (x < S(-2) / 3) and solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1))","over":{"base":"Any"},"name":"test_issue_20902_correct"},"guarantee":"solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3); solve(f.subs({t: 3 * x + 3}).diff(x) > 0, x) == (S(-4) / 3 < x) & (x < S(-2) / 3); solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_20902_correct","statement":"Path(test_issue_20902(x), solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3); solve(f.subs({t: 3 * x + 3}).diff(x) > 0, x) == (S(-4) / 3 < x) & (x < S(-2) / 3); solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ab599f8192fe47d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1) / 3)","solve(f.subs({t: 3 * x + 3}).diff(x) > 0, x) == (S(-4) / 3 < x) & (x < S(-2) / 3)","solve(f.subs({t: 3 * x + 4}).diff(x) > 0, x) == (S(-5) / 3 < x) & (x < S(-1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_20902():
     f = (t / ((1 + t) ** 2))
     assert solve(f.subs({t: 3 * x + 2}).diff(x) > 0, x) == (S(-1) < x) & (x < S(-1)/3)
@@ -4130,16 +5087,23 @@ def test_issue_20902():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21034(), test_issue_21034 produces the expected output) over Any ║
+# ║ Path(test_issue_21034(), solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))] and solve(newsystem, x) == {x: 5}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21034 : Any → {Any | solve(system, x, y, z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(system, x, y, z) == [(cosh(cos(4)),...   ║
+# ║   ensures:  solve(newsystem, x) == {x: 5}                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21034 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf3483e99fb29b86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bbbcac6e1f31d34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21034","kind":"function","src_hash":"f176028c6f2bfab7","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))] and solve(newsystem, x) == {x: 5}"},"spec":{"lhs":"test_issue_21034()","rhs":"test_issue_21034 produces the expected output","over":{"base":"Any"},"name":"test_issue_21034_correct"},"guarantee":"test_issue_21034 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21034_correct","statement":"Path(test_issue_21034(x), test_issue_21034 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf3483e99fb29b86"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21034","kind":"function","src_hash":"f176028c6f2bfab7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))] and solve(newsystem, x) == {x: 5}"},"spec":{"lhs":"test_issue_21034()","rhs":"solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))] and solve(newsystem, x) == {x: 5}","over":{"base":"Any"},"name":"test_issue_21034_correct"},"guarantee":"solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))]; solve(newsystem, x) == {x: 5}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21034_correct","statement":"Path(test_issue_21034(x), solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))]; solve(newsystem, x) == {x: 5})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bbbcac6e1f31d34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(system, x, y, z) == [(cosh(cos(4)), sinh(cos(a)), tanh(cosh(cos(4))))]","solve(newsystem, x) == {x: 5}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21034():
     a = symbols('a', real=True)
     system = [x - cosh(cos(4)), y - sinh(cos(a)), z - tanh(x)]
@@ -4152,16 +5116,22 @@ def test_issue_21034():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4886(), test_issue_4886 produces the expected output) over Any ║
+# ║ Path(test_issue_4886(), solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4886 : Any → {Any | solve([x ** 2 + y ** 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve([x ** 2 + y ** 2 - R ** 2, a * x + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4886 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 167f9174aa8165d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 263918bc30f7c6db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4886","kind":"function","src_hash":"ec716b95ed6b5542","in":{"base":"Any"},"out":{"base":"Any","pred":"solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol"},"spec":{"lhs":"test_issue_4886()","rhs":"test_issue_4886 produces the expected output","over":{"base":"Any"},"name":"test_issue_4886_correct"},"guarantee":"test_issue_4886 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4886_correct","statement":"Path(test_issue_4886(x), test_issue_4886 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"167f9174aa8165d0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_4886","kind":"function","src_hash":"ec716b95ed6b5542","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol"},"spec":{"lhs":"test_issue_4886()","rhs":"solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol","over":{"base":"Any"},"name":"test_issue_4886_correct"},"guarantee":"solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_4886_correct","statement":"Path(test_issue_4886(x), solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263918bc30f7c6db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve([x ** 2 + y ** 2 - R ** 2, a * x + b * y - c], x, y) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4886():
     z = a*sqrt(R**2*a**2 + R**2*b**2 - c**2)/(a**2 + b**2)
     t = b*c/(a**2 + b**2)
@@ -4170,64 +5140,88 @@ def test_issue_4886():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6819(), test_issue_6819 produces the expected output) over Any ║
+# ║ Path(test_issue_6819(), solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6819 : Any → {Any | solve(a * b ** x - c *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(a * b ** x - c * d ** x, x) == [log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6819 : Any → {Any | result satisfies: solv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 304172cb7b052c2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8256987d624512ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6819","kind":"function","src_hash":"006f9ea85cbebbae","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)]"},"spec":{"lhs":"test_issue_6819()","rhs":"test_issue_6819 produces the expected output","over":{"base":"Any"},"name":"test_issue_6819_correct"},"guarantee":"test_issue_6819 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6819_correct","statement":"Path(test_issue_6819(x), test_issue_6819 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304172cb7b052c2a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_6819","kind":"function","src_hash":"006f9ea85cbebbae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)]"},"spec":{"lhs":"test_issue_6819()","rhs":"solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)]","over":{"base":"Any"},"name":"test_issue_6819_correct"},"guarantee":"solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_6819_correct","statement":"Path(test_issue_6819(x), solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8256987d624512ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(a * b ** x - c * d ** x, x) == [log(c / a) / log(b / d)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6819():
     a, b, c, d = symbols('a b c d', positive=True)
     assert solve(a*b**x - c*d**x, x) == [log(c/a)/log(b/d)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17454(), test_issue_17454 produces the expected output) over Any ║
+# ║ Path(test_issue_17454(), solve((1 - x - I) ** 4, x) == [1 - I]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17454 : Any → {Any | solve((1 - x - I) ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((1 - x - I) ** 4, x) == [1 - I]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17454 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b84792d9802bc865  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f4c2ee1c9ccdada  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17454","kind":"function","src_hash":"c8aa9826fe8d6735","in":{"base":"Any"},"out":{"base":"Any","pred":"solve((1 - x - I) ** 4, x) == [1 - I]"},"spec":{"lhs":"test_issue_17454()","rhs":"test_issue_17454 produces the expected output","over":{"base":"Any"},"name":"test_issue_17454_correct"},"guarantee":"test_issue_17454 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17454_correct","statement":"Path(test_issue_17454(x), test_issue_17454 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b84792d9802bc865"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_17454","kind":"function","src_hash":"c8aa9826fe8d6735","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((1 - x - I) ** 4, x) == [1 - I]"},"spec":{"lhs":"test_issue_17454()","rhs":"solve((1 - x - I) ** 4, x) == [1 - I]","over":{"base":"Any"},"name":"test_issue_17454_correct"},"guarantee":"solve((1 - x - I) ** 4, x) == [1 - I]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_17454_correct","statement":"Path(test_issue_17454(x), solve((1 - x - I) ** 4, x) == [1 - I])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f4c2ee1c9ccdada","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((1 - x - I) ** 4, x) == [1 - I]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17454():
     x = Symbol('x')
     assert solve((1 - x - I)**4, x) == [1 - I]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21852(), test_issue_21852 produces the expected output) over Any ║
+# ║ Path(test_issue_21852(), solve(2 * x + sqrt(2 * x ** 2) - 21) == solution) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21852 : Any → {Any | solve(2 * x + sqrt(2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(2 * x + sqrt(2 * x ** 2) - 21) == s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21852 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e949d853508a42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5f50de565f7e3a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21852","kind":"function","src_hash":"98b03ac8d9aba345","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(2 * x + sqrt(2 * x ** 2) - 21) == solution"},"spec":{"lhs":"test_issue_21852()","rhs":"test_issue_21852 produces the expected output","over":{"base":"Any"},"name":"test_issue_21852_correct"},"guarantee":"test_issue_21852 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21852_correct","statement":"Path(test_issue_21852(x), test_issue_21852 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e949d853508a42"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21852","kind":"function","src_hash":"98b03ac8d9aba345","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(2 * x + sqrt(2 * x ** 2) - 21) == solution"},"spec":{"lhs":"test_issue_21852()","rhs":"solve(2 * x + sqrt(2 * x ** 2) - 21) == solution","over":{"base":"Any"},"name":"test_issue_21852_correct"},"guarantee":"solve(2 * x + sqrt(2 * x ** 2) - 21) == solution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21852_correct","statement":"Path(test_issue_21852(x), solve(2 * x + sqrt(2 * x ** 2) - 21) == solution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5f50de565f7e3a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(2 * x + sqrt(2 * x ** 2) - 21) == solution"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21852():
     solution = [21 - 21*sqrt(2)/2]
     assert solve(2*x + sqrt(2*x**2) - 21) == solution
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21942(), test_issue_21942 produces the expected output) over Any ║
+# ║ Path(test_issue_21942(), sol == [((a * b ** (1 - e) - b ** (1 - e) + d ** (1 - e)) / a) ** (1 / (1 - e))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21942 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == [((a * b ** (1 - e) - b ** (1 - e)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21942 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3265d9ad308795a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d010b65b4b780598  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21942","kind":"function","src_hash":"1b0b7c17d24cc862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_21942()","rhs":"test_issue_21942 produces the expected output","over":{"base":"Any"},"name":"test_issue_21942_correct"},"guarantee":"test_issue_21942 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21942_correct","statement":"Path(test_issue_21942(x), test_issue_21942 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3265d9ad308795a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_21942","kind":"function","src_hash":"1b0b7c17d24cc862","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == [((a * b ** (1 - e) - b ** (1 - e) + d ** (1 - e)) / a) ** (1 / (1 - e))]"},"spec":{"lhs":"test_issue_21942()","rhs":"sol == [((a * b ** (1 - e) - b ** (1 - e) + d ** (1 - e)) / a) ** (1 / (1 - e))]","over":{"base":"Any"},"name":"test_issue_21942_correct"},"guarantee":"sol == [((a * b ** (1 - e) - b ** (1 - e) + d ** (1 - e)) / a) ** (1 / (1 - e))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_21942_correct","statement":"Path(test_issue_21942(x), sol == [((a * b ** (1 - e) - b ** (1 - e) + d ** (1 - e)) / a) ** (1 / (1 - e))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d010b65b4b780598","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == [((a * b ** (1 - e) - b ** (1 - e) + d ** (1 - e)) / a) ** (1 / (1 - e))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21942():
     eq = -d + (a*c**(1 - e) + b**(1 - e)*(1 - a))**(1/(1 - e))
     sol = solve(eq, c, simplify=False, check=False)
@@ -4236,16 +5230,22 @@ def test_issue_21942():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solver_flags(), test_solver_flags produces the expected output) over Any ║
+# ║ Path(test_solver_flags(), root != rad) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solver_flags : Any → {Any | root != rad}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  root != rad                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solver_flags : Any → {Any | result satisfies: ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5cc69c43d0d41d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15a13ac93754241c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solver_flags","kind":"function","src_hash":"62b81cf015eda391","in":{"base":"Any"},"out":{"base":"Any","pred":"root != rad"},"spec":{"lhs":"test_solver_flags()","rhs":"test_solver_flags produces the expected output","over":{"base":"Any"},"name":"test_solver_flags_correct"},"guarantee":"test_solver_flags produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solver_flags_correct","statement":"Path(test_solver_flags(x), test_solver_flags produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5cc69c43d0d41d4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solver_flags","kind":"function","src_hash":"62b81cf015eda391","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: root != rad"},"spec":{"lhs":"test_solver_flags()","rhs":"root != rad","over":{"base":"Any"},"name":"test_solver_flags_correct"},"guarantee":"root != rad","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solver_flags_correct","statement":"Path(test_solver_flags(x), root != rad)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15a13ac93754241c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["root != rad"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solver_flags():
     root = solve(x**5 + x**2 - x - 1, cubics=False)
     rad = solve(x**5 + x**2 - x - 1, cubics=True)
@@ -4253,16 +5253,22 @@ def test_solver_flags():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22768(), test_issue_22768 produces the expected output) over Any ║
+# ║ Path(test_issue_22768(), solve(eq.expand(), x, simplify=False) == [2 * z * (y - 1) ** 2, z * (-1 + sqrt(3) * I) * (y - 1) ** 2, -z * (1 + sqrt(3) * I) * (y - 1) ** 2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22768 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(eq.expand(), x, simplify=False) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22768 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4ebd737372af830  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 914a4804856da6f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_22768","kind":"function","src_hash":"e7dcb601f8e19933","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_22768()","rhs":"test_issue_22768 produces the expected output","over":{"base":"Any"},"name":"test_issue_22768_correct"},"guarantee":"test_issue_22768 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_22768_correct","statement":"Path(test_issue_22768(x), test_issue_22768 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4ebd737372af830"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_22768","kind":"function","src_hash":"e7dcb601f8e19933","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(eq.expand(), x, simplify=False) == [2 * z * (y - 1) ** 2, z * (-1 + sqrt(3) * I) * (y - 1) ** 2, -z * (1 + sqrt(3) * I) * (y - 1) ** 2]"},"spec":{"lhs":"test_issue_22768()","rhs":"solve(eq.expand(), x, simplify=False) == [2 * z * (y - 1) ** 2, z * (-1 + sqrt(3) * I) * (y - 1) ** 2, -z * (1 + sqrt(3) * I) * (y - 1) ** 2]","over":{"base":"Any"},"name":"test_issue_22768_correct"},"guarantee":"solve(eq.expand(), x, simplify=False) == [2 * z * (y - 1) ** 2, z * (-1 + sqrt(3) * I) * (y - 1) ** 2, -z * (1 + sqrt(3) * I) * (y - 1) ** 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_22768_correct","statement":"Path(test_issue_22768(x), solve(eq.expand(), x, simplify=False) == [2 * z * (y - 1) ** 2, z * (-1 + sqrt(3) * I) * (y - 1) ** 2, -z * (1 + sqrt(3) * I) * (y - 1) ** 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"914a4804856da6f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(eq.expand(), x, simplify=False) == [2 * z * (y - 1) ** 2, z * (-1 + sqrt(3) * I) * (y - 1) ** 2, -z * (1 + sqrt(3) * I) * (y - 1) ** 2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22768():
     eq = 2*x**3 - 16*(y - 1)**6*z**3
     assert solve(eq.expand(), x, simplify=False
@@ -4271,32 +5277,44 @@ def test_issue_22768():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22717(), test_issue_22717 produces the expected output) over Any ║
+# ║ Path(test_issue_22717(), solve((-y ** 2 + log(y ** 2 / x) + 2, -2 * x * y + 2 * x / y)) == [{y: -1, x: E}, {y: 1, x: E}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22717 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve((-y ** 2 + log(y ** 2 / x) + 2, -2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22717 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad9952adef848cae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd4d9485409ecaf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_22717","kind":"function","src_hash":"5184594526ef7d6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_22717()","rhs":"test_issue_22717 produces the expected output","over":{"base":"Any"},"name":"test_issue_22717_correct"},"guarantee":"test_issue_22717 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_22717_correct","statement":"Path(test_issue_22717(x), test_issue_22717 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9952adef848cae"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_22717","kind":"function","src_hash":"5184594526ef7d6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve((-y ** 2 + log(y ** 2 / x) + 2, -2 * x * y + 2 * x / y)) == [{y: -1, x: E}, {y: 1, x: E}]"},"spec":{"lhs":"test_issue_22717()","rhs":"solve((-y ** 2 + log(y ** 2 / x) + 2, -2 * x * y + 2 * x / y)) == [{y: -1, x: E}, {y: 1, x: E}]","over":{"base":"Any"},"name":"test_issue_22717_correct"},"guarantee":"solve((-y ** 2 + log(y ** 2 / x) + 2, -2 * x * y + 2 * x / y)) == [{y: -1, x: E}, {y: 1, x: E}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_22717_correct","statement":"Path(test_issue_22717(x), solve((-y ** 2 + log(y ** 2 / x) + 2, -2 * x * y + 2 * x / y)) == [{y: -1, x: E}, {y: 1, x: E}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd4d9485409ecaf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve((-y ** 2 + log(y ** 2 / x) + 2, -2 * x * y + 2 * x / y)) == [{y: -1, x: E}, {y: 1, x: E}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22717():
     assert solve((-y**2 + log(y**2/x) + 2, -2*x*y + 2*x/y)) == [
         {y: -1, x: E}, {y: 1, x: E}]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25176(), test_issue_25176 produces the expected output) over Any ║
+# ║ Path(test_issue_25176(), not any((eq.subs(x, i) for i in sol))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25176 : Any → {Any | not any((eq.subs(x, i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not any((eq.subs(x, i) for i in sol))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25176 : Any → {Any | result satisfies: not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87624fb1e2464dc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84154ef213770d20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_25176","kind":"function","src_hash":"99cb809e43ddea48","in":{"base":"Any"},"out":{"base":"Any","pred":"not any((eq.subs(x, i) for i in sol))"},"spec":{"lhs":"test_issue_25176()","rhs":"test_issue_25176 produces the expected output","over":{"base":"Any"},"name":"test_issue_25176_correct"},"guarantee":"test_issue_25176 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_25176_correct","statement":"Path(test_issue_25176(x), test_issue_25176 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87624fb1e2464dc0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_25176","kind":"function","src_hash":"99cb809e43ddea48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not any((eq.subs(x, i) for i in sol))"},"spec":{"lhs":"test_issue_25176()","rhs":"not any((eq.subs(x, i) for i in sol))","over":{"base":"Any"},"name":"test_issue_25176_correct"},"guarantee":"not any((eq.subs(x, i) for i in sol))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_25176_correct","statement":"Path(test_issue_25176(x), not any((eq.subs(x, i) for i in sol)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84154ef213770d20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not any((eq.subs(x, i) for i in sol))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_25176():
     eq = (x - 5)**-8 - 3
     sol = solve(eq)
@@ -4304,16 +5322,22 @@ def test_issue_25176():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10169(), test_issue_10169 produces the expected output) over Any ║
+# ║ Path(test_issue_10169(), solve_undetermined_coeffs(eq, [a, b, c, d, e, k], x) == {a: Rational(5, 8), b: Rational(-5, 1032), c: Rational(-40, 129) - 5 * 2 ** Rational(3, 4) / 129 + 5 * 2 ** Rational(1, 4) / 1032, d: -20 * 2 ** Rational(3, 4) / 129 - 10 * sqrt(2) / 129 - 5 * 2 ** Rational(1, 4) / 258, e: Rational(-40, 129) - 5 * 2 ** Rational(1, 4) / 1032 + 5 * 2 ** Rational(3, 4) / 129, k: -10 * sqrt(2) / 129 + 5 * 2 ** Rational(1, 4) / 258 + 20 * 2 ** Rational(3, 4) / 129}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10169 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_undetermined_coeffs(eq, [a, b, c, d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10169 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ffcfc80667796a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b280e23a6e5f2c5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_10169","kind":"function","src_hash":"336e6279200d8bab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_10169()","rhs":"test_issue_10169 produces the expected output","over":{"base":"Any"},"name":"test_issue_10169_correct"},"guarantee":"test_issue_10169 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_10169_correct","statement":"Path(test_issue_10169(x), test_issue_10169 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ffcfc80667796a4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_10169","kind":"function","src_hash":"336e6279200d8bab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_undetermined_coeffs(eq, [a, b, c, d, e, k], x) == {a: Rational(5, 8), b: Rational(-5, 1032), c: Rational(-40, 129) - 5 * 2 ** Rational(3, 4) / 129 + 5 * 2 ** Rational(1, 4) / 1032, d: -20 * 2 ** Rational(3, 4) / 129 - 10 * sqrt(2) / 129 - 5 * 2 ** Rational(1, 4) / 258, e: Rational(-40, 129) - 5 * 2 ** Rational(1, 4) / 1032 + 5 * 2 ** Rational(3, 4) / 129, k: -10 * sqrt(2) / 129 + 5 * 2 ** Rational(1, 4) / 258 + 20 * 2 ** Rational(3, 4) / 129}"},"spec":{"lhs":"test_issue_10169()","rhs":"solve_undetermined_coeffs(eq, [a, b, c, d, e, k], x) == {a: Rational(5, 8), b: Rational(-5, 1032), c: Rational(-40, 129) - 5 * 2 ** Rational(3, 4) / 129 + 5 * 2 ** Rational(1, 4) / 1032, d: -20 * 2 ** Rational(3, 4) / 129 - 10 * sqrt(2) / 129 - 5 * 2 ** Rational(1, 4) / 258, e: Rational(-40, 129) - 5 * 2 ** Rational(1, 4) / 1032 + 5 * 2 ** Rational(3, 4) / 129, k: -10 * sqrt(2) / 129 + 5 * 2 ** Rational(1, 4) / 258 + 20 * 2 ** Rational(3, 4) / 129}","over":{"base":"Any"},"name":"test_issue_10169_correct"},"guarantee":"solve_undetermined_coeffs(eq, [a, b, c, d, e, k], x) == {a: Rational(5, 8), b: Rational(-5, 1032), c: Rational(-40, 129) - 5 * 2 ** Rational(3, 4) / 129 + 5 * 2 ** Rational(1, 4) / 1032, d: -20 * 2 ** Rational(3, 4) / 129 - 10 * sqrt(2) / 129 - 5 * 2 ** Rational(1, 4) / 258, e: Rational(-40, 129) - 5 * 2 ** Rational(1, 4) / 1032 + 5 * 2 ** Rational(3, 4) / 129, k: -10 * sqrt(2) / 129 + 5 * 2 ** Rational(1, 4) / 258 + 20 * 2 ** Rational(3, 4) / 129}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_10169_correct","statement":"Path(test_issue_10169(x), solve_undetermined_coeffs(eq, [a, b, c, d, e, k], x) == {a: Rational(5, 8), b: Rational(-5, 1032), c: Rational(-40, 129) - 5 * 2 ** Rational(3, 4) / 129 + 5 * 2 ** Rational(1, 4) / 1032, d: -20 * 2 ** Rational(3, 4) / 129 - 10 * sqrt(2) / 129 - 5 * 2 ** Rational(1, 4) / 258, e: Rational(-40, 129) - 5 * 2 ** Rational(1, 4) / 1032 + 5 * 2 ** Rational(3, 4) / 129, k: -10 * sqrt(2) / 129 + 5 * 2 ** Rational(1, 4) / 258 + 20 * 2 ** Rational(3, 4) / 129})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b280e23a6e5f2c5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_undetermined_coeffs(eq, [a, b, c, d, e, k], x) == {a: Rational(5, 8), b: Rational(-5, 1032), c: Rational(-40, 129) - 5 * 2 ** Rational(3, 4) / 129 + 5 * 2 ** Rational(1, 4) / 1032, d: -20 * 2 ** Rational(3, 4) / 129 - 10 * sqrt(2) / 129 - 5 * 2 ** Rational(1, 4) / 258, e: Rational(-40, 129) - 5 * 2 ** Rational(1, 4) / 1032 + 5 * 2 ** Rational(3, 4) / 129, k: -10 * sqrt(2) / 129 + 5 * 2 ** Rational(1, 4) / 258 + 20 * 2 ** Rational(3, 4) / 129}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_10169():
     eq = S(-8*a - x**5*(a + b + c + e) - x**4*(4*a - 2**Rational(3,4)*c + 4*c +
         d + 2**Rational(3,4)*e + 4*e + k) - x**3*(-4*2**Rational(3,4)*c + sqrt(2)*c -
@@ -4332,16 +5356,22 @@ def test_issue_10169():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_undetermined_coeffs_issue_23927(), test_solve_undetermined_coeffs_issue_23927 produces the expected output) over Any ║
+# ║ Path(test_solve_undetermined_coeffs_issue_23927(), soln == [{phi: 2 * atan((A - sqrt(A ** 2 + B ** 2)) / B), r: (-A ** 2 + A * sqrt(A ** 2 + B ** 2) - B ** 2) / (A - sqrt(A ** 2 + B ** 2))}, {phi: 2 * atan((A + sqrt(A ** 2 + B ** 2)) / B), r: (A ** 2 + A * sqrt(A ** 2 + B ** 2) + B ** 2) / (A + sqrt(A ** 2 + B ** 2)) / -1}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_undetermined_coeffs_issue_23927 : Any → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  soln == [{phi: 2 * atan((A - sqrt(A ** 2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_undetermined_coeffs_issue_23927 : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01e100b155e9e31f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f822d4849c27d4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs_issue_23927","kind":"function","src_hash":"63ac452887e01ebc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_undetermined_coeffs_issue_23927()","rhs":"test_solve_undetermined_coeffs_issue_23927 produces the expected output","over":{"base":"Any"},"name":"test_solve_undetermined_coeffs_issue_23927_correct"},"guarantee":"test_solve_undetermined_coeffs_issue_23927 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs_issue_23927_correct","statement":"Path(test_solve_undetermined_coeffs_issue_23927(x), test_solve_undetermined_coeffs_issue_23927 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01e100b155e9e31f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs_issue_23927","kind":"function","src_hash":"63ac452887e01ebc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: soln == [{phi: 2 * atan((A - sqrt(A ** 2 + B ** 2)) / B), r: (-A ** 2 + A * sqrt(A ** 2 + B ** 2) - B ** 2) / (A - sqrt(A ** 2 + B ** 2))}, {phi: 2 * atan((A + sqrt(A ** 2 + B ** 2)) / B), r: (A ** 2 + A * sqrt(A ** 2 + B ** 2) + B ** 2) / (A + sqrt(A ** 2 + B ** 2)) / -1}]"},"spec":{"lhs":"test_solve_undetermined_coeffs_issue_23927()","rhs":"soln == [{phi: 2 * atan((A - sqrt(A ** 2 + B ** 2)) / B), r: (-A ** 2 + A * sqrt(A ** 2 + B ** 2) - B ** 2) / (A - sqrt(A ** 2 + B ** 2))}, {phi: 2 * atan((A + sqrt(A ** 2 + B ** 2)) / B), r: (A ** 2 + A * sqrt(A ** 2 + B ** 2) + B ** 2) / (A + sqrt(A ** 2 + B ** 2)) / -1}]","over":{"base":"Any"},"name":"test_solve_undetermined_coeffs_issue_23927_correct"},"guarantee":"soln == [{phi: 2 * atan((A - sqrt(A ** 2 + B ** 2)) / B), r: (-A ** 2 + A * sqrt(A ** 2 + B ** 2) - B ** 2) / (A - sqrt(A ** 2 + B ** 2))}, {phi: 2 * atan((A + sqrt(A ** 2 + B ** 2)) / B), r: (A ** 2 + A * sqrt(A ** 2 + B ** 2) + B ** 2) / (A + sqrt(A ** 2 + B ** 2)) / -1}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_undetermined_coeffs_issue_23927_correct","statement":"Path(test_solve_undetermined_coeffs_issue_23927(x), soln == [{phi: 2 * atan((A - sqrt(A ** 2 + B ** 2)) / B), r: (-A ** 2 + A * sqrt(A ** 2 + B ** 2) - B ** 2) / (A - sqrt(A ** 2 + B ** 2))}, {phi: 2 * atan((A + sqrt(A ** 2 + B ** 2)) / B), r: (A ** 2 + A * sqrt(A ** 2 + B ** 2) + B ** 2) / (A + sqrt(A ** 2 + B ** 2)) / -1}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f822d4849c27d4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["soln == [{phi: 2 * atan((A - sqrt(A ** 2 + B ** 2)) / B), r: (-A ** 2 + A * sqrt(A ** 2 + B ** 2) - B ** 2) / (A - sqrt(A ** 2 + B ** 2))}, {phi: 2 * atan((A + sqrt(A ** 2 + B ** 2)) / B), r: (A ** 2 + A * sqrt(A ** 2 + B ** 2) + B ** 2) / (A + sqrt(A ** 2 + B ** 2)) / -1}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_solve_undetermined_coeffs_issue_23927():
     A, B, r, phi = symbols('A, B, r, phi')
     e = Eq(A*sin(t) + B*cos(t), r*sin(t - phi))
@@ -4356,16 +5386,22 @@ def test_solve_undetermined_coeffs_issue_23927():
         }]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24368(), test_issue_24368 produces the expected output) over Any ║
+# ║ Path(test_issue_24368(), <unspecified:test_issue_24368>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_24368 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8193670fb9414060  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24368","kind":"function","src_hash":"b0c65dd97e1b672e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_24368()","rhs":"test_issue_24368 produces the expected output","over":{"base":"Any"},"name":"test_issue_24368_correct"},"guarantee":"test_issue_24368 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24368_correct","statement":"Path(test_issue_24368(x), test_issue_24368 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8193670fb9414060"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_issue_24368","kind":"function","src_hash":"b0c65dd97e1b672e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_24368()","rhs":"<unspecified:test_issue_24368>","over":{"base":"Any"},"name":"test_issue_24368_correct"},"guarantee":"test_issue_24368 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_issue_24368_correct","statement":"Path(test_issue_24368(x), test_issue_24368 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8193670fb9414060","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_24368():
     # Ideally these would produce a solution, but for now just check that they
     # don't fail with a RuntimeError
@@ -4376,16 +5412,22 @@ def test_issue_24368():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_Piecewise(), test_solve_Piecewise produces the expected output) over Any ║
+# ║ Path(test_solve_Piecewise(), [S(10) / 3] == solve(3 * Piecewise((S.NaN, x <= 0), (20 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 0) & (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 26 * x, (x >= 0) & (x >= 2) & (x >= 4) & (x < 10)), (16 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 30 * x, (x >= 2) & (x >= 4) & (x < 10)), (30 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 0) & (x >= 4) & (x >= 6) & (x < 10)), (80 - 16 * x, (x >= 0) & (x >= 4) & (x < 10)), (26 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 4) & (x >= 6) & (x < 10)), (80 - 20 * x, (x >= 4) & (x < 10)), (40 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 0) & (x >= 2) & (x >= 6) & (x < 10)), (20 - 6 * x, (x >= 0) & (x >= 2) & (x < 10)), (36 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 2) & (x >= 6) & (x < 10)), (20 - 10 * x, (x >= 2) & (x < 10)), (50 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 0) & (x >= 6) & (x < 10)), (4 * x, (x >= 0) & (x < 10)), (46 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 6) & (x < 10)), (0, x < 10), (S.NaN, True)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_Piecewise : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [S(10) / 3] == solve(3 * Piecewise((S.NaN...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_Piecewise : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56996cd5befbf22f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 216f935117cc56af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_Piecewise","kind":"function","src_hash":"553cc82e4825777e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_Piecewise()","rhs":"test_solve_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_solve_Piecewise_correct"},"guarantee":"test_solve_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_Piecewise_correct","statement":"Path(test_solve_Piecewise(x), test_solve_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56996cd5befbf22f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_solvers.test_solve_Piecewise","kind":"function","src_hash":"553cc82e4825777e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [S(10) / 3] == solve(3 * Piecewise((S.NaN, x <= 0), (20 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 0) & (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 26 * x, (x >= 0) & (x >= 2) & (x >= 4) & (x < 10)), (16 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 30 * x, (x >= 2) & (x >= 4) & (x < 10)), (30 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 0) & (x >= 4) & (x >= 6) & (x < 10)), (80 - 16 * x, (x >= 0) & (x >= 4) & (x < 10)), (26 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 4) & (x >= 6) & (x < 10)), (80 - 20 * x, (x >= 4) & (x < 10)), (40 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 0) & (x >= 2) & (x >= 6) & (x < 10)), (20 - 6 * x, (x >= 0) & (x >= 2) & (x < 10)), (36 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 2) & (x >= 6) & (x < 10)), (20 - 10 * x, (x >= 2) & (x < 10)), (50 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 0) & (x >= 6) & (x < 10)), (4 * x, (x >= 0) & (x < 10)), (46 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 6) & (x < 10)), (0, x < 10), (S.NaN, True)))"},"spec":{"lhs":"test_solve_Piecewise()","rhs":"[S(10) / 3] == solve(3 * Piecewise((S.NaN, x <= 0), (20 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 0) & (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 26 * x, (x >= 0) & (x >= 2) & (x >= 4) & (x < 10)), (16 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 30 * x, (x >= 2) & (x >= 4) & (x < 10)), (30 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 0) & (x >= 4) & (x >= 6) & (x < 10)), (80 - 16 * x, (x >= 0) & (x >= 4) & (x < 10)), (26 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 4) & (x >= 6) & (x < 10)), (80 - 20 * x, (x >= 4) & (x < 10)), (40 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 0) & (x >= 2) & (x >= 6) & (x < 10)), (20 - 6 * x, (x >= 0) & (x >= 2) & (x < 10)), (36 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 2) & (x >= 6) & (x < 10)), (20 - 10 * x, (x >= 2) & (x < 10)), (50 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 0) & (x >= 6) & (x < 10)), (4 * x, (x >= 0) & (x < 10)), (46 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 6) & (x < 10)), (0, x < 10), (S.NaN, True)))","over":{"base":"Any"},"name":"test_solve_Piecewise_correct"},"guarantee":"[S(10) / 3] == solve(3 * Piecewise((S.NaN, x <= 0), (20 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 0) & (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 26 * x, (x >= 0) & (x >= 2) & (x >= 4) & (x < 10)), (16 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 30 * x, (x >= 2) & (x >= 4) & (x < 10)), (30 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 0) & (x >= 4) & (x >= 6) & (x < 10)), (80 - 16 * x, (x >= 0) & (x >= 4) & (x < 10)), (26 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 4) & (x >= 6) & (x < 10)), (80 - 20 * x, (x >= 4) & (x < 10)), (40 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 0) & (x >= 2) & (x >= 6) & (x < 10)), (20 - 6 * x, (x >= 0) & (x >= 2) & (x < 10)), (36 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 2) & (x >= 6) & (x < 10)), (20 - 10 * x, (x >= 2) & (x < 10)), (50 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 0) & (x >= 6) & (x < 10)), (4 * x, (x >= 0) & (x < 10)), (46 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 6) & (x < 10)), (0, x < 10), (S.NaN, True)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_solvers.test_solve_Piecewise_correct","statement":"Path(test_solve_Piecewise(x), [S(10) / 3] == solve(3 * Piecewise((S.NaN, x <= 0), (20 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 0) & (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 26 * x, (x >= 0) & (x >= 2) & (x >= 4) & (x < 10)), (16 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 30 * x, (x >= 2) & (x >= 4) & (x < 10)), (30 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 0) & (x >= 4) & (x >= 6) & (x < 10)), (80 - 16 * x, (x >= 0) & (x >= 4) & (x < 10)), (26 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 4) & (x >= 6) & (x < 10)), (80 - 20 * x, (x >= 4) & (x < 10)), (40 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 0) & (x >= 2) & (x >= 6) & (x < 10)), (20 - 6 * x, (x >= 0) & (x >= 2) & (x < 10)), (36 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 2) & (x >= 6) & (x < 10)), (20 - 10 * x, (x >= 2) & (x < 10)), (50 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 0) & (x >= 6) & (x < 10)), (4 * x, (x >= 0) & (x < 10)), (46 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 6) & (x < 10)), (0, x < 10), (S.NaN, True))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"216f935117cc56af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[S(10) / 3] == solve(3 * Piecewise((S.NaN, x <= 0), (20 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 0) & (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 26 * x, (x >= 0) & (x >= 2) & (x >= 4) & (x < 10)), (16 * x - 3 * (x - 6) ** 2 / 2 - 176, (x >= 2) & (x >= 4) & (x >= 6) & (x < 10)), (100 - 30 * x, (x >= 2) & (x >= 4) & (x < 10)), (30 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 0) & (x >= 4) & (x >= 6) & (x < 10)), (80 - 16 * x, (x >= 0) & (x >= 4) & (x < 10)), (26 * x - 3 * (x - 6) ** 2 / 2 - 196, (x >= 4) & (x >= 6) & (x < 10)), (80 - 20 * x, (x >= 4) & (x < 10)), (40 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 0) & (x >= 2) & (x >= 6) & (x < 10)), (20 - 6 * x, (x >= 0) & (x >= 2) & (x < 10)), (36 * x - 3 * (x - 6) ** 2 / 2 - 256, (x >= 2) & (x >= 6) & (x < 10)), (20 - 10 * x, (x >= 2) & (x < 10)), (50 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 0) & (x >= 6) & (x < 10)), (4 * x, (x >= 0) & (x < 10)), (46 * x - 3 * (x - 6) ** 2 / 2 - 276, (x >= 6) & (x < 10)), (0, x < 10), (S.NaN, True)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_solve_Piecewise():
     assert [S(10)/3] == solve(3*Piecewise(
         (S.NaN, x <= 0),

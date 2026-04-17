@@ -43,16 +43,24 @@ f = Function('f')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_components(), test_components produces the expected output) over Any ║
+# ║ Path(test_components(), components(x * y, x) == {x} and components(1 / (x + y), x) == {x} and components(sin(x), x) == {sin(x), x} and components(sin(x) * sqrt(log(x)), x) == {log(x), sin(x), sqrt(log(x)), x} and components(x * sin(exp(x) * y), x) == {sin(y * exp(x)), x, exp(x)} and components(x ** Rational(17, 54) / sqrt(sin(x)), x) == {sin(x), x ** Rational(1, 54), sqrt(sin(x)), x} and components(f(x), x) == {x, f(x)} and components(Derivative(f(x), x), x) == {x, f(x), Derivative(f(x), x)} and components(f(x) * diff(f(x), x), x) == {x, f(x), Derivative(f(x), x), Derivative(f(x), x)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_components : Any → {Any | components(x * y, x) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  components(x * y, x) == {x}                    ║
+# ║   ensures:  components(1 / (x + y), x) == {x}              ║
+# ║   ensures:  components(sin(x), x) == {sin(x), x}           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_components : Any → {Any | result satisfies: comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 142bb24e334dc2b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cd51ebfb67c8040  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_components","kind":"function","src_hash":"7a1361ead870a3dc","in":{"base":"Any"},"out":{"base":"Any","pred":"components(x * y, x) == {x} and components(1 / (x + y), x) == {x} and components(sin(x), x) == {sin(x), x} and components(sin(x) * sqrt(log(x)), x) == {log(x), sin(x), sqrt(log(x)), x} and components(x * sin(exp(x) * y), x) == {sin(y * exp(x)), x, exp(x)} and components(f(x), x) == {x, f(x)} and components(Derivative(f(x), x), x) == {x, f(x), Derivative(f(x), x)}"},"spec":{"lhs":"test_components()","rhs":"test_components produces the expected output","over":{"base":"Any"},"name":"test_components_correct"},"guarantee":"test_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_components_correct","statement":"Path(test_components(x), test_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"142bb24e334dc2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_components","kind":"function","src_hash":"7a1361ead870a3dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: components(x * y, x) == {x} and components(1 / (x + y), x) == {x} and components(sin(x), x) == {sin(x), x} and components(sin(x) * sqrt(log(x)), x) == {log(x), sin(x), sqrt(log(x)), x} and components(x * sin(exp(x) * y), x) == {sin(y * exp(x)), x, exp(x)} and components(x ** Rational(17, 54) / sqrt(sin(x)), x) == {sin(x), x ** Rational(1, 54), sqrt(sin(x)), x} and components(f(x), x) == {x, f(x)} and components(Derivative(f(x), x), x) == {x, f(x), Derivative(f(x), x)} and components(f(x) * diff(f(x), x), x) == {x, f(x), Derivative(f(x), x), Derivative(f(x), x)}"},"spec":{"lhs":"test_components()","rhs":"components(x * y, x) == {x} and components(1 / (x + y), x) == {x} and components(sin(x), x) == {sin(x), x} and components(sin(x) * sqrt(log(x)), x) == {log(x), sin(x), sqrt(log(x)), x} and components(x * sin(exp(x) * y), x) == {sin(y * exp(x)), x, exp(x)} and components(x ** Rational(17, 54) / sqrt(sin(x)), x) == {sin(x), x ** Rational(1, 54), sqrt(sin(x)), x} and components(f(x), x) == {x, f(x)} and components(Derivative(f(x), x), x) == {x, f(x), Derivative(f(x), x)} and components(f(x) * diff(f(x), x), x) == {x, f(x), Derivative(f(x), x), Derivative(f(x), x)}","over":{"base":"Any"},"name":"test_components_correct"},"guarantee":"components(x * y, x) == {x}; components(1 / (x + y), x) == {x}; components(sin(x), x) == {sin(x), x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_components_correct","statement":"Path(test_components(x), components(x * y, x) == {x}; components(1 / (x + y), x) == {x}; components(sin(x), x) == {sin(x), x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cd51ebfb67c8040","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["components(x * y, x) == {x}","components(1 / (x + y), x) == {x}","components(sin(x), x) == {sin(x), x}","components(sin(x) * sqrt(log(x)), x) == {log(x), sin(x), sqrt(log(x)), x}","components(x * sin(exp(x) * y), x) == {sin(y * exp(x)), x, exp(x)}","components(x ** Rational(17, 54) / sqrt(sin(x)), x) == {sin(x), x ** Rational(1, 54), sqrt(sin(x)), x}","components(f(x), x) == {x, f(x)}","components(Derivative(f(x), x), x) == {x, f(x), Derivative(f(x), x)}","components(f(x) * diff(f(x), x), x) == {x, f(x), Derivative(f(x), x), Derivative(f(x), x)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_components():
     assert components(x*y, x) == {x}
     assert components(1/(x + y), x) == {x}
@@ -73,7 +81,10 @@ def test_components():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10680(), test_issue_10680 produces the expected output) over {Any | isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)} ║
+# ║ Path(test_issue_10680(), isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)) over {Any | isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(integrate(x ** log(x ** log(x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_10680 : {Any | isinstance(integrate(x ** l...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -85,39 +96,56 @@ def test_components():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 91c6f7aa...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_10680","kind":"function","src_hash":"097f5c00d187879f","in":{"base":"Any","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"out":{"base":"Any","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"spec":{"lhs":"test_issue_10680()","rhs":"test_issue_10680 produces the expected output","over":{"base":"Any","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"name":"test_issue_10680_correct"},"guarantee":"test_issue_10680 produces the expected output","fibers":[{"name":"x","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)","path":{"lhs":"test_issue_10680(x)","rhs":"test_issue_10680 produces the expected output","over":{"base":"x","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"name":"test_issue_10680_x_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_10680_x_correct","statement":"test_issue_10680 satisfies spec on x inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"91c6f7aaa4038dbe"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_10680","kind":"function","src_hash":"097f5c00d187879f","in":{"base":"Any","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"out":{"base":"Any","pred":"result satisfies: isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"spec":{"lhs":"test_issue_10680()","rhs":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)","over":{"base":"Any","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"name":"test_issue_10680_correct"},"guarantee":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)","fibers":[{"name":"x","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)","path":{"lhs":"test_issue_10680(x)","rhs":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)","over":{"base":"x","pred":"isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"},"name":"test_issue_10680_x_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_10680_x_correct","statement":"test_issue_10680 satisfies spec on x inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"91c6f7aaa4038dbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(integrate(x ** log(x ** log(x ** log(x))), x), Integral)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_issue_10680():
     assert isinstance(integrate(x**log(x**log(x**log(x))),x), Integral)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21166(), test_issue_21166 produces the expected output) over Any ║
+# ║ Path(test_issue_21166(), integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21166 : Any → {Any | integrate(sin(x / sqr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(sin(x / sqrt(abs(x))), (x, -1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21166 : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 399231e9c0054391  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c19fcc580249790  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_21166","kind":"function","src_hash":"9bdd8db3a192b51a","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0"},"spec":{"lhs":"test_issue_21166()","rhs":"test_issue_21166 produces the expected output","over":{"base":"Any"},"name":"test_issue_21166_correct"},"guarantee":"test_issue_21166 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_21166_correct","statement":"Path(test_issue_21166(x), test_issue_21166 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"399231e9c0054391"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_21166","kind":"function","src_hash":"9bdd8db3a192b51a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0"},"spec":{"lhs":"test_issue_21166()","rhs":"integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0","over":{"base":"Any"},"name":"test_issue_21166_correct"},"guarantee":"integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_21166_correct","statement":"Path(test_issue_21166(x), integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c19fcc580249790","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(sin(x / sqrt(abs(x))), (x, -1, 1)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_21166():
     assert integrate(sin(x/sqrt(abs(x))), (x, -1, 1)) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_polynomials(), test_heurisch_polynomials produces the expected output) over Any ║
+# ║ Path(test_heurisch_polynomials(), heurisch(1, x) == x and heurisch(x, x) == x ** 2 / 2 and heurisch(x ** 17, x) == x ** 18 / 18 and heurisch_wrapper(y, x) == y * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_polynomials : Any → {Any | heurisch(1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(1, x) == x                            ║
+# ║   ensures:  heurisch(x, x) == x ** 2 / 2                   ║
+# ║   ensures:  heurisch(x ** 17, x) == x ** 18 / 18           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_polynomials : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adb7e6a331911140  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef16ce8588f54e7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_polynomials","kind":"function","src_hash":"4a6681d20911fdf6","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(1, x) == x and heurisch(x, x) == x ** 2 / 2 and heurisch(x ** 17, x) == x ** 18 / 18 and heurisch_wrapper(y, x) == y * x"},"spec":{"lhs":"test_heurisch_polynomials()","rhs":"test_heurisch_polynomials produces the expected output","over":{"base":"Any"},"name":"test_heurisch_polynomials_correct"},"guarantee":"test_heurisch_polynomials produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_polynomials_correct","statement":"Path(test_heurisch_polynomials(x), test_heurisch_polynomials produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adb7e6a331911140"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_polynomials","kind":"function","src_hash":"4a6681d20911fdf6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(1, x) == x and heurisch(x, x) == x ** 2 / 2 and heurisch(x ** 17, x) == x ** 18 / 18 and heurisch_wrapper(y, x) == y * x"},"spec":{"lhs":"test_heurisch_polynomials()","rhs":"heurisch(1, x) == x and heurisch(x, x) == x ** 2 / 2 and heurisch(x ** 17, x) == x ** 18 / 18 and heurisch_wrapper(y, x) == y * x","over":{"base":"Any"},"name":"test_heurisch_polynomials_correct"},"guarantee":"heurisch(1, x) == x; heurisch(x, x) == x ** 2 / 2; heurisch(x ** 17, x) == x ** 18 / 18","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_polynomials_correct","statement":"Path(test_heurisch_polynomials(x), heurisch(1, x) == x; heurisch(x, x) == x ** 2 / 2; heurisch(x ** 17, x) == x ** 18 / 18)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef16ce8588f54e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(1, x) == x","heurisch(x, x) == x ** 2 / 2","heurisch(x ** 17, x) == x ** 18 / 18","heurisch_wrapper(y, x) == y * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_polynomials():
     assert heurisch(1, x) == x
     assert heurisch(x, x) == x**2/2
@@ -127,16 +155,24 @@ def test_heurisch_polynomials():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_fractions(), test_heurisch_fractions produces the expected output) over Any ║
+# ║ Path(test_heurisch_fractions(), heurisch(1 / x, x) == log(x) and heurisch(1 / (2 + x), x) == log(x + 2) and heurisch(1 / (x + sin(y)), x) == log(x + sin(y)) and heurisch(5 * x ** 5 / (2 * x ** 6 - 5), x) in [5 * log(2 * x ** 6 - 5) / 12, 5 * log(-2 * x ** 6 + 5) / 12] and heurisch(5 * x ** 5 / (2 * x ** 6 + 5), x) == 5 * log(2 * x ** 6 + 5) / 12 and heurisch(1 / x ** 2, x) == -1 / x and heurisch(-1 / x ** 5, x) == 1 / (4 * x ** 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_fractions : Any → {Any | heurisch(1 / x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(1 / x, x) == log(x)                   ║
+# ║   ensures:  heurisch(1 / (2 + x), x) == log(x + 2)         ║
+# ║   ensures:  heurisch(1 / (x + sin(y)), x) == log(x + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_fractions : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09ca546ac486b60f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3792771b759703b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_fractions","kind":"function","src_hash":"d8bbfe10e8dceacb","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(1 / x, x) == log(x) and heurisch(1 / (2 + x), x) == log(x + 2) and heurisch(1 / (x + sin(y)), x) == log(x + sin(y)) and heurisch(5 * x ** 5 / (2 * x ** 6 + 5), x) == 5 * log(2 * x ** 6 + 5) / 12 and heurisch(1 / x ** 2, x) == -1 / x and heurisch(-1 / x ** 5, x) == 1 / (4 * x ** 4)"},"spec":{"lhs":"test_heurisch_fractions()","rhs":"test_heurisch_fractions produces the expected output","over":{"base":"Any"},"name":"test_heurisch_fractions_correct"},"guarantee":"test_heurisch_fractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_fractions_correct","statement":"Path(test_heurisch_fractions(x), test_heurisch_fractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09ca546ac486b60f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_fractions","kind":"function","src_hash":"d8bbfe10e8dceacb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(1 / x, x) == log(x) and heurisch(1 / (2 + x), x) == log(x + 2) and heurisch(1 / (x + sin(y)), x) == log(x + sin(y)) and heurisch(5 * x ** 5 / (2 * x ** 6 - 5), x) in [5 * log(2 * x ** 6 - 5) / 12, 5 * log(-2 * x ** 6 + 5) / 12] and heurisch(5 * x ** 5 / (2 * x ** 6 + 5), x) == 5 * log(2 * x ** 6 + 5) / 12 and heurisch(1 / x ** 2, x) == -1 / x and heurisch(-1 / x ** 5, x) == 1 / (4 * x ** 4)"},"spec":{"lhs":"test_heurisch_fractions()","rhs":"heurisch(1 / x, x) == log(x) and heurisch(1 / (2 + x), x) == log(x + 2) and heurisch(1 / (x + sin(y)), x) == log(x + sin(y)) and heurisch(5 * x ** 5 / (2 * x ** 6 - 5), x) in [5 * log(2 * x ** 6 - 5) / 12, 5 * log(-2 * x ** 6 + 5) / 12] and heurisch(5 * x ** 5 / (2 * x ** 6 + 5), x) == 5 * log(2 * x ** 6 + 5) / 12 and heurisch(1 / x ** 2, x) == -1 / x and heurisch(-1 / x ** 5, x) == 1 / (4 * x ** 4)","over":{"base":"Any"},"name":"test_heurisch_fractions_correct"},"guarantee":"heurisch(1 / x, x) == log(x); heurisch(1 / (2 + x), x) == log(x + 2); heurisch(1 / (x + sin(y)), x) == log(x + sin(y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_fractions_correct","statement":"Path(test_heurisch_fractions(x), heurisch(1 / x, x) == log(x); heurisch(1 / (2 + x), x) == log(x + 2); heurisch(1 / (x + sin(y)), x) == log(x + sin(y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3792771b759703b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(1 / x, x) == log(x)","heurisch(1 / (2 + x), x) == log(x + 2)","heurisch(1 / (x + sin(y)), x) == log(x + sin(y))","heurisch(5 * x ** 5 / (2 * x ** 6 - 5), x) in [5 * log(2 * x ** 6 - 5) / 12, 5 * log(-2 * x ** 6 + 5) / 12]","heurisch(5 * x ** 5 / (2 * x ** 6 + 5), x) == 5 * log(2 * x ** 6 + 5) / 12","heurisch(1 / x ** 2, x) == -1 / x","heurisch(-1 / x ** 5, x) == 1 / (4 * x ** 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heurisch_fractions():
     assert heurisch(1/x, x) == log(x)
     assert heurisch(1/(2 + x), x) == log(x + 2)
@@ -155,16 +191,24 @@ def test_heurisch_fractions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_log(), test_heurisch_log produces the expected output) over Any ║
+# ║ Path(test_heurisch_log(), heurisch(log(x), x) == x * log(x) - x and heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x) and heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_log : Any → {Any | heurisch(log(x), x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(log(x), x) == x * log(x) - x          ║
+# ║   ensures:  heurisch(log(3 * x), x) == -x + x * log(3...   ║
+# ║   ensures:  heurisch(log(x ** 2), x) in [x * log(x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_log : Any → {Any | result satisfies: he...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8533d5f206c5ce9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c18c26819d2493b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_log","kind":"function","src_hash":"b92280ff4efb2257","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(log(x), x) == x * log(x) - x and heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x) and heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x]"},"spec":{"lhs":"test_heurisch_log()","rhs":"test_heurisch_log produces the expected output","over":{"base":"Any"},"name":"test_heurisch_log_correct"},"guarantee":"test_heurisch_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_log_correct","statement":"Path(test_heurisch_log(x), test_heurisch_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8533d5f206c5ce9b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_log","kind":"function","src_hash":"b92280ff4efb2257","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(log(x), x) == x * log(x) - x and heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x) and heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x]"},"spec":{"lhs":"test_heurisch_log()","rhs":"heurisch(log(x), x) == x * log(x) - x and heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x) and heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x]","over":{"base":"Any"},"name":"test_heurisch_log_correct"},"guarantee":"heurisch(log(x), x) == x * log(x) - x; heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x); heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_log_correct","statement":"Path(test_heurisch_log(x), heurisch(log(x), x) == x * log(x) - x; heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x); heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c18c26819d2493b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(log(x), x) == x * log(x) - x","heurisch(log(3 * x), x) == -x + x * log(3) + x * log(x)","heurisch(log(x ** 2), x) in [x * log(x ** 2) - 2 * x, 2 * x * log(x) - 2 * x]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_log():
     assert heurisch(log(x), x) == x*log(x) - x
     assert heurisch(log(3*x), x) == -x + x*log(3) + x*log(x)
@@ -172,16 +216,24 @@ def test_heurisch_log():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_exp(), test_heurisch_exp produces the expected output) over Any ║
+# ║ Path(test_heurisch_exp(), heurisch(exp(x), x) == exp(x) and heurisch(exp(-x), x) == -exp(-x) and heurisch(exp(17 * x), x) == exp(17 * x) / 17 and heurisch(x * exp(x), x) == x * exp(x) - exp(x) and heurisch(x * exp(x ** 2), x) == exp(x ** 2) / 2 and heurisch(exp(-x ** 2), x) is None and heurisch(2 ** x, x) == 2 ** x / log(2) and heurisch(x * 2 ** x, x) == x * 2 ** x / log(2) - 2 ** x * log(2) ** (-2) and heurisch(Integral(x ** z * y, (y, 1, 2), (z, 2, 3)).function, x) == x * x ** z * y / (z + 1) and heurisch(Sum(x ** z, (z, 1, 2)).function, z) == x ** z / log(x) and heurisch(exp(z) * exp(-z * sqrt(x - y)), z) == anti) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_exp : Any → {Any | heurisch(exp(x), x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(exp(x), x) == exp(x)                  ║
+# ║   ensures:  heurisch(exp(-x), x) == -exp(-x)               ║
+# ║   ensures:  heurisch(exp(17 * x), x) == exp(17 * x) / 17   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_exp : Any → {Any | result satisfies: he...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af8e8a6e122b6eef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c100e30e879f4891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_exp","kind":"function","src_hash":"7ee46a66bc3f151d","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(exp(x), x) == exp(x) and heurisch(exp(-x), x) == -exp(-x) and heurisch(exp(17 * x), x) == exp(17 * x) / 17 and heurisch(x * exp(x), x) == x * exp(x) - exp(x) and heurisch(x * exp(x ** 2), x) == exp(x ** 2) / 2 and heurisch(exp(-x ** 2), x) is None and heurisch(2 ** x, x) == 2 ** x / log(2) and heurisch(x * 2 ** x, x) == x * 2 ** x / log(2) - 2 ** x * log(2) ** (-2) and heurisch(Sum(x ** z, (z, 1, 2)).function, z) == x ** z / log(x) and heurisch(exp(z) * exp(-z * sqrt(x - y)), z) == anti"},"spec":{"lhs":"test_heurisch_exp()","rhs":"test_heurisch_exp produces the expected output","over":{"base":"Any"},"name":"test_heurisch_exp_correct"},"guarantee":"test_heurisch_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_exp_correct","statement":"Path(test_heurisch_exp(x), test_heurisch_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af8e8a6e122b6eef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_exp","kind":"function","src_hash":"7ee46a66bc3f151d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(exp(x), x) == exp(x) and heurisch(exp(-x), x) == -exp(-x) and heurisch(exp(17 * x), x) == exp(17 * x) / 17 and heurisch(x * exp(x), x) == x * exp(x) - exp(x) and heurisch(x * exp(x ** 2), x) == exp(x ** 2) / 2 and heurisch(exp(-x ** 2), x) is None and heurisch(2 ** x, x) == 2 ** x / log(2) and heurisch(x * 2 ** x, x) == x * 2 ** x / log(2) - 2 ** x * log(2) ** (-2) and heurisch(Integral(x ** z * y, (y, 1, 2), (z, 2, 3)).function, x) == x * x ** z * y / (z + 1) and heurisch(Sum(x ** z, (z, 1, 2)).function, z) == x ** z / log(x) and heurisch(exp(z) * exp(-z * sqrt(x - y)), z) == anti"},"spec":{"lhs":"test_heurisch_exp()","rhs":"heurisch(exp(x), x) == exp(x) and heurisch(exp(-x), x) == -exp(-x) and heurisch(exp(17 * x), x) == exp(17 * x) / 17 and heurisch(x * exp(x), x) == x * exp(x) - exp(x) and heurisch(x * exp(x ** 2), x) == exp(x ** 2) / 2 and heurisch(exp(-x ** 2), x) is None and heurisch(2 ** x, x) == 2 ** x / log(2) and heurisch(x * 2 ** x, x) == x * 2 ** x / log(2) - 2 ** x * log(2) ** (-2) and heurisch(Integral(x ** z * y, (y, 1, 2), (z, 2, 3)).function, x) == x * x ** z * y / (z + 1) and heurisch(Sum(x ** z, (z, 1, 2)).function, z) == x ** z / log(x) and heurisch(exp(z) * exp(-z * sqrt(x - y)), z) == anti","over":{"base":"Any"},"name":"test_heurisch_exp_correct"},"guarantee":"heurisch(exp(x), x) == exp(x); heurisch(exp(-x), x) == -exp(-x); heurisch(exp(17 * x), x) == exp(17 * x) / 17","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_exp_correct","statement":"Path(test_heurisch_exp(x), heurisch(exp(x), x) == exp(x); heurisch(exp(-x), x) == -exp(-x); heurisch(exp(17 * x), x) == exp(17 * x) / 17)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c100e30e879f4891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(exp(x), x) == exp(x)","heurisch(exp(-x), x) == -exp(-x)","heurisch(exp(17 * x), x) == exp(17 * x) / 17","heurisch(x * exp(x), x) == x * exp(x) - exp(x)","heurisch(x * exp(x ** 2), x) == exp(x ** 2) / 2","heurisch(exp(-x ** 2), x) is None","heurisch(2 ** x, x) == 2 ** x / log(2)","heurisch(x * 2 ** x, x) == x * 2 ** x / log(2) - 2 ** x * log(2) ** (-2)","heurisch(Integral(x ** z * y, (y, 1, 2), (z, 2, 3)).function, x) == x * x ** z * y / (z + 1)","heurisch(Sum(x ** z, (z, 1, 2)).function, z) == x ** z / log(x)","heurisch(exp(z) * exp(-z * sqrt(x - y)), z) == anti"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_heurisch_exp():
     assert heurisch(exp(x), x) == exp(x)
     assert heurisch(exp(-x), x) == -exp(-x)
@@ -203,16 +255,24 @@ def test_heurisch_exp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_trigonometric(), test_heurisch_trigonometric produces the expected output) over Any ║
+# ║ Path(test_heurisch_trigonometric(), heurisch(sin(x), x) == -cos(x) and heurisch(pi * sin(x) + 1, x) == x - pi * cos(x) and heurisch(cos(x), x) == sin(x) and heurisch(tan(x), x) in [log(1 + tan(x) ** 2) / 2, log(tan(x) + I) + I * x, log(tan(x) - I) - I * x] and heurisch(sin(x) * sin(y), x) == -cos(x) * sin(y) and heurisch(sin(x) * sin(y), y) == -cos(y) * sin(x) and heurisch(sin(x) * cos(x), x) in [sin(x) ** 2 / 2, -cos(x) ** 2 / 2] and heurisch(cos(x) / sin(x), x) == log(sin(x)) and heurisch(x * sin(7 * x), x) == sin(7 * x) / 49 - x * cos(7 * x) / 7 and heurisch(1 / pi / 4 * x ** 2 * cos(x), x) == 1 / pi / 4 * (x ** 2 * sin(x) - 2 * sin(x) + 2 * x * cos(x)) and heurisch(acos(x / 4) * asin(x / 4), x) == 2 * x - sqrt(16 - x ** 2) * asin(x / 4) + sqrt(16 - x ** 2) * acos(x / 4) + x * asin(x / 4) * acos(x / 4) and heurisch(sin(x) / (cos(x) ** 2 + 1), x) == -atan(cos(x)) and heurisch(1 / (cos(x) + 2), x) == 2 * sqrt(3) * atan(sqrt(3) * tan(x / 2) / 3) / 3 and heurisch(2 * sin(x) * cos(x) / (sin(x) ** 4 + 1), x) == atan(sqrt(2) * sin(x) - 1) - atan(sqrt(2) * sin(x) + 1) and heurisch(1 / cosh(x), x) == 2 * atan(tanh(x / 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_trigonometric : Any → {Any | heurisch(s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(sin(x), x) == -cos(x)                 ║
+# ║   ensures:  heurisch(pi * sin(x) + 1, x) == x - pi * ...   ║
+# ║   ensures:  heurisch(cos(x), x) == sin(x)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_trigonometric : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ae8216c4a80a52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33279d96ce762ce0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_trigonometric","kind":"function","src_hash":"d6050bc1bdf36107","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(sin(x), x) == -cos(x) and heurisch(pi * sin(x) + 1, x) == x - pi * cos(x) and heurisch(cos(x), x) == sin(x) and heurisch(sin(x) * sin(y), x) == -cos(x) * sin(y) and heurisch(sin(x) * sin(y), y) == -cos(y) * sin(x) and heurisch(sin(x) * cos(x), x) in [sin(x) ** 2 / 2, -cos(x) ** 2 / 2] and heurisch(cos(x) / sin(x), x) == log(sin(x)) and heurisch(x * sin(7 * x), x) == sin(7 * x) / 49 - x * cos(7 * x) / 7 and heurisch(sin(x) / (cos(x) ** 2 + 1), x) == -atan(cos(x)) and heurisch(1 / cosh(x), x) == 2 * atan(tanh(x / 2))"},"spec":{"lhs":"test_heurisch_trigonometric()","rhs":"test_heurisch_trigonometric produces the expected output","over":{"base":"Any"},"name":"test_heurisch_trigonometric_correct"},"guarantee":"test_heurisch_trigonometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_trigonometric_correct","statement":"Path(test_heurisch_trigonometric(x), test_heurisch_trigonometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ae8216c4a80a52"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_trigonometric","kind":"function","src_hash":"d6050bc1bdf36107","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(sin(x), x) == -cos(x) and heurisch(pi * sin(x) + 1, x) == x - pi * cos(x) and heurisch(cos(x), x) == sin(x) and heurisch(tan(x), x) in [log(1 + tan(x) ** 2) / 2, log(tan(x) + I) + I * x, log(tan(x) - I) - I * x] and heurisch(sin(x) * sin(y), x) == -cos(x) * sin(y) and heurisch(sin(x) * sin(y), y) == -cos(y) * sin(x) and heurisch(sin(x) * cos(x), x) in [sin(x) ** 2 / 2, -cos(x) ** 2 / 2] and heurisch(cos(x) / sin(x), x) == log(sin(x)) and heurisch(x * sin(7 * x), x) == sin(7 * x) / 49 - x * cos(7 * x) / 7 and heurisch(1 / pi / 4 * x ** 2 * cos(x), x) == 1 / pi / 4 * (x ** 2 * sin(x) - 2 * sin(x) + 2 * x * cos(x)) and heurisch(acos(x / 4) * asin(x / 4), x) == 2 * x - sqrt(16 - x ** 2) * asin(x / 4) + sqrt(16 - x ** 2) * acos(x / 4) + x * asin(x / 4) * acos(x / 4) and heurisch(sin(x) / (cos(x) ** 2 + 1), x) == -atan(cos(x)) and heurisch(1 / (cos(x) + 2), x) == 2 * sqrt(3) * atan(sqrt(3) * tan(x / 2) / 3) / 3 and heurisch(2 * sin(x) * cos(x) / (sin(x) ** 4 + 1), x) == atan(sqrt(2) * sin(x) - 1) - atan(sqrt(2) * sin(x) + 1) and heurisch(1 / cosh(x), x) == 2 * atan(tanh(x / 2))"},"spec":{"lhs":"test_heurisch_trigonometric()","rhs":"heurisch(sin(x), x) == -cos(x) and heurisch(pi * sin(x) + 1, x) == x - pi * cos(x) and heurisch(cos(x), x) == sin(x) and heurisch(tan(x), x) in [log(1 + tan(x) ** 2) / 2, log(tan(x) + I) + I * x, log(tan(x) - I) - I * x] and heurisch(sin(x) * sin(y), x) == -cos(x) * sin(y) and heurisch(sin(x) * sin(y), y) == -cos(y) * sin(x) and heurisch(sin(x) * cos(x), x) in [sin(x) ** 2 / 2, -cos(x) ** 2 / 2] and heurisch(cos(x) / sin(x), x) == log(sin(x)) and heurisch(x * sin(7 * x), x) == sin(7 * x) / 49 - x * cos(7 * x) / 7 and heurisch(1 / pi / 4 * x ** 2 * cos(x), x) == 1 / pi / 4 * (x ** 2 * sin(x) - 2 * sin(x) + 2 * x * cos(x)) and heurisch(acos(x / 4) * asin(x / 4), x) == 2 * x - sqrt(16 - x ** 2) * asin(x / 4) + sqrt(16 - x ** 2) * acos(x / 4) + x * asin(x / 4) * acos(x / 4) and heurisch(sin(x) / (cos(x) ** 2 + 1), x) == -atan(cos(x)) and heurisch(1 / (cos(x) + 2), x) == 2 * sqrt(3) * atan(sqrt(3) * tan(x / 2) / 3) / 3 and heurisch(2 * sin(x) * cos(x) / (sin(x) ** 4 + 1), x) == atan(sqrt(2) * sin(x) - 1) - atan(sqrt(2) * sin(x) + 1) and heurisch(1 / cosh(x), x) == 2 * atan(tanh(x / 2))","over":{"base":"Any"},"name":"test_heurisch_trigonometric_correct"},"guarantee":"heurisch(sin(x), x) == -cos(x); heurisch(pi * sin(x) + 1, x) == x - pi * cos(x); heurisch(cos(x), x) == sin(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_trigonometric_correct","statement":"Path(test_heurisch_trigonometric(x), heurisch(sin(x), x) == -cos(x); heurisch(pi * sin(x) + 1, x) == x - pi * cos(x); heurisch(cos(x), x) == sin(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33279d96ce762ce0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(sin(x), x) == -cos(x)","heurisch(pi * sin(x) + 1, x) == x - pi * cos(x)","heurisch(cos(x), x) == sin(x)","heurisch(tan(x), x) in [log(1 + tan(x) ** 2) / 2, log(tan(x) + I) + I * x, log(tan(x) - I) - I * x]","heurisch(sin(x) * sin(y), x) == -cos(x) * sin(y)","heurisch(sin(x) * sin(y), y) == -cos(y) * sin(x)","heurisch(sin(x) * cos(x), x) in [sin(x) ** 2 / 2, -cos(x) ** 2 / 2]","heurisch(cos(x) / sin(x), x) == log(sin(x))","heurisch(x * sin(7 * x), x) == sin(7 * x) / 49 - x * cos(7 * x) / 7","heurisch(1 / pi / 4 * x ** 2 * cos(x), x) == 1 / pi / 4 * (x ** 2 * sin(x) - 2 * sin(x) + 2 * x * cos(x))","heurisch(acos(x / 4) * asin(x / 4), x) == 2 * x - sqrt(16 - x ** 2) * asin(x / 4) + sqrt(16 - x ** 2) * acos(x / 4) + x * asin(x / 4) * acos(x / 4)","heurisch(sin(x) / (cos(x) ** 2 + 1), x) == -atan(cos(x))","heurisch(1 / (cos(x) + 2), x) == 2 * sqrt(3) * atan(sqrt(3) * tan(x / 2) / 3) / 3","heurisch(2 * sin(x) * cos(x) / (sin(x) ** 4 + 1), x) == atan(sqrt(2) * sin(x) - 1) - atan(sqrt(2) * sin(x) + 1)","heurisch(1 / cosh(x), x) == 2 * atan(tanh(x / 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_heurisch_trigonometric():
     assert heurisch(sin(x), x) == -cos(x)
     assert heurisch(pi*sin(x) + 1, x) == x - pi*cos(x)
@@ -247,16 +307,24 @@ def test_heurisch_trigonometric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_hyperbolic(), test_heurisch_hyperbolic produces the expected output) over Any ║
+# ║ Path(test_heurisch_hyperbolic(), heurisch(sinh(x), x) == cosh(x) and heurisch(cosh(x), x) == sinh(x) and heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x) and heurisch(x * cosh(x), x) == x * sinh(x) - cosh(x) and heurisch(x * asinh(x / 2), x) == x ** 2 * asinh(x / 2) / 2 + asinh(x / 2) - x * sqrt(4 + x ** 2) / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_hyperbolic : Any → {Any | heurisch(sinh...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(sinh(x), x) == cosh(x)                ║
+# ║   ensures:  heurisch(cosh(x), x) == sinh(x)                ║
+# ║   ensures:  heurisch(x * sinh(x), x) == x * cosh(x) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_hyperbolic : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 219bcd93c8503e58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51845a62f4f1a396  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_hyperbolic","kind":"function","src_hash":"e5389e7cb85c05c9","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(sinh(x), x) == cosh(x) and heurisch(cosh(x), x) == sinh(x) and heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x) and heurisch(x * cosh(x), x) == x * sinh(x) - cosh(x)"},"spec":{"lhs":"test_heurisch_hyperbolic()","rhs":"test_heurisch_hyperbolic produces the expected output","over":{"base":"Any"},"name":"test_heurisch_hyperbolic_correct"},"guarantee":"test_heurisch_hyperbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_hyperbolic_correct","statement":"Path(test_heurisch_hyperbolic(x), test_heurisch_hyperbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"219bcd93c8503e58"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_hyperbolic","kind":"function","src_hash":"e5389e7cb85c05c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(sinh(x), x) == cosh(x) and heurisch(cosh(x), x) == sinh(x) and heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x) and heurisch(x * cosh(x), x) == x * sinh(x) - cosh(x) and heurisch(x * asinh(x / 2), x) == x ** 2 * asinh(x / 2) / 2 + asinh(x / 2) - x * sqrt(4 + x ** 2) / 4"},"spec":{"lhs":"test_heurisch_hyperbolic()","rhs":"heurisch(sinh(x), x) == cosh(x) and heurisch(cosh(x), x) == sinh(x) and heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x) and heurisch(x * cosh(x), x) == x * sinh(x) - cosh(x) and heurisch(x * asinh(x / 2), x) == x ** 2 * asinh(x / 2) / 2 + asinh(x / 2) - x * sqrt(4 + x ** 2) / 4","over":{"base":"Any"},"name":"test_heurisch_hyperbolic_correct"},"guarantee":"heurisch(sinh(x), x) == cosh(x); heurisch(cosh(x), x) == sinh(x); heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_hyperbolic_correct","statement":"Path(test_heurisch_hyperbolic(x), heurisch(sinh(x), x) == cosh(x); heurisch(cosh(x), x) == sinh(x); heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51845a62f4f1a396","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(sinh(x), x) == cosh(x)","heurisch(cosh(x), x) == sinh(x)","heurisch(x * sinh(x), x) == x * cosh(x) - sinh(x)","heurisch(x * cosh(x), x) == x * sinh(x) - cosh(x)","heurisch(x * asinh(x / 2), x) == x ** 2 * asinh(x / 2) / 2 + asinh(x / 2) - x * sqrt(4 + x ** 2) / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heurisch_hyperbolic():
     assert heurisch(sinh(x), x) == cosh(x)
     assert heurisch(cosh(x), x) == sinh(x)
@@ -269,32 +337,47 @@ def test_heurisch_hyperbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_mixed(), test_heurisch_mixed produces the expected output) over Any ║
+# ║ Path(test_heurisch_mixed(), heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2 and heurisch(sin(x / sqrt(-x)), x) == 2 * x * cos(x / sqrt(-x)) / sqrt(-x) - 2 * sin(x / sqrt(-x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_mixed : Any → {Any | heurisch(sin(x) * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(sin(x) * exp(x), x) == exp(x) * ...   ║
+# ║   ensures:  heurisch(sin(x / sqrt(-x)), x) == 2 * x *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_mixed : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 887f163cda232a63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd5d443e0860f275  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_mixed","kind":"function","src_hash":"33cecb012fbeb849","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2"},"spec":{"lhs":"test_heurisch_mixed()","rhs":"test_heurisch_mixed produces the expected output","over":{"base":"Any"},"name":"test_heurisch_mixed_correct"},"guarantee":"test_heurisch_mixed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_mixed_correct","statement":"Path(test_heurisch_mixed(x), test_heurisch_mixed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"887f163cda232a63"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_mixed","kind":"function","src_hash":"33cecb012fbeb849","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2 and heurisch(sin(x / sqrt(-x)), x) == 2 * x * cos(x / sqrt(-x)) / sqrt(-x) - 2 * sin(x / sqrt(-x))"},"spec":{"lhs":"test_heurisch_mixed()","rhs":"heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2 and heurisch(sin(x / sqrt(-x)), x) == 2 * x * cos(x / sqrt(-x)) / sqrt(-x) - 2 * sin(x / sqrt(-x))","over":{"base":"Any"},"name":"test_heurisch_mixed_correct"},"guarantee":"heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2; heurisch(sin(x / sqrt(-x)), x) == 2 * x * cos(x / sqrt(-x)) / sqrt(-x) - 2 * sin(x / sqrt(-x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_mixed_correct","statement":"Path(test_heurisch_mixed(x), heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2; heurisch(sin(x / sqrt(-x)), x) == 2 * x * cos(x / sqrt(-x)) / sqrt(-x) - 2 * sin(x / sqrt(-x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd5d443e0860f275","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(sin(x) * exp(x), x) == exp(x) * sin(x) / 2 - exp(x) * cos(x) / 2","heurisch(sin(x / sqrt(-x)), x) == 2 * x * cos(x / sqrt(-x)) / sqrt(-x) - 2 * sin(x / sqrt(-x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_mixed():
     assert heurisch(sin(x)*exp(x), x) == exp(x)*sin(x)/2 - exp(x)*cos(x)/2
     assert heurisch(sin(x/sqrt(-x)), x) == 2*x*cos(x/sqrt(-x))/sqrt(-x) - 2*sin(x/sqrt(-x))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_radicals(), test_heurisch_radicals produces the expected output) over Any ║
+# ║ Path(test_heurisch_radicals(), heurisch(1 / sqrt(x), x) == 2 * sqrt(x) and heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x) and heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5 and heurisch(sin(x) * sqrt(cos(x)), x) == -2 * sqrt(cos(x)) ** 3 / 3 and heurisch(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y and heurisch_wrapper(sin(y * sqrt(x)), x) == Piecewise((-2 * sqrt(x) * cos(sqrt(x) * y) / y + 2 * sin(sqrt(x) * y) / y ** 2, Ne(y, 0)), (0, True)) and heurisch_wrapper(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_radicals : Any → {Any | heurisch(1 / sq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(1 / sqrt(x), x) == 2 * sqrt(x)        ║
+# ║   ensures:  heurisch(1 / sqrt(x) ** 3, x) == -2 / sqr...   ║
+# ║   ensures:  heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_radicals : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0ba8a9dbeba3382  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8f9d008801343fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_radicals","kind":"function","src_hash":"1b187eaa91e3d7be","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(1 / sqrt(x), x) == 2 * sqrt(x) and heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x) and heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5 and heurisch(sin(x) * sqrt(cos(x)), x) == -2 * sqrt(cos(x)) ** 3 / 3"},"spec":{"lhs":"test_heurisch_radicals()","rhs":"test_heurisch_radicals produces the expected output","over":{"base":"Any"},"name":"test_heurisch_radicals_correct"},"guarantee":"test_heurisch_radicals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_radicals_correct","statement":"Path(test_heurisch_radicals(x), test_heurisch_radicals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ba8a9dbeba3382"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_radicals","kind":"function","src_hash":"1b187eaa91e3d7be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(1 / sqrt(x), x) == 2 * sqrt(x) and heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x) and heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5 and heurisch(sin(x) * sqrt(cos(x)), x) == -2 * sqrt(cos(x)) ** 3 / 3 and heurisch(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y and heurisch_wrapper(sin(y * sqrt(x)), x) == Piecewise((-2 * sqrt(x) * cos(sqrt(x) * y) / y + 2 * sin(sqrt(x) * y) / y ** 2, Ne(y, 0)), (0, True)) and heurisch_wrapper(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y"},"spec":{"lhs":"test_heurisch_radicals()","rhs":"heurisch(1 / sqrt(x), x) == 2 * sqrt(x) and heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x) and heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5 and heurisch(sin(x) * sqrt(cos(x)), x) == -2 * sqrt(cos(x)) ** 3 / 3 and heurisch(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y and heurisch_wrapper(sin(y * sqrt(x)), x) == Piecewise((-2 * sqrt(x) * cos(sqrt(x) * y) / y + 2 * sin(sqrt(x) * y) / y ** 2, Ne(y, 0)), (0, True)) and heurisch_wrapper(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y","over":{"base":"Any"},"name":"test_heurisch_radicals_correct"},"guarantee":"heurisch(1 / sqrt(x), x) == 2 * sqrt(x); heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x); heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_radicals_correct","statement":"Path(test_heurisch_radicals(x), heurisch(1 / sqrt(x), x) == 2 * sqrt(x); heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x); heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f9d008801343fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(1 / sqrt(x), x) == 2 * sqrt(x)","heurisch(1 / sqrt(x) ** 3, x) == -2 / sqrt(x)","heurisch(sqrt(x) ** 3, x) == 2 * sqrt(x) ** 5 / 5","heurisch(sin(x) * sqrt(cos(x)), x) == -2 * sqrt(cos(x)) ** 3 / 3","heurisch(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y","heurisch_wrapper(sin(y * sqrt(x)), x) == Piecewise((-2 * sqrt(x) * cos(sqrt(x) * y) / y + 2 * sin(sqrt(x) * y) / y ** 2, Ne(y, 0)), (0, True))","heurisch_wrapper(sin(y * sqrt(x)), x) == 2 / y ** 2 * sin(y * sqrt(x)) - 2 * sqrt(x) * cos(y * sqrt(x)) / y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_heurisch_radicals():
     assert heurisch(1/sqrt(x), x) == 2*sqrt(x)
     assert heurisch(1/sqrt(x)**3, x) == -2/sqrt(x)
@@ -313,32 +396,47 @@ def test_heurisch_radicals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_special(), test_heurisch_special produces the expected output) over Any ║
+# ║ Path(test_heurisch_special(), heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi) and heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_special : Any → {Any | heurisch(erf(x),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(erf(x), x) == x * erf(x) + exp(-...   ║
+# ║   ensures:  heurisch(exp(-x ** 2) * erf(x), x) == sqr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_special : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc10317c39b6cd4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c80930beb791067a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_special","kind":"function","src_hash":"afb4484bace939c6","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi) and heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4"},"spec":{"lhs":"test_heurisch_special()","rhs":"test_heurisch_special produces the expected output","over":{"base":"Any"},"name":"test_heurisch_special_correct"},"guarantee":"test_heurisch_special produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_special_correct","statement":"Path(test_heurisch_special(x), test_heurisch_special produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc10317c39b6cd4d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_special","kind":"function","src_hash":"afb4484bace939c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi) and heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4"},"spec":{"lhs":"test_heurisch_special()","rhs":"heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi) and heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4","over":{"base":"Any"},"name":"test_heurisch_special_correct"},"guarantee":"heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi); heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_special_correct","statement":"Path(test_heurisch_special(x), heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi); heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c80930beb791067a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(erf(x), x) == x * erf(x) + exp(-x ** 2) / sqrt(pi)","heurisch(exp(-x ** 2) * erf(x), x) == sqrt(pi) * erf(x) ** 2 / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_special():
     assert heurisch(erf(x), x) == x*erf(x) + exp(-x**2)/sqrt(pi)
     assert heurisch(exp(-x**2)*erf(x), x) == sqrt(pi)*erf(x)**2 / 4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_symbolic_coeffs(), test_heurisch_symbolic_coeffs produces the expected output) over Any ║
+# ║ Path(test_heurisch_symbolic_coeffs(), heurisch(1 / (x + y), x) == log(x + y) and heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2)) and simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_symbolic_coeffs : Any → {Any | heurisch...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(1 / (x + y), x) == log(x + y)         ║
+# ║   ensures:  heurisch(1 / (x + sqrt(2)), x) == log(x +...   ║
+# ║   ensures:  simplify(diff(heurisch(log(x + y + z), y)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_symbolic_coeffs : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 272dcb3a3697703e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa1473942b70f6f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs","kind":"function","src_hash":"2faac0d6d5ab5ea7","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(1 / (x + y), x) == log(x + y) and heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2)) and simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z)"},"spec":{"lhs":"test_heurisch_symbolic_coeffs()","rhs":"test_heurisch_symbolic_coeffs produces the expected output","over":{"base":"Any"},"name":"test_heurisch_symbolic_coeffs_correct"},"guarantee":"test_heurisch_symbolic_coeffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs_correct","statement":"Path(test_heurisch_symbolic_coeffs(x), test_heurisch_symbolic_coeffs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"272dcb3a3697703e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs","kind":"function","src_hash":"2faac0d6d5ab5ea7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(1 / (x + y), x) == log(x + y) and heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2)) and simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z)"},"spec":{"lhs":"test_heurisch_symbolic_coeffs()","rhs":"heurisch(1 / (x + y), x) == log(x + y) and heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2)) and simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z)","over":{"base":"Any"},"name":"test_heurisch_symbolic_coeffs_correct"},"guarantee":"heurisch(1 / (x + y), x) == log(x + y); heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2)); simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs_correct","statement":"Path(test_heurisch_symbolic_coeffs(x), heurisch(1 / (x + y), x) == log(x + y); heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2)); simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa1473942b70f6f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(1 / (x + y), x) == log(x + y)","heurisch(1 / (x + sqrt(2)), x) == log(x + sqrt(2))","simplify(diff(heurisch(log(x + y + z), y), y)) == log(x + y + z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_symbolic_coeffs():
     assert heurisch(1/(x + y), x) == log(x + y)
     assert heurisch(1/(x + sqrt(2)), x) == log(x + sqrt(2))
@@ -346,16 +444,23 @@ def test_heurisch_symbolic_coeffs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_symbolic_coeffs_1130(), test_heurisch_symbolic_coeffs_1130 produces the expected output) over Any ║
+# ║ Path(test_heurisch_symbolic_coeffs_1130(), heurisch_wrapper(1 / (x ** 2 + y), x) == Piecewise((log(x - sqrt(-y)) / (2 * sqrt(-y)) - log(x + sqrt(-y)) / (2 * sqrt(-y)), Ne(y, 0)), (-1 / x, True)) and heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_symbolic_coeffs_1130 : Any → {Any | heu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch_wrapper(1 / (x ** 2 + y), x) == ...   ║
+# ║   ensures:  heurisch_wrapper(1 / (x ** 2 + y), x) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_symbolic_coeffs_1130 : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b25c346dcdb8b67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8d20ef31a9d2cf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs_1130","kind":"function","src_hash":"a53c4a4e98cb0a76","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y)"},"spec":{"lhs":"test_heurisch_symbolic_coeffs_1130()","rhs":"test_heurisch_symbolic_coeffs_1130 produces the expected output","over":{"base":"Any"},"name":"test_heurisch_symbolic_coeffs_1130_correct"},"guarantee":"test_heurisch_symbolic_coeffs_1130 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs_1130_correct","statement":"Path(test_heurisch_symbolic_coeffs_1130(x), test_heurisch_symbolic_coeffs_1130 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b25c346dcdb8b67"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs_1130","kind":"function","src_hash":"a53c4a4e98cb0a76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch_wrapper(1 / (x ** 2 + y), x) == Piecewise((log(x - sqrt(-y)) / (2 * sqrt(-y)) - log(x + sqrt(-y)) / (2 * sqrt(-y)), Ne(y, 0)), (-1 / x, True)) and heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y)"},"spec":{"lhs":"test_heurisch_symbolic_coeffs_1130()","rhs":"heurisch_wrapper(1 / (x ** 2 + y), x) == Piecewise((log(x - sqrt(-y)) / (2 * sqrt(-y)) - log(x + sqrt(-y)) / (2 * sqrt(-y)), Ne(y, 0)), (-1 / x, True)) and heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y)","over":{"base":"Any"},"name":"test_heurisch_symbolic_coeffs_1130_correct"},"guarantee":"heurisch_wrapper(1 / (x ** 2 + y), x) == Piecewise((log(x - sqrt(-y)) / (2 * sqrt(-y)) - log(x + sqrt(-y)) / (2 * sqrt(-y)), Ne(y, 0)), (-1 / x, True)); heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_symbolic_coeffs_1130_correct","statement":"Path(test_heurisch_symbolic_coeffs_1130(x), heurisch_wrapper(1 / (x ** 2 + y), x) == Piecewise((log(x - sqrt(-y)) / (2 * sqrt(-y)) - log(x + sqrt(-y)) / (2 * sqrt(-y)), Ne(y, 0)), (-1 / x, True)); heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8d20ef31a9d2cf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch_wrapper(1 / (x ** 2 + y), x) == Piecewise((log(x - sqrt(-y)) / (2 * sqrt(-y)) - log(x + sqrt(-y)) / (2 * sqrt(-y)), Ne(y, 0)), (-1 / x, True))","heurisch_wrapper(1 / (x ** 2 + y), x) == atan(x / sqrt(y)) / sqrt(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heurisch_symbolic_coeffs_1130():
     y = Symbol('y')
     assert heurisch_wrapper(1/(x**2 + y), x) == Piecewise(
@@ -366,16 +471,24 @@ def test_heurisch_symbolic_coeffs_1130():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_hacking(), test_heurisch_hacking produces the expected output) over Any ║
+# ║ Path(test_heurisch_hacking(), heurisch(sqrt(1 + 7 * x ** 2), x, hints=[]) == x * sqrt(1 + 7 * x ** 2) / 2 + sqrt(7) * asinh(sqrt(7) * x) / 14 and heurisch(sqrt(1 - 7 * x ** 2), x, hints=[]) == x * sqrt(1 - 7 * x ** 2) / 2 + sqrt(7) * asin(sqrt(7) * x) / 14 and heurisch(1 / sqrt(1 + 7 * x ** 2), x, hints=[]) == sqrt(7) * asinh(sqrt(7) * x) / 7 and heurisch(1 / sqrt(1 - 7 * x ** 2), x, hints=[]) == sqrt(7) * asin(sqrt(7) * x) / 7 and heurisch(exp(-7 * x ** 2), x, hints=[]) == sqrt(7 * pi) * erf(sqrt(7) * x) / 14 and heurisch(1 / sqrt(9 - 4 * x ** 2), x, hints=[]) == asin(x * Rational(2, 3)) / 2 and heurisch(1 / sqrt(9 + 4 * x ** 2), x, hints=[]) == asinh(x * Rational(2, 3)) / 2 and heurisch(1 / sqrt(3 * x ** 2 - 4), x, hints=[]) == sqrt(3) * log(3 * x + sqrt(3) * sqrt(3 * x ** 2 - 4)) / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_hacking : Any → {Any | heurisch(exp(-7 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(sqrt(1 + 7 * x ** 2), x, hints=[...   ║
+# ║   ensures:  heurisch(sqrt(1 - 7 * x ** 2), x, hints=[...   ║
+# ║   ensures:  heurisch(1 / sqrt(1 + 7 * x ** 2), x, hin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_hacking : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11a82bd56e9f4ce0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b58758eba5dc1ebe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_hacking","kind":"function","src_hash":"27e232ebc3d038d1","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(exp(-7 * x ** 2), x, hints=[]) == sqrt(7 * pi) * erf(sqrt(7) * x) / 14 and heurisch(1 / sqrt(9 - 4 * x ** 2), x, hints=[]) == asin(x * Rational(2, 3)) / 2"},"spec":{"lhs":"test_heurisch_hacking()","rhs":"test_heurisch_hacking produces the expected output","over":{"base":"Any"},"name":"test_heurisch_hacking_correct"},"guarantee":"test_heurisch_hacking produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_hacking_correct","statement":"Path(test_heurisch_hacking(x), test_heurisch_hacking produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11a82bd56e9f4ce0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_hacking","kind":"function","src_hash":"27e232ebc3d038d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(sqrt(1 + 7 * x ** 2), x, hints=[]) == x * sqrt(1 + 7 * x ** 2) / 2 + sqrt(7) * asinh(sqrt(7) * x) / 14 and heurisch(sqrt(1 - 7 * x ** 2), x, hints=[]) == x * sqrt(1 - 7 * x ** 2) / 2 + sqrt(7) * asin(sqrt(7) * x) / 14 and heurisch(1 / sqrt(1 + 7 * x ** 2), x, hints=[]) == sqrt(7) * asinh(sqrt(7) * x) / 7 and heurisch(1 / sqrt(1 - 7 * x ** 2), x, hints=[]) == sqrt(7) * asin(sqrt(7) * x) / 7 and heurisch(exp(-7 * x ** 2), x, hints=[]) == sqrt(7 * pi) * erf(sqrt(7) * x) / 14 and heurisch(1 / sqrt(9 - 4 * x ** 2), x, hints=[]) == asin(x * Rational(2, 3)) / 2 and heurisch(1 / sqrt(9 + 4 * x ** 2), x, hints=[]) == asinh(x * Rational(2, 3)) / 2 and heurisch(1 / sqrt(3 * x ** 2 - 4), x, hints=[]) == sqrt(3) * log(3 * x + sqrt(3) * sqrt(3 * x ** 2 - 4)) / 3"},"spec":{"lhs":"test_heurisch_hacking()","rhs":"heurisch(sqrt(1 + 7 * x ** 2), x, hints=[]) == x * sqrt(1 + 7 * x ** 2) / 2 + sqrt(7) * asinh(sqrt(7) * x) / 14 and heurisch(sqrt(1 - 7 * x ** 2), x, hints=[]) == x * sqrt(1 - 7 * x ** 2) / 2 + sqrt(7) * asin(sqrt(7) * x) / 14 and heurisch(1 / sqrt(1 + 7 * x ** 2), x, hints=[]) == sqrt(7) * asinh(sqrt(7) * x) / 7 and heurisch(1 / sqrt(1 - 7 * x ** 2), x, hints=[]) == sqrt(7) * asin(sqrt(7) * x) / 7 and heurisch(exp(-7 * x ** 2), x, hints=[]) == sqrt(7 * pi) * erf(sqrt(7) * x) / 14 and heurisch(1 / sqrt(9 - 4 * x ** 2), x, hints=[]) == asin(x * Rational(2, 3)) / 2 and heurisch(1 / sqrt(9 + 4 * x ** 2), x, hints=[]) == asinh(x * Rational(2, 3)) / 2 and heurisch(1 / sqrt(3 * x ** 2 - 4), x, hints=[]) == sqrt(3) * log(3 * x + sqrt(3) * sqrt(3 * x ** 2 - 4)) / 3","over":{"base":"Any"},"name":"test_heurisch_hacking_correct"},"guarantee":"heurisch(sqrt(1 + 7 * x ** 2), x, hints=[]) == x * sqrt(1 + 7 * x ** 2) / 2 + sqrt(7) * asinh(sqrt(7) * x) / 14; heurisch(sqrt(1 - 7 * x ** 2), x, hints=[]) == x * sqrt(1 - 7 * x ** 2) / 2 + sqrt(7) * asin(sqrt(7) * x) / 14; heurisch(1 / sqrt(1 + 7 * x ** 2), x, hints=[]) == sqrt(7) * asinh(sqrt(7) * x) / 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_hacking_correct","statement":"Path(test_heurisch_hacking(x), heurisch(sqrt(1 + 7 * x ** 2), x, hints=[]) == x * sqrt(1 + 7 * x ** 2) / 2 + sqrt(7) * asinh(sqrt(7) * x) / 14; heurisch(sqrt(1 - 7 * x ** 2), x, hints=[]) == x * sqrt(1 - 7 * x ** 2) / 2 + sqrt(7) * asin(sqrt(7) * x) / 14; heurisch(1 / sqrt(1 + 7 * x ** 2), x, hints=[]) == sqrt(7) * asinh(sqrt(7) * x) / 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b58758eba5dc1ebe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(sqrt(1 + 7 * x ** 2), x, hints=[]) == x * sqrt(1 + 7 * x ** 2) / 2 + sqrt(7) * asinh(sqrt(7) * x) / 14","heurisch(sqrt(1 - 7 * x ** 2), x, hints=[]) == x * sqrt(1 - 7 * x ** 2) / 2 + sqrt(7) * asin(sqrt(7) * x) / 14","heurisch(1 / sqrt(1 + 7 * x ** 2), x, hints=[]) == sqrt(7) * asinh(sqrt(7) * x) / 7","heurisch(1 / sqrt(1 - 7 * x ** 2), x, hints=[]) == sqrt(7) * asin(sqrt(7) * x) / 7","heurisch(exp(-7 * x ** 2), x, hints=[]) == sqrt(7 * pi) * erf(sqrt(7) * x) / 14","heurisch(1 / sqrt(9 - 4 * x ** 2), x, hints=[]) == asin(x * Rational(2, 3)) / 2","heurisch(1 / sqrt(9 + 4 * x ** 2), x, hints=[]) == asinh(x * Rational(2, 3)) / 2","heurisch(1 / sqrt(3 * x ** 2 - 4), x, hints=[]) == sqrt(3) * log(3 * x + sqrt(3) * sqrt(3 * x ** 2 - 4)) / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_heurisch_hacking():
     assert heurisch(sqrt(1 + 7*x**2), x, hints=[]) == \
         x*sqrt(1 + 7*x**2)/2 + sqrt(7)*asinh(sqrt(7)*x)/14
@@ -401,31 +514,45 @@ def test_heurisch_hacking():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_function(), test_heurisch_function produces the expected output) over Any ║
+# ║ Path(test_heurisch_function(), heurisch(f(x), x) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_function : Any → {Any | heurisch(f(x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f(x), x) is None                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_function : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41e3c6e3f23cd144  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93463ea45b59b49f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_function","kind":"function","src_hash":"0bf25a3ec709764b","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f(x), x) is None"},"spec":{"lhs":"test_heurisch_function()","rhs":"test_heurisch_function produces the expected output","over":{"base":"Any"},"name":"test_heurisch_function_correct"},"guarantee":"test_heurisch_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_function_correct","statement":"Path(test_heurisch_function(x), test_heurisch_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41e3c6e3f23cd144"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_function","kind":"function","src_hash":"0bf25a3ec709764b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(f(x), x) is None"},"spec":{"lhs":"test_heurisch_function()","rhs":"heurisch(f(x), x) is None","over":{"base":"Any"},"name":"test_heurisch_function_correct"},"guarantee":"heurisch(f(x), x) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_function_correct","statement":"Path(test_heurisch_function(x), heurisch(f(x), x) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93463ea45b59b49f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f(x), x) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_heurisch_function():
     assert heurisch(f(x), x) is None
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_function_derivative(), test_heurisch_function_derivative produces the expected output) over Any ║
+# ║ Path(test_heurisch_function_derivative(), heurisch(f(x) * df, x) == f(x) ** 2 / 2 and heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3 and heurisch(df / f(x), x) == log(f(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_function_derivative : Any → {Any | heur...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f(x) * df, x) == f(x) ** 2 / 2        ║
+# ║   ensures:  heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3   ║
+# ║   ensures:  heurisch(df / f(x), x) == log(f(x))            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_function_derivative : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9229e75c21c0214  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c699a9fe26183759  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_function_derivative","kind":"function","src_hash":"bae5143943d90528","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f(x) * df, x) == f(x) ** 2 / 2 and heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3 and heurisch(df / f(x), x) == log(f(x))"},"spec":{"lhs":"test_heurisch_function_derivative()","rhs":"test_heurisch_function_derivative produces the expected output","over":{"base":"Any"},"name":"test_heurisch_function_derivative_correct"},"guarantee":"test_heurisch_function_derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_function_derivative_correct","statement":"Path(test_heurisch_function_derivative(x), test_heurisch_function_derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9229e75c21c0214"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_function_derivative","kind":"function","src_hash":"bae5143943d90528","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(f(x) * df, x) == f(x) ** 2 / 2 and heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3 and heurisch(df / f(x), x) == log(f(x))"},"spec":{"lhs":"test_heurisch_function_derivative()","rhs":"heurisch(f(x) * df, x) == f(x) ** 2 / 2 and heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3 and heurisch(df / f(x), x) == log(f(x))","over":{"base":"Any"},"name":"test_heurisch_function_derivative_correct"},"guarantee":"heurisch(f(x) * df, x) == f(x) ** 2 / 2; heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3; heurisch(df / f(x), x) == log(f(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_function_derivative_correct","statement":"Path(test_heurisch_function_derivative(x), heurisch(f(x) * df, x) == f(x) ** 2 / 2; heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3; heurisch(df / f(x), x) == log(f(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c699a9fe26183759","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f(x) * df, x) == f(x) ** 2 / 2","heurisch(f(x) ** 2 * df, x) == f(x) ** 3 / 3","heurisch(df / f(x), x) == log(f(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_function_derivative():
     # TODO: it looks like this used to work just by coincindence and
     # thanks to sloppy implementation. Investigate why this used to
@@ -439,16 +566,24 @@ def test_heurisch_function_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_wrapper(), test_heurisch_wrapper produces the expected output) over Any ║
+# ║ Path(test_heurisch_wrapper(), heurisch_wrapper(f, x) == log(x + y) and heurisch_wrapper(f, x) == -log(x - y) and heurisch_wrapper(f, x) == Piecewise((-log(x - y) / (2 * y) + log(x + y) / (2 * y), Ne(y, 0)), (1 / x, True)) and heurisch_wrapper(f, x) == x * sqrt(-x ** 2 / (x ** 2 - y ** 2)) - y ** 2 * sqrt(-x ** 2 / (x ** 2 - y ** 2)) / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_wrapper : Any → {Any | heurisch_wrapper...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch_wrapper(f, x) == log(x + y)           ║
+# ║   ensures:  heurisch_wrapper(f, x) == -log(x - y)          ║
+# ║   ensures:  heurisch_wrapper(f, x) == Piecewise((-log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_wrapper : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 117c690a0756f84d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b69262991e52260  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_wrapper","kind":"function","src_hash":"0e50fd23ca6f3b22","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch_wrapper(f, x) == log(x + y) and heurisch_wrapper(f, x) == -log(x - y)"},"spec":{"lhs":"test_heurisch_wrapper()","rhs":"test_heurisch_wrapper produces the expected output","over":{"base":"Any"},"name":"test_heurisch_wrapper_correct"},"guarantee":"test_heurisch_wrapper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_wrapper_correct","statement":"Path(test_heurisch_wrapper(x), test_heurisch_wrapper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"117c690a0756f84d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_wrapper","kind":"function","src_hash":"0e50fd23ca6f3b22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch_wrapper(f, x) == log(x + y) and heurisch_wrapper(f, x) == -log(x - y) and heurisch_wrapper(f, x) == Piecewise((-log(x - y) / (2 * y) + log(x + y) / (2 * y), Ne(y, 0)), (1 / x, True)) and heurisch_wrapper(f, x) == x * sqrt(-x ** 2 / (x ** 2 - y ** 2)) - y ** 2 * sqrt(-x ** 2 / (x ** 2 - y ** 2)) / x"},"spec":{"lhs":"test_heurisch_wrapper()","rhs":"heurisch_wrapper(f, x) == log(x + y) and heurisch_wrapper(f, x) == -log(x - y) and heurisch_wrapper(f, x) == Piecewise((-log(x - y) / (2 * y) + log(x + y) / (2 * y), Ne(y, 0)), (1 / x, True)) and heurisch_wrapper(f, x) == x * sqrt(-x ** 2 / (x ** 2 - y ** 2)) - y ** 2 * sqrt(-x ** 2 / (x ** 2 - y ** 2)) / x","over":{"base":"Any"},"name":"test_heurisch_wrapper_correct"},"guarantee":"heurisch_wrapper(f, x) == log(x + y); heurisch_wrapper(f, x) == -log(x - y); heurisch_wrapper(f, x) == Piecewise((-log(x - y) / (2 * y) + log(x + y) / (2 * y), Ne(y, 0)), (1 / x, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_wrapper_correct","statement":"Path(test_heurisch_wrapper(x), heurisch_wrapper(f, x) == log(x + y); heurisch_wrapper(f, x) == -log(x - y); heurisch_wrapper(f, x) == Piecewise((-log(x - y) / (2 * y) + log(x + y) / (2 * y), Ne(y, 0)), (1 / x, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b69262991e52260","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch_wrapper(f, x) == log(x + y)","heurisch_wrapper(f, x) == -log(x - y)","heurisch_wrapper(f, x) == Piecewise((-log(x - y) / (2 * y) + log(x + y) / (2 * y), Ne(y, 0)), (1 / x, True))","heurisch_wrapper(f, x) == x * sqrt(-x ** 2 / (x ** 2 - y ** 2)) - y ** 2 * sqrt(-x ** 2 / (x ** 2 - y ** 2)) / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heurisch_wrapper():
     f = 1/(y + x)
     assert heurisch_wrapper(f, x) == log(x + y)
@@ -464,16 +599,22 @@ def test_heurisch_wrapper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3609(), test_issue_3609 produces the expected output) over Any ║
+# ║ Path(test_issue_3609(), heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3609 : Any → {Any | heurisch(1 / (x * (1 +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(1 / (x * (1 + log(x) ** 2)), x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3609 : Any → {Any | result satisfies: heur...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e10cd9d9be2882ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5828874c740f0f0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_3609","kind":"function","src_hash":"5d55ccbee8ef2530","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x))"},"spec":{"lhs":"test_issue_3609()","rhs":"test_issue_3609 produces the expected output","over":{"base":"Any"},"name":"test_issue_3609_correct"},"guarantee":"test_issue_3609 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_3609_correct","statement":"Path(test_issue_3609(x), test_issue_3609 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e10cd9d9be2882ec"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_3609","kind":"function","src_hash":"5d55ccbee8ef2530","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x))"},"spec":{"lhs":"test_issue_3609()","rhs":"heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x))","over":{"base":"Any"},"name":"test_issue_3609_correct"},"guarantee":"heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_3609_correct","statement":"Path(test_issue_3609(x), heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5828874c740f0f0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(1 / (x * (1 + log(x) ** 2)), x) == atan(log(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3609():
     assert heurisch(1/(x * (1 + log(x)**2)), x) == atan(log(x))
 
@@ -484,14 +625,20 @@ def test_issue_3609():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_pmint_rat(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_rat : Any → {Any | drop_const(ratsimp(heur...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  drop_const(ratsimp(heurisch(f, x)), x) == g    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_rat : Any → {Any | result satisfies: drop_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | abb6b75e9191fb58   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_rat","kind":"function","src_hash":"c152bccf074261cb","in":{"base":"Any"},"out":{"base":"Any","pred":"drop_const(ratsimp(heurisch(f, x)), x) == g"},"spec":{"lhs":"test_pmint_rat()","rhs":"test_pmint_rat produces the expected output","over":{"base":"Any"},"name":"test_pmint_rat_correct","kind":"composition"},"guarantee":"test_pmint_rat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"has","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abb6b75e9191fb58"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_rat","kind":"function","src_hash":"c152bccf074261cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: drop_const(ratsimp(heurisch(f, x)), x) == g"},"spec":{"lhs":"test_pmint_rat()","rhs":"drop_const(ratsimp(heurisch(f, x)), x) == g","over":{"base":"Any"},"name":"test_pmint_rat_correct","kind":"composition"},"guarantee":"drop_const(ratsimp(heurisch(f, x)), x) == g","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"has","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abb6b75e9191fb58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["drop_const(ratsimp(heurisch(f, x)), x) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pmint_rat():
     # TODO: heurisch() is off by a constant: -3/4. Possibly different permutation
     # would give the optimal result?
@@ -509,16 +656,22 @@ def test_pmint_rat():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pmint_trig(), test_pmint_trig produces the expected output) over Any ║
+# ║ Path(test_pmint_trig(), heurisch(f, x) == g) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_trig : Any → {Any | heurisch(f, x) == g}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f, x) == g                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_trig : Any → {Any | result satisfies: heur...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4c23e20c80a7e2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edb63256173b78a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_trig","kind":"function","src_hash":"08a4084bdd9f2993","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_trig()","rhs":"test_pmint_trig produces the expected output","over":{"base":"Any"},"name":"test_pmint_trig_correct"},"guarantee":"test_pmint_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_trig_correct","statement":"Path(test_pmint_trig(x), test_pmint_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c23e20c80a7e2a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_trig","kind":"function","src_hash":"08a4084bdd9f2993","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_trig()","rhs":"heurisch(f, x) == g","over":{"base":"Any"},"name":"test_pmint_trig_correct"},"guarantee":"heurisch(f, x) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_trig_correct","statement":"Path(test_pmint_trig(x), heurisch(f, x) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb63256173b78a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f, x) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pmint_trig():
     f = (x - tan(x)) / tan(x)**2 + tan(x)
     g = -x**2/2 - x/tan(x) + log(tan(x)**2 + 1)/2
@@ -527,16 +680,22 @@ def test_pmint_trig():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pmint_logexp(), test_pmint_logexp produces the expected output) over Any ║
+# ║ Path(test_pmint_logexp(), ratsimp(heurisch(f, x)) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_logexp : Any → {Any | ratsimp(heurisch(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ratsimp(heurisch(f, x)) == g                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_logexp : Any → {Any | result satisfies: ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53b112c3711adff1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1942bb45fdfaec6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_logexp","kind":"function","src_hash":"422a4ad0eefb9c3a","in":{"base":"Any"},"out":{"base":"Any","pred":"ratsimp(heurisch(f, x)) == g"},"spec":{"lhs":"test_pmint_logexp()","rhs":"test_pmint_logexp produces the expected output","over":{"base":"Any"},"name":"test_pmint_logexp_correct"},"guarantee":"test_pmint_logexp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_logexp_correct","statement":"Path(test_pmint_logexp(x), test_pmint_logexp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53b112c3711adff1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_logexp","kind":"function","src_hash":"422a4ad0eefb9c3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ratsimp(heurisch(f, x)) == g"},"spec":{"lhs":"test_pmint_logexp()","rhs":"ratsimp(heurisch(f, x)) == g","over":{"base":"Any"},"name":"test_pmint_logexp_correct"},"guarantee":"ratsimp(heurisch(f, x)) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_logexp_correct","statement":"Path(test_pmint_logexp(x), ratsimp(heurisch(f, x)) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1942bb45fdfaec6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ratsimp(heurisch(f, x)) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pmint_logexp():
     f = (1 + x + x*exp(x))*(x + log(x) + exp(x) - 1)/(x + log(x) + exp(x))**2/x
     g = log(x + exp(x) + log(x)) + 1/(x + exp(x) + log(x))
@@ -545,16 +704,22 @@ def test_pmint_logexp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pmint_erf(), test_pmint_erf produces the expected output) over Any ║
+# ║ Path(test_pmint_erf(), ratsimp(heurisch(f, x)) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_erf : Any → {Any | ratsimp(heurisch(f, x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ratsimp(heurisch(f, x)) == g                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_erf : Any → {Any | result satisfies: ratsi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b8f22812da1f0f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12555a9a9a869f80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_erf","kind":"function","src_hash":"d8855c22fc81cd20","in":{"base":"Any"},"out":{"base":"Any","pred":"ratsimp(heurisch(f, x)) == g"},"spec":{"lhs":"test_pmint_erf()","rhs":"test_pmint_erf produces the expected output","over":{"base":"Any"},"name":"test_pmint_erf_correct"},"guarantee":"test_pmint_erf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_erf_correct","statement":"Path(test_pmint_erf(x), test_pmint_erf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b8f22812da1f0f4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_erf","kind":"function","src_hash":"d8855c22fc81cd20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ratsimp(heurisch(f, x)) == g"},"spec":{"lhs":"test_pmint_erf()","rhs":"ratsimp(heurisch(f, x)) == g","over":{"base":"Any"},"name":"test_pmint_erf_correct"},"guarantee":"ratsimp(heurisch(f, x)) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_erf_correct","statement":"Path(test_pmint_erf(x), ratsimp(heurisch(f, x)) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12555a9a9a869f80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ratsimp(heurisch(f, x)) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pmint_erf():
     f = exp(-x**2)*erf(x)/(erf(x)**3 - erf(x)**2 - erf(x) + 1)
     g = sqrt(pi)*log(erf(x) - 1)/8 - sqrt(pi)*log(erf(x) + 1)/8 - sqrt(pi)/(4*erf(x) - 4)
@@ -563,16 +728,22 @@ def test_pmint_erf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pmint_LambertW(), test_pmint_LambertW produces the expected output) over Any ║
+# ║ Path(test_pmint_LambertW(), heurisch(f, x) == g) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_LambertW : Any → {Any | heurisch(f, x) == g}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f, x) == g                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_LambertW : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3f61ef46bccddcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 537a7ab248e27762  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_LambertW","kind":"function","src_hash":"924b3850545c1c8e","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_LambertW()","rhs":"test_pmint_LambertW produces the expected output","over":{"base":"Any"},"name":"test_pmint_LambertW_correct"},"guarantee":"test_pmint_LambertW produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_LambertW_correct","statement":"Path(test_pmint_LambertW(x), test_pmint_LambertW produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3f61ef46bccddcc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_LambertW","kind":"function","src_hash":"924b3850545c1c8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_LambertW()","rhs":"heurisch(f, x) == g","over":{"base":"Any"},"name":"test_pmint_LambertW_correct"},"guarantee":"heurisch(f, x) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_LambertW_correct","statement":"Path(test_pmint_LambertW(x), heurisch(f, x) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"537a7ab248e27762","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f, x) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pmint_LambertW():
     f = LambertW(x)
     g = x*LambertW(x) - x + x/LambertW(x)
@@ -581,16 +752,22 @@ def test_pmint_LambertW():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pmint_besselj(), test_pmint_besselj produces the expected output) over Any ║
+# ║ Path(test_pmint_besselj(), heurisch(f, x) == g) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_besselj : Any → {Any | heurisch(f, x) == g...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f, x) == g                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_besselj : Any → {Any | result satisfies: h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29cfb8085b4e4056  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3d6fe80ef53c33d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_besselj","kind":"function","src_hash":"7201b0f891b80c78","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f, x) == g and heurisch(f, x) == g and heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_besselj()","rhs":"test_pmint_besselj produces the expected output","over":{"base":"Any"},"name":"test_pmint_besselj_correct"},"guarantee":"test_pmint_besselj produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_besselj_correct","statement":"Path(test_pmint_besselj(x), test_pmint_besselj produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29cfb8085b4e4056"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_besselj","kind":"function","src_hash":"7201b0f891b80c78","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_besselj()","rhs":"heurisch(f, x) == g","over":{"base":"Any"},"name":"test_pmint_besselj_correct"},"guarantee":"heurisch(f, x) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_besselj_correct","statement":"Path(test_pmint_besselj(x), heurisch(f, x) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d6fe80ef53c33d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f, x) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pmint_besselj():
     f = besselj(nu + 1, x)/besselj(nu, x)
     g = nu*log(x) - log(besselj(nu, x))
@@ -610,16 +787,22 @@ def test_pmint_besselj():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pmint_bessel_products(), test_pmint_bessel_products produces the expected output) over Any ║
+# ║ Path(test_pmint_bessel_products(), heurisch(f, x) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_bessel_products : Any → {Any | heurisch(f,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f, x) == g                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_bessel_products : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e4409c6d6180f90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 557784a7d19a8db6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_bessel_products","kind":"function","src_hash":"f7a95b83ea429284","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f, x) == g and heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_bessel_products()","rhs":"test_pmint_bessel_products produces the expected output","over":{"base":"Any"},"name":"test_pmint_bessel_products_correct"},"guarantee":"test_pmint_bessel_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_bessel_products_correct","statement":"Path(test_pmint_bessel_products(x), test_pmint_bessel_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e4409c6d6180f90"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_bessel_products","kind":"function","src_hash":"f7a95b83ea429284","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_bessel_products()","rhs":"heurisch(f, x) == g","over":{"base":"Any"},"name":"test_pmint_bessel_products_correct"},"guarantee":"heurisch(f, x) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_pmint_bessel_products_correct","statement":"Path(test_pmint_bessel_products(x), heurisch(f, x) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"557784a7d19a8db6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f, x) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pmint_bessel_products():
     f = x*besselj(nu, x)*bessely(nu, 2*x)
     g = -2*x*besselj(nu, x)*bessely(nu - 1, 2*x)/3 + x*besselj(nu - 1, x)*bessely(nu, 2*x)/3
@@ -635,14 +818,21 @@ def test_pmint_bessel_products():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_pmint_WrightOmega(), id) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pmint_WrightOmega : Any → {Any | heurisch(f, x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(f, x) == g                            ║
+# ║   returns:  LambertW(exp(x))                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pmint_WrightOmega : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2779059e657f84b7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_WrightOmega","kind":"function","src_hash":"f816860c65e94257","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(f, x) == g"},"spec":{"lhs":"test_pmint_WrightOmega()","rhs":"test_pmint_WrightOmega produces the expected output","over":{"base":"Any"},"name":"test_pmint_WrightOmega_correct","kind":"composition"},"guarantee":"test_pmint_WrightOmega produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LambertW","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2779059e657f84b7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_pmint_WrightOmega","kind":"function","src_hash":"f816860c65e94257","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (LambertW(exp(x)))"},"spec":{"lhs":"test_pmint_WrightOmega()","rhs":"LambertW(exp(x))","over":{"base":"Any"},"name":"test_pmint_WrightOmega_correct","kind":"composition"},"guarantee":"returns LambertW(exp(x)); heurisch(f, x) == g","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LambertW","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2779059e657f84b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(f, x) == g"],"returns_expr":"LambertW(exp(x))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pmint_WrightOmega():
     def omega(x):
         return LambertW(exp(x))
@@ -654,16 +844,22 @@ def test_pmint_WrightOmega():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RR(), test_RR produces the expected output) over Any ║
+# ║ Path(test_RR(), heurisch(sqrt(1 + 0.25 * x ** 2), x, hints=[]) == 0.5 * x * sqrt(0.25 * x ** 2 + 1) + 1.0 * asinh(0.5 * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RR : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(sqrt(1 + 0.25 * x ** 2), x, hint...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RR : Any → {Any | result satisfies: heurisch(sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e915177fff5fe2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45eca081abe43a5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_RR","kind":"function","src_hash":"528f52527c218778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_RR()","rhs":"test_RR produces the expected output","over":{"base":"Any"},"name":"test_RR_correct"},"guarantee":"test_RR produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_RR_correct","statement":"Path(test_RR(x), test_RR produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e915177fff5fe2f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_RR","kind":"function","src_hash":"528f52527c218778","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(sqrt(1 + 0.25 * x ** 2), x, hints=[]) == 0.5 * x * sqrt(0.25 * x ** 2 + 1) + 1.0 * asinh(0.5 * x)"},"spec":{"lhs":"test_RR()","rhs":"heurisch(sqrt(1 + 0.25 * x ** 2), x, hints=[]) == 0.5 * x * sqrt(0.25 * x ** 2 + 1) + 1.0 * asinh(0.5 * x)","over":{"base":"Any"},"name":"test_RR_correct"},"guarantee":"heurisch(sqrt(1 + 0.25 * x ** 2), x, hints=[]) == 0.5 * x * sqrt(0.25 * x ** 2 + 1) + 1.0 * asinh(0.5 * x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_RR_correct","statement":"Path(test_RR(x), heurisch(sqrt(1 + 0.25 * x ** 2), x, hints=[]) == 0.5 * x * sqrt(0.25 * x ** 2 + 1) + 1.0 * asinh(0.5 * x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45eca081abe43a5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(sqrt(1 + 0.25 * x ** 2), x, hints=[]) == 0.5 * x * sqrt(0.25 * x ** 2 + 1) + 1.0 * asinh(0.5 * x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RR():
     # Make sure the algorithm does the right thing if the ring is RR. See
     # issue 8685.
@@ -682,16 +878,23 @@ def test_RR():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22527(), test_issue_22527 produces the expected output) over Any ║
+# ║ Path(test_issue_22527(), x / sqrt(R ** 2 - x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22527 : Any → {Any | Ut == Uz.subs(z, t)}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ut == Uz.subs(z, t)                            ║
+# ║   returns:  x / sqrt(R ** 2 - x ** 2)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22527 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 952e1f06aeab2ebf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8f1a9995d61d232  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_22527","kind":"function","src_hash":"139488e259ca9a89","in":{"base":"Any"},"out":{"base":"Any","pred":"Ut == Uz.subs(z, t)"},"spec":{"lhs":"test_issue_22527()","rhs":"test_issue_22527 produces the expected output","over":{"base":"Any"},"name":"test_issue_22527_correct"},"guarantee":"test_issue_22527 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_22527_correct","statement":"Path(test_issue_22527(x), test_issue_22527 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952e1f06aeab2ebf"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_22527","kind":"function","src_hash":"139488e259ca9a89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x / sqrt(R ** 2 - x ** 2))"},"spec":{"lhs":"test_issue_22527()","rhs":"x / sqrt(R ** 2 - x ** 2)","over":{"base":"Any"},"name":"test_issue_22527_correct"},"guarantee":"returns x / sqrt(R ** 2 - x ** 2); Ut == Uz.subs(z, t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_22527_correct","statement":"Path(test_issue_22527(x), returns x / sqrt(R ** 2 - x ** 2); Ut == Uz.subs(z, t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8f1a9995d61d232","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ut == Uz.subs(z, t)"],"returns_expr":"x / sqrt(R ** 2 - x ** 2)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22527():
     t, R = symbols(r't R')
     z = Function('z')(t)
@@ -703,16 +906,24 @@ def test_issue_22527():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_complex_erf_issue_26338(), test_heurisch_complex_erf_issue_26338 produces the expected output) over Any ║
+# ║ Path(test_heurisch_complex_erf_issue_26338(), integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a and heurisch(a, x, hints=[]) is None and heurisch(a, r, hints=[]) is None and integrate(exp(-I * x ** 2 / 2), (x, 0, 1)) == a - I * a) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(exp(-I * r ** 2 / 2), (r, 0, 1)...   ║
+# ║   ensures:  heurisch(a, x, hints=[]) is None               ║
+# ║   ensures:  heurisch(a, r, hints=[]) is None               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_heurisch_complex_erf_issue_26338 : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7115e8068768a52e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da7600fc0096408f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_complex_erf_issue_26338","kind":"function","src_hash":"09c3200999f004cf","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a and heurisch(a, x, hints=[]) is None and heurisch(a, r, hints=[]) is None and integrate(exp(-I * x ** 2 / 2), (x, 0, 1)) == a - I * a"},"spec":{"lhs":"test_heurisch_complex_erf_issue_26338()","rhs":"test_heurisch_complex_erf_issue_26338 produces the expected output","over":{"base":"Any"},"name":"test_heurisch_complex_erf_issue_26338_correct"},"guarantee":"test_heurisch_complex_erf_issue_26338 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_complex_erf_issue_26338_correct","statement":"Path(test_heurisch_complex_erf_issue_26338(x), test_heurisch_complex_erf_issue_26338 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7115e8068768a52e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_complex_erf_issue_26338","kind":"function","src_hash":"09c3200999f004cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a and heurisch(a, x, hints=[]) is None and heurisch(a, r, hints=[]) is None and integrate(exp(-I * x ** 2 / 2), (x, 0, 1)) == a - I * a"},"spec":{"lhs":"test_heurisch_complex_erf_issue_26338()","rhs":"integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a and heurisch(a, x, hints=[]) is None and heurisch(a, r, hints=[]) is None and integrate(exp(-I * x ** 2 / 2), (x, 0, 1)) == a - I * a","over":{"base":"Any"},"name":"test_heurisch_complex_erf_issue_26338_correct"},"guarantee":"integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a; heurisch(a, x, hints=[]) is None; heurisch(a, r, hints=[]) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_complex_erf_issue_26338_correct","statement":"Path(test_heurisch_complex_erf_issue_26338(x), integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a; heurisch(a, x, hints=[]) is None; heurisch(a, r, hints=[]) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da7600fc0096408f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(exp(-I * r ** 2 / 2), (r, 0, 1)) == a - I * a","heurisch(a, x, hints=[]) is None","heurisch(a, r, hints=[]) is None","integrate(exp(-I * x ** 2 / 2), (x, 0, 1)) == a - I * a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heurisch_complex_erf_issue_26338():
     r = symbols('r', real=True)
     a = sqrt(pi)*erf((1 + I)/2)/2
@@ -727,16 +938,22 @@ def test_heurisch_complex_erf_issue_26338():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15498(), test_issue_15498 produces the expected output) over Any ║
+# ║ Path(test_issue_15498(), solution is not None) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15498 : Any → {Any | solution is not None}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solution is not None                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15498 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a34f8182d39d0c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0f445af933ef8ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_15498","kind":"function","src_hash":"a26f4c9393b068db","in":{"base":"Any"},"out":{"base":"Any","pred":"solution is not None"},"spec":{"lhs":"test_issue_15498()","rhs":"test_issue_15498 produces the expected output","over":{"base":"Any"},"name":"test_issue_15498_correct"},"guarantee":"test_issue_15498 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_15498_correct","statement":"Path(test_issue_15498(x), test_issue_15498 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a34f8182d39d0c7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_issue_15498","kind":"function","src_hash":"a26f4c9393b068db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solution is not None"},"spec":{"lhs":"test_issue_15498()","rhs":"solution is not None","over":{"base":"Any"},"name":"test_issue_15498_correct"},"guarantee":"solution is not None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_issue_15498_correct","statement":"Path(test_issue_15498(x), solution is not None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0f445af933ef8ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solution is not None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_15498():
     Z0 = Function('Z0')
     k01, k10, t, s= symbols('k01 k10 t s', real=True, positive=True)
@@ -756,16 +973,24 @@ def test_issue_15498():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_issue_26930(), test_heurisch_issue_26930 produces the expected output) over Any ║
+# ║ Path(test_heurisch_issue_26930(), heurisch(integrand, x) == anti and integrate(integrand, x) == anti and integrate(integrand, (x, 0, 1)) == -S(9) / 49) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_issue_26930 : Any → {Any | heurisch(int...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heurisch(integrand, x) == anti                 ║
+# ║   ensures:  integrate(integrand, x) == anti                ║
+# ║   ensures:  integrate(integrand, (x, 0, 1)) == -S(9) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_issue_26930 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24599acae3d23f4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ce48b82f85efabf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26930","kind":"function","src_hash":"2217f7c9e486d580","in":{"base":"Any"},"out":{"base":"Any","pred":"heurisch(integrand, x) == anti and integrate(integrand, x) == anti and integrate(integrand, (x, 0, 1)) == -S(9) / 49"},"spec":{"lhs":"test_heurisch_issue_26930()","rhs":"test_heurisch_issue_26930 produces the expected output","over":{"base":"Any"},"name":"test_heurisch_issue_26930_correct"},"guarantee":"test_heurisch_issue_26930 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26930_correct","statement":"Path(test_heurisch_issue_26930(x), test_heurisch_issue_26930 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24599acae3d23f4e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26930","kind":"function","src_hash":"2217f7c9e486d580","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heurisch(integrand, x) == anti and integrate(integrand, x) == anti and integrate(integrand, (x, 0, 1)) == -S(9) / 49"},"spec":{"lhs":"test_heurisch_issue_26930()","rhs":"heurisch(integrand, x) == anti and integrate(integrand, x) == anti and integrate(integrand, (x, 0, 1)) == -S(9) / 49","over":{"base":"Any"},"name":"test_heurisch_issue_26930_correct"},"guarantee":"heurisch(integrand, x) == anti; integrate(integrand, x) == anti; integrate(integrand, (x, 0, 1)) == -S(9) / 49","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26930_correct","statement":"Path(test_heurisch_issue_26930(x), heurisch(integrand, x) == anti; integrate(integrand, x) == anti; integrate(integrand, (x, 0, 1)) == -S(9) / 49)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ce48b82f85efabf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heurisch(integrand, x) == anti","integrate(integrand, x) == anti","integrate(integrand, (x, 0, 1)) == -S(9) / 49"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heurisch_issue_26930():
     integrand = x**Rational(4, 3)*log(x)
     anti = 3*x**(S(7)/3)*log(x)/7 - 9*x**(S(7)/3)/49
@@ -775,16 +1000,22 @@ def test_heurisch_issue_26930():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heurisch_issue_26922(), test_heurisch_issue_26922 produces the expected output) over Any ║
+# ║ Path(test_heurisch_issue_26922(), i.doit(heurisch=False).expand() == res) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heurisch_issue_26922 : Any → {Any | i.doit(heuri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i.doit(heurisch=False).expand() == res         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heurisch_issue_26922 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3b833ea20ddefef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2c2590f6f2a2ce0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26922","kind":"function","src_hash":"2022285c976086b6","in":{"base":"Any"},"out":{"base":"Any","pred":"i.doit(heurisch=False).expand() == res"},"spec":{"lhs":"test_heurisch_issue_26922()","rhs":"test_heurisch_issue_26922 produces the expected output","over":{"base":"Any"},"name":"test_heurisch_issue_26922_correct"},"guarantee":"test_heurisch_issue_26922 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26922_correct","statement":"Path(test_heurisch_issue_26922(x), test_heurisch_issue_26922 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b833ea20ddefef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26922","kind":"function","src_hash":"2022285c976086b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i.doit(heurisch=False).expand() == res"},"spec":{"lhs":"test_heurisch_issue_26922()","rhs":"i.doit(heurisch=False).expand() == res","over":{"base":"Any"},"name":"test_heurisch_issue_26922_correct"},"guarantee":"i.doit(heurisch=False).expand() == res","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_heurisch.test_heurisch_issue_26922_correct","statement":"Path(test_heurisch_issue_26922(x), i.doit(heurisch=False).expand() == res)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2c2590f6f2a2ce0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i.doit(heurisch=False).expand() == res"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_heurisch_issue_26922():
 
     a, b, x = symbols("a, b, x", real=True, positive=True)

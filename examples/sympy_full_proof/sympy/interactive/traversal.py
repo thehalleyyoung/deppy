@@ -21,7 +21,13 @@ from sympy.printing import pprint
 import random
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interactive_traversal(exp), traverse a tree asking a user which branch to choose) over {Any | isinstance(expr, Basic)} ║
+# ║ Path(interactive_traversal(expr), <unspecified:interactive_traversal>) over {Any | isinstance(expr, Basic) and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'as_ordered_terms') and hasattr(expr, 'args') and hasattr(expr, 'as_ordered_factors')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   requires: hasattr(expr, 'as_ordered_terms')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interactive_traversal : {Any | isinstance(expr, Basic...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -33,9 +39,12 @@ import random
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fa176338...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.traversal.interactive_traversal","kind":"function","src_hash":"46af5603240c54e8","in":{"base":"Any","pred":"isinstance(expr, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"interactive_traversal(exp)","rhs":"traverse a tree asking a user which branch to choose","over":{"base":"Any","pred":"isinstance(expr, Basic)"},"name":"interactive_traversal_correct"},"guarantee":"traverse a tree asking a user which branch to choose","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"interactive_traversal(x)","rhs":"traverse a tree asking a user which branch to choose","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"interactive_traversal_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.traversal.interactive_traversal_Basic_correct","statement":"interactive_traversal satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fa176338d2c9db1a"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.traversal.interactive_traversal","kind":"function","src_hash":"46af5603240c54e8","in":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'as_ordered_terms') and hasattr(expr, 'args') and hasattr(expr, 'as_ordered_factors')"},"out":{"base":"Any"},"spec":{"lhs":"interactive_traversal(expr)","rhs":"<unspecified:interactive_traversal>","over":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'as_ordered_terms') and hasattr(expr, 'args') and hasattr(expr, 'as_ordered_factors')"},"name":"interactive_traversal_correct"},"guarantee":"traverse a tree asking a user which branch to choose","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"interactive_traversal(x)","rhs":"traverse a tree asking a user which branch to choose","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"interactive_traversal_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.traversal.interactive_traversal_Basic_correct","statement":"interactive_traversal satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fa176338d2c9db1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'as_ordered_terms')","hasattr(expr, 'args')","hasattr(expr, 'as_ordered_factors')"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["expr.args","expr.as_ordered_factors","expr.as_ordered_terms","expr.is_Add","expr.is_Mul"],"catches":["EOFError","ValueError"],"io_operations":["input","print"],"nondeterministic_sources":["random.choice"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'n_args == 1', \"choice == 'r'\", 'stage > 0', \"choice == 'l'\", \"choice == '?'\", 'isinstance(expr, Basic)', 'choice < 0 or choice >= n_args', \"choice == 'f'\"}, fibers={'Basic'})"]}}
 def interactive_traversal(expr):
     """Traverse a tree asking a user which branch to choose. """
 

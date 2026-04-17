@@ -22,16 +22,24 @@ from sympy.abc import x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_default_sort_key(), test_default_sort_key produces the expected output) over Any ║
+# ║ Path(test_default_sort_key(), 'x.y') over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_default_sort_key : Any → {Any | sorted([func, x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted([func, x, func], key=default_sort_...   ║
+# ║   ensures:  sorted([x, func], key=default_sort_key) =...   ║
+# ║   returns:  'x.y'                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_default_sort_key : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 863cb7337866358f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67f6316a35c85105  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_sorting.test_default_sort_key","kind":"function","src_hash":"68b7dc63af29e75d","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted([func, x, func], key=default_sort_key) == [func, func, x] and sorted([x, func], key=default_sort_key) == [func, x]"},"spec":{"lhs":"test_default_sort_key()","rhs":"test_default_sort_key produces the expected output","over":{"base":"Any"},"name":"test_default_sort_key_correct"},"guarantee":"test_default_sort_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_sorting.test_default_sort_key_correct","statement":"Path(test_default_sort_key(x), test_default_sort_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"863cb7337866358f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_sorting.test_default_sort_key","kind":"function","src_hash":"68b7dc63af29e75d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('x.y')"},"spec":{"lhs":"test_default_sort_key()","rhs":"'x.y'","over":{"base":"Any"},"name":"test_default_sort_key_correct"},"guarantee":"returns 'x.y'; sorted([func, x, func], key=default_sort_key) == [func, func, x]; sorted([x, func], key=default_sort_key) == [func, x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_sorting.test_default_sort_key_correct","statement":"Path(test_default_sort_key(x), returns 'x.y'; sorted([func, x, func], key=default_sort_key) == [func, func, x]; sorted([x, func], key=default_sort_key) == [func, x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67f6316a35c85105","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted([func, x, func], key=default_sort_key) == [func, func, x]","sorted([x, func], key=default_sort_key) == [func, x]"],"returns_expr":"'x.y'","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_default_sort_key():
     func = lambda x: x
     assert sorted([func, x, func], key=default_sort_key) == [func, func, x]
@@ -44,16 +52,24 @@ def test_default_sort_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ordered(), test_ordered produces the expected output) over Any ║
+# ║ Path(test_ordered(), list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}] and list(ordered(l, warn=True)) == l and list(ordered(l, warn=True)) == [[1], [1], [2]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ordered : Any → {Any | list(ordered([{1: 3, 2: 4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}...   ║
+# ║   ensures:  list(ordered(l, warn=True)) == l               ║
+# ║   ensures:  list(ordered(l, warn=True)) == [[1], [1],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ordered : Any → {Any | result satisfies: list(or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eacfb9fe45aecc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5487a1882dfe8e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_sorting.test_ordered","kind":"function","src_hash":"6424bc1b58fa714b","in":{"base":"Any"},"out":{"base":"Any","pred":"list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}] and list(ordered(l, warn=True)) == l and list(ordered(l, warn=True)) == [[1], [1], [2]]"},"spec":{"lhs":"test_ordered()","rhs":"test_ordered produces the expected output","over":{"base":"Any"},"name":"test_ordered_correct"},"guarantee":"test_ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_sorting.test_ordered_correct","statement":"Path(test_ordered(x), test_ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eacfb9fe45aecc5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_sorting.test_ordered","kind":"function","src_hash":"6424bc1b58fa714b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}] and list(ordered(l, warn=True)) == l and list(ordered(l, warn=True)) == [[1], [1], [2]]"},"spec":{"lhs":"test_ordered()","rhs":"list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}] and list(ordered(l, warn=True)) == l and list(ordered(l, warn=True)) == [[1], [1], [2]]","over":{"base":"Any"},"name":"test_ordered_correct"},"guarantee":"list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}]; list(ordered(l, warn=True)) == l; list(ordered(l, warn=True)) == [[1], [1], [2]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_sorting.test_ordered_correct","statement":"Path(test_ordered(x), list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}]; list(ordered(l, warn=True)) == l; list(ordered(l, warn=True)) == [[1], [1], [2]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5487a1882dfe8e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(ordered([{1: 3, 2: 4, 9: 10}, {1: 3}])) == [{1: 3}, {1: 3, 2: 4, 9: 10}]","list(ordered(l, warn=True)) == l","list(ordered(l, warn=True)) == [[1], [1], [2]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ordered():
     # Issue 7210 - this had been failing with python2/3 problems
     assert (list(ordered([{1:3, 2:4, 9:10}, {1:3}])) == \

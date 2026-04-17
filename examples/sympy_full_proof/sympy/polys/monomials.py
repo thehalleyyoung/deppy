@@ -30,16 +30,22 @@ from sympy.utilities.iterables import is_sequence, iterable
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(itermonomials(var), ``max_degrees`` and ``min_degrees`` are either both integers or both lists. unless otherwise specified, ``min_degrees`` is either ``0`` or ``[0, ..., 0]``) over Any ║
+# ║ Path(itermonomials(variables, max_degrees, min_degrees), len(power_lists) == old_len_power_lists + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ itermonomials : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(power_lists) == old_len_power_lists + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ itermonomials : Any → {Any | result satisfies: len(po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f0a2804f80d0efb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca091905714cf7e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.itermonomials","kind":"function","src_hash":"80bb8610c88cf49e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"itermonomials(var)","rhs":"``max_degrees`` and ``min_degrees`` are either both integers or both lists. unless otherwise specified, ``min_degrees`` is either ``0`` or ``[0, ..., 0]``","over":{"base":"Any"},"name":"itermonomials_correct"},"guarantee":"``max_degrees`` and ``min_degrees`` are either both integers or both lists. unless otherwise specified, ``min_degrees`` is either ``0`` or ``[0, ..., 0]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.itermonomials_correct","statement":"Path(itermonomials(x), ``max_degrees`` and ``min_degrees`` are either both integers or both lists. unless otherwise specified, ``min_degrees`` is either ``0`` or ``[0, ..., 0]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f0a2804f80d0efb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.itermonomials","kind":"function","src_hash":"80bb8610c88cf49e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(power_lists) == old_len_power_lists + 1"},"spec":{"lhs":"itermonomials(variables, max_degrees, min_degrees)","rhs":"len(power_lists) == old_len_power_lists + 1","over":{"base":"Any"},"name":"itermonomials_correct"},"guarantee":"len(power_lists) == old_len_power_lists + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.itermonomials_correct","statement":"Path(itermonomials(x), len(power_lists) == old_len_power_lists + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca091905714cf7e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(power_lists) == old_len_power_lists + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["monomials_set.add","power_lists.append"],"raises":["ValueError"]},"state_contract":{"modifies":["monomials_set.*","power_lists.*"],"old_bindings":{"old_len_power_lists":"len(power_lists)"},"post_ensures":["len(power_lists) == old_len_power_lists + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def itermonomials(variables, max_degrees, min_degrees=None):
     r"""
     ``max_degrees`` and ``min_degrees`` are either both integers or both lists.
@@ -168,16 +174,22 @@ def itermonomials(variables, max_degrees, min_degrees=None):
         yield from monomials_set
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_count(V, ), id) over Any                     ║
+# ║ Path(monomial_count(V, N), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(V + N) / factorial(V) / factori...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_count : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4870af83304e8275   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_count","kind":"function","src_hash":"627ccc6976176bd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_count(V, )","rhs":"computes the number of monomials","over":{"base":"Any"},"name":"monomial_count_correct","kind":"composition"},"guarantee":"computes the number of monomials","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4870af83304e8275"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_count","kind":"function","src_hash":"627ccc6976176bd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_count(V, N)","rhs":"factorial(V + N) / factorial(V) / factorial(N)","over":{"base":"Any"},"name":"monomial_count_correct","kind":"composition"},"guarantee":"returns factorial(V + N) / factorial(V) / factorial(N)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4870af83304e8275","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(V + N) / factorial(V) / factorial(N)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def monomial_count(V, N):
     r"""
     Computes the number of monomials.
@@ -212,16 +224,22 @@ def monomial_count(V, N):
     return factorial(V + N) / factorial(V) / factorial(N)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_mul(A, ), multiplication of tuples representing monomials) over Any ║
+# ║ Path(monomial_mul(A, B), tuple([a + b for a, b in zip(A, B)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([a + b for a, b in zip(A, B)])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_mul : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 02049298743c8016           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_mul","kind":"function","src_hash":"0792b7e98e6a214e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_mul(A, )","rhs":"multiplication of tuples representing monomials","over":{"base":"Any"},"name":"monomial_mul_correct"},"guarantee":"multiplication of tuples representing monomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02049298743c8016"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_mul","kind":"function","src_hash":"0792b7e98e6a214e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_mul(A, B)","rhs":"tuple([a + b for a, b in zip(A, B)])","over":{"base":"Any"},"name":"monomial_mul_correct"},"guarantee":"returns tuple([a + b for a, b in zip(A, B)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02049298743c8016","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([a + b for a, b in zip(A, B)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def monomial_mul(A, B):
     """
     Multiplication of tuples representing monomials.
@@ -242,16 +260,25 @@ def monomial_mul(A, B):
     return tuple([ a + b for a, b in zip(A, B) ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_div(A, ), division of tuples representing monomials) over Any ║
+# ║ Path(monomial_div(A, B), result == (tuple(C) if all((c >= 0 for c in C)) else None) and result == tuple(C) or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ monomial_div : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (tuple(C) if all((c >= 0 for c ...   ║
+# ║   ensures:  result == tuple(C) or result == None           ║
+# ║   fiber[case_0]: all((c >= 0 for c in C)) => tuple(C)      ║
+# ║   fiber[case_1]: not (all((c >= 0 for c in C))) => None    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ monomial_div : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 898f5478c16d64e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f7162b73b8fd4db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_div","kind":"function","src_hash":"4db139f9ca3910ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_div(A, )","rhs":"division of tuples representing monomials","over":{"base":"Any"},"name":"monomial_div_correct"},"guarantee":"division of tuples representing monomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.monomial_div_correct","statement":"Path(monomial_div(x), division of tuples representing monomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"898f5478c16d64e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_div","kind":"function","src_hash":"4db139f9ca3910ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (tuple(C) if all((c >= 0 for c in C)) else None) and result == tuple(C) or result == None"},"spec":{"lhs":"monomial_div(A, B)","rhs":"result == (tuple(C) if all((c >= 0 for c in C)) else None) and result == tuple(C) or result == None","over":{"base":"Any"},"name":"monomial_div_correct"},"guarantee":"result == (tuple(C) if all((c >= 0 for c in C)) else None); result == tuple(C) or result == None; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.monomial_div_correct","statement":"Path(monomial_div(x), result == (tuple(C) if all((c >= 0 for c in C)) else None); result == tuple(C) or result == None; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f7162b73b8fd4db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (tuple(C) if all((c >= 0 for c in C)) else None)","result == tuple(C) or result == None"],"fibers":[{"name":"case_0","guard":"all((c >= 0 for c in C))","ensures":["result == tuple(C)"],"decidability":"z3","returns_expr":"tuple(C)"},{"name":"case_1","guard":"not (all((c >= 0 for c in C)))","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def monomial_div(A, B):
     """
     Division of tuples representing monomials.
@@ -282,16 +309,22 @@ def monomial_div(A, B):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_ldiv(A, ), division of tuples representing monomials) over Any ║
+# ║ Path(monomial_ldiv(A, B), tuple([a - b for a, b in zip(A, B)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([a - b for a, b in zip(A, B)])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_ldiv : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 308c5c38b9f2ad6a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_ldiv","kind":"function","src_hash":"180b2cb87168833f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_ldiv(A, )","rhs":"division of tuples representing monomials","over":{"base":"Any"},"name":"monomial_ldiv_correct"},"guarantee":"division of tuples representing monomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"308c5c38b9f2ad6a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_ldiv","kind":"function","src_hash":"180b2cb87168833f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_ldiv(A, B)","rhs":"tuple([a - b for a, b in zip(A, B)])","over":{"base":"Any"},"name":"monomial_ldiv_correct"},"guarantee":"returns tuple([a - b for a, b in zip(A, B)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"308c5c38b9f2ad6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([a - b for a, b in zip(A, B)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def monomial_ldiv(A, B):
     """
     Division of tuples representing monomials.
@@ -317,31 +350,43 @@ def monomial_ldiv(A, B):
     return tuple([ a - b for a, b in zip(A, B) ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_pow(A, ), return the n-th pow of the monomial) over Any ║
+# ║ Path(monomial_pow(A, n), tuple([a * n for a in A])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([a * n for a in A])                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_pow : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8a4b88c1895523e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_pow","kind":"function","src_hash":"3c931ad4e1fb1d19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_pow(A, )","rhs":"return the n-th pow of the monomial","over":{"base":"Any"},"name":"monomial_pow_correct"},"guarantee":"return the n-th pow of the monomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8a4b88c1895523e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_pow","kind":"function","src_hash":"3c931ad4e1fb1d19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_pow(A, n)","rhs":"tuple([a * n for a in A])","over":{"base":"Any"},"name":"monomial_pow_correct"},"guarantee":"returns tuple([a * n for a in A])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8a4b88c1895523e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([a * n for a in A])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def monomial_pow(A, n):
     """Return the n-th pow of the monomial. """
     return tuple([ a*n for a in A ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_gcd(A, ), greatest common divisor of tuples representing monomials) over Any ║
+# ║ Path(monomial_gcd(A, B), tuple([min(a, b) for a, b in zip(A, B)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([min(a, b) for a, b in zip(A, B)])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_gcd : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac6990b80ad1b9fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_gcd","kind":"function","src_hash":"d399c18c9d1ea1bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_gcd(A, )","rhs":"greatest common divisor of tuples representing monomials","over":{"base":"Any"},"name":"monomial_gcd_correct"},"guarantee":"greatest common divisor of tuples representing monomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac6990b80ad1b9fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_gcd","kind":"function","src_hash":"d399c18c9d1ea1bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_gcd(A, B)","rhs":"tuple([min(a, b) for a, b in zip(A, B)])","over":{"base":"Any"},"name":"monomial_gcd_correct"},"guarantee":"returns tuple([min(a, b) for a, b in zip(A, B)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac6990b80ad1b9fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([min(a, b) for a, b in zip(A, B)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def monomial_gcd(A, B):
     """
     Greatest common divisor of tuples representing monomials.
@@ -362,16 +407,22 @@ def monomial_gcd(A, B):
     return tuple([ min(a, b) for a, b in zip(A, B) ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_lcm(A, ), least common multiple of tuples representing monomials) over Any ║
+# ║ Path(monomial_lcm(A, B), tuple([max(a, b) for a, b in zip(A, B)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([max(a, b) for a, b in zip(A, B)])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_lcm : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23397a0b6679dce4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_lcm","kind":"function","src_hash":"652e1eb5902c5496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_lcm(A, )","rhs":"least common multiple of tuples representing monomials","over":{"base":"Any"},"name":"monomial_lcm_correct"},"guarantee":"least common multiple of tuples representing monomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23397a0b6679dce4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_lcm","kind":"function","src_hash":"652e1eb5902c5496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_lcm(A, B)","rhs":"tuple([max(a, b) for a, b in zip(A, B)])","over":{"base":"Any"},"name":"monomial_lcm_correct"},"guarantee":"returns tuple([max(a, b) for a, b in zip(A, B)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23397a0b6679dce4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([max(a, b) for a, b in zip(A, B)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def monomial_lcm(A, B):
     """
     Least common multiple of tuples representing monomials.
@@ -392,16 +443,22 @@ def monomial_lcm(A, B):
     return tuple([ max(a, b) for a, b in zip(A, B) ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_divides(A, ), does there exist a monomial x such that xa == b?) over Any ║
+# ║ Path(monomial_divides(A, B), all((a <= b for a, b in zip(A, B)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((a <= b for a, b in zip(A, B)))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_divides : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed5dfb185f1b31e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_divides","kind":"function","src_hash":"3201c36df951f381","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_divides(A, )","rhs":"does there exist a monomial x such that xa == b?","over":{"base":"Any"},"name":"monomial_divides_correct"},"guarantee":"does there exist a monomial x such that xa == b?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed5dfb185f1b31e7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_divides","kind":"function","src_hash":"3201c36df951f381","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_divides(A, B)","rhs":"all((a <= b for a, b in zip(A, B)))","over":{"base":"Any"},"name":"monomial_divides_correct"},"guarantee":"returns all((a <= b for a, b in zip(A, B)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed5dfb185f1b31e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((a <= b for a, b in zip(A, B)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def monomial_divides(A, B):
     """
     Does there exist a monomial X such that XA == B?
@@ -418,16 +475,22 @@ def monomial_divides(A, B):
     return all(a <= b for a, b in zip(A, B))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_max(*mo), returns maximal degree for each variable in a set of monomials) over Any ║
+# ║ Path(monomial_max(*monoms), tuple(M)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(M)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_max : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caa3679cb4de49fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41bb56fb041fb3e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_max","kind":"function","src_hash":"97a8bf729d06c2fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_max(*mo)","rhs":"returns maximal degree for each variable in a set of monomials","over":{"base":"Any"},"name":"monomial_max_correct"},"guarantee":"returns maximal degree for each variable in a set of monomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.monomial_max_correct","statement":"Path(monomial_max(x), returns maximal degree for each variable in a set of monomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caa3679cb4de49fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_max","kind":"function","src_hash":"97a8bf729d06c2fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_max(*monoms)","rhs":"tuple(M)","over":{"base":"Any"},"name":"monomial_max_correct"},"guarantee":"returns tuple(M)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.monomial_max_correct","statement":"Path(monomial_max(x), returns tuple(M))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41bb56fb041fb3e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(M)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*monoms']"]}}
 def monomial_max(*monoms):
     """
     Returns maximal degree for each variable in a set of monomials.
@@ -454,16 +517,22 @@ def monomial_max(*monoms):
     return tuple(M)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_min(*mo), returns minimal degree for each variable in a set of monomials) over Any ║
+# ║ Path(monomial_min(*monoms), tuple(M)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(M)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_min : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc4c1343e5ff7e2e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d3af1f4ba95959d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_min","kind":"function","src_hash":"f57a4987ec1d7284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_min(*mo)","rhs":"returns minimal degree for each variable in a set of monomials","over":{"base":"Any"},"name":"monomial_min_correct"},"guarantee":"returns minimal degree for each variable in a set of monomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.monomial_min_correct","statement":"Path(monomial_min(x), returns minimal degree for each variable in a set of monomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc4c1343e5ff7e2e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_min","kind":"function","src_hash":"f57a4987ec1d7284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_min(*monoms)","rhs":"tuple(M)","over":{"base":"Any"},"name":"monomial_min_correct"},"guarantee":"returns tuple(M)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.monomial_min_correct","statement":"Path(monomial_min(x), returns tuple(M))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d3af1f4ba95959d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(M)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*monoms']"]}}
 def monomial_min(*monoms):
     """
     Returns minimal degree for each variable in a set of monomials.
@@ -490,16 +559,22 @@ def monomial_min(*monoms):
     return tuple(M)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_deg(M), returns the total degree of a monomial) over Any ║
+# ║ Path(monomial_deg(M), sum(M)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum(M)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_deg : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb050e826e5c636f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_deg","kind":"function","src_hash":"4347ebeeb6c51b2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_deg(M)","rhs":"returns the total degree of a monomial","over":{"base":"Any"},"name":"monomial_deg_correct"},"guarantee":"returns the total degree of a monomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb050e826e5c636f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.monomial_deg","kind":"function","src_hash":"4347ebeeb6c51b2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_deg(M)","rhs":"sum(M)","over":{"base":"Any"},"name":"monomial_deg_correct"},"guarantee":"returns sum(M)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb050e826e5c636f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum(M)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def monomial_deg(M):
     """
     Returns the total degree of a monomial.
@@ -516,16 +591,26 @@ def monomial_deg(M):
     return sum(M)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(term_div(a, ), division of two terms in over a ring/field) over Any ║
+# ║ Path(term_div(a, b, domain), <unspecified:term_div>) over {Any | hasattr(domain, 'is_Field') and hasattr(domain, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ term_div : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'is_Field')                    ║
+# ║   requires: hasattr(domain, 'quo')                         ║
+# ║   fiber[case_0]: domain.is_Field                           ║
+# ║   fiber[zero_or_none]: not (monom is None or a_lc % b...   ║
+# ║   fiber[zero_or_none]: not (domain.is_Field) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ term_div : {Any | hasattr(domain, 'is_Field') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e6da5a707d1c432  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 618323f0ae21b499  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.term_div","kind":"function","src_hash":"d5f2670b0a46f993","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"term_div(a, )","rhs":"division of two terms in over a ring/field","over":{"base":"Any"},"name":"term_div_correct"},"guarantee":"division of two terms in over a ring/field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.term_div_correct","statement":"Path(term_div(x), division of two terms in over a ring/field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6da5a707d1c432"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.term_div","kind":"function","src_hash":"d5f2670b0a46f993","in":{"base":"Any","pred":"hasattr(domain, 'is_Field') and hasattr(domain, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"term_div(a, b, domain)","rhs":"<unspecified:term_div>","over":{"base":"Any","pred":"hasattr(domain, 'is_Field') and hasattr(domain, 'quo')"},"name":"term_div_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.term_div_correct","statement":"Path(term_div(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"618323f0ae21b499","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'is_Field')","hasattr(domain, 'quo')"],"fibers":[{"name":"case_0","guard":"domain.is_Field","ensures":[],"decidability":"library"},{"name":"zero_or_none","guard":"not (monom is None or a_lc % b_lc)","ensures":["result == (monom, domain.quo(a_lc, b_lc))"],"decidability":"structural","returns_expr":"(monom, domain.quo(a_lc, b_lc))"},{"name":"zero_or_none","guard":"not (domain.is_Field) and not (not (monom is None or a_lc % b_lc))","ensures":["result == None"],"decidability":"structural","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.is_Field","domain.quo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def term_div(a, b, domain):
     """Division of two terms in over a ring/field. """
     a_lm, a_lc = a
@@ -547,90 +632,126 @@ def term_div(a, b, domain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MonomialOps(*args), correctly constructs a MonomialOps instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MonomialOps : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4011b1b706665fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps","kind":"class","src_hash":"311a020cfbf04a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MonomialOps(*args)","rhs":"correctly constructs a MonomialOps instance","over":{"base":"Any"},"name":"MonomialOps_class_invariant"},"guarantee":"correctly constructs a MonomialOps instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4011b1b706665fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps","kind":"class","src_hash":"311a020cfbf04a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MonomialOps(*args)","rhs":"correctly constructs a MonomialOps instance","over":{"base":"Any"},"name":"MonomialOps_class_invariant"},"guarantee":"correctly constructs a MonomialOps instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4011b1b706665fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function MonomialOps not found in source"]}}
 class MonomialOps:
     """Code generator of fast monomial arithmetic functions. """
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, ngens), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b5b672a199b6c1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.__new__","kind":"method","src_hash":"7fd0fd412e7a8771","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b5b672a199b6c1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.__new__","kind":"method","src_hash":"7fd0fd412e7a8771","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, ngens)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b5b672a199b6c1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, ngens):
         obj = super().__new__(cls)
         obj.ngens = ngens
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.ngens,)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.ngens,)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b80442bf1ec9e28           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.__getnewargs__","kind":"method","src_hash":"5c12f904883d8dab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b80442bf1ec9e28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.__getnewargs__","kind":"method","src_hash":"5c12f904883d8dab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.ngens,)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.ngens,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b80442bf1ec9e28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.ngens,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.ngens,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_build(code, name), ns[name]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ns[name]                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _build : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c56288815f4d56cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd9c94c28fb545e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps._build","kind":"method","src_hash":"1419ddb41ab7521b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_build_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps._build_correct","statement":"Path(_build(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c56288815f4d56cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps._build","kind":"method","src_hash":"1419ddb41ab7521b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build(code, name)","rhs":"ns[name]","over":{"base":"Any"},"name":"_build_correct"},"guarantee":"returns ns[name]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps._build_correct","statement":"Path(_build(x), returns ns[name])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd9c94c28fb545e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ns[name]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _build(self, code, name):
         ns = {}
         exec(code, ns)
         return ns[name]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vars(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_vars(name), ['%s%s' % (name, i) for i in range(self.ngens)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['%s%s' % (name, i) for i in range(self.n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vars : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cd3df73d3ae67bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps._vars","kind":"method","src_hash":"18c218db4f59c774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vars(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_vars_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cd3df73d3ae67bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps._vars","kind":"method","src_hash":"18c218db4f59c774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vars(name)","rhs":"['%s%s' % (name, i) for i in range(self.ngens)]","over":{"base":"Any"},"name":"_vars_correct"},"guarantee":"returns ['%s%s' % (name, i) for i in range(self.ngens)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cd3df73d3ae67bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['%s%s' % (name, i) for i in range(self.ngens)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vars(self, name):
         return [ "%s%s" % (name, i) for i in range(self.ngens) ]
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(), mul produces the expected output) over Any     ║
+# ║ Path(mul(), self._build(code, name)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mul : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20d1d9cb563e8bb4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d00e5d7a300f412  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.mul","kind":"method","src_hash":"7c5919e4f9011dea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul()","rhs":"mul produces the expected output","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.mul_correct","statement":"Path(mul(x), mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d1d9cb563e8bb4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.mul","kind":"method","src_hash":"7c5919e4f9011dea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.mul_correct","statement":"Path(mul(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d00e5d7a300f412","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self):
         name = "monomial_mul"
         template = dedent("""\
@@ -647,16 +768,22 @@ class MonomialOps:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow(), pow produces the expected output) over Any     ║
+# ║ Path(pow(), self._build(code, name)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pow : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f46edfce9ec7f91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e9462fba977e650  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.pow","kind":"method","src_hash":"b71d14844d03aeb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow()","rhs":"pow produces the expected output","over":{"base":"Any"},"name":"pow_correct"},"guarantee":"pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.pow_correct","statement":"Path(pow(x), pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f46edfce9ec7f91"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.pow","kind":"method","src_hash":"b71d14844d03aeb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"pow_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.pow_correct","statement":"Path(pow(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e9462fba977e650","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow(self):
         name = "monomial_pow"
         template = dedent("""\
@@ -671,16 +798,22 @@ class MonomialOps:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mulpow(), mulpow produces the expected output) over Any ║
+# ║ Path(mulpow(), self._build(code, name)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mulpow : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95f321ae0002fd1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13827e81429ebc04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.mulpow","kind":"method","src_hash":"b7a17feb287c6e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mulpow()","rhs":"mulpow produces the expected output","over":{"base":"Any"},"name":"mulpow_correct"},"guarantee":"mulpow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.mulpow_correct","statement":"Path(mulpow(x), mulpow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95f321ae0002fd1d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.mulpow","kind":"method","src_hash":"b7a17feb287c6e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mulpow()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"mulpow_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.mulpow_correct","statement":"Path(mulpow(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13827e81429ebc04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mulpow(self):
         name = "monomial_mulpow"
         template = dedent("""\
@@ -697,16 +830,22 @@ class MonomialOps:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ldiv(), ldiv produces the expected output) over Any   ║
+# ║ Path(ldiv(), self._build(code, name)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ldiv : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfc38e7662405479  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b242601e23a7c7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.ldiv","kind":"method","src_hash":"2ef7938928d41425","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ldiv()","rhs":"ldiv produces the expected output","over":{"base":"Any"},"name":"ldiv_correct"},"guarantee":"ldiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.ldiv_correct","statement":"Path(ldiv(x), ldiv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfc38e7662405479"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.ldiv","kind":"method","src_hash":"2ef7938928d41425","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ldiv()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"ldiv_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.ldiv_correct","statement":"Path(ldiv(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b242601e23a7c7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ldiv(self):
         name = "monomial_ldiv"
         template = dedent("""\
@@ -723,16 +862,22 @@ class MonomialOps:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(), div produces the expected output) over Any     ║
+# ║ Path(div(), self._build(code, name)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 194e676ead0afb8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb0e699a8d68e07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.div","kind":"method","src_hash":"65f05ef775ffeaa4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div()","rhs":"div produces the expected output","over":{"base":"Any"},"name":"div_correct"},"guarantee":"div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.div_correct","statement":"Path(div(x), div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"194e676ead0afb8c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.div","kind":"method","src_hash":"65f05ef775ffeaa4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.div_correct","statement":"Path(div(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb0e699a8d68e07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self):
         name = "monomial_div"
         template = dedent("""\
@@ -751,16 +896,22 @@ class MonomialOps:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(), lcm produces the expected output) over Any     ║
+# ║ Path(lcm(), self._build(code, name)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lcm : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ce5ecda2af12434  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b3f69c69798efdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.lcm","kind":"method","src_hash":"a477ef1c81b7bb09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm()","rhs":"lcm produces the expected output","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.lcm_correct","statement":"Path(lcm(x), lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ce5ecda2af12434"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.lcm","kind":"method","src_hash":"a477ef1c81b7bb09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.lcm_correct","statement":"Path(lcm(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b3f69c69798efdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self):
         name = "monomial_lcm"
         template = dedent("""\
@@ -777,16 +928,22 @@ class MonomialOps:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(), gcd produces the expected output) over Any     ║
+# ║ Path(gcd(), self._build(code, name)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._build(code, name)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc9bba5a2105d4aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b849c37c407c95f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.gcd","kind":"method","src_hash":"743191333cfeb50a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd()","rhs":"gcd produces the expected output","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.gcd_correct","statement":"Path(gcd(x), gcd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc9bba5a2105d4aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.MonomialOps.gcd","kind":"method","src_hash":"743191333cfeb50a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd()","rhs":"self._build(code, name)","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns self._build(code, name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.monomials.MonomialOps.gcd_correct","statement":"Path(gcd(x), returns self._build(code, name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b849c37c407c95f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._build(code, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._build","self._vars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self):
         name = "monomial_gcd"
         template = dedent("""\
@@ -805,30 +962,42 @@ class MonomialOps:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Monomial instance) preserved by Monomial(*args) over {Any | isinstance(other, Monomial) and isinstance(other, (tuple, Tuple))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PicklableWithSlots)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Monomial : {Any | isinstance(other, Monomial) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfec19f032d90e59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial","kind":"class","src_hash":"e3ad678faf79d3d1","in":{"base":"Any","pred":"isinstance(other, Monomial) and isinstance(other, (tuple, Tuple))"},"out":{"base":"Any"},"spec":{"lhs":"Monomial(*args)","rhs":"correctly constructs a Monomial instance","over":{"base":"Any","pred":"isinstance(other, Monomial) and isinstance(other, (tuple, Tuple))"},"name":"Monomial_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Monomial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'exponents') and hasattr(self, 'gens')","kind":"class","induction":"structural on exponents, gens"}],"methods_preserving":["__init__","rebuild","__len__","__iter__","__getitem__","__hash__","__str__","as_expr","__eq__","__ne__","__mul__","__truediv__","__pow__","gcd","lcm"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfec19f032d90e59"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial","kind":"class","src_hash":"e3ad678faf79d3d1","in":{"base":"Any","pred":"isinstance(other, Monomial) and isinstance(other, (tuple, Tuple))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PicklableWithSlots)"},"spec":{"lhs":"Monomial(*args)","rhs":"correctly constructs a Monomial instance","over":{"base":"Any","pred":"isinstance(other, Monomial) and isinstance(other, (tuple, Tuple))"},"name":"Monomial_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, PicklableWithSlots); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'exponents') and hasattr(self, 'gens')","kind":"class","induction":"structural on exponents, gens"}],"methods_preserving":["__init__","rebuild","__len__","__iter__","__getitem__","__hash__","__str__","as_expr","__eq__","__ne__","__mul__","__truediv__","__pow__","gcd","lcm"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfec19f032d90e59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PicklableWithSlots)"],"invariants":["hasattr(self, 'exponents')","hasattr(self, 'gens')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Monomial not found in source"]}}
 class Monomial(PicklableWithSlots):
     """Class representing a monomial, i.e. a product of powers. """
 
     __slots__ = ('exponents', 'gens')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mon), initializes the instance correctly) over Any ║
+# ║ Path(__init__(monom, gens), self.gens == gens) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.gens == gens                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.gens =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d48870315422a263           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__init__","kind":"method","src_hash":"fcb453f045b2b7fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mon)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d48870315422a263"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__init__","kind":"method","src_hash":"fcb453f045b2b7fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.gens == gens"},"spec":{"lhs":"__init__(monom, gens)","rhs":"self.gens == gens","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.gens == gens","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d48870315422a263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.gens == gens"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self.exponents","self.gens"],"raises":["ValueError"]},"state_contract":{"modifies":["self.exponents","self.gens"],"old_bindings":{"old_self_exponents":"self.exponents","old_self_gens":"self.gens"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, monom, gens=None):
         if not iterable(monom):
             rep, gens = dict_from_expr(sympify(monom), gens=gens)
@@ -841,86 +1010,125 @@ class Monomial(PicklableWithSlots):
         self.gens = gens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rebuild(exp), rebuild produces the expected output) over Any ║
+# ║ Path(rebuild(exponents, gens), self.__class__(exponents, gens or self.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(exponents, gens or self.gens)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rebuild : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ca115b311649d80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.rebuild","kind":"method","src_hash":"5b4e76951a598029","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rebuild(exp)","rhs":"rebuild produces the expected output","over":{"base":"Any"},"name":"rebuild_correct"},"guarantee":"rebuild produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca115b311649d80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.rebuild","kind":"method","src_hash":"5b4e76951a598029","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rebuild(exponents, gens)","rhs":"self.__class__(exponents, gens or self.gens)","over":{"base":"Any"},"name":"rebuild_correct"},"guarantee":"returns self.__class__(exponents, gens or self.gens)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca115b311649d80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(exponents, gens or self.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rebuild(self, exponents, gens=None):
         return self.__class__(exponents, gens or self.gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.exponents)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.exponents)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9fca274dd42f082           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__len__","kind":"method","src_hash":"7862fa0d60b09278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9fca274dd42f082"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__len__","kind":"method","src_hash":"7862fa0d60b09278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.exponents)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.exponents)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9fca274dd42f082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.exponents)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exponents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.exponents)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self.exponents)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.exponents)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 035df976c913ba45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__iter__","kind":"method","src_hash":"3ffca8e5210d5d62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"035df976c913ba45"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__iter__","kind":"method","src_hash":"3ffca8e5210d5d62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self.exponents)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self.exponents)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"035df976c913ba45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.exponents)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exponents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter(self.exponents)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ite), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(item), self.exponents[item]) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.exponents[item]                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6240fa3e4c3717c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__getitem__","kind":"method","src_hash":"2eb5d69500328f5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ite)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6240fa3e4c3717c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__getitem__","kind":"method","src_hash":"2eb5d69500328f5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(item)","rhs":"self.exponents[item]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.exponents[item]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6240fa3e4c3717c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.exponents[item]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exponents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, item):
         return self.exponents[item]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.exponents, self.gens))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.expon...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 308e45b190c41bde           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__hash__","kind":"method","src_hash":"68763d4c458ed476","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"308e45b190c41bde"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__hash__","kind":"method","src_hash":"68763d4c458ed476","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.exponents, self.gens))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.exponents, self.gens))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"308e45b190c41bde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.exponents, self.gens))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.exponents","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.exponents, self.gens))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), result == ('*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) if self.gens else '%s(%s)' % (self.__class__.__name__, self.exponents)) and result == '*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) or result == '%s(%s)' % (self.__class__.__name__, self.exponents)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __str__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('*'.join(['%s**%s' % (gen, exp...   ║
+# ║   ensures:  result == '*'.join(['%s**%s' % (gen, exp)...   ║
+# ║   fiber[case_0]: self.gens => '*'.join(['%s**%s' % (g...   ║
+# ║   fiber[case_1]: not (self.gens) => '%s(%s)' % (self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __str__ : Any → {Any | result satisfies: result == ('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64b7c0e8ba7b9079           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__str__","kind":"method","src_hash":"a876681863d616a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64b7c0e8ba7b9079"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__str__","kind":"method","src_hash":"a876681863d616a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) if self.gens else '%s(%s)' % (self.__class__.__name__, self.exponents)) and result == '*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) or result == '%s(%s)' % (self.__class__.__name__, self.exponents)"},"spec":{"lhs":"__str__()","rhs":"result == ('*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) if self.gens else '%s(%s)' % (self.__class__.__name__, self.exponents)) and result == '*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) or result == '%s(%s)' % (self.__class__.__name__, self.exponents)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"result == ('*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) if self.gens else '%s(%s)' % (self.__class__.__name__, self.exponents)); result == '*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) or result == '%s(%s)' % (self.__class__.__name__, self.exponents); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64b7c0e8ba7b9079","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) if self.gens else '%s(%s)' % (self.__class__.__name__, self.exponents))","result == '*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)]) or result == '%s(%s)' % (self.__class__.__name__, self.exponents)"],"fibers":[{"name":"case_0","guard":"self.gens","ensures":["result == '*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)])"],"decidability":"library","returns_expr":"'*'.join(['%s**%s' % (gen, exp) for gen, exp in zip(self.gens, self.exponents)])"},{"name":"case_1","guard":"not (self.gens)","ensures":["result == '%s(%s)' % (self.__class__.__name__, self.exponents)"],"decidability":"library","returns_expr":"'%s(%s)' % (self.__class__.__name__, self.exponents)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.exponents","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.gens:
             return "*".join([ "%s**%s" % (gen, exp) for gen, exp in zip(self.gens, self.exponents) ])
@@ -928,16 +1136,23 @@ class Monomial(PicklableWithSlots):
             return "%s(%s)" % (self.__class__.__name__, self.exponents)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(*ge), id) over Any                            ║
+# ║ Path(as_expr(*gens), id) over {Any | gens}                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_expr : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: gens                                           ║
+# ║   returns:  Mul(*[gen ** exp for gen, exp in zip(gens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_expr : {Any | gens} → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5986c6b9e97657dc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.as_expr","kind":"method","src_hash":"2ab7c4ca0dbad63c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(*ge)","rhs":"convert a monomial instance to a sympy expression","over":{"base":"Any"},"name":"as_expr_correct","kind":"composition"},"guarantee":"convert a monomial instance to a sympy expression","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5986c6b9e97657dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.as_expr","kind":"method","src_hash":"2ab7c4ca0dbad63c","in":{"base":"Any","pred":"gens"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(*gens)","rhs":"Mul(*[gen ** exp for gen, exp in zip(gens, self.exponents)])","over":{"base":"Any","pred":"gens"},"name":"as_expr_correct","kind":"composition"},"guarantee":"returns Mul(*[gen ** exp for gen, exp in zip(gens, self.exponents)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5986c6b9e97657dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["gens"],"returns_expr":"Mul(*[gen ** exp for gen, exp in zip(gens, self.exponents)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exponents","self.gens"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(self, *gens):
         """Convert a monomial instance to a SymPy expression. """
         gens = gens or self.gens
@@ -949,16 +1164,25 @@ class Monomial(PicklableWithSlots):
         return Mul(*[ gen**exp for gen, exp in zip(gens, self.exponents) ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'exponents')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'exponents')                    ║
+# ║   fiber[Monomial]: isinstance(other, Monomial)             ║
+# ║   fiber[case_1]: isinstance(other, (tuple, Tuple))         ║
+# ║   fiber[Monomial]: not (isinstance(other, Monomial)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'exponents')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69bd3896ef65aacc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__eq__","kind":"method","src_hash":"7bcd85141e115755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69bd3896ef65aacc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__eq__","kind":"method","src_hash":"7bcd85141e115755","in":{"base":"Any","pred":"hasattr(other, 'exponents')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'exponents')"},"name":"__eq___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69bd3896ef65aacc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'exponents')"],"fibers":[{"name":"Monomial","guard":"isinstance(other, Monomial)","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"isinstance(other, (tuple, Tuple))","ensures":[],"decidability":"structural"},{"name":"Monomial","guard":"not (isinstance(other, Monomial)) and not (isinstance(other, (tuple, Tuple)))","ensures":["result == False"],"decidability":"structural","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.exponents","self.exponents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, Monomial):
             exponents = other.exponents
@@ -970,30 +1194,43 @@ class Monomial(PicklableWithSlots):
         return self.exponents == exponents
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0fd9987682a36d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0fd9987682a36d4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0fd9987682a36d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self.rebuild(monomial_mul(self.exponents, exponents))) over {Any | hasattr(other, 'exponents')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'exponents')                    ║
+# ║   returns:  self.rebuild(monomial_mul(self.exponents,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'exponents')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1eca96849888208a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__mul__","kind":"method","src_hash":"69c812a1c098a350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1eca96849888208a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__mul__","kind":"method","src_hash":"69c812a1c098a350","in":{"base":"Any","pred":"hasattr(other, 'exponents')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self.rebuild(monomial_mul(self.exponents, exponents))","over":{"base":"Any","pred":"hasattr(other, 'exponents')"},"name":"__mul___correct"},"guarantee":"returns self.rebuild(monomial_mul(self.exponents, exponents))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1eca96849888208a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'exponents')"],"returns_expr":"self.rebuild(monomial_mul(self.exponents, exponents))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.exponents","self.exponents","self.rebuild"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if isinstance(other, Monomial):
             exponents = other.exponents
@@ -1005,16 +1242,23 @@ class Monomial(PicklableWithSlots):
         return self.rebuild(monomial_mul(self.exponents, exponents))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self.rebuild(result)) over {Any | hasattr(other, 'exponents')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'exponents')                    ║
+# ║   returns:  self.rebuild(result)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'exponents')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 965e4644b183c9f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__truediv__","kind":"method","src_hash":"7dd049dfd771652b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"965e4644b183c9f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__truediv__","kind":"method","src_hash":"7dd049dfd771652b","in":{"base":"Any","pred":"hasattr(other, 'exponents')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self.rebuild(result)","over":{"base":"Any","pred":"hasattr(other, 'exponents')"},"name":"__truediv___correct"},"guarantee":"returns self.rebuild(result)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"965e4644b183c9f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'exponents')"],"returns_expr":"self.rebuild(result)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.exponents","self.exponents","self.rebuild"],"raises":["ExactQuotientFailed","NotImplementedError"]},"state_contract":{"exceptional_post":{"ExactQuotientFailed":["isinstance(raised, ExactQuotientFailed)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         if isinstance(other, Monomial):
             exponents = other.exponents
@@ -1033,16 +1277,23 @@ class Monomial(PicklableWithSlots):
     __floordiv__ = __truediv__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), self.rebuild(monomial_pow(self.exponents, n))) over {Any | not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 0)                                    ║
+# ║   returns:  self.rebuild(monomial_pow(self.exponents,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | not (n < 0)} → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bcd809e19a353aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__pow__","kind":"method","src_hash":"2606e470dafc9490","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bcd809e19a353aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.__pow__","kind":"method","src_hash":"2606e470dafc9490","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other)","rhs":"self.rebuild(monomial_pow(self.exponents, n))","over":{"base":"Any","pred":"not (n < 0)"},"name":"__pow___correct"},"guarantee":"returns self.rebuild(monomial_pow(self.exponents, n))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bcd809e19a353aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 0)"],"returns_expr":"self.rebuild(monomial_pow(self.exponents, n))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exponents","self.rebuild"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):
         n = int(other)
         if n < 0:
@@ -1050,16 +1301,23 @@ class Monomial(PicklableWithSlots):
         return self.rebuild(monomial_pow(self.exponents, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(oth), id) over Any                                ║
+# ║ Path(gcd(other), id) over {Any | hasattr(other, 'exponents')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcd : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'exponents')                    ║
+# ║   returns:  self.rebuild(monomial_gcd(self.exponents,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcd : {Any | hasattr(other, 'exponents')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cdfa20516b8e1699   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.gcd","kind":"method","src_hash":"5d843b22e1e64fda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(oth)","rhs":"greatest common divisor of monomials","over":{"base":"Any"},"name":"gcd_correct","kind":"composition"},"guarantee":"greatest common divisor of monomials","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rebuild","by":"library_axiom"},{"fn":"monomial_gcd","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdfa20516b8e1699"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.gcd","kind":"method","src_hash":"5d843b22e1e64fda","in":{"base":"Any","pred":"hasattr(other, 'exponents')"},"out":{"base":"Any"},"spec":{"lhs":"gcd(other)","rhs":"self.rebuild(monomial_gcd(self.exponents, exponents))","over":{"base":"Any","pred":"hasattr(other, 'exponents')"},"name":"gcd_correct","kind":"composition"},"guarantee":"returns self.rebuild(monomial_gcd(self.exponents, exponents))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rebuild","by":"library_axiom"},{"fn":"monomial_gcd","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdfa20516b8e1699","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'exponents')"],"returns_expr":"self.rebuild(monomial_gcd(self.exponents, exponents))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.exponents","self.exponents","self.rebuild"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, other):
         """Greatest common divisor of monomials. """
         if isinstance(other, Monomial):
@@ -1073,16 +1331,23 @@ class Monomial(PicklableWithSlots):
         return self.rebuild(monomial_gcd(self.exponents, exponents))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(oth), id) over Any                                ║
+# ║ Path(lcm(other), id) over {Any | hasattr(other, 'exponents')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lcm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'exponents')                    ║
+# ║   returns:  self.rebuild(monomial_lcm(self.exponents,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lcm : {Any | hasattr(other, 'exponents')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9c1d5f8956a07d8d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.lcm","kind":"method","src_hash":"bb699cdc52d146c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(oth)","rhs":"least common multiple of monomials","over":{"base":"Any"},"name":"lcm_correct","kind":"composition"},"guarantee":"least common multiple of monomials","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rebuild","by":"library_axiom"},{"fn":"monomial_lcm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c1d5f8956a07d8d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.monomials.Monomial.lcm","kind":"method","src_hash":"bb699cdc52d146c9","in":{"base":"Any","pred":"hasattr(other, 'exponents')"},"out":{"base":"Any"},"spec":{"lhs":"lcm(other)","rhs":"self.rebuild(monomial_lcm(self.exponents, exponents))","over":{"base":"Any","pred":"hasattr(other, 'exponents')"},"name":"lcm_correct","kind":"composition"},"guarantee":"returns self.rebuild(monomial_lcm(self.exponents, exponents))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rebuild","by":"library_axiom"},{"fn":"monomial_lcm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c1d5f8956a07d8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'exponents')"],"returns_expr":"self.rebuild(monomial_lcm(self.exponents, exponents))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.exponents","self.exponents","self.rebuild"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, other):
         """Least common multiple of monomials. """
         if isinstance(other, Monomial):

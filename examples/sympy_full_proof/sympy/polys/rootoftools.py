@@ -55,14 +55,19 @@ __all__ = ['CRootOf']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _pure_key_dict instance) preserved by _pure_key_dict(*args) over {Any | isinstance(k, PurePoly) and isinstance(k, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _pure_key_dict : {Any | isinstance(k, PurePoly) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf31072c03476d9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict","kind":"class","src_hash":"d56f7c0f484844c8","in":{"base":"Any","pred":"isinstance(k, PurePoly) and isinstance(k, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_pure_key_dict(*args)","rhs":"correctly constructs a _pure_key_dict instance","over":{"base":"Any","pred":"isinstance(k, PurePoly) and isinstance(k, Expr)"},"name":"_pure_key_dict_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _pure_key_dict instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_dict')","kind":"class","induction":"structural on _dict"}],"methods_preserving":["__init__","__getitem__","__setitem__","__contains__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf31072c03476d9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict","kind":"class","src_hash":"d56f7c0f484844c8","in":{"base":"Any","pred":"isinstance(k, PurePoly) and isinstance(k, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_pure_key_dict(*args)","rhs":"correctly constructs a _pure_key_dict instance","over":{"base":"Any","pred":"isinstance(k, PurePoly) and isinstance(k, Expr)"},"name":"_pure_key_dict_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_dict')","kind":"class","induction":"structural on _dict"}],"methods_preserving":["__init__","__getitem__","__setitem__","__contains__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf31072c03476d9d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_dict')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function _pure_key_dict not found in source"]}}
 class _pure_key_dict:
     """A minimal dictionary that makes sure that the key is a
     univariate PurePoly instance.
@@ -109,30 +114,43 @@ class _pure_key_dict:
     ``get`` or ``setdefault``.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e31866b083a510e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__init__","kind":"method","src_hash":"15c37916db65a5af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e31866b083a510e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__init__","kind":"method","src_hash":"15c37916db65a5af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e31866b083a510e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self._dict = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(k), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(k), self._dict[k]) over {Any | hasattr(k, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'free_symbols')                     ║
+# ║   returns:  self._dict[k]                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | hasattr(k, 'free_symbols')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67448c6feb4f0e83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__getitem__","kind":"method","src_hash":"77990d00b432ebcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(k)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67448c6feb4f0e83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__getitem__","kind":"method","src_hash":"77990d00b432ebcf","in":{"base":"Any","pred":"hasattr(k, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(k)","rhs":"self._dict[k]","over":{"base":"Any","pred":"hasattr(k, 'free_symbols')"},"name":"__getitem___correct"},"guarantee":"returns self._dict[k]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67448c6feb4f0e83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'free_symbols')"],"returns_expr":"self._dict[k]","pure":false,"effects":{"effect_type":"reads_state","reads":["k.free_symbols","self._dict"],"raises":["KeyError"]},"state_contract":{"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, k):
         if not isinstance(k, PurePoly):
             if not (isinstance(k, Expr) and len(k.free_symbols) == 1):
@@ -141,16 +159,23 @@ class _pure_key_dict:
         return self._dict[k]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(k, ), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(k, v), <unspecified:__setitem__>) over {Any | hasattr(k, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __setitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'free_symbols')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __setitem__ : {Any | hasattr(k, 'free_symbols')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 735b8d659e74ea4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__setitem__","kind":"method","src_hash":"7dd973bb69b00dfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(k, )","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"735b8d659e74ea4b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__setitem__","kind":"method","src_hash":"7dd973bb69b00dfd","in":{"base":"Any","pred":"hasattr(k, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(k, v)","rhs":"<unspecified:__setitem__>","over":{"base":"Any","pred":"hasattr(k, 'free_symbols')"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"735b8d659e74ea4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'free_symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.free_symbols","self._dict"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, k, v):
         if not isinstance(k, PurePoly):
             if not (isinstance(k, Expr) and len(k.free_symbols) == 1):
@@ -159,16 +184,22 @@ class _pure_key_dict:
         self._dict[k] = v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(k), correctly tests membership) over Any ║
+# ║ Path(__contains__(k), <unspecified:__contains__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56f767605d4ffa5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__contains__","kind":"method","src_hash":"3a8b7dc4cd460df2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(k)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f767605d4ffa5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_key_dict.__contains__","kind":"method","src_hash":"3a8b7dc4cd460df2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(k)","rhs":"<unspecified:__contains__>","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f767605d4ffa5c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, k):
         try:
             self[k]
@@ -181,32 +212,46 @@ _complexes_cache = _pure_key_dict()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pure_factors(pol), internal helper behaves correctly) over Any ║
+# ║ Path(_pure_factors(poly), [(PurePoly(f, expand=False), m) for f, m in factors]) over {Any | hasattr(poly, 'factor_list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pure_factors : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(poly, 'factor_list')                   ║
+# ║   returns:  [(PurePoly(f, expand=False), m) for f, m ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pure_factors : {Any | hasattr(poly, 'factor_list')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a8d90072ca80f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a02645eca1369dab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_factors","kind":"function","src_hash":"ba3aee694ed6efd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pure_factors(pol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pure_factors_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools._pure_factors_correct","statement":"Path(_pure_factors(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a8d90072ca80f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._pure_factors","kind":"function","src_hash":"ba3aee694ed6efd6","in":{"base":"Any","pred":"hasattr(poly, 'factor_list')"},"out":{"base":"Any"},"spec":{"lhs":"_pure_factors(poly)","rhs":"[(PurePoly(f, expand=False), m) for f, m in factors]","over":{"base":"Any","pred":"hasattr(poly, 'factor_list')"},"name":"_pure_factors_correct"},"guarantee":"returns [(PurePoly(f, expand=False), m) for f, m in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools._pure_factors_correct","statement":"Path(_pure_factors(x), returns [(PurePoly(f, expand=False), m) for f, m in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02645eca1369dab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(poly, 'factor_list')"],"returns_expr":"[(PurePoly(f, expand=False), m) for f, m in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["poly.factor_list"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pure_factors(poly):
     _, factors = poly.factor_list()
     return [(PurePoly(f, expand=False), m) for f, m in factors]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_imag_count_of_factor(f), return the number of imaginary roots for irreducible univariate polynomial ``f``) over Any ║
+# ║ Path(_imag_count_of_factor(f), <unspecified:_imag_count_of_factor>) over {Any | hasattr(f, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _imag_count_of_factor : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'terms')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _imag_count_of_factor : {Any | hasattr(f, 'terms')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 377e8c8f012e7257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._imag_count_of_factor","kind":"function","src_hash":"e49b5d7c242bfd4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_imag_count_of_factor(f)","rhs":"return the number of imaginary roots for irreducible univariate polynomial ``f``","over":{"base":"Any"},"name":"_imag_count_of_factor_correct"},"guarantee":"return the number of imaginary roots for irreducible univariate polynomial ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools._imag_count_of_factor_correct","statement":"Path(_imag_count_of_factor(x), return the number of imaginary roots for irreducible univariate polynomial ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"377e8c8f012e7257"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._imag_count_of_factor","kind":"function","src_hash":"e49b5d7c242bfd4c","in":{"base":"Any","pred":"hasattr(f, 'terms')"},"out":{"base":"Any"},"spec":{"lhs":"_imag_count_of_factor(f)","rhs":"<unspecified:_imag_count_of_factor>","over":{"base":"Any","pred":"hasattr(f, 'terms')"},"name":"_imag_count_of_factor_correct"},"guarantee":"return the number of imaginary roots for irreducible univariate polynomial ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools._imag_count_of_factor_correct","statement":"Path(_imag_count_of_factor(x), return the number of imaginary roots for irreducible univariate polynomial ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"377e8c8f012e7257","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'terms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.terms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _imag_count_of_factor(f):
     """Return the number of imaginary roots for irreducible
     univariate polynomial ``f``.
@@ -222,16 +267,22 @@ def _imag_count_of_factor(f):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rootof(f, ), an indexed root of a univariate polynomial) over Any ║
+# ║ Path(rootof(f, x, index), CRootOf(f, x, index=index, radicals=radicals, expand=expand)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CRootOf(f, x, index=index, radicals=radic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rootof : Any → {Any | result satisfies: obj:`complexr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cd5717941f361e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.rootof","kind":"function","src_hash":"3ab8ad0c731ed530","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: obj:`complexrootof` object or an explicit"},"spec":{"lhs":"rootof(f, )","rhs":"an indexed root of a univariate polynomial","over":{"base":"Any"},"name":"rootof_correct"},"guarantee":"an indexed root of a univariate polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cd5717941f361e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.rootof","kind":"function","src_hash":"3ab8ad0c731ed530","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: obj:`complexrootof` object or an explicit"},"spec":{"lhs":"rootof(f, x, index)","rhs":"CRootOf(f, x, index=index, radicals=radicals, expand=expand)","over":{"base":"Any"},"name":"rootof_correct"},"guarantee":"returns CRootOf(f, x, index=index, radicals=radicals, expand=expand)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cd5717941f361e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CRootOf(f, x, index=index, radicals=radicals, expand=expand)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def rootof(f, x, index=None, radicals=True, expand=True):
     """An indexed root of a univariate polynomial.
 
@@ -256,16 +307,22 @@ def rootof(f, x, index=None, radicals=True, expand=True):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RootOf(), correctly constructs a RootOf instance) over Any ║
+# ║ Path(RootOf(), isinstance(self, Expr)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RootOf : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RootOf : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee135e898182fd7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootOf","kind":"class","src_hash":"9ec7b158b04f80b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RootOf()","rhs":"correctly constructs a RootOf instance","over":{"base":"Any"},"name":"RootOf_correct"},"guarantee":"correctly constructs a RootOf instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee135e898182fd7a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootOf","kind":"class","src_hash":"9ec7b158b04f80b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"RootOf()","rhs":"isinstance(self, Expr)","over":{"base":"Any"},"name":"RootOf_correct"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee135e898182fd7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function RootOf not found in source"]}}
 class RootOf(Expr):
     """Represents a root of a univariate polynomial.
 
@@ -276,16 +333,22 @@ class RootOf(Expr):
     __slots__ = ('poly',)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct a new ``crootof`` object for ``k``-th root of ``f``) over Any ║
+# ║ Path(__new__(cls, f, x), rootof(f, x, index=index, radicals=radicals, expand=expand)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rootof(f, x, index=index, radicals=radica...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8d7d151a3770c63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootOf.__new__","kind":"method","src_hash":"6c21fa3b89abfd07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct a new ``crootof`` object for ``k``-th root of ``f``","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a new ``crootof`` object for ``k``-th root of ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8d7d151a3770c63"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootOf.__new__","kind":"method","src_hash":"6c21fa3b89abfd07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, f, x)","rhs":"rootof(f, x, index=index, radicals=radicals, expand=expand)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns rootof(f, x, index=index, radicals=radicals, expand=expand)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8d7d151a3770c63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rootof(f, x, index=index, radicals=radicals, expand=expand)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, f, x, index=None, radicals=True, expand=True):
         """Construct a new ``CRootOf`` object for ``k``-th root of ``f``."""
         return rootof(f, x, index=index, radicals=radicals, expand=expand)
@@ -294,14 +357,20 @@ class RootOf(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ComplexRootOf(*args), correctly constructs a ComplexRootOf instance) over {Any | isinstance(dx, Rational)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RootOf)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ComplexRootOf : {Any | isinstance(dx, Rational)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ca82fd5e6aa2794  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf","kind":"class","src_hash":"cfb5f647888f3948","in":{"base":"Any","pred":"isinstance(dx, Rational)"},"out":{"base":"Any","pred":"cmplx[C].conj is (i % 2 == 0) and len(potential_imag) > 1"},"spec":{"lhs":"ComplexRootOf(*args)","rhs":"correctly constructs a ComplexRootOf instance","over":{"base":"Any","pred":"isinstance(dx, Rational)"},"name":"ComplexRootOf_class_invariant"},"guarantee":"correctly constructs a ComplexRootOf instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ca82fd5e6aa2794"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf","kind":"class","src_hash":"cfb5f647888f3948","in":{"base":"Any","pred":"isinstance(dx, Rational)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RootOf)"},"spec":{"lhs":"ComplexRootOf(*args)","rhs":"correctly constructs a ComplexRootOf instance","over":{"base":"Any","pred":"isinstance(dx, Rational)"},"name":"ComplexRootOf_class_invariant"},"guarantee":"isinstance(self, RootOf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ca82fd5e6aa2794","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RootOf)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function ComplexRootOf not found in source"]}}
 class ComplexRootOf(RootOf):
     """Represents an indexed complex root of a polynomial.
 
@@ -440,16 +509,25 @@ class ComplexRootOf(RootOf):
     is_algebraic = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct an indexed complex root of a polynomial) over Any ║
+# ║ Path(__new__(cls, f, x), <unspecified:__new__>) over {Any | poly.is_univariate and hasattr(x, 'is_Integer') and hasattr(index, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: poly.is_univariate                             ║
+# ║   requires: hasattr(x, 'is_Integer')                       ║
+# ║   requires: hasattr(index, 'is_Integer')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | poly.is_univariate and hasattr(x, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1bf78d58339bcc1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.__new__","kind":"method","src_hash":"67c90aa89cd949d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct an indexed complex root of a polynomial","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct an indexed complex root of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1bf78d58339bcc1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.__new__","kind":"method","src_hash":"67c90aa89cd949d4","in":{"base":"Any","pred":"poly.is_univariate and hasattr(x, 'is_Integer') and hasattr(index, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, f, x)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"poly.is_univariate and hasattr(x, 'is_Integer') and hasattr(index, 'is_Integer')"},"name":"__new___correct"},"guarantee":"construct an indexed complex root of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1bf78d58339bcc1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["poly.is_univariate","hasattr(x, 'is_Integer')","hasattr(index, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._indexed_root","cls._postprocess_root","cls._roots_trivial","index.is_Integer","x.is_Integer"],"raises":["IndexError","NotImplementedError","PolynomialError","ValueError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"],"PolynomialError":["isinstance(raised, PolynomialError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, f, x, index=None, radicals=False, expand=True):
         """ Construct an indexed complex root of a polynomial.
 
@@ -512,16 +590,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), construct new ``crootof`` object from raw data) over Any ║
+# ║ Path(_new(cls, poly, index), <unspecified:_new>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4435f0ef6b914f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._new","kind":"classmethod","src_hash":"7bfbffd7ec765123","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"construct new ``crootof`` object from raw data","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"construct new ``crootof`` object from raw data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._new_correct","statement":"Path(_new(x), construct new ``crootof`` object from raw data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4435f0ef6b914f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._new","kind":"classmethod","src_hash":"7bfbffd7ec765123","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, poly, index)","rhs":"<unspecified:_new>","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"construct new ``crootof`` object from raw data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._new_correct","statement":"Path(_new(x), construct new ``crootof`` object from raw data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4435f0ef6b914f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, poly, index):
         """Construct new ``CRootOf`` object from raw data. """
         obj = Expr.__new__(cls)
@@ -538,61 +622,85 @@ class ComplexRootOf(RootOf):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), (self.poly, self.index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.poly, self.index)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb302a36c235cca2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._hashable_content","kind":"method","src_hash":"42b7965a2d83bce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb302a36c235cca2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._hashable_content","kind":"method","src_hash":"42b7965a2d83bce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"(self.poly, self.index)","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns (self.poly, self.index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb302a36c235cca2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.poly, self.index)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.index","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return (self.poly, self.index)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.poly.as_expr()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.poly.as_expr()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61864ad7dd6dd407           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.expr","kind":"property","src_hash":"b0a4c9b4fc70d70a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61864ad7dd6dd407"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.expr","kind":"property","src_hash":"b0a4c9b4fc70d70a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.poly.as_expr()","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.poly.as_expr()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61864ad7dd6dd407","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.poly.as_expr()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.poly.as_expr()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (self.expr, Integer(self.index))) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.expr, Integer(self.index))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a57438cf981922d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.args","kind":"property","src_hash":"60c58a9a9128eb47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a57438cf981922d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.args","kind":"property","src_hash":"60c58a9a9128eb47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(self.expr, Integer(self.index))","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (self.expr, Integer(self.index))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a57438cf981922d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.expr, Integer(self.index))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return (self.expr, Integer(self.index))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), set()) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set()                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26b47ffc00dc77c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.free_symbols","kind":"property","src_hash":"a34620842d0ea3eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26b47ffc00dc77c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.free_symbols","kind":"property","src_hash":"a34620842d0ea3eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"set()","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26b47ffc00dc77c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         # CRootOf currently only works with univariate expressions
         # whose poly attribute should be a PurePoly with no free
@@ -600,32 +708,44 @@ class ComplexRootOf(RootOf):
         return set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), return ``true`` if the root is real) over Any ║
+# ║ Path(_eval_is_real(), self.index < len(_reals_cache[self.poly])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.index < len(_reals_cache[self.poly])      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b9820a26404a85a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 132bfc1bbe2a6f05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_is_real","kind":"method","src_hash":"1b8f230ce6b2747d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"return ``true`` if the root is real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"return ``true`` if the root is real","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._eval_is_real_correct","statement":"Path(_eval_is_real(x), return ``true`` if the root is real)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b9820a26404a85a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_is_real","kind":"method","src_hash":"1b8f230ce6b2747d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"self.index < len(_reals_cache[self.poly])","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns self.index < len(_reals_cache[self.poly])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns self.index < len(_reals_cache[self.poly]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"132bfc1bbe2a6f05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.index < len(_reals_cache[self.poly])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ensure_reals_init","self.index","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         """Return ``True`` if the root is real. """
         self._ensure_reals_init()
         return self.index < len(_reals_cache[self.poly])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_imaginary(), return ``true`` if the root is imaginary) over Any ║
+# ║ Path(_eval_is_imaginary(), <unspecified:_eval_is_imaginary>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_imaginary : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19d8b51be60a84c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_is_imaginary","kind":"method","src_hash":"30285378847ae334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_imaginary()","rhs":"return ``true`` if the root is imaginary","over":{"base":"Any"},"name":"_eval_is_imaginary_correct"},"guarantee":"return ``true`` if the root is imaginary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._eval_is_imaginary_correct","statement":"Path(_eval_is_imaginary(x), return ``true`` if the root is imaginary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19d8b51be60a84c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_is_imaginary","kind":"method","src_hash":"30285378847ae334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_imaginary()","rhs":"<unspecified:_eval_is_imaginary>","over":{"base":"Any"},"name":"_eval_is_imaginary_correct"},"guarantee":"return ``true`` if the root is imaginary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._eval_is_imaginary_correct","statement":"Path(_eval_is_imaginary(x), return ``true`` if the root is imaginary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19d8b51be60a84c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ensure_reals_init","self._get_interval","self.index","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_imaginary(self):
         """Return ``True`` if the root is imaginary. """
         self._ensure_reals_init()
@@ -636,48 +756,67 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(real_roots(cls), get real roots of a polynomial) over Any ║
+# ║ Path(real_roots(cls, poly, radicals), cls._get_roots('_real_roots', poly, radicals)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._get_roots('_real_roots', poly, radic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ real_roots : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a17298e209b4170           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.real_roots","kind":"classmethod","src_hash":"aae7715d15a430b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_roots(cls)","rhs":"get real roots of a polynomial","over":{"base":"Any"},"name":"real_roots_correct"},"guarantee":"get real roots of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a17298e209b4170"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.real_roots","kind":"classmethod","src_hash":"aae7715d15a430b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_roots(cls, poly, radicals)","rhs":"cls._get_roots('_real_roots', poly, radicals)","over":{"base":"Any"},"name":"real_roots_correct"},"guarantee":"returns cls._get_roots('_real_roots', poly, radicals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a17298e209b4170","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._get_roots('_real_roots', poly, radicals)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_roots"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def real_roots(cls, poly, radicals=True):
         """Get real roots of a polynomial. """
         return cls._get_roots("_real_roots", poly, radicals)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(all_roots(cls), get real and complex roots of a polynomial) over Any ║
+# ║ Path(all_roots(cls, poly, radicals), cls._get_roots('_all_roots', poly, radicals)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._get_roots('_all_roots', poly, radicals)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ all_roots : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd42831a662bd2e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.all_roots","kind":"classmethod","src_hash":"238a79a2f8d1f1e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"all_roots(cls)","rhs":"get real and complex roots of a polynomial","over":{"base":"Any"},"name":"all_roots_correct"},"guarantee":"get real and complex roots of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd42831a662bd2e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.all_roots","kind":"classmethod","src_hash":"238a79a2f8d1f1e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"all_roots(cls, poly, radicals)","rhs":"cls._get_roots('_all_roots', poly, radicals)","over":{"base":"Any"},"name":"all_roots_correct"},"guarantee":"returns cls._get_roots('_all_roots', poly, radicals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd42831a662bd2e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._get_roots('_all_roots', poly, radicals)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_roots"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def all_roots(cls, poly, radicals=True):
         """Get real and complex roots of a polynomial. """
         return cls._get_roots("_all_roots", poly, radicals)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_reals_sqf(cls), get real root isolating intervals for a square-free factor) over Any ║
+# ║ Path(_get_reals_sqf(cls, currentfactor, use_cache), <unspecified:_get_reals_sqf>) over {Any | hasattr(currentfactor, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_reals_sqf : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(currentfactor, 'rep')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_reals_sqf : {Any | hasattr(currentfactor, 'rep')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0bda1dd12d0277d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_reals_sqf","kind":"classmethod","src_hash":"a076ff1a69b301e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_reals_sqf(cls)","rhs":"get real root isolating intervals for a square-free factor","over":{"base":"Any"},"name":"_get_reals_sqf_correct"},"guarantee":"get real root isolating intervals for a square-free factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_reals_sqf_correct","statement":"Path(_get_reals_sqf(x), get real root isolating intervals for a square-free factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0bda1dd12d0277d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_reals_sqf","kind":"classmethod","src_hash":"a076ff1a69b301e5","in":{"base":"Any","pred":"hasattr(currentfactor, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_get_reals_sqf(cls, currentfactor, use_cache)","rhs":"<unspecified:_get_reals_sqf>","over":{"base":"Any","pred":"hasattr(currentfactor, 'rep')"},"name":"_get_reals_sqf_correct"},"guarantee":"get real root isolating intervals for a square-free factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_reals_sqf_correct","statement":"Path(_get_reals_sqf(x), get real root isolating intervals for a square-free factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0bda1dd12d0277d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(currentfactor, 'rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["currentfactor.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_reals_sqf(cls, currentfactor, use_cache=True):
         """Get real root isolating intervals for a square-free factor."""
         if use_cache and currentfactor in _reals_cache:
@@ -691,16 +830,23 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_complexes_sqf(cls), get complex root isolating intervals for a square-free factor) over Any ║
+# ║ Path(_get_complexes_sqf(cls, currentfactor, use_cache), <unspecified:_get_complexes_sqf>) over {Any | hasattr(currentfactor, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_complexes_sqf : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(currentfactor, 'rep')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_complexes_sqf : {Any | hasattr(currentfactor, 'r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec8bb29973dd912  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_complexes_sqf","kind":"classmethod","src_hash":"ff3b60340c8f6fc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_complexes_sqf(cls)","rhs":"get complex root isolating intervals for a square-free factor","over":{"base":"Any"},"name":"_get_complexes_sqf_correct"},"guarantee":"get complex root isolating intervals for a square-free factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_complexes_sqf_correct","statement":"Path(_get_complexes_sqf(x), get complex root isolating intervals for a square-free factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec8bb29973dd912"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_complexes_sqf","kind":"classmethod","src_hash":"ff3b60340c8f6fc9","in":{"base":"Any","pred":"hasattr(currentfactor, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_get_complexes_sqf(cls, currentfactor, use_cache)","rhs":"<unspecified:_get_complexes_sqf>","over":{"base":"Any","pred":"hasattr(currentfactor, 'rep')"},"name":"_get_complexes_sqf_correct"},"guarantee":"get complex root isolating intervals for a square-free factor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_complexes_sqf_correct","statement":"Path(_get_complexes_sqf(x), get complex root isolating intervals for a square-free factor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec8bb29973dd912","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(currentfactor, 'rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["currentfactor.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_complexes_sqf(cls, currentfactor, use_cache=True):
         """Get complex root isolating intervals for a square-free factor."""
         if use_cache and currentfactor in _complexes_cache:
@@ -713,16 +859,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_reals(cls), compute real root isolating intervals for a list of factors) over Any ║
+# ║ Path(_get_reals(cls, factors, use_cache), <unspecified:_get_reals>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_reals : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1ebb32f3bf0a575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_reals","kind":"classmethod","src_hash":"bc477184729a9df0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_reals(cls)","rhs":"compute real root isolating intervals for a list of factors","over":{"base":"Any"},"name":"_get_reals_correct"},"guarantee":"compute real root isolating intervals for a list of factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_reals_correct","statement":"Path(_get_reals(x), compute real root isolating intervals for a list of factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ebb32f3bf0a575"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_reals","kind":"classmethod","src_hash":"bc477184729a9df0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_reals(cls, factors, use_cache)","rhs":"<unspecified:_get_reals>","over":{"base":"Any"},"name":"_get_reals_correct"},"guarantee":"compute real root isolating intervals for a list of factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_reals_correct","statement":"Path(_get_reals(x), compute real root isolating intervals for a list of factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ebb32f3bf0a575","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_reals_sqf","cls._reals_sorted"],"calls_mutating":["reals.extend"],"raises":["KeyError"],"catches":["KeyError"]},"state_contract":{"modifies":["reals.*"],"old_bindings":{"old_len_reals":"len(reals)"},"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_reals(cls, factors, use_cache=True):
         """Compute real root isolating intervals for a list of factors. """
         reals = []
@@ -743,16 +895,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_complexes(cls), compute complex root isolating intervals for a list of factors) over Any ║
+# ║ Path(_get_complexes(cls, factors, use_cache), <unspecified:_get_complexes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_complexes : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 180a3d3ddb6541e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_complexes","kind":"classmethod","src_hash":"5cd3bf793937ae1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_complexes(cls)","rhs":"compute complex root isolating intervals for a list of factors","over":{"base":"Any"},"name":"_get_complexes_correct"},"guarantee":"compute complex root isolating intervals for a list of factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_complexes_correct","statement":"Path(_get_complexes(x), compute complex root isolating intervals for a list of factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"180a3d3ddb6541e7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_complexes","kind":"classmethod","src_hash":"5cd3bf793937ae1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_complexes(cls, factors, use_cache)","rhs":"<unspecified:_get_complexes>","over":{"base":"Any"},"name":"_get_complexes_correct"},"guarantee":"compute complex root isolating intervals for a list of factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_complexes_correct","statement":"Path(_get_complexes(x), compute complex root isolating intervals for a list of factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"180a3d3ddb6541e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._complexes_sorted","cls._get_complexes_sqf"],"calls_mutating":["complexes.extend"],"raises":["KeyError"],"catches":["KeyError"]},"state_contract":{"modifies":["complexes.*"],"old_bindings":{"old_len_complexes":"len(complexes)"},"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_complexes(cls, factors, use_cache=True):
         """Compute complex root isolating intervals for a list of factors. """
         complexes = []
@@ -773,16 +931,23 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reals_sorted(cls), make real isolating intervals disjoint and sort roots) over Any ║
+# ║ Path(_reals_sorted(cls, reals), reals) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _reals_sorted : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == reals                                ║
+# ║   returns:  reals                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _reals_sorted : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5290fb60395079f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8078344684beb44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._reals_sorted","kind":"classmethod","src_hash":"43614824e475fc6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reals_sorted(cls)","rhs":"make real isolating intervals disjoint and sort roots","over":{"base":"Any"},"name":"_reals_sorted_correct"},"guarantee":"make real isolating intervals disjoint and sort roots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._reals_sorted_correct","statement":"Path(_reals_sorted(x), make real isolating intervals disjoint and sort roots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5290fb60395079f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._reals_sorted","kind":"classmethod","src_hash":"43614824e475fc6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (reals)"},"spec":{"lhs":"_reals_sorted(cls, reals)","rhs":"reals","over":{"base":"Any"},"name":"_reals_sorted_correct"},"guarantee":"returns reals; result == reals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._reals_sorted_correct","statement":"Path(_reals_sorted(x), returns reals; result == reals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8078344684beb44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == reals"],"returns_expr":"reals","pure":false,"effects":{"effect_type":"mutates_args","writes":["reals[*]"]},"state_contract":{"modifies":["reals[*]"],"old_bindings":{"old_reals_star":"reals[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _reals_sorted(cls, reals):
         """Make real isolating intervals disjoint and sort roots. """
         cache = {}
@@ -809,16 +974,24 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_refine_imaginary(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_refine_imaginary(cls, complexes), len(complexes) == old_len_complexes + 1) over {Any | hasattr(complexes, 'extend') and hasattr(complexes, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _refine_imaginary : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(complexes, 'extend')                   ║
+# ║   requires: hasattr(complexes, 'append')                   ║
+# ║   ensures:  len(complexes) == old_len_complexes + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _refine_imaginary : {Any | hasattr(complexes, 'extend...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be3ee035df0252c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4659ae0f88619534  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._refine_imaginary","kind":"classmethod","src_hash":"b656571a3613f0b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_refine_imaginary(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_refine_imaginary_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._refine_imaginary_correct","statement":"Path(_refine_imaginary(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be3ee035df0252c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._refine_imaginary","kind":"classmethod","src_hash":"b656571a3613f0b5","in":{"base":"Any","pred":"hasattr(complexes, 'extend') and hasattr(complexes, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(complexes) == old_len_complexes + 1"},"spec":{"lhs":"_refine_imaginary(cls, complexes)","rhs":"len(complexes) == old_len_complexes + 1","over":{"base":"Any","pred":"hasattr(complexes, 'extend') and hasattr(complexes, 'append')"},"name":"_refine_imaginary_correct"},"guarantee":"len(complexes) == old_len_complexes + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._refine_imaginary_correct","statement":"Path(_refine_imaginary(x), len(complexes) == old_len_complexes + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4659ae0f88619534","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(complexes, 'extend')","hasattr(complexes, 'append')"],"ensures":["len(complexes) == old_len_complexes + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["complexes.append","complexes.extend"],"calls_mutating":["complexes.append","complexes.extend","potential_imag.remove"]},"state_contract":{"modifies":["complexes.*","potential_imag.*"],"old_bindings":{"old_len_complexes":"len(complexes)"},"post_ensures":["len(complexes) == old_len_complexes + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _refine_imaginary(cls, complexes):
         sifted = sift(complexes, lambda c: c[1])
         complexes = []
@@ -849,16 +1022,23 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_refine_complexes(cls), return complexes such that no bounding rectangles of non-conjugate roots would intersect) over Any ║
+# ║ Path(_refine_complexes(cls, complexes), complexes) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _refine_complexes : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == complexes                            ║
+# ║   returns:  complexes                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _refine_complexes : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cc03ca30a827341  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6a3e25e3cf49be8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._refine_complexes","kind":"classmethod","src_hash":"06a01de56e6dac18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_refine_complexes(cls)","rhs":"return complexes such that no bounding rectangles of non-conjugate roots would intersect","over":{"base":"Any"},"name":"_refine_complexes_correct"},"guarantee":"return complexes such that no bounding rectangles of non-conjugate roots would intersect","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._refine_complexes_correct","statement":"Path(_refine_complexes(x), return complexes such that no bounding rectangles of non-conjugate roots would intersect)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cc03ca30a827341"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._refine_complexes","kind":"classmethod","src_hash":"06a01de56e6dac18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (complexes)"},"spec":{"lhs":"_refine_complexes(cls, complexes)","rhs":"complexes","over":{"base":"Any"},"name":"_refine_complexes_correct"},"guarantee":"returns complexes; result == complexes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._refine_complexes_correct","statement":"Path(_refine_complexes(x), returns complexes; result == complexes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6a3e25e3cf49be8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == complexes"],"returns_expr":"complexes","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._refine_imaginary"],"writes":["complexes[*]"]},"state_contract":{"modifies":["complexes[*]"],"old_bindings":{"old_complexes_star":"complexes[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _refine_complexes(cls, complexes):
         """return complexes such that no bounding rectangles of non-conjugate
         roots would intersect. In addition, assure that neither ay nor by is
@@ -889,16 +1069,23 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complexes_sorted(cls), make complex isolating intervals disjoint and sort roots) over Any ║
+# ║ Path(_complexes_sorted(cls, complexes), complexes) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _complexes_sorted : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == complexes                            ║
+# ║   returns:  complexes                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _complexes_sorted : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aca01cacbac23a65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f8d7b88904902f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._complexes_sorted","kind":"classmethod","src_hash":"1f0431e4a3f91378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complexes_sorted(cls)","rhs":"make complex isolating intervals disjoint and sort roots","over":{"base":"Any"},"name":"_complexes_sorted_correct"},"guarantee":"make complex isolating intervals disjoint and sort roots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._complexes_sorted_correct","statement":"Path(_complexes_sorted(x), make complex isolating intervals disjoint and sort roots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aca01cacbac23a65"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._complexes_sorted","kind":"classmethod","src_hash":"1f0431e4a3f91378","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (complexes)"},"spec":{"lhs":"_complexes_sorted(cls, complexes)","rhs":"complexes","over":{"base":"Any"},"name":"_complexes_sorted_correct"},"guarantee":"returns complexes; result == complexes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._complexes_sorted_correct","statement":"Path(_complexes_sorted(x), returns complexes; result == complexes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f8d7b88904902f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == complexes"],"returns_expr":"complexes","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complexes_sorted(cls, complexes):
         """Make complex isolating intervals disjoint and sort roots. """
         complexes = cls._refine_complexes(complexes)
@@ -931,16 +1118,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reals_index(cls), map initial real root index to an index in a factor where the root belongs) over Any ║
+# ║ Path(_reals_index(cls, reals, index), (poly, index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (poly, index)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _reals_index : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbd40f4a8501375a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c19324c53f41ac23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._reals_index","kind":"classmethod","src_hash":"1f4f1133521ad92f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reals_index(cls)","rhs":"map initial real root index to an index in a factor where the root belongs","over":{"base":"Any"},"name":"_reals_index_correct"},"guarantee":"map initial real root index to an index in a factor where the root belongs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._reals_index_correct","statement":"Path(_reals_index(x), map initial real root index to an index in a factor where the root belongs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd40f4a8501375a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._reals_index","kind":"classmethod","src_hash":"1f4f1133521ad92f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reals_index(cls, reals, index)","rhs":"(poly, index)","over":{"base":"Any"},"name":"_reals_index_correct"},"guarantee":"returns (poly, index)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._reals_index_correct","statement":"Path(_reals_index(x), returns (poly, index))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c19324c53f41ac23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(poly, index)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _reals_index(cls, reals, index):
         """
         Map initial real root index to an index in a factor where
@@ -962,16 +1155,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complexes_index(cls), map initial complex root index to an index in a factor where the root belongs) over Any ║
+# ║ Path(_complexes_index(cls, complexes, index), (poly, index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (poly, index)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _complexes_index : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e4b8988a27c405d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d971b764cb0b6a8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._complexes_index","kind":"classmethod","src_hash":"c3750ab57db55078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complexes_index(cls)","rhs":"map initial complex root index to an index in a factor where the root belongs","over":{"base":"Any"},"name":"_complexes_index_correct"},"guarantee":"map initial complex root index to an index in a factor where the root belongs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._complexes_index_correct","statement":"Path(_complexes_index(x), map initial complex root index to an index in a factor where the root belongs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e4b8988a27c405d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._complexes_index","kind":"classmethod","src_hash":"c3750ab57db55078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complexes_index(cls, complexes, index)","rhs":"(poly, index)","over":{"base":"Any"},"name":"_complexes_index_correct"},"guarantee":"returns (poly, index)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._complexes_index_correct","statement":"Path(_complexes_index(x), returns (poly, index))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d971b764cb0b6a8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(poly, index)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complexes_index(cls, complexes, index):
         """
         Map initial complex root index to an index in a factor where
@@ -994,32 +1193,44 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_count_roots(cls), count the number of real or complex roots with multiplicities) over Any ║
+# ║ Path(_count_roots(cls, roots), sum((k for _, _, k in roots))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((k for _, _, k in roots))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _count_roots : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea0ff72b88c0dd2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._count_roots","kind":"classmethod","src_hash":"f4a204a82c3689c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_count_roots(cls)","rhs":"count the number of real or complex roots with multiplicities","over":{"base":"Any"},"name":"_count_roots_correct"},"guarantee":"count the number of real or complex roots with multiplicities","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea0ff72b88c0dd2a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._count_roots","kind":"classmethod","src_hash":"f4a204a82c3689c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_count_roots(cls, roots)","rhs":"sum((k for _, _, k in roots))","over":{"base":"Any"},"name":"_count_roots_correct"},"guarantee":"returns sum((k for _, _, k in roots))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea0ff72b88c0dd2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((k for _, _, k in roots))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _count_roots(cls, roots):
         """Count the number of real or complex roots with multiplicities."""
         return sum(k for _, _, k in roots)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indexed_root(cls), get a root of a composite polynomial by index) over Any ║
+# ║ Path(_indexed_root(cls, poly, index), <unspecified:_indexed_root>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indexed_root : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e19574ccc37112f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._indexed_root","kind":"classmethod","src_hash":"aa2eebdc42aa37db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indexed_root(cls)","rhs":"get a root of a composite polynomial by index","over":{"base":"Any"},"name":"_indexed_root_correct"},"guarantee":"get a root of a composite polynomial by index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._indexed_root_correct","statement":"Path(_indexed_root(x), get a root of a composite polynomial by index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e19574ccc37112f2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._indexed_root","kind":"classmethod","src_hash":"aa2eebdc42aa37db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indexed_root(cls, poly, index)","rhs":"<unspecified:_indexed_root>","over":{"base":"Any"},"name":"_indexed_root_correct"},"guarantee":"get a root of a composite polynomial by index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._indexed_root_correct","statement":"Path(_indexed_root(x), get a root of a composite polynomial by index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e19574ccc37112f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._complexes_index","cls._count_roots","cls._get_complexes","cls._get_reals","cls._reals_index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indexed_root(cls, poly, index, lazy=False):
         """Get a root of a composite polynomial by index. """
         factors = _pure_factors(poly)
@@ -1043,32 +1254,44 @@ class ComplexRootOf(RootOf):
             return cls._complexes_index(complexes, index - reals_count)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ensure_reals_init(), ensure that our poly has entries in the reals cache) over Any ║
+# ║ Path(_ensure_reals_init(), <unspecified:_ensure_reals_init>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ensure_reals_init : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ade6885db9b3aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._ensure_reals_init","kind":"method","src_hash":"31fce74488bf51b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ensure_reals_init()","rhs":"ensure that our poly has entries in the reals cache","over":{"base":"Any"},"name":"_ensure_reals_init_correct"},"guarantee":"ensure that our poly has entries in the reals cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._ensure_reals_init_correct","statement":"Path(_ensure_reals_init(x), ensure that our poly has entries in the reals cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ade6885db9b3aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._ensure_reals_init","kind":"method","src_hash":"31fce74488bf51b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ensure_reals_init()","rhs":"<unspecified:_ensure_reals_init>","over":{"base":"Any"},"name":"_ensure_reals_init_correct"},"guarantee":"ensure that our poly has entries in the reals cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._ensure_reals_init_correct","statement":"Path(_ensure_reals_init(x), ensure that our poly has entries in the reals cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ade6885db9b3aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._indexed_root","self.index","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ensure_reals_init(self):
         """Ensure that our poly has entries in the reals cache. """
         if self.poly not in _reals_cache:
             self._indexed_root(self.poly, self.index)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ensure_complexes_init(), ensure that our poly has entries in the complexes cache) over Any ║
+# ║ Path(_ensure_complexes_init(), <unspecified:_ensure_complexes_init>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ensure_complexes_init : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b66d933ee4c1743  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._ensure_complexes_init","kind":"method","src_hash":"1ce2c08f65362a2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ensure_complexes_init()","rhs":"ensure that our poly has entries in the complexes cache","over":{"base":"Any"},"name":"_ensure_complexes_init_correct"},"guarantee":"ensure that our poly has entries in the complexes cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._ensure_complexes_init_correct","statement":"Path(_ensure_complexes_init(x), ensure that our poly has entries in the complexes cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b66d933ee4c1743"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._ensure_complexes_init","kind":"method","src_hash":"1ce2c08f65362a2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ensure_complexes_init()","rhs":"<unspecified:_ensure_complexes_init>","over":{"base":"Any"},"name":"_ensure_complexes_init_correct"},"guarantee":"ensure that our poly has entries in the complexes cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._ensure_complexes_init_correct","statement":"Path(_ensure_complexes_init(x), ensure that our poly has entries in the complexes cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b66d933ee4c1743","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._indexed_root","self.index","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ensure_complexes_init(self):
         """Ensure that our poly has entries in the complexes cache. """
         if self.poly not in _complexes_cache:
@@ -1076,16 +1299,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_real_roots(cls), get real roots of a composite polynomial) over Any ║
+# ║ Path(_real_roots(cls, poly), <unspecified:_real_roots>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _real_roots : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c764bed564b989b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._real_roots","kind":"classmethod","src_hash":"a0c1586e19240bcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_real_roots(cls)","rhs":"get real roots of a composite polynomial","over":{"base":"Any"},"name":"_real_roots_correct"},"guarantee":"get real roots of a composite polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._real_roots_correct","statement":"Path(_real_roots(x), get real roots of a composite polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c764bed564b989b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._real_roots","kind":"classmethod","src_hash":"a0c1586e19240bcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_real_roots(cls, poly)","rhs":"<unspecified:_real_roots>","over":{"base":"Any"},"name":"_real_roots_correct"},"guarantee":"get real roots of a composite polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._real_roots_correct","statement":"Path(_real_roots(x), get real roots of a composite polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c764bed564b989b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _real_roots(cls, poly):
         """Get real roots of a composite polynomial. """
         factors = _pure_factors(poly)
@@ -1101,16 +1330,22 @@ class ComplexRootOf(RootOf):
         return roots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reset(), reset all intervals) over Any               ║
+# ║ Path(_reset(), <unspecified:_reset>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _reset : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fd61885c9ebc9fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._reset","kind":"method","src_hash":"b0de9ff25307f6b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reset()","rhs":"reset all intervals","over":{"base":"Any"},"name":"_reset_correct"},"guarantee":"reset all intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._reset_correct","statement":"Path(_reset(x), reset all intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fd61885c9ebc9fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._reset","kind":"method","src_hash":"b0de9ff25307f6b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reset()","rhs":"<unspecified:_reset>","over":{"base":"Any"},"name":"_reset_correct"},"guarantee":"reset all intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._reset_correct","statement":"Path(_reset(x), reset all intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fd61885c9ebc9fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._all_roots","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _reset(self):
         """
         Reset all intervals
@@ -1119,16 +1354,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_all_roots(cls), get real and complex roots of a composite polynomial) over Any ║
+# ║ Path(_all_roots(cls, poly, use_cache), <unspecified:_all_roots>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _all_roots : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d5ca7ae095e1a72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._all_roots","kind":"classmethod","src_hash":"53e30a665a2cabad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_all_roots(cls)","rhs":"get real and complex roots of a composite polynomial","over":{"base":"Any"},"name":"_all_roots_correct"},"guarantee":"get real and complex roots of a composite polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._all_roots_correct","statement":"Path(_all_roots(x), get real and complex roots of a composite polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d5ca7ae095e1a72"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._all_roots","kind":"classmethod","src_hash":"53e30a665a2cabad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_all_roots(cls, poly, use_cache)","rhs":"<unspecified:_all_roots>","over":{"base":"Any"},"name":"_all_roots_correct"},"guarantee":"get real and complex roots of a composite polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._all_roots_correct","statement":"Path(_all_roots(x), get real and complex roots of a composite polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d5ca7ae095e1a72","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _all_roots(cls, poly, use_cache=True):
         """Get real and complex roots of a composite polynomial. """
         factors = _pure_factors(poly)
@@ -1152,16 +1393,25 @@ class ComplexRootOf(RootOf):
     @classmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_roots_trivial(cls), compute roots in linear, quadratic and binomial cases) over Any ║
+# ║ Path(_roots_trivial(cls, poly, radicals), <unspecified:_roots_trivial>) over {Any | hasattr(poly, 'degree') and hasattr(poly, 'TC') and hasattr(poly, 'length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _roots_trivial : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'degree')                        ║
+# ║   requires: hasattr(poly, 'TC')                            ║
+# ║   requires: hasattr(poly, 'length')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _roots_trivial : {Any | hasattr(poly, 'degree') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ede2790acd7a42bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._roots_trivial","kind":"classmethod","src_hash":"b8991987b744e560","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_roots_trivial(cls)","rhs":"compute roots in linear, quadratic and binomial cases","over":{"base":"Any"},"name":"_roots_trivial_correct"},"guarantee":"compute roots in linear, quadratic and binomial cases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._roots_trivial_correct","statement":"Path(_roots_trivial(x), compute roots in linear, quadratic and binomial cases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede2790acd7a42bb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._roots_trivial","kind":"classmethod","src_hash":"b8991987b744e560","in":{"base":"Any","pred":"hasattr(poly, 'degree') and hasattr(poly, 'TC') and hasattr(poly, 'length')"},"out":{"base":"Any"},"spec":{"lhs":"_roots_trivial(cls, poly, radicals)","rhs":"<unspecified:_roots_trivial>","over":{"base":"Any","pred":"hasattr(poly, 'degree') and hasattr(poly, 'TC') and hasattr(poly, 'length')"},"name":"_roots_trivial_correct"},"guarantee":"compute roots in linear, quadratic and binomial cases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._roots_trivial_correct","statement":"Path(_roots_trivial(x), compute roots in linear, quadratic and binomial cases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede2790acd7a42bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'degree')","hasattr(poly, 'TC')","hasattr(poly, 'length')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.TC","poly.degree","poly.length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _roots_trivial(cls, poly, radicals):
         """Compute roots in linear, quadratic and binomial cases. """
         if poly.degree() == 1:
@@ -1179,16 +1429,25 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocess_roots(cls), take heroic measures to make ``poly`` compatible with ``crootof``) over Any ║
+# ║ Path(_preprocess_roots(cls, poly), (coeff, poly)) over {Any | dom.is_ZZ and hasattr(poly, 'get_domain') and hasattr(poly, 'to_exact')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _preprocess_roots : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: dom.is_ZZ                                      ║
+# ║   requires: hasattr(poly, 'get_domain')                    ║
+# ║   requires: hasattr(poly, 'to_exact')                      ║
+# ║   returns:  (coeff, poly)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _preprocess_roots : {Any | dom.is_ZZ and hasattr(poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80e3394088c0083d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1221c770fc8769a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._preprocess_roots","kind":"classmethod","src_hash":"c31ba461897256e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess_roots(cls)","rhs":"take heroic measures to make ``poly`` compatible with ``crootof``","over":{"base":"Any"},"name":"_preprocess_roots_correct"},"guarantee":"take heroic measures to make ``poly`` compatible with ``crootof``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._preprocess_roots_correct","statement":"Path(_preprocess_roots(x), take heroic measures to make ``poly`` compatible with ``crootof``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80e3394088c0083d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._preprocess_roots","kind":"classmethod","src_hash":"c31ba461897256e3","in":{"base":"Any","pred":"dom.is_ZZ and hasattr(poly, 'get_domain') and hasattr(poly, 'to_exact')"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess_roots(cls, poly)","rhs":"(coeff, poly)","over":{"base":"Any","pred":"dom.is_ZZ and hasattr(poly, 'get_domain') and hasattr(poly, 'to_exact')"},"name":"_preprocess_roots_correct"},"guarantee":"returns (coeff, poly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._preprocess_roots_correct","statement":"Path(_preprocess_roots(x), returns (coeff, poly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1221c770fc8769a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["dom.is_ZZ","hasattr(poly, 'get_domain')","hasattr(poly, 'to_exact')"],"returns_expr":"(coeff, poly)","pure":false,"effects":{"effect_type":"reads_state","reads":["poly.get_domain","poly.to_exact"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocess_roots(cls, poly):
         """Take heroic measures to make ``poly`` compatible with ``CRootOf``."""
         dom = poly.get_domain()
@@ -1207,16 +1466,25 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_postprocess_root(cls), return the root if it is trivial or a ``crootof`` object) over Any ║
+# ║ Path(_postprocess_root(cls, root, radicals), result == (roots[index] if roots is not None else cls._new(poly, index)) and result == roots[index] or result == cls._new(poly, index)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _postprocess_root : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (roots[index] if roots is not N...   ║
+# ║   ensures:  result == roots[index] or result == cls._...   ║
+# ║   fiber[case_0]: roots is not None => roots[index]         ║
+# ║   fiber[case_1]: not (roots is not None) => cls._new(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _postprocess_root : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f907af28481151fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a4a579a1c17a23e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._postprocess_root","kind":"classmethod","src_hash":"f5b057f3a6d45eb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_root(cls)","rhs":"return the root if it is trivial or a ``crootof`` object","over":{"base":"Any"},"name":"_postprocess_root_correct"},"guarantee":"return the root if it is trivial or a ``crootof`` object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._postprocess_root_correct","statement":"Path(_postprocess_root(x), return the root if it is trivial or a ``crootof`` object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f907af28481151fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._postprocess_root","kind":"classmethod","src_hash":"f5b057f3a6d45eb1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (roots[index] if roots is not None else cls._new(poly, index)) and result == roots[index] or result == cls._new(poly, index)"},"spec":{"lhs":"_postprocess_root(cls, root, radicals)","rhs":"result == (roots[index] if roots is not None else cls._new(poly, index)) and result == roots[index] or result == cls._new(poly, index)","over":{"base":"Any"},"name":"_postprocess_root_correct"},"guarantee":"result == (roots[index] if roots is not None else cls._new(poly, index)); result == roots[index] or result == cls._new(poly, index); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._postprocess_root_correct","statement":"Path(_postprocess_root(x), result == (roots[index] if roots is not None else cls._new(poly, index)); result == roots[index] or result == cls._new(poly, index); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a4a579a1c17a23e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (roots[index] if roots is not None else cls._new(poly, index))","result == roots[index] or result == cls._new(poly, index)"],"fibers":[{"name":"case_0","guard":"roots is not None","ensures":["result == roots[index]"],"decidability":"library","returns_expr":"roots[index]"},{"name":"case_1","guard":"not (roots is not None)","ensures":["result == cls._new(poly, index)"],"decidability":"library","returns_expr":"cls._new(poly, index)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new","cls._roots_trivial"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _postprocess_root(cls, root, radicals):
         """Return the root if it is trivial or a ``CRootOf`` object. """
         poly, index = root
@@ -1229,16 +1497,25 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_roots(cls), return postprocessed roots of specified kind) over Any ║
+# ║ Path(_get_roots(cls, method, poly), <unspecified:_get_roots>) over {Any | poly.is_univariate and hasattr(poly, 'is_univariate') and hasattr(poly, 'get_domain') and hasattr(poly, 'subs') and hasattr(poly, 'gen') and hasattr(poly, 'free_symbols') and hasattr(poly, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_roots : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: poly.is_univariate                             ║
+# ║   requires: hasattr(poly, 'is_univariate')                 ║
+# ║   requires: hasattr(poly, 'get_domain')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_roots : {Any | poly.is_univariate and hasattr(po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b159ba45fc324a66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_roots","kind":"classmethod","src_hash":"8b451858ea558617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_roots(cls)","rhs":"return postprocessed roots of specified kind","over":{"base":"Any"},"name":"_get_roots_correct"},"guarantee":"return postprocessed roots of specified kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_roots_correct","statement":"Path(_get_roots(x), return postprocessed roots of specified kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b159ba45fc324a66"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_roots","kind":"classmethod","src_hash":"8b451858ea558617","in":{"base":"Any","pred":"poly.is_univariate and hasattr(poly, 'is_univariate') and hasattr(poly, 'get_domain') and hasattr(poly, 'subs') and hasattr(poly, 'gen') and hasattr(poly, 'free_symbols') and hasattr(poly, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"_get_roots(cls, method, poly)","rhs":"<unspecified:_get_roots>","over":{"base":"Any","pred":"poly.is_univariate and hasattr(poly, 'is_univariate') and hasattr(poly, 'get_domain') and hasattr(poly, 'subs') and hasattr(poly, 'gen') and hasattr(poly, 'free_symbols') and hasattr(poly, 'replace')"},"name":"_get_roots_correct"},"guarantee":"return postprocessed roots of specified kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_roots_correct","statement":"Path(_get_roots(x), return postprocessed roots of specified kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b159ba45fc324a66","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["poly.is_univariate","hasattr(poly, 'is_univariate')","hasattr(poly, 'get_domain')","hasattr(poly, 'subs')","hasattr(poly, 'gen')","hasattr(poly, 'free_symbols')","hasattr(poly, 'replace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_roots_alg","cls._get_roots_qq","poly.free_symbols","poly.gen","poly.get_domain","poly.is_univariate","poly.replace","poly.subs"],"raises":["PolynomialError"]},"state_contract":{"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_roots(cls, method, poly, radicals):
         """Return postprocessed roots of specified kind. """
         if not poly.is_univariate:
@@ -1270,16 +1547,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_roots_qq(cls), return postprocessed roots of specified kind for polynomials with rational coefficients) over Any ║
+# ║ Path(_get_roots_qq(cls, method, poly), <unspecified:_get_roots_qq>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_roots_qq : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 566aca7455e752e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_roots_qq","kind":"classmethod","src_hash":"a0cc6210efb4591d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_roots_qq(cls)","rhs":"return postprocessed roots of specified kind for polynomials with rational coefficients","over":{"base":"Any"},"name":"_get_roots_qq_correct"},"guarantee":"return postprocessed roots of specified kind for polynomials with rational coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_roots_qq_correct","statement":"Path(_get_roots_qq(x), return postprocessed roots of specified kind for polynomials with rational coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"566aca7455e752e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_roots_qq","kind":"classmethod","src_hash":"a0cc6210efb4591d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_roots_qq(cls, method, poly)","rhs":"<unspecified:_get_roots_qq>","over":{"base":"Any"},"name":"_get_roots_qq_correct"},"guarantee":"return postprocessed roots of specified kind for polynomials with rational coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_roots_qq_correct","statement":"Path(_get_roots_qq(x), return postprocessed roots of specified kind for polynomials with rational coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"566aca7455e752e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_roots_qq(cls, method, poly, radicals):
         """Return postprocessed roots of specified kind
          for polynomials with rational coefficients. """
@@ -1293,16 +1576,24 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_roots_alg(cls), return postprocessed roots of specified kind for polynomials with algebraic coefficients) over Any ║
+# ║ Path(_get_roots_alg(cls, method, poly), <unspecified:_get_roots_alg>) over {Any | hasattr(poly, 'lift') and hasattr(poly, 'sqf_list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_roots_alg : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'lift')                          ║
+# ║   requires: hasattr(poly, 'sqf_list')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_roots_alg : {Any | hasattr(poly, 'lift') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43cf76b9a9c98e6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_roots_alg","kind":"classmethod","src_hash":"a7fd2949712a2c25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_roots_alg(cls)","rhs":"return postprocessed roots of specified kind for polynomials with algebraic coefficients","over":{"base":"Any"},"name":"_get_roots_alg_correct"},"guarantee":"return postprocessed roots of specified kind for polynomials with algebraic coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_roots_alg_correct","statement":"Path(_get_roots_alg(x), return postprocessed roots of specified kind for polynomials with algebraic coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43cf76b9a9c98e6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_roots_alg","kind":"classmethod","src_hash":"a7fd2949712a2c25","in":{"base":"Any","pred":"hasattr(poly, 'lift') and hasattr(poly, 'sqf_list')"},"out":{"base":"Any"},"spec":{"lhs":"_get_roots_alg(cls, method, poly)","rhs":"<unspecified:_get_roots_alg>","over":{"base":"Any","pred":"hasattr(poly, 'lift') and hasattr(poly, 'sqf_list')"},"name":"_get_roots_alg_correct"},"guarantee":"return postprocessed roots of specified kind for polynomials with algebraic coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_roots_alg_correct","statement":"Path(_get_roots_alg(x), return postprocessed roots of specified kind for polynomials with algebraic coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43cf76b9a9c98e6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'lift')","hasattr(poly, 'sqf_list')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_roots_alg(cls, method, poly, radicals):
         """Return postprocessed roots of specified kind
          for polynomials with algebraic coefficients. It assumes
@@ -1336,16 +1627,22 @@ class ComplexRootOf(RootOf):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clear_cache(cls), reset cache for reals and complexes) over Any ║
+# ║ Path(clear_cache(cls), <unspecified:clear_cache>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clear_cache : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc538051886cc04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.clear_cache","kind":"classmethod","src_hash":"85ac7642f9e73d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_cache(cls)","rhs":"reset cache for reals and complexes","over":{"base":"Any"},"name":"clear_cache_correct"},"guarantee":"reset cache for reals and complexes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf.clear_cache_correct","statement":"Path(clear_cache(x), reset cache for reals and complexes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc538051886cc04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.clear_cache","kind":"classmethod","src_hash":"85ac7642f9e73d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_cache(cls)","rhs":"<unspecified:clear_cache>","over":{"base":"Any"},"name":"clear_cache_correct"},"guarantee":"reset cache for reals and complexes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf.clear_cache_correct","statement":"Path(clear_cache(x), reset cache for reals and complexes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc538051886cc04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["_complexes_cache","_reals_cache"],"globals_written":["_complexes_cache","_reals_cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clear_cache(cls):
         """Reset cache for reals and complexes.
 
@@ -1364,16 +1661,25 @@ class ComplexRootOf(RootOf):
         _complexes_cache = _pure_key_dict()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_interval(), internal function for retrieving isolation interval from cache) over Any ║
+# ║ Path(_get_interval(), result == (_reals_cache[self.poly][self.index] if self.is_real else _complexes_cache[self.poly][self.index - reals_count]) and result == _reals_cache[self.poly][self.index] or result == _complexes_cache[self.poly][self.index - reals_count]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_interval : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (_reals_cache[self.poly][self.i...   ║
+# ║   ensures:  result == _reals_cache[self.poly][self.in...   ║
+# ║   fiber[case_0]: self.is_real => _reals_cache[self.po...   ║
+# ║   fiber[case_1]: not (self.is_real) => _complexes_cac...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_interval : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6121ec76d3e0c12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93c044e3673d5a26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_interval","kind":"method","src_hash":"2e33deef639127fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_interval()","rhs":"internal function for retrieving isolation interval from cache","over":{"base":"Any"},"name":"_get_interval_correct"},"guarantee":"internal function for retrieving isolation interval from cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_interval_correct","statement":"Path(_get_interval(x), internal function for retrieving isolation interval from cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6121ec76d3e0c12"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._get_interval","kind":"method","src_hash":"2e33deef639127fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (_reals_cache[self.poly][self.index] if self.is_real else _complexes_cache[self.poly][self.index - reals_count]) and result == _reals_cache[self.poly][self.index] or result == _complexes_cache[self.poly][self.index - reals_count]"},"spec":{"lhs":"_get_interval()","rhs":"result == (_reals_cache[self.poly][self.index] if self.is_real else _complexes_cache[self.poly][self.index - reals_count]) and result == _reals_cache[self.poly][self.index] or result == _complexes_cache[self.poly][self.index - reals_count]","over":{"base":"Any"},"name":"_get_interval_correct"},"guarantee":"result == (_reals_cache[self.poly][self.index] if self.is_real else _complexes_cache[self.poly][self.index - reals_count]); result == _reals_cache[self.poly][self.index] or result == _complexes_cache[self.poly][self.index - reals_count]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._get_interval_correct","statement":"Path(_get_interval(x), result == (_reals_cache[self.poly][self.index] if self.is_real else _complexes_cache[self.poly][self.index - reals_count]); result == _reals_cache[self.poly][self.index] or result == _complexes_cache[self.poly][self.index - reals_count]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93c044e3673d5a26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (_reals_cache[self.poly][self.index] if self.is_real else _complexes_cache[self.poly][self.index - reals_count])","result == _reals_cache[self.poly][self.index] or result == _complexes_cache[self.poly][self.index - reals_count]"],"fibers":[{"name":"case_0","guard":"self.is_real","ensures":["result == _reals_cache[self.poly][self.index]"],"decidability":"library","returns_expr":"_reals_cache[self.poly][self.index]"},{"name":"case_1","guard":"not (self.is_real)","ensures":["result == _complexes_cache[self.poly][self.index - reals_count]"],"decidability":"library","returns_expr":"_complexes_cache[self.poly][self.index - reals_count]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._ensure_complexes_init","self._ensure_reals_init","self.index","self.is_real","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_interval(self):
         """Internal function for retrieving isolation interval from cache. """
         self._ensure_reals_init()
@@ -1385,16 +1691,22 @@ class ComplexRootOf(RootOf):
             return _complexes_cache[self.poly][self.index - reals_count]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_interval(int), internal function for updating isolation interval in cache) over Any ║
+# ║ Path(_set_interval(interval), <unspecified:_set_interval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59da61cfb6725e5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._set_interval","kind":"method","src_hash":"48b22615e64369e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_interval(int)","rhs":"internal function for updating isolation interval in cache","over":{"base":"Any"},"name":"_set_interval_correct"},"guarantee":"internal function for updating isolation interval in cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._set_interval_correct","statement":"Path(_set_interval(x), internal function for updating isolation interval in cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59da61cfb6725e5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._set_interval","kind":"method","src_hash":"48b22615e64369e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_interval(interval)","rhs":"<unspecified:_set_interval>","over":{"base":"Any"},"name":"_set_interval_correct"},"guarantee":"internal function for updating isolation interval in cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._set_interval_correct","statement":"Path(_set_interval(x), internal function for updating isolation interval in cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59da61cfb6725e5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ensure_complexes_init","self._ensure_reals_init","self.index","self.is_real","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_interval(self, interval):
         """Internal function for updating isolation interval in cache. """
         self._ensure_reals_init()
@@ -1406,31 +1718,43 @@ class ComplexRootOf(RootOf):
             _complexes_cache[self.poly][self.index - reals_count] = interval
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bed1b4370caae03e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_subs","kind":"method","src_hash":"8f15175ded7e2dc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bed1b4370caae03e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_subs","kind":"method","src_hash":"8f15175ded7e2dc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bed1b4370caae03e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         # don't allow subs to change anything
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), <unspecified:_eval_conjugate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70a0f9841c2cfe97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_conjugate","kind":"method","src_hash":"226be4f4479aaaf8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a0f9841c2cfe97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_conjugate","kind":"method","src_hash":"226be4f4479aaaf8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"<unspecified:_eval_conjugate>","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a0f9841c2cfe97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_interval","self.args","self.func","self.is_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         if self.is_real:
             return self
@@ -1438,16 +1762,22 @@ class ComplexRootOf(RootOf):
         return self.func(expr, i + (1 if self._get_interval().conj else -1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_approx(n, ), evaluate this complex root to the given precision) over Any ║
+# ║ Path(eval_approx(n, return_mpmath), <unspecified:eval_approx>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_approx : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a31bd0edf964a36e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.eval_approx","kind":"method","src_hash":"353aa47153657d8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_approx(n, )","rhs":"evaluate this complex root to the given precision","over":{"base":"Any"},"name":"eval_approx_correct"},"guarantee":"evaluate this complex root to the given precision","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf.eval_approx_correct","statement":"Path(eval_approx(x), evaluate this complex root to the given precision)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a31bd0edf964a36e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.eval_approx","kind":"method","src_hash":"353aa47153657d8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_approx(n, return_mpmath)","rhs":"<unspecified:eval_approx>","over":{"base":"Any"},"name":"eval_approx_correct"},"guarantee":"evaluate this complex root to the given precision","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf.eval_approx_correct","statement":"Path(eval_approx(x), evaluate this complex root to the given precision)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a31bd0edf964a36e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_interval","self._set_interval","self.expr","self.is_imaginary","self.is_real","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_approx(self, n, return_mpmath=False):
         """Evaluate this complex root to the given precision.
 
@@ -1537,32 +1867,44 @@ class ComplexRootOf(RootOf):
             I*Float._new(root.imag._mpf_, prec))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), evaluate this complex root to the given precision) over Any ║
+# ║ Path(_eval_evalf(prec, **kwargs), self.eval_rational(n=prec_to_dps(prec))._evalf(prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.eval_rational(n=prec_to_dps(prec))._...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 876347fdbb2c29c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_evalf","kind":"method","src_hash":"aa48057d3ff92963","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"evaluate this complex root to the given precision","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"evaluate this complex root to the given precision","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"876347fdbb2c29c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf._eval_evalf","kind":"method","src_hash":"aa48057d3ff92963","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec, **kwargs)","rhs":"self.eval_rational(n=prec_to_dps(prec))._evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.eval_rational(n=prec_to_dps(prec))._evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"876347fdbb2c29c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.eval_rational(n=prec_to_dps(prec))._evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eval_rational"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec, **kwargs):
         """Evaluate this complex root to the given precision."""
         # all kwargs are ignored
         return self.eval_rational(n=prec_to_dps(prec))._evalf(prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_rational(dx,), return a rational approximation of ``self`` that has real and imaginary component approximations that are within ``dx`` and ``dy`` of the true values, respectively) over Any ║
+# ║ Path(eval_rational(dx, dy, n), real + I * imag) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  real + I * imag                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_rational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8db88dce2a2129fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8d5948a611ed445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.eval_rational","kind":"method","src_hash":"7842acb3792b1c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_rational(dx,)","rhs":"return a rational approximation of ``self`` that has real and imaginary component approximations that are within ``dx`` and ``dy`` of the true values, respectively","over":{"base":"Any"},"name":"eval_rational_correct"},"guarantee":"return a rational approximation of ``self`` that has real and imaginary component approximations that are within ``dx`` and ``dy`` of the true values, respectively","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf.eval_rational_correct","statement":"Path(eval_rational(x), return a rational approximation of ``self`` that has real and imaginary component approximations that are within ``dx`` and ``dy`` of the true values, respectively)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8db88dce2a2129fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.ComplexRootOf.eval_rational","kind":"method","src_hash":"7842acb3792b1c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_rational(dx, dy, n)","rhs":"real + I * imag","over":{"base":"Any"},"name":"eval_rational_correct"},"guarantee":"returns real + I * imag","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.ComplexRootOf.eval_rational_correct","statement":"Path(eval_rational(x), returns real + I * imag)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8d5948a611ed445","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"real + I * imag","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_interval","self._set_interval","self.is_imaginary","self.is_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_rational(self, dx=None, dy=None, n=15):
         """
         Return a Rational approximation of ``self`` that has real
@@ -1651,16 +1993,22 @@ CRootOf = ComplexRootOf
 
 @dispatch(ComplexRootOf, ComplexRootOf)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), lhs == rhs) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lhs == rhs                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_eq : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b4b50fb9686ff22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._eval_is_eq","kind":"function","src_hash":"2d8242f7f02a82b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b4b50fb9686ff22"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._eval_is_eq","kind":"function","src_hash":"2d8242f7f02a82b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"lhs == rhs","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"returns lhs == rhs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b4b50fb9686ff22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lhs == rhs","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _eval_is_eq(lhs, rhs): # noqa:F811
     # if we use is_eq to check here, we get infinite recursion
     return lhs == rhs
@@ -1668,16 +2016,26 @@ def _eval_is_eq(lhs, rhs): # noqa:F811
 
 @dispatch(ComplexRootOf, Basic)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), None not in s and len(lhs) == old_len_lhs - 1) over {Any | hasattr(lhs, 'is_real') and hasattr(rhs, 'is_number') and hasattr(rhs, 'is_finite') and hasattr(rhs, 'is_real') and hasattr(rhs, 'is_imaginary') and hasattr(lhs, 'is_imaginary') and hasattr(rhs, 'as_real_imag') and hasattr(lhs, '_get_interval') and hasattr(lhs, 'expr') and len(lhs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_eq : Any → {Any | None not in s}                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lhs, 'is_real')                        ║
+# ║   requires: hasattr(rhs, 'is_number')                      ║
+# ║   requires: hasattr(rhs, 'is_finite')                      ║
+# ║   ensures:  None not in s                                  ║
+# ║   ensures:  len(lhs) == old_len_lhs - 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_eq : {Any | hasattr(lhs, 'is_real') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3ee2d630913a3f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a87f4e374e3ec2af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._eval_is_eq","kind":"function","src_hash":"99eef4c4949c715f","in":{"base":"Any"},"out":{"base":"Any","pred":"None not in s"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3ee2d630913a3f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools._eval_is_eq","kind":"function","src_hash":"99eef4c4949c715f","in":{"base":"Any","pred":"hasattr(lhs, 'is_real') and hasattr(rhs, 'is_number') and hasattr(rhs, 'is_finite') and hasattr(rhs, 'is_real') and hasattr(rhs, 'is_imaginary') and hasattr(lhs, 'is_imaginary') and hasattr(rhs, 'as_real_imag') and hasattr(lhs, '_get_interval') and hasattr(lhs, 'expr') and len(lhs) > 0"},"out":{"base":"Any","pred":"result satisfies: None not in s and len(lhs) == old_len_lhs - 1"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"None not in s and len(lhs) == old_len_lhs - 1","over":{"base":"Any","pred":"hasattr(lhs, 'is_real') and hasattr(rhs, 'is_number') and hasattr(rhs, 'is_finite') and hasattr(rhs, 'is_real') and hasattr(rhs, 'is_imaginary') and hasattr(lhs, 'is_imaginary') and hasattr(rhs, 'as_real_imag') and hasattr(lhs, '_get_interval') and hasattr(lhs, 'expr') and len(lhs) > 0"},"name":"_eval_is_eq_correct"},"guarantee":"None not in s; len(lhs) == old_len_lhs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), None not in s; len(lhs) == old_len_lhs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a87f4e374e3ec2af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lhs, 'is_real')","hasattr(rhs, 'is_number')","hasattr(rhs, 'is_finite')","hasattr(rhs, 'is_real')","hasattr(rhs, 'is_imaginary')","hasattr(lhs, 'is_imaginary')","hasattr(rhs, 'as_real_imag')","hasattr(lhs, '_get_interval')","hasattr(lhs, 'expr')","len(lhs) > 0"],"ensures":["None not in s","len(lhs) == old_len_lhs - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["lhs._get_interval","lhs.expr","lhs.is_imaginary","lhs.is_real","rhs.as_real_imag","rhs.is_finite","rhs.is_imaginary","rhs.is_number","rhs.is_real"],"calls_mutating":["lhs.expr.free_symbols.pop"]},"state_contract":{"modifies":["lhs.*"],"old_bindings":{"old_len_lhs":"len(lhs)"},"pre_requires":["len(lhs) > 0"],"post_ensures":["len(lhs) == old_len_lhs - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _eval_is_eq(lhs, rhs): # noqa:F811
     # CRootOf represents a Root, so if rhs is that root, it should set
     # the expression to zero *and* it should be in the interval of the
@@ -1713,30 +2071,45 @@ def _eval_is_eq(lhs, rhs): # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RootSum instance) preserved by RootSum(*args) over {Any | isinstance(func, Lambda)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RootSum : {Any | isinstance(func, Lambda)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RootSum : {Any | isinstance(func, Lambda)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10f74ff5d5a65bd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum","kind":"class","src_hash":"bdbc0f2e117f5380","in":{"base":"Any","pred":"isinstance(func, Lambda)"},"out":{"base":"Any"},"spec":{"lhs":"RootSum(*args)","rhs":"correctly constructs a RootSum instance","over":{"base":"Any","pred":"isinstance(func, Lambda)"},"name":"RootSum_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RootSum instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_commutative","pred":"self.is_commutative","kind":"class"}],"methods_preserving":["_hashable_content","expr","args","free_symbols","is_commutative","doit","_eval_evalf","_eval_derivative"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10f74ff5d5a65bd4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum","kind":"class","src_hash":"bdbc0f2e117f5380","in":{"base":"Any","pred":"isinstance(func, Lambda)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"RootSum(*args)","rhs":"correctly constructs a RootSum instance","over":{"base":"Any","pred":"isinstance(func, Lambda)"},"name":"RootSum_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_commutative","pred":"self.is_commutative","kind":"class"}],"methods_preserving":["_hashable_content","expr","args","free_symbols","is_commutative","doit","_eval_evalf","_eval_derivative"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10f74ff5d5a65bd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function RootSum not found in source"]}}
 class RootSum(Expr):
     """Represents a sum of all roots of a univariate polynomial. """
 
     __slots__ = ('poly', 'fun', 'auto')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct a new ``rootsum`` instance of roots of a polynomial) over Any ║
+# ║ Path(__new__(cls, expr, func), len(terms) == old_len_terms + 1) over {Any | poly.is_univariate and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(func, 'expr') and hasattr(func, 'variables') and hasattr(expr, 'subs') and hasattr(expr, 'has') and hasattr(expr, 'as_independent') and hasattr(func, 'nargs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: poly.is_univariate                             ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ensures:  len(terms) == old_len_terms + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | poly.is_univariate and hasattr(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95718d15fcc6360c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.__new__","kind":"method","src_hash":"05310862b268dab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct a new ``rootsum`` instance of roots of a polynomial","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a new ``rootsum`` instance of roots of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95718d15fcc6360c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.__new__","kind":"method","src_hash":"05310862b268dab5","in":{"base":"Any","pred":"poly.is_univariate and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(func, 'expr') and hasattr(func, 'variables') and hasattr(expr, 'subs') and hasattr(expr, 'has') and hasattr(expr, 'as_independent') and hasattr(func, 'nargs')"},"out":{"base":"Any","pred":"result satisfies: len(terms) == old_len_terms + 1"},"spec":{"lhs":"__new__(cls, expr, func)","rhs":"len(terms) == old_len_terms + 1","over":{"base":"Any","pred":"poly.is_univariate and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(func, 'expr') and hasattr(func, 'variables') and hasattr(expr, 'subs') and hasattr(expr, 'has') and hasattr(expr, 'as_independent') and hasattr(func, 'nargs')"},"name":"__new___correct"},"guarantee":"len(terms) == old_len_terms + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95718d15fcc6360c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["poly.is_univariate","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(func, 'expr')","hasattr(func, 'variables')","hasattr(expr, 'subs')","hasattr(expr, 'has')","hasattr(expr, 'as_independent')","hasattr(func, 'nargs')"],"ensures":["len(terms) == old_len_terms + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._is_func_rational","cls._new","cls._rational_case","cls._transform","expr.as_independent","expr.has","expr.is_Add","expr.is_Mul","expr.subs","func.expr","func.nargs","func.variables"],"calls_mutating":["terms.append"],"raises":["MultivariatePolynomialError","ValueError"]},"state_contract":{"modifies":["terms.*"],"old_bindings":{"old_len_terms":"len(terms)"},"post_ensures":["len(terms) == old_len_terms + 1"],"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, func=None, x=None, auto=True, quadratic=False):
         """Construct a new ``RootSum`` instance of roots of a polynomial."""
         coeff, poly = cls._transform(expr, x)
@@ -1799,16 +2172,22 @@ class RootSum(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), construct new raw ``rootsum`` instance) over Any ║
+# ║ Path(_new(cls, poly, func), <unspecified:_new>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a832b7bb6550dcd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._new","kind":"classmethod","src_hash":"7025ead1733103ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"construct new raw ``rootsum`` instance","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"construct new raw ``rootsum`` instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._new_correct","statement":"Path(_new(x), construct new raw ``rootsum`` instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a832b7bb6550dcd6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._new","kind":"classmethod","src_hash":"7025ead1733103ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, poly, func)","rhs":"<unspecified:_new>","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"construct new raw ``rootsum`` instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._new_correct","statement":"Path(_new(x), construct new raw ``rootsum`` instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a832b7bb6550dcd6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, poly, func, auto=True):
         """Construct new raw ``RootSum`` instance. """
         obj = Expr.__new__(cls)
@@ -1821,16 +2200,24 @@ class RootSum(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(cls), construct new ``rootsum`` instance) over Any ║
+# ║ Path(new(cls, poly, func), <unspecified:new>) over {Any | hasattr(func, 'expr') and hasattr(func, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ new : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'expr')                          ║
+# ║   requires: hasattr(func, 'variables')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ new : {Any | hasattr(func, 'expr') and hasattr(func, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0279d868de03572  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.new","kind":"classmethod","src_hash":"dbe7165871cf53ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(cls)","rhs":"construct new ``rootsum`` instance","over":{"base":"Any"},"name":"new_correct"},"guarantee":"construct new ``rootsum`` instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum.new_correct","statement":"Path(new(x), construct new ``rootsum`` instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0279d868de03572"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.new","kind":"classmethod","src_hash":"dbe7165871cf53ca","in":{"base":"Any","pred":"hasattr(func, 'expr') and hasattr(func, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"new(cls, poly, func)","rhs":"<unspecified:new>","over":{"base":"Any","pred":"hasattr(func, 'expr') and hasattr(func, 'variables')"},"name":"new_correct"},"guarantee":"construct new ``rootsum`` instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum.new_correct","statement":"Path(new(x), construct new ``rootsum`` instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0279d868de03572","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'expr')","hasattr(func, 'variables')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._is_func_rational","cls._new","cls._rational_case","func.expr","func.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(cls, poly, func, auto=True):
         """Construct new ``RootSum`` instance. """
         if not func.expr.has(*func.variables):
@@ -1845,16 +2232,22 @@ class RootSum(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform(cls), transform an expression to a polynomial) over Any ║
+# ║ Path(_transform(cls, expr, x), preprocess_roots(poly)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  preprocess_roots(poly)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 972959c33b4b8e60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18a586e58658f388  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._transform","kind":"classmethod","src_hash":"b776927a0e0dbc9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform(cls)","rhs":"transform an expression to a polynomial","over":{"base":"Any"},"name":"_transform_correct"},"guarantee":"transform an expression to a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._transform_correct","statement":"Path(_transform(x), transform an expression to a polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"972959c33b4b8e60"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._transform","kind":"classmethod","src_hash":"b776927a0e0dbc9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform(cls, expr, x)","rhs":"preprocess_roots(poly)","over":{"base":"Any"},"name":"_transform_correct"},"guarantee":"returns preprocess_roots(poly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._transform_correct","statement":"Path(_transform(x), returns preprocess_roots(poly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18a586e58658f388","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"preprocess_roots(poly)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _transform(cls, expr, x):
         """Transform an expression to a polynomial. """
         poly = PurePoly(expr, x, greedy=False)
@@ -1862,16 +2255,24 @@ class RootSum(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_func_rational(cls), check if a lambda is a rational function) over Any ║
+# ║ Path(_is_func_rational(cls, poly, func), expr.is_rational_function(var)) over {Any | hasattr(func, 'expr') and hasattr(func, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_func_rational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'expr')                          ║
+# ║   requires: hasattr(func, 'variables')                     ║
+# ║   returns:  expr.is_rational_function(var)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_func_rational : {Any | hasattr(func, 'expr') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e075b517e6551c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fed247ef27f402b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._is_func_rational","kind":"classmethod","src_hash":"09f06cc067e42185","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_func_rational(cls)","rhs":"check if a lambda is a rational function","over":{"base":"Any"},"name":"_is_func_rational_correct"},"guarantee":"check if a lambda is a rational function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._is_func_rational_correct","statement":"Path(_is_func_rational(x), check if a lambda is a rational function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e075b517e6551c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._is_func_rational","kind":"classmethod","src_hash":"09f06cc067e42185","in":{"base":"Any","pred":"hasattr(func, 'expr') and hasattr(func, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_is_func_rational(cls, poly, func)","rhs":"expr.is_rational_function(var)","over":{"base":"Any","pred":"hasattr(func, 'expr') and hasattr(func, 'variables')"},"name":"_is_func_rational_correct"},"guarantee":"returns expr.is_rational_function(var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._is_func_rational_correct","statement":"Path(_is_func_rational(x), returns expr.is_rational_function(var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fed247ef27f402b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'expr')","hasattr(func, 'variables')"],"returns_expr":"expr.is_rational_function(var)","pure":false,"effects":{"effect_type":"reads_state","reads":["func.expr","func.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_func_rational(cls, poly, func):
         """Check if a lambda is a rational function. """
         var, expr = func.variables[0], func.expr
@@ -1879,16 +2280,25 @@ class RootSum(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rational_case(cls), handle the rational function case) over Any ║
+# ║ Path(_rational_case(cls, poly, func), factor(p / q)) over {Any | hasattr(func, 'expr') and hasattr(func, 'variables') and hasattr(poly, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rational_case : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'expr')                          ║
+# ║   requires: hasattr(func, 'variables')                     ║
+# ║   requires: hasattr(poly, 'degree')                        ║
+# ║   returns:  factor(p / q)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rational_case : {Any | hasattr(func, 'expr') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 238bcb6a1902c4fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbbfbed8b91e18b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._rational_case","kind":"classmethod","src_hash":"1f9c5aec9ff0e8c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rational_case(cls)","rhs":"handle the rational function case","over":{"base":"Any"},"name":"_rational_case_correct"},"guarantee":"handle the rational function case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._rational_case_correct","statement":"Path(_rational_case(x), handle the rational function case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238bcb6a1902c4fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._rational_case","kind":"classmethod","src_hash":"1f9c5aec9ff0e8c9","in":{"base":"Any","pred":"hasattr(func, 'expr') and hasattr(func, 'variables') and hasattr(poly, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"_rational_case(cls, poly, func)","rhs":"factor(p / q)","over":{"base":"Any","pred":"hasattr(func, 'expr') and hasattr(func, 'variables') and hasattr(poly, 'degree')"},"name":"_rational_case_correct"},"guarantee":"returns factor(p / q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._rational_case_correct","statement":"Path(_rational_case(x), returns factor(p / q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbbfbed8b91e18b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'expr')","hasattr(func, 'variables')","hasattr(poly, 'degree')"],"returns_expr":"factor(p / q)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rational_case(cls, poly, func):
         """Handle the rational function case. """
         roots = symbols('r:%d' % poly.degree())
@@ -1943,90 +2353,126 @@ class RootSum(Expr):
         return factor(p/q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), (self.poly, self.fun)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.poly, self.fun)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6626941f2ed70027           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._hashable_content","kind":"method","src_hash":"8845c4b43ba5167d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6626941f2ed70027"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._hashable_content","kind":"method","src_hash":"8845c4b43ba5167d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"(self.poly, self.fun)","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns (self.poly, self.fun)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6626941f2ed70027","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.poly, self.fun)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fun","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return (self.poly, self.fun)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.poly.as_expr()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.poly.as_expr()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8c2bb73891b469e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.expr","kind":"property","src_hash":"b0a4c9b4fc70d70a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8c2bb73891b469e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.expr","kind":"property","src_hash":"b0a4c9b4fc70d70a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.poly.as_expr()","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.poly.as_expr()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8c2bb73891b469e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.poly.as_expr()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.poly.as_expr()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (self.expr, self.fun, self.poly.gen)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.expr, self.fun, self.poly.gen)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be3f1048a03c544f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.args","kind":"property","src_hash":"15a62c9aba3f0a5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be3f1048a03c544f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.args","kind":"property","src_hash":"15a62c9aba3f0a5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(self.expr, self.fun, self.poly.gen)","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (self.expr, self.fun, self.poly.gen)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be3f1048a03c544f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.expr, self.fun, self.poly.gen)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.fun","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return (self.expr, self.fun, self.poly.gen)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), self.poly.free_symbols | self.fun.free_symbols) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.poly.free_symbols | self.fun.free_sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b307d80edaccef0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.free_symbols","kind":"property","src_hash":"79364b1d16ed1868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b307d80edaccef0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.free_symbols","kind":"property","src_hash":"79364b1d16ed1868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"self.poly.free_symbols | self.fun.free_symbols","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns self.poly.free_symbols | self.fun.free_symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b307d80edaccef0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.poly.free_symbols | self.fun.free_symbols","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fun","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return self.poly.free_symbols | self.fun.free_symbols
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_commutative(), returns the is_commutative attribute) over Any ║
+# ║ Path(is_commutative(), True) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_commutative : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0227ee2a61a76a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.is_commutative","kind":"property","src_hash":"75631fa67a4533f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative()","rhs":"returns the is_commutative attribute","over":{"base":"Any"},"name":"is_commutative_correct"},"guarantee":"returns the is_commutative attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0227ee2a61a76a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.is_commutative","kind":"property","src_hash":"75631fa67a4533f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative()","rhs":"True","over":{"base":"Any"},"name":"is_commutative_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0227ee2a61a76a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_commutative(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac985b8d946004b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.doit","kind":"method","src_hash":"27e561fe55b14324","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac985b8d946004b8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum.doit","kind":"method","src_hash":"27e561fe55b14324","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac985b8d946004b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fun","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if not hints.get('roots', True):
             return self
@@ -2039,16 +2485,22 @@ class RootSum(Expr):
             return Add(*[self.fun(r) for r in _roots])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7126fc88ef7e3c10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._eval_evalf","kind":"method","src_hash":"cc08611312df7d16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7126fc88ef7e3c10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._eval_evalf","kind":"method","src_hash":"cc08611312df7d16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7126fc88ef7e3c10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fun","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         try:
             _roots = self.poly.nroots(n=prec_to_dps(prec))
@@ -2058,16 +2510,22 @@ class RootSum(Expr):
             return Add(*[self.fun(r) for r in _roots])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), self.new(self.poly, func, self.auto)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new(self.poly, func, self.auto)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9123bc1d38faaa3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b316f63eb35246de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._eval_derivative","kind":"method","src_hash":"2275505ffe352255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9123bc1d38faaa3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootoftools.RootSum._eval_derivative","kind":"method","src_hash":"2275505ffe352255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"self.new(self.poly, func, self.auto)","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.new(self.poly, func, self.auto)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootoftools.RootSum._eval_derivative_correct","statement":"Path(_eval_derivative(x), returns self.new(self.poly, func, self.auto))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b316f63eb35246de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new(self.poly, func, self.auto)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.auto","self.fun","self.new","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         var, expr = self.fun.args
         func = Lambda(var, expr.diff(x))

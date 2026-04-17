@@ -40,16 +40,24 @@ from sympy.abc import x, y, a, b, c
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart(), test_apart produces the expected output) over Any ║
+# ║ Path(test_apart(), apart(1) == 1 and apart(1, x) == 1 and apart(f, full=False) == g and apart(f, full=True) == g and apart((E * x + 2) / (x - pi) * (x - 1), x) == 2 - E + E * pi + E * x + (E * pi + 2) * (pi - 1) / (x - pi) and apart(Eq((x ** 2 + 1) / (x + 1), x), x) == Eq(x - 1 + 2 / (x + 1), x) and apart(x / 2, y) == x / 2 and apart(f, x, full=False) == g and apart(f, x, full=True) == g and apart(f, y, full=False) == g and apart(f, y, full=True) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart : Any → {Any | apart(1) == 1 and apart(1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(1) == 1                                  ║
+# ║   ensures:  apart(1, x) == 1                               ║
+# ║   ensures:  apart(f, full=False) == g                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart : Any → {Any | result satisfies: apart(1) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80586a65b837ebfd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b7a0d42d64e749b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart","kind":"function","src_hash":"45d3f4f65e9ad859","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(1) == 1 and apart(1, x) == 1 and apart(f, full=False) == g and apart(f, full=True) == g and apart(f, full=False) == g and apart(f, full=True) == g and apart(f, full=False) == g and apart(f, full=True) == g and apart(Eq((x ** 2 + 1) / (x + 1), x), x) == Eq(x - 1 + 2 / (x + 1), x) and apart(x / 2, y) == x / 2 and apart(f, x, full=False) == g and apart(f, x, full=True) == g and apart(f, y, full=False) == g and apart(f, y, full=True) == g"},"spec":{"lhs":"test_apart()","rhs":"test_apart produces the expected output","over":{"base":"Any"},"name":"test_apart_correct"},"guarantee":"test_apart produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_correct","statement":"Path(test_apart(x), test_apart produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80586a65b837ebfd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart","kind":"function","src_hash":"45d3f4f65e9ad859","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(1) == 1 and apart(1, x) == 1 and apart(f, full=False) == g and apart(f, full=True) == g and apart((E * x + 2) / (x - pi) * (x - 1), x) == 2 - E + E * pi + E * x + (E * pi + 2) * (pi - 1) / (x - pi) and apart(Eq((x ** 2 + 1) / (x + 1), x), x) == Eq(x - 1 + 2 / (x + 1), x) and apart(x / 2, y) == x / 2 and apart(f, x, full=False) == g and apart(f, x, full=True) == g and apart(f, y, full=False) == g and apart(f, y, full=True) == g"},"spec":{"lhs":"test_apart()","rhs":"apart(1) == 1 and apart(1, x) == 1 and apart(f, full=False) == g and apart(f, full=True) == g and apart((E * x + 2) / (x - pi) * (x - 1), x) == 2 - E + E * pi + E * x + (E * pi + 2) * (pi - 1) / (x - pi) and apart(Eq((x ** 2 + 1) / (x + 1), x), x) == Eq(x - 1 + 2 / (x + 1), x) and apart(x / 2, y) == x / 2 and apart(f, x, full=False) == g and apart(f, x, full=True) == g and apart(f, y, full=False) == g and apart(f, y, full=True) == g","over":{"base":"Any"},"name":"test_apart_correct"},"guarantee":"apart(1) == 1; apart(1, x) == 1; apart(f, full=False) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_correct","statement":"Path(test_apart(x), apart(1) == 1; apart(1, x) == 1; apart(f, full=False) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b7a0d42d64e749b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(1) == 1","apart(1, x) == 1","apart(f, full=False) == g","apart(f, full=True) == g","apart((E * x + 2) / (x - pi) * (x - 1), x) == 2 - E + E * pi + E * x + (E * pi + 2) * (pi - 1) / (x - pi)","apart(Eq((x ** 2 + 1) / (x + 1), x), x) == Eq(x - 1 + 2 / (x + 1), x)","apart(x / 2, y) == x / 2","apart(f, x, full=False) == g","apart(f, x, full=True) == g","apart(f, y, full=False) == g","apart(f, y, full=True) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_apart():
     assert apart(1) == 1
     assert apart(1, x) == 1
@@ -90,16 +98,22 @@ def test_apart():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_matrix(), test_apart_matrix produces the expected output) over Any ║
+# ║ Path(test_apart_matrix(), apart(M) == Matrix([[1 / x - 1 / (x + 1), (x + 1) ** (-2)], [1 / (2 * x) - S.Half / (x + 2), 1 / (x + 1) - 1 / (x + 2)]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_matrix : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(M) == Matrix([[1 / x - 1 / (x + 1),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_matrix : Any → {Any | result satisfies: ap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cf855aab3475843  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1f467130eb5e09f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_matrix","kind":"function","src_hash":"b9127c60109b4337","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_apart_matrix()","rhs":"test_apart_matrix produces the expected output","over":{"base":"Any"},"name":"test_apart_matrix_correct"},"guarantee":"test_apart_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_matrix_correct","statement":"Path(test_apart_matrix(x), test_apart_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cf855aab3475843"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_matrix","kind":"function","src_hash":"b9127c60109b4337","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(M) == Matrix([[1 / x - 1 / (x + 1), (x + 1) ** (-2)], [1 / (2 * x) - S.Half / (x + 2), 1 / (x + 1) - 1 / (x + 2)]])"},"spec":{"lhs":"test_apart_matrix()","rhs":"apart(M) == Matrix([[1 / x - 1 / (x + 1), (x + 1) ** (-2)], [1 / (2 * x) - S.Half / (x + 2), 1 / (x + 1) - 1 / (x + 2)]])","over":{"base":"Any"},"name":"test_apart_matrix_correct"},"guarantee":"apart(M) == Matrix([[1 / x - 1 / (x + 1), (x + 1) ** (-2)], [1 / (2 * x) - S.Half / (x + 2), 1 / (x + 1) - 1 / (x + 2)]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_matrix_correct","statement":"Path(test_apart_matrix(x), apart(M) == Matrix([[1 / x - 1 / (x + 1), (x + 1) ** (-2)], [1 / (2 * x) - S.Half / (x + 2), 1 / (x + 1) - 1 / (x + 2)]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f467130eb5e09f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(M) == Matrix([[1 / x - 1 / (x + 1), (x + 1) ** (-2)], [1 / (2 * x) - S.Half / (x + 2), 1 / (x + 1) - 1 / (x + 2)]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_apart_matrix():
     M = Matrix(2, 2, lambda i, j: 1/(x + i + 1)/(x + j))
 
@@ -110,16 +124,23 @@ def test_apart_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_symbolic(), test_apart_symbolic produces the expected output) over Any ║
+# ║ Path(test_apart_symbolic(), apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2) and apart(1 / ((x + a) * (x + b) * (x + c)), x) == 1 / ((a - c) * (b - c) * (c + x)) - 1 / ((a - b) * (b - c) * (b + x)) + 1 / ((a - b) * (a - c) * (a + x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_symbolic : Any → {Any | apart(f / g, x) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(f / g, x) == 1 / a - 1 / (x + c) **...   ║
+# ║   ensures:  apart(1 / ((x + a) * (x + b) * (x + c)), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_symbolic : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c98ec8949fba394  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 996c49776cfbc821  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_symbolic","kind":"function","src_hash":"55f2b39d8a35f5b8","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2)"},"spec":{"lhs":"test_apart_symbolic()","rhs":"test_apart_symbolic produces the expected output","over":{"base":"Any"},"name":"test_apart_symbolic_correct"},"guarantee":"test_apart_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_symbolic_correct","statement":"Path(test_apart_symbolic(x), test_apart_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c98ec8949fba394"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_symbolic","kind":"function","src_hash":"55f2b39d8a35f5b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2) and apart(1 / ((x + a) * (x + b) * (x + c)), x) == 1 / ((a - c) * (b - c) * (c + x)) - 1 / ((a - b) * (b - c) * (b + x)) + 1 / ((a - b) * (a - c) * (a + x))"},"spec":{"lhs":"test_apart_symbolic()","rhs":"apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2) and apart(1 / ((x + a) * (x + b) * (x + c)), x) == 1 / ((a - c) * (b - c) * (c + x)) - 1 / ((a - b) * (b - c) * (b + x)) + 1 / ((a - b) * (a - c) * (a + x))","over":{"base":"Any"},"name":"test_apart_symbolic_correct"},"guarantee":"apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2); apart(1 / ((x + a) * (x + b) * (x + c)), x) == 1 / ((a - c) * (b - c) * (c + x)) - 1 / ((a - b) * (b - c) * (b + x)) + 1 / ((a - b) * (a - c) * (a + x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_symbolic_correct","statement":"Path(test_apart_symbolic(x), apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2); apart(1 / ((x + a) * (x + b) * (x + c)), x) == 1 / ((a - c) * (b - c) * (c + x)) - 1 / ((a - b) * (b - c) * (b + x)) + 1 / ((a - b) * (a - c) * (a + x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"996c49776cfbc821","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(f / g, x) == 1 / a - 1 / (x + c) ** 2 - b ** 2 / (a * (a * x + b) ** 2)","apart(1 / ((x + a) * (x + b) * (x + c)), x) == 1 / ((a - c) * (b - c) * (c + x)) - 1 / ((a - b) * (b - c) * (b + x)) + 1 / ((a - b) * (a - c) * (a + x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_apart_symbolic():
     f = a*x**4 + (2*b + 2*a*c)*x**3 + (4*b*c - a**2 + a*c**2)*x**2 + \
         (-2*a*b + 2*b*c**2)*x - b**2
@@ -134,16 +155,22 @@ def test_apart_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_extension_example(), internal helper behaves correctly) over Any ║
+# ║ Path(_make_extension_example(), <unspecified:_make_extension_example>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _make_extension_example : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c9144ca658c04ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac._make_extension_example","kind":"function","src_hash":"c75a97ac07934eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_extension_example()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_make_extension_example_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac._make_extension_example_correct","statement":"Path(_make_extension_example(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c9144ca658c04ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac._make_extension_example","kind":"function","src_hash":"c75a97ac07934eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_extension_example()","rhs":"<unspecified:_make_extension_example>","over":{"base":"Any"},"name":"_make_extension_example_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac._make_extension_example_correct","statement":"Path(_make_extension_example(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c9144ca658c04ce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _make_extension_example():
     # https://github.com/sympy/sympy/issues/18531
     from sympy.core import Mul
@@ -162,16 +189,24 @@ def _make_extension_example():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_extension(), test_apart_extension produces the expected output) over Any ║
+# ║ Path(test_apart_extension(), apart(f, extension=I) == g and apart(f, gaussian=True) == g and factor(together(apart(f)).expand()) == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_extension : Any → {Any | apart(f, extensio...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(f, extension=I) == g                     ║
+# ║   ensures:  apart(f, gaussian=True) == g                   ║
+# ║   ensures:  factor(together(apart(f)).expand()) == f       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_extension : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c7038b243f3dca6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edbc0b9ce169c9e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_extension","kind":"function","src_hash":"2cf7f1cfadd0be94","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(f, extension=I) == g and apart(f, gaussian=True) == g and factor(together(apart(f)).expand()) == f and apart(f, x, extension={sqrt(2)}) == g"},"spec":{"lhs":"test_apart_extension()","rhs":"test_apart_extension produces the expected output","over":{"base":"Any"},"name":"test_apart_extension_correct"},"guarantee":"test_apart_extension produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_extension_correct","statement":"Path(test_apart_extension(x), test_apart_extension produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c7038b243f3dca6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_extension","kind":"function","src_hash":"2cf7f1cfadd0be94","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(f, extension=I) == g and apart(f, gaussian=True) == g and factor(together(apart(f)).expand()) == f"},"spec":{"lhs":"test_apart_extension()","rhs":"apart(f, extension=I) == g and apart(f, gaussian=True) == g and factor(together(apart(f)).expand()) == f","over":{"base":"Any"},"name":"test_apart_extension_correct"},"guarantee":"apart(f, extension=I) == g; apart(f, gaussian=True) == g; factor(together(apart(f)).expand()) == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_extension_correct","statement":"Path(test_apart_extension(x), apart(f, extension=I) == g; apart(f, gaussian=True) == g; factor(together(apart(f)).expand()) == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edbc0b9ce169c9e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(f, extension=I) == g","apart(f, gaussian=True) == g","factor(together(apart(f)).expand()) == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_apart_extension():
     f = 2/(x**2 + 1)
     g = I/(x + I) - I/(x - I)
@@ -192,32 +227,46 @@ def test_apart_extension():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_extension_xfail(), test_apart_extension_xfail produces the expected output) over Any ║
+# ║ Path(test_apart_extension_xfail(), apart(f, x, extension={sqrt(2)}) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_extension_xfail : Any → {Any | apart(f, x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(f, x, extension={sqrt(2)}) == g          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_extension_xfail : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dc7bed3a6fc4e41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e089dabb82704f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_extension_xfail","kind":"function","src_hash":"f4f16b84755c3b20","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(f, x, extension={sqrt(2)}) == g"},"spec":{"lhs":"test_apart_extension_xfail()","rhs":"test_apart_extension_xfail produces the expected output","over":{"base":"Any"},"name":"test_apart_extension_xfail_correct"},"guarantee":"test_apart_extension_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_extension_xfail_correct","statement":"Path(test_apart_extension_xfail(x), test_apart_extension_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dc7bed3a6fc4e41"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_extension_xfail","kind":"function","src_hash":"f4f16b84755c3b20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(f, x, extension={sqrt(2)}) == g"},"spec":{"lhs":"test_apart_extension_xfail()","rhs":"apart(f, x, extension={sqrt(2)}) == g","over":{"base":"Any"},"name":"test_apart_extension_xfail_correct"},"guarantee":"apart(f, x, extension={sqrt(2)}) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_extension_xfail_correct","statement":"Path(test_apart_extension_xfail(x), apart(f, x, extension={sqrt(2)}) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e089dabb82704f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(f, x, extension={sqrt(2)}) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_apart_extension_xfail():
     f, g = _make_extension_example()
     assert apart(f, x, extension={sqrt(2)}) == g
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_full(), test_apart_full produces the expected output) over Any ║
+# ║ Path(test_apart_full(), apart(f, full=False) == f and apart(f, full=True).dummy_eq(-RootSum(x ** 2 + 1, Lambda(a, a / (x - a)), auto=False) / 2) and apart(f, full=True).dummy_eq(RootSum(x ** 3 + x + 1, Lambda(a, (a ** 2 * Rational(6, 31) - a * Rational(9, 31) + Rational(4, 31)) / (x - a)), auto=False)) and apart(f, full=False) == Rational(-1, 5) * ((x ** 3 - 2 * x ** 2 + 3 * x - 4) / (x ** 4 - x ** 3 + x ** 2 - x + 1)) + Rational(1, 5) / (x + 1) and apart(f, full=True).dummy_eq(-RootSum(x ** 4 - x ** 3 + x ** 2 - x + 1, Lambda(a, a / (x - a)), auto=False) / 5 + Rational(1, 5) / (x + 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_full : Any → {Any | apart(f, full=False) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(f, full=False) == f                      ║
+# ║   ensures:  apart(f, full=True).dummy_eq(-RootSum(x *...   ║
+# ║   ensures:  apart(f, full=True).dummy_eq(RootSum(x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_full : Any → {Any | result satisfies: apar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23f95bd4366d8df7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a650058ea365ee4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_full","kind":"function","src_hash":"743585fec969ec40","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(f, full=False) == f and apart(f, full=False) == f"},"spec":{"lhs":"test_apart_full()","rhs":"test_apart_full produces the expected output","over":{"base":"Any"},"name":"test_apart_full_correct"},"guarantee":"test_apart_full produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_full_correct","statement":"Path(test_apart_full(x), test_apart_full produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f95bd4366d8df7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_full","kind":"function","src_hash":"743585fec969ec40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(f, full=False) == f and apart(f, full=True).dummy_eq(-RootSum(x ** 2 + 1, Lambda(a, a / (x - a)), auto=False) / 2) and apart(f, full=True).dummy_eq(RootSum(x ** 3 + x + 1, Lambda(a, (a ** 2 * Rational(6, 31) - a * Rational(9, 31) + Rational(4, 31)) / (x - a)), auto=False)) and apart(f, full=False) == Rational(-1, 5) * ((x ** 3 - 2 * x ** 2 + 3 * x - 4) / (x ** 4 - x ** 3 + x ** 2 - x + 1)) + Rational(1, 5) / (x + 1) and apart(f, full=True).dummy_eq(-RootSum(x ** 4 - x ** 3 + x ** 2 - x + 1, Lambda(a, a / (x - a)), auto=False) / 5 + Rational(1, 5) / (x + 1))"},"spec":{"lhs":"test_apart_full()","rhs":"apart(f, full=False) == f and apart(f, full=True).dummy_eq(-RootSum(x ** 2 + 1, Lambda(a, a / (x - a)), auto=False) / 2) and apart(f, full=True).dummy_eq(RootSum(x ** 3 + x + 1, Lambda(a, (a ** 2 * Rational(6, 31) - a * Rational(9, 31) + Rational(4, 31)) / (x - a)), auto=False)) and apart(f, full=False) == Rational(-1, 5) * ((x ** 3 - 2 * x ** 2 + 3 * x - 4) / (x ** 4 - x ** 3 + x ** 2 - x + 1)) + Rational(1, 5) / (x + 1) and apart(f, full=True).dummy_eq(-RootSum(x ** 4 - x ** 3 + x ** 2 - x + 1, Lambda(a, a / (x - a)), auto=False) / 5 + Rational(1, 5) / (x + 1))","over":{"base":"Any"},"name":"test_apart_full_correct"},"guarantee":"apart(f, full=False) == f; apart(f, full=True).dummy_eq(-RootSum(x ** 2 + 1, Lambda(a, a / (x - a)), auto=False) / 2); apart(f, full=True).dummy_eq(RootSum(x ** 3 + x + 1, Lambda(a, (a ** 2 * Rational(6, 31) - a * Rational(9, 31) + Rational(4, 31)) / (x - a)), auto=False))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_full_correct","statement":"Path(test_apart_full(x), apart(f, full=False) == f; apart(f, full=True).dummy_eq(-RootSum(x ** 2 + 1, Lambda(a, a / (x - a)), auto=False) / 2); apart(f, full=True).dummy_eq(RootSum(x ** 3 + x + 1, Lambda(a, (a ** 2 * Rational(6, 31) - a * Rational(9, 31) + Rational(4, 31)) / (x - a)), auto=False)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a650058ea365ee4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(f, full=False) == f","apart(f, full=True).dummy_eq(-RootSum(x ** 2 + 1, Lambda(a, a / (x - a)), auto=False) / 2)","apart(f, full=True).dummy_eq(RootSum(x ** 3 + x + 1, Lambda(a, (a ** 2 * Rational(6, 31) - a * Rational(9, 31) + Rational(4, 31)) / (x - a)), auto=False))","apart(f, full=False) == Rational(-1, 5) * ((x ** 3 - 2 * x ** 2 + 3 * x - 4) / (x ** 4 - x ** 3 + x ** 2 - x + 1)) + Rational(1, 5) / (x + 1)","apart(f, full=True).dummy_eq(-RootSum(x ** 4 - x ** 3 + x ** 2 - x + 1, Lambda(a, a / (x - a)), auto=False) / 5 + Rational(1, 5) / (x + 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_apart_full():
     f = 1/(x**2 + 1)
 
@@ -243,16 +292,22 @@ def test_apart_full():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_full_floats(), test_apart_full_floats produces the expected output) over Any ║
+# ║ Path(test_apart_full_floats(), all_close(f_apart, expected, rtol=0.001, atol=1e-05)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_full_floats : Any → {Any | all_close(f_apa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all_close(f_apart, expected, rtol=0.001, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_full_floats : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be16c6170c2468d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 228c2eefac9ea9bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_full_floats","kind":"function","src_hash":"46ab671adb7458c1","in":{"base":"Any"},"out":{"base":"Any","pred":"all_close(f_apart, expected, rtol=0.001, atol=1e-05)"},"spec":{"lhs":"test_apart_full_floats()","rhs":"test_apart_full_floats produces the expected output","over":{"base":"Any"},"name":"test_apart_full_floats_correct"},"guarantee":"test_apart_full_floats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_full_floats_correct","statement":"Path(test_apart_full_floats(x), test_apart_full_floats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be16c6170c2468d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_full_floats","kind":"function","src_hash":"46ab671adb7458c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all_close(f_apart, expected, rtol=0.001, atol=1e-05)"},"spec":{"lhs":"test_apart_full_floats()","rhs":"all_close(f_apart, expected, rtol=0.001, atol=1e-05)","over":{"base":"Any"},"name":"test_apart_full_floats_correct"},"guarantee":"all_close(f_apart, expected, rtol=0.001, atol=1e-05)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_full_floats_correct","statement":"Path(test_apart_full_floats(x), all_close(f_apart, expected, rtol=0.001, atol=1e-05))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"228c2eefac9ea9bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all_close(f_apart, expected, rtol=0.001, atol=1e-05)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_apart_full_floats():
     # https://github.com/sympy/sympy/issues/26648
     f = (
@@ -277,16 +332,22 @@ def test_apart_full_floats():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apart_undetermined_coeffs(), test_apart_undetermined_coeffs produces the expected output) over Any ║
+# ║ Path(test_apart_undetermined_coeffs(), apart_undetermined_coeffs(p, q) == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_undetermined_coeffs : Any → {Any | apart_u...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart_undetermined_coeffs(p, q) == r           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_undetermined_coeffs : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aae163ed074ee6aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b897dff11a997b17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_undetermined_coeffs","kind":"function","src_hash":"e95399013cadf8fd","in":{"base":"Any"},"out":{"base":"Any","pred":"apart_undetermined_coeffs(p, q) == r and apart_undetermined_coeffs(p, q) == r"},"spec":{"lhs":"test_apart_undetermined_coeffs()","rhs":"test_apart_undetermined_coeffs produces the expected output","over":{"base":"Any"},"name":"test_apart_undetermined_coeffs_correct"},"guarantee":"test_apart_undetermined_coeffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_undetermined_coeffs_correct","statement":"Path(test_apart_undetermined_coeffs(x), test_apart_undetermined_coeffs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aae163ed074ee6aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_undetermined_coeffs","kind":"function","src_hash":"e95399013cadf8fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart_undetermined_coeffs(p, q) == r"},"spec":{"lhs":"test_apart_undetermined_coeffs()","rhs":"apart_undetermined_coeffs(p, q) == r","over":{"base":"Any"},"name":"test_apart_undetermined_coeffs_correct"},"guarantee":"apart_undetermined_coeffs(p, q) == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_apart_undetermined_coeffs_correct","statement":"Path(test_apart_undetermined_coeffs(x), apart_undetermined_coeffs(p, q) == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b897dff11a997b17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart_undetermined_coeffs(p, q) == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_apart_undetermined_coeffs():
     p = Poly(2*x - 3)
     q = Poly(x**9 - x**8 - x**6 + x**5 - 2*x**2 + 3*x - 1)
@@ -304,14 +365,20 @@ def test_apart_undetermined_coeffs():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_apart_list(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apart_list : Any → {Any | dummy_eq(got, ans) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dummy_eq(got, ans)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apart_list : Any → {Any | result satisfies: dumm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 45b7cce7de4f10be   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_list","kind":"function","src_hash":"3b58c99bbe1aa04a","in":{"base":"Any"},"out":{"base":"Any","pred":"dummy_eq(got, ans) and dummy_eq(got, ans) and dummy_eq(got, ans)"},"spec":{"lhs":"test_apart_list()","rhs":"test_apart_list produces the expected output","over":{"base":"Any"},"name":"test_apart_list_correct","kind":"composition"},"guarantee":"test_apart_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"dummy_eq","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b7cce7de4f10be"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_apart_list","kind":"function","src_hash":"3b58c99bbe1aa04a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dummy_eq(got, ans)"},"spec":{"lhs":"test_apart_list()","rhs":"dummy_eq(got, ans)","over":{"base":"Any"},"name":"test_apart_list_correct","kind":"composition"},"guarantee":"dummy_eq(got, ans)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"dummy_eq","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b7cce7de4f10be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dummy_eq(got, ans)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_apart_list():
     from sympy.utilities.iterables import numbered_symbols
     def dummy_eq(i, j):
@@ -344,16 +411,23 @@ def test_apart_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_assemble_partfrac_list(), test_assemble_partfrac_list produces the expected output) over Any ║
+# ║ Path(test_assemble_partfrac_list(), assemble_partfrac_list(pfd) == -4 / (x + 1) - 3 / (x + 1) ** 2 - 9 / (x - 1) ** 2 + 4 / (x - 2) and assemble_partfrac_list(pfd) == -1 / (sqrt(2) * (x + sqrt(2))) + 1 / (sqrt(2) * (x - sqrt(2)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_assemble_partfrac_list : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  assemble_partfrac_list(pfd) == -4 / (x + ...   ║
+# ║   ensures:  assemble_partfrac_list(pfd) == -1 / (sqrt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_assemble_partfrac_list : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25e3ceade4f40d9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61437163d2c5fc6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_assemble_partfrac_list","kind":"function","src_hash":"0457b376362e6389","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_assemble_partfrac_list()","rhs":"test_assemble_partfrac_list produces the expected output","over":{"base":"Any"},"name":"test_assemble_partfrac_list_correct"},"guarantee":"test_assemble_partfrac_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_assemble_partfrac_list_correct","statement":"Path(test_assemble_partfrac_list(x), test_assemble_partfrac_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25e3ceade4f40d9e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_assemble_partfrac_list","kind":"function","src_hash":"0457b376362e6389","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: assemble_partfrac_list(pfd) == -4 / (x + 1) - 3 / (x + 1) ** 2 - 9 / (x - 1) ** 2 + 4 / (x - 2) and assemble_partfrac_list(pfd) == -1 / (sqrt(2) * (x + sqrt(2))) + 1 / (sqrt(2) * (x - sqrt(2)))"},"spec":{"lhs":"test_assemble_partfrac_list()","rhs":"assemble_partfrac_list(pfd) == -4 / (x + 1) - 3 / (x + 1) ** 2 - 9 / (x - 1) ** 2 + 4 / (x - 2) and assemble_partfrac_list(pfd) == -1 / (sqrt(2) * (x + sqrt(2))) + 1 / (sqrt(2) * (x - sqrt(2)))","over":{"base":"Any"},"name":"test_assemble_partfrac_list_correct"},"guarantee":"assemble_partfrac_list(pfd) == -4 / (x + 1) - 3 / (x + 1) ** 2 - 9 / (x - 1) ** 2 + 4 / (x - 2); assemble_partfrac_list(pfd) == -1 / (sqrt(2) * (x + sqrt(2))) + 1 / (sqrt(2) * (x - sqrt(2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_assemble_partfrac_list_correct","statement":"Path(test_assemble_partfrac_list(x), assemble_partfrac_list(pfd) == -4 / (x + 1) - 3 / (x + 1) ** 2 - 9 / (x - 1) ** 2 + 4 / (x - 2); assemble_partfrac_list(pfd) == -1 / (sqrt(2) * (x + sqrt(2))) + 1 / (sqrt(2) * (x - sqrt(2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61437163d2c5fc6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["assemble_partfrac_list(pfd) == -4 / (x + 1) - 3 / (x + 1) ** 2 - 9 / (x - 1) ** 2 + 4 / (x - 2)","assemble_partfrac_list(pfd) == -1 / (sqrt(2) * (x + sqrt(2))) + 1 / (sqrt(2) * (x - sqrt(2)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_assemble_partfrac_list():
     f = 36 / (x**5 - 2*x**4 - 2*x**3 + 4*x**2 + x - 2)
     pfd = apart_list(f)
@@ -366,16 +440,23 @@ def test_assemble_partfrac_list():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_noncommutative_pseudomultivariate(), test_noncommutative_pseudomultivariate produces the expected output) over Any ║
+# ║ Path(test_noncommutative_pseudomultivariate(), apart(e + foo(e)) == c + foo(c) and apart(e * foo(e)) == c * foo(c)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(e + foo(e)) == c + foo(c)                ║
+# ║   ensures:  apart(e * foo(e)) == c * foo(c)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_noncommutative_pseudomultivariate : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04a9640571d3784a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 844858d6371b7bd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_noncommutative_pseudomultivariate","kind":"function","src_hash":"83b473d93b3defa9","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(e + foo(e)) == c + foo(c) and apart(e * foo(e)) == c * foo(c)"},"spec":{"lhs":"test_noncommutative_pseudomultivariate()","rhs":"test_noncommutative_pseudomultivariate produces the expected output","over":{"base":"Any"},"name":"test_noncommutative_pseudomultivariate_correct"},"guarantee":"test_noncommutative_pseudomultivariate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_noncommutative_pseudomultivariate_correct","statement":"Path(test_noncommutative_pseudomultivariate(x), test_noncommutative_pseudomultivariate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a9640571d3784a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_noncommutative_pseudomultivariate","kind":"function","src_hash":"83b473d93b3defa9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(e + foo(e)) == c + foo(c) and apart(e * foo(e)) == c * foo(c)"},"spec":{"lhs":"test_noncommutative_pseudomultivariate()","rhs":"apart(e + foo(e)) == c + foo(c) and apart(e * foo(e)) == c * foo(c)","over":{"base":"Any"},"name":"test_noncommutative_pseudomultivariate_correct"},"guarantee":"apart(e + foo(e)) == c + foo(c); apart(e * foo(e)) == c * foo(c)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_noncommutative_pseudomultivariate_correct","statement":"Path(test_noncommutative_pseudomultivariate(x), apart(e + foo(e)) == c + foo(c); apart(e * foo(e)) == c * foo(c))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"844858d6371b7bd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(e + foo(e)) == c + foo(c)","apart(e * foo(e)) == c * foo(c)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_noncommutative_pseudomultivariate():
     # apart doesn't go inside noncommutative expressions
     class foo(Expr):
@@ -386,16 +467,22 @@ def test_noncommutative_pseudomultivariate():
     assert apart(e*foo(e)) == c*foo(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_noncommutative(), test_noncommutative produces the expected output) over Any ║
+# ║ Path(test_noncommutative(), apart(e + foo()) == c + foo()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_noncommutative : Any → {Any | apart(e + foo()) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(e + foo()) == c + foo()                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_noncommutative : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 772dd4a3dad4e404  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06a2d187bfb28839  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_noncommutative","kind":"function","src_hash":"fd8c3140180223d2","in":{"base":"Any"},"out":{"base":"Any","pred":"apart(e + foo()) == c + foo()"},"spec":{"lhs":"test_noncommutative()","rhs":"test_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_noncommutative_correct"},"guarantee":"test_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_noncommutative_correct","statement":"Path(test_noncommutative(x), test_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772dd4a3dad4e404"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_noncommutative","kind":"function","src_hash":"fd8c3140180223d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(e + foo()) == c + foo()"},"spec":{"lhs":"test_noncommutative()","rhs":"apart(e + foo()) == c + foo()","over":{"base":"Any"},"name":"test_noncommutative_correct"},"guarantee":"apart(e + foo()) == c + foo()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_noncommutative_correct","statement":"Path(test_noncommutative(x), apart(e + foo()) == c + foo())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06a2d187bfb28839","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(e + foo()) == c + foo()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_noncommutative():
     class foo(Expr):
         is_commutative=False
@@ -404,16 +491,22 @@ def test_noncommutative():
     assert apart(e + foo()) == c + foo()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5798(), test_issue_5798 produces the expected output) over Any ║
+# ║ Path(test_issue_5798(), apart(2 * x / (x ** 2 + 1) - (x - 1) / (2 * (x ** 2 + 1)) + 1 / (2 * (x + 1)) - 2 / x) == (3 * x + 1) / (x ** 2 + 1) / 2 + 1 / (x + 1) / 2 - 2 / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5798 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apart(2 * x / (x ** 2 + 1) - (x - 1) / (2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5798 : Any → {Any | result satisfies: apar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b9c919786a48e33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d64cf78e7fda5f49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_issue_5798","kind":"function","src_hash":"6fa111fcf5e2575c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_5798()","rhs":"test_issue_5798 produces the expected output","over":{"base":"Any"},"name":"test_issue_5798_correct"},"guarantee":"test_issue_5798 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_issue_5798_correct","statement":"Path(test_issue_5798(x), test_issue_5798 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b9c919786a48e33"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_partfrac.test_issue_5798","kind":"function","src_hash":"6fa111fcf5e2575c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apart(2 * x / (x ** 2 + 1) - (x - 1) / (2 * (x ** 2 + 1)) + 1 / (2 * (x + 1)) - 2 / x) == (3 * x + 1) / (x ** 2 + 1) / 2 + 1 / (x + 1) / 2 - 2 / x"},"spec":{"lhs":"test_issue_5798()","rhs":"apart(2 * x / (x ** 2 + 1) - (x - 1) / (2 * (x ** 2 + 1)) + 1 / (2 * (x + 1)) - 2 / x) == (3 * x + 1) / (x ** 2 + 1) / 2 + 1 / (x + 1) / 2 - 2 / x","over":{"base":"Any"},"name":"test_issue_5798_correct"},"guarantee":"apart(2 * x / (x ** 2 + 1) - (x - 1) / (2 * (x ** 2 + 1)) + 1 / (2 * (x + 1)) - 2 / x) == (3 * x + 1) / (x ** 2 + 1) / 2 + 1 / (x + 1) / 2 - 2 / x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_partfrac.test_issue_5798_correct","statement":"Path(test_issue_5798(x), apart(2 * x / (x ** 2 + 1) - (x - 1) / (2 * (x ** 2 + 1)) + 1 / (2 * (x + 1)) - 2 / x) == (3 * x + 1) / (x ** 2 + 1) / 2 + 1 / (x + 1) / 2 - 2 / x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d64cf78e7fda5f49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apart(2 * x / (x ** 2 + 1) - (x - 1) / (2 * (x ** 2 + 1)) + 1 / (2 * (x + 1)) - 2 / x) == (3 * x + 1) / (x ** 2 + 1) / 2 + 1 / (x + 1) / 2 - 2 / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5798():
     assert apart(
         2*x/(x**2 + 1) - (x - 1)/(2*(x**2 + 1)) + 1/(2*(x + 1)) - 2/x) == \

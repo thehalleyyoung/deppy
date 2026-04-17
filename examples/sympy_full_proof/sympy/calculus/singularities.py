@@ -44,16 +44,25 @@ from sympy.utilities.misc import filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(singularities(exp), find singularities of a given function) over Any ║
+# ║ Path(singularities(expression, symbol, domain), <unspecified:singularities>) over {Any | hasattr(symbol, 'is_real') and hasattr(expression, 'rewrite') and hasattr(expression, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ singularities : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(symbol, 'is_real')                     ║
+# ║   requires: hasattr(expression, 'rewrite')                 ║
+# ║   requires: hasattr(expression, 'atoms')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ singularities : {Any | hasattr(symbol, 'is_real') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed57562b4602ed69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.singularities","kind":"function","src_hash":"4a73635c66585f86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singularities(exp)","rhs":"find singularities of a given function","over":{"base":"Any"},"name":"singularities_correct"},"guarantee":"find singularities of a given function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.singularities.singularities_correct","statement":"Path(singularities(x), find singularities of a given function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed57562b4602ed69"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.singularities","kind":"function","src_hash":"4a73635c66585f86","in":{"base":"Any","pred":"hasattr(symbol, 'is_real') and hasattr(expression, 'rewrite') and hasattr(expression, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"singularities(expression, symbol, domain)","rhs":"<unspecified:singularities>","over":{"base":"Any","pred":"hasattr(symbol, 'is_real') and hasattr(expression, 'rewrite') and hasattr(expression, 'atoms')"},"name":"singularities_correct"},"guarantee":"find singularities of a given function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.singularities.singularities_correct","statement":"Path(singularities(x), find singularities of a given function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed57562b4602ed69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(symbol, 'is_real')","hasattr(expression, 'rewrite')","hasattr(expression, 'atoms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expression.atoms","expression.rewrite","symbol.is_real"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def singularities(expression, symbol, domain=None):
     """
     Find singularities of a given function.
@@ -146,16 +155,26 @@ def singularities(expression, symbol, domain=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monotonicity_helper(exp), helper function for functions checking function monotonicity) over Any ║
+# ║ Path(monotonicity_helper(expression, predicate, interval), interval.is_subset(predicate_interval)) over {Any | hasattr(expression, 'free_symbols') and hasattr(expression, 'diff') and hasattr(interval, 'is_subset') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ monotonicity_helper : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expression, 'free_symbols')            ║
+# ║   requires: hasattr(expression, 'diff')                    ║
+# ║   requires: hasattr(interval, 'is_subset')                 ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ║   returns:  interval.is_subset(predicate_interval)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ monotonicity_helper : {Any | hasattr(expression, 'fre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39c45e27d7d0583e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c184906747917619  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.monotonicity_helper","kind":"function","src_hash":"22acfa6dc11e6215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monotonicity_helper(exp)","rhs":"helper function for functions checking function monotonicity","over":{"base":"Any"},"name":"monotonicity_helper_correct"},"guarantee":"helper function for functions checking function monotonicity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.singularities.monotonicity_helper_correct","statement":"Path(monotonicity_helper(x), helper function for functions checking function monotonicity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c45e27d7d0583e"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.monotonicity_helper","kind":"function","src_hash":"22acfa6dc11e6215","in":{"base":"Any","pred":"hasattr(expression, 'free_symbols') and hasattr(expression, 'diff') and hasattr(interval, 'is_subset') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (interval.is_subset(predicate_interval))"},"spec":{"lhs":"monotonicity_helper(expression, predicate, interval)","rhs":"interval.is_subset(predicate_interval)","over":{"base":"Any","pred":"hasattr(expression, 'free_symbols') and hasattr(expression, 'diff') and hasattr(interval, 'is_subset') and len(free) > 0"},"name":"monotonicity_helper_correct"},"guarantee":"returns interval.is_subset(predicate_interval); len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.singularities.monotonicity_helper_correct","statement":"Path(monotonicity_helper(x), returns interval.is_subset(predicate_interval); len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c184906747917619","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expression, 'free_symbols')","hasattr(expression, 'diff')","hasattr(interval, 'is_subset')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"returns_expr":"interval.is_subset(predicate_interval)","pure":false,"effects":{"effect_type":"reads_state","reads":["expression.diff","expression.free_symbols","interval.is_subset"],"calls_mutating":["free.pop"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def monotonicity_helper(expression, predicate, interval=S.Reals, symbol=None):
     """
     Helper function for functions checking function monotonicity.
@@ -206,16 +225,22 @@ def monotonicity_helper(expression, predicate, interval=S.Reals, symbol=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_increasing(exp), return whether the function is increasing in the given interval) over Any ║
+# ║ Path(is_increasing(expression, interval, symbol), monotonicity_helper(expression, lambda x: x >= 0, interval, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  monotonicity_helper(expression, lambda x:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_increasing : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 404ad837351f2469           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_increasing","kind":"function","src_hash":"c58d1245c2a3c9cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_increasing(exp)","rhs":"return whether the function is increasing in the given interval","over":{"base":"Any"},"name":"is_increasing_correct"},"guarantee":"return whether the function is increasing in the given interval","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"404ad837351f2469"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_increasing","kind":"function","src_hash":"c58d1245c2a3c9cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_increasing(expression, interval, symbol)","rhs":"monotonicity_helper(expression, lambda x: x >= 0, interval, symbol)","over":{"base":"Any"},"name":"is_increasing_correct"},"guarantee":"returns monotonicity_helper(expression, lambda x: x >= 0, interval, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"404ad837351f2469","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"monotonicity_helper(expression, lambda x: x >= 0, interval, symbol)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_increasing(expression, interval=S.Reals, symbol=None):
     """
     Return whether the function is increasing in the given interval.
@@ -260,16 +285,22 @@ def is_increasing(expression, interval=S.Reals, symbol=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_strictly_increasing(exp), return whether the function is strictly increasing in the given interval) over Any ║
+# ║ Path(is_strictly_increasing(expression, interval, symbol), monotonicity_helper(expression, lambda x: x > 0, interval, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  monotonicity_helper(expression, lambda x:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_strictly_increasing : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8816bc69a60b50db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_strictly_increasing","kind":"function","src_hash":"9d45edb745b445a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_increasing(exp)","rhs":"return whether the function is strictly increasing in the given interval","over":{"base":"Any"},"name":"is_strictly_increasing_correct"},"guarantee":"return whether the function is strictly increasing in the given interval","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8816bc69a60b50db"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_strictly_increasing","kind":"function","src_hash":"9d45edb745b445a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_increasing(expression, interval, symbol)","rhs":"monotonicity_helper(expression, lambda x: x > 0, interval, symbol)","over":{"base":"Any"},"name":"is_strictly_increasing_correct"},"guarantee":"returns monotonicity_helper(expression, lambda x: x > 0, interval, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8816bc69a60b50db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"monotonicity_helper(expression, lambda x: x > 0, interval, symbol)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_strictly_increasing(expression, interval=S.Reals, symbol=None):
     """
     Return whether the function is strictly increasing in the given interval.
@@ -314,16 +345,22 @@ def is_strictly_increasing(expression, interval=S.Reals, symbol=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_decreasing(exp), return whether the function is decreasing in the given interval) over Any ║
+# ║ Path(is_decreasing(expression, interval, symbol), monotonicity_helper(expression, lambda x: x <= 0, interval, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  monotonicity_helper(expression, lambda x:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_decreasing : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67b600adc8165028           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_decreasing","kind":"function","src_hash":"4c8ca973c33b2e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_decreasing(exp)","rhs":"return whether the function is decreasing in the given interval","over":{"base":"Any"},"name":"is_decreasing_correct"},"guarantee":"return whether the function is decreasing in the given interval","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67b600adc8165028"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_decreasing","kind":"function","src_hash":"4c8ca973c33b2e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_decreasing(expression, interval, symbol)","rhs":"monotonicity_helper(expression, lambda x: x <= 0, interval, symbol)","over":{"base":"Any"},"name":"is_decreasing_correct"},"guarantee":"returns monotonicity_helper(expression, lambda x: x <= 0, interval, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67b600adc8165028","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"monotonicity_helper(expression, lambda x: x <= 0, interval, symbol)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_decreasing(expression, interval=S.Reals, symbol=None):
     """
     Return whether the function is decreasing in the given interval.
@@ -372,16 +409,22 @@ def is_decreasing(expression, interval=S.Reals, symbol=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_strictly_decreasing(exp), return whether the function is strictly decreasing in the given interval) over Any ║
+# ║ Path(is_strictly_decreasing(expression, interval, symbol), monotonicity_helper(expression, lambda x: x < 0, interval, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  monotonicity_helper(expression, lambda x:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_strictly_decreasing : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bdb2268a6b7e16b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_strictly_decreasing","kind":"function","src_hash":"697073e0bdc0e4f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_decreasing(exp)","rhs":"return whether the function is strictly decreasing in the given interval","over":{"base":"Any"},"name":"is_strictly_decreasing_correct"},"guarantee":"return whether the function is strictly decreasing in the given interval","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdb2268a6b7e16b6"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_strictly_decreasing","kind":"function","src_hash":"697073e0bdc0e4f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_decreasing(expression, interval, symbol)","rhs":"monotonicity_helper(expression, lambda x: x < 0, interval, symbol)","over":{"base":"Any"},"name":"is_strictly_decreasing_correct"},"guarantee":"returns monotonicity_helper(expression, lambda x: x < 0, interval, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdb2268a6b7e16b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"monotonicity_helper(expression, lambda x: x < 0, interval, symbol)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_strictly_decreasing(expression, interval=S.Reals, symbol=None):
     """
     Return whether the function is strictly decreasing in the given interval.
@@ -426,16 +469,26 @@ def is_strictly_decreasing(expression, interval=S.Reals, symbol=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_monotonic(exp), return whether the function is monotonic in the given interval) over Any ║
+# ║ Path(is_monotonic(expression, interval, symbol), interval.intersection(turning_points) is S.EmptySet) over {Any | not (symbol is None and len(free) > 1) and hasattr(expression, 'free_symbols') and hasattr(expression, 'diff') and hasattr(interval, 'intersection') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_monotonic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (symbol is None and len(free) > 1)         ║
+# ║   requires: hasattr(expression, 'free_symbols')            ║
+# ║   requires: hasattr(expression, 'diff')                    ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ║   returns:  interval.intersection(turning_points) is ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_monotonic : {Any | not (symbol is None and len(fre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0f7cf4841a70d62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96b2dbce4f9ab8b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_monotonic","kind":"function","src_hash":"dfbc7e2809c9e9cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_monotonic(exp)","rhs":"return whether the function is monotonic in the given interval","over":{"base":"Any"},"name":"is_monotonic_correct"},"guarantee":"return whether the function is monotonic in the given interval","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.singularities.is_monotonic_correct","statement":"Path(is_monotonic(x), return whether the function is monotonic in the given interval)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0f7cf4841a70d62"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.singularities.is_monotonic","kind":"function","src_hash":"dfbc7e2809c9e9cb","in":{"base":"Any","pred":"not (symbol is None and len(free) > 1) and hasattr(expression, 'free_symbols') and hasattr(expression, 'diff') and hasattr(interval, 'intersection') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (interval.intersection(turning_points) is S.EmptySet)"},"spec":{"lhs":"is_monotonic(expression, interval, symbol)","rhs":"interval.intersection(turning_points) is S.EmptySet","over":{"base":"Any","pred":"not (symbol is None and len(free) > 1) and hasattr(expression, 'free_symbols') and hasattr(expression, 'diff') and hasattr(interval, 'intersection') and len(free) > 0"},"name":"is_monotonic_correct"},"guarantee":"returns interval.intersection(turning_points) is S.EmptySet; len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.singularities.is_monotonic_correct","statement":"Path(is_monotonic(x), returns interval.intersection(turning_points) is S.EmptySet; len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96b2dbce4f9ab8b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (symbol is None and len(free) > 1)","hasattr(expression, 'free_symbols')","hasattr(expression, 'diff')","hasattr(interval, 'intersection')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"returns_expr":"interval.intersection(turning_points) is S.EmptySet","pure":false,"effects":{"effect_type":"reads_state","reads":["expression.diff","expression.free_symbols","interval.intersection"],"calls_mutating":["free.pop"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_monotonic(expression, interval=S.Reals, symbol=None):
     """
     Return whether the function is monotonic in the given interval.

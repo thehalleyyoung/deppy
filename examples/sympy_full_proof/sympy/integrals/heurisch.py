@@ -60,16 +60,25 @@ from sympy.integrals.integrals import integrate
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(components(f, ), returns a set of all functional components of the given expression which includes symbols, function applications and compositions and non-integer powers) over Any ║
+# ║ Path(components(f, x), # HINT: components may be idempotent: components(components(x)) == components(x)) over {Any | hasattr(f, 'has_free') and hasattr(f, 'is_symbol') and hasattr(f, 'is_commutative') and hasattr(f, 'is_Function') and hasattr(f, 'is_Derivative') and hasattr(f, 'args') and hasattr(f, 'is_Pow') and hasattr(f, 'base') and hasattr(f, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ components : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'has_free')                         ║
+# ║   requires: hasattr(f, 'is_symbol')                        ║
+# ║   requires: hasattr(f, 'is_commutative')                   ║
+# ║   ensures:  # HINT: components may be idempotent: com...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ components : {Any | hasattr(f, 'has_free') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7596d201507a90d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 466b83933adfbebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.components","kind":"function","src_hash":"da71062de1408d97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"components(f, )","rhs":"returns a set of all functional components of the given expression which includes symbols, function applications and compositions and non-integer powers","over":{"base":"Any"},"name":"components_correct"},"guarantee":"returns a set of all functional components of the given expression which includes symbols, function applications and compositions and non-integer powers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.components_correct","statement":"Path(components(x), returns a set of all functional components of the given expression which includes symbols, function applications and compositions and non-integer powers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7596d201507a90d9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.components","kind":"function","src_hash":"da71062de1408d97","in":{"base":"Any","pred":"hasattr(f, 'has_free') and hasattr(f, 'is_symbol') and hasattr(f, 'is_commutative') and hasattr(f, 'is_Function') and hasattr(f, 'is_Derivative') and hasattr(f, 'args') and hasattr(f, 'is_Pow') and hasattr(f, 'base') and hasattr(f, 'exp')"},"out":{"base":"Any","pred":"result satisfies: # HINT: components may be idempotent: components(components(x)) == components(x)"},"spec":{"lhs":"components(f, x)","rhs":"# HINT: components may be idempotent: components(components(x)) == components(x)","over":{"base":"Any","pred":"hasattr(f, 'has_free') and hasattr(f, 'is_symbol') and hasattr(f, 'is_commutative') and hasattr(f, 'is_Function') and hasattr(f, 'is_Derivative') and hasattr(f, 'args') and hasattr(f, 'is_Pow') and hasattr(f, 'base') and hasattr(f, 'exp')"},"name":"components_correct"},"guarantee":"# HINT: components may be idempotent: components(components(x)) == components(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.components_correct","statement":"Path(components(x), # HINT: components may be idempotent: components(components(x)) == components(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"466b83933adfbebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'has_free')","hasattr(f, 'is_symbol')","hasattr(f, 'is_commutative')","hasattr(f, 'is_Function')","hasattr(f, 'is_Derivative')","hasattr(f, 'args')","hasattr(f, 'is_Pow')","hasattr(f, 'base')","hasattr(f, 'exp')"],"ensures":["# HINT: components may be idempotent: components(components(x)) == components(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def components(f, x):
     """
     Returns a set of all functional components of the given expression
@@ -122,16 +131,22 @@ _symbols_cache: dict[str, list[Dummy]] = {}
 
 # NB @cacheit is not convenient here
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_symbols(nam), get vector of symbols local to this module) over Any ║
+# ║ Path(_symbols(name, n), lsyms[:n]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lsyms[:n]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _symbols : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15a875ddcd48c734  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3370df47f4b6eb67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch._symbols","kind":"function","src_hash":"6fcc73b667afb2d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symbols(nam)","rhs":"get vector of symbols local to this module","over":{"base":"Any"},"name":"_symbols_correct"},"guarantee":"get vector of symbols local to this module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch._symbols_correct","statement":"Path(_symbols(x), get vector of symbols local to this module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15a875ddcd48c734"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch._symbols","kind":"function","src_hash":"6fcc73b667afb2d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symbols(name, n)","rhs":"lsyms[:n]","over":{"base":"Any"},"name":"_symbols_correct"},"guarantee":"returns lsyms[:n]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch._symbols_correct","statement":"Path(_symbols(x), returns lsyms[:n])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3370df47f4b6eb67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lsyms[:n]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _symbols(name, n):
     """get vector of symbols local to this module"""
     try:
@@ -147,9 +162,14 @@ def _symbols(name, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(heurisch_wrapper(f, ), a wrapper around the heurisch integration algorithm) over {Any | isinstance(res, Basic)} ║
+# ║ Path(heurisch_wrapper(f, x, rewrite), <unspecified:heurisch_wrapper>) over {Any | isinstance(res, Basic) and hasattr(f, 'has_free') and hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ heurisch_wrapper : {Any | isinstance(res, Basic)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'has_free')                         ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ heurisch_wrapper : {Any | isinstance(res, Basic) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(res, Basic)} → library_axiom          ║
@@ -159,9 +179,12 @@ def _symbols(name, n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a1fd88ea...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.heurisch_wrapper","kind":"function","src_hash":"ae4441ed8a270485","in":{"base":"Any","pred":"isinstance(res, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"heurisch_wrapper(f, )","rhs":"a wrapper around the heurisch integration algorithm","over":{"base":"Any","pred":"isinstance(res, Basic)"},"name":"heurisch_wrapper_correct"},"guarantee":"a wrapper around the heurisch integration algorithm","fibers":[{"name":"Basic","pred":"isinstance(res, Basic)","path":{"lhs":"heurisch_wrapper(x)","rhs":"a wrapper around the heurisch integration algorithm","over":{"base":"Basic","pred":"isinstance(res, Basic)"},"name":"heurisch_wrapper_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_wrapper_Basic_correct","statement":"heurisch_wrapper satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a1fd88ea67910729"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.heurisch_wrapper","kind":"function","src_hash":"ae4441ed8a270485","in":{"base":"Any","pred":"isinstance(res, Basic) and hasattr(f, 'has_free') and hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"heurisch_wrapper(f, x, rewrite)","rhs":"<unspecified:heurisch_wrapper>","over":{"base":"Any","pred":"isinstance(res, Basic) and hasattr(f, 'has_free') and hasattr(f, 'subs')"},"name":"heurisch_wrapper_correct"},"guarantee":"a wrapper around the heurisch integration algorithm","fibers":[{"name":"Basic","pred":"isinstance(res, Basic)","path":{"lhs":"heurisch_wrapper(x)","rhs":"a wrapper around the heurisch integration algorithm","over":{"base":"Basic","pred":"isinstance(res, Basic)"},"name":"heurisch_wrapper_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_wrapper_Basic_correct","statement":"heurisch_wrapper satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a1fd88ea67910729","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'has_free')","hasattr(f, 'subs')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(slns) > 1', 'expr is None', 'len(pairs) == 1', 'not isinstance(res, Basic)'}, fibers={'Basic'})"]}}
 def heurisch_wrapper(f, x, rewrite=False, hints=None, mappings=None, retries=3,
                      degree_offset=0, unnecessary_permutations=None,
                      _try_heurisch=None):
@@ -261,14 +284,19 @@ def heurisch_wrapper(f, x, rewrite=False, hints=None, mappings=None, retries=3,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a BesselTable instance) preserved by BesselTable(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BesselTable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e748d82de5c5ad47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable","kind":"class","src_hash":"b4db25f8cec53463","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BesselTable(*args)","rhs":"correctly constructs a BesselTable instance","over":{"base":"Any"},"name":"BesselTable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a BesselTable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'table') and hasattr(self, 'n') and hasattr(self, 'z')","kind":"class","induction":"structural on table, n, z"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e748d82de5c5ad47"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable","kind":"class","src_hash":"b4db25f8cec53463","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BesselTable(*args)","rhs":"correctly constructs a BesselTable instance","over":{"base":"Any"},"name":"BesselTable_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'table') and hasattr(self, 'n') and hasattr(self, 'z')","kind":"class","induction":"structural on table, n, z"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e748d82de5c5ad47","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'table')","hasattr(self, 'n')","hasattr(self, 'z')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function BesselTable not found in source"]}}
 class BesselTable:
     """
     Derivatives of Bessel functions of orders n and n-1
@@ -278,16 +306,22 @@ class BesselTable:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48c84c760094ae51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable.__init__","kind":"method","src_hash":"59d7e5875aa9070f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48c84c760094ae51"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable.__init__","kind":"method","src_hash":"59d7e5875aa9070f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48c84c760094ae51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.table = {}
         self.n = Dummy('n')
@@ -295,16 +329,25 @@ class BesselTable:
         self._create_table()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_table(t), internal helper behaves correctly) over Any ║
+# ║ Path(_create_table(t), <unspecified:_create_table>) over {Any | hasattr(t, 'table') and hasattr(t, 'n') and hasattr(t, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _create_table : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(t, 'table')                            ║
+# ║   requires: hasattr(t, 'n')                                ║
+# ║   requires: hasattr(t, 'z')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _create_table : {Any | hasattr(t, 'table') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a52ae87f597e84d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable._create_table","kind":"method","src_hash":"0e8fad925523aa31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_table(t)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.BesselTable._create_table_correct","statement":"Path(_create_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a52ae87f597e84d8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable._create_table","kind":"method","src_hash":"0e8fad925523aa31","in":{"base":"Any","pred":"hasattr(t, 'table') and hasattr(t, 'n') and hasattr(t, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"_create_table(t)","rhs":"<unspecified:_create_table>","over":{"base":"Any","pred":"hasattr(t, 'table') and hasattr(t, 'n') and hasattr(t, 'z')"},"name":"_create_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.BesselTable._create_table_correct","statement":"Path(_create_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a52ae87f597e84d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(t, 'table')","hasattr(t, 'n')","hasattr(t, 'z')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["t.n","t.table","t.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_table(t):
         table, n, z = t.table, t.n, t.z
         for f in (besselj, bessely, hankel1, hankel2):
@@ -323,16 +366,25 @@ class BesselTable:
                         (n-1)*f(n-1, z)/z - f(n, z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diffs(t, ), id) over Any                              ║
+# ║ Path(diffs(t, f, n), id) over {Any | hasattr(t, 'table') and hasattr(t, 'n') and hasattr(t, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diffs : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(t, 'table')                            ║
+# ║   requires: hasattr(t, 'n')                                ║
+# ║   requires: hasattr(t, 'z')                                ║
+# ║   returns:  (diff0.subs(repl), diff1.subs(repl))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diffs : {Any | hasattr(t, 'table') and hasattr(t, 'n'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 52dcb4d07696e8fc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable.diffs","kind":"method","src_hash":"1fb791bf2676ee41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diffs(t, )","rhs":"diffs produces the expected output","over":{"base":"Any"},"name":"diffs_correct","kind":"composition"},"guarantee":"diffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52dcb4d07696e8fc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable.diffs","kind":"method","src_hash":"1fb791bf2676ee41","in":{"base":"Any","pred":"hasattr(t, 'table') and hasattr(t, 'n') and hasattr(t, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"diffs(t, f, n)","rhs":"(diff0.subs(repl), diff1.subs(repl))","over":{"base":"Any","pred":"hasattr(t, 'table') and hasattr(t, 'n') and hasattr(t, 'z')"},"name":"diffs_correct","kind":"composition"},"guarantee":"returns (diff0.subs(repl), diff1.subs(repl))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52dcb4d07696e8fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(t, 'table')","hasattr(t, 'n')","hasattr(t, 'z')"],"returns_expr":"(diff0.subs(repl), diff1.subs(repl))","pure":false,"effects":{"effect_type":"reads_state","reads":["t.n","t.table","t.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diffs(t, f, n, z):
         if f in t.table:
             diff0, diff1 = t.table[f]
@@ -340,16 +392,23 @@ class BesselTable:
             return (diff0.subs(repl), diff1.subs(repl))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has(t, ), has produces the expected output) over Any  ║
+# ║ Path(has(t, f), f in t.table) over {Any | hasattr(t, 'table')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(t, 'table')                            ║
+# ║   returns:  f in t.table                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has : {Any | hasattr(t, 'table')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d08cade99c384b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable.has","kind":"method","src_hash":"bc331a585b2927a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has(t, )","rhs":"has produces the expected output","over":{"base":"Any"},"name":"has_correct"},"guarantee":"has produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d08cade99c384b0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.BesselTable.has","kind":"method","src_hash":"bc331a585b2927a6","in":{"base":"Any","pred":"hasattr(t, 'table')"},"out":{"base":"Any"},"spec":{"lhs":"has(t, f)","rhs":"f in t.table","over":{"base":"Any","pred":"hasattr(t, 'table')"},"name":"has_correct"},"guarantee":"returns f in t.table","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d08cade99c384b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(t, 'table')"],"returns_expr":"f in t.table","pure":false,"effects":{"effect_type":"reads_state","reads":["t.table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has(t, f):
         return f in t.table
 
@@ -358,14 +417,19 @@ _bessel_table = None
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DiffCache instance) preserved by DiffCache(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DiffCache : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d74c6f2294dce302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.DiffCache","kind":"class","src_hash":"491caa015f218347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiffCache(*args)","rhs":"correctly constructs a DiffCache instance","over":{"base":"Any"},"name":"DiffCache_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DiffCache instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cache') and hasattr(self, 'x')","kind":"class","induction":"structural on cache, x"}],"methods_preserving":["__init__","get_diff"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d74c6f2294dce302"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.DiffCache","kind":"class","src_hash":"491caa015f218347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiffCache(*args)","rhs":"correctly constructs a DiffCache instance","over":{"base":"Any"},"name":"DiffCache_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cache') and hasattr(self, 'x')","kind":"class","induction":"structural on cache, x"}],"methods_preserving":["__init__","get_diff"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d74c6f2294dce302","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'cache')","hasattr(self, 'x')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiffCache not found in source"]}}
 class DiffCache:
     """
     Store for derivatives of expressions.
@@ -390,16 +454,22 @@ class DiffCache:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(x), initializes the instance correctly) over Any ║
+# ║ Path(__init__(x), self.x == x) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.x == x                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.x == x}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b91d1808e27c74a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.DiffCache.__init__","kind":"method","src_hash":"7448ce70ba772a24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(x)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b91d1808e27c74a5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.DiffCache.__init__","kind":"method","src_hash":"7448ce70ba772a24","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.x == x"},"spec":{"lhs":"__init__(x)","rhs":"self.x == x","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.x == x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b91d1808e27c74a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.x == x"],"pure":false,"effects":{"effect_type":"mutates_global","writes":["self.cache","self.x"],"globals_read":["_bessel_table"],"globals_written":["_bessel_table"]},"state_contract":{"modifies":["self.cache","self.x"],"old_bindings":{"old_self_cache":"self.cache","old_self_x":"self.x"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, x):
         self.cache = {}
         self.x = x
@@ -409,16 +479,25 @@ class DiffCache:
             _bessel_table = BesselTable()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_diff(f), get_diff produces the expected output) over Any ║
+# ║ Path(get_diff(f), cache[f]) over {Any | hasattr(f, 'args') and hasattr(f, 'func') and hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_diff : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'args')                             ║
+# ║   requires: hasattr(f, 'func')                             ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   returns:  cache[f]                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_diff : {Any | hasattr(f, 'args') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fb404c4d07f0639  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a866e00f36fc3669  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.DiffCache.get_diff","kind":"method","src_hash":"77ef21213341f1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_diff(f)","rhs":"get_diff produces the expected output","over":{"base":"Any"},"name":"get_diff_correct"},"guarantee":"get_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.DiffCache.get_diff_correct","statement":"Path(get_diff(x), get_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb404c4d07f0639"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.DiffCache.get_diff","kind":"method","src_hash":"77ef21213341f1a4","in":{"base":"Any","pred":"hasattr(f, 'args') and hasattr(f, 'func') and hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"get_diff(f)","rhs":"cache[f]","over":{"base":"Any","pred":"hasattr(f, 'args') and hasattr(f, 'func') and hasattr(f, 'diff')"},"name":"get_diff_correct"},"guarantee":"returns cache[f]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.DiffCache.get_diff_correct","statement":"Path(get_diff(x), returns cache[f])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a866e00f36fc3669","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'args')","hasattr(f, 'func')","hasattr(f, 'diff')"],"returns_expr":"cache[f]","pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.diff","f.func","self.cache","self.get_diff","self.x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_diff(self, f):
         cache = self.cache
 
@@ -437,7 +516,15 @@ class DiffCache:
         return cache[f]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(heurisch(f, ), compute indefinite integral using heuristic risch algorithm) over {Any | isinstance(term, tan) and isinstance(_, Symbol) and isinstance(term, tanh)} ║
+# ║ Path(heurisch(f, x, rewrite), len(atan_part) == old_len_atan_part + 1 and len(log_part) == old_len_log_part + 1 and len(mapping) == old_len_mapping - 1 and len(pairs) == old_len_pairs - 1 and len(poly_coeffs) == old_len_poly_coeffs + 1) over {Any | isinstance(term, tan) and isinstance(_, Symbol) and isinstance(term, tanh) and hasattr(f, 'is_Add') and hasattr(f, 'has') and hasattr(f, 'has_free') and hasattr(f, 'as_independent') and hasattr(f, 'rewrite') and hasattr(x, 'has') and len(mapping) > 0 and len(pairs) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_Add')                           ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   requires: hasattr(f, 'has_free')                         ║
+# ║   ensures:  len(atan_part) == old_len_atan_part + 1        ║
+# ║   ensures:  len(log_part) == old_len_log_part + 1          ║
+# ║   ensures:  len(mapping) == old_len_mapping - 1            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ heurisch : {Any | isinstance(term, tan) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -453,9 +540,12 @@ class DiffCache:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓5 ?6 ✗12 VCs | 36.7ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bcbdfbf6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.heurisch","kind":"function","src_hash":"ddd630cce0c8149f","in":{"base":"Any","pred":"isinstance(term, tan) and isinstance(_, Symbol) and isinstance(term, tanh)"},"out":{"base":"Any","pred":"mapping[-1][0] == x"},"spec":{"lhs":"heurisch(f, )","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"Any","pred":"isinstance(term, tan) and isinstance(_, Symbol) and isinstance(term, tanh)"},"name":"heurisch_correct"},"guarantee":"compute indefinite integral using heuristic risch algorithm","fibers":[{"name":"tan","pred":"isinstance(term, tan)","path":{"lhs":"heurisch(x)","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"tan","pred":"isinstance(term, tan)"},"name":"heurisch_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_tan_correct","statement":"heurisch satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(_, Symbol)","path":{"lhs":"heurisch(x)","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"Symbol","pred":"isinstance(_, Symbol)"},"name":"heurisch_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_Symbol_correct","statement":"heurisch satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"tanh","pred":"isinstance(term, tanh)","path":{"lhs":"heurisch(x)","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"tanh","pred":"isinstance(term, tanh)"},"name":"heurisch_tanh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_tanh_correct","statement":"heurisch satisfies spec on tanh inputs"},"trust":"LIBRARY"},{"name":"li","pred":"isinstance(g, li)","path":{"lhs":"heurisch(x)","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"li","pred":"isinstance(g, li)"},"name":"heurisch_li_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_li_correct","statement":"heurisch satisfies spec on li inputs"},"trust":"LIBRARY"},{"name":"LambertW","pred":"isinstance(term, LambertW)","path":{"lhs":"heurisch(x)","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"LambertW","pred":"isinstance(term, LambertW)"},"name":"heurisch_LambertW_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_LambertW_correct","statement":"heurisch satisfies spec on LambertW inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(g, exp)","path":{"lhs":"heurisch(x)","rhs":"compute indefinite integral using heuristic risch algorithm","over":{"base":"exp","pred":"isinstance(g, exp)"},"name":"heurisch_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_exp_correct","statement":"heurisch satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bcbdfbf607950d7b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.heurisch.heurisch","kind":"function","src_hash":"ddd630cce0c8149f","in":{"base":"Any","pred":"isinstance(term, tan) and isinstance(_, Symbol) and isinstance(term, tanh) and hasattr(f, 'is_Add') and hasattr(f, 'has') and hasattr(f, 'has_free') and hasattr(f, 'as_independent') and hasattr(f, 'rewrite') and hasattr(x, 'has') and len(mapping) > 0 and len(pairs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(atan_part) == old_len_atan_part + 1 and len(log_part) == old_len_log_part + 1 and len(mapping) == old_len_mapping - 1 and len(pairs) == old_len_pairs - 1 and len(poly_coeffs) == old_len_poly_coeffs + 1"},"spec":{"lhs":"heurisch(f, x, rewrite)","rhs":"len(atan_part) == old_len_atan_part + 1 and len(log_part) == old_len_log_part + 1 and len(mapping) == old_len_mapping - 1 and len(pairs) == old_len_pairs - 1 and len(poly_coeffs) == old_len_poly_coeffs + 1","over":{"base":"Any","pred":"isinstance(term, tan) and isinstance(_, Symbol) and isinstance(term, tanh) and hasattr(f, 'is_Add') and hasattr(f, 'has') and hasattr(f, 'has_free') and hasattr(f, 'as_independent') and hasattr(f, 'rewrite') and hasattr(x, 'has') and len(mapping) > 0 and len(pairs) > 0"},"name":"heurisch_correct"},"guarantee":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","fibers":[{"name":"tan","pred":"isinstance(term, tan)","path":{"lhs":"heurisch(x)","rhs":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","over":{"base":"tan","pred":"isinstance(term, tan)"},"name":"heurisch_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_tan_correct","statement":"heurisch satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(_, Symbol)","path":{"lhs":"heurisch(x)","rhs":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","over":{"base":"Symbol","pred":"isinstance(_, Symbol)"},"name":"heurisch_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_Symbol_correct","statement":"heurisch satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"tanh","pred":"isinstance(term, tanh)","path":{"lhs":"heurisch(x)","rhs":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","over":{"base":"tanh","pred":"isinstance(term, tanh)"},"name":"heurisch_tanh_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_tanh_correct","statement":"heurisch satisfies spec on tanh inputs"},"trust":"LIBRARY"},{"name":"li","pred":"isinstance(g, li)","path":{"lhs":"heurisch(x)","rhs":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","over":{"base":"li","pred":"isinstance(g, li)"},"name":"heurisch_li_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_li_correct","statement":"heurisch satisfies spec on li inputs"},"trust":"LIBRARY"},{"name":"LambertW","pred":"isinstance(term, LambertW)","path":{"lhs":"heurisch(x)","rhs":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","over":{"base":"LambertW","pred":"isinstance(term, LambertW)"},"name":"heurisch_LambertW_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_LambertW_correct","statement":"heurisch satisfies spec on LambertW inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(g, exp)","path":{"lhs":"heurisch(x)","rhs":"len(atan_part) == old_len_atan_part + 1; len(log_part) == old_len_log_part + 1; len(mapping) == old_len_mapping - 1","over":{"base":"exp","pred":"isinstance(g, exp)"},"name":"heurisch_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.heurisch.heurisch_exp_correct","statement":"heurisch satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bcbdfbf607950d7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_Add')","hasattr(f, 'has')","hasattr(f, 'has_free')","hasattr(f, 'as_independent')","hasattr(f, 'rewrite')","hasattr(x, 'has')","len(mapping) > 0","len(pairs) > 0"],"ensures":["len(atan_part) == old_len_atan_part + 1","len(log_part) == old_len_log_part + 1","len(mapping) == old_len_mapping - 1","len(pairs) == old_len_pairs - 1","len(poly_coeffs) == old_len_poly_coeffs + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_independent","f.has","f.has_free","f.is_Add","f.rewrite","x.has"],"calls_mutating":["atan_part.append","atans.add","irreducibles.add","irreducibles.remove","log_part.append","mapping.pop","non_syms.add","pairs.add","pairs.pop","pairs.remove","poly_coeffs.append","reducibles.add","reducibles.update","terms.add"],"raises":["PolynomialError"],"catches":["PolynomialError","ValueError"]},"state_contract":{"modifies":["atan_part.*","atans.*","irreducibles.*","log_part.*","mapping.*","non_syms.*","pairs.*","poly_coeffs.*","reducibles.*","terms.*"],"old_bindings":{"old_len_atan_part":"len(atan_part)","old_len_log_part":"len(log_part)","old_len_mapping":"len(mapping)","old_len_pairs":"len(pairs)","old_len_poly_coeffs":"len(poly_coeffs)","old_len_reducibles":"len(reducibles)"},"pre_requires":["len(mapping) > 0","len(pairs) > 0"],"post_ensures":["len(atan_part) == old_len_atan_part + 1","len(log_part) == old_len_log_part + 1","len(mapping) == old_len_mapping - 1","len(pairs) == old_len_pairs - 1","len(poly_coeffs) == old_len_poly_coeffs + 1"],"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":5,"n_assumed":6,"n_failed":12,"trust_level":"LIBRARY_ASSUMED","compile_ms":36.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'A > 1 and B > 1', 'isinstance(term, LambertW)', 'solution is None', 'isinstance(g, li)', 'isinstance(g, exp)', 'g.exp.is_Rational and g.exp.q == 2', 'isinstance(term, tan)', \"field == 'Q'\", 'g.exp.is_Rational and g.exp.q != 1', 'isinstance(term, tanh)', 'mappings is None', 's.as_poly(y).degree() == 0', 'retries >= 0', 'all((isinstance(_, Symbol) for _ in V))', 'g.exp.p > 0'}, fibers={'tanh', 'LambertW', 'li', 'exp', 'tan', 'Symbol'})"]}}
 def heurisch(f, x, rewrite=False, hints=None, mappings=None, retries=3,
              degree_offset=0, unnecessary_permutations=None,
              _try_heurisch=None):

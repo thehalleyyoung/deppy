@@ -26,16 +26,25 @@ from sympy.testing.pytest import XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(may_xfail(fun), may_xfail produces the expected output) over Any ║
+# ║ Path(may_xfail(func), result == (XFAIL(func) if sys.platform.lower() == 'darwin' or os.name == 'nt' else func) and result == XFAIL(func) or result == func) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ may_xfail : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (XFAIL(func) if sys.platform.lo...   ║
+# ║   ensures:  result == XFAIL(func) or result == func        ║
+# ║   fiber[case_0]: sys.platform.lower() == 'darwin' or ...   ║
+# ║   fiber[case_1]: not (sys.platform.lower() == 'darwin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ may_xfail : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3fb98e8be03437d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55ceb841e9f4cc37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.may_xfail","kind":"function","src_hash":"fb996d8cd32dfacf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"may_xfail(fun)","rhs":"may_xfail produces the expected output","over":{"base":"Any"},"name":"may_xfail_correct"},"guarantee":"may_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.may_xfail_correct","statement":"Path(may_xfail(x), may_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3fb98e8be03437d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.may_xfail","kind":"function","src_hash":"fb996d8cd32dfacf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (XFAIL(func) if sys.platform.lower() == 'darwin' or os.name == 'nt' else func) and result == XFAIL(func) or result == func"},"spec":{"lhs":"may_xfail(func)","rhs":"result == (XFAIL(func) if sys.platform.lower() == 'darwin' or os.name == 'nt' else func) and result == XFAIL(func) or result == func","over":{"base":"Any"},"name":"may_xfail_correct"},"guarantee":"result == (XFAIL(func) if sys.platform.lower() == 'darwin' or os.name == 'nt' else func); result == XFAIL(func) or result == func; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.may_xfail_correct","statement":"Path(may_xfail(x), result == (XFAIL(func) if sys.platform.lower() == 'darwin' or os.name == 'nt' else func); result == XFAIL(func) or result == func; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ceb841e9f4cc37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (XFAIL(func) if sys.platform.lower() == 'darwin' or os.name == 'nt' else func)","result == XFAIL(func) or result == func"],"fibers":[{"name":"case_0","guard":"sys.platform.lower() == 'darwin' or os.name == 'nt'","ensures":["result == XFAIL(func)"],"decidability":"z3","returns_expr":"XFAIL(func)"},{"name":"case_1","guard":"not (sys.platform.lower() == 'darwin' or os.name == 'nt')","ensures":["result == func"],"decidability":"z3","returns_expr":"func"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def may_xfail(func):
     if sys.platform.lower() == 'darwin' or os.name == 'nt':
         # sympy.utilities._compilation needs more testing on Windows and macOS
@@ -47,46 +56,67 @@ def may_xfail(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CompilerNotFoundError(), correctly constructs a CompilerNotFoundError instance) over Any ║
+# ║ Path(CompilerNotFoundError(), isinstance(self, FileNotFoundError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CompilerNotFoundError : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FileNotFoundError)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CompilerNotFoundError : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abb932b0794434f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.CompilerNotFoundError","kind":"class","src_hash":"95fe1cd0a709e30f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CompilerNotFoundError()","rhs":"correctly constructs a CompilerNotFoundError instance","over":{"base":"Any"},"name":"CompilerNotFoundError_correct"},"guarantee":"correctly constructs a CompilerNotFoundError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abb932b0794434f3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.CompilerNotFoundError","kind":"class","src_hash":"95fe1cd0a709e30f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FileNotFoundError)"},"spec":{"lhs":"CompilerNotFoundError()","rhs":"isinstance(self, FileNotFoundError)","over":{"base":"Any"},"name":"CompilerNotFoundError_correct"},"guarantee":"isinstance(self, FileNotFoundError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abb932b0794434f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FileNotFoundError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CompilerNotFoundError not found in source"]}}
 class CompilerNotFoundError(FileNotFoundError):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CompileError(), correctly constructs a CompileError instance) over Any ║
+# ║ Path(CompileError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CompileError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CompileError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ccfe6c52d408468c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.CompileError","kind":"class","src_hash":"22cc62789f682f2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CompileError()","rhs":"correctly constructs a CompileError instance","over":{"base":"Any"},"name":"CompileError_correct"},"guarantee":"correctly constructs a CompileError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccfe6c52d408468c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.CompileError","kind":"class","src_hash":"22cc62789f682f2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"CompileError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"CompileError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccfe6c52d408468c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CompileError not found in source"]}}
 class CompileError (Exception):
     """Failure to compile one or more C/C++ source files."""
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_abspath(pat), returns the absolute path) over Any ║
+# ║ Path(get_abspath(path, cwd), result == (path if os.path.isabs(path) else os.path.abspath(os.path.join(cwd, path))) and result == path or result == os.path.abspath(os.path.join(cwd, path))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_abspath : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (path if os.path.isabs(path) el...   ║
+# ║   ensures:  result == path or result == os.path.abspa...   ║
+# ║   fiber[case_0]: os.path.isabs(path) => path               ║
+# ║   fiber[case_1]: not (os.path.isabs(path)) => os.path...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_abspath : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc390484dbc78c28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88cb9e69eb27f391  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.get_abspath","kind":"function","src_hash":"ae394f0d1928d62e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_abspath(pat)","rhs":"returns the absolute path","over":{"base":"Any"},"name":"get_abspath_correct"},"guarantee":"returns the absolute path","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.get_abspath_correct","statement":"Path(get_abspath(x), returns the absolute path)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc390484dbc78c28"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.get_abspath","kind":"function","src_hash":"ae394f0d1928d62e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (path if os.path.isabs(path) else os.path.abspath(os.path.join(cwd, path))) and result == path or result == os.path.abspath(os.path.join(cwd, path))"},"spec":{"lhs":"get_abspath(path, cwd)","rhs":"result == (path if os.path.isabs(path) else os.path.abspath(os.path.join(cwd, path))) and result == path or result == os.path.abspath(os.path.join(cwd, path))","over":{"base":"Any"},"name":"get_abspath_correct"},"guarantee":"result == (path if os.path.isabs(path) else os.path.abspath(os.path.join(cwd, path))); result == path or result == os.path.abspath(os.path.join(cwd, path)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.get_abspath_correct","statement":"Path(get_abspath(x), result == (path if os.path.isabs(path) else os.path.abspath(os.path.join(cwd, path))); result == path or result == os.path.abspath(os.path.join(cwd, path)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88cb9e69eb27f391","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (path if os.path.isabs(path) else os.path.abspath(os.path.join(cwd, path)))","result == path or result == os.path.abspath(os.path.join(cwd, path))"],"fibers":[{"name":"case_0","guard":"os.path.isabs(path)","ensures":["result == path"],"decidability":"library","returns_expr":"path"},{"name":"case_1","guard":"not (os.path.isabs(path))","ensures":["result == os.path.abspath(os.path.join(cwd, path))"],"decidability":"library","returns_expr":"os.path.abspath(os.path.join(cwd, path))"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_abspath(path, cwd='.'):
     """ Returns the absolute path.
 
@@ -109,16 +139,22 @@ def get_abspath(path, cwd='.'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_dirs(pat), create directories (equivalent of ``mkdir -p``)) over Any ║
+# ║ Path(make_dirs(path), # HINT: make_dirs may be idempotent: make_dirs(make_dirs(x)) == make_dirs(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_dirs : Any → {Any | os.path.isdir(path)}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: make_dirs may be idempotent: make...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_dirs : Any → {Any | result satisfies: # HINT: ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97a74efa22e73a4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f573f0368ca6eaba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.make_dirs","kind":"function","src_hash":"2255331252faec9e","in":{"base":"Any"},"out":{"base":"Any","pred":"os.path.isdir(path)"},"spec":{"lhs":"make_dirs(pat)","rhs":"create directories (equivalent of ``mkdir -p``)","over":{"base":"Any"},"name":"make_dirs_correct"},"guarantee":"create directories (equivalent of ``mkdir -p``)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.make_dirs_correct","statement":"Path(make_dirs(x), create directories (equivalent of ``mkdir -p``))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97a74efa22e73a4c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.make_dirs","kind":"function","src_hash":"2255331252faec9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: make_dirs may be idempotent: make_dirs(make_dirs(x)) == make_dirs(x)"},"spec":{"lhs":"make_dirs(path)","rhs":"# HINT: make_dirs may be idempotent: make_dirs(make_dirs(x)) == make_dirs(x)","over":{"base":"Any"},"name":"make_dirs_correct"},"guarantee":"# HINT: make_dirs may be idempotent: make_dirs(make_dirs(x)) == make_dirs(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.make_dirs_correct","statement":"Path(make_dirs(x), # HINT: make_dirs may be idempotent: make_dirs(make_dirs(x)) == make_dirs(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f573f0368ca6eaba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: make_dirs may be idempotent: make_dirs(make_dirs(x)) == make_dirs(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_dirs(path):
     """ Create directories (equivalent of ``mkdir -p``). """
     if path[-1] == '/':
@@ -136,16 +172,22 @@ def make_dirs(path):
         assert os.path.isdir(path)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(missing_or_other_newer(pat), investigate if path is non-existent or older than provided reference path) over Any ║
+# ║ Path(missing_or_other_newer(path, other_path, cwd), <unspecified:missing_or_other_newer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ missing_or_other_newer : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac913d0d4c4198d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.missing_or_other_newer","kind":"function","src_hash":"bf41263c85ac02c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"missing_or_other_newer(pat)","rhs":"investigate if path is non-existent or older than provided reference path","over":{"base":"Any"},"name":"missing_or_other_newer_correct"},"guarantee":"investigate if path is non-existent or older than provided reference path","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.missing_or_other_newer_correct","statement":"Path(missing_or_other_newer(x), investigate if path is non-existent or older than provided reference path)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac913d0d4c4198d1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.missing_or_other_newer","kind":"function","src_hash":"bf41263c85ac02c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"missing_or_other_newer(path, other_path, cwd)","rhs":"<unspecified:missing_or_other_newer>","over":{"base":"Any"},"name":"missing_or_other_newer_correct"},"guarantee":"investigate if path is non-existent or older than provided reference path","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.missing_or_other_newer_correct","statement":"Path(missing_or_other_newer(x), investigate if path is non-existent or older than provided reference path)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac913d0d4c4198d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def missing_or_other_newer(path, other_path, cwd=None):
     """
     Investigate if path is non-existent or older than provided reference
@@ -175,16 +217,24 @@ def missing_or_other_newer(path, other_path, cwd=None):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(src), variation of ``shutil.copy`` with extra options) over Any ║
+# ║ Path(copy(src, dst, only_update), dst) over {Any | os.path.exists(src)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ copy : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: os.path.exists(src)                            ║
+# ║   ensures:  result == dst                                  ║
+# ║   returns:  dst                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ copy : {Any | os.path.exists(src)} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62e042af9193814d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14259b1fe263beb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.copy","kind":"function","src_hash":"c5cb58ce66a91267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy(src)","rhs":"variation of ``shutil.copy`` with extra options","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"variation of ``shutil.copy`` with extra options","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.copy_correct","statement":"Path(copy(x), variation of ``shutil.copy`` with extra options)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62e042af9193814d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.copy","kind":"function","src_hash":"c5cb58ce66a91267","in":{"base":"Any","pred":"os.path.exists(src)"},"out":{"base":"Any","pred":"result satisfies: result == (dst)"},"spec":{"lhs":"copy(src, dst, only_update)","rhs":"dst","over":{"base":"Any","pred":"os.path.exists(src)"},"name":"copy_correct"},"guarantee":"returns dst; result == dst","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.copy_correct","statement":"Path(copy(x), returns dst; result == dst)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14259b1fe263beb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["os.path.exists(src)"],"ensures":["result == dst"],"returns_expr":"dst","pure":false,"effects":{"effect_type":"reads_state","raises":["FileNotFoundError"]},"state_contract":{"exceptional_post":{"FileNotFoundError":["isinstance(raised, FileNotFoundError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def copy(src, dst, only_update=False, copystat=True, cwd=None,
          dest_is_dir=False, create_dest_dirs=False):
     """ Variation of ``shutil.copy`` with extra options.
@@ -262,16 +312,22 @@ Glob = namedtuple('Glob', 'pathname')
 ArbitraryDepthGlob = namedtuple('ArbitraryDepthGlob', 'filename')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(glob_at_depth(fil), glob_at_depth produces the expected output) over Any ║
+# ║ Path(glob_at_depth(filename_glob, cwd), <unspecified:glob_at_depth>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ glob_at_depth : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2d523c8ab559f8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.glob_at_depth","kind":"function","src_hash":"19c069e55d70ba6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"glob_at_depth(fil)","rhs":"glob_at_depth produces the expected output","over":{"base":"Any"},"name":"glob_at_depth_correct"},"guarantee":"glob_at_depth produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.glob_at_depth_correct","statement":"Path(glob_at_depth(x), glob_at_depth produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2d523c8ab559f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.glob_at_depth","kind":"function","src_hash":"19c069e55d70ba6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"glob_at_depth(filename_glob, cwd)","rhs":"<unspecified:glob_at_depth>","over":{"base":"Any"},"name":"glob_at_depth_correct"},"guarantee":"glob_at_depth produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.glob_at_depth_correct","statement":"Path(glob_at_depth(x), glob_at_depth produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2d523c8ab559f8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def glob_at_depth(filename_glob, cwd=None):
     if cwd is not None:
         cwd = '.'
@@ -284,16 +340,22 @@ def glob_at_depth(filename_glob, cwd=None):
     return globbed
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sha256_of_file(pat), computes the sha256 hash of a file) over Any ║
+# ║ Path(sha256_of_file(path, nblocks), <unspecified:sha256_of_file>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sha256_of_file : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d1dd417e6082efd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.sha256_of_file","kind":"function","src_hash":"cdd0d5dea0eea51d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sha256_of_file(pat)","rhs":"computes the sha256 hash of a file","over":{"base":"Any"},"name":"sha256_of_file_correct"},"guarantee":"computes the sha256 hash of a file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.sha256_of_file_correct","statement":"Path(sha256_of_file(x), computes the sha256 hash of a file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1dd417e6082efd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.sha256_of_file","kind":"function","src_hash":"cdd0d5dea0eea51d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sha256_of_file(path, nblocks)","rhs":"<unspecified:sha256_of_file>","over":{"base":"Any"},"name":"sha256_of_file_correct"},"guarantee":"computes the sha256 hash of a file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.sha256_of_file_correct","statement":"Path(sha256_of_file(x), computes the sha256 hash of a file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1dd417e6082efd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["sh.update"],"io_operations":["open"]},"state_contract":{"modifies":["sh.*"],"old_bindings":{"old_len_sh":"len(sh)"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sha256_of_file(path, nblocks=128):
     """ Computes the SHA256 hash of a file.
 
@@ -319,16 +381,22 @@ def sha256_of_file(path, nblocks=128):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sha256_of_string(str), computes the sha256 hash of a string) over Any ║
+# ║ Path(sha256_of_string(string), <unspecified:sha256_of_string>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sha256_of_string : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cd8911b16553478  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.sha256_of_string","kind":"function","src_hash":"0a8df1b1403bcb6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sha256_of_string(str)","rhs":"computes the sha256 hash of a string","over":{"base":"Any"},"name":"sha256_of_string_correct"},"guarantee":"computes the sha256 hash of a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.sha256_of_string_correct","statement":"Path(sha256_of_string(x), computes the sha256 hash of a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cd8911b16553478"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.sha256_of_string","kind":"function","src_hash":"0a8df1b1403bcb6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sha256_of_string(string)","rhs":"<unspecified:sha256_of_string>","over":{"base":"Any"},"name":"sha256_of_string_correct"},"guarantee":"computes the sha256 hash of a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.sha256_of_string_correct","statement":"Path(sha256_of_string(x), computes the sha256 hash of a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cd8911b16553478","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def sha256_of_string(string):
     """ Computes the SHA256 hash of a string. """
     sh = sha256()
@@ -337,16 +405,22 @@ def sha256_of_string(string):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pyx_is_cplus(pat), inspect a cython source file (.pyx) and look for comment line like:) over Any ║
+# ║ Path(pyx_is_cplus(path), <unspecified:pyx_is_cplus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pyx_is_cplus : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92afede715c01d46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.pyx_is_cplus","kind":"function","src_hash":"9221b48eb8e85c5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pyx_is_cplus(pat)","rhs":"inspect a cython source file (.pyx) and look for comment line like:","over":{"base":"Any"},"name":"pyx_is_cplus_correct"},"guarantee":"inspect a cython source file (.pyx) and look for comment line like:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.pyx_is_cplus_correct","statement":"Path(pyx_is_cplus(x), inspect a cython source file (.pyx) and look for comment line like:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92afede715c01d46"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.pyx_is_cplus","kind":"function","src_hash":"9221b48eb8e85c5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pyx_is_cplus(path)","rhs":"<unspecified:pyx_is_cplus>","over":{"base":"Any"},"name":"pyx_is_cplus_correct"},"guarantee":"inspect a cython source file (.pyx) and look for comment line like:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.pyx_is_cplus_correct","statement":"Path(pyx_is_cplus(x), inspect a cython source file (.pyx) and look for comment line like:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92afede715c01d46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["open"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pyx_is_cplus(path):
     """
     Inspect a Cython source file (.pyx) and look for comment line like:
@@ -368,16 +442,22 @@ def pyx_is_cplus(path):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(import_module_from_file(fil), imports python extension (from shared object file)) over Any ║
+# ║ Path(import_module_from_file(filename, only_if_newer_than), <unspecified:import_module_from_file>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ import_module_from_file : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   imp.__module__                                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 93690d7e66cb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.import_module_from_file","kind":"function","src_hash":"d3ccaf88e74fef06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"import_module_from_file(fil)","rhs":"imports python extension (from shared object file)","over":{"base":"Any"},"name":"import_module_from_file_correct"},"guarantee":"imports python extension (from shared object file)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.import_module_from_file_correct","statement":"Path(import_module_from_file(x), imports python extension (from shared object file))"},"assumes":[],"trust":["imp.__module__"],"compiled":true,"vhash":"93690d7e66cbd0c0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.import_module_from_file","kind":"function","src_hash":"d3ccaf88e74fef06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"import_module_from_file(filename, only_if_newer_than)","rhs":"<unspecified:import_module_from_file>","over":{"base":"Any"},"name":"import_module_from_file_correct"},"guarantee":"imports python extension (from shared object file)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.import_module_from_file_correct","statement":"Path(import_module_from_file(x), imports python extension (from shared object file))"},"assumes":[],"trust":["imp.__module__"],"compiled":true,"vhash":"93690d7e66cbd0c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def import_module_from_file(filename, only_if_newer_than=None):
     """ Imports Python extension (from shared object file)
 
@@ -427,16 +507,22 @@ def import_module_from_file(filename, only_if_newer_than=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_binary_of_command(can), finds binary first matching name among candidates) over Any ║
+# ║ Path(find_binary_of_command(candidates), (c, binary_path)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c, binary_path)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_binary_of_command : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   shutil.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 9c1663285526...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 07d3575080b9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.find_binary_of_command","kind":"function","src_hash":"a995806af7c19d50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_binary_of_command(can)","rhs":"finds binary first matching name among candidates","over":{"base":"Any"},"name":"find_binary_of_command_correct"},"guarantee":"finds binary first matching name among candidates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.find_binary_of_command_correct","statement":"Path(find_binary_of_command(x), finds binary first matching name among candidates)"},"assumes":[],"trust":["shutil.__module__"],"compiled":true,"vhash":"9c16632855266433"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.find_binary_of_command","kind":"function","src_hash":"a995806af7c19d50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_binary_of_command(candidates)","rhs":"(c, binary_path)","over":{"base":"Any"},"name":"find_binary_of_command_correct"},"guarantee":"returns (c, binary_path)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.find_binary_of_command_correct","statement":"Path(find_binary_of_command(x), returns (c, binary_path))"},"assumes":[],"trust":["shutil.__module__"],"compiled":true,"vhash":"07d3575080b90ec0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c, binary_path)","pure":false,"effects":{"effect_type":"reads_state","raises":["CompilerNotFoundError"]},"state_contract":{"exceptional_post":{"CompilerNotFoundError":["isinstance(raised, CompilerNotFoundError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_binary_of_command(candidates):
     """ Finds binary first matching name among candidates.
 
@@ -464,16 +550,22 @@ def find_binary_of_command(candidates):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unique_list(l), uniquify a list (skip duplicate items)) over Any ║
+# ║ Path(unique_list(l), <unspecified:unique_list>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unique_list : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b11dd9853ece18fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.unique_list","kind":"function","src_hash":"3f877e7448d65e10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unique_list(l)","rhs":"uniquify a list (skip duplicate items)","over":{"base":"Any"},"name":"unique_list_correct"},"guarantee":"uniquify a list (skip duplicate items)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.unique_list_correct","statement":"Path(unique_list(x), uniquify a list (skip duplicate items))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11dd9853ece18fa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.util.unique_list","kind":"function","src_hash":"3f877e7448d65e10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unique_list(l)","rhs":"<unspecified:unique_list>","over":{"base":"Any"},"name":"unique_list_correct"},"guarantee":"uniquify a list (skip duplicate items)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.util.unique_list_correct","statement":"Path(unique_list(x), uniquify a list (skip duplicate items))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11dd9853ece18fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def unique_list(l):
     """ Uniquify a list (skip duplicate items). """
     result = []

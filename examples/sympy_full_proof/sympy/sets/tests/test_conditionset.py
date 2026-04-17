@@ -43,7 +43,12 @@ f = Function('f')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CondSet(), test_CondSet produces the expected output) over {Any | isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)} ║
+# ║ Path(test_CondSet(), pi in sin_sols_principal and pi / 2 not in sin_sols_principal and 3 * pi not in sin_sols_principal and oo not in sin_sols_principal and 5 in ConditionSet(x, x ** 2 > 4, S.Reals) and 1 not in ConditionSet(x, x ** 2 > 4, S.Reals) and 0 not in ConditionSet(x, y > 5, Interval(1, 7)) and matrix_set.contains(Y).doit() is S.true and matrix_set.contains(Z).doit() is S.false and isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet) and C(x, False, I) is S.EmptySet and C(x, True, I) is I and C(x, x < 1, C(x, x < 2, I)) == C(x, (x < 1) & (x < 2), I) and C(y, y < 1, C(x, y < 2, I)) == C(x, (x < 1) & (y < 2), I) and C(y, y < 1, C(x, x < 2, I)) == C(y, (y < 1) & (y < 2), I) and C(y, y < 1, C(x, y < x, I)) == C(x, (x < 1) & (y < x), I) and unchanged(C, y, x < 1, C(x, y < x, I)) and ConditionSet(x, x < 1).base_set is U and ConditionSet((x,), x < 1).base_set is U and (1, 2) in c and (1, pi) not in c) over {Any | isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pi in sin_sols_principal                       ║
+# ║   ensures:  pi / 2 not in sin_sols_principal               ║
+# ║   ensures:  3 * pi not in sin_sols_principal               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_CondSet : {Any | isinstance(ConditionSet(x, x < ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -55,9 +60,12 @@ f = Function('f')
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5b88801d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_CondSet","kind":"function","src_hash":"7b27c98102595bce","in":{"base":"Any","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)"},"out":{"base":"Any","pred":"pi in sin_sols_principal and pi / 2 not in sin_sols_principal and 3 * pi not in sin_sols_principal and oo not in sin_sols_principal and 5 in ConditionSet(x, x ** 2 > 4, S.Reals) and 1 not in ConditionSet(x, x ** 2 > 4, S.Reals) and 0 not in ConditionSet(x, y > 5, Interval(1, 7)) and matrix_set.contains(Y).doit() is S.true and matrix_set.contains(Z).doit() is S.false and isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet) and C(x, False, I) is S.EmptySet and C(x, True, I) is I and C(x, x < 1, C(x, x < 2, I)) == C(x, (x < 1) & (x < 2), I) and C(y, y < 1, C(x, y < 2, I)) == C(x, (x < 1) & (y < 2), I) and C(y, y < 1, C(x, x < 2, I)) == C(y, (y < 1) & (y < 2), I) and C(y, y < 1, C(x, y < x, I)) == C(x, (x < 1) & (y < x), I) and unchanged(C, y, x < 1, C(x, y < x, I)) and ConditionSet(x, x < 1).base_set is U and ConditionSet((x,), x < 1).base_set is U and (1, 2) in c and (1, pi) not in c"},"spec":{"lhs":"test_CondSet()","rhs":"test_CondSet produces the expected output","over":{"base":"Any","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)"},"name":"test_CondSet_correct"},"guarantee":"test_CondSet produces the expected output","fibers":[{"name":"x < 1","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)","path":{"lhs":"test_CondSet(x)","rhs":"test_CondSet produces the expected output","over":{"base":"x < 1","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)"},"name":"test_CondSet_x < 1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_CondSet_x < 1_correct","statement":"test_CondSet satisfies spec on x < 1 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5b88801d460f6a35"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_CondSet","kind":"function","src_hash":"7b27c98102595bce","in":{"base":"Any","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)"},"out":{"base":"Any","pred":"result satisfies: pi in sin_sols_principal and pi / 2 not in sin_sols_principal and 3 * pi not in sin_sols_principal and oo not in sin_sols_principal and 5 in ConditionSet(x, x ** 2 > 4, S.Reals) and 1 not in ConditionSet(x, x ** 2 > 4, S.Reals) and 0 not in ConditionSet(x, y > 5, Interval(1, 7)) and matrix_set.contains(Y).doit() is S.true and matrix_set.contains(Z).doit() is S.false and isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet) and C(x, False, I) is S.EmptySet and C(x, True, I) is I and C(x, x < 1, C(x, x < 2, I)) == C(x, (x < 1) & (x < 2), I) and C(y, y < 1, C(x, y < 2, I)) == C(x, (x < 1) & (y < 2), I) and C(y, y < 1, C(x, x < 2, I)) == C(y, (y < 1) & (y < 2), I) and C(y, y < 1, C(x, y < x, I)) == C(x, (x < 1) & (y < x), I) and unchanged(C, y, x < 1, C(x, y < x, I)) and ConditionSet(x, x < 1).base_set is U and ConditionSet((x,), x < 1).base_set is U and (1, 2) in c and (1, pi) not in c"},"spec":{"lhs":"test_CondSet()","rhs":"pi in sin_sols_principal and pi / 2 not in sin_sols_principal and 3 * pi not in sin_sols_principal and oo not in sin_sols_principal and 5 in ConditionSet(x, x ** 2 > 4, S.Reals) and 1 not in ConditionSet(x, x ** 2 > 4, S.Reals) and 0 not in ConditionSet(x, y > 5, Interval(1, 7)) and matrix_set.contains(Y).doit() is S.true and matrix_set.contains(Z).doit() is S.false and isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet) and C(x, False, I) is S.EmptySet and C(x, True, I) is I and C(x, x < 1, C(x, x < 2, I)) == C(x, (x < 1) & (x < 2), I) and C(y, y < 1, C(x, y < 2, I)) == C(x, (x < 1) & (y < 2), I) and C(y, y < 1, C(x, x < 2, I)) == C(y, (y < 1) & (y < 2), I) and C(y, y < 1, C(x, y < x, I)) == C(x, (x < 1) & (y < x), I) and unchanged(C, y, x < 1, C(x, y < x, I)) and ConditionSet(x, x < 1).base_set is U and ConditionSet((x,), x < 1).base_set is U and (1, 2) in c and (1, pi) not in c","over":{"base":"Any","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)"},"name":"test_CondSet_correct"},"guarantee":"pi in sin_sols_principal; pi / 2 not in sin_sols_principal; 3 * pi not in sin_sols_principal","fibers":[{"name":"x < 1","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)","path":{"lhs":"test_CondSet(x)","rhs":"pi in sin_sols_principal; pi / 2 not in sin_sols_principal; 3 * pi not in sin_sols_principal","over":{"base":"x < 1","pred":"isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)"},"name":"test_CondSet_x < 1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_CondSet_x < 1_correct","statement":"test_CondSet satisfies spec on x < 1 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5b88801d460f6a35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pi in sin_sols_principal","pi / 2 not in sin_sols_principal","3 * pi not in sin_sols_principal","oo not in sin_sols_principal","5 in ConditionSet(x, x ** 2 > 4, S.Reals)","1 not in ConditionSet(x, x ** 2 > 4, S.Reals)","0 not in ConditionSet(x, y > 5, Interval(1, 7))","matrix_set.contains(Y).doit() is S.true","matrix_set.contains(Z).doit() is S.false","isinstance(ConditionSet(x, x < 1, {x, y}).base_set, FiniteSet)","C(x, False, I) is S.EmptySet","C(x, True, I) is I","C(x, x < 1, C(x, x < 2, I)) == C(x, (x < 1) & (x < 2), I)","C(y, y < 1, C(x, y < 2, I)) == C(x, (x < 1) & (y < 2), I)","C(y, y < 1, C(x, x < 2, I)) == C(y, (y < 1) & (y < 2), I)","C(y, y < 1, C(x, y < x, I)) == C(x, (x < 1) & (y < x), I)","unchanged(C, y, x < 1, C(x, y < x, I))","ConditionSet(x, x < 1).base_set is U","ConditionSet((x,), x < 1).base_set is U","(1, 2) in c","(1, pi) not in c"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_CondSet():
     sin_sols_principal = ConditionSet(x, Eq(sin(x), 0),
                                       Interval(0, 2*pi, False, True))
@@ -120,16 +128,22 @@ def test_CondSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CondSet_intersect(), test_CondSet_intersect produces the expected output) over Any ║
+# ║ Path(test_CondSet_intersect(), Intersection(input_conditionset, other_domain) == output_conditionset) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CondSet_intersect : Any → {Any | Intersection(in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(input_conditionset, other_do...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CondSet_intersect : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38912d2e37ddcd29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4214b2697834a4a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_CondSet_intersect","kind":"function","src_hash":"e8d44693468081be","in":{"base":"Any"},"out":{"base":"Any","pred":"Intersection(input_conditionset, other_domain) == output_conditionset"},"spec":{"lhs":"test_CondSet_intersect()","rhs":"test_CondSet_intersect produces the expected output","over":{"base":"Any"},"name":"test_CondSet_intersect_correct"},"guarantee":"test_CondSet_intersect produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_CondSet_intersect_correct","statement":"Path(test_CondSet_intersect(x), test_CondSet_intersect produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38912d2e37ddcd29"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_CondSet_intersect","kind":"function","src_hash":"e8d44693468081be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(input_conditionset, other_domain) == output_conditionset"},"spec":{"lhs":"test_CondSet_intersect()","rhs":"Intersection(input_conditionset, other_domain) == output_conditionset","over":{"base":"Any"},"name":"test_CondSet_intersect_correct"},"guarantee":"Intersection(input_conditionset, other_domain) == output_conditionset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_CondSet_intersect_correct","statement":"Path(test_CondSet_intersect(x), Intersection(input_conditionset, other_domain) == output_conditionset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4214b2697834a4a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(input_conditionset, other_domain) == output_conditionset"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CondSet_intersect():
     input_conditionset = ConditionSet(x, x**2 > 4, Interval(1, 4, False,
         False))
@@ -141,16 +155,23 @@ def test_CondSet_intersect():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9849(), test_issue_9849 produces the expected output) over Any ║
+# ║ Path(test_issue_9849(), ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals and ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9849 : Any → {Any | ConditionSet(x, Eq(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet(x, Eq(x, x), S.Naturals) is ...   ║
+# ║   ensures:  ConditionSet(x, Eq(Abs(sin(x)), -1), S.Na...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9849 : Any → {Any | result satisfies: Cond...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c953e762c7d4ede9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c49bf0be47fd267  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_issue_9849","kind":"function","src_hash":"7ea0df1fb8466788","in":{"base":"Any"},"out":{"base":"Any","pred":"ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals and ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet"},"spec":{"lhs":"test_issue_9849()","rhs":"test_issue_9849 produces the expected output","over":{"base":"Any"},"name":"test_issue_9849_correct"},"guarantee":"test_issue_9849 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_issue_9849_correct","statement":"Path(test_issue_9849(x), test_issue_9849 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c953e762c7d4ede9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_issue_9849","kind":"function","src_hash":"7ea0df1fb8466788","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals and ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet"},"spec":{"lhs":"test_issue_9849()","rhs":"ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals and ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet","over":{"base":"Any"},"name":"test_issue_9849_correct"},"guarantee":"ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals; ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_issue_9849_correct","statement":"Path(test_issue_9849(x), ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals; ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c49bf0be47fd267","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet(x, Eq(x, x), S.Naturals) is S.Naturals","ConditionSet(x, Eq(Abs(sin(x)), -1), S.Naturals) == S.EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9849():
     assert ConditionSet(x, Eq(x, x), S.Naturals
         ) is S.Naturals
@@ -159,16 +180,24 @@ def test_issue_9849():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplified_FiniteSet_in_CondSet(), test_simplified_FiniteSet_in_CondSet produces the expected output) over Any ║
+# ║ Path(test_simplified_FiniteSet_in_CondSet(), ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0) and ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet and ConditionSet(x, And(x < -3), EmptySet) == EmptySet and ConditionSet(x, And(x > 0), FiniteSet(-1, 0, 1, y)) == Union(FiniteSet(1), ConditionSet(x, And(x > 0), FiniteSet(y))) and ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(1, 4, 2, y)) == Union(FiniteSet(1, 4), ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(y)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplified_FiniteSet_in_CondSet : Any → {Any | C...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet(x, And(x < 1, x > -3), Finit...   ║
+# ║   ensures:  ConditionSet(x, x < 0, FiniteSet(0, 1, 2)...   ║
+# ║   ensures:  ConditionSet(x, And(x < -3), EmptySet) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplified_FiniteSet_in_CondSet : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7118e1fd7f1f4b2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f4bc1daf0dcfee3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_simplified_FiniteSet_in_CondSet","kind":"function","src_hash":"fe8a085c64ef1678","in":{"base":"Any"},"out":{"base":"Any","pred":"ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0) and ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet and ConditionSet(x, And(x < -3), EmptySet) == EmptySet"},"spec":{"lhs":"test_simplified_FiniteSet_in_CondSet()","rhs":"test_simplified_FiniteSet_in_CondSet produces the expected output","over":{"base":"Any"},"name":"test_simplified_FiniteSet_in_CondSet_correct"},"guarantee":"test_simplified_FiniteSet_in_CondSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_simplified_FiniteSet_in_CondSet_correct","statement":"Path(test_simplified_FiniteSet_in_CondSet(x), test_simplified_FiniteSet_in_CondSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7118e1fd7f1f4b2d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_simplified_FiniteSet_in_CondSet","kind":"function","src_hash":"fe8a085c64ef1678","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0) and ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet and ConditionSet(x, And(x < -3), EmptySet) == EmptySet and ConditionSet(x, And(x > 0), FiniteSet(-1, 0, 1, y)) == Union(FiniteSet(1), ConditionSet(x, And(x > 0), FiniteSet(y))) and ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(1, 4, 2, y)) == Union(FiniteSet(1, 4), ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(y)))"},"spec":{"lhs":"test_simplified_FiniteSet_in_CondSet()","rhs":"ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0) and ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet and ConditionSet(x, And(x < -3), EmptySet) == EmptySet and ConditionSet(x, And(x > 0), FiniteSet(-1, 0, 1, y)) == Union(FiniteSet(1), ConditionSet(x, And(x > 0), FiniteSet(y))) and ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(1, 4, 2, y)) == Union(FiniteSet(1, 4), ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(y)))","over":{"base":"Any"},"name":"test_simplified_FiniteSet_in_CondSet_correct"},"guarantee":"ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0); ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet; ConditionSet(x, And(x < -3), EmptySet) == EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_simplified_FiniteSet_in_CondSet_correct","statement":"Path(test_simplified_FiniteSet_in_CondSet(x), ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0); ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet; ConditionSet(x, And(x < -3), EmptySet) == EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f4bc1daf0dcfee3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)) == FiniteSet(0)","ConditionSet(x, x < 0, FiniteSet(0, 1, 2)) == EmptySet","ConditionSet(x, And(x < -3), EmptySet) == EmptySet","ConditionSet(x, And(x > 0), FiniteSet(-1, 0, 1, y)) == Union(FiniteSet(1), ConditionSet(x, And(x > 0), FiniteSet(y)))","ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(1, 4, 2, y)) == Union(FiniteSet(1, 4), ConditionSet(x, Eq(Mod(x, 3), 1), FiniteSet(y)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simplified_FiniteSet_in_CondSet():
     assert ConditionSet(x, And(x < 1, x > -3), FiniteSet(0, 1, 2)
         ) == FiniteSet(0)
@@ -183,16 +212,24 @@ def test_simplified_FiniteSet_in_CondSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_free_symbols(), test_free_symbols produces the expected output) over Any ║
+# ║ Path(test_free_symbols(), ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z} and ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z} and ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z} and ConditionSet(x, Eq(x, 0), ImageSet(Lambda(y, y ** 2), S.Integers)).free_symbols == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_free_symbols : Any → {Any | ConditionSet(x, Eq(y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet(x, Eq(y, 0), FiniteSet(z)).f...   ║
+# ║   ensures:  ConditionSet(x, Eq(x, 0), FiniteSet(z)).f...   ║
+# ║   ensures:  ConditionSet(x, Eq(x, 0), FiniteSet(x, z)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_free_symbols : Any → {Any | result satisfies: Co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc4ca4c43ca5a5a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09cd9ea99ef99769  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_free_symbols","kind":"function","src_hash":"eada15c68ecf3bf3","in":{"base":"Any"},"out":{"base":"Any","pred":"ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z} and ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z} and ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z}"},"spec":{"lhs":"test_free_symbols()","rhs":"test_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_free_symbols_correct"},"guarantee":"test_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_free_symbols_correct","statement":"Path(test_free_symbols(x), test_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc4ca4c43ca5a5a1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_free_symbols","kind":"function","src_hash":"eada15c68ecf3bf3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z} and ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z} and ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z} and ConditionSet(x, Eq(x, 0), ImageSet(Lambda(y, y ** 2), S.Integers)).free_symbols == set()"},"spec":{"lhs":"test_free_symbols()","rhs":"ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z} and ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z} and ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z} and ConditionSet(x, Eq(x, 0), ImageSet(Lambda(y, y ** 2), S.Integers)).free_symbols == set()","over":{"base":"Any"},"name":"test_free_symbols_correct"},"guarantee":"ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z}; ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z}; ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_free_symbols_correct","statement":"Path(test_free_symbols(x), ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z}; ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z}; ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09cd9ea99ef99769","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet(x, Eq(y, 0), FiniteSet(z)).free_symbols == {y, z}","ConditionSet(x, Eq(x, 0), FiniteSet(z)).free_symbols == {z}","ConditionSet(x, Eq(x, 0), FiniteSet(x, z)).free_symbols == {x, z}","ConditionSet(x, Eq(x, 0), ImageSet(Lambda(y, y ** 2), S.Integers)).free_symbols == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_free_symbols():
     assert ConditionSet(x, Eq(y, 0), FiniteSet(z)
         ).free_symbols == {y, z}
@@ -205,16 +242,24 @@ def test_free_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bound_symbols(), test_bound_symbols produces the expected output) over Any ║
+# ║ Path(test_bound_symbols(), ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x] and ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x] and ConditionSet(x, x < 10, ImageSet(Lambda(y, y ** 2), S.Integers)).bound_symbols == [x] and ConditionSet(x, x < 10, ConditionSet(y, y > 1, S.Integers)).bound_symbols == [x]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bound_symbols : Any → {Any | ConditionSet(x, Eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet(x, Eq(y, 0), FiniteSet(z)).b...   ║
+# ║   ensures:  ConditionSet(x, Eq(x, 0), FiniteSet(x, y)...   ║
+# ║   ensures:  ConditionSet(x, x < 10, ImageSet(Lambda(y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bound_symbols : Any → {Any | result satisfies: C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c27eef3bde6e2c56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5356fe9956512c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_bound_symbols","kind":"function","src_hash":"610c01b9023a3fca","in":{"base":"Any"},"out":{"base":"Any","pred":"ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x] and ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x]"},"spec":{"lhs":"test_bound_symbols()","rhs":"test_bound_symbols produces the expected output","over":{"base":"Any"},"name":"test_bound_symbols_correct"},"guarantee":"test_bound_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_bound_symbols_correct","statement":"Path(test_bound_symbols(x), test_bound_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c27eef3bde6e2c56"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_bound_symbols","kind":"function","src_hash":"610c01b9023a3fca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x] and ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x] and ConditionSet(x, x < 10, ImageSet(Lambda(y, y ** 2), S.Integers)).bound_symbols == [x] and ConditionSet(x, x < 10, ConditionSet(y, y > 1, S.Integers)).bound_symbols == [x]"},"spec":{"lhs":"test_bound_symbols()","rhs":"ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x] and ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x] and ConditionSet(x, x < 10, ImageSet(Lambda(y, y ** 2), S.Integers)).bound_symbols == [x] and ConditionSet(x, x < 10, ConditionSet(y, y > 1, S.Integers)).bound_symbols == [x]","over":{"base":"Any"},"name":"test_bound_symbols_correct"},"guarantee":"ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x]; ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x]; ConditionSet(x, x < 10, ImageSet(Lambda(y, y ** 2), S.Integers)).bound_symbols == [x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_bound_symbols_correct","statement":"Path(test_bound_symbols(x), ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x]; ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x]; ConditionSet(x, x < 10, ImageSet(Lambda(y, y ** 2), S.Integers)).bound_symbols == [x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5356fe9956512c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet(x, Eq(y, 0), FiniteSet(z)).bound_symbols == [x]","ConditionSet(x, Eq(x, 0), FiniteSet(x, y)).bound_symbols == [x]","ConditionSet(x, x < 10, ImageSet(Lambda(y, y ** 2), S.Integers)).bound_symbols == [x]","ConditionSet(x, x < 10, ConditionSet(y, y > 1, S.Integers)).bound_symbols == [x]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bound_symbols():
     assert ConditionSet(x, Eq(y, 0), FiniteSet(z)
         ).bound_symbols == [x]
@@ -227,16 +272,24 @@ def test_bound_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_dummy(), test_as_dummy produces the expected output) over Any ║
+# ║ Path(test_as_dummy(), ConditionSet(x, x < 1, Interval(y, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(y, oo)) and ConditionSet(x, x < 1, Interval(x, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(x, oo)) and ConditionSet(x, x < 1, ImageSet(Lambda(y, y ** 2), S.Integers)).as_dummy() == ConditionSet(_0, _0 < 1, ImageSet(Lambda(_0, _0 ** 2), S.Integers)) and e.bound_symbols == [x, y] and e.as_dummy() == ConditionSet((_0, _1), _0 <= _1, S.Reals ** 2) and e.as_dummy() == ConditionSet((y, x), y <= x, S.Reals ** 2).as_dummy()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_dummy : Any → {Any | e.bound_symbols == [x, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet(x, x < 1, Interval(y, oo)).a...   ║
+# ║   ensures:  ConditionSet(x, x < 1, Interval(x, oo)).a...   ║
+# ║   ensures:  ConditionSet(x, x < 1, ImageSet(Lambda(y,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_dummy : Any → {Any | result satisfies: Condit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc49049485cec827  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52a55cfa561a0d55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_as_dummy","kind":"function","src_hash":"43377fad4b0bd7d0","in":{"base":"Any"},"out":{"base":"Any","pred":"e.bound_symbols == [x, y] and e.as_dummy() == ConditionSet((_0, _1), _0 <= _1, S.Reals ** 2) and e.as_dummy() == ConditionSet((y, x), y <= x, S.Reals ** 2).as_dummy()"},"spec":{"lhs":"test_as_dummy()","rhs":"test_as_dummy produces the expected output","over":{"base":"Any"},"name":"test_as_dummy_correct"},"guarantee":"test_as_dummy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_as_dummy_correct","statement":"Path(test_as_dummy(x), test_as_dummy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc49049485cec827"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_as_dummy","kind":"function","src_hash":"43377fad4b0bd7d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet(x, x < 1, Interval(y, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(y, oo)) and ConditionSet(x, x < 1, Interval(x, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(x, oo)) and ConditionSet(x, x < 1, ImageSet(Lambda(y, y ** 2), S.Integers)).as_dummy() == ConditionSet(_0, _0 < 1, ImageSet(Lambda(_0, _0 ** 2), S.Integers)) and e.bound_symbols == [x, y] and e.as_dummy() == ConditionSet((_0, _1), _0 <= _1, S.Reals ** 2) and e.as_dummy() == ConditionSet((y, x), y <= x, S.Reals ** 2).as_dummy()"},"spec":{"lhs":"test_as_dummy()","rhs":"ConditionSet(x, x < 1, Interval(y, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(y, oo)) and ConditionSet(x, x < 1, Interval(x, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(x, oo)) and ConditionSet(x, x < 1, ImageSet(Lambda(y, y ** 2), S.Integers)).as_dummy() == ConditionSet(_0, _0 < 1, ImageSet(Lambda(_0, _0 ** 2), S.Integers)) and e.bound_symbols == [x, y] and e.as_dummy() == ConditionSet((_0, _1), _0 <= _1, S.Reals ** 2) and e.as_dummy() == ConditionSet((y, x), y <= x, S.Reals ** 2).as_dummy()","over":{"base":"Any"},"name":"test_as_dummy_correct"},"guarantee":"ConditionSet(x, x < 1, Interval(y, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(y, oo)); ConditionSet(x, x < 1, Interval(x, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(x, oo)); ConditionSet(x, x < 1, ImageSet(Lambda(y, y ** 2), S.Integers)).as_dummy() == ConditionSet(_0, _0 < 1, ImageSet(Lambda(_0, _0 ** 2), S.Integers))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_as_dummy_correct","statement":"Path(test_as_dummy(x), ConditionSet(x, x < 1, Interval(y, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(y, oo)); ConditionSet(x, x < 1, Interval(x, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(x, oo)); ConditionSet(x, x < 1, ImageSet(Lambda(y, y ** 2), S.Integers)).as_dummy() == ConditionSet(_0, _0 < 1, ImageSet(Lambda(_0, _0 ** 2), S.Integers)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52a55cfa561a0d55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet(x, x < 1, Interval(y, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(y, oo))","ConditionSet(x, x < 1, Interval(x, oo)).as_dummy() == ConditionSet(_0, _0 < 1, Interval(x, oo))","ConditionSet(x, x < 1, ImageSet(Lambda(y, y ** 2), S.Integers)).as_dummy() == ConditionSet(_0, _0 < 1, ImageSet(Lambda(_0, _0 ** 2), S.Integers))","e.bound_symbols == [x, y]","e.as_dummy() == ConditionSet((_0, _1), _0 <= _1, S.Reals ** 2)","e.as_dummy() == ConditionSet((y, x), y <= x, S.Reals ** 2).as_dummy()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_as_dummy():
     _0, _1 = symbols('_0 _1')
     assert ConditionSet(x, x < 1, Interval(y, oo)
@@ -254,16 +307,24 @@ def test_as_dummy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_CondSet(), test_subs_CondSet produces the expected output) over Any ║
+# ║ Path(test_subs_CondSet(), c.subs(x, y) == c and c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y)) and c.xreplace({x: y}) == ConditionSet(y, y < 2, s) and ConditionSet(x, x < y, s).subs(y, w) == ConditionSet(x, x < w, s.subs(y, w)) and ConditionSet(n, 0 < n, S.Integers) is S.EmptySet and ConditionSet(n, n < y, S.Integers).subs(n, x) == ConditionSet(n, n < y, S.Integers) and ConditionSet(p, n < x, Interval(-5, 5)).subs(x, p) == Interval(-5, 5) and ConditionSet(n, n < x, Interval(-oo, 0)).subs(x, p) == Interval(-oo, 0) and ConditionSet(f(x), f(x) < 1, {w, z}).subs(f(x), y) == ConditionSet(f(x), f(x) < 1, {w, z}) and ConditionSet(x, Contains(y, Interval(-1, 1)), img1).subs(y, S.One / 3).dummy_eq(img2) and (0, 1) in ConditionSet((x, y), x + y < 3, S.Integers ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_CondSet : Any → {Any | c.subs(x, y) == c an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.subs(x, y) == c                              ║
+# ║   ensures:  c.subs(z, y) == ConditionSet(x, x < 2, Fi...   ║
+# ║   ensures:  c.xreplace({x: y}) == ConditionSet(y, y <...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_CondSet : Any → {Any | result satisfies: c....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb4782d0686c7022  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1548c4c3389dbcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_subs_CondSet","kind":"function","src_hash":"8f9b76de50388ae3","in":{"base":"Any"},"out":{"base":"Any","pred":"c.subs(x, y) == c and c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y)) and c.xreplace({x: y}) == ConditionSet(y, y < 2, s) and ConditionSet(x, x < y, s).subs(y, w) == ConditionSet(x, x < w, s.subs(y, w)) and ConditionSet(n, 0 < n, S.Integers) is S.EmptySet and ConditionSet(p, n < x, Interval(-5, 5)).subs(x, p) == Interval(-5, 5) and ConditionSet(n, n < x, Interval(-oo, 0)).subs(x, p) == Interval(-oo, 0) and (0, 1) in ConditionSet((x, y), x + y < 3, S.Integers ** 2)"},"spec":{"lhs":"test_subs_CondSet()","rhs":"test_subs_CondSet produces the expected output","over":{"base":"Any"},"name":"test_subs_CondSet_correct"},"guarantee":"test_subs_CondSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_subs_CondSet_correct","statement":"Path(test_subs_CondSet(x), test_subs_CondSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb4782d0686c7022"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_subs_CondSet","kind":"function","src_hash":"8f9b76de50388ae3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.subs(x, y) == c and c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y)) and c.xreplace({x: y}) == ConditionSet(y, y < 2, s) and ConditionSet(x, x < y, s).subs(y, w) == ConditionSet(x, x < w, s.subs(y, w)) and ConditionSet(n, 0 < n, S.Integers) is S.EmptySet and ConditionSet(n, n < y, S.Integers).subs(n, x) == ConditionSet(n, n < y, S.Integers) and ConditionSet(p, n < x, Interval(-5, 5)).subs(x, p) == Interval(-5, 5) and ConditionSet(n, n < x, Interval(-oo, 0)).subs(x, p) == Interval(-oo, 0) and ConditionSet(f(x), f(x) < 1, {w, z}).subs(f(x), y) == ConditionSet(f(x), f(x) < 1, {w, z}) and ConditionSet(x, Contains(y, Interval(-1, 1)), img1).subs(y, S.One / 3).dummy_eq(img2) and (0, 1) in ConditionSet((x, y), x + y < 3, S.Integers ** 2)"},"spec":{"lhs":"test_subs_CondSet()","rhs":"c.subs(x, y) == c and c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y)) and c.xreplace({x: y}) == ConditionSet(y, y < 2, s) and ConditionSet(x, x < y, s).subs(y, w) == ConditionSet(x, x < w, s.subs(y, w)) and ConditionSet(n, 0 < n, S.Integers) is S.EmptySet and ConditionSet(n, n < y, S.Integers).subs(n, x) == ConditionSet(n, n < y, S.Integers) and ConditionSet(p, n < x, Interval(-5, 5)).subs(x, p) == Interval(-5, 5) and ConditionSet(n, n < x, Interval(-oo, 0)).subs(x, p) == Interval(-oo, 0) and ConditionSet(f(x), f(x) < 1, {w, z}).subs(f(x), y) == ConditionSet(f(x), f(x) < 1, {w, z}) and ConditionSet(x, Contains(y, Interval(-1, 1)), img1).subs(y, S.One / 3).dummy_eq(img2) and (0, 1) in ConditionSet((x, y), x + y < 3, S.Integers ** 2)","over":{"base":"Any"},"name":"test_subs_CondSet_correct"},"guarantee":"c.subs(x, y) == c; c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y)); c.xreplace({x: y}) == ConditionSet(y, y < 2, s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_subs_CondSet_correct","statement":"Path(test_subs_CondSet(x), c.subs(x, y) == c; c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y)); c.xreplace({x: y}) == ConditionSet(y, y < 2, s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1548c4c3389dbcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.subs(x, y) == c","c.subs(z, y) == ConditionSet(x, x < 2, FiniteSet(y))","c.xreplace({x: y}) == ConditionSet(y, y < 2, s)","ConditionSet(x, x < y, s).subs(y, w) == ConditionSet(x, x < w, s.subs(y, w))","ConditionSet(n, 0 < n, S.Integers) is S.EmptySet","ConditionSet(n, n < y, S.Integers).subs(n, x) == ConditionSet(n, n < y, S.Integers)","ConditionSet(p, n < x, Interval(-5, 5)).subs(x, p) == Interval(-5, 5)","ConditionSet(n, n < x, Interval(-oo, 0)).subs(x, p) == Interval(-oo, 0)","ConditionSet(f(x), f(x) < 1, {w, z}).subs(f(x), y) == ConditionSet(f(x), f(x) < 1, {w, z})","ConditionSet(x, Contains(y, Interval(-1, 1)), img1).subs(y, S.One / 3).dummy_eq(img2)","(0, 1) in ConditionSet((x, y), x + y < 3, S.Integers ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_subs_CondSet():
     s = FiniteSet(z, y)
     c = ConditionSet(x, x < 2, s)
@@ -305,16 +366,22 @@ def test_subs_CondSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_CondSet_tebr(), test_subs_CondSet_tebr produces the expected output) over Any ║
+# ║ Path(test_subs_CondSet_tebr(), <unspecified:test_subs_CondSet_tebr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_subs_CondSet_tebr : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a103efcc49ee9db7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_subs_CondSet_tebr","kind":"function","src_hash":"f671cf41c513ab1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subs_CondSet_tebr()","rhs":"test_subs_CondSet_tebr produces the expected output","over":{"base":"Any"},"name":"test_subs_CondSet_tebr_correct"},"guarantee":"test_subs_CondSet_tebr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_subs_CondSet_tebr_correct","statement":"Path(test_subs_CondSet_tebr(x), test_subs_CondSet_tebr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a103efcc49ee9db7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_subs_CondSet_tebr","kind":"function","src_hash":"f671cf41c513ab1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subs_CondSet_tebr()","rhs":"<unspecified:test_subs_CondSet_tebr>","over":{"base":"Any"},"name":"test_subs_CondSet_tebr_correct"},"guarantee":"test_subs_CondSet_tebr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_subs_CondSet_tebr_correct","statement":"Path(test_subs_CondSet_tebr(x), test_subs_CondSet_tebr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a103efcc49ee9db7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs_CondSet_tebr():
     with warns_deprecated_sympy():
         assert ConditionSet((x, y), {x + 1, x + y}, S.Reals**2) == \
@@ -322,16 +389,24 @@ def test_subs_CondSet_tebr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_eq(), test_dummy_eq produces the expected output) over Any ║
+# ║ Path(test_dummy_eq(), c.dummy_eq(C(y, y < 1, I)) and c.dummy_eq(1) == False and c.dummy_eq(C(x, x < 1, S.Reals)) == False and c1.dummy_eq(c2) and c1.dummy_eq(c3) is False and c.dummy_eq(c1) is False and c1.dummy_eq(c) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_eq : Any → {Any | c.dummy_eq(C(y, y < 1, I...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.dummy_eq(C(y, y < 1, I))                     ║
+# ║   ensures:  c.dummy_eq(1) == False                         ║
+# ║   ensures:  c.dummy_eq(C(x, x < 1, S.Reals)) == False      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_eq : Any → {Any | result satisfies: c.dumm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97acd3c7114afb29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e29355beb896ce6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_dummy_eq","kind":"function","src_hash":"5dc47155133194c8","in":{"base":"Any"},"out":{"base":"Any","pred":"c.dummy_eq(C(y, y < 1, I)) and c.dummy_eq(1) == False and c.dummy_eq(C(x, x < 1, S.Reals)) == False and c1.dummy_eq(c2) and c1.dummy_eq(c3) is False and c.dummy_eq(c1) is False and c1.dummy_eq(c) is False and c1.dummy_eq(c2)"},"spec":{"lhs":"test_dummy_eq()","rhs":"test_dummy_eq produces the expected output","over":{"base":"Any"},"name":"test_dummy_eq_correct"},"guarantee":"test_dummy_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_dummy_eq_correct","statement":"Path(test_dummy_eq(x), test_dummy_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97acd3c7114afb29"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_dummy_eq","kind":"function","src_hash":"5dc47155133194c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.dummy_eq(C(y, y < 1, I)) and c.dummy_eq(1) == False and c.dummy_eq(C(x, x < 1, S.Reals)) == False and c1.dummy_eq(c2) and c1.dummy_eq(c3) is False and c.dummy_eq(c1) is False and c1.dummy_eq(c) is False"},"spec":{"lhs":"test_dummy_eq()","rhs":"c.dummy_eq(C(y, y < 1, I)) and c.dummy_eq(1) == False and c.dummy_eq(C(x, x < 1, S.Reals)) == False and c1.dummy_eq(c2) and c1.dummy_eq(c3) is False and c.dummy_eq(c1) is False and c1.dummy_eq(c) is False","over":{"base":"Any"},"name":"test_dummy_eq_correct"},"guarantee":"c.dummy_eq(C(y, y < 1, I)); c.dummy_eq(1) == False; c.dummy_eq(C(x, x < 1, S.Reals)) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_dummy_eq_correct","statement":"Path(test_dummy_eq(x), c.dummy_eq(C(y, y < 1, I)); c.dummy_eq(1) == False; c.dummy_eq(C(x, x < 1, S.Reals)) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e29355beb896ce6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.dummy_eq(C(y, y < 1, I))","c.dummy_eq(1) == False","c.dummy_eq(C(x, x < 1, S.Reals)) == False","c1.dummy_eq(c2)","c1.dummy_eq(c3) is False","c.dummy_eq(c1) is False","c1.dummy_eq(c) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dummy_eq():
     C = ConditionSet
     I = S.Integers
@@ -360,16 +435,24 @@ def test_dummy_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains(), test_contains produces the expected output) over Any ║
+# ║ Path(test_contains(), 6 in ConditionSet(x, x > 5, Interval(1, 7)) and (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False and ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5) and ConditionSet(x, y > 5, Interval(1, 7)).contains(8) is S.false and ConditionSet(x, y > 5, Interval(1, 7)).contains(w) == And(Contains(w, Interval(1, 7)), y > 5) and ConditionSet(x, 1 / x >= 0, S.Reals).contains(0) == Contains(0, ConditionSet(x, 1 / x >= 0, S.Reals), evaluate=False) and not c.contains(1) and c.contains((2, 1)) and not c.contains((0, 1)) and not c.contains((1, 2)) and not c.contains(((1, 2), 3)) and not c.contains(((1, 2), (3, 4))) and c.contains((1, (3, 4)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains : Any → {Any | 6 in ConditionSet(x, x >...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  6 in ConditionSet(x, x > 5, Interval(1, 7))    ║
+# ║   ensures:  (8 in ConditionSet(x, y > 5, Interval(1, ...   ║
+# ║   ensures:  ConditionSet(x, y > 5, Interval(1, 7)).co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains : Any → {Any | result satisfies: 6 in C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df76b12381fd9e16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9396a5d00cb9b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_contains","kind":"function","src_hash":"ff17edf35a3b7aee","in":{"base":"Any"},"out":{"base":"Any","pred":"6 in ConditionSet(x, x > 5, Interval(1, 7)) and (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False and ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5) and ConditionSet(x, y > 5, Interval(1, 7)).contains(8) is S.false and not c.contains(1) and c.contains((2, 1)) and not c.contains((0, 1)) and not c.contains(1) and not c.contains((1, 2)) and not c.contains(((1, 2), 3)) and not c.contains(((1, 2), (3, 4))) and c.contains((1, (3, 4)))"},"spec":{"lhs":"test_contains()","rhs":"test_contains produces the expected output","over":{"base":"Any"},"name":"test_contains_correct"},"guarantee":"test_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_contains_correct","statement":"Path(test_contains(x), test_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df76b12381fd9e16"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_contains","kind":"function","src_hash":"ff17edf35a3b7aee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 6 in ConditionSet(x, x > 5, Interval(1, 7)) and (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False and ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5) and ConditionSet(x, y > 5, Interval(1, 7)).contains(8) is S.false and ConditionSet(x, y > 5, Interval(1, 7)).contains(w) == And(Contains(w, Interval(1, 7)), y > 5) and ConditionSet(x, 1 / x >= 0, S.Reals).contains(0) == Contains(0, ConditionSet(x, 1 / x >= 0, S.Reals), evaluate=False) and not c.contains(1) and c.contains((2, 1)) and not c.contains((0, 1)) and not c.contains((1, 2)) and not c.contains(((1, 2), 3)) and not c.contains(((1, 2), (3, 4))) and c.contains((1, (3, 4)))"},"spec":{"lhs":"test_contains()","rhs":"6 in ConditionSet(x, x > 5, Interval(1, 7)) and (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False and ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5) and ConditionSet(x, y > 5, Interval(1, 7)).contains(8) is S.false and ConditionSet(x, y > 5, Interval(1, 7)).contains(w) == And(Contains(w, Interval(1, 7)), y > 5) and ConditionSet(x, 1 / x >= 0, S.Reals).contains(0) == Contains(0, ConditionSet(x, 1 / x >= 0, S.Reals), evaluate=False) and not c.contains(1) and c.contains((2, 1)) and not c.contains((0, 1)) and not c.contains((1, 2)) and not c.contains(((1, 2), 3)) and not c.contains(((1, 2), (3, 4))) and c.contains((1, (3, 4)))","over":{"base":"Any"},"name":"test_contains_correct"},"guarantee":"6 in ConditionSet(x, x > 5, Interval(1, 7)); (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False; ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_contains_correct","statement":"Path(test_contains(x), 6 in ConditionSet(x, x > 5, Interval(1, 7)); (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False; ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9396a5d00cb9b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["6 in ConditionSet(x, x > 5, Interval(1, 7))","(8 in ConditionSet(x, y > 5, Interval(1, 7))) is False","ConditionSet(x, y > 5, Interval(1, 7)).contains(6) == (y > 5)","ConditionSet(x, y > 5, Interval(1, 7)).contains(8) is S.false","ConditionSet(x, y > 5, Interval(1, 7)).contains(w) == And(Contains(w, Interval(1, 7)), y > 5)","ConditionSet(x, 1 / x >= 0, S.Reals).contains(0) == Contains(0, ConditionSet(x, 1 / x >= 0, S.Reals), evaluate=False)","not c.contains(1)","c.contains((2, 1))","not c.contains((0, 1))","not c.contains((1, 2))","not c.contains(((1, 2), 3))","not c.contains(((1, 2), (3, 4)))","c.contains((1, (3, 4)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_contains():
     assert 6 in ConditionSet(x, x > 5, Interval(1, 7))
     assert (8 in ConditionSet(x, y > 5, Interval(1, 7))) is False
@@ -404,16 +487,23 @@ def test_contains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_relational(), test_as_relational produces the expected output) over Any ║
+# ║ Path(test_as_relational(), ConditionSet((x, y), x > 1, S.Integers ** 2).as_relational((x, y)) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers) and ConditionSet(x, x > 1, S.Integers).as_relational(x) == Contains(x, S.Integers) & (x > 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_relational : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet((x, y), x > 1, S.Integers **...   ║
+# ║   ensures:  ConditionSet(x, x > 1, S.Integers).as_rel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_relational : Any → {Any | result satisfies: C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43730cf4aeb97775  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 614e8e89aa9f2507  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_as_relational","kind":"function","src_hash":"7b6aad68adffea6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_as_relational()","rhs":"test_as_relational produces the expected output","over":{"base":"Any"},"name":"test_as_relational_correct"},"guarantee":"test_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_as_relational_correct","statement":"Path(test_as_relational(x), test_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43730cf4aeb97775"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_as_relational","kind":"function","src_hash":"7b6aad68adffea6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet((x, y), x > 1, S.Integers ** 2).as_relational((x, y)) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers) and ConditionSet(x, x > 1, S.Integers).as_relational(x) == Contains(x, S.Integers) & (x > 1)"},"spec":{"lhs":"test_as_relational()","rhs":"ConditionSet((x, y), x > 1, S.Integers ** 2).as_relational((x, y)) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers) and ConditionSet(x, x > 1, S.Integers).as_relational(x) == Contains(x, S.Integers) & (x > 1)","over":{"base":"Any"},"name":"test_as_relational_correct"},"guarantee":"ConditionSet((x, y), x > 1, S.Integers ** 2).as_relational((x, y)) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers); ConditionSet(x, x > 1, S.Integers).as_relational(x) == Contains(x, S.Integers) & (x > 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_as_relational_correct","statement":"Path(test_as_relational(x), ConditionSet((x, y), x > 1, S.Integers ** 2).as_relational((x, y)) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers); ConditionSet(x, x > 1, S.Integers).as_relational(x) == Contains(x, S.Integers) & (x > 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"614e8e89aa9f2507","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet((x, y), x > 1, S.Integers ** 2).as_relational((x, y)) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers)","ConditionSet(x, x > 1, S.Integers).as_relational(x) == Contains(x, S.Integers) & (x > 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_as_relational():
     assert ConditionSet((x, y), x > 1, S.Integers**2).as_relational((x, y)
         ) == (x > 1) & Contains(x, S.Integers) & Contains(y, S.Integers)
@@ -422,16 +512,24 @@ def test_as_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_flatten(), tests whether there is basic denesting functionality) over Any ║
+# ║ Path(test_flatten(), outer == ConditionSet(x, sin(x) + x > 0, S.Reals) and outer != ConditionSet(x, sin(x) + x > 0, S.Reals) and outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_flatten : Any → {Any | outer == ConditionSet(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  outer == ConditionSet(x, sin(x) + x > 0, ...   ║
+# ║   ensures:  outer != ConditionSet(x, sin(x) + x > 0, ...   ║
+# ║   ensures:  outer == ConditionSet(x, sin(x) + x > 0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_flatten : Any → {Any | result satisfies: outer =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27187927bdb5728f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd28289363c558cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_flatten","kind":"function","src_hash":"6146daa29b6fdb7b","in":{"base":"Any"},"out":{"base":"Any","pred":"outer == ConditionSet(x, sin(x) + x > 0, S.Reals) and outer != ConditionSet(x, sin(x) + x > 0, S.Reals) and outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1))"},"spec":{"lhs":"test_flatten()","rhs":"tests whether there is basic denesting functionality","over":{"base":"Any"},"name":"test_flatten_correct"},"guarantee":"tests whether there is basic denesting functionality","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_flatten_correct","statement":"Path(test_flatten(x), tests whether there is basic denesting functionality)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27187927bdb5728f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_flatten","kind":"function","src_hash":"6146daa29b6fdb7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: outer == ConditionSet(x, sin(x) + x > 0, S.Reals) and outer != ConditionSet(x, sin(x) + x > 0, S.Reals) and outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1))"},"spec":{"lhs":"test_flatten()","rhs":"outer == ConditionSet(x, sin(x) + x > 0, S.Reals) and outer != ConditionSet(x, sin(x) + x > 0, S.Reals) and outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1))","over":{"base":"Any"},"name":"test_flatten_correct"},"guarantee":"outer == ConditionSet(x, sin(x) + x > 0, S.Reals); outer != ConditionSet(x, sin(x) + x > 0, S.Reals); outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_flatten_correct","statement":"Path(test_flatten(x), outer == ConditionSet(x, sin(x) + x > 0, S.Reals); outer != ConditionSet(x, sin(x) + x > 0, S.Reals); outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd28289363c558cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["outer == ConditionSet(x, sin(x) + x > 0, S.Reals)","outer != ConditionSet(x, sin(x) + x > 0, S.Reals)","outer == ConditionSet(x, sin(x) + x > 0, Interval(-1, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_flatten():
     """Tests whether there is basic denesting functionality"""
     inner = ConditionSet(x, sin(x) + x > 0)
@@ -448,16 +546,22 @@ def test_flatten():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_duplicate(), test_duplicate produces the expected output) over Any ║
+# ║ Path(test_duplicate(), <unspecified:test_duplicate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_duplicate : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 408abfc12e709576  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_duplicate","kind":"function","src_hash":"b3bc25c05c5d7a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_duplicate()","rhs":"test_duplicate produces the expected output","over":{"base":"Any"},"name":"test_duplicate_correct"},"guarantee":"test_duplicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_duplicate_correct","statement":"Path(test_duplicate(x), test_duplicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408abfc12e709576"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_duplicate","kind":"function","src_hash":"b3bc25c05c5d7a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_duplicate()","rhs":"<unspecified:test_duplicate>","over":{"base":"Any"},"name":"test_duplicate_correct"},"guarantee":"test_duplicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_duplicate_correct","statement":"Path(test_duplicate(x), test_duplicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408abfc12e709576","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_duplicate():
     from sympy.core.function import BadSignatureError
     # test coverage for line 95 in conditionset.py, check for duplicates in symbols
@@ -466,16 +570,23 @@ def test_duplicate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_ConditionSet(), test_SetKind_ConditionSet produces the expected output) over Any ║
+# ║ Path(test_SetKind_ConditionSet(), ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind) and ConditionSet(x, x < 0).kind is SetKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_ConditionSet : Any → {Any | ConditionSet...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ConditionSet(x, Eq(sin(x), 0), Interval(0...   ║
+# ║   ensures:  ConditionSet(x, x < 0).kind is SetKind(Nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_ConditionSet : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bee0ec2200f2861d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19798e05c1cd2adc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_SetKind_ConditionSet","kind":"function","src_hash":"b22014f2b5f4e347","in":{"base":"Any"},"out":{"base":"Any","pred":"ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind) and ConditionSet(x, x < 0).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_ConditionSet()","rhs":"test_SetKind_ConditionSet produces the expected output","over":{"base":"Any"},"name":"test_SetKind_ConditionSet_correct"},"guarantee":"test_SetKind_ConditionSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_SetKind_ConditionSet_correct","statement":"Path(test_SetKind_ConditionSet(x), test_SetKind_ConditionSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bee0ec2200f2861d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_conditionset.test_SetKind_ConditionSet","kind":"function","src_hash":"b22014f2b5f4e347","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind) and ConditionSet(x, x < 0).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_ConditionSet()","rhs":"ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind) and ConditionSet(x, x < 0).kind is SetKind(NumberKind)","over":{"base":"Any"},"name":"test_SetKind_ConditionSet_correct"},"guarantee":"ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind); ConditionSet(x, x < 0).kind is SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_conditionset.test_SetKind_ConditionSet_correct","statement":"Path(test_SetKind_ConditionSet(x), ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind); ConditionSet(x, x < 0).kind is SetKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19798e05c1cd2adc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ConditionSet(x, Eq(sin(x), 0), Interval(0, 2 * pi)).kind is SetKind(NumberKind)","ConditionSet(x, x < 0).kind is SetKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SetKind_ConditionSet():
     assert ConditionSet(x, Eq(sin(x), 0), Interval(0, 2*pi)).kind is SetKind(NumberKind)
     assert ConditionSet(x, x < 0).kind is SetKind(NumberKind)

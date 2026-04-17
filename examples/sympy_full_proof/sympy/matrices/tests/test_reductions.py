@@ -28,16 +28,24 @@ from sympy.abc import x
 
 # Matrix tests
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_row_op(), test_row_op produces the expected output) over Any ║
+# ║ Path(test_row_op(), e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', row=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', row1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', row1=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', row=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', 0, 5, 1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', row=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', row1=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and a.elementary_row_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_row_op : Any → {Any | e.elementary_row_op('n->kn...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.elementary_row_op('n->kn', 0, 5) == Mat...   ║
+# ║   ensures:  e.elementary_row_op('n->kn', 1, 5) == Mat...   ║
+# ║   ensures:  e.elementary_row_op('n->kn', row=1, k=5) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_row_op : Any → {Any | result satisfies: e.elemen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 284faa0d537e4e80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb66d14b053abda1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_row_op","kind":"function","src_hash":"42d0f6fca5f12868","in":{"base":"Any"},"out":{"base":"Any","pred":"e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and a.elementary_row_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)"},"spec":{"lhs":"test_row_op()","rhs":"test_row_op produces the expected output","over":{"base":"Any"},"name":"test_row_op_correct"},"guarantee":"test_row_op produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_row_op_correct","statement":"Path(test_row_op(x), test_row_op produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"284faa0d537e4e80"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_row_op","kind":"function","src_hash":"42d0f6fca5f12868","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', row=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', row1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', row1=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', row=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', 0, 5, 1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', row=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', row1=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and a.elementary_row_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)"},"spec":{"lhs":"test_row_op()","rhs":"e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', row=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n->kn', row1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', row1=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n<->m', row=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', 0, 5, 1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', row=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_row_op('n->n+km', row1=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]]) and a.elementary_row_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_row_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)","over":{"base":"Any"},"name":"test_row_op_correct"},"guarantee":"e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]); e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]); e.elementary_row_op('n->kn', row=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_row_op_correct","statement":"Path(test_row_op(x), e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]); e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]); e.elementary_row_op('n->kn', row=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb66d14b053abda1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.elementary_row_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]])","e.elementary_row_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","e.elementary_row_op('n->kn', row=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","e.elementary_row_op('n->kn', row1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","e.elementary_row_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])","e.elementary_row_op('n<->m', row1=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])","e.elementary_row_op('n<->m', row=0, row2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])","e.elementary_row_op('n->n+km', 0, 5, 1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]])","e.elementary_row_op('n->n+km', row=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]])","e.elementary_row_op('n->n+km', row1=0, k=5, row2=1) == Matrix([[1, 5, 0], [0, 1, 0], [0, 0, 1]])","a.elementary_row_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6)","a.elementary_row_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6)","a.elementary_row_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_row_op():
     e = eye(3)
 
@@ -75,16 +83,24 @@ def test_row_op():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_col_op(), test_col_op produces the expected output) over Any ║
+# ║ Path(test_col_op(), e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', col=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', col1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', col1=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', col=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', 0, 5, 1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', col=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', col1=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and a.elementary_col_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_col_op : Any → {Any | e.elementary_col_op('n->kn...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.elementary_col_op('n->kn', 0, 5) == Mat...   ║
+# ║   ensures:  e.elementary_col_op('n->kn', 1, 5) == Mat...   ║
+# ║   ensures:  e.elementary_col_op('n->kn', col=1, k=5) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_col_op : Any → {Any | result satisfies: e.elemen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f0551d4c9e7a81c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57bca77c019192c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_col_op","kind":"function","src_hash":"fefb98d0e4322839","in":{"base":"Any"},"out":{"base":"Any","pred":"e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and a.elementary_col_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)"},"spec":{"lhs":"test_col_op()","rhs":"test_col_op produces the expected output","over":{"base":"Any"},"name":"test_col_op_correct"},"guarantee":"test_col_op produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_col_op_correct","statement":"Path(test_col_op(x), test_col_op produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f0551d4c9e7a81c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_col_op","kind":"function","src_hash":"fefb98d0e4322839","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', col=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', col1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', col1=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', col=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', 0, 5, 1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', col=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', col1=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and a.elementary_col_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)"},"spec":{"lhs":"test_col_op()","rhs":"e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', col=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n->kn', col1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', col1=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n<->m', col=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', 0, 5, 1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', col=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and e.elementary_col_op('n->n+km', col1=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]]) and a.elementary_col_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6) and a.elementary_col_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)","over":{"base":"Any"},"name":"test_col_op_correct"},"guarantee":"e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]); e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]); e.elementary_col_op('n->kn', col=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_col_op_correct","statement":"Path(test_col_op(x), e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]]); e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]); e.elementary_col_op('n->kn', col=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57bca77c019192c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.elementary_col_op('n->kn', 0, 5) == Matrix([[5, 0, 0], [0, 1, 0], [0, 0, 1]])","e.elementary_col_op('n->kn', 1, 5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","e.elementary_col_op('n->kn', col=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","e.elementary_col_op('n->kn', col1=1, k=5) == Matrix([[1, 0, 0], [0, 5, 0], [0, 0, 1]])","e.elementary_col_op('n<->m', 0, 1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])","e.elementary_col_op('n<->m', col1=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])","e.elementary_col_op('n<->m', col=0, col2=1) == Matrix([[0, 1, 0], [1, 0, 0], [0, 0, 1]])","e.elementary_col_op('n->n+km', 0, 5, 1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]])","e.elementary_col_op('n->n+km', col=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]])","e.elementary_col_op('n->n+km', col1=0, k=5, col2=1) == Matrix([[1, 0, 0], [5, 1, 0], [0, 0, 1]])","a.elementary_col_op('n->kn', 1, 5) == Matrix(2, 3, [0] * 6)","a.elementary_col_op('n<->m', 0, 1) == Matrix(2, 3, [0] * 6)","a.elementary_col_op('n->n+km', 0, 5, 1) == Matrix(2, 3, [0] * 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_col_op():
     e = eye(3)
 
@@ -122,16 +138,24 @@ def test_col_op():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_echelon(), test_is_echelon produces the expected output) over Any ║
+# ║ Path(test_is_echelon(), zro.is_echelon and ident.is_echelon and a.is_echelon and not a.is_echelon) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_echelon : Any → {Any | zro.is_echelon and ide...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zro.is_echelon                                 ║
+# ║   ensures:  ident.is_echelon                               ║
+# ║   ensures:  a.is_echelon                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_echelon : Any → {Any | result satisfies: zro....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 098b23f3f71f554f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6c4bdf40ae4de7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_is_echelon","kind":"function","src_hash":"dcd7d514255c135f","in":{"base":"Any"},"out":{"base":"Any","pred":"zro.is_echelon and ident.is_echelon and a.is_echelon and a.is_echelon and not a.is_echelon and a.is_echelon and not a.is_echelon and not a.is_echelon"},"spec":{"lhs":"test_is_echelon()","rhs":"test_is_echelon produces the expected output","over":{"base":"Any"},"name":"test_is_echelon_correct"},"guarantee":"test_is_echelon produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_is_echelon_correct","statement":"Path(test_is_echelon(x), test_is_echelon produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"098b23f3f71f554f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_is_echelon","kind":"function","src_hash":"dcd7d514255c135f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zro.is_echelon and ident.is_echelon and a.is_echelon and not a.is_echelon"},"spec":{"lhs":"test_is_echelon()","rhs":"zro.is_echelon and ident.is_echelon and a.is_echelon and not a.is_echelon","over":{"base":"Any"},"name":"test_is_echelon_correct"},"guarantee":"zro.is_echelon; ident.is_echelon; a.is_echelon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_is_echelon_correct","statement":"Path(test_is_echelon(x), zro.is_echelon; ident.is_echelon; a.is_echelon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6c4bdf40ae4de7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zro.is_echelon","ident.is_echelon","a.is_echelon","not a.is_echelon"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_echelon():
     zro = zeros(3)
     ident = eye(3)
@@ -160,16 +184,24 @@ def test_is_echelon():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_echelon_form(), test_echelon_form produces the expected output) over Any ║
+# ║ Path(test_echelon_form(), a.echelon_form() == a and e.echelon_form() == e and a_echelon.is_echelon) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_echelon_form : Any → {Any | a.echelon_form() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.echelon_form() == a                          ║
+# ║   ensures:  e.echelon_form() == e                          ║
+# ║   ensures:  a_echelon.is_echelon                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_echelon_form : Any → {Any | result satisfies: a....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be5011b4b47ecf99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10aefaa7488476c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_echelon_form","kind":"function","src_hash":"850aa5eca5057f7b","in":{"base":"Any"},"out":{"base":"Any","pred":"a.echelon_form() == a and e.echelon_form() == e and a.echelon_form() == a and a.echelon_form() == a and a_echelon.is_echelon and a_echelon.is_echelon and a_echelon.is_echelon and a_echelon.is_echelon and a_echelon.is_echelon and a_echelon.is_echelon and all((t.is_zero for t in a_echelon * v)) and not all((t.is_zero for t in a_echelon * v.transpose()))"},"spec":{"lhs":"test_echelon_form()","rhs":"test_echelon_form produces the expected output","over":{"base":"Any"},"name":"test_echelon_form_correct"},"guarantee":"test_echelon_form produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_echelon_form_correct","statement":"Path(test_echelon_form(x), test_echelon_form produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be5011b4b47ecf99"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_echelon_form","kind":"function","src_hash":"850aa5eca5057f7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.echelon_form() == a and e.echelon_form() == e and a_echelon.is_echelon"},"spec":{"lhs":"test_echelon_form()","rhs":"a.echelon_form() == a and e.echelon_form() == e and a_echelon.is_echelon","over":{"base":"Any"},"name":"test_echelon_form_correct"},"guarantee":"a.echelon_form() == a; e.echelon_form() == e; a_echelon.is_echelon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_echelon_form_correct","statement":"Path(test_echelon_form(x), a.echelon_form() == a; e.echelon_form() == e; a_echelon.is_echelon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10aefaa7488476c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.echelon_form() == a","e.echelon_form() == e","a_echelon.is_echelon"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_echelon_form():
     # echelon form is not unique, but the result
     # must be row-equivalent to the original matrix
@@ -266,16 +298,24 @@ def test_echelon_form():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rref(), test_rref produces the expected output) over Any ║
+# ║ Path(test_rref(), e.rref(pivots=False) == e and e.rref(pivots=False) == a.rref(pivots=False) == e and a.rref(pivots=False) == Matrix([[1], [0], [0]]) and a.rref(pivots=False) == Matrix([[1, 2, 3]]) and a.rref(pivots=False) == Matrix([[1, 0, -1], [0, 1, 2], [0, 0, 0]]) and a.rref(pivots=False) == b.rref(pivots=False) == c.rref(pivots=False) == d.rref(pivots=False) == b and z.rref(pivots=False) == z and mat == Matrix([[1, -5, 0, 0, 1, 1, -1], [0, 0, 1, 0, 0, -1, 1], [0, 0, 0, 1, 1, -2, 1], [0, 0, 0, 0, 0, 0, 0]]) and pivot_offsets == (0, 2, 3) and a.rref(pivots=False) == Matrix([[1, 0, 0, Rational(-76, 157)], [0, 1, 0, Rational(-5, 157)], [0, 0, 1, Rational(238, 157)], [0, 0, 0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rref : Any → {Any | e.rref(pivots=False) == e an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.rref(pivots=False) == e                      ║
+# ║   ensures:  e.rref(pivots=False) == a.rref(pivots=Fal...   ║
+# ║   ensures:  a.rref(pivots=False) == Matrix([[1], [0],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rref : Any → {Any | result satisfies: e.rref(piv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27cb6ef82ae40abf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56a21994e2fdf6f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rref","kind":"function","src_hash":"7507f8690b45a276","in":{"base":"Any"},"out":{"base":"Any","pred":"e.rref(pivots=False) == e and e.rref(pivots=False) == a.rref(pivots=False) == e and a.rref(pivots=False) == Matrix([[1], [0], [0]]) and a.rref(pivots=False) == Matrix([[1, 2, 3]]) and a.rref(pivots=False) == Matrix([[1, 0, -1], [0, 1, 2], [0, 0, 0]]) and e.rref(pivots=False) == e and z.rref(pivots=False) == z and pivot_offsets == (0, 2, 3) and simplify(i - j).is_zero"},"spec":{"lhs":"test_rref()","rhs":"test_rref produces the expected output","over":{"base":"Any"},"name":"test_rref_correct"},"guarantee":"test_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rref_correct","statement":"Path(test_rref(x), test_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27cb6ef82ae40abf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rref","kind":"function","src_hash":"7507f8690b45a276","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.rref(pivots=False) == e and e.rref(pivots=False) == a.rref(pivots=False) == e and a.rref(pivots=False) == Matrix([[1], [0], [0]]) and a.rref(pivots=False) == Matrix([[1, 2, 3]]) and a.rref(pivots=False) == Matrix([[1, 0, -1], [0, 1, 2], [0, 0, 0]]) and a.rref(pivots=False) == b.rref(pivots=False) == c.rref(pivots=False) == d.rref(pivots=False) == b and z.rref(pivots=False) == z and mat == Matrix([[1, -5, 0, 0, 1, 1, -1], [0, 0, 1, 0, 0, -1, 1], [0, 0, 0, 1, 1, -2, 1], [0, 0, 0, 0, 0, 0, 0]]) and pivot_offsets == (0, 2, 3) and a.rref(pivots=False) == Matrix([[1, 0, 0, Rational(-76, 157)], [0, 1, 0, Rational(-5, 157)], [0, 0, 1, Rational(238, 157)], [0, 0, 0, 0]])"},"spec":{"lhs":"test_rref()","rhs":"e.rref(pivots=False) == e and e.rref(pivots=False) == a.rref(pivots=False) == e and a.rref(pivots=False) == Matrix([[1], [0], [0]]) and a.rref(pivots=False) == Matrix([[1, 2, 3]]) and a.rref(pivots=False) == Matrix([[1, 0, -1], [0, 1, 2], [0, 0, 0]]) and a.rref(pivots=False) == b.rref(pivots=False) == c.rref(pivots=False) == d.rref(pivots=False) == b and z.rref(pivots=False) == z and mat == Matrix([[1, -5, 0, 0, 1, 1, -1], [0, 0, 1, 0, 0, -1, 1], [0, 0, 0, 1, 1, -2, 1], [0, 0, 0, 0, 0, 0, 0]]) and pivot_offsets == (0, 2, 3) and a.rref(pivots=False) == Matrix([[1, 0, 0, Rational(-76, 157)], [0, 1, 0, Rational(-5, 157)], [0, 0, 1, Rational(238, 157)], [0, 0, 0, 0]])","over":{"base":"Any"},"name":"test_rref_correct"},"guarantee":"e.rref(pivots=False) == e; e.rref(pivots=False) == a.rref(pivots=False) == e; a.rref(pivots=False) == Matrix([[1], [0], [0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rref_correct","statement":"Path(test_rref(x), e.rref(pivots=False) == e; e.rref(pivots=False) == a.rref(pivots=False) == e; a.rref(pivots=False) == Matrix([[1], [0], [0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56a21994e2fdf6f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.rref(pivots=False) == e","e.rref(pivots=False) == a.rref(pivots=False) == e","a.rref(pivots=False) == Matrix([[1], [0], [0]])","a.rref(pivots=False) == Matrix([[1, 2, 3]])","a.rref(pivots=False) == Matrix([[1, 0, -1], [0, 1, 2], [0, 0, 0]])","a.rref(pivots=False) == b.rref(pivots=False) == c.rref(pivots=False) == d.rref(pivots=False) == b","z.rref(pivots=False) == z","mat == Matrix([[1, -5, 0, 0, 1, 1, -1], [0, 0, 1, 0, 0, -1, 1], [0, 0, 0, 1, 1, -2, 1], [0, 0, 0, 0, 0, 0, 0]])","pivot_offsets == (0, 2, 3)","a.rref(pivots=False) == Matrix([[1, 0, 0, Rational(-76, 157)], [0, 1, 0, Rational(-5, 157)], [0, 0, 1, Rational(238, 157)], [0, 0, 0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_rref():
     e = Matrix(0, 0, [])
     assert e.rref(pivots=False) == e
@@ -342,16 +382,22 @@ def test_rref():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rref_rhs(), test_rref_rhs produces the expected output) over Any ║
+# ║ Path(test_rref_rhs(), A.rref_rhs(B) == (Matrix([[1, 0], [0, 1], [0, 0], [0, 0]]), Matrix([[-2 * c + d], [3 * c / 2 - d / 2], [a], [b]]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rref_rhs : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rref_rhs(B) == (Matrix([[1, 0], [0, 1],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rref_rhs : Any → {Any | result satisfies: A.rref...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a3b3186512c9c9d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dd7f7614d31e154  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rref_rhs","kind":"function","src_hash":"a3980a8843ced2d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rref_rhs()","rhs":"test_rref_rhs produces the expected output","over":{"base":"Any"},"name":"test_rref_rhs_correct"},"guarantee":"test_rref_rhs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rref_rhs_correct","statement":"Path(test_rref_rhs(x), test_rref_rhs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a3b3186512c9c9d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rref_rhs","kind":"function","src_hash":"a3980a8843ced2d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rref_rhs(B) == (Matrix([[1, 0], [0, 1], [0, 0], [0, 0]]), Matrix([[-2 * c + d], [3 * c / 2 - d / 2], [a], [b]]))"},"spec":{"lhs":"test_rref_rhs()","rhs":"A.rref_rhs(B) == (Matrix([[1, 0], [0, 1], [0, 0], [0, 0]]), Matrix([[-2 * c + d], [3 * c / 2 - d / 2], [a], [b]]))","over":{"base":"Any"},"name":"test_rref_rhs_correct"},"guarantee":"A.rref_rhs(B) == (Matrix([[1, 0], [0, 1], [0, 0], [0, 0]]), Matrix([[-2 * c + d], [3 * c / 2 - d / 2], [a], [b]]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rref_rhs_correct","statement":"Path(test_rref_rhs(x), A.rref_rhs(B) == (Matrix([[1, 0], [0, 1], [0, 0], [0, 0]]), Matrix([[-2 * c + d], [3 * c / 2 - d / 2], [a], [b]])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dd7f7614d31e154","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rref_rhs(B) == (Matrix([[1, 0], [0, 1], [0, 0], [0, 0]]), Matrix([[-2 * c + d], [3 * c / 2 - d / 2], [a], [b]]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rref_rhs():
     a, b, c, d = symbols('a b c d')
     A = Matrix([[0, 0], [0, 0], [1, 2], [3, 4]])
@@ -368,16 +414,24 @@ def test_rref_rhs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17827(), test_issue_17827 produces the expected output) over Any ║
+# ║ Path(test_issue_17827(), D[5, :] == Matrix([[0, 2, 1, 3]]) and E[5, :] == Matrix([[0, 3, 0, 14]]) and F[5, :] == Matrix([[16, 30, 0, 12]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17827 : Any → {Any | D[5, :] == Matrix([[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D[5, :] == Matrix([[0, 2, 1, 3]])              ║
+# ║   ensures:  E[5, :] == Matrix([[0, 3, 0, 14]])             ║
+# ║   ensures:  F[5, :] == Matrix([[16, 30, 0, 12]])           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17827 : Any → {Any | result satisfies: D[5...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8512d8c9fb39825  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0410b9da09c1778  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_issue_17827","kind":"function","src_hash":"96e61144b5fc8b5f","in":{"base":"Any"},"out":{"base":"Any","pred":"D[5, :] == Matrix([[0, 2, 1, 3]]) and E[5, :] == Matrix([[0, 3, 0, 14]]) and F[5, :] == Matrix([[16, 30, 0, 12]])"},"spec":{"lhs":"test_issue_17827()","rhs":"test_issue_17827 produces the expected output","over":{"base":"Any"},"name":"test_issue_17827_correct"},"guarantee":"test_issue_17827 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_issue_17827_correct","statement":"Path(test_issue_17827(x), test_issue_17827 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8512d8c9fb39825"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_issue_17827","kind":"function","src_hash":"96e61144b5fc8b5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D[5, :] == Matrix([[0, 2, 1, 3]]) and E[5, :] == Matrix([[0, 3, 0, 14]]) and F[5, :] == Matrix([[16, 30, 0, 12]])"},"spec":{"lhs":"test_issue_17827()","rhs":"D[5, :] == Matrix([[0, 2, 1, 3]]) and E[5, :] == Matrix([[0, 3, 0, 14]]) and F[5, :] == Matrix([[16, 30, 0, 12]])","over":{"base":"Any"},"name":"test_issue_17827_correct"},"guarantee":"D[5, :] == Matrix([[0, 2, 1, 3]]); E[5, :] == Matrix([[0, 3, 0, 14]]); F[5, :] == Matrix([[16, 30, 0, 12]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_issue_17827_correct","statement":"Path(test_issue_17827(x), D[5, :] == Matrix([[0, 2, 1, 3]]); E[5, :] == Matrix([[0, 3, 0, 14]]); F[5, :] == Matrix([[16, 30, 0, 12]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0410b9da09c1778","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D[5, :] == Matrix([[0, 2, 1, 3]])","E[5, :] == Matrix([[0, 3, 0, 14]])","F[5, :] == Matrix([[16, 30, 0, 12]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_17827():
     C = Matrix([
         [3, 4, -1, 1],
@@ -400,16 +454,24 @@ def test_issue_17827():
     raises(ValueError, lambda: C.elementary_row_op('n->n+km', row1=-1, row2=5, k=2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rank(), test_rank produces the expected output) over Any ║
+# ║ Path(test_rank(), m.rank() == 2 and n.rank() == 2 and p.rank() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rank : Any → {Any | m.rank() == 2 and n.rank() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m.rank() == 2                                  ║
+# ║   ensures:  n.rank() == 2                                  ║
+# ║   ensures:  p.rank() == 0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rank : Any → {Any | result satisfies: m.rank() =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9561dbf36125676b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e9f221bb68d99ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rank","kind":"function","src_hash":"1412a5be883d6912","in":{"base":"Any"},"out":{"base":"Any","pred":"m.rank() == 2 and n.rank() == 2 and p.rank() == 0"},"spec":{"lhs":"test_rank()","rhs":"test_rank produces the expected output","over":{"base":"Any"},"name":"test_rank_correct"},"guarantee":"test_rank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rank_correct","statement":"Path(test_rank(x), test_rank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9561dbf36125676b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rank","kind":"function","src_hash":"1412a5be883d6912","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m.rank() == 2 and n.rank() == 2 and p.rank() == 0"},"spec":{"lhs":"test_rank()","rhs":"m.rank() == 2 and n.rank() == 2 and p.rank() == 0","over":{"base":"Any"},"name":"test_rank_correct"},"guarantee":"m.rank() == 2; n.rank() == 2; p.rank() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rank_correct","statement":"Path(test_rank(x), m.rank() == 2; n.rank() == 2; p.rank() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e9f221bb68d99ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m.rank() == 2","n.rank() == 2","p.rank() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rank():
     m = Matrix([[1, 2], [x, 1 - 1/x]])
     assert m.rank() == 2
@@ -419,16 +481,22 @@ def test_rank():
     assert p.rank() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11434(), test_issue_11434 produces the expected output) over Any ║
+# ║ Path(test_issue_11434(), M.rank() == 4) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11434 : Any → {Any | M.rank() == 4}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.rank() == 4                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11434 : Any → {Any | result satisfies: M.r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d3b37f6119515a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5becd4ebdf0f4819  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_issue_11434","kind":"function","src_hash":"2e2cb6883f7ea887","in":{"base":"Any"},"out":{"base":"Any","pred":"M.rank() == 4"},"spec":{"lhs":"test_issue_11434()","rhs":"test_issue_11434 produces the expected output","over":{"base":"Any"},"name":"test_issue_11434_correct"},"guarantee":"test_issue_11434 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_issue_11434_correct","statement":"Path(test_issue_11434(x), test_issue_11434 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d3b37f6119515a0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_issue_11434","kind":"function","src_hash":"2e2cb6883f7ea887","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.rank() == 4"},"spec":{"lhs":"test_issue_11434()","rhs":"M.rank() == 4","over":{"base":"Any"},"name":"test_issue_11434_correct"},"guarantee":"M.rank() == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_issue_11434_correct","statement":"Path(test_issue_11434(x), M.rank() == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5becd4ebdf0f4819","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.rank() == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_11434():
     ax, ay, bx, by, cx, cy, dx, dy, ex, ey, t0, t1 = \
         symbols('a_x a_y b_x b_y c_x c_y d_x d_y e_x e_y t_0 t_1')
@@ -440,16 +508,23 @@ def test_issue_11434():
     assert M.rank() == 4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rank_regression_from_so(), test_rank_regression_from_so produces the expected output) over Any ║
+# ║ Path(test_rank_regression_from_so(), simplify(expected_reduced - reduced) == zeros(*A.shape) and pivots == expected_pivots) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rank_regression_from_so : Any → {Any | simplify(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expected_reduced - reduced) == z...   ║
+# ║   ensures:  pivots == expected_pivots                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rank_regression_from_so : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 302341eb4d51da86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9076ef016ac54270  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rank_regression_from_so","kind":"function","src_hash":"37a11f561a770b40","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expected_reduced - reduced) == zeros(*A.shape) and pivots == expected_pivots"},"spec":{"lhs":"test_rank_regression_from_so()","rhs":"test_rank_regression_from_so produces the expected output","over":{"base":"Any"},"name":"test_rank_regression_from_so_correct"},"guarantee":"test_rank_regression_from_so produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rank_regression_from_so_correct","statement":"Path(test_rank_regression_from_so(x), test_rank_regression_from_so produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"302341eb4d51da86"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_rank_regression_from_so","kind":"function","src_hash":"37a11f561a770b40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expected_reduced - reduced) == zeros(*A.shape) and pivots == expected_pivots"},"spec":{"lhs":"test_rank_regression_from_so()","rhs":"simplify(expected_reduced - reduced) == zeros(*A.shape) and pivots == expected_pivots","over":{"base":"Any"},"name":"test_rank_regression_from_so_correct"},"guarantee":"simplify(expected_reduced - reduced) == zeros(*A.shape); pivots == expected_pivots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_rank_regression_from_so_correct","statement":"Path(test_rank_regression_from_so(x), simplify(expected_reduced - reduced) == zeros(*A.shape); pivots == expected_pivots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9076ef016ac54270","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expected_reduced - reduced) == zeros(*A.shape)","pivots == expected_pivots"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rank_regression_from_so():
     # see:
     # https://stackoverflow.com/questions/19072700/why-does-sympy-give-me-the-wrong-answer-when-i-row-reduce-a-symbolic-matrix
@@ -471,16 +546,24 @@ def test_rank_regression_from_so():
     assert pivots == expected_pivots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15872(), test_issue_15872 produces the expected output) over Any ║
+# ║ Path(test_issue_15872(), B.rank() == 3 and (B ** 2).rank() == 2 and (B ** 3).rank() == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15872 : Any → {Any | B.rank() == 3 and (B ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.rank() == 3                                  ║
+# ║   ensures:  (B ** 2).rank() == 2                           ║
+# ║   ensures:  (B ** 3).rank() == 2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15872 : Any → {Any | result satisfies: B.r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f5b17a143866c0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c7f962a7c1e6f6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_issue_15872","kind":"function","src_hash":"f24def46d1287d08","in":{"base":"Any"},"out":{"base":"Any","pred":"B.rank() == 3 and (B ** 2).rank() == 2 and (B ** 3).rank() == 2"},"spec":{"lhs":"test_issue_15872()","rhs":"test_issue_15872 produces the expected output","over":{"base":"Any"},"name":"test_issue_15872_correct"},"guarantee":"test_issue_15872 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_issue_15872_correct","statement":"Path(test_issue_15872(x), test_issue_15872 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f5b17a143866c0f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_reductions.test_issue_15872","kind":"function","src_hash":"f24def46d1287d08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.rank() == 3 and (B ** 2).rank() == 2 and (B ** 3).rank() == 2"},"spec":{"lhs":"test_issue_15872()","rhs":"B.rank() == 3 and (B ** 2).rank() == 2 and (B ** 3).rank() == 2","over":{"base":"Any"},"name":"test_issue_15872_correct"},"guarantee":"B.rank() == 3; (B ** 2).rank() == 2; (B ** 3).rank() == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_reductions.test_issue_15872_correct","statement":"Path(test_issue_15872(x), B.rank() == 3; (B ** 2).rank() == 2; (B ** 3).rank() == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c7f962a7c1e6f6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.rank() == 3","(B ** 2).rank() == 2","(B ** 3).rank() == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15872():
     A = Matrix([[1, 1, 1, 0], [-2, -1, 0, -1], [0, 0, -1, -1], [0, 0, 2, 1]])
     B = A - Matrix.eye(4) * I

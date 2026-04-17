@@ -24,16 +24,24 @@ from sympy.concrete.summations import Sum
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finite_diff(), test_finite_diff produces the expected output) over Any ║
+# ║ Path(test_finite_diff(), finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3 and finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6 and finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1 and finite_diff(w ** 2 + 3 * w - 2, w) == 2 * w + 4 and finite_diff(sin(x), x, pi / 6) == -sin(x) + sin(x + pi / 6) and finite_diff(cos(y), y, pi / 3) == -cos(y) + cos(y + pi / 3) and finite_diff(x ** 2 - 2 * x + 3, x, 2) == 4 * x and finite_diff(n ** 2 - 2 * n + 3, n, 3) == 6 * n + 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finite_diff : Any → {Any | finite_diff(x ** 2 + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  finite_diff(x ** 2 + 2 * x + 1, x) == 2 *...   ║
+# ║   ensures:  finite_diff(y ** 3 + 2 * y ** 2 + 3 * y +...   ║
+# ║   ensures:  finite_diff(z ** 2 - 2 * z + 3, z) == 2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finite_diff : Any → {Any | result satisfies: fin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f725b7f4ef0ba9e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 132b6b09ab819db6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_kauers.test_finite_diff","kind":"function","src_hash":"4b92c288e066d715","in":{"base":"Any"},"out":{"base":"Any","pred":"finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3 and finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6 and finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1 and finite_diff(w ** 2 + 3 * w - 2, w) == 2 * w + 4 and finite_diff(sin(x), x, pi / 6) == -sin(x) + sin(x + pi / 6) and finite_diff(cos(y), y, pi / 3) == -cos(y) + cos(y + pi / 3) and finite_diff(x ** 2 - 2 * x + 3, x, 2) == 4 * x and finite_diff(n ** 2 - 2 * n + 3, n, 3) == 6 * n + 3"},"spec":{"lhs":"test_finite_diff()","rhs":"test_finite_diff produces the expected output","over":{"base":"Any"},"name":"test_finite_diff_correct"},"guarantee":"test_finite_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_kauers.test_finite_diff_correct","statement":"Path(test_finite_diff(x), test_finite_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f725b7f4ef0ba9e3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_kauers.test_finite_diff","kind":"function","src_hash":"4b92c288e066d715","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3 and finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6 and finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1 and finite_diff(w ** 2 + 3 * w - 2, w) == 2 * w + 4 and finite_diff(sin(x), x, pi / 6) == -sin(x) + sin(x + pi / 6) and finite_diff(cos(y), y, pi / 3) == -cos(y) + cos(y + pi / 3) and finite_diff(x ** 2 - 2 * x + 3, x, 2) == 4 * x and finite_diff(n ** 2 - 2 * n + 3, n, 3) == 6 * n + 3"},"spec":{"lhs":"test_finite_diff()","rhs":"finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3 and finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6 and finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1 and finite_diff(w ** 2 + 3 * w - 2, w) == 2 * w + 4 and finite_diff(sin(x), x, pi / 6) == -sin(x) + sin(x + pi / 6) and finite_diff(cos(y), y, pi / 3) == -cos(y) + cos(y + pi / 3) and finite_diff(x ** 2 - 2 * x + 3, x, 2) == 4 * x and finite_diff(n ** 2 - 2 * n + 3, n, 3) == 6 * n + 3","over":{"base":"Any"},"name":"test_finite_diff_correct"},"guarantee":"finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3; finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6; finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_kauers.test_finite_diff_correct","statement":"Path(test_finite_diff(x), finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3; finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6; finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"132b6b09ab819db6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["finite_diff(x ** 2 + 2 * x + 1, x) == 2 * x + 3","finite_diff(y ** 3 + 2 * y ** 2 + 3 * y + 5, y) == 3 * y ** 2 + 7 * y + 6","finite_diff(z ** 2 - 2 * z + 3, z) == 2 * z - 1","finite_diff(w ** 2 + 3 * w - 2, w) == 2 * w + 4","finite_diff(sin(x), x, pi / 6) == -sin(x) + sin(x + pi / 6)","finite_diff(cos(y), y, pi / 3) == -cos(y) + cos(y + pi / 3)","finite_diff(x ** 2 - 2 * x + 3, x, 2) == 4 * x","finite_diff(n ** 2 - 2 * n + 3, n, 3) == 6 * n + 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_finite_diff():
     assert finite_diff(x**2 + 2*x + 1, x) == 2*x + 3
     assert finite_diff(y**3 + 2*y**2 + 3*y + 5, y) == 3*y**2 + 7*y + 6
@@ -45,16 +53,24 @@ def test_finite_diff():
     assert finite_diff(n**2 - 2*n + 3, n, 3) == 6*n + 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finite_diff_kauers(), test_finite_diff_kauers produces the expected output) over Any ║
+# ║ Path(test_finite_diff_kauers(), finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2 and finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1 and finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1) and finite_diff_kauers(Sum(x * y ** 2, (x, 1, m), (y, 1, n))) == (n + 1) ** 2 * (m + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finite_diff_kauers : Any → {Any | finite_diff_ka...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  finite_diff_kauers(Sum(x ** 2, (x, 1, n))...   ║
+# ║   ensures:  finite_diff_kauers(Sum(y, (y, 1, m))) == ...   ║
+# ║   ensures:  finite_diff_kauers(Sum(x * y, (x, 1, m), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finite_diff_kauers : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fd447ab4ecced55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08c77370fc572a73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_kauers.test_finite_diff_kauers","kind":"function","src_hash":"68cc3a7ad3b084d8","in":{"base":"Any"},"out":{"base":"Any","pred":"finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2 and finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1 and finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1)"},"spec":{"lhs":"test_finite_diff_kauers()","rhs":"test_finite_diff_kauers produces the expected output","over":{"base":"Any"},"name":"test_finite_diff_kauers_correct"},"guarantee":"test_finite_diff_kauers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_kauers.test_finite_diff_kauers_correct","statement":"Path(test_finite_diff_kauers(x), test_finite_diff_kauers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd447ab4ecced55"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_kauers.test_finite_diff_kauers","kind":"function","src_hash":"68cc3a7ad3b084d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2 and finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1 and finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1) and finite_diff_kauers(Sum(x * y ** 2, (x, 1, m), (y, 1, n))) == (n + 1) ** 2 * (m + 1)"},"spec":{"lhs":"test_finite_diff_kauers()","rhs":"finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2 and finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1 and finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1) and finite_diff_kauers(Sum(x * y ** 2, (x, 1, m), (y, 1, n))) == (n + 1) ** 2 * (m + 1)","over":{"base":"Any"},"name":"test_finite_diff_kauers_correct"},"guarantee":"finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2; finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1; finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_kauers.test_finite_diff_kauers_correct","statement":"Path(test_finite_diff_kauers(x), finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2; finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1; finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08c77370fc572a73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["finite_diff_kauers(Sum(x ** 2, (x, 1, n))) == (n + 1) ** 2","finite_diff_kauers(Sum(y, (y, 1, m))) == m + 1","finite_diff_kauers(Sum(x * y, (x, 1, m), (y, 1, n))) == (m + 1) * (n + 1)","finite_diff_kauers(Sum(x * y ** 2, (x, 1, m), (y, 1, n))) == (n + 1) ** 2 * (m + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_finite_diff_kauers():
     assert finite_diff_kauers(Sum(x**2, (x, 1, n))) == (n + 1)**2
     assert finite_diff_kauers(Sum(y, (y, 1, m))) == (m + 1)

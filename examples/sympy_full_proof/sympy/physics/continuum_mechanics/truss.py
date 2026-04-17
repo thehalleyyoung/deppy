@@ -47,14 +47,19 @@ numpy = import_module('numpy', import_kwargs={'fromlist':['arange']})
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Truss instance) preserved by Truss(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Truss : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 7.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6269068a7003263  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss","kind":"class","src_hash":"20727361798b5411","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Truss(*args)","rhs":"correctly constructs a Truss instance","over":{"base":"Any"},"name":"Truss_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Truss instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_nodes') and hasattr(self, '_members') and hasattr(self, '_loads') and hasattr(self, '_supports') and hasattr(self, '_node_labels') and hasattr(self, '_node_positions') and hasattr(self, '_node_position_x') and hasattr(self, '_node_position_y')","kind":"class","induction":"structural on _nodes, _members, _loads, _supports"}],"methods_preserving":["__init__","nodes","node_labels","node_positions","members","member_lengths","supports","loads","reaction_loads","internal_forces","add_node","remove_node","add_member","remove_member","change_node_label","change_member_label","apply_load","remove_load","apply_support","remove_support","solve","draw","_draw_nodes","_draw_members","_draw_supports","_draw_loads"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6269068a7003263"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss","kind":"class","src_hash":"20727361798b5411","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Truss(*args)","rhs":"correctly constructs a Truss instance","over":{"base":"Any"},"name":"Truss_class_invariant","kind":"invariant"},"guarantee":"preserves 13 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_nodes') and hasattr(self, '_members') and hasattr(self, '_loads') and hasattr(self, '_supports') and hasattr(self, '_node_labels') and hasattr(self, '_node_positions') and hasattr(self, '_node_position_x') and hasattr(self, '_node_position_y')","kind":"class","induction":"structural on _nodes, _members, _loads, _supports"}],"methods_preserving":["__init__","nodes","node_labels","node_positions","members","member_lengths","supports","loads","reaction_loads","internal_forces","add_node","remove_node","add_member","remove_member","change_node_label","change_member_label","apply_load","remove_load","apply_support","remove_support","solve","draw","_draw_nodes","_draw_members","_draw_supports","_draw_loads"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6269068a7003263","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_nodes')","hasattr(self, '_members')","hasattr(self, '_loads')","hasattr(self, '_supports')","hasattr(self, '_node_labels')","hasattr(self, '_node_positions')","hasattr(self, '_node_position_x')","hasattr(self, '_node_position_y')","hasattr(self, '_nodes_occupied')","hasattr(self, '_member_lengths')","hasattr(self, '_reaction_loads')","hasattr(self, '_internal_forces')","hasattr(self, '_node_coordinates')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Truss not found in source"]}}
 class Truss:
     """
     A Truss is an assembly of members such as beams,
@@ -85,16 +90,22 @@ class Truss:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44fcaba4458de102           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.__init__","kind":"method","src_hash":"2469bee6c4343405","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44fcaba4458de102"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.__init__","kind":"method","src_hash":"2469bee6c4343405","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44fcaba4458de102","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         """
         Initializes the class
@@ -115,16 +126,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nodes(), returns the nodes attribute) over Any        ║
+# ║ Path(nodes(), self._nodes) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._nodes                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nodes : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5e0767dd402f6ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.nodes","kind":"property","src_hash":"5b056aec07d53af9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nodes()","rhs":"returns the nodes attribute","over":{"base":"Any"},"name":"nodes_correct"},"guarantee":"returns the nodes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5e0767dd402f6ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.nodes","kind":"property","src_hash":"5b056aec07d53af9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nodes()","rhs":"self._nodes","over":{"base":"Any"},"name":"nodes_correct"},"guarantee":"returns self._nodes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5e0767dd402f6ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._nodes","pure":false,"effects":{"effect_type":"reads_state","reads":["self._nodes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nodes(self):
         """
         Returns the nodes of the truss along with their positions.
@@ -133,16 +150,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(node_labels(), returns the node_labels attribute) over Any ║
+# ║ Path(node_labels(), self._node_labels) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._node_labels                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ node_labels : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa6aaf6ee6a3f8f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.node_labels","kind":"property","src_hash":"4b8b8219a6325ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"node_labels()","rhs":"returns the node_labels attribute","over":{"base":"Any"},"name":"node_labels_correct"},"guarantee":"returns the node_labels attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa6aaf6ee6a3f8f8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.node_labels","kind":"property","src_hash":"4b8b8219a6325ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"node_labels()","rhs":"self._node_labels","over":{"base":"Any"},"name":"node_labels_correct"},"guarantee":"returns self._node_labels","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa6aaf6ee6a3f8f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._node_labels","pure":false,"effects":{"effect_type":"reads_state","reads":["self._node_labels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def node_labels(self):
         """
         Returns the node labels of the truss.
@@ -151,16 +174,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(node_positions(), returns the node_positions attribute) over Any ║
+# ║ Path(node_positions(), self._node_positions) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._node_positions                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ node_positions : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1061a3abc1830141           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.node_positions","kind":"property","src_hash":"75ffc56107150b7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"node_positions()","rhs":"returns the node_positions attribute","over":{"base":"Any"},"name":"node_positions_correct"},"guarantee":"returns the node_positions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1061a3abc1830141"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.node_positions","kind":"property","src_hash":"75ffc56107150b7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"node_positions()","rhs":"self._node_positions","over":{"base":"Any"},"name":"node_positions_correct"},"guarantee":"returns self._node_positions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1061a3abc1830141","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._node_positions","pure":false,"effects":{"effect_type":"reads_state","reads":["self._node_positions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def node_positions(self):
         """
         Returns the positions of the nodes of the truss.
@@ -169,16 +198,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(members(), returns the members attribute) over Any    ║
+# ║ Path(members(), self._members) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._members                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ members : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e703c666dc08b840           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.members","kind":"property","src_hash":"c68472650f01b279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"members()","rhs":"returns the members attribute","over":{"base":"Any"},"name":"members_correct"},"guarantee":"returns the members attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e703c666dc08b840"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.members","kind":"property","src_hash":"c68472650f01b279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"members()","rhs":"self._members","over":{"base":"Any"},"name":"members_correct"},"guarantee":"returns self._members","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e703c666dc08b840","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._members","pure":false,"effects":{"effect_type":"reads_state","reads":["self._members"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def members(self):
         """
         Returns the members of the truss along with the start and end points.
@@ -187,16 +222,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(member_lengths(), returns the member_lengths attribute) over Any ║
+# ║ Path(member_lengths(), self._member_lengths) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._member_lengths                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ member_lengths : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08aa94486aefd324           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.member_lengths","kind":"property","src_hash":"3112c959b195b07f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"member_lengths()","rhs":"returns the member_lengths attribute","over":{"base":"Any"},"name":"member_lengths_correct"},"guarantee":"returns the member_lengths attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08aa94486aefd324"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.member_lengths","kind":"property","src_hash":"3112c959b195b07f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"member_lengths()","rhs":"self._member_lengths","over":{"base":"Any"},"name":"member_lengths_correct"},"guarantee":"returns self._member_lengths","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08aa94486aefd324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._member_lengths","pure":false,"effects":{"effect_type":"reads_state","reads":["self._member_lengths"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def member_lengths(self):
         """
         Returns the length of each member of the truss.
@@ -205,16 +246,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(supports(), returns the supports attribute) over Any  ║
+# ║ Path(supports(), self._supports) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._supports                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ supports : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1c1617b23d2504e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.supports","kind":"property","src_hash":"e3f5d220cfb2b2bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supports()","rhs":"returns the supports attribute","over":{"base":"Any"},"name":"supports_correct"},"guarantee":"returns the supports attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1c1617b23d2504e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.supports","kind":"property","src_hash":"e3f5d220cfb2b2bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supports()","rhs":"self._supports","over":{"base":"Any"},"name":"supports_correct"},"guarantee":"returns self._supports","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1c1617b23d2504e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._supports","pure":false,"effects":{"effect_type":"reads_state","reads":["self._supports"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def supports(self):
         """
         Returns the nodes with provided supports along with the kind of support provided i.e.
@@ -224,16 +271,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads(), returns the loads attribute) over Any        ║
+# ║ Path(loads(), self._loads) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._loads                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a679ed6a0d5b246           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.loads","kind":"property","src_hash":"e931bd54683d315f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"returns the loads attribute","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns the loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a679ed6a0d5b246"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.loads","kind":"property","src_hash":"e931bd54683d315f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"self._loads","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns self._loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a679ed6a0d5b246","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads(self):
         """
         Returns the loads acting on the truss.
@@ -242,16 +295,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reaction_loads(), returns the reaction_loads attribute) over Any ║
+# ║ Path(reaction_loads(), self._reaction_loads) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reaction_loads                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reaction_loads : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffd3c4dc96377a6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.reaction_loads","kind":"property","src_hash":"8203afc4b5b76d02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_loads()","rhs":"returns the reaction_loads attribute","over":{"base":"Any"},"name":"reaction_loads_correct"},"guarantee":"returns the reaction_loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffd3c4dc96377a6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.reaction_loads","kind":"property","src_hash":"8203afc4b5b76d02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_loads()","rhs":"self._reaction_loads","over":{"base":"Any"},"name":"reaction_loads_correct"},"guarantee":"returns self._reaction_loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffd3c4dc96377a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reaction_loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reaction_loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reaction_loads(self):
         """
         Returns the reaction forces for all supports which are all initialized to 0.
@@ -260,16 +319,22 @@ class Truss:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(internal_forces(), returns the internal_forces attribute) over Any ║
+# ║ Path(internal_forces(), self._internal_forces) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._internal_forces                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ internal_forces : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed69d0ebdd07c127           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.internal_forces","kind":"property","src_hash":"4276dc0dfb0dd573","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"internal_forces()","rhs":"returns the internal_forces attribute","over":{"base":"Any"},"name":"internal_forces_correct"},"guarantee":"returns the internal_forces attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed69d0ebdd07c127"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.internal_forces","kind":"property","src_hash":"4276dc0dfb0dd573","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"internal_forces()","rhs":"self._internal_forces","over":{"base":"Any"},"name":"internal_forces_correct"},"guarantee":"returns self._internal_forces","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed69d0ebdd07c127","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._internal_forces","pure":false,"effects":{"effect_type":"reads_state","reads":["self._internal_forces"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def internal_forces(self):
         """
         Returns the internal forces for all members which are all initialized to 0.
@@ -277,16 +342,22 @@ class Truss:
         return self._internal_forces
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_node(*ar), this method adds a node to the truss along with its name/label and its location. multiple nodes can be added at the same time) over Any ║
+# ║ Path(add_node(*args), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_node : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_node : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30e1fc54f7ee2e2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47051f8d4aa1109  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.add_node","kind":"method","src_hash":"d04ef5ba0a56cbee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_node(*ar)","rhs":"this method adds a node to the truss along with its name/label and its location. multiple nodes can be added at the same time","over":{"base":"Any"},"name":"add_node_correct"},"guarantee":"this method adds a node to the truss along with its name/label and its location. multiple nodes can be added at the same time","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.add_node_correct","statement":"Path(add_node(x), this method adds a node to the truss along with its name/label and its location. multiple nodes can be added at the same time)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30e1fc54f7ee2e2b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.add_node","kind":"method","src_hash":"d04ef5ba0a56cbee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"add_node(*args)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"add_node_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.add_node_correct","statement":"Path(add_node(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47051f8d4aa1109","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._node_coordinates","self._node_labels","self._node_position_x","self._node_position_y","self._node_positions","self._nodes"],"calls_mutating":["self._node_labels.append","self._node_position_x.append","self._node_position_y.append","self._node_positions.append","self._nodes.append"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_node(self, *args):
         """
         This method adds a node to the truss along with its name/label and its location.
@@ -341,16 +412,23 @@ class Truss:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_node(*ar), this method removes a node from the truss. multiple nodes can be removed at the same time) over Any ║
+# ║ Path(remove_node(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_node : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_node : {Any | len(self) > 0} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d26b8bacb632d29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 358ca9de988c2208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_node","kind":"method","src_hash":"af4dd9d3f912ce96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_node(*ar)","rhs":"this method removes a node from the truss. multiple nodes can be removed at the same time","over":{"base":"Any"},"name":"remove_node_correct"},"guarantee":"this method removes a node from the truss. multiple nodes can be removed at the same time","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_node_correct","statement":"Path(remove_node(x), this method removes a node from the truss. multiple nodes can be removed at the same time)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d26b8bacb632d29"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_node","kind":"method","src_hash":"af4dd9d3f912ce96","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"remove_node(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"remove_node_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_node_correct","statement":"Path(remove_node(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"358ca9de988c2208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._loads","self._members","self._node_coordinates","self._node_labels","self._node_position_x","self._node_position_y","self._node_positions","self._nodes","self._supports","self.nodes"],"calls_mutating":["self._loads.pop","self._node_coordinates.pop","self._node_labels.remove","self._node_position_x.remove","self._node_position_y.remove","self._node_positions.remove","self._nodes.remove","self._supports.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0","len(self) > 0","len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_node(self, *args):
         """
         This method removes a node from the truss.
@@ -403,16 +481,22 @@ class Truss:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_member(*ar), this method adds a member between any two nodes in the given truss) over Any ║
+# ║ Path(add_member(*args), <unspecified:add_member>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add_member : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b2179728b3116bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.add_member","kind":"method","src_hash":"ff6efb5e93392015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_member(*ar)","rhs":"this method adds a member between any two nodes in the given truss","over":{"base":"Any"},"name":"add_member_correct"},"guarantee":"this method adds a member between any two nodes in the given truss","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.add_member_correct","statement":"Path(add_member(x), this method adds a member between any two nodes in the given truss)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b2179728b3116bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.add_member","kind":"method","src_hash":"ff6efb5e93392015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_member(*args)","rhs":"<unspecified:add_member>","over":{"base":"Any"},"name":"add_member_correct"},"guarantee":"this method adds a member between any two nodes in the given truss","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.add_member_correct","statement":"Path(add_member(x), this method adds a member between any two nodes in the given truss)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b2179728b3116bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._internal_forces","self._member_lengths","self._members","self._node_coordinates","self._nodes_occupied"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_member(self, *args):
         """
         This method adds a member between any two nodes in the given truss.
@@ -462,16 +546,23 @@ class Truss:
                 self._internal_forces[label] = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_member(*ar), this method removes members from the given truss) over Any ║
+# ║ Path(remove_member(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_member : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_member : {Any | len(self) > 0} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64d182d600b09371  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b366eaa92bd5b408  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_member","kind":"method","src_hash":"b3d9be32a51a2a7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_member(*ar)","rhs":"this method removes members from the given truss","over":{"base":"Any"},"name":"remove_member_correct"},"guarantee":"this method removes members from the given truss","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_member_correct","statement":"Path(remove_member(x), this method removes members from the given truss)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d182d600b09371"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_member","kind":"method","src_hash":"b3d9be32a51a2a7b","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"remove_member(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"remove_member_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_member_correct","statement":"Path(remove_member(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b366eaa92bd5b408","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._internal_forces","self._member_lengths","self._members","self._nodes_occupied"],"calls_mutating":["self._internal_forces.pop","self._member_lengths.pop","self._members.pop","self._nodes_occupied.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0","len(self) > 0","len(self) > 0","len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_member(self, *args):
         """
         This method removes members from the given truss.
@@ -506,16 +597,23 @@ class Truss:
                 self._internal_forces.pop(label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_node_label(*ar), this method changes the label(s) of the specified node(s)) over Any ║
+# ║ Path(change_node_label(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ change_node_label : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ change_node_label : {Any | len(self) > 0} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3c8c17c20b34e69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b736cc83cc82466  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.change_node_label","kind":"method","src_hash":"48cc24e67e254fac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_node_label(*ar)","rhs":"this method changes the label(s) of the specified node(s)","over":{"base":"Any"},"name":"change_node_label_correct"},"guarantee":"this method changes the label(s) of the specified node(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.change_node_label_correct","statement":"Path(change_node_label(x), this method changes the label(s) of the specified node(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3c8c17c20b34e69"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.change_node_label","kind":"method","src_hash":"48cc24e67e254fac","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"change_node_label(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"change_node_label_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.change_node_label_correct","statement":"Path(change_node_label(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b736cc83cc82466","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._loads","self._members","self._node_coordinates","self._node_labels","self._nodes","self._nodes_occupied","self._reaction_loads","self._supports","self.apply_load"],"calls_mutating":["self._loads.pop","self._node_coordinates.pop","self._nodes_occupied.pop","self._reaction_loads.pop","self._supports.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0","len(self) > 0","len(self) > 0","len(self) > 0","len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_node_label(self, *args):
         """
         This method changes the label(s) of the specified node(s).
@@ -612,16 +710,23 @@ class Truss:
                                 self._nodes_occupied.pop((label, self._members[member][0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_member_label(*ar), this method changes the label(s) of the specified member(s)) over Any ║
+# ║ Path(change_member_label(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ change_member_label : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ change_member_label : {Any | len(self) > 0} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cacadaf48a6f6600  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73d4060fbfb1093c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.change_member_label","kind":"method","src_hash":"23d7f50cc27b3a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_member_label(*ar)","rhs":"this method changes the label(s) of the specified member(s)","over":{"base":"Any"},"name":"change_member_label_correct"},"guarantee":"this method changes the label(s) of the specified member(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.change_member_label_correct","statement":"Path(change_member_label(x), this method changes the label(s) of the specified member(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cacadaf48a6f6600"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.change_member_label","kind":"method","src_hash":"23d7f50cc27b3a01","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"change_member_label(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"change_member_label_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.change_member_label_correct","statement":"Path(change_member_label(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73d4060fbfb1093c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._internal_forces","self._member_lengths","self._members"],"calls_mutating":["self._internal_forces.pop","self._member_lengths.pop","self._members.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0","len(self) > 0","len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_member_label(self, *args):
         """
         This method changes the label(s) of the specified member(s).
@@ -672,16 +777,22 @@ class Truss:
                         self._internal_forces.pop(label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_load(*ar), this method applies external load(s) at the specified node(s)) over Any ║
+# ║ Path(apply_load(*args), <unspecified:apply_load>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_load : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a6f7e473f4dc62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.apply_load","kind":"method","src_hash":"8b79e6c1e18b796a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(*ar)","rhs":"this method applies external load(s) at the specified node(s)","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method applies external load(s) at the specified node(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.apply_load_correct","statement":"Path(apply_load(x), this method applies external load(s) at the specified node(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a6f7e473f4dc62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.apply_load","kind":"method","src_hash":"8b79e6c1e18b796a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(*args)","rhs":"<unspecified:apply_load>","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method applies external load(s) at the specified node(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.apply_load_correct","statement":"Path(apply_load(x), this method applies external load(s) at the specified node(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a6f7e473f4dc62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loads","self._node_coordinates"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_load(self, *args):
         """
         This method applies external load(s) at the specified node(s).
@@ -731,16 +842,23 @@ class Truss:
                     self._loads[location] = [[magnitude, direction]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_load(*ar), this method removes already present external load(s) at specified node(s)) over Any ║
+# ║ Path(remove_load(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_load : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_load : {Any | len(self) > 0} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aa24327810c2f31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 449a21c67b4891c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_load","kind":"method","src_hash":"d471d8469372f610","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_load(*ar)","rhs":"this method removes already present external load(s) at specified node(s)","over":{"base":"Any"},"name":"remove_load_correct"},"guarantee":"this method removes already present external load(s) at specified node(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_load_correct","statement":"Path(remove_load(x), this method removes already present external load(s) at specified node(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aa24327810c2f31"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_load","kind":"method","src_hash":"d471d8469372f610","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"remove_load(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"remove_load_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_load_correct","statement":"Path(remove_load(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"449a21c67b4891c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._loads","self._node_coordinates"],"calls_mutating":["self._loads.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_load(self, *args):
         """
         This method removes already
@@ -795,16 +913,22 @@ class Truss:
                 self._loads.pop(location)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_support(*ar), this method adds a pinned or roller support at specified node(s)) over Any ║
+# ║ Path(apply_support(*args), <unspecified:apply_support>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_support : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29ba9e9ed70b7438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.apply_support","kind":"method","src_hash":"907db6a5c2c203db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_support(*ar)","rhs":"this method adds a pinned or roller support at specified node(s)","over":{"base":"Any"},"name":"apply_support_correct"},"guarantee":"this method adds a pinned or roller support at specified node(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.apply_support_correct","statement":"Path(apply_support(x), this method adds a pinned or roller support at specified node(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29ba9e9ed70b7438"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.apply_support","kind":"method","src_hash":"907db6a5c2c203db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_support(*args)","rhs":"<unspecified:apply_support>","over":{"base":"Any"},"name":"apply_support_correct"},"guarantee":"this method adds a pinned or roller support at specified node(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.apply_support_correct","statement":"Path(apply_support(x), this method adds a pinned or roller support at specified node(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29ba9e9ed70b7438","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._node_coordinates","self._supports","self.apply_load","self.remove_load"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_support(self, *args):
         """
         This method adds a pinned or roller support at specified node(s).
@@ -851,16 +975,23 @@ class Truss:
                 self._supports[location] = type
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_support(*ar), this method removes support from specified node(s.)) over Any ║
+# ║ Path(remove_support(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_support : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_support : {Any | len(self) > 0} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a7356c091ef1896  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f811ac505ba31a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_support","kind":"method","src_hash":"2eb54026b9c1c733","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_support(*ar)","rhs":"this method removes support from specified node(s.)","over":{"base":"Any"},"name":"remove_support_correct"},"guarantee":"this method removes support from specified node(s.)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_support_correct","statement":"Path(remove_support(x), this method removes support from specified node(s.))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a7356c091ef1896"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.remove_support","kind":"method","src_hash":"2eb54026b9c1c733","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"remove_support(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"remove_support_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.remove_support_correct","statement":"Path(remove_support(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f811ac505ba31a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._node_coordinates","self._supports","self.remove_load"],"calls_mutating":["self._supports.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_support(self, *args):
         """
         This method removes support from specified node(s.)
@@ -901,16 +1032,23 @@ class Truss:
                 self._supports.pop(location)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(), this method solves for all reaction forces of all supports and all internal forces of all the members in the truss, provided the truss is solvable) over Any ║
+# ║ Path(solve(), <unspecified:solve>) over {Any | not (2 * len(self._nodes) != len(self._members) + count_reaction_loads)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (2 * len(self._nodes) != len(self._me...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve : {Any | not (2 * len(self._nodes) != len(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d645c153f91febe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.solve","kind":"method","src_hash":"40343c80660475c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve()","rhs":"this method solves for all reaction forces of all supports and all internal forces of all the members in the truss, provided the truss is solvable","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"this method solves for all reaction forces of all supports and all internal forces of all the members in the truss, provided the truss is solvable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.solve_correct","statement":"Path(solve(x), this method solves for all reaction forces of all supports and all internal forces of all the members in the truss, provided the truss is solvable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d645c153f91febe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.solve","kind":"method","src_hash":"40343c80660475c8","in":{"base":"Any","pred":"not (2 * len(self._nodes) != len(self._members) + count_reaction_loads)"},"out":{"base":"Any"},"spec":{"lhs":"solve()","rhs":"<unspecified:solve>","over":{"base":"Any","pred":"not (2 * len(self._nodes) != len(self._members) + count_reaction_loads)"},"name":"solve_correct"},"guarantee":"this method solves for all reaction forces of all supports and all internal forces of all the members in the truss, provided the truss is solvable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.solve_correct","statement":"Path(solve(x), this method solves for all reaction forces of all supports and all internal forces of all the members in the truss, provided the truss is solvable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d645c153f91febe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (2 * len(self._nodes) != len(self._members) + count_reaction_loads)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._internal_forces","self._loads","self._members","self._node_coordinates","self._node_labels","self._nodes","self._reaction_loads","self._supports","self.nodes"],"writes":["self._reaction_loads"],"raises":["ValueError"]},"state_contract":{"modifies":["self._reaction_loads"],"old_bindings":{"old_self__reaction_loads":"self._reaction_loads"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self):
         """
         This method solves for all reaction forces of all supports and all internal forces
@@ -1028,16 +1166,23 @@ class Truss:
 
     @doctest_depends_on(modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(sub), returns a plot object of the truss with all its nodes, members, supports and loads) over Any ║
+# ║ Path(draw(subs_dict), <unspecified:draw>) over {Any | numpy} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ draw : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: numpy                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ draw : {Any | numpy} → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 975913406469e3d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.draw","kind":"method","src_hash":"d93ad1a0bd1e8e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw(sub)","rhs":"returns a plot object of the truss with all its nodes, members, supports and loads","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"returns a plot object of the truss with all its nodes, members, supports and loads","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.draw_correct","statement":"Path(draw(x), returns a plot object of the truss with all its nodes, members, supports and loads)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"975913406469e3d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss.draw","kind":"method","src_hash":"d93ad1a0bd1e8e26","in":{"base":"Any","pred":"numpy"},"out":{"base":"Any"},"spec":{"lhs":"draw(subs_dict)","rhs":"<unspecified:draw>","over":{"base":"Any","pred":"numpy"},"name":"draw_correct"},"guarantee":"returns a plot object of the truss with all its nodes, members, supports and loads","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss.draw_correct","statement":"Path(draw(x), returns a plot object of the truss with all its nodes, members, supports and loads)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"975913406469e3d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["numpy"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._draw_loads","self._draw_members","self._draw_nodes","self._draw_supports","self._node_coordinates"],"raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self, subs_dict=None):
         """
         Returns a plot object of the Truss with all its nodes, members,
@@ -1131,16 +1276,22 @@ class Truss:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_nodes(sub), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_nodes(subs_dict), len(node_markers) == old_len_node_markers + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _draw_nodes : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(node_markers) == old_len_node_markers...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _draw_nodes : Any → {Any | result satisfies: len(node...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaab38896e183dda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b276c4e73eaf443b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_nodes","kind":"method","src_hash":"f260575b3988c6e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_nodes(sub)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_nodes_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_nodes_correct","statement":"Path(_draw_nodes(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaab38896e183dda"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_nodes","kind":"method","src_hash":"f260575b3988c6e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(node_markers) == old_len_node_markers + 1"},"spec":{"lhs":"_draw_nodes(subs_dict)","rhs":"len(node_markers) == old_len_node_markers + 1","over":{"base":"Any"},"name":"_draw_nodes_correct"},"guarantee":"len(node_markers) == old_len_node_markers + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_nodes_correct","statement":"Path(_draw_nodes(x), len(node_markers) == old_len_node_markers + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b276c4e73eaf443b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(node_markers) == old_len_node_markers + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._node_coordinates"],"calls_mutating":["node_markers.append"],"raises":["ValueError"]},"state_contract":{"modifies":["node_markers.*"],"old_bindings":{"old_len_node_markers":"len(node_markers)"},"post_ensures":["len(node_markers) == old_len_node_markers + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_nodes(self, subs_dict):
         node_markers = []
 
@@ -1187,16 +1338,22 @@ class Truss:
         return node_markers
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_members(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_members(), <unspecified:_draw_members>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_members : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bc21d2957969389  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_members","kind":"method","src_hash":"3c26afbaa5ab7b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_members()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_members_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_members_correct","statement":"Path(_draw_members(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bc21d2957969389"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_members","kind":"method","src_hash":"3c26afbaa5ab7b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_members()","rhs":"<unspecified:_draw_members>","over":{"base":"Any"},"name":"_draw_members_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_members_correct","statement":"Path(_draw_members(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bc21d2957969389","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_members(self):
 
         member_rectangles = []
@@ -1289,16 +1446,22 @@ class Truss:
         return member_rectangles
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_supports(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_supports(), <unspecified:_draw_supports>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_supports : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baeb027d77075685  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_supports","kind":"method","src_hash":"fadb483d0ae64fa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baeb027d77075685"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_supports","kind":"method","src_hash":"fadb483d0ae64fa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports()","rhs":"<unspecified:_draw_supports>","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baeb027d77075685","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_supports(self):
         support_markers = []
 
@@ -1370,16 +1533,22 @@ class Truss:
         return support_markers
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_loads(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_loads(), <unspecified:_draw_loads>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_loads : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f45bb602ae9359d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_loads","kind":"method","src_hash":"8e62f1e57db6fcfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_loads()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_loads_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_loads_correct","statement":"Path(_draw_loads(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f45bb602ae9359d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.truss.Truss._draw_loads","kind":"method","src_hash":"8e62f1e57db6fcfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_loads()","rhs":"<unspecified:_draw_loads>","over":{"base":"Any"},"name":"_draw_loads_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.truss.Truss._draw_loads_correct","statement":"Path(_draw_loads(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f45bb602ae9359d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_loads(self):
         load_annotations = []
 

@@ -35,14 +35,20 @@ from sympy.physics.quantum.trace import Tr
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Density(*args), correctly constructs a Density instance) over {Any | isinstance(state, Add) and isinstance(arg, Tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Density : {Any | isinstance(state, Add) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a39fa1686dc01e2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density","kind":"class","src_hash":"a33975e7d6f5275d","in":{"base":"Any","pred":"isinstance(state, Add) and isinstance(arg, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"Density(*args)","rhs":"correctly constructs a Density instance","over":{"base":"Any","pred":"isinstance(state, Add) and isinstance(arg, Tuple)"},"name":"Density_class_invariant"},"guarantee":"correctly constructs a Density instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a39fa1686dc01e2a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density","kind":"class","src_hash":"a33975e7d6f5275d","in":{"base":"Any","pred":"isinstance(state, Add) and isinstance(arg, Tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HermitianOperator)"},"spec":{"lhs":"Density(*args)","rhs":"correctly constructs a Density instance","over":{"base":"Any","pred":"isinstance(state, Add) and isinstance(arg, Tuple)"},"name":"Density_class_invariant"},"guarantee":"isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a39fa1686dc01e2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Density not found in source"]}}
 class Density(HermitianOperator):
     """Density operator for representing mixed states.
 
@@ -68,16 +74,23 @@ class Density(HermitianOperator):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), args) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_args : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_args : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a6e4a62447a4628  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 016ec14fff461225  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._eval_args","kind":"classmethod","src_hash":"6effcf0e0e3348b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a6e4a62447a4628"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._eval_args","kind":"classmethod","src_hash":"6effcf0e0e3348b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"args","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"returns args; result == args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density._eval_args_correct","statement":"Path(_eval_args(x), returns args; result == args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"016ec14fff461225","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == args"],"returns_expr":"args","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         # call this to qsympify the args
         args = super()._eval_args(args)
@@ -91,16 +104,22 @@ class Density(HermitianOperator):
         return args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(states(), return list of all states) over Any         ║
+# ║ Path(states(), Tuple(*[arg[0] for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Tuple(*[arg[0] for arg in self.args])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ states : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e669131baf7b0c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.states","kind":"method","src_hash":"889a2f1e4d03f3af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"states()","rhs":"return list of all states","over":{"base":"Any"},"name":"states_correct"},"guarantee":"return list of all states","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e669131baf7b0c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.states","kind":"method","src_hash":"889a2f1e4d03f3af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"states()","rhs":"Tuple(*[arg[0] for arg in self.args])","over":{"base":"Any"},"name":"states_correct"},"guarantee":"returns Tuple(*[arg[0] for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e669131baf7b0c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Tuple(*[arg[0] for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def states(self):
         """Return list of all states.
 
@@ -117,16 +136,22 @@ class Density(HermitianOperator):
         return Tuple(*[arg[0] for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probs(), return list of all probabilities) over Any   ║
+# ║ Path(probs(), Tuple(*[arg[1] for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Tuple(*[arg[1] for arg in self.args])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ probs : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f0b88872d7a56c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.probs","kind":"method","src_hash":"64e8b9bea269347f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probs()","rhs":"return list of all probabilities","over":{"base":"Any"},"name":"probs_correct"},"guarantee":"return list of all probabilities","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f0b88872d7a56c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.probs","kind":"method","src_hash":"64e8b9bea269347f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probs()","rhs":"Tuple(*[arg[1] for arg in self.args])","over":{"base":"Any"},"name":"probs_correct"},"guarantee":"returns Tuple(*[arg[1] for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f0b88872d7a56c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Tuple(*[arg[1] for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probs(self):
         """Return list of all probabilities.
 
@@ -143,16 +168,22 @@ class Density(HermitianOperator):
         return Tuple(*[arg[1] for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_state(ind), return specific state by index) over Any ║
+# ║ Path(get_state(index), <unspecified:get_state>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_state : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 501ba199938ce0b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.get_state","kind":"method","src_hash":"77b0c0c663fb23ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_state(ind)","rhs":"return specific state by index","over":{"base":"Any"},"name":"get_state_correct"},"guarantee":"return specific state by index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.get_state_correct","statement":"Path(get_state(x), return specific state by index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"501ba199938ce0b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.get_state","kind":"method","src_hash":"77b0c0c663fb23ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_state(index)","rhs":"<unspecified:get_state>","over":{"base":"Any"},"name":"get_state_correct"},"guarantee":"return specific state by index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.get_state_correct","statement":"Path(get_state(x), return specific state by index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"501ba199938ce0b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_state(self, index):
         """Return specific state by index.
 
@@ -175,16 +206,22 @@ class Density(HermitianOperator):
         return state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_prob(ind), return probability of specific state by index) over Any ║
+# ║ Path(get_prob(index), <unspecified:get_prob>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_prob : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 010fa08efc591806  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.get_prob","kind":"method","src_hash":"20c6b8d3563f411c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_prob(ind)","rhs":"return probability of specific state by index","over":{"base":"Any"},"name":"get_prob_correct"},"guarantee":"return probability of specific state by index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.get_prob_correct","statement":"Path(get_prob(x), return probability of specific state by index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010fa08efc591806"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.get_prob","kind":"method","src_hash":"20c6b8d3563f411c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_prob(index)","rhs":"<unspecified:get_prob>","over":{"base":"Any"},"name":"get_prob_correct"},"guarantee":"return probability of specific state by index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.get_prob_correct","statement":"Path(get_prob(x), return probability of specific state by index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010fa08efc591806","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_prob(self, index):
         """Return probability of specific state by index.
 
@@ -207,16 +244,22 @@ class Density(HermitianOperator):
         return prob
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_op(op), op will operate on each individual state) over Any ║
+# ║ Path(apply_op(op), Density(*new_args)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Density(*new_args)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_op : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30a2e3093f5263c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae1d109e56cbf968  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.apply_op","kind":"method","src_hash":"ed8e1aa91b28bc1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_op(op)","rhs":"op will operate on each individual state","over":{"base":"Any"},"name":"apply_op_correct"},"guarantee":"op will operate on each individual state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.apply_op_correct","statement":"Path(apply_op(x), op will operate on each individual state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30a2e3093f5263c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.apply_op","kind":"method","src_hash":"ed8e1aa91b28bc1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_op(op)","rhs":"Density(*new_args)","over":{"base":"Any"},"name":"apply_op_correct"},"guarantee":"returns Density(*new_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.apply_op_correct","statement":"Path(apply_op(x), returns Density(*new_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae1d109e56cbf968","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Density(*new_args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_op(self, op):
         """op will operate on each individual state.
 
@@ -241,16 +284,22 @@ class Density(HermitianOperator):
         return Density(*new_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), expand the density operator into an outer product format) over Any ║
+# ║ Path(doit(**hints), Add(*terms)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*terms)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8948db023c8d8e88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1425443bef03f52f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.doit","kind":"method","src_hash":"e90594d86933ce8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"expand the density operator into an outer product format","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"expand the density operator into an outer product format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.doit_correct","statement":"Path(doit(x), expand the density operator into an outer product format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8948db023c8d8e88"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.doit","kind":"method","src_hash":"e90594d86933ce8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"Add(*terms)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns Add(*terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.Density.doit_correct","statement":"Path(doit(x), returns Add(*terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1425443bef03f52f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """Expand the density operator into an outer product format.
 
@@ -280,16 +329,25 @@ class Density(HermitianOperator):
         return Add(*terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_outer_prod(arg), id) over Any               ║
+# ║ Path(_generate_outer_prod(arg1, arg2), id) over {Any | not (len(nc_part1) == 0 or len(nc_part2) == 0) and hasattr(arg1, 'args_cnc') and hasattr(arg2, 'args_cnc')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_outer_prod : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(nc_part1) == 0 or len(nc_part2) ...   ║
+# ║   requires: hasattr(arg1, 'args_cnc')                      ║
+# ║   requires: hasattr(arg2, 'args_cnc')                      ║
+# ║   returns:  Mul(*c_part1) * Mul(*c_part2) * op             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_outer_prod : {Any | not (len(nc_part1) == 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c3250e307e51ee4e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._generate_outer_prod","kind":"method","src_hash":"1940d2ec2afdb9ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_outer_prod(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_outer_prod_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3250e307e51ee4e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._generate_outer_prod","kind":"method","src_hash":"1940d2ec2afdb9ae","in":{"base":"Any","pred":"not (len(nc_part1) == 0 or len(nc_part2) == 0) and hasattr(arg1, 'args_cnc') and hasattr(arg2, 'args_cnc')"},"out":{"base":"Any"},"spec":{"lhs":"_generate_outer_prod(arg1, arg2)","rhs":"Mul(*c_part1) * Mul(*c_part2) * op","over":{"base":"Any","pred":"not (len(nc_part1) == 0 or len(nc_part2) == 0) and hasattr(arg1, 'args_cnc') and hasattr(arg2, 'args_cnc')"},"name":"_generate_outer_prod_correct","kind":"composition"},"guarantee":"returns Mul(*c_part1) * Mul(*c_part2) * op","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3250e307e51ee4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(nc_part1) == 0 or len(nc_part2) == 0)","hasattr(arg1, 'args_cnc')","hasattr(arg2, 'args_cnc')"],"returns_expr":"Mul(*c_part1) * Mul(*c_part2) * op","pure":false,"effects":{"effect_type":"reads_state","reads":["arg1.args_cnc","arg2.args_cnc"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_outer_prod(self, arg1, arg2):
         c_part1, nc_part1 = arg1.args_cnc()
         c_part2, nc_part2 = arg2.args_cnc()
@@ -307,73 +365,103 @@ class Density(HermitianOperator):
         return Mul(*c_part1)*Mul(*c_part2) * op
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent(**options), represent(self.doit(), **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  represent(self.doit(), **options)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e426366663f2cb84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._represent","kind":"method","src_hash":"5e9368f0118ce217","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e426366663f2cb84"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._represent","kind":"method","src_hash":"5e9368f0118ce217","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent(**options)","rhs":"represent(self.doit(), **options)","over":{"base":"Any"},"name":"_represent_correct"},"guarantee":"returns represent(self.doit(), **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e426366663f2cb84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"represent(self.doit(), **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent(self, **options):
         return represent(self.doit(), **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_operator_name_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_operator_name_latex(printer, *args), '\\rho') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\rho'                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_operator_name_latex : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62f54a51ed3081f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._print_operator_name_latex","kind":"method","src_hash":"24987b8a1470909f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_operator_name_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62f54a51ed3081f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._print_operator_name_latex","kind":"method","src_hash":"24987b8a1470909f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_latex(printer, *args)","rhs":"'\\\\rho'","over":{"base":"Any"},"name":"_print_operator_name_latex_correct"},"guarantee":"returns '\\\\rho'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62f54a51ed3081f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\rho'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_operator_name_latex(self, printer, *args):
         return r'\rho'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_operator_name_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_operator_name_pretty(printer, *args), prettyForm('ρ')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm('ρ')                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_operator_name_pretty : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 377c29c238479f33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._print_operator_name_pretty","kind":"method","src_hash":"ff44466453cb8538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_operator_name_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"377c29c238479f33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._print_operator_name_pretty","kind":"method","src_hash":"ff44466453cb8538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_operator_name_pretty(printer, *args)","rhs":"prettyForm('\u03c1')","over":{"base":"Any"},"name":"_print_operator_name_pretty_correct"},"guarantee":"returns prettyForm('\u03c1')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"377c29c238479f33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm('\u03c1')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_operator_name_pretty(self, printer, *args):
         return prettyForm('\N{GREEK SMALL LETTER RHO}')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trace(**k), id) over Any                        ║
+# ║ Path(_eval_trace(**kwargs), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Tr(self.doit(), indices).doit()                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2ca1d7750676a027   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._eval_trace","kind":"method","src_hash":"9d2ad4716b738de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Tr","by":"library_axiom"},{"fn":"doit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca1d7750676a027"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density._eval_trace","kind":"method","src_hash":"9d2ad4716b738de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(**kwargs)","rhs":"Tr(self.doit(), indices).doit()","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"returns Tr(self.doit(), indices).doit()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Tr","by":"library_axiom"},{"fn":"doit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca1d7750676a027","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Tr(self.doit(), indices).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self, **kwargs):
         indices = kwargs.get('indices', [])
         return Tr(self.doit(), indices).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(entropy(), compute the entropy of a density matrix) over Any ║
+# ║ Path(entropy(), entropy(self)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  entropy(self)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ entropy : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dffc8495a98fb13c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.entropy","kind":"method","src_hash":"2dd241b1a0b2b521","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entropy()","rhs":"compute the entropy of a density matrix","over":{"base":"Any"},"name":"entropy_correct"},"guarantee":"compute the entropy of a density matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dffc8495a98fb13c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.Density.entropy","kind":"method","src_hash":"2dd241b1a0b2b521","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entropy()","rhs":"entropy(self)","over":{"base":"Any"},"name":"entropy_correct"},"guarantee":"returns entropy(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dffc8495a98fb13c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"entropy(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def entropy(self):
         """ Compute the entropy of a density matrix.
 
@@ -383,7 +471,11 @@ class Density(HermitianOperator):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(entropy(den), compute the entropy of a matrix/density object) over {Any | isinstance(density, Density) and isinstance(density, scipy_sparse_matrix) and isinstance(density, Matrix)} ║
+# ║ Path(entropy(density), <unspecified:entropy>) over {Any | isinstance(density, Density) and isinstance(density, scipy_sparse_matrix) and isinstance(density, Matrix) and hasattr(density, 'eigenvals')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(density, 'eigenvals')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ entropy : {Any | isinstance(density, Density) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -398,9 +490,12 @@ class Density(HermitianOperator):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1c63b7be...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.entropy","kind":"function","src_hash":"6a7a8913ea4e8e01","in":{"base":"Any","pred":"isinstance(density, Density) and isinstance(density, scipy_sparse_matrix) and isinstance(density, Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"entropy(den)","rhs":"compute the entropy of a matrix/density object","over":{"base":"Any","pred":"isinstance(density, Density) and isinstance(density, scipy_sparse_matrix) and isinstance(density, Matrix)"},"name":"entropy_correct"},"guarantee":"compute the entropy of a matrix/density object","fibers":[{"name":"Density","pred":"isinstance(density, Density)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"Density","pred":"isinstance(density, Density)"},"name":"entropy_Density_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_Density_correct","statement":"entropy satisfies spec on Density inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(density, scipy_sparse_matrix)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"scipy_sparse_matrix","pred":"isinstance(density, scipy_sparse_matrix)"},"name":"entropy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_scipy_sparse_matrix_correct","statement":"entropy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(density, Matrix)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"Matrix","pred":"isinstance(density, Matrix)"},"name":"entropy_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_Matrix_correct","statement":"entropy satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(density, numpy_ndarray)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"numpy_ndarray","pred":"isinstance(density, numpy_ndarray)"},"name":"entropy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_numpy_ndarray_correct","statement":"entropy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1c63b7be43f7a300"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.entropy","kind":"function","src_hash":"6a7a8913ea4e8e01","in":{"base":"Any","pred":"isinstance(density, Density) and isinstance(density, scipy_sparse_matrix) and isinstance(density, Matrix) and hasattr(density, 'eigenvals')"},"out":{"base":"Any"},"spec":{"lhs":"entropy(density)","rhs":"<unspecified:entropy>","over":{"base":"Any","pred":"isinstance(density, Density) and isinstance(density, scipy_sparse_matrix) and isinstance(density, Matrix) and hasattr(density, 'eigenvals')"},"name":"entropy_correct"},"guarantee":"compute the entropy of a matrix/density object","fibers":[{"name":"Density","pred":"isinstance(density, Density)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"Density","pred":"isinstance(density, Density)"},"name":"entropy_Density_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_Density_correct","statement":"entropy satisfies spec on Density inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(density, scipy_sparse_matrix)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"scipy_sparse_matrix","pred":"isinstance(density, scipy_sparse_matrix)"},"name":"entropy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_scipy_sparse_matrix_correct","statement":"entropy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(density, Matrix)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"Matrix","pred":"isinstance(density, Matrix)"},"name":"entropy_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_Matrix_correct","statement":"entropy satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"numpy_ndarray","pred":"isinstance(density, numpy_ndarray)","path":{"lhs":"entropy(x)","rhs":"compute the entropy of a matrix/density object","over":{"base":"numpy_ndarray","pred":"isinstance(density, numpy_ndarray)"},"name":"entropy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.entropy_numpy_ndarray_correct","statement":"entropy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1c63b7be43f7a300","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(density, 'eigenvals')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["density.eigenvals"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(density, scipy_sparse_matrix)', 'isinstance(density, numpy_ndarray)', 'isinstance(density, Matrix)', 'isinstance(density, Density)'}, fibers={'Matrix', 'numpy_ndarray', 'Density', 'scipy_sparse_matrix'})"]}}
 def entropy(density):
     """Compute the entropy of a matrix/density object.
 
@@ -446,7 +541,13 @@ def entropy(density):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fidelity(sta), computes the fidelity [1]_ between two quantum states) over {Any | isinstance(state1, Density) and isinstance(state1, Matrix)} ║
+# ║ Path(fidelity(state1, state2), Tr((sqrt_state1 * state2 * sqrt_state1) ** S.Half).doit()) over {Any | isinstance(state1, Density) and isinstance(state1, Matrix) and not (not isinstance(state1, Matrix) or not isinstance(state2, Matrix)) and not (state1.shape != state2.shape and state1.is_square) and hasattr(state1, 'is_square') and hasattr(state1, 'shape') and hasattr(state2, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(state1, Matrix) or no...   ║
+# ║   requires: not (state1.shape != state2.shape and sta...   ║
+# ║   requires: hasattr(state1, 'is_square')                   ║
+# ║   returns:  Tr((sqrt_state1 * state2 * sqrt_state1) *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fidelity : {Any | isinstance(state1, Density) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -459,9 +560,12 @@ def entropy(density):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 59721027...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.fidelity","kind":"function","src_hash":"ffcba9ca77c5153e","in":{"base":"Any","pred":"isinstance(state1, Density) and isinstance(state1, Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"fidelity(sta)","rhs":"computes the fidelity [1]_ between two quantum states","over":{"base":"Any","pred":"isinstance(state1, Density) and isinstance(state1, Matrix)"},"name":"fidelity_correct"},"guarantee":"computes the fidelity [1]_ between two quantum states","fibers":[{"name":"Density","pred":"isinstance(state1, Density)","path":{"lhs":"fidelity(x)","rhs":"computes the fidelity [1]_ between two quantum states","over":{"base":"Density","pred":"isinstance(state1, Density)"},"name":"fidelity_Density_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.fidelity_Density_correct","statement":"fidelity satisfies spec on Density inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(state1, Matrix)","path":{"lhs":"fidelity(x)","rhs":"computes the fidelity [1]_ between two quantum states","over":{"base":"Matrix","pred":"isinstance(state1, Matrix)"},"name":"fidelity_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.fidelity_Matrix_correct","statement":"fidelity satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59721027e90ff953"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.density.fidelity","kind":"function","src_hash":"ffcba9ca77c5153e","in":{"base":"Any","pred":"isinstance(state1, Density) and isinstance(state1, Matrix) and not (not isinstance(state1, Matrix) or not isinstance(state2, Matrix)) and not (state1.shape != state2.shape and state1.is_square) and hasattr(state1, 'is_square') and hasattr(state1, 'shape') and hasattr(state2, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"fidelity(state1, state2)","rhs":"Tr((sqrt_state1 * state2 * sqrt_state1) ** S.Half).doit()","over":{"base":"Any","pred":"isinstance(state1, Density) and isinstance(state1, Matrix) and not (not isinstance(state1, Matrix) or not isinstance(state2, Matrix)) and not (state1.shape != state2.shape and state1.is_square) and hasattr(state1, 'is_square') and hasattr(state1, 'shape') and hasattr(state2, 'shape')"},"name":"fidelity_correct"},"guarantee":"returns Tr((sqrt_state1 * state2 * sqrt_state1) ** S.Half).doit()","fibers":[{"name":"Density","pred":"isinstance(state1, Density)","path":{"lhs":"fidelity(x)","rhs":"returns Tr((sqrt_state1 * state2 * sqrt_state1) ** S.Half).doit()","over":{"base":"Density","pred":"isinstance(state1, Density)"},"name":"fidelity_Density_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.fidelity_Density_correct","statement":"fidelity satisfies spec on Density inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(state1, Matrix)","path":{"lhs":"fidelity(x)","rhs":"returns Tr((sqrt_state1 * state2 * sqrt_state1) ** S.Half).doit()","over":{"base":"Matrix","pred":"isinstance(state1, Matrix)"},"name":"fidelity_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.density.fidelity_Matrix_correct","statement":"fidelity satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59721027e90ff953","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(state1, Matrix) or not isinstance(state2, Matrix))","not (state1.shape != state2.shape and state1.is_square)","hasattr(state1, 'is_square')","hasattr(state1, 'shape')","hasattr(state2, 'shape')"],"returns_expr":"Tr((sqrt_state1 * state2 * sqrt_state1) ** S.Half).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["state1.is_square","state1.shape","state2.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(state1, Matrix) or not isinstance(state2, Matrix)', 'state1.shape != state2.shape and state1.is_square'}, fibers={'Matrix', 'Density'})"]}}
 def fidelity(state1, state2):
     """ Computes the fidelity [1]_ between two quantum states
 

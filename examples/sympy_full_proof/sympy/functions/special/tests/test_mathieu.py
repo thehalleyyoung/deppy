@@ -25,7 +25,12 @@ from sympy.abc import a, q, z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mathieus(), test_mathieus produces the expected output) over {Any | isinstance(mathieus(a, q, z), mathieus)} ║
+# ║ Path(test_mathieus(), isinstance(mathieus(a, q, z), mathieus) and mathieus(a, 0, z) == sin(sqrt(a) * z) and conjugate(mathieus(a, q, z)) == mathieus(conjugate(a), conjugate(q), conjugate(z)) and diff(mathieus(a, q, z), z) == mathieusprime(a, q, z)) over {Any | isinstance(mathieus(a, q, z), mathieus)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(mathieus(a, q, z), mathieus)        ║
+# ║   ensures:  mathieus(a, 0, z) == sin(sqrt(a) * z)          ║
+# ║   ensures:  conjugate(mathieus(a, q, z)) == mathieus(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mathieus : {Any | isinstance(mathieus(a, q, z), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -37,9 +42,12 @@ from sympy.abc import a, q, z
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 96c9be87...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieus","kind":"function","src_hash":"c508ea90b7266683","in":{"base":"Any","pred":"isinstance(mathieus(a, q, z), mathieus)"},"out":{"base":"Any","pred":"isinstance(mathieus(a, q, z), mathieus) and mathieus(a, 0, z) == sin(sqrt(a) * z) and diff(mathieus(a, q, z), z) == mathieusprime(a, q, z)"},"spec":{"lhs":"test_mathieus()","rhs":"test_mathieus produces the expected output","over":{"base":"Any","pred":"isinstance(mathieus(a, q, z), mathieus)"},"name":"test_mathieus_correct"},"guarantee":"test_mathieus produces the expected output","fibers":[{"name":"q","pred":"isinstance(mathieus(a, q, z), mathieus)","path":{"lhs":"test_mathieus(x)","rhs":"test_mathieus produces the expected output","over":{"base":"q","pred":"isinstance(mathieus(a, q, z), mathieus)"},"name":"test_mathieus_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieus_q_correct","statement":"test_mathieus satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96c9be87016cdbe6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieus","kind":"function","src_hash":"c508ea90b7266683","in":{"base":"Any","pred":"isinstance(mathieus(a, q, z), mathieus)"},"out":{"base":"Any","pred":"result satisfies: isinstance(mathieus(a, q, z), mathieus) and mathieus(a, 0, z) == sin(sqrt(a) * z) and conjugate(mathieus(a, q, z)) == mathieus(conjugate(a), conjugate(q), conjugate(z)) and diff(mathieus(a, q, z), z) == mathieusprime(a, q, z)"},"spec":{"lhs":"test_mathieus()","rhs":"isinstance(mathieus(a, q, z), mathieus) and mathieus(a, 0, z) == sin(sqrt(a) * z) and conjugate(mathieus(a, q, z)) == mathieus(conjugate(a), conjugate(q), conjugate(z)) and diff(mathieus(a, q, z), z) == mathieusprime(a, q, z)","over":{"base":"Any","pred":"isinstance(mathieus(a, q, z), mathieus)"},"name":"test_mathieus_correct"},"guarantee":"isinstance(mathieus(a, q, z), mathieus); mathieus(a, 0, z) == sin(sqrt(a) * z); conjugate(mathieus(a, q, z)) == mathieus(conjugate(a), conjugate(q), conjugate(z))","fibers":[{"name":"q","pred":"isinstance(mathieus(a, q, z), mathieus)","path":{"lhs":"test_mathieus(x)","rhs":"isinstance(mathieus(a, q, z), mathieus); mathieus(a, 0, z) == sin(sqrt(a) * z); conjugate(mathieus(a, q, z)) == mathieus(conjugate(a), conjugate(q), conjugate(z))","over":{"base":"q","pred":"isinstance(mathieus(a, q, z), mathieus)"},"name":"test_mathieus_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieus_q_correct","statement":"test_mathieus satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96c9be87016cdbe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(mathieus(a, q, z), mathieus)","mathieus(a, 0, z) == sin(sqrt(a) * z)","conjugate(mathieus(a, q, z)) == mathieus(conjugate(a), conjugate(q), conjugate(z))","diff(mathieus(a, q, z), z) == mathieusprime(a, q, z)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_mathieus():
     assert isinstance(mathieus(a, q, z), mathieus)
     assert mathieus(a, 0, z) == sin(sqrt(a)*z)
@@ -47,7 +55,12 @@ def test_mathieus():
     assert diff(mathieus(a, q, z), z) == mathieusprime(a, q, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mathieuc(), test_mathieuc produces the expected output) over {Any | isinstance(mathieuc(a, q, z), mathieuc)} ║
+# ║ Path(test_mathieuc(), isinstance(mathieuc(a, q, z), mathieuc) and mathieuc(a, 0, z) == cos(sqrt(a) * z) and diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)) over {Any | isinstance(mathieuc(a, q, z), mathieuc)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(mathieuc(a, q, z), mathieuc)        ║
+# ║   ensures:  mathieuc(a, 0, z) == cos(sqrt(a) * z)          ║
+# ║   ensures:  diff(mathieuc(a, q, z), z) == mathieucpri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mathieuc : {Any | isinstance(mathieuc(a, q, z), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -59,16 +72,24 @@ def test_mathieus():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 81e160e4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieuc","kind":"function","src_hash":"7cdd63150030bb2b","in":{"base":"Any","pred":"isinstance(mathieuc(a, q, z), mathieuc)"},"out":{"base":"Any","pred":"isinstance(mathieuc(a, q, z), mathieuc) and mathieuc(a, 0, z) == cos(sqrt(a) * z) and diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)"},"spec":{"lhs":"test_mathieuc()","rhs":"test_mathieuc produces the expected output","over":{"base":"Any","pred":"isinstance(mathieuc(a, q, z), mathieuc)"},"name":"test_mathieuc_correct"},"guarantee":"test_mathieuc produces the expected output","fibers":[{"name":"q","pred":"isinstance(mathieuc(a, q, z), mathieuc)","path":{"lhs":"test_mathieuc(x)","rhs":"test_mathieuc produces the expected output","over":{"base":"q","pred":"isinstance(mathieuc(a, q, z), mathieuc)"},"name":"test_mathieuc_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieuc_q_correct","statement":"test_mathieuc satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"81e160e4feb98b96"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieuc","kind":"function","src_hash":"7cdd63150030bb2b","in":{"base":"Any","pred":"isinstance(mathieuc(a, q, z), mathieuc)"},"out":{"base":"Any","pred":"result satisfies: isinstance(mathieuc(a, q, z), mathieuc) and mathieuc(a, 0, z) == cos(sqrt(a) * z) and diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)"},"spec":{"lhs":"test_mathieuc()","rhs":"isinstance(mathieuc(a, q, z), mathieuc) and mathieuc(a, 0, z) == cos(sqrt(a) * z) and diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)","over":{"base":"Any","pred":"isinstance(mathieuc(a, q, z), mathieuc)"},"name":"test_mathieuc_correct"},"guarantee":"isinstance(mathieuc(a, q, z), mathieuc); mathieuc(a, 0, z) == cos(sqrt(a) * z); diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)","fibers":[{"name":"q","pred":"isinstance(mathieuc(a, q, z), mathieuc)","path":{"lhs":"test_mathieuc(x)","rhs":"isinstance(mathieuc(a, q, z), mathieuc); mathieuc(a, 0, z) == cos(sqrt(a) * z); diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)","over":{"base":"q","pred":"isinstance(mathieuc(a, q, z), mathieuc)"},"name":"test_mathieuc_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieuc_q_correct","statement":"test_mathieuc satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"81e160e4feb98b96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(mathieuc(a, q, z), mathieuc)","mathieuc(a, 0, z) == cos(sqrt(a) * z)","diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_mathieuc():
     assert isinstance(mathieuc(a, q, z), mathieuc)
     assert mathieuc(a, 0, z) == cos(sqrt(a)*z)
     assert diff(mathieuc(a, q, z), z) == mathieucprime(a, q, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mathieusprime(), test_mathieusprime produces the expected output) over {Any | isinstance(mathieusprime(a, q, z), mathieusprime)} ║
+# ║ Path(test_mathieusprime(), isinstance(mathieusprime(a, q, z), mathieusprime) and mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z) and diff(mathieusprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieus(a, q, z)) over {Any | isinstance(mathieusprime(a, q, z), mathieusprime)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(mathieusprime(a, q, z), mathie...   ║
+# ║   ensures:  mathieusprime(a, 0, z) == sqrt(a) * cos(s...   ║
+# ║   ensures:  diff(mathieusprime(a, q, z), z) == (-a + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mathieusprime : {Any | isinstance(mathieusprime(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -80,16 +101,24 @@ def test_mathieuc():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 801e6df7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieusprime","kind":"function","src_hash":"7aad418dd0327dd3","in":{"base":"Any","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)"},"out":{"base":"Any","pred":"isinstance(mathieusprime(a, q, z), mathieusprime) and mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z)"},"spec":{"lhs":"test_mathieusprime()","rhs":"test_mathieusprime produces the expected output","over":{"base":"Any","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)"},"name":"test_mathieusprime_correct"},"guarantee":"test_mathieusprime produces the expected output","fibers":[{"name":"q","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)","path":{"lhs":"test_mathieusprime(x)","rhs":"test_mathieusprime produces the expected output","over":{"base":"q","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)"},"name":"test_mathieusprime_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieusprime_q_correct","statement":"test_mathieusprime satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"801e6df7eceb1dd9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieusprime","kind":"function","src_hash":"7aad418dd0327dd3","in":{"base":"Any","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)"},"out":{"base":"Any","pred":"result satisfies: isinstance(mathieusprime(a, q, z), mathieusprime) and mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z) and diff(mathieusprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieus(a, q, z)"},"spec":{"lhs":"test_mathieusprime()","rhs":"isinstance(mathieusprime(a, q, z), mathieusprime) and mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z) and diff(mathieusprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieus(a, q, z)","over":{"base":"Any","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)"},"name":"test_mathieusprime_correct"},"guarantee":"isinstance(mathieusprime(a, q, z), mathieusprime); mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z); diff(mathieusprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieus(a, q, z)","fibers":[{"name":"q","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)","path":{"lhs":"test_mathieusprime(x)","rhs":"isinstance(mathieusprime(a, q, z), mathieusprime); mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z); diff(mathieusprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieus(a, q, z)","over":{"base":"q","pred":"isinstance(mathieusprime(a, q, z), mathieusprime)"},"name":"test_mathieusprime_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieusprime_q_correct","statement":"test_mathieusprime satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"801e6df7eceb1dd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(mathieusprime(a, q, z), mathieusprime)","mathieusprime(a, 0, z) == sqrt(a) * cos(sqrt(a) * z)","diff(mathieusprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieus(a, q, z)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_mathieusprime():
     assert isinstance(mathieusprime(a, q, z), mathieusprime)
     assert mathieusprime(a, 0, z) == sqrt(a)*cos(sqrt(a)*z)
     assert diff(mathieusprime(a, q, z), z) == (-a + 2*q*cos(2*z))*mathieus(a, q, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mathieucprime(), test_mathieucprime produces the expected output) over {Any | isinstance(mathieucprime(a, q, z), mathieucprime)} ║
+# ║ Path(test_mathieucprime(), isinstance(mathieucprime(a, q, z), mathieucprime) and mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z) and diff(mathieucprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieuc(a, q, z)) over {Any | isinstance(mathieucprime(a, q, z), mathieucprime)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(mathieucprime(a, q, z), mathie...   ║
+# ║   ensures:  mathieucprime(a, 0, z) == -sqrt(a) * sin(...   ║
+# ║   ensures:  diff(mathieucprime(a, q, z), z) == (-a + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mathieucprime : {Any | isinstance(mathieucprime(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -101,9 +130,12 @@ def test_mathieusprime():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 979d5ecc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieucprime","kind":"function","src_hash":"cea0167b4849ca44","in":{"base":"Any","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)"},"out":{"base":"Any","pred":"isinstance(mathieucprime(a, q, z), mathieucprime) and mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z)"},"spec":{"lhs":"test_mathieucprime()","rhs":"test_mathieucprime produces the expected output","over":{"base":"Any","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)"},"name":"test_mathieucprime_correct"},"guarantee":"test_mathieucprime produces the expected output","fibers":[{"name":"q","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)","path":{"lhs":"test_mathieucprime(x)","rhs":"test_mathieucprime produces the expected output","over":{"base":"q","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)"},"name":"test_mathieucprime_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieucprime_q_correct","statement":"test_mathieucprime satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"979d5eccb6b66559"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_mathieu.test_mathieucprime","kind":"function","src_hash":"cea0167b4849ca44","in":{"base":"Any","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)"},"out":{"base":"Any","pred":"result satisfies: isinstance(mathieucprime(a, q, z), mathieucprime) and mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z) and diff(mathieucprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieuc(a, q, z)"},"spec":{"lhs":"test_mathieucprime()","rhs":"isinstance(mathieucprime(a, q, z), mathieucprime) and mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z) and diff(mathieucprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieuc(a, q, z)","over":{"base":"Any","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)"},"name":"test_mathieucprime_correct"},"guarantee":"isinstance(mathieucprime(a, q, z), mathieucprime); mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z); diff(mathieucprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieuc(a, q, z)","fibers":[{"name":"q","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)","path":{"lhs":"test_mathieucprime(x)","rhs":"isinstance(mathieucprime(a, q, z), mathieucprime); mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z); diff(mathieucprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieuc(a, q, z)","over":{"base":"q","pred":"isinstance(mathieucprime(a, q, z), mathieucprime)"},"name":"test_mathieucprime_q_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_mathieu.test_mathieucprime_q_correct","statement":"test_mathieucprime satisfies spec on q inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"979d5eccb6b66559","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(mathieucprime(a, q, z), mathieucprime)","mathieucprime(a, 0, z) == -sqrt(a) * sin(sqrt(a) * z)","diff(mathieucprime(a, q, z), z) == (-a + 2 * q * cos(2 * z)) * mathieuc(a, q, z)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_mathieucprime():
     assert isinstance(mathieucprime(a, q, z), mathieucprime)
     assert mathieucprime(a, 0, z) == -sqrt(a)*sin(sqrt(a)*z)
